@@ -1,0 +1,38 @@
+{
+  "import": [
+    "moonbitlang/core/encoding/utf8"
+  ],
+  "native-stub": [
+    "glfw_init.c",
+    "glfw_platform.c",
+    "glfw_context.c",
+    "glfw_monitor.c",
+    "glfw_window.c",
+    "glfw_input.c",
+    "glfw_vulkan.c",
+    "glfw_posix_module.c",
+    "glfw_posix_thread.c",
+    "glfw_posix_poll.c",
+    "glfw_cocoa_init.m",
+    "glfw_cocoa_joystick.m",
+    "glfw_cocoa_monitor.m",
+    "glfw_cocoa_window.m",
+    "glfw_cocoa_time.c",
+    "glfw_nsgl_context.m",
+    "glfw_egl_context.c",
+    "glfw_osmesa_context.c",
+    "utils.c",
+    "rcore.c",
+    "rshapes.c",
+    "rtextures.c",
+    "rtext.c",
+    "rmodels.c",
+    "raudio.c",
+    "stub.c"
+  ],
+  "link": {
+    "native": {
+      "stub-cc-flags": "-Iexternal/raylib/src -Iexternal/raylib/src/external/glfw/include -Iexternal/raylib/src/external/glfw/src -D_GLFW_COCOA -DPLATFORM_DESKTOP_GLFW"
+    }
+  }
+}

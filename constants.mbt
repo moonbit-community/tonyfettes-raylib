@@ -1,0 +1,207 @@
+// Color constants
+pub let lightgray : Color = { r: b'\xC8', g: b'\xC8', b: b'\xC8', a: b'\xFF' }
+pub let gray : Color = { r: b'\x82', g: b'\x82', b: b'\x82', a: b'\xFF' }
+pub let darkgray : Color = { r: b'\x50', g: b'\x50', b: b'\x50', a: b'\xFF' }
+pub let yellow : Color = { r: b'\xFD', g: b'\xF9', b: b'\x00', a: b'\xFF' }
+pub let gold : Color = { r: b'\xFF', g: b'\xCB', b: b'\x00', a: b'\xFF' }
+pub let orange : Color = { r: b'\xFF', g: b'\xA1', b: b'\x00', a: b'\xFF' }
+pub let pink : Color = { r: b'\xFF', g: b'\x6D', b: b'\xC2', a: b'\xFF' }
+pub let red : Color = { r: b'\xE6', g: b'\x29', b: b'\x37', a: b'\xFF' }
+pub let maroon : Color = { r: b'\xBE', g: b'\x21', b: b'\x37', a: b'\xFF' }
+pub let green : Color = { r: b'\x00', g: b'\xE4', b: b'\x30', a: b'\xFF' }
+pub let lime : Color = { r: b'\x00', g: b'\x9E', b: b'\x2F', a: b'\xFF' }
+pub let darkgreen : Color = { r: b'\x00', g: b'\x75', b: b'\x2C', a: b'\xFF' }
+pub let skyblue : Color = { r: b'\x66', g: b'\xBF', b: b'\xFF', a: b'\xFF' }
+pub let blue : Color = { r: b'\x00', g: b'\x79', b: b'\xF1', a: b'\xFF' }
+pub let darkblue : Color = { r: b'\x00', g: b'\x52', b: b'\xAC', a: b'\xFF' }
+pub let purple : Color = { r: b'\xC8', g: b'\x7A', b: b'\xFF', a: b'\xFF' }
+pub let violet : Color = { r: b'\x87', g: b'\x3C', b: b'\xBE', a: b'\xFF' }
+pub let darkpurple : Color = { r: b'\x70', g: b'\x1F', b: b'\x7E', a: b'\xFF' }
+pub let beige : Color = { r: b'\xD3', g: b'\xB0', b: b'\x83', a: b'\xFF' }
+pub let brown : Color = { r: b'\x7F', g: b'\x6A', b: b'\x4F', a: b'\xFF' }
+pub let darkbrown : Color = { r: b'\x4C', g: b'\x3F', b: b'\x2F', a: b'\xFF' }
+pub let white : Color = { r: b'\xFF', g: b'\xFF', b: b'\xFF', a: b'\xFF' }
+pub let black : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\xFF' }
+pub let blank : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00' }
+pub let magenta : Color = { r: b'\xFF', g: b'\x00', b: b'\xFF', a: b'\xFF' }
+pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF' }
+
+// ConfigFlags
+pub let flag_vsync_hint : Int = 0x00000040
+pub let flag_fullscreen_mode : Int = 0x00000002
+pub let flag_window_resizable : Int = 0x00000004
+pub let flag_window_undecorated : Int = 0x00000008
+pub let flag_window_hidden : Int = 0x00000080
+pub let flag_window_minimized : Int = 0x00000200
+pub let flag_window_maximized : Int = 0x00000400
+pub let flag_window_unfocused : Int = 0x00000800
+pub let flag_window_topmost : Int = 0x00001000
+pub let flag_window_always_run : Int = 0x00000100
+pub let flag_window_transparent : Int = 0x00000010
+pub let flag_window_highdpi : Int = 0x00002000
+pub let flag_window_mouse_passthrough : Int = 0x00004000
+pub let flag_borderless_windowed_mode : Int = 0x00008000
+pub let flag_msaa_4x_hint : Int = 0x00000020
+pub let flag_interlaced_hint : Int = 0x00010000
+
+// Keyboard keys
+pub let key_null : Int = 0
+pub let key_apostrophe : Int = 39
+pub let key_comma : Int = 44
+pub let key_minus : Int = 45
+pub let key_period : Int = 46
+pub let key_slash : Int = 47
+pub let key_zero : Int = 48
+pub let key_one : Int = 49
+pub let key_two : Int = 50
+pub let key_three : Int = 51
+pub let key_four : Int = 52
+pub let key_five : Int = 53
+pub let key_six : Int = 54
+pub let key_seven : Int = 55
+pub let key_eight : Int = 56
+pub let key_nine : Int = 57
+pub let key_semicolon : Int = 59
+pub let key_equal : Int = 61
+pub let key_a : Int = 65
+pub let key_b : Int = 66
+pub let key_c : Int = 67
+pub let key_d : Int = 68
+pub let key_e : Int = 69
+pub let key_f : Int = 70
+pub let key_g : Int = 71
+pub let key_h : Int = 72
+pub let key_i : Int = 73
+pub let key_j : Int = 74
+pub let key_k : Int = 75
+pub let key_l : Int = 76
+pub let key_m : Int = 77
+pub let key_n : Int = 78
+pub let key_o : Int = 79
+pub let key_p : Int = 80
+pub let key_q : Int = 81
+pub let key_r : Int = 82
+pub let key_s : Int = 83
+pub let key_t : Int = 84
+pub let key_u : Int = 85
+pub let key_v : Int = 86
+pub let key_w : Int = 87
+pub let key_x : Int = 88
+pub let key_y : Int = 89
+pub let key_z : Int = 90
+pub let key_left_bracket : Int = 91
+pub let key_backslash : Int = 92
+pub let key_right_bracket : Int = 93
+pub let key_grave : Int = 96
+pub let key_space : Int = 32
+pub let key_escape : Int = 256
+pub let key_enter : Int = 257
+pub let key_tab : Int = 258
+pub let key_backspace : Int = 259
+pub let key_insert : Int = 260
+pub let key_delete : Int = 261
+pub let key_right : Int = 262
+pub let key_left : Int = 263
+pub let key_down : Int = 264
+pub let key_up : Int = 265
+pub let key_page_up : Int = 266
+pub let key_page_down : Int = 267
+pub let key_home : Int = 268
+pub let key_end : Int = 269
+pub let key_caps_lock : Int = 280
+pub let key_scroll_lock : Int = 281
+pub let key_num_lock : Int = 282
+pub let key_print_screen : Int = 283
+pub let key_pause : Int = 284
+pub let key_f1 : Int = 290
+pub let key_f2 : Int = 291
+pub let key_f3 : Int = 292
+pub let key_f4 : Int = 293
+pub let key_f5 : Int = 294
+pub let key_f6 : Int = 295
+pub let key_f7 : Int = 296
+pub let key_f8 : Int = 297
+pub let key_f9 : Int = 298
+pub let key_f10 : Int = 299
+pub let key_f11 : Int = 300
+pub let key_f12 : Int = 301
+pub let key_left_shift : Int = 340
+pub let key_left_control : Int = 341
+pub let key_left_alt : Int = 342
+pub let key_left_super : Int = 343
+pub let key_right_shift : Int = 344
+pub let key_right_control : Int = 345
+pub let key_right_alt : Int = 346
+pub let key_right_super : Int = 347
+pub let key_kb_menu : Int = 348
+pub let key_kp_0 : Int = 320
+pub let key_kp_1 : Int = 321
+pub let key_kp_2 : Int = 322
+pub let key_kp_3 : Int = 323
+pub let key_kp_4 : Int = 324
+pub let key_kp_5 : Int = 325
+pub let key_kp_6 : Int = 326
+pub let key_kp_7 : Int = 327
+pub let key_kp_8 : Int = 328
+pub let key_kp_9 : Int = 329
+
+// Mouse buttons
+pub let mouse_button_left : Int = 0
+pub let mouse_button_right : Int = 1
+pub let mouse_button_middle : Int = 2
+pub let mouse_button_side : Int = 3
+pub let mouse_button_extra : Int = 4
+pub let mouse_button_forward : Int = 5
+pub let mouse_button_back : Int = 6
+
+// Mouse cursor types
+pub let mouse_cursor_default : Int = 0
+pub let mouse_cursor_arrow : Int = 1
+pub let mouse_cursor_ibeam : Int = 2
+pub let mouse_cursor_crosshair : Int = 3
+pub let mouse_cursor_pointing_hand : Int = 4
+pub let mouse_cursor_resize_ew : Int = 5
+pub let mouse_cursor_resize_ns : Int = 6
+pub let mouse_cursor_resize_nwse : Int = 7
+pub let mouse_cursor_resize_nesw : Int = 8
+pub let mouse_cursor_resize_all : Int = 9
+pub let mouse_cursor_not_allowed : Int = 10
+
+// Camera modes
+pub let camera_custom : Int = 0
+pub let camera_free : Int = 1
+pub let camera_orbital : Int = 2
+pub let camera_first_person : Int = 3
+pub let camera_third_person : Int = 4
+
+// Camera projection
+pub let camera_perspective : Int = 0
+pub let camera_orthographic : Int = 1
+
+// Blend modes
+pub let blend_alpha : Int = 0
+pub let blend_additive : Int = 1
+pub let blend_multiplied : Int = 2
+
+// Log levels
+pub let log_all : Int = 0
+pub let log_trace : Int = 1
+pub let log_debug : Int = 2
+pub let log_info : Int = 3
+pub let log_warning : Int = 4
+pub let log_error : Int = 5
+pub let log_fatal : Int = 6
+pub let log_none : Int = 7
+
+// Gesture flags
+pub let gesture_none : Int = 0
+pub let gesture_tap : Int = 1
+pub let gesture_doubletap : Int = 2
+pub let gesture_hold : Int = 4
+pub let gesture_drag : Int = 8
+pub let gesture_swipe_right : Int = 16
+pub let gesture_swipe_left : Int = 32
+pub let gesture_swipe_up : Int = 64
+pub let gesture_swipe_down : Int = 128
+pub let gesture_pinch_in : Int = 256
+pub let gesture_pinch_out : Int = 512
