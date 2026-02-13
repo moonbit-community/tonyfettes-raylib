@@ -12,8 +12,8 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 # First-time setup: download raylib 5.5 and copy source files to project root
 bash setup.sh
 
-# Build (native only)
-moon build --target native
+# Build (native only) — use explicit path to avoid library-as-exe link error
+moon build --target native main/
 
 # Run the demo
 ./_build/native/debug/build/main/main.exe
@@ -65,7 +65,7 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 - Root package (`tonyfettes/raylib`) — the library, lists all C sources in `native-stub`
 - `main/` — executable demo, imports `tonyfettes/raylib`
 
-macOS framework link flags (`-framework Cocoa`, etc.) are in `main/moon.pkg.json` only — the root library package must NOT have `cc-link-flags`.
+macOS framework link flags (`-framework Cocoa`, etc.) must be in **both** `moon.pkg` (root library) and `main/moon.pkg` (`is-main`). The library package needs them for `moon test` linking. Use `moon build --target native main/` to avoid the spurious `_main` undefined error from the library package.
 
 ## Critical FFI Rules
 
