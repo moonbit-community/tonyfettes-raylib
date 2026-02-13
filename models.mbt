@@ -1,9 +1,6 @@
 // Re-export passthrough functions from internal FFI layer
-pub using @raylib {
-  type Model,
-  unload_model,
-  draw_grid,
-}
+///|
+pub using @raylib {type Model, unload_model, draw_grid}
 
 // ============================================================================
 // 3D shape drawing (wrappers)
@@ -15,7 +12,11 @@ pub fn draw_line_3d(
   end_pos : Vector3,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_3d(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
+  @raylib.draw_line_3d(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -48,7 +49,13 @@ pub fn draw_cube(
   length : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cube(position.to_bytes(), width, height, length, color.to_bytes())
+  @raylib.draw_cube(
+    position.to_bytes(),
+    width,
+    height,
+    length,
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -79,7 +86,11 @@ pub fn draw_cube_wires_v(
   size : Vector3,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cube_wires_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
+  @raylib.draw_cube_wires_v(
+    position.to_bytes(),
+    size.to_bytes(),
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -95,7 +106,13 @@ pub fn draw_sphere_ex(
   slices : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_sphere_ex(center.to_bytes(), radius, rings, slices, color.to_bytes())
+  @raylib.draw_sphere_ex(
+    center.to_bytes(),
+    radius,
+    rings,
+    slices,
+    color.to_bytes(),
+  )
 }
 
 ///|

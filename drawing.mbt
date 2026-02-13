@@ -1,10 +1,10 @@
 // Re-export opaque types for drawing
-pub using @raylib {
-  type Shader,
-  type RenderTexture,
-}
+///|
+pub using @raylib {type Shader, type RenderTexture}
 
 // Drawing lifecycle re-exports
+
+///|
 pub using @raylib {
   begin_drawing,
   end_drawing,

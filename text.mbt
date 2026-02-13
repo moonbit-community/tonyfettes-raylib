@@ -1,4 +1,5 @@
 // Re-export passthrough functions from internal FFI layer
+///|
 pub using @raylib {
   type Font,
   get_font_default,
@@ -34,7 +35,13 @@ pub fn draw_text(
   font_size : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_text(@utf8.encode(text), pos_x, pos_y, font_size, color.to_bytes())
+  @raylib.draw_text(
+    @utf8.encode(text),
+    pos_x,
+    pos_y,
+    font_size,
+    color.to_bytes(),
+  )
 }
 
 ///|

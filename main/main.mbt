@@ -21,12 +21,10 @@ fn main {
       @raylib.is_key_down(@raylib.KeyD) {
       ball_x += ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.KeyLeft) ||
-      @raylib.is_key_down(@raylib.KeyA) {
+    if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
       ball_x -= ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.KeyDown) ||
-      @raylib.is_key_down(@raylib.KeyS) {
+    if @raylib.is_key_down(@raylib.KeyDown) || @raylib.is_key_down(@raylib.KeyS) {
       ball_y += ball_speed * dt
     }
     if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {

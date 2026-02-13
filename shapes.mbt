@@ -29,7 +29,11 @@ pub fn draw_line_v(
   end_pos : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_v(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
+  @raylib.draw_line_v(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -219,7 +223,11 @@ pub fn draw_rectangle_v(
   size : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
+  @raylib.draw_rectangle_v(
+    position.to_bytes(),
+    size.to_bytes(),
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -402,7 +410,13 @@ pub fn draw_poly(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_poly(center.to_bytes(), sides, radius, rotation, color.to_bytes())
+  @raylib.draw_poly(
+    center.to_bytes(),
+    sides,
+    radius,
+    rotation,
+    color.to_bytes(),
+  )
 }
 
 ///|
@@ -485,7 +499,11 @@ pub fn check_collision_point_circle(
   center : Vector2,
   radius : Float,
 ) -> Bool {
-  @raylib.check_collision_point_circle(point.to_bytes(), center.to_bytes(), radius)
+  @raylib.check_collision_point_circle(
+    point.to_bytes(),
+    center.to_bytes(),
+    radius,
+  )
 }
 
 ///|
@@ -505,5 +523,7 @@ pub fn check_collision_point_triangle(
 
 ///|
 pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
-  Rectangle::from_bytes(@raylib.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()))
+  Rectangle::from_bytes(
+    @raylib.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
+  )
 }

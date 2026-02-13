@@ -2,6 +2,330 @@
 package "tonyfettes/raylib"
 
 // Values
+pub const BlendAdditive : Int = 1
+
+pub const BlendAlpha : Int = 0
+
+pub const BlendMultiplied : Int = 2
+
+pub const CameraCustom : Int = 0
+
+pub const CameraFirstPerson : Int = 3
+
+pub const CameraFree : Int = 1
+
+pub const CameraOrbital : Int = 2
+
+pub const CameraOrthographic : Int = 1
+
+pub const CameraPerspective : Int = 0
+
+pub const CameraThirdPerson : Int = 4
+
+pub const FlagBorderlessWindowedMode : Int = 0x00008000
+
+pub const FlagFullscreenMode : Int = 0x00000002
+
+pub const FlagInterlacedHint : Int = 0x00010000
+
+pub const FlagMsaa4xHint : Int = 0x00000020
+
+pub const FlagVsyncHint : Int = 0x00000040
+
+pub const FlagWindowAlwaysRun : Int = 0x00000100
+
+pub const FlagWindowHidden : Int = 0x00000080
+
+pub const FlagWindowHighdpi : Int = 0x00002000
+
+pub const FlagWindowMaximized : Int = 0x00000400
+
+pub const FlagWindowMinimized : Int = 0x00000200
+
+pub const FlagWindowMousePassthrough : Int = 0x00004000
+
+pub const FlagWindowResizable : Int = 0x00000004
+
+pub const FlagWindowTopmost : Int = 0x00001000
+
+pub const FlagWindowTransparent : Int = 0x00000010
+
+pub const FlagWindowUndecorated : Int = 0x00000008
+
+pub const FlagWindowUnfocused : Int = 0x00000800
+
+pub const GestureDoubletap : Int = 2
+
+pub const GestureDrag : Int = 8
+
+pub const GestureHold : Int = 4
+
+pub const GestureNone : Int = 0
+
+pub const GesturePinchIn : Int = 256
+
+pub const GesturePinchOut : Int = 512
+
+pub const GestureSwipeDown : Int = 128
+
+pub const GestureSwipeLeft : Int = 32
+
+pub const GestureSwipeRight : Int = 16
+
+pub const GestureSwipeUp : Int = 64
+
+pub const GestureTap : Int = 1
+
+pub const KeyA : Int = 65
+
+pub const KeyApostrophe : Int = 39
+
+pub const KeyB : Int = 66
+
+pub const KeyBackslash : Int = 92
+
+pub const KeyBackspace : Int = 259
+
+pub const KeyC : Int = 67
+
+pub const KeyCapsLock : Int = 280
+
+pub const KeyComma : Int = 44
+
+pub const KeyD : Int = 68
+
+pub const KeyDelete : Int = 261
+
+pub const KeyDown : Int = 264
+
+pub const KeyE : Int = 69
+
+pub const KeyEight : Int = 56
+
+pub const KeyEnd : Int = 269
+
+pub const KeyEnter : Int = 257
+
+pub const KeyEqual : Int = 61
+
+pub const KeyEscape : Int = 256
+
+pub const KeyF : Int = 70
+
+pub const KeyF1 : Int = 290
+
+pub const KeyF10 : Int = 299
+
+pub const KeyF11 : Int = 300
+
+pub const KeyF12 : Int = 301
+
+pub const KeyF2 : Int = 291
+
+pub const KeyF3 : Int = 292
+
+pub const KeyF4 : Int = 293
+
+pub const KeyF5 : Int = 294
+
+pub const KeyF6 : Int = 295
+
+pub const KeyF7 : Int = 296
+
+pub const KeyF8 : Int = 297
+
+pub const KeyF9 : Int = 298
+
+pub const KeyFive : Int = 53
+
+pub const KeyFour : Int = 52
+
+pub const KeyG : Int = 71
+
+pub const KeyGrave : Int = 96
+
+pub const KeyH : Int = 72
+
+pub const KeyHome : Int = 268
+
+pub const KeyI : Int = 73
+
+pub const KeyInsert : Int = 260
+
+pub const KeyJ : Int = 74
+
+pub const KeyK : Int = 75
+
+pub const KeyKbMenu : Int = 348
+
+pub const KeyKp0 : Int = 320
+
+pub const KeyKp1 : Int = 321
+
+pub const KeyKp2 : Int = 322
+
+pub const KeyKp3 : Int = 323
+
+pub const KeyKp4 : Int = 324
+
+pub const KeyKp5 : Int = 325
+
+pub const KeyKp6 : Int = 326
+
+pub const KeyKp7 : Int = 327
+
+pub const KeyKp8 : Int = 328
+
+pub const KeyKp9 : Int = 329
+
+pub const KeyL : Int = 76
+
+pub const KeyLeft : Int = 263
+
+pub const KeyLeftAlt : Int = 342
+
+pub const KeyLeftBracket : Int = 91
+
+pub const KeyLeftControl : Int = 341
+
+pub const KeyLeftShift : Int = 340
+
+pub const KeyLeftSuper : Int = 343
+
+pub const KeyM : Int = 77
+
+pub const KeyMinus : Int = 45
+
+pub const KeyN : Int = 78
+
+pub const KeyNine : Int = 57
+
+pub const KeyNull : Int = 0
+
+pub const KeyNumLock : Int = 282
+
+pub const KeyO : Int = 79
+
+pub const KeyOne : Int = 49
+
+pub const KeyP : Int = 80
+
+pub const KeyPageDown : Int = 267
+
+pub const KeyPageUp : Int = 266
+
+pub const KeyPause : Int = 284
+
+pub const KeyPeriod : Int = 46
+
+pub const KeyPrintScreen : Int = 283
+
+pub const KeyQ : Int = 81
+
+pub const KeyR : Int = 82
+
+pub const KeyRight : Int = 262
+
+pub const KeyRightAlt : Int = 346
+
+pub const KeyRightBracket : Int = 93
+
+pub const KeyRightControl : Int = 345
+
+pub const KeyRightShift : Int = 344
+
+pub const KeyRightSuper : Int = 347
+
+pub const KeyS : Int = 83
+
+pub const KeyScrollLock : Int = 281
+
+pub const KeySemicolon : Int = 59
+
+pub const KeySeven : Int = 55
+
+pub const KeySix : Int = 54
+
+pub const KeySlash : Int = 47
+
+pub const KeySpace : Int = 32
+
+pub const KeyT : Int = 84
+
+pub const KeyTab : Int = 258
+
+pub const KeyThree : Int = 51
+
+pub const KeyTwo : Int = 50
+
+pub const KeyU : Int = 85
+
+pub const KeyUp : Int = 265
+
+pub const KeyV : Int = 86
+
+pub const KeyW : Int = 87
+
+pub const KeyX : Int = 88
+
+pub const KeyY : Int = 89
+
+pub const KeyZ : Int = 90
+
+pub const KeyZero : Int = 48
+
+pub const LogAll : Int = 0
+
+pub const LogDebug : Int = 2
+
+pub const LogError : Int = 5
+
+pub const LogFatal : Int = 6
+
+pub const LogInfo : Int = 3
+
+pub const LogNone : Int = 7
+
+pub const LogTrace : Int = 1
+
+pub const LogWarning : Int = 4
+
+pub const MouseButtonBack : Int = 6
+
+pub const MouseButtonExtra : Int = 4
+
+pub const MouseButtonForward : Int = 5
+
+pub const MouseButtonLeft : Int = 0
+
+pub const MouseButtonMiddle : Int = 2
+
+pub const MouseButtonRight : Int = 1
+
+pub const MouseButtonSide : Int = 3
+
+pub const MouseCursorArrow : Int = 1
+
+pub const MouseCursorCrosshair : Int = 3
+
+pub const MouseCursorDefault : Int = 0
+
+pub const MouseCursorIbeam : Int = 2
+
+pub const MouseCursorNotAllowed : Int = 10
+
+pub const MouseCursorPointingHand : Int = 4
+
+pub const MouseCursorResizeAll : Int = 9
+
+pub const MouseCursorResizeEw : Int = 5
+
+pub const MouseCursorResizeNesw : Int = 8
+
+pub const MouseCursorResizeNs : Int = 6
+
+pub const MouseCursorResizeNwse : Int = 7
+
 pub fn begin_blend_mode(Int) -> Unit
 
 pub fn begin_drawing() -> Unit
@@ -12,7 +336,7 @@ pub fn begin_mode_3d(Camera3D) -> Unit
 
 pub fn begin_scissor_mode(Int, Int, Int, Int) -> Unit
 
-pub fn begin_texture_mode(RenderTexture) -> Unit
+pub fn begin_texture_mode(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
 
 pub let beige : Color
 
@@ -20,29 +344,9 @@ pub let black : Color
 
 pub let blank : Color
 
-pub let blend_additive : Int
-
-pub let blend_alpha : Int
-
-pub let blend_multiplied : Int
-
 pub let blue : Color
 
 pub let brown : Color
-
-pub let camera_custom : Int
-
-pub let camera_first_person : Int
-
-pub let camera_free : Int
-
-pub let camera_orbital : Int
-
-pub let camera_orthographic : Int
-
-pub let camera_perspective : Int
-
-pub let camera_third_person : Int
 
 pub fn check_collision_box_sphere(BoundingBox, Vector3, Float) -> Bool
 
@@ -142,7 +446,7 @@ pub fn draw_line_ex(Vector2, Vector2, Float, Color) -> Unit
 
 pub fn draw_line_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_model(Model, Vector3, Float, Color) -> Unit
+pub fn draw_model(@tonyfettes/raylib/internal/raylib.Model, Vector3, Float, Color) -> Unit
 
 pub fn draw_pixel(Int, Int, Color) -> Unit
 
@@ -196,19 +500,19 @@ pub fn draw_sphere_wires(Vector3, Float, Int, Int, Color) -> Unit
 
 pub fn draw_text(String, Int, Int, Int, Color) -> Unit
 
-pub fn draw_text_ex(Font, String, Vector2, Float, Float, Color) -> Unit
+pub fn draw_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_text_pro(Font, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
+pub fn draw_text_pro(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
 
-pub fn draw_texture(Texture, Int, Int, Color) -> Unit
+pub fn draw_texture(@tonyfettes/raylib/internal/raylib.Texture, Int, Int, Color) -> Unit
 
-pub fn draw_texture_ex(Texture, Vector2, Float, Float, Color) -> Unit
+pub fn draw_texture_ex(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_texture_pro(Texture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
+pub fn draw_texture_pro(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
 
-pub fn draw_texture_rec(Texture, Rectangle, Vector2, Color) -> Unit
+pub fn draw_texture_rec(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector2, Color) -> Unit
 
-pub fn draw_texture_v(Texture, Vector2, Color) -> Unit
+pub fn draw_texture_v(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Color) -> Unit
 
 pub fn draw_triangle(Vector2, Vector2, Vector2, Color) -> Unit
 
@@ -230,63 +534,9 @@ pub fn end_texture_mode() -> Unit
 
 pub fn fade(Color, Float) -> Color
 
-pub let flag_borderless_windowed_mode : Int
+pub fn gen_image_checked(Int, Int, Int, Int, Color, Color) -> @tonyfettes/raylib/internal/raylib.Image
 
-pub let flag_fullscreen_mode : Int
-
-pub let flag_interlaced_hint : Int
-
-pub let flag_msaa_4x_hint : Int
-
-pub let flag_vsync_hint : Int
-
-pub let flag_window_always_run : Int
-
-pub let flag_window_hidden : Int
-
-pub let flag_window_highdpi : Int
-
-pub let flag_window_maximized : Int
-
-pub let flag_window_minimized : Int
-
-pub let flag_window_mouse_passthrough : Int
-
-pub let flag_window_resizable : Int
-
-pub let flag_window_topmost : Int
-
-pub let flag_window_transparent : Int
-
-pub let flag_window_undecorated : Int
-
-pub let flag_window_unfocused : Int
-
-pub fn gen_image_checked(Int, Int, Int, Int, Color, Color) -> Image
-
-pub fn gen_image_color(Int, Int, Color) -> Image
-
-pub let gesture_doubletap : Int
-
-pub let gesture_drag : Int
-
-pub let gesture_hold : Int
-
-pub let gesture_none : Int
-
-pub let gesture_pinch_in : Int
-
-pub let gesture_pinch_out : Int
-
-pub let gesture_swipe_down : Int
-
-pub let gesture_swipe_left : Int
-
-pub let gesture_swipe_right : Int
-
-pub let gesture_swipe_up : Int
-
-pub let gesture_tap : Int
+pub fn gen_image_color(Int, Int, Color) -> @tonyfettes/raylib/internal/raylib.Image
 
 pub fn get_char_pressed() -> Int
 
@@ -294,7 +544,7 @@ pub fn get_collision_rec(Rectangle, Rectangle) -> Rectangle
 
 pub fn get_color(Int) -> Color
 
-pub fn get_font_default() -> Font
+pub fn get_font_default() -> @tonyfettes/raylib/internal/raylib.Font
 
 pub fn get_fps() -> Int
 
@@ -316,9 +566,9 @@ pub fn get_mouse_x() -> Int
 
 pub fn get_mouse_y() -> Int
 
-pub fn get_music_time_length(Music) -> Float
+pub fn get_music_time_length(@tonyfettes/raylib/internal/raylib.Music) -> Float
 
-pub fn get_music_time_played(Music) -> Float
+pub fn get_music_time_played(@tonyfettes/raylib/internal/raylib.Music) -> Float
 
 pub fn get_random_value(Int, Int) -> Int
 
@@ -360,7 +610,7 @@ pub fn is_cursor_hidden() -> Bool
 
 pub fn is_cursor_on_screen() -> Bool
 
-pub fn is_font_valid(Font) -> Bool
+pub fn is_font_valid(@tonyfettes/raylib/internal/raylib.Font) -> Bool
 
 pub fn is_key_down(Int) -> Bool
 
@@ -380,13 +630,13 @@ pub fn is_mouse_button_released(Int) -> Bool
 
 pub fn is_mouse_button_up(Int) -> Bool
 
-pub fn is_music_stream_playing(Music) -> Bool
+pub fn is_music_stream_playing(@tonyfettes/raylib/internal/raylib.Music) -> Bool
 
-pub fn is_render_texture_valid(RenderTexture) -> Bool
+pub fn is_render_texture_valid(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Bool
 
-pub fn is_sound_playing(Sound) -> Bool
+pub fn is_sound_playing(@tonyfettes/raylib/internal/raylib.Sound) -> Bool
 
-pub fn is_texture_valid(Texture) -> Bool
+pub fn is_texture_valid(@tonyfettes/raylib/internal/raylib.Texture) -> Bool
 
 pub fn is_window_focused() -> Bool
 
@@ -402,241 +652,27 @@ pub fn is_window_ready() -> Bool
 
 pub fn is_window_resized() -> Bool
 
-pub let key_a : Int
-
-pub let key_apostrophe : Int
-
-pub let key_b : Int
-
-pub let key_backslash : Int
-
-pub let key_backspace : Int
-
-pub let key_c : Int
-
-pub let key_caps_lock : Int
-
-pub let key_comma : Int
-
-pub let key_d : Int
-
-pub let key_delete : Int
-
-pub let key_down : Int
-
-pub let key_e : Int
-
-pub let key_eight : Int
-
-pub let key_end : Int
-
-pub let key_enter : Int
-
-pub let key_equal : Int
-
-pub let key_escape : Int
-
-pub let key_f : Int
-
-pub let key_f1 : Int
-
-pub let key_f10 : Int
-
-pub let key_f11 : Int
-
-pub let key_f12 : Int
-
-pub let key_f2 : Int
-
-pub let key_f3 : Int
-
-pub let key_f4 : Int
-
-pub let key_f5 : Int
-
-pub let key_f6 : Int
-
-pub let key_f7 : Int
-
-pub let key_f8 : Int
-
-pub let key_f9 : Int
-
-pub let key_five : Int
-
-pub let key_four : Int
-
-pub let key_g : Int
-
-pub let key_grave : Int
-
-pub let key_h : Int
-
-pub let key_home : Int
-
-pub let key_i : Int
-
-pub let key_insert : Int
-
-pub let key_j : Int
-
-pub let key_k : Int
-
-pub let key_kb_menu : Int
-
-pub let key_kp_0 : Int
-
-pub let key_kp_1 : Int
-
-pub let key_kp_2 : Int
-
-pub let key_kp_3 : Int
-
-pub let key_kp_4 : Int
-
-pub let key_kp_5 : Int
-
-pub let key_kp_6 : Int
-
-pub let key_kp_7 : Int
-
-pub let key_kp_8 : Int
-
-pub let key_kp_9 : Int
-
-pub let key_l : Int
-
-pub let key_left : Int
-
-pub let key_left_alt : Int
-
-pub let key_left_bracket : Int
-
-pub let key_left_control : Int
-
-pub let key_left_shift : Int
-
-pub let key_left_super : Int
-
-pub let key_m : Int
-
-pub let key_minus : Int
-
-pub let key_n : Int
-
-pub let key_nine : Int
-
-pub let key_null : Int
-
-pub let key_num_lock : Int
-
-pub let key_o : Int
-
-pub let key_one : Int
-
-pub let key_p : Int
-
-pub let key_page_down : Int
-
-pub let key_page_up : Int
-
-pub let key_pause : Int
-
-pub let key_period : Int
-
-pub let key_print_screen : Int
-
-pub let key_q : Int
-
-pub let key_r : Int
-
-pub let key_right : Int
-
-pub let key_right_alt : Int
-
-pub let key_right_bracket : Int
-
-pub let key_right_control : Int
-
-pub let key_right_shift : Int
-
-pub let key_right_super : Int
-
-pub let key_s : Int
-
-pub let key_scroll_lock : Int
-
-pub let key_semicolon : Int
-
-pub let key_seven : Int
-
-pub let key_six : Int
-
-pub let key_slash : Int
-
-pub let key_space : Int
-
-pub let key_t : Int
-
-pub let key_tab : Int
-
-pub let key_three : Int
-
-pub let key_two : Int
-
-pub let key_u : Int
-
-pub let key_up : Int
-
-pub let key_v : Int
-
-pub let key_w : Int
-
-pub let key_x : Int
-
-pub let key_y : Int
-
-pub let key_z : Int
-
-pub let key_zero : Int
-
 pub let lightgray : Color
 
 pub let lime : Color
 
-pub fn load_font(String) -> Font
+pub fn load_font(String) -> @tonyfettes/raylib/internal/raylib.Font
 
-pub fn load_font_ex(String, Int) -> Font
+pub fn load_font_ex(String, Int) -> @tonyfettes/raylib/internal/raylib.Font
 
-pub fn load_image(String) -> Image
+pub fn load_image(String) -> @tonyfettes/raylib/internal/raylib.Image
 
-pub fn load_model(String) -> Model
+pub fn load_model(String) -> @tonyfettes/raylib/internal/raylib.Model
 
-pub fn load_music_stream(String) -> Music
+pub fn load_music_stream(String) -> @tonyfettes/raylib/internal/raylib.Music
 
-pub fn load_render_texture(Int, Int) -> RenderTexture
+pub fn load_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
 
-pub fn load_sound(String) -> Sound
+pub fn load_sound(String) -> @tonyfettes/raylib/internal/raylib.Sound
 
-pub fn load_texture(String) -> Texture
+pub fn load_texture(String) -> @tonyfettes/raylib/internal/raylib.Texture
 
-pub fn load_texture_from_image(Image) -> Texture
-
-pub let log_all : Int
-
-pub let log_debug : Int
-
-pub let log_error : Int
-
-pub let log_fatal : Int
-
-pub let log_info : Int
-
-pub let log_none : Int
-
-pub let log_trace : Int
-
-pub let log_warning : Int
+pub fn load_texture_from_image(@tonyfettes/raylib/internal/raylib.Image) -> @tonyfettes/raylib/internal/raylib.Texture
 
 pub let magenta : Color
 
@@ -646,59 +682,23 @@ pub fn maximize_window() -> Unit
 
 pub fn measure_text(String, Int) -> Int
 
-pub fn measure_text_ex(Font, String, Float, Float) -> Vector2
+pub fn measure_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Float, Float) -> Vector2
 
 pub fn minimize_window() -> Unit
-
-pub let mouse_button_back : Int
-
-pub let mouse_button_extra : Int
-
-pub let mouse_button_forward : Int
-
-pub let mouse_button_left : Int
-
-pub let mouse_button_middle : Int
-
-pub let mouse_button_right : Int
-
-pub let mouse_button_side : Int
-
-pub let mouse_cursor_arrow : Int
-
-pub let mouse_cursor_crosshair : Int
-
-pub let mouse_cursor_default : Int
-
-pub let mouse_cursor_ibeam : Int
-
-pub let mouse_cursor_not_allowed : Int
-
-pub let mouse_cursor_pointing_hand : Int
-
-pub let mouse_cursor_resize_all : Int
-
-pub let mouse_cursor_resize_ew : Int
-
-pub let mouse_cursor_resize_nesw : Int
-
-pub let mouse_cursor_resize_ns : Int
-
-pub let mouse_cursor_resize_nwse : Int
 
 pub fn open_url(String) -> Unit
 
 pub let orange : Color
 
-pub fn pause_music_stream(Music) -> Unit
+pub fn pause_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn pause_sound(Sound) -> Unit
+pub fn pause_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub let pink : Color
 
-pub fn play_music_stream(Music) -> Unit
+pub fn play_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn play_sound(Sound) -> Unit
+pub fn play_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub let purple : Color
 
@@ -708,11 +708,11 @@ pub let red : Color
 
 pub fn restore_window() -> Unit
 
-pub fn resume_music_stream(Music) -> Unit
+pub fn resume_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn resume_sound(Sound) -> Unit
+pub fn resume_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
-pub fn seek_music_stream(Music, Float) -> Unit
+pub fn seek_music_stream(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
 
 pub fn set_config_flags(Int) -> Unit
 
@@ -728,17 +728,17 @@ pub fn set_mouse_position(Int, Int) -> Unit
 
 pub fn set_mouse_scale(Float, Float) -> Unit
 
-pub fn set_music_pitch(Music, Float) -> Unit
+pub fn set_music_pitch(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
 
-pub fn set_music_volume(Music, Float) -> Unit
+pub fn set_music_volume(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
 
 pub fn set_random_seed(Int) -> Unit
 
-pub fn set_sound_pan(Sound, Float) -> Unit
+pub fn set_sound_pan(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
 
-pub fn set_sound_pitch(Sound, Float) -> Unit
+pub fn set_sound_pitch(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
 
-pub fn set_sound_volume(Sound, Float) -> Unit
+pub fn set_sound_volume(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
 
 pub fn set_target_fps(Int) -> Unit
 
@@ -766,9 +766,9 @@ pub fn show_cursor() -> Unit
 
 pub let skyblue : Color
 
-pub fn stop_music_stream(Music) -> Unit
+pub fn stop_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn stop_sound(Sound) -> Unit
+pub fn stop_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub fn take_screenshot(String) -> Unit
 
@@ -776,25 +776,25 @@ pub fn toggle_borderless_windowed() -> Unit
 
 pub fn toggle_fullscreen() -> Unit
 
-pub fn unload_font(Font) -> Unit
+pub fn unload_font(@tonyfettes/raylib/internal/raylib.Font) -> Unit
 
-pub fn unload_image(Image) -> Unit
+pub fn unload_image(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 
-pub fn unload_model(Model) -> Unit
+pub fn unload_model(@tonyfettes/raylib/internal/raylib.Model) -> Unit
 
-pub fn unload_music_stream(Music) -> Unit
+pub fn unload_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn unload_render_texture(RenderTexture) -> Unit
+pub fn unload_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
 
-pub fn unload_sound(Sound) -> Unit
+pub fn unload_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
-pub fn unload_texture(Texture) -> Unit
+pub fn unload_texture(@tonyfettes/raylib/internal/raylib.Texture) -> Unit
 
 pub fn update_camera(Camera3D, Int) -> Camera3D
 
 pub fn update_camera_pro(Camera3D, Vector3, Vector3, Float) -> Camera3D
 
-pub fn update_music_stream(Music) -> Unit
+pub fn update_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
 pub let violet : Color
 
@@ -854,14 +854,6 @@ pub fn Color::to_bytes(Self) -> Bytes
 pub impl Eq for Color
 pub impl Show for Color
 
-pub type Font
-
-pub type Image
-
-pub type Model
-
-pub type Music
-
 pub struct Ray {
   position : Vector3
   direction : Vector3
@@ -893,14 +885,6 @@ pub fn Rectangle::new(Float, Float, Float, Float) -> Self
 pub fn Rectangle::to_bytes(Self) -> Bytes
 pub impl Eq for Rectangle
 pub impl Show for Rectangle
-
-pub type RenderTexture
-
-pub type Shader
-
-pub type Sound
-
-pub type Texture
 
 pub struct Vector2 {
   x : Float
@@ -936,6 +920,21 @@ pub impl Eq for Vector4
 pub impl Show for Vector4
 
 // Type aliases
+pub using @tonyfettes/raylib/internal/raylib {type Font}
+
+pub using @tonyfettes/raylib/internal/raylib {type Image}
+
+pub using @tonyfettes/raylib/internal/raylib {type Model}
+
+pub using @tonyfettes/raylib/internal/raylib {type Music}
+
+pub using @tonyfettes/raylib/internal/raylib {type RenderTexture}
+
+pub using @tonyfettes/raylib/internal/raylib {type Shader}
+
+pub using @tonyfettes/raylib/internal/raylib {type Sound}
+
+pub using @tonyfettes/raylib/internal/raylib {type Texture}
 
 // Traits
 

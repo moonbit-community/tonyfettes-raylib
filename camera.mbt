@@ -121,10 +121,9 @@ pub const CameraPerspective : Int = 0
 pub const CameraOrthographic : Int = 1
 
 // Re-export passthrough camera functions
-pub using @raylib {
-  end_mode_2d,
-  end_mode_3d,
-}
+
+///|
+pub using @raylib {end_mode_2d, end_mode_3d}
 
 // Camera wrappers
 
