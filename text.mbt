@@ -3,47 +3,47 @@
 // ============================================================================
 
 ///|
-extern "c" fn get_font_default_ffi() -> Font = "moonbit_raylib_get_font_default"
+extern "c" fn raylib_get_font_default() -> Font = "moonbit_raylib_get_font_default"
 
 ///|
 pub fn get_font_default() -> Font {
-  get_font_default_ffi()
+  raylib_get_font_default()
 }
 
 ///|
 #borrow(file_name)
-extern "c" fn load_font_ffi(file_name : Bytes) -> Font = "moonbit_raylib_load_font"
+extern "c" fn raylib_load_font(file_name : Bytes) -> Font = "moonbit_raylib_load_font"
 
 ///|
 pub fn load_font(file_name : String) -> Font {
-  load_font_ffi(@utf8.encode(file_name))
+  raylib_load_font(@utf8.encode(file_name))
 }
 
 ///|
 #borrow(file_name)
-extern "c" fn load_font_ex_ffi(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
+extern "c" fn raylib_load_font_ex(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
 
 ///|
 pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
-  load_font_ex_ffi(@utf8.encode(file_name), font_size)
+  raylib_load_font_ex(@utf8.encode(file_name), font_size)
 }
 
 ///|
 #borrow(font)
-extern "c" fn is_font_valid_ffi(font : Font) -> Bool = "moonbit_raylib_is_font_valid"
+extern "c" fn raylib_is_font_valid(font : Font) -> Bool = "moonbit_raylib_is_font_valid"
 
 ///|
 pub fn is_font_valid(font : Font) -> Bool {
-  is_font_valid_ffi(font)
+  raylib_is_font_valid(font)
 }
 
 ///|
 #borrow(font)
-extern "c" fn unload_font_ffi(font : Font) = "moonbit_raylib_unload_font"
+extern "c" fn raylib_unload_font(font : Font) = "moonbit_raylib_unload_font"
 
 ///|
 pub fn unload_font(font : Font) -> Unit {
-  unload_font_ffi(font)
+  raylib_unload_font(font)
 }
 
 // ============================================================================
@@ -51,16 +51,16 @@ pub fn unload_font(font : Font) -> Unit {
 // ============================================================================
 
 ///|
-extern "c" fn draw_fps_ffi(pos_x : Int, pos_y : Int) = "DrawFPS"
+extern "c" fn raylib_draw_fps(pos_x : Int, pos_y : Int) = "DrawFPS"
 
 ///|
 pub fn draw_fps(pos_x : Int, pos_y : Int) -> Unit {
-  draw_fps_ffi(pos_x, pos_y)
+  raylib_draw_fps(pos_x, pos_y)
 }
 
 ///|
 #borrow(text, color)
-extern "c" fn draw_text_ffi(
+extern "c" fn raylib_draw_text(
   text : Bytes,
   pos_x : Int,
   pos_y : Int,
@@ -76,12 +76,12 @@ pub fn draw_text(
   font_size : Int,
   color : Color,
 ) -> Unit {
-  draw_text_ffi(@utf8.encode(text), pos_x, pos_y, font_size, color.to_bytes())
+  raylib_draw_text(@utf8.encode(text), pos_x, pos_y, font_size, color.to_bytes())
 }
 
 ///|
 #borrow(font, text, position, tint)
-extern "c" fn draw_text_ex_ffi(
+extern "c" fn raylib_draw_text_ex(
   font : Font,
   text : Bytes,
   position : Bytes,
@@ -99,7 +99,7 @@ pub fn draw_text_ex(
   spacing : Float,
   tint : Color,
 ) -> Unit {
-  draw_text_ex_ffi(
+  raylib_draw_text_ex(
     font,
     @utf8.encode(text),
     position.to_bytes(),
@@ -111,7 +111,7 @@ pub fn draw_text_ex(
 
 ///|
 #borrow(font, text, position, origin, tint)
-extern "c" fn draw_text_pro_ffi(
+extern "c" fn raylib_draw_text_pro(
   font : Font,
   text : Bytes,
   position : Bytes,
@@ -133,7 +133,7 @@ pub fn draw_text_pro(
   spacing : Float,
   tint : Color,
 ) -> Unit {
-  draw_text_pro_ffi(
+  raylib_draw_text_pro(
     font,
     @utf8.encode(text),
     position.to_bytes(),
@@ -151,16 +151,16 @@ pub fn draw_text_pro(
 
 ///|
 #borrow(text)
-extern "c" fn measure_text_ffi(text : Bytes, font_size : Int) -> Int = "moonbit_raylib_measure_text"
+extern "c" fn raylib_measure_text(text : Bytes, font_size : Int) -> Int = "moonbit_raylib_measure_text"
 
 ///|
 pub fn measure_text(text : String, font_size : Int) -> Int {
-  measure_text_ffi(@utf8.encode(text), font_size)
+  raylib_measure_text(@utf8.encode(text), font_size)
 }
 
 ///|
 #borrow(font, text)
-extern "c" fn measure_text_ex_ffi(
+extern "c" fn raylib_measure_text_ex(
   font : Font,
   text : Bytes,
   font_size : Float,
@@ -175,14 +175,14 @@ pub fn measure_text_ex(
   spacing : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    measure_text_ex_ffi(font, @utf8.encode(text), font_size, spacing),
+    raylib_measure_text_ex(font, @utf8.encode(text), font_size, spacing),
   )
 }
 
 ///|
-extern "c" fn set_text_line_spacing_ffi(spacing : Int) = "SetTextLineSpacing"
+extern "c" fn raylib_set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 
 ///|
 pub fn set_text_line_spacing(spacing : Int) -> Unit {
-  set_text_line_spacing_ffi(spacing)
+  raylib_set_text_line_spacing(spacing)
 }
