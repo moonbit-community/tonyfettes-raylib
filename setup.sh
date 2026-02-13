@@ -4,6 +4,7 @@ set -euo pipefail
 RAYLIB_VERSION="5.5"
 RAYLIB_DIR="external/raylib"
 RAYLIB_SRC="$RAYLIB_DIR/src"
+DEST_DIR="internal/raylib"
 
 # Download and extract raylib if not present
 if [ ! -d "$RAYLIB_DIR" ]; then
@@ -18,14 +19,14 @@ else
     echo "raylib already present at ${RAYLIB_DIR}"
 fi
 
-# Copy raylib source files to project root
-echo "Copying raylib source files..."
-cp "$RAYLIB_SRC/rcore.c" .
-cp "$RAYLIB_SRC/utils.c" .
-cp "$RAYLIB_SRC/rshapes.c" .
-cp "$RAYLIB_SRC/rtextures.c" .
-cp "$RAYLIB_SRC/rtext.c" .
-cp "$RAYLIB_SRC/rmodels.c" .
-cp "$RAYLIB_SRC/raudio.c" .
+# Copy raylib source files to internal/raylib/
+echo "Copying raylib source files to ${DEST_DIR}..."
+cp "$RAYLIB_SRC/rcore.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/utils.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/rshapes.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/rtextures.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/rtext.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/rmodels.c" "$DEST_DIR/"
+cp "$RAYLIB_SRC/raudio.c" "$DEST_DIR/"
 
 echo "Setup complete!"

@@ -1,0 +1,361 @@
+// ============================================================================
+// Window management
+// ============================================================================
+
+///|
+#borrow(title)
+pub extern "c" fn init_window(width : Int, height : Int, title : Bytes) = "moonbit_raylib_init_window"
+
+///|
+pub extern "c" fn close_window() = "CloseWindow"
+
+///|
+pub extern "c" fn window_should_close() -> Bool = "WindowShouldClose"
+
+///|
+pub extern "c" fn is_window_ready() -> Bool = "IsWindowReady"
+
+///|
+pub extern "c" fn is_window_fullscreen() -> Bool = "IsWindowFullscreen"
+
+///|
+pub extern "c" fn is_window_hidden() -> Bool = "IsWindowHidden"
+
+///|
+pub extern "c" fn is_window_minimized() -> Bool = "IsWindowMinimized"
+
+///|
+pub extern "c" fn is_window_maximized() -> Bool = "IsWindowMaximized"
+
+///|
+pub extern "c" fn is_window_focused() -> Bool = "IsWindowFocused"
+
+///|
+pub extern "c" fn is_window_resized() -> Bool = "IsWindowResized"
+
+///|
+#borrow(title)
+pub extern "c" fn set_window_title(title : Bytes) = "moonbit_raylib_set_window_title"
+
+///|
+pub extern "c" fn set_window_size(width : Int, height : Int) = "SetWindowSize"
+
+///|
+pub extern "c" fn set_window_position(x : Int, y : Int) = "SetWindowPosition"
+
+///|
+pub extern "c" fn set_window_min_size(width : Int, height : Int) = "SetWindowMinSize"
+
+///|
+pub extern "c" fn set_window_max_size(width : Int, height : Int) = "SetWindowMaxSize"
+
+///|
+pub extern "c" fn set_window_opacity(opacity : Float) = "SetWindowOpacity"
+
+///|
+pub extern "c" fn set_window_focused() = "SetWindowFocused"
+
+///|
+pub extern "c" fn get_screen_width() -> Int = "GetScreenWidth"
+
+///|
+pub extern "c" fn get_screen_height() -> Int = "GetScreenHeight"
+
+///|
+pub extern "c" fn get_render_width() -> Int = "GetRenderWidth"
+
+///|
+pub extern "c" fn get_render_height() -> Int = "GetRenderHeight"
+
+///|
+pub extern "c" fn toggle_fullscreen() = "ToggleFullscreen"
+
+///|
+pub extern "c" fn toggle_borderless_windowed() = "ToggleBorderlessWindowed"
+
+///|
+pub extern "c" fn maximize_window() = "MaximizeWindow"
+
+///|
+pub extern "c" fn minimize_window() = "MinimizeWindow"
+
+///|
+pub extern "c" fn restore_window() = "RestoreWindow"
+
+///|
+pub extern "c" fn set_config_flags(flags : Int) = "SetConfigFlags"
+
+///|
+pub extern "c" fn set_window_state(flags : Int) = "SetWindowState"
+
+///|
+pub extern "c" fn clear_window_state(flags : Int) = "ClearWindowState"
+
+// ============================================================================
+// Cursor
+// ============================================================================
+
+///|
+pub extern "c" fn show_cursor() = "ShowCursor"
+
+///|
+pub extern "c" fn hide_cursor() = "HideCursor"
+
+///|
+pub extern "c" fn is_cursor_hidden() -> Bool = "IsCursorHidden"
+
+///|
+pub extern "c" fn enable_cursor() = "EnableCursor"
+
+///|
+pub extern "c" fn disable_cursor() = "DisableCursor"
+
+///|
+pub extern "c" fn is_cursor_on_screen() -> Bool = "IsCursorOnScreen"
+
+// ============================================================================
+// Drawing
+// ============================================================================
+
+///|
+#borrow(color)
+pub extern "c" fn clear_background(color : Bytes) = "moonbit_raylib_clear_background"
+
+///|
+pub extern "c" fn begin_drawing() = "BeginDrawing"
+
+///|
+pub extern "c" fn end_drawing() = "EndDrawing"
+
+///|
+#borrow(camera)
+pub extern "c" fn begin_mode_2d(camera : Bytes) = "moonbit_raylib_begin_mode_2d"
+
+///|
+pub extern "c" fn end_mode_2d() = "EndMode2D"
+
+///|
+#borrow(camera)
+pub extern "c" fn begin_mode_3d(camera : Bytes) = "moonbit_raylib_begin_mode_3d"
+
+///|
+pub extern "c" fn end_mode_3d() = "EndMode3D"
+
+///|
+pub extern "c" fn begin_scissor_mode(
+  x : Int,
+  y : Int,
+  width : Int,
+  height : Int,
+) = "BeginScissorMode"
+
+///|
+pub extern "c" fn end_scissor_mode() = "EndScissorMode"
+
+///|
+pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
+
+///|
+pub extern "c" fn end_blend_mode() = "EndBlendMode"
+
+///|
+#borrow(target)
+pub extern "c" fn begin_texture_mode(target : RenderTexture) = "moonbit_raylib_begin_texture_mode"
+
+///|
+pub extern "c" fn end_texture_mode() = "EndTextureMode"
+
+// ============================================================================
+// Timing
+// ============================================================================
+
+///|
+pub extern "c" fn set_target_fps(fps : Int) = "SetTargetFPS"
+
+///|
+pub extern "c" fn get_frame_time() -> Float = "GetFrameTime"
+
+///|
+pub extern "c" fn get_time() -> Double = "GetTime"
+
+///|
+pub extern "c" fn get_fps() -> Int = "GetFPS"
+
+// ============================================================================
+// Keyboard input
+// ============================================================================
+
+///|
+pub extern "c" fn is_key_pressed(key : Int) -> Bool = "IsKeyPressed"
+
+///|
+pub extern "c" fn is_key_pressed_repeat(key : Int) -> Bool = "IsKeyPressedRepeat"
+
+///|
+pub extern "c" fn is_key_down(key : Int) -> Bool = "IsKeyDown"
+
+///|
+pub extern "c" fn is_key_released(key : Int) -> Bool = "IsKeyReleased"
+
+///|
+pub extern "c" fn is_key_up(key : Int) -> Bool = "IsKeyUp"
+
+///|
+pub extern "c" fn get_key_pressed() -> Int = "GetKeyPressed"
+
+///|
+pub extern "c" fn get_char_pressed() -> Int = "GetCharPressed"
+
+///|
+pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
+
+// ============================================================================
+// Mouse input
+// ============================================================================
+
+///|
+pub extern "c" fn is_mouse_button_pressed(button : Int) -> Bool = "IsMouseButtonPressed"
+
+///|
+pub extern "c" fn is_mouse_button_down(button : Int) -> Bool = "IsMouseButtonDown"
+
+///|
+pub extern "c" fn is_mouse_button_released(button : Int) -> Bool = "IsMouseButtonReleased"
+
+///|
+pub extern "c" fn is_mouse_button_up(button : Int) -> Bool = "IsMouseButtonUp"
+
+///|
+pub extern "c" fn get_mouse_x() -> Int = "GetMouseX"
+
+///|
+pub extern "c" fn get_mouse_y() -> Int = "GetMouseY"
+
+///|
+pub extern "c" fn get_mouse_position() -> Bytes = "moonbit_raylib_get_mouse_position"
+
+///|
+pub extern "c" fn get_mouse_delta() -> Bytes = "moonbit_raylib_get_mouse_delta"
+
+///|
+pub extern "c" fn set_mouse_position(x : Int, y : Int) = "SetMousePosition"
+
+///|
+pub extern "c" fn set_mouse_offset(offset_x : Int, offset_y : Int) = "SetMouseOffset"
+
+///|
+pub extern "c" fn set_mouse_scale(scale_x : Float, scale_y : Float) = "SetMouseScale"
+
+///|
+pub extern "c" fn get_mouse_wheel_move() -> Float = "GetMouseWheelMove"
+
+///|
+pub extern "c" fn get_mouse_wheel_move_v() -> Bytes = "moonbit_raylib_get_mouse_wheel_move_v"
+
+///|
+pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
+
+// ============================================================================
+// Camera
+// ============================================================================
+
+///|
+#borrow(camera)
+pub extern "c" fn update_camera(camera : Bytes, mode : Int) -> Bytes = "moonbit_raylib_update_camera"
+
+///|
+#borrow(camera, movement, rotation)
+pub extern "c" fn update_camera_pro(
+  camera : Bytes,
+  movement : Bytes,
+  rotation : Bytes,
+  zoom : Float,
+) -> Bytes = "moonbit_raylib_update_camera_pro"
+
+///|
+#borrow(position, camera)
+pub extern "c" fn get_world_to_screen(
+  position : Bytes,
+  camera : Bytes,
+) -> Bytes = "moonbit_raylib_get_world_to_screen"
+
+///|
+#borrow(position, camera)
+pub extern "c" fn get_screen_to_world_2d(
+  position : Bytes,
+  camera : Bytes,
+) -> Bytes = "moonbit_raylib_get_screen_to_world_2d"
+
+///|
+#borrow(position, camera)
+pub extern "c" fn get_world_to_screen_2d(
+  position : Bytes,
+  camera : Bytes,
+) -> Bytes = "moonbit_raylib_get_world_to_screen_2d"
+
+// ============================================================================
+// Misc
+// ============================================================================
+
+///|
+pub extern "c" fn set_trace_log_level(log_level : Int) = "SetTraceLogLevel"
+
+///|
+#borrow(file_name)
+pub extern "c" fn take_screenshot(file_name : Bytes) = "moonbit_raylib_take_screenshot"
+
+///|
+#borrow(url)
+pub extern "c" fn open_url(url : Bytes) = "moonbit_raylib_open_url"
+
+///|
+pub extern "c" fn get_random_value(min : Int, max : Int) -> Int = "GetRandomValue"
+
+///|
+pub extern "c" fn set_random_seed(seed : Int) = "SetRandomSeed"
+
+// ============================================================================
+// Color utilities
+// ============================================================================
+
+///|
+#borrow(color)
+pub extern "c" fn fade(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_fade"
+
+///|
+#borrow(color)
+pub extern "c" fn color_alpha(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_color_alpha"
+
+///|
+#borrow(color)
+pub extern "c" fn color_to_int(color : Bytes) -> Int = "moonbit_raylib_color_to_int"
+
+///|
+pub extern "c" fn get_color(hex_value : Int) -> Bytes = "moonbit_raylib_get_color"
+
+///|
+pub extern "c" fn color_from_hsv(
+  hue : Float,
+  saturation : Float,
+  value : Float,
+) -> Bytes = "moonbit_raylib_color_from_hsv"
+
+///|
+#borrow(color, tint)
+pub extern "c" fn color_tint(color : Bytes, tint : Bytes) -> Bytes = "moonbit_raylib_color_tint"
+
+///|
+#borrow(color)
+pub extern "c" fn color_brightness(color : Bytes, factor : Float) -> Bytes = "moonbit_raylib_color_brightness"
+
+///|
+#borrow(color1, color2)
+pub extern "c" fn color_lerp(
+  color1 : Bytes,
+  color2 : Bytes,
+  factor : Float,
+) -> Bytes = "moonbit_raylib_color_lerp"
+
+///|
+#borrow(col1, col2)
+pub extern "c" fn color_is_equal(col1 : Bytes, col2 : Bytes) -> Bool = "moonbit_raylib_color_is_equal"

@@ -1,3 +1,15 @@
+// Re-export opaque resource types from internal FFI layer
+pub using @raylib {
+  type Image,
+  type Texture,
+  type RenderTexture,
+  type Font,
+  type Sound,
+  type Music,
+  type Model,
+  type Shader,
+}
+
 // Helper: write float as 4 little-endian bytes
 
 ///|
@@ -385,29 +397,3 @@ pub fn RayCollision::from_bytes(b : Bytes) -> RayCollision {
     normal: { x: read_float(b, 20), y: read_float(b, 24), z: read_float(b, 28) },
   }
 }
-
-// Resource types (opaque, backed by C external objects with GC finalizers)
-
-///|
-pub type Image
-
-///|
-pub type Texture
-
-///|
-pub type RenderTexture
-
-///|
-pub type Font
-
-///|
-pub type Sound
-
-///|
-pub type Music
-
-///|
-pub type Model
-
-///|
-pub type Shader

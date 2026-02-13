@@ -9,7 +9,7 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 ## Build Commands
 
 ```bash
-# First-time setup: download raylib 5.5 and copy source files to project root
+# First-time setup: download raylib 5.5 and copy source files to internal/raylib/
 bash setup.sh
 
 # Build (native only) — use explicit path to avoid library-as-exe link error
@@ -24,19 +24,29 @@ moon check --target native
 
 ## Architecture
 
-### FFI Pattern (two layers)
+### Two-package structure
 
-Every raylib binding follows this pattern:
+```
+tonyfettes/raylib/                     # Public API: re-exports + wrappers + value types
+tonyfettes/raylib/internal/raylib/     # FFI layer: pub extern "c" + C code
+main/                                  # Demo executable
+```
 
-1. **Private FFI declaration** — `extern "c"` function with `_ffi` suffix, operating on raw `Bytes`/primitives
-2. **Public wrapper** — converts MoonBit types to/from Bytes and calls the FFI function
+- **`internal/raylib/`** — Contains all `pub extern "c"` declarations operating on raw `Bytes`/primitives, plus C source files (`stub.c`, `rglfw.m`, and raylib sources). Imported by the root package (default alias `@raylib`).
+- **Root package** — Re-exports passthrough FFI functions via `pub using @raylib.{ ... }` and provides explicit wrapper functions for those needing type conversion (String→Bytes, Color→Bytes, etc.).
+- **`main/`** — Executable demo, imports `tonyfettes/raylib`.
 
+### FFI Pattern
+
+Passthrough functions (primitives/opaque types only) are re-exported directly:
 ```moonbit
-#borrow(color)
-extern "c" fn clear_background_ffi(color : Bytes) = "moonbit_raylib_clear_background"
+pub using @raylib.{ close_window, is_key_pressed, ... }
+```
 
+Functions needing type conversion get explicit wrappers:
+```moonbit
 pub fn clear_background(color : Color) -> Unit {
-  clear_background_ffi(color.to_bytes())
+  @raylib.clear_background(color.to_bytes())
 }
 ```
 
@@ -46,26 +56,26 @@ Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in M
 
 ### Resource types (opaque pointers with GC finalizers)
 
-Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations.
+Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in root `types.mbt`.
 
 ### Key files
 
-- `stub.c` — All C glue functions (`moonbit_raylib_*` wrappers). Functions that take only primitives call raylib directly (no wrapper needed).
-- `types.mbt` — Struct definitions + Bytes serialization helpers
+- `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
+- `internal/raylib/rglfw.m` — GLFW aggregator (includes raylib's rglfw.c)
+- `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
+- `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
+- `types.mbt` — Value type structs (Color, Vector2, etc.) + type re-exports
 - `constants.mbt` — Color constants, key codes, config flags, mouse buttons
-- `core.mbt` — Window, drawing, timing, input, camera
-- `shapes.mbt` — 2D shape drawing + collision detection
-- `textures.mbt` — Image/texture loading and drawing
-- `text.mbt` — Font loading and text drawing
-- `models.mbt` — 3D shapes, model loading, ray collision
-- `audio.mbt` — Sound and music playback
+- `{core,shapes,textures,text,models,audio}.mbt` — Public API (re-exports + wrappers)
 
-### Package structure
+### Package configuration
 
-- Root package (`tonyfettes/raylib`) — the library, lists all C sources in `native-stub`
-- `main/` — executable demo, imports `tonyfettes/raylib`
+macOS framework link flags (`-framework Cocoa`, etc.) must be in **all three** packages:
+- `internal/raylib/moon.pkg` — for `moon test` linking
+- Root `moon.pkg` — for `moon test` linking
+- `main/moon.pkg` — for the actual build
 
-macOS framework link flags (`-framework Cocoa`, etc.) must be in **both** `moon.pkg` (root library) and `main/moon.pkg` (`is-main`). The library package needs them for `moon test` linking. Use `moon build --target native main/` to avoid the spurious `_main` undefined error from the library package.
+Use `moon build --target native main/` to avoid the spurious `_main` undefined error from library packages with `cc-link-flags`.
 
 ## Critical FFI Rules
 
@@ -77,5 +87,5 @@ macOS framework link flags (`-framework Cocoa`, etc.) must be in **both** `moon.
 ## Conventions
 
 - Use conventional commits (e.g., `feat:`, `fix:`, `refactor:`)
-- Generated C/M files (from `setup.sh`) are gitignored — only `stub.c` is tracked
+- Generated C files (from `setup.sh`) are gitignored — only `stub.c` and `rglfw.m` are tracked
 - `external/` directory (raylib source tree) is gitignored

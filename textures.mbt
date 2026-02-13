@@ -1,48 +1,27 @@
-// ============================================================================
-// Image loading
-// ============================================================================
+// Re-export passthrough functions from internal FFI layer
+pub using @raylib {
+  unload_image,
+  load_texture_from_image,
+  is_texture_valid,
+  unload_texture,
+  load_render_texture,
+  is_render_texture_valid,
+  unload_render_texture,
+}
 
-///|
-#borrow(file_name)
-extern "c" fn raylib_load_image(file_name : Bytes) -> Image = "moonbit_raylib_load_image"
+// ============================================================================
+// Image loading (wrappers)
+// ============================================================================
 
 ///|
 pub fn load_image(file_name : String) -> Image {
-  raylib_load_image(@utf8.encode(file_name))
+  @raylib.load_image(@utf8.encode(file_name))
 }
-
-///|
-#borrow(image)
-extern "c" fn raylib_unload_image(image : Image) = "moonbit_raylib_unload_image"
-
-///|
-pub fn unload_image(image : Image) -> Unit {
-  raylib_unload_image(image)
-}
-
-///|
-#borrow(color)
-extern "c" fn raylib_gen_image_color(
-  width : Int,
-  height : Int,
-  color : Bytes,
-) -> Image = "moonbit_raylib_gen_image_color"
 
 ///|
 pub fn gen_image_color(width : Int, height : Int, color : Color) -> Image {
-  raylib_gen_image_color(width, height, color.to_bytes())
+  @raylib.gen_image_color(width, height, color.to_bytes())
 }
-
-///|
-#borrow(col1, col2)
-extern "c" fn raylib_gen_image_checked(
-  width : Int,
-  height : Int,
-  checks_x : Int,
-  checks_y : Int,
-  col1 : Bytes,
-  col2 : Bytes,
-) -> Image = "moonbit_raylib_gen_image_checked"
 
 ///|
 pub fn gen_image_checked(
@@ -53,7 +32,7 @@ pub fn gen_image_checked(
   col1 : Color,
   col2 : Color,
 ) -> Image {
-  raylib_gen_image_checked(
+  @raylib.gen_image_checked(
     width,
     height,
     checks_x,
@@ -64,86 +43,17 @@ pub fn gen_image_checked(
 }
 
 // ============================================================================
-// Texture loading
+// Texture loading (wrappers)
 // ============================================================================
-
-///|
-#borrow(file_name)
-extern "c" fn raylib_load_texture(file_name : Bytes) -> Texture = "moonbit_raylib_load_texture"
 
 ///|
 pub fn load_texture(file_name : String) -> Texture {
-  raylib_load_texture(@utf8.encode(file_name))
-}
-
-///|
-#borrow(image)
-extern "c" fn raylib_load_texture_from_image(image : Image) -> Texture = "moonbit_raylib_load_texture_from_image"
-
-///|
-pub fn load_texture_from_image(image : Image) -> Texture {
-  raylib_load_texture_from_image(image)
-}
-
-///|
-#borrow(texture)
-extern "c" fn raylib_is_texture_valid(texture : Texture) -> Bool = "moonbit_raylib_is_texture_valid"
-
-///|
-pub fn is_texture_valid(texture : Texture) -> Bool {
-  raylib_is_texture_valid(texture)
-}
-
-///|
-#borrow(texture)
-extern "c" fn raylib_unload_texture(texture : Texture) = "moonbit_raylib_unload_texture"
-
-///|
-pub fn unload_texture(texture : Texture) -> Unit {
-  raylib_unload_texture(texture)
-}
-
-///|
-extern "c" fn raylib_load_render_texture(
-  width : Int,
-  height : Int,
-) -> RenderTexture = "moonbit_raylib_load_render_texture"
-
-///|
-pub fn load_render_texture(width : Int, height : Int) -> RenderTexture {
-  raylib_load_render_texture(width, height)
-}
-
-///|
-#borrow(target)
-extern "c" fn raylib_is_render_texture_valid(target : RenderTexture) -> Bool = "moonbit_raylib_is_render_texture_valid"
-
-///|
-pub fn is_render_texture_valid(target : RenderTexture) -> Bool {
-  raylib_is_render_texture_valid(target)
-}
-
-///|
-#borrow(target)
-extern "c" fn raylib_unload_render_texture(target : RenderTexture) = "moonbit_raylib_unload_render_texture"
-
-///|
-pub fn unload_render_texture(target : RenderTexture) -> Unit {
-  raylib_unload_render_texture(target)
+  @raylib.load_texture(@utf8.encode(file_name))
 }
 
 // ============================================================================
-// Texture drawing
+// Texture drawing (wrappers)
 // ============================================================================
-
-///|
-#borrow(texture, tint)
-extern "c" fn raylib_draw_texture(
-  texture : Texture,
-  pos_x : Int,
-  pos_y : Int,
-  tint : Bytes,
-) = "moonbit_raylib_draw_texture"
 
 ///|
 pub fn draw_texture(
@@ -152,16 +62,8 @@ pub fn draw_texture(
   pos_y : Int,
   tint : Color,
 ) -> Unit {
-  raylib_draw_texture(texture, pos_x, pos_y, tint.to_bytes())
+  @raylib.draw_texture(texture, pos_x, pos_y, tint.to_bytes())
 }
-
-///|
-#borrow(texture, position, tint)
-extern "c" fn raylib_draw_texture_v(
-  texture : Texture,
-  position : Bytes,
-  tint : Bytes,
-) = "moonbit_raylib_draw_texture_v"
 
 ///|
 pub fn draw_texture_v(
@@ -169,18 +71,8 @@ pub fn draw_texture_v(
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  raylib_draw_texture_v(texture, position.to_bytes(), tint.to_bytes())
+  @raylib.draw_texture_v(texture, position.to_bytes(), tint.to_bytes())
 }
-
-///|
-#borrow(texture, position, tint)
-extern "c" fn raylib_draw_texture_ex(
-  texture : Texture,
-  position : Bytes,
-  rotation : Float,
-  scale : Float,
-  tint : Bytes,
-) = "moonbit_raylib_draw_texture_ex"
 
 ///|
 pub fn draw_texture_ex(
@@ -190,7 +82,7 @@ pub fn draw_texture_ex(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  raylib_draw_texture_ex(
+  @raylib.draw_texture_ex(
     texture,
     position.to_bytes(),
     rotation,
@@ -200,39 +92,19 @@ pub fn draw_texture_ex(
 }
 
 ///|
-#borrow(texture, source, position, tint)
-extern "c" fn raylib_draw_texture_rec(
-  texture : Texture,
-  source : Bytes,
-  position : Bytes,
-  tint : Bytes,
-) = "moonbit_raylib_draw_texture_rec"
-
-///|
 pub fn draw_texture_rec(
   texture : Texture,
   source : Rectangle,
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  raylib_draw_texture_rec(
+  @raylib.draw_texture_rec(
     texture,
     source.to_bytes(),
     position.to_bytes(),
     tint.to_bytes(),
   )
 }
-
-///|
-#borrow(texture, source, dest, origin, tint)
-extern "c" fn raylib_draw_texture_pro(
-  texture : Texture,
-  source : Bytes,
-  dest : Bytes,
-  origin : Bytes,
-  rotation : Float,
-  tint : Bytes,
-) = "moonbit_raylib_draw_texture_pro"
 
 ///|
 pub fn draw_texture_pro(
@@ -243,7 +115,7 @@ pub fn draw_texture_pro(
   rotation : Float,
   tint : Color,
 ) -> Unit {
-  raylib_draw_texture_pro(
+  @raylib.draw_texture_pro(
     texture,
     source.to_bytes(),
     dest.to_bytes(),

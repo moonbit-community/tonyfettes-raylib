@@ -1,0 +1,21 @@
+import {}
+
+options(
+  link: {
+    "native": {
+      "cc-link-flags": "-framework IOKit -framework Cocoa -framework OpenGL -framework CoreVideo -framework CoreAudio -framework AudioToolbox -framework CoreFoundation",
+      "stub-cc-flags": "-Iexternal/raylib/src -Iexternal/raylib/src/external/glfw/include -DPLATFORM_DESKTOP_GLFW",
+    },
+  },
+  "native-stub": [
+    "rglfw.m",
+    "utils.c",
+    "rcore.c",
+    "rshapes.c",
+    "rtextures.c",
+    "rtext.c",
+    "rmodels.c",
+    "raudio.c",
+    "stub.c",
+  ],
+)
