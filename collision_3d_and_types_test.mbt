@@ -66,10 +66,7 @@ test "check_collision_box_sphere - outside" {
 ///|
 test "get_ray_collision_sphere - hit" {
   // Ray at origin pointing along +X, sphere at (10,0,0) with radius 2
-  let ray = Ray::new(
-    Vector3::new(0.0, 0.0, 0.0),
-    Vector3::new(1.0, 0.0, 0.0),
-  )
+  let ray = Ray::new(Vector3::new(0.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0))
   let center = Vector3::new(10.0, 0.0, 0.0)
   let result = get_ray_collision_sphere(ray, center, 2.0)
   assert_true(result.hit)
@@ -79,10 +76,7 @@ test "get_ray_collision_sphere - hit" {
 ///|
 test "get_ray_collision_sphere - miss" {
   // Ray at origin pointing along +X, sphere far away on Y axis
-  let ray = Ray::new(
-    Vector3::new(0.0, 0.0, 0.0),
-    Vector3::new(1.0, 0.0, 0.0),
-  )
+  let ray = Ray::new(Vector3::new(0.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0))
   let center = Vector3::new(0.0, 100.0, 0.0)
   let result = get_ray_collision_sphere(ray, center, 1.0)
   assert_true(not(result.hit))
@@ -91,10 +85,7 @@ test "get_ray_collision_sphere - miss" {
 ///|
 test "get_ray_collision_box - hit" {
   // Ray at origin pointing along +X, box ahead on X axis
-  let ray = Ray::new(
-    Vector3::new(0.0, 0.0, 0.0),
-    Vector3::new(1.0, 0.0, 0.0),
-  )
+  let ray = Ray::new(Vector3::new(0.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0))
   let box_ = BoundingBox::new(
     Vector3::new(5.0, -1.0, -1.0),
     Vector3::new(7.0, 1.0, 1.0),
@@ -107,10 +98,7 @@ test "get_ray_collision_box - hit" {
 ///|
 test "get_ray_collision_box - miss" {
   // Ray at origin pointing along +X, box is off to the side on Y axis
-  let ray = Ray::new(
-    Vector3::new(0.0, 0.0, 0.0),
-    Vector3::new(1.0, 0.0, 0.0),
-  )
+  let ray = Ray::new(Vector3::new(0.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0))
   let box_ = BoundingBox::new(
     Vector3::new(5.0, 50.0, 50.0),
     Vector3::new(7.0, 52.0, 52.0),
@@ -135,10 +123,7 @@ test "check_collision_point_triangle - inside and outside" {
 ///|
 test "RayCollision field accessors from real collision" {
   // Ray aimed directly at a sphere => guaranteed hit with known geometry
-  let ray = Ray::new(
-    Vector3::new(0.0, 0.0, 0.0),
-    Vector3::new(1.0, 0.0, 0.0),
-  )
+  let ray = Ray::new(Vector3::new(0.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0))
   let center = Vector3::new(10.0, 0.0, 0.0)
   let radius : Float = 2.0
   let rc = get_ray_collision_sphere(ray, center, radius)
