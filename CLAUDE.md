@@ -33,7 +33,7 @@ Every raylib binding follows this pattern:
 
 ```moonbit
 #borrow(color)
-extern "c" fn clear_background_ffi(color : Bytes) = "moonbit_ClearBackground"
+extern "c" fn clear_background_ffi(color : Bytes) = "moonbit_raylib_clear_background"
 
 pub fn clear_background(color : Color) -> Unit {
   clear_background_ffi(color.to_bytes())
@@ -50,7 +50,7 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 
 ### Key files
 
-- `stub.c` — All C glue functions (`moonbit_*` wrappers). Functions that take only primitives call raylib directly (no wrapper needed).
+- `stub.c` — All C glue functions (`moonbit_raylib_*` wrappers). Functions that take only primitives call raylib directly (no wrapper needed).
 - `types.mbt` — Struct definitions + Bytes serialization helpers
 - `constants.mbt` — Color constants, key codes, config flags, mouse buttons
 - `core.mbt` — Window, drawing, timing, input, camera

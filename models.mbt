@@ -8,7 +8,7 @@ extern "c" fn draw_line_3d_ffi(
   start_pos : Bytes,
   end_pos : Bytes,
   color : Bytes,
-) = "moonbit_DrawLine3D"
+) = "moonbit_raylib_draw_line_3d"
 
 ///|
 pub fn draw_line_3d(
@@ -21,7 +21,7 @@ pub fn draw_line_3d(
 
 ///|
 #borrow(position, color)
-extern "c" fn draw_point_3d_ffi(position : Bytes, color : Bytes) = "moonbit_DrawPoint3D"
+extern "c" fn draw_point_3d_ffi(position : Bytes, color : Bytes) = "moonbit_raylib_draw_point_3d"
 
 ///|
 pub fn draw_point_3d(position : Vector3, color : Color) -> Unit {
@@ -36,7 +36,7 @@ extern "c" fn draw_circle_3d_ffi(
   rot_axis : Bytes,
   rot_angle : Float,
   color : Bytes,
-) = "moonbit_DrawCircle3D"
+) = "moonbit_raylib_draw_circle_3d"
 
 ///|
 pub fn draw_circle_3d(
@@ -63,7 +63,7 @@ extern "c" fn draw_cube_ffi(
   height : Float,
   length : Float,
   color : Bytes,
-) = "moonbit_DrawCube"
+) = "moonbit_raylib_draw_cube"
 
 ///|
 pub fn draw_cube(
@@ -78,7 +78,7 @@ pub fn draw_cube(
 
 ///|
 #borrow(position, size, color)
-extern "c" fn draw_cube_v_ffi(position : Bytes, size : Bytes, color : Bytes) = "moonbit_DrawCubeV"
+extern "c" fn draw_cube_v_ffi(position : Bytes, size : Bytes, color : Bytes) = "moonbit_raylib_draw_cube_v"
 
 ///|
 pub fn draw_cube_v(position : Vector3, size : Vector3, color : Color) -> Unit {
@@ -93,7 +93,7 @@ extern "c" fn draw_cube_wires_ffi(
   height : Float,
   length : Float,
   color : Bytes,
-) = "moonbit_DrawCubeWires"
+) = "moonbit_raylib_draw_cube_wires"
 
 ///|
 pub fn draw_cube_wires(
@@ -118,7 +118,7 @@ extern "c" fn draw_cube_wires_v_ffi(
   position : Bytes,
   size : Bytes,
   color : Bytes,
-) = "moonbit_DrawCubeWiresV"
+) = "moonbit_raylib_draw_cube_wires_v"
 
 ///|
 pub fn draw_cube_wires_v(
@@ -131,7 +131,7 @@ pub fn draw_cube_wires_v(
 
 ///|
 #borrow(center, color)
-extern "c" fn draw_sphere_ffi(center : Bytes, radius : Float, color : Bytes) = "moonbit_DrawSphere"
+extern "c" fn draw_sphere_ffi(center : Bytes, radius : Float, color : Bytes) = "moonbit_raylib_draw_sphere"
 
 ///|
 pub fn draw_sphere(center : Vector3, radius : Float, color : Color) -> Unit {
@@ -146,7 +146,7 @@ extern "c" fn draw_sphere_ex_ffi(
   rings : Int,
   slices : Int,
   color : Bytes,
-) = "moonbit_DrawSphereEx"
+) = "moonbit_raylib_draw_sphere_ex"
 
 ///|
 pub fn draw_sphere_ex(
@@ -167,7 +167,7 @@ extern "c" fn draw_sphere_wires_ffi(
   rings : Int,
   slices : Int,
   color : Bytes,
-) = "moonbit_DrawSphereWires"
+) = "moonbit_raylib_draw_sphere_wires"
 
 ///|
 pub fn draw_sphere_wires(
@@ -195,7 +195,7 @@ extern "c" fn draw_cylinder_ffi(
   height : Float,
   slices : Int,
   color : Bytes,
-) = "moonbit_DrawCylinder"
+) = "moonbit_raylib_draw_cylinder"
 
 ///|
 pub fn draw_cylinder(
@@ -225,7 +225,7 @@ extern "c" fn draw_cylinder_wires_ffi(
   height : Float,
   slices : Int,
   color : Bytes,
-) = "moonbit_DrawCylinderWires"
+) = "moonbit_raylib_draw_cylinder_wires"
 
 ///|
 pub fn draw_cylinder_wires(
@@ -248,7 +248,7 @@ pub fn draw_cylinder_wires(
 
 ///|
 #borrow(center, size, color)
-extern "c" fn draw_plane_ffi(center : Bytes, size : Bytes, color : Bytes) = "moonbit_DrawPlane"
+extern "c" fn draw_plane_ffi(center : Bytes, size : Bytes, color : Bytes) = "moonbit_raylib_draw_plane"
 
 ///|
 pub fn draw_plane(center : Vector3, size : Vector2, color : Color) -> Unit {
@@ -257,7 +257,7 @@ pub fn draw_plane(center : Vector3, size : Vector2, color : Color) -> Unit {
 
 ///|
 #borrow(ray, color)
-extern "c" fn draw_ray_ffi(ray : Bytes, color : Bytes) = "moonbit_DrawRay"
+extern "c" fn draw_ray_ffi(ray : Bytes, color : Bytes) = "moonbit_raylib_draw_ray"
 
 ///|
 pub fn draw_ray(ray : Ray, color : Color) -> Unit {
@@ -274,7 +274,7 @@ pub fn draw_grid(slices : Int, spacing : Float) -> Unit {
 
 ///|
 #borrow(box_, color)
-extern "c" fn draw_bounding_box_ffi(box_ : Bytes, color : Bytes) = "moonbit_DrawBoundingBox"
+extern "c" fn draw_bounding_box_ffi(box_ : Bytes, color : Bytes) = "moonbit_raylib_draw_bounding_box"
 
 ///|
 pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
@@ -287,7 +287,7 @@ pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
 
 ///|
 #borrow(file_name)
-extern "c" fn load_model_ffi(file_name : Bytes) -> Model = "moonbit_LoadModel"
+extern "c" fn load_model_ffi(file_name : Bytes) -> Model = "moonbit_raylib_load_model"
 
 ///|
 pub fn load_model(file_name : String) -> Model {
@@ -296,7 +296,7 @@ pub fn load_model(file_name : String) -> Model {
 
 ///|
 #borrow(model)
-extern "c" fn unload_model_ffi(model : Model) = "moonbit_UnloadModel"
+extern "c" fn unload_model_ffi(model : Model) = "moonbit_raylib_unload_model"
 
 ///|
 pub fn unload_model(model : Model) -> Unit {
@@ -310,7 +310,7 @@ extern "c" fn draw_model_ffi(
   position : Bytes,
   scale : Float,
   tint : Bytes,
-) = "moonbit_DrawModel"
+) = "moonbit_raylib_draw_model"
 
 ///|
 pub fn draw_model(
@@ -333,7 +333,7 @@ extern "c" fn check_collision_spheres_ffi(
   radius1 : Float,
   center2 : Bytes,
   radius2 : Float,
-) -> Bool = "moonbit_CheckCollisionSpheres"
+) -> Bool = "moonbit_raylib_check_collision_spheres"
 
 ///|
 pub fn check_collision_spheres(
@@ -352,7 +352,7 @@ pub fn check_collision_spheres(
 
 ///|
 #borrow(box1, box2)
-extern "c" fn check_collision_boxes_ffi(box1 : Bytes, box2 : Bytes) -> Bool = "moonbit_CheckCollisionBoxes"
+extern "c" fn check_collision_boxes_ffi(box1 : Bytes, box2 : Bytes) -> Bool = "moonbit_raylib_check_collision_boxes"
 
 ///|
 pub fn check_collision_boxes(box1 : BoundingBox, box2 : BoundingBox) -> Bool {
@@ -365,7 +365,7 @@ extern "c" fn check_collision_box_sphere_ffi(
   box_ : Bytes,
   center : Bytes,
   radius : Float,
-) -> Bool = "moonbit_CheckCollisionBoxSphere"
+) -> Bool = "moonbit_raylib_check_collision_box_sphere"
 
 ///|
 pub fn check_collision_box_sphere(
@@ -382,7 +382,7 @@ extern "c" fn get_ray_collision_sphere_ffi(
   ray : Bytes,
   center : Bytes,
   radius : Float,
-) -> Bytes = "moonbit_GetRayCollisionSphere"
+) -> Bytes = "moonbit_raylib_get_ray_collision_sphere"
 
 ///|
 pub fn get_ray_collision_sphere(
@@ -397,7 +397,7 @@ pub fn get_ray_collision_sphere(
 
 ///|
 #borrow(ray, box_)
-extern "c" fn get_ray_collision_box_ffi(ray : Bytes, box_ : Bytes) -> Bytes = "moonbit_GetRayCollisionBox"
+extern "c" fn get_ray_collision_box_ffi(ray : Bytes, box_ : Bytes) -> Bytes = "moonbit_raylib_get_ray_collision_box"
 
 ///|
 pub fn get_ray_collision_box(ray : Ray, box_ : BoundingBox) -> RayCollision {

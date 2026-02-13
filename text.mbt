@@ -3,7 +3,7 @@
 // ============================================================================
 
 ///|
-extern "c" fn get_font_default_ffi() -> Font = "moonbit_GetFontDefault"
+extern "c" fn get_font_default_ffi() -> Font = "moonbit_raylib_get_font_default"
 
 ///|
 pub fn get_font_default() -> Font {
@@ -12,7 +12,7 @@ pub fn get_font_default() -> Font {
 
 ///|
 #borrow(file_name)
-extern "c" fn load_font_ffi(file_name : Bytes) -> Font = "moonbit_LoadFont"
+extern "c" fn load_font_ffi(file_name : Bytes) -> Font = "moonbit_raylib_load_font"
 
 ///|
 pub fn load_font(file_name : String) -> Font {
@@ -21,7 +21,7 @@ pub fn load_font(file_name : String) -> Font {
 
 ///|
 #borrow(file_name)
-extern "c" fn load_font_ex_ffi(file_name : Bytes, font_size : Int) -> Font = "moonbit_LoadFontEx"
+extern "c" fn load_font_ex_ffi(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
 
 ///|
 pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
@@ -30,7 +30,7 @@ pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
 
 ///|
 #borrow(font)
-extern "c" fn is_font_valid_ffi(font : Font) -> Bool = "moonbit_IsFontValid"
+extern "c" fn is_font_valid_ffi(font : Font) -> Bool = "moonbit_raylib_is_font_valid"
 
 ///|
 pub fn is_font_valid(font : Font) -> Bool {
@@ -39,7 +39,7 @@ pub fn is_font_valid(font : Font) -> Bool {
 
 ///|
 #borrow(font)
-extern "c" fn unload_font_ffi(font : Font) = "moonbit_UnloadFont"
+extern "c" fn unload_font_ffi(font : Font) = "moonbit_raylib_unload_font"
 
 ///|
 pub fn unload_font(font : Font) -> Unit {
@@ -66,7 +66,7 @@ extern "c" fn draw_text_ffi(
   pos_y : Int,
   font_size : Int,
   color : Bytes,
-) = "moonbit_DrawText"
+) = "moonbit_raylib_draw_text"
 
 ///|
 pub fn draw_text(
@@ -88,7 +88,7 @@ extern "c" fn draw_text_ex_ffi(
   font_size : Float,
   spacing : Float,
   tint : Bytes,
-) = "moonbit_DrawTextEx"
+) = "moonbit_raylib_draw_text_ex"
 
 ///|
 pub fn draw_text_ex(
@@ -120,7 +120,7 @@ extern "c" fn draw_text_pro_ffi(
   font_size : Float,
   spacing : Float,
   tint : Bytes,
-) = "moonbit_DrawTextPro"
+) = "moonbit_raylib_draw_text_pro"
 
 ///|
 pub fn draw_text_pro(
@@ -151,7 +151,7 @@ pub fn draw_text_pro(
 
 ///|
 #borrow(text)
-extern "c" fn measure_text_ffi(text : Bytes, font_size : Int) -> Int = "moonbit_MeasureText"
+extern "c" fn measure_text_ffi(text : Bytes, font_size : Int) -> Int = "moonbit_raylib_measure_text"
 
 ///|
 pub fn measure_text(text : String, font_size : Int) -> Int {
@@ -165,7 +165,7 @@ extern "c" fn measure_text_ex_ffi(
   text : Bytes,
   font_size : Float,
   spacing : Float,
-) -> Bytes = "moonbit_MeasureTextEx"
+) -> Bytes = "moonbit_raylib_measure_text_ex"
 
 ///|
 pub fn measure_text_ex(

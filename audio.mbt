@@ -48,7 +48,7 @@ pub fn get_master_volume() -> Float {
 
 ///|
 #borrow(file_name)
-extern "c" fn load_sound_ffi(file_name : Bytes) -> Sound = "moonbit_LoadSound"
+extern "c" fn load_sound_ffi(file_name : Bytes) -> Sound = "moonbit_raylib_load_sound"
 
 ///|
 pub fn load_sound(file_name : String) -> Sound {
@@ -57,7 +57,7 @@ pub fn load_sound(file_name : String) -> Sound {
 
 ///|
 #borrow(sound)
-extern "c" fn unload_sound_ffi(sound : Sound) = "moonbit_UnloadSound"
+extern "c" fn unload_sound_ffi(sound : Sound) = "moonbit_raylib_unload_sound"
 
 ///|
 pub fn unload_sound(sound : Sound) -> Unit {
@@ -66,7 +66,7 @@ pub fn unload_sound(sound : Sound) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn play_sound_ffi(sound : Sound) = "moonbit_PlaySound"
+extern "c" fn play_sound_ffi(sound : Sound) = "moonbit_raylib_play_sound"
 
 ///|
 pub fn play_sound(sound : Sound) -> Unit {
@@ -75,7 +75,7 @@ pub fn play_sound(sound : Sound) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn stop_sound_ffi(sound : Sound) = "moonbit_StopSound"
+extern "c" fn stop_sound_ffi(sound : Sound) = "moonbit_raylib_stop_sound"
 
 ///|
 pub fn stop_sound(sound : Sound) -> Unit {
@@ -84,7 +84,7 @@ pub fn stop_sound(sound : Sound) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn pause_sound_ffi(sound : Sound) = "moonbit_PauseSound"
+extern "c" fn pause_sound_ffi(sound : Sound) = "moonbit_raylib_pause_sound"
 
 ///|
 pub fn pause_sound(sound : Sound) -> Unit {
@@ -93,7 +93,7 @@ pub fn pause_sound(sound : Sound) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn resume_sound_ffi(sound : Sound) = "moonbit_ResumeSound"
+extern "c" fn resume_sound_ffi(sound : Sound) = "moonbit_raylib_resume_sound"
 
 ///|
 pub fn resume_sound(sound : Sound) -> Unit {
@@ -102,7 +102,7 @@ pub fn resume_sound(sound : Sound) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn is_sound_playing_ffi(sound : Sound) -> Bool = "moonbit_IsSoundPlaying"
+extern "c" fn is_sound_playing_ffi(sound : Sound) -> Bool = "moonbit_raylib_is_sound_playing"
 
 ///|
 pub fn is_sound_playing(sound : Sound) -> Bool {
@@ -111,7 +111,7 @@ pub fn is_sound_playing(sound : Sound) -> Bool {
 
 ///|
 #borrow(sound)
-extern "c" fn set_sound_volume_ffi(sound : Sound, volume : Float) = "moonbit_SetSoundVolume"
+extern "c" fn set_sound_volume_ffi(sound : Sound, volume : Float) = "moonbit_raylib_set_sound_volume"
 
 ///|
 pub fn set_sound_volume(sound : Sound, volume : Float) -> Unit {
@@ -120,7 +120,7 @@ pub fn set_sound_volume(sound : Sound, volume : Float) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn set_sound_pitch_ffi(sound : Sound, pitch : Float) = "moonbit_SetSoundPitch"
+extern "c" fn set_sound_pitch_ffi(sound : Sound, pitch : Float) = "moonbit_raylib_set_sound_pitch"
 
 ///|
 pub fn set_sound_pitch(sound : Sound, pitch : Float) -> Unit {
@@ -129,7 +129,7 @@ pub fn set_sound_pitch(sound : Sound, pitch : Float) -> Unit {
 
 ///|
 #borrow(sound)
-extern "c" fn set_sound_pan_ffi(sound : Sound, pan : Float) = "moonbit_SetSoundPan"
+extern "c" fn set_sound_pan_ffi(sound : Sound, pan : Float) = "moonbit_raylib_set_sound_pan"
 
 ///|
 pub fn set_sound_pan(sound : Sound, pan : Float) -> Unit {
@@ -142,7 +142,7 @@ pub fn set_sound_pan(sound : Sound, pan : Float) -> Unit {
 
 ///|
 #borrow(file_name)
-extern "c" fn load_music_stream_ffi(file_name : Bytes) -> Music = "moonbit_LoadMusicStream"
+extern "c" fn load_music_stream_ffi(file_name : Bytes) -> Music = "moonbit_raylib_load_music_stream"
 
 ///|
 pub fn load_music_stream(file_name : String) -> Music {
@@ -151,7 +151,7 @@ pub fn load_music_stream(file_name : String) -> Music {
 
 ///|
 #borrow(music)
-extern "c" fn unload_music_stream_ffi(music : Music) = "moonbit_UnloadMusicStream"
+extern "c" fn unload_music_stream_ffi(music : Music) = "moonbit_raylib_unload_music_stream"
 
 ///|
 pub fn unload_music_stream(music : Music) -> Unit {
@@ -160,7 +160,7 @@ pub fn unload_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn play_music_stream_ffi(music : Music) = "moonbit_PlayMusicStream"
+extern "c" fn play_music_stream_ffi(music : Music) = "moonbit_raylib_play_music_stream"
 
 ///|
 pub fn play_music_stream(music : Music) -> Unit {
@@ -169,7 +169,7 @@ pub fn play_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn stop_music_stream_ffi(music : Music) = "moonbit_StopMusicStream"
+extern "c" fn stop_music_stream_ffi(music : Music) = "moonbit_raylib_stop_music_stream"
 
 ///|
 pub fn stop_music_stream(music : Music) -> Unit {
@@ -178,7 +178,7 @@ pub fn stop_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn pause_music_stream_ffi(music : Music) = "moonbit_PauseMusicStream"
+extern "c" fn pause_music_stream_ffi(music : Music) = "moonbit_raylib_pause_music_stream"
 
 ///|
 pub fn pause_music_stream(music : Music) -> Unit {
@@ -187,7 +187,7 @@ pub fn pause_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn resume_music_stream_ffi(music : Music) = "moonbit_ResumeMusicStream"
+extern "c" fn resume_music_stream_ffi(music : Music) = "moonbit_raylib_resume_music_stream"
 
 ///|
 pub fn resume_music_stream(music : Music) -> Unit {
@@ -196,7 +196,7 @@ pub fn resume_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn update_music_stream_ffi(music : Music) = "moonbit_UpdateMusicStream"
+extern "c" fn update_music_stream_ffi(music : Music) = "moonbit_raylib_update_music_stream"
 
 ///|
 pub fn update_music_stream(music : Music) -> Unit {
@@ -205,7 +205,7 @@ pub fn update_music_stream(music : Music) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn is_music_stream_playing_ffi(music : Music) -> Bool = "moonbit_IsMusicStreamPlaying"
+extern "c" fn is_music_stream_playing_ffi(music : Music) -> Bool = "moonbit_raylib_is_music_stream_playing"
 
 ///|
 pub fn is_music_stream_playing(music : Music) -> Bool {
@@ -214,7 +214,7 @@ pub fn is_music_stream_playing(music : Music) -> Bool {
 
 ///|
 #borrow(music)
-extern "c" fn set_music_volume_ffi(music : Music, volume : Float) = "moonbit_SetMusicVolume"
+extern "c" fn set_music_volume_ffi(music : Music, volume : Float) = "moonbit_raylib_set_music_volume"
 
 ///|
 pub fn set_music_volume(music : Music, volume : Float) -> Unit {
@@ -223,7 +223,7 @@ pub fn set_music_volume(music : Music, volume : Float) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn set_music_pitch_ffi(music : Music, pitch : Float) = "moonbit_SetMusicPitch"
+extern "c" fn set_music_pitch_ffi(music : Music, pitch : Float) = "moonbit_raylib_set_music_pitch"
 
 ///|
 pub fn set_music_pitch(music : Music, pitch : Float) -> Unit {
@@ -232,7 +232,7 @@ pub fn set_music_pitch(music : Music, pitch : Float) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn seek_music_stream_ffi(music : Music, position : Float) = "moonbit_SeekMusicStream"
+extern "c" fn seek_music_stream_ffi(music : Music, position : Float) = "moonbit_raylib_seek_music_stream"
 
 ///|
 pub fn seek_music_stream(music : Music, position : Float) -> Unit {
@@ -241,7 +241,7 @@ pub fn seek_music_stream(music : Music, position : Float) -> Unit {
 
 ///|
 #borrow(music)
-extern "c" fn get_music_time_length_ffi(music : Music) -> Float = "moonbit_GetMusicTimeLength"
+extern "c" fn get_music_time_length_ffi(music : Music) -> Float = "moonbit_raylib_get_music_time_length"
 
 ///|
 pub fn get_music_time_length(music : Music) -> Float {
@@ -250,7 +250,7 @@ pub fn get_music_time_length(music : Music) -> Float {
 
 ///|
 #borrow(music)
-extern "c" fn get_music_time_played_ffi(music : Music) -> Float = "moonbit_GetMusicTimePlayed"
+extern "c" fn get_music_time_played_ffi(music : Music) -> Float = "moonbit_raylib_get_music_time_played"
 
 ///|
 pub fn get_music_time_played(music : Music) -> Float {

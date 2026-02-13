@@ -4,7 +4,7 @@
 
 ///|
 #borrow(title)
-extern "c" fn init_window_ffi(width : Int, height : Int, title : Bytes) = "moonbit_InitWindow"
+extern "c" fn init_window_ffi(width : Int, height : Int, title : Bytes) = "moonbit_raylib_init_window"
 
 ///|
 pub fn init_window(width : Int, height : Int, title : String) -> Unit {
@@ -85,7 +85,7 @@ pub fn is_window_resized() -> Bool {
 
 ///|
 #borrow(title)
-extern "c" fn set_window_title_ffi(title : Bytes) = "moonbit_SetWindowTitle"
+extern "c" fn set_window_title_ffi(title : Bytes) = "moonbit_raylib_set_window_title"
 
 ///|
 pub fn set_window_title(title : String) -> Unit {
@@ -294,7 +294,7 @@ pub fn is_cursor_on_screen() -> Bool {
 
 ///|
 #borrow(color)
-extern "c" fn clear_background_ffi(color : Bytes) = "moonbit_ClearBackground"
+extern "c" fn clear_background_ffi(color : Bytes) = "moonbit_raylib_clear_background"
 
 ///|
 pub fn clear_background(color : Color) -> Unit {
@@ -319,7 +319,7 @@ pub fn end_drawing() -> Unit {
 
 ///|
 #borrow(camera)
-extern "c" fn begin_mode_2d_ffi(camera : Bytes) = "moonbit_BeginMode2D"
+extern "c" fn begin_mode_2d_ffi(camera : Bytes) = "moonbit_raylib_begin_mode_2d"
 
 ///|
 pub fn begin_mode_2d(camera : Camera2D) -> Unit {
@@ -336,7 +336,7 @@ pub fn end_mode_2d() -> Unit {
 
 ///|
 #borrow(camera)
-extern "c" fn begin_mode_3d_ffi(camera : Bytes) = "moonbit_BeginMode3D"
+extern "c" fn begin_mode_3d_ffi(camera : Bytes) = "moonbit_raylib_begin_mode_3d"
 
 ///|
 pub fn begin_mode_3d(camera : Camera3D) -> Unit {
@@ -390,7 +390,7 @@ pub fn end_blend_mode() -> Unit {
 
 ///|
 #borrow(target)
-extern "c" fn begin_texture_mode_ffi(target : RenderTexture) = "moonbit_BeginTextureMode"
+extern "c" fn begin_texture_mode_ffi(target : RenderTexture) = "moonbit_raylib_begin_texture_mode"
 
 ///|
 pub fn begin_texture_mode(target : RenderTexture) -> Unit {
@@ -562,7 +562,7 @@ pub fn get_mouse_y() -> Int {
 }
 
 ///|
-extern "c" fn get_mouse_position_ffi() -> Bytes = "moonbit_GetMousePosition"
+extern "c" fn get_mouse_position_ffi() -> Bytes = "moonbit_raylib_get_mouse_position"
 
 ///|
 pub fn get_mouse_position() -> Vector2 {
@@ -570,7 +570,7 @@ pub fn get_mouse_position() -> Vector2 {
 }
 
 ///|
-extern "c" fn get_mouse_delta_ffi() -> Bytes = "moonbit_GetMouseDelta"
+extern "c" fn get_mouse_delta_ffi() -> Bytes = "moonbit_raylib_get_mouse_delta"
 
 ///|
 pub fn get_mouse_delta() -> Vector2 {
@@ -610,7 +610,7 @@ pub fn get_mouse_wheel_move() -> Float {
 }
 
 ///|
-extern "c" fn get_mouse_wheel_move_v_ffi() -> Bytes = "moonbit_GetMouseWheelMoveV"
+extern "c" fn get_mouse_wheel_move_v_ffi() -> Bytes = "moonbit_raylib_get_mouse_wheel_move_v"
 
 ///|
 pub fn get_mouse_wheel_move_v() -> Vector2 {
@@ -631,7 +631,7 @@ pub fn set_mouse_cursor(cursor : Int) -> Unit {
 
 ///|
 #borrow(camera)
-extern "c" fn update_camera_ffi(camera : Bytes, mode : Int) -> Bytes = "moonbit_UpdateCamera"
+extern "c" fn update_camera_ffi(camera : Bytes, mode : Int) -> Bytes = "moonbit_raylib_update_camera"
 
 ///|
 pub fn update_camera(camera : Camera3D, mode : Int) -> Camera3D {
@@ -645,7 +645,7 @@ extern "c" fn update_camera_pro_ffi(
   movement : Bytes,
   rotation : Bytes,
   zoom : Float,
-) -> Bytes = "moonbit_UpdateCameraPro"
+) -> Bytes = "moonbit_raylib_update_camera_pro"
 
 ///|
 pub fn update_camera_pro(
@@ -669,7 +669,7 @@ pub fn update_camera_pro(
 extern "c" fn get_world_to_screen_ffi(
   position : Bytes,
   camera : Bytes,
-) -> Bytes = "moonbit_GetWorldToScreen"
+) -> Bytes = "moonbit_raylib_get_world_to_screen"
 
 ///|
 pub fn get_world_to_screen(position : Vector3, camera : Camera3D) -> Vector2 {
@@ -683,7 +683,7 @@ pub fn get_world_to_screen(position : Vector3, camera : Camera3D) -> Vector2 {
 extern "c" fn get_screen_to_world_2d_ffi(
   position : Bytes,
   camera : Bytes,
-) -> Bytes = "moonbit_GetScreenToWorld2D"
+) -> Bytes = "moonbit_raylib_get_screen_to_world_2d"
 
 ///|
 pub fn get_screen_to_world_2d(position : Vector2, camera : Camera2D) -> Vector2 {
@@ -697,7 +697,7 @@ pub fn get_screen_to_world_2d(position : Vector2, camera : Camera2D) -> Vector2 
 extern "c" fn get_world_to_screen_2d_ffi(
   position : Bytes,
   camera : Bytes,
-) -> Bytes = "moonbit_GetWorldToScreen2D"
+) -> Bytes = "moonbit_raylib_get_world_to_screen_2d"
 
 ///|
 pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 {
@@ -720,7 +720,7 @@ pub fn set_trace_log_level(log_level : Int) -> Unit {
 
 ///|
 #borrow(file_name)
-extern "c" fn take_screenshot_ffi(file_name : Bytes) = "moonbit_TakeScreenshot"
+extern "c" fn take_screenshot_ffi(file_name : Bytes) = "moonbit_raylib_take_screenshot"
 
 ///|
 pub fn take_screenshot(file_name : String) -> Unit {
@@ -729,7 +729,7 @@ pub fn take_screenshot(file_name : String) -> Unit {
 
 ///|
 #borrow(url)
-extern "c" fn open_url_ffi(url : Bytes) = "moonbit_OpenURL"
+extern "c" fn open_url_ffi(url : Bytes) = "moonbit_raylib_open_url"
 
 ///|
 pub fn open_url(url : String) -> Unit {
@@ -758,7 +758,7 @@ pub fn set_random_seed(seed : Int) -> Unit {
 
 ///|
 #borrow(color)
-extern "c" fn fade_ffi(color : Bytes, alpha : Float) -> Bytes = "moonbit_Fade"
+extern "c" fn fade_ffi(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_fade"
 
 ///|
 pub fn fade(color : Color, alpha : Float) -> Color {
@@ -767,7 +767,7 @@ pub fn fade(color : Color, alpha : Float) -> Color {
 
 ///|
 #borrow(color)
-extern "c" fn color_alpha_ffi(color : Bytes, alpha : Float) -> Bytes = "moonbit_ColorAlpha"
+extern "c" fn color_alpha_ffi(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_color_alpha"
 
 ///|
 pub fn color_alpha(color : Color, alpha : Float) -> Color {
@@ -776,7 +776,7 @@ pub fn color_alpha(color : Color, alpha : Float) -> Color {
 
 ///|
 #borrow(color)
-extern "c" fn color_to_int_ffi(color : Bytes) -> Int = "moonbit_ColorToInt"
+extern "c" fn color_to_int_ffi(color : Bytes) -> Int = "moonbit_raylib_color_to_int"
 
 ///|
 pub fn color_to_int(color : Color) -> Int {
@@ -784,7 +784,7 @@ pub fn color_to_int(color : Color) -> Int {
 }
 
 ///|
-extern "c" fn get_color_ffi(hex_value : Int) -> Bytes = "moonbit_GetColor"
+extern "c" fn get_color_ffi(hex_value : Int) -> Bytes = "moonbit_raylib_get_color"
 
 ///|
 pub fn get_color(hex_value : Int) -> Color {
@@ -796,7 +796,7 @@ extern "c" fn color_from_hsv_ffi(
   hue : Float,
   saturation : Float,
   value : Float,
-) -> Bytes = "moonbit_ColorFromHSV"
+) -> Bytes = "moonbit_raylib_color_from_hsv"
 
 ///|
 pub fn color_from_hsv(hue : Float, saturation : Float, value : Float) -> Color {
@@ -805,7 +805,7 @@ pub fn color_from_hsv(hue : Float, saturation : Float, value : Float) -> Color {
 
 ///|
 #borrow(color, tint)
-extern "c" fn color_tint_ffi(color : Bytes, tint : Bytes) -> Bytes = "moonbit_ColorTint"
+extern "c" fn color_tint_ffi(color : Bytes, tint : Bytes) -> Bytes = "moonbit_raylib_color_tint"
 
 ///|
 pub fn color_tint(color : Color, tint : Color) -> Color {
@@ -814,7 +814,7 @@ pub fn color_tint(color : Color, tint : Color) -> Color {
 
 ///|
 #borrow(color)
-extern "c" fn color_brightness_ffi(color : Bytes, factor : Float) -> Bytes = "moonbit_ColorBrightness"
+extern "c" fn color_brightness_ffi(color : Bytes, factor : Float) -> Bytes = "moonbit_raylib_color_brightness"
 
 ///|
 pub fn color_brightness(color : Color, factor : Float) -> Color {
@@ -827,7 +827,7 @@ extern "c" fn color_lerp_ffi(
   color1 : Bytes,
   color2 : Bytes,
   factor : Float,
-) -> Bytes = "moonbit_ColorLerp"
+) -> Bytes = "moonbit_raylib_color_lerp"
 
 ///|
 pub fn color_lerp(color1 : Color, color2 : Color, factor : Float) -> Color {
@@ -838,7 +838,7 @@ pub fn color_lerp(color1 : Color, color2 : Color, factor : Float) -> Color {
 
 ///|
 #borrow(col1, col2)
-extern "c" fn color_is_equal_ffi(col1 : Bytes, col2 : Bytes) -> Bool = "moonbit_ColorIsEqual"
+extern "c" fn color_is_equal_ffi(col1 : Bytes, col2 : Bytes) -> Bool = "moonbit_raylib_color_is_equal"
 
 ///|
 pub fn color_is_equal(col1 : Color, col2 : Color) -> Bool {

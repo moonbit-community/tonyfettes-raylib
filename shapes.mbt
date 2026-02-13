@@ -4,7 +4,7 @@
 
 ///|
 #borrow(color)
-extern "c" fn draw_pixel_ffi(pos_x : Int, pos_y : Int, color : Bytes) = "moonbit_DrawPixel"
+extern "c" fn draw_pixel_ffi(pos_x : Int, pos_y : Int, color : Bytes) = "moonbit_raylib_draw_pixel"
 
 ///|
 pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
@@ -13,7 +13,7 @@ pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
 
 ///|
 #borrow(position, color)
-extern "c" fn draw_pixel_v_ffi(position : Bytes, color : Bytes) = "moonbit_DrawPixelV"
+extern "c" fn draw_pixel_v_ffi(position : Bytes, color : Bytes) = "moonbit_raylib_draw_pixel_v"
 
 ///|
 pub fn draw_pixel_v(position : Vector2, color : Color) -> Unit {
@@ -28,7 +28,7 @@ extern "c" fn draw_line_ffi(
   end_x : Int,
   end_y : Int,
   color : Bytes,
-) = "moonbit_DrawLine"
+) = "moonbit_raylib_draw_line"
 
 ///|
 pub fn draw_line(
@@ -47,7 +47,7 @@ extern "c" fn draw_line_v_ffi(
   start_pos : Bytes,
   end_pos : Bytes,
   color : Bytes,
-) = "moonbit_DrawLineV"
+) = "moonbit_raylib_draw_line_v"
 
 ///|
 pub fn draw_line_v(
@@ -65,7 +65,7 @@ extern "c" fn draw_line_ex_ffi(
   end_pos : Bytes,
   thick : Float,
   color : Bytes,
-) = "moonbit_DrawLineEx"
+) = "moonbit_raylib_draw_line_ex"
 
 ///|
 pub fn draw_line_ex(
@@ -89,7 +89,7 @@ extern "c" fn draw_line_bezier_ffi(
   end_pos : Bytes,
   thick : Float,
   color : Bytes,
-) = "moonbit_DrawLineBezier"
+) = "moonbit_raylib_draw_line_bezier"
 
 ///|
 pub fn draw_line_bezier(
@@ -113,7 +113,7 @@ extern "c" fn draw_circle_ffi(
   center_y : Int,
   radius : Float,
   color : Bytes,
-) = "moonbit_DrawCircle"
+) = "moonbit_raylib_draw_circle"
 
 ///|
 pub fn draw_circle(
@@ -134,7 +134,7 @@ extern "c" fn draw_circle_sector_ffi(
   end_angle : Float,
   segments : Int,
   color : Bytes,
-) = "moonbit_DrawCircleSector"
+) = "moonbit_raylib_draw_circle_sector"
 
 ///|
 pub fn draw_circle_sector(
@@ -163,7 +163,7 @@ extern "c" fn draw_circle_gradient_ffi(
   radius : Float,
   inner : Bytes,
   outer : Bytes,
-) = "moonbit_DrawCircleGradient"
+) = "moonbit_raylib_draw_circle_gradient"
 
 ///|
 pub fn draw_circle_gradient(
@@ -184,7 +184,7 @@ pub fn draw_circle_gradient(
 
 ///|
 #borrow(center, color)
-extern "c" fn draw_circle_v_ffi(center : Bytes, radius : Float, color : Bytes) = "moonbit_DrawCircleV"
+extern "c" fn draw_circle_v_ffi(center : Bytes, radius : Float, color : Bytes) = "moonbit_raylib_draw_circle_v"
 
 ///|
 pub fn draw_circle_v(center : Vector2, radius : Float, color : Color) -> Unit {
@@ -198,7 +198,7 @@ extern "c" fn draw_circle_lines_ffi(
   center_y : Int,
   radius : Float,
   color : Bytes,
-) = "moonbit_DrawCircleLines"
+) = "moonbit_raylib_draw_circle_lines"
 
 ///|
 pub fn draw_circle_lines(
@@ -216,7 +216,7 @@ extern "c" fn draw_circle_lines_v_ffi(
   center : Bytes,
   radius : Float,
   color : Bytes,
-) = "moonbit_DrawCircleLinesV"
+) = "moonbit_raylib_draw_circle_lines_v"
 
 ///|
 pub fn draw_circle_lines_v(
@@ -235,7 +235,7 @@ extern "c" fn draw_ellipse_ffi(
   radius_h : Float,
   radius_v : Float,
   color : Bytes,
-) = "moonbit_DrawEllipse"
+) = "moonbit_raylib_draw_ellipse"
 
 ///|
 pub fn draw_ellipse(
@@ -256,7 +256,7 @@ extern "c" fn draw_ellipse_lines_ffi(
   radius_h : Float,
   radius_v : Float,
   color : Bytes,
-) = "moonbit_DrawEllipseLines"
+) = "moonbit_raylib_draw_ellipse_lines"
 
 ///|
 pub fn draw_ellipse_lines(
@@ -285,7 +285,7 @@ extern "c" fn draw_ring_ffi(
   end_angle : Float,
   segments : Int,
   color : Bytes,
-) = "moonbit_DrawRing"
+) = "moonbit_raylib_draw_ring"
 
 ///|
 pub fn draw_ring(
@@ -318,7 +318,7 @@ extern "c" fn draw_ring_lines_ffi(
   end_angle : Float,
   segments : Int,
   color : Bytes,
-) = "moonbit_DrawRingLines"
+) = "moonbit_raylib_draw_ring_lines"
 
 ///|
 pub fn draw_ring_lines(
@@ -349,7 +349,7 @@ extern "c" fn draw_rectangle_ffi(
   width : Int,
   height : Int,
   color : Bytes,
-) = "moonbit_DrawRectangle"
+) = "moonbit_raylib_draw_rectangle"
 
 ///|
 pub fn draw_rectangle(
@@ -368,7 +368,7 @@ extern "c" fn draw_rectangle_v_ffi(
   position : Bytes,
   size : Bytes,
   color : Bytes,
-) = "moonbit_DrawRectangleV"
+) = "moonbit_raylib_draw_rectangleV"
 
 ///|
 pub fn draw_rectangle_v(
@@ -381,7 +381,7 @@ pub fn draw_rectangle_v(
 
 ///|
 #borrow(rec, color)
-extern "c" fn draw_rectangle_rec_ffi(rec : Bytes, color : Bytes) = "moonbit_DrawRectangleRec"
+extern "c" fn draw_rectangle_rec_ffi(rec : Bytes, color : Bytes) = "moonbit_raylib_draw_rectangle_rec"
 
 ///|
 pub fn draw_rectangle_rec(rec : Rectangle, color : Color) -> Unit {
@@ -395,7 +395,7 @@ extern "c" fn draw_rectangle_pro_ffi(
   origin : Bytes,
   rotation : Float,
   color : Bytes,
-) = "moonbit_DrawRectanglePro"
+) = "moonbit_raylib_draw_rectangle_pro"
 
 ///|
 pub fn draw_rectangle_pro(
@@ -421,7 +421,7 @@ extern "c" fn draw_rectangle_gradient_v_ffi(
   height : Int,
   top : Bytes,
   bottom : Bytes,
-) = "moonbit_DrawRectangleGradientV"
+) = "moonbit_raylib_draw_rectangle_gradient_v"
 
 ///|
 pub fn draw_rectangle_gradient_v(
@@ -451,7 +451,7 @@ extern "c" fn draw_rectangle_gradient_h_ffi(
   height : Int,
   left : Bytes,
   right : Bytes,
-) = "moonbit_DrawRectangleGradientH"
+) = "moonbit_raylib_draw_rectangle_gradient_h"
 
 ///|
 pub fn draw_rectangle_gradient_h(
@@ -480,7 +480,7 @@ extern "c" fn draw_rectangle_gradient_ex_ffi(
   bottom_left : Bytes,
   top_right : Bytes,
   bottom_right : Bytes,
-) = "moonbit_DrawRectangleGradientEx"
+) = "moonbit_raylib_draw_rectangle_gradient_ex"
 
 ///|
 pub fn draw_rectangle_gradient_ex(
@@ -507,7 +507,7 @@ extern "c" fn draw_rectangle_lines_ffi(
   width : Int,
   height : Int,
   color : Bytes,
-) = "moonbit_DrawRectangleLines"
+) = "moonbit_raylib_draw_rectangle_lines"
 
 ///|
 pub fn draw_rectangle_lines(
@@ -526,7 +526,7 @@ extern "c" fn draw_rectangle_lines_ex_ffi(
   rec : Bytes,
   line_thick : Float,
   color : Bytes,
-) = "moonbit_DrawRectangleLinesEx"
+) = "moonbit_raylib_draw_rectangle_lines_ex"
 
 ///|
 pub fn draw_rectangle_lines_ex(
@@ -544,7 +544,7 @@ extern "c" fn draw_rectangle_rounded_ffi(
   roundness : Float,
   segments : Int,
   color : Bytes,
-) = "moonbit_DrawRectangleRounded"
+) = "moonbit_raylib_draw_rectangle_rounded"
 
 ///|
 pub fn draw_rectangle_rounded(
@@ -568,7 +568,7 @@ extern "c" fn draw_rectangle_rounded_lines_ffi(
   roundness : Float,
   segments : Int,
   color : Bytes,
-) = "moonbit_DrawRectangleRoundedLines"
+) = "moonbit_raylib_draw_rectangle_rounded_lines"
 
 ///|
 pub fn draw_rectangle_rounded_lines(
@@ -593,7 +593,7 @@ extern "c" fn draw_rectangle_rounded_lines_ex_ffi(
   segments : Int,
   line_thick : Float,
   color : Bytes,
-) = "moonbit_DrawRectangleRoundedLinesEx"
+) = "moonbit_raylib_draw_rectangle_rounded_lines_ex"
 
 ///|
 pub fn draw_rectangle_rounded_lines_ex(
@@ -619,7 +619,7 @@ extern "c" fn draw_triangle_ffi(
   v2 : Bytes,
   v3 : Bytes,
   color : Bytes,
-) = "moonbit_DrawTriangle"
+) = "moonbit_raylib_draw_triangle"
 
 ///|
 pub fn draw_triangle(
@@ -643,7 +643,7 @@ extern "c" fn draw_triangle_lines_ffi(
   v2 : Bytes,
   v3 : Bytes,
   color : Bytes,
-) = "moonbit_DrawTriangleLines"
+) = "moonbit_raylib_draw_triangle_lines"
 
 ///|
 pub fn draw_triangle_lines(
@@ -668,7 +668,7 @@ extern "c" fn draw_poly_ffi(
   radius : Float,
   rotation : Float,
   color : Bytes,
-) = "moonbit_DrawPoly"
+) = "moonbit_raylib_draw_poly"
 
 ///|
 pub fn draw_poly(
@@ -689,7 +689,7 @@ extern "c" fn draw_poly_lines_ffi(
   radius : Float,
   rotation : Float,
   color : Bytes,
-) = "moonbit_DrawPolyLines"
+) = "moonbit_raylib_draw_poly_lines"
 
 ///|
 pub fn draw_poly_lines(
@@ -717,7 +717,7 @@ extern "c" fn draw_poly_lines_ex_ffi(
   rotation : Float,
   line_thick : Float,
   color : Bytes,
-) = "moonbit_DrawPolyLinesEx"
+) = "moonbit_raylib_draw_poly_lines_ex"
 
 ///|
 pub fn draw_poly_lines_ex(
@@ -744,7 +744,7 @@ pub fn draw_poly_lines_ex(
 
 ///|
 #borrow(rec1, rec2)
-extern "c" fn check_collision_recs_ffi(rec1 : Bytes, rec2 : Bytes) -> Bool = "moonbit_CheckCollisionRecs"
+extern "c" fn check_collision_recs_ffi(rec1 : Bytes, rec2 : Bytes) -> Bool = "moonbit_raylib_check_collision_recs"
 
 ///|
 pub fn check_collision_recs(rec1 : Rectangle, rec2 : Rectangle) -> Bool {
@@ -758,7 +758,7 @@ extern "c" fn check_collision_circles_ffi(
   radius1 : Float,
   center2 : Bytes,
   radius2 : Float,
-) -> Bool = "moonbit_CheckCollisionCircles"
+) -> Bool = "moonbit_raylib_check_collision_circles"
 
 ///|
 pub fn check_collision_circles(
@@ -781,7 +781,7 @@ extern "c" fn check_collision_circle_rec_ffi(
   center : Bytes,
   radius : Float,
   rec : Bytes,
-) -> Bool = "moonbit_CheckCollisionCircleRec"
+) -> Bool = "moonbit_raylib_check_collision_circle_rec"
 
 ///|
 pub fn check_collision_circle_rec(
@@ -794,7 +794,7 @@ pub fn check_collision_circle_rec(
 
 ///|
 #borrow(point, rec)
-extern "c" fn check_collision_point_rec_ffi(point : Bytes, rec : Bytes) -> Bool = "moonbit_CheckCollisionPointRec"
+extern "c" fn check_collision_point_rec_ffi(point : Bytes, rec : Bytes) -> Bool = "moonbit_raylib_check_collision_point_rec"
 
 ///|
 pub fn check_collision_point_rec(point : Vector2, rec : Rectangle) -> Bool {
@@ -807,7 +807,7 @@ extern "c" fn check_collision_point_circle_ffi(
   point : Bytes,
   center : Bytes,
   radius : Float,
-) -> Bool = "moonbit_CheckCollisionPointCircle"
+) -> Bool = "moonbit_raylib_check_collision_point_circle"
 
 ///|
 pub fn check_collision_point_circle(
@@ -825,7 +825,7 @@ extern "c" fn check_collision_point_triangle_ffi(
   p1 : Bytes,
   p2 : Bytes,
   p3 : Bytes,
-) -> Bool = "moonbit_CheckCollisionPointTriangle"
+) -> Bool = "moonbit_raylib_check_collision_point_triangle"
 
 ///|
 pub fn check_collision_point_triangle(
@@ -844,7 +844,7 @@ pub fn check_collision_point_triangle(
 
 ///|
 #borrow(rec1, rec2)
-extern "c" fn get_collision_rec_ffi(rec1 : Bytes, rec2 : Bytes) -> Bytes = "moonbit_GetCollisionRec"
+extern "c" fn get_collision_rec_ffi(rec1 : Bytes, rec2 : Bytes) -> Bytes = "moonbit_raylib_get_collision_rec"
 
 ///|
 pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {

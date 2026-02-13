@@ -4,7 +4,7 @@
 
 ///|
 #borrow(file_name)
-extern "c" fn load_image_ffi(file_name : Bytes) -> Image = "moonbit_LoadImage"
+extern "c" fn load_image_ffi(file_name : Bytes) -> Image = "moonbit_raylib_load_image"
 
 ///|
 pub fn load_image(file_name : String) -> Image {
@@ -13,7 +13,7 @@ pub fn load_image(file_name : String) -> Image {
 
 ///|
 #borrow(image)
-extern "c" fn unload_image_ffi(image : Image) = "moonbit_UnloadImage"
+extern "c" fn unload_image_ffi(image : Image) = "moonbit_raylib_unload_image"
 
 ///|
 pub fn unload_image(image : Image) -> Unit {
@@ -26,7 +26,7 @@ extern "c" fn gen_image_color_ffi(
   width : Int,
   height : Int,
   color : Bytes,
-) -> Image = "moonbit_GenImageColor"
+) -> Image = "moonbit_raylib_gen_image_color"
 
 ///|
 pub fn gen_image_color(width : Int, height : Int, color : Color) -> Image {
@@ -42,7 +42,7 @@ extern "c" fn gen_image_checked_ffi(
   checks_y : Int,
   col1 : Bytes,
   col2 : Bytes,
-) -> Image = "moonbit_GenImageChecked"
+) -> Image = "moonbit_raylib_gen_image_checked"
 
 ///|
 pub fn gen_image_checked(
@@ -69,7 +69,7 @@ pub fn gen_image_checked(
 
 ///|
 #borrow(file_name)
-extern "c" fn load_texture_ffi(file_name : Bytes) -> Texture = "moonbit_LoadTexture"
+extern "c" fn load_texture_ffi(file_name : Bytes) -> Texture = "moonbit_raylib_load_texture"
 
 ///|
 pub fn load_texture(file_name : String) -> Texture {
@@ -78,7 +78,7 @@ pub fn load_texture(file_name : String) -> Texture {
 
 ///|
 #borrow(image)
-extern "c" fn load_texture_from_image_ffi(image : Image) -> Texture = "moonbit_LoadTextureFromImage"
+extern "c" fn load_texture_from_image_ffi(image : Image) -> Texture = "moonbit_raylib_load_texture_from_image"
 
 ///|
 pub fn load_texture_from_image(image : Image) -> Texture {
@@ -87,7 +87,7 @@ pub fn load_texture_from_image(image : Image) -> Texture {
 
 ///|
 #borrow(texture)
-extern "c" fn is_texture_valid_ffi(texture : Texture) -> Bool = "moonbit_IsTextureValid"
+extern "c" fn is_texture_valid_ffi(texture : Texture) -> Bool = "moonbit_raylib_is_texture_valid"
 
 ///|
 pub fn is_texture_valid(texture : Texture) -> Bool {
@@ -96,7 +96,7 @@ pub fn is_texture_valid(texture : Texture) -> Bool {
 
 ///|
 #borrow(texture)
-extern "c" fn unload_texture_ffi(texture : Texture) = "moonbit_UnloadTexture"
+extern "c" fn unload_texture_ffi(texture : Texture) = "moonbit_raylib_unload_texture"
 
 ///|
 pub fn unload_texture(texture : Texture) -> Unit {
@@ -107,7 +107,7 @@ pub fn unload_texture(texture : Texture) -> Unit {
 extern "c" fn load_render_texture_ffi(
   width : Int,
   height : Int,
-) -> RenderTexture = "moonbit_LoadRenderTexture"
+) -> RenderTexture = "moonbit_raylib_load_render_texture"
 
 ///|
 pub fn load_render_texture(width : Int, height : Int) -> RenderTexture {
@@ -116,7 +116,7 @@ pub fn load_render_texture(width : Int, height : Int) -> RenderTexture {
 
 ///|
 #borrow(target)
-extern "c" fn is_render_texture_valid_ffi(target : RenderTexture) -> Bool = "moonbit_IsRenderTextureValid"
+extern "c" fn is_render_texture_valid_ffi(target : RenderTexture) -> Bool = "moonbit_raylib_is_render_texture_valid"
 
 ///|
 pub fn is_render_texture_valid(target : RenderTexture) -> Bool {
@@ -125,7 +125,7 @@ pub fn is_render_texture_valid(target : RenderTexture) -> Bool {
 
 ///|
 #borrow(target)
-extern "c" fn unload_render_texture_ffi(target : RenderTexture) = "moonbit_UnloadRenderTexture"
+extern "c" fn unload_render_texture_ffi(target : RenderTexture) = "moonbit_raylib_unload_render_texture"
 
 ///|
 pub fn unload_render_texture(target : RenderTexture) -> Unit {
@@ -143,7 +143,7 @@ extern "c" fn draw_texture_ffi(
   pos_x : Int,
   pos_y : Int,
   tint : Bytes,
-) = "moonbit_DrawTexture"
+) = "moonbit_raylib_draw_texture"
 
 ///|
 pub fn draw_texture(
@@ -161,7 +161,7 @@ extern "c" fn draw_texture_v_ffi(
   texture : Texture,
   position : Bytes,
   tint : Bytes,
-) = "moonbit_DrawTextureV"
+) = "moonbit_raylib_draw_texture_v"
 
 ///|
 pub fn draw_texture_v(
@@ -180,7 +180,7 @@ extern "c" fn draw_texture_ex_ffi(
   rotation : Float,
   scale : Float,
   tint : Bytes,
-) = "moonbit_DrawTextureEx"
+) = "moonbit_raylib_draw_texture_ex"
 
 ///|
 pub fn draw_texture_ex(
@@ -206,7 +206,7 @@ extern "c" fn draw_texture_rec_ffi(
   source : Bytes,
   position : Bytes,
   tint : Bytes,
-) = "moonbit_DrawTextureRec"
+) = "moonbit_raylib_draw_texture_rec"
 
 ///|
 pub fn draw_texture_rec(
@@ -232,7 +232,7 @@ extern "c" fn draw_texture_pro_ffi(
   origin : Bytes,
   rotation : Float,
   tint : Bytes,
-) = "moonbit_DrawTexturePro"
+) = "moonbit_raylib_draw_texture_pro"
 
 ///|
 pub fn draw_texture_pro(
