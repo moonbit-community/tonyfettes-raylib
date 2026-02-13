@@ -46,7 +46,7 @@ test "get_frame_time returns non-negative" {
 
 ///|
 test "set_trace_log_level does not crash" {
-  set_trace_log_level(log_none)
+  set_trace_log_level(LogNone)
   // If we reach here, no crash occurred
   assert_true(true)
 }
@@ -113,9 +113,9 @@ test "update_camera with custom mode" {
     Vector3::new(0.0, 0.0, 0.0),
     Vector3::new(0.0, 1.0, 0.0),
     45.0,
-    camera_perspective,
+    CameraPerspective,
   )
-  let updated = update_camera(cam, camera_custom)
+  let updated = update_camera(cam, CameraCustom)
   // With custom mode and no input, the camera position should remain unchanged
   assert_eq(updated.position.x, cam.position.x)
   assert_eq(updated.position.y, cam.position.y)
@@ -129,7 +129,7 @@ test "update_camera_pro applies zero movement" {
     Vector3::new(0.0, 0.0, 0.0),
     Vector3::new(0.0, 1.0, 0.0),
     45.0,
-    camera_perspective,
+    CameraPerspective,
   )
   let zero = Vector3::new(0.0, 0.0, 0.0)
   let updated = update_camera_pro(cam, zero, zero, 0.0)
@@ -161,7 +161,7 @@ test "get_world_to_screen without window returns some value" {
     Vector3::new(0.0, 0.0, 0.0),
     Vector3::new(0.0, 1.0, 0.0),
     45.0,
-    camera_perspective,
+    CameraPerspective,
   )
   let pos = Vector3::new(1.0, 2.0, 3.0)
   // Without a window the result will be degenerate, but it should not crash
@@ -171,14 +171,14 @@ test "get_world_to_screen without window returns some value" {
 
 ///|
 test "Constants: key codes sample" {
-  assert_eq(key_space, 32)
-  assert_eq(key_escape, 256)
+  assert_eq(KeySpace, 32)
+  assert_eq(KeyEscape, 256)
 }
 
 ///|
 test "Constants: flags and modes" {
-  assert_eq(flag_window_hidden, 0x80)
-  assert_eq(camera_perspective, 0)
-  assert_eq(blend_alpha, 0)
-  assert_eq(mouse_button_left, 0)
+  assert_eq(FlagWindowHidden, 0x80)
+  assert_eq(CameraPerspective, 0)
+  assert_eq(BlendAlpha, 0)
+  assert_eq(MouseButtonLeft, 0)
 }

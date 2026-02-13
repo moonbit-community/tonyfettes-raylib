@@ -1,7 +1,7 @@
 ///|
 fn main {
   // Initialize window
-  @raylib.set_config_flags(@raylib.flag_window_resizable)
+  @raylib.set_config_flags(@raylib.FlagWindowResizable)
   @raylib.init_window(800, 600, "MoonBit Raylib Demo")
   @raylib.set_target_fps(60)
 
@@ -17,19 +17,19 @@ fn main {
     let dt = @raylib.get_frame_time()
 
     // Move ball with arrow keys or WASD
-    if @raylib.is_key_down(@raylib.key_right) ||
-      @raylib.is_key_down(@raylib.key_d) {
+    if @raylib.is_key_down(@raylib.KeyRight) ||
+      @raylib.is_key_down(@raylib.KeyD) {
       ball_x += ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.key_left) ||
-      @raylib.is_key_down(@raylib.key_a) {
+    if @raylib.is_key_down(@raylib.KeyLeft) ||
+      @raylib.is_key_down(@raylib.KeyA) {
       ball_x -= ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.key_down) ||
-      @raylib.is_key_down(@raylib.key_s) {
+    if @raylib.is_key_down(@raylib.KeyDown) ||
+      @raylib.is_key_down(@raylib.KeyS) {
       ball_y += ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.key_up) || @raylib.is_key_down(@raylib.key_w) {
+    if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
       ball_y -= ball_speed * dt
     }
 

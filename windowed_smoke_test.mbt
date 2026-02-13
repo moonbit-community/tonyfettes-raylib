@@ -3,7 +3,7 @@
 
 ///|
 test "window lifecycle and queries" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   assert_true(is_window_ready())
   assert_eq(get_screen_width(), 1)
@@ -13,7 +13,7 @@ test "window lifecycle and queries" {
 
 ///|
 test "drawing context smoke test" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   begin_drawing()
   clear_background(raywhite)
@@ -23,7 +23,7 @@ test "drawing context smoke test" {
 
 ///|
 test "2D shape drawing smoke test" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   begin_drawing()
   draw_pixel(0, 0, red)
@@ -43,7 +43,7 @@ test "2D shape drawing smoke test" {
 
 ///|
 test "rectangle drawing variants" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   begin_drawing()
   draw_rectangle_v(Vector2::new(0.0, 0.0), Vector2::new(1.0, 1.0), red)
@@ -62,7 +62,7 @@ test "rectangle drawing variants" {
 
 ///|
 test "line and curve drawing variants" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   begin_drawing()
   draw_line_v(Vector2::new(0.0, 0.0), Vector2::new(1.0, 1.0), red)
@@ -76,14 +76,14 @@ test "line and curve drawing variants" {
 
 ///|
 test "3D drawing smoke test" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   let camera = Camera3D::new(
     Vector3::new(0.0, 10.0, 10.0),
     Vector3::new(0.0, 0.0, 0.0),
     Vector3::new(0.0, 1.0, 0.0),
     45.0,
-    camera_perspective,
+    CameraPerspective,
   )
   begin_drawing()
   begin_mode_3d(camera)
@@ -98,7 +98,7 @@ test "3D drawing smoke test" {
 
 ///|
 test "texture from image lifecycle" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   let image = gen_image_color(16, 16, red)
   let texture = load_texture_from_image(image)
@@ -110,7 +110,7 @@ test "texture from image lifecycle" {
 
 ///|
 test "render texture lifecycle" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   let target = load_render_texture(16, 16)
   assert_true(is_render_texture_valid(target))
@@ -123,7 +123,7 @@ test "render texture lifecycle" {
 
 ///|
 test "font and text measurement" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   let font = get_font_default()
   assert_true(is_font_valid(font))
@@ -138,13 +138,13 @@ test "font and text measurement" {
 
 ///|
 test "scissor and blend modes" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   begin_drawing()
   begin_scissor_mode(0, 0, 1, 1)
   clear_background(red)
   end_scissor_mode()
-  begin_blend_mode(blend_alpha)
+  begin_blend_mode(BlendAlpha)
   draw_rectangle(0, 0, 1, 1, blue)
   end_blend_mode()
   end_drawing()
@@ -153,7 +153,7 @@ test "scissor and blend modes" {
 
 ///|
 test "2D camera mode" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   let camera = Camera2D::new(
     Vector2::new(0.0, 0.0),
@@ -171,11 +171,11 @@ test "2D camera mode" {
 
 ///|
 test "input queries do not crash" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
-  let _pressed = is_key_pressed(key_space)
-  let _down = is_key_down(key_space)
-  let _up = is_key_up(key_space)
+  let _pressed = is_key_pressed(KeySpace)
+  let _down = is_key_down(KeySpace)
+  let _up = is_key_up(KeySpace)
   let _mouse_pos = get_mouse_position()
   let _wheel = get_mouse_wheel_move()
   close_window()
@@ -183,7 +183,7 @@ test "input queries do not crash" {
 
 ///|
 test "window state functions" {
-  set_config_flags(flag_window_hidden)
+  set_config_flags(FlagWindowHidden)
   init_window(1, 1, "test")
   set_window_title("test2")
   set_window_size(2, 2)
