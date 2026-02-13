@@ -1,3 +1,4 @@
+///|
 fn main {
   // Initialize window
   @raylib.set_config_flags(@raylib.flag_window_resizable)
@@ -16,13 +17,16 @@ fn main {
     let dt = @raylib.get_frame_time()
 
     // Move ball with arrow keys or WASD
-    if @raylib.is_key_down(@raylib.key_right) || @raylib.is_key_down(@raylib.key_d) {
+    if @raylib.is_key_down(@raylib.key_right) ||
+      @raylib.is_key_down(@raylib.key_d) {
       ball_x += ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.key_left) || @raylib.is_key_down(@raylib.key_a) {
+    if @raylib.is_key_down(@raylib.key_left) ||
+      @raylib.is_key_down(@raylib.key_a) {
       ball_x -= ball_speed * dt
     }
-    if @raylib.is_key_down(@raylib.key_down) || @raylib.is_key_down(@raylib.key_s) {
+    if @raylib.is_key_down(@raylib.key_down) ||
+      @raylib.is_key_down(@raylib.key_s) {
       ball_y += ball_speed * dt
     }
     if @raylib.is_key_down(@raylib.key_up) || @raylib.is_key_down(@raylib.key_w) {
@@ -32,10 +36,18 @@ fn main {
     // Keep ball in bounds
     let sw = Float::from_int(@raylib.get_screen_width())
     let sh = Float::from_int(@raylib.get_screen_height())
-    if ball_x < ball_radius { ball_x = ball_radius }
-    if ball_x > sw - ball_radius { ball_x = sw - ball_radius }
-    if ball_y < ball_radius { ball_y = ball_radius }
-    if ball_y > sh - ball_radius { ball_y = sh - ball_radius }
+    if ball_x < ball_radius {
+      ball_x = ball_radius
+    }
+    if ball_x > sw - ball_radius {
+      ball_x = sw - ball_radius
+    }
+    if ball_y < ball_radius {
+      ball_y = ball_radius
+    }
+    if ball_y > sh - ball_radius {
+      ball_y = sh - ball_radius
+    }
 
     // Get mouse position
     let mouse = @raylib.get_mouse_position()
@@ -46,13 +58,17 @@ fn main {
 
     // Draw title
     @raylib.draw_text("MoonBit + Raylib", 10, 10, 30, @raylib.darkgray)
-    @raylib.draw_text("Move the ball with WASD or Arrow Keys", 10, 50, 20, @raylib.gray)
+    @raylib.draw_text(
+      "Move the ball with WASD or Arrow Keys", 10, 50, 20, @raylib.gray,
+    )
 
     // Draw some shapes
     @raylib.draw_rectangle(10, 80, 200, 4, @raylib.lightgray)
 
     // Draw gradient rectangle
-    @raylib.draw_rectangle_gradient_h(550, 80, 200, 100, @raylib.blue, @raylib.skyblue)
+    @raylib.draw_rectangle_gradient_h(
+      550, 80, 200, 100, @raylib.blue, @raylib.skyblue,
+    )
     @raylib.draw_rectangle_lines(550, 80, 200, 100, @raylib.darkblue)
 
     // Draw the ball

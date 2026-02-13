@@ -1,7 +1,14 @@
-{
-  "import": [
-    "moonbitlang/core/encoding/utf8"
-  ],
+import {
+  "moonbitlang/core/encoding/utf8",
+}
+
+options(
+  link: {
+    "native": {
+      "cc-link-flags": "-framework IOKit -framework Cocoa -framework OpenGL -framework CoreVideo -framework CoreAudio -framework AudioToolbox -framework CoreFoundation",
+      "stub-cc-flags": "-Iexternal/raylib/src -Iexternal/raylib/src/external/glfw/include -Iexternal/raylib/src/external/glfw/src -D_GLFW_COCOA -DPLATFORM_DESKTOP_GLFW",
+    },
+  },
   "native-stub": [
     "glfw_init.c",
     "glfw_platform.c",
@@ -28,11 +35,6 @@
     "rtext.c",
     "rmodels.c",
     "raudio.c",
-    "stub.c"
+    "stub.c",
   ],
-  "link": {
-    "native": {
-      "stub-cc-flags": "-Iexternal/raylib/src -Iexternal/raylib/src/external/glfw/include -Iexternal/raylib/src/external/glfw/src -D_GLFW_COCOA -DPLATFORM_DESKTOP_GLFW"
-    }
-  }
-}
+)
