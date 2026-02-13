@@ -1,5 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 pub using @raylib {
+  type Sound,
+  type Music,
   // Audio device
   init_audio_device,
   close_audio_device,

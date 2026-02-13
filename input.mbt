@@ -1,134 +1,52 @@
-// Color constants
+// Cursor re-exports
+pub using @raylib {
+  show_cursor,
+  hide_cursor,
+  is_cursor_hidden,
+  enable_cursor,
+  disable_cursor,
+  is_cursor_on_screen,
+  // Keyboard
+  is_key_pressed,
+  is_key_pressed_repeat,
+  is_key_down,
+  is_key_released,
+  is_key_up,
+  get_key_pressed,
+  get_char_pressed,
+  set_exit_key,
+  // Mouse
+  is_mouse_button_pressed,
+  is_mouse_button_down,
+  is_mouse_button_released,
+  is_mouse_button_up,
+  get_mouse_x,
+  get_mouse_y,
+  set_mouse_position,
+  set_mouse_offset,
+  set_mouse_scale,
+  get_mouse_wheel_move,
+  set_mouse_cursor,
+}
+
+// Mouse wrappers
 
 ///|
-pub let lightgray : Color = { r: b'\xC8', g: b'\xC8', b: b'\xC8', a: b'\xFF' }
+pub fn get_mouse_position() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_mouse_position())
+}
 
 ///|
-pub let gray : Color = { r: b'\x82', g: b'\x82', b: b'\x82', a: b'\xFF' }
+pub fn get_mouse_delta() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_mouse_delta())
+}
 
 ///|
-pub let darkgray : Color = { r: b'\x50', g: b'\x50', b: b'\x50', a: b'\xFF' }
+pub fn get_mouse_wheel_move_v() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_mouse_wheel_move_v())
+}
 
-///|
-pub let yellow : Color = { r: b'\xFD', g: b'\xF9', b: b'\x00', a: b'\xFF' }
-
-///|
-pub let gold : Color = { r: b'\xFF', g: b'\xCB', b: b'\x00', a: b'\xFF' }
-
-///|
-pub let orange : Color = { r: b'\xFF', g: b'\xA1', b: b'\x00', a: b'\xFF' }
-
-///|
-pub let pink : Color = { r: b'\xFF', g: b'\x6D', b: b'\xC2', a: b'\xFF' }
-
-///|
-pub let red : Color = { r: b'\xE6', g: b'\x29', b: b'\x37', a: b'\xFF' }
-
-///|
-pub let maroon : Color = { r: b'\xBE', g: b'\x21', b: b'\x37', a: b'\xFF' }
-
-///|
-pub let green : Color = { r: b'\x00', g: b'\xE4', b: b'\x30', a: b'\xFF' }
-
-///|
-pub let lime : Color = { r: b'\x00', g: b'\x9E', b: b'\x2F', a: b'\xFF' }
-
-///|
-pub let darkgreen : Color = { r: b'\x00', g: b'\x75', b: b'\x2C', a: b'\xFF' }
-
-///|
-pub let skyblue : Color = { r: b'\x66', g: b'\xBF', b: b'\xFF', a: b'\xFF' }
-
-///|
-pub let blue : Color = { r: b'\x00', g: b'\x79', b: b'\xF1', a: b'\xFF' }
-
-///|
-pub let darkblue : Color = { r: b'\x00', g: b'\x52', b: b'\xAC', a: b'\xFF' }
-
-///|
-pub let purple : Color = { r: b'\xC8', g: b'\x7A', b: b'\xFF', a: b'\xFF' }
-
-///|
-pub let violet : Color = { r: b'\x87', g: b'\x3C', b: b'\xBE', a: b'\xFF' }
-
-///|
-pub let darkpurple : Color = { r: b'\x70', g: b'\x1F', b: b'\x7E', a: b'\xFF' }
-
-///|
-pub let beige : Color = { r: b'\xD3', g: b'\xB0', b: b'\x83', a: b'\xFF' }
-
-///|
-pub let brown : Color = { r: b'\x7F', g: b'\x6A', b: b'\x4F', a: b'\xFF' }
-
-///|
-pub let darkbrown : Color = { r: b'\x4C', g: b'\x3F', b: b'\x2F', a: b'\xFF' }
-
-///|
-pub let white : Color = { r: b'\xFF', g: b'\xFF', b: b'\xFF', a: b'\xFF' }
-
-///|
-pub let black : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\xFF' }
-
-///|
-pub let blank : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00' }
-
-///|
-pub let magenta : Color = { r: b'\xFF', g: b'\x00', b: b'\xFF', a: b'\xFF' }
-
-///|
-pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF' }
-
-// ConfigFlags
-
-///|
-pub const FlagVsyncHint : Int = 0x00000040
-
-///|
-pub const FlagFullscreenMode : Int = 0x00000002
-
-///|
-pub const FlagWindowResizable : Int = 0x00000004
-
-///|
-pub const FlagWindowUndecorated : Int = 0x00000008
-
-///|
-pub const FlagWindowHidden : Int = 0x00000080
-
-///|
-pub const FlagWindowMinimized : Int = 0x00000200
-
-///|
-pub const FlagWindowMaximized : Int = 0x00000400
-
-///|
-pub const FlagWindowUnfocused : Int = 0x00000800
-
-///|
-pub const FlagWindowTopmost : Int = 0x00001000
-
-///|
-pub const FlagWindowAlwaysRun : Int = 0x00000100
-
-///|
-pub const FlagWindowTransparent : Int = 0x00000010
-
-///|
-pub const FlagWindowHighdpi : Int = 0x00002000
-
-///|
-pub const FlagWindowMousePassthrough : Int = 0x00004000
-
-///|
-pub const FlagBorderlessWindowedMode : Int = 0x00008000
-
-///|
-pub const FlagMsaa4xHint : Int = 0x00000020
-
-///|
-pub const FlagInterlacedHint : Int = 0x00010000
-
-// Keyboard keys
+// Keyboard key constants
 
 ///|
 pub const KeyNull : Int = 0
@@ -427,7 +345,7 @@ pub const KeyKp8 : Int = 328
 ///|
 pub const KeyKp9 : Int = 329
 
-// Mouse buttons
+// Mouse button constants
 
 ///|
 pub const MouseButtonLeft : Int = 0
@@ -450,7 +368,7 @@ pub const MouseButtonForward : Int = 5
 ///|
 pub const MouseButtonBack : Int = 6
 
-// Mouse cursor types
+// Mouse cursor type constants
 
 ///|
 pub const MouseCursorDefault : Int = 0
@@ -485,69 +403,7 @@ pub const MouseCursorResizeAll : Int = 9
 ///|
 pub const MouseCursorNotAllowed : Int = 10
 
-// Camera modes
-
-///|
-pub const CameraCustom : Int = 0
-
-///|
-pub const CameraFree : Int = 1
-
-///|
-pub const CameraOrbital : Int = 2
-
-///|
-pub const CameraFirstPerson : Int = 3
-
-///|
-pub const CameraThirdPerson : Int = 4
-
-// Camera projection
-
-///|
-pub const CameraPerspective : Int = 0
-
-///|
-pub const CameraOrthographic : Int = 1
-
-// Blend modes
-
-///|
-pub const BlendAlpha : Int = 0
-
-///|
-pub const BlendAdditive : Int = 1
-
-///|
-pub const BlendMultiplied : Int = 2
-
-// Log levels
-
-///|
-pub const LogAll : Int = 0
-
-///|
-pub const LogTrace : Int = 1
-
-///|
-pub const LogDebug : Int = 2
-
-///|
-pub const LogInfo : Int = 3
-
-///|
-pub const LogWarning : Int = 4
-
-///|
-pub const LogError : Int = 5
-
-///|
-pub const LogFatal : Int = 6
-
-///|
-pub const LogNone : Int = 7
-
-// Gesture flags
+// Gesture constants
 
 ///|
 pub const GestureNone : Int = 0

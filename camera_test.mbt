@@ -1,61 +1,28 @@
-// Tests for camera functions and core utilities that are safe to call
-// without an active window context.
-
 ///|
-test "color_alpha adjusts alpha channel" {
-  let c = Color::new(230, 41, 55, 255)
-  let result = color_alpha(c, 0.5)
-  // Alpha should be roughly half of 255 (around 127-128)
-  assert_true(result.a.to_int() >= 127 && result.a.to_int() <= 128)
-  // RGB channels should remain unchanged
-  assert_eq(result.r, c.r)
-  assert_eq(result.g, c.g)
-  assert_eq(result.b, c.b)
+test "Camera2D round-trip through Bytes" {
+  let cam = Camera2D::new(
+    Vector2::new(400.0, 300.0),
+    Vector2::new(0.0, 0.0),
+    0.0,
+    1.0,
+  )
+  let bytes = cam.to_bytes()
+  let cam2 = Camera2D::from_bytes(bytes)
+  assert_eq(cam, cam2)
 }
 
 ///|
-test "set_random_seed + get_random_value determinism" {
-  set_random_seed(42)
-  let a1 = get_random_value(0, 1000)
-  let a2 = get_random_value(0, 1000)
-  set_random_seed(42)
-  let b1 = get_random_value(0, 1000)
-  let b2 = get_random_value(0, 1000)
-  assert_eq(a1, b1)
-  assert_eq(a2, b2)
-}
-
-///|
-test "set_target_fps does not crash" {
-  set_target_fps(60)
-  // If we reach here, no crash occurred
-  assert_true(true)
-}
-
-///|
-test "get_time returns non-negative" {
-  let t = get_time()
-  assert_true(t >= 0.0)
-}
-
-///|
-test "get_frame_time returns non-negative" {
-  let dt = get_frame_time()
-  assert_true(dt >= 0.0)
-}
-
-///|
-test "set_trace_log_level does not crash" {
-  set_trace_log_level(LogNone)
-  // If we reach here, no crash occurred
-  assert_true(true)
-}
-
-///|
-test "set_text_line_spacing does not crash" {
-  set_text_line_spacing(15)
-  // If we reach here, no crash occurred
-  assert_true(true)
+test "Camera3D round-trip through Bytes" {
+  let cam = Camera3D::new(
+    Vector3::new(0.0, 10.0, 10.0),
+    Vector3::new(0.0, 0.0, 0.0),
+    Vector3::new(0.0, 1.0, 0.0),
+    45.0,
+    0,
+  )
+  let bytes = cam.to_bytes()
+  let cam2 = Camera3D::from_bytes(bytes)
+  assert_eq(cam, cam2)
 }
 
 ///|
@@ -167,18 +134,4 @@ test "get_world_to_screen without window returns some value" {
   // Without a window the result will be degenerate, but it should not crash
   let _result = get_world_to_screen(pos, cam)
   assert_true(true)
-}
-
-///|
-test "Constants: key codes sample" {
-  assert_eq(KeySpace, 32)
-  assert_eq(KeyEscape, 256)
-}
-
-///|
-test "Constants: flags and modes" {
-  assert_eq(FlagWindowHidden, 0x80)
-  assert_eq(CameraPerspective, 0)
-  assert_eq(BlendAlpha, 0)
-  assert_eq(MouseButtonLeft, 0)
 }

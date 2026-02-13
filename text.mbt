@@ -1,5 +1,6 @@
 // Re-export passthrough functions from internal FFI layer
 pub using @raylib {
+  type Font,
   get_font_default,
   is_font_valid,
   unload_font,

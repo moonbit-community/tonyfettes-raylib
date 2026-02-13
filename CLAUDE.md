@@ -52,11 +52,11 @@ pub fn clear_background(color : Color) -> Unit {
 
 ### Struct passing via Bytes serialization
 
-Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in MoonBit, passed to C as `moonbit_bytes_t`, and deserialized via `memcpy` in `stub.c`. Each struct type has `Type::to_bytes()` and `Type::from_bytes()` methods in `types.mbt`.
+Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in MoonBit, passed to C as `moonbit_bytes_t`, and deserialized via `memcpy` in `stub.c`. Each struct type has `Type::to_bytes()` and `Type::from_bytes()` methods in its domain file.
 
 ### Resource types (opaque pointers with GC finalizers)
 
-Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in root `types.mbt`.
+Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in the corresponding domain files (`textures.mbt`, `text.mbt`, `models.mbt`, `audio.mbt`, `drawing.mbt`).
 
 ### Key files
 
@@ -64,9 +64,15 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 - `internal/raylib/rglfw.m` — GLFW aggregator (includes raylib's rglfw.c)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
 - `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
-- `types.mbt` — Value type structs (Color, Vector2, etc.) + type re-exports
-- `constants.mbt` — Color constants, key codes, config flags, mouse buttons
-- `{core,shapes,textures,text,models,audio}.mbt` — Public API (re-exports + wrappers)
+- `vector.mbt` — Byte helpers + Vector2/Vector3/Vector4 structs
+- `color.mbt` — Color struct + 25 color constants + color utility wrappers
+- `rectangle.mbt` — Rectangle struct
+- `camera.mbt` — Camera2D/Camera3D structs + camera constants + camera wrappers
+- `ray.mbt` — Ray/BoundingBox/RayCollision structs
+- `window.mbt` — Window management re-exports/wrappers + ConfigFlags + log levels
+- `input.mbt` — Cursor/keyboard/mouse re-exports/wrappers + key/mouse/gesture constants
+- `drawing.mbt` — Drawing lifecycle re-exports + clear_background + blend constants + Shader/RenderTexture types
+- `{shapes,textures,text,models,audio}.mbt` — Domain-specific API (re-exports + wrappers)
 
 ### Package configuration
 

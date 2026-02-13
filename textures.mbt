@@ -1,5 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 pub using @raylib {
+  type Image,
+  type Texture,
   unload_image,
   load_texture_from_image,
   is_texture_valid,
