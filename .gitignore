@@ -12,5 +12,3 @@ rtextures.c
 rtext.c
 rmodels.c
 raudio.c
-glfw_*.c
-glfw_*.m
