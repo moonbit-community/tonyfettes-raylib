@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cc="${CC:-clang}"
+platform="$(uname -s)"
+
+is_link=1
+for arg in "$@"; do
+  if [[ "$arg" == "-c" ]]; then
+    is_link=0
+    break
+  fi
+done
+
+if [[ "$is_link" -eq 1 ]]; then
+  case "$platform" in
+    Darwin)
+      exec "$cc" "$@" \
+        -framework OpenGL \
+        -framework Cocoa \
+        -framework IOKit \
+        -framework CoreAudio \
+        -framework CoreVideo \
+        -framework AudioToolbox \
+        -framework CoreFoundation
+      ;;
+    Linux)
+      exec "$cc" "$@" \
+        -lGL -lc -lm -lpthread -ldl -lrt \
+        -lX11 -lXrandr -lXi -lXcursor -lXinerama
+      ;;
+    *)
+      exec "$cc" "$@"
+      ;;
+  esac
+fi
+
+exec "$cc" "$@"

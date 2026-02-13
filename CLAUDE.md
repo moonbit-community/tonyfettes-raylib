@@ -73,15 +73,21 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 - `input.mbt` — Cursor/keyboard/mouse re-exports/wrappers + key/mouse/gesture constants
 - `drawing.mbt` — Drawing lifecycle re-exports + clear_background + blend constants + Shader/RenderTexture types
 - `{shapes,textures,text,models,audio}.mbt` — Domain-specific API (re-exports + wrappers)
+- `tools/cc` — Link-time compiler wrapper (injects platform frameworks/libs)
+- `tools/stub-cc` — Stub compiler wrapper (injects `-I`/`-D` flags + link flags)
+- `tools/stub-ar` — Archiver wrapper (delegates to system `ar`)
 
-### Package configuration
+### Compiler wrapper scripts (`tools/`)
 
-macOS framework link flags (`-framework Cocoa`, etc.) must be in **all three** packages:
-- `internal/raylib/moon.pkg` — for `moon test` linking
-- Root `moon.pkg` — for `moon test` linking
-- `main/moon.pkg` — for the actual build
+Platform-specific flags (macOS frameworks, Linux libs, include paths, defines) are injected by wrapper scripts instead of being hardcoded in `moon.pkg` files:
 
-Use `moon build --target native main/` to avoid the spurious `_main` undefined error from library packages with `cc-link-flags`.
+- **`tools/cc`** — Link-time wrapper. Used by all three packages. Detects platform and appends framework/library flags only during linking (skips when `-c` is present).
+- **`tools/stub-cc`** — Stub compile wrapper. Used by `internal/raylib/` only. Injects `-I` and `-D` flags for raylib compilation, plus link flags at link time.
+- **`tools/stub-ar`** — Delegates to system `ar`. Required because moon derives the archiver path from `stub-cc`.
+
+Each `moon.pkg` references these via `"cc": "tools/cc"` and `"stub-cc": "tools/stub-cc"` in its `link.native` options — no duplicated flags.
+
+Use `moon build --target native main/` to avoid the spurious `_main` undefined error from library packages.
 
 ## Critical FFI Rules
 
