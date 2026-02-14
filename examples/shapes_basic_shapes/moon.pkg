@@ -6,7 +6,7 @@ options(
   "is-main": true,
   link: {
     "native": {
-      "cc": "moon-flags",
+      "cc-link-flags": "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework AudioToolbox -framework CoreFoundation",
     },
   },
 )

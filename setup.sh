@@ -19,14 +19,28 @@ else
     echo "raylib already present at ${RAYLIB_DIR}"
 fi
 
+# Skip copy if already done
+if [ -f "$DEST_DIR/raylib.h" ]; then
+    echo "raylib sources already copied to ${DEST_DIR}"
+    exit 0
+fi
+
 # Copy raylib source files to internal/raylib/
 echo "Copying raylib source files to ${DEST_DIR}..."
-cp "$RAYLIB_SRC/rcore.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/utils.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/rshapes.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/rtextures.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/rtext.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/rmodels.c" "$DEST_DIR/"
-cp "$RAYLIB_SRC/raudio.c" "$DEST_DIR/"
+
+# Source files (.c) — includes rglfw.c for rglfw.m
+cp "$RAYLIB_SRC"/{rcore,utils,rshapes,rtextures,rtext,rmodels,raudio,rglfw}.c "$DEST_DIR/"
+
+# Header files (.h)
+cp "$RAYLIB_SRC"/{raylib,rlgl,raymath,config,utils,rcamera,rgestures}.h "$DEST_DIR/"
+
+# Platform modules (rcore.c #includes platforms/rcore_desktop_glfw.c)
+cp -r "$RAYLIB_SRC/platforms" "$DEST_DIR/"
+
+# Bundled dependencies (stb_image.h, glfw/, miniaudio.h, etc.)
+cp -r "$RAYLIB_SRC/external" "$DEST_DIR/"
+
+# Symlink GLFW headers into platforms/ so rcore_desktop_glfw.c finds "GLFW/glfw3.h"
+ln -sfn ../external/glfw/include/GLFW "$DEST_DIR/platforms/GLFW"
 
 echo "Setup complete!"
