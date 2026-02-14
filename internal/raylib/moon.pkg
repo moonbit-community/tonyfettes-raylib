@@ -4,7 +4,6 @@ import {
 options(
   link: {
     "native": {
-      "cc-link-flags": "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework AudioToolbox -framework CoreFoundation",
       "stub-cc-flags": "-DPLATFORM_DESKTOP_GLFW",
     },
   },

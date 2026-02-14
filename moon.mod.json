@@ -7,5 +7,6 @@
   "keywords": [],
   "description": "MoonBit bindings for raylib",
   "source": "",
-  "preferred-target": "native"
+  "preferred-target": "native",
+  "--moonbit-unstable-prebuild": "build.js"
 }
