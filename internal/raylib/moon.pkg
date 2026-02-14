@@ -8,7 +8,7 @@ options(
     },
   },
   "native-stub": [
-    "rglfw_c.c",
+    "rglfw.c",
     "utils.c",
     "rcore.c",
     "rshapes.c",
