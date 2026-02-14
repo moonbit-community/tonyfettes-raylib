@@ -40,7 +40,8 @@ cp -r "$RAYLIB_SRC/platforms" "$DEST_DIR/"
 # Bundled dependencies (stb_image.h, glfw/, miniaudio.h, etc.)
 cp -r "$RAYLIB_SRC/external" "$DEST_DIR/"
 
-# Symlink GLFW headers into platforms/ so rcore_desktop_glfw.c finds "GLFW/glfw3.h"
-ln -sfn ../external/glfw/include/GLFW "$DEST_DIR/platforms/GLFW"
+# Copy GLFW headers into platforms/ so rcore_desktop_glfw.c finds "GLFW/glfw3.h"
+# (uses cp instead of symlink for Windows compatibility)
+cp -r "$RAYLIB_SRC/external/glfw/include/GLFW" "$DEST_DIR/platforms/GLFW"
 
 echo "Setup complete!"
