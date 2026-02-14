@@ -12,3 +12,6 @@ internal/raylib/rtextures.c
 internal/raylib/rtext.c
 internal/raylib/rmodels.c
 internal/raylib/raudio.c
+
+# Publish staging directory
+publish/
