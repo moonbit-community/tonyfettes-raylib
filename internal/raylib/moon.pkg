@@ -2,7 +2,7 @@ import {
 }
 
 options(
-  link: { "native": { "cc": "tools/cc", "stub-cc": "tools/stub-cc" } },
+  link: { "native": { "cc": "moon-flags", "stub-cc": "moon-stub-flags" } },
   "native-stub": [
     "rglfw.m",
     "utils.c",

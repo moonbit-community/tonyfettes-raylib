@@ -4,5 +4,5 @@ import {
 
 options(
   "is-main": true,
-  link: { "native": { "cc": "tools/cc" } },
+  link: { "native": { "cc": "moon-flags" } },
 )

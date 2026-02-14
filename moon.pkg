@@ -4,7 +4,7 @@ import {
 }
 
 options(
-  link: { "native": { "cc": "tools/cc" } },
+  link: { "native": { "cc": "moon-flags" } },
   "pre-build": [
     {
       "command": "./setup.sh",

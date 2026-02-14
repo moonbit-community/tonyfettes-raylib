@@ -6,7 +6,7 @@ options(
   "is-main": true,
   link: {
     "native": {
-      "cc": "tools/cc",
+      "cc": "moon-flags",
     },
   },
 )
