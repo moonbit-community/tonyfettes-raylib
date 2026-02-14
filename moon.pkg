@@ -7,7 +7,7 @@ options(
   link: { "native": { "cc": "tools/cc" } },
   "pre-build": [
     {
-      "command": "setup.sh",
+      "command": "./setup.sh",
       "input": "setup.sh",
       "output": [
         "internal/raylib/rcore.c",
