@@ -9,11 +9,11 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 ## Build Commands
 
 ```bash
-# Build (native only) — use explicit path to avoid library-as-exe link error
-moon build --target native main/
+# Build (native only) — specify package path to avoid library-as-exe link error
+moon build --target native examples/raylib_demo/
 
-# Run the demo
-./_build/native/debug/build/main/main.exe
+# Run an example
+./_build/native/debug/build/examples/raylib_demo/raylib_demo.exe
 
 # Type-check without building
 moon check --target native
@@ -21,17 +21,17 @@ moon check --target native
 
 ## Architecture
 
-### Two-package structure
+### Package structure
 
 ```
 tonyfettes/raylib/                     # Public API: re-exports + wrappers + value types
 tonyfettes/raylib/internal/raylib/     # FFI layer: pub extern "c" + C code
-main/                                  # Demo executable
+examples/raylib_*/                     # Example executables
 ```
 
 - **`internal/raylib/`** — Contains all `pub extern "c"` declarations operating on raw `Bytes`/primitives, plus C source files (`stub.c`, `rglfw.m`, and raylib sources). Imported by the root package (default alias `@raylib`).
 - **Root package** — Re-exports passthrough FFI functions via `pub using @raylib.{ ... }` and provides explicit wrapper functions for those needing type conversion (String→Bytes, Color→Bytes, etc.).
-- **`main/`** — Executable demo, imports `tonyfettes/raylib`.
+- **`examples/raylib_*/`** — Example executables, each imports `tonyfettes/raylib`.
 
 ### FFI Pattern
 
@@ -57,6 +57,7 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 
 ### Key files
 
+- `build.js` — Prebuild script for platform-specific link flags (macOS/Linux/Windows)
 - `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
 - `internal/raylib/rglfw.m` — GLFW aggregator (includes raylib's rglfw.c)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
@@ -70,14 +71,14 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 - `input.mbt` — Cursor/keyboard/mouse re-exports/wrappers + key/mouse/gesture constants
 - `drawing.mbt` — Drawing lifecycle re-exports + clear_background + blend constants + Shader/RenderTexture types
 - `{shapes,textures,text,models,audio}.mbt` — Domain-specific API (re-exports + wrappers)
-### Platform flags (hardcoded in `moon.pkg`)
+### Platform flags (prebuild script + `moon.pkg`)
 
-Platform-specific flags (macOS frameworks, include paths, defines) are hardcoded directly in each `moon.pkg` file using `cc-link-flags` and `stub-cc-flags` — no wrapper scripts needed.
+Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod.json`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
 
-- **`cc-link-flags`** — Link-time flags. Every executable package (root, examples) needs macOS `-framework` flags.
-- **`stub-cc-flags`** — Stub compilation flags. Only `internal/raylib/` needs these (`-DPLATFORM_DESKTOP_GLFW`). No `-I` flags needed — a symlink (`platforms/GLFW → ../external/glfw/include/GLFW`) ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
+- **`build.js`** — Prebuild script. Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows.
+- **`stub-cc-flags`** — Stub compilation flags. Only `internal/raylib/moon.pkg` needs these (`-DPLATFORM_DESKTOP_GLFW`), hardcoded since they apply on all platforms. No `-I` flags needed — a symlink (`platforms/GLFW → ../external/glfw/include/GLFW`) ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
 
-Use `moon build --target native main/` to avoid the spurious `_main` undefined error from library packages.
+Use `moon build --target native examples/raylib_demo/` to build. Specify a package path to avoid the spurious `_main` undefined error from library packages.
 
 ## Critical FFI Rules
 
