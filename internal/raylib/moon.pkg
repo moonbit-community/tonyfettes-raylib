@@ -2,12 +2,7 @@ import {
 }
 
 options(
-  link: {
-    "native": {
-      "cc": "tools/cc",
-      "stub-cc": "tools/stub-cc",
-    },
-  },
+  link: { "native": { "cc": "tools/cc", "stub-cc": "tools/stub-cc" } },
   "native-stub": [
     "rglfw.m",
     "utils.c",
