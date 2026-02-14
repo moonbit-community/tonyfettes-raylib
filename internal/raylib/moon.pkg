@@ -4,7 +4,7 @@ import {
 options(
   link: {
     "native": {
-      "stub-cc-flags": "-DPLATFORM_DESKTOP_GLFW",
+      "stub-cc-flags": "${build.RAYLIB_STUB_CC_FLAGS}",
     },
   },
   "native-stub": [
