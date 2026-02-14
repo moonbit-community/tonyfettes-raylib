@@ -9,9 +9,6 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 ## Build Commands
 
 ```bash
-# First-time setup: download raylib 5.5 and copy full source tree to internal/raylib/
-bash setup.sh
-
 # Build (native only) — use explicit path to avoid library-as-exe link error
 moon build --target native main/
 
@@ -78,7 +75,7 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 Platform-specific flags (macOS frameworks, include paths, defines) are hardcoded directly in each `moon.pkg` file using `cc-link-flags` and `stub-cc-flags` — no wrapper scripts needed.
 
 - **`cc-link-flags`** — Link-time flags. Every executable package (root, examples) needs macOS `-framework` flags.
-- **`stub-cc-flags`** — Stub compilation flags. Only `internal/raylib/` needs these (`-DPLATFORM_DESKTOP_GLFW`). No `-I` flags needed — `setup.sh` creates a symlink (`platforms/GLFW → ../external/glfw/include/GLFW`) so `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
+- **`stub-cc-flags`** — Stub compilation flags. Only `internal/raylib/` needs these (`-DPLATFORM_DESKTOP_GLFW`). No `-I` flags needed — a symlink (`platforms/GLFW → ../external/glfw/include/GLFW`) ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
 
 Use `moon build --target native main/` to avoid the spurious `_main` undefined error from library packages.
 
@@ -92,5 +89,5 @@ Use `moon build --target native main/` to avoid the spurious `_main` undefined e
 ## Conventions
 
 - Use conventional commits (e.g., `feat:`, `fix:`, `refactor:`)
-- Generated files (from `setup.sh`) are gitignored — only `stub.c` and `rglfw.m` are tracked; `setup.sh` copies the full raylib source tree (`.c`, `.h`, `platforms/`, `external/`) to `internal/raylib/`
-- `external/` directory (raylib source tree) is gitignored
+- Raylib 5.5 sources are vendored in `internal/raylib/` (committed to git); `setup.sh` can be used to upgrade to a new raylib version
+- `external/` directory (raylib download cache) is gitignored

@@ -1,0 +1,5 @@
+# Vendored raylib sources — exclude from GitHub language statistics
+internal/raylib/*.c linguist-vendored
+internal/raylib/*.h linguist-vendored
+internal/raylib/platforms/** linguist-vendored
+internal/raylib/external/** linguist-vendored
