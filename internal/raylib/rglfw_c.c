@@ -1,3 +1,3 @@
-#ifdef __APPLE__
+#ifndef __APPLE__
 #include "rglfw.c"
 #endif
