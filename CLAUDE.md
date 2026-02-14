@@ -29,7 +29,7 @@ tonyfettes/raylib/internal/raylib/     # FFI layer: pub extern "c" + C code
 examples/raylib_*/                     # Example executables
 ```
 
-- **`internal/raylib/`** — Contains all `pub extern "c"` declarations operating on raw `Bytes`/primitives, plus C source files (`stub.c`, `rglfw.m`, and raylib sources). Imported by the root package (default alias `@raylib`).
+- **`internal/raylib/`** — Contains all `pub extern "c"` declarations operating on raw `Bytes`/primitives, plus C source files (`stub.c`, `rglfw.c`, and raylib sources). Imported by the root package (default alias `@raylib`).
 - **Root package** — Re-exports passthrough FFI functions via `pub using @raylib.{ ... }` and provides explicit wrapper functions for those needing type conversion (String→Bytes, Color→Bytes, etc.).
 - **`examples/raylib_*/`** — Example executables, each imports `tonyfettes/raylib`.
 
@@ -57,9 +57,9 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 
 ### Key files
 
-- `build.js` — Prebuild script for platform-specific link flags (macOS/Linux/Windows)
+- `build.js` — Prebuild script for platform-specific link flags and stub-cc-flags (macOS/Linux/Windows)
 - `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
-- `internal/raylib/rglfw.m` — GLFW aggregator (includes raylib's rglfw.c)
+- `internal/raylib/rglfw.c` — GLFW aggregator (compiled directly via `native-stub`)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
 - `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
 - `vector.mbt` — Byte helpers + Vector2/Vector3/Vector4 structs
@@ -75,8 +75,8 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 
 Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod.json`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
 
-- **`build.js`** — Prebuild script. Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows.
-- **`stub-cc-flags`** — Stub compilation flags. Only `internal/raylib/moon.pkg` needs these (`-DPLATFORM_DESKTOP_GLFW`), hardcoded since they apply on all platforms. No `-I` flags needed — a symlink (`platforms/GLFW → ../external/glfw/include/GLFW`) ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
+- **`build.js`** — Prebuild script. Emits `link_configs` (platform-specific link flags) and `vars` (dynamic `stub-cc-flags`). Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows. On macOS, appends `-ObjC` to `stub-cc-flags` so clang compiles `rglfw.c` as Objective-C (required for GLFW's Cocoa backend).
+- **`stub-cc-flags`** — Set dynamically via `${build.RAYLIB_STUB_CC_FLAGS}` in `moon.pkg`, populated by `build.js`. Always includes `-DPLATFORM_DESKTOP_GLFW`; on macOS also includes `-ObjC`. No `-I` flags needed — the `platforms/GLFW/` directory ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
 
 Use `moon build --target native examples/raylib_demo/` to build. Specify a package path to avoid the spurious `_main` undefined error from library packages.
 
