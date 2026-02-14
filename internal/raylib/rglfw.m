@@ -1,1 +1,1 @@
-#include "../../external/raylib/src/rglfw.c"
+#include "rglfw.c"
