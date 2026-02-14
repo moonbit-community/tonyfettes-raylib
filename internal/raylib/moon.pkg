@@ -8,7 +8,6 @@ options(
     },
   },
   "native-stub": [
-    "rglfw.m",
     "rglfw_c.c",
     "utils.c",
     "rcore.c",
