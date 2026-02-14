@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# moon install https://github.com/moonbit-community/tonyfettes-moon-flags
-
 RAYLIB_VERSION="5.5"
 RAYLIB_DIR="external/raylib"
 RAYLIB_SRC="$RAYLIB_DIR/src"

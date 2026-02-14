@@ -4,7 +4,11 @@ import {
 }
 
 options(
-  link: { "native": { "cc": "moon-flags" } },
+  link: {
+    "native": {
+      "cc-link-flags": "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework AudioToolbox -framework CoreFoundation",
+    },
+  },
   "pre-build": [
     {
       "command": "./setup.sh",
