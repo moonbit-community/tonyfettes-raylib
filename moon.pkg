@@ -9,14 +9,4 @@ options(
       "cc-link-flags": "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo -framework AudioToolbox -framework CoreFoundation",
     },
   },
-  "pre-build": [
-    {
-      "command": "./setup.sh",
-      "input": "setup.sh",
-      "output": [
-        "internal/raylib/raylib.h",
-        "internal/raylib/rcore.c",
-      ],
-    },
-  ],
 )
