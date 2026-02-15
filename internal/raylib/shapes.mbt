@@ -348,3 +348,220 @@ pub extern "c" fn check_collision_point_triangle(
 ///|
 #borrow(rec1, rec2)
 pub extern "c" fn get_collision_rec(rec1 : Bytes, rec2 : Bytes) -> Bytes = "moonbit_raylib_get_collision_rec"
+
+// ============================================================================
+// Missing basic shapes (array-based + circle sector lines)
+// ============================================================================
+
+///|
+#borrow(center, color)
+pub extern "c" fn draw_circle_sector_lines(
+  center : Bytes,
+  radius : Float,
+  start_angle : Float,
+  end_angle : Float,
+  segments : Int,
+  color : Bytes,
+) = "moonbit_raylib_draw_circle_sector_lines"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_line_strip(
+  points : Bytes,
+  point_count : Int,
+  color : Bytes,
+) = "moonbit_raylib_draw_line_strip"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_triangle_fan(
+  points : Bytes,
+  point_count : Int,
+  color : Bytes,
+) = "moonbit_raylib_draw_triangle_fan"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_triangle_strip(
+  points : Bytes,
+  point_count : Int,
+  color : Bytes,
+) = "moonbit_raylib_draw_triangle_strip"
+
+// ============================================================================
+// Spline drawing (array-based)
+// ============================================================================
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_spline_linear(
+  points : Bytes,
+  point_count : Int,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_linear"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_spline_basis(
+  points : Bytes,
+  point_count : Int,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_basis"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_spline_catmull_rom(
+  points : Bytes,
+  point_count : Int,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_catmull_rom"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_spline_bezier_quadratic(
+  points : Bytes,
+  point_count : Int,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_bezier_quadratic"
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_spline_bezier_cubic(
+  points : Bytes,
+  point_count : Int,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_bezier_cubic"
+
+// ============================================================================
+// Spline segments
+// ============================================================================
+
+///|
+#borrow(p1, p2, color)
+pub extern "c" fn draw_spline_segment_linear(
+  p1 : Bytes,
+  p2 : Bytes,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_segment_linear"
+
+///|
+#borrow(p1, p2, p3, p4, color)
+pub extern "c" fn draw_spline_segment_basis(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_segment_basis"
+
+///|
+#borrow(p1, p2, p3, p4, color)
+pub extern "c" fn draw_spline_segment_catmull_rom(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_segment_catmull_rom"
+
+///|
+#borrow(p1, p2, p3, color)
+pub extern "c" fn draw_spline_segment_bezier_quadratic(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_segment_bezier_quadratic"
+
+///|
+#borrow(p1, p2, p3, p4, color)
+pub extern "c" fn draw_spline_segment_bezier_cubic(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  thick : Float,
+  color : Bytes,
+) = "moonbit_raylib_draw_spline_segment_bezier_cubic"
+
+// ============================================================================
+// Spline point evaluation
+// ============================================================================
+
+///|
+#borrow(start_pos, end_pos)
+pub extern "c" fn get_spline_point_linear(
+  start_pos : Bytes,
+  end_pos : Bytes,
+  t : Float,
+) -> Bytes = "moonbit_raylib_get_spline_point_linear"
+
+///|
+#borrow(p1, p2, p3, p4)
+pub extern "c" fn get_spline_point_basis(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  t : Float,
+) -> Bytes = "moonbit_raylib_get_spline_point_basis"
+
+///|
+#borrow(p1, p2, p3, p4)
+pub extern "c" fn get_spline_point_catmull_rom(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  t : Float,
+) -> Bytes = "moonbit_raylib_get_spline_point_catmull_rom"
+
+///|
+#borrow(p1, p2, p3)
+pub extern "c" fn get_spline_point_bezier_quad(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  t : Float,
+) -> Bytes = "moonbit_raylib_get_spline_point_bezier_quad"
+
+///|
+#borrow(p1, p2, p3, p4)
+pub extern "c" fn get_spline_point_bezier_cubic(
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+  t : Float,
+) -> Bytes = "moonbit_raylib_get_spline_point_bezier_cubic"
+
+// ============================================================================
+// Additional 2D collision detection
+// ============================================================================
+
+///|
+#borrow(center, p1, p2)
+pub extern "c" fn check_collision_circle_line(
+  center : Bytes,
+  radius : Float,
+  p1 : Bytes,
+  p2 : Bytes,
+) -> Bool = "moonbit_raylib_check_collision_circle_line"
+
+///|
+#borrow(point, p1, p2)
+pub extern "c" fn check_collision_point_line(
+  point : Bytes,
+  p1 : Bytes,
+  p2 : Bytes,
+  threshold : Int,
+) -> Bool = "moonbit_raylib_check_collision_point_line"

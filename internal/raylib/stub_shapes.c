@@ -577,3 +577,366 @@ moonbit_raylib_get_collision_rec(moonbit_bytes_t rec1, moonbit_bytes_t rec2) {
   memcpy(r, &result, sizeof(Rectangle));
   return r;
 }
+
+// ============================================================================
+// Shapes: Missing basic shapes (array-based + circle sector lines)
+// ============================================================================
+
+void
+moonbit_raylib_draw_circle_sector_lines(
+  moonbit_bytes_t center,
+  float radius,
+  float startAngle,
+  float endAngle,
+  int segments,
+  moonbit_bytes_t color
+) {
+  Vector2 ctr;
+  memcpy(&ctr, center, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawCircleSectorLines(ctr, radius, startAngle, endAngle, segments, c);
+}
+
+void
+moonbit_raylib_draw_line_strip(
+  moonbit_bytes_t points,
+  int pointCount,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawLineStrip((Vector2 *)points, pointCount, c);
+}
+
+void
+moonbit_raylib_draw_triangle_fan(
+  moonbit_bytes_t points,
+  int pointCount,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawTriangleFan((Vector2 *)points, pointCount, c);
+}
+
+void
+moonbit_raylib_draw_triangle_strip(
+  moonbit_bytes_t points,
+  int pointCount,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawTriangleStrip((Vector2 *)points, pointCount, c);
+}
+
+// ============================================================================
+// Shapes: Spline drawing (array-based)
+// ============================================================================
+
+void
+moonbit_raylib_draw_spline_linear(
+  moonbit_bytes_t points,
+  int pointCount,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineLinear((Vector2 *)points, pointCount, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_basis(
+  moonbit_bytes_t points,
+  int pointCount,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineBasis((Vector2 *)points, pointCount, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_catmull_rom(
+  moonbit_bytes_t points,
+  int pointCount,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineCatmullRom((Vector2 *)points, pointCount, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_bezier_quadratic(
+  moonbit_bytes_t points,
+  int pointCount,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineBezierQuadratic((Vector2 *)points, pointCount, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_bezier_cubic(
+  moonbit_bytes_t points,
+  int pointCount,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineBezierCubic((Vector2 *)points, pointCount, thick, c);
+}
+
+// ============================================================================
+// Shapes: Spline segments
+// ============================================================================
+
+void
+moonbit_raylib_draw_spline_segment_linear(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineSegmentLinear(v1, v2, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_segment_basis(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineSegmentBasis(v1, v2, v3, v4, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_segment_catmull_rom(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineSegmentCatmullRom(v1, v2, v3, v4, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_segment_bezier_quadratic(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineSegmentBezierQuadratic(v1, v2, v3, thick, c);
+}
+
+void
+moonbit_raylib_draw_spline_segment_bezier_cubic(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float thick,
+  moonbit_bytes_t color
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawSplineSegmentBezierCubic(v1, v2, v3, v4, thick, c);
+}
+
+// ============================================================================
+// Shapes: Spline point evaluation
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_spline_point_linear(
+  moonbit_bytes_t startPos,
+  moonbit_bytes_t endPos,
+  float t
+) {
+  Vector2 s;
+  memcpy(&s, startPos, sizeof(Vector2));
+  Vector2 e;
+  memcpy(&e, endPos, sizeof(Vector2));
+  Vector2 result = GetSplinePointLinear(s, e, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_spline_point_basis(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float t
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Vector2 result = GetSplinePointBasis(v1, v2, v3, v4, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_spline_point_catmull_rom(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float t
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Vector2 result = GetSplinePointCatmullRom(v1, v2, v3, v4, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_spline_point_bezier_quad(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  float t
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 result = GetSplinePointBezierQuad(v1, v2, v3, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_spline_point_bezier_cubic(
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3,
+  moonbit_bytes_t p4,
+  float t
+) {
+  Vector2 v1;
+  memcpy(&v1, p1, sizeof(Vector2));
+  Vector2 v2;
+  memcpy(&v2, p2, sizeof(Vector2));
+  Vector2 v3;
+  memcpy(&v3, p3, sizeof(Vector2));
+  Vector2 v4;
+  memcpy(&v4, p4, sizeof(Vector2));
+  Vector2 result = GetSplinePointBezierCubic(v1, v2, v3, v4, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}
+
+// ============================================================================
+// Shapes: Additional 2D collision detection
+// ============================================================================
+
+int
+moonbit_raylib_check_collision_circle_line(
+  moonbit_bytes_t center,
+  float radius,
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2
+) {
+  Vector2 ctr;
+  memcpy(&ctr, center, sizeof(Vector2));
+  Vector2 a;
+  memcpy(&a, p1, sizeof(Vector2));
+  Vector2 b;
+  memcpy(&b, p2, sizeof(Vector2));
+  return (int)CheckCollisionCircleLine(ctr, radius, a, b);
+}
+
+int
+moonbit_raylib_check_collision_point_line(
+  moonbit_bytes_t point,
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  int threshold
+) {
+  Vector2 pt;
+  memcpy(&pt, point, sizeof(Vector2));
+  Vector2 a;
+  memcpy(&a, p1, sizeof(Vector2));
+  Vector2 b;
+  memcpy(&b, p2, sizeof(Vector2));
+  return (int)CheckCollisionPointLine(pt, a, b, threshold);
+}
