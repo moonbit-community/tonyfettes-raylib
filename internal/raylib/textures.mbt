@@ -30,6 +30,74 @@ pub extern "c" fn gen_image_checked(
 ) -> Image = "moonbit_raylib_gen_image_checked"
 
 // ============================================================================
+// Image generation
+// ============================================================================
+
+///|
+#borrow(start_color, end_color)
+pub extern "c" fn gen_image_gradient_linear(width : Int, height : Int, direction : Int, start_color : Bytes, end_color : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_linear"
+
+///|
+#borrow(inner, outer)
+pub extern "c" fn gen_image_gradient_radial(width : Int, height : Int, density : Float, inner : Bytes, outer : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_radial"
+
+///|
+#borrow(inner, outer)
+pub extern "c" fn gen_image_gradient_square(width : Int, height : Int, density : Float, inner : Bytes, outer : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_square"
+
+///|
+pub extern "c" fn gen_image_white_noise(width : Int, height : Int, factor : Float) -> Image = "moonbit_raylib_gen_image_white_noise"
+
+///|
+pub extern "c" fn gen_image_perlin_noise(width : Int, height : Int, offset_x : Int, offset_y : Int, scale : Float) -> Image = "moonbit_raylib_gen_image_perlin_noise"
+
+///|
+pub extern "c" fn gen_image_cellular(width : Int, height : Int, tile_size : Int) -> Image = "moonbit_raylib_gen_image_cellular"
+
+///|
+#borrow(text)
+pub extern "c" fn gen_image_text(width : Int, height : Int, text : Bytes) -> Image = "moonbit_raylib_gen_image_text"
+
+// ============================================================================
+// Image loading extras
+// ============================================================================
+
+///|
+#borrow(file_type, file_data)
+pub extern "c" fn load_image_from_memory(file_type : Bytes, file_data : Bytes, data_size : Int) -> Image = "moonbit_raylib_load_image_from_memory"
+
+///|
+#borrow(texture)
+pub extern "c" fn load_image_from_texture(texture : Texture) -> Image = "moonbit_raylib_load_image_from_texture"
+
+///|
+pub extern "c" fn load_image_from_screen() -> Image = "moonbit_raylib_load_image_from_screen"
+
+///|
+#borrow(image)
+pub extern "c" fn is_image_valid(image : Image) -> Bool = "moonbit_raylib_is_image_valid"
+
+///|
+#borrow(image, file_name)
+pub extern "c" fn export_image(image : Image, file_name : Bytes) -> Bool = "moonbit_raylib_export_image"
+
+// ============================================================================
+// Image basic ops
+// ============================================================================
+
+///|
+#borrow(image)
+pub extern "c" fn image_copy(image : Image) -> Image = "moonbit_raylib_image_copy"
+
+///|
+#borrow(image, rec)
+pub extern "c" fn image_from_image(image : Image, rec : Bytes) -> Image = "moonbit_raylib_image_from_image"
+
+///|
+#borrow(image)
+pub extern "c" fn image_from_channel(image : Image, selected_channel : Int) -> Image = "moonbit_raylib_image_from_channel"
+
+// ============================================================================
 // Texture loading
 // ============================================================================
 
@@ -113,3 +181,26 @@ pub extern "c" fn draw_texture_pro(
   rotation : Float,
   tint : Bytes,
 ) = "moonbit_raylib_draw_texture_pro"
+
+///|
+#borrow(texture, npatch_info, dest, origin, tint)
+pub extern "c" fn draw_texture_npatch(
+  texture : Texture,
+  npatch_info : Bytes,
+  dest : Bytes,
+  origin : Bytes,
+  rotation : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_texture_npatch"
+
+// ============================================================================
+// Texture configuration
+// ============================================================================
+
+///|
+#borrow(texture)
+pub extern "c" fn set_texture_filter(texture : Texture, filter : Int) = "moonbit_raylib_set_texture_filter"
+
+///|
+#borrow(texture)
+pub extern "c" fn set_texture_wrap(texture : Texture, wrap : Int) = "moonbit_raylib_set_texture_wrap"
