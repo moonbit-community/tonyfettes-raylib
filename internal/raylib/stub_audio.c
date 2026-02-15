@@ -71,6 +71,35 @@ void
 moonbit_raylib_set_sound_pan(SoundWrapper *wrapper, float pan) {
   SetSoundPan(wrapper->sound, pan);
 }
+int
+moonbit_raylib_is_sound_valid(SoundWrapper *wrapper) {
+  return (int)IsSoundValid(wrapper->sound);
+}
+
+static void
+sound_alias_destructor(void *ptr) {
+  SoundWrapper *w = (SoundWrapper *)ptr;
+  if (!w->freed)
+    UnloadSoundAlias(w->sound);
+}
+
+SoundWrapper *
+moonbit_raylib_load_sound_alias(SoundWrapper *source) {
+  SoundWrapper *w = (SoundWrapper *)moonbit_make_external_object(
+    sound_alias_destructor, sizeof(SoundWrapper)
+  );
+  w->sound = LoadSoundAlias(source->sound);
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_unload_sound_alias(SoundWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    UnloadSoundAlias(wrapper->sound);
+    wrapper->freed = 1;
+  }
+}
 
 // ============================================================================
 // Audio: Music (resource types)
@@ -137,4 +166,12 @@ moonbit_raylib_get_music_time_length(MusicWrapper *wrapper) {
 float
 moonbit_raylib_get_music_time_played(MusicWrapper *wrapper) {
   return GetMusicTimePlayed(wrapper->music);
+}
+int
+moonbit_raylib_is_music_valid(MusicWrapper *wrapper) {
+  return (int)IsMusicValid(wrapper->music);
+}
+void
+moonbit_raylib_set_music_pan(MusicWrapper *wrapper, float pan) {
+  SetMusicPan(wrapper->music, pan);
 }

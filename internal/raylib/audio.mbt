@@ -61,6 +61,18 @@ pub extern "c" fn set_sound_pitch(sound : Sound, pitch : Float) = "moonbit_rayli
 #borrow(sound)
 pub extern "c" fn set_sound_pan(sound : Sound, pan : Float) = "moonbit_raylib_set_sound_pan"
 
+///|
+#borrow(sound)
+pub extern "c" fn is_sound_valid(sound : Sound) -> Bool = "moonbit_raylib_is_sound_valid"
+
+///|
+#borrow(source)
+pub extern "c" fn load_sound_alias(source : Sound) -> Sound = "moonbit_raylib_load_sound_alias"
+
+///|
+#borrow(sound)
+pub extern "c" fn unload_sound_alias(sound : Sound) = "moonbit_raylib_unload_sound_alias"
+
 // ============================================================================
 // Music stream
 // ============================================================================
@@ -116,3 +128,11 @@ pub extern "c" fn get_music_time_length(music : Music) -> Float = "moonbit_rayli
 ///|
 #borrow(music)
 pub extern "c" fn get_music_time_played(music : Music) -> Float = "moonbit_raylib_get_music_time_played"
+
+///|
+#borrow(music)
+pub extern "c" fn is_music_valid(music : Music) -> Bool = "moonbit_raylib_is_music_valid"
+
+///|
+#borrow(music)
+pub extern "c" fn set_music_pan(music : Music, pan : Float) = "moonbit_raylib_set_music_pan"
