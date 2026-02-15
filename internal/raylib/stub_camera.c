@@ -77,3 +77,51 @@ moonbit_raylib_get_world_to_screen_2d(
   memcpy(r, &result, sizeof(Vector2));
   return r;
 }
+
+// ============================================================================
+// Camera matrix
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_camera_matrix(moonbit_bytes_t camera) {
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Matrix result = GetCameraMatrix(cam);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Matrix), 0);
+  memcpy(r, &result, sizeof(Matrix));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_camera_matrix_2d(moonbit_bytes_t camera) {
+  Camera2D cam;
+  memcpy(&cam, camera, sizeof(Camera2D));
+  Matrix result = GetCameraMatrix2D(cam);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Matrix), 0);
+  memcpy(r, &result, sizeof(Matrix));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_screen_to_world_ray(moonbit_bytes_t position, moonbit_bytes_t camera) {
+  Vector2 pos;
+  memcpy(&pos, position, sizeof(Vector2));
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Ray result = GetScreenToWorldRay(pos, cam);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Ray), 0);
+  memcpy(r, &result, sizeof(Ray));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_world_to_screen_ex(moonbit_bytes_t position, moonbit_bytes_t camera, int width, int height) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Vector2 result = GetWorldToScreenEx(pos, cam, width, height);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+  memcpy(r, &result, sizeof(Vector2));
+  return r;
+}

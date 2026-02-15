@@ -179,3 +179,27 @@ pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 
     @raylib.get_world_to_screen_2d(position.to_bytes(), camera.to_bytes()),
   )
 }
+
+// ============================================================================
+// Camera matrix
+// ============================================================================
+
+///|
+pub fn get_camera_matrix(camera : Camera3D) -> Matrix {
+  Matrix::from_bytes(@raylib.get_camera_matrix(camera.to_bytes()))
+}
+
+///|
+pub fn get_camera_matrix_2d(camera : Camera2D) -> Matrix {
+  Matrix::from_bytes(@raylib.get_camera_matrix_2d(camera.to_bytes()))
+}
+
+///|
+pub fn get_screen_to_world_ray(position : Vector2, camera : Camera3D) -> Ray {
+  Ray::from_bytes(@raylib.get_screen_to_world_ray(position.to_bytes(), camera.to_bytes()))
+}
+
+///|
+pub fn get_world_to_screen_ex(position : Vector3, camera : Camera3D, width : Int, height : Int) -> Vector2 {
+  Vector2::from_bytes(@raylib.get_world_to_screen_ex(position.to_bytes(), camera.to_bytes(), width, height))
+}

@@ -456,6 +456,77 @@ pub extern "c" fn get_world_to_screen_2d(
 ) -> Bytes = "moonbit_raylib_get_world_to_screen_2d"
 
 // ============================================================================
+// Shader management
+// ============================================================================
+
+///|
+#borrow(vs_file_name, fs_file_name)
+pub extern "c" fn load_shader(vs_file_name : Bytes, fs_file_name : Bytes) -> Shader = "moonbit_raylib_load_shader"
+
+///|
+#borrow(vs_code, fs_code)
+pub extern "c" fn load_shader_from_memory(vs_code : Bytes, fs_code : Bytes) -> Shader = "moonbit_raylib_load_shader_from_memory"
+
+///|
+#borrow(shader)
+pub extern "c" fn is_shader_valid(shader : Shader) -> Bool = "moonbit_raylib_is_shader_valid"
+
+///|
+#borrow(shader, uniform_name)
+pub extern "c" fn get_shader_location(shader : Shader, uniform_name : Bytes) -> Int = "moonbit_raylib_get_shader_location"
+
+///|
+#borrow(shader, attrib_name)
+pub extern "c" fn get_shader_location_attrib(shader : Shader, attrib_name : Bytes) -> Int = "moonbit_raylib_get_shader_location_attrib"
+
+///|
+#borrow(shader, value)
+pub extern "c" fn set_shader_value(shader : Shader, loc_index : Int, value : Bytes, uniform_type : Int) = "moonbit_raylib_set_shader_value"
+
+///|
+#borrow(shader, value)
+pub extern "c" fn set_shader_value_v(shader : Shader, loc_index : Int, value : Bytes, uniform_type : Int, count : Int) = "moonbit_raylib_set_shader_value_v"
+
+///|
+#borrow(shader, mat)
+pub extern "c" fn set_shader_value_matrix(shader : Shader, loc_index : Int, mat : Bytes) = "moonbit_raylib_set_shader_value_matrix"
+
+///|
+#borrow(shader, texture)
+pub extern "c" fn set_shader_value_texture(shader : Shader, loc_index : Int, texture : Texture) = "moonbit_raylib_set_shader_value_texture"
+
+///|
+#borrow(shader)
+pub extern "c" fn unload_shader(shader : Shader) = "moonbit_raylib_unload_shader"
+
+///|
+#borrow(shader)
+pub extern "c" fn begin_shader_mode(shader : Shader) = "moonbit_raylib_begin_shader_mode"
+
+///|
+pub extern "c" fn end_shader_mode() = "EndShaderMode"
+
+// ============================================================================
+// Camera matrix
+// ============================================================================
+
+///|
+#borrow(camera)
+pub extern "c" fn get_camera_matrix(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix"
+
+///|
+#borrow(camera)
+pub extern "c" fn get_camera_matrix_2d(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix_2d"
+
+///|
+#borrow(position, camera)
+pub extern "c" fn get_screen_to_world_ray(position : Bytes, camera : Bytes) -> Bytes = "moonbit_raylib_get_screen_to_world_ray"
+
+///|
+#borrow(position, camera)
+pub extern "c" fn get_world_to_screen_ex(position : Bytes, camera : Bytes, width : Int, height : Int) -> Bytes = "moonbit_raylib_get_world_to_screen_ex"
+
+// ============================================================================
 // Misc
 // ============================================================================
 
