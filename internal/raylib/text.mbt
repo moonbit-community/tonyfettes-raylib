@@ -81,3 +81,19 @@ pub extern "c" fn measure_text_ex(
 
 ///|
 pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
+
+// ============================================================================
+// Text extras
+// ============================================================================
+
+///|
+#borrow(font, position, tint)
+pub extern "c" fn draw_text_codepoint(font : Font, codepoint : Int, position : Bytes, font_size : Float, tint : Bytes) = "moonbit_raylib_draw_text_codepoint"
+
+///|
+#borrow(font)
+pub extern "c" fn get_glyph_index(font : Font, codepoint : Int) -> Int = "moonbit_raylib_get_glyph_index"
+
+///|
+#borrow(font)
+pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_atlas_rec"

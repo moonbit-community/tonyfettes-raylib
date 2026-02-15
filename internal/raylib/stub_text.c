@@ -131,3 +131,29 @@ moonbit_raylib_measure_text_ex(
   memcpy(r, &result, sizeof(Vector2));
   return r;
 }
+
+// ============================================================================
+// Text extras
+// ============================================================================
+
+void
+moonbit_raylib_draw_text_codepoint(FontWrapper *font, int codepoint, moonbit_bytes_t position, float fontSize, moonbit_bytes_t tint) {
+  Vector2 pos;
+  memcpy(&pos, position, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawTextCodepoint(font->font, codepoint, pos, fontSize, c);
+}
+
+int
+moonbit_raylib_get_glyph_index(FontWrapper *font, int codepoint) {
+  return GetGlyphIndex(font->font, codepoint);
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_glyph_atlas_rec(FontWrapper *font, int codepoint) {
+  Rectangle result = GetGlyphAtlasRec(font->font, codepoint);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Rectangle), 0);
+  memcpy(r, &result, sizeof(Rectangle));
+  return r;
+}

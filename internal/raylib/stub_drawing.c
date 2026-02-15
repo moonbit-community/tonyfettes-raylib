@@ -33,3 +33,92 @@ void
 moonbit_raylib_begin_texture_mode(RenderTextureWrapper *wrapper) {
   BeginTextureMode(wrapper->render_texture);
 }
+
+// ============================================================================
+// Shader management
+// ============================================================================
+
+static void
+shader_destructor(void *ptr) {
+  ShaderWrapper *w = (ShaderWrapper *)ptr;
+  if (!w->freed)
+    UnloadShader(w->shader);
+}
+
+ShaderWrapper *
+moonbit_raylib_load_shader(moonbit_bytes_t vsFileName, moonbit_bytes_t fsFileName) {
+  const char *vs = (const char *)vsFileName;
+  const char *fs = (const char *)fsFileName;
+  if (vs[0] == '\0') vs = NULL;
+  if (fs[0] == '\0') fs = NULL;
+  ShaderWrapper *w = (ShaderWrapper *)moonbit_make_external_object(
+    shader_destructor, sizeof(ShaderWrapper)
+  );
+  w->shader = LoadShader(vs, fs);
+  w->freed = 0;
+  return w;
+}
+
+ShaderWrapper *
+moonbit_raylib_load_shader_from_memory(moonbit_bytes_t vsCode, moonbit_bytes_t fsCode) {
+  const char *vs = (const char *)vsCode;
+  const char *fs = (const char *)fsCode;
+  if (vs[0] == '\0') vs = NULL;
+  if (fs[0] == '\0') fs = NULL;
+  ShaderWrapper *w = (ShaderWrapper *)moonbit_make_external_object(
+    shader_destructor, sizeof(ShaderWrapper)
+  );
+  w->shader = LoadShaderFromMemory(vs, fs);
+  w->freed = 0;
+  return w;
+}
+
+int
+moonbit_raylib_is_shader_valid(ShaderWrapper *wrapper) {
+  return (int)IsShaderValid(wrapper->shader);
+}
+
+int
+moonbit_raylib_get_shader_location(ShaderWrapper *wrapper, moonbit_bytes_t uniformName) {
+  return GetShaderLocation(wrapper->shader, (const char *)uniformName);
+}
+
+int
+moonbit_raylib_get_shader_location_attrib(ShaderWrapper *wrapper, moonbit_bytes_t attribName) {
+  return GetShaderLocationAttrib(wrapper->shader, (const char *)attribName);
+}
+
+void
+moonbit_raylib_set_shader_value(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t value, int uniformType) {
+  SetShaderValue(wrapper->shader, locIndex, (const void *)value, uniformType);
+}
+
+void
+moonbit_raylib_set_shader_value_v(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t value, int uniformType, int count) {
+  SetShaderValueV(wrapper->shader, locIndex, (const void *)value, uniformType, count);
+}
+
+void
+moonbit_raylib_set_shader_value_matrix(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t mat) {
+  Matrix m;
+  memcpy(&m, mat, sizeof(Matrix));
+  SetShaderValueMatrix(wrapper->shader, locIndex, m);
+}
+
+void
+moonbit_raylib_set_shader_value_texture(ShaderWrapper *wrapper, int locIndex, TextureWrapper *texWrapper) {
+  SetShaderValueTexture(wrapper->shader, locIndex, texWrapper->texture);
+}
+
+void
+moonbit_raylib_unload_shader(ShaderWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    UnloadShader(wrapper->shader);
+    wrapper->freed = 1;
+  }
+}
+
+void
+moonbit_raylib_begin_shader_mode(ShaderWrapper *wrapper) {
+  BeginShaderMode(wrapper->shader);
+}

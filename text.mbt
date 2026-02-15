@@ -8,6 +8,7 @@ pub using @raylib {
   unload_font,
   draw_fps,
   set_text_line_spacing,
+  get_glyph_index,
 }
 
 // ============================================================================
@@ -106,4 +107,18 @@ pub fn measure_text_ex(
   Vector2::from_bytes(
     @raylib.measure_text_ex(font, @utf8.encode(text), font_size, spacing),
   )
+}
+
+// ============================================================================
+// Text extras (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_text_codepoint(font : Font, codepoint : Int, position : Vector2, font_size : Float, tint : Color) -> Unit {
+  @raylib.draw_text_codepoint(font, codepoint, position.to_bytes(), font_size, tint.to_bytes())
+}
+
+///|
+pub fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Rectangle {
+  Rectangle::from_bytes(@raylib.get_glyph_atlas_rec(font, codepoint))
 }

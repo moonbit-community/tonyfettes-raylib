@@ -33,5 +33,9 @@ typedef struct {
   Model model;
   int freed;
 } ModelWrapper;
+typedef struct {
+  Shader shader;
+  int freed;
+} ShaderWrapper;
 
 #endif
