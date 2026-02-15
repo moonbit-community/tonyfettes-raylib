@@ -5,12 +5,22 @@ pub using @raylib {
   type Image,
   type Texture,
   unload_image,
+  is_image_valid,
+  image_copy,
+  image_from_channel,
+  load_image_from_texture,
+  load_image_from_screen,
   load_texture_from_image,
   is_texture_valid,
   unload_texture,
   load_render_texture,
   is_render_texture_valid,
   unload_render_texture,
+  gen_image_white_noise,
+  gen_image_perlin_noise,
+  gen_image_cellular,
+  set_texture_filter,
+  set_texture_wrap,
 }
 
 // ============================================================================
@@ -44,6 +54,89 @@ pub fn gen_image_checked(
     col1.to_bytes(),
     col2.to_bytes(),
   )
+}
+
+///|
+pub fn gen_image_gradient_linear(
+  width : Int,
+  height : Int,
+  direction : Int,
+  start : Color,
+  end_ : Color,
+) -> Image {
+  @raylib.gen_image_gradient_linear(
+    width,
+    height,
+    direction,
+    start.to_bytes(),
+    end_.to_bytes(),
+  )
+}
+
+///|
+pub fn gen_image_gradient_radial(
+  width : Int,
+  height : Int,
+  density : Float,
+  inner : Color,
+  outer : Color,
+) -> Image {
+  @raylib.gen_image_gradient_radial(
+    width,
+    height,
+    density,
+    inner.to_bytes(),
+    outer.to_bytes(),
+  )
+}
+
+///|
+pub fn gen_image_gradient_square(
+  width : Int,
+  height : Int,
+  density : Float,
+  inner : Color,
+  outer : Color,
+) -> Image {
+  @raylib.gen_image_gradient_square(
+    width,
+    height,
+    density,
+    inner.to_bytes(),
+    outer.to_bytes(),
+  )
+}
+
+///|
+pub fn gen_image_text(width : Int, height : Int, text : String) -> Image {
+  @raylib.gen_image_text(width, height, @utf8.encode(text))
+}
+
+// ============================================================================
+// Image loading extras (wrappers)
+// ============================================================================
+
+///|
+pub fn load_image_from_memory(
+  file_type : String,
+  file_data : Bytes,
+  data_size : Int,
+) -> Image {
+  @raylib.load_image_from_memory(@utf8.encode(file_type), file_data, data_size)
+}
+
+///|
+pub fn export_image(image : Image, file_name : String) -> Bool {
+  @raylib.export_image(image, @utf8.encode(file_name))
+}
+
+// ============================================================================
+// Image basic ops (wrappers)
+// ============================================================================
+
+///|
+pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
+  @raylib.image_from_image(image, rec.to_bytes())
 }
 
 // ============================================================================
@@ -128,3 +221,85 @@ pub fn draw_texture_pro(
     tint.to_bytes(),
   )
 }
+
+///|
+pub fn draw_texture_npatch(
+  texture : Texture,
+  npatch_info : NPatchInfo,
+  dest : Rectangle,
+  origin : Vector2,
+  rotation : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_texture_npatch(
+    texture,
+    npatch_info.to_bytes(),
+    dest.to_bytes(),
+    origin.to_bytes(),
+    rotation,
+    tint.to_bytes(),
+  )
+}
+
+// ============================================================================
+// Texture filter constants
+// ============================================================================
+
+///|
+pub let texture_filter_point : Int = 0
+
+///|
+pub let texture_filter_bilinear : Int = 1
+
+///|
+pub let texture_filter_trilinear : Int = 2
+
+///|
+pub let texture_filter_anisotropic_4x : Int = 3
+
+///|
+pub let texture_filter_anisotropic_8x : Int = 4
+
+///|
+pub let texture_filter_anisotropic_16x : Int = 5
+
+// ============================================================================
+// Texture wrap constants
+// ============================================================================
+
+///|
+pub let texture_wrap_repeat : Int = 0
+
+///|
+pub let texture_wrap_clamp : Int = 1
+
+///|
+pub let texture_wrap_mirror_repeat : Int = 2
+
+///|
+pub let texture_wrap_mirror_clamp : Int = 3
+
+// ============================================================================
+// Pixel format constants
+// ============================================================================
+
+///|
+pub let pixelformat_uncompressed_grayscale : Int = 1
+
+///|
+pub let pixelformat_uncompressed_gray_alpha : Int = 2
+
+///|
+pub let pixelformat_uncompressed_r5g6b5 : Int = 3
+
+///|
+pub let pixelformat_uncompressed_r8g8b8 : Int = 4
+
+///|
+pub let pixelformat_uncompressed_r5g5b5a1 : Int = 5
+
+///|
+pub let pixelformat_uncompressed_r4g4b4a4 : Int = 6
+
+///|
+pub let pixelformat_uncompressed_r8g8b8a8 : Int = 7
