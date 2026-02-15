@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {type Model, unload_model, draw_grid}
+pub using @raylib {type Model, unload_model, draw_grid, is_model_valid}
 
 // ============================================================================
 // 3D shape drawing (wrappers)
@@ -172,6 +172,97 @@ pub fn draw_cylinder_wires(
 }
 
 ///|
+pub fn draw_triangle_3d(
+  v1 : Vector3,
+  v2 : Vector3,
+  v3 : Vector3,
+  color : Color,
+) -> Unit {
+  @raylib.draw_triangle_3d(
+    v1.to_bytes(),
+    v2.to_bytes(),
+    v3.to_bytes(),
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_cylinder_ex(
+  start_pos : Vector3,
+  end_pos : Vector3,
+  start_radius : Float,
+  end_radius : Float,
+  sides : Int,
+  color : Color,
+) -> Unit {
+  @raylib.draw_cylinder_ex(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    start_radius,
+    end_radius,
+    sides,
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_cylinder_wires_ex(
+  start_pos : Vector3,
+  end_pos : Vector3,
+  start_radius : Float,
+  end_radius : Float,
+  sides : Int,
+  color : Color,
+) -> Unit {
+  @raylib.draw_cylinder_wires_ex(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    start_radius,
+    end_radius,
+    sides,
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_capsule(
+  start_pos : Vector3,
+  end_pos : Vector3,
+  radius : Float,
+  slices : Int,
+  rings : Int,
+  color : Color,
+) -> Unit {
+  @raylib.draw_capsule(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    radius,
+    slices,
+    rings,
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_capsule_wires(
+  start_pos : Vector3,
+  end_pos : Vector3,
+  radius : Float,
+  slices : Int,
+  rings : Int,
+  color : Color,
+) -> Unit {
+  @raylib.draw_capsule_wires(
+    start_pos.to_bytes(),
+    end_pos.to_bytes(),
+    radius,
+    slices,
+    rings,
+    color.to_bytes(),
+  )
+}
+
+///|
 pub fn draw_plane(center : Vector3, size : Vector2, color : Color) -> Unit {
   @raylib.draw_plane(center.to_bytes(), size.to_bytes(), color.to_bytes())
 }
@@ -203,6 +294,157 @@ pub fn draw_model(
   tint : Color,
 ) -> Unit {
   @raylib.draw_model(model, position.to_bytes(), scale, tint.to_bytes())
+}
+
+///|
+pub fn draw_model_ex(
+  model : Model,
+  position : Vector3,
+  rotation_axis : Vector3,
+  rotation_angle : Float,
+  scale : Vector3,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_model_ex(
+    model,
+    position.to_bytes(),
+    rotation_axis.to_bytes(),
+    rotation_angle,
+    scale.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_model_wires(
+  model : Model,
+  position : Vector3,
+  scale : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_model_wires(model, position.to_bytes(), scale, tint.to_bytes())
+}
+
+///|
+pub fn draw_model_wires_ex(
+  model : Model,
+  position : Vector3,
+  rotation_axis : Vector3,
+  rotation_angle : Float,
+  scale : Vector3,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_model_wires_ex(
+    model,
+    position.to_bytes(),
+    rotation_axis.to_bytes(),
+    rotation_angle,
+    scale.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_model_points(
+  model : Model,
+  position : Vector3,
+  scale : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_model_points(model, position.to_bytes(), scale, tint.to_bytes())
+}
+
+///|
+pub fn draw_model_points_ex(
+  model : Model,
+  position : Vector3,
+  rotation_axis : Vector3,
+  rotation_angle : Float,
+  scale : Vector3,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_model_points_ex(
+    model,
+    position.to_bytes(),
+    rotation_axis.to_bytes(),
+    rotation_angle,
+    scale.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+// ============================================================================
+// Model management (wrappers)
+// ============================================================================
+
+///|
+pub fn get_model_bounding_box(model : Model) -> BoundingBox {
+  BoundingBox::from_bytes(@raylib.get_model_bounding_box(model))
+}
+
+// ============================================================================
+// Billboard drawing (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_billboard(
+  camera : Camera3D,
+  texture : Texture,
+  position : Vector3,
+  scale : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_billboard(
+    camera.to_bytes(),
+    texture,
+    position.to_bytes(),
+    scale,
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_billboard_rec(
+  camera : Camera3D,
+  texture : Texture,
+  source : Rectangle,
+  position : Vector3,
+  size : Vector2,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_billboard_rec(
+    camera.to_bytes(),
+    texture,
+    source.to_bytes(),
+    position.to_bytes(),
+    size.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_billboard_pro(
+  camera : Camera3D,
+  texture : Texture,
+  source : Rectangle,
+  position : Vector3,
+  up : Vector3,
+  size : Vector2,
+  origin : Vector2,
+  rotation : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_billboard_pro(
+    camera.to_bytes(),
+    texture,
+    source.to_bytes(),
+    position.to_bytes(),
+    up.to_bytes(),
+    size.to_bytes(),
+    origin.to_bytes(),
+    rotation,
+    tint.to_bytes(),
+  )
 }
 
 // ============================================================================
@@ -253,5 +495,22 @@ pub fn get_ray_collision_sphere(
 pub fn get_ray_collision_box(ray : Ray, box_ : BoundingBox) -> RayCollision {
   RayCollision::from_bytes(
     @raylib.get_ray_collision_box(ray.to_bytes(), box_.to_bytes()),
+  )
+}
+
+///|
+pub fn get_ray_collision_triangle(
+  ray : Ray,
+  p1 : Vector3,
+  p2 : Vector3,
+  p3 : Vector3,
+) -> RayCollision {
+  RayCollision::from_bytes(
+    @raylib.get_ray_collision_triangle(
+      ray.to_bytes(),
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+    ),
   )
 }
