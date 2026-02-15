@@ -261,6 +261,281 @@ moonbit_raylib_draw_model(
 }
 
 // ============================================================================
+// Models: 3D shape drawing (extended)
+// ============================================================================
+
+void
+moonbit_raylib_draw_triangle_3d(
+  moonbit_bytes_t v1,
+  moonbit_bytes_t v2,
+  moonbit_bytes_t v3,
+  moonbit_bytes_t color
+) {
+  Vector3 a;
+  memcpy(&a, v1, sizeof(Vector3));
+  Vector3 b;
+  memcpy(&b, v2, sizeof(Vector3));
+  Vector3 c;
+  memcpy(&c, v3, sizeof(Vector3));
+  Color col;
+  memcpy(&col, color, sizeof(Color));
+  DrawTriangle3D(a, b, c, col);
+}
+
+void
+moonbit_raylib_draw_cylinder_ex(
+  moonbit_bytes_t startPos,
+  moonbit_bytes_t endPos,
+  float startRadius,
+  float endRadius,
+  int sides,
+  moonbit_bytes_t color
+) {
+  Vector3 sp;
+  memcpy(&sp, startPos, sizeof(Vector3));
+  Vector3 ep;
+  memcpy(&ep, endPos, sizeof(Vector3));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawCylinderEx(sp, ep, startRadius, endRadius, sides, c);
+}
+
+void
+moonbit_raylib_draw_cylinder_wires_ex(
+  moonbit_bytes_t startPos,
+  moonbit_bytes_t endPos,
+  float startRadius,
+  float endRadius,
+  int sides,
+  moonbit_bytes_t color
+) {
+  Vector3 sp;
+  memcpy(&sp, startPos, sizeof(Vector3));
+  Vector3 ep;
+  memcpy(&ep, endPos, sizeof(Vector3));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawCylinderWiresEx(sp, ep, startRadius, endRadius, sides, c);
+}
+
+void
+moonbit_raylib_draw_capsule(
+  moonbit_bytes_t startPos,
+  moonbit_bytes_t endPos,
+  float radius,
+  int slices,
+  int rings,
+  moonbit_bytes_t color
+) {
+  Vector3 sp;
+  memcpy(&sp, startPos, sizeof(Vector3));
+  Vector3 ep;
+  memcpy(&ep, endPos, sizeof(Vector3));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawCapsule(sp, ep, radius, slices, rings, c);
+}
+
+void
+moonbit_raylib_draw_capsule_wires(
+  moonbit_bytes_t startPos,
+  moonbit_bytes_t endPos,
+  float radius,
+  int slices,
+  int rings,
+  moonbit_bytes_t color
+) {
+  Vector3 sp;
+  memcpy(&sp, startPos, sizeof(Vector3));
+  Vector3 ep;
+  memcpy(&ep, endPos, sizeof(Vector3));
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  DrawCapsuleWires(sp, ep, radius, slices, rings, c);
+}
+
+// ============================================================================
+// Models: Model drawing (extended)
+// ============================================================================
+
+void
+moonbit_raylib_draw_model_ex(
+  ModelWrapper *wrapper,
+  moonbit_bytes_t position,
+  moonbit_bytes_t rotationAxis,
+  float rotationAngle,
+  moonbit_bytes_t scale,
+  moonbit_bytes_t tint
+) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Vector3 axis;
+  memcpy(&axis, rotationAxis, sizeof(Vector3));
+  Vector3 sc;
+  memcpy(&sc, scale, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawModelEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+}
+
+void
+moonbit_raylib_draw_model_wires(
+  ModelWrapper *wrapper,
+  moonbit_bytes_t position,
+  float scale,
+  moonbit_bytes_t tint
+) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawModelWires(wrapper->model, pos, scale, c);
+}
+
+void
+moonbit_raylib_draw_model_wires_ex(
+  ModelWrapper *wrapper,
+  moonbit_bytes_t position,
+  moonbit_bytes_t rotationAxis,
+  float rotationAngle,
+  moonbit_bytes_t scale,
+  moonbit_bytes_t tint
+) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Vector3 axis;
+  memcpy(&axis, rotationAxis, sizeof(Vector3));
+  Vector3 sc;
+  memcpy(&sc, scale, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawModelWiresEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+}
+
+void
+moonbit_raylib_draw_model_points(
+  ModelWrapper *wrapper,
+  moonbit_bytes_t position,
+  float scale,
+  moonbit_bytes_t tint
+) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawModelPoints(wrapper->model, pos, scale, c);
+}
+
+void
+moonbit_raylib_draw_model_points_ex(
+  ModelWrapper *wrapper,
+  moonbit_bytes_t position,
+  moonbit_bytes_t rotationAxis,
+  float rotationAngle,
+  moonbit_bytes_t scale,
+  moonbit_bytes_t tint
+) {
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Vector3 axis;
+  memcpy(&axis, rotationAxis, sizeof(Vector3));
+  Vector3 sc;
+  memcpy(&sc, scale, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawModelPointsEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+}
+
+// ============================================================================
+// Models: Model management
+// ============================================================================
+
+int
+moonbit_raylib_is_model_valid(ModelWrapper *wrapper) {
+  return (int)IsModelValid(wrapper->model);
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_model_bounding_box(ModelWrapper *wrapper) {
+  BoundingBox bb = GetModelBoundingBox(wrapper->model);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(BoundingBox), 0);
+  memcpy(r, &bb, sizeof(BoundingBox));
+  return r;
+}
+
+// ============================================================================
+// Models: Billboard drawing
+// ============================================================================
+
+void
+moonbit_raylib_draw_billboard(
+  moonbit_bytes_t camera,
+  TextureWrapper *tex_wrapper,
+  moonbit_bytes_t position,
+  float scale,
+  moonbit_bytes_t tint
+) {
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawBillboard(cam, tex_wrapper->texture, pos, scale, c);
+}
+
+void
+moonbit_raylib_draw_billboard_rec(
+  moonbit_bytes_t camera,
+  TextureWrapper *tex_wrapper,
+  moonbit_bytes_t source,
+  moonbit_bytes_t position,
+  moonbit_bytes_t size,
+  moonbit_bytes_t tint
+) {
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Rectangle src;
+  memcpy(&src, source, sizeof(Rectangle));
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Vector2 sz;
+  memcpy(&sz, size, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawBillboardRec(cam, tex_wrapper->texture, src, pos, sz, c);
+}
+
+void
+moonbit_raylib_draw_billboard_pro(
+  moonbit_bytes_t camera,
+  TextureWrapper *tex_wrapper,
+  moonbit_bytes_t source,
+  moonbit_bytes_t position,
+  moonbit_bytes_t up,
+  moonbit_bytes_t size,
+  moonbit_bytes_t origin,
+  float rotation,
+  moonbit_bytes_t tint
+) {
+  Camera3D cam;
+  memcpy(&cam, camera, sizeof(Camera3D));
+  Rectangle src;
+  memcpy(&src, source, sizeof(Rectangle));
+  Vector3 pos;
+  memcpy(&pos, position, sizeof(Vector3));
+  Vector3 u;
+  memcpy(&u, up, sizeof(Vector3));
+  Vector2 sz;
+  memcpy(&sz, size, sizeof(Vector2));
+  Vector2 org;
+  memcpy(&org, origin, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawBillboardPro(cam, tex_wrapper->texture, src, pos, u, sz, org, rotation, c);
+}
+
+// ============================================================================
 // Models: 3D collision detection
 // ============================================================================
 
@@ -326,6 +601,27 @@ moonbit_raylib_get_ray_collision_box(moonbit_bytes_t ray, moonbit_bytes_t box) {
   BoundingBox b;
   memcpy(&b, box, sizeof(BoundingBox));
   RayCollision result = GetRayCollisionBox(r, b);
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(RayCollision), 0);
+  memcpy(res, &result, sizeof(RayCollision));
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_ray_collision_triangle(
+  moonbit_bytes_t ray,
+  moonbit_bytes_t p1,
+  moonbit_bytes_t p2,
+  moonbit_bytes_t p3
+) {
+  Ray r;
+  memcpy(&r, ray, sizeof(Ray));
+  Vector3 v1;
+  memcpy(&v1, p1, sizeof(Vector3));
+  Vector3 v2;
+  memcpy(&v2, p2, sizeof(Vector3));
+  Vector3 v3;
+  memcpy(&v3, p3, sizeof(Vector3));
+  RayCollision result = GetRayCollisionTriangle(r, v1, v2, v3);
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(RayCollision), 0);
   memcpy(res, &result, sizeof(RayCollision));
   return res;
