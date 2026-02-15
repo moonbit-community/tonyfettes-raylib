@@ -151,3 +151,35 @@ pub fn color_lerp(color1 : Color, color2 : Color, factor : Float) -> Color {
 pub fn color_is_equal(col1 : Color, col2 : Color) -> Bool {
   @raylib.color_is_equal(col1.to_bytes(), col2.to_bytes())
 }
+
+///|
+pub fn color_normalize(color : Color) -> Vector4 {
+  Vector4::from_bytes(@raylib.color_normalize(color.to_bytes()))
+}
+
+///|
+pub fn color_from_normalized(normalized : Vector4) -> Color {
+  Color::from_bytes(@raylib.color_from_normalized(normalized.to_bytes()))
+}
+
+///|
+pub fn color_to_hsv(color : Color) -> Vector3 {
+  Vector3::from_bytes(@raylib.color_to_hsv(color.to_bytes()))
+}
+
+///|
+pub fn color_contrast(color : Color, contrast : Float) -> Color {
+  Color::from_bytes(@raylib.color_contrast(color.to_bytes(), contrast))
+}
+
+///|
+pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
+  Color::from_bytes(
+    @raylib.color_alpha_blend(dst.to_bytes(), src.to_bytes(), tint.to_bytes()),
+  )
+}
+
+///|
+pub using @raylib {
+  get_pixel_data_size,
+}

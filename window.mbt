@@ -29,11 +29,28 @@ pub using @raylib {
   set_config_flags,
   set_window_state,
   clear_window_state,
+  is_window_state,
+  // Monitor
+  get_monitor_count,
+  get_current_monitor,
+  get_monitor_width,
+  get_monitor_height,
+  get_monitor_physical_width,
+  get_monitor_physical_height,
+  get_monitor_refresh_rate,
+  set_window_monitor,
   // Timing
   set_target_fps,
   get_frame_time,
   get_time,
   get_fps,
+  // Event waiting
+  enable_event_waiting,
+  disable_event_waiting,
+  // Custom frame control
+  swap_screen_buffer,
+  poll_input_events,
+  wait_time,
   // Misc
   set_trace_log_level,
   get_random_value,
@@ -60,6 +77,42 @@ pub fn take_screenshot(file_name : String) -> Unit {
 ///|
 pub fn open_url(url : String) -> Unit {
   @raylib.open_url(@utf8.encode(url))
+}
+
+// Window state wrappers (Vector2 returns)
+
+///|
+pub fn get_window_position() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_window_position())
+}
+
+///|
+pub fn get_window_scale_dpi() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_window_scale_dpi())
+}
+
+// Monitor management wrappers (Vector2/String returns)
+
+///|
+pub fn get_monitor_position(monitor : Int) -> Vector2 {
+  Vector2::from_bytes(@raylib.get_monitor_position(monitor))
+}
+
+///|
+pub fn get_monitor_name(monitor : Int) -> String {
+  @utf8.decode_lossy(@raylib.get_monitor_name(monitor))
+}
+
+// Clipboard wrappers
+
+///|
+pub fn set_clipboard_text(text : String) -> Unit {
+  @raylib.set_clipboard_text(@utf8.encode(text))
+}
+
+///|
+pub fn get_clipboard_text() -> String {
+  @utf8.decode_lossy(@raylib.get_clipboard_text())
 }
 
 // ConfigFlags constants

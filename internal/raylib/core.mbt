@@ -91,6 +91,83 @@ pub extern "c" fn set_window_state(flags : Int) = "SetWindowState"
 ///|
 pub extern "c" fn clear_window_state(flags : Int) = "ClearWindowState"
 
+///|
+pub extern "c" fn is_window_state(flag : Int) -> Bool = "IsWindowState"
+
+///|
+pub extern "c" fn get_window_position() -> Bytes = "moonbit_raylib_get_window_position"
+
+///|
+pub extern "c" fn get_window_scale_dpi() -> Bytes = "moonbit_raylib_get_window_scale_dpi"
+
+// ============================================================================
+// Monitor management
+// ============================================================================
+
+///|
+pub extern "c" fn get_monitor_count() -> Int = "GetMonitorCount"
+
+///|
+pub extern "c" fn get_current_monitor() -> Int = "GetCurrentMonitor"
+
+///|
+pub extern "c" fn get_monitor_width(monitor : Int) -> Int = "GetMonitorWidth"
+
+///|
+pub extern "c" fn get_monitor_height(monitor : Int) -> Int = "GetMonitorHeight"
+
+///|
+pub extern "c" fn get_monitor_physical_width(monitor : Int) -> Int = "GetMonitorPhysicalWidth"
+
+///|
+pub extern "c" fn get_monitor_physical_height(monitor : Int) -> Int = "GetMonitorPhysicalHeight"
+
+///|
+pub extern "c" fn get_monitor_refresh_rate(monitor : Int) -> Int = "GetMonitorRefreshRate"
+
+///|
+pub extern "c" fn get_monitor_position(monitor : Int) -> Bytes = "moonbit_raylib_get_monitor_position"
+
+///|
+pub extern "c" fn get_monitor_name(monitor : Int) -> Bytes = "moonbit_raylib_get_monitor_name"
+
+///|
+pub extern "c" fn set_window_monitor(monitor : Int) = "SetWindowMonitor"
+
+// ============================================================================
+// Clipboard
+// ============================================================================
+
+///|
+#borrow(text)
+pub extern "c" fn set_clipboard_text(text : Bytes) = "moonbit_raylib_set_clipboard_text"
+
+///|
+pub extern "c" fn get_clipboard_text() -> Bytes = "moonbit_raylib_get_clipboard_text"
+
+// ============================================================================
+// Event waiting
+// ============================================================================
+
+///|
+pub extern "c" fn enable_event_waiting() = "EnableEventWaiting"
+
+///|
+pub extern "c" fn disable_event_waiting() = "DisableEventWaiting"
+
+// ============================================================================
+// Custom frame control
+// ============================================================================
+
+///|
+pub extern "c" fn swap_screen_buffer() = "SwapScreenBuffer"
+
+///|
+pub extern "c" fn poll_input_events() = "PollInputEvents"
+
+///|
+pub extern "c" fn wait_time(seconds : Double) = "WaitTime"
+
 // ============================================================================
 // Cursor
 // ============================================================================
@@ -444,3 +521,34 @@ pub extern "c" fn color_lerp(
 ///|
 #borrow(col1, col2)
 pub extern "c" fn color_is_equal(col1 : Bytes, col2 : Bytes) -> Bool = "moonbit_raylib_color_is_equal"
+
+///|
+#borrow(color)
+pub extern "c" fn color_normalize(color : Bytes) -> Bytes = "moonbit_raylib_color_normalize"
+
+///|
+#borrow(normalized)
+pub extern "c" fn color_from_normalized(normalized : Bytes) -> Bytes = "moonbit_raylib_color_from_normalized"
+
+///|
+#borrow(color)
+pub extern "c" fn color_to_hsv(color : Bytes) -> Bytes = "moonbit_raylib_color_to_hsv"
+
+///|
+#borrow(color)
+pub extern "c" fn color_contrast(color : Bytes, contrast : Float) -> Bytes = "moonbit_raylib_color_contrast"
+
+///|
+#borrow(dst, src, tint)
+pub extern "c" fn color_alpha_blend(
+  dst : Bytes,
+  src : Bytes,
+  tint : Bytes,
+) -> Bytes = "moonbit_raylib_color_alpha_blend"
+
+///|
+pub extern "c" fn get_pixel_data_size(
+  width : Int,
+  height : Int,
+  format : Int,
+) -> Int = "GetPixelDataSize"
