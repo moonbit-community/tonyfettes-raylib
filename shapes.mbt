@@ -527,3 +527,302 @@ pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
     @raylib.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
   )
 }
+
+// ============================================================================
+// Missing basic shapes (array-based + circle sector lines)
+// ============================================================================
+
+///|
+pub fn draw_circle_sector_lines(
+  center : Vector2,
+  radius : Float,
+  start_angle : Float,
+  end_angle : Float,
+  segments : Int,
+  color : Color,
+) -> Unit {
+  @raylib.draw_circle_sector_lines(
+    center.to_bytes(),
+    radius,
+    start_angle,
+    end_angle,
+    segments,
+    color.to_bytes(),
+  )
+}
+
+///|
+fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
+  let arr = FixedArray::make(points.length() * 8, b'\x00')
+  for i, p in points {
+    let bytes = p.to_bytes()
+    arr.blit_from_bytes(i * 8, bytes, 0, 8)
+  }
+  FixedArray::unsafe_reinterpret_as_bytes(arr)
+}
+
+///|
+pub fn draw_line_strip(points : Array[Vector2], color : Color) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_line_strip(bytes, points.length(), color.to_bytes())
+}
+
+///|
+pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_triangle_fan(bytes, points.length(), color.to_bytes())
+}
+
+///|
+pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_triangle_strip(bytes, points.length(), color.to_bytes())
+}
+
+// ============================================================================
+// Spline drawing (array-based)
+// ============================================================================
+
+///|
+pub fn draw_spline_linear(
+  points : Array[Vector2],
+  thick : Float,
+  color : Color,
+) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_spline_linear(bytes, points.length(), thick, color.to_bytes())
+}
+
+///|
+pub fn draw_spline_basis(
+  points : Array[Vector2],
+  thick : Float,
+  color : Color,
+) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_spline_basis(bytes, points.length(), thick, color.to_bytes())
+}
+
+///|
+pub fn draw_spline_catmull_rom(
+  points : Array[Vector2],
+  thick : Float,
+  color : Color,
+) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_spline_catmull_rom(
+    bytes, points.length(), thick, color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_bezier_quadratic(
+  points : Array[Vector2],
+  thick : Float,
+  color : Color,
+) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_spline_bezier_quadratic(
+    bytes, points.length(), thick, color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_bezier_cubic(
+  points : Array[Vector2],
+  thick : Float,
+  color : Color,
+) -> Unit {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.draw_spline_bezier_cubic(
+    bytes, points.length(), thick, color.to_bytes(),
+  )
+}
+
+// ============================================================================
+// Spline segments
+// ============================================================================
+
+///|
+pub fn draw_spline_segment_linear(
+  p1 : Vector2,
+  p2 : Vector2,
+  thick : Float,
+  color : Color,
+) -> Unit {
+  @raylib.draw_spline_segment_linear(
+    p1.to_bytes(), p2.to_bytes(), thick, color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_segment_basis(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  thick : Float,
+  color : Color,
+) -> Unit {
+  @raylib.draw_spline_segment_basis(
+    p1.to_bytes(),
+    p2.to_bytes(),
+    p3.to_bytes(),
+    p4.to_bytes(),
+    thick,
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_segment_catmull_rom(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  thick : Float,
+  color : Color,
+) -> Unit {
+  @raylib.draw_spline_segment_catmull_rom(
+    p1.to_bytes(),
+    p2.to_bytes(),
+    p3.to_bytes(),
+    p4.to_bytes(),
+    thick,
+    color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_segment_bezier_quadratic(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  thick : Float,
+  color : Color,
+) -> Unit {
+  @raylib.draw_spline_segment_bezier_quadratic(
+    p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), thick, color.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_spline_segment_bezier_cubic(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  thick : Float,
+  color : Color,
+) -> Unit {
+  @raylib.draw_spline_segment_bezier_cubic(
+    p1.to_bytes(),
+    p2.to_bytes(),
+    p3.to_bytes(),
+    p4.to_bytes(),
+    thick,
+    color.to_bytes(),
+  )
+}
+
+// ============================================================================
+// Spline point evaluation
+// ============================================================================
+
+///|
+pub fn get_spline_point_linear(
+  start_pos : Vector2,
+  end_pos : Vector2,
+  t : Float,
+) -> Vector2 {
+  Vector2::from_bytes(
+    @raylib.get_spline_point_linear(start_pos.to_bytes(), end_pos.to_bytes(), t),
+  )
+}
+
+///|
+pub fn get_spline_point_basis(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  t : Float,
+) -> Vector2 {
+  Vector2::from_bytes(
+    @raylib.get_spline_point_basis(
+      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+    ),
+  )
+}
+
+///|
+pub fn get_spline_point_catmull_rom(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  t : Float,
+) -> Vector2 {
+  Vector2::from_bytes(
+    @raylib.get_spline_point_catmull_rom(
+      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+    ),
+  )
+}
+
+///|
+pub fn get_spline_point_bezier_quad(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  t : Float,
+) -> Vector2 {
+  Vector2::from_bytes(
+    @raylib.get_spline_point_bezier_quad(
+      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), t,
+    ),
+  )
+}
+
+///|
+pub fn get_spline_point_bezier_cubic(
+  p1 : Vector2,
+  p2 : Vector2,
+  p3 : Vector2,
+  p4 : Vector2,
+  t : Float,
+) -> Vector2 {
+  Vector2::from_bytes(
+    @raylib.get_spline_point_bezier_cubic(
+      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+    ),
+  )
+}
+
+// ============================================================================
+// Additional 2D collision detection
+// ============================================================================
+
+///|
+pub fn check_collision_circle_line(
+  center : Vector2,
+  radius : Float,
+  p1 : Vector2,
+  p2 : Vector2,
+) -> Bool {
+  @raylib.check_collision_circle_line(
+    center.to_bytes(), radius, p1.to_bytes(), p2.to_bytes(),
+  )
+}
+
+///|
+pub fn check_collision_point_line(
+  point : Vector2,
+  p1 : Vector2,
+  p2 : Vector2,
+  threshold : Int,
+) -> Bool {
+  @raylib.check_collision_point_line(
+    point.to_bytes(), p1.to_bytes(), p2.to_bytes(), threshold,
+  )
+}
