@@ -14,6 +14,7 @@ if (platform === 'darwin') {
   stub_cc_flags += ' -ObjC';
 } else if (platform === 'linux') {
   link_config.link_libs = ['GL', 'm', 'pthread', 'dl', 'rt', 'X11'];
+  stub_cc_flags += ' -D_GLFW_X11';
 } else if (platform === 'win32') {
   link_config.link_libs = ['opengl32', 'gdi32', 'winmm', 'user32', 'shell32'];
 } else {
