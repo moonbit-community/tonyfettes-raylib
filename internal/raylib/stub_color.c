@@ -93,3 +93,61 @@ moonbit_raylib_color_is_equal(moonbit_bytes_t col1, moonbit_bytes_t col2) {
   memcpy(&c2, col2, sizeof(Color));
   return (int)ColorIsEqual(c1, c2);
 }
+
+moonbit_bytes_t
+moonbit_raylib_color_normalize(moonbit_bytes_t color) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  Vector4 result = ColorNormalize(c);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
+  memcpy(r, &result, sizeof(Vector4));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_color_from_normalized(moonbit_bytes_t normalized) {
+  Vector4 v;
+  memcpy(&v, normalized, sizeof(Vector4));
+  Color result = ColorFromNormalized(v);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Color), 0);
+  memcpy(r, &result, sizeof(Color));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_color_to_hsv(moonbit_bytes_t color) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  Vector3 result = ColorToHSV(c);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
+  memcpy(r, &result, sizeof(Vector3));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_color_contrast(moonbit_bytes_t color, float contrast) {
+  Color c;
+  memcpy(&c, color, sizeof(Color));
+  Color result = ColorContrast(c, contrast);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Color), 0);
+  memcpy(r, &result, sizeof(Color));
+  return r;
+}
+
+moonbit_bytes_t
+moonbit_raylib_color_alpha_blend(
+  moonbit_bytes_t dst,
+  moonbit_bytes_t src,
+  moonbit_bytes_t tint
+) {
+  Color d;
+  memcpy(&d, dst, sizeof(Color));
+  Color s;
+  memcpy(&s, src, sizeof(Color));
+  Color t;
+  memcpy(&t, tint, sizeof(Color));
+  Color result = ColorAlphaBlend(d, s, t);
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Color), 0);
+  memcpy(r, &result, sizeof(Color));
+  return r;
+}
