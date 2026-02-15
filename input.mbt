@@ -29,6 +29,28 @@ pub using @raylib {
   set_mouse_scale,
   get_mouse_wheel_move,
   set_mouse_cursor,
+  // Gamepad
+  is_gamepad_available,
+  is_gamepad_button_pressed,
+  is_gamepad_button_down,
+  is_gamepad_button_released,
+  is_gamepad_button_up,
+  get_gamepad_button_pressed,
+  get_gamepad_axis_count,
+  get_gamepad_axis_movement,
+  set_gamepad_vibration,
+  // Touch
+  get_touch_x,
+  get_touch_y,
+  get_touch_point_id,
+  get_touch_point_count,
+  // Gesture
+  set_gestures_enabled,
+  is_gesture_detected,
+  get_gesture_detected,
+  get_gesture_hold_duration,
+  get_gesture_drag_angle,
+  get_gesture_pinch_angle,
 }
 
 // Mouse wrappers
@@ -46,6 +68,37 @@ pub fn get_mouse_delta() -> Vector2 {
 ///|
 pub fn get_mouse_wheel_move_v() -> Vector2 {
   Vector2::from_bytes(@raylib.get_mouse_wheel_move_v())
+}
+
+// Gamepad wrappers
+
+///|
+pub fn get_gamepad_name(gamepad : Int) -> String {
+  @utf8.decode_lossy(@raylib.get_gamepad_name(gamepad))
+}
+
+///|
+pub fn set_gamepad_mappings(mappings : String) -> Int {
+  @raylib.set_gamepad_mappings(@utf8.encode(mappings))
+}
+
+// Touch wrappers
+
+///|
+pub fn get_touch_position(index : Int) -> Vector2 {
+  Vector2::from_bytes(@raylib.get_touch_position(index))
+}
+
+// Gesture wrappers
+
+///|
+pub fn get_gesture_drag_vector() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_gesture_drag_vector())
+}
+
+///|
+pub fn get_gesture_pinch_vector() -> Vector2 {
+  Vector2::from_bytes(@raylib.get_gesture_pinch_vector())
 }
 
 // Keyboard key constants
@@ -404,6 +457,82 @@ pub const MouseCursorResizeAll : Int = 9
 
 ///|
 pub const MouseCursorNotAllowed : Int = 10
+
+// Gamepad button constants
+
+///|
+pub const GamepadButtonUnknown : Int = 0
+
+///|
+pub const GamepadButtonLeftFaceUp : Int = 1
+
+///|
+pub const GamepadButtonLeftFaceRight : Int = 2
+
+///|
+pub const GamepadButtonLeftFaceDown : Int = 3
+
+///|
+pub const GamepadButtonLeftFaceLeft : Int = 4
+
+///|
+pub const GamepadButtonMiddleLeft : Int = 5
+
+///|
+pub const GamepadButtonMiddle : Int = 6
+
+///|
+pub const GamepadButtonMiddleRight : Int = 7
+
+///|
+pub const GamepadButtonRightFaceUp : Int = 8
+
+///|
+pub const GamepadButtonRightFaceRight : Int = 9
+
+///|
+pub const GamepadButtonRightFaceDown : Int = 10
+
+///|
+pub const GamepadButtonRightFaceLeft : Int = 11
+
+///|
+pub const GamepadButtonLeftTrigger1 : Int = 12
+
+///|
+pub const GamepadButtonLeftTrigger2 : Int = 13
+
+///|
+pub const GamepadButtonRightTrigger1 : Int = 14
+
+///|
+pub const GamepadButtonRightTrigger2 : Int = 15
+
+///|
+pub const GamepadButtonLeftThumb : Int = 16
+
+///|
+pub const GamepadButtonRightThumb : Int = 17
+
+// Gamepad axis constants
+
+///|
+pub const GamepadAxisLeftX : Int = 0
+
+///|
+pub const GamepadAxisLeftY : Int = 1
+
+///|
+pub const GamepadAxisRightX : Int = 2
+
+///|
+pub const GamepadAxisRightY : Int = 3
+
+///|
+pub const GamepadAxisLeftTrigger : Int = 4
+
+///|
+pub const GamepadAxisRightTrigger : Int = 5
 
 // Gesture constants
 

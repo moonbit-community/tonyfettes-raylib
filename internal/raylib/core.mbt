@@ -256,6 +256,91 @@ pub extern "c" fn get_mouse_wheel_move_v() -> Bytes = "moonbit_raylib_get_mouse_
 pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
 
 // ============================================================================
+// Gamepad input
+// ============================================================================
+
+///|
+pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "IsGamepadAvailable"
+
+///|
+pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get_gamepad_name"
+
+///|
+pub extern "c" fn is_gamepad_button_pressed(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonPressed"
+
+///|
+pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonDown"
+
+///|
+pub extern "c" fn is_gamepad_button_released(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonReleased"
+
+///|
+pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonUp"
+
+///|
+pub extern "c" fn get_gamepad_button_pressed() -> Int = "GetGamepadButtonPressed"
+
+///|
+pub extern "c" fn get_gamepad_axis_count(gamepad : Int) -> Int = "GetGamepadAxisCount"
+
+///|
+pub extern "c" fn get_gamepad_axis_movement(gamepad : Int, axis : Int) -> Float = "GetGamepadAxisMovement"
+
+///|
+#borrow(mappings)
+pub extern "c" fn set_gamepad_mappings(mappings : Bytes) -> Int = "moonbit_raylib_set_gamepad_mappings"
+
+///|
+pub extern "c" fn set_gamepad_vibration(gamepad : Int, left_motor : Float, right_motor : Float, duration : Float) = "SetGamepadVibration"
+
+// ============================================================================
+// Touch input
+// ============================================================================
+
+///|
+pub extern "c" fn get_touch_x() -> Int = "GetTouchX"
+
+///|
+pub extern "c" fn get_touch_y() -> Int = "GetTouchY"
+
+///|
+pub extern "c" fn get_touch_position(index : Int) -> Bytes = "moonbit_raylib_get_touch_position"
+
+///|
+pub extern "c" fn get_touch_point_id(index : Int) -> Int = "GetTouchPointId"
+
+///|
+pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
+
+// ============================================================================
+// Gesture input
+// ============================================================================
+
+///|
+pub extern "c" fn set_gestures_enabled(flags : Int) = "SetGesturesEnabled"
+
+///|
+pub extern "c" fn is_gesture_detected(gesture : Int) -> Bool = "IsGestureDetected"
+
+///|
+pub extern "c" fn get_gesture_detected() -> Int = "GetGestureDetected"
+
+///|
+pub extern "c" fn get_gesture_hold_duration() -> Float = "GetGestureHoldDuration"
+
+///|
+pub extern "c" fn get_gesture_drag_vector() -> Bytes = "moonbit_raylib_get_gesture_drag_vector"
+
+///|
+pub extern "c" fn get_gesture_drag_angle() -> Float = "GetGestureDragAngle"
+
+///|
+pub extern "c" fn get_gesture_pinch_vector() -> Bytes = "moonbit_raylib_get_gesture_pinch_vector"
+
+///|
+pub extern "c" fn get_gesture_pinch_angle() -> Float = "GetGesturePinchAngle"
+
+// ============================================================================
 // Camera
 // ============================================================================
 
