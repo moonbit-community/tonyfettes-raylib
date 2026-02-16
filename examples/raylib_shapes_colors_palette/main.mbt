@@ -4,55 +4,19 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - colors palette",
+    screen_width, screen_height, "raylib [shapes] example - colors palette",
   )
   let colors : Array[@raylib.Color] = [
-    @raylib.darkgray,
-    @raylib.maroon,
-    @raylib.orange,
-    @raylib.darkgreen,
-    @raylib.darkblue,
-    @raylib.darkpurple,
-    @raylib.darkbrown,
-    @raylib.gray,
-    @raylib.red,
-    @raylib.gold,
-    @raylib.lime,
-    @raylib.blue,
-    @raylib.violet,
-    @raylib.brown,
-    @raylib.lightgray,
-    @raylib.pink,
-    @raylib.yellow,
-    @raylib.green,
-    @raylib.skyblue,
-    @raylib.purple,
+    @raylib.darkgray, @raylib.maroon, @raylib.orange, @raylib.darkgreen, @raylib.darkblue,
+    @raylib.darkpurple, @raylib.darkbrown, @raylib.gray, @raylib.red, @raylib.gold,
+    @raylib.lime, @raylib.blue, @raylib.violet, @raylib.brown, @raylib.lightgray,
+    @raylib.pink, @raylib.yellow, @raylib.green, @raylib.skyblue, @raylib.purple,
     @raylib.beige,
   ]
   let color_names : Array[String] = [
-    "DARKGRAY",
-    "MAROON",
-    "ORANGE",
-    "DARKGREEN",
-    "DARKBLUE",
-    "DARKPURPLE",
-    "DARKBROWN",
-    "GRAY",
-    "RED",
-    "GOLD",
-    "LIME",
-    "BLUE",
-    "VIOLET",
-    "BROWN",
-    "LIGHTGRAY",
-    "PINK",
-    "YELLOW",
-    "GREEN",
-    "SKYBLUE",
-    "PURPLE",
-    "BEIGE",
+    "DARKGRAY", "MAROON", "ORANGE", "DARKGREEN", "DARKBLUE", "DARKPURPLE", "DARKBROWN",
+    "GRAY", "RED", "GOLD", "LIME", "BLUE", "VIOLET", "BROWN", "LIGHTGRAY", "PINK",
+    "YELLOW", "GREEN", "SKYBLUE", "PURPLE", "BEIGE",
   ]
   let max_colors_count = colors.length()
 
@@ -103,10 +67,7 @@ fn main {
     for i = 0; i < max_colors_count; i = i + 1 {
       // Draw color rectangle
       let alpha : Float = if color_state[i] == 1 { 0.6 } else { 1.0 }
-      @raylib.draw_rectangle_rec(
-        colors_recs[i],
-        @raylib.fade(colors[i], alpha),
-      )
+      @raylib.draw_rectangle_rec(colors_recs[i], @raylib.fade(colors[i], alpha))
       if @raylib.is_key_down(@raylib.KeySpace) || color_state[i] == 1 {
         let rec = colors_recs[i]
         @raylib.draw_rectangle(

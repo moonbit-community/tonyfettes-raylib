@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - raylib logo using shapes",
+    screen_width, screen_height, "raylib [shapes] example - raylib logo using shapes",
   )
   @raylib.set_target_fps(60)
 

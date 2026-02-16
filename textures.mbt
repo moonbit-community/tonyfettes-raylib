@@ -313,7 +313,11 @@ pub let pixelformat_uncompressed_r8g8b8a8 : Int = 7
 // ============================================================================
 
 ///|
-pub fn update_texture_rec(texture : Texture, rec : Rectangle, pixels : Bytes) -> Unit {
+pub fn update_texture_rec(
+  texture : Texture,
+  rec : Rectangle,
+  pixels : Bytes,
+) -> Unit {
   @raylib.update_texture_rec(texture, rec.to_bytes(), pixels)
 }
 

@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 3d camera mode",
+    screen_width, screen_height, "raylib [core] example - 3d camera mode",
   )
 
   // Define the camera to look into our 3d world
@@ -38,11 +36,7 @@ fn main {
     @raylib.end_mode_3d()
 
     @raylib.draw_text(
-      "Welcome to the third dimension!",
-      10,
-      40,
-      20,
-      @raylib.darkgray,
+      "Welcome to the third dimension!", 10, 40, 20, @raylib.darkgray,
     )
 
     @raylib.draw_fps(10, 10)

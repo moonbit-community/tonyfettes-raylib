@@ -150,7 +150,7 @@ pub extern "c" fn load_wave(file_name : Bytes) -> Wave = "moonbit_raylib_load_wa
 pub extern "c" fn load_wave_from_memory(
   file_type : Bytes,
   file_data : Bytes,
-  data_size : Int
+  data_size : Int,
 ) -> Wave = "moonbit_raylib_load_wave_from_memory"
 
 ///|
@@ -187,7 +187,7 @@ pub extern "c" fn wave_format(
   wave : Wave,
   sample_rate : Int,
   sample_size : Int,
-  channels : Int
+  channels : Int,
 ) = "moonbit_raylib_wave_format"
 
 ///|
@@ -202,7 +202,7 @@ pub extern "c" fn load_wave_samples(wave : Wave) -> Bytes = "moonbit_raylib_load
 pub extern "c" fn load_audio_stream(
   sample_rate : UInt,
   sample_size : UInt,
-  channels : UInt
+  channels : UInt,
 ) -> AudioStream = "moonbit_raylib_load_audio_stream"
 
 ///|
@@ -218,7 +218,7 @@ pub extern "c" fn unload_audio_stream(stream : AudioStream) = "moonbit_raylib_un
 pub extern "c" fn update_audio_stream(
   stream : AudioStream,
   data : Bytes,
-  frame_count : Int
+  frame_count : Int,
 ) = "moonbit_raylib_update_audio_stream"
 
 ///|
@@ -266,4 +266,8 @@ pub extern "c" fn set_audio_stream_buffer_size_default(size : Int) = "SetAudioSt
 
 ///|
 #borrow(file_type, data)
-pub extern "c" fn load_music_stream_from_memory(file_type : Bytes, data : Bytes, data_size : Int) -> Music = "moonbit_raylib_load_music_stream_from_memory"
+pub extern "c" fn load_music_stream_from_memory(
+  file_type : Bytes,
+  data : Bytes,
+  data_size : Int,
+) -> Music = "moonbit_raylib_load_music_stream_from_memory"

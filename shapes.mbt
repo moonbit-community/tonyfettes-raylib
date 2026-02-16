@@ -611,7 +611,10 @@ pub fn draw_spline_catmull_rom(
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @raylib.draw_spline_catmull_rom(
-    bytes, points.length(), thick, color.to_bytes(),
+    bytes,
+    points.length(),
+    thick,
+    color.to_bytes(),
   )
 }
 
@@ -623,7 +626,10 @@ pub fn draw_spline_bezier_quadratic(
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @raylib.draw_spline_bezier_quadratic(
-    bytes, points.length(), thick, color.to_bytes(),
+    bytes,
+    points.length(),
+    thick,
+    color.to_bytes(),
   )
 }
 
@@ -635,7 +641,10 @@ pub fn draw_spline_bezier_cubic(
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @raylib.draw_spline_bezier_cubic(
-    bytes, points.length(), thick, color.to_bytes(),
+    bytes,
+    points.length(),
+    thick,
+    color.to_bytes(),
   )
 }
 
@@ -651,7 +660,10 @@ pub fn draw_spline_segment_linear(
   color : Color,
 ) -> Unit {
   @raylib.draw_spline_segment_linear(
-    p1.to_bytes(), p2.to_bytes(), thick, color.to_bytes(),
+    p1.to_bytes(),
+    p2.to_bytes(),
+    thick,
+    color.to_bytes(),
   )
 }
 
@@ -702,7 +714,11 @@ pub fn draw_spline_segment_bezier_quadratic(
   color : Color,
 ) -> Unit {
   @raylib.draw_spline_segment_bezier_quadratic(
-    p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), thick, color.to_bytes(),
+    p1.to_bytes(),
+    p2.to_bytes(),
+    p3.to_bytes(),
+    thick,
+    color.to_bytes(),
   )
 }
 
@@ -750,7 +766,11 @@ pub fn get_spline_point_basis(
 ) -> Vector2 {
   Vector2::from_bytes(
     @raylib.get_spline_point_basis(
-      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      p4.to_bytes(),
+      t,
     ),
   )
 }
@@ -765,7 +785,11 @@ pub fn get_spline_point_catmull_rom(
 ) -> Vector2 {
   Vector2::from_bytes(
     @raylib.get_spline_point_catmull_rom(
-      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      p4.to_bytes(),
+      t,
     ),
   )
 }
@@ -779,7 +803,10 @@ pub fn get_spline_point_bezier_quad(
 ) -> Vector2 {
   Vector2::from_bytes(
     @raylib.get_spline_point_bezier_quad(
-      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), t,
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      t,
     ),
   )
 }
@@ -794,7 +821,11 @@ pub fn get_spline_point_bezier_cubic(
 ) -> Vector2 {
   Vector2::from_bytes(
     @raylib.get_spline_point_bezier_cubic(
-      p1.to_bytes(), p2.to_bytes(), p3.to_bytes(), p4.to_bytes(), t,
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      p4.to_bytes(),
+      t,
     ),
   )
 }
@@ -811,7 +842,10 @@ pub fn check_collision_circle_line(
   p2 : Vector2,
 ) -> Bool {
   @raylib.check_collision_circle_line(
-    center.to_bytes(), radius, p1.to_bytes(), p2.to_bytes(),
+    center.to_bytes(),
+    radius,
+    p1.to_bytes(),
+    p2.to_bytes(),
   )
 }
 
@@ -823,7 +857,10 @@ pub fn check_collision_point_line(
   threshold : Int,
 ) -> Bool {
   @raylib.check_collision_point_line(
-    point.to_bytes(), p1.to_bytes(), p2.to_bytes(), threshold,
+    point.to_bytes(),
+    p1.to_bytes(),
+    p2.to_bytes(),
+    threshold,
   )
 }
 

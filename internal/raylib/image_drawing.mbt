@@ -12,11 +12,20 @@ pub extern "c" fn image_clear_background(dst : Image, color : Bytes) = "moonbit_
 
 ///|
 #borrow(dst, color)
-pub extern "c" fn image_draw_pixel(dst : Image, pos_x : Int, pos_y : Int, color : Bytes) = "moonbit_raylib_image_draw_pixel"
+pub extern "c" fn image_draw_pixel(
+  dst : Image,
+  pos_x : Int,
+  pos_y : Int,
+  color : Bytes,
+) = "moonbit_raylib_image_draw_pixel"
 
 ///|
 #borrow(dst, position, color)
-pub extern "c" fn image_draw_pixel_v(dst : Image, position : Bytes, color : Bytes) = "moonbit_raylib_image_draw_pixel_v"
+pub extern "c" fn image_draw_pixel_v(
+  dst : Image,
+  position : Bytes,
+  color : Bytes,
+) = "moonbit_raylib_image_draw_pixel_v"
 
 // ============================================================================
 // Image drawing: Line

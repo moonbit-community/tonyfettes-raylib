@@ -88,7 +88,13 @@ pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 
 ///|
 #borrow(font, position, tint)
-pub extern "c" fn draw_text_codepoint(font : Font, codepoint : Int, position : Bytes, font_size : Float, tint : Bytes) = "moonbit_raylib_draw_text_codepoint"
+pub extern "c" fn draw_text_codepoint(
+  font : Font,
+  codepoint : Int,
+  position : Bytes,
+  font_size : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_text_codepoint"
 
 ///|
 #borrow(font)
@@ -104,11 +110,20 @@ pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "
 
 ///|
 #borrow(image, key)
-pub extern "c" fn load_font_from_image(image : Image, key : Bytes, first_char : Int) -> Font = "moonbit_raylib_load_font_from_image"
+pub extern "c" fn load_font_from_image(
+  image : Image,
+  key : Bytes,
+  first_char : Int,
+) -> Font = "moonbit_raylib_load_font_from_image"
 
 ///|
 #borrow(file_type, file_data)
-pub extern "c" fn load_font_from_memory(file_type : Bytes, file_data : Bytes, data_size : Int, font_size : Int) -> Font = "moonbit_raylib_load_font_from_memory"
+pub extern "c" fn load_font_from_memory(
+  file_type : Bytes,
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+) -> Font = "moonbit_raylib_load_font_from_memory"
 
 ///|
 #borrow(font, file_name)
@@ -120,4 +135,12 @@ pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = 
 
 ///|
 #borrow(font, codepoints, position, tint)
-pub extern "c" fn draw_text_codepoints(font : Font, codepoints : Bytes, codepoint_count : Int, position : Bytes, font_size : Float, spacing : Float, tint : Bytes) = "moonbit_raylib_draw_text_codepoints"
+pub extern "c" fn draw_text_codepoints(
+  font : Font,
+  codepoints : Bytes,
+  codepoint_count : Int,
+  position : Bytes,
+  font_size : Float,
+  spacing : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_text_codepoints"

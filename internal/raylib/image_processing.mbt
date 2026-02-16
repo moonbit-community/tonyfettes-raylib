@@ -50,11 +50,19 @@ pub extern "c" fn image_blur_gaussian(image : Image, blur_size : Int) = "moonbit
 
 ///|
 #borrow(image)
-pub extern "c" fn image_resize(image : Image, new_width : Int, new_height : Int) = "moonbit_raylib_image_resize"
+pub extern "c" fn image_resize(
+  image : Image,
+  new_width : Int,
+  new_height : Int,
+) = "moonbit_raylib_image_resize"
 
 ///|
 #borrow(image)
-pub extern "c" fn image_resize_nn(image : Image, new_width : Int, new_height : Int) = "moonbit_raylib_image_resize_nn"
+pub extern "c" fn image_resize_nn(
+  image : Image,
+  new_width : Int,
+  new_height : Int,
+) = "moonbit_raylib_image_resize_nn"
 
 ///|
 #borrow(image)
@@ -112,7 +120,11 @@ pub extern "c" fn image_crop(image : Image, crop : Bytes) = "moonbit_raylib_imag
 
 ///|
 #borrow(image, color)
-pub extern "c" fn image_alpha_clear(image : Image, color : Bytes, threshold : Float) = "moonbit_raylib_image_alpha_clear"
+pub extern "c" fn image_alpha_clear(
+  image : Image,
+  color : Bytes,
+  threshold : Float,
+) = "moonbit_raylib_image_alpha_clear"
 
 ///|
 #borrow(image, alpha_mask)
@@ -143,11 +155,19 @@ pub extern "c" fn image_color_brightness(image : Image, brightness : Int) = "moo
 
 ///|
 #borrow(image, color, replace)
-pub extern "c" fn image_color_replace(image : Image, color : Bytes, replace : Bytes) = "moonbit_raylib_image_color_replace"
+pub extern "c" fn image_color_replace(
+  image : Image,
+  color : Bytes,
+  replace : Bytes,
+) = "moonbit_raylib_image_color_replace"
 
 ///|
 #borrow(image, kernel)
-pub extern "c" fn image_kernel_convolution(image : Image, kernel : Bytes, kernel_size : Int) = "moonbit_raylib_image_kernel_convolution"
+pub extern "c" fn image_kernel_convolution(
+  image : Image,
+  kernel : Bytes,
+  kernel_size : Int,
+) = "moonbit_raylib_image_kernel_convolution"
 
 // ============================================================================
 // Image creation: ImageText, ImageTextEx
@@ -155,7 +175,11 @@ pub extern "c" fn image_kernel_convolution(image : Image, kernel : Bytes, kernel
 
 ///|
 #borrow(text, color)
-pub extern "c" fn image_text(text : Bytes, font_size : Int, color : Bytes) -> Image = "moonbit_raylib_image_text"
+pub extern "c" fn image_text(
+  text : Bytes,
+  font_size : Int,
+  color : Bytes,
+) -> Image = "moonbit_raylib_image_text"
 
 ///|
 #borrow(font, text, tint)
@@ -173,7 +197,10 @@ pub extern "c" fn image_text_ex(
 
 ///|
 #borrow(image)
-pub extern "c" fn get_image_alpha_border(image : Image, threshold : Float) -> Bytes = "moonbit_raylib_get_image_alpha_border"
+pub extern "c" fn get_image_alpha_border(
+  image : Image,
+  threshold : Float,
+) -> Bytes = "moonbit_raylib_get_image_alpha_border"
 
 ///|
 #borrow(image)
@@ -189,7 +216,10 @@ pub extern "c" fn load_image_colors(image : Image) -> Bytes = "moonbit_raylib_lo
 
 ///|
 #borrow(image)
-pub extern "c" fn load_image_palette(image : Image, max_palette_size : Int) -> Bytes = "moonbit_raylib_load_image_palette"
+pub extern "c" fn load_image_palette(
+  image : Image,
+  max_palette_size : Int,
+) -> Bytes = "moonbit_raylib_load_image_palette"
 
 // ============================================================================
 // Export: ExportImageToMemory, ExportImageAsCode
@@ -197,8 +227,14 @@ pub extern "c" fn load_image_palette(image : Image, max_palette_size : Int) -> B
 
 ///|
 #borrow(image, file_type)
-pub extern "c" fn export_image_to_memory(image : Image, file_type : Bytes) -> Bytes = "moonbit_raylib_export_image_to_memory"
+pub extern "c" fn export_image_to_memory(
+  image : Image,
+  file_type : Bytes,
+) -> Bytes = "moonbit_raylib_export_image_to_memory"
 
 ///|
 #borrow(image, file_name)
-pub extern "c" fn export_image_as_code(image : Image, file_name : Bytes) -> Bool = "moonbit_raylib_export_image_as_code"
+pub extern "c" fn export_image_as_code(
+  image : Image,
+  file_name : Bytes,
+) -> Bool = "moonbit_raylib_export_image_as_code"

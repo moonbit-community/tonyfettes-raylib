@@ -22,8 +22,8 @@ pub fn NPatchInfo::to_bytes(n : NPatchInfo) -> Bytes {
   let (bc, bd, be, bf) = write_int(n.bottom)
   let (c0, c1, c2, c3) = write_int(n.layout)
   [
-    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, ac, ad, ae, af, b0, b1,
-    b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf, c0, c1, c2, c3,
+    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, ac, ad, ae, af, b0, b1, b2, b3,
+    b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be, bf, c0, c1, c2, c3,
   ]
 }
 

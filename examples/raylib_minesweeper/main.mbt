@@ -1,24 +1,35 @@
 // Minesweeper — 16x16 grid, 40 mines
 
+///|
 let rows : Int = 16
 
+///|
 let cols : Int = 16
 
+///|
 let mine_count : Int = 40
 
+///|
 let cell_size : Int = 30
 
+///|
 let grid_offset_x : Int = 10
 
+///|
 let grid_offset_y : Int = 60
 
 // Game states
+
+///|
 let state_waiting : Int = 0 // before first click
 
+///|
 let state_playing : Int = 1
 
+///|
 let state_won : Int = 2
 
+///|
 let state_lost : Int = 3
 
 ///|
@@ -68,7 +79,7 @@ fn generate_mines(
   mines : Array[Int],
   adjacent : Array[Int],
   safe_row : Int,
-  safe_col : Int
+  safe_col : Int,
 ) -> Unit {
   let total = rows * cols
   // Clear
@@ -109,7 +120,7 @@ fn flood_fill(
   flagged : Array[Int],
   adjacent : Array[Int],
   row : Int,
-  col : Int
+  col : Int,
 ) -> Unit {
   if not(in_bounds(row, col)) {
     return
@@ -146,7 +157,7 @@ fn reset_game(
   mines : Array[Int],
   revealed : Array[Int],
   flagged : Array[Int],
-  adjacent : Array[Int]
+  adjacent : Array[Int],
 ) -> Unit {
   let total = rows * cols
   for i = 0; i < total; i = i + 1 {
@@ -299,11 +310,7 @@ fn main {
           // Revealed cell
           @raylib.draw_rectangle(x, y, cell_size, cell_size, cell_revealed_bg)
           @raylib.draw_rectangle_lines(
-            x,
-            y,
-            cell_size,
-            cell_size,
-            highlight_dark,
+            x, y, cell_size, cell_size, highlight_dark,
           )
           if mines[idx] != 0 {
             // Mine — draw filled circle

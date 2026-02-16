@@ -35,28 +35,64 @@ pub extern "c" fn gen_image_checked(
 
 ///|
 #borrow(start_color, end_color)
-pub extern "c" fn gen_image_gradient_linear(width : Int, height : Int, direction : Int, start_color : Bytes, end_color : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_linear"
+pub extern "c" fn gen_image_gradient_linear(
+  width : Int,
+  height : Int,
+  direction : Int,
+  start_color : Bytes,
+  end_color : Bytes,
+) -> Image = "moonbit_raylib_gen_image_gradient_linear"
 
 ///|
 #borrow(inner, outer)
-pub extern "c" fn gen_image_gradient_radial(width : Int, height : Int, density : Float, inner : Bytes, outer : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_radial"
+pub extern "c" fn gen_image_gradient_radial(
+  width : Int,
+  height : Int,
+  density : Float,
+  inner : Bytes,
+  outer : Bytes,
+) -> Image = "moonbit_raylib_gen_image_gradient_radial"
 
 ///|
 #borrow(inner, outer)
-pub extern "c" fn gen_image_gradient_square(width : Int, height : Int, density : Float, inner : Bytes, outer : Bytes) -> Image = "moonbit_raylib_gen_image_gradient_square"
+pub extern "c" fn gen_image_gradient_square(
+  width : Int,
+  height : Int,
+  density : Float,
+  inner : Bytes,
+  outer : Bytes,
+) -> Image = "moonbit_raylib_gen_image_gradient_square"
 
 ///|
-pub extern "c" fn gen_image_white_noise(width : Int, height : Int, factor : Float) -> Image = "moonbit_raylib_gen_image_white_noise"
+pub extern "c" fn gen_image_white_noise(
+  width : Int,
+  height : Int,
+  factor : Float,
+) -> Image = "moonbit_raylib_gen_image_white_noise"
 
 ///|
-pub extern "c" fn gen_image_perlin_noise(width : Int, height : Int, offset_x : Int, offset_y : Int, scale : Float) -> Image = "moonbit_raylib_gen_image_perlin_noise"
+pub extern "c" fn gen_image_perlin_noise(
+  width : Int,
+  height : Int,
+  offset_x : Int,
+  offset_y : Int,
+  scale : Float,
+) -> Image = "moonbit_raylib_gen_image_perlin_noise"
 
 ///|
-pub extern "c" fn gen_image_cellular(width : Int, height : Int, tile_size : Int) -> Image = "moonbit_raylib_gen_image_cellular"
+pub extern "c" fn gen_image_cellular(
+  width : Int,
+  height : Int,
+  tile_size : Int,
+) -> Image = "moonbit_raylib_gen_image_cellular"
 
 ///|
 #borrow(text)
-pub extern "c" fn gen_image_text(width : Int, height : Int, text : Bytes) -> Image = "moonbit_raylib_gen_image_text"
+pub extern "c" fn gen_image_text(
+  width : Int,
+  height : Int,
+  text : Bytes,
+) -> Image = "moonbit_raylib_gen_image_text"
 
 // ============================================================================
 // Image loading extras
@@ -64,7 +100,11 @@ pub extern "c" fn gen_image_text(width : Int, height : Int, text : Bytes) -> Ima
 
 ///|
 #borrow(file_type, file_data)
-pub extern "c" fn load_image_from_memory(file_type : Bytes, file_data : Bytes, data_size : Int) -> Image = "moonbit_raylib_load_image_from_memory"
+pub extern "c" fn load_image_from_memory(
+  file_type : Bytes,
+  file_data : Bytes,
+  data_size : Int,
+) -> Image = "moonbit_raylib_load_image_from_memory"
 
 ///|
 #borrow(texture)
@@ -95,7 +135,10 @@ pub extern "c" fn image_from_image(image : Image, rec : Bytes) -> Image = "moonb
 
 ///|
 #borrow(image)
-pub extern "c" fn image_from_channel(image : Image, selected_channel : Int) -> Image = "moonbit_raylib_image_from_channel"
+pub extern "c" fn image_from_channel(
+  image : Image,
+  selected_channel : Int,
+) -> Image = "moonbit_raylib_image_from_channel"
 
 // ============================================================================
 // Texture loading
@@ -219,7 +262,11 @@ pub extern "c" fn update_texture(texture : Texture, pixels : Bytes) = "moonbit_r
 
 ///|
 #borrow(texture, rec, pixels)
-pub extern "c" fn update_texture_rec(texture : Texture, rec : Bytes, pixels : Bytes) = "moonbit_raylib_update_texture_rec"
+pub extern "c" fn update_texture_rec(
+  texture : Texture,
+  rec : Bytes,
+  pixels : Bytes,
+) = "moonbit_raylib_update_texture_rec"
 
 ///|
 #borrow(texture)

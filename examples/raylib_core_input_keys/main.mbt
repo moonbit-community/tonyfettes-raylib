@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - keyboard input",
+    screen_width, screen_height, "raylib [core] example - keyboard input",
   )
   let mut ball_position = @raylib.Vector2::new(
     Float::from_int(screen_width) / 2.0,
@@ -46,11 +44,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     @raylib.draw_text(
-      "move the ball with arrow keys",
-      10,
-      10,
-      20,
-      @raylib.darkgray,
+      "move the ball with arrow keys", 10, 10, 20, @raylib.darkgray,
     )
     @raylib.draw_circle_v(ball_position, 50.0, @raylib.maroon)
     @raylib.end_drawing()

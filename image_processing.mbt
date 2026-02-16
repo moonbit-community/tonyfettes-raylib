@@ -38,7 +38,13 @@ pub fn load_image_raw(
   format : Int,
   header_size : Int,
 ) -> Image {
-  @raylib.load_image_raw(@utf8.encode(file_name), width, height, format, header_size)
+  @raylib.load_image_raw(
+    @utf8.encode(file_name),
+    width,
+    height,
+    format,
+    header_size,
+  )
 }
 
 ///|
@@ -74,7 +80,11 @@ pub fn image_crop(image : Image, crop : Rectangle) -> Unit {
 }
 
 ///|
-pub fn image_alpha_clear(image : Image, color : Color, threshold : Float) -> Unit {
+pub fn image_alpha_clear(
+  image : Image,
+  color : Color,
+  threshold : Float,
+) -> Unit {
   @raylib.image_alpha_clear(image, color.to_bytes(), threshold)
 }
 
@@ -103,7 +113,11 @@ pub fn image_color_tint(image : Image, color : Color) -> Unit {
 }
 
 ///|
-pub fn image_color_replace(image : Image, color : Color, replace : Color) -> Unit {
+pub fn image_color_replace(
+  image : Image,
+  color : Color,
+  replace : Color,
+) -> Unit {
   @raylib.image_color_replace(image, color.to_bytes(), replace.to_bytes())
 }
 
