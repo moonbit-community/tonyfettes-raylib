@@ -1,49 +1,5 @@
 // Vector3 math functions — pure MoonBit port of raymath Vector3 operations
-
-// Private math helpers
-
-///|
-fn sqrtf(x : Float) -> Float {
-  x.sqrt()
-}
-
-///|
-fn fabsf(x : Float) -> Float {
-  x.abs()
-}
-
-///|
-fn sinf(x : Float) -> Float {
-  @math.sinf(x)
-}
-
-///|
-fn cosf(x : Float) -> Float {
-  @math.cosf(x)
-}
-
-///|
-fn atan2f(y : Float, x : Float) -> Float {
-  @math.atan2f(y, x)
-}
-
-///|
-fn fminf(a : Float, b : Float) -> Float {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn fmaxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
+// Private math helpers are in math_helpers.mbt
 
 // Private helper: matrix inversion (needed by Vector3::unproject)
 

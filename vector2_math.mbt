@@ -1,57 +1,6 @@
 // Scalar math utilities and Vector2 math functions
 // Ported from raymath.h (raylib 5.5)
-
-///|
-fn absf(x : Float) -> Float {
-  if x < 0.0 {
-    -x
-  } else {
-    x
-  }
-}
-
-///|
-fn fmaxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn fminf(a : Float, b : Float) -> Float {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn floorf(x : Float) -> Float {
-  Float::from_double(@math.floor(x.to_double()))
-}
-
-///|
-fn sqrtf(x : Float) -> Float {
-  x.sqrt()
-}
-
-///|
-fn sinf(x : Float) -> Float {
-  @math.sinf(x)
-}
-
-///|
-fn cosf(x : Float) -> Float {
-  @math.cosf(x)
-}
-
-///|
-fn atan2f(y : Float, x : Float) -> Float {
-  @math.atan2f(y, x)
-}
+// Private math helpers are in math_helpers.mbt
 
 // ----- Scalar math functions -----
 
