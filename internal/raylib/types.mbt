@@ -36,3 +36,6 @@ pub type Material
 
 ///|
 pub type ModelAnimations
+
+///|
+pub type FilePathList
