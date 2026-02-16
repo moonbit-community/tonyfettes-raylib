@@ -11,6 +11,18 @@ pub struct NPatchInfo {
 } derive(Eq, Show)
 
 ///|
+pub fn NPatchInfo::new(
+  source : Rectangle,
+  left : Int,
+  top : Int,
+  right : Int,
+  bottom : Int,
+  layout : Int,
+) -> NPatchInfo {
+  { source, left, top, right, bottom, layout }
+}
+
+///|
 pub fn NPatchInfo::to_bytes(n : NPatchInfo) -> Bytes {
   let (a0, a1, a2, a3) = write_float(n.source.x)
   let (a4, a5, a6, a7) = write_float(n.source.y)
