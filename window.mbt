@@ -55,6 +55,10 @@ pub using @raylib {
   set_trace_log_level,
   get_random_value,
   set_random_seed,
+  // Window icon
+  set_window_icon,
+  // Clipboard image
+  get_clipboard_image,
 }
 
 // Window management wrappers

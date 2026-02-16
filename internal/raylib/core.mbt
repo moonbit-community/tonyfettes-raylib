@@ -623,3 +623,11 @@ pub extern "c" fn get_pixel_data_size(
   height : Int,
   format : Int,
 ) -> Int = "GetPixelDataSize"
+
+// ============================================================================
+// Window icon
+// ============================================================================
+
+///|
+#borrow(image)
+pub extern "c" fn set_window_icon(image : Image) = "moonbit_raylib_set_window_icon"

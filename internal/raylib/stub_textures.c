@@ -381,3 +381,66 @@ void
 moonbit_raylib_set_texture_wrap(TextureWrapper *wrapper, int wrap) {
   SetTextureWrap(wrapper->texture, wrap);
 }
+
+// ============================================================================
+// Textures: Texture management extras
+// ============================================================================
+
+TextureWrapper *
+moonbit_raylib_load_texture_cubemap(ImageWrapper *img, int layout) {
+  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
+  w->texture = LoadTextureCubemap(img->image, layout);
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_update_texture(TextureWrapper *wrapper, moonbit_bytes_t pixels) {
+  UpdateTexture(wrapper->texture, (const void *)pixels);
+}
+
+void
+moonbit_raylib_update_texture_rec(TextureWrapper *wrapper, moonbit_bytes_t rec, moonbit_bytes_t pixels) {
+  Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
+  UpdateTextureRec(wrapper->texture, r, (const void *)pixels);
+}
+
+void
+moonbit_raylib_gen_texture_mipmaps(TextureWrapper *wrapper) {
+  GenTextureMipmaps(&wrapper->texture);
+}
+
+void
+moonbit_raylib_set_shapes_texture(TextureWrapper *wrapper, moonbit_bytes_t source) {
+  Rectangle r; memcpy(&r, source, sizeof(Rectangle));
+  SetShapesTexture(wrapper->texture, r);
+}
+
+TextureWrapper *
+moonbit_raylib_get_shapes_texture(void) {
+  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
+  w->texture = GetShapesTexture();
+  w->freed = 1;  // Non-owning - don't unload
+  return w;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_shapes_texture_rectangle(void) {
+  Rectangle r = GetShapesTextureRectangle();
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Rectangle), 0);
+  memcpy(res, &r, sizeof(Rectangle));
+  return res;
+}
+
+// ============================================================================
+// Textures: Clipboard image (needs image_destructor)
+// ============================================================================
+
+ImageWrapper *
+moonbit_raylib_get_clipboard_image(void) {
+  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  w->image = GetClipboardImage();
+  w->freed = 0;
+  w->frame_count = 1;
+  return w;
+}

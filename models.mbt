@@ -1,7 +1,42 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {type Model, unload_model, draw_grid, is_model_valid}
+pub using @raylib {
+  type Model,
+  type Mesh,
+  type Material,
+  type ModelAnimations,
+  unload_model,
+  draw_grid,
+  is_model_valid,
+  // Mesh generation (passthrough)
+  gen_mesh_poly,
+  gen_mesh_plane,
+  gen_mesh_cube,
+  gen_mesh_sphere,
+  gen_mesh_hemisphere,
+  gen_mesh_cylinder,
+  gen_mesh_cone,
+  gen_mesh_torus,
+  gen_mesh_knot,
+  // Mesh utilities (passthrough)
+  unload_mesh,
+  upload_mesh,
+  gen_mesh_tangents,
+  load_model_from_mesh,
+  // Material (passthrough)
+  load_material_default,
+  is_material_valid,
+  unload_material,
+  set_material_texture,
+  set_model_mesh_material,
+  // Model animations (passthrough)
+  model_animations_count,
+  update_model_animation,
+  update_model_animation_bones,
+  is_model_animation_valid,
+  unload_model_animations,
+}
 
 // ============================================================================
 // 3D shape drawing (wrappers)
@@ -513,4 +548,138 @@ pub fn get_ray_collision_triangle(
       p3.to_bytes(),
     ),
   )
+}
+
+// ============================================================================
+// Mesh generation (wrappers)
+// ============================================================================
+
+///|
+pub fn gen_mesh_heightmap(heightmap : Image, size : Vector3) -> Mesh {
+  @raylib.gen_mesh_heightmap(heightmap, size.to_bytes())
+}
+
+///|
+pub fn gen_mesh_cubicmap(cubicmap : Image, cube_size : Vector3) -> Mesh {
+  @raylib.gen_mesh_cubicmap(cubicmap, cube_size.to_bytes())
+}
+
+// ============================================================================
+// Mesh utilities (wrappers)
+// ============================================================================
+
+///|
+pub fn get_mesh_bounding_box(mesh : Mesh) -> BoundingBox {
+  BoundingBox::from_bytes(@raylib.get_mesh_bounding_box(mesh))
+}
+
+///|
+pub fn export_mesh(mesh : Mesh, file_name : String) -> Bool {
+  @raylib.export_mesh(mesh, @utf8.encode(file_name))
+}
+
+///|
+pub fn get_ray_collision_mesh(
+  ray : Ray,
+  mesh : Mesh,
+  transform : Matrix,
+) -> RayCollision {
+  RayCollision::from_bytes(
+    @raylib.get_ray_collision_mesh(
+      ray.to_bytes(),
+      mesh,
+      transform.to_bytes(),
+    ),
+  )
+}
+
+// ============================================================================
+// Mesh drawing (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_mesh(mesh : Mesh, material : Material, transform : Matrix) -> Unit {
+  @raylib.draw_mesh(mesh, material, transform.to_bytes())
+}
+
+///|
+pub fn draw_mesh_instanced(
+  mesh : Mesh,
+  material : Material,
+  transforms : Array[Matrix],
+  instances : Int,
+) -> Unit {
+  let arr = FixedArray::make(instances * 64, b'\x00')
+  for i in 0..<instances {
+    let m = transforms[i].to_bytes()
+    arr.blit_from_bytes(i * 64, m, 0, 64)
+  }
+  let buf = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  @raylib.draw_mesh_instanced(mesh, material, buf, instances)
+}
+
+// ============================================================================
+// Material map type constants
+// ============================================================================
+
+///|
+pub let material_map_albedo : Int = 0
+
+///|
+pub let material_map_metalness : Int = 1
+
+///|
+pub let material_map_normal : Int = 2
+
+///|
+pub let material_map_roughness : Int = 3
+
+///|
+pub let material_map_occlusion : Int = 4
+
+///|
+pub let material_map_emission : Int = 5
+
+///|
+pub let material_map_height : Int = 6
+
+// ============================================================================
+// Model animations (wrappers)
+// ============================================================================
+
+///|
+pub fn load_model_animations(file_name : String) -> ModelAnimations {
+  @raylib.load_model_animations(@utf8.encode(file_name))
+}
+
+// ============================================================================
+// Ray collision: quad (wrapper)
+// ============================================================================
+
+///|
+pub fn get_ray_collision_quad(
+  ray : Ray,
+  p1 : Vector3,
+  p2 : Vector3,
+  p3 : Vector3,
+  p4 : Vector3,
+) -> RayCollision {
+  RayCollision::from_bytes(
+    @raylib.get_ray_collision_quad(
+      ray.to_bytes(),
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      p4.to_bytes(),
+    ),
+  )
+}
+
+// ============================================================================
+// Mesh: Export as code (wrappers)
+// ============================================================================
+
+///|
+pub fn export_mesh_as_code(mesh : Mesh, file_name : String) -> Bool {
+  @raylib.export_mesh_as_code(mesh, @utf8.encode(file_name))
 }

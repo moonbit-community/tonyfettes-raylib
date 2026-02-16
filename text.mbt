@@ -122,3 +122,40 @@ pub fn draw_text_codepoint(font : Font, codepoint : Int, position : Vector2, fon
 pub fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Rectangle {
   Rectangle::from_bytes(@raylib.get_glyph_atlas_rec(font, codepoint))
 }
+
+// ============================================================================
+// Font loading extras (wrappers)
+// ============================================================================
+
+///|
+pub fn load_font_from_image(image : Image, key : Color, first_char : Int) -> Font {
+  @raylib.load_font_from_image(image, key.to_bytes(), first_char)
+}
+
+///|
+pub fn load_font_from_memory(file_type : String, file_data : Bytes, data_size : Int, font_size : Int) -> Font {
+  @raylib.load_font_from_memory(@utf8.encode(file_type), file_data, data_size, font_size)
+}
+
+///|
+pub fn export_font_as_code(font : Font, file_name : String) -> Bool {
+  @raylib.export_font_as_code(font, @utf8.encode(file_name))
+}
+
+// ============================================================================
+// Text drawing extras (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_text_codepoints(font : Font, codepoints : Array[Int], position : Vector2, font_size : Float, spacing : Float, tint : Color) -> Unit {
+  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
+  for i, cp in codepoints {
+    let (a, b, c, d) = write_int(cp)
+    arr[i * 4] = a
+    arr[i * 4 + 1] = b
+    arr[i * 4 + 2] = c
+    arr[i * 4 + 3] = d
+  }
+  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  @raylib.draw_text_codepoints(font, bytes, codepoints.length(), position.to_bytes(), font_size, spacing, tint.to_bytes())
+}

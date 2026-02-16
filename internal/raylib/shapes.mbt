@@ -565,3 +565,36 @@ pub extern "c" fn check_collision_point_line(
   p2 : Bytes,
   threshold : Int,
 ) -> Bool = "moonbit_raylib_check_collision_point_line"
+
+// ============================================================================
+// 3D triangle strip
+// ============================================================================
+
+///|
+#borrow(points, color)
+pub extern "c" fn draw_triangle_strip_3d(
+  points : Bytes,
+  point_count : Int,
+  color : Bytes,
+) = "moonbit_raylib_draw_triangle_strip_3d"
+
+// ============================================================================
+// Additional collision detection
+// ============================================================================
+
+///|
+#borrow(point, points)
+pub extern "c" fn check_collision_point_poly(
+  point : Bytes,
+  points : Bytes,
+  point_count : Int,
+) -> Bool = "moonbit_raylib_check_collision_point_poly"
+
+///|
+#borrow(start_pos1, end_pos1, start_pos2, end_pos2)
+pub extern "c" fn check_collision_lines(
+  start_pos1 : Bytes,
+  end_pos1 : Bytes,
+  start_pos2 : Bytes,
+  end_pos2 : Bytes,
+) -> Bytes = "moonbit_raylib_check_collision_lines"

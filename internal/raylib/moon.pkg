@@ -26,5 +26,7 @@ options(
     "stub_text.c",
     "stub_models.c",
     "stub_audio.c",
+    "stub_image_processing.c",
+    "stub_image_drawing.c",
   ],
 )

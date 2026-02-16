@@ -21,6 +21,10 @@ pub using @raylib {
   gen_image_cellular,
   set_texture_filter,
   set_texture_wrap,
+  load_texture_cubemap,
+  update_texture,
+  gen_texture_mipmaps,
+  get_shapes_texture,
 }
 
 // ============================================================================
@@ -303,3 +307,41 @@ pub let pixelformat_uncompressed_r4g4b4a4 : Int = 6
 
 ///|
 pub let pixelformat_uncompressed_r8g8b8a8 : Int = 7
+
+// ============================================================================
+// Texture management extras (wrappers)
+// ============================================================================
+
+///|
+pub fn update_texture_rec(texture : Texture, rec : Rectangle, pixels : Bytes) -> Unit {
+  @raylib.update_texture_rec(texture, rec.to_bytes(), pixels)
+}
+
+///|
+pub fn set_shapes_texture(texture : Texture, source : Rectangle) -> Unit {
+  @raylib.set_shapes_texture(texture, source.to_bytes())
+}
+
+///|
+pub fn get_shapes_texture_rectangle() -> Rectangle {
+  Rectangle::from_bytes(@raylib.get_shapes_texture_rectangle())
+}
+
+// ============================================================================
+// Cubemap layout constants
+// ============================================================================
+
+///|
+pub let cubemap_layout_auto_detect : Int = 0
+
+///|
+pub let cubemap_layout_line_vertical : Int = 1
+
+///|
+pub let cubemap_layout_line_horizontal : Int = 2
+
+///|
+pub let cubemap_layout_cross_three_by_four : Int = 3
+
+///|
+pub let cubemap_layout_cross_four_by_three : Int = 4

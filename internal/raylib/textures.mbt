@@ -204,3 +204,40 @@ pub extern "c" fn set_texture_filter(texture : Texture, filter : Int) = "moonbit
 ///|
 #borrow(texture)
 pub extern "c" fn set_texture_wrap(texture : Texture, wrap : Int) = "moonbit_raylib_set_texture_wrap"
+
+// ============================================================================
+// Texture management extras
+// ============================================================================
+
+///|
+#borrow(image)
+pub extern "c" fn load_texture_cubemap(image : Image, layout : Int) -> Texture = "moonbit_raylib_load_texture_cubemap"
+
+///|
+#borrow(texture, pixels)
+pub extern "c" fn update_texture(texture : Texture, pixels : Bytes) = "moonbit_raylib_update_texture"
+
+///|
+#borrow(texture, rec, pixels)
+pub extern "c" fn update_texture_rec(texture : Texture, rec : Bytes, pixels : Bytes) = "moonbit_raylib_update_texture_rec"
+
+///|
+#borrow(texture)
+pub extern "c" fn gen_texture_mipmaps(texture : Texture) = "moonbit_raylib_gen_texture_mipmaps"
+
+///|
+#borrow(texture, source)
+pub extern "c" fn set_shapes_texture(texture : Texture, source : Bytes) = "moonbit_raylib_set_shapes_texture"
+
+///|
+pub extern "c" fn get_shapes_texture() -> Texture = "moonbit_raylib_get_shapes_texture"
+
+///|
+pub extern "c" fn get_shapes_texture_rectangle() -> Bytes = "moonbit_raylib_get_shapes_texture_rectangle"
+
+// ============================================================================
+// Clipboard image
+// ============================================================================
+
+///|
+pub extern "c" fn get_clipboard_image() -> Image = "moonbit_raylib_get_clipboard_image"

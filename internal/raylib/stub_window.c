@@ -86,3 +86,12 @@ moonbit_raylib_get_clipboard_text(void) {
   memcpy(bytes, str, len);
   return bytes;
 }
+
+// ============================================================================
+// Core: Window icon
+// ============================================================================
+
+void
+moonbit_raylib_set_window_icon(ImageWrapper *wrapper) {
+  SetWindowIcon(wrapper->image);
+}

@@ -175,3 +175,193 @@ void
 moonbit_raylib_set_music_pan(MusicWrapper *wrapper, float pan) {
   SetMusicPan(wrapper->music, pan);
 }
+
+// ============================================================================
+// Audio: Wave (resource types)
+// ============================================================================
+
+static void
+wave_destructor(void *ptr) {
+  WaveWrapper *w = (WaveWrapper *)ptr;
+  if (!w->freed)
+    UnloadWave(w->wave);
+}
+
+WaveWrapper *
+moonbit_raylib_load_wave(moonbit_bytes_t fileName) {
+  WaveWrapper *w = (WaveWrapper *)moonbit_make_external_object(
+    wave_destructor, sizeof(WaveWrapper)
+  );
+  w->wave = LoadWave((const char *)fileName);
+  w->freed = 0;
+  return w;
+}
+
+WaveWrapper *
+moonbit_raylib_load_wave_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize) {
+  WaveWrapper *w = (WaveWrapper *)moonbit_make_external_object(
+    wave_destructor, sizeof(WaveWrapper)
+  );
+  w->wave = LoadWaveFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize);
+  w->freed = 0;
+  return w;
+}
+
+int
+moonbit_raylib_is_wave_valid(WaveWrapper *wrapper) {
+  return (int)IsWaveValid(wrapper->wave);
+}
+
+SoundWrapper *
+moonbit_raylib_load_sound_from_wave(WaveWrapper *wrapper) {
+  SoundWrapper *w = (SoundWrapper *)moonbit_make_external_object(
+    sound_destructor, sizeof(SoundWrapper)
+  );
+  w->sound = LoadSoundFromWave(wrapper->wave);
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_unload_wave(WaveWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    UnloadWave(wrapper->wave);
+    wrapper->freed = 1;
+  }
+}
+
+int
+moonbit_raylib_export_wave(WaveWrapper *wrapper, moonbit_bytes_t fileName) {
+  return (int)ExportWave(wrapper->wave, (const char *)fileName);
+}
+
+int
+moonbit_raylib_export_wave_as_code(WaveWrapper *wrapper, moonbit_bytes_t fileName) {
+  return (int)ExportWaveAsCode(wrapper->wave, (const char *)fileName);
+}
+
+WaveWrapper *
+moonbit_raylib_wave_copy(WaveWrapper *wrapper) {
+  WaveWrapper *w = (WaveWrapper *)moonbit_make_external_object(
+    wave_destructor, sizeof(WaveWrapper)
+  );
+  w->wave = WaveCopy(wrapper->wave);
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_wave_crop(WaveWrapper *wrapper, int initFrame, int finalFrame) {
+  WaveCrop(&wrapper->wave, initFrame, finalFrame);
+}
+
+void
+moonbit_raylib_wave_format(WaveWrapper *wrapper, int sampleRate, int sampleSize, int channels) {
+  WaveFormat(&wrapper->wave, sampleRate, sampleSize, channels);
+}
+
+moonbit_bytes_t
+moonbit_raylib_load_wave_samples(WaveWrapper *wrapper) {
+  float *samples = LoadWaveSamples(wrapper->wave);
+  int count = wrapper->wave.frameCount * wrapper->wave.channels;
+  moonbit_bytes_t r = moonbit_make_bytes(count * sizeof(float), 0);
+  memcpy(r, samples, count * sizeof(float));
+  UnloadWaveSamples(samples);
+  return r;
+}
+
+// ============================================================================
+// Audio: AudioStream (resource types)
+// ============================================================================
+
+static void
+audio_stream_destructor(void *ptr) {
+  AudioStreamWrapper *w = (AudioStreamWrapper *)ptr;
+  if (!w->freed)
+    UnloadAudioStream(w->stream);
+}
+
+AudioStreamWrapper *
+moonbit_raylib_load_audio_stream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels) {
+  AudioStreamWrapper *w = (AudioStreamWrapper *)moonbit_make_external_object(
+    audio_stream_destructor, sizeof(AudioStreamWrapper)
+  );
+  w->stream = LoadAudioStream(sampleRate, sampleSize, channels);
+  w->freed = 0;
+  return w;
+}
+
+int
+moonbit_raylib_is_audio_stream_valid(AudioStreamWrapper *wrapper) {
+  return (int)IsAudioStreamValid(wrapper->stream);
+}
+
+void
+moonbit_raylib_unload_audio_stream(AudioStreamWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    UnloadAudioStream(wrapper->stream);
+    wrapper->freed = 1;
+  }
+}
+
+void
+moonbit_raylib_update_audio_stream(AudioStreamWrapper *wrapper, moonbit_bytes_t data, int frameCount) {
+  UpdateAudioStream(wrapper->stream, (const void *)data, frameCount);
+}
+
+int
+moonbit_raylib_is_audio_stream_processed(AudioStreamWrapper *wrapper) {
+  return (int)IsAudioStreamProcessed(wrapper->stream);
+}
+
+void
+moonbit_raylib_play_audio_stream(AudioStreamWrapper *wrapper) {
+  PlayAudioStream(wrapper->stream);
+}
+
+void
+moonbit_raylib_pause_audio_stream(AudioStreamWrapper *wrapper) {
+  PauseAudioStream(wrapper->stream);
+}
+
+void
+moonbit_raylib_resume_audio_stream(AudioStreamWrapper *wrapper) {
+  ResumeAudioStream(wrapper->stream);
+}
+
+int
+moonbit_raylib_is_audio_stream_playing(AudioStreamWrapper *wrapper) {
+  return (int)IsAudioStreamPlaying(wrapper->stream);
+}
+
+void
+moonbit_raylib_stop_audio_stream(AudioStreamWrapper *wrapper) {
+  StopAudioStream(wrapper->stream);
+}
+
+void
+moonbit_raylib_set_audio_stream_volume(AudioStreamWrapper *wrapper, float volume) {
+  SetAudioStreamVolume(wrapper->stream, volume);
+}
+
+void
+moonbit_raylib_set_audio_stream_pitch(AudioStreamWrapper *wrapper, float pitch) {
+  SetAudioStreamPitch(wrapper->stream, pitch);
+}
+
+void
+moonbit_raylib_set_audio_stream_pan(AudioStreamWrapper *wrapper, float pan) {
+  SetAudioStreamPan(wrapper->stream, pan);
+}
+
+// ============================================================================
+// Audio: Music stream from memory
+// ============================================================================
+
+MusicWrapper *
+moonbit_raylib_load_music_stream_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t data, int dataSize) {
+  MusicWrapper *w = (MusicWrapper *)moonbit_make_external_object(music_destructor, sizeof(MusicWrapper));
+  w->music = LoadMusicStreamFromMemory((const char *)fileType, (const unsigned char *)data, dataSize);
+  w->freed = 0;
+  return w;
+}

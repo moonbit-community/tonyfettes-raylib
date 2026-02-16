@@ -21,3 +21,18 @@ pub type Model
 
 ///|
 pub type Shader
+
+///|
+pub type Wave
+
+///|
+pub type AudioStream
+
+///|
+pub type Mesh
+
+///|
+pub type Material
+
+///|
+pub type ModelAnimations

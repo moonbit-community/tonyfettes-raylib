@@ -4,6 +4,8 @@
 pub using @raylib {
   type Sound,
   type Music,
+  type Wave,
+  type AudioStream,
   // Audio device
   init_audio_device,
   close_audio_device,
@@ -38,6 +40,29 @@ pub using @raylib {
   seek_music_stream,
   get_music_time_length,
   get_music_time_played,
+  // Wave
+  is_wave_valid,
+  load_sound_from_wave,
+  unload_wave,
+  wave_copy,
+  wave_crop,
+  wave_format,
+  load_wave_samples,
+  // AudioStream
+  load_audio_stream,
+  is_audio_stream_valid,
+  unload_audio_stream,
+  update_audio_stream,
+  is_audio_stream_processed,
+  play_audio_stream,
+  pause_audio_stream,
+  resume_audio_stream,
+  is_audio_stream_playing,
+  stop_audio_stream,
+  set_audio_stream_volume,
+  set_audio_stream_pitch,
+  set_audio_stream_pan,
+  set_audio_stream_buffer_size_default,
 }
 
 // ============================================================================
@@ -56,4 +81,41 @@ pub fn load_sound(file_name : String) -> Sound {
 ///|
 pub fn load_music_stream(file_name : String) -> Music {
   @raylib.load_music_stream(@utf8.encode(file_name))
+}
+
+// ============================================================================
+// Wave loading (wrappers)
+// ============================================================================
+
+///|
+pub fn load_wave(file_name : String) -> Wave {
+  @raylib.load_wave(@utf8.encode(file_name))
+}
+
+///|
+pub fn load_wave_from_memory(
+  file_type : String,
+  file_data : Bytes,
+  data_size : Int
+) -> Wave {
+  @raylib.load_wave_from_memory(@utf8.encode(file_type), file_data, data_size)
+}
+
+///|
+pub fn export_wave(wave : Wave, file_name : String) -> Bool {
+  @raylib.export_wave(wave, @utf8.encode(file_name))
+}
+
+///|
+pub fn export_wave_as_code(wave : Wave, file_name : String) -> Bool {
+  @raylib.export_wave_as_code(wave, @utf8.encode(file_name))
+}
+
+// ============================================================================
+// Music stream from memory (wrappers)
+// ============================================================================
+
+///|
+pub fn load_music_stream_from_memory(file_type : String, data : Bytes, data_size : Int) -> Music {
+  @raylib.load_music_stream_from_memory(@utf8.encode(file_type), data, data_size)
 }

@@ -8,6 +8,7 @@
 typedef struct {
   Image image;
   int freed;
+  int frame_count;
 } ImageWrapper;
 typedef struct {
   Texture texture;
@@ -37,5 +38,26 @@ typedef struct {
   Shader shader;
   int freed;
 } ShaderWrapper;
+typedef struct {
+  Wave wave;
+  int freed;
+} WaveWrapper;
+typedef struct {
+  AudioStream stream;
+  int freed;
+} AudioStreamWrapper;
+typedef struct {
+  Mesh mesh;
+  int freed;
+} MeshWrapper;
+typedef struct {
+  Material material;
+  int freed;
+} MaterialWrapper;
+typedef struct {
+  ModelAnimation *anims;
+  int count;
+  int freed;
+} ModelAnimationsWrapper;
 
 #endif

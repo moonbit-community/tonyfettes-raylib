@@ -338,3 +338,221 @@ pub extern "c" fn get_ray_collision_triangle(
   p2 : Bytes,
   p3 : Bytes,
 ) -> Bytes = "moonbit_raylib_get_ray_collision_triangle"
+
+// ============================================================================
+// Mesh generation
+// ============================================================================
+
+///|
+pub extern "c" fn gen_mesh_poly(sides : Int, radius : Float) -> Mesh = "moonbit_raylib_gen_mesh_poly"
+
+///|
+pub extern "c" fn gen_mesh_plane(
+  width : Float,
+  length : Float,
+  res_x : Int,
+  res_z : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_plane"
+
+///|
+pub extern "c" fn gen_mesh_cube(
+  width : Float,
+  height : Float,
+  length : Float,
+) -> Mesh = "moonbit_raylib_gen_mesh_cube"
+
+///|
+pub extern "c" fn gen_mesh_sphere(
+  radius : Float,
+  rings : Int,
+  slices : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_sphere"
+
+///|
+pub extern "c" fn gen_mesh_hemisphere(
+  radius : Float,
+  rings : Int,
+  slices : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_hemisphere"
+
+///|
+pub extern "c" fn gen_mesh_cylinder(
+  radius : Float,
+  height : Float,
+  slices : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_cylinder"
+
+///|
+pub extern "c" fn gen_mesh_cone(
+  radius : Float,
+  height : Float,
+  slices : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_cone"
+
+///|
+pub extern "c" fn gen_mesh_torus(
+  radius : Float,
+  size : Float,
+  rad_seg : Int,
+  sides : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_torus"
+
+///|
+pub extern "c" fn gen_mesh_knot(
+  radius : Float,
+  size : Float,
+  rad_seg : Int,
+  sides : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_knot"
+
+///|
+#borrow(heightmap, size)
+pub extern "c" fn gen_mesh_heightmap(
+  heightmap : Image,
+  size : Bytes,
+) -> Mesh = "moonbit_raylib_gen_mesh_heightmap"
+
+///|
+#borrow(cubicmap, cube_size)
+pub extern "c" fn gen_mesh_cubicmap(
+  cubicmap : Image,
+  cube_size : Bytes,
+) -> Mesh = "moonbit_raylib_gen_mesh_cubicmap"
+
+// ============================================================================
+// Mesh utilities
+// ============================================================================
+
+///|
+#borrow(mesh)
+pub extern "c" fn unload_mesh(mesh : Mesh) = "moonbit_raylib_unload_mesh"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_bounding_box(mesh : Mesh) -> Bytes = "moonbit_raylib_get_mesh_bounding_box"
+
+///|
+#borrow(mesh, file_name)
+pub extern "c" fn export_mesh(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh"
+
+///|
+#borrow(mesh)
+pub extern "c" fn upload_mesh(mesh : Mesh, dynamic : Int) = "moonbit_raylib_upload_mesh"
+
+///|
+#borrow(mesh)
+pub extern "c" fn gen_mesh_tangents(mesh : Mesh) = "moonbit_raylib_gen_mesh_tangents"
+
+///|
+#borrow(ray, mesh, transform)
+pub extern "c" fn get_ray_collision_mesh(
+  ray : Bytes,
+  mesh : Mesh,
+  transform : Bytes,
+) -> Bytes = "moonbit_raylib_get_ray_collision_mesh"
+
+///|
+#borrow(mesh)
+pub extern "c" fn load_model_from_mesh(mesh : Mesh) -> Model = "moonbit_raylib_load_model_from_mesh"
+
+// ============================================================================
+// Material management
+// ============================================================================
+
+///|
+pub extern "c" fn load_material_default() -> Material = "moonbit_raylib_load_material_default"
+
+///|
+#borrow(material)
+pub extern "c" fn is_material_valid(material : Material) -> Bool = "moonbit_raylib_is_material_valid"
+
+///|
+#borrow(material)
+pub extern "c" fn unload_material(material : Material) = "moonbit_raylib_unload_material"
+
+///|
+#borrow(material, texture)
+pub extern "c" fn set_material_texture(
+  material : Material,
+  map_type : Int,
+  texture : Texture,
+) = "moonbit_raylib_set_material_texture"
+
+///|
+#borrow(model)
+pub extern "c" fn set_model_mesh_material(
+  model : Model,
+  mesh_id : Int,
+  material_id : Int,
+) = "moonbit_raylib_set_model_mesh_material"
+
+// ============================================================================
+// Mesh drawing
+// ============================================================================
+
+///|
+#borrow(mesh, material, transform)
+pub extern "c" fn draw_mesh(
+  mesh : Mesh,
+  material : Material,
+  transform : Bytes,
+) = "moonbit_raylib_draw_mesh"
+
+///|
+#borrow(mesh, material, transforms)
+pub extern "c" fn draw_mesh_instanced(
+  mesh : Mesh,
+  material : Material,
+  transforms : Bytes,
+  instances : Int,
+) = "moonbit_raylib_draw_mesh_instanced"
+
+// ============================================================================
+// Model animations
+// ============================================================================
+
+///|
+#borrow(file_name)
+pub extern "c" fn load_model_animations(file_name : Bytes) -> ModelAnimations = "moonbit_raylib_load_model_animations"
+
+///|
+#borrow(anims)
+pub extern "c" fn model_animations_count(anims : ModelAnimations) -> Int = "moonbit_raylib_model_animations_count"
+
+///|
+#borrow(model, anims)
+pub extern "c" fn update_model_animation(model : Model, anims : ModelAnimations, index : Int, frame : Int) = "moonbit_raylib_update_model_animation"
+
+///|
+#borrow(model, anims)
+pub extern "c" fn update_model_animation_bones(model : Model, anims : ModelAnimations, index : Int, frame : Int) = "moonbit_raylib_update_model_animation_bones"
+
+///|
+#borrow(model, anims)
+pub extern "c" fn is_model_animation_valid(model : Model, anims : ModelAnimations, index : Int) -> Bool = "moonbit_raylib_is_model_animation_valid"
+
+///|
+#borrow(anims)
+pub extern "c" fn unload_model_animations(anims : ModelAnimations) = "moonbit_raylib_unload_model_animations"
+
+// ============================================================================
+// Ray collision: quad
+// ============================================================================
+
+///|
+#borrow(ray, p1, p2, p3, p4)
+pub extern "c" fn get_ray_collision_quad(
+  ray : Bytes,
+  p1 : Bytes,
+  p2 : Bytes,
+  p3 : Bytes,
+  p4 : Bytes,
+) -> Bytes = "moonbit_raylib_get_ray_collision_quad"
+
+// ============================================================================
+// Mesh: Export as code
+// ============================================================================
+
+///|
+#borrow(mesh, file_name)
+pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh_as_code"

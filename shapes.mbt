@@ -826,3 +826,56 @@ pub fn check_collision_point_line(
     point.to_bytes(), p1.to_bytes(), p2.to_bytes(), threshold,
   )
 }
+
+// ============================================================================
+// 3D triangle strip
+// ============================================================================
+
+///|
+fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
+  let arr = FixedArray::make(points.length() * 12, b'\x00')
+  for i, p in points {
+    let bytes = p.to_bytes()
+    arr.blit_from_bytes(i * 12, bytes, 0, 12)
+  }
+  FixedArray::unsafe_reinterpret_as_bytes(arr)
+}
+
+///|
+pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
+  let bytes = vector3_array_to_bytes(points)
+  @raylib.draw_triangle_strip_3d(bytes, points.length(), color.to_bytes())
+}
+
+// ============================================================================
+// Additional collision detection
+// ============================================================================
+
+///|
+pub fn check_collision_point_poly(
+  point : Vector2,
+  points : Array[Vector2],
+) -> Bool {
+  let bytes = vector2_array_to_bytes(points)
+  @raylib.check_collision_point_poly(point.to_bytes(), bytes, points.length())
+}
+
+///|
+pub fn check_collision_lines(
+  start_pos1 : Vector2,
+  end_pos1 : Vector2,
+  start_pos2 : Vector2,
+  end_pos2 : Vector2,
+) -> Vector2? {
+  let result = @raylib.check_collision_lines(
+    start_pos1.to_bytes(),
+    end_pos1.to_bytes(),
+    start_pos2.to_bytes(),
+    end_pos2.to_bytes(),
+  )
+  if result.length() > 0 {
+    Some(Vector2::from_bytes(result))
+  } else {
+    None
+  }
+}

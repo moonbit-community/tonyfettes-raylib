@@ -940,3 +940,40 @@ moonbit_raylib_check_collision_point_line(
   memcpy(&b, p2, sizeof(Vector2));
   return (int)CheckCollisionPointLine(pt, a, b, threshold);
 }
+
+// ============================================================================
+// Shapes: 3D triangle strip
+// ============================================================================
+
+void moonbit_raylib_draw_triangle_strip_3d(moonbit_bytes_t points, int pointCount, moonbit_bytes_t color) {
+  Vector3 *pts = (Vector3 *)points;
+  Color c; memcpy(&c, color, sizeof(Color));
+  DrawTriangleStrip3D(pts, pointCount, c);
+}
+
+// ============================================================================
+// Shapes: Additional collision detection
+// ============================================================================
+
+int moonbit_raylib_check_collision_point_poly(moonbit_bytes_t point, moonbit_bytes_t points, int pointCount) {
+  Vector2 p; memcpy(&p, point, sizeof(Vector2));
+  Vector2 *pts = (Vector2 *)points;
+  return (int)CheckCollisionPointPoly(p, pts, pointCount);
+}
+
+moonbit_bytes_t moonbit_raylib_check_collision_lines(
+  moonbit_bytes_t s1, moonbit_bytes_t e1, moonbit_bytes_t s2, moonbit_bytes_t e2
+) {
+  Vector2 start1; memcpy(&start1, s1, sizeof(Vector2));
+  Vector2 end1; memcpy(&end1, e1, sizeof(Vector2));
+  Vector2 start2; memcpy(&start2, s2, sizeof(Vector2));
+  Vector2 end2; memcpy(&end2, e2, sizeof(Vector2));
+  Vector2 collision;
+  int result = CheckCollisionLines(start1, end1, start2, end2, &collision);
+  if (result) {
+    moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
+    memcpy(r, &collision, sizeof(Vector2));
+    return r;
+  }
+  return moonbit_make_bytes(0, 0);
+}

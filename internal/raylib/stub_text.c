@@ -157,3 +157,41 @@ moonbit_raylib_get_glyph_atlas_rec(FontWrapper *font, int codepoint) {
   memcpy(r, &result, sizeof(Rectangle));
   return r;
 }
+
+// ============================================================================
+// Text: Font loading extras
+// ============================================================================
+
+FontWrapper *
+moonbit_raylib_load_font_from_image(ImageWrapper *img, moonbit_bytes_t key, int firstChar) {
+  Color k; memcpy(&k, key, sizeof(Color));
+  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(font_destructor, sizeof(FontWrapper));
+  w->font = LoadFontFromImage(img->image, k, firstChar);
+  w->freed = 0;
+  return w;
+}
+
+FontWrapper *
+moonbit_raylib_load_font_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize, int fontSize) {
+  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(font_destructor, sizeof(FontWrapper));
+  w->font = LoadFontFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize, fontSize, NULL, 0);
+  w->freed = 0;
+  return w;
+}
+
+int
+moonbit_raylib_export_font_as_code(FontWrapper *wrapper, moonbit_bytes_t fileName) {
+  return (int)ExportFontAsCode(wrapper->font, (const char *)fileName);
+}
+
+// ============================================================================
+// Text: Drawing extras
+// ============================================================================
+
+void
+moonbit_raylib_draw_text_codepoints(FontWrapper *font, moonbit_bytes_t codepoints, int codepointCount, moonbit_bytes_t position, float fontSize, float spacing, moonbit_bytes_t tint) {
+  int *cp = (int *)codepoints;
+  Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawTextCodepoints(font->font, cp, codepointCount, pos, fontSize, spacing, c);
+}
