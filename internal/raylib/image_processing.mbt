@@ -29,6 +29,18 @@ pub extern "c" fn load_image_anim_from_memory(
 ) -> Image = "moonbit_raylib_load_image_anim_from_memory"
 
 // ============================================================================
+// Image dimensions
+// ============================================================================
+
+///|
+#borrow(image)
+pub extern "c" fn image_width(image : Image) -> Int = "moonbit_raylib_image_width"
+
+///|
+#borrow(image)
+pub extern "c" fn image_height(image : Image) -> Int = "moonbit_raylib_image_height"
+
+// ============================================================================
 // In-place mutations: primitives only
 // ============================================================================
 

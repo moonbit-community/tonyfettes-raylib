@@ -418,6 +418,20 @@ pub fn get_model_bounding_box(model : Model) -> BoundingBox {
 }
 
 // ============================================================================
+// Model material texture (wrappers)
+// ============================================================================
+
+///|
+pub fn set_model_material_texture(
+  model : Model,
+  material_index : Int,
+  map_type : Int,
+  texture : Texture,
+) -> Unit {
+  @raylib.set_model_material_texture(model, material_index, map_type, texture)
+}
+
+// ============================================================================
 // Billboard drawing (wrappers)
 // ============================================================================
 

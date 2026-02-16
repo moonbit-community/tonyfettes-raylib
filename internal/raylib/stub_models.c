@@ -884,6 +884,18 @@ moonbit_raylib_set_model_mesh_material(
   SetModelMeshMaterial(&wrapper->model, meshId, materialId);
 }
 
+void
+moonbit_raylib_set_model_material_texture(
+  ModelWrapper *wrapper,
+  int materialIndex,
+  int mapType,
+  TextureWrapper *tex_wrapper
+) {
+  if (materialIndex >= 0 && materialIndex < wrapper->model.materialCount) {
+    SetMaterialTexture(&wrapper->model.materials[materialIndex], mapType, tex_wrapper->texture);
+  }
+}
+
 // ============================================================================
 // Mesh drawing
 // ============================================================================

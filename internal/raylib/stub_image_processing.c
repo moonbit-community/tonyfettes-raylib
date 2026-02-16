@@ -40,6 +40,16 @@ moonbit_raylib_image_frame_count(ImageWrapper *wrapper) {
   return wrapper->frame_count;
 }
 
+int
+moonbit_raylib_image_width(ImageWrapper *wrapper) {
+  return wrapper->image.width;
+}
+
+int
+moonbit_raylib_image_height(ImageWrapper *wrapper) {
+  return wrapper->image.height;
+}
+
 ImageWrapper *
 moonbit_raylib_load_image_anim_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize) {
   int frames = 0;
