@@ -604,3 +604,63 @@ pub extern "c" fn materials_array_get(
   materials : MaterialsArray,
   index : Int,
 ) -> Material = "moonbit_raylib_materials_array_get"
+
+// ============================================================================
+// Model: set material shader
+// ============================================================================
+
+///|
+#borrow(model, shader)
+pub extern "c" fn set_model_material_shader(
+  model : Model,
+  material_index : Int,
+  shader : Shader,
+) = "moonbit_raylib_set_model_material_shader"
+
+// ============================================================================
+// Model: set material map texture
+// ============================================================================
+
+///|
+#borrow(model, texture)
+pub extern "c" fn set_model_material_texture(
+  model : Model,
+  material_index : Int,
+  map_type : Int,
+  texture : Texture,
+) = "moonbit_raylib_set_model_material_texture"
+
+// ============================================================================
+// Model: set transform
+// ============================================================================
+
+///|
+#borrow(model, transform)
+pub extern "c" fn set_model_transform(
+  model : Model,
+  transform : Bytes,
+) = "moonbit_raylib_set_model_transform"
+
+// ============================================================================
+// Model: get mesh count
+// ============================================================================
+
+///|
+#borrow(model)
+pub extern "c" fn get_model_mesh_count(model : Model) -> Int = "moonbit_raylib_get_model_mesh_count"
+
+// ============================================================================
+// Model: get mesh by index
+// ============================================================================
+
+///|
+#borrow(model)
+pub extern "c" fn get_model_mesh(model : Model, index : Int) -> Mesh = "moonbit_raylib_get_model_mesh"
+
+// ============================================================================
+// Model: get transform
+// ============================================================================
+
+///|
+#borrow(model)
+pub extern "c" fn get_model_transform(model : Model) -> Bytes = "moonbit_raylib_get_model_transform"

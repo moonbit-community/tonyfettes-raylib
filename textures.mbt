@@ -25,6 +25,9 @@ pub using @raylib {
   update_texture,
   gen_texture_mipmaps,
   get_shapes_texture,
+  get_texture_width,
+  get_texture_height,
+  get_render_texture_texture,
 }
 
 // ============================================================================

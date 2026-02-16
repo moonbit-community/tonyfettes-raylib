@@ -703,3 +703,46 @@ pub using @raylib {
 pub fn load_materials(file_name : String) -> MaterialsArray {
   @raylib.load_materials(@utf8.encode(file_name))
 }
+
+// ============================================================================
+// Model: set material shader / texture / transform
+// ============================================================================
+
+///|
+pub fn set_model_material_shader(
+  model : Model,
+  material_index : Int,
+  shader : Shader,
+) -> Unit {
+  @raylib.set_model_material_shader(model, material_index, shader)
+}
+
+///|
+pub fn set_model_material_texture(
+  model : Model,
+  material_index : Int,
+  map_type : Int,
+  texture : Texture,
+) -> Unit {
+  @raylib.set_model_material_texture(model, material_index, map_type, texture)
+}
+
+///|
+pub fn set_model_transform(model : Model, transform : Matrix) -> Unit {
+  @raylib.set_model_transform(model, transform.to_bytes())
+}
+
+///|
+pub fn get_model_mesh_count(model : Model) -> Int {
+  @raylib.get_model_mesh_count(model)
+}
+
+///|
+pub fn get_model_mesh(model : Model, index : Int) -> Mesh {
+  @raylib.get_model_mesh(model, index)
+}
+
+///|
+pub fn get_model_transform(model : Model) -> Matrix {
+  Matrix::from_bytes(@raylib.get_model_transform(model))
+}

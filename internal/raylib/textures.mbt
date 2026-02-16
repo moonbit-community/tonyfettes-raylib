@@ -175,6 +175,26 @@ pub extern "c" fn is_render_texture_valid(target : RenderTexture) -> Bool = "moo
 pub extern "c" fn unload_render_texture(target : RenderTexture) = "moonbit_raylib_unload_render_texture"
 
 // ============================================================================
+// Texture: get width/height
+// ============================================================================
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_width(texture : Texture) -> Int = "moonbit_raylib_get_texture_width"
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib_get_texture_height"
+
+// ============================================================================
+// RenderTexture: get texture
+// ============================================================================
+
+///|
+#borrow(target)
+pub extern "c" fn get_render_texture_texture(target : RenderTexture) -> Texture = "moonbit_raylib_get_render_texture_texture"
+
+// ============================================================================
 // Texture drawing
 // ============================================================================
 

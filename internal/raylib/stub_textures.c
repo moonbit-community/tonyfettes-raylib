@@ -444,3 +444,30 @@ moonbit_raylib_get_clipboard_image(void) {
   w->frame_count = 1;
   return w;
 }
+
+// ============================================================================
+// Textures: Get texture width/height
+// ============================================================================
+
+int
+moonbit_raylib_get_texture_width(TextureWrapper *wrapper) {
+  return wrapper->texture.width;
+}
+
+int
+moonbit_raylib_get_texture_height(TextureWrapper *wrapper) {
+  return wrapper->texture.height;
+}
+
+// ============================================================================
+// RenderTexture: Get render texture's texture (for drawing)
+// ============================================================================
+
+TextureWrapper *
+moonbit_raylib_get_render_texture_texture(RenderTextureWrapper *wrapper) {
+  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
+    NULL, sizeof(TextureWrapper));
+  tw->texture = wrapper->render_texture.texture;
+  tw->freed = 1; // Don't unload - owned by render texture
+  return tw;
+}

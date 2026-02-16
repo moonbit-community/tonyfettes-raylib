@@ -1058,3 +1058,90 @@ moonbit_raylib_materials_array_get(MaterialsArrayWrapper *w, int index) {
   mw->freed = 0;
   return mw;
 }
+
+// ============================================================================
+// Model: set material shader
+// ============================================================================
+
+void
+moonbit_raylib_set_model_material_shader(
+  ModelWrapper *model_wrapper,
+  int material_index,
+  ShaderWrapper *shader_wrapper
+) {
+  if (material_index >= 0 && material_index < model_wrapper->model.materialCount) {
+    model_wrapper->model.materials[material_index].shader = shader_wrapper->shader;
+  }
+}
+
+// ============================================================================
+// Model: set material map texture
+// ============================================================================
+
+void
+moonbit_raylib_set_model_material_texture(
+  ModelWrapper *model_wrapper,
+  int material_index,
+  int map_type,
+  TextureWrapper *tex_wrapper
+) {
+  if (material_index >= 0 && material_index < model_wrapper->model.materialCount) {
+    model_wrapper->model.materials[material_index].maps[map_type].texture = tex_wrapper->texture;
+  }
+}
+
+// ============================================================================
+// Model: set transform
+// ============================================================================
+
+void
+moonbit_raylib_set_model_transform(
+  ModelWrapper *model_wrapper,
+  moonbit_bytes_t transform
+) {
+  Matrix m;
+  memcpy(&m, transform, sizeof(Matrix));
+  model_wrapper->model.transform = m;
+}
+
+// ============================================================================
+// Model: get mesh count
+// ============================================================================
+
+int
+moonbit_raylib_get_model_mesh_count(ModelWrapper *model_wrapper) {
+  return model_wrapper->model.meshCount;
+}
+
+// ============================================================================
+// Model: get mesh by index (returns a MeshWrapper sharing the same mesh data)
+// ============================================================================
+
+static void mesh_noop_destructor(void *ptr) {
+  // No-op: the mesh is owned by the model, not by this wrapper
+  (void)ptr;
+}
+
+MeshWrapper *
+moonbit_raylib_get_model_mesh(ModelWrapper *model_wrapper, int index) {
+  MeshWrapper *mw = (MeshWrapper *)moonbit_make_external_object(
+    mesh_noop_destructor, sizeof(MeshWrapper));
+  if (index >= 0 && index < model_wrapper->model.meshCount) {
+    mw->mesh = model_wrapper->model.meshes[index];
+  } else {
+    memset(&mw->mesh, 0, sizeof(Mesh));
+  }
+  mw->freed = 1; // Mark as "freed" so destructor doesn't try to unload
+  return mw;
+}
+
+// ============================================================================
+// Model: get transform
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_transform(ModelWrapper *model_wrapper) {
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Matrix), 0);
+  memcpy(r, &model_wrapper->model.transform, sizeof(Matrix));
+  return r;
+}

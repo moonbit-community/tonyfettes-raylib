@@ -84,6 +84,16 @@ pub struct RayCollision {
 } derive(Eq, Show)
 
 ///|
+pub fn RayCollision::new(
+  hit : Bool,
+  distance : Float,
+  point : Vector3,
+  normal : Vector3,
+) -> RayCollision {
+  { hit, distance, point, normal }
+}
+
+///|
 pub fn RayCollision::from_bytes(b : Bytes) -> RayCollision {
   {
     hit: b[0] != b'\x00',
