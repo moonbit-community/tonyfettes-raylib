@@ -444,3 +444,41 @@ moonbit_raylib_get_clipboard_image(void) {
   w->frame_count = 1;
   return w;
 }
+
+// ============================================================================
+// RenderTexture: Draw texture from RenderTexture
+// ============================================================================
+
+void
+moonbit_raylib_draw_render_texture_rec(
+  RenderTextureWrapper *wrapper,
+  moonbit_bytes_t source,
+  moonbit_bytes_t position,
+  moonbit_bytes_t tint
+) {
+  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
+  Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawTextureRec(wrapper->render_texture.texture, src, pos, c);
+}
+
+void
+moonbit_raylib_draw_render_texture_pro(
+  RenderTextureWrapper *wrapper,
+  moonbit_bytes_t source,
+  moonbit_bytes_t dest,
+  moonbit_bytes_t origin,
+  float rotation,
+  moonbit_bytes_t tint
+) {
+  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
+  Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
+  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawTexturePro(wrapper->render_texture.texture, src, dst, org, rotation, c);
+}
+
+void
+moonbit_raylib_set_render_texture_filter(RenderTextureWrapper *wrapper, int filter) {
+  SetTextureFilter(wrapper->render_texture.texture, filter);
+}

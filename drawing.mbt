@@ -110,6 +110,18 @@ pub const BlendAdditive : Int = 1
 ///|
 pub const BlendMultiplied : Int = 2
 
+///|
+pub const BlendCustom : Int = 6
+
+// rlgl re-exports
+
+///|
+pub using @raylib {
+  rl_set_blend_mode,
+  rl_set_blend_factors,
+  rl_draw_render_batch_active,
+}
+
 // ============================================================================
 // VR stereo re-exports
 // ============================================================================
@@ -134,6 +146,31 @@ pub struct VrDeviceInfo {
   lens_distortion_values : FixedArray[Float] // length 4
   chroma_ab_correction : FixedArray[Float] // length 4
 } derive(Show)
+
+///|
+pub fn VrDeviceInfo::new(
+  h_resolution : Int,
+  v_resolution : Int,
+  h_screen_size : Float,
+  v_screen_size : Float,
+  eye_to_screen_distance : Float,
+  lens_separation_distance : Float,
+  interpupillary_distance : Float,
+  lens_distortion_values : FixedArray[Float],
+  chroma_ab_correction : FixedArray[Float],
+) -> VrDeviceInfo {
+  {
+    h_resolution,
+    v_resolution,
+    h_screen_size,
+    v_screen_size,
+    eye_to_screen_distance,
+    lens_separation_distance,
+    interpupillary_distance,
+    lens_distortion_values,
+    chroma_ab_correction,
+  }
+}
 
 ///|
 pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
@@ -198,4 +235,36 @@ pub fn load_vr_stereo_config(device : VrDeviceInfo) -> VrStereoConfig {
 ///|
 pub fn begin_vr_stereo_mode(config : VrStereoConfig) -> Unit {
   @raylib.begin_vr_stereo_mode(config)
+}
+
+// VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
+
+///|
+pub fn vr_stereo_config_left_lens_center(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_left_lens_center(config)
+}
+
+///|
+pub fn vr_stereo_config_right_lens_center(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_right_lens_center(config)
+}
+
+///|
+pub fn vr_stereo_config_left_screen_center(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_left_screen_center(config)
+}
+
+///|
+pub fn vr_stereo_config_right_screen_center(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_right_screen_center(config)
+}
+
+///|
+pub fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_scale(config)
+}
+
+///|
+pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
+  @raylib.vr_stereo_config_scale_in(config)
 }

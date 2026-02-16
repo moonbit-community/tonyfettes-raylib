@@ -288,3 +288,34 @@ pub extern "c" fn get_shapes_texture_rectangle() -> Bytes = "moonbit_raylib_get_
 
 ///|
 pub extern "c" fn get_clipboard_image() -> Image = "moonbit_raylib_get_clipboard_image"
+
+// ============================================================================
+// RenderTexture: Draw texture from RenderTexture
+// ============================================================================
+
+///|
+#borrow(target, source, position, tint)
+pub extern "c" fn draw_render_texture_rec(
+  target : RenderTexture,
+  source : Bytes,
+  position : Bytes,
+  tint : Bytes,
+) = "moonbit_raylib_draw_render_texture_rec"
+
+///|
+#borrow(target, source, dest, origin, tint)
+pub extern "c" fn draw_render_texture_pro(
+  target : RenderTexture,
+  source : Bytes,
+  dest : Bytes,
+  origin : Bytes,
+  rotation : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_render_texture_pro"
+
+///|
+#borrow(target)
+pub extern "c" fn set_render_texture_filter(
+  target : RenderTexture,
+  filter : Int,
+) = "moonbit_raylib_set_render_texture_filter"
