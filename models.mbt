@@ -679,3 +679,27 @@ pub fn get_ray_collision_quad(
 pub fn export_mesh_as_code(mesh : Mesh, file_name : String) -> Bool {
   @raylib.export_mesh_as_code(mesh, @utf8.encode(file_name))
 }
+
+// ============================================================================
+// Mesh: UpdateMeshBuffer (re-export)
+// ============================================================================
+
+///|
+pub using @raylib {update_mesh_buffer}
+
+// ============================================================================
+// LoadMaterials (wrappers)
+// ============================================================================
+
+///|
+pub using @raylib {
+  type MaterialsArray,
+  unload_materials_array,
+  materials_array_count,
+  materials_array_get,
+}
+
+///|
+pub fn load_materials(file_name : String) -> MaterialsArray {
+  @raylib.load_materials(@utf8.encode(file_name))
+}

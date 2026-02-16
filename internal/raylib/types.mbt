@@ -42,3 +42,12 @@ pub type FilePathList
 
 ///|
 pub type GlyphInfoArray
+
+///|
+pub type AutomationEventList
+
+///|
+pub type VrStereoConfig
+
+///|
+pub type MaterialsArray

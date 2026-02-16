@@ -690,3 +690,22 @@ pub extern "c" fn get_pixel_data_size(
 ///|
 #borrow(image)
 pub extern "c" fn set_window_icon(image : Image) = "moonbit_raylib_set_window_icon"
+
+// ============================================================================
+// VR stereo
+// ============================================================================
+
+///|
+#borrow(device)
+pub extern "c" fn load_vr_stereo_config(device : Bytes) -> VrStereoConfig = "moonbit_raylib_load_vr_stereo_config"
+
+///|
+#borrow(config)
+pub extern "c" fn unload_vr_stereo_config(config : VrStereoConfig) = "moonbit_raylib_unload_vr_stereo_config"
+
+///|
+#borrow(config)
+pub extern "c" fn begin_vr_stereo_mode(config : VrStereoConfig) = "moonbit_raylib_begin_vr_stereo_mode"
+
+///|
+pub extern "c" fn end_vr_stereo_mode() = "EndVrStereoMode"

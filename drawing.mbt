@@ -1,7 +1,7 @@
 // Re-export opaque types for drawing
 
 ///|
-pub using @raylib {type Shader, type RenderTexture}
+pub using @raylib {type Shader, type RenderTexture, type VrStereoConfig}
 
 // Drawing lifecycle re-exports
 
@@ -109,3 +109,93 @@ pub const BlendAdditive : Int = 1
 
 ///|
 pub const BlendMultiplied : Int = 2
+
+// ============================================================================
+// VR stereo re-exports
+// ============================================================================
+
+///|
+pub using @raylib {unload_vr_stereo_config, end_vr_stereo_mode}
+
+// VrDeviceInfo value type: 60 bytes
+// hResolution(int), vResolution(int), hScreenSize(float), vScreenSize(float),
+// eyeToScreenDistance(float), lensSeparationDistance(float), interpupillaryDistance(float),
+// lensDistortionValues[4](float), chromaAbCorrection[4](float)
+
+///|
+pub struct VrDeviceInfo {
+  h_resolution : Int
+  v_resolution : Int
+  h_screen_size : Float
+  v_screen_size : Float
+  eye_to_screen_distance : Float
+  lens_separation_distance : Float
+  interpupillary_distance : Float
+  lens_distortion_values : FixedArray[Float] // length 4
+  chroma_ab_correction : FixedArray[Float] // length 4
+} derive(Show)
+
+///|
+pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
+  let arr = FixedArray::make(60, b'\x00')
+  let (a, b, c, d) = write_int(info.h_resolution)
+  arr[0] = a
+  arr[1] = b
+  arr[2] = c
+  arr[3] = d
+  let (a, b, c, d) = write_int(info.v_resolution)
+  arr[4] = a
+  arr[5] = b
+  arr[6] = c
+  arr[7] = d
+  let (a, b, c, d) = write_float(info.h_screen_size)
+  arr[8] = a
+  arr[9] = b
+  arr[10] = c
+  arr[11] = d
+  let (a, b, c, d) = write_float(info.v_screen_size)
+  arr[12] = a
+  arr[13] = b
+  arr[14] = c
+  arr[15] = d
+  let (a, b, c, d) = write_float(info.eye_to_screen_distance)
+  arr[16] = a
+  arr[17] = b
+  arr[18] = c
+  arr[19] = d
+  let (a, b, c, d) = write_float(info.lens_separation_distance)
+  arr[20] = a
+  arr[21] = b
+  arr[22] = c
+  arr[23] = d
+  let (a, b, c, d) = write_float(info.interpupillary_distance)
+  arr[24] = a
+  arr[25] = b
+  arr[26] = c
+  arr[27] = d
+  for i in 0..<4 {
+    let (a, b, c, d) = write_float(info.lens_distortion_values[i])
+    arr[28 + i * 4] = a
+    arr[28 + i * 4 + 1] = b
+    arr[28 + i * 4 + 2] = c
+    arr[28 + i * 4 + 3] = d
+  }
+  for i in 0..<4 {
+    let (a, b, c, d) = write_float(info.chroma_ab_correction[i])
+    arr[44 + i * 4] = a
+    arr[44 + i * 4 + 1] = b
+    arr[44 + i * 4 + 2] = c
+    arr[44 + i * 4 + 3] = d
+  }
+  FixedArray::unsafe_reinterpret_as_bytes(arr)
+}
+
+///|
+pub fn load_vr_stereo_config(device : VrDeviceInfo) -> VrStereoConfig {
+  @raylib.load_vr_stereo_config(device.to_bytes())
+}
+
+///|
+pub fn begin_vr_stereo_mode(config : VrStereoConfig) -> Unit {
+  @raylib.begin_vr_stereo_mode(config)
+}

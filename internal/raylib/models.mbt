@@ -567,3 +567,40 @@ pub extern "c" fn get_ray_collision_quad(
 ///|
 #borrow(mesh, file_name)
 pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh_as_code"
+
+// ============================================================================
+// Mesh: UpdateMeshBuffer
+// ============================================================================
+
+///|
+#borrow(mesh, data)
+pub extern "c" fn update_mesh_buffer(
+  mesh : Mesh,
+  index : Int,
+  data : Bytes,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_update_mesh_buffer"
+
+// ============================================================================
+// LoadMaterials
+// ============================================================================
+
+///|
+#borrow(file_name)
+pub extern "c" fn load_materials(file_name : Bytes) -> MaterialsArray = "moonbit_raylib_load_materials"
+
+///|
+#borrow(materials)
+pub extern "c" fn unload_materials_array(materials : MaterialsArray) = "moonbit_raylib_unload_materials_array"
+
+///|
+#borrow(materials)
+pub extern "c" fn materials_array_count(materials : MaterialsArray) -> Int = "moonbit_raylib_materials_array_count"
+
+///|
+#borrow(materials)
+pub extern "c" fn materials_array_get(
+  materials : MaterialsArray,
+  index : Int,
+) -> Material = "moonbit_raylib_materials_array_get"

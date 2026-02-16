@@ -1,4 +1,5 @@
 #include "stub_internal.h"
+#include <stdlib.h>
 
 // ============================================================================
 // Resource destructor: Model
@@ -983,4 +984,77 @@ moonbit_bytes_t moonbit_raylib_get_ray_collision_quad(
 int
 moonbit_raylib_export_mesh_as_code(MeshWrapper *wrapper, moonbit_bytes_t fileName) {
   return (int)ExportMeshAsCode(wrapper->mesh, (const char *)fileName);
+}
+
+// ============================================================================
+// Mesh: UpdateMeshBuffer
+// ============================================================================
+
+void
+moonbit_raylib_update_mesh_buffer(MeshWrapper *wrapper, int index, moonbit_bytes_t data, int data_size, int offset) {
+  UpdateMeshBuffer(wrapper->mesh, index, (const void *)data, data_size, offset);
+}
+
+// ============================================================================
+// LoadMaterials
+// ============================================================================
+
+typedef struct {
+  Material *materials;
+  int count;
+  int freed;
+} MaterialsArrayWrapper;
+
+static void
+materials_array_destructor(void *ptr) {
+  MaterialsArrayWrapper *w = (MaterialsArrayWrapper *)ptr;
+  if (!w->freed && w->materials) {
+    for (int i = 0; i < w->count; i++) {
+      UnloadMaterial(w->materials[i]);
+    }
+    RL_FREE(w->materials);
+  }
+}
+
+MaterialsArrayWrapper *
+moonbit_raylib_load_materials(moonbit_bytes_t fileName) {
+  int count = 0;
+  Material *mats = LoadMaterials((const char *)fileName, &count);
+  MaterialsArrayWrapper *w = (MaterialsArrayWrapper *)moonbit_make_external_object(
+    materials_array_destructor, sizeof(MaterialsArrayWrapper));
+  w->materials = mats;
+  w->count = count;
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_unload_materials_array(MaterialsArrayWrapper *w) {
+  if (w && !w->freed && w->materials) {
+    for (int i = 0; i < w->count; i++) {
+      UnloadMaterial(w->materials[i]);
+    }
+    RL_FREE(w->materials);
+    w->freed = 1;
+  }
+}
+
+int
+moonbit_raylib_materials_array_count(MaterialsArrayWrapper *w) {
+  return w->count;
+}
+
+// Get a single material from the array, wrapping it as a MaterialWrapper
+// The returned material shares resources with the array; user should manage lifetime carefully.
+MaterialWrapper *
+moonbit_raylib_materials_array_get(MaterialsArrayWrapper *w, int index) {
+  MaterialWrapper *mw = (MaterialWrapper *)moonbit_make_external_object(
+    material_destructor, sizeof(MaterialWrapper));
+  if (index >= 0 && index < w->count) {
+    mw->material = w->materials[index];
+  } else {
+    mw->material = LoadMaterialDefault();
+  }
+  mw->freed = 0;
+  return mw;
 }

@@ -271,3 +271,11 @@ pub extern "c" fn load_music_stream_from_memory(
   data : Bytes,
   data_size : Int,
 ) -> Music = "moonbit_raylib_load_music_stream_from_memory"
+
+// ============================================================================
+// UpdateSound
+// ============================================================================
+
+///|
+#borrow(sound, data)
+pub extern "c" fn update_sound(sound : Sound, data : Bytes, sample_count : Int) = "moonbit_raylib_update_sound"
