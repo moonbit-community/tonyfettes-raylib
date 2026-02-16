@@ -58,6 +58,11 @@ moonbit_raylib_unload_font(FontWrapper *wrapper) {
   }
 }
 
+int
+moonbit_raylib_get_font_base_size(FontWrapper *wrapper) {
+  return wrapper->font.baseSize;
+}
+
 // ============================================================================
 // Text: Drawing
 // ============================================================================

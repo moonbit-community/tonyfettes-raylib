@@ -5,6 +5,7 @@ pub using @raylib {
   type Font,
   type GlyphInfoArray,
   get_font_default,
+  get_font_base_size,
   is_font_valid,
   unload_font,
   draw_fps,

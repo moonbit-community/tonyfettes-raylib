@@ -21,6 +21,10 @@ pub extern "c" fn is_font_valid(font : Font) -> Bool = "moonbit_raylib_is_font_v
 #borrow(font)
 pub extern "c" fn unload_font(font : Font) = "moonbit_raylib_unload_font"
 
+///|
+#borrow(font)
+pub extern "c" fn get_font_base_size(font : Font) -> Int = "moonbit_raylib_get_font_base_size"
+
 // ============================================================================
 // Text drawing
 // ============================================================================
