@@ -713,3 +713,54 @@ pub extern "c" fn begin_vr_stereo_mode(config : VrStereoConfig) = "moonbit_rayli
 
 ///|
 pub extern "c" fn end_vr_stereo_mode() = "EndVrStereoMode"
+
+// VrStereoConfig field accessors
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_left_lens_center(
+  config : VrStereoConfig,
+) -> Bytes = "moonbit_raylib_vr_stereo_config_left_lens_center"
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_right_lens_center(
+  config : VrStereoConfig,
+) -> Bytes = "moonbit_raylib_vr_stereo_config_right_lens_center"
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_left_screen_center(
+  config : VrStereoConfig,
+) -> Bytes = "moonbit_raylib_vr_stereo_config_left_screen_center"
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_right_screen_center(
+  config : VrStereoConfig,
+) -> Bytes = "moonbit_raylib_vr_stereo_config_right_screen_center"
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes = "moonbit_raylib_vr_stereo_config_scale"
+
+///|
+#borrow(config)
+pub extern "c" fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes = "moonbit_raylib_vr_stereo_config_scale_in"
+
+// ============================================================================
+// rlgl: Low-level OpenGL functions
+// ============================================================================
+
+///|
+pub extern "c" fn rl_set_blend_mode(mode : Int) = "rlSetBlendMode"
+
+///|
+pub extern "c" fn rl_set_blend_factors(
+  gl_src_factor : Int,
+  gl_dst_factor : Int,
+  gl_equation : Int,
+) = "rlSetBlendFactors"
+
+///|
+pub extern "c" fn rl_draw_render_batch_active() = "rlDrawRenderBatchActive"

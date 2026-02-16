@@ -163,3 +163,47 @@ void
 moonbit_raylib_begin_vr_stereo_mode(VrStereoConfigWrapper *w) {
   BeginVrStereoMode(w->config);
 }
+
+// VrStereoConfig field accessors (return raw bytes for use with SetShaderValue)
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_left_lens_center(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.leftLensCenter, sizeof(float) * 2);
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_right_lens_center(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.rightLensCenter, sizeof(float) * 2);
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_left_screen_center(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.leftScreenCenter, sizeof(float) * 2);
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_right_screen_center(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.rightScreenCenter, sizeof(float) * 2);
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_scale(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.scale, sizeof(float) * 2);
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_vr_stereo_config_scale_in(VrStereoConfigWrapper *w) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
+  memcpy(res, w->config.scaleIn, sizeof(float) * 2);
+  return res;
+}
