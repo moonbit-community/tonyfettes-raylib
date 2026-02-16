@@ -83,6 +83,11 @@ pub fn open_url(url : String) -> Unit {
   @raylib.open_url(@utf8.encode(url))
 }
 
+///|
+pub fn trace_log(log_level : Int, text : String) -> Unit {
+  @raylib.trace_log(log_level, @utf8.encode(text))
+}
+
 // Window state wrappers (Vector2 returns)
 
 ///|
