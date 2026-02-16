@@ -730,3 +730,27 @@ pub using @raylib {
 pub fn load_materials(file_name : String) -> MaterialsArray {
   @raylib.load_materials(@utf8.encode(file_name))
 }
+
+// ============================================================================
+// Model: transform / mesh access
+// ============================================================================
+
+///|
+pub fn set_model_transform(model : Model, transform : Matrix) -> Unit {
+  @raylib.set_model_transform(model, transform.to_bytes())
+}
+
+///|
+pub fn get_model_mesh_count(model : Model) -> Int {
+  @raylib.get_model_mesh_count(model)
+}
+
+///|
+pub fn get_model_mesh(model : Model, index : Int) -> Mesh {
+  @raylib.get_model_mesh(model, index)
+}
+
+///|
+pub fn get_model_transform(model : Model) -> Matrix {
+  Matrix::from_bytes(@raylib.get_model_transform(model))
+}

@@ -510,3 +510,30 @@ void
 moonbit_raylib_set_render_texture_filter(RenderTextureWrapper *wrapper, int filter) {
   SetTextureFilter(wrapper->render_texture.texture, filter);
 }
+
+// ============================================================================
+// Textures: Get texture width/height
+// ============================================================================
+
+int
+moonbit_raylib_get_texture_width(TextureWrapper *wrapper) {
+  return wrapper->texture.width;
+}
+
+int
+moonbit_raylib_get_texture_height(TextureWrapper *wrapper) {
+  return wrapper->texture.height;
+}
+
+// ============================================================================
+// RenderTexture: Get render texture's texture (for drawing)
+// ============================================================================
+
+TextureWrapper *
+moonbit_raylib_get_render_texture_texture(RenderTextureWrapper *wrapper) {
+  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
+    NULL, sizeof(TextureWrapper));
+  tw->texture = wrapper->render_texture.texture;
+  tw->freed = 1; // Don't unload - owned by render texture
+  return tw;
+}

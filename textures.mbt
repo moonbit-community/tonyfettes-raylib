@@ -27,6 +27,9 @@ pub using @raylib {
   get_shapes_texture,
   get_render_texture_width,
   get_render_texture_height,
+  get_texture_width,
+  get_texture_height,
+  get_render_texture_texture,
 }
 
 // ============================================================================

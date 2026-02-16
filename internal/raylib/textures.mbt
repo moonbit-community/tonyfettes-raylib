@@ -224,6 +224,26 @@ pub extern "c" fn set_render_texture_filter(
 ) = "moonbit_raylib_set_render_texture_filter"
 
 // ============================================================================
+// Texture: get width/height
+// ============================================================================
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_width(texture : Texture) -> Int = "moonbit_raylib_get_texture_width"
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib_get_texture_height"
+
+// ============================================================================
+// RenderTexture: get texture
+// ============================================================================
+
+///|
+#borrow(target)
+pub extern "c" fn get_render_texture_texture(target : RenderTexture) -> Texture = "moonbit_raylib_get_render_texture_texture"
+
+// ============================================================================
 // Texture drawing
 // ============================================================================
 
