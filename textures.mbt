@@ -25,6 +25,8 @@ pub using @raylib {
   update_texture,
   gen_texture_mipmaps,
   get_shapes_texture,
+  get_render_texture_width,
+  get_render_texture_height,
 }
 
 // ============================================================================
@@ -150,6 +152,42 @@ pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
 ///|
 pub fn load_texture(file_name : String) -> Texture {
   @raylib.load_texture(@utf8.encode(file_name))
+}
+
+// ============================================================================
+// RenderTexture drawing (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_render_texture_rec(
+  target : RenderTexture,
+  source : Rectangle,
+  position : Vector2,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_render_texture_rec(
+    target,
+    source.to_bytes(),
+    position.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_render_texture_ex(
+  target : RenderTexture,
+  position : Vector2,
+  rotation : Float,
+  scale : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_render_texture_ex(
+    target,
+    position.to_bytes(),
+    rotation,
+    scale,
+    tint.to_bytes(),
+  )
 }
 
 // ============================================================================

@@ -885,6 +885,21 @@ moonbit_raylib_set_model_mesh_material(
 }
 
 // ============================================================================
+// Model: set material shader
+// ============================================================================
+
+void
+moonbit_raylib_set_model_material_shader(
+  ModelWrapper *wrapper,
+  int material_index,
+  ShaderWrapper *shader_wrapper
+) {
+  if (material_index >= 0 && material_index < wrapper->model.materialCount) {
+    wrapper->model.materials[material_index].shader = shader_wrapper->shader;
+  }
+}
+
+// ============================================================================
 // Mesh drawing
 // ============================================================================
 
