@@ -433,6 +433,51 @@ moonbit_raylib_get_shapes_texture_rectangle(void) {
 }
 
 // ============================================================================
+// Textures: RenderTexture drawing
+// ============================================================================
+
+void
+moonbit_raylib_draw_render_texture_rec(
+  RenderTextureWrapper *wrapper,
+  moonbit_bytes_t source,
+  moonbit_bytes_t position,
+  moonbit_bytes_t tint
+) {
+  Rectangle src;
+  memcpy(&src, source, sizeof(Rectangle));
+  Vector2 pos;
+  memcpy(&pos, position, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawTextureRec(wrapper->render_texture.texture, src, pos, c);
+}
+
+int
+moonbit_raylib_get_render_texture_width(RenderTextureWrapper *wrapper) {
+  return wrapper->render_texture.texture.width;
+}
+
+int
+moonbit_raylib_get_render_texture_height(RenderTextureWrapper *wrapper) {
+  return wrapper->render_texture.texture.height;
+}
+
+void
+moonbit_raylib_draw_render_texture_ex(
+  RenderTextureWrapper *wrapper,
+  moonbit_bytes_t position,
+  float rotation,
+  float scale,
+  moonbit_bytes_t tint
+) {
+  Vector2 pos;
+  memcpy(&pos, position, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawTextureEx(wrapper->render_texture.texture, pos, rotation, scale, c);
+}
+
+// ============================================================================
 // Textures: Clipboard image (needs image_destructor)
 // ============================================================================
 
@@ -443,23 +488,6 @@ moonbit_raylib_get_clipboard_image(void) {
   w->freed = 0;
   w->frame_count = 1;
   return w;
-}
-
-// ============================================================================
-// RenderTexture: Draw texture from RenderTexture
-// ============================================================================
-
-void
-moonbit_raylib_draw_render_texture_rec(
-  RenderTextureWrapper *wrapper,
-  moonbit_bytes_t source,
-  moonbit_bytes_t position,
-  moonbit_bytes_t tint
-) {
-  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
-  Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
-  Color c; memcpy(&c, tint, sizeof(Color));
-  DrawTextureRec(wrapper->render_texture.texture, src, pos, c);
 }
 
 void

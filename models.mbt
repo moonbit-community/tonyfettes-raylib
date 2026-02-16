@@ -409,6 +409,19 @@ pub fn draw_model_points_ex(
 }
 
 // ============================================================================
+// Model material shader (wrappers)
+// ============================================================================
+
+///|
+pub fn set_model_material_shader(
+  model : Model,
+  material_index : Int,
+  shader : Shader,
+) -> Unit {
+  @raylib.set_model_material_shader(model, material_index, shader)
+}
+
+// ============================================================================
 // Model management (wrappers)
 // ============================================================================
 

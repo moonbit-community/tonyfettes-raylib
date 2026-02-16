@@ -492,6 +492,13 @@ pub extern "c" fn set_model_material_texture(
   texture : Texture,
 ) = "moonbit_raylib_set_model_material_texture"
 
+///|
+#borrow(model, shader)
+pub extern "c" fn set_model_material_shader(
+  model : Model,
+  material_index : Int,
+  shader : Shader,
+) = "moonbit_raylib_set_model_material_shader"
 // ============================================================================
 // Mesh drawing
 // ============================================================================

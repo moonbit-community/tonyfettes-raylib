@@ -25,6 +25,8 @@ pub using @raylib {
   update_texture,
   gen_texture_mipmaps,
   get_shapes_texture,
+  get_render_texture_width,
+  get_render_texture_height,
 }
 
 // ============================================================================
@@ -150,6 +152,66 @@ pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
 ///|
 pub fn load_texture(file_name : String) -> Texture {
   @raylib.load_texture(@utf8.encode(file_name))
+}
+
+// ============================================================================
+// RenderTexture drawing (wrappers)
+// ============================================================================
+
+///|
+pub fn draw_render_texture_rec(
+  target : RenderTexture,
+  source : Rectangle,
+  position : Vector2,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_render_texture_rec(
+    target,
+    source.to_bytes(),
+    position.to_bytes(),
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_render_texture_ex(
+  target : RenderTexture,
+  position : Vector2,
+  rotation : Float,
+  scale : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_render_texture_ex(
+    target,
+    position.to_bytes(),
+    rotation,
+    scale,
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn draw_render_texture_pro(
+  target : RenderTexture,
+  source : Rectangle,
+  dest : Rectangle,
+  origin : Vector2,
+  rotation : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_render_texture_pro(
+    target,
+    source.to_bytes(),
+    dest.to_bytes(),
+    origin.to_bytes(),
+    rotation,
+    tint.to_bytes(),
+  )
+}
+
+///|
+pub fn set_render_texture_filter(target : RenderTexture, filter : Int) -> Unit {
+  @raylib.set_render_texture_filter(target, filter)
 }
 
 // ============================================================================
@@ -350,45 +412,3 @@ pub let cubemap_layout_cross_three_by_four : Int = 3
 ///|
 pub let cubemap_layout_cross_four_by_three : Int = 4
 
-// ============================================================================
-// RenderTexture: Draw texture from RenderTexture
-// ============================================================================
-
-///|
-pub fn draw_render_texture_rec(
-  target : RenderTexture,
-  source : Rectangle,
-  position : Vector2,
-  tint : Color,
-) -> Unit {
-  @raylib.draw_render_texture_rec(
-    target,
-    source.to_bytes(),
-    position.to_bytes(),
-    tint.to_bytes(),
-  )
-}
-
-///|
-pub fn draw_render_texture_pro(
-  target : RenderTexture,
-  source : Rectangle,
-  dest : Rectangle,
-  origin : Vector2,
-  rotation : Float,
-  tint : Color,
-) -> Unit {
-  @raylib.draw_render_texture_pro(
-    target,
-    source.to_bytes(),
-    dest.to_bytes(),
-    origin.to_bytes(),
-    rotation,
-    tint.to_bytes(),
-  )
-}
-
-///|
-pub fn set_render_texture_filter(target : RenderTexture, filter : Int) -> Unit {
-  @raylib.set_render_texture_filter(target, filter)
-}
