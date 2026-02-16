@@ -36,3 +36,12 @@ pub type Material
 
 ///|
 pub type ModelAnimations
+
+///|
+pub type AutomationEventList
+
+///|
+pub type VrStereoConfig
+
+///|
+pub type MaterialsArray

@@ -407,10 +407,7 @@ pub extern "c" fn gen_mesh_knot(
 
 ///|
 #borrow(heightmap, size)
-pub extern "c" fn gen_mesh_heightmap(
-  heightmap : Image,
-  size : Bytes,
-) -> Mesh = "moonbit_raylib_gen_mesh_heightmap"
+pub extern "c" fn gen_mesh_heightmap(heightmap : Image, size : Bytes) -> Mesh = "moonbit_raylib_gen_mesh_heightmap"
 
 ///|
 #borrow(cubicmap, cube_size)
@@ -521,15 +518,29 @@ pub extern "c" fn model_animations_count(anims : ModelAnimations) -> Int = "moon
 
 ///|
 #borrow(model, anims)
-pub extern "c" fn update_model_animation(model : Model, anims : ModelAnimations, index : Int, frame : Int) = "moonbit_raylib_update_model_animation"
+pub extern "c" fn update_model_animation(
+  model : Model,
+  anims : ModelAnimations,
+  index : Int,
+  frame : Int,
+) = "moonbit_raylib_update_model_animation"
 
 ///|
 #borrow(model, anims)
-pub extern "c" fn update_model_animation_bones(model : Model, anims : ModelAnimations, index : Int, frame : Int) = "moonbit_raylib_update_model_animation_bones"
+pub extern "c" fn update_model_animation_bones(
+  model : Model,
+  anims : ModelAnimations,
+  index : Int,
+  frame : Int,
+) = "moonbit_raylib_update_model_animation_bones"
 
 ///|
 #borrow(model, anims)
-pub extern "c" fn is_model_animation_valid(model : Model, anims : ModelAnimations, index : Int) -> Bool = "moonbit_raylib_is_model_animation_valid"
+pub extern "c" fn is_model_animation_valid(
+  model : Model,
+  anims : ModelAnimations,
+  index : Int,
+) -> Bool = "moonbit_raylib_is_model_animation_valid"
 
 ///|
 #borrow(anims)
@@ -556,3 +567,40 @@ pub extern "c" fn get_ray_collision_quad(
 ///|
 #borrow(mesh, file_name)
 pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh_as_code"
+
+// ============================================================================
+// Mesh: UpdateMeshBuffer
+// ============================================================================
+
+///|
+#borrow(mesh, data)
+pub extern "c" fn update_mesh_buffer(
+  mesh : Mesh,
+  index : Int,
+  data : Bytes,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_update_mesh_buffer"
+
+// ============================================================================
+// LoadMaterials
+// ============================================================================
+
+///|
+#borrow(file_name)
+pub extern "c" fn load_materials(file_name : Bytes) -> MaterialsArray = "moonbit_raylib_load_materials"
+
+///|
+#borrow(materials)
+pub extern "c" fn unload_materials_array(materials : MaterialsArray) = "moonbit_raylib_unload_materials_array"
+
+///|
+#borrow(materials)
+pub extern "c" fn materials_array_count(materials : MaterialsArray) -> Int = "moonbit_raylib_materials_array_count"
+
+///|
+#borrow(materials)
+pub extern "c" fn materials_array_get(
+  materials : MaterialsArray,
+  index : Int,
+) -> Material = "moonbit_raylib_materials_array_get"

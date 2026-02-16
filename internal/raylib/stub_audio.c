@@ -365,3 +365,12 @@ moonbit_raylib_load_music_stream_from_memory(moonbit_bytes_t fileType, moonbit_b
   w->freed = 0;
   return w;
 }
+
+// ============================================================================
+// Audio: UpdateSound
+// ============================================================================
+
+void
+moonbit_raylib_update_sound(SoundWrapper *wrapper, moonbit_bytes_t data, int sample_count) {
+  UpdateSound(wrapper->sound, (const void *)data, sample_count);
+}

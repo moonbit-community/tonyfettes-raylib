@@ -122,3 +122,44 @@ void
 moonbit_raylib_begin_shader_mode(ShaderWrapper *wrapper) {
   BeginShaderMode(wrapper->shader);
 }
+
+// ============================================================================
+// VR Stereo
+// ============================================================================
+
+typedef struct {
+  VrStereoConfig config;
+  int freed;
+} VrStereoConfigWrapper;
+
+static void
+vr_stereo_config_destructor(void *ptr) {
+  VrStereoConfigWrapper *w = (VrStereoConfigWrapper *)ptr;
+  if (!w->freed) {
+    UnloadVrStereoConfig(w->config);
+  }
+}
+
+VrStereoConfigWrapper *
+moonbit_raylib_load_vr_stereo_config(moonbit_bytes_t device) {
+  VrDeviceInfo info;
+  memcpy(&info, device, sizeof(VrDeviceInfo));
+  VrStereoConfigWrapper *w = (VrStereoConfigWrapper *)moonbit_make_external_object(
+    vr_stereo_config_destructor, sizeof(VrStereoConfigWrapper));
+  w->config = LoadVrStereoConfig(info);
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_unload_vr_stereo_config(VrStereoConfigWrapper *w) {
+  if (w && !w->freed) {
+    UnloadVrStereoConfig(w->config);
+    w->freed = 1;
+  }
+}
+
+void
+moonbit_raylib_begin_vr_stereo_mode(VrStereoConfigWrapper *w) {
+  BeginVrStereoMode(w->config);
+}

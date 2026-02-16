@@ -2,11 +2,7 @@ import {
 }
 
 options(
-  link: {
-    "native": {
-      "stub-cc-flags": "${build.RAYLIB_STUB_CC_FLAGS}",
-    },
-  },
+  link: { "native": { "stub-cc-flags": "${build.RAYLIB_STUB_CC_FLAGS}" } },
   "native-stub": [
     "rglfw.c",
     "utils.c",
@@ -28,5 +24,6 @@ options(
     "stub_audio.c",
     "stub_image_processing.c",
     "stub_image_drawing.c",
+    "stub_automation.c",
   ],
 )

@@ -96,7 +96,7 @@ pub fn load_wave(file_name : String) -> Wave {
 pub fn load_wave_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int
+  data_size : Int,
 ) -> Wave {
   @raylib.load_wave_from_memory(@utf8.encode(file_type), file_data, data_size)
 }
@@ -116,6 +116,21 @@ pub fn export_wave_as_code(wave : Wave, file_name : String) -> Bool {
 // ============================================================================
 
 ///|
-pub fn load_music_stream_from_memory(file_type : String, data : Bytes, data_size : Int) -> Music {
-  @raylib.load_music_stream_from_memory(@utf8.encode(file_type), data, data_size)
+pub fn load_music_stream_from_memory(
+  file_type : String,
+  data : Bytes,
+  data_size : Int,
+) -> Music {
+  @raylib.load_music_stream_from_memory(
+    @utf8.encode(file_type),
+    data,
+    data_size,
+  )
 }
+
+// ============================================================================
+// UpdateSound (re-export)
+// ============================================================================
+
+///|
+pub using @raylib {update_sound}
