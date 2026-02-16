@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - mouse input",
+    screen_width, screen_height, "raylib [core] example - mouse input",
   )
   let mut ball_position = @raylib.Vector2::new(-100.0, -100.0)
   let mut ball_color = @raylib.darkblue
@@ -37,10 +35,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
     @raylib.draw_circle_v(ball_position, 40.0, ball_color)
     @raylib.draw_text(
-      "move ball with mouse and click mouse button to change color",
-      10,
-      10,
-      20,
+      "move ball with mouse and click mouse button to change color", 10, 10, 20,
       @raylib.darkgray,
     )
     @raylib.end_drawing()

@@ -180,6 +180,4 @@ pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
 }
 
 ///|
-pub using @raylib {
-  get_pixel_data_size,
-}
+pub using @raylib {get_pixel_data_size}

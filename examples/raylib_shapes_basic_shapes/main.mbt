@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - basic shapes drawing",
+    screen_width, screen_height, "raylib [shapes] example - basic shapes drawing",
   )
 
   let mut rotation : Float = 0.0
@@ -30,14 +28,16 @@ fn main {
     // Circle shapes and lines
     @raylib.draw_circle(screen_width / 5, 120, 35.0, @raylib.darkblue)
     @raylib.draw_circle_gradient(
-      screen_width / 5, 220, 60.0, @raylib.green, @raylib.skyblue,
+      screen_width / 5,
+      220,
+      60.0,
+      @raylib.green,
+      @raylib.skyblue,
     )
     @raylib.draw_circle_lines(screen_width / 5, 340, 80.0, @raylib.darkblue)
 
     // Rectangle shapes and lines
-    @raylib.draw_rectangle(
-      screen_width / 4 * 2 - 60, 100, 120, 60, @raylib.red,
-    )
+    @raylib.draw_rectangle(screen_width / 4 * 2 - 60, 100, 120, 60, @raylib.red)
     @raylib.draw_rectangle_gradient_h(
       screen_width / 4 * 2 - 90,
       170,
@@ -47,7 +47,11 @@ fn main {
       @raylib.gold,
     )
     @raylib.draw_rectangle_lines(
-      screen_width / 4 * 2 - 40, 320, 80, 60, @raylib.orange,
+      screen_width / 4 * 2 - 40,
+      320,
+      80,
+      60,
+      @raylib.orange,
     )
 
     // Triangle shapes and lines

@@ -585,11 +585,7 @@ pub fn get_ray_collision_mesh(
   transform : Matrix,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_mesh(
-      ray.to_bytes(),
-      mesh,
-      transform.to_bytes(),
-    ),
+    @raylib.get_ray_collision_mesh(ray.to_bytes(), mesh, transform.to_bytes()),
   )
 }
 

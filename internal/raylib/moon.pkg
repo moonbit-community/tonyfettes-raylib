@@ -25,5 +25,6 @@ options(
     "stub_image_processing.c",
     "stub_image_drawing.c",
     "stub_filesystem.c",
+    "stub_utils.c",
   ],
 )

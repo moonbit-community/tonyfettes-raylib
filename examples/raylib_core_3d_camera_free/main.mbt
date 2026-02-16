@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 3d camera free",
+    screen_width, screen_height, "raylib [core] example - 3d camera free",
   )
 
   // Define the camera to look into our 3d world
@@ -46,36 +44,18 @@ fn main {
     @raylib.draw_cube_wires(cube_position, 2.0, 2.0, 2.0, @raylib.maroon)
     @raylib.draw_grid(10, 1.0)
     @raylib.end_mode_3d()
-    @raylib.draw_rectangle(
-      10,
-      10,
-      320,
-      93,
-      @raylib.fade(@raylib.skyblue, 0.5),
-    )
+    @raylib.draw_rectangle(10, 10, 320, 93, @raylib.fade(@raylib.skyblue, 0.5))
     @raylib.draw_rectangle_lines(10, 10, 320, 93, @raylib.blue)
-    @raylib.draw_text("Free camera default controls:", 20, 20, 10, @raylib.black)
     @raylib.draw_text(
-      "- Mouse Wheel to Zoom in-out",
-      40,
-      40,
-      10,
-      @raylib.darkgray,
+      "Free camera default controls:", 20, 20, 10, @raylib.black,
     )
     @raylib.draw_text(
-      "- Mouse Wheel Pressed to Pan",
-      40,
-      60,
-      10,
-      @raylib.darkgray,
+      "- Mouse Wheel to Zoom in-out", 40, 40, 10, @raylib.darkgray,
     )
     @raylib.draw_text(
-      "- Z to zoom to (0, 0, 0)",
-      40,
-      80,
-      10,
-      @raylib.darkgray,
+      "- Mouse Wheel Pressed to Pan", 40, 60, 10, @raylib.darkgray,
     )
+    @raylib.draw_text("- Z to zoom to (0, 0, 0)", 40, 80, 10, @raylib.darkgray)
     @raylib.end_drawing()
   }
 
