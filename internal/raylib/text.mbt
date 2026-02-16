@@ -144,3 +144,75 @@ pub extern "c" fn draw_text_codepoints(
   spacing : Float,
   tint : Bytes,
 ) = "moonbit_raylib_draw_text_codepoints"
+
+// ============================================================================
+// Text: Codepoint functions
+// ============================================================================
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_count(text : Bytes) -> Int = "moonbit_raylib_get_codepoint_count"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_next(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint_next"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_previous(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint_previous"
+
+///|
+pub extern "c" fn codepoint_to_utf8(codepoint : Int) -> Bytes = "moonbit_raylib_codepoint_to_utf8"
+
+///|
+#borrow(text)
+pub extern "c" fn load_codepoints(text : Bytes) -> Bytes = "moonbit_raylib_load_codepoints"
+
+///|
+#borrow(codepoints)
+pub extern "c" fn load_utf8(codepoints : Bytes, length : Int) -> Bytes = "moonbit_raylib_load_utf8"
+
+// ============================================================================
+// Text: Advanced font / GlyphInfo functions
+// ============================================================================
+
+///|
+#borrow(font)
+pub extern "c" fn get_glyph_info(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_info"
+
+///|
+#borrow(file_data)
+pub extern "c" fn load_font_data(
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+  font_type : Int,
+) -> GlyphInfoArray = "moonbit_raylib_load_font_data"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn unload_font_data(wrapper : GlyphInfoArray) = "moonbit_raylib_unload_font_data"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn glyph_info_array_count(wrapper : GlyphInfoArray) -> Int = "moonbit_raylib_glyph_info_array_count"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn glyph_info_array_get(
+  wrapper : GlyphInfoArray,
+  index : Int,
+) -> Bytes = "moonbit_raylib_glyph_info_array_get"
+
+///|
+#borrow(glyphs)
+pub extern "c" fn gen_image_font_atlas(
+  glyphs : GlyphInfoArray,
+  font_size : Int,
+  padding : Int,
+  pack_method : Int,
+) -> Image = "moonbit_raylib_gen_image_font_atlas"

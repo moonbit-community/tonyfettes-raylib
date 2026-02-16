@@ -39,3 +39,6 @@ pub type ModelAnimations
 
 ///|
 pub type FilePathList
+
+///|
+pub type GlyphInfoArray

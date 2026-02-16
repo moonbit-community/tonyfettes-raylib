@@ -195,3 +195,159 @@ moonbit_raylib_draw_text_codepoints(FontWrapper *font, moonbit_bytes_t codepoint
   Color c; memcpy(&c, tint, sizeof(Color));
   DrawTextCodepoints(font->font, cp, codepointCount, pos, fontSize, spacing, c);
 }
+
+// ============================================================================
+// Text: Codepoint functions
+// ============================================================================
+
+int
+moonbit_raylib_get_codepoint_count(moonbit_bytes_t text) {
+  return GetCodepointCount((const char *)text);
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_codepoint(moonbit_bytes_t text) {
+  int codepointSize = 0;
+  int codepoint = GetCodepoint((const char *)text, &codepointSize);
+  moonbit_bytes_t result = moonbit_make_bytes(8, 0);
+  memcpy(result, &codepoint, 4);
+  memcpy(result + 4, &codepointSize, 4);
+  return result;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_codepoint_next(moonbit_bytes_t text) {
+  int codepointSize = 0;
+  int codepoint = GetCodepointNext((const char *)text, &codepointSize);
+  moonbit_bytes_t result = moonbit_make_bytes(8, 0);
+  memcpy(result, &codepoint, 4);
+  memcpy(result + 4, &codepointSize, 4);
+  return result;
+}
+
+moonbit_bytes_t
+moonbit_raylib_get_codepoint_previous(moonbit_bytes_t text) {
+  int codepointSize = 0;
+  int codepoint = GetCodepointPrevious((const char *)text, &codepointSize);
+  moonbit_bytes_t result = moonbit_make_bytes(8, 0);
+  memcpy(result, &codepoint, 4);
+  memcpy(result + 4, &codepointSize, 4);
+  return result;
+}
+
+moonbit_bytes_t
+moonbit_raylib_codepoint_to_utf8(int codepoint) {
+  int utf8Size = 0;
+  const char *utf8 = CodepointToUTF8(codepoint, &utf8Size);
+  moonbit_bytes_t result = moonbit_make_bytes(utf8Size, 0);
+  memcpy(result, utf8, utf8Size);
+  return result;
+}
+
+moonbit_bytes_t
+moonbit_raylib_load_codepoints(moonbit_bytes_t text) {
+  int count = 0;
+  int *codepoints = LoadCodepoints((const char *)text, &count);
+  if (!codepoints) return moonbit_make_bytes(0, 0);
+  moonbit_bytes_t result = moonbit_make_bytes(4 + count * 4, 0);
+  memcpy(result, &count, 4);
+  memcpy(result + 4, codepoints, count * 4);
+  UnloadCodepoints(codepoints);
+  return result;
+}
+
+moonbit_bytes_t
+moonbit_raylib_load_utf8(moonbit_bytes_t codepoints, int length) {
+  char *text = LoadUTF8((const int *)codepoints, length);
+  if (!text) return moonbit_make_bytes(1, 0);
+  int len = (int)strlen(text);
+  moonbit_bytes_t result = moonbit_make_bytes(len + 1, 0);
+  memcpy(result, text, len + 1);
+  UnloadUTF8(text);
+  return result;
+}
+
+// ============================================================================
+// Text: Advanced font / GlyphInfo functions
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_glyph_info(FontWrapper *font, int codepoint) {
+  GlyphInfo info = GetGlyphInfo(font->font, codepoint);
+  moonbit_bytes_t result = moonbit_make_bytes(16, 0);
+  memcpy(result, &info.value, 4);
+  memcpy(result + 4, &info.offsetX, 4);
+  memcpy(result + 8, &info.offsetY, 4);
+  memcpy(result + 12, &info.advanceX, 4);
+  return result;
+}
+
+// GlyphInfoArray wrapper for LoadFontData / UnloadFontData
+
+static void
+glyph_info_array_destructor(void *ptr) {
+  GlyphInfoArrayWrapper *w = (GlyphInfoArrayWrapper *)ptr;
+  if (!w->freed && w->glyphs) {
+    UnloadFontData(w->glyphs, w->count);
+    w->freed = 1;
+  }
+}
+
+GlyphInfoArrayWrapper *
+moonbit_raylib_load_font_data(moonbit_bytes_t fileData, int dataSize, int fontSize, int type) {
+  GlyphInfoArrayWrapper *w = (GlyphInfoArrayWrapper *)moonbit_make_external_object(
+    glyph_info_array_destructor, sizeof(GlyphInfoArrayWrapper)
+  );
+  // codepointCount=0, codepoints=NULL loads default character set (95 glyphs)
+  w->glyphs = LoadFontData((const unsigned char *)fileData, dataSize, fontSize, NULL, 0, type);
+  w->count = w->glyphs ? 95 : 0; // default character set is 95 glyphs
+  w->freed = 0;
+  return w;
+}
+
+void
+moonbit_raylib_unload_font_data(GlyphInfoArrayWrapper *wrapper) {
+  if (wrapper && !wrapper->freed && wrapper->glyphs) {
+    UnloadFontData(wrapper->glyphs, wrapper->count);
+    wrapper->freed = 1;
+  }
+}
+
+int
+moonbit_raylib_glyph_info_array_count(GlyphInfoArrayWrapper *wrapper) {
+  return wrapper->count;
+}
+
+moonbit_bytes_t
+moonbit_raylib_glyph_info_array_get(GlyphInfoArrayWrapper *wrapper, int index) {
+  moonbit_bytes_t result = moonbit_make_bytes(16, 0);
+  if (index < 0 || index >= wrapper->count || !wrapper->glyphs) return result;
+  GlyphInfo *info = &wrapper->glyphs[index];
+  memcpy(result, &info->value, 4);
+  memcpy(result + 4, &info->offsetX, 4);
+  memcpy(result + 8, &info->offsetY, 4);
+  memcpy(result + 12, &info->advanceX, 4);
+  return result;
+}
+
+static void
+text_image_destructor(void *ptr) {
+  ImageWrapper *w = (ImageWrapper *)ptr;
+  if (!w->freed)
+    UnloadImage(w->image);
+}
+
+ImageWrapper *
+moonbit_raylib_gen_image_font_atlas(GlyphInfoArrayWrapper *glyphs, int fontSize, int padding, int packMethod) {
+  Rectangle *recs = NULL;
+  Image atlas = GenImageFontAtlas(glyphs->glyphs, &recs, glyphs->count, fontSize, padding, packMethod);
+  // recs is allocated by GenImageFontAtlas but we don't expose it for now; free it
+  if (recs) MemFree(recs);
+  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(
+    text_image_destructor, sizeof(ImageWrapper)
+  );
+  w->image = atlas;
+  w->freed = 0;
+  w->frame_count = 1;
+  return w;
+}

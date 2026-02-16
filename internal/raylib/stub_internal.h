@@ -59,5 +59,10 @@ typedef struct {
   int count;
   int freed;
 } ModelAnimationsWrapper;
+typedef struct {
+  GlyphInfo *glyphs;
+  int count;
+  int freed;
+} GlyphInfoArrayWrapper;
 
 #endif
