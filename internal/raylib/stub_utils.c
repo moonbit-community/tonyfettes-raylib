@@ -1,4 +1,5 @@
 #include "stub_internal.h"
+#include <stdlib.h>
 
 // ============================================================================
 // Compression & encoding
@@ -52,12 +53,12 @@ moonbit_raylib_decode_data_base64(moonbit_bytes_t data) {
 
 int
 moonbit_raylib_compute_crc32(moonbit_bytes_t data, int data_size) {
-  return (int)ComputeCRC32((const unsigned char *)data, data_size);
+  return (int)ComputeCRC32((unsigned char *)data, data_size);
 }
 
 moonbit_bytes_t
 moonbit_raylib_compute_md5(moonbit_bytes_t data, int data_size) {
-  unsigned int *hash = ComputeMD5((const unsigned char *)data, data_size);
+  unsigned int *hash = ComputeMD5((unsigned char *)data, data_size);
   moonbit_bytes_t result = moonbit_make_bytes(16, 0);
   memcpy(result, hash, 16);
   return result;
@@ -65,7 +66,7 @@ moonbit_raylib_compute_md5(moonbit_bytes_t data, int data_size) {
 
 moonbit_bytes_t
 moonbit_raylib_compute_sha1(moonbit_bytes_t data, int data_size) {
-  unsigned int *hash = ComputeSHA1((const unsigned char *)data, data_size);
+  unsigned int *hash = ComputeSHA1((unsigned char *)data, data_size);
   moonbit_bytes_t result = moonbit_make_bytes(20, 0);
   memcpy(result, hash, 20);
   return result;
