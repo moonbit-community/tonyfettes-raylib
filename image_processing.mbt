@@ -22,6 +22,8 @@ pub using @raylib {
   image_color_brightness,
   image_kernel_convolution,
   image_frame_count,
+  image_width,
+  image_height,
   load_image_colors,
   load_image_palette,
 }
