@@ -1,11 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "tonyfettes/raylib/examples/raylib_demo"
+package "tonyfettes/raylib/examples/raylib_textures_particles_blending"
 
 // Values
 
 // Errors
 
 // Types and methods
+type Particle
 
 // Type aliases
 

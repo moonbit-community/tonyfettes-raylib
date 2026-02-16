@@ -2,6 +2,10 @@
 package "tonyfettes/raylib/internal/raylib"
 
 // Values
+pub fn automation_event_list_count(AutomationEventList) -> Int
+
+pub fn automation_event_list_get(AutomationEventList, Int) -> Bytes
+
 pub fn begin_blend_mode(Int) -> Unit
 
 pub fn begin_drawing() -> Unit
@@ -12,17 +16,31 @@ pub fn begin_mode_3d(Bytes) -> Unit
 
 pub fn begin_scissor_mode(Int, Int, Int, Int) -> Unit
 
+pub fn begin_shader_mode(Shader) -> Unit
+
 pub fn begin_texture_mode(RenderTexture) -> Unit
+
+pub fn begin_vr_stereo_mode(VrStereoConfig) -> Unit
+
+pub fn change_directory(Bytes) -> Bool
 
 pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
 
 pub fn check_collision_boxes(Bytes, Bytes) -> Bool
 
+pub fn check_collision_circle_line(Bytes, Float, Bytes, Bytes) -> Bool
+
 pub fn check_collision_circle_rec(Bytes, Float, Bytes) -> Bool
 
 pub fn check_collision_circles(Bytes, Float, Bytes, Float) -> Bool
 
+pub fn check_collision_lines(Bytes, Bytes, Bytes, Bytes) -> Bytes
+
 pub fn check_collision_point_circle(Bytes, Bytes, Float) -> Bool
+
+pub fn check_collision_point_line(Bytes, Bytes, Bytes, Int) -> Bool
+
+pub fn check_collision_point_poly(Bytes, Bytes, Int) -> Bool
 
 pub fn check_collision_point_rec(Bytes, Bytes) -> Bool
 
@@ -40,23 +58,61 @@ pub fn close_audio_device() -> Unit
 
 pub fn close_window() -> Unit
 
+pub fn codepoint_to_utf8(Int) -> Bytes
+
 pub fn color_alpha(Bytes, Float) -> Bytes
+
+pub fn color_alpha_blend(Bytes, Bytes, Bytes) -> Bytes
 
 pub fn color_brightness(Bytes, Float) -> Bytes
 
+pub fn color_contrast(Bytes, Float) -> Bytes
+
 pub fn color_from_hsv(Float, Float, Float) -> Bytes
+
+pub fn color_from_normalized(Bytes) -> Bytes
 
 pub fn color_is_equal(Bytes, Bytes) -> Bool
 
 pub fn color_lerp(Bytes, Bytes, Float) -> Bytes
 
+pub fn color_normalize(Bytes) -> Bytes
+
 pub fn color_tint(Bytes, Bytes) -> Bytes
+
+pub fn color_to_hsv(Bytes) -> Bytes
 
 pub fn color_to_int(Bytes) -> Int
 
+pub fn compress_data(Bytes, Int) -> Bytes
+
+pub fn compute_crc32(Bytes, Int) -> Int
+
+pub fn compute_md5(Bytes, Int) -> Bytes
+
+pub fn compute_sha1(Bytes, Int) -> Bytes
+
+pub fn decode_data_base64(Bytes) -> Bytes
+
+pub fn decompress_data(Bytes, Int) -> Bytes
+
+pub fn directory_exists(Bytes) -> Bool
+
 pub fn disable_cursor() -> Unit
 
+pub fn disable_event_waiting() -> Unit
+
+pub fn draw_billboard(Bytes, Texture, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_billboard_pro(Bytes, Texture, Bytes, Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_billboard_rec(Bytes, Texture, Bytes, Bytes, Bytes, Bytes) -> Unit
+
 pub fn draw_bounding_box(Bytes, Bytes) -> Unit
+
+pub fn draw_capsule(Bytes, Bytes, Float, Int, Int, Bytes) -> Unit
+
+pub fn draw_capsule_wires(Bytes, Bytes, Float, Int, Int, Bytes) -> Unit
 
 pub fn draw_circle(Int, Int, Float, Bytes) -> Unit
 
@@ -70,6 +126,8 @@ pub fn draw_circle_lines_v(Bytes, Float, Bytes) -> Unit
 
 pub fn draw_circle_sector(Bytes, Float, Float, Float, Int, Bytes) -> Unit
 
+pub fn draw_circle_sector_lines(Bytes, Float, Float, Float, Int, Bytes) -> Unit
+
 pub fn draw_circle_v(Bytes, Float, Bytes) -> Unit
 
 pub fn draw_cube(Bytes, Float, Float, Float, Bytes) -> Unit
@@ -82,7 +140,11 @@ pub fn draw_cube_wires_v(Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_cylinder(Bytes, Float, Float, Float, Int, Bytes) -> Unit
 
+pub fn draw_cylinder_ex(Bytes, Bytes, Float, Float, Int, Bytes) -> Unit
+
 pub fn draw_cylinder_wires(Bytes, Float, Float, Float, Int, Bytes) -> Unit
+
+pub fn draw_cylinder_wires_ex(Bytes, Bytes, Float, Float, Int, Bytes) -> Unit
 
 pub fn draw_ellipse(Int, Int, Float, Float, Bytes) -> Unit
 
@@ -100,9 +162,25 @@ pub fn draw_line_bezier(Bytes, Bytes, Float, Bytes) -> Unit
 
 pub fn draw_line_ex(Bytes, Bytes, Float, Bytes) -> Unit
 
+pub fn draw_line_strip(Bytes, Int, Bytes) -> Unit
+
 pub fn draw_line_v(Bytes, Bytes, Bytes) -> Unit
 
+pub fn draw_mesh(Mesh, Material, Bytes) -> Unit
+
+pub fn draw_mesh_instanced(Mesh, Material, Bytes, Int) -> Unit
+
 pub fn draw_model(Model, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_model_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
+
+pub fn draw_model_points(Model, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_model_points_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
+
+pub fn draw_model_wires(Model, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_model_wires_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
 
 pub fn draw_pixel(Int, Int, Bytes) -> Unit
 
@@ -154,7 +232,31 @@ pub fn draw_sphere_ex(Bytes, Float, Int, Int, Bytes) -> Unit
 
 pub fn draw_sphere_wires(Bytes, Float, Int, Int, Bytes) -> Unit
 
+pub fn draw_spline_basis(Bytes, Int, Float, Bytes) -> Unit
+
+pub fn draw_spline_bezier_cubic(Bytes, Int, Float, Bytes) -> Unit
+
+pub fn draw_spline_bezier_quadratic(Bytes, Int, Float, Bytes) -> Unit
+
+pub fn draw_spline_catmull_rom(Bytes, Int, Float, Bytes) -> Unit
+
+pub fn draw_spline_linear(Bytes, Int, Float, Bytes) -> Unit
+
+pub fn draw_spline_segment_basis(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_spline_segment_bezier_cubic(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_spline_segment_bezier_quadratic(Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_spline_segment_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_spline_segment_linear(Bytes, Bytes, Float, Bytes) -> Unit
+
 pub fn draw_text(Bytes, Int, Int, Int, Bytes) -> Unit
+
+pub fn draw_text_codepoint(Font, Int, Bytes, Float, Bytes) -> Unit
+
+pub fn draw_text_codepoints(Font, Bytes, Int, Bytes, Float, Float, Bytes) -> Unit
 
 pub fn draw_text_ex(Font, Bytes, Bytes, Float, Float, Bytes) -> Unit
 
@@ -164,6 +266,8 @@ pub fn draw_texture(Texture, Int, Int, Bytes) -> Unit
 
 pub fn draw_texture_ex(Texture, Bytes, Float, Float, Bytes) -> Unit
 
+pub fn draw_texture_npatch(Texture, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+
 pub fn draw_texture_pro(Texture, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
 
 pub fn draw_texture_rec(Texture, Bytes, Bytes, Bytes) -> Unit
@@ -172,9 +276,21 @@ pub fn draw_texture_v(Texture, Bytes, Bytes) -> Unit
 
 pub fn draw_triangle(Bytes, Bytes, Bytes, Bytes) -> Unit
 
+pub fn draw_triangle_3d(Bytes, Bytes, Bytes, Bytes) -> Unit
+
+pub fn draw_triangle_fan(Bytes, Int, Bytes) -> Unit
+
 pub fn draw_triangle_lines(Bytes, Bytes, Bytes, Bytes) -> Unit
 
+pub fn draw_triangle_strip(Bytes, Int, Bytes) -> Unit
+
+pub fn draw_triangle_strip_3d(Bytes, Int, Bytes) -> Unit
+
 pub fn enable_cursor() -> Unit
+
+pub fn enable_event_waiting() -> Unit
+
+pub fn encode_data_base64(Bytes, Int) -> Bytes
 
 pub fn end_blend_mode() -> Unit
 
@@ -186,19 +302,123 @@ pub fn end_mode_3d() -> Unit
 
 pub fn end_scissor_mode() -> Unit
 
+pub fn end_shader_mode() -> Unit
+
 pub fn end_texture_mode() -> Unit
 
+pub fn end_vr_stereo_mode() -> Unit
+
+pub fn export_automation_event_list(AutomationEventList, Bytes) -> Bool
+
+pub fn export_data_as_code(Bytes, Int, Bytes) -> Bool
+
+pub fn export_font_as_code(Font, Bytes) -> Bool
+
+pub fn export_image(Image, Bytes) -> Bool
+
+pub fn export_image_as_code(Image, Bytes) -> Bool
+
+pub fn export_image_to_memory(Image, Bytes) -> Bytes
+
+pub fn export_mesh(Mesh, Bytes) -> Bool
+
+pub fn export_mesh_as_code(Mesh, Bytes) -> Bool
+
+pub fn export_wave(Wave, Bytes) -> Bool
+
+pub fn export_wave_as_code(Wave, Bytes) -> Bool
+
 pub fn fade(Bytes, Float) -> Bytes
+
+pub fn file_exists(Bytes) -> Bool
+
+pub fn file_path_list_count(FilePathList) -> Int
+
+pub fn file_path_list_get(FilePathList, Int) -> Bytes
+
+pub fn gen_image_cellular(Int, Int, Int) -> Image
 
 pub fn gen_image_checked(Int, Int, Int, Int, Bytes, Bytes) -> Image
 
 pub fn gen_image_color(Int, Int, Bytes) -> Image
 
+pub fn gen_image_font_atlas(GlyphInfoArray, Int, Int, Int) -> Image
+
+pub fn gen_image_gradient_linear(Int, Int, Int, Bytes, Bytes) -> Image
+
+pub fn gen_image_gradient_radial(Int, Int, Float, Bytes, Bytes) -> Image
+
+pub fn gen_image_gradient_square(Int, Int, Float, Bytes, Bytes) -> Image
+
+pub fn gen_image_perlin_noise(Int, Int, Int, Int, Float) -> Image
+
+pub fn gen_image_text(Int, Int, Bytes) -> Image
+
+pub fn gen_image_white_noise(Int, Int, Float) -> Image
+
+pub fn gen_mesh_cone(Float, Float, Int) -> Mesh
+
+pub fn gen_mesh_cube(Float, Float, Float) -> Mesh
+
+pub fn gen_mesh_cubicmap(Image, Bytes) -> Mesh
+
+pub fn gen_mesh_cylinder(Float, Float, Int) -> Mesh
+
+pub fn gen_mesh_heightmap(Image, Bytes) -> Mesh
+
+pub fn gen_mesh_hemisphere(Float, Int, Int) -> Mesh
+
+pub fn gen_mesh_knot(Float, Float, Int, Int) -> Mesh
+
+pub fn gen_mesh_plane(Float, Float, Int, Int) -> Mesh
+
+pub fn gen_mesh_poly(Int, Float) -> Mesh
+
+pub fn gen_mesh_sphere(Float, Int, Int) -> Mesh
+
+pub fn gen_mesh_tangents(Mesh) -> Unit
+
+pub fn gen_mesh_torus(Float, Float, Int, Int) -> Mesh
+
+pub fn gen_texture_mipmaps(Texture) -> Unit
+
+pub fn get_application_directory() -> Bytes
+
+pub fn get_camera_matrix(Bytes) -> Bytes
+
+pub fn get_camera_matrix_2d(Bytes) -> Bytes
+
 pub fn get_char_pressed() -> Int
+
+pub fn get_clipboard_image() -> Image
+
+pub fn get_clipboard_text() -> Bytes
+
+pub fn get_codepoint(Bytes) -> Bytes
+
+pub fn get_codepoint_count(Bytes) -> Int
+
+pub fn get_codepoint_next(Bytes) -> Bytes
+
+pub fn get_codepoint_previous(Bytes) -> Bytes
 
 pub fn get_collision_rec(Bytes, Bytes) -> Bytes
 
 pub fn get_color(Int) -> Bytes
+
+pub fn get_current_monitor() -> Int
+
+pub fn get_directory_path(Bytes) -> Bytes
+
+pub fn get_file_extension(Bytes) -> Bytes
+
+pub fn get_file_length(Bytes) -> Int
+
+pub fn get_file_mod_time(Bytes) -> Int
+
+pub fn get_file_name(Bytes) -> Bytes
+
+pub fn get_file_name_without_ext(Bytes) -> Bytes
 
 pub fn get_font_default() -> Font
 
@@ -206,9 +426,59 @@ pub fn get_fps() -> Int
 
 pub fn get_frame_time() -> Float
 
+pub fn get_gamepad_axis_count(Int) -> Int
+
+pub fn get_gamepad_axis_movement(Int, Int) -> Float
+
+pub fn get_gamepad_button_pressed() -> Int
+
+pub fn get_gamepad_name(Int) -> Bytes
+
+pub fn get_gesture_detected() -> Int
+
+pub fn get_gesture_drag_angle() -> Float
+
+pub fn get_gesture_drag_vector() -> Bytes
+
+pub fn get_gesture_hold_duration() -> Float
+
+pub fn get_gesture_pinch_angle() -> Float
+
+pub fn get_gesture_pinch_vector() -> Bytes
+
+pub fn get_glyph_atlas_rec(Font, Int) -> Bytes
+
+pub fn get_glyph_index(Font, Int) -> Int
+
+pub fn get_glyph_info(Font, Int) -> Bytes
+
+pub fn get_image_alpha_border(Image, Float) -> Bytes
+
+pub fn get_image_color(Image, Int, Int) -> Bytes
+
 pub fn get_key_pressed() -> Int
 
 pub fn get_master_volume() -> Float
+
+pub fn get_mesh_bounding_box(Mesh) -> Bytes
+
+pub fn get_model_bounding_box(Model) -> Bytes
+
+pub fn get_monitor_count() -> Int
+
+pub fn get_monitor_height(Int) -> Int
+
+pub fn get_monitor_name(Int) -> Bytes
+
+pub fn get_monitor_physical_height(Int) -> Int
+
+pub fn get_monitor_physical_width(Int) -> Int
+
+pub fn get_monitor_position(Int) -> Bytes
+
+pub fn get_monitor_refresh_rate(Int) -> Int
+
+pub fn get_monitor_width(Int) -> Int
 
 pub fn get_mouse_delta() -> Bytes
 
@@ -226,11 +496,21 @@ pub fn get_music_time_length(Music) -> Float
 
 pub fn get_music_time_played(Music) -> Float
 
+pub fn get_pixel_data_size(Int, Int, Int) -> Int
+
+pub fn get_prev_directory_path(Bytes) -> Bytes
+
 pub fn get_random_value(Int, Int) -> Int
 
 pub fn get_ray_collision_box(Bytes, Bytes) -> Bytes
 
+pub fn get_ray_collision_mesh(Bytes, Mesh, Bytes) -> Bytes
+
+pub fn get_ray_collision_quad(Bytes, Bytes, Bytes, Bytes, Bytes) -> Bytes
+
 pub fn get_ray_collision_sphere(Bytes, Bytes, Float) -> Bytes
+
+pub fn get_ray_collision_triangle(Bytes, Bytes, Bytes, Bytes) -> Bytes
 
 pub fn get_render_height() -> Int
 
@@ -240,15 +520,165 @@ pub fn get_screen_height() -> Int
 
 pub fn get_screen_to_world_2d(Bytes, Bytes) -> Bytes
 
+pub fn get_screen_to_world_ray(Bytes, Bytes) -> Bytes
+
+pub fn get_screen_to_world_ray_ex(Bytes, Bytes, Int, Int) -> Bytes
+
 pub fn get_screen_width() -> Int
 
+pub fn get_shader_location(Shader, Bytes) -> Int
+
+pub fn get_shader_location_attrib(Shader, Bytes) -> Int
+
+pub fn get_shapes_texture() -> Texture
+
+pub fn get_shapes_texture_rectangle() -> Bytes
+
+pub fn get_spline_point_basis(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
+
+pub fn get_spline_point_bezier_cubic(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
+
+pub fn get_spline_point_bezier_quad(Bytes, Bytes, Bytes, Float) -> Bytes
+
+pub fn get_spline_point_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
+
+pub fn get_spline_point_linear(Bytes, Bytes, Float) -> Bytes
+
 pub fn get_time() -> Double
+
+pub fn get_touch_point_count() -> Int
+
+pub fn get_touch_point_id(Int) -> Int
+
+pub fn get_touch_position(Int) -> Bytes
+
+pub fn get_touch_x() -> Int
+
+pub fn get_touch_y() -> Int
+
+pub fn get_window_position() -> Bytes
+
+pub fn get_window_scale_dpi() -> Bytes
+
+pub fn get_working_directory() -> Bytes
 
 pub fn get_world_to_screen(Bytes, Bytes) -> Bytes
 
 pub fn get_world_to_screen_2d(Bytes, Bytes) -> Bytes
 
+pub fn get_world_to_screen_ex(Bytes, Bytes, Int, Int) -> Bytes
+
+pub fn glyph_info_array_count(GlyphInfoArray) -> Int
+
+pub fn glyph_info_array_get(GlyphInfoArray, Int) -> Bytes
+
 pub fn hide_cursor() -> Unit
+
+pub fn image_alpha_clear(Image, Bytes, Float) -> Unit
+
+pub fn image_alpha_crop(Image, Float) -> Unit
+
+pub fn image_alpha_mask(Image, Image) -> Unit
+
+pub fn image_alpha_premultiply(Image) -> Unit
+
+pub fn image_blur_gaussian(Image, Int) -> Unit
+
+pub fn image_clear_background(Image, Bytes) -> Unit
+
+pub fn image_color_brightness(Image, Int) -> Unit
+
+pub fn image_color_contrast(Image, Float) -> Unit
+
+pub fn image_color_grayscale(Image) -> Unit
+
+pub fn image_color_invert(Image) -> Unit
+
+pub fn image_color_replace(Image, Bytes, Bytes) -> Unit
+
+pub fn image_color_tint(Image, Bytes) -> Unit
+
+pub fn image_copy(Image) -> Image
+
+pub fn image_crop(Image, Bytes) -> Unit
+
+pub fn image_dither(Image, Int, Int, Int, Int) -> Unit
+
+pub fn image_draw(Image, Image, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_circle(Image, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_circle_lines(Image, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_circle_lines_v(Image, Bytes, Int, Bytes) -> Unit
+
+pub fn image_draw_circle_v(Image, Bytes, Int, Bytes) -> Unit
+
+pub fn image_draw_line(Image, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_line_ex(Image, Bytes, Bytes, Int, Bytes) -> Unit
+
+pub fn image_draw_line_v(Image, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_pixel(Image, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_pixel_v(Image, Bytes, Bytes) -> Unit
+
+pub fn image_draw_rectangle(Image, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_rectangle_lines(Image, Bytes, Int, Bytes) -> Unit
+
+pub fn image_draw_rectangle_rec(Image, Bytes, Bytes) -> Unit
+
+pub fn image_draw_rectangle_v(Image, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_text(Image, Bytes, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_draw_text_ex(Image, Font, Bytes, Bytes, Float, Float, Bytes) -> Unit
+
+pub fn image_draw_triangle(Image, Bytes, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_triangle_ex(Image, Bytes, Bytes, Bytes, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_triangle_fan(Image, Bytes, Int, Bytes) -> Unit
+
+pub fn image_draw_triangle_lines(Image, Bytes, Bytes, Bytes, Bytes) -> Unit
+
+pub fn image_draw_triangle_strip(Image, Bytes, Int, Bytes) -> Unit
+
+pub fn image_flip_horizontal(Image) -> Unit
+
+pub fn image_flip_vertical(Image) -> Unit
+
+pub fn image_format(Image, Int) -> Unit
+
+pub fn image_frame_count(Image) -> Int
+
+pub fn image_from_channel(Image, Int) -> Image
+
+pub fn image_from_image(Image, Bytes) -> Image
+
+pub fn image_kernel_convolution(Image, Bytes, Int) -> Unit
+
+pub fn image_mipmaps(Image) -> Unit
+
+pub fn image_resize(Image, Int, Int) -> Unit
+
+pub fn image_resize_canvas(Image, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn image_resize_nn(Image, Int, Int) -> Unit
+
+pub fn image_rotate(Image, Int) -> Unit
+
+pub fn image_rotate_ccw(Image) -> Unit
+
+pub fn image_rotate_cw(Image) -> Unit
+
+pub fn image_text(Bytes, Int, Bytes) -> Image
+
+pub fn image_text_ex(Font, Bytes, Float, Float, Bytes) -> Image
+
+pub fn image_to_pot(Image, Bytes) -> Unit
 
 pub fn init_audio_device() -> Unit
 
@@ -256,11 +686,37 @@ pub fn init_window(Int, Int, Bytes) -> Unit
 
 pub fn is_audio_device_ready() -> Bool
 
+pub fn is_audio_stream_playing(AudioStream) -> Bool
+
+pub fn is_audio_stream_processed(AudioStream) -> Bool
+
+pub fn is_audio_stream_valid(AudioStream) -> Bool
+
 pub fn is_cursor_hidden() -> Bool
 
 pub fn is_cursor_on_screen() -> Bool
 
+pub fn is_file_dropped() -> Bool
+
+pub fn is_file_extension(Bytes, Bytes) -> Bool
+
+pub fn is_file_name_valid(Bytes) -> Bool
+
 pub fn is_font_valid(Font) -> Bool
+
+pub fn is_gamepad_available(Int) -> Bool
+
+pub fn is_gamepad_button_down(Int, Int) -> Bool
+
+pub fn is_gamepad_button_pressed(Int, Int) -> Bool
+
+pub fn is_gamepad_button_released(Int, Int) -> Bool
+
+pub fn is_gamepad_button_up(Int, Int) -> Bool
+
+pub fn is_gesture_detected(Int) -> Bool
+
+pub fn is_image_valid(Image) -> Bool
 
 pub fn is_key_down(Int) -> Bool
 
@@ -272,6 +728,12 @@ pub fn is_key_released(Int) -> Bool
 
 pub fn is_key_up(Int) -> Bool
 
+pub fn is_material_valid(Material) -> Bool
+
+pub fn is_model_animation_valid(Model, ModelAnimations, Int) -> Bool
+
+pub fn is_model_valid(Model) -> Bool
+
 pub fn is_mouse_button_down(Int) -> Bool
 
 pub fn is_mouse_button_pressed(Int) -> Bool
@@ -282,11 +744,21 @@ pub fn is_mouse_button_up(Int) -> Bool
 
 pub fn is_music_stream_playing(Music) -> Bool
 
+pub fn is_music_valid(Music) -> Bool
+
+pub fn is_path_file(Bytes) -> Bool
+
 pub fn is_render_texture_valid(RenderTexture) -> Bool
+
+pub fn is_shader_valid(Shader) -> Bool
 
 pub fn is_sound_playing(Sound) -> Bool
 
+pub fn is_sound_valid(Sound) -> Bool
+
 pub fn is_texture_valid(Texture) -> Bool
+
+pub fn is_wave_valid(Wave) -> Bool
 
 pub fn is_window_focused() -> Bool
 
@@ -302,23 +774,101 @@ pub fn is_window_ready() -> Bool
 
 pub fn is_window_resized() -> Bool
 
+pub fn is_window_state(Int) -> Bool
+
+pub fn load_audio_stream(UInt, UInt, UInt) -> AudioStream
+
+pub fn load_automation_event_list(Bytes) -> AutomationEventList
+
+pub fn load_codepoints(Bytes) -> Bytes
+
+pub fn load_directory_files(Bytes) -> FilePathList
+
+pub fn load_directory_files_ex(Bytes, Bytes, Bool) -> FilePathList
+
+pub fn load_dropped_files() -> FilePathList
+
+pub fn load_file_data(Bytes) -> Bytes
+
+pub fn load_file_text(Bytes) -> Bytes
+
 pub fn load_font(Bytes) -> Font
+
+pub fn load_font_data(Bytes, Int, Int, Int) -> GlyphInfoArray
 
 pub fn load_font_ex(Bytes, Int) -> Font
 
+pub fn load_font_from_image(Image, Bytes, Int) -> Font
+
+pub fn load_font_from_memory(Bytes, Bytes, Int, Int) -> Font
+
 pub fn load_image(Bytes) -> Image
+
+pub fn load_image_anim(Bytes) -> Image
+
+pub fn load_image_anim_from_memory(Bytes, Bytes, Int) -> Image
+
+pub fn load_image_colors(Image) -> Bytes
+
+pub fn load_image_from_memory(Bytes, Bytes, Int) -> Image
+
+pub fn load_image_from_screen() -> Image
+
+pub fn load_image_from_texture(Texture) -> Image
+
+pub fn load_image_palette(Image, Int) -> Bytes
+
+pub fn load_image_raw(Bytes, Int, Int, Int, Int) -> Image
+
+pub fn load_material_default() -> Material
+
+pub fn load_materials(Bytes) -> MaterialsArray
 
 pub fn load_model(Bytes) -> Model
 
+pub fn load_model_animations(Bytes) -> ModelAnimations
+
+pub fn load_model_from_mesh(Mesh) -> Model
+
 pub fn load_music_stream(Bytes) -> Music
+
+pub fn load_music_stream_from_memory(Bytes, Bytes, Int) -> Music
+
+pub fn load_random_sequence(Int, Int, Int) -> Bytes
 
 pub fn load_render_texture(Int, Int) -> RenderTexture
 
+pub fn load_shader(Bytes, Bytes) -> Shader
+
+pub fn load_shader_from_memory(Bytes, Bytes) -> Shader
+
 pub fn load_sound(Bytes) -> Sound
+
+pub fn load_sound_alias(Sound) -> Sound
+
+pub fn load_sound_from_wave(Wave) -> Sound
 
 pub fn load_texture(Bytes) -> Texture
 
+pub fn load_texture_cubemap(Image, Int) -> Texture
+
 pub fn load_texture_from_image(Image) -> Texture
+
+pub fn load_utf8(Bytes, Int) -> Bytes
+
+pub fn load_vr_stereo_config(Bytes) -> VrStereoConfig
+
+pub fn load_wave(Bytes) -> Wave
+
+pub fn load_wave_from_memory(Bytes, Bytes, Int) -> Wave
+
+pub fn load_wave_samples(Wave) -> Bytes
+
+pub fn make_directory(Bytes) -> Int
+
+pub fn materials_array_count(MaterialsArray) -> Int
+
+pub fn materials_array_get(MaterialsArray, Int) -> Material
 
 pub fn maximize_window() -> Unit
 
@@ -328,29 +878,69 @@ pub fn measure_text_ex(Font, Bytes, Float, Float) -> Bytes
 
 pub fn minimize_window() -> Unit
 
+pub fn model_animations_count(ModelAnimations) -> Int
+
 pub fn open_url(Bytes) -> Unit
+
+pub fn pause_audio_stream(AudioStream) -> Unit
 
 pub fn pause_music_stream(Music) -> Unit
 
 pub fn pause_sound(Sound) -> Unit
 
+pub fn play_audio_stream(AudioStream) -> Unit
+
+pub fn play_automation_event(Bytes) -> Unit
+
 pub fn play_music_stream(Music) -> Unit
 
 pub fn play_sound(Sound) -> Unit
 
+pub fn poll_input_events() -> Unit
+
 pub fn restore_window() -> Unit
+
+pub fn resume_audio_stream(AudioStream) -> Unit
 
 pub fn resume_music_stream(Music) -> Unit
 
 pub fn resume_sound(Sound) -> Unit
 
+pub fn save_file_data(Bytes, Bytes, Int) -> Bool
+
+pub fn save_file_text(Bytes, Bytes) -> Bool
+
 pub fn seek_music_stream(Music, Float) -> Unit
+
+pub fn set_audio_stream_buffer_size_default(Int) -> Unit
+
+pub fn set_audio_stream_pan(AudioStream, Float) -> Unit
+
+pub fn set_audio_stream_pitch(AudioStream, Float) -> Unit
+
+pub fn set_audio_stream_volume(AudioStream, Float) -> Unit
+
+pub fn set_automation_event_base_frame(Int) -> Unit
+
+pub fn set_automation_event_list(AutomationEventList) -> Unit
+
+pub fn set_clipboard_text(Bytes) -> Unit
 
 pub fn set_config_flags(Int) -> Unit
 
 pub fn set_exit_key(Int) -> Unit
 
+pub fn set_gamepad_mappings(Bytes) -> Int
+
+pub fn set_gamepad_vibration(Int, Float, Float, Float) -> Unit
+
+pub fn set_gestures_enabled(Int) -> Unit
+
 pub fn set_master_volume(Float) -> Unit
+
+pub fn set_material_texture(Material, Int, Texture) -> Unit
+
+pub fn set_model_mesh_material(Model, Int, Int) -> Unit
 
 pub fn set_mouse_cursor(Int) -> Unit
 
@@ -360,11 +950,23 @@ pub fn set_mouse_position(Int, Int) -> Unit
 
 pub fn set_mouse_scale(Float, Float) -> Unit
 
+pub fn set_music_pan(Music, Float) -> Unit
+
 pub fn set_music_pitch(Music, Float) -> Unit
 
 pub fn set_music_volume(Music, Float) -> Unit
 
 pub fn set_random_seed(Int) -> Unit
+
+pub fn set_shader_value(Shader, Int, Bytes, Int) -> Unit
+
+pub fn set_shader_value_matrix(Shader, Int, Bytes) -> Unit
+
+pub fn set_shader_value_texture(Shader, Int, Texture) -> Unit
+
+pub fn set_shader_value_v(Shader, Int, Bytes, Int, Int) -> Unit
+
+pub fn set_shapes_texture(Texture, Bytes) -> Unit
 
 pub fn set_sound_pan(Sound, Float) -> Unit
 
@@ -376,13 +978,21 @@ pub fn set_target_fps(Int) -> Unit
 
 pub fn set_text_line_spacing(Int) -> Unit
 
+pub fn set_texture_filter(Texture, Int) -> Unit
+
+pub fn set_texture_wrap(Texture, Int) -> Unit
+
 pub fn set_trace_log_level(Int) -> Unit
 
 pub fn set_window_focused() -> Unit
 
+pub fn set_window_icon(Image) -> Unit
+
 pub fn set_window_max_size(Int, Int) -> Unit
 
 pub fn set_window_min_size(Int, Int) -> Unit
+
+pub fn set_window_monitor(Int) -> Unit
 
 pub fn set_window_opacity(Float) -> Unit
 
@@ -396,9 +1006,17 @@ pub fn set_window_title(Bytes) -> Unit
 
 pub fn show_cursor() -> Unit
 
+pub fn start_automation_event_recording() -> Unit
+
+pub fn stop_audio_stream(AudioStream) -> Unit
+
+pub fn stop_automation_event_recording() -> Unit
+
 pub fn stop_music_stream(Music) -> Unit
 
 pub fn stop_sound(Sound) -> Unit
+
+pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(Bytes) -> Unit
 
@@ -406,36 +1024,102 @@ pub fn toggle_borderless_windowed() -> Unit
 
 pub fn toggle_fullscreen() -> Unit
 
+pub fn unload_audio_stream(AudioStream) -> Unit
+
+pub fn unload_automation_event_list(AutomationEventList) -> Unit
+
+pub fn unload_directory_files(FilePathList) -> Unit
+
+pub fn unload_dropped_files(FilePathList) -> Unit
+
 pub fn unload_font(Font) -> Unit
+
+pub fn unload_font_data(GlyphInfoArray) -> Unit
 
 pub fn unload_image(Image) -> Unit
 
+pub fn unload_material(Material) -> Unit
+
+pub fn unload_materials_array(MaterialsArray) -> Unit
+
+pub fn unload_mesh(Mesh) -> Unit
+
 pub fn unload_model(Model) -> Unit
+
+pub fn unload_model_animations(ModelAnimations) -> Unit
 
 pub fn unload_music_stream(Music) -> Unit
 
 pub fn unload_render_texture(RenderTexture) -> Unit
 
+pub fn unload_shader(Shader) -> Unit
+
 pub fn unload_sound(Sound) -> Unit
 
+pub fn unload_sound_alias(Sound) -> Unit
+
 pub fn unload_texture(Texture) -> Unit
+
+pub fn unload_vr_stereo_config(VrStereoConfig) -> Unit
+
+pub fn unload_wave(Wave) -> Unit
+
+pub fn update_audio_stream(AudioStream, Bytes, Int) -> Unit
 
 pub fn update_camera(Bytes, Int) -> Bytes
 
 pub fn update_camera_pro(Bytes, Bytes, Bytes, Float) -> Bytes
 
+pub fn update_mesh_buffer(Mesh, Int, Bytes, Int, Int) -> Unit
+
+pub fn update_model_animation(Model, ModelAnimations, Int, Int) -> Unit
+
+pub fn update_model_animation_bones(Model, ModelAnimations, Int, Int) -> Unit
+
 pub fn update_music_stream(Music) -> Unit
+
+pub fn update_sound(Sound, Bytes, Int) -> Unit
+
+pub fn update_texture(Texture, Bytes) -> Unit
+
+pub fn update_texture_rec(Texture, Bytes, Bytes) -> Unit
+
+pub fn upload_mesh(Mesh, Int) -> Unit
+
+pub fn wait_time(Double) -> Unit
+
+pub fn wave_copy(Wave) -> Wave
+
+pub fn wave_crop(Wave, Int, Int) -> Unit
+
+pub fn wave_format(Wave, Int, Int, Int) -> Unit
 
 pub fn window_should_close() -> Bool
 
 // Errors
 
 // Types and methods
+pub type AudioStream
+
+pub type AutomationEventList
+
+pub type FilePathList
+
 pub type Font
+
+pub type GlyphInfoArray
 
 pub type Image
 
+pub type Material
+
+pub type MaterialsArray
+
+pub type Mesh
+
 pub type Model
+
+pub type ModelAnimations
 
 pub type Music
 
@@ -446,6 +1130,10 @@ pub type Shader
 pub type Sound
 
 pub type Texture
+
+pub type VrStereoConfig
+
+pub type Wave
 
 // Type aliases
 
