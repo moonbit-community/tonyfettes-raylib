@@ -88,7 +88,13 @@ pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 
 ///|
 #borrow(font, position, tint)
-pub extern "c" fn draw_text_codepoint(font : Font, codepoint : Int, position : Bytes, font_size : Float, tint : Bytes) = "moonbit_raylib_draw_text_codepoint"
+pub extern "c" fn draw_text_codepoint(
+  font : Font,
+  codepoint : Int,
+  position : Bytes,
+  font_size : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_text_codepoint"
 
 ///|
 #borrow(font)
@@ -104,11 +110,20 @@ pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "
 
 ///|
 #borrow(image, key)
-pub extern "c" fn load_font_from_image(image : Image, key : Bytes, first_char : Int) -> Font = "moonbit_raylib_load_font_from_image"
+pub extern "c" fn load_font_from_image(
+  image : Image,
+  key : Bytes,
+  first_char : Int,
+) -> Font = "moonbit_raylib_load_font_from_image"
 
 ///|
 #borrow(file_type, file_data)
-pub extern "c" fn load_font_from_memory(file_type : Bytes, file_data : Bytes, data_size : Int, font_size : Int) -> Font = "moonbit_raylib_load_font_from_memory"
+pub extern "c" fn load_font_from_memory(
+  file_type : Bytes,
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+) -> Font = "moonbit_raylib_load_font_from_memory"
 
 ///|
 #borrow(font, file_name)
@@ -120,4 +135,84 @@ pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = 
 
 ///|
 #borrow(font, codepoints, position, tint)
-pub extern "c" fn draw_text_codepoints(font : Font, codepoints : Bytes, codepoint_count : Int, position : Bytes, font_size : Float, spacing : Float, tint : Bytes) = "moonbit_raylib_draw_text_codepoints"
+pub extern "c" fn draw_text_codepoints(
+  font : Font,
+  codepoints : Bytes,
+  codepoint_count : Int,
+  position : Bytes,
+  font_size : Float,
+  spacing : Float,
+  tint : Bytes,
+) = "moonbit_raylib_draw_text_codepoints"
+
+// ============================================================================
+// Text: Codepoint functions
+// ============================================================================
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_count(text : Bytes) -> Int = "moonbit_raylib_get_codepoint_count"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_next(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint_next"
+
+///|
+#borrow(text)
+pub extern "c" fn get_codepoint_previous(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint_previous"
+
+///|
+pub extern "c" fn codepoint_to_utf8(codepoint : Int) -> Bytes = "moonbit_raylib_codepoint_to_utf8"
+
+///|
+#borrow(text)
+pub extern "c" fn load_codepoints(text : Bytes) -> Bytes = "moonbit_raylib_load_codepoints"
+
+///|
+#borrow(codepoints)
+pub extern "c" fn load_utf8(codepoints : Bytes, length : Int) -> Bytes = "moonbit_raylib_load_utf8"
+
+// ============================================================================
+// Text: Advanced font / GlyphInfo functions
+// ============================================================================
+
+///|
+#borrow(font)
+pub extern "c" fn get_glyph_info(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_info"
+
+///|
+#borrow(file_data)
+pub extern "c" fn load_font_data(
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+  font_type : Int,
+) -> GlyphInfoArray = "moonbit_raylib_load_font_data"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn unload_font_data(wrapper : GlyphInfoArray) = "moonbit_raylib_unload_font_data"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn glyph_info_array_count(wrapper : GlyphInfoArray) -> Int = "moonbit_raylib_glyph_info_array_count"
+
+///|
+#borrow(wrapper)
+pub extern "c" fn glyph_info_array_get(
+  wrapper : GlyphInfoArray,
+  index : Int,
+) -> Bytes = "moonbit_raylib_glyph_info_array_get"
+
+///|
+#borrow(glyphs)
+pub extern "c" fn gen_image_font_atlas(
+  glyphs : GlyphInfoArray,
+  font_size : Int,
+  padding : Int,
+  pack_method : Int,
+) -> Image = "moonbit_raylib_gen_image_font_atlas"

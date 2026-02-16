@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - bouncing ball",
+    screen_width, screen_height, "raylib [shapes] example - bouncing ball",
   )
   let mut ball_position_x : Float = Float::from_int(@raylib.get_screen_width()) /
     2.0
@@ -31,15 +29,13 @@ fn main {
       ball_position_y += ball_speed_y
 
       // Check walls collision for bouncing
-      if ball_position_x >= Float::from_int(
-          @raylib.get_screen_width() - ball_radius,
-        ) ||
+      if ball_position_x >=
+        Float::from_int(@raylib.get_screen_width() - ball_radius) ||
         ball_position_x <= Float::from_int(ball_radius) {
         ball_speed_x = -ball_speed_x
       }
-      if ball_position_y >= Float::from_int(
-          @raylib.get_screen_height() - ball_radius,
-        ) ||
+      if ball_position_y >=
+        Float::from_int(@raylib.get_screen_height() - ball_radius) ||
         ball_position_y <= Float::from_int(ball_radius) {
         ball_speed_y = -ball_speed_y
       }
@@ -64,7 +60,7 @@ fn main {
     )
 
     // On pause, we draw a blinking message
-    if pause && (frames_counter / 30) % 2 != 0 {
+    if pause && frames_counter / 30 % 2 != 0 {
       @raylib.draw_text("PAUSED", 350, 200, 30, @raylib.gray)
     }
     @raylib.draw_fps(10, 10)

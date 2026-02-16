@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - input mouse wheel",
+    screen_width, screen_height, "raylib [core] example - input mouse wheel",
   )
   let mut box_position_y = screen_height / 2 - 40
   let scroll_speed = 4
@@ -15,9 +13,8 @@ fn main {
   // Main game loop
   while not(@raylib.window_should_close()) {
     // Update
-    box_position_y -= (@raylib.get_mouse_wheel_move() * Float::from_int(
-        scroll_speed,
-      )).to_int()
+    box_position_y -= (@raylib.get_mouse_wheel_move() *
+    Float::from_int(scroll_speed)).to_int()
 
     // Draw
     @raylib.begin_drawing()
@@ -30,11 +27,7 @@ fn main {
       @raylib.maroon,
     )
     @raylib.draw_text(
-      "Use mouse wheel to move the cube up and down!",
-      10,
-      10,
-      20,
-      @raylib.gray,
+      "Use mouse wheel to move the cube up and down!", 10, 10, 20, @raylib.gray,
     )
     @raylib.draw_text(
       "Box position Y: \{box_position_y}",

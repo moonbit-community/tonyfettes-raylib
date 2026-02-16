@@ -12,12 +12,21 @@ pub fn image_clear_background(dst : Image, color : Color) -> Unit {
 // ============================================================================
 
 ///|
-pub fn image_draw_pixel(dst : Image, pos_x : Int, pos_y : Int, color : Color) -> Unit {
+pub fn image_draw_pixel(
+  dst : Image,
+  pos_x : Int,
+  pos_y : Int,
+  color : Color,
+) -> Unit {
   @raylib.image_draw_pixel(dst, pos_x, pos_y, color.to_bytes())
 }
 
 ///|
-pub fn image_draw_pixel_v(dst : Image, position : Vector2, color : Color) -> Unit {
+pub fn image_draw_pixel_v(
+  dst : Image,
+  position : Vector2,
+  color : Color,
+) -> Unit {
   @raylib.image_draw_pixel_v(dst, position.to_bytes(), color.to_bytes())
 }
 

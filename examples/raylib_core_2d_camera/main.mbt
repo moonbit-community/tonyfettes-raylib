@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 2d camera",
+    screen_width, screen_height, "raylib [core] example - 2d camera",
   )
 
   // Player rectangle
@@ -144,13 +142,7 @@ fn main {
       screen_height - 10,
       @raylib.red,
     )
-    @raylib.draw_rectangle(
-      0,
-      screen_height - 5,
-      screen_width,
-      5,
-      @raylib.red,
-    )
+    @raylib.draw_rectangle(0, screen_height - 5, screen_width, 5, @raylib.red)
 
     // Info box background
     @raylib.draw_rectangle_rec(
@@ -162,26 +154,14 @@ fn main {
     // Info text
     @raylib.draw_text("Free 2d camera controls:", 20, 20, 10, @raylib.black)
     @raylib.draw_text(
-      "- Right/Left to move Offset",
-      40,
-      40,
-      10,
-      @raylib.darkgray,
+      "- Right/Left to move Offset", 40, 40, 10, @raylib.darkgray,
     )
     @raylib.draw_text(
-      "- Mouse Wheel to Zoom in-out",
-      40,
-      60,
-      10,
-      @raylib.darkgray,
+      "- Mouse Wheel to Zoom in-out", 40, 60, 10, @raylib.darkgray,
     )
     @raylib.draw_text("- A / S to Rotate", 40, 80, 10, @raylib.darkgray)
     @raylib.draw_text(
-      "- R to reset Zoom and Rotation",
-      40,
-      100,
-      10,
-      @raylib.darkgray,
+      "- R to reset Zoom and Rotation", 40, 100, 10, @raylib.darkgray,
     )
 
     @raylib.end_drawing()

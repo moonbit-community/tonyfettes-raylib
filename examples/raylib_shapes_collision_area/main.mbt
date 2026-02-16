@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - collision area",
+    screen_width, screen_height, "raylib [shapes] example - collision area",
   )
 
   // Box A: Moving box
@@ -52,7 +50,7 @@ fn main {
     }
 
     // Bounce box on x screen limits
-    if (box_a.x + box_a.width) >= Float::from_int(@raylib.get_screen_width()) ||
+    if box_a.x + box_a.width >= Float::from_int(@raylib.get_screen_width()) ||
       box_a.x <= 0.0 {
       box_a_speed_x = box_a_speed_x * -1.0
     }
@@ -64,13 +62,13 @@ fn main {
     let mut box_b_y = mouse_y - box_b.height / 2.0
 
     // Make sure Box B does not go out of move area limits
-    if (box_b_x + box_b.width) >= Float::from_int(@raylib.get_screen_width()) {
+    if box_b_x + box_b.width >= Float::from_int(@raylib.get_screen_width()) {
       box_b_x = Float::from_int(@raylib.get_screen_width()) - box_b.width
     } else if box_b_x <= 0.0 {
       box_b_x = 0.0
     }
 
-    if (box_b_y + box_b.height) >= Float::from_int(@raylib.get_screen_height()) {
+    if box_b_y + box_b.height >= Float::from_int(@raylib.get_screen_height()) {
       box_b_y = Float::from_int(@raylib.get_screen_height()) - box_b.height
     } else if box_b_y <= Float::from_int(screen_upper_limit) {
       box_b_y = Float::from_int(screen_upper_limit)
@@ -100,7 +98,11 @@ fn main {
       0,
       screen_width,
       screen_upper_limit,
-      if collision { @raylib.red } else { @raylib.black },
+      if collision {
+        @raylib.red
+      } else {
+        @raylib.black
+      },
     )
 
     @raylib.draw_rectangle_rec(box_a, @raylib.gold)
@@ -114,7 +116,7 @@ fn main {
       @raylib.draw_text(
         "COLLISION!",
         @raylib.get_screen_width() / 2 -
-          @raylib.measure_text("COLLISION!", 20) / 2,
+        @raylib.measure_text("COLLISION!", 20) / 2,
         screen_upper_limit / 2 - 10,
         20,
         @raylib.black,

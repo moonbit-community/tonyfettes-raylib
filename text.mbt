@@ -3,12 +3,15 @@
 ///|
 pub using @raylib {
   type Font,
+  type GlyphInfoArray,
   get_font_default,
   is_font_valid,
   unload_font,
   draw_fps,
   set_text_line_spacing,
   get_glyph_index,
+  unload_font_data,
+  glyph_info_array_count,
 }
 
 // ============================================================================
@@ -114,8 +117,20 @@ pub fn measure_text_ex(
 // ============================================================================
 
 ///|
-pub fn draw_text_codepoint(font : Font, codepoint : Int, position : Vector2, font_size : Float, tint : Color) -> Unit {
-  @raylib.draw_text_codepoint(font, codepoint, position.to_bytes(), font_size, tint.to_bytes())
+pub fn draw_text_codepoint(
+  font : Font,
+  codepoint : Int,
+  position : Vector2,
+  font_size : Float,
+  tint : Color,
+) -> Unit {
+  @raylib.draw_text_codepoint(
+    font,
+    codepoint,
+    position.to_bytes(),
+    font_size,
+    tint.to_bytes(),
+  )
 }
 
 ///|
@@ -128,13 +143,27 @@ pub fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Rectangle {
 // ============================================================================
 
 ///|
-pub fn load_font_from_image(image : Image, key : Color, first_char : Int) -> Font {
+pub fn load_font_from_image(
+  image : Image,
+  key : Color,
+  first_char : Int,
+) -> Font {
   @raylib.load_font_from_image(image, key.to_bytes(), first_char)
 }
 
 ///|
-pub fn load_font_from_memory(file_type : String, file_data : Bytes, data_size : Int, font_size : Int) -> Font {
-  @raylib.load_font_from_memory(@utf8.encode(file_type), file_data, data_size, font_size)
+pub fn load_font_from_memory(
+  file_type : String,
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+) -> Font {
+  @raylib.load_font_from_memory(
+    @utf8.encode(file_type),
+    file_data,
+    data_size,
+    font_size,
+  )
 }
 
 ///|
@@ -147,7 +176,14 @@ pub fn export_font_as_code(font : Font, file_name : String) -> Bool {
 // ============================================================================
 
 ///|
-pub fn draw_text_codepoints(font : Font, codepoints : Array[Int], position : Vector2, font_size : Float, spacing : Float, tint : Color) -> Unit {
+pub fn draw_text_codepoints(
+  font : Font,
+  codepoints : Array[Int],
+  position : Vector2,
+  font_size : Float,
+  spacing : Float,
+  tint : Color,
+) -> Unit {
   let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
   for i, cp in codepoints {
     let (a, b, c, d) = write_int(cp)
@@ -157,5 +193,136 @@ pub fn draw_text_codepoints(font : Font, codepoints : Array[Int], position : Vec
     arr[i * 4 + 3] = d
   }
   let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
-  @raylib.draw_text_codepoints(font, bytes, codepoints.length(), position.to_bytes(), font_size, spacing, tint.to_bytes())
+  @raylib.draw_text_codepoints(
+    font,
+    bytes,
+    codepoints.length(),
+    position.to_bytes(),
+    font_size,
+    spacing,
+    tint.to_bytes(),
+  )
 }
+
+// ============================================================================
+// Text: Codepoint functions (wrappers)
+// ============================================================================
+
+///|
+pub fn get_codepoint_count(text : String) -> Int {
+  @raylib.get_codepoint_count(@utf8.encode(text))
+}
+
+///|
+pub fn get_codepoint(text : String) -> (Int, Int) {
+  let bytes = @raylib.get_codepoint(@utf8.encode(text))
+  (read_int(bytes, 0), read_int(bytes, 4))
+}
+
+///|
+pub fn get_codepoint_next(text : String) -> (Int, Int) {
+  let bytes = @raylib.get_codepoint_next(@utf8.encode(text))
+  (read_int(bytes, 0), read_int(bytes, 4))
+}
+
+///|
+pub fn get_codepoint_previous(text : String) -> (Int, Int) {
+  let bytes = @raylib.get_codepoint_previous(@utf8.encode(text))
+  (read_int(bytes, 0), read_int(bytes, 4))
+}
+
+///|
+pub fn codepoint_to_utf8(codepoint : Int) -> Bytes {
+  @raylib.codepoint_to_utf8(codepoint)
+}
+
+///|
+pub fn load_codepoints(text : String) -> Array[Int] {
+  let bytes = @raylib.load_codepoints(@utf8.encode(text))
+  if bytes.length() < 4 {
+    return []
+  }
+  let count = read_int(bytes, 0)
+  let result = Array::make(count, 0)
+  for i = 0; i < count; i = i + 1 {
+    result[i] = read_int(bytes, 4 + i * 4)
+  }
+  result
+}
+
+///|
+pub fn load_utf8(codepoints : Array[Int]) -> Bytes {
+  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
+  for i, cp in codepoints {
+    let (a, b, c, d) = write_int(cp)
+    arr[i * 4] = a
+    arr[i * 4 + 1] = b
+    arr[i * 4 + 2] = c
+    arr[i * 4 + 3] = d
+  }
+  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  @raylib.load_utf8(bytes, codepoints.length())
+}
+
+// ============================================================================
+// Text: GlyphInfo struct + advanced font wrappers
+// ============================================================================
+
+///|
+pub struct GlyphInfo {
+  value : Int
+  offset_x : Int
+  offset_y : Int
+  advance_x : Int
+} derive(Eq, Show)
+
+///|
+pub fn GlyphInfo::from_bytes(b : Bytes) -> GlyphInfo {
+  {
+    value: read_int(b, 0),
+    offset_x: read_int(b, 4),
+    offset_y: read_int(b, 8),
+    advance_x: read_int(b, 12),
+  }
+}
+
+///|
+pub fn get_glyph_info(font : Font, codepoint : Int) -> GlyphInfo {
+  GlyphInfo::from_bytes(@raylib.get_glyph_info(font, codepoint))
+}
+
+///|
+pub fn load_font_data(
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+  font_type : Int,
+) -> GlyphInfoArray {
+  @raylib.load_font_data(file_data, data_size, font_size, font_type)
+}
+
+///|
+pub fn glyph_info_array_get(glyphs : GlyphInfoArray, index : Int) -> GlyphInfo {
+  GlyphInfo::from_bytes(@raylib.glyph_info_array_get(glyphs, index))
+}
+
+///|
+pub fn gen_image_font_atlas(
+  glyphs : GlyphInfoArray,
+  font_size : Int,
+  padding : Int,
+  pack_method : Int,
+) -> Image {
+  @raylib.gen_image_font_atlas(glyphs, font_size, padding, pack_method)
+}
+
+// Font data type constants
+
+///|
+pub let font_default : Int = 0
+
+///|
+pub let font_bitmap : Int = 1
+
+///|
+pub let font_sdf : Int = 2

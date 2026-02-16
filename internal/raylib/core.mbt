@@ -343,13 +343,19 @@ pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "IsGamepadAvaila
 pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get_gamepad_name"
 
 ///|
-pub extern "c" fn is_gamepad_button_pressed(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonPressed"
+pub extern "c" fn is_gamepad_button_pressed(
+  gamepad : Int,
+  button : Int,
+) -> Bool = "IsGamepadButtonPressed"
 
 ///|
 pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonDown"
 
 ///|
-pub extern "c" fn is_gamepad_button_released(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonReleased"
+pub extern "c" fn is_gamepad_button_released(
+  gamepad : Int,
+  button : Int,
+) -> Bool = "IsGamepadButtonReleased"
 
 ///|
 pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonUp"
@@ -368,7 +374,12 @@ pub extern "c" fn get_gamepad_axis_movement(gamepad : Int, axis : Int) -> Float 
 pub extern "c" fn set_gamepad_mappings(mappings : Bytes) -> Int = "moonbit_raylib_set_gamepad_mappings"
 
 ///|
-pub extern "c" fn set_gamepad_vibration(gamepad : Int, left_motor : Float, right_motor : Float, duration : Float) = "SetGamepadVibration"
+pub extern "c" fn set_gamepad_vibration(
+  gamepad : Int,
+  left_motor : Float,
+  right_motor : Float,
+  duration : Float,
+) = "SetGamepadVibration"
 
 // ============================================================================
 // Touch input
@@ -461,11 +472,17 @@ pub extern "c" fn get_world_to_screen_2d(
 
 ///|
 #borrow(vs_file_name, fs_file_name)
-pub extern "c" fn load_shader(vs_file_name : Bytes, fs_file_name : Bytes) -> Shader = "moonbit_raylib_load_shader"
+pub extern "c" fn load_shader(
+  vs_file_name : Bytes,
+  fs_file_name : Bytes,
+) -> Shader = "moonbit_raylib_load_shader"
 
 ///|
 #borrow(vs_code, fs_code)
-pub extern "c" fn load_shader_from_memory(vs_code : Bytes, fs_code : Bytes) -> Shader = "moonbit_raylib_load_shader_from_memory"
+pub extern "c" fn load_shader_from_memory(
+  vs_code : Bytes,
+  fs_code : Bytes,
+) -> Shader = "moonbit_raylib_load_shader_from_memory"
 
 ///|
 #borrow(shader)
@@ -473,27 +490,52 @@ pub extern "c" fn is_shader_valid(shader : Shader) -> Bool = "moonbit_raylib_is_
 
 ///|
 #borrow(shader, uniform_name)
-pub extern "c" fn get_shader_location(shader : Shader, uniform_name : Bytes) -> Int = "moonbit_raylib_get_shader_location"
+pub extern "c" fn get_shader_location(
+  shader : Shader,
+  uniform_name : Bytes,
+) -> Int = "moonbit_raylib_get_shader_location"
 
 ///|
 #borrow(shader, attrib_name)
-pub extern "c" fn get_shader_location_attrib(shader : Shader, attrib_name : Bytes) -> Int = "moonbit_raylib_get_shader_location_attrib"
+pub extern "c" fn get_shader_location_attrib(
+  shader : Shader,
+  attrib_name : Bytes,
+) -> Int = "moonbit_raylib_get_shader_location_attrib"
 
 ///|
 #borrow(shader, value)
-pub extern "c" fn set_shader_value(shader : Shader, loc_index : Int, value : Bytes, uniform_type : Int) = "moonbit_raylib_set_shader_value"
+pub extern "c" fn set_shader_value(
+  shader : Shader,
+  loc_index : Int,
+  value : Bytes,
+  uniform_type : Int,
+) = "moonbit_raylib_set_shader_value"
 
 ///|
 #borrow(shader, value)
-pub extern "c" fn set_shader_value_v(shader : Shader, loc_index : Int, value : Bytes, uniform_type : Int, count : Int) = "moonbit_raylib_set_shader_value_v"
+pub extern "c" fn set_shader_value_v(
+  shader : Shader,
+  loc_index : Int,
+  value : Bytes,
+  uniform_type : Int,
+  count : Int,
+) = "moonbit_raylib_set_shader_value_v"
 
 ///|
 #borrow(shader, mat)
-pub extern "c" fn set_shader_value_matrix(shader : Shader, loc_index : Int, mat : Bytes) = "moonbit_raylib_set_shader_value_matrix"
+pub extern "c" fn set_shader_value_matrix(
+  shader : Shader,
+  loc_index : Int,
+  mat : Bytes,
+) = "moonbit_raylib_set_shader_value_matrix"
 
 ///|
 #borrow(shader, texture)
-pub extern "c" fn set_shader_value_texture(shader : Shader, loc_index : Int, texture : Texture) = "moonbit_raylib_set_shader_value_texture"
+pub extern "c" fn set_shader_value_texture(
+  shader : Shader,
+  loc_index : Int,
+  texture : Texture,
+) = "moonbit_raylib_set_shader_value_texture"
 
 ///|
 #borrow(shader)
@@ -520,11 +562,19 @@ pub extern "c" fn get_camera_matrix_2d(camera : Bytes) -> Bytes = "moonbit_rayli
 
 ///|
 #borrow(position, camera)
-pub extern "c" fn get_screen_to_world_ray(position : Bytes, camera : Bytes) -> Bytes = "moonbit_raylib_get_screen_to_world_ray"
+pub extern "c" fn get_screen_to_world_ray(
+  position : Bytes,
+  camera : Bytes,
+) -> Bytes = "moonbit_raylib_get_screen_to_world_ray"
 
 ///|
 #borrow(position, camera)
-pub extern "c" fn get_world_to_screen_ex(position : Bytes, camera : Bytes, width : Int, height : Int) -> Bytes = "moonbit_raylib_get_world_to_screen_ex"
+pub extern "c" fn get_world_to_screen_ex(
+  position : Bytes,
+  camera : Bytes,
+  width : Int,
+  height : Int,
+) -> Bytes = "moonbit_raylib_get_world_to_screen_ex"
 
 // ============================================================================
 // Misc

@@ -62,7 +62,11 @@ pub fn get_shader_location_attrib(shader : Shader, attrib_name : String) -> Int 
 }
 
 ///|
-pub fn set_shader_value_matrix(shader : Shader, loc_index : Int, mat : Matrix) -> Unit {
+pub fn set_shader_value_matrix(
+  shader : Shader,
+  loc_index : Int,
+  mat : Matrix,
+) -> Unit {
   @raylib.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
 }
 
