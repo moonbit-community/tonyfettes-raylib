@@ -593,6 +593,10 @@ pub extern "c" fn get_world_to_screen_ex(
 pub extern "c" fn set_trace_log_level(log_level : Int) = "SetTraceLogLevel"
 
 ///|
+#borrow(text)
+pub extern "c" fn trace_log(log_level : Int, text : Bytes) = "moonbit_raylib_trace_log"
+
+///|
 #borrow(file_name)
 pub extern "c" fn take_screenshot(file_name : Bytes) = "moonbit_raylib_take_screenshot"
 
