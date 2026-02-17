@@ -10,7 +10,7 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
   // buffer to store all required vertex, batch is reseted if required
   let _ = @raylib.rl_check_render_batch_limit((rings + 2) * slices * 6)
 
-  @raylib.rl_begin(@raylib.rl_triangles)
+  @raylib.rl_begin(@raylib.RlTriangles)
   @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
 
   for i = 0; i < rings + 2; i = i + 1 {

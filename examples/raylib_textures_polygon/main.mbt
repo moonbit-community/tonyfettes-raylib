@@ -18,7 +18,7 @@ fn draw_texture_poly(
   @raylib.rl_set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
   // Texturing is only supported on RL_QUADS
-  @raylib.rl_begin(@raylib.rl_quads)
+  @raylib.rl_begin(@raylib.RlQuads)
 
   @raylib.rl_color4ub(tint.r, tint.g, tint.b, tint.a)
 

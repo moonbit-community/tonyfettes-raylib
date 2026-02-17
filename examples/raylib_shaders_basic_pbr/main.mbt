@@ -148,7 +148,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.enabled_loc,
     int_to_bytes(enabled_val),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light type
@@ -156,7 +156,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.type_loc,
     int_to_bytes(light.light_type),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light position as vec3
@@ -164,7 +164,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.position_loc,
     vec3_to_bytes(light.position),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light target as vec3
@@ -172,7 +172,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.target_loc,
     vec3_to_bytes(light.target),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
@@ -180,7 +180,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.color_loc,
     color4_to_bytes(light.color),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 
   // Send light intensity
@@ -188,7 +188,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
     shader,
     light.intensity_loc,
     float_to_bytes(light.intensity),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
 }
 
@@ -225,7 +225,7 @@ fn main {
   )
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_map_albedo,
+    @raylib.ShaderLocMapAlbedo,
     @raylib.get_shader_location(shader, "albedoMap"),
   )
   // WARNING: Metalness, roughness, and ambient occlusion are all packed into a MRA texture
@@ -233,12 +233,12 @@ fn main {
   // shader already takes care of it accordingly
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_map_metalness,
+    @raylib.ShaderLocMapMetalness,
     @raylib.get_shader_location(shader, "mraMap"),
   )
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_map_normal,
+    @raylib.ShaderLocMapNormal,
     @raylib.get_shader_location(shader, "normalMap"),
   )
   // WARNING: Similar to the MRA map, the emissive map packs different information
@@ -246,19 +246,19 @@ fn main {
   // It is binded to SHADER_LOC_MAP_EMISSION location and properly processed on shader
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_map_emission,
+    @raylib.ShaderLocMapEmission,
     @raylib.get_shader_location(shader, "emissiveMap"),
   )
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_color_diffuse,
+    @raylib.ShaderLocColorDiffuse,
     @raylib.get_shader_location(shader, "albedoColor"),
   )
 
   // Setup additional required shader locations, including lights data
   @raylib.set_shader_locs(
     shader,
-    @raylib.shader_loc_vector_view,
+    @raylib.ShaderLocVectorView,
     @raylib.get_shader_location(shader, "viewPos"),
   )
   let light_count_loc = @raylib.get_shader_location(shader, "numOfLights")
@@ -267,7 +267,7 @@ fn main {
     shader,
     light_count_loc,
     int_to_bytes(max_light_count),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Setup ambient color and intensity parameters
@@ -282,13 +282,13 @@ fn main {
     shader,
     @raylib.get_shader_location(shader, "ambientColor"),
     vec3_to_bytes(ambient_color_normalized),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "ambient"),
     float_to_bytes(ambient_intensity),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
 
   // Get location for shader parameters that can be modified in real time
@@ -314,49 +314,49 @@ fn main {
   // Setup materials[0].maps default parameters
   @raylib.set_material_map_color(
     car_material,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.white,
   )
   @raylib.set_material_map_value(
     car_material,
-    @raylib.material_map_metalness,
+    @raylib.MaterialMapMetalness,
     0.0,
   )
   @raylib.set_material_map_value(
     car_material,
-    @raylib.material_map_roughness,
+    @raylib.MaterialMapRoughness,
     0.0,
   )
   @raylib.set_material_map_value(
     car_material,
-    @raylib.material_map_occlusion,
+    @raylib.MaterialMapOcclusion,
     1.0,
   )
   @raylib.set_material_map_color(
     car_material,
-    @raylib.material_map_emission,
+    @raylib.MaterialMapEmission,
     @raylib.Color::new(255, 162, 0, 255),
   )
 
   // Setup materials[0].maps default textures
   @raylib.set_material_texture(
     car_material,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.load_texture("resources/old_car_d.png"),
   )
   @raylib.set_material_texture(
     car_material,
-    @raylib.material_map_metalness,
+    @raylib.MaterialMapMetalness,
     @raylib.load_texture("resources/old_car_mra.png"),
   )
   @raylib.set_material_texture(
     car_material,
-    @raylib.material_map_normal,
+    @raylib.MaterialMapNormal,
     @raylib.load_texture("resources/old_car_n.png"),
   )
   @raylib.set_material_texture(
     car_material,
-    @raylib.material_map_emission,
+    @raylib.MaterialMapEmission,
     @raylib.load_texture("resources/old_car_e.png"),
   )
 
@@ -370,43 +370,43 @@ fn main {
 
   @raylib.set_material_map_color(
     floor_material,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.white,
   )
   @raylib.set_material_map_value(
     floor_material,
-    @raylib.material_map_metalness,
+    @raylib.MaterialMapMetalness,
     0.0,
   )
   @raylib.set_material_map_value(
     floor_material,
-    @raylib.material_map_roughness,
+    @raylib.MaterialMapRoughness,
     0.0,
   )
   @raylib.set_material_map_value(
     floor_material,
-    @raylib.material_map_occlusion,
+    @raylib.MaterialMapOcclusion,
     1.0,
   )
   @raylib.set_material_map_color(
     floor_material,
-    @raylib.material_map_emission,
+    @raylib.MaterialMapEmission,
     @raylib.black,
   )
 
   @raylib.set_material_texture(
     floor_material,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.load_texture("resources/road_a.png"),
   )
   @raylib.set_material_texture(
     floor_material,
-    @raylib.material_map_metalness,
+    @raylib.MaterialMapMetalness,
     @raylib.load_texture("resources/road_mra.png"),
   )
   @raylib.set_material_texture(
     floor_material,
-    @raylib.material_map_normal,
+    @raylib.MaterialMapNormal,
     @raylib.load_texture("resources/road_n.png"),
   )
 
@@ -461,25 +461,25 @@ fn main {
     shader,
     @raylib.get_shader_location(shader, "useTexAlbedo"),
     int_to_bytes(usage),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexNormal"),
     int_to_bytes(usage),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexMRA"),
     int_to_bytes(usage),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexEmissive"),
     int_to_bytes(usage),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   @raylib.set_target_fps(60)
@@ -495,7 +495,7 @@ fn main {
       shader,
       @raylib.get_shader_location(shader, "viewPos"),
       camera_pos,
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Check key inputs to enable/disable lights
@@ -528,14 +528,14 @@ fn main {
       shader,
       texture_tiling_loc,
       vec2_to_bytes(floor_texture_tiling),
-      @raylib.shader_uniform_vec2,
+      @raylib.ShaderUniformVec2,
     )
     let floor_emissive_color = @raylib.color_normalize(@raylib.black)
     @raylib.set_shader_value(
       shader,
       emissive_color_loc,
       vec4_to_bytes(floor_emissive_color),
-      @raylib.shader_uniform_vec4,
+      @raylib.ShaderUniformVec4,
     )
 
     @raylib.draw_model(
@@ -550,7 +550,7 @@ fn main {
       shader,
       texture_tiling_loc,
       vec2_to_bytes(car_texture_tiling),
-      @raylib.shader_uniform_vec2,
+      @raylib.ShaderUniformVec2,
     )
     let car_emissive_color = @raylib.color_normalize(
       @raylib.Color::new(255, 162, 0, 255),
@@ -559,14 +559,14 @@ fn main {
       shader,
       emissive_color_loc,
       vec4_to_bytes(car_emissive_color),
-      @raylib.shader_uniform_vec4,
+      @raylib.ShaderUniformVec4,
     )
     let emissive_intensity : Float = 0.01
     @raylib.set_shader_value(
       shader,
       emissive_intensity_loc,
       float_to_bytes(emissive_intensity),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
 
     @raylib.draw_model(

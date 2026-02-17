@@ -41,7 +41,7 @@ fn main {
     shader,
     swirl_center_loc,
     vec2_to_bytes(swirl_center),
-    @raylib.shader_uniform_vec2,
+    @raylib.ShaderUniformVec2,
   )
 
   // Create a RenderTexture2D to be used for render to texture
@@ -66,7 +66,7 @@ fn main {
       shader,
       swirl_center_loc,
       vec2_to_bytes(swirl_center),
-      @raylib.shader_uniform_vec2,
+      @raylib.ShaderUniformVec2,
     )
 
     // Draw scene to render texture

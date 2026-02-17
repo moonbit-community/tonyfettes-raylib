@@ -32,7 +32,7 @@ fn main {
   // Load map texture
   let texture = @raylib.load_texture("resources/cubicmap_atlas.png")
   @raylib.set_model_material_texture(
-    model, 0, @raylib.material_map_albedo, texture,
+    model, 0, @raylib.MaterialMapAlbedo, texture,
   )
 
   let map_position = @raylib.Vector3::new(-16.0, 0.0, -8.0)

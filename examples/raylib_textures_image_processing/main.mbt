@@ -13,7 +13,7 @@ fn main {
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
   let im_origin = @raylib.load_image("resources/parrots.png")
-  @raylib.image_format(im_origin, @raylib.pixelformat_uncompressed_r8g8b8a8)
+  @raylib.image_format(im_origin, @raylib.PixelformatUncompressedR8g8b8a8)
   let texture = @raylib.load_texture_from_image(im_origin)
 
   // parrots.png: 512x384

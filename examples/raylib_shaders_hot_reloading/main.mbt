@@ -47,7 +47,7 @@ fn main {
     shader,
     resolution_loc,
     vec2_to_bytes(resolution),
-    @raylib.shader_uniform_vec2,
+    @raylib.ShaderUniformVec2,
   )
 
   let mut total_time : Float = 0.0
@@ -65,13 +65,13 @@ fn main {
       shader,
       time_loc,
       float_to_bytes(total_time),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
     @raylib.set_shader_value(
       shader,
       mouse_loc,
       vec2_to_bytes(mouse),
-      @raylib.shader_uniform_vec2,
+      @raylib.ShaderUniformVec2,
     )
 
     // Hot shader reloading
@@ -89,7 +89,7 @@ fn main {
             shader,
             resolution_loc,
             vec2_to_bytes(resolution),
-            @raylib.shader_uniform_vec2,
+            @raylib.ShaderUniformVec2,
           )
         }
         frag_shader_mod_time = current_mod_time

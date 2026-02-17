@@ -23,7 +23,7 @@ fn main {
   let model = @raylib.load_model("resources/models/iqm/guy.iqm")
   let texture = @raylib.load_texture("resources/models/iqm/guytex.png")
   @raylib.set_model_material_texture(
-    model, 0, @raylib.material_map_albedo, texture,
+    model, 0, @raylib.MaterialMapAlbedo, texture,
   )
 
   let position = @raylib.Vector3::new(0.0, 0.0, 0.0)

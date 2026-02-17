@@ -54,7 +54,7 @@ fn main {
       shader,
       divider_loc,
       float_to_bytes(divider_value),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
     // Draw
     @raylib.begin_drawing()

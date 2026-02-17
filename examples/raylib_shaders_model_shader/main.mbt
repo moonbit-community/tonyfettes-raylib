@@ -26,7 +26,7 @@ fn main {
   @raylib.set_model_material_shader(model, 0, shader)
   // Bind texture to model
   @raylib.set_model_material_texture(
-    model, 0, @raylib.material_map_albedo, texture,
+    model, 0, @raylib.MaterialMapAlbedo, texture,
   )
   let position = @raylib.Vector3::new(0.0, 0.0, 0.0)
   @raylib.disable_cursor()

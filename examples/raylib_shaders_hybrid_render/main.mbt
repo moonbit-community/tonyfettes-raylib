@@ -57,7 +57,7 @@ fn main {
     shdr_raymarch,
     march_loc_screen_center,
     vec2_to_bytes(screen_center),
-    @raylib.shader_uniform_vec2,
+    @raylib.ShaderUniformVec2,
   )
 
   // Use customized function to create writable depth texture buffer
@@ -88,7 +88,7 @@ fn main {
       shdr_raymarch,
       march_loc_cam_pos,
       vec3_to_bytes(camera.position),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Update Camera Looking Vector. Vector length determines FOV.
@@ -102,7 +102,7 @@ fn main {
       shdr_raymarch,
       march_loc_cam_dir,
       vec3_to_bytes(cam_dir),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Draw

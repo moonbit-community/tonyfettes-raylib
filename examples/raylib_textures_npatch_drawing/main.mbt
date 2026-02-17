@@ -40,7 +40,7 @@ fn main {
     40,
     12,
     12,
-    @raylib.npatch_nine_patch,
+    @raylib.NpatchNinePatch,
   )
   let nine_patch_info2 = @raylib.NPatchInfo::new(
     @raylib.Rectangle::new(0.0, 128.0, 64.0, 64.0),
@@ -48,7 +48,7 @@ fn main {
     16,
     16,
     16,
-    @raylib.npatch_nine_patch,
+    @raylib.NpatchNinePatch,
   )
 
   // A horizontal 3-patch (NPATCH_THREE_PATCH_HORIZONTAL) changes its sizes along the x axis only
@@ -58,7 +58,7 @@ fn main {
     8,
     8,
     8,
-    @raylib.npatch_three_patch_horizontal,
+    @raylib.NpatchThreePatchHorizontal,
   )
 
   // A vertical 3-patch (NPATCH_THREE_PATCH_VERTICAL) changes its sizes along the y axis only
@@ -68,7 +68,7 @@ fn main {
     6,
     6,
     6,
-    @raylib.npatch_three_patch_vertical,
+    @raylib.NpatchThreePatchVertical,
   )
 
   @raylib.set_target_fps(60)

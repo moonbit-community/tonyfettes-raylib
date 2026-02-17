@@ -80,7 +80,7 @@ fn main {
   let view_pos_loc = @raylib.get_shader_location(shadow_shader, "viewPos")
   @raylib.set_shader_location(
     shadow_shader,
-    @raylib.shader_loc_vector_view,
+    @raylib.ShaderLocVectorView,
     view_pos_loc,
   )
 
@@ -97,13 +97,13 @@ fn main {
     shadow_shader,
     light_dir_loc,
     light_dir.to_bytes(),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
   @raylib.set_shader_value(
     shadow_shader,
     light_col_loc,
     light_color_normalized.to_bytes(),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 
   // Ambient light
@@ -113,7 +113,7 @@ fn main {
     shadow_shader,
     ambient_loc,
     ambient.to_bytes(),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 
   // Shadow map uniforms
@@ -127,7 +127,7 @@ fn main {
     shadow_shader,
     shadow_map_resolution_loc,
     int_to_bytes(shadowmap_resolution),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Load models
@@ -179,7 +179,7 @@ fn main {
       shadow_shader,
       view_pos_loc,
       camera_pos.to_bytes(),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
     cam = @raylib.update_camera(cam, @raylib.CameraOrbital)
 
@@ -225,7 +225,7 @@ fn main {
       shadow_shader,
       light_dir_loc,
       light_dir.to_bytes(),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Draw
@@ -262,7 +262,7 @@ fn main {
     @raylib.rl_set_uniform(
       shadow_map_loc,
       int_to_bytes(slot),
-      @raylib.shader_uniform_int,
+      @raylib.ShaderUniformInt,
       1,
     )
 

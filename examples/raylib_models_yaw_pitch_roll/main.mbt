@@ -23,7 +23,7 @@ fn main {
   let texture = @raylib.load_texture("resources/models/obj/plane_diffuse.png")
   // Set map diffuse texture
   @raylib.set_model_material_texture(
-    model, 0, @raylib.material_map_albedo, texture,
+    model, 0, @raylib.MaterialMapAlbedo, texture,
   )
   let mut pitch : Float = 0.0
   let mut roll : Float = 0.0

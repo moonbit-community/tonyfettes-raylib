@@ -53,43 +53,43 @@ fn main {
     shader,
     @raylib.get_shader_location(shader, "size"),
     vec2_to_bytes(screen_size),
-    @raylib.shader_uniform_vec2,
+    @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     shader,
     freq_x_loc,
     float_to_bytes(freq_x),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_shader_value(
     shader,
     freq_y_loc,
     float_to_bytes(freq_y),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_shader_value(
     shader,
     amp_x_loc,
     float_to_bytes(amp_x),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_shader_value(
     shader,
     amp_y_loc,
     float_to_bytes(amp_y),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_shader_value(
     shader,
     speed_x_loc,
     float_to_bytes(speed_x),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_shader_value(
     shader,
     speed_y_loc,
     float_to_bytes(speed_y),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
 
   let mut seconds : Float = 0.0
@@ -104,7 +104,7 @@ fn main {
       shader,
       seconds_loc,
       float_to_bytes(seconds),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
 
     // Draw

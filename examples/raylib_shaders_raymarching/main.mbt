@@ -80,7 +80,7 @@ fn main {
     shader,
     resolution_loc,
     vec2_to_uniform_bytes(resolution_x, resolution_y),
-    @raylib.shader_uniform_vec2,
+    @raylib.ShaderUniformVec2,
   )
   let mut run_time : Float = 0.0
   @raylib.disable_cursor()
@@ -102,19 +102,19 @@ fn main {
         camera.position.y,
         camera.position.z,
       ),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
     @raylib.set_shader_value(
       shader,
       view_center_loc,
       vec3_to_uniform_bytes(camera.target.x, camera.target.y, camera.target.z),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
     @raylib.set_shader_value(
       shader,
       run_time_loc,
       float_to_bytes(run_time),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
 
     // Check if screen is resized
@@ -125,7 +125,7 @@ fn main {
         shader,
         resolution_loc,
         vec2_to_uniform_bytes(resolution_x, resolution_y),
-        @raylib.shader_uniform_vec2,
+        @raylib.ShaderUniformVec2,
       )
     }
 

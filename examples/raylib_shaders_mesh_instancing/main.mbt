@@ -83,7 +83,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.enabled_loc,
     int_to_bytes(enabled_val),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light type
@@ -91,7 +91,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.type_loc,
     int_to_bytes(light.light_type),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light position as vec3
@@ -99,7 +99,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.position_loc,
     light.position.to_bytes(),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light target as vec3
@@ -107,7 +107,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.target_loc,
     light.target.to_bytes(),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
@@ -121,7 +121,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.color_loc,
     color_normalized.to_bytes(),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 }
 
@@ -192,17 +192,17 @@ fn main {
   // Get shader locations
   @raylib.set_shader_location(
     shader,
-    @raylib.shader_loc_matrix_mvp,
+    @raylib.ShaderLocMatrixMvp,
     @raylib.get_shader_location(shader, "mvp"),
   )
   @raylib.set_shader_location(
     shader,
-    @raylib.shader_loc_vector_view,
+    @raylib.ShaderLocVectorView,
     @raylib.get_shader_location(shader, "viewPos"),
   )
   @raylib.set_shader_location(
     shader,
-    @raylib.shader_loc_matrix_model,
+    @raylib.ShaderLocMatrixModel,
     @raylib.get_shader_location_attrib(shader, "instanceTransform"),
   )
 
@@ -213,7 +213,7 @@ fn main {
     shader,
     ambient_loc,
     ambient.to_bytes(),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 
   // Create one light
@@ -233,7 +233,7 @@ fn main {
   @raylib.set_material_shader(mat_instances, shader)
   @raylib.set_material_map_color(
     mat_instances,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.red,
   )
 
@@ -241,7 +241,7 @@ fn main {
   let mat_default = @raylib.load_material_default()
   @raylib.set_material_map_color(
     mat_default,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     @raylib.blue,
   )
 
@@ -260,7 +260,7 @@ fn main {
       shader,
       view_pos_loc,
       camera.position.to_bytes(),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Draw

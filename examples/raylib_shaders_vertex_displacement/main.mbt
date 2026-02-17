@@ -79,7 +79,7 @@ fn main {
       shader,
       @raylib.get_shader_location(shader, "time"),
       float_to_bytes(time),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
 
     // Draw

@@ -360,10 +360,10 @@ pub fn build_font_from_data(
 // Font data type constants
 
 ///|
-pub let font_default : Int = 0
+pub const FontDefault : Int = 0
 
 ///|
-pub let font_bitmap : Int = 1
+pub const FontBitmap : Int = 1
 
 ///|
-pub let font_sdf : Int = 2
+pub const FontSdf : Int = 2

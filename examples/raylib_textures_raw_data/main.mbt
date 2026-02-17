@@ -10,7 +10,7 @@ fn main {
 
   // Load RAW image data (384x512, 32bit RGBA, no file header)
   let fudesumi_raw = @raylib.load_image_raw(
-    "resources/fudesumi.raw", 384, 512, @raylib.pixelformat_uncompressed_r8g8b8a8,
+    "resources/fudesumi.raw", 384, 512, @raylib.PixelformatUncompressedR8g8b8a8,
     0,
   )
   let fudesumi = @raylib.load_texture_from_image(fudesumi_raw)

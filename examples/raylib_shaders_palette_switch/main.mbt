@@ -78,7 +78,7 @@ fn main {
       shader,
       palette_loc,
       ivec3_array_to_bytes(palettes[current_palette]),
-      @raylib.shader_uniform_ivec3,
+      @raylib.ShaderUniformIvec3,
       colors_per_palette,
     )
 

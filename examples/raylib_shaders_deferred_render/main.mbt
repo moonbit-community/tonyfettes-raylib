@@ -96,7 +96,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.enabled_loc,
     int_to_bytes(enabled_val),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light type
@@ -104,7 +104,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.type_loc,
     int_to_bytes(light.light_type),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light position as vec3
@@ -112,7 +112,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.position_loc,
     vec3_to_bytes(light.position),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light target as vec3
@@ -120,7 +120,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.target_loc,
     vec3_to_bytes(light.target),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
@@ -134,7 +134,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.color_loc,
     vec4_to_bytes(color_normalized),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 }
 
@@ -224,7 +224,7 @@ fn main {
   )
   @raylib.set_shader_locs(
     deferred_shader,
-    @raylib.shader_loc_vector_view,
+    @raylib.ShaderLocVectorView,
     @raylib.get_shader_location(deferred_shader, "viewPosition"),
   )
 
@@ -243,13 +243,13 @@ fn main {
   let position_texture = @raylib.rl_load_texture(
     screen_width,
     screen_height,
-    @raylib.pixelformat_uncompressed_r32g32b32,
+    @raylib.PixelformatUncompressedR32g32b32,
     1,
   )
   let normal_texture = @raylib.rl_load_texture(
     screen_width,
     screen_height,
-    @raylib.pixelformat_uncompressed_r32g32b32,
+    @raylib.PixelformatUncompressedR32g32b32,
     1,
   )
   // Albedo (diffuse color) and specular strength can be combined into one texture.
@@ -257,7 +257,7 @@ fn main {
   let albedo_spec_texture = @raylib.rl_load_texture(
     screen_width,
     screen_height,
-    @raylib.pixelformat_uncompressed_r8g8b8a8,
+    @raylib.PixelformatUncompressedR8g8b8a8,
     1,
   )
 
@@ -268,22 +268,22 @@ fn main {
   @raylib.rl_framebuffer_attach(
     fbo,
     position_texture,
-    @raylib.rl_attachment_color_channel0,
-    @raylib.rl_attachment_texture2d,
+    @raylib.RlAttachmentColorChannel0,
+    @raylib.RlAttachmentTexture2d,
     0,
   )
   @raylib.rl_framebuffer_attach(
     fbo,
     normal_texture,
-    @raylib.rl_attachment_color_channel1,
-    @raylib.rl_attachment_texture2d,
+    @raylib.RlAttachmentColorChannel1,
+    @raylib.RlAttachmentTexture2d,
     0,
   )
   @raylib.rl_framebuffer_attach(
     fbo,
     albedo_spec_texture,
-    @raylib.rl_attachment_color_channel2,
-    @raylib.rl_attachment_texture2d,
+    @raylib.RlAttachmentColorChannel2,
+    @raylib.RlAttachmentTexture2d,
     0,
   )
 
@@ -296,8 +296,8 @@ fn main {
   @raylib.rl_framebuffer_attach(
     fbo,
     depth_renderbuffer,
-    @raylib.rl_attachment_depth,
-    @raylib.rl_attachment_renderbuffer,
+    @raylib.RlAttachmentDepth,
+    @raylib.RlAttachmentRenderbuffer,
     0,
   )
 
@@ -410,7 +410,7 @@ fn main {
       deferred_shader,
       @raylib.get_shader_location(deferred_shader, "viewPosition"),
       camera_pos,
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Toggle lights with key presses
@@ -520,10 +520,10 @@ fn main {
 
       // Copy over the depth buffer from our g-buffer to the default framebuffer.
       @raylib.rl_bind_framebuffer(
-        @raylib.rl_read_framebuffer,
+        @raylib.RlReadFramebuffer,
         gbuffer.framebuffer,
       )
-      @raylib.rl_bind_framebuffer(@raylib.rl_draw_framebuffer, 0U)
+      @raylib.rl_bind_framebuffer(@raylib.RlDrawFramebuffer, 0U)
       @raylib.rl_blit_framebuffer(
         0,
         0,

@@ -158,7 +158,7 @@ fn main {
     shdr_spot,
     w_loc,
     float_to_bytes(sw),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
 
   // Randomize the locations and velocities of the spotlights
@@ -186,19 +186,19 @@ fn main {
       shdr_spot,
       spots[i].position_loc,
       vec2_to_uniform_bytes(spots[i].pos_x, spots[i].pos_y),
-      @raylib.shader_uniform_vec2,
+      @raylib.ShaderUniformVec2,
     )
     @raylib.set_shader_value(
       shdr_spot,
       spots[i].inner_loc,
       float_to_bytes(spots[i].inner),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
     @raylib.set_shader_value(
       shdr_spot,
       spots[i].radius_loc,
       float_to_bytes(spots[i].radius),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
   }
 
@@ -240,7 +240,7 @@ fn main {
         shdr_spot,
         spots[i].position_loc,
         vec2_to_uniform_bytes(spots[i].pos_x, spots[i].pos_y),
-        @raylib.shader_uniform_vec2,
+        @raylib.ShaderUniformVec2,
       )
     }
 

@@ -324,72 +324,72 @@ pub fn draw_texture_npatch(
 // ============================================================================
 
 ///|
-pub let texture_filter_point : Int = 0
+pub const TextureFilterPoint : Int = 0
 
 ///|
-pub let texture_filter_bilinear : Int = 1
+pub const TextureFilterBilinear : Int = 1
 
 ///|
-pub let texture_filter_trilinear : Int = 2
+pub const TextureFilterTrilinear : Int = 2
 
 ///|
-pub let texture_filter_anisotropic_4x : Int = 3
+pub const TextureFilterAnisotropic4x : Int = 3
 
 ///|
-pub let texture_filter_anisotropic_8x : Int = 4
+pub const TextureFilterAnisotropic8x : Int = 4
 
 ///|
-pub let texture_filter_anisotropic_16x : Int = 5
+pub const TextureFilterAnisotropic16x : Int = 5
 
 // ============================================================================
 // Texture wrap constants
 // ============================================================================
 
 ///|
-pub let texture_wrap_repeat : Int = 0
+pub const TextureWrapRepeat : Int = 0
 
 ///|
-pub let texture_wrap_clamp : Int = 1
+pub const TextureWrapClamp : Int = 1
 
 ///|
-pub let texture_wrap_mirror_repeat : Int = 2
+pub const TextureWrapMirrorRepeat : Int = 2
 
 ///|
-pub let texture_wrap_mirror_clamp : Int = 3
+pub const TextureWrapMirrorClamp : Int = 3
 
 // ============================================================================
 // Pixel format constants
 // ============================================================================
 
 ///|
-pub let pixelformat_uncompressed_grayscale : Int = 1
+pub const PixelformatUncompressedGrayscale : Int = 1
 
 ///|
-pub let pixelformat_uncompressed_gray_alpha : Int = 2
+pub const PixelformatUncompressedGrayAlpha : Int = 2
 
 ///|
-pub let pixelformat_uncompressed_r5g6b5 : Int = 3
+pub const PixelformatUncompressedR5g6b5 : Int = 3
 
 ///|
-pub let pixelformat_uncompressed_r8g8b8 : Int = 4
+pub const PixelformatUncompressedR8g8b8 : Int = 4
 
 ///|
-pub let pixelformat_uncompressed_r5g5b5a1 : Int = 5
+pub const PixelformatUncompressedR5g5b5a1 : Int = 5
 
 ///|
-pub let pixelformat_uncompressed_r4g4b4a4 : Int = 6
+pub const PixelformatUncompressedR4g4b4a4 : Int = 6
 
 ///|
-pub let pixelformat_uncompressed_r8g8b8a8 : Int = 7
+pub const PixelformatUncompressedR8g8b8a8 : Int = 7
 
 ///|
-pub let pixelformat_uncompressed_r32 : Int = 8
+pub const PixelformatUncompressedR32 : Int = 8
 
 ///|
-pub let pixelformat_uncompressed_r32g32b32 : Int = 9
+pub const PixelformatUncompressedR32g32b32 : Int = 9
 
 ///|
-pub let pixelformat_uncompressed_r32g32b32a32 : Int = 10
+pub const PixelformatUncompressedR32g32b32a32 : Int = 10
 
 // ============================================================================
 // Texture management extras (wrappers)
@@ -419,17 +419,17 @@ pub fn get_shapes_texture_rectangle() -> Rectangle {
 // ============================================================================
 
 ///|
-pub let cubemap_layout_auto_detect : Int = 0
+pub const CubemapLayoutAutoDetect : Int = 0
 
 ///|
-pub let cubemap_layout_line_vertical : Int = 1
+pub const CubemapLayoutLineVertical : Int = 1
 
 ///|
-pub let cubemap_layout_line_horizontal : Int = 2
+pub const CubemapLayoutLineHorizontal : Int = 2
 
 ///|
-pub let cubemap_layout_cross_three_by_four : Int = 3
+pub const CubemapLayoutCrossThreeByFour : Int = 3
 
 ///|
-pub let cubemap_layout_cross_four_by_three : Int = 4
+pub const CubemapLayoutCrossFourByThree : Int = 4
 

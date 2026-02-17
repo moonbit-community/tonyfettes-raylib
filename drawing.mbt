@@ -89,120 +89,120 @@ pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
 // Shader uniform type constants
 
 ///|
-pub let shader_uniform_float : Int = 0
+pub const ShaderUniformFloat : Int = 0
 
 ///|
-pub let shader_uniform_vec2 : Int = 1
+pub const ShaderUniformVec2 : Int = 1
 
 ///|
-pub let shader_uniform_vec3 : Int = 2
+pub const ShaderUniformVec3 : Int = 2
 
 ///|
-pub let shader_uniform_vec4 : Int = 3
+pub const ShaderUniformVec4 : Int = 3
 
 ///|
-pub let shader_uniform_int : Int = 4
+pub const ShaderUniformInt : Int = 4
 
 ///|
-pub let shader_uniform_ivec2 : Int = 5
+pub const ShaderUniformIvec2 : Int = 5
 
 ///|
-pub let shader_uniform_ivec3 : Int = 6
+pub const ShaderUniformIvec3 : Int = 6
 
 ///|
-pub let shader_uniform_ivec4 : Int = 7
+pub const ShaderUniformIvec4 : Int = 7
 
 ///|
-pub let shader_uniform_sampler2d : Int = 8
+pub const ShaderUniformSampler2d : Int = 8
 
 // Shader location index constants
 
 ///|
-pub let shader_loc_vertex_position : Int = 0
+pub const ShaderLocVertexPosition : Int = 0
 
 ///|
-pub let shader_loc_vertex_texcoord01 : Int = 1
+pub const ShaderLocVertexTexcoord01 : Int = 1
 
 ///|
-pub let shader_loc_vertex_texcoord02 : Int = 2
+pub const ShaderLocVertexTexcoord02 : Int = 2
 
 ///|
-pub let shader_loc_vertex_normal : Int = 3
+pub const ShaderLocVertexNormal : Int = 3
 
 ///|
-pub let shader_loc_vertex_tangent : Int = 4
+pub const ShaderLocVertexTangent : Int = 4
 
 ///|
-pub let shader_loc_vertex_color : Int = 5
+pub const ShaderLocVertexColor : Int = 5
 
 ///|
-pub let shader_loc_matrix_mvp : Int = 6
+pub const ShaderLocMatrixMvp : Int = 6
 
 ///|
-pub let shader_loc_matrix_view : Int = 7
+pub const ShaderLocMatrixView : Int = 7
 
 ///|
-pub let shader_loc_matrix_projection : Int = 8
+pub const ShaderLocMatrixProjection : Int = 8
 
 ///|
-pub let shader_loc_matrix_model : Int = 9
+pub const ShaderLocMatrixModel : Int = 9
 
 ///|
-pub let shader_loc_matrix_normal : Int = 10
+pub const ShaderLocMatrixNormal : Int = 10
 
 ///|
-pub let shader_loc_vector_view : Int = 11
+pub const ShaderLocVectorView : Int = 11
 
 ///|
-pub let shader_loc_color_diffuse : Int = 12
+pub const ShaderLocColorDiffuse : Int = 12
 
 ///|
-pub let shader_loc_color_specular : Int = 13
+pub const ShaderLocColorSpecular : Int = 13
 
 ///|
-pub let shader_loc_color_ambient : Int = 14
+pub const ShaderLocColorAmbient : Int = 14
 
 ///|
-pub let shader_loc_map_albedo : Int = 15
+pub const ShaderLocMapAlbedo : Int = 15
 
 ///|
-pub let shader_loc_map_metalness : Int = 16
+pub const ShaderLocMapMetalness : Int = 16
 
 ///|
-pub let shader_loc_map_normal : Int = 17
+pub const ShaderLocMapNormal : Int = 17
 
 ///|
-pub let shader_loc_map_roughness : Int = 18
+pub const ShaderLocMapRoughness : Int = 18
 
 ///|
-pub let shader_loc_map_occlusion : Int = 19
+pub const ShaderLocMapOcclusion : Int = 19
 
 ///|
-pub let shader_loc_map_emission : Int = 20
+pub const ShaderLocMapEmission : Int = 20
 
 ///|
-pub let shader_loc_map_height : Int = 21
+pub const ShaderLocMapHeight : Int = 21
 
 ///|
-pub let shader_loc_map_cubemap : Int = 22
+pub const ShaderLocMapCubemap : Int = 22
 
 ///|
-pub let shader_loc_map_irradiance : Int = 23
+pub const ShaderLocMapIrradiance : Int = 23
 
 ///|
-pub let shader_loc_map_prefilter : Int = 24
+pub const ShaderLocMapPrefilter : Int = 24
 
 ///|
-pub let shader_loc_map_brdf : Int = 25
+pub const ShaderLocMapBrdf : Int = 25
 
 ///|
-pub let shader_loc_vertex_boneids : Int = 26
+pub const ShaderLocVertexBoneids : Int = 26
 
 ///|
-pub let shader_loc_vertex_boneweights : Int = 27
+pub const ShaderLocVertexBoneweights : Int = 27
 
 ///|
-pub let shader_loc_bone_matrices : Int = 28
+pub const ShaderLocBoneMatrices : Int = 28
 // Blend mode constants
 
 ///|
@@ -299,67 +299,67 @@ pub fn rl_get_matrix_projection() -> Matrix {
 // rlgl draw mode constants
 
 ///|
-pub let rl_lines : Int = 0x0001
+pub const RlLines : Int = 0x0001
 
 ///|
-pub let rl_triangles : Int = 0x0004
+pub const RlTriangles : Int = 0x0004
 
 ///|
-pub let rl_quads : Int = 0x0007
+pub const RlQuads : Int = 0x0007
 
 // rlgl framebuffer target constants
 
 ///|
-pub let rl_read_framebuffer : UInt = 0x8CA8U
+pub const RlReadFramebuffer : UInt = 0x8CA8U
 
 ///|
-pub let rl_draw_framebuffer : UInt = 0x8CA9U
+pub const RlDrawFramebuffer : UInt = 0x8CA9U
 
 // rlgl framebuffer attach type constants
 
 ///|
-pub let rl_attachment_color_channel0 : Int = 0
+pub const RlAttachmentColorChannel0 : Int = 0
 
 ///|
-pub let rl_attachment_color_channel1 : Int = 1
+pub const RlAttachmentColorChannel1 : Int = 1
 
 ///|
-pub let rl_attachment_color_channel2 : Int = 2
+pub const RlAttachmentColorChannel2 : Int = 2
 
 ///|
-pub let rl_attachment_color_channel3 : Int = 3
+pub const RlAttachmentColorChannel3 : Int = 3
 
 ///|
-pub let rl_attachment_depth : Int = 100
+pub const RlAttachmentDepth : Int = 100
 
 ///|
-pub let rl_attachment_stencil : Int = 200
+pub const RlAttachmentStencil : Int = 200
 
 // rlgl framebuffer texture type constants
 
 ///|
-pub let rl_attachment_cubemap_positive_x : Int = 0
+pub const RlAttachmentCubemapPositiveX : Int = 0
 
 ///|
-pub let rl_attachment_cubemap_negative_x : Int = 1
+pub const RlAttachmentCubemapNegativeX : Int = 1
 
 ///|
-pub let rl_attachment_cubemap_positive_y : Int = 2
+pub const RlAttachmentCubemapPositiveY : Int = 2
 
 ///|
-pub let rl_attachment_cubemap_negative_y : Int = 3
+pub const RlAttachmentCubemapNegativeY : Int = 3
 
 ///|
-pub let rl_attachment_cubemap_positive_z : Int = 4
+pub const RlAttachmentCubemapPositiveZ : Int = 4
 
 ///|
-pub let rl_attachment_cubemap_negative_z : Int = 5
+pub const RlAttachmentCubemapNegativeZ : Int = 5
 
 ///|
-pub let rl_attachment_texture2d : Int = 100
+pub const RlAttachmentTexture2d : Int = 100
 
 ///|
-pub let rl_attachment_renderbuffer : Int = 200
+pub const RlAttachmentRenderbuffer : Int = 200
 
 // ============================================================================
 // VR stereo re-exports

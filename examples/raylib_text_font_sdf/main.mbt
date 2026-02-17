@@ -23,7 +23,7 @@ fn main {
     file_data,
     file_data.length(),
     16,
-    @raylib.font_default,
+    @raylib.FontDefault,
     4,
     0,
   )
@@ -34,7 +34,7 @@ fn main {
     file_data,
     file_data.length(),
     16,
-    @raylib.font_sdf,
+    @raylib.FontSdf,
     0,
     1,
   )
@@ -44,7 +44,7 @@ fn main {
     "",
     "resources/shaders/glsl330/sdf.fs",
   )
-  @raylib.set_font_texture_filter(font_sdf, @raylib.texture_filter_bilinear) // Required for SDF font
+  @raylib.set_font_texture_filter(font_sdf, @raylib.TextureFilterBilinear) // Required for SDF font
 
   let mut font_position_x : Float = 40.0
   let mut font_position_y : Float = Float::from_int(screen_height) / 2.0 - 50.0

@@ -46,7 +46,7 @@ fn main {
       shader,
       frame_loc,
       int_to_bytes(frames_counter),
-      @raylib.shader_uniform_int,
+      @raylib.ShaderUniformInt,
     )
 
     // Draw

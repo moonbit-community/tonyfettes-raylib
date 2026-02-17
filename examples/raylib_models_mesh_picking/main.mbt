@@ -22,7 +22,7 @@ fn main {
   let tower = @raylib.load_model("resources/models/obj/turret.obj")
   let texture = @raylib.load_texture("resources/models/obj/turret_diffuse.png")
   @raylib.set_model_material_texture(
-    tower, 0, @raylib.material_map_albedo, texture,
+    tower, 0, @raylib.MaterialMapAlbedo, texture,
   )
   let tower_pos = @raylib.Vector3::new(0.0, 0.0, 0.0)
   // Get mesh bounding box (using the first mesh)

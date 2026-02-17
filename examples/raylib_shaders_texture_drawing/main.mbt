@@ -31,7 +31,7 @@ fn main {
     shader,
     time_loc,
     float_to_bytes(time),
-    @raylib.shader_uniform_float,
+    @raylib.ShaderUniformFloat,
   )
   @raylib.set_target_fps(60)
   // Main game loop
@@ -42,7 +42,7 @@ fn main {
       shader,
       time_loc,
       float_to_bytes(time),
-      @raylib.shader_uniform_float,
+      @raylib.ShaderUniformFloat,
     )
     // Draw
     @raylib.begin_drawing()

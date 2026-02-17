@@ -27,7 +27,7 @@ fn main {
 
   // Render texture for fog of war
   let fog_of_war = @raylib.load_render_texture(tiles_x, tiles_y)
-  @raylib.set_render_texture_filter(fog_of_war, @raylib.texture_filter_bilinear)
+  @raylib.set_render_texture_filter(fog_of_war, @raylib.TextureFilterBilinear)
 
   @raylib.set_target_fps(60)
 

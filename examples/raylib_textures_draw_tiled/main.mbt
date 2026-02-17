@@ -220,7 +220,7 @@ fn main {
 
   // Load texture
   let tex_pattern = @raylib.load_texture("resources/patterns.png")
-  @raylib.set_texture_filter(tex_pattern, @raylib.texture_filter_trilinear)
+  @raylib.set_texture_filter(tex_pattern, @raylib.TextureFilterTrilinear)
 
   // Coordinates for all patterns inside the texture
   let rec_pattern = [

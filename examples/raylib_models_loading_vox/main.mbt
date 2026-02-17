@@ -96,7 +96,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.enabled_loc,
     int_to_bytes(enabled_val),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light type
@@ -104,7 +104,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.type_loc,
     int_to_bytes(light.light_type),
-    @raylib.shader_uniform_int,
+    @raylib.ShaderUniformInt,
   )
 
   // Send light position as vec3
@@ -112,7 +112,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.position_loc,
     vec3_to_bytes(light.position),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light target as vec3
@@ -120,7 +120,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.target_loc,
     vec3_to_bytes(light.target),
-    @raylib.shader_uniform_vec3,
+    @raylib.ShaderUniformVec3,
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
@@ -134,7 +134,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     shader,
     light.color_loc,
     vec4_to_bytes(color_normalized),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 }
 
@@ -216,7 +216,7 @@ fn main {
     shader,
     ambient_loc,
     vec4_to_bytes(ambient),
-    @raylib.shader_uniform_vec4,
+    @raylib.ShaderUniformVec4,
   )
 
   // Assign our lighting shader to model
@@ -321,7 +321,7 @@ fn main {
       shader,
       view_pos_loc,
       camera.position.to_bytes(),
-      @raylib.shader_uniform_vec3,
+      @raylib.ShaderUniformVec3,
     )
 
     // Update light values (actually, only enable/disable them)

@@ -59,10 +59,10 @@ pub fn NPatchInfo::from_bytes(b : Bytes) -> NPatchInfo {
 // NPatchLayout constants
 
 ///|
-pub let npatch_nine_patch : Int = 0
+pub const NpatchNinePatch : Int = 0
 
 ///|
-pub let npatch_three_patch_vertical : Int = 1
+pub const NpatchThreePatchVertical : Int = 1
 
 ///|
-pub let npatch_three_patch_horizontal : Int = 2
+pub const NpatchThreePatchHorizontal : Int = 2

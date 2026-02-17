@@ -25,7 +25,7 @@ fn main {
     "resources/models/obj/castle_diffuse.png",
   )
   @raylib.set_model_material_texture(
-    model, 0, @raylib.material_map_albedo, texture,
+    model, 0, @raylib.MaterialMapAlbedo, texture,
   )
 
   let position = @raylib.Vector3::new(0.0, 0.0, 0.0)
@@ -55,14 +55,14 @@ fn main {
           @raylib.unload_model(model)
           model = @raylib.load_model(file_path)
           @raylib.set_model_material_texture(
-            model, 0, @raylib.material_map_albedo, texture,
+            model, 0, @raylib.MaterialMapAlbedo, texture,
           )
           bounds = @raylib.get_model_bounding_box(model)
         } else if @raylib.is_file_extension(file_path, ".png") {
           @raylib.unload_texture(texture)
           texture = @raylib.load_texture(file_path)
           @raylib.set_model_material_texture(
-            model, 0, @raylib.material_map_albedo, texture,
+            model, 0, @raylib.MaterialMapAlbedo, texture,
           )
         }
       }

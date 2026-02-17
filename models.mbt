@@ -647,37 +647,37 @@ pub fn draw_mesh_instanced(
 // ============================================================================
 
 ///|
-pub let material_map_albedo : Int = 0
+pub const MaterialMapAlbedo : Int = 0
 
 ///|
-pub let material_map_metalness : Int = 1
+pub const MaterialMapMetalness : Int = 1
 
 ///|
-pub let material_map_normal : Int = 2
+pub const MaterialMapNormal : Int = 2
 
 ///|
-pub let material_map_roughness : Int = 3
+pub const MaterialMapRoughness : Int = 3
 
 ///|
-pub let material_map_occlusion : Int = 4
+pub const MaterialMapOcclusion : Int = 4
 
 ///|
-pub let material_map_emission : Int = 5
+pub const MaterialMapEmission : Int = 5
 
 ///|
-pub let material_map_height : Int = 6
+pub const MaterialMapHeight : Int = 6
 
 ///|
-pub let material_map_cubemap : Int = 7
+pub const MaterialMapCubemap : Int = 7
 
 ///|
-pub let material_map_irradiance : Int = 8
+pub const MaterialMapIrradiance : Int = 8
 
 ///|
-pub let material_map_prefilter : Int = 9
+pub const MaterialMapPrefilter : Int = 9
 
 ///|
-pub let material_map_brdf : Int = 10
+pub const MaterialMapBrdf : Int = 10
 
 ///|
 pub fn set_material_map_color(material : Material, map_type : Int, color : Color) -> Unit {

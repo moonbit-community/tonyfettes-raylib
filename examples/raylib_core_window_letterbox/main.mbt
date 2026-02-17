@@ -27,7 +27,7 @@ fn main {
   let target = @raylib.load_render_texture(
     game_screen_width, game_screen_height,
   )
-  @raylib.set_render_texture_filter(target, @raylib.texture_filter_bilinear)
+  @raylib.set_render_texture_filter(target, @raylib.TextureFilterBilinear)
 
   let colors : Array[@raylib.Color] = Array::make(10, @raylib.black)
   for i in 0..<10 {

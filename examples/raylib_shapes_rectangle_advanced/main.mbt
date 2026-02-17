@@ -87,7 +87,7 @@ fn draw_rectangle_rounded_gradient_h(
   let centers_y = [point8_y, point9_y, point10_y, point11_y]
   let angles : FixedArray[Float] = [180.0, 270.0, 0.0, 90.0]
 
-  @raylib.rl_begin(@raylib.rl_triangles)
+  @raylib.rl_begin(@raylib.RlTriangles)
 
   // Draw all of the 4 corners: [1] Upper Left Corner, [3] Upper Right Corner, [5] Lower Right Corner, [7] Lower Left Corner
   for k = 0; k < 4; k = k + 1 {

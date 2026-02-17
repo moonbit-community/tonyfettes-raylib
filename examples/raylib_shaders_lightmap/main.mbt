@@ -62,24 +62,24 @@ fn main {
   let light = @raylib.load_texture("resources/spark_flame.png")
 
   @raylib.gen_texture_mipmaps(texture)
-  @raylib.set_texture_filter(texture, @raylib.texture_filter_trilinear)
+  @raylib.set_texture_filter(texture, @raylib.TextureFilterTrilinear)
 
   let lightmap = @raylib.load_render_texture(map_size, map_size)
 
-  @raylib.set_render_texture_filter(lightmap, @raylib.texture_filter_trilinear)
+  @raylib.set_render_texture_filter(lightmap, @raylib.TextureFilterTrilinear)
 
   let material = @raylib.load_material_default()
   @raylib.set_material_shader(material, shader)
   @raylib.set_material_texture(
     material,
-    @raylib.material_map_albedo,
+    @raylib.MaterialMapAlbedo,
     texture,
   )
   // Set lightmap texture on METALNESS map slot (used as texture1 in shader)
   let lightmap_tex = @raylib.get_render_texture_texture(lightmap)
   @raylib.set_material_texture(
     material,
-    @raylib.material_map_metalness,
+    @raylib.MaterialMapMetalness,
     lightmap_tex,
   )
 

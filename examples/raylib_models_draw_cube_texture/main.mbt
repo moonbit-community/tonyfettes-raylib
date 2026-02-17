@@ -15,7 +15,7 @@ fn draw_cube_texture(
   // Set desired texture to be enabled while drawing following vertex data
   @raylib.rl_set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
-  @raylib.rl_begin(@raylib.rl_quads)
+  @raylib.rl_begin(@raylib.RlQuads)
   @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
 
   // Front Face
@@ -110,7 +110,7 @@ fn draw_cube_texture_rec(
 
   // We calculate the normalized texture coordinates for the desired texture-source-rectangle
   // It means converting from (tex.width, tex.height) coordinates to [0.0, 1.0] equivalent
-  @raylib.rl_begin(@raylib.rl_quads)
+  @raylib.rl_begin(@raylib.RlQuads)
   @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
 
   // Front face

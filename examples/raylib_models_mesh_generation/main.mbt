@@ -45,7 +45,7 @@ fn main {
     @raylib.set_model_material_texture(
       models[i],
       0,
-      @raylib.material_map_albedo,
+      @raylib.MaterialMapAlbedo,
       texture,
     )
   }

@@ -89,7 +89,7 @@ fn draw_text_codepoint_3d(
     @raylib.rl_set_texture(texture_id.reinterpret_as_uint())
     @raylib.rl_push_matrix()
     @raylib.rl_translatef(pos_x, position.y, pos_z)
-    @raylib.rl_begin(@raylib.rl_quads)
+    @raylib.rl_begin(@raylib.RlQuads)
     @raylib.rl_color4ub(tint.r, tint.g, tint.b, tint.a)
     // Front Face
     @raylib.rl_normal3f(0.0, 1.0, 0.0)
