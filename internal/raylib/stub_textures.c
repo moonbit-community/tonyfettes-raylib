@@ -259,6 +259,53 @@ moonbit_raylib_load_render_texture(int width, int height) {
   return w;
 }
 
+// Load custom render texture with writable depth texture buffer
+// (instead of default renderbuffer used by LoadRenderTexture)
+RenderTextureWrapper *
+moonbit_raylib_load_render_texture_depth_tex(int width, int height) {
+  RenderTextureWrapper *w =
+    (RenderTextureWrapper *)moonbit_make_external_object(
+      render_texture_destructor, sizeof(RenderTextureWrapper)
+    );
+
+  RenderTexture2D target = { 0 };
+  target.id = rlLoadFramebuffer();
+
+  if (target.id > 0) {
+    rlEnableFramebuffer(target.id);
+
+    // Create color texture (default to RGBA)
+    target.texture.id = rlLoadTexture(NULL, width, height, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 1);
+    target.texture.width = width;
+    target.texture.height = height;
+    target.texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+    target.texture.mipmaps = 1;
+
+    // Create depth texture buffer (instead of default renderbuffer)
+    target.depth.id = rlLoadTextureDepth(width, height, false);
+    target.depth.width = width;
+    target.depth.height = height;
+    target.depth.format = 19; // DEPTH_COMPONENT_24BIT
+    target.depth.mipmaps = 1;
+
+    // Attach color texture and depth texture to FBO
+    rlFramebufferAttach(target.id, target.texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
+    rlFramebufferAttach(target.id, target.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0);
+
+    // Check if fbo is complete with attachments (valid)
+    if (rlFramebufferComplete(target.id))
+      TRACELOG(LOG_INFO, "FBO: [ID %i] Framebuffer object created successfully", target.id);
+
+    rlDisableFramebuffer();
+  } else {
+    TRACELOG(LOG_WARNING, "FBO: Framebuffer object can not be created");
+  }
+
+  w->render_texture = target;
+  w->freed = 0;
+  return w;
+}
+
 int
 moonbit_raylib_is_render_texture_valid(RenderTextureWrapper *wrapper) {
   return (int)IsRenderTextureValid(wrapper->render_texture);

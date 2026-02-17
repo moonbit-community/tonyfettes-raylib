@@ -167,6 +167,12 @@ pub extern "c" fn load_render_texture(
 ) -> RenderTexture = "moonbit_raylib_load_render_texture"
 
 ///|
+pub extern "c" fn load_render_texture_depth_tex(
+  width : Int,
+  height : Int,
+) -> RenderTexture = "moonbit_raylib_load_render_texture_depth_tex"
+
+///|
 #borrow(target)
 pub extern "c" fn is_render_texture_valid(target : RenderTexture) -> Bool = "moonbit_raylib_is_render_texture_valid"
 
