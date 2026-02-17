@@ -619,3 +619,75 @@ moonbit_raylib_get_render_texture_texture(RenderTextureWrapper *wrapper) {
   tw->freed = 1; // Don't unload - owned by render texture
   return tw;
 }
+
+// ============================================================================
+// RenderTexture: Get IDs for rlgl-level operations
+// ============================================================================
+
+unsigned int
+moonbit_raylib_get_render_texture_fbo_id(RenderTextureWrapper *wrapper) {
+  return wrapper->render_texture.id;
+}
+
+unsigned int
+moonbit_raylib_get_render_texture_depth_id(RenderTextureWrapper *wrapper) {
+  return wrapper->render_texture.depth.id;
+}
+
+// ============================================================================
+// Shadowmap: Load a depth-only render texture for shadow mapping
+// ============================================================================
+
+RenderTextureWrapper *
+moonbit_raylib_load_shadowmap_render_texture(int width, int height) {
+  RenderTextureWrapper *w =
+    (RenderTextureWrapper *)moonbit_make_external_object(
+      render_texture_destructor, sizeof(RenderTextureWrapper)
+  );
+  w->freed = 0;
+
+  RenderTexture2D target = { 0 };
+  target.id = rlLoadFramebuffer();
+  target.texture.width = width;
+  target.texture.height = height;
+
+  if (target.id > 0) {
+    rlEnableFramebuffer(target.id);
+
+    // Create depth texture (no color texture needed for shadow mapping)
+    target.depth.id = rlLoadTextureDepth(width, height, false);
+    target.depth.width = width;
+    target.depth.height = height;
+    target.depth.format = 19; // DEPTH_COMPONENT_24BIT
+    target.depth.mipmaps = 1;
+
+    // Attach depth texture to FBO
+    rlFramebufferAttach(target.id, target.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0);
+
+    // Verify framebuffer is complete
+    if (rlFramebufferComplete(target.id)) {
+      TraceLog(LOG_INFO, "FBO: [ID %i] Shadowmap framebuffer object created successfully", target.id);
+    }
+
+    rlDisableFramebuffer();
+  } else {
+    TraceLog(LOG_WARNING, "FBO: Shadowmap framebuffer object can not be created");
+  }
+
+  w->render_texture = target;
+  return w;
+}
+
+// ============================================================================
+// Unload shadowmap (just unload the framebuffer, depth is auto-cleaned)
+// ============================================================================
+
+void
+moonbit_raylib_unload_shadowmap_render_texture(RenderTextureWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    if (wrapper->render_texture.id > 0) {
+      rlUnloadFramebuffer(wrapper->render_texture.id);
+    }
+    wrapper->freed = 1;
+  }
+}

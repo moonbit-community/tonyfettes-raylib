@@ -224,3 +224,32 @@ moonbit_raylib_vr_stereo_config_scale_in(VrStereoConfigWrapper *w) {
   memcpy(res, w->config.scaleIn, sizeof(float) * 2);
   return res;
 }
+
+// ============================================================================
+// rlgl: Matrix getters
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_rl_get_matrix_modelview(void) {
+  Matrix m = rlGetMatrixModelview();
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Matrix), 0);
+  memcpy(res, &m, sizeof(Matrix));
+  return res;
+}
+
+moonbit_bytes_t
+moonbit_raylib_rl_get_matrix_projection(void) {
+  Matrix m = rlGetMatrixProjection();
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Matrix), 0);
+  memcpy(res, &m, sizeof(Matrix));
+  return res;
+}
+
+// ============================================================================
+// rlgl: SetUniform (low-level uniform setting)
+// ============================================================================
+
+void
+moonbit_raylib_rl_set_uniform(int loc_index, moonbit_bytes_t value, int uniform_type, int count) {
+  rlSetUniform(loc_index, (const void *)value, uniform_type, count);
+}
