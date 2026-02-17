@@ -668,6 +668,18 @@ pub let material_map_emission : Int = 5
 pub let material_map_height : Int = 6
 
 ///|
+pub let material_map_cubemap : Int = 7
+
+///|
+pub let material_map_irradiance : Int = 8
+
+///|
+pub let material_map_prefilter : Int = 9
+
+///|
+pub let material_map_brdf : Int = 10
+
+///|
 pub fn set_material_map_color(material : Material, map_type : Int, color : Color) -> Unit {
   @raylib.set_material_map_color(material, map_type, color.to_bytes())
 }
