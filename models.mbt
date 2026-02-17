@@ -754,3 +754,53 @@ pub fn get_model_mesh(model : Model, index : Int) -> Mesh {
 pub fn get_model_transform(model : Model) -> Matrix {
   Matrix::from_bytes(@raylib.get_model_transform(model))
 }
+
+///|
+pub fn get_model_material_count(model : Model) -> Int {
+  @raylib.get_model_material_count(model)
+}
+
+///|
+pub fn get_model_material(model : Model, index : Int) -> Material {
+  @raylib.get_model_material(model, index)
+}
+
+///|
+pub fn get_model_bone_count(model : Model) -> Int {
+  @raylib.get_model_bone_count(model)
+}
+
+///|
+pub fn get_model_bone_parent(model : Model, bone_index : Int) -> Int {
+  @raylib.get_model_bone_parent(model, bone_index)
+}
+
+///|
+pub fn get_model_bind_pose_translation(model : Model, bone_index : Int) -> Vector3 {
+  Vector3::from_bytes(@raylib.get_model_bind_pose_translation(model, bone_index))
+}
+
+///|
+pub fn get_model_animation_frame_count(anims : ModelAnimations, anim_index : Int) -> Int {
+  @raylib.get_model_animation_frame_count(anims, anim_index)
+}
+
+///|
+pub fn get_model_animation_bone_count(anims : ModelAnimations, anim_index : Int) -> Int {
+  @raylib.get_model_animation_bone_count(anims, anim_index)
+}
+
+///|
+pub fn get_model_animation_bone_parent(anims : ModelAnimations, anim_index : Int, bone_index : Int) -> Int {
+  @raylib.get_model_animation_bone_parent(anims, anim_index, bone_index)
+}
+
+///|
+pub fn get_model_animation_frame_pose_translation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector3 {
+  Vector3::from_bytes(@raylib.get_model_animation_frame_pose_translation(anims, anim_index, frame, bone_index))
+}
+
+///|
+pub fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector4 {
+  Vector4::from_bytes(@raylib.get_model_animation_frame_pose_rotation(anims, anim_index, frame, bone_index))
+}

@@ -1141,3 +1141,139 @@ moonbit_raylib_get_model_transform(ModelWrapper *model_wrapper) {
   memcpy(r, &model_wrapper->model.transform, sizeof(Matrix));
   return r;
 }
+
+// ============================================================================
+// Model: get material count
+// ============================================================================
+
+int
+moonbit_raylib_get_model_material_count(ModelWrapper *model_wrapper) {
+  return model_wrapper->model.materialCount;
+}
+
+// ============================================================================
+// Model: get material by index (non-owning MaterialWrapper)
+// ============================================================================
+
+static void material_noop_destructor(void *ptr) {
+  // No-op: the material is owned by the model, not by this wrapper
+  (void)ptr;
+}
+
+MaterialWrapper *
+moonbit_raylib_get_model_material(ModelWrapper *model_wrapper, int index) {
+  MaterialWrapper *mw = (MaterialWrapper *)moonbit_make_external_object(
+    material_noop_destructor, sizeof(MaterialWrapper));
+  if (index >= 0 && index < model_wrapper->model.materialCount) {
+    mw->material = model_wrapper->model.materials[index];
+  } else {
+    memset(&mw->material, 0, sizeof(Material));
+  }
+  mw->freed = 1; // Non-owning
+  return mw;
+}
+
+// ============================================================================
+// Model: get bone count
+// ============================================================================
+
+int
+moonbit_raylib_get_model_bone_count(ModelWrapper *model_wrapper) {
+  return model_wrapper->model.boneCount;
+}
+
+// ============================================================================
+// Model: get bone parent
+// ============================================================================
+
+int
+moonbit_raylib_get_model_bone_parent(ModelWrapper *model_wrapper, int bone_index) {
+  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
+    return model_wrapper->model.bones[bone_index].parent;
+  }
+  return -1;
+}
+
+// ============================================================================
+// Model: get bind pose translation (Vector3 as Bytes)
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_bind_pose_translation(ModelWrapper *model_wrapper, int bone_index) {
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
+  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
+    memcpy(r, &model_wrapper->model.bindPose[bone_index].translation, sizeof(Vector3));
+  }
+  return r;
+}
+
+// ============================================================================
+// ModelAnimations: get animation frame count
+// ============================================================================
+
+int
+moonbit_raylib_get_model_animation_frame_count(ModelAnimationsWrapper *wrapper, int anim_index) {
+  if (anim_index >= 0 && anim_index < wrapper->count) {
+    return wrapper->anims[anim_index].frameCount;
+  }
+  return 0;
+}
+
+// ============================================================================
+// ModelAnimations: get animation bone count
+// ============================================================================
+
+int
+moonbit_raylib_get_model_animation_bone_count(ModelAnimationsWrapper *wrapper, int anim_index) {
+  if (anim_index >= 0 && anim_index < wrapper->count) {
+    return wrapper->anims[anim_index].boneCount;
+  }
+  return 0;
+}
+
+// ============================================================================
+// ModelAnimations: get animation bone parent
+// ============================================================================
+
+int
+moonbit_raylib_get_model_animation_bone_parent(ModelAnimationsWrapper *wrapper, int anim_index, int bone_index) {
+  if (anim_index >= 0 && anim_index < wrapper->count &&
+      bone_index >= 0 && bone_index < wrapper->anims[anim_index].boneCount) {
+    return wrapper->anims[anim_index].bones[bone_index].parent;
+  }
+  return -1;
+}
+
+// ============================================================================
+// ModelAnimations: get frame pose translation (Vector3 as Bytes)
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_animation_frame_pose_translation(
+  ModelAnimationsWrapper *wrapper, int anim_index, int frame, int bone_index
+) {
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
+  if (anim_index >= 0 && anim_index < wrapper->count &&
+      frame >= 0 && frame < wrapper->anims[anim_index].frameCount &&
+      bone_index >= 0 && bone_index < wrapper->anims[anim_index].boneCount) {
+    memcpy(r, &wrapper->anims[anim_index].framePoses[frame][bone_index].translation, sizeof(Vector3));
+  }
+  return r;
+}
+
+// ============================================================================
+// ModelAnimations: get frame pose rotation (Quaternion/Vector4 as Bytes)
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_animation_frame_pose_rotation(
+  ModelAnimationsWrapper *wrapper, int anim_index, int frame, int bone_index
+) {
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
+  if (anim_index >= 0 && anim_index < wrapper->count &&
+      frame >= 0 && frame < wrapper->anims[anim_index].frameCount &&
+      bone_index >= 0 && bone_index < wrapper->anims[anim_index].boneCount) {
+    memcpy(r, &wrapper->anims[anim_index].framePoses[frame][bone_index].rotation, sizeof(Vector4));
+  }
+  return r;
+}

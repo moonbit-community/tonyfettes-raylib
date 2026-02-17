@@ -411,6 +411,17 @@ moonbit_raylib_gen_texture_mipmaps(TextureWrapper *wrapper) {
 }
 
 void
+moonbit_raylib_update_texture_from_image_frame(TextureWrapper *tw, ImageWrapper *iw, int frame) {
+  int offset = iw->image.width * iw->image.height * 4 * frame;
+  UpdateTexture(tw->texture, ((unsigned char *)iw->image.data) + offset);
+}
+
+int
+moonbit_raylib_get_texture_id(TextureWrapper *wrapper) {
+  return (int)wrapper->texture.id;
+}
+
+void
 moonbit_raylib_set_shapes_texture(TextureWrapper *wrapper, moonbit_bytes_t source) {
   Rectangle r; memcpy(&r, source, sizeof(Rectangle));
   SetShapesTexture(wrapper->texture, r);

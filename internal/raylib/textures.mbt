@@ -342,6 +342,18 @@ pub extern "c" fn update_texture_rec(
 pub extern "c" fn gen_texture_mipmaps(texture : Texture) = "moonbit_raylib_gen_texture_mipmaps"
 
 ///|
+#borrow(texture, image)
+pub extern "c" fn update_texture_from_image_frame(
+  texture : Texture,
+  image : Image,
+  frame : Int,
+) = "moonbit_raylib_update_texture_from_image_frame"
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_id(texture : Texture) -> Int = "moonbit_raylib_get_texture_id"
+
+///|
 #borrow(texture, source)
 pub extern "c" fn set_shapes_texture(texture : Texture, source : Bytes) = "moonbit_raylib_set_shapes_texture"
 

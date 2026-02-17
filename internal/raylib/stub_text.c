@@ -63,6 +63,35 @@ moonbit_raylib_get_font_base_size(FontWrapper *wrapper) {
   return wrapper->font.baseSize;
 }
 
+int
+moonbit_raylib_get_font_glyph_count(FontWrapper *wrapper) {
+  return wrapper->font.glyphCount;
+}
+
+int
+moonbit_raylib_get_font_glyph_padding(FontWrapper *wrapper) {
+  return wrapper->font.glyphPadding;
+}
+
+TextureWrapper *
+moonbit_raylib_get_font_texture(FontWrapper *wrapper) {
+  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
+    NULL, sizeof(TextureWrapper));
+  tw->texture = wrapper->font.texture;
+  tw->freed = 1; // Don't unload - owned by the font
+  return tw;
+}
+
+void
+moonbit_raylib_gen_font_texture_mipmaps(FontWrapper *wrapper) {
+  GenTextureMipmaps(&wrapper->font.texture);
+}
+
+void
+moonbit_raylib_set_font_texture_filter(FontWrapper *wrapper, int filter) {
+  SetTextureFilter(wrapper->font.texture, filter);
+}
+
 // ============================================================================
 // Text: Drawing
 // ============================================================================

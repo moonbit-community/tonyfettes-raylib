@@ -25,6 +25,26 @@ pub extern "c" fn unload_font(font : Font) = "moonbit_raylib_unload_font"
 #borrow(font)
 pub extern "c" fn get_font_base_size(font : Font) -> Int = "moonbit_raylib_get_font_base_size"
 
+///|
+#borrow(font)
+pub extern "c" fn get_font_glyph_count(font : Font) -> Int = "moonbit_raylib_get_font_glyph_count"
+
+///|
+#borrow(font)
+pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_get_font_glyph_padding"
+
+///|
+#borrow(font)
+pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
+
+///|
+#borrow(font)
+pub extern "c" fn gen_font_texture_mipmaps(font : Font) -> Unit = "moonbit_raylib_gen_font_texture_mipmaps"
+
+///|
+#borrow(font)
+pub extern "c" fn set_font_texture_filter(font : Font, filter : Int) -> Unit = "moonbit_raylib_set_font_texture_filter"
+
 // ============================================================================
 // Text drawing
 // ============================================================================
