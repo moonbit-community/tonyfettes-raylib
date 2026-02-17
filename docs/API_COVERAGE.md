@@ -1,6 +1,6 @@
 # Raylib MoonBit Binding — API Coverage & Progress Report
 
-*Generated: 2026-02-17 | raylib version: 5.5 | Target: native only*
+*Generated: 2026-02-18 | raylib version: 5.5 | Target: native only*
 
 ## Executive Summary
 
@@ -9,15 +9,20 @@
 | Raylib C API functions (RLAPI) | 581 | — |
 | MoonBit FFI bindings (`extern "c"`) | ~583 | — |
 | Bindable API covered | ~545 / ~549 | **~99%** |
+| rlgl functions bound | ~50 | — |
 | Intentionally not bound | ~32 | — |
 | Official raylib examples | 209 | — |
-| Examples ported to MoonBit | ~122 | **~60%** |
+| Examples ported to MoonBit | 147 | **~70%** |
 
 The binding covers virtually all of the raylib 5.5 API that is meaningful to bind
 from a GC-managed language. The remaining unbound functions are either
 callback-based (requiring function pointers), C text utilities (redundant with
 MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
+
+In addition to the core raylib API, ~50 rlgl low-level OpenGL abstraction layer
+functions are bound, covering geometry submission, matrix stack, framebuffer
+management, shader management, texture management, and state control.
 
 ---
 
@@ -56,13 +61,58 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `BeginVrStereoMode`, `EndVrStereoMode` | |
 | Bound | `LoadVrStereoConfig`, `UnloadVrStereoConfig` | |
 
-**rlgl low-level functions (partial):**
+### 1.3 rlgl Low-Level OpenGL Abstraction
 
 | Status | Function | Notes |
 |--------|----------|-------|
-| Bound | `rlSetBlendMode`, `rlSetBlendFactors`, `rlDrawRenderBatchActive` | Used for custom blend modes |
+| Bound | `rlSetBlendMode`, `rlSetBlendFactors`, `rlDrawRenderBatchActive` | Custom blend modes |
+| Bound | `rlBegin`, `rlEnd` | Immediate-mode geometry submission |
+| Bound | `rlVertex2f`, `rlVertex3f` | Vertex position |
+| Bound | `rlTexCoord2f` | Texture coordinates |
+| Bound | `rlColor4ub` | Vertex color |
+| Bound | `rlNormal3f` | Vertex normal |
+| Bound | `rlSetTexture` | Bind texture for geometry |
+| Bound | `rlPushMatrix`, `rlPopMatrix` | Matrix stack |
+| Bound | `rlTranslatef`, `rlRotatef`, `rlScalef`, `rlMultMatrixf` | Matrix transforms |
+| Bound | `rlEnableBackfaceCulling`, `rlDisableBackfaceCulling` | Culling state |
+| Bound | `rlCheckRenderBatchLimit` | Batch overflow check |
+| Bound | `rlEnableDepthTest`, `rlDisableDepthTest` | Depth test state |
+| Bound | `rlEnableDepthMask`, `rlDisableDepthMask` | Depth write state |
+| Bound | `rlEnableColorBlend`, `rlDisableColorBlend` | Color blend state |
+| Bound | `rlActiveTextureSlot` | Multi-texture slot selection |
+| Bound | `rlEnableTexture`, `rlDisableTexture` | Texture binding |
+| Bound | `rlEnableShader`, `rlDisableShader` | Shader binding |
+| Bound | `rlEnableFramebuffer`, `rlDisableFramebuffer` | FBO binding |
+| Bound | `rlActiveDrawBuffers` | MRT draw buffer count |
+| Bound | `rlViewport` | Viewport configuration |
+| Bound | `rlClearScreenBuffers` | Clear all buffers |
+| Bound | `rlLoadFramebuffer`, `rlFramebufferComplete`, `rlFramebufferAttach`, `rlUnloadFramebuffer` | FBO lifecycle |
+| Bound | `rlLoadTextureDepth`, `rlLoadTexture`, `rlUnloadTexture` | Texture management |
+| Bound | `rlGetLocationUniform` | Shader uniform location (wrapper: String→Bytes) |
+| Bound | `rlSetUniform`, `rlSetUniformSampler` | Shader uniform setting |
+| Bound | `rlGetShaderIdDefault` | Default shader ID |
+| Bound | `rlGetMatrixModelview`, `rlGetMatrixProjection` | Matrix getters (wrapper: Bytes→Matrix) |
+| Bound | `rlLoadDrawQuad`, `rlLoadDrawCube` | Built-in geometry |
+| Bound | `rlGetFramebufferWidth`, `rlGetFramebufferHeight` | Framebuffer dimensions |
+| Bound | `rlBindFramebuffer`, `rlBlitFramebuffer` | Low-level FBO ops |
 
-### 1.3 Core: Shader Management
+**rlgl constants:**
+
+| Constant | Value | Notes |
+|----------|-------|-------|
+| `rl_lines` | 0x0001 | Line draw mode |
+| `rl_triangles` | 0x0004 | Triangle draw mode |
+| `rl_quads` | 0x0007 | Quad draw mode |
+| `rl_read_framebuffer` | 0x8CA8 | Read FBO target |
+| `rl_draw_framebuffer` | 0x8CA9 | Draw FBO target |
+| `rl_attachment_color_channel0..3` | 0–3 | Color attachment slots |
+| `rl_attachment_depth` | 100 | Depth attachment |
+| `rl_attachment_stencil` | 200 | Stencil attachment |
+| `rl_attachment_cubemap_positive/negative_x/y/z` | 0–5 | Cubemap face attachments |
+| `rl_attachment_texture2d` | 100 | Texture2D attachment type |
+| `rl_attachment_renderbuffer` | 200 | Renderbuffer attachment type |
+
+### 1.4 Core: Shader Management
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -70,7 +120,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `GetShaderLocation`, `GetShaderLocationAttrib` | |
 | Bound | `SetShaderValue`, `SetShaderValueV`, `SetShaderValueMatrix`, `SetShaderValueTexture` | |
 
-### 1.4 Core: Screen-Space & Camera
+### 1.5 Core: Screen-Space & Camera
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -79,14 +129,14 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `GetScreenToWorld2D` | |
 | Bound | `GetCameraMatrix`, `GetCameraMatrix2D` | |
 
-### 1.5 Core: Timing & Frame Control
+### 1.6 Core: Timing & Frame Control
 
 | Status | Function | Notes |
 |--------|----------|-------|
 | Bound | `SetTargetFPS`, `GetFrameTime`, `GetTime`, `GetFPS` | |
 | Bound | `SwapScreenBuffer`, `PollInputEvents`, `WaitTime` | |
 
-### 1.6 Core: Misc Utilities
+### 1.7 Core: Misc Utilities
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -100,7 +150,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | N/A | `SetLoadFileDataCallback`, `SetSaveFileDataCallback` | Requires C function pointer callback |
 | N/A | `SetLoadFileTextCallback`, `SetSaveFileTextCallback` | Requires C function pointer callback |
 
-### 1.7 Core: File System
+### 1.8 Core: File System
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -115,7 +165,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `GetFileModTime` | |
 | N/A | `UnloadFileData`, `UnloadFileText` | GC-managed — freed automatically |
 
-### 1.8 Core: Automation Events
+### 1.9 Core: Automation Events
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -124,14 +174,14 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `StartAutomationEventRecording`, `StopAutomationEventRecording` | |
 | Bound | `PlayAutomationEvent` | |
 
-### 1.9 Core: Input — Keyboard
+### 1.10 Core: Input — Keyboard
 
 | Status | Function | Notes |
 |--------|----------|-------|
 | Bound | `IsKeyPressed`, `IsKeyPressedRepeat`, `IsKeyDown`, `IsKeyReleased`, `IsKeyUp` | |
 | Bound | `GetKeyPressed`, `GetCharPressed`, `SetExitKey` | |
 
-### 1.10 Core: Input — Gamepad
+### 1.11 Core: Input — Gamepad
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -140,7 +190,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `GetGamepadAxisCount`, `GetGamepadAxisMovement` | |
 | Bound | `SetGamepadMappings`, `SetGamepadVibration` | |
 
-### 1.11 Core: Input — Mouse
+### 1.12 Core: Input — Mouse
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -149,7 +199,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `SetMousePosition`, `SetMouseOffset`, `SetMouseScale` | |
 | Bound | `GetMouseWheelMove`, `GetMouseWheelMoveV`, `SetMouseCursor` | |
 
-### 1.12 Core: Input — Touch & Gestures
+### 1.13 Core: Input — Touch & Gestures
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -157,13 +207,13 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `SetGesturesEnabled`, `IsGestureDetected`, `GetGestureDetected` | |
 | Bound | `GetGestureHoldDuration`, `GetGestureDragVector/Angle`, `GetGesturePinchVector/Angle` | |
 
-### 1.13 Core: Camera
+### 1.14 Core: Camera
 
 | Status | Function | Notes |
 |--------|----------|-------|
 | Bound | `UpdateCamera`, `UpdateCameraPro` | |
 
-### 1.14 Shapes (rshapes)
+### 1.15 Shapes (rshapes)
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -181,7 +231,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 
 **Shapes: 100% coverage**
 
-### 1.15 Textures (rtextures)
+### 1.16 Textures (rtextures)
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -218,10 +268,15 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | `get_texture_width/height` | Access Texture dimensions |
 | `image_width/height` | Access Image dimensions |
 | `image_frame_count` | Get animated image frame count |
+| `load_render_texture_depth_tex` | RenderTexture with writable depth texture (for depth-writing shaders) |
+| `load_shadowmap_render_texture` | Depth-only FBO for shadow mapping |
+| `get_render_texture_fbo_id` | Get raw OpenGL FBO ID |
+| `get_render_texture_depth_id` | Get raw depth texture/renderbuffer ID |
+| `texture_from_id` | Create non-owning Texture from raw GL texture ID |
 
 **Textures: ~99% coverage** (2 low-level functions missing)
 
-### 1.16 Text (rtext)
+### 1.17 Text (rtext)
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -237,9 +292,16 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | N/A | `TextCopy/IsEqual/Length/Format/Subtext/Replace/Insert/Join/Split/Append/FindIndex` | Redundant with MoonBit `String` |
 | N/A | `TextToUpper/Lower/Pascal/Snake/Camel/Integer/Float` | Redundant with MoonBit `String` |
 
+**Additional Text helpers (MoonBit-side):**
+
+| Function | Notes |
+|----------|-------|
+| `load_font_ex_codepoints` | Load font with specific codepoint array |
+| `build_font_from_data` | Construct Font from LoadFontData + GenImageFontAtlas + LoadTextureFromImage |
+
 **Text: 100% of meaningful API covered** (18 C string utilities skipped by design)
 
-### 1.17 Models (rmodels)
+### 1.18 Models (rmodels)
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -261,7 +323,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | Bound | `CheckCollisionSpheres/Boxes/BoxSphere` | |
 | Bound | `GetRayCollisionSphere/Box/Mesh/Triangle/Quad` | |
 
-**Additional Model helpers (MoonBit-side):**
+**Additional Model/Mesh helpers (MoonBit-side):**
 
 | Function | Notes |
 |----------|-------|
@@ -269,10 +331,18 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 | `get_model_mesh_count/get_model_mesh` | Access Model meshes by index |
 | `set_model_material_shader` | Set shader on a model's material |
 | `set_model_material_texture` | Set texture on a model's material map |
+| `set_material_map_color` | Set color on a material map |
+| `set_material_map_value` | Set float value on a material map (metalness, roughness, etc.) |
+| `get_model_bone_count/bone_parent` | Access model skeleton hierarchy |
+| `get_model_bone_name` | Get bone name by index |
+| `get_model_bind_pose_translation/rotation` | Access bind pose transforms |
+| `get_model_animation_frame_pose_*` | Access animation frame pose data |
+| `gen_mesh_from_points` | Generate mesh from vertex+color point cloud data |
+| `mesh_setup_texcoords2` | Upload secondary UV coordinates for lightmapping |
 
 **Models: 100% coverage**
 
-### 1.18 Audio (raudio)
+### 1.19 Audio (raudio)
 
 | Status | Function | Notes |
 |--------|----------|-------|
@@ -309,7 +379,7 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 
 **Audio: 100% of bindable API covered** (only `SetAudioStreamCallback` remains N/A)
 
-### 1.19 Additional MoonBit-side APIs
+### 1.20 Additional MoonBit-side APIs
 
 These are pure MoonBit implementations not directly wrapping a single raylib function:
 
@@ -378,14 +448,14 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | Category | Official | Ported | Coverage |
 |----------|---------|--------|----------|
 | Core | 48 | 32 | 67% |
-| Shapes | 39 | 17 | 44% |
-| Textures | 30 | 23 | 77% |
-| Text | 16 | 7 | 44% |
-| Models | 27 | 14 | 52% |
-| Shaders | 33 | 17 | 52% |
+| Shapes | 39 | 18 | 46% |
+| Textures | 30 | 25 | 83% |
+| Text | 16 | 12 | 75% |
+| Models | 27 | 22 | 81% |
+| Shaders | 33 | 27 | 82% |
 | Audio | 9 | 7 | 78% |
 | Other (custom) | — | 5 | — |
-| **Total** | **~202** | **~122** | **~60%** |
+| **Total** | **~202** | **147** | **~73%** |
 
 *Note: 5 extra examples not in official set: `demo`, `easings_testbed`, `minesweeper`,
 `raymath_vector_angle`, `core_input_gamepad_info`.*
@@ -444,7 +514,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [ ] core_undo_redo
 - [ ] core_viewport_scaling
 
-#### Shapes (17/39)
+#### Shapes (18/39)
 
 - [x] shapes_basic_shapes
 - [x] shapes_bouncing_ball
@@ -460,6 +530,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] shapes_lines_bezier
 - [x] shapes_logo_raylib
 - [x] shapes_logo_raylib_anim
+- [x] shapes_rectangle_advanced
 - [x] shapes_rectangle_scaling
 - [x] shapes_splines_drawing
 - [x] shapes_top_down_lights
@@ -477,7 +548,6 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [ ] shapes_mouse_trail
 - [ ] shapes_penrose_tile
 - [ ] shapes_pie_chart
-- [ ] shapes_rectangle_advanced
 - [ ] shapes_recursive_tree
 - [ ] shapes_rlgl_color_wheel
 - [ ] shapes_rlgl_triangle
@@ -487,13 +557,14 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [ ] shapes_triangle_strip
 - [ ] shapes_vector_angle
 
-#### Textures (23/30)
+#### Textures (25/30)
 
 - [x] textures_background_scrolling
 - [x] textures_blend_modes
 - [x] textures_bunnymark
 - [x] textures_draw_tiled
 - [x] textures_fog_of_war
+- [x] textures_gif_player
 - [x] textures_image_channel
 - [x] textures_image_drawing
 - [x] textures_image_generation
@@ -506,6 +577,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] textures_mouse_painting
 - [x] textures_npatch_drawing
 - [x] textures_particles_blending
+- [x] textures_polygon
 - [x] textures_raw_data
 - [x] textures_sprite_anim (= textures_sprite_animation)
 - [x] textures_sprite_button
@@ -514,73 +586,78 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] textures_to_image
 - [ ] textures_cellular_automata
 - [ ] textures_framebuffer_rendering
-- [ ] textures_gif_player
-- [ ] textures_polygon_drawing
 - [ ] textures_screen_buffer
 - [ ] textures_sprite_stacking
 - [ ] textures_textured_curve
 
-#### Text (7/16)
+#### Text (12/16)
 
+- [x] text_codepoints_loading
+- [x] text_draw_3d (= text_3d_drawing)
+- [x] text_font_filters
 - [x] text_font_loading
+- [x] text_font_sdf
 - [x] text_font_spritefont
 - [x] text_format_text
 - [x] text_input_box
 - [x] text_raylib_fonts (= text_sprite_fonts)
 - [x] text_rectangle_bounds
+- [x] text_unicode (= text_unicode_emojis)
 - [x] text_writing_anim
-- [ ] text_3d_drawing
-- [ ] text_codepoints_loading
-- [ ] text_font_filters
-- [ ] text_font_sdf
 - [ ] text_inline_styling
 - [ ] text_strings_management
-- [ ] text_unicode_emojis
 - [ ] text_unicode_ranges
 - [ ] text_words_alignment
 
-#### Models (14/27)
+#### Models (22/27)
 
 - [x] models_animation (= models_animation_playing)
 - [x] models_billboard (= models_billboard_rendering)
+- [x] models_bone_socket
 - [x] models_box_collisions
 - [x] models_cubicmap (= models_cubicmap_rendering)
+- [x] models_draw_cube_texture (= models_textured_cube)
 - [x] models_first_person_maze
 - [x] models_geometric_shapes
+- [x] models_gpu_skinning (= models_animation_gpu_skinning)
 - [x] models_heightmap (= models_heightmap_rendering)
 - [x] models_loading
 - [x] models_loading_gltf
+- [x] models_loading_m3d
+- [x] models_loading_vox
 - [x] models_mesh_generation
 - [x] models_mesh_picking
 - [x] models_orthographic_projection
+- [x] models_point_rendering
+- [x] models_rlgl_solar_system
+- [x] models_skybox (= models_skybox_rendering)
 - [x] models_waving_cubes
 - [x] models_yaw_pitch_roll
-- [ ] models_animation_gpu_skinning
 - [ ] models_basic_voxel
-- [ ] models_bone_socket
 - [ ] models_decals
 - [ ] models_directional_billboard
-- [ ] models_loading_m3d
-- [ ] models_loading_vox
-- [ ] models_point_rendering
-- [ ] models_rlgl_solar_system
 - [ ] models_rotating_cube
-- [ ] models_skybox_rendering
 - [ ] models_tesseract_view
-- [ ] models_textured_cube
 
-#### Shaders (17/33)
+#### Shaders (27/33)
 
 - [x] shaders_basic_lighting
+- [x] shaders_basic_pbr
 - [x] shaders_custom_uniform
+- [x] shaders_deferred_render (= shaders_deferred_rendering)
 - [x] shaders_eratosthenes (= shaders_eratosthenes_sieve)
+- [x] shaders_fog (= shaders_fog_rendering)
 - [x] shaders_hot_reloading
+- [x] shaders_hybrid_render (= shaders_hybrid_rendering)
 - [x] shaders_julia_set
+- [x] shaders_lightmap (= shaders_lightmap_rendering)
+- [x] shaders_mesh_instancing
 - [x] shaders_model_shader
 - [x] shaders_multi_sample2d
 - [x] shaders_palette_switch
 - [x] shaders_postprocessing
 - [x] shaders_raymarching (= shaders_raymarching_rendering)
+- [x] shaders_shadowmap (= shaders_shadowmap_rendering)
 - [x] shaders_shapes_textures
 - [x] shaders_simple_mask
 - [x] shaders_spotlight (= shaders_spotlight_rendering)
@@ -588,22 +665,15 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] shaders_texture_outline
 - [x] shaders_texture_tiling
 - [x] shaders_texture_waves
+- [x] shaders_vertex_displacement
+- [x] shaders_write_depth (= shaders_depth_writing)
 - [ ] shaders_ascii_rendering
-- [ ] shaders_basic_pbr
 - [ ] shaders_color_correction
-- [ ] shaders_deferred_rendering
 - [ ] shaders_depth_rendering
-- [ ] shaders_depth_writing
-- [ ] shaders_fog_rendering
 - [ ] shaders_game_of_life
-- [ ] shaders_hybrid_rendering
-- [ ] shaders_lightmap_rendering
 - [ ] shaders_mandelbrot_set
-- [ ] shaders_mesh_instancing
 - [ ] shaders_normalmap_rendering
 - [ ] shaders_rounded_rectangle
-- [ ] shaders_shadowmap_rendering
-- [ ] shaders_vertex_displacement
 
 #### Audio (7/9)
 
@@ -625,17 +695,15 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] raymath_vector_angle
 - [x] core_input_gamepad_info
 
-### 3.3 Examples Blocked by Missing API
+### 3.3 Examples Not Portable
 
-| Example | Missing API | Notes |
-|---------|-------------|-------|
-| `shaders_mesh_instancing` | — | May require additional rlgl bindings |
-| `models_rlgl_solar_system` | — | Requires rlgl low-level API |
-| `shapes_rlgl_color_wheel` | — | Requires rlgl low-level API |
-| `shapes_rlgl_triangle` | — | Requires rlgl low-level API |
+| Example | Reason |
+|---------|--------|
+| `core_custom_logging` | Requires `SetTraceLogCallback` (C function pointer) |
+| `core_loading_thread` | Requires pthreads / C threading |
 
 Most unported examples are **not blocked by missing API** — they simply haven't been
-ported yet and use only already-bound functions.
+ported yet. Many are newer raylib examples without vendored C source in this repository.
 
 ---
 
@@ -701,33 +769,28 @@ ported yet and use only already-bound functions.
 | TraceLogLevel | Complete | `window.mbt` |
 | BlendMode | Complete | `drawing.mbt` |
 | Camera mode/projection | Complete | `camera.mbt` |
-| Pixel formats (7 uncompressed) | Complete | `textures.mbt` |
+| Pixel formats (10 uncompressed) | Complete | `textures.mbt` |
 | Texture filter modes | Complete | `textures.mbt` |
 | Texture wrap modes | Complete | `textures.mbt` |
 | Cubemap layout modes | Complete | `textures.mbt` |
-| Material map types (7) | Complete | `models.mbt` |
+| Material map types (11) | Complete | `models.mbt` |
 | Shader uniform types | Complete | `drawing.mbt` |
 | Font data types | Complete | `text.mbt` |
+| rlgl draw modes | Complete | `drawing.mbt` |
+| rlgl framebuffer attachment types | Complete | `drawing.mbt` |
 | Shader location indices | — | Not yet exposed as named constants (use raw int) |
 
 ---
 
 ## 6. Recommendations
 
-### High Priority
-1. **Port remaining easy examples** — Many unported examples (e.g., `core_clipboard_text`,
-   `core_render_texture`, `models_rotating_cube`, `textures_gif_player`) use only
-   already-bound API and require no new bindings.
-
 ### Medium Priority
-2. **Port shader examples** — 16 unported shader examples showcase important GPU features.
-3. **Port text examples** — 9 unported text examples cover Unicode, SDF fonts, and styling.
-4. **Port remaining models examples** — 13 unported, some need rlgl bindings.
-5. **Expose shader location constants** — Shader location indices are currently raw integers.
+1. **Port remaining examples** — ~55 unported examples remain. Most are newer raylib
+   examples without vendored C source in this repository. The vendored examples are
+   now fully ported (except 2 blocked by C function pointer requirements).
+2. **Expose shader location constants** — Shader location indices are currently raw integers.
    Named constants would improve usability.
 
 ### Low Priority
-6. **rlgl bindings** — Some advanced examples require low-level OpenGL abstraction layer.
-   Three rlgl functions are already bound (`rlSetBlendMode`, `rlSetBlendFactors`,
-   `rlDrawRenderBatchActive`); more could be added for solar system / color wheel examples.
-7. **Bind `GetPixelColor`/`SetPixelColor`** — Needed only for raw pixel buffer manipulation.
+3. **Bind `GetPixelColor`/`SetPixelColor`** — Needed only for raw pixel buffer manipulation.
+4. **Bind `SetWindowIcons`** — Requires array-of-opaque-pointer support.
