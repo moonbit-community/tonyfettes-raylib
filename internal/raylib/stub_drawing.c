@@ -120,7 +120,7 @@ moonbit_raylib_unload_shader(ShaderWrapper *wrapper) {
 
 void
 moonbit_raylib_set_shader_location(ShaderWrapper *wrapper, int locIndex, int value) {
-  if (locIndex >= 0 && locIndex < MAX_SHADER_LOCATIONS) {
+  if (locIndex >= 0 && locIndex < 32) {
     wrapper->shader.locs[locIndex] = value;
   }
 }
