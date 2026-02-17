@@ -14,6 +14,15 @@ pub extern "c" fn load_font(file_name : Bytes) -> Font = "moonbit_raylib_load_fo
 pub extern "c" fn load_font_ex(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
 
 ///|
+#borrow(file_name, codepoints)
+pub extern "c" fn load_font_ex_codepoints(
+  file_name : Bytes,
+  font_size : Int,
+  codepoints : Bytes,
+  codepoint_count : Int,
+) -> Font = "moonbit_raylib_load_font_ex_codepoints"
+
+///|
 #borrow(font)
 pub extern "c" fn is_font_valid(font : Font) -> Bool = "moonbit_raylib_is_font_valid"
 

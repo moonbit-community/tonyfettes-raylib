@@ -45,6 +45,16 @@ moonbit_raylib_load_font_ex(moonbit_bytes_t fileName, int fontSize) {
   return w;
 }
 
+FontWrapper *
+moonbit_raylib_load_font_ex_codepoints(moonbit_bytes_t fileName, int fontSize, moonbit_bytes_t codepoints, int codepointCount) {
+  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
+    font_destructor, sizeof(FontWrapper)
+  );
+  w->font = LoadFontEx((const char *)fileName, fontSize, (int *)codepoints, codepointCount);
+  w->freed = 0;
+  return w;
+}
+
 int
 moonbit_raylib_is_font_valid(FontWrapper *wrapper) {
   return (int)IsFontValid(wrapper->font);
