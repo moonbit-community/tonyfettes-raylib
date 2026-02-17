@@ -710,3 +710,15 @@ pub extern "c" fn get_model_animation_frame_pose_translation(anims : ModelAnimat
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+
+// ============================================================================
+// Mesh: Generate point cloud from vertex+color data
+// ============================================================================
+
+///|
+#borrow(vertices, colors)
+pub extern "c" fn gen_mesh_from_points(
+  vertices : Bytes,
+  colors : Bytes,
+  num_points : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
