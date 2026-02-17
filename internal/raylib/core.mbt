@@ -960,3 +960,22 @@ pub extern "c" fn rl_blit_framebuffer(
   dst_h : Int,
   buffer_mask : Int,
 ) = "rlBlitFramebuffer"
+
+// rlgl: Matrix getters
+
+///|
+pub extern "c" fn rl_get_matrix_modelview() -> Bytes = "moonbit_raylib_rl_get_matrix_modelview"
+
+///|
+pub extern "c" fn rl_get_matrix_projection() -> Bytes = "moonbit_raylib_rl_get_matrix_projection"
+
+// rlgl: SetUniform (low-level)
+
+///|
+#borrow(value)
+pub extern "c" fn rl_set_uniform(
+  loc_index : Int,
+  value : Bytes,
+  uniform_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_uniform"

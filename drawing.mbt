@@ -275,6 +275,20 @@ pub using @raylib {
   rl_get_framebuffer_height,
   rl_bind_framebuffer,
   rl_blit_framebuffer,
+  // rlgl: Low-level uniform setting
+  rl_set_uniform,
+}
+
+// rlgl: Matrix getters (wrappers returning Matrix value type)
+
+///|
+pub fn rl_get_matrix_modelview() -> Matrix {
+  Matrix::from_bytes(@raylib.rl_get_matrix_modelview())
+}
+
+///|
+pub fn rl_get_matrix_projection() -> Matrix {
+  Matrix::from_bytes(@raylib.rl_get_matrix_projection())
 }
 
 // rlgl draw mode constants

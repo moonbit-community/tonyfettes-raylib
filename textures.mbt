@@ -32,6 +32,10 @@ pub using @raylib {
   get_texture_width,
   get_texture_height,
   get_render_texture_texture,
+  get_render_texture_fbo_id,
+  get_render_texture_depth_id,
+  load_shadowmap_render_texture,
+  unload_shadowmap_render_texture,
 }
 
 // ============================================================================

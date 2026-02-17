@@ -244,6 +244,28 @@ pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib
 pub extern "c" fn get_render_texture_texture(target : RenderTexture) -> Texture = "moonbit_raylib_get_render_texture_texture"
 
 // ============================================================================
+// RenderTexture: ID accessors for rlgl-level operations
+// ============================================================================
+
+///|
+#borrow(target)
+pub extern "c" fn get_render_texture_fbo_id(target : RenderTexture) -> UInt = "moonbit_raylib_get_render_texture_fbo_id"
+
+///|
+#borrow(target)
+pub extern "c" fn get_render_texture_depth_id(target : RenderTexture) -> UInt = "moonbit_raylib_get_render_texture_depth_id"
+
+// ============================================================================
+// Shadowmap: Load/Unload depth-only render texture
+// ============================================================================
+
+///|
+pub extern "c" fn load_shadowmap_render_texture(width : Int, height : Int) -> RenderTexture = "moonbit_raylib_load_shadowmap_render_texture"
+
+///|
+pub extern "c" fn unload_shadowmap_render_texture(target : RenderTexture) = "moonbit_raylib_unload_shadowmap_render_texture"
+
+// ============================================================================
 // Texture drawing
 // ============================================================================
 
