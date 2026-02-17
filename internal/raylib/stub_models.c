@@ -934,7 +934,7 @@ moonbit_raylib_set_material_map_color(
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  if (mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+  if (mapType >= 0 && mapType < 12) {
     wrapper->material.maps[mapType].color = c;
   }
 }
