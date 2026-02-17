@@ -1305,3 +1305,33 @@ moonbit_raylib_get_model_animation_frame_pose_rotation(
   }
   return r;
 }
+
+// ============================================================================
+// Model: get bone name (returns Bytes / UTF-8 string)
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_bone_name(ModelWrapper *model_wrapper, int bone_index) {
+  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
+    const char *name = model_wrapper->model.bones[bone_index].name;
+    int32_t len = strlen(name);
+    moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+    memcpy(r, name, len);
+    return r;
+  }
+  moonbit_bytes_t r = moonbit_make_bytes(0, 0);
+  return r;
+}
+
+// ============================================================================
+// Model: get bind pose rotation (Quaternion/Vector4 as Bytes)
+// ============================================================================
+
+moonbit_bytes_t
+moonbit_raylib_get_model_bind_pose_rotation(ModelWrapper *model_wrapper, int bone_index) {
+  moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
+  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
+    memcpy(r, &model_wrapper->model.bindPose[bone_index].rotation, sizeof(Vector4));
+  }
+  return r;
+}

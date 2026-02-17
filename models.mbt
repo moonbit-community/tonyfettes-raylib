@@ -810,3 +810,13 @@ pub fn get_model_animation_frame_pose_translation(anims : ModelAnimations, anim_
 pub fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector4 {
   Vector4::from_bytes(@raylib.get_model_animation_frame_pose_rotation(anims, anim_index, frame, bone_index))
 }
+
+///|
+pub fn get_model_bone_name(model : Model, bone_index : Int) -> String {
+  @utf8.decode_lossy(@raylib.get_model_bone_name(model, bone_index))
+}
+
+///|
+pub fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Vector4 {
+  Vector4::from_bytes(@raylib.get_model_bind_pose_rotation(model, bone_index))
+}
