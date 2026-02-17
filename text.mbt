@@ -322,6 +322,18 @@ pub fn gen_image_font_atlas(
   @raylib.gen_image_font_atlas(glyphs, font_size, padding, pack_method)
 }
 
+///|
+pub fn build_font_from_data(
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+  font_type : Int,
+  padding : Int,
+  pack_method : Int,
+) -> Font {
+  @raylib.build_font_from_data(file_data, data_size, font_size, font_type, padding, pack_method)
+}
+
 // Font data type constants
 
 ///|

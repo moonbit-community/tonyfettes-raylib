@@ -385,3 +385,36 @@ moonbit_raylib_gen_image_font_atlas(GlyphInfoArrayWrapper *glyphs, int fontSize,
   w->frame_count = 1;
   return w;
 }
+
+FontWrapper *
+moonbit_raylib_build_font_from_data(moonbit_bytes_t fileData, int dataSize, int fontSize, int fontType, int padding, int packMethod) {
+  // Load glyph data from font file in memory
+  GlyphInfo *glyphs = LoadFontData((const unsigned char *)fileData, dataSize, fontSize, NULL, 0, fontType);
+  if (!glyphs) return NULL;
+
+  int glyphCount = 95; // default character set
+
+  // Generate font atlas image and rectangle array
+  Rectangle *recs = NULL;
+  Image atlas = GenImageFontAtlas(glyphs, &recs, glyphCount, fontSize, padding, packMethod);
+
+  // Load texture from atlas image
+  Texture2D texture = LoadTextureFromImage(atlas);
+  UnloadImage(atlas);
+
+  // Assemble the Font struct
+  Font font = { 0 };
+  font.baseSize = fontSize;
+  font.glyphCount = glyphCount;
+  font.glyphPadding = padding;
+  font.glyphs = glyphs;
+  font.recs = recs;
+  font.texture = texture;
+
+  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
+    font_destructor, sizeof(FontWrapper)
+  );
+  w->font = font;
+  w->freed = 0;
+  return w;
+}
