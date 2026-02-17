@@ -1,22 +1,23 @@
 # Raylib MoonBit Binding — API Coverage & Progress Report
 
-*Generated: 2026-02-16 | raylib version: 5.5 | Target: native only*
+*Generated: 2026-02-17 | raylib version: 5.5 | Target: native only*
 
 ## Executive Summary
 
 | Metric | Count | Percentage |
 |--------|------:|------------|
 | Raylib C API functions (RLAPI) | 581 | — |
-| MoonBit FFI bindings (`extern "c"`) | 575 | — |
-| Bindable API covered | ~541 / ~545 | **~99%** |
-| Intentionally not bound | ~36 | — |
+| MoonBit FFI bindings (`extern "c"`) | ~583 | — |
+| Bindable API covered | ~545 / ~549 | **~99%** |
+| Intentionally not bound | ~32 | — |
 | Official raylib examples | 209 | — |
-| Examples ported to MoonBit | ~120 | **~57%** |
+| Examples ported to MoonBit | ~122 | **~60%** |
 
 The binding covers virtually all of the raylib 5.5 API that is meaningful to bind
 from a GC-managed language. The remaining unbound functions are either
 callback-based (requiring function pointers), C text utilities (redundant with
 MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
+Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 
 ---
 
@@ -54,6 +55,12 @@ MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 | Bound | `BeginScissorMode`, `EndScissorMode` | |
 | Bound | `BeginVrStereoMode`, `EndVrStereoMode` | |
 | Bound | `LoadVrStereoConfig`, `UnloadVrStereoConfig` | |
+
+**rlgl low-level functions (partial):**
+
+| Status | Function | Notes |
+|--------|----------|-------|
+| Bound | `rlSetBlendMode`, `rlSetBlendFactors`, `rlDrawRenderBatchActive` | Used for custom blend modes |
 
 ### 1.3 Core: Shader Management
 
@@ -200,6 +207,18 @@ MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 | N/A | `UnloadImageColors`, `UnloadImagePalette` | GC-managed |
 | **Missing** | `GetPixelColor`, `SetPixelColor` | Low-level pixel buffer access |
 
+**Additional RenderTexture helpers (MoonBit-side):**
+
+| Function | Notes |
+|----------|-------|
+| `draw_render_texture_rec/ex/pro` | Draw RenderTexture using its internal texture |
+| `set_render_texture_filter` | Set filter on RenderTexture's internal texture |
+| `get_render_texture_width/height` | Access RenderTexture dimensions |
+| `get_render_texture_texture` | Extract Texture from RenderTexture |
+| `get_texture_width/height` | Access Texture dimensions |
+| `image_width/height` | Access Image dimensions |
+| `image_frame_count` | Get animated image frame count |
+
 **Textures: ~99% coverage** (2 low-level functions missing)
 
 ### 1.16 Text (rtext)
@@ -207,6 +226,7 @@ MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 | Status | Function | Notes |
 |--------|----------|-------|
 | Bound | `GetFontDefault`, `LoadFont/Ex/FromImage/FromMemory`, `IsFontValid`, `UnloadFont` | |
+| Bound | `GetFontBaseSize` | Returns font base size |
 | Bound | `LoadFontData`, `GenImageFontAtlas`, `UnloadFontData` | |
 | Bound | `ExportFontAsCode` | |
 | Bound | `DrawFPS`, `DrawText/Ex/Pro/Codepoint/Codepoints` | |
@@ -241,6 +261,15 @@ MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 | Bound | `CheckCollisionSpheres/Boxes/BoxSphere` | |
 | Bound | `GetRayCollisionSphere/Box/Mesh/Triangle/Quad` | |
 
+**Additional Model helpers (MoonBit-side):**
+
+| Function | Notes |
+|----------|-------|
+| `set_model_transform/get_model_transform` | Access Model transform matrix |
+| `get_model_mesh_count/get_model_mesh` | Access Model meshes by index |
+| `set_model_material_shader` | Set shader on a model's material |
+| `set_model_material_texture` | Set texture on a model's material map |
+
 **Models: 100% coverage**
 
 ### 1.18 Audio (raudio)
@@ -265,12 +294,20 @@ MoonBit's `String`), or C memory management (redundant with MoonBit's GC).
 | Bound | `PlayAudioStream`, `PauseAudioStream`, `ResumeAudioStream` | |
 | Bound | `IsAudioStreamPlaying`, `StopAudioStream` | |
 | Bound | `SetAudioStreamVolume/Pitch/Pan`, `SetAudioStreamBufferSizeDefault` | |
+| Bound | `AttachAudioStreamProcessor`, `DetachAudioStreamProcessor` | Via `FuncRef` callback mechanism |
+| Bound | `AttachAudioMixedProcessor`, `DetachAudioMixedProcessor` | Via `FuncRef` callback mechanism |
 | N/A | `UnloadWaveSamples` | GC-managed |
-| N/A | `SetAudioStreamCallback` | Requires C function pointer callback |
-| N/A | `AttachAudioStreamProcessor`, `DetachAudioStreamProcessor` | Requires C function pointer callback |
-| N/A | `AttachAudioMixedProcessor`, `DetachAudioMixedProcessor` | Requires C function pointer callback |
+| N/A | `SetAudioStreamCallback` | Requires C function pointer callback (different from processors) |
 
-**Audio: 100% of non-callback API covered**
+**Additional Audio helpers (MoonBit-side):**
+
+| Function | Notes |
+|----------|-------|
+| `audio_buffer_get_sample/set_sample` | Direct AudioBuffer sample access for processor callbacks |
+| `attach/detach_music_stream_processor` | Convenience: attach processor to Music's internal AudioStream |
+| `AudioBuffer` type | Opaque type passed to audio processor callbacks |
+
+**Audio: 100% of bindable API covered** (only `SetAudioStreamCallback` remains N/A)
 
 ### 1.19 Additional MoonBit-side APIs
 
@@ -287,6 +324,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | `camera.mbt` | `Camera2D`, `Camera3D` structs + constants |
 | `ray.mbt` | `Ray`, `BoundingBox`, `RayCollision` structs |
 | `color.mbt` | `Color` struct + 25 color constants |
+| `drawing.mbt` | `VrDeviceInfo` struct + VrStereoConfig field accessors |
 
 ---
 
@@ -301,18 +339,9 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | `SetSaveFileDataCallback` | Takes `SaveFileDataCallback` |
 | `SetLoadFileTextCallback` | Takes `LoadFileTextCallback` |
 | `SetSaveFileTextCallback` | Takes `SaveFileTextCallback` |
-| `SetAudioStreamCallback` | Takes `AudioCallback` |
+| `SetAudioStreamCallback` | Takes `AudioCallback` (different from processors) |
 
-### 2.2 Cannot bind (require function pointer for audio processing) — 4 functions
-
-| Function | Reason |
-|----------|--------|
-| `AttachAudioStreamProcessor` | Takes processor function pointer |
-| `DetachAudioStreamProcessor` | Takes processor function pointer |
-| `AttachAudioMixedProcessor` | Takes processor function pointer |
-| `DetachAudioMixedProcessor` | Takes processor function pointer |
-
-### 2.3 Redundant with MoonBit standard library — 21 functions
+### 2.2 Redundant with MoonBit standard library — 21 functions
 
 | Category | Functions |
 |----------|-----------|
@@ -321,7 +350,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | C string parsing | `TextToInteger`, `TextToFloat` |
 | C memory management | `MemAlloc`, `MemRealloc`, `MemFree` |
 
-### 2.4 Redundant with GC — 5 functions
+### 2.3 Redundant with GC — 5 functions
 
 | Function | Reason |
 |----------|--------|
@@ -331,7 +360,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | `UnloadImagePalette` | Data returned as MoonBit `Bytes`, GC-managed |
 | `UnloadWaveSamples` | Data returned as MoonBit `Bytes`, GC-managed |
 
-### 2.5 Truly missing (could be bound) — 4 functions
+### 2.4 Truly missing (could be bound) — 4 functions
 
 | Function | Reason not bound | Priority |
 |----------|-----------------|----------|
@@ -354,9 +383,9 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 | Text | 16 | 7 | 44% |
 | Models | 27 | 14 | 52% |
 | Shaders | 33 | 17 | 52% |
-| Audio | 9 | 5 | 56% |
+| Audio | 9 | 7 | 78% |
 | Other (custom) | — | 5 | — |
-| **Total** | **~202** | **~120** | **~59%** |
+| **Total** | **~202** | **~122** | **~60%** |
 
 *Note: 5 extra examples not in official set: `demo`, `easings_testbed`, `minesweeper`,
 `raymath_vector_angle`, `core_input_gamepad_info`.*
@@ -576,17 +605,17 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [ ] shaders_shadowmap_rendering
 - [ ] shaders_vertex_displacement
 
-#### Audio (5/9)
+#### Audio (7/9)
 
+- [x] audio_mixed_processor
 - [x] audio_module_playing
 - [x] audio_music_stream
 - [x] audio_raw_stream
 - [x] audio_sound_loading
 - [x] audio_sound_multi
-- [ ] audio_mixed_processor
+- [x] audio_stream_effects
 - [ ] audio_sound_positioning
 - [ ] audio_spectrum_visualizer
-- [ ] audio_stream_effects
 
 #### Other / Custom (5)
 
@@ -600,9 +629,7 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 
 | Example | Missing API | Notes |
 |---------|-------------|-------|
-| `audio_mixed_processor` | `AttachAudioMixedProcessor` | Requires function pointer callback |
-| `audio_stream_effects` | `AttachAudioStreamProcessor` | Requires function pointer callback |
-| `shaders_mesh_instancing` | — | Requires rlgl-level instancing |
+| `shaders_mesh_instancing` | — | May require additional rlgl bindings |
 | `models_rlgl_solar_system` | — | Requires rlgl low-level API |
 | `shapes_rlgl_color_wheel` | — | Requires rlgl low-level API |
 | `shapes_rlgl_triangle` | — | Requires rlgl low-level API |
@@ -650,9 +677,13 @@ ported yet and use only already-bound functions.
 | `Mesh` | Complete | `GenMesh*` | `UnloadMesh` | — |
 | `Material` | Complete | `LoadMaterial*` | `UnloadMaterial` | `IsMaterialValid` |
 | `AudioStream` | Complete | `LoadAudioStream` | Auto (GC) | `IsAudioStreamValid` |
+| `AudioBuffer` | Complete | Passed to processor callbacks | — | — |
 | `AutomationEventList` | Complete | `LoadAutomationEventList` | Auto (GC) | — |
 | `FilePathList` | Complete | `LoadDirectoryFiles` | `UnloadDirectoryFiles` | — |
 | `VrStereoConfig` | Complete | `LoadVrStereoConfig` | `UnloadVrStereoConfig` | — |
+| `GlyphInfoArray` | Complete | `LoadFontData` | `UnloadFontData` | — |
+| `MaterialsArray` | Complete | `LoadMaterials` | `UnloadMaterialsArray` | — |
+| `ModelAnimations` | Complete | `LoadModelAnimations` | `UnloadModelAnimations` | — |
 
 ---
 
@@ -670,9 +701,13 @@ ported yet and use only already-bound functions.
 | TraceLogLevel | Complete | `window.mbt` |
 | BlendMode | Complete | `drawing.mbt` |
 | Camera mode/projection | Complete | `camera.mbt` |
-| Pixel formats | — | Not yet exposed as named constants |
-| Texture filter/wrap modes | — | Not yet exposed as named constants (use raw int) |
-| Material map types | — | Not yet exposed as named constants (use raw int) |
+| Pixel formats (7 uncompressed) | Complete | `textures.mbt` |
+| Texture filter modes | Complete | `textures.mbt` |
+| Texture wrap modes | Complete | `textures.mbt` |
+| Cubemap layout modes | Complete | `textures.mbt` |
+| Material map types (7) | Complete | `models.mbt` |
+| Shader uniform types | Complete | `drawing.mbt` |
+| Font data types | Complete | `text.mbt` |
 | Shader location indices | — | Not yet exposed as named constants (use raw int) |
 
 ---
@@ -683,16 +718,16 @@ ported yet and use only already-bound functions.
 1. **Port remaining easy examples** — Many unported examples (e.g., `core_clipboard_text`,
    `core_render_texture`, `models_rotating_cube`, `textures_gif_player`) use only
    already-bound API and require no new bindings.
-2. **Expose enum constants** — Pixel formats, texture filter modes, material map types,
-   and shader locations are currently raw integers. Named constants would improve usability.
 
 ### Medium Priority
-3. **Port shader examples** — 16 unported shader examples showcase important GPU features.
-4. **Port text examples** — 9 unported text examples cover Unicode, SDF fonts, and styling.
-5. **Port remaining models examples** — 13 unported, some need rlgl bindings.
+2. **Port shader examples** — 16 unported shader examples showcase important GPU features.
+3. **Port text examples** — 9 unported text examples cover Unicode, SDF fonts, and styling.
+4. **Port remaining models examples** — 13 unported, some need rlgl bindings.
+5. **Expose shader location constants** — Shader location indices are currently raw integers.
+   Named constants would improve usability.
 
 ### Low Priority
-6. **Callback support** — Investigate MoonBit-to-C callback mechanism for audio processors
-   and custom logging.
-7. **rlgl bindings** — Some advanced examples require low-level OpenGL abstraction layer.
-8. **Bind `GetPixelColor`/`SetPixelColor`** — Needed only for raw pixel buffer manipulation.
+6. **rlgl bindings** — Some advanced examples require low-level OpenGL abstraction layer.
+   Three rlgl functions are already bound (`rlSetBlendMode`, `rlSetBlendFactors`,
+   `rlDrawRenderBatchActive`); more could be added for solar system / color wheel examples.
+7. **Bind `GetPixelColor`/`SetPixelColor`** — Needed only for raw pixel buffer manipulation.
