@@ -476,6 +476,21 @@ pub extern "c" fn set_material_texture(
 ) = "moonbit_raylib_set_material_texture"
 
 ///|
+#borrow(material, shader)
+pub extern "c" fn set_material_shader(
+  material : Material,
+  shader : Shader,
+) = "moonbit_raylib_set_material_shader"
+
+///|
+#borrow(material, color)
+pub extern "c" fn set_material_map_color(
+  material : Material,
+  map_type : Int,
+  color : Bytes,
+) = "moonbit_raylib_set_material_map_color"
+
+///|
 #borrow(model)
 pub extern "c" fn set_model_mesh_material(
   model : Model,

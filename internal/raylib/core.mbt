@@ -489,6 +489,18 @@ pub extern "c" fn load_shader_from_memory(
 pub extern "c" fn is_shader_valid(shader : Shader) -> Bool = "moonbit_raylib_is_shader_valid"
 
 ///|
+#borrow(shader)
+pub extern "c" fn set_shader_location(
+  shader : Shader,
+  loc_index : Int,
+  value : Int,
+) = "moonbit_raylib_set_shader_location"
+
+///|
+#borrow(shader)
+pub extern "c" fn get_shader_id(shader : Shader) -> Int = "moonbit_raylib_get_shader_id"
+
+///|
 #borrow(shader, uniform_name)
 pub extern "c" fn get_shader_location(
   shader : Shader,

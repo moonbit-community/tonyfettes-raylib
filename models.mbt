@@ -29,6 +29,7 @@ pub using @raylib {
   is_material_valid,
   unload_material,
   set_material_texture,
+  set_material_shader,
   set_model_mesh_material,
   // Model animations (passthrough)
   model_animations_count,
@@ -665,6 +666,11 @@ pub let material_map_emission : Int = 5
 
 ///|
 pub let material_map_height : Int = 6
+
+///|
+pub fn set_material_map_color(material : Material, map_type : Int, color : Color) -> Unit {
+  @raylib.set_material_map_color(material, map_type, color.to_bytes())
+}
 
 // ============================================================================
 // Model animations (wrappers)

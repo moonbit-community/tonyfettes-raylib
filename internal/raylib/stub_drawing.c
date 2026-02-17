@@ -119,6 +119,18 @@ moonbit_raylib_unload_shader(ShaderWrapper *wrapper) {
 }
 
 void
+moonbit_raylib_set_shader_location(ShaderWrapper *wrapper, int locIndex, int value) {
+  if (locIndex >= 0 && locIndex < MAX_SHADER_LOCATIONS) {
+    wrapper->shader.locs[locIndex] = value;
+  }
+}
+
+int
+moonbit_raylib_get_shader_id(ShaderWrapper *wrapper) {
+  return (int)wrapper->shader.id;
+}
+
+void
 moonbit_raylib_begin_shader_mode(ShaderWrapper *wrapper) {
   BeginShaderMode(wrapper->shader);
 }

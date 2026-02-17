@@ -912,6 +912,34 @@ moonbit_raylib_set_model_material_shader(
 }
 
 // ============================================================================
+// Material: set shader on standalone material
+// ============================================================================
+
+void
+moonbit_raylib_set_material_shader(
+  MaterialWrapper *wrapper,
+  ShaderWrapper *shader_wrapper
+) {
+  wrapper->material.shader = shader_wrapper->shader;
+}
+
+// ============================================================================
+// Material: set material map color
+// ============================================================================
+
+void
+moonbit_raylib_set_material_map_color(
+  MaterialWrapper *wrapper,
+  int mapType,
+  moonbit_bytes_t color
+) {
+  Color c; memcpy(&c, color, sizeof(Color));
+  if (mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+    wrapper->material.maps[mapType].color = c;
+  }
+}
+
+// ============================================================================
 // Mesh drawing
 // ============================================================================
 

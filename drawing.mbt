@@ -57,6 +57,16 @@ pub fn get_shader_location(shader : Shader, uniform_name : String) -> Int {
 }
 
 ///|
+pub fn set_shader_location(shader : Shader, loc_index : Int, value : Int) -> Unit {
+  @raylib.set_shader_location(shader, loc_index, value)
+}
+
+///|
+pub fn get_shader_id(shader : Shader) -> Int {
+  @raylib.get_shader_id(shader)
+}
+
+///|
 pub fn get_shader_location_attrib(shader : Shader, attrib_name : String) -> Int {
   @raylib.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
 }
@@ -98,6 +108,95 @@ pub let shader_uniform_ivec4 : Int = 7
 
 ///|
 pub let shader_uniform_sampler2d : Int = 8
+
+// Shader location index constants
+
+///|
+pub let shader_loc_vertex_position : Int = 0
+
+///|
+pub let shader_loc_vertex_texcoord01 : Int = 1
+
+///|
+pub let shader_loc_vertex_texcoord02 : Int = 2
+
+///|
+pub let shader_loc_vertex_normal : Int = 3
+
+///|
+pub let shader_loc_vertex_tangent : Int = 4
+
+///|
+pub let shader_loc_vertex_color : Int = 5
+
+///|
+pub let shader_loc_matrix_mvp : Int = 6
+
+///|
+pub let shader_loc_matrix_view : Int = 7
+
+///|
+pub let shader_loc_matrix_projection : Int = 8
+
+///|
+pub let shader_loc_matrix_model : Int = 9
+
+///|
+pub let shader_loc_matrix_normal : Int = 10
+
+///|
+pub let shader_loc_vector_view : Int = 11
+
+///|
+pub let shader_loc_color_diffuse : Int = 12
+
+///|
+pub let shader_loc_color_specular : Int = 13
+
+///|
+pub let shader_loc_color_ambient : Int = 14
+
+///|
+pub let shader_loc_map_albedo : Int = 15
+
+///|
+pub let shader_loc_map_metalness : Int = 16
+
+///|
+pub let shader_loc_map_normal : Int = 17
+
+///|
+pub let shader_loc_map_roughness : Int = 18
+
+///|
+pub let shader_loc_map_occlusion : Int = 19
+
+///|
+pub let shader_loc_map_emission : Int = 20
+
+///|
+pub let shader_loc_map_height : Int = 21
+
+///|
+pub let shader_loc_map_cubemap : Int = 22
+
+///|
+pub let shader_loc_map_irradiance : Int = 23
+
+///|
+pub let shader_loc_map_prefilter : Int = 24
+
+///|
+pub let shader_loc_map_brdf : Int = 25
+
+///|
+pub let shader_loc_vertex_boneids : Int = 26
+
+///|
+pub let shader_loc_vertex_boneweights : Int = 27
+
+///|
+pub let shader_loc_bone_matrices : Int = 28
 
 // Blend mode constants
 
