@@ -28,6 +28,7 @@ pub using @raylib {
   set_shader_value,
   set_shader_value_v,
   set_shader_value_texture,
+  set_shader_locs,
 }
 
 // Drawing wrapper
@@ -98,6 +99,53 @@ pub let shader_uniform_ivec4 : Int = 7
 
 ///|
 pub let shader_uniform_sampler2d : Int = 8
+
+// Shader location index constants
+
+///|
+pub let shader_loc_vertex_position : Int = 0
+
+///|
+pub let shader_loc_vertex_texcoord01 : Int = 1
+
+///|
+pub let shader_loc_vertex_texcoord02 : Int = 2
+
+///|
+pub let shader_loc_vertex_normal : Int = 3
+
+///|
+pub let shader_loc_vertex_tangent : Int = 4
+
+///|
+pub let shader_loc_vertex_color : Int = 5
+
+///|
+pub let shader_loc_matrix_mvp : Int = 6
+
+///|
+pub let shader_loc_matrix_view : Int = 7
+
+///|
+pub let shader_loc_matrix_projection : Int = 8
+
+///|
+pub let shader_loc_matrix_model : Int = 9
+
+///|
+pub let shader_loc_matrix_normal : Int = 10
+
+///|
+pub let shader_loc_vector_view : Int = 11
+
+///|
+pub let shader_loc_color_diffuse : Int = 12
+
+///|
+pub let shader_loc_color_specular : Int = 13
+
+///|
+pub let shader_loc_color_ambient : Int = 14
 
 // Blend mode constants
 

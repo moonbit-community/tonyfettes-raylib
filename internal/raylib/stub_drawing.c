@@ -123,6 +123,11 @@ moonbit_raylib_begin_shader_mode(ShaderWrapper *wrapper) {
   BeginShaderMode(wrapper->shader);
 }
 
+void
+moonbit_raylib_set_shader_locs(ShaderWrapper *wrapper, int loc_index, int loc_value) {
+  wrapper->shader.locs[loc_index] = loc_value;
+}
+
 // ============================================================================
 // VR Stereo
 // ============================================================================
