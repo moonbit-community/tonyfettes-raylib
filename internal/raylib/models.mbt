@@ -710,3 +710,11 @@ pub extern "c" fn get_model_animation_frame_pose_translation(anims : ModelAnimat
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+
+///|
+#borrow(model)
+pub extern "c" fn get_model_bone_name(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bone_name"
+
+///|
+#borrow(model)
+pub extern "c" fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bind_pose_rotation"
