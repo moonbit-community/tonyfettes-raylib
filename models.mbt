@@ -850,3 +850,12 @@ pub fn gen_mesh_from_points(
 ) -> Mesh {
   @raylib.gen_mesh_from_points(vertices, colors, num_points)
 }
+
+// ============================================================================
+// Mesh: setup texcoords2 (allocate, fill, upload VBO, set vertex attribute)
+// ============================================================================
+
+///|
+pub fn mesh_setup_texcoords2(mesh : Mesh, data : Bytes, float_count : Int) -> Unit {
+  @raylib.mesh_setup_texcoords2(mesh, data, float_count)
+}

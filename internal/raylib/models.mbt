@@ -738,3 +738,15 @@ pub extern "c" fn gen_mesh_from_points(
   colors : Bytes,
   num_points : Int,
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
+
+// ============================================================================
+// Mesh: setup texcoords2
+// ============================================================================
+
+///|
+#borrow(mesh, data)
+pub extern "c" fn mesh_setup_texcoords2(
+  mesh : Mesh,
+  data : Bytes,
+  float_count : Int,
+) = "moonbit_raylib_mesh_setup_texcoords2"
