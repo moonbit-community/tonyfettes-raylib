@@ -672,6 +672,11 @@ pub fn set_material_map_color(material : Material, map_type : Int, color : Color
   @raylib.set_material_map_color(material, map_type, color.to_bytes())
 }
 
+///|
+pub fn set_material_map_value(material : Material, map_type : Int, value : Float) -> Unit {
+  @raylib.set_material_map_value(material, map_type, value)
+}
+
 // ============================================================================
 // Model animations (wrappers)
 // ============================================================================

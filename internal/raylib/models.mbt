@@ -491,6 +491,14 @@ pub extern "c" fn set_material_map_color(
 ) = "moonbit_raylib_set_material_map_color"
 
 ///|
+#borrow(material)
+pub extern "c" fn set_material_map_value(
+  material : Material,
+  map_type : Int,
+  value : Float,
+) = "moonbit_raylib_set_material_map_value"
+
+///|
 #borrow(model)
 pub extern "c" fn set_model_mesh_material(
   model : Model,

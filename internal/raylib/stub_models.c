@@ -940,6 +940,21 @@ moonbit_raylib_set_material_map_color(
 }
 
 // ============================================================================
+// Material: set material map value
+// ============================================================================
+
+void
+moonbit_raylib_set_material_map_value(
+  MaterialWrapper *wrapper,
+  int mapType,
+  float value
+) {
+  if (mapType >= 0 && mapType < 12) {
+    wrapper->material.maps[mapType].value = value;
+  }
+}
+
+// ============================================================================
 // Mesh drawing
 // ============================================================================
 
