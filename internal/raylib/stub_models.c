@@ -1305,3 +1305,26 @@ moonbit_raylib_get_model_animation_frame_pose_rotation(
   }
   return r;
 }
+
+// ============================================================================
+// Mesh: setup texcoords2 (allocate, fill, upload VBO, set vertex attribute)
+// ============================================================================
+
+void
+moonbit_raylib_mesh_setup_texcoords2(MeshWrapper *wrapper, moonbit_bytes_t data, int float_count) {
+  Mesh *mesh = &wrapper->mesh;
+
+  // Allocate and copy texcoords2 data
+  mesh->texcoords2 = (float *)RL_MALLOC(float_count * sizeof(float));
+  memcpy(mesh->texcoords2, data, float_count * sizeof(float));
+
+  // Upload texcoords2 as a new VBO
+  mesh->vboId[SHADER_LOC_VERTEX_TEXCOORD02] = rlLoadVertexBuffer(
+    mesh->texcoords2, float_count * sizeof(float), false);
+
+  // Bind VAO and set vertex attribute at index 5 (texcoords2)
+  rlEnableVertexArray(mesh->vaoId);
+  rlSetVertexAttribute(5, 2, RL_FLOAT, 0, 0, 0);
+  rlEnableVertexAttribute(5);
+  rlDisableVertexArray();
+}

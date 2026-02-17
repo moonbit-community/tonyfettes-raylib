@@ -810,3 +810,12 @@ pub fn get_model_animation_frame_pose_translation(anims : ModelAnimations, anim_
 pub fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector4 {
   Vector4::from_bytes(@raylib.get_model_animation_frame_pose_rotation(anims, anim_index, frame, bone_index))
 }
+
+// ============================================================================
+// Mesh: setup texcoords2 (allocate, fill, upload VBO, set vertex attribute)
+// ============================================================================
+
+///|
+pub fn mesh_setup_texcoords2(mesh : Mesh, data : Bytes, float_count : Int) -> Unit {
+  @raylib.mesh_setup_texcoords2(mesh, data, float_count)
+}

@@ -710,3 +710,15 @@ pub extern "c" fn get_model_animation_frame_pose_translation(anims : ModelAnimat
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+
+// ============================================================================
+// Mesh: setup texcoords2
+// ============================================================================
+
+///|
+#borrow(mesh, data)
+pub extern "c" fn mesh_setup_texcoords2(
+  mesh : Mesh,
+  data : Bytes,
+  float_count : Int,
+) = "moonbit_raylib_mesh_setup_texcoords2"
