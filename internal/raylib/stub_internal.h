@@ -2,6 +2,8 @@
 #define STUB_INTERNAL_H
 
 #include "raylib.h"
+#include "config.h"
+#include "rlgl.h"
 #include <moonbit.h>
 #include <string.h>
 
