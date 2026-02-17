@@ -1335,3 +1335,28 @@ moonbit_raylib_get_model_bind_pose_rotation(ModelWrapper *model_wrapper, int bon
   }
   return r;
 }
+
+// ============================================================================
+// Mesh: Generate point cloud from vertex+color data
+// ============================================================================
+
+MeshWrapper *
+moonbit_raylib_gen_mesh_from_points(
+  moonbit_bytes_t vertices,
+  moonbit_bytes_t colors,
+  int num_points
+) {
+  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
+    mesh_destructor, sizeof(MeshWrapper)
+  );
+  memset(&w->mesh, 0, sizeof(Mesh));
+  w->mesh.triangleCount = 1;
+  w->mesh.vertexCount = num_points;
+  w->mesh.vertices = (float *)MemAlloc(num_points * 3 * sizeof(float));
+  w->mesh.colors = (unsigned char *)MemAlloc(num_points * 4 * sizeof(unsigned char));
+  memcpy(w->mesh.vertices, vertices, num_points * 3 * sizeof(float));
+  memcpy(w->mesh.colors, colors, num_points * 4 * sizeof(unsigned char));
+  UploadMesh(&w->mesh, false);
+  w->freed = 0;
+  return w;
+}

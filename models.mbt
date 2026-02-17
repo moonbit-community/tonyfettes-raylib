@@ -832,3 +832,16 @@ pub fn get_model_bone_name(model : Model, bone_index : Int) -> String {
 pub fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Vector4 {
   Vector4::from_bytes(@raylib.get_model_bind_pose_rotation(model, bone_index))
 }
+
+// ============================================================================
+// Mesh: Generate point cloud from vertex+color data
+// ============================================================================
+
+///|
+pub fn gen_mesh_from_points(
+  vertices : Bytes,
+  colors : Bytes,
+  num_points : Int,
+) -> Mesh {
+  @raylib.gen_mesh_from_points(vertices, colors, num_points)
+}

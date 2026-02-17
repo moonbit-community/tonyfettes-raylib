@@ -718,3 +718,15 @@ pub extern "c" fn get_model_bone_name(model : Model, bone_index : Int) -> Bytes 
 ///|
 #borrow(model)
 pub extern "c" fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bind_pose_rotation"
+
+// ============================================================================
+// Mesh: Generate point cloud from vertex+color data
+// ============================================================================
+
+///|
+#borrow(vertices, colors)
+pub extern "c" fn gen_mesh_from_points(
+  vertices : Bytes,
+  colors : Bytes,
+  num_points : Int,
+) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
