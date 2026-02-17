@@ -374,3 +374,47 @@ void
 moonbit_raylib_update_sound(SoundWrapper *wrapper, moonbit_bytes_t data, int sample_count) {
   UpdateSound(wrapper->sound, (const void *)data, sample_count);
 }
+
+// ============================================================================
+// Audio: AudioBuffer accessors (read/write float samples from raw void*)
+// ============================================================================
+
+float
+moonbit_raylib_audio_buffer_get_sample(void *buf, unsigned int index) {
+  return ((float *)buf)[index];
+}
+
+void
+moonbit_raylib_audio_buffer_set_sample(void *buf, unsigned int index, float value) {
+  ((float *)buf)[index] = value;
+}
+
+// ============================================================================
+// Audio: Stream processor attach/detach
+// ============================================================================
+
+typedef void (*AudioCallback)(void *bufferData, unsigned int frames);
+
+void
+moonbit_raylib_attach_audio_stream_processor(AudioStreamWrapper *wrapper, AudioCallback processor) {
+  AttachAudioStreamProcessor(wrapper->stream, processor);
+}
+
+void
+moonbit_raylib_detach_audio_stream_processor(AudioStreamWrapper *wrapper, AudioCallback processor) {
+  DetachAudioStreamProcessor(wrapper->stream, processor);
+}
+
+// ============================================================================
+// Audio: Music stream processor attach/detach (accesses music.stream)
+// ============================================================================
+
+void
+moonbit_raylib_attach_music_stream_processor(MusicWrapper *wrapper, AudioCallback processor) {
+  AttachAudioStreamProcessor(wrapper->music.stream, processor);
+}
+
+void
+moonbit_raylib_detach_music_stream_processor(MusicWrapper *wrapper, AudioCallback processor) {
+  DetachAudioStreamProcessor(wrapper->music.stream, processor);
+}

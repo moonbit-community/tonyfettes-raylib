@@ -6,6 +6,7 @@ pub using @raylib {
   type Music,
   type Wave,
   type AudioStream,
+  type AudioBuffer,
   // Audio device
   init_audio_device,
   close_audio_device,
@@ -63,6 +64,16 @@ pub using @raylib {
   set_audio_stream_pitch,
   set_audio_stream_pan,
   set_audio_stream_buffer_size_default,
+  // AudioBuffer accessors
+  audio_buffer_get_sample,
+  audio_buffer_set_sample,
+  // Audio processor attach/detach
+  attach_audio_stream_processor,
+  detach_audio_stream_processor,
+  attach_audio_mixed_processor,
+  detach_audio_mixed_processor,
+  attach_music_stream_processor,
+  detach_music_stream_processor,
 }
 
 // ============================================================================

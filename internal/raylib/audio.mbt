@@ -279,3 +279,72 @@ pub extern "c" fn load_music_stream_from_memory(
 ///|
 #borrow(sound, data)
 pub extern "c" fn update_sound(sound : Sound, data : Bytes, sample_count : Int) = "moonbit_raylib_update_sound"
+
+// ============================================================================
+// AudioBuffer accessors
+// ============================================================================
+
+///|
+#borrow(buffer)
+pub extern "c" fn audio_buffer_get_sample(
+  buffer : AudioBuffer,
+  index : UInt,
+) -> Float = "moonbit_raylib_audio_buffer_get_sample"
+
+///|
+#borrow(buffer)
+pub extern "c" fn audio_buffer_set_sample(
+  buffer : AudioBuffer,
+  index : UInt,
+  value : Float,
+) = "moonbit_raylib_audio_buffer_set_sample"
+
+// ============================================================================
+// Audio stream processor attach/detach
+// ============================================================================
+
+///|
+#borrow(stream)
+pub extern "c" fn attach_audio_stream_processor(
+  stream : AudioStream,
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "moonbit_raylib_attach_audio_stream_processor"
+
+///|
+#borrow(stream)
+pub extern "c" fn detach_audio_stream_processor(
+  stream : AudioStream,
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "moonbit_raylib_detach_audio_stream_processor"
+
+// ============================================================================
+// Audio mixed processor attach/detach (direct pass-through)
+// ============================================================================
+
+///|
+pub extern "c" fn attach_audio_mixed_processor(
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "AttachAudioMixedProcessor"
+
+///|
+pub extern "c" fn detach_audio_mixed_processor(
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "DetachAudioMixedProcessor"
+
+// ============================================================================
+// Music stream processor attach/detach
+// ============================================================================
+
+///|
+#borrow(music)
+pub extern "c" fn attach_music_stream_processor(
+  music : Music,
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "moonbit_raylib_attach_music_stream_processor"
+
+///|
+#borrow(music)
+pub extern "c" fn detach_music_stream_processor(
+  music : Music,
+  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+) = "moonbit_raylib_detach_music_stream_processor"

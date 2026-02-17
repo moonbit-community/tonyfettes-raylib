@@ -51,3 +51,6 @@ pub type VrStereoConfig
 
 ///|
 pub type MaterialsArray
+
+///|
+pub type AudioBuffer
