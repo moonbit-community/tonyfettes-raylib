@@ -240,3 +240,14 @@ pub extern "c" fn gen_image_font_atlas(
   padding : Int,
   pack_method : Int,
 ) -> Image = "moonbit_raylib_gen_image_font_atlas"
+
+///|
+#borrow(file_data)
+pub extern "c" fn build_font_from_data(
+  file_data : Bytes,
+  data_size : Int,
+  font_size : Int,
+  font_type : Int,
+  padding : Int,
+  pack_method : Int,
+) -> Font = "moonbit_raylib_build_font_from_data"
