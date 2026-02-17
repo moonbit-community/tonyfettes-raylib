@@ -460,6 +460,13 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 *Note: 5 extra examples not in official set: `demo`, `easings_testbed`, `minesweeper`,
 `raymath_vector_angle`, `core_input_gamepad_info`.*
 
+**Vendored example status:** The vendored raylib 5.5 examples are fully ported, with three
+exceptions: 2 are blocked by C limitations (`core_custom_logging` requires C function
+pointers, `core_loading_thread` requires pthreads) and 1 remains a porting candidate
+(`textures_textured_curve`). All other unported examples (~58) are from raylib 5.6+ and
+their C source is not vendored in this repository. Annotations below indicate why each
+unported example has not been ported.
+
 ### 3.2 Ported Examples
 
 #### Core (32/48)
@@ -496,23 +503,23 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] core_window_letterbox
 - [x] core_window_should_close
 - [x] core_world_screen
-- [ ] core_3d_camera_fps
-- [ ] core_clipboard_text
-- [ ] core_compute_hash
-- [ ] core_custom_logging
-- [ ] core_delta_time
-- [ ] core_directory_files
-- [ ] core_highdpi_demo
-- [ ] core_highdpi_testbed
-- [ ] core_input_actions
-- [ ] core_input_gestures_testbed
-- [ ] core_keyboard_testbed
-- [ ] core_monitor_detector
-- [ ] core_render_texture
-- [ ] core_screen_recording
-- [ ] core_text_file_loading
-- [ ] core_undo_redo
-- [ ] core_viewport_scaling
+- [ ] core_3d_camera_fps — *Not vendored*
+- [ ] core_clipboard_text — *Not vendored; raygui dependency*
+- [ ] core_compute_hash — *Not vendored; raygui dependency*
+- [ ] core_custom_logging — *C function pointer (`SetTraceLogCallback`)*
+- [ ] core_delta_time — *Not vendored*
+- [ ] core_directory_files — *Not vendored; raygui dependency*
+- [ ] core_highdpi_demo — *Not vendored*
+- [ ] core_highdpi_testbed — *Not vendored*
+- [ ] core_input_actions — *Not vendored*
+- [ ] core_input_gestures_testbed — *Not vendored*
+- [ ] core_keyboard_testbed — *Not vendored*
+- [ ] core_monitor_detector — *Not vendored*
+- [ ] core_render_texture — *Not vendored*
+- [ ] core_screen_recording — *Not vendored; requires msf_gif.h*
+- [ ] core_text_file_loading — *Not vendored*
+- [ ] core_undo_redo — *Not vendored*
+- [ ] core_viewport_scaling — *Not vendored*
 
 #### Shapes (18/39)
 
@@ -534,28 +541,28 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] shapes_rectangle_scaling
 - [x] shapes_splines_drawing
 - [x] shapes_top_down_lights
-- [ ] shapes_ball_physics
-- [ ] shapes_bullet_hell
-- [ ] shapes_clock_of_clocks
-- [ ] shapes_dashed_line
-- [ ] shapes_digital_clock
-- [ ] shapes_double_pendulum
-- [ ] shapes_hilbert_curve
-- [ ] shapes_kaleidoscope
-- [ ] shapes_lines_drawing
-- [ ] shapes_math_angle_rotation
-- [ ] shapes_math_sine_cosine
-- [ ] shapes_mouse_trail
-- [ ] shapes_penrose_tile
-- [ ] shapes_pie_chart
-- [ ] shapes_recursive_tree
-- [ ] shapes_rlgl_color_wheel
-- [ ] shapes_rlgl_triangle
-- [ ] shapes_rounded_rectangle_drawing
-- [ ] shapes_simple_particles
-- [ ] shapes_starfield_effect
-- [ ] shapes_triangle_strip
-- [ ] shapes_vector_angle
+- [ ] shapes_ball_physics — *Not vendored*
+- [ ] shapes_bullet_hell — *Not vendored*
+- [ ] shapes_clock_of_clocks — *Not vendored; requires time.h*
+- [ ] shapes_dashed_line — *Not vendored; requires DrawLineDashed (5.6+)*
+- [ ] shapes_digital_clock — *Not vendored; requires time.h*
+- [ ] shapes_double_pendulum — *Not vendored*
+- [ ] shapes_hilbert_curve — *Not vendored; raygui dependency*
+- [ ] shapes_kaleidoscope — *Not vendored; raygui dependency*
+- [ ] shapes_lines_drawing — *Not vendored*
+- [ ] shapes_math_angle_rotation — *Not vendored*
+- [ ] shapes_math_sine_cosine — *Not vendored; raygui + DrawLineDashed*
+- [ ] shapes_mouse_trail — *Not vendored*
+- [ ] shapes_penrose_tile — *Not vendored*
+- [ ] shapes_pie_chart — *Not vendored; raygui dependency*
+- [ ] shapes_recursive_tree — *Not vendored; raygui dependency*
+- [ ] shapes_rlgl_color_wheel — *Not vendored; raygui dependency*
+- [ ] shapes_rlgl_triangle — *Not vendored*
+- [ ] shapes_rounded_rectangle_drawing — *Not vendored; raygui dependency*
+- [ ] shapes_simple_particles — *Not vendored*
+- [ ] shapes_starfield_effect — *Not vendored*
+- [ ] shapes_triangle_strip — *Not vendored; raygui dependency*
+- [ ] shapes_vector_angle — *Not vendored*
 
 #### Textures (25/30)
 
@@ -584,11 +591,11 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] textures_sprite_explosion
 - [x] textures_srcrec_dstrec
 - [x] textures_to_image
-- [ ] textures_cellular_automata
-- [ ] textures_framebuffer_rendering
-- [ ] textures_screen_buffer
-- [ ] textures_sprite_stacking
-- [ ] textures_textured_curve
+- [ ] textures_cellular_automata — *Not vendored*
+- [ ] textures_framebuffer_rendering — *Not vendored*
+- [ ] textures_screen_buffer — *Not vendored*
+- [ ] textures_sprite_stacking — *Not vendored*
+- [ ] textures_textured_curve — *Vendored; not yet ported*
 
 #### Text (12/16)
 
@@ -604,10 +611,10 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] text_rectangle_bounds
 - [x] text_unicode (= text_unicode_emojis)
 - [x] text_writing_anim
-- [ ] text_inline_styling
-- [ ] text_strings_management
-- [ ] text_unicode_ranges
-- [ ] text_words_alignment
+- [ ] text_inline_styling — *Not vendored; requires Font struct internals*
+- [ ] text_strings_management — *Not vendored*
+- [ ] text_unicode_ranges — *Not vendored; requires Font struct internals*
+- [ ] text_words_alignment — *Not vendored*
 
 #### Models (22/27)
 
@@ -633,11 +640,11 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] models_skybox (= models_skybox_rendering)
 - [x] models_waving_cubes
 - [x] models_yaw_pitch_roll
-- [ ] models_basic_voxel
-- [ ] models_decals
-- [ ] models_directional_billboard
-- [ ] models_rotating_cube
-- [ ] models_tesseract_view
+- [ ] models_basic_voxel — *Not vendored*
+- [ ] models_decals — *Not vendored; complex mesh manipulation*
+- [ ] models_directional_billboard — *Not vendored*
+- [ ] models_rotating_cube — *Not vendored*
+- [ ] models_tesseract_view — *Not vendored*
 
 #### Shaders (27/33)
 
@@ -667,13 +674,13 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] shaders_texture_waves
 - [x] shaders_vertex_displacement
 - [x] shaders_write_depth (= shaders_depth_writing)
-- [ ] shaders_ascii_rendering
-- [ ] shaders_color_correction
-- [ ] shaders_depth_rendering
-- [ ] shaders_game_of_life
-- [ ] shaders_mandelbrot_set
-- [ ] shaders_normalmap_rendering
-- [ ] shaders_rounded_rectangle
+- [ ] shaders_ascii_rendering — *Not vendored*
+- [ ] shaders_color_correction — *Not vendored; raygui dependency*
+- [ ] shaders_depth_rendering — *Not vendored*
+- [ ] shaders_game_of_life — *Not vendored; raygui dependency*
+- [ ] shaders_mandelbrot_set — *Not vendored*
+- [ ] shaders_normalmap_rendering — *Not vendored*
+- [ ] shaders_rounded_rectangle — *Not vendored*
 
 #### Audio (7/9)
 
@@ -684,8 +691,8 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] audio_sound_loading
 - [x] audio_sound_multi
 - [x] audio_stream_effects
-- [ ] audio_sound_positioning
-- [ ] audio_spectrum_visualizer
+- [ ] audio_sound_positioning — *Not vendored*
+- [ ] audio_spectrum_visualizer — *Not vendored; requires FFT + raw Wave.data*
 
 #### Other / Custom (5)
 
@@ -695,15 +702,81 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 - [x] raymath_vector_angle
 - [x] core_input_gamepad_info
 
-### 3.3 Examples Not Portable
+### 3.3 Unported Examples — Summary by Reason
+
+| Reason | Count | Description |
+|--------|------:|-------------|
+| Not vendored (portable) | ~39 | C source not in vendored raylib 5.5; would be portable if added |
+| Not vendored (raygui) | 13 | Requires [raygui](https://github.com/raysan5/raygui) library |
+| Not vendored (system time) | 2 | Requires `<time.h>` (`time()`/`localtime()`) |
+| Not vendored (font internals) | 2 | Requires `Font.glyphs[]`/`Font.recs[]` (Font is opaque) |
+| Not vendored (missing API) | 1 | Requires `DrawLineDashed` (added in raylib 5.6) |
+| Not vendored (external lib) | 1 | Requires `msf_gif.h` (GIF encoding library) |
+| Not vendored (complex mesh) | 1 | Requires raw mesh buffer manipulation |
+| Not vendored (FFT + raw audio) | 1 | Requires FFT + raw `Wave.data` pointer access |
+| Vendored, not portable | 2 | C function pointer / pthreads |
+| Vendored, not yet ported | 1 | `textures_textured_curve` |
+
+#### Vendored but not portable (2)
 
 | Example | Reason |
 |---------|--------|
 | `core_custom_logging` | Requires `SetTraceLogCallback` (C function pointer) |
 | `core_loading_thread` | Requires pthreads / C threading |
 
-Most unported examples are **not blocked by missing API** — they simply haven't been
-ported yet. Many are newer raylib examples without vendored C source in this repository.
+#### Vendored but not yet ported (1)
+
+| Example | Notes |
+|---------|-------|
+| `textures_textured_curve` | Uses rlgl for custom curve rendering; could be ported |
+
+#### Not vendored — raygui dependency (13)
+
+These examples use the [raygui](https://github.com/raysan5/raygui) immediate-mode GUI
+library, which is separate from core raylib and not bound in this project:
+
+- **Core:** `core_clipboard_text`, `core_compute_hash`, `core_directory_files`
+- **Shapes:** `shapes_hilbert_curve`, `shapes_kaleidoscope`, `shapes_math_sine_cosine`\*,
+  `shapes_pie_chart`, `shapes_recursive_tree`, `shapes_rlgl_color_wheel`,
+  `shapes_rounded_rectangle_drawing`, `shapes_triangle_strip`
+- **Shaders:** `shaders_color_correction`, `shaders_game_of_life`
+
+\*`shapes_math_sine_cosine` also requires `DrawLineDashed` (5.6+ API).
+
+#### Not vendored — other blocking dependencies (8)
+
+| Example | Blocker |
+|---------|---------|
+| `shapes_clock_of_clocks` | `<time.h>` — system clock access |
+| `shapes_digital_clock` | `<time.h>` — system clock access |
+| `shapes_dashed_line` | `DrawLineDashed` — raylib 5.6+ API, not in vendored 5.5 |
+| `text_inline_styling` | Font struct internals (`font.glyphs[]`, `font.recs[]`) |
+| `text_unicode_ranges` | Font struct internals (`font.glyphs[]`, `font.recs[]`) |
+| `core_screen_recording` | External library `msf_gif.h` |
+| `models_decals` | Complex raw mesh buffer manipulation |
+| `audio_spectrum_visualizer` | FFT implementation + raw `Wave.data` pointer access |
+
+#### Not vendored — portable (~39)
+
+These examples use only core raylib APIs already bound in MoonBit. They are not ported
+solely because their C source is not vendored in this repository (raylib 5.6+):
+
+- **Core:** `core_3d_camera_fps`, `core_delta_time`, `core_highdpi_demo`,
+  `core_highdpi_testbed`, `core_input_actions`, `core_input_gestures_testbed`,
+  `core_keyboard_testbed`, `core_monitor_detector`, `core_render_texture`,
+  `core_text_file_loading`, `core_undo_redo`, `core_viewport_scaling`
+- **Shapes:** `shapes_ball_physics`, `shapes_bullet_hell`, `shapes_double_pendulum`,
+  `shapes_lines_drawing`, `shapes_math_angle_rotation`, `shapes_mouse_trail`,
+  `shapes_penrose_tile`, `shapes_rlgl_triangle`, `shapes_simple_particles`,
+  `shapes_starfield_effect`, `shapes_vector_angle`
+- **Textures:** `textures_cellular_automata`, `textures_framebuffer_rendering`,
+  `textures_screen_buffer`, `textures_sprite_stacking`
+- **Text:** `text_strings_management`, `text_words_alignment`
+- **Models:** `models_basic_voxel`, `models_directional_billboard`, `models_rotating_cube`,
+  `models_tesseract_view`
+- **Shaders:** `shaders_ascii_rendering`, `shaders_depth_rendering`,
+  `shaders_mandelbrot_set`, `shaders_normalmap_rendering`, `shaders_rounded_rectangle`
+- **Audio:** `audio_sound_positioning`
 
 ---
 
@@ -785,9 +858,8 @@ ported yet. Many are newer raylib examples without vendored C source in this rep
 ## 6. Recommendations
 
 ### Medium Priority
-1. **Port remaining examples** — ~55 unported examples remain. Most are newer raylib
-   examples without vendored C source in this repository. The vendored examples are
-   now fully ported (except 2 blocked by C function pointer requirements).
+1. **Port `textures_textured_curve`** — The only vendored example not yet ported. Uses
+   rlgl for custom Bezier curve rendering.
 2. **Expose shader location constants** — Shader location indices are currently raw integers.
    Named constants would improve usability.
 
