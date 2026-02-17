@@ -34,6 +34,29 @@ pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
   @raylib.load_font_ex(@utf8.encode(file_name), font_size)
 }
 
+///|
+pub fn load_font_ex_codepoints(
+  file_name : String,
+  font_size : Int,
+  codepoints : Array[Int],
+) -> Font {
+  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
+  for i, cp in codepoints {
+    let (a, b, c, d) = write_int(cp)
+    arr[i * 4] = a
+    arr[i * 4 + 1] = b
+    arr[i * 4 + 2] = c
+    arr[i * 4 + 3] = d
+  }
+  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  @raylib.load_font_ex_codepoints(
+    @utf8.encode(file_name),
+    font_size,
+    bytes,
+    codepoints.length(),
+  )
+}
+
 // ============================================================================
 // Text drawing (wrappers)
 // ============================================================================
