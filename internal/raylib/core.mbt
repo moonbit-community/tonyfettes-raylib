@@ -515,6 +515,14 @@ pub extern "c" fn get_shader_location_attrib(
 ) -> Int = "moonbit_raylib_get_shader_location_attrib"
 
 ///|
+#borrow(shader)
+pub extern "c" fn set_shader_locs(
+  shader : Shader,
+  loc_index : Int,
+  loc_value : Int,
+) = "moonbit_raylib_set_shader_locs"
+
+///|
 #borrow(shader, value)
 pub extern "c" fn set_shader_value(
   shader : Shader,

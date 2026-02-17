@@ -28,6 +28,7 @@ pub using @raylib {
   set_shader_value,
   set_shader_value_v,
   set_shader_value_texture,
+  set_shader_locs,
 }
 
 // Drawing wrapper
@@ -197,7 +198,6 @@ pub let shader_loc_vertex_boneweights : Int = 27
 
 ///|
 pub let shader_loc_bone_matrices : Int = 28
-
 // Blend mode constants
 
 ///|
