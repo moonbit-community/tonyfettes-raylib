@@ -32,6 +32,7 @@ pub using @raylib {
   get_texture_width,
   get_texture_height,
   get_render_texture_texture,
+  texture_from_id,
 }
 
 // ============================================================================
@@ -374,6 +375,15 @@ pub let pixelformat_uncompressed_r4g4b4a4 : Int = 6
 
 ///|
 pub let pixelformat_uncompressed_r8g8b8a8 : Int = 7
+
+///|
+pub let pixelformat_uncompressed_r32 : Int = 8
+
+///|
+pub let pixelformat_uncompressed_r32g32b32 : Int = 9
+
+///|
+pub let pixelformat_uncompressed_r32g32b32a32 : Int = 10
 
 // ============================================================================
 // Texture management extras (wrappers)

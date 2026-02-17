@@ -81,6 +81,11 @@ pub fn set_shader_value_matrix(
   @raylib.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
 }
 
+///|
+pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
+  @raylib.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
+}
+
 // Shader uniform type constants
 
 ///|
@@ -262,9 +267,9 @@ pub using @raylib {
   rl_unload_framebuffer,
   // rlgl: Texture management
   rl_load_texture_depth,
+  rl_load_texture,
   rl_unload_texture,
   // rlgl: Shader management
-  rl_get_location_uniform,
   rl_set_uniform_sampler,
   rl_get_shader_id_default,
   // rlgl: Draw helpers
@@ -287,6 +292,14 @@ pub let rl_triangles : Int = 0x0004
 
 ///|
 pub let rl_quads : Int = 0x0007
+
+// rlgl framebuffer target constants
+
+///|
+pub let rl_read_framebuffer : UInt = 0x8CA8U
+
+///|
+pub let rl_draw_framebuffer : UInt = 0x8CA9U
 
 // rlgl framebuffer attach type constants
 
