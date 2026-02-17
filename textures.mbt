@@ -14,6 +14,7 @@ pub using @raylib {
   is_texture_valid,
   unload_texture,
   load_render_texture,
+  load_render_texture_depth_tex,
   is_render_texture_valid,
   unload_render_texture,
   gen_image_white_noise,
