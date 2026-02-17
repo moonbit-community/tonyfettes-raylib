@@ -32,6 +32,8 @@ pub using @raylib {
   get_texture_width,
   get_texture_height,
   get_render_texture_texture,
+  load_render_texture_depth_tex,
+  unload_render_texture_depth_tex,
 }
 
 // ============================================================================

@@ -272,6 +272,77 @@ moonbit_raylib_unload_render_texture(RenderTextureWrapper *wrapper) {
   }
 }
 
+// Custom destructor for depth-tex render textures (manual rlgl cleanup)
+static void
+render_texture_depth_tex_destructor(void *ptr) {
+  RenderTextureWrapper *w = (RenderTextureWrapper *)ptr;
+  if (!w->freed) {
+    if (w->render_texture.id > 0) {
+      rlUnloadTexture(w->render_texture.texture.id);
+      rlUnloadTexture(w->render_texture.depth.id);
+      rlUnloadFramebuffer(w->render_texture.id);
+    }
+  }
+}
+
+RenderTextureWrapper *
+moonbit_raylib_load_render_texture_depth_tex(int width, int height) {
+  RenderTextureWrapper *w =
+    (RenderTextureWrapper *)moonbit_make_external_object(
+      render_texture_depth_tex_destructor, sizeof(RenderTextureWrapper)
+    );
+  memset(&w->render_texture, 0, sizeof(RenderTexture));
+  w->freed = 0;
+
+  w->render_texture.id = rlLoadFramebuffer();
+
+  if (w->render_texture.id > 0) {
+    rlEnableFramebuffer(w->render_texture.id);
+
+    // Create color texture (default to RGBA)
+    w->render_texture.texture.id = rlLoadTexture(0, width, height, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 1);
+    w->render_texture.texture.width = width;
+    w->render_texture.texture.height = height;
+    w->render_texture.texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+    w->render_texture.texture.mipmaps = 1;
+
+    // Create depth texture buffer (instead of raylib default renderbuffer)
+    w->render_texture.depth.id = rlLoadTextureDepth(width, height, false);
+    w->render_texture.depth.width = width;
+    w->render_texture.depth.height = height;
+    w->render_texture.depth.format = 19; // DEPTH_COMPONENT_24BIT
+    w->render_texture.depth.mipmaps = 1;
+
+    // Attach color texture and depth texture to FBO
+    rlFramebufferAttach(w->render_texture.id, w->render_texture.texture.id,
+                        RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
+    rlFramebufferAttach(w->render_texture.id, w->render_texture.depth.id,
+                        RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0);
+
+    // Check if fbo is complete with attachments (valid)
+    if (rlFramebufferComplete(w->render_texture.id))
+      TRACELOG(LOG_INFO, "FBO: [ID %i] Framebuffer object created successfully", w->render_texture.id);
+
+    rlDisableFramebuffer();
+  } else {
+    TRACELOG(LOG_WARNING, "FBO: Framebuffer object can not be created");
+  }
+
+  return w;
+}
+
+void
+moonbit_raylib_unload_render_texture_depth_tex(RenderTextureWrapper *wrapper) {
+  if (wrapper && !wrapper->freed) {
+    if (wrapper->render_texture.id > 0) {
+      rlUnloadTexture(wrapper->render_texture.texture.id);
+      rlUnloadTexture(wrapper->render_texture.depth.id);
+      rlUnloadFramebuffer(wrapper->render_texture.id);
+    }
+    wrapper->freed = 1;
+  }
+}
+
 // ============================================================================
 // Textures: Texture drawing
 // ============================================================================
