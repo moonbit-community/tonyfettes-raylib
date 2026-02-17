@@ -776,3 +776,179 @@ pub extern "c" fn rl_set_blend_factors(
 
 ///|
 pub extern "c" fn rl_draw_render_batch_active() = "rlDrawRenderBatchActive"
+
+// rlgl: Geometry submission (vertex-level)
+
+///|
+pub extern "c" fn rl_begin(mode : Int) = "rlBegin"
+
+///|
+pub extern "c" fn rl_end() = "rlEnd"
+
+///|
+pub extern "c" fn rl_vertex2f(x : Float, y : Float) = "rlVertex2f"
+
+///|
+pub extern "c" fn rl_vertex3f(x : Float, y : Float, z : Float) = "rlVertex3f"
+
+///|
+pub extern "c" fn rl_tex_coord2f(x : Float, y : Float) = "rlTexCoord2f"
+
+///|
+pub extern "c" fn rl_color4ub(r : Byte, g : Byte, b : Byte, a : Byte) = "rlColor4ub"
+
+///|
+pub extern "c" fn rl_normal3f(x : Float, y : Float, z : Float) = "rlNormal3f"
+
+///|
+pub extern "c" fn rl_set_texture(id : UInt) = "rlSetTexture"
+
+// rlgl: Matrix stack
+
+///|
+pub extern "c" fn rl_push_matrix() = "rlPushMatrix"
+
+///|
+pub extern "c" fn rl_pop_matrix() = "rlPopMatrix"
+
+///|
+pub extern "c" fn rl_translatef(x : Float, y : Float, z : Float) = "rlTranslatef"
+
+///|
+pub extern "c" fn rl_rotatef(angle : Float, x : Float, y : Float, z : Float) = "rlRotatef"
+
+///|
+pub extern "c" fn rl_scalef(x : Float, y : Float, z : Float) = "rlScalef"
+
+///|
+pub extern "c" fn rl_mult_matrixf(matf : Bytes) = "rlMultMatrixf"
+
+// rlgl: State control
+
+///|
+pub extern "c" fn rl_enable_backface_culling() = "rlEnableBackfaceCulling"
+
+///|
+pub extern "c" fn rl_disable_backface_culling() = "rlDisableBackfaceCulling"
+
+///|
+pub extern "c" fn rl_check_render_batch_limit(v_count : Int) -> Bool = "rlCheckRenderBatchLimit"
+
+///|
+pub extern "c" fn rl_enable_depth_test() = "rlEnableDepthTest"
+
+///|
+pub extern "c" fn rl_disable_depth_test() = "rlDisableDepthTest"
+
+///|
+pub extern "c" fn rl_enable_depth_mask() = "rlEnableDepthMask"
+
+///|
+pub extern "c" fn rl_disable_depth_mask() = "rlDisableDepthMask"
+
+///|
+pub extern "c" fn rl_enable_color_blend() = "rlEnableColorBlend"
+
+///|
+pub extern "c" fn rl_disable_color_blend() = "rlDisableColorBlend"
+
+///|
+pub extern "c" fn rl_active_texture_slot(slot : Int) = "rlActiveTextureSlot"
+
+///|
+pub extern "c" fn rl_enable_texture(id : UInt) = "rlEnableTexture"
+
+///|
+pub extern "c" fn rl_disable_texture() = "rlDisableTexture"
+
+///|
+pub extern "c" fn rl_enable_shader(id : UInt) = "rlEnableShader"
+
+///|
+pub extern "c" fn rl_disable_shader() = "rlDisableShader"
+
+///|
+pub extern "c" fn rl_enable_framebuffer(id : UInt) = "rlEnableFramebuffer"
+
+///|
+pub extern "c" fn rl_disable_framebuffer() = "rlDisableFramebuffer"
+
+///|
+pub extern "c" fn rl_active_draw_buffers(count : Int) = "rlActiveDrawBuffers"
+
+///|
+pub extern "c" fn rl_viewport(x : Int, y : Int, width : Int, height : Int) = "rlViewport"
+
+///|
+pub extern "c" fn rl_clear_screen_buffers() = "rlClearScreenBuffers"
+
+// rlgl: Framebuffer management
+
+///|
+pub extern "c" fn rl_load_framebuffer() -> UInt = "rlLoadFramebuffer"
+
+///|
+pub extern "c" fn rl_framebuffer_complete(id : UInt) -> Bool = "rlFramebufferComplete"
+
+///|
+pub extern "c" fn rl_framebuffer_attach(
+  fbo_id : UInt,
+  tex_id : UInt,
+  attach_type : Int,
+  tex_type : Int,
+  mip_level : Int,
+) = "rlFramebufferAttach"
+
+///|
+pub extern "c" fn rl_unload_framebuffer(id : UInt) = "rlUnloadFramebuffer"
+
+// rlgl: Texture management (low-level)
+
+///|
+pub extern "c" fn rl_load_texture_depth(width : Int, height : Int, use_render_buffer : Bool) -> UInt = "rlLoadTextureDepth"
+
+///|
+pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"
+
+// rlgl: Shader management (low-level)
+
+///|
+pub extern "c" fn rl_get_location_uniform(shader_id : UInt, uniform_name : Bytes) -> Int = "rlGetLocationUniform"
+
+///|
+pub extern "c" fn rl_set_uniform_sampler(loc_index : Int, texture_id : UInt) = "rlSetUniformSampler"
+
+///|
+pub extern "c" fn rl_get_shader_id_default() -> UInt = "rlGetShaderIdDefault"
+
+// rlgl: Draw helpers
+
+///|
+pub extern "c" fn rl_load_draw_quad() = "rlLoadDrawQuad"
+
+///|
+pub extern "c" fn rl_load_draw_cube() = "rlLoadDrawCube"
+
+// rlgl: Misc
+
+///|
+pub extern "c" fn rl_get_framebuffer_width() -> Int = "rlGetFramebufferWidth"
+
+///|
+pub extern "c" fn rl_get_framebuffer_height() -> Int = "rlGetFramebufferHeight"
+
+///|
+pub extern "c" fn rl_bind_framebuffer(target : UInt, fbo : UInt) = "rlBindFramebuffer"
+
+///|
+pub extern "c" fn rl_blit_framebuffer(
+  src_x : Int,
+  src_y : Int,
+  src_w : Int,
+  src_h : Int,
+  dst_x : Int,
+  dst_y : Int,
+  dst_w : Int,
+  dst_h : Int,
+  buffer_mask : Int,
+) = "rlBlitFramebuffer"

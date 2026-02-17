@@ -219,7 +219,120 @@ pub using @raylib {
   rl_set_blend_mode,
   rl_set_blend_factors,
   rl_draw_render_batch_active,
+  // rlgl: Geometry submission
+  rl_begin,
+  rl_end,
+  rl_vertex2f,
+  rl_vertex3f,
+  rl_tex_coord2f,
+  rl_color4ub,
+  rl_normal3f,
+  rl_set_texture,
+  // rlgl: Matrix stack
+  rl_push_matrix,
+  rl_pop_matrix,
+  rl_translatef,
+  rl_rotatef,
+  rl_scalef,
+  rl_mult_matrixf,
+  // rlgl: State control
+  rl_enable_backface_culling,
+  rl_disable_backface_culling,
+  rl_check_render_batch_limit,
+  rl_enable_depth_test,
+  rl_disable_depth_test,
+  rl_enable_depth_mask,
+  rl_disable_depth_mask,
+  rl_enable_color_blend,
+  rl_disable_color_blend,
+  rl_active_texture_slot,
+  rl_enable_texture,
+  rl_disable_texture,
+  rl_enable_shader,
+  rl_disable_shader,
+  rl_enable_framebuffer,
+  rl_disable_framebuffer,
+  rl_active_draw_buffers,
+  rl_viewport,
+  rl_clear_screen_buffers,
+  // rlgl: Framebuffer management
+  rl_load_framebuffer,
+  rl_framebuffer_complete,
+  rl_framebuffer_attach,
+  rl_unload_framebuffer,
+  // rlgl: Texture management
+  rl_load_texture_depth,
+  rl_unload_texture,
+  // rlgl: Shader management
+  rl_get_location_uniform,
+  rl_set_uniform_sampler,
+  rl_get_shader_id_default,
+  // rlgl: Draw helpers
+  rl_load_draw_quad,
+  rl_load_draw_cube,
+  // rlgl: Misc
+  rl_get_framebuffer_width,
+  rl_get_framebuffer_height,
+  rl_bind_framebuffer,
+  rl_blit_framebuffer,
 }
+
+// rlgl draw mode constants
+
+///|
+pub let rl_lines : Int = 0x0001
+
+///|
+pub let rl_triangles : Int = 0x0004
+
+///|
+pub let rl_quads : Int = 0x0007
+
+// rlgl framebuffer attach type constants
+
+///|
+pub let rl_attachment_color_channel0 : Int = 0
+
+///|
+pub let rl_attachment_color_channel1 : Int = 1
+
+///|
+pub let rl_attachment_color_channel2 : Int = 2
+
+///|
+pub let rl_attachment_color_channel3 : Int = 3
+
+///|
+pub let rl_attachment_depth : Int = 100
+
+///|
+pub let rl_attachment_stencil : Int = 200
+
+// rlgl framebuffer texture type constants
+
+///|
+pub let rl_attachment_cubemap_positive_x : Int = 0
+
+///|
+pub let rl_attachment_cubemap_negative_x : Int = 1
+
+///|
+pub let rl_attachment_cubemap_positive_y : Int = 2
+
+///|
+pub let rl_attachment_cubemap_negative_y : Int = 3
+
+///|
+pub let rl_attachment_cubemap_positive_z : Int = 4
+
+///|
+pub let rl_attachment_cubemap_negative_z : Int = 5
+
+///|
+pub let rl_attachment_texture2d : Int = 100
+
+///|
+pub let rl_attachment_renderbuffer : Int = 200
 
 // ============================================================================
 // VR stereo re-exports
