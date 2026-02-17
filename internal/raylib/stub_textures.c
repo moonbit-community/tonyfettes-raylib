@@ -738,3 +738,29 @@ moonbit_raylib_unload_shadowmap_render_texture(RenderTextureWrapper *wrapper) {
     wrapper->freed = 1;
   }
 }
+
+// ============================================================================
+// rlgl: Load texture (NULL data, for framebuffer attachments)
+// ============================================================================
+
+unsigned int
+moonbit_raylib_rl_load_texture(int width, int height, int format, int mipmapCount) {
+  return rlLoadTexture(NULL, width, height, format, mipmapCount);
+}
+
+// ============================================================================
+// Texture from raw GL ID (non-owning, for drawing GBuffer textures)
+// ============================================================================
+
+TextureWrapper *
+moonbit_raylib_texture_from_id(unsigned int id, int width, int height) {
+  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
+    NULL, sizeof(TextureWrapper));
+  tw->texture.id = id;
+  tw->texture.width = width;
+  tw->texture.height = height;
+  tw->texture.mipmaps = 1;
+  tw->texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+  tw->freed = 1; // Non-owning - don't unload via raylib
+  return tw;
+}
