@@ -9,6 +9,7 @@ PKG_PATH="${1:-examples/raylib_tank_1990}"
 PKG_PATH="${PKG_PATH%/}"
 PKG_NAME="$(basename "$PKG_PATH")"
 OUT_DIR="${2:-_build/web/${PKG_NAME}}"
+PRE_JS="$ROOT_DIR/tools/web_force_webgl1.pre.js"
 
 if ! command -v moon >/dev/null 2>&1; then
   echo "error: moon command not found in PATH" >&2
@@ -29,6 +30,11 @@ fi
 
 if [[ ! -f "$MOON_HOME/lib/runtime.c" || ! -f "$MOON_HOME/include/moonbit.h" ]]; then
   echo "error: cannot locate MoonBit runtime files under MOON_HOME=$MOON_HOME" >&2
+  exit 1
+fi
+
+if [[ ! -f "$PRE_JS" ]]; then
+  echo "error: missing pre-js patch file: $PRE_JS" >&2
   exit 1
 fi
 
@@ -92,11 +98,12 @@ emcc \
   -fno-strict-aliasing \
   -Wno-unused-value \
   -sUSE_GLFW=3 \
-  -sUSE_WEBGL2=1 \
+  -sASYNCIFY \
   -sALLOW_MEMORY_GROWTH=1 \
   -sFORCE_FILESYSTEM=1 \
   -sASSERTIONS=1 \
   -sEXPORTED_FUNCTIONS=_main \
+  --pre-js "$PRE_JS" \
   -o "$OUTPUT_HTML"
 
 echo

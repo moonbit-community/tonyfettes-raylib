@@ -56,11 +56,13 @@ Observed results:
 
 - Runtime C (`$MOON_HOME/lib/runtime.c`) must be compiled separately from raylib include paths, otherwise `internal/raylib/external/dirent.h` can shadow system `dirent.h`.
 - For this raylib web backend in the repo, `-sUSE_GLFW=3` is required during `emcc` link.
+- `-sASYNCIFY` is required because raylib web timing can call `emscripten_sleep`.
+- WebGL context is forced to WebGL1 via `tools/web_force_webgl1.pre.js` to avoid runtime initialization/mismatch issues in this binding path.
 - Main compile defines/flags used:
   - `-DPLATFORM_WEB`
   - `-DGRAPHICS_API_OPENGL_ES2`
   - `-sUSE_GLFW=3`
-  - `-sUSE_WEBGL2=1`
+  - `-sASYNCIFY`
   - `-sALLOW_MEMORY_GROWTH=1`
 
 ## Usage
