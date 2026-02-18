@@ -67,14 +67,38 @@ Observed results:
 
 ## Usage
 
+The script is package-generic:
+
+```bash
+tools/build_web_native_emcc.sh <moon_package_path>
+```
+
 Build web bundle:
 
 ```bash
 tools/build_web_native_emcc.sh examples/raylib_tank_1990
 ```
 
+Fighter 97 Lite shortcut:
+
+```bash
+tools/build_web_fighter_97_lite.sh
+```
+
+or equivalently:
+
+```bash
+tools/build_web_native_emcc.sh examples/raylib_fighter_97_lite
+```
+
 Serve locally:
 
 ```bash
 emrun --no_browser --port 8080 _build/web/raylib_tank_1990/raylib_tank_1990.html
+```
+
+For Fighter 97 Lite:
+
+```bash
+emrun --no_browser --port 8080 _build/web/raylib_fighter_97_lite/raylib_fighter_97_lite.html
 ```
