@@ -6,11 +6,14 @@ Can this MoonBit + raylib project be ported to the browser by compiling to C and
 
 ## Short Answer
 
-Yes, that architecture makes sense in principle.
+Yes. Your proposed path works here:
 
-Your suggestion is technically sound for this repo: use MoonBit `native` backend to generate C, then compile that C with `emcc` for browser instead of desktop `cc`.
+1. Keep MoonBit backend as `native` (so MoonBit emits C).
+2. Compile generated MoonBit C + MoonBit runtime C + raylib C with `emcc`.
 
-In the current repository state, this path is not automated yet.
+This repository now includes an automated script for that flow:
+
+- `tools/build_web_native_emcc.sh`
 
 ## What Was Verified
 
@@ -23,53 +26,53 @@ moon build --target native examples/raylib_tank_1990
 moon build -v --target native examples/raylib_tank_1990 --dry-run
 moon build --target wasm examples/raylib_tank_1990
 moon build --target c examples/raylib_tank_1990
+brew install emscripten
 emcc --version
+tools/build_web_native_emcc.sh examples/raylib_tank_1990
 ```
 
 Observed results:
 
-- `moon check --target native` and `moon build --target native` succeed for `examples/raylib_tank_1990`.
-- `moon build -v --target native --dry-run` shows this native pipeline:
+- `moon check --target native` and `moon build --target native` succeed.
+- MoonBit native flow emits C before final compile:
   - `moonc link-core ... -o ./_build/native/debug/build/examples/raylib_tank_1990/raylib_tank_1990.c`
-  - then `/usr/bin/cc` compiles that generated C to native executable.
-- `moon build --target wasm` fails with many `Error: [4156] extern "C" is unsupported in wasm backend`.
-- `moon build --target c` is invalid in this installed CLI (`possible values: wasm, wasm-gc, js, native, llvm, all`).
-- `emcc` is not installed on this machine (`command not found: emcc`).
+- `moon build --target wasm` still fails (`extern "C" is unsupported in wasm backend`) for this binding package.
+- `moon build --target c` is not a valid CLI target in this toolchain.
+- `emcc` is installed and usable.
+- `tools/build_web_native_emcc.sh` generates browser artifacts:
+  - `_build/web/raylib_tank_1990/raylib_tank_1990.html`
+  - `_build/web/raylib_tank_1990/raylib_tank_1990.js`
+  - `_build/web/raylib_tank_1990/raylib_tank_1990.wasm`
 
 ## Repository Facts Relevant to Web Port
 
-- `internal/raylib/moon.pkg` defines `native-stub` and `link: { "native": ... }` only.
-- `build.js` currently sets desktop-only config (`-DPLATFORM_DESKTOP_GLFW` + desktop system libs/frameworks).
-- raylib C source already contains web platform support:
-  - `internal/raylib/rcore.c` has `#elif defined(PLATFORM_WEB)` and includes `platforms/rcore_web.c`.
-  - `internal/raylib/platforms/rcore_web.c` is present.
-- The binding layer has heavy C FFI usage (`extern "c"` appears hundreds of times across `internal/raylib/*.mbt`).
+- `internal/raylib/moon.pkg` is native/desktop oriented.
+- `build.js` sets desktop-specific flags (`-DPLATFORM_DESKTOP_GLFW` and desktop link settings).
+- raylib C source already has web support:
+  - `internal/raylib/rcore.c` includes `platforms/rcore_web.c` for `PLATFORM_WEB`.
+- The MoonBit binding layer is C-FFI heavy (`extern "c"` across `internal/raylib/*.mbt`), which is why current MoonBit wasm backend path is not suitable.
 
-## Why It Is Blocked Today
+## Notes from Implementation
 
-1. Build configuration is desktop-only (`PLATFORM_DESKTOP_GLFW`, desktop link flags, desktop-oriented source set).
-2. There is no web build script that replaces desktop `cc` with `emcc` and injects Emscripten web flags.
-3. Local machine currently lacks the emscripten toolchain.
-4. The current `--target wasm` path is not usable for this binding package because of `extern "c"` restrictions.
+- Runtime C (`$MOON_HOME/lib/runtime.c`) must be compiled separately from raylib include paths, otherwise `internal/raylib/external/dirent.h` can shadow system `dirent.h`.
+- For this raylib web backend in the repo, `-sUSE_GLFW=3` is required during `emcc` link.
+- Main compile defines/flags used:
+  - `-DPLATFORM_WEB`
+  - `-DGRAPHICS_API_OPENGL_ES2`
+  - `-sUSE_GLFW=3`
+  - `-sUSE_WEBGL2=1`
+  - `-sALLOW_MEMORY_GROWTH=1`
 
-## Viable Paths
+## Usage
 
-### Path A: Native-C-to-EMCC Route (Recommended)
+Build web bundle:
 
-1. Keep MoonBit target as `native`.
-2. Use generated C entry file from `moonc link-core` output (for example `.../raylib_tank_1990.c`).
-3. Compile MoonBit runtime C + generated MoonBit C + raylib C with `emcc`.
-4. Use web platform defines (`PLATFORM_WEB`) and Emscripten link flags to produce browser artifacts.
-5. Keep existing desktop flow unchanged.
+```bash
+tools/build_web_native_emcc.sh examples/raylib_tank_1990
+```
 
-This follows your proposal and avoids the current MoonBit wasm backend FFI limitation.
+Serve locally:
 
-### Path B: MoonBit Wasm Backend Route
-
-This would require a major FFI design change because current wasm backend rejects `extern "c"` in this binding layer.
-
-## Recommendation
-
-For near-term delivery, keep native as the primary target.
-
-For browser exploration, create a focused branch to automate Path A for one minimal sample first, then expand to Tank 1990.
+```bash
+emrun --no_browser --port 8080 _build/web/raylib_tank_1990/raylib_tank_1990.html
+```
