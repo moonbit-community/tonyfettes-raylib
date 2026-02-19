@@ -1,5 +1,21 @@
 ///|
-fn can_defender_block(defender : Fighter, mv : MoveSpec) -> Bool {
+fn defender_holding_away(attacker : Fighter, defender : Fighter) -> Bool {
+  let dx = attacker.x - defender.x
+  if absf(dx) <= 1.0 {
+    defender.input.hold_back
+  } else if dx > 0.0 {
+    defender.input.x < 0
+  } else {
+    defender.input.x > 0
+  }
+}
+
+///|
+fn can_defender_block(
+  attacker : Fighter,
+  defender : Fighter,
+  mv : MoveSpec,
+) -> Bool {
   if not(defender.on_ground) {
     return false
   }
@@ -14,7 +30,7 @@ fn can_defender_block(defender : Fighter, mv : MoveSpec) -> Bool {
     return false
   }
 
-  if not(defender.input.hold_back) {
+  if not(defender_holding_away(attacker, defender)) {
     return false
   }
 
@@ -25,6 +41,11 @@ fn can_defender_block(defender : Fighter, mv : MoveSpec) -> Bool {
   } else {
     true
   }
+}
+
+///|
+fn attacker_remaining_recovery(attacker : Fighter, mv : MoveSpec) -> Int {
+  clampi(mv.total_frames - attacker.action_frame, 0, 999)
 }
 
 ///|
@@ -156,6 +177,13 @@ fn apply_successful_hit(
     spawn_ground_skid(game, defender)
   }
 
+  if mv.knockdown {
+    set_training_note(game, "P\{attacker_slot + 1} on hit: hard knockdown")
+  } else {
+    let advantage = defender.hitstun - attacker_remaining_recovery(attacker, mv)
+    set_training_frame_adv(game, attacker_slot, "on hit", advantage)
+  }
+
   game.hud_flash = 0.16
 }
 
@@ -198,6 +226,7 @@ fn apply_blocked_hit(
       game, hitbox_center_x, hitbox_center_y, spark_kind_super, 30,
     )
     push_camera_shake(game, 5.2)
+    set_training_note(game, "P\{attacker_slot + 1} guard break")
   } else {
     defender.action = action_blockstun
     defender.blockstun = mv.blockstun_frames
@@ -208,6 +237,9 @@ fn apply_blocked_hit(
       game, hitbox_center_x, hitbox_center_y, spark_kind_block, 18,
     )
     push_camera_shake(game, 2.2)
+    let advantage = defender.blockstun -
+      attacker_remaining_recovery(attacker, mv)
+    set_training_frame_adv(game, attacker_slot, "on block", advantage)
   }
 
   attacker.hitstop = mv.hitstop_frames / 2 + 2
@@ -263,7 +295,7 @@ fn process_attack_contact(
   let hit_x = hitbox.x + hitbox.width * 0.5
   let hit_y = hitbox.y + hitbox.height * 0.5
 
-  if can_defender_block(defender, mv) {
+  if can_defender_block(attacker, defender, mv) {
     apply_blocked_hit(game, attacker_slot, defender_slot, hit_x, hit_y)
   } else {
     apply_successful_hit(game, attacker_slot, defender_slot, hit_x, hit_y)

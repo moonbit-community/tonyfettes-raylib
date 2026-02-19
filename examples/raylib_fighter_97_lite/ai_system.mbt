@@ -199,8 +199,8 @@ fn update_cpu_input(game : Game, slot : Int, dt : Float) -> Unit {
   let opponent = game.fighters[other_slot(slot)]
 
   if game.mode_training {
-    push_cpu_direction(fighter, 0, 0)
-    fighter.input.hold_back = true
+    let toward = if opponent.x > fighter.x { 1 } else { -1 }
+    push_cpu_direction(fighter, -toward, 0)
     return
   }
 

@@ -204,6 +204,9 @@ fn update_fighter_recovery_state(fighter : Fighter) -> Unit {
   if fighter.invuln > 0 {
     fighter.invuln -= 1
   }
+  if fighter.throw_tech_timer > 0 {
+    fighter.throw_tech_timer -= 1
+  }
 
   if fighter.combo_timer > 0 {
     fighter.combo_timer -= 1

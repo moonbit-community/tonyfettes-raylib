@@ -67,6 +67,124 @@ fn draw_round_win_markers(
 }
 
 ///|
+fn training_direction_numpad(input : InputState) -> String {
+  if input.hold_down {
+    if input.hold_back {
+      "1"
+    } else if input.hold_forward {
+      "3"
+    } else {
+      "2"
+    }
+  } else if input.hold_up {
+    if input.hold_back {
+      "7"
+    } else if input.hold_forward {
+      "9"
+    } else {
+      "8"
+    }
+  } else if input.hold_back {
+    "4"
+  } else if input.hold_forward {
+    "6"
+  } else {
+    "5"
+  }
+}
+
+///|
+fn training_button_color(down : Bool, pressed : Bool) -> @raylib.Color {
+  if pressed {
+    @raylib.Color::new(255, 226, 146, 255)
+  } else if down {
+    @raylib.raywhite
+  } else {
+    @raylib.Color::new(120, 130, 148, 255)
+  }
+}
+
+///|
+fn draw_training_input_panel(
+  x : Int,
+  y : Int,
+  title : String,
+  tint : @raylib.Color,
+  input : InputState,
+) -> Unit {
+  @raylib.draw_rectangle(x, y, 266, 84, @raylib.Color::new(10, 12, 20, 210))
+  @raylib.draw_rectangle_lines(x, y, 266, 84, tint)
+
+  draw_shadow_text(title, x + 10, y + 8, 16, tint)
+  draw_shadow_text(
+    "DIR \{training_direction_numpad(input)}",
+    x + 10,
+    y + 28,
+    24,
+    @raylib.Color::new(172, 214, 250, 255),
+  )
+
+  draw_shadow_text(
+    "LP",
+    x + 94,
+    y + 54,
+    18,
+    training_button_color(input.lp_down, input.lp_pressed),
+  )
+  draw_shadow_text(
+    "HP",
+    x + 130,
+    y + 54,
+    18,
+    training_button_color(input.hp_down, input.hp_pressed),
+  )
+  draw_shadow_text(
+    "LK",
+    x + 166,
+    y + 54,
+    18,
+    training_button_color(input.lk_down, input.lk_pressed),
+  )
+  draw_shadow_text(
+    "HK",
+    x + 202,
+    y + 54,
+    18,
+    training_button_color(input.hk_down, input.hk_pressed),
+  )
+}
+
+///|
+fn draw_training_adv_panel(game : Game) -> Unit {
+  @raylib.draw_rectangle(
+    screen_width / 2 - 210,
+    116,
+    420,
+    34,
+    @raylib.Color::new(10, 12, 20, 210),
+  )
+  @raylib.draw_rectangle_lines(
+    screen_width / 2 - 210,
+    116,
+    420,
+    34,
+    @raylib.Color::new(94, 132, 166, 255),
+  )
+
+  let text = if game.training_adv_text == "" {
+    "No contact yet"
+  } else {
+    game.training_adv_text
+  }
+  let color = if game.training_adv_timer > 0.0 {
+    @raylib.Color::new(255, 230, 156, 255)
+  } else {
+    @raylib.Color::new(156, 170, 192, 255)
+  }
+  draw_center_shadow_text(text, screen_width / 2, 123, 20, color)
+}
+
+///|
 fn draw_fight_hud(game : Game) -> Unit {
   let p1 = game.fighters[0]
   let p2 = game.fighters[1]
@@ -196,11 +314,27 @@ fn draw_fight_hud(game : Game) -> Unit {
 
   if game.mode_training {
     draw_shadow_text(
-      "R: reset  |  infinite meter + regen",
-      screen_width / 2 - 168,
+      "R: reset  |  infinite meter + regen  |  frame data + input display",
+      screen_width / 2 - 294,
       12,
       16,
       @raylib.Color::new(166, 208, 244, 255),
+    )
+
+    draw_training_adv_panel(game)
+    draw_training_input_panel(
+      24,
+      116,
+      "P1 INPUT",
+      @raylib.Color::new(98, 190, 255, 255),
+      p1.input,
+    )
+    draw_training_input_panel(
+      screen_width - 24 - 266,
+      116,
+      "P2 INPUT",
+      @raylib.Color::new(255, 156, 116, 255),
+      p2.input,
     )
   }
 

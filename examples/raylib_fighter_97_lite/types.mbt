@@ -239,6 +239,7 @@ struct Fighter {
   mut blockstun : Int
   mut knockdown : Int
   mut invuln : Int
+  mut throw_tech_timer : Int
   mut combo_counter : Int
   mut combo_damage : Int
   mut combo_timer : Int
@@ -296,6 +297,7 @@ fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     blockstun: 0,
     knockdown: 0,
     invuln: 0,
+    throw_tech_timer: 0,
     combo_counter: 0,
     combo_damage: 0,
     combo_timer: 0,
@@ -340,6 +342,8 @@ struct Game {
   mut hud_flash : Float
   mut announcer_text : String
   mut announcer_timer : Float
+  mut training_adv_text : String
+  mut training_adv_timer : Float
   mut title_blink : Float
   mut select_blink : Float
   mut bg_scroll : Float
@@ -379,6 +383,8 @@ fn Game::new() -> Game {
     hud_flash: 0.0,
     announcer_text: "",
     announcer_timer: 0.0,
+    training_adv_text: "",
+    training_adv_timer: 0.0,
     title_blink: 0.0,
     select_blink: 0.0,
     bg_scroll: 0.0,

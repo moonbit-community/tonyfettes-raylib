@@ -302,10 +302,28 @@ let throw_push_x : Float = 190.0
 let throw_launch_y : Float = -200.0
 
 ///|
+let throw_tech_window_frames : Int = 8
+
+///|
+let throw_tech_push_x : Float = 136.0
+
+///|
+let throw_tech_invuln_frames : Int = 6
+
+///|
+let throw_corner_space_min : Float = 74.0
+
+///|
+let throw_corner_escape_ratio : Float = 0.58
+
+///|
 let wakeup_invuln_frames : Int = 10
 
 ///|
 let training_health_regen_per_sec : Float = 140.0
+
+///|
+let training_info_duration : Float = 1.8
 
 ///|
 let tap_window : Float = 0.24

@@ -68,6 +68,8 @@ fn start_round_intro(game : Game) -> Unit {
     "ROUND \{game.round_index}"
   }
   game.announcer_timer = if game.mode_training { 0.8 } else { 1.0 }
+  game.training_adv_text = ""
+  game.training_adv_timer = 0.0
   game.dramatic_freeze = 0
   reset_round_fighters(game)
 }
@@ -353,6 +355,8 @@ fn reset_training_fight(game : Game) -> Unit {
   game.camera_shake = 0.0
   game.announcer_text = "RESET"
   game.announcer_timer = 0.32
+  game.training_adv_text = ""
+  game.training_adv_timer = 0.0
 }
 
 ///|
@@ -509,6 +513,14 @@ fn update_announcer(game : Game, dt : Float) -> Unit {
     game.hud_flash -= dt
     if game.hud_flash < 0.0 {
       game.hud_flash = 0.0
+    }
+  }
+
+  if game.training_adv_timer > 0.0 {
+    game.training_adv_timer -= dt
+    if game.training_adv_timer < 0.0 {
+      game.training_adv_timer = 0.0
+      game.training_adv_text = ""
     }
   }
 }

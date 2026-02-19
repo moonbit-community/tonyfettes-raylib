@@ -346,6 +346,7 @@ fn reset_fighter_round_state(fighter : Fighter) -> Unit {
   fighter.blockstun = 0
   fighter.knockdown = 0
   fighter.invuln = 0
+  fighter.throw_tech_timer = 0
   fighter.combo_counter = 0
   fighter.combo_damage = 0
   fighter.combo_timer = 0
@@ -397,6 +398,37 @@ fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
   fighter.action != action_intro &&
   fighter.action != action_victory &&
   fighter.action != action_throw
+}
+
+///|
+fn signed_frames_text(frames : Int) -> String {
+  if frames > 0 {
+    "+\{frames}"
+  } else {
+    "\{frames}"
+  }
+}
+
+///|
+fn set_training_note(game : Game, text : String) -> Unit {
+  if not(game.mode_training) {
+    return
+  }
+  game.training_adv_text = text
+  game.training_adv_timer = training_info_duration
+}
+
+///|
+fn set_training_frame_adv(
+  game : Game,
+  attacker_slot : Int,
+  label : String,
+  advantage : Int,
+) -> Unit {
+  set_training_note(
+    game,
+    "P\{attacker_slot + 1} \{label}: \{signed_frames_text(advantage)}f",
+  )
 }
 
 ///|
