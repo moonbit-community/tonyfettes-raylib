@@ -6,6 +6,7 @@ fn can_defender_block(defender : Fighter, mv : MoveSpec) -> Bool {
 
   if defender.action == action_hitstun ||
     defender.action == action_blockstun ||
+    defender.action == action_throw ||
     defender.action == action_knockdown ||
     defender.action == action_wakeup ||
     defender.action == action_intro ||

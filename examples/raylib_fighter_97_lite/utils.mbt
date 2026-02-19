@@ -249,6 +249,7 @@ fn fighter_total_guard(archetype : CharacterArchetype) -> Int {
 ///|
 fn action_is_busy(action : Int) -> Bool {
   action == action_attack ||
+  action == action_throw ||
   action == action_hitstun ||
   action == action_blockstun ||
   action == action_knockdown ||
@@ -286,6 +287,8 @@ fn action_name(action : Int) -> String {
     "dash_back"
   } else if action == action_attack {
     "attack"
+  } else if action == action_throw {
+    "throw"
   } else if action == action_hitstun {
     "hit"
   } else if action == action_blockstun {
@@ -376,6 +379,24 @@ fn guard_ratio(fighter : Fighter, archetype : CharacterArchetype) -> Float {
     Float::from_int(clampi(fighter.guard_meter, 0, total)) /
     Float::from_int(total)
   }
+}
+
+///|
+fn throw_input_pressed(input : InputState) -> Bool {
+  (input.lp_pressed && input.lk_down) || (input.lk_pressed && input.lp_down)
+}
+
+///|
+fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
+  fighter.on_ground &&
+  fighter.invuln <= 0 &&
+  fighter.action != action_hitstun &&
+  fighter.action != action_blockstun &&
+  fighter.action != action_knockdown &&
+  fighter.action != action_wakeup &&
+  fighter.action != action_intro &&
+  fighter.action != action_victory &&
+  fighter.action != action_throw
 }
 
 ///|

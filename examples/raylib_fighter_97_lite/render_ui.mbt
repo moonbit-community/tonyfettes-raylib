@@ -141,20 +141,36 @@ fn draw_fight_hud(game : Game) -> Unit {
     @raylib.Color::new(132, 206, 255, 255),
   )
 
-  draw_round_win_markers(44, 100, p1.round_wins, @raylib.gold)
-  draw_round_win_markers(
-    screen_width - 44 - 24,
-    100,
-    p2.round_wins,
-    @raylib.gold,
-  )
+  if game.mode_training {
+    draw_shadow_text(
+      "TRAINING",
+      screen_width / 2 - 68,
+      96,
+      17,
+      @raylib.Color::new(144, 226, 255, 255),
+    )
+  } else {
+    draw_round_win_markers(44, 100, p1.round_wins, @raylib.gold)
+    draw_round_win_markers(
+      screen_width - 44 - 24,
+      100,
+      p2.round_wins,
+      @raylib.gold,
+    )
+  }
 
-  let timer_str = if game.round_timer <= 0.0 {
+  let timer_str = if game.mode_training {
+    "INF"
+  } else if game.round_timer <= 0.0 {
     "00"
   } else {
     "\{game.round_timer.to_int()}"
   }
-  let timer_color = countdown_color(game.round_timer)
+  let timer_color = if game.mode_training {
+    @raylib.Color::new(136, 228, 255, 255)
+  } else {
+    countdown_color(game.round_timer)
+  }
   @raylib.draw_rectangle(
     screen_width / 2 - 66,
     24,
@@ -176,6 +192,16 @@ fn draw_fight_hud(game : Game) -> Unit {
   }
   if p2.super_meter >= super_cost {
     draw_shadow_text("MAX", screen_width - 88, 94, 14, @raylib.gold)
+  }
+
+  if game.mode_training {
+    draw_shadow_text(
+      "R: reset  |  infinite meter + regen",
+      screen_width / 2 - 168,
+      12,
+      16,
+      @raylib.Color::new(166, 208, 244, 255),
+    )
   }
 
   @raylib.draw_rectangle(0, 0, screen_width, screen_height, flash)
@@ -269,6 +295,13 @@ fn draw_title_screen(game : Game) -> Unit {
     458,
     22,
     @raylib.Color::new(255, 205, 102, 255),
+  )
+  draw_center_shadow_text(
+    "LP + LK at close range => THROW",
+    screen_width / 2,
+    488,
+    22,
+    @raylib.Color::new(168, 228, 196, 255),
   )
 
   let hint_color = if glow > 0.5 {
@@ -380,12 +413,16 @@ fn draw_select_screen(game : Game) -> Unit {
     @raylib.Color::new(246, 218, 152, 255),
   )
 
+  let mode_text = if game.mode_training {
+    "MODE: TRAINING (T to toggle off)"
+  } else if game.mode_vs_cpu {
+    "MODE: VS CPU (SPACE to switch)"
+  } else {
+    "MODE: P1 vs P2 (SPACE to switch)"
+  }
+
   draw_center_shadow_text(
-    if game.mode_vs_cpu {
-      "MODE: VS CPU (SPACE to switch)"
-    } else {
-      "MODE: P1 vs P2 (SPACE to switch)"
-    },
+    mode_text,
     screen_width / 2,
     86,
     22,
@@ -450,7 +487,7 @@ fn draw_select_screen(game : Game) -> Unit {
   }
 
   draw_center_shadow_text(
-    "P1 confirm: F or ENTER   |   P2 confirm: U or ENTER   |   BACKSPACE: unlock",
+    "P1 confirm: F or ENTER   |   P2 confirm: U or ENTER   |   T: training mode",
     screen_width / 2,
     564,
     20,

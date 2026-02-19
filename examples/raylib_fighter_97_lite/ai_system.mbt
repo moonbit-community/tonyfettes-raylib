@@ -109,6 +109,15 @@ fn ai_try_attack(
 
   let opp_air = not(opponent.on_ground)
 
+  if fighter.on_ground &&
+    opponent.on_ground &&
+    distance <= throw_distance * 0.9 &&
+    rand_chance(game, 0.18) {
+    fighter.ai_wants_throw = true
+    fighter.ai_cooldown = cpu_reaction_base + rand_rangef(game, 0.04, 0.1)
+    return
+  }
+
   if fighter.super_meter >= super_cost &&
     distance > 90.0 &&
     distance < 240.0 &&
@@ -153,7 +162,11 @@ fn ai_try_attack(
 
 ///|
 fn ai_apply_attack_flags(fighter : Fighter) -> Unit {
-  if fighter.ai_wants_super {
+  if fighter.ai_wants_throw {
+    input_press_lp(fighter)
+    input_press_lk(fighter)
+    fighter.ai_wants_throw = false
+  } else if fighter.ai_wants_super {
     input_press_super(fighter)
     fighter.ai_wants_super = false
   } else if fighter.ai_wants_special {
@@ -184,6 +197,12 @@ fn rand_rangef_by_seedless(fighter : Fighter) -> Float {
 fn update_cpu_input(game : Game, slot : Int, dt : Float) -> Unit {
   let fighter = game.fighters[slot]
   let opponent = game.fighters[other_slot(slot)]
+
+  if game.mode_training {
+    push_cpu_direction(fighter, 0, 0)
+    fighter.input.hold_back = true
+    return
+  }
 
   fighter.ai_timer -= dt
   if fighter.ai_timer <= 0.0 {

@@ -116,6 +116,9 @@ let action_victory : Int = 12
 let action_intro : Int = 13
 
 ///|
+let action_throw : Int = 14
+
+///|
 let attack_none : Int = 0
 
 ///|
@@ -282,6 +285,27 @@ let counter_hit_bonus : Float = 1.16
 
 ///|
 let throw_distance : Float = 68.0
+
+///|
+let throw_vertical_tolerance : Float = 44.0
+
+///|
+let throw_damage : Int = 118
+
+///|
+let throw_knockdown_frames : Int = 42
+
+///|
+let throw_push_x : Float = 190.0
+
+///|
+let throw_launch_y : Float = -200.0
+
+///|
+let wakeup_invuln_frames : Int = 10
+
+///|
+let training_health_regen_per_sec : Float = 140.0
 
 ///|
 let tap_window : Float = 0.24

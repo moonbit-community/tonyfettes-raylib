@@ -324,6 +324,7 @@ struct Game {
   roster : Array[CharacterArchetype]
   fighters : Array[Fighter]
   mut mode_vs_cpu : Bool
+  mut mode_training : Bool
   mut select_cursor_p1 : Int
   mut select_cursor_p2 : Int
   mut p1_confirmed : Bool
@@ -362,6 +363,7 @@ fn Game::new() -> Game {
     roster: build_roster(),
     fighters: [Fighter::new(0, false), Fighter::new(1, true)],
     mode_vs_cpu: true,
+    mode_training: false,
     select_cursor_p1: 0,
     select_cursor_p2: 1,
     p1_confirmed: false,

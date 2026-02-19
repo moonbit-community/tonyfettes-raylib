@@ -60,10 +60,14 @@ fn assign_selected_characters(game : Game) -> Unit {
 fn start_round_intro(game : Game) -> Unit {
   game.state = state_intro
   game.intro_timer = intro_duration
-  game.round_timer = round_time_start
+  game.round_timer = if game.mode_training { -1.0 } else { round_time_start }
   game.winner_slot = winner_none
-  game.announcer_text = "ROUND \{game.round_index}"
-  game.announcer_timer = 1.0
+  game.announcer_text = if game.mode_training {
+    "TRAINING"
+  } else {
+    "ROUND \{game.round_index}"
+  }
+  game.announcer_timer = if game.mode_training { 0.8 } else { 1.0 }
   game.dramatic_freeze = 0
   reset_round_fighters(game)
 }
@@ -194,6 +198,16 @@ fn update_select(game : Game, dt : Float) -> Unit {
   game.select_blink += dt * select_blink_speed
   game.bg_scroll += dt * 10.0
 
+  if @raylib.is_key_pressed(@raylib.KeyT) {
+    game.mode_training = not(game.mode_training)
+    if game.mode_training {
+      game.mode_vs_cpu = true
+      game.p2_confirmed = true
+    } else {
+      game.p2_confirmed = false
+    }
+  }
+
   if @raylib.is_key_pressed(@raylib.KeySpace) {
     game.mode_vs_cpu = not(game.mode_vs_cpu)
     if game.mode_vs_cpu {
@@ -201,6 +215,10 @@ fn update_select(game : Game, dt : Float) -> Unit {
     } else {
       game.p2_confirmed = false
     }
+  }
+
+  if game.mode_training {
+    game.mode_vs_cpu = true
   }
 
   if @raylib.is_key_pressed(@raylib.KeyA) {
@@ -267,8 +285,8 @@ fn update_intro(game : Game, dt : Float) -> Unit {
   if game.intro_timer <= 0.0 {
     game.intro_timer = 0.0
     game.state = state_fight
-    game.announcer_text = "FIGHT!"
-    game.announcer_timer = 0.9
+    game.announcer_text = if game.mode_training { "TRAINING" } else { "FIGHT!" }
+    game.announcer_timer = if game.mode_training { 0.8 } else { 0.9 }
 
     let p1 = game.fighters[0]
     let p2 = game.fighters[1]
@@ -298,6 +316,46 @@ fn recover_fighter_resources(game : Game, dt : Float) -> Unit {
 }
 
 ///|
+fn update_training_resources(game : Game, dt : Float) -> Unit {
+  for i = 0; i < max_players; i = i + 1 {
+    let fighter = game.fighters[i]
+    let archetype = fighter_archetype(game, fighter)
+
+    if fighter.health <= 0 {
+      fighter.health = 1
+    } else if fighter.health < health_max {
+      fighter.health = clampi(
+        fighter.health + (training_health_regen_per_sec * dt).to_int(),
+        1,
+        health_max,
+      )
+    }
+
+    fighter.super_meter = super_max
+    add_guard(fighter, guard_recover_per_sec * dt * 2.8, archetype)
+  }
+}
+
+///|
+fn reset_training_fight(game : Game) -> Unit {
+  reset_round_fighters(game)
+  for slot = 0; slot < max_players; slot = slot + 1 {
+    let fighter = game.fighters[slot]
+    let archetype = fighter_archetype(game, fighter)
+    fighter.health = health_max
+    fighter.guard_meter = fighter_total_guard(archetype)
+    fighter.super_meter = super_max
+    set_idle_state(fighter)
+    fighter.input = InputState::new()
+  }
+  game.round_timer = -1.0
+  game.dramatic_freeze = 0
+  game.camera_shake = 0.0
+  game.announcer_text = "RESET"
+  game.announcer_timer = 0.32
+}
+
+///|
 fn update_fight(game : Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = state_pause
@@ -309,6 +367,11 @@ fn update_fight(game : Game, dt : Float) -> Unit {
     game.state = state_select
     game.p1_confirmed = false
     game.p2_confirmed = false
+    return
+  }
+
+  if game.mode_training && @raylib.is_key_pressed(@raylib.KeyR) {
+    reset_training_fight(game)
     return
   }
 
@@ -331,11 +394,21 @@ fn update_fight(game : Game, dt : Float) -> Unit {
   resolve_push_collision(game)
   update_facing(game)
 
-  update_combat(game)
+  let threw = update_throws(game)
+  if not(threw) {
+    update_combat(game)
+  }
   recover_fighter_resources(game, dt)
+  if game.mode_training {
+    update_training_resources(game, dt)
+  }
 
   update_particles(game, dt)
   update_camera(game, dt)
+
+  if game.mode_training {
+    return
+  }
 
   game.round_timer -= dt
   if game.round_timer < 0.0 {

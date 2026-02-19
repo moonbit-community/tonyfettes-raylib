@@ -160,10 +160,16 @@ fn try_start_attack(game : Game, slot : Int) -> Unit {
     return
   }
 
+  // LP+LK is reserved for throw attempts and resolved in throw_system.mbt.
+  if throw_input_pressed(input) {
+    return
+  }
+
   if fighter.action == action_hitstun ||
     fighter.action == action_blockstun ||
     fighter.action == action_knockdown ||
     fighter.action == action_wakeup ||
+    fighter.action == action_throw ||
     fighter.action == action_intro ||
     fighter.action == action_victory {
     return
@@ -236,6 +242,10 @@ fn update_fighter_action_frame(fighter : Fighter, dt : Float) -> Unit {
     if fighter.action_frame >= fighter.current_move.total_frames {
       set_idle_state(fighter)
     }
+  } else if fighter.action == action_throw {
+    if fighter.action_frame >= 18 {
+      set_idle_state(fighter)
+    }
   } else if fighter.action == action_dash_forward ||
     fighter.action == action_dash_back {
     if fighter.action_frame >= dash_duration_frames {
@@ -276,6 +286,7 @@ fn update_stun_and_knockdown(fighter : Fighter) -> Unit {
       fighter.on_ground = true
       fighter.vy = 0.0
       fighter.crouching = false
+      fighter.invuln = wakeup_invuln_frames
     }
   }
 }
@@ -298,7 +309,7 @@ fn update_walk_and_crouch_state(
     return
   }
 
-  if fighter.action == action_attack {
+  if fighter.action == action_attack || fighter.action == action_throw {
     return
   }
 
@@ -365,6 +376,7 @@ fn update_jump_state(fighter : Fighter, archetype : CharacterArchetype) -> Unit 
     fighter.action == action_blockstun ||
     fighter.action == action_knockdown ||
     fighter.action == action_wakeup ||
+    fighter.action == action_throw ||
     fighter.action == action_intro ||
     fighter.action == action_victory {
     return
@@ -435,20 +447,20 @@ fn update_facing(game : Game) -> Unit {
   let p2 = game.fighters[1]
 
   if p1.x < p2.x {
-    if p1.action != action_attack ||
+    if (p1.action != action_attack && p1.action != action_throw) ||
       p1.action_frame < p1.current_move.startup_frames {
       p1.facing = facing_right
     }
-    if p2.action != action_attack ||
+    if (p2.action != action_attack && p2.action != action_throw) ||
       p2.action_frame < p2.current_move.startup_frames {
       p2.facing = facing_left
     }
   } else {
-    if p1.action != action_attack ||
+    if (p1.action != action_attack && p1.action != action_throw) ||
       p1.action_frame < p1.current_move.startup_frames {
       p1.facing = facing_left
     }
-    if p2.action != action_attack ||
+    if (p2.action != action_attack && p2.action != action_throw) ||
       p2.action_frame < p2.current_move.startup_frames {
       p2.facing = facing_right
     }
@@ -493,6 +505,7 @@ fn update_fighter_core(game : Game, slot : Int, dt : Float) -> Unit {
     fighter.action == action_blockstun ||
     fighter.action == action_knockdown ||
     fighter.action == action_wakeup ||
+    fighter.action == action_throw ||
     fighter.action == action_intro ||
     fighter.action == action_victory {
     update_fighter_action_frame(fighter, dt)
@@ -502,7 +515,7 @@ fn update_fighter_core(game : Game, slot : Int, dt : Float) -> Unit {
 
   update_jump_state(fighter, archetype)
 
-  if fighter.action != action_attack {
+  if fighter.action != action_attack && fighter.action != action_throw {
     update_walk_and_crouch_state(fighter, archetype)
   }
 
