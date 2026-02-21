@@ -1,0 +1,80 @@
+name: Publish Web Games To Pages Repo
+
+on:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: publish-web-games-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    env:
+      TARGET_REPO: bobzhang/raylib-moonbit-web-games
+      TARGET_BRANCH: main
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+
+      - name: Install MoonBit
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+          moon version
+
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: latest
+
+      - name: Build all web game bundles
+        shell: bash
+        run: |
+          set -euo pipefail
+          tools/build_all_web_games.sh
+
+      - name: Package static web site
+        shell: bash
+        run: |
+          set -euo pipefail
+          tools/prepare_web_games_site.sh _build/web _build/web_pages_site
+
+      - name: Push to pages repository
+        shell: bash
+        env:
+          WEB_GAMES_PUBLISH_TOKEN: ${{ secrets.WEB_GAMES_PUBLISH_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${WEB_GAMES_PUBLISH_TOKEN:-}" ]]; then
+            echo "error: missing secret WEB_GAMES_PUBLISH_TOKEN" >&2
+            echo "hint: add a token with write access to ${TARGET_REPO}" >&2
+            exit 1
+          fi
+
+          publish_dir="$(mktemp -d)"
+          trap 'rm -rf "$publish_dir"' EXIT
+
+          git clone "https://x-access-token:${WEB_GAMES_PUBLISH_TOKEN}@github.com/${TARGET_REPO}.git" "$publish_dir"
+
+          rsync -av --delete _build/web_pages_site/ "$publish_dir/"
+
+          cd "$publish_dir"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No site changes to publish."
+            exit 0
+          fi
+
+          git add -A
+          git commit -m "chore: refresh web games from ${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+          git push origin "HEAD:${TARGET_BRANCH}"
