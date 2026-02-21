@@ -76,7 +76,7 @@ jobs:
 
           git clone "https://x-access-token:${WEB_GAMES_PUBLISH_TOKEN}@github.com/${TARGET_REPO}.git" "$publish_dir"
 
-          rsync -av --delete _build/web_pages_site/ "$publish_dir/"
+          rsync -av --delete --exclude '.git/' _build/web_pages_site/ "$publish_dir/"
 
           cd "$publish_dir"
           git config user.name "github-actions[bot]"
