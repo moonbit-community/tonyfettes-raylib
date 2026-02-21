@@ -1,0 +1,7 @@
+import {
+  "tonyfettes/raylib",
+}
+
+options(
+  "is-main": true,
+)
