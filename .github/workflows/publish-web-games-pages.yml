@@ -26,6 +26,7 @@ jobs:
         run: |
           set -euo pipefail
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          export PATH="$HOME/.moon/bin:$PATH"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
           moon version
 
