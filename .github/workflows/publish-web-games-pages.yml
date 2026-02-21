@@ -35,6 +35,17 @@ jobs:
         with:
           version: latest
 
+      - name: Install native build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y \
+            xorg-dev \
+            libasound2-dev \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev
+
       - name: Build all web game bundles
         shell: bash
         run: |
