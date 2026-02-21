@@ -1512,7 +1512,7 @@ int InitPlatform(void)
         int monitorIndex = GetCurrentMonitor();
         GLFWmonitor **monitors = glfwGetMonitors(&monitorCount);
 
-        if (monitorIndex < monitorCount)
+        if ((monitorIndex >= 0) && (monitorIndex < monitorCount))
         {
             monitor = monitors[monitorIndex];
             SetDimensionsFromMonitor(monitor);
@@ -1521,10 +1521,21 @@ int InitPlatform(void)
         }
         else
         {
-            // The monitor for the window-manager-created window can not be determined, so it can not be centered.
-            glfwTerminate();
             TRACELOG(LOG_WARNING, "GLFW: Failed to determine Monitor to center Window");
-            return -1;
+
+            // Fallback to primary monitor if available; if not, keep requested window dimensions.
+            monitor = glfwGetPrimaryMonitor();
+            if (monitor)
+            {
+                SetDimensionsFromMonitor(monitor);
+                if (requestWindowedFullscreen) glfwSetWindowSize(platform.handle, CORE.Window.screen.width, CORE.Window.screen.height);
+            }
+            else
+            {
+                TRACELOG(LOG_WARNING, "GLFW: Failed to get primary monitor for fallback");
+                CORE.Window.display.width = CORE.Window.screen.width;
+                CORE.Window.display.height = CORE.Window.screen.height;
+            }
         }
 
         if (platform.handle)
@@ -1602,23 +1613,34 @@ int InitPlatform(void)
     if (!CORE.Window.ready) { TRACELOG(LOG_FATAL, "PLATFORM: Failed to initialize graphic device"); return -1; }
     else
     {
-        // Try to center window on screen but avoiding window-bar outside of screen
-        int monitorX = 0;
-        int monitorY = 0;
-        int monitorWidth = 0;
-        int monitorHeight = 0;
-        glfwGetMonitorWorkarea(monitor, &monitorX, &monitorY, &monitorWidth, &monitorHeight);
+        // Try to center window on screen but avoid null-monitor paths on environments where monitor detection fails.
+        if (monitor)
+        {
+            int monitorX = 0;
+            int monitorY = 0;
+            int monitorWidth = 0;
+            int monitorHeight = 0;
+            glfwGetMonitorWorkarea(monitor, &monitorX, &monitorY, &monitorWidth, &monitorHeight);
 
-        // Here CORE.Window.render.width/height should be used instead of CORE.Window.screen.width/height to center the window correctly when the high dpi flag is enabled.
-        int posX = monitorX + (monitorWidth - (int)CORE.Window.render.width)/2;
-        int posY = monitorY + (monitorHeight - (int)CORE.Window.render.height)/2;
-        if (posX < monitorX) posX = monitorX;
-        if (posY < monitorY) posY = monitorY;
-        SetWindowPosition(posX, posY);
+            // Here CORE.Window.render.width/height should be used instead of CORE.Window.screen.width/height to center the window correctly when the high dpi flag is enabled.
+            int posX = monitorX + (monitorWidth - (int)CORE.Window.render.width)/2;
+            int posY = monitorY + (monitorHeight - (int)CORE.Window.render.height)/2;
+            if (posX < monitorX) posX = monitorX;
+            if (posY < monitorY) posY = monitorY;
+            SetWindowPosition(posX, posY);
 
-        // Update CORE.Window.position here so it is correct from the start
-        CORE.Window.position.x = posX;
-        CORE.Window.position.y = posY;
+            // Update CORE.Window.position here so it is correct from the start
+            CORE.Window.position.x = posX;
+            CORE.Window.position.y = posY;
+        }
+        else
+        {
+            int posX = 0;
+            int posY = 0;
+            glfwGetWindowPos(platform.handle, &posX, &posY);
+            CORE.Window.position.x = posX;
+            CORE.Window.position.y = posY;
+        }
     }
 
     // Load OpenGL extensions
