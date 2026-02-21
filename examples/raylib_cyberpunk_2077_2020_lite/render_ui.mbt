@@ -423,9 +423,16 @@ fn draw_panel(game : Game) -> Unit {
   )
   draw_shadow_text("P: Pause", fx, fy + 108, 14, @raylib.lightgray)
   draw_shadow_text(
+    hq_ops_feed_line(game.stage_index, game.frame_counter / 70),
+    fx,
+    fy + 122,
+    10,
+    @raylib.Color::new(149, 186, 215, 255),
+  )
+  draw_shadow_text(
     "Own lanes, finish contracts, and weaponize hazard windows",
     fx,
-    fy + 124,
+    fy + 138,
     12,
     @raylib.gold,
   )
@@ -590,11 +597,18 @@ fn draw_stage_intro_overlay(game : Game) -> Unit {
     20,
     @raylib.raywhite,
   )
+  draw_centered_text(
+    hq_ops_feed_line(game.stage_index, game.frame_counter / 45),
+    screen_width / 2,
+    screen_height / 2 + 154,
+    14,
+    @raylib.Color::new(170, 205, 232, 255),
+  )
   if game.demo_mode {
     draw_centered_text(
       "AUTO DEMO ACTIVE",
       screen_width / 2,
-      screen_height / 2 + 154,
+      screen_height / 2 + 176,
       20,
       @raylib.lime,
     )
