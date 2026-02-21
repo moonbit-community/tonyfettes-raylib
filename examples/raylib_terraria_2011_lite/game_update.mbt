@@ -172,6 +172,7 @@ fn update_playing(game : Game, dt : Float) -> Unit {
   update_hazards(game, dt)
   update_player_respawns(game, dt)
   update_particles(game, dt)
+  update_mode(game, dt)
 
   if game.base_flash > 0.0 {
     game.base_flash -= dt * 2.0
@@ -180,8 +181,11 @@ fn update_playing(game : Game, dt : Float) -> Unit {
     }
   }
 
-  if not(game.base_alive) {
+  if game.mode_base_required && not(game.base_alive) {
     contract_on_base_broken(game)
+  }
+
+  if mode_stage_failed(game) {
     enter_game_over(game)
     return
   }

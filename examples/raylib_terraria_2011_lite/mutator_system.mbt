@@ -6,6 +6,8 @@ fn reset_stage_runtime_counters(game : Game) -> Unit {
   game.stage_elite_kills = 0
   game.stage_hazard_hits = 0
   game.contracts_completed_stage = 0
+  game.mode_timer = 0.0
+  game.mode_progress = 0
 }
 
 ///|

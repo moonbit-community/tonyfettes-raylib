@@ -46,6 +46,7 @@ fn spawn_enemy(game : Game) -> Bool {
   let kind = stage_enemy_kind(game, game.stage_index, game.enemies_spawned)
   game.enemies[slot] = Tank::new_enemy(kind, sx, sy)
   mutator_apply_enemy_stats(game, game.enemies[slot], game.stage_index)
+  mode_on_enemy_spawn(game, game.enemies[slot], game.stage_index)
   game.enemies_spawned += 1
   game.enemies_alive += 1
   spawn_respawn_burst(game, sx, sy)
@@ -241,6 +242,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       continue i + 1
     }
 
+    mode_enemy_ai_tick(game, enemy, dt)
     enemy.ai_move_timer -= dt
     enemy.ai_fire_timer -= dt
     enemy.overheat += dt
@@ -309,7 +311,5 @@ fn destroy_enemy(game : Game, enemy_index : Int, killer_team : Int) -> Unit {
 
 ///|
 fn stage_is_clear(game : Game) -> Bool {
-  game.enemies_spawned >= game.enemies_to_spawn &&
-  game.enemies_alive <= 0 &&
-  core_objective_done(game)
+  mode_stage_clear(game)
 }

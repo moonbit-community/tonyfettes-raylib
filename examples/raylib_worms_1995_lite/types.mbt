@@ -369,6 +369,14 @@ struct Game {
   mut demo_mode : Bool
   mut demo_runs : Int
   mut demo_elapsed : Float
+  mut mode_name : String
+  mut mode_hint : String
+  mut mode_base_required : Bool
+  mut mode_timer : Float
+  mut mode_goal : Int
+  mut mode_goal_b : Int
+  mut mode_progress : Int
+  mut mode_score_anchor : Int
   mut menu_cursor : Int
   mut menu_blink : Float
   mut frame_counter : Int
@@ -445,6 +453,14 @@ fn Game::new() -> Game {
     demo_mode: false,
     demo_runs: 0,
     demo_elapsed: 0.0,
+    mode_name: "Assault",
+    mode_hint: "Eliminate all hostiles and secure objective sites.",
+    mode_base_required: true,
+    mode_timer: 0.0,
+    mode_goal: 0,
+    mode_goal_b: 0,
+    mode_progress: 0,
+    mode_score_anchor: 0,
     menu_cursor: 0,
     menu_blink: 0.0,
     frame_counter: 0,

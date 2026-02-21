@@ -246,6 +246,21 @@ fn draw_panel(game : Game) -> Unit {
     @raylib.white,
   )
 
+  draw_shadow_text(
+    "MODE \{game.mode_name}",
+    panel_x + 150,
+    map_offset_y + 146,
+    12,
+    @raylib.Color::new(170, 220, 255, 255),
+  )
+  draw_shadow_text(
+    "OBJ \{game.mode_progress}/\{game.mode_goal}",
+    panel_x + 150,
+    map_offset_y + 160,
+    12,
+    @raylib.Color::new(255, 219, 140, 255),
+  )
+
   let core_done = game.cores_goal > 0 && game.cores_destroyed >= game.cores_goal
   draw_shadow_text(
     "SITES",
@@ -591,16 +606,23 @@ fn draw_stage_intro_overlay(game : Game) -> Unit {
     @raylib.Color::new(255, 190, 156, 255),
   )
   draw_centered_text(
-    "Enemies: \{game.enemies_to_spawn}  Sites: \{game.cores_goal}",
+    "Mode: \{game.mode_name}",
     screen_width / 2,
     screen_height / 2 + 130,
     20,
     @raylib.raywhite,
   )
   draw_centered_text(
+    game.mode_hint,
+    screen_width / 2,
+    screen_height / 2 + 148,
+    16,
+    @raylib.Color::new(255, 232, 174, 255),
+  )
+  draw_centered_text(
     hq_ops_feed_line(game.stage_index, game.frame_counter / 45),
     screen_width / 2,
-    screen_height / 2 + 154,
+    screen_height / 2 + 168,
     14,
     @raylib.Color::new(170, 205, 232, 255),
   )

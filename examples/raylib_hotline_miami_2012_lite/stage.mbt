@@ -242,6 +242,7 @@ fn load_stage(game : Game, stage : Int) -> Unit {
   reset_stage_runtime_counters(game)
   setup_stage_contracts(game, stage)
   load_stage_map(game, stage)
+  mode_stage_map_post(game, stage)
   seed_stage_cores(game, stage)
   prepare_players_for_stage(game)
   let base_total = stage_enemy_total(stage)
@@ -251,6 +252,7 @@ fn load_stage(game : Game, stage : Int) -> Unit {
     18,
     72,
   )
+  configure_mode_stage(game, stage)
   game.stage_intro_timer = if game.demo_mode { 0.45 } else { stage_intro_time }
   game.stage_clear_timer = 0.0
   game.game_over_timer = 0.0
