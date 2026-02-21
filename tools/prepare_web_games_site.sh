@@ -120,6 +120,37 @@ fi
       margin-top: 14px;
     }
 
+    .controls-guide {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0f1933;
+      padding: 10px 12px;
+    }
+
+    .controls-guide-title {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .controls-guide-grid {
+      display: grid;
+      gap: 6px 10px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .controls-guide-grid code {
+      color: #d6e8ff;
+      font-family: "Cascadia Mono", "Consolas", "Menlo", monospace;
+      background: #132146;
+      border-radius: 6px;
+      padding: 1px 5px;
+    }
+
     .filters input {
       width: 100%;
       background: #0f1830;
@@ -189,6 +220,16 @@ fi
       </div>
       <div class="filters">
         <input id="search" type="search" placeholder="Filter games (e.g. tank, kof, diablo)" />
+      </div>
+      <div class="controls-guide">
+        <div class="controls-guide-title">Mobile Touch Mapping</div>
+        <div class="controls-guide-grid">
+          <div><code>D-pad</code> => <code>W/A/S/D</code> + <code>Arrow Keys</code></div>
+          <div><code>A</code> => <code>J</code> + <code>Space</code></div>
+          <div><code>B</code> => <code>K</code> + <code>Enter</code></div>
+          <div><code>C</code> => <code>L</code> + <code>Shift</code></div>
+          <div><code>II</code> => <code>Esc</code> (menu/pause)</div>
+        </div>
       </div>
     </section>
 

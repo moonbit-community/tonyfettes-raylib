@@ -10,6 +10,7 @@ PKG_PATH="${PKG_PATH%/}"
 PKG_NAME="$(basename "$PKG_PATH")"
 OUT_DIR="${2:-_build/web/${PKG_NAME}}"
 PRE_JS="$ROOT_DIR/tools/web_force_webgl1.pre.js"
+POST_JS="$ROOT_DIR/tools/web_mobile_touch.post.js"
 
 if ! command -v moon >/dev/null 2>&1; then
   echo "error: moon command not found in PATH" >&2
@@ -35,6 +36,11 @@ fi
 
 if [[ ! -f "$PRE_JS" ]]; then
   echo "error: missing pre-js patch file: $PRE_JS" >&2
+  exit 1
+fi
+
+if [[ ! -f "$POST_JS" ]]; then
+  echo "error: missing post-js patch file: $POST_JS" >&2
   exit 1
 fi
 
@@ -104,6 +110,7 @@ emcc \
   -sASSERTIONS=1 \
   -sEXPORTED_FUNCTIONS=_main \
   --pre-js "$PRE_JS" \
+  --post-js "$POST_JS" \
   -o "$OUTPUT_HTML"
 
 echo
