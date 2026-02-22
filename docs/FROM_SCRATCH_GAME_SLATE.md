@@ -26,7 +26,8 @@ New from-scratch candidates:
 13. `raylib_auto_chess_micro_2026` — Board auto-battle loop (`~5k-9k` LOC)
 14. `raylib_topdown_survivor_2026` — Horde survival with upgrades (`~3k-6k` LOC)
 15. `raylib_rts_skirmish_2026` — Small-scale RTS with harvest/build/fight (`~6k-12k` LOC)
+16. `raylib_candy_crush_2026` — Match-3 cascade puzzle with specials/jelly objectives and touch controls (`~4k-7k` LOC)
 
 Execution status:
-- Completed: 1, 2, 3
-- Planned next: 4, 5, 6
+- Completed: 1-16
+- Planned next: add more non-overlapping from-scratch genres (sports, tactics, simulation)
