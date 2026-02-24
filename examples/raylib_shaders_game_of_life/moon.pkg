@@ -3,7 +3,7 @@
 
 // import {
 //   "tonyfettes/raylib",
-//   "tonyfettes/raygui",
+//   "tonyfettes/raylib/raygui",
 // }
 //
 // options(

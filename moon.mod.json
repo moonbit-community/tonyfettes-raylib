@@ -9,9 +9,5 @@
   "source": "",
   "preferred-target": "native",
   "--moonbit-unstable-prebuild": "build.js",
-  "deps": {
-    "tonyfettes/raygui": {
-      "path": "../tonyfettes-raygui"
-    }
-  }
+  "deps": {}
 }
