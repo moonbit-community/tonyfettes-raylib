@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - following eyes",
+    screen_width, screen_height, "raylib [shapes] example - following eyes",
   )
 
   let sclera_left_position = @raylib.Vector2::new(
@@ -35,12 +33,12 @@ fn main {
 
     // Check not inside the left eye sclera
     if not(
-      @raylib.check_collision_point_circle(
-        iris_left,
-        sclera_left_position,
-        sclera_radius - iris_radius,
-      ),
-    ) {
+        @raylib.check_collision_point_circle(
+          iris_left,
+          sclera_left_position,
+          sclera_radius - iris_radius,
+        ),
+      ) {
       let dx = iris_left_x - sclera_left_position.x
       let dy = iris_left_y - sclera_left_position.y
       let angle = @math.atan2f(dy, dx)
@@ -57,12 +55,12 @@ fn main {
 
     // Check not inside the right eye sclera
     if not(
-      @raylib.check_collision_point_circle(
-        iris_right,
-        sclera_right_position,
-        sclera_radius - iris_radius,
-      ),
-    ) {
+        @raylib.check_collision_point_circle(
+          iris_right,
+          sclera_right_position,
+          sclera_radius - iris_radius,
+        ),
+      ) {
       let dx = iris_right_x - sclera_right_position.x
       let dy = iris_right_y - sclera_right_position.y
       let angle = @math.atan2f(dy, dx)
@@ -77,9 +75,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     @raylib.draw_circle_v(
-      sclera_left_position,
-      sclera_radius,
-      @raylib.lightgray,
+      sclera_left_position, sclera_radius, @raylib.lightgray,
     )
     @raylib.draw_circle_v(
       @raylib.Vector2::new(iris_left_x, iris_left_y),
@@ -93,9 +89,7 @@ fn main {
     )
 
     @raylib.draw_circle_v(
-      sclera_right_position,
-      sclera_radius,
-      @raylib.lightgray,
+      sclera_right_position, sclera_radius, @raylib.lightgray,
     )
     @raylib.draw_circle_v(
       @raylib.Vector2::new(iris_right_x, iris_right_y),

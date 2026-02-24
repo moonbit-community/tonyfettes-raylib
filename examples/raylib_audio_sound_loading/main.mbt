@@ -7,9 +7,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_audio_sound_loading")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - sound loading and playing",
+    screen_width, screen_height, "raylib [audio] example - sound loading and playing",
   )
 
   @raylib.init_audio_device() // Initialize audio device

@@ -38,9 +38,7 @@ fn load_storage_value(position : Int) -> Int {
 ///|
 fn main {
   @raylib.init_window(
-    800,
-    450,
-    "raylib [core] example - storage save/load values",
+    800, 450, "raylib [core] example - storage save/load values",
   )
   let mut score = 0
   let mut hiscore = 0
@@ -65,25 +63,13 @@ fn main {
     @raylib.draw_text("HI-SCORE: \{hiscore}", 210, 200, 50, @raylib.black)
     @raylib.draw_text("frames: \{frames_counter}", 10, 10, 20, @raylib.lime)
     @raylib.draw_text(
-      "Press R to generate random numbers",
-      220,
-      40,
-      20,
-      @raylib.lightgray,
+      "Press R to generate random numbers", 220, 40, 20, @raylib.lightgray,
     )
     @raylib.draw_text(
-      "Press ENTER to SAVE values",
-      250,
-      310,
-      20,
-      @raylib.lightgray,
+      "Press ENTER to SAVE values", 250, 310, 20, @raylib.lightgray,
     )
     @raylib.draw_text(
-      "Press SPACE to LOAD values",
-      252,
-      350,
-      20,
-      @raylib.lightgray,
+      "Press SPACE to LOAD values", 252, 350, 20, @raylib.lightgray,
     )
     @raylib.end_drawing()
   }

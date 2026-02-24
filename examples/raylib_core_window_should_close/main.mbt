@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - window should close",
+    screen_width, screen_height, "raylib [core] example - window should close",
   )
 
   @raylib.set_exit_key(@raylib.KeyNull) // Disable KEY_ESCAPE to close window, X-button still works
@@ -42,19 +40,11 @@ fn main {
     if exit_window_requested {
       @raylib.draw_rectangle(0, 100, screen_width, 200, @raylib.black)
       @raylib.draw_text(
-        "Are you sure you want to exit program? [Y/N]",
-        40,
-        180,
-        30,
-        @raylib.white,
+        "Are you sure you want to exit program? [Y/N]", 40, 180, 30, @raylib.white,
       )
     } else {
       @raylib.draw_text(
-        "Try to close the window to get confirmation message!",
-        120,
-        200,
-        20,
-        @raylib.lightgray,
+        "Try to close the window to get confirmation message!", 120, 200, 20, @raylib.lightgray,
       )
     }
 

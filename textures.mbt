@@ -432,4 +432,3 @@ pub const CubemapLayoutCrossThreeByFour : Int = 3
 
 ///|
 pub const CubemapLayoutCrossFourByThree : Int = 4
-

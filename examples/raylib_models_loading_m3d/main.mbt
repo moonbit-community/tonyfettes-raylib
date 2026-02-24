@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - M3D model loading",
+    screen_width, screen_height, "raylib [models] example - M3D model loading",
   )
 
   // Define the camera to look into our 3d world

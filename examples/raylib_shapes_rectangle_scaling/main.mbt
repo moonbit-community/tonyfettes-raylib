@@ -6,9 +6,7 @@ fn main {
   let mouse_scale_mark_size : Float = 12.0
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - rectangle scaling mouse",
+    screen_width, screen_height, "raylib [shapes] example - rectangle scaling mouse",
   )
 
   let rec_x : Float = 100.0
@@ -76,11 +74,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     @raylib.draw_text(
-      "Scale rectangle dragging from bottom-right corner!",
-      10,
-      10,
-      20,
-      @raylib.gray,
+      "Scale rectangle dragging from bottom-right corner!", 10, 10, 20, @raylib.gray,
     )
 
     let rec = @raylib.Rectangle::new(rec_x, rec_y, rec_width, rec_height)

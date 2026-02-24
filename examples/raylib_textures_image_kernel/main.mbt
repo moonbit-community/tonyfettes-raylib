@@ -32,30 +32,22 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_image_kernel")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - image convolution",
+    screen_width, screen_height, "raylib [textures] example - image convolution",
   )
 
   let image = @raylib.load_image("resources/cat.png")
   // cat.png: 384x512
 
   let gaussian_kernel : FixedArray[Float] = [
-    1.0, 2.0, 1.0,
-    2.0, 4.0, 2.0,
-    1.0, 2.0, 1.0,
+    1.0, 2.0, 1.0, 2.0, 4.0, 2.0, 1.0, 2.0, 1.0,
   ]
 
   let sobel_kernel : FixedArray[Float] = [
-    1.0, 0.0, -1.0,
-    2.0, 0.0, -2.0,
-    1.0, 0.0, -1.0,
+    1.0, 0.0, -1.0, 2.0, 0.0, -2.0, 1.0, 0.0, -1.0,
   ]
 
   let sharpen_kernel : FixedArray[Float] = [
-    0.0, -1.0, 0.0,
-    -1.0, 5.0, -1.0,
-    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0, -1.0, 5.0, -1.0, 0.0, -1.0, 0.0,
   ]
 
   normalize_kernel(gaussian_kernel)
@@ -77,18 +69,12 @@ fn main {
     @raylib.image_kernel_convolution(cat_gaussian, gaussian_bytes, 9)
   }
 
-  @raylib.image_crop(
-    image,
-    @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0),
-  )
+  @raylib.image_crop(image, @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0))
   @raylib.image_crop(
     cat_gaussian,
     @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0),
   )
-  @raylib.image_crop(
-    cat_sobel,
-    @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0),
-  )
+  @raylib.image_crop(cat_sobel, @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0))
   @raylib.image_crop(
     cat_sharpened,
     @raylib.Rectangle::new(0.0, 0.0, 200.0, 450.0),

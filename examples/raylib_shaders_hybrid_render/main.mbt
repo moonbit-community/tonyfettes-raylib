@@ -22,30 +22,25 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_shaders_hybrid_render")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - write depth buffer",
+    screen_width, screen_height, "raylib [shaders] example - write depth buffer",
   )
 
   // This Shader calculates pixel depth and color using raymarch
   let shdr_raymarch = @raylib.load_shader(
-    "",
-    "resources/shaders/glsl330/hybrid_raymarch.fs",
+    "", "resources/shaders/glsl330/hybrid_raymarch.fs",
   )
 
   // This Shader is a standard rasterization fragment shader with the addition of depth writing
   // You are required to write depth for all shaders if one shader does it
   let shdr_raster = @raylib.load_shader(
-    "",
-    "resources/shaders/glsl330/hybrid_raster.fs",
+    "", "resources/shaders/glsl330/hybrid_raster.fs",
   )
 
   // Fill the struct with shader locs.
   let march_loc_cam_pos = @raylib.get_shader_location(shdr_raymarch, "camPos")
   let march_loc_cam_dir = @raylib.get_shader_location(shdr_raymarch, "camDir")
   let march_loc_screen_center = @raylib.get_shader_location(
-    shdr_raymarch,
-    "screenCenter",
+    shdr_raymarch, "screenCenter",
   )
 
   // Transfer screenCenter position to shader. Which is used to calculate ray direction.
@@ -61,7 +56,9 @@ fn main {
   )
 
   // Use customized function to create writable depth texture buffer
-  let target = @raylib.load_render_texture_depth_tex(screen_width, screen_height)
+  let target = @raylib.load_render_texture_depth_tex(
+    screen_width, screen_height,
+  )
 
   // Define the camera to look into our 3d world
   let mut camera = @raylib.Camera3D::new(

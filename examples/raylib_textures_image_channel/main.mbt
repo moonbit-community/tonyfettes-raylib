@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_image_channel")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - extract channel from image",
+    screen_width, screen_height, "raylib [textures] example - extract channel from image",
   )
 
   let fudesumi_image = @raylib.load_image("resources/fudesumi.png")
@@ -53,12 +51,7 @@ fn main {
 
   @raylib.set_target_fps(60)
 
-  let fudesumi_rec = @raylib.Rectangle::new(
-    0.0,
-    0.0,
-    image_width,
-    image_height,
-  )
+  let fudesumi_rec = @raylib.Rectangle::new(0.0, 0.0, image_width, image_height)
   let fudesumi_pos = @raylib.Rectangle::new(
     50.0,
     10.0,

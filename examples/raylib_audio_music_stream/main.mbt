@@ -7,9 +7,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_audio_music_stream")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - music playing (streaming)",
+    screen_width, screen_height, "raylib [audio] example - music playing (streaming)",
   )
 
   @raylib.init_audio_device()
@@ -45,9 +43,8 @@ fn main {
     }
 
     // Get normalized time played for current music stream
-    time_played = @raylib.get_music_time_played(music) / @raylib.get_music_time_length(
-        music,
-      )
+    time_played = @raylib.get_music_time_played(music) /
+      @raylib.get_music_time_length(music)
     if time_played > 1.0 {
       time_played = 1.0
     }
@@ -55,10 +52,16 @@ fn main {
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
-    @raylib.draw_text("MUSIC SHOULD BE PLAYING!", 255, 150, 20, @raylib.lightgray)
+    @raylib.draw_text(
+      "MUSIC SHOULD BE PLAYING!", 255, 150, 20, @raylib.lightgray,
+    )
     @raylib.draw_rectangle(200, 200, 400, 12, @raylib.lightgray)
     @raylib.draw_rectangle(
-      200, 200, (time_played * 400.0).to_int(), 12, @raylib.maroon,
+      200,
+      200,
+      (time_played * 400.0).to_int(),
+      12,
+      @raylib.maroon,
     )
     @raylib.draw_rectangle_lines(200, 200, 400, 12, @raylib.gray)
     @raylib.draw_text(

@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - box collisions",
+    screen_width, screen_height, "raylib [models] example - box collisions",
   )
 
   // Define the camera to look into our 3d world
@@ -94,10 +92,8 @@ fn main {
 
     // Check collisions player vs enemy-sphere
     if @raylib.check_collision_box_sphere(
-      player_box,
-      enemy_sphere_pos,
-      enemy_sphere_size,
-    ) {
+        player_box, enemy_sphere_pos, enemy_sphere_size,
+      ) {
       collision = true
     }
 
@@ -131,11 +127,7 @@ fn main {
     // Draw enemy-sphere
     @raylib.draw_sphere(enemy_sphere_pos, enemy_sphere_size, @raylib.gray)
     @raylib.draw_sphere_wires(
-      enemy_sphere_pos,
-      enemy_sphere_size,
-      16,
-      16,
-      @raylib.darkgray,
+      enemy_sphere_pos, enemy_sphere_size, 16, 16, @raylib.darkgray,
     )
 
     // Draw player
@@ -144,11 +136,7 @@ fn main {
     @raylib.draw_grid(10, 1.0)
     @raylib.end_mode_3d()
     @raylib.draw_text(
-      "Move player with arrow keys to collide",
-      220,
-      40,
-      20,
-      @raylib.gray,
+      "Move player with arrow keys to collide", 220, 40, 20, @raylib.gray,
     )
     @raylib.draw_fps(10, 10)
     @raylib.end_drawing()

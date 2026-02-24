@@ -3,6 +3,8 @@ let deg2rad : Float = 0.017453292519943295
 
 // Draw rectangle with rounded edges and horizontal gradient, with options to choose side of roundness
 // Adapted from both `DrawRectangleRounded` and `DrawRectangleGradientH`
+
+///|
 fn draw_rectangle_rounded_gradient_h(
   rec : @raylib.Rectangle,
   roundness_left : Float,
@@ -178,20 +180,22 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - rectangle advanced",
+    screen_width, screen_height, "raylib [shapes] example - rectangle advanced",
   )
   @raylib.set_target_fps(60)
 
   // Main game loop
   while not(@raylib.window_should_close()) {
     // Update rectangle bounds
-    let width : Float = Float::from_int(@raylib.get_screen_width()) / (2.0 : Float)
-    let height : Float = Float::from_int(@raylib.get_screen_height()) / (6.0 : Float)
-    let mut rec_y : Float = Float::from_int(@raylib.get_screen_height()) / (2.0 : Float) -
+    let width : Float = Float::from_int(@raylib.get_screen_width()) /
+      (2.0 : Float)
+    let height : Float = Float::from_int(@raylib.get_screen_height()) /
+      (6.0 : Float)
+    let mut rec_y : Float = Float::from_int(@raylib.get_screen_height()) /
+      (2.0 : Float) -
       (5.0 : Float) * (height / (2.0 : Float))
-    let rec_x : Float = Float::from_int(@raylib.get_screen_width()) / (2.0 : Float) -
+    let rec_x : Float = Float::from_int(@raylib.get_screen_width()) /
+      (2.0 : Float) -
       width / (2.0 : Float)
 
     // Draw

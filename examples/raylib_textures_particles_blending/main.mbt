@@ -14,25 +14,22 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   let max_particles = 200
-  let _ = @raylib.change_directory("examples/raylib_textures_particles_blending")
+  let _ = @raylib.change_directory(
+    "examples/raylib_textures_particles_blending",
+  )
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - particles blending",
+    screen_width, screen_height, "raylib [textures] example - particles blending",
   )
 
   // Particles pool, reuse them!
-  let mouse_tail : Array[Particle] = Array::make(
-    max_particles,
-    {
-      position: @raylib.Vector2::new(0.0, 0.0),
-      color: @raylib.Color::new(0, 0, 0, 255),
-      alpha: 1.0,
-      size: 1.0,
-      rotation: 0.0,
-      active: false,
-    },
-  )
+  let mouse_tail : Array[Particle] = Array::make(max_particles, {
+    position: @raylib.Vector2::new(0.0, 0.0),
+    color: @raylib.Color::new(0, 0, 0, 255),
+    alpha: 1.0,
+    size: 1.0,
+    rotation: 0.0,
+    active: false,
+  })
 
   // Initialize particles with random colors
   for i in 0..<max_particles {
@@ -108,12 +105,7 @@ fn main {
     for i in 0..<max_particles {
       if mouse_tail[i].active {
         let size = mouse_tail[i].size
-        let source = @raylib.Rectangle::new(
-          0.0,
-          0.0,
-          smoke_width,
-          smoke_height,
-        )
+        let source = @raylib.Rectangle::new(0.0, 0.0, smoke_width, smoke_height)
         let dest = @raylib.Rectangle::new(
           mouse_tail[i].position.x,
           mouse_tail[i].position.y,
@@ -138,11 +130,7 @@ fn main {
     @raylib.end_blend_mode()
 
     @raylib.draw_text(
-      "PRESS SPACE to CHANGE BLENDING MODE",
-      180,
-      20,
-      20,
-      @raylib.black,
+      "PRESS SPACE to CHANGE BLENDING MODE", 180, 20, 20, @raylib.black,
     )
 
     if blending == @raylib.BlendAlpha {

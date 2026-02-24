@@ -4,9 +4,13 @@ fn powf(base : Float, exp : Float) -> Float {
 }
 
 // Audio exponentiation value (FixedArray to allow mutation from callback)
+
+///|
 let exponent : FixedArray[Float] = [1.0]
 
 // Average volume history
+
+///|
 let average_volume : FixedArray[Float] = FixedArray::make(400, 0.0)
 
 ///|
@@ -18,16 +22,10 @@ fn process_audio_impl(buffer : @raylib.AudioBuffer, frames : UInt) -> Unit {
     let i_right = frame * 2U + 1U
     let left = @raylib.audio_buffer_get_sample(buffer, i_left)
     let right = @raylib.audio_buffer_get_sample(buffer, i_right)
-    let new_left = powf(left.abs(), exponent[0]) * (if left < 0.0 {
-        -1.0
-      } else {
-        1.0
-      })
-    let new_right = powf(right.abs(), exponent[0]) * (if right < 0.0 {
-        -1.0
-      } else {
-        1.0
-      })
+    let new_left = powf(left.abs(), exponent[0]) *
+      (if left < 0.0 { -1.0 } else { 1.0 })
+    let new_right = powf(right.abs(), exponent[0]) *
+      (if right < 0.0 { -1.0 } else { 1.0 })
     @raylib.audio_buffer_set_sample(buffer, i_left, new_left)
     @raylib.audio_buffer_set_sample(buffer, i_right, new_right)
     average += new_left.abs() / frames_f
@@ -51,9 +49,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - processing mixed output",
+    screen_width, screen_height, "raylib [audio] example - processing mixed output",
   )
   @raylib.init_audio_device()
   @raylib.attach_audio_mixed_processor(process_audio)
@@ -80,7 +76,9 @@ fn main {
     }
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
-    @raylib.draw_text("MUSIC SHOULD BE PLAYING!", 255, 150, 20, @raylib.lightgray)
+    @raylib.draw_text(
+      "MUSIC SHOULD BE PLAYING!", 255, 150, 20, @raylib.lightgray,
+    )
     @raylib.draw_text(
       "EXPONENT = \{exponent[0]}",
       215,
@@ -100,18 +98,10 @@ fn main {
     }
     @raylib.draw_rectangle_lines(199, 199, 402, 34, @raylib.gray)
     @raylib.draw_text(
-      "PRESS SPACE TO PLAY OTHER SOUND",
-      200,
-      250,
-      20,
-      @raylib.lightgray,
+      "PRESS SPACE TO PLAY OTHER SOUND", 200, 250, 20, @raylib.lightgray,
     )
     @raylib.draw_text(
-      "USE LEFT AND RIGHT ARROWS TO ALTER DISTORTION",
-      140,
-      280,
-      20,
-      @raylib.lightgray,
+      "USE LEFT AND RIGHT ARROWS TO ALTER DISTORTION", 140, 280, 20, @raylib.lightgray,
     )
     @raylib.end_drawing()
   }

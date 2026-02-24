@@ -1,14 +1,22 @@
 // LPF state (left, right)
+
+///|
 let low : FixedArray[Float] = [0.0, 0.0]
 
 // Delay buffer: 48000*2 = 96000 samples (1 second at 48kHz stereo)
+
+///|
 const DelayBufferSize : Int = 96000
 
+///|
 let delay_buffer : FixedArray[Float] = FixedArray::make(96000, 0.0)
 
 // Delay read/write indices stored as FixedArray for mutation from callback
+
+///|
 let delay_read_index : FixedArray[Int] = [2]
 
+///|
 let delay_write_index : FixedArray[Int] = [0]
 
 ///|
@@ -76,9 +84,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - stream effects",
+    screen_width, screen_height, "raylib [audio] example - stream effects",
   )
   @raylib.init_audio_device()
   let music = @raylib.load_music_stream("resources/country.mp3")
@@ -122,16 +128,17 @@ fn main {
       }
     }
     // Get normalized time played
-    let mut time_played = @raylib.get_music_time_played(music) / @raylib.get_music_time_length(
-        music,
-      )
+    let mut time_played = @raylib.get_music_time_played(music) /
+      @raylib.get_music_time_length(music)
     if time_played > 1.0 {
       time_played = 1.0
     }
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
-    @raylib.draw_text("MUSIC SHOULD BE PLAYING!", 245, 150, 20, @raylib.lightgray)
+    @raylib.draw_text(
+      "MUSIC SHOULD BE PLAYING!", 245, 150, 20, @raylib.lightgray,
+    )
     @raylib.draw_rectangle(200, 180, 400, 12, @raylib.lightgray)
     @raylib.draw_rectangle(
       200,
@@ -142,18 +149,10 @@ fn main {
     )
     @raylib.draw_rectangle_lines(200, 180, 400, 12, @raylib.gray)
     @raylib.draw_text(
-      "PRESS SPACE TO RESTART MUSIC",
-      215,
-      230,
-      20,
-      @raylib.lightgray,
+      "PRESS SPACE TO RESTART MUSIC", 215, 230, 20, @raylib.lightgray,
     )
     @raylib.draw_text(
-      "PRESS P TO PAUSE/RESUME MUSIC",
-      208,
-      260,
-      20,
-      @raylib.lightgray,
+      "PRESS P TO PAUSE/RESUME MUSIC", 208, 260, 20, @raylib.lightgray,
     )
     let lpf_status = if enable_effect_lpf { "ON" } else { "OFF" }
     @raylib.draw_text(

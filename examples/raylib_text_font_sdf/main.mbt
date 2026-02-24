@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_text_font_sdf")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - SDF fonts",
+    screen_width, screen_height, "raylib [text] example - SDF fonts",
   )
 
   // NOTE: Textures/Fonts MUST be loaded after Window initialization (OpenGL context is required)
@@ -40,10 +38,7 @@ fn main {
   )
 
   // Load SDF required shader (we use default vertex shader)
-  let shader = @raylib.load_shader(
-    "",
-    "resources/shaders/glsl330/sdf.fs",
-  )
+  let shader = @raylib.load_shader("", "resources/shaders/glsl330/sdf.fs")
   @raylib.set_font_texture_filter(font_sdf, @raylib.TextureFilterBilinear) // Required for SDF font
 
   let mut font_position_x : Float = 40.0

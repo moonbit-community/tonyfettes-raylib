@@ -42,10 +42,7 @@ fn main {
       }
     }
     @raylib.draw_text(
-      "touch the screen at multiple locations to get multiple balls",
-      10,
-      10,
-      20,
+      "touch the screen at multiple locations to get multiple balls", 10, 10, 20,
       @raylib.darkgray,
     )
     @raylib.end_drawing()

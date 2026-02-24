@@ -1,4 +1,7 @@
-import { "tonyfettes/raylib" }
+import {
+  "tonyfettes/raylib",
+}
+
 options(
   "is-main": true,
 )

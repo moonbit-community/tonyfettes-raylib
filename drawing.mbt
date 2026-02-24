@@ -58,7 +58,11 @@ pub fn get_shader_location(shader : Shader, uniform_name : String) -> Int {
 }
 
 ///|
-pub fn set_shader_location(shader : Shader, loc_index : Int, value : Int) -> Unit {
+pub fn set_shader_location(
+  shader : Shader,
+  loc_index : Int,
+  value : Int,
+) -> Unit {
   @raylib.set_shader_location(shader, loc_index, value)
 }
 

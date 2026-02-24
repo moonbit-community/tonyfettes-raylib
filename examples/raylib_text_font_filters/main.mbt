@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_text_font_filters")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - font filters",
+    screen_width, screen_height, "raylib [text] example - font filters",
   )
 
   let msg = "Loaded Font"
@@ -84,7 +82,11 @@ fn main {
     )
 
     @raylib.draw_rectangle(
-      0, screen_height - 80, screen_width, 80, @raylib.lightgray,
+      0,
+      screen_height - 80,
+      screen_width,
+      80,
+      @raylib.lightgray,
     )
     @raylib.draw_text(
       "Font size: " + font_size.to_string(),
@@ -94,7 +96,10 @@ fn main {
       @raylib.darkgray,
     )
     @raylib.draw_text(
-      "Text size: [" + text_size.x.to_string() + ", " + text_size.y.to_string() +
+      "Text size: [" +
+      text_size.x.to_string() +
+      ", " +
+      text_size.y.to_string() +
       "]",
       20,
       screen_height - 30,

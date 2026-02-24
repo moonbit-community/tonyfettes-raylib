@@ -152,16 +152,12 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_models_loading_vox")
 
   let vox_file_names = [
-    "resources/models/vox/chr_knight.vox",
-    "resources/models/vox/chr_sword.vox",
-    "resources/models/vox/monu9.vox",
-    "resources/models/vox/fez.vox",
+    "resources/models/vox/chr_knight.vox", "resources/models/vox/chr_sword.vox",
+    "resources/models/vox/monu9.vox", "resources/models/vox/fez.vox",
   ]
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - magicavoxel loading",
+    screen_width, screen_height, "raylib [models] example - magicavoxel loading",
   )
 
   // Define the camera to look into our 3d world
@@ -184,7 +180,11 @@ fn main {
 
     @raylib.trace_log(
       @raylib.LogWarning,
-      "[" + vox_file_names[i] + "] File loaded in " + (t1 - t0).to_string() + " ms",
+      "[" +
+      vox_file_names[i] +
+      "] File loaded in " +
+      (t1 - t0).to_string() +
+      " ms",
     )
 
     // Compute model translation matrix to center model on draw position (0, 0, 0)
@@ -202,8 +202,7 @@ fn main {
 
   // Load voxel shader
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/voxel_lighting.vs",
-    "resources/shaders/glsl330/voxel_lighting.fs",
+    "resources/shaders/glsl330/voxel_lighting.vs", "resources/shaders/glsl330/voxel_lighting.fs",
   )
 
   // Get some required shader locations
@@ -279,22 +278,26 @@ fn main {
       camera_rot_y = mouse_delta.y * 0.05
     }
 
-    let move_forward : Float = if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
+    let move_forward : Float = if @raylib.is_key_down(@raylib.KeyW) ||
+      @raylib.is_key_down(@raylib.KeyUp) {
       0.1
     } else {
       0.0
     }
-    let move_backward : Float = if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+    let move_backward : Float = if @raylib.is_key_down(@raylib.KeyS) ||
+      @raylib.is_key_down(@raylib.KeyDown) {
       0.1
     } else {
       0.0
     }
-    let move_right : Float = if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+    let move_right : Float = if @raylib.is_key_down(@raylib.KeyD) ||
+      @raylib.is_key_down(@raylib.KeyRight) {
       0.1
     } else {
       0.0
     }
-    let move_left : Float = if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+    let move_left : Float = if @raylib.is_key_down(@raylib.KeyA) ||
+      @raylib.is_key_down(@raylib.KeyLeft) {
       0.1
     } else {
       0.0
@@ -357,13 +360,7 @@ fn main {
     @raylib.end_mode_3d()
 
     // Display info
-    @raylib.draw_rectangle(
-      10,
-      400,
-      340,
-      60,
-      @raylib.fade(@raylib.skyblue, 0.5),
-    )
+    @raylib.draw_rectangle(10, 400, 340, 60, @raylib.fade(@raylib.skyblue, 0.5))
     @raylib.draw_rectangle_lines(
       10,
       400,
@@ -375,11 +372,7 @@ fn main {
       "MOUSE LEFT BUTTON to CYCLE VOX MODELS", 40, 410, 10, @raylib.blue,
     )
     @raylib.draw_text(
-      "MOUSE MIDDLE BUTTON to ZOOM OR ROTATE CAMERA",
-      40,
-      420,
-      10,
-      @raylib.blue,
+      "MOUSE MIDDLE BUTTON to ZOOM OR ROTATE CAMERA", 40, 420, 10, @raylib.blue,
     )
     @raylib.draw_text(
       "UP-DOWN-LEFT-RIGHT KEYS to MOVE CAMERA", 40, 430, 10, @raylib.blue,
@@ -387,13 +380,14 @@ fn main {
 
     // Display filename for current model
     let vox_display_names = [
-      "chr_knight.vox",
-      "chr_sword.vox",
-      "monu9.vox",
-      "fez.vox",
+      "chr_knight.vox", "chr_sword.vox", "monu9.vox", "fez.vox",
     ]
     @raylib.draw_text(
-      "File: " + vox_display_names[current_model], 10, 10, 20, @raylib.gray,
+      "File: " + vox_display_names[current_model],
+      10,
+      10,
+      20,
+      @raylib.gray,
     )
 
     @raylib.end_drawing()

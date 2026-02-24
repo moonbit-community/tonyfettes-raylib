@@ -37,7 +37,10 @@ fn main {
   // Load a texture and assign to cube model
   let texture = @raylib.load_texture("resources/cubicmap_atlas.png")
   @raylib.set_model_material_texture(
-    model, 0, @raylib.MaterialMapAlbedo, texture,
+    model,
+    0,
+    @raylib.MaterialMapAlbedo,
+    texture,
   )
   // Set the texture tiling using a shader
   let tiling = vec2_to_bytes(3.0, 3.0)

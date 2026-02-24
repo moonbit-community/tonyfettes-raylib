@@ -57,5 +57,3 @@ fn acosf(x : Float) -> Float {
 fn asinf(x : Float) -> Float {
   @math.asinf(x)
 }
-
-

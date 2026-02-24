@@ -220,8 +220,7 @@ fn main {
 
   // Load PBR shader and setup all required locations
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/pbr.vs",
-    "resources/shaders/glsl330/pbr.fs",
+    "resources/shaders/glsl330/pbr.vs", "resources/shaders/glsl330/pbr.fs",
   )
   @raylib.set_shader_locs(
     shader,
@@ -293,13 +292,9 @@ fn main {
 
   // Get location for shader parameters that can be modified in real time
   let emissive_intensity_loc = @raylib.get_shader_location(
-    shader,
-    "emissivePower",
+    shader, "emissivePower",
   )
-  let emissive_color_loc = @raylib.get_shader_location(
-    shader,
-    "emissiveColor",
-  )
+  let emissive_color_loc = @raylib.get_shader_location(shader, "emissiveColor")
   let texture_tiling_loc = @raylib.get_shader_location(shader, "tiling")
 
   // Load old car model using PBR maps and shader
@@ -600,11 +595,7 @@ fn main {
     @raylib.end_mode_3d()
 
     @raylib.draw_text(
-      "Toggle lights: [1][2][3][4]",
-      10,
-      40,
-      20,
-      @raylib.lightgray,
+      "Toggle lights: [1][2][3][4]", 10, 40, 20, @raylib.lightgray,
     )
 
     @raylib.draw_text(

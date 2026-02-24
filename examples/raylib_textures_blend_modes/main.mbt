@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_blend_modes")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - blend modes",
+    screen_width, screen_height, "raylib [textures] example - blend modes",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
@@ -63,11 +61,7 @@ fn main {
 
     // Draw the texts
     @raylib.draw_text(
-      "Press SPACE to change blend modes.",
-      310,
-      350,
-      10,
-      @raylib.gray,
+      "Press SPACE to change blend modes.", 310, 350, 10, @raylib.gray,
     )
     let blend_text = match blend_mode {
       0 => "Current: BLEND_ALPHA"
@@ -76,13 +70,7 @@ fn main {
       3 => "Current: BLEND_ADD_COLORS"
       _ => ""
     }
-    @raylib.draw_text(
-      blend_text,
-      screen_width / 2 - 60,
-      370,
-      10,
-      @raylib.gray,
-    )
+    @raylib.draw_text(blend_text, screen_width / 2 - 60, 370, 10, @raylib.gray)
     @raylib.draw_text(
       "(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)",
       screen_width - 330,

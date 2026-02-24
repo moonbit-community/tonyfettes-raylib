@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - text formatting",
+    screen_width, screen_height, "raylib [text] example - text formatting",
   )
   let score = 100020
   let hiscore = 200450

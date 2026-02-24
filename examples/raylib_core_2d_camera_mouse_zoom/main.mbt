@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 2d camera mouse zoom",
+    screen_width, screen_height, "raylib [core] example - 2d camera mouse zoom",
   )
 
   let mut camera = @raylib.Camera2D::new(
@@ -109,12 +107,20 @@ fn main {
       @raylib.draw_line_v(
         @raylib.Vector2::new(fi, -2500.0),
         @raylib.Vector2::new(fi, 2500.0),
-        if i == 0 { @raylib.darkgray } else { @raylib.lightgray },
+        if i == 0 {
+          @raylib.darkgray
+        } else {
+          @raylib.lightgray
+        },
       )
       @raylib.draw_line_v(
         @raylib.Vector2::new(-2500.0, fi),
         @raylib.Vector2::new(2500.0, fi),
-        if i == 0 { @raylib.darkgray } else { @raylib.lightgray },
+        if i == 0 {
+          @raylib.darkgray
+        } else {
+          @raylib.lightgray
+        },
       )
     }
 
@@ -141,26 +147,15 @@ fn main {
     )
 
     @raylib.draw_text(
-      "[1][2] Select mouse zoom mode (Wheel or Move)",
-      20,
-      20,
-      20,
-      @raylib.darkgray,
+      "[1][2] Select mouse zoom mode (Wheel or Move)", 20, 20, 20, @raylib.darkgray,
     )
     if zoom_mode == 0 {
       @raylib.draw_text(
-        "Mouse left button drag to move, mouse wheel to zoom",
-        20,
-        50,
-        20,
-        @raylib.darkgray,
+        "Mouse left button drag to move, mouse wheel to zoom", 20, 50, 20, @raylib.darkgray,
       )
     } else {
       @raylib.draw_text(
-        "Mouse left button drag to move, mouse press and move to zoom",
-        20,
-        50,
-        20,
+        "Mouse left button drag to move, mouse press and move to zoom", 20, 50, 20,
         @raylib.darkgray,
       )
     }

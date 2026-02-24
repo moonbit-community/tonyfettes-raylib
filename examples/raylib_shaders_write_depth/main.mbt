@@ -7,22 +7,18 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_shaders_write_depth")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - write depth buffer",
+    screen_width, screen_height, "raylib [shaders] example - write depth buffer",
   )
 
   // The shader inverts the depth buffer by writing into it by
   // `gl_FragDepth = 1 - gl_FragCoord.z;`
   let shader = @raylib.load_shader(
-    "",
-    "resources/shaders/glsl330/write_depth.fs",
+    "", "resources/shaders/glsl330/write_depth.fs",
   )
 
   // Use customized function to create writable depth texture buffer
   let target = @raylib.load_render_texture_depth_tex(
-    screen_width,
-    screen_height,
+    screen_width, screen_height,
   )
 
   // Define the camera to look into our 3d world

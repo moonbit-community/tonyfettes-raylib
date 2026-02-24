@@ -99,11 +99,19 @@ fn main {
       }
       if i < gesture_strings.length() - 1 {
         @raylib.draw_text(
-          gesture_strings[i], 35, 36 + 20 * i, 10, @raylib.darkgray,
+          gesture_strings[i],
+          35,
+          36 + 20 * i,
+          10,
+          @raylib.darkgray,
         )
       } else {
         @raylib.draw_text(
-          gesture_strings[i], 35, 36 + 20 * i, 10, @raylib.maroon,
+          gesture_strings[i],
+          35,
+          36 + 20 * i,
+          10,
+          @raylib.maroon,
         )
       }
     }

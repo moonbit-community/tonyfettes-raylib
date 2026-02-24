@@ -270,7 +270,10 @@ pub extern "c" fn get_render_texture_depth_id(target : RenderTexture) -> UInt = 
 // ============================================================================
 
 ///|
-pub extern "c" fn load_shadowmap_render_texture(width : Int, height : Int) -> RenderTexture = "moonbit_raylib_load_shadowmap_render_texture"
+pub extern "c" fn load_shadowmap_render_texture(
+  width : Int,
+  height : Int,
+) -> RenderTexture = "moonbit_raylib_load_shadowmap_render_texture"
 
 ///|
 #borrow(target)
@@ -408,12 +411,20 @@ pub extern "c" fn get_clipboard_image() -> Image = "moonbit_raylib_get_clipboard
 // ============================================================================
 
 ///|
-pub extern "c" fn rl_load_texture(width : Int, height : Int, format : Int, mipmap_count : Int) -> UInt = "moonbit_raylib_rl_load_texture"
+pub extern "c" fn rl_load_texture(
+  width : Int,
+  height : Int,
+  format : Int,
+  mipmap_count : Int,
+) -> UInt = "moonbit_raylib_rl_load_texture"
 
 // ============================================================================
 // Texture from raw GL ID (non-owning, for drawing GBuffer textures)
 // ============================================================================
 
 ///|
-pub extern "c" fn texture_from_id(id : UInt, width : Int, height : Int) -> Texture = "moonbit_raylib_texture_from_id"
-
+pub extern "c" fn texture_from_id(
+  id : UInt,
+  width : Int,
+  height : Int,
+) -> Texture = "moonbit_raylib_texture_from_id"

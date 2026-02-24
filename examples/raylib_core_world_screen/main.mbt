@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - core world screen",
+    screen_width, screen_height, "raylib [core] example - core world screen",
   )
 
   // Define the camera to look into our 3d world
@@ -32,7 +30,9 @@ fn main {
     // Calculate cube screen space position (with a little offset to be in top)
     let cube_screen_position = @raylib.get_world_to_screen(
       @raylib.Vector3::new(
-        cube_position.x, cube_position.y + 2.5, cube_position.z,
+        cube_position.x,
+        cube_position.y + 2.5,
+        cube_position.z,
       ),
       camera,
     )
@@ -50,7 +50,7 @@ fn main {
     @raylib.draw_text(
       "Enemy: 100 / 100",
       cube_screen_position.x.to_int() -
-        @raylib.measure_text("Enemy: 100/100", 20) / 2,
+      @raylib.measure_text("Enemy: 100/100", 20) / 2,
       cube_screen_position.y.to_int(),
       20,
       @raylib.black,
@@ -66,11 +66,7 @@ fn main {
       @raylib.lime,
     )
     @raylib.draw_text(
-      "Text 2d should be always on top of the cube",
-      10,
-      40,
-      20,
-      @raylib.gray,
+      "Text 2d should be always on top of the cube", 10, 40, 20, @raylib.gray,
     )
 
     @raylib.end_drawing()

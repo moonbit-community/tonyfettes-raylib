@@ -5,8 +5,7 @@ fn main {
   let screen_height = 450
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width, screen_height,
-    "raylib [core] example - gamepad information",
+    screen_width, screen_height, "raylib [core] example - gamepad information",
   )
   @raylib.set_target_fps(60)
 
@@ -20,19 +19,30 @@ fn main {
       // MAX_GAMEPADS = 4
       if @raylib.is_gamepad_available(i) {
         @raylib.draw_text(
-          "Gamepad name: \{@raylib.get_gamepad_name(i)}", 10, y, 10,
+          "Gamepad name: \{@raylib.get_gamepad_name(i)}",
+          10,
+          y,
+          10,
           @raylib.black,
         )
         y += 11
         let axis_count = @raylib.get_gamepad_axis_count(i)
         @raylib.draw_text(
-          "  Axis count: \{axis_count}", 10, y, 10, @raylib.black,
+          "  Axis count: \{axis_count}",
+          10,
+          y,
+          10,
+          @raylib.black,
         )
         y += 11
         for axis = 0; axis < axis_count; axis = axis + 1 {
           let axis_val = @raylib.get_gamepad_axis_movement(i, axis)
           @raylib.draw_text(
-            "  Axis \{axis} = \{axis_val}", 10, y, 10, @raylib.black,
+            "  Axis \{axis} = \{axis_val}",
+            10,
+            y,
+            10,
+            @raylib.black,
           )
           y += 11
         }
@@ -43,7 +53,11 @@ fn main {
             0
           }
           @raylib.draw_text(
-            "  Button \{button} = \{button_down}", 10, y, 10, @raylib.black,
+            "  Button \{button} = \{button_down}",
+            10,
+            y,
+            10,
+            @raylib.black,
           )
           y += 11
         }

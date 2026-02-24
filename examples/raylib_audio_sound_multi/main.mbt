@@ -8,15 +8,16 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_audio_sound_multi")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - playing sound multiple times",
+    screen_width, screen_height, "raylib [audio] example - playing sound multiple times",
   )
 
   @raylib.init_audio_device()
 
   // Load the sound list
-  let sound_array = Array::make(max_sounds, @raylib.load_sound("resources/sound.wav"))
+  let sound_array = Array::make(
+    max_sounds,
+    @raylib.load_sound("resources/sound.wav"),
+  )
   // slot 0 is the 'source' sound that owns the sample data
   // slots 1..9 are aliases that share the same audio buffer
   for i in 1..<max_sounds {

@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_text_font_spritefont")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - sprite font loading",
+    screen_width, screen_height, "raylib [text] example - sprite font loading",
   )
 
   let msg1 = "THIS IS A custom SPRITE FONT..."

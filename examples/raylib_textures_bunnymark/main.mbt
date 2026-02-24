@@ -14,9 +14,7 @@ fn main {
   let max_batch_elements = 8192
   let _ = @raylib.change_directory("examples/raylib_textures_bunnymark")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - bunnymark",
+    screen_width, screen_height, "raylib [textures] example - bunnymark",
   )
 
   // Load bunny texture
@@ -26,14 +24,11 @@ fn main {
   let tex_bunny_height = 32
 
   // Bunnies array
-  let bunnies : Array[Bunny] = Array::make(
-    max_bunnies,
-    {
-      position: @raylib.Vector2::new(0.0, 0.0),
-      speed: @raylib.Vector2::new(0.0, 0.0),
-      color: @raylib.Color::new(255, 255, 255, 255),
-    },
-  )
+  let bunnies : Array[Bunny] = Array::make(max_bunnies, {
+    position: @raylib.Vector2::new(0.0, 0.0),
+    speed: @raylib.Vector2::new(0.0, 0.0),
+    color: @raylib.Color::new(255, 255, 255, 255),
+  })
 
   let mut bunnies_count = 0
 
@@ -70,17 +65,17 @@ fn main {
         bunnies[i].position.x + bunnies[i].speed.x,
         bunnies[i].position.y + bunnies[i].speed.y,
       )
-      if (bunnies[i].position.x + Float::from_int(tex_bunny_width / 2)) >
+      if bunnies[i].position.x + Float::from_int(tex_bunny_width / 2) >
         Float::from_int(@raylib.get_screen_width()) ||
-        (bunnies[i].position.x + Float::from_int(tex_bunny_width / 2)) < 0.0 {
+        bunnies[i].position.x + Float::from_int(tex_bunny_width / 2) < 0.0 {
         bunnies[i].speed = @raylib.Vector2::new(
           -bunnies[i].speed.x,
           bunnies[i].speed.y,
         )
       }
-      if (bunnies[i].position.y + Float::from_int(tex_bunny_height / 2)) >
+      if bunnies[i].position.y + Float::from_int(tex_bunny_height / 2) >
         Float::from_int(@raylib.get_screen_height()) ||
-        (bunnies[i].position.y + Float::from_int(tex_bunny_height / 2) - 40.0) <
+        bunnies[i].position.y + Float::from_int(tex_bunny_height / 2) - 40.0 <
         0.0 {
         bunnies[i].speed = @raylib.Vector2::new(
           bunnies[i].speed.x,
@@ -103,13 +98,7 @@ fn main {
     }
 
     @raylib.draw_rectangle(0, 0, screen_width, 40, @raylib.black)
-    @raylib.draw_text(
-      "bunnies: \{bunnies_count}",
-      120,
-      10,
-      20,
-      @raylib.green,
-    )
+    @raylib.draw_text("bunnies: \{bunnies_count}", 120, 10, 20, @raylib.green)
     @raylib.draw_text(
       "batched draw calls: \{1 + bunnies_count / max_batch_elements}",
       320,

@@ -140,9 +140,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - mesh instancing",
+    screen_width, screen_height, "raylib [shaders] example - mesh instancing",
   )
 
   // Define the camera to look into our 3d world
@@ -185,8 +183,7 @@ fn main {
 
   // Load lighting shader
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/lighting_instancing.vs",
-    "resources/shaders/glsl330/lighting.fs",
+    "resources/shaders/glsl330/lighting_instancing.vs", "resources/shaders/glsl330/lighting.fs",
   )
 
   // Get shader locations

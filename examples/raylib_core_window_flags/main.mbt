@@ -118,13 +118,13 @@ fn main {
     // Bouncing ball logic
     ball_position_x += ball_speed_x
     ball_position_y += ball_speed_y
-    if ball_position_x >= Float::from_int(@raylib.get_screen_width()) -
-      ball_radius ||
+    if ball_position_x >=
+      Float::from_int(@raylib.get_screen_width()) - ball_radius ||
       ball_position_x <= ball_radius {
       ball_speed_x = -ball_speed_x
     }
-    if ball_position_y >= Float::from_int(@raylib.get_screen_height()) -
-      ball_radius ||
+    if ball_position_y >=
+      Float::from_int(@raylib.get_screen_height()) - ball_radius ||
       ball_position_y <= ball_radius {
       ball_speed_y = -ball_speed_y
     }
@@ -163,8 +163,7 @@ fn main {
 
     // Draw window state info
     @raylib.draw_text(
-      "Following flags can be set after window creation:", 10, 60, 10,
-      @raylib.gray,
+      "Following flags can be set after window creation:", 10, 60, 10, @raylib.gray,
     )
 
     // FLAG_FULLSCREEN_MODE
@@ -202,9 +201,7 @@ fn main {
 
     // FLAG_WINDOW_HIDDEN
     if @raylib.is_window_state(@raylib.FlagWindowHidden) {
-      @raylib.draw_text(
-        "[H] FLAG_WINDOW_HIDDEN: on", 10, 140, 10, @raylib.lime,
-      )
+      @raylib.draw_text("[H] FLAG_WINDOW_HIDDEN: on", 10, 140, 10, @raylib.lime)
     } else {
       @raylib.draw_text(
         "[H] FLAG_WINDOW_HIDDEN: off", 10, 140, 10, @raylib.maroon,
@@ -268,28 +265,19 @@ fn main {
 
     // FLAG_VSYNC_HINT
     if @raylib.is_window_state(@raylib.FlagVsyncHint) {
-      @raylib.draw_text(
-        "[V] FLAG_VSYNC_HINT: on", 10, 260, 10, @raylib.lime,
-      )
+      @raylib.draw_text("[V] FLAG_VSYNC_HINT: on", 10, 260, 10, @raylib.lime)
     } else {
-      @raylib.draw_text(
-        "[V] FLAG_VSYNC_HINT: off", 10, 260, 10, @raylib.maroon,
-      )
+      @raylib.draw_text("[V] FLAG_VSYNC_HINT: off", 10, 260, 10, @raylib.maroon)
     }
 
     // Pre-creation-only flags
     @raylib.draw_text(
-      "Following flags can only be set before window creation:", 10, 300, 10,
-      @raylib.gray,
+      "Following flags can only be set before window creation:", 10, 300, 10, @raylib.gray,
     )
     if @raylib.is_window_state(@raylib.FlagWindowHighdpi) {
-      @raylib.draw_text(
-        "FLAG_WINDOW_HIGHDPI: on", 10, 320, 10, @raylib.lime,
-      )
+      @raylib.draw_text("FLAG_WINDOW_HIGHDPI: on", 10, 320, 10, @raylib.lime)
     } else {
-      @raylib.draw_text(
-        "FLAG_WINDOW_HIGHDPI: off", 10, 320, 10, @raylib.maroon,
-      )
+      @raylib.draw_text("FLAG_WINDOW_HIGHDPI: off", 10, 320, 10, @raylib.maroon)
     }
     if @raylib.is_window_state(@raylib.FlagWindowTransparent) {
       @raylib.draw_text(
@@ -301,13 +289,9 @@ fn main {
       )
     }
     if @raylib.is_window_state(@raylib.FlagMsaa4xHint) {
-      @raylib.draw_text(
-        "FLAG_MSAA_4X_HINT: on", 10, 360, 10, @raylib.lime,
-      )
+      @raylib.draw_text("FLAG_MSAA_4X_HINT: on", 10, 360, 10, @raylib.lime)
     } else {
-      @raylib.draw_text(
-        "FLAG_MSAA_4X_HINT: off", 10, 360, 10, @raylib.maroon,
-      )
+      @raylib.draw_text("FLAG_MSAA_4X_HINT: off", 10, 360, 10, @raylib.maroon)
     }
 
     @raylib.end_drawing()

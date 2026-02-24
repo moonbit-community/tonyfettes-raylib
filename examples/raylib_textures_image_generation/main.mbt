@@ -6,9 +6,7 @@ fn main {
   let num_textures = 9
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - procedural images generation",
+    screen_width, screen_height, "raylib [textures] example - procedural images generation",
   )
 
   let vertical_gradient = @raylib.gen_image_gradient_linear(
@@ -76,46 +74,28 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     @raylib.draw_texture(textures[current_texture], 0, 0, @raylib.white)
-    @raylib.draw_rectangle(
-      30, 400, 325, 30, @raylib.fade(@raylib.skyblue, 0.5),
-    )
+    @raylib.draw_rectangle(30, 400, 325, 30, @raylib.fade(@raylib.skyblue, 0.5))
     @raylib.draw_rectangle_lines(
-      30, 400, 325, 30, @raylib.fade(@raylib.white, 0.5),
+      30,
+      400,
+      325,
+      30,
+      @raylib.fade(@raylib.white, 0.5),
     )
     @raylib.draw_text(
-      "MOUSE LEFT BUTTON to CYCLE PROCEDURAL TEXTURES",
-      40,
-      410,
-      10,
-      @raylib.white,
+      "MOUSE LEFT BUTTON to CYCLE PROCEDURAL TEXTURES", 40, 410, 10, @raylib.white,
     )
     match current_texture {
-      0 =>
-        @raylib.draw_text(
-          "VERTICAL GRADIENT", 560, 10, 20, @raylib.raywhite,
-        )
+      0 => @raylib.draw_text("VERTICAL GRADIENT", 560, 10, 20, @raylib.raywhite)
       1 =>
-        @raylib.draw_text(
-          "HORIZONTAL GRADIENT", 540, 10, 20, @raylib.raywhite,
-        )
-      2 =>
-        @raylib.draw_text(
-          "DIAGONAL GRADIENT", 540, 10, 20, @raylib.raywhite,
-        )
-      3 =>
-        @raylib.draw_text(
-          "RADIAL GRADIENT", 580, 10, 20, @raylib.lightgray,
-        )
-      4 =>
-        @raylib.draw_text(
-          "SQUARE GRADIENT", 580, 10, 20, @raylib.lightgray,
-        )
-      5 =>
-        @raylib.draw_text("CHECKED", 680, 10, 20, @raylib.raywhite)
+        @raylib.draw_text("HORIZONTAL GRADIENT", 540, 10, 20, @raylib.raywhite)
+      2 => @raylib.draw_text("DIAGONAL GRADIENT", 540, 10, 20, @raylib.raywhite)
+      3 => @raylib.draw_text("RADIAL GRADIENT", 580, 10, 20, @raylib.lightgray)
+      4 => @raylib.draw_text("SQUARE GRADIENT", 580, 10, 20, @raylib.lightgray)
+      5 => @raylib.draw_text("CHECKED", 680, 10, 20, @raylib.raywhite)
       6 => @raylib.draw_text("WHITE NOISE", 640, 10, 20, @raylib.red)
       7 => @raylib.draw_text("PERLIN NOISE", 640, 10, 20, @raylib.red)
-      8 =>
-        @raylib.draw_text("CELLULAR", 670, 10, 20, @raylib.raywhite)
+      8 => @raylib.draw_text("CELLULAR", 670, 10, 20, @raylib.raywhite)
       _ => ()
     }
     @raylib.end_drawing()

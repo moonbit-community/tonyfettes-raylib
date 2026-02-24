@@ -6,9 +6,7 @@ fn main {
   let num_processes = 9
   let _ = @raylib.change_directory("examples/raylib_textures_image_processing")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - image processing",
+    screen_width, screen_height, "raylib [textures] example - image processing",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
@@ -26,15 +24,8 @@ fn main {
   let mut texture_reload = false
 
   let process_text : Array[String] = [
-    "NO PROCESSING",
-    "COLOR GRAYSCALE",
-    "COLOR TINT",
-    "COLOR INVERT",
-    "COLOR CONTRAST",
-    "COLOR BRIGHTNESS",
-    "GAUSSIAN BLUR",
-    "FLIP VERTICAL",
-    "FLIP HORIZONTAL",
+    "NO PROCESSING", "COLOR GRAYSCALE", "COLOR TINT", "COLOR INVERT", "COLOR CONTRAST",
+    "COLOR BRIGHTNESS", "GAUSSIAN BLUR", "FLIP VERTICAL", "FLIP HORIZONTAL",
   ]
 
   let mut mouse_hover_rec = -1
@@ -55,9 +46,9 @@ fn main {
         30.0,
       )
       if @raylib.check_collision_point_rec(
-        @raylib.get_mouse_position(),
-        toggle_rec,
-      ) {
+          @raylib.get_mouse_position(),
+          toggle_rec,
+        ) {
         mouse_hover_rec = i
         if @raylib.is_mouse_button_released(@raylib.MouseButtonLeft) {
           current_process = i

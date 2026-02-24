@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - scissor test",
+    screen_width, screen_height, "raylib [core] example - scissor test",
   )
 
   let scissor_width : Float = 300.0
@@ -23,8 +21,7 @@ fn main {
     }
 
     // Centre the scissor area around the mouse position
-    let scissor_x = Float::from_int(@raylib.get_mouse_x()) -
-      scissor_width / 2.0
+    let scissor_x = Float::from_int(@raylib.get_mouse_x()) - scissor_width / 2.0
     let scissor_y = Float::from_int(@raylib.get_mouse_y()) -
       scissor_height / 2.0
 
@@ -44,14 +41,14 @@ fn main {
     // Draw full screen rectangle and some text
     // NOTE: Only part defined by scissor area will be rendered
     @raylib.draw_rectangle(
-      0, 0, @raylib.get_screen_width(), @raylib.get_screen_height(), @raylib.red,
+      0,
+      0,
+      @raylib.get_screen_width(),
+      @raylib.get_screen_height(),
+      @raylib.red,
     )
     @raylib.draw_text(
-      "Move the mouse around to reveal this text!",
-      190,
-      200,
-      20,
-      @raylib.lightgray,
+      "Move the mouse around to reveal this text!", 190, 200, 20, @raylib.lightgray,
     )
 
     if scissor_mode {

@@ -5,18 +5,13 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_image_drawing")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - image drawing",
+    screen_width, screen_height, "raylib [textures] example - image drawing",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
   let cat = @raylib.load_image("resources/cat.png") // Load image in CPU memory (RAM)
-  @raylib.image_crop(
-    cat,
-    @raylib.Rectangle::new(100.0, 10.0, 280.0, 380.0),
-  ) // Crop an image piece
+  @raylib.image_crop(cat, @raylib.Rectangle::new(100.0, 10.0, 280.0, 380.0)) // Crop an image piece
   @raylib.image_flip_horizontal(cat) // Flip cropped image horizontally
   @raylib.image_resize(cat, 150, 200) // Resize flipped-cropped image
 
@@ -32,10 +27,7 @@ fn main {
     @raylib.white,
   )
   // parrots.png is 512x384, crop resulting image
-  @raylib.image_crop(
-    parrots,
-    @raylib.Rectangle::new(0.0, 50.0, 512.0, 284.0),
-  )
+  @raylib.image_crop(parrots, @raylib.Rectangle::new(0.0, 50.0, 512.0, 284.0))
 
   // Draw on the image with a few image draw methods
   @raylib.image_draw_pixel(parrots, 10, 10, @raylib.raywhite)
@@ -90,18 +82,12 @@ fn main {
     )
 
     @raylib.draw_text(
-      "We are drawing only one texture from various images composed!",
-      240,
-      350,
-      10,
-      @raylib.darkgray,
+      "We are drawing only one texture from various images composed!", 240, 350,
+      10, @raylib.darkgray,
     )
     @raylib.draw_text(
       "Source images have been cropped, scaled, flipped and copied one over the other.",
-      190,
-      370,
-      10,
-      @raylib.darkgray,
+      190, 370, 10, @raylib.darkgray,
     )
 
     @raylib.end_drawing()

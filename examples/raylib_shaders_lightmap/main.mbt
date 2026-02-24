@@ -15,15 +15,14 @@ fn floats_to_bytes(values : FixedArray[Float]) -> Bytes {
   FixedArray::unsafe_reinterpret_as_bytes(arr)
 }
 
+///|
 fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - lightmap",
+    screen_width, screen_height, "raylib [shaders] example - lightmap",
   )
 
   // Define the camera to look into our 3d world
@@ -46,16 +45,15 @@ fn main {
   // texcoords2: 4 vertices * 2 components = 8 floats
   let texcoords2 : FixedArray[Float] = [
     0.0, 0.0, // vertex 0
-    1.0, 0.0, // vertex 1
-    0.0, 1.0, // vertex 2
-    1.0, 1.0, // vertex 3
-  ]
+     1.0, 0.0, // vertex 1
+     0.0, 1.0, // vertex 2
+     1.0, 1.0,
+  ] // vertex 3
   @raylib.mesh_setup_texcoords2(mesh, floats_to_bytes(texcoords2), 8)
 
   // Load lightmap shader
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/lightmap.vs",
-    "resources/shaders/glsl330/lightmap.fs",
+    "resources/shaders/glsl330/lightmap.vs", "resources/shaders/glsl330/lightmap.fs",
   )
 
   let texture = @raylib.load_texture("resources/cubicmap_atlas.png")
@@ -70,11 +68,7 @@ fn main {
 
   let material = @raylib.load_material_default()
   @raylib.set_material_shader(material, shader)
-  @raylib.set_material_texture(
-    material,
-    @raylib.MaterialMapAlbedo,
-    texture,
-  )
+  @raylib.set_material_texture(material, @raylib.MaterialMapAlbedo, texture)
   // Set lightmap texture on METALNESS map slot (used as texture1 in shader)
   let lightmap_tex = @raylib.get_render_texture_texture(lightmap)
   @raylib.set_material_texture(
@@ -152,7 +146,13 @@ fn main {
       @raylib.white,
     )
 
-    @raylib.draw_text("lightmap", render_w - 66, 16 + MapSize * 8, 10, @raylib.gray)
+    @raylib.draw_text(
+      "lightmap",
+      render_w - 66,
+      16 + MapSize * 8,
+      10,
+      @raylib.gray,
+    )
     @raylib.draw_text(
       "10x10 pixels",
       render_w - 76,

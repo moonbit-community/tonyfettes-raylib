@@ -190,9 +190,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_shaders_deferred_render")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - deferred render",
+    screen_width, screen_height, "raylib [shaders] example - deferred render",
   )
 
   // Define the camera to look into our 3D world
@@ -208,19 +206,15 @@ fn main {
   let model = @raylib.load_model_from_mesh(
     @raylib.gen_mesh_plane(10.0, 10.0, 3, 3),
   )
-  let cube = @raylib.load_model_from_mesh(
-    @raylib.gen_mesh_cube(2.0, 2.0, 2.0),
-  )
+  let cube = @raylib.load_model_from_mesh(@raylib.gen_mesh_cube(2.0, 2.0, 2.0))
 
   // Load geometry buffer (G-buffer) shader and deferred shader
   let gbuffer_shader = @raylib.load_shader(
-    "resources/shaders/glsl330/gbuffer.vs",
-    "resources/shaders/glsl330/gbuffer.fs",
+    "resources/shaders/glsl330/gbuffer.vs", "resources/shaders/glsl330/gbuffer.fs",
   )
 
   let deferred_shader = @raylib.load_shader(
-    "resources/shaders/glsl330/deferred_shading.vs",
-    "resources/shaders/glsl330/deferred_shading.fs",
+    "resources/shaders/glsl330/deferred_shading.vs", "resources/shaders/glsl330/deferred_shading.fs",
   )
   @raylib.set_shader_locs(
     deferred_shader,
@@ -289,9 +283,7 @@ fn main {
 
   // Finally we attach the depth buffer.
   let depth_renderbuffer = @raylib.rl_load_texture_depth(
-    screen_width,
-    screen_height,
-    true,
+    screen_width, screen_height, true,
   )
   @raylib.rl_framebuffer_attach(
     fbo,
@@ -388,9 +380,7 @@ fn main {
         Float::from_int(@raylib.get_random_value(0, 10) - 5),
       ),
     )
-    cube_rotations.push(
-      Float::from_int(@raylib.get_random_value(0, 360)),
-    )
+    cube_rotations.push(Float::from_int(@raylib.get_random_value(0, 360)))
   }
 
   let mut mode = DeferredShading
@@ -525,15 +515,7 @@ fn main {
       )
       @raylib.rl_bind_framebuffer(@raylib.RlDrawFramebuffer, 0U)
       @raylib.rl_blit_framebuffer(
-        0,
-        0,
-        screen_width,
-        screen_height,
-        0,
-        0,
-        screen_width,
-        screen_height,
-        0x00000100, // GL_DEPTH_BUFFER_BIT
+        0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, 0x00000100, // GL_DEPTH_BUFFER_BIT
       )
       @raylib.rl_disable_framebuffer()
 
@@ -543,13 +525,7 @@ fn main {
       @raylib.rl_enable_shader(@raylib.rl_get_shader_id_default())
       for i = 0; i < MaxLights; i = i + 1 {
         if lights[i].enabled {
-          @raylib.draw_sphere_ex(
-            lights[i].position,
-            0.2,
-            8,
-            8,
-            lights[i].color,
-          )
+          @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
         } else {
           @raylib.draw_sphere_wires(
             lights[i].position,
@@ -645,18 +621,10 @@ fn main {
     }
 
     @raylib.draw_text(
-      "Toggle lights keys: [Y][R][G][B]",
-      10,
-      40,
-      20,
-      @raylib.darkgray,
+      "Toggle lights keys: [Y][R][G][B]", 10, 40, 20, @raylib.darkgray,
     )
     @raylib.draw_text(
-      "Switch G-buffer textures: [1][2][3][4]",
-      10,
-      70,
-      20,
-      @raylib.darkgray,
+      "Switch G-buffer textures: [1][2][3][4]", 10, 70, 20, @raylib.darkgray,
     )
 
     @raylib.draw_fps(10, 10)

@@ -10,28 +10,15 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_audio_module_playing")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - module playing (streaming)",
+    screen_width, screen_height, "raylib [audio] example - module playing (streaming)",
   )
 
   @raylib.init_audio_device()
 
   let colors : Array[@raylib.Color] = [
-    @raylib.orange,
-    @raylib.red,
-    @raylib.gold,
-    @raylib.lime,
-    @raylib.blue,
-    @raylib.violet,
-    @raylib.brown,
-    @raylib.lightgray,
-    @raylib.pink,
-    @raylib.yellow,
-    @raylib.green,
-    @raylib.skyblue,
-    @raylib.purple,
-    @raylib.beige,
+    @raylib.orange, @raylib.red, @raylib.gold, @raylib.lime, @raylib.blue, @raylib.violet,
+    @raylib.brown, @raylib.lightgray, @raylib.pink, @raylib.yellow, @raylib.green,
+    @raylib.skyblue, @raylib.purple, @raylib.beige,
   ]
 
   // Creates some circles for visual effect
@@ -113,9 +100,9 @@ fn main {
     @raylib.set_music_pitch(music, pitch)
 
     // Get timePlayed scaled to bar dimensions
-    time_played = @raylib.get_music_time_played(music) / @raylib.get_music_time_length(
-        music,
-      ) * Float::from_int(screen_width - 40)
+    time_played = @raylib.get_music_time_played(music) /
+      @raylib.get_music_time_length(music) *
+      Float::from_int(screen_width - 40)
 
     // Color circles animation
     if not(pause) {
@@ -163,7 +150,11 @@ fn main {
 
     // Draw time bar
     @raylib.draw_rectangle(
-      20, screen_height - 20 - 12, screen_width - 40, 12, @raylib.lightgray,
+      20,
+      screen_height - 20 - 12,
+      screen_width - 40,
+      12,
+      @raylib.lightgray,
     )
     @raylib.draw_rectangle(
       20,
@@ -173,15 +164,17 @@ fn main {
       @raylib.maroon,
     )
     @raylib.draw_rectangle_lines(
-      20, screen_height - 20 - 12, screen_width - 40, 12, @raylib.gray,
+      20,
+      screen_height - 20 - 12,
+      screen_width - 40,
+      12,
+      @raylib.gray,
     )
 
     // Draw help instructions
     @raylib.draw_rectangle(20, 20, 425, 145, @raylib.white)
     @raylib.draw_rectangle_lines(20, 20, 425, 145, @raylib.gray)
-    @raylib.draw_text(
-      "PRESS SPACE TO RESTART MUSIC", 40, 40, 20, @raylib.black,
-    )
+    @raylib.draw_text("PRESS SPACE TO RESTART MUSIC", 40, 40, 20, @raylib.black)
     @raylib.draw_text("PRESS P TO PAUSE/RESUME", 40, 70, 20, @raylib.black)
     @raylib.draw_text(
       "PRESS UP/DOWN TO CHANGE SPEED", 40, 100, 20, @raylib.black,

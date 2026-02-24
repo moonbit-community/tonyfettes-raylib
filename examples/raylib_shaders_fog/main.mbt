@@ -199,19 +199,27 @@ fn main {
 
   // Assign texture to default model material (MATERIAL_MAP_DIFFUSE = 0)
   @raylib.set_model_material_texture(
-    model_a, 0, @raylib.MaterialMapAlbedo, texture,
+    model_a,
+    0,
+    @raylib.MaterialMapAlbedo,
+    texture,
   )
   @raylib.set_model_material_texture(
-    model_b, 0, @raylib.MaterialMapAlbedo, texture,
+    model_b,
+    0,
+    @raylib.MaterialMapAlbedo,
+    texture,
   )
   @raylib.set_model_material_texture(
-    model_c, 0, @raylib.MaterialMapAlbedo, texture,
+    model_c,
+    0,
+    @raylib.MaterialMapAlbedo,
+    texture,
   )
 
   // Load shader and set up some uniforms
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/lighting.vs",
-    "resources/shaders/glsl330/fog.fs",
+    "resources/shaders/glsl330/lighting.vs", "resources/shaders/glsl330/fog.fs",
   )
 
   // Set shader locations for matModel and viewPos
@@ -305,7 +313,10 @@ fn main {
     let view_pos_loc = @raylib.get_shader_location(shader, "viewPos")
     let camera_pos = vec3_to_bytes(camera.position)
     @raylib.set_shader_value(
-      shader, view_pos_loc, camera_pos, @raylib.ShaderUniformVec3,
+      shader,
+      view_pos_loc,
+      camera_pos,
+      @raylib.ShaderUniformVec3,
     )
 
     // Draw
@@ -316,13 +327,22 @@ fn main {
 
     // Draw the three models
     @raylib.draw_model(
-      model_a, @raylib.Vector3::new(0.0, 0.0, 0.0), 1.0, @raylib.white,
+      model_a,
+      @raylib.Vector3::new(0.0, 0.0, 0.0),
+      1.0,
+      @raylib.white,
     )
     @raylib.draw_model(
-      model_b, @raylib.Vector3::new(-2.6, 0.0, 0.0), 1.0, @raylib.white,
+      model_b,
+      @raylib.Vector3::new(-2.6, 0.0, 0.0),
+      1.0,
+      @raylib.white,
     )
     @raylib.draw_model(
-      model_c, @raylib.Vector3::new(2.6, 0.0, 0.0), 1.0, @raylib.white,
+      model_c,
+      @raylib.Vector3::new(2.6, 0.0, 0.0),
+      1.0,
+      @raylib.white,
     )
 
     for i = -20; i < 20; i = i + 2 {
@@ -337,8 +357,7 @@ fn main {
     @raylib.end_mode_3d()
 
     // Format fog density text
-    let density_text =
-      "Use KEY_UP/KEY_DOWN to change fog density [" +
+    let density_text = "Use KEY_UP/KEY_DOWN to change fog density [" +
       format_float(fog_density) +
       "]"
     @raylib.draw_text(density_text, 10, 10, 20, @raylib.raywhite)

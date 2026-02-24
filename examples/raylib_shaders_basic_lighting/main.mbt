@@ -228,7 +228,10 @@ fn main {
     // Update shader with current camera position
     let camera_pos = vec3_to_bytes(camera.position)
     @raylib.set_shader_value(
-      shader, view_pos_loc, camera_pos, @raylib.ShaderUniformVec3,
+      shader,
+      view_pos_loc,
+      camera_pos,
+      @raylib.ShaderUniformVec3,
     )
 
     // Toggle lights with key presses

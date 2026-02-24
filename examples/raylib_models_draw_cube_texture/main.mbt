@@ -1,5 +1,7 @@
 // Draw cube textured
 // NOTE: Cube position is the center position
+
+///|
 fn draw_cube_texture(
   texture : @raylib.Texture,
   position : @raylib.Vector3,
@@ -90,6 +92,8 @@ fn draw_cube_texture(
 }
 
 // Draw cube with texture piece applied to all faces
+
+///|
 fn draw_cube_texture_rec(
   texture : @raylib.Texture,
   source : @raylib.Rectangle,
@@ -115,7 +119,10 @@ fn draw_cube_texture_rec(
 
   // Front face
   @raylib.rl_normal3f(0.0, 0.0, 1.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
   @raylib.rl_tex_coord2f(
     (source.x + source.width) / tex_width,
@@ -144,14 +151,20 @@ fn draw_cube_texture_rec(
   @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
   @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
   @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
 
   // Top face
   @raylib.rl_normal3f(0.0, 1.0, 0.0)
   @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
   @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
   @raylib.rl_tex_coord2f(
     (source.x + source.width) / tex_width,
@@ -173,7 +186,10 @@ fn draw_cube_texture_rec(
   @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
   @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
   @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
   @raylib.rl_tex_coord2f(
     (source.x + source.width) / tex_width,
@@ -195,12 +211,18 @@ fn draw_cube_texture_rec(
   @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
   @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
   @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
 
   // Left face
   @raylib.rl_normal3f(-1.0, 0.0, 0.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @raylib.rl_tex_coord2f(
+    source.x / tex_width,
+    (source.y + source.height) / tex_height,
+  )
   @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
   @raylib.rl_tex_coord2f(
     (source.x + source.width) / tex_width,
@@ -226,9 +248,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - draw cube texture",
+    screen_width, screen_height, "raylib [models] example - draw cube texture",
   )
 
   // Define the camera to look into our 3d world

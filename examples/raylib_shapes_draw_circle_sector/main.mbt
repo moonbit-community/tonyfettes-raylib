@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - draw circle sector",
+    screen_width, screen_height, "raylib [shapes] example - draw circle sector",
   )
 
   let center = @raylib.Vector2::new(
@@ -115,13 +113,37 @@ fn main {
     )
 
     // Draw GUI-like text controls
-    @raylib.draw_text("StartAngle: \{start_angle.to_int()}", 600, 40, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "StartAngle: \{start_angle.to_int()}",
+      600,
+      40,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[LEFT/RIGHT] to adjust", 600, 55, 10, @raylib.gray)
-    @raylib.draw_text("EndAngle: \{end_angle.to_int()}", 600, 80, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "EndAngle: \{end_angle.to_int()}",
+      600,
+      80,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[UP/DOWN] to adjust", 600, 95, 10, @raylib.gray)
-    @raylib.draw_text("Radius: \{outer_radius.to_int()}", 600, 130, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "Radius: \{outer_radius.to_int()}",
+      600,
+      130,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[W/S] to adjust", 600, 145, 10, @raylib.gray)
-    @raylib.draw_text("Segments: \{segments.to_int()}", 600, 170, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "Segments: \{segments.to_int()}",
+      600,
+      170,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[A/D] to adjust", 600, 185, 10, @raylib.gray)
 
     let diff = end_angle - start_angle

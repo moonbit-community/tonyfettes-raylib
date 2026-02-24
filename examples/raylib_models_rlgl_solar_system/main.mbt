@@ -1,7 +1,10 @@
+///|
 let deg2rad : Float = 3.14159265358979323846 / 180.0
 
 // Draw sphere without any matrix transformation
 // NOTE: Sphere is drawn in world position (0, 0, 0) with radius 1.0
+
+///|
 fn draw_sphere_basic(color : @raylib.Color) -> Unit {
   let rings = 16
   let slices = 16
@@ -23,35 +26,47 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
       let frings1 = Float::from_int(rings + 1)
 
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.sinf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.cosf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
       )
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.sinf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.cosf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
 
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.sinf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.cosf(deg2rad * (fj * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) * @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
+        @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
       )
       @raylib.rl_vertex3f(
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
-        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) * @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
+        @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
+        @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
       )
     }
   }
@@ -71,9 +86,7 @@ fn main {
   let moon_orbit_radius : Float = 1.5
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - rlgl module usage with push/pop matrix transformations",
+    screen_width, screen_height, "raylib [models] example - rlgl module usage with push/pop matrix transformations",
   )
 
   // Define the camera to look into our 3d world
@@ -100,7 +113,10 @@ fn main {
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
     earth_rotation += 5.0 * rotation_speed
-    earth_orbit_rotation += 365.0 / 360.0 * (5.0 * rotation_speed) * rotation_speed
+    earth_orbit_rotation += 365.0 /
+      360.0 *
+      (5.0 * rotation_speed) *
+      rotation_speed
     moon_rotation += 2.0 * rotation_speed
     moon_orbit_rotation += 8.0 * rotation_speed
 
@@ -144,7 +160,9 @@ fn main {
 
     @raylib.end_mode_3d()
 
-    @raylib.draw_text("EARTH ORBITING AROUND THE SUN!", 400, 10, 20, @raylib.maroon)
+    @raylib.draw_text(
+      "EARTH ORBITING AROUND THE SUN!", 400, 10, 20, @raylib.maroon,
+    )
     @raylib.draw_fps(10, 10)
 
     @raylib.end_drawing()

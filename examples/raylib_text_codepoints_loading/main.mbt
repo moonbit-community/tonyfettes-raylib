@@ -23,9 +23,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_text_codepoints_loading")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - codepoints loading",
+    screen_width, screen_height, "raylib [text] example - codepoints loading",
   )
 
   // Text to be displayed, must be UTF-8
@@ -48,9 +46,7 @@ fn main {
   // Load font containing all the provided codepoint glyphs
   // A texture font atlas is automatically generated
   let font = @raylib.load_font_ex_codepoints(
-    "resources/DotGothic16-Regular.ttf",
-    36,
-    codepoints_no_dups,
+    "resources/DotGothic16-Regular.ttf", 36, codepoints_no_dups,
   )
 
   // Set bilinear scale filter for better font scaling

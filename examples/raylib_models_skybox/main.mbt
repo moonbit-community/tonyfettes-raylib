@@ -14,9 +14,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - skybox loading and drawing",
+    screen_width, screen_height, "raylib [models] example - skybox loading and drawing",
   )
   let _ = @raylib.change_directory("examples/raylib_models_skybox")
 
@@ -36,8 +34,7 @@ fn main {
   // Load skybox shader and set required locations
   // NOTE: Some locations are automatically set at shader loading
   let skybox_shader = @raylib.load_shader(
-    "resources/shaders/glsl330/skybox.vs",
-    "resources/shaders/glsl330/skybox.fs",
+    "resources/shaders/glsl330/skybox.vs", "resources/shaders/glsl330/skybox.fs",
   )
   @raylib.set_model_material_shader(skybox, 0, skybox_shader)
 

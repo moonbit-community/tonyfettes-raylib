@@ -477,10 +477,7 @@ pub extern "c" fn set_material_texture(
 
 ///|
 #borrow(material, shader)
-pub extern "c" fn set_material_shader(
-  material : Material,
-  shader : Shader,
-) = "moonbit_raylib_set_material_shader"
+pub extern "c" fn set_material_shader(material : Material, shader : Shader) = "moonbit_raylib_set_material_shader"
 
 ///|
 #borrow(material, color)
@@ -650,10 +647,7 @@ pub extern "c" fn materials_array_get(
 
 ///|
 #borrow(model, transform)
-pub extern "c" fn set_model_transform(
-  model : Model,
-  transform : Bytes,
-) = "moonbit_raylib_set_model_transform"
+pub extern "c" fn set_model_transform(model : Model, transform : Bytes) = "moonbit_raylib_set_model_transform"
 
 // ============================================================================
 // Model: get mesh count
@@ -697,27 +691,50 @@ pub extern "c" fn get_model_bone_parent(model : Model, bone_index : Int) -> Int 
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_bind_pose_translation(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bind_pose_translation"
+pub extern "c" fn get_model_bind_pose_translation(
+  model : Model,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_bind_pose_translation"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_count(anims : ModelAnimations, anim_index : Int) -> Int = "moonbit_raylib_get_model_animation_frame_count"
+pub extern "c" fn get_model_animation_frame_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int = "moonbit_raylib_get_model_animation_frame_count"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_bone_count(anims : ModelAnimations, anim_index : Int) -> Int = "moonbit_raylib_get_model_animation_bone_count"
+pub extern "c" fn get_model_animation_bone_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int = "moonbit_raylib_get_model_animation_bone_count"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_bone_parent(anims : ModelAnimations, anim_index : Int, bone_index : Int) -> Int = "moonbit_raylib_get_model_animation_bone_parent"
+pub extern "c" fn get_model_animation_bone_parent(
+  anims : ModelAnimations,
+  anim_index : Int,
+  bone_index : Int,
+) -> Int = "moonbit_raylib_get_model_animation_bone_parent"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_pose_translation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_translation"
+pub extern "c" fn get_model_animation_frame_pose_translation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_translation"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+pub extern "c" fn get_model_animation_frame_pose_rotation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
 
 ///|
 #borrow(model)
@@ -725,7 +742,10 @@ pub extern "c" fn get_model_bone_name(model : Model, bone_index : Int) -> Bytes 
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bind_pose_rotation"
+pub extern "c" fn get_model_bind_pose_rotation(
+  model : Model,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_bind_pose_rotation"
 
 // ============================================================================
 // Mesh: Generate point cloud from vertex+color data

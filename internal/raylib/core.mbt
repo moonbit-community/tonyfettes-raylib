@@ -914,7 +914,11 @@ pub extern "c" fn rl_unload_framebuffer(id : UInt) = "rlUnloadFramebuffer"
 // rlgl: Texture management (low-level)
 
 ///|
-pub extern "c" fn rl_load_texture_depth(width : Int, height : Int, use_render_buffer : Bool) -> UInt = "rlLoadTextureDepth"
+pub extern "c" fn rl_load_texture_depth(
+  width : Int,
+  height : Int,
+  use_render_buffer : Bool,
+) -> UInt = "rlLoadTextureDepth"
 
 ///|
 pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"
@@ -923,7 +927,10 @@ pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"
 
 ///|
 #borrow(uniform_name)
-pub extern "c" fn rl_get_location_uniform(shader_id : UInt, uniform_name : Bytes) -> Int = "rlGetLocationUniform"
+pub extern "c" fn rl_get_location_uniform(
+  shader_id : UInt,
+  uniform_name : Bytes,
+) -> Int = "rlGetLocationUniform"
 
 ///|
 pub extern "c" fn rl_set_uniform_sampler(loc_index : Int, texture_id : UInt) = "rlSetUniformSampler"

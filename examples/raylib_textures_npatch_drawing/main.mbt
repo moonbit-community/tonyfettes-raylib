@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_npatch_drawing")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - N-patch drawing",
+    screen_width, screen_height, "raylib [textures] example - N-patch drawing",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
@@ -121,10 +119,7 @@ fn main {
       npatch_texture,
       nine_patch_info2,
       @raylib.Rectangle::new(
-        dst_rec2_x,
-        dst_rec2_y,
-        dst_rec2_width,
-        dst_rec2_height,
+        dst_rec2_x, dst_rec2_y, dst_rec2_width, dst_rec2_height,
       ),
       origin,
       0.0,
@@ -134,10 +129,7 @@ fn main {
       npatch_texture,
       nine_patch_info1,
       @raylib.Rectangle::new(
-        dst_rec1_x,
-        dst_rec1_y,
-        dst_rec1_width,
-        dst_rec1_height,
+        dst_rec1_x, dst_rec1_y, dst_rec1_width, dst_rec1_height,
       ),
       origin,
       0.0,
@@ -147,10 +139,7 @@ fn main {
       npatch_texture,
       h3_patch_info,
       @raylib.Rectangle::new(
-        dst_rec_h_x,
-        dst_rec_h_y,
-        dst_rec_h_width,
-        dst_rec_h_height,
+        dst_rec_h_x, dst_rec_h_y, dst_rec_h_width, dst_rec_h_height,
       ),
       origin,
       0.0,
@@ -160,10 +149,7 @@ fn main {
       npatch_texture,
       v3_patch_info,
       @raylib.Rectangle::new(
-        dst_rec_v_x,
-        dst_rec_v_y,
-        dst_rec_v_width,
-        dst_rec_v_height,
+        dst_rec_v_x, dst_rec_v_y, dst_rec_v_width, dst_rec_v_height,
       ),
       origin,
       0.0,
@@ -175,11 +161,7 @@ fn main {
     @raylib.draw_texture(npatch_texture, 10, 93, @raylib.white)
     @raylib.draw_text("TEXTURE", 15, 360, 10, @raylib.darkgray)
     @raylib.draw_text(
-      "Move the mouse to stretch or shrink the n-patches",
-      10,
-      20,
-      20,
-      @raylib.darkgray,
+      "Move the mouse to stretch or shrink the n-patches", 10, 20, 20, @raylib.darkgray,
     )
     @raylib.end_drawing()
   }

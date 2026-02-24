@@ -7,9 +7,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_textures_image_loading")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - image loading",
+    screen_width, screen_height, "raylib [textures] example - image loading",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)

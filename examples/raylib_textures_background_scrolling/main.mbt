@@ -3,11 +3,11 @@ fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
-  let _ = @raylib.change_directory("examples/raylib_textures_background_scrolling")
+  let _ = @raylib.change_directory(
+    "examples/raylib_textures_background_scrolling",
+  )
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - background scrolling",
+    screen_width, screen_height, "raylib [textures] example - background scrolling",
   )
 
   // NOTE: Be careful, background width must be equal or bigger than screen width
@@ -105,11 +105,7 @@ fn main {
     )
 
     @raylib.draw_text(
-      "BACKGROUND SCROLLING & PARALLAX",
-      10,
-      10,
-      20,
-      @raylib.red,
+      "BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, @raylib.red,
     )
     @raylib.draw_text(
       "(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)",

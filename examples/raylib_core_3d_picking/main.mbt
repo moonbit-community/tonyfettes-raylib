@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 3d picking",
+    screen_width, screen_height, "raylib [core] example - 3d picking",
   )
 
   // Define the camera to look into our 3d world
@@ -79,7 +77,11 @@ fn main {
 
     if collision_hit {
       @raylib.draw_cube(
-        cube_position, cube_size.x, cube_size.y, cube_size.z, @raylib.red,
+        cube_position,
+        cube_size.x,
+        cube_size.y,
+        cube_size.z,
+        @raylib.red,
       )
       @raylib.draw_cube_wires(
         cube_position,
@@ -97,7 +99,11 @@ fn main {
       )
     } else {
       @raylib.draw_cube(
-        cube_position, cube_size.x, cube_size.y, cube_size.z, @raylib.gray,
+        cube_position,
+        cube_size.x,
+        cube_size.y,
+        cube_size.z,
+        @raylib.gray,
       )
       @raylib.draw_cube_wires(
         cube_position,
@@ -114,11 +120,7 @@ fn main {
     @raylib.end_mode_3d()
 
     @raylib.draw_text(
-      "Try clicking on the box with your mouse!",
-      240,
-      10,
-      20,
-      @raylib.darkgray,
+      "Try clicking on the box with your mouse!", 240, 10, 20, @raylib.darkgray,
     )
 
     if collision_hit {
@@ -134,11 +136,7 @@ fn main {
     }
 
     @raylib.draw_text(
-      "Right click mouse to toggle camera controls",
-      10,
-      430,
-      10,
-      @raylib.gray,
+      "Right click mouse to toggle camera controls", 10, 430, 10, @raylib.gray,
     )
 
     @raylib.draw_fps(10, 10)

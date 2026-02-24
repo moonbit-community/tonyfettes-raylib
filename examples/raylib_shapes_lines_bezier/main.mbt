@@ -6,9 +6,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - cubic-bezier lines",
+    screen_width, screen_height, "raylib [shapes] example - cubic-bezier lines",
   )
 
   let mut start_x : Float = 30.0
@@ -56,11 +54,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     @raylib.draw_text(
-      "MOVE START-END POINTS WITH MOUSE",
-      15,
-      20,
-      20,
-      @raylib.gray,
+      "MOVE START-END POINTS WITH MOUSE", 15, 20, 20, @raylib.gray,
     )
 
     // Draw line cubic bezier
@@ -71,20 +65,12 @@ fn main {
     // Draw start-end spline circles with some details
     let start_hover = @raylib.check_collision_point_circle(mouse, sp, 10.0)
     let start_radius : Float = if start_hover { 14.0 } else { 8.0 }
-    let start_color = if move_start_point {
-      @raylib.red
-    } else {
-      @raylib.blue
-    }
+    let start_color = if move_start_point { @raylib.red } else { @raylib.blue }
     @raylib.draw_circle_v(sp, start_radius, start_color)
 
     let end_hover = @raylib.check_collision_point_circle(mouse, ep, 10.0)
     let end_radius : Float = if end_hover { 14.0 } else { 8.0 }
-    let end_color = if move_end_point {
-      @raylib.red
-    } else {
-      @raylib.blue
-    }
+    let end_color = if move_end_point { @raylib.red } else { @raylib.blue }
     @raylib.draw_circle_v(ep, end_radius, end_color)
 
     @raylib.end_drawing()

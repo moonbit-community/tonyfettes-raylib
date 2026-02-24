@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_image_text")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [texture] example - image text drawing",
+    screen_width, screen_height, "raylib [texture] example - image text drawing",
   )
 
   let parrots = @raylib.load_image("resources/parrots.png") // Load image in CPU memory (RAM)
@@ -59,11 +57,7 @@ fn main {
     )
 
     @raylib.draw_text(
-      "PRESS SPACE to SHOW FONT ATLAS USED",
-      290,
-      420,
-      10,
-      @raylib.darkgray,
+      "PRESS SPACE to SHOW FONT ATLAS USED", 290, 420, 10, @raylib.darkgray,
     )
 
     @raylib.end_drawing()

@@ -6,9 +6,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - splines drawing",
+    screen_width, screen_height, "raylib [shapes] example - splines drawing",
   )
 
   // Spline points
@@ -33,10 +31,7 @@ fn main {
     @raylib.Vector2::new(0.0, 0.0),
   )
   for i = 0; i < point_count - 1; i = i + 1 {
-    control_start[i] = @raylib.Vector2::new(
-      points[i].x + 50.0,
-      points[i].y,
-    )
+    control_start[i] = @raylib.Vector2::new(points[i].x + 50.0, points[i].y)
     control_end[i] = @raylib.Vector2::new(
       points[i + 1].x - 50.0,
       points[i + 1].y,
@@ -59,13 +54,11 @@ fn main {
     let mouse = @raylib.get_mouse_position()
 
     // Spline points creation logic (right click to add)
-    if @raylib.is_mouse_button_pressed(@raylib.MouseButtonRight) && point_count < 32 {
+    if @raylib.is_mouse_button_pressed(@raylib.MouseButtonRight) &&
+      point_count < 32 {
       points.push(@raylib.Vector2::new(mouse.x, mouse.y))
       let i = point_count - 1
-      control_start[i] = @raylib.Vector2::new(
-        points[i].x + 50.0,
-        points[i].y,
-      )
+      control_start[i] = @raylib.Vector2::new(points[i].x + 50.0, points[i].y)
       control_end[i] = @raylib.Vector2::new(
         points[i + 1].x - 50.0,
         points[i + 1].y,
@@ -104,10 +97,10 @@ fn main {
           }
           break
         } else if @raylib.check_collision_point_circle(
-          mouse,
-          control_end[i],
-          6.0,
-        ) {
+            mouse,
+            control_end[i],
+            6.0,
+          ) {
           focused_control = i * 2 + 1
           if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
             selected_control = i * 2 + 1
@@ -161,9 +154,7 @@ fn main {
     } else if spline_type_active == 2 {
       // Draw spline: catmull-rom
       @raylib.draw_spline_catmull_rom(
-        draw_points,
-        spline_thickness,
-        @raylib.red,
+        draw_points, spline_thickness, @raylib.red,
       )
     } else if spline_type_active == 3 {
       // Build interleaved points for cubic bezier
@@ -177,9 +168,7 @@ fn main {
 
       // Draw spline: cubic-bezier (with control points)
       @raylib.draw_spline_bezier_cubic(
-        interleaved,
-        spline_thickness,
-        @raylib.red,
+        interleaved, spline_thickness, @raylib.red,
       )
 
       // Draw spline control points
@@ -220,7 +209,8 @@ fn main {
         @raylib.darkblue
       }
       @raylib.draw_circle_lines_v(points[i], radius, color)
-      if spline_type_active != 0 && spline_type_active != 3 &&
+      if spline_type_active != 0 &&
+        spline_type_active != 3 &&
         i < point_count - 1 {
         @raylib.draw_line_v(points[i], points[i + 1], @raylib.gray)
       }
@@ -243,18 +233,10 @@ fn main {
       @raylib.darkgray,
     )
     @raylib.draw_text(
-      "[1] Linear  [2] BSpline  [3] CatmullRom  [4] Bezier",
-      12,
-      36,
-      10,
-      @raylib.gray,
+      "[1] Linear  [2] BSpline  [3] CatmullRom  [4] Bezier", 12, 36, 10, @raylib.gray,
     )
     @raylib.draw_text(
-      "Right-click to add points. Left-click to drag.",
-      12,
-      52,
-      10,
-      @raylib.gray,
+      "Right-click to add points. Left-click to drag.", 12, 52, 10, @raylib.gray,
     )
 
     @raylib.end_drawing()

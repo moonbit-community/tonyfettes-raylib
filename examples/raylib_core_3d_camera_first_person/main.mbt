@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 3d camera first person",
+    screen_width, screen_height, "raylib [core] example - 3d camera first person",
   )
 
   // Define the camera to look into our 3d world
@@ -161,36 +159,30 @@ fn main {
     // Draw some cubes around
     for i = 0; i < max_columns; i = i + 1 {
       @raylib.draw_cube(positions[i], 2.0, heights[i], 2.0, colors[i])
-      @raylib.draw_cube_wires(positions[i], 2.0, heights[i], 2.0, @raylib.maroon)
+      @raylib.draw_cube_wires(
+        positions[i],
+        2.0,
+        heights[i],
+        2.0,
+        @raylib.maroon,
+      )
     }
 
     // Draw player cube
     if camera_mode == @raylib.CameraThirdPerson {
       @raylib.draw_cube(camera.target, 0.5, 0.5, 0.5, @raylib.purple)
-      @raylib.draw_cube_wires(
-        camera.target, 0.5, 0.5, 0.5, @raylib.darkpurple,
-      )
+      @raylib.draw_cube_wires(camera.target, 0.5, 0.5, 0.5, @raylib.darkpurple)
     }
 
     @raylib.end_mode_3d()
 
     // Draw info boxes
-    @raylib.draw_rectangle(
-      5,
-      5,
-      330,
-      100,
-      @raylib.fade(@raylib.skyblue, 0.5),
-    )
+    @raylib.draw_rectangle(5, 5, 330, 100, @raylib.fade(@raylib.skyblue, 0.5))
     @raylib.draw_rectangle_lines(5, 5, 330, 100, @raylib.blue)
 
     @raylib.draw_text("Camera controls:", 15, 15, 10, @raylib.black)
     @raylib.draw_text(
-      "- Move keys: W, A, S, D, Space, Left-Ctrl",
-      15,
-      30,
-      10,
-      @raylib.black,
+      "- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, @raylib.black,
     )
     @raylib.draw_text(
       "- Look around: arrow keys or mouse", 15, 45, 10, @raylib.black,
@@ -199,23 +191,11 @@ fn main {
       "- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, @raylib.black,
     )
     @raylib.draw_text(
-      "- Zoom keys: num-plus, num-minus or mouse scroll",
-      15,
-      75,
-      10,
-      @raylib.black,
+      "- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, @raylib.black,
     )
-    @raylib.draw_text(
-      "- Camera projection key: P", 15, 90, 10, @raylib.black,
-    )
+    @raylib.draw_text("- Camera projection key: P", 15, 90, 10, @raylib.black)
 
-    @raylib.draw_rectangle(
-      600,
-      5,
-      195,
-      100,
-      @raylib.fade(@raylib.skyblue, 0.5),
-    )
+    @raylib.draw_rectangle(600, 5, 195, 100, @raylib.fade(@raylib.skyblue, 0.5))
     @raylib.draw_rectangle_lines(600, 5, 195, 100, @raylib.blue)
 
     @raylib.draw_text("Camera status:", 610, 15, 10, @raylib.black)
@@ -240,9 +220,7 @@ fn main {
     } else {
       "CUSTOM"
     }
-    @raylib.draw_text(
-      "- Projection: \{proj_str}", 610, 45, 10, @raylib.black,
-    )
+    @raylib.draw_text("- Projection: \{proj_str}", 610, 45, 10, @raylib.black)
 
     @raylib.draw_text(
       "- Position: (\{camera.position.x}, \{camera.position.y}, \{camera.position.z})",

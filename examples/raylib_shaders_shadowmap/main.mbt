@@ -4,6 +4,7 @@
 // Ported from: shaders_shadowmap.c
 // ============================================================================
 
+///|
 const ShadowmapResolution : Int = 1024
 
 ///|
@@ -57,9 +58,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - shadowmap",
+    screen_width, screen_height, "raylib [shaders] example - shadowmap",
   )
 
   // Define the camera to look into our 3d world
@@ -73,8 +72,7 @@ fn main {
 
   // Load the shadow mapping shader
   let shadow_shader = @raylib.load_shader(
-    "resources/shaders/glsl330/shadowmap.vs",
-    "resources/shaders/glsl330/shadowmap.fs",
+    "resources/shaders/glsl330/shadowmap.vs", "resources/shaders/glsl330/shadowmap.fs",
   )
   // Set the shader location for the view position
   let view_pos_loc = @raylib.get_shader_location(shadow_shader, "viewPos")
@@ -120,8 +118,7 @@ fn main {
   let light_vp_loc = @raylib.get_shader_location(shadow_shader, "lightVP")
   let shadow_map_loc = @raylib.get_shader_location(shadow_shader, "shadowMap")
   let shadow_map_resolution_loc = @raylib.get_shader_location(
-    shadow_shader,
-    "shadowMapResolution",
+    shadow_shader, "shadowMapResolution",
   )
   @raylib.set_shader_value(
     shadow_shader,
@@ -145,8 +142,7 @@ fn main {
     "resources/models/robot.glb",
   )
   let anim_frame_count = @raylib.get_model_animation_frame_count(
-    robot_animations,
-    0,
+    robot_animations, 0,
   )
 
   // Load shadow map render texture (depth-only)
@@ -247,9 +243,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     @raylib.set_shader_value_matrix(
-      shadow_shader,
-      light_vp_loc,
-      light_view_proj,
+      shadow_shader, light_vp_loc, light_view_proj,
     )
 
     // Enable the shadow shader and bind the shadow map texture
@@ -279,11 +273,7 @@ fn main {
       @raylib.gray,
     )
     @raylib.draw_text(
-      "Use the arrow keys to rotate the light!",
-      10,
-      10,
-      30,
-      @raylib.red,
+      "Use the arrow keys to rotate the light!", 10, 10, 30, @raylib.red,
     )
 
     @raylib.end_drawing()

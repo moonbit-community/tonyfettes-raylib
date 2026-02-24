@@ -354,7 +354,9 @@ pub fn build_font_from_data(
   padding : Int,
   pack_method : Int,
 ) -> Font {
-  @raylib.build_font_from_data(file_data, data_size, font_size, font_type, padding, pack_method)
+  @raylib.build_font_from_data(
+    file_data, data_size, font_size, font_type, padding, pack_method,
+  )
 }
 
 // Font data type constants

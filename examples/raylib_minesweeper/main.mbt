@@ -309,9 +309,7 @@ fn main {
         if revealed[idx] != 0 {
           // Revealed cell
           @raylib.draw_rectangle(x, y, CellSize, CellSize, cell_revealed_bg)
-          @raylib.draw_rectangle_lines(
-            x, y, CellSize, CellSize, highlight_dark,
-          )
+          @raylib.draw_rectangle_lines(x, y, CellSize, CellSize, highlight_dark)
           if mines[idx] != 0 {
             // Mine — draw filled circle
             let cx = x + CellSize / 2

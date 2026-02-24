@@ -224,10 +224,7 @@ fn ease_elastic_in(t : Float, b : Float, c : Float, d : Float) -> Float {
   let p = d * 0.3
   let s = p / 4.0
   let t = t - 1.0
-  -(c * powf(2.0, 10.0 * t) * @math.sinf(
-      (t * d - s) * (2.0 * pi) / p,
-    )) +
-  b
+  -(c * powf(2.0, 10.0 * t) * @math.sinf((t * d - s) * (2.0 * pi) / p)) + b
 }
 
 ///|
@@ -241,11 +238,7 @@ fn ease_elastic_out(t : Float, b : Float, c : Float, d : Float) -> Float {
   }
   let p = d * 0.3
   let s = p / 4.0
-  c *
-  powf(2.0, -10.0 * t) *
-  @math.sinf((t * d - s) * (2.0 * pi) / p) +
-  c +
-  b
+  c * powf(2.0, -10.0 * t) * @math.sinf((t * d - s) * (2.0 * pi) / p) + c + b
 }
 
 ///|
@@ -261,17 +254,11 @@ fn ease_elastic_in_out(t : Float, b : Float, c : Float, d : Float) -> Float {
   let s = p / 4.0
   if t < 1.0 {
     let t = t - 1.0
-    -0.5 *
-    (c * powf(2.0, 10.0 * t) * @math.sinf(
-        (t * d - s) * (2.0 * pi) / p,
-      )) +
+    -0.5 * (c * powf(2.0, 10.0 * t) * @math.sinf((t * d - s) * (2.0 * pi) / p)) +
     b
   } else {
     let t = t - 1.0
-    c *
-    powf(2.0, -10.0 * t) *
-    @math.sinf((t * d - s) * (2.0 * pi) / p) *
-    0.5 +
+    c * powf(2.0, -10.0 * t) * @math.sinf((t * d - s) * (2.0 * pi) / p) * 0.5 +
     c +
     b
   }
@@ -279,13 +266,12 @@ fn ease_elastic_in_out(t : Float, b : Float, c : Float, d : Float) -> Float {
 
 ///|
 let easing_names : FixedArray[String] = [
-  "EaseLinearNone", "EaseLinearIn", "EaseLinearOut", "EaseLinearInOut",
-  "EaseSineIn", "EaseSineOut", "EaseSineInOut", "EaseCircIn", "EaseCircOut",
-  "EaseCircInOut", "EaseCubicIn", "EaseCubicOut", "EaseCubicInOut", "EaseQuadIn",
-  "EaseQuadOut", "EaseQuadInOut", "EaseExpoIn", "EaseExpoOut", "EaseExpoInOut",
-  "EaseBackIn", "EaseBackOut", "EaseBackInOut", "EaseBounceOut", "EaseBounceIn",
-  "EaseBounceInOut", "EaseElasticIn", "EaseElasticOut", "EaseElasticInOut",
-  "None",
+  "EaseLinearNone", "EaseLinearIn", "EaseLinearOut", "EaseLinearInOut", "EaseSineIn",
+  "EaseSineOut", "EaseSineInOut", "EaseCircIn", "EaseCircOut", "EaseCircInOut", "EaseCubicIn",
+  "EaseCubicOut", "EaseCubicInOut", "EaseQuadIn", "EaseQuadOut", "EaseQuadInOut",
+  "EaseExpoIn", "EaseExpoOut", "EaseExpoInOut", "EaseBackIn", "EaseBackOut", "EaseBackInOut",
+  "EaseBounceOut", "EaseBounceIn", "EaseBounceInOut", "EaseElasticIn", "EaseElasticOut",
+  "EaseElasticInOut", "None",
 ]
 
 ///|
@@ -294,7 +280,7 @@ fn apply_easing(
   t : Float,
   b : Float,
   c : Float,
-  d : Float
+  d : Float,
 ) -> Float {
   match index {
     0 => ease_linear_none(t, b, c, d)
@@ -340,9 +326,7 @@ fn main {
   let d_min : Float = 1.0
   let d_max : Float = 10000.0
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [easings] example - easings testbed",
+    screen_width, screen_height, "raylib [easings] example - easings testbed",
   )
   let mut ball_x : Float = 100.0
   let mut ball_y : Float = 100.0

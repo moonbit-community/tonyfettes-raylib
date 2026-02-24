@@ -6,9 +6,7 @@ fn main {
   let num_textures = 3
   let _ = @raylib.change_directory("examples/raylib_textures_image_rotate")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - texture rotation",
+    screen_width, screen_height, "raylib [textures] example - texture rotation",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
@@ -60,11 +58,7 @@ fn main {
       @raylib.white,
     )
     @raylib.draw_text(
-      "Press LEFT MOUSE BUTTON to rotate the image clockwise",
-      250,
-      420,
-      10,
-      @raylib.darkgray,
+      "Press LEFT MOUSE BUTTON to rotate the image clockwise", 250, 420, 10, @raylib.darkgray,
     )
     @raylib.end_drawing()
   }

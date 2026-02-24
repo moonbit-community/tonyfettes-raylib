@@ -7,9 +7,7 @@ fn main {
   let num_lines = 5
   let _ = @raylib.change_directory("examples/raylib_textures_sprite_explosion")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - sprite explosion",
+    screen_width, screen_height, "raylib [textures] example - sprite explosion",
   )
 
   @raylib.init_audio_device()

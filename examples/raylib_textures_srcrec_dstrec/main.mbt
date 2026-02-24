@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
   let _ = @raylib.change_directory("examples/raylib_textures_srcrec_dstrec")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] examples - texture source and destination rectangles",
+    screen_width, screen_height, "raylib [textures] examples - texture source and destination rectangles",
   )
 
   // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)

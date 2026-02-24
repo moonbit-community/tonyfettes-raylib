@@ -16,14 +16,15 @@ fn main {
   let screen_height = 450
   let max_input_chars = 9
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - input box",
+    screen_width, screen_height, "raylib [text] example - input box",
   )
   let mut name = ""
   let mut letter_count = 0
   let text_box = @raylib.Rectangle::new(
-    Float::from_int(screen_width) / 2.0 - 100.0, 180.0, 225.0, 50.0,
+    Float::from_int(screen_width) / 2.0 - 100.0,
+    180.0,
+    225.0,
+    50.0,
   )
   let mut mouse_on_text = false
   let mut frames_counter = 0
@@ -33,7 +34,8 @@ fn main {
   while not(@raylib.window_should_close()) {
     // Update
     mouse_on_text = @raylib.check_collision_point_rec(
-      @raylib.get_mouse_position(), text_box,
+      @raylib.get_mouse_position(),
+      text_box,
     )
     if mouse_on_text {
       // Set the window's cursor to the I-Beam
@@ -70,9 +72,7 @@ fn main {
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
-    @raylib.draw_text(
-      "PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, @raylib.gray,
-    )
+    @raylib.draw_text("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, @raylib.gray)
     @raylib.draw_rectangle_rec(text_box, @raylib.lightgray)
     if mouse_on_text {
       @raylib.draw_rectangle_lines(
@@ -92,7 +92,10 @@ fn main {
       )
     }
     @raylib.draw_text(
-      name, text_box.x.to_int() + 5, text_box.y.to_int() + 8, 40,
+      name,
+      text_box.x.to_int() + 5,
+      text_box.y.to_int() + 8,
+      40,
       @raylib.maroon,
     )
     @raylib.draw_text(

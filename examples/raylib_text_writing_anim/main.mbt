@@ -15,9 +15,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - text writing anim",
+    screen_width, screen_height, "raylib [text] example - text writing anim",
   )
   let message = "This sample illustrates a text writing\nanimation effect! Check it out! ;)"
   let mut frames_counter = 0
@@ -47,8 +45,12 @@ fn main {
       20,
       @raylib.maroon,
     )
-    @raylib.draw_text("PRESS [ENTER] to RESTART!", 240, 260, 20, @raylib.lightgray)
-    @raylib.draw_text("HOLD [SPACE] to SPEED UP!", 239, 300, 20, @raylib.lightgray)
+    @raylib.draw_text(
+      "PRESS [ENTER] to RESTART!", 240, 260, 20, @raylib.lightgray,
+    )
+    @raylib.draw_text(
+      "HOLD [SPACE] to SPEED UP!", 239, 300, 20, @raylib.lightgray,
+    )
 
     @raylib.end_drawing()
   }

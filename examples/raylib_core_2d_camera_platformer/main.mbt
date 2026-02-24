@@ -278,9 +278,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - 2d camera platformer",
+    screen_width, screen_height, "raylib [core] example - 2d camera platformer",
   )
 
   // Player state
@@ -332,9 +330,7 @@ fn main {
   let mut camera_option = 0
   let camera_updaters_length = 5
   let camera_descriptions : Array[String] = [
-    "Follow player center",
-    "Follow player center, but clamp to map edges",
-    "Follow player center; smoothed",
+    "Follow player center", "Follow player center, but clamp to map edges", "Follow player center; smoothed",
     "Follow player center horizontally; update player center vertically after landing",
     "Player push camera on getting too close to screen edge",
   ]
@@ -402,16 +398,8 @@ fn main {
       )
     } else if camera_option == 3 {
       let (cam, eo, eot) = update_camera_even_out_on_landing(
-        camera,
-        player_x,
-        player_y,
-        player_speed,
-        can_jump,
-        delta_time,
-        evening_out,
-        even_out_target,
-        screen_width,
-        screen_height,
+        camera, player_x, player_y, player_speed, can_jump, delta_time, evening_out,
+        even_out_target, screen_width, screen_height,
       )
       camera = cam
       evening_out = eo
@@ -452,17 +440,19 @@ fn main {
     @raylib.draw_text("- Right/Left to move", 40, 40, 10, @raylib.darkgray)
     @raylib.draw_text("- Space to jump", 40, 60, 10, @raylib.darkgray)
     @raylib.draw_text(
-      "- Mouse Wheel to Zoom in-out, R to reset zoom",
-      40,
-      80,
-      10,
-      @raylib.darkgray,
+      "- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, @raylib.darkgray,
     )
     @raylib.draw_text(
       "- C to change camera mode", 40, 100, 10, @raylib.darkgray,
     )
     @raylib.draw_text("Current camera mode:", 20, 120, 10, @raylib.black)
-    @raylib.draw_text(camera_descriptions[camera_option], 40, 140, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      camera_descriptions[camera_option],
+      40,
+      140,
+      10,
+      @raylib.darkgray,
+    )
 
     @raylib.end_drawing()
   }

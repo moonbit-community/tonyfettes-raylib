@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - basic screen manager",
+    screen_width, screen_height, "raylib [core] example - basic screen manager",
   )
 
   // Game screen enum represented as Int: 0=LOGO, 1=TITLE, 2=GAMEPLAY, 3=ENDING
@@ -27,27 +25,24 @@ fn main {
           current_screen = 1
         }
       }
-      1 => {
+      1 =>
         // TITLE
         if @raylib.is_key_pressed(@raylib.KeyEnter) ||
           @raylib.is_gesture_detected(@raylib.GestureTap) {
           current_screen = 2
         }
-      }
-      2 => {
+      2 =>
         // GAMEPLAY
         if @raylib.is_key_pressed(@raylib.KeyEnter) ||
           @raylib.is_gesture_detected(@raylib.GestureTap) {
           current_screen = 3
         }
-      }
-      3 => {
+      3 =>
         // ENDING
         if @raylib.is_key_pressed(@raylib.KeyEnter) ||
           @raylib.is_gesture_detected(@raylib.GestureTap) {
           current_screen = 1
         }
-      }
       _ => ()
     }
 
@@ -65,11 +60,7 @@ fn main {
         @raylib.draw_rectangle(0, 0, screen_width, screen_height, @raylib.green)
         @raylib.draw_text("TITLE SCREEN", 20, 20, 40, @raylib.darkgreen)
         @raylib.draw_text(
-          "PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN",
-          120,
-          220,
-          20,
-          @raylib.darkgreen,
+          "PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, 220, 20, @raylib.darkgreen,
         )
       }
       2 => {
@@ -79,11 +70,7 @@ fn main {
         )
         @raylib.draw_text("GAMEPLAY SCREEN", 20, 20, 40, @raylib.maroon)
         @raylib.draw_text(
-          "PRESS ENTER or TAP to JUMP to ENDING SCREEN",
-          130,
-          220,
-          20,
-          @raylib.maroon,
+          "PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, @raylib.maroon,
         )
       }
       3 => {
@@ -91,11 +78,7 @@ fn main {
         @raylib.draw_rectangle(0, 0, screen_width, screen_height, @raylib.blue)
         @raylib.draw_text("ENDING SCREEN", 20, 20, 40, @raylib.darkblue)
         @raylib.draw_text(
-          "PRESS ENTER or TAP to RETURN to TITLE SCREEN",
-          120,
-          220,
-          20,
-          @raylib.darkblue,
+          "PRESS ENTER or TAP to RETURN to TITLE SCREEN", 120, 220, 20, @raylib.darkblue,
         )
       }
       _ => ()

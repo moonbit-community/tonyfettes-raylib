@@ -18,14 +18,11 @@ fn main {
 
   // Load gltf model
   let _ = @raylib.change_directory("examples/raylib_models_gpu_skinning")
-  let character_model = @raylib.load_model(
-    "resources/models/gltf/greenman.glb",
-  )
+  let character_model = @raylib.load_model("resources/models/gltf/greenman.glb")
 
   // Load skinning shader
   let skinning_shader = @raylib.load_shader(
-    "resources/shaders/glsl330/skinning.vs",
-    "resources/shaders/glsl330/skinning.fs",
+    "resources/shaders/glsl330/skinning.vs", "resources/shaders/glsl330/skinning.fs",
   )
 
   @raylib.set_model_material_shader(character_model, 1, skinning_shader)

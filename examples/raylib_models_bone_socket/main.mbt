@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - bone socket",
+    screen_width, screen_height, "raylib [models] example - bone socket",
   )
 
   // Define the camera to look into our 3d world
@@ -20,9 +18,7 @@ fn main {
 
   // Load gltf model
   let _ = @raylib.change_directory("examples/raylib_models_bone_socket")
-  let character_model = @raylib.load_model(
-    "resources/models/gltf/greenman.glb",
-  )
+  let character_model = @raylib.load_model("resources/models/gltf/greenman.glb")
   let equip_model : FixedArray[_] = [
     @raylib.load_model("resources/models/gltf/greenman_hat.glb"),
     @raylib.load_model("resources/models/gltf/greenman_sword.glb"),
@@ -182,18 +178,10 @@ fn main {
       "Use the T/G to switch animation", 10, 10, 20, @raylib.gray,
     )
     @raylib.draw_text(
-      "Use the F/H to rotate character left/right",
-      10,
-      35,
-      20,
-      @raylib.gray,
+      "Use the F/H to rotate character left/right", 10, 35, 20, @raylib.gray,
     )
     @raylib.draw_text(
-      "Use the 1,2,3 to toggle shown of hat, sword and shield",
-      10,
-      60,
-      20,
-      @raylib.gray,
+      "Use the 1,2,3 to toggle shown of hat, sword and shield", 10, 60, 20, @raylib.gray,
     )
 
     @raylib.end_drawing()

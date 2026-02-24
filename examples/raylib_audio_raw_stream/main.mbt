@@ -9,9 +9,7 @@ fn main {
   let max_samples_per_update = 4096
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [audio] example - raw audio streaming",
+    screen_width, screen_height, "raylib [audio] example - raw audio streaming",
   )
   @raylib.init_audio_device()
 
@@ -63,7 +61,8 @@ fn main {
       for i = 0; i < wave_length * 2; i = i + 1 {
         let sample = @math.sinf(
             2.0 * pi * Float::from_int(i) / Float::from_int(wave_length),
-          ) * 32000.0
+          ) *
+          32000.0
         data[i] = sample.to_int()
       }
       // Clear rest of buffer
@@ -114,18 +113,15 @@ fn main {
       @raylib.red,
     )
     @raylib.draw_text(
-      "click mouse button to change frequency or pan",
-      10,
-      10,
-      20,
-      @raylib.darkgray,
+      "click mouse button to change frequency or pan", 10, 10, 20, @raylib.darkgray,
     )
 
     // Draw the current buffer state proportionate to the screen
     for i = 0; i < screen_width; i = i + 1 {
       let pos_x = Float::from_int(i)
       let sample_index = i * max_samples / screen_width
-      let pos_y : Float = 250.0 + 50.0 * Float::from_int(data[sample_index]) / 32000.0
+      let pos_y : Float = 250.0 +
+        50.0 * Float::from_int(data[sample_index]) / 32000.0
       @raylib.draw_pixel_v(@raylib.Vector2::new(pos_x, pos_y), @raylib.red)
     }
 

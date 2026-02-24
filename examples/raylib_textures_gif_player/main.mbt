@@ -7,9 +7,7 @@ fn main {
   let min_frame_delay = 1
   let _ = @raylib.change_directory("examples/raylib_textures_gif_player")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - gif playing",
+    screen_width, screen_height, "raylib [textures] example - gif playing",
   )
 
   // Load all GIF animation frames into a single Image
@@ -45,9 +43,7 @@ fn main {
       // Update GPU texture data with next frame image data
       // WARNING: Data size (frame size) and pixel format must match already created texture
       @raylib.update_texture_from_image_frame(
-        tex_scarfy_anim,
-        im_scarfy_anim,
-        current_anim_frame,
+        tex_scarfy_anim, im_scarfy_anim, current_anim_frame,
       )
 
       frame_counter = 0
@@ -91,11 +87,7 @@ fn main {
       @raylib.darkgray,
     )
     @raylib.draw_text(
-      "PRESS RIGHT/LEFT KEYS to CHANGE SPEED!",
-      290,
-      350,
-      10,
-      @raylib.darkgray,
+      "PRESS RIGHT/LEFT KEYS to CHANGE SPEED!", 290, 350, 10, @raylib.darkgray,
     )
     for i in 0..<max_frame_delay {
       if i < frame_delay {
@@ -106,7 +98,7 @@ fn main {
     @raylib.draw_texture(
       tex_scarfy_anim,
       @raylib.get_screen_width() / 2 -
-        @raylib.get_texture_width(tex_scarfy_anim) / 2,
+      @raylib.get_texture_width(tex_scarfy_anim) / 2,
       140,
       @raylib.white,
     )

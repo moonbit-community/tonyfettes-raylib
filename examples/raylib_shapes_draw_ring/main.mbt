@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - draw ring",
+    screen_width, screen_height, "raylib [shapes] example - draw ring",
   )
 
   let center = @raylib.Vector2::new(
@@ -160,15 +158,45 @@ fn main {
     }
 
     // Draw parameter text
-    @raylib.draw_text("StartAngle: \{start_angle.to_int()}", 600, 40, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "StartAngle: \{start_angle.to_int()}",
+      600,
+      40,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[LEFT/RIGHT]", 600, 55, 10, @raylib.gray)
-    @raylib.draw_text("EndAngle: \{end_angle.to_int()}", 600, 70, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "EndAngle: \{end_angle.to_int()}",
+      600,
+      70,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[UP/DOWN]", 600, 85, 10, @raylib.gray)
-    @raylib.draw_text("InnerRadius: \{inner_radius.to_int()}", 600, 120, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "InnerRadius: \{inner_radius.to_int()}",
+      600,
+      120,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[W/S]", 600, 135, 10, @raylib.gray)
-    @raylib.draw_text("OuterRadius: \{outer_radius.to_int()}", 600, 150, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "OuterRadius: \{outer_radius.to_int()}",
+      600,
+      150,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[A/D]", 600, 165, 10, @raylib.gray)
-    @raylib.draw_text("Segments: \{segments.to_int()}", 600, 200, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "Segments: \{segments.to_int()}",
+      600,
+      200,
+      10,
+      @raylib.darkgray,
+    )
     @raylib.draw_text("[Q/E]", 600, 215, 10, @raylib.gray)
 
     let diff = end_angle - start_angle
@@ -190,9 +218,27 @@ fn main {
     let ring_text = if draw_ring { "ON" } else { "OFF" }
     let ring_lines_text = if draw_ring_lines { "ON" } else { "OFF" }
     let circle_lines_text = if draw_circle_lines { "ON" } else { "OFF" }
-    @raylib.draw_text("[1] Draw Ring: \{ring_text}", 600, 320, 10, @raylib.darkgray)
-    @raylib.draw_text("[2] Draw RingLines: \{ring_lines_text}", 600, 350, 10, @raylib.darkgray)
-    @raylib.draw_text("[3] Draw CircleLines: \{circle_lines_text}", 600, 380, 10, @raylib.darkgray)
+    @raylib.draw_text(
+      "[1] Draw Ring: \{ring_text}",
+      600,
+      320,
+      10,
+      @raylib.darkgray,
+    )
+    @raylib.draw_text(
+      "[2] Draw RingLines: \{ring_lines_text}",
+      600,
+      350,
+      10,
+      @raylib.darkgray,
+    )
+    @raylib.draw_text(
+      "[3] Draw CircleLines: \{circle_lines_text}",
+      600,
+      380,
+      10,
+      @raylib.darkgray,
+    )
 
     @raylib.draw_fps(10, 10)
 

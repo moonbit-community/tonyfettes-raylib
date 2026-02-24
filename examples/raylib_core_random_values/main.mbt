@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - generate random values",
+    screen_width, screen_height, "raylib [core] example - generate random values",
   )
 
   let mut rand_value = @raylib.get_random_value(-8, 5)
@@ -29,11 +27,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     @raylib.draw_text(
-      "Every 2 seconds a new random value is generated:",
-      130,
-      100,
-      20,
-      @raylib.maroon,
+      "Every 2 seconds a new random value is generated:", 130, 100, 20, @raylib.maroon,
     )
     @raylib.draw_text("\{rand_value}", 360, 180, 80, @raylib.lightgray)
     @raylib.end_drawing()

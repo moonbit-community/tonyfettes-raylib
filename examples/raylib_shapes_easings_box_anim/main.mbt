@@ -8,9 +8,13 @@ let pi : Float = 3.14159265358979323846
 
 ///|
 fn ease_elastic_out(t : Float, b : Float, c : Float, d : Float) -> Float {
-  if t == 0.0 { return b }
+  if t == 0.0 {
+    return b
+  }
   let t = t / d
-  if t == 1.0 { return b + c }
+  if t == 1.0 {
+    return b + c
+  }
   let p = d * 0.3
   let a = c
   let s = p / 4.0
@@ -60,7 +64,9 @@ fn ease_sine_out(t : Float, b : Float, c : Float, d : Float) -> Float {
 fn main {
   let screen_width = 800
   let screen_height = 450
-  @raylib.init_window(screen_width, screen_height, "raylib [shapes] example - easings box anim")
+  @raylib.init_window(
+    screen_width, screen_height, "raylib [shapes] example - easings box anim",
+  )
   let mut rec_x = Float::from_int(screen_width) / 2.0
   let mut rec_y : Float = -100.0
   let mut rec_width : Float = 100.0
@@ -73,25 +79,65 @@ fn main {
   while not(@raylib.window_should_close()) {
     if state == 0 {
       frames_counter += 1
-      rec_y = ease_elastic_out(Float::from_int(frames_counter), -100.0, Float::from_int(screen_height) / 2.0 + 100.0, 120.0)
-      if frames_counter >= 120 { frames_counter = 0; state = 1 }
+      rec_y = ease_elastic_out(
+        Float::from_int(frames_counter),
+        -100.0,
+        Float::from_int(screen_height) / 2.0 + 100.0,
+        120.0,
+      )
+      if frames_counter >= 120 {
+        frames_counter = 0
+        state = 1
+      }
     } else if state == 1 {
       frames_counter += 1
-      rec_height = ease_bounce_out(Float::from_int(frames_counter), 100.0, -90.0, 120.0)
-      rec_width = ease_bounce_out(Float::from_int(frames_counter), 100.0, Float::from_int(screen_width), 120.0)
-      if frames_counter >= 120 { frames_counter = 0; state = 2 }
+      rec_height = ease_bounce_out(
+        Float::from_int(frames_counter),
+        100.0,
+        -90.0,
+        120.0,
+      )
+      rec_width = ease_bounce_out(
+        Float::from_int(frames_counter),
+        100.0,
+        Float::from_int(screen_width),
+        120.0,
+      )
+      if frames_counter >= 120 {
+        frames_counter = 0
+        state = 2
+      }
     } else if state == 2 {
       frames_counter += 1
-      rotation = ease_quad_out(Float::from_int(frames_counter), 0.0, 270.0, 240.0)
-      if frames_counter >= 240 { frames_counter = 0; state = 3 }
+      rotation = ease_quad_out(
+        Float::from_int(frames_counter),
+        0.0,
+        270.0,
+        240.0,
+      )
+      if frames_counter >= 240 {
+        frames_counter = 0
+        state = 3
+      }
     } else if state == 3 {
       frames_counter += 1
-      rec_height = ease_circ_out(Float::from_int(frames_counter), 10.0, Float::from_int(screen_width), 120.0)
-      if frames_counter >= 120 { frames_counter = 0; state = 4 }
+      rec_height = ease_circ_out(
+        Float::from_int(frames_counter),
+        10.0,
+        Float::from_int(screen_width),
+        120.0,
+      )
+      if frames_counter >= 120 {
+        frames_counter = 0
+        state = 4
+      }
     } else if state == 4 {
       frames_counter += 1
       alpha = ease_sine_out(Float::from_int(frames_counter), 1.0, -1.0, 160.0)
-      if frames_counter >= 160 { frames_counter = 0; state = 5 }
+      if frames_counter >= 160 {
+        frames_counter = 0
+        state = 5
+      }
     }
     if @raylib.is_key_pressed(@raylib.KeySpace) {
       rec_x = Float::from_int(screen_width) / 2.0
@@ -111,7 +157,13 @@ fn main {
       rotation,
       @raylib.fade(@raylib.black, alpha),
     )
-    @raylib.draw_text("PRESS [SPACE] TO RESET BOX ANIMATION!", 10, screen_height - 25, 20, @raylib.lightgray)
+    @raylib.draw_text(
+      "PRESS [SPACE] TO RESET BOX ANIMATION!",
+      10,
+      screen_height - 25,
+      20,
+      @raylib.lightgray,
+    )
     @raylib.end_drawing()
   }
   @raylib.close_window()

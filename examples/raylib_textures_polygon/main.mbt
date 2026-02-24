@@ -7,6 +7,8 @@ let deg2rad : Float = 0.017453292519943295
 // Draw textured polygon, defined by vertex and texture coordinates
 // NOTE: Polygon center must have straight line path to all points
 // without crossing perimeter, points must be in anticlockwise order
+
+///|
 fn draw_texture_poly(
   texture : @raylib.Texture,
   center : @raylib.Vector2,
@@ -30,16 +32,10 @@ fn draw_texture_poly(
     @raylib.rl_vertex2f(points[i].x + center.x, points[i].y + center.y)
 
     @raylib.rl_tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
-    @raylib.rl_vertex2f(
-      points[i + 1].x + center.x,
-      points[i + 1].y + center.y,
-    )
+    @raylib.rl_vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
 
     @raylib.rl_tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
-    @raylib.rl_vertex2f(
-      points[i + 1].x + center.x,
-      points[i + 1].y + center.y,
-    )
+    @raylib.rl_vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
   }
 
   @raylib.rl_end()
@@ -53,9 +49,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - textured polygon",
+    screen_width, screen_height, "raylib [textures] example - textured polygon",
   )
 
   // Define texture coordinates to map our texture to poly

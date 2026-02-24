@@ -6,9 +6,7 @@ fn main {
   let num_frames = 3
   let _ = @raylib.change_directory("examples/raylib_textures_sprite_button")
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [textures] example - sprite button",
+    screen_width, screen_height, "raylib [textures] example - sprite button",
   )
 
   @raylib.init_audio_device()
@@ -42,10 +40,7 @@ fn main {
     btn_action = false
 
     let btn_bounds = @raylib.Rectangle::new(
-      btn_bounds_x,
-      btn_bounds_y,
-      btn_bounds_w,
-      btn_bounds_h,
+      btn_bounds_x, btn_bounds_y, btn_bounds_w, btn_bounds_h,
     )
 
     // Check button state

@@ -5,9 +5,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - raylib logo animation",
+    screen_width, screen_height, "raylib [shapes] example - raylib logo animation",
   )
 
   let logo_position_x = screen_width / 2 - 128
@@ -88,42 +86,22 @@ fn main {
     if state == 0 {
       if frames_counter / 15 % 2 != 0 {
         @raylib.draw_rectangle(
-          logo_position_x,
-          logo_position_y,
-          16,
-          16,
-          @raylib.black,
+          logo_position_x, logo_position_y, 16, 16, @raylib.black,
         )
       }
     } else if state == 1 {
       @raylib.draw_rectangle(
-        logo_position_x,
-        logo_position_y,
-        top_side_rec_width,
-        16,
-        @raylib.black,
+        logo_position_x, logo_position_y, top_side_rec_width, 16, @raylib.black,
       )
       @raylib.draw_rectangle(
-        logo_position_x,
-        logo_position_y,
-        16,
-        left_side_rec_height,
-        @raylib.black,
+        logo_position_x, logo_position_y, 16, left_side_rec_height, @raylib.black,
       )
     } else if state == 2 {
       @raylib.draw_rectangle(
-        logo_position_x,
-        logo_position_y,
-        top_side_rec_width,
-        16,
-        @raylib.black,
+        logo_position_x, logo_position_y, top_side_rec_width, 16, @raylib.black,
       )
       @raylib.draw_rectangle(
-        logo_position_x,
-        logo_position_y,
-        16,
-        left_side_rec_height,
-        @raylib.black,
+        logo_position_x, logo_position_y, 16, left_side_rec_height, @raylib.black,
       )
       @raylib.draw_rectangle(
         logo_position_x + 240,

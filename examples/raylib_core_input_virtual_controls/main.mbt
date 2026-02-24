@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - input virtual controls",
+    screen_width, screen_height, "raylib [core] example - input virtual controls",
   )
 
   let dpad_x : Float = 90.0
@@ -100,7 +98,11 @@ fn main {
       @raylib.red,
     )
     @raylib.draw_text(
-      "Player", player_x.to_int(), player_y.to_int(), 20, @raylib.white,
+      "Player",
+      player_x.to_int(),
+      player_y.to_int(),
+      20,
+      @raylib.white,
     )
 
     @raylib.end_drawing()

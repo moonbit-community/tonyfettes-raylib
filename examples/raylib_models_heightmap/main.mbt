@@ -32,7 +32,10 @@ fn main {
 
   // Set map diffuse texture
   @raylib.set_model_material_texture(
-    model, 0, @raylib.MaterialMapAlbedo, texture,
+    model,
+    0,
+    @raylib.MaterialMapAlbedo,
+    texture,
   )
 
   let map_position = @raylib.Vector3::new(-8.0, 0.0, -8.0)

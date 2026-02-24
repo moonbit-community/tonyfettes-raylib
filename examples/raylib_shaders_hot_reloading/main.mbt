@@ -22,9 +22,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_shaders_hot_reloading")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - hot reloading",
+    screen_width, screen_height, "raylib [shaders] example - hot reloading",
   )
 
   let frag_shader_file = "resources/shaders/glsl330/reload.fs"
@@ -75,7 +73,8 @@ fn main {
     )
 
     // Hot shader reloading
-    if shader_auto_reloading || @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
+    if shader_auto_reloading ||
+      @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
       let current_mod_time = @raylib.get_file_mod_time(frag_shader_file)
       if current_mod_time != frag_shader_mod_time {
         let updated_shader = @raylib.load_shader("", frag_shader_file)
@@ -122,11 +121,7 @@ fn main {
     )
     if not(shader_auto_reloading) {
       @raylib.draw_text(
-        "MOUSE CLICK to SHADER RE-LOADING",
-        10,
-        30,
-        10,
-        @raylib.black,
+        "MOUSE CLICK to SHADER RE-LOADING", 10, 30, 10, @raylib.black,
       )
     }
     @raylib.draw_text(

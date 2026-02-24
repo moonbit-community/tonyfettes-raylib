@@ -5,6 +5,8 @@ let letter_boundry_size : Float = 0.25
 const TextMaxLayers : Int = 32
 
 // WaveTextConfig
+
+///|
 struct WaveTextConfig {
   wave_range_x : Float
   wave_range_y : Float
@@ -18,6 +20,8 @@ struct WaveTextConfig {
 }
 
 // Alpha discard fragment shader (GLSL 330) embedded as string
+
+///|
 let alpha_discard_fs : String =
   #|#version 330
   #|in vec2 fragTexCoord;
@@ -51,10 +55,10 @@ fn draw_text_codepoint_3d(
   let glyph = @raylib.get_glyph_info(font, codepoint)
   // Get glyph atlas rectangle
   let rec = @raylib.get_glyph_atlas_rec(font, codepoint)
-  let pos_x = position.x + (Float::from_int(glyph.offset_x) - glyph_padding) /
-    base_size * scale
-  let pos_z = position.z + (Float::from_int(glyph.offset_y) - glyph_padding) /
-    base_size * scale
+  let pos_x = position.x +
+    (Float::from_int(glyph.offset_x) - glyph_padding) / base_size * scale
+  let pos_z = position.z +
+    (Float::from_int(glyph.offset_y) - glyph_padding) / base_size * scale
   // Source rectangle from font texture atlas
   let src_x = rec.x - glyph_padding
   let src_y = rec.y - glyph_padding
@@ -79,7 +83,11 @@ fn draw_text_codepoint_3d(
     let th : Float = (src_y + src_h) / tex_h
     if show_letter_boundry {
       @raylib.draw_cube_wires_v(
-        @raylib.Vector3::new(pos_x + width / 2.0, position.y, pos_z + height / 2.0),
+        @raylib.Vector3::new(
+          pos_x + width / 2.0,
+          position.y,
+          pos_z + height / 2.0,
+        ),
         @raylib.Vector3::new(width, letter_boundry_size, height),
         @raylib.violet,
       )
@@ -163,11 +171,11 @@ fn draw_text_3d(
       let glyph = @raylib.get_glyph_info(font, codepoint)
       let rec = @raylib.get_glyph_atlas_rec(font, codepoint)
       if glyph.advance_x == 0 {
-        text_offset_x = text_offset_x + (rec.width + font_spacing) / base_size *
-          scale
+        text_offset_x = text_offset_x +
+          (rec.width + font_spacing) / base_size * scale
       } else {
-        text_offset_x = text_offset_x + (Float::from_int(glyph.advance_x) +
-          font_spacing) / base_size * scale
+        text_offset_x = text_offset_x +
+          (Float::from_int(glyph.advance_x) + font_spacing) / base_size * scale
       }
     }
   }
@@ -198,11 +206,11 @@ fn measure_text_3d(
     if letter != 10 {
       // not '\n'
       if glyph.advance_x != 0 {
-        text_width = text_width + (Float::from_int(glyph.advance_x) +
-          font_spacing) / base_size * scale
+        text_width = text_width +
+          (Float::from_int(glyph.advance_x) + font_spacing) / base_size * scale
       } else {
-        text_width = text_width + (rec.width + Float::from_int(glyph.offset_x)) /
-          base_size * scale
+        text_width = text_width +
+          (rec.width + Float::from_int(glyph.offset_x)) / base_size * scale
       }
     } else {
       if temp_text_width < text_width {
@@ -219,8 +227,8 @@ fn measure_text_3d(
   if temp_text_width < text_width {
     temp_text_width = text_width
   }
-  let vec_x = temp_text_width + Float::from_int(temp_len - 1) * font_spacing /
-    base_size * scale
+  let vec_x = temp_text_width +
+    Float::from_int(temp_len - 1) * font_spacing / base_size * scale
   @raylib.Vector3::new(vec_x, 0.25, text_height)
 }
 
@@ -269,15 +277,15 @@ fn draw_text_wave_3d(
         let mut pos_z = position.z + text_offset_y
         if wave {
           let kf = Float::from_int(k)
-          pos_x = pos_x + @math.sinf(
-              time * config.wave_speed_x - kf * config.wave_offset_x,
-            ) * config.wave_range_x
-          pos_y = pos_y + @math.sinf(
-              time * config.wave_speed_y - kf * config.wave_offset_y,
-            ) * config.wave_range_y
-          pos_z = pos_z + @math.sinf(
-              time * config.wave_speed_z - kf * config.wave_offset_z,
-            ) * config.wave_range_z
+          pos_x = pos_x +
+            @math.sinf(time * config.wave_speed_x - kf * config.wave_offset_x) *
+            config.wave_range_x
+          pos_y = pos_y +
+            @math.sinf(time * config.wave_speed_y - kf * config.wave_offset_y) *
+            config.wave_range_y
+          pos_z = pos_z +
+            @math.sinf(time * config.wave_speed_z - kf * config.wave_offset_z) *
+            config.wave_range_z
         }
         draw_text_codepoint_3d(
           font,
@@ -292,11 +300,11 @@ fn draw_text_wave_3d(
       let glyph = @raylib.get_glyph_info(font, codepoint)
       let rec = @raylib.get_glyph_atlas_rec(font, codepoint)
       if glyph.advance_x == 0 {
-        text_offset_x = text_offset_x + (rec.width + font_spacing) / base_size *
-          scale
+        text_offset_x = text_offset_x +
+          (rec.width + font_spacing) / base_size * scale
       } else {
-        text_offset_x = text_offset_x + (Float::from_int(glyph.advance_x) +
-          font_spacing) / base_size * scale
+        text_offset_x = text_offset_x +
+          (Float::from_int(glyph.advance_x) + font_spacing) / base_size * scale
       }
     }
     k = k + 1
@@ -333,11 +341,11 @@ fn measure_text_wave_3d(
         // Skip '~~'
         i = i + 1
       } else if glyph.advance_x != 0 {
-        text_width = text_width + (Float::from_int(glyph.advance_x) +
-          font_spacing) / base_size * scale
+        text_width = text_width +
+          (Float::from_int(glyph.advance_x) + font_spacing) / base_size * scale
       } else {
-        text_width = text_width + (rec.width + Float::from_int(glyph.offset_x)) /
-          base_size * scale
+        text_width = text_width +
+          (rec.width + Float::from_int(glyph.offset_x)) / base_size * scale
       }
     } else {
       if temp_text_width < text_width {
@@ -355,8 +363,8 @@ fn measure_text_wave_3d(
   if temp_text_width < text_width {
     temp_text_width = text_width
   }
-  let vec_x = temp_text_width + Float::from_int(temp_len - 1) * font_spacing /
-    base_size * scale
+  let vec_x = temp_text_width +
+    Float::from_int(temp_len - 1) * font_spacing / base_size * scale
   @raylib.Vector3::new(vec_x, 0.25, text_height)
 }
 
@@ -375,9 +383,7 @@ fn main {
   let screen_height = 450
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint | @raylib.FlagVsyncHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - draw 2D text in 3D",
+    screen_width, screen_height, "raylib [text] example - draw 2D text in 3D",
   )
   let mut spin = true
   let mut multicolor = false
@@ -556,7 +562,9 @@ fn main {
     }
 
     // Measure 3D text so we can center it
-    let tbox = measure_text_wave_3d(font, text, font_size, font_spacing, line_spacing)
+    let tbox = measure_text_wave_3d(
+      font, text, font_size, font_spacing, line_spacing,
+    )
     quads = 0
     time = time + @raylib.get_frame_time()
 
@@ -823,10 +831,7 @@ fn main {
     // Draw 2D info text & stats
     @raylib.draw_text(
       "Drag & drop a font file to change the font!\nType something, see what happens!\n\nPress [F3] to toggle the camera",
-      10,
-      35,
-      10,
-      @raylib.black,
+      10, 35, 10, @raylib.black,
     )
     let codepoints_len = @raylib.load_codepoints(text).length()
     quads = quads + codepoints_len * 2 * layers

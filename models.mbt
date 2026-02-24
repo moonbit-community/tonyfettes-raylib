@@ -680,12 +680,20 @@ pub const MaterialMapPrefilter : Int = 9
 pub const MaterialMapBrdf : Int = 10
 
 ///|
-pub fn set_material_map_color(material : Material, map_type : Int, color : Color) -> Unit {
+pub fn set_material_map_color(
+  material : Material,
+  map_type : Int,
+  color : Color,
+) -> Unit {
   @raylib.set_material_map_color(material, map_type, color.to_bytes())
 }
 
 ///|
-pub fn set_material_map_value(material : Material, map_type : Int, value : Float) -> Unit {
+pub fn set_material_map_value(
+  material : Material,
+  map_type : Int,
+  value : Float,
+) -> Unit {
   @raylib.set_material_map_value(material, map_type, value)
 }
 
@@ -799,33 +807,66 @@ pub fn get_model_bone_parent(model : Model, bone_index : Int) -> Int {
 }
 
 ///|
-pub fn get_model_bind_pose_translation(model : Model, bone_index : Int) -> Vector3 {
-  Vector3::from_bytes(@raylib.get_model_bind_pose_translation(model, bone_index))
+pub fn get_model_bind_pose_translation(
+  model : Model,
+  bone_index : Int,
+) -> Vector3 {
+  Vector3::from_bytes(
+    @raylib.get_model_bind_pose_translation(model, bone_index),
+  )
 }
 
 ///|
-pub fn get_model_animation_frame_count(anims : ModelAnimations, anim_index : Int) -> Int {
+pub fn get_model_animation_frame_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int {
   @raylib.get_model_animation_frame_count(anims, anim_index)
 }
 
 ///|
-pub fn get_model_animation_bone_count(anims : ModelAnimations, anim_index : Int) -> Int {
+pub fn get_model_animation_bone_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int {
   @raylib.get_model_animation_bone_count(anims, anim_index)
 }
 
 ///|
-pub fn get_model_animation_bone_parent(anims : ModelAnimations, anim_index : Int, bone_index : Int) -> Int {
+pub fn get_model_animation_bone_parent(
+  anims : ModelAnimations,
+  anim_index : Int,
+  bone_index : Int,
+) -> Int {
   @raylib.get_model_animation_bone_parent(anims, anim_index, bone_index)
 }
 
 ///|
-pub fn get_model_animation_frame_pose_translation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector3 {
-  Vector3::from_bytes(@raylib.get_model_animation_frame_pose_translation(anims, anim_index, frame, bone_index))
+pub fn get_model_animation_frame_pose_translation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Vector3 {
+  Vector3::from_bytes(
+    @raylib.get_model_animation_frame_pose_translation(
+      anims, anim_index, frame, bone_index,
+    ),
+  )
 }
 
 ///|
-pub fn get_model_animation_frame_pose_rotation(anims : ModelAnimations, anim_index : Int, frame : Int, bone_index : Int) -> Vector4 {
-  Vector4::from_bytes(@raylib.get_model_animation_frame_pose_rotation(anims, anim_index, frame, bone_index))
+pub fn get_model_animation_frame_pose_rotation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Vector4 {
+  Vector4::from_bytes(
+    @raylib.get_model_animation_frame_pose_rotation(
+      anims, anim_index, frame, bone_index,
+    ),
+  )
 }
 
 ///|
@@ -856,6 +897,10 @@ pub fn gen_mesh_from_points(
 // ============================================================================
 
 ///|
-pub fn mesh_setup_texcoords2(mesh : Mesh, data : Bytes, float_count : Int) -> Unit {
+pub fn mesh_setup_texcoords2(
+  mesh : Mesh,
+  data : Bytes,
+  float_count : Int,
+) -> Unit {
   @raylib.mesh_setup_texcoords2(mesh, data, float_count)
 }

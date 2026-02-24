@@ -9,8 +9,7 @@ fn draw_text_boxed(
   tint : @raylib.Color,
 ) -> Unit {
   draw_text_boxed_selectable(
-    font, text, rec, font_size, spacing, word_wrap, tint, 0, 0, @raylib.white,
-    @raylib.white,
+    font, text, rec, font_size, spacing, word_wrap, tint, 0, 0, @raylib.white, @raylib.white,
   )
 }
 
@@ -132,12 +131,13 @@ fn draw_text_boxed_selectable(
           @raylib.draw_text_codepoint(
             font,
             codepoint,
-            @raylib.Vector2::new(
-              rec.x + text_offset_x,
-              rec.y + text_offset_y,
-            ),
+            @raylib.Vector2::new(rec.x + text_offset_x, rec.y + text_offset_y),
             font_size,
-            if is_glyph_selected { select_tint } else { tint },
+            if is_glyph_selected {
+              select_tint
+            } else {
+              tint
+            },
           )
         }
       }
@@ -166,9 +166,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [text] example - draw text inside a rectangle",
+    screen_width, screen_height, "raylib [text] example - draw text inside a rectangle",
   )
   let text = "Text cannot escape\tthis container\t...word wrap also works when active so here's a long text for testing.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec ullamcorper sit amet risus nullam eget felis eget."
   let mut resizing = false
@@ -218,21 +216,27 @@ fn main {
       }
       let width = container_w + (mouse.x - last_mouse_x)
       container_w = if width > min_width {
-        if width < max_width { width } else { max_width }
+        if width < max_width {
+          width
+        } else {
+          max_width
+        }
       } else {
         min_width
       }
       let height = container_h + (mouse.y - last_mouse_y)
       container_h = if height > min_height {
-        if height < max_height { height } else { max_height }
+        if height < max_height {
+          height
+        } else {
+          max_height
+        }
       } else {
         min_height
       }
-    } else {
-      if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) &&
-        @raylib.check_collision_point_rec(mouse, resizer) {
-        resizing = true
-      }
+    } else if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) &&
+      @raylib.check_collision_point_rec(mouse, resizer) {
+      resizing = true
     }
     last_mouse_x = mouse.x
     last_mouse_y = mouse.y
@@ -273,7 +277,13 @@ fn main {
     @raylib.draw_rectangle_rec(resizer, border_color)
 
     // Draw bottom info
-    @raylib.draw_rectangle(0, screen_height - 54, screen_width, 54, @raylib.gray)
+    @raylib.draw_rectangle(
+      0,
+      screen_height - 54,
+      screen_width,
+      54,
+      @raylib.gray,
+    )
     @raylib.draw_rectangle_rec(
       @raylib.Rectangle::new(
         382.0,
@@ -283,7 +293,13 @@ fn main {
       ),
       @raylib.maroon,
     )
-    @raylib.draw_text("Word Wrap: ", 313, screen_height - 115, 20, @raylib.black)
+    @raylib.draw_text(
+      "Word Wrap: ",
+      313,
+      screen_height - 115,
+      20,
+      @raylib.black,
+    )
     if word_wrap {
       @raylib.draw_text("ON", 447, screen_height - 115, 20, @raylib.red)
     } else {

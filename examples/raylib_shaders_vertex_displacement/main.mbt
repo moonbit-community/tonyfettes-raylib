@@ -15,12 +15,12 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  let _ = @raylib.change_directory("examples/raylib_shaders_vertex_displacement")
+  let _ = @raylib.change_directory(
+    "examples/raylib_shaders_vertex_displacement",
+  )
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - vertex displacement",
+    screen_width, screen_height, "raylib [shaders] example - vertex displacement",
   )
 
   // Set up camera
@@ -34,8 +34,7 @@ fn main {
 
   // Load vertex and fragment shaders
   let shader = @raylib.load_shader(
-    "resources/shaders/glsl330/vertex_displacement.vs",
-    "resources/shaders/glsl330/vertex_displacement.fs",
+    "resources/shaders/glsl330/vertex_displacement.vs", "resources/shaders/glsl330/vertex_displacement.fs",
   )
 
   // Load perlin noise texture
@@ -45,18 +44,14 @@ fn main {
 
   // Set shader uniform location for perlin noise map
   let perlin_noise_map_loc = @raylib.get_shader_location(
-    shader,
-    "perlinNoiseMap",
+    shader, "perlinNoiseMap",
   )
   @raylib.rl_enable_shader(@raylib.get_shader_id(shader).reinterpret_as_uint())
   @raylib.rl_active_texture_slot(1)
   @raylib.rl_enable_texture(
     @raylib.get_texture_id(perlin_noise_map).reinterpret_as_uint(),
   )
-  @raylib.rl_set_uniform_sampler(
-    perlin_noise_map_loc,
-    1U,
-  )
+  @raylib.rl_set_uniform_sampler(perlin_noise_map_loc, 1U)
 
   // Create a plane mesh and model
   let plane_mesh = @raylib.gen_mesh_plane(50.0, 50.0, 50, 50)

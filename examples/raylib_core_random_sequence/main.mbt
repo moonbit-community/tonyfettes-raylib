@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - Generates a random sequence",
+    screen_width, screen_height, "raylib [core] example - Generates a random sequence",
   )
 
   let mut rect_count = 20
@@ -50,8 +48,7 @@ fn main {
     if @raylib.is_key_pressed(@raylib.KeyDown) {
       if rect_count >= 4 {
         rect_count -= 1
-        rect_size = Float::from_int(screen_width) /
-          Float::from_int(rect_count)
+        rect_size = Float::from_int(screen_width) / Float::from_int(rect_count)
         rect_colors = []
         rect_rects = []
         generate_sequence(
@@ -123,7 +120,7 @@ fn generate_sequence(
   screen_width : Float,
   screen_height : Float,
   colors : Array[@raylib.Color],
-  rects : Array[@raylib.Rectangle]
+  rects : Array[@raylib.Rectangle],
 ) -> Unit {
   let seq = @raylib.load_random_sequence(rect_count, 0, rect_count - 1)
   let rect_seq_width = Float::from_int(rect_count) * rect_width
@@ -157,7 +154,7 @@ fn generate_sequence(
 fn shuffle_sequence(
   colors : Array[@raylib.Color],
   rects : Array[@raylib.Rectangle],
-  rect_count : Int
+  rect_count : Int,
 ) -> Unit {
   let seq = @raylib.load_random_sequence(rect_count, 0, rect_count - 1)
   for i = 0; i < rect_count; i = i + 1 {
@@ -168,7 +165,10 @@ fn shuffle_sequence(
     let tmp_y = rects[i].y
     colors[i] = colors[j]
     rects[i] = @raylib.Rectangle::new(
-      rects[i].x, rects[j].y, rects[i].width, rects[j].height,
+      rects[i].x,
+      rects[j].y,
+      rects[i].width,
+      rects[j].height,
     )
     colors[j] = tmp_c
     rects[j] = @raylib.Rectangle::new(rects[j].x, tmp_y, rects[j].width, tmp_h)
@@ -182,7 +182,7 @@ fn draw_text_center_key_help(
   pos_x : Int,
   pos_y : Int,
   font_size : Int,
-  color : @raylib.Color
+  color : @raylib.Color,
 ) -> Unit {
   let space_size = @raylib.measure_text(" ", font_size)
   let press_size = @raylib.measure_text("Press", font_size)
@@ -190,7 +190,13 @@ fn draw_text_center_key_help(
   let mut text_size_current = 0
   @raylib.draw_text("Press", pos_x, pos_y, font_size, color)
   text_size_current += press_size + 2 * space_size
-  @raylib.draw_text(key, pos_x + text_size_current, pos_y, font_size, @raylib.red)
+  @raylib.draw_text(
+    key,
+    pos_x + text_size_current,
+    pos_y,
+    font_size,
+    @raylib.red,
+  )
   @raylib.draw_rectangle(
     pos_x + text_size_current,
     pos_y + font_size,

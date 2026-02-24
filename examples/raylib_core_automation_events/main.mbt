@@ -4,8 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width, screen_height,
-    "raylib [core] example - automation events",
+    screen_width, screen_height, "raylib [core] example - automation events",
   )
   let gravity : Float = 400.0
   let player_jump_spd : Float = 350.0
@@ -28,11 +27,7 @@ fn main {
   ]
   let env_blocking : Array[Bool] = [false, true, true, true, true]
   let env_colors : Array[@raylib.Color] = [
-    @raylib.lightgray,
-    @raylib.gray,
-    @raylib.gray,
-    @raylib.gray,
-    @raylib.gray,
+    @raylib.lightgray, @raylib.gray, @raylib.gray, @raylib.gray, @raylib.gray,
   ]
   let env_count = 5
 
@@ -149,7 +144,9 @@ fn main {
     if event_playing {
       let ae_count = @raylib.automation_event_list_count(aelist)
       while current_play_frame < ae_count {
-        let event = @raylib.automation_event_list_get(aelist, current_play_frame)
+        let event = @raylib.automation_event_list_get(
+          aelist, current_play_frame,
+        )
         if play_frame_counter != event.frame {
           break
         }
@@ -202,10 +199,12 @@ fn main {
       zoom,
     )
     let max_screen = @raylib.get_world_to_screen_2d(
-      @raylib.Vector2::new(max_x, max_y), camera,
+      @raylib.Vector2::new(max_x, max_y),
+      camera,
     )
     let min_screen = @raylib.get_world_to_screen_2d(
-      @raylib.Vector2::new(min_x, min_y), camera,
+      @raylib.Vector2::new(min_x, min_y),
+      camera,
     )
     if max_screen.x < Float::from_int(screen_width) {
       offset_x = Float::from_int(screen_width) -
@@ -234,7 +233,8 @@ fn main {
         if event_recording {
           @raylib.stop_automation_event_recording()
           event_recording = false
-          @raylib.export_automation_event_list(aelist, "automation.rae") |> ignore
+          @raylib.export_automation_event_list(aelist, "automation.rae")
+          |> ignore
         } else {
           @raylib.set_automation_event_base_frame(180)
           @raylib.start_automation_event_recording()
@@ -242,8 +242,7 @@ fn main {
         }
       }
     } else if @raylib.is_key_pressed(@raylib.KeyA) {
-      if not(event_recording) &&
-        @raylib.automation_event_list_count(aelist) > 0 {
+      if not(event_recording) && @raylib.automation_event_list_count(aelist) > 0 {
         // Reset scene state to play
         event_playing = true
         play_frame_counter = 0
@@ -321,10 +320,14 @@ fn main {
         @raylib.fade(@raylib.maroon, 0.8),
       )
       @raylib.draw_circle(30, 175, 10.0, @raylib.maroon)
-      if (frame_counter / 15) % 2 == 1 {
+      if frame_counter / 15 % 2 == 1 {
         let ae_count = @raylib.automation_event_list_count(aelist)
         @raylib.draw_text(
-          "RECORDING EVENTS... [\{ae_count}]", 50, 170, 10, @raylib.maroon,
+          "RECORDING EVENTS... [\{ae_count}]",
+          50,
+          170,
+          10,
+          @raylib.maroon,
         )
       }
     } else if event_playing {
@@ -343,9 +346,12 @@ fn main {
         @raylib.Vector2::new(40.0, 175.0),
         @raylib.darkgreen,
       )
-      if (frame_counter / 15) % 2 == 1 {
+      if frame_counter / 15 % 2 == 1 {
         @raylib.draw_text(
-          "PLAYING RECORDED EVENTS... [\{current_play_frame}]", 50, 170, 10,
+          "PLAYING RECORDED EVENTS... [\{current_play_frame}]",
+          50,
+          170,
+          10,
           @raylib.darkgreen,
         )
       }

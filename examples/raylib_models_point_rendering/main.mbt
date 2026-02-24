@@ -28,9 +28,7 @@ fn gen_point_cloud(
     let rand_theta : Float = Float::from_int(
       @raylib.get_random_value(0, 1000000),
     )
-    let rand_phi : Float = Float::from_int(
-      @raylib.get_random_value(0, 1000000),
-    )
+    let rand_phi : Float = Float::from_int(@raylib.get_random_value(0, 1000000))
     let rand_r : Float = Float::from_int(@raylib.get_random_value(0, 1000000))
     let theta : Float = pi * rand_theta / (1000000.0 : Float)
     let phi : Float = (2.0 : Float) * pi * rand_phi / (1000000.0 : Float)
@@ -81,9 +79,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [models] example - point rendering",
+    screen_width, screen_height, "raylib [models] example - point rendering",
   )
   let mut camera = @raylib.Camera3D::new(
     @raylib.Vector3::new(3.0, 3.0, 3.0),
@@ -143,12 +139,7 @@ fn main {
 
     // The new method only uploads the points once to the GPU
     if use_draw_model_points {
-      @raylib.draw_model_points(
-        model,
-        position,
-        (1.0 : Float),
-        @raylib.white,
-      )
+      @raylib.draw_model_points(model, position, (1.0 : Float), @raylib.white)
     } else {
       // The old method must continually draw the "points" (lines)
       for i = 0; i < num_points; i = i + 1 {
@@ -157,13 +148,7 @@ fn main {
     }
 
     // Draw a unit sphere for reference
-    @raylib.draw_sphere_wires(
-      position,
-      (1.0 : Float),
-      10,
-      10,
-      @raylib.yellow,
-    )
+    @raylib.draw_sphere_wires(position, (1.0 : Float), 10, 10, @raylib.yellow)
     @raylib.end_mode_3d()
 
     // Draw UI text
@@ -178,9 +163,7 @@ fn main {
     @raylib.draw_text("DOWN - Decrease points", 10, 70, 20, @raylib.white)
     @raylib.draw_text("SPACE - Drawing function", 10, 100, 20, @raylib.white)
     if use_draw_model_points {
-      @raylib.draw_text(
-        "Using: DrawModelPoints()", 10, 130, 20, @raylib.green,
-      )
+      @raylib.draw_text("Using: DrawModelPoints()", 10, 130, 20, @raylib.green)
     } else {
       @raylib.draw_text("Using: DrawPoint3D()", 10, 130, 20, @raylib.red)
     }

@@ -4,9 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - custom frame control",
+    screen_width, screen_height, "raylib [core] example - custom frame control",
   )
 
   // Custom timing variables
@@ -54,7 +52,13 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     for i = 0; i < @raylib.get_screen_width() / 200; i = i + 1 {
-      @raylib.draw_rectangle(200 * i, 0, 1, @raylib.get_screen_height(), @raylib.skyblue)
+      @raylib.draw_rectangle(
+        200 * i,
+        0,
+        1,
+        @raylib.get_screen_height(),
+        @raylib.skyblue,
+      )
     }
 
     @raylib.draw_circle(
@@ -82,10 +86,7 @@ fn main {
 
     @raylib.draw_text(
       "Circle is moving at a constant 200 pixels/sec,\nindependently of the frame rate.",
-      10,
-      10,
-      20,
-      @raylib.darkgray,
+      10, 10, 20, @raylib.darkgray,
     )
     @raylib.draw_text(
       "PRESS SPACE to PAUSE MOVEMENT",
