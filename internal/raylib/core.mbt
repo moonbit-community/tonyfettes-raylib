@@ -829,6 +829,7 @@ pub extern "c" fn rl_rotatef(angle : Float, x : Float, y : Float, z : Float) = "
 pub extern "c" fn rl_scalef(x : Float, y : Float, z : Float) = "rlScalef"
 
 ///|
+#borrow(matf)
 pub extern "c" fn rl_mult_matrixf(matf : Bytes) = "rlMultMatrixf"
 
 // rlgl: State control
@@ -921,6 +922,7 @@ pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"
 // rlgl: Shader management (low-level)
 
 ///|
+#borrow(uniform_name)
 pub extern "c" fn rl_get_location_uniform(shader_id : UInt, uniform_name : Bytes) -> Int = "rlGetLocationUniform"
 
 ///|

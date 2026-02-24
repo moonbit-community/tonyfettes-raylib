@@ -63,7 +63,4 @@ fn asinf(x : Float) -> Float {
   @math.asinf(x)
 }
 
-///|
-fn tanf(x : Float) -> Float {
-  @math.tanf(x)
-}
+
