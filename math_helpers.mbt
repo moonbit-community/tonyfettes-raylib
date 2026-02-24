@@ -29,11 +29,6 @@ fn fminf(a : Float, b : Float) -> Float {
 }
 
 ///|
-fn floorf(x : Float) -> Float {
-  Float::from_double(@math.floor(x.to_double()))
-}
-
-///|
 fn sqrtf(x : Float) -> Float {
   x.sqrt()
 }

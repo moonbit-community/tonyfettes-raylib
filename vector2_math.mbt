@@ -2,50 +2,8 @@
 // Ported from raymath.h (raylib 5.5)
 // Private math helpers are in math_helpers.mbt
 
-// ----- Scalar math functions -----
-
 ///|
-pub fn clamp(value : Float, min : Float, max : Float) -> Float {
-  let result = if value < min { min } else { value }
-  if result > max {
-    max
-  } else {
-    result
-  }
-}
-
-///|
-pub fn lerp(start : Float, end_ : Float, amount : Float) -> Float {
-  start + amount * (end_ - start)
-}
-
-///|
-pub fn normalize(value : Float, start : Float, end_ : Float) -> Float {
-  (value - start) / (end_ - start)
-}
-
-///|
-pub fn remap(
-  value : Float,
-  input_start : Float,
-  input_end : Float,
-  output_start : Float,
-  output_end : Float,
-) -> Float {
-  (value - input_start) /
-  (input_end - input_start) *
-  (output_end - output_start) +
-  output_start
-}
-
-///|
-pub fn wrap(value : Float, min : Float, max : Float) -> Float {
-  let range = max - min
-  value - range * floorf((value - min) / range)
-}
-
-///|
-pub fn float_equals(x : Float, y : Float) -> Bool {
+fn float_equals(x : Float, y : Float) -> Bool {
   let epsilon : Float = 0.000001
   absf(x - y) <= epsilon * fmaxf((1.0 : Float), fmaxf(absf(x), absf(y)))
 }
