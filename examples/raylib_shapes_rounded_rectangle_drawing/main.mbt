@@ -66,7 +66,7 @@ fn main {
 
     // GUI controls
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 40.0, 105.0, 20.0),
+      @raylib.Rectangle::new(640.0, 40.0, 105.0, 20.0),
       "Width",
       width.val.to_int().to_string(),
       width,
@@ -75,7 +75,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 70.0, 105.0, 20.0),
+      @raylib.Rectangle::new(640.0, 70.0, 105.0, 20.0),
       "Height",
       height.val.to_int().to_string(),
       height,
@@ -84,7 +84,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 140.0, 105.0, 20.0),
+      @raylib.Rectangle::new(640.0, 140.0, 105.0, 20.0),
       "Roundness",
       roundness.val.to_string(),
       roundness,
@@ -93,7 +93,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 170.0, 105.0, 20.0),
+      @raylib.Rectangle::new(640.0, 170.0, 105.0, 20.0),
       "Thickness",
       line_thick.val.to_int().to_string(),
       line_thick,
@@ -102,7 +102,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 240.0, 105.0, 20.0),
+      @raylib.Rectangle::new(640.0, 240.0, 105.0, 20.0),
       "Segments",
       segments.val.to_int().to_string(),
       segments,
@@ -112,19 +112,19 @@ fn main {
     |> ignore
 
     @raygui.gui_check_box(
-      @raygui.rectangle_new(640.0, 320.0, 20.0, 20.0),
+      @raylib.Rectangle::new(640.0, 320.0, 20.0, 20.0),
       "DrawRoundedRect",
       draw_rounded_rect,
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(640.0, 350.0, 20.0, 20.0),
+      @raylib.Rectangle::new(640.0, 350.0, 20.0, 20.0),
       "DrawRoundedLines",
       draw_rounded_lines,
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(640.0, 380.0, 20.0, 20.0),
+      @raylib.Rectangle::new(640.0, 380.0, 20.0, 20.0),
       "DrawRect",
       draw_rect,
     )

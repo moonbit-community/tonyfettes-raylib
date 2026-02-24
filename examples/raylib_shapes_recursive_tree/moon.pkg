@@ -6,5 +6,4 @@ import {
 
 options(
   "is-main": true,
-  overrides: ["tonyfettes/raygui/backend/raylib"],
 )

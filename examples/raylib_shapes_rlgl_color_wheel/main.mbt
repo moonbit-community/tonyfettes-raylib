@@ -356,7 +356,7 @@ fn main {
 
     // Slider to change color's value
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         slider_rect_x,
         slider_rect_y,
         slider_rect_w,

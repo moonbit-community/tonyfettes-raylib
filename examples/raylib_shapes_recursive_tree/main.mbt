@@ -126,7 +126,7 @@ fn main {
 
     // GUI controls
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 40.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 40.0, 120.0, 20.0),
       "Angle",
       angle.val.to_int().to_string(),
       angle,
@@ -135,7 +135,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 70.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 70.0, 120.0, 20.0),
       "Length",
       length.val.to_int().to_string(),
       length,
@@ -144,7 +144,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 100.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 100.0, 120.0, 20.0),
       "Decay",
       branch_decay.val.to_string(),
       branch_decay,
@@ -153,7 +153,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 130.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 130.0, 120.0, 20.0),
       "Depth",
       tree_depth.val.to_int().to_string(),
       tree_depth,
@@ -162,7 +162,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 160.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 160.0, 120.0, 20.0),
       "Thick",
       thick.val.to_int().to_string(),
       thick,
@@ -171,7 +171,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(640.0, 190.0, 20.0, 20.0),
+      @raylib.Rectangle::new(640.0, 190.0, 20.0, 20.0),
       "Bezier",
       bezier,
     )

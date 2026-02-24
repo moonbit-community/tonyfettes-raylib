@@ -97,7 +97,7 @@ fn main {
 
     // GUI controls
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 40.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 40.0, 120.0, 20.0),
       "Segments",
       segments.val.to_int().to_string(),
       segments,
@@ -106,7 +106,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(640.0, 70.0, 20.0, 20.0),
+      @raylib.Rectangle::new(640.0, 70.0, 20.0, 20.0),
       "Outline",
       outline,
     )

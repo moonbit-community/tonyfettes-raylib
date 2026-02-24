@@ -125,13 +125,13 @@ fn main {
 
     // Draw UI using raygui
     @raygui.gui_check_box(
-      @raygui.rectangle_new(450.0, 50.0, 20.0, 20.0),
+      @raylib.Rectangle::new(450.0, 50.0, 20.0, 20.0),
       "ANIMATE GENERATION ON CHANGE",
       animate,
     )
     |> ignore
     @raygui.gui_spinner(
-      @raygui.rectangle_new(585.0, 100.0, 180.0, 30.0),
+      @raylib.Rectangle::new(585.0, 100.0, 180.0, 30.0),
       "HILBERT CURVE ORDER:  ",
       order,
       2,
@@ -140,7 +140,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider(
-      @raygui.rectangle_new(524.0, 150.0, 240.0, 24.0),
+      @raylib.Rectangle::new(524.0, 150.0, 240.0, 24.0),
       "THICKNESS:  ",
       "",
       thick,
@@ -149,7 +149,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_slider(
-      @raygui.rectangle_new(524.0, 190.0, 240.0, 24.0),
+      @raylib.Rectangle::new(524.0, 190.0, 240.0, 24.0),
       "TOTAL SIZE: ",
       "",
       size,

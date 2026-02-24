@@ -41,7 +41,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
     // Back button
     btn_back_pressed = @raygui.gui_button(
-      @raygui.rectangle_new(40.0, 10.0, 48.0, 28.0),
+      @raylib.Rectangle::new(40.0, 10.0, 48.0, 28.0),
       "<",
     )
     // Directory label with larger text
@@ -55,7 +55,7 @@ fn main {
       base_size * 2,
     )
     @raygui.gui_label(
-      @raygui.rectangle_new(98.0, 10.0, 700.0, 28.0),
+      @raylib.Rectangle::new(98.0, 10.0, 700.0, 28.0),
       directory,
     )
     @raygui.gui_set_style(@raygui.ControlDefault, @raygui.TextSize, base_size)
@@ -67,7 +67,7 @@ fn main {
     )
     @raygui.gui_set_style(@raygui.ControlListview, @raygui.TextPadding, 40)
     @raygui.gui_list_view_ex(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         0.0,
         50.0,
         Float::from_int(@raylib.get_screen_width()),

@@ -128,7 +128,7 @@ fn main {
 
     // Reset values to 0
     let reset_button_clicked = @raygui.gui_button(
-      @raygui.rectangle_new(645.0, 190.0, 40.0, 20.0),
+      @raylib.Rectangle::new(645.0, 190.0, 40.0, 20.0),
       "Reset",
     )
     if @raylib.is_key_pressed(key_r) || reset_button_clicked {
@@ -200,13 +200,13 @@ fn main {
 
     // Draw GUI controls
     @raygui.gui_toggle_group(
-      @raygui.rectangle_new(645.0, 70.0, 20.0, 20.0),
+      @raylib.Rectangle::new(645.0, 70.0, 20.0, 20.0),
       "1;2;3;4",
       image_index,
     )
 
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(645.0, 100.0, 120.0, 20.0),
+      @raylib.Rectangle::new(645.0, 100.0, 120.0, 20.0),
       "Contrast",
       contrast.val.to_int().to_string(),
       contrast,
@@ -216,7 +216,7 @@ fn main {
     |> ignore
 
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(645.0, 130.0, 120.0, 20.0),
+      @raylib.Rectangle::new(645.0, 130.0, 120.0, 20.0),
       "Saturation",
       saturation.val.to_int().to_string(),
       saturation,
@@ -226,7 +226,7 @@ fn main {
     |> ignore
 
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(645.0, 160.0, 120.0, 20.0),
+      @raylib.Rectangle::new(645.0, 160.0, 120.0, 20.0),
       "Brightness",
       brightness.val.to_int().to_string(),
       brightness,

@@ -397,7 +397,7 @@ fn main {
       @raylib.color_to_int(@raylib.gray),
     )
     @raygui.gui_toggle(
-      @raygui.rectangle_new(640.0, 70.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 70.0, 120.0, 20.0),
       "Pause",
       pause,
     )
@@ -409,7 +409,7 @@ fn main {
       @raylib.color_to_int(@raylib.lime),
     )
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(640.0, 40.0, 120.0, 20.0),
+      @raylib.Rectangle::new(640.0, 40.0, 120.0, 20.0),
       "Angle",
       angle_ref.val.to_int().to_string() + "\u00B0",
       angle_ref,
@@ -421,7 +421,7 @@ fn main {
 
     // Angle values panel
     @raygui.gui_group_box(
-      @raygui.rectangle_new(620.0, 110.0, 140.0, 170.0),
+      @raylib.Rectangle::new(620.0, 110.0, 140.0, 170.0),
       "Angle Values",
     )
 

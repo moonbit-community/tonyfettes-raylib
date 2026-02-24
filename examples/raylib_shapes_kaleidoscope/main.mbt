@@ -164,7 +164,7 @@ fn main {
     }
 
     back_button_clicked = @raygui.gui_button(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         back_button_rec.x,
         back_button_rec.y,
         back_button_rec.width,
@@ -179,7 +179,7 @@ fn main {
     }
 
     next_button_clicked = @raygui.gui_button(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         next_button_rec.x,
         next_button_rec.y,
         next_button_rec.width,
@@ -190,7 +190,7 @@ fn main {
     @raygui.gui_enable()
 
     reset_button_clicked = @raygui.gui_button(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         reset_button_rec.x,
         reset_button_rec.y,
         reset_button_rec.width,

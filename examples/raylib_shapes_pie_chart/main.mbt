@@ -207,7 +207,7 @@ fn main {
     @raylib.draw_rectangle_lines_ex(panel_rect, 1.0, @raylib.gray)
 
     @raygui.gui_spinner(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 95.0,
         panel_pos_y + 12.0,
         125.0,
@@ -221,7 +221,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 20.0,
         panel_pos_y + 12.0 + 40.0,
         20.0,
@@ -232,7 +232,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 20.0,
         panel_pos_y + 12.0 + 70.0,
         20.0,
@@ -243,7 +243,7 @@ fn main {
     )
     |> ignore
     @raygui.gui_check_box(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 20.0,
         panel_pos_y + 12.0 + 100.0,
         20.0,
@@ -258,7 +258,7 @@ fn main {
       @raygui.gui_disable()
     }
     @raygui.gui_slider_bar(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 80.0,
         panel_pos_y + 12.0 + 130.0,
         panel_rect_w - 100.0,
@@ -274,7 +274,7 @@ fn main {
     @raygui.gui_enable()
 
     @raygui.gui_line(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         panel_pos_x + 10.0,
         panel_pos_y + 12.0 + 170.0,
         panel_rect_w - 20.0,
@@ -291,22 +291,22 @@ fn main {
       Float::from_int(panel_margin)
     let content_height = slice_count.val * 35
 
-    let scroll : Ref[@backend.Vector2] = Ref::new(
-      @backend.vector2_new(0.0, 0.0),
+    let scroll : Ref[@raylib.Vector2] = Ref::new(
+      @raylib.Vector2::new(0.0, 0.0),
     )
-    let view : Ref[@backend.Rectangle] = Ref::new(
-      @backend.rectangle_new(0.0, 0.0, 0.0, 0.0),
+    let view : Ref[@raylib.Rectangle] = Ref::new(
+      @raylib.Rectangle::new(0.0, 0.0, 0.0, 0.0),
     )
 
     @raygui.gui_scroll_panel(
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         scroll_bounds_x,
         scroll_bounds_y,
         scroll_bounds_w,
         scroll_bounds_h,
       ),
       "",
-      @raygui.rectangle_new(
+      @raylib.Rectangle::new(
         0.0,
         0.0,
         panel_rect_w - 25.0,
@@ -316,12 +316,12 @@ fn main {
       view,
     )
 
-    let view_x = @backend.rectangle_x(view.val)
-    let view_y = @backend.rectangle_y(view.val)
-    let view_w = @backend.rectangle_width(view.val)
-    let view_h = @backend.rectangle_height(view.val)
-    let content_x = view_x + @backend.vector2_x(scroll.val)
-    let content_y = view_y + @backend.vector2_y(scroll.val)
+    let view_x = view.val.x
+    let view_y = view.val.y
+    let view_w = view.val.width
+    let view_h = view.val.height
+    let content_x = view_x + scroll.val.x
+    let content_y = view_y + scroll.val.y
 
     @raylib.begin_scissor_mode(
       view_x.to_int(),
@@ -349,7 +349,7 @@ fn main {
 
       // Label textbox
       if @raygui.gui_text_box(
-        @raygui.rectangle_new(
+        @raylib.Rectangle::new(
           content_x + 45.0,
           Float::from_int(row_y),
           75.0,
@@ -364,7 +364,7 @@ fn main {
 
       // Value slider
       @raygui.gui_slider_bar(
-        @raygui.rectangle_new(
+        @raylib.Rectangle::new(
           content_x + 130.0,
           Float::from_int(row_y),
           110.0,
