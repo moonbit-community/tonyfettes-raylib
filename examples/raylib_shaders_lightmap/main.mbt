@@ -1,5 +1,5 @@
 ///|
-let map_size : Int = 10
+const MapSize : Int = 10
 
 ///|
 fn floats_to_bytes(values : FixedArray[Float]) -> Bytes {
@@ -36,8 +36,8 @@ fn main {
   )
 
   let mesh = @raylib.gen_mesh_plane(
-    Float::from_int(map_size),
-    Float::from_int(map_size),
+    Float::from_int(MapSize),
+    Float::from_int(MapSize),
     1,
     1,
   )
@@ -64,7 +64,7 @@ fn main {
   @raylib.gen_texture_mipmaps(texture)
   @raylib.set_texture_filter(texture, @raylib.TextureFilterTrilinear)
 
-  let lightmap = @raylib.load_render_texture(map_size, map_size)
+  let lightmap = @raylib.load_render_texture(MapSize, MapSize)
 
   @raylib.set_render_texture_filter(lightmap, @raylib.TextureFilterTrilinear)
 
@@ -136,27 +136,27 @@ fn main {
     @raylib.draw_fps(10, 10)
 
     let render_w = @raylib.get_render_width()
-    let map_size_f = Float::from_int(map_size)
+    let map_size_f = Float::from_int(MapSize)
 
     @raylib.draw_render_texture_pro(
       lightmap,
       @raylib.Rectangle::new(0.0, 0.0, -map_size_f, -map_size_f),
       @raylib.Rectangle::new(
-        Float::from_int(render_w - map_size * 8 - 10),
+        Float::from_int(render_w - MapSize * 8 - 10),
         10.0,
-        Float::from_int(map_size * 8),
-        Float::from_int(map_size * 8),
+        Float::from_int(MapSize * 8),
+        Float::from_int(MapSize * 8),
       ),
       @raylib.Vector2::new(0.0, 0.0),
       0.0,
       @raylib.white,
     )
 
-    @raylib.draw_text("lightmap", render_w - 66, 16 + map_size * 8, 10, @raylib.gray)
+    @raylib.draw_text("lightmap", render_w - 66, 16 + MapSize * 8, 10, @raylib.gray)
     @raylib.draw_text(
       "10x10 pixels",
       render_w - 76,
-      30 + map_size * 8,
+      30 + MapSize * 8,
       10,
       @raylib.gray,
     )

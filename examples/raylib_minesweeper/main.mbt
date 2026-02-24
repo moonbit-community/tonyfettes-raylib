@@ -1,45 +1,45 @@
 // Minesweeper — 16x16 grid, 40 mines
 
 ///|
-let rows : Int = 16
+const Rows : Int = 16
 
 ///|
-let cols : Int = 16
+const Cols : Int = 16
 
 ///|
-let mine_count : Int = 40
+const MineCount : Int = 40
 
 ///|
-let cell_size : Int = 30
+const CellSize : Int = 30
 
 ///|
-let grid_offset_x : Int = 10
+const GridOffsetX : Int = 10
 
 ///|
-let grid_offset_y : Int = 60
+const GridOffsetY : Int = 60
 
 // Game states
 
 ///|
-let state_waiting : Int = 0 // before first click
+const StateWaiting : Int = 0 // before first click
 
 ///|
-let state_playing : Int = 1
+const StatePlaying : Int = 1
 
 ///|
-let state_won : Int = 2
+const StateWon : Int = 2
 
 ///|
-let state_lost : Int = 3
+const StateLost : Int = 3
 
 ///|
 fn cell_index(row : Int, col : Int) -> Int {
-  row * cols + col
+  row * Cols + col
 }
 
 ///|
 fn in_bounds(row : Int, col : Int) -> Bool {
-  row >= 0 && row < rows && col >= 0 && col < cols
+  row >= 0 && row < Rows && col >= 0 && col < Cols
 }
 
 ///|
@@ -81,7 +81,7 @@ fn generate_mines(
   safe_row : Int,
   safe_col : Int,
 ) -> Unit {
-  let total = rows * cols
+  let total = Rows * Cols
   // Clear
   for i = 0; i < total; i = i + 1 {
     mines[i] = 0
@@ -89,10 +89,10 @@ fn generate_mines(
   }
   // Place mines
   let mut placed = 0
-  while placed < mine_count {
+  while placed < MineCount {
     let idx = @raylib.get_random_value(0, total - 1)
-    let r = idx / cols
-    let c = idx % cols
+    let r = idx / Cols
+    let c = idx % Cols
     // Skip if already a mine or in safe zone (3x3 around first click)
     if mines[idx] != 0 {
       continue
@@ -106,8 +106,8 @@ fn generate_mines(
     placed = placed + 1
   }
   // Compute adjacency counts
-  for r = 0; r < rows; r = r + 1 {
-    for c = 0; c < cols; c = c + 1 {
+  for r = 0; r < Rows; r = r + 1 {
+    for c = 0; c < Cols; c = c + 1 {
       adjacent[cell_index(r, c)] = count_adjacent(mines, r, c)
     }
   }
@@ -143,7 +143,7 @@ fn flood_fill(
 
 ///|
 fn check_win(mines : Array[Int], revealed : Array[Int]) -> Bool {
-  let total = rows * cols
+  let total = Rows * Cols
   for i = 0; i < total; i = i + 1 {
     if mines[i] == 0 && revealed[i] == 0 {
       return false
@@ -159,7 +159,7 @@ fn reset_game(
   flagged : Array[Int],
   adjacent : Array[Int],
 ) -> Unit {
-  let total = rows * cols
+  let total = Rows * Cols
   for i = 0; i < total; i = i + 1 {
     mines[i] = 0
     revealed[i] = 0
@@ -170,18 +170,18 @@ fn reset_game(
 
 ///|
 fn main {
-  let screen_width = grid_offset_x * 2 + cols * cell_size
-  let screen_height = grid_offset_y + rows * cell_size + 10
+  let screen_width = GridOffsetX * 2 + Cols * CellSize
+  let screen_height = GridOffsetY + Rows * CellSize + 10
   @raylib.init_window(screen_width, screen_height, "Minesweeper")
   @raylib.set_target_fps(60)
 
-  let total = rows * cols
+  let total = Rows * Cols
   let mines : Array[Int] = Array::make(total, 0)
   let revealed : Array[Int] = Array::make(total, 0)
   let flagged : Array[Int] = Array::make(total, 0)
   let adjacent : Array[Int] = Array::make(total, 0)
 
-  let mut game_state = state_waiting
+  let mut game_state = StateWaiting
   let mut flags_placed = 0
   let mut start_time = 0.0
   let mut elapsed_time = 0
@@ -198,13 +198,13 @@ fn main {
     // Restart
     if @raylib.is_key_pressed(@raylib.KeyR) {
       reset_game(mines, revealed, flagged, adjacent)
-      game_state = state_waiting
+      game_state = StateWaiting
       flags_placed = 0
       elapsed_time = 0
     }
 
     // Timer
-    if game_state == state_playing {
+    if game_state == StatePlaying {
       elapsed_time = (@raylib.get_time() - start_time).to_int()
       if elapsed_time > 999 {
         elapsed_time = 999
@@ -212,30 +212,30 @@ fn main {
     }
 
     // Mouse input
-    if game_state == state_waiting || game_state == state_playing {
+    if game_state == StateWaiting || game_state == StatePlaying {
       let mx = @raylib.get_mouse_x()
       let my = @raylib.get_mouse_y()
-      let col = (mx - grid_offset_x) / cell_size
-      let row = (my - grid_offset_y) / cell_size
-      if in_bounds(row, col) && mx >= grid_offset_x && my >= grid_offset_y {
+      let col = (mx - GridOffsetX) / CellSize
+      let row = (my - GridOffsetY) / CellSize
+      if in_bounds(row, col) && mx >= GridOffsetX && my >= GridOffsetY {
         // Left click — reveal
         if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
           let idx = cell_index(row, col)
           if flagged[idx] == 0 && revealed[idx] == 0 {
-            if game_state == state_waiting {
+            if game_state == StateWaiting {
               // First click: generate mines, start timer
               generate_mines(mines, adjacent, row, col)
-              game_state = state_playing
+              game_state = StatePlaying
               start_time = @raylib.get_time()
             }
             if mines[idx] != 0 {
               // Hit a mine
               revealed[idx] = 1
-              game_state = state_lost
+              game_state = StateLost
             } else {
               flood_fill(mines, revealed, flagged, adjacent, row, col)
               if check_win(mines, revealed) {
-                game_state = state_won
+                game_state = StateWon
               }
             }
           }
@@ -261,18 +261,18 @@ fn main {
     @raylib.clear_background(bg_color)
 
     // Header
-    let mines_left = mine_count - flags_placed
+    let mines_left = MineCount - flags_placed
     @raylib.draw_text(
       "Mines: \{mines_left}",
-      grid_offset_x,
+      GridOffsetX,
       15,
       20,
       @raylib.darkgray,
     )
     // Status text
     let status = match game_state {
-      s if s == state_won => "YOU WIN!"
-      s if s == state_lost => "GAME OVER"
+      s if s == StateWon => "YOU WIN!"
+      s if s == StateLost => "GAME OVER"
       _ => ""
     }
     if status.length() > 0 {
@@ -282,7 +282,7 @@ fn main {
         (screen_width - status_width) / 2,
         15,
         20,
-        if game_state == state_won {
+        if game_state == StateWon {
           @raylib.darkgreen
         } else {
           @raylib.red
@@ -294,28 +294,28 @@ fn main {
     let timer_width = @raylib.measure_text(timer_text, 20)
     @raylib.draw_text(
       timer_text,
-      screen_width - timer_width - grid_offset_x,
+      screen_width - timer_width - GridOffsetX,
       15,
       20,
       @raylib.darkgray,
     )
 
     // Grid
-    for r = 0; r < rows; r = r + 1 {
-      for c = 0; c < cols; c = c + 1 {
+    for r = 0; r < Rows; r = r + 1 {
+      for c = 0; c < Cols; c = c + 1 {
         let idx = cell_index(r, c)
-        let x = grid_offset_x + c * cell_size
-        let y = grid_offset_y + r * cell_size
+        let x = GridOffsetX + c * CellSize
+        let y = GridOffsetY + r * CellSize
         if revealed[idx] != 0 {
           // Revealed cell
-          @raylib.draw_rectangle(x, y, cell_size, cell_size, cell_revealed_bg)
+          @raylib.draw_rectangle(x, y, CellSize, CellSize, cell_revealed_bg)
           @raylib.draw_rectangle_lines(
-            x, y, cell_size, cell_size, highlight_dark,
+            x, y, CellSize, CellSize, highlight_dark,
           )
           if mines[idx] != 0 {
             // Mine — draw filled circle
-            let cx = x + cell_size / 2
-            let cy = y + cell_size / 2
+            let cx = x + CellSize / 2
+            let cy = y + CellSize / 2
             @raylib.draw_circle(cx, cy, 8.0, @raylib.black)
           } else if adjacent[idx] > 0 {
             // Number
@@ -323,40 +323,40 @@ fn main {
             let tw = @raylib.measure_text(num_text, 20)
             @raylib.draw_text(
               num_text,
-              x + (cell_size - tw) / 2,
-              y + (cell_size - 20) / 2,
+              x + (CellSize - tw) / 2,
+              y + (CellSize - 20) / 2,
               20,
               number_color(adjacent[idx]),
             )
           }
         } else {
           // Unrevealed cell — draw 3D raised appearance
-          @raylib.draw_rectangle(x, y, cell_size, cell_size, cell_unrevealed)
+          @raylib.draw_rectangle(x, y, CellSize, CellSize, cell_unrevealed)
           // Light edges (top, left)
-          @raylib.draw_line(x, y, x + cell_size - 1, y, highlight_light)
-          @raylib.draw_line(x, y, x, y + cell_size - 1, highlight_light)
+          @raylib.draw_line(x, y, x + CellSize - 1, y, highlight_light)
+          @raylib.draw_line(x, y, x, y + CellSize - 1, highlight_light)
           // Dark edges (bottom, right)
           @raylib.draw_line(
             x,
-            y + cell_size - 1,
-            x + cell_size - 1,
-            y + cell_size - 1,
+            y + CellSize - 1,
+            x + CellSize - 1,
+            y + CellSize - 1,
             highlight_dark,
           )
           @raylib.draw_line(
-            x + cell_size - 1,
+            x + CellSize - 1,
             y,
-            x + cell_size - 1,
-            y + cell_size - 1,
+            x + CellSize - 1,
+            y + CellSize - 1,
             highlight_dark,
           )
           if flagged[idx] != 0 {
             // Flag — red triangle
-            let fx = Float::from_int(x + cell_size / 2)
+            let fx = Float::from_int(x + CellSize / 2)
             let fy_top = Float::from_int(y + 5)
-            let fy_bot = Float::from_int(y + cell_size - 8)
+            let fy_bot = Float::from_int(y + CellSize - 8)
             let fx_left = Float::from_int(x + 7)
-            let fx_right = Float::from_int(x + cell_size - 7)
+            let fx_right = Float::from_int(x + CellSize - 7)
             @raylib.draw_triangle(
               @raylib.Vector2::new(fx, fy_top),
               @raylib.Vector2::new(fx_left, fy_bot),
@@ -365,9 +365,9 @@ fn main {
             )
           }
           // Show mines on game over
-          if game_state == state_lost && mines[idx] != 0 && flagged[idx] == 0 {
-            let cx = x + cell_size / 2
-            let cy = y + cell_size / 2
+          if game_state == StateLost && mines[idx] != 0 && flagged[idx] == 0 {
+            let cx = x + CellSize / 2
+            let cy = y + CellSize / 2
             @raylib.draw_circle(cx, cy, 8.0, @raylib.black)
           }
         }
@@ -375,7 +375,7 @@ fn main {
     }
 
     // Restart hint
-    if game_state == state_won || game_state == state_lost {
+    if game_state == StateWon || game_state == StateLost {
       let hint = "Press R to restart"
       let hint_width = @raylib.measure_text(hint, 16)
       @raylib.draw_text(

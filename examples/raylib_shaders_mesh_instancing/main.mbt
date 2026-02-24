@@ -3,7 +3,7 @@
 // ============================================================================
 
 ///|
-let light_directional : Int = 0
+const LightDirectional : Int = 0
 
 ///|
 struct Light {
@@ -218,7 +218,7 @@ fn main {
 
   // Create one light
   let _light = create_light(
-    light_directional,
+    LightDirectional,
     @raylib.Vector3::new(50.0, 50.0, 0.0),
     @raylib.Vector3::new(0.0, 0.0, 0.0),
     @raylib.white,

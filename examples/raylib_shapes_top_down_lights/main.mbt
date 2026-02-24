@@ -1,22 +1,22 @@
 // Custom Blend Modes (OpenGL constants)
 
 ///|
-let rlgl_src_alpha : Int = 0x0302
+const RlglSrcAlpha : Int = 0x0302
 
 ///|
-let rlgl_min : Int = 0x8007
+const RlglMin : Int = 0x8007
 
 ///|
-let rlgl_max : Int = 0x8008
+const RlglMax : Int = 0x8008
 
 ///|
-let max_boxes : Int = 20
+const MaxBoxes : Int = 20
 
 ///|
-let max_shadows : Int = 60 // MAX_BOXES * 3
+const MaxShadows : Int = 60 // MAX_BOXES * 3
 
 ///|
-let max_lights : Int = 16
+const MaxLights : Int = 16
 
 // Shadow geometry type
 
@@ -47,7 +47,7 @@ struct LightInfo {
 
 ///|
 fn LightInfo::new() -> LightInfo {
-  let shadows = FixedArray::makei(max_shadows, fn(_i) { ShadowGeometry::new() })
+  let shadows = FixedArray::makei(MaxShadows, fn(_i) { ShadowGeometry::new() })
   {
     active: false,
     dirty: false,
@@ -62,7 +62,7 @@ fn LightInfo::new() -> LightInfo {
 }
 
 ///|
-let lights : FixedArray[LightInfo] = FixedArray::makei(max_lights, fn(_i) {
+let lights : FixedArray[LightInfo] = FixedArray::makei(MaxLights, fn(_i) {
   LightInfo::new()
 })
 
@@ -89,7 +89,7 @@ fn compute_shadow_volume_for_edge(
   sp : @raylib.Vector2,
   ep : @raylib.Vector2,
 ) -> Unit {
-  if lights[slot].shadow_count >= max_shadows {
+  if lights[slot].shadow_count >= MaxShadows {
     return
   }
   let extension = lights[slot].outer_radius * (2.0 : Float)
@@ -126,7 +126,7 @@ fn draw_light_mask(slot : Int) -> Unit {
   }
   @raylib.clear_background(@raylib.white)
   // Force the blend mode to only set the alpha of the destination
-  @raylib.rl_set_blend_factors(rlgl_src_alpha, rlgl_src_alpha, rlgl_min)
+  @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
   @raylib.rl_set_blend_mode(@raylib.BlendCustom)
   // If we are valid, then draw the light radius to the alpha mask
   if lights[slot].valid {
@@ -141,7 +141,7 @@ fn draw_light_mask(slot : Int) -> Unit {
   @raylib.rl_draw_render_batch_active()
   // Cut out the shadows from the light radius by forcing the alpha to maximum
   @raylib.rl_set_blend_mode(@raylib.BlendAlpha)
-  @raylib.rl_set_blend_factors(rlgl_src_alpha, rlgl_src_alpha, rlgl_max)
+  @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMax)
   @raylib.rl_set_blend_mode(@raylib.BlendCustom)
   // Draw the shadows to the alpha mask
   for i = 0; i < lights[slot].shadow_count; i = i + 1 {
@@ -264,7 +264,7 @@ fn setup_boxes(boxes : Array[@raylib.Rectangle]) -> Int {
   boxes[2] = @raylib.Rectangle::new(200.0, 600.0, 40.0, 40.0)
   boxes[3] = @raylib.Rectangle::new(1000.0, 50.0, 40.0, 40.0)
   boxes[4] = @raylib.Rectangle::new(500.0, 350.0, 40.0, 40.0)
-  for i = 5; i < max_boxes; i = i + 1 {
+  for i = 5; i < MaxBoxes; i = i + 1 {
     boxes[i] = @raylib.Rectangle::new(
       Float::from_int(@raylib.get_random_value(0, @raylib.get_screen_width())),
       Float::from_int(@raylib.get_random_value(0, @raylib.get_screen_height())),
@@ -272,7 +272,7 @@ fn setup_boxes(boxes : Array[@raylib.Rectangle]) -> Int {
       Float::from_int(@raylib.get_random_value(10, 100)),
     )
   }
-  max_boxes
+  MaxBoxes
 }
 
 ///|
@@ -287,7 +287,7 @@ fn main {
 
   // Initialize our 'world' of boxes
   let boxes : Array[@raylib.Rectangle] = Array::make(
-    max_boxes,
+    MaxBoxes,
     @raylib.Rectangle::new(0.0, 0.0, 0.0, 0.0),
   )
   let box_count = setup_boxes(boxes)
@@ -323,7 +323,7 @@ fn main {
     }
     // Make a new light
     if @raylib.is_mouse_button_pressed(@raylib.MouseButtonRight) &&
-      next_light < max_lights {
+      next_light < MaxLights {
       let mouse_pos = @raylib.get_mouse_position()
       setup_light(next_light, mouse_pos.x, mouse_pos.y, 200.0)
       next_light = next_light + 1
@@ -334,7 +334,7 @@ fn main {
     }
     // Update the lights and keep track if any were dirty
     let mut dirty_lights = false
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       if update_light(i, boxes, box_count) {
         dirty_lights = true
       }
@@ -345,10 +345,10 @@ fn main {
       @raylib.begin_texture_mode(light_mask)
       @raylib.clear_background(@raylib.black)
       // Force the blend mode to only set the alpha of the destination
-      @raylib.rl_set_blend_factors(rlgl_src_alpha, rlgl_src_alpha, rlgl_min)
+      @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
       @raylib.rl_set_blend_mode(@raylib.BlendCustom)
       // Merge in all the light masks
-      for i = 0; i < max_lights; i = i + 1 {
+      for i = 0; i < MaxLights; i = i + 1 {
         if lights[i].active {
           match lights[i].mask {
             Some(mask) =>
@@ -401,7 +401,7 @@ fn main {
       @raylib.color_alpha(@raylib.white, if show_lines { 0.75 } else { 1.0 }),
     )
     // Draw the lights
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       if lights[i].active {
         @raylib.draw_circle(
           lights[i].position.x.to_int(),
@@ -450,7 +450,7 @@ fn main {
   // De-Initialization
   @raylib.unload_texture(background_texture)
   @raylib.unload_render_texture(light_mask)
-  for i = 0; i < max_lights; i = i + 1 {
+  for i = 0; i < MaxLights; i = i + 1 {
     if lights[i].active {
       match lights[i].mask {
         Some(mask) => @raylib.unload_render_texture(mask)

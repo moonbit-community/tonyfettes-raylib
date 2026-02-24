@@ -2,7 +2,7 @@
 let letter_boundry_size : Float = 0.25
 
 ///|
-let text_max_layers : Int = 32
+const TextMaxLayers : Int = 32
 
 // WaveTextConfig
 struct WaveTextConfig {
@@ -420,7 +420,7 @@ fn main {
   // Load the alpha discard shader (embedded)
   let alpha_discard = @raylib.load_shader_from_memory("", alpha_discard_fs)
   // Array filled with multiple random colors (when multicolor mode is set)
-  let multi : Array[@raylib.Color] = Array::make(text_max_layers, @raylib.white)
+  let multi : Array[@raylib.Color] = Array::make(TextMaxLayers, @raylib.white)
   let mut show_letter_boundry = false
   let mut show_text_boundry = false
   @raylib.disable_cursor()
@@ -494,7 +494,7 @@ fn main {
         layers = layers - 1
       }
     } else if @raylib.is_key_pressed(@raylib.KeyEnd) {
-      if layers < text_max_layers {
+      if layers < TextMaxLayers {
         layers = layers + 1
       }
     }
@@ -519,7 +519,7 @@ fn main {
     } else if @raylib.is_key_pressed(@raylib.KeyTab) {
       multicolor = not(multicolor)
       if multicolor {
-        for i = 0; i < text_max_layers; i = i + 1 {
+        for i = 0; i < TextMaxLayers; i = i + 1 {
           let c = generate_random_color(0.5, 0.8)
           let a = @raylib.get_random_value(0, 255)
           multi[i] = @raylib.Color::new(

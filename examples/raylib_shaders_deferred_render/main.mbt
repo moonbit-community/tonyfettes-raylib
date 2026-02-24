@@ -3,10 +3,10 @@
 // ============================================================================
 
 ///|
-let light_point : Int = 1
+const LightPoint : Int = 1
 
 ///|
-let max_lights : Int = 4
+const MaxLights : Int = 4
 
 ///|
 struct Light {
@@ -156,23 +156,23 @@ struct GBuffer {
 // ============================================================================
 
 ///|
-let deferred_position : Int = 0
+const DeferredPosition : Int = 0
 
 ///|
-let deferred_normal : Int = 1
+const DeferredNormal : Int = 1
 
 ///|
-let deferred_albedo : Int = 2
+const DeferredAlbedo : Int = 2
 
 ///|
-let deferred_shading : Int = 3
+const DeferredShading : Int = 3
 
 // ============================================================================
 // Constants
 // ============================================================================
 
 ///|
-let max_cubes : Int = 30
+const MaxCubes : Int = 30
 
 ///|
 let cube_scale : Float = 0.25
@@ -343,7 +343,7 @@ fn main {
   // Create lights
   let lights = [
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-2.0, 1.0, -2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.yellow,
@@ -351,7 +351,7 @@ fn main {
       0,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(2.0, 1.0, 2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.red,
@@ -359,7 +359,7 @@ fn main {
       1,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-2.0, 1.0, 2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.green,
@@ -367,7 +367,7 @@ fn main {
       2,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(2.0, 1.0, -2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.blue,
@@ -379,7 +379,7 @@ fn main {
   // Generate random cube positions and rotations
   let cube_positions : Array[@raylib.Vector3] = []
   let cube_rotations : Array[Float] = []
-  for i = 0; i < max_cubes; i = i + 1 {
+  for i = 0; i < MaxCubes; i = i + 1 {
     let _ = i
     cube_positions.push(
       @raylib.Vector3::new(
@@ -393,7 +393,7 @@ fn main {
     )
   }
 
-  let mut mode = deferred_shading
+  let mut mode = DeferredShading
 
   @raylib.rl_enable_depth_test()
 
@@ -429,20 +429,20 @@ fn main {
 
     // Check key inputs to switch between G-buffer textures
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      mode = deferred_position
+      mode = DeferredPosition
     }
     if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      mode = deferred_normal
+      mode = DeferredNormal
     }
     if @raylib.is_key_pressed(@raylib.KeyThree) {
-      mode = deferred_albedo
+      mode = DeferredAlbedo
     }
     if @raylib.is_key_pressed(@raylib.KeyFour) {
-      mode = deferred_shading
+      mode = DeferredShading
     }
 
     // Update light values in shader
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       update_light_values(deferred_shader, lights[i])
     }
 
@@ -477,7 +477,7 @@ fn main {
       @raylib.white,
     )
 
-    for i = 0; i < max_cubes; i = i + 1 {
+    for i = 0; i < MaxCubes; i = i + 1 {
       @raylib.draw_model_ex(
         cube,
         cube_positions[i],
@@ -496,7 +496,7 @@ fn main {
     @raylib.rl_disable_framebuffer()
     @raylib.rl_clear_screen_buffers()
 
-    if mode == deferred_shading {
+    if mode == DeferredShading {
       @raylib.begin_mode_3d(camera)
       @raylib.rl_disable_color_blend()
       @raylib.rl_enable_shader(deferred_shader_id)
@@ -541,7 +541,7 @@ fn main {
       // forward rendering
       @raylib.begin_mode_3d(camera)
       @raylib.rl_enable_shader(@raylib.rl_get_shader_id_default())
-      for i = 0; i < max_lights; i = i + 1 {
+      for i = 0; i < MaxLights; i = i + 1 {
         if lights[i].enabled {
           @raylib.draw_sphere_ex(
             lights[i].position,
@@ -570,7 +570,7 @@ fn main {
         20,
         @raylib.darkgreen,
       )
-    } else if mode == deferred_position {
+    } else if mode == DeferredPosition {
       let tex = @raylib.texture_from_id(
         gbuffer.position_texture,
         screen_width,
@@ -594,7 +594,7 @@ fn main {
         20,
         @raylib.darkgreen,
       )
-    } else if mode == deferred_normal {
+    } else if mode == DeferredNormal {
       let tex = @raylib.texture_from_id(
         gbuffer.normal_texture,
         screen_width,
@@ -618,7 +618,7 @@ fn main {
         20,
         @raylib.darkgreen,
       )
-    } else if mode == deferred_albedo {
+    } else if mode == DeferredAlbedo {
       let tex = @raylib.texture_from_id(
         gbuffer.albedo_spec_texture,
         screen_width,

@@ -1,8 +1,8 @@
 ///|
-let max_points : Int = 10000000 // 10 million
+const MaxPoints : Int = 10000000 // 10 million
 
 ///|
-let min_points : Int = 1000 // 1 thousand
+const MinPoints : Int = 1000 // 1 thousand
 
 ///|
 let pi : Float = 3.14159265358979323846
@@ -110,16 +110,16 @@ fn main {
       use_draw_model_points = not(use_draw_model_points)
     }
     if @raylib.is_key_pressed(@raylib.KeyUp) {
-      num_points = if num_points * 10 > max_points {
-        max_points
+      num_points = if num_points * 10 > MaxPoints {
+        MaxPoints
       } else {
         num_points * 10
       }
       num_points_changed = true
     }
     if @raylib.is_key_pressed(@raylib.KeyDown) {
-      num_points = if num_points / 10 < min_points {
-        min_points
+      num_points = if num_points / 10 < MinPoints {
+        MinPoints
       } else {
         num_points / 10
       }

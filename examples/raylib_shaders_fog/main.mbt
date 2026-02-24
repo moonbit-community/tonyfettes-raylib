@@ -3,10 +3,7 @@
 // ============================================================================
 
 ///|
-let light_point : Int = 1
-
-///|
-let _max_lights : Int = 4
+const LightPoint : Int = 1
 
 ///|
 struct Light {
@@ -256,7 +253,7 @@ fn main {
 
   // Using just 1 point light
   let _light = create_light(
-    light_point,
+    LightPoint,
     @raylib.Vector3::new(0.0, 2.0, 6.0),
     @raylib.Vector3::new(0.0, 0.0, 0.0),
     @raylib.white,

@@ -1,8 +1,8 @@
 ///|
-let emoji_per_width : Int = 8
+const EmojiPerWidth : Int = 8
 
 ///|
-let emoji_per_height : Int = 4
+const EmojiPerHeight : Int = 4
 
 // Array of individual emoji strings (180 emojis)
 ///|
@@ -248,7 +248,7 @@ fn main {
   let mut selected_pos = @raylib.Vector2::new(0.0, 0.0)
 
   // Initialize emoji array
-  let emoji_count = emoji_per_width * emoji_per_height
+  let emoji_count = EmojiPerWidth * EmojiPerHeight
   let emoji : Array[EmojiData] = Array::make(
     emoji_count,
     { index: 0, message: 0, color: @raylib.lightgray },
@@ -341,7 +341,7 @@ fn main {
         hovered = i
         hovered_pos = position
       }
-      if i != 0 && i % emoji_per_width == 0 {
+      if i != 0 && i % EmojiPerWidth == 0 {
         position = @raylib.Vector2::new(
           28.8,
           position.y + base_size_f + 24.25,

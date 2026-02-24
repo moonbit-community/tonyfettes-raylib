@@ -4,7 +4,7 @@
 // Ported from: shaders_shadowmap.c
 // ============================================================================
 
-let shadowmap_resolution : Int = 1024
+const ShadowmapResolution : Int = 1024
 
 ///|
 fn int_to_bytes(v : Int) -> Bytes {
@@ -126,7 +126,7 @@ fn main {
   @raylib.set_shader_value(
     shadow_shader,
     shadow_map_resolution_loc,
-    int_to_bytes(shadowmap_resolution),
+    int_to_bytes(ShadowmapResolution),
     @raylib.ShaderUniformInt,
   )
 
@@ -151,8 +151,8 @@ fn main {
 
   // Load shadow map render texture (depth-only)
   let shadow_map = @raylib.load_shadowmap_render_texture(
-    shadowmap_resolution,
-    shadowmap_resolution,
+    ShadowmapResolution,
+    ShadowmapResolution,
   )
 
   // Light camera for shadow mapping (renders from the light's point of view)

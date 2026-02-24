@@ -1,5 +1,5 @@
 ///|
-let max_points : Int = 11 // 10 points and back to the start
+const MaxPoints : Int = 11 // 10 points and back to the start
 
 ///|
 let deg2rad : Float = 0.017453292519943295
@@ -76,10 +76,10 @@ fn main {
   // Define the base poly vertices from the UV's
   // NOTE: They can be specified in any other way
   let points : FixedArray[@raylib.Vector2] = FixedArray::make(
-    max_points,
+    MaxPoints,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < max_points; i = i + 1 {
+  for i = 0; i < MaxPoints; i = i + 1 {
     let x : Float = (texcoords[i].x - 0.5) * 256.0
     let y : Float = (texcoords[i].y - 0.5) * 256.0
     points[i] = @raylib.Vector2::new(x, y)
@@ -88,10 +88,10 @@ fn main {
   // Define the vertices drawing position
   // NOTE: Initially same as points but updated every frame
   let positions : FixedArray[@raylib.Vector2] = FixedArray::make(
-    max_points,
+    MaxPoints,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < max_points; i = i + 1 {
+  for i = 0; i < MaxPoints; i = i + 1 {
     positions[i] = points[i]
   }
 
@@ -108,7 +108,7 @@ fn main {
     // Update points rotation with an angle transform
     // NOTE: Base points position are not modified
     angle = angle + 1.0
-    for i = 0; i < max_points; i = i + 1 {
+    for i = 0; i < MaxPoints; i = i + 1 {
       positions[i] = @raylib.Vector2::rotate(points[i], angle * deg2rad)
     }
 
@@ -127,7 +127,7 @@ fn main {
       ),
       positions,
       texcoords,
-      max_points,
+      MaxPoints,
       @raylib.white,
     )
 

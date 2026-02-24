@@ -3,10 +3,10 @@
 // ============================================================================
 
 ///|
-let light_point : Int = 1
+const LightPoint : Int = 1
 
 ///|
-let max_lights : Int = 4
+const MaxLights : Int = 4
 
 ///|
 struct Light {
@@ -230,7 +230,7 @@ fn main {
   // Create lights
   let lights = [
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-20.0, 20.0, -20.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.gray,
@@ -238,7 +238,7 @@ fn main {
       0,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(20.0, -20.0, 20.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.gray,
@@ -246,7 +246,7 @@ fn main {
       1,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-20.0, 20.0, 20.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.gray,
@@ -254,7 +254,7 @@ fn main {
       2,
     ),
     create_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(20.0, -20.0, -20.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.gray,
@@ -325,7 +325,7 @@ fn main {
     )
 
     // Update light values (actually, only enable/disable them)
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       update_light_values(shader, lights[i])
     }
 
@@ -340,7 +340,7 @@ fn main {
     @raylib.draw_grid(10, 1.0)
 
     // Draw spheres to show where the lights are
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       if lights[i].enabled {
         @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
       } else {

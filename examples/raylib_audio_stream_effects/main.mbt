@@ -2,7 +2,7 @@
 let low : FixedArray[Float] = [0.0, 0.0]
 
 // Delay buffer: 48000*2 = 96000 samples (1 second at 48kHz stereo)
-let delay_buffer_size : Int = 96000
+const DelayBufferSize : Int = 96000
 
 let delay_buffer : FixedArray[Float] = FixedArray::make(96000, 0.0)
 
@@ -44,7 +44,7 @@ fn audio_process_effect_delay_impl(
     delay_read_index[0] += 1
     let right_delay = delay_buffer[delay_read_index[0]]
     delay_read_index[0] += 1
-    if delay_read_index[0] == delay_buffer_size {
+    if delay_read_index[0] == DelayBufferSize {
       delay_read_index[0] = 0
     }
     let left_sample = @raylib.audio_buffer_get_sample(buffer, i)
@@ -59,7 +59,7 @@ fn audio_process_effect_delay_impl(
     delay_write_index[0] += 1
     delay_buffer[delay_write_index[0]] = new_right
     delay_write_index[0] += 1
-    if delay_write_index[0] == delay_buffer_size {
+    if delay_write_index[0] == DelayBufferSize {
       delay_write_index[0] = 0
     }
   }

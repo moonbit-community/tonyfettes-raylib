@@ -3,10 +3,10 @@
 // ============================================================================
 
 ///|
-let light_point : Int = 1
+const LightPoint : Int = 1
 
 ///|
-let max_lights : Int = 4
+const MaxLights : Int = 4
 
 ///|
 struct PbrLight {
@@ -262,7 +262,7 @@ fn main {
     @raylib.get_shader_location(shader, "viewPos"),
   )
   let light_count_loc = @raylib.get_shader_location(shader, "numOfLights")
-  let max_light_count = max_lights
+  let max_light_count = MaxLights
   @raylib.set_shader_value(
     shader,
     light_count_loc,
@@ -417,7 +417,7 @@ fn main {
   // Create some lights
   let lights = [
     create_pbr_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-1.0, 1.0, -2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.yellow,
@@ -426,7 +426,7 @@ fn main {
       0,
     ),
     create_pbr_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(2.0, 1.0, 1.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.green,
@@ -435,7 +435,7 @@ fn main {
       1,
     ),
     create_pbr_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(-2.0, 1.0, 1.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.red,
@@ -444,7 +444,7 @@ fn main {
       2,
     ),
     create_pbr_light(
-      light_point,
+      LightPoint,
       @raylib.Vector3::new(1.0, 1.0, -2.0),
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       @raylib.blue,
@@ -513,7 +513,7 @@ fn main {
     }
 
     // Update light values on shader (actually, only enable/disable them)
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       update_pbr_light(shader, lights[i])
     }
 
@@ -577,7 +577,7 @@ fn main {
     )
 
     // Draw spheres to show the lights positions
-    for i = 0; i < max_lights; i = i + 1 {
+    for i = 0; i < MaxLights; i = i + 1 {
       let light_color = @raylib.Color::new(
         (lights[i].color[0] * 255.0).to_int(),
         (lights[i].color[1] * 255.0).to_int(),
