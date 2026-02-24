@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/examples/raylib_shapes_top_down_lights"
+
+// Values
+
+// Errors
+
+// Types and methods
+type LightInfo
+
+type ShadowGeometry
+
+// Type aliases
+
+// Traits
+

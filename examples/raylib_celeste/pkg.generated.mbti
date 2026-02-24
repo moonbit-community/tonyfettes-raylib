@@ -1,0 +1,189 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/examples/raylib_celeste"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn clone_room_tiles(Level) -> Array[Int]
+
+pub fn collides_solid(Level, @raylib.Rectangle) -> Bool
+
+pub fn is_goal_reached(Level, @raylib.Rectangle) -> Bool
+
+pub fn is_hazard_at(Level, @raylib.Rectangle) -> Bool
+
+pub fn is_hazard_at_with_velocity(Level, @raylib.Rectangle, Float, Float) -> Bool
+
+pub fn load_level() -> Level
+
+pub fn load_room(Int) -> Level
+
+pub fn new_game_state(Level) -> GameState
+
+pub fn player_hitbox(PlayerState) -> @raylib.Rectangle
+
+pub fn read_input() -> InputFrame
+
+pub fn render_game(Level, GameState) -> Unit
+
+pub fn render_init() -> Unit
+
+pub fn render_shutdown() -> Unit
+
+pub fn restore_room_tiles(Level, Array[Int]) -> Unit
+
+pub fn room_count() -> Int
+
+pub fn spawn_room_objects(Level, Bool, Bool, Bool, Int) -> Array[ObjectState]
+
+pub fn spikes_at(Level, @raylib.Rectangle, Float, Float) -> Bool
+
+pub fn step_player(PlayerState, Level, InputFrame, Float) -> PlayerState
+
+pub fn update_game_state(GameState, Level, InputFrame, Float, Float) -> GameState
+
+pub fn update_room_objects(Level, PlayerState, Array[ObjectState], Bool, Bool, Bool, Int, Bool, Bool, Bool, Float) -> ObjectRuntimeUpdate
+
+// Errors
+
+// Types and methods
+pub struct ButtonState {
+  down : Bool
+  pressed : Bool
+}
+pub fn ButtonState::idle() -> Self
+pub impl Eq for ButtonState
+pub impl Show for ButtonState
+
+pub struct GameState {
+  player : PlayerState
+  phase : Int
+  respawn_timer : Float
+  deaths : Int
+  room_index : Int
+  win_time : Float
+  objects : Array[ObjectState]
+  has_key : Bool
+  has_dashed : Bool
+  max_djump : Int
+  freeze_frames : Int
+  shake_frames : Int
+  will_restart : Bool
+  restart_delay_frames : Int
+  pause_player : Bool
+  flash_bg : Bool
+  new_bg : Bool
+  room_fruit_collected : Bool
+  room_template_tiles : Array[Int]
+  room_initialized : Bool
+}
+pub impl Show for GameState
+
+pub struct InputFrame {
+  move_x : Int
+  aim_y : Int
+  jump_pressed : Bool
+  jump_held : Bool
+  dash_pressed : Bool
+  restart_pressed : Bool
+}
+pub fn InputFrame::idle() -> Self
+pub impl Eq for InputFrame
+pub impl Show for InputFrame
+
+pub struct Level {
+  width : Int
+  height : Int
+  tiles : Array[Int]
+  spawn_x : Float
+  spawn_y : Float
+  goal_rect : @raylib.Rectangle
+}
+pub impl Show for Level
+
+pub enum ObjectKind {
+  PlayerSpawn
+  Smoke
+  LifeUp
+  Message
+  BigChest
+  Orb
+  Flag
+  RoomTitle
+  Fruit
+  FlyFruit
+  Spring
+  Balloon
+  FallFloor
+  FakeWall
+  Key
+  Chest
+  Platform
+}
+pub impl Eq for ObjectKind
+pub impl Show for ObjectKind
+
+pub struct ObjectRuntimeUpdate {
+  player : PlayerState
+  objects : Array[ObjectState]
+  has_key : Bool
+  has_dashed : Bool
+  room_fruit_collected : Bool
+  max_djump : Int
+  freeze_frames : Int
+  shake_frames : Int
+  pause_player : Bool
+  flash_bg : Bool
+  new_bg : Bool
+  trigger_win : Bool
+}
+pub impl Show for ObjectRuntimeUpdate
+
+pub struct ObjectState {
+  kind : ObjectKind
+  mut x : Float
+  mut y : Float
+  width : Float
+  height : Float
+  mut active : Bool
+  dir_x : Int
+  mut timer : Float
+  mut aux : Float
+  mut phase : Int
+  tile_x : Int
+  tile_y : Int
+  spawn_x : Float
+  spawn_y : Float
+}
+pub fn ObjectState::rect(Self) -> @raylib.Rectangle
+pub impl Show for ObjectState
+
+pub struct PlayerState {
+  pos_x : Float
+  pos_y : Float
+  vel_x : Float
+  vel_y : Float
+  facing : Int
+  on_ground : Bool
+  on_wall_left : Bool
+  on_wall_right : Bool
+  max_djump : Int
+  djump : Int
+  dash_available : Bool
+  dash_time_left : Float
+  coyote_left : Float
+  jump_buffer_left : Float
+  respawn_x : Float
+  respawn_y : Float
+}
+pub fn PlayerState::new(Float, Float) -> Self
+pub fn PlayerState::new_with_djump(Float, Float, Int) -> Self
+pub impl Eq for PlayerState
+pub impl Show for PlayerState
+
+// Type aliases
+
+// Traits
+

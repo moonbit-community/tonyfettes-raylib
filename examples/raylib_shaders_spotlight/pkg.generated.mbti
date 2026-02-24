@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/examples/raylib_shaders_spotlight"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Spot
+
+type Star
+
+// Type aliases
+
+// Traits
+
