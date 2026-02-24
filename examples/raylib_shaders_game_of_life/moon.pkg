@@ -1,0 +1,12 @@
+// This example is blocked - no RenderTexture.texture accessor available
+// Keeping moon.pkg for future implementation
+
+// import {
+//   "tonyfettes/raylib",
+//   "tonyfettes/raygui",
+// }
+//
+// options(
+//   "is-main": true,
+//   overrides: ["tonyfettes/raygui/backend/raylib"],
+// )
