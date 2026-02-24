@@ -319,6 +319,9 @@ pub const IconTextPadding : Int = 4
 ///|
 pub const MouseButtonLeft : Int = 0
 
+///|
+pub const MouseButtonMiddle : Int = 2
+
 // Key constants (matching raylib key codes)
 
 ///|
@@ -363,6 +366,7 @@ priv struct GuiGlobals {
   mut text_box_cursor_index : Int
   mut auto_cursor_counter : Int
   mut font : @raylib.Font?
+  mut text_edit_mode : Bool
   mut style_loaded : Bool
 }
 
@@ -379,6 +383,7 @@ let gui_globals : GuiGlobals = {
   text_box_cursor_index: 0,
   auto_cursor_counter: 0,
   font: None,
+  text_edit_mode: false,
   style_loaded: false,
 }
 

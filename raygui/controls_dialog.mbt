@@ -66,6 +66,7 @@ pub fn gui_message_box(
 
 // Text input box control, dialog with text input
 // Returns -1 when no action, 0 when window closed, 1+ for button index
+// When secret_view_active is Some(ref), enables password/secret mode with eye toggle
 
 ///|
 pub fn gui_text_input_box(
@@ -75,6 +76,7 @@ pub fn gui_text_input_box(
   buttons : String,
   text : Ref[String],
   text_max_size : Int,
+  secret_view_active~ : Ref[Bool]? = None,
 ) -> Int {
   let mut result = -1
   let bx = bounds.x
@@ -131,11 +133,80 @@ pub fn gui_text_input_box(
     bw - btn_pad * 2.0,
     textbox_h,
   )
+  // Calculate actual textbox bounds (narrower when secret mode to make room for eye toggle)
+  let (actual_textbox_bounds, has_secret) = match secret_view_active {
+    Some(_) => {
+      let eye_btn_size = textbox_h
+      let narrow_bounds = @raylib.Rectangle::new(
+        bx + btn_pad,
+        tb_y,
+        bw - btn_pad * 2.0 - eye_btn_size - btn_pad,
+        textbox_h,
+      )
+      (narrow_bounds, true)
+    }
+    None => (textbox_bounds, false)
+  }
   let prev_tb_align = gui_get_style(ControlTextbox, TextAlignment)
   gui_set_style(ControlTextbox, TextAlignment, TextAlignLeft)
-  // Text box always in edit mode for input dialogs
-  let _ = gui_text_box(textbox_bounds, text, text_max_size, true)
+  // Handle text box with secret mode support
+  match secret_view_active {
+    Some(view_ref) => {
+      // In secret mode, use text_edit_mode to track editing state
+      if gui_globals.text_edit_mode {
+        // In edit mode: show actual text, pass real text ref for editing
+        if gui_text_box(actual_textbox_bounds, text, text_max_size, true) {
+          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+        }
+      } else if view_ref.val {
+        // Not editing but viewing: show actual text, not editable
+        if gui_text_box(actual_textbox_bounds, text, text_max_size, false) {
+          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+        }
+      } else {
+        // Not editing, not viewing: show stars
+        let buf = StringBuilder::new()
+        for i = 0; i < text.val.length(); i = i + 1 {
+          buf.write_char('*')
+        }
+        let display_text : Ref[String] = { val: buf.to_string() }
+        if gui_text_box(
+          actual_textbox_bounds,
+          display_text,
+          text_max_size,
+          false,
+        ) {
+          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+        }
+      }
+    }
+    None => {
+      // No secret mode: text box always in edit mode for input dialogs
+      let _ = gui_text_box(actual_textbox_bounds, text, text_max_size, true)
+    }
+  }
   gui_set_style(ControlTextbox, TextAlignment, prev_tb_align)
+  // Draw eye toggle button for secret mode
+  if has_secret {
+    match secret_view_active {
+      Some(view_ref) => {
+        let eye_x = bx + bw - btn_pad - textbox_h
+        let eye_bounds = @raylib.Rectangle::new(
+          eye_x,
+          tb_y,
+          textbox_h,
+          textbox_h,
+        )
+        let icon_text = if view_ref.val {
+          gui_icon_text(44, "")
+        } else {
+          gui_icon_text(45, "")
+        }
+        let _ = gui_toggle(eye_bounds, icon_text, view_ref)
+      }
+      None => ()
+    }
+  }
   // Draw buttons
   let prev_btn_align = gui_get_style(ControlButton, TextAlignment)
   gui_set_style(ControlButton, TextAlignment, TextAlignCenter)

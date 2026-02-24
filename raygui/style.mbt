@@ -109,3 +109,219 @@ pub fn gui_load_style_default() -> Unit {
   // Initialize font
   gui_globals.font = Some(@raylib.get_font_default())
 }
+
+// ============================================================================
+// Byte-reading helpers for binary style parsing
+// ============================================================================
+
+///|
+fn style_read_short(b : Bytes, off : Int) -> Int {
+  let v = b[off].to_int() | (b[off + 1].to_int() << 8)
+  if v >= 0x8000 {
+    v - 0x10000
+  } else {
+    v
+  }
+}
+
+///|
+fn style_read_ushort(b : Bytes, off : Int) -> Int {
+  b[off].to_int() | (b[off + 1].to_int() << 8)
+}
+
+///|
+fn style_read_int(b : Bytes, off : Int) -> Int {
+  b[off].to_int() |
+  (b[off + 1].to_int() << 8) |
+  (b[off + 2].to_int() << 16) |
+  (b[off + 3].to_int() << 24)
+}
+
+// ============================================================================
+// Text format parsing helpers
+// ============================================================================
+
+///|
+fn skip_spaces(s : String, pos : Int) -> Int {
+  let mut p = pos
+  while p < s.length() && (s[p] == ' ' || s[p] == '\t') {
+    p = p + 1
+  }
+  p
+}
+
+///|
+fn parse_word(s : String, pos : Int) -> (String, Int) {
+  let start = pos
+  let mut p = pos
+  while p < s.length() && s[p] != ' ' && s[p] != '\t' && s[p] != '\n' && s[p] !=
+  '\r' {
+    p = p + 1
+  }
+  (string_sub(s, start, p), p)
+}
+
+///|
+fn parse_int_at(s : String, pos : Int) -> (Int, Int) {
+  let p = skip_spaces(s, pos)
+  let mut result = 0
+  let mut negative = false
+  let mut i = p
+  if i < s.length() && s[i] == '-' {
+    negative = true
+    i = i + 1
+  } else if i < s.length() && s[i] == '+' {
+    i = i + 1
+  }
+  while i < s.length() && s[i] >= '0' && s[i] <= '9' {
+    result = result * 10 + (s[i].to_int() - 48)
+    i = i + 1
+  }
+  if negative {
+    (-result, i)
+  } else {
+    (result, i)
+  }
+}
+
+///|
+fn parse_hex_at(s : String, pos : Int) -> (Int, Int) {
+  let p = skip_spaces(s, pos)
+  let mut i = p
+  // Skip "0x" or "0X" prefix
+  if i + 1 < s.length() && s[i] == '0' && (s[i + 1] == 'x' || s[i + 1] == 'X') {
+    i = i + 2
+  }
+  let mut result = 0
+  while i < s.length() {
+    let c = s[i].to_int()
+    if c >= 48 && c <= 57 {
+      result = (result << 4) | (c - 48)
+    } else if c >= 65 && c <= 70 {
+      result = (result << 4) | (c - 55)
+    } else if c >= 97 && c <= 102 {
+      result = (result << 4) | (c - 87)
+    } else {
+      break
+    }
+    i = i + 1
+  }
+  (result, i)
+}
+
+// ============================================================================
+// Style loading: main entry point
+// ============================================================================
+
+// Load raygui style from file (.rgs format, text or binary)
+
+///|
+pub fn gui_load_style(file_name : String) -> Unit {
+  let data = @raylib.load_file_data(file_name)
+  if data.length() < 4 {
+    return
+  }
+  // Check binary signature "rGS "
+  if data[0] == b'r' && data[1] == b'G' && data[2] == b'S' && data[3] == b' ' {
+    gui_load_style_from_binary(data)
+  } else {
+    // Text format
+    let text = @raylib.load_file_text(file_name)
+    if text.length() > 0 {
+      gui_load_style_from_text(text)
+    }
+  }
+}
+
+// ============================================================================
+// Style loading: text format parser
+// ============================================================================
+
+// Parse text format style file.
+// Lines are:
+//   p <control> <property> 0x<value>   -- property
+//   f <size> <spacing> <font_file>     -- font
+//   # comment                          -- comment (ignored)
+
+///|
+fn gui_load_style_from_text(text : String) -> Unit {
+  let lines = get_text_lines(text)
+  for i = 0; i < lines.length(); i = i + 1 {
+    let line = lines[i]
+    if line.length() == 0 {
+      continue
+    }
+    let first_char = line[0]
+    // Skip comments and empty lines
+    if first_char == '#' || first_char == '\r' {
+      continue
+    }
+    if first_char == 'p' {
+      // Property: p <control> <property> 0x<value>
+      let (_, p1) = parse_word(line, 0) // skip 'p'
+      let (ctrl, p2) = parse_int_at(line, p1)
+      let (prop, p3) = parse_int_at(line, p2)
+      let (value, _) = parse_hex_at(line, p3)
+      gui_set_style(ctrl, prop, value)
+    } else if first_char == 'f' {
+      // Font: f <size> <spacing> <font_file>
+      let (_, p1) = parse_word(line, 0) // skip 'f'
+      let (font_size, p2) = parse_int_at(line, p1)
+      let (_, p3) = parse_int_at(line, p2) // spacing (used below via style)
+      let p4 = skip_spaces(line, p3)
+      let (font_file, _) = parse_word(line, p4)
+      if font_file.length() > 0 {
+        let font = @raylib.load_font_ex(font_file, font_size)
+        if @raylib.is_font_valid(font) {
+          gui_set_font(font)
+          gui_set_style(ControlDefault, TextSize, font_size)
+        }
+      }
+    }
+  }
+  gui_globals.style_loaded = true
+}
+
+// ============================================================================
+// Style loading: binary format parser
+// ============================================================================
+
+// Parse binary format style file (.rgs binary).
+// Header: "rGS " (4 bytes), version (2), reserved (2), prop_count (2), reserved (2)
+// Properties: prop_count * { control_id (2), property_id (2), property_value (4) }
+// Optionally followed by embedded font data (not yet implemented).
+
+///|
+fn gui_load_style_from_binary(data : Bytes) -> Unit {
+  if data.length() < 12 {
+    return
+  }
+  let mut offset = 4 // skip "rGS " signature
+  let _version = style_read_short(data, offset)
+  offset = offset + 2
+  let _reserved = style_read_short(data, offset)
+  offset = offset + 2
+  let prop_count = style_read_ushort(data, offset)
+  offset = offset + 2
+  let _reserved2 = style_read_short(data, offset)
+  offset = offset + 2
+  // Read properties
+  for i = 0; i < prop_count; i = i + 1 {
+    if offset + 8 > data.length() {
+      break
+    }
+    let control_id = style_read_ushort(data, offset)
+    offset = offset + 2
+    let property_id = style_read_ushort(data, offset)
+    offset = offset + 2
+    let property_value = style_read_int(data, offset)
+    offset = offset + 4
+    gui_set_style(control_id, property_id, property_value)
+  }
+  // Font data may follow if embedded in the binary file.
+  // Embedded font loading from binary atlas is not yet implemented.
+  // For binary styles with embedded fonts, the font data section contains:
+  //   font_type (int), font params, image atlas pixels, glyph recs, glyph info.
+  // This requires a load_font_from_atlas FFI function to assemble a Font from raw data.
+  gui_globals.style_loaded = true
+}

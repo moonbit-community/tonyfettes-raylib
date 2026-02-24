@@ -226,6 +226,70 @@ pub fn gui_color_bar_alpha(
   result
 }
 
+// Color panel control (RGB wrapper around gui_color_panel_hsv)
+// Converts color to HSV, calls gui_color_panel_hsv, converts back if changed
+
+///|
+pub fn gui_color_panel(
+  bounds : @raylib.Rectangle,
+  color : Ref[@raylib.Color],
+) -> Bool {
+  let r : Float = Float::from_int(color.val.r.to_int()) / 255.0
+  let g : Float = Float::from_int(color.val.g.to_int()) / 255.0
+  let b : Float = Float::from_int(color.val.b.to_int()) / 255.0
+  let hsv : Ref[Vector3] = { val: convert_rgb_to_hsv({ x: r, y: g, z: b }) }
+  let result = gui_color_panel_hsv(bounds, hsv)
+  // Only convert back if changed, to avoid color jitter
+  if result {
+    let rgb = convert_hsv_to_rgb(hsv.val)
+    color.val = @raylib.Color::new(
+      (rgb.x * 255.0).to_int(),
+      (rgb.y * 255.0).to_int(),
+      (rgb.z * 255.0).to_int(),
+      color.val.a.to_int(),
+    )
+  }
+  result
+}
+
+// Color picker HSV control (panel + hue bar, no alpha bar)
+// Composite control: gui_color_panel_hsv + gui_color_bar_hue
+
+///|
+pub fn gui_color_picker_hsv(
+  bounds : @raylib.Rectangle,
+  color_hsv : Ref[Vector3],
+) -> Bool {
+  let mut result = false
+  let bx = bounds.x
+  let by = bounds.y
+  let bw = bounds.width
+  let bh = bounds.height
+  let hue_w = Float::from_int(gui_get_style(ControlColorpicker, HuebarWidth))
+  let hue_pad = Float::from_int(
+    gui_get_style(ControlColorpicker, HuebarPadding),
+  )
+  let hue : Ref[Float] = { val: color_hsv.val.x }
+  // Panel (saturation-value)
+  let panel_w = bw - hue_w - hue_pad
+  let panel_bounds = @raylib.Rectangle::new(bx, by, panel_w, bh)
+  if gui_color_panel_hsv(panel_bounds, color_hsv) {
+    result = true
+  }
+  // Hue bar
+  let hue_bounds = @raylib.Rectangle::new(
+    bx + panel_w + hue_pad,
+    by,
+    hue_w,
+    bh,
+  )
+  if gui_color_bar_hue(hue_bounds, hue) {
+    color_hsv.val = { x: hue.val, y: color_hsv.val.y, z: color_hsv.val.z }
+    result = true
+  }
+  result
+}
+
 // Full color picker (panel + hue bar + alpha bar)
 
 ///|

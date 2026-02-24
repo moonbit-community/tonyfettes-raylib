@@ -440,3 +440,245 @@ fn parse_int(s : String) -> Int {
     result
   }
 }
+
+// Simple float parser
+
+///|
+fn parse_float(s : String) -> Float {
+  let len = s.length()
+  if len == 0 {
+    return 0.0
+  }
+  let mut result : Float = 0.0
+  let mut negative = false
+  let mut start = 0
+  if s[0] == '-' {
+    negative = true
+    start = 1
+  } else if s[0] == '+' {
+    start = 1
+  }
+  // Integer part
+  let mut i = start
+  while i < len && s[i] >= '0' && s[i] <= '9' {
+    result = result * 10.0 + Float::from_int(s[i].to_int() - 48)
+    i = i + 1
+  }
+  // Fractional part
+  if i < len && s[i] == '.' {
+    i = i + 1
+    let mut frac : Float = 0.1
+    while i < len && s[i] >= '0' && s[i] <= '9' {
+      result = result + Float::from_int(s[i].to_int() - 48) * frac
+      frac = frac * 0.1
+      i = i + 1
+    }
+  }
+  if negative {
+    -result
+  } else {
+    result
+  }
+}
+
+// Value box control for float values
+// Returns true when edit mode should be toggled
+
+///|
+pub fn gui_value_box_float(
+  bounds : @raylib.Rectangle,
+  text : String,
+  text_value : Ref[String],
+  value : Ref[Float],
+  edit_mode : Bool,
+) -> Bool {
+  let mut state = gui_globals.state
+  let mut result = false
+  let bx = bounds.x
+  let by = bounds.y
+  let bw = bounds.width
+  let bh = bounds.height
+  // Update control
+  if state != GuiState::Disabled &&
+    not(gui_globals.locked) &&
+    not(gui_globals.control_exclusive_mode) {
+    let mouse = @raylib.get_mouse_position()
+    if edit_mode {
+      state = GuiState::Pressed
+      let mut key_count = text_value.val.length()
+      // Character input with filtering
+      if key_count < 32 {
+        let key = @raylib.get_char_pressed()
+        if key >= 48 && key <= 57 {
+          // Digits 0-9
+          let buf = StringBuilder::new()
+          for i = 0; i < key_count; i = i + 1 {
+            buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+          }
+          buf.write_char(Int::unsafe_to_char(key))
+          text_value.val = buf.to_string()
+          key_count = key_count + 1
+        } else if key == 46 {
+          // '.' - only if no dot already present
+          let mut has_dot = false
+          for i = 0; i < key_count; i = i + 1 {
+            if text_value.val[i] == '.' {
+              has_dot = true
+            }
+          }
+          if not(has_dot) {
+            let buf = StringBuilder::new()
+            for i = 0; i < key_count; i = i + 1 {
+              buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+            }
+            buf.write_char('.')
+            text_value.val = buf.to_string()
+            key_count = key_count + 1
+          }
+        } else if key == 43 || key == 45 {
+          // '+' or '-' - only at position 0
+          if key_count == 0 {
+            let buf = StringBuilder::new()
+            buf.write_char(Int::unsafe_to_char(key))
+            text_value.val = buf.to_string()
+            key_count = key_count + 1
+          } else if key == 45 {
+            // Toggle minus sign
+            if text_value.val[0] == '-' {
+              text_value.val = string_sub(text_value.val, 1, key_count)
+              key_count = key_count - 1
+            } else if text_value.val[0] == '+' {
+              let buf = StringBuilder::new()
+              buf.write_char('-')
+              for i = 1; i < key_count; i = i + 1 {
+                buf.write_char(
+                  Int::unsafe_to_char(text_value.val[i].to_int()),
+                )
+              }
+              text_value.val = buf.to_string()
+            } else {
+              text_value.val = "-" + text_value.val
+              key_count = key_count + 1
+            }
+          } else if key == 43 {
+            // Toggle plus sign
+            if text_value.val[0] == '+' {
+              text_value.val = string_sub(text_value.val, 1, key_count)
+              key_count = key_count - 1
+            } else if text_value.val[0] == '-' {
+              let buf = StringBuilder::new()
+              buf.write_char('+')
+              for i = 1; i < key_count; i = i + 1 {
+                buf.write_char(
+                  Int::unsafe_to_char(text_value.val[i].to_int()),
+                )
+              }
+              text_value.val = buf.to_string()
+            } else {
+              text_value.val = "+" + text_value.val
+              key_count = key_count + 1
+            }
+          }
+        }
+      }
+      // Backspace
+      if key_count > 0 && @raylib.is_key_pressed(KeyBackspace) {
+        text_value.val = string_sub(text_value.val, 0, key_count - 1)
+        key_count = key_count - 1
+      }
+      // Exit edit mode on Enter or click outside
+      if @raylib.is_key_pressed(KeyEnter) ||
+        (
+          not(check_collision_point_rec(mouse, bounds)) &&
+          @raylib.is_mouse_button_pressed(MouseButtonLeft)
+        ) {
+        // Parse float from text_value on exit
+        if key_count > 0 {
+          value.val = parse_float(text_value.val)
+        } else {
+          value.val = 0.0
+        }
+        result = true
+      }
+    } else if check_collision_point_rec(mouse, bounds) {
+      state = GuiState::Focused
+      if @raylib.is_mouse_button_pressed(MouseButtonLeft) {
+        result = true
+      }
+    }
+  }
+  // Draw control
+  let si = state.to_int()
+  let base_color = match state {
+    GuiState::Pressed =>
+      get_color(gui_get_style(ControlValuebox, BaseColorPressed))
+    GuiState::Disabled =>
+      get_color(gui_get_style(ControlValuebox, BaseColorDisabled))
+    _ => blank
+  }
+  gui_draw_rectangle(
+    bounds,
+    gui_get_style(ControlValuebox, BorderWidth),
+    get_color(gui_get_style(ControlValuebox, BorderColorNormal + si * 3)),
+    base_color,
+  )
+  // Display text_value string
+  let display_text = text_value.val
+  gui_draw_text(
+    display_text,
+    get_text_bounds(ControlValuebox, bounds),
+    TextAlignCenter,
+    get_color(gui_get_style(ControlValuebox, TextColorNormal + si * 3)),
+  )
+  // Draw cursor in edit mode
+  if edit_mode {
+    let vt_w : Float = Float::from_int(gui_get_text_width(display_text))
+    let cursor_x : Float = bx + vt_w / 2.0 + bw / 2.0 + 1.0
+    let border_w = gui_get_style(ControlValuebox, BorderWidth)
+    let cursor_rec = @raylib.Rectangle::new(
+      cursor_x,
+      by + Float::from_int(border_w + 2),
+      2.0,
+      bh - Float::from_int(border_w * 2 + 4),
+    )
+    gui_draw_rectangle(
+      cursor_rec,
+      0,
+      blank,
+      get_color(gui_get_style(ControlValuebox, BorderColorPressed)),
+    )
+  }
+  // Draw text label if provided
+  if text.length() > 0 {
+    let tw : Float = Float::from_int(gui_get_text_width(text) + 2)
+    let th : Float = Float::from_int(gui_get_style(ControlDefault, TextSize))
+    let tp : Float = Float::from_int(
+      gui_get_style(ControlValuebox, TextPadding),
+    )
+    let label_x : Float = if gui_get_style(ControlValuebox, TextAlignment) ==
+      TextAlignLeft {
+      bx - tw - tp
+    } else {
+      bx + bw + tp
+    }
+    let label_bounds = @raylib.Rectangle::new(
+      label_x,
+      by + bh / 2.0 - th / 2.0,
+      tw,
+      th,
+    )
+    let label_align = if gui_get_style(ControlValuebox, TextAlignment) ==
+      TextAlignRight {
+      TextAlignLeft
+    } else {
+      TextAlignRight
+    }
+    gui_draw_text(
+      text,
+      label_bounds,
+      label_align,
+      get_color(gui_get_style(ControlLabel, TextColorNormal + si * 3)),
+    )
+  }
+  result
+}

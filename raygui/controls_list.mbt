@@ -101,6 +101,8 @@ pub fn gui_dropdown_box(
   let item_spacing = Float::from_int(
     gui_get_style(ControlDropdownbox, DropdownItemsSpacing),
   )
+  let roll_up = gui_get_style(ControlDropdownbox, DropdownRollUp) != 0
+  let mut item_focused = -1
   // Update control
   if state != GuiState::Disabled &&
     (edit_mode || not(gui_globals.locked)) &&
@@ -110,19 +112,39 @@ pub fn gui_dropdown_box(
     if edit_mode {
       state = GuiState::Pressed
       // Check click outside to close
-      let open_h = Float::from_int(item_count + 1) * (bh + item_spacing)
-      let bounds_open = @raylib.Rectangle::new(bx, by, bw, open_h)
+      let bounds_open = if roll_up {
+        let open_y = by -
+          Float::from_int(item_count) * (bh + item_spacing)
+        @raylib.Rectangle::new(
+          bx,
+          open_y,
+          bw,
+          Float::from_int(item_count + 1) * (bh + item_spacing),
+        )
+      } else {
+        @raylib.Rectangle::new(
+          bx,
+          by,
+          bw,
+          Float::from_int(item_count + 1) * (bh + item_spacing),
+        )
+      }
       if not(check_collision_point_rec(mouse, bounds_open)) {
         if @raylib.is_mouse_button_pressed(MouseButtonLeft) ||
           @raylib.is_mouse_button_released(MouseButtonLeft) {
           result = true
         }
       }
-      // Check item selection
+      // Check item selection and focus
       for i = 0; i < item_count; i = i + 1 {
-        let item_y = by + Float::from_int(i + 1) * (bh + item_spacing)
+        let item_y = if roll_up {
+          by - Float::from_int(i + 1) * (bh + item_spacing)
+        } else {
+          by + Float::from_int(i + 1) * (bh + item_spacing)
+        }
         let item_bounds = @raylib.Rectangle::new(bx, item_y, bw, bh)
         if check_collision_point_rec(mouse, item_bounds) {
+          item_focused = i
           if @raylib.is_mouse_button_released(MouseButtonLeft) {
             active.val = i
             result = true
@@ -160,12 +182,57 @@ pub fn gui_dropdown_box(
     gui_get_style(ControlDropdownbox, TextAlignment),
     get_color(gui_get_style(ControlDropdownbox, TextColorNormal + si * 3)),
   )
+  // Draw arrow icon on main box
+  if gui_get_style(ControlDropdownbox, DropdownArrowHidden) == 0 {
+    let arrow_padding = Float::from_int(
+      gui_get_style(ControlDropdownbox, ArrowPadding),
+    )
+    let arrow_icon = if edit_mode { 120 } else { 121 }
+    gui_draw_icon(
+      arrow_icon,
+      (bx + bw - arrow_padding).to_int(),
+      (by + (bh - Float::from_int(RayguiIconSize)) / 2.0).to_int(),
+      1,
+      get_color(
+        gui_get_style(ControlDropdownbox, TextColorNormal + si * 3),
+      ),
+    )
+  }
   // Draw dropdown items when in edit mode
   if edit_mode {
+    // Draw background panel
+    let bounds_open = if roll_up {
+      let open_y = by - Float::from_int(item_count) * (bh + item_spacing)
+      @raylib.Rectangle::new(
+        bx,
+        open_y,
+        bw,
+        Float::from_int(item_count) * (bh + item_spacing),
+      )
+    } else {
+      @raylib.Rectangle::new(
+        bx,
+        by + bh + item_spacing,
+        bw,
+        Float::from_int(item_count) * (bh + item_spacing),
+      )
+    }
+    gui_panel(bounds_open, "")
+    // Draw individual items
     for i = 0; i < item_count; i = i + 1 {
-      let item_y = by + Float::from_int(i + 1) * (bh + item_spacing)
+      let item_y = if roll_up {
+        by - Float::from_int(i + 1) * (bh + item_spacing)
+      } else {
+        by + Float::from_int(i + 1) * (bh + item_spacing)
+      }
       let item_bounds = @raylib.Rectangle::new(bx, item_y, bw, bh)
-      let item_state = if i == active.val { 2 } else { 0 }
+      let item_state = if i == active.val {
+        2 // Pressed
+      } else if i == item_focused {
+        1 // Focused
+      } else {
+        0 // Normal
+      }
       gui_draw_rectangle(
         item_bounds,
         gui_get_style(ControlDropdownbox, BorderWidth),

@@ -1,5 +1,5 @@
 // Basic raygui controls: Label, Button, LabelButton, Toggle, ToggleGroup,
-// CheckBox, Line, DummyRec, StatusBar
+// ToggleSlider, CheckBox, Line, DummyRec, StatusBar
 
 // Transparent color constant (alpha = 0)
 ///|
@@ -408,4 +408,86 @@ pub fn gui_status_bar(bounds : @raylib.Rectangle, text : String) -> Unit {
     gui_get_style(ControlStatusbar, TextAlignment),
     get_color(gui_get_style(ControlStatusbar, TextColorNormal + si * 3)),
   )
+}
+
+// Toggle slider control, cycles through semicolon-delimited items
+// Returns true when active index changes (on click)
+
+///|
+pub fn gui_toggle_slider(
+  bounds : @raylib.Rectangle,
+  text : String,
+  active : Ref[Int],
+) -> Bool {
+  let mut state = gui_globals.state
+  let mut result = false
+  let bx = bounds.x
+  let by = bounds.y
+  let bw = bounds.width
+  let bh = bounds.height
+  // Parse semicolon-delimited items
+  let (items, _rows) = gui_text_split(text)
+  let item_count = items.length()
+  if item_count == 0 {
+    return false
+  }
+  // Clamp active index
+  if active.val < 0 {
+    active.val = 0
+  } else if active.val >= item_count {
+    active.val = item_count - 1
+  }
+  // Calculate slider dimensions
+  let slider_width = bw / Float::from_int(item_count)
+  let slider_value = Float::from_int(active.val) * slider_width
+  // Update control
+  if state != GuiState::Disabled &&
+    not(gui_globals.locked) &&
+    not(gui_globals.control_exclusive_mode) {
+    let mouse = @raylib.get_mouse_position()
+    if check_collision_point_rec(mouse, bounds) {
+      if @raylib.is_mouse_button_down(MouseButtonLeft) {
+        state = GuiState::Pressed
+      } else {
+        state = GuiState::Focused
+      }
+      if @raylib.is_mouse_button_released(MouseButtonLeft) {
+        active.val = (active.val + 1) % item_count
+        result = true
+      }
+    }
+  }
+  // Draw control - SLIDER style border, TOGGLE style base
+  let si = state.to_int()
+  gui_draw_rectangle(
+    bounds,
+    gui_get_style(ControlSlider, BorderWidth),
+    get_color(gui_get_style(ControlSlider, BorderColorNormal + si * 3)),
+    get_color(gui_get_style(ControlSlider, BaseColorNormal)),
+  )
+  // Draw active toggle area
+  let slider_bounds = @raylib.Rectangle::new(
+    bx + slider_value,
+    by,
+    slider_width,
+    bh,
+  )
+  gui_draw_rectangle(
+    slider_bounds,
+    0,
+    blank,
+    get_color(gui_get_style(ControlToggle, BaseColorNormal + si * 3)),
+  )
+  // Draw text for each item
+  for i = 0; i < item_count; i = i + 1 {
+    let item_x = bx + Float::from_int(i) * slider_width
+    let item_bounds = @raylib.Rectangle::new(item_x, by, slider_width, bh)
+    gui_draw_text(
+      items[i],
+      item_bounds,
+      TextAlignCenter,
+      get_color(gui_get_style(ControlToggle, TextColorNormal + si * 3)),
+    )
+  }
+  result
 }

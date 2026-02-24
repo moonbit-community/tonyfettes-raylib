@@ -245,6 +245,11 @@ pub fn gui_scroll_panel(
     let h_slider : Int = ((bw - Float::from_int(2 * border + v_scroll_w)) /
     content_w *
     (bw - Float::from_int(2 * border + v_scroll_w))).to_int()
+    let h_slider = if h_slider < min_scrollbar_width {
+      min_scrollbar_width
+    } else {
+      h_slider
+    }
     gui_set_style(ControlScrollbar, ScrollSliderSize, h_slider)
     scroll_x = -Float::from_int(
       gui_scroll_bar(
@@ -271,6 +276,11 @@ pub fn gui_scroll_panel(
     let v_slider : Int = ((bh - Float::from_int(2 * border + h_scroll_h)) /
     content_h *
     (bh - Float::from_int(2 * border + h_scroll_h))).to_int()
+    let v_slider = if v_slider < min_scrollbar_height {
+      min_scrollbar_height
+    } else {
+      v_slider
+    }
     gui_set_style(ControlScrollbar, ScrollSliderSize, v_slider)
     scroll_y = -Float::from_int(
       gui_scroll_bar(
@@ -315,4 +325,71 @@ pub fn gui_scroll_panel(
     blank,
   )
   scroll.val = @raylib.Vector2::new(scroll_x, scroll_y)
+}
+
+// Tab bar control with closeable tabs
+// Returns -1 normally, or the index of a tab that was closed
+
+///|
+pub fn gui_tab_bar(
+  bounds : @raylib.Rectangle,
+  texts : Array[String],
+  active : Ref[Int],
+) -> Int {
+  let mut result = -1
+  let tab_bar_item_width : Float = 148.0
+  let count = texts.length()
+  // Calculate tab width based on count and bounds
+  let tab_width : Float = if tab_bar_item_width * Float::from_int(count) > bounds.width {
+    bounds.width / Float::from_int(count)
+  } else {
+    tab_bar_item_width
+  }
+  // Draw all tabs
+  for i = 0; i < count; i = i + 1 {
+    let tab_x = bounds.x + (tab_width + 4.0) * Float::from_int(i)
+    let tab_bounds = @raylib.Rectangle::new(
+      tab_x,
+      bounds.y,
+      tab_width,
+      bounds.height,
+    )
+    // Toggle for each tab
+    let toggle_active : Ref[Bool] = { val: i == active.val }
+    let _ = gui_toggle(tab_bounds, texts[i], toggle_active)
+    if toggle_active.val {
+      active.val = i
+    }
+    // Close button (small X)
+    let close_size : Float = 14.0
+    let close_bounds = @raylib.Rectangle::new(
+      tab_x + tab_width - close_size - 5.0,
+      bounds.y + (bounds.height - close_size) / 2.0,
+      close_size,
+      close_size,
+    )
+    // Check for middle click to close
+    let mouse = @raylib.get_mouse_position()
+    if check_collision_point_rec(mouse, tab_bounds) &&
+      @raylib.is_mouse_button_pressed(MouseButtonMiddle) {
+      result = i
+    }
+    // Draw close button
+    if gui_button(close_bounds, gui_icon_text(128, "")) {
+      result = i
+    }
+  }
+  // Draw bottom separator line
+  let si = gui_globals.state.to_int()
+  let line_color = get_color(
+    gui_get_style(ControlToggle, BorderColorNormal + si * 3),
+  )
+  @raylib.draw_line(
+    bounds.x.to_int(),
+    (bounds.y + bounds.height - 1.0).to_int(),
+    (bounds.x + bounds.width).to_int(),
+    (bounds.y + bounds.height - 1.0).to_int(),
+    line_color,
+  )
+  result
 }
