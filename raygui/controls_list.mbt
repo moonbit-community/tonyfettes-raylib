@@ -253,6 +253,9 @@ pub fn gui_dropdown_box(
       )
     }
   }
+  if state == GuiState::Focused {
+    gui_tooltip(bounds)
+  }
   result
 }
 

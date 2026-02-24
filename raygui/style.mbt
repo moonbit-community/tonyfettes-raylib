@@ -292,19 +292,22 @@ fn gui_load_style_from_text(text : String) -> Unit {
 // Optionally followed by embedded font data (not yet implemented).
 
 ///|
+fn bytes_sub(b : Bytes, start : Int, length : Int) -> Bytes {
+  Bytes::makei(length, fn(i) { b[start + i] })
+}
+
+///|
 fn gui_load_style_from_binary(data : Bytes) -> Unit {
   if data.length() < 12 {
     return
   }
   let mut offset = 4 // skip "rGS " signature
-  let _version = style_read_short(data, offset)
+  let version = style_read_short(data, offset)
   offset = offset + 2
   let _reserved = style_read_short(data, offset)
   offset = offset + 2
-  let prop_count = style_read_ushort(data, offset)
-  offset = offset + 2
-  let _reserved2 = style_read_short(data, offset)
-  offset = offset + 2
+  let prop_count = style_read_int(data, offset)
+  offset = offset + 4
   // Read properties
   for i = 0; i < prop_count; i = i + 1 {
     if offset + 8 > data.length() {
@@ -318,10 +321,120 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
     offset = offset + 4
     gui_set_style(control_id, property_id, property_value)
   }
-  // Font data may follow if embedded in the binary file.
-  // Embedded font loading from binary atlas is not yet implemented.
-  // For binary styles with embedded fonts, the font data section contains:
-  //   font_type (int), font params, image atlas pixels, glyph recs, glyph info.
-  // This requires a load_font_from_atlas FFI function to assemble a Font from raw data.
+  // Load embedded font if present
+  if offset + 4 <= data.length() {
+    let font_data_size = style_read_int(data, offset)
+    offset = offset + 4
+    if font_data_size > 0 && offset + 12 <= data.length() {
+      let base_size = style_read_int(data, offset)
+      let glyph_count = style_read_int(data, offset + 4)
+      let font_type = style_read_int(data, offset + 8)
+      offset = offset + 12
+      // Skip font white rectangle (16 bytes: x, y, w, h as floats)
+      if offset + 16 <= data.length() {
+        offset = offset + 16
+      }
+      // Read image parameters
+      if offset + 8 <= data.length() {
+        let img_uncomp_size = style_read_int(data, offset)
+        let img_comp_size = style_read_int(data, offset + 4)
+        offset = offset + 8
+        if offset + 12 <= data.length() {
+          let img_width = style_read_int(data, offset)
+          let img_height = style_read_int(data, offset + 4)
+          let img_format = style_read_int(data, offset + 8)
+          offset = offset + 12
+          // Read pixel data (compressed or uncompressed)
+          let pixel_data : Bytes = if img_comp_size > 0 && img_comp_size != img_uncomp_size {
+            // Compressed
+            if offset + img_comp_size <= data.length() {
+              let comp_data = bytes_sub(data, offset, img_comp_size)
+              offset = offset + img_comp_size
+              @raylib.decompress_data(comp_data)
+            } else {
+              Bytes::make(0, b'\x00')
+            }
+          } else {
+            // Uncompressed
+            if offset + img_uncomp_size <= data.length() {
+              let raw = bytes_sub(data, offset, img_uncomp_size)
+              offset = offset + img_uncomp_size
+              raw
+            } else {
+              Bytes::make(0, b'\x00')
+            }
+          }
+          if pixel_data.length() > 0 {
+            // Read glyph recs data (16 bytes per glyph: x, y, w, h as floats)
+            let recs_data_size = glyph_count * 16
+            let mut recs_data_comp_size = 0
+            if version >= 400 && offset + 4 <= data.length() {
+              recs_data_comp_size = style_read_int(data, offset)
+              offset = offset + 4
+            }
+            let recs_data : Bytes = if recs_data_comp_size > 0 && recs_data_comp_size != recs_data_size {
+              if offset + recs_data_comp_size <= data.length() {
+                let comp = bytes_sub(data, offset, recs_data_comp_size)
+                offset = offset + recs_data_comp_size
+                @raylib.decompress_data(comp)
+              } else {
+                Bytes::make(0, b'\x00')
+              }
+            } else {
+              if offset + recs_data_size <= data.length() {
+                let raw = bytes_sub(data, offset, recs_data_size)
+                offset = offset + recs_data_size
+                raw
+              } else {
+                Bytes::make(0, b'\x00')
+              }
+            }
+            // Read glyph info data (16 bytes per glyph: value, offsetX, offsetY, advanceX as ints)
+            let glyphs_data_size = glyph_count * 16
+            let mut glyphs_data_comp_size = 0
+            if version >= 400 && offset + 4 <= data.length() {
+              glyphs_data_comp_size = style_read_int(data, offset)
+              offset = offset + 4
+            }
+            let glyphs_data : Bytes = if glyphs_data_comp_size > 0 && glyphs_data_comp_size != glyphs_data_size {
+              if offset + glyphs_data_comp_size <= data.length() {
+                let comp = bytes_sub(data, offset, glyphs_data_comp_size)
+                let _ = offset + glyphs_data_comp_size
+                @raylib.decompress_data(comp)
+              } else {
+                Bytes::make(0, b'\x00')
+              }
+            } else {
+              if offset + glyphs_data_size <= data.length() {
+                let raw = bytes_sub(data, offset, glyphs_data_size)
+                let _ = offset + glyphs_data_size
+                raw
+              } else {
+                Bytes::make(0, b'\x00')
+              }
+            }
+            if recs_data.length() >= recs_data_size && glyphs_data.length() >= glyphs_data_size {
+              let font = @raylib.load_font_from_atlas(
+                pixel_data,
+                pixel_data.length(),
+                img_width,
+                img_height,
+                img_format,
+                base_size,
+                glyph_count,
+                font_type,
+                recs_data,
+                glyphs_data,
+              )
+              if @raylib.is_font_valid(font) {
+                gui_set_font(font)
+                gui_set_style(ControlDefault, TextSize, base_size)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   gui_globals.style_loaded = true
 }

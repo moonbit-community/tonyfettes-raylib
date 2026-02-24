@@ -442,13 +442,18 @@ pub fn gui_set_alpha(alpha : Float) -> Unit {
 }
 
 ///|
-pub fn gui_set_tooltip(tooltip : Bool) -> Unit {
-  gui_globals.tooltip = tooltip
+pub fn gui_enable_tooltip() -> Unit {
+  gui_globals.tooltip = true
 }
 
 ///|
-pub fn gui_set_tooltip_text(text : String) -> Unit {
-  gui_globals.tooltip_ptr = Some(text)
+pub fn gui_disable_tooltip() -> Unit {
+  gui_globals.tooltip = false
+}
+
+///|
+pub fn gui_set_tooltip(tooltip : String) -> Unit {
+  gui_globals.tooltip_ptr = Some(tooltip)
 }
 
 ///|

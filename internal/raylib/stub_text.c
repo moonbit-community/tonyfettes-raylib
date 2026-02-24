@@ -1,4 +1,5 @@
 #include "stub_internal.h"
+#include <stdlib.h>
 
 // ============================================================================
 // Resource destructor: Font
@@ -394,6 +395,84 @@ moonbit_raylib_gen_image_font_atlas(GlyphInfoArrayWrapper *glyphs, int fontSize,
   w->freed = 0;
   w->frame_count = 1;
   return w;
+}
+
+// Build a Font from raw embedded atlas data (used by raygui binary style loading).
+// pixelData: raw image pixels (GRAY_ALPHA format typically)
+// imgWidth, imgHeight, imgFormat: image dimensions and pixel format
+// recsData: packed array of Rectangles (4 floats each: x, y, w, h), count = glyphCount
+// glyphsData: packed array of glyph info (4 ints each: value, offsetX, offsetY, advanceX), count = glyphCount
+FontWrapper *
+moonbit_raylib_load_font_from_atlas(
+  moonbit_bytes_t pixelData, int pixelDataSize,
+  int imgWidth, int imgHeight, int imgFormat,
+  int baseSize, int glyphCount, int fontType,
+  moonbit_bytes_t recsData, moonbit_bytes_t glyphsData
+) {
+  // Construct Image from raw pixel data
+  Image imFont = { 0 };
+  imFont.width = imgWidth;
+  imFont.height = imgHeight;
+  imFont.format = imgFormat;
+  imFont.mipmaps = 1;
+  imFont.data = RL_CALLOC(pixelDataSize, 1);
+  memcpy(imFont.data, pixelData, pixelDataSize);
+
+  // Load texture from image
+  Texture2D texture = LoadTextureFromImage(imFont);
+  RL_FREE(imFont.data);
+
+  if (texture.id == 0) {
+    // Failed to load texture, return default font
+    FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
+      font_destructor, sizeof(FontWrapper)
+    );
+    w->font = GetFontDefault();
+    w->freed = 1;
+    return w;
+  }
+
+  // Build recs array from packed data
+  Rectangle *recs = (Rectangle *)RL_CALLOC(glyphCount, sizeof(Rectangle));
+  for (int i = 0; i < glyphCount; i++) {
+    float x, y, w, h;
+    memcpy(&x, (unsigned char *)recsData + i * 16, sizeof(float));
+    memcpy(&y, (unsigned char *)recsData + i * 16 + 4, sizeof(float));
+    memcpy(&w, (unsigned char *)recsData + i * 16 + 8, sizeof(float));
+    memcpy(&h, (unsigned char *)recsData + i * 16 + 12, sizeof(float));
+    recs[i] = (Rectangle){ x, y, w, h };
+  }
+
+  // Build glyphs array from packed data
+  GlyphInfo *glyphs = (GlyphInfo *)RL_CALLOC(glyphCount, sizeof(GlyphInfo));
+  for (int i = 0; i < glyphCount; i++) {
+    int value, offsetX, offsetY, advanceX;
+    memcpy(&value, (unsigned char *)glyphsData + i * 16, sizeof(int));
+    memcpy(&offsetX, (unsigned char *)glyphsData + i * 16 + 4, sizeof(int));
+    memcpy(&offsetY, (unsigned char *)glyphsData + i * 16 + 8, sizeof(int));
+    memcpy(&advanceX, (unsigned char *)glyphsData + i * 16 + 12, sizeof(int));
+    glyphs[i].value = value;
+    glyphs[i].offsetX = offsetX;
+    glyphs[i].offsetY = offsetY;
+    glyphs[i].advanceX = advanceX;
+    glyphs[i].image = (Image){ 0 }; // Individual glyph images not needed
+  }
+
+  // Assemble the Font
+  Font font = { 0 };
+  font.baseSize = baseSize;
+  font.glyphCount = glyphCount;
+  font.glyphPadding = 0;
+  font.texture = texture;
+  font.recs = recs;
+  font.glyphs = glyphs;
+
+  FontWrapper *fw = (FontWrapper *)moonbit_make_external_object(
+    font_destructor, sizeof(FontWrapper)
+  );
+  fw->font = font;
+  fw->freed = 0;
+  return fw;
 }
 
 FontWrapper *

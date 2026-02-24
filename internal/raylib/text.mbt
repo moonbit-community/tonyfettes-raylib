@@ -159,6 +159,21 @@ pub extern "c" fn load_font_from_memory(
 ) -> Font = "moonbit_raylib_load_font_from_memory"
 
 ///|
+#borrow(pixel_data, recs_data, glyphs_data)
+pub extern "c" fn load_font_from_atlas(
+  pixel_data : Bytes,
+  pixel_data_size : Int,
+  img_width : Int,
+  img_height : Int,
+  img_format : Int,
+  base_size : Int,
+  glyph_count : Int,
+  font_type : Int,
+  recs_data : Bytes,
+  glyphs_data : Bytes,
+) -> Font = "moonbit_raylib_load_font_from_atlas"
+
+///|
 #borrow(font, file_name)
 pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = "moonbit_raylib_export_font_as_code"
 

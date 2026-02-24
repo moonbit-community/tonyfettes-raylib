@@ -196,6 +196,33 @@ pub fn load_font_from_memory(
 }
 
 ///|
+pub fn load_font_from_atlas(
+  pixel_data : Bytes,
+  pixel_data_size : Int,
+  img_width : Int,
+  img_height : Int,
+  img_format : Int,
+  base_size : Int,
+  glyph_count : Int,
+  font_type : Int,
+  recs_data : Bytes,
+  glyphs_data : Bytes,
+) -> Font {
+  @raylib.load_font_from_atlas(
+    pixel_data,
+    pixel_data_size,
+    img_width,
+    img_height,
+    img_format,
+    base_size,
+    glyph_count,
+    font_type,
+    recs_data,
+    glyphs_data,
+  )
+}
+
+///|
 pub fn export_font_as_code(font : Font, file_name : String) -> Bool {
   @raylib.export_font_as_code(font, @utf8.encode(file_name))
 }

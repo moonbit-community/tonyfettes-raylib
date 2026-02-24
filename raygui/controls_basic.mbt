@@ -57,6 +57,9 @@ pub fn gui_button(bounds : @raylib.Rectangle, text : String) -> Bool {
     gui_get_style(ControlButton, TextAlignment),
     get_color(gui_get_style(ControlButton, TextColorNormal + si * 3)),
   )
+  if state == GuiState::Focused {
+    gui_tooltip(bounds)
+  }
   result
 }
 
@@ -105,6 +108,9 @@ pub fn gui_label_button(bounds : @raylib.Rectangle, text : String) -> Bool {
     gui_get_style(ControlLabel, TextAlignment),
     get_color(gui_get_style(ControlLabel, TextColorNormal + state.to_int() * 3)),
   )
+  if state == GuiState::Focused {
+    gui_tooltip(bounds)
+  }
   pressed
 }
 
