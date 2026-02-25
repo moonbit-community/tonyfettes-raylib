@@ -1,4 +1,4 @@
-# version 330
+#version 330
 
 // Input vertex attributes (from vertex shader)
 in vec2 fragTexCoord;
@@ -7,6 +7,8 @@ in vec4 fragColor;
 // Input uniform values
 uniform sampler2D texture0;
 uniform vec4 colDiffuse;
+
+out vec4 finalColor;
 
 // Custom Input Uniform
 uniform vec3 camPos;
@@ -279,6 +281,6 @@ void main()
         color = res.xyz;
         depth = CalcDepth(rd,res.w);
     }
-    gl_FragColor = vec4(color , 1.0);
+    finalColor = vec4(color , 1.0);
 	gl_FragDepth = depth;
 }
