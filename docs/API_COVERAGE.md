@@ -1,6 +1,6 @@
 # Raylib MoonBit Binding — API Coverage & Progress Report
 
-*Generated: 2026-02-18 | raylib version: 5.5 | Target: native only*
+*Generated: 2026-02-25 | raylib version: 5.5 | raygui version: 4.0 | Target: native only*
 
 ## Executive Summary
 
@@ -10,9 +10,10 @@
 | MoonBit FFI bindings (`extern "c"`) | ~583 | — |
 | Bindable API covered | ~545 / ~549 | **~99%** |
 | rlgl functions bound | ~50 | — |
+| Raygui controls (pure MoonBit) | ~35 | — |
 | Intentionally not bound | ~32 | — |
 | Official raylib examples | 209 | — |
-| Examples ported to MoonBit | 147 | **~70%** |
+| Examples ported to MoonBit | 160 | **~77%** |
 
 The binding covers virtually all of the raylib 5.5 API that is meaningful to bind
 from a GC-managed language. The remaining unbound functions are either
@@ -23,6 +24,10 @@ Audio processor callbacks have been bound using MoonBit's `FuncRef` mechanism.
 In addition to the core raylib API, ~50 rlgl low-level OpenGL abstraction layer
 functions are bound, covering geometry submission, matrix stack, framebuffer
 management, shader management, texture management, and state control.
+
+A pure MoonBit implementation of [raygui](https://github.com/raysan5/raygui) 4.0
+is included in the `raygui/` package, covering all standard controls, styling,
+icons, and color utilities — with no C dependency beyond core raylib.
 
 ---
 
@@ -379,7 +384,123 @@ management, shader management, texture management, and state control.
 
 **Audio: 100% of bindable API covered** (only `SetAudioStreamCallback` remains N/A)
 
-### 1.20 Additional MoonBit-side APIs
+### 1.20 Raygui (pure MoonBit implementation)
+
+The `raygui/` package is a pure MoonBit port of [raygui](https://github.com/raysan5/raygui)
+4.0, the immediate-mode GUI library for raylib. It requires no additional C code —
+all controls, styling, icons, and text layout are implemented directly in MoonBit.
+
+#### State Management
+
+| Function | Notes |
+|----------|-------|
+| `gui_enable`, `gui_disable` | Enable/disable all controls |
+| `gui_get_state`, `gui_set_state` | Get/set `GuiState` enum (Normal, Focused, Pressed, Disabled) |
+| `gui_lock`, `gui_unlock`, `gui_is_locked` | Lock/unlock controls |
+| `gui_get_alpha`, `gui_set_alpha` | Global alpha (0.0–1.0) |
+| `gui_enable_tooltip`, `gui_disable_tooltip`, `gui_set_tooltip` | Tooltip display |
+| `gui_get_font`, `gui_set_font` | Custom font (falls back to raylib default) |
+| `gui_get_icon_scale`, `gui_set_icon_scale` | Icon pixel scale |
+
+#### Controls — Basic
+
+| Function | Notes |
+|----------|-------|
+| `gui_label` | Static text label |
+| `gui_button` | Clickable button → `Bool` |
+| `gui_label_button` | Clickable label (no border) → `Bool` |
+| `gui_toggle` | Toggle button (modifies `Ref[Bool]`) → `Bool` |
+| `gui_toggle_group` | Row/grid of toggles from `;`-delimited text |
+| `gui_toggle_slider` | Cycling slider across `;`-delimited items → `Bool` |
+| `gui_check_box` | Checkbox with label → `Bool` |
+| `gui_line` | Horizontal separator with optional text |
+| `gui_dummy_rec` | Placeholder rectangle with centered text |
+| `gui_status_bar` | Status bar with text |
+
+#### Controls — Container
+
+| Function | Notes |
+|----------|-------|
+| `gui_window_box` | Floating window with title bar and close button → `Bool` |
+| `gui_group_box` | Bordered group box with label |
+| `gui_panel` | Panel with optional header |
+| `gui_scroll_panel` | Scrollable panel (updates scroll pos + visible rect) |
+| `gui_tab_bar` | Tab bar from `Array[String]` (returns closed tab index) |
+
+#### Controls — Slider
+
+| Function | Notes |
+|----------|-------|
+| `gui_slider` | Slider with knob + left/right labels → `Bool` |
+| `gui_slider_bar` | Fill-bar slider (no knob) → `Bool` |
+| `gui_progress_bar` | Read-only progress bar |
+
+#### Controls — Text
+
+| Function | Notes |
+|----------|-------|
+| `gui_text_box` | Text input with cursor + edit mode toggle → `Bool` |
+| `gui_value_box` | Integer value editor with label → `Bool` |
+| `gui_value_box_float` | Float value editor with raw string buffer → `Bool` |
+| `gui_spinner` | Integer spinner (value box + ◀/▶ buttons) → `Bool` |
+
+#### Controls — List
+
+| Function | Notes |
+|----------|-------|
+| `gui_combo_box` | Combo box cycling through `;`-delimited items |
+| `gui_dropdown_box` | Dropdown with open/close toggle → `Bool` |
+| `gui_list_view` | Scrollable list from `;`-delimited text → `Bool` |
+| `gui_list_view_ex` | Extended list from `Array[String]` with focus tracking → `Bool` |
+
+#### Controls — Color
+
+| Function | Notes |
+|----------|-------|
+| `gui_color_picker` | Full color picker (panel + hue + alpha) → `Bool` |
+| `gui_color_picker_hsv` | HSV color picker (panel + hue, no alpha) → `Bool` |
+| `gui_color_panel` | 2D saturation-value panel (RGB) → `Bool` |
+| `gui_color_panel_hsv` | 2D saturation-value panel (HSV) → `Bool` |
+| `gui_color_bar_hue` | Vertical hue selector (0–360°) → `Bool` |
+| `gui_color_bar_alpha` | Horizontal alpha selector (0.0–1.0) → `Bool` |
+
+#### Controls — Dialog
+
+| Function | Notes |
+|----------|-------|
+| `gui_message_box` | Modal dialog with buttons → button index |
+| `gui_text_input_box` | Text input dialog with optional secret mode → button index |
+| `gui_grid` | Grid with subdivisions; writes mouse cell position → `Bool` |
+
+#### Styling
+
+| Function | Notes |
+|----------|-------|
+| `gui_set_style`, `gui_get_style` | Per-control style property access |
+| `gui_load_style_default` | Load built-in light theme |
+| `gui_load_style` | Load `.rgs` style file (binary + text formats) |
+
+#### Icons & Text Utilities
+
+| Function | Notes |
+|----------|-------|
+| `gui_draw_icon` | Draw icon by ID at pixel position |
+| `gui_get_icons` | Get mutable icons bitmap array (256 icons) |
+| `gui_load_icons` | Load `.rgi` binary icon file |
+| `gui_icon_text` | Build `"#NNN#text"` string for icon embedding |
+| `gui_get_text_width` | Measure text width using GUI font/style |
+| `gui_text_split` | Split `;`/newline-delimited text |
+| `gui_tooltip` | Draw tooltip below control |
+
+**Style constants:** Full set of control IDs (0–15), base properties (0–14),
+extended properties per control (16+), text alignment/wrap modes, and scrollbar
+side constants.
+
+**Icons:** 229 built-in 16×16 pixel icons (IDs 0–228), matching raygui's full icon set.
+
+**Raygui: ~100% coverage** of raygui 4.0 controls and styling API.
+
+### 1.21 Additional MoonBit-side APIs
 
 These are pure MoonBit implementations not directly wrapping a single raylib function:
 
@@ -447,29 +568,30 @@ These are pure MoonBit implementations not directly wrapping a single raylib fun
 
 | Category | Official | Ported | Coverage |
 |----------|---------|--------|----------|
-| Core | 48 | 32 | 67% |
-| Shapes | 39 | 18 | 46% |
+| Core | 48 | 35 | 73% |
+| Shapes | 39 | 26 | 67% |
 | Textures | 30 | 25 | 83% |
 | Text | 16 | 12 | 75% |
 | Models | 27 | 22 | 81% |
-| Shaders | 33 | 27 | 82% |
+| Shaders | 33 | 28 | 85% |
 | Audio | 9 | 7 | 78% |
 | Other (custom) | — | 5 | — |
-| **Total** | **~202** | **147** | **~73%** |
+| **Total** | **~202** | **160** | **~79%** |
 
-*Note: 5 extra examples not in official set: `demo`, `easings_testbed`, `minesweeper`,
-`raymath_vector_angle`, `core_input_gamepad_info`.*
+*Note: 6 extra examples not in official set: `demo`, `easings_testbed`, `minesweeper`,
+`raygui_demo`, `raymath_vector_angle`, `core_input_gamepad_info`.*
 
 **Vendored example status:** The vendored raylib 5.5 examples are fully ported, with three
 exceptions: 2 are blocked by C limitations (`core_custom_logging` requires C function
 pointers, `core_loading_thread` requires pthreads) and 1 remains a porting candidate
-(`textures_textured_curve`). All other unported examples (~58) are from raylib 5.6+ and
-their C source is not vendored in this repository. Annotations below indicate why each
-unported example has not been ported.
+(`textures_textured_curve`). All 13 previously raygui-blocked examples are now ported
+thanks to the pure MoonBit raygui implementation. All other unported examples (~45) are
+from raylib 5.6+ and their C source is not vendored in this repository. Annotations below
+indicate why each unported example has not been ported.
 
 ### 3.2 Ported Examples
 
-#### Core (32/48)
+#### Core (35/48)
 
 - [x] core_2d_camera
 - [x] core_2d_camera_mouse_zoom
@@ -483,7 +605,10 @@ unported example has not been ported.
 - [x] core_automation_events
 - [x] core_basic_screen_manager
 - [x] core_basic_window
+- [x] core_clipboard_text *(raygui)*
+- [x] core_compute_hash *(raygui)*
 - [x] core_custom_frame_control
+- [x] core_directory_files *(raygui)*
 - [x] core_drop_files
 - [x] core_input_gamepad
 - [x] core_input_gamepad_info (extra)
@@ -504,11 +629,8 @@ unported example has not been ported.
 - [x] core_window_should_close
 - [x] core_world_screen
 - [ ] core_3d_camera_fps — *Not vendored*
-- [ ] core_clipboard_text — *Not vendored; raygui dependency*
-- [ ] core_compute_hash — *Not vendored; raygui dependency*
 - [ ] core_custom_logging — *C function pointer (`SetTraceLogCallback`)*
 - [ ] core_delta_time — *Not vendored*
-- [ ] core_directory_files — *Not vendored; raygui dependency*
 - [ ] core_highdpi_demo — *Not vendored*
 - [ ] core_highdpi_testbed — *Not vendored*
 - [ ] core_input_actions — *Not vendored*
@@ -521,7 +643,7 @@ unported example has not been ported.
 - [ ] core_undo_redo — *Not vendored*
 - [ ] core_viewport_scaling — *Not vendored*
 
-#### Shapes (18/39)
+#### Shapes (26/39)
 
 - [x] shapes_basic_shapes
 - [x] shapes_bouncing_ball
@@ -534,34 +656,34 @@ unported example has not been ported.
 - [x] shapes_easings_box_anim
 - [x] shapes_easings_rectangle_array
 - [x] shapes_following_eyes
+- [x] shapes_hilbert_curve *(raygui)*
+- [x] shapes_kaleidoscope *(raygui)*
 - [x] shapes_lines_bezier
 - [x] shapes_logo_raylib
 - [x] shapes_logo_raylib_anim
+- [x] shapes_math_sine_cosine *(raygui)*
+- [x] shapes_pie_chart *(raygui)*
 - [x] shapes_rectangle_advanced
 - [x] shapes_rectangle_scaling
+- [x] shapes_recursive_tree *(raygui)*
+- [x] shapes_rlgl_color_wheel *(raygui)*
+- [x] shapes_rounded_rectangle_drawing *(raygui)*
 - [x] shapes_splines_drawing
 - [x] shapes_top_down_lights
+- [x] shapes_triangle_strip *(raygui)*
 - [ ] shapes_ball_physics — *Not vendored*
 - [ ] shapes_bullet_hell — *Not vendored*
 - [ ] shapes_clock_of_clocks — *Not vendored; requires time.h*
 - [ ] shapes_dashed_line — *Not vendored; requires DrawLineDashed (5.6+)*
 - [ ] shapes_digital_clock — *Not vendored; requires time.h*
 - [ ] shapes_double_pendulum — *Not vendored*
-- [ ] shapes_hilbert_curve — *Not vendored; raygui dependency*
-- [ ] shapes_kaleidoscope — *Not vendored; raygui dependency*
 - [ ] shapes_lines_drawing — *Not vendored*
 - [ ] shapes_math_angle_rotation — *Not vendored*
-- [ ] shapes_math_sine_cosine — *Not vendored; raygui + DrawLineDashed*
 - [ ] shapes_mouse_trail — *Not vendored*
 - [ ] shapes_penrose_tile — *Not vendored*
-- [ ] shapes_pie_chart — *Not vendored; raygui dependency*
-- [ ] shapes_recursive_tree — *Not vendored; raygui dependency*
-- [ ] shapes_rlgl_color_wheel — *Not vendored; raygui dependency*
 - [ ] shapes_rlgl_triangle — *Not vendored*
-- [ ] shapes_rounded_rectangle_drawing — *Not vendored; raygui dependency*
 - [ ] shapes_simple_particles — *Not vendored*
 - [ ] shapes_starfield_effect — *Not vendored*
-- [ ] shapes_triangle_strip — *Not vendored; raygui dependency*
 - [ ] shapes_vector_angle — *Not vendored*
 
 #### Textures (25/30)
@@ -646,14 +768,16 @@ unported example has not been ported.
 - [ ] models_rotating_cube — *Not vendored*
 - [ ] models_tesseract_view — *Not vendored*
 
-#### Shaders (27/33)
+#### Shaders (28/33)
 
 - [x] shaders_basic_lighting
 - [x] shaders_basic_pbr
+- [x] shaders_color_correction *(raygui)*
 - [x] shaders_custom_uniform
 - [x] shaders_deferred_render (= shaders_deferred_rendering)
 - [x] shaders_eratosthenes (= shaders_eratosthenes_sieve)
 - [x] shaders_fog (= shaders_fog_rendering)
+- [x] shaders_game_of_life *(raygui)*
 - [x] shaders_hot_reloading
 - [x] shaders_hybrid_render (= shaders_hybrid_rendering)
 - [x] shaders_julia_set
@@ -675,9 +799,7 @@ unported example has not been ported.
 - [x] shaders_vertex_displacement
 - [x] shaders_write_depth (= shaders_depth_writing)
 - [ ] shaders_ascii_rendering — *Not vendored*
-- [ ] shaders_color_correction — *Not vendored; raygui dependency*
 - [ ] shaders_depth_rendering — *Not vendored*
-- [ ] shaders_game_of_life — *Not vendored; raygui dependency*
 - [ ] shaders_mandelbrot_set — *Not vendored*
 - [ ] shaders_normalmap_rendering — *Not vendored*
 - [ ] shaders_rounded_rectangle — *Not vendored*
@@ -694,11 +816,12 @@ unported example has not been ported.
 - [ ] audio_sound_positioning — *Not vendored*
 - [ ] audio_spectrum_visualizer — *Not vendored; requires FFT + raw Wave.data*
 
-#### Other / Custom (5)
+#### Other / Custom (6)
 
 - [x] demo
 - [x] easings_testbed
 - [x] minesweeper
+- [x] raygui_demo
 - [x] raymath_vector_angle
 - [x] core_input_gamepad_info
 
@@ -707,7 +830,6 @@ unported example has not been ported.
 | Reason | Count | Description |
 |--------|------:|-------------|
 | Not vendored (portable) | ~39 | C source not in vendored raylib 5.5; would be portable if added |
-| Not vendored (raygui) | 13 | Requires [raygui](https://github.com/raysan5/raygui) library |
 | Not vendored (system time) | 2 | Requires `<time.h>` (`time()`/`localtime()`) |
 | Not vendored (font internals) | 2 | Requires `Font.glyphs[]`/`Font.recs[]` (Font is opaque) |
 | Not vendored (missing API) | 1 | Requires `DrawLineDashed` (added in raylib 5.6) |
@@ -716,6 +838,9 @@ unported example has not been ported.
 | Not vendored (FFT + raw audio) | 1 | Requires FFT + raw `Wave.data` pointer access |
 | Vendored, not portable | 2 | C function pointer / pthreads |
 | Vendored, not yet ported | 1 | `textures_textured_curve` |
+
+*All 13 previously raygui-blocked examples have been ported using the pure MoonBit raygui
+implementation.*
 
 #### Vendored but not portable (2)
 
@@ -729,19 +854,6 @@ unported example has not been ported.
 | Example | Notes |
 |---------|-------|
 | `textures_textured_curve` | Uses rlgl for custom curve rendering; could be ported |
-
-#### Not vendored — raygui dependency (13)
-
-These examples use the [raygui](https://github.com/raysan5/raygui) immediate-mode GUI
-library, which is separate from core raylib and not bound in this project:
-
-- **Core:** `core_clipboard_text`, `core_compute_hash`, `core_directory_files`
-- **Shapes:** `shapes_hilbert_curve`, `shapes_kaleidoscope`, `shapes_math_sine_cosine`\*,
-  `shapes_pie_chart`, `shapes_recursive_tree`, `shapes_rlgl_color_wheel`,
-  `shapes_rounded_rectangle_drawing`, `shapes_triangle_strip`
-- **Shaders:** `shaders_color_correction`, `shaders_game_of_life`
-
-\*`shapes_math_sine_cosine` also requires `DrawLineDashed` (5.6+ API).
 
 #### Not vendored — other blocking dependencies (8)
 
@@ -852,6 +964,11 @@ solely because their C source is not vendored in this repository (raylib 5.6+):
 | rlgl draw modes | Complete | `drawing.mbt` |
 | rlgl framebuffer attachment types | Complete | `drawing.mbt` |
 | Shader location indices | — | Not yet exposed as named constants (use raw int) |
+| Raygui control IDs (16) | Complete | `raygui/state.mbt` |
+| Raygui base properties (15) | Complete | `raygui/state.mbt` |
+| Raygui extended properties | Complete | `raygui/state.mbt` |
+| Raygui icons (229) | Complete | `raygui/icons.mbt` |
+| Raygui text alignment/wrap | Complete | `raygui/state.mbt` |
 
 ---
 
