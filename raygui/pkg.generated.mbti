@@ -1,0 +1,351 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/raygui"
+
+// Values
+pub const ArrowPadding : Int = 16
+
+pub const ArrowsSize : Int = 16
+
+pub const ArrowsVisible : Int = 17
+
+pub const BackgroundColor : Int = 19
+
+pub const BaseColorDisabled : Int = 10
+
+pub const BaseColorFocused : Int = 4
+
+pub const BaseColorNormal : Int = 1
+
+pub const BaseColorPressed : Int = 7
+
+pub const BorderColorDisabled : Int = 9
+
+pub const BorderColorFocused : Int = 3
+
+pub const BorderColorNormal : Int = 0
+
+pub const BorderColorPressed : Int = 6
+
+pub const BorderWidth : Int = 12
+
+pub const CheckPadding : Int = 16
+
+pub const ColorSelectorSize : Int = 16
+
+pub const ComboButtonSpacing : Int = 17
+
+pub const ComboButtonWidth : Int = 16
+
+pub const ControlButton : Int = 2
+
+pub const ControlCheckbox : Int = 6
+
+pub const ControlColorpicker : Int = 13
+
+pub const ControlCombobox : Int = 7
+
+pub const ControlControl11 : Int = 11
+
+pub const ControlDefault : Int = 0
+
+pub const ControlDropdownbox : Int = 8
+
+pub const ControlLabel : Int = 1
+
+pub const ControlListview : Int = 12
+
+pub const ControlProgressbar : Int = 5
+
+pub const ControlScrollbar : Int = 14
+
+pub const ControlSlider : Int = 4
+
+pub const ControlStatusbar : Int = 15
+
+pub const ControlTextbox : Int = 9
+
+pub const ControlToggle : Int = 3
+
+pub const ControlValuebox : Int = 10
+
+pub const DropdownArrowHidden : Int = 18
+
+pub const DropdownItemsSpacing : Int = 17
+
+pub const DropdownRollUp : Int = 19
+
+pub const GroupPadding : Int = 16
+
+pub const HuebarPadding : Int = 18
+
+pub const HuebarSelectorHeight : Int = 19
+
+pub const HuebarSelectorOverflow : Int = 20
+
+pub const HuebarWidth : Int = 17
+
+pub const IconTextPadding : Int = 4
+
+pub const KeyBackspace : Int = 259
+
+pub const KeyDelete : Int = 261
+
+pub const KeyDown : Int = 264
+
+pub const KeyEnd : Int = 269
+
+pub const KeyEnter : Int = 257
+
+pub const KeyHome : Int = 268
+
+pub const KeyLeft : Int = 263
+
+pub const KeyRight : Int = 262
+
+pub const KeyUp : Int = 265
+
+pub const LineColor : Int = 18
+
+pub const ListItemsBorderNormal : Int = 20
+
+pub const ListItemsBorderWidth : Int = 21
+
+pub const ListItemsHeight : Int = 16
+
+pub const ListItemsSpacing : Int = 17
+
+pub const MouseButtonLeft : Int = 0
+
+pub const MouseButtonMiddle : Int = 2
+
+pub const ProgressPadding : Int = 16
+
+pub const RayguiIconSize : Int = 16
+
+pub const ScrollPadding : Int = 20
+
+pub const ScrollSliderPadding : Int = 18
+
+pub const ScrollSliderSize : Int = 19
+
+pub const ScrollSpeed : Int = 21
+
+pub const ScrollbarLeftSide : Int = 0
+
+pub const ScrollbarRightSide : Int = 1
+
+pub const ScrollbarSide : Int = 19
+
+pub const ScrollbarWidth : Int = 18
+
+pub const SliderPadding : Int = 17
+
+pub const SliderWidth : Int = 16
+
+pub const SpinnerButtonSpacing : Int = 17
+
+pub const SpinnerButtonWidth : Int = 16
+
+pub const TextAlignBottom : Int = 2
+
+pub const TextAlignCenter : Int = 1
+
+pub const TextAlignLeft : Int = 0
+
+pub const TextAlignMiddle : Int = 1
+
+pub const TextAlignRight : Int = 2
+
+pub const TextAlignTop : Int = 0
+
+pub const TextAlignment : Int = 14
+
+pub const TextAlignmentVertical : Int = 21
+
+pub const TextColorDisabled : Int = 11
+
+pub const TextColorFocused : Int = 5
+
+pub const TextColorNormal : Int = 2
+
+pub const TextColorPressed : Int = 8
+
+pub const TextLineSpacing : Int = 20
+
+pub const TextPadding : Int = 13
+
+pub const TextReadonly : Int = 16
+
+pub const TextSize : Int = 16
+
+pub const TextSpacing : Int = 17
+
+pub const TextWrapChar : Int = 1
+
+pub const TextWrapMode : Int = 22
+
+pub const TextWrapNone : Int = 0
+
+pub const TextWrapWord : Int = 2
+
+pub fn check_collision_point_rec(@tonyfettes/raylib.Vector2, @tonyfettes/raylib.Rectangle) -> Bool
+
+pub fn color_to_int(@tonyfettes/raylib.Color) -> Int
+
+pub fn convert_hsv_to_rgb(Vector3) -> Vector3
+
+pub fn convert_rgb_to_hsv(Vector3) -> Vector3
+
+pub fn get_color(Int) -> @tonyfettes/raylib.Color
+
+pub fn gui_button(@tonyfettes/raylib.Rectangle, String) -> Bool
+
+pub fn gui_check_box(@tonyfettes/raylib.Rectangle, String, Ref[Bool]) -> Bool
+
+pub fn gui_color_bar_alpha(@tonyfettes/raylib.Rectangle, Ref[Float]) -> Bool
+
+pub fn gui_color_bar_hue(@tonyfettes/raylib.Rectangle, Ref[Float]) -> Bool
+
+pub fn gui_color_panel(@tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Color]) -> Bool
+
+pub fn gui_color_panel_hsv(@tonyfettes/raylib.Rectangle, Ref[Vector3]) -> Bool
+
+pub fn gui_color_picker(@tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Color]) -> Bool
+
+pub fn gui_color_picker_hsv(@tonyfettes/raylib.Rectangle, Ref[Vector3]) -> Bool
+
+pub fn gui_combo_box(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Unit
+
+pub fn gui_disable() -> Unit
+
+pub fn gui_disable_tooltip() -> Unit
+
+pub fn gui_draw_icon(Int, Int, Int, Int, @tonyfettes/raylib.Color) -> Unit
+
+pub fn gui_dropdown_box(@tonyfettes/raylib.Rectangle, String, Ref[Int], Bool) -> Bool
+
+pub fn gui_dummy_rec(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_enable() -> Unit
+
+pub fn gui_enable_tooltip() -> Unit
+
+pub fn gui_fade(@tonyfettes/raylib.Color, Float) -> @tonyfettes/raylib.Color
+
+pub fn gui_get_alpha() -> Float
+
+pub fn gui_get_font() -> @tonyfettes/raylib/internal/raylib.Font
+
+pub fn gui_get_icon_scale() -> Int
+
+pub fn gui_get_icons() -> FixedArray[UInt]
+
+pub fn gui_get_state() -> GuiState
+
+pub fn gui_get_style(Int, Int) -> Int
+
+pub fn gui_get_text_width(String) -> Int
+
+pub fn gui_grid(@tonyfettes/raylib.Rectangle, Float, Int, Ref[@tonyfettes/raylib.Vector2]) -> Bool
+
+pub fn gui_group_box(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_icon_text(Int, String) -> String
+
+pub fn gui_is_locked() -> Bool
+
+pub fn gui_label(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_label_button(@tonyfettes/raylib.Rectangle, String) -> Bool
+
+pub fn gui_line(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_list_view(@tonyfettes/raylib.Rectangle, String, Ref[Int], Ref[Int]) -> Bool
+
+pub fn gui_list_view_ex(@tonyfettes/raylib.Rectangle, Array[String], Ref[Int], Ref[Int], Ref[Int]) -> Bool
+
+pub fn gui_load_icons(String, Bool) -> Array[String]
+
+pub fn gui_load_style(String) -> Unit
+
+pub fn gui_load_style_default() -> Unit
+
+pub fn gui_lock() -> Unit
+
+pub fn gui_message_box(@tonyfettes/raylib.Rectangle, String, String, String) -> Int
+
+pub fn gui_panel(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_progress_bar(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Unit
+
+pub fn gui_scroll_panel(@tonyfettes/raylib.Rectangle, String, @tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Vector2], Ref[@tonyfettes/raylib.Rectangle]) -> Unit
+
+pub fn gui_set_alpha(Float) -> Unit
+
+pub fn gui_set_font(@tonyfettes/raylib/internal/raylib.Font) -> Unit
+
+pub fn gui_set_icon_scale(Int) -> Unit
+
+pub fn gui_set_state(GuiState) -> Unit
+
+pub fn gui_set_style(Int, Int, Int) -> Unit
+
+pub fn gui_set_tooltip(String) -> Unit
+
+pub fn gui_slider(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Bool
+
+pub fn gui_slider_bar(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Bool
+
+pub fn gui_spinner(@tonyfettes/raylib.Rectangle, String, Ref[Int], Int, Int, Bool) -> Bool
+
+pub fn gui_status_bar(@tonyfettes/raylib.Rectangle, String) -> Unit
+
+pub fn gui_tab_bar(@tonyfettes/raylib.Rectangle, Array[String], Ref[Int]) -> Int
+
+pub fn gui_text_box(@tonyfettes/raylib.Rectangle, Ref[String], Int, Bool) -> Bool
+
+pub fn gui_text_input_box(@tonyfettes/raylib.Rectangle, String, String, String, Ref[String], Int, secret_view_active? : Ref[Bool]?) -> Int
+
+pub fn gui_text_split(String) -> (Array[String], Array[Int])
+
+pub fn gui_toggle(@tonyfettes/raylib.Rectangle, String, Ref[Bool]) -> Bool
+
+pub fn gui_toggle_group(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Unit
+
+pub fn gui_toggle_slider(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Bool
+
+pub fn gui_tooltip(@tonyfettes/raylib.Rectangle) -> Unit
+
+pub fn gui_unlock() -> Unit
+
+pub fn gui_value_box(@tonyfettes/raylib.Rectangle, String, Ref[Int], Int, Int, Bool) -> Bool
+
+pub fn gui_value_box_float(@tonyfettes/raylib.Rectangle, String, Ref[String], Ref[Float], Bool) -> Bool
+
+pub fn gui_window_box(@tonyfettes/raylib.Rectangle, String) -> Bool
+
+// Errors
+
+// Types and methods
+pub enum GuiState {
+  Normal
+  Focused
+  Pressed
+  Disabled
+}
+pub fn GuiState::to_int(Self) -> Int
+pub impl Eq for GuiState
+pub impl Show for GuiState
+
+pub struct Vector3 {
+  x : Float
+  y : Float
+  z : Float
+}
+pub impl Eq for Vector3
+pub impl Show for Vector3
+
+// Type aliases
+
+// Traits
+

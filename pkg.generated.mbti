@@ -1490,6 +1490,8 @@ pub fn load_font_ex(String, Int) -> @tonyfettes/raylib/internal/raylib.Font
 
 pub fn load_font_ex_codepoints(String, Int, Array[Int]) -> @tonyfettes/raylib/internal/raylib.Font
 
+pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> @tonyfettes/raylib/internal/raylib.Font
+
 pub fn load_font_from_image(@tonyfettes/raylib/internal/raylib.Image, Color, Int) -> @tonyfettes/raylib/internal/raylib.Font
 
 pub fn load_font_from_memory(String, Bytes, Int, Int) -> @tonyfettes/raylib/internal/raylib.Font

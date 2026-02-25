@@ -888,6 +888,8 @@ pub fn load_font_ex(Bytes, Int) -> Font
 
 pub fn load_font_ex_codepoints(Bytes, Int, Bytes, Int) -> Font
 
+pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> Font
+
 pub fn load_font_from_image(Image, Bytes, Int) -> Font
 
 pub fn load_font_from_memory(Bytes, Bytes, Int, Int) -> Font
