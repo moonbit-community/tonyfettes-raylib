@@ -1,6 +1,7 @@
 // List controls: ComboBox, DropdownBox, ListView
 
 // Combo box control, cycles through items on click, modifies active index
+
 ///|
 pub fn gui_combo_box(
   bounds : @raylib.Rectangle,
@@ -113,8 +114,7 @@ pub fn gui_dropdown_box(
       state = GuiState::Pressed
       // Check click outside to close
       let bounds_open = if roll_up {
-        let open_y = by -
-          Float::from_int(item_count) * (bh + item_spacing)
+        let open_y = by - Float::from_int(item_count) * (bh + item_spacing)
         @raylib.Rectangle::new(
           bx,
           open_y,
@@ -193,9 +193,7 @@ pub fn gui_dropdown_box(
       (bx + bw - arrow_padding).to_int(),
       (by + (bh - Float::from_int(RayguiIconSize)) / 2.0).to_int(),
       1,
-      get_color(
-        gui_get_style(ControlDropdownbox, TextColorNormal + si * 3),
-      ),
+      get_color(gui_get_style(ControlDropdownbox, TextColorNormal + si * 3)),
     )
   }
   // Draw dropdown items when in edit mode

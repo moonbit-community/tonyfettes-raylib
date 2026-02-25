@@ -8,9 +8,7 @@ fn main {
   let rad2deg : Float = 180.0 / Float::from_double(@math.PI)
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - pie chart",
+    screen_width, screen_height, "raylib [shapes] example - pie chart",
   )
 
   let slice_count : Ref[Int] = Ref::new(7)
@@ -166,9 +164,11 @@ fn main {
             1.0,
           )
           let label_radius = radius * 0.7
-          let label_x = center_x + @math.cosf(mid_angle * deg2rad) * label_radius -
+          let label_x = center_x +
+            @math.cosf(mid_angle * deg2rad) * label_radius -
             text_size.x / 2.0
-          let label_y = center_y + @math.sinf(mid_angle * deg2rad) * label_radius -
+          let label_y = center_y +
+            @math.sinf(mid_angle * deg2rad) * label_radius -
             text_size.y / 2.0
           @raylib.draw_text(
             label_text,
@@ -195,15 +195,9 @@ fn main {
 
     // UI control panel
     let panel_rect = @raylib.Rectangle::new(
-      panel_rect_x,
-      panel_rect_y,
-      panel_rect_w,
-      panel_rect_h,
+      panel_rect_x, panel_rect_y, panel_rect_w, panel_rect_h,
     )
-    @raylib.draw_rectangle_rec(
-      panel_rect,
-      @raylib.fade(@raylib.lightgray, 0.5),
-    )
+    @raylib.draw_rectangle_rec(panel_rect, @raylib.fade(@raylib.lightgray, 0.5))
     @raylib.draw_rectangle_lines_ex(panel_rect, 1.0, @raylib.gray)
 
     @raygui.gui_spinner(
@@ -287,23 +281,20 @@ fn main {
     let scroll_bounds_x = panel_pos_x + Float::from_int(panel_margin)
     let scroll_bounds_y = panel_pos_y + 12.0 + 190.0
     let scroll_bounds_w = panel_rect_w - Float::from_int(panel_margin) * 2.0
-    let scroll_bounds_h = panel_rect_y + panel_rect_h - scroll_bounds_y -
+    let scroll_bounds_h = panel_rect_y +
+      panel_rect_h -
+      scroll_bounds_y -
       Float::from_int(panel_margin)
     let content_height = slice_count.val * 35
 
-    let scroll : Ref[@raylib.Vector2] = Ref::new(
-      @raylib.Vector2::new(0.0, 0.0),
-    )
+    let scroll : Ref[@raylib.Vector2] = Ref::new(@raylib.Vector2::new(0.0, 0.0))
     let view : Ref[@raylib.Rectangle] = Ref::new(
       @raylib.Rectangle::new(0.0, 0.0, 0.0, 0.0),
     )
 
     @raygui.gui_scroll_panel(
       @raylib.Rectangle::new(
-        scroll_bounds_x,
-        scroll_bounds_y,
-        scroll_bounds_w,
-        scroll_bounds_h,
+        scroll_bounds_x, scroll_bounds_y, scroll_bounds_w, scroll_bounds_h,
       ),
       "",
       @raylib.Rectangle::new(
@@ -349,16 +340,16 @@ fn main {
 
       // Label textbox
       if @raygui.gui_text_box(
-        @raylib.Rectangle::new(
-          content_x + 45.0,
-          Float::from_int(row_y),
-          75.0,
-          30.0,
-        ),
-        labels[i],
-        32,
-        editing_label[i],
-      ) {
+          @raylib.Rectangle::new(
+            content_x + 45.0,
+            Float::from_int(row_y),
+            75.0,
+            30.0,
+          ),
+          labels[i],
+          32,
+          editing_label[i],
+        ) {
         editing_label[i] = not(editing_label[i])
       }
 

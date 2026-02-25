@@ -1,3 +1,4 @@
+///|
 fn clamp(val : Float, min : Float, max : Float) -> Float {
   if val < min {
     min
@@ -8,6 +9,7 @@ fn clamp(val : Float, min : Float, max : Float) -> Float {
   }
 }
 
+///|
 fn hex2(value : Int) -> String {
   let digits = "0123456789ABCDEF"
   let hi = (value >> 4) & 0xF
@@ -15,26 +17,19 @@ fn hex2(value : Int) -> String {
   digits[hi].to_string() + digits[lo].to_string()
 }
 
+///|
 /// Equivalent to raylib's Vector2Angle(a, b) = atan2f(b.y - a.y, b.x - a.x)
-fn vector2_angle(
-  ax : Float,
-  ay : Float,
-  bx : Float,
-  by : Float
-) -> Float {
+fn vector2_angle(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
   @math.atan2f(by - ay, bx - ax)
 }
 
+///|
 /// Equivalent to raylib's Vector2Distance(a, b)
-fn vector2_distance(
-  ax : Float,
-  ay : Float,
-  bx : Float,
-  by : Float
-) -> Float {
+fn vector2_distance(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
   @math.hypotf(bx - ax, by - ay)
 }
 
+///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -75,9 +70,7 @@ fn main {
   // Enable anti-aliasing
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - rlgl color wheel",
+    screen_width, screen_height, "raylib [shapes] example - rlgl color wheel",
   )
   @raylib.set_target_fps(60)
 
@@ -137,27 +130,25 @@ fn main {
         circle_pos_y = dy + center_y
       }
       let distance = vector2_distance(
-          center_x,
-          center_y,
-          circle_pos_x,
-          circle_pos_y,
+          center_x, center_y, circle_pos_x, circle_pos_y,
         ) /
         point_scale
       // Vector2Angle((0, -pointScale), Vector2Subtract(center, circlePos))
       // = atan2f((center_y - circle_pos_y) - (-point_scale), (center_x - circle_pos_x) - 0)
-      let angle = (vector2_angle(
-          0.0,
-          -point_scale,
-          center_x - circle_pos_x,
-          center_y - circle_pos_y,
+      let angle = (
+          vector2_angle(
+            0.0,
+            -point_scale,
+            center_x - circle_pos_x,
+            center_y - circle_pos_y,
+          ) /
+          pi +
+          1.0
         ) /
-        pi +
-        1.0) /
         2.0
       if distance > 1.0 {
         circle_pos_x = @math.sinf(angle * (pi * 2.0)) * point_scale + center_x
-        circle_pos_y = -@math.cosf(angle * (pi * 2.0)) * point_scale +
-          center_y
+        circle_pos_y = -@math.cosf(angle * (pi * 2.0)) * point_scale + center_y
       }
     }
 
@@ -165,7 +156,7 @@ fn main {
     let mouse_pos = @raylib.get_mouse_position()
     if @raylib.is_mouse_button_pressed(0) &&
       vector2_distance(mouse_pos.x, mouse_pos.y, center_x, center_y) <=
-        point_scale + 10.0 {
+      point_scale + 10.0 {
       setting_color = true
     }
 
@@ -198,28 +189,26 @@ fn main {
         circle_pos_y = mp.y
       }
       let distance = vector2_distance(
-          center_x,
-          center_y,
-          circle_pos_x,
-          circle_pos_y,
+          center_x, center_y, circle_pos_x, circle_pos_y,
         ) /
         point_scale
 
       // Vector2Angle((0, -pointScale), Vector2Subtract(center, circlePos))
-      let angle = (vector2_angle(
-          0.0,
-          -point_scale,
-          center_x - circle_pos_x,
-          center_y - circle_pos_y,
+      let angle = (
+          vector2_angle(
+            0.0,
+            -point_scale,
+            center_x - circle_pos_x,
+            center_y - circle_pos_y,
+          ) /
+          pi +
+          1.0
         ) /
-        pi +
-        1.0) /
         2.0
 
       if setting_color && distance > 1.0 {
         circle_pos_x = @math.sinf(angle * (pi * 2.0)) * point_scale + center_x
-        circle_pos_y = -@math.cosf(angle * (pi * 2.0)) * point_scale +
-          center_y
+        circle_pos_y = -@math.cosf(angle * (pi * 2.0)) * point_scale + center_y
       }
 
       let angle360 = angle * 360.0
@@ -243,7 +232,7 @@ fn main {
     let tri_count = triangle_count.to_int()
     @raylib.rl_begin(render_type)
     for i = 0; i < tri_count; i = i + 1 {
-      let angle_offset = (pi * 2.0) / triangle_count
+      let angle_offset = pi * 2.0 / triangle_count
       let angle = angle_offset * Float::from_int(i)
       let angle_offset_calc = (Float::from_int(i) + 1.0) * angle_offset
 
@@ -252,8 +241,8 @@ fn main {
       let pos2_x = center_x + @math.sinf(angle_offset_calc) * point_scale
       let pos2_y = center_y + -@math.cosf(angle_offset_calc) * point_scale
 
-      let angle_deg = (angle / (2.0 * pi)) * 360.0
-      let angle_offset_deg = (angle_offset / (2.0 * pi)) * 360.0
+      let angle_deg = angle / (2.0 * pi) * 360.0
+      let angle_offset_deg = angle_offset / (2.0 * pi) * 360.0
 
       let cur_color = @raylib.color_from_hsv(angle_deg, 1.0, 1.0)
       let off_color = @raylib.color_from_hsv(
@@ -337,13 +326,7 @@ fn main {
     }
 
     // Draw the copying text
-    @raylib.draw_text(
-      "press ctrl+c to copy!",
-      8,
-      425 - offset,
-      20,
-      copy_color,
-    )
+    @raylib.draw_text("press ctrl+c to copy!", 8, 425 - offset, 20, copy_color)
 
     // Display the number of rendered triangles
     @raylib.draw_text(
@@ -357,10 +340,7 @@ fn main {
     // Slider to change color's value
     @raygui.gui_slider_bar(
       @raylib.Rectangle::new(
-        slider_rect_x,
-        slider_rect_y,
-        slider_rect_w,
-        slider_rect_h,
+        slider_rect_x, slider_rect_y, slider_rect_w, slider_rect_h,
       ),
       "value: ",
       "",

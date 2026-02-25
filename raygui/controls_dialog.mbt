@@ -76,7 +76,7 @@ pub fn gui_text_input_box(
   buttons : String,
   text : Ref[String],
   text_max_size : Int,
-  secret_view_active~ : Ref[Bool]? = None,
+  secret_view_active? : Ref[Bool]? = None,
 ) -> Int {
   let mut result = -1
   let bx = bounds.x
@@ -151,7 +151,7 @@ pub fn gui_text_input_box(
   gui_set_style(ControlTextbox, TextAlignment, TextAlignLeft)
   // Handle text box with secret mode support
   match secret_view_active {
-    Some(view_ref) => {
+    Some(view_ref) =>
       // In secret mode, use text_edit_mode to track editing state
       if gui_globals.text_edit_mode {
         // In edit mode: show actual text, pass real text ref for editing
@@ -171,15 +171,11 @@ pub fn gui_text_input_box(
         }
         let display_text : Ref[String] = { val: buf.to_string() }
         if gui_text_box(
-          actual_textbox_bounds,
-          display_text,
-          text_max_size,
-          false,
-        ) {
+            actual_textbox_bounds, display_text, text_max_size, false,
+          ) {
           gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
         }
       }
-    }
     None => {
       // No secret mode: text box always in edit mode for input dialogs
       let _ = gui_text_box(actual_textbox_bounds, text, text_max_size, true)
@@ -192,10 +188,7 @@ pub fn gui_text_input_box(
       Some(view_ref) => {
         let eye_x = bx + bw - btn_pad - textbox_h
         let eye_bounds = @raylib.Rectangle::new(
-          eye_x,
-          tb_y,
-          textbox_h,
-          textbox_h,
+          eye_x, tb_y, textbox_h, textbox_h,
         )
         let icon_text = if view_ref.val {
           gui_icon_text(44, "")

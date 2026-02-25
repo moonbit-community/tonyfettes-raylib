@@ -39,9 +39,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - math sine cosine",
+    screen_width, screen_height, "raylib [shapes] example - math sine cosine",
   )
 
   let sine_points : Array[@raylib.Vector2] = Array::make(
@@ -72,13 +70,15 @@ fn main {
     let current_angle : Float = t * 360.0 * deg2rad
     sine_points[i] = @raylib.Vector2::new(
       start.x + t * start.width,
-      start.y + start.height / 2.0 - @math.sinf(current_angle) * (start.height /
-      2.0),
+      start.y +
+      start.height / 2.0 -
+      @math.sinf(current_angle) * (start.height / 2.0),
     )
     cos_points[i] = @raylib.Vector2::new(
       start.x + t * start.width,
-      start.y + start.height / 2.0 - @math.cosf(current_angle) * (start.height /
-      2.0),
+      start.y +
+      start.height / 2.0 -
+      @math.cosf(current_angle) * (start.height / 2.0),
     )
   }
 
@@ -95,14 +95,8 @@ fn main {
       center.x + cos_rad * radius,
       center.y - sin_rad * radius,
     )
-    let limit_min = @raylib.Vector2::new(
-      center.x - radius,
-      center.y - radius,
-    )
-    let limit_max = @raylib.Vector2::new(
-      center.x + radius,
-      center.y + radius,
-    )
+    let limit_min = @raylib.Vector2::new(center.x - radius, center.y - radius)
+    let limit_max = @raylib.Vector2::new(center.x + radius, center.y + radius)
 
     let complementary : Float = 90.0 - angle
     let supplementary : Float = 180.0 - angle
@@ -123,11 +117,7 @@ fn main {
       center.y - radius,
     )
 
-    angle = wrap(
-      angle + (if not(pause.val) { 1.0 } else { 0.0 }),
-      0.0,
-      360.0,
-    )
+    angle = wrap(angle + (if not(pause.val) { 1.0 } else { 0.0 }), 0.0, 360.0)
 
     // Draw
     @raylib.begin_drawing()
@@ -189,10 +179,7 @@ fn main {
     )
     @raylib.draw_line_ex(
       @raylib.Vector2::new(start.x, start.y + start.height / 2.0),
-      @raylib.Vector2::new(
-        start.x + start.width,
-        start.y + start.height / 2.0,
-      ),
+      @raylib.Vector2::new(start.x + start.width, start.y + start.height / 2.0),
       2.0,
       @raylib.gray,
     )
@@ -248,13 +235,7 @@ fn main {
       1.0,
       @raylib.red,
     )
-    @raylib.draw_text(
-      "Sine " + sin_rad.to_string(),
-      640,
-      190,
-      6,
-      @raylib.red,
-    )
+    @raylib.draw_text("Sine " + sin_rad.to_string(), 640, 190, 6, @raylib.red)
     @raylib.draw_circle_v(
       @raylib.Vector2::new(
         start.x + angle / 360.0 * start.width,

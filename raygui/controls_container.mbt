@@ -340,7 +340,8 @@ pub fn gui_tab_bar(
   let tab_bar_item_width : Float = 148.0
   let count = texts.length()
   // Calculate tab width based on count and bounds
-  let tab_width : Float = if tab_bar_item_width * Float::from_int(count) > bounds.width {
+  let tab_width : Float = if tab_bar_item_width * Float::from_int(count) >
+    bounds.width {
     bounds.width / Float::from_int(count)
   } else {
     tab_bar_item_width

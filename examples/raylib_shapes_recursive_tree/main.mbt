@@ -12,9 +12,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - recursive tree",
+    screen_width, screen_height, "raylib [shapes] example - recursive tree",
   )
 
   let start = @raylib.Vector2::new(
@@ -43,9 +41,7 @@ fn main {
       start.x + length.val * @math.sinf(0.0),
       start.y - length.val * @math.cosf(0.0),
     )
-    branches.push(
-      { start, end_: initial_end, angle: 0.0, length: length.val },
-    )
+    branches.push({ start, end_: initial_end, angle: 0.0, length: length.val })
 
     let mut i = 0
     while i < branches.length() {
@@ -59,27 +55,23 @@ fn main {
             branch_start.x + next_length * @math.sinf(angle1),
             branch_start.y - next_length * @math.cosf(angle1),
           )
-          branches.push(
-            {
-              start: branch_start,
-              end_: branch_end1,
-              angle: angle1,
-              length: next_length,
-            },
-          )
+          branches.push({
+            start: branch_start,
+            end_: branch_end1,
+            angle: angle1,
+            length: next_length,
+          })
           let angle2 = branch.angle - theta
           let branch_end2 = @raylib.Vector2::new(
             branch_start.x + next_length * @math.sinf(angle2),
             branch_start.y - next_length * @math.cosf(angle2),
           )
-          branches.push(
-            {
-              start: branch_start,
-              end_: branch_end2,
-              angle: angle2,
-              length: next_length,
-            },
-          )
+          branches.push({
+            start: branch_start,
+            end_: branch_end2,
+            angle: angle2,
+            length: next_length,
+          })
         }
       }
       i += 1

@@ -4,18 +4,13 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - clipboard text",
+    screen_width, screen_height, "raylib [core] example - clipboard text",
   )
 
   // Define some sample texts
   let sample_texts : Array[String] = [
-    "Hello from raylib!",
-    "The quick brown fox jumps over the lazy dog",
-    "Clipboard operations are useful!",
-    "raylib is a simple and easy-to-use library",
-    "Copy and paste me!",
+    "Hello from raylib!", "The quick brown fox jumps over the lazy dog", "Clipboard operations are useful!",
+    "raylib is a simple and easy-to-use library", "Copy and paste me!",
   ]
 
   let mut clipboard_text : String = ""
@@ -90,20 +85,16 @@ fn main {
       "Use the BUTTONS or KEY SHORTCUTS:",
     )
     @raylib.draw_text(
-      "[CTRL+X] - CUT | [CTRL+C] COPY | [CTRL+V] | PASTE",
-      50,
-      60,
-      20,
-      @raylib.maroon,
+      "[CTRL+X] - CUT | [CTRL+C] COPY | [CTRL+V] | PASTE", 50, 60, 20, @raylib.maroon,
     )
 
     // Draw text box
     if @raygui.gui_text_box(
-      @raylib.Rectangle::new(50.0, 120.0, 652.0, 40.0),
-      input_buffer,
-      256,
-      text_box_edit_mode,
-    ) {
+        @raylib.Rectangle::new(50.0, 120.0, 652.0, 40.0),
+        input_buffer,
+        256,
+        text_box_edit_mode,
+      ) {
       text_box_edit_mode = not(text_box_edit_mode)
     }
 

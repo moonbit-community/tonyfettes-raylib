@@ -2,6 +2,7 @@
 
 // Color panel control (2D saturation-value picker)
 // Modifies color HSV, returns true when changed
+
 ///|
 pub fn gui_color_panel_hsv(
   bounds : @raylib.Rectangle,
@@ -277,12 +278,7 @@ pub fn gui_color_picker_hsv(
     result = true
   }
   // Hue bar
-  let hue_bounds = @raylib.Rectangle::new(
-    bx + panel_w + hue_pad,
-    by,
-    hue_w,
-    bh,
-  )
+  let hue_bounds = @raylib.Rectangle::new(bx + panel_w + hue_pad, by, hue_w, bh)
   if gui_color_bar_hue(hue_bounds, hue) {
     color_hsv.val = { x: hue.val, y: color_hsv.val.y, z: color_hsv.val.z }
     result = true

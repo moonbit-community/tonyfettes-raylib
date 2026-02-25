@@ -1,6 +1,7 @@
 // Color utility functions used by raygui controls
 
 // Extract RGBA components from a packed hexadecimal integer.
+
 ///|
 pub fn get_color(hex_value : Int) -> @raylib.Color {
   let r = (hex_value >> 24) & 0xFF

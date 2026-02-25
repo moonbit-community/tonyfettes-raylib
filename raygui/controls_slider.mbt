@@ -1,6 +1,7 @@
 // Slider and value controls: Slider, SliderBar, ProgressBar
 
 // Internal helper: check if two rectangles match (used for exclusive mode identification)
+
 ///|
 fn rects_match(a : @raylib.Rectangle, b : @raylib.Rectangle) -> Bool {
   a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height

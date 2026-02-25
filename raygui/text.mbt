@@ -2,6 +2,7 @@
 
 // Parse icon prefix from text (format: "#NNN#text")
 // Returns (icon_id, text_after_icon). icon_id is -1 if no icon prefix.
+
 ///|
 fn get_text_icon(text : String) -> (Int, String) {
   if text.length() == 0 || text[0] != '#' {

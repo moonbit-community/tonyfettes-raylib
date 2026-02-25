@@ -4,9 +4,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - rounded rectangle drawing",
+    screen_width, screen_height, "raylib [shapes] example - rounded rectangle drawing",
   )
 
   let roundness : Ref[Float] = { val: 0.2 }
@@ -34,7 +32,13 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
 
-    @raylib.draw_line(560, 0, 560, @raylib.get_screen_height(), @raylib.fade(@raylib.lightgray, 0.6))
+    @raylib.draw_line(
+      560,
+      0,
+      560,
+      @raylib.get_screen_height(),
+      @raylib.fade(@raylib.lightgray, 0.6),
+    )
     @raylib.draw_rectangle(
       560,
       0,

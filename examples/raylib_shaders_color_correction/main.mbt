@@ -1,4 +1,5 @@
 // Helper: serialize a Float to 4 little-endian bytes for SetShaderValue
+///|
 fn float_to_bytes(f : Float) -> Bytes {
   let bits = f.reinterpret_as_int()
   let arr : FixedArray[Byte] = [
@@ -19,9 +20,7 @@ fn main {
   let _ = @raylib.change_directory("examples/raylib_shaders_color_correction")
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shaders] example - color correction",
+    screen_width, screen_height, "raylib [shaders] example - color correction",
   )
 
   // Load textures. Since Texture is opaque, load as Image first to get dimensions.
@@ -59,8 +58,7 @@ fn main {
 
   // Load color correction shader (pass empty string for NULL vertex shader)
   let shdr_color_correction = @raylib.load_shader(
-    "",
-    "resources/shaders/glsl330/color_correction.fs",
+    "", "resources/shaders/glsl330/color_correction.fs",
   )
 
   let image_index : Ref[Int] = { val: 0 }
@@ -71,16 +69,13 @@ fn main {
 
   // Get shader locations
   let contrast_loc = @raylib.get_shader_location(
-    shdr_color_correction,
-    "contrast",
+    shdr_color_correction, "contrast",
   )
   let saturation_loc = @raylib.get_shader_location(
-    shdr_color_correction,
-    "saturation",
+    shdr_color_correction, "saturation",
   )
   let brightness_loc = @raylib.get_shader_location(
-    shdr_color_correction,
-    "brightness",
+    shdr_color_correction, "brightness",
   )
 
   // Set initial shader values
@@ -190,11 +185,7 @@ fn main {
     @raylib.draw_text("Color Correction", 585, 40, 20, @raylib.gray)
     @raylib.draw_text("Picture", 602, 75, 10, @raylib.gray)
     @raylib.draw_text(
-      "Press [1] - [4] to Change Picture",
-      600,
-      230,
-      8,
-      @raylib.gray,
+      "Press [1] - [4] to Change Picture", 600, 230, 8, @raylib.gray,
     )
     @raylib.draw_text("Press [R] to Reset Values", 600, 250, 8, @raylib.gray)
 

@@ -551,9 +551,7 @@ pub fn gui_value_box_float(
               let buf = StringBuilder::new()
               buf.write_char('-')
               for i = 1; i < key_count; i = i + 1 {
-                buf.write_char(
-                  Int::unsafe_to_char(text_value.val[i].to_int()),
-                )
+                buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
               }
               text_value.val = buf.to_string()
             } else {
@@ -569,9 +567,7 @@ pub fn gui_value_box_float(
               let buf = StringBuilder::new()
               buf.write_char('+')
               for i = 1; i < key_count; i = i + 1 {
-                buf.write_char(
-                  Int::unsafe_to_char(text_value.val[i].to_int()),
-                )
+                buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
               }
               text_value.val = buf.to_string()
             } else {

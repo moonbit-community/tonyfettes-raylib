@@ -41,9 +41,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - compute hash",
+    screen_width, screen_height, "raylib [core] example - compute hash",
   )
 
   // UI controls variables
@@ -99,11 +97,11 @@ fn main {
     @raygui.gui_set_style(@raygui.ControlDefault, @raygui.TextSize, 10)
 
     if @raygui.gui_text_box(
-      @raylib.Rectangle::new(40.0, 64.0, 720.0, 32.0),
-      text_input,
-      95,
-      text_box_edit_mode,
-    ) {
+        @raylib.Rectangle::new(40.0, 64.0, 720.0, 32.0),
+        text_input,
+        95,
+        text_box_edit_mode,
+      ) {
       text_box_edit_mode = not(text_box_edit_mode)
     }
 
@@ -166,9 +164,7 @@ fn main {
       @raylib.Rectangle::new(40.0, 308.0, 120.0, 32.0),
       "SHA256 [256 bit]:",
     )
-    let sha256_ref : Ref[String] = {
-      val: "N/A (not available in raylib 5.5)",
-    }
+    let sha256_ref : Ref[String] = { val: "N/A (not available in raylib 5.5)" }
     @raygui.gui_text_box(
       @raylib.Rectangle::new(160.0, 308.0, 600.0, 32.0),
       sha256_ref,
@@ -179,7 +175,9 @@ fn main {
 
     // Use draw_text for the focused-style bonus label since GuiState
     // constructors are not accessible from outside the raygui package
-    @raylib.draw_text("BONUS - BASE64 ENCODED STRING:", 40, 350, 10, @raylib.blue)
+    @raylib.draw_text(
+      "BONUS - BASE64 ENCODED STRING:", 40, 350, 10, @raylib.blue,
+    )
     @raygui.gui_label(
       @raylib.Rectangle::new(40.0, 380.0, 120.0, 32.0),
       "BASE64 ENCODING:",

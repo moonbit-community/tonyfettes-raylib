@@ -1,3 +1,4 @@
+///|
 fn file_path_list_to_array(files : @raylib.FilePathList) -> Array[String] {
   let count = @raylib.file_path_list_count(files)
   let arr : Array[String] = []
@@ -13,9 +14,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [core] example - directory files",
+    screen_width, screen_height, "raylib [core] example - directory files",
   )
   @raygui.gui_load_style_default()
   let mut directory = @raylib.get_working_directory()

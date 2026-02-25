@@ -2,6 +2,7 @@
 // ToggleSlider, CheckBox, Line, DummyRec, StatusBar
 
 // Transparent color constant (alpha = 0)
+
 ///|
 let blank : @raylib.Color = @raylib.Color::new(0, 0, 0, 0)
 

@@ -1,6 +1,7 @@
 // Internal drawing helpers for raygui controls
 
 // Draw rectangle with border and fill using raygui style
+
 ///|
 fn gui_draw_rectangle(
   rec : @raylib.Rectangle,
@@ -267,9 +268,8 @@ fn gui_draw_text(
     line_widths.push(w)
   }
   let line_count = line_starts.length()
-  let total_height = Float::from_int(
-    gui_get_style(ControlDefault, TextSize),
-  ) + Float::from_int(line_count - 1) * line_height
+  let total_height = Float::from_int(gui_get_style(ControlDefault, TextSize)) +
+    Float::from_int(line_count - 1) * line_height
   // Second pass: render each line
   for line_idx = 0; line_idx < line_count; line_idx = line_idx + 1 {
     let l_start = line_starts[line_idx]
@@ -295,13 +295,17 @@ fn gui_draw_text(
     let pos_offset_y = Float::from_int(line_idx) * line_height
     let mut by : Float = tb_y + pos_offset_y + Float::from_int(text_offset_y)
     if alignment_vertical == TextAlignMiddle {
-      by = tb_y + pos_offset_y + tb_h / 2.0 - total_height / 2.0 + Float::from_int(
-        text_offset_y,
-      )
+      by = tb_y +
+        pos_offset_y +
+        tb_h / 2.0 -
+        total_height / 2.0 +
+        Float::from_int(text_offset_y)
     } else if alignment_vertical == TextAlignBottom {
-      by = tb_y + pos_offset_y + tb_h - total_height + Float::from_int(
-        text_offset_y,
-      )
+      by = tb_y +
+        pos_offset_y +
+        tb_h -
+        total_height +
+        Float::from_int(text_offset_y)
     }
     // Pixel-perfect snap
     bx = Float::from_int(bx.to_int())

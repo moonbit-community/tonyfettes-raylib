@@ -4,9 +4,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - triangle strip",
+    screen_width, screen_height, "raylib [shapes] example - triangle strip",
   )
 
   let center = @raylib.Vector2::new(
@@ -24,10 +22,15 @@ fn main {
 
   while not(@raylib.window_should_close()) {
     let point_count = segments.val.to_int()
-    let angle_step : Float = Float::from_int(360) / Float::from_int(point_count) * deg2rad
+    let angle_step : Float = Float::from_int(360) /
+      Float::from_int(point_count) *
+      deg2rad
 
     // Build triangle strip points
-    let points : Array[_] = Array::make(point_count * 2 + 2, @raylib.Vector2::new(0.0, 0.0))
+    let points : Array[_] = Array::make(
+      point_count * 2 + 2,
+      @raylib.Vector2::new(0.0, 0.0),
+    )
     for i = 0; i < point_count; i = i + 1 {
       let angle1 = Float::from_int(i) * angle_step
       points[i * 2] = @raylib.Vector2::new(

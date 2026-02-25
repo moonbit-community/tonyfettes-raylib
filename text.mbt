@@ -205,16 +205,8 @@ pub fn load_font_from_atlas(
   glyphs_data : Bytes,
 ) -> Font {
   @raylib.load_font_from_atlas(
-    pixel_data,
-    pixel_data_size,
-    img_width,
-    img_height,
-    img_format,
-    base_size,
-    glyph_count,
-    font_type,
-    recs_data,
-    glyphs_data,
+    pixel_data, pixel_data_size, img_width, img_height, img_format, base_size, glyph_count,
+    font_type, recs_data, glyphs_data,
   )
 }
 

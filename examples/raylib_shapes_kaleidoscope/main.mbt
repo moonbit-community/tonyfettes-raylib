@@ -15,10 +15,7 @@ fn vec2_rotate(v : @raylib.Vector2, angle : Float) -> @raylib.Vector2 {
 }
 
 ///|
-fn vec2_multiply(
-  a : @raylib.Vector2,
-  b : @raylib.Vector2
-) -> @raylib.Vector2 {
+fn vec2_multiply(a : @raylib.Vector2, b : @raylib.Vector2) -> @raylib.Vector2 {
   @raylib.Vector2::new(a.x * b.x, a.y * b.y)
 }
 
@@ -28,9 +25,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - kaleidoscope",
+    screen_width, screen_height, "raylib [shapes] example - kaleidoscope",
   )
 
   // Line drawing properties
@@ -54,13 +49,10 @@ fn main {
   )
 
   // Lines array
-  let lines : Array[Line] = Array::make(
-    max_draw_lines,
-    {
-      start: @raylib.Vector2::new(0.0, 0.0),
-      end_: @raylib.Vector2::new(0.0, 0.0),
-    },
-  )
+  let lines : Array[Line] = Array::make(max_draw_lines, {
+    start: @raylib.Vector2::new(0.0, 0.0),
+    end_: @raylib.Vector2::new(0.0, 0.0),
+  })
 
   let mut mouse_pos = @raylib.Vector2::new(0.0, 0.0)
   let mut prev_mouse_pos = @raylib.Vector2::new(0.0, 0.0)
@@ -102,12 +94,10 @@ fn main {
 
         // Store reflective line
         lines[total_line_counter + 1].start = vec2_multiply(
-          line_start,
-          scale_vector,
+          line_start, scale_vector,
         )
         lines[total_line_counter + 1].end_ = vec2_multiply(
-          line_end,
-          scale_vector,
+          line_end, scale_vector,
         )
 
         total_line_counter += 2

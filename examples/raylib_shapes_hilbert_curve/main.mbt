@@ -3,13 +3,13 @@ fn compute_hilbert_step(order : Int, index : Int) -> (Float, Float) {
   // Hilbert points base pattern
   let hilbert_points_x : FixedArray[Float] = [0.0, 0.0, 1.0, 1.0]
   let hilbert_points_y : FixedArray[Float] = [0.0, 1.0, 1.0, 0.0]
-  let hilbert_index = index.land(3)
+  let hilbert_index = index & 3
   let mut vx : Float = hilbert_points_x[hilbert_index]
   let mut vy : Float = hilbert_points_y[hilbert_index]
   let mut idx = index
   for j = 1; j < order; j = j + 1 {
     idx = (idx.reinterpret_as_uint() >> 2).reinterpret_as_int()
-    let hi = idx.land(3)
+    let hi = idx & 3
     let len : Float = Float::from_int(1 << j)
     match hi {
       0 => {
@@ -58,9 +58,7 @@ fn main {
   let screen_height = 450
 
   @raylib.init_window(
-    screen_width,
-    screen_height,
-    "raylib [shapes] example - hilbert curve",
+    screen_width, screen_height, "raylib [shapes] example - hilbert curve",
   )
 
   let order : Ref[Int] = { val: 2 }
@@ -99,7 +97,8 @@ fn main {
     if counter < stroke_count {
       // Draw Hilbert path animation, one stroke every frame
       for i = 1; i <= counter; i = i + 1 {
-        let hue : Float = Float::from_int(i) / Float::from_int(stroke_count) *
+        let hue : Float = Float::from_int(i) /
+          Float::from_int(stroke_count) *
           360.0
         @raylib.draw_line_ex(
           hilbert_path[i],
@@ -112,7 +111,8 @@ fn main {
     } else {
       // Draw full Hilbert path
       for i = 1; i < stroke_count; i = i + 1 {
-        let hue : Float = Float::from_int(i) / Float::from_int(stroke_count) *
+        let hue : Float = Float::from_int(i) /
+          Float::from_int(stroke_count) *
           360.0
         @raylib.draw_line_ex(
           hilbert_path[i],

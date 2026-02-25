@@ -154,8 +154,11 @@ fn skip_spaces(s : String, pos : Int) -> Int {
 fn parse_word(s : String, pos : Int) -> (String, Int) {
   let start = pos
   let mut p = pos
-  while p < s.length() && s[p] != ' ' && s[p] != '\t' && s[p] != '\n' && s[p] !=
-  '\r' {
+  while p < s.length() &&
+        s[p] != ' ' &&
+        s[p] != '\t' &&
+        s[p] != '\n' &&
+        s[p] != '\r' {
     p = p + 1
   }
   (string_sub(s, start, p), p)
@@ -345,7 +348,8 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
           let img_format = style_read_int(data, offset + 8)
           offset = offset + 12
           // Read pixel data (compressed or uncompressed)
-          let pixel_data : Bytes = if img_comp_size > 0 && img_comp_size != img_uncomp_size {
+          let pixel_data : Bytes = if img_comp_size > 0 &&
+            img_comp_size != img_uncomp_size {
             // Compressed
             if offset + img_comp_size <= data.length() {
               let comp_data = bytes_sub(data, offset, img_comp_size)
@@ -354,15 +358,13 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
             } else {
               Bytes::make(0, b'\x00')
             }
-          } else {
             // Uncompressed
-            if offset + img_uncomp_size <= data.length() {
-              let raw = bytes_sub(data, offset, img_uncomp_size)
-              offset = offset + img_uncomp_size
-              raw
-            } else {
-              Bytes::make(0, b'\x00')
-            }
+          } else if offset + img_uncomp_size <= data.length() {
+            let raw = bytes_sub(data, offset, img_uncomp_size)
+            offset = offset + img_uncomp_size
+            raw
+          } else {
+            Bytes::make(0, b'\x00')
           }
           if pixel_data.length() > 0 {
             // Read glyph recs data (16 bytes per glyph: x, y, w, h as floats)
@@ -372,7 +374,8 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
               recs_data_comp_size = style_read_int(data, offset)
               offset = offset + 4
             }
-            let recs_data : Bytes = if recs_data_comp_size > 0 && recs_data_comp_size != recs_data_size {
+            let recs_data : Bytes = if recs_data_comp_size > 0 &&
+              recs_data_comp_size != recs_data_size {
               if offset + recs_data_comp_size <= data.length() {
                 let comp = bytes_sub(data, offset, recs_data_comp_size)
                 offset = offset + recs_data_comp_size
@@ -380,14 +383,12 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
               } else {
                 Bytes::make(0, b'\x00')
               }
+            } else if offset + recs_data_size <= data.length() {
+              let raw = bytes_sub(data, offset, recs_data_size)
+              offset = offset + recs_data_size
+              raw
             } else {
-              if offset + recs_data_size <= data.length() {
-                let raw = bytes_sub(data, offset, recs_data_size)
-                offset = offset + recs_data_size
-                raw
-              } else {
-                Bytes::make(0, b'\x00')
-              }
+              Bytes::make(0, b'\x00')
             }
             // Read glyph info data (16 bytes per glyph: value, offsetX, offsetY, advanceX as ints)
             let glyphs_data_size = glyph_count * 16
@@ -396,7 +397,8 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
               glyphs_data_comp_size = style_read_int(data, offset)
               offset = offset + 4
             }
-            let glyphs_data : Bytes = if glyphs_data_comp_size > 0 && glyphs_data_comp_size != glyphs_data_size {
+            let glyphs_data : Bytes = if glyphs_data_comp_size > 0 &&
+              glyphs_data_comp_size != glyphs_data_size {
               if offset + glyphs_data_comp_size <= data.length() {
                 let comp = bytes_sub(data, offset, glyphs_data_comp_size)
                 let _ = offset + glyphs_data_comp_size
@@ -404,16 +406,15 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
               } else {
                 Bytes::make(0, b'\x00')
               }
+            } else if offset + glyphs_data_size <= data.length() {
+              let raw = bytes_sub(data, offset, glyphs_data_size)
+              let _ = offset + glyphs_data_size
+              raw
             } else {
-              if offset + glyphs_data_size <= data.length() {
-                let raw = bytes_sub(data, offset, glyphs_data_size)
-                let _ = offset + glyphs_data_size
-                raw
-              } else {
-                Bytes::make(0, b'\x00')
-              }
+              Bytes::make(0, b'\x00')
             }
-            if recs_data.length() >= recs_data_size && glyphs_data.length() >= glyphs_data_size {
+            if recs_data.length() >= recs_data_size &&
+              glyphs_data.length() >= glyphs_data_size {
               let font = @raylib.load_font_from_atlas(
                 pixel_data,
                 pixel_data.length(),
