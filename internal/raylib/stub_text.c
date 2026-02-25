@@ -87,7 +87,7 @@ moonbit_raylib_get_font_glyph_padding(FontWrapper *wrapper) {
 TextureWrapper *
 moonbit_raylib_get_font_texture(FontWrapper *wrapper) {
   TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    NULL, sizeof(TextureWrapper));
+    noop_destructor, sizeof(TextureWrapper));
   tw->texture = wrapper->font.texture;
   tw->freed = 1; // Don't unload - owned by the font
   return tw;

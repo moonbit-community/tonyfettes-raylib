@@ -67,4 +67,9 @@ typedef struct {
   int freed;
 } GlyphInfoArrayWrapper;
 
+// No-op destructor for non-owning wrappers (freed=1).
+// moonbit_make_external_object requires a non-NULL destructor;
+// passing NULL causes a crash when the GC calls through the function pointer.
+static inline void noop_destructor(void *ptr) { (void)ptr; }
+
 #endif
