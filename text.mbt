@@ -40,15 +40,11 @@ pub fn load_font_ex_codepoints(
   font_size : Int,
   codepoints : Array[Int],
 ) -> Font {
-  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
-  for i, cp in codepoints {
-    let (a, b, c, d) = write_int(cp)
-    arr[i * 4] = a
-    arr[i * 4 + 1] = b
-    arr[i * 4 + 2] = c
-    arr[i * 4 + 3] = d
+  let buf = @buffer.new(size_hint=codepoints.length() * 4)
+  for cp in codepoints {
+    buf.write_int_le(cp)
   }
-  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  let bytes = buf.to_bytes()
   @raylib.load_font_ex_codepoints(
     @utf8.encode(file_name),
     font_size,
@@ -240,15 +236,11 @@ pub fn draw_text_codepoints(
   spacing : Float,
   tint : Color,
 ) -> Unit {
-  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
-  for i, cp in codepoints {
-    let (a, b, c, d) = write_int(cp)
-    arr[i * 4] = a
-    arr[i * 4 + 1] = b
-    arr[i * 4 + 2] = c
-    arr[i * 4 + 3] = d
+  let buf = @buffer.new(size_hint=codepoints.length() * 4)
+  for cp in codepoints {
+    buf.write_int_le(cp)
   }
-  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  let bytes = buf.to_bytes()
   @raylib.draw_text_codepoints(
     font,
     bytes,
@@ -308,15 +300,11 @@ pub fn load_codepoints(text : String) -> Array[Int] {
 
 ///|
 pub fn load_utf8(codepoints : Array[Int]) -> Bytes {
-  let arr = FixedArray::make(codepoints.length() * 4, b'\x00')
-  for i, cp in codepoints {
-    let (a, b, c, d) = write_int(cp)
-    arr[i * 4] = a
-    arr[i * 4 + 1] = b
-    arr[i * 4 + 2] = c
-    arr[i * 4 + 3] = d
+  let buf = @buffer.new(size_hint=codepoints.length() * 4)
+  for cp in codepoints {
+    buf.write_int_le(cp)
   }
-  let bytes = FixedArray::unsafe_reinterpret_as_bytes(arr)
+  let bytes = buf.to_bytes()
   @raylib.load_utf8(bytes, codepoints.length())
 }
 

@@ -20,11 +20,12 @@ pub fn Rectangle::new(
 
 ///|
 pub fn Rectangle::to_bytes(r : Rectangle) -> Bytes {
-  let (x0, x1, x2, x3) = write_float(r.x)
-  let (y0, y1, y2, y3) = write_float(r.y)
-  let (w0, w1, w2, w3) = write_float(r.width)
-  let (h0, h1, h2, h3) = write_float(r.height)
-  [x0, x1, x2, x3, y0, y1, y2, y3, w0, w1, w2, w3, h0, h1, h2, h3]
+  let buf = @buffer.new(size_hint=16)
+  buf.write_float_le(r.x)
+  buf.write_float_le(r.y)
+  buf.write_float_le(r.width)
+  buf.write_float_le(r.height)
+  buf.to_bytes()
 }
 
 ///|

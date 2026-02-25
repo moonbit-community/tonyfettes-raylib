@@ -417,57 +417,21 @@ pub fn VrDeviceInfo::new(
 
 ///|
 pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
-  let arr = FixedArray::make(60, b'\x00')
-  let (a, b, c, d) = write_int(info.h_resolution)
-  arr[0] = a
-  arr[1] = b
-  arr[2] = c
-  arr[3] = d
-  let (a, b, c, d) = write_int(info.v_resolution)
-  arr[4] = a
-  arr[5] = b
-  arr[6] = c
-  arr[7] = d
-  let (a, b, c, d) = write_float(info.h_screen_size)
-  arr[8] = a
-  arr[9] = b
-  arr[10] = c
-  arr[11] = d
-  let (a, b, c, d) = write_float(info.v_screen_size)
-  arr[12] = a
-  arr[13] = b
-  arr[14] = c
-  arr[15] = d
-  let (a, b, c, d) = write_float(info.eye_to_screen_distance)
-  arr[16] = a
-  arr[17] = b
-  arr[18] = c
-  arr[19] = d
-  let (a, b, c, d) = write_float(info.lens_separation_distance)
-  arr[20] = a
-  arr[21] = b
-  arr[22] = c
-  arr[23] = d
-  let (a, b, c, d) = write_float(info.interpupillary_distance)
-  arr[24] = a
-  arr[25] = b
-  arr[26] = c
-  arr[27] = d
+  let buf = @buffer.new(size_hint=60)
+  buf.write_int_le(info.h_resolution)
+  buf.write_int_le(info.v_resolution)
+  buf.write_float_le(info.h_screen_size)
+  buf.write_float_le(info.v_screen_size)
+  buf.write_float_le(info.eye_to_screen_distance)
+  buf.write_float_le(info.lens_separation_distance)
+  buf.write_float_le(info.interpupillary_distance)
   for i in 0..<4 {
-    let (a, b, c, d) = write_float(info.lens_distortion_values[i])
-    arr[28 + i * 4] = a
-    arr[28 + i * 4 + 1] = b
-    arr[28 + i * 4 + 2] = c
-    arr[28 + i * 4 + 3] = d
+    buf.write_float_le(info.lens_distortion_values[i])
   }
   for i in 0..<4 {
-    let (a, b, c, d) = write_float(info.chroma_ab_correction[i])
-    arr[44 + i * 4] = a
-    arr[44 + i * 4 + 1] = b
-    arr[44 + i * 4 + 2] = c
-    arr[44 + i * 4 + 3] = d
+    buf.write_float_le(info.chroma_ab_correction[i])
   }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
+  buf.to_bytes()
 }
 
 ///|

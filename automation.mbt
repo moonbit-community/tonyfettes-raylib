@@ -32,25 +32,13 @@ pub fn AutomationEvent::from_bytes(b : Bytes) -> AutomationEvent {
 
 ///|
 pub fn AutomationEvent::to_bytes(e : AutomationEvent) -> Bytes {
-  let arr = FixedArray::make(24, b'\x00')
-  let (a, b, c, d) = write_int(e.frame)
-  arr[0] = a
-  arr[1] = b
-  arr[2] = c
-  arr[3] = d
-  let (a, b, c, d) = write_int(e.type_)
-  arr[4] = a
-  arr[5] = b
-  arr[6] = c
-  arr[7] = d
+  let buf = @buffer.new(size_hint=24)
+  buf.write_int_le(e.frame)
+  buf.write_int_le(e.type_)
   for i in 0..<4 {
-    let (a, b, c, d) = write_int(e.params[i])
-    arr[8 + i * 4] = a
-    arr[8 + i * 4 + 1] = b
-    arr[8 + i * 4 + 2] = c
-    arr[8 + i * 4 + 3] = d
+    buf.write_int_le(e.params[i])
   }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
+  buf.to_bytes()
 }
 
 // ============================================================================

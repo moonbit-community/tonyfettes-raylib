@@ -20,16 +20,14 @@ pub fn Camera2D::new(
 
 ///|
 pub fn Camera2D::to_bytes(c : Camera2D) -> Bytes {
-  let (a0, a1, a2, a3) = write_float(c.offset.x)
-  let (a4, a5, a6, a7) = write_float(c.offset.y)
-  let (b0, b1, b2, b3) = write_float(c.target.x)
-  let (b4, b5, b6, b7) = write_float(c.target.y)
-  let (c0, c1, c2, c3) = write_float(c.rotation)
-  let (d0, d1, d2, d3) = write_float(c.zoom)
-  [
-    a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, c0, c1, c2, c3,
-    d0, d1, d2, d3,
-  ]
+  let buf = @buffer.new(size_hint=24)
+  buf.write_float_le(c.offset.x)
+  buf.write_float_le(c.offset.y)
+  buf.write_float_le(c.target.x)
+  buf.write_float_le(c.target.y)
+  buf.write_float_le(c.rotation)
+  buf.write_float_le(c.zoom)
+  buf.to_bytes()
 }
 
 ///|
@@ -66,22 +64,19 @@ pub fn Camera3D::new(
 
 ///|
 pub fn Camera3D::to_bytes(c : Camera3D) -> Bytes {
-  let (a0, a1, a2, a3) = write_float(c.position.x)
-  let (a4, a5, a6, a7) = write_float(c.position.y)
-  let (a8, a9, aa, ab) = write_float(c.position.z)
-  let (b0, b1, b2, b3) = write_float(c.target.x)
-  let (b4, b5, b6, b7) = write_float(c.target.y)
-  let (b8, b9, ba, bb) = write_float(c.target.z)
-  let (c0, c1, c2, c3) = write_float(c.up.x)
-  let (c4, c5, c6, c7) = write_float(c.up.y)
-  let (c8, c9, ca, cb) = write_float(c.up.z)
-  let (d0, d1, d2, d3) = write_float(c.fovy)
-  let (e0, e1, e2, e3) = write_int(c.projection)
-  [
-    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, b0, b1, b2, b3, b4, b5, b6, b7,
-    b8, b9, ba, bb, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, ca, cb, d0, d1, d2, d3,
-    e0, e1, e2, e3,
-  ]
+  let buf = @buffer.new(size_hint=44)
+  buf.write_float_le(c.position.x)
+  buf.write_float_le(c.position.y)
+  buf.write_float_le(c.position.z)
+  buf.write_float_le(c.target.x)
+  buf.write_float_le(c.target.y)
+  buf.write_float_le(c.target.z)
+  buf.write_float_le(c.up.x)
+  buf.write_float_le(c.up.y)
+  buf.write_float_le(c.up.z)
+  buf.write_float_le(c.fovy)
+  buf.write_int_le(c.projection)
+  buf.to_bytes()
 }
 
 ///|

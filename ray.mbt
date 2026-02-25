@@ -13,16 +13,14 @@ pub fn Ray::new(position : Vector3, direction : Vector3) -> Ray {
 
 ///|
 pub fn Ray::to_bytes(r : Ray) -> Bytes {
-  let (a0, a1, a2, a3) = write_float(r.position.x)
-  let (a4, a5, a6, a7) = write_float(r.position.y)
-  let (a8, a9, aa, ab) = write_float(r.position.z)
-  let (b0, b1, b2, b3) = write_float(r.direction.x)
-  let (b4, b5, b6, b7) = write_float(r.direction.y)
-  let (b8, b9, ba, bb) = write_float(r.direction.z)
-  [
-    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, b0, b1, b2, b3, b4, b5, b6, b7,
-    b8, b9, ba, bb,
-  ]
+  let buf = @buffer.new(size_hint=24)
+  buf.write_float_le(r.position.x)
+  buf.write_float_le(r.position.y)
+  buf.write_float_le(r.position.z)
+  buf.write_float_le(r.direction.x)
+  buf.write_float_le(r.direction.y)
+  buf.write_float_le(r.direction.z)
+  buf.to_bytes()
 }
 
 ///|
@@ -52,16 +50,14 @@ pub fn BoundingBox::new(min : Vector3, max : Vector3) -> BoundingBox {
 
 ///|
 pub fn BoundingBox::to_bytes(bb : BoundingBox) -> Bytes {
-  let (a0, a1, a2, a3) = write_float(bb.min.x)
-  let (a4, a5, a6, a7) = write_float(bb.min.y)
-  let (a8, a9, aa, ab) = write_float(bb.min.z)
-  let (b0, b1, b2, b3) = write_float(bb.max.x)
-  let (b4, b5, b6, b7) = write_float(bb.max.y)
-  let (b8, b9, ba, bb_) = write_float(bb.max.z)
-  [
-    a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, aa, ab, b0, b1, b2, b3, b4, b5, b6, b7,
-    b8, b9, ba, bb_,
-  ]
+  let buf = @buffer.new(size_hint=24)
+  buf.write_float_le(bb.min.x)
+  buf.write_float_le(bb.min.y)
+  buf.write_float_le(bb.min.z)
+  buf.write_float_le(bb.max.x)
+  buf.write_float_le(bb.max.y)
+  buf.write_float_le(bb.max.z)
+  buf.to_bytes()
 }
 
 ///|

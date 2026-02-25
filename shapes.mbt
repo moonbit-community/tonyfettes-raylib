@@ -553,12 +553,12 @@ pub fn draw_circle_sector_lines(
 
 ///|
 fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
-  let arr = FixedArray::make(points.length() * 8, b'\x00')
-  for i, p in points {
-    let bytes = p.to_bytes()
-    arr.blit_from_bytes(i * 8, bytes, 0, 8)
+  let buf = @buffer.new(size_hint=points.length() * 8)
+  for p in points {
+    buf.write_float_le(p.x)
+    buf.write_float_le(p.y)
   }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
+  buf.to_bytes()
 }
 
 ///|
@@ -870,12 +870,13 @@ pub fn check_collision_point_line(
 
 ///|
 fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
-  let arr = FixedArray::make(points.length() * 12, b'\x00')
-  for i, p in points {
-    let bytes = p.to_bytes()
-    arr.blit_from_bytes(i * 12, bytes, 0, 12)
+  let buf = @buffer.new(size_hint=points.length() * 12)
+  for p in points {
+    buf.write_float_le(p.x)
+    buf.write_float_le(p.y)
+    buf.write_float_le(p.z)
   }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
+  buf.to_bytes()
 }
 
 ///|
