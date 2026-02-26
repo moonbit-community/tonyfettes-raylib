@@ -49,98 +49,70 @@ moonbit_raylib_get_file_length(moonbit_bytes_t fileName) {
 moonbit_bytes_t
 moonbit_raylib_get_file_extension(moonbit_bytes_t fileName) {
   const char *result = GetFileExtension((const char *)fileName);
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_file_name(moonbit_bytes_t filePath) {
   const char *result = GetFileName((const char *)filePath);
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_file_name_without_ext(moonbit_bytes_t filePath) {
   const char *result = GetFileNameWithoutExt((const char *)filePath);
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_directory_path(moonbit_bytes_t filePath) {
   const char *result = GetDirectoryPath((const char *)filePath);
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_prev_directory_path(moonbit_bytes_t dirPath) {
   const char *result = GetPrevDirectoryPath((const char *)dirPath);
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_working_directory(void) {
   const char *result = GetWorkingDirectory();
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_application_directory(void) {
   const char *result = GetApplicationDirectory();
-  if (!result) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!result) return moonbit_make_bytes(0, 0);
   int len = strlen(result);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, result, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, result, len);
   return r;
 }
 
@@ -187,14 +159,10 @@ moonbit_raylib_save_file_data(moonbit_bytes_t fileName, moonbit_bytes_t data, in
 moonbit_bytes_t
 moonbit_raylib_load_file_text(moonbit_bytes_t fileName) {
   char *text = LoadFileText((const char *)fileName);
-  if (!text) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
-  }
+  if (!text) return moonbit_make_bytes(0, 0);
   int len = strlen(text);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, text, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, text, len);
   UnloadFileText(text);
   return r;
 }
@@ -280,14 +248,12 @@ moonbit_raylib_file_path_list_count(FilePathListWrapper *w) {
 moonbit_bytes_t
 moonbit_raylib_file_path_list_get(FilePathListWrapper *w, int index) {
   if (index < 0 || index >= (int)w->list.count) {
-    moonbit_bytes_t r = moonbit_make_bytes(1, 0);
-    ((char *)r)[0] = '\0';
-    return r;
+    return moonbit_make_bytes(0, 0);
   }
   const char *path = w->list.paths[index];
   int len = strlen(path);
-  moonbit_bytes_t r = moonbit_make_bytes(len + 1, 0);
-  memcpy(r, path, len + 1);
+  moonbit_bytes_t r = moonbit_make_bytes(len, 0);
+  memcpy(r, path, len);
   return r;
 }
 

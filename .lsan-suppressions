@@ -1,0 +1,11 @@
+leak:dyld
+leak:libobjc
+leak:libSystem
+leak:libxpc
+leak:AppKit
+leak:CoreFoundation
+leak:CoreGraphics
+leak:HIToolbox
+leak:libsystem_malloc
+leak:libdispatch
+leak:libsystem_kernel

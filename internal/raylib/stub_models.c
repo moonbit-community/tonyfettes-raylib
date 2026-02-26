@@ -650,6 +650,7 @@ moonbit_raylib_gen_mesh_poly(int sides, float radius) {
   );
   w->mesh = GenMeshPoly(sides, radius);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -660,6 +661,7 @@ moonbit_raylib_gen_mesh_plane(float width, float length, int resX, int resZ) {
   );
   w->mesh = GenMeshPlane(width, length, resX, resZ);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -670,6 +672,7 @@ moonbit_raylib_gen_mesh_cube(float width, float height, float length) {
   );
   w->mesh = GenMeshCube(width, height, length);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -680,6 +683,7 @@ moonbit_raylib_gen_mesh_sphere(float radius, int rings, int slices) {
   );
   w->mesh = GenMeshSphere(radius, rings, slices);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -690,6 +694,7 @@ moonbit_raylib_gen_mesh_hemisphere(float radius, int rings, int slices) {
   );
   w->mesh = GenMeshHemiSphere(radius, rings, slices);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -700,6 +705,7 @@ moonbit_raylib_gen_mesh_cylinder(float radius, float height, int slices) {
   );
   w->mesh = GenMeshCylinder(radius, height, slices);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -710,6 +716,7 @@ moonbit_raylib_gen_mesh_cone(float radius, float height, int slices) {
   );
   w->mesh = GenMeshCone(radius, height, slices);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -725,6 +732,7 @@ moonbit_raylib_gen_mesh_torus(
   );
   w->mesh = GenMeshTorus(radius, size, radSeg, sides);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -740,6 +748,7 @@ moonbit_raylib_gen_mesh_knot(
   );
   w->mesh = GenMeshKnot(radius, size, radSeg, sides);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -752,6 +761,7 @@ moonbit_raylib_gen_mesh_heightmap(ImageWrapper *img, moonbit_bytes_t size) {
   );
   w->mesh = GenMeshHeightmap(img->image, sz);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -764,6 +774,7 @@ moonbit_raylib_gen_mesh_cubicmap(ImageWrapper *img, moonbit_bytes_t cubeSize) {
   );
   w->mesh = GenMeshCubicmap(img->image, cs);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -825,6 +836,10 @@ moonbit_raylib_load_model_from_mesh(MeshWrapper *wrapper) {
   );
   w->model = LoadModelFromMesh(wrapper->mesh);
   w->freed = 0;
+  // LoadModelFromMesh shallow-copies the mesh struct; the model now owns the
+  // mesh data (vertices, texcoords, etc.).  Mark the original wrapper as freed
+  // so its destructor won't double-free the same arrays.
+  wrapper->freed = 1;
   return w;
 }
 
@@ -850,6 +865,7 @@ moonbit_raylib_load_material_default(void) {
   );
   w->material = LoadMaterialDefault();
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -1126,6 +1142,7 @@ moonbit_raylib_materials_array_get(MaterialsArrayWrapper *w, int index) {
     mw->material = LoadMaterialDefault();
   }
   mw->freed = 0;
+  mw->parent = NULL;
   return mw;
 }
 
@@ -1156,21 +1173,24 @@ moonbit_raylib_get_model_mesh_count(ModelWrapper *model_wrapper) {
 // Model: get mesh by index (returns a MeshWrapper sharing the same mesh data)
 // ============================================================================
 
-static void mesh_noop_destructor(void *ptr) {
-  // No-op: the mesh is owned by the model, not by this wrapper
-  (void)ptr;
+// View destructor for non-owning MeshWrappers that hold an incref'd parent.
+static void mesh_view_destructor(void *ptr) {
+  MeshWrapper *w = (MeshWrapper *)ptr;
+  if (w->parent) moonbit_decref(w->parent);
 }
 
 MeshWrapper *
 moonbit_raylib_get_model_mesh(ModelWrapper *model_wrapper, int index) {
+  moonbit_incref(model_wrapper); // keep parent alive while view exists
   MeshWrapper *mw = (MeshWrapper *)moonbit_make_external_object(
-    mesh_noop_destructor, sizeof(MeshWrapper));
+    mesh_view_destructor, sizeof(MeshWrapper));
   if (index >= 0 && index < model_wrapper->model.meshCount) {
     mw->mesh = model_wrapper->model.meshes[index];
   } else {
     memset(&mw->mesh, 0, sizeof(Mesh));
   }
   mw->freed = 1; // Mark as "freed" so destructor doesn't try to unload
+  mw->parent = model_wrapper;
   return mw;
 }
 
@@ -1198,21 +1218,24 @@ moonbit_raylib_get_model_material_count(ModelWrapper *model_wrapper) {
 // Model: get material by index (non-owning MaterialWrapper)
 // ============================================================================
 
-static void material_noop_destructor(void *ptr) {
-  // No-op: the material is owned by the model, not by this wrapper
-  (void)ptr;
+// View destructor for non-owning MaterialWrappers that hold an incref'd parent.
+static void material_view_destructor(void *ptr) {
+  MaterialWrapper *w = (MaterialWrapper *)ptr;
+  if (w->parent) moonbit_decref(w->parent);
 }
 
 MaterialWrapper *
 moonbit_raylib_get_model_material(ModelWrapper *model_wrapper, int index) {
+  moonbit_incref(model_wrapper); // keep parent alive while view exists
   MaterialWrapper *mw = (MaterialWrapper *)moonbit_make_external_object(
-    material_noop_destructor, sizeof(MaterialWrapper));
+    material_view_destructor, sizeof(MaterialWrapper));
   if (index >= 0 && index < model_wrapper->model.materialCount) {
     mw->material = model_wrapper->model.materials[index];
   } else {
     memset(&mw->material, 0, sizeof(Material));
   }
   mw->freed = 1; // Non-owning
+  mw->parent = model_wrapper;
   return mw;
 }
 
@@ -1373,6 +1396,7 @@ moonbit_raylib_gen_mesh_from_points(
   memcpy(w->mesh.colors, colors, num_points * 4 * sizeof(unsigned char));
   UploadMesh(&w->mesh, false);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 

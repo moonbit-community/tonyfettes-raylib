@@ -3,6 +3,7 @@
 // Each UInt32 stores 32 bits: bits 0-15 = one row, bits 16-31 = next row
 
 // Icon data array: 256 icons * 8 uint32s = 2048 entries
+
 ///|
 let gui_icons : FixedArray[UInt] = [
   // ICON_NONE
