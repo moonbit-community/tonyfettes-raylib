@@ -1,61 +1,8 @@
 ///|
-struct StageProfile {
-  title : String
-  subtitle : String
-  enemy_bonus : Int
-  spawn_scale : Float
-  drop_bonus : Int
-  sky_top : @raylib.Color
-  sky_bottom : @raylib.Color
-  fog_alpha : Float
-  ui_accent : @raylib.Color
-}
-
-///|
-fn StageProfile::new(
-  title : String,
-  subtitle : String,
-  enemy_bonus : Int,
-  spawn_scale : Float,
-  drop_bonus : Int,
-  sky_top : @raylib.Color,
-  sky_bottom : @raylib.Color,
-  fog_alpha : Float,
-  ui_accent : @raylib.Color,
-) -> StageProfile {
-  {
-    title,
-    subtitle,
-    enemy_bonus,
-    spawn_scale,
-    drop_bonus,
-    sky_top,
-    sky_bottom,
-    fog_alpha,
-    ui_accent,
-  }
-}
-
-///|
-fn default_stage_profile() -> StageProfile {
-  StageProfile::new(
-    "Border Skirmish",
-    "Standard armored engagement",
-    0,
-    1.0,
-    0,
-    @raylib.Color::new(14, 20, 31, 255),
-    @raylib.Color::new(8, 10, 15, 255),
-    0.06,
-    @raylib.gold,
-  )
-}
-
-///|
-fn get_stage_profile(index : Int) -> StageProfile {
-  match index % level_count {
+pub fn get_stage_profile(index : Int) -> @types.StageProfile {
+  match index % @types.level_count {
     0 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Outpost",
         "Hostile armor columns detected",
         1,
@@ -67,7 +14,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(120, 160, 120, 255),
       )
     1 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Outpost",
         "Fortify routes and hold pressure",
         0,
@@ -79,7 +26,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(129, 173, 137, 255),
       )
     2 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Bastion",
         "Enemy scouts probing weak lanes",
         0,
@@ -91,7 +38,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(138, 186, 154, 255),
       )
     3 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Bastion",
         "Heavy units entering from north",
         1,
@@ -103,7 +50,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(147, 199, 171, 255),
       )
     4 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Delta",
         "Fogged battlefield, short visibility",
         0,
@@ -115,7 +62,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(156, 92, 68, 255),
       )
     5 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Delta",
         "Expect fast flanking squads",
         0,
@@ -127,7 +74,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(165, 105, 85, 255),
       )
     6 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Citadel",
         "Breakthrough attempt in progress",
         1,
@@ -139,7 +86,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(174, 118, 102, 255),
       )
     7 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Citadel",
         "Hold the line around command base",
         0,
@@ -151,7 +98,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(183, 131, 119, 255),
       )
     8 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Depot",
         "Sniper platoon deployment confirmed",
         1,
@@ -163,7 +110,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(192, 144, 136, 255),
       )
     9 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Depot",
         "Salvage crews report minefields",
         2,
@@ -175,7 +122,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(201, 157, 153, 255),
       )
     10 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Crossing",
         "Recon drones indicate mixed armor",
         1,
@@ -187,7 +134,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(210, 170, 170, 255),
       )
     11 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Crossing",
         "Prepare for prolonged engagement",
         1,
@@ -199,7 +146,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(219, 183, 67, 255),
       )
     12 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Relay",
         "Hostile armor columns detected",
         2,
@@ -211,7 +158,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(228, 196, 84, 255),
       )
     13 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Relay",
         "Fortify routes and hold pressure",
         1,
@@ -223,7 +170,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(237, 89, 101, 255),
       )
     14 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Keep",
         "Enemy scouts probing weak lanes",
         1,
@@ -235,7 +182,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(126, 102, 118, 255),
       )
     15 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Keep",
         "Heavy units entering from north",
         2,
@@ -247,7 +194,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(135, 115, 135, 255),
       )
     16 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Trench",
         "Fogged battlefield, short visibility",
         2,
@@ -259,7 +206,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(144, 128, 152, 255),
       )
     17 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Trench",
         "Expect fast flanking squads",
         2,
@@ -271,7 +218,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(153, 141, 169, 255),
       )
     18 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Station",
         "Breakthrough attempt in progress",
         3,
@@ -283,7 +230,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(162, 154, 66, 255),
       )
     19 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Station",
         "Hold the line around command base",
         2,
@@ -295,7 +242,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(171, 167, 83, 255),
       )
     20 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Junction",
         "Sniper platoon deployment confirmed",
         2,
@@ -307,7 +254,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(180, 180, 100, 255),
       )
     21 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Junction",
         "Salvage crews report minefields",
         3,
@@ -319,7 +266,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(189, 193, 117, 255),
       )
     22 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Frontline",
         "Recon drones indicate mixed armor",
         2,
@@ -331,7 +278,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(198, 86, 134, 255),
       )
     23 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Frontline",
         "Prepare for prolonged engagement",
         2,
@@ -343,7 +290,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(207, 99, 151, 255),
       )
     24 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Watchpoint",
         "Hostile armor columns detected",
         4,
@@ -355,7 +302,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(216, 112, 168, 255),
       )
     25 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Watchpoint",
         "Fortify routes and hold pressure",
         3,
@@ -367,7 +314,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(225, 125, 65, 255),
       )
     26 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Arsenal",
         "Enemy scouts probing weak lanes",
         3,
@@ -379,7 +326,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(234, 138, 82, 255),
       )
     27 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Arsenal",
         "Heavy units entering from north",
         4,
@@ -391,7 +338,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(123, 151, 99, 255),
       )
     28 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Outpost",
         "Fogged battlefield, short visibility",
         3,
@@ -403,7 +350,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(132, 164, 116, 255),
       )
     29 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Outpost",
         "Expect fast flanking squads",
         3,
@@ -415,7 +362,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(141, 177, 133, 255),
       )
     30 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Bastion",
         "Breakthrough attempt in progress",
         4,
@@ -427,7 +374,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(150, 190, 150, 255),
       )
     31 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Bastion",
         "Hold the line around command base",
         3,
@@ -439,7 +386,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(159, 83, 167, 255),
       )
     32 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Delta",
         "Sniper platoon deployment confirmed",
         4,
@@ -451,7 +398,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(168, 96, 64, 255),
       )
     33 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Delta",
         "Salvage crews report minefields",
         5,
@@ -463,7 +410,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(177, 109, 81, 255),
       )
     34 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Citadel",
         "Recon drones indicate mixed armor",
         4,
@@ -475,7 +422,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(186, 122, 98, 255),
       )
     35 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Citadel",
         "Prepare for prolonged engagement",
         4,
@@ -487,7 +434,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(195, 135, 115, 255),
       )
     36 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Depot",
         "Hostile armor columns detected",
         5,
@@ -499,7 +446,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(204, 148, 132, 255),
       )
     37 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Depot",
         "Fortify routes and hold pressure",
         4,
@@ -511,7 +458,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(213, 161, 149, 255),
       )
     38 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Crossing",
         "Enemy scouts probing weak lanes",
         4,
@@ -523,7 +470,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(222, 174, 166, 255),
       )
     39 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Crossing",
         "Heavy units entering from north",
         5,
@@ -535,7 +482,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(231, 187, 63, 255),
       )
     40 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Relay",
         "Fogged battlefield, short visibility",
         5,
@@ -547,7 +494,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(120, 80, 80, 255),
       )
     41 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Relay",
         "Expect fast flanking squads",
         5,
@@ -559,7 +506,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(129, 93, 97, 255),
       )
     42 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Keep",
         "Breakthrough attempt in progress",
         6,
@@ -571,7 +518,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(138, 106, 114, 255),
       )
     43 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Keep",
         "Hold the line around command base",
         5,
@@ -583,7 +530,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(147, 119, 131, 255),
       )
     44 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Trench",
         "Sniper platoon deployment confirmed",
         5,
@@ -595,7 +542,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(156, 132, 148, 255),
       )
     45 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Trench",
         "Salvage crews report minefields",
         6,
@@ -607,7 +554,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(165, 145, 165, 255),
       )
     46 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Station",
         "Recon drones indicate mixed armor",
         5,
@@ -619,7 +566,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(174, 158, 62, 255),
       )
     47 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Station",
         "Prepare for prolonged engagement",
         5,
@@ -631,7 +578,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(183, 171, 79, 255),
       )
     48 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Junction",
         "Hostile armor columns detected",
         7,
@@ -643,7 +590,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(192, 184, 96, 255),
       )
     49 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Junction",
         "Fortify routes and hold pressure",
         6,
@@ -655,7 +602,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(201, 197, 113, 255),
       )
     50 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Frontline",
         "Enemy scouts probing weak lanes",
         6,
@@ -667,7 +614,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(210, 90, 130, 255),
       )
     51 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Frontline",
         "Heavy units entering from north",
         7,
@@ -679,7 +626,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(219, 103, 147, 255),
       )
     52 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Watchpoint",
         "Fogged battlefield, short visibility",
         6,
@@ -691,7 +638,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(228, 116, 164, 255),
       )
     53 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Watchpoint",
         "Expect fast flanking squads",
         6,
@@ -703,7 +650,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(237, 129, 61, 255),
       )
     54 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Arsenal",
         "Breakthrough attempt in progress",
         7,
@@ -715,7 +662,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(126, 142, 78, 255),
       )
     55 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Arsenal",
         "Hold the line around command base",
         6,
@@ -727,7 +674,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(135, 155, 95, 255),
       )
     56 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Outpost",
         "Sniper platoon deployment confirmed",
         7,
@@ -739,7 +686,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(144, 168, 112, 255),
       )
     57 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Outpost",
         "Salvage crews report minefields",
         8,
@@ -751,7 +698,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(153, 181, 129, 255),
       )
     58 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Bastion",
         "Recon drones indicate mixed armor",
         7,
@@ -763,7 +710,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(162, 194, 146, 255),
       )
     59 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Bastion",
         "Prepare for prolonged engagement",
         7,
@@ -775,7 +722,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(171, 87, 163, 255),
       )
     60 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Delta",
         "Hostile armor columns detected",
         8,
@@ -787,7 +734,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(180, 100, 60, 255),
       )
     61 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Delta",
         "Fortify routes and hold pressure",
         7,
@@ -799,7 +746,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(189, 113, 77, 255),
       )
     62 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Citadel",
         "Enemy scouts probing weak lanes",
         7,
@@ -811,7 +758,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(198, 126, 94, 255),
       )
     63 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Citadel",
         "Heavy units entering from north",
         8,
@@ -823,7 +770,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(207, 139, 111, 255),
       )
     64 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Depot",
         "Fogged battlefield, short visibility",
         8,
@@ -835,7 +782,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(216, 152, 128, 255),
       )
     65 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Depot",
         "Expect fast flanking squads",
         8,
@@ -847,7 +794,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(225, 165, 145, 255),
       )
     66 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Crossing",
         "Breakthrough attempt in progress",
         9,
@@ -859,7 +806,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(234, 178, 162, 255),
       )
     67 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Crossing",
         "Hold the line around command base",
         8,
@@ -871,7 +818,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(123, 191, 179, 255),
       )
     68 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Relay",
         "Sniper platoon deployment confirmed",
         8,
@@ -883,7 +830,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(132, 84, 76, 255),
       )
     69 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Relay",
         "Salvage crews report minefields",
         9,
@@ -895,7 +842,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(141, 97, 93, 255),
       )
     70 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Keep",
         "Recon drones indicate mixed armor",
         8,
@@ -907,7 +854,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(150, 110, 110, 255),
       )
     71 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Keep",
         "Prepare for prolonged engagement",
         8,
@@ -919,7 +866,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(159, 123, 127, 255),
       )
     72 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Trench",
         "Hostile armor columns detected",
         10,
@@ -931,7 +878,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(168, 136, 144, 255),
       )
     73 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Trench",
         "Fortify routes and hold pressure",
         9,
@@ -943,7 +890,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(177, 149, 161, 255),
       )
     74 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Station",
         "Enemy scouts probing weak lanes",
         9,
@@ -955,7 +902,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(186, 162, 178, 255),
       )
     75 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Station",
         "Heavy units entering from north",
         10,
@@ -967,7 +914,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(195, 175, 75, 255),
       )
     76 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Junction",
         "Fogged battlefield, short visibility",
         9,
@@ -979,7 +926,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(204, 188, 92, 255),
       )
     77 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Junction",
         "Expect fast flanking squads",
         9,
@@ -991,7 +938,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(213, 81, 109, 255),
       )
     78 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Frontline",
         "Breakthrough attempt in progress",
         10,
@@ -1003,7 +950,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(222, 94, 126, 255),
       )
     79 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Frontline",
         "Hold the line around command base",
         9,
@@ -1015,7 +962,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(231, 107, 143, 255),
       )
     80 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Watchpoint",
         "Sniper platoon deployment confirmed",
         10,
@@ -1027,7 +974,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(120, 120, 160, 255),
       )
     81 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Watchpoint",
         "Salvage crews report minefields",
         11,
@@ -1039,7 +986,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(129, 133, 177, 255),
       )
     82 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Arsenal",
         "Recon drones indicate mixed armor",
         10,
@@ -1051,7 +998,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(138, 146, 74, 255),
       )
     83 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Arsenal",
         "Prepare for prolonged engagement",
         10,
@@ -1063,7 +1010,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(147, 159, 91, 255),
       )
     84 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Outpost",
         "Hostile armor columns detected",
         11,
@@ -1075,7 +1022,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(156, 172, 108, 255),
       )
     85 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Outpost",
         "Fortify routes and hold pressure",
         10,
@@ -1087,7 +1034,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(165, 185, 125, 255),
       )
     86 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Echo Bastion",
         "Enemy scouts probing weak lanes",
         10,
@@ -1099,7 +1046,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(174, 198, 142, 255),
       )
     87 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Iron Bastion",
         "Heavy units entering from north",
         11,
@@ -1111,7 +1058,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(183, 91, 159, 255),
       )
     88 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Azure Delta",
         "Fogged battlefield, short visibility",
         11,
@@ -1123,7 +1070,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(192, 104, 176, 255),
       )
     89 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Dust Delta",
         "Expect fast flanking squads",
         11,
@@ -1135,7 +1082,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(201, 117, 73, 255),
       )
     90 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Rust Citadel",
         "Breakthrough attempt in progress",
         12,
@@ -1147,7 +1094,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(210, 130, 90, 255),
       )
     91 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Neon Citadel",
         "Hold the line around command base",
         11,
@@ -1159,7 +1106,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(219, 143, 107, 255),
       )
     92 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Frost Depot",
         "Sniper platoon deployment confirmed",
         11,
@@ -1171,7 +1118,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(228, 156, 124, 255),
       )
     93 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Ember Depot",
         "Salvage crews report minefields",
         12,
@@ -1183,7 +1130,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(237, 169, 141, 255),
       )
     94 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Shadow Crossing",
         "Recon drones indicate mixed armor",
         11,
@@ -1195,7 +1142,7 @@ fn get_stage_profile(index : Int) -> StageProfile {
         @raylib.Color::new(126, 182, 158, 255),
       )
     95 =>
-      StageProfile::new(
+      @types.StageProfile::new(
         "Storm Crossing",
         "Prepare for prolonged engagement",
         11,
@@ -1206,6 +1153,6 @@ fn get_stage_profile(index : Int) -> StageProfile {
         Float::from_int(12) / 100.0,
         @raylib.Color::new(135, 195, 175, 255),
       )
-    _ => default_stage_profile()
+    _ => @types.default_stage_profile()
   }
 }
