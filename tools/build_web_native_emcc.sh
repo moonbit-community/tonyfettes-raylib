@@ -57,6 +57,14 @@ mkdir -p "$OUT_DIR"
 RUNTIME_OBJ="$OUT_DIR/runtime.o"
 OUTPUT_HTML="$OUT_DIR/${PKG_NAME}.html"
 
+# Detect resource directories to embed in the Emscripten virtual filesystem.
+# Games use change_directory("examples/<name>") then load from "resources/",
+# so we embed at the matching virtual path.
+EMBED_FLAGS=()
+if [[ -d "$PKG_PATH/resources" ]]; then
+  EMBED_FLAGS+=(--embed-file "$PKG_PATH/resources@$PKG_PATH/resources")
+fi
+
 echo "[2/3] Compiling MoonBit runtime C: $RUNTIME_OBJ"
 # Keep runtime compilation isolated from raylib include paths, otherwise
 # internal/raylib/external/dirent.h can shadow the system dirent.h header.
@@ -105,10 +113,13 @@ emcc \
   -Wno-unused-value \
   -sUSE_GLFW=3 \
   -sASYNCIFY \
+  -sASYNCIFY_STACK_SIZE=10485760 \
   -sALLOW_MEMORY_GROWTH=1 \
   -sFORCE_FILESYSTEM=1 \
   -sASSERTIONS=1 \
   -sEXPORTED_FUNCTIONS=_main \
+  -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,HEAPF32 \
+  "${EMBED_FLAGS[@]}" \
   --pre-js "$PRE_JS" \
   --post-js "$POST_JS" \
   -o "$OUTPUT_HTML"
