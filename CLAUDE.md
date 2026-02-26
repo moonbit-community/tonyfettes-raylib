@@ -9,11 +9,11 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 ## Build Commands
 
 ```bash
-# Build (native only) — specify package path to avoid library-as-exe link error
-moon build --target native examples/raylib_demo/
+# Build an example (native only) — examples/ is a separate module
+moon -C examples build --target native raylib_demo/
 
-# Run an example
-./_build/native/debug/build/examples/raylib_demo/raylib_demo.exe
+# Run an example — examples/ is a separate module, use -C to set working directory
+moon -C examples run --target native raylib_tank_1990/
 
 # Type-check without building
 moon check --target native
@@ -78,7 +78,7 @@ Platform-specific link flags are set dynamically by `build.js` via `--moonbit-un
 - **`build.js`** — Prebuild script. Emits `link_configs` (platform-specific link flags) and `vars` (dynamic `stub-cc-flags`). Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows. On macOS, appends `-ObjC` to `stub-cc-flags` so clang compiles `rglfw.c` as Objective-C (required for GLFW's Cocoa backend).
 - **`stub-cc-flags`** — Set dynamically via `${build.RAYLIB_STUB_CC_FLAGS}` in `moon.pkg`, populated by `build.js`. Always includes `-DPLATFORM_DESKTOP_GLFW`; on macOS also includes `-ObjC`. No `-I` flags needed — the `platforms/GLFW/` directory ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
 
-Use `moon build --target native examples/raylib_demo/` to build. Specify a package path to avoid the spurious `_main` undefined error from library packages.
+Use `moon -C examples build --target native raylib_demo/` to build. The `examples/` directory is a separate module, so use `-C examples` to set the working directory.
 
 ## Critical FFI Rules
 
