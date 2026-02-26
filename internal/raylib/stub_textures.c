@@ -222,6 +222,7 @@ moonbit_raylib_load_texture(moonbit_bytes_t fileName) {
   );
   w->texture = LoadTexture((const char *)fileName);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -232,6 +233,7 @@ moonbit_raylib_load_texture_from_image(ImageWrapper *img) {
   );
   w->texture = LoadTextureFromImage(img->image);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -462,6 +464,7 @@ moonbit_raylib_load_texture_cubemap(ImageWrapper *img, int layout) {
   TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
   w->texture = LoadTextureCubemap(img->image, layout);
   w->freed = 0;
+  w->parent = NULL;
   return w;
 }
 
@@ -503,6 +506,7 @@ moonbit_raylib_get_shapes_texture(void) {
   TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
   w->texture = GetShapesTexture();
   w->freed = 1;  // Non-owning - don't unload
+  w->parent = NULL;
   return w;
 }
 
@@ -613,10 +617,12 @@ moonbit_raylib_get_texture_height(TextureWrapper *wrapper) {
 
 TextureWrapper *
 moonbit_raylib_get_render_texture_texture(RenderTextureWrapper *wrapper) {
+  moonbit_incref(wrapper); // keep render texture alive while view exists
   TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    noop_destructor, sizeof(TextureWrapper));
+    texture_view_destructor, sizeof(TextureWrapper));
   tw->texture = wrapper->render_texture.texture;
   tw->freed = 1; // Don't unload - owned by render texture
+  tw->parent = wrapper;
   return tw;
 }
 
@@ -715,5 +721,6 @@ moonbit_raylib_texture_from_id(unsigned int id, int width, int height) {
   tw->texture.mipmaps = 1;
   tw->texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
   tw->freed = 1; // Non-owning - don't unload via raylib
+  tw->parent = NULL;
   return tw;
 }
