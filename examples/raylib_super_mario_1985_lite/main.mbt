@@ -7,6 +7,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let game = Game::new()
+  init_game(game)
 
   while not(@raylib.window_should_close()) {
     let mut dt = @raylib.get_frame_time()
@@ -17,6 +18,7 @@ fn main {
     update_game(game, dt)
 
     @raylib.begin_drawing()
+    @raylib.clear_background(@raylib.black)
     draw_world(game)
     draw_ui(game)
     @raylib.end_drawing()

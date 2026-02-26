@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/examples/raylib_super_mario_1985_lite"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Coin
+
+type Enemy
+
+type Game
+
+type Particle
+
+type Player
+
+// Type aliases
+
+// Traits
+

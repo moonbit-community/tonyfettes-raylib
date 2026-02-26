@@ -1,4 +1,11 @@
 ///|
+fn clear_particles(game : Game) -> Unit {
+  for i = 0; i < game.particles.length(); i = i + 1 {
+    game.particles[i] = Particle::inactive()
+  }
+}
+
+///|
 fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -23,99 +30,91 @@ fn spawn_particle(
   if idx < 0 {
     return
   }
-  game.particles[idx].active = true
-  game.particles[idx].x = x
-  game.particles[idx].y = y
-  game.particles[idx].vx = vx
-  game.particles[idx].vy = vy
-  game.particles[idx].life = life
-  game.particles[idx].max_life = life
-  game.particles[idx].size = size
-  game.particles[idx].rot = rand_rangef(game, 0.0, 6.28318)
-  game.particles[idx].spin = rand_rangef(game, -5.2, 5.2)
-  game.particles[idx].fade = rand_rangef(game, 0.7, 1.5)
-  game.particles[idx].color = color
+  let p = game.particles[idx]
+  p.active = true
+  p.x = x
+  p.y = y
+  p.vx = vx
+  p.vy = vy
+  p.life = life
+  p.max_life = life
+  p.size = size
+  p.color = color
 }
 
 ///|
-fn spawn_spark_burst(game : Game, x : Float, y : Float, count : Int) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
-    let angle = rand_rangef(game, 0.0, 6.28318)
-    let speed = rand_rangef(game, 65.0, 210.0)
-    let vx = Float::from_double(@math.cos(angle.to_double())) * speed
-    let vy = Float::from_double(@math.sin(angle.to_double())) * speed
-    let life = rand_rangef(game, 0.18, 0.55)
+fn spawn_coin_burst(game : Game, x : Float, y : Float) -> Unit {
+  for i = 0; i < 10; i = i + 1 {
+    let a = randf(0.0, 6.28)
+    let s = randf(45.0, 160.0)
     spawn_particle(
       game,
       x,
       y,
-      vx,
-      vy,
-      life,
-      rand_rangef(game, 1.2, 2.8),
+      @math.cosf(a) * s,
+      @math.sinf(a) * s - 40.0,
+      randf(0.25, 0.5),
+      randf(1.5, 3.5),
       @raylib.gold,
     )
   }
 }
 
 ///|
-fn spawn_explosion(game : Game, x : Float, y : Float, strength : Float) -> Unit {
-  let sparks = clampi((strength * 20.0).to_int(), 10, 70)
-  for i = 0; i < sparks; i = i + 1 {
-    let angle = rand_rangef(game, 0.0, 6.28318)
-    let speed = rand_rangef(game, 40.0, 160.0) * strength
-    let vx = Float::from_double(@math.cos(angle.to_double())) * speed
-    let vy = Float::from_double(@math.sin(angle.to_double())) * speed
-    let life = rand_rangef(game, 0.25, 0.95)
-    let size = rand_rangef(game, 1.4, 4.0)
-    let color = if i % 5 == 0 {
-      @raylib.white
-    } else if i % 3 == 0 {
-      @raylib.yellow
-    } else {
-      @raylib.orange
-    }
-    spawn_particle(game, x, y, vx, vy, life, size, color)
-  }
-
-  // Smoke puffs.
-  for _i = 0; _i < clampi((strength * 10.0).to_int(), 4, 20); _i = _i + 1 {
-    let angle = rand_rangef(game, 0.0, 6.28318)
-    let speed = rand_rangef(game, 12.0, 58.0)
-    let vx = Float::from_double(@math.cos(angle.to_double())) * speed
-    let vy = Float::from_double(@math.sin(angle.to_double())) * speed
-    let life = rand_rangef(game, 0.65, 1.8)
+fn spawn_block_burst(
+  game : Game,
+  x : Float,
+  y : Float,
+  color : @raylib.Color,
+) -> Unit {
+  for i = 0; i < 12; i = i + 1 {
+    let a = randf(0.0, 6.28)
+    let s = randf(60.0, 220.0)
     spawn_particle(
       game,
       x,
       y,
-      vx,
-      vy,
-      life,
-      rand_rangef(game, 3.0, 7.5),
-      @raylib.darkgray,
+      @math.cosf(a) * s,
+      @math.sinf(a) * s,
+      randf(0.28, 0.62),
+      randf(1.8, 4.6),
+      color,
     )
   }
-
-  push_camera_shake(game, strength * 1.8)
 }
 
 ///|
-fn spawn_respawn_burst(game : Game, x : Float, y : Float) -> Unit {
-  for i = 0; i < 24; i = i + 1 {
-    let angle = Float::from_int(i) / Float::from_int(24) * 6.28318
-    let speed = Float::from_int(35 + i % 3 * 15)
-    let vx = Float::from_double(@math.cos(angle.to_double())) * speed
-    let vy = Float::from_double(@math.sin(angle.to_double())) * speed
+fn spawn_stomp_burst(game : Game, x : Float, y : Float) -> Unit {
+  for i = 0; i < 15; i = i + 1 {
+    let a = randf(0.0, 6.28)
+    let s = randf(55.0, 200.0)
     spawn_particle(
       game,
       x,
       y,
-      vx,
-      vy,
-      rand_rangef(game, 0.4, 0.95),
-      2.4,
-      @raylib.skyblue,
+      @math.cosf(a) * s,
+      @math.sinf(a) * s - 30.0,
+      randf(0.35, 0.75),
+      randf(2.0, 4.0),
+      @raylib.brown,
+    )
+  }
+}
+
+///|
+fn spawn_hurt_burst(game : Game, x : Float, y : Float) -> Unit {
+  for i = 0; i < 18; i = i + 1 {
+    let a = randf(0.0, 6.28)
+    let s = randf(80.0, 260.0)
+    spawn_particle(
+      game,
+      x,
+      y,
+      @math.cosf(a) * s,
+      @math.sinf(a) * s - 30.0,
+      randf(0.3, 0.9),
+      randf(2.0, 4.8),
+      @raylib.red,
     )
   }
 }
@@ -123,20 +122,17 @@ fn spawn_respawn_burst(game : Game, x : Float, y : Float) -> Unit {
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+    let p = game.particles[i]
+    if not(p.active) {
       continue i + 1
     }
-    let p = game.particles[i]
-    p.life -= dt * p.fade
+    p.life = p.life - dt
     if p.life <= 0.0 {
       p.active = false
       continue i + 1
     }
-    p.x += p.vx * dt
-    p.y += p.vy * dt
-    p.vx *= 1.0 - 0.8 * dt
-    p.vy *= 1.0 - 0.8 * dt
-    p.vy += 22.0 * dt
-    p.rot += p.spin * dt
+    p.vy = p.vy + 420.0 * dt
+    p.x = p.x + p.vx * dt
+    p.y = p.y + p.vy * dt
   }
 }
