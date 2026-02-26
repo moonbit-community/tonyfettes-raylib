@@ -57,6 +57,11 @@ while [[ "$parent" != "." ]]; do
   parent="$(dirname "$parent")"
 done
 
+# Ensure sub-module dependencies are installed (.mooncakes is gitignored)
+if [[ "$MODULE_DIR" != "." ]]; then
+  (cd "$MODULE_DIR" && moon update)
+fi
+
 echo "[1/3] Building MoonBit package with native backend: $PKG_PATH"
 (cd "$MODULE_DIR" && moon build --target native "$BUILD_PKG_PATH")
 
