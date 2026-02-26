@@ -44,10 +44,23 @@ if [[ ! -f "$POST_JS" ]]; then
   exit 1
 fi
 
-echo "[1/3] Building MoonBit package with native backend: $PKG_PATH"
-moon build --target native "$PKG_PATH"
+# Detect sub-module: find nearest ancestor dir with moon.mod.json
+MODULE_DIR="."
+BUILD_PKG_PATH="$PKG_PATH"
+parent="$PKG_PATH"
+while [[ "$parent" != "." ]]; do
+  if [[ -f "$parent/moon.mod.json" ]]; then
+    MODULE_DIR="$parent"
+    BUILD_PKG_PATH="${PKG_PATH#$parent/}"
+    break
+  fi
+  parent="$(dirname "$parent")"
+done
 
-GENERATED_C="_build/native/debug/build/${PKG_PATH}/${PKG_NAME}.c"
+echo "[1/3] Building MoonBit package with native backend: $PKG_PATH"
+(cd "$MODULE_DIR" && moon build --target native "$BUILD_PKG_PATH")
+
+GENERATED_C="${MODULE_DIR}/_build/native/debug/build/${BUILD_PKG_PATH}/${PKG_NAME}.c"
 if [[ ! -f "$GENERATED_C" ]]; then
   echo "error: generated C file not found: $GENERATED_C" >&2
   exit 1
