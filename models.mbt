@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type Model,
   type Mesh,
   type Material,
@@ -49,7 +49,7 @@ pub fn draw_line_3d(
   end_pos : Vector3,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_3d(
+  @ffi.draw_line_3d(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     color.to_bytes(),
@@ -58,7 +58,7 @@ pub fn draw_line_3d(
 
 ///|
 pub fn draw_point_3d(position : Vector3, color : Color) -> Unit {
-  @raylib.draw_point_3d(position.to_bytes(), color.to_bytes())
+  @ffi.draw_point_3d(position.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn draw_circle_3d(
   rot_angle : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle_3d(
+  @ffi.draw_circle_3d(
     center.to_bytes(),
     radius,
     rot_axis.to_bytes(),
@@ -86,7 +86,7 @@ pub fn draw_cube(
   length : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cube(
+  @ffi.draw_cube(
     position.to_bytes(),
     width,
     height,
@@ -97,7 +97,7 @@ pub fn draw_cube(
 
 ///|
 pub fn draw_cube_v(position : Vector3, size : Vector3, color : Color) -> Unit {
-  @raylib.draw_cube_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
+  @ffi.draw_cube_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -108,7 +108,7 @@ pub fn draw_cube_wires(
   length : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cube_wires(
+  @ffi.draw_cube_wires(
     position.to_bytes(),
     width,
     height,
@@ -123,7 +123,7 @@ pub fn draw_cube_wires_v(
   size : Vector3,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cube_wires_v(
+  @ffi.draw_cube_wires_v(
     position.to_bytes(),
     size.to_bytes(),
     color.to_bytes(),
@@ -132,7 +132,7 @@ pub fn draw_cube_wires_v(
 
 ///|
 pub fn draw_sphere(center : Vector3, radius : Float, color : Color) -> Unit {
-  @raylib.draw_sphere(center.to_bytes(), radius, color.to_bytes())
+  @ffi.draw_sphere(center.to_bytes(), radius, color.to_bytes())
 }
 
 ///|
@@ -143,7 +143,7 @@ pub fn draw_sphere_ex(
   slices : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_sphere_ex(
+  @ffi.draw_sphere_ex(
     center.to_bytes(),
     radius,
     rings,
@@ -160,7 +160,7 @@ pub fn draw_sphere_wires(
   slices : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_sphere_wires(
+  @ffi.draw_sphere_wires(
     center.to_bytes(),
     radius,
     rings,
@@ -178,7 +178,7 @@ pub fn draw_cylinder(
   slices : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cylinder(
+  @ffi.draw_cylinder(
     position.to_bytes(),
     radius_top,
     radius_bottom,
@@ -197,7 +197,7 @@ pub fn draw_cylinder_wires(
   slices : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cylinder_wires(
+  @ffi.draw_cylinder_wires(
     position.to_bytes(),
     radius_top,
     radius_bottom,
@@ -214,7 +214,7 @@ pub fn draw_triangle_3d(
   v3 : Vector3,
   color : Color,
 ) -> Unit {
-  @raylib.draw_triangle_3d(
+  @ffi.draw_triangle_3d(
     v1.to_bytes(),
     v2.to_bytes(),
     v3.to_bytes(),
@@ -231,7 +231,7 @@ pub fn draw_cylinder_ex(
   sides : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cylinder_ex(
+  @ffi.draw_cylinder_ex(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     start_radius,
@@ -250,7 +250,7 @@ pub fn draw_cylinder_wires_ex(
   sides : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_cylinder_wires_ex(
+  @ffi.draw_cylinder_wires_ex(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     start_radius,
@@ -269,7 +269,7 @@ pub fn draw_capsule(
   rings : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_capsule(
+  @ffi.draw_capsule(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     radius,
@@ -288,7 +288,7 @@ pub fn draw_capsule_wires(
   rings : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_capsule_wires(
+  @ffi.draw_capsule_wires(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     radius,
@@ -300,17 +300,17 @@ pub fn draw_capsule_wires(
 
 ///|
 pub fn draw_plane(center : Vector3, size : Vector2, color : Color) -> Unit {
-  @raylib.draw_plane(center.to_bytes(), size.to_bytes(), color.to_bytes())
+  @ffi.draw_plane(center.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
 pub fn draw_ray(ray : Ray, color : Color) -> Unit {
-  @raylib.draw_ray(ray.to_bytes(), color.to_bytes())
+  @ffi.draw_ray(ray.to_bytes(), color.to_bytes())
 }
 
 ///|
 pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
-  @raylib.draw_bounding_box(box_.to_bytes(), color.to_bytes())
+  @ffi.draw_bounding_box(box_.to_bytes(), color.to_bytes())
 }
 
 // ============================================================================
@@ -319,7 +319,7 @@ pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
 
 ///|
 pub fn load_model(file_name : String) -> Model {
-  @raylib.load_model(@utf8.encode(file_name))
+  @ffi.load_model(@utf8.encode(file_name))
 }
 
 ///|
@@ -329,7 +329,7 @@ pub fn draw_model(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model(model, position.to_bytes(), scale, tint.to_bytes())
+  @ffi.draw_model(model, position.to_bytes(), scale, tint.to_bytes())
 }
 
 ///|
@@ -341,7 +341,7 @@ pub fn draw_model_ex(
   scale : Vector3,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model_ex(
+  @ffi.draw_model_ex(
     model,
     position.to_bytes(),
     rotation_axis.to_bytes(),
@@ -358,7 +358,7 @@ pub fn draw_model_wires(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model_wires(model, position.to_bytes(), scale, tint.to_bytes())
+  @ffi.draw_model_wires(model, position.to_bytes(), scale, tint.to_bytes())
 }
 
 ///|
@@ -370,7 +370,7 @@ pub fn draw_model_wires_ex(
   scale : Vector3,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model_wires_ex(
+  @ffi.draw_model_wires_ex(
     model,
     position.to_bytes(),
     rotation_axis.to_bytes(),
@@ -387,7 +387,7 @@ pub fn draw_model_points(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model_points(model, position.to_bytes(), scale, tint.to_bytes())
+  @ffi.draw_model_points(model, position.to_bytes(), scale, tint.to_bytes())
 }
 
 ///|
@@ -399,7 +399,7 @@ pub fn draw_model_points_ex(
   scale : Vector3,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_model_points_ex(
+  @ffi.draw_model_points_ex(
     model,
     position.to_bytes(),
     rotation_axis.to_bytes(),
@@ -419,7 +419,7 @@ pub fn set_model_material_shader(
   material_index : Int,
   shader : Shader,
 ) -> Unit {
-  @raylib.set_model_material_shader(model, material_index, shader)
+  @ffi.set_model_material_shader(model, material_index, shader)
 }
 
 // ============================================================================
@@ -428,7 +428,7 @@ pub fn set_model_material_shader(
 
 ///|
 pub fn get_model_bounding_box(model : Model) -> BoundingBox {
-  BoundingBox::from_bytes(@raylib.get_model_bounding_box(model))
+  BoundingBox::from_bytes(@ffi.get_model_bounding_box(model))
 }
 
 // ============================================================================
@@ -442,7 +442,7 @@ pub fn set_model_material_texture(
   map_type : Int,
   texture : Texture,
 ) -> Unit {
-  @raylib.set_model_material_texture(model, material_index, map_type, texture)
+  @ffi.set_model_material_texture(model, material_index, map_type, texture)
 }
 
 // ============================================================================
@@ -457,7 +457,7 @@ pub fn draw_billboard(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_billboard(
+  @ffi.draw_billboard(
     camera.to_bytes(),
     texture,
     position.to_bytes(),
@@ -475,7 +475,7 @@ pub fn draw_billboard_rec(
   size : Vector2,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_billboard_rec(
+  @ffi.draw_billboard_rec(
     camera.to_bytes(),
     texture,
     source.to_bytes(),
@@ -497,7 +497,7 @@ pub fn draw_billboard_pro(
   rotation : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_billboard_pro(
+  @ffi.draw_billboard_pro(
     camera.to_bytes(),
     texture,
     source.to_bytes(),
@@ -521,7 +521,7 @@ pub fn check_collision_spheres(
   center2 : Vector3,
   radius2 : Float,
 ) -> Bool {
-  @raylib.check_collision_spheres(
+  @ffi.check_collision_spheres(
     center1.to_bytes(),
     radius1,
     center2.to_bytes(),
@@ -531,7 +531,7 @@ pub fn check_collision_spheres(
 
 ///|
 pub fn check_collision_boxes(box1 : BoundingBox, box2 : BoundingBox) -> Bool {
-  @raylib.check_collision_boxes(box1.to_bytes(), box2.to_bytes())
+  @ffi.check_collision_boxes(box1.to_bytes(), box2.to_bytes())
 }
 
 ///|
@@ -540,7 +540,7 @@ pub fn check_collision_box_sphere(
   center : Vector3,
   radius : Float,
 ) -> Bool {
-  @raylib.check_collision_box_sphere(box_.to_bytes(), center.to_bytes(), radius)
+  @ffi.check_collision_box_sphere(box_.to_bytes(), center.to_bytes(), radius)
 }
 
 ///|
@@ -550,14 +550,14 @@ pub fn get_ray_collision_sphere(
   radius : Float,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_sphere(ray.to_bytes(), center.to_bytes(), radius),
+    @ffi.get_ray_collision_sphere(ray.to_bytes(), center.to_bytes(), radius),
   )
 }
 
 ///|
 pub fn get_ray_collision_box(ray : Ray, box_ : BoundingBox) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_box(ray.to_bytes(), box_.to_bytes()),
+    @ffi.get_ray_collision_box(ray.to_bytes(), box_.to_bytes()),
   )
 }
 
@@ -569,7 +569,7 @@ pub fn get_ray_collision_triangle(
   p3 : Vector3,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_triangle(
+    @ffi.get_ray_collision_triangle(
       ray.to_bytes(),
       p1.to_bytes(),
       p2.to_bytes(),
@@ -584,12 +584,12 @@ pub fn get_ray_collision_triangle(
 
 ///|
 pub fn gen_mesh_heightmap(heightmap : Image, size : Vector3) -> Mesh {
-  @raylib.gen_mesh_heightmap(heightmap, size.to_bytes())
+  @ffi.gen_mesh_heightmap(heightmap, size.to_bytes())
 }
 
 ///|
 pub fn gen_mesh_cubicmap(cubicmap : Image, cube_size : Vector3) -> Mesh {
-  @raylib.gen_mesh_cubicmap(cubicmap, cube_size.to_bytes())
+  @ffi.gen_mesh_cubicmap(cubicmap, cube_size.to_bytes())
 }
 
 // ============================================================================
@@ -598,12 +598,12 @@ pub fn gen_mesh_cubicmap(cubicmap : Image, cube_size : Vector3) -> Mesh {
 
 ///|
 pub fn get_mesh_bounding_box(mesh : Mesh) -> BoundingBox {
-  BoundingBox::from_bytes(@raylib.get_mesh_bounding_box(mesh))
+  BoundingBox::from_bytes(@ffi.get_mesh_bounding_box(mesh))
 }
 
 ///|
 pub fn export_mesh(mesh : Mesh, file_name : String) -> Bool {
-  @raylib.export_mesh(mesh, @utf8.encode(file_name))
+  @ffi.export_mesh(mesh, @utf8.encode(file_name))
 }
 
 ///|
@@ -613,7 +613,7 @@ pub fn get_ray_collision_mesh(
   transform : Matrix,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_mesh(ray.to_bytes(), mesh, transform.to_bytes()),
+    @ffi.get_ray_collision_mesh(ray.to_bytes(), mesh, transform.to_bytes()),
   )
 }
 
@@ -623,7 +623,7 @@ pub fn get_ray_collision_mesh(
 
 ///|
 pub fn draw_mesh(mesh : Mesh, material : Material, transform : Matrix) -> Unit {
-  @raylib.draw_mesh(mesh, material, transform.to_bytes())
+  @ffi.draw_mesh(mesh, material, transform.to_bytes())
 }
 
 ///|
@@ -639,7 +639,7 @@ pub fn draw_mesh_instanced(
     arr.blit_from_bytes(i * 64, m, 0, 64)
   }
   let buf = FixedArray::unsafe_reinterpret_as_bytes(arr)
-  @raylib.draw_mesh_instanced(mesh, material, buf, instances)
+  @ffi.draw_mesh_instanced(mesh, material, buf, instances)
 }
 
 // ============================================================================
@@ -685,7 +685,7 @@ pub fn set_material_map_color(
   map_type : Int,
   color : Color,
 ) -> Unit {
-  @raylib.set_material_map_color(material, map_type, color.to_bytes())
+  @ffi.set_material_map_color(material, map_type, color.to_bytes())
 }
 
 ///|
@@ -694,7 +694,7 @@ pub fn set_material_map_value(
   map_type : Int,
   value : Float,
 ) -> Unit {
-  @raylib.set_material_map_value(material, map_type, value)
+  @ffi.set_material_map_value(material, map_type, value)
 }
 
 // ============================================================================
@@ -703,7 +703,7 @@ pub fn set_material_map_value(
 
 ///|
 pub fn load_model_animations(file_name : String) -> ModelAnimations {
-  @raylib.load_model_animations(@utf8.encode(file_name))
+  @ffi.load_model_animations(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -719,7 +719,7 @@ pub fn get_ray_collision_quad(
   p4 : Vector3,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @raylib.get_ray_collision_quad(
+    @ffi.get_ray_collision_quad(
       ray.to_bytes(),
       p1.to_bytes(),
       p2.to_bytes(),
@@ -735,7 +735,7 @@ pub fn get_ray_collision_quad(
 
 ///|
 pub fn export_mesh_as_code(mesh : Mesh, file_name : String) -> Bool {
-  @raylib.export_mesh_as_code(mesh, @utf8.encode(file_name))
+  @ffi.export_mesh_as_code(mesh, @utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -743,14 +743,14 @@ pub fn export_mesh_as_code(mesh : Mesh, file_name : String) -> Bool {
 // ============================================================================
 
 ///|
-pub using @raylib {update_mesh_buffer}
+pub using @ffi {update_mesh_buffer}
 
 // ============================================================================
 // LoadMaterials (wrappers)
 // ============================================================================
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type MaterialsArray,
   unload_materials_array,
   materials_array_count,
@@ -759,7 +759,7 @@ pub using @raylib {
 
 ///|
 pub fn load_materials(file_name : String) -> MaterialsArray {
-  @raylib.load_materials(@utf8.encode(file_name))
+  @ffi.load_materials(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -768,42 +768,42 @@ pub fn load_materials(file_name : String) -> MaterialsArray {
 
 ///|
 pub fn set_model_transform(model : Model, transform : Matrix) -> Unit {
-  @raylib.set_model_transform(model, transform.to_bytes())
+  @ffi.set_model_transform(model, transform.to_bytes())
 }
 
 ///|
 pub fn get_model_mesh_count(model : Model) -> Int {
-  @raylib.get_model_mesh_count(model)
+  @ffi.get_model_mesh_count(model)
 }
 
 ///|
 pub fn get_model_mesh(model : Model, index : Int) -> Mesh {
-  @raylib.get_model_mesh(model, index)
+  @ffi.get_model_mesh(model, index)
 }
 
 ///|
 pub fn get_model_transform(model : Model) -> Matrix {
-  Matrix::from_bytes(@raylib.get_model_transform(model))
+  Matrix::from_bytes(@ffi.get_model_transform(model))
 }
 
 ///|
 pub fn get_model_material_count(model : Model) -> Int {
-  @raylib.get_model_material_count(model)
+  @ffi.get_model_material_count(model)
 }
 
 ///|
 pub fn get_model_material(model : Model, index : Int) -> Material {
-  @raylib.get_model_material(model, index)
+  @ffi.get_model_material(model, index)
 }
 
 ///|
 pub fn get_model_bone_count(model : Model) -> Int {
-  @raylib.get_model_bone_count(model)
+  @ffi.get_model_bone_count(model)
 }
 
 ///|
 pub fn get_model_bone_parent(model : Model, bone_index : Int) -> Int {
-  @raylib.get_model_bone_parent(model, bone_index)
+  @ffi.get_model_bone_parent(model, bone_index)
 }
 
 ///|
@@ -812,7 +812,7 @@ pub fn get_model_bind_pose_translation(
   bone_index : Int,
 ) -> Vector3 {
   Vector3::from_bytes(
-    @raylib.get_model_bind_pose_translation(model, bone_index),
+    @ffi.get_model_bind_pose_translation(model, bone_index),
   )
 }
 
@@ -821,7 +821,7 @@ pub fn get_model_animation_frame_count(
   anims : ModelAnimations,
   anim_index : Int,
 ) -> Int {
-  @raylib.get_model_animation_frame_count(anims, anim_index)
+  @ffi.get_model_animation_frame_count(anims, anim_index)
 }
 
 ///|
@@ -829,7 +829,7 @@ pub fn get_model_animation_bone_count(
   anims : ModelAnimations,
   anim_index : Int,
 ) -> Int {
-  @raylib.get_model_animation_bone_count(anims, anim_index)
+  @ffi.get_model_animation_bone_count(anims, anim_index)
 }
 
 ///|
@@ -838,7 +838,7 @@ pub fn get_model_animation_bone_parent(
   anim_index : Int,
   bone_index : Int,
 ) -> Int {
-  @raylib.get_model_animation_bone_parent(anims, anim_index, bone_index)
+  @ffi.get_model_animation_bone_parent(anims, anim_index, bone_index)
 }
 
 ///|
@@ -849,7 +849,7 @@ pub fn get_model_animation_frame_pose_translation(
   bone_index : Int,
 ) -> Vector3 {
   Vector3::from_bytes(
-    @raylib.get_model_animation_frame_pose_translation(
+    @ffi.get_model_animation_frame_pose_translation(
       anims, anim_index, frame, bone_index,
     ),
   )
@@ -863,7 +863,7 @@ pub fn get_model_animation_frame_pose_rotation(
   bone_index : Int,
 ) -> Vector4 {
   Vector4::from_bytes(
-    @raylib.get_model_animation_frame_pose_rotation(
+    @ffi.get_model_animation_frame_pose_rotation(
       anims, anim_index, frame, bone_index,
     ),
   )
@@ -871,12 +871,12 @@ pub fn get_model_animation_frame_pose_rotation(
 
 ///|
 pub fn get_model_bone_name(model : Model, bone_index : Int) -> String {
-  @utf8.decode_lossy(@raylib.get_model_bone_name(model, bone_index))
+  @utf8.decode_lossy(@ffi.get_model_bone_name(model, bone_index))
 }
 
 ///|
 pub fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Vector4 {
-  Vector4::from_bytes(@raylib.get_model_bind_pose_rotation(model, bone_index))
+  Vector4::from_bytes(@ffi.get_model_bind_pose_rotation(model, bone_index))
 }
 
 // ============================================================================
@@ -889,7 +889,7 @@ pub fn gen_mesh_from_points(
   colors : Bytes,
   num_points : Int,
 ) -> Mesh {
-  @raylib.gen_mesh_from_points(vertices, colors, num_points)
+  @ffi.gen_mesh_from_points(vertices, colors, num_points)
 }
 
 // ============================================================================
@@ -902,5 +902,5 @@ pub fn mesh_setup_texcoords2(
   data : Bytes,
   float_count : Int,
 ) -> Unit {
-  @raylib.mesh_setup_texcoords2(mesh, data, float_count)
+  @ffi.mesh_setup_texcoords2(mesh, data, float_count)
 }

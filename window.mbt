@@ -1,7 +1,7 @@
 // Window management re-exports
 
 ///|
-pub using @raylib {
+pub using @ffi {
   close_window,
   window_should_close,
   is_window_ready,
@@ -65,63 +65,63 @@ pub using @raylib {
 
 ///|
 pub fn init_window(width : Int, height : Int, title : String) -> Unit {
-  @raylib.init_window(width, height, @utf8.encode(title))
+  @ffi.init_window(width, height, @utf8.encode(title))
 }
 
 ///|
 pub fn set_window_title(title : String) -> Unit {
-  @raylib.set_window_title(@utf8.encode(title))
+  @ffi.set_window_title(@utf8.encode(title))
 }
 
 ///|
 pub fn take_screenshot(file_name : String) -> Unit {
-  @raylib.take_screenshot(@utf8.encode(file_name))
+  @ffi.take_screenshot(@utf8.encode(file_name))
 }
 
 ///|
 pub fn open_url(url : String) -> Unit {
-  @raylib.open_url(@utf8.encode(url))
+  @ffi.open_url(@utf8.encode(url))
 }
 
 ///|
 pub fn trace_log(log_level : Int, text : String) -> Unit {
-  @raylib.trace_log(log_level, @utf8.encode(text))
+  @ffi.trace_log(log_level, @utf8.encode(text))
 }
 
 // Window state wrappers (Vector2 returns)
 
 ///|
 pub fn get_window_position() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_window_position())
+  Vector2::from_bytes(@ffi.get_window_position())
 }
 
 ///|
 pub fn get_window_scale_dpi() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_window_scale_dpi())
+  Vector2::from_bytes(@ffi.get_window_scale_dpi())
 }
 
 // Monitor management wrappers (Vector2/String returns)
 
 ///|
 pub fn get_monitor_position(monitor : Int) -> Vector2 {
-  Vector2::from_bytes(@raylib.get_monitor_position(monitor))
+  Vector2::from_bytes(@ffi.get_monitor_position(monitor))
 }
 
 ///|
 pub fn get_monitor_name(monitor : Int) -> String {
-  @utf8.decode_lossy(@raylib.get_monitor_name(monitor))
+  @utf8.decode_lossy(@ffi.get_monitor_name(monitor))
 }
 
 // Clipboard wrappers
 
 ///|
 pub fn set_clipboard_text(text : String) -> Unit {
-  @raylib.set_clipboard_text(@utf8.encode(text))
+  @ffi.set_clipboard_text(@utf8.encode(text))
 }
 
 ///|
 pub fn get_clipboard_text() -> String {
-  @utf8.decode_lossy(@raylib.get_clipboard_text())
+  @utf8.decode_lossy(@ffi.get_clipboard_text())
 }
 
 // ConfigFlags constants

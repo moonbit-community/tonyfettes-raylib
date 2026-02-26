@@ -27,7 +27,7 @@ test "get_directory_path returns clean string without trailing null" {
   // Should end with a valid path character, not \0
   let chars = dir.to_array()
   assert_true(chars.length() > 0)
-  assert_true(chars[chars.length() - 1] != '\x00')
+  assert_true(chars[chars.length() - 1] != '\u0000')
 }
 
 ///|
@@ -37,6 +37,6 @@ test "get_working_directory returns clean string" {
   let dir = get_working_directory()
   assert_true(dir.length() > 0)
   let chars = dir.to_array()
-  assert_true(chars[chars.length() - 1] != '\x00')
+  assert_true(chars[chars.length() - 1] != '\u0000')
   close_window()
 }

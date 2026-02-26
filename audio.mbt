@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type Sound,
   type Music,
   type Wave,
@@ -82,7 +82,7 @@ pub using @raylib {
 
 ///|
 pub fn load_sound(file_name : String) -> Sound {
-  @raylib.load_sound(@utf8.encode(file_name))
+  @ffi.load_sound(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -91,7 +91,7 @@ pub fn load_sound(file_name : String) -> Sound {
 
 ///|
 pub fn load_music_stream(file_name : String) -> Music {
-  @raylib.load_music_stream(@utf8.encode(file_name))
+  @ffi.load_music_stream(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -100,7 +100,7 @@ pub fn load_music_stream(file_name : String) -> Music {
 
 ///|
 pub fn load_wave(file_name : String) -> Wave {
-  @raylib.load_wave(@utf8.encode(file_name))
+  @ffi.load_wave(@utf8.encode(file_name))
 }
 
 ///|
@@ -109,17 +109,17 @@ pub fn load_wave_from_memory(
   file_data : Bytes,
   data_size : Int,
 ) -> Wave {
-  @raylib.load_wave_from_memory(@utf8.encode(file_type), file_data, data_size)
+  @ffi.load_wave_from_memory(@utf8.encode(file_type), file_data, data_size)
 }
 
 ///|
 pub fn export_wave(wave : Wave, file_name : String) -> Bool {
-  @raylib.export_wave(wave, @utf8.encode(file_name))
+  @ffi.export_wave(wave, @utf8.encode(file_name))
 }
 
 ///|
 pub fn export_wave_as_code(wave : Wave, file_name : String) -> Bool {
-  @raylib.export_wave_as_code(wave, @utf8.encode(file_name))
+  @ffi.export_wave_as_code(wave, @utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -132,7 +132,7 @@ pub fn load_music_stream_from_memory(
   data : Bytes,
   data_size : Int,
 ) -> Music {
-  @raylib.load_music_stream_from_memory(
+  @ffi.load_music_stream_from_memory(
     @utf8.encode(file_type),
     data,
     data_size,
@@ -144,4 +144,4 @@ pub fn load_music_stream_from_memory(
 // ============================================================================
 
 ///|
-pub using @raylib {update_sound}
+pub using @ffi {update_sound}

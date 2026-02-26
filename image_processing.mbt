@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {
+pub using @ffi {
   image_format,
   image_alpha_crop,
   image_alpha_premultiply,
@@ -40,7 +40,7 @@ pub fn load_image_raw(
   format : Int,
   header_size : Int,
 ) -> Image {
-  @raylib.load_image_raw(
+  @ffi.load_image_raw(
     @utf8.encode(file_name),
     width,
     height,
@@ -51,7 +51,7 @@ pub fn load_image_raw(
 
 ///|
 pub fn load_image_anim(file_name : String) -> Image {
-  @raylib.load_image_anim(@utf8.encode(file_name))
+  @ffi.load_image_anim(@utf8.encode(file_name))
 }
 
 ///|
@@ -60,7 +60,7 @@ pub fn load_image_anim_from_memory(
   file_data : Bytes,
   data_size : Int,
 ) -> Image {
-  @raylib.load_image_anim_from_memory(
+  @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
     file_data,
     data_size,
@@ -73,12 +73,12 @@ pub fn load_image_anim_from_memory(
 
 ///|
 pub fn image_to_pot(image : Image, fill : Color) -> Unit {
-  @raylib.image_to_pot(image, fill.to_bytes())
+  @ffi.image_to_pot(image, fill.to_bytes())
 }
 
 ///|
 pub fn image_crop(image : Image, crop : Rectangle) -> Unit {
-  @raylib.image_crop(image, crop.to_bytes())
+  @ffi.image_crop(image, crop.to_bytes())
 }
 
 ///|
@@ -87,7 +87,7 @@ pub fn image_alpha_clear(
   color : Color,
   threshold : Float,
 ) -> Unit {
-  @raylib.image_alpha_clear(image, color.to_bytes(), threshold)
+  @ffi.image_alpha_clear(image, color.to_bytes(), threshold)
 }
 
 ///|
@@ -99,7 +99,7 @@ pub fn image_resize_canvas(
   offset_y : Int,
   fill : Color,
 ) -> Unit {
-  @raylib.image_resize_canvas(
+  @ffi.image_resize_canvas(
     image,
     new_width,
     new_height,
@@ -111,7 +111,7 @@ pub fn image_resize_canvas(
 
 ///|
 pub fn image_color_tint(image : Image, color : Color) -> Unit {
-  @raylib.image_color_tint(image, color.to_bytes())
+  @ffi.image_color_tint(image, color.to_bytes())
 }
 
 ///|
@@ -120,7 +120,7 @@ pub fn image_color_replace(
   color : Color,
   replace : Color,
 ) -> Unit {
-  @raylib.image_color_replace(image, color.to_bytes(), replace.to_bytes())
+  @ffi.image_color_replace(image, color.to_bytes(), replace.to_bytes())
 }
 
 // ============================================================================
@@ -129,7 +129,7 @@ pub fn image_color_replace(
 
 ///|
 pub fn image_text(text : String, font_size : Int, color : Color) -> Image {
-  @raylib.image_text(@utf8.encode(text), font_size, color.to_bytes())
+  @ffi.image_text(@utf8.encode(text), font_size, color.to_bytes())
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn image_text_ex(
   spacing : Float,
   tint : Color,
 ) -> Image {
-  @raylib.image_text_ex(
+  @ffi.image_text_ex(
     font,
     @utf8.encode(text),
     font_size,
@@ -155,12 +155,12 @@ pub fn image_text_ex(
 
 ///|
 pub fn get_image_alpha_border(image : Image, threshold : Float) -> Rectangle {
-  Rectangle::from_bytes(@raylib.get_image_alpha_border(image, threshold))
+  Rectangle::from_bytes(@ffi.get_image_alpha_border(image, threshold))
 }
 
 ///|
 pub fn get_image_color(image : Image, x : Int, y : Int) -> Color {
-  Color::from_bytes(@raylib.get_image_color(image, x, y))
+  Color::from_bytes(@ffi.get_image_color(image, x, y))
 }
 
 // ============================================================================
@@ -169,10 +169,10 @@ pub fn get_image_color(image : Image, x : Int, y : Int) -> Color {
 
 ///|
 pub fn export_image_to_memory(image : Image, file_type : String) -> Bytes {
-  @raylib.export_image_to_memory(image, @utf8.encode(file_type))
+  @ffi.export_image_to_memory(image, @utf8.encode(file_type))
 }
 
 ///|
 pub fn export_image_as_code(image : Image, file_name : String) -> Bool {
-  @raylib.export_image_as_code(image, @utf8.encode(file_name))
+  @ffi.export_image_as_code(image, @utf8.encode(file_name))
 }

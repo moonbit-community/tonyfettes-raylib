@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type Image,
   type Texture,
   unload_image,
@@ -47,12 +47,12 @@ pub using @raylib {
 
 ///|
 pub fn load_image(file_name : String) -> Image {
-  @raylib.load_image(@utf8.encode(file_name))
+  @ffi.load_image(@utf8.encode(file_name))
 }
 
 ///|
 pub fn gen_image_color(width : Int, height : Int, color : Color) -> Image {
-  @raylib.gen_image_color(width, height, color.to_bytes())
+  @ffi.gen_image_color(width, height, color.to_bytes())
 }
 
 ///|
@@ -64,7 +64,7 @@ pub fn gen_image_checked(
   col1 : Color,
   col2 : Color,
 ) -> Image {
-  @raylib.gen_image_checked(
+  @ffi.gen_image_checked(
     width,
     height,
     checks_x,
@@ -82,7 +82,7 @@ pub fn gen_image_gradient_linear(
   start : Color,
   end_ : Color,
 ) -> Image {
-  @raylib.gen_image_gradient_linear(
+  @ffi.gen_image_gradient_linear(
     width,
     height,
     direction,
@@ -99,7 +99,7 @@ pub fn gen_image_gradient_radial(
   inner : Color,
   outer : Color,
 ) -> Image {
-  @raylib.gen_image_gradient_radial(
+  @ffi.gen_image_gradient_radial(
     width,
     height,
     density,
@@ -116,7 +116,7 @@ pub fn gen_image_gradient_square(
   inner : Color,
   outer : Color,
 ) -> Image {
-  @raylib.gen_image_gradient_square(
+  @ffi.gen_image_gradient_square(
     width,
     height,
     density,
@@ -127,7 +127,7 @@ pub fn gen_image_gradient_square(
 
 ///|
 pub fn gen_image_text(width : Int, height : Int, text : String) -> Image {
-  @raylib.gen_image_text(width, height, @utf8.encode(text))
+  @ffi.gen_image_text(width, height, @utf8.encode(text))
 }
 
 // ============================================================================
@@ -140,12 +140,12 @@ pub fn load_image_from_memory(
   file_data : Bytes,
   data_size : Int,
 ) -> Image {
-  @raylib.load_image_from_memory(@utf8.encode(file_type), file_data, data_size)
+  @ffi.load_image_from_memory(@utf8.encode(file_type), file_data, data_size)
 }
 
 ///|
 pub fn export_image(image : Image, file_name : String) -> Bool {
-  @raylib.export_image(image, @utf8.encode(file_name))
+  @ffi.export_image(image, @utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -154,7 +154,7 @@ pub fn export_image(image : Image, file_name : String) -> Bool {
 
 ///|
 pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
-  @raylib.image_from_image(image, rec.to_bytes())
+  @ffi.image_from_image(image, rec.to_bytes())
 }
 
 // ============================================================================
@@ -163,7 +163,7 @@ pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
 
 ///|
 pub fn load_texture(file_name : String) -> Texture {
-  @raylib.load_texture(@utf8.encode(file_name))
+  @ffi.load_texture(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -177,7 +177,7 @@ pub fn draw_render_texture_rec(
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_render_texture_rec(
+  @ffi.draw_render_texture_rec(
     target,
     source.to_bytes(),
     position.to_bytes(),
@@ -193,7 +193,7 @@ pub fn draw_render_texture_ex(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_render_texture_ex(
+  @ffi.draw_render_texture_ex(
     target,
     position.to_bytes(),
     rotation,
@@ -211,7 +211,7 @@ pub fn draw_render_texture_pro(
   rotation : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_render_texture_pro(
+  @ffi.draw_render_texture_pro(
     target,
     source.to_bytes(),
     dest.to_bytes(),
@@ -223,7 +223,7 @@ pub fn draw_render_texture_pro(
 
 ///|
 pub fn set_render_texture_filter(target : RenderTexture, filter : Int) -> Unit {
-  @raylib.set_render_texture_filter(target, filter)
+  @ffi.set_render_texture_filter(target, filter)
 }
 
 // ============================================================================
@@ -237,7 +237,7 @@ pub fn draw_texture(
   pos_y : Int,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture(texture, pos_x, pos_y, tint.to_bytes())
+  @ffi.draw_texture(texture, pos_x, pos_y, tint.to_bytes())
 }
 
 ///|
@@ -246,7 +246,7 @@ pub fn draw_texture_v(
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture_v(texture, position.to_bytes(), tint.to_bytes())
+  @ffi.draw_texture_v(texture, position.to_bytes(), tint.to_bytes())
 }
 
 ///|
@@ -257,7 +257,7 @@ pub fn draw_texture_ex(
   scale : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture_ex(
+  @ffi.draw_texture_ex(
     texture,
     position.to_bytes(),
     rotation,
@@ -273,7 +273,7 @@ pub fn draw_texture_rec(
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture_rec(
+  @ffi.draw_texture_rec(
     texture,
     source.to_bytes(),
     position.to_bytes(),
@@ -290,7 +290,7 @@ pub fn draw_texture_pro(
   rotation : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture_pro(
+  @ffi.draw_texture_pro(
     texture,
     source.to_bytes(),
     dest.to_bytes(),
@@ -309,7 +309,7 @@ pub fn draw_texture_npatch(
   rotation : Float,
   tint : Color,
 ) -> Unit {
-  @raylib.draw_texture_npatch(
+  @ffi.draw_texture_npatch(
     texture,
     npatch_info.to_bytes(),
     dest.to_bytes(),
@@ -401,17 +401,17 @@ pub fn update_texture_rec(
   rec : Rectangle,
   pixels : Bytes,
 ) -> Unit {
-  @raylib.update_texture_rec(texture, rec.to_bytes(), pixels)
+  @ffi.update_texture_rec(texture, rec.to_bytes(), pixels)
 }
 
 ///|
 pub fn set_shapes_texture(texture : Texture, source : Rectangle) -> Unit {
-  @raylib.set_shapes_texture(texture, source.to_bytes())
+  @ffi.set_shapes_texture(texture, source.to_bytes())
 }
 
 ///|
 pub fn get_shapes_texture_rectangle() -> Rectangle {
-  Rectangle::from_bytes(@raylib.get_shapes_texture_rectangle())
+  Rectangle::from_bytes(@ffi.get_shapes_texture_rectangle())
 }
 
 // ============================================================================

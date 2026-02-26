@@ -107,77 +107,77 @@ pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF' }
 
 ///|
 pub fn fade(color : Color, alpha : Float) -> Color {
-  Color::from_bytes(@raylib.fade(color.to_bytes(), alpha))
+  Color::from_bytes(@ffi.fade(color.to_bytes(), alpha))
 }
 
 ///|
 pub fn color_alpha(color : Color, alpha : Float) -> Color {
-  Color::from_bytes(@raylib.color_alpha(color.to_bytes(), alpha))
+  Color::from_bytes(@ffi.color_alpha(color.to_bytes(), alpha))
 }
 
 ///|
 pub fn color_to_int(color : Color) -> Int {
-  @raylib.color_to_int(color.to_bytes())
+  @ffi.color_to_int(color.to_bytes())
 }
 
 ///|
 pub fn get_color(hex_value : Int) -> Color {
-  Color::from_bytes(@raylib.get_color(hex_value))
+  Color::from_bytes(@ffi.get_color(hex_value))
 }
 
 ///|
 pub fn color_from_hsv(hue : Float, saturation : Float, value : Float) -> Color {
-  Color::from_bytes(@raylib.color_from_hsv(hue, saturation, value))
+  Color::from_bytes(@ffi.color_from_hsv(hue, saturation, value))
 }
 
 ///|
 pub fn color_tint(color : Color, tint : Color) -> Color {
-  Color::from_bytes(@raylib.color_tint(color.to_bytes(), tint.to_bytes()))
+  Color::from_bytes(@ffi.color_tint(color.to_bytes(), tint.to_bytes()))
 }
 
 ///|
 pub fn color_brightness(color : Color, factor : Float) -> Color {
-  Color::from_bytes(@raylib.color_brightness(color.to_bytes(), factor))
+  Color::from_bytes(@ffi.color_brightness(color.to_bytes(), factor))
 }
 
 ///|
 pub fn color_lerp(color1 : Color, color2 : Color, factor : Float) -> Color {
   Color::from_bytes(
-    @raylib.color_lerp(color1.to_bytes(), color2.to_bytes(), factor),
+    @ffi.color_lerp(color1.to_bytes(), color2.to_bytes(), factor),
   )
 }
 
 ///|
 pub fn color_is_equal(col1 : Color, col2 : Color) -> Bool {
-  @raylib.color_is_equal(col1.to_bytes(), col2.to_bytes())
+  @ffi.color_is_equal(col1.to_bytes(), col2.to_bytes())
 }
 
 ///|
 pub fn color_normalize(color : Color) -> Vector4 {
-  Vector4::from_bytes(@raylib.color_normalize(color.to_bytes()))
+  Vector4::from_bytes(@ffi.color_normalize(color.to_bytes()))
 }
 
 ///|
 pub fn color_from_normalized(normalized : Vector4) -> Color {
-  Color::from_bytes(@raylib.color_from_normalized(normalized.to_bytes()))
+  Color::from_bytes(@ffi.color_from_normalized(normalized.to_bytes()))
 }
 
 ///|
 pub fn color_to_hsv(color : Color) -> Vector3 {
-  Vector3::from_bytes(@raylib.color_to_hsv(color.to_bytes()))
+  Vector3::from_bytes(@ffi.color_to_hsv(color.to_bytes()))
 }
 
 ///|
 pub fn color_contrast(color : Color, contrast : Float) -> Color {
-  Color::from_bytes(@raylib.color_contrast(color.to_bytes(), contrast))
+  Color::from_bytes(@ffi.color_contrast(color.to_bytes(), contrast))
 }
 
 ///|
 pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
   Color::from_bytes(
-    @raylib.color_alpha_blend(dst.to_bytes(), src.to_bytes(), tint.to_bytes()),
+    @ffi.color_alpha_blend(dst.to_bytes(), src.to_bytes(), tint.to_bytes()),
   )
 }
 
 ///|
-pub using @raylib {get_pixel_data_size}
+pub using @ffi {get_pixel_data_size}

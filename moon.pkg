@@ -2,5 +2,5 @@ import {
   "moonbitlang/core/buffer",
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/math",
-  "tonyfettes/raylib/internal/raylib",
+  "tonyfettes/raylib/internal/raylib" @ffi,
 }

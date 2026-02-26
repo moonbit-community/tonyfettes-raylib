@@ -1,7 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type FilePathList,
   is_file_dropped,
   load_dropped_files,
@@ -16,77 +16,77 @@ pub using @raylib {
 
 ///|
 pub fn file_exists(file_name : String) -> Bool {
-  @raylib.file_exists(@utf8.encode(file_name))
+  @ffi.file_exists(@utf8.encode(file_name))
 }
 
 ///|
 pub fn directory_exists(dir_path : String) -> Bool {
-  @raylib.directory_exists(@utf8.encode(dir_path))
+  @ffi.directory_exists(@utf8.encode(dir_path))
 }
 
 ///|
 pub fn is_file_extension(file_name : String, ext : String) -> Bool {
-  @raylib.is_file_extension(@utf8.encode(file_name), @utf8.encode(ext))
+  @ffi.is_file_extension(@utf8.encode(file_name), @utf8.encode(ext))
 }
 
 ///|
 pub fn get_file_length(file_name : String) -> Int {
-  @raylib.get_file_length(@utf8.encode(file_name))
+  @ffi.get_file_length(@utf8.encode(file_name))
 }
 
 ///|
 pub fn get_file_extension(file_name : String) -> String {
-  @utf8.decode_lossy(@raylib.get_file_extension(@utf8.encode(file_name)))
+  @utf8.decode_lossy(@ffi.get_file_extension(@utf8.encode(file_name)))
 }
 
 ///|
 pub fn get_file_name(file_path : String) -> String {
-  @utf8.decode_lossy(@raylib.get_file_name(@utf8.encode(file_path)))
+  @utf8.decode_lossy(@ffi.get_file_name(@utf8.encode(file_path)))
 }
 
 ///|
 pub fn get_file_name_without_ext(file_path : String) -> String {
-  @utf8.decode_lossy(@raylib.get_file_name_without_ext(@utf8.encode(file_path)))
+  @utf8.decode_lossy(@ffi.get_file_name_without_ext(@utf8.encode(file_path)))
 }
 
 ///|
 pub fn get_directory_path(file_path : String) -> String {
-  @utf8.decode_lossy(@raylib.get_directory_path(@utf8.encode(file_path)))
+  @utf8.decode_lossy(@ffi.get_directory_path(@utf8.encode(file_path)))
 }
 
 ///|
 pub fn get_prev_directory_path(dir_path : String) -> String {
-  @utf8.decode_lossy(@raylib.get_prev_directory_path(@utf8.encode(dir_path)))
+  @utf8.decode_lossy(@ffi.get_prev_directory_path(@utf8.encode(dir_path)))
 }
 
 ///|
 pub fn get_working_directory() -> String {
-  @utf8.decode_lossy(@raylib.get_working_directory())
+  @utf8.decode_lossy(@ffi.get_working_directory())
 }
 
 ///|
 pub fn get_application_directory() -> String {
-  @utf8.decode_lossy(@raylib.get_application_directory())
+  @utf8.decode_lossy(@ffi.get_application_directory())
 }
 
 ///|
 pub fn make_directory(dir_path : String) -> Int {
-  @raylib.make_directory(@utf8.encode(dir_path))
+  @ffi.make_directory(@utf8.encode(dir_path))
 }
 
 ///|
 pub fn change_directory(dir : String) -> Bool {
-  @raylib.change_directory(@utf8.encode(dir))
+  @ffi.change_directory(@utf8.encode(dir))
 }
 
 ///|
 pub fn is_path_file(path : String) -> Bool {
-  @raylib.is_path_file(@utf8.encode(path))
+  @ffi.is_path_file(@utf8.encode(path))
 }
 
 ///|
 pub fn is_file_name_valid(file_name : String) -> Bool {
-  @raylib.is_file_name_valid(@utf8.encode(file_name))
+  @ffi.is_file_name_valid(@utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -95,7 +95,7 @@ pub fn is_file_name_valid(file_name : String) -> Bool {
 
 ///|
 pub fn load_file_data(file_name : String) -> Bytes {
-  @raylib.load_file_data(@utf8.encode(file_name))
+  @ffi.load_file_data(@utf8.encode(file_name))
 }
 
 ///|
@@ -104,17 +104,17 @@ pub fn save_file_data(
   data : Bytes,
   data_size : Int,
 ) -> Bool {
-  @raylib.save_file_data(@utf8.encode(file_name), data, data_size)
+  @ffi.save_file_data(@utf8.encode(file_name), data, data_size)
 }
 
 ///|
 pub fn load_file_text(file_name : String) -> String {
-  @utf8.decode_lossy(@raylib.load_file_text(@utf8.encode(file_name)))
+  @utf8.decode_lossy(@ffi.load_file_text(@utf8.encode(file_name)))
 }
 
 ///|
 pub fn save_file_text(file_name : String, text : String) -> Bool {
-  @raylib.save_file_text(@utf8.encode(file_name), @utf8.encode(text))
+  @ffi.save_file_text(@utf8.encode(file_name), @utf8.encode(text))
 }
 
 ///|
@@ -123,7 +123,7 @@ pub fn export_data_as_code(
   data_size : Int,
   file_name : String,
 ) -> Bool {
-  @raylib.export_data_as_code(data, data_size, @utf8.encode(file_name))
+  @ffi.export_data_as_code(data, data_size, @utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -132,7 +132,7 @@ pub fn export_data_as_code(
 
 ///|
 pub fn load_directory_files(dir_path : String) -> FilePathList {
-  @raylib.load_directory_files(@utf8.encode(dir_path))
+  @ffi.load_directory_files(@utf8.encode(dir_path))
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn load_directory_files_ex(
   filter : String,
   scan_subdirs : Bool,
 ) -> FilePathList {
-  @raylib.load_directory_files_ex(
+  @ffi.load_directory_files_ex(
     @utf8.encode(base_path),
     @utf8.encode(filter),
     scan_subdirs,
@@ -150,7 +150,7 @@ pub fn load_directory_files_ex(
 
 ///|
 pub fn file_path_list_get(files : FilePathList, index : Int) -> String {
-  @utf8.decode_lossy(@raylib.file_path_list_get(files, index))
+  @utf8.decode_lossy(@ffi.file_path_list_get(files, index))
 }
 
 // ============================================================================
@@ -159,5 +159,5 @@ pub fn file_path_list_get(files : FilePathList, index : Int) -> String {
 
 ///|
 pub fn get_file_mod_time(file_name : String) -> Int {
-  @raylib.get_file_mod_time(@utf8.encode(file_name))
+  @ffi.get_file_mod_time(@utf8.encode(file_name))
 }

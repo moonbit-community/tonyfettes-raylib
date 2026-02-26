@@ -1,7 +1,7 @@
 // Cursor re-exports
 
 ///|
-pub using @raylib {
+pub using @ffi {
   show_cursor,
   hide_cursor,
   is_cursor_hidden,
@@ -57,48 +57,48 @@ pub using @raylib {
 
 ///|
 pub fn get_mouse_position() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_mouse_position())
+  Vector2::from_bytes(@ffi.get_mouse_position())
 }
 
 ///|
 pub fn get_mouse_delta() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_mouse_delta())
+  Vector2::from_bytes(@ffi.get_mouse_delta())
 }
 
 ///|
 pub fn get_mouse_wheel_move_v() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_mouse_wheel_move_v())
+  Vector2::from_bytes(@ffi.get_mouse_wheel_move_v())
 }
 
 // Gamepad wrappers
 
 ///|
 pub fn get_gamepad_name(gamepad : Int) -> String {
-  @utf8.decode_lossy(@raylib.get_gamepad_name(gamepad))
+  @utf8.decode_lossy(@ffi.get_gamepad_name(gamepad))
 }
 
 ///|
 pub fn set_gamepad_mappings(mappings : String) -> Int {
-  @raylib.set_gamepad_mappings(@utf8.encode(mappings))
+  @ffi.set_gamepad_mappings(@utf8.encode(mappings))
 }
 
 // Touch wrappers
 
 ///|
 pub fn get_touch_position(index : Int) -> Vector2 {
-  Vector2::from_bytes(@raylib.get_touch_position(index))
+  Vector2::from_bytes(@ffi.get_touch_position(index))
 }
 
 // Gesture wrappers
 
 ///|
 pub fn get_gesture_drag_vector() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_gesture_drag_vector())
+  Vector2::from_bytes(@ffi.get_gesture_drag_vector())
 }
 
 ///|
 pub fn get_gesture_pinch_vector() -> Vector2 {
-  Vector2::from_bytes(@raylib.get_gesture_pinch_vector())
+  Vector2::from_bytes(@ffi.get_gesture_pinch_vector())
 }
 
 // Keyboard key constants

@@ -1,12 +1,12 @@
 // Re-export opaque types for drawing
 
 ///|
-pub using @raylib {type Shader, type RenderTexture, type VrStereoConfig}
+pub using @ffi {type Shader, type RenderTexture, type VrStereoConfig}
 
 // Drawing lifecycle re-exports
 
 ///|
-pub using @raylib {
+pub using @ffi {
   begin_drawing,
   end_drawing,
   begin_scissor_mode,
@@ -20,7 +20,7 @@ pub using @raylib {
 // Shader re-exports (passthrough: primitives/opaque types only)
 
 ///|
-pub using @raylib {
+pub using @ffi {
   is_shader_valid,
   unload_shader,
   begin_shader_mode,
@@ -35,7 +35,7 @@ pub using @raylib {
 
 ///|
 pub fn clear_background(color : Color) -> Unit {
-  @raylib.clear_background(color.to_bytes())
+  @ffi.clear_background(color.to_bytes())
 }
 
 // ============================================================================
@@ -44,17 +44,17 @@ pub fn clear_background(color : Color) -> Unit {
 
 ///|
 pub fn load_shader(vs_file_name : String, fs_file_name : String) -> Shader {
-  @raylib.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
+  @ffi.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
 }
 
 ///|
 pub fn load_shader_from_memory(vs_code : String, fs_code : String) -> Shader {
-  @raylib.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
+  @ffi.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
 }
 
 ///|
 pub fn get_shader_location(shader : Shader, uniform_name : String) -> Int {
-  @raylib.get_shader_location(shader, @utf8.encode(uniform_name))
+  @ffi.get_shader_location(shader, @utf8.encode(uniform_name))
 }
 
 ///|
@@ -63,17 +63,17 @@ pub fn set_shader_location(
   loc_index : Int,
   value : Int,
 ) -> Unit {
-  @raylib.set_shader_location(shader, loc_index, value)
+  @ffi.set_shader_location(shader, loc_index, value)
 }
 
 ///|
 pub fn get_shader_id(shader : Shader) -> Int {
-  @raylib.get_shader_id(shader)
+  @ffi.get_shader_id(shader)
 }
 
 ///|
 pub fn get_shader_location_attrib(shader : Shader, attrib_name : String) -> Int {
-  @raylib.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
+  @ffi.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
 }
 
 ///|
@@ -82,8 +82,14 @@ pub fn set_shader_value_matrix(
   loc_index : Int,
   mat : Matrix,
 ) -> Unit {
-  @raylib.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
+  @ffi.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
 }
+
+///|
+pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
+  @ffi.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
+}
+
 
 // Shader uniform type constants
 
@@ -216,12 +222,157 @@ pub const BlendMultiplied : Int = 2
 ///|
 pub const BlendCustom : Int = 6
 
+// rlgl re-exports
+
+///|
+pub using @ffi {
+  rl_set_blend_mode,
+  rl_set_blend_factors,
+  rl_draw_render_batch_active,
+  // rlgl: Geometry submission
+  rl_begin,
+  rl_end,
+  rl_vertex2f,
+  rl_vertex3f,
+  rl_tex_coord2f,
+  rl_color4ub,
+  rl_normal3f,
+  rl_set_texture,
+  // rlgl: Matrix stack
+  rl_push_matrix,
+  rl_pop_matrix,
+  rl_translatef,
+  rl_rotatef,
+  rl_scalef,
+  rl_mult_matrixf,
+  // rlgl: State control
+  rl_enable_backface_culling,
+  rl_disable_backface_culling,
+  rl_check_render_batch_limit,
+  rl_enable_depth_test,
+  rl_disable_depth_test,
+  rl_enable_depth_mask,
+  rl_disable_depth_mask,
+  rl_enable_color_blend,
+  rl_disable_color_blend,
+  rl_active_texture_slot,
+  rl_enable_texture,
+  rl_disable_texture,
+  rl_enable_shader,
+  rl_disable_shader,
+  rl_enable_framebuffer,
+  rl_disable_framebuffer,
+  rl_active_draw_buffers,
+  rl_viewport,
+  rl_clear_screen_buffers,
+  // rlgl: Framebuffer management
+  rl_load_framebuffer,
+  rl_framebuffer_complete,
+  rl_framebuffer_attach,
+  rl_unload_framebuffer,
+  // rlgl: Texture management
+  rl_load_texture_depth,
+  rl_load_texture,
+  rl_unload_texture,
+  // rlgl: Shader management
+  rl_set_uniform_sampler,
+  rl_get_shader_id_default,
+  // rlgl: Draw helpers
+  rl_load_draw_quad,
+  rl_load_draw_cube,
+  // rlgl: Misc
+  rl_get_framebuffer_width,
+  rl_get_framebuffer_height,
+  rl_bind_framebuffer,
+  rl_blit_framebuffer,
+  // rlgl: Low-level uniform setting
+  rl_set_uniform,
+}
+
+// rlgl: Matrix getters (wrappers returning Matrix value type)
+
+///|
+pub fn rl_get_matrix_modelview() -> Matrix {
+  Matrix::from_bytes(@ffi.rl_get_matrix_modelview())
+}
+
+///|
+pub fn rl_get_matrix_projection() -> Matrix {
+  Matrix::from_bytes(@ffi.rl_get_matrix_projection())
+}
+
+// rlgl draw mode constants
+
+///|
+pub const RlLines : Int = 0x0001
+
+///|
+pub const RlTriangles : Int = 0x0004
+
+///|
+pub const RlQuads : Int = 0x0007
+
+// rlgl framebuffer target constants
+
+///|
+pub const RlReadFramebuffer : UInt = 0x8CA8U
+
+///|
+pub const RlDrawFramebuffer : UInt = 0x8CA9U
+
+// rlgl framebuffer attach type constants
+
+///|
+pub const RlAttachmentColorChannel0 : Int = 0
+
+///|
+pub const RlAttachmentColorChannel1 : Int = 1
+
+///|
+pub const RlAttachmentColorChannel2 : Int = 2
+
+///|
+pub const RlAttachmentColorChannel3 : Int = 3
+
+///|
+pub const RlAttachmentDepth : Int = 100
+
+///|
+pub const RlAttachmentStencil : Int = 200
+
+// rlgl framebuffer texture type constants
+
+///|
+pub const RlAttachmentCubemapPositiveX : Int = 0
+
+///|
+pub const RlAttachmentCubemapNegativeX : Int = 1
+
+///|
+pub const RlAttachmentCubemapPositiveY : Int = 2
+
+///|
+pub const RlAttachmentCubemapNegativeY : Int = 3
+
+///|
+pub const RlAttachmentCubemapPositiveZ : Int = 4
+
+///|
+pub const RlAttachmentCubemapNegativeZ : Int = 5
+
+///|
+pub const RlAttachmentTexture2d : Int = 100
+
+///|
+pub const RlAttachmentRenderbuffer : Int = 200
+
+
 // ============================================================================
 // VR stereo re-exports
 // ============================================================================
 
 ///|
-pub using @raylib {unload_vr_stereo_config, end_vr_stereo_mode}
+pub using @ffi {unload_vr_stereo_config, end_vr_stereo_mode}
 
 // VrDeviceInfo value type: 60 bytes
 // hResolution(int), vResolution(int), hScreenSize(float), vScreenSize(float),
@@ -287,42 +438,42 @@ pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
 
 ///|
 pub fn load_vr_stereo_config(device : VrDeviceInfo) -> VrStereoConfig {
-  @raylib.load_vr_stereo_config(device.to_bytes())
+  @ffi.load_vr_stereo_config(device.to_bytes())
 }
 
 ///|
 pub fn begin_vr_stereo_mode(config : VrStereoConfig) -> Unit {
-  @raylib.begin_vr_stereo_mode(config)
+  @ffi.begin_vr_stereo_mode(config)
 }
 
 // VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
 
 ///|
 pub fn vr_stereo_config_left_lens_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_left_lens_center(config)
+  @ffi.vr_stereo_config_left_lens_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_right_lens_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_right_lens_center(config)
+  @ffi.vr_stereo_config_right_lens_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_left_screen_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_left_screen_center(config)
+  @ffi.vr_stereo_config_left_screen_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_right_screen_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_right_screen_center(config)
+  @ffi.vr_stereo_config_right_screen_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_scale(config)
+  @ffi.vr_stereo_config_scale(config)
 }
 
 ///|
 pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_scale_in(config)
+  @ffi.vr_stereo_config_scale_in(config)
 }
