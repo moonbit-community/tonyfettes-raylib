@@ -1,0 +1,6 @@
+import {
+  "moonbitlang/core/math",
+  "tonyfettes/raylib",
+  "tonyfettes/raylib/examples/raylib_tank_1990/score",
+  "tonyfettes/raylib/examples/raylib_tank_1990/types",
+}

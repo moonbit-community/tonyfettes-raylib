@@ -1,0 +1,9 @@
+import {
+  "moonbitlang/core/encoding/utf8",
+  "tonyfettes/raylib",
+  "tonyfettes/raylib/examples/raylib_tank_1990/levels",
+  "tonyfettes/raylib/examples/raylib_tank_1990/particles",
+  "tonyfettes/raylib/examples/raylib_tank_1990/score",
+  "tonyfettes/raylib/examples/raylib_tank_1990/types",
+  "tonyfettes/raylib/examples/raylib_tank_1990/world",
+}
