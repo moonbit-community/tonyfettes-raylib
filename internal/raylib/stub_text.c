@@ -86,10 +86,12 @@ moonbit_raylib_get_font_glyph_padding(FontWrapper *wrapper) {
 
 TextureWrapper *
 moonbit_raylib_get_font_texture(FontWrapper *wrapper) {
+  moonbit_incref(wrapper); // keep font alive while texture view exists
   TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    noop_destructor, sizeof(TextureWrapper));
+    texture_view_destructor, sizeof(TextureWrapper));
   tw->texture = wrapper->font.texture;
   tw->freed = 1; // Don't unload - owned by the font
+  tw->parent = wrapper;
   return tw;
 }
 
@@ -304,10 +306,10 @@ moonbit_raylib_load_codepoints(moonbit_bytes_t text) {
 moonbit_bytes_t
 moonbit_raylib_load_utf8(moonbit_bytes_t codepoints, int length) {
   char *text = LoadUTF8((const int *)codepoints, length);
-  if (!text) return moonbit_make_bytes(1, 0);
+  if (!text) return moonbit_make_bytes(0, 0);
   int len = (int)strlen(text);
-  moonbit_bytes_t result = moonbit_make_bytes(len + 1, 0);
-  memcpy(result, text, len + 1);
+  moonbit_bytes_t result = moonbit_make_bytes(len, 0);
+  memcpy(result, text, len);
   UnloadUTF8(text);
   return result;
 }
