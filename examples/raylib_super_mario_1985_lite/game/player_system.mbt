@@ -1,28 +1,4 @@
 ///|
-fn is_move_left_down() -> Bool {
-  @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-}
-
-///|
-fn is_move_right_down() -> Bool {
-  @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-}
-
-///|
-fn is_jump_pressed() -> Bool {
-  @raylib.is_key_pressed(@raylib.KeyW) ||
-  @raylib.is_key_pressed(@raylib.KeyUp) ||
-  @raylib.is_key_pressed(@raylib.KeySpace)
-}
-
-///|
-fn is_jump_down() -> Bool {
-  @raylib.is_key_down(@raylib.KeyW) ||
-  @raylib.is_key_down(@raylib.KeyUp) ||
-  @raylib.is_key_down(@raylib.KeySpace)
-}
-
-///|
 fn collect_coin(game : @types.Game, x : Float, y : Float) -> Unit {
   let player = game.player
   player.coins += 1
@@ -227,7 +203,7 @@ fn on_player_hurt(game : @types.Game) -> Unit {
 }
 
 ///|
-fn update_player(game : @types.Game, dt : Float) -> Unit {
+fn update_player(game : @types.Game, input : @types.Input, dt : Float) -> Unit {
   let player = game.player
 
   if player.invuln_t > 0.0 {
@@ -242,7 +218,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     return
   }
 
-  if is_jump_pressed() {
+  if input.jump_pressed {
     player.jump_buf_t = @types.jump_buffer_time
   } else if player.jump_buf_t > 0.0 {
     player.jump_buf_t = player.jump_buf_t - dt
@@ -251,8 +227,8 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     }
   }
 
-  let left = is_move_left_down()
-  let right = is_move_right_down()
+  let left = input.move_left
+  let right = input.move_right
   let move_axis = if left && not(right) {
     -1
   } else if right && not(left) {
@@ -286,7 +262,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     player.jump_buf_t = 0.0
   }
 
-  if not(is_jump_down()) && player.vy < 0.0 {
+  if not(input.jump_held) && player.vy < 0.0 {
     player.vy += @types.gravity * dt * (1.0 - @types.jump_cut_multiplier)
   }
 
