@@ -37,6 +37,8 @@
 //
 // On Linux, _GLFW_X11 and _GLFW_WAYLAND can be combined
 
+#if defined(PLATFORM_DESKTOP_GLFW)
+
 //----------------------------------------------------------------------------------
 // Feature Test Macros required for this module
 //----------------------------------------------------------------------------------
@@ -146,3 +148,5 @@
     #include "external/glfw/src/egl_context.c"
     #include "external/glfw/src/osmesa_context.c"
 #endif
+
+#endif  // PLATFORM_DESKTOP_GLFW
