@@ -1,12 +1,12 @@
 // Re-export opaque types for drawing
 
 ///|
-pub using @raylib {type Shader, type RenderTexture, type VrStereoConfig}
+pub using @ffi {type Shader, type RenderTexture, type VrStereoConfig}
 
 // Drawing lifecycle re-exports
 
 ///|
-pub using @raylib {
+pub using @ffi {
   begin_drawing,
   end_drawing,
   begin_scissor_mode,
@@ -20,7 +20,7 @@ pub using @raylib {
 // Shader re-exports (passthrough: primitives/opaque types only)
 
 ///|
-pub using @raylib {
+pub using @ffi {
   is_shader_valid,
   unload_shader,
   begin_shader_mode,
@@ -35,7 +35,7 @@ pub using @raylib {
 
 ///|
 pub fn clear_background(color : Color) -> Unit {
-  @raylib.clear_background(color.to_bytes())
+  @ffi.clear_background(color.to_bytes())
 }
 
 // ============================================================================
@@ -44,17 +44,17 @@ pub fn clear_background(color : Color) -> Unit {
 
 ///|
 pub fn load_shader(vs_file_name : String, fs_file_name : String) -> Shader {
-  @raylib.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
+  @ffi.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
 }
 
 ///|
 pub fn load_shader_from_memory(vs_code : String, fs_code : String) -> Shader {
-  @raylib.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
+  @ffi.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
 }
 
 ///|
 pub fn get_shader_location(shader : Shader, uniform_name : String) -> Int {
-  @raylib.get_shader_location(shader, @utf8.encode(uniform_name))
+  @ffi.get_shader_location(shader, @utf8.encode(uniform_name))
 }
 
 ///|
@@ -63,17 +63,17 @@ pub fn set_shader_location(
   loc_index : Int,
   value : Int,
 ) -> Unit {
-  @raylib.set_shader_location(shader, loc_index, value)
+  @ffi.set_shader_location(shader, loc_index, value)
 }
 
 ///|
 pub fn get_shader_id(shader : Shader) -> Int {
-  @raylib.get_shader_id(shader)
+  @ffi.get_shader_id(shader)
 }
 
 ///|
 pub fn get_shader_location_attrib(shader : Shader, attrib_name : String) -> Int {
-  @raylib.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
+  @ffi.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
 }
 
 ///|
@@ -82,7 +82,7 @@ pub fn set_shader_value_matrix(
   loc_index : Int,
   mat : Matrix,
 ) -> Unit {
-  @raylib.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
+  @ffi.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
 }
 
 // Shader uniform type constants
@@ -221,7 +221,7 @@ pub const BlendCustom : Int = 6
 // ============================================================================
 
 ///|
-pub using @raylib {unload_vr_stereo_config, end_vr_stereo_mode}
+pub using @ffi {unload_vr_stereo_config, end_vr_stereo_mode}
 
 // VrDeviceInfo value type: 60 bytes
 // hResolution(int), vResolution(int), hScreenSize(float), vScreenSize(float),
@@ -287,42 +287,42 @@ pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
 
 ///|
 pub fn load_vr_stereo_config(device : VrDeviceInfo) -> VrStereoConfig {
-  @raylib.load_vr_stereo_config(device.to_bytes())
+  @ffi.load_vr_stereo_config(device.to_bytes())
 }
 
 ///|
 pub fn begin_vr_stereo_mode(config : VrStereoConfig) -> Unit {
-  @raylib.begin_vr_stereo_mode(config)
+  @ffi.begin_vr_stereo_mode(config)
 }
 
 // VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
 
 ///|
 pub fn vr_stereo_config_left_lens_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_left_lens_center(config)
+  @ffi.vr_stereo_config_left_lens_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_right_lens_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_right_lens_center(config)
+  @ffi.vr_stereo_config_right_lens_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_left_screen_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_left_screen_center(config)
+  @ffi.vr_stereo_config_left_screen_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_right_screen_center(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_right_screen_center(config)
+  @ffi.vr_stereo_config_right_screen_center(config)
 }
 
 ///|
 pub fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_scale(config)
+  @ffi.vr_stereo_config_scale(config)
 }
 
 ///|
 pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
-  @raylib.vr_stereo_config_scale_in(config)
+  @ffi.vr_stereo_config_scale_in(config)
 }

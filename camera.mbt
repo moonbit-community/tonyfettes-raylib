@@ -118,23 +118,23 @@ pub const CameraOrthographic : Int = 1
 // Re-export passthrough camera functions
 
 ///|
-pub using @raylib {end_mode_2d, end_mode_3d}
+pub using @ffi {end_mode_2d, end_mode_3d}
 
 // Camera wrappers
 
 ///|
 pub fn begin_mode_2d(camera : Camera2D) -> Unit {
-  @raylib.begin_mode_2d(camera.to_bytes())
+  @ffi.begin_mode_2d(camera.to_bytes())
 }
 
 ///|
 pub fn begin_mode_3d(camera : Camera3D) -> Unit {
-  @raylib.begin_mode_3d(camera.to_bytes())
+  @ffi.begin_mode_3d(camera.to_bytes())
 }
 
 ///|
 pub fn update_camera(camera : Camera3D, mode : Int) -> Camera3D {
-  Camera3D::from_bytes(@raylib.update_camera(camera.to_bytes(), mode))
+  Camera3D::from_bytes(@ffi.update_camera(camera.to_bytes(), mode))
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn update_camera_pro(
   zoom : Float,
 ) -> Camera3D {
   Camera3D::from_bytes(
-    @raylib.update_camera_pro(
+    @ffi.update_camera_pro(
       camera.to_bytes(),
       movement.to_bytes(),
       rotation.to_bytes(),
@@ -157,21 +157,21 @@ pub fn update_camera_pro(
 ///|
 pub fn get_world_to_screen(position : Vector3, camera : Camera3D) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_world_to_screen(position.to_bytes(), camera.to_bytes()),
+    @ffi.get_world_to_screen(position.to_bytes(), camera.to_bytes()),
   )
 }
 
 ///|
 pub fn get_screen_to_world_2d(position : Vector2, camera : Camera2D) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_screen_to_world_2d(position.to_bytes(), camera.to_bytes()),
+    @ffi.get_screen_to_world_2d(position.to_bytes(), camera.to_bytes()),
   )
 }
 
 ///|
 pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_world_to_screen_2d(position.to_bytes(), camera.to_bytes()),
+    @ffi.get_world_to_screen_2d(position.to_bytes(), camera.to_bytes()),
   )
 }
 
@@ -181,18 +181,18 @@ pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 
 
 ///|
 pub fn get_camera_matrix(camera : Camera3D) -> Matrix {
-  Matrix::from_bytes(@raylib.get_camera_matrix(camera.to_bytes()))
+  Matrix::from_bytes(@ffi.get_camera_matrix(camera.to_bytes()))
 }
 
 ///|
 pub fn get_camera_matrix_2d(camera : Camera2D) -> Matrix {
-  Matrix::from_bytes(@raylib.get_camera_matrix_2d(camera.to_bytes()))
+  Matrix::from_bytes(@ffi.get_camera_matrix_2d(camera.to_bytes()))
 }
 
 ///|
 pub fn get_screen_to_world_ray(position : Vector2, camera : Camera3D) -> Ray {
   Ray::from_bytes(
-    @raylib.get_screen_to_world_ray(position.to_bytes(), camera.to_bytes()),
+    @ffi.get_screen_to_world_ray(position.to_bytes(), camera.to_bytes()),
   )
 }
 
@@ -204,7 +204,7 @@ pub fn get_screen_to_world_ray_ex(
   height : Int,
 ) -> Ray {
   Ray::from_bytes(
-    @raylib.get_screen_to_world_ray_ex(
+    @ffi.get_screen_to_world_ray_ex(
       position.to_bytes(),
       camera.to_bytes(),
       width,
@@ -221,7 +221,7 @@ pub fn get_world_to_screen_ex(
   height : Int,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_world_to_screen_ex(
+    @ffi.get_world_to_screen_ex(
       position.to_bytes(),
       camera.to_bytes(),
       width,

@@ -9,3 +9,4 @@ target/
 
 # Publish staging directory
 publish/
+.DS_Store

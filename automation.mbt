@@ -1,7 +1,7 @@
 // Re-export opaque types and passthrough functions for automation events
 
 ///|
-pub using @raylib {
+pub using @ffi {
   type AutomationEventList,
   unload_automation_event_list,
   set_automation_event_list,
@@ -47,7 +47,7 @@ pub fn AutomationEvent::to_bytes(e : AutomationEvent) -> Bytes {
 
 ///|
 pub fn load_automation_event_list(file_name : String) -> AutomationEventList {
-  @raylib.load_automation_event_list(@utf8.encode(file_name))
+  @ffi.load_automation_event_list(@utf8.encode(file_name))
 }
 
 ///|
@@ -55,12 +55,12 @@ pub fn export_automation_event_list(
   list : AutomationEventList,
   file_name : String,
 ) -> Bool {
-  @raylib.export_automation_event_list(list, @utf8.encode(file_name))
+  @ffi.export_automation_event_list(list, @utf8.encode(file_name))
 }
 
 ///|
 pub fn play_automation_event(event : AutomationEvent) -> Unit {
-  @raylib.play_automation_event(event.to_bytes())
+  @ffi.play_automation_event(event.to_bytes())
 }
 
 ///|
@@ -68,5 +68,5 @@ pub fn automation_event_list_get(
   list : AutomationEventList,
   index : Int,
 ) -> AutomationEvent {
-  AutomationEvent::from_bytes(@raylib.automation_event_list_get(list, index))
+  AutomationEvent::from_bytes(@ffi.automation_event_list_get(list, index))
 }

@@ -4,12 +4,12 @@
 
 ///|
 pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
-  @raylib.draw_pixel(pos_x, pos_y, color.to_bytes())
+  @ffi.draw_pixel(pos_x, pos_y, color.to_bytes())
 }
 
 ///|
 pub fn draw_pixel_v(position : Vector2, color : Color) -> Unit {
-  @raylib.draw_pixel_v(position.to_bytes(), color.to_bytes())
+  @ffi.draw_pixel_v(position.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -20,7 +20,7 @@ pub fn draw_line(
   end_y : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line(start_x, start_y, end_x, end_y, color.to_bytes())
+  @ffi.draw_line(start_x, start_y, end_x, end_y, color.to_bytes())
 }
 
 ///|
@@ -29,11 +29,7 @@ pub fn draw_line_v(
   end_pos : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_v(
-    start_pos.to_bytes(),
-    end_pos.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_line_v(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -43,7 +39,7 @@ pub fn draw_line_ex(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_ex(
+  @ffi.draw_line_ex(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     thick,
@@ -58,7 +54,7 @@ pub fn draw_line_bezier(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_line_bezier(
+  @ffi.draw_line_bezier(
     start_pos.to_bytes(),
     end_pos.to_bytes(),
     thick,
@@ -73,7 +69,7 @@ pub fn draw_circle(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle(center_x, center_y, radius, color.to_bytes())
+  @ffi.draw_circle(center_x, center_y, radius, color.to_bytes())
 }
 
 ///|
@@ -85,7 +81,7 @@ pub fn draw_circle_sector(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle_sector(
+  @ffi.draw_circle_sector(
     center.to_bytes(),
     radius,
     start_angle,
@@ -103,7 +99,7 @@ pub fn draw_circle_gradient(
   inner : Color,
   outer : Color,
 ) -> Unit {
-  @raylib.draw_circle_gradient(
+  @ffi.draw_circle_gradient(
     center_x,
     center_y,
     radius,
@@ -114,7 +110,7 @@ pub fn draw_circle_gradient(
 
 ///|
 pub fn draw_circle_v(center : Vector2, radius : Float, color : Color) -> Unit {
-  @raylib.draw_circle_v(center.to_bytes(), radius, color.to_bytes())
+  @ffi.draw_circle_v(center.to_bytes(), radius, color.to_bytes())
 }
 
 ///|
@@ -124,7 +120,7 @@ pub fn draw_circle_lines(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle_lines(center_x, center_y, radius, color.to_bytes())
+  @ffi.draw_circle_lines(center_x, center_y, radius, color.to_bytes())
 }
 
 ///|
@@ -133,7 +129,7 @@ pub fn draw_circle_lines_v(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle_lines_v(center.to_bytes(), radius, color.to_bytes())
+  @ffi.draw_circle_lines_v(center.to_bytes(), radius, color.to_bytes())
 }
 
 ///|
@@ -144,7 +140,7 @@ pub fn draw_ellipse(
   radius_v : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_ellipse(center_x, center_y, radius_h, radius_v, color.to_bytes())
+  @ffi.draw_ellipse(center_x, center_y, radius_h, radius_v, color.to_bytes())
 }
 
 ///|
@@ -155,7 +151,7 @@ pub fn draw_ellipse_lines(
   radius_v : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_ellipse_lines(
+  @ffi.draw_ellipse_lines(
     center_x,
     center_y,
     radius_h,
@@ -174,7 +170,7 @@ pub fn draw_ring(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_ring(
+  @ffi.draw_ring(
     center.to_bytes(),
     inner_radius,
     outer_radius,
@@ -195,7 +191,7 @@ pub fn draw_ring_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_ring_lines(
+  @ffi.draw_ring_lines(
     center.to_bytes(),
     inner_radius,
     outer_radius,
@@ -214,7 +210,7 @@ pub fn draw_rectangle(
   height : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle(pos_x, pos_y, width, height, color.to_bytes())
+  @ffi.draw_rectangle(pos_x, pos_y, width, height, color.to_bytes())
 }
 
 ///|
@@ -223,16 +219,12 @@ pub fn draw_rectangle_v(
   size : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_v(
-    position.to_bytes(),
-    size.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_rectangle_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
 pub fn draw_rectangle_rec(rec : Rectangle, color : Color) -> Unit {
-  @raylib.draw_rectangle_rec(rec.to_bytes(), color.to_bytes())
+  @ffi.draw_rectangle_rec(rec.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -242,7 +234,7 @@ pub fn draw_rectangle_pro(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_pro(
+  @ffi.draw_rectangle_pro(
     rec.to_bytes(),
     origin.to_bytes(),
     rotation,
@@ -259,7 +251,7 @@ pub fn draw_rectangle_gradient_v(
   top : Color,
   bottom : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_gradient_v(
+  @ffi.draw_rectangle_gradient_v(
     pos_x,
     pos_y,
     width,
@@ -278,7 +270,7 @@ pub fn draw_rectangle_gradient_h(
   left : Color,
   right : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_gradient_h(
+  @ffi.draw_rectangle_gradient_h(
     pos_x,
     pos_y,
     width,
@@ -296,7 +288,7 @@ pub fn draw_rectangle_gradient_ex(
   top_right : Color,
   bottom_right : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_gradient_ex(
+  @ffi.draw_rectangle_gradient_ex(
     rec.to_bytes(),
     top_left.to_bytes(),
     bottom_left.to_bytes(),
@@ -313,7 +305,7 @@ pub fn draw_rectangle_lines(
   height : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_lines(pos_x, pos_y, width, height, color.to_bytes())
+  @ffi.draw_rectangle_lines(pos_x, pos_y, width, height, color.to_bytes())
 }
 
 ///|
@@ -322,7 +314,7 @@ pub fn draw_rectangle_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_lines_ex(rec.to_bytes(), line_thick, color.to_bytes())
+  @ffi.draw_rectangle_lines_ex(rec.to_bytes(), line_thick, color.to_bytes())
 }
 
 ///|
@@ -332,7 +324,7 @@ pub fn draw_rectangle_rounded(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_rounded(
+  @ffi.draw_rectangle_rounded(
     rec.to_bytes(),
     roundness,
     segments,
@@ -347,7 +339,7 @@ pub fn draw_rectangle_rounded_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_rounded_lines(
+  @ffi.draw_rectangle_rounded_lines(
     rec.to_bytes(),
     roundness,
     segments,
@@ -363,7 +355,7 @@ pub fn draw_rectangle_rounded_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_rectangle_rounded_lines_ex(
+  @ffi.draw_rectangle_rounded_lines_ex(
     rec.to_bytes(),
     roundness,
     segments,
@@ -379,7 +371,7 @@ pub fn draw_triangle(
   v3 : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_triangle(
+  @ffi.draw_triangle(
     v1.to_bytes(),
     v2.to_bytes(),
     v3.to_bytes(),
@@ -394,7 +386,7 @@ pub fn draw_triangle_lines(
   v3 : Vector2,
   color : Color,
 ) -> Unit {
-  @raylib.draw_triangle_lines(
+  @ffi.draw_triangle_lines(
     v1.to_bytes(),
     v2.to_bytes(),
     v3.to_bytes(),
@@ -410,13 +402,7 @@ pub fn draw_poly(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_poly(
-    center.to_bytes(),
-    sides,
-    radius,
-    rotation,
-    color.to_bytes(),
-  )
+  @ffi.draw_poly(center.to_bytes(), sides, radius, rotation, color.to_bytes())
 }
 
 ///|
@@ -427,7 +413,7 @@ pub fn draw_poly_lines(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_poly_lines(
+  @ffi.draw_poly_lines(
     center.to_bytes(),
     sides,
     radius,
@@ -445,7 +431,7 @@ pub fn draw_poly_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_poly_lines_ex(
+  @ffi.draw_poly_lines_ex(
     center.to_bytes(),
     sides,
     radius,
@@ -461,7 +447,7 @@ pub fn draw_poly_lines_ex(
 
 ///|
 pub fn check_collision_recs(rec1 : Rectangle, rec2 : Rectangle) -> Bool {
-  @raylib.check_collision_recs(rec1.to_bytes(), rec2.to_bytes())
+  @ffi.check_collision_recs(rec1.to_bytes(), rec2.to_bytes())
 }
 
 ///|
@@ -471,7 +457,7 @@ pub fn check_collision_circles(
   center2 : Vector2,
   radius2 : Float,
 ) -> Bool {
-  @raylib.check_collision_circles(
+  @ffi.check_collision_circles(
     center1.to_bytes(),
     radius1,
     center2.to_bytes(),
@@ -485,12 +471,12 @@ pub fn check_collision_circle_rec(
   radius : Float,
   rec : Rectangle,
 ) -> Bool {
-  @raylib.check_collision_circle_rec(center.to_bytes(), radius, rec.to_bytes())
+  @ffi.check_collision_circle_rec(center.to_bytes(), radius, rec.to_bytes())
 }
 
 ///|
 pub fn check_collision_point_rec(point : Vector2, rec : Rectangle) -> Bool {
-  @raylib.check_collision_point_rec(point.to_bytes(), rec.to_bytes())
+  @ffi.check_collision_point_rec(point.to_bytes(), rec.to_bytes())
 }
 
 ///|
@@ -499,11 +485,7 @@ pub fn check_collision_point_circle(
   center : Vector2,
   radius : Float,
 ) -> Bool {
-  @raylib.check_collision_point_circle(
-    point.to_bytes(),
-    center.to_bytes(),
-    radius,
-  )
+  @ffi.check_collision_point_circle(point.to_bytes(), center.to_bytes(), radius)
 }
 
 ///|
@@ -513,7 +495,7 @@ pub fn check_collision_point_triangle(
   p2 : Vector2,
   p3 : Vector2,
 ) -> Bool {
-  @raylib.check_collision_point_triangle(
+  @ffi.check_collision_point_triangle(
     point.to_bytes(),
     p1.to_bytes(),
     p2.to_bytes(),
@@ -524,7 +506,7 @@ pub fn check_collision_point_triangle(
 ///|
 pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
   Rectangle::from_bytes(
-    @raylib.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
+    @ffi.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
   )
 }
 
@@ -541,7 +523,7 @@ pub fn draw_circle_sector_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @raylib.draw_circle_sector_lines(
+  @ffi.draw_circle_sector_lines(
     center.to_bytes(),
     radius,
     start_angle,
@@ -564,19 +546,19 @@ fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
 ///|
 pub fn draw_line_strip(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_line_strip(bytes, points.length(), color.to_bytes())
+  @ffi.draw_line_strip(bytes, points.length(), color.to_bytes())
 }
 
 ///|
 pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_triangle_fan(bytes, points.length(), color.to_bytes())
+  @ffi.draw_triangle_fan(bytes, points.length(), color.to_bytes())
 }
 
 ///|
 pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_triangle_strip(bytes, points.length(), color.to_bytes())
+  @ffi.draw_triangle_strip(bytes, points.length(), color.to_bytes())
 }
 
 // ============================================================================
@@ -590,7 +572,7 @@ pub fn draw_spline_linear(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_spline_linear(bytes, points.length(), thick, color.to_bytes())
+  @ffi.draw_spline_linear(bytes, points.length(), thick, color.to_bytes())
 }
 
 ///|
@@ -600,7 +582,7 @@ pub fn draw_spline_basis(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_spline_basis(bytes, points.length(), thick, color.to_bytes())
+  @ffi.draw_spline_basis(bytes, points.length(), thick, color.to_bytes())
 }
 
 ///|
@@ -610,12 +592,7 @@ pub fn draw_spline_catmull_rom(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_spline_catmull_rom(
-    bytes,
-    points.length(),
-    thick,
-    color.to_bytes(),
-  )
+  @ffi.draw_spline_catmull_rom(bytes, points.length(), thick, color.to_bytes())
 }
 
 ///|
@@ -625,7 +602,7 @@ pub fn draw_spline_bezier_quadratic(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_spline_bezier_quadratic(
+  @ffi.draw_spline_bezier_quadratic(
     bytes,
     points.length(),
     thick,
@@ -640,12 +617,7 @@ pub fn draw_spline_bezier_cubic(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.draw_spline_bezier_cubic(
-    bytes,
-    points.length(),
-    thick,
-    color.to_bytes(),
-  )
+  @ffi.draw_spline_bezier_cubic(bytes, points.length(), thick, color.to_bytes())
 }
 
 // ============================================================================
@@ -659,7 +631,7 @@ pub fn draw_spline_segment_linear(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_spline_segment_linear(
+  @ffi.draw_spline_segment_linear(
     p1.to_bytes(),
     p2.to_bytes(),
     thick,
@@ -676,7 +648,7 @@ pub fn draw_spline_segment_basis(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_spline_segment_basis(
+  @ffi.draw_spline_segment_basis(
     p1.to_bytes(),
     p2.to_bytes(),
     p3.to_bytes(),
@@ -695,7 +667,7 @@ pub fn draw_spline_segment_catmull_rom(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_spline_segment_catmull_rom(
+  @ffi.draw_spline_segment_catmull_rom(
     p1.to_bytes(),
     p2.to_bytes(),
     p3.to_bytes(),
@@ -713,7 +685,7 @@ pub fn draw_spline_segment_bezier_quadratic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_spline_segment_bezier_quadratic(
+  @ffi.draw_spline_segment_bezier_quadratic(
     p1.to_bytes(),
     p2.to_bytes(),
     p3.to_bytes(),
@@ -731,7 +703,7 @@ pub fn draw_spline_segment_bezier_cubic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @raylib.draw_spline_segment_bezier_cubic(
+  @ffi.draw_spline_segment_bezier_cubic(
     p1.to_bytes(),
     p2.to_bytes(),
     p3.to_bytes(),
@@ -752,7 +724,7 @@ pub fn get_spline_point_linear(
   t : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_spline_point_linear(start_pos.to_bytes(), end_pos.to_bytes(), t),
+    @ffi.get_spline_point_linear(start_pos.to_bytes(), end_pos.to_bytes(), t),
   )
 }
 
@@ -765,7 +737,7 @@ pub fn get_spline_point_basis(
   t : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_spline_point_basis(
+    @ffi.get_spline_point_basis(
       p1.to_bytes(),
       p2.to_bytes(),
       p3.to_bytes(),
@@ -784,7 +756,7 @@ pub fn get_spline_point_catmull_rom(
   t : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_spline_point_catmull_rom(
+    @ffi.get_spline_point_catmull_rom(
       p1.to_bytes(),
       p2.to_bytes(),
       p3.to_bytes(),
@@ -802,7 +774,7 @@ pub fn get_spline_point_bezier_quad(
   t : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_spline_point_bezier_quad(
+    @ffi.get_spline_point_bezier_quad(
       p1.to_bytes(),
       p2.to_bytes(),
       p3.to_bytes(),
@@ -820,7 +792,7 @@ pub fn get_spline_point_bezier_cubic(
   t : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @raylib.get_spline_point_bezier_cubic(
+    @ffi.get_spline_point_bezier_cubic(
       p1.to_bytes(),
       p2.to_bytes(),
       p3.to_bytes(),
@@ -841,7 +813,7 @@ pub fn check_collision_circle_line(
   p1 : Vector2,
   p2 : Vector2,
 ) -> Bool {
-  @raylib.check_collision_circle_line(
+  @ffi.check_collision_circle_line(
     center.to_bytes(),
     radius,
     p1.to_bytes(),
@@ -856,7 +828,7 @@ pub fn check_collision_point_line(
   p2 : Vector2,
   threshold : Int,
 ) -> Bool {
-  @raylib.check_collision_point_line(
+  @ffi.check_collision_point_line(
     point.to_bytes(),
     p1.to_bytes(),
     p2.to_bytes(),
@@ -882,7 +854,7 @@ fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
 ///|
 pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
   let bytes = vector3_array_to_bytes(points)
-  @raylib.draw_triangle_strip_3d(bytes, points.length(), color.to_bytes())
+  @ffi.draw_triangle_strip_3d(bytes, points.length(), color.to_bytes())
 }
 
 // ============================================================================
@@ -895,7 +867,7 @@ pub fn check_collision_point_poly(
   points : Array[Vector2],
 ) -> Bool {
   let bytes = vector2_array_to_bytes(points)
-  @raylib.check_collision_point_poly(point.to_bytes(), bytes, points.length())
+  @ffi.check_collision_point_poly(point.to_bytes(), bytes, points.length())
 }
 
 ///|
@@ -905,7 +877,7 @@ pub fn check_collision_lines(
   start_pos2 : Vector2,
   end_pos2 : Vector2,
 ) -> Vector2? {
-  let result = @raylib.check_collision_lines(
+  let result = @ffi.check_collision_lines(
     start_pos1.to_bytes(),
     end_pos1.to_bytes(),
     start_pos2.to_bytes(),

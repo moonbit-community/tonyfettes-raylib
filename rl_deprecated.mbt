@@ -6,7 +6,7 @@
 ///|
 #deprecated("Use @rl.set_blend_mode from tonyfettes/raylib/rl instead")
 pub fn rl_set_blend_mode(mode : Int) -> Unit {
-  @raylib.rl_set_blend_mode(mode)
+  @ffi.rl_set_blend_mode(mode)
 }
 
 ///|
@@ -16,13 +16,13 @@ pub fn rl_set_blend_factors(
   gl_dst_factor : Int,
   gl_equation : Int,
 ) -> Unit {
-  @raylib.rl_set_blend_factors(gl_src_factor, gl_dst_factor, gl_equation)
+  @ffi.rl_set_blend_factors(gl_src_factor, gl_dst_factor, gl_equation)
 }
 
 ///|
 #deprecated("Use @rl.draw_render_batch_active from tonyfettes/raylib/rl instead")
 pub fn rl_draw_render_batch_active() -> Unit {
-  @raylib.rl_draw_render_batch_active()
+  @ffi.rl_draw_render_batch_active()
 }
 
 // Geometry submission
@@ -30,49 +30,49 @@ pub fn rl_draw_render_batch_active() -> Unit {
 ///|
 #deprecated("Use @rl.begin from tonyfettes/raylib/rl instead")
 pub fn rl_begin(mode : Int) -> Unit {
-  @raylib.rl_begin(mode)
+  @ffi.rl_begin(mode)
 }
 
 ///|
 #deprecated("Use @rl.end_ from tonyfettes/raylib/rl instead")
 pub fn rl_end() -> Unit {
-  @raylib.rl_end()
+  @ffi.rl_end()
 }
 
 ///|
 #deprecated("Use @rl.vertex2f from tonyfettes/raylib/rl instead")
 pub fn rl_vertex2f(x : Float, y : Float) -> Unit {
-  @raylib.rl_vertex2f(x, y)
+  @ffi.rl_vertex2f(x, y)
 }
 
 ///|
 #deprecated("Use @rl.vertex3f from tonyfettes/raylib/rl instead")
 pub fn rl_vertex3f(x : Float, y : Float, z : Float) -> Unit {
-  @raylib.rl_vertex3f(x, y, z)
+  @ffi.rl_vertex3f(x, y, z)
 }
 
 ///|
 #deprecated("Use @rl.tex_coord2f from tonyfettes/raylib/rl instead")
 pub fn rl_tex_coord2f(x : Float, y : Float) -> Unit {
-  @raylib.rl_tex_coord2f(x, y)
+  @ffi.rl_tex_coord2f(x, y)
 }
 
 ///|
 #deprecated("Use @rl.color4ub from tonyfettes/raylib/rl instead")
 pub fn rl_color4ub(r : Byte, g : Byte, b : Byte, a : Byte) -> Unit {
-  @raylib.rl_color4ub(r, g, b, a)
+  @ffi.rl_color4ub(r, g, b, a)
 }
 
 ///|
 #deprecated("Use @rl.normal3f from tonyfettes/raylib/rl instead")
 pub fn rl_normal3f(x : Float, y : Float, z : Float) -> Unit {
-  @raylib.rl_normal3f(x, y, z)
+  @ffi.rl_normal3f(x, y, z)
 }
 
 ///|
 #deprecated("Use @rl.set_texture from tonyfettes/raylib/rl instead")
 pub fn rl_set_texture(id : UInt) -> Unit {
-  @raylib.rl_set_texture(id)
+  @ffi.rl_set_texture(id)
 }
 
 // Matrix stack
@@ -80,37 +80,37 @@ pub fn rl_set_texture(id : UInt) -> Unit {
 ///|
 #deprecated("Use @rl.push_matrix from tonyfettes/raylib/rl instead")
 pub fn rl_push_matrix() -> Unit {
-  @raylib.rl_push_matrix()
+  @ffi.rl_push_matrix()
 }
 
 ///|
 #deprecated("Use @rl.pop_matrix from tonyfettes/raylib/rl instead")
 pub fn rl_pop_matrix() -> Unit {
-  @raylib.rl_pop_matrix()
+  @ffi.rl_pop_matrix()
 }
 
 ///|
 #deprecated("Use @rl.translatef from tonyfettes/raylib/rl instead")
 pub fn rl_translatef(x : Float, y : Float, z : Float) -> Unit {
-  @raylib.rl_translatef(x, y, z)
+  @ffi.rl_translatef(x, y, z)
 }
 
 ///|
 #deprecated("Use @rl.rotatef from tonyfettes/raylib/rl instead")
 pub fn rl_rotatef(angle : Float, x : Float, y : Float, z : Float) -> Unit {
-  @raylib.rl_rotatef(angle, x, y, z)
+  @ffi.rl_rotatef(angle, x, y, z)
 }
 
 ///|
 #deprecated("Use @rl.scalef from tonyfettes/raylib/rl instead")
 pub fn rl_scalef(x : Float, y : Float, z : Float) -> Unit {
-  @raylib.rl_scalef(x, y, z)
+  @ffi.rl_scalef(x, y, z)
 }
 
 ///|
 #deprecated("Use @rl.mult_matrixf from tonyfettes/raylib/rl instead")
 pub fn rl_mult_matrixf(matf : Bytes) -> Unit {
-  @raylib.rl_mult_matrixf(matf)
+  @ffi.rl_mult_matrixf(matf)
 }
 
 // State control
@@ -118,115 +118,115 @@ pub fn rl_mult_matrixf(matf : Bytes) -> Unit {
 ///|
 #deprecated("Use @rl.enable_backface_culling from tonyfettes/raylib/rl instead")
 pub fn rl_enable_backface_culling() -> Unit {
-  @raylib.rl_enable_backface_culling()
+  @ffi.rl_enable_backface_culling()
 }
 
 ///|
 #deprecated("Use @rl.disable_backface_culling from tonyfettes/raylib/rl instead")
 pub fn rl_disable_backface_culling() -> Unit {
-  @raylib.rl_disable_backface_culling()
+  @ffi.rl_disable_backface_culling()
 }
 
 ///|
 #deprecated("Use @rl.check_render_batch_limit from tonyfettes/raylib/rl instead")
 pub fn rl_check_render_batch_limit(v_count : Int) -> Bool {
-  @raylib.rl_check_render_batch_limit(v_count)
+  @ffi.rl_check_render_batch_limit(v_count)
 }
 
 ///|
 #deprecated("Use @rl.enable_depth_test from tonyfettes/raylib/rl instead")
 pub fn rl_enable_depth_test() -> Unit {
-  @raylib.rl_enable_depth_test()
+  @ffi.rl_enable_depth_test()
 }
 
 ///|
 #deprecated("Use @rl.disable_depth_test from tonyfettes/raylib/rl instead")
 pub fn rl_disable_depth_test() -> Unit {
-  @raylib.rl_disable_depth_test()
+  @ffi.rl_disable_depth_test()
 }
 
 ///|
 #deprecated("Use @rl.enable_depth_mask from tonyfettes/raylib/rl instead")
 pub fn rl_enable_depth_mask() -> Unit {
-  @raylib.rl_enable_depth_mask()
+  @ffi.rl_enable_depth_mask()
 }
 
 ///|
 #deprecated("Use @rl.disable_depth_mask from tonyfettes/raylib/rl instead")
 pub fn rl_disable_depth_mask() -> Unit {
-  @raylib.rl_disable_depth_mask()
+  @ffi.rl_disable_depth_mask()
 }
 
 ///|
 #deprecated("Use @rl.enable_color_blend from tonyfettes/raylib/rl instead")
 pub fn rl_enable_color_blend() -> Unit {
-  @raylib.rl_enable_color_blend()
+  @ffi.rl_enable_color_blend()
 }
 
 ///|
 #deprecated("Use @rl.disable_color_blend from tonyfettes/raylib/rl instead")
 pub fn rl_disable_color_blend() -> Unit {
-  @raylib.rl_disable_color_blend()
+  @ffi.rl_disable_color_blend()
 }
 
 ///|
 #deprecated("Use @rl.active_texture_slot from tonyfettes/raylib/rl instead")
 pub fn rl_active_texture_slot(slot : Int) -> Unit {
-  @raylib.rl_active_texture_slot(slot)
+  @ffi.rl_active_texture_slot(slot)
 }
 
 ///|
 #deprecated("Use @rl.enable_texture from tonyfettes/raylib/rl instead")
 pub fn rl_enable_texture(id : UInt) -> Unit {
-  @raylib.rl_enable_texture(id)
+  @ffi.rl_enable_texture(id)
 }
 
 ///|
 #deprecated("Use @rl.disable_texture from tonyfettes/raylib/rl instead")
 pub fn rl_disable_texture() -> Unit {
-  @raylib.rl_disable_texture()
+  @ffi.rl_disable_texture()
 }
 
 ///|
 #deprecated("Use @rl.enable_shader from tonyfettes/raylib/rl instead")
 pub fn rl_enable_shader(id : UInt) -> Unit {
-  @raylib.rl_enable_shader(id)
+  @ffi.rl_enable_shader(id)
 }
 
 ///|
 #deprecated("Use @rl.disable_shader from tonyfettes/raylib/rl instead")
 pub fn rl_disable_shader() -> Unit {
-  @raylib.rl_disable_shader()
+  @ffi.rl_disable_shader()
 }
 
 ///|
 #deprecated("Use @rl.enable_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_enable_framebuffer(id : UInt) -> Unit {
-  @raylib.rl_enable_framebuffer(id)
+  @ffi.rl_enable_framebuffer(id)
 }
 
 ///|
 #deprecated("Use @rl.disable_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_disable_framebuffer() -> Unit {
-  @raylib.rl_disable_framebuffer()
+  @ffi.rl_disable_framebuffer()
 }
 
 ///|
 #deprecated("Use @rl.active_draw_buffers from tonyfettes/raylib/rl instead")
 pub fn rl_active_draw_buffers(count : Int) -> Unit {
-  @raylib.rl_active_draw_buffers(count)
+  @ffi.rl_active_draw_buffers(count)
 }
 
 ///|
 #deprecated("Use @rl.viewport from tonyfettes/raylib/rl instead")
 pub fn rl_viewport(x : Int, y : Int, width : Int, height : Int) -> Unit {
-  @raylib.rl_viewport(x, y, width, height)
+  @ffi.rl_viewport(x, y, width, height)
 }
 
 ///|
 #deprecated("Use @rl.clear_screen_buffers from tonyfettes/raylib/rl instead")
 pub fn rl_clear_screen_buffers() -> Unit {
-  @raylib.rl_clear_screen_buffers()
+  @ffi.rl_clear_screen_buffers()
 }
 
 // Framebuffer management
@@ -234,13 +234,13 @@ pub fn rl_clear_screen_buffers() -> Unit {
 ///|
 #deprecated("Use @rl.load_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_load_framebuffer() -> UInt {
-  @raylib.rl_load_framebuffer()
+  @ffi.rl_load_framebuffer()
 }
 
 ///|
 #deprecated("Use @rl.framebuffer_complete from tonyfettes/raylib/rl instead")
 pub fn rl_framebuffer_complete(id : UInt) -> Bool {
-  @raylib.rl_framebuffer_complete(id)
+  @ffi.rl_framebuffer_complete(id)
 }
 
 ///|
@@ -252,15 +252,13 @@ pub fn rl_framebuffer_attach(
   tex_type : Int,
   mip_level : Int,
 ) -> Unit {
-  @raylib.rl_framebuffer_attach(
-    fbo_id, tex_id, attach_type, tex_type, mip_level,
-  )
+  @ffi.rl_framebuffer_attach(fbo_id, tex_id, attach_type, tex_type, mip_level)
 }
 
 ///|
 #deprecated("Use @rl.unload_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_unload_framebuffer(id : UInt) -> Unit {
-  @raylib.rl_unload_framebuffer(id)
+  @ffi.rl_unload_framebuffer(id)
 }
 
 // Texture management
@@ -272,7 +270,7 @@ pub fn rl_load_texture_depth(
   height : Int,
   use_render_buffer : Bool,
 ) -> UInt {
-  @raylib.rl_load_texture_depth(width, height, use_render_buffer)
+  @ffi.rl_load_texture_depth(width, height, use_render_buffer)
 }
 
 ///|
@@ -283,13 +281,13 @@ pub fn rl_load_texture(
   format : Int,
   mipmap_count : Int,
 ) -> UInt {
-  @raylib.rl_load_texture(width, height, format, mipmap_count)
+  @ffi.rl_load_texture(width, height, format, mipmap_count)
 }
 
 ///|
 #deprecated("Use @rl.unload_texture from tonyfettes/raylib/rl instead")
 pub fn rl_unload_texture(id : UInt) -> Unit {
-  @raylib.rl_unload_texture(id)
+  @ffi.rl_unload_texture(id)
 }
 
 // Shader management
@@ -297,19 +295,19 @@ pub fn rl_unload_texture(id : UInt) -> Unit {
 ///|
 #deprecated("Use @rl.set_uniform_sampler from tonyfettes/raylib/rl instead")
 pub fn rl_set_uniform_sampler(loc_index : Int, texture_id : UInt) -> Unit {
-  @raylib.rl_set_uniform_sampler(loc_index, texture_id)
+  @ffi.rl_set_uniform_sampler(loc_index, texture_id)
 }
 
 ///|
 #deprecated("Use @rl.get_shader_id_default from tonyfettes/raylib/rl instead")
 pub fn rl_get_shader_id_default() -> UInt {
-  @raylib.rl_get_shader_id_default()
+  @ffi.rl_get_shader_id_default()
 }
 
 ///|
 #deprecated("Use @rl.get_location_uniform from tonyfettes/raylib/rl instead")
 pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
-  @raylib.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
+  @ffi.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
 }
 
 // Draw helpers
@@ -317,13 +315,13 @@ pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
 ///|
 #deprecated("Use @rl.load_draw_quad from tonyfettes/raylib/rl instead")
 pub fn rl_load_draw_quad() -> Unit {
-  @raylib.rl_load_draw_quad()
+  @ffi.rl_load_draw_quad()
 }
 
 ///|
 #deprecated("Use @rl.load_draw_cube from tonyfettes/raylib/rl instead")
 pub fn rl_load_draw_cube() -> Unit {
-  @raylib.rl_load_draw_cube()
+  @ffi.rl_load_draw_cube()
 }
 
 // Misc
@@ -331,19 +329,19 @@ pub fn rl_load_draw_cube() -> Unit {
 ///|
 #deprecated("Use @rl.get_framebuffer_width from tonyfettes/raylib/rl instead")
 pub fn rl_get_framebuffer_width() -> Int {
-  @raylib.rl_get_framebuffer_width()
+  @ffi.rl_get_framebuffer_width()
 }
 
 ///|
 #deprecated("Use @rl.get_framebuffer_height from tonyfettes/raylib/rl instead")
 pub fn rl_get_framebuffer_height() -> Int {
-  @raylib.rl_get_framebuffer_height()
+  @ffi.rl_get_framebuffer_height()
 }
 
 ///|
 #deprecated("Use @rl.bind_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_bind_framebuffer(target : UInt, fbo : UInt) -> Unit {
-  @raylib.rl_bind_framebuffer(target, fbo)
+  @ffi.rl_bind_framebuffer(target, fbo)
 }
 
 ///|
@@ -359,7 +357,7 @@ pub fn rl_blit_framebuffer(
   dst_h : Int,
   buffer_mask : Int,
 ) -> Unit {
-  @raylib.rl_blit_framebuffer(
+  @ffi.rl_blit_framebuffer(
     src_x, src_y, src_w, src_h, dst_x, dst_y, dst_w, dst_h, buffer_mask,
   )
 }
@@ -374,7 +372,7 @@ pub fn rl_set_uniform(
   uniform_type : Int,
   count : Int,
 ) -> Unit {
-  @raylib.rl_set_uniform(loc_index, value, uniform_type, count)
+  @ffi.rl_set_uniform(loc_index, value, uniform_type, count)
 }
 
 // Matrix getters
@@ -382,13 +380,13 @@ pub fn rl_set_uniform(
 ///|
 #deprecated("Use @rl.get_matrix_modelview from tonyfettes/raylib/rl instead")
 pub fn rl_get_matrix_modelview() -> Matrix {
-  Matrix::from_bytes(@raylib.rl_get_matrix_modelview())
+  Matrix::from_bytes(@ffi.rl_get_matrix_modelview())
 }
 
 ///|
 #deprecated("Use @rl.get_matrix_projection from tonyfettes/raylib/rl instead")
 pub fn rl_get_matrix_projection() -> Matrix {
-  Matrix::from_bytes(@raylib.rl_get_matrix_projection())
+  Matrix::from_bytes(@ffi.rl_get_matrix_projection())
 }
 
 // rlgl draw mode constants
