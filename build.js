@@ -21,7 +21,7 @@ if (platform === 'darwin') {
   link_config.link_libs = ['log', 'android', 'OpenSLES', 'EGL', 'GLESv2', 'm', 'dl'];
   stub_cc_flags = '-DPLATFORM_ANDROID';
 } else if (platform === 'drm') {
-  link_config.link_libs = ['drm', 'EGL', 'GLESv2', 'm', 'pthread', 'dl', 'rt'];
+  link_config.link_libs = ['drm', 'gbm', 'EGL', 'GLESv2', 'm', 'pthread', 'dl', 'rt'];
   stub_cc_flags = '-DPLATFORM_DRM';
 } else if (platform === 'web') {
   // Emscripten handles linking; no link_libs needed
