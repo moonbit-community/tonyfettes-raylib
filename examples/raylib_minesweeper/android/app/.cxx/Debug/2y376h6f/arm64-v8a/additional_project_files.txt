@@ -1,0 +1,1 @@
+/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/_build/native/debug/build/raylibminesweeper.c.rule

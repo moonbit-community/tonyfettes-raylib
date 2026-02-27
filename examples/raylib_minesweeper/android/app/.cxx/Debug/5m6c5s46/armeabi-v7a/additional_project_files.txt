@@ -1,0 +1,1 @@
+/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/_build/native/debug/build/raylibminesweeper.c.rule

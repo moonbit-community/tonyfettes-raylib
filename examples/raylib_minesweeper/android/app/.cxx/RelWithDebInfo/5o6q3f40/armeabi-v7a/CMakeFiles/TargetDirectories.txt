@@ -1,0 +1,4 @@
+/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/RelWithDebInfo/5o6q3f40/armeabi-v7a/CMakeFiles/raylib.dir
+/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/RelWithDebInfo/5o6q3f40/armeabi-v7a/CMakeFiles/raylibminesweeper.dir
+/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/RelWithDebInfo/5o6q3f40/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/RelWithDebInfo/5o6q3f40/armeabi-v7a/CMakeFiles/rebuild_cache.dir

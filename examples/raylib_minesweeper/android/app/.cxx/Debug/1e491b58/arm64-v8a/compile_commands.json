@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/main.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/main.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/main.cpp"
+},
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/AndroidOut.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/AndroidOut.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/AndroidOut.cpp"
+},
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/Renderer.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Renderer.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Renderer.cpp"
+},
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/Shader.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Shader.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Shader.cpp"
+},
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/TextureAsset.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/TextureAsset.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/TextureAsset.cpp"
+},
+{
+  "directory": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/arm64-v8a",
+  "command": "/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Draylibminesweeper_EXPORTS -isystem /Users/haoxiang/.gradle/caches/9.2.1/transforms/66e70da66cb7820b0270646b5347069c/transformed/games-activity-4.0.0/prefab/modules/game-activity_static/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles/raylibminesweeper.dir/Utility.cpp.o -c /Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Utility.cpp",
+  "file": "/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/Utility.cpp"
+}
+]

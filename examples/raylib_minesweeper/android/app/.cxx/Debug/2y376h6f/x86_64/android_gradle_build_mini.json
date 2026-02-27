@@ -1,0 +1,33 @@
+{
+  "buildFiles": [
+    "/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/haoxiang/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/haoxiang/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "raylibminesweeper::@6890427a1f51a3e7e1df": {
+      "artifactName": "raylibminesweeper",
+      "abi": "x86_64",
+      "output": "/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/build/intermediates/cxx/Debug/2y376h6f/obj/x86_64/libraylibminesweeper.so",
+      "runtimeFiles": []
+    },
+    "raylib::@6890427a1f51a3e7e1df": {
+      "artifactName": "raylib",
+      "abi": "x86_64",
+      "output": "/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/x86_64/libraylib.a",
+      "runtimeFiles": []
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# ninja log v5
+1	61	1772015263535181784	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/utils.c.o	dc38e84c737b1c62
+0	95	1772015263569355395	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/rshapes.c.o	78cf2a3054788e5b
+0	157	1772015263629334859	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/rtext.c.o	4b3b03a7a6c95757
+0	320	1772015263789783456	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/rcore.c.o	f47e31d4e16780f0
+1	528	1772015263994761413	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/rmodels.c.o	2d3c87b95425f600
+1	1039	1772015264496116830	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/raudio.c.o	c5d2d2bbc03f9dee
+0	1343	1772015264807170605	CMakeFiles/raylib.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/rtextures.c.o	3229f3052f534fce
+1343	1386	1772015264862102000	libraylib.a	4bc36b3399d32d4c
+1386	1477	1772010841642934351	/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/_build/native/debug/build/raylibminesweeper.c	6582b9526b840d3a
+1478	1517	1772015264990493150	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_input.c.o	ad08098ebfdfeac5
+1477	1517	1772015264990640400	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_window.c.o	a4e9b84908a1bdcf
+1478	1518	1772015264992213352	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_color.c.o	acce28bc221c4254
+1478	1519	1772015264992808849	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_camera.c.o	a9c5b8ba074cfcc2
+1478	1519	1772015264992892474	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_utils.c.o	541a578358e6b913
+1478	1519	1772015264993869178	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_drawing.c.o	5b8e625476d102e1
+1478	1528	1772015265002465268	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_text.c.o	6ca613deed7f9732
+1478	1529	1772015265002336811	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/Library/Android/sdk/ndk/28.2.13676358/sources/android/native_app_glue/android_native_app_glue.c.o	53422f88ca82864e
+1478	1535	1772015265009194324	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/external/raylib/internal/raylib/stub_shapes.c.o	4119785b0ff507e3
+1477	1547	1772015265021097109	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/Library/MoonBit/lib/runtime.c.o	4739cb4663d2afe1
+1477	1614	1772015265087364673	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/_build/native/debug/build/raylibminesweeper.c.o	5e061b4d786c733f
+1614	1658	1772015265129705917	/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/build/intermediates/cxx/Debug/2ry6k5b4/obj/armeabi-v7a/libraylibminesweeper.so	f57f18d70ac24af9
+2	65	1772074837527613794	/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/_build/native/debug/build/raylibminesweeper.c	6582b9526b840d3a
+65	195	1772074869724922494	CMakeFiles/raylibminesweeper.dir/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/moonbit/_build/native/debug/build/raylibminesweeper.c.o	5e061b4d786c733f
+195	249	1772074869778282194	/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/build/intermediates/cxx/Debug/2ry6k5b4/obj/armeabi-v7a/libraylibminesweeper.so	f57f18d70ac24af9

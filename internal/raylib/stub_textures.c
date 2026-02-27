@@ -570,7 +570,11 @@ moonbit_raylib_draw_render_texture_ex(
 ImageWrapper *
 moonbit_raylib_get_clipboard_image(void) {
   ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+#ifdef PLATFORM_ANDROID
+  w->image = (Image){0};   // clipboard image not supported on Android
+#else
   w->image = GetClipboardImage();
+#endif
   w->freed = 0;
   w->frame_count = 1;
   return w;
