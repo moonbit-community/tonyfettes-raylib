@@ -8,6 +8,10 @@ MoonBit bindings for raylib 5.5 (`tonyfettes/raylib`). Native-only target (no WA
 
 ## Build Commands
 
+> **Note:** `moon build` (without arguments) will fail with a linker error — this
+> module is a library, not an executable. Always build a specific example package
+> or use `moon check --target native` to type-check.
+
 ```bash
 # Build an example (native only) — examples/ is a separate module
 moon -C examples build --target native raylib_demo/
