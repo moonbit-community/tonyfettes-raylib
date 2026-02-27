@@ -1,6 +1,7 @@
 ///|
 fn try_set_player_wanted_dir(game : Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW) {
+  if @raylib.is_key_pressed(@raylib.KeyUp) ||
+    @raylib.is_key_pressed(@raylib.KeyW) {
     game.want_x = 0
     game.want_y = -1
   }
@@ -206,8 +207,11 @@ fn update_game(game : Game, dt : Float) -> Unit {
     resolve_collisions(game)
   }
 
-  let ghost_step : Float =
-    if game.frightened_timer > 0.0 { (0.18 : Float) } else { (0.145 : Float) }
+  let ghost_step : Float = if game.frightened_timer > 0.0 {
+    (0.18 : Float)
+  } else {
+    (0.145 : Float)
+  }
   if game.step_timer_ghost >= ghost_step {
     game.step_timer_ghost = game.step_timer_ghost - ghost_step
     for i = 0; i < game.ghosts.length(); i = i + 1 {

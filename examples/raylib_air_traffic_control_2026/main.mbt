@@ -29,7 +29,8 @@ fn spawn_plane(planes : Array[Plane]) -> Unit {
       let r = @raylib.get_random_value(0, runway_count - 1)
       planes[i].alive = true
       planes[i].runway = r
-      planes[i].x = runway_x(r) + Float::from_int(@raylib.get_random_value(-24, 24))
+      planes[i].x = runway_x(r) +
+        Float::from_int(@raylib.get_random_value(-24, 24))
       planes[i].y = -40.0
       planes[i].vy = Float::from_int(@raylib.get_random_value(65, 110))
       planes[i].fuel = Float::from_int(@raylib.get_random_value(16, 26))
@@ -51,14 +52,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let planes : Array[Plane] = Array::makei(100, fn(_i) {
-    {
-      alive: false,
-      runway: 0,
-      x: 0.0,
-      y: 0.0,
-      vy: 80.0,
-      fuel: 20.0,
-    }
+    { alive: false, runway: 0, x: 0.0, y: 0.0, vy: 80.0, fuel: 20.0 }
   })
 
   let mut runway_open : Array[Bool] = [true, true, true]
@@ -193,19 +187,43 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(120, 178, 230, 255))
 
-    @raylib.draw_rectangle(0, 140, sw, sh - 140, @raylib.Color::new(84, 130, 94, 255))
+    @raylib.draw_rectangle(
+      0,
+      140,
+      sw,
+      sh - 140,
+      @raylib.Color::new(84, 130, 94, 255),
+    )
 
     for r = 0; r < runway_count; r = r + 1 {
       let x = runway_x(r)
       let state_c = if runway_open[r] { @raylib.lime } else { @raylib.red }
 
-      @raylib.draw_rectangle((x - 54.0).to_int(), 170, 108, 520, @raylib.Color::new(62, 66, 72, 255))
-      @raylib.draw_line((x).to_int(), 180, x.to_int(), 680, @raylib.lightgray)
-      @raylib.draw_text("RWY \{r + 1}", (x - 42.0).to_int(), 184, 24, @raylib.white)
+      @raylib.draw_rectangle(
+        (x - 54.0).to_int(),
+        170,
+        108,
+        520,
+        @raylib.Color::new(62, 66, 72, 255),
+      )
+      @raylib.draw_line(x.to_int(), 180, x.to_int(), 680, @raylib.lightgray)
+      @raylib.draw_text(
+        "RWY \{r + 1}",
+        (x - 42.0).to_int(),
+        184,
+        24,
+        @raylib.white,
+      )
       @raylib.draw_circle((x + 44.0).to_int(), 184, 8.0, state_c)
 
       if runway_busy[r] > 0.0 {
-        @raylib.draw_rectangle((x - 54.0).to_int(), 620, 108, 70, @raylib.fade(@raylib.orange, 0.6))
+        @raylib.draw_rectangle(
+          (x - 54.0).to_int(),
+          620,
+          108,
+          70,
+          @raylib.fade(@raylib.orange, 0.6),
+        )
       }
     }
 
@@ -218,23 +236,59 @@ fn main {
           @raylib.Vector2::new(planes[i].x + 12.0, planes[i].y + 10.0),
           c,
         )
-        @raylib.draw_text("\{planes[i].fuel.to_int()}", (planes[i].x + 14.0).to_int(), (planes[i].y - 12.0).to_int(), 18, @raylib.black)
+        @raylib.draw_text(
+          "\{planes[i].fuel.to_int()}",
+          (planes[i].x + 14.0).to_int(),
+          (planes[i].y - 12.0).to_int(),
+          18,
+          @raylib.black,
+        )
       }
     }
 
-    @raylib.draw_rectangle(16, 14, 600, 110, @raylib.Color::new(12, 18, 30, 220))
+    @raylib.draw_rectangle(
+      16,
+      14,
+      600,
+      110,
+      @raylib.Color::new(12, 18, 30, 220),
+    )
     @raylib.draw_text("AIR TRAFFIC CONTROL 2026", 26, 22, 36, @raylib.skyblue)
-    @raylib.draw_text("Score \{score}  Landed \{landed}  Missed \{missed}  Lives \{lives}", 28, 66, 28, @raylib.raywhite)
+    @raylib.draw_text(
+      "Score \{score}  Landed \{landed}  Missed \{missed}  Lives \{lives}",
+      28,
+      66,
+      28,
+      @raylib.raywhite,
+    )
 
     @raylib.draw_text("Stress", 670, 30, 28, @raylib.darkblue)
-    @raylib.draw_rectangle(760, 36, 300, 20, @raylib.Color::new(40, 20, 20, 255))
+    @raylib.draw_rectangle(
+      760,
+      36,
+      300,
+      20,
+      @raylib.Color::new(40, 20, 20, 255),
+    )
     @raylib.draw_rectangle(760, 36, (stress * 3.0).to_int(), 20, @raylib.red)
 
-    @raylib.draw_rectangle(20, 694, sw - 40, 30, @raylib.Color::new(12, 18, 30, 220))
+    @raylib.draw_rectangle(
+      20,
+      694,
+      sw - 40,
+      30,
+      @raylib.Color::new(12, 18, 30, 220),
+    )
     @raylib.draw_text(msg, 28, 699, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 540, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        540,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("SHIFT FAILED", 420, 310, 52, @raylib.red)
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }

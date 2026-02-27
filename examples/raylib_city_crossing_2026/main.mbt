@@ -57,8 +57,18 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -71,12 +81,19 @@ fn set_car(
   speed : Float,
   color : Int,
 ) -> Unit {
-  cars[i] = { x: x, row: row, w: w, speed: speed, color: color }
+  cars[i] = { x, row, w, speed, color }
 }
 
 ///|
-fn set_log(logs : Array[Log], i : Int, x : Float, row : Int, w : Int, speed : Float) -> Unit {
-  logs[i] = { x: x, row: row, w: w, speed: speed }
+fn set_log(
+  logs : Array[Log],
+  i : Int,
+  x : Float,
+  row : Int,
+  w : Int,
+  speed : Float,
+) -> Unit {
+  logs[i] = { x, row, w, speed }
 }
 
 ///|
@@ -150,7 +167,7 @@ fn slot_center_x(i : Int) -> Float {
 
 ///|
 fn row_from_y(y : Float) -> Int {
-  ((y - Float::from_int(oy)).to_int()) / cell
+  (y - Float::from_int(oy)).to_int() / cell
 }
 
 ///|
@@ -166,7 +183,7 @@ fn is_road_row(row : Int) -> Bool {
 ///|
 fn spawn_pos() -> (Float, Float) {
   (
-    Float::from_int(ox + (cols / 2) * cell + cell / 2),
+    Float::from_int(ox + cols / 2 * cell + cell / 2),
     Float::from_int(oy + (rows - 1) * cell + cell / 2),
   )
 }
@@ -207,7 +224,8 @@ fn main {
     if dt > 0.05 {
       dt = 0.05
     }
-    let speed_mul : Float = Float::from_int(1) + Float::from_int(level - 1) * 0.18
+    let speed_mul : Float = Float::from_int(1) +
+      Float::from_int(level - 1) * 0.18
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
       reset_traffic(cars, logs)
@@ -241,7 +259,8 @@ fn main {
       for i = 0; i < cars.length(); i = i + 1 {
         cars[i].x = cars[i].x + cars[i].speed * speed_mul * dt
         let wpx = Float::from_int(cars[i].w * cell)
-        if cars[i].speed > 0.0 && cars[i].x > Float::from_int(ox + cols * cell) + wpx + 30.0 {
+        if cars[i].speed > 0.0 &&
+          cars[i].x > Float::from_int(ox + cols * cell) + wpx + 30.0 {
           cars[i].x = Float::from_int(ox) - wpx - 30.0
         }
         if cars[i].speed < 0.0 && cars[i].x < Float::from_int(ox) - wpx - 30.0 {
@@ -252,7 +271,8 @@ fn main {
       for i = 0; i < logs.length(); i = i + 1 {
         logs[i].x = logs[i].x + logs[i].speed * speed_mul * dt
         let wpx = Float::from_int(logs[i].w * cell)
-        if logs[i].speed > 0.0 && logs[i].x > Float::from_int(ox + cols * cell) + wpx + 34.0 {
+        if logs[i].speed > 0.0 &&
+          logs[i].x > Float::from_int(ox + cols * cell) + wpx + 34.0 {
           logs[i].x = Float::from_int(ox) - wpx - 34.0
         }
         if logs[i].speed < 0.0 && logs[i].x < Float::from_int(ox) - wpx - 34.0 {
@@ -264,19 +284,23 @@ fn main {
       let mut dy = 0
       let mut moved = false
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         dx = -1
         moved = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         dx = 1
         moved = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         dy = -1
         moved = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         moved = true
       }
@@ -410,19 +434,55 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(14, 18, 24, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 90, @raylib.Color::new(26, 32, 44, 255))
-    @raylib.draw_text("City Crossing 2026", 24, 20, 34, @raylib.Color::new(234, 244, 248, 255))
-    @raylib.draw_text("Lives: \{lives}   Score: \{score}   Level: \{level}   Time: \{timer.to_int()}", 392, 28, 30, @raylib.Color::new(236, 216, 120, 255))
+    @raylib.draw_text(
+      "City Crossing 2026",
+      24,
+      20,
+      34,
+      @raylib.Color::new(234, 244, 248, 255),
+    )
+    @raylib.draw_text(
+      "Lives: \{lives}   Score: \{score}   Level: \{level}   Time: \{timer.to_int()}",
+      392,
+      28,
+      30,
+      @raylib.Color::new(236, 216, 120, 255),
+    )
 
     for row = 0; row < rows; row = row + 1 {
       let y = oy + row * cell
       if row == 0 {
-        @raylib.draw_rectangle(ox, y, cols * cell, cell, @raylib.Color::new(30, 70, 40, 255))
+        @raylib.draw_rectangle(
+          ox,
+          y,
+          cols * cell,
+          cell,
+          @raylib.Color::new(30, 70, 40, 255),
+        )
       } else if is_river_row(row) {
-        @raylib.draw_rectangle(ox, y, cols * cell, cell, @raylib.Color::new(24, 86, 146, 255))
+        @raylib.draw_rectangle(
+          ox,
+          y,
+          cols * cell,
+          cell,
+          @raylib.Color::new(24, 86, 146, 255),
+        )
       } else if is_road_row(row) {
-        @raylib.draw_rectangle(ox, y, cols * cell, cell, @raylib.Color::new(58, 60, 68, 255))
+        @raylib.draw_rectangle(
+          ox,
+          y,
+          cols * cell,
+          cell,
+          @raylib.Color::new(58, 60, 68, 255),
+        )
       } else {
-        @raylib.draw_rectangle(ox, y, cols * cell, cell, @raylib.Color::new(36, 98, 52, 255))
+        @raylib.draw_rectangle(
+          ox,
+          y,
+          cols * cell,
+          cell,
+          @raylib.Color::new(36, 98, 52, 255),
+        )
       }
     }
 
@@ -435,25 +495,61 @@ fn main {
         @raylib.Color::new(48, 114, 62, 255)
       }
       @raylib.draw_rectangle(sx, sy, cell - 12, cell - 16, c)
-      @raylib.draw_rectangle_lines(sx, sy, cell - 12, cell - 16, @raylib.Color::new(16, 34, 20, 255))
+      @raylib.draw_rectangle_lines(
+        sx,
+        sy,
+        cell - 12,
+        cell - 16,
+        @raylib.Color::new(16, 34, 20, 255),
+      )
     }
 
     for i = 0; i <= cols; i = i + 1 {
       let x = ox + i * cell
-      @raylib.draw_line(x, oy, x, oy + rows * cell, @raylib.Color::new(24, 30, 34, 180))
+      @raylib.draw_line(
+        x,
+        oy,
+        x,
+        oy + rows * cell,
+        @raylib.Color::new(24, 30, 34, 180),
+      )
     }
     for i = 0; i <= rows; i = i + 1 {
       let y = oy + i * cell
-      @raylib.draw_line(ox, y, ox + cols * cell, y, @raylib.Color::new(24, 30, 34, 180))
+      @raylib.draw_line(
+        ox,
+        y,
+        ox + cols * cell,
+        y,
+        @raylib.Color::new(24, 30, 34, 180),
+      )
     }
 
     for i = 0; i < logs.length(); i = i + 1 {
       let x = logs[i].x.to_int()
       let y = oy + logs[i].row * cell + 10
       let w = logs[i].w * cell
-      @raylib.draw_rectangle(x, y, w, cell - 20, @raylib.Color::new(120, 86, 42, 255))
-      @raylib.draw_rectangle(x + 6, y + 6, w - 12, 7, @raylib.Color::new(160, 116, 66, 255))
-      @raylib.draw_rectangle(x + 6, y + cell - 33, w - 12, 6, @raylib.Color::new(82, 58, 28, 255))
+      @raylib.draw_rectangle(
+        x,
+        y,
+        w,
+        cell - 20,
+        @raylib.Color::new(120, 86, 42, 255),
+      )
+      @raylib.draw_rectangle(
+        x + 6,
+        y + 6,
+        w - 12,
+        7,
+        @raylib.Color::new(160, 116, 66, 255),
+      )
+      @raylib.draw_rectangle(
+        x + 6,
+        y + cell - 33,
+        w - 12,
+        6,
+        @raylib.Color::new(82, 58, 28, 255),
+      )
     }
 
     for i = 0; i < cars.length(); i = i + 1 {
@@ -468,12 +564,35 @@ fn main {
         @raylib.Color::new(250, 192, 72, 255)
       }
       @raylib.draw_rectangle(x, y, w, cell - 16, car_c)
-      @raylib.draw_rectangle(x + 8, y + 8, w - 16, cell - 32, @raylib.Color::new(24, 34, 52, 170))
-      @raylib.draw_rectangle(x + 5, y + cell - 20, 11, 8, @raylib.Color::new(20, 20, 20, 255))
-      @raylib.draw_rectangle(x + w - 16, y + cell - 20, 11, 8, @raylib.Color::new(20, 20, 20, 255))
+      @raylib.draw_rectangle(
+        x + 8,
+        y + 8,
+        w - 16,
+        cell - 32,
+        @raylib.Color::new(24, 34, 52, 170),
+      )
+      @raylib.draw_rectangle(
+        x + 5,
+        y + cell - 20,
+        11,
+        8,
+        @raylib.Color::new(20, 20, 20, 255),
+      )
+      @raylib.draw_rectangle(
+        x + w - 16,
+        y + cell - 20,
+        11,
+        8,
+        @raylib.Color::new(20, 20, 20, 255),
+      )
     }
 
-    @raylib.draw_circle(px.to_int(), py.to_int(), 18.0, @raylib.Color::new(84, 230, 94, 255))
+    @raylib.draw_circle(
+      px.to_int(),
+      py.to_int(),
+      18.0,
+      @raylib.Color::new(84, 230, 94, 255),
+    )
     @raylib.draw_circle(px.to_int() - 7, py.to_int() - 7, 4.0, @raylib.white)
     @raylib.draw_circle(px.to_int() + 7, py.to_int() - 7, 4.0, @raylib.white)
     @raylib.draw_circle(px.to_int() - 7, py.to_int() - 7, 2.0, @raylib.black)
@@ -481,26 +600,92 @@ fn main {
 
     let ctl_x = 38
     let ctl_y = sh - 192
-    @raylib.draw_rectangle(22, sh - 214, 236, 178, @raylib.Color::new(18, 26, 36, 220))
-    @raylib.draw_text("Touch", 104, sh - 208, 22, @raylib.Color::new(220, 228, 238, 255))
+    @raylib.draw_rectangle(
+      22,
+      sh - 214,
+      236,
+      178,
+      @raylib.Color::new(18, 26, 36, 220),
+    )
+    @raylib.draw_text(
+      "Touch",
+      104,
+      sh - 208,
+      22,
+      @raylib.Color::new(220, 228, 238, 255),
+    )
 
-    @raylib.draw_rectangle(ctl_x + 72, ctl_y, 72, 52, @raylib.Color::new(42, 56, 78, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 72,
+      ctl_y,
+      72,
+      52,
+      @raylib.Color::new(42, 56, 78, 255),
+    )
     @raylib.draw_text("UP", ctl_x + 93, ctl_y + 14, 22, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 54, 72, 52, @raylib.Color::new(42, 56, 78, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 54,
+      72,
+      52,
+      @raylib.Color::new(42, 56, 78, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 10, ctl_y + 68, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 144, ctl_y + 54, 72, 52, @raylib.Color::new(42, 56, 78, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 144,
+      ctl_y + 54,
+      72,
+      52,
+      @raylib.Color::new(42, 56, 78, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 149, ctl_y + 68, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 72, ctl_y + 108, 72, 52, @raylib.Color::new(42, 56, 78, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 72,
+      ctl_y + 108,
+      72,
+      52,
+      @raylib.Color::new(42, 56, 78, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 80, ctl_y + 122, 20, @raylib.white)
 
-    @raylib.draw_rectangle(300, sh - 66, sw - 320, 42, @raylib.Color::new(12, 20, 30, 220))
-    @raylib.draw_text(msg, 312, sh - 56, 24, @raylib.Color::new(230, 236, 245, 255))
+    @raylib.draw_rectangle(
+      300,
+      sh - 66,
+      sw - 320,
+      42,
+      @raylib.Color::new(12, 20, 30, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      312,
+      sh - 56,
+      24,
+      @raylib.Color::new(230, 236, 245, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 120))
-      @raylib.draw_rectangle(sw / 2 - 280, sh / 2 - 96, 560, 192, @raylib.Color::new(20, 30, 44, 240))
-      @raylib.draw_text("City Crossing Over", sw / 2 - 170, sh / 2 - 48, 44, @raylib.Color::new(250, 228, 140, 255))
-      @raylib.draw_text("Press R to restart", sw / 2 - 118, sh / 2 + 18, 30, @raylib.Color::new(224, 236, 248, 255))
+      @raylib.draw_rectangle(
+        sw / 2 - 280,
+        sh / 2 - 96,
+        560,
+        192,
+        @raylib.Color::new(20, 30, 44, 240),
+      )
+      @raylib.draw_text(
+        "City Crossing Over",
+        sw / 2 - 170,
+        sh / 2 - 48,
+        44,
+        @raylib.Color::new(250, 228, 140, 255),
+      )
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 118,
+        sh / 2 + 18,
+        30,
+        @raylib.Color::new(224, 236, 248, 255),
+      )
     }
 
     @raylib.end_drawing()

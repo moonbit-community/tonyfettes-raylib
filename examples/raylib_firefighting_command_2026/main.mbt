@@ -108,22 +108,26 @@ fn main {
     }
 
     if not(over) {
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         if truck_c > 0 {
           truck_c = truck_c - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         if truck_c < cols - 1 {
           truck_c = truck_c + 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         if truck_r > 0 {
           truck_r = truck_r - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         if truck_r < rows - 1 {
           truck_r = truck_r + 1
         }
@@ -139,7 +143,11 @@ fn main {
         water = 100.0
       }
 
-      if (@raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)) && water > 0.0 {
+      if (
+          @raylib.is_key_down(@raylib.KeySpace) ||
+          @raylib.is_key_down(@raylib.KeyJ)
+        ) &&
+        water > 0.0 {
         if zones[at].fire > 0.0 {
           zones[at].fire = zones[at].fire - dt * 48.0
           water = water - dt * 24.0
@@ -238,40 +246,118 @@ fn main {
         } else {
           @raylib.Color::new(66, 66, 66, 255)
         }
-        @raylib.draw_rectangle((x - 64.0).to_int(), (y - 56.0).to_int(), 128, 108, house_color)
-        @raylib.draw_rectangle_lines((x - 64.0).to_int(), (y - 56.0).to_int(), 128, 108, @raylib.darkgray)
+        @raylib.draw_rectangle(
+          (x - 64.0).to_int(),
+          (y - 56.0).to_int(),
+          128,
+          108,
+          house_color,
+        )
+        @raylib.draw_rectangle_lines(
+          (x - 64.0).to_int(),
+          (y - 56.0).to_int(),
+          128,
+          108,
+          @raylib.darkgray,
+        )
 
         if zones[i].fire > 0.0 {
           let f = zones[i].fire
-          @raylib.draw_circle((x - 20.0).to_int(), (y - 18.0).to_int(), 12.0 + f * 0.09, @raylib.orange)
-          @raylib.draw_circle((x + 16.0).to_int(), (y - 6.0).to_int(), 10.0 + f * 0.08, @raylib.red)
-          @raylib.draw_text("\{f.to_int()}%", (x - 22.0).to_int(), (y + 30.0).to_int(), 18, @raylib.black)
+          @raylib.draw_circle(
+            (x - 20.0).to_int(),
+            (y - 18.0).to_int(),
+            12.0 + f * 0.09,
+            @raylib.orange,
+          )
+          @raylib.draw_circle(
+            (x + 16.0).to_int(),
+            (y - 6.0).to_int(),
+            10.0 + f * 0.08,
+            @raylib.red,
+          )
+          @raylib.draw_text(
+            "\{f.to_int()}%",
+            (x - 22.0).to_int(),
+            (y + 30.0).to_int(),
+            18,
+            @raylib.black,
+          )
         }
       }
     }
 
-    @raylib.draw_rectangle((truck_x - 30.0).to_int(), (truck_y + 58.0).to_int(), 60, 26, @raylib.red)
-    @raylib.draw_rectangle((truck_x - 18.0).to_int(), (truck_y + 45.0).to_int(), 36, 13, @raylib.white)
-    @raylib.draw_circle((truck_x - 18.0).to_int(), (truck_y + 85.0).to_int(), 6.0, @raylib.black)
-    @raylib.draw_circle((truck_x + 18.0).to_int(), (truck_y + 85.0).to_int(), 6.0, @raylib.black)
+    @raylib.draw_rectangle(
+      (truck_x - 30.0).to_int(),
+      (truck_y + 58.0).to_int(),
+      60,
+      26,
+      @raylib.red,
+    )
+    @raylib.draw_rectangle(
+      (truck_x - 18.0).to_int(),
+      (truck_y + 45.0).to_int(),
+      36,
+      13,
+      @raylib.white,
+    )
+    @raylib.draw_circle(
+      (truck_x - 18.0).to_int(),
+      (truck_y + 85.0).to_int(),
+      6.0,
+      @raylib.black,
+    )
+    @raylib.draw_circle(
+      (truck_x + 18.0).to_int(),
+      (truck_y + 85.0).to_int(),
+      6.0,
+      @raylib.black,
+    )
 
     @raylib.draw_text("FIREFIGHTING COMMAND 2026", 20, 18, 38, @raylib.skyblue)
     @raylib.draw_text("Budget \{budget}", 20, 64, 28, @raylib.white)
     @raylib.draw_text("Saved \{saved}", 220, 64, 28, @raylib.lime)
     @raylib.draw_text("Lost \{lost}", 380, 64, 28, @raylib.orange)
-    @raylib.draw_text("Lives \{lives}", 520, 64, 28, if lives <= 1 { @raylib.red } else { @raylib.yellow })
+    @raylib.draw_text(
+      "Lives \{lives}",
+      520,
+      64,
+      28,
+      if lives <= 1 {
+        @raylib.red
+      } else {
+        @raylib.yellow
+      },
+    )
 
     @raylib.draw_text("Water", 740, 60, 24, @raylib.skyblue)
-    @raylib.draw_rectangle(810, 64, 250, 16, @raylib.Color::new(30, 40, 58, 255))
+    @raylib.draw_rectangle(
+      810,
+      64,
+      250,
+      16,
+      @raylib.Color::new(30, 40, 58, 255),
+    )
     @raylib.draw_rectangle(810, 64, (water * 2.5).to_int(), 16, @raylib.skyblue)
 
     let active = active_fire_count(zones)
     @raylib.draw_text("Active Fires: \{active}", 20, 650, 24, @raylib.raywhite)
-    @raylib.draw_rectangle(20, 688, sw - 40, 30, @raylib.Color::new(12, 17, 24, 220))
+    @raylib.draw_rectangle(
+      20,
+      688,
+      sw - 40,
+      30,
+      @raylib.Color::new(12, 17, 24, 220),
+    )
     @raylib.draw_text(msg, 28, 693, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 520, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        520,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("CITY LOST", 455, 312, 52, @raylib.red)
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }

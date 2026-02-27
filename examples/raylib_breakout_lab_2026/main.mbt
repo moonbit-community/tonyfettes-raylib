@@ -119,10 +119,12 @@ fn main {
 
     if not(game_over) {
       let mut dir : Float = 0.0
-      if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
+      if @raylib.is_key_down(@raylib.KeyLeft) ||
+        @raylib.is_key_down(@raylib.KeyA) {
         dir = dir - (1.0 : Float)
       }
-      if @raylib.is_key_down(@raylib.KeyRight) || @raylib.is_key_down(@raylib.KeyD) {
+      if @raylib.is_key_down(@raylib.KeyRight) ||
+        @raylib.is_key_down(@raylib.KeyD) {
         dir = dir + (1.0 : Float)
       }
 
@@ -150,8 +152,11 @@ fn main {
         ball_vy = ball_vy.abs()
       }
 
-      if ball_y + ball_r >= paddle_y && ball_y - ball_r <= paddle_y + paddle_h &&
-        ball_x >= paddle_x && ball_x <= paddle_x + paddle_w && ball_vy > (0.0 : Float) {
+      if ball_y + ball_r >= paddle_y &&
+        ball_y - ball_r <= paddle_y + paddle_h &&
+        ball_x >= paddle_x &&
+        ball_x <= paddle_x + paddle_w &&
+        ball_vy > (0.0 : Float) {
         let t : Float = (ball_x - paddle_x) / paddle_w
         ball_y = paddle_y - ball_r - (0.2 : Float)
         ball_vy = -ball_vy.abs() * (1.02 : Float)
@@ -167,15 +172,17 @@ fn main {
 
         let bx = fi(bricks[i].x)
         let by = fi(bricks[i].y)
-        if ball_x + ball_r < bx || ball_x - ball_r > bx + fi(brick_w) ||
-          ball_y + ball_r < by || ball_y - ball_r > by + fi(brick_h) {
+        if ball_x + ball_r < bx ||
+          ball_x - ball_r > bx + fi(brick_w) ||
+          ball_y + ball_r < by ||
+          ball_y - ball_r > by + fi(brick_h) {
           continue
         }
 
-        let left_pen = (ball_x + ball_r) - bx
-        let right_pen = (bx + fi(brick_w)) - (ball_x - ball_r)
-        let top_pen = (ball_y + ball_r) - by
-        let bottom_pen = (by + fi(brick_h)) - (ball_y - ball_r)
+        let left_pen = ball_x + ball_r - bx
+        let right_pen = bx + fi(brick_w) - (ball_x - ball_r)
+        let top_pen = ball_y + ball_r - by
+        let bottom_pen = by + fi(brick_h) - (ball_y - ball_r)
         let min_lr = if left_pen < right_pen { left_pen } else { right_pen }
         let min_tb = if top_pen < bottom_pen { top_pen } else { bottom_pen }
 
@@ -226,13 +233,40 @@ fn main {
 
     for i = 0; i < bricks.length(); i = i + 1 {
       if bricks[i].alive {
-        @raylib.draw_rectangle(bricks[i].x, bricks[i].y, brick_w, brick_h, brick_color(bricks[i].hp))
-        @raylib.draw_rectangle_lines(bricks[i].x, bricks[i].y, brick_w, brick_h, @raylib.black)
+        @raylib.draw_rectangle(
+          bricks[i].x,
+          bricks[i].y,
+          brick_w,
+          brick_h,
+          brick_color(bricks[i].hp),
+        )
+        @raylib.draw_rectangle_lines(
+          bricks[i].x,
+          bricks[i].y,
+          brick_w,
+          brick_h,
+          @raylib.black,
+        )
       }
     }
 
-    @raylib.draw_rectangle(paddle_x.to_int(), paddle_y.to_int(), paddle_w.to_int(), paddle_h.to_int(), if wide_paddle { @raylib.lime } else { @raylib.skyblue })
-    @raylib.draw_circle(ball_x.to_int(), ball_y.to_int(), ball_r, @raylib.raywhite)
+    @raylib.draw_rectangle(
+      paddle_x.to_int(),
+      paddle_y.to_int(),
+      paddle_w.to_int(),
+      paddle_h.to_int(),
+      if wide_paddle {
+        @raylib.lime
+      } else {
+        @raylib.skyblue
+      },
+    )
+    @raylib.draw_circle(
+      ball_x.to_int(),
+      ball_y.to_int(),
+      ball_r,
+      @raylib.raywhite,
+    )
 
     @raylib.draw_text("BREAKOUT LAB 2026", 22, 18, 34, @raylib.skyblue)
     @raylib.draw_text("Score: \{score}", 24, 58, 24, @raylib.raywhite)
@@ -240,8 +274,28 @@ fn main {
     @raylib.draw_text("A/D or <- -> move  R restart", 560, 22, 20, @raylib.gray)
 
     if game_over {
-      @raylib.draw_rectangle(280, 290, 390, 130, @raylib.fade(@raylib.black, 0.75))
-      @raylib.draw_text(if win { "STAGE CLEAR" } else { "GAME OVER" }, 350, 326, 44, if win { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        280,
+        290,
+        390,
+        130,
+        @raylib.fade(@raylib.black, 0.75),
+      )
+      @raylib.draw_text(
+        if win {
+          "STAGE CLEAR"
+        } else {
+          "GAME OVER"
+        },
+        350,
+        326,
+        44,
+        if win {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 372, 372, 26, @raylib.raywhite)
     }
 

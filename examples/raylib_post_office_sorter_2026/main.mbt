@@ -77,14 +77,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let packages : Array[Package] = Array::makei(120, fn(_i) {
-    {
-      alive: false,
-      x: 0.0,
-      y: 0.0,
-      lane: 0,
-      code: 0,
-      speed: 180.0,
-    }
+    { alive: false, x: 0.0, y: 0.0, lane: 0, code: 0, speed: 180.0 }
   })
 
   let mut sorter_lane = 1
@@ -124,21 +117,25 @@ fn main {
     }
 
     if not(over) {
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         if sorter_lane > 0 {
           sorter_lane = sorter_lane - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         if sorter_lane < lane_count - 1 {
           sorter_lane = sorter_lane + 1
         }
       }
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         sorter_x = sorter_x - 44.0
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         sorter_x = sorter_x + 44.0
       }
       if sorter_x < 320.0 {
@@ -174,7 +171,8 @@ fn main {
 
         packages[i].x = packages[i].x + packages[i].speed * dt
 
-        if packages[i].x >= sorter_x - sorter_width / 2.0 && packages[i].x <= sorter_x + sorter_width / 2.0 {
+        if packages[i].x >= sorter_x - sorter_width / 2.0 &&
+          packages[i].x <= sorter_x + sorter_width / 2.0 {
           if packages[i].lane == sorter_lane {
             // Divert to selected lane mapping
             let out_code = chute_map[sorter_lane]
@@ -213,20 +211,44 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(26, 30, 36, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 130, @raylib.Color::new(44, 52, 66, 255))
-    @raylib.draw_rectangle(40, 170, sw - 80, 500, @raylib.Color::new(220, 226, 232, 255))
+    @raylib.draw_rectangle(
+      40,
+      170,
+      sw - 80,
+      500,
+      @raylib.Color::new(220, 226, 232, 255),
+    )
 
     for l = 0; l < lane_count; l = l + 1 {
       let y = lane_y(l)
       @raylib.draw_line(60, y.to_int(), sw - 60, y.to_int(), @raylib.gray)
-      @raylib.draw_line(60, y.to_int() + 8, sw - 60, y.to_int() + 8, @raylib.darkgray)
+      @raylib.draw_line(
+        60,
+        y.to_int() + 8,
+        sw - 60,
+        y.to_int() + 8,
+        @raylib.darkgray,
+      )
 
       let code = chute_map[l]
       let col = code_color(code)
       @raylib.draw_rectangle(sw - 120, y.to_int() - 20, 52, 34, col)
-      @raylib.draw_text(code_label(code), sw - 102, y.to_int() - 14, 24, @raylib.black)
+      @raylib.draw_text(
+        code_label(code),
+        sw - 102,
+        y.to_int() - 14,
+        24,
+        @raylib.black,
+      )
 
       if l == sorter_lane {
-        @raylib.draw_rectangle_lines(54, y.to_int() - 24, sw - 108, 44, @raylib.orange)
+        @raylib.draw_rectangle_lines(
+          54,
+          y.to_int() - 24,
+          sw - 108,
+          44,
+          @raylib.orange,
+        )
       }
     }
 
@@ -239,14 +261,38 @@ fn main {
       22,
       @raylib.blue,
     )
-    @raylib.draw_text("GATE", (sorter_x - 28.0).to_int(), (sy - 22.0).to_int(), 18, @raylib.white)
+    @raylib.draw_text(
+      "GATE",
+      (sorter_x - 28.0).to_int(),
+      (sy - 22.0).to_int(),
+      18,
+      @raylib.white,
+    )
 
     for i = 0; i < packages.length(); i = i + 1 {
       if packages[i].alive {
         let col = code_color(packages[i].code)
-        @raylib.draw_rectangle((packages[i].x - 16.0).to_int(), (packages[i].y - 16.0).to_int(), 32, 24, col)
-        @raylib.draw_rectangle_lines((packages[i].x - 16.0).to_int(), (packages[i].y - 16.0).to_int(), 32, 24, @raylib.black)
-        @raylib.draw_text(code_label(packages[i].code), (packages[i].x - 6.0).to_int(), (packages[i].y - 13.0).to_int(), 18, @raylib.black)
+        @raylib.draw_rectangle(
+          (packages[i].x - 16.0).to_int(),
+          (packages[i].y - 16.0).to_int(),
+          32,
+          24,
+          col,
+        )
+        @raylib.draw_rectangle_lines(
+          (packages[i].x - 16.0).to_int(),
+          (packages[i].y - 16.0).to_int(),
+          32,
+          24,
+          @raylib.black,
+        )
+        @raylib.draw_text(
+          code_label(packages[i].code),
+          (packages[i].x - 6.0).to_int(),
+          (packages[i].y - 13.0).to_int(),
+          18,
+          @raylib.black,
+        )
       }
     }
 
@@ -255,14 +301,39 @@ fn main {
     @raylib.draw_text("Correct \{correct}", 190, 62, 28, @raylib.lime)
     @raylib.draw_text("Wrong \{wrong}", 390, 62, 28, @raylib.orange)
     @raylib.draw_text("Missed \{missed}", 560, 62, 28, @raylib.orange)
-    @raylib.draw_text("Lives \{lives}", 760, 62, 28, if lives <= 1 { @raylib.red } else { @raylib.yellow })
+    @raylib.draw_text(
+      "Lives \{lives}",
+      760,
+      62,
+      28,
+      if lives <= 1 {
+        @raylib.red
+      } else {
+        @raylib.yellow
+      },
+    )
 
-    @raylib.draw_text("Lane Mapping Keys: on selected lane, press 1=A 2=B 3=C 4=D", 20, 652, 24, @raylib.darkblue)
-    @raylib.draw_rectangle(20, 688, sw - 40, 30, @raylib.Color::new(15, 20, 28, 220))
+    @raylib.draw_text(
+      "Lane Mapping Keys: on selected lane, press 1=A 2=B 3=C 4=D", 20, 652, 24,
+      @raylib.darkblue,
+    )
+    @raylib.draw_rectangle(
+      20,
+      688,
+      sw - 40,
+      30,
+      @raylib.Color::new(15, 20, 28, 220),
+    )
     @raylib.draw_text(msg, 28, 693, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 540, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        540,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("LINE STOPPED", 430, 312, 52, @raylib.red)
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }

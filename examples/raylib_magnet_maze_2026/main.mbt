@@ -60,8 +60,18 @@ fn in_bounds(x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -80,11 +90,17 @@ fn clear_orbs(orbs : Array[Orb]) -> Unit {
 
 ///|
 fn set_orb(orbs : Array[Orb], i : Int, x : Int, y : Int) -> Unit {
-  orbs[i] = { x: x, y: y, active: true }
+  orbs[i] = { x, y, active: true }
 }
 
 ///|
-fn set_goal(goals_x : Array[Int], goals_y : Array[Int], i : Int, x : Int, y : Int) -> Unit {
+fn set_goal(
+  goals_x : Array[Int],
+  goals_y : Array[Int],
+  i : Int,
+  x : Int,
+  y : Int,
+) -> Unit {
   goals_x[i] = x
   goals_y[i] = y
 }
@@ -113,7 +129,12 @@ fn orb_at(orbs : Array[Orb], skip : Int, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn goal_at(goals_x : Array[Int], goals_y : Array[Int], x : Int, y : Int) -> Bool {
+fn goal_at(
+  goals_x : Array[Int],
+  goals_y : Array[Int],
+  x : Int,
+  y : Int,
+) -> Bool {
   let mut found = false
   for i = 0; i < goals_x.length(); i = i + 1 {
     if goals_x[i] == x && goals_y[i] == y {
@@ -124,7 +145,11 @@ fn goal_at(goals_x : Array[Int], goals_y : Array[Int], x : Int, y : Int) -> Bool
 }
 
 ///|
-fn goals_completed(orbs : Array[Orb], goals_x : Array[Int], goals_y : Array[Int]) -> Int {
+fn goals_completed(
+  orbs : Array[Orb],
+  goals_x : Array[Int],
+  goals_y : Array[Int],
+) -> Int {
   let mut c = 0
   for i = 0; i < orbs.length(); i = i + 1 {
     if orbs[i].active && goal_at(goals_x, goals_y, orbs[i].x, orbs[i].y) {
@@ -135,7 +160,11 @@ fn goals_completed(orbs : Array[Orb], goals_x : Array[Int], goals_y : Array[Int]
 }
 
 ///|
-fn all_orbs_on_goals(orbs : Array[Orb], goals_x : Array[Int], goals_y : Array[Int]) -> Bool {
+fn all_orbs_on_goals(
+  orbs : Array[Orb],
+  goals_x : Array[Int],
+  goals_y : Array[Int],
+) -> Bool {
   goals_completed(orbs, goals_x, goals_y) == orbs.length()
 }
 
@@ -250,7 +279,9 @@ fn try_move_player(
 ) -> (Int, Int, Bool) {
   let nx = px + dx
   let ny = py + dy
-  if not(in_bounds(nx, ny)) || is_wall(walls, nx, ny) || orb_at(orbs, -1, nx, ny) {
+  if not(in_bounds(nx, ny)) ||
+    is_wall(walls, nx, ny) ||
+    orb_at(orbs, -1, nx, ny) {
     (px, py, false)
   } else {
     (nx, ny, true)
@@ -386,7 +417,8 @@ fn main {
     }
 
     if not(over) && transition_t <= 0.0 {
-      if @raylib.is_key_pressed(@raylib.KeyTab) || @raylib.is_key_pressed(@raylib.KeyT) {
+      if @raylib.is_key_pressed(@raylib.KeyTab) ||
+        @raylib.is_key_pressed(@raylib.KeyT) {
         attract_mode = not(attract_mode)
         msg = if attract_mode { "Mode: ATTRACT" } else { "Mode: REPEL" }
       }
@@ -396,24 +428,30 @@ fn main {
       let mut dy = 0
       let mut pulse = false
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         dx = -1
         action = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         dx = 1
         action = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         dy = -1
         action = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         action = true
       }
 
-      if @raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeyJ) {
+      if @raylib.is_key_pressed(@raylib.KeySpace) ||
+        @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeyJ) {
         pulse = true
         action = true
       }
@@ -456,7 +494,11 @@ fn main {
           pulses = pulses + 1
           consumed_turn = true
           msg = if moved > 0 {
-            if attract_mode { "Pulse attract moved \{moved}." } else { "Pulse repel moved \{moved}." }
+            if attract_mode {
+              "Pulse attract moved \{moved}."
+            } else {
+              "Pulse repel moved \{moved}."
+            }
           } else {
             "Pulse had no effect."
           }
@@ -507,13 +549,49 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(12, 18, 28, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 104, @raylib.Color::new(8, 12, 20, 230))
-    @raylib.draw_text("MAGNET MAZE 2026", 18, 22, 36, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Level \{level}/3", 420, 34, 30, @raylib.Color::new(246, 226, 134, 255))
-    @raylib.draw_text("Turns \{turns_left}", 604, 34, 30, @raylib.Color::new(218, 234, 250, 255))
-    @raylib.draw_text("Goals \{goals_completed(orbs, goals_x, goals_y)}/\{max_orbs}", 800, 34, 30, @raylib.Color::new(198, 228, 252, 255))
-    @raylib.draw_text("Score \{score}", 1050, 34, 30, @raylib.Color::new(198, 228, 252, 255))
+    @raylib.draw_text(
+      "MAGNET MAZE 2026",
+      18,
+      22,
+      36,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Level \{level}/3",
+      420,
+      34,
+      30,
+      @raylib.Color::new(246, 226, 134, 255),
+    )
+    @raylib.draw_text(
+      "Turns \{turns_left}",
+      604,
+      34,
+      30,
+      @raylib.Color::new(218, 234, 250, 255),
+    )
+    @raylib.draw_text(
+      "Goals \{goals_completed(orbs, goals_x, goals_y)}/\{max_orbs}",
+      800,
+      34,
+      30,
+      @raylib.Color::new(198, 228, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      1050,
+      34,
+      30,
+      @raylib.Color::new(198, 228, 252, 255),
+    )
 
-    @raylib.draw_rectangle(ox - 20, oy - 20, gw * cell + 40, gh * cell + 40, @raylib.Color::new(44, 54, 68, 255))
+    @raylib.draw_rectangle(
+      ox - 20,
+      oy - 20,
+      gw * cell + 40,
+      gh * cell + 40,
+      @raylib.Color::new(44, 54, 68, 255),
+    )
 
     for y = 0; y < gh; y = y + 1 {
       for x = 0; x < gw; x = x + 1 {
@@ -527,11 +605,27 @@ fn main {
         }
 
         @raylib.draw_rectangle(px0, py0, cell, cell, c)
-        @raylib.draw_rectangle_lines(px0, py0, cell, cell, @raylib.Color::new(74, 88, 112, 180))
+        @raylib.draw_rectangle_lines(
+          px0,
+          py0,
+          cell,
+          cell,
+          @raylib.Color::new(74, 88, 112, 180),
+        )
 
         if goal_at(goals_x, goals_y, x, y) {
-          @raylib.draw_circle(px0 + cell / 2, py0 + cell / 2, 16.0, @raylib.Color::new(250, 228, 126, 255))
-          @raylib.draw_circle(px0 + cell / 2, py0 + cell / 2, 8.0, @raylib.Color::new(134, 110, 42, 255))
+          @raylib.draw_circle(
+            px0 + cell / 2,
+            py0 + cell / 2,
+            16.0,
+            @raylib.Color::new(250, 228, 126, 255),
+          )
+          @raylib.draw_circle(
+            px0 + cell / 2,
+            py0 + cell / 2,
+            8.0,
+            @raylib.Color::new(134, 110, 42, 255),
+          )
         }
       }
     }
@@ -543,7 +637,12 @@ fn main {
       let x = ox + orbs[i].x * cell + cell / 2
       let y = oy + orbs[i].y * cell + cell / 2
       @raylib.draw_circle(x, y, 18.0, @raylib.Color::new(198, 214, 234, 255))
-      @raylib.draw_circle(x - 5, y - 5, 7.0, @raylib.Color::new(240, 246, 252, 255))
+      @raylib.draw_circle(
+        x - 5,
+        y - 5,
+        7.0,
+        @raylib.Color::new(240, 246, 252, 255),
+      )
       @raylib.draw_circle_lines(x, y, 18.0, @raylib.Color::new(46, 58, 78, 255))
     }
 
@@ -556,26 +655,74 @@ fn main {
     }
 
     @raylib.draw_circle(mx, my, 20.0, magnet_color)
-    @raylib.draw_rectangle(mx - 12, my - 6, 24, 12, @raylib.Color::new(22, 28, 36, 255))
+    @raylib.draw_rectangle(
+      mx - 12,
+      my - 6,
+      24,
+      12,
+      @raylib.Color::new(22, 28, 36, 255),
+    )
     @raylib.draw_rectangle_lines(mx - 14, my - 8, 28, 16, @raylib.white)
 
     if transition_t > 0.0 {
-      @raylib.draw_rectangle(ox, oy, gw * cell, gh * cell, @raylib.Color::new(8, 14, 24, 140))
-      @raylib.draw_text("SECTOR CLEAR", ox + 166, oy + gh * cell / 2 - 26, 52, @raylib.Color::new(248, 236, 146, 255))
+      @raylib.draw_rectangle(
+        ox,
+        oy,
+        gw * cell,
+        gh * cell,
+        @raylib.Color::new(8, 14, 24, 140),
+      )
+      @raylib.draw_text(
+        "SECTOR CLEAR",
+        ox + 166,
+        oy + gh * cell / 2 - 26,
+        52,
+        @raylib.Color::new(248, 236, 146, 255),
+      )
     }
 
     let ctl_x = 26
     let ctl_y = sh - 188
-    @raylib.draw_rectangle(10, sh - 202, 166, 186, @raylib.Color::new(10, 16, 24, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 202,
+      166,
+      186,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
     @raylib.draw_text("Touch", 62, sh - 198, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("UP", ctl_x + 108, ctl_y + 16, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 58, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 58,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 10, ctl_y + 74, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y + 58, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y + 58,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 90, ctl_y + 74, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y + 116, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y + 116,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 90, ctl_y + 132, 20, @raylib.white)
 
     let mode_x = sw - 214
@@ -586,30 +733,90 @@ fn main {
       @raylib.Color::new(146, 72, 72, 255)
     }
     @raylib.draw_rectangle(mode_x, mode_y, 184, 88, mode_color)
-    @raylib.draw_text(if attract_mode { "ATTRACT" } else { "REPEL" }, mode_x + 34, mode_y + 28, 30, @raylib.white)
+    @raylib.draw_text(
+      if attract_mode {
+        "ATTRACT"
+      } else {
+        "REPEL"
+      },
+      mode_x + 34,
+      mode_y + 28,
+      30,
+      @raylib.white,
+    )
 
     let pulse_x = sw - 214
     let pulse_y = sh - 164
-    @raylib.draw_rectangle(pulse_x, pulse_y, 184, 126, @raylib.Color::new(70, 102, 182, 255))
+    @raylib.draw_rectangle(
+      pulse_x,
+      pulse_y,
+      184,
+      126,
+      @raylib.Color::new(70, 102, 182, 255),
+    )
     @raylib.draw_text("PULSE", pulse_x + 44, pulse_y + 46, 40, @raylib.white)
 
-    @raylib.draw_rectangle(188, sh - 52, sw - 206, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 198, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      188,
+      sh - 52,
+      sw - 206,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      198,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
-    @raylib.draw_text("Moves \{moves}  Pulses \{pulses}", 26, 114, 24, @raylib.Color::new(212, 228, 246, 255))
-    @raylib.draw_text("Stars \{stars}", 26, 144, 24, @raylib.Color::new(250, 226, 130, 255))
+    @raylib.draw_text(
+      "Moves \{moves}  Pulses \{pulses}",
+      26,
+      114,
+      24,
+      @raylib.Color::new(212, 228, 246, 255),
+    )
+    @raylib.draw_text(
+      "Stars \{stars}",
+      26,
+      144,
+      24,
+      @raylib.Color::new(250, 226, 130, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 320, sh / 2 - 96, 640, 192, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 320,
+        sh / 2 - 96,
+        640,
+        192,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "MAGNET MASTER" } else { "NO CHARGES LEFT" },
+        if won {
+          "MAGNET MASTER"
+        } else {
+          "NO CHARGES LEFT"
+        },
         sw / 2 - 250,
         sh / 2 - 34,
         54,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

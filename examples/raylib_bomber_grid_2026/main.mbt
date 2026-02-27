@@ -164,7 +164,13 @@ fn apply_explosion(map : Array[Int], bomb : Bomb) -> Int {
 }
 
 ///|
-fn draw_fire_arm(map : Array[Int], bomb : Bomb, dx : Int, dy : Int, color : @raylib.Color) -> Unit {
+fn draw_fire_arm(
+  map : Array[Int],
+  bomb : Bomb,
+  dx : Int,
+  dy : Int,
+  color : @raylib.Color,
+) -> Unit {
   let mut x = bomb.x
   let mut y = bomb.y
   for _step = 0; _step < 3; _step = _step + 1 {
@@ -241,16 +247,20 @@ fn main {
 
       let mut dx = 0
       let mut dy = 0
-      if @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW) {
+      if @raylib.is_key_pressed(@raylib.KeyUp) ||
+        @raylib.is_key_pressed(@raylib.KeyW) {
         dy = -1
       }
-      if @raylib.is_key_pressed(@raylib.KeyDown) || @raylib.is_key_pressed(@raylib.KeyS) {
+      if @raylib.is_key_pressed(@raylib.KeyDown) ||
+        @raylib.is_key_pressed(@raylib.KeyS) {
         dy = 1
       }
-      if @raylib.is_key_pressed(@raylib.KeyLeft) || @raylib.is_key_pressed(@raylib.KeyA) {
+      if @raylib.is_key_pressed(@raylib.KeyLeft) ||
+        @raylib.is_key_pressed(@raylib.KeyA) {
         dx = -1
       }
-      if @raylib.is_key_pressed(@raylib.KeyRight) || @raylib.is_key_pressed(@raylib.KeyD) {
+      if @raylib.is_key_pressed(@raylib.KeyRight) ||
+        @raylib.is_key_pressed(@raylib.KeyD) {
         dx = 1
       }
 
@@ -345,8 +355,22 @@ fn main {
         let py = off_y + y * tile
         match map[idx(x, y)] {
           1 => @raylib.draw_rectangle(px, py, tile, tile, @raylib.darkgray)
-          2 => @raylib.draw_rectangle(px + 4, py + 4, tile - 8, tile - 8, @raylib.brown)
-          _ => @raylib.draw_rectangle_lines(px, py, tile, tile, @raylib.Color::new(35, 35, 42, 255))
+          2 =>
+            @raylib.draw_rectangle(
+              px + 4,
+              py + 4,
+              tile - 8,
+              tile - 8,
+              @raylib.brown,
+            )
+          _ =>
+            @raylib.draw_rectangle_lines(
+              px,
+              py,
+              tile,
+              tile,
+              @raylib.Color::new(35, 35, 42, 255),
+            )
         }
       }
     }
@@ -368,23 +392,57 @@ fn main {
 
     let player_px = off_x + player_x * tile
     let player_py = off_y + player_y * tile
-    @raylib.draw_rectangle(player_px + 8, player_py + 8, tile - 16, tile - 16, @raylib.skyblue)
+    @raylib.draw_rectangle(
+      player_px + 8,
+      player_py + 8,
+      tile - 16,
+      tile - 16,
+      @raylib.skyblue,
+    )
 
     for i = 0; i < enemies.length(); i = i + 1 {
       if enemies[i].alive {
         let ex = off_x + enemies[i].x * tile
         let ey = off_y + enemies[i].y * tile
-        @raylib.draw_rectangle(ex + 8, ey + 8, tile - 16, tile - 16, @raylib.red)
+        @raylib.draw_rectangle(
+          ex + 8,
+          ey + 8,
+          tile - 16,
+          tile - 16,
+          @raylib.red,
+        )
       }
     }
 
     @raylib.draw_text("BOMBER GRID 2026", 24, 20, 34, @raylib.yellow)
     @raylib.draw_text("Score: \{score}", 26, 56, 24, @raylib.raywhite)
-    @raylib.draw_text("WASD move | SPACE bomb | R restart", 450, 30, 22, @raylib.gray)
+    @raylib.draw_text(
+      "WASD move | SPACE bomb | R restart", 450, 30, 22, @raylib.gray,
+    )
 
     if win || lose {
-      @raylib.draw_rectangle(270, 310, 420, 110, @raylib.fade(@raylib.black, 0.76))
-      @raylib.draw_text(if win { "YOU WIN" } else { "YOU LOSE" }, 380, 338, 44, if win { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        270,
+        310,
+        420,
+        110,
+        @raylib.fade(@raylib.black, 0.76),
+      )
+      @raylib.draw_text(
+        if win {
+          "YOU WIN"
+        } else {
+          "YOU LOSE"
+        },
+        380,
+        338,
+        44,
+        if win {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 368, 382, 24, @raylib.raywhite)
     }
 

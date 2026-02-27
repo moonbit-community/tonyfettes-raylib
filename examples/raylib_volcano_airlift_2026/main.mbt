@@ -47,8 +47,18 @@ fn absf(v : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -78,8 +88,13 @@ fn clear_survivors(survivors : Array[Survivor]) -> Unit {
 }
 
 ///|
-fn set_survivor(survivors : Array[Survivor], i : Int, x : Float, y : Float) -> Unit {
-  survivors[i] = { x: x, y: y, state: 0 }
+fn set_survivor(
+  survivors : Array[Survivor],
+  i : Int,
+  x : Float,
+  y : Float,
+) -> Unit {
+  survivors[i] = { x, y, state: 0 }
 }
 
 ///|
@@ -93,7 +108,9 @@ fn clear_clouds(clouds : Array[Cloud]) -> Unit {
 fn spawn_cloud(clouds : Array[Cloud], level : Int) -> Unit {
   let side = @raylib.get_random_value(0, 1)
   let y = Float::from_int(@raylib.get_random_value(120, 560))
-  let mut speed = Float::from_int(@raylib.get_random_value(60 + level * 16, 120 + level * 20))
+  let mut speed = Float::from_int(
+    @raylib.get_random_value(60 + level * 16, 120 + level * 20),
+  )
   let x : Float = if side == 0 {
     -50.0
   } else {
@@ -119,7 +136,11 @@ fn spawn_cloud(clouds : Array[Cloud], level : Int) -> Unit {
 }
 
 ///|
-fn setup_level(level : Int, survivors : Array[Survivor], clouds : Array[Cloud]) -> (Int, Int, Float, Float, Float, Float, Float, Float) {
+fn setup_level(
+  level : Int,
+  survivors : Array[Survivor],
+  clouds : Array[Cloud],
+) -> (Int, Int, Float, Float, Float, Float, Float, Float) {
   clear_survivors(survivors)
   clear_clouds(clouds)
 
@@ -157,7 +178,11 @@ fn setup_level(level : Int, survivors : Array[Survivor], clouds : Array[Cloud]) 
 }
 
 ///|
-fn survivors_count(survivors : Array[Survivor], total : Int, state : Int) -> Int {
+fn survivors_count(
+  survivors : Array[Survivor],
+  total : Int,
+  state : Int,
+) -> Int {
   let mut c = 0
   for i = 0; i < total; i = i + 1 {
     if survivors[i].state == state {
@@ -235,7 +260,9 @@ fn main {
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
       level = 1
-      let (rt, rq, rsx, rsy, rbx, rby, rly, rtm) = setup_level(level, survivors, clouds)
+      let (rt, rq, rsx, rsy, rbx, rby, rly, rtm) = setup_level(
+        level, survivors, clouds,
+      )
       total = rt
       quota = rq
       start_x = rsx
@@ -282,7 +309,9 @@ fn main {
         transition_t = 0.0
         if level < 3 {
           level = level + 1
-          let (nt, nq, nsx, nsy, nbx, nby, nly, ntm) = setup_level(level, survivors, clouds)
+          let (nt, nq, nsx, nsy, nbx, nby, nly, ntm) = setup_level(
+            level, survivors, clouds,
+          )
           total = nt
           quota = nq
           start_x = nsx
@@ -339,11 +368,16 @@ fn main {
         lava_y = 430.0
       }
 
-      let mut left = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut right = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut up = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-      let mut down = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-      let mut action = @raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyJ)
+      let mut left = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut right = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut up = @raylib.is_key_down(@raylib.KeyW) ||
+        @raylib.is_key_down(@raylib.KeyUp)
+      let mut down = @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown)
+      let mut action = @raylib.is_key_pressed(@raylib.KeySpace) ||
+        @raylib.is_key_pressed(@raylib.KeyJ)
 
       let m = @raylib.get_mouse_position()
       let ctl_x = 20
@@ -447,12 +481,14 @@ fn main {
       }
 
       if carrying && carry_idx >= 0 {
-        let near_base = absf(hx - base_x) <= 74.0 && hy >= base_y - 104.0 && hy <= base_y - 18.0
+        let near_base = absf(hx - base_x) <= 74.0 &&
+          hy >= base_y - 104.0 &&
+          hy <= base_y - 18.0
         if action && near_base {
           survivors[carry_idx].state = 2
           carrying = false
           carry_idx = -1
-          score = score + 120 + (timer.to_int() / 2)
+          score = score + 120 + timer.to_int() / 2
           msg = "Survivor dropped at base."
           action = false
         }
@@ -580,28 +616,75 @@ fn main {
     for x = 0; x < sw; x = x + 6 {
       let gx = Float::from_int(x)
       let gy = ground_y(gx)
-      @raylib.draw_rectangle(x, gy.to_int(), 7, sh - gy.to_int(), @raylib.Color::new(84, 72, 64, 255))
+      @raylib.draw_rectangle(
+        x,
+        gy.to_int(),
+        7,
+        sh - gy.to_int(),
+        @raylib.Color::new(84, 72, 64, 255),
+      )
       if x % 24 == 0 {
-        @raylib.draw_rectangle(x, gy.to_int(), 7, 6, @raylib.Color::new(112, 98, 86, 255))
+        @raylib.draw_rectangle(
+          x,
+          gy.to_int(),
+          7,
+          6,
+          @raylib.Color::new(112, 98, 86, 255),
+        )
       }
     }
 
     // Base pad
-    @raylib.draw_rectangle((base_x - 62.0 + shake_x).to_int(), (base_y - 10.0).to_int(), 124, 10, @raylib.Color::new(220, 226, 232, 255))
-    @raylib.draw_rectangle((base_x - 10.0 + shake_x).to_int(), (base_y - 44.0).to_int(), 20, 34, @raylib.Color::new(88, 110, 136, 255))
-    @raylib.draw_text("BASE", (base_x - 34.0 + shake_x).to_int(), (base_y - 70.0).to_int(), 22, @raylib.Color::new(236, 244, 252, 255))
+    @raylib.draw_rectangle(
+      (base_x - 62.0 + shake_x).to_int(),
+      (base_y - 10.0).to_int(),
+      124,
+      10,
+      @raylib.Color::new(220, 226, 232, 255),
+    )
+    @raylib.draw_rectangle(
+      (base_x - 10.0 + shake_x).to_int(),
+      (base_y - 44.0).to_int(),
+      20,
+      34,
+      @raylib.Color::new(88, 110, 136, 255),
+    )
+    @raylib.draw_text(
+      "BASE",
+      (base_x - 34.0 + shake_x).to_int(),
+      (base_y - 70.0).to_int(),
+      22,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
 
     // Survivors
     for i = 0; i < total; i = i + 1 {
       if survivors[i].state == 0 {
         let sx = (survivors[i].x + shake_x).to_int()
         let sy = survivors[i].y.to_int()
-        @raylib.draw_circle(sx, sy - 14, 8.0, @raylib.Color::new(248, 228, 170, 255))
-        @raylib.draw_rectangle(sx - 7, sy - 6, 14, 20, @raylib.Color::new(220, 96, 96, 255))
+        @raylib.draw_circle(
+          sx,
+          sy - 14,
+          8.0,
+          @raylib.Color::new(248, 228, 170, 255),
+        )
+        @raylib.draw_rectangle(
+          sx - 7,
+          sy - 6,
+          14,
+          20,
+          @raylib.Color::new(220, 96, 96, 255),
+        )
       } else if survivors[i].state == 3 {
         let sx = (survivors[i].x + shake_x).to_int()
         let sy = survivors[i].y.to_int()
-        @raylib.draw_rectangle(sx - 7, sy - 6, 14, 18, @raylib.Color::new(80, 62, 54, 255))
+        @raylib.draw_rectangle(
+          sx - 7,
+          sy - 6,
+          14,
+          18,
+          @raylib.Color::new(80, 62, 54, 255),
+        )
       }
     }
 
@@ -612,9 +695,24 @@ fn main {
       }
       let cx = (clouds[i].x + shake_x).to_int()
       let cy = clouds[i].y.to_int()
-      @raylib.draw_circle(cx, cy, clouds[i].r, @raylib.Color::new(72, 78, 92, 255))
-      @raylib.draw_circle(cx - 16, cy + 4, clouds[i].r * 0.7, @raylib.Color::new(88, 94, 108, 255))
-      @raylib.draw_circle(cx + 16, cy + 5, clouds[i].r * 0.72, @raylib.Color::new(88, 94, 108, 255))
+      @raylib.draw_circle(
+        cx,
+        cy,
+        clouds[i].r,
+        @raylib.Color::new(72, 78, 92, 255),
+      )
+      @raylib.draw_circle(
+        cx - 16,
+        cy + 4,
+        clouds[i].r * 0.7,
+        @raylib.Color::new(88, 94, 108, 255),
+      )
+      @raylib.draw_circle(
+        cx + 16,
+        cy + 5,
+        clouds[i].r * 0.72,
+        @raylib.Color::new(88, 94, 108, 255),
+      )
     }
 
     // Helicopter
@@ -622,81 +720,295 @@ fn main {
       let hx_i = (hx + shake_x).to_int()
       let hy_i = hy.to_int()
 
-      @raylib.draw_rectangle(hx_i - 20, hy_i - 10, 40, 20, @raylib.Color::new(90, 220, 240, 255))
-      @raylib.draw_rectangle(hx_i + 16, hy_i - 6, 16, 12, @raylib.Color::new(70, 182, 214, 255))
-      @raylib.draw_circle(hx_i - 8, hy_i - 2, 8.0, @raylib.Color::new(206, 244, 250, 255))
+      @raylib.draw_rectangle(
+        hx_i - 20,
+        hy_i - 10,
+        40,
+        20,
+        @raylib.Color::new(90, 220, 240, 255),
+      )
+      @raylib.draw_rectangle(
+        hx_i + 16,
+        hy_i - 6,
+        16,
+        12,
+        @raylib.Color::new(70, 182, 214, 255),
+      )
+      @raylib.draw_circle(
+        hx_i - 8,
+        hy_i - 2,
+        8.0,
+        @raylib.Color::new(206, 244, 250, 255),
+      )
 
-      let rotor = (rotor_t.to_int() % 14) - 7
-      @raylib.draw_line(hx_i - 42 + rotor, hy_i - 18, hx_i + 42 + rotor, hy_i - 18, @raylib.Color::new(230, 240, 248, 255))
+      let rotor = rotor_t.to_int() % 14 - 7
+      @raylib.draw_line(
+        hx_i - 42 + rotor,
+        hy_i - 18,
+        hx_i + 42 + rotor,
+        hy_i - 18,
+        @raylib.Color::new(230, 240, 248, 255),
+      )
 
-      @raylib.draw_line(hx_i - 18, hy_i + 12, hx_i - 10, hy_i + 20, @raylib.Color::new(224, 228, 236, 255))
-      @raylib.draw_line(hx_i + 18, hy_i + 12, hx_i + 10, hy_i + 20, @raylib.Color::new(224, 228, 236, 255))
-      @raylib.draw_line(hx_i - 20, hy_i + 20, hx_i + 20, hy_i + 20, @raylib.Color::new(224, 228, 236, 255))
+      @raylib.draw_line(
+        hx_i - 18,
+        hy_i + 12,
+        hx_i - 10,
+        hy_i + 20,
+        @raylib.Color::new(224, 228, 236, 255),
+      )
+      @raylib.draw_line(
+        hx_i + 18,
+        hy_i + 12,
+        hx_i + 10,
+        hy_i + 20,
+        @raylib.Color::new(224, 228, 236, 255),
+      )
+      @raylib.draw_line(
+        hx_i - 20,
+        hy_i + 20,
+        hx_i + 20,
+        hy_i + 20,
+        @raylib.Color::new(224, 228, 236, 255),
+      )
 
       if carrying {
-        @raylib.draw_line(hx_i, hy_i + 10, hx_i, hy_i + 36, @raylib.Color::new(230, 230, 230, 255))
-        @raylib.draw_circle(hx_i, hy_i + 48, 8.0, @raylib.Color::new(248, 228, 170, 255))
-        @raylib.draw_rectangle(hx_i - 7, hy_i + 56, 14, 18, @raylib.Color::new(220, 96, 96, 255))
+        @raylib.draw_line(
+          hx_i,
+          hy_i + 10,
+          hx_i,
+          hy_i + 36,
+          @raylib.Color::new(230, 230, 230, 255),
+        )
+        @raylib.draw_circle(
+          hx_i,
+          hy_i + 48,
+          8.0,
+          @raylib.Color::new(248, 228, 170, 255),
+        )
+        @raylib.draw_rectangle(
+          hx_i - 7,
+          hy_i + 56,
+          14,
+          18,
+          @raylib.Color::new(220, 96, 96, 255),
+        )
       }
     }
 
     // Lava
-    @raylib.draw_rectangle(0, lava_y.to_int(), sw, sh - lava_y.to_int(), @raylib.Color::new(236, 94, 54, 255))
-    @raylib.draw_rectangle(0, lava_y.to_int(), sw, 10, @raylib.Color::new(252, 176, 80, 255))
+    @raylib.draw_rectangle(
+      0,
+      lava_y.to_int(),
+      sw,
+      sh - lava_y.to_int(),
+      @raylib.Color::new(236, 94, 54, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      lava_y.to_int(),
+      sw,
+      10,
+      @raylib.Color::new(252, 176, 80, 255),
+    )
 
     @raylib.draw_rectangle(0, 0, sw, 98, @raylib.Color::new(10, 14, 22, 230))
-    @raylib.draw_text("VOLCANO AIRLIFT 2026", 16, 20, 34, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Sector \{level}/3", 436, 30, 30, @raylib.Color::new(246, 230, 136, 255))
-    @raylib.draw_text("HP \{hull}", 616, 30, 30, @raylib.Color::new(214, 236, 252, 255))
-    @raylib.draw_text("Fuel \{fuel.to_int()}", 730, 30, 30, @raylib.Color::new(214, 236, 252, 255))
-    @raylib.draw_text("Score \{score}", 930, 30, 30, @raylib.Color::new(214, 236, 252, 255))
+    @raylib.draw_text(
+      "VOLCANO AIRLIFT 2026",
+      16,
+      20,
+      34,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector \{level}/3",
+      436,
+      30,
+      30,
+      @raylib.Color::new(246, 230, 136, 255),
+    )
+    @raylib.draw_text(
+      "HP \{hull}",
+      616,
+      30,
+      30,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Fuel \{fuel.to_int()}",
+      730,
+      30,
+      30,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      930,
+      30,
+      30,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
 
-    @raylib.draw_text("Rescued \{rescued_now}/\{quota}  Lost \{lost_now}  Onboard \{onboard_now}", 20, 72, 22, @raylib.Color::new(224, 236, 246, 255))
-    @raylib.draw_text("Timer \{timer.to_int()}", 1010, 72, 24, @raylib.Color::new(250, 220, 156, 255))
+    @raylib.draw_text(
+      "Rescued \{rescued_now}/\{quota}  Lost \{lost_now}  Onboard \{onboard_now}",
+      20,
+      72,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
+    @raylib.draw_text(
+      "Timer \{timer.to_int()}",
+      1010,
+      72,
+      24,
+      @raylib.Color::new(250, 220, 156, 255),
+    )
 
-    @raylib.draw_rectangle(20, 104, 260, 10, @raylib.Color::new(34, 40, 52, 255))
-    @raylib.draw_rectangle(20, 104, (fuel / 100.0 * 260.0).to_int(), 10, @raylib.Color::new(110, 216, 250, 255))
+    @raylib.draw_rectangle(
+      20,
+      104,
+      260,
+      10,
+      @raylib.Color::new(34, 40, 52, 255),
+    )
+    @raylib.draw_rectangle(
+      20,
+      104,
+      (fuel / 100.0 * 260.0).to_int(),
+      10,
+      @raylib.Color::new(110, 216, 250, 255),
+    )
 
     let ctl_x = 20
     let ctl_y = sh - 176
-    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_rectangle(
+      8,
+      sh - 190,
+      160,
+      180,
+      @raylib.Color::new(10, 16, 28, 220),
+    )
     @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 18, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 82,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 60,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("LIFT", ctl_x + 14, ctl_y + 78, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 82,
+      ctl_y + 60,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 86, ctl_y + 78, 20, @raylib.white)
 
     let action_x = sw - 206
     let action_y = sh - 154
-    @raylib.draw_rectangle(action_x, action_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
-    @raylib.draw_text(if carrying { "DROP" } else { "PICK" }, action_x + 48, action_y + 40, 38, @raylib.white)
+    @raylib.draw_rectangle(
+      action_x,
+      action_y,
+      176,
+      120,
+      @raylib.Color::new(188, 82, 76, 255),
+    )
+    @raylib.draw_text(
+      if carrying {
+        "DROP"
+      } else {
+        "PICK"
+      },
+      action_x + 48,
+      action_y + 40,
+      38,
+      @raylib.white,
+    )
 
-    @raylib.draw_rectangle(176, sh - 52, sw - 390, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 186, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      176,
+      sh - 52,
+      sw - 390,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      186,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
-    @raylib.draw_text("Stars \{stars}", sw - 170, 116, 28, @raylib.Color::new(250, 226, 130, 255))
+    @raylib.draw_text(
+      "Stars \{stars}",
+      sw - 170,
+      116,
+      28,
+      @raylib.Color::new(250, 226, 130, 255),
+    )
 
     if transition_t > 0.0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 18, 120))
-      @raylib.draw_text("SECTOR CLEAR", sw / 2 - 174, sh / 2 - 24, 54, @raylib.Color::new(248, 236, 146, 255))
+      @raylib.draw_text(
+        "SECTOR CLEAR",
+        sw / 2 - 174,
+        sh / 2 - 24,
+        54,
+        @raylib.Color::new(248, 236, 146, 255),
+      )
     }
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 330, sh / 2 - 100, 660, 200, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 330,
+        sh / 2 - 100,
+        660,
+        200,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "MISSION COMPLETE" } else { "MISSION FAILED" },
+        if won {
+          "MISSION COMPLETE"
+        } else {
+          "MISSION FAILED"
+        },
         sw / 2 - 240,
         sh / 2 - 34,
         56,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

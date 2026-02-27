@@ -21,21 +21,36 @@ fn damage_tile_at_point(
     game.map_hp[idx] -= power
     if game.map_hp[idx] <= 0 {
       @types.set_tile(game, tx, ty, @types.tile_empty, 0)
-      @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 0.45)
+      @particles.spawn_explosion(
+        game,
+        @types.tile_center_x(tx),
+        @types.tile_center_y(ty),
+        0.45,
+      )
     } else {
       @particles.spawn_spark_burst(game, world_x, world_y, 6)
     }
   } else if tile == @types.tile_steel {
     if power >= 3 {
       @types.set_tile(game, tx, ty, @types.tile_empty, 0)
-      @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 0.7)
+      @particles.spawn_explosion(
+        game,
+        @types.tile_center_x(tx),
+        @types.tile_center_y(ty),
+        0.7,
+      )
     } else {
       @particles.spawn_spark_burst(game, world_x, world_y, 9)
     }
   } else if tile == @types.tile_base {
     game.base_alive = false
     game.base_flash = 1.0
-    @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 2.1)
+    @particles.spawn_explosion(
+      game,
+      @types.tile_center_x(tx),
+      @types.tile_center_y(ty),
+      2.1,
+    )
     @types.push_camera_shake(game, 3.6)
   }
   true
@@ -48,7 +63,9 @@ fn update_starfield(game : @types.Game, dt : Float) -> Unit {
     game.stars[i].twinkle += dt * 3.0
     if game.stars[i].y > Float::from_int(@types.screen_height + 10) {
       game.stars[i].y = -4.0
-      game.stars[i].x = Float::from_int(@types.rand_range(game, 0, @types.screen_width))
+      game.stars[i].x = Float::from_int(
+        @types.rand_range(game, 0, @types.screen_width),
+      )
       game.stars[i].speed = Float::from_int(@types.rand_range(game, 12, 85))
       game.stars[i].twinkle = @types.rand_rangef(game, 0.0, 6.2)
     }
@@ -61,7 +78,11 @@ fn enter_game_over(game : @types.Game) -> Unit {
     return
   }
   game.state = @types.state_game_over
-  game.game_over_timer = if game.demo_mode { 0.8 } else { @types.game_over_delay }
+  game.game_over_timer = if game.demo_mode {
+    0.8
+  } else {
+    @types.game_over_delay
+  }
 }
 
 ///|

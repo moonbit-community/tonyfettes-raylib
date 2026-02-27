@@ -107,10 +107,28 @@ fn draw_board(level : Array[Int]) -> Unit {
       let px = view_x + x * tile_sz
       let py = view_y + y * tile_sz
       if level[mindex(x, y)] == 0 {
-        @raylib.draw_rectangle(px, py, tile_sz, tile_sz, @raylib.Color::new(36, 36, 46, 255))
-        @raylib.draw_rectangle_lines(px, py, tile_sz, tile_sz, @raylib.Color::new(24, 24, 30, 255))
+        @raylib.draw_rectangle(
+          px,
+          py,
+          tile_sz,
+          tile_sz,
+          @raylib.Color::new(36, 36, 46, 255),
+        )
+        @raylib.draw_rectangle_lines(
+          px,
+          py,
+          tile_sz,
+          tile_sz,
+          @raylib.Color::new(24, 24, 30, 255),
+        )
       } else {
-        @raylib.draw_rectangle(px, py, tile_sz, tile_sz, @raylib.Color::new(88, 88, 102, 255))
+        @raylib.draw_rectangle(
+          px,
+          py,
+          tile_sz,
+          tile_sz,
+          @raylib.Color::new(88, 88, 102, 255),
+        )
       }
     }
   }
@@ -178,16 +196,20 @@ fn main {
     if not(victory) && not(defeat) {
       let mut dx = 0
       let mut dy = 0
-      if @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW) {
+      if @raylib.is_key_pressed(@raylib.KeyUp) ||
+        @raylib.is_key_pressed(@raylib.KeyW) {
         dy = -1
       }
-      if @raylib.is_key_pressed(@raylib.KeyDown) || @raylib.is_key_pressed(@raylib.KeyS) {
+      if @raylib.is_key_pressed(@raylib.KeyDown) ||
+        @raylib.is_key_pressed(@raylib.KeyS) {
         dy = 1
       }
-      if @raylib.is_key_pressed(@raylib.KeyLeft) || @raylib.is_key_pressed(@raylib.KeyA) {
+      if @raylib.is_key_pressed(@raylib.KeyLeft) ||
+        @raylib.is_key_pressed(@raylib.KeyA) {
         dx = -1
       }
-      if @raylib.is_key_pressed(@raylib.KeyRight) || @raylib.is_key_pressed(@raylib.KeyD) {
+      if @raylib.is_key_pressed(@raylib.KeyRight) ||
+        @raylib.is_key_pressed(@raylib.KeyD) {
         dx = 1
       }
 
@@ -232,7 +254,8 @@ fn main {
               let (rx, ry) = dirs[(start + t) % 4]
               let wx = mobs[i].x + rx
               let wy = mobs[i].y + ry
-              if passable(level, mobs, wx, wy) && not(wx == hero_x && wy == hero_y) {
+              if passable(level, mobs, wx, wy) &&
+                not(wx == hero_x && wy == hero_y) {
                 mobs[i].x = wx
                 mobs[i].y = wy
                 break
@@ -271,12 +294,38 @@ fn main {
     @raylib.draw_text("HP: \{hero_hp}", 22, 60, 24, @raylib.raywhite)
     @raylib.draw_text("Score: \{score}", 170, 60, 24, @raylib.raywhite)
     @raylib.draw_text("Turns: \{turns}", 360, 60, 24, @raylib.raywhite)
-    @raylib.draw_text("Enemies: \{alive_mobs(mobs)}", 530, 60, 24, @raylib.raywhite)
+    @raylib.draw_text(
+      "Enemies: \{alive_mobs(mobs)}",
+      530,
+      60,
+      24,
+      @raylib.raywhite,
+    )
     @raylib.draw_text("WASD move/attack | R restart", 700, 26, 20, @raylib.gray)
 
     if victory || defeat {
-      @raylib.draw_rectangle(330, 300, 420, 120, @raylib.fade(@raylib.black, 0.76))
-      @raylib.draw_text(if victory { "DUNGEON CLEARED" } else { "YOU FELL" }, 380, 334, 42, if victory { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        330,
+        300,
+        420,
+        120,
+        @raylib.fade(@raylib.black, 0.76),
+      )
+      @raylib.draw_text(
+        if victory {
+          "DUNGEON CLEARED"
+        } else {
+          "YOU FELL"
+        },
+        380,
+        334,
+        42,
+        if victory {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 432, 378, 24, @raylib.raywhite)
     }
 

@@ -31,8 +31,18 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -106,14 +116,19 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
       meteors[i].active = true
       meteors[i].x = Float::from_int(@raylib.get_random_value(20, sw - 20))
       meteors[i].y = -18.0
-      meteors[i].vy = Float::from_int(@raylib.get_random_value(170 + level * 20, 260 + level * 30))
+      meteors[i].vy = Float::from_int(
+        @raylib.get_random_value(170 + level * 20, 260 + level * 30),
+      )
       placed = true
     }
   }
 }
 
 ///|
-fn set_level(level : Int, heights : Array[Float]) -> (Float, Float, Float, Float, Float, Float) {
+fn set_level(
+  level : Int,
+  heights : Array[Float],
+) -> (Float, Float, Float, Float, Float, Float) {
   if level == 1 {
     set_height(heights, 0, 620.0)
     set_height(heights, 1, 600.0)
@@ -132,14 +147,7 @@ fn set_level(level : Int, heights : Array[Float]) -> (Float, Float, Float, Float
     set_height(heights, 14, 590.0)
     set_height(heights, 15, 620.0)
     set_height(heights, 16, 610.0)
-    (
-      120.0,
-      110.0,
-      480.0,
-      80.0,
-      heights[6],
-      8.0,
-    )
+    (120.0, 110.0, 480.0, 80.0, heights[6], 8.0)
   } else if level == 2 {
     set_height(heights, 0, 640.0)
     set_height(heights, 1, 650.0)
@@ -158,14 +166,7 @@ fn set_level(level : Int, heights : Array[Float]) -> (Float, Float, Float, Float
     set_height(heights, 14, 560.0)
     set_height(heights, 15, 560.0)
     set_height(heights, 16, 610.0)
-    (
-      1130.0,
-      120.0,
-      240.0,
-      80.0,
-      heights[3],
-      -16.0,
-    )
+    (1130.0, 120.0, 240.0, 80.0, heights[3], -16.0)
   } else if level == 3 {
     set_height(heights, 0, 630.0)
     set_height(heights, 1, 610.0)
@@ -184,14 +185,7 @@ fn set_level(level : Int, heights : Array[Float]) -> (Float, Float, Float, Float
     set_height(heights, 14, 620.0)
     set_height(heights, 15, 650.0)
     set_height(heights, 16, 630.0)
-    (
-      140.0,
-      112.0,
-      880.0,
-      80.0,
-      heights[11],
-      22.0,
-    )
+    (140.0, 112.0, 880.0, 80.0, heights[11], 22.0)
   } else {
     set_height(heights, 0, 660.0)
     set_height(heights, 1, 630.0)
@@ -210,14 +204,7 @@ fn set_level(level : Int, heights : Array[Float]) -> (Float, Float, Float, Float
     set_height(heights, 14, 560.0)
     set_height(heights, 15, 610.0)
     set_height(heights, 16, 650.0)
-    (
-      1070.0,
-      124.0,
-      640.0,
-      80.0,
-      heights[8],
-      -24.0,
-    )
+    (1070.0, 124.0, 640.0, 80.0, heights[8], -24.0)
   }
 }
 
@@ -342,9 +329,12 @@ fn main {
         let m = @raylib.get_mouse_position()
         let touching = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
 
-        let mut left_down = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-        let mut right_down = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-        let mut thrust_down = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
+        let mut left_down = @raylib.is_key_down(@raylib.KeyA) ||
+          @raylib.is_key_down(@raylib.KeyLeft)
+        let mut right_down = @raylib.is_key_down(@raylib.KeyD) ||
+          @raylib.is_key_down(@raylib.KeyRight)
+        let mut thrust_down = @raylib.is_key_down(@raylib.KeyW) ||
+          @raylib.is_key_down(@raylib.KeyUp)
 
         if touching {
           if inside_rect(m.x, m.y, ctl_x, ctl_y, 82, 54) {
@@ -447,7 +437,10 @@ fn main {
           let ground = sample_height(heights, x)
           if y >= ground - 13.0 {
             let on_pad = x >= pad_x + 8.0 && x <= pad_x + pad_w - 8.0
-            let safe = on_pad && absf(vx) <= 34.0 && absf(vy) <= 46.0 && absf(angle) <= 12.0
+            let safe = on_pad &&
+              absf(vx) <= 34.0 &&
+              absf(vy) <= 46.0 &&
+              absf(angle) <= 12.0
 
             if safe {
               let mut bonus = 320 + fuel.to_int() / 2
@@ -519,8 +512,13 @@ fn main {
     for i = 0; i < 84; i = i + 1 {
       let sx = (i * 173 + level * 97) % sw
       let sy = (i * 97 + level * 61) % 420
-      let b = 140 + (i * 13) % 100
-      @raylib.draw_circle(sx, sy, 1.0 + Float::from_int(i % 3), @raylib.Color::new(b, b, b + 20, 255))
+      let b = 140 + i * 13 % 100
+      @raylib.draw_circle(
+        sx,
+        sy,
+        1.0 + Float::from_int(i % 3),
+        @raylib.Color::new(b, b, b + 20, 255),
+      )
     }
 
     let segs = points - 1
@@ -547,12 +545,36 @@ fn main {
         ground_color2,
       )
 
-      @raylib.draw_line(x1.to_int(), y1.to_int(), x2.to_int(), y2.to_int(), @raylib.Color::new(184, 170, 182, 255))
+      @raylib.draw_line(
+        x1.to_int(),
+        y1.to_int(),
+        x2.to_int(),
+        y2.to_int(),
+        @raylib.Color::new(184, 170, 182, 255),
+      )
     }
 
-    @raylib.draw_rectangle(pad_x.to_int(), (pad_y - 10.0).to_int(), pad_w.to_int(), 8, @raylib.Color::new(248, 216, 106, 255))
-    @raylib.draw_rectangle_lines(pad_x.to_int(), (pad_y - 10.0).to_int(), pad_w.to_int(), 8, @raylib.Color::new(82, 62, 28, 255))
-    @raylib.draw_text("LANDING PAD", pad_x.to_int() - 20, (pad_y - 38.0).to_int(), 20, @raylib.Color::new(248, 232, 170, 255))
+    @raylib.draw_rectangle(
+      pad_x.to_int(),
+      (pad_y - 10.0).to_int(),
+      pad_w.to_int(),
+      8,
+      @raylib.Color::new(248, 216, 106, 255),
+    )
+    @raylib.draw_rectangle_lines(
+      pad_x.to_int(),
+      (pad_y - 10.0).to_int(),
+      pad_w.to_int(),
+      8,
+      @raylib.Color::new(82, 62, 28, 255),
+    )
+    @raylib.draw_text(
+      "LANDING PAD",
+      pad_x.to_int() - 20,
+      (pad_y - 38.0).to_int(),
+      20,
+      @raylib.Color::new(248, 232, 170, 255),
+    )
 
     for i = 0; i < meteors.length(); i = i + 1 {
       if not(meteors[i].active) {
@@ -565,8 +587,18 @@ fn main {
         meteors[i].y.to_int(),
         @raylib.Color::new(244, 152, 88, 255),
       )
-      @raylib.draw_circle(meteors[i].x.to_int(), meteors[i].y.to_int(), 6.0, @raylib.Color::new(250, 202, 122, 255))
-      @raylib.draw_circle(meteors[i].x.to_int(), meteors[i].y.to_int(), 3.0, @raylib.Color::new(98, 78, 62, 255))
+      @raylib.draw_circle(
+        meteors[i].x.to_int(),
+        meteors[i].y.to_int(),
+        6.0,
+        @raylib.Color::new(250, 202, 122, 255),
+      )
+      @raylib.draw_circle(
+        meteors[i].x.to_int(),
+        meteors[i].y.to_int(),
+        3.0,
+        @raylib.Color::new(98, 78, 62, 255),
+      )
     }
 
     if respawn_t <= 0.0 {
@@ -595,16 +627,30 @@ fn main {
 
       let tx = x - s * 12.0
       let ty = y + c * 12.0
-      @raylib.draw_line((lx + 2.0).to_int(), (ly + 3.0).to_int(), (tx - 6.0).to_int(), (ty + 7.0).to_int(), @raylib.lightgray)
-      @raylib.draw_line((rx - 2.0).to_int(), (ry + 3.0).to_int(), (tx + 6.0).to_int(), (ty + 7.0).to_int(), @raylib.lightgray)
+      @raylib.draw_line(
+        (lx + 2.0).to_int(),
+        (ly + 3.0).to_int(),
+        (tx - 6.0).to_int(),
+        (ty + 7.0).to_int(),
+        @raylib.lightgray,
+      )
+      @raylib.draw_line(
+        (rx - 2.0).to_int(),
+        (ry + 3.0).to_int(),
+        (tx + 6.0).to_int(),
+        (ty + 7.0).to_int(),
+        @raylib.lightgray,
+      )
 
       if thrusting && fuel > 0.0 {
         let f1x = tx + sinf_deg(angle + 172.0) * 8.0
         let f1y = ty - cosf_deg(angle + 172.0) * 8.0
         let f2x = tx + sinf_deg(angle - 172.0) * 8.0
         let f2y = ty - cosf_deg(angle - 172.0) * 8.0
-        let f3x = tx - s * (22.0 + Float::from_int(@raylib.get_random_value(0, 8)))
-        let f3y = ty + c * (22.0 + Float::from_int(@raylib.get_random_value(0, 8)))
+        let f3x = tx -
+          s * (22.0 + Float::from_int(@raylib.get_random_value(0, 8)))
+        let f3y = ty +
+          c * (22.0 + Float::from_int(@raylib.get_random_value(0, 8)))
         @raylib.draw_triangle(
           @raylib.Vector2::new(f1x, f1y),
           @raylib.Vector2::new(f2x, f2y),
@@ -617,21 +663,73 @@ fn main {
     if explosion_t > 0.0 {
       let t = explosion_t / 0.55
       let r : Float = 20.0 + (Float::from_int(1) - t) * 76.0
-      @raylib.draw_circle(explosion_x.to_int(), explosion_y.to_int(), r, @raylib.Color::new(248, 134, 74, 160))
-      @raylib.draw_circle(explosion_x.to_int(), explosion_y.to_int(), r * 0.6, @raylib.Color::new(254, 216, 128, 230))
+      @raylib.draw_circle(
+        explosion_x.to_int(),
+        explosion_y.to_int(),
+        r,
+        @raylib.Color::new(248, 134, 74, 160),
+      )
+      @raylib.draw_circle(
+        explosion_x.to_int(),
+        explosion_y.to_int(),
+        r * 0.6,
+        @raylib.Color::new(254, 216, 128, 230),
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 94, @raylib.Color::new(12, 18, 30, 220))
-    @raylib.draw_text("LUNAR LANDER OPS 2026", 20, 18, 36, @raylib.Color::new(232, 240, 252, 255))
-    @raylib.draw_text("Sector: \{level}/4", 480, 24, 28, @raylib.Color::new(240, 226, 136, 255))
-    @raylib.draw_text("Lives: \{lives}", 666, 24, 28, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Score: \{score}", 790, 24, 28, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Wind: \{wind.to_int()}", 984, 24, 28, @raylib.Color::new(172, 222, 252, 255))
+    @raylib.draw_text(
+      "LUNAR LANDER OPS 2026",
+      20,
+      18,
+      36,
+      @raylib.Color::new(232, 240, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector: \{level}/4",
+      480,
+      24,
+      28,
+      @raylib.Color::new(240, 226, 136, 255),
+    )
+    @raylib.draw_text(
+      "Lives: \{lives}",
+      666,
+      24,
+      28,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score: \{score}",
+      790,
+      24,
+      28,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Wind: \{wind.to_int()}",
+      984,
+      24,
+      28,
+      @raylib.Color::new(172, 222, 252, 255),
+    )
 
     @raylib.draw_rectangle(20, 70, 280, 14, @raylib.Color::new(30, 40, 62, 255))
     let fuel_pct = clampf(fuel / 920.0, 0.0, 1.0)
-    @raylib.draw_rectangle(20, 70, (fuel_pct * 280.0).to_int(), 14, @raylib.Color::new(110, 228, 140, 255))
-    @raylib.draw_text("Fuel \{fuel.to_int()}", 310, 66, 22, @raylib.Color::new(220, 238, 246, 255))
+    @raylib.draw_rectangle(
+      20,
+      70,
+      (fuel_pct * 280.0).to_int(),
+      14,
+      @raylib.Color::new(110, 228, 140, 255),
+    )
+    @raylib.draw_text(
+      "Fuel \{fuel.to_int()}",
+      310,
+      66,
+      22,
+      @raylib.Color::new(220, 238, 246, 255),
+    )
 
     @raylib.draw_text(
       "Safe touchdown: |Vx|<=34, |Vy|<=46, |Angle|<=12",
@@ -643,29 +741,85 @@ fn main {
 
     let ctl_x = 20
     let ctl_y = sh - 178
-    @raylib.draw_rectangle(10, sh - 190, 188, 170, @raylib.Color::new(12, 18, 28, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 190,
+      188,
+      170,
+      @raylib.Color::new(12, 18, 28, 220),
+    )
     @raylib.draw_text("Touch", 74, sh - 186, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y, 82, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      82,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 16, ctl_y + 16, 22, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 92, ctl_y, 82, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 92,
+      ctl_y,
+      82,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 100, ctl_y + 16, 22, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 64, 174, 62, @raylib.Color::new(182, 82, 70, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 64,
+      174,
+      62,
+      @raylib.Color::new(182, 82, 70, 255),
+    )
     @raylib.draw_text("THRUST", ctl_x + 50, ctl_y + 84, 26, @raylib.white)
 
-    @raylib.draw_rectangle(214, sh - 58, sw - 228, 38, @raylib.Color::new(12, 18, 30, 220))
-    @raylib.draw_text(msg, 224, sh - 50, 23, @raylib.Color::new(228, 236, 246, 255))
+    @raylib.draw_rectangle(
+      214,
+      sh - 58,
+      sw - 228,
+      38,
+      @raylib.Color::new(12, 18, 30, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      224,
+      sh - 50,
+      23,
+      @raylib.Color::new(228, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 340, sh / 2 - 108, 680, 216, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 340,
+        sh / 2 - 108,
+        680,
+        216,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "MISSION ACCOMPLISHED" } else { "MISSION FAILED" },
+        if won {
+          "MISSION ACCOMPLISHED"
+        } else {
+          "MISSION FAILED"
+        },
         sw / 2 - 254,
         sh / 2 - 38,
         54,
-        if won { @raylib.Color::new(246, 236, 142, 255) } else { @raylib.Color::new(246, 126, 126, 255) },
+        if won {
+          @raylib.Color::new(246, 236, 142, 255)
+        } else {
+          @raylib.Color::new(246, 126, 126, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 130, sh / 2 + 34, 32, @raylib.Color::new(228, 238, 250, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 130,
+        sh / 2 + 34,
+        32,
+        @raylib.Color::new(228, 238, 250, 255),
+      )
     }
 
     @raylib.end_drawing()

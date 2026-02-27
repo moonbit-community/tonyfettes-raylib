@@ -140,10 +140,12 @@ fn main {
         msg = "Market closed for the day."
       }
 
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         boat_x = boat_x - 260.0 * dt
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         boat_x = boat_x + 260.0 * dt
       }
 
@@ -157,7 +159,8 @@ fn main {
       if hook_state == 0 {
         hook_x = boat_x
         hook_y = boat_y + 20.0
-        if @raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyJ) {
+        if @raylib.is_key_pressed(@raylib.KeySpace) ||
+          @raylib.is_key_pressed(@raylib.KeyJ) {
           hook_state = 1
           captured_idx = -1
           msg = "Line cast."
@@ -258,10 +261,28 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(14, 24, 42, 255))
 
-    @raylib.draw_rectangle(0, 0, sw, boat_y.to_int() + 30, @raylib.Color::new(35, 78, 122, 255))
-    @raylib.draw_rectangle(0, boat_y.to_int() + 30, sw, sh - (boat_y.to_int() + 30), @raylib.Color::new(18, 92, 148, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      boat_y.to_int() + 30,
+      @raylib.Color::new(35, 78, 122, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      boat_y.to_int() + 30,
+      sw,
+      sh - (boat_y.to_int() + 30),
+      @raylib.Color::new(18, 92, 148, 255),
+    )
 
-    @raylib.draw_rectangle((boat_x - 48.0).to_int(), (boat_y - 14.0).to_int(), 96, 24, @raylib.brown)
+    @raylib.draw_rectangle(
+      (boat_x - 48.0).to_int(),
+      (boat_y - 14.0).to_int(),
+      96,
+      24,
+      @raylib.brown,
+    )
     @raylib.draw_triangle(
       @raylib.Vector2::new(boat_x - 10.0, boat_y - 16.0),
       @raylib.Vector2::new(boat_x - 10.0, boat_y - 70.0),
@@ -289,11 +310,22 @@ fn main {
         )
         @raylib.draw_triangle(
           @raylib.Vector2::new(fishes[i].x - fishes[i].size, fishes[i].y),
-          @raylib.Vector2::new(fishes[i].x - fishes[i].size - 11.0, fishes[i].y - 8.0),
-          @raylib.Vector2::new(fishes[i].x - fishes[i].size - 11.0, fishes[i].y + 8.0),
+          @raylib.Vector2::new(
+            fishes[i].x - fishes[i].size - 11.0,
+            fishes[i].y - 8.0,
+          ),
+          @raylib.Vector2::new(
+            fishes[i].x - fishes[i].size - 11.0,
+            fishes[i].y + 8.0,
+          ),
           c,
         )
-        @raylib.draw_circle((fishes[i].x + fishes[i].size * 0.35).to_int(), (fishes[i].y - 2.0).to_int(), 2.5, @raylib.black)
+        @raylib.draw_circle(
+          (fishes[i].x + fishes[i].size * 0.35).to_int(),
+          (fishes[i].y - 2.0).to_int(),
+          2.5,
+          @raylib.black,
+        )
       }
     }
 
@@ -303,16 +335,46 @@ fn main {
     @raylib.draw_text("Sales \{total_gold}", 380, 66, 30, @raylib.white)
 
     let tsec = day_timer.to_int()
-    @raylib.draw_text("Time \{tsec}s", 560, 66, 30, if tsec < 30 { @raylib.red } else { @raylib.lime })
+    @raylib.draw_text(
+      "Time \{tsec}s",
+      560,
+      66,
+      30,
+      if tsec < 30 {
+        @raylib.red
+      } else {
+        @raylib.lime
+      },
+    )
 
-    @raylib.draw_text("1 Reel+ (90)  2 Depth+ (120)  3 Bait+ (160)", 20, 618, 28, @raylib.raywhite)
-    @raylib.draw_text("Reel \{reel_speed.to_int()}  Depth \{max_depth.to_int()}  Bait bonus \{rare_bonus}", 20, 650, 26, @raylib.lightgray)
+    @raylib.draw_text(
+      "1 Reel+ (90)  2 Depth+ (120)  3 Bait+ (160)", 20, 618, 28, @raylib.raywhite,
+    )
+    @raylib.draw_text(
+      "Reel \{reel_speed.to_int()}  Depth \{max_depth.to_int()}  Bait bonus \{rare_bonus}",
+      20,
+      650,
+      26,
+      @raylib.lightgray,
+    )
 
-    @raylib.draw_rectangle(20, 678, sw - 40, 30, @raylib.Color::new(8, 12, 18, 220))
+    @raylib.draw_rectangle(
+      20,
+      678,
+      sw - 40,
+      30,
+      @raylib.Color::new(8, 12, 18, 220),
+    )
     @raylib.draw_text(msg, 28, 684, 20, @raylib.white)
 
     if over {
-      @raylib.draw_rectangle(290, 250, 520, 170, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        290,
+        250,
+        520,
+        170,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("DAY OVER", 455, 298, 52, @raylib.orange)
       @raylib.draw_text("Press R for next day", 430, 360, 32, @raylib.white)
     }

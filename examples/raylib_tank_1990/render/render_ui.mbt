@@ -53,7 +53,13 @@ fn draw_player_card(
   @types.draw_shadow_text("\{player.lives}", x + 120, y + 56, 20, @raylib.white)
 
   @types.draw_shadow_text("UPG", x + 200, y + 36, 16, @raylib.lightgray)
-  @types.draw_shadow_text("\{player.weapon_level}", x + 200, y + 56, 20, @raylib.white)
+  @types.draw_shadow_text(
+    "\{player.weapon_level}",
+    x + 200,
+    y + 56,
+    20,
+    @raylib.white,
+  )
 
   if alive_flag {
     let ready = if player.active { "READY" } else { "RESPAWN" }
@@ -210,7 +216,13 @@ fn draw_panel(game : @types.Game) -> Unit {
   let fx = @types.panel_x + 18
   let fy = @types.map_offset_y + @types.map_pixel_h - 118
   @types.draw_shadow_text("P1: Arrows + Shift", fx, fy, 14, @raylib.lightgray)
-  @types.draw_shadow_text("P2: WASD + Space", fx, fy + 18, 14, @raylib.lightgray)
+  @types.draw_shadow_text(
+    "P2: WASD + Space",
+    fx,
+    fy + 18,
+    14,
+    @raylib.lightgray,
+  )
   @types.draw_shadow_text("P: Pause", fx, fy + 36, 14, @raylib.lightgray)
   @types.draw_shadow_text("Base must survive", fx, fy + 54, 14, @raylib.gold)
 
@@ -254,7 +266,13 @@ fn draw_menu_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(5, 8, 14, 190),
   )
 
-  @types.draw_centered_text("TANK 1990", @types.screen_width / 2, 110, 66, @raylib.gold)
+  @types.draw_centered_text(
+    "TANK 1990",
+    @types.screen_width / 2,
+    110,
+    66,
+    @raylib.gold,
+  )
   @types.draw_centered_text(
     "MoonBit + raylib",
     @types.screen_width / 2,
@@ -283,7 +301,13 @@ fn draw_menu_overlay(game : @types.Game) -> Unit {
     } else {
       @raylib.gray
     }
-    @types.draw_centered_text(options[i], @types.screen_width / 2, 300 + i * 52, 36, color)
+    @types.draw_centered_text(
+      options[i],
+      @types.screen_width / 2,
+      300 + i * 52,
+      36,
+      color,
+    )
   }
 
   @types.draw_centered_text(
@@ -318,7 +342,11 @@ fn draw_menu_overlay(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stage_intro_overlay(game : @types.Game) -> Unit {
-  let alpha = @types.clampf(game.stage_intro_timer / @types.stage_intro_time, 0.0, 1.0)
+  let alpha = @types.clampf(
+    game.stage_intro_timer / @types.stage_intro_time,
+    0.0,
+    1.0,
+  )
   @raylib.draw_rectangle(
     0,
     0,
@@ -397,7 +425,11 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
-  let t = @types.clampf(1.0 - game.stage_clear_timer / @types.stage_clear_time, 0.0, 1.0)
+  let t = @types.clampf(
+    1.0 - game.stage_clear_timer / @types.stage_clear_time,
+    0.0,
+    1.0,
+  )
   @raylib.draw_rectangle(
     0,
     0,
@@ -409,7 +441,13 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
     @raylib.lime,
     Float::from_int(game.frame_counter) * 0.08,
   )
-  @types.draw_centered_text("STAGE CLEAR", @types.screen_width / 2, 298, 58, color)
+  @types.draw_centered_text(
+    "STAGE CLEAR",
+    @types.screen_width / 2,
+    298,
+    58,
+    color,
+  )
   @types.draw_centered_text(
     "Prepare for next battle",
     @types.screen_width / 2,
@@ -428,7 +466,13 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     @types.screen_height,
     @raylib.Color::new(20, 0, 0, 170),
   )
-  @types.draw_centered_text("GAME OVER", @types.screen_width / 2, 294, 62, @raylib.red)
+  @types.draw_centered_text(
+    "GAME OVER",
+    @types.screen_width / 2,
+    294,
+    62,
+    @raylib.red,
+  )
   @types.draw_centered_text(
     "Score: \{game.score_total}",
     @types.screen_width / 2,
@@ -451,7 +495,13 @@ fn draw_campaign_clear_overlay(game : @types.Game) -> Unit {
     @raylib.gold,
     Float::from_int(game.frame_counter) * 0.1,
   )
-  @types.draw_centered_text("CAMPAIGN COMPLETE", @types.screen_width / 2, 266, 58, color)
+  @types.draw_centered_text(
+    "CAMPAIGN COMPLETE",
+    @types.screen_width / 2,
+    266,
+    58,
+    color,
+  )
   @types.draw_centered_text(
     "Final Score: \{game.score_total}",
     @types.screen_width / 2,

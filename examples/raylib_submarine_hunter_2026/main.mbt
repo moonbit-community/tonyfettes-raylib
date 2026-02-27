@@ -136,16 +136,19 @@ fn main {
     if not(over) {
       let mut mx : Float = 0.0
       let mut my : Float = 0.0
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         mx = mx - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         mx = mx + 1.0
       }
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         my = my - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         my = my + 1.0
       }
 
@@ -168,7 +171,11 @@ fn main {
       sonar_cd = sonar_cd - dt
       sonar_active = sonar_active - dt
 
-      if (@raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)) && fire_cd <= 0.0 {
+      if (
+          @raylib.is_key_down(@raylib.KeySpace) ||
+          @raylib.is_key_down(@raylib.KeyJ)
+        ) &&
+        fire_cd <= 0.0 {
         spawn_torpedo(player_t, px + 20.0, py, 420.0)
         fire_cd = 0.18
       }
@@ -249,7 +256,13 @@ fn main {
           if not(enemies[ei].alive) {
             continue
           }
-          if dist_sq(player_t[ti].x, player_t[ti].y, enemies[ei].x, enemies[ei].y) < 19.0 * 19.0 {
+          if dist_sq(
+              player_t[ti].x,
+              player_t[ti].y,
+              enemies[ei].x,
+              enemies[ei].y,
+            ) <
+            19.0 * 19.0 {
             player_t[ti].alive = false
             enemies[ei].hp = enemies[ei].hp - 1
             if enemies[ei].hp <= 0 {
@@ -276,23 +289,54 @@ fn main {
 
     // Surface and depth bands
     @raylib.draw_rectangle(0, 0, sw, 130, @raylib.Color::new(35, 72, 120, 255))
-    @raylib.draw_rectangle(0, 130, sw, sh - 130, @raylib.Color::new(8, 44, 76, 255))
+    @raylib.draw_rectangle(
+      0,
+      130,
+      sw,
+      sh - 130,
+      @raylib.Color::new(8, 44, 76, 255),
+    )
 
     for y = 170; y < sh; y = y + 90 {
       @raylib.draw_line(0, y, sw, y, @raylib.fade(@raylib.skyblue, 0.15))
     }
 
     if sonar_active > 0.0 {
-      @raylib.draw_circle_lines(px.to_int(), py.to_int(), 70.0 + sonar_active * 50.0, @raylib.lime)
-      @raylib.draw_circle_lines(px.to_int(), py.to_int(), 130.0 + sonar_active * 40.0, @raylib.lime)
+      @raylib.draw_circle_lines(
+        px.to_int(),
+        py.to_int(),
+        70.0 + sonar_active * 50.0,
+        @raylib.lime,
+      )
+      @raylib.draw_circle_lines(
+        px.to_int(),
+        py.to_int(),
+        130.0 + sonar_active * 40.0,
+        @raylib.lime,
+      )
     }
 
     for i = 0; i < enemies.length(); i = i + 1 {
       if enemies[i].alive {
         let visible = not(enemies[i].stealth) || sonar_active > 0.0
-        let c = if visible { @raylib.red } else { @raylib.fade(@raylib.darkblue, 0.35) }
-        @raylib.draw_ellipse(enemies[i].x.to_int(), enemies[i].y.to_int(), 26.0, 12.0, c)
-        @raylib.draw_circle((enemies[i].x + 18.0).to_int(), enemies[i].y.to_int(), 5.0, c)
+        let c = if visible {
+          @raylib.red
+        } else {
+          @raylib.fade(@raylib.darkblue, 0.35)
+        }
+        @raylib.draw_ellipse(
+          enemies[i].x.to_int(),
+          enemies[i].y.to_int(),
+          26.0,
+          12.0,
+          c,
+        )
+        @raylib.draw_circle(
+          (enemies[i].x + 18.0).to_int(),
+          enemies[i].y.to_int(),
+          5.0,
+          c,
+        )
         if visible {
           @raylib.draw_rectangle(
             (enemies[i].x - 10.0).to_int(),
@@ -307,36 +351,72 @@ fn main {
 
     for i = 0; i < player_t.length(); i = i + 1 {
       if player_t[i].alive {
-        @raylib.draw_rectangle((player_t[i].x - 8.0).to_int(), (player_t[i].y - 2.0).to_int(), 14, 4, @raylib.yellow)
+        @raylib.draw_rectangle(
+          (player_t[i].x - 8.0).to_int(),
+          (player_t[i].y - 2.0).to_int(),
+          14,
+          4,
+          @raylib.yellow,
+        )
       }
     }
     for i = 0; i < enemy_t.length(); i = i + 1 {
       if enemy_t[i].alive {
-        @raylib.draw_rectangle((enemy_t[i].x - 8.0).to_int(), (enemy_t[i].y - 2.0).to_int(), 14, 4, @raylib.orange)
+        @raylib.draw_rectangle(
+          (enemy_t[i].x - 8.0).to_int(),
+          (enemy_t[i].y - 2.0).to_int(),
+          14,
+          4,
+          @raylib.orange,
+        )
       }
     }
 
     @raylib.draw_ellipse(px.to_int(), py.to_int(), 30.0, 14.0, @raylib.skyblue)
     @raylib.draw_circle((px + 20.0).to_int(), py.to_int(), 6.0, @raylib.blue)
-    @raylib.draw_rectangle((px - 10.0).to_int(), (py - 22.0).to_int(), 20, 6, @raylib.gray)
+    @raylib.draw_rectangle(
+      (px - 10.0).to_int(),
+      (py - 22.0).to_int(),
+      20,
+      6,
+      @raylib.gray,
+    )
 
     @raylib.draw_text("SUBMARINE HUNTER 2026", 20, 16, 40, @raylib.skyblue)
     @raylib.draw_text("Score \{score}", 20, 64, 30, @raylib.white)
     @raylib.draw_text("Kills \{kills}", 220, 64, 30, @raylib.lime)
 
     @raylib.draw_text("Hull", 420, 66, 24, @raylib.red)
-    @raylib.draw_rectangle(480, 72, 220, 14, @raylib.Color::new(45, 18, 18, 255))
+    @raylib.draw_rectangle(
+      480,
+      72,
+      220,
+      14,
+      @raylib.Color::new(45, 18, 18, 255),
+    )
     @raylib.draw_rectangle(480, 72, hp * 220 / 100, 14, @raylib.red)
 
     @raylib.draw_text("Sonar", 740, 66, 24, @raylib.lime)
     let sonar_val = if sonar_cd > 0.0 { sonar_cd.to_int() } else { 0 }
     @raylib.draw_text("CD \{sonar_val}s", 810, 66, 24, @raylib.raywhite)
 
-    @raylib.draw_rectangle(20, 694, sw - 40, 30, @raylib.Color::new(8, 12, 18, 220))
+    @raylib.draw_rectangle(
+      20,
+      694,
+      sw - 40,
+      30,
+      @raylib.Color::new(8, 12, 18, 220),
+    )
     @raylib.draw_text(msg, 28, 699, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 540, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        540,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("MISSION FAILED", 370, 308, 50, @raylib.red)
       @raylib.draw_text("Press R to relaunch", 420, 366, 34, @raylib.white)
     }

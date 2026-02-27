@@ -244,7 +244,11 @@ fn update_player(game : @types.Game, input : @types.Input, dt : Float) -> Unit {
       @types.run_accel_air
     }
     player.vx += Float::from_int(move_axis) * accel * dt
-    player.vx = @types.clampf(player.vx, -@types.max_run_speed, @types.max_run_speed)
+    player.vx = @types.clampf(
+      player.vx,
+      -@types.max_run_speed,
+      @types.max_run_speed,
+    )
     player.facing = move_axis
   } else if player.on_ground {
     let drag = @types.run_friction * dt

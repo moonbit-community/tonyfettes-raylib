@@ -21,7 +21,16 @@ struct Spike {
 }
 
 ///|
-fn hit(ax : Int, ay : Int, aw : Int, ah : Int, bx : Int, by : Int, bw : Int, bh : Int) -> Bool {
+fn hit(
+  ax : Int,
+  ay : Int,
+  aw : Int,
+  ah : Int,
+  bx : Int,
+  by : Int,
+  bw : Int,
+  bh : Int,
+) -> Bool {
   not(ax + aw < bx || ax > bx + bw || ay + ah < by || ay > by + bh)
 }
 
@@ -85,23 +94,32 @@ fn main {
 
     if not(won) {
       vx = 0
-      if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
+      if @raylib.is_key_down(@raylib.KeyLeft) ||
+        @raylib.is_key_down(@raylib.KeyA) {
         vx = -6
       }
-      if @raylib.is_key_down(@raylib.KeyRight) || @raylib.is_key_down(@raylib.KeyD) {
+      if @raylib.is_key_down(@raylib.KeyRight) ||
+        @raylib.is_key_down(@raylib.KeyD) {
         vx = 6
       }
 
       let mut grounded = false
       for i = 0; i < platforms.length(); i = i + 1 {
         let p = platforms[i]
-        if px + pw > p.x + 2 && px < p.x + p.w - 2 && py + ph <= p.y + 4 &&
+        if px + pw > p.x + 2 &&
+          px < p.x + p.w - 2 &&
+          py + ph <= p.y + 4 &&
           py + ph >= p.y - 10 {
           grounded = true
         }
       }
 
-      if grounded && (@raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW)) {
+      if grounded &&
+        (
+          @raylib.is_key_pressed(@raylib.KeySpace) ||
+          @raylib.is_key_pressed(@raylib.KeyUp) ||
+          @raylib.is_key_pressed(@raylib.KeyW)
+        ) {
         vy = -19
       }
 
@@ -181,7 +199,13 @@ fn main {
 
     for i = 0; i < platforms.length(); i = i + 1 {
       let p = platforms[i]
-      @raylib.draw_rectangle(p.x - cam_x, p.y, p.w, p.h, @raylib.Color::new(84, 74, 62, 255))
+      @raylib.draw_rectangle(
+        p.x - cam_x,
+        p.y,
+        p.w,
+        p.h,
+        @raylib.Color::new(84, 74, 62, 255),
+      )
     }
 
     for i = 0; i < spikes.length(); i = i + 1 {
@@ -193,12 +217,26 @@ fn main {
     @raylib.draw_rectangle(px - cam_x, py, pw, ph, @raylib.blue)
 
     @raylib.draw_text("PLATFORMER PRECISION 2026", 20, 16, 34, @raylib.darkblue)
-    @raylib.draw_text("Checkpoint: \{cp + 1}/\{checkpoints.length()}", 24, 54, 24, @raylib.black)
+    @raylib.draw_text(
+      "Checkpoint: \{cp + 1}/\{checkpoints.length()}",
+      24,
+      54,
+      24,
+      @raylib.black,
+    )
     @raylib.draw_text("Deaths: \{deaths}", 380, 54, 24, @raylib.black)
-    @raylib.draw_text("A/D move | SPACE jump | R restart", 700, 20, 22, @raylib.darkgray)
+    @raylib.draw_text(
+      "A/D move | SPACE jump | R restart", 700, 20, 22, @raylib.darkgray,
+    )
 
     if won {
-      @raylib.draw_rectangle(310, 280, 480, 130, @raylib.fade(@raylib.black, 0.75))
+      @raylib.draw_rectangle(
+        310,
+        280,
+        480,
+        130,
+        @raylib.fade(@raylib.black, 0.75),
+      )
       @raylib.draw_text("COURSE CLEARED", 390, 318, 46, @raylib.lime)
       @raylib.draw_text("Press R to run again", 424, 366, 26, @raylib.raywhite)
     }

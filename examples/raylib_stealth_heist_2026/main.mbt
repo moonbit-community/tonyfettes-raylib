@@ -121,7 +121,13 @@ fn reset_guards(guards : Array[Guard]) -> Unit {
 }
 
 ///|
-fn has_line_of_sight(map : Array[Int], gx : Int, gy : Int, px : Int, py : Int) -> Bool {
+fn has_line_of_sight(
+  map : Array[Int],
+  gx : Int,
+  gy : Int,
+  px : Int,
+  py : Int,
+) -> Bool {
   if gx == px {
     let step = if py > gy { 1 } else { -1 }
     let mut y = gy + step
@@ -168,7 +174,12 @@ fn try_step(map : Array[Int], x : Int, y : Int, dir : Int) -> (Int, Int, Bool) {
 }
 
 ///|
-fn move_guard_toward_player(map : Array[Int], sentry : Guard, px : Int, py : Int) -> Unit {
+fn move_guard_toward_player(
+  map : Array[Int],
+  sentry : Guard,
+  px : Int,
+  py : Int,
+) -> Unit {
   if sentry.x == px {
     let dir = if py > sentry.y { 1 } else { 3 }
     let (nx, ny, ok) = try_step(map, sentry.x, sentry.y, dir)
@@ -256,16 +267,20 @@ fn main {
 
     if not(won) && not(lost) {
       let mut move_dir = -1
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         move_dir = 2
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         move_dir = 0
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         move_dir = 3
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         move_dir = 1
       }
 
@@ -294,7 +309,9 @@ fn main {
       }
 
       for i = 0; i < cards.length(); i = i + 1 {
-        if not(cards[i].collected) && cards[i].x == player_x && cards[i].y == player_y {
+        if not(cards[i].collected) &&
+          cards[i].x == player_x &&
+          cards[i].y == player_y {
           cards[i].collected = true
           msg = "Keycard collected (\{i + 1}/3)."
         }
@@ -310,13 +327,24 @@ fn main {
             continue
           }
 
-          if has_line_of_sight(map, guards[i].x, guards[i].y, player_x, player_y) {
+          if has_line_of_sight(
+              map,
+              guards[i].x,
+              guards[i].y,
+              player_x,
+              player_y,
+            ) {
             seen = true
             move_guard_toward_player(map, guards[i], player_x, player_y)
           } else {
             let mut moved = false
             for _k = 0; _k < 4; _k = _k + 1 {
-              let (nx, ny, ok) = try_step(map, guards[i].x, guards[i].y, guards[i].dir)
+              let (nx, ny, ok) = try_step(
+                map,
+                guards[i].x,
+                guards[i].y,
+                guards[i].dir,
+              )
               if ok {
                 guards[i].x = nx
                 guards[i].y = ny
@@ -350,7 +378,9 @@ fn main {
           msg = "Facility fully alerted. Mission failed."
         }
 
-        if all_cards_collected(cards) && player_x == exit_x && player_y == exit_y {
+        if all_cards_collected(cards) &&
+          player_x == exit_x &&
+          player_y == exit_y {
           won = true
           msg = "Extraction complete. Clean heist."
         }
@@ -366,13 +396,31 @@ fn main {
         let py = map_y + y * tile
 
         if is_wall(map, x, y) {
-          @raylib.draw_rectangle(px, py, tile - 1, tile - 1, @raylib.Color::new(58, 63, 72, 255))
+          @raylib.draw_rectangle(
+            px,
+            py,
+            tile - 1,
+            tile - 1,
+            @raylib.Color::new(58, 63, 72, 255),
+          )
         } else {
-          @raylib.draw_rectangle(px, py, tile - 1, tile - 1, @raylib.Color::new(26, 32, 40, 255))
+          @raylib.draw_rectangle(
+            px,
+            py,
+            tile - 1,
+            tile - 1,
+            @raylib.Color::new(26, 32, 40, 255),
+          )
         }
 
         if x == exit_x && y == exit_y {
-          @raylib.draw_rectangle(px + 8, py + 8, tile - 17, tile - 17, @raylib.Color::new(40, 90, 44, 255))
+          @raylib.draw_rectangle(
+            px + 8,
+            py + 8,
+            tile - 17,
+            tile - 17,
+            @raylib.Color::new(40, 90, 44, 255),
+          )
           @raylib.draw_text("E", px + 16, py + 10, 30, @raylib.lime)
         }
       }
@@ -390,7 +438,16 @@ fn main {
     for i = 0; i < guards.length(); i = i + 1 {
       let gx = map_x + guards[i].x * tile + tile / 2
       let gy = map_y + guards[i].y * tile + tile / 2
-      @raylib.draw_circle(gx, gy, 15.0, if guards[i].stunned > 0 { @raylib.gray } else { @raylib.red })
+      @raylib.draw_circle(
+        gx,
+        gy,
+        15.0,
+        if guards[i].stunned > 0 {
+          @raylib.gray
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_circle_lines(gx, gy, 15.0, @raylib.white)
       if guards[i].stunned > 0 {
         @raylib.draw_text("Z", gx - 6, gy - 34, 24, @raylib.lightgray)
@@ -405,15 +462,57 @@ fn main {
     @raylib.draw_text("STEALTH HEIST 2026", 24, 16, 40, @raylib.skyblue)
     @raylib.draw_text("Turns: \{turns}", 24, 64, 28, @raylib.raywhite)
     @raylib.draw_text("Smoke: \{smoke}", 24, 96, 28, @raylib.raywhite)
-    @raylib.draw_text("Alert: \{alert}/5", 24, 128, 28, if alert >= 4 { @raylib.red } else { @raylib.orange })
-    @raylib.draw_text("Cards: \{collected_cards(cards)} / 3", 24, 160, 28, @raylib.yellow)
+    @raylib.draw_text(
+      "Alert: \{alert}/5",
+      24,
+      128,
+      28,
+      if alert >= 4 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
+    @raylib.draw_text(
+      "Cards: \{collected_cards(cards)} / 3",
+      24,
+      160,
+      28,
+      @raylib.yellow,
+    )
 
-    @raylib.draw_rectangle(22, 664, sw - 44, 36, @raylib.Color::new(10, 14, 18, 220))
+    @raylib.draw_rectangle(
+      22,
+      664,
+      sw - 44,
+      36,
+      @raylib.Color::new(10, 14, 18, 220),
+    )
     @raylib.draw_text(msg, 32, 672, 22, @raylib.raywhite)
 
     if won || lost {
-      @raylib.draw_rectangle(280, 258, 520, 170, @raylib.fade(@raylib.black, 0.8))
-      @raylib.draw_text(if won { "HEIST SUCCESS" } else { "HEIST FAILED" }, 390, 300, 46, if won { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        280,
+        258,
+        520,
+        170,
+        @raylib.fade(@raylib.black, 0.8),
+      )
+      @raylib.draw_text(
+        if won {
+          "HEIST SUCCESS"
+        } else {
+          "HEIST FAILED"
+        },
+        390,
+        300,
+        46,
+        if won {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to run again", 412, 360, 30, @raylib.white)
     }
 

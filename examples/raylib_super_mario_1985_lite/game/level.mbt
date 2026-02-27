@@ -135,12 +135,54 @@ fn build_level_geometry(game : @types.Game) -> Unit {
   add_question(game, 184, 11)
 
   // Stair near the end.
-  @types.fill_rect_tile(game, 200, @types.ground_row - 1, 1, 1, @types.tile_ground)
-  @types.fill_rect_tile(game, 201, @types.ground_row - 2, 1, 2, @types.tile_ground)
-  @types.fill_rect_tile(game, 202, @types.ground_row - 3, 1, 3, @types.tile_ground)
-  @types.fill_rect_tile(game, 203, @types.ground_row - 4, 1, 4, @types.tile_ground)
-  @types.fill_rect_tile(game, 204, @types.ground_row - 5, 1, 5, @types.tile_ground)
-  @types.fill_rect_tile(game, 205, @types.ground_row - 6, 1, 6, @types.tile_ground)
+  @types.fill_rect_tile(
+    game,
+    200,
+    @types.ground_row - 1,
+    1,
+    1,
+    @types.tile_ground,
+  )
+  @types.fill_rect_tile(
+    game,
+    201,
+    @types.ground_row - 2,
+    1,
+    2,
+    @types.tile_ground,
+  )
+  @types.fill_rect_tile(
+    game,
+    202,
+    @types.ground_row - 3,
+    1,
+    3,
+    @types.tile_ground,
+  )
+  @types.fill_rect_tile(
+    game,
+    203,
+    @types.ground_row - 4,
+    1,
+    4,
+    @types.tile_ground,
+  )
+  @types.fill_rect_tile(
+    game,
+    204,
+    @types.ground_row - 5,
+    1,
+    5,
+    @types.tile_ground,
+  )
+  @types.fill_rect_tile(
+    game,
+    205,
+    @types.ground_row - 6,
+    1,
+    6,
+    @types.tile_ground,
+  )
 
   // Flag pole and castle.
   let flag_tx = 214
@@ -148,14 +190,32 @@ fn build_level_geometry(game : @types.Game) -> Unit {
     @types.set_tile(game, flag_tx, ty, @types.tile_flag_pole)
   }
 
-  @types.fill_rect_tile(game, 222, @types.ground_row - 5, 6, 5, @types.tile_castle)
-  @types.fill_rect_tile(game, 224, @types.ground_row - 7, 2, 2, @types.tile_castle)
+  @types.fill_rect_tile(
+    game,
+    222,
+    @types.ground_row - 5,
+    6,
+    5,
+    @types.tile_castle,
+  )
+  @types.fill_rect_tile(
+    game,
+    224,
+    @types.ground_row - 7,
+    2,
+    2,
+    @types.tile_castle,
+  )
 
   game.flag_x = @types.tile_center_x(flag_tx)
   game.flag_top_y = @types.tile_top(8)
-  game.flag_bottom_y = @types.tile_top(@types.ground_row) - @types.player_half_h() - 0.01
+  game.flag_bottom_y = @types.tile_top(@types.ground_row) -
+    @types.player_half_h() -
+    0.01
   game.castle_x = @types.tile_left(226) + @types.tile_size_f
-  game.start_y = @types.tile_top(@types.ground_row) - @types.player_half_h() - 0.01
+  game.start_y = @types.tile_top(@types.ground_row) -
+    @types.player_half_h() -
+    0.01
 }
 
 ///|

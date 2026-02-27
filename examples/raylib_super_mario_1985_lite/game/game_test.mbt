@@ -117,8 +117,7 @@ test "enemy hurt: side collision decrements lives" {
   let game = setup_game()
   let player = game.player
   let lives_before = player.lives
-  let enemy_x = player.x + @types.player_half_w() + @types.enemy_half_w() -
-    5.0
+  let enemy_x = player.x + @types.player_half_w() + @types.enemy_half_w() - 5.0
   let enemy_y = player.y
   game.enemies[0] = @types.Enemy::spawn(enemy_x, enemy_y, -1)
   player.vy = 0.0

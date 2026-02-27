@@ -104,8 +104,18 @@ fn sqdist(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -184,7 +194,13 @@ fn clear_sparks(sparks : Array[Spark]) -> Unit {
 }
 
 ///|
-fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed : Float, kind : Int) -> Unit {
+fn spawn_spark(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < sparks.length(); i = i + 1 {
     if done {
@@ -194,9 +210,12 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed : Float, kind 
       sparks[i].active = true
       sparks[i].x = x
       sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(12, 48)) / Float::from_int(100)
+      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
+        speed
+      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
+        speed
+      sparks[i].ttl = Float::from_int(@raylib.get_random_value(12, 48)) /
+        Float::from_int(100)
       sparks[i].kind = kind
       done = true
     }
@@ -204,14 +223,27 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed : Float, kind 
 }
 
 ///|
-fn burst(sparks : Array[Spark], x : Float, y : Float, n : Int, speed : Float, kind : Int) -> Unit {
+fn burst(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_spark(sparks, x, y, speed, kind)
   }
 }
 
 ///|
-fn spawn_bullet(bullets : Array[Bullet], x : Float, y : Float, dx : Float, dy : Float) -> Unit {
+fn spawn_bullet(
+  bullets : Array[Bullet],
+  x : Float,
+  y : Float,
+  dx : Float,
+  dy : Float,
+) -> Unit {
   let d2 = dx * dx + dy * dy
   if d2 <= 0.00001 {
     return
@@ -246,7 +278,8 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
     if not(meteors[i].active) {
       let lane = @raylib.get_random_value(0, lane_n - 1)
       let target_x = Float::from_int(@raylib.get_random_value(80, sw - 160))
-      let spawn_x = target_x + Float::from_int(@raylib.get_random_value(-220, 220))
+      let spawn_x = target_x +
+        Float::from_int(@raylib.get_random_value(-220, 220))
       let spawn_y : Float = -Float::from_int(@raylib.get_random_value(20, 180))
 
       let ty = lane_y(lane)
@@ -255,13 +288,18 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
       let d2 = dx * dx + dy * dy
       let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-      let speed = Float::from_int(@raylib.get_random_value(150 + level * 20, 240 + level * 24))
-      let size = Float::from_int(@raylib.get_random_value(14 + level, 28 + level * 2))
+      let speed = Float::from_int(
+        @raylib.get_random_value(150 + level * 20, 240 + level * 24),
+      )
+      let size = Float::from_int(
+        @raylib.get_random_value(14 + level, 28 + level * 2),
+      )
 
       meteors[i].active = true
       meteors[i].x = spawn_x
       meteors[i].y = spawn_y
-      meteors[i].vx = dx / d * speed + Float::from_int(@raylib.get_random_value(-30, 30))
+      meteors[i].vx = dx / d * speed +
+        Float::from_int(@raylib.get_random_value(-30, 30))
       meteors[i].vy = dy / d * speed
       meteors[i].r = size
       meteors[i].hp = if size > 30.0 { 3 } else if size > 22.0 { 2 } else { 1 }
@@ -292,7 +330,14 @@ fn spawn_ore(ores : Array[Ore], x : Float, y : Float, amount : Int) -> Unit {
 }
 
 ///|
-fn setup_level(level : Int, trucks : Array[Truck], meteors : Array[Meteor], bullets : Array[Bullet], ores : Array[Ore], sparks : Array[Spark]) -> (Int, Float, Float) {
+fn setup_level(
+  level : Int,
+  trucks : Array[Truck],
+  meteors : Array[Meteor],
+  bullets : Array[Bullet],
+  ores : Array[Ore],
+  sparks : Array[Spark],
+) -> (Int, Float, Float) {
   reset_trucks(trucks, level)
   clear_meteors(meteors)
   clear_bullets(bullets)
@@ -320,7 +365,11 @@ fn alive_truck_count(trucks : Array[Truck]) -> Int {
 }
 
 ///|
-fn nearest_truck_for_repair(trucks : Array[Truck], px : Float, py : Float) -> Int {
+fn nearest_truck_for_repair(
+  trucks : Array[Truck],
+  px : Float,
+  py : Float,
+) -> Int {
   let mut best = -1
   let mut best_d2 : Float = 130.0 * 130.0
 
@@ -376,7 +425,9 @@ fn main {
   let mut timer : Float = 0.0
   let mut spawn_base : Float = 0.0
 
-  let (first_target, first_timer, first_spawn) = setup_level(level, trucks, meteors, bullets, ores, sparks)
+  let (first_target, first_timer, first_spawn) = setup_level(
+    level, trucks, meteors, bullets, ores, sparks,
+  )
   target = first_target
   timer = first_timer
   spawn_base = first_spawn
@@ -413,7 +464,9 @@ fn main {
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
       level = 1
-      let (rt, rtm, rspawn) = setup_level(level, trucks, meteors, bullets, ores, sparks)
+      let (rt, rtm, rspawn) = setup_level(
+        level, trucks, meteors, bullets, ores, sparks,
+      )
       target = rt
       timer = rtm
       spawn_base = rspawn
@@ -485,11 +538,16 @@ fn main {
         spawn_cd = spawn_base * jitter
       }
 
-      let mut move_l = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut move_r = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut move_u = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-      let mut move_d = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-      let mut do_fire = @raylib.is_key_down(@raylib.KeyJ) || @raylib.is_key_down(@raylib.KeySpace)
+      let mut move_l = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut move_r = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut move_u = @raylib.is_key_down(@raylib.KeyW) ||
+        @raylib.is_key_down(@raylib.KeyUp)
+      let mut move_d = @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown)
+      let mut do_fire = @raylib.is_key_down(@raylib.KeyJ) ||
+        @raylib.is_key_down(@raylib.KeySpace)
       let mut do_repair = @raylib.is_key_pressed(@raylib.KeyK)
 
       let m = @raylib.get_mouse_position()
@@ -577,14 +635,24 @@ fn main {
           score = score + 42
           repair_cd = 0.32
           msg = "Truck \\{idx + 1} repaired (+1 HP)."
-          burst(sparks, trucks[idx].x, lane_y(trucks[idx].lane) - 10.0, 12, 0.32, 3)
+          burst(
+            sparks,
+            trucks[idx].x,
+            lane_y(trucks[idx].lane) - 10.0,
+            12,
+            0.32,
+            3,
+          )
         }
       }
 
       let truck_speed = Float::from_int(66 + level * 7)
       for i = 0; i < trucks.length(); i = i + 1 {
         if trucks[i].alive {
-          trucks[i].x = trucks[i].x + truck_speed * dt * (Float::from_int(100 + trucks[i].cargo * 4) / 100.0)
+          trucks[i].x = trucks[i].x +
+            truck_speed *
+            dt *
+            (Float::from_int(100 + trucks[i].cargo * 4) / 100.0)
 
           if trucks[i].x > Float::from_int(sw + 120) {
             deliveries = deliveries + 1
@@ -612,7 +680,11 @@ fn main {
           bullets[i].y = bullets[i].y + bullets[i].vy * dt
           bullets[i].ttl = bullets[i].ttl - dt
 
-          if bullets[i].ttl <= 0.0 || bullets[i].x < -40.0 || bullets[i].x > Float::from_int(sw + 40) || bullets[i].y < -40.0 || bullets[i].y > Float::from_int(sh + 40) {
+          if bullets[i].ttl <= 0.0 ||
+            bullets[i].x < -40.0 ||
+            bullets[i].x > Float::from_int(sw + 40) ||
+            bullets[i].y < -40.0 ||
+            bullets[i].y > Float::from_int(sh + 40) {
             bullets[i].active = false
           }
         }
@@ -627,7 +699,9 @@ fn main {
         meteors[i].y = meteors[i].y + meteors[i].vy * dt
         meteors[i].vy = meteors[i].vy + 20.0 * dt
 
-        if meteors[i].x < -120.0 || meteors[i].x > Float::from_int(sw + 120) || meteors[i].y > Float::from_int(sh + 120) {
+        if meteors[i].x < -120.0 ||
+          meteors[i].x > Float::from_int(sw + 120) ||
+          meteors[i].y > Float::from_int(sh + 120) {
           meteors[i].active = false
           continue
         }
@@ -639,7 +713,8 @@ fn main {
             continue
           }
           let hit_r = meteors[i].r + 5.0
-          if sqdist(bullets[b].x, bullets[b].y, meteors[i].x, meteors[i].y) <= hit_r * hit_r {
+          if sqdist(bullets[b].x, bullets[b].y, meteors[i].x, meteors[i].y) <=
+            hit_r * hit_r {
             bullets[b].active = false
             meteors[i].hp = meteors[i].hp - 1
             burst(sparks, meteors[i].x, meteors[i].y, 6, 0.22, 0)
@@ -684,9 +759,14 @@ fn main {
           }
           let tx = trucks[t].x
           let ty = lane_y(trucks[t].lane)
-          if absf(meteors[i].x - tx) <= 30.0 + meteors[i].r && absf(meteors[i].y - ty) <= 18.0 + meteors[i].r {
+          if absf(meteors[i].x - tx) <= 30.0 + meteors[i].r &&
+            absf(meteors[i].y - ty) <= 18.0 + meteors[i].r {
             trucks[t].hp = trucks[t].hp - 1
-            trucks[t].cargo = if trucks[t].cargo > 1 { trucks[t].cargo - 1 } else { 1 }
+            trucks[t].cargo = if trucks[t].cargo > 1 {
+              trucks[t].cargo - 1
+            } else {
+              1
+            }
             msg = "Truck \\{t + 1} struck by meteor."
             burst(sparks, tx, ty - 6.0, 16, 0.42, 0)
             meteors[i].active = false
@@ -790,7 +870,9 @@ fn main {
       if deliveries >= target {
         if level < 3 {
           level = level + 1
-          let (nt, ntime, nspawn) = setup_level(level, trucks, meteors, bullets, ores, sparks)
+          let (nt, ntime, nspawn) = setup_level(
+            level, trucks, meteors, bullets, ores, sparks,
+          )
           target = nt
           timer = ntime
           spawn_base = nspawn
@@ -833,19 +915,67 @@ fn main {
 
     for lane = 0; lane < lane_n; lane = lane + 1 {
       let y = lane_y(lane)
-      @raylib.draw_rectangle(0, (y - 22.0).to_int(), sw, 44, @raylib.Color::new(42, 44, 54, 255))
-      @raylib.draw_line(0, (y - 8.0).to_int(), sw, (y - 8.0).to_int(), @raylib.Color::new(120, 126, 140, 255))
-      @raylib.draw_line(0, (y + 8.0).to_int(), sw, (y + 8.0).to_int(), @raylib.Color::new(120, 126, 140, 255))
+      @raylib.draw_rectangle(
+        0,
+        (y - 22.0).to_int(),
+        sw,
+        44,
+        @raylib.Color::new(42, 44, 54, 255),
+      )
+      @raylib.draw_line(
+        0,
+        (y - 8.0).to_int(),
+        sw,
+        (y - 8.0).to_int(),
+        @raylib.Color::new(120, 126, 140, 255),
+      )
+      @raylib.draw_line(
+        0,
+        (y + 8.0).to_int(),
+        sw,
+        (y + 8.0).to_int(),
+        @raylib.Color::new(120, 126, 140, 255),
+      )
       for p = 0; p < 24; p = p + 1 {
-        let sleeper_x = ((p * 62 + (wave_t * 80.0).to_int()) % (sw + 100)) - 50
-        @raylib.draw_rectangle(sleeper_x, (y - 14.0).to_int(), 18, 28, @raylib.Color::new(74, 64, 54, 255))
+        let sleeper_x = (p * 62 + (wave_t * 80.0).to_int()) % (sw + 100) - 50
+        @raylib.draw_rectangle(
+          sleeper_x,
+          (y - 14.0).to_int(),
+          18,
+          28,
+          @raylib.Color::new(74, 64, 54, 255),
+        )
       }
     }
 
-    @raylib.draw_rectangle(sw - 122, 496, 122, 228, @raylib.Color::new(44, 72, 94, 255))
-    @raylib.draw_rectangle(sw - 96, 536, 44, 150, @raylib.Color::new(86, 120, 142, 255))
-    @raylib.draw_rectangle(sw - 112, 522, 76, 14, @raylib.Color::new(172, 206, 220, 255))
-    @raylib.draw_text("REFINERY", sw - 118, 468, 24, @raylib.Color::new(222, 236, 248, 255))
+    @raylib.draw_rectangle(
+      sw - 122,
+      496,
+      122,
+      228,
+      @raylib.Color::new(44, 72, 94, 255),
+    )
+    @raylib.draw_rectangle(
+      sw - 96,
+      536,
+      44,
+      150,
+      @raylib.Color::new(86, 120, 142, 255),
+    )
+    @raylib.draw_rectangle(
+      sw - 112,
+      522,
+      76,
+      14,
+      @raylib.Color::new(172, 206, 220, 255),
+    )
+    @raylib.draw_text(
+      "REFINERY",
+      sw - 118,
+      468,
+      24,
+      @raylib.Color::new(222, 236, 248, 255),
+    )
 
     for i = 0; i < trucks.length(); i = i + 1 {
       if not(trucks[i].alive) {
@@ -855,14 +985,54 @@ fn main {
       let tx = trucks[i].x.to_int()
       let ty = lane_y(trucks[i].lane).to_int()
 
-      @raylib.draw_rectangle(tx - 30, ty - 14, 60, 22, @raylib.Color::new(208, 164, 82, 255))
-      @raylib.draw_rectangle(tx + 6, ty - 20, 22, 16, @raylib.Color::new(228, 204, 152, 255))
-      @raylib.draw_circle(tx - 18, ty + 10, 6.0, @raylib.Color::new(28, 30, 36, 255))
-      @raylib.draw_circle(tx + 18, ty + 10, 6.0, @raylib.Color::new(28, 30, 36, 255))
-      @raylib.draw_text("\\{trucks[i].cargo}", tx - 6, ty - 10, 18, @raylib.Color::new(20, 28, 34, 255))
+      @raylib.draw_rectangle(
+        tx - 30,
+        ty - 14,
+        60,
+        22,
+        @raylib.Color::new(208, 164, 82, 255),
+      )
+      @raylib.draw_rectangle(
+        tx + 6,
+        ty - 20,
+        22,
+        16,
+        @raylib.Color::new(228, 204, 152, 255),
+      )
+      @raylib.draw_circle(
+        tx - 18,
+        ty + 10,
+        6.0,
+        @raylib.Color::new(28, 30, 36, 255),
+      )
+      @raylib.draw_circle(
+        tx + 18,
+        ty + 10,
+        6.0,
+        @raylib.Color::new(28, 30, 36, 255),
+      )
+      @raylib.draw_text(
+        "\\{trucks[i].cargo}",
+        tx - 6,
+        ty - 10,
+        18,
+        @raylib.Color::new(20, 28, 34, 255),
+      )
 
-      @raylib.draw_rectangle(tx - 28, ty - 28, 56, 6, @raylib.Color::new(30, 30, 36, 255))
-      @raylib.draw_rectangle(tx - 28, ty - 28, (Float::from_int(trucks[i].hp) / 8.0 * 56.0).to_int(), 6, @raylib.Color::new(110, 230, 146, 255))
+      @raylib.draw_rectangle(
+        tx - 28,
+        ty - 28,
+        56,
+        6,
+        @raylib.Color::new(30, 30, 36, 255),
+      )
+      @raylib.draw_rectangle(
+        tx - 28,
+        ty - 28,
+        (Float::from_int(trucks[i].hp) / 8.0 * 56.0).to_int(),
+        6,
+        @raylib.Color::new(110, 230, 146, 255),
+      )
     }
 
     for i = 0; i < meteors.length(); i = i + 1 {
@@ -875,9 +1045,25 @@ fn main {
       let r = meteors[i].r
 
       @raylib.draw_circle(mx, my, r, @raylib.Color::new(130, 92, 64, 255))
-      @raylib.draw_circle(mx - 4, my - 3, r * 0.64, @raylib.Color::new(166, 118, 82, 255))
-      @raylib.draw_circle(mx + 6, my + 2, r * 0.35, @raylib.Color::new(102, 72, 50, 255))
-      @raylib.draw_text("\\{meteors[i].hp}", mx - 5, my - 9, 18, @raylib.Color::new(232, 240, 250, 255))
+      @raylib.draw_circle(
+        mx - 4,
+        my - 3,
+        r * 0.64,
+        @raylib.Color::new(166, 118, 82, 255),
+      )
+      @raylib.draw_circle(
+        mx + 6,
+        my + 2,
+        r * 0.35,
+        @raylib.Color::new(102, 72, 50, 255),
+      )
+      @raylib.draw_text(
+        "\\{meteors[i].hp}",
+        mx - 5,
+        my - 9,
+        18,
+        @raylib.Color::new(232, 240, 250, 255),
+      )
     }
 
     for i = 0; i < ores.length(); i = i + 1 {
@@ -887,8 +1073,19 @@ fn main {
       let ox = ores[i].x.to_int()
       let oy = ores[i].y.to_int()
       @raylib.draw_circle(ox, oy, 8.0, @raylib.Color::new(82, 238, 232, 255))
-      @raylib.draw_circle(ox + 2, oy - 2, 4.0, @raylib.Color::new(182, 252, 246, 255))
-      @raylib.draw_text("+\\{ores[i].amount}", ox - 9, oy - 22, 16, @raylib.Color::new(196, 248, 244, 255))
+      @raylib.draw_circle(
+        ox + 2,
+        oy - 2,
+        4.0,
+        @raylib.Color::new(182, 252, 246, 255),
+      )
+      @raylib.draw_text(
+        "+\\{ores[i].amount}",
+        ox - 9,
+        oy - 22,
+        16,
+        @raylib.Color::new(196, 248, 244, 255),
+      )
     }
 
     for i = 0; i < bullets.length(); i = i + 1 {
@@ -929,69 +1126,262 @@ fn main {
         @raylib.Vector2::new(px - 14.0, py + 12.0),
         @raylib.Color::new(220, 238, 252, 255),
       )
-      @raylib.draw_rectangle(pxi - 18, pyi - 8, 16, 16, @raylib.Color::new(96, 186, 242, 255))
-      @raylib.draw_circle(pxi - 20, pyi, 8.0, @raylib.Color::new(98, 246, 236, 255))
-      @raylib.draw_line(pxi - 25, pyi - 10, pxi - 34, pyi - 14, @raylib.Color::new(146, 220, 248, 255))
-      @raylib.draw_line(pxi - 25, pyi + 10, pxi - 34, pyi + 14, @raylib.Color::new(146, 220, 248, 255))
+      @raylib.draw_rectangle(
+        pxi - 18,
+        pyi - 8,
+        16,
+        16,
+        @raylib.Color::new(96, 186, 242, 255),
+      )
+      @raylib.draw_circle(
+        pxi - 20,
+        pyi,
+        8.0,
+        @raylib.Color::new(98, 246, 236, 255),
+      )
+      @raylib.draw_line(
+        pxi - 25,
+        pyi - 10,
+        pxi - 34,
+        pyi - 14,
+        @raylib.Color::new(146, 220, 248, 255),
+      )
+      @raylib.draw_line(
+        pxi - 25,
+        pyi + 10,
+        pxi - 34,
+        pyi + 14,
+        @raylib.Color::new(146, 220, 248, 255),
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 106, @raylib.Color::new(8, 12, 22, 228))
-    @raylib.draw_text("METEOR MINER CONVOY 2026", 16, 18, 34, @raylib.Color::new(236, 246, 255, 255))
-    @raylib.draw_text("Sector \\{level}/3", 480, 24, 30, @raylib.Color::new(250, 226, 146, 255))
-    @raylib.draw_text("Deliveries \\{deliveries}/\\{target}", 654, 24, 30, @raylib.Color::new(220, 236, 255, 255))
-    @raylib.draw_text("Ore \\{ore_bank}", 1044, 24, 30, @raylib.Color::new(122, 246, 236, 255))
+    @raylib.draw_text(
+      "METEOR MINER CONVOY 2026",
+      16,
+      18,
+      34,
+      @raylib.Color::new(236, 246, 255, 255),
+    )
+    @raylib.draw_text(
+      "Sector \\{level}/3",
+      480,
+      24,
+      30,
+      @raylib.Color::new(250, 226, 146, 255),
+    )
+    @raylib.draw_text(
+      "Deliveries \\{deliveries}/\\{target}",
+      654,
+      24,
+      30,
+      @raylib.Color::new(220, 236, 255, 255),
+    )
+    @raylib.draw_text(
+      "Ore \\{ore_bank}",
+      1044,
+      24,
+      30,
+      @raylib.Color::new(122, 246, 236, 255),
+    )
 
-    @raylib.draw_text("Pilot HP \\{player_hp}", 20, 70, 24, @raylib.Color::new(226, 242, 255, 255))
-    @raylib.draw_text("Energy \\{energy.to_int()}%", 220, 70, 24, @raylib.Color::new(226, 242, 255, 255))
-    @raylib.draw_text("Timer \\{timer.to_int()}", 470, 70, 24, @raylib.Color::new(255, 214, 146, 255))
-    @raylib.draw_text("Score \\{score}", 684, 70, 24, @raylib.Color::new(226, 242, 255, 255))
-    @raylib.draw_text("Alive Trucks \\{alive_truck_count(trucks)}", 932, 70, 24, @raylib.Color::new(176, 244, 168, 255))
+    @raylib.draw_text(
+      "Pilot HP \\{player_hp}",
+      20,
+      70,
+      24,
+      @raylib.Color::new(226, 242, 255, 255),
+    )
+    @raylib.draw_text(
+      "Energy \\{energy.to_int()}%",
+      220,
+      70,
+      24,
+      @raylib.Color::new(226, 242, 255, 255),
+    )
+    @raylib.draw_text(
+      "Timer \\{timer.to_int()}",
+      470,
+      70,
+      24,
+      @raylib.Color::new(255, 214, 146, 255),
+    )
+    @raylib.draw_text(
+      "Score \\{score}",
+      684,
+      70,
+      24,
+      @raylib.Color::new(226, 242, 255, 255),
+    )
+    @raylib.draw_text(
+      "Alive Trucks \\{alive_truck_count(trucks)}",
+      932,
+      70,
+      24,
+      @raylib.Color::new(176, 244, 168, 255),
+    )
 
-    @raylib.draw_rectangle(16, 108, 230, 10, @raylib.Color::new(24, 30, 40, 255))
-    @raylib.draw_rectangle(16, 108, (Float::from_int(player_hp) / 6.0 * 230.0).to_int(), 10, @raylib.Color::new(110, 220, 136, 255))
-    @raylib.draw_rectangle(264, 108, 230, 10, @raylib.Color::new(24, 30, 40, 255))
-    @raylib.draw_rectangle(264, 108, (energy / 100.0 * 230.0).to_int(), 10, @raylib.Color::new(86, 198, 244, 255))
-    let timer_total : Float = if level == 1 { 140.0 } else if level == 2 { 160.0 } else { 185.0 }
+    @raylib.draw_rectangle(
+      16,
+      108,
+      230,
+      10,
+      @raylib.Color::new(24, 30, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      16,
+      108,
+      (Float::from_int(player_hp) / 6.0 * 230.0).to_int(),
+      10,
+      @raylib.Color::new(110, 220, 136, 255),
+    )
+    @raylib.draw_rectangle(
+      264,
+      108,
+      230,
+      10,
+      @raylib.Color::new(24, 30, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      264,
+      108,
+      (energy / 100.0 * 230.0).to_int(),
+      10,
+      @raylib.Color::new(86, 198, 244, 255),
+    )
+    let timer_total : Float = if level == 1 {
+      140.0
+    } else if level == 2 {
+      160.0
+    } else {
+      185.0
+    }
     let timer_fill = (timer / timer_total * 230.0).to_int()
-    @raylib.draw_rectangle(512, 108, 230, 10, @raylib.Color::new(24, 30, 40, 255))
-    @raylib.draw_rectangle(512, 108, clampf(Float::from_int(timer_fill), 0.0, 230.0).to_int(), 10, @raylib.Color::new(246, 172, 92, 255))
+    @raylib.draw_rectangle(
+      512,
+      108,
+      230,
+      10,
+      @raylib.Color::new(24, 30, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      512,
+      108,
+      clampf(Float::from_int(timer_fill), 0.0, 230.0).to_int(),
+      10,
+      @raylib.Color::new(246, 172, 92, 255),
+    )
 
-    @raylib.draw_rectangle(8, sh - 196, 236, 188, @raylib.Color::new(8, 14, 28, 220))
+    @raylib.draw_rectangle(
+      8,
+      sh - 196,
+      236,
+      188,
+      @raylib.Color::new(8, 14, 28, 220),
+    )
     @raylib.draw_text("Touch", 90, sh - 188, 20, @raylib.white)
     let pad_x = 18
     let pad_y = sh - 182
-    @raylib.draw_rectangle(pad_x + 76, pad_y, 72, 54, @raylib.Color::new(50, 70, 98, 255))
+    @raylib.draw_rectangle(
+      pad_x + 76,
+      pad_y,
+      72,
+      54,
+      @raylib.Color::new(50, 70, 98, 255),
+    )
     @raylib.draw_text("U", pad_x + 104, pad_y + 16, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x, pad_y + 54, 72, 54, @raylib.Color::new(50, 70, 98, 255))
+    @raylib.draw_rectangle(
+      pad_x,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(50, 70, 98, 255),
+    )
     @raylib.draw_text("L", pad_x + 28, pad_y + 70, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x + 152, pad_y + 54, 72, 54, @raylib.Color::new(50, 70, 98, 255))
+    @raylib.draw_rectangle(
+      pad_x + 152,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(50, 70, 98, 255),
+    )
     @raylib.draw_text("R", pad_x + 180, pad_y + 70, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x + 76, pad_y + 108, 72, 54, @raylib.Color::new(50, 70, 98, 255))
+    @raylib.draw_rectangle(
+      pad_x + 76,
+      pad_y + 108,
+      72,
+      54,
+      @raylib.Color::new(50, 70, 98, 255),
+    )
     @raylib.draw_text("D", pad_x + 104, pad_y + 124, 24, @raylib.white)
 
     let fire_x = sw - 258
     let fire_y = sh - 170
     let repair_x = sw - 122
     let repair_y = sh - 170
-    @raylib.draw_rectangle(fire_x, fire_y, 120, 156, @raylib.Color::new(186, 82, 70, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      120,
+      156,
+      @raylib.Color::new(186, 82, 70, 255),
+    )
     @raylib.draw_text("FIRE", fire_x + 24, fire_y + 62, 30, @raylib.white)
-    @raylib.draw_rectangle(repair_x, repair_y, 104, 156, @raylib.Color::new(70, 138, 126, 255))
+    @raylib.draw_rectangle(
+      repair_x,
+      repair_y,
+      104,
+      156,
+      @raylib.Color::new(70, 138, 126, 255),
+    )
     @raylib.draw_text("REPAIR", repair_x + 6, repair_y + 62, 24, @raylib.white)
 
-    @raylib.draw_rectangle(250, sh - 58, sw - 516, 44, @raylib.Color::new(6, 10, 18, 220))
-    @raylib.draw_text(msg, 264, sh - 50, 24, @raylib.Color::new(224, 236, 248, 255))
+    @raylib.draw_rectangle(
+      250,
+      sh - 58,
+      sw - 516,
+      44,
+      @raylib.Color::new(6, 10, 18, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      264,
+      sh - 50,
+      24,
+      @raylib.Color::new(224, 236, 248, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 130))
-      @raylib.draw_rectangle(sw / 2 - 370, sh / 2 - 112, 740, 224, @raylib.Color::new(16, 24, 42, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 370,
+        sh / 2 - 112,
+        740,
+        224,
+        @raylib.Color::new(16, 24, 42, 242),
+      )
       @raylib.draw_text(
-        if won { "MISSION COMPLETE" } else { "MISSION FAILED" },
+        if won {
+          "MISSION COMPLETE"
+        } else {
+          "MISSION FAILED"
+        },
         sw / 2 - 228,
         sh / 2 - 42,
         62,
-        if won { @raylib.Color::new(252, 236, 142, 255) } else { @raylib.Color::new(255, 138, 138, 255) },
+        if won {
+          @raylib.Color::new(252, 236, 142, 255)
+        } else {
+          @raylib.Color::new(255, 138, 138, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 44, 34, @raylib.Color::new(224, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 44,
+        34,
+        @raylib.Color::new(224, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

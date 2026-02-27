@@ -90,12 +90,14 @@ fn main {
     }
 
     if not(over) {
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         if player_lane > 0 {
           player_lane = player_lane - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         if player_lane < lane_count - 1 {
           player_lane = player_lane + 1
         }
@@ -149,7 +151,11 @@ fn main {
               lives = lives - 1
               invuln_timer = 1.1
               score = score - 40
-              msg = if objs[i].kind == 0 { "Crashed into tree." } else { "Hit a rock." }
+              msg = if objs[i].kind == 0 {
+                "Crashed into tree."
+              } else {
+                "Hit a rock."
+              }
             }
             objs[i].alive = false
           } else if objs[i].kind == 2 {
@@ -190,8 +196,20 @@ fn main {
 
     for l = 0; l < lane_count; l = l + 1 {
       let x = lane_x(l)
-      @raylib.draw_line((x - 54.0).to_int(), 0, (x + 54.0).to_int(), sh, @raylib.fade(@raylib.gray, 0.35))
-      @raylib.draw_line((x + 54.0).to_int(), 0, (x - 54.0).to_int(), sh, @raylib.fade(@raylib.gray, 0.35))
+      @raylib.draw_line(
+        (x - 54.0).to_int(),
+        0,
+        (x + 54.0).to_int(),
+        sh,
+        @raylib.fade(@raylib.gray, 0.35),
+      )
+      @raylib.draw_line(
+        (x + 54.0).to_int(),
+        0,
+        (x - 54.0).to_int(),
+        sh,
+        @raylib.fade(@raylib.gray, 0.35),
+      )
     }
 
     for i = 0; i < objs.length(); i = i + 1 {
@@ -205,40 +223,96 @@ fn main {
             @raylib.Vector2::new(x + 22.0, y + 14.0),
             @raylib.darkgreen,
           )
-          @raylib.draw_rectangle((x - 4.0).to_int(), (y + 14.0).to_int(), 8, 10, @raylib.brown)
+          @raylib.draw_rectangle(
+            (x - 4.0).to_int(),
+            (y + 14.0).to_int(),
+            8,
+            10,
+            @raylib.brown,
+          )
         } else if objs[i].kind == 1 {
           @raylib.draw_circle(x.to_int(), y.to_int(), 14.0, @raylib.darkgray)
           @raylib.draw_circle_lines(x.to_int(), y.to_int(), 14.0, @raylib.black)
         } else if objs[i].kind == 2 {
           @raylib.draw_circle(x.to_int(), y.to_int(), 13.0, @raylib.orange)
-          @raylib.draw_text("!", (x - 4.0).to_int(), (y - 11.0).to_int(), 22, @raylib.white)
+          @raylib.draw_text(
+            "!",
+            (x - 4.0).to_int(),
+            (y - 11.0).to_int(),
+            22,
+            @raylib.white,
+          )
         } else {
           @raylib.draw_circle(x.to_int(), y.to_int(), 12.0, @raylib.lime)
-          @raylib.draw_text("+", (x - 6.0).to_int(), (y - 11.0).to_int(), 22, @raylib.black)
+          @raylib.draw_text(
+            "+",
+            (x - 6.0).to_int(),
+            (y - 11.0).to_int(),
+            22,
+            @raylib.black,
+          )
         }
       }
     }
 
-    let skier_color = if invuln_timer > 0.0 { @raylib.yellow } else { @raylib.red }
+    let skier_color = if invuln_timer > 0.0 {
+      @raylib.yellow
+    } else {
+      @raylib.red
+    }
     @raylib.draw_circle(player_x.to_int(), player_y.to_int(), 14.0, skier_color)
-    @raylib.draw_rectangle((player_x - 18.0).to_int(), (player_y + 13.0).to_int(), 36, 5, @raylib.blue)
-    @raylib.draw_rectangle((player_x - 18.0).to_int(), (player_y + 20.0).to_int(), 36, 5, @raylib.blue)
+    @raylib.draw_rectangle(
+      (player_x - 18.0).to_int(),
+      (player_y + 13.0).to_int(),
+      36,
+      5,
+      @raylib.blue,
+    )
+    @raylib.draw_rectangle(
+      (player_x - 18.0).to_int(),
+      (player_y + 20.0).to_int(),
+      36,
+      5,
+      @raylib.blue,
+    )
 
     @raylib.draw_text("SKI RESCUE 2026", 20, 16, 42, @raylib.darkblue)
     @raylib.draw_text("Score \{score}", 20, 66, 30, @raylib.black)
     @raylib.draw_text("Rescued \{rescued}", 210, 66, 30, @raylib.darkgreen)
     @raylib.draw_text("Distance \{distance}m", 430, 66, 30, @raylib.black)
-    @raylib.draw_text("Lives \{lives}", 690, 66, 30, if lives == 1 { @raylib.red } else { @raylib.maroon })
+    @raylib.draw_text(
+      "Lives \{lives}",
+      690,
+      66,
+      30,
+      if lives == 1 {
+        @raylib.red
+      } else {
+        @raylib.maroon
+      },
+    )
 
     if boost_timer > 0.0 {
       @raylib.draw_text("BOOST", 900, 66, 30, @raylib.lime)
     }
 
-    @raylib.draw_rectangle(20, 670, sw - 40, 34, @raylib.Color::new(22, 38, 56, 230))
+    @raylib.draw_rectangle(
+      20,
+      670,
+      sw - 40,
+      34,
+      @raylib.Color::new(22, 38, 56, 230),
+    )
     @raylib.draw_text(msg, 28, 676, 22, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 500, 180, @raylib.fade(@raylib.black, 0.8))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        500,
+        180,
+        @raylib.fade(@raylib.black, 0.8),
+      )
       @raylib.draw_text("MISSION FAILED", 380, 310, 52, @raylib.red)
       @raylib.draw_text("Press R to retry", 440, 368, 34, @raylib.white)
     }

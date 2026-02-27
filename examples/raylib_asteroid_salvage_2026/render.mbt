@@ -19,19 +19,39 @@ fn draw_ship(game : Game) -> Unit {
 
   let dir_x = Float::from_double(@math.cos(game.ship_angle.to_double()))
   let dir_y = Float::from_double(@math.sin(game.ship_angle.to_double()))
-  let side_x = Float::from_double(@math.cos((game.ship_angle + pi * 0.75).to_double()))
-  let side_y = Float::from_double(@math.sin((game.ship_angle + pi * 0.75).to_double()))
-  let side2_x = Float::from_double(@math.cos((game.ship_angle - pi * 0.75).to_double()))
-  let side2_y = Float::from_double(@math.sin((game.ship_angle - pi * 0.75).to_double()))
+  let side_x = Float::from_double(
+    @math.cos((game.ship_angle + pi * 0.75).to_double()),
+  )
+  let side_y = Float::from_double(
+    @math.sin((game.ship_angle + pi * 0.75).to_double()),
+  )
+  let side2_x = Float::from_double(
+    @math.cos((game.ship_angle - pi * 0.75).to_double()),
+  )
+  let side2_y = Float::from_double(
+    @math.sin((game.ship_angle - pi * 0.75).to_double()),
+  )
 
-  let nose = @raylib.Vector2::new(game.ship_x + dir_x * 15.0, game.ship_y + dir_y * 15.0)
-  let left = @raylib.Vector2::new(game.ship_x + side_x * 10.0, game.ship_y + side_y * 10.0)
-  let right = @raylib.Vector2::new(game.ship_x + side2_x * 10.0, game.ship_y + side2_y * 10.0)
+  let nose = @raylib.Vector2::new(
+    game.ship_x + dir_x * 15.0,
+    game.ship_y + dir_y * 15.0,
+  )
+  let left = @raylib.Vector2::new(
+    game.ship_x + side_x * 10.0,
+    game.ship_y + side_y * 10.0,
+  )
+  let right = @raylib.Vector2::new(
+    game.ship_x + side2_x * 10.0,
+    game.ship_y + side2_y * 10.0,
+  )
 
   @raylib.draw_triangle_lines(nose, left, right, @raylib.raywhite)
 
   if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
-    let back = @raylib.Vector2::new(game.ship_x - dir_x * 8.0, game.ship_y - dir_y * 8.0)
+    let back = @raylib.Vector2::new(
+      game.ship_x - dir_x * 8.0,
+      game.ship_y - dir_y * 8.0,
+    )
     @raylib.draw_circle(back.x.to_int(), back.y.to_int(), 3.0, @raylib.orange)
   }
 }

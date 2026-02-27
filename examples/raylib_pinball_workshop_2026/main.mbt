@@ -104,10 +104,8 @@ fn collide_ball_with_segment(ball : Ball, f : Flipper, boost : Float) -> Bool {
   }
 
   let d = d2.sqrt()
-  let nx : Float =
-    if d < (0.0001 : Float) { (0.0 : Float) } else { dx / d }
-  let ny : Float =
-    if d < (0.0001 : Float) { (-1.0 : Float) } else { dy / d }
+  let nx : Float = if d < (0.0001 : Float) { (0.0 : Float) } else { dx / d }
+  let ny : Float = if d < (0.0001 : Float) { (-1.0 : Float) } else { dy / d }
   ball.x = cx + nx * (rr + (0.2 : Float))
   ball.y = cy + ny * (rr + (0.2 : Float))
 
@@ -127,13 +125,15 @@ fn ball_vs_bumper(ball : Ball, bx : Float, by : Float, r : Float) -> Bool {
     return false
   }
   let d = (dx * dx + dy * dy).sqrt()
-  let nx : Float =
-    if d < (0.0001 : Float) { (1.0 : Float) } else { dx / d }
-  let ny : Float =
-    if d < (0.0001 : Float) { (0.0 : Float) } else { dy / d }
+  let nx : Float = if d < (0.0001 : Float) { (1.0 : Float) } else { dx / d }
+  let ny : Float = if d < (0.0001 : Float) { (0.0 : Float) } else { dy / d }
   ball.x = bx + nx * (rr + (0.2 : Float))
   ball.y = by + ny * (rr + (0.2 : Float))
-  let speed = clampf((ball.vx * ball.vx + ball.vy * ball.vy).sqrt() * 1.05, 260.0, 900.0)
+  let speed = clampf(
+    (ball.vx * ball.vx + ball.vy * ball.vy).sqrt() * 1.05,
+    260.0,
+    900.0,
+  )
   ball.vx = nx * speed
   ball.vy = ny * speed
   true
@@ -194,14 +194,22 @@ fn main {
       } else {
         left_flipper.angle = left_flipper.angle + flipper_speed * dt
       }
-      left_flipper.angle = clampf(left_flipper.angle, left_flipper.active_angle, left_flipper.rest_angle)
+      left_flipper.angle = clampf(
+        left_flipper.angle,
+        left_flipper.active_angle,
+        left_flipper.rest_angle,
+      )
 
       if right_up {
         right_flipper.angle = right_flipper.angle + flipper_speed * dt
       } else {
         right_flipper.angle = right_flipper.angle - flipper_speed * dt
       }
-      right_flipper.angle = clampf(right_flipper.angle, right_flipper.rest_angle, right_flipper.active_angle)
+      right_flipper.angle = clampf(
+        right_flipper.angle,
+        right_flipper.rest_angle,
+        right_flipper.active_angle,
+      )
 
       if ball.live {
         ball.vy = ball.vy + gravity * dt
@@ -222,10 +230,26 @@ fn main {
         }
 
         let mut gained = false
-        if collide_ball_with_segment(ball, left_flipper, if left_up { 160.0 } else { 20.0 }) {
+        if collide_ball_with_segment(
+            ball,
+            left_flipper,
+            if left_up {
+              160.0
+            } else {
+              20.0
+            },
+          ) {
           gained = true
         }
-        if collide_ball_with_segment(ball, right_flipper, if right_up { 160.0 } else { 20.0 }) {
+        if collide_ball_with_segment(
+            ball,
+            right_flipper,
+            if right_up {
+              160.0
+            } else {
+              20.0
+            },
+          ) {
           gained = true
         }
         if ball_vs_bumper(ball, 300.0, 240.0, 26.0) {
@@ -256,7 +280,13 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 20, 32, 255))
 
-    @raylib.draw_rectangle_lines(table_left.to_int(), table_top.to_int(), (table_right - table_left).to_int(), (drain_y - table_top).to_int(), @raylib.lightgray)
+    @raylib.draw_rectangle_lines(
+      table_left.to_int(),
+      table_top.to_int(),
+      (table_right - table_left).to_int(),
+      (drain_y - table_top).to_int(),
+      @raylib.lightgray,
+    )
     @raylib.draw_circle(300, 240, 26.0, @raylib.orange)
     @raylib.draw_circle(450, 190, 30.0, @raylib.gold)
     @raylib.draw_circle(605, 260, 24.0, @raylib.pink)
@@ -275,11 +305,23 @@ fn main {
     )
 
     if ball.live {
-      @raylib.draw_circle(ball.x.to_int(), ball.y.to_int(), ball_r, @raylib.raywhite)
+      @raylib.draw_circle(
+        ball.x.to_int(),
+        ball.y.to_int(),
+        ball_r,
+        @raylib.raywhite,
+      )
     } else {
-      @raylib.draw_circle(ball.x.to_int(), ball.y.to_int(), ball_r, @raylib.gray)
+      @raylib.draw_circle(
+        ball.x.to_int(),
+        ball.y.to_int(),
+        ball_r,
+        @raylib.gray,
+      )
       if not(game_over) {
-        @raylib.draw_text("PRESS SPACE TO LAUNCH", 320, 630, 22, @raylib.lightgray)
+        @raylib.draw_text(
+          "PRESS SPACE TO LAUNCH", 320, 630, 22, @raylib.lightgray,
+        )
       }
     }
 
@@ -289,7 +331,13 @@ fn main {
     @raylib.draw_text("A/D flippers  R restart", 590, 18, 20, @raylib.gray)
 
     if game_over {
-      @raylib.draw_rectangle(285, 295, 330, 105, @raylib.fade(@raylib.black, 0.75))
+      @raylib.draw_rectangle(
+        285,
+        295,
+        330,
+        105,
+        @raylib.fade(@raylib.black, 0.75),
+      )
       @raylib.draw_text("GAME OVER", 368, 322, 40, @raylib.red)
       @raylib.draw_text("Press R to restart", 350, 365, 24, @raylib.raywhite)
     }

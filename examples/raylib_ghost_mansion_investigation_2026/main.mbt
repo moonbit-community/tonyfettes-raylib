@@ -82,12 +82,30 @@ fn sqdist(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
-fn circle_hits_rect(cx : Float, cy : Float, cr : Float, rx : Float, ry : Float, rw : Float, rh : Float) -> Bool {
+fn circle_hits_rect(
+  cx : Float,
+  cy : Float,
+  cr : Float,
+  rx : Float,
+  ry : Float,
+  rw : Float,
+  rh : Float,
+) -> Bool {
   let nx = clampf(cx, rx, rx + rw)
   let ny = clampf(cy, ry, ry + rh)
   sqdist(cx, cy, nx, ny) <= cr * cr
@@ -95,7 +113,10 @@ fn circle_hits_rect(cx : Float, cy : Float, cr : Float, rx : Float, ry : Float, 
 
 ///|
 fn blocked(x : Float, y : Float, r : Float, level : Int) -> Bool {
-  if x - r < 28.0 || x + r > Float::from_int(sw - 28) || y - r < 132.0 || y + r > Float::from_int(sh - 28) {
+  if x - r < 28.0 ||
+    x + r > Float::from_int(sw - 28) ||
+    y - r < 132.0 ||
+    y + r > Float::from_int(sh - 28) {
     return true
   }
 
@@ -167,7 +188,13 @@ fn clear_particles(ps : Array[Particle]) -> Unit {
 }
 
 ///|
-fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kind : Int) -> Unit {
+fn spawn_particle(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < ps.length(); i = i + 1 {
     if done {
@@ -179,7 +206,8 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
       ps[i].y = y
       ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
       ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 62)) / Float::from_int(100)
+      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 62)) /
+        Float::from_int(100)
       ps[i].kind = kind
       done = true
     }
@@ -187,7 +215,14 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
 }
 
 ///|
-fn burst(ps : Array[Particle], x : Float, y : Float, n : Int, speed : Float, kind : Int) -> Unit {
+fn burst(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -210,7 +245,13 @@ fn reset_player(p : Investigator) -> Unit {
 }
 
 ///|
-fn set_clue(cs : Array[Clue], idx : Int, x : Float, y : Float, kind : Int) -> Unit {
+fn set_clue(
+  cs : Array[Clue],
+  idx : Int,
+  x : Float,
+  y : Float,
+  kind : Int,
+) -> Unit {
   cs[idx].x = x
   cs[idx].y = y
   cs[idx].kind = kind
@@ -274,10 +315,13 @@ fn spawn_ghost(gs : Array[Ghost], level : Int) -> Unit {
       gs[i].active = true
       gs[i].kind = @raylib.get_random_value(0, 2)
       gs[i].radius = if gs[i].kind == 2 { 20.0 } else { 18.0 }
-      gs[i].speed = Float::from_int(@raylib.get_random_value(84 + level * 12, 130 + level * 18))
+      gs[i].speed = Float::from_int(
+        @raylib.get_random_value(84 + level * 12, 130 + level * 18),
+      )
       gs[i].stun_t = 0.0
       gs[i].alert_t = 0.0
-      gs[i].wander_t = Float::from_int(@raylib.get_random_value(80, 240)) / Float::from_int(100)
+      gs[i].wander_t = Float::from_int(@raylib.get_random_value(80, 240)) /
+        Float::from_int(100)
 
       let mut placed = false
       while not(placed) {
@@ -298,7 +342,13 @@ fn spawn_ghost(gs : Array[Ghost], level : Int) -> Unit {
 }
 
 ///|
-fn setup_level(level : Int, player : Investigator, ghosts : Array[Ghost], clues : Array[Clue], particles : Array[Particle]) -> (Int, Float, Float) {
+fn setup_level(
+  level : Int,
+  player : Investigator,
+  ghosts : Array[Ghost],
+  clues : Array[Clue],
+  particles : Array[Particle],
+) -> (Int, Float, Float) {
   reset_player(player)
   clear_ghosts(ghosts)
   clear_particles(particles)
@@ -372,24 +422,11 @@ fn main {
   })
 
   let clues : Array[Clue] = Array::makei(max_clues, fn(_i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      kind: 0,
-      active: false,
-    }
+    { x: 0.0, y: 0.0, kind: 0, active: false }
   })
 
   let particles : Array[Particle] = Array::makei(max_particles, fn(_i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      ttl: 0.0,
-      kind: 0,
-      active: false,
-    }
+    { x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ttl: 0.0, kind: 0, active: false }
   })
 
   let mut level = 1
@@ -460,7 +497,9 @@ fn main {
         transition_t = 0.0
         if level < 3 {
           level = level + 1
-          let (nt, ntm, ngs) = setup_level(level, player, ghosts, clues, particles)
+          let (nt, ntm, ngs) = setup_level(
+            level, player, ghosts, clues, particles,
+          )
           target = nt
           timer = ntm
           ghost_spawn_base = ngs
@@ -532,11 +571,16 @@ fn main {
         msg = "Time expired"
       }
 
-      let mut move_l = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut move_r = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut move_u = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-      let mut move_d = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-      let mut sprint = @raylib.is_key_down(@raylib.KeyJ) || @raylib.is_key_down(@raylib.KeyLeftShift)
+      let mut move_l = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut move_r = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut move_u = @raylib.is_key_down(@raylib.KeyW) ||
+        @raylib.is_key_down(@raylib.KeyUp)
+      let mut move_d = @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown)
+      let mut sprint = @raylib.is_key_down(@raylib.KeyJ) ||
+        @raylib.is_key_down(@raylib.KeyLeftShift)
       let mut pulse = @raylib.is_key_pressed(@raylib.KeyK)
 
       let m = @raylib.get_mouse_position()
@@ -632,8 +676,12 @@ fn main {
           if not(ghosts[i].active) {
             continue
           }
-          if sqdist(player.x, player.y, ghosts[i].x, ghosts[i].y) <= 172.0 * 172.0 {
-            ghosts[i].stun_t = Float::from_int(@raylib.get_random_value(160, 250)) / Float::from_int(100)
+          if sqdist(player.x, player.y, ghosts[i].x, ghosts[i].y) <=
+            172.0 * 172.0 {
+            ghosts[i].stun_t = Float::from_int(
+                @raylib.get_random_value(160, 250),
+              ) /
+              Float::from_int(100)
             ghosts[i].alert_t = 0.0
             burst(particles, ghosts[i].x, ghosts[i].y, 10, 0.30, 3)
           }
@@ -643,7 +691,8 @@ fn main {
       ghost_cd = ghost_cd - dt
       if ghost_cd <= 0.0 {
         spawn_ghost(ghosts, level)
-        let jitter = Float::from_int(@raylib.get_random_value(78, 132)) / Float::from_int(100)
+        let jitter = Float::from_int(@raylib.get_random_value(78, 132)) /
+          Float::from_int(100)
         ghost_cd = ghost_spawn_base * jitter
       }
 
@@ -684,7 +733,9 @@ fn main {
           let mut target_vx = ghosts[i].vx
           let mut target_vy = ghosts[i].vy
 
-          let detect_r : Float = Float::from_int(220 + level * 40 + ghosts[i].kind * 22)
+          let detect_r : Float = Float::from_int(
+            220 + level * 40 + ghosts[i].kind * 22,
+          )
           if d < detect_r {
             ghosts[i].alert_t = 1.1
             let mut chase = ghosts[i].speed
@@ -696,14 +747,19 @@ fn main {
           } else {
             ghosts[i].wander_t = ghosts[i].wander_t - dt
             if ghosts[i].wander_t <= 0.0 {
-              ghosts[i].wander_t = Float::from_int(@raylib.get_random_value(80, 220)) / Float::from_int(100)
+              ghosts[i].wander_t = Float::from_int(
+                  @raylib.get_random_value(80, 220),
+                ) /
+                Float::from_int(100)
               target_vx = Float::from_int(@raylib.get_random_value(-120, 120))
               target_vy = Float::from_int(@raylib.get_random_value(-120, 120))
             }
           }
 
-          ghosts[i].vx = ghosts[i].vx * (Float::from_int(1) - dt * 2.8) + target_vx * dt * 2.8
-          ghosts[i].vy = ghosts[i].vy * (Float::from_int(1) - dt * 2.8) + target_vy * dt * 2.8
+          ghosts[i].vx = ghosts[i].vx * (Float::from_int(1) - dt * 2.8) +
+            target_vx * dt * 2.8
+          ghosts[i].vy = ghosts[i].vy * (Float::from_int(1) - dt * 2.8) +
+            target_vy * dt * 2.8
         }
 
         let old_x = ghosts[i].x
@@ -759,7 +815,8 @@ fn main {
           collected = collected + 1
           score = score + 95 + clues[i].kind * 18
           stars = stars + 1 + clues[i].kind
-          player.battery = player.battery + Float::from_int(8 + clues[i].kind * 4)
+          player.battery = player.battery +
+            Float::from_int(8 + clues[i].kind * 4)
           if player.battery > 100.0 {
             player.battery = 100.0
           }
@@ -768,7 +825,8 @@ fn main {
         }
       }
 
-      if collected >= target && inside_rect(player.x, player.y, 1108, 150, 146, 116) {
+      if collected >= target &&
+        inside_rect(player.x, player.y, 1108, 150, 146, 116) {
         transition_t = 2.1
         msg = "Floor report complete"
       }
@@ -790,23 +848,89 @@ fn main {
     let pulse = (wave_t * 2.4).to_int() % 160
     let glow = if pulse < 80 { pulse } else { 160 - pulse }
 
-    @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(12, 16 + glow / 12, 30 + glow / 5, 255))
-    @raylib.draw_rectangle(0, 0, sw, 250, @raylib.Color::new(16, 24 + glow / 10, 52 + glow / 5, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      sh,
+      @raylib.Color::new(12, 16 + glow / 12, 30 + glow / 5, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      250,
+      @raylib.Color::new(16, 24 + glow / 10, 52 + glow / 5, 255),
+    )
 
-    @raylib.draw_rectangle(20, 132, sw - 40, sh - 162, @raylib.Color::new(48, 48, 56, 255))
-    @raylib.draw_rectangle(28, 140, sw - 56, sh - 178, @raylib.Color::new(62, 62, 72, 255))
+    @raylib.draw_rectangle(
+      20,
+      132,
+      sw - 40,
+      sh - 162,
+      @raylib.Color::new(48, 48, 56, 255),
+    )
+    @raylib.draw_rectangle(
+      28,
+      140,
+      sw - 56,
+      sh - 178,
+      @raylib.Color::new(62, 62, 72, 255),
+    )
 
-    @raylib.draw_rectangle(294, 156, 40, 430, @raylib.Color::new(96, 88, 92, 255))
-    @raylib.draw_rectangle(294, 156, 472, 40, @raylib.Color::new(96, 88, 92, 255))
-    @raylib.draw_rectangle(546, 318, 204, 146, @raylib.Color::new(96, 88, 92, 255))
-    @raylib.draw_rectangle(902, 208, 126, 312, @raylib.Color::new(96, 88, 92, 255))
-    @raylib.draw_rectangle(280, 618, 540, 60, @raylib.Color::new(96, 88, 92, 255))
+    @raylib.draw_rectangle(
+      294,
+      156,
+      40,
+      430,
+      @raylib.Color::new(96, 88, 92, 255),
+    )
+    @raylib.draw_rectangle(
+      294,
+      156,
+      472,
+      40,
+      @raylib.Color::new(96, 88, 92, 255),
+    )
+    @raylib.draw_rectangle(
+      546,
+      318,
+      204,
+      146,
+      @raylib.Color::new(96, 88, 92, 255),
+    )
+    @raylib.draw_rectangle(
+      902,
+      208,
+      126,
+      312,
+      @raylib.Color::new(96, 88, 92, 255),
+    )
+    @raylib.draw_rectangle(
+      280,
+      618,
+      540,
+      60,
+      @raylib.Color::new(96, 88, 92, 255),
+    )
 
     if level >= 2 {
-      @raylib.draw_rectangle(116, 322, 132, 184, @raylib.Color::new(96, 88, 92, 255))
+      @raylib.draw_rectangle(
+        116,
+        322,
+        132,
+        184,
+        @raylib.Color::new(96, 88, 92, 255),
+      )
     }
     if level >= 3 {
-      @raylib.draw_rectangle(760, 500, 180, 124, @raylib.Color::new(96, 88, 92, 255))
+      @raylib.draw_rectangle(
+        760,
+        500,
+        180,
+        124,
+        @raylib.Color::new(96, 88, 92, 255),
+      )
     }
 
     let exit_col = if collected >= target {
@@ -815,7 +939,13 @@ fn main {
       @raylib.Color::new(110, 134, 166, 122)
     }
     @raylib.draw_rectangle(1108, 150, 146, 116, exit_col)
-    @raylib.draw_text("EXIT", 1140, 188, 34, @raylib.Color::new(234, 246, 236, 255))
+    @raylib.draw_text(
+      "EXIT",
+      1140,
+      188,
+      34,
+      @raylib.Color::new(234, 246, 236, 255),
+    )
 
     for i = 0; i < clues.length(); i = i + 1 {
       if not(clues[i].active) {
@@ -854,16 +984,41 @@ fn main {
       }
 
       @raylib.draw_circle(gx, gy - 6, ghosts[i].radius, col)
-      @raylib.draw_rectangle(gx - ghosts[i].radius.to_int(), gy - 2, (ghosts[i].radius * 2.0).to_int(), 28, col)
-      @raylib.draw_circle(gx - 6, gy - 8, 3.0, @raylib.Color::new(22, 30, 38, 255))
-      @raylib.draw_circle(gx + 6, gy - 8, 3.0, @raylib.Color::new(22, 30, 38, 255))
+      @raylib.draw_rectangle(
+        gx - ghosts[i].radius.to_int(),
+        gy - 2,
+        (ghosts[i].radius * 2.0).to_int(),
+        28,
+        col,
+      )
+      @raylib.draw_circle(
+        gx - 6,
+        gy - 8,
+        3.0,
+        @raylib.Color::new(22, 30, 38, 255),
+      )
+      @raylib.draw_circle(
+        gx + 6,
+        gy - 8,
+        3.0,
+        @raylib.Color::new(22, 30, 38, 255),
+      )
 
       if ghosts[i].alert_t > 0.0 {
-        @raylib.draw_circle_lines(gx, gy, 96.0, @raylib.Color::new(252, 140, 140, 130))
+        @raylib.draw_circle_lines(
+          gx,
+          gy,
+          96.0,
+          @raylib.Color::new(252, 140, 140, 130),
+        )
       }
     }
 
-    let lantern_range : Float = if player.battery > 30.0 { 250.0 } else { 180.0 }
+    let lantern_range : Float = if player.battery > 30.0 {
+      250.0
+    } else {
+      180.0
+    }
     let px = player.x + shake_x
     let py = player.y
     let perp_x = -player.fy
@@ -887,15 +1042,55 @@ fn main {
       @raylib.Color::new(102, 224, 246, 255)
     }
 
-    @raylib.draw_circle((px - 2.0).to_int(), (py - 20.0).to_int(), 12.0, @raylib.Color::new(236, 242, 252, 255))
-    @raylib.draw_rectangle((px - 12.0).to_int(), (py - 10.0).to_int(), 24, 32, p_col)
-    @raylib.draw_line((px - 10.0).to_int(), (py - 2.0).to_int(), (px - 22.0).to_int(), (py + 10.0).to_int(), p_col)
-    @raylib.draw_line((px + 10.0).to_int(), (py - 2.0).to_int(), (px + 22.0).to_int(), (py + 10.0).to_int(), p_col)
-    @raylib.draw_line((px - 8.0).to_int(), (py + 22.0).to_int(), (px - 12.0).to_int(), (py + 44.0).to_int(), p_col)
-    @raylib.draw_line((px + 8.0).to_int(), (py + 22.0).to_int(), (px + 12.0).to_int(), (py + 44.0).to_int(), p_col)
+    @raylib.draw_circle(
+      (px - 2.0).to_int(),
+      (py - 20.0).to_int(),
+      12.0,
+      @raylib.Color::new(236, 242, 252, 255),
+    )
+    @raylib.draw_rectangle(
+      (px - 12.0).to_int(),
+      (py - 10.0).to_int(),
+      24,
+      32,
+      p_col,
+    )
+    @raylib.draw_line(
+      (px - 10.0).to_int(),
+      (py - 2.0).to_int(),
+      (px - 22.0).to_int(),
+      (py + 10.0).to_int(),
+      p_col,
+    )
+    @raylib.draw_line(
+      (px + 10.0).to_int(),
+      (py - 2.0).to_int(),
+      (px + 22.0).to_int(),
+      (py + 10.0).to_int(),
+      p_col,
+    )
+    @raylib.draw_line(
+      (px - 8.0).to_int(),
+      (py + 22.0).to_int(),
+      (px - 12.0).to_int(),
+      (py + 44.0).to_int(),
+      p_col,
+    )
+    @raylib.draw_line(
+      (px + 8.0).to_int(),
+      (py + 22.0).to_int(),
+      (px + 12.0).to_int(),
+      (py + 44.0).to_int(),
+      p_col,
+    )
 
     if player.pulse_cd > 2.2 {
-      @raylib.draw_circle_lines(px.to_int(), py.to_int(), 170.0, @raylib.Color::new(162, 136, 252, 220))
+      @raylib.draw_circle_lines(
+        px.to_int(),
+        py.to_int(),
+        170.0,
+        @raylib.Color::new(162, 136, 252, 220),
+      )
     }
 
     for i = 0; i < particles.length(); i = i + 1 {
@@ -913,67 +1108,236 @@ fn main {
         @raylib.Color::new(120, 226, 246, 255)
       }
 
-      @raylib.draw_circle((particles[i].x + shake_x).to_int(), particles[i].y.to_int(), 2.0, c)
+      @raylib.draw_circle(
+        (particles[i].x + shake_x).to_int(),
+        particles[i].y.to_int(),
+        2.0,
+        c,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 116, @raylib.Color::new(6, 10, 18, 232))
-    @raylib.draw_text("GHOST MANSION INVESTIGATION 2026", 16, 16, 34, @raylib.Color::new(236, 246, 255, 255))
+    @raylib.draw_text(
+      "GHOST MANSION INVESTIGATION 2026",
+      16,
+      16,
+      34,
+      @raylib.Color::new(236, 246, 255, 255),
+    )
 
-    @raylib.draw_text("Floor \{level}/3", 468, 24, 30, @raylib.Color::new(248, 226, 142, 255))
-    @raylib.draw_text("Clues \{collected}/\{target}", 652, 24, 30, @raylib.Color::new(216, 236, 252, 255))
-    @raylib.draw_text("Score \{score}", 956, 24, 30, @raylib.Color::new(216, 236, 252, 255))
+    @raylib.draw_text(
+      "Floor \{level}/3",
+      468,
+      24,
+      30,
+      @raylib.Color::new(248, 226, 142, 255),
+    )
+    @raylib.draw_text(
+      "Clues \{collected}/\{target}",
+      652,
+      24,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      956,
+      24,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
 
-    @raylib.draw_text("HP \{player.hp}", 20, 76, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Sanity \{player.sanity.to_int()}%", 120, 76, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Battery \{player.battery.to_int()}%", 360, 76, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Timer \{timer.to_int()}", 596, 76, 24, @raylib.Color::new(252, 222, 150, 255))
-    @raylib.draw_text("Stars \{stars}", 772, 76, 24, @raylib.Color::new(252, 232, 132, 255))
+    @raylib.draw_text(
+      "HP \{player.hp}",
+      20,
+      76,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sanity \{player.sanity.to_int()}%",
+      120,
+      76,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Battery \{player.battery.to_int()}%",
+      360,
+      76,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Timer \{timer.to_int()}",
+      596,
+      76,
+      24,
+      @raylib.Color::new(252, 222, 150, 255),
+    )
+    @raylib.draw_text(
+      "Stars \{stars}",
+      772,
+      76,
+      24,
+      @raylib.Color::new(252, 232, 132, 255),
+    )
 
     @raylib.draw_rectangle(20, 104, 160, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(20, 104, (Float::from_int(player.hp) / 6.0 * 160.0).to_int(), 8, @raylib.Color::new(112, 220, 146, 255))
+    @raylib.draw_rectangle(
+      20,
+      104,
+      (Float::from_int(player.hp) / 6.0 * 160.0).to_int(),
+      8,
+      @raylib.Color::new(112, 220, 146, 255),
+    )
 
-    @raylib.draw_rectangle(194, 104, 180, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(194, 104, (player.sanity / 100.0 * 180.0).to_int(), 8, @raylib.Color::new(122, 192, 248, 255))
+    @raylib.draw_rectangle(
+      194,
+      104,
+      180,
+      8,
+      @raylib.Color::new(20, 26, 36, 255),
+    )
+    @raylib.draw_rectangle(
+      194,
+      104,
+      (player.sanity / 100.0 * 180.0).to_int(),
+      8,
+      @raylib.Color::new(122, 192, 248, 255),
+    )
 
-    @raylib.draw_rectangle(388, 104, 180, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(388, 104, (player.battery / 100.0 * 180.0).to_int(), 8, @raylib.Color::new(236, 190, 112, 255))
+    @raylib.draw_rectangle(
+      388,
+      104,
+      180,
+      8,
+      @raylib.Color::new(20, 26, 36, 255),
+    )
+    @raylib.draw_rectangle(
+      388,
+      104,
+      (player.battery / 100.0 * 180.0).to_int(),
+      8,
+      @raylib.Color::new(236, 190, 112, 255),
+    )
 
-    @raylib.draw_rectangle(8, sh - 194, 236, 186, @raylib.Color::new(8, 14, 28, 220))
+    @raylib.draw_rectangle(
+      8,
+      sh - 194,
+      236,
+      186,
+      @raylib.Color::new(8, 14, 28, 220),
+    )
     @raylib.draw_text("Touch", 90, sh - 186, 20, @raylib.white)
 
-    @raylib.draw_rectangle(pad_x + 76, pad_y, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x + 76,
+      pad_y,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("UP", pad_x + 92, pad_y + 16, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x, pad_y + 54, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("LT", pad_x + 20, pad_y + 70, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x + 152, pad_y + 54, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x + 152,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("RT", pad_x + 172, pad_y + 70, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x + 76, pad_y + 108, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x + 76,
+      pad_y + 108,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("DN", pad_x + 90, pad_y + 124, 24, @raylib.white)
 
-    @raylib.draw_rectangle(sprint_x, sprint_y, 116, 154, @raylib.Color::new(214, 110, 82, 255))
+    @raylib.draw_rectangle(
+      sprint_x,
+      sprint_y,
+      116,
+      154,
+      @raylib.Color::new(214, 110, 82, 255),
+    )
     @raylib.draw_text("SPRINT", sprint_x + 8, sprint_y + 58, 26, @raylib.white)
-    @raylib.draw_rectangle(pulse_x, pulse_y, 104, 154, @raylib.Color::new(100, 162, 220, 255))
+    @raylib.draw_rectangle(
+      pulse_x,
+      pulse_y,
+      104,
+      154,
+      @raylib.Color::new(100, 162, 220, 255),
+    )
     @raylib.draw_text("PULSE", pulse_x + 12, pulse_y + 58, 26, @raylib.white)
 
-    @raylib.draw_rectangle(250, sh - 58, sw - 516, 42, @raylib.Color::new(6, 10, 18, 220))
-    @raylib.draw_text(msg, 262, sh - 50, 24, @raylib.Color::new(224, 236, 248, 255))
+    @raylib.draw_rectangle(
+      250,
+      sh - 58,
+      sw - 516,
+      42,
+      @raylib.Color::new(6, 10, 18, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      262,
+      sh - 50,
+      24,
+      @raylib.Color::new(224, 236, 248, 255),
+    )
 
     if transition_t > 0.0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 20, 110))
-      @raylib.draw_text("FLOOR CLEAR", sw / 2 - 164, sh / 2 - 28, 54, @raylib.Color::new(250, 236, 146, 255))
+      @raylib.draw_text(
+        "FLOOR CLEAR",
+        sw / 2 - 164,
+        sh / 2 - 28,
+        54,
+        @raylib.Color::new(250, 236, 146, 255),
+      )
     }
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 130))
-      @raylib.draw_rectangle(sw / 2 - 360, sh / 2 - 112, 720, 224, @raylib.Color::new(16, 24, 42, 244))
+      @raylib.draw_rectangle(
+        sw / 2 - 360,
+        sh / 2 - 112,
+        720,
+        224,
+        @raylib.Color::new(16, 24, 42, 244),
+      )
       @raylib.draw_text(
-        if won { "CASE CLOSED" } else { "CASE FAILED" },
+        if won {
+          "CASE CLOSED"
+        } else {
+          "CASE FAILED"
+        },
         sw / 2 - 212,
         sh / 2 - 34,
         66,
-        if won { @raylib.Color::new(252, 238, 148, 255) } else { @raylib.Color::new(252, 140, 140, 255) },
+        if won {
+          @raylib.Color::new(252, 238, 148, 255)
+        } else {
+          @raylib.Color::new(252, 140, 140, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 48, 34, @raylib.Color::new(224, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 48,
+        34,
+        @raylib.Color::new(224, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

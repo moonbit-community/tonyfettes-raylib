@@ -60,7 +60,12 @@ fn reset_drops(drops : Array[Drop]) -> Unit {
 }
 
 ///|
-fn spawn_drop(drops : Array[Drop], lane : Int, kind : Int, speed : Float) -> Unit {
+fn spawn_drop(
+  drops : Array[Drop],
+  lane : Int,
+  kind : Int,
+  speed : Float,
+) -> Unit {
   for i = 0; i < drops.length(); i = i + 1 {
     if not(drops[i].alive) {
       drops[i].alive = true
@@ -76,10 +81,7 @@ fn spawn_drop(drops : Array[Drop], lane : Int, kind : Int, speed : Float) -> Uni
 
 ///|
 fn next_order() -> (Int, Int) {
-  (
-    @raylib.get_random_value(0, 3),
-    @raylib.get_random_value(2, 4),
-  )
+  (@raylib.get_random_value(0, 3), @raylib.get_random_value(2, 4))
 }
 
 ///|
@@ -88,14 +90,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let drops : Array[Drop] = Array::makei(140, fn(_i) {
-    {
-      alive: false,
-      lane: 0,
-      x: 0.0,
-      y: 0.0,
-      kind: 0,
-      vy: 200.0,
-    }
+    { alive: false, lane: 0, x: 0.0, y: 0.0, kind: 0, vy: 200.0 }
   })
 
   let mut player_lane = 2
@@ -147,19 +142,25 @@ fn main {
         msg = "Shift ended."
       }
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         if player_lane > 0 {
           player_lane = player_lane - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         if player_lane < lane_count - 1 {
           player_lane = player_lane + 1
         }
       }
       px = lane_x(player_lane)
 
-      if (@raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyEnter)) && order_have >= order_need {
+      if (
+          @raylib.is_key_pressed(@raylib.KeySpace) ||
+          @raylib.is_key_pressed(@raylib.KeyEnter)
+        ) &&
+        order_have >= order_need {
         served = served + 1
         let gain = 100 + order_need * 20
         score = score + gain
@@ -179,11 +180,7 @@ fn main {
         spawn_tick = spawn_tick - 0.30
         let lane = @raylib.get_random_value(0, lane_count - 1)
         let roll = @raylib.get_random_value(0, 99)
-        let kind = if roll < 14 {
-          4
-        } else {
-          @raylib.get_random_value(0, 3)
-        }
+        let kind = if roll < 14 { 4 } else { @raylib.get_random_value(0, 3) }
         let speed = Float::from_int(@raylib.get_random_value(180, 320))
         spawn_drop(drops, lane, kind, speed)
       }
@@ -246,11 +243,23 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(24, 24, 24, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 130, @raylib.Color::new(42, 30, 26, 255))
-    @raylib.draw_rectangle(0, 130, sw, sh - 130, @raylib.Color::new(232, 220, 196, 255))
+    @raylib.draw_rectangle(
+      0,
+      130,
+      sw,
+      sh - 130,
+      @raylib.Color::new(232, 220, 196, 255),
+    )
 
     for l = 0; l < lane_count; l = l + 1 {
       let x = lane_x(l)
-      @raylib.draw_line(x.to_int(), 130, x.to_int(), sh, @raylib.fade(@raylib.brown, 0.4))
+      @raylib.draw_line(
+        x.to_int(),
+        130,
+        x.to_int(),
+        sh,
+        @raylib.fade(@raylib.brown, 0.4),
+      )
       @raylib.draw_circle(x.to_int(), 110, 16.0, @raylib.darkbrown)
       @raylib.draw_circle(x.to_int(), 116, 6.0, @raylib.black)
     }
@@ -260,37 +269,101 @@ fn main {
         let c = ingredient_color(drops[i].kind)
         @raylib.draw_circle(drops[i].x.to_int(), drops[i].y.to_int(), 16.0, c)
         if drops[i].kind == 4 {
-          @raylib.draw_text("X", (drops[i].x - 6.0).to_int(), (drops[i].y - 10.0).to_int(), 22, @raylib.white)
+          @raylib.draw_text(
+            "X",
+            (drops[i].x - 6.0).to_int(),
+            (drops[i].y - 10.0).to_int(),
+            22,
+            @raylib.white,
+          )
         }
       }
     }
 
     // Chef
     @raylib.draw_circle(px.to_int(), py.to_int(), 20.0, @raylib.white)
-    @raylib.draw_rectangle((px - 20.0).to_int(), (py + 20.0).to_int(), 40, 26, @raylib.blue)
-    @raylib.draw_rectangle((px - 28.0).to_int(), (py - 32.0).to_int(), 56, 8, @raylib.white)
+    @raylib.draw_rectangle(
+      (px - 20.0).to_int(),
+      (py + 20.0).to_int(),
+      40,
+      26,
+      @raylib.blue,
+    )
+    @raylib.draw_rectangle(
+      (px - 28.0).to_int(),
+      (py - 32.0).to_int(),
+      56,
+      8,
+      @raylib.white,
+    )
 
     // Order panel
-    @raylib.draw_rectangle(18, 16, 520, 106, @raylib.Color::new(18, 16, 14, 220))
+    @raylib.draw_rectangle(
+      18,
+      16,
+      520,
+      106,
+      @raylib.Color::new(18, 16, 14, 220),
+    )
     @raylib.draw_text("CHEF RUSH 2026", 28, 22, 34, @raylib.gold)
-    @raylib.draw_text("Order: \{ingredient_name(order_kind)}  \{order_have}/\{order_need}", 30, 66, 28, @raylib.raywhite)
+    @raylib.draw_text(
+      "Order: \{ingredient_name(order_kind)}  \{order_have}/\{order_need}",
+      30,
+      66,
+      28,
+      @raylib.raywhite,
+    )
     if order_have >= order_need {
       @raylib.draw_text("READY! Press Space to serve", 30, 94, 22, @raylib.lime)
     }
 
     @raylib.draw_text("Score \{score}", 590, 24, 30, @raylib.white)
     @raylib.draw_text("Served \{served}", 590, 58, 30, @raylib.lime)
-    @raylib.draw_text("Lives \{lives}", 590, 92, 30, if lives == 1 { @raylib.red } else { @raylib.maroon })
+    @raylib.draw_text(
+      "Lives \{lives}",
+      590,
+      92,
+      30,
+      if lives == 1 {
+        @raylib.red
+      } else {
+        @raylib.maroon
+      },
+    )
 
     let sec = timer.to_int()
-    @raylib.draw_text("Time \{sec}s", 820, 24, 34, if sec < 20 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{sec}s",
+      820,
+      24,
+      34,
+      if sec < 20 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
-    @raylib.draw_text("Avoid trash (X), collect exact ingredient for order", 20, 654, 24, @raylib.darkbrown)
-    @raylib.draw_rectangle(20, 684, sw - 40, 28, @raylib.Color::new(20, 16, 13, 220))
+    @raylib.draw_text(
+      "Avoid trash (X), collect exact ingredient for order", 20, 654, 24, @raylib.darkbrown,
+    )
+    @raylib.draw_rectangle(
+      20,
+      684,
+      sw - 40,
+      28,
+      @raylib.Color::new(20, 16, 13, 220),
+    )
     @raylib.draw_text(msg, 28, 688, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(280, 250, 520, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        280,
+        250,
+        520,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("SHIFT OVER", 420, 312, 52, @raylib.orange)
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }

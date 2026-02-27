@@ -61,12 +61,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let towers : Array[Tower] = Array::makei(lanes * slots, fn(i) {
-    {
-      built: false,
-      lane: i / slots,
-      slot: i % slots,
-      cooldown: 0.0,
-    }
+    { built: false, lane: i / slots, slot: i % slots, cooldown: 0.0 }
   })
 
   let enemies : Array[Enemy] = Array::makei(240, fn(_i) {
@@ -230,14 +225,38 @@ fn main {
     // Lanes and slots
     for l = 0; l < lanes; l = l + 1 {
       let y = grid_y + l * lane_h
-      @raylib.draw_rectangle(grid_x - 10, y + 15, slots * cell_w + 20, lane_h - 30, @raylib.Color::new(44, 50, 58, 255))
-      @raylib.draw_line(grid_x - 20, y + lane_h / 2, screen_w - 30, y + lane_h / 2, @raylib.darkgreen)
+      @raylib.draw_rectangle(
+        grid_x - 10,
+        y + 15,
+        slots * cell_w + 20,
+        lane_h - 30,
+        @raylib.Color::new(44, 50, 58, 255),
+      )
+      @raylib.draw_line(
+        grid_x - 20,
+        y + lane_h / 2,
+        screen_w - 30,
+        y + lane_h / 2,
+        @raylib.darkgreen,
+      )
       for s = 0; s < slots; s = s + 1 {
         let x = grid_x + s * cell_w
-        @raylib.draw_rectangle_lines(x, y + 10, cell_w, lane_h - 20, @raylib.Color::new(60, 68, 76, 255))
+        @raylib.draw_rectangle_lines(
+          x,
+          y + 10,
+          cell_w,
+          lane_h - 20,
+          @raylib.Color::new(60, 68, 76, 255),
+        )
         let id = tower_index(l, s)
         if towers[id].built {
-          @raylib.draw_rectangle(x + 22, y + 34, cell_w - 44, lane_h - 68, @raylib.skyblue)
+          @raylib.draw_rectangle(
+            x + 22,
+            y + 34,
+            cell_w - 44,
+            lane_h - 68,
+            @raylib.skyblue,
+          )
           @raylib.draw_rectangle(x + 36, y + 26, 16, 12, @raylib.lightgray)
         }
       }
@@ -249,10 +268,11 @@ fn main {
         let lane = enemies[i].lane
         let y = grid_y + lane * lane_h + lane_h / 2
         let max_hp = Float::from_int(20 + wave * 7)
-        let ratio : Float =
-          if max_hp <= (0.0 : Float) { (0.0 : Float) } else {
-            enemies[i].hp / max_hp
-          }
+        let ratio : Float = if max_hp <= (0.0 : Float) {
+          (0.0 : Float)
+        } else {
+          enemies[i].hp / max_hp
+        }
         @raylib.draw_circle(enemies[i].x.to_int(), y, 14.0, enemy_color(ratio))
       }
     }
@@ -262,15 +282,29 @@ fn main {
     @raylib.draw_text("Gold: \{gold}", 170, 56, 24, @raylib.raywhite)
     @raylib.draw_text("Score: \{score}", 310, 56, 24, @raylib.raywhite)
     @raylib.draw_text("Wave: \{wave}", 480, 56, 24, @raylib.raywhite)
-    @raylib.draw_text("Click slot to build tower (40)", 680, 24, 22, @raylib.gray)
+    @raylib.draw_text(
+      "Click slot to build tower (40)", 680, 24, 22, @raylib.gray,
+    )
     @raylib.draw_text("R restart", 820, 56, 20, @raylib.gray)
 
     if paused_between_wave && not(game_over) {
-      @raylib.draw_text("NEXT WAVE IN \{between_wave_timer.to_int() + 1}", 365, 610, 28, @raylib.lime)
+      @raylib.draw_text(
+        "NEXT WAVE IN \{between_wave_timer.to_int() + 1}",
+        365,
+        610,
+        28,
+        @raylib.lime,
+      )
     }
 
     if game_over {
-      @raylib.draw_rectangle(320, 270, 350, 120, @raylib.fade(@raylib.black, 0.78))
+      @raylib.draw_rectangle(
+        320,
+        270,
+        350,
+        120,
+        @raylib.fade(@raylib.black, 0.78),
+      )
       @raylib.draw_text("FRONTIER LOST", 370, 306, 42, @raylib.red)
       @raylib.draw_text("Press R to restart", 390, 350, 24, @raylib.raywhite)
     }

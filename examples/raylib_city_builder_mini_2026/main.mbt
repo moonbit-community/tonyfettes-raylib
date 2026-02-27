@@ -240,16 +240,34 @@ fn main {
         let py = oy + y * cell
         @raylib.draw_rectangle(px, py, cell, cell, terrain_color(terrain[i]))
         if zone[i] != 0 {
-          @raylib.draw_rectangle(px + 5, py + 5, cell - 10, cell - 10, zone_color(zone[i]))
+          @raylib.draw_rectangle(
+            px + 5,
+            py + 5,
+            cell - 10,
+            cell - 10,
+            zone_color(zone[i]),
+          )
         }
-        @raylib.draw_rectangle_lines(px, py, cell, cell, @raylib.Color::new(30, 30, 36, 255))
+        @raylib.draw_rectangle_lines(
+          px,
+          py,
+          cell,
+          cell,
+          @raylib.Color::new(30, 30, 36, 255),
+        )
       }
     }
 
     @raylib.draw_text("CITY BUILDER MINI 2026", 20, 18, 34, @raylib.yellow)
     @raylib.draw_text("Day: \{day}", 24, 58, 24, @raylib.raywhite)
     @raylib.draw_text("Money: \{money}", 170, 58, 24, @raylib.gold)
-    @raylib.draw_text("Population: \{population}", 360, 58, 24, @raylib.raywhite)
+    @raylib.draw_text(
+      "Population: \{population}",
+      360,
+      58,
+      24,
+      @raylib.raywhite,
+    )
     @raylib.draw_text("Happiness: \{happiness}", 620, 58, 24, @raylib.lime)
 
     let tool_name = match tool {
@@ -261,11 +279,34 @@ fn main {
       _ => ""
     }
     @raylib.draw_text("Tool: \{tool_name}", 24, 630, 24, @raylib.skyblue)
-    @raylib.draw_text("0 bulldoze | 1 road | 2 res | 3 com | 4 ind | click to build | R restart", 260, 630, 22, @raylib.gray)
+    @raylib.draw_text(
+      "0 bulldoze | 1 road | 2 res | 3 com | 4 ind | click to build | R restart",
+      260, 630, 22, @raylib.gray,
+    )
 
     if won || lost {
-      @raylib.draw_rectangle(300, 280, 460, 130, @raylib.fade(@raylib.black, 0.78))
-      @raylib.draw_text(if won { "CITY THRIVES" } else { "CITY BANKRUPT" }, 365, 318, 44, if won { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        300,
+        280,
+        460,
+        130,
+        @raylib.fade(@raylib.black, 0.78),
+      )
+      @raylib.draw_text(
+        if won {
+          "CITY THRIVES"
+        } else {
+          "CITY BANKRUPT"
+        },
+        365,
+        318,
+        44,
+        if won {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 430, 366, 26, @raylib.raywhite)
     }
 

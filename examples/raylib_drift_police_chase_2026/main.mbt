@@ -113,7 +113,14 @@ fn dist2(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, x : Int, y : Int, w : Int, h : Int) -> Bool {
+fn inside_rect(
+  px : Float,
+  py : Float,
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+) -> Bool {
   let x0 : Float = Float::from_int(x)
   let y0 : Float = Float::from_int(y)
   let x1 : Float = Float::from_int(x + w)
@@ -130,21 +137,11 @@ fn emit_particle(
   vy : Float,
   size : Float,
   life : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < particles.length(); i = i + 1 {
     if not(particles[i].active) {
-      particles[i] = {
-        active: true,
-        x,
-        y,
-        vx,
-        vy,
-        size,
-        t: 0.0,
-        life,
-        kind,
-      }
+      particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
     }
   }
@@ -157,7 +154,7 @@ fn burst_particles(
   y : Float,
   count : Int,
   power : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let mut dx : Float = randf(-1.0, 1.0)
@@ -208,7 +205,11 @@ fn init_pickups(pickups : FixedArray[Pickup], level : Int) -> Unit {
 
 ///|
 fn init_cops(cops : FixedArray[Cop], level : Int) -> Unit {
-  let total : Int = clampf(Float::from_int(10 + level * 3), 10.0, Float::from_int(max_cops)).to_int()
+  let total : Int = clampf(
+    Float::from_int(10 + level * 3),
+    10.0,
+    Float::from_int(max_cops),
+  ).to_int()
   for i = 0; i < cops.length(); i = i + 1 {
     if i < total {
       let kind : Int = if i % 4 == 0 { 1 } else { 0 }
@@ -233,25 +234,38 @@ fn init_cops(cops : FixedArray[Cop], level : Int) -> Unit {
 fn spawn_smoke(smokes : FixedArray[Smoke], x : Float, y : Float) -> Unit {
   for i = 0; i < smokes.length(); i = i + 1 {
     if not(smokes[i].active) {
-      smokes[i] = {
-        active: true,
-        x,
-        y,
-        r: 36.0,
-        t: 0.0,
-        life: 3.8,
-      }
+      smokes[i] = { active: true, x, y, r: 36.0, t: 0.0, life: 3.8 }
       break
     }
   }
 }
 
 ///|
-fn draw_bar(x : Int, y : Int, w : Int, h : Int, ratio : Float, fg : @raylib.Color, bg : @raylib.Color) -> Unit {
+fn draw_bar(
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+  ratio : Float,
+  fg : @raylib.Color,
+  bg : @raylib.Color,
+) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, bg)
   let r : Float = clampf(ratio, 0.0, 1.0)
-  @raylib.draw_rectangle(x + 2, y + 2, (Float::from_int(w - 4) * r).to_int(), h - 4, fg)
-  @raylib.draw_rectangle_lines(x, y, w, h, @raylib.Color::new(220, 230, 244, 170))
+  @raylib.draw_rectangle(
+    x + 2,
+    y + 2,
+    (Float::from_int(w - 4) * r).to_int(),
+    h - 4,
+    fg,
+  )
+  @raylib.draw_rectangle_lines(
+    x,
+    y,
+    w,
+    h,
+    @raylib.Color::new(220, 230, 244, 170),
+  )
 }
 
 ///|
@@ -264,28 +278,102 @@ fn draw_touch_controls(show : Bool) -> Unit {
   let pad_y : Int = sh - 224
   let act_x : Int = sw - 214
 
-  @raylib.draw_rectangle(pad_x, pad_y + 62, 78, 78, @raylib.Color::new(70, 94, 128, 88))
-  @raylib.draw_text("L", pad_x + 30, pad_y + 88, 30, @raylib.Color::new(240, 244, 252, 220))
+  @raylib.draw_rectangle(
+    pad_x,
+    pad_y + 62,
+    78,
+    78,
+    @raylib.Color::new(70, 94, 128, 88),
+  )
+  @raylib.draw_text(
+    "L",
+    pad_x + 30,
+    pad_y + 88,
+    30,
+    @raylib.Color::new(240, 244, 252, 220),
+  )
 
-  @raylib.draw_rectangle(pad_x + 168, pad_y + 62, 78, 78, @raylib.Color::new(70, 94, 128, 88))
-  @raylib.draw_text("R", pad_x + 198, pad_y + 88, 30, @raylib.Color::new(240, 244, 252, 220))
+  @raylib.draw_rectangle(
+    pad_x + 168,
+    pad_y + 62,
+    78,
+    78,
+    @raylib.Color::new(70, 94, 128, 88),
+  )
+  @raylib.draw_text(
+    "R",
+    pad_x + 198,
+    pad_y + 88,
+    30,
+    @raylib.Color::new(240, 244, 252, 220),
+  )
 
-  @raylib.draw_rectangle(pad_x + 84, pad_y, 78, 78, @raylib.Color::new(70, 94, 128, 88))
-  @raylib.draw_text("U", pad_x + 112, pad_y + 26, 30, @raylib.Color::new(240, 244, 252, 220))
+  @raylib.draw_rectangle(
+    pad_x + 84,
+    pad_y,
+    78,
+    78,
+    @raylib.Color::new(70, 94, 128, 88),
+  )
+  @raylib.draw_text(
+    "U",
+    pad_x + 112,
+    pad_y + 26,
+    30,
+    @raylib.Color::new(240, 244, 252, 220),
+  )
 
-  @raylib.draw_rectangle(pad_x + 84, pad_y + 124, 78, 78, @raylib.Color::new(70, 94, 128, 88))
-  @raylib.draw_text("D", pad_x + 112, pad_y + 150, 30, @raylib.Color::new(240, 244, 252, 220))
+  @raylib.draw_rectangle(
+    pad_x + 84,
+    pad_y + 124,
+    78,
+    78,
+    @raylib.Color::new(70, 94, 128, 88),
+  )
+  @raylib.draw_text(
+    "D",
+    pad_x + 112,
+    pad_y + 150,
+    30,
+    @raylib.Color::new(240, 244, 252, 220),
+  )
 
-  @raylib.draw_rectangle(act_x, pad_y + 16, 174, 78, @raylib.Color::new(196, 118, 98, 94))
-  @raylib.draw_text("BOOST", act_x + 42, pad_y + 42, 28, @raylib.Color::new(254, 238, 228, 230))
+  @raylib.draw_rectangle(
+    act_x,
+    pad_y + 16,
+    174,
+    78,
+    @raylib.Color::new(196, 118, 98, 94),
+  )
+  @raylib.draw_text(
+    "BOOST",
+    act_x + 42,
+    pad_y + 42,
+    28,
+    @raylib.Color::new(254, 238, 228, 230),
+  )
 
-  @raylib.draw_rectangle(act_x, pad_y + 116, 174, 78, @raylib.Color::new(120, 142, 210, 94))
-  @raylib.draw_text("SMOKE", act_x + 44, pad_y + 142, 28, @raylib.Color::new(240, 246, 255, 230))
+  @raylib.draw_rectangle(
+    act_x,
+    pad_y + 116,
+    174,
+    78,
+    @raylib.Color::new(120, 142, 210, 94),
+  )
+  @raylib.draw_text(
+    "SMOKE",
+    act_x + 44,
+    pad_y + 142,
+    28,
+    @raylib.Color::new(240, 246, 255, 230),
+  )
 }
 
 ///|
 fn main {
-  @raylib.init_window(sw, sh, "raylib [moonbit] example - drift police chase 2026")
+  @raylib.init_window(
+    sw, sh, "raylib [moonbit] example - drift police chase 2026",
+  )
   defer @raylib.close_window()
 
   @raylib.set_target_fps(60)
@@ -414,11 +502,16 @@ fn main {
     let mouse = @raylib.get_mouse_position()
     let touching : Bool = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
 
-    let mut move_l : Bool = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-    let mut move_r : Bool = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-    let mut move_u : Bool = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-    let mut move_d : Bool = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-    let mut boost_down : Bool = @raylib.is_key_down(@raylib.KeyLeftShift) || @raylib.is_key_down(@raylib.KeySpace)
+    let mut move_l : Bool = @raylib.is_key_down(@raylib.KeyA) ||
+      @raylib.is_key_down(@raylib.KeyLeft)
+    let mut move_r : Bool = @raylib.is_key_down(@raylib.KeyD) ||
+      @raylib.is_key_down(@raylib.KeyRight)
+    let mut move_u : Bool = @raylib.is_key_down(@raylib.KeyW) ||
+      @raylib.is_key_down(@raylib.KeyUp)
+    let mut move_d : Bool = @raylib.is_key_down(@raylib.KeyS) ||
+      @raylib.is_key_down(@raylib.KeyDown)
+    let mut boost_down : Bool = @raylib.is_key_down(@raylib.KeyLeftShift) ||
+      @raylib.is_key_down(@raylib.KeySpace)
     let mut smoke_press : Bool = @raylib.is_key_pressed(@raylib.KeyE)
 
     let pad_x : Int = 24
@@ -452,12 +545,14 @@ fn main {
     }
 
     if state == 0 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         state = 1
         reset_round(level)
       }
     } else if state == 2 || state == 3 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         if state == 2 {
           level = level + 1
           if level > 7 {
@@ -524,7 +619,11 @@ fn main {
 
       if smoke_press && player.smoke_cd <= 0.0 {
         player.smoke_cd = 4.6
-        spawn_smoke(smokes, player.x - player.dir_x * 18.0, player.y - player.dir_y * 18.0)
+        spawn_smoke(
+          smokes,
+          player.x - player.dir_x * 18.0,
+          player.y - player.dir_y * 18.0,
+        )
         burst_particles(particles, player.x, player.y, 30, 84.0, 1)
       }
 
@@ -663,7 +762,12 @@ fn main {
           if not(smokes[j].active) {
             continue
           }
-          let sd2 : Float = dist2(cops[i].x, cops[i].y, smokes[j].x, smokes[j].y)
+          let sd2 : Float = dist2(
+            cops[i].x,
+            cops[i].y,
+            smokes[j].x,
+            smokes[j].y,
+          )
           if sd2 <= smokes[j].r * smokes[j].r {
             in_smoke = true
             break
@@ -679,7 +783,8 @@ fn main {
           cops[i].vy = cops[i].vy * (1.0 - dt * 2.8)
         } else {
           let base_speed : Float = if cops[i].kind == 0 { 228.0 } else { 286.0 }
-          let speed_gain : Float = heat * (if cops[i].kind == 0 { 0.56 } else { 0.74 })
+          let speed_gain : Float = heat *
+            (if cops[i].kind == 0 { 0.56 } else { 0.74 })
           let cop_speed : Float = (base_speed + speed_gain) * cops[i].agro
           let tx : Float = dx / d * cop_speed
           let ty : Float = dy / d * cop_speed
@@ -715,7 +820,9 @@ fn main {
             heat = heat - 5.0
             burst_particles(particles, cops[i].x, cops[i].y, 16, 94.0, 2)
           } else if player.hit_cd <= 0.0 {
-            let dmg : Float = 13.0 + heat * 0.12 + Float::from_int(cops[i].kind) * 3.5
+            let dmg : Float = 13.0 +
+              heat * 0.12 +
+              Float::from_int(cops[i].kind) * 3.5
             player.hp = player.hp - dmg
             player.hit_cd = 0.62
             player.flash_t = 0.18
@@ -752,7 +859,8 @@ fn main {
         }
 
         let grab_r : Float = 34.0
-        if dist2(player.x, player.y, pickups[i].x, pickups[i].y) <= grab_r * grab_r {
+        if dist2(player.x, player.y, pickups[i].x, pickups[i].y) <=
+          grab_r * grab_r {
           let gain : Int = pickups[i].value + player.combo * 5
           player.cash = player.cash + gain
           player.combo = player.combo + 1
@@ -796,7 +904,9 @@ fn main {
       player.hp = clampf(player.hp, 0.0, 100.0)
 
       if player.cash >= goal_cash {
-        player.cash = player.cash + time_left.to_int() * 4 + player.hp.to_int() * 5
+        player.cash = player.cash +
+          time_left.to_int() * 4 +
+          player.hp.to_int() * 5
         state = 2
       } else if player.hp <= 0.0 || time_left <= 0.0 {
         state = 3
@@ -818,8 +928,16 @@ fn main {
       cam_y = world_h - Float::from_int(sh)
     }
 
-    let shake_x : Float = if player.shake_t > 0.0 { randf(-6.0, 6.0) * (player.shake_t * 3.5) } else { 0.0 }
-    let shake_y : Float = if player.shake_t > 0.0 { randf(-4.0, 4.0) * (player.shake_t * 3.5) } else { 0.0 }
+    let shake_x : Float = if player.shake_t > 0.0 {
+      randf(-6.0, 6.0) * (player.shake_t * 3.5)
+    } else {
+      0.0
+    }
+    let shake_y : Float = if player.shake_t > 0.0 {
+      randf(-4.0, 4.0) * (player.shake_t * 3.5)
+    } else {
+      0.0
+    }
 
     @raylib.begin_drawing()
     defer @raylib.end_drawing()
@@ -838,9 +956,21 @@ fn main {
         let py : Int = (by - cam_y + shake_y).to_int()
 
         if px > -220 && py > -220 && px < sw + 220 && py < sh + 220 {
-          let tone : Int = 34 + ((gx + gy) % 3) * 12
-          @raylib.draw_rectangle(px, py, 196, 136, @raylib.Color::new(tone, tone + 10, tone + 20, 255))
-          @raylib.draw_rectangle(px + 12, py + 12, 172, 112, @raylib.Color::new(tone + 10, tone + 14, tone + 30, 255))
+          let tone : Int = 34 + (gx + gy) % 3 * 12
+          @raylib.draw_rectangle(
+            px,
+            py,
+            196,
+            136,
+            @raylib.Color::new(tone, tone + 10, tone + 20, 255),
+          )
+          @raylib.draw_rectangle(
+            px + 12,
+            py + 12,
+            172,
+            112,
+            @raylib.Color::new(tone + 10, tone + 14, tone + 30, 255),
+          )
         }
 
         by = by + 220.0
@@ -876,13 +1006,26 @@ fn main {
       }
       let sx : Float = smokes[i].x - cam_x + shake_x
       let sy : Float = smokes[i].y - cam_y + shake_y
-      if sx < -320.0 || sy < -320.0 || sx > Float::from_int(sw + 320) || sy > Float::from_int(sh + 320) {
+      if sx < -320.0 ||
+        sy < -320.0 ||
+        sx > Float::from_int(sw + 320) ||
+        sy > Float::from_int(sh + 320) {
         continue
       }
       let life_ratio : Float = 1.0 - smokes[i].t / smokes[i].life
       let alpha : Int = clampf(110.0 * life_ratio, 0.0, 130.0).to_int()
-      @raylib.draw_circle(sx.to_int(), sy.to_int(), smokes[i].r, @raylib.Color::new(136, 152, 164, alpha))
-      @raylib.draw_circle(sx.to_int(), sy.to_int(), smokes[i].r * 0.65, @raylib.Color::new(94, 108, 122, alpha + 24))
+      @raylib.draw_circle(
+        sx.to_int(),
+        sy.to_int(),
+        smokes[i].r,
+        @raylib.Color::new(136, 152, 164, alpha),
+      )
+      @raylib.draw_circle(
+        sx.to_int(),
+        sy.to_int(),
+        smokes[i].r * 0.65,
+        @raylib.Color::new(94, 108, 122, alpha + 24),
+      )
     }
 
     for i = 0; i < pickups.length(); i = i + 1 {
@@ -891,15 +1034,35 @@ fn main {
       }
       let px : Float = pickups[i].x - cam_x + shake_x
       let py : Float = pickups[i].y - cam_y + shake_y
-      if px < -32.0 || py < -32.0 || px > Float::from_int(sw + 32) || py > Float::from_int(sh + 32) {
+      if px < -32.0 ||
+        py < -32.0 ||
+        px > Float::from_int(sw + 32) ||
+        py > Float::from_int(sh + 32) {
         continue
       }
 
       let pulse : Float = 1.0 + pickups[i].pulse_t * 0.9
       let glow : Float = 12.0 + pulse * 6.0
-      @raylib.draw_circle(px.to_int(), py.to_int(), glow, @raylib.Color::new(248, 210, 116, 96))
-      @raylib.draw_rectangle((px - 12.0).to_int(), (py - 10.0).to_int(), 24, 20, @raylib.Color::new(254, 220, 118, 255))
-      @raylib.draw_rectangle((px - 7.0).to_int(), (py - 5.0).to_int(), 14, 10, @raylib.Color::new(252, 244, 210, 255))
+      @raylib.draw_circle(
+        px.to_int(),
+        py.to_int(),
+        glow,
+        @raylib.Color::new(248, 210, 116, 96),
+      )
+      @raylib.draw_rectangle(
+        (px - 12.0).to_int(),
+        (py - 10.0).to_int(),
+        24,
+        20,
+        @raylib.Color::new(254, 220, 118, 255),
+      )
+      @raylib.draw_rectangle(
+        (px - 7.0).to_int(),
+        (py - 5.0).to_int(),
+        14,
+        10,
+        @raylib.Color::new(252, 244, 210, 255),
+      )
     }
 
     for i = 0; i < cops.length(); i = i + 1 {
@@ -909,7 +1072,10 @@ fn main {
 
       let cx : Float = cops[i].x - cam_x + shake_x
       let cy : Float = cops[i].y - cam_y + shake_y
-      if cx < -80.0 || cy < -80.0 || cx > Float::from_int(sw + 80) || cy > Float::from_int(sh + 80) {
+      if cx < -80.0 ||
+        cy < -80.0 ||
+        cx > Float::from_int(sw + 80) ||
+        cy > Float::from_int(sh + 80) {
         continue
       }
 
@@ -921,8 +1087,20 @@ fn main {
         @raylib.Color::new(252, 132, 72, 255)
       }
 
-      @raylib.draw_rectangle((cx - 16.0).to_int(), (cy - 12.0).to_int(), 32, 24, ccol)
-      @raylib.draw_rectangle((cx - 10.0).to_int(), (cy - 8.0).to_int(), 20, 8, @raylib.Color::new(226, 234, 244, 255))
+      @raylib.draw_rectangle(
+        (cx - 16.0).to_int(),
+        (cy - 12.0).to_int(),
+        32,
+        24,
+        ccol,
+      )
+      @raylib.draw_rectangle(
+        (cx - 10.0).to_int(),
+        (cy - 8.0).to_int(),
+        20,
+        8,
+        @raylib.Color::new(226, 234, 244, 255),
+      )
 
       let cd2 : Float = cops[i].vx * cops[i].vx + cops[i].vy * cops[i].vy
       let inv : Float = if cd2 < 1.0 { 0.0 } else { 1.0 / cd2.sqrt() }
@@ -936,10 +1114,22 @@ fn main {
         @raylib.Color::new(254, 248, 232, 220),
       )
 
-      let flash_on : Bool = ((time_left.to_int() + i) % 2) == 0
+      let flash_on : Bool = (time_left.to_int() + i) % 2 == 0
       let light_a = if flash_on { 220 } else { 120 }
-      @raylib.draw_rectangle((cx - 14.0).to_int(), (cy - 18.0).to_int(), 12, 5, @raylib.Color::new(242, 82, 82, light_a))
-      @raylib.draw_rectangle((cx + 2.0).to_int(), (cy - 18.0).to_int(), 12, 5, @raylib.Color::new(88, 148, 252, light_a))
+      @raylib.draw_rectangle(
+        (cx - 14.0).to_int(),
+        (cy - 18.0).to_int(),
+        12,
+        5,
+        @raylib.Color::new(242, 82, 82, light_a),
+      )
+      @raylib.draw_rectangle(
+        (cx + 2.0).to_int(),
+        (cy - 18.0).to_int(),
+        12,
+        5,
+        @raylib.Color::new(88, 148, 252, light_a),
+      )
     }
 
     let px : Float = player.x - cam_x + shake_x
@@ -953,8 +1143,20 @@ fn main {
       @raylib.Color::new(112, 202, 248, 255)
     }
 
-    @raylib.draw_rectangle((px - 18.0).to_int(), (py - 13.0).to_int(), 36, 26, pcol)
-    @raylib.draw_rectangle((px - 12.0).to_int(), (py - 8.0).to_int(), 24, 9, @raylib.Color::new(240, 248, 254, 255))
+    @raylib.draw_rectangle(
+      (px - 18.0).to_int(),
+      (py - 13.0).to_int(),
+      36,
+      26,
+      pcol,
+    )
+    @raylib.draw_rectangle(
+      (px - 12.0).to_int(),
+      (py - 8.0).to_int(),
+      24,
+      9,
+      @raylib.Color::new(240, 248, 254, 255),
+    )
     @raylib.draw_line(
       px.to_int(),
       py.to_int(),
@@ -964,8 +1166,20 @@ fn main {
     )
 
     let drift_w : Float = clampf(player.drift * 0.14, 0.0, 18.0)
-    @raylib.draw_line((px - 18.0).to_int(), (py + 13.0).to_int(), (px - 18.0 - drift_w).to_int(), (py + 13.0).to_int(), @raylib.Color::new(208, 214, 222, 180))
-    @raylib.draw_line((px + 18.0).to_int(), (py + 13.0).to_int(), (px + 18.0 + drift_w).to_int(), (py + 13.0).to_int(), @raylib.Color::new(208, 214, 222, 180))
+    @raylib.draw_line(
+      (px - 18.0).to_int(),
+      (py + 13.0).to_int(),
+      (px - 18.0 - drift_w).to_int(),
+      (py + 13.0).to_int(),
+      @raylib.Color::new(208, 214, 222, 180),
+    )
+    @raylib.draw_line(
+      (px + 18.0).to_int(),
+      (py + 13.0).to_int(),
+      (px + 18.0 + drift_w).to_int(),
+      (py + 13.0).to_int(),
+      @raylib.Color::new(208, 214, 222, 180),
+    )
 
     for i = 0; i < particles.length(); i = i + 1 {
       if not(particles[i].active) {
@@ -974,7 +1188,10 @@ fn main {
 
       let vx : Float = particles[i].x - cam_x + shake_x
       let vy : Float = particles[i].y - cam_y + shake_y
-      if vx < -20.0 || vy < -20.0 || vx > Float::from_int(sw + 20) || vy > Float::from_int(sh + 20) {
+      if vx < -20.0 ||
+        vy < -20.0 ||
+        vx > Float::from_int(sw + 20) ||
+        vy > Float::from_int(sh + 20) {
         continue
       }
 
@@ -987,24 +1204,99 @@ fn main {
       } else {
         @raylib.Color::new(150, 220, 252, alpha)
       }
-      @raylib.draw_circle(vx.to_int(), vy.to_int(), particles[i].size * life_ratio, col)
+      @raylib.draw_circle(
+        vx.to_int(),
+        vy.to_int(),
+        particles[i].size * life_ratio,
+        col,
+      )
     }
 
-    @raylib.draw_rectangle(16, 14, 540, 190, @raylib.Color::new(12, 20, 34, 204))
-    @raylib.draw_rectangle_lines(16, 14, 540, 190, @raylib.Color::new(220, 232, 246, 138))
+    @raylib.draw_rectangle(
+      16,
+      14,
+      540,
+      190,
+      @raylib.Color::new(12, 20, 34, 204),
+    )
+    @raylib.draw_rectangle_lines(
+      16,
+      14,
+      540,
+      190,
+      @raylib.Color::new(220, 232, 246, 138),
+    )
 
-    @raylib.draw_text("DRIFT POLICE CHASE 2026", 30, 26, 34, @raylib.Color::new(236, 244, 254, 250))
-    @raylib.draw_text("Move: WASD/Arrows  Boost: Shift/Space  Smoke: E", 32, 66, 22, @raylib.Color::new(186, 204, 232, 242))
+    @raylib.draw_text(
+      "DRIFT POLICE CHASE 2026",
+      30,
+      26,
+      34,
+      @raylib.Color::new(236, 244, 254, 250),
+    )
+    @raylib.draw_text(
+      "Move: WASD/Arrows  Boost: Shift/Space  Smoke: E",
+      32,
+      66,
+      22,
+      @raylib.Color::new(186, 204, 232, 242),
+    )
 
-    draw_bar(30, 98, 220, 20, player.hp / 100.0, @raylib.Color::new(226, 120, 110, 255), @raylib.Color::new(86, 52, 52, 230))
-    @raylib.draw_text("Integrity", 256, 96, 22, @raylib.Color::new(216, 230, 244, 242))
+    draw_bar(
+      30,
+      98,
+      220,
+      20,
+      player.hp / 100.0,
+      @raylib.Color::new(226, 120, 110, 255),
+      @raylib.Color::new(86, 52, 52, 230),
+    )
+    @raylib.draw_text(
+      "Integrity",
+      256,
+      96,
+      22,
+      @raylib.Color::new(216, 230, 244, 242),
+    )
 
-    draw_bar(30, 126, 220, 20, 1.0 - heat / 120.0, @raylib.Color::new(108, 212, 170, 255), @raylib.Color::new(60, 80, 68, 230))
-    @raylib.draw_text("Heat", 256, 124, 22, @raylib.Color::new(216, 230, 244, 242))
+    draw_bar(
+      30,
+      126,
+      220,
+      20,
+      1.0 - heat / 120.0,
+      @raylib.Color::new(108, 212, 170, 255),
+      @raylib.Color::new(60, 80, 68, 230),
+    )
+    @raylib.draw_text(
+      "Heat",
+      256,
+      124,
+      22,
+      @raylib.Color::new(216, 230, 244, 242),
+    )
 
-    let boost_ready : Float = if player.boost_cd <= 0.0 { 1.0 } else { 1.0 - player.boost_cd / 3.2 }
-    draw_bar(30, 154, 220, 20, boost_ready, @raylib.Color::new(120, 188, 248, 255), @raylib.Color::new(54, 70, 94, 230))
-    @raylib.draw_text("Boost", 256, 152, 22, @raylib.Color::new(216, 230, 244, 242))
+    let boost_ready : Float = if player.boost_cd <= 0.0 {
+      1.0
+    } else {
+      1.0 - player.boost_cd / 3.2
+    }
+    draw_bar(
+      30,
+      154,
+      220,
+      20,
+      boost_ready,
+      @raylib.Color::new(120, 188, 248, 255),
+      @raylib.Color::new(54, 70, 94, 230),
+    )
+    @raylib.draw_text(
+      "Boost",
+      256,
+      152,
+      22,
+      @raylib.Color::new(216, 230, 244, 242),
+    )
 
     @raylib.draw_text(
       "Cash \{player.cash}/\{goal_cash}   Combo x\{player.combo}   Level \{level}",
@@ -1022,13 +1314,45 @@ fn main {
       @raylib.Color::new(154, 230, 176, 255)
     }
 
-    @raylib.draw_text("Wanted Heat: \{heat.to_int()}", sw - 356, 22, 34, heat_col)
-    @raylib.draw_text("Time: \{time_left.to_int()}s", sw - 356, 60, 30, @raylib.Color::new(242, 244, 250, 248))
+    @raylib.draw_text(
+      "Wanted Heat: \{heat.to_int()}",
+      sw - 356,
+      22,
+      34,
+      heat_col,
+    )
+    @raylib.draw_text(
+      "Time: \{time_left.to_int()}s",
+      sw - 356,
+      60,
+      30,
+      @raylib.Color::new(242, 244, 250, 248),
+    )
 
-    let smoke_txt = if player.smoke_cd <= 0.0 { "Smoke READY" } else { "Smoke CD \{player.smoke_cd.to_int()}" }
-    let boost_txt = if player.boost_cd <= 0.0 { "Boost READY" } else { "Boost CD \{player.boost_cd.to_int()}" }
-    @raylib.draw_text(boost_txt, sw - 356, 96, 24, @raylib.Color::new(188, 220, 252, 246))
-    @raylib.draw_text(smoke_txt, sw - 356, 122, 24, @raylib.Color::new(212, 218, 236, 246))
+    let smoke_txt = if player.smoke_cd <= 0.0 {
+      "Smoke READY"
+    } else {
+      "Smoke CD \{player.smoke_cd.to_int()}"
+    }
+    let boost_txt = if player.boost_cd <= 0.0 {
+      "Boost READY"
+    } else {
+      "Boost CD \{player.boost_cd.to_int()}"
+    }
+    @raylib.draw_text(
+      boost_txt,
+      sw - 356,
+      96,
+      24,
+      @raylib.Color::new(188, 220, 252, 246),
+    )
+    @raylib.draw_text(
+      smoke_txt,
+      sw - 356,
+      122,
+      24,
+      @raylib.Color::new(212, 218, 236, 246),
+    )
 
     if announce_t > 0.0 {
       let alpha : Int = clampf(announce_t * 90.0, 0.0, 220.0).to_int()
@@ -1043,22 +1367,82 @@ fn main {
 
     if state == 0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 20, 220))
-      @raylib.draw_text("DRIFT POLICE CHASE", sw / 2 - 342, sh / 2 - 116, 78, @raylib.Color::new(238, 246, 252, 255))
-      @raylib.draw_text("High-speed escape through a neon city dragnet.", sw / 2 - 342, sh / 2 - 12, 34, @raylib.Color::new(188, 214, 240, 246))
-      @raylib.draw_text("Boost breaks pursuit. Smoke blinds cops and cools heat.", sw / 2 - 386, sh / 2 + 30, 32, @raylib.Color::new(226, 232, 242, 238))
-      @raylib.draw_text("Press ENTER to start", sw / 2 - 188, sh / 2 + 92, 44, @raylib.Color::new(252, 238, 174, 255))
+      @raylib.draw_text(
+        "DRIFT POLICE CHASE",
+        sw / 2 - 342,
+        sh / 2 - 116,
+        78,
+        @raylib.Color::new(238, 246, 252, 255),
+      )
+      @raylib.draw_text(
+        "High-speed escape through a neon city dragnet.",
+        sw / 2 - 342,
+        sh / 2 - 12,
+        34,
+        @raylib.Color::new(188, 214, 240, 246),
+      )
+      @raylib.draw_text(
+        "Boost breaks pursuit. Smoke blinds cops and cools heat.",
+        sw / 2 - 386,
+        sh / 2 + 30,
+        32,
+        @raylib.Color::new(226, 232, 242, 238),
+      )
+      @raylib.draw_text(
+        "Press ENTER to start",
+        sw / 2 - 188,
+        sh / 2 + 92,
+        44,
+        @raylib.Color::new(252, 238, 174, 255),
+      )
     }
 
     if state == 2 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 24, 20, 188))
-      @raylib.draw_text("GETAWAY COMPLETE", sw / 2 - 308, sh / 2 - 80, 72, @raylib.Color::new(214, 252, 214, 255))
-      @raylib.draw_text("Cash \{player.cash}   HP \{player.hp.to_int()}   Heat \{heat.to_int()}", sw / 2 - 286, sh / 2 + 8, 38, @raylib.Color::new(236, 246, 238, 248))
-      @raylib.draw_text("Press ENTER for next chase", sw / 2 - 240, sh / 2 + 68, 40, @raylib.Color::new(252, 238, 176, 255))
+      @raylib.draw_text(
+        "GETAWAY COMPLETE",
+        sw / 2 - 308,
+        sh / 2 - 80,
+        72,
+        @raylib.Color::new(214, 252, 214, 255),
+      )
+      @raylib.draw_text(
+        "Cash \{player.cash}   HP \{player.hp.to_int()}   Heat \{heat.to_int()}",
+        sw / 2 - 286,
+        sh / 2 + 8,
+        38,
+        @raylib.Color::new(236, 246, 238, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER for next chase",
+        sw / 2 - 240,
+        sh / 2 + 68,
+        40,
+        @raylib.Color::new(252, 238, 176, 255),
+      )
     } else if state == 3 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(22, 8, 8, 196))
-      @raylib.draw_text("BUSTED", sw / 2 - 132, sh / 2 - 80, 80, @raylib.Color::new(252, 192, 182, 255))
-      @raylib.draw_text("Cash \{player.cash}/\{goal_cash}   Time \{time_left.to_int()}s", sw / 2 - 252, sh / 2 + 8, 38, @raylib.Color::new(246, 228, 220, 248))
-      @raylib.draw_text("Press ENTER to retry", sw / 2 - 184, sh / 2 + 68, 40, @raylib.Color::new(252, 228, 174, 255))
+      @raylib.draw_text(
+        "BUSTED",
+        sw / 2 - 132,
+        sh / 2 - 80,
+        80,
+        @raylib.Color::new(252, 192, 182, 255),
+      )
+      @raylib.draw_text(
+        "Cash \{player.cash}/\{goal_cash}   Time \{time_left.to_int()}s",
+        sw / 2 - 252,
+        sh / 2 + 8,
+        38,
+        @raylib.Color::new(246, 228, 220, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER to retry",
+        sw / 2 - 184,
+        sh / 2 + 68,
+        40,
+        @raylib.Color::new(252, 228, 174, 255),
+      )
     }
 
     draw_touch_controls(true)

@@ -4,13 +4,21 @@ fn draw_board_cell(x : Int, y : Int, color_id : Int) -> Unit {
   let py = board_y + y * board_cell
   let color = piece_color(color_id)
   @raylib.draw_rectangle(px + 1, py + 1, board_cell - 2, board_cell - 2, color)
-  @raylib.draw_rectangle_lines(px, py, board_cell, board_cell, @raylib.Color::new(28, 28, 36, 255))
+  @raylib.draw_rectangle_lines(
+    px,
+    py,
+    board_cell,
+    board_cell,
+    @raylib.Color::new(28, 28, 36, 255),
+  )
 }
 
 ///|
 fn ghost_y(game : Game) -> Int {
   let mut y = game.piece_y
-  while not(collides(game, game.piece_kind, game.piece_rot, game.piece_x, y + 1)) {
+  while not(
+          collides(game, game.piece_kind, game.piece_rot, game.piece_x, y + 1),
+        ) {
     y = y + 1
   }
   y
@@ -37,7 +45,13 @@ fn draw_piece_blocks(
     let rx = offset_x + x * cell_size
     let ry = offset_y + y * cell_size
     @raylib.draw_rectangle(rx + 1, ry + 1, cell_size - 2, cell_size - 2, shade)
-    @raylib.draw_rectangle_lines(rx, ry, cell_size, cell_size, @raylib.Color::new(35, 35, 40, 255))
+    @raylib.draw_rectangle_lines(
+      rx,
+      ry,
+      cell_size,
+      cell_size,
+      @raylib.Color::new(35, 35, 40, 255),
+    )
   }
 }
 
@@ -109,18 +123,48 @@ fn draw_game(game : Game) -> Unit {
   if not(game.over) {
     let gy = ghost_y(game)
     let ghost = @raylib.Color::new(80, 80, 95, 160)
-    draw_piece_blocks(game.piece_kind, game.piece_rot, game.piece_x, gy, board_cell, board_x, board_y, ghost)
+    draw_piece_blocks(
+      game.piece_kind,
+      game.piece_rot,
+      game.piece_x,
+      gy,
+      board_cell,
+      board_x,
+      board_y,
+      ghost,
+    )
     let color = piece_color(game.piece_kind + 1)
-    draw_piece_blocks(game.piece_kind, game.piece_rot, game.piece_x, game.piece_y, board_cell, board_x, board_y, color)
+    draw_piece_blocks(
+      game.piece_kind,
+      game.piece_rot,
+      game.piece_x,
+      game.piece_y,
+      board_cell,
+      board_x,
+      board_y,
+      color,
+    )
   }
 
   @raylib.draw_text("TETRIS: METEOR FALL", board_x, 2, 22, @raylib.raywhite)
   draw_hud(game)
 
   if game.over {
-    @raylib.draw_rectangle(board_x + 25, board_y + 220, 250, 130, @raylib.fade(@raylib.black, 0.75))
+    @raylib.draw_rectangle(
+      board_x + 25,
+      board_y + 220,
+      250,
+      130,
+      @raylib.fade(@raylib.black, 0.75),
+    )
     @raylib.draw_text("GAME OVER", board_x + 56, board_y + 248, 38, @raylib.red)
-    @raylib.draw_text("Press R to restart", board_x + 65, board_y + 302, 24, @raylib.raywhite)
+    @raylib.draw_text(
+      "Press R to restart",
+      board_x + 65,
+      board_y + 302,
+      24,
+      @raylib.raywhite,
+    )
   }
 
   @raylib.end_drawing()

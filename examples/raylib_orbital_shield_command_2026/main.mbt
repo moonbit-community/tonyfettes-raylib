@@ -58,8 +58,18 @@ struct Spark {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -160,7 +170,13 @@ fn clear_sparks(sparks : Array[Spark]) -> Unit {
 }
 
 ///|
-fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float, kind : Int) -> Unit {
+fn spawn_spark(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < sparks.length(); i = i + 1 {
     if done {
@@ -170,9 +186,12 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
       sparks[i].active = true
       sparks[i].x = x
       sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(16, 55)) / Float::from_int(100)
+      sparks[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
+      sparks[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
+      sparks[i].ttl = Float::from_int(@raylib.get_random_value(16, 55)) /
+        Float::from_int(100)
       sparks[i].kind = kind
       done = true
     }
@@ -180,14 +199,27 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
 }
 
 ///|
-fn spawn_burst(sparks : Array[Spark], x : Float, y : Float, n : Int, speed_scale : Float, kind : Int) -> Unit {
+fn spawn_burst(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_spark(sparks, x, y, speed_scale, kind)
   }
 }
 
 ///|
-fn spawn_shot(shots : Array[Shot], x : Float, y : Float, tx : Float, ty : Float) -> Unit {
+fn spawn_shot(
+  shots : Array[Shot],
+  x : Float,
+  y : Float,
+  tx : Float,
+  ty : Float,
+) -> Unit {
   let dx = tx - x
   let dy = ty - y
   let d2 = dx * dx + dy * dy
@@ -218,13 +250,7 @@ fn spawn_shot(shots : Array[Shot], x : Float, y : Float, tx : Float, ty : Float)
 fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   let side = @raylib.get_random_value(0, 3)
   let kind_roll = @raylib.get_random_value(0, 99)
-  let kind = if kind_roll < 56 {
-    0
-  } else if kind_roll < 86 {
-    1
-  } else {
-    2
-  }
+  let kind = if kind_roll < 56 { 0 } else if kind_roll < 86 { 1 } else { 2 }
 
   let mut ex : Float = 0.0
   let mut ey : Float = 0.0
@@ -373,9 +399,13 @@ fn main {
         }
       }
 
-      let mut left_down = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut right_down = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut fire_down = @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ) || @raylib.is_key_down(@raylib.KeyK)
+      let mut left_down = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut right_down = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut fire_down = @raylib.is_key_down(@raylib.KeySpace) ||
+        @raylib.is_key_down(@raylib.KeyJ) ||
+        @raylib.is_key_down(@raylib.KeyK)
 
       let ctl_x = 24
       let ctl_y = sh - 176
@@ -438,7 +468,11 @@ fn main {
         shots[i].y = shots[i].y + shots[i].vy * dt
         shots[i].ttl = shots[i].ttl - dt
 
-        if shots[i].ttl <= 0.0 || shots[i].x < -32.0 || shots[i].x > Float::from_int(sw + 32) || shots[i].y < -32.0 || shots[i].y > Float::from_int(sh + 32) {
+        if shots[i].ttl <= 0.0 ||
+          shots[i].x < -32.0 ||
+          shots[i].x > Float::from_int(sw + 32) ||
+          shots[i].y < -32.0 ||
+          shots[i].y > Float::from_int(sh + 32) {
           shots[i].active = false
         }
       }
@@ -466,7 +500,9 @@ fn main {
           } else {
             38.0
           }
-          enemies[i].vx = enemies[i].vx * 0.97 + tx * 6.0 * dt + (-ty) * orbit * dt
+          enemies[i].vx = enemies[i].vx * 0.97 +
+            tx * 6.0 * dt +
+            -ty * orbit * dt
           enemies[i].vy = enemies[i].vy * 0.97 + ty * 6.0 * dt + tx * orbit * dt
         }
 
@@ -512,7 +548,10 @@ fn main {
           }
         }
 
-        if enemies[i].x < -80.0 || enemies[i].x > Float::from_int(sw + 80) || enemies[i].y < -80.0 || enemies[i].y > Float::from_int(sh + 80) {
+        if enemies[i].x < -80.0 ||
+          enemies[i].x > Float::from_int(sw + 80) ||
+          enemies[i].y < -80.0 ||
+          enemies[i].y > Float::from_int(sh + 80) {
           enemies[i].active = false
         }
       }
@@ -543,7 +582,8 @@ fn main {
 
           let dx = shots[i].x - enemies[j].x
           let dy = shots[i].y - enemies[j].y
-          let rr = (enemy_radius(enemies[j].kind) + 5.0) * (enemy_radius(enemies[j].kind) + 5.0)
+          let rr = (enemy_radius(enemies[j].kind) + 5.0) *
+            (enemy_radius(enemies[j].kind) + 5.0)
           if dx * dx + dy * dy <= rr {
             shots[i].active = false
             enemies[j].hp = enemies[j].hp - 1
@@ -609,15 +649,40 @@ fn main {
     for i = 0; i < 130; i = i + 1 {
       let x = (i * 97 + sector * 53) % sw
       let y = (i * 61 + sector * 37) % sh
-      let b = 138 + (i * 19) % 108
-      @raylib.draw_circle(x, y, 1.0 + Float::from_int(i % 2), @raylib.Color::new(b, b, b + 10, 255))
+      let b = 138 + i * 19 % 108
+      @raylib.draw_circle(
+        x,
+        y,
+        1.0 + Float::from_int(i % 2),
+        @raylib.Color::new(b, b, b + 10, 255),
+      )
     }
 
-    @raylib.draw_circle_lines(render_cx.to_int(), render_cy.to_int(), shield_r - 28.0, @raylib.Color::new(54, 90, 148, 120))
-    @raylib.draw_circle_lines(render_cx.to_int(), render_cy.to_int(), shield_r + 28.0, @raylib.Color::new(54, 90, 148, 120))
+    @raylib.draw_circle_lines(
+      render_cx.to_int(),
+      render_cy.to_int(),
+      shield_r - 28.0,
+      @raylib.Color::new(54, 90, 148, 120),
+    )
+    @raylib.draw_circle_lines(
+      render_cx.to_int(),
+      render_cy.to_int(),
+      shield_r + 28.0,
+      @raylib.Color::new(54, 90, 148, 120),
+    )
 
-    @raylib.draw_circle(render_cx.to_int(), render_cy.to_int(), planet_r + 8.0, @raylib.Color::new(44, 88, 170, 255))
-    @raylib.draw_circle(render_cx.to_int(), render_cy.to_int(), planet_r - 14.0, @raylib.Color::new(26, 58, 124, 255))
+    @raylib.draw_circle(
+      render_cx.to_int(),
+      render_cy.to_int(),
+      planet_r + 8.0,
+      @raylib.Color::new(44, 88, 170, 255),
+    )
+    @raylib.draw_circle(
+      render_cx.to_int(),
+      render_cy.to_int(),
+      planet_r - 14.0,
+      @raylib.Color::new(26, 58, 124, 255),
+    )
     @raylib.draw_circle(
       (render_cx - 20.0).to_int(),
       (render_cy - 18.0).to_int(),
@@ -633,14 +698,25 @@ fn main {
       let dx = cosf_deg(a)
       let dy = sinf_deg(a)
       let w : Float = if i == 0 { 10.0 } else { 7.0 }
-      let p1 = @raylib.Vector2::new(render_cx + dx * (shield_r - 22.0), render_cy + dy * (shield_r - 22.0))
-      let p2 = @raylib.Vector2::new(render_cx + dx * (shield_r + 22.0), render_cy + dy * (shield_r + 22.0))
+      let p1 = @raylib.Vector2::new(
+        render_cx + dx * (shield_r - 22.0),
+        render_cy + dy * (shield_r - 22.0),
+      )
+      let p2 = @raylib.Vector2::new(
+        render_cx + dx * (shield_r + 22.0),
+        render_cy + dy * (shield_r + 22.0),
+      )
       @raylib.draw_line_ex(p1, p2, w, @raylib.Color::new(102, 234, 246, 230))
     }
 
     let hx = render_cx + sdx * shield_r
     let hy = render_cy + sdy * shield_r
-    @raylib.draw_circle(hx.to_int(), hy.to_int(), 12.0, @raylib.Color::new(224, 248, 252, 255))
+    @raylib.draw_circle(
+      hx.to_int(),
+      hy.to_int(),
+      12.0,
+      @raylib.Color::new(224, 248, 252, 255),
+    )
 
     for i = 0; i < enemies.length(); i = i + 1 {
       if not(enemies[i].active) {
@@ -649,14 +725,47 @@ fn main {
       let ex = enemies[i].x + shake_x
       let ey = enemies[i].y + shake_y
       if enemies[i].kind == 0 {
-        @raylib.draw_circle(ex.to_int(), ey.to_int(), 12.0, @raylib.Color::new(248, 204, 92, 255))
+        @raylib.draw_circle(
+          ex.to_int(),
+          ey.to_int(),
+          12.0,
+          @raylib.Color::new(248, 204, 92, 255),
+        )
       } else if enemies[i].kind == 1 {
-        @raylib.draw_rectangle((ex - 15.0).to_int(), (ey - 12.0).to_int(), 30, 24, @raylib.Color::new(246, 132, 84, 255))
-        @raylib.draw_circle((ex - 16.0).to_int(), ey.to_int(), 6.0, @raylib.Color::new(66, 46, 34, 255))
-        @raylib.draw_circle((ex + 16.0).to_int(), ey.to_int(), 6.0, @raylib.Color::new(66, 46, 34, 255))
+        @raylib.draw_rectangle(
+          (ex - 15.0).to_int(),
+          (ey - 12.0).to_int(),
+          30,
+          24,
+          @raylib.Color::new(246, 132, 84, 255),
+        )
+        @raylib.draw_circle(
+          (ex - 16.0).to_int(),
+          ey.to_int(),
+          6.0,
+          @raylib.Color::new(66, 46, 34, 255),
+        )
+        @raylib.draw_circle(
+          (ex + 16.0).to_int(),
+          ey.to_int(),
+          6.0,
+          @raylib.Color::new(66, 46, 34, 255),
+        )
       } else {
-        @raylib.draw_rectangle((ex - 20.0).to_int(), (ey - 16.0).to_int(), 40, 32, @raylib.Color::new(238, 86, 98, 255))
-        @raylib.draw_rectangle((ex - 8.0).to_int(), (ey - 21.0).to_int(), 16, 8, @raylib.Color::new(254, 176, 126, 255))
+        @raylib.draw_rectangle(
+          (ex - 20.0).to_int(),
+          (ey - 16.0).to_int(),
+          40,
+          32,
+          @raylib.Color::new(238, 86, 98, 255),
+        )
+        @raylib.draw_rectangle(
+          (ex - 8.0).to_int(),
+          (ey - 21.0).to_int(),
+          16,
+          8,
+          @raylib.Color::new(254, 176, 126, 255),
+        )
       }
     }
 
@@ -666,8 +775,18 @@ fn main {
       }
       let sx = shots[i].x + shake_x
       let sy = shots[i].y + shake_y
-      @raylib.draw_circle(sx.to_int(), sy.to_int(), 4.0, @raylib.Color::new(236, 244, 254, 255))
-      @raylib.draw_circle((sx - 1.0).to_int(), (sy - 1.0).to_int(), 2.0, @raylib.Color::new(124, 198, 252, 255))
+      @raylib.draw_circle(
+        sx.to_int(),
+        sy.to_int(),
+        4.0,
+        @raylib.Color::new(236, 244, 254, 255),
+      )
+      @raylib.draw_circle(
+        (sx - 1.0).to_int(),
+        (sy - 1.0).to_int(),
+        2.0,
+        @raylib.Color::new(124, 198, 252, 255),
+      )
     }
 
     for i = 0; i < sparks.length(); i = i + 1 {
@@ -685,51 +804,160 @@ fn main {
       } else {
         @raylib.Color::new(252, 124, 124, a)
       }
-      @raylib.draw_circle((sparks[i].x + shake_x).to_int(), (sparks[i].y + shake_y).to_int(), 2.5, c)
+      @raylib.draw_circle(
+        (sparks[i].x + shake_x).to_int(),
+        (sparks[i].y + shake_y).to_int(),
+        2.5,
+        c,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 98, @raylib.Color::new(8, 12, 20, 228))
-    @raylib.draw_text("ORBITAL SHIELD COMMAND 2026", 16, 20, 34, @raylib.Color::new(236, 242, 252, 255))
-    @raylib.draw_text("Sector \{sector}/3", 474, 28, 30, @raylib.Color::new(246, 228, 136, 255))
-    @raylib.draw_text("Score \{score}", 668, 28, 30, @raylib.Color::new(214, 234, 250, 255))
+    @raylib.draw_text(
+      "ORBITAL SHIELD COMMAND 2026",
+      16,
+      20,
+      34,
+      @raylib.Color::new(236, 242, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector \{sector}/3",
+      474,
+      28,
+      30,
+      @raylib.Color::new(246, 228, 136, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      668,
+      28,
+      30,
+      @raylib.Color::new(214, 234, 250, 255),
+    )
 
-    @raylib.draw_rectangle(860, 28, 320, 20, @raylib.Color::new(28, 42, 66, 255))
-    @raylib.draw_rectangle(860, 28, planet_hp * 320 / 260, 20, @raylib.Color::new(98, 226, 138, 255))
-    @raylib.draw_text("Core HP \{planet_hp}", 976, 54, 24, @raylib.Color::new(224, 238, 250, 255))
+    @raylib.draw_rectangle(
+      860,
+      28,
+      320,
+      20,
+      @raylib.Color::new(28, 42, 66, 255),
+    )
+    @raylib.draw_rectangle(
+      860,
+      28,
+      planet_hp * 320 / 260,
+      20,
+      @raylib.Color::new(98, 226, 138, 255),
+    )
+    @raylib.draw_text(
+      "Core HP \{planet_hp}",
+      976,
+      54,
+      24,
+      @raylib.Color::new(224, 238, 250, 255),
+    )
 
     @raylib.draw_rectangle(20, 76, 300, 12, @raylib.Color::new(26, 36, 56, 255))
-    @raylib.draw_rectangle(20, 76, (sector_timer / 46.0 * 300.0).to_int(), 12, @raylib.Color::new(112, 198, 252, 255))
-    @raylib.draw_text("Sector timer", 326, 68, 20, @raylib.Color::new(200, 226, 246, 255))
+    @raylib.draw_rectangle(
+      20,
+      76,
+      (sector_timer / 46.0 * 300.0).to_int(),
+      12,
+      @raylib.Color::new(112, 198, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector timer",
+      326,
+      68,
+      20,
+      @raylib.Color::new(200, 226, 246, 255),
+    )
 
     let ctl_x = 24
     let ctl_y = sh - 176
-    @raylib.draw_rectangle(10, sh - 190, 168, 166, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 190,
+      168,
+      166,
+      @raylib.Color::new(10, 16, 28, 220),
+    )
     @raylib.draw_text("Touch", 64, sh - 186, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 78, 54, @raylib.Color::new(44, 62, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      78,
+      54,
+      @raylib.Color::new(44, 62, 88, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 18, ctl_y + 18, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 86, ctl_y, 78, 54, @raylib.Color::new(44, 62, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 86,
+      ctl_y,
+      78,
+      54,
+      @raylib.Color::new(44, 62, 88, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 95, ctl_y + 18, 20, @raylib.white)
 
     let fire_x = sw - 212
     let fire_y = sh - 152
-    @raylib.draw_rectangle(fire_x, fire_y, 182, 116, @raylib.Color::new(186, 82, 76, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      182,
+      116,
+      @raylib.Color::new(186, 82, 76, 255),
+    )
     @raylib.draw_text("FIRE", fire_x + 58, fire_y + 42, 36, @raylib.white)
 
-    @raylib.draw_rectangle(184, sh - 52, sw - 398, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 194, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      184,
+      sh - 52,
+      sw - 398,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      194,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 124))
-      @raylib.draw_rectangle(sw / 2 - 350, sh / 2 - 108, 700, 216, @raylib.Color::new(16, 24, 40, 244))
+      @raylib.draw_rectangle(
+        sw / 2 - 350,
+        sh / 2 - 108,
+        700,
+        216,
+        @raylib.Color::new(16, 24, 40, 244),
+      )
       @raylib.draw_text(
-        if won { "PLANET SECURED" } else { "DEFENSE COLLAPSED" },
+        if won {
+          "PLANET SECURED"
+        } else {
+          "DEFENSE COLLAPSED"
+        },
         sw / 2 - 246,
         sh / 2 - 40,
         56,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 128, 128, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 128, 128, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 38, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 38,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

@@ -257,7 +257,12 @@ fn main {
           if target_i < 0 {
             continue
           }
-          let dist = manhattan(units[i].x, units[i].y, units[target_i].x, units[target_i].y)
+          let dist = manhattan(
+            units[i].x,
+            units[i].y,
+            units[target_i].x,
+            units[target_i].y,
+          )
           if dist <= units[i].rng {
             if units[i].cooldown <= 0.0 {
               units[i].cooldown = 0.55
@@ -270,14 +275,19 @@ fn main {
             // Move one step towards target if cell free.
             let mut nx = units[i].x
             let mut ny = units[i].y
-            if (units[target_i].x - units[i].x).abs() >= (units[target_i].y - units[i].y).abs() {
+            if (units[target_i].x - units[i].x).abs() >=
+              (units[target_i].y - units[i].y).abs() {
               let sx = if units[target_i].x > units[i].x { 1 } else { -1 }
               nx = nx + sx
             } else {
               let sy = if units[target_i].y > units[i].y { 1 } else { -1 }
               ny = ny + sy
             }
-            if nx >= 0 && nx < gw && ny >= 0 && ny < gh && not(occupied(units, nx, ny)) {
+            if nx >= 0 &&
+              nx < gw &&
+              ny >= 0 &&
+              ny < gh &&
+              not(occupied(units, nx, ny)) {
               units[i].x = nx
               units[i].y = ny
             }
@@ -322,7 +332,17 @@ fn main {
         let px = ox + x * tile
         let py = oy + y * tile
         let left_side = x < 3
-        @raylib.draw_rectangle(px, py, tile - 2, tile - 2, if left_side { @raylib.Color::new(38, 52, 70, 255) } else { @raylib.Color::new(70, 38, 44, 255) })
+        @raylib.draw_rectangle(
+          px,
+          py,
+          tile - 2,
+          tile - 2,
+          if left_side {
+            @raylib.Color::new(38, 52, 70, 255)
+          } else {
+            @raylib.Color::new(70, 38, 44, 255)
+          },
+        )
       }
     }
 
@@ -333,7 +353,13 @@ fn main {
           if role >= 0 {
             let px = ox + x * tile
             let py = oy + y * tile
-            let col = if role == 0 { @raylib.darkblue } else if role == 1 { @raylib.green } else { @raylib.orange }
+            let col = if role == 0 {
+              @raylib.darkblue
+            } else if role == 1 {
+              @raylib.green
+            } else {
+              @raylib.orange
+            }
             @raylib.draw_rectangle(px + 12, py + 12, tile - 26, tile - 26, col)
           }
         }
@@ -344,23 +370,64 @@ fn main {
           let px = ox + units[i].x * tile
           let py = oy + units[i].y * tile
           let col = if units[i].team == 0 {
-            if units[i].role == 0 { @raylib.darkblue } else if units[i].role == 1 { @raylib.green } else { @raylib.orange }
+            if units[i].role == 0 {
+              @raylib.darkblue
+            } else if units[i].role == 1 {
+              @raylib.green
+            } else {
+              @raylib.orange
+            }
           } else {
             @raylib.red
           }
           @raylib.draw_rectangle(px + 12, py + 12, tile - 26, tile - 26, col)
-          @raylib.draw_text("\{units[i].hp}", px + 18, py + 16, 22, @raylib.raywhite)
+          @raylib.draw_text(
+            "\{units[i].hp}",
+            px + 18,
+            py + 16,
+            22,
+            @raylib.raywhite,
+          )
         }
       }
     }
 
-    @raylib.draw_text("1 Tank(5)  2 Archer(4)  3 Blade(4)  ENTER start battle  R restart", 180, 580, 22, @raylib.gray)
-    @raylib.draw_rectangle(40, 620, 900, 44, @raylib.Color::new(24, 24, 34, 255))
+    @raylib.draw_text(
+      "1 Tank(5)  2 Archer(4)  3 Blade(4)  ENTER start battle  R restart", 180, 580,
+      22, @raylib.gray,
+    )
+    @raylib.draw_rectangle(
+      40,
+      620,
+      900,
+      44,
+      @raylib.Color::new(24, 24, 34, 255),
+    )
     @raylib.draw_text(message, 52, 634, 22, @raylib.raywhite)
 
     if won || lost {
-      @raylib.draw_rectangle(300, 250, 420, 120, @raylib.fade(@raylib.black, 0.8))
-      @raylib.draw_text(if won { "CHAMPION" } else { "ELIMINATED" }, 380, 286, 46, if won { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        300,
+        250,
+        420,
+        120,
+        @raylib.fade(@raylib.black, 0.8),
+      )
+      @raylib.draw_text(
+        if won {
+          "CHAMPION"
+        } else {
+          "ELIMINATED"
+        },
+        380,
+        286,
+        46,
+        if won {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 390, 334, 26, @raylib.raywhite)
     }
 

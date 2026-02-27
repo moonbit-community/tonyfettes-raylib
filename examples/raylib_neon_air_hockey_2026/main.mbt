@@ -59,8 +59,18 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -106,7 +116,13 @@ fn clear_sparks(sparks : Array[Spark]) -> Unit {
 }
 
 ///|
-fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float, color_bias : Int) -> Unit {
+fn spawn_spark(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  speed_scale : Float,
+  color_bias : Int,
+) -> Unit {
   let mut placed = false
   for i = 0; i < sparks.length(); i = i + 1 {
     if placed {
@@ -117,8 +133,10 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
       sparks[i].x = x
       sparks[i].y = y
 
-      let mut vx = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
-      let vy = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
+      let mut vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
+      let vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
       if color_bias > 0 {
         vx = vx + Float::from_int(color_bias)
       } else if color_bias < 0 {
@@ -127,21 +145,39 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
 
       sparks[i].vx = vx
       sparks[i].vy = vy
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(18, 45)) / Float::from_int(100)
+      sparks[i].ttl = Float::from_int(@raylib.get_random_value(18, 45)) /
+        Float::from_int(100)
       placed = true
     }
   }
 }
 
 ///|
-fn spawn_burst(sparks : Array[Spark], x : Float, y : Float, n : Int, speed_scale : Float, color_bias : Int) -> Unit {
+fn spawn_burst(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed_scale : Float,
+  color_bias : Int,
+) -> Unit {
   for i = 0; i < n; i = i + 1 {
     spawn_spark(sparks, x, y, speed_scale, color_bias)
   }
 }
 
 ///|
-fn reset_round() -> (Float, Float, Float, Float, Float, Float, Float, Float, Float) {
+fn reset_round() -> (
+  Float,
+  Float,
+  Float,
+  Float,
+  Float,
+  Float,
+  Float,
+  Float,
+  Float,
+) {
   let cx = Float::from_int(table_x + table_w / 2)
   let cy = Float::from_int(table_y + table_h / 2)
   (
@@ -343,7 +379,9 @@ fn main {
       let fire_y = sh - 150
       let m = @raylib.get_mouse_position()
       let touch = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
-      let mut strike_down = @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ) || @raylib.is_key_down(@raylib.KeyK)
+      let mut strike_down = @raylib.is_key_down(@raylib.KeySpace) ||
+        @raylib.is_key_down(@raylib.KeyJ) ||
+        @raylib.is_key_down(@raylib.KeyK)
 
       if touch {
         if inside_rect(m.x, m.y, ctl_x, ctl_y, 72, 52) {
@@ -367,15 +405,27 @@ fn main {
       px = px + move_x * player_speed * dt
       py = py + move_y * player_speed * dt
 
-      px = clampf(px, table_left() + paddle_r + 4.0, Float::from_int(table_x + table_w / 2 - 26))
-      py = clampf(py, table_top() + paddle_r + 4.0, table_bottom() - paddle_r - 4.0)
+      px = clampf(
+        px,
+        table_left() + paddle_r + 4.0,
+        Float::from_int(table_x + table_w / 2 - 26),
+      )
+      py = clampf(
+        py,
+        table_top() + paddle_r + 4.0,
+        table_bottom() - paddle_r - 4.0,
+      )
 
       let ai_target_x = if puck_x > Float::from_int(table_x + table_w / 2) {
         Float::from_int(table_x + table_w * 3 / 4)
       } else {
         Float::from_int(table_x + table_w * 13 / 16)
       }
-      let ai_target_y = clampf(puck_y + puck_vy * 0.14, table_top() + 50.0, table_bottom() - 50.0)
+      let ai_target_y = clampf(
+        puck_y + puck_vy * 0.14,
+        table_top() + 50.0,
+        table_bottom() - 50.0,
+      )
       let ai_speed : Float = Float::from_int(316 + sector * 30)
 
       if aix < ai_target_x {
@@ -389,8 +439,16 @@ fn main {
         aiy = aiy - ai_speed * dt
       }
 
-      aix = clampf(aix, Float::from_int(table_x + table_w / 2 + 26), table_right() - paddle_r - 4.0)
-      aiy = clampf(aiy, table_top() + paddle_r + 4.0, table_bottom() - paddle_r - 4.0)
+      aix = clampf(
+        aix,
+        Float::from_int(table_x + table_w / 2 + 26),
+        table_right() - paddle_r - 4.0,
+      )
+      aiy = clampf(
+        aiy,
+        table_top() + paddle_r + 4.0,
+        table_bottom() - paddle_r - 4.0,
+      )
 
       if faceoff_t > 0.0 {
         faceoff_t = faceoff_t - dt
@@ -542,7 +600,9 @@ fn main {
 
             let p_vel_x = (px - px_prev) / dt
             let p_vel_y = (py - py_prev) / dt
-            let rel = puck_vx * nx + puck_vy * ny - (p_vel_x * nx + p_vel_y * ny)
+            let rel = puck_vx * nx +
+              puck_vy * ny -
+              (p_vel_x * nx + p_vel_y * ny)
             if rel < 0.0 {
               puck_vx = puck_vx - nx * rel * 1.74 + p_vel_x * 0.22
               puck_vy = puck_vy - ny * rel * 1.74 + p_vel_y * 0.22
@@ -564,7 +624,9 @@ fn main {
 
             let ai_vel_x = (aix - aix_prev) / dt
             let ai_vel_y = (aiy - aiy_prev) / dt
-            let rel = puck_vx * nx + puck_vy * ny - (ai_vel_x * nx + ai_vel_y * ny)
+            let rel = puck_vx * nx +
+              puck_vy * ny -
+              (ai_vel_x * nx + ai_vel_y * ny)
             if rel < 0.0 {
               puck_vx = puck_vx - nx * rel * 1.70 + ai_vel_x * 0.20
               puck_vy = puck_vy - ny * rel * 1.70 + ai_vel_y * 0.20
@@ -639,45 +701,122 @@ fn main {
 
     let tx = table_x + shake.to_int()
 
-    @raylib.draw_rectangle(tx, table_y, table_w, table_h, @raylib.Color::new(22, 30, 48, 255))
-    @raylib.draw_rectangle_lines(tx, table_y, table_w, table_h, @raylib.Color::new(84, 130, 214, 255))
+    @raylib.draw_rectangle(
+      tx,
+      table_y,
+      table_w,
+      table_h,
+      @raylib.Color::new(22, 30, 48, 255),
+    )
+    @raylib.draw_rectangle_lines(
+      tx,
+      table_y,
+      table_w,
+      table_h,
+      @raylib.Color::new(84, 130, 214, 255),
+    )
 
-    @raylib.draw_line(tx + table_w / 2, table_y, tx + table_w / 2, table_y + table_h, @raylib.Color::new(74, 108, 170, 255))
-    @raylib.draw_circle_lines(tx + table_w / 2, table_y + table_h / 2, 120.0, @raylib.Color::new(74, 108, 170, 255))
+    @raylib.draw_line(
+      tx + table_w / 2,
+      table_y,
+      tx + table_w / 2,
+      table_y + table_h,
+      @raylib.Color::new(74, 108, 170, 255),
+    )
+    @raylib.draw_circle_lines(
+      tx + table_w / 2,
+      table_y + table_h / 2,
+      120.0,
+      @raylib.Color::new(74, 108, 170, 255),
+    )
 
     let gy = table_y + (table_h - goal_h) / 2
-    @raylib.draw_rectangle(tx - 8, gy, 8, goal_h, @raylib.Color::new(242, 98, 120, 255))
-    @raylib.draw_rectangle(tx + table_w, gy, 8, goal_h, @raylib.Color::new(98, 232, 170, 255))
+    @raylib.draw_rectangle(
+      tx - 8,
+      gy,
+      8,
+      goal_h,
+      @raylib.Color::new(242, 98, 120, 255),
+    )
+    @raylib.draw_rectangle(
+      tx + table_w,
+      gy,
+      8,
+      goal_h,
+      @raylib.Color::new(98, 232, 170, 255),
+    )
 
-    let pulse = (Float::from_int(1) - absf(zone_phase - 0.5) * 2.0)
+    let pulse = Float::from_int(1) - absf(zone_phase - 0.5) * 2.0
     let glow = (Float::from_int(40) + pulse * 90.0).to_int()
 
     if zone_left {
       @raylib.draw_circle(
-        (Float::from_int(tx + 210)).to_int(),
+        Float::from_int(tx + 210).to_int(),
         table_y + table_h / 2,
         70.0,
         @raylib.Color::new(72, 206, 246, glow),
       )
-      @raylib.draw_text("BOOST", tx + 176, table_y + table_h / 2 - 10, 20, @raylib.Color::new(210, 236, 252, 255))
+      @raylib.draw_text(
+        "BOOST",
+        tx + 176,
+        table_y + table_h / 2 - 10,
+        20,
+        @raylib.Color::new(210, 236, 252, 255),
+      )
     } else {
       @raylib.draw_circle(
-        (Float::from_int(tx + table_w - 210)).to_int(),
+        Float::from_int(tx + table_w - 210).to_int(),
         table_y + table_h / 2,
         70.0,
         @raylib.Color::new(250, 164, 96, glow),
       )
-      @raylib.draw_text("BOOST", tx + table_w - 244, table_y + table_h / 2 - 10, 20, @raylib.Color::new(254, 228, 180, 255))
+      @raylib.draw_text(
+        "BOOST",
+        tx + table_w - 244,
+        table_y + table_h / 2 - 10,
+        20,
+        @raylib.Color::new(254, 228, 180, 255),
+      )
     }
 
-    @raylib.draw_circle((px + shake).to_int(), py.to_int(), paddle_r, @raylib.Color::new(74, 202, 252, 255))
-    @raylib.draw_circle((px + shake).to_int(), py.to_int(), paddle_r * 0.52, @raylib.Color::new(20, 44, 72, 255))
+    @raylib.draw_circle(
+      (px + shake).to_int(),
+      py.to_int(),
+      paddle_r,
+      @raylib.Color::new(74, 202, 252, 255),
+    )
+    @raylib.draw_circle(
+      (px + shake).to_int(),
+      py.to_int(),
+      paddle_r * 0.52,
+      @raylib.Color::new(20, 44, 72, 255),
+    )
 
-    @raylib.draw_circle((aix + shake).to_int(), aiy.to_int(), paddle_r, @raylib.Color::new(252, 126, 132, 255))
-    @raylib.draw_circle((aix + shake).to_int(), aiy.to_int(), paddle_r * 0.52, @raylib.Color::new(72, 22, 30, 255))
+    @raylib.draw_circle(
+      (aix + shake).to_int(),
+      aiy.to_int(),
+      paddle_r,
+      @raylib.Color::new(252, 126, 132, 255),
+    )
+    @raylib.draw_circle(
+      (aix + shake).to_int(),
+      aiy.to_int(),
+      paddle_r * 0.52,
+      @raylib.Color::new(72, 22, 30, 255),
+    )
 
-    @raylib.draw_circle((puck_x + shake).to_int(), puck_y.to_int(), puck_r, @raylib.Color::new(240, 246, 254, 255))
-    @raylib.draw_circle((puck_x + shake).to_int(), puck_y.to_int(), puck_r * 0.5, @raylib.Color::new(84, 120, 174, 255))
+    @raylib.draw_circle(
+      (puck_x + shake).to_int(),
+      puck_y.to_int(),
+      puck_r,
+      @raylib.Color::new(240, 246, 254, 255),
+    )
+    @raylib.draw_circle(
+      (puck_x + shake).to_int(),
+      puck_y.to_int(),
+      puck_r * 0.5,
+      @raylib.Color::new(84, 120, 174, 255),
+    )
 
     for i = 0; i < sparks.length(); i = i + 1 {
       if not(sparks[i].active) {
@@ -695,57 +834,173 @@ fn main {
     }
 
     @raylib.draw_rectangle(0, 0, sw, 96, @raylib.Color::new(8, 12, 20, 230))
-    @raylib.draw_text("NEON AIR HOCKEY 2026", 20, 20, 34, @raylib.Color::new(232, 242, 252, 255))
-    @raylib.draw_text("Sector \{sector}/3", 420, 28, 30, @raylib.Color::new(246, 230, 136, 255))
-    @raylib.draw_text("Score \{score}", 604, 28, 30, @raylib.Color::new(220, 236, 250, 255))
-    @raylib.draw_text("You \{p_goals} - \{ai_goals} AI", 810, 28, 30, @raylib.Color::new(182, 224, 250, 255))
+    @raylib.draw_text(
+      "NEON AIR HOCKEY 2026",
+      20,
+      20,
+      34,
+      @raylib.Color::new(232, 242, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector \{sector}/3",
+      420,
+      28,
+      30,
+      @raylib.Color::new(246, 230, 136, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      604,
+      28,
+      30,
+      @raylib.Color::new(220, 236, 250, 255),
+    )
+    @raylib.draw_text(
+      "You \{p_goals} - \{ai_goals} AI",
+      810,
+      28,
+      30,
+      @raylib.Color::new(182, 224, 250, 255),
+    )
 
-    @raylib.draw_text("Total \{p_total}:\{ai_total}", 1120, 30, 24, @raylib.Color::new(210, 226, 242, 255))
+    @raylib.draw_text(
+      "Total \{p_total}:\{ai_total}",
+      1120,
+      30,
+      24,
+      @raylib.Color::new(210, 226, 242, 255),
+    )
 
     if faceoff_t > 0.0 {
       let t = (faceoff_t * 10.0).to_int() + 1
-      @raylib.draw_text("Faceoff in \{t}", sw / 2 - 76, table_y + 18, 30, @raylib.Color::new(246, 236, 170, 255))
+      @raylib.draw_text(
+        "Faceoff in \{t}",
+        sw / 2 - 76,
+        table_y + 18,
+        30,
+        @raylib.Color::new(246, 236, 170, 255),
+      )
     }
 
     let ctl_x = 26
     let ctl_y = sh - 170
-    @raylib.draw_rectangle(12, sh - 184, 154, 160, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_rectangle(
+      12,
+      sh - 184,
+      154,
+      160,
+      @raylib.Color::new(10, 16, 28, 220),
+    )
     @raylib.draw_text("Touch", 58, sh - 180, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 72, 52, @raylib.Color::new(46, 66, 94, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      72,
+      52,
+      @raylib.Color::new(46, 66, 94, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 10, ctl_y + 16, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 80, ctl_y, 72, 52, @raylib.Color::new(46, 66, 94, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 80,
+      ctl_y,
+      72,
+      52,
+      @raylib.Color::new(46, 66, 94, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 85, ctl_y + 16, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 58, 72, 52, @raylib.Color::new(46, 66, 94, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 58,
+      72,
+      52,
+      @raylib.Color::new(46, 66, 94, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 8, ctl_y + 74, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 80, ctl_y + 58, 72, 52, @raylib.Color::new(46, 66, 94, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 80,
+      ctl_y + 58,
+      72,
+      52,
+      @raylib.Color::new(46, 66, 94, 255),
+    )
     @raylib.draw_text("UP", ctl_x + 102, ctl_y + 74, 20, @raylib.white)
 
     let fire_x = sw - 210
     let fire_y = sh - 150
-    @raylib.draw_rectangle(fire_x, fire_y, 170, 116, @raylib.Color::new(190, 76, 84, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      170,
+      116,
+      @raylib.Color::new(190, 76, 84, 255),
+    )
     @raylib.draw_text("STRIKE", fire_x + 32, fire_y + 44, 34, @raylib.white)
 
     if dash_cd > 0.0 {
-      @raylib.draw_text("Dash CD \{dash_cd.to_int() + 1}", fire_x + 30, fire_y - 24, 22, @raylib.Color::new(254, 220, 152, 255))
+      @raylib.draw_text(
+        "Dash CD \{dash_cd.to_int() + 1}",
+        fire_x + 30,
+        fire_y - 24,
+        22,
+        @raylib.Color::new(254, 220, 152, 255),
+      )
     } else {
-      @raylib.draw_text("Power Strike Ready", fire_x + 5, fire_y - 24, 22, @raylib.Color::new(166, 246, 184, 255))
+      @raylib.draw_text(
+        "Power Strike Ready",
+        fire_x + 5,
+        fire_y - 24,
+        22,
+        @raylib.Color::new(166, 246, 184, 255),
+      )
     }
 
-    @raylib.draw_rectangle(186, sh - 54, sw - 400, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 196, sh - 48, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      186,
+      sh - 54,
+      sw - 400,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      196,
+      sh - 48,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 320, sh / 2 - 100, 640, 200, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 320,
+        sh / 2 - 100,
+        640,
+        200,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "CHAMPION" } else { "DEFEAT" },
+        if won {
+          "CHAMPION"
+        } else {
+          "DEFEAT"
+        },
         sw / 2 - 144,
         sh / 2 - 34,
         58,
-        if won { @raylib.Color::new(248, 234, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 234, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()
