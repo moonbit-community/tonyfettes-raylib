@@ -1,7 +1,8 @@
 import {
-  "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/game",
+  "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/render",
+  "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/types",
 }
 
 options(
