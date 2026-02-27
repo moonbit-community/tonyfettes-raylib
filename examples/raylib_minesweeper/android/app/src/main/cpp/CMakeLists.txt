@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.1)
 project("raylibminesweeper" C)
 
 # --- Paths ---
-set(MOONBIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
+set(MOONBIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../moonbit)
 set(NATIVE_APP_GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
 
 # MOON_HOME: use env var, fallback to $HOME/.moon
