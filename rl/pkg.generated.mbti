@@ -1,0 +1,164 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib/rl"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub const AttachmentColorChannel0 : Int = 0
+
+pub const AttachmentColorChannel1 : Int = 1
+
+pub const AttachmentColorChannel2 : Int = 2
+
+pub const AttachmentColorChannel3 : Int = 3
+
+pub const AttachmentCubemapNegativeX : Int = 1
+
+pub const AttachmentCubemapNegativeY : Int = 3
+
+pub const AttachmentCubemapNegativeZ : Int = 5
+
+pub const AttachmentCubemapPositiveX : Int = 0
+
+pub const AttachmentCubemapPositiveY : Int = 2
+
+pub const AttachmentCubemapPositiveZ : Int = 4
+
+pub const AttachmentDepth : Int = 100
+
+pub const AttachmentRenderbuffer : Int = 200
+
+pub const AttachmentStencil : Int = 200
+
+pub const AttachmentTexture2d : Int = 100
+
+pub const DrawFramebuffer : UInt = 0x8CA9
+
+pub const Lines : Int = 0x0001
+
+pub const Quads : Int = 0x0007
+
+pub const ReadFramebuffer : UInt = 0x8CA8
+
+pub const Triangles : Int = 0x0004
+
+pub fn active_draw_buffers(Int) -> Unit
+
+pub fn active_texture_slot(Int) -> Unit
+
+pub fn begin(Int) -> Unit
+
+pub fn bind_framebuffer(UInt, UInt) -> Unit
+
+pub fn blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn check_render_batch_limit(Int) -> Bool
+
+pub fn clear_screen_buffers() -> Unit
+
+pub fn color4ub(Byte, Byte, Byte, Byte) -> Unit
+
+pub fn disable_backface_culling() -> Unit
+
+pub fn disable_color_blend() -> Unit
+
+pub fn disable_depth_mask() -> Unit
+
+pub fn disable_depth_test() -> Unit
+
+pub fn disable_framebuffer() -> Unit
+
+pub fn disable_shader() -> Unit
+
+pub fn disable_texture() -> Unit
+
+pub fn draw_render_batch_active() -> Unit
+
+pub fn enable_backface_culling() -> Unit
+
+pub fn enable_color_blend() -> Unit
+
+pub fn enable_depth_mask() -> Unit
+
+pub fn enable_depth_test() -> Unit
+
+pub fn enable_framebuffer(UInt) -> Unit
+
+pub fn enable_shader(UInt) -> Unit
+
+pub fn enable_texture(UInt) -> Unit
+
+pub fn end_() -> Unit
+
+pub fn framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
+
+pub fn framebuffer_complete(UInt) -> Bool
+
+pub fn get_framebuffer_height() -> Int
+
+pub fn get_framebuffer_width() -> Int
+
+pub fn get_location_uniform(UInt, String) -> Int
+
+pub fn get_matrix_modelview() -> @raylib.Matrix
+
+pub fn get_matrix_projection() -> @raylib.Matrix
+
+pub fn get_shader_id_default() -> UInt
+
+pub fn load_draw_cube() -> Unit
+
+pub fn load_draw_quad() -> Unit
+
+pub fn load_framebuffer() -> UInt
+
+pub fn load_texture(Int, Int, Int, Int) -> UInt
+
+pub fn load_texture_depth(Int, Int, Bool) -> UInt
+
+pub fn mult_matrixf(Bytes) -> Unit
+
+pub fn normal3f(Float, Float, Float) -> Unit
+
+pub fn pop_matrix() -> Unit
+
+pub fn push_matrix() -> Unit
+
+pub fn rotatef(Float, Float, Float, Float) -> Unit
+
+pub fn scalef(Float, Float, Float) -> Unit
+
+pub fn set_blend_factors(Int, Int, Int) -> Unit
+
+pub fn set_blend_mode(Int) -> Unit
+
+pub fn set_texture(UInt) -> Unit
+
+pub fn set_uniform(Int, Bytes, Int, Int) -> Unit
+
+pub fn set_uniform_sampler(Int, UInt) -> Unit
+
+pub fn tex_coord2f(Float, Float) -> Unit
+
+pub fn translatef(Float, Float, Float) -> Unit
+
+pub fn unload_framebuffer(UInt) -> Unit
+
+pub fn unload_texture(UInt) -> Unit
+
+pub fn vertex2f(Float, Float) -> Unit
+
+pub fn vertex3f(Float, Float, Float) -> Unit
+
+pub fn viewport(Int, Int, Int, Int) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
