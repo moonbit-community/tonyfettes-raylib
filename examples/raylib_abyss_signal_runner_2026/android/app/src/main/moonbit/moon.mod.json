@@ -1,0 +1,8 @@
+{
+  "name": "tonyfettes/raylibabysssignalrunner2026",
+  "version": "0.1.0",
+  "deps": {
+    "tonyfettes/raylib": { "path": "/Users/haoxiang/Workspace/moonbit/raylib" }
+  },
+  "preferred-target": "native"
+}
