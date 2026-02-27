@@ -38,12 +38,16 @@ fn build_walls(game : Game) -> Unit {
       }
 
       // Keep center arena and player spawn corridor open.
-      if x >= maze_cols / 2 - 2 && x <= maze_cols / 2 + 2 &&
-        y >= maze_rows / 2 - 2 && y <= maze_rows / 2 + 2 {
+      if x >= maze_cols / 2 - 2 &&
+        x <= maze_cols / 2 + 2 &&
+        y >= maze_rows / 2 - 2 &&
+        y <= maze_rows / 2 + 2 {
         wall = false
       }
-      if y >= maze_rows - 5 && y <= maze_rows - 3 &&
-        x >= maze_cols / 2 - 3 && x <= maze_cols / 2 + 3 {
+      if y >= maze_rows - 5 &&
+        y <= maze_rows - 3 &&
+        x >= maze_cols / 2 - 3 &&
+        x <= maze_cols / 2 + 3 {
         wall = false
       }
 
@@ -137,10 +141,22 @@ fn init_game(game : Game) -> Unit {
     Ghost::new(maze_cols / 2 - 1, maze_rows / 2, 1, 1, @raylib.pink),
   )
   game.ghosts.push(
-    Ghost::new(maze_cols / 2 + 1, maze_rows / 2, maze_cols - 2, maze_rows - 2, @raylib.skyblue),
+    Ghost::new(
+      maze_cols / 2 + 1,
+      maze_rows / 2,
+      maze_cols - 2,
+      maze_rows - 2,
+      @raylib.skyblue,
+    ),
   )
   game.ghosts.push(
-    Ghost::new(maze_cols / 2, maze_rows / 2 + 1, 1, maze_rows - 2, @raylib.orange),
+    Ghost::new(
+      maze_cols / 2,
+      maze_rows / 2 + 1,
+      1,
+      maze_rows - 2,
+      @raylib.orange,
+    ),
   )
 
   game.score = 0

@@ -123,22 +123,25 @@ fn main {
 
       let mut mx : Float = (0.0 : Float)
       let mut my : Float = (0.0 : Float)
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         mx = mx - (1.0 : Float)
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         mx = mx + (1.0 : Float)
       }
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         my = my - (1.0 : Float)
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         my = my + (1.0 : Float)
       }
 
-      let turbo = @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)
-      let spd : Float =
-        if turbo { (370.0 : Float) } else { (250.0 : Float) }
+      let turbo = @raylib.is_key_down(@raylib.KeySpace) ||
+        @raylib.is_key_down(@raylib.KeyJ)
+      let spd : Float = if turbo { (370.0 : Float) } else { (250.0 : Float) }
       drone_x = drone_x + mx * spd * dt
       drone_y = drone_y + my * spd * dt
 
@@ -155,11 +158,9 @@ fn main {
         drone_y = Float::from_int(sh - 40)
       }
 
-      let drain : Float =
-        if turbo { (17.0 : Float) } else { (8.0 : Float) }
+      let drain : Float = if turbo { (17.0 : Float) } else { (8.0 : Float) }
       battery = battery - dt * drain
-      let heat_gain : Float =
-        if turbo { (18.0 : Float) } else { (7.5 : Float) }
+      let heat_gain : Float = if turbo { (18.0 : Float) } else { (7.5 : Float) }
       heat = heat + dt * heat_gain
       heat = heat - dt * (9.0 : Float)
       if heat < 0.0 {
@@ -219,26 +220,24 @@ fn main {
           }
           msg = "Package picked. Deliver to D."
         }
-      } else {
-        if dist_sq(drone_x, drone_y, drop_x, drop_y) < 28.0 * 28.0 {
-          has_package = false
-          deliveries = deliveries + 1
-          combo = combo + 1
-          let gain = 120 + combo * 20
-          score = score + gain
-          timer = timer + 4.0
-          if timer > 99.0 {
-            timer = 99.0
-          }
-          msg = "Delivery complete +\{gain}."
-
-          let (pnx, pny) = random_point(120)
-          pick_x = pnx
-          pick_y = pny
-          let (dnx, dny) = random_point(120)
-          drop_x = dnx
-          drop_y = dny
+      } else if dist_sq(drone_x, drone_y, drop_x, drop_y) < 28.0 * 28.0 {
+        has_package = false
+        deliveries = deliveries + 1
+        combo = combo + 1
+        let gain = 120 + combo * 20
+        score = score + gain
+        timer = timer + 4.0
+        if timer > 99.0 {
+          timer = 99.0
         }
+        msg = "Delivery complete +\{gain}."
+
+        let (pnx, pny) = random_point(120)
+        pick_x = pnx
+        pick_y = pny
+        let (dnx, dny) = random_point(120)
+        drop_x = dnx
+        drop_y = dny
       }
 
       // Passive score over distance flown
@@ -253,30 +252,81 @@ fn main {
       for gy = 0; gy < 4; gy = gy + 1 {
         let bx = 42 + gx * 155
         let by = 90 + gy * 155
-        @raylib.draw_rectangle(bx, by, 110, 110, @raylib.Color::new(33, 38, 50, 255))
-        @raylib.draw_rectangle_lines(bx, by, 110, 110, @raylib.Color::new(55, 63, 83, 255))
+        @raylib.draw_rectangle(
+          bx,
+          by,
+          110,
+          110,
+          @raylib.Color::new(33, 38, 50, 255),
+        )
+        @raylib.draw_rectangle_lines(
+          bx,
+          by,
+          110,
+          110,
+          @raylib.Color::new(55, 63, 83, 255),
+        )
       }
     }
 
     if not(has_package) {
       @raylib.draw_circle(pick_x.to_int(), pick_y.to_int(), 16.0, @raylib.lime)
-      @raylib.draw_text("P", (pick_x - 6.0).to_int(), (pick_y - 11.0).to_int(), 24, @raylib.black)
+      @raylib.draw_text(
+        "P",
+        (pick_x - 6.0).to_int(),
+        (pick_y - 11.0).to_int(),
+        24,
+        @raylib.black,
+      )
     } else {
-      @raylib.draw_circle(drop_x.to_int(), drop_y.to_int(), 16.0, @raylib.orange)
-      @raylib.draw_text("D", (drop_x - 7.0).to_int(), (drop_y - 11.0).to_int(), 24, @raylib.black)
+      @raylib.draw_circle(
+        drop_x.to_int(),
+        drop_y.to_int(),
+        16.0,
+        @raylib.orange,
+      )
+      @raylib.draw_text(
+        "D",
+        (drop_x - 7.0).to_int(),
+        (drop_y - 11.0).to_int(),
+        24,
+        @raylib.black,
+      )
     }
 
     for i = 0; i < orbs.length(); i = i + 1 {
       if orbs[i].alive {
-        @raylib.draw_circle(orbs[i].x.to_int(), orbs[i].y.to_int(), 11.0, @raylib.skyblue)
-        @raylib.draw_circle_lines(orbs[i].x.to_int(), orbs[i].y.to_int(), 11.0, @raylib.white)
+        @raylib.draw_circle(
+          orbs[i].x.to_int(),
+          orbs[i].y.to_int(),
+          11.0,
+          @raylib.skyblue,
+        )
+        @raylib.draw_circle_lines(
+          orbs[i].x.to_int(),
+          orbs[i].y.to_int(),
+          11.0,
+          @raylib.white,
+        )
       }
     }
 
     let body = if has_package { @raylib.gold } else { @raylib.raywhite }
     @raylib.draw_circle(drone_x.to_int(), drone_y.to_int(), 14.0, body)
-    @raylib.draw_line((drone_x - 22.0).to_int(), drone_y.to_int(), (drone_x + 22.0).to_int(), drone_y.to_int(), @raylib.gray)
-    @raylib.draw_line(drone_x.to_int(), (drone_y - 22.0).to_int(), drone_x.to_int(), (drone_y + 22.0).to_int(), @raylib.gray)
+    @raylib.draw_line(
+      (drone_x - 22.0).to_int(),
+      drone_y.to_int(),
+      (drone_x + 22.0).to_int(),
+      drone_y.to_int(),
+      @raylib.gray,
+    )
+    @raylib.draw_line(
+      drone_x.to_int(),
+      (drone_y - 22.0).to_int(),
+      drone_x.to_int(),
+      (drone_y + 22.0).to_int(),
+      @raylib.gray,
+    )
 
     @raylib.draw_text("DRONE DELIVERY 2026", 20, 16, 40, @raylib.skyblue)
     @raylib.draw_text("Score \{score}", 20, 64, 30, @raylib.white)
@@ -284,21 +334,61 @@ fn main {
     @raylib.draw_text("Combo x\{combo}", 460, 64, 30, @raylib.yellow)
 
     let t = timer.to_int()
-    @raylib.draw_text("Time \{t}s", 660, 64, 30, if t < 20 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{t}s",
+      660,
+      64,
+      30,
+      if t < 20 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
     @raylib.draw_text("Battery", 20, 104, 24, @raylib.green)
-    @raylib.draw_rectangle(110, 110, 230, 14, @raylib.Color::new(20, 38, 24, 255))
-    @raylib.draw_rectangle(110, 110, (battery * 2.3).to_int(), 14, @raylib.green)
+    @raylib.draw_rectangle(
+      110,
+      110,
+      230,
+      14,
+      @raylib.Color::new(20, 38, 24, 255),
+    )
+    @raylib.draw_rectangle(
+      110,
+      110,
+      (battery * 2.3).to_int(),
+      14,
+      @raylib.green,
+    )
 
     @raylib.draw_text("Heat", 360, 104, 24, @raylib.red)
-    @raylib.draw_rectangle(430, 110, 230, 14, @raylib.Color::new(45, 20, 20, 255))
+    @raylib.draw_rectangle(
+      430,
+      110,
+      230,
+      14,
+      @raylib.Color::new(45, 20, 20, 255),
+    )
     @raylib.draw_rectangle(430, 110, (heat * 2.3).to_int(), 14, @raylib.red)
 
-    @raylib.draw_rectangle(20, 694, sw - 40, 30, @raylib.Color::new(8, 10, 16, 220))
+    @raylib.draw_rectangle(
+      20,
+      694,
+      sw - 40,
+      30,
+      @raylib.Color::new(8, 10, 16, 220),
+    )
     @raylib.draw_text(msg, 28, 699, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(290, 250, 540, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        290,
+        250,
+        540,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("SHIFT OVER", 430, 308, 50, @raylib.orange)
       @raylib.draw_text("Press R to restart", 430, 366, 34, @raylib.white)
     }

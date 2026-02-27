@@ -37,8 +37,18 @@ struct Car {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -67,15 +77,7 @@ fn put_car(
   player : Bool,
   color : Int,
 ) -> Unit {
-  cars[i] = {
-    x: x,
-    y: y,
-    len: len,
-    horizontal: horizontal,
-    player: player,
-    color: color,
-    active: true,
-  }
+  cars[i] = { x, y, len, horizontal, player, color, active: true }
 }
 
 ///|
@@ -148,7 +150,13 @@ fn in_board(x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn occupied_by(cars : Array[Car], count : Int, skip : Int, gx : Int, gy : Int) -> Bool {
+fn occupied_by(
+  cars : Array[Car],
+  count : Int,
+  skip : Int,
+  gx : Int,
+  gy : Int,
+) -> Bool {
   let mut occ = false
   for i = 0; i < count; i = i + 1 {
     if i == skip || not(cars[i].active) {
@@ -158,10 +166,8 @@ fn occupied_by(cars : Array[Car], count : Int, skip : Int, gx : Int, gy : Int) -
       if gy == cars[i].y && gx >= cars[i].x && gx < cars[i].x + cars[i].len {
         occ = true
       }
-    } else {
-      if gx == cars[i].x && gy >= cars[i].y && gy < cars[i].y + cars[i].len {
-        occ = true
-      }
+    } else if gx == cars[i].x && gy >= cars[i].y && gy < cars[i].y + cars[i].len {
+      occ = true
     }
   }
   occ
@@ -178,10 +184,8 @@ fn find_car_at(cars : Array[Car], count : Int, gx : Int, gy : Int) -> Int {
       if gy == cars[i].y && gx >= cars[i].x && gx < cars[i].x + cars[i].len {
         found = i
       }
-    } else {
-      if gx == cars[i].x && gy >= cars[i].y && gy < cars[i].y + cars[i].len {
-        found = i
-      }
+    } else if gx == cars[i].x && gy >= cars[i].y && gy < cars[i].y + cars[i].len {
+      found = i
     }
   }
   found
@@ -197,13 +201,21 @@ fn can_move(cars : Array[Car], count : Int, car_id : Int, step : Int) -> Bool {
   }
 
   if cars[car_id].horizontal {
-    let target = if step < 0 { cars[car_id].x - 1 } else { cars[car_id].x + cars[car_id].len }
+    let target = if step < 0 {
+      cars[car_id].x - 1
+    } else {
+      cars[car_id].x + cars[car_id].len
+    }
     if not(in_board(target, cars[car_id].y)) {
       return false
     }
     not(occupied_by(cars, count, car_id, target, cars[car_id].y))
   } else {
-    let target = if step < 0 { cars[car_id].y - 1 } else { cars[car_id].y + cars[car_id].len }
+    let target = if step < 0 {
+      cars[car_id].y - 1
+    } else {
+      cars[car_id].y + cars[car_id].len
+    }
     if not(in_board(cars[car_id].x, target)) {
       return false
     }
@@ -227,7 +239,9 @@ fn try_move(cars : Array[Car], count : Int, car_id : Int, step : Int) -> Bool {
 
 ///|
 fn solved(cars : Array[Car]) -> Bool {
-  cars[0].active && cars[0].x + cars[0].len - 1 == gw - 1 && cars[0].y == exit_row
+  cars[0].active &&
+  cars[0].x + cars[0].len - 1 == gw - 1 &&
+  cars[0].y == exit_row
 }
 
 ///|
@@ -306,8 +320,8 @@ fn main {
       let m = @raylib.get_mouse_position()
       if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
         if inside_rect(m.x, m.y, ox, oy, gw * cell, gh * cell) {
-          let gx = ((m.x - Float::from_int(ox)).to_int()) / cell
-          let gy = ((m.y - Float::from_int(oy)).to_int()) / cell
+          let gx = (m.x - Float::from_int(ox)).to_int() / cell
+          let gy = (m.y - Float::from_int(oy)).to_int() / cell
           let f = find_car_at(cars, car_count, gx, gy)
           if f >= 0 {
             selected = f
@@ -324,19 +338,23 @@ fn main {
       let mut dy = 0
       let mut acted = false
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         dx = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         dx = 1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         dy = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         acted = true
       }
@@ -367,12 +385,10 @@ fn main {
           } else {
             msg = "This car moves left/right only."
           }
+        } else if dy != 0 {
+          moved = try_move(cars, car_count, selected, dy)
         } else {
-          if dy != 0 {
-            moved = try_move(cars, car_count, selected, dy)
-          } else {
-            msg = "This car moves up/down only."
-          }
+          msg = "This car moves up/down only."
         }
 
         if moved {
@@ -412,27 +428,93 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(12, 16, 24, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 104, @raylib.Color::new(8, 12, 20, 230))
-    @raylib.draw_text("RUSH HOUR ESCAPE 2026", 18, 22, 36, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Level \{level}/3", 484, 34, 30, @raylib.Color::new(244, 226, 136, 255))
-    @raylib.draw_text("Moves \{moves}", 660, 34, 30, @raylib.Color::new(218, 234, 250, 255))
-    @raylib.draw_text("Par \{par}", 830, 34, 30, @raylib.Color::new(198, 228, 252, 255))
-    @raylib.draw_text("Score \{score}", 980, 34, 30, @raylib.Color::new(198, 228, 252, 255))
+    @raylib.draw_text(
+      "RUSH HOUR ESCAPE 2026",
+      18,
+      22,
+      36,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Level \{level}/3",
+      484,
+      34,
+      30,
+      @raylib.Color::new(244, 226, 136, 255),
+    )
+    @raylib.draw_text(
+      "Moves \{moves}",
+      660,
+      34,
+      30,
+      @raylib.Color::new(218, 234, 250, 255),
+    )
+    @raylib.draw_text(
+      "Par \{par}",
+      830,
+      34,
+      30,
+      @raylib.Color::new(198, 228, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      980,
+      34,
+      30,
+      @raylib.Color::new(198, 228, 252, 255),
+    )
 
-    @raylib.draw_rectangle(ox - 24, oy - 24, gw * cell + 48, gh * cell + 48, @raylib.Color::new(74, 58, 44, 255))
-    @raylib.draw_rectangle(ox, oy, gw * cell, gh * cell, @raylib.Color::new(224, 214, 196, 255))
+    @raylib.draw_rectangle(
+      ox - 24,
+      oy - 24,
+      gw * cell + 48,
+      gh * cell + 48,
+      @raylib.Color::new(74, 58, 44, 255),
+    )
+    @raylib.draw_rectangle(
+      ox,
+      oy,
+      gw * cell,
+      gh * cell,
+      @raylib.Color::new(224, 214, 196, 255),
+    )
 
     for y = 0; y <= gh; y = y + 1 {
       let ly = oy + y * cell
-      @raylib.draw_line(ox, ly, ox + gw * cell, ly, @raylib.Color::new(166, 150, 128, 255))
+      @raylib.draw_line(
+        ox,
+        ly,
+        ox + gw * cell,
+        ly,
+        @raylib.Color::new(166, 150, 128, 255),
+      )
     }
     for x = 0; x <= gw; x = x + 1 {
       let lx = ox + x * cell
-      @raylib.draw_line(lx, oy, lx, oy + gh * cell, @raylib.Color::new(166, 150, 128, 255))
+      @raylib.draw_line(
+        lx,
+        oy,
+        lx,
+        oy + gh * cell,
+        @raylib.Color::new(166, 150, 128, 255),
+      )
     }
 
     let gate_y = oy + exit_row * cell + 8
-    @raylib.draw_rectangle(ox + gw * cell, gate_y, 18, cell - 16, @raylib.Color::new(246, 110, 110, 255))
-    @raylib.draw_text("EXIT", ox + gw * cell + 20, gate_y + 20, 22, @raylib.Color::new(250, 220, 220, 255))
+    @raylib.draw_rectangle(
+      ox + gw * cell,
+      gate_y,
+      18,
+      cell - 16,
+      @raylib.Color::new(246, 110, 110, 255),
+    )
+    @raylib.draw_text(
+      "EXIT",
+      ox + gw * cell + 20,
+      gate_y + 20,
+      22,
+      @raylib.Color::new(250, 220, 220, 255),
+    )
 
     for i = 0; i < car_count; i = i + 1 {
       if not(cars[i].active) {
@@ -441,61 +523,172 @@ fn main {
 
       let x = ox + cars[i].x * cell + 6
       let y = oy + cars[i].y * cell + 6
-      let w = if cars[i].horizontal { cars[i].len * cell - 12 } else { cell - 12 }
-      let h = if cars[i].horizontal { cell - 12 } else { cars[i].len * cell - 12 }
+      let w = if cars[i].horizontal {
+        cars[i].len * cell - 12
+      } else {
+        cell - 12
+      }
+      let h = if cars[i].horizontal {
+        cell - 12
+      } else {
+        cars[i].len * cell - 12
+      }
       let c = color_for(cars[i].color)
 
       @raylib.draw_rectangle(x, y, w, h, c)
-      @raylib.draw_rectangle_lines(x, y, w, h, @raylib.Color::new(22, 22, 30, 180))
+      @raylib.draw_rectangle_lines(
+        x,
+        y,
+        w,
+        h,
+        @raylib.Color::new(22, 22, 30, 180),
+      )
 
       let dot_x = if cars[i].horizontal { x + w - 20 } else { x + w / 2 }
       let dot_y = if cars[i].horizontal { y + h / 2 } else { y + h - 20 }
-      @raylib.draw_circle(dot_x, dot_y, 6.0, @raylib.Color::new(244, 244, 248, 220))
+      @raylib.draw_circle(
+        dot_x,
+        dot_y,
+        6.0,
+        @raylib.Color::new(244, 244, 248, 220),
+      )
 
       if i == selected {
-        @raylib.draw_rectangle_lines(x - 3, y - 3, w + 6, h + 6, @raylib.Color::new(250, 236, 120, 255))
+        @raylib.draw_rectangle_lines(
+          x - 3,
+          y - 3,
+          w + 6,
+          h + 6,
+          @raylib.Color::new(250, 236, 120, 255),
+        )
       }
 
       if cars[i].player {
-        @raylib.draw_text("P", x + 10, y + 8, 28, @raylib.Color::new(252, 244, 240, 255))
+        @raylib.draw_text(
+          "P",
+          x + 10,
+          y + 8,
+          28,
+          @raylib.Color::new(252, 244, 240, 255),
+        )
       }
     }
 
     if transition_t > 0.0 {
-      @raylib.draw_rectangle(ox, oy, gw * cell, gh * cell, @raylib.Color::new(20, 30, 48, 120))
-      @raylib.draw_text("LEVEL CLEAR", ox + 146, oy + gh * cell / 2 - 24, 50, @raylib.Color::new(246, 236, 150, 255))
+      @raylib.draw_rectangle(
+        ox,
+        oy,
+        gw * cell,
+        gh * cell,
+        @raylib.Color::new(20, 30, 48, 120),
+      )
+      @raylib.draw_text(
+        "LEVEL CLEAR",
+        ox + 146,
+        oy + gh * cell / 2 - 24,
+        50,
+        @raylib.Color::new(246, 236, 150, 255),
+      )
     }
 
     let ctl_x = 24
     let ctl_y = sh - 182
-    @raylib.draw_rectangle(10, sh - 196, 166, 182, @raylib.Color::new(10, 16, 24, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 196,
+      166,
+      182,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
     @raylib.draw_text("Touch", 62, sh - 192, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("UP", ctl_x + 108, ctl_y + 16, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 58, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 58,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 12, ctl_y + 74, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y + 58, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y + 58,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 90, ctl_y + 74, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y + 116, 76, 52, @raylib.Color::new(46, 64, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y + 116,
+      76,
+      52,
+      @raylib.Color::new(46, 64, 88, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 90, ctl_y + 132, 20, @raylib.white)
 
-    @raylib.draw_rectangle(188, sh - 54, sw - 206, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 198, sh - 48, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      188,
+      sh - 54,
+      sw - 206,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      198,
+      sh - 48,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
-    @raylib.draw_text("Stars \{stars}", sw - 180, sh - 188, 30, @raylib.Color::new(250, 224, 132, 255))
+    @raylib.draw_text(
+      "Stars \{stars}",
+      sw - 180,
+      sh - 188,
+      30,
+      @raylib.Color::new(250, 224, 132, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 300, sh / 2 - 94, 600, 188, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 300,
+        sh / 2 - 94,
+        600,
+        188,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "TRAFFIC MASTER" } else { "STUCK" },
+        if won {
+          "TRAFFIC MASTER"
+        } else {
+          "STUCK"
+        },
         sw / 2 - 200,
         sh / 2 - 34,
         54,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

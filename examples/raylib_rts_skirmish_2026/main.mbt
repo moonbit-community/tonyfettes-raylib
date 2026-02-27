@@ -218,13 +218,19 @@ fn main {
               }
             }
           } else {
-            let dir : Float =
-              if units[i].team == 0 { (1.0 : Float) } else { (-1.0 : Float) }
+            let dir : Float = if units[i].team == 0 {
+              (1.0 : Float)
+            } else {
+              (-1.0 : Float)
+            }
             units[i].x = units[i].x + dir * units[i].speed * dt
           }
         } else {
-          let dir : Float =
-            if units[i].team == 0 { (1.0 : Float) } else { (-1.0 : Float) }
+          let dir : Float = if units[i].team == 0 {
+            (1.0 : Float)
+          } else {
+            (-1.0 : Float)
+          }
           units[i].x = units[i].x + dir * units[i].speed * dt
         }
 
@@ -251,7 +257,13 @@ fn main {
 
     for l = 0; l < lanes; l = l + 1 {
       let y = lane_y(l)
-      @raylib.draw_rectangle(40, y - 44, sw - 80, 88, @raylib.Color::new(56, 64, 56, 255))
+      @raylib.draw_rectangle(
+        40,
+        y - 44,
+        sw - 80,
+        88,
+        @raylib.Color::new(56, 64, 56, 255),
+      )
       @raylib.draw_line(40, y, sw - 40, y, @raylib.darkgreen)
       if l == lane_select {
         @raylib.draw_rectangle_lines(36, y - 48, sw - 72, 96, @raylib.yellow)
@@ -266,27 +278,85 @@ fn main {
       if units[i].alive {
         let y = lane_y(units[i].lane)
         let color = if units[i].team == 0 {
-          if units[i].kind == 0 { @raylib.skyblue } else { @raylib.lime }
+          if units[i].kind == 0 {
+            @raylib.skyblue
+          } else {
+            @raylib.lime
+          }
+        } else if units[i].kind == 0 {
+          @raylib.maroon
         } else {
-          if units[i].kind == 0 { @raylib.maroon } else { @raylib.orange }
+          @raylib.orange
         }
         @raylib.draw_circle(units[i].x.to_int(), y, 12.0, color)
-        @raylib.draw_text("\{units[i].hp}", units[i].x.to_int() - 10, y - 26, 18, @raylib.white)
+        @raylib.draw_text(
+          "\{units[i].hp}",
+          units[i].x.to_int() - 10,
+          y - 26,
+          18,
+          @raylib.white,
+        )
       }
     }
 
     @raylib.draw_text("RTS SKIRMISH 2026", 20, 16, 34, @raylib.skyblue)
-    @raylib.draw_text("Base HP \{player_base_hp} vs \{enemy_base_hp}", 24, 56, 24, @raylib.raywhite)
-    @raylib.draw_text("Workers \{player_workers}  Res \{player_res}", 360, 56, 24, @raylib.lime)
-    @raylib.draw_text("Enemy workers \{enemy_workers}", 650, 56, 24, @raylib.orange)
-    @raylib.draw_text("Q worker(45)  W swordsman(70)  E ranger(90)  1/2/3 lane", 120, 620, 24, @raylib.gray)
+    @raylib.draw_text(
+      "Base HP \{player_base_hp} vs \{enemy_base_hp}",
+      24,
+      56,
+      24,
+      @raylib.raywhite,
+    )
+    @raylib.draw_text(
+      "Workers \{player_workers}  Res \{player_res}",
+      360,
+      56,
+      24,
+      @raylib.lime,
+    )
+    @raylib.draw_text(
+      "Enemy workers \{enemy_workers}",
+      650,
+      56,
+      24,
+      @raylib.orange,
+    )
+    @raylib.draw_text(
+      "Q worker(45)  W swordsman(70)  E ranger(90)  1/2/3 lane", 120, 620, 24, @raylib.gray,
+    )
 
-    @raylib.draw_rectangle(36, 654, sw - 72, 32, @raylib.Color::new(28, 30, 36, 255))
+    @raylib.draw_rectangle(
+      36,
+      654,
+      sw - 72,
+      32,
+      @raylib.Color::new(28, 30, 36, 255),
+    )
     @raylib.draw_text(msg, 48, 660, 20, @raylib.raywhite)
 
     if won || lost {
-      @raylib.draw_rectangle(320, 270, 440, 120, @raylib.fade(@raylib.black, 0.8))
-      @raylib.draw_text(if won { "ENEMY BASE DOWN" } else { "YOUR BASE FALLS" }, 350, 304, 42, if won { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        320,
+        270,
+        440,
+        120,
+        @raylib.fade(@raylib.black, 0.8),
+      )
+      @raylib.draw_text(
+        if won {
+          "ENEMY BASE DOWN"
+        } else {
+          "YOUR BASE FALLS"
+        },
+        350,
+        304,
+        42,
+        if won {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 420, 352, 26, @raylib.raywhite)
     }
 

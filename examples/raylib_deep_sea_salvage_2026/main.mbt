@@ -141,16 +141,19 @@ fn main {
 
       let mut mx : Float = 0.0
       let mut my : Float = 0.0
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         mx = mx - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         mx = mx + 1.0
       }
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         my = my - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         my = my + 1.0
       }
 
@@ -268,8 +271,20 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(10, 24, 36, 255))
 
-    @raylib.draw_rectangle(0, 0, sw, surface_y.to_int(), @raylib.Color::new(46, 110, 168, 255))
-    @raylib.draw_rectangle(0, surface_y.to_int(), sw, sh - surface_y.to_int(), @raylib.Color::new(12, 56, 86, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      surface_y.to_int(),
+      @raylib.Color::new(46, 110, 168, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      surface_y.to_int(),
+      sw,
+      sh - surface_y.to_int(),
+      @raylib.Color::new(12, 56, 86, 255),
+    )
 
     for y = surface_y.to_int() + 30; y < sh; y = y + 60 {
       @raylib.draw_line(0, y, sw, y, @raylib.fade(@raylib.skyblue, 0.12))
@@ -277,45 +292,123 @@ fn main {
 
     for i = 0; i < relics.length(); i = i + 1 {
       if relics[i].alive {
-        @raylib.draw_circle(relics[i].x.to_int(), relics[i].y.to_int(), relics[i].size, @raylib.gold)
-        @raylib.draw_circle_lines(relics[i].x.to_int(), relics[i].y.to_int(), relics[i].size, @raylib.yellow)
+        @raylib.draw_circle(
+          relics[i].x.to_int(),
+          relics[i].y.to_int(),
+          relics[i].size,
+          @raylib.gold,
+        )
+        @raylib.draw_circle_lines(
+          relics[i].x.to_int(),
+          relics[i].y.to_int(),
+          relics[i].size,
+          @raylib.yellow,
+        )
       }
     }
 
     for i = 0; i < mines.length(); i = i + 1 {
       if mines[i].alive {
-        @raylib.draw_circle(mines[i].x.to_int(), mines[i].y.to_int(), mines[i].r, @raylib.maroon)
-        @raylib.draw_circle_lines(mines[i].x.to_int(), mines[i].y.to_int(), mines[i].r, @raylib.red)
+        @raylib.draw_circle(
+          mines[i].x.to_int(),
+          mines[i].y.to_int(),
+          mines[i].r,
+          @raylib.maroon,
+        )
+        @raylib.draw_circle_lines(
+          mines[i].x.to_int(),
+          mines[i].y.to_int(),
+          mines[i].r,
+          @raylib.red,
+        )
       }
     }
 
     // submarine
     @raylib.draw_ellipse(px.to_int(), py.to_int(), 28.0, 14.0, @raylib.yellow)
     @raylib.draw_circle((px + 18.0).to_int(), py.to_int(), 6.0, @raylib.orange)
-    @raylib.draw_rectangle((px - 10.0).to_int(), (py - 18.0).to_int(), 20, 6, @raylib.gray)
+    @raylib.draw_rectangle(
+      (px - 10.0).to_int(),
+      (py - 18.0).to_int(),
+      20,
+      6,
+      @raylib.gray,
+    )
 
     @raylib.draw_text("DEEP SEA SALVAGE 2026", 20, 16, 40, @raylib.skyblue)
     @raylib.draw_text("Bank \{bank}", 20, 62, 30, @raylib.lime)
     @raylib.draw_text("Cargo \{cargo_value}", 200, 62, 30, @raylib.gold)
-    @raylib.draw_text("Hull \{hull}", 420, 62, 30, if hull <= 30 { @raylib.red } else { @raylib.raywhite })
+    @raylib.draw_text(
+      "Hull \{hull}",
+      420,
+      62,
+      30,
+      if hull <= 30 {
+        @raylib.red
+      } else {
+        @raylib.raywhite
+      },
+    )
 
     let t = timer.to_int()
-    @raylib.draw_text("Time \{t}s", 600, 62, 30, if t < 30 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{t}s",
+      600,
+      62,
+      30,
+      if t < 30 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
     @raylib.draw_text("Oxygen", 20, 104, 24, @raylib.skyblue)
-    @raylib.draw_rectangle(118, 110, 220, 14, @raylib.Color::new(22, 34, 56, 255))
-    @raylib.draw_rectangle(118, 110, (oxygen * 2.2).to_int(), 14, @raylib.skyblue)
+    @raylib.draw_rectangle(
+      118,
+      110,
+      220,
+      14,
+      @raylib.Color::new(22, 34, 56, 255),
+    )
+    @raylib.draw_rectangle(
+      118,
+      110,
+      (oxygen * 2.2).to_int(),
+      14,
+      @raylib.skyblue,
+    )
 
     @raylib.draw_text("Fuel", 360, 104, 24, @raylib.orange)
-    @raylib.draw_rectangle(424, 110, 220, 14, @raylib.Color::new(54, 36, 22, 255))
+    @raylib.draw_rectangle(
+      424,
+      110,
+      220,
+      14,
+      @raylib.Color::new(54, 36, 22, 255),
+    )
     @raylib.draw_rectangle(424, 110, (fuel * 2.2).to_int(), 14, @raylib.orange)
 
-    @raylib.draw_text("Tip: surface to bank cargo and refill oxygen faster", 20, 684, 24, @raylib.lightgray)
-    @raylib.draw_rectangle(20, 718, sw - 40, 24, @raylib.Color::new(8, 14, 20, 220))
+    @raylib.draw_text(
+      "Tip: surface to bank cargo and refill oxygen faster", 20, 684, 24, @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      718,
+      sw - 40,
+      24,
+      @raylib.Color::new(8, 14, 20, 220),
+    )
     @raylib.draw_text(msg, 26, 721, 18, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 560, 190, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        560,
+        190,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("DIVE OVER", 450, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 386, 34, @raylib.white)
     }

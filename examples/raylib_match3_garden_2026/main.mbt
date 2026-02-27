@@ -168,7 +168,13 @@ fn apply_matches_and_refill(board : Array[Int], marks : Array[Bool]) -> Int {
 }
 
 ///|
-fn swap_tiles(board : Array[Int], x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Unit {
+fn swap_tiles(
+  board : Array[Int],
+  x1 : Int,
+  y1 : Int,
+  x2 : Int,
+  y2 : Int,
+) -> Unit {
   let a = idx(x1, y1)
   let b = idx(x2, y2)
   let t = board[a]
@@ -209,28 +215,33 @@ fn main {
     }
 
     if moves_left > 0 {
-      if @raylib.is_key_pressed(@raylib.KeyLeft) || @raylib.is_key_pressed(@raylib.KeyA) {
+      if @raylib.is_key_pressed(@raylib.KeyLeft) ||
+        @raylib.is_key_pressed(@raylib.KeyA) {
         if cur_x > 0 {
           cur_x = cur_x - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyRight) || @raylib.is_key_pressed(@raylib.KeyD) {
+      if @raylib.is_key_pressed(@raylib.KeyRight) ||
+        @raylib.is_key_pressed(@raylib.KeyD) {
         if cur_x < board_w - 1 {
           cur_x = cur_x + 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW) {
+      if @raylib.is_key_pressed(@raylib.KeyUp) ||
+        @raylib.is_key_pressed(@raylib.KeyW) {
         if cur_y > 0 {
           cur_y = cur_y - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyDown) || @raylib.is_key_pressed(@raylib.KeyS) {
+      if @raylib.is_key_pressed(@raylib.KeyDown) ||
+        @raylib.is_key_pressed(@raylib.KeyS) {
         if cur_y < board_h - 1 {
           cur_y = cur_y + 1
         }
       }
 
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         if sel_x < 0 {
           sel_x = cur_x
           sel_y = cur_y
@@ -293,30 +304,73 @@ fn main {
         let px = board_px + x * cell
         let py = board_py + y * cell
 
-        @raylib.draw_rectangle(px, py, cell - 2, cell - 2, @raylib.Color::new(12, 16, 20, 255))
+        @raylib.draw_rectangle(
+          px,
+          py,
+          cell - 2,
+          cell - 2,
+          @raylib.Color::new(12, 16, 20, 255),
+        )
         if v >= 0 {
           let c = tile_color(v)
           @raylib.draw_circle(px + cell / 2, py + cell / 2, 22.0, c)
-          @raylib.draw_circle_lines(px + cell / 2, py + cell / 2, 22.0, @raylib.white)
+          @raylib.draw_circle_lines(
+            px + cell / 2,
+            py + cell / 2,
+            22.0,
+            @raylib.white,
+          )
         }
 
         if x == cur_x && y == cur_y {
-          @raylib.draw_rectangle_lines(px + 1, py + 1, cell - 4, cell - 4, @raylib.yellow)
-          @raylib.draw_rectangle_lines(px + 2, py + 2, cell - 6, cell - 6, @raylib.yellow)
+          @raylib.draw_rectangle_lines(
+            px + 1,
+            py + 1,
+            cell - 4,
+            cell - 4,
+            @raylib.yellow,
+          )
+          @raylib.draw_rectangle_lines(
+            px + 2,
+            py + 2,
+            cell - 6,
+            cell - 6,
+            @raylib.yellow,
+          )
         }
         if x == sel_x && y == sel_y {
-          @raylib.draw_rectangle_lines(px + 5, py + 5, cell - 12, cell - 12, @raylib.red)
+          @raylib.draw_rectangle_lines(
+            px + 5,
+            py + 5,
+            cell - 12,
+            cell - 12,
+            @raylib.red,
+          )
         }
       }
     }
 
-    @raylib.draw_rectangle(200, 628, 860, 64, @raylib.Color::new(10, 15, 20, 220))
+    @raylib.draw_rectangle(
+      200,
+      628,
+      860,
+      64,
+      @raylib.Color::new(10, 15, 20, 220),
+    )
     @raylib.draw_text(msg, 212, 648, 24, @raylib.raywhite)
 
     if moves_left <= 0 {
-      @raylib.draw_rectangle(300, 260, 500, 150, @raylib.fade(@raylib.black, 0.8))
+      @raylib.draw_rectangle(
+        300,
+        260,
+        500,
+        150,
+        @raylib.fade(@raylib.black, 0.8),
+      )
       @raylib.draw_text("GARDEN SHIFT ENDED", 350, 294, 36, @raylib.skyblue)
-      @raylib.draw_text("Press R to start a new shift", 360, 344, 26, @raylib.white)
+      @raylib.draw_text(
+        "Press R to start a new shift", 360, 344, 26, @raylib.white,
+      )
     }
 
     @raylib.end_drawing()

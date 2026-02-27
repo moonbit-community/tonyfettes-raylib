@@ -56,7 +56,12 @@ fn spawn_bullet(bullets : Array[Bullet], x : Float, y : Float) -> Unit {
 }
 
 ///|
-fn spawn_enemy(enemies : Array[Enemy], kind : Int, x : Float, y : Float) -> Unit {
+fn spawn_enemy(
+  enemies : Array[Enemy],
+  kind : Int,
+  x : Float,
+  y : Float,
+) -> Unit {
   for i = 0; i < enemies.length(); i = i + 1 {
     if not(enemies[i].alive) {
       enemies[i].alive = true
@@ -153,16 +158,19 @@ fn main {
     if not(over) {
       let mut move_x : Float = 0.0
       let mut move_y : Float = 0.0
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         move_x = move_x - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         move_x = move_x + 1.0
       }
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         move_y = move_y - 1.0
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         move_y = move_y + 1.0
       }
       player_x = player_x + move_x * 280.0 * dt
@@ -178,14 +186,16 @@ fn main {
       river_turn_tick = river_turn_tick + dt
       if river_turn_tick >= 1.15 {
         river_turn_tick = river_turn_tick - 1.15
-        river_center = river_center + Float::from_int(@raylib.get_random_value(-60, 60))
+        river_center = river_center +
+          Float::from_int(@raylib.get_random_value(-60, 60))
         if river_center < 250.0 {
           river_center = 250.0
         }
         if river_center > Float::from_int(sw) - 250.0 {
           river_center = Float::from_int(sw) - 250.0
         }
-        river_curve = river_curve + Float::from_int(@raylib.get_random_value(-40, 40))
+        river_curve = river_curve +
+          Float::from_int(@raylib.get_random_value(-40, 40))
         if river_curve < -130.0 {
           river_curve = -130.0
         }
@@ -220,7 +230,11 @@ fn main {
       fire_cd = fire_cd - dt
       bank_hit_cd = bank_hit_cd - dt
 
-      if (@raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)) && fire_cd <= 0.0 {
+      if (
+          @raylib.is_key_down(@raylib.KeySpace) ||
+          @raylib.is_key_down(@raylib.KeyJ)
+        ) &&
+        fire_cd <= 0.0 {
         spawn_bullet(bullets, player_x, player_y - 18.0)
         fire_cd = 0.11
       }
@@ -229,7 +243,8 @@ fn main {
       if spawn_tick >= 0.45 {
         spawn_tick = spawn_tick - 0.45
         let top_center = river_center_at(0, river_center, river_curve)
-        let spawn_x = top_center + Float::from_int(@raylib.get_random_value(-150, 150))
+        let spawn_x = top_center +
+          Float::from_int(@raylib.get_random_value(-150, 150))
         let roll = @raylib.get_random_value(0, 99)
         if roll < 58 {
           spawn_enemy(enemies, 0, spawn_x, -28.0)
@@ -257,10 +272,12 @@ fn main {
 
         if enemies[i].kind == 0 {
           enemies[i].x = enemies[i].x + enemies[i].vx * dt
-          if enemies[i].x < left_bank(enemies[i].y.to_int(), river_center, river_curve) + 20.0 {
+          if enemies[i].x <
+            left_bank(enemies[i].y.to_int(), river_center, river_curve) + 20.0 {
             enemies[i].vx = enemies[i].vx.abs()
           }
-          if enemies[i].x > right_bank(enemies[i].y.to_int(), river_center, river_curve) - 20.0 {
+          if enemies[i].x >
+            right_bank(enemies[i].y.to_int(), river_center, river_curve) - 20.0 {
             enemies[i].vx = -enemies[i].vx.abs()
           }
         } else if enemies[i].kind == 1 {
@@ -359,7 +376,13 @@ fn main {
     for y = 0; y < sh; y = y + 4 {
       let l = left_bank(y, river_center, river_curve)
       let r = right_bank(y, river_center, river_curve)
-      @raylib.draw_rectangle(l.to_int(), y, (r - l).to_int(), 4, @raylib.Color::new(40, 120, 180, 255))
+      @raylib.draw_rectangle(
+        l.to_int(),
+        y,
+        (r - l).to_int(),
+        4,
+        @raylib.Color::new(40, 120, 180, 255),
+      )
       @raylib.draw_line(l.to_int(), y, l.to_int(), y + 3, @raylib.darkbrown)
       @raylib.draw_line(r.to_int(), y, r.to_int(), y + 3, @raylib.darkbrown)
     }
@@ -396,7 +419,13 @@ fn main {
             22,
             @raylib.gold,
           )
-          @raylib.draw_text("F", (enemies[i].x - 6.0).to_int(), (enemies[i].y - 8.0).to_int(), 18, @raylib.black)
+          @raylib.draw_text(
+            "F",
+            (enemies[i].x - 6.0).to_int(),
+            (enemies[i].y - 8.0).to_int(),
+            18,
+            @raylib.black,
+          )
         }
       }
     }
@@ -431,18 +460,42 @@ fn main {
     @raylib.draw_text("Distance \{distance}m", 240, 62, 28, @raylib.white)
 
     @raylib.draw_text("HP", 20, 104, 22, @raylib.red)
-    @raylib.draw_rectangle(62, 108, 220, 16, @raylib.Color::new(60, 20, 20, 255))
+    @raylib.draw_rectangle(
+      62,
+      108,
+      220,
+      16,
+      @raylib.Color::new(60, 20, 20, 255),
+    )
     @raylib.draw_rectangle(62, 108, hp * 220 / 100, 16, @raylib.red)
 
     @raylib.draw_text("Fuel", 20, 132, 22, @raylib.gold)
-    @raylib.draw_rectangle(62, 136, 220, 16, @raylib.Color::new(45, 45, 20, 255))
+    @raylib.draw_rectangle(
+      62,
+      136,
+      220,
+      16,
+      @raylib.Color::new(45, 45, 20, 255),
+    )
     @raylib.draw_rectangle(62, 136, (fuel * 2.2).to_int(), 16, @raylib.gold)
 
-    @raylib.draw_rectangle(20, 666, 1060, 36, @raylib.Color::new(15, 19, 22, 220))
+    @raylib.draw_rectangle(
+      20,
+      666,
+      1060,
+      36,
+      @raylib.Color::new(15, 19, 22, 220),
+    )
     @raylib.draw_text(msg, 30, 674, 22, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 500, 160, @raylib.fade(@raylib.black, 0.8))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        500,
+        160,
+        @raylib.fade(@raylib.black, 0.8),
+      )
       @raylib.draw_text("MISSION FAILED", 410, 290, 42, @raylib.orange)
       @raylib.draw_text("Press R to relaunch", 430, 345, 30, @raylib.white)
     }

@@ -95,8 +95,18 @@ fn sqdist(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -113,7 +123,13 @@ fn clear_particles(ps : Array[Particle]) -> Unit {
 }
 
 ///|
-fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kind : Int) -> Unit {
+fn spawn_particle(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < ps.length(); i = i + 1 {
     if done {
@@ -126,7 +142,8 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
       ps[i].y = y
       ps[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
       ps[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 60)) / Float::from_int(100)
+      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 60)) /
+        Float::from_int(100)
       ps[i].kind = kind
       done = true
     }
@@ -134,7 +151,14 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
 }
 
 ///|
-fn burst(ps : Array[Particle], x : Float, y : Float, n : Int, speed : Float, kind : Int) -> Unit {
+fn burst(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -155,7 +179,12 @@ fn reset_athlete(a : Athlete, x : Float) -> Unit {
 }
 
 ///|
-fn setup_rally(player : Athlete, bot : Athlete, ball : Ball, serve_owner : Int) -> Unit {
+fn setup_rally(
+  player : Athlete,
+  bot : Athlete,
+  ball : Ball,
+  serve_owner : Int,
+) -> Unit {
   reset_athlete(player, 284.0)
   reset_athlete(bot, 996.0)
 
@@ -176,7 +205,13 @@ fn setup_rally(player : Athlete, bot : Athlete, ball : Ball, serve_owner : Int) 
 }
 
 ///|
-fn setup_match(player : Athlete, bot : Athlete, ball : Ball, wind : Wind, ps : Array[Particle]) -> Unit {
+fn setup_match(
+  player : Athlete,
+  bot : Athlete,
+  ball : Ball,
+  wind : Wind,
+  ps : Array[Particle],
+) -> Unit {
   player.score = 0
   player.sets = 0
   bot.score = 0
@@ -298,7 +333,12 @@ fn update_athlete_movement(
 }
 
 ///|
-fn attempt_hit_ball(a : Athlete, ball : Ball, owner : Int, ps : Array[Particle]) -> Bool {
+fn attempt_hit_ball(
+  a : Athlete,
+  ball : Ball,
+  owner : Int,
+  ps : Array[Particle],
+) -> Bool {
   if a.hit_cd > 0.0 {
     return false
   }
@@ -316,7 +356,9 @@ fn attempt_hit_ball(a : Athlete, ball : Ball, owner : Int, ps : Array[Particle])
     Float::from_int(@raylib.get_random_value(66, net_x - 90))
   }
 
-  let mut target_y : Float = -Float::from_int(@raylib.get_random_value(240, 420))
+  let mut target_y : Float = -Float::from_int(
+    @raylib.get_random_value(240, 420),
+  )
 
   // Air-time contact allows a downward spike toward the opposite floor.
   if not(a.on_ground) && ball.y > a.y - 20.0 {
@@ -332,7 +374,9 @@ fn attempt_hit_ball(a : Athlete, ball : Ball, owner : Int, ps : Array[Particle])
 
   ball.vx = dx / d * base_speed + a.vx * 0.30
   ball.vy = dy / d * base_speed + a.vy * 0.18
-  ball.spin = ball.spin + (if owner == 1 { 1.0 } else { -1.0 }) * Float::from_int(@raylib.get_random_value(16, 44))
+  ball.spin = ball.spin +
+    (if owner == 1 { 1.0 } else { -1.0 }) *
+    Float::from_int(@raylib.get_random_value(16, 44))
   ball.touch_owner = owner
 
   a.hit_cd = 0.22
@@ -348,9 +392,13 @@ fn attempt_hit_ball(a : Athlete, ball : Ball, owner : Int, ps : Array[Particle])
 ///|
 fn spawn_wind(wind : Wind, set_no : Int) -> Unit {
   wind.dir = if @raylib.get_random_value(0, 1) == 0 { -1.0 } else { 1.0 }
-  wind.strength = Float::from_int(@raylib.get_random_value(36 + set_no * 8, 86 + set_no * 11))
-  wind.ttl = Float::from_int(@raylib.get_random_value(180, 420)) / Float::from_int(100)
-  wind.cd = Float::from_int(@raylib.get_random_value(560, 980)) / Float::from_int(100)
+  wind.strength = Float::from_int(
+    @raylib.get_random_value(36 + set_no * 8, 86 + set_no * 11),
+  )
+  wind.ttl = Float::from_int(@raylib.get_random_value(180, 420)) /
+    Float::from_int(100)
+  wind.cd = Float::from_int(@raylib.get_random_value(560, 980)) /
+    Float::from_int(100)
 }
 
 ///|
@@ -482,23 +530,10 @@ fn main {
     serve_owner: 1,
   }
 
-  let wind : Wind = {
-    dir: 1.0,
-    strength: 0.0,
-    ttl: 0.0,
-    cd: 4.0,
-  }
+  let wind : Wind = { dir: 1.0, strength: 0.0, ttl: 0.0, cd: 4.0 }
 
   let particles : Array[Particle] = Array::makei(max_particles, fn(_i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      ttl: 0.0,
-      kind: 0,
-      active: false,
-    }
+    { x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ttl: 0.0, kind: 0, active: false }
   })
 
   setup_match(player, bot, ball, wind, particles)
@@ -585,11 +620,16 @@ fn main {
 
       update_wind(wind, dt, set_no(player, bot))
 
-      let mut p_left = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut p_right = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut p_jump = @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeySpace)
+      let mut p_left = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut p_right = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut p_jump = @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) ||
+        @raylib.is_key_pressed(@raylib.KeySpace)
       let mut p_hit = @raylib.is_key_pressed(@raylib.KeyJ)
-      let mut p_dash = @raylib.is_key_pressed(@raylib.KeyK) || @raylib.is_key_pressed(@raylib.KeyLeftShift)
+      let mut p_dash = @raylib.is_key_pressed(@raylib.KeyK) ||
+        @raylib.is_key_pressed(@raylib.KeyLeftShift)
 
       let mouse = @raylib.get_mouse_position()
 
@@ -614,14 +654,31 @@ fn main {
         }
       }
 
-      update_athlete_movement(player, dt, p_left, p_right, p_jump, p_dash, 70.0, Float::from_int(net_x - 36))
+      update_athlete_movement(
+        player,
+        dt,
+        p_left,
+        p_right,
+        p_jump,
+        p_dash,
+        70.0,
+        Float::from_int(net_x - 36),
+      )
 
       let mut bot_target : Float = 930.0
       if ball.active {
         if ball.x >= Float::from_int(net_x - 32) || ball.vx > 0.0 {
-          let fall_t = clampf((ground_y - ball.y) / clampf(absf(ball.vy) + 220.0, 220.0, 1400.0), 0.0, 1.7)
+          let fall_t = clampf(
+            (ground_y - ball.y) / clampf(absf(ball.vy) + 220.0, 220.0, 1400.0),
+            0.0,
+            1.7,
+          )
           bot_target = ball.x + ball.vx * fall_t
-          bot_target = clampf(bot_target, Float::from_int(net_x + 36), Float::from_int(sw - 70))
+          bot_target = clampf(
+            bot_target,
+            Float::from_int(net_x + 36),
+            Float::from_int(sw - 70),
+          )
         }
       } else if ball.serve_owner == 2 {
         bot_target = 1020.0
@@ -639,7 +696,9 @@ fn main {
           b_jump = true
         }
 
-        if absf(bot.x - bot_target) > 180.0 && bot.dash_t <= 0.0 && bot.energy >= 34.0 {
+        if absf(bot.x - bot_target) > 180.0 &&
+          bot.dash_t <= 0.0 &&
+          bot.energy >= 34.0 {
           b_dash = true
         }
 
@@ -648,7 +707,16 @@ fn main {
         }
       }
 
-      update_athlete_movement(bot, dt, b_left, b_right, b_jump, b_dash, Float::from_int(net_x + 36), Float::from_int(sw - 70))
+      update_athlete_movement(
+        bot,
+        dt,
+        b_left,
+        b_right,
+        b_jump,
+        b_dash,
+        Float::from_int(net_x + 36),
+        Float::from_int(sw - 70),
+      )
 
       if ball.active {
         if p_hit {
@@ -722,7 +790,10 @@ fn main {
         let net_right : Float = Float::from_int(net_x) + 11.0
         let net_top : Float = ground_y - Float::from_int(net_h)
 
-        if ball.x + ball.r >= net_left && ball.x - ball.r <= net_right && ball.y + ball.r >= net_top && ball.y - ball.r <= ground_y {
+        if ball.x + ball.r >= net_left &&
+          ball.x - ball.r <= net_right &&
+          ball.y + ball.r >= net_top &&
+          ball.y - ball.r <= ground_y {
           if ball.y < net_top + 16.0 {
             ball.y = net_top - ball.r
             ball.vy = -absf(ball.vy) * 0.76
@@ -748,7 +819,9 @@ fn main {
           let over_ref : Ref[Bool] = { val: over }
           let won_ref : Ref[Bool] = { val: won }
 
-          resolve_point(winner, player, bot, ball, particles, msg_ref, rally_ref, over_ref, won_ref)
+          resolve_point(
+            winner, player, bot, ball, particles, msg_ref, rally_ref, over_ref, won_ref,
+          )
 
           round_msg = msg_ref.val
           rally_wait = rally_ref.val
@@ -780,41 +853,113 @@ fn main {
     let pulse = (crowd_t * 3.0).to_int() % 160
     let glow = if pulse < 80 { pulse } else { 160 - pulse }
 
-    @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(14, 20 + glow / 6, 40 + glow / 3, 255))
-    @raylib.draw_rectangle(0, 0, sw, 280, @raylib.Color::new(20, 30 + glow / 6, 62 + glow / 3, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      sh,
+      @raylib.Color::new(14, 20 + glow / 6, 40 + glow / 3, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      280,
+      @raylib.Color::new(20, 30 + glow / 6, 62 + glow / 3, 255),
+    )
 
     for i = 0; i < 90; i = i + 1 {
-      let x = ((i * 86 + (crowd_t * 48.0).to_int()) % (sw + 180)) - 90
-      let h = 130 + (i * 43 % 280)
-      let w = 44 + (i * 17 % 76)
-      let c = 22 + (i * 13 % 62)
-      @raylib.draw_rectangle(x, sh - h, w, h, @raylib.Color::new(c, c + 8, c + 28, 255))
+      let x = (i * 86 + (crowd_t * 48.0).to_int()) % (sw + 180) - 90
+      let h = 130 + i * 43 % 280
+      let w = 44 + i * 17 % 76
+      let c = 22 + i * 13 % 62
+      @raylib.draw_rectangle(
+        x,
+        sh - h,
+        w,
+        h,
+        @raylib.Color::new(c, c + 8, c + 28, 255),
+      )
       if i % 2 == 0 {
-        @raylib.draw_rectangle(x + 8, sh - h + 22, 8, h - 34, @raylib.Color::new(86, 210, 248, 194))
+        @raylib.draw_rectangle(
+          x + 8,
+          sh - h + 22,
+          8,
+          h - 34,
+          @raylib.Color::new(86, 210, 248, 194),
+        )
       }
       if i % 3 == 0 {
-        @raylib.draw_rectangle(x + 26, sh - h + 40, 8, h - 48, @raylib.Color::new(242, 132, 226, 188))
+        @raylib.draw_rectangle(
+          x + 26,
+          sh - h + 40,
+          8,
+          h - 48,
+          @raylib.Color::new(242, 132, 226, 188),
+        )
       }
     }
 
     let court_top = ground_y - 6.0
-    @raylib.draw_rectangle(0, court_top.to_int(), sw, sh - court_top.to_int(), @raylib.Color::new(58, 56, 64, 255))
-    @raylib.draw_rectangle(0, (court_top + 6.0).to_int(), sw, 42, @raylib.Color::new(74, 74, 82, 255))
+    @raylib.draw_rectangle(
+      0,
+      court_top.to_int(),
+      sw,
+      sh - court_top.to_int(),
+      @raylib.Color::new(58, 56, 64, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      (court_top + 6.0).to_int(),
+      sw,
+      42,
+      @raylib.Color::new(74, 74, 82, 255),
+    )
 
     for i = 0; i < 36; i = i + 1 {
       let x = (i * 40 + (crowd_t * 100.0).to_int()) % (sw + 80) - 40
-      @raylib.draw_line(x, (court_top + 8.0).to_int(), x + 18, (court_top + 38.0).to_int(), @raylib.Color::new(96, 96, 106, 255))
+      @raylib.draw_line(
+        x,
+        (court_top + 8.0).to_int(),
+        x + 18,
+        (court_top + 38.0).to_int(),
+        @raylib.Color::new(96, 96, 106, 255),
+      )
     }
 
-    @raylib.draw_line(0, (court_top - 2.0).to_int(), sw, (court_top - 2.0).to_int(), @raylib.Color::new(230, 230, 234, 255))
-    @raylib.draw_line(net_x, (court_top - 2.0).to_int(), net_x, (court_top - Float::from_int(net_h)).to_int(), @raylib.Color::new(214, 220, 232, 255))
+    @raylib.draw_line(
+      0,
+      (court_top - 2.0).to_int(),
+      sw,
+      (court_top - 2.0).to_int(),
+      @raylib.Color::new(230, 230, 234, 255),
+    )
+    @raylib.draw_line(
+      net_x,
+      (court_top - 2.0).to_int(),
+      net_x,
+      (court_top - Float::from_int(net_h)).to_int(),
+      @raylib.Color::new(214, 220, 232, 255),
+    )
 
     for y = 0; y < net_h / 12; y = y + 1 {
       let yy = (court_top - Float::from_int(net_h) + Float::from_int(y * 12)).to_int()
-      @raylib.draw_line(net_x - 22, yy, net_x + 22, yy, @raylib.Color::new(196, 204, 224, 255))
+      @raylib.draw_line(
+        net_x - 22,
+        yy,
+        net_x + 22,
+        yy,
+        @raylib.Color::new(196, 204, 224, 255),
+      )
     }
 
-    @raylib.draw_rectangle(net_x - 4, (court_top - Float::from_int(net_h)).to_int(), 8, net_h + 6, @raylib.Color::new(186, 190, 204, 255))
+    @raylib.draw_rectangle(
+      net_x - 4,
+      (court_top - Float::from_int(net_h)).to_int(),
+      8,
+      net_h + 6,
+      @raylib.Color::new(186, 190, 204, 255),
+    )
 
     let player_color = if player.flash_t > 0.0 {
       @raylib.Color::new(252, 236, 148, 255)
@@ -831,41 +976,121 @@ fn main {
     let px = (player.x + shake_x).to_int()
     let py = player.y.to_int()
 
-    @raylib.draw_circle(px, py - 60, 14.0, @raylib.Color::new(236, 242, 250, 255))
+    @raylib.draw_circle(
+      px,
+      py - 60,
+      14.0,
+      @raylib.Color::new(236, 242, 250, 255),
+    )
     @raylib.draw_rectangle(px - 14, py - 46, 28, 34, player_color)
-    @raylib.draw_line(px - 10, py - 34, px - 26 + (player.vx * 0.03).to_int(), py - 16, player_color)
-    @raylib.draw_line(px + 10, py - 34, px + 26 + (player.vx * 0.03).to_int(), py - 16, player_color)
+    @raylib.draw_line(
+      px - 10,
+      py - 34,
+      px - 26 + (player.vx * 0.03).to_int(),
+      py - 16,
+      player_color,
+    )
+    @raylib.draw_line(
+      px + 10,
+      py - 34,
+      px + 26 + (player.vx * 0.03).to_int(),
+      py - 16,
+      player_color,
+    )
     @raylib.draw_line(px - 8, py - 12, px - 14, py + 16, player_color)
     @raylib.draw_line(px + 8, py - 12, px + 14, py + 16, player_color)
 
     if player.dash_t > 0.0 {
-      @raylib.draw_line(px - 38, py - 52, px - 10, py - 52, @raylib.Color::new(250, 230, 136, 255))
-      @raylib.draw_line(px - 48, py - 40, px - 20, py - 40, @raylib.Color::new(250, 230, 136, 255))
-      @raylib.draw_line(px - 38, py - 28, px - 10, py - 28, @raylib.Color::new(250, 230, 136, 255))
+      @raylib.draw_line(
+        px - 38,
+        py - 52,
+        px - 10,
+        py - 52,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
+      @raylib.draw_line(
+        px - 48,
+        py - 40,
+        px - 20,
+        py - 40,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
+      @raylib.draw_line(
+        px - 38,
+        py - 28,
+        px - 10,
+        py - 28,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
     }
 
     let bx = (bot.x + shake_x).to_int()
     let by = bot.y.to_int()
 
-    @raylib.draw_circle(bx, by - 60, 14.0, @raylib.Color::new(236, 242, 250, 255))
+    @raylib.draw_circle(
+      bx,
+      by - 60,
+      14.0,
+      @raylib.Color::new(236, 242, 250, 255),
+    )
     @raylib.draw_rectangle(bx - 14, by - 46, 28, 34, bot_color)
-    @raylib.draw_line(bx - 10, by - 34, bx - 26 + (bot.vx * 0.03).to_int(), by - 16, bot_color)
-    @raylib.draw_line(bx + 10, by - 34, bx + 26 + (bot.vx * 0.03).to_int(), by - 16, bot_color)
+    @raylib.draw_line(
+      bx - 10,
+      by - 34,
+      bx - 26 + (bot.vx * 0.03).to_int(),
+      by - 16,
+      bot_color,
+    )
+    @raylib.draw_line(
+      bx + 10,
+      by - 34,
+      bx + 26 + (bot.vx * 0.03).to_int(),
+      by - 16,
+      bot_color,
+    )
     @raylib.draw_line(bx - 8, by - 12, bx - 14, by + 16, bot_color)
     @raylib.draw_line(bx + 8, by - 12, bx + 14, by + 16, bot_color)
 
     if bot.dash_t > 0.0 {
-      @raylib.draw_line(bx + 38, by - 52, bx + 10, by - 52, @raylib.Color::new(250, 230, 136, 255))
-      @raylib.draw_line(bx + 48, by - 40, bx + 20, by - 40, @raylib.Color::new(250, 230, 136, 255))
-      @raylib.draw_line(bx + 38, by - 28, bx + 10, by - 28, @raylib.Color::new(250, 230, 136, 255))
+      @raylib.draw_line(
+        bx + 38,
+        by - 52,
+        bx + 10,
+        by - 52,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
+      @raylib.draw_line(
+        bx + 48,
+        by - 40,
+        bx + 20,
+        by - 40,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
+      @raylib.draw_line(
+        bx + 38,
+        by - 28,
+        bx + 10,
+        by - 28,
+        @raylib.Color::new(250, 230, 136, 255),
+      )
     }
 
     if ball.active || rally_wait > 0.0 {
       let ball_x = (ball.x + shake_x).to_int()
       let ball_y = ball.y.to_int()
 
-      @raylib.draw_circle(ball_x, ball_y, ball.r, @raylib.Color::new(250, 244, 232, 255))
-      @raylib.draw_circle(ball_x - 4, ball_y - 2, ball.r * 0.55, @raylib.Color::new(244, 206, 112, 255))
+      @raylib.draw_circle(
+        ball_x,
+        ball_y,
+        ball.r,
+        @raylib.Color::new(250, 244, 232, 255),
+      )
+      @raylib.draw_circle(
+        ball_x - 4,
+        ball_y - 2,
+        ball.r * 0.55,
+        @raylib.Color::new(244, 206, 112, 255),
+      )
       @raylib.draw_line(
         ball_x - ball.r.to_int(),
         ball_y,
@@ -896,72 +1121,253 @@ fn main {
       } else {
         @raylib.Color::new(118, 230, 246, 255)
       }
-      @raylib.draw_circle((particles[i].x + shake_x).to_int(), particles[i].y.to_int(), 2.0, c)
+      @raylib.draw_circle(
+        (particles[i].x + shake_x).to_int(),
+        particles[i].y.to_int(),
+        2.0,
+        c,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 118, @raylib.Color::new(6, 10, 18, 232))
-    @raylib.draw_text("ROOFTOP VOLLEYBALL 2026", 16, 18, 34, @raylib.Color::new(236, 246, 255, 255))
+    @raylib.draw_text(
+      "ROOFTOP VOLLEYBALL 2026",
+      16,
+      18,
+      34,
+      @raylib.Color::new(236, 246, 255, 255),
+    )
 
-    @raylib.draw_text("Player", 420, 18, 26, @raylib.Color::new(110, 226, 250, 255))
-    @raylib.draw_text("Rival", 770, 18, 26, @raylib.Color::new(248, 140, 226, 255))
+    @raylib.draw_text(
+      "Player",
+      420,
+      18,
+      26,
+      @raylib.Color::new(110, 226, 250, 255),
+    )
+    @raylib.draw_text(
+      "Rival",
+      770,
+      18,
+      26,
+      @raylib.Color::new(248, 140, 226, 255),
+    )
 
-    @raylib.draw_text("Sets \{player.sets}", 404, 50, 30, @raylib.Color::new(220, 236, 250, 255))
-    @raylib.draw_text("Sets \{bot.sets}", 754, 50, 30, @raylib.Color::new(220, 236, 250, 255))
+    @raylib.draw_text(
+      "Sets \{player.sets}",
+      404,
+      50,
+      30,
+      @raylib.Color::new(220, 236, 250, 255),
+    )
+    @raylib.draw_text(
+      "Sets \{bot.sets}",
+      754,
+      50,
+      30,
+      @raylib.Color::new(220, 236, 250, 255),
+    )
 
-    @raylib.draw_text("Pts \{player.score}", 526, 50, 30, @raylib.Color::new(250, 232, 142, 255))
-    @raylib.draw_text("Pts \{bot.score}", 876, 50, 30, @raylib.Color::new(250, 232, 142, 255))
+    @raylib.draw_text(
+      "Pts \{player.score}",
+      526,
+      50,
+      30,
+      @raylib.Color::new(250, 232, 142, 255),
+    )
+    @raylib.draw_text(
+      "Pts \{bot.score}",
+      876,
+      50,
+      30,
+      @raylib.Color::new(250, 232, 142, 255),
+    )
 
-    @raylib.draw_text("Stars \{stars}", 1080, 24, 30, @raylib.Color::new(250, 228, 136, 255))
+    @raylib.draw_text(
+      "Stars \{stars}",
+      1080,
+      24,
+      30,
+      @raylib.Color::new(250, 228, 136, 255),
+    )
 
-    @raylib.draw_text("P-Energy \{player.energy.to_int()}%", 20, 78, 22, @raylib.Color::new(214, 236, 252, 255))
-    @raylib.draw_text("B-Energy \{bot.energy.to_int()}%", 246, 78, 22, @raylib.Color::new(214, 236, 252, 255))
+    @raylib.draw_text(
+      "P-Energy \{player.energy.to_int()}%",
+      20,
+      78,
+      22,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "B-Energy \{bot.energy.to_int()}%",
+      246,
+      78,
+      22,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
 
     @raylib.draw_rectangle(20, 104, 190, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(20, 104, (player.energy / 100.0 * 190.0).to_int(), 8, @raylib.Color::new(96, 202, 246, 255))
+    @raylib.draw_rectangle(
+      20,
+      104,
+      (player.energy / 100.0 * 190.0).to_int(),
+      8,
+      @raylib.Color::new(96, 202, 246, 255),
+    )
 
-    @raylib.draw_rectangle(246, 104, 190, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(246, 104, (bot.energy / 100.0 * 190.0).to_int(), 8, @raylib.Color::new(236, 126, 214, 255))
+    @raylib.draw_rectangle(
+      246,
+      104,
+      190,
+      8,
+      @raylib.Color::new(20, 26, 36, 255),
+    )
+    @raylib.draw_rectangle(
+      246,
+      104,
+      (bot.energy / 100.0 * 190.0).to_int(),
+      8,
+      @raylib.Color::new(236, 126, 214, 255),
+    )
 
     if wind.ttl > 0.0 {
       let dir = if wind.dir > 0.0 { "->" } else { "<-" }
-      @raylib.draw_text("Wind \{dir} \{wind.strength.to_int()}", 470, 82, 28, @raylib.Color::new(166, 234, 250, 255))
+      @raylib.draw_text(
+        "Wind \{dir} \{wind.strength.to_int()}",
+        470,
+        82,
+        28,
+        @raylib.Color::new(166, 234, 250, 255),
+      )
     } else {
-      @raylib.draw_text("Wind calm", 470, 82, 28, @raylib.Color::new(130, 146, 170, 255))
+      @raylib.draw_text(
+        "Wind calm",
+        470,
+        82,
+        28,
+        @raylib.Color::new(130, 146, 170, 255),
+      )
     }
 
-    @raylib.draw_rectangle(16, sh - 182, 202, 172, @raylib.Color::new(8, 14, 28, 220))
+    @raylib.draw_rectangle(
+      16,
+      sh - 182,
+      202,
+      172,
+      @raylib.Color::new(8, 14, 28, 220),
+    )
     @raylib.draw_text("Touch", 78, sh - 174, 20, @raylib.white)
-    @raylib.draw_rectangle(move_left_x, move_left_y, 92, 152, @raylib.Color::new(52, 72, 100, 255))
-    @raylib.draw_text("LEFT", move_left_x + 18, move_left_y + 62, 28, @raylib.white)
-    @raylib.draw_rectangle(move_right_x, move_right_y, 92, 152, @raylib.Color::new(52, 72, 100, 255))
-    @raylib.draw_text("RIGHT", move_right_x + 10, move_right_y + 62, 28, @raylib.white)
+    @raylib.draw_rectangle(
+      move_left_x,
+      move_left_y,
+      92,
+      152,
+      @raylib.Color::new(52, 72, 100, 255),
+    )
+    @raylib.draw_text(
+      "LEFT",
+      move_left_x + 18,
+      move_left_y + 62,
+      28,
+      @raylib.white,
+    )
+    @raylib.draw_rectangle(
+      move_right_x,
+      move_right_y,
+      92,
+      152,
+      @raylib.Color::new(52, 72, 100, 255),
+    )
+    @raylib.draw_text(
+      "RIGHT",
+      move_right_x + 10,
+      move_right_y + 62,
+      28,
+      @raylib.white,
+    )
 
-    @raylib.draw_rectangle(jump_x, jump_y, 108, 152, @raylib.Color::new(72, 154, 220, 255))
+    @raylib.draw_rectangle(
+      jump_x,
+      jump_y,
+      108,
+      152,
+      @raylib.Color::new(72, 154, 220, 255),
+    )
     @raylib.draw_text("JUMP", jump_x + 16, jump_y + 58, 30, @raylib.white)
-    @raylib.draw_rectangle(hit_x, hit_y, 108, 152, @raylib.Color::new(214, 110, 82, 255))
+    @raylib.draw_rectangle(
+      hit_x,
+      hit_y,
+      108,
+      152,
+      @raylib.Color::new(214, 110, 82, 255),
+    )
     @raylib.draw_text("HIT", hit_x + 28, hit_y + 58, 30, @raylib.white)
-    @raylib.draw_rectangle(dash_x, dash_y, 92, 152, @raylib.Color::new(94, 188, 124, 255))
+    @raylib.draw_rectangle(
+      dash_x,
+      dash_y,
+      92,
+      152,
+      @raylib.Color::new(94, 188, 124, 255),
+    )
     @raylib.draw_text("DASH", dash_x + 8, dash_y + 58, 26, @raylib.white)
 
-    @raylib.draw_rectangle(224, sh - 54, sw - 448, 38, @raylib.Color::new(6, 10, 18, 220))
-    @raylib.draw_text(round_msg, 236, sh - 46, 24, @raylib.Color::new(224, 236, 248, 255))
+    @raylib.draw_rectangle(
+      224,
+      sh - 54,
+      sw - 448,
+      38,
+      @raylib.Color::new(6, 10, 18, 220),
+    )
+    @raylib.draw_text(
+      round_msg,
+      236,
+      sh - 46,
+      24,
+      @raylib.Color::new(224, 236, 248, 255),
+    )
 
     if rally_wait > 0.0 && not(over) {
       let countdown = rally_wait.to_int() + 1
-      @raylib.draw_text("Next rally \{countdown}", sw / 2 - 92, sh / 2 - 30, 36, @raylib.Color::new(248, 236, 142, 255))
+      @raylib.draw_text(
+        "Next rally \{countdown}",
+        sw / 2 - 92,
+        sh / 2 - 30,
+        36,
+        @raylib.Color::new(248, 236, 142, 255),
+      )
     }
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 130))
-      @raylib.draw_rectangle(sw / 2 - 340, sh / 2 - 104, 680, 208, @raylib.Color::new(16, 24, 40, 244))
+      @raylib.draw_rectangle(
+        sw / 2 - 340,
+        sh / 2 - 104,
+        680,
+        208,
+        @raylib.Color::new(16, 24, 40, 244),
+      )
       @raylib.draw_text(
-        if won { "CHAMPION" } else { "DEFEAT" },
+        if won {
+          "CHAMPION"
+        } else {
+          "DEFEAT"
+        },
         sw / 2 - 160,
         sh / 2 - 30,
         72,
-        if won { @raylib.Color::new(252, 238, 148, 255) } else { @raylib.Color::new(252, 140, 140, 255) },
+        if won {
+          @raylib.Color::new(252, 238, 148, 255)
+        } else {
+          @raylib.Color::new(252, 140, 140, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 46, 34, @raylib.Color::new(224, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 46,
+        34,
+        @raylib.Color::new(224, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

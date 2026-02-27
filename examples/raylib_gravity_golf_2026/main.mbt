@@ -13,8 +13,15 @@ struct Well {
 }
 
 ///|
-fn set_well(wells : Array[Well], i : Int, x : Float, y : Float, mass : Float, r : Float) -> Unit {
-  wells[i] = { x: x, y: y, mass: mass, r: r }
+fn set_well(
+  wells : Array[Well],
+  i : Int,
+  x : Float,
+  y : Float,
+  mass : Float,
+  r : Float,
+) -> Unit {
+  wells[i] = { x, y, mass, r }
 }
 
 ///|
@@ -25,7 +32,10 @@ fn clear_wells(wells : Array[Well]) -> Unit {
 }
 
 ///|
-fn setup_level(level : Int, wells : Array[Well]) -> (Float, Float, Float, Float, Int) {
+fn setup_level(
+  level : Int,
+  wells : Array[Well],
+) -> (Float, Float, Float, Float, Int) {
   clear_wells(wells)
   if level == 1 {
     set_well(wells, 0, 520.0, 360.0, 56000.0, 34.0)
@@ -110,7 +120,8 @@ fn main {
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         power = power + 260.0 * dt
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         power = power - 260.0 * dt
       }
       if power < 220.0 {
@@ -120,7 +131,9 @@ fn main {
         power = 760.0
       }
 
-      if @raylib.is_key_pressed(@raylib.KeySpace) && not(moving) && shots_left > 0 {
+      if @raylib.is_key_pressed(@raylib.KeySpace) &&
+        not(moving) &&
+        shots_left > 0 {
         let m = @raylib.get_mouse_position()
         let mut dx = m.x - bx
         let mut dy = m.y - by
@@ -159,8 +172,8 @@ fn main {
           if d2 > 36.0 {
             let d = d2.sqrt()
             let a = wells[i].mass / d2
-            bvx = bvx + (dx / d) * a * dt
-            bvy = bvy + (dy / d) * a * dt
+            bvx = bvx + dx / d * a * dt
+            bvy = bvy + dy / d * a * dt
           }
         }
 
@@ -230,9 +243,24 @@ fn main {
 
     for i = 0; i < wells.length(); i = i + 1 {
       if wells[i].mass > 0.0 {
-        @raylib.draw_circle(wells[i].x.to_int(), wells[i].y.to_int(), wells[i].r + 12.0, @raylib.fade(@raylib.darkblue, 0.35))
-        @raylib.draw_circle(wells[i].x.to_int(), wells[i].y.to_int(), wells[i].r, @raylib.purple)
-        @raylib.draw_circle_lines(wells[i].x.to_int(), wells[i].y.to_int(), wells[i].r, @raylib.white)
+        @raylib.draw_circle(
+          wells[i].x.to_int(),
+          wells[i].y.to_int(),
+          wells[i].r + 12.0,
+          @raylib.fade(@raylib.darkblue, 0.35),
+        )
+        @raylib.draw_circle(
+          wells[i].x.to_int(),
+          wells[i].y.to_int(),
+          wells[i].r,
+          @raylib.purple,
+        )
+        @raylib.draw_circle_lines(
+          wells[i].x.to_int(),
+          wells[i].y.to_int(),
+          wells[i].r,
+          @raylib.white,
+        )
       }
     }
 
@@ -242,7 +270,13 @@ fn main {
 
     let m = @raylib.get_mouse_position()
     if not(moving) && not(over) {
-      @raylib.draw_line(bx.to_int(), by.to_int(), m.x.to_int(), m.y.to_int(), @raylib.yellow)
+      @raylib.draw_line(
+        bx.to_int(),
+        by.to_int(),
+        m.x.to_int(),
+        m.y.to_int(),
+        @raylib.yellow,
+      )
     }
 
     @raylib.draw_circle(bx.to_int(), by.to_int(), 8.0, @raylib.raywhite)
@@ -253,12 +287,26 @@ fn main {
     @raylib.draw_text("Power \{power.to_int()}", 330, 62, 28, @raylib.raywhite)
     @raylib.draw_text("Score \{score}", 540, 62, 28, @raylib.lime)
 
-    @raylib.draw_text("Aim with mouse. W/S adjust power. Space launches ball.", 20, 694, 24, @raylib.lightgray)
-    @raylib.draw_rectangle(20, 726, sw - 40, 24, @raylib.Color::new(8, 10, 14, 220))
+    @raylib.draw_text(
+      "Aim with mouse. W/S adjust power. Space launches ball.", 20, 694, 24, @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      726,
+      sw - 40,
+      24,
+      @raylib.Color::new(8, 10, 14, 220),
+    )
     @raylib.draw_text(msg, 26, 729, 18, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 560, 190, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        560,
+        190,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("ROUND OVER", 430, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 386, 34, @raylib.white)
     }

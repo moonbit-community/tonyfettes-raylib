@@ -138,7 +138,14 @@ fn dist2(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, x : Int, y : Int, w : Int, h : Int) -> Bool {
+fn inside_rect(
+  px : Float,
+  py : Float,
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+) -> Bool {
   let x0 : Float = Float::from_int(x)
   let y0 : Float = Float::from_int(y)
   let x1 : Float = Float::from_int(x + w)
@@ -156,7 +163,10 @@ fn sample_line(line : FixedArray[Float], x : Float) -> Float {
 }
 
 ///|
-fn generate_cave(cave_top : FixedArray[Float], cave_bottom : FixedArray[Float]) -> Unit {
+fn generate_cave(
+  cave_top : FixedArray[Float],
+  cave_bottom : FixedArray[Float],
+) -> Unit {
   let mut top : Float = 150.0
   let mut gap : Float = 360.0
 
@@ -190,21 +200,11 @@ fn emit_particle(
   vy : Float,
   size : Float,
   life : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < particles.length(); i = i + 1 {
     if not(particles[i].active) {
-      particles[i] = {
-        active: true,
-        x,
-        y,
-        vx,
-        vy,
-        size,
-        t: 0.0,
-        life,
-        kind,
-      }
+      particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
     }
   }
@@ -217,7 +217,7 @@ fn burst_particles(
   y : Float,
   count : Int,
   speed : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let mut dx : Float = randf(-1.0, 1.0)
@@ -255,7 +255,7 @@ fn spawn_projectile(
   vx : Float,
   vy : Float,
   dmg : Float,
-  life : Float
+  life : Float,
 ) -> Unit {
   for i = 0; i < projectiles.length(); i = i + 1 {
     if not(projectiles[i].active) {
@@ -276,7 +276,12 @@ fn spawn_projectile(
 }
 
 ///|
-fn init_crystals(crystals : FixedArray[Crystal], cave_top : FixedArray[Float], cave_bottom : FixedArray[Float], target : Int) -> Unit {
+fn init_crystals(
+  crystals : FixedArray[Crystal],
+  cave_top : FixedArray[Float],
+  cave_bottom : FixedArray[Float],
+  target : Int,
+) -> Unit {
   for i = 0; i < crystals.length(); i = i + 1 {
     let frac : Float = Float::from_int(i) / Float::from_int(crystals.length())
     let x : Float = 180.0 + frac * (world_w - 360.0) + randf(-42.0, 42.0)
@@ -295,11 +300,25 @@ fn init_crystals(crystals : FixedArray[Crystal], cave_top : FixedArray[Float], c
 }
 
 ///|
-fn spawn_enemy(enemies : FixedArray[Enemy], level : Int, player_x : Float, cave_top : FixedArray[Float], cave_bottom : FixedArray[Float]) -> Unit {
+fn spawn_enemy(
+  enemies : FixedArray[Enemy],
+  level : Int,
+  player_x : Float,
+  cave_top : FixedArray[Float],
+  cave_bottom : FixedArray[Float],
+) -> Unit {
   for i = 0; i < enemies.length(); i = i + 1 {
     if not(enemies[i].active) {
-      let kind : Int = if @raylib.get_random_value(0, 100) < (22 + level * 6) { 1 } else { 0 }
-      let x : Float = clampf(player_x + randf(520.0, 980.0), 100.0, world_w - 100.0)
+      let kind : Int = if @raylib.get_random_value(0, 100) < 22 + level * 6 {
+        1
+      } else {
+        0
+      }
+      let x : Float = clampf(
+        player_x + randf(520.0, 980.0),
+        100.0,
+        world_w - 100.0,
+      )
       let top : Float = sample_line(cave_top, x)
       let bottom : Float = sample_line(cave_bottom, x)
       let y : Float = randf(top + 34.0, bottom - 34.0)
@@ -311,7 +330,11 @@ fn spawn_enemy(enemies : FixedArray[Enemy], level : Int, player_x : Float, cave_
         y,
         vx: randf(-20.0, 20.0),
         vy: randf(-18.0, 18.0),
-        hp: if kind == 0 { 64.0 + Float::from_int(level - 1) * 10.0 } else { 128.0 + Float::from_int(level - 1) * 18.0 },
+        hp: if kind == 0 {
+          64.0 + Float::from_int(level - 1) * 10.0
+        } else {
+          128.0 + Float::from_int(level - 1) * 18.0
+        },
         fire_cd: randf(0.2, 1.2),
         bite_cd: randf(0.0, 0.4),
         burn_t: 0.0,
@@ -324,7 +347,13 @@ fn spawn_enemy(enemies : FixedArray[Enemy], level : Int, player_x : Float, cave_
 }
 
 ///|
-fn init_wave(enemies : FixedArray[Enemy], level : Int, player_x : Float, cave_top : FixedArray[Float], cave_bottom : FixedArray[Float]) -> Unit {
+fn init_wave(
+  enemies : FixedArray[Enemy],
+  level : Int,
+  player_x : Float,
+  cave_top : FixedArray[Float],
+  cave_bottom : FixedArray[Float],
+) -> Unit {
   for i = 0; i < enemies.length(); i = i + 1 {
     enemies[i].active = false
   }
@@ -335,11 +364,31 @@ fn init_wave(enemies : FixedArray[Enemy], level : Int, player_x : Float, cave_to
 }
 
 ///|
-fn draw_bar(x : Int, y : Int, w : Int, h : Int, ratio : Float, fg : @raylib.Color, bg : @raylib.Color) -> Unit {
+fn draw_bar(
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+  ratio : Float,
+  fg : @raylib.Color,
+  bg : @raylib.Color,
+) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, bg)
   let r : Float = clampf(ratio, 0.0, 1.0)
-  @raylib.draw_rectangle(x + 2, y + 2, (Float::from_int(w - 4) * r).to_int(), h - 4, fg)
-  @raylib.draw_rectangle_lines(x, y, w, h, @raylib.Color::new(226, 236, 248, 170))
+  @raylib.draw_rectangle(
+    x + 2,
+    y + 2,
+    (Float::from_int(w - 4) * r).to_int(),
+    h - 4,
+    fg,
+  )
+  @raylib.draw_rectangle_lines(
+    x,
+    y,
+    w,
+    h,
+    @raylib.Color::new(226, 236, 248, 170),
+  )
 }
 
 ///|
@@ -352,31 +401,117 @@ fn draw_touch_controls(show : Bool) -> Unit {
   let by : Int = sh - 226
   let ax : Int = sw - 244
 
-  @raylib.draw_rectangle(bx, by + 70, 78, 78, @raylib.Color::new(80, 108, 142, 86))
-  @raylib.draw_text("L", bx + 30, by + 96, 30, @raylib.Color::new(244, 248, 252, 220))
+  @raylib.draw_rectangle(
+    bx,
+    by + 70,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 86),
+  )
+  @raylib.draw_text(
+    "L",
+    bx + 30,
+    by + 96,
+    30,
+    @raylib.Color::new(244, 248, 252, 220),
+  )
 
-  @raylib.draw_rectangle(bx + 168, by + 70, 78, 78, @raylib.Color::new(80, 108, 142, 86))
-  @raylib.draw_text("R", bx + 198, by + 96, 30, @raylib.Color::new(244, 248, 252, 220))
+  @raylib.draw_rectangle(
+    bx + 168,
+    by + 70,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 86),
+  )
+  @raylib.draw_text(
+    "R",
+    bx + 198,
+    by + 96,
+    30,
+    @raylib.Color::new(244, 248, 252, 220),
+  )
 
-  @raylib.draw_rectangle(bx + 84, by, 78, 78, @raylib.Color::new(80, 108, 142, 86))
-  @raylib.draw_text("UP", bx + 103, by + 24, 26, @raylib.Color::new(244, 248, 252, 220))
+  @raylib.draw_rectangle(
+    bx + 84,
+    by,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 86),
+  )
+  @raylib.draw_text(
+    "UP",
+    bx + 103,
+    by + 24,
+    26,
+    @raylib.Color::new(244, 248, 252, 220),
+  )
 
-  @raylib.draw_rectangle(ax, by + 8, 214, 58, @raylib.Color::new(220, 118, 86, 94))
-  @raylib.draw_text("FIRE", ax + 78, by + 27, 24, @raylib.Color::new(252, 244, 232, 230))
+  @raylib.draw_rectangle(
+    ax,
+    by + 8,
+    214,
+    58,
+    @raylib.Color::new(220, 118, 86, 94),
+  )
+  @raylib.draw_text(
+    "FIRE",
+    ax + 78,
+    by + 27,
+    24,
+    @raylib.Color::new(252, 244, 232, 230),
+  )
 
-  @raylib.draw_rectangle(ax, by + 72, 104, 58, @raylib.Color::new(118, 198, 248, 94))
-  @raylib.draw_text("PULSE", ax + 16, by + 91, 20, @raylib.Color::new(238, 248, 255, 230))
+  @raylib.draw_rectangle(
+    ax,
+    by + 72,
+    104,
+    58,
+    @raylib.Color::new(118, 198, 248, 94),
+  )
+  @raylib.draw_text(
+    "PULSE",
+    ax + 16,
+    by + 91,
+    20,
+    @raylib.Color::new(238, 248, 255, 230),
+  )
 
-  @raylib.draw_rectangle(ax + 110, by + 72, 104, 58, @raylib.Color::new(158, 142, 252, 94))
-  @raylib.draw_text("STORM", ax + 126, by + 91, 20, @raylib.Color::new(246, 240, 255, 230))
+  @raylib.draw_rectangle(
+    ax + 110,
+    by + 72,
+    104,
+    58,
+    @raylib.Color::new(158, 142, 252, 94),
+  )
+  @raylib.draw_text(
+    "STORM",
+    ax + 126,
+    by + 91,
+    20,
+    @raylib.Color::new(246, 240, 255, 230),
+  )
 
-  @raylib.draw_rectangle(ax, by + 136, 214, 66, @raylib.Color::new(112, 212, 160, 94))
-  @raylib.draw_text("DASH", ax + 84, by + 159, 26, @raylib.Color::new(242, 252, 246, 230))
+  @raylib.draw_rectangle(
+    ax,
+    by + 136,
+    214,
+    66,
+    @raylib.Color::new(112, 212, 160, 94),
+  )
+  @raylib.draw_text(
+    "DASH",
+    ax + 84,
+    by + 159,
+    26,
+    @raylib.Color::new(242, 252, 246, 230),
+  )
 }
 
 ///|
 fn main {
-  @raylib.init_window(sw, sh, "raylib [moonbit] example - jetpack cavern rush 2026")
+  @raylib.init_window(
+    sw, sh, "raylib [moonbit] example - jetpack cavern rush 2026",
+  )
   defer @raylib.close_window()
 
   @raylib.set_target_fps(60)
@@ -531,13 +666,18 @@ fn main {
     let mouse = @raylib.get_mouse_position()
     let touching : Bool = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
 
-    let mut move_l : Bool = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-    let mut move_r : Bool = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-    let mut thrust_down : Bool = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-    let mut fire_down : Bool = @raylib.is_key_down(@raylib.KeyJ) || @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
+    let mut move_l : Bool = @raylib.is_key_down(@raylib.KeyA) ||
+      @raylib.is_key_down(@raylib.KeyLeft)
+    let mut move_r : Bool = @raylib.is_key_down(@raylib.KeyD) ||
+      @raylib.is_key_down(@raylib.KeyRight)
+    let mut thrust_down : Bool = @raylib.is_key_down(@raylib.KeyW) ||
+      @raylib.is_key_down(@raylib.KeyUp)
+    let mut fire_down : Bool = @raylib.is_key_down(@raylib.KeyJ) ||
+      @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
     let mut pulse_press : Bool = @raylib.is_key_pressed(@raylib.KeyK)
     let mut storm_press : Bool = @raylib.is_key_pressed(@raylib.KeyL)
-    let mut dash_press : Bool = @raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyLeftShift)
+    let mut dash_press : Bool = @raylib.is_key_pressed(@raylib.KeySpace) ||
+      @raylib.is_key_pressed(@raylib.KeyLeftShift)
 
     let bx : Int = 24
     let by : Int = sh - 226
@@ -573,12 +713,14 @@ fn main {
     }
 
     if state == 0 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         state = 1
         reset_round(level)
       }
     } else if state == 2 || state == 3 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         if state == 2 {
           level = level + 1
           if level > 8 {
@@ -765,7 +907,12 @@ fn main {
             if not(enemies[i].active) {
               continue
             }
-            let d2 : Float = dist2(player.x, player.y, enemies[i].x, enemies[i].y)
+            let d2 : Float = dist2(
+              player.x,
+              player.y,
+              enemies[i].x,
+              enemies[i].y,
+            )
             if d2 < best_d2 && d2 <= 420.0 * 420.0 && enemies[i].shock_t <= 0.08 {
               best = i
               best_d2 = d2
@@ -778,7 +925,14 @@ fn main {
             if player.combo > 60 {
               player.combo = 60
             }
-            burst_particles(particles, enemies[best].x, enemies[best].y, 20, 112.0, 2)
+            burst_particles(
+              particles,
+              enemies[best].x,
+              enemies[best].y,
+              20,
+              112.0,
+              2,
+            )
           }
         }
       }
@@ -872,9 +1026,14 @@ fn main {
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemies[i].kind == 0 { 176.0 } else { 130.0 }
+        let base_speed : Float = if enemies[i].kind == 0 {
+          176.0
+        } else {
+          130.0
+        }
         let level_gain : Float = if enemies[i].kind == 0 { 16.0 } else { 12.0 }
-        let mut speed : Float = base_speed + Float::from_int(level - 1) * level_gain
+        let mut speed : Float = base_speed +
+          Float::from_int(level - 1) * level_gain
         if enemies[i].slow_t > 0.0 {
           speed = speed * 0.56
         }
@@ -902,10 +1061,15 @@ fn main {
           enemies[i].vy = -enemies[i].vy.abs() * 0.2
         }
 
-        if enemies[i].bite_cd <= 0.0 && dist2(enemies[i].x, enemies[i].y, player.x, player.y) <= 30.0 * 30.0 {
+        if enemies[i].bite_cd <= 0.0 &&
+          dist2(enemies[i].x, enemies[i].y, player.x, player.y) <= 30.0 * 30.0 {
           enemies[i].bite_cd = 0.62
           if player.hit_cd <= 0.0 {
-            let bite_dmg : Float = if enemies[i].kind == 0 { 12.0 } else { 20.0 }
+            let bite_dmg : Float = if enemies[i].kind == 0 {
+              12.0
+            } else {
+              20.0
+            }
             player.hp = player.hp - bite_dmg
             player.hit_cd = 0.42
             player.flash_t = 0.18
@@ -915,7 +1079,10 @@ fn main {
           }
         }
 
-        if enemies[i].kind == 1 && enemies[i].fire_cd <= 0.0 && d <= 460.0 && enemies[i].shock_t <= 0.0 {
+        if enemies[i].kind == 1 &&
+          enemies[i].fire_cd <= 0.0 &&
+          d <= 460.0 &&
+          enemies[i].shock_t <= 0.0 {
           enemies[i].fire_cd = 1.2
           let inv : Float = if d2 < 1.0 { 0.0 } else { 1.0 / d2.sqrt() }
           spawn_projectile(
@@ -946,7 +1113,10 @@ fn main {
         projectiles[i].x = projectiles[i].x + projectiles[i].vx * dt
         projectiles[i].y = projectiles[i].y + projectiles[i].vy * dt
 
-        if projectiles[i].x < 0.0 || projectiles[i].y < 0.0 || projectiles[i].x > world_w || projectiles[i].y > world_h {
+        if projectiles[i].x < 0.0 ||
+          projectiles[i].y < 0.0 ||
+          projectiles[i].x > world_w ||
+          projectiles[i].y > world_h {
           projectiles[i].active = false
           continue
         }
@@ -956,27 +1126,46 @@ fn main {
             if not(enemies[j].active) {
               continue
             }
-            if dist2(projectiles[i].x, projectiles[i].y, enemies[j].x, enemies[j].y) <= 22.0 * 22.0 {
+            if dist2(
+                projectiles[i].x,
+                projectiles[i].y,
+                enemies[j].x,
+                enemies[j].y,
+              ) <=
+              22.0 * 22.0 {
               enemies[j].hp = enemies[j].hp - projectiles[i].dmg
               if projectiles[i].kind == 0 {
                 enemies[j].burn_t = enemies[j].burn_t + 1.8
               }
-              burst_particles(particles, projectiles[i].x, projectiles[i].y, 6, 58.0, 0)
+              burst_particles(
+                particles,
+                projectiles[i].x,
+                projectiles[i].y,
+                6,
+                58.0,
+                0,
+              )
               projectiles[i].active = false
               break
             }
           }
-        } else {
-          if dist2(projectiles[i].x, projectiles[i].y, player.x, player.y) <= 24.0 * 24.0 {
-            if player.hit_cd <= 0.0 {
-              player.hp = player.hp - projectiles[i].dmg
-              player.hit_cd = 0.34
-              player.flash_t = 0.14
-              player.shake_t = 0.2
-            }
-            burst_particles(particles, projectiles[i].x, projectiles[i].y, 10, 72.0, 2)
-            projectiles[i].active = false
+        } else if dist2(projectiles[i].x, projectiles[i].y, player.x, player.y) <=
+          24.0 * 24.0 {
+          if player.hit_cd <= 0.0 {
+            player.hp = player.hp - projectiles[i].dmg
+            player.hit_cd = 0.34
+            player.flash_t = 0.14
+            player.shake_t = 0.2
           }
+          burst_particles(
+            particles,
+            projectiles[i].x,
+            projectiles[i].y,
+            10,
+            72.0,
+            2,
+          )
+          projectiles[i].active = false
         }
       }
 
@@ -994,7 +1183,18 @@ fn main {
             player.combo = 60
           }
 
-          burst_particles(particles, enemies[i].x, enemies[i].y, 22, 96.0, if enemies[i].kind == 0 { 0 } else { 2 })
+          burst_particles(
+            particles,
+            enemies[i].x,
+            enemies[i].y,
+            22,
+            96.0,
+            if enemies[i].kind == 0 {
+              0
+            } else {
+              2
+            },
+          )
         }
       }
 
@@ -1004,7 +1204,8 @@ fn main {
         }
 
         crystals[i].spin_t = crystals[i].spin_t + dt
-        if dist2(player.x, player.y, crystals[i].x, crystals[i].y) <= 28.0 * 28.0 {
+        if dist2(player.x, player.y, crystals[i].x, crystals[i].y) <=
+          28.0 * 28.0 {
           crystals[i].active = false
           player.crystals = player.crystals + 1
           player.score = player.score + crystals[i].value + player.combo * 2
@@ -1035,14 +1236,23 @@ fn main {
         state = 3
       } else if timer <= 0.0 {
         state = 3
-      } else if player.crystals >= target_crystals && player.x >= world_w - 240.0 {
+      } else if player.crystals >= target_crystals &&
+        player.x >= world_w - 240.0 {
         player.score = player.score + player.hp.to_int() + player.fuel.to_int()
         state = 2
       }
     }
 
-    let shake_x : Float = if player.shake_t > 0.0 { randf(-6.0, 6.0) * (player.shake_t * 3.8) } else { 0.0 }
-    let shake_y : Float = if player.shake_t > 0.0 { randf(-4.0, 4.0) * (player.shake_t * 3.8) } else { 0.0 }
+    let shake_x : Float = if player.shake_t > 0.0 {
+      randf(-6.0, 6.0) * (player.shake_t * 3.8)
+    } else {
+      0.0
+    }
+    let shake_y : Float = if player.shake_t > 0.0 {
+      randf(-4.0, 4.0) * (player.shake_t * 3.8)
+    } else {
+      0.0
+    }
 
     cam_x = player.x - Float::from_int(sw) * 0.38
     if cam_x < 0.0 {
@@ -1058,7 +1268,11 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(10, 16, 28, 255))
 
     let start_seg : Int = clampi((cam_x / seg_w).to_int() - 2, 0, seg_count - 1)
-    let end_seg : Int = clampi(start_seg + sw / seg_w.to_int() + 6, 0, seg_count - 1)
+    let end_seg : Int = clampi(
+      start_seg + sw / seg_w.to_int() + 6,
+      0,
+      seg_count - 1,
+    )
 
     for i = start_seg; i <= end_seg; i = i + 1 {
       let x0 : Float = Float::from_int(i) * seg_w - cam_x + shake_x
@@ -1070,19 +1284,54 @@ fn main {
       let top_avg : Float = (top0 + top1) * 0.5
       let bottom_avg : Float = (bottom0 + bottom1) * 0.5
 
-      @raylib.draw_rectangle(x0.to_int(), 0, seg_w.to_int() + 1, top_avg.to_int(), @raylib.Color::new(38, 48, 66, 255))
-      @raylib.draw_rectangle(x0.to_int(), bottom_avg.to_int(), seg_w.to_int() + 1, sh - bottom_avg.to_int(), @raylib.Color::new(38, 48, 66, 255))
+      @raylib.draw_rectangle(
+        x0.to_int(),
+        0,
+        seg_w.to_int() + 1,
+        top_avg.to_int(),
+        @raylib.Color::new(38, 48, 66, 255),
+      )
+      @raylib.draw_rectangle(
+        x0.to_int(),
+        bottom_avg.to_int(),
+        seg_w.to_int() + 1,
+        sh - bottom_avg.to_int(),
+        @raylib.Color::new(38, 48, 66, 255),
+      )
 
-      @raylib.draw_line(x0.to_int(), top_avg.to_int(), (x0 + seg_w).to_int(), ((top_avg + top1) * 0.5).to_int(), @raylib.Color::new(116, 132, 158, 210))
-      @raylib.draw_line(x0.to_int(), bottom_avg.to_int(), (x0 + seg_w).to_int(), ((bottom_avg + bottom1) * 0.5).to_int(), @raylib.Color::new(116, 132, 158, 210))
+      @raylib.draw_line(
+        x0.to_int(),
+        top_avg.to_int(),
+        (x0 + seg_w).to_int(),
+        ((top_avg + top1) * 0.5).to_int(),
+        @raylib.Color::new(116, 132, 158, 210),
+      )
+      @raylib.draw_line(
+        x0.to_int(),
+        bottom_avg.to_int(),
+        (x0 + seg_w).to_int(),
+        ((bottom_avg + bottom1) * 0.5).to_int(),
+        @raylib.Color::new(116, 132, 158, 210),
+      )
     }
 
     let exit_x : Float = world_w - cam_x - 180.0 + shake_x
     let exit_top : Float = sample_line(cave_top, world_w - 180.0) + shake_y
-    let exit_bottom : Float = sample_line(cave_bottom, world_w - 180.0) + shake_y
+    let exit_bottom : Float = sample_line(cave_bottom, world_w - 180.0) +
+      shake_y
     let exit_mid : Float = (exit_top + exit_bottom) * 0.5
-    @raylib.draw_circle(exit_x.to_int(), exit_mid.to_int(), 34.0, @raylib.Color::new(138, 228, 252, 180))
-    @raylib.draw_circle(exit_x.to_int(), exit_mid.to_int(), 18.0, @raylib.Color::new(222, 248, 255, 220))
+    @raylib.draw_circle(
+      exit_x.to_int(),
+      exit_mid.to_int(),
+      34.0,
+      @raylib.Color::new(138, 228, 252, 180),
+    )
+    @raylib.draw_circle(
+      exit_x.to_int(),
+      exit_mid.to_int(),
+      18.0,
+      @raylib.Color::new(222, 248, 255, 220),
+    )
 
     for i = 0; i < crystals.length(); i = i + 1 {
       if not(crystals[i].active) {
@@ -1090,13 +1339,27 @@ fn main {
       }
       let cx : Float = crystals[i].x - cam_x + shake_x
       let cy : Float = crystals[i].y + shake_y
-      if cx < -24.0 || cy < -24.0 || cx > Float::from_int(sw + 24) || cy > Float::from_int(sh + 24) {
+      if cx < -24.0 ||
+        cy < -24.0 ||
+        cx > Float::from_int(sw + 24) ||
+        cy > Float::from_int(sh + 24) {
         continue
       }
 
       let pulse : Float = 1.0 + @math.sinf(crystals[i].spin_t * 4.0) * 0.12
-      @raylib.draw_circle(cx.to_int(), cy.to_int(), 10.0 * pulse, @raylib.Color::new(128, 216, 252, 220))
-      @raylib.draw_rectangle((cx - 5.0).to_int(), (cy - 9.0).to_int(), 10, 18, @raylib.Color::new(194, 236, 255, 255))
+      @raylib.draw_circle(
+        cx.to_int(),
+        cy.to_int(),
+        10.0 * pulse,
+        @raylib.Color::new(128, 216, 252, 220),
+      )
+      @raylib.draw_rectangle(
+        (cx - 5.0).to_int(),
+        (cy - 9.0).to_int(),
+        10,
+        18,
+        @raylib.Color::new(194, 236, 255, 255),
+      )
     }
 
     for i = 0; i < enemies.length(); i = i + 1 {
@@ -1105,7 +1368,10 @@ fn main {
       }
       let ex : Float = enemies[i].x - cam_x + shake_x
       let ey : Float = enemies[i].y + shake_y
-      if ex < -80.0 || ey < -80.0 || ex > Float::from_int(sw + 80) || ey > Float::from_int(sh + 80) {
+      if ex < -80.0 ||
+        ey < -80.0 ||
+        ex > Float::from_int(sw + 80) ||
+        ey > Float::from_int(sh + 80) {
         continue
       }
 
@@ -1121,11 +1387,26 @@ fn main {
 
       let r : Float = if enemies[i].kind == 0 { 14.0 } else { 18.0 }
       @raylib.draw_circle(ex.to_int(), ey.to_int(), r, col)
-      @raylib.draw_circle((ex - 4.0).to_int(), (ey - 3.0).to_int(), 2.0, @raylib.Color::new(22, 24, 30, 255))
-      @raylib.draw_circle((ex + 4.0).to_int(), (ey - 3.0).to_int(), 2.0, @raylib.Color::new(22, 24, 30, 255))
+      @raylib.draw_circle(
+        (ex - 4.0).to_int(),
+        (ey - 3.0).to_int(),
+        2.0,
+        @raylib.Color::new(22, 24, 30, 255),
+      )
+      @raylib.draw_circle(
+        (ex + 4.0).to_int(),
+        (ey - 3.0).to_int(),
+        2.0,
+        @raylib.Color::new(22, 24, 30, 255),
+      )
 
       if enemies[i].burn_t > 0.0 {
-        @raylib.draw_circle_lines(ex.to_int(), ey.to_int(), r + 4.0, @raylib.Color::new(252, 162, 98, 220))
+        @raylib.draw_circle_lines(
+          ex.to_int(),
+          ey.to_int(),
+          r + 4.0,
+          @raylib.Color::new(252, 162, 98, 220),
+        )
       }
     }
 
@@ -1135,7 +1416,10 @@ fn main {
       }
       let px : Float = projectiles[i].x - cam_x + shake_x
       let py : Float = projectiles[i].y + shake_y
-      if px < -8.0 || py < -8.0 || px > Float::from_int(sw + 8) || py > Float::from_int(sh + 8) {
+      if px < -8.0 ||
+        py < -8.0 ||
+        px > Float::from_int(sw + 8) ||
+        py > Float::from_int(sh + 8) {
         continue
       }
 
@@ -1144,7 +1428,16 @@ fn main {
       } else {
         @raylib.Color::new(242, 146, 146, 255)
       }
-      @raylib.draw_circle(px.to_int(), py.to_int(), if projectiles[i].from_player { 4.0 } else { 3.0 }, col)
+      @raylib.draw_circle(
+        px.to_int(),
+        py.to_int(),
+        if projectiles[i].from_player {
+          4.0
+        } else {
+          3.0
+        },
+        col,
+      )
     }
 
     let hx : Float = player.x - cam_x + shake_x
@@ -1159,7 +1452,13 @@ fn main {
     }
 
     @raylib.draw_circle(hx.to_int(), hy.to_int(), 16.0, hcol)
-    @raylib.draw_rectangle((hx - 10.0).to_int(), (hy - 6.0).to_int(), 20, 12, @raylib.Color::new(42, 64, 92, 255))
+    @raylib.draw_rectangle(
+      (hx - 10.0).to_int(),
+      (hy - 6.0).to_int(),
+      20,
+      12,
+      @raylib.Color::new(42, 64, 92, 255),
+    )
     @raylib.draw_line(
       hx.to_int(),
       hy.to_int(),
@@ -1187,7 +1486,10 @@ fn main {
       }
       let px : Float = particles[i].x - cam_x + shake_x
       let py : Float = particles[i].y + shake_y
-      if px < -20.0 || py < -20.0 || px > Float::from_int(sw + 20) || py > Float::from_int(sh + 20) {
+      if px < -20.0 ||
+        py < -20.0 ||
+        px > Float::from_int(sw + 20) ||
+        py > Float::from_int(sh + 20) {
         continue
       }
 
@@ -1200,24 +1502,93 @@ fn main {
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
       }
-      @raylib.draw_circle(px.to_int(), py.to_int(), particles[i].size * life_r, col)
+      @raylib.draw_circle(
+        px.to_int(),
+        py.to_int(),
+        particles[i].size * life_r,
+        col,
+      )
     }
 
-    @raylib.draw_rectangle(16, 14, 640, 206, @raylib.Color::new(12, 20, 34, 205))
-    @raylib.draw_rectangle_lines(16, 14, 640, 206, @raylib.Color::new(224, 236, 250, 138))
+    @raylib.draw_rectangle(
+      16,
+      14,
+      640,
+      206,
+      @raylib.Color::new(12, 20, 34, 205),
+    )
+    @raylib.draw_rectangle_lines(
+      16,
+      14,
+      640,
+      206,
+      @raylib.Color::new(224, 236, 250, 138),
+    )
 
-    @raylib.draw_text("JETPACK CAVERN RUSH 2026", 30, 22, 34, @raylib.Color::new(236, 244, 254, 250))
-    @raylib.draw_text("Move:A/D  Thrust:W  Fire:J/Mouse  Pulse:K  Storm:L  Dash:Shift", 32, 62, 20, @raylib.Color::new(190, 208, 236, 244))
+    @raylib.draw_text(
+      "JETPACK CAVERN RUSH 2026",
+      30,
+      22,
+      34,
+      @raylib.Color::new(236, 244, 254, 250),
+    )
+    @raylib.draw_text(
+      "Move:A/D  Thrust:W  Fire:J/Mouse  Pulse:K  Storm:L  Dash:Shift",
+      32,
+      62,
+      20,
+      @raylib.Color::new(190, 208, 236, 244),
+    )
 
-    draw_bar(30, 94, 242, 20, player.hp / 280.0, @raylib.Color::new(232, 130, 118, 255), @raylib.Color::new(90, 52, 52, 230))
+    draw_bar(
+      30,
+      94,
+      242,
+      20,
+      player.hp / 280.0,
+      @raylib.Color::new(232, 130, 118, 255),
+      @raylib.Color::new(90, 52, 52, 230),
+    )
     @raylib.draw_text("HP", 278, 92, 22, @raylib.Color::new(216, 230, 244, 244))
 
-    draw_bar(30, 122, 242, 20, player.fuel / 220.0, @raylib.Color::new(118, 206, 252, 255), @raylib.Color::new(56, 78, 94, 230))
-    @raylib.draw_text("Fuel", 278, 120, 22, @raylib.Color::new(216, 230, 244, 244))
+    draw_bar(
+      30,
+      122,
+      242,
+      20,
+      player.fuel / 220.0,
+      @raylib.Color::new(118, 206, 252, 255),
+      @raylib.Color::new(56, 78, 94, 230),
+    )
+    @raylib.draw_text(
+      "Fuel",
+      278,
+      120,
+      22,
+      @raylib.Color::new(216, 230, 244, 244),
+    )
 
-    let dash_ready : Float = if player.dash_cd <= 0.0 { 1.0 } else { 1.0 - player.dash_cd / 2.0 }
-    draw_bar(30, 150, 242, 20, dash_ready, @raylib.Color::new(144, 232, 186, 255), @raylib.Color::new(56, 90, 74, 230))
-    @raylib.draw_text("Dash", 278, 148, 22, @raylib.Color::new(216, 230, 244, 244))
+    let dash_ready : Float = if player.dash_cd <= 0.0 {
+      1.0
+    } else {
+      1.0 - player.dash_cd / 2.0
+    }
+    draw_bar(
+      30,
+      150,
+      242,
+      20,
+      dash_ready,
+      @raylib.Color::new(144, 232, 186, 255),
+      @raylib.Color::new(56, 90, 74, 230),
+    )
+    @raylib.draw_text(
+      "Dash",
+      278,
+      148,
+      22,
+      @raylib.Color::new(216, 230, 244, 244),
+    )
 
     @raylib.draw_text(
       "Crystals \{player.crystals}/\{target_crystals}   Score \{player.score}   Combo x\{player.combo}",
@@ -1227,12 +1598,38 @@ fn main {
       @raylib.Color::new(250, 240, 206, 248),
     )
 
-    let pulse_text = if player.pulse_cd <= 0.0 { "Pulse READY" } else { "Pulse CD \{player.pulse_cd.to_int()}" }
-    let storm_text = if player.storm_cd <= 0.0 { "Storm READY" } else { "Storm CD \{player.storm_cd.to_int()}" }
+    let pulse_text = if player.pulse_cd <= 0.0 {
+      "Pulse READY"
+    } else {
+      "Pulse CD \{player.pulse_cd.to_int()}"
+    }
+    let storm_text = if player.storm_cd <= 0.0 {
+      "Storm READY"
+    } else {
+      "Storm CD \{player.storm_cd.to_int()}"
+    }
 
-    @raylib.draw_text("Time: \{timer.to_int()}s", sw - 344, 24, 34, @raylib.Color::new(246, 246, 252, 250))
-    @raylib.draw_text(pulse_text, sw - 344, 64, 24, @raylib.Color::new(170, 222, 252, 248))
-    @raylib.draw_text(storm_text, sw - 344, 90, 24, @raylib.Color::new(210, 192, 252, 248))
+    @raylib.draw_text(
+      "Time: \{timer.to_int()}s",
+      sw - 344,
+      24,
+      34,
+      @raylib.Color::new(246, 246, 252, 250),
+    )
+    @raylib.draw_text(
+      pulse_text,
+      sw - 344,
+      64,
+      24,
+      @raylib.Color::new(170, 222, 252, 248),
+    )
+    @raylib.draw_text(
+      storm_text,
+      sw - 344,
+      90,
+      24,
+      @raylib.Color::new(210, 192, 252, 248),
+    )
 
     if announce_t > 0.0 {
       let alpha : Int = clampf(announce_t * 90.0, 0.0, 220.0).to_int()
@@ -1247,22 +1644,82 @@ fn main {
 
     if state == 0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 20, 224))
-      @raylib.draw_text("JETPACK CAVERN RUSH", sw / 2 - 380, sh / 2 - 116, 78, @raylib.Color::new(238, 246, 252, 255))
-      @raylib.draw_text("Fly the unstable tunnel and collect crystal charge.", sw / 2 - 360, sh / 2 - 12, 34, @raylib.Color::new(192, 216, 242, 246))
-      @raylib.draw_text("Fight guardians, manage fuel, and escape through portal.", sw / 2 - 390, sh / 2 + 30, 32, @raylib.Color::new(226, 232, 244, 238))
-      @raylib.draw_text("Press ENTER to start", sw / 2 - 190, sh / 2 + 92, 44, @raylib.Color::new(252, 238, 174, 255))
+      @raylib.draw_text(
+        "JETPACK CAVERN RUSH",
+        sw / 2 - 380,
+        sh / 2 - 116,
+        78,
+        @raylib.Color::new(238, 246, 252, 255),
+      )
+      @raylib.draw_text(
+        "Fly the unstable tunnel and collect crystal charge.",
+        sw / 2 - 360,
+        sh / 2 - 12,
+        34,
+        @raylib.Color::new(192, 216, 242, 246),
+      )
+      @raylib.draw_text(
+        "Fight guardians, manage fuel, and escape through portal.",
+        sw / 2 - 390,
+        sh / 2 + 30,
+        32,
+        @raylib.Color::new(226, 232, 244, 238),
+      )
+      @raylib.draw_text(
+        "Press ENTER to start",
+        sw / 2 - 190,
+        sh / 2 + 92,
+        44,
+        @raylib.Color::new(252, 238, 174, 255),
+      )
     }
 
     if state == 2 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 24, 20, 188))
-      @raylib.draw_text("ESCAPE COMPLETE", sw / 2 - 280, sh / 2 - 82, 74, @raylib.Color::new(214, 252, 214, 255))
-      @raylib.draw_text("Score \{player.score}   HP \{player.hp.to_int()}   Fuel \{player.fuel.to_int()}", sw / 2 - 330, sh / 2 + 8, 38, @raylib.Color::new(236, 246, 238, 248))
-      @raylib.draw_text("Press ENTER for next run", sw / 2 - 230, sh / 2 + 70, 40, @raylib.Color::new(252, 238, 176, 255))
+      @raylib.draw_text(
+        "ESCAPE COMPLETE",
+        sw / 2 - 280,
+        sh / 2 - 82,
+        74,
+        @raylib.Color::new(214, 252, 214, 255),
+      )
+      @raylib.draw_text(
+        "Score \{player.score}   HP \{player.hp.to_int()}   Fuel \{player.fuel.to_int()}",
+        sw / 2 - 330,
+        sh / 2 + 8,
+        38,
+        @raylib.Color::new(236, 246, 238, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER for next run",
+        sw / 2 - 230,
+        sh / 2 + 70,
+        40,
+        @raylib.Color::new(252, 238, 176, 255),
+      )
     } else if state == 3 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(22, 8, 8, 198))
-      @raylib.draw_text("RUN FAILED", sw / 2 - 188, sh / 2 - 82, 74, @raylib.Color::new(252, 192, 182, 255))
-      @raylib.draw_text("Crystals \{player.crystals}/\{target_crystals}   Time \{timer.to_int()}s", sw / 2 - 336, sh / 2 + 8, 38, @raylib.Color::new(246, 228, 220, 248))
-      @raylib.draw_text("Press ENTER to retry", sw / 2 - 184, sh / 2 + 70, 40, @raylib.Color::new(252, 228, 174, 255))
+      @raylib.draw_text(
+        "RUN FAILED",
+        sw / 2 - 188,
+        sh / 2 - 82,
+        74,
+        @raylib.Color::new(252, 192, 182, 255),
+      )
+      @raylib.draw_text(
+        "Crystals \{player.crystals}/\{target_crystals}   Time \{timer.to_int()}s",
+        sw / 2 - 336,
+        sh / 2 + 8,
+        38,
+        @raylib.Color::new(246, 228, 220, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER to retry",
+        sw / 2 - 184,
+        sh / 2 + 70,
+        40,
+        @raylib.Color::new(252, 228, 174, 255),
+      )
     }
 
     draw_touch_controls(true)

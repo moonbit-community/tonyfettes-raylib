@@ -163,7 +163,14 @@ fn dist2(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, x : Int, y : Int, w : Int, h : Int) -> Bool {
+fn inside_rect(
+  px : Float,
+  py : Float,
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+) -> Bool {
   let x0 = Float::from_int(x)
   let y0 = Float::from_int(y)
   let x1 = Float::from_int(x + w)
@@ -180,21 +187,11 @@ fn emit_particle(
   vy : Float,
   size : Float,
   life : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < particles.length(); i = i + 1 {
     if not(particles[i].active) {
-      particles[i] = {
-        active: true,
-        x,
-        y,
-        vx,
-        vy,
-        size,
-        t: 0.0,
-        life,
-        kind,
-      }
+      particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
     }
   }
@@ -207,7 +204,7 @@ fn burst_particles(
   y : Float,
   count : Int,
   power : Float,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let ang = randf(0.0, 6.283)
@@ -227,13 +224,19 @@ fn burst_particles(
 
 ///|
 fn spawn_survivors(survivors : FixedArray[Survivor], level : Int) -> Unit {
-  let total = clampf(Float::from_int(20 + level * 4), 20.0, Float::from_int(max_survivors)).to_int()
+  let total = clampf(
+    Float::from_int(20 + level * 4),
+    20.0,
+    Float::from_int(max_survivors),
+  ).to_int()
   for i = 0; i < survivors.length(); i = i + 1 {
     if i < total {
       let lane = i % 6
       let col = i / 6
       let px : Float = 640.0 + Float::from_int(col) * 260.0 + randf(-72.0, 72.0)
-      let py : Float = 300.0 + Float::from_int(lane) * 380.0 + randf(-64.0, 64.0)
+      let py : Float = 300.0 +
+        Float::from_int(lane) * 380.0 +
+        randf(-64.0, 64.0)
       survivors[i] = {
         active: true,
         saved: false,
@@ -256,7 +259,11 @@ fn spawn_survivors(survivors : FixedArray[Survivor], level : Int) -> Unit {
 
 ///|
 fn spawn_hazards(hazards : FixedArray[Hazard], level : Int) -> Unit {
-  let total = clampf(Float::from_int(18 + level * 5), 18.0, Float::from_int(max_hazards)).to_int()
+  let total = clampf(
+    Float::from_int(18 + level * 5),
+    18.0,
+    Float::from_int(max_hazards),
+  ).to_int()
   for i = 0; i < hazards.length(); i = i + 1 {
     if i < total {
       let kind = if i % 3 == 0 { 1 } else { 0 }
@@ -303,25 +310,38 @@ fn spawn_avalanche(avalanches : FixedArray[Avalanche], level : Int) -> Unit {
 fn spawn_flare(flares : FixedArray[Flare], x : Float, y : Float) -> Unit {
   for i = 0; i < flares.length(); i = i + 1 {
     if not(flares[i].active) {
-      flares[i] = {
-        active: true,
-        x,
-        y,
-        r: 36.0,
-        t: 0.0,
-        life: 3.8,
-      }
+      flares[i] = { active: true, x, y, r: 36.0, t: 0.0, life: 3.8 }
       break
     }
   }
 }
 
 ///|
-fn draw_bar(x : Int, y : Int, w : Int, h : Int, ratio : Float, fg : @raylib.Color, bg : @raylib.Color) -> Unit {
+fn draw_bar(
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+  ratio : Float,
+  fg : @raylib.Color,
+  bg : @raylib.Color,
+) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, bg)
   let fill = clampf(ratio, 0.0, 1.0)
-  @raylib.draw_rectangle(x + 2, y + 2, ((Float::from_int(w - 4)) * fill).to_int(), h - 4, fg)
-  @raylib.draw_rectangle_lines(x, y, w, h, @raylib.Color::new(232, 238, 248, 180))
+  @raylib.draw_rectangle(
+    x + 2,
+    y + 2,
+    (Float::from_int(w - 4) * fill).to_int(),
+    h - 4,
+    fg,
+  )
+  @raylib.draw_rectangle_lines(
+    x,
+    y,
+    w,
+    h,
+    @raylib.Color::new(232, 238, 248, 180),
+  )
 }
 
 ///|
@@ -334,23 +354,95 @@ fn draw_touch_controls(show : Bool) -> Unit {
   let cy = sh - 230
   let right = sw - 214
 
-  @raylib.draw_rectangle(cx, cy + 62, 78, 78, @raylib.Color::new(80, 108, 142, 84))
-  @raylib.draw_text("L", cx + 30, cy + 90, 26, @raylib.Color::new(238, 244, 250, 210))
+  @raylib.draw_rectangle(
+    cx,
+    cy + 62,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 84),
+  )
+  @raylib.draw_text(
+    "L",
+    cx + 30,
+    cy + 90,
+    26,
+    @raylib.Color::new(238, 244, 250, 210),
+  )
 
-  @raylib.draw_rectangle(cx + 168, cy + 62, 78, 78, @raylib.Color::new(80, 108, 142, 84))
-  @raylib.draw_text("R", cx + 198, cy + 90, 26, @raylib.Color::new(238, 244, 250, 210))
+  @raylib.draw_rectangle(
+    cx + 168,
+    cy + 62,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 84),
+  )
+  @raylib.draw_text(
+    "R",
+    cx + 198,
+    cy + 90,
+    26,
+    @raylib.Color::new(238, 244, 250, 210),
+  )
 
-  @raylib.draw_rectangle(cx + 84, cy, 78, 78, @raylib.Color::new(80, 108, 142, 84))
-  @raylib.draw_text("U", cx + 113, cy + 28, 26, @raylib.Color::new(238, 244, 250, 210))
+  @raylib.draw_rectangle(
+    cx + 84,
+    cy,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 84),
+  )
+  @raylib.draw_text(
+    "U",
+    cx + 113,
+    cy + 28,
+    26,
+    @raylib.Color::new(238, 244, 250, 210),
+  )
 
-  @raylib.draw_rectangle(cx + 84, cy + 124, 78, 78, @raylib.Color::new(80, 108, 142, 84))
-  @raylib.draw_text("D", cx + 112, cy + 151, 26, @raylib.Color::new(238, 244, 250, 210))
+  @raylib.draw_rectangle(
+    cx + 84,
+    cy + 124,
+    78,
+    78,
+    @raylib.Color::new(80, 108, 142, 84),
+  )
+  @raylib.draw_text(
+    "D",
+    cx + 112,
+    cy + 151,
+    26,
+    @raylib.Color::new(238, 244, 250, 210),
+  )
 
-  @raylib.draw_rectangle(right, cy + 18, 174, 78, @raylib.Color::new(196, 110, 92, 94))
-  @raylib.draw_text("BOOST", right + 42, cy + 45, 28, @raylib.Color::new(252, 240, 228, 220))
+  @raylib.draw_rectangle(
+    right,
+    cy + 18,
+    174,
+    78,
+    @raylib.Color::new(196, 110, 92, 94),
+  )
+  @raylib.draw_text(
+    "BOOST",
+    right + 42,
+    cy + 45,
+    28,
+    @raylib.Color::new(252, 240, 228, 220),
+  )
 
-  @raylib.draw_rectangle(right, cy + 116, 174, 78, @raylib.Color::new(110, 146, 212, 94))
-  @raylib.draw_text("FLARE", right + 48, cy + 143, 28, @raylib.Color::new(242, 248, 255, 220))
+  @raylib.draw_rectangle(
+    right,
+    cy + 116,
+    174,
+    78,
+    @raylib.Color::new(110, 146, 212, 94),
+  )
+  @raylib.draw_text(
+    "FLARE",
+    right + 48,
+    cy + 143,
+    28,
+    @raylib.Color::new(242, 248, 255, 220),
+  )
 }
 
 ///|
@@ -519,11 +611,16 @@ fn main {
     let mouse = @raylib.get_mouse_position()
     let touching = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
 
-    let mut move_l = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-    let mut move_r = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-    let mut move_u = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-    let mut move_d = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-    let mut boost_down = @raylib.is_key_down(@raylib.KeyLeftShift) || @raylib.is_key_down(@raylib.KeySpace)
+    let mut move_l = @raylib.is_key_down(@raylib.KeyA) ||
+      @raylib.is_key_down(@raylib.KeyLeft)
+    let mut move_r = @raylib.is_key_down(@raylib.KeyD) ||
+      @raylib.is_key_down(@raylib.KeyRight)
+    let mut move_u = @raylib.is_key_down(@raylib.KeyW) ||
+      @raylib.is_key_down(@raylib.KeyUp)
+    let mut move_d = @raylib.is_key_down(@raylib.KeyS) ||
+      @raylib.is_key_down(@raylib.KeyDown)
+    let mut boost_down = @raylib.is_key_down(@raylib.KeyLeftShift) ||
+      @raylib.is_key_down(@raylib.KeySpace)
     let mut flare_press = @raylib.is_key_pressed(@raylib.KeyE)
 
     let pad_x = 24
@@ -557,12 +654,14 @@ fn main {
     }
 
     if state == 0 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         state = 1
         reset_round(level)
       }
     } else if state == 2 || state == 3 {
-      if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+      if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+        @raylib.is_key_pressed(@raylib.KeySpace) {
         if state == 2 {
           level = level + 1
           if level > 5 {
@@ -584,7 +683,7 @@ fn main {
         storm.gust_t = randf(1.2, 2.6)
         storm.wind_x = lerpf(storm.wind_x, randf(-88.0, 108.0), 0.4)
         storm.wind_y = lerpf(storm.wind_y, randf(-62.0, 62.0), 0.4)
-        if @raylib.get_random_value(0, 100) < (16 + level * 6) {
+        if @raylib.get_random_value(0, 100) < 16 + level * 6 {
           storm.whiteout_t = randf(1.6, 2.8)
         }
       }
@@ -678,8 +777,10 @@ fn main {
         iy = 0.0
       }
 
-      heli.vx = heli.vx + (ix * accel + storm.wind_x * wind_mul - heli.vx * drag) * dt
-      heli.vy = heli.vy + (iy * accel + storm.wind_y * wind_mul - heli.vy * drag) * dt
+      heli.vx = heli.vx +
+        (ix * accel + storm.wind_x * wind_mul - heli.vx * drag) * dt
+      heli.vy = heli.vy +
+        (iy * accel + storm.wind_y * wind_mul - heli.vy * drag) * dt
 
       let speed2 : Float = heli.vx * heli.vx + heli.vy * heli.vy
       let speed : Float = speed2.sqrt()
@@ -773,7 +874,11 @@ fn main {
         if hazards[i].life <= 0.0 {
           hazards[i].life = randf(8.0, 18.0)
           let a = randf(0.0, 6.283)
-          let spd = if hazards[i].kind == 0 { randf(22.0, 54.0) } else { randf(42.0, 92.0) }
+          let spd = if hazards[i].kind == 0 {
+            randf(22.0, 54.0)
+          } else {
+            randf(42.0, 92.0)
+          }
           hazards[i].vx = cosf(a) * spd
           hazards[i].vy = sinf(a) * spd
         }
@@ -823,12 +928,14 @@ fn main {
         avalanches[i].x = avalanches[i].x + avalanches[i].speed * dt
         avalanches[i].life = avalanches[i].life - dt
 
-        if avalanches[i].x > world_w + avalanches[i].w || avalanches[i].life <= 0.0 {
+        if avalanches[i].x > world_w + avalanches[i].w ||
+          avalanches[i].life <= 0.0 {
           avalanches[i].active = false
           continue
         }
 
-        let inside_x = heli.x >= avalanches[i].x && heli.x <= avalanches[i].x + avalanches[i].w
+        let inside_x = heli.x >= avalanches[i].x &&
+          heli.x <= avalanches[i].x + avalanches[i].w
         let inside_y = (heli.y - avalanches[i].y).abs() <= 34.0
         if inside_x && inside_y {
           impact = true
@@ -851,7 +958,8 @@ fn main {
         }
 
         survivors[i].panic_t = survivors[i].panic_t + dt
-        survivors[i].beacon_t = survivors[i].beacon_t + dt * (1.2 + storm.severity)
+        survivors[i].beacon_t = survivors[i].beacon_t +
+          dt * (1.2 + storm.severity)
 
         if not(survivors[i].carried) {
           let mut freeze_rate : Float = 2.4 + storm.severity * 4.1
@@ -859,7 +967,12 @@ fn main {
             if not(flares[j].active) {
               continue
             }
-            let d2 = dist2(survivors[i].x, survivors[i].y, flares[j].x, flares[j].y)
+            let d2 = dist2(
+              survivors[i].x,
+              survivors[i].y,
+              flares[j].x,
+              flares[j].y,
+            )
             if d2 < flares[j].r * flares[j].r {
               freeze_rate = freeze_rate - 4.2
             }
@@ -873,18 +986,34 @@ fn main {
             survivors[i].active = false
             survivors[i].saved = false
             heli.lost = heli.lost + 1
-            burst_particles(particles, survivors[i].x, survivors[i].y, 16, 52.0, 0)
+            burst_particles(
+              particles,
+              survivors[i].x,
+              survivors[i].y,
+              16,
+              52.0,
+              0,
+            )
             continue
           }
 
           let pickup_r : Float = 34.0
-          if heli.onboard < 4 && dist2(heli.x, heli.y, survivors[i].x, survivors[i].y) <= pickup_r * pickup_r {
+          if heli.onboard < 4 &&
+            dist2(heli.x, heli.y, survivors[i].x, survivors[i].y) <=
+            pickup_r * pickup_r {
             survivors[i].carried = true
             survivors[i].offset_x = randf(-18.0, 18.0)
             survivors[i].offset_y = randf(-12.0, 18.0)
             heli.onboard = heli.onboard + 1
             heli.score = heli.score + 90
-            burst_particles(particles, survivors[i].x, survivors[i].y, 8, 42.0, 1)
+            burst_particles(
+              particles,
+              survivors[i].x,
+              survivors[i].y,
+              8,
+              42.0,
+              1,
+            )
           }
         }
 
@@ -915,7 +1044,14 @@ fn main {
           heli.rescued = heli.rescued + 1
           heli.onboard = heli.onboard - 1
           heli.score = heli.score + 220
-          burst_particles(particles, base_x + randf(-30.0, 30.0), base_y + randf(-22.0, 22.0), 10, 55.0, 1)
+          burst_particles(
+            particles,
+            base_x + randf(-30.0, 30.0),
+            base_y + randf(-22.0, 22.0),
+            10,
+            55.0,
+            1,
+          )
         }
       }
 
@@ -987,7 +1123,9 @@ fn main {
         state = 3
       } else if heli.rescued >= mission_target {
         state = 2
-        heli.score = heli.score + mission_time.to_int() * 8 + (mission_target - heli.lost) * 60
+        heli.score = heli.score +
+          mission_time.to_int() * 8 +
+          (mission_target - heli.lost) * 60
       }
     }
 
@@ -1006,8 +1144,16 @@ fn main {
       cam_y = world_h - Float::from_int(sh)
     }
 
-    let shake_x = if heli.shake_t > 0.0 { randf(-5.0, 5.0) * (heli.shake_t * 4.0) } else { 0.0 }
-    let shake_y = if heli.shake_t > 0.0 { randf(-4.0, 4.0) * (heli.shake_t * 4.0) } else { 0.0 }
+    let shake_x = if heli.shake_t > 0.0 {
+      randf(-5.0, 5.0) * (heli.shake_t * 4.0)
+    } else {
+      0.0
+    }
+    let shake_y = if heli.shake_t > 0.0 {
+      randf(-4.0, 4.0) * (heli.shake_t * 4.0)
+    } else {
+      0.0
+    }
 
     @raylib.begin_drawing()
     defer @raylib.end_drawing()
@@ -1060,15 +1206,33 @@ fn main {
       }
       let hx = hazards[i].x - cam_x + shake_x
       let hy = hazards[i].y - cam_y + shake_y
-      if hx < -80.0 || hy < -80.0 || hx > Float::from_int(sw + 80) || hy > Float::from_int(sh + 80) {
+      if hx < -80.0 ||
+        hy < -80.0 ||
+        hx > Float::from_int(sw + 80) ||
+        hy > Float::from_int(sh + 80) {
         continue
       }
 
       if hazards[i].kind == 0 {
-        @raylib.draw_circle(hx.to_int(), hy.to_int(), hazards[i].r, @raylib.Color::new(122, 154, 178, 235))
-        @raylib.draw_circle(hx.to_int(), hy.to_int(), hazards[i].r * 0.58, @raylib.Color::new(178, 210, 232, 230))
+        @raylib.draw_circle(
+          hx.to_int(),
+          hy.to_int(),
+          hazards[i].r,
+          @raylib.Color::new(122, 154, 178, 235),
+        )
+        @raylib.draw_circle(
+          hx.to_int(),
+          hy.to_int(),
+          hazards[i].r * 0.58,
+          @raylib.Color::new(178, 210, 232, 230),
+        )
       } else {
-        @raylib.draw_circle(hx.to_int(), hy.to_int(), hazards[i].r, @raylib.Color::new(112, 128, 150, 245))
+        @raylib.draw_circle(
+          hx.to_int(),
+          hy.to_int(),
+          hazards[i].r,
+          @raylib.Color::new(112, 128, 150, 245),
+        )
         @raylib.draw_line(
           (hx - hazards[i].r * 0.8).to_int(),
           hy.to_int(),
@@ -1092,18 +1256,41 @@ fn main {
       }
       let fx = flares[i].x - cam_x + shake_x
       let fy = flares[i].y - cam_y + shake_y
-      if fx < -360.0 || fy < -360.0 || fx > Float::from_int(sw + 360) || fy > Float::from_int(sh + 360) {
+      if fx < -360.0 ||
+        fy < -360.0 ||
+        fx > Float::from_int(sw + 360) ||
+        fy > Float::from_int(sh + 360) {
         continue
       }
       let flare_ratio : Float = 1.0 - flares[i].t / flares[i].life
       let alpha = (Float::from_int(120) * flare_ratio).to_int()
       let aa = if alpha < 0 { 0 } else { alpha }
-      @raylib.draw_circle_lines(fx.to_int(), fy.to_int(), flares[i].r, @raylib.Color::new(252, 214, 120, aa))
-      @raylib.draw_circle_lines(fx.to_int(), fy.to_int(), flares[i].r * 0.6, @raylib.Color::new(252, 156, 102, aa + 20))
+      @raylib.draw_circle_lines(
+        fx.to_int(),
+        fy.to_int(),
+        flares[i].r,
+        @raylib.Color::new(252, 214, 120, aa),
+      )
+      @raylib.draw_circle_lines(
+        fx.to_int(),
+        fy.to_int(),
+        flares[i].r * 0.6,
+        @raylib.Color::new(252, 156, 102, aa + 20),
+      )
     }
 
-    @raylib.draw_circle((base_x - cam_x + shake_x).to_int(), (base_y - cam_y + shake_y).to_int(), 76.0, @raylib.Color::new(70, 96, 132, 255))
-    @raylib.draw_circle((base_x - cam_x + shake_x).to_int(), (base_y - cam_y + shake_y).to_int(), 52.0, @raylib.Color::new(112, 182, 236, 255))
+    @raylib.draw_circle(
+      (base_x - cam_x + shake_x).to_int(),
+      (base_y - cam_y + shake_y).to_int(),
+      76.0,
+      @raylib.Color::new(70, 96, 132, 255),
+    )
+    @raylib.draw_circle(
+      (base_x - cam_x + shake_x).to_int(),
+      (base_y - cam_y + shake_y).to_int(),
+      52.0,
+      @raylib.Color::new(112, 182, 236, 255),
+    )
     @raylib.draw_text(
       "BASE",
       (base_x - cam_x - 28.0 + shake_x).to_int(),
@@ -1119,7 +1306,10 @@ fn main {
 
       let sx = survivors[i].x - cam_x + shake_x
       let sy = survivors[i].y - cam_y + shake_y
-      if sx < -40.0 || sy < -40.0 || sx > Float::from_int(sw + 40) || sy > Float::from_int(sh + 40) {
+      if sx < -40.0 ||
+        sy < -40.0 ||
+        sx > Float::from_int(sw + 40) ||
+        sy > Float::from_int(sh + 40) {
         continue
       }
 
@@ -1133,7 +1323,13 @@ fn main {
       }
 
       @raylib.draw_circle(sx.to_int(), sy.to_int(), 10.0, col)
-      @raylib.draw_rectangle((sx - 8.0).to_int(), (sy + 8.0).to_int(), 16, 18, @raylib.Color::new(92, 136, 198, 255))
+      @raylib.draw_rectangle(
+        (sx - 8.0).to_int(),
+        (sy + 8.0).to_int(),
+        16,
+        18,
+        @raylib.Color::new(92, 136, 198, 255),
+      )
 
       if survivors[i].beacon_t > 0.65 {
         survivors[i].beacon_t = survivors[i].beacon_t - 0.65
@@ -1141,7 +1337,12 @@ fn main {
       }
 
       if not(survivors[i].carried) {
-        @raylib.draw_circle_lines(sx.to_int(), sy.to_int(), 18.0 + sinf(survivors[i].panic_t * 4.0).abs() * 6.0, @raylib.Color::new(152, 206, 252, 126))
+        @raylib.draw_circle_lines(
+          sx.to_int(),
+          sy.to_int(),
+          18.0 + sinf(survivors[i].panic_t * 4.0).abs() * 6.0,
+          @raylib.Color::new(152, 206, 252, 126),
+        )
       }
     }
 
@@ -1154,9 +1355,26 @@ fn main {
       @raylib.Color::new(126, 218, 242, 255)
     }
 
-    @raylib.draw_rectangle((hx - 20.0).to_int(), (hy - 14.0).to_int(), 40, 28, heli_col)
-    @raylib.draw_circle(hx.to_int(), hy.to_int(), 12.0, @raylib.Color::new(42, 68, 92, 255))
-    @raylib.draw_rectangle((hx - 30.0).to_int(), (hy + 12.0).to_int(), 60, 5, @raylib.Color::new(60, 88, 122, 255))
+    @raylib.draw_rectangle(
+      (hx - 20.0).to_int(),
+      (hy - 14.0).to_int(),
+      40,
+      28,
+      heli_col,
+    )
+    @raylib.draw_circle(
+      hx.to_int(),
+      hy.to_int(),
+      12.0,
+      @raylib.Color::new(42, 68, 92, 255),
+    )
+    @raylib.draw_rectangle(
+      (hx - 30.0).to_int(),
+      (hy + 12.0).to_int(),
+      60,
+      5,
+      @raylib.Color::new(60, 88, 122, 255),
+    )
     @raylib.draw_line(
       (hx - 46.0).to_int(),
       (hy - 24.0).to_int(),
@@ -1180,7 +1398,10 @@ fn main {
       }
       let px = particles[i].x - cam_x + shake_x
       let py = particles[i].y - cam_y + shake_y
-      if px < -20.0 || py < -20.0 || px > Float::from_int(sw + 20) || py > Float::from_int(sh + 20) {
+      if px < -20.0 ||
+        py < -20.0 ||
+        px > Float::from_int(sw + 20) ||
+        py > Float::from_int(sh + 20) {
         continue
       }
 
@@ -1193,28 +1414,105 @@ fn main {
       } else {
         @raylib.Color::new(164, 220, 252, a)
       }
-      @raylib.draw_circle(px.to_int(), py.to_int(), particles[i].size * life_r, col)
+      @raylib.draw_circle(
+        px.to_int(),
+        py.to_int(),
+        particles[i].size * life_r,
+        col,
+      )
     }
 
     if storm.whiteout_t > 0.0 {
       let alpha = clampf(96.0 + storm.whiteout_t * 52.0, 0.0, 160.0).to_int()
-      @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(228, 236, 248, alpha))
+      @raylib.draw_rectangle(
+        0,
+        0,
+        sw,
+        sh,
+        @raylib.Color::new(228, 236, 248, alpha),
+      )
     }
 
-    @raylib.draw_rectangle(18, 16, 502, 184, @raylib.Color::new(14, 24, 38, 196))
-    @raylib.draw_rectangle_lines(18, 16, 502, 184, @raylib.Color::new(222, 232, 246, 136))
+    @raylib.draw_rectangle(
+      18,
+      16,
+      502,
+      184,
+      @raylib.Color::new(14, 24, 38, 196),
+    )
+    @raylib.draw_rectangle_lines(
+      18,
+      16,
+      502,
+      184,
+      @raylib.Color::new(222, 232, 246, 136),
+    )
 
-    @raylib.draw_text("GLACIER RESCUE 2026", 32, 28, 34, @raylib.Color::new(228, 238, 252, 245))
-    @raylib.draw_text("Move: WASD/Arrows  Boost: Shift/Space  Flare: E", 34, 66, 22, @raylib.Color::new(188, 206, 232, 240))
+    @raylib.draw_text(
+      "GLACIER RESCUE 2026",
+      32,
+      28,
+      34,
+      @raylib.Color::new(228, 238, 252, 245),
+    )
+    @raylib.draw_text(
+      "Move: WASD/Arrows  Boost: Shift/Space  Flare: E",
+      34,
+      66,
+      22,
+      @raylib.Color::new(188, 206, 232, 240),
+    )
 
-    draw_bar(34, 98, 220, 20, heli.fuel / 100.0, @raylib.Color::new(108, 222, 160, 255), @raylib.Color::new(54, 78, 72, 230))
-    @raylib.draw_text("Fuel", 260, 96, 22, @raylib.Color::new(214, 230, 246, 240))
+    draw_bar(
+      34,
+      98,
+      220,
+      20,
+      heli.fuel / 100.0,
+      @raylib.Color::new(108, 222, 160, 255),
+      @raylib.Color::new(54, 78, 72, 230),
+    )
+    @raylib.draw_text(
+      "Fuel",
+      260,
+      96,
+      22,
+      @raylib.Color::new(214, 230, 246, 240),
+    )
 
-    draw_bar(34, 126, 220, 20, heli.hull / 100.0, @raylib.Color::new(232, 144, 118, 255), @raylib.Color::new(78, 52, 52, 230))
-    @raylib.draw_text("Hull", 260, 124, 22, @raylib.Color::new(214, 230, 246, 240))
+    draw_bar(
+      34,
+      126,
+      220,
+      20,
+      heli.hull / 100.0,
+      @raylib.Color::new(232, 144, 118, 255),
+      @raylib.Color::new(78, 52, 52, 230),
+    )
+    @raylib.draw_text(
+      "Hull",
+      260,
+      124,
+      22,
+      @raylib.Color::new(214, 230, 246, 240),
+    )
 
-    draw_bar(34, 154, 220, 20, 1.0 - heli.cold / 100.0, @raylib.Color::new(120, 182, 246, 255), @raylib.Color::new(56, 70, 92, 230))
-    @raylib.draw_text("Core Temp", 260, 152, 22, @raylib.Color::new(214, 230, 246, 240))
+    draw_bar(
+      34,
+      154,
+      220,
+      20,
+      1.0 - heli.cold / 100.0,
+      @raylib.Color::new(120, 182, 246, 255),
+      @raylib.Color::new(56, 70, 92, 230),
+    )
+    @raylib.draw_text(
+      "Core Temp",
+      260,
+      152,
+      22,
+      @raylib.Color::new(214, 230, 246, 240),
+    )
 
     @raylib.draw_text(
       "Rescued \{heli.rescued}/\{mission_target}   Onboard \{heli.onboard}   Lost \{heli.lost}",
@@ -1232,10 +1530,30 @@ fn main {
       @raylib.Color::new(246, 236, 210, 246),
     )
 
-    let boost_txt = if heli.boost_cd <= 0.0 { "Boost READY" } else { "Boost CD \{heli.boost_cd.to_int()}" }
-    let flare_txt = if heli.flare_cd <= 0.0 { "Flare READY" } else { "Flare CD \{heli.flare_cd.to_int()}" }
-    @raylib.draw_text(boost_txt, sw - 430, 62, 24, @raylib.Color::new(242, 208, 164, 236))
-    @raylib.draw_text(flare_txt, sw - 430, 88, 24, @raylib.Color::new(178, 210, 246, 236))
+    let boost_txt = if heli.boost_cd <= 0.0 {
+      "Boost READY"
+    } else {
+      "Boost CD \{heli.boost_cd.to_int()}"
+    }
+    let flare_txt = if heli.flare_cd <= 0.0 {
+      "Flare READY"
+    } else {
+      "Flare CD \{heli.flare_cd.to_int()}"
+    }
+    @raylib.draw_text(
+      boost_txt,
+      sw - 430,
+      62,
+      24,
+      @raylib.Color::new(242, 208, 164, 236),
+    )
+    @raylib.draw_text(
+      flare_txt,
+      sw - 430,
+      88,
+      24,
+      @raylib.Color::new(178, 210, 246, 236),
+    )
 
     if announce_t > 0.0 {
       let a = clampf(announce_t * 90.0, 0.0, 220.0).to_int()
@@ -1250,22 +1568,82 @@ fn main {
 
     if state == 0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 20, 220))
-      @raylib.draw_text("GLACIER RESCUE", sw / 2 - 260, sh / 2 - 112, 76, @raylib.Color::new(236, 246, 252, 255))
-      @raylib.draw_text("Pilot through storm fronts, pick up survivors, and return to BASE.", sw / 2 - 412, sh / 2 - 20, 32, @raylib.Color::new(186, 214, 238, 245))
-      @raylib.draw_text("BOOST burns fuel fast. FLARE reveals and warms survivors.", sw / 2 - 362, sh / 2 + 22, 32, @raylib.Color::new(220, 228, 240, 238))
-      @raylib.draw_text("Press ENTER to start", sw / 2 - 182, sh / 2 + 86, 44, @raylib.Color::new(252, 236, 176, 255))
+      @raylib.draw_text(
+        "GLACIER RESCUE",
+        sw / 2 - 260,
+        sh / 2 - 112,
+        76,
+        @raylib.Color::new(236, 246, 252, 255),
+      )
+      @raylib.draw_text(
+        "Pilot through storm fronts, pick up survivors, and return to BASE.",
+        sw / 2 - 412,
+        sh / 2 - 20,
+        32,
+        @raylib.Color::new(186, 214, 238, 245),
+      )
+      @raylib.draw_text(
+        "BOOST burns fuel fast. FLARE reveals and warms survivors.",
+        sw / 2 - 362,
+        sh / 2 + 22,
+        32,
+        @raylib.Color::new(220, 228, 240, 238),
+      )
+      @raylib.draw_text(
+        "Press ENTER to start",
+        sw / 2 - 182,
+        sh / 2 + 86,
+        44,
+        @raylib.Color::new(252, 236, 176, 255),
+      )
     }
 
     if state == 2 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 24, 20, 188))
-      @raylib.draw_text("MISSION COMPLETE", sw / 2 - 280, sh / 2 - 82, 72, @raylib.Color::new(214, 252, 210, 255))
-      @raylib.draw_text("Score \{heli.score}  |  Saved \{heli.rescued}  |  Lost \{heli.lost}", sw / 2 - 250, sh / 2 + 6, 36, @raylib.Color::new(236, 246, 238, 248))
-      @raylib.draw_text("Press ENTER for next mission", sw / 2 - 250, sh / 2 + 64, 38, @raylib.Color::new(252, 238, 176, 255))
+      @raylib.draw_text(
+        "MISSION COMPLETE",
+        sw / 2 - 280,
+        sh / 2 - 82,
+        72,
+        @raylib.Color::new(214, 252, 210, 255),
+      )
+      @raylib.draw_text(
+        "Score \{heli.score}  |  Saved \{heli.rescued}  |  Lost \{heli.lost}",
+        sw / 2 - 250,
+        sh / 2 + 6,
+        36,
+        @raylib.Color::new(236, 246, 238, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER for next mission",
+        sw / 2 - 250,
+        sh / 2 + 64,
+        38,
+        @raylib.Color::new(252, 238, 176, 255),
+      )
     } else if state == 3 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(22, 8, 8, 198))
-      @raylib.draw_text("MISSION FAILED", sw / 2 - 230, sh / 2 - 82, 72, @raylib.Color::new(254, 194, 186, 255))
-      @raylib.draw_text("Rescued \{heli.rescued}/\{mission_target}  Lost \{heli.lost}", sw / 2 - 240, sh / 2 + 6, 38, @raylib.Color::new(246, 226, 218, 248))
-      @raylib.draw_text("Press ENTER to retry", sw / 2 - 184, sh / 2 + 64, 40, @raylib.Color::new(252, 230, 174, 255))
+      @raylib.draw_text(
+        "MISSION FAILED",
+        sw / 2 - 230,
+        sh / 2 - 82,
+        72,
+        @raylib.Color::new(254, 194, 186, 255),
+      )
+      @raylib.draw_text(
+        "Rescued \{heli.rescued}/\{mission_target}  Lost \{heli.lost}",
+        sw / 2 - 240,
+        sh / 2 + 6,
+        38,
+        @raylib.Color::new(246, 226, 218, 248),
+      )
+      @raylib.draw_text(
+        "Press ENTER to retry",
+        sw / 2 - 184,
+        sh / 2 + 64,
+        40,
+        @raylib.Color::new(252, 230, 174, 255),
+      )
     }
 
     draw_touch_controls(true)

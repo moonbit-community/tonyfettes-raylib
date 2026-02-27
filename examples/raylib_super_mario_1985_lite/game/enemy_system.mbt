@@ -1,5 +1,9 @@
 ///|
-fn enemy_resolve_x(game : @types.Game, enemy : @types.Enemy, dt : Float) -> Unit {
+fn enemy_resolve_x(
+  game : @types.Game,
+  enemy : @types.Enemy,
+  dt : Float,
+) -> Unit {
   let nx = enemy.x + enemy.vx * dt
   let half_w = @types.enemy_half_w()
   let half_h = @types.enemy_half_h()
@@ -46,7 +50,11 @@ fn enemy_resolve_x(game : @types.Game, enemy : @types.Enemy, dt : Float) -> Unit
 }
 
 ///|
-fn enemy_resolve_y(game : @types.Game, enemy : @types.Enemy, dt : Float) -> Unit {
+fn enemy_resolve_y(
+  game : @types.Game,
+  enemy : @types.Enemy,
+  dt : Float,
+) -> Unit {
   let ny = enemy.y + enemy.vy * dt
   let half_w = @types.enemy_half_w()
   let half_h = @types.enemy_half_h()
@@ -92,7 +100,8 @@ fn enemy_resolve_y(game : @types.Game, enemy : @types.Enemy, dt : Float) -> Unit
 
 ///|
 fn enemy_ground_ahead(game : @types.Game, enemy : @types.Enemy) -> Bool {
-  let probe_x = enemy.x + Float::from_int(enemy.dir) * (@types.enemy_half_w() + 2.0)
+  let probe_x = enemy.x +
+    Float::from_int(enemy.dir) * (@types.enemy_half_w() + 2.0)
   let probe_y = enemy.y + @types.enemy_half_h() + 6.0
   let tx = @types.world_to_tile_x(probe_x)
   let ty = @types.world_to_tile_y(probe_y)

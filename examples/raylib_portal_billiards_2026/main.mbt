@@ -57,8 +57,18 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -80,15 +90,7 @@ fn set_ball(
   active : Bool,
   id : Int,
 ) -> Unit {
-  balls[i] = {
-    x: x,
-    y: y,
-    vx: 0.0,
-    vy: 0.0,
-    active: active,
-    id: id,
-    portal_cd: 0.0,
-  }
+  balls[i] = { x, y, vx: 0.0, vy: 0.0, active, id, portal_cd: 0.0 }
 }
 
 ///|
@@ -122,13 +124,7 @@ fn reset_level(level : Int, balls : Array[Ball]) -> Int {
   let row_gap = ball_r * 1.95
   let col_gap = ball_r * 1.78
 
-  let rows = if level == 1 {
-    3
-  } else if level == 2 {
-    4
-  } else {
-    5
-  }
+  let rows = if level == 1 { 3 } else if level == 2 { 4 } else { 5 }
 
   for row = 0; row < rows; row = row + 1 {
     let n = row + 1
@@ -253,25 +249,16 @@ fn portal_pos(t : Float, idx : Int) -> (Float, Float) {
   let cx = Float::from_int(table_x + table_w / 2)
 
   if idx == 0 {
-    (
-      left + 250.0 + sinf(t * 0.9) * 120.0,
-      top + 130.0 + cosf(t * 1.2) * 44.0,
-    )
+    (left + 250.0 + sinf(t * 0.9) * 120.0, top + 130.0 + cosf(t * 1.2) * 44.0)
   } else if idx == 1 {
     (
       right - 250.0 + cosf(t * 0.8) * 120.0,
       bottom - 130.0 + sinf(t * 1.1) * 44.0,
     )
   } else if idx == 2 {
-    (
-      cx + sinf(t * 1.1) * 190.0,
-      top + 180.0 + cosf(t * 0.7) * 32.0,
-    )
+    (cx + sinf(t * 1.1) * 190.0, top + 180.0 + cosf(t * 0.7) * 32.0)
   } else {
-    (
-      cx + cosf(t * 1.0) * 190.0,
-      bottom - 180.0 + sinf(t * 0.75) * 32.0,
-    )
+    (cx + cosf(t * 1.0) * 190.0, bottom - 180.0 + sinf(t * 0.75) * 32.0)
   }
 }
 
@@ -315,15 +302,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let balls : Array[Ball] = Array::makei(max_balls, fn(i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      active: false,
-      id: i,
-      portal_cd: 0.0,
-    }
+    { x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, active: false, id: i, portal_cd: 0.0 }
   })
 
   let mut level = 1
@@ -365,7 +344,8 @@ fn main {
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         power = power + 220.0 * dt
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         power = power - 220.0 * dt
       }
       power = clampf(power, 260.0, 820.0)
@@ -380,7 +360,8 @@ fn main {
       let ctl_y = sh - 178
       let fire_x = sw - 204
       let fire_y = sh - 152
-      let mut fire = @raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyJ)
+      let mut fire = @raylib.is_key_pressed(@raylib.KeySpace) ||
+        @raylib.is_key_pressed(@raylib.KeyJ)
 
       if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
         if inside_rect(mouse.x, mouse.y, ctl_x, ctl_y, 74, 54) {
@@ -389,7 +370,14 @@ fn main {
           power = power + 22.0
         } else if inside_rect(mouse.x, mouse.y, fire_x, fire_y, 170, 116) {
           fire = true
-        } else if inside_rect(mouse.x, mouse.y, table_x, table_y, table_w, table_h) {
+        } else if inside_rect(
+            mouse.x,
+            mouse.y,
+            table_x,
+            table_y,
+            table_w,
+            table_h,
+          ) {
           aim_x = mouse.x
           aim_y = mouse.y
         }
@@ -573,17 +561,64 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(12, 18, 28, 255))
 
     @raylib.draw_rectangle(0, 0, sw, 104, @raylib.Color::new(8, 14, 22, 230))
-    @raylib.draw_text("PORTAL BILLIARDS 2026", 18, 24, 36, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Level \{level}/3", 460, 34, 30, @raylib.Color::new(248, 226, 134, 255))
-    @raylib.draw_text("Shots \{shots_left}", 650, 34, 30, @raylib.Color::new(220, 236, 250, 255))
-    @raylib.draw_text("Score \{score}", 846, 34, 30, @raylib.Color::new(196, 226, 252, 255))
+    @raylib.draw_text(
+      "PORTAL BILLIARDS 2026",
+      18,
+      24,
+      36,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Level \{level}/3",
+      460,
+      34,
+      30,
+      @raylib.Color::new(248, 226, 134, 255),
+    )
+    @raylib.draw_text(
+      "Shots \{shots_left}",
+      650,
+      34,
+      30,
+      @raylib.Color::new(220, 236, 250, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      846,
+      34,
+      30,
+      @raylib.Color::new(196, 226, 252, 255),
+    )
 
-    @raylib.draw_rectangle(table_x - 24, table_y - 24, table_w + 48, table_h + 48, @raylib.Color::new(62, 44, 30, 255))
-    @raylib.draw_rectangle(table_x, table_y, table_w, table_h, @raylib.Color::new(26, 92, 62, 255))
-    @raylib.draw_rectangle_lines(table_x, table_y, table_w, table_h, @raylib.Color::new(176, 144, 90, 255))
+    @raylib.draw_rectangle(
+      table_x - 24,
+      table_y - 24,
+      table_w + 48,
+      table_h + 48,
+      @raylib.Color::new(62, 44, 30, 255),
+    )
+    @raylib.draw_rectangle(
+      table_x,
+      table_y,
+      table_w,
+      table_h,
+      @raylib.Color::new(26, 92, 62, 255),
+    )
+    @raylib.draw_rectangle_lines(
+      table_x,
+      table_y,
+      table_w,
+      table_h,
+      @raylib.Color::new(176, 144, 90, 255),
+    )
 
     for i = 0; i < 6; i = i + 1 {
-      @raylib.draw_circle(pocket_x(i).to_int(), pocket_y(i).to_int(), 24.0, @raylib.Color::new(18, 18, 20, 255))
+      @raylib.draw_circle(
+        pocket_x(i).to_int(),
+        pocket_y(i).to_int(),
+        24.0,
+        @raylib.Color::new(18, 18, 20, 255),
+      )
     }
 
     for i = 0; i < 4; i = i + 1 {
@@ -594,8 +629,18 @@ fn main {
         @raylib.Color::new(252, 162, 98, 170)
       }
       @raylib.draw_circle(px.to_int(), py.to_int(), portal_r + 4.0, c)
-      @raylib.draw_circle(px.to_int(), py.to_int(), portal_r - 6.0, @raylib.Color::new(12, 22, 30, 220))
-      @raylib.draw_circle_lines(px.to_int(), py.to_int(), portal_r + 2.0, @raylib.Color::new(240, 246, 254, 220))
+      @raylib.draw_circle(
+        px.to_int(),
+        py.to_int(),
+        portal_r - 6.0,
+        @raylib.Color::new(12, 22, 30, 220),
+      )
+      @raylib.draw_circle_lines(
+        px.to_int(),
+        py.to_int(),
+        portal_r + 2.0,
+        @raylib.Color::new(240, 246, 254, 220),
+      )
     }
 
     for i = 0; i < balls.length(); i = i + 1 {
@@ -606,8 +651,18 @@ fn main {
       let y = balls[i].y.to_int()
       let c = color_for_id(balls[i].id)
       @raylib.draw_circle(x, y, ball_r, c)
-      @raylib.draw_circle(x - 4, y - 5, ball_r * 0.40, @raylib.Color::new(250, 250, 252, 210))
-      @raylib.draw_circle_lines(x, y, ball_r, @raylib.Color::new(24, 24, 30, 180))
+      @raylib.draw_circle(
+        x - 4,
+        y - 5,
+        ball_r * 0.40,
+        @raylib.Color::new(250, 250, 252, 210),
+      )
+      @raylib.draw_circle_lines(
+        x,
+        y,
+        ball_r,
+        @raylib.Color::new(24, 24, 30, 180),
+      )
     }
 
     if balls[0].active && not(moving_any(balls)) && not(over) {
@@ -631,39 +686,113 @@ fn main {
       }
     }
 
-    @raylib.draw_rectangle(22, 112, 250, 14, @raylib.Color::new(22, 30, 40, 255))
-    @raylib.draw_rectangle(22, 112, ((power - 260.0) / (820.0 - 260.0) * 250.0).to_int(), 14, @raylib.Color::new(88, 204, 252, 255))
-    @raylib.draw_text("Power \{power.to_int()}", 282, 106, 22, @raylib.Color::new(220, 238, 250, 255))
+    @raylib.draw_rectangle(
+      22,
+      112,
+      250,
+      14,
+      @raylib.Color::new(22, 30, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      22,
+      112,
+      ((power - 260.0) / (820.0 - 260.0) * 250.0).to_int(),
+      14,
+      @raylib.Color::new(88, 204, 252, 255),
+    )
+    @raylib.draw_text(
+      "Power \{power.to_int()}",
+      282,
+      106,
+      22,
+      @raylib.Color::new(220, 238, 250, 255),
+    )
 
     let ctl_x = 24
     let ctl_y = sh - 178
-    @raylib.draw_rectangle(10, sh - 192, 160, 170, @raylib.Color::new(10, 16, 26, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 192,
+      160,
+      170,
+      @raylib.Color::new(10, 16, 26, 220),
+    )
     @raylib.draw_text("Touch", 60, sh - 188, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(44, 62, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(44, 62, 88, 255),
+    )
     @raylib.draw_text("POW-", ctl_x + 10, ctl_y + 18, 22, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 84, ctl_y, 74, 54, @raylib.Color::new(44, 62, 88, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 84,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(44, 62, 88, 255),
+    )
     @raylib.draw_text("POW+", ctl_x + 93, ctl_y + 18, 22, @raylib.white)
 
     let fire_x = sw - 204
     let fire_y = sh - 152
-    @raylib.draw_rectangle(fire_x, fire_y, 170, 116, @raylib.Color::new(182, 82, 78, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      170,
+      116,
+      @raylib.Color::new(182, 82, 78, 255),
+    )
     @raylib.draw_text("SHOOT", fire_x + 34, fire_y + 44, 34, @raylib.white)
 
-    @raylib.draw_rectangle(178, sh - 52, sw - 392, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 188, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      178,
+      sh - 52,
+      sw - 392,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      188,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 120))
-      @raylib.draw_rectangle(sw / 2 - 320, sh / 2 - 100, 640, 200, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 320,
+        sh / 2 - 100,
+        640,
+        200,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "TABLE MASTER" } else { "GAME OVER" },
+        if won {
+          "TABLE MASTER"
+        } else {
+          "GAME OVER"
+        },
         sw / 2 - 180,
         sh / 2 - 34,
         56,
-        if won { @raylib.Color::new(248, 234, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 234, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

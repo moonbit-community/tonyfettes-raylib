@@ -1,7 +1,9 @@
 ///|
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
-  @raylib.init_window(@types.screen_width, @types.screen_height, "raylib [game] tank 1990")
+  @raylib.init_window(
+    @types.screen_width, @types.screen_height, "raylib [game] tank 1990",
+  )
   @raylib.set_target_fps(60)
 
   let game = @types.Game::new()

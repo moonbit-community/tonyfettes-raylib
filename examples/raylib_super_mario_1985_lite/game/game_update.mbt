@@ -65,7 +65,11 @@ pub fn init_game(game : @types.Game) -> Unit {
 }
 
 ///|
-pub fn update_game(game : @types.Game, input : @types.Input, dt : Float) -> Unit {
+pub fn update_game(
+  game : @types.Game,
+  input : @types.Input,
+  dt : Float,
+) -> Unit {
   game.elapsed += dt
 
   if game.state == @types.state_title {

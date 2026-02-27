@@ -107,8 +107,18 @@ fn absf(v : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -128,13 +138,25 @@ fn cosf_deg(a : Float) -> Float {
 
 ///|
 fn track_contains(x : Float, y : Float, margin : Float) -> Bool {
-  let in_outer = x >= outer_l + margin && x <= outer_r - margin && y >= outer_t + margin && y <= outer_b - margin
-  let in_inner = x >= inner_l - margin && x <= inner_r + margin && y >= inner_t - margin && y <= inner_b + margin
+  let in_outer = x >= outer_l + margin &&
+    x <= outer_r - margin &&
+    y >= outer_t + margin &&
+    y <= outer_b - margin
+  let in_inner = x >= inner_l - margin &&
+    x <= inner_r + margin &&
+    y >= inner_t - margin &&
+    y <= inner_b + margin
   in_outer && not(in_inner)
 }
 
 ///|
-fn set_wp(wx : Array[Float], wy : Array[Float], i : Int, x : Float, y : Float) -> Unit {
+fn set_wp(
+  wx : Array[Float],
+  wy : Array[Float],
+  i : Int,
+  x : Float,
+  y : Float,
+) -> Unit {
   wx[i] = x
   wy[i] = y
 }
@@ -153,10 +175,46 @@ fn init_waypoints(wx : Array[Float], wy : Array[Float]) -> Unit {
 
 ///|
 fn reset_karts(karts : Array[Kart]) -> Unit {
-  karts[0] = { x: 236.0, y: 412.0, angle: 0.0, speed: 0.0, hp: 4, lap: 0, next_wp: 0, shoot_cd: 0.0 }
-  karts[1] = { x: 214.0, y: 456.0, angle: 0.0, speed: 0.0, hp: 4, lap: 0, next_wp: 0, shoot_cd: 0.4 }
-  karts[2] = { x: 214.0, y: 368.0, angle: 0.0, speed: 0.0, hp: 4, lap: 0, next_wp: 0, shoot_cd: 0.7 }
-  karts[3] = { x: 188.0, y: 412.0, angle: 0.0, speed: 0.0, hp: 4, lap: 0, next_wp: 0, shoot_cd: 1.0 }
+  karts[0] = {
+    x: 236.0,
+    y: 412.0,
+    angle: 0.0,
+    speed: 0.0,
+    hp: 4,
+    lap: 0,
+    next_wp: 0,
+    shoot_cd: 0.0,
+  }
+  karts[1] = {
+    x: 214.0,
+    y: 456.0,
+    angle: 0.0,
+    speed: 0.0,
+    hp: 4,
+    lap: 0,
+    next_wp: 0,
+    shoot_cd: 0.4,
+  }
+  karts[2] = {
+    x: 214.0,
+    y: 368.0,
+    angle: 0.0,
+    speed: 0.0,
+    hp: 4,
+    lap: 0,
+    next_wp: 0,
+    shoot_cd: 0.7,
+  }
+  karts[3] = {
+    x: 188.0,
+    y: 412.0,
+    angle: 0.0,
+    speed: 0.0,
+    hp: 4,
+    lap: 0,
+    next_wp: 0,
+    shoot_cd: 1.0,
+  }
 }
 
 ///|
@@ -173,8 +231,14 @@ fn clear_shots(shots : Array[Shot]) -> Unit {
 }
 
 ///|
-fn set_pickup(pickups : Array[Pickup], i : Int, x : Float, y : Float, kind : Int) -> Unit {
-  pickups[i] = { x: x, y: y, kind: kind, active: true, respawn: 0.0 }
+fn set_pickup(
+  pickups : Array[Pickup],
+  i : Int,
+  x : Float,
+  y : Float,
+  kind : Int,
+) -> Unit {
+  pickups[i] = { x, y, kind, active: true, respawn: 0.0 }
 }
 
 ///|
@@ -201,7 +265,13 @@ fn clear_sparks(sparks : Array[Spark]) -> Unit {
 }
 
 ///|
-fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float, kind : Int) -> Unit {
+fn spawn_spark(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < sparks.length(); i = i + 1 {
     if done {
@@ -211,9 +281,12 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
       sparks[i].active = true
       sparks[i].x = x
       sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed_scale
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed_scale
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(14, 50)) / Float::from_int(100)
+      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
+        speed_scale
+      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
+        speed_scale
+      sparks[i].ttl = Float::from_int(@raylib.get_random_value(14, 50)) /
+        Float::from_int(100)
       sparks[i].kind = kind
       done = true
     }
@@ -221,14 +294,28 @@ fn spawn_spark(sparks : Array[Spark], x : Float, y : Float, speed_scale : Float,
 }
 
 ///|
-fn burst(sparks : Array[Spark], x : Float, y : Float, n : Int, speed_scale : Float, kind : Int) -> Unit {
+fn burst(
+  sparks : Array[Spark],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_spark(sparks, x, y, speed_scale, kind)
   }
 }
 
 ///|
-fn spawn_shot(shots : Array[Shot], x : Float, y : Float, dx : Float, dy : Float, owner : Int) -> Unit {
+fn spawn_shot(
+  shots : Array[Shot],
+  x : Float,
+  y : Float,
+  dx : Float,
+  dy : Float,
+  owner : Int,
+) -> Unit {
   let d2 = dx * dx + dy * dy
   if d2 <= 0.0001 {
     return
@@ -255,7 +342,11 @@ fn spawn_shot(shots : Array[Shot], x : Float, y : Float, dx : Float, dy : Float,
 }
 
 ///|
-fn update_waypoint_progress(kart : Kart, wx : Array[Float], wy : Array[Float]) -> Unit {
+fn update_waypoint_progress(
+  kart : Kart,
+  wx : Array[Float],
+  wy : Array[Float],
+) -> Unit {
   let tx = wx[kart.next_wp]
   let ty = wy[kart.next_wp]
   let dx = tx - kart.x
@@ -288,7 +379,10 @@ fn resolve_track_collision(kart : Kart) -> Unit {
     kart.speed = -kart.speed * 0.38
   }
 
-  if kart.x > inner_l - 12.0 && kart.x < inner_r + 12.0 && kart.y > inner_t - 12.0 && kart.y < inner_b + 12.0 {
+  if kart.x > inner_l - 12.0 &&
+    kart.x < inner_r + 12.0 &&
+    kart.y > inner_t - 12.0 &&
+    kart.y < inner_b + 12.0 {
     let dl = absf(kart.x - inner_l)
     let dr = absf(inner_r - kart.x)
     let dt = absf(kart.y - inner_t)
@@ -338,7 +432,16 @@ fn main {
   init_waypoints(wx, wy)
 
   let karts : Array[Kart] = Array::makei(kart_n, fn(_i) {
-    { x: 0.0, y: 0.0, angle: 0.0, speed: 0.0, hp: 4, lap: 0, next_wp: 0, shoot_cd: 0.0 }
+    {
+      x: 0.0,
+      y: 0.0,
+      angle: 0.0,
+      speed: 0.0,
+      hp: 4,
+      lap: 0,
+      next_wp: 0,
+      shoot_cd: 0.0,
+    }
   })
   reset_karts(karts)
 
@@ -413,12 +516,18 @@ fn main {
     }
 
     if not(over) {
-      let mut left = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut right = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut accel = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-      let mut brake = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-      let mut fire = @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)
-      let mut boost_on = @raylib.is_key_down(@raylib.KeyLeftShift) || @raylib.is_key_down(@raylib.KeyK)
+      let mut left = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut right = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut accel = @raylib.is_key_down(@raylib.KeyW) ||
+        @raylib.is_key_down(@raylib.KeyUp)
+      let mut brake = @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown)
+      let mut fire = @raylib.is_key_down(@raylib.KeySpace) ||
+        @raylib.is_key_down(@raylib.KeyJ)
+      let mut boost_on = @raylib.is_key_down(@raylib.KeyLeftShift) ||
+        @raylib.is_key_down(@raylib.KeyK)
 
       let ctl_x = 20
       let ctl_y = sh - 176
@@ -478,7 +587,8 @@ fn main {
         }
       }
 
-      let turn_strength : Float = Float::from_int(120) + absf(karts[0].speed) * 0.22
+      let turn_strength : Float = Float::from_int(120) +
+        absf(karts[0].speed) * 0.22
       karts[0].angle = karts[0].angle + turn * turn_strength * dt
       karts[0].speed = karts[0].speed + acc * dt
       karts[0].speed = karts[0].speed * (Float::from_int(1) - dt * 0.90)
@@ -497,7 +607,14 @@ fn main {
       if fire && fire_cd <= 0.0 && ammo > 0 {
         let sx = karts[0].x + cosf_deg(karts[0].angle) * 24.0
         let sy = karts[0].y + sinf_deg(karts[0].angle) * 24.0
-        spawn_shot(shots, sx, sy, cosf_deg(karts[0].angle), sinf_deg(karts[0].angle), 0)
+        spawn_shot(
+          shots,
+          sx,
+          sy,
+          cosf_deg(karts[0].angle),
+          sinf_deg(karts[0].angle),
+          0,
+        )
         fire_cd = 0.14
         ammo = ammo - 1
       }
@@ -515,7 +632,9 @@ fn main {
           let ai_speed : Float = Float::from_int(190 + i * 10)
           karts[i].x = karts[i].x + nx * ai_speed * dt
           karts[i].y = karts[i].y + ny * ai_speed * dt
-          karts[i].angle = Float::from_double(@math.atan2(ny.to_double(), nx.to_double()) * 57.29577951308232)
+          karts[i].angle = Float::from_double(
+            @math.atan2(ny.to_double(), nx.to_double()) * 57.29577951308232,
+          )
         }
 
         resolve_track_collision(karts[i])
@@ -527,7 +646,10 @@ fn main {
           let pdy = karts[0].y - karts[i].y
           if pdx * pdx + pdy * pdy <= 250.0 * 250.0 {
             spawn_shot(shots, karts[i].x, karts[i].y, pdx, pdy, i)
-            karts[i].shoot_cd = Float::from_int(@raylib.get_random_value(90, 150)) / Float::from_int(100)
+            karts[i].shoot_cd = Float::from_int(
+                @raylib.get_random_value(90, 150),
+              ) /
+              Float::from_int(100)
           }
         }
       }
@@ -578,7 +700,11 @@ fn main {
         shots[i].y = shots[i].y + shots[i].vy * dt
         shots[i].ttl = shots[i].ttl - dt
 
-        if shots[i].ttl <= 0.0 || shots[i].x < 0.0 || shots[i].x > Float::from_int(sw) || shots[i].y < 0.0 || shots[i].y > Float::from_int(sh) {
+        if shots[i].ttl <= 0.0 ||
+          shots[i].x < 0.0 ||
+          shots[i].x > Float::from_int(sw) ||
+          shots[i].y < 0.0 ||
+          shots[i].y > Float::from_int(sh) {
           shots[i].active = false
           continue
         }
@@ -689,11 +815,29 @@ fn main {
 
     for i = 0; i < 36; i = i + 1 {
       let dash_x = ol + i * 30
-      @raylib.draw_rectangle(dash_x, ot + oh / 2 - 4, 16, 8, @raylib.Color::new(228, 226, 210, 255))
+      @raylib.draw_rectangle(
+        dash_x,
+        ot + oh / 2 - 4,
+        16,
+        8,
+        @raylib.Color::new(228, 226, 210, 255),
+      )
     }
 
-    @raylib.draw_rectangle(ol + 6, ot + oh / 2 - 72, 8, 144, @raylib.Color::new(252, 104, 104, 255))
-    @raylib.draw_text("START", ol + 20, ot + oh / 2 - 16, 22, @raylib.Color::new(248, 220, 220, 255))
+    @raylib.draw_rectangle(
+      ol + 6,
+      ot + oh / 2 - 72,
+      8,
+      144,
+      @raylib.Color::new(252, 104, 104, 255),
+    )
+    @raylib.draw_text(
+      "START",
+      ol + 20,
+      ot + oh / 2 - 16,
+      22,
+      @raylib.Color::new(248, 220, 220, 255),
+    )
 
     for i = 0; i < pickups.length(); i = i + 1 {
       if not(pickups[i].active) {
@@ -756,58 +900,179 @@ fn main {
       } else {
         @raylib.Color::new(250, 128, 128, a)
       }
-      @raylib.draw_circle((sparks[i].x + shake_x).to_int(), sparks[i].y.to_int(), 2.2, c)
+      @raylib.draw_circle(
+        (sparks[i].x + shake_x).to_int(),
+        sparks[i].y.to_int(),
+        2.2,
+        c,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 98, @raylib.Color::new(8, 12, 20, 230))
-    @raylib.draw_text("BATTLE KART ARENA 2026", 16, 20, 34, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Lap \{karts[0].lap + 1}/\{lap_target}", 436, 30, 30, @raylib.Color::new(246, 230, 136, 255))
-    @raylib.draw_text("HP \{karts[0].hp}", 646, 30, 30, @raylib.Color::new(216, 236, 252, 255))
-    @raylib.draw_text("Ammo \{ammo}", 780, 30, 30, @raylib.Color::new(216, 236, 252, 255))
-    @raylib.draw_text("Score \{score}", 930, 30, 30, @raylib.Color::new(216, 236, 252, 255))
+    @raylib.draw_text(
+      "BATTLE KART ARENA 2026",
+      16,
+      20,
+      34,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Lap \{karts[0].lap + 1}/\{lap_target}",
+      436,
+      30,
+      30,
+      @raylib.Color::new(246, 230, 136, 255),
+    )
+    @raylib.draw_text(
+      "HP \{karts[0].hp}",
+      646,
+      30,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Ammo \{ammo}",
+      780,
+      30,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      930,
+      30,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
 
     @raylib.draw_rectangle(20, 78, 280, 12, @raylib.Color::new(30, 42, 62, 255))
-    @raylib.draw_rectangle(20, 78, (boost / 100.0 * 280.0).to_int(), 12, @raylib.Color::new(120, 212, 252, 255))
-    @raylib.draw_text("Boost \{boost.to_int()}", 306, 70, 20, @raylib.Color::new(204, 228, 246, 255))
+    @raylib.draw_rectangle(
+      20,
+      78,
+      (boost / 100.0 * 280.0).to_int(),
+      12,
+      @raylib.Color::new(120, 212, 252, 255),
+    )
+    @raylib.draw_text(
+      "Boost \{boost.to_int()}",
+      306,
+      70,
+      20,
+      @raylib.Color::new(204, 228, 246, 255),
+    )
 
     let ctl_x = 20
     let ctl_y = sh - 176
-    @raylib.draw_rectangle(8, sh - 190, 160, 180, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_rectangle(
+      8,
+      sh - 190,
+      160,
+      180,
+      @raylib.Color::new(10, 16, 28, 220),
+    )
     @raylib.draw_text("Touch", 56, sh - 186, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("LEFT", ctl_x + 14, ctl_y + 18, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 82, ctl_y, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 82,
+      ctl_y,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("RIGHT", ctl_x + 86, ctl_y + 18, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 60,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("ACC", ctl_x + 18, ctl_y + 78, 20, @raylib.white)
-    @raylib.draw_rectangle(ctl_x + 82, ctl_y + 60, 74, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x + 82,
+      ctl_y + 60,
+      74,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("BRK", ctl_x + 98, ctl_y + 78, 20, @raylib.white)
 
     let boost_x = sw - 198
     let boost_y = sh - 250
-    @raylib.draw_rectangle(boost_x, boost_y, 166, 84, @raylib.Color::new(72, 106, 180, 255))
+    @raylib.draw_rectangle(
+      boost_x,
+      boost_y,
+      166,
+      84,
+      @raylib.Color::new(72, 106, 180, 255),
+    )
     @raylib.draw_text("BOOST", boost_x + 36, boost_y + 26, 34, @raylib.white)
 
     let fire_x = sw - 198
     let fire_y = sh - 154
-    @raylib.draw_rectangle(fire_x, fire_y, 166, 116, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      166,
+      116,
+      @raylib.Color::new(188, 82, 76, 255),
+    )
     @raylib.draw_text("FIRE", fire_x + 52, fire_y + 40, 38, @raylib.white)
 
-    @raylib.draw_rectangle(176, sh - 52, sw - 390, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 186, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      176,
+      sh - 52,
+      sw - 390,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      186,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 126))
-      @raylib.draw_rectangle(sw / 2 - 340, sh / 2 - 100, 680, 200, @raylib.Color::new(16, 24, 40, 242))
+      @raylib.draw_rectangle(
+        sw / 2 - 340,
+        sh / 2 - 100,
+        680,
+        200,
+        @raylib.Color::new(16, 24, 40, 242),
+      )
       @raylib.draw_text(
-        if won { "RACE WON" } else { "RACE LOST" },
+        if won {
+          "RACE WON"
+        } else {
+          "RACE LOST"
+        },
         sw / 2 - 170,
         sh / 2 - 34,
         56,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 132, 132, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 132, 132, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

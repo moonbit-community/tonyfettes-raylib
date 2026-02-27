@@ -29,7 +29,11 @@ fn demo_nearest_enemy(game : @types.Game, x : Float, y : Float) -> (Int, Float) 
 }
 
 ///|
-fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float) {
+fn demo_nearest_powerup(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+) -> (Int, Float) {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
   for i = 0; i < game.powerups.length(); i = i + 1 {
@@ -46,7 +50,12 @@ fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float
 }
 
 ///|
-fn demo_can_step(game : @types.Game, index : Int, dir : Int, dt : Float) -> Bool {
+fn demo_can_step(
+  game : @types.Game,
+  index : Int,
+  dir : Int,
+  dt : Float,
+) -> Bool {
   let player = game.players[index]
   if not(player.active) {
     return false
@@ -172,7 +181,11 @@ fn demo_target_position(
   } else if nearest_enemy >= 0 {
     (game.enemies[nearest_enemy].x, game.enemies[nearest_enemy].y)
   } else {
-    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) { 0 } else { 1 }
+    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) {
+      0
+    } else {
+      1
+    }
     let guard_x = @types.tile_center_x(@types.base_tile_x + guard_tile_x)
     let guard_y = @types.tile_center_y(@types.base_tile_y - 1)
     (guard_x, guard_y)
@@ -180,7 +193,11 @@ fn demo_target_position(
 }
 
 ///|
-fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Bool) {
+fn demo_player_command(
+  game : @types.Game,
+  index : Int,
+  dt : Float,
+) -> (Int, Bool) {
   let player = game.players[index]
   if not(player.active) {
     return (-1, false)
@@ -207,7 +224,8 @@ fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Boo
       enemy.x,
       enemy.y,
     )
-    if aligned && not(@world.sight_blocked(game, player.x, player.y, enemy.x, enemy.y)) {
+    if aligned &&
+      not(@world.sight_blocked(game, player.x, player.y, enemy.x, enemy.y)) {
       move_dir = line_dir
       shoot = true
     }

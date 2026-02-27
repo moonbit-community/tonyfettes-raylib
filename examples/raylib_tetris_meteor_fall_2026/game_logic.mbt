@@ -94,8 +94,8 @@ fn clear_lines(game : Game) -> Int {
 
 ///|
 fn recalc_speed(game : Game) -> Unit {
-  let raw : Float =
-    (0.70 : Float) - Float::from_int(game.level - 1) * (0.05 : Float)
+  let raw : Float = (0.70 : Float) -
+    Float::from_int(game.level - 1) * (0.05 : Float)
   game.drop_interval = if raw < (0.09 : Float) { (0.09 : Float) } else { raw }
 }
 
@@ -132,7 +132,15 @@ fn spawn_piece(game : Game) -> Unit {
 ///|
 fn hard_drop(game : Game) -> Unit {
   let mut traveled = 0
-  while not(collides(game, game.piece_kind, game.piece_rot, game.piece_x, game.piece_y + 1)) {
+  while not(
+          collides(
+            game,
+            game.piece_kind,
+            game.piece_rot,
+            game.piece_x,
+            game.piece_y + 1,
+          ),
+        ) {
     game.piece_y = game.piece_y + 1
     traveled = traveled + 1
   }
@@ -253,8 +261,11 @@ fn update_game(game : Game, dt : Float) -> Unit {
     }
   }
 
-  let speed_scale : Float =
-    if @raylib.is_key_down(@raylib.KeyDown) { (0.08 : Float) } else { 1.0 }
+  let speed_scale : Float = if @raylib.is_key_down(@raylib.KeyDown) {
+    (0.08 : Float)
+  } else {
+    1.0
+  }
   game.drop_timer = game.drop_timer + dt
   let interval = game.drop_interval * speed_scale
   if game.drop_timer >= interval {

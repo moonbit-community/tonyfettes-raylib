@@ -79,21 +79,25 @@ fn apply_gate(train : Train, gate_i : Int, enabled : Bool) -> Unit {
     } else if train.lane == 2 {
       train.lane = 1
     }
-  } else {
-    if train.lane == 2 {
-      train.lane = 3
-    } else if train.lane == 3 {
-      train.lane = 2
-    }
+  } else if train.lane == 2 {
+    train.lane = 3
+  } else if train.lane == 3 {
+    train.lane = 2
   }
 }
 
 ///|
 fn target_lane(dir : Int, cargo : Int) -> Int {
   if dir > 0 {
-    if cargo == 0 { 0 } else { 3 }
+    if cargo == 0 {
+      0
+    } else {
+      3
+    }
+  } else if cargo == 0 {
+    3
   } else {
-    if cargo == 0 { 3 } else { 0 }
+    0
   }
 }
 
@@ -106,7 +110,11 @@ fn reset_trains(trains : Array[Train]) -> Unit {
 
 ///|
 fn train_color(cargo : Int) -> @raylib.Color {
-  if cargo == 0 { @raylib.red } else { @raylib.skyblue }
+  if cargo == 0 {
+    @raylib.red
+  } else {
+    @raylib.skyblue
+  }
 }
 
 ///|
@@ -189,7 +197,8 @@ fn main {
           continue
         }
 
-        trains[i].x = trains[i].x + Float::from_int(trains[i].dir) * trains[i].speed * dt
+        trains[i].x = trains[i].x +
+          Float::from_int(trains[i].dir) * trains[i].speed * dt
 
         if trains[i].dir > 0 {
           if trains[i].x >= gate_x0 {
@@ -266,27 +275,151 @@ fn main {
     for l = 0; l < lanes; l = l + 1 {
       let y = lane_y(l)
       @raylib.draw_line(70, y.to_int(), sw - 70, y.to_int(), @raylib.lightgray)
-      @raylib.draw_line(70, y.to_int() + 6, sw - 70, y.to_int() + 6, @raylib.gray)
-      @raylib.draw_rectangle(24, y.to_int() - 28, 36, 48, if l == 0 { @raylib.red } else if l == 3 { @raylib.skyblue } else { @raylib.darkgray })
-      @raylib.draw_rectangle(sw - 60, y.to_int() - 28, 36, 48, if l == 0 { @raylib.skyblue } else if l == 3 { @raylib.red } else { @raylib.darkgray })
+      @raylib.draw_line(
+        70,
+        y.to_int() + 6,
+        sw - 70,
+        y.to_int() + 6,
+        @raylib.gray,
+      )
+      @raylib.draw_rectangle(
+        24,
+        y.to_int() - 28,
+        36,
+        48,
+        if l == 0 {
+          @raylib.red
+        } else if l == 3 {
+          @raylib.skyblue
+        } else {
+          @raylib.darkgray
+        },
+      )
+      @raylib.draw_rectangle(
+        sw - 60,
+        y.to_int() - 28,
+        36,
+        48,
+        if l == 0 {
+          @raylib.skyblue
+        } else if l == 3 {
+          @raylib.red
+        } else {
+          @raylib.darkgray
+        },
+      )
     }
 
-    @raylib.draw_line(gate_x0.to_int(), 130, gate_x0.to_int(), 620, if gate0 { @raylib.lime } else { @raylib.red })
-    @raylib.draw_line(gate_x1.to_int(), 130, gate_x1.to_int(), 620, if gate1 { @raylib.lime } else { @raylib.red })
-    @raylib.draw_line(gate_x2.to_int(), 130, gate_x2.to_int(), 620, if gate2 { @raylib.lime } else { @raylib.red })
+    @raylib.draw_line(
+      gate_x0.to_int(),
+      130,
+      gate_x0.to_int(),
+      620,
+      if gate0 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
+    @raylib.draw_line(
+      gate_x1.to_int(),
+      130,
+      gate_x1.to_int(),
+      620,
+      if gate1 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
+    @raylib.draw_line(
+      gate_x2.to_int(),
+      130,
+      gate_x2.to_int(),
+      620,
+      if gate2 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
 
-    @raylib.draw_text(if gate0 { "1 ON" } else { "1 OFF" }, gate_x0.to_int() - 26, 96, 20, if gate0 { @raylib.lime } else { @raylib.red })
-    @raylib.draw_text(if gate1 { "2 ON" } else { "2 OFF" }, gate_x1.to_int() - 30, 96, 20, if gate1 { @raylib.lime } else { @raylib.red })
-    @raylib.draw_text(if gate2 { "3 ON" } else { "3 OFF" }, gate_x2.to_int() - 30, 96, 20, if gate2 { @raylib.lime } else { @raylib.red })
+    @raylib.draw_text(
+      if gate0 {
+        "1 ON"
+      } else {
+        "1 OFF"
+      },
+      gate_x0.to_int() - 26,
+      96,
+      20,
+      if gate0 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
+    @raylib.draw_text(
+      if gate1 {
+        "2 ON"
+      } else {
+        "2 OFF"
+      },
+      gate_x1.to_int() - 30,
+      96,
+      20,
+      if gate1 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
+    @raylib.draw_text(
+      if gate2 {
+        "3 ON"
+      } else {
+        "3 OFF"
+      },
+      gate_x2.to_int() - 30,
+      96,
+      20,
+      if gate2 {
+        @raylib.lime
+      } else {
+        @raylib.red
+      },
+    )
 
     for i = 0; i < trains.length(); i = i + 1 {
       if trains[i].alive {
         let y = lane_y(trains[i].lane)
         let c = train_color(trains[i].cargo)
-        @raylib.draw_rectangle((trains[i].x - 20.0).to_int(), (y - 16.0).to_int(), 40, 24, c)
-        @raylib.draw_rectangle_lines((trains[i].x - 20.0).to_int(), (y - 16.0).to_int(), 40, 24, @raylib.white)
-        @raylib.draw_circle((trains[i].x - 10.0).to_int(), (y + 10.0).to_int(), 4.0, @raylib.black)
-        @raylib.draw_circle((trains[i].x + 10.0).to_int(), (y + 10.0).to_int(), 4.0, @raylib.black)
+        @raylib.draw_rectangle(
+          (trains[i].x - 20.0).to_int(),
+          (y - 16.0).to_int(),
+          40,
+          24,
+          c,
+        )
+        @raylib.draw_rectangle_lines(
+          (trains[i].x - 20.0).to_int(),
+          (y - 16.0).to_int(),
+          40,
+          24,
+          @raylib.white,
+        )
+        @raylib.draw_circle(
+          (trains[i].x - 10.0).to_int(),
+          (y + 10.0).to_int(),
+          4.0,
+          @raylib.black,
+        )
+        @raylib.draw_circle(
+          (trains[i].x + 10.0).to_int(),
+          (y + 10.0).to_int(),
+          4.0,
+          @raylib.black,
+        )
       }
     }
 
@@ -294,14 +427,39 @@ fn main {
     @raylib.draw_text("Score \{score}", 24, 68, 28, @raylib.white)
     @raylib.draw_text("Delivered \{delivered}", 220, 68, 28, @raylib.lime)
     @raylib.draw_text("Missed \{missed}", 430, 68, 28, @raylib.orange)
-    @raylib.draw_text("Lives \{lives}", 600, 68, 28, if lives <= 2 { @raylib.red } else { @raylib.yellow })
+    @raylib.draw_text(
+      "Lives \{lives}",
+      600,
+      68,
+      28,
+      if lives <= 2 {
+        @raylib.red
+      } else {
+        @raylib.yellow
+      },
+    )
 
-    @raylib.draw_text("Target: red => top-right / bottom-left, blue => bottom-right / top-left", 24, 640, 24, @raylib.lightgray)
-    @raylib.draw_rectangle(24, 676, sw - 48, 38, @raylib.Color::new(8, 10, 14, 220))
+    @raylib.draw_text(
+      "Target: red => top-right / bottom-left, blue => bottom-right / top-left",
+      24, 640, 24, @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      24,
+      676,
+      sw - 48,
+      38,
+      @raylib.Color::new(8, 10, 14, 220),
+    )
     @raylib.draw_text(msg, 36, 684, 24, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(330, 260, 540, 170, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        330,
+        260,
+        540,
+        170,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("DISPATCH FAILED", 430, 310, 50, @raylib.red)
       @raylib.draw_text("Press R to restart shift", 452, 368, 30, @raylib.white)
     }

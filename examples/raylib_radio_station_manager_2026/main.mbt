@@ -66,7 +66,12 @@ fn main {
   @raylib.init_window(sw, sh, "Radio Station Manager 2026")
   @raylib.set_target_fps(60)
 
-  let mut queue : Array[Song] = [random_song(), random_song(), random_song(), random_song()]
+  let mut queue : Array[Song] = [
+    random_song(),
+    random_song(),
+    random_song(),
+    random_song(),
+  ]
   let mut current : Song = take_song(queue, 0)
   let mut current_time : Float = current.len
 
@@ -159,15 +164,23 @@ fn main {
         0
       }
 
-      let mood_delta : Float =
-        if current.mood == desired { (2.2 : Float) } else { (-1.6 : Float) }
-      let energy_target = if desired == 2 { 75 } else if desired == 1 { 62 } else { 45 }
-      let energy_delta : Float =
-        if (current.energy - energy_target).abs() <= 14 {
-          (1.5 : Float)
-        } else {
-          (-1.1 : Float)
-        }
+      let mood_delta : Float = if current.mood == desired {
+        (2.2 : Float)
+      } else {
+        (-1.6 : Float)
+      }
+      let energy_target = if desired == 2 {
+        75
+      } else if desired == 1 {
+        62
+      } else {
+        45
+      }
+      let energy_delta : Float = if (current.energy - energy_target).abs() <= 14 {
+        (1.5 : Float)
+      } else {
+        (-1.1 : Float)
+      }
 
       trend = trend + (mood_delta + energy_delta) * dt
       trend = trend - dt * (0.8 : Float)
@@ -217,36 +230,103 @@ fn main {
     @raylib.draw_text("Budget \{ad_budget}", 420, 68, 28, @raylib.gold)
 
     let st = shift_time.to_int()
-    @raylib.draw_text("Time \{st}s", 620, 68, 30, if st < 25 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{st}s",
+      620,
+      68,
+      30,
+      if st < 25 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
     // Current live deck
-    @raylib.draw_rectangle(40, 160, 500, 220, @raylib.Color::new(32, 38, 56, 255))
+    @raylib.draw_rectangle(
+      40,
+      160,
+      500,
+      220,
+      @raylib.Color::new(32, 38, 56, 255),
+    )
     @raylib.draw_text("LIVE NOW", 60, 178, 30, @raylib.white)
-    @raylib.draw_text("Mood: \{mood_name(current.mood)}", 60, 222, 30, mood_color(current.mood))
-    @raylib.draw_text("Energy: \{current.energy}", 60, 266, 28, @raylib.raywhite)
-    @raylib.draw_text("Remain: \{current_time.to_int()}s", 60, 304, 28, @raylib.raywhite)
+    @raylib.draw_text(
+      "Mood: \{mood_name(current.mood)}",
+      60,
+      222,
+      30,
+      mood_color(current.mood),
+    )
+    @raylib.draw_text(
+      "Energy: \{current.energy}",
+      60,
+      266,
+      28,
+      @raylib.raywhite,
+    )
+    @raylib.draw_text(
+      "Remain: \{current_time.to_int()}s",
+      60,
+      304,
+      28,
+      @raylib.raywhite,
+    )
     @raylib.draw_circle(460, 270, 42.0, mood_color(current.mood))
 
     // Queue board
-    @raylib.draw_rectangle(580, 160, 500, 420, @raylib.Color::new(30, 34, 50, 255))
+    @raylib.draw_rectangle(
+      580,
+      160,
+      500,
+      420,
+      @raylib.Color::new(30, 34, 50, 255),
+    )
     @raylib.draw_text("QUEUE", 600, 178, 30, @raylib.white)
 
     for i = 0; i < queue.length(); i = i + 1 {
       let y = 220 + i * 80
       let s = queue[i]
-      @raylib.draw_rectangle(608, y, 450, 64, @raylib.Color::new(44, 50, 72, 255))
+      @raylib.draw_rectangle(
+        608,
+        y,
+        450,
+        64,
+        @raylib.Color::new(44, 50, 72, 255),
+      )
       @raylib.draw_text("\{i + 1}", 620, y + 16, 30, @raylib.yellow)
-      @raylib.draw_text("\{mood_name(s.mood)}", 670, y + 16, 28, mood_color(s.mood))
+      @raylib.draw_text(
+        "\{mood_name(s.mood)}",
+        670,
+        y + 16,
+        28,
+        mood_color(s.mood),
+      )
       @raylib.draw_text("E\{s.energy}", 840, y + 16, 24, @raylib.raywhite)
       @raylib.draw_text("\{s.len.to_int()}s", 930, y + 16, 24, @raylib.raywhite)
     }
 
-    @raylib.draw_text("Desired mood now changes over shift (Pop -> Rock -> Chill)", 40, 612, 24, @raylib.lightgray)
-    @raylib.draw_rectangle(20, 686, sw - 40, 30, @raylib.Color::new(10, 14, 20, 220))
+    @raylib.draw_text(
+      "Desired mood now changes over shift (Pop -> Rock -> Chill)", 40, 612, 24,
+      @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      686,
+      sw - 40,
+      30,
+      @raylib.Color::new(10, 14, 20, 220),
+    )
     @raylib.draw_text(msg, 28, 691, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(280, 250, 560, 190, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        280,
+        250,
+        560,
+        190,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("SHIFT OVER", 430, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 440, 386, 34, @raylib.white)
     }

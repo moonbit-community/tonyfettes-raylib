@@ -39,23 +39,10 @@ fn main {
   @raylib.init_window(sw, sh, "Archery Tournament 2026")
   @raylib.set_target_fps(60)
 
-  let arrow : Arrow = {
-    alive: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-  }
+  let arrow : Arrow = { alive: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0 }
 
   let targets : Array[Target] = Array::makei(4, fn(_i) {
-    {
-      alive: true,
-      x: 0.0,
-      y: 0.0,
-      r: 20.0,
-      vx: 0.0,
-      points: 20,
-    }
+    { alive: true, x: 0.0, y: 0.0, r: 20.0, vx: 0.0, points: 20 }
   })
   reset_targets(targets)
 
@@ -96,10 +83,12 @@ fn main {
     }
 
     if not(over) {
-      if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
+      if @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft) {
         arc_power = arc_power - 220.0 * dt
       }
-      if @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight) {
+      if @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight) {
         arc_power = arc_power + 220.0 * dt
       }
       if arc_power < 260.0 {
@@ -112,7 +101,8 @@ fn main {
       if @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp) {
         arc_lift = arc_lift + 180.0 * dt
       }
-      if @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown) {
+      if @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown) {
         arc_lift = arc_lift - 180.0 * dt
       }
       if arc_lift < 120.0 {
@@ -128,7 +118,9 @@ fn main {
         wind = Float::from_int(@raylib.get_random_value(-90, 90))
       }
 
-      if @raylib.is_key_pressed(@raylib.KeySpace) && not(arrow.alive) && arrows_left > 0 {
+      if @raylib.is_key_pressed(@raylib.KeySpace) &&
+        not(arrow.alive) &&
+        arrows_left > 0 {
         arrow.alive = true
         arrow.x = archer_x + 26.0
         arrow.y = archer_y - 32.0
@@ -177,7 +169,9 @@ fn main {
           }
         }
 
-        if arrow.x > Float::from_int(sw + 20) || arrow.y > ground_y || arrow.y < 40.0 {
+        if arrow.x > Float::from_int(sw + 20) ||
+          arrow.y > ground_y ||
+          arrow.y < 40.0 {
           arrow.alive = false
           combo = 0
           if arrows_left > 0 {
@@ -207,20 +201,69 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(196, 228, 255, 255))
 
-    @raylib.draw_rectangle(0, ground_y.to_int(), sw, sh - ground_y.to_int(), @raylib.Color::new(88, 138, 82, 255))
+    @raylib.draw_rectangle(
+      0,
+      ground_y.to_int(),
+      sw,
+      sh - ground_y.to_int(),
+      @raylib.Color::new(88, 138, 82, 255),
+    )
 
     // Archer
-    @raylib.draw_circle(archer_x.to_int(), (archer_y - 52.0).to_int(), 16.0, @raylib.orange)
-    @raylib.draw_rectangle((archer_x - 12.0).to_int(), (archer_y - 36.0).to_int(), 24, 34, @raylib.darkbrown)
-    @raylib.draw_line((archer_x + 12.0).to_int(), (archer_y - 28.0).to_int(), (archer_x + 34.0).to_int(), (archer_y - 28.0).to_int(), @raylib.brown)
-    @raylib.draw_circle_lines((archer_x + 40.0).to_int(), (archer_y - 28.0).to_int(), 14.0, @raylib.darkbrown)
+    @raylib.draw_circle(
+      archer_x.to_int(),
+      (archer_y - 52.0).to_int(),
+      16.0,
+      @raylib.orange,
+    )
+    @raylib.draw_rectangle(
+      (archer_x - 12.0).to_int(),
+      (archer_y - 36.0).to_int(),
+      24,
+      34,
+      @raylib.darkbrown,
+    )
+    @raylib.draw_line(
+      (archer_x + 12.0).to_int(),
+      (archer_y - 28.0).to_int(),
+      (archer_x + 34.0).to_int(),
+      (archer_y - 28.0).to_int(),
+      @raylib.brown,
+    )
+    @raylib.draw_circle_lines(
+      (archer_x + 40.0).to_int(),
+      (archer_y - 28.0).to_int(),
+      14.0,
+      @raylib.darkbrown,
+    )
 
     for i = 0; i < targets.length(); i = i + 1 {
       if targets[i].alive {
-        @raylib.draw_circle(targets[i].x.to_int(), targets[i].y.to_int(), targets[i].r, @raylib.red)
-        @raylib.draw_circle(targets[i].x.to_int(), targets[i].y.to_int(), targets[i].r * 0.68, @raylib.white)
-        @raylib.draw_circle(targets[i].x.to_int(), targets[i].y.to_int(), targets[i].r * 0.36, @raylib.blue)
-        @raylib.draw_text("\{targets[i].points}", (targets[i].x - 14.0).to_int(), (targets[i].y - 10.0).to_int(), 18, @raylib.black)
+        @raylib.draw_circle(
+          targets[i].x.to_int(),
+          targets[i].y.to_int(),
+          targets[i].r,
+          @raylib.red,
+        )
+        @raylib.draw_circle(
+          targets[i].x.to_int(),
+          targets[i].y.to_int(),
+          targets[i].r * 0.68,
+          @raylib.white,
+        )
+        @raylib.draw_circle(
+          targets[i].x.to_int(),
+          targets[i].y.to_int(),
+          targets[i].r * 0.36,
+          @raylib.blue,
+        )
+        @raylib.draw_text(
+          "\{targets[i].points}",
+          (targets[i].x - 14.0).to_int(),
+          (targets[i].y - 10.0).to_int(),
+          18,
+          @raylib.black,
+        )
       }
     }
 
@@ -246,21 +289,81 @@ fn main {
     @raylib.draw_text("Combo x\{combo}", 430, 66, 30, @raylib.orange)
     @raylib.draw_text("Best Hit \{best_hit}", 620, 66, 30, @raylib.lime)
 
-    @raylib.draw_text("Power \{arc_power.to_int()}", 20, 108, 26, @raylib.raywhite)
-    @raylib.draw_rectangle(160, 114, 220, 14, @raylib.Color::new(40, 40, 40, 255))
-    @raylib.draw_rectangle(160, 114, ((arc_power - 260.0) * 0.44).to_int(), 14, @raylib.blue)
+    @raylib.draw_text(
+      "Power \{arc_power.to_int()}",
+      20,
+      108,
+      26,
+      @raylib.raywhite,
+    )
+    @raylib.draw_rectangle(
+      160,
+      114,
+      220,
+      14,
+      @raylib.Color::new(40, 40, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      160,
+      114,
+      ((arc_power - 260.0) * 0.44).to_int(),
+      14,
+      @raylib.blue,
+    )
 
-    @raylib.draw_text("Arc \{arc_lift.to_int()}", 410, 108, 26, @raylib.raywhite)
-    @raylib.draw_rectangle(510, 114, 220, 14, @raylib.Color::new(40, 40, 40, 255))
-    @raylib.draw_rectangle(510, 114, ((arc_lift - 120.0) * 0.64).to_int(), 14, @raylib.green)
+    @raylib.draw_text(
+      "Arc \{arc_lift.to_int()}",
+      410,
+      108,
+      26,
+      @raylib.raywhite,
+    )
+    @raylib.draw_rectangle(
+      510,
+      114,
+      220,
+      14,
+      @raylib.Color::new(40, 40, 40, 255),
+    )
+    @raylib.draw_rectangle(
+      510,
+      114,
+      ((arc_lift - 120.0) * 0.64).to_int(),
+      14,
+      @raylib.green,
+    )
 
-    @raylib.draw_text("Wind \{wind.to_int()}", 760, 108, 26, if wind > 0.0 { @raylib.red } else if wind < 0.0 { @raylib.blue } else { @raylib.gray })
+    @raylib.draw_text(
+      "Wind \{wind.to_int()}",
+      760,
+      108,
+      26,
+      if wind > 0.0 {
+        @raylib.red
+      } else if wind < 0.0 {
+        @raylib.blue
+      } else {
+        @raylib.gray
+      },
+    )
 
-    @raylib.draw_rectangle(20, 694, sw - 40, 30, @raylib.Color::new(18, 24, 30, 220))
+    @raylib.draw_rectangle(
+      20,
+      694,
+      sw - 40,
+      30,
+      @raylib.Color::new(18, 24, 30, 220),
+    )
     @raylib.draw_text(msg, 28, 699, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 560, 190, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        560,
+        190,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("TOURNAMENT OVER", 360, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 384, 34, @raylib.white)
     }

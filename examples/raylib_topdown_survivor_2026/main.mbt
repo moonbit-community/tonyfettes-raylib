@@ -65,7 +65,9 @@ fn spawn_enemy(enemies : Array[Enemy], t : Float) -> Unit {
       enemies[i].x = x
       enemies[i].y = y
       enemies[i].hp = 8 + @raylib.get_random_value(0, 8)
-      enemies[i].speed = 52.0 + t * 1.5 + Float::from_int(@raylib.get_random_value(0, 12))
+      enemies[i].speed = 52.0 +
+        t * 1.5 +
+        Float::from_int(@raylib.get_random_value(0, 12))
       return
     }
   }
@@ -113,15 +115,7 @@ fn main {
     { alive: false, x: 0.0, y: 0.0, hp: 0, speed: 0.0 }
   })
   let shots : Array[Shot] = Array::makei(220, fn(_i) {
-    {
-      active: false,
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      dmg: 0,
-      ttl: 0.0,
-    }
+    { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, dmg: 0, ttl: 0.0 }
   })
 
   let mut px : Float = Float::from_int(sw) * 0.5
@@ -210,16 +204,20 @@ fn main {
 
         let mut mx : Float = 0.0
         let mut my : Float = 0.0
-        if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
+        if @raylib.is_key_down(@raylib.KeyLeft) ||
+          @raylib.is_key_down(@raylib.KeyA) {
           mx = mx - 1.0
         }
-        if @raylib.is_key_down(@raylib.KeyRight) || @raylib.is_key_down(@raylib.KeyD) {
+        if @raylib.is_key_down(@raylib.KeyRight) ||
+          @raylib.is_key_down(@raylib.KeyD) {
           mx = mx + 1.0
         }
-        if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
+        if @raylib.is_key_down(@raylib.KeyUp) ||
+          @raylib.is_key_down(@raylib.KeyW) {
           my = my - 1.0
         }
-        if @raylib.is_key_down(@raylib.KeyDown) || @raylib.is_key_down(@raylib.KeyS) {
+        if @raylib.is_key_down(@raylib.KeyDown) ||
+          @raylib.is_key_down(@raylib.KeyS) {
           my = my + 1.0
         }
 
@@ -261,7 +259,15 @@ fn main {
           }
           if best >= 0 {
             fire_timer = fire_cd
-            fire_shot(shots, px, py, enemies[best].x, enemies[best].y, bullet_speed, bullet_dmg)
+            fire_shot(
+              shots,
+              px,
+              py,
+              enemies[best].x,
+              enemies[best].y,
+              bullet_speed,
+              bullet_dmg,
+            )
           }
         }
 
@@ -272,8 +278,11 @@ fn main {
           shots[i].x = shots[i].x + shots[i].vx * dt
           shots[i].y = shots[i].y + shots[i].vy * dt
           shots[i].ttl = shots[i].ttl - dt
-          if shots[i].ttl <= 0.0 || shots[i].x < 0.0 || shots[i].x > Float::from_int(sw) ||
-            shots[i].y < 0.0 || shots[i].y > Float::from_int(sh) {
+          if shots[i].ttl <= 0.0 ||
+            shots[i].x < 0.0 ||
+            shots[i].x > Float::from_int(sw) ||
+            shots[i].y < 0.0 ||
+            shots[i].y > Float::from_int(sh) {
             shots[i].active = false
             continue
           }
@@ -337,13 +346,23 @@ fn main {
 
     for i = 0; i < enemies.length(); i = i + 1 {
       if enemies[i].alive {
-        @raylib.draw_circle(enemies[i].x.to_int(), enemies[i].y.to_int(), 10.0, @raylib.red)
+        @raylib.draw_circle(
+          enemies[i].x.to_int(),
+          enemies[i].y.to_int(),
+          10.0,
+          @raylib.red,
+        )
       }
     }
 
     for i = 0; i < shots.length(); i = i + 1 {
       if shots[i].active {
-        @raylib.draw_circle(shots[i].x.to_int(), shots[i].y.to_int(), 3.0, @raylib.yellow)
+        @raylib.draw_circle(
+          shots[i].x.to_int(),
+          shots[i].y.to_int(),
+          3.0,
+          @raylib.yellow,
+        )
       }
     }
 
@@ -353,21 +372,61 @@ fn main {
     @raylib.draw_text("HP \{hp}/\{max_hp}", 24, 56, 24, @raylib.raywhite)
     @raylib.draw_text("Lvl \{level}", 220, 56, 24, @raylib.raywhite)
     @raylib.draw_text("XP \{xp}/\{xp_need}", 320, 56, 24, @raylib.raywhite)
-    @raylib.draw_text("Time \{survive_time.to_int()} / 180", 510, 56, 24, @raylib.raywhite)
+    @raylib.draw_text(
+      "Time \{survive_time.to_int()} / 180",
+      510,
+      56,
+      24,
+      @raylib.raywhite,
+    )
     @raylib.draw_text("Move: WASD/Arrows  R restart", 730, 24, 22, @raylib.gray)
 
-    @raylib.draw_rectangle(24, 620, 950, 48, @raylib.Color::new(24, 30, 24, 255))
+    @raylib.draw_rectangle(
+      24,
+      620,
+      950,
+      48,
+      @raylib.Color::new(24, 30, 24, 255),
+    )
     @raylib.draw_text(msg, 34, 635, 22, @raylib.raywhite)
 
     if selecting {
-      @raylib.draw_rectangle(240, 230, 530, 140, @raylib.fade(@raylib.black, 0.8))
+      @raylib.draw_rectangle(
+        240,
+        230,
+        530,
+        140,
+        @raylib.fade(@raylib.black, 0.8),
+      )
       @raylib.draw_text("LEVEL UP", 430, 250, 42, @raylib.yellow)
-      @raylib.draw_text("1 Faster fire  2 Damage  3 Speed+HP", 286, 308, 30, @raylib.raywhite)
+      @raylib.draw_text(
+        "1 Faster fire  2 Damage  3 Speed+HP", 286, 308, 30, @raylib.raywhite,
+      )
     }
 
     if won || game_over {
-      @raylib.draw_rectangle(300, 250, 400, 120, @raylib.fade(@raylib.black, 0.8))
-      @raylib.draw_text(if won { "SURVIVED" } else { "DEFEAT" }, 400, 286, 46, if won { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        300,
+        250,
+        400,
+        120,
+        @raylib.fade(@raylib.black, 0.8),
+      )
+      @raylib.draw_text(
+        if won {
+          "SURVIVED"
+        } else {
+          "DEFEAT"
+        },
+        400,
+        286,
+        46,
+        if won {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 380, 334, 26, @raylib.raywhite)
     }
 

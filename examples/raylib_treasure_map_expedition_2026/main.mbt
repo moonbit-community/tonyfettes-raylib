@@ -142,19 +142,23 @@ fn main {
       let mut dy = 0
       let mut acted = false
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         dx = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         dx = 1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         dy = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         acted = true
       }
@@ -222,7 +226,13 @@ fn main {
         let ry = oy + y * cell
 
         if not(seen[idx(x, y)]) {
-          @raylib.draw_rectangle(rx, ry, cell - 1, cell - 1, @raylib.Color::new(10, 14, 10, 255))
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            cell - 1,
+            cell - 1,
+            @raylib.Color::new(10, 14, 10, 255),
+          )
           continue
         }
 
@@ -234,7 +244,13 @@ fn main {
         @raylib.draw_rectangle(rx, ry, cell - 1, cell - 1, base)
 
         if x == camp_x && y == camp_y {
-          @raylib.draw_rectangle(rx + 8, ry + 8, cell - 17, cell - 17, @raylib.Color::new(190, 170, 110, 255))
+          @raylib.draw_rectangle(
+            rx + 8,
+            ry + 8,
+            cell - 17,
+            cell - 17,
+            @raylib.Color::new(190, 170, 110, 255),
+          )
           @raylib.draw_text("C", rx + 16, ry + 10, 26, @raylib.black)
         }
       }
@@ -254,24 +270,56 @@ fn main {
     @raylib.draw_circle(pxs, pys, 14.0, @raylib.skyblue)
     @raylib.draw_circle_lines(pxs, pys, 14.0, @raylib.white)
 
-    @raylib.draw_text("TREASURE MAP EXPEDITION 2026", 20, 16, 34, @raylib.skyblue)
+    @raylib.draw_text(
+      "TREASURE MAP EXPEDITION 2026", 20, 16, 34, @raylib.skyblue,
+    )
     @raylib.draw_text("Bank \{bank}", 20, 56, 26, @raylib.lime)
     @raylib.draw_text("Bag \{bag_value}", 180, 56, 26, @raylib.gold)
     @raylib.draw_text("Steps \{steps}", 340, 56, 26, @raylib.white)
 
     let t = timer.to_int()
-    @raylib.draw_text("Time \{t}s", 500, 56, 26, if t < 35 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{t}s",
+      500,
+      56,
+      26,
+      if t < 35 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
     @raylib.draw_text("Stamina", 680, 56, 24, @raylib.raywhite)
-    @raylib.draw_rectangle(770, 62, 220, 14, @raylib.Color::new(24, 34, 24, 255))
+    @raylib.draw_rectangle(
+      770,
+      62,
+      220,
+      14,
+      @raylib.Color::new(24, 34, 24, 255),
+    )
     @raylib.draw_rectangle(770, 62, stamina * 220 / 100, 14, @raylib.skyblue)
 
-    @raylib.draw_text("Find relics in fog and return to camp to secure them.", 20, 694, 22, @raylib.lightgray)
-    @raylib.draw_rectangle(20, 724, sw - 40, 24, @raylib.Color::new(8, 12, 8, 220))
+    @raylib.draw_text(
+      "Find relics in fog and return to camp to secure them.", 20, 694, 22, @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      724,
+      sw - 40,
+      24,
+      @raylib.Color::new(8, 12, 8, 220),
+    )
     @raylib.draw_text(msg, 26, 727, 18, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 560, 190, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        300,
+        250,
+        560,
+        190,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("EXPEDITION END", 360, 320, 56, @raylib.orange)
       @raylib.draw_text("Press R to restart", 450, 386, 34, @raylib.white)
     }

@@ -47,7 +47,8 @@ fn bullet_hit_enemy(game : @types.Game, bullet : @types.Bullet) -> Bool {
     }
 
     let radius = @types.tank_half + bullet.radius
-    if @types.distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <= radius * radius {
+    if @types.distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <=
+      radius * radius {
       enemy.hp -= bullet.damage
       @particles.spawn_spark_burst(game, bullet.x, bullet.y, 6)
       if enemy.hp <= 0 {
@@ -75,7 +76,8 @@ fn bullet_hit_player(game : @types.Game, bullet : @types.Bullet) -> Bool {
       continue i + 1
     }
     let radius = @types.tank_half + bullet.radius
-    if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <= radius * radius {
+    if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <=
+      radius * radius {
       on_player_destroyed(game, i)
       return true
     }

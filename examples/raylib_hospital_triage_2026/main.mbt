@@ -35,13 +35,7 @@ fn spawn_patient(ps : Array[Patient]) -> Unit {
     if not(ps[i].alive) {
       let w = @raylib.get_random_value(0, ward_count - 1)
       let r = @raylib.get_random_value(0, 99)
-      let sev = if r < 42 {
-        0
-      } else if r < 82 {
-        1
-      } else {
-        2
-      }
+      let sev = if r < 42 { 0 } else if r < 82 { 1 } else { 2 }
       ps[i].alive = true
       ps[i].ward = w
       ps[i].x = ward_x(w)
@@ -103,14 +97,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   let patients : Array[Patient] = Array::makei(140, fn(_i) {
-    {
-      alive: false,
-      ward: 0,
-      x: 0.0,
-      y: 0.0,
-      severity: 0,
-      wait: 0.0,
-    }
+    { alive: false, ward: 0, x: 0.0, y: 0.0, severity: 0, wait: 0.0 }
   })
 
   let mut nurse_ward = 1
@@ -161,12 +148,14 @@ fn main {
         msg = "Shift complete."
       }
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         if nurse_ward > 0 {
           nurse_ward = nurse_ward - 1
         }
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         if nurse_ward < ward_count - 1 {
           nurse_ward = nurse_ward + 1
         }
@@ -199,25 +188,23 @@ fn main {
           continue
         }
 
-        let spd : Float =
-          if patients[i].severity == 2 {
-            (55.0 : Float)
-          } else if patients[i].severity == 1 {
-            (42.0 : Float)
-          } else {
-            (32.0 : Float)
-          }
+        let spd : Float = if patients[i].severity == 2 {
+          (55.0 : Float)
+        } else if patients[i].severity == 1 {
+          (42.0 : Float)
+        } else {
+          (32.0 : Float)
+        }
         patients[i].y = patients[i].y + spd * dt
         patients[i].wait = patients[i].wait + dt
 
-        let panic_time : Float =
-          if patients[i].severity == 2 {
-            (7.0 : Float)
-          } else if patients[i].severity == 1 {
-            (10.0 : Float)
-          } else {
-            (13.0 : Float)
-          }
+        let panic_time : Float = if patients[i].severity == 2 {
+          (7.0 : Float)
+        } else if patients[i].severity == 1 {
+          (10.0 : Float)
+        } else {
+          (13.0 : Float)
+        }
         if patients[i].wait > panic_time {
           patients[i].alive = false
           failed = failed + 1
@@ -238,7 +225,11 @@ fn main {
         }
       }
 
-      if not(treating) && (@raylib.is_key_pressed(@raylib.KeySpace) || @raylib.is_key_pressed(@raylib.KeyEnter)) {
+      if not(treating) &&
+        (
+          @raylib.is_key_pressed(@raylib.KeySpace) ||
+          @raylib.is_key_pressed(@raylib.KeyEnter)
+        ) {
         let mut pick = -1
         let mut best_y : Float = 1_000_000.0
         for i = 0; i < patients.length(); i = i + 1 {
@@ -268,20 +259,55 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(230, 236, 242, 255))
 
-    @raylib.draw_rectangle(0, 0, sw, 130, @raylib.Color::new(188, 214, 236, 255))
-    @raylib.draw_rectangle(0, 130, sw, sh - 130, @raylib.Color::new(248, 248, 248, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      130,
+      @raylib.Color::new(188, 214, 236, 255),
+    )
+    @raylib.draw_rectangle(
+      0,
+      130,
+      sw,
+      sh - 130,
+      @raylib.Color::new(248, 248, 248, 255),
+    )
 
     for w = 0; w < ward_count; w = w + 1 {
       let x = ward_x(w)
-      @raylib.draw_rectangle((x - 75.0).to_int(), 160, 150, 520, @raylib.Color::new(240, 244, 248, 255))
-      @raylib.draw_rectangle_lines((x - 75.0).to_int(), 160, 150, 520, @raylib.Color::new(180, 190, 205, 255))
-      @raylib.draw_text("WARD \{w + 1}", (x - 56.0).to_int(), 168, 24, @raylib.darkblue)
+      @raylib.draw_rectangle(
+        (x - 75.0).to_int(),
+        160,
+        150,
+        520,
+        @raylib.Color::new(240, 244, 248, 255),
+      )
+      @raylib.draw_rectangle_lines(
+        (x - 75.0).to_int(),
+        160,
+        150,
+        520,
+        @raylib.Color::new(180, 190, 205, 255),
+      )
+      @raylib.draw_text(
+        "WARD \{w + 1}",
+        (x - 56.0).to_int(),
+        168,
+        24,
+        @raylib.darkblue,
+      )
     }
 
     for i = 0; i < patients.length(); i = i + 1 {
       if patients[i].alive {
         let c = severity_color(patients[i].severity)
-        @raylib.draw_circle(patients[i].x.to_int(), patients[i].y.to_int(), 15.0, c)
+        @raylib.draw_circle(
+          patients[i].x.to_int(),
+          patients[i].y.to_int(),
+          15.0,
+          c,
+        )
         @raylib.draw_text(
           severity_name(patients[i].severity),
           (patients[i].x - 26.0).to_int(),
@@ -293,32 +319,106 @@ fn main {
     }
 
     // Nurse and treatment bed
-    @raylib.draw_circle(nx.to_int(), (sh - 82), 16.0, @raylib.blue)
-    @raylib.draw_rectangle((nx - 26.0).to_int(), sh - 64, 52, 10, @raylib.darkblue)
+    @raylib.draw_circle(nx.to_int(), sh - 82, 16.0, @raylib.blue)
+    @raylib.draw_rectangle(
+      (nx - 26.0).to_int(),
+      sh - 64,
+      52,
+      10,
+      @raylib.darkblue,
+    )
 
-    @raylib.draw_rectangle(sw - 290, 180, 250, 150, @raylib.Color::new(214, 228, 242, 255))
+    @raylib.draw_rectangle(
+      sw - 290,
+      180,
+      250,
+      150,
+      @raylib.Color::new(214, 228, 242, 255),
+    )
     @raylib.draw_text("TREATMENT", sw - 262, 194, 28, @raylib.darkblue)
     if treating {
-      @raylib.draw_text("Patient: \{severity_name(tr_sev)}", sw - 270, 236, 24, severity_color(tr_sev))
-      @raylib.draw_text("ETA \{tr_time_left.to_int()}s", sw - 270, 270, 24, @raylib.black)
+      @raylib.draw_text(
+        "Patient: \{severity_name(tr_sev)}",
+        sw - 270,
+        236,
+        24,
+        severity_color(tr_sev),
+      )
+      @raylib.draw_text(
+        "ETA \{tr_time_left.to_int()}s",
+        sw - 270,
+        270,
+        24,
+        @raylib.black,
+      )
     } else {
       @raylib.draw_text("Bed Available", sw - 260, 250, 26, @raylib.lime)
     }
 
-    @raylib.draw_rectangle(18, 16, 640, 108, @raylib.Color::new(21, 39, 58, 220))
+    @raylib.draw_rectangle(
+      18,
+      16,
+      640,
+      108,
+      @raylib.Color::new(21, 39, 58, 220),
+    )
     @raylib.draw_text("HOSPITAL TRIAGE 2026", 28, 22, 36, @raylib.skyblue)
-    @raylib.draw_text("Score \{score}  Treated \{treated}  Failed \{failed}  Lives \{lives}", 28, 66, 28, @raylib.raywhite)
+    @raylib.draw_text(
+      "Score \{score}  Treated \{treated}  Failed \{failed}  Lives \{lives}",
+      28,
+      66,
+      28,
+      @raylib.raywhite,
+    )
 
     let t = timer.to_int()
-    @raylib.draw_text("Time \{t}s", 710, 28, 36, if t < 20 { @raylib.red } else { @raylib.orange })
+    @raylib.draw_text(
+      "Time \{t}s",
+      710,
+      28,
+      36,
+      if t < 20 {
+        @raylib.red
+      } else {
+        @raylib.orange
+      },
+    )
 
-    @raylib.draw_text("Critical patients expire faster and cost more lives.", 20, 654, 24, @raylib.darkgray)
-    @raylib.draw_rectangle(20, 688, sw - 40, 30, @raylib.Color::new(28, 42, 58, 220))
+    @raylib.draw_text(
+      "Critical patients expire faster and cost more lives.", 20, 654, 24, @raylib.darkgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      688,
+      sw - 40,
+      30,
+      @raylib.Color::new(28, 42, 58, 220),
+    )
     @raylib.draw_text(msg, 28, 693, 20, @raylib.raywhite)
 
     if over {
-      @raylib.draw_rectangle(300, 250, 520, 180, @raylib.fade(@raylib.black, 0.82))
-      @raylib.draw_text(if lives > 0 { "SHIFT COMPLETE" } else { "SHIFT FAILED" }, 390, 312, 50, if lives > 0 { @raylib.lime } else { @raylib.red })
+      @raylib.draw_rectangle(
+        300,
+        250,
+        520,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
+      @raylib.draw_text(
+        if lives > 0 {
+          "SHIFT COMPLETE"
+        } else {
+          "SHIFT FAILED"
+        },
+        390,
+        312,
+        50,
+        if lives > 0 {
+          @raylib.lime
+        } else {
+          @raylib.red
+        },
+      )
       @raylib.draw_text("Press R to restart", 430, 370, 34, @raylib.white)
     }
 

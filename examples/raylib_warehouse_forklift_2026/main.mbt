@@ -70,7 +70,11 @@ fn all_delivered(crates : Array[Pos], targets : Array[Pos]) -> Bool {
 }
 
 ///|
-fn reset_level(walls : Array[Bool], crates : Array[Pos], targets : Array[Pos]) -> (Int, Int) {
+fn reset_level(
+  walls : Array[Bool],
+  crates : Array[Pos],
+  targets : Array[Pos],
+) -> (Int, Int) {
   for i = 0; i < walls.length(); i = i + 1 {
     walls[i] = false
   }
@@ -121,12 +125,8 @@ fn main {
   @raylib.set_target_fps(60)
 
   let walls : Array[Bool] = Array::make(gw * gh, false)
-  let crates : Array[Pos] = Array::makei(4, fn(_i) {
-    { x: 1, y: 1 }
-  })
-  let targets : Array[Pos] = Array::makei(4, fn(_i) {
-    { x: 1, y: 1 }
-  })
+  let crates : Array[Pos] = Array::makei(4, fn(_i) { { x: 1, y: 1 } })
+  let targets : Array[Pos] = Array::makei(4, fn(_i) { { x: 1, y: 1 } })
 
   let (px0, py0) = reset_level(walls, crates, targets)
   let mut px = px0
@@ -154,19 +154,23 @@ fn main {
       let mut dy = 0
       let mut acted = false
 
-      if @raylib.is_key_pressed(@raylib.KeyA) || @raylib.is_key_pressed(@raylib.KeyLeft) {
+      if @raylib.is_key_pressed(@raylib.KeyA) ||
+        @raylib.is_key_pressed(@raylib.KeyLeft) {
         dx = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyD) || @raylib.is_key_pressed(@raylib.KeyRight) {
+      if @raylib.is_key_pressed(@raylib.KeyD) ||
+        @raylib.is_key_pressed(@raylib.KeyRight) {
         dx = 1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+      if @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) {
         dy = -1
         acted = true
       }
-      if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+      if @raylib.is_key_pressed(@raylib.KeyS) ||
+        @raylib.is_key_pressed(@raylib.KeyDown) {
         dy = 1
         acted = true
       }
@@ -220,14 +224,38 @@ fn main {
         let ry = oy + y * cell
 
         if is_wall(walls, x, y) {
-          @raylib.draw_rectangle(rx, ry, cell - 2, cell - 2, @raylib.Color::new(84, 88, 96, 255))
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            cell - 2,
+            cell - 2,
+            @raylib.Color::new(84, 88, 96, 255),
+          )
         } else {
-          @raylib.draw_rectangle(rx, ry, cell - 2, cell - 2, @raylib.Color::new(202, 210, 216, 255))
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            cell - 2,
+            cell - 2,
+            @raylib.Color::new(202, 210, 216, 255),
+          )
         }
 
         if is_target(targets, x, y) {
-          @raylib.draw_rectangle_lines(rx + 8, ry + 8, cell - 18, cell - 18, @raylib.gold)
-          @raylib.draw_rectangle_lines(rx + 10, ry + 10, cell - 22, cell - 22, @raylib.orange)
+          @raylib.draw_rectangle_lines(
+            rx + 8,
+            ry + 8,
+            cell - 18,
+            cell - 18,
+            @raylib.gold,
+          )
+          @raylib.draw_rectangle_lines(
+            rx + 10,
+            ry + 10,
+            cell - 22,
+            cell - 22,
+            @raylib.orange,
+          )
         }
       }
     }
@@ -236,29 +264,75 @@ fn main {
       let cx = ox + crates[i].x * cell
       let cy = oy + crates[i].y * cell
       let docked = is_target(targets, crates[i].x, crates[i].y)
-      @raylib.draw_rectangle(cx + 10, cy + 12, cell - 22, cell - 24, if docked { @raylib.lime } else { @raylib.brown })
-      @raylib.draw_rectangle_lines(cx + 10, cy + 12, cell - 22, cell - 24, @raylib.black)
-      @raylib.draw_text(if docked { "OK" } else { "BOX" }, cx + 16, cy + 20, 16, @raylib.black)
+      @raylib.draw_rectangle(
+        cx + 10,
+        cy + 12,
+        cell - 22,
+        cell - 24,
+        if docked {
+          @raylib.lime
+        } else {
+          @raylib.brown
+        },
+      )
+      @raylib.draw_rectangle_lines(
+        cx + 10,
+        cy + 12,
+        cell - 22,
+        cell - 24,
+        @raylib.black,
+      )
+      @raylib.draw_text(
+        if docked {
+          "OK"
+        } else {
+          "BOX"
+        },
+        cx + 16,
+        cy + 20,
+        16,
+        @raylib.black,
+      )
     }
 
     let pxs = ox + px * cell
     let pys = oy + py * cell
-    @raylib.draw_rectangle(pxs + 8, pys + 16, cell - 16, cell - 22, @raylib.orange)
+    @raylib.draw_rectangle(
+      pxs + 8,
+      pys + 16,
+      cell - 16,
+      cell - 22,
+      @raylib.orange,
+    )
     @raylib.draw_rectangle(pxs + 18, pys + 8, cell - 36, 10, @raylib.yellow)
-    @raylib.draw_circle((pxs + 18), (pys + cell - 2), 5.0, @raylib.black)
-    @raylib.draw_circle((pxs + cell - 18), (pys + cell - 2), 5.0, @raylib.black)
+    @raylib.draw_circle(pxs + 18, pys + cell - 2, 5.0, @raylib.black)
+    @raylib.draw_circle(pxs + cell - 18, pys + cell - 2, 5.0, @raylib.black)
 
     @raylib.draw_text("WAREHOUSE FORKLIFT 2026", 20, 18, 38, @raylib.skyblue)
     @raylib.draw_text("Score \{score}", 20, 60, 28, @raylib.white)
     @raylib.draw_text("Moves \{moves}", 220, 60, 28, @raylib.raywhite)
     @raylib.draw_text("Pushes \{pushes}", 390, 60, 28, @raylib.raywhite)
 
-    @raylib.draw_text("Goal: move all crates onto yellow docks", 20, 692, 24, @raylib.lightgray)
-    @raylib.draw_rectangle(20, 724, sw - 40, 28, @raylib.Color::new(12, 16, 22, 220))
+    @raylib.draw_text(
+      "Goal: move all crates onto yellow docks", 20, 692, 24, @raylib.lightgray,
+    )
+    @raylib.draw_rectangle(
+      20,
+      724,
+      sw - 40,
+      28,
+      @raylib.Color::new(12, 16, 22, 220),
+    )
     @raylib.draw_text(msg, 28, 728, 18, @raylib.raywhite)
 
     if won {
-      @raylib.draw_rectangle(280, 260, 560, 180, @raylib.fade(@raylib.black, 0.82))
+      @raylib.draw_rectangle(
+        280,
+        260,
+        560,
+        180,
+        @raylib.fade(@raylib.black, 0.82),
+      )
       @raylib.draw_text("SHIPMENT COMPLETE", 340, 322, 52, @raylib.lime)
       @raylib.draw_text("Press R to replay", 450, 382, 34, @raylib.white)
     }

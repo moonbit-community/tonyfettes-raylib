@@ -7,8 +7,12 @@ fn length_sq(dx : Float, dy : Float) -> Float {
 fn fire_bullet(game : Game) -> Unit {
   for i = 0; i < game.bullets.length(); i = i + 1 {
     if not(game.bullets[i].active) {
-      let dir_x : Float = Float::from_double(@math.cos(game.ship_angle.to_double()))
-      let dir_y : Float = Float::from_double(@math.sin(game.ship_angle.to_double()))
+      let dir_x : Float = Float::from_double(
+        @math.cos(game.ship_angle.to_double()),
+      )
+      let dir_y : Float = Float::from_double(
+        @math.sin(game.ship_angle.to_double()),
+      )
       game.bullets[i].active = true
       game.bullets[i].x = game.ship_x + dir_x * 14.0
       game.bullets[i].y = game.ship_y + dir_y * 14.0
@@ -29,13 +33,16 @@ fn update_ship(game : Game, dt : Float) -> Unit {
   if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
     game.ship_angle = game.ship_angle - rotate_speed * dt
   }
-  if @raylib.is_key_down(@raylib.KeyRight) ||
-    @raylib.is_key_down(@raylib.KeyD) {
+  if @raylib.is_key_down(@raylib.KeyRight) || @raylib.is_key_down(@raylib.KeyD) {
     game.ship_angle = game.ship_angle + rotate_speed * dt
   }
   if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
-    let dir_x : Float = Float::from_double(@math.cos(game.ship_angle.to_double()))
-    let dir_y : Float = Float::from_double(@math.sin(game.ship_angle.to_double()))
+    let dir_x : Float = Float::from_double(
+      @math.cos(game.ship_angle.to_double()),
+    )
+    let dir_y : Float = Float::from_double(
+      @math.sin(game.ship_angle.to_double()),
+    )
     game.ship_vx = game.ship_vx + dir_x * thrust * dt
     game.ship_vy = game.ship_vy + dir_y * thrust * dt
   }
@@ -61,7 +68,9 @@ fn update_ship(game : Game, dt : Float) -> Unit {
     }
   }
 
-  if (@raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyX)) &&
+  if (
+      @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyX)
+    ) &&
     game.fire_cooldown <= 0.0 {
     fire_bullet(game)
   }
@@ -110,10 +119,10 @@ fn split_rock(game : Game, rock : Rock, hit_x : Float, hit_y : Float) -> Unit {
   for i = 0; i < 2; i = i + 1 {
     let angle : Float = random_range((0.0 : Float), pi * 2.0)
     let speed : Float = random_range(60.0, 160.0)
-    let vx : Float =
-      Float::from_double(@math.cos(angle.to_double())) * speed + rock.vx * 0.2
-    let vy : Float =
-      Float::from_double(@math.sin(angle.to_double())) * speed + rock.vy * 0.2
+    let vx : Float = Float::from_double(@math.cos(angle.to_double())) * speed +
+      rock.vx * 0.2
+    let vy : Float = Float::from_double(@math.sin(angle.to_double())) * speed +
+      rock.vy * 0.2
     spawn_rock(game, next_size, hit_x, hit_y, vx, vy)
   }
 }

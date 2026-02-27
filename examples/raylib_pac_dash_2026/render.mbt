@@ -24,14 +24,36 @@ fn draw_maze(game : Game) -> Unit {
       let px = maze_x + x * tile_size
       let py = maze_y + y * tile_size
       if game.walls[i] != 0 {
-        @raylib.draw_rectangle(px, py, tile_size, tile_size, @raylib.Color::new(24, 60, 185, 255))
+        @raylib.draw_rectangle(
+          px,
+          py,
+          tile_size,
+          tile_size,
+          @raylib.Color::new(24, 60, 185, 255),
+        )
       } else {
-        @raylib.draw_rectangle(px, py, tile_size, tile_size, @raylib.Color::new(8, 8, 18, 255))
+        @raylib.draw_rectangle(
+          px,
+          py,
+          tile_size,
+          tile_size,
+          @raylib.Color::new(8, 8, 18, 255),
+        )
         match game.pellets[i] {
           1 =>
-            @raylib.draw_circle(tile_center_x(x), tile_center_y(y), 3.0, @raylib.raywhite)
+            @raylib.draw_circle(
+              tile_center_x(x),
+              tile_center_y(y),
+              3.0,
+              @raylib.raywhite,
+            )
           2 =>
-            @raylib.draw_circle(tile_center_x(x), tile_center_y(y), 6.0, @raylib.orange)
+            @raylib.draw_circle(
+              tile_center_x(x),
+              tile_center_y(y),
+              6.0,
+              @raylib.orange,
+            )
           _ => ()
         }
       }

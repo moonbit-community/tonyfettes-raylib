@@ -106,7 +106,10 @@ fn spawn_wave(game : Game) -> Unit {
     }
 
     let angle : Float = random_range((0.0 : Float), pi * 2.0)
-    let speed : Float = random_range(30.0, 95.0 + Float::from_int(game.wave * 8))
+    let speed : Float = random_range(
+      30.0,
+      95.0 + Float::from_int(game.wave * 8),
+    )
     let vx : Float = Float::from_double(@math.cos(angle.to_double())) * speed
     let vy : Float = Float::from_double(@math.sin(angle.to_double())) * speed
     spawn_rock(game, 2, x, y, vx, vy)

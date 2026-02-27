@@ -83,8 +83,18 @@ fn absf(v : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -169,7 +179,13 @@ fn clear_parts(parts : Array[Part]) -> Unit {
 }
 
 ///|
-fn spawn_part(parts : Array[Part], x : Float, y : Float, speed_scale : Float, kind : Int) -> Unit {
+fn spawn_part(
+  parts : Array[Part],
+  x : Float,
+  y : Float,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < parts.length(); i = i + 1 {
     if done {
@@ -179,9 +195,12 @@ fn spawn_part(parts : Array[Part], x : Float, y : Float, speed_scale : Float, ki
       parts[i].active = true
       parts[i].x = x
       parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) * speed_scale
-      parts[i].ttl = Float::from_int(@raylib.get_random_value(18, 56)) / Float::from_int(100)
+      parts[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
+      parts[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+        speed_scale
+      parts[i].ttl = Float::from_int(@raylib.get_random_value(18, 56)) /
+        Float::from_int(100)
       parts[i].kind = kind
       done = true
     }
@@ -189,7 +208,14 @@ fn spawn_part(parts : Array[Part], x : Float, y : Float, speed_scale : Float, ki
 }
 
 ///|
-fn burst(parts : Array[Part], x : Float, y : Float, n : Int, speed_scale : Float, kind : Int) -> Unit {
+fn burst(
+  parts : Array[Part],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed_scale : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_part(parts, x, y, speed_scale, kind)
   }
@@ -216,13 +242,7 @@ fn spawn_shot(shots : Array[Shot], x : Float, y : Float) -> Unit {
 ///|
 fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   let kind_roll = @raylib.get_random_value(0, 99)
-  let kind = if kind_roll < 56 {
-    0
-  } else if kind_roll < 86 {
-    1
-  } else {
-    2
-  }
+  let kind = if kind_roll < 56 { 0 } else if kind_roll < 86 { 1 } else { 2 }
 
   let mut done = false
   for i = 0; i < enemies.length(); i = i + 1 {
@@ -232,7 +252,9 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
     if not(enemies[i].active) {
       enemies[i].active = true
       enemies[i].x = Float::from_int(sw + 40 + @raylib.get_random_value(0, 120))
-      enemies[i].y = Float::from_int(@raylib.get_random_value(arena_y + 24, arena_y + arena_h - 24))
+      enemies[i].y = Float::from_int(
+        @raylib.get_random_value(arena_y + 24, arena_y + arena_h - 24),
+      )
 
       let mut spd : Float = 0.0
       if kind == 0 {
@@ -253,7 +275,12 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
 }
 
 ///|
-fn spawn_split(enemies : Array[Enemy], x : Float, y : Float, sector : Int) -> Unit {
+fn spawn_split(
+  enemies : Array[Enemy],
+  x : Float,
+  y : Float,
+  sector : Int,
+) -> Unit {
   for _k = 0; _k < 2; _k = _k + 1 {
     let mut done = false
     for i = 0; i < enemies.length(); i = i + 1 {
@@ -264,7 +291,9 @@ fn spawn_split(enemies : Array[Enemy], x : Float, y : Float, sector : Int) -> Un
         enemies[i].active = true
         enemies[i].x = x + Float::from_int(@raylib.get_random_value(-10, 10))
         enemies[i].y = y + Float::from_int(@raylib.get_random_value(-10, 10))
-        enemies[i].vx = -Float::from_int(190 + sector * 24 + @raylib.get_random_value(0, 30))
+        enemies[i].vx = -Float::from_int(
+          190 + sector * 24 + @raylib.get_random_value(0, 30),
+        )
         enemies[i].vy = Float::from_int(@raylib.get_random_value(-100, 100))
         enemies[i].kind = 0
         enemies[i].hp = 1
@@ -405,10 +434,14 @@ fn main {
         }
       }
 
-      let mut up = @raylib.is_key_down(@raylib.KeyW) || @raylib.is_key_down(@raylib.KeyUp)
-      let mut down = @raylib.is_key_down(@raylib.KeyS) || @raylib.is_key_down(@raylib.KeyDown)
-      let mut fire = @raylib.is_key_down(@raylib.KeySpace) || @raylib.is_key_down(@raylib.KeyJ)
-      let mut pulse = @raylib.is_key_pressed(@raylib.KeyK) || @raylib.is_key_pressed(@raylib.KeyL)
+      let mut up = @raylib.is_key_down(@raylib.KeyW) ||
+        @raylib.is_key_down(@raylib.KeyUp)
+      let mut down = @raylib.is_key_down(@raylib.KeyS) ||
+        @raylib.is_key_down(@raylib.KeyDown)
+      let mut fire = @raylib.is_key_down(@raylib.KeySpace) ||
+        @raylib.is_key_down(@raylib.KeyJ)
+      let mut pulse = @raylib.is_key_pressed(@raylib.KeyK) ||
+        @raylib.is_key_pressed(@raylib.KeyL)
 
       let ctl_x = 22
       let ctl_y = sh - 174
@@ -442,7 +475,11 @@ fn main {
       if down {
         py = py + speed * dt
       }
-      py = clampf(py, Float::from_int(arena_y + 24), Float::from_int(arena_y + arena_h - 24))
+      py = clampf(
+        py,
+        Float::from_int(arena_y + 24),
+        Float::from_int(arena_y + arena_h - 24),
+      )
 
       if fire && fire_cd <= 0.0 && heat <= 96.0 {
         spawn_shot(shots, player_x + 26.0, py)
@@ -618,31 +655,90 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(12, 22, 38, 255))
     @raylib.draw_rectangle(0, 0, sw, 260, @raylib.Color::new(20, 34, 58, 255))
 
-    @raylib.draw_rectangle(arena_x, arena_y, arena_w, arena_h, @raylib.Color::new(18, 28, 46, 255))
-    @raylib.draw_rectangle_lines(arena_x, arena_y, arena_w, arena_h, @raylib.Color::new(80, 122, 190, 255))
+    @raylib.draw_rectangle(
+      arena_x,
+      arena_y,
+      arena_w,
+      arena_h,
+      @raylib.Color::new(18, 28, 46, 255),
+    )
+    @raylib.draw_rectangle_lines(
+      arena_x,
+      arena_y,
+      arena_w,
+      arena_h,
+      @raylib.Color::new(80, 122, 190, 255),
+    )
 
     for i = 0; i <= 16; i = i + 1 {
       let gx = arena_x + i * (arena_w / 16)
-      @raylib.draw_line(gx, arena_y, gx, arena_y + arena_h, @raylib.Color::new(36, 56, 86, 130))
+      @raylib.draw_line(
+        gx,
+        arena_y,
+        gx,
+        arena_y + arena_h,
+        @raylib.Color::new(36, 56, 86, 130),
+      )
     }
     for i = 0; i <= 10; i = i + 1 {
       let gy = arena_y + i * (arena_h / 10)
-      @raylib.draw_line(arena_x, gy, arena_x + arena_w, gy, @raylib.Color::new(36, 56, 86, 130))
+      @raylib.draw_line(
+        arena_x,
+        gy,
+        arena_x + arena_w,
+        gy,
+        @raylib.Color::new(36, 56, 86, 130),
+      )
     }
 
-    @raylib.draw_rectangle((core_x - 30.0 + shake_x).to_int(), arena_y + arena_h / 2 - 120, 46, 240, @raylib.Color::new(80, 208, 244, 255))
-    @raylib.draw_rectangle((core_x - 10.0 + shake_x).to_int(), arena_y + arena_h / 2 - 90, 16, 180, @raylib.Color::new(16, 44, 78, 255))
-    @raylib.draw_circle((core_x + 14.0 + shake_x).to_int(), py.to_int(), 24.0, @raylib.Color::new(102, 232, 252, 255))
+    @raylib.draw_rectangle(
+      (core_x - 30.0 + shake_x).to_int(),
+      arena_y + arena_h / 2 - 120,
+      46,
+      240,
+      @raylib.Color::new(80, 208, 244, 255),
+    )
+    @raylib.draw_rectangle(
+      (core_x - 10.0 + shake_x).to_int(),
+      arena_y + arena_h / 2 - 90,
+      16,
+      180,
+      @raylib.Color::new(16, 44, 78, 255),
+    )
+    @raylib.draw_circle(
+      (core_x + 14.0 + shake_x).to_int(),
+      py.to_int(),
+      24.0,
+      @raylib.Color::new(102, 232, 252, 255),
+    )
 
-    @raylib.draw_rectangle((player_x - 16.0 + shake_x).to_int(), (py - 24.0).to_int(), 30, 48, @raylib.Color::new(110, 222, 242, 255))
-    @raylib.draw_rectangle((player_x + 12.0 + shake_x).to_int(), (py - 8.0).to_int(), 22, 16, @raylib.Color::new(196, 242, 252, 255))
+    @raylib.draw_rectangle(
+      (player_x - 16.0 + shake_x).to_int(),
+      (py - 24.0).to_int(),
+      30,
+      48,
+      @raylib.Color::new(110, 222, 242, 255),
+    )
+    @raylib.draw_rectangle(
+      (player_x + 12.0 + shake_x).to_int(),
+      (py - 8.0).to_int(),
+      22,
+      16,
+      @raylib.Color::new(196, 242, 252, 255),
+    )
 
     for i = 0; i < shots.length(); i = i + 1 {
       if not(shots[i].active) {
         continue
       }
       let sx = shots[i].x + shake_x
-      @raylib.draw_rectangle(sx.to_int(), (shots[i].y - 3.0).to_int(), 14, 6, @raylib.Color::new(244, 250, 255, 255))
+      @raylib.draw_rectangle(
+        sx.to_int(),
+        (shots[i].y - 3.0).to_int(),
+        14,
+        6,
+        @raylib.Color::new(244, 250, 255, 255),
+      )
     }
 
     for i = 0; i < enemies.length(); i = i + 1 {
@@ -652,14 +748,47 @@ fn main {
       let ex = enemies[i].x + shake_x
       let ey = enemies[i].y
       if enemies[i].kind == 0 {
-        @raylib.draw_circle(ex.to_int(), ey.to_int(), 11.0, @raylib.Color::new(244, 186, 94, 255))
+        @raylib.draw_circle(
+          ex.to_int(),
+          ey.to_int(),
+          11.0,
+          @raylib.Color::new(244, 186, 94, 255),
+        )
       } else if enemies[i].kind == 1 {
-        @raylib.draw_rectangle((ex - 14.0).to_int(), (ey - 11.0).to_int(), 28, 22, @raylib.Color::new(246, 128, 94, 255))
-        @raylib.draw_circle((ex - 15.0).to_int(), ey.to_int(), 6.0, @raylib.Color::new(70, 48, 34, 255))
-        @raylib.draw_circle((ex + 15.0).to_int(), ey.to_int(), 6.0, @raylib.Color::new(70, 48, 34, 255))
+        @raylib.draw_rectangle(
+          (ex - 14.0).to_int(),
+          (ey - 11.0).to_int(),
+          28,
+          22,
+          @raylib.Color::new(246, 128, 94, 255),
+        )
+        @raylib.draw_circle(
+          (ex - 15.0).to_int(),
+          ey.to_int(),
+          6.0,
+          @raylib.Color::new(70, 48, 34, 255),
+        )
+        @raylib.draw_circle(
+          (ex + 15.0).to_int(),
+          ey.to_int(),
+          6.0,
+          @raylib.Color::new(70, 48, 34, 255),
+        )
       } else {
-        @raylib.draw_rectangle((ex - 20.0).to_int(), (ey - 15.0).to_int(), 40, 30, @raylib.Color::new(238, 88, 104, 255))
-        @raylib.draw_rectangle((ex - 8.0).to_int(), (ey - 22.0).to_int(), 16, 8, @raylib.Color::new(252, 176, 130, 255))
+        @raylib.draw_rectangle(
+          (ex - 20.0).to_int(),
+          (ey - 15.0).to_int(),
+          40,
+          30,
+          @raylib.Color::new(238, 88, 104, 255),
+        )
+        @raylib.draw_rectangle(
+          (ex - 8.0).to_int(),
+          (ey - 22.0).to_int(),
+          16,
+          8,
+          @raylib.Color::new(252, 176, 130, 255),
+        )
       }
     }
 
@@ -678,63 +807,196 @@ fn main {
       } else {
         @raylib.Color::new(248, 124, 124, a)
       }
-      @raylib.draw_circle((parts[i].x + shake_x).to_int(), parts[i].y.to_int(), 2.2, c)
+      @raylib.draw_circle(
+        (parts[i].x + shake_x).to_int(),
+        parts[i].y.to_int(),
+        2.2,
+        c,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 98, @raylib.Color::new(8, 12, 20, 230))
-    @raylib.draw_text("CYBER FIREWALL BREACH 2026", 16, 20, 34, @raylib.Color::new(236, 244, 252, 255))
-    @raylib.draw_text("Sector \{sector}/3", 480, 30, 30, @raylib.Color::new(246, 230, 136, 255))
-    @raylib.draw_text("Score \{score}", 684, 30, 30, @raylib.Color::new(214, 236, 252, 255))
+    @raylib.draw_text(
+      "CYBER FIREWALL BREACH 2026",
+      16,
+      20,
+      34,
+      @raylib.Color::new(236, 244, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector \{sector}/3",
+      480,
+      30,
+      30,
+      @raylib.Color::new(246, 230, 136, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      684,
+      30,
+      30,
+      @raylib.Color::new(214, 236, 252, 255),
+    )
 
-    @raylib.draw_rectangle(860, 28, 320, 18, @raylib.Color::new(28, 44, 68, 255))
-    @raylib.draw_rectangle(860, 28, core_hp * 320 / 280, 18, @raylib.Color::new(92, 230, 140, 255))
-    @raylib.draw_text("Core HP \{core_hp}", 975, 52, 22, @raylib.Color::new(224, 238, 250, 255))
+    @raylib.draw_rectangle(
+      860,
+      28,
+      320,
+      18,
+      @raylib.Color::new(28, 44, 68, 255),
+    )
+    @raylib.draw_rectangle(
+      860,
+      28,
+      core_hp * 320 / 280,
+      18,
+      @raylib.Color::new(92, 230, 140, 255),
+    )
+    @raylib.draw_text(
+      "Core HP \{core_hp}",
+      975,
+      52,
+      22,
+      @raylib.Color::new(224, 238, 250, 255),
+    )
 
     @raylib.draw_rectangle(20, 74, 300, 12, @raylib.Color::new(26, 38, 58, 255))
-    @raylib.draw_rectangle(20, 74, (sector_timer / 42.0 * 300.0).to_int(), 12, @raylib.Color::new(112, 198, 252, 255))
-    @raylib.draw_text("Sector timer", 326, 66, 20, @raylib.Color::new(198, 224, 246, 255))
+    @raylib.draw_rectangle(
+      20,
+      74,
+      (sector_timer / 42.0 * 300.0).to_int(),
+      12,
+      @raylib.Color::new(112, 198, 252, 255),
+    )
+    @raylib.draw_text(
+      "Sector timer",
+      326,
+      66,
+      20,
+      @raylib.Color::new(198, 224, 246, 255),
+    )
 
     @raylib.draw_rectangle(20, 96, 220, 10, @raylib.Color::new(34, 22, 22, 255))
-    @raylib.draw_rectangle(20, 96, (heat / 100.0 * 220.0).to_int(), 10, @raylib.Color::new(244, 112, 88, 255))
-    @raylib.draw_text("Heat \{heat.to_int()}", 246, 90, 18, @raylib.Color::new(246, 206, 186, 255))
+    @raylib.draw_rectangle(
+      20,
+      96,
+      (heat / 100.0 * 220.0).to_int(),
+      10,
+      @raylib.Color::new(244, 112, 88, 255),
+    )
+    @raylib.draw_text(
+      "Heat \{heat.to_int()}",
+      246,
+      90,
+      18,
+      @raylib.Color::new(246, 206, 186, 255),
+    )
 
     let ctl_x = 22
     let ctl_y = sh - 174
-    @raylib.draw_rectangle(10, sh - 188, 174, 178, @raylib.Color::new(10, 16, 28, 220))
+    @raylib.draw_rectangle(
+      10,
+      sh - 188,
+      174,
+      178,
+      @raylib.Color::new(10, 16, 28, 220),
+    )
     @raylib.draw_text("Touch", 64, sh - 184, 20, @raylib.white)
 
-    @raylib.draw_rectangle(ctl_x, ctl_y, 76, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y,
+      76,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("UP", ctl_x + 22, ctl_y + 16, 22, @raylib.white)
-    @raylib.draw_rectangle(ctl_x, ctl_y + 62, 76, 54, @raylib.Color::new(46, 64, 90, 255))
+    @raylib.draw_rectangle(
+      ctl_x,
+      ctl_y + 62,
+      76,
+      54,
+      @raylib.Color::new(46, 64, 90, 255),
+    )
     @raylib.draw_text("DOWN", ctl_x + 8, ctl_y + 78, 22, @raylib.white)
 
     let pulse_x = sw - 208
     let pulse_y = sh - 290
-    @raylib.draw_rectangle(pulse_x, pulse_y, 176, 94, @raylib.Color::new(70, 102, 182, 255))
+    @raylib.draw_rectangle(
+      pulse_x,
+      pulse_y,
+      176,
+      94,
+      @raylib.Color::new(70, 102, 182, 255),
+    )
     @raylib.draw_text("PULSE", pulse_x + 42, pulse_y + 30, 34, @raylib.white)
     if pulse_cd > 0.0 {
-      @raylib.draw_text("CD \{pulse_cd.to_int() + 1}", pulse_x + 58, pulse_y - 24, 24, @raylib.Color::new(250, 220, 150, 255))
+      @raylib.draw_text(
+        "CD \{pulse_cd.to_int() + 1}",
+        pulse_x + 58,
+        pulse_y - 24,
+        24,
+        @raylib.Color::new(250, 220, 150, 255),
+      )
     }
 
     let fire_x = sw - 208
     let fire_y = sh - 154
-    @raylib.draw_rectangle(fire_x, fire_y, 176, 120, @raylib.Color::new(188, 82, 76, 255))
+    @raylib.draw_rectangle(
+      fire_x,
+      fire_y,
+      176,
+      120,
+      @raylib.Color::new(188, 82, 76, 255),
+    )
     @raylib.draw_text("FIRE", fire_x + 56, fire_y + 42, 36, @raylib.white)
 
-    @raylib.draw_rectangle(188, sh - 52, sw - 402, 36, @raylib.Color::new(10, 16, 24, 220))
-    @raylib.draw_text(msg, 198, sh - 46, 22, @raylib.Color::new(224, 236, 246, 255))
+    @raylib.draw_rectangle(
+      188,
+      sh - 52,
+      sw - 402,
+      36,
+      @raylib.Color::new(10, 16, 24, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      198,
+      sh - 46,
+      22,
+      @raylib.Color::new(224, 236, 246, 255),
+    )
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 124))
-      @raylib.draw_rectangle(sw / 2 - 350, sh / 2 - 106, 700, 212, @raylib.Color::new(16, 24, 40, 244))
+      @raylib.draw_rectangle(
+        sw / 2 - 350,
+        sh / 2 - 106,
+        700,
+        212,
+        @raylib.Color::new(16, 24, 40, 244),
+      )
       @raylib.draw_text(
-        if won { "BREACH STOPPED" } else { "SYSTEM DOWN" },
+        if won {
+          "BREACH STOPPED"
+        } else {
+          "SYSTEM DOWN"
+        },
         sw / 2 - 220,
         sh / 2 - 40,
         58,
-        if won { @raylib.Color::new(248, 236, 142, 255) } else { @raylib.Color::new(250, 128, 128, 255) },
+        if won {
+          @raylib.Color::new(248, 236, 142, 255)
+        } else {
+          @raylib.Color::new(250, 128, 128, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 40, 32, @raylib.Color::new(226, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 40,
+        32,
+        @raylib.Color::new(226, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()

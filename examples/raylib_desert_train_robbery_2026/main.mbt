@@ -104,8 +104,18 @@ fn sqdist(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
 }
 
 ///|
-fn inside_rect(px : Float, py : Float, rx : Int, ry : Int, rw : Int, rh : Int) -> Bool {
-  px >= Float::from_int(rx) && px <= Float::from_int(rx + rw) && py >= Float::from_int(ry) && py <= Float::from_int(ry + rh)
+fn inside_rect(
+  px : Float,
+  py : Float,
+  rx : Int,
+  ry : Int,
+  rw : Int,
+  rh : Int,
+) -> Bool {
+  px >= Float::from_int(rx) &&
+  px <= Float::from_int(rx + rw) &&
+  py >= Float::from_int(ry) &&
+  py <= Float::from_int(ry + rh)
 }
 
 ///|
@@ -147,7 +157,13 @@ fn clear_particles(ps : Array[Particle]) -> Unit {
 }
 
 ///|
-fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kind : Int) -> Unit {
+fn spawn_particle(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   let mut done = false
   for i = 0; i < ps.length(); i = i + 1 {
     if done {
@@ -159,7 +175,8 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
       ps[i].y = y
       ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
       ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 64)) / Float::from_int(100)
+      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 64)) /
+        Float::from_int(100)
       ps[i].kind = kind
       done = true
     }
@@ -167,14 +184,29 @@ fn spawn_particle(ps : Array[Particle], x : Float, y : Float, speed : Float, kin
 }
 
 ///|
-fn burst(ps : Array[Particle], x : Float, y : Float, n : Int, speed : Float, kind : Int) -> Unit {
+fn burst(
+  ps : Array[Particle],
+  x : Float,
+  y : Float,
+  n : Int,
+  speed : Float,
+  kind : Int,
+) -> Unit {
   for _i = 0; _i < n; _i = _i + 1 {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
 
 ///|
-fn spawn_bullet(bs : Array[Bullet], x : Float, y : Float, dx : Float, dy : Float, owner : Int, speed : Float) -> Unit {
+fn spawn_bullet(
+  bs : Array[Bullet],
+  x : Float,
+  y : Float,
+  dx : Float,
+  dy : Float,
+  owner : Int,
+  speed : Float,
+) -> Unit {
   let d2 = dx * dx + dy * dy
   if d2 <= 0.0001 {
     return
@@ -248,7 +280,14 @@ fn reset_player(p : Rider) -> Unit {
 }
 
 ///|
-fn setup_level(level : Int, player : Rider, wagons : Array[Wagon], sheriffs : Array[Sheriff], bullets : Array[Bullet], particles : Array[Particle]) -> (Int, Float, Float, Float) {
+fn setup_level(
+  level : Int,
+  player : Rider,
+  wagons : Array[Wagon],
+  sheriffs : Array[Sheriff],
+  bullets : Array[Bullet],
+  particles : Array[Particle],
+) -> (Int, Float, Float, Float) {
   reset_player(player)
   init_wagons(wagons)
   clear_sheriffs(sheriffs)
@@ -265,7 +304,11 @@ fn setup_level(level : Int, player : Rider, wagons : Array[Wagon], sheriffs : Ar
 }
 
 ///|
-fn spawn_sheriff(sheriffs : Array[Sheriff], wagons : Array[Wagon], level : Int) -> Unit {
+fn spawn_sheriff(
+  sheriffs : Array[Sheriff],
+  wagons : Array[Wagon],
+  level : Int,
+) -> Unit {
   let idx = @raylib.get_random_value(0, wagons.length() - 1)
 
   let mut done = false
@@ -277,9 +320,12 @@ fn spawn_sheriff(sheriffs : Array[Sheriff], wagons : Array[Wagon], level : Int) 
     if not(sheriffs[i].active) {
       sheriffs[i].active = true
       sheriffs[i].wagon_idx = idx
-      sheriffs[i].rel_x = Float::from_int(@raylib.get_random_value(24, (wagons[idx].len - 24.0).to_int()))
+      sheriffs[i].rel_x = Float::from_int(
+        @raylib.get_random_value(24, (wagons[idx].len - 24.0).to_int()),
+      )
       sheriffs[i].hp = if level == 1 { 2 } else if level == 2 { 3 } else { 4 }
-      sheriffs[i].shoot_cd = Float::from_int(@raylib.get_random_value(50, 120)) / Float::from_int(100)
+      sheriffs[i].shoot_cd = Float::from_int(@raylib.get_random_value(50, 120)) /
+        Float::from_int(100)
       sheriffs[i].hit_cd = 0.0
       done = true
     }
@@ -292,7 +338,9 @@ fn player_support_wagon(player : Rider, wagons : Array[Wagon]) -> Int {
   for i = 0; i < wagons.length(); i = i + 1 {
     let left = wagons[i].x + 10.0
     let right = wagons[i].x + wagons[i].len - 10.0
-    if player.x >= left && player.x <= right && absf(player.y - wagons[i].roof_y) <= 6.0 {
+    if player.x >= left &&
+      player.x <= right &&
+      absf(player.y - wagons[i].roof_y) <= 6.0 {
       idx = i
     }
   }
@@ -321,12 +369,7 @@ fn main {
   }
 
   let wagons : Array[Wagon] = Array::makei(wagon_n, fn(_i) {
-    {
-      x: 0.0,
-      len: 180.0,
-      roof_y: 520.0,
-      loot: 1,
-    }
+    { x: 0.0, len: 180.0, roof_y: 520.0, loot: 1 }
   })
 
   let sheriffs : Array[Sheriff] = Array::makei(sheriff_n, fn(_i) {
@@ -341,27 +384,11 @@ fn main {
   })
 
   let bullets : Array[Bullet] = Array::makei(bullet_n, fn(_i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      ttl: 0.0,
-      owner: 0,
-      active: false,
-    }
+    { x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ttl: 0.0, owner: 0, active: false }
   })
 
   let particles : Array[Particle] = Array::makei(particle_n, fn(_i) {
-    {
-      x: 0.0,
-      y: 0.0,
-      vx: 0.0,
-      vy: 0.0,
-      ttl: 0.0,
-      kind: 0,
-      active: false,
-    }
+    { x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ttl: 0.0, kind: 0, active: false }
   })
 
   let mut level = 1
@@ -370,7 +397,9 @@ fn main {
   let mut train_speed : Float = 0.0
   let mut sheriff_base_cd : Float = 0.0
 
-  let (t, tm, spd, scd) = setup_level(level, player, wagons, sheriffs, bullets, particles)
+  let (t, tm, spd, scd) = setup_level(
+    level, player, wagons, sheriffs, bullets, particles,
+  )
   target_loot = t
   timer = tm
   train_speed = spd
@@ -409,7 +438,9 @@ fn main {
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
       level = 1
-      let (rt, rtm, rspd, rscd) = setup_level(level, player, wagons, sheriffs, bullets, particles)
+      let (rt, rtm, rspd, rscd) = setup_level(
+        level, player, wagons, sheriffs, bullets, particles,
+      )
       target_loot = rt
       timer = rtm
       train_speed = rspd
@@ -435,7 +466,9 @@ fn main {
         transition_t = 0.0
         if level < 3 {
           level = level + 1
-          let (nt, ntm, nspd, nscd) = setup_level(level, player, wagons, sheriffs, bullets, particles)
+          let (nt, ntm, nspd, nscd) = setup_level(
+            level, player, wagons, sheriffs, bullets, particles,
+          )
           target_loot = nt
           timer = ntm
           train_speed = nspd
@@ -544,7 +577,8 @@ fn main {
           wagons[i].len = Float::from_int(@raylib.get_random_value(176, 228))
           wagons[i].roof_y = Float::from_int(@raylib.get_random_value(496, 562))
           wagons[i].loot = @raylib.get_random_value(1, 3)
-          wagons[i].x = rightmost + Float::from_int(@raylib.get_random_value(22, 56))
+          wagons[i].x = rightmost +
+            Float::from_int(@raylib.get_random_value(22, 56))
 
           for s = 0; s < sheriffs.length(); s = s + 1 {
             if sheriffs[s].active && sheriffs[s].wagon_idx == i {
@@ -557,15 +591,21 @@ fn main {
       sheriff_cd = sheriff_cd - dt
       if sheriff_cd <= 0.0 {
         spawn_sheriff(sheriffs, wagons, level)
-        let jitter = Float::from_int(@raylib.get_random_value(80, 132)) / Float::from_int(100)
+        let jitter = Float::from_int(@raylib.get_random_value(80, 132)) /
+          Float::from_int(100)
         sheriff_cd = sheriff_base_cd * jitter
       }
 
-      let mut move_l = @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft)
-      let mut move_r = @raylib.is_key_down(@raylib.KeyD) || @raylib.is_key_down(@raylib.KeyRight)
-      let mut jump = @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeySpace)
+      let mut move_l = @raylib.is_key_down(@raylib.KeyA) ||
+        @raylib.is_key_down(@raylib.KeyLeft)
+      let mut move_r = @raylib.is_key_down(@raylib.KeyD) ||
+        @raylib.is_key_down(@raylib.KeyRight)
+      let mut jump = @raylib.is_key_pressed(@raylib.KeyW) ||
+        @raylib.is_key_pressed(@raylib.KeyUp) ||
+        @raylib.is_key_pressed(@raylib.KeySpace)
       let mut shoot = @raylib.is_key_pressed(@raylib.KeyJ)
-      let mut dash = @raylib.is_key_pressed(@raylib.KeyK) || @raylib.is_key_pressed(@raylib.KeyLeftShift)
+      let mut dash = @raylib.is_key_pressed(@raylib.KeyK) ||
+        @raylib.is_key_pressed(@raylib.KeyLeftShift)
       let mut loot = @raylib.is_key_pressed(@raylib.KeyL)
 
       let m = @raylib.get_mouse_position()
@@ -674,10 +714,25 @@ fn main {
       }
       player.stamina = clampf(player.stamina, 0.0, 100.0)
 
-      if shoot && player.shoot_cd <= 0.0 && player.reload_t <= 0.0 && player.ammo > 0 {
+      if shoot &&
+        player.shoot_cd <= 0.0 &&
+        player.reload_t <= 0.0 &&
+        player.ammo > 0 {
         let aim_x : Float = if move_l { -1.0 } else { 1.0 }
-        let aim_y : Float = if @raylib.is_key_down(@raylib.KeyUp) { -0.22 } else { -0.06 }
-        spawn_bullet(bullets, player.x + aim_x * 20.0, player.y - 38.0, aim_x, aim_y, 1, 760.0)
+        let aim_y : Float = if @raylib.is_key_down(@raylib.KeyUp) {
+          -0.22
+        } else {
+          -0.06
+        }
+        spawn_bullet(
+          bullets,
+          player.x + aim_x * 20.0,
+          player.y - 38.0,
+          aim_x,
+          aim_y,
+          1,
+          760.0,
+        )
         player.ammo = player.ammo - 1
         player.shoot_cd = 0.14
         burst(particles, player.x + aim_x * 20.0, player.y - 38.0, 6, 0.20, 1)
@@ -688,7 +743,8 @@ fn main {
         for i = 0; i < wagons.length(); i = i + 1 {
           let cx = wagons[i].x + wagons[i].len * 0.5
           let cy = wagons[i].roof_y - 12.0
-          if wagons[i].loot > 0 && sqdist(player.x, player.y - 18.0, cx, cy) <= 42.0 * 42.0 {
+          if wagons[i].loot > 0 &&
+            sqdist(player.x, player.y - 18.0, cx, cy) <= 42.0 * 42.0 {
             wagons[i].loot = wagons[i].loot - 1
             looted = looted + 1
             score = score + 62
@@ -734,9 +790,11 @@ fn main {
 
         let target_rel = clampf(player.x - wx, 18.0, wl - 18.0)
         if target_rel < sheriffs[i].rel_x {
-          sheriffs[i].rel_x = sheriffs[i].rel_x - Float::from_int(74 + level * 14) * dt
+          sheriffs[i].rel_x = sheriffs[i].rel_x -
+            Float::from_int(74 + level * 14) * dt
         } else if target_rel > sheriffs[i].rel_x {
-          sheriffs[i].rel_x = sheriffs[i].rel_x + Float::from_int(74 + level * 14) * dt
+          sheriffs[i].rel_x = sheriffs[i].rel_x +
+            Float::from_int(74 + level * 14) * dt
         }
 
         sheriffs[i].rel_x = clampf(sheriffs[i].rel_x, 18.0, wl - 18.0)
@@ -746,15 +804,27 @@ fn main {
 
         if sheriffs[i].shoot_cd <= 0.0 {
           let dx = player.x - sx
-          let dy = (player.y - 24.0) - sy
+          let dy = player.y - 24.0 - sy
           let d2 = dx * dx + dy * dy
           if d2 <= 340.0 * 340.0 {
-            spawn_bullet(bullets, sx + (if dx > 0.0 { 14.0 } else { -14.0 }), sy - 8.0, dx, dy, 2, 520.0)
-            sheriffs[i].shoot_cd = Float::from_int(@raylib.get_random_value(72, 136)) / Float::from_int(100)
+            spawn_bullet(
+              bullets,
+              sx + (if dx > 0.0 { 14.0 } else { -14.0 }),
+              sy - 8.0,
+              dx,
+              dy,
+              2,
+              520.0,
+            )
+            sheriffs[i].shoot_cd = Float::from_int(
+                @raylib.get_random_value(72, 136),
+              ) /
+              Float::from_int(100)
           }
         }
 
-        if sqdist(player.x, player.y - 20.0, sx, sy) <= 34.0 * 34.0 && player.hit_cd <= 0.0 {
+        if sqdist(player.x, player.y - 20.0, sx, sy) <= 34.0 * 34.0 &&
+          player.hit_cd <= 0.0 {
           player.hp = player.hp - 1
           player.hit_cd = 0.95
           player.flash_t = 0.30
@@ -779,7 +849,11 @@ fn main {
         bullets[i].y = bullets[i].y + bullets[i].vy * dt
         bullets[i].ttl = bullets[i].ttl - dt
 
-        if bullets[i].ttl <= 0.0 || bullets[i].x < -60.0 || bullets[i].x > Float::from_int(sw + 60) || bullets[i].y < 80.0 || bullets[i].y > Float::from_int(sh + 60) {
+        if bullets[i].ttl <= 0.0 ||
+          bullets[i].x < -60.0 ||
+          bullets[i].x > Float::from_int(sw + 60) ||
+          bullets[i].y < 80.0 ||
+          bullets[i].y > Float::from_int(sh + 60) {
           bullets[i].active = false
           continue
         }
@@ -814,23 +888,22 @@ fn main {
               break
             }
           }
-        } else {
-          if sqdist(bullets[i].x, bullets[i].y, player.x, player.y - 22.0) <= 22.0 * 22.0 {
-            bullets[i].active = false
-            hit = true
-            if player.hit_cd <= 0.0 {
-              player.hp = player.hp - 1
-              player.hit_cd = 0.95
-              player.flash_t = 0.30
-              flash_t = 0.24
-              shake_t = 0.20
-              msg = "Shot by sheriff"
-              burst(particles, player.x, player.y - 20.0, 20, 0.52, 0)
-              if player.hp <= 0 {
-                over = true
-                won = false
-                msg = "Outlaw defeated"
-              }
+        } else if sqdist(bullets[i].x, bullets[i].y, player.x, player.y - 22.0) <=
+          22.0 * 22.0 {
+          bullets[i].active = false
+          hit = true
+          if player.hit_cd <= 0.0 {
+            player.hp = player.hp - 1
+            player.hit_cd = 0.95
+            player.flash_t = 0.30
+            flash_t = 0.24
+            shake_t = 0.20
+            msg = "Shot by sheriff"
+            burst(particles, player.x, player.y - 20.0, 20, 0.52, 0)
+            if player.hp <= 0 {
+              over = true
+              won = false
+              msg = "Outlaw defeated"
             }
           }
         }
@@ -862,29 +935,56 @@ fn main {
     let pulse = (wave_t * 3.0).to_int() % 180
     let glow = if pulse < 90 { pulse } else { 180 - pulse }
 
-    @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(30, 36 + glow / 12, 58 + glow / 7, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      sh,
+      @raylib.Color::new(30, 36 + glow / 12, 58 + glow / 7, 255),
+    )
     @raylib.draw_rectangle(0, 0, sw, 280, @raylib.Color::new(236, 148, 86, 255))
-    @raylib.draw_rectangle(0, 0, sw, 164, @raylib.Color::new(248, 196, 126, 255))
+    @raylib.draw_rectangle(
+      0,
+      0,
+      sw,
+      164,
+      @raylib.Color::new(248, 196, 126, 255),
+    )
 
     for i = 0; i < 46; i = i + 1 {
       let x = (i * 66 + (wave_t * 70.0).to_int()) % (sw + 180) - 90
-      let h = 60 + (i * 23 % 170)
+      let h = 60 + i * 23 % 170
       @raylib.draw_triangle(
         @raylib.Vector2::new(Float::from_int(x), ground_y + 16.0),
         @raylib.Vector2::new(Float::from_int(x + 120), ground_y + 16.0),
-        @raylib.Vector2::new(Float::from_int(x + 58), ground_y - Float::from_int(h)),
+        @raylib.Vector2::new(
+          Float::from_int(x + 58),
+          ground_y - Float::from_int(h),
+        ),
         @raylib.Color::new(172, 114, 76, 180),
       )
     }
 
-    @raylib.draw_rectangle(0, ground_y.to_int(), sw, sh - ground_y.to_int(), @raylib.Color::new(194, 142, 86, 255))
+    @raylib.draw_rectangle(
+      0,
+      ground_y.to_int(),
+      sw,
+      sh - ground_y.to_int(),
+      @raylib.Color::new(194, 142, 86, 255),
+    )
 
     @raylib.draw_line(0, 736, sw, 736, @raylib.Color::new(90, 70, 60, 255))
     @raylib.draw_line(0, 752, sw, 752, @raylib.Color::new(90, 70, 60, 255))
 
     for s = 0; s < 54; s = s + 1 {
       let x = (s * 44 + (wave_t * 200.0).to_int()) % (sw + 80) - 40
-      @raylib.draw_rectangle(x, 730, 24, 28, @raylib.Color::new(120, 90, 68, 255))
+      @raylib.draw_rectangle(
+        x,
+        730,
+        24,
+        28,
+        @raylib.Color::new(120, 90, 68, 255),
+      )
     }
 
     for i = 0; i < wagons.length(); i = i + 1 {
@@ -892,18 +992,58 @@ fn main {
       let wy = wagons[i].roof_y
       let len = wagons[i].len
 
-      @raylib.draw_rectangle(wx.to_int(), (wy - 50.0).to_int(), len.to_int(), 52, @raylib.Color::new(96, 62, 48, 255))
-      @raylib.draw_rectangle((wx + 8.0).to_int(), (wy - 42.0).to_int(), (len - 16.0).to_int(), 30, @raylib.Color::new(126, 84, 62, 255))
-      @raylib.draw_line(wx.to_int(), wy.to_int(), (wx + len).to_int(), wy.to_int(), @raylib.Color::new(238, 232, 226, 255))
+      @raylib.draw_rectangle(
+        wx.to_int(),
+        (wy - 50.0).to_int(),
+        len.to_int(),
+        52,
+        @raylib.Color::new(96, 62, 48, 255),
+      )
+      @raylib.draw_rectangle(
+        (wx + 8.0).to_int(),
+        (wy - 42.0).to_int(),
+        (len - 16.0).to_int(),
+        30,
+        @raylib.Color::new(126, 84, 62, 255),
+      )
+      @raylib.draw_line(
+        wx.to_int(),
+        wy.to_int(),
+        (wx + len).to_int(),
+        wy.to_int(),
+        @raylib.Color::new(238, 232, 226, 255),
+      )
 
-      @raylib.draw_circle((wx + 28.0).to_int(), (wy + 8.0).to_int(), 14.0, @raylib.Color::new(38, 30, 28, 255))
-      @raylib.draw_circle((wx + len - 28.0).to_int(), (wy + 8.0).to_int(), 14.0, @raylib.Color::new(38, 30, 28, 255))
+      @raylib.draw_circle(
+        (wx + 28.0).to_int(),
+        (wy + 8.0).to_int(),
+        14.0,
+        @raylib.Color::new(38, 30, 28, 255),
+      )
+      @raylib.draw_circle(
+        (wx + len - 28.0).to_int(),
+        (wy + 8.0).to_int(),
+        14.0,
+        @raylib.Color::new(38, 30, 28, 255),
+      )
 
       if wagons[i].loot > 0 {
         let cx = (wx + len * 0.5).to_int()
         let cy = (wy - 14.0).to_int()
-        @raylib.draw_rectangle(cx - 12, cy - 10, 24, 20, @raylib.Color::new(142, 102, 60, 255))
-        @raylib.draw_text("\{wagons[i].loot}", cx - 5, cy - 10, 18, @raylib.Color::new(246, 230, 186, 255))
+        @raylib.draw_rectangle(
+          cx - 12,
+          cy - 10,
+          24,
+          20,
+          @raylib.Color::new(142, 102, 60, 255),
+        )
+        @raylib.draw_text(
+          "\{wagons[i].loot}",
+          cx - 5,
+          cy - 10,
+          18,
+          @raylib.Color::new(246, 230, 186, 255),
+        )
       }
     }
 
@@ -926,12 +1066,23 @@ fn main {
         @raylib.Color::new(238, 108, 90, 255)
       }
 
-      @raylib.draw_circle(sx, sy - 22, 10.0, @raylib.Color::new(242, 230, 214, 255))
+      @raylib.draw_circle(
+        sx,
+        sy - 22,
+        10.0,
+        @raylib.Color::new(242, 230, 214, 255),
+      )
       @raylib.draw_rectangle(sx - 10, sy - 12, 20, 24, col)
       @raylib.draw_line(sx - 8, sy + 12, sx - 12, sy + 28, col)
       @raylib.draw_line(sx + 8, sy + 12, sx + 12, sy + 28, col)
 
-      @raylib.draw_rectangle(sx - 12, sy - 32, 24, 4, @raylib.Color::new(82, 52, 38, 255))
+      @raylib.draw_rectangle(
+        sx - 12,
+        sy - 32,
+        24,
+        4,
+        @raylib.Color::new(82, 52, 38, 255),
+      )
     }
 
     let p_col = if player.flash_t > 0.0 {
@@ -943,7 +1094,12 @@ fn main {
     let px = (player.x + shake_x).to_int()
     let py = player.y.to_int()
 
-    @raylib.draw_circle(px, py - 52, 12.0, @raylib.Color::new(240, 236, 228, 255))
+    @raylib.draw_circle(
+      px,
+      py - 52,
+      12.0,
+      @raylib.Color::new(240, 236, 228, 255),
+    )
     @raylib.draw_rectangle(px - 12, py - 40, 24, 30, p_col)
     @raylib.draw_line(px - 10, py - 30, px - 22, py - 18, p_col)
     @raylib.draw_line(px + 10, py - 30, px + 22, py - 18, p_col)
@@ -951,9 +1107,27 @@ fn main {
     @raylib.draw_line(px + 8, py - 10, px + 12, py + 16, p_col)
 
     if player.dash_t > 0.0 {
-      @raylib.draw_line(px - 38, py - 36, px - 12, py - 36, @raylib.Color::new(250, 226, 124, 255))
-      @raylib.draw_line(px - 46, py - 24, px - 20, py - 24, @raylib.Color::new(250, 226, 124, 255))
-      @raylib.draw_line(px - 38, py - 12, px - 12, py - 12, @raylib.Color::new(250, 226, 124, 255))
+      @raylib.draw_line(
+        px - 38,
+        py - 36,
+        px - 12,
+        py - 36,
+        @raylib.Color::new(250, 226, 124, 255),
+      )
+      @raylib.draw_line(
+        px - 46,
+        py - 24,
+        px - 20,
+        py - 24,
+        @raylib.Color::new(250, 226, 124, 255),
+      )
+      @raylib.draw_line(
+        px - 38,
+        py - 12,
+        px - 12,
+        py - 12,
+        @raylib.Color::new(250, 226, 124, 255),
+      )
     }
 
     for i = 0; i < bullets.length(); i = i + 1 {
@@ -991,68 +1165,241 @@ fn main {
         @raylib.Color::new(120, 228, 246, 255)
       }
 
-      @raylib.draw_circle((particles[i].x + shake_x).to_int(), particles[i].y.to_int(), 2.0, col)
+      @raylib.draw_circle(
+        (particles[i].x + shake_x).to_int(),
+        particles[i].y.to_int(),
+        2.0,
+        col,
+      )
     }
 
     @raylib.draw_rectangle(0, 0, sw, 112, @raylib.Color::new(6, 10, 18, 232))
-    @raylib.draw_text("DESERT TRAIN ROBBERY 2026", 16, 16, 34, @raylib.Color::new(236, 246, 255, 255))
+    @raylib.draw_text(
+      "DESERT TRAIN ROBBERY 2026",
+      16,
+      16,
+      34,
+      @raylib.Color::new(236, 246, 255, 255),
+    )
 
-    @raylib.draw_text("Chapter \{level}/3", 448, 22, 30, @raylib.Color::new(248, 226, 142, 255))
-    @raylib.draw_text("Loot \{looted}/\{target_loot}", 652, 22, 30, @raylib.Color::new(216, 236, 252, 255))
-    @raylib.draw_text("Score \{score}", 952, 22, 30, @raylib.Color::new(216, 236, 252, 255))
+    @raylib.draw_text(
+      "Chapter \{level}/3",
+      448,
+      22,
+      30,
+      @raylib.Color::new(248, 226, 142, 255),
+    )
+    @raylib.draw_text(
+      "Loot \{looted}/\{target_loot}",
+      652,
+      22,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Score \{score}",
+      952,
+      22,
+      30,
+      @raylib.Color::new(216, 236, 252, 255),
+    )
 
-    @raylib.draw_text("HP \{player.hp}", 20, 74, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Stamina \{player.stamina.to_int()}%", 128, 74, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Ammo \{player.ammo}", 388, 74, 24, @raylib.Color::new(220, 236, 252, 255))
-    @raylib.draw_text("Timer \{timer.to_int()}", 536, 74, 24, @raylib.Color::new(252, 222, 150, 255))
-    @raylib.draw_text("Stars \{stars}", 704, 74, 24, @raylib.Color::new(252, 232, 132, 255))
+    @raylib.draw_text(
+      "HP \{player.hp}",
+      20,
+      74,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Stamina \{player.stamina.to_int()}%",
+      128,
+      74,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Ammo \{player.ammo}",
+      388,
+      74,
+      24,
+      @raylib.Color::new(220, 236, 252, 255),
+    )
+    @raylib.draw_text(
+      "Timer \{timer.to_int()}",
+      536,
+      74,
+      24,
+      @raylib.Color::new(252, 222, 150, 255),
+    )
+    @raylib.draw_text(
+      "Stars \{stars}",
+      704,
+      74,
+      24,
+      @raylib.Color::new(252, 232, 132, 255),
+    )
 
     @raylib.draw_rectangle(20, 102, 160, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(20, 102, (Float::from_int(player.hp) / 6.0 * 160.0).to_int(), 8, @raylib.Color::new(112, 220, 146, 255))
+    @raylib.draw_rectangle(
+      20,
+      102,
+      (Float::from_int(player.hp) / 6.0 * 160.0).to_int(),
+      8,
+      @raylib.Color::new(112, 220, 146, 255),
+    )
 
-    @raylib.draw_rectangle(194, 102, 210, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(194, 102, (player.stamina / 100.0 * 210.0).to_int(), 8, @raylib.Color::new(96, 198, 246, 255))
+    @raylib.draw_rectangle(
+      194,
+      102,
+      210,
+      8,
+      @raylib.Color::new(20, 26, 36, 255),
+    )
+    @raylib.draw_rectangle(
+      194,
+      102,
+      (player.stamina / 100.0 * 210.0).to_int(),
+      8,
+      @raylib.Color::new(96, 198, 246, 255),
+    )
 
-    let loot_ratio = clampf(Float::from_int(looted) / Float::from_int(target_loot), 0.0, 1.0)
-    @raylib.draw_rectangle(420, 102, 220, 8, @raylib.Color::new(20, 26, 36, 255))
-    @raylib.draw_rectangle(420, 102, (loot_ratio * 220.0).to_int(), 8, @raylib.Color::new(242, 188, 98, 255))
+    let loot_ratio = clampf(
+      Float::from_int(looted) / Float::from_int(target_loot),
+      0.0,
+      1.0,
+    )
+    @raylib.draw_rectangle(
+      420,
+      102,
+      220,
+      8,
+      @raylib.Color::new(20, 26, 36, 255),
+    )
+    @raylib.draw_rectangle(
+      420,
+      102,
+      (loot_ratio * 220.0).to_int(),
+      8,
+      @raylib.Color::new(242, 188, 98, 255),
+    )
 
-    @raylib.draw_rectangle(8, sh - 194, 236, 186, @raylib.Color::new(8, 14, 28, 220))
+    @raylib.draw_rectangle(
+      8,
+      sh - 194,
+      236,
+      186,
+      @raylib.Color::new(8, 14, 28, 220),
+    )
     @raylib.draw_text("Touch", 90, sh - 186, 20, @raylib.white)
 
-    @raylib.draw_rectangle(pad_x + 76, pad_y, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x + 76,
+      pad_y,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("JMP", pad_x + 86, pad_y + 16, 22, @raylib.white)
-    @raylib.draw_rectangle(pad_x, pad_y + 54, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("LT", pad_x + 20, pad_y + 70, 24, @raylib.white)
-    @raylib.draw_rectangle(pad_x + 152, pad_y + 54, 72, 54, @raylib.Color::new(54, 72, 102, 255))
+    @raylib.draw_rectangle(
+      pad_x + 152,
+      pad_y + 54,
+      72,
+      54,
+      @raylib.Color::new(54, 72, 102, 255),
+    )
     @raylib.draw_text("RT", pad_x + 172, pad_y + 70, 24, @raylib.white)
 
-    @raylib.draw_rectangle(shoot_x, shoot_y, 104, 154, @raylib.Color::new(214, 110, 82, 255))
+    @raylib.draw_rectangle(
+      shoot_x,
+      shoot_y,
+      104,
+      154,
+      @raylib.Color::new(214, 110, 82, 255),
+    )
     @raylib.draw_text("SHOOT", shoot_x + 8, shoot_y + 58, 26, @raylib.white)
-    @raylib.draw_rectangle(dash_x, dash_y, 104, 154, @raylib.Color::new(98, 162, 220, 255))
+    @raylib.draw_rectangle(
+      dash_x,
+      dash_y,
+      104,
+      154,
+      @raylib.Color::new(98, 162, 220, 255),
+    )
     @raylib.draw_text("DASH", dash_x + 18, dash_y + 58, 26, @raylib.white)
-    @raylib.draw_rectangle(loot_x, loot_y, 94, 154, @raylib.Color::new(92, 180, 114, 255))
+    @raylib.draw_rectangle(
+      loot_x,
+      loot_y,
+      94,
+      154,
+      @raylib.Color::new(92, 180, 114, 255),
+    )
     @raylib.draw_text("LOOT", loot_x + 14, loot_y + 58, 26, @raylib.white)
 
-    @raylib.draw_rectangle(250, sh - 58, sw - 516, 42, @raylib.Color::new(6, 10, 18, 220))
-    @raylib.draw_text(msg, 262, sh - 50, 24, @raylib.Color::new(224, 236, 248, 255))
+    @raylib.draw_rectangle(
+      250,
+      sh - 58,
+      sw - 516,
+      42,
+      @raylib.Color::new(6, 10, 18, 220),
+    )
+    @raylib.draw_text(
+      msg,
+      262,
+      sh - 50,
+      24,
+      @raylib.Color::new(224, 236, 248, 255),
+    )
 
     if transition_t > 0.0 {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(8, 12, 20, 112))
-      @raylib.draw_text("CHAPTER CLEAR", sw / 2 - 186, sh / 2 - 28, 54, @raylib.Color::new(250, 236, 146, 255))
+      @raylib.draw_text(
+        "CHAPTER CLEAR",
+        sw / 2 - 186,
+        sh / 2 - 28,
+        54,
+        @raylib.Color::new(250, 236, 146, 255),
+      )
     }
 
     if over {
       @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(0, 0, 0, 132))
-      @raylib.draw_rectangle(sw / 2 - 360, sh / 2 - 112, 720, 224, @raylib.Color::new(16, 24, 42, 244))
+      @raylib.draw_rectangle(
+        sw / 2 - 360,
+        sh / 2 - 112,
+        720,
+        224,
+        @raylib.Color::new(16, 24, 42, 244),
+      )
       @raylib.draw_text(
-        if won { "LEGENDARY HEIST" } else { "HEIST FAILED" },
+        if won {
+          "LEGENDARY HEIST"
+        } else {
+          "HEIST FAILED"
+        },
         sw / 2 - 270,
         sh / 2 - 32,
         64,
-        if won { @raylib.Color::new(252, 238, 148, 255) } else { @raylib.Color::new(252, 140, 140, 255) },
+        if won {
+          @raylib.Color::new(252, 238, 148, 255)
+        } else {
+          @raylib.Color::new(252, 140, 140, 255)
+        },
       )
-      @raylib.draw_text("Press R to restart", sw / 2 - 124, sh / 2 + 48, 34, @raylib.Color::new(224, 238, 252, 255))
+      @raylib.draw_text(
+        "Press R to restart",
+        sw / 2 - 124,
+        sh / 2 + 48,
+        34,
+        @raylib.Color::new(224, 238, 252, 255),
+      )
     }
 
     @raylib.end_drawing()
