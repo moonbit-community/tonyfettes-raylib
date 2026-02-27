@@ -242,8 +242,8 @@ fn try_move(game : Game, dr : Int, dc : Int) -> Bool {
         }
       }
     }
-    // Check game over
-    if not(has_moves(game)) {
+    // Check game over (don't overwrite win state)
+    if not(has_moves(game)) && game.state != state_won {
       game.state = state_over
     }
   }
