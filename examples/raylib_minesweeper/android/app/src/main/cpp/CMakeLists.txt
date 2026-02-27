@@ -21,13 +21,13 @@ find_program(MOON_EXECUTABLE moon REQUIRED)
 
 # --- Step 1: Run moon build to generate C ---
 set(MOONBIT_GENERATED_C ${MOONBIT_DIR}/_build/native/debug/build/raylibminesweeper.c)
-add_custom_command(
-    OUTPUT ${MOONBIT_GENERATED_C}
+add_custom_target(moonbit_build ALL
     COMMAND ${MOON_EXECUTABLE} build --target native
     WORKING_DIRECTORY ${MOONBIT_DIR}
-    DEPENDS ${MOONBIT_DIR}/main.mbt
+    BYPRODUCTS ${MOONBIT_GENERATED_C}
     COMMENT "Compiling MoonBit to C"
 )
+set_source_files_properties(${MOONBIT_GENERATED_C} PROPERTIES GENERATED TRUE)
 
 # --- Step 2: Build raylib static library (from mooncakes dependency) ---
 add_library(raylib STATIC
@@ -58,6 +58,7 @@ add_library(raylibminesweeper SHARED
     ${RAYLIB_BINDINGS_DIR}/stub_utils.c
     ${NATIVE_APP_GLUE_DIR}/android_native_app_glue.c
 )
+add_dependencies(raylibminesweeper moonbit_build)
 
 target_include_directories(raylibminesweeper PRIVATE
     ${NATIVE_APP_GLUE_DIR}
