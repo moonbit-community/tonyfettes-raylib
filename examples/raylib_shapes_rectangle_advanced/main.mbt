@@ -89,7 +89,7 @@ fn draw_rectangle_rounded_gradient_h(
   let centers_y = [point8_y, point9_y, point10_y, point11_y]
   let angles : FixedArray[Float] = [180.0, 270.0, 0.0, 90.0]
 
-  @raylib.rl_begin(@raylib.RlTriangles)
+  @rl.begin(@rl.Triangles)
 
   // Draw all of the 4 corners: [1] Upper Left Corner, [3] Upper Right Corner, [5] Lower Right Corner, [7] Lower Left Corner
   for k = 0; k < 4; k = k + 1 {
@@ -103,13 +103,13 @@ fn draw_rectangle_rounded_gradient_h(
     let center_y = centers_y[k]
     let mut angle : Float = angles[k]
     for i = 0; i < segments; i = i + 1 {
-      @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
-      @raylib.rl_vertex2f(center_x, center_y)
-      @raylib.rl_vertex2f(
+      @rl.color4ub(color.r, color.g, color.b, color.a)
+      @rl.vertex2f(center_x, center_y)
+      @rl.vertex2f(
         center_x + @math.cosf(deg2rad * (angle + step_length)) * radius,
         center_y + @math.sinf(deg2rad * (angle + step_length)) * radius,
       )
-      @raylib.rl_vertex2f(
+      @rl.vertex2f(
         center_x + @math.cosf(deg2rad * angle) * radius,
         center_y + @math.sinf(deg2rad * angle) * radius,
       )
@@ -118,60 +118,60 @@ fn draw_rectangle_rounded_gradient_h(
   }
 
   // [2] Upper Rectangle
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point0_x, point0_y)
-  @raylib.rl_vertex2f(point8_x, point8_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point9_x, point9_y)
-  @raylib.rl_vertex2f(point1_x, point1_y)
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point0_x, point0_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point9_x, point9_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point0_x, point0_y)
+  @rl.vertex2f(point8_x, point8_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point9_x, point9_y)
+  @rl.vertex2f(point1_x, point1_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point0_x, point0_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point9_x, point9_y)
 
   // [4] Right Rectangle
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point9_x, point9_y)
-  @raylib.rl_vertex2f(point10_x, point10_y)
-  @raylib.rl_vertex2f(point3_x, point3_y)
-  @raylib.rl_vertex2f(point2_x, point2_y)
-  @raylib.rl_vertex2f(point9_x, point9_y)
-  @raylib.rl_vertex2f(point3_x, point3_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point9_x, point9_y)
+  @rl.vertex2f(point10_x, point10_y)
+  @rl.vertex2f(point3_x, point3_y)
+  @rl.vertex2f(point2_x, point2_y)
+  @rl.vertex2f(point9_x, point9_y)
+  @rl.vertex2f(point3_x, point3_y)
 
   // [6] Bottom Rectangle
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point11_x, point11_y)
-  @raylib.rl_vertex2f(point5_x, point5_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point4_x, point4_y)
-  @raylib.rl_vertex2f(point10_x, point10_y)
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point11_x, point11_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point4_x, point4_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point11_x, point11_y)
+  @rl.vertex2f(point5_x, point5_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point4_x, point4_y)
+  @rl.vertex2f(point10_x, point10_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point11_x, point11_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point4_x, point4_y)
 
   // [8] Left Rectangle
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point7_x, point7_y)
-  @raylib.rl_vertex2f(point6_x, point6_y)
-  @raylib.rl_vertex2f(point11_x, point11_y)
-  @raylib.rl_vertex2f(point8_x, point8_y)
-  @raylib.rl_vertex2f(point7_x, point7_y)
-  @raylib.rl_vertex2f(point11_x, point11_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point7_x, point7_y)
+  @rl.vertex2f(point6_x, point6_y)
+  @rl.vertex2f(point11_x, point11_y)
+  @rl.vertex2f(point8_x, point8_y)
+  @rl.vertex2f(point7_x, point7_y)
+  @rl.vertex2f(point11_x, point11_y)
 
   // [9] Middle Rectangle
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point8_x, point8_y)
-  @raylib.rl_vertex2f(point11_x, point11_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point10_x, point10_y)
-  @raylib.rl_vertex2f(point9_x, point9_y)
-  @raylib.rl_color4ub(left.r, left.g, left.b, left.a)
-  @raylib.rl_vertex2f(point8_x, point8_y)
-  @raylib.rl_color4ub(right.r, right.g, right.b, right.a)
-  @raylib.rl_vertex2f(point10_x, point10_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point8_x, point8_y)
+  @rl.vertex2f(point11_x, point11_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point10_x, point10_y)
+  @rl.vertex2f(point9_x, point9_y)
+  @rl.color4ub(left.r, left.g, left.b, left.a)
+  @rl.vertex2f(point8_x, point8_y)
+  @rl.color4ub(right.r, right.g, right.b, right.a)
+  @rl.vertex2f(point10_x, point10_y)
 
-  @raylib.rl_end()
+  @rl.end_()
 }
 
 ///|

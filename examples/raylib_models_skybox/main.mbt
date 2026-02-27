@@ -88,16 +88,16 @@ fn main {
     @raylib.begin_mode_3d(camera)
 
     // We are inside the cube, we need to disable backface culling!
-    @raylib.rl_disable_backface_culling()
-    @raylib.rl_disable_depth_mask()
+    @rl.disable_backface_culling()
+    @rl.disable_depth_mask()
     @raylib.draw_model(
       skybox,
       @raylib.Vector3::new(0.0, 0.0, 0.0),
       1.0,
       @raylib.white,
     )
-    @raylib.rl_enable_backface_culling()
-    @raylib.rl_enable_depth_mask()
+    @rl.enable_backface_culling()
+    @rl.enable_depth_mask()
 
     @raylib.draw_grid(10, 1.0)
 

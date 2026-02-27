@@ -1,6 +1,7 @@
 import {
   "tonyfettes/raylib",
   "tonyfettes/raylib/raygui",
+  "tonyfettes/raylib/rl",
   "moonbitlang/core/math",
 }
 

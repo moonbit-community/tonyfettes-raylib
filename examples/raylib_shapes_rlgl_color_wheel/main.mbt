@@ -65,7 +65,7 @@ fn main {
   let mut setting_color = false
 
   // How the color wheel will be rendered
-  let mut render_type = @raylib.RlTriangles
+  let mut render_type = @rl.Triangles
 
   // Enable anti-aliasing
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
@@ -175,10 +175,10 @@ fn main {
 
     // Update render mode accordingly
     if @raylib.is_key_pressed(32) {
-      render_type = @raylib.RlLines
+      render_type = @rl.Lines
     }
     if @raylib.is_key_released(32) {
-      render_type = @raylib.RlTriangles
+      render_type = @rl.Triangles
     }
 
     // If the slider or the wheel was clicked, update the current color
@@ -230,7 +230,7 @@ fn main {
 
     // Begin rendering color wheel
     let tri_count = triangle_count.to_int()
-    @raylib.rl_begin(render_type)
+    @rl.begin(render_type)
     for i = 0; i < tri_count; i = i + 1 {
       let angle_offset = pi * 2.0 / triangle_count
       let angle = angle_offset * Float::from_int(i)
@@ -251,31 +251,31 @@ fn main {
         1.0,
       )
 
-      if render_type == @raylib.RlTriangles {
-        @raylib.rl_color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
-        @raylib.rl_vertex2f(pos_x, pos_y)
+      if render_type == @rl.Triangles {
+        @rl.color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
+        @rl.vertex2f(pos_x, pos_y)
         // rl_color4f(value, value, value, 1.0) => rl_color4ub with byte conversion
         let v = value.val
         let vb = (clamp(v, 0.0, 1.0) * 255.0).to_int().to_byte()
-        @raylib.rl_color4ub(vb, vb, vb, b'\xFF')
-        @raylib.rl_vertex2f(center_x, center_y)
-        @raylib.rl_color4ub(off_color.r, off_color.g, off_color.b, off_color.a)
-        @raylib.rl_vertex2f(pos2_x, pos2_y)
-      } else if render_type == @raylib.RlLines {
-        @raylib.rl_color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
-        @raylib.rl_vertex2f(pos_x, pos_y)
+        @rl.color4ub(vb, vb, vb, b'\xFF')
+        @rl.vertex2f(center_x, center_y)
+        @rl.color4ub(off_color.r, off_color.g, off_color.b, off_color.a)
+        @rl.vertex2f(pos2_x, pos2_y)
+      } else if render_type == @rl.Lines {
+        @rl.color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
+        @rl.vertex2f(pos_x, pos_y)
         let w = @raylib.white
-        @raylib.rl_color4ub(w.r, w.g, w.b, w.a)
-        @raylib.rl_vertex2f(center_x, center_y)
-        @raylib.rl_vertex2f(center_x, center_y)
-        @raylib.rl_color4ub(off_color.r, off_color.g, off_color.b, off_color.a)
-        @raylib.rl_vertex2f(pos2_x, pos2_y)
-        @raylib.rl_vertex2f(pos2_x, pos2_y)
-        @raylib.rl_color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
-        @raylib.rl_vertex2f(pos_x, pos_y)
+        @rl.color4ub(w.r, w.g, w.b, w.a)
+        @rl.vertex2f(center_x, center_y)
+        @rl.vertex2f(center_x, center_y)
+        @rl.color4ub(off_color.r, off_color.g, off_color.b, off_color.a)
+        @rl.vertex2f(pos2_x, pos2_y)
+        @rl.vertex2f(pos2_x, pos2_y)
+        @rl.color4ub(cur_color.r, cur_color.g, cur_color.b, cur_color.a)
+        @rl.vertex2f(pos_x, pos_y)
       }
     }
-    @raylib.rl_end()
+    @rl.end_()
 
     // Make the handle slightly more visible overtop darker colors
     let circle_pos = @raylib.Vector2::new(circle_pos_x, circle_pos_y)

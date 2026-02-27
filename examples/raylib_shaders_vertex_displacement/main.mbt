@@ -46,12 +46,12 @@ fn main {
   let perlin_noise_map_loc = @raylib.get_shader_location(
     shader, "perlinNoiseMap",
   )
-  @raylib.rl_enable_shader(@raylib.get_shader_id(shader).reinterpret_as_uint())
-  @raylib.rl_active_texture_slot(1)
-  @raylib.rl_enable_texture(
+  @rl.enable_shader(@raylib.get_shader_id(shader).reinterpret_as_uint())
+  @rl.active_texture_slot(1)
+  @rl.enable_texture(
     @raylib.get_texture_id(perlin_noise_map).reinterpret_as_uint(),
   )
-  @raylib.rl_set_uniform_sampler(perlin_noise_map_loc, 1U)
+  @rl.set_uniform_sampler(perlin_noise_map_loc, 1U)
 
   // Create a plane mesh and model
   let plane_mesh = @raylib.gen_mesh_plane(50.0, 50.0, 50, 50)

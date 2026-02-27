@@ -17,30 +17,30 @@ fn draw_texture_poly(
   point_count : Int,
   tint : @raylib.Color,
 ) -> Unit {
-  @raylib.rl_set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
+  @rl.set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
   // Texturing is only supported on RL_QUADS
-  @raylib.rl_begin(@raylib.RlQuads)
+  @rl.begin(@rl.Quads)
 
-  @raylib.rl_color4ub(tint.r, tint.g, tint.b, tint.a)
+  @rl.color4ub(tint.r, tint.g, tint.b, tint.a)
 
   for i = 0; i < point_count - 1; i = i + 1 {
-    @raylib.rl_tex_coord2f(0.5, 0.5)
-    @raylib.rl_vertex2f(center.x, center.y)
+    @rl.tex_coord2f(0.5, 0.5)
+    @rl.vertex2f(center.x, center.y)
 
-    @raylib.rl_tex_coord2f(texcoords[i].x, texcoords[i].y)
-    @raylib.rl_vertex2f(points[i].x + center.x, points[i].y + center.y)
+    @rl.tex_coord2f(texcoords[i].x, texcoords[i].y)
+    @rl.vertex2f(points[i].x + center.x, points[i].y + center.y)
 
-    @raylib.rl_tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
-    @raylib.rl_vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
+    @rl.tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
+    @rl.vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
 
-    @raylib.rl_tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
-    @raylib.rl_vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
+    @rl.tex_coord2f(texcoords[i + 1].x, texcoords[i + 1].y)
+    @rl.vertex2f(points[i + 1].x + center.x, points[i + 1].y + center.y)
   }
 
-  @raylib.rl_end()
+  @rl.end_()
 
-  @raylib.rl_set_texture(0U)
+  @rl.set_texture(0U)
 }
 
 ///|
