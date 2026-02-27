@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+val releaseKeystoreFile = rootProject.file("release-key.jks")
+val hasReleaseKeystore = releaseKeystoreFile.exists()
+
 android {
     namespace = "com.example.raylibminesweeper"
     compileSdk {
@@ -30,11 +33,13 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            storeFile = rootProject.file("release-key.jks")
-            storePassword = "android"
-            keyAlias = "release"
-            keyPassword = "android"
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = releaseKeystoreFile
+                storePassword = "android"
+                keyAlias = "release"
+                keyPassword = "android"
+            }
         }
     }
     buildTypes {
@@ -44,7 +49,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            } else {
+                signingConfig = signingConfigs.getByName("debug")
+                logger.warn("release-key.jks not found; using debug signing for release builds.")
+            }
         }
     }
     compileOptions {
