@@ -29,11 +29,7 @@ pub fn draw_line_v(
   end_pos : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line_v(
-    start_pos.to_bytes(),
-    end_pos.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_line_v(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -223,11 +219,7 @@ pub fn draw_rectangle_v(
   size : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_v(
-    position.to_bytes(),
-    size.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_rectangle_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -410,13 +402,7 @@ pub fn draw_poly(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_poly(
-    center.to_bytes(),
-    sides,
-    radius,
-    rotation,
-    color.to_bytes(),
-  )
+  @ffi.draw_poly(center.to_bytes(), sides, radius, rotation, color.to_bytes())
 }
 
 ///|
@@ -499,11 +485,7 @@ pub fn check_collision_point_circle(
   center : Vector2,
   radius : Float,
 ) -> Bool {
-  @ffi.check_collision_point_circle(
-    point.to_bytes(),
-    center.to_bytes(),
-    radius,
-  )
+  @ffi.check_collision_point_circle(point.to_bytes(), center.to_bytes(), radius)
 }
 
 ///|
@@ -610,12 +592,7 @@ pub fn draw_spline_catmull_rom(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_catmull_rom(
-    bytes,
-    points.length(),
-    thick,
-    color.to_bytes(),
-  )
+  @ffi.draw_spline_catmull_rom(bytes, points.length(), thick, color.to_bytes())
 }
 
 ///|
@@ -640,12 +617,7 @@ pub fn draw_spline_bezier_cubic(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_bezier_cubic(
-    bytes,
-    points.length(),
-    thick,
-    color.to_bytes(),
-  )
+  @ffi.draw_spline_bezier_cubic(bytes, points.length(), thick, color.to_bytes())
 }
 
 // ============================================================================

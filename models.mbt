@@ -49,11 +49,7 @@ pub fn draw_line_3d(
   end_pos : Vector3,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line_3d(
-    start_pos.to_bytes(),
-    end_pos.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_line_3d(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -86,13 +82,7 @@ pub fn draw_cube(
   length : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_cube(
-    position.to_bytes(),
-    width,
-    height,
-    length,
-    color.to_bytes(),
-  )
+  @ffi.draw_cube(position.to_bytes(), width, height, length, color.to_bytes())
 }
 
 ///|
@@ -123,11 +113,7 @@ pub fn draw_cube_wires_v(
   size : Vector3,
   color : Color,
 ) -> Unit {
-  @ffi.draw_cube_wires_v(
-    position.to_bytes(),
-    size.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.draw_cube_wires_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
@@ -811,9 +797,7 @@ pub fn get_model_bind_pose_translation(
   model : Model,
   bone_index : Int,
 ) -> Vector3 {
-  Vector3::from_bytes(
-    @ffi.get_model_bind_pose_translation(model, bone_index),
-  )
+  Vector3::from_bytes(@ffi.get_model_bind_pose_translation(model, bone_index))
 }
 
 ///|

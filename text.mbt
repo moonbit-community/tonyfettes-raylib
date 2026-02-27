@@ -65,13 +65,7 @@ pub fn draw_text(
   font_size : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_text(
-    @utf8.encode(text),
-    pos_x,
-    pos_y,
-    font_size,
-    color.to_bytes(),
-  )
+  @ffi.draw_text(@utf8.encode(text), pos_x, pos_y, font_size, color.to_bytes())
 }
 
 ///|

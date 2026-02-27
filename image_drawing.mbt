@@ -155,14 +155,7 @@ pub fn image_draw_rectangle(
   height : Int,
   color : Color,
 ) -> Unit {
-  @ffi.image_draw_rectangle(
-    dst,
-    pos_x,
-    pos_y,
-    width,
-    height,
-    color.to_bytes(),
-  )
+  @ffi.image_draw_rectangle(dst, pos_x, pos_y, width, height, color.to_bytes())
 }
 
 ///|
@@ -196,12 +189,7 @@ pub fn image_draw_rectangle_lines(
   thick : Int,
   color : Color,
 ) -> Unit {
-  @ffi.image_draw_rectangle_lines(
-    dst,
-    rec.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  @ffi.image_draw_rectangle_lines(dst, rec.to_bytes(), thick, color.to_bytes())
 }
 
 // ============================================================================
@@ -280,12 +268,7 @@ pub fn image_draw_triangle_strip(
   color : Color,
 ) -> Unit {
   let bytes = vector2_array_to_bytes(points)
-  @ffi.image_draw_triangle_strip(
-    dst,
-    bytes,
-    points.length(),
-    color.to_bytes(),
-  )
+  @ffi.image_draw_triangle_strip(dst, bytes, points.length(), color.to_bytes())
 }
 
 // ============================================================================

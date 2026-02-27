@@ -1620,169 +1620,114 @@ pub fn resume_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
 pub fn resume_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
-#deprecated
 pub fn rl_active_draw_buffers(Int) -> Unit
 
-#deprecated
 pub fn rl_active_texture_slot(Int) -> Unit
 
-#deprecated
 pub fn rl_begin(Int) -> Unit
 
-#deprecated
 pub fn rl_bind_framebuffer(UInt, UInt) -> Unit
 
-#deprecated
 pub fn rl_blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
 
-#deprecated
 pub fn rl_check_render_batch_limit(Int) -> Bool
 
-#deprecated
 pub fn rl_clear_screen_buffers() -> Unit
 
-#deprecated
 pub fn rl_color4ub(Byte, Byte, Byte, Byte) -> Unit
 
-#deprecated
 pub fn rl_disable_backface_culling() -> Unit
 
-#deprecated
 pub fn rl_disable_color_blend() -> Unit
 
-#deprecated
 pub fn rl_disable_depth_mask() -> Unit
 
-#deprecated
 pub fn rl_disable_depth_test() -> Unit
 
-#deprecated
 pub fn rl_disable_framebuffer() -> Unit
 
-#deprecated
 pub fn rl_disable_shader() -> Unit
 
-#deprecated
 pub fn rl_disable_texture() -> Unit
 
-#deprecated
 pub fn rl_draw_render_batch_active() -> Unit
 
-#deprecated
 pub fn rl_enable_backface_culling() -> Unit
 
-#deprecated
 pub fn rl_enable_color_blend() -> Unit
 
-#deprecated
 pub fn rl_enable_depth_mask() -> Unit
 
-#deprecated
 pub fn rl_enable_depth_test() -> Unit
 
-#deprecated
 pub fn rl_enable_framebuffer(UInt) -> Unit
 
-#deprecated
 pub fn rl_enable_shader(UInt) -> Unit
 
-#deprecated
 pub fn rl_enable_texture(UInt) -> Unit
 
-#deprecated
 pub fn rl_end() -> Unit
 
-#deprecated
 pub fn rl_framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
 
-#deprecated
 pub fn rl_framebuffer_complete(UInt) -> Bool
 
-#deprecated
 pub fn rl_get_framebuffer_height() -> Int
 
-#deprecated
 pub fn rl_get_framebuffer_width() -> Int
 
-#deprecated
 pub fn rl_get_location_uniform(UInt, String) -> Int
 
-#deprecated
 pub fn rl_get_matrix_modelview() -> Matrix
 
-#deprecated
 pub fn rl_get_matrix_projection() -> Matrix
 
-#deprecated
 pub fn rl_get_shader_id_default() -> UInt
 
-#deprecated
 pub fn rl_load_draw_cube() -> Unit
 
-#deprecated
 pub fn rl_load_draw_quad() -> Unit
 
-#deprecated
 pub fn rl_load_framebuffer() -> UInt
 
-#deprecated
 pub fn rl_load_texture(Int, Int, Int, Int) -> UInt
 
-#deprecated
 pub fn rl_load_texture_depth(Int, Int, Bool) -> UInt
 
-#deprecated
 pub fn rl_mult_matrixf(Bytes) -> Unit
 
-#deprecated
 pub fn rl_normal3f(Float, Float, Float) -> Unit
 
-#deprecated
 pub fn rl_pop_matrix() -> Unit
 
-#deprecated
 pub fn rl_push_matrix() -> Unit
 
-#deprecated
 pub fn rl_rotatef(Float, Float, Float, Float) -> Unit
 
-#deprecated
 pub fn rl_scalef(Float, Float, Float) -> Unit
 
-#deprecated
 pub fn rl_set_blend_factors(Int, Int, Int) -> Unit
 
-#deprecated
 pub fn rl_set_blend_mode(Int) -> Unit
 
-#deprecated
 pub fn rl_set_texture(UInt) -> Unit
 
-#deprecated
 pub fn rl_set_uniform(Int, Bytes, Int, Int) -> Unit
 
-#deprecated
 pub fn rl_set_uniform_sampler(Int, UInt) -> Unit
 
-#deprecated
 pub fn rl_tex_coord2f(Float, Float) -> Unit
 
-#deprecated
 pub fn rl_translatef(Float, Float, Float) -> Unit
 
-#deprecated
 pub fn rl_unload_framebuffer(UInt) -> Unit
 
-#deprecated
 pub fn rl_unload_texture(UInt) -> Unit
 
-#deprecated
 pub fn rl_vertex2f(Float, Float) -> Unit
 
-#deprecated
 pub fn rl_vertex3f(Float, Float, Float) -> Unit
 
-#deprecated
 pub fn rl_viewport(Int, Int, Int, Int) -> Unit
 
 pub fn save_file_data(String, Bytes, Int) -> Bool

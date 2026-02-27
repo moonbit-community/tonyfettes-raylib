@@ -90,7 +90,6 @@ pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
   @ffi.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
 }
 
-
 // Shader uniform type constants
 
 ///|
@@ -365,7 +364,6 @@ pub const RlAttachmentTexture2d : Int = 100
 
 ///|
 pub const RlAttachmentRenderbuffer : Int = 200
-
 
 // ============================================================================
 // VR stereo re-exports

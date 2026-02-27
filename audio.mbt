@@ -132,11 +132,7 @@ pub fn load_music_stream_from_memory(
   data : Bytes,
   data_size : Int,
 ) -> Music {
-  @ffi.load_music_stream_from_memory(
-    @utf8.encode(file_type),
-    data,
-    data_size,
-  )
+  @ffi.load_music_stream_from_memory(@utf8.encode(file_type), data, data_size)
 }
 
 // ============================================================================
