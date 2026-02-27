@@ -170,6 +170,7 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       } else {
         on_player_hurt(game)
       }
+      break
     }
   }
 }

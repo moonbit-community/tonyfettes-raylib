@@ -313,7 +313,11 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   }
 
   if player.y > @types.world_height_px + 80.0 {
-    on_player_hurt(game)
+    if player.invuln_t > 0.0 {
+      reset_player_pose(game, true)
+    } else {
+      on_player_hurt(game)
+    }
     return
   }
 
