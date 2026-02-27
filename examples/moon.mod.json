@@ -2,7 +2,9 @@
   "name": "tonyfettes/raylib-examples",
   "version": "0.1.0",
   "deps": {
-    "tonyfettes/raylib": "0.1.1"
+    "tonyfettes/raylib": {
+      "path": ".."
+    }
   },
   "preferred-target": "native"
 }
