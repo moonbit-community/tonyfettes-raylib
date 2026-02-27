@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.22.1)
 project("raylibabysssignalrunner2026" C)
 
 # --- Paths ---
-# MoonBit sources live in the shared examples module, not an android-local copy.
-# cmake/src/main/cpp → ../../../../.. → android → ../.. → examples module root
-set(EXAMPLES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../)
-set(MOONBIT_PKG raylib_abyss_signal_runner_2026)
+# MoonBit sources live in the package's own moon module (one level above android/).
+# cpp/ → ../../../../.. → raylib_abyss_signal_runner_2026/
+set(MOONBIT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../)
 set(NATIVE_APP_GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
 
 # MOON_HOME: use env var, fallback to $HOME/.moon
@@ -23,12 +22,12 @@ set(RAYLIB_SRC_DIR ${RAYLIB_BINDINGS_DIR})
 find_program(MOON_EXECUTABLE moon REQUIRED)
 
 # --- Step 1: Run moon build to generate C ---
-set(MOONBIT_GENERATED_C ${EXAMPLES_DIR}/_build/native/debug/build/${MOONBIT_PKG}/${MOONBIT_PKG}.c)
+set(MOONBIT_GENERATED_C ${MOONBIT_DIR}/_build/native/debug/build/raylib_abyss_signal_runner_2026.c)
 add_custom_command(
     OUTPUT ${MOONBIT_GENERATED_C}
-    COMMAND ${MOON_EXECUTABLE} build --target native ${MOONBIT_PKG}/
-    WORKING_DIRECTORY ${EXAMPLES_DIR}
-    DEPENDS ${EXAMPLES_DIR}/${MOONBIT_PKG}/main.mbt
+    COMMAND ${MOON_EXECUTABLE} build --target native
+    WORKING_DIRECTORY ${MOONBIT_DIR}
+    DEPENDS ${MOONBIT_DIR}/main.mbt
     COMMENT "Compiling MoonBit to C"
 )
 

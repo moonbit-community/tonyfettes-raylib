@@ -1,0 +1,10 @@
+{
+  "name": "tonyfettes/raylib_abyss_signal_runner_2026",
+  "version": "0.1.0",
+  "deps": {
+    "tonyfettes/raylib": {
+      "path": "../.."
+    }
+  },
+  "preferred-target": "native"
+}
