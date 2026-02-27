@@ -1,1 +1,0 @@
-/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/build/intermediates/cxx/RelWithDebInfo/5qd3k2q3/obj/x86_64

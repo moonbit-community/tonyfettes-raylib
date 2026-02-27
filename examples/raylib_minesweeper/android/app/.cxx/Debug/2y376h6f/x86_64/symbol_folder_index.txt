@@ -1,1 +1,0 @@
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/build/intermediates/cxx/Debug/2y376h6f/obj/x86_64

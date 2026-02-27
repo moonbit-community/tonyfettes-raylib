@@ -1,1 +1,0 @@
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/src/main/cpp/CMakeLists.txt

@@ -1,1 +1,0 @@
-/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/src/main/cpp/CMakeLists.txt

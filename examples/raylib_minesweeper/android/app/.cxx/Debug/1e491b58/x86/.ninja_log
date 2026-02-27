@@ -1,8 +1,0 @@
-# ninja log v5
-0	318	1771992107798769434	CMakeFiles/raylibminesweeper.dir/AndroidOut.cpp.o	960ef7cb7d0879b0
-1	320	1771992107800371034	CMakeFiles/raylibminesweeper.dir/Utility.cpp.o	f7fca806bdd258b5
-1	324	1771992107804598287	CMakeFiles/raylibminesweeper.dir/Shader.cpp.o	c482ed9e5a407113
-1	333	1771992107813330255	CMakeFiles/raylibminesweeper.dir/TextureAsset.cpp.o	ab89cffc786dbe57
-0	340	1771992107821364757	CMakeFiles/raylibminesweeper.dir/main.cpp.o	548f0ee033989a4c
-0	431	1771992107911197671	CMakeFiles/raylibminesweeper.dir/Renderer.cpp.o	80802f38af28be4f
-431	512	1771992107985327416	/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/build/intermediates/cxx/Debug/1e491b58/obj/x86/libraylibminesweeper.so	1bc25673f630daa5

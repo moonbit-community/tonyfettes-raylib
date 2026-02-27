@@ -1,4 +1,0 @@
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/armeabi-v7a/CMakeFiles/raylib.dir
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/armeabi-v7a/CMakeFiles/raylibminesweeper.dir
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/armeabi-v7a/CMakeFiles/edit_cache.dir
-/Users/haoxiang/Workspace/moonbit/raylib/examples/raylib_minesweeper/android/app/.cxx/Debug/2y376h6f/armeabi-v7a/CMakeFiles/rebuild_cache.dir

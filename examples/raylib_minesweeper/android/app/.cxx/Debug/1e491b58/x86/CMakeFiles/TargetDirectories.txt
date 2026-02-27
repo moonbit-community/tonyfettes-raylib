@@ -1,3 +1,0 @@
-/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/x86/CMakeFiles/raylibminesweeper.dir
-/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/x86/CMakeFiles/edit_cache.dir
-/Users/haoxiang/AndroidStudioProjects/RaylibMinesweeper/app/.cxx/Debug/1e491b58/x86/CMakeFiles/rebuild_cache.dir
