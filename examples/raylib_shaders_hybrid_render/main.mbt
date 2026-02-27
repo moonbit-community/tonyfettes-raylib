@@ -108,7 +108,7 @@ fn main {
     @raylib.clear_background(@raylib.white)
 
     // Raymarch Scene
-    @raylib.rl_enable_depth_test() // Manually enable Depth Test to handle multiple rendering methods.
+    @rl.enable_depth_test() // Manually enable Depth Test to handle multiple rendering methods.
     @raylib.begin_shader_mode(shdr_raymarch)
     @raylib.draw_rectangle_rec(
       @raylib.Rectangle::new(

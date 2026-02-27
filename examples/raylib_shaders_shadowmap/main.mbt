@@ -232,8 +232,8 @@ fn main {
     @raylib.begin_texture_mode(shadow_map)
     @raylib.clear_background(@raylib.white)
     @raylib.begin_mode_3d(light_cam)
-    let light_view = @raylib.rl_get_matrix_modelview()
-    let light_proj = @raylib.rl_get_matrix_projection()
+    let light_view = @rl.get_matrix_modelview()
+    let light_proj = @rl.get_matrix_projection()
     draw_scene(cube, robot)
     @raylib.end_mode_3d()
     @raylib.end_texture_mode()
@@ -248,12 +248,12 @@ fn main {
 
     // Enable the shadow shader and bind the shadow map texture
     let shader_id = @raylib.get_shader_id(shadow_shader).reinterpret_as_uint()
-    @raylib.rl_enable_shader(shader_id)
+    @rl.enable_shader(shader_id)
     let slot : Int = 10 // Can be anything 0 to 15, but 0 will probably be taken up
-    @raylib.rl_active_texture_slot(10)
+    @rl.active_texture_slot(10)
     let depth_id = @raylib.get_render_texture_depth_id(shadow_map)
-    @raylib.rl_enable_texture(depth_id)
-    @raylib.rl_set_uniform(
+    @rl.enable_texture(depth_id)
+    @rl.set_uniform(
       shadow_map_loc,
       int_to_bytes(slot),
       @raylib.ShaderUniformInt,

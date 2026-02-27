@@ -15,80 +15,80 @@ fn draw_cube_texture(
   let z = position.z
 
   // Set desired texture to be enabled while drawing following vertex data
-  @raylib.rl_set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
+  @rl.set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
-  @raylib.rl_begin(@raylib.RlQuads)
-  @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
+  @rl.begin(@rl.Quads)
+  @rl.color4ub(color.r, color.g, color.b, color.a)
 
   // Front Face
-  @raylib.rl_normal3f(0.0, 0.0, 1.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.normal3f(0.0, 0.0, 1.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
 
   // Back Face
-  @raylib.rl_normal3f(0.0, 0.0, -1.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.normal3f(0.0, 0.0, -1.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
 
   // Top Face
-  @raylib.rl_normal3f(0.0, 1.0, 0.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.normal3f(0.0, 1.0, 0.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
 
   // Bottom Face
-  @raylib.rl_normal3f(0.0, -1.0, 0.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.normal3f(0.0, -1.0, 0.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
 
   // Right Face
-  @raylib.rl_normal3f(1.0, 0.0, 0.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.normal3f(1.0, 0.0, 0.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
 
   // Left Face
-  @raylib.rl_normal3f(-1.0, 0.0, 0.0)
-  @raylib.rl_tex_coord2f(0.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 0.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(1.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(0.0, 1.0)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.normal3f(-1.0, 0.0, 0.0)
+  @rl.tex_coord2f(0.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(1.0, 0.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(1.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(0.0, 1.0)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
 
-  @raylib.rl_end()
+  @rl.end_()
 
-  @raylib.rl_set_texture(0)
+  @rl.set_texture(0)
 }
 
 // Draw cube with texture piece applied to all faces
@@ -110,136 +110,100 @@ fn draw_cube_texture_rec(
   let tex_height = Float::from_int(@raylib.get_texture_height(texture))
 
   // Set desired texture to be enabled while drawing following vertex data
-  @raylib.rl_set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
+  @rl.set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
   // We calculate the normalized texture coordinates for the desired texture-source-rectangle
   // It means converting from (tex.width, tex.height) coordinates to [0.0, 1.0] equivalent
-  @raylib.rl_begin(@raylib.RlQuads)
-  @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
+  @rl.begin(@rl.Quads)
+  @rl.color4ub(color.r, color.g, color.b, color.a)
 
   // Front face
-  @raylib.rl_normal3f(0.0, 0.0, 1.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(0.0, 0.0, 1.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
 
   // Back face
-  @raylib.rl_normal3f(0.0, 0.0, -1.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(0.0, 0.0, -1.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
 
   // Top face
-  @raylib.rl_normal3f(0.0, 1.0, 0.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(0.0, 1.0, 0.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
 
   // Bottom face
-  @raylib.rl_normal3f(0.0, -1.0, 0.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(0.0, -1.0, 0.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
 
   // Right face
-  @raylib.rl_normal3f(1.0, 0.0, 0.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(1.0, 0.0, 0.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x + width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x + width / 2.0, y - height / 2.0, z + length / 2.0)
 
   // Left face
-  @raylib.rl_normal3f(-1.0, 0.0, 0.0)
-  @raylib.rl_tex_coord2f(
-    source.x / tex_width,
-    (source.y + source.height) / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
-  @raylib.rl_tex_coord2f(
+  @rl.normal3f(-1.0, 0.0, 0.0)
+  @rl.tex_coord2f(source.x / tex_width, (source.y + source.height) / tex_height)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z - length / 2.0)
+  @rl.tex_coord2f(
     (source.x + source.width) / tex_width,
     (source.y + source.height) / tex_height,
   )
-  @raylib.rl_vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(
-    (source.x + source.width) / tex_width,
-    source.y / tex_height,
-  )
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
-  @raylib.rl_tex_coord2f(source.x / tex_width, source.y / tex_height)
-  @raylib.rl_vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
+  @rl.vertex3f(x - width / 2.0, y - height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f((source.x + source.width) / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z + length / 2.0)
+  @rl.tex_coord2f(source.x / tex_width, source.y / tex_height)
+  @rl.vertex3f(x - width / 2.0, y + height / 2.0, z - length / 2.0)
 
-  @raylib.rl_end()
+  @rl.end_()
 
-  @raylib.rl_set_texture(0)
+  @rl.set_texture(0)
 }
 
 ///|

@@ -93,37 +93,37 @@ fn draw_text_codepoint_3d(
       )
     }
     let batch_count = if backface { 8 } else { 4 }
-    let _ = @raylib.rl_check_render_batch_limit(batch_count)
-    @raylib.rl_set_texture(texture_id.reinterpret_as_uint())
-    @raylib.rl_push_matrix()
-    @raylib.rl_translatef(pos_x, position.y, pos_z)
-    @raylib.rl_begin(@raylib.RlQuads)
-    @raylib.rl_color4ub(tint.r, tint.g, tint.b, tint.a)
+    let _ = @rl.check_render_batch_limit(batch_count)
+    @rl.set_texture(texture_id.reinterpret_as_uint())
+    @rl.push_matrix()
+    @rl.translatef(pos_x, position.y, pos_z)
+    @rl.begin(@rl.Quads)
+    @rl.color4ub(tint.r, tint.g, tint.b, tint.a)
     // Front Face
-    @raylib.rl_normal3f(0.0, 1.0, 0.0)
-    @raylib.rl_tex_coord2f(tx, ty)
-    @raylib.rl_vertex3f(x, y, z)
-    @raylib.rl_tex_coord2f(tx, th)
-    @raylib.rl_vertex3f(x, y, z + height)
-    @raylib.rl_tex_coord2f(tw, th)
-    @raylib.rl_vertex3f(x + width, y, z + height)
-    @raylib.rl_tex_coord2f(tw, ty)
-    @raylib.rl_vertex3f(x + width, y, z)
+    @rl.normal3f(0.0, 1.0, 0.0)
+    @rl.tex_coord2f(tx, ty)
+    @rl.vertex3f(x, y, z)
+    @rl.tex_coord2f(tx, th)
+    @rl.vertex3f(x, y, z + height)
+    @rl.tex_coord2f(tw, th)
+    @rl.vertex3f(x + width, y, z + height)
+    @rl.tex_coord2f(tw, ty)
+    @rl.vertex3f(x + width, y, z)
     if backface {
       // Back Face
-      @raylib.rl_normal3f(0.0, -1.0, 0.0)
-      @raylib.rl_tex_coord2f(tx, ty)
-      @raylib.rl_vertex3f(x, y, z)
-      @raylib.rl_tex_coord2f(tw, ty)
-      @raylib.rl_vertex3f(x + width, y, z)
-      @raylib.rl_tex_coord2f(tw, th)
-      @raylib.rl_vertex3f(x + width, y, z + height)
-      @raylib.rl_tex_coord2f(tx, th)
-      @raylib.rl_vertex3f(x, y, z + height)
+      @rl.normal3f(0.0, -1.0, 0.0)
+      @rl.tex_coord2f(tx, ty)
+      @rl.vertex3f(x, y, z)
+      @rl.tex_coord2f(tw, ty)
+      @rl.vertex3f(x + width, y, z)
+      @rl.tex_coord2f(tw, th)
+      @rl.vertex3f(x + width, y, z + height)
+      @rl.tex_coord2f(tx, th)
+      @rl.vertex3f(x, y, z + height)
     }
-    @raylib.rl_end()
-    @raylib.rl_pop_matrix()
-    @raylib.rl_set_texture(0U)
+    @rl.end_()
+    @rl.pop_matrix()
+    @rl.set_texture(0U)
   }
 }
 
@@ -580,9 +580,9 @@ fn main {
     @raylib.begin_shader_mode(alpha_discard)
 
     // Draw the 3D text above the red cube
-    @raylib.rl_push_matrix()
-    @raylib.rl_rotatef(90.0, 1.0, 0.0, 0.0)
-    @raylib.rl_rotatef(90.0, 0.0, 0.0, -1.0)
+    @rl.push_matrix()
+    @rl.rotatef(90.0, 1.0, 0.0, 0.0)
+    @rl.rotatef(90.0, 0.0, 0.0, -1.0)
     for i = 0; i < layers; i = i + 1 {
       let clr = if multicolor { multi[i] } else { light }
       draw_text_wave_3d(
@@ -611,7 +611,7 @@ fn main {
         dark,
       )
     }
-    @raylib.rl_pop_matrix()
+    @rl.pop_matrix()
 
     // Don't draw letter boundaries for the 3D text below
     let slb = show_letter_boundry
@@ -619,8 +619,8 @@ fn main {
 
     // Draw 3D options (use default font)
     let default_font = @raylib.get_font_default()
-    @raylib.rl_push_matrix()
-    @raylib.rl_rotatef(180.0, 0.0, 1.0, 0.0)
+    @rl.push_matrix()
+    @rl.rotatef(180.0, 0.0, 1.0, 0.0)
     // SIZE option
     let opt1 = "< SIZE: " + font_size.to_string() + " >"
     quads = quads + opt1.length()
@@ -725,7 +725,7 @@ fn main {
       @raylib.darkpurple,
       false,
     )
-    @raylib.rl_pop_matrix()
+    @rl.pop_matrix()
 
     // Draw 3D info text (use default font)
     let info1 = "All the text displayed here is in 3D"

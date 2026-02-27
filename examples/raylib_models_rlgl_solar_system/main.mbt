@@ -11,10 +11,10 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
 
   // Make sure there is enough space in the internal render batch
   // buffer to store all required vertex, batch is reseted if required
-  let _ = @raylib.rl_check_render_batch_limit((rings + 2) * slices * 6)
+  let _ = @rl.check_render_batch_limit((rings + 2) * slices * 6)
 
-  @raylib.rl_begin(@raylib.RlTriangles)
-  @raylib.rl_color4ub(color.r, color.g, color.b, color.a)
+  @rl.begin(@rl.Triangles)
+  @rl.color4ub(color.r, color.g, color.b, color.a)
 
   for i = 0; i < rings + 2; i = i + 1 {
     for j = 0; j < slices; j = j + 1 {
@@ -25,21 +25,21 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
       let fslices = Float::from_int(slices)
       let frings1 = Float::from_int(rings + 1)
 
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
         @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
         @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
       )
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
         @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
@@ -47,21 +47,21 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
         @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
 
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.sinf(deg2rad * (fj * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.cosf(deg2rad * (fj * 360.0 / fslices)),
       )
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi)),
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi)) *
         @math.cosf(deg2rad * (fj1 * 360.0 / fslices)),
       )
-      @raylib.rl_vertex3f(
+      @rl.vertex3f(
         @math.cosf(deg2rad * (270.0 + 180.0 / frings1 * fi1)) *
         @math.sinf(deg2rad * (fj1 * 360.0 / fslices)),
         @math.sinf(deg2rad * (270.0 + 180.0 / frings1 * fi1)),
@@ -70,7 +70,7 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
       )
     }
   }
-  @raylib.rl_end()
+  @rl.end_()
 }
 
 ///|
@@ -126,27 +126,27 @@ fn main {
 
     @raylib.begin_mode_3d(camera)
 
-    @raylib.rl_push_matrix()
-    @raylib.rl_scalef(sun_radius, sun_radius, sun_radius) // Scale Sun
+    @rl.push_matrix()
+    @rl.scalef(sun_radius, sun_radius, sun_radius) // Scale Sun
     draw_sphere_basic(@raylib.gold) // Draw the Sun
-    @raylib.rl_pop_matrix()
+    @rl.pop_matrix()
 
-    @raylib.rl_push_matrix()
-    @raylib.rl_rotatef(earth_orbit_rotation, 0.0, 1.0, 0.0) // Rotation for Earth orbit around Sun
-    @raylib.rl_translatef(earth_orbit_radius, 0.0, 0.0) // Translation for Earth orbit
+    @rl.push_matrix()
+    @rl.rotatef(earth_orbit_rotation, 0.0, 1.0, 0.0) // Rotation for Earth orbit around Sun
+    @rl.translatef(earth_orbit_radius, 0.0, 0.0) // Translation for Earth orbit
 
-    @raylib.rl_push_matrix()
-    @raylib.rl_rotatef(earth_rotation, 0.25, 1.0, 0.0) // Rotation for Earth itself
-    @raylib.rl_scalef(earth_radius, earth_radius, earth_radius) // Scale Earth
+    @rl.push_matrix()
+    @rl.rotatef(earth_rotation, 0.25, 1.0, 0.0) // Rotation for Earth itself
+    @rl.scalef(earth_radius, earth_radius, earth_radius) // Scale Earth
     draw_sphere_basic(@raylib.blue) // Draw the Earth
-    @raylib.rl_pop_matrix()
+    @rl.pop_matrix()
 
-    @raylib.rl_rotatef(moon_orbit_rotation, 0.0, 1.0, 0.0) // Rotation for Moon orbit around Earth
-    @raylib.rl_translatef(moon_orbit_radius, 0.0, 0.0) // Translation for Moon orbit
-    @raylib.rl_rotatef(moon_rotation, 0.0, 1.0, 0.0) // Rotation for Moon itself
-    @raylib.rl_scalef(moon_radius, moon_radius, moon_radius) // Scale Moon
+    @rl.rotatef(moon_orbit_rotation, 0.0, 1.0, 0.0) // Rotation for Moon orbit around Earth
+    @rl.translatef(moon_orbit_radius, 0.0, 0.0) // Translation for Moon orbit
+    @rl.rotatef(moon_rotation, 0.0, 1.0, 0.0) // Rotation for Moon itself
+    @rl.scalef(moon_radius, moon_radius, moon_radius) // Scale Moon
     draw_sphere_basic(@raylib.lightgray) // Draw the Moon
-    @raylib.rl_pop_matrix()
+    @rl.pop_matrix()
 
     // Some reference elements (not affected by previous matrix transformations)
     @raylib.draw_circle_3d(

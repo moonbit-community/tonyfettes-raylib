@@ -1,0 +1,5 @@
+import {
+  "tonyfettes/raylib" @root,
+  "tonyfettes/raylib/internal/raylib",
+  "moonbitlang/core/encoding/utf8",
+}

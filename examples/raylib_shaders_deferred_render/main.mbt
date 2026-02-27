@@ -223,24 +223,24 @@ fn main {
   )
 
   // Initialize the G-buffer
-  let fbo = @raylib.rl_load_framebuffer()
+  let fbo = @rl.load_framebuffer()
   if fbo == 0U {
     @raylib.trace_log(@raylib.LogWarning, "Failed to create framebuffer")
     @raylib.close_window()
     return
   }
 
-  @raylib.rl_enable_framebuffer(fbo)
+  @rl.enable_framebuffer(fbo)
 
   // Since we are storing position and normal data in these textures,
   // we need to use a floating point format.
-  let position_texture = @raylib.rl_load_texture(
+  let position_texture = @rl.load_texture(
     screen_width,
     screen_height,
     @raylib.PixelformatUncompressedR32g32b32,
     1,
   )
-  let normal_texture = @raylib.rl_load_texture(
+  let normal_texture = @rl.load_texture(
     screen_width,
     screen_height,
     @raylib.PixelformatUncompressedR32g32b32,
@@ -248,7 +248,7 @@ fn main {
   )
   // Albedo (diffuse color) and specular strength can be combined into one texture.
   // The color in RGB, and the specular strength in the alpha channel.
-  let albedo_spec_texture = @raylib.rl_load_texture(
+  let albedo_spec_texture = @rl.load_texture(
     screen_width,
     screen_height,
     @raylib.PixelformatUncompressedR8g8b8a8,
@@ -256,46 +256,46 @@ fn main {
   )
 
   // Activate the draw buffers for our framebuffer
-  @raylib.rl_active_draw_buffers(3)
+  @rl.active_draw_buffers(3)
 
   // Now we attach our textures to the framebuffer.
-  @raylib.rl_framebuffer_attach(
+  @rl.framebuffer_attach(
     fbo,
     position_texture,
-    @raylib.RlAttachmentColorChannel0,
-    @raylib.RlAttachmentTexture2d,
+    @rl.AttachmentColorChannel0,
+    @rl.AttachmentTexture2d,
     0,
   )
-  @raylib.rl_framebuffer_attach(
+  @rl.framebuffer_attach(
     fbo,
     normal_texture,
-    @raylib.RlAttachmentColorChannel1,
-    @raylib.RlAttachmentTexture2d,
+    @rl.AttachmentColorChannel1,
+    @rl.AttachmentTexture2d,
     0,
   )
-  @raylib.rl_framebuffer_attach(
+  @rl.framebuffer_attach(
     fbo,
     albedo_spec_texture,
-    @raylib.RlAttachmentColorChannel2,
-    @raylib.RlAttachmentTexture2d,
+    @rl.AttachmentColorChannel2,
+    @rl.AttachmentTexture2d,
     0,
   )
 
   // Finally we attach the depth buffer.
-  let depth_renderbuffer = @raylib.rl_load_texture_depth(
+  let depth_renderbuffer = @rl.load_texture_depth(
     screen_width, screen_height, true,
   )
-  @raylib.rl_framebuffer_attach(
+  @rl.framebuffer_attach(
     fbo,
     depth_renderbuffer,
-    @raylib.RlAttachmentDepth,
-    @raylib.RlAttachmentRenderbuffer,
+    @rl.AttachmentDepth,
+    @rl.AttachmentRenderbuffer,
     0,
   )
 
   // Make sure our framebuffer is complete.
   // NOTE: rlFramebufferComplete() automatically unbinds the framebuffer.
-  if not(@raylib.rl_framebuffer_complete(fbo)) {
+  if not(@rl.framebuffer_complete(fbo)) {
     @raylib.trace_log(@raylib.LogWarning, "Framebuffer is not complete")
     @raylib.close_window()
     return
@@ -313,20 +313,20 @@ fn main {
   // We do this by setting the uniform's value to the color channel slot we earlier
   // bound our textures to.
   let deferred_shader_id = @raylib.get_shader_id(deferred_shader).reinterpret_as_uint()
-  @raylib.rl_enable_shader(deferred_shader_id)
-  @raylib.rl_set_uniform_sampler(
-    @raylib.rl_get_location_uniform(deferred_shader_id, "gPosition"),
+  @rl.enable_shader(deferred_shader_id)
+  @rl.set_uniform_sampler(
+    @rl.get_location_uniform(deferred_shader_id, "gPosition"),
     0U,
   )
-  @raylib.rl_set_uniform_sampler(
-    @raylib.rl_get_location_uniform(deferred_shader_id, "gNormal"),
+  @rl.set_uniform_sampler(
+    @rl.get_location_uniform(deferred_shader_id, "gNormal"),
     1U,
   )
-  @raylib.rl_set_uniform_sampler(
-    @raylib.rl_get_location_uniform(deferred_shader_id, "gAlbedoSpec"),
+  @rl.set_uniform_sampler(
+    @rl.get_location_uniform(deferred_shader_id, "gAlbedoSpec"),
     2U,
   )
-  @raylib.rl_disable_shader()
+  @rl.disable_shader()
 
   // Assign our gbuffer shader to model materials
   @raylib.set_model_material_shader(model, 0, gbuffer_shader)
@@ -385,7 +385,7 @@ fn main {
 
   let mut mode = DeferredShading
 
-  @raylib.rl_enable_depth_test()
+  @rl.enable_depth_test()
 
   @raylib.set_target_fps(60)
 
@@ -441,16 +441,16 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     // Draw to the geometry buffer by first activating it
-    @raylib.rl_enable_framebuffer(gbuffer.framebuffer)
-    @raylib.rl_clear_screen_buffers()
+    @rl.enable_framebuffer(gbuffer.framebuffer)
+    @rl.clear_screen_buffers()
 
-    @raylib.rl_disable_color_blend()
+    @rl.disable_color_blend()
     @raylib.begin_mode_3d(camera)
 
     // NOTE: We have to use rlEnableShader here. BeginShaderMode or thus rlSetShader
     // will not work, as they won't immediately load the shader program.
     let gbuffer_shader_id = @raylib.get_shader_id(gbuffer_shader).reinterpret_as_uint()
-    @raylib.rl_enable_shader(gbuffer_shader_id)
+    @rl.enable_shader(gbuffer_shader_id)
 
     // When drawing a model here, make sure that the material's shaders
     // are set to the gbuffer shader!
@@ -478,51 +478,48 @@ fn main {
       )
     }
 
-    @raylib.rl_disable_shader()
+    @rl.disable_shader()
     @raylib.end_mode_3d()
-    @raylib.rl_enable_color_blend()
+    @rl.enable_color_blend()
 
     // Go back to the default framebuffer (0) and draw our deferred shading.
-    @raylib.rl_disable_framebuffer()
-    @raylib.rl_clear_screen_buffers()
+    @rl.disable_framebuffer()
+    @rl.clear_screen_buffers()
 
     if mode == DeferredShading {
       @raylib.begin_mode_3d(camera)
-      @raylib.rl_disable_color_blend()
-      @raylib.rl_enable_shader(deferred_shader_id)
+      @rl.disable_color_blend()
+      @rl.enable_shader(deferred_shader_id)
 
       // Activate our g-buffer textures
       // These will now be bound to the sampler2D uniforms gPosition, gNormal,
       // and gAlbedoSpec
-      @raylib.rl_active_texture_slot(0)
-      @raylib.rl_enable_texture(gbuffer.position_texture)
-      @raylib.rl_active_texture_slot(1)
-      @raylib.rl_enable_texture(gbuffer.normal_texture)
-      @raylib.rl_active_texture_slot(2)
-      @raylib.rl_enable_texture(gbuffer.albedo_spec_texture)
+      @rl.active_texture_slot(0)
+      @rl.enable_texture(gbuffer.position_texture)
+      @rl.active_texture_slot(1)
+      @rl.enable_texture(gbuffer.normal_texture)
+      @rl.active_texture_slot(2)
+      @rl.enable_texture(gbuffer.albedo_spec_texture)
 
       // Finally, we draw a fullscreen quad to our default framebuffer
       // This will now be shaded using our deferred shader
-      @raylib.rl_load_draw_quad()
-      @raylib.rl_disable_shader()
-      @raylib.rl_enable_color_blend()
+      @rl.load_draw_quad()
+      @rl.disable_shader()
+      @rl.enable_color_blend()
       @raylib.end_mode_3d()
 
       // Copy over the depth buffer from our g-buffer to the default framebuffer.
-      @raylib.rl_bind_framebuffer(
-        @raylib.RlReadFramebuffer,
-        gbuffer.framebuffer,
-      )
-      @raylib.rl_bind_framebuffer(@raylib.RlDrawFramebuffer, 0U)
-      @raylib.rl_blit_framebuffer(
+      @rl.bind_framebuffer(@rl.ReadFramebuffer, gbuffer.framebuffer)
+      @rl.bind_framebuffer(@rl.DrawFramebuffer, 0U)
+      @rl.blit_framebuffer(
         0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, 0x00000100, // GL_DEPTH_BUFFER_BIT
       )
-      @raylib.rl_disable_framebuffer()
+      @rl.disable_framebuffer()
 
       // Since our shader is now done and disabled, we can draw our lights in default
       // forward rendering
       @raylib.begin_mode_3d(camera)
-      @raylib.rl_enable_shader(@raylib.rl_get_shader_id_default())
+      @rl.enable_shader(@rl.get_shader_id_default())
       for i = 0; i < MaxLights; i = i + 1 {
         if lights[i].enabled {
           @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
@@ -536,7 +533,7 @@ fn main {
           )
         }
       }
-      @raylib.rl_disable_shader()
+      @rl.disable_shader()
       @raylib.end_mode_3d()
 
       @raylib.draw_text(
@@ -640,11 +637,11 @@ fn main {
   @raylib.unload_shader(gbuffer_shader)
 
   // Unload geometry buffer and all attached textures
-  @raylib.rl_unload_framebuffer(gbuffer.framebuffer)
-  @raylib.rl_unload_texture(gbuffer.position_texture)
-  @raylib.rl_unload_texture(gbuffer.normal_texture)
-  @raylib.rl_unload_texture(gbuffer.albedo_spec_texture)
-  @raylib.rl_unload_texture(gbuffer.depth_renderbuffer)
+  @rl.unload_framebuffer(gbuffer.framebuffer)
+  @rl.unload_texture(gbuffer.position_texture)
+  @rl.unload_texture(gbuffer.normal_texture)
+  @rl.unload_texture(gbuffer.albedo_spec_texture)
+  @rl.unload_texture(gbuffer.depth_renderbuffer)
 
   @raylib.close_window()
 }

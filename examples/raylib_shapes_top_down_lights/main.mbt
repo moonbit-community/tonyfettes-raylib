@@ -126,8 +126,8 @@ fn draw_light_mask(slot : Int) -> Unit {
   }
   @raylib.clear_background(@raylib.white)
   // Force the blend mode to only set the alpha of the destination
-  @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
-  @raylib.rl_set_blend_mode(@raylib.BlendCustom)
+  @rl.set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
+  @rl.set_blend_mode(@raylib.BlendCustom)
   // If we are valid, then draw the light radius to the alpha mask
   if lights[slot].valid {
     @raylib.draw_circle_gradient(
@@ -138,11 +138,11 @@ fn draw_light_mask(slot : Int) -> Unit {
       @raylib.white,
     )
   }
-  @raylib.rl_draw_render_batch_active()
+  @rl.draw_render_batch_active()
   // Cut out the shadows from the light radius by forcing the alpha to maximum
-  @raylib.rl_set_blend_mode(@raylib.BlendAlpha)
-  @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMax)
-  @raylib.rl_set_blend_mode(@raylib.BlendCustom)
+  @rl.set_blend_mode(@raylib.BlendAlpha)
+  @rl.set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMax)
+  @rl.set_blend_mode(@raylib.BlendCustom)
   // Draw the shadows to the alpha mask
   for i = 0; i < lights[slot].shadow_count; i = i + 1 {
     let verts = lights[slot].shadows[i].vertices
@@ -151,9 +151,9 @@ fn draw_light_mask(slot : Int) -> Unit {
       @raylib.white,
     )
   }
-  @raylib.rl_draw_render_batch_active()
+  @rl.draw_render_batch_active()
   // Go back to normal blend mode
-  @raylib.rl_set_blend_mode(@raylib.BlendAlpha)
+  @rl.set_blend_mode(@raylib.BlendAlpha)
   @raylib.end_texture_mode()
 }
 
@@ -345,8 +345,8 @@ fn main {
       @raylib.begin_texture_mode(light_mask)
       @raylib.clear_background(@raylib.black)
       // Force the blend mode to only set the alpha of the destination
-      @raylib.rl_set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
-      @raylib.rl_set_blend_mode(@raylib.BlendCustom)
+      @rl.set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
+      @rl.set_blend_mode(@raylib.BlendCustom)
       // Merge in all the light masks
       for i = 0; i < MaxLights; i = i + 1 {
         if lights[i].active {
@@ -367,9 +367,9 @@ fn main {
           }
         }
       }
-      @raylib.rl_draw_render_batch_active()
+      @rl.draw_render_batch_active()
       // Go back to normal blend
-      @raylib.rl_set_blend_mode(@raylib.BlendAlpha)
+      @rl.set_blend_mode(@raylib.BlendAlpha)
       @raylib.end_texture_mode()
     }
 
