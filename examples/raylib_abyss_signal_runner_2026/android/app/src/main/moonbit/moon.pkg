@@ -1,8 +1,0 @@
-import {
-  "moonbitlang/core/math",
-  "tonyfettes/raylib",
-}
-
-options(
-  "is-main": true,
-)
