@@ -1,4 +1,26 @@
 ///|
+pub(all) struct Input {
+  move_left : Bool
+  move_right : Bool
+  jump_pressed : Bool
+  jump_held : Bool
+  accept : Bool
+  restart : Bool
+}
+
+///|
+pub fn Input::none() -> Input {
+  {
+    move_left: false,
+    move_right: false,
+    jump_pressed: false,
+    jump_held: false,
+    accept: false,
+    restart: false,
+  }
+}
+
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float

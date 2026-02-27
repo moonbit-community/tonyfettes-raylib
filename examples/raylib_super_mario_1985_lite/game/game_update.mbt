@@ -1,15 +1,4 @@
 ///|
-fn is_accept_pressed() -> Bool {
-  @raylib.is_key_pressed(@raylib.KeyEnter) ||
-  @raylib.is_key_pressed(@raylib.KeySpace)
-}
-
-///|
-fn is_restart_pressed() -> Bool {
-  is_accept_pressed() || @raylib.is_key_pressed(@raylib.KeyR)
-}
-
-///|
 fn update_camera(game : @types.Game, dt : Float) -> Unit {
   let width_f = Float::from_int(@types.screen_width)
   let mut target_x = if game.player.reached_flag {
@@ -46,13 +35,13 @@ fn tick_level_timer(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_playing(game : @types.Game, dt : Float) -> Unit {
+fn update_playing(game : @types.Game, input : @types.Input, dt : Float) -> Unit {
   tick_level_timer(game, dt)
   if game.state != @types.state_playing {
     return
   }
 
-  update_player(game, dt)
+  update_player(game, input, dt)
   update_enemies(game, dt)
   update_coins(game, dt)
   @particles.update_particles(game, dt)
@@ -76,24 +65,24 @@ pub fn init_game(game : @types.Game) -> Unit {
 }
 
 ///|
-pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+pub fn update_game(game : @types.Game, input : @types.Input, dt : Float) -> Unit {
   game.elapsed += dt
 
   if game.state == @types.state_title {
     @particles.update_particles(game, dt)
-    if is_accept_pressed() {
+    if input.accept {
       reset_full_run(game)
     }
     return
   }
 
   if game.state == @types.state_playing {
-    update_playing(game, dt)
+    update_playing(game, input, dt)
     return
   }
 
   @particles.update_particles(game, dt)
-  if is_restart_pressed() {
+  if input.restart {
     reset_full_run(game)
   }
 }
