@@ -1,4 +1,4 @@
 import {
   "tonyfettes/raylib",
-  "tonyfettes/raylib/examples/raylib_tank_1990/types",
+  "tonyfettes/raylib-examples/raylib_tank_1990/types",
 }

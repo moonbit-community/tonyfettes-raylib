@@ -1,5 +1,5 @@
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -17,7 +17,7 @@ struct Player {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: player_start_x,
     y: 0.0,
@@ -37,7 +37,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   mut squashed : Bool
   mut squash_t : Float
@@ -49,7 +49,7 @@ struct Enemy {
 }
 
 ///|
-fn Enemy::inactive() -> Enemy {
+pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
     squashed: false,
@@ -63,7 +63,7 @@ fn Enemy::inactive() -> Enemy {
 }
 
 ///|
-fn Enemy::spawn(x : Float, y : Float, dir : Int) -> Enemy {
+pub fn Enemy::spawn(x : Float, y : Float, dir : Int) -> Enemy {
   {
     active: true,
     squashed: false,
@@ -77,7 +77,7 @@ fn Enemy::spawn(x : Float, y : Float, dir : Int) -> Enemy {
 }
 
 ///|
-struct Coin {
+pub(all) struct Coin {
   mut active : Bool
   x : Float
   mut y : Float
@@ -86,17 +86,17 @@ struct Coin {
 }
 
 ///|
-fn Coin::inactive() -> Coin {
+pub fn Coin::inactive() -> Coin {
   { active: false, x: 0.0, y: 0.0, base_y: 0.0, phase: 0.0 }
 }
 
 ///|
-fn Coin::spawn(x : Float, y : Float, phase : Float) -> Coin {
+pub fn Coin::spawn(x : Float, y : Float, phase : Float) -> Coin {
   { active: true, x, y, base_y: y, phase }
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -109,7 +109,7 @@ struct Particle {
 }
 
 ///|
-fn Particle::inactive() -> Particle {
+pub fn Particle::inactive() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -124,7 +124,7 @@ fn Particle::inactive() -> Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   mut state : Int
   mut elapsed : Float
   mut time_accum : Float
@@ -144,7 +144,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     state: state_title,
     elapsed: 0.0,

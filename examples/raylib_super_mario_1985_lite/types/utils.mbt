@@ -1,5 +1,5 @@
 ///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
+pub fn clampi(v : Int, lo : Int, hi : Int) -> Int {
   if v < lo {
     lo
   } else if v > hi {
@@ -10,7 +10,7 @@ fn clampi(v : Int, lo : Int, hi : Int) -> Int {
 }
 
 ///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
+pub fn clampf(v : Float, lo : Float, hi : Float) -> Float {
   if v < lo {
     lo
   } else if v > hi {
@@ -21,7 +21,7 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
 }
 
 ///|
-fn absf(v : Float) -> Float {
+pub fn absf(v : Float) -> Float {
   if v < 0.0 {
     -v
   } else {
@@ -30,7 +30,7 @@ fn absf(v : Float) -> Float {
 }
 
 ///|
-fn signf(v : Float) -> Int {
+pub fn signf(v : Float) -> Int {
   if v < 0.0 {
     -1
   } else if v > 0.0 {
@@ -41,32 +41,32 @@ fn signf(v : Float) -> Int {
 }
 
 ///|
-fn tile_index(tx : Int, ty : Int) -> Int {
+pub fn tile_index(tx : Int, ty : Int) -> Int {
   ty * world_tiles_w + tx
 }
 
 ///|
-fn tile_left(tx : Int) -> Float {
+pub fn tile_left(tx : Int) -> Float {
   Float::from_int(tx * tile_size)
 }
 
 ///|
-fn tile_top(ty : Int) -> Float {
+pub fn tile_top(ty : Int) -> Float {
   Float::from_int(ty * tile_size)
 }
 
 ///|
-fn tile_center_x(tx : Int) -> Float {
+pub fn tile_center_x(tx : Int) -> Float {
   tile_left(tx) + tile_size_f * 0.5
 }
 
 ///|
-fn tile_center_y(ty : Int) -> Float {
+pub fn tile_center_y(ty : Int) -> Float {
   tile_top(ty) + tile_size_f * 0.5
 }
 
 ///|
-fn world_to_tile_x(x : Float) -> Int {
+pub fn world_to_tile_x(x : Float) -> Int {
   if x <= 0.0 {
     0
   } else {
@@ -75,7 +75,7 @@ fn world_to_tile_x(x : Float) -> Int {
 }
 
 ///|
-fn world_to_tile_y(y : Float) -> Int {
+pub fn world_to_tile_y(y : Float) -> Int {
   if y <= 0.0 {
     0
   } else {
@@ -84,7 +84,7 @@ fn world_to_tile_y(y : Float) -> Int {
 }
 
 ///|
-fn set_tile(game : Game, tx : Int, ty : Int, tile : Int) -> Unit {
+pub fn set_tile(game : Game, tx : Int, ty : Int, tile : Int) -> Unit {
   if tx < 0 || tx >= world_tiles_w || ty < 0 || ty >= world_tiles_h {
     return
   }
@@ -92,7 +92,7 @@ fn set_tile(game : Game, tx : Int, ty : Int, tile : Int) -> Unit {
 }
 
 ///|
-fn get_tile(game : Game, tx : Int, ty : Int) -> Int {
+pub fn get_tile(game : Game, tx : Int, ty : Int) -> Int {
   if tx < 0 || tx >= world_tiles_w {
     return tile_ground
   }
@@ -106,7 +106,7 @@ fn get_tile(game : Game, tx : Int, ty : Int) -> Int {
 }
 
 ///|
-fn fill_rect_tile(
+pub fn fill_rect_tile(
   game : Game,
   tx0 : Int,
   ty0 : Int,
@@ -122,14 +122,14 @@ fn fill_rect_tile(
 }
 
 ///|
-fn clear_tiles(game : Game) -> Unit {
+pub fn clear_tiles(game : Game) -> Unit {
   for i = 0; i < game.tiles.length(); i = i + 1 {
     game.tiles[i] = tile_empty
   }
 }
 
 ///|
-fn tile_is_solid(tile : Int) -> Bool {
+pub fn tile_is_solid(tile : Int) -> Bool {
   tile == tile_ground ||
   tile == tile_brick ||
   tile == tile_question ||
@@ -139,7 +139,7 @@ fn tile_is_solid(tile : Int) -> Bool {
 }
 
 ///|
-fn rects_overlap(
+pub fn rects_overlap(
   ax0 : Float,
   ay0 : Float,
   ax1 : Float,
@@ -153,32 +153,54 @@ fn rects_overlap(
 }
 
 ///|
-fn world_to_screen_x(world_x : Float, camera_x : Float) -> Float {
+pub fn world_to_screen_x(world_x : Float, camera_x : Float) -> Float {
   world_x - camera_x
 }
 
 ///|
-fn player_half_w() -> Float {
+pub fn player_half_w() -> Float {
   player_w * 0.5
 }
 
 ///|
-fn player_half_h() -> Float {
+pub fn player_half_h() -> Float {
   player_h * 0.5
 }
 
 ///|
-fn enemy_half_w() -> Float {
+pub fn enemy_half_w() -> Float {
   enemy_w * 0.5
 }
 
 ///|
-fn enemy_half_h() -> Float {
+pub fn enemy_half_h() -> Float {
   enemy_h * 0.5
 }
 
 ///|
-fn randf(minv : Float, maxv : Float) -> Float {
+pub fn randf(minv : Float, maxv : Float) -> Float {
   let r = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
   minv + (maxv - minv) * r
+}
+
+///|
+pub fn remaining_coins(game : Game) -> Int {
+  let mut count = 0
+  for i = 0; i < game.coins.length(); i = i + 1 {
+    if game.coins[i].active {
+      count += 1
+    }
+  }
+  count
+}
+
+///|
+pub fn active_enemy_count(game : Game) -> Int {
+  let mut count = 0
+  for i = 0; i < game.enemies.length(); i = i + 1 {
+    if game.enemies[i].active {
+      count += 1
+    }
+  }
+  count
 }

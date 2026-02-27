@@ -1,34 +1,23 @@
 ///|
-fn active_enemy_count(game : Game) -> Int {
-  let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
-      count += 1
-    }
-  }
-  count
-}
-
-///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_width,
-    hud_height,
+    @types.screen_width,
+    @types.hud_height,
     @raylib.Color::new(18, 18, 26, 255),
   )
   @raylib.draw_rectangle(
     0,
-    hud_height - 2,
-    screen_width,
+    @types.hud_height - 2,
+    @types.screen_width,
     2,
     @raylib.Color::new(68, 90, 134, 255),
   )
 
   let player = game.player
-  let coins_left = remaining_coins(game)
-  let enemies_left = active_enemy_count(game)
+  let coins_left = @types.remaining_coins(game)
+  let enemies_left = @types.active_enemy_count(game)
 
   @raylib.draw_text("SUPER MARIO 1985 LITE", 18, 12, 28, @raylib.white)
   @raylib.draw_text("SCORE \{player.score}", 20, 46, 20, @raylib.yellow)
@@ -48,8 +37,8 @@ fn draw_center_panel(
 ) -> Unit {
   let box_w = 720
   let box_h = 240
-  let x = (screen_width - box_w) / 2
-  let y = (screen_height - box_h) / 2
+  let x = (@types.screen_width - box_w) / 2
+  let y = (@types.screen_height - box_h) / 2
 
   @raylib.draw_rectangle(
     x,
@@ -76,7 +65,7 @@ fn draw_center_panel(
 }
 
 ///|
-fn draw_title_overlay(game : Game) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   let _ = game
   draw_center_panel(
     "WORLD 1-1", "Run, jump, stomp goombas, and smash question blocks.", "Reach the flagpole and walk to the castle to clear the stage.",
@@ -85,7 +74,7 @@ fn draw_title_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_win_overlay(game : Game) -> Unit {
+fn draw_win_overlay(game : @types.Game) -> Unit {
   draw_center_panel(
     "COURSE CLEAR!",
     "You reached the castle.",
@@ -95,7 +84,7 @@ fn draw_win_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   draw_center_panel(
     "GAME OVER",
     "Time or lives reached zero.",
@@ -105,14 +94,14 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_ui(game : Game) -> Unit {
+pub fn draw_ui(game : @types.Game) -> Unit {
   draw_hud(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_win {
+  } else if game.state == @types.state_win {
     draw_win_overlay(game)
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

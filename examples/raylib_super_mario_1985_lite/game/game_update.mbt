@@ -10,25 +10,25 @@ fn is_restart_pressed() -> Bool {
 }
 
 ///|
-fn update_camera(game : Game, dt : Float) -> Unit {
-  let width_f = Float::from_int(screen_width)
+fn update_camera(game : @types.Game, dt : Float) -> Unit {
+  let width_f = Float::from_int(@types.screen_width)
   let mut target_x = if game.player.reached_flag {
     game.player.x - width_f * 0.45
   } else {
     game.player.x -
     width_f * 0.36 +
-    Float::from_int(game.player.facing) * camera_lead_px
+    Float::from_int(game.player.facing) * @types.camera_lead_px
   }
 
-  target_x = clampf(target_x, 0.0, world_width_px - width_f)
+  target_x = @types.clampf(target_x, 0.0, @types.world_width_px - width_f)
 
-  let blend = clampf(dt * camera_lerp, 0.0, 1.0)
+  let blend = @types.clampf(dt * @types.camera_lerp, 0.0, 1.0)
   game.camera_x += (target_x - game.camera_x) * blend
 }
 
 ///|
-fn tick_level_timer(game : Game, dt : Float) -> Unit {
-  if game.player.reached_flag || game.state != state_playing {
+fn tick_level_timer(game : @types.Game, dt : Float) -> Unit {
+  if game.player.reached_flag || game.state != @types.state_playing {
     return
   }
 
@@ -38,7 +38,7 @@ fn tick_level_timer(game : Game, dt : Float) -> Unit {
     game.time_left -= 1
     if game.time_left <= 0 {
       game.time_left = 0
-      game.state = state_game_over
+      game.state = @types.state_game_over
       game.player.lives = 0
       return
     }
@@ -46,16 +46,16 @@ fn tick_level_timer(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_playing(game : Game, dt : Float) -> Unit {
+fn update_playing(game : @types.Game, dt : Float) -> Unit {
   tick_level_timer(game, dt)
-  if game.state != state_playing {
+  if game.state != @types.state_playing {
     return
   }
 
   update_player(game, dt)
   update_enemies(game, dt)
   update_coins(game, dt)
-  update_particles(game, dt)
+  @particles.update_particles(game, dt)
 
   if game.shake_t > 0.0 {
     game.shake_t -= dt
@@ -68,31 +68,31 @@ fn update_playing(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn init_game(game : Game) -> Unit {
+pub fn init_game(game : @types.Game) -> Unit {
   build_level(game)
-  game.state = state_title
-  game.time_left = start_time_seconds
+  game.state = @types.state_title
+  game.time_left = @types.start_time_seconds
   game.time_accum = 0.0
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.elapsed += dt
 
-  if game.state == state_title {
-    update_particles(game, dt)
+  if game.state == @types.state_title {
+    @particles.update_particles(game, dt)
     if is_accept_pressed() {
       reset_full_run(game)
     }
     return
   }
 
-  if game.state == state_playing {
+  if game.state == @types.state_playing {
     update_playing(game, dt)
     return
   }
 
-  update_particles(game, dt)
+  @particles.update_particles(game, dt)
   if is_restart_pressed() {
     reset_full_run(game)
   }

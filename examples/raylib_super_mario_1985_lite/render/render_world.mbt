@@ -1,5 +1,5 @@
 ///|
-let hud_height_f : Float = Float::from_int(hud_height)
+let hud_height_f : Float = Float::from_int(@types.hud_height)
 
 ///|
 fn world_to_screen_y(world_y : Float, shake_y : Float) -> Float {
@@ -7,17 +7,19 @@ fn world_to_screen_y(world_y : Float, shake_y : Float) -> Float {
 }
 
 ///|
-fn draw_background(game : Game, shake_y : Float) -> Unit {
+fn draw_background(game : @types.Game, shake_y : Float) -> Unit {
   let sky_top = @raylib.Color::new(130, 200, 255, 255)
   let sky_bottom = @raylib.Color::new(120, 180, 250, 255)
 
-  for i = 0; i < screen_height - hud_height; i = i + 4 {
-    let p = Float::from_int(i) / Float::from_int(screen_height - hud_height)
+  for i = 0; i < @types.screen_height - @types.hud_height; i = i + 4 {
+    let p = Float::from_int(i) / Float::from_int(
+        @types.screen_height - @types.hud_height,
+      )
     let c = @raylib.color_lerp(sky_top, sky_bottom, p)
-    @raylib.draw_rectangle(0, hud_height + i, screen_width, 4, c)
+    @raylib.draw_rectangle(0, @types.hud_height + i, @types.screen_width, 4, c)
   }
 
-  let base_y = hud_height + 360 + shake_y.to_int()
+  let base_y = @types.hud_height + 360 + shake_y.to_int()
   for i = 0; i < 20; i = i + 1 {
     let x = (Float::from_int(i) * 340.0 - game.camera_x * 0.35).to_int()
     let h = 90 + i % 3 * 22
@@ -32,7 +34,7 @@ fn draw_background(game : Game, shake_y : Float) -> Unit {
 
   for i = 0; i < 14; i = i + 1 {
     let x = (Float::from_int(i) * 430.0 - game.camera_x * 0.2).to_int()
-    let y = hud_height + 80 + i % 4 * 16
+    let y = @types.hud_height + 80 + i % 4 * 16
     @raylib.draw_circle(x, y, 24.0, @raylib.white)
     @raylib.draw_circle(x + 22, y + 6, 20.0, @raylib.white)
     @raylib.draw_circle(x - 18, y + 8, 18.0, @raylib.white)
@@ -41,81 +43,81 @@ fn draw_background(game : Game, shake_y : Float) -> Unit {
 
 ///|
 fn draw_tile(
-  game : Game,
+  game : @types.Game,
   tx : Int,
   ty : Int,
   tile : Int,
   cam_x : Float,
   shake_y : Float,
 ) -> Unit {
-  if tile == tile_empty {
+  if tile == @types.tile_empty {
     return
   }
 
-  let sx = world_to_screen_x(tile_left(tx), cam_x).to_int()
-  let sy = world_to_screen_y(tile_top(ty), shake_y).to_int()
+  let sx = @types.world_to_screen_x(@types.tile_left(tx), cam_x).to_int()
+  let sy = world_to_screen_y(@types.tile_top(ty), shake_y).to_int()
 
-  if tile == tile_ground {
+  if tile == @types.tile_ground {
     @raylib.draw_rectangle(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(147, 86, 34, 255),
     )
     @raylib.draw_rectangle(
       sx + 3,
       sy + 4,
-      tile_size - 6,
-      tile_size - 7,
+      @types.tile_size - 6,
+      @types.tile_size - 7,
       @raylib.Color::new(168, 103, 48, 255),
     )
-    if get_tile(game, tx, ty - 1) == tile_empty {
+    if @types.get_tile(game, tx, ty - 1) == @types.tile_empty {
       @raylib.draw_rectangle(
         sx,
         sy,
-        tile_size,
+        @types.tile_size,
         6,
         @raylib.Color::new(101, 176, 68, 255),
       )
     }
-  } else if tile == tile_brick {
+  } else if tile == @types.tile_brick {
     @raylib.draw_rectangle(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(181, 92, 36, 255),
     )
     @raylib.draw_line(
       sx,
-      sy + tile_size / 2,
-      sx + tile_size,
-      sy + tile_size / 2,
+      sy + @types.tile_size / 2,
+      sx + @types.tile_size,
+      sy + @types.tile_size / 2,
       @raylib.Color::new(145, 65, 22, 255),
     )
     @raylib.draw_line(
-      sx + tile_size / 2,
+      sx + @types.tile_size / 2,
       sy,
-      sx + tile_size / 2,
-      sy + tile_size / 2,
+      sx + @types.tile_size / 2,
+      sy + @types.tile_size / 2,
       @raylib.Color::new(145, 65, 22, 255),
     )
     @raylib.draw_line(
-      sx + tile_size / 4,
-      sy + tile_size / 2,
-      sx + tile_size / 4,
-      sy + tile_size,
+      sx + @types.tile_size / 4,
+      sy + @types.tile_size / 2,
+      sx + @types.tile_size / 4,
+      sy + @types.tile_size,
       @raylib.Color::new(145, 65, 22, 255),
     )
     @raylib.draw_line(
-      sx + tile_size * 3 / 4,
-      sy + tile_size / 2,
-      sx + tile_size * 3 / 4,
-      sy + tile_size,
+      sx + @types.tile_size * 3 / 4,
+      sy + @types.tile_size / 2,
+      sx + @types.tile_size * 3 / 4,
+      sy + @types.tile_size,
       @raylib.Color::new(145, 65, 22, 255),
     )
-  } else if tile == tile_question {
+  } else if tile == @types.tile_question {
     let wave : Float = @math.sinf(
       game.elapsed * (5.0 : Float) + Float::from_int(tx + ty),
     )
@@ -124,12 +126,12 @@ fn draw_tile(
     let c0 = @raylib.Color::new(219, 163, 38, 255)
     let c1 = @raylib.Color::new(255, 220, 112, 255)
     let cc = @raylib.color_lerp(c0, c1, pulse)
-    @raylib.draw_rectangle(sx, sy, tile_size, tile_size, cc)
+    @raylib.draw_rectangle(sx, sy, @types.tile_size, @types.tile_size, cc)
     @raylib.draw_rectangle_lines(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(162, 108, 25, 255),
     )
     @raylib.draw_text(
@@ -139,35 +141,35 @@ fn draw_tile(
       22,
       @raylib.Color::new(130, 84, 20, 255),
     )
-  } else if tile == tile_used {
+  } else if tile == @types.tile_used {
     @raylib.draw_rectangle(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(124, 108, 84, 255),
     )
     @raylib.draw_rectangle_lines(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(98, 86, 69, 255),
     )
-  } else if tile == tile_pipe {
+  } else if tile == @types.tile_pipe {
     @raylib.draw_rectangle(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(28, 151, 58, 255),
     )
-    let is_pipe_top = get_tile(game, tx, ty - 1) != tile_pipe
+    let is_pipe_top = @types.get_tile(game, tx, ty - 1) != @types.tile_pipe
     if is_pipe_top {
       @raylib.draw_rectangle(
         sx - 3,
         sy - 6,
-        tile_size + 6,
+        @types.tile_size + 6,
         8,
         @raylib.Color::new(50, 189, 88, 255),
       )
@@ -175,24 +177,24 @@ fn draw_tile(
     @raylib.draw_rectangle_lines(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(18, 104, 40, 255),
     )
-  } else if tile == tile_flag_pole {
+  } else if tile == @types.tile_flag_pole {
     @raylib.draw_rectangle(
-      sx + tile_size / 2 - 2,
+      sx + @types.tile_size / 2 - 2,
       sy,
       4,
-      tile_size,
+      @types.tile_size,
       @raylib.lightgray,
     )
-  } else if tile == tile_castle {
+  } else if tile == @types.tile_castle {
     @raylib.draw_rectangle(
       sx,
       sy,
-      tile_size,
-      tile_size,
+      @types.tile_size,
+      @types.tile_size,
       @raylib.Color::new(118, 118, 128, 255),
     )
     @raylib.draw_rectangle(
@@ -213,27 +215,31 @@ fn draw_tile(
 }
 
 ///|
-fn draw_tiles(game : Game, cam_x : Float, shake_y : Float) -> Unit {
-  let start_tx = clampi(world_to_tile_x(cam_x) - 1, 0, world_tiles_w - 1)
-  let end_tx = clampi(
-    world_to_tile_x(cam_x + Float::from_int(screen_width)) + 2,
+fn draw_tiles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
+  let start_tx = @types.clampi(
+    @types.world_to_tile_x(cam_x) - 1,
     0,
-    world_tiles_w - 1,
+    @types.world_tiles_w - 1,
+  )
+  let end_tx = @types.clampi(
+    @types.world_to_tile_x(cam_x + Float::from_int(@types.screen_width)) + 2,
+    0,
+    @types.world_tiles_w - 1,
   )
 
-  for ty = 0; ty < world_tiles_h; ty = ty + 1 {
+  for ty = 0; ty < @types.world_tiles_h; ty = ty + 1 {
     for tx = start_tx; tx <= end_tx; tx = tx + 1 {
-      draw_tile(game, tx, ty, get_tile(game, tx, ty), cam_x, shake_y)
+      draw_tile(game, tx, ty, @types.get_tile(game, tx, ty), cam_x, shake_y)
     }
   }
 }
 
 ///|
-fn draw_flag(game : Game, cam_x : Float, shake_y : Float) -> Unit {
-  let pole_x = world_to_screen_x(game.flag_x, cam_x).to_int()
+fn draw_flag(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
+  let pole_x = @types.world_to_screen_x(game.flag_x, cam_x).to_int()
   let top_y = world_to_screen_y(game.flag_top_y, shake_y).to_int()
   let bottom_y = world_to_screen_y(
-    game.flag_bottom_y + player_half_h(),
+    game.flag_bottom_y + @types.player_half_h(),
     shake_y,
   ).to_int()
 
@@ -246,7 +252,7 @@ fn draw_flag(game : Game, cam_x : Float, shake_y : Float) -> Unit {
   )
 
   let flag_y = if game.player.reached_flag && game.player.flag_phase >= 1 {
-    world_to_screen_y(game.player.y - player_half_h(), shake_y).to_int()
+    world_to_screen_y(game.player.y - @types.player_half_h(), shake_y).to_int()
   } else {
     top_y + 14
   }
@@ -265,13 +271,13 @@ fn draw_flag(game : Game, cam_x : Float, shake_y : Float) -> Unit {
 }
 
 ///|
-fn draw_coins(game : Game, cam_x : Float, shake_y : Float) -> Unit {
+fn draw_coins(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
   for i = 0; i < game.coins.length(); i = i + 1 {
     let c = game.coins[i]
     if not(c.active) {
       continue i + 1
     }
-    let sx = world_to_screen_x(c.x, cam_x).to_int()
+    let sx = @types.world_to_screen_x(c.x, cam_x).to_int()
     let sy = world_to_screen_y(c.y, shake_y).to_int()
     let spin : Float = @math.sinf(c.phase * (2.0 : Float))
     let rx : Float = (8.0 : Float) +
@@ -282,8 +288,8 @@ fn draw_coins(game : Game, cam_x : Float, shake_y : Float) -> Unit {
 }
 
 ///|
-fn draw_enemy(enemy : Enemy, cam_x : Float, shake_y : Float) -> Unit {
-  let x = world_to_screen_x(enemy.x, cam_x).to_int()
+fn draw_enemy(enemy : @types.Enemy, cam_x : Float, shake_y : Float) -> Unit {
+  let x = @types.world_to_screen_x(enemy.x, cam_x).to_int()
   let y = world_to_screen_y(enemy.y, shake_y).to_int()
 
   if enemy.squashed {
@@ -326,7 +332,7 @@ fn draw_enemy(enemy : Enemy, cam_x : Float, shake_y : Float) -> Unit {
 }
 
 ///|
-fn draw_enemies(game : Game, cam_x : Float, shake_y : Float) -> Unit {
+fn draw_enemies(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
     if e.active {
@@ -336,14 +342,17 @@ fn draw_enemies(game : Game, cam_x : Float, shake_y : Float) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, cam_x : Float, shake_y : Float) -> Unit {
+fn draw_player(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
   let player = game.player
   if player.invuln_t > 0.0 && (@raylib.get_time() * 18.0).to_int() % 2 == 0 {
     return
   }
 
-  let x0 = world_to_screen_x(player.x - player_half_w(), cam_x).to_int()
-  let y0 = world_to_screen_y(player.y - player_half_h(), shake_y).to_int()
+  let x0 = @types.world_to_screen_x(
+      player.x - @types.player_half_w(),
+      cam_x,
+    ).to_int()
+  let y0 = world_to_screen_y(player.y - @types.player_half_h(), shake_y).to_int()
 
   // Body and overalls.
   @raylib.draw_rectangle(
@@ -416,24 +425,32 @@ fn draw_player(game : Game, cam_x : Float, shake_y : Float) -> Unit {
 }
 
 ///|
-fn draw_particles(game : Game, cam_x : Float, shake_y : Float) -> Unit {
+fn draw_particles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
     if not(p.active) {
       continue i + 1
     }
-    let alpha = clampf(p.life / p.max_life, 0.0, 1.0)
+    let alpha = @types.clampf(p.life / p.max_life, 0.0, 1.0)
     let col = @raylib.fade(p.color, alpha)
-    let sx = world_to_screen_x(p.x, cam_x).to_int()
+    let sx = @types.world_to_screen_x(p.x, cam_x).to_int()
     let sy = world_to_screen_y(p.y, shake_y).to_int()
     @raylib.draw_circle(sx, sy, p.size * alpha + 0.5, col)
   }
 }
 
 ///|
-fn draw_world(game : Game) -> Unit {
-  let shake_x = if game.shake_t > 0.0 { randf(-5.0, 5.0) } else { 0.0 }
-  let shake_y = if game.shake_t > 0.0 { randf(-3.0, 3.0) } else { 0.0 }
+pub fn draw_world(game : @types.Game) -> Unit {
+  let shake_x = if game.shake_t > 0.0 {
+    @types.randf(-5.0, 5.0)
+  } else {
+    0.0
+  }
+  let shake_y = if game.shake_t > 0.0 {
+    @types.randf(-3.0, 3.0)
+  } else {
+    0.0
+  }
   let cam_x = game.camera_x + shake_x
 
   draw_background(game, shake_y)
