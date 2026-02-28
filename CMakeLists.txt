@@ -71,7 +71,8 @@ else()
 endif()
 
 target_compile_options(raylib PRIVATE
-    -std=c99 -ffunction-sections -fdata-sections -fPIC -Wno-unused-value)
+    -std=c99 -Wno-unused-value
+    $<$<STREQUAL:${_RL_PLATFORM},ANDROID>:-ffunction-sections -fdata-sections>)
 
 # ---- MOON_HOME resolution (required for raylib_moonbit stubs) ----
 if(NOT DEFINED MOON_HOME)
@@ -121,5 +122,6 @@ target_include_directories(raylib_moonbit PUBLIC
     ${MOON_HOME}/include
 )
 target_compile_options(raylib_moonbit PRIVATE
-    -std=c99 -ffunction-sections -fdata-sections -fPIC -Wno-unused-value)
+    -std=c99 -Wno-unused-value
+    $<$<STREQUAL:${_RL_PLATFORM},ANDROID>:-ffunction-sections -fdata-sections>)
 target_link_libraries(raylib_moonbit PUBLIC raylib)
