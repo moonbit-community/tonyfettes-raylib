@@ -11,7 +11,7 @@
   "--moonbit-unstable-prebuild": "build.js",
   "exclude": [
     "examples",
-    "external",
+    "/external",
     "publish",
     "docs",
     "tools",
