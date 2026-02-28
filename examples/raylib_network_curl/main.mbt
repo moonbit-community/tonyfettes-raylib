@@ -64,9 +64,7 @@ async fn main {
 
   @async.with_task_group(group => {
     // ── HTTP fetch task ────────────────────────────────────────────────────
-    // allow_failure=true: errors are shown in the status bar instead of
-    // crashing the whole task group (which would close the window).
-    group.spawn_bg(allow_failure=true, () => {
+    group.spawn_bg(() => {
       try {
         let (_resp, body) = @http.get_stream(TARGET_URL)
         defer body.close()
@@ -86,10 +84,7 @@ async fn main {
     // ── Render loop ────────────────────────────────────────────────────────
     let visible = (SCREEN_HEIGHT - HEADER_H - FOOTER_H) / LINE_HEIGHT
     while not(@raylib.window_should_close()) {
-      // sleep(1) suspends the render loop on a timer, so the event loop uses
-      // a non-zero poll timeout and can actually wait for socket I/O.
-      // @async.pause() only queues a 0ms re-schedule, which starves socket I/O.
-      @async.sleep(1)
+      @async.pause()
 
       let total = state.lines.length()
       let max_scroll = if total > visible { total - visible } else { 0 }
