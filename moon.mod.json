@@ -1,13 +1,27 @@
 {
   "name": "tonyfettes/raylib",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "readme": "README.md",
-  "repository": "",
+  "repository": "https://github.com/moonbit-community/tonyfettes-raylib",
   "license": "MIT",
   "keywords": [],
   "description": "MoonBit bindings for raylib",
   "source": "",
   "preferred-target": "native",
   "--moonbit-unstable-prebuild": "build.js",
+  "exclude": [
+    "examples",
+    "external",
+    "publish",
+    "docs",
+    "tools",
+    "scripts",
+    "CLAUDE.md",
+    "CONTRIBUTING.md",
+    "WORKFLOW.md",
+    "setup.sh",
+    "clean.sh",
+    "CMakeLists.txt"
+  ],
   "deps": {}
 }
