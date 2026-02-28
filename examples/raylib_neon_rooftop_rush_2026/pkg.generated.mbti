@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_rooftop_rush_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Anchor
+
+type Chip
+
+type Game
+
+type Ghost
+
+type Obstacle
+
+type Particle
+
+type Player
+
+type Segment
+
+// Type aliases
+
+// Traits
+

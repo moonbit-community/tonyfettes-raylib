@@ -1,5 +1,6 @@
 // 2D UI overlay
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
@@ -21,11 +22,14 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      15, 30, 60, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(15, 30, 60, 255),
   )
   // Title
   let title = "NAVAL COMBAT 3D"
@@ -66,7 +70,11 @@ fn draw_menu(game : @types.Game) -> Unit {
     if game.menu_cursor == i {
       // Highlighted item
       @raylib.draw_rectangle(
-        ix - 20, y - 5, iw + 40, 36, @raylib.Color::new(60, 80, 120, 200),
+        ix - 20,
+        y - 5,
+        iw + 40,
+        36,
+        @raylib.Color::new(60, 80, 120, 200),
       )
       @raylib.draw_text(
         "> \{items[i]} <",
@@ -87,12 +95,8 @@ fn draw_menu(game : @types.Game) -> Unit {
   }
   // Controls info
   let controls : Array[String] = [
-    "WASD - Sail and Steer",
-    "Q / Left Click - Fire Port Cannons",
-    "E / Right Click - Fire Starboard Cannons",
-    "Space - Fire Both Broadsides",
-    "P / ESC - Pause",
-    "Mouse Wheel - Rotate Camera",
+    "WASD - Sail and Steer", "Q / Left Click - Fire Port Cannons", "E / Right Click - Fire Starboard Cannons",
+    "Space - Fire Both Broadsides", "P / ESC - Pause", "Mouse Wheel - Rotate Camera",
   ]
   for i = 0; i < controls.length(); i = i + 1 {
     let y = 430 + i * 24
@@ -115,12 +119,17 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   let ship = game.player
   // Top bar background
-  @raylib.draw_rectangle(0, 0, @types.screen_width, 50, @raylib.Color::new(
-    0, 0, 0, 160,
-  ))
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    50,
+    @raylib.Color::new(0, 0, 0, 160),
+  )
   // Battle info
   @raylib.draw_text(
     "Battle: \{game.current_battle + 1}/\{game.total_battles}",
@@ -146,13 +155,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(255, 150, 100, 255),
   )
   // Wind indicator text
-  @raylib.draw_text(
-    "Wind",
-    650,
-    5,
-    16,
-    @raylib.Color::new(150, 180, 220, 255),
-  )
+  @raylib.draw_text("Wind", 650, 5, 16, @raylib.Color::new(150, 180, 220, 255))
   // Wind direction as arrow character hint
   let wind_rel = @types.angle_diff(ship.heading, game.wind_angle)
   let wind_str = if @types.absf(wind_rel) < 0.5 {
@@ -163,7 +166,11 @@ fn draw_hud(game : @types.Game) -> Unit {
     "Crosswind"
   }
   @raylib.draw_text(
-    wind_str, 700, 5, 16, @raylib.Color::new(180, 200, 255, 255),
+    wind_str,
+    700,
+    5,
+    16,
+    @raylib.Color::new(180, 200, 255, 255),
   )
   // Speed
   let speed_pct = (ship.speed / @types.player_max_sail * 100.0).to_int()
@@ -241,10 +248,18 @@ fn draw_hud(game : @types.Game) -> Unit {
     1.0
   }
   @raylib.draw_text(
-    "Port", reload_x, reload_y, 14, @raylib.Color::new(180, 180, 200, 255),
+    "Port",
+    reload_x,
+    reload_y,
+    14,
+    @raylib.Color::new(180, 180, 200, 255),
   )
   @raylib.draw_rectangle(
-    reload_x + 50, reload_y + 2, 60, 12, @raylib.Color::new(40, 40, 50, 200),
+    reload_x + 50,
+    reload_y + 2,
+    60,
+    12,
+    @raylib.Color::new(40, 40, 50, 200),
   )
   let left_fill = (left_pct * 60.0).to_int()
   let left_color = if left_pct >= 1.0 {
@@ -274,13 +289,19 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(255, 200, 50, 255)
   }
   @raylib.draw_rectangle(
-    reload_x + 50, reload_y + 20, right_fill, 12, right_color,
+    reload_x + 50,
+    reload_y + 20,
+    right_fill,
+    12,
+    right_color,
   )
   // Bottom control hints
   @raylib.draw_rectangle(
-    0, @types.screen_height - 20, @types.screen_width, 20, @raylib.Color::new(
-      0, 0, 0, 100,
-    ),
+    0,
+    @types.screen_height - 20,
+    @types.screen_width,
+    20,
+    @raylib.Color::new(0, 0, 0, 100),
   )
   @raylib.draw_text(
     "WASD: Sail | Q/LMB: Port Fire | E/RMB: Starboard Fire | Space: Both | P: Pause",
@@ -291,6 +312,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_hp_bar(
   x : Int,
   y : Int,
@@ -301,7 +323,7 @@ fn draw_hp_bar(
   max_hp : Float,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   let pct : Float = if max_hp > 0.0 { hp / max_hp } else { 0.0 }
   let clamped = @types.clampf(pct, 0.0, 1.0)
@@ -312,11 +334,19 @@ fn draw_hp_bar(
   @raylib.draw_rectangle(x, y, fill_w, h, @raylib.Color::new(r, g, b, 220))
   // Border
   @raylib.draw_rectangle_lines(
-    x, y, w, h, @raylib.Color::new(100, 100, 120, 255),
+    x,
+    y,
+    w,
+    h,
+    @raylib.Color::new(100, 100, 120, 255),
   )
   // Label
   @raylib.draw_text(
-    label, x + 4, y + 1, 12, @raylib.Color::new(255, 255, 255, 220),
+    label,
+    x + 4,
+    y + 1,
+    12,
+    @raylib.Color::new(255, 255, 255, 220),
   )
   // Percentage
   let pct_text = "\{(clamped * 100.0).to_int()}%"
@@ -330,6 +360,7 @@ fn draw_hp_bar(
   )
 }
 
+///|
 fn draw_message(game : @types.Game) -> Unit {
   let text = game.message_text
   let tw = @raylib.measure_text(text, 28)
@@ -350,11 +381,14 @@ fn draw_message(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_pause_overlay() -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 0, 0, 150,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 150),
   )
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 60)
@@ -376,11 +410,14 @@ fn draw_pause_overlay() -> Unit {
   )
 }
 
+///|
 fn draw_battle_complete(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 20, 40, 200,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 20, 40, 200),
   )
   if game.current_battle >= game.total_battles - 1 {
     // Victory screen
@@ -451,12 +488,15 @@ fn draw_battle_complete(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_battle_select(game : @types.Game) -> Unit {
   // Dark background
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      10, 20, 45, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(10, 20, 45, 255),
   )
   // Title
   let title = "SELECT BATTLE"
@@ -482,9 +522,11 @@ fn draw_battle_select(game : @types.Game) -> Unit {
     if game.battle_select_cursor == i {
       // Highlighted row
       @raylib.draw_rectangle(
-        60, y - 4, @types.screen_width - 120, 40, @raylib.Color::new(
-          50, 70, 110, 220,
-        ),
+        60,
+        y - 4,
+        @types.screen_width - 120,
+        40,
+        @raylib.Color::new(50, 70, 110, 220),
       )
       @raylib.draw_text(
         "> \{label}",
@@ -515,11 +557,14 @@ fn draw_battle_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_game_over(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      40, 0, 0, 220,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(40, 0, 0, 220),
   )
   let title = "SHIP SUNK!"
   let tw = @raylib.measure_text(title, 60)

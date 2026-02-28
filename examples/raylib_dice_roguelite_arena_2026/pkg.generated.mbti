@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dice_roguelite_arena_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Artifacts
+
+type Dice
+
+type Enemy
+
+type Player
+
+type RewardCard
+
+type Spark
+
+// Type aliases
+
+// Traits
+

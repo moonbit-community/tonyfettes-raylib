@@ -1,0 +1,34 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_space_combat_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_space_combat_3d/types",
+}
+
+// Values
+pub fn damage_asteroid(@types.Game, Int, Float) -> Unit
+
+pub fn damage_enemy(@types.Game, Int, Float) -> Unit
+
+pub fn damage_player(@types.Game, Float) -> Unit
+
+pub fn update_asteroids(@types.Game, Float) -> Unit
+
+pub fn update_enemies(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+pub fn update_player(@types.Game, Float) -> Unit
+
+pub fn update_projectiles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

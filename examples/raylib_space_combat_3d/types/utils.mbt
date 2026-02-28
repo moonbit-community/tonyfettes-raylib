@@ -1,46 +1,94 @@
+///|
 pub fn absf(v : Float) -> Float {
-  if v < 0.0 { -v } else { v }
+  if v < 0.0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampf(v : Float, low : Float, high : Float) -> Float {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampi(v : Int, low : Int, high : Int) -> Int {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn minf(a : Float, b : Float) -> Float {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxf(a : Float, b : Float) -> Float {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn mini(a : Int, b : Int) -> Int {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxi(a : Int, b : Int) -> Int {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
+///|
 pub fn sign_f(v : Float) -> Float {
-  if v > 0.0 { 1.0 } else if v < 0.0 { -1.0 } else { 0.0 }
+  if v > 0.0 {
+    1.0
+  } else if v < 0.0 {
+    -1.0
+  } else {
+    0.0
+  }
 }
 
+///|
 pub fn distance3d(
   x1 : Float,
   y1 : Float,
   z1 : Float,
   x2 : Float,
   y2 : Float,
-  z2 : Float
+  z2 : Float,
 ) -> Float {
   let dx = x1 - x2
   let dy = y1 - y2
@@ -48,13 +96,14 @@ pub fn distance3d(
   (dx * dx + dy * dy + dz * dz).sqrt()
 }
 
+///|
 pub fn distance_squared_3d(
   x1 : Float,
   y1 : Float,
   z1 : Float,
   x2 : Float,
   y2 : Float,
-  z2 : Float
+  z2 : Float,
 ) -> Float {
   let dx = x1 - x2
   let dy = y1 - y2
@@ -62,12 +111,14 @@ pub fn distance_squared_3d(
   dx * dx + dy * dy + dz * dz
 }
 
+///|
 pub fn distance2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x1 - x2
   let dz = z1 - z2
   (dx * dx + dz * dz).sqrt()
 }
 
+///|
 pub fn normalize3d(x : Float, y : Float, z : Float) -> (Float, Float, Float) {
   let len = (x * x + y * y + z * z).sqrt()
   if len < 0.0001 {
@@ -77,34 +128,48 @@ pub fn normalize3d(x : Float, y : Float, z : Float) -> (Float, Float, Float) {
   }
 }
 
+///|
 pub fn length3d(x : Float, y : Float, z : Float) -> Float {
   (x * x + y * y + z * z).sqrt()
 }
 
+///|
 pub fn dot3d(
-  x1 : Float, y1 : Float, z1 : Float,
-  x2 : Float, y2 : Float, z2 : Float
+  x1 : Float,
+  y1 : Float,
+  z1 : Float,
+  x2 : Float,
+  y2 : Float,
+  z2 : Float,
 ) -> Float {
   x1 * x2 + y1 * y2 + z1 * z2
 }
 
 // Cross product
+
+///|
 pub fn cross3d(
-  x1 : Float, y1 : Float, z1 : Float,
-  x2 : Float, y2 : Float, z2 : Float
+  x1 : Float,
+  y1 : Float,
+  z1 : Float,
+  x2 : Float,
+  y2 : Float,
+  z2 : Float,
 ) -> (Float, Float, Float) {
-  (
-    y1 * z2 - z1 * y2,
-    z1 * x2 - x1 * z2,
-    x1 * y2 - y1 * x2,
-  )
+  (y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2)
 }
 
 // Rotate a vector around an axis by angle (Rodrigues rotation formula)
+
+///|
 pub fn rotate_vector_around_axis(
-  vx : Float, vy : Float, vz : Float,
-  ax : Float, ay : Float, az : Float,
-  angle : Float
+  vx : Float,
+  vy : Float,
+  vz : Float,
+  ax : Float,
+  ay : Float,
+  az : Float,
+  angle : Float,
 ) -> (Float, Float, Float) {
   let cos_a = @math.cosf(angle)
   let sin_a = @math.sinf(angle)
@@ -117,10 +182,9 @@ pub fn rotate_vector_around_axis(
 }
 
 // Forward direction from yaw and pitch
-pub fn forward_dir(
-  yaw : Float,
-  pitch : Float
-) -> (Float, Float, Float) {
+
+///|
+pub fn forward_dir(yaw : Float, pitch : Float) -> (Float, Float, Float) {
   let cp = @math.cosf(pitch)
   let sp = @math.sinf(pitch)
   let cy = @math.cosf(yaw)
@@ -129,6 +193,8 @@ pub fn forward_dir(
 }
 
 // Right direction from yaw
+
+///|
 pub fn right_dir(yaw : Float) -> (Float, Float, Float) {
   let cy = @math.cosf(yaw)
   let sy = @math.sinf(yaw)
@@ -136,6 +202,8 @@ pub fn right_dir(yaw : Float) -> (Float, Float, Float) {
 }
 
 // Up direction from yaw and pitch
+
+///|
 pub fn up_dir(yaw : Float, pitch : Float) -> (Float, Float, Float) {
   let fwd = forward_dir(yaw, pitch)
   let rgt = right_dir(yaw)
@@ -144,11 +212,19 @@ pub fn up_dir(yaw : Float, pitch : Float) -> (Float, Float, Float) {
 
 // Lead targeting: calculate where to aim to hit a moving target
 // Returns the aim direction normalized
+
+///|
 pub fn lead_target(
-  shooter_x : Float, shooter_y : Float, shooter_z : Float,
-  target_x : Float, target_y : Float, target_z : Float,
-  target_vx : Float, target_vy : Float, target_vz : Float,
-  projectile_speed : Float
+  shooter_x : Float,
+  shooter_y : Float,
+  shooter_z : Float,
+  target_x : Float,
+  target_y : Float,
+  target_z : Float,
+  target_vx : Float,
+  target_vy : Float,
+  target_vz : Float,
+  projectile_speed : Float,
 ) -> (Float, Float, Float) {
   let dx = target_x - shooter_x
   let dy = target_y - shooter_y
@@ -171,9 +247,17 @@ pub fn lead_target(
 }
 
 // Sphere-sphere collision test
+
+///|
 pub fn sphere_collision(
-  x1 : Float, y1 : Float, z1 : Float, r1 : Float,
-  x2 : Float, y2 : Float, z2 : Float, r2 : Float
+  x1 : Float,
+  y1 : Float,
+  z1 : Float,
+  r1 : Float,
+  x2 : Float,
+  y2 : Float,
+  z2 : Float,
+  r2 : Float,
 ) -> Bool {
   let dist_sq = distance_squared_3d(x1, y1, z1, x2, y2, z2)
   let combined_r = r1 + r2
@@ -181,20 +265,28 @@ pub fn sphere_collision(
 }
 
 // Distance culling: check if object is within render distance
+
+///|
 pub fn within_render_distance(
-  cam_x : Float, cam_y : Float, cam_z : Float,
-  obj_x : Float, obj_y : Float, obj_z : Float,
-  max_dist : Float
+  cam_x : Float,
+  cam_y : Float,
+  cam_z : Float,
+  obj_x : Float,
+  obj_y : Float,
+  obj_z : Float,
+  max_dist : Float,
 ) -> Bool {
   let dist_sq = distance_squared_3d(cam_x, cam_y, cam_z, obj_x, obj_y, obj_z)
   dist_sq < max_dist * max_dist
 }
 
 // Damage calculation with shield absorption
+
+///|
 pub fn calc_damage(
   damage : Float,
   shield : Float,
-  armor_factor : Float
+  armor_factor : Float,
 ) -> (Float, Float) {
   // Returns (hull_damage, shield_remaining)
   let effective_damage = damage * (1.0 - armor_factor * 0.5)
@@ -209,48 +301,68 @@ pub fn calc_damage(
 }
 
 // Angle difference (handles wrapping)
+
+///|
 pub fn angle_diff(a : Float, b : Float) -> Float {
   let mut d = b - a
-  if d > pi { d = d - two_pi }
-  if d < -pi { d = d + two_pi }
+  if d > pi {
+    d = d - two_pi
+  }
+  if d < -pi {
+    d = d + two_pi
+  }
   d
 }
 
 // Smooth damp (spring-like interpolation)
+
+///|
 pub fn smooth_damp(
   current : Float,
   target : Float,
   speed : Float,
-  dt : Float
+  dt : Float,
 ) -> Float {
   let diff = target - current
   current + diff * clampf(speed * dt, 0.0, 1.0)
 }
 
 // RNG
+
+///|
 pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
   x = x ^ (x >> 17)
   x = x ^ (x << 5)
-  if x < 0 { x = -x }
+  if x < 0 {
+    x = -x
+  }
   game.rng_state = x
   x
 }
 
+///|
 pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
-  if high <= low { low } else { low + rand_next(game) % (high - low + 1) }
+  if high <= low {
+    low
+  } else {
+    low + rand_next(game) % (high - low + 1)
+  }
 }
 
+///|
 pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let n = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * n
 }
 
+///|
 pub fn rand_bool(game : Game, chance : Float) -> Bool {
   rand_rangef(game, 0.0, 1.0) < chance
 }
 
+///|
 pub fn alloc_enemy(game : Game) -> Int {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     if not(game.enemies[i].active) {
@@ -260,6 +372,7 @@ pub fn alloc_enemy(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_projectile(game : Game) -> Int {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     if not(game.projectiles[i].active) {
@@ -269,6 +382,7 @@ pub fn alloc_projectile(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -278,6 +392,7 @@ pub fn alloc_particle(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_asteroid(game : Game) -> Int {
   for i = 0; i < game.asteroids.length(); i = i + 1 {
     if not(game.asteroids[i].active) {
@@ -287,6 +402,7 @@ pub fn alloc_asteroid(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_powerup(game : Game) -> Int {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     if not(game.powerups[i].active) {
@@ -296,6 +412,7 @@ pub fn alloc_powerup(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_station(game : Game) -> Int {
   for i = 0; i < game.stations.length(); i = i + 1 {
     if not(game.stations[i].active) {
@@ -305,6 +422,7 @@ pub fn alloc_station(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_debris(game : Game) -> Int {
   for i = 0; i < game.debris.length(); i = i + 1 {
     if not(game.debris[i].active) {
@@ -314,6 +432,7 @@ pub fn alloc_debris(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn spawn_particles(
   game : Game,
   wx : Float,
@@ -322,11 +441,13 @@ pub fn spawn_particles(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.5, 0.5)
@@ -346,6 +467,7 @@ pub fn spawn_particles(
   }
 }
 
+///|
 pub fn spawn_explosion(
   game : Game,
   wx : Float,
@@ -354,11 +476,13 @@ pub fn spawn_explosion(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx
@@ -379,16 +503,20 @@ pub fn spawn_explosion(
 }
 
 // Spawn shield hit particles at a specific point
+
+///|
 pub fn spawn_shield_hit(
   game : Game,
   wx : Float,
   wy : Float,
   wz : Float,
-  count : Int
+  count : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx
@@ -409,6 +537,8 @@ pub fn spawn_shield_hit(
 }
 
 // Spawn debris from destroyed ship
+
+///|
 pub fn spawn_debris(
   game : Game,
   wx : Float,
@@ -417,11 +547,13 @@ pub fn spawn_debris(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_debris(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let d = game.debris[idx]
     d.active = true
     d.x = wx + rand_rangef(game, -1.0, 1.0)
@@ -443,15 +575,21 @@ pub fn spawn_debris(
 }
 
 // Count active enemies
+
+///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active { count += 1 }
+    if game.enemies[i].active {
+      count += 1
+    }
   }
   count
 }
 
 // Count active enemies of a type
+
+///|
 pub fn count_enemies_of_type(game : Game, kind : Int) -> Int {
   let mut count = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -463,15 +601,16 @@ pub fn count_enemies_of_type(game : Game, kind : Int) -> Int {
 }
 
 // Find nearest enemy to a position
-pub fn find_nearest_enemy(
-  game : Game,
-  x : Float, y : Float, z : Float
-) -> Int {
+
+///|
+pub fn find_nearest_enemy(game : Game, x : Float, y : Float, z : Float) -> Int {
   let mut best_idx = -1
   let mut best_dist : Float = 999999.0
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
     let dist = distance3d(x, y, z, e.x, e.y, e.z)
     if dist < best_dist {
       best_dist = dist
@@ -482,6 +621,8 @@ pub fn find_nearest_enemy(
 }
 
 // Weapon name
+
+///|
 pub fn weapon_name(weapon : Int) -> String {
   if weapon == weapon_laser {
     "LASER"
@@ -497,6 +638,8 @@ pub fn weapon_name(weapon : Int) -> String {
 }
 
 // Weapon cooldown
+
+///|
 pub fn weapon_cooldown(weapon : Int) -> Float {
   if weapon == weapon_laser {
     laser_cooldown
@@ -512,6 +655,8 @@ pub fn weapon_cooldown(weapon : Int) -> Float {
 }
 
 // Weapon energy cost
+
+///|
 pub fn weapon_energy_cost(weapon : Int) -> Float {
   if weapon == weapon_laser {
     laser_energy_cost
@@ -527,6 +672,8 @@ pub fn weapon_energy_cost(weapon : Int) -> Float {
 }
 
 // Weapon speed
+
+///|
 pub fn weapon_proj_speed(weapon : Int) -> Float {
   if weapon == weapon_laser {
     laser_speed
@@ -542,6 +689,8 @@ pub fn weapon_proj_speed(weapon : Int) -> Float {
 }
 
 // Enemy type name
+
+///|
 pub fn enemy_type_name(kind : Int) -> String {
   if kind == enemy_fighter {
     "Fighter"
@@ -559,6 +708,8 @@ pub fn enemy_type_name(kind : Int) -> String {
 }
 
 // Wrap coordinate within world bounds
+
+///|
 pub fn wrap_coord(v : Float) -> Float {
   let half = world_size
   if v > half {
@@ -571,7 +722,15 @@ pub fn wrap_coord(v : Float) -> Float {
 }
 
 // Add kill feed entry
-pub fn add_kill_feed(game : Game, text : String, r : Int, g : Int, b : Int) -> Unit {
+
+///|
+pub fn add_kill_feed(
+  game : Game,
+  text : String,
+  r : Int,
+  g : Int,
+  b : Int,
+) -> Unit {
   // Shift existing entries up
   for i = max_kill_feed - 1; i > 0; i = i - 1 {
     game.kill_feed[i].active = game.kill_feed[i - 1].active
@@ -590,6 +749,8 @@ pub fn add_kill_feed(game : Game, text : String, r : Int, g : Int, b : Int) -> U
 }
 
 // Update combo system
+
+///|
 pub fn update_combo(game : Game, dt : Float) -> Unit {
   if game.combo_timer > 0.0 {
     game.combo_timer -= dt
@@ -601,6 +762,8 @@ pub fn update_combo(game : Game, dt : Float) -> Unit {
 }
 
 // Register a kill for combo
+
+///|
 pub fn register_kill_combo(game : Game) -> Unit {
   game.combo_count += 1
   game.combo_timer = combo_timeout
@@ -618,10 +781,12 @@ pub fn register_kill_combo(game : Game) -> Unit {
 }
 
 // Formation position calculation
+
+///|
 pub fn formation_offset(
   pattern : Int,
   index : Int,
-  spacing : Float
+  spacing : Float,
 ) -> (Float, Float, Float) {
   let fi = Float::from_int(index)
   if pattern == formation_v {
@@ -647,7 +812,13 @@ pub fn formation_offset(
 }
 
 // Check and update mission objectives
-pub fn check_objective_progress(game : Game, obj_type : Int, increment : Int) -> Unit {
+
+///|
+pub fn check_objective_progress(
+  game : Game,
+  obj_type : Int,
+  increment : Int,
+) -> Unit {
   for i = 0; i < game.objectives_count; i = i + 1 {
     let obj = game.objectives[i]
     if obj.obj_type == obj_type && not(obj.complete) {
@@ -661,8 +832,12 @@ pub fn check_objective_progress(game : Game, obj_type : Int, increment : Int) ->
 }
 
 // Check if all objectives are complete
+
+///|
 pub fn all_objectives_complete(game : Game) -> Bool {
-  if game.objectives_count == 0 { return false }
+  if game.objectives_count == 0 {
+    return false
+  }
   for i = 0; i < game.objectives_count; i = i + 1 {
     if not(game.objectives[i].complete) {
       return false
@@ -672,6 +847,8 @@ pub fn all_objectives_complete(game : Game) -> Bool {
 }
 
 // Accuracy percentage
+
+///|
 pub fn calc_accuracy(shots_fired : Int, shots_hit : Int) -> Int {
   if shots_fired <= 0 {
     0
@@ -682,6 +859,8 @@ pub fn calc_accuracy(shots_fired : Int, shots_hit : Int) -> Int {
 }
 
 // Mission rank based on score, time, accuracy
+
+///|
 pub fn calc_rank(score : Int, time : Float, accuracy : Int) -> String {
   let score_pts : Int = score / 100
   let time_bonus : Int = if time < 60.0 {

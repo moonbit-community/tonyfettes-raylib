@@ -1,5 +1,6 @@
 // Particle system update
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]

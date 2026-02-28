@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_snowboard_slalom_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Gate
+
+type Obstacle
+
+type Particle
+
+type Pickup
+
+type Rider
+
+// Type aliases
+
+// Traits
+

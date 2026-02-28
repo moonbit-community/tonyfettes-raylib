@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_rocket_arena_soccer_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Ball
+
+type Car
+
+type Particle
+
+type Pickup
+
+// Type aliases
+
+// Traits
+

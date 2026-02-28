@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_arctic_outpost_survival_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Enemy
+
+type Game
+
+type Particle
+
+type Pickup
+
+// Type aliases
+
+// Traits
+

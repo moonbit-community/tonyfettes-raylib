@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_orbital_shield_command_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Enemy
+
+type Shot
+
+type Spark
+
+// Type aliases
+
+// Traits
+

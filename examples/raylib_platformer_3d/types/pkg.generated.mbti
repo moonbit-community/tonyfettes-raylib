@@ -1,0 +1,1034 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_platformer_3d/types"
+
+// Values
+pub fn aabb_overlap(Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn absf(Float) -> Float
+
+pub fn add_score(Game, Int) -> Unit
+
+pub let air_control : Float
+
+pub let air_friction : Float
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_score_fly(Game) -> Int
+
+pub fn approach(Float, Float, Float, Float) -> Float
+
+pub let bounce_force : Float
+
+pub fn calc_stars(Float, Int, Int, Int) -> Int
+
+pub let camera_dist : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let camera_max_dist : Float
+
+pub let camera_min_dist : Float
+
+pub let camera_rotate_speed : Float
+
+pub let camera_shake_decay : Float
+
+pub let camera_smooth : Float
+
+pub let camera_zoom_speed : Float
+
+pub let checkpoint_activate_range : Float
+
+pub let checkpoint_flag_height : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let coin_bronze_b : Int
+
+pub let coin_bronze_g : Int
+
+pub let coin_bronze_r : Int
+
+pub let coin_bronze_score : Int
+
+pub let coin_gold_b : Int
+
+pub let coin_gold_g : Int
+
+pub let coin_gold_r : Int
+
+pub let coin_gold_score : Int
+
+pub let coin_silver_b : Int
+
+pub let coin_silver_g : Int
+
+pub let coin_silver_r : Int
+
+pub let coin_silver_score : Int
+
+pub let collect_coin_bronze : Int
+
+pub let collect_coin_gold : Int
+
+pub let collect_coin_silver : Int
+
+pub let collect_gem : Int
+
+pub let collect_key : Int
+
+pub let collect_life : Int
+
+pub let collect_spring : Int
+
+pub let collect_star : Int
+
+pub let combo_base_mult : Float
+
+pub let combo_decay_time : Float
+
+pub let combo_increment : Float
+
+pub let combo_max : Float
+
+pub let conveyor_force : Float
+
+pub let coyote_time : Float
+
+pub let crumble_time : Float
+
+pub let crystal_bg_b : Int
+
+pub let crystal_bg_g : Int
+
+pub let crystal_bg_r : Int
+
+pub let crystal_glow_b : Int
+
+pub let crystal_glow_g : Int
+
+pub let crystal_glow_r : Int
+
+pub let crystal_ice_b : Int
+
+pub let crystal_ice_g : Int
+
+pub let crystal_ice_r : Int
+
+pub let crystal_plat_b : Int
+
+pub let crystal_plat_g : Int
+
+pub let crystal_plat_r : Int
+
+pub let dash_cooldown : Float
+
+pub let dash_duration : Float
+
+pub let dash_speed : Float
+
+pub let death_anim_time : Float
+
+pub let death_bounce_height : Float
+
+pub let death_fall_y : Float
+
+pub let deco_bush : Int
+
+pub let deco_cloud : Int
+
+pub let deco_crystal : Int
+
+pub let deco_lamp : Int
+
+pub let deco_lava_rock : Int
+
+pub let deco_mushroom : Int
+
+pub let deco_pillar : Int
+
+pub let deco_rock : Int
+
+pub let deco_stalagmite : Int
+
+pub let deco_tree : Int
+
+pub let deg2rad : Float
+
+pub fn dist2d(Float, Float, Float, Float) -> Float
+
+pub fn dist3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn dot2d(Float, Float, Float, Float) -> Float
+
+pub fn dot3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let double_jump_force : Float
+
+pub fn ease_in_out_quad(Float) -> Float
+
+pub fn ease_in_quad(Float) -> Float
+
+pub fn ease_out_bounce(Float) -> Float
+
+pub fn ease_out_elastic(Float) -> Float
+
+pub fn ease_out_quad(Float) -> Float
+
+pub let enemy_bounce : Int
+
+pub let enemy_bounce_b : Int
+
+pub let enemy_bounce_g : Int
+
+pub let enemy_bounce_height : Float
+
+pub let enemy_bounce_r : Int
+
+pub let enemy_bounce_speed : Float
+
+pub let enemy_chase : Int
+
+pub let enemy_chase_b : Int
+
+pub let enemy_chase_g : Int
+
+pub let enemy_chase_r : Int
+
+pub let enemy_chase_range : Float
+
+pub let enemy_chase_speed : Float
+
+pub let enemy_fly_b : Int
+
+pub let enemy_fly_circle : Int
+
+pub let enemy_fly_g : Int
+
+pub let enemy_fly_r : Int
+
+pub let enemy_fly_radius : Float
+
+pub let enemy_fly_speed : Float
+
+pub let enemy_ghost : Int
+
+pub let enemy_ghost_b : Int
+
+pub let enemy_ghost_fade_dist : Float
+
+pub let enemy_ghost_g : Int
+
+pub let enemy_ghost_r : Int
+
+pub let enemy_ghost_speed : Float
+
+pub let enemy_kill_radius : Float
+
+pub let enemy_kill_score : Int
+
+pub let enemy_patrol : Int
+
+pub let enemy_patrol_b : Int
+
+pub let enemy_patrol_g : Int
+
+pub let enemy_patrol_r : Int
+
+pub let enemy_patrol_speed : Float
+
+pub let enemy_size : Float
+
+pub let enemy_stomp_bounce : Float
+
+pub let enemy_turret : Int
+
+pub let enemy_turret_b : Int
+
+pub let enemy_turret_fire_rate : Float
+
+pub let enemy_turret_g : Int
+
+pub let enemy_turret_r : Int
+
+pub let enemy_turret_range : Float
+
+pub let fall_delay : Float
+
+pub let fall_shake_amp : Float
+
+pub let fall_speed : Float
+
+pub fn find_shadow_y(Game, Float, Float, Float) -> Float
+
+pub let fire_jet_b : Int
+
+pub let fire_jet_g : Int
+
+pub let fire_jet_r : Int
+
+pub fn flash_on(Float, Float) -> Bool
+
+pub let forest_bg_b : Int
+
+pub let forest_bg_g : Int
+
+pub let forest_bg_r : Int
+
+pub let forest_fog_b : Int
+
+pub let forest_fog_g : Int
+
+pub let forest_fog_r : Int
+
+pub let forest_plat_b : Int
+
+pub let forest_plat_g : Int
+
+pub let forest_plat_r : Int
+
+pub let forest_tree_b : Int
+
+pub let forest_tree_g : Int
+
+pub let forest_tree_r : Int
+
+pub let forest_trunk_b : Int
+
+pub let forest_trunk_g : Int
+
+pub let forest_trunk_r : Int
+
+pub let gem_b : Int
+
+pub let gem_g : Int
+
+pub let gem_r : Int
+
+pub let gem_score : Int
+
+pub let goal_inner_b : Int
+
+pub let goal_inner_g : Int
+
+pub let goal_inner_r : Int
+
+pub let goal_outer_b : Int
+
+pub let goal_outer_g : Int
+
+pub let goal_outer_r : Int
+
+pub let gravity : Float
+
+pub let ground_friction : Float
+
+pub let hazard_crusher : Int
+
+pub let hazard_fire_jet : Int
+
+pub let hazard_laser : Int
+
+pub let hazard_lava : Int
+
+pub let hazard_pendulum : Int
+
+pub let hazard_saw : Int
+
+pub let hazard_spike : Int
+
+pub let hud_combo_bar_height : Int
+
+pub let hud_combo_bar_width : Int
+
+pub let hud_height : Int
+
+pub let ice_friction : Float
+
+pub let invincible_time : Float
+
+pub let jump_buffer : Float
+
+pub let jump_force : Float
+
+pub let key_b : Int
+
+pub let key_g : Int
+
+pub let key_r : Int
+
+pub let key_score : Int
+
+pub let laser_b : Int
+
+pub let laser_g : Int
+
+pub let laser_r : Int
+
+pub let lava_bg_b : Int
+
+pub let lava_bg_g : Int
+
+pub let lava_bg_r : Int
+
+pub let lava_glow_b : Int
+
+pub let lava_glow_g : Int
+
+pub let lava_glow_r : Int
+
+pub let lava_plat_b : Int
+
+pub let lava_plat_g : Int
+
+pub let lava_plat_r : Int
+
+pub let lava_rock_b : Int
+
+pub let lava_rock_g : Int
+
+pub let lava_rock_r : Int
+
+pub fn lerp_color(Int, Int, Float) -> Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let level_card_gap : Int
+
+pub let level_card_h : Int
+
+pub let level_card_w : Int
+
+pub let level_grid_cols : Int
+
+pub let levels_per_world : Int
+
+pub fn map_range(Float, Float, Float, Float, Float) -> Float
+
+pub let max_checkpoints : Int
+
+pub let max_collectibles : Int
+
+pub let max_decorations : Int
+
+pub let max_enemies : Int
+
+pub let max_fall_speed : Float
+
+pub let max_hazards : Int
+
+pub let max_particles : Int
+
+pub let max_platforms : Int
+
+pub let max_powerups : Int
+
+pub let max_projectiles : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let minimap_margin : Int
+
+pub let minimap_size : Int
+
+pub let move_speed : Float
+
+pub fn move_toward(Float, Float, Float) -> Float
+
+pub fn normalize2d(Float, Float) -> (Float, Float, Float)
+
+pub let num_worlds : Int
+
+pub let particle_checkpoint_count : Int
+
+pub let particle_collect_count : Int
+
+pub let particle_dash_count : Int
+
+pub let particle_death_count : Int
+
+pub let particle_jump_count : Int
+
+pub let particle_landing_count : Int
+
+pub let particle_powerup_count : Int
+
+pub let particle_stomp_count : Int
+
+pub let particle_trail_count : Int
+
+pub let particle_wall_slide_count : Int
+
+pub let phase_off_time : Float
+
+pub let phase_on_time : Float
+
+pub let pi : Float
+
+pub let plat_bouncy : Int
+
+pub let plat_conveyor_l : Int
+
+pub let plat_conveyor_r : Int
+
+pub let plat_crumbling : Int
+
+pub let plat_falling : Int
+
+pub let plat_ice : Int
+
+pub let plat_moving_x : Int
+
+pub let plat_moving_y : Int
+
+pub let plat_moving_z : Int
+
+pub let plat_phasing : Int
+
+pub let plat_rotating : Int
+
+pub let plat_size_pulse : Int
+
+pub let plat_static : Int
+
+pub let player_accel_mult : Float
+
+pub let player_arm_b : Int
+
+pub let player_arm_g : Int
+
+pub let player_arm_r : Int
+
+pub let player_body_b : Int
+
+pub let player_body_g : Int
+
+pub let player_body_r : Int
+
+pub let player_eye_b : Int
+
+pub let player_eye_g : Int
+
+pub let player_eye_r : Int
+
+pub let player_head_b : Int
+
+pub let player_head_g : Int
+
+pub let player_head_r : Int
+
+pub let player_height : Float
+
+pub let player_leg_b : Int
+
+pub let player_leg_g : Int
+
+pub let player_leg_r : Int
+
+pub let player_max_lives : Int
+
+pub let player_radius : Float
+
+pub let player_shield_a : Int
+
+pub let player_shield_b : Int
+
+pub let player_shield_g : Int
+
+pub let player_shield_r : Int
+
+pub fn point_above_platform(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let powerup_bob_speed : Float
+
+pub let powerup_double_jump : Int
+
+pub let powerup_duration : Float
+
+pub let powerup_magnet : Int
+
+pub let powerup_magnet_range : Float
+
+pub let powerup_shield : Int
+
+pub let powerup_slow_fall : Int
+
+pub let powerup_slow_fall_mult : Float
+
+pub let powerup_speed : Int
+
+pub let powerup_speed_mult : Float
+
+pub let powerup_spin_speed : Float
+
+pub let proj_enemy_shot : Int
+
+pub let proj_fire_ball : Int
+
+pub let proj_lifetime : Float
+
+pub let proj_radius : Float
+
+pub let proj_speed : Float
+
+pub let pu_double_jump_b : Int
+
+pub let pu_double_jump_g : Int
+
+pub let pu_double_jump_r : Int
+
+pub let pu_magnet_b : Int
+
+pub let pu_magnet_g : Int
+
+pub let pu_magnet_r : Int
+
+pub let pu_shield_b : Int
+
+pub let pu_shield_g : Int
+
+pub let pu_shield_r : Int
+
+pub let pu_slow_fall_b : Int
+
+pub let pu_slow_fall_g : Int
+
+pub let pu_slow_fall_r : Int
+
+pub let pu_speed_b : Int
+
+pub let pu_speed_g : Int
+
+pub let pu_speed_r : Int
+
+pub fn pulse(Float, Float) -> Float
+
+pub let rad2deg : Float
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub fn reflect2d(Float, Float, Float, Float) -> (Float, Float)
+
+pub let respawn_height : Float
+
+pub let rotate_speed : Float
+
+pub let saw_b : Int
+
+pub let saw_g : Int
+
+pub let saw_r : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn shadow_alpha(Float, Float) -> Int
+
+pub let shadow_max_alpha : Int
+
+pub let shadow_max_height : Float
+
+pub let shadow_min_alpha : Int
+
+pub fn shadow_scale(Float, Float) -> Float
+
+pub let shadow_size_base : Float
+
+pub fn signf(Float) -> Float
+
+pub let sky_bg_b : Int
+
+pub let sky_bg_g : Int
+
+pub let sky_bg_r : Int
+
+pub let sky_cloud_b : Int
+
+pub let sky_cloud_g : Int
+
+pub let sky_cloud_r : Int
+
+pub let sky_pillar_b : Int
+
+pub let sky_pillar_g : Int
+
+pub let sky_pillar_r : Int
+
+pub let sky_plat_b : Int
+
+pub let sky_plat_g : Int
+
+pub let sky_plat_r : Int
+
+pub fn smoothstep(Float, Float, Float) -> Float
+
+pub fn spawn_particle_ring(Game, Float, Float, Float, Int, Float, Float, Int, Int, Int) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particles_dir(Game, Float, Float, Float, Int, Float, Float, Float, Float, Int, Int, Int) -> Unit
+
+pub fn spawn_score_fly(Game, Float, Float, Int) -> Unit
+
+pub fn sphere_aabb(Float, Float, Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let spike_b : Int
+
+pub let spike_g : Int
+
+pub let spike_r : Int
+
+pub let star_all_gems_bonus : Int
+
+pub let star_b : Int
+
+pub let star_g : Int
+
+pub let star_no_death_bonus : Int
+
+pub let star_r : Int
+
+pub let star_score : Int
+
+pub let star_time_threshold_1 : Float
+
+pub let star_time_threshold_2 : Float
+
+pub let star_time_threshold_3 : Float
+
+pub let state_campaign_complete : Int
+
+pub let state_death_anim : Int
+
+pub let state_game_over : Int
+
+pub let state_level_complete : Int
+
+pub let state_level_select : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_world_intro : Int
+
+pub let state_world_select : Int
+
+pub let super_bounce_force : Float
+
+pub let total_levels : Int
+
+pub fn trigger_cam_shake(Game, Float, Float) -> Unit
+
+pub let two_pi : Float
+
+pub let ui_blink_speed : Float
+
+pub let ui_fade_speed : Float
+
+pub let ui_score_fly_speed : Float
+
+pub let ui_slide_speed : Float
+
+pub let wall_jump_h_force : Float
+
+pub let wall_jump_v_force : Float
+
+pub let wall_slide_speed : Float
+
+pub let world_crystal : Int
+
+pub let world_forest : Int
+
+pub let world_intro_duration : Float
+
+pub let world_intro_fade : Float
+
+pub let world_lava : Int
+
+pub let world_sky : Int
+
+pub fn wrap_angle(Float) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Checkpoint {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut activated : Bool
+  mut anim_timer : Float
+}
+pub fn Checkpoint::inactive() -> Self
+
+pub(all) struct Collectible {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut bob_timer : Float
+  mut spin_timer : Float
+  mut collected : Bool
+  mut magnet_target : Bool
+}
+pub fn Collectible::inactive() -> Self
+
+pub(all) struct Decoration {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut scale : Float
+  mut rot_y : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Decoration::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut base_x : Float
+  mut base_y : Float
+  mut base_z : Float
+  mut patrol_range : Float
+  mut patrol_dir : Float
+  mut timer : Float
+  mut health : Int
+  mut stunned : Bool
+  mut stun_timer : Float
+  mut anim_timer : Float
+  mut size : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut px : Float
+  mut py : Float
+  mut pz : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut grounded : Bool
+  mut coyote_timer : Float
+  mut jump_buffer_timer : Float
+  mut on_ice : Bool
+  mut lives : Int
+  mut score : Int
+  mut gems_collected : Int
+  mut gems_total : Int
+  mut stars_collected : Int
+  mut facing_x : Float
+  mut facing_z : Float
+  mut has_double_jump : Bool
+  mut double_jumped : Bool
+  mut can_wall_jump : Bool
+  mut wall_dir : Float
+  mut wall_slide : Bool
+  mut dash_timer : Float
+  mut dash_cooldown_timer : Float
+  mut dash_dir_x : Float
+  mut dash_dir_z : Float
+  mut dashing : Bool
+  mut invincible_timer : Float
+  mut powerup_type : Int
+  mut powerup_timer : Float
+  mut has_shield : Bool
+  mut combo_count : Int
+  mut combo_timer : Float
+  mut combo_mult : Float
+  mut level_deaths : Int
+  mut level_time : Float
+  mut coins_collected : Int
+  mut keys_collected : Int
+  mut total_coins : Int
+  mut total_keys : Int
+  mut checkpoint_x : Float
+  mut checkpoint_y : Float
+  mut checkpoint_z : Float
+  mut checkpoint_active : Bool
+  mut cam_x : Float
+  mut cam_y : Float
+  mut cam_z : Float
+  mut cam_angle : Float
+  mut cam_dist : Float
+  mut cam_shake : Float
+  mut cam_shake_timer : Float
+  mut current_world : Int
+  mut current_level : Int
+  mut goal_x : Float
+  mut goal_y : Float
+  mut goal_z : Float
+  platforms : Array[Platform]
+  collectibles : Array[Collectible]
+  hazards : Array[Hazard]
+  checkpoints : Array[Checkpoint]
+  particles : Array[Particle]
+  enemies : Array[Enemy]
+  powerups : Array[PowerUp]
+  decorations : Array[Decoration]
+  projectiles : Array[Projectile]
+  score_flies : Array[ScoreFly]
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut complete_timer : Float
+  mut death_timer : Float
+  mut world_select_cursor : Int
+  mut level_select_cursor : Int
+  mut pause_cursor : Int
+  mut ui_fade : Float
+  mut world_intro_timer : Float
+  mut anim_walk_timer : Float
+  mut anim_land_squash : Float
+  mut anim_jump_stretch : Float
+  level_stars : Array[Int]
+  mut rng_state : Int
+  mut frame_counter : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Hazard {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut w : Float
+  mut h : Float
+  mut d : Float
+  mut timer : Float
+  mut phase : Float
+  mut on : Bool
+  mut base_x : Float
+  mut base_y : Float
+  mut move_range : Float
+  mut move_speed : Float
+}
+pub fn Hazard::inactive() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Platform {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut w : Float
+  mut h : Float
+  mut d : Float
+  mut move_speed : Float
+  mut move_range : Float
+  mut move_timer : Float
+  mut base_x : Float
+  mut base_y : Float
+  mut base_z : Float
+  mut fall_timer : Float
+  mut falling : Bool
+  mut touched : Bool
+  mut crumble_timer : Float
+  mut crumbling : Bool
+  mut phase_timer : Float
+  mut phase_visible : Bool
+  mut rot_angle : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Platform::inactive() -> Self
+
+pub(all) struct PowerUp {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut bob_timer : Float
+  mut spin_timer : Float
+  mut collected : Bool
+}
+pub fn PowerUp::inactive() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct ScoreFly {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut value : Int
+  mut timer : Float
+  mut max_time : Float
+}
+pub fn ScoreFly::inactive() -> Self
+
+// Type aliases
+
+// Traits
+

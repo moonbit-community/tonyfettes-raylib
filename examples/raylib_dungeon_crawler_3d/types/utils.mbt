@@ -1,13 +1,24 @@
 // Math helpers
 
+///|
 pub fn absf(v : Float) -> Float {
-  if v < 0.0 { -v } else { v }
+  if v < 0.0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn absi(v : Int) -> Int {
-  if v < 0 { -v } else { v }
+  if v < 0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampf(v : Float, low : Float, high : Float) -> Float {
   if v < low {
     low
@@ -18,6 +29,7 @@ pub fn clampf(v : Float, low : Float, high : Float) -> Float {
   }
 }
 
+///|
 pub fn clampi(v : Int, low : Int, high : Int) -> Int {
   if v < low {
     low
@@ -28,26 +40,48 @@ pub fn clampi(v : Int, low : Int, high : Int) -> Int {
   }
 }
 
+///|
 pub fn mini(a : Int, b : Int) -> Int {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxi(a : Int, b : Int) -> Int {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn minf(a : Float, b : Float) -> Float {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxf(a : Float, b : Float) -> Float {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
+///|
 pub fn signf(v : Float) -> Float {
   if v > 0.0 {
     1.0
@@ -59,14 +93,18 @@ pub fn signf(v : Float) -> Float {
 }
 
 // Grid helpers
+
+///|
 pub fn in_bounds(gx : Int, gy : Int) -> Bool {
   gx >= 0 && gy >= 0 && gx < grid_w && gy < grid_h
 }
 
+///|
 pub fn tile_index(gx : Int, gy : Int) -> Int {
   gy * grid_w + gx
 }
 
+///|
 pub fn get_tile(game : Game, gx : Int, gy : Int) -> Int {
   if in_bounds(gx, gy) {
     game.tiles[tile_index(gx, gy)]
@@ -75,42 +113,59 @@ pub fn get_tile(game : Game, gx : Int, gy : Int) -> Int {
   }
 }
 
+///|
 pub fn set_tile(game : Game, gx : Int, gy : Int, tile : Int) -> Unit {
   if in_bounds(gx, gy) {
     game.tiles[tile_index(gx, gy)] = tile
   }
 }
 
+///|
 pub fn is_walkable(tile : Int) -> Bool {
-  tile == tile_floor || tile == tile_door || tile == tile_stairs ||
-  tile == tile_chest || tile == tile_trap || tile == tile_shrine ||
+  tile == tile_floor ||
+  tile == tile_door ||
+  tile == tile_stairs ||
+  tile == tile_chest ||
+  tile == tile_trap ||
+  tile == tile_shrine ||
   tile == tile_shop
 }
 
+///|
 pub fn is_door_tile(tile : Int) -> Bool {
-  tile == tile_door || tile == tile_locked_door || tile == tile_boss_door ||
+  tile == tile_door ||
+  tile == tile_locked_door ||
+  tile == tile_boss_door ||
   tile == tile_secret_door
 }
 
 // Convert world position to grid position
+
+///|
 pub fn world_to_grid_x(wx : Float) -> Int {
   (wx / cell_size).to_int()
 }
 
+///|
 pub fn world_to_grid_z(wz : Float) -> Int {
   (wz / cell_size).to_int()
 }
 
 // Convert grid position to world center
+
+///|
 pub fn grid_to_world_x(gx : Int) -> Float {
   Float::from_int(gx) * cell_size + cell_size / 2.0
 }
 
+///|
 pub fn grid_to_world_z(gy : Int) -> Float {
   Float::from_int(gy) * cell_size + cell_size / 2.0
 }
 
 // Check if a world position is blocked by walls
+
+///|
 pub fn is_blocked(game : Game, wx : Float, wz : Float, radius : Float) -> Bool {
   // Check four corners of bounding box
   let gx0 = world_to_grid_x(wx - radius)
@@ -133,11 +188,13 @@ pub fn is_blocked(game : Game, wx : Float, wz : Float, radius : Float) -> Bool {
 }
 
 // Check if blocked including locked doors
+
+///|
 pub fn is_blocked_strict(
   game : Game,
   wx : Float,
   wz : Float,
-  radius : Float
+  radius : Float,
 ) -> Bool {
   let gx0 = world_to_grid_x(wx - radius)
   let gz0 = world_to_grid_z(wz - radius)
@@ -176,6 +233,8 @@ pub fn is_blocked_strict(
 }
 
 // Distance between two points in 2D (xz plane)
+
+///|
 pub fn dist2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x2 - x1
   let dz = z2 - z1
@@ -183,18 +242,17 @@ pub fn dist2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
 }
 
 // Squared distance (avoids sqrt for comparisons)
-pub fn dist2d_sq(
-  x1 : Float,
-  z1 : Float,
-  x2 : Float,
-  z2 : Float
-) -> Float {
+
+///|
+pub fn dist2d_sq(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x2 - x1
   let dz = z2 - z1
   dx * dx + dz * dz
 }
 
 // RNG
+
+///|
 pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
@@ -207,6 +265,7 @@ pub fn rand_next(game : Game) -> Int {
   x
 }
 
+///|
 pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
   if high <= low {
     low
@@ -215,12 +274,15 @@ pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
   }
 }
 
+///|
 pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let n = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * n
 }
 
 // Weighted random selection: returns index based on weights
+
+///|
 pub fn rand_weighted(game : Game, weights : Array[Int]) -> Int {
   let mut total = 0
   for i = 0; i < weights.length(); i = i + 1 {
@@ -240,6 +302,8 @@ pub fn rand_weighted(game : Game, weights : Array[Int]) -> Int {
 }
 
 // Allocators
+
+///|
 pub fn alloc_enemy(game : Game) -> Int {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     if not(game.enemies[i].active) {
@@ -249,6 +313,7 @@ pub fn alloc_enemy(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_projectile(game : Game) -> Int {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     if not(game.projectiles[i].active) {
@@ -258,6 +323,7 @@ pub fn alloc_projectile(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -267,6 +333,7 @@ pub fn alloc_particle(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_loot(game : Game) -> Int {
   for i = 0; i < game.loot.length(); i = i + 1 {
     if not(game.loot[i].active) {
@@ -276,6 +343,7 @@ pub fn alloc_loot(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_trap(game : Game) -> Int {
   for i = 0; i < game.traps.length(); i = i + 1 {
     if not(game.traps[i].active) {
@@ -285,6 +353,7 @@ pub fn alloc_trap(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_torch(game : Game) -> Int {
   for i = 0; i < game.torches.length(); i = i + 1 {
     if not(game.torches[i].active) {
@@ -295,6 +364,8 @@ pub fn alloc_torch(game : Game) -> Int {
 }
 
 // Spawn particles
+
+///|
 pub fn spawn_particles(
   game : Game,
   wx : Float,
@@ -303,7 +374,7 @@ pub fn spawn_particles(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
@@ -329,6 +400,8 @@ pub fn spawn_particles(
 }
 
 // Spawn directional particles (for spell effects)
+
+///|
 pub fn spawn_directional_particles(
   game : Game,
   wx : Float,
@@ -340,7 +413,7 @@ pub fn spawn_directional_particles(
   r : Int,
   g : Int,
   b : Int,
-  speed : Float
+  speed : Float,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
@@ -366,6 +439,8 @@ pub fn spawn_directional_particles(
 }
 
 // Mark explored tiles around player position
+
+///|
 pub fn update_explored(game : Game) -> Unit {
   let gx = world_to_grid_x(game.player_x)
   let gz = world_to_grid_z(game.player_z)
@@ -382,6 +457,8 @@ pub fn update_explored(game : Game) -> Unit {
 }
 
 // Count active enemies
+
+///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -393,6 +470,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 }
 
 // Normalize angle to -pi..pi range
+
+///|
 pub fn normalize_angle(angle : Float) -> Float {
   let mut a = angle
   while a > pi {
@@ -405,12 +484,14 @@ pub fn normalize_angle(angle : Float) -> Float {
 }
 
 // Add message to log
+
+///|
 pub fn add_message(
   game : Game,
   text : String,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   // Shift messages down
   for i = game.messages.length() - 1; i > 0; i = i - 1 {
@@ -431,6 +512,8 @@ pub fn add_message(
 }
 
 // Inventory helpers
+
+///|
 pub fn alloc_inventory(game : Game) -> Int {
   for i = 0; i < game.inventory.length(); i = i + 1 {
     if not(game.inventory[i].active) {
@@ -440,6 +523,7 @@ pub fn alloc_inventory(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn count_inventory_items(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.inventory.length(); i = i + 1 {
@@ -451,6 +535,8 @@ pub fn count_inventory_items(game : Game) -> Int {
 }
 
 // Get weapon stats
+
+///|
 pub fn get_weapon_range(weapon_type : Int) -> Float {
   if weapon_type == weapon_sword {
     sword_range
@@ -469,6 +555,7 @@ pub fn get_weapon_range(weapon_type : Int) -> Float {
   }
 }
 
+///|
 pub fn get_weapon_cooldown(weapon_type : Int) -> Float {
   if weapon_type == weapon_sword {
     sword_cooldown
@@ -487,6 +574,7 @@ pub fn get_weapon_cooldown(weapon_type : Int) -> Float {
   }
 }
 
+///|
 pub fn get_weapon_damage_mult(weapon_type : Int) -> Float {
   if weapon_type == weapon_sword {
     sword_damage_mult
@@ -505,6 +593,7 @@ pub fn get_weapon_damage_mult(weapon_type : Int) -> Float {
   }
 }
 
+///|
 pub fn get_weapon_name(weapon_type : Int) -> String {
   if weapon_type == weapon_sword {
     "Sword"
@@ -523,6 +612,7 @@ pub fn get_weapon_name(weapon_type : Int) -> String {
   }
 }
 
+///|
 pub fn get_armor_defense(armor_type : Int) -> Int {
   if armor_type == armor_robes {
     robes_defense
@@ -537,6 +627,7 @@ pub fn get_armor_defense(armor_type : Int) -> Int {
   }
 }
 
+///|
 pub fn get_armor_name(armor_type : Int) -> String {
   if armor_type == armor_none {
     "None"
@@ -553,6 +644,7 @@ pub fn get_armor_name(armor_type : Int) -> String {
   }
 }
 
+///|
 pub fn get_spell_name(spell_type : Int) -> String {
   if spell_type == spell_fireball {
     "Fireball"
@@ -571,6 +663,7 @@ pub fn get_spell_name(spell_type : Int) -> String {
   }
 }
 
+///|
 pub fn get_spell_mana_cost(spell_type : Int) -> Int {
   if spell_type == spell_fireball {
     fireball_mana_cost
@@ -590,6 +683,8 @@ pub fn get_spell_mana_cost(spell_type : Int) -> Int {
 }
 
 // Calculate total player defense (base + armor + buffs)
+
+///|
 pub fn calc_player_defense(game : Game) -> Int {
   let mut total = game.player_def + get_armor_defense(game.player_armor)
   for i = 0; i < game.buffs.length(); i = i + 1 {
@@ -601,6 +696,8 @@ pub fn calc_player_defense(game : Game) -> Int {
 }
 
 // Calculate total player attack (base + str + weapon + buffs)
+
+///|
 pub fn calc_player_attack(game : Game) -> Int {
   let base = game.player_atk + game.player_str / 3
   let mult = get_weapon_damage_mult(game.player_weapon)
@@ -615,6 +712,8 @@ pub fn calc_player_attack(game : Game) -> Int {
 }
 
 // Get enemy type name
+
+///|
 pub fn get_enemy_name(kind : Int) -> String {
   if kind == enemy_skeleton {
     "Skeleton"
@@ -644,6 +743,8 @@ pub fn get_enemy_name(kind : Int) -> String {
 }
 
 // Get XP value for enemy type
+
+///|
 pub fn get_enemy_xp(kind : Int) -> Int {
   if kind == enemy_skeleton {
     xp_per_skeleton
@@ -673,6 +774,8 @@ pub fn get_enemy_xp(kind : Int) -> Int {
 }
 
 // Get rarity name
+
+///|
 pub fn get_rarity_name(rarity : Int) -> String {
   if rarity == rarity_common {
     "Common"
@@ -690,6 +793,8 @@ pub fn get_rarity_name(rarity : Int) -> String {
 }
 
 // Get class name
+
+///|
 pub fn get_class_name(class_type : Int) -> String {
   if class_type == class_warrior {
     "Warrior"
@@ -703,12 +808,14 @@ pub fn get_class_name(class_type : Int) -> String {
 }
 
 // Check line of sight between two grid cells
+
+///|
 pub fn has_line_of_sight(
   game : Game,
   x1 : Int,
   y1 : Int,
   x2 : Int,
-  y2 : Int
+  y2 : Int,
 ) -> Bool {
   let dx = absi(x2 - x1)
   let dy = absi(y2 - y1)
@@ -740,12 +847,14 @@ pub fn has_line_of_sight(
 
 // Simple pathfinding step: returns direction to move toward target
 // Returns (dx, dz) normalized direction
+
+///|
 pub fn pathfind_step(
   game : Game,
   from_x : Float,
   from_z : Float,
   to_x : Float,
-  to_z : Float
+  to_z : Float,
 ) -> (Float, Float) {
   let dx = to_x - from_x
   let dz = to_z - from_z
@@ -777,6 +886,8 @@ pub fn pathfind_step(
 }
 
 // Find a random walkable position in a room
+
+///|
 pub fn find_walkable_in_room(game : Game, room : Room) -> (Int, Int) {
   for _attempt = 0; _attempt < 20; _attempt = _attempt + 1 {
     let gx = rand_range(game, room.x + 1, room.x + room.w - 2)
@@ -789,6 +900,8 @@ pub fn find_walkable_in_room(game : Game, room : Room) -> (Int, Int) {
 }
 
 // Check if player has an active buff of given kind
+
+///|
 pub fn has_buff(game : Game, kind : Int) -> Bool {
   for i = 0; i < game.buffs.length(); i = i + 1 {
     if game.buffs[i].active && game.buffs[i].kind == kind {
@@ -799,6 +912,8 @@ pub fn has_buff(game : Game, kind : Int) -> Bool {
 }
 
 // Add a buff to player
+
+///|
 pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit {
   // Check if already have this buff, refresh it
   for i = 0; i < game.buffs.length(); i = i + 1 {
@@ -821,6 +936,8 @@ pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit 
 }
 
 // Update buff timers
+
+///|
 pub fn update_buffs(game : Game, dt : Float) -> Unit {
   for i = 0; i < game.buffs.length(); i = i + 1 {
     if game.buffs[i].active {
@@ -833,6 +950,8 @@ pub fn update_buffs(game : Game, dt : Float) -> Unit {
 }
 
 // Update message timers
+
+///|
 pub fn update_messages(game : Game, dt : Float) -> Unit {
   for i = 0; i < game.messages.length(); i = i + 1 {
     if game.messages[i].timer > 0.0 {
@@ -845,6 +964,8 @@ pub fn update_messages(game : Game, dt : Float) -> Unit {
 }
 
 // Get trap name
+
+///|
 pub fn get_trap_name(kind : Int) -> String {
   if kind == trap_spike {
     "Spike Trap"
@@ -864,6 +985,8 @@ pub fn get_trap_name(kind : Int) -> String {
 }
 
 // Get loot name
+
+///|
 pub fn get_loot_name(kind : Int) -> String {
   if kind == loot_health_potion {
     "Health Potion"
@@ -889,6 +1012,8 @@ pub fn get_loot_name(kind : Int) -> String {
 }
 
 // Get theme name
+
+///|
 pub fn get_theme_name(theme : Int) -> String {
   if theme == theme_crypt {
     "Crypt"

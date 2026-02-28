@@ -1,0 +1,663 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_voxel_world_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let ai_attack : Int
+
+pub let ai_chase : Int
+
+pub let ai_flee : Int
+
+pub let ai_idle : Int
+
+pub let ai_wander : Int
+
+pub let base_height : Int
+
+pub let biome_count : Int
+
+pub let biome_desert : Int
+
+pub let biome_forest : Int
+
+pub let biome_mountains : Int
+
+pub fn biome_name(Int) -> String
+
+pub fn biome_noise(Float, Float) -> Float
+
+pub let biome_plains : Int
+
+pub let biome_swamp : Int
+
+pub let biome_tundra : Int
+
+pub let block_air : Int
+
+pub let block_bedrock : Int
+
+pub let block_brick : Int
+
+pub let block_cactus : Int
+
+pub let block_clay : Int
+
+pub let block_cobblestone : Int
+
+pub let block_count : Int
+
+pub let block_dirt : Int
+
+pub let block_flower_red : Int
+
+pub let block_flower_yellow : Int
+
+pub let block_glass : Int
+
+pub let block_grass : Int
+
+pub let block_gravel : Int
+
+pub let block_leaves : Int
+
+pub fn block_name(Int) -> String
+
+pub let block_ore_diamond : Int
+
+pub let block_ore_gold : Int
+
+pub let block_ore_iron : Int
+
+pub let block_planks : Int
+
+pub let block_sand : Int
+
+pub let block_snow : Int
+
+pub let block_stone : Int
+
+pub let block_tall_grass : Int
+
+pub let block_torch : Int
+
+pub let block_water : Int
+
+pub let block_wood : Int
+
+pub let camera_fovy : Float
+
+pub let cave_frequency : Float
+
+pub let cave_max_height : Int
+
+pub let cave_min_height : Int
+
+pub fn cave_noise_3d(Float, Float, Float) -> Float
+
+pub let cave_threshold : Float
+
+pub let chicken_health : Int
+
+pub let chunk_x : Int
+
+pub let chunk_y : Int
+
+pub let chunk_z : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let cow_health : Int
+
+pub let dawn_end : Float
+
+pub let dawn_start : Float
+
+pub let day_end : Float
+
+pub let day_length : Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn distance_xz(Float, Float, Float, Float) -> Float
+
+pub let dusk_end : Float
+
+pub let entity_attack_range : Float
+
+pub let entity_chicken : Int
+
+pub let entity_cow : Int
+
+pub let entity_despawn_radius : Float
+
+pub let entity_max : Int
+
+pub fn entity_name(Int) -> String
+
+pub let entity_pig : Int
+
+pub let entity_skeleton : Int
+
+pub let entity_spawn_radius : Float
+
+pub let entity_speed_hostile : Float
+
+pub let entity_speed_passive : Float
+
+pub let entity_spider : Int
+
+pub let entity_zombie : Int
+
+pub fn facing_direction(Float) -> String
+
+pub let fall_damage_multiplier : Float
+
+pub let fall_damage_threshold : Float
+
+pub fn floorf(Float) -> Int
+
+pub fn fmodf(Float, Float) -> Float
+
+pub let fog_density : Float
+
+pub let fog_end_distance : Float
+
+pub let fog_start_distance : Float
+
+pub fn fractal_noise_2d(Float, Float, Int) -> Float
+
+pub fn generate_chunk_terrain(Chunk, Game) -> Unit
+
+pub fn get_biome_at(Int, Int) -> Int
+
+pub fn get_biome_terrain_height(Int, Int, Int) -> Int
+
+pub fn get_block_drop(Int) -> Int
+
+pub fn get_chunk(Game, Int, Int) -> Chunk?
+
+pub fn get_entity_max_health(Int) -> Int
+
+pub fn get_mining_time(Int, Int) -> Float
+
+pub fn get_terrain_height(Int, Int) -> Int
+
+pub fn get_world_block(Game, Int, Int, Int) -> Int
+
+pub let gravity : Float
+
+pub let gravity_block_interval : Float
+
+pub let hotbar_slots : Int
+
+pub let hunger_drain_rate : Float
+
+pub let hunger_heal_threshold : Int
+
+pub let hunger_sprint_drain : Float
+
+pub let hunger_starve_threshold : Int
+
+pub let inventory_cols : Int
+
+pub let inventory_rows : Int
+
+pub let inventory_slots : Int
+
+pub fn is_cave(Int, Int, Int) -> Bool
+
+pub fn is_decoration(Int) -> Bool
+
+pub fn is_face_visible(Game, Int, Int, Int) -> Bool
+
+pub fn is_gravity_block(Int) -> Bool
+
+pub fn is_hostile(Int) -> Bool
+
+pub fn is_solid(Int) -> Bool
+
+pub fn is_transparent(Int) -> Bool
+
+pub let late_dusk_end : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub fn lerpi(Int, Int, Float) -> Int
+
+pub let max_light_level : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let min_ambient_light : Float
+
+pub let mine_speed_bedrock : Float
+
+pub let mine_speed_brick : Float
+
+pub let mine_speed_cobblestone : Float
+
+pub let mine_speed_dirt : Float
+
+pub let mine_speed_glass : Float
+
+pub let mine_speed_grass : Float
+
+pub let mine_speed_gravel : Float
+
+pub let mine_speed_leaves : Float
+
+pub let mine_speed_ore : Float
+
+pub let mine_speed_planks : Float
+
+pub let mine_speed_sand : Float
+
+pub let mine_speed_stone : Float
+
+pub let mine_speed_wood : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn moisture_noise(Float, Float) -> Float
+
+pub let morning_end : Float
+
+pub fn noise2d(Float, Float) -> Float
+
+pub fn noise3d(Float, Float, Float) -> Float
+
+pub let ore_diamond_chance : Float
+
+pub let ore_diamond_max_y : Int
+
+pub let ore_diamond_min_y : Int
+
+pub let ore_gold_chance : Float
+
+pub let ore_gold_max_y : Int
+
+pub let ore_gold_min_y : Int
+
+pub let ore_iron_chance : Float
+
+pub let ore_iron_max_y : Int
+
+pub let ore_iron_min_y : Int
+
+pub let particle_gravity : Float
+
+pub let particle_lifetime : Float
+
+pub let particle_max : Int
+
+pub let particle_speed : Float
+
+pub let pi : Float
+
+pub let pig_health : Int
+
+pub let player_eye_height : Float
+
+pub let player_height : Float
+
+pub let player_jump_force : Float
+
+pub let player_max_air : Int
+
+pub let player_max_health : Int
+
+pub let player_max_hunger : Int
+
+pub let player_mouse_sensitivity : Float
+
+pub let player_radius : Float
+
+pub let player_speed : Float
+
+pub let player_sprint_mult : Float
+
+pub fn rand_float(Game) -> Float
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub let ray_step : Float
+
+pub let reach_distance : Float
+
+pub let recipe_brick : Int
+
+pub let recipe_count : Int
+
+pub let recipe_crafting_table : Int
+
+pub let recipe_furnace : Int
+
+pub let recipe_glass : Int
+
+pub let recipe_iron_pickaxe : Int
+
+pub let recipe_planks : Int
+
+pub let recipe_sticks : Int
+
+pub let recipe_stone_pickaxe : Int
+
+pub let recipe_torch : Int
+
+pub let recipe_wooden_axe : Int
+
+pub let recipe_wooden_pickaxe : Int
+
+pub let recipe_wooden_shovel : Int
+
+pub let recipe_wooden_sword : Int
+
+pub let render_distance : Int
+
+pub let respawn_invulnerability : Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn set_world_block(Game, Int, Int, Int, Int) -> Unit
+
+pub fn should_place_ore(Int, Int, Int, Int, Int) -> Bool
+
+pub fn should_place_tree(Int, Int, Int) -> Bool
+
+pub fn show_message(Game, String, Float) -> Unit
+
+pub fn signf(Float) -> Float
+
+pub let skeleton_damage : Int
+
+pub let skeleton_health : Int
+
+pub fn smoothstep(Float, Float, Float) -> Float
+
+pub fn spawn_break_particles(Game, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particle(Game, Float, Float, Float, Float, Float, Float, Int, Int, Int, Float, Float) -> Unit
+
+pub let spider_damage : Int
+
+pub let spider_health : Int
+
+pub let stack_max : Int
+
+pub let starve_damage_interval : Float
+
+pub let state_crafting : Int
+
+pub let state_game_over : Int
+
+pub let state_inventory : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let sun_light_level : Int
+
+pub fn temperature_noise(Float, Float) -> Float
+
+pub let terminal_velocity : Float
+
+pub let terrain_amplitude : Float
+
+pub let terrain_frequency : Float
+
+pub fn terrain_noise(Float, Float) -> Float
+
+pub let tool_count : Int
+
+pub let tool_hand : Int
+
+pub let tool_iron_axe : Int
+
+pub let tool_iron_pickaxe : Int
+
+pub let tool_iron_shovel : Int
+
+pub let tool_iron_sword : Int
+
+pub fn tool_name(Int) -> String
+
+pub let tool_stone_axe : Int
+
+pub let tool_stone_pickaxe : Int
+
+pub let tool_stone_shovel : Int
+
+pub let tool_stone_sword : Int
+
+pub let tool_wooden_axe : Int
+
+pub let tool_wooden_pickaxe : Int
+
+pub let tool_wooden_shovel : Int
+
+pub let tool_wooden_sword : Int
+
+pub let torch_light_level : Int
+
+pub let tree_frequency : Float
+
+pub let two_pi : Float
+
+pub fn value_noise_2d(Float, Float) -> Float
+
+pub let water_level : Int
+
+pub let water_spread_interval : Float
+
+pub let world_chunks_x : Int
+
+pub let world_chunks_z : Int
+
+pub let zombie_damage : Int
+
+pub let zombie_health : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct BiomeParams {
+  id : Int
+  name : String
+  height_base : Float
+  height_amplitude : Float
+  tree_density : Float
+  surface_block : Int
+  sub_surface_block : Int
+  has_snow : Bool
+  has_cactus : Bool
+  water_color_r : Int
+  water_color_g : Int
+  water_color_b : Int
+}
+
+pub(all) struct BlockHit {
+  mut hit : Bool
+  mut bx : Int
+  mut by : Int
+  mut bz : Int
+  mut nx : Int
+  mut ny : Int
+  mut nz : Int
+  mut distance : Float
+}
+pub fn BlockHit::new() -> Self
+
+pub(all) struct Chunk {
+  blocks : Array[Int]
+  cx : Int
+  cz : Int
+  mut dirty : Bool
+  mut biome : Int
+}
+pub fn Chunk::get_block(Self, Int, Int, Int) -> Int
+pub fn Chunk::new(Int, Int) -> Self
+pub fn Chunk::set_block(Self, Int, Int, Int, Int) -> Unit
+
+pub(all) struct CraftingRecipe {
+  input1_id : Int
+  input1_count : Int
+  input2_id : Int
+  input2_count : Int
+  output_id : Int
+  output_count : Int
+  name : String
+}
+pub fn CraftingRecipe::new(Int, Int, Int, Int, Int, Int, String) -> Self
+
+pub(all) struct Entity {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut health : Int
+  mut max_health : Int
+  mut ai_state : Int
+  mut ai_timer : Float
+  mut target_x : Float
+  mut target_z : Float
+  mut yaw : Float
+  mut on_ground : Bool
+  mut damage_flash : Float
+  mut anim_timer : Float
+  mut attack_cooldown : Float
+}
+pub fn Entity::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  player : Player
+  chunks : Array[Chunk]
+  mut cam_pos_x : Float
+  mut cam_pos_y : Float
+  mut cam_pos_z : Float
+  mut cam_target_x : Float
+  mut cam_target_y : Float
+  mut cam_target_z : Float
+  target : BlockHit
+  mut day_timer : Float
+  mut day_count : Int
+  mut sky_r : Int
+  mut sky_g : Int
+  mut sky_b : Int
+  mut sun_angle : Float
+  mut is_night : Bool
+  mut menu_blink : Float
+  mut message_timer : Float
+  mut message_text : String
+  mut show_debug : Bool
+  mut crafting_selection : Int
+  entities : Array[Entity]
+  mut entity_spawn_timer : Float
+  particles : Array[Particle]
+  mut gravity_block_timer : Float
+  mut water_spread_timer : Float
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut difficulty : Int
+  mut blocks_broken : Int
+  mut blocks_placed : Int
+  mut mobs_killed : Int
+  mut distance_walked : Float
+  mut prev_pos_x : Float
+  mut prev_pos_z : Float
+  mut death_timer : Float
+  mut respawn_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Inventory {
+  slots : Array[ItemSlot]
+  mut selected : Int
+}
+pub fn Inventory::add_item(Self, Int, Int) -> Int
+pub fn Inventory::new() -> Self
+pub fn Inventory::selected_item(Self) -> Int
+pub fn Inventory::use_selected(Self) -> Int
+
+pub(all) struct ItemSlot {
+  mut item_id : Int
+  mut count : Int
+}
+pub fn ItemSlot::empty() -> Self
+pub fn ItemSlot::make(Int, Int) -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut lifetime : Float
+  mut max_lifetime : Float
+  mut color_r : Int
+  mut color_g : Int
+  mut color_b : Int
+  mut size : Float
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut yaw : Float
+  mut pitch : Float
+  mut on_ground : Bool
+  mut sprint : Bool
+  mut selected_block : Int
+  mut bob_timer : Float
+  mut health : Int
+  mut hunger : Int
+  mut hunger_timer : Float
+  mut air : Int
+  mut mining_block_x : Int
+  mut mining_block_y : Int
+  mut mining_block_z : Int
+  mut mining_progress : Float
+  mut mining_active : Bool
+  mut equipped_tool : Int
+  mut attack_cooldown : Float
+  mut invulnerable_timer : Float
+  mut damage_flash : Float
+  mut fall_start_y : Float
+  mut was_on_ground : Bool
+  inventory : Inventory
+  mut underwater : Bool
+  mut air_timer : Float
+  mut starve_timer : Float
+}
+pub fn Player::new() -> Self
+
+// Type aliases
+
+// Traits
+

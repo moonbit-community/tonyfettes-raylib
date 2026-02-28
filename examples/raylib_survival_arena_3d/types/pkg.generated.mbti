@@ -1,0 +1,743 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_survival_arena_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn add_damage_indicator(Game, Float, Float) -> Unit
+
+pub fn add_kill_feed(Game, String, Int, Int, Int) -> Unit
+
+pub fn alloc_barricade(Game) -> Int
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_pickup(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_trap(Game) -> Int
+
+pub let ammo_minigun : Int
+
+pub let ammo_pistol : Int
+
+pub let ammo_rifle : Int
+
+pub let ammo_rocket : Int
+
+pub let ammo_shotgun : Int
+
+pub let ammo_sniper : Int
+
+pub fn angle_between(Float, Float, Float, Float) -> Float
+
+pub fn angle_within(Float, Float, Float) -> Bool
+
+pub let arena_depth : Float
+
+pub let arena_wall_height : Float
+
+pub let arena_wall_thickness : Float
+
+pub let arena_width : Float
+
+pub let barricade_max_hp : Float
+
+pub let barricade_size : Float
+
+pub let bonus_double_kill : Int
+
+pub let bonus_headshot : Int
+
+pub let bonus_multi_kill : Int
+
+pub let bonus_triple_kill : Int
+
+pub let camera_fovy : Float
+
+pub fn clamp_to_arena(Float, Float) -> (Float, Float)
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_base_mult : Float
+
+pub let combo_increment : Float
+
+pub let combo_max_mult : Float
+
+pub fn combo_text(Int) -> String
+
+pub let combo_timeout : Float
+
+pub let cost_armor : Int
+
+pub let cost_barricade : Int
+
+pub let cost_buy_minigun : Int
+
+pub let cost_buy_rocket : Int
+
+pub let cost_buy_sniper : Int
+
+pub let cost_damage_up : Int
+
+pub let cost_heal : Int
+
+pub let cost_minigun_ammo : Int
+
+pub let cost_rifle_ammo : Int
+
+pub let cost_rocket_ammo : Int
+
+pub let cost_shotgun_ammo : Int
+
+pub let cost_sniper_ammo : Int
+
+pub let cost_speed_up : Int
+
+pub let cost_trap_electric : Int
+
+pub let cost_trap_flame : Int
+
+pub let cost_trap_spike : Int
+
+pub fn count_active_enemies(Game) -> Int
+
+pub let crate_count : Int
+
+pub let crate_size : Float
+
+pub let difficulty_damage_scale : Float
+
+pub let difficulty_hp_scale : Float
+
+pub let difficulty_speed_scale : Float
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let dmg_minigun : Float
+
+pub let dmg_pistol : Float
+
+pub let dmg_rifle : Float
+
+pub let dmg_rocket : Float
+
+pub let dmg_shotgun : Float
+
+pub let dmg_sniper : Float
+
+pub fn dot3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn effective_damage(Player, Int) -> Float
+
+pub fn effective_fire_rate(Player, Int) -> Float
+
+pub fn effective_mag_size(Player, Int) -> Int
+
+pub let enemy_boss : Int
+
+pub let enemy_brute : Int
+
+pub let enemy_exploder : Int
+
+pub fn enemy_name(Int) -> String
+
+pub let enemy_necromancer : Int
+
+pub let enemy_runner : Int
+
+pub let enemy_shielded : Int
+
+pub let enemy_spitter : Int
+
+pub let enemy_zombie : Int
+
+pub let exploder_damage : Float
+
+pub let exploder_radius : Float
+
+pub let gravity : Float
+
+pub let headshot_head_ratio : Float
+
+pub let headshot_mult : Float
+
+pub fn in_arena(Float, Float) -> Bool
+
+pub fn is_headshot_hit(Float, Float, Float) -> Bool
+
+pub let kill_feed_duration : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let low_wall_count : Int
+
+pub let low_wall_depth : Float
+
+pub let low_wall_height : Float
+
+pub let low_wall_width : Float
+
+pub let mag_minigun : Int
+
+pub let mag_pistol : Int
+
+pub let mag_rifle : Int
+
+pub let mag_rocket : Int
+
+pub let mag_shotgun : Int
+
+pub let mag_sniper : Int
+
+pub let max_ammo_minigun : Int
+
+pub let max_ammo_rifle : Int
+
+pub let max_ammo_rocket : Int
+
+pub let max_ammo_shotgun : Int
+
+pub let max_ammo_sniper : Int
+
+pub let max_barricades : Int
+
+pub let max_enemies : Int
+
+pub let max_kill_feed : Int
+
+pub let max_particles : Int
+
+pub let max_pickups : Int
+
+pub let max_projectiles : Int
+
+pub let max_traps : Int
+
+pub let max_upgrade_level : Int
+
+pub let max_waves : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let minigun_max_spread : Float
+
+pub let minigun_min_spread : Float
+
+pub let minigun_spinup_time : Float
+
+pub let minimap_size : Int
+
+pub let minimap_x : Int
+
+pub let minimap_y : Int
+
+pub let necro_revive_cooldown : Float
+
+pub let necro_revive_range : Float
+
+pub fn normalize3d(Float, Float, Float) -> (Float, Float, Float)
+
+pub let particle_blood : Int
+
+pub let particle_explosion : Int
+
+pub let particle_heal : Int
+
+pub let particle_muzzle : Int
+
+pub let particle_shell : Int
+
+pub let particle_spark : Int
+
+pub let pi : Float
+
+pub let pickup_ammo : Int
+
+pub let pickup_damage_boost : Int
+
+pub let pickup_damage_duration : Float
+
+pub let pickup_health : Int
+
+pub fn pickup_name(Int) -> String
+
+pub let pickup_nuke : Int
+
+pub let pickup_shield : Int
+
+pub let pickup_shield_duration : Float
+
+pub let pickup_speed_boost : Int
+
+pub let pickup_speed_duration : Float
+
+pub let pillar_count : Int
+
+pub let pillar_height : Float
+
+pub let pillar_radius : Float
+
+pub let player_crouch_height : Float
+
+pub let player_crouch_mult : Float
+
+pub let player_damage_cooldown : Float
+
+pub let player_height : Float
+
+pub let player_max_armor : Float
+
+pub let player_max_hp : Float
+
+pub let player_mouse_sensitivity : Float
+
+pub let player_radius : Float
+
+pub let player_speed : Float
+
+pub let player_sprint_mult : Float
+
+pub fn push_from_barricades(Game, Float, Float, Float) -> (Float, Float)
+
+pub fn push_from_box(Float, Float, Float, Float, Float, Float, Float) -> (Float, Float, Bool)
+
+pub fn push_from_low_walls(Game, Float, Float, Float) -> (Float, Float)
+
+pub fn push_from_pillar(Float, Float, Float, Float, Float, Float) -> (Float, Float, Bool)
+
+pub let ramp_count : Int
+
+pub let ramp_height : Float
+
+pub let ramp_length : Float
+
+pub let ramp_width : Float
+
+pub fn rand_bool(Game, Float) -> Bool
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub let rate_minigun : Float
+
+pub let rate_pistol : Float
+
+pub let rate_rifle : Float
+
+pub let rate_rocket : Float
+
+pub let rate_shotgun : Float
+
+pub let rate_sniper : Float
+
+pub let reload_minigun : Float
+
+pub let reload_pistol : Float
+
+pub let reload_rifle : Float
+
+pub let reload_rocket : Float
+
+pub let reload_shotgun : Float
+
+pub let reload_sniper : Float
+
+pub let rocket_splash_radius : Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let shield_block_angle : Float
+
+pub let shotgun_pellets : Int
+
+pub let shotgun_spread : Float
+
+pub fn show_message(Game, String, Float) -> Unit
+
+pub fn sign(Float) -> Float
+
+pub let sniper_penetration : Int
+
+pub let spawn_interval : Float
+
+pub let spawn_max_dist : Float
+
+pub let spawn_min_dist : Float
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particles_dir(Game, Float, Float, Float, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particles_typed(Game, Float, Float, Float, Int, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_shell_casing(Game, Float, Float, Float, Float, Float) -> Unit
+
+pub let speed_minigun : Float
+
+pub let speed_pistol : Float
+
+pub let speed_rifle : Float
+
+pub let speed_rocket : Float
+
+pub let speed_shotgun : Float
+
+pub let speed_sniper : Float
+
+pub let state_game_over : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_wave_complete : Int
+
+pub let trap_electric : Int
+
+pub let trap_electric_cooldown : Float
+
+pub let trap_electric_damage : Float
+
+pub let trap_electric_stun : Float
+
+pub let trap_flame : Int
+
+pub let trap_flame_cooldown : Float
+
+pub let trap_flame_damage : Float
+
+pub let trap_flame_duration : Float
+
+pub let trap_spike : Int
+
+pub let trap_spike_cooldown : Float
+
+pub let trap_spike_damage : Float
+
+pub fn update_damage_indicators(Game, Float) -> Unit
+
+pub fn update_kill_feed(Game, Float) -> Unit
+
+pub let upgrade_cost_mult : Int
+
+pub let wave_shop_time : Float
+
+pub let weapon_count : Int
+
+pub fn weapon_damage(Int) -> Float
+
+pub fn weapon_fire_rate(Int) -> Float
+
+pub fn weapon_mag_size(Int) -> Int
+
+pub let weapon_minigun : Int
+
+pub fn weapon_name(Int) -> String
+
+pub let weapon_pistol : Int
+
+pub fn weapon_proj_speed(Int) -> Float
+
+pub fn weapon_reload_time(Int) -> Float
+
+pub let weapon_rifle : Int
+
+pub let weapon_rocket : Int
+
+pub fn weapon_short_name(Int) -> String
+
+pub let weapon_shotgun : Int
+
+pub let weapon_sniper : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct ArenaTrap {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut z : Float
+  mut cooldown_timer : Float
+  mut active_timer : Float
+  mut damage : Float
+}
+pub fn ArenaTrap::inactive() -> Self
+
+pub(all) struct Barricade {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut hp : Float
+  mut max_hp : Float
+}
+pub fn Barricade::inactive() -> Self
+
+pub(all) struct Crate {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut respawn_timer : Float
+  mut kind : Int
+}
+pub fn Crate::new(Float, Float, Int) -> Self
+
+pub(all) struct DamageIndicator {
+  mut active : Bool
+  mut angle : Float
+  mut timer : Float
+}
+pub fn DamageIndicator::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut speed : Float
+  mut damage : Float
+  mut attack_timer : Float
+  mut attack_range : Float
+  mut size : Float
+  mut gold_value : Int
+  mut score_value : Int
+  mut spit_timer : Float
+  mut spit_cooldown : Float
+  mut stun_timer : Float
+  mut flash_timer : Float
+  mut explode_triggered : Bool
+  mut explode_timer : Float
+  mut revive_timer : Float
+  mut facing_angle : Float
+  mut boss_phase : Int
+  mut boss_ability_timer : Float
+  mut state : Int
+  mut state_timer : Float
+  mut death_x : Float
+  mut death_z : Float
+  mut can_revive : Bool
+  mut drops_pickup : Bool
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  player : Player
+  weapons : Array[WeaponState]
+  mut current_wave : Int
+  mut wave_timer : Float
+  mut spawn_timer : Float
+  mut enemies_to_spawn : Int
+  mut enemies_spawned : Int
+  mut wave_enemy_kinds : Array[Int]
+  mut wave_enemy_counts : Array[Int]
+  mut wave_spawn_idx : Int
+  mut wave_hp_mult : Float
+  mut wave_speed_mult : Float
+  mut wave_active : Bool
+  pillars : Array[Pillar]
+  crates : Array[Crate]
+  low_walls : Array[LowWall]
+  ramps : Array[Ramp]
+  enemies : Array[Enemy]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  pickups : Array[Pickup]
+  traps : Array[ArenaTrap]
+  barricades : Array[Barricade]
+  kill_feed : Array[KillFeedEntry]
+  damage_indicators : Array[DamageIndicator]
+  mut cam_pos_x : Float
+  mut cam_pos_y : Float
+  mut cam_pos_z : Float
+  mut cam_target_x : Float
+  mut cam_target_y : Float
+  mut cam_target_z : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut shop_cursor : Int
+  mut message_timer : Float
+  mut message_text : String
+  mut show_wave_summary : Bool
+  mut wave_summary_timer : Float
+  mut wave_summary_kills : Int
+  mut wave_summary_money : Int
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut hit_marker_timer : Float
+  mut difficulty : Float
+  mut total_shots_fired : Int
+  mut total_shots_hit : Int
+  mut highest_combo : Int
+  mut total_damage_dealt : Float
+  mut total_damage_taken : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) struct KillFeedEntry {
+  mut active : Bool
+  mut text : String
+  mut timer : Float
+  mut color_r : Int
+  mut color_g : Int
+  mut color_b : Int
+}
+pub fn KillFeedEntry::inactive() -> Self
+
+pub(all) struct LowWall {
+  x : Float
+  z : Float
+  width : Float
+  height : Float
+  depth : Float
+  angle : Float
+}
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Pickup {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut float_timer : Float
+  mut life : Float
+}
+pub fn Pickup::inactive() -> Self
+
+pub(all) struct Pillar {
+  x : Float
+  z : Float
+  radius : Float
+  height : Float
+}
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut yaw : Float
+  mut pitch : Float
+  mut hp : Float
+  mut armor : Float
+  mut current_weapon : Int
+  ammo : Array[Int]
+  magazine : Array[Int]
+  mag_size : Array[Int]
+  mut speed_mult : Float
+  mut damage_mult : Float
+  mut damage_timer : Float
+  mut score : Int
+  mut money : Int
+  mut kills : Int
+  mut headshots : Int
+  mut bob_timer : Float
+  mut flash_timer : Float
+  mut sprint : Bool
+  mut crouching : Bool
+  mut crouch_lerp : Float
+  mut combo_count : Int
+  mut combo_timer : Float
+  mut combo_mult : Float
+  mut speed_boost_timer : Float
+  mut damage_boost_timer : Float
+  mut shield_timer : Float
+  mut recent_kill_timer : Float
+  mut recent_kill_count : Int
+  owns_weapon : Array[Bool]
+  mut minigun_spin : Float
+  mut minigun_spinning : Bool
+  mut recoil_offset : Float
+  mut recoil_recover : Float
+  weapon_damage_level : Array[Int]
+  weapon_rate_level : Array[Int]
+  weapon_mag_level : Array[Int]
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut dx : Float
+  mut dy : Float
+  mut dz : Float
+  mut speed : Float
+  mut damage : Float
+  mut life : Float
+  mut is_enemy : Bool
+  mut splash_radius : Float
+  mut penetration : Int
+  mut is_headshot_capable : Bool
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct Ramp {
+  x : Float
+  z : Float
+  width : Float
+  length : Float
+  height : Float
+  angle : Float
+}
+
+pub(all) struct ShopItem {
+  name : String
+  cost : Int
+  kind : Int
+}
+
+pub(all) struct WeaponState {
+  mut reload_timer : Float
+  mut reloading : Bool
+  mut reload_time : Float
+}
+pub fn WeaponState::new() -> Self
+
+// Type aliases
+
+// Traits
+

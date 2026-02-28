@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_drone_show_director_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Director
+
+type Drone
+
+type Firework
+
+type Gust
+
+type Particle
+
+type Request
+
+type Station
+
+type Vec2f
+
+// Type aliases
+
+// Traits
+

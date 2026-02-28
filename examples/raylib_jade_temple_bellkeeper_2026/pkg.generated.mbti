@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_jade_temple_bellkeeper_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bell
+
+type Bolt
+
+type Echo
+
+type Foe
+
+type Game
+
+type Hero
+
+type Ring
+
+type Spark
+
+// Type aliases
+
+// Traits
+

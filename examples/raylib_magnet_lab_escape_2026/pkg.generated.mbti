@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_magnet_lab_escape_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bolt
+
+type Box
+
+type Core
+
+type Drone
+
+type Gate
+
+type Particle
+
+type Platform
+
+type Player
+
+// Type aliases
+
+// Traits
+

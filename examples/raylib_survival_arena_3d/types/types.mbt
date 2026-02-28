@@ -1,4 +1,6 @@
 // Player entity
+
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float
@@ -48,10 +50,17 @@ pub(all) struct Player {
   weapon_mag_level : Array[Int]
 }
 
+///|
 pub fn Player::new() -> Player {
-  let ammo : Array[Int] = [ammo_pistol, ammo_shotgun, ammo_rifle, ammo_sniper, ammo_rocket, ammo_minigun]
-  let magazine : Array[Int] = [mag_pistol, mag_shotgun, mag_rifle, mag_sniper, mag_rocket, mag_minigun]
-  let mag_size : Array[Int] = [mag_pistol, mag_shotgun, mag_rifle, mag_sniper, mag_rocket, mag_minigun]
+  let ammo : Array[Int] = [
+    ammo_pistol, ammo_shotgun, ammo_rifle, ammo_sniper, ammo_rocket, ammo_minigun,
+  ]
+  let magazine : Array[Int] = [
+    mag_pistol, mag_shotgun, mag_rifle, mag_sniper, mag_rocket, mag_minigun,
+  ]
+  let mag_size : Array[Int] = [
+    mag_pistol, mag_shotgun, mag_rifle, mag_sniper, mag_rocket, mag_minigun,
+  ]
   let owns_weapon : Array[Bool] = [true, true, true, false, false, false]
   {
     x: 0.0,
@@ -97,6 +106,8 @@ pub fn Player::new() -> Player {
 }
 
 // Enemy entity
+
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -140,6 +151,7 @@ pub(all) struct Enemy {
   mut drops_pickup : Bool
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
@@ -179,6 +191,8 @@ pub fn Enemy::inactive() -> Enemy {
 }
 
 // Projectile (player bullets and enemy spits)
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -197,6 +211,7 @@ pub(all) struct Projectile {
   mut is_headshot_capable : Bool
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -218,6 +233,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Particle
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -235,6 +252,7 @@ pub(all) struct Particle {
   mut kind : Int
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -255,6 +273,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Arena pillar (static obstacle)
+
+///|
 pub(all) struct Pillar {
   x : Float
   z : Float
@@ -263,6 +283,8 @@ pub(all) struct Pillar {
 }
 
 // Arena crate (ammo pickup)
+
+///|
 pub(all) struct Crate {
   mut active : Bool
   mut x : Float
@@ -271,11 +293,14 @@ pub(all) struct Crate {
   mut kind : Int
 }
 
+///|
 pub fn Crate::new(x : Float, z : Float, kind : Int) -> Crate {
   { active: true, x, z, respawn_timer: 0.0, kind }
 }
 
 // Low wall (half-cover)
+
+///|
 pub(all) struct LowWall {
   x : Float
   z : Float
@@ -286,6 +311,8 @@ pub(all) struct LowWall {
 }
 
 // Ramp structure
+
+///|
 pub(all) struct Ramp {
   x : Float
   z : Float
@@ -296,6 +323,8 @@ pub(all) struct Ramp {
 }
 
 // Pickup (dropped by enemies or spawned)
+
+///|
 pub(all) struct Pickup {
   mut active : Bool
   mut kind : Int
@@ -306,6 +335,7 @@ pub(all) struct Pickup {
   mut life : Float
 }
 
+///|
 pub fn Pickup::inactive() -> Pickup {
   {
     active: false,
@@ -319,6 +349,8 @@ pub fn Pickup::inactive() -> Pickup {
 }
 
 // Arena trap
+
+///|
 pub(all) struct ArenaTrap {
   mut active : Bool
   mut kind : Int
@@ -329,6 +361,7 @@ pub(all) struct ArenaTrap {
   mut damage : Float
 }
 
+///|
 pub fn ArenaTrap::inactive() -> ArenaTrap {
   {
     active: false,
@@ -342,6 +375,8 @@ pub fn ArenaTrap::inactive() -> ArenaTrap {
 }
 
 // Barricade
+
+///|
 pub(all) struct Barricade {
   mut active : Bool
   mut x : Float
@@ -350,17 +385,14 @@ pub(all) struct Barricade {
   mut max_hp : Float
 }
 
+///|
 pub fn Barricade::inactive() -> Barricade {
-  {
-    active: false,
-    x: 0.0,
-    z: 0.0,
-    hp: 0.0,
-    max_hp: barricade_max_hp,
-  }
+  { active: false, x: 0.0, z: 0.0, hp: 0.0, max_hp: barricade_max_hp }
 }
 
 // Kill feed entry
+
+///|
 pub(all) struct KillFeedEntry {
   mut active : Bool
   mut text : String
@@ -370,6 +402,7 @@ pub(all) struct KillFeedEntry {
   mut color_b : Int
 }
 
+///|
 pub fn KillFeedEntry::inactive() -> KillFeedEntry {
   {
     active: false,
@@ -382,17 +415,22 @@ pub fn KillFeedEntry::inactive() -> KillFeedEntry {
 }
 
 // Weapon state
+
+///|
 pub(all) struct WeaponState {
   mut reload_timer : Float
   mut reloading : Bool
   mut reload_time : Float
 }
 
+///|
 pub fn WeaponState::new() -> WeaponState {
   { reload_timer: 0.0, reloading: false, reload_time: 0.0 }
 }
 
 // Shop item
+
+///|
 pub(all) struct ShopItem {
   name : String
   cost : Int
@@ -400,17 +438,22 @@ pub(all) struct ShopItem {
 }
 
 // Damage indicator direction
+
+///|
 pub(all) struct DamageIndicator {
   mut active : Bool
   mut angle : Float
   mut timer : Float
 }
 
+///|
 pub fn DamageIndicator::inactive() -> DamageIndicator {
   { active: false, angle: 0.0, timer: 0.0 }
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -488,6 +531,7 @@ pub(all) struct Game {
   mut total_damage_taken : Float
 }
 
+///|
 pub fn Game::new() -> Game {
   // Create weapons array
   let weapons : Array[WeaponState] = []
@@ -513,22 +557,98 @@ pub fn Game::new() -> Game {
   crates.push(Crate::new(0.0, -15.0, weapon_minigun))
   // Create low walls for cover
   let low_walls : Array[LowWall] = []
-  low_walls.push({ x: 8.0, z: 0.0, width: low_wall_width, height: low_wall_height, depth: low_wall_depth, angle: 0.0 })
-  low_walls.push({ x: -8.0, z: 0.0, width: low_wall_width, height: low_wall_height, depth: low_wall_depth, angle: 0.0 })
-  low_walls.push({ x: 0.0, z: 8.0, width: low_wall_width, height: low_wall_height, depth: low_wall_depth, angle: 1.5708 })
-  low_walls.push({ x: 0.0, z: -8.0, width: low_wall_width, height: low_wall_height, depth: low_wall_depth, angle: 1.5708 })
-  low_walls.push({ x: 15.0, z: 15.0, width: 3.0, height: low_wall_height, depth: low_wall_depth, angle: 0.785 })
-  low_walls.push({ x: -15.0, z: -15.0, width: 3.0, height: low_wall_height, depth: low_wall_depth, angle: 0.785 })
+  low_walls.push({
+    x: 8.0,
+    z: 0.0,
+    width: low_wall_width,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 0.0,
+  })
+  low_walls.push({
+    x: -8.0,
+    z: 0.0,
+    width: low_wall_width,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 0.0,
+  })
+  low_walls.push({
+    x: 0.0,
+    z: 8.0,
+    width: low_wall_width,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 1.5708,
+  })
+  low_walls.push({
+    x: 0.0,
+    z: -8.0,
+    width: low_wall_width,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 1.5708,
+  })
+  low_walls.push({
+    x: 15.0,
+    z: 15.0,
+    width: 3.0,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 0.785,
+  })
+  low_walls.push({
+    x: -15.0,
+    z: -15.0,
+    width: 3.0,
+    height: low_wall_height,
+    depth: low_wall_depth,
+    angle: 0.785,
+  })
   // Create ramps
   let ramps : Array[Ramp] = []
-  ramps.push({ x: 20.0, z: 0.0, width: ramp_width, length: ramp_length, height: ramp_height, angle: 0.0 })
-  ramps.push({ x: -20.0, z: 0.0, width: ramp_width, length: ramp_length, height: ramp_height, angle: 3.14159 })
-  ramps.push({ x: 0.0, z: 20.0, width: ramp_width, length: ramp_length, height: ramp_height, angle: 1.5708 })
-  ramps.push({ x: 0.0, z: -20.0, width: ramp_width, length: ramp_length, height: ramp_height, angle: 4.7124 })
+  ramps.push({
+    x: 20.0,
+    z: 0.0,
+    width: ramp_width,
+    length: ramp_length,
+    height: ramp_height,
+    angle: 0.0,
+  })
+  ramps.push({
+    x: -20.0,
+    z: 0.0,
+    width: ramp_width,
+    length: ramp_length,
+    height: ramp_height,
+    angle: 3.14159,
+  })
+  ramps.push({
+    x: 0.0,
+    z: 20.0,
+    width: ramp_width,
+    length: ramp_length,
+    height: ramp_height,
+    angle: 1.5708,
+  })
+  ramps.push({
+    x: 0.0,
+    z: -20.0,
+    width: ramp_width,
+    length: ramp_length,
+    height: ramp_height,
+    angle: 4.7124,
+  })
   // Kill feed
-  let kill_feed : Array[KillFeedEntry] = Array::make(max_kill_feed, KillFeedEntry::inactive())
+  let kill_feed : Array[KillFeedEntry] = Array::make(
+    max_kill_feed,
+    KillFeedEntry::inactive(),
+  )
   // Damage indicators
-  let damage_indicators : Array[DamageIndicator] = Array::make(4, DamageIndicator::inactive())
+  let damage_indicators : Array[DamageIndicator] = Array::make(
+    4,
+    DamageIndicator::inactive(),
+  )
   {
     state: state_menu,
     player: Player::new(),

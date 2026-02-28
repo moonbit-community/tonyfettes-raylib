@@ -1,0 +1,762 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tower_defense_3d/types"
+
+// Values
+pub let ability_buff_pulse_cd : Float
+
+pub let ability_flame_aura_cd : Float
+
+pub let ability_frost_freeze_cd : Float
+
+pub let ability_lightning_chain_cd : Float
+
+pub let ability_sniper_crit_cd : Float
+
+pub fn absf(Float) -> Float
+
+pub fn add_chain_line(Game, Float, Float, Float, Float, Float, Float) -> Unit
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_tower(Game) -> Int
+
+pub let armor_basic : Float
+
+pub let armor_boss : Float
+
+pub let armor_break_amount : Float
+
+pub let armor_break_duration : Float
+
+pub let armor_camo : Float
+
+pub let armor_fast : Float
+
+pub let armor_flying : Float
+
+pub let armor_healer : Float
+
+pub let armor_shield : Float
+
+pub let armor_splitter : Float
+
+pub let armor_swarm : Float
+
+pub let armor_tank : Float
+
+pub let buff_damage_bonus : Float
+
+pub let buff_range_bonus : Float
+
+pub let buff_rate_bonus : Float
+
+pub let burn_dps : Float
+
+pub let burn_duration : Float
+
+pub fn calc_damage(Float, Int, Enemy) -> Float
+
+pub let camera_fovy : Float
+
+pub let camera_max_dist : Float
+
+pub let camera_min_dist : Float
+
+pub fn can_place_tower(Game, Int, Int) -> Bool
+
+pub let cell_size : Float
+
+pub let chain_count : Int
+
+pub let chain_damage_decay : Float
+
+pub let chain_range : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let cost_arrow : Int
+
+pub let cost_buff : Int
+
+pub let cost_cannon : Int
+
+pub let cost_flame : Int
+
+pub let cost_frost : Int
+
+pub let cost_lightning : Int
+
+pub let cost_sniper : Int
+
+pub let cost_splash : Int
+
+pub fn count_active_enemies(Game) -> Int
+
+pub fn count_active_towers(Game) -> Int
+
+pub let difficulty_easy_hp : Float
+
+pub let difficulty_easy_speed : Float
+
+pub let difficulty_hard_hp : Float
+
+pub let difficulty_hard_speed : Float
+
+pub fn difficulty_hp_mult(Int) -> Float
+
+pub fn difficulty_name(Int) -> String
+
+pub let difficulty_normal_hp : Float
+
+pub let difficulty_normal_speed : Float
+
+pub fn difficulty_speed_mult(Int) -> Float
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance2d_sq(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let dmg_arrow : Float
+
+pub let dmg_buff : Float
+
+pub let dmg_cannon : Float
+
+pub let dmg_flame : Float
+
+pub let dmg_frost : Float
+
+pub let dmg_lightning : Float
+
+pub let dmg_sniper : Float
+
+pub let dmg_splash : Float
+
+pub let effect_armor_break : Int
+
+pub let effect_burn : Int
+
+pub let effect_chain : Int
+
+pub let effect_none : Int
+
+pub let effect_slow : Int
+
+pub let effect_stun : Int
+
+pub fn enemy_armor_value(Int) -> Float
+
+pub let enemy_basic : Int
+
+pub let enemy_boss : Int
+
+pub let enemy_camo : Int
+
+pub let enemy_fast : Int
+
+pub let enemy_flying : Int
+
+pub let enemy_healer : Int
+
+pub fn enemy_name(Int) -> String
+
+pub fn enemy_resistance(Int, Int) -> Float
+
+pub let enemy_shield : Int
+
+pub let enemy_splitter : Int
+
+pub let enemy_swarm : Int
+
+pub let enemy_tank : Int
+
+pub fn enemy_total_progress(Enemy) -> Float
+
+pub let enemy_type_count : Int
+
+pub let fast_spawn_interval : Float
+
+pub fn find_target(Game, Float, Float, Float, Int, Bool) -> Int
+
+pub fn get_tile(Game, Int, Int) -> Int
+
+pub fn get_upgrade_info(Int, Int) -> UpgradeInfo
+
+pub fn grid_to_world_x(Int) -> Float
+
+pub fn grid_to_world_z(Int) -> Float
+
+pub let healer_heal_interval : Float
+
+pub let healer_heal_rate : Float
+
+pub let healer_range : Float
+
+pub let health_bar_height : Float
+
+pub let health_bar_width : Float
+
+pub fn in_bounds(Int, Int) -> Bool
+
+pub let interest_cap : Int
+
+pub let interest_interval : Float
+
+pub let interest_rate : Float
+
+pub let kill_gold_base : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let map_count : Int
+
+pub let map_h : Int
+
+pub let map_total : Int
+
+pub let map_w : Int
+
+pub let max_enemies : Int
+
+pub let max_particles : Int
+
+pub let max_path_nodes : Int
+
+pub let max_projectiles : Int
+
+pub let max_status_effects : Int
+
+pub let max_towers : Int
+
+pub let max_waves : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let minimap_size : Int
+
+pub let minimap_x : Int
+
+pub let minimap_y : Int
+
+pub let particle_build : Int
+
+pub let particle_explosion : Int
+
+pub let particle_fire : Int
+
+pub let particle_gold : Int
+
+pub let particle_ice : Int
+
+pub let particle_lightning : Int
+
+pub let particle_normal : Int
+
+pub fn path_position_x(Game, Int, Float) -> Float
+
+pub fn path_position_z(Game, Int, Float) -> Float
+
+pub let pi : Float
+
+pub let proj_bullet : Int
+
+pub let proj_cannonball : Int
+
+pub let proj_fireball : Int
+
+pub let proj_ice_shard : Int
+
+pub let proj_lightning_bolt : Int
+
+pub let proj_sniper_round : Int
+
+pub let proj_speed_bullet : Float
+
+pub let proj_speed_cannonball : Float
+
+pub let proj_speed_fireball : Float
+
+pub let proj_speed_ice_shard : Float
+
+pub let proj_speed_lightning : Float
+
+pub let proj_speed_sniper : Float
+
+pub let proj_speed_splash : Float
+
+pub let proj_splash_bomb : Int
+
+pub fn projectile_speed_for(Int) -> Float
+
+pub fn rand_bool(Game, Float) -> Bool
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub let range_arrow : Float
+
+pub let range_buff : Float
+
+pub let range_cannon : Float
+
+pub let range_flame : Float
+
+pub let range_frost : Float
+
+pub let range_lightning : Float
+
+pub let range_sniper : Float
+
+pub let range_splash : Float
+
+pub let rate_arrow : Float
+
+pub let rate_buff : Float
+
+pub let rate_cannon : Float
+
+pub let rate_flame : Float
+
+pub let rate_frost : Float
+
+pub let rate_lightning : Float
+
+pub let rate_sniper : Float
+
+pub let rate_splash : Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let sell_value_pct : Float
+
+pub fn set_notification(Game, String, Float) -> Unit
+
+pub fn set_tile(Game, Int, Int, Int) -> Unit
+
+pub let shield_max_pct : Float
+
+pub let shield_regen_delay : Float
+
+pub let shield_regen_rate : Float
+
+pub let slow_duration : Float
+
+pub let slow_strength : Float
+
+pub let sniper_crit_chance : Float
+
+pub let sniper_crit_mult : Float
+
+pub fn spawn_build_particles(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_explosion_particles(Game, Float, Float, Float, Int) -> Unit
+
+pub fn spawn_fire_particles(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_gold_particles(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_ice_particles(Game, Float, Float, Float) -> Unit
+
+pub let spawn_interval : Float
+
+pub fn spawn_lightning_particles(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particles_typed(Game, Float, Float, Float, Int, Int, Int, Int, Int) -> Unit
+
+pub let speed_1x : Float
+
+pub let speed_2x : Float
+
+pub let speed_3x : Float
+
+pub fn speed_from_setting(Int) -> Float
+
+pub fn speed_name(Int) -> String
+
+pub let splash_radius_cannon : Float
+
+pub let splash_radius_flame : Float
+
+pub fn splash_radius_for(Int) -> Float
+
+pub let splash_radius_splash : Float
+
+pub let splitter_child_hp_pct : Float
+
+pub let splitter_children : Int
+
+pub let starting_gold : Int
+
+pub let starting_lives : Int
+
+pub let state_building : Int
+
+pub let state_game_over : Int
+
+pub let state_map_select : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_tower_info : Int
+
+pub let state_victory : Int
+
+pub let state_wave_prep : Int
+
+pub let stun_duration : Float
+
+pub let target_closest : Int
+
+pub let target_first : Int
+
+pub let target_last : Int
+
+pub let target_mode_count : Int
+
+pub let target_strongest : Int
+
+pub fn targeting_mode_name(Int) -> String
+
+pub let tile_end : Int
+
+pub let tile_grass : Int
+
+pub fn tile_index(Int, Int) -> Int
+
+pub let tile_path : Int
+
+pub let tile_rock : Int
+
+pub let tile_start : Int
+
+pub let tile_water : Int
+
+pub let tower_arrow : Int
+
+pub fn tower_at(Game, Int, Int) -> Int
+
+pub let tower_base_height : Float
+
+pub let tower_body_height : Float
+
+pub let tower_buff : Int
+
+pub fn tower_can_detect_camo(Int) -> Bool
+
+pub let tower_cannon : Int
+
+pub fn tower_cost(Int) -> Int
+
+pub fn tower_cost_for(Int) -> Int
+
+pub fn tower_damage(Int) -> Float
+
+pub fn tower_description(Int) -> String
+
+pub fn tower_effective_damage(Tower) -> Float
+
+pub fn tower_effective_range(Tower) -> Float
+
+pub fn tower_effective_rate(Tower) -> Float
+
+pub fn tower_fire_rate(Int) -> Float
+
+pub let tower_flame : Int
+
+pub let tower_frost : Int
+
+pub let tower_lightning : Int
+
+pub fn tower_name(Int) -> String
+
+pub fn tower_range(Int) -> Float
+
+pub fn tower_sell_value(Int, Int) -> Int
+
+pub let tower_sniper : Int
+
+pub let tower_splash : Int
+
+pub fn tower_total_investment(Int, Int) -> Int
+
+pub let tower_type_count : Int
+
+pub fn tower_upgrade_cost(Int, Int) -> Int
+
+pub let upgrade_cost_mult_2 : Float
+
+pub let upgrade_cost_mult_3 : Float
+
+pub let upgrade_damage_mult : Float
+
+pub let upgrade_range_mult : Float
+
+pub let upgrade_rate_mult : Float
+
+pub let wave_completion_bonus : Int
+
+pub let wave_prep_time : Float
+
+pub fn world_to_grid_x(Float) -> Int
+
+pub fn world_to_grid_y(Float) -> Int
+
+// Errors
+
+// Types and methods
+pub(all) struct ChainLine {
+  mut active : Bool
+  mut x1 : Float
+  mut y1 : Float
+  mut z1 : Float
+  mut x2 : Float
+  mut y2 : Float
+  mut z2 : Float
+  mut life : Float
+}
+pub fn ChainLine::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut speed : Float
+  mut base_speed : Float
+  mut armor : Float
+  mut path_index : Int
+  mut path_progress : Float
+  mut slow_timer : Float
+  mut slow_factor : Float
+  mut burn_timer : Float
+  mut burn_dps : Float
+  mut stun_timer : Float
+  mut armor_break_timer : Float
+  mut armor_break_factor : Float
+  mut gold_value : Int
+  mut flying : Bool
+  mut is_boss : Bool
+  mut is_camo : Bool
+  mut shield_hp : Float
+  mut shield_max : Float
+  mut shield_regen_timer : Float
+  mut heal_timer : Float
+  mut spawn_children : Bool
+  mut score_value : Int
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut prev_state : Int
+  mut gold : Int
+  mut lives : Int
+  mut score : Int
+  mut interest_timer : Float
+  mut total_gold_earned : Int
+  mut total_gold_spent : Int
+  mut current_wave : Int
+  mut wave_timer : Float
+  mut spawn_timer : Float
+  mut enemies_to_spawn : Int
+  mut enemies_spawned : Int
+  mut wave_enemy_kind : Int
+  mut wave_hp_mult : Float
+  mut wave_speed_mult : Float
+  mut wave_spawn_group : Int
+  mut enemies_killed_this_wave : Int
+  mut wave_active : Bool
+  mut spawn_groups : Array[WaveSpawnEntry]
+  mut current_group : Int
+  mut group_spawned : Int
+  mut group_delay_timer : Float
+  tiles : Array[Int]
+  path_nodes : Array[PathNode]
+  mut path_count : Int
+  towers : Array[Tower]
+  enemies : Array[Enemy]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  mut selected_tower_type : Int
+  mut hover_gx : Int
+  mut hover_gy : Int
+  mut hover_valid : Bool
+  mut camera_angle : Float
+  mut camera_pitch : Float
+  mut camera_dist : Float
+  mut camera_target_x : Float
+  mut camera_target_z : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut show_ranges : Bool
+  mut selected_tower_idx : Int
+  mut upgrade_preview : Bool
+  mut tower_info_scroll : Int
+  mut notification_timer : Float
+  mut notification_text : String
+  mut show_minimap : Bool
+  mut speed_multiplier : Float
+  mut speed_setting : Int
+  mut difficulty : Int
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut current_map : Int
+  mut towers_built : Int
+  mut towers_sold : Int
+  mut total_kills : Int
+  mut damage_dealt : Float
+  mut longest_wave : Int
+  mut wave_message : String
+  mut wave_message_timer : Float
+  mut chain_lines : Array[ChainLine]
+  mut chain_line_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct MapInfo {
+  name : String
+  difficulty : Int
+  layout : Array[String]
+  description : String
+  starting_gold_bonus : Int
+}
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct PathNode {
+  x : Float
+  z : Float
+}
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut target_idx : Int
+  mut damage : Float
+  mut speed : Float
+  mut splash_radius : Float
+  mut slow_amount : Float
+  mut slow_duration : Float
+  mut burn_damage : Float
+  mut burn_duration : Float
+  mut stun_chance : Float
+  mut stun_duration : Float
+  mut chain_count : Int
+  mut chain_range : Float
+  mut is_crit : Bool
+  mut tower_idx : Int
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct StatusEffect {
+  mut kind : Int
+  mut duration : Float
+  mut strength : Float
+  mut tick_timer : Float
+}
+pub fn StatusEffect::new(Int, Float, Float) -> Self
+pub fn StatusEffect::none() -> Self
+
+pub(all) struct Tower {
+  mut active : Bool
+  mut kind : Int
+  mut gx : Int
+  mut gy : Int
+  mut level : Int
+  mut reload_timer : Float
+  mut target_idx : Int
+  mut angle : Float
+  mut targeting_mode : Int
+  mut kills : Int
+  mut total_damage : Float
+  mut special_timer : Float
+  mut special_active : Bool
+  mut buff_damage : Float
+  mut buff_range : Float
+  mut buff_rate : Float
+  mut sell_value : Int
+}
+pub fn Tower::inactive() -> Self
+pub fn Tower::new(Int, Int, Int) -> Self
+
+pub(all) struct UpgradeInfo {
+  cost : Int
+  damage_mult : Float
+  range_mult : Float
+  rate_mult : Float
+  special_desc : String
+}
+
+pub(all) struct WaveDef {
+  enemy_kind : Int
+  count : Int
+  hp_mult : Float
+  speed_mult : Float
+}
+
+pub(all) struct WaveInfo {
+  entries : Array[WaveSpawnEntry]
+  is_boss_wave : Bool
+  bonus_gold : Int
+  wave_message : String
+}
+
+pub(all) struct WaveSpawnEntry {
+  enemy_kind : Int
+  count : Int
+  hp_mult : Float
+  speed_mult : Float
+  spawn_delay : Float
+}
+
+// Type aliases
+
+// Traits
+

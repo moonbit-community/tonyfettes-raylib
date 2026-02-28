@@ -1,0 +1,735 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_kart_racing_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let ai_base_speed_mult : Float
+
+pub let ai_difficulty_easy : Int
+
+pub let ai_difficulty_expert : Int
+
+pub let ai_difficulty_hard : Int
+
+pub let ai_difficulty_medium : Int
+
+pub let ai_difficulty_stats : Array[(Float, Float, Float, Float)]
+
+pub let ai_rubberband_ahead : Float
+
+pub let ai_rubberband_behind : Float
+
+pub let air_steer_mult : Float
+
+pub fn alloc_dropped_item(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_powerup(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn angle_diff(Float, Float) -> Float
+
+pub fn angle_to(Float, Float, Float, Float) -> Float
+
+pub let banana_lifetime : Float
+
+pub let barrier_height : Float
+
+pub let barrier_width : Float
+
+pub let boost_duration : Float
+
+pub let boost_flame_emit_rate : Int
+
+pub let boost_speed_add : Float
+
+pub let bump_spin_threshold : Float
+
+pub fn calc_bump_force(Float, Float) -> (Float, Float)
+
+pub fn calc_drift_level(Float) -> Int
+
+pub fn calc_rubber_band_mult(Float, Float, Int) -> Float
+
+pub fn calc_total_progress(Kart, Int) -> Float
+
+pub let camera_boost_fov_add : Float
+
+pub let camera_dist : Float
+
+pub let camera_drift_offset : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let camera_smooth : Float
+
+pub let character_names : Array[String]
+
+pub let character_stats : Array[(Float, Float, Float, Float)]
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let confetti_count : Int
+
+pub let countdown_total : Float
+
+pub fn cross2d(Float, Float, Float, Float) -> Float
+
+pub let cup_points_table : Array[Int]
+
+pub let cups_count : Int
+
+pub let deco_barrier_metal : Int
+
+pub let deco_barrier_tire : Int
+
+pub let deco_building_small : Int
+
+pub let deco_building_tall : Int
+
+pub let deco_cactus : Int
+
+pub let deco_colors : Array[(Int, Int, Int)]
+
+pub let deco_grandstand : Int
+
+pub let deco_lamp_post : Int
+
+pub let deco_lava_rock : Int
+
+pub let deco_none : Int
+
+pub let deco_rock_large : Int
+
+pub let deco_rock_small : Int
+
+pub let deco_sign_board : Int
+
+pub let deco_snow_mound : Int
+
+pub let deco_tree_green : Int
+
+pub let deco_tree_palm : Int
+
+pub let deco_tree_pine : Int
+
+pub let deco_type_count : Int
+
+pub fn detect_surface_type(Game, Float, Float) -> Int
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance2d_sq(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn dot2d(Float, Float, Float, Float) -> Float
+
+pub let drift_boost_speed : Float
+
+pub let drift_boost_time : Float
+
+pub let drift_friction_mult : Float
+
+pub let drift_level_mini : Int
+
+pub let drift_level_none : Int
+
+pub let drift_level_super : Int
+
+pub let drift_level_ultra : Int
+
+pub let drift_mini_boost : Float
+
+pub let drift_mini_duration : Float
+
+pub let drift_mini_threshold : Float
+
+pub let drift_spark_emit_rate : Int
+
+pub let drift_steer_mult : Float
+
+pub let drift_super_boost : Float
+
+pub let drift_super_duration : Float
+
+pub let drift_super_threshold : Float
+
+pub let drift_ultra_boost : Float
+
+pub let drift_ultra_duration : Float
+
+pub let drift_ultra_threshold : Float
+
+pub let dust_emit_rate : Int
+
+pub let explosion_particle_count : Int
+
+pub fn find_target_ahead(Game, Int) -> Int
+
+pub fn find_target_behind(Game, Int) -> Int
+
+pub fn format_time(Float) -> String
+
+pub fn get_drift_boost_duration(Int) -> Float
+
+pub fn get_drift_boost_power(Int) -> Float
+
+pub fn get_drift_spark_color(Int) -> (Int, Int, Int)
+
+pub fn get_item_weights(Int) -> Array[Int]
+
+pub fn get_kart_accel(Kart) -> Float
+
+pub fn get_kart_drift_boost_mult(Kart) -> Float
+
+pub fn get_kart_handling(Kart) -> Float
+
+pub fn get_kart_max_speed(Kart) -> Float
+
+pub fn get_kart_weight(Kart) -> Float
+
+pub fn get_segment(Game, Int) -> TrackSegment
+
+pub fn get_surface_grip(Int) -> Float
+
+pub fn get_surface_speed_mult(Int) -> Float
+
+pub fn get_track_direction(Game, Int) -> (Float, Float)
+
+pub fn get_track_perpendicular(Game, Int) -> (Float, Float)
+
+pub fn get_waypoint(Game, Int) -> Waypoint
+
+pub let gravity : Float
+
+pub let grip_boost_pad : Float
+
+pub let grip_dirt : Float
+
+pub let grip_grass : Float
+
+pub let grip_ice : Float
+
+pub let grip_oil : Float
+
+pub let grip_road : Float
+
+pub let half_pi : Float
+
+pub fn interpolate_track_position(Game, Int, Float) -> (Float, Float, Float)
+
+pub fn is_on_ramp(Game, Kart) -> Bool
+
+pub fn is_wrong_way(Game, Kart) -> Bool
+
+pub let item_stats_banana : (Float, Float, Float, Float)
+
+pub let item_stats_boost : (Float, Float, Float, Float)
+
+pub let item_stats_lightning : (Float, Float, Float, Float)
+
+pub let item_stats_missile : (Float, Float, Float, Float)
+
+pub let item_stats_oil : (Float, Float, Float, Float)
+
+pub let item_stats_shield : (Float, Float, Float, Float)
+
+pub let item_stats_star : (Float, Float, Float, Float)
+
+pub let item_stats_triple : (Float, Float, Float, Float)
+
+pub let jump_ramp_force : Float
+
+pub let kart_accel : Float
+
+pub let kart_accent_colors : Array[(Int, Int, Int)]
+
+pub let kart_bounce : Float
+
+pub let kart_brake : Float
+
+pub let kart_colors : Array[(Int, Int, Int)]
+
+pub let kart_friction : Float
+
+pub let kart_height : Float
+
+pub let kart_length : Float
+
+pub let kart_max_speed : Float
+
+pub let kart_secondary_colors : Array[(Int, Int, Int)]
+
+pub let kart_stats : Array[(Float, Float, Float, Float, Float)]
+
+pub let kart_steer_speed : Float
+
+pub let kart_type_accel : Int
+
+pub let kart_type_balanced : Int
+
+pub let kart_type_count : Int
+
+pub let kart_type_drift : Int
+
+pub let kart_type_feather : Int
+
+pub let kart_type_handling : Int
+
+pub let kart_type_heavy : Int
+
+pub let kart_type_names : Array[String]
+
+pub let kart_type_speed : Int
+
+pub let kart_type_turbo : Int
+
+pub let kart_width : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let lightning_duration : Float
+
+pub let lightning_slow_mult : Float
+
+pub let lightning_spin_duration : Float
+
+pub let max_dropped_items : Int
+
+pub let max_karts : Int
+
+pub let max_particles : Int
+
+pub let max_powerups : Int
+
+pub let max_projectiles : Int
+
+pub let max_waypoints : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let missile_speed : Float
+
+pub fn normalize_angle(Float) -> Float
+
+pub let oil_slick_lifetime : Float
+
+pub fn ordinal_suffix(Int) -> String
+
+pub let particle_boost_flame : Int
+
+pub let particle_drag : Float
+
+pub let particle_drift_spark : Int
+
+pub let particle_dust : Int
+
+pub let particle_explosion : Int
+
+pub let particle_gravity : Float
+
+pub let particle_life_long : Float
+
+pub let particle_life_medium : Float
+
+pub let particle_life_short : Float
+
+pub let particle_lightning : Int
+
+pub let particle_size_large : Float
+
+pub let particle_size_medium : Float
+
+pub let particle_size_small : Float
+
+pub let particle_size_tiny : Float
+
+pub let particle_splash : Int
+
+pub let particle_star_sparkle : Int
+
+pub let pi : Float
+
+pub fn pick_random_powerup(Game, Int) -> Int
+
+pub let player_kart : Int
+
+pub fn point_to_segment_dist(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn position_points(Int) -> Int
+
+pub let powerup_banana : Int
+
+pub let powerup_boost : Int
+
+pub let powerup_lightning : Int
+
+pub let powerup_missile : Int
+
+pub let powerup_none : Int
+
+pub let powerup_oil_slick : Int
+
+pub let powerup_shield : Int
+
+pub let powerup_star : Int
+
+pub let powerup_triple_mushroom : Int
+
+pub let powerup_type_count : Int
+
+pub fn project_point_on_segment(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let races_per_cup : Int
+
+pub fn rand_bool(Game, Float) -> Bool
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub let road_half : Float
+
+pub let road_width : Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let seg_bridge : Int
+
+pub let seg_chicane : Int
+
+pub let seg_curve_gentle : Int
+
+pub let seg_curve_sharp : Int
+
+pub let seg_jump_ramp : Int
+
+pub let seg_s_curve : Int
+
+pub let seg_straight : Int
+
+pub let seg_tunnel : Int
+
+pub let shield_duration : Float
+
+pub fn should_spin_from_bump(Float, Float) -> (Bool, Bool)
+
+pub fn smooth_step(Float, Float, Float) -> Float
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_typed_particles(Game, Int, Float, Float, Float, Int, Int, Int, Int, Float, Float) -> Unit
+
+pub let speed_mult_boost_pad : Float
+
+pub let speed_mult_dirt : Float
+
+pub let speed_mult_grass : Float
+
+pub let speed_mult_ice : Float
+
+pub let speed_mult_oil : Float
+
+pub let speed_mult_road : Float
+
+pub let spin_duration : Float
+
+pub let star_duration : Float
+
+pub let star_sparkle_rate : Int
+
+pub let star_speed_add : Float
+
+pub let state_countdown : Int
+
+pub let state_cup_complete : Int
+
+pub let state_kart_select : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_race_complete : Int
+
+pub let state_racing : Int
+
+pub let state_track_preview : Int
+
+pub let surface_boost_pad : Int
+
+pub let surface_dirt : Int
+
+pub let surface_grass : Int
+
+pub let surface_ice : Int
+
+pub let surface_oil : Int
+
+pub let surface_road : Int
+
+pub let theme_beach : Int
+
+pub let theme_castle : Int
+
+pub let theme_circuit : Int
+
+pub let theme_decorations : Array[Array[Int]]
+
+pub let theme_desert : Int
+
+pub let theme_ground_colors : Array[(Int, Int, Int)]
+
+pub let theme_ice : Int
+
+pub let theme_mountain : Int
+
+pub let theme_night : Int
+
+pub let theme_sky_colors : Array[(Int, Int, Int)]
+
+pub let theme_volcano : Int
+
+pub let total_laps : Int
+
+pub let track_difficulty_ratings : Array[Int]
+
+pub let track_record_times : Array[Float]
+
+pub let tree_spacing : Float
+
+pub let triple_mushroom_boost : Float
+
+pub let two_pi : Float
+
+pub let weight_bump_force : Float
+
+pub let weight_spin_diff : Float
+
+pub let wrong_way_angle_threshold : Float
+
+pub let wrong_way_flash_speed : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct CupStanding {
+  mut points : Array[Int]
+}
+
+pub(all) struct DroppedItem {
+  mut active : Bool
+  mut item_type : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut lifetime : Float
+  mut owner : Int
+  mut rotation : Float
+}
+pub fn DroppedItem::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut current_cup : Int
+  mut current_race : Int
+  mut race_time : Float
+  mut countdown_timer : Float
+  mut best_lap_time : Float
+  mut current_lap_time : Float
+  mut lap_start_time : Float
+  waypoints : Array[Waypoint]
+  mut waypoint_count : Int
+  segments : Array[TrackSegment]
+  mut track_theme : Int
+  mut track_name : String
+  karts : Array[Kart]
+  powerups : Array[Powerup]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  dropped_items : Array[DroppedItem]
+  cup_points : Array[Int]
+  race_results : Array[RaceResult]
+  mut camera_x : Float
+  mut camera_y : Float
+  mut camera_z : Float
+  mut camera_look_x : Float
+  mut camera_look_y : Float
+  mut camera_look_z : Float
+  mut camera_fov : Float
+  mut camera_shake : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut results_scroll : Float
+  mut selected_kart_type : Int
+  mut selected_character : Int
+  mut kart_select_cursor : Int
+  mut wrong_way_flash : Float
+  mut lightning_active : Bool
+  mut lightning_timer : Float
+  mut lightning_source : Int
+  mut star_rainbow_timer : Float
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut preview_rotation : Float
+  mut preview_timer : Float
+  mut fastest_lap_kart : Int
+  mut fastest_lap_time : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Kart {
+  mut active : Bool
+  mut character_id : Int
+  mut kart_type : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut angle : Float
+  mut speed : Float
+  mut steer : Float
+  mut vy : Float
+  mut on_ground : Bool
+  mut lap : Int
+  mut waypoint_idx : Int
+  mut waypoint_progress : Float
+  mut total_progress : Float
+  mut place : Int
+  mut held_powerup : Int
+  mut item_count : Int
+  mut boost_timer : Float
+  mut boost_power : Float
+  mut shield_timer : Float
+  mut drift_left : Bool
+  mut drift_right : Bool
+  mut drift_timer : Float
+  mut drift_level : Int
+  mut drift_angle : Float
+  mut spin_timer : Float
+  mut stunned_timer : Float
+  mut invincible_timer : Float
+  mut star_timer : Float
+  mut lightning_timer : Float
+  mut finish_time : Float
+  mut finished : Bool
+  mut is_player : Bool
+  mut on_surface_type : Int
+  mut wrong_way : Bool
+  mut wrong_way_timer : Float
+  mut air_timer : Float
+  mut bounce_timer : Float
+  mut race_time : Float
+  mut lap_times : Array[Float]
+  mut best_lap : Float
+  mut ai_steer_target : Float
+  mut ai_accel : Float
+  mut ai_use_item_timer : Float
+  mut ai_difficulty : Int
+  mut ai_line_offset : Float
+  mut ai_reaction_timer : Float
+  mut ai_brake_timer : Float
+}
+pub fn Kart::inactive() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut particle_type : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Powerup {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut kind : Int
+  mut respawn_timer : Float
+  mut collected : Bool
+  mut bob_offset : Float
+}
+pub fn Powerup::inactive() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut angle : Float
+  mut speed : Float
+  mut owner : Int
+  mut life : Float
+  mut target_kart : Int
+  mut homing_strength : Float
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct RaceResult {
+  mut kart_index : Int
+  mut position : Int
+  mut finish_time : Float
+  mut best_lap : Float
+  mut points_earned : Int
+}
+pub fn RaceResult::default() -> Self
+
+pub(all) struct TrackData {
+  mut track_name : String
+  mut theme : Int
+  mut lap_count : Int
+  mut cup_index : Int
+  mut segments : Array[TrackSegment]
+}
+pub fn TrackData::default() -> Self
+
+pub(all) struct TrackSegment {
+  mut seg_type : Int
+  mut surface_type : Int
+  mut width_mult : Float
+  mut banking : Float
+  mut has_item_boxes : Bool
+  mut decoration_type : Int
+  mut is_ramp : Bool
+  mut ramp_height : Float
+}
+pub fn TrackSegment::default() -> Self
+
+pub(all) struct Waypoint {
+  x : Float
+  y : Float
+  z : Float
+}
+
+// Type aliases
+
+// Traits
+

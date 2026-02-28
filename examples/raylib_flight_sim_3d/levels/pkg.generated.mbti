@@ -1,0 +1,30 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flight_sim_3d/levels"
+
+// Values
+pub fn get_air_enemy_pos(Int, Int) -> (Float, Float, Float)
+
+pub fn get_building_info(Int, Int) -> (Float, Float, Float, Int)
+
+pub fn get_checkpoint_pos(Int, Int) -> (Float, Float, Float)
+
+pub fn get_ground_enemy_pos(Int, Int) -> (Float, Float, Float)
+
+pub fn get_mission_briefing_lines(Int) -> Array[String]
+
+pub fn get_mission_par_time(Int) -> Float
+
+pub fn get_mission_scoring_info(Int) -> (Int, Int, Int)
+
+pub fn get_turret_placement(Int, Int) -> (Float, Float, Float, Float)
+
+pub fn get_turret_pos(Int, Int) -> (Float, Float, Float)
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

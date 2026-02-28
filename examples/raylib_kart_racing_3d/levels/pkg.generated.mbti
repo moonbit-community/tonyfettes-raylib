@@ -1,0 +1,60 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_kart_racing_3d/levels"
+
+// Values
+pub fn get_ai_line_offset(Int, Int, Int) -> Float
+
+pub fn get_ai_waypoint_offsets(Int, Int) -> Array[Float]
+
+pub fn get_cup_description(Int) -> String
+
+pub fn get_cup_difficulty(Int) -> Int
+
+pub fn get_cup_name(Int) -> String
+
+pub fn get_fog_color(Int, Int) -> (Int, Int, Int)
+
+pub fn get_sky_gradient_color(Int, Int) -> (Int, Int, Int)
+
+pub fn get_track_decoration_data(Int, Int) -> Array[(Int, Float, Float, Float)]
+
+pub fn get_track_description(Int, Int) -> String
+
+pub fn get_track_difficulty(Int, Int) -> Int
+
+pub fn get_track_elevation_info(Int, Int) -> String
+
+pub fn get_track_ground_color(Int, Int) -> (Int, Int, Int)
+
+pub fn get_track_item_box_count(Int, Int) -> Int
+
+pub fn get_track_laps(Int, Int) -> Int
+
+pub fn get_track_length_estimate(Int, Int) -> Float
+
+pub fn get_track_name(Int, Int) -> String
+
+pub fn get_track_record_holder(Int, Int) -> String
+
+pub fn get_track_record_time(Int, Int) -> Float
+
+pub fn get_track_road_color(Int, Int) -> (Int, Int, Int)
+
+pub fn get_track_segments(Int, Int) -> Array[(Int, Int, Float, Bool)]
+
+pub fn get_track_sky_color(Int, Int) -> (Int, Int, Int)
+
+pub fn get_track_surface_info(Int, Int) -> String
+
+pub fn get_track_theme(Int, Int) -> Int
+
+pub fn get_track_waypoints(Int, Int) -> Array[(Float, Float, Float)]
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -18,20 +19,24 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   // Up/Down to navigate menu
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.menu_cursor -= 1
-    if game.menu_cursor < 0 { game.menu_cursor = 1 }
+    if game.menu_cursor < 0 {
+      game.menu_cursor = 1
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.menu_cursor += 1
-    if game.menu_cursor > 1 { game.menu_cursor = 0 }
+    if game.menu_cursor > 1 {
+      game.menu_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     if game.menu_cursor == 0 {
       // Quick battle - start battle 0
       start_battle(game, 0)
@@ -44,6 +49,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_battle_select(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   // Navigate battle list
@@ -59,9 +65,8 @@ fn update_battle_select(game : @types.Game, dt : Float) -> Unit {
       game.battle_select_cursor = 0
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     start_battle(game, game.battle_select_cursor)
     game.current_battle = game.battle_select_cursor
     game.state = @types.state_playing
@@ -71,10 +76,10 @@ fn update_battle_select(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_paused
     return
   }
@@ -106,12 +111,20 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
       let cos_h = @math.cosf(game.player.heading)
       let wake_x = game.player.x - sin_h * game.player.ship_length * 0.4
       let wake_z = game.player.z - cos_h * game.player.ship_length * 0.4
-      @types.spawn_wake(game, wake_x, wake_z, game.player.heading, game.player.speed)
+      @types.spawn_wake(
+        game,
+        wake_x,
+        wake_z,
+        game.player.heading,
+        game.player.speed,
+      )
     }
     // Enemy wakes
     for i = 0; i < game.enemies.length(); i = i + 1 {
       let e = game.enemies[i]
-      if not(e.active) { continue i + 1 }
+      if not(e.active) {
+        continue i + 1
+      }
       if e.speed > @types.wake_min_speed {
         let sin_h = @math.sinf(e.heading)
         let cos_h = @math.cosf(e.heading)
@@ -130,6 +143,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_wind(game : @types.Game, dt : Float) -> Unit {
   let wind = game.wind
   // Shift timer - periodically change wind direction
@@ -159,9 +173,8 @@ fn update_wind(game : @types.Game, dt : Float) -> Unit {
   if wind.gust_timer <= 0.0 {
     if wind.gust_active {
       wind.gust_active = false
-      wind.gust_timer = @types.wind_gust_frequency + @types.rand_rangef(
-        game, -2.0, 2.0,
-      )
+      wind.gust_timer = @types.wind_gust_frequency +
+        @types.rand_rangef(game, -2.0, 2.0)
     } else {
       wind.gust_active = true
       wind.gust_strength = @types.rand_rangef(
@@ -173,9 +186,7 @@ fn update_wind(game : @types.Game, dt : Float) -> Unit {
     }
   }
   // Turbulence noise
-  let turb = @math.sinf(
-    Float::from_int(game.frame_counter) * 0.07,
-  ) * 0.05
+  let turb = @math.sinf(Float::from_int(game.frame_counter) * 0.07) * 0.05
   wind.turbulence = turb
   // Sync to game-level wind vars
   let effective_speed : Float = if wind.gust_active {
@@ -187,76 +198,84 @@ fn update_wind(game : @types.Game, dt : Float) -> Unit {
   game.wind_speed = effective_speed
 }
 
+///|
 fn update_paused(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_playing
   }
 }
 
+///|
 fn update_battle_complete(game : @types.Game) -> Unit {
   if game.current_battle >= game.total_battles - 1 {
     // All battles done - victory
-    if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-      @raylib.KeySpace,
-    ) {
+    if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+      @raylib.is_key_pressed(@raylib.KeySpace) {
       reset_game(game)
       game.state = @types.state_menu
     }
-  } else {
-    if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-      @raylib.KeySpace,
-    ) {
-      // Repair player ship partially between battles
-      game.player.hull_hp = @types.minf(
-        game.player.hull_hp + 30.0, game.player.max_hp,
-      )
-      game.player.sail_hp = @types.minf(
-        game.player.sail_hp + 20.0, game.player.max_hp,
-      )
-      game.player.rudder_hp = @types.minf(
-        game.player.rudder_hp + 20.0, game.player.max_hp,
-      )
-      game.player.mast_hp = @types.minf(
-        game.player.mast_hp + 25.0, @types.get_class_max_mast(game.player.ship_class),
-      )
-      game.player.cannon_deck_hp = @types.minf(
-        game.player.cannon_deck_hp + 15.0, game.player.max_hp,
-      )
-      // Replenish some ammo
-      game.player.ammo_round = @types.mini(
-        game.player.ammo_round + 15, @types.player_start_ammo,
-      )
-      game.player.ammo_chain = @types.mini(game.player.ammo_chain + 8, 20)
-      game.player.ammo_grape = @types.mini(game.player.ammo_grape + 5, 15)
-      // Recover some crew
-      let crew_recover = @types.maxi(
-        (game.player.max_crew - game.player.crew) / 4, 2,
-      )
-      game.player.crew = @types.mini(
-        game.player.crew + crew_recover, game.player.max_crew,
-      )
-      game.current_battle += 1
-      start_battle(game, game.current_battle)
-      game.state = @types.state_playing
-    }
+  } else if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
+    // Repair player ship partially between battles
+    game.player.hull_hp = @types.minf(
+      game.player.hull_hp + 30.0,
+      game.player.max_hp,
+    )
+    game.player.sail_hp = @types.minf(
+      game.player.sail_hp + 20.0,
+      game.player.max_hp,
+    )
+    game.player.rudder_hp = @types.minf(
+      game.player.rudder_hp + 20.0,
+      game.player.max_hp,
+    )
+    game.player.mast_hp = @types.minf(
+      game.player.mast_hp + 25.0,
+      @types.get_class_max_mast(game.player.ship_class),
+    )
+    game.player.cannon_deck_hp = @types.minf(
+      game.player.cannon_deck_hp + 15.0,
+      game.player.max_hp,
+    )
+    // Replenish some ammo
+    game.player.ammo_round = @types.mini(
+      game.player.ammo_round + 15,
+      @types.player_start_ammo,
+    )
+    game.player.ammo_chain = @types.mini(game.player.ammo_chain + 8, 20)
+    game.player.ammo_grape = @types.mini(game.player.ammo_grape + 5, 15)
+    // Recover some crew
+    let crew_recover = @types.maxi(
+      (game.player.max_crew - game.player.crew) / 4,
+      2,
+    )
+    game.player.crew = @types.mini(
+      game.player.crew + crew_recover,
+      game.player.max_crew,
+    )
+    game.current_battle += 1
+    start_battle(game, game.current_battle)
+    game.state = @types.state_playing
   }
 }
 
+///|
 fn update_game_over(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     reset_game(game)
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
@@ -292,10 +311,13 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_wakes(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.wakes.length(); i = i + 1 {
     let w = game.wakes[i]
-    if not(w.active) { continue i + 1 }
+    if not(w.active) {
+      continue i + 1
+    }
     w.age += dt
     if w.age >= w.max_age {
       w.active = false
@@ -307,10 +329,13 @@ fn update_wakes(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.debris_pool.length(); i = i + 1 {
     let d = game.debris_pool[i]
-    if not(d.active) { continue i + 1 }
+    if not(d.active) {
+      continue i + 1
+    }
     d.life -= dt
     if d.life <= 0.0 {
       d.active = false
@@ -334,10 +359,13 @@ fn update_debris(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.messages.length(); i = i + 1 {
     let msg = game.messages[i]
-    if not(msg.active) { continue i + 1 }
+    if not(msg.active) {
+      continue i + 1
+    }
     msg.timer -= dt
     if msg.timer <= 0.0 {
       msg.active = false
@@ -345,12 +373,14 @@ fn update_messages(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_message(game : @types.Game, dt : Float) -> Unit {
   if game.message_timer > 0.0 {
     game.message_timer -= dt
   }
 }
 
+///|
 fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
   // Player ship bobbing
   game.player.bob_phase += dt * 2.0
@@ -364,11 +394,16 @@ fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
   }
   let target_roll = turning * 0.15 * game.player.speed / @types.player_max_sail
   game.player.roll_angle = @types.lerpf(
-    game.player.roll_angle, target_roll, dt * 3.0,
+    game.player.roll_angle,
+    target_roll,
+    dt * 3.0,
   )
   // Player taking water if hull damaged
   if game.player.hull_hp < game.player.max_hp * 0.3 {
-    let leak_rate : Float = (1.0 - game.player.hull_hp / (game.player.max_hp * 0.3)) * 2.0
+    let leak_rate : Float = (
+        1.0 - game.player.hull_hp / (game.player.max_hp * 0.3)
+      ) *
+      2.0
     game.player.taking_water += leak_rate * dt
     // Water damage
     if game.player.taking_water > 5.0 {
@@ -386,16 +421,16 @@ fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
       game.player.hull_hp -= dt * 2.0
       // Spawn fire particles
       if game.frame_counter % 5 == 0 {
-        @types.spawn_fire(
-          game, game.player.x, 1.5, game.player.z, 2,
-        )
+        @types.spawn_fire(game, game.player.x, 1.5, game.player.z, 2)
       }
     }
   }
   // Enemy ship effects
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
     e.bob_phase += dt * (1.8 + Float::from_int(i) * 0.1)
     // Enemy taking water
     if e.hull_hp < e.max_hp * 0.3 {
@@ -428,25 +463,28 @@ fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
       @types.spawn_particles(game, e.x, 2.0, e.z, 15, 80, 80, 80)
       @types.spawn_debris_cluster(game, e.x, e.z, 8)
       let class_name = @types.get_class_name(e.ship_class)
-      @types.add_battle_message(
-        game, "Enemy \{class_name} sunk!", 255, 150, 50,
-      )
+      @types.add_battle_message(game, "Enemy \{class_name} sunk!", 255, 150, 50)
       @types.add_battle_log(game, "Enemy \{class_name} destroyed")
     }
   }
 }
 
+///|
 fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
   let px = game.player.x
   let pz = game.player.z
   for i = 0; i < game.fleet_ships.length(); i = i + 1 {
     let fs = game.fleet_ships[i]
-    if not(fs.active) { continue i + 1 }
+    if not(fs.active) {
+      continue i + 1
+    }
     fs.bob_phase += dt * 2.0
     // Fleet AI based on order
     if fs.order == @types.fleet_order_follow {
       // Follow player at an offset
-      let follow_angle = game.player.heading + @types.pi + Float::from_int(i + 1) * 0.5
+      let follow_angle = game.player.heading +
+        @types.pi +
+        Float::from_int(i + 1) * 0.5
       let fx = px - @math.sinf(follow_angle) * @types.fleet_follow_dist
       let fz = pz - @math.cosf(follow_angle) * @types.fleet_follow_dist
       let desired = @types.bearing(fs.x, fs.z, fx, fz)
@@ -471,7 +509,9 @@ fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
       let mut nearest_idx = -1
       for j = 0; j < game.enemies.length(); j = j + 1 {
         let e = game.enemies[j]
-        if not(e.active) { continue j + 1 }
+        if not(e.active) {
+          continue j + 1
+        }
         let d = @types.distance2d(fs.x, fs.z, e.x, e.z)
         if d < nearest_dist {
           nearest_dist = d
@@ -527,7 +567,9 @@ fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
         let mut near_dist : Float = 25.0
         for j = 0; j < game.enemies.length(); j = j + 1 {
           let e = game.enemies[j]
-          if not(e.active) { continue j + 1 }
+          if not(e.active) {
+            continue j + 1
+          }
           let d = @types.distance2d(fs.x, fs.z, e.x, e.z)
           if d < near_dist {
             near_dist = d
@@ -559,10 +601,11 @@ fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn fire_fleet_broadside(
   game : @types.Game,
   fleet_idx : Int,
-  enemy_idx : Int
+  enemy_idx : Int,
 ) -> Unit {
   let fs = game.fleet_ships[fleet_idx]
   let target = game.enemies[enemy_idx]
@@ -576,7 +619,9 @@ fn fire_fleet_broadside(
   let shots : Int = @types.mini(fs.cannon_count / 2, 3)
   for i = 0; i < shots; i = i + 1 {
     let idx = @types.alloc_cannonball(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let cb = game.cannonballs[idx]
     let spread = (Float::from_int(i) - Float::from_int(shots) / 2.0) * 0.15
     let fire_angle = side_angle + spread
@@ -608,14 +653,22 @@ fn fire_fleet_broadside(
   @types.spawn_smoke(game, flash_x, 1.5, flash_z, 3)
 }
 
+///|
 fn update_convoy(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.convoy_ships.length(); i = i + 1 {
     let cs = game.convoy_ships[i]
-    if not(cs.active) { continue i + 1 }
-    if cs.arrived { continue i + 1 }
+    if not(cs.active) {
+      continue i + 1
+    }
+    if cs.arrived {
+      continue i + 1
+    }
     // Move toward target
     let desired = @types.bearing(
-      cs.x, cs.z, game.convoy_target_x, game.convoy_target_z,
+      cs.x,
+      cs.z,
+      game.convoy_target_x,
+      game.convoy_target_z,
     )
     let diff = @types.angle_diff(cs.heading, desired)
     let turn : Float = 0.8 * dt
@@ -629,7 +682,10 @@ fn update_convoy(game : @types.Game, dt : Float) -> Unit {
     cs.z += @math.cosf(cs.heading) * cs.speed * dt
     // Check arrival
     let dist = @types.distance2d(
-      cs.x, cs.z, game.convoy_target_x, game.convoy_target_z,
+      cs.x,
+      cs.z,
+      game.convoy_target_x,
+      game.convoy_target_z,
     )
     if dist < 10.0 {
       cs.arrived = true
@@ -643,37 +699,51 @@ fn update_convoy(game : @types.Game, dt : Float) -> Unit {
       cs.active = false
       @types.spawn_particles(game, cs.x, 1.0, cs.z, 20, 255, 100, 30)
       @types.spawn_debris_cluster(game, cs.x, cs.z, 6)
-      @types.add_battle_message(
-        game, "Convoy ship destroyed!", 255, 80, 60,
-      )
+      @types.add_battle_message(game, "Convoy ship destroyed!", 255, 80, 60)
       @types.add_battle_log(game, "Convoy ship lost!")
     }
   }
 }
 
+///|
 fn update_fortress_combat(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.island_count; i = i + 1 {
     let island = game.islands[i]
-    if not(island.active) { continue i + 1 }
-    if not(island.has_fortress) { continue i + 1 }
-    if island.fortress_hp <= 0.0 { continue i + 1 }
+    if not(island.active) {
+      continue i + 1
+    }
+    if not(island.has_fortress) {
+      continue i + 1
+    }
+    if island.fortress_hp <= 0.0 {
+      continue i + 1
+    }
     // Fire at player if in range
     let dist_to_player = @types.distance2d(
-      island.x, island.z, game.player.x, game.player.z,
+      island.x,
+      island.z,
+      game.player.x,
+      game.player.z,
     )
     island.fortress_fire_timer -= dt
-    if island.fortress_fire_timer <= 0.0 && dist_to_player < @types.fortress_range {
+    if island.fortress_fire_timer <= 0.0 &&
+      dist_to_player < @types.fortress_range {
       island.fortress_fire_timer = @types.fortress_fire_rate
       // Fire from fortress
       let cannon_count = island.fortress_cannons_active
       let shots : Int = @types.mini(cannon_count, 3)
       for j = 0; j < shots; j = j + 1 {
         let idx = @types.alloc_cannonball(game)
-        if idx < 0 { break }
+        if idx < 0 {
+          break
+        }
         let cb = game.cannonballs[idx]
         cb.active = true
         let angle_to_player = @types.bearing(
-          island.x, island.z, game.player.x, game.player.z,
+          island.x,
+          island.z,
+          game.player.x,
+          game.player.z,
         )
         let spread = (Float::from_int(j) - Float::from_int(shots) / 2.0) * 0.2
         let fire_angle = angle_to_player + spread
@@ -682,11 +752,18 @@ fn update_fortress_combat(game : @types.Game, dt : Float) -> Unit {
         cb.z = island.z + @math.cosf(fire_angle) * (island.radius + 1.0)
         let aim_dx = game.player.x - cb.x
         let aim_dz = game.player.z - cb.z
-        let aim_dist = @types.distance2d(cb.x, cb.z, game.player.x, game.player.z)
+        let aim_dist = @types.distance2d(
+          cb.x,
+          cb.z,
+          game.player.x,
+          game.player.z,
+        )
         let speed : Float = @types.cannonball_speed * 0.7
         if aim_dist > 0.1 {
-          cb.vx = aim_dx / aim_dist * speed + @types.rand_rangef(game, -3.0, 3.0)
-          cb.vz = aim_dz / aim_dist * speed + @types.rand_rangef(game, -3.0, 3.0)
+          cb.vx = aim_dx / aim_dist * speed +
+            @types.rand_rangef(game, -3.0, 3.0)
+          cb.vz = aim_dz / aim_dist * speed +
+            @types.rand_rangef(game, -3.0, 3.0)
         } else {
           cb.vx = @math.sinf(fire_angle) * speed
           cb.vz = @math.cosf(fire_angle) * speed
@@ -699,23 +776,25 @@ fn update_fortress_combat(game : @types.Game, dt : Float) -> Unit {
       }
       // Muzzle flash
       let flash_angle = @types.bearing(
-        island.x, island.z, game.player.x, game.player.z,
+        island.x,
+        island.z,
+        game.player.x,
+        game.player.z,
       )
       let fx = island.x + @math.sinf(flash_angle) * (island.radius + 1.5)
       let fz = island.z + @math.cosf(flash_angle) * (island.radius + 1.5)
-      @types.spawn_particles(
-        game, fx, island.height + 2.0, fz, 6, 255, 200, 80,
-      )
-      @types.spawn_smoke(
-        game, fx, island.height + 2.5, fz, 4,
-      )
+      @types.spawn_particles(game, fx, island.height + 2.0, fz, 6, 255, 200, 80)
+      @types.spawn_smoke(game, fx, island.height + 2.5, fz, 4)
     }
   }
 }
 
+///|
 fn check_objectives(game : @types.Game) -> Unit {
   let obj = game.objective
-  if obj.completed || obj.failed { return }
+  if obj.completed || obj.failed {
+    return
+  }
   // Count enemies alive
   let mut alive = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -776,6 +855,7 @@ fn check_objectives(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn complete_battle(game : @types.Game) -> Unit {
   // Award score bonus
   let bonus = @levels.get_battle_reward_mult(game.current_battle) * 100
@@ -795,6 +875,7 @@ fn complete_battle(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn start_battle(game : @types.Game, battle : Int) -> Unit {
   // Clear pools
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -894,7 +975,9 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   // Spawn enemies
   for i = 0; i < enemy_count; i = i + 1 {
     let idx = @types.alloc_enemy(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let spawn = @levels.get_enemy_spawn_angle(i, enemy_count)
     let angle = spawn.0
     let dist = spawn.1
@@ -968,7 +1051,9 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   let fortress_idx = @levels.get_fortress_island(battle)
   game.island_count = 0
   for i = 0; i < island_data.length(); i = i + 1 {
-    if game.island_count >= @types.max_islands { break }
+    if game.island_count >= @types.max_islands {
+      break
+    }
     let d = island_data[i]
     let island = game.islands[game.island_count]
     island.active = true
@@ -1004,7 +1089,9 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   // Spawn fleet ships
   let fleet_classes = @levels.get_fleet_classes(battle)
   for i = 0; i < fleet_classes.length(); i = i + 1 {
-    if i >= @types.max_fleet_ships { break }
+    if i >= @types.max_fleet_ships {
+      break
+    }
     let fs = game.fleet_ships[i]
     let fc = fleet_classes[i]
     fs.active = true
@@ -1031,7 +1118,9 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   // Spawn convoy ships
   let convoy_count = @levels.get_convoy_count(battle)
   for i = 0; i < convoy_count; i = i + 1 {
-    if i >= @types.max_convoy_ships { break }
+    if i >= @types.max_convoy_ships {
+      break
+    }
     let cs = game.convoy_ships[i]
     cs.active = true
     cs.x = -15.0 + Float::from_int(i) * @types.convoy_spacing
@@ -1050,6 +1139,7 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   @types.add_battle_log(game, "Battle \{battle + 1}: \{battle_name}")
 }
 
+///|
 fn reset_game(game : @types.Game) -> Unit {
   game.score = 0
   game.reputation = 0

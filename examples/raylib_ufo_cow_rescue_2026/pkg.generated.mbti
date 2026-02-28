@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_ufo_cow_rescue_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Cow
+
+type Farmer
+
+type Particle
+
+type Pickup
+
+type Ufo
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_mahjong_solitaire_pavilion_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Spark
+
+type UndoPair
+
+// Type aliases
+
+// Traits
+

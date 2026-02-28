@@ -1,5 +1,6 @@
 // 2D UI overlay rendering
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
@@ -35,11 +36,14 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      15, 20, 35, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(15, 20, 35, 255),
   )
   // Title
   let title = "PUZZLE DUNGEON 3D"
@@ -80,22 +84,16 @@ fn draw_menu(game : @types.Game) -> Unit {
     let prefix = if is_selected { "> " } else { "  " }
     let text = prefix + items[i]
     let full_w = @raylib.measure_text(text, 30)
-    @raylib.draw_text(
-      text,
-      (@types.screen_width - full_w) / 2,
-      y,
-      30,
-      color,
-    )
+    @raylib.draw_text(text, (@types.screen_width - full_w) / 2, y, 30, color)
     ignore(iw)
   }
   // Controls hint
   @raylib.draw_text(
     "Arrow keys: Navigate | Enter: Select",
-    (@types.screen_width - @raylib.measure_text(
-        "Arrow keys: Navigate | Enter: Select",
-        16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("Arrow keys: Navigate | Enter: Select", 16)
+    ) /
     2,
     @types.screen_height - 60,
     16,
@@ -103,11 +101,16 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   // Top bar background
-  @raylib.draw_rectangle(0, 0, @types.screen_width, 40, @raylib.Color::new(
-    0, 0, 0, 160,
-  ))
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    40,
+    @raylib.Color::new(0, 0, 0, 160),
+  )
   // Floor name
   let floor_name = "F\{game.current_floor + 1}: \{@levels.get_floor_name(game.current_floor)}"
   @raylib.draw_text(
@@ -174,12 +177,15 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_pause_overlay(game : @types.Game) -> Unit {
   ignore(game)
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 0, 0, 150,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 150),
   )
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 60)
@@ -201,11 +207,14 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_level_complete(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 0, 0, 150,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 150),
   )
   let text = "FLOOR COMPLETE!"
   let tw = @raylib.measure_text(text, 48)
@@ -253,12 +262,15 @@ fn draw_level_complete(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_game_over(game : @types.Game) -> Unit {
   ignore(game)
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      30, 0, 0, 200,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(30, 0, 0, 200),
   )
   let text = "STUCK!"
   let tw = @raylib.measure_text(text, 60)
@@ -280,11 +292,14 @@ fn draw_game_over(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_floor_select(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      15, 20, 35, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(15, 20, 35, 255),
   )
   let title = "SELECT FLOOR"
   let tw = @raylib.measure_text(title, 36)
@@ -319,9 +334,11 @@ fn draw_floor_select(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(x + 2, y + 2, cell_w - 4, cell_h - 4, bg)
     if is_selected {
       @raylib.draw_rectangle_lines(
-        x + 2, y + 2, cell_w - 4, cell_h - 4, @raylib.Color::new(
-          200, 220, 255, 255,
-        ),
+        x + 2,
+        y + 2,
+        cell_w - 4,
+        cell_h - 4,
+        @raylib.Color::new(200, 220, 255, 255),
       )
     }
     // Floor number
@@ -365,10 +382,10 @@ fn draw_floor_select(game : @types.Game) -> Unit {
   )
   @raylib.draw_text(
     "Arrows: Navigate | Enter: Play | Esc: Back",
-    (@types.screen_width - @raylib.measure_text(
-        "Arrows: Navigate | Enter: Play | Esc: Back",
-        16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("Arrows: Navigate | Enter: Play | Esc: Back", 16)
+    ) /
     2,
     @types.screen_height - 35,
     16,
@@ -376,11 +393,14 @@ fn draw_floor_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_world_select(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      15, 20, 35, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(15, 20, 35, 255),
   )
   let title = "SELECT WORLD"
   let tw = @raylib.measure_text(title, 36)
@@ -415,7 +435,11 @@ fn draw_world_select(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(x, y, card_w, card_h, bg)
     if is_selected {
       @raylib.draw_rectangle_lines(
-        x, y, card_w, card_h, @raylib.Color::new(255, 255, 255, 255),
+        x,
+        y,
+        card_w,
+        card_h,
+        @raylib.Color::new(255, 255, 255, 255),
       )
     }
     // World name
@@ -476,10 +500,12 @@ fn draw_world_select(game : @types.Game) -> Unit {
   // Hint
   @raylib.draw_text(
     "Left/Right: Navigate | Enter: Select | Esc: Back",
-    (@types.screen_width - @raylib.measure_text(
-        "Left/Right: Navigate | Enter: Select | Esc: Back",
-        16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text(
+        "Left/Right: Navigate | Enter: Select | Esc: Back", 16,
+      )
+    ) /
     2,
     @types.screen_height - 50,
     16,
@@ -487,12 +513,15 @@ fn draw_world_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_campaign_complete(game : @types.Game) -> Unit {
   ignore(game)
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      10, 20, 40, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(10, 20, 40, 255),
   )
   let text = "CONGRATULATIONS!"
   let tw = @raylib.measure_text(text, 48)

@@ -1,5 +1,6 @@
 // 2D UI overlay rendering
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
@@ -67,6 +68,7 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
@@ -116,13 +118,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     let prefix = if is_selected { "> " } else { "  " }
     let text = prefix + items[i]
     let full_w = @raylib.measure_text(text, 32)
-    @raylib.draw_text(
-      text,
-      (@types.screen_width - full_w) / 2,
-      y,
-      32,
-      color,
-    )
+    @raylib.draw_text(text, (@types.screen_width - full_w) / 2, y, 32, color)
   }
   // Controls hint
   let hint = "Arrow Keys: Navigate | Enter: Select | WASD: Move | Mouse: Look"
@@ -136,6 +132,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_menu_torch(game : @types.Game, x : Int, y : Int) -> Unit {
   // Torch post
   @raylib.draw_rectangle(x + 6, y, 8, 40, @raylib.Color::new(100, 70, 30, 255))
@@ -156,6 +153,7 @@ fn draw_menu_torch(game : @types.Game, x : Int, y : Int) -> Unit {
   )
 }
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   // Top bar
   @raylib.draw_rectangle(
@@ -213,9 +211,8 @@ fn draw_hud(game : @types.Game) -> Unit {
     hp_bar_h,
     @raylib.Color::new(60, 20, 20, 255),
   )
-  let hp_frac = Float::from_int(game.player_hp) / Float::from_int(
-    game.player_max_hp,
-  )
+  let hp_frac = Float::from_int(game.player_hp) /
+    Float::from_int(game.player_max_hp)
   let hp_fill = (Float::from_int(hp_bar_w) * hp_frac).to_int()
   let hp_color = if hp_frac > 0.5 {
     @raylib.Color::new(50, 200, 50, 255)
@@ -250,9 +247,8 @@ fn draw_hud(game : @types.Game) -> Unit {
     xp_bar_h,
     @raylib.Color::new(20, 20, 60, 255),
   )
-  let xp_frac = Float::from_int(game.player_xp) / Float::from_int(
-    game.player_xp_next,
-  )
+  let xp_frac = Float::from_int(game.player_xp) /
+    Float::from_int(game.player_xp_next)
   let xp_fill = (Float::from_int(hp_bar_w) * xp_frac).to_int()
   @raylib.draw_rectangle(
     hp_bar_x,
@@ -303,6 +299,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_crosshair() -> Unit {
   let cx = @types.screen_width / 2
   let cy = @types.screen_height / 2
@@ -324,6 +321,7 @@ fn draw_crosshair() -> Unit {
   )
 }
 
+///|
 fn draw_minimap(game : @types.Game) -> Unit {
   let mx = @types.minimap_x
   let my = @types.minimap_y
@@ -487,6 +485,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_pause_overlay(game : @types.Game) -> Unit {
   ignore(game)
   @raylib.draw_rectangle(
@@ -516,6 +515,7 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_game_over(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
@@ -553,6 +553,7 @@ fn draw_game_over(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_level_up_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
@@ -590,6 +591,7 @@ fn draw_level_up_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_floor_complete_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
@@ -641,6 +643,7 @@ fn draw_floor_complete_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_class_select(game : @types.Game) -> Unit {
   // Full-screen dark background
   @raylib.draw_rectangle(
@@ -663,8 +666,7 @@ fn draw_class_select(game : @types.Game) -> Unit {
   // Class names and descriptions
   let names : Array[String] = ["Warrior", "Rogue", "Mage"]
   let descs : Array[String] = [
-    "High HP and defense. Starts with a sword.",
-    "Fast and deadly. Starts with a dagger.",
+    "High HP and defense. Starts with a sword.", "Fast and deadly. Starts with a dagger.",
     "Wields magic. Starts with a staff and spells.",
   ]
   for i = 0; i < 3; i = i + 1 {
@@ -735,6 +737,7 @@ fn draw_class_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_shop(game : @types.Game) -> Unit {
   ignore(game)
   // Semi-transparent overlay
@@ -765,6 +768,7 @@ fn draw_shop(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_shrine(game : @types.Game) -> Unit {
   ignore(game)
   // Semi-transparent overlay

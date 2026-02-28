@@ -1,4 +1,6 @@
 // Status effect on an enemy
+
+///|
 pub(all) struct StatusEffect {
   mut kind : Int
   mut duration : Float
@@ -6,15 +8,23 @@ pub(all) struct StatusEffect {
   mut tick_timer : Float
 }
 
+///|
 pub fn StatusEffect::none() -> StatusEffect {
   { kind: effect_none, duration: 0.0, strength: 0.0, tick_timer: 0.0 }
 }
 
-pub fn StatusEffect::new(kind : Int, duration : Float, strength : Float) -> StatusEffect {
+///|
+pub fn StatusEffect::new(
+  kind : Int,
+  duration : Float,
+  strength : Float,
+) -> StatusEffect {
   { kind, duration, strength, tick_timer: 0.0 }
 }
 
 // Tower entity
+
+///|
 pub(all) struct Tower {
   mut active : Bool
   mut kind : Int
@@ -35,6 +45,7 @@ pub(all) struct Tower {
   mut sell_value : Int
 }
 
+///|
 pub fn Tower::inactive() -> Tower {
   {
     active: false,
@@ -57,6 +68,7 @@ pub fn Tower::inactive() -> Tower {
   }
 }
 
+///|
 pub fn Tower::new(kind : Int, gx : Int, gy : Int) -> Tower {
   {
     active: true,
@@ -80,6 +92,8 @@ pub fn Tower::new(kind : Int, gx : Int, gy : Int) -> Tower {
 }
 
 // Enemy entity
+
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -112,6 +126,7 @@ pub(all) struct Enemy {
   mut score_value : Int
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
@@ -147,6 +162,8 @@ pub fn Enemy::inactive() -> Enemy {
 }
 
 // Projectile
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -169,6 +186,7 @@ pub(all) struct Projectile {
   mut tower_idx : Int
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -194,6 +212,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Particle
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -211,6 +231,7 @@ pub(all) struct Particle {
   mut kind : Int
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -231,21 +252,39 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Particle kinds
+
+///|
 pub let particle_normal : Int = 0
+
+///|
 pub let particle_fire : Int = 1
+
+///|
 pub let particle_ice : Int = 2
+
+///|
 pub let particle_lightning : Int = 3
+
+///|
 pub let particle_gold : Int = 4
+
+///|
 pub let particle_build : Int = 5
+
+///|
 pub let particle_explosion : Int = 6
 
 // Path node
+
+///|
 pub(all) struct PathNode {
   x : Float
   z : Float
 }
 
 // Wave spawn entry: one type of enemy within a wave
+
+///|
 pub(all) struct WaveSpawnEntry {
   enemy_kind : Int
   count : Int
@@ -255,6 +294,8 @@ pub(all) struct WaveSpawnEntry {
 }
 
 // Wave definition
+
+///|
 pub(all) struct WaveDef {
   enemy_kind : Int
   count : Int
@@ -263,6 +304,8 @@ pub(all) struct WaveDef {
 }
 
 // Extended wave definition with multiple spawn groups
+
+///|
 pub(all) struct WaveInfo {
   entries : Array[WaveSpawnEntry]
   is_boss_wave : Bool
@@ -271,6 +314,8 @@ pub(all) struct WaveInfo {
 }
 
 // Map data definition
+
+///|
 pub(all) struct MapInfo {
   name : String
   difficulty : Int
@@ -280,6 +325,8 @@ pub(all) struct MapInfo {
 }
 
 // Tower upgrade info
+
+///|
 pub(all) struct UpgradeInfo {
   cost : Int
   damage_mult : Float
@@ -289,6 +336,8 @@ pub(all) struct UpgradeInfo {
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
   mut prev_state : Int
@@ -386,6 +435,8 @@ pub(all) struct Game {
 }
 
 // Chain lightning visual line
+
+///|
 pub(all) struct ChainLine {
   mut active : Bool
   mut x1 : Float
@@ -397,6 +448,7 @@ pub(all) struct ChainLine {
   mut life : Float
 }
 
+///|
 pub fn ChainLine::inactive() -> ChainLine {
   {
     active: false,
@@ -410,6 +462,7 @@ pub fn ChainLine::inactive() -> ChainLine {
   }
 }
 
+///|
 pub fn Game::new() -> Game {
   {
     state: state_menu,

@@ -1,5 +1,6 @@
 // Enemy spawning, movement, and special abilities
 
+///|
 fn start_wave(game : @types.Game, wave : Int) -> Unit {
   let def = @levels.get_wave_def(wave)
   game.wave_enemy_kind = def.0
@@ -17,6 +18,7 @@ fn start_wave(game : @types.Game, wave : Int) -> Unit {
   game.wave_message_timer = 3.0
 }
 
+///|
 fn update_spawning(game : @types.Game, dt : Float) -> Unit {
   if game.enemies_spawned >= game.enemies_to_spawn {
     return
@@ -34,6 +36,7 @@ fn update_spawning(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn spawn_enemy(game : @types.Game) -> Unit {
   let idx = @types.alloc_enemy(game)
   if idx < 0 {
@@ -91,6 +94,8 @@ fn spawn_enemy(game : @types.Game) -> Unit {
 }
 
 // Spawn child enemies from splitters
+
+///|
 fn spawn_splitter_children(game : @types.Game, parent : @types.Enemy) -> Unit {
   let child_count = @types.splitter_children
   for i = 0; i < child_count; i = i + 1 {
@@ -135,6 +140,7 @@ fn spawn_splitter_children(game : @types.Game, parent : @types.Enemy) -> Unit {
   }
 }
 
+///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   // Update all enemies
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -169,10 +175,11 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_enemy_status_effects(
   game : @types.Game,
   enemy : @types.Enemy,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Update slow
   if enemy.slow_timer > 0.0 {
@@ -211,6 +218,7 @@ fn update_enemy_status_effects(
   }
 }
 
+///|
 fn update_enemy_shield(enemy : @types.Enemy, dt : Float) -> Unit {
   if enemy.shield_hp < enemy.shield_max {
     enemy.shield_regen_timer += dt
@@ -223,6 +231,7 @@ fn update_enemy_shield(enemy : @types.Enemy, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_healer(game : @types.Game, healer_idx : Int, dt : Float) -> Unit {
   let healer = game.enemies[healer_idx]
   healer.heal_timer += dt
@@ -248,12 +257,21 @@ fn update_healer(game : @types.Game, healer_idx : Int, dt : Float) -> Unit {
       }
       // Visual feedback
       @types.spawn_particles_typed(
-        game, other.x, other.y + 0.5, other.z, 2, 50, 255, 50, @types.particle_normal,
+        game,
+        other.x,
+        other.y + 0.5,
+        other.z,
+        2,
+        50,
+        255,
+        50,
+        @types.particle_normal,
       )
     }
   }
 }
 
+///|
 fn kill_enemy(game : @types.Game, enemy : @types.Enemy) -> Unit {
   enemy.active = false
   game.gold += enemy.gold_value
@@ -270,6 +288,7 @@ fn kill_enemy(game : @types.Game, enemy : @types.Enemy) -> Unit {
   }
 }
 
+///|
 fn move_enemy_along_path(game : @types.Game, idx : Int, speed : Float) -> Unit {
   let enemy = game.enemies[idx]
   if enemy.path_index >= game.path_count - 1 {
@@ -306,6 +325,7 @@ fn move_enemy_along_path(game : @types.Game, idx : Int, speed : Float) -> Unit {
   ignore(seg_len)
 }
 
+///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
@@ -322,7 +342,11 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
           continue j + 1
         }
         let d = @types.distance3d(
-          proj.x, proj.y, proj.z, game.enemies[j].x, game.enemies[j].y,
+          proj.x,
+          proj.y,
+          proj.z,
+          game.enemies[j].x,
+          game.enemies[j].y,
           game.enemies[j].z,
         )
         if d < best_dist {
@@ -341,7 +365,12 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     let dy = target.y - proj.y
     let dz = target.z - proj.z
     let dist = @types.distance3d(
-      proj.x, proj.y, proj.z, target.x, target.y, target.z,
+      proj.x,
+      proj.y,
+      proj.z,
+      target.x,
+      target.y,
+      target.z,
     )
     if dist < 0.5 {
       // Hit!
@@ -360,6 +389,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn apply_projectile_hit(game : @types.Game, proj_idx : Int) -> Unit {
   let proj = game.projectiles[proj_idx]
   // Determine tower kind for resistance calculation
@@ -385,33 +415,39 @@ fn apply_projectile_hit(game : @types.Game, proj_idx : Int) -> Unit {
   } else if proj.chain_count > 0 {
     // Chain lightning
     apply_chain_lightning(game, proj)
-  } else {
     // Single target
-    if proj.target_idx >= 0 && game.enemies[proj.target_idx].active {
-      let enemy = game.enemies[proj.target_idx]
-      let raw_damage : Float = if proj.is_crit {
-        proj.damage * @types.sniper_crit_mult
-      } else {
-        proj.damage
-      }
-      let actual_damage = @types.calc_damage(raw_damage, tower_kind, enemy)
-      damage_enemy(game, proj.target_idx, actual_damage, proj.tower_idx)
-      // Apply status effects
-      apply_projectile_effects(game, proj, proj.target_idx)
-      // Crit visual
-      if proj.is_crit {
-        @types.spawn_particles(
-          game, enemy.x, enemy.y + 1.0, enemy.z, 8, 255, 50, 50,
-        )
-      }
+  } else if proj.target_idx >= 0 && game.enemies[proj.target_idx].active {
+    let enemy = game.enemies[proj.target_idx]
+    let raw_damage : Float = if proj.is_crit {
+      proj.damage * @types.sniper_crit_mult
+    } else {
+      proj.damage
+    }
+    let actual_damage = @types.calc_damage(raw_damage, tower_kind, enemy)
+    damage_enemy(game, proj.target_idx, actual_damage, proj.tower_idx)
+    // Apply status effects
+    apply_projectile_effects(game, proj, proj.target_idx)
+    // Crit visual
+    if proj.is_crit {
+      @types.spawn_particles(
+        game,
+        enemy.x,
+        enemy.y + 1.0,
+        enemy.z,
+        8,
+        255,
+        50,
+        50,
+      )
     }
   }
 }
 
+///|
 fn apply_projectile_effects(
   game : @types.Game,
   proj : @types.Projectile,
-  enemy_idx : Int
+  enemy_idx : Int,
 ) -> Unit {
   let enemy = game.enemies[enemy_idx]
   // Slow effect
@@ -436,7 +472,14 @@ fn apply_projectile_effects(
       if not(enemy.is_boss) {
         enemy.stun_timer = proj.stun_duration
         @types.spawn_particles(
-          game, enemy.x, enemy.y + 1.0, enemy.z, 5, 255, 255, 0,
+          game,
+          enemy.x,
+          enemy.y + 1.0,
+          enemy.z,
+          5,
+          255,
+          255,
+          0,
         )
       }
     }
@@ -444,6 +487,7 @@ fn apply_projectile_effects(
   ignore(game)
 }
 
+///|
 fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
   let mut current_target = proj.target_idx
   let mut current_damage = proj.damage
@@ -460,7 +504,15 @@ fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
     damage_enemy(game, current_target, actual_damage, proj.tower_idx)
     @types.spawn_lightning_particles(game, enemy.x, enemy.y, enemy.z)
     // Add chain line visual
-    @types.add_chain_line(game, prev_x, prev_y, prev_z, enemy.x, enemy.y, enemy.z)
+    @types.add_chain_line(
+      game,
+      prev_x,
+      prev_y,
+      prev_z,
+      enemy.x,
+      enemy.y,
+      enemy.z,
+    )
     prev_x = enemy.x
     prev_y = enemy.y
     prev_z = enemy.z
@@ -483,7 +535,10 @@ fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
         continue j + 1
       }
       let dist = @types.distance2d(
-        prev_x, prev_z, game.enemies[j].x, game.enemies[j].z,
+        prev_x,
+        prev_z,
+        game.enemies[j].x,
+        game.enemies[j].z,
       )
       if dist <= @types.chain_range && dist < best_dist {
         best_dist = dist
@@ -502,7 +557,15 @@ fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
     )
     damage_enemy(game, best, actual_damage, proj.tower_idx)
     @types.spawn_lightning_particles(game, enemy.x, enemy.y, enemy.z)
-    @types.add_chain_line(game, prev_x, prev_y, prev_z, enemy.x, enemy.y, enemy.z)
+    @types.add_chain_line(
+      game,
+      prev_x,
+      prev_y,
+      prev_z,
+      enemy.x,
+      enemy.y,
+      enemy.z,
+    )
     prev_x = enemy.x
     prev_y = enemy.y
     prev_z = enemy.z
@@ -511,11 +574,12 @@ fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
   }
 }
 
+///|
 fn damage_enemy(
   game : @types.Game,
   idx : Int,
   damage : Float,
-  tower_idx : Int
+  tower_idx : Int,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Apply damage to shield first
@@ -526,10 +590,19 @@ fn damage_enemy(
       enemy.shield_regen_timer = 0.0
       // Shield absorbed all damage
       @types.spawn_particles(
-        game, enemy.x, enemy.y + 0.3, enemy.z, 3, 100, 150, 255,
+        game,
+        enemy.x,
+        enemy.y + 0.3,
+        enemy.z,
+        3,
+        100,
+        150,
+        255,
       )
       // Track damage on tower
-      if tower_idx >= 0 && tower_idx < game.towers.length() && game.towers[tower_idx].active {
+      if tower_idx >= 0 &&
+        tower_idx < game.towers.length() &&
+        game.towers[tower_idx].active {
         game.towers[tower_idx].total_damage += damage
         game.damage_dealt += damage
       }
@@ -541,13 +614,17 @@ fn damage_enemy(
   }
   enemy.hp -= remaining_damage
   // Track damage on tower
-  if tower_idx >= 0 && tower_idx < game.towers.length() && game.towers[tower_idx].active {
+  if tower_idx >= 0 &&
+    tower_idx < game.towers.length() &&
+    game.towers[tower_idx].active {
     game.towers[tower_idx].total_damage += damage
     game.damage_dealt += damage
   }
   if enemy.hp <= 0.0 {
     // Track kill on tower
-    if tower_idx >= 0 && tower_idx < game.towers.length() && game.towers[tower_idx].active {
+    if tower_idx >= 0 &&
+      tower_idx < game.towers.length() &&
+      game.towers[tower_idx].active {
       game.towers[tower_idx].kills += 1
     }
     kill_enemy(game, enemy)

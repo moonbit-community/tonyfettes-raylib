@@ -1,0 +1,1051 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flight_sim_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let ai_disengage_range : Float
+
+pub let ai_engage : Int
+
+pub let ai_engage_range : Float
+
+pub let ai_evade : Int
+
+pub let ai_evade_duration : Float
+
+pub let ai_flee : Int
+
+pub let ai_flee_hp_ratio : Float
+
+pub let ai_formation : Int
+
+pub let ai_formation_spacing : Float
+
+pub let ai_patrol : Int
+
+pub let aircraft_bomber : Int
+
+pub let aircraft_drag : Float
+
+pub let aircraft_fighter : Int
+
+pub let aircraft_fuel_rate : Float
+
+pub let aircraft_gravity : Float
+
+pub let aircraft_interceptor : Int
+
+pub let aircraft_lift_factor : Float
+
+pub let aircraft_max_fuel : Float
+
+pub let aircraft_min_altitude : Float
+
+pub let aircraft_pitch_rate : Float
+
+pub let aircraft_roll_rate : Float
+
+pub let aircraft_size : Float
+
+pub let aircraft_speed_max : Float
+
+pub let aircraft_speed_min : Float
+
+pub let aircraft_speed_start : Float
+
+pub let aircraft_throttle_accel : Float
+
+pub let aircraft_trainer : Int
+
+pub let aircraft_yaw_rate : Float
+
+pub fn alloc_building(Game) -> Int
+
+pub fn alloc_checkpoint(Game) -> Int
+
+pub fn alloc_cloud(Game) -> Int
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_terrain(Game) -> Int
+
+pub fn alloc_turret(Game) -> Int
+
+pub fn altitude_above_terrain(Float, Float, Float) -> Float
+
+pub let altitude_control_min : Float
+
+pub let altitude_engine_min : Float
+
+pub fn altitude_factor(Float) -> Float
+
+pub let altitude_thin_air_max : Float
+
+pub let altitude_thin_air_start : Float
+
+pub fn angle_diff(Float, Float) -> Float
+
+pub fn angle_wrap(Float) -> Float
+
+pub fn apply_wind(Float, Float, Float, Float, Float, Float) -> (Float, Float)
+
+pub fn bearing_to(Float, Float, Float, Float) -> Float
+
+pub let bomb_blast_radius : Float
+
+pub let bomb_damage : Float
+
+pub let bomb_fire_rate : Float
+
+pub let bomb_gravity : Float
+
+pub fn bomb_impact_point(Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub let bomber_ammo_bombs : Int
+
+pub let bomber_ammo_mg : Int
+
+pub let bomber_ammo_rockets : Int
+
+pub let bomber_climb_rate : Float
+
+pub let bomber_damage_mult : Float
+
+pub let bomber_firerate_mult : Float
+
+pub let bomber_fuel_capacity : Float
+
+pub let bomber_hp : Float
+
+pub let bomber_roll_rate : Float
+
+pub let bomber_speed_max : Float
+
+pub let bomber_speed_min : Float
+
+pub let bomber_turn_rate : Float
+
+pub let building_barracks : Int
+
+pub let building_bunker : Int
+
+pub let building_command : Int
+
+pub let building_factory : Int
+
+pub let building_fuel_depot : Int
+
+pub let building_hangar : Int
+
+pub let building_house : Int
+
+pub let building_radar : Int
+
+pub let building_runway : Int
+
+pub let building_tower : Int
+
+pub fn calculate_accuracy(Int, Int) -> Float
+
+pub fn calculate_drag(Float, Float) -> Float
+
+pub fn calculate_gforce(Float, Float, Float) -> Float
+
+pub fn calculate_lift(Float, Float) -> Float
+
+pub fn calculate_rating(Int) -> String
+
+pub fn calculate_thrust(Float, Float, Float) -> Float
+
+pub let camera_cockpit_fov : Float
+
+pub let camera_distance : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let camera_mode_chase : Int
+
+pub let camera_mode_cockpit : Int
+
+pub let camera_mode_free : Int
+
+pub let camera_smooth : Float
+
+pub fn chase_camera_pos(Float, Float, Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub let checkpoint_radius : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let cloud_base_height : Float
+
+pub let cloud_count_clear : Int
+
+pub let cloud_count_cloudy : Int
+
+pub let cloud_count_default : Int
+
+pub let cloud_count_storm : Int
+
+pub let cloud_layer_thickness : Float
+
+pub fn count_active_buildings(Game) -> Int
+
+pub fn count_active_enemies(Game) -> Int
+
+pub fn count_active_turrets(Game) -> Int
+
+pub fn count_remaining_checkpoints(Game) -> Int
+
+pub fn cross3d(Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub let deg_to_rad : Float
+
+pub fn difficulty_str(Int) -> String
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn dot3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let enemy_air_size : Float
+
+pub let enemy_air_speed : Float
+
+pub let enemy_fire_range : Float
+
+pub let enemy_fire_rate : Float
+
+pub let enemy_ground_size : Float
+
+pub let enemy_hp_air : Float
+
+pub let enemy_hp_ground : Float
+
+pub let enemy_type_air : Int
+
+pub let enemy_type_ground : Int
+
+pub let fighter_ammo_bombs : Int
+
+pub let fighter_ammo_mg : Int
+
+pub let fighter_ammo_rockets : Int
+
+pub let fighter_climb_rate : Float
+
+pub let fighter_damage_mult : Float
+
+pub let fighter_firerate_mult : Float
+
+pub let fighter_fuel_capacity : Float
+
+pub let fighter_hp : Float
+
+pub let fighter_roll_rate : Float
+
+pub let fighter_speed_max : Float
+
+pub let fighter_speed_min : Float
+
+pub let fighter_turn_rate : Float
+
+pub fn find_nearest_enemy(Game, Float, Float, Float) -> Int
+
+pub let fire_cooldown : Float
+
+pub let fog_clear_dist : Float
+
+pub let fog_cloudy_dist : Float
+
+pub let fog_fog_dist : Float
+
+pub let fog_ground_alpha : Int
+
+pub let fog_night_dist : Float
+
+pub let fog_rain_dist : Float
+
+pub let fog_storm_dist : Float
+
+pub let fuel_afterburner_rate : Float
+
+pub fn fuel_consumption(Float) -> Float
+
+pub let fuel_critical_threshold : Float
+
+pub let fuel_cruise_rate : Float
+
+pub let fuel_idle_rate : Float
+
+pub let fuel_warning_threshold : Float
+
+pub fn get_aircraft_stats(Int) -> AircraftStats
+
+pub fn get_ammo(Player) -> Int
+
+pub fn get_forward(Float, Float) -> (Float, Float, Float)
+
+pub fn get_right(Float, Float) -> (Float, Float, Float)
+
+pub let gforce_blackout : Float
+
+pub let gforce_damage_threshold : Float
+
+pub let gforce_max : Float
+
+pub let gforce_normal : Float
+
+pub fn glide_slope_deviation(Float, Float, Float, Float, Float) -> Float
+
+pub let half_pi : Float
+
+pub let hp_barracks : Float
+
+pub let hp_bunker : Float
+
+pub let hp_command : Float
+
+pub let hp_factory : Float
+
+pub let hp_fuel_depot : Float
+
+pub let hp_hangar : Float
+
+pub let hp_house : Float
+
+pub let hp_radar : Float
+
+pub let hp_tower : Float
+
+pub let interceptor_ammo_bombs : Int
+
+pub let interceptor_ammo_mg : Int
+
+pub let interceptor_ammo_rockets : Int
+
+pub let interceptor_climb_rate : Float
+
+pub let interceptor_damage_mult : Float
+
+pub let interceptor_firerate_mult : Float
+
+pub let interceptor_fuel_capacity : Float
+
+pub let interceptor_hp : Float
+
+pub let interceptor_roll_rate : Float
+
+pub let interceptor_speed_max : Float
+
+pub let interceptor_speed_min : Float
+
+pub let interceptor_turn_rate : Float
+
+pub fn is_stalling(Float, Float) -> Bool
+
+pub let kill_value_boss : Int
+
+pub let kill_value_building : Int
+
+pub let kill_value_fighter : Int
+
+pub let kill_value_ground : Int
+
+pub let kill_value_turret : Int
+
+pub fn landing_alignment(Float, Float, Float, Float, Float) -> Float
+
+pub let landing_glide_slope : Float
+
+pub let landing_hold_time : Float
+
+pub let landing_max_pitch : Float
+
+pub let landing_max_roll : Float
+
+pub let landing_max_speed : Float
+
+pub let landing_zone_radius : Float
+
+pub fn lead_target(Float, Float, Float, Float, Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_buildings : Int
+
+pub let max_checkpoints : Int
+
+pub let max_clouds : Int
+
+pub let max_enemies : Int
+
+pub let max_particles : Int
+
+pub let max_projectiles : Int
+
+pub let max_terrain_chunks : Int
+
+pub let max_turrets : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub let mg_damage : Float
+
+pub let mg_fire_rate : Float
+
+pub let mg_range : Float
+
+pub let mg_speed : Float
+
+pub let mg_spread : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let mission_attack_base : Int
+
+pub let mission_bombing_run : Int
+
+pub let mission_boss : Int
+
+pub let mission_canyon_run : Int
+
+pub let mission_checkpoint : Int
+
+pub let mission_defense : Int
+
+pub let mission_destroy : Int
+
+pub let mission_dogfight : Int
+
+pub let mission_escort : Int
+
+pub let mission_intercept : Int
+
+pub let mission_landing : Int
+
+pub let mission_night_mission : Int
+
+pub let mission_patrol : Int
+
+pub let mission_recon : Int
+
+pub let mission_survive : Int
+
+pub fn normalize3d(Float, Float, Float) -> (Float, Float, Float)
+
+pub let par_time_air_sup : Float
+
+pub let par_time_base_raid : Float
+
+pub let par_time_canyon : Float
+
+pub let par_time_defense : Float
+
+pub let par_time_dogfight : Float
+
+pub let par_time_final : Float
+
+pub let par_time_fog_nav : Float
+
+pub let par_time_ground_strike : Float
+
+pub let par_time_landing : Float
+
+pub let par_time_night : Float
+
+pub let par_time_storm : Float
+
+pub let par_time_storm_surv : Float
+
+pub let par_time_survival : Float
+
+pub let par_time_training : Float
+
+pub let par_time_valley : Float
+
+pub let particle_debris : Int
+
+pub let particle_exhaust : Int
+
+pub let particle_explosion : Int
+
+pub let particle_fire : Int
+
+pub let particle_rain : Int
+
+pub let particle_smoke : Int
+
+pub let particle_spark : Int
+
+pub let particle_tracer : Int
+
+pub let pi : Float
+
+pub fn point_in_aabb(Float, Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn point_in_sphere(Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let proj_aa_shell : Int
+
+pub let proj_bomb : Int
+
+pub let proj_bullet : Int
+
+pub let proj_rocket : Int
+
+pub let projectile_damage : Float
+
+pub let projectile_life : Float
+
+pub let projectile_speed : Float
+
+pub fn push_message(Game, String, Float, Int) -> Unit
+
+pub let radar_blip_size : Int
+
+pub let radar_range : Float
+
+pub let radar_size : Int
+
+pub let radar_sweep_speed : Float
+
+pub let rain_line_length : Float
+
+pub let rain_particle_count : Int
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub let rating_a_threshold : Int
+
+pub let rating_b_threshold : Int
+
+pub let rating_c_threshold : Int
+
+pub let rating_s_threshold : Int
+
+pub let rock_max_size : Float
+
+pub let rock_min_size : Float
+
+pub let rock_spawn_chance : Float
+
+pub let rocket_damage : Float
+
+pub let rocket_fire_rate : Float
+
+pub let rocket_gravity : Float
+
+pub let rocket_range : Float
+
+pub let rocket_speed : Float
+
+pub let rocket_thrust : Float
+
+pub let score_accuracy_bonus_50 : Int
+
+pub let score_accuracy_bonus_70 : Int
+
+pub let score_accuracy_bonus_90 : Int
+
+pub let score_air_kill : Int
+
+pub let score_building_destroy : Int
+
+pub let score_checkpoint : Int
+
+pub let score_ground_kill : Int
+
+pub let score_kill_streak_10 : Int
+
+pub let score_kill_streak_3 : Int
+
+pub let score_kill_streak_5 : Int
+
+pub let score_landing_bonus : Int
+
+pub let score_mission_complete : Int
+
+pub let score_no_damage_bonus : Int
+
+pub let score_time_bonus_fast : Int
+
+pub let score_time_bonus_good : Int
+
+pub let score_time_bonus_ok : Int
+
+pub let score_turret_kill : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn show_message(Game, String, Float) -> Unit
+
+pub fn sign(Float) -> Float
+
+pub fn smooth_damp(Float, Float, Float, Float) -> Float
+
+pub fn spawn_debris(Game, Float, Float, Float, Int) -> Unit
+
+pub fn spawn_explosion(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_fire(Game, Float, Float, Float, Int) -> Unit
+
+pub fn spawn_large_explosion(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_rocket_trail(Game, Float, Float, Float) -> Unit
+
+pub fn spawn_smoke(Game, Float, Float, Float, Int) -> Unit
+
+pub let stall_control_reduction : Float
+
+pub let stall_nose_drop_rate : Float
+
+pub let stall_recovery_pitch : Float
+
+pub let stall_speed_threshold : Float
+
+pub let stall_warning_speed_ratio : Float
+
+pub let state_aircraft_select : Int
+
+pub let state_game_over : Int
+
+pub let state_menu : Int
+
+pub let state_mission_briefing : Int
+
+pub let state_mission_complete : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let storm_flash_duration : Float
+
+pub let storm_flash_interval : Float
+
+pub let terrain_chunk_scale : Float
+
+pub let terrain_forest_level : Float
+
+pub let terrain_grid_size : Int
+
+pub fn terrain_height_at(Float, Float) -> Float
+
+pub fn terrain_height_smooth(Float, Float) -> Float
+
+pub let terrain_max_height : Float
+
+pub fn terrain_normal(Float, Float) -> (Float, Float, Float)
+
+pub let terrain_snow_level : Float
+
+pub let terrain_view_range : Int
+
+pub let terrain_water_level : Float
+
+pub let total_missions : Int
+
+pub let trainer_ammo_bombs : Int
+
+pub let trainer_ammo_mg : Int
+
+pub let trainer_ammo_rockets : Int
+
+pub let trainer_climb_rate : Float
+
+pub let trainer_damage_mult : Float
+
+pub let trainer_firerate_mult : Float
+
+pub let trainer_fuel_capacity : Float
+
+pub let trainer_hp : Float
+
+pub let trainer_roll_rate : Float
+
+pub let trainer_speed_max : Float
+
+pub let trainer_speed_min : Float
+
+pub let trainer_turn_rate : Float
+
+pub let tree_max_height : Float
+
+pub let tree_min_height : Float
+
+pub let tree_spawn_chance : Float
+
+pub let turb_clear : Float
+
+pub let turb_cloudy : Float
+
+pub let turb_fog : Float
+
+pub let turb_night : Float
+
+pub let turb_rain : Float
+
+pub let turb_storm : Float
+
+pub fn turbulence_jitter(Game, Float, Float) -> (Float, Float)
+
+pub let turret_fire_rate : Float
+
+pub let turret_hp : Float
+
+pub let turret_range : Float
+
+pub let turret_rotation_speed : Float
+
+pub let turret_shell_speed : Float
+
+pub let two_pi : Float
+
+pub let warning_altitude_rate : Float
+
+pub let warning_flash_rate : Float
+
+pub let warning_fuel_rate : Float
+
+pub let warning_stall_rate : Float
+
+pub let weapon_bombs : Int
+
+pub let weapon_machine_gun : Int
+
+pub fn weapon_name(Int) -> String
+
+pub let weapon_rockets : Int
+
+pub let weather_clear : Int
+
+pub let weather_cloudy : Int
+
+pub let weather_fog : Int
+
+pub fn weather_name(Int) -> String
+
+pub let weather_night : Int
+
+pub let weather_rain : Int
+
+pub let weather_storm : Int
+
+pub let wind_clear : Float
+
+pub let wind_cloudy : Float
+
+pub let wind_fog : Float
+
+pub let wind_night : Float
+
+pub let wind_rain : Float
+
+pub let wind_storm : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct AircraftStats {
+  kind : Int
+  name : String
+  max_speed : Float
+  min_speed : Float
+  turn_rate : Float
+  roll_rate : Float
+  climb_rate : Float
+  fuel_capacity : Float
+  max_hp : Float
+  ammo_mg : Int
+  ammo_rockets : Int
+  ammo_bombs : Int
+}
+pub fn AircraftStats::bomber() -> Self
+pub fn AircraftStats::fighter() -> Self
+pub fn AircraftStats::interceptor() -> Self
+pub fn AircraftStats::trainer() -> Self
+
+pub(all) struct Building {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut destructible : Bool
+  mut width : Float
+  mut height : Float
+  mut depth : Float
+  mut flash_timer : Float
+}
+pub fn Building::inactive() -> Self
+
+pub(all) struct Checkpoint {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut radius : Float
+  mut collected : Bool
+  mut order : Int
+}
+pub fn Checkpoint::inactive() -> Self
+
+pub(all) struct Cloud {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut size_x : Float
+  mut size_y : Float
+  mut size_z : Float
+  mut alpha : Int
+}
+pub fn Cloud::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut speed : Float
+  mut size : Float
+  mut fire_timer : Float
+  mut flash_timer : Float
+  mut orbit_angle : Float
+  mut orbit_radius : Float
+  mut target_y : Float
+  mut ai_state : Int
+  mut patrol_cx : Float
+  mut patrol_cz : Float
+  mut patrol_index : Int
+  mut aggression : Float
+  mut maneuver_timer : Float
+  mut evade_timer : Float
+  mut heading : Float
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  player : Player
+  mut cam_x : Float
+  mut cam_y : Float
+  mut cam_z : Float
+  mut cam_target_x : Float
+  mut cam_target_y : Float
+  mut cam_target_z : Float
+  mut camera_mode : Int
+  mut current_mission : Int
+  mut mission_timer : Float
+  mut missions_completed : Int
+  missions : Array[Mission]
+  mut selected_aircraft : Int
+  enemies : Array[Enemy]
+  turrets : Array[Turret]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  checkpoints : Array[Checkpoint]
+  buildings : Array[Building]
+  terrain : Array[TerrainChunk]
+  clouds : Array[Cloud]
+  mut last_terrain_cx : Int
+  mut last_terrain_cz : Int
+  weather_state : WeatherState
+  mut weather : Int
+  mut draw_distance : Float
+  mut score : Int
+  mut kills : Int
+  mut buildings_destroyed : Int
+  mut mission_score : Int
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut message_text : String
+  mut message_timer : Float
+  messages : Array[GameMessage]
+  mut fuel_warning : Bool
+  mut stall_warning : Bool
+  mut altitude_warning : Bool
+  mut damage_warning : Bool
+  mut incoming_warning : Bool
+  mut warning_flash_timer : Float
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut landing_approach : Bool
+  mut landing_timer : Float
+  mut accuracy_pct : Float
+  mut mission_rating : String
+  best_scores : Array[Int]
+}
+pub fn Game::new() -> Self
+
+pub(all) struct GameMessage {
+  mut text : String
+  mut timer : Float
+  mut priority : Int
+}
+pub fn GameMessage::empty() -> Self
+
+pub(all) struct Mission {
+  name : String
+  kind : Int
+  description : String
+  mut target_count : Int
+  mut targets_done : Int
+  weather : Int
+  enemy_count : Int
+  enemy_air_count : Int
+  has_landing : Bool
+  landing_x : Float
+  landing_z : Float
+  turret_count : Int
+  building_count : Int
+  difficulty : Int
+  allowed_aircraft : Int
+  time_limit : Float
+  briefing : String
+}
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut pitch : Float
+  mut yaw : Float
+  mut roll : Float
+  mut speed : Float
+  mut throttle : Float
+  mut fuel : Float
+  mut max_fuel : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut fire_timer : Float
+  mut damage_flash : Float
+  mut alive : Bool
+  mut aircraft_type : Int
+  mut ammo_mg : Int
+  mut ammo_rockets : Int
+  mut ammo_bombs : Int
+  mut current_weapon : Int
+  mut stalling : Bool
+  mut stall_timer : Float
+  mut damage_smoke : Bool
+  mut engine_on : Bool
+  mut landing_gear : Bool
+  mut flaps : Float
+  mut trim : Float
+  mut gforce : Float
+  mut prev_vy : Float
+  mut shots_fired : Int
+  mut shots_hit : Int
+  mut weapon_switch_timer : Float
+}
+pub fn Player::apply_stats(Self, AircraftStats) -> Unit
+pub fn Player::new() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut dx : Float
+  mut dy : Float
+  mut dz : Float
+  mut speed : Float
+  mut damage : Float
+  mut life : Float
+  mut is_enemy : Bool
+  mut gravity_affected : Bool
+  mut blast_radius : Float
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct TerrainChunk {
+  mut active : Bool
+  mut grid_x : Int
+  mut grid_z : Int
+  mut height : Float
+  mut color_r : Int
+  mut color_g : Int
+  mut color_b : Int
+}
+pub fn TerrainChunk::inactive() -> Self
+
+pub(all) struct Turret {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut rotation : Float
+  mut elevation : Float
+  mut fire_timer : Float
+  mut range : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut flash_timer : Float
+}
+pub fn Turret::inactive() -> Self
+
+pub(all) struct WeatherState {
+  mut kind : Int
+  mut visibility : Float
+  mut turbulence : Float
+  mut wind_dir_x : Float
+  mut wind_dir_z : Float
+  mut wind_speed : Float
+  mut cloud_height : Float
+  mut rain_intensity : Float
+  mut time_of_day : Float
+}
+pub fn WeatherState::new() -> Self
+pub fn WeatherState::set_weather(Self, Int) -> Unit
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_naval_combat_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_naval_combat_3d/types",
+}
+
+// Values
+pub fn update_boarding(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

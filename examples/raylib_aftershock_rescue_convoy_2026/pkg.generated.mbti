@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_aftershock_rescue_convoy_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type CrackZone
+
+type District
+
+type DustCloud
+
+type Hospital
+
+type Obstacle
+
+type Particle
+
+type Player
+
+type SurvivorGroup
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_orbital_salvage_ops_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Boss
+
+type Bullet
+
+type Drone
+
+type Mine
+
+type Particle
+
+type Player
+
+type Scrap
+
+type Wreck
+
+// Type aliases
+
+// Traits
+

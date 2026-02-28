@@ -1,12 +1,16 @@
 ///|
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
-  @raylib.init_window(@types.screen_width, @types.screen_height, "Kart Racing 3D")
+  @raylib.init_window(
+    @types.screen_width, @types.screen_height, "Kart Racing 3D",
+  )
   @raylib.set_target_fps(60)
   let game = @types.Game::new()
   while not(@raylib.window_should_close()) {
     let mut dt = @raylib.get_frame_time()
-    if dt > 0.05 { dt = 0.05 }
+    if dt > 0.05 {
+      dt = 0.05
+    }
     @game.update_game(game, dt)
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(100, 180, 255, 255))

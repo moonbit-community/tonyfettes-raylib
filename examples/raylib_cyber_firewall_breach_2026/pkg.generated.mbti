@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_cyber_firewall_breach_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Enemy
+
+type Part
+
+type Shot
+
+// Type aliases
+
+// Traits
+

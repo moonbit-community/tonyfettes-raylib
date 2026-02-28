@@ -1,48 +1,90 @@
+///|
 pub fn absf(v : Float) -> Float {
-  if v < 0.0 { -v } else { v }
+  if v < 0.0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampf(v : Float, low : Float, high : Float) -> Float {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampi(v : Int, low : Int, high : Int) -> Int {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn minf(a : Float, b : Float) -> Float {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxf(a : Float, b : Float) -> Float {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn mini(a : Int, b : Int) -> Int {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxi(a : Int, b : Int) -> Int {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
+///|
 pub fn distance2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x1 - x2
   let dz = z1 - z2
   (dx * dx + dz * dz).sqrt()
 }
 
+///|
 pub fn distance3d(
   x1 : Float,
   y1 : Float,
   z1 : Float,
   x2 : Float,
   y2 : Float,
-  z2 : Float
+  z2 : Float,
 ) -> Float {
   let dx = x1 - x2
   let dy = y1 - y2
@@ -50,6 +92,7 @@ pub fn distance3d(
   (dx * dx + dy * dy + dz * dz).sqrt()
 }
 
+///|
 pub fn normalize_angle(a : Float) -> Float {
   let mut angle = a
   for _i = 0; _i < 10; _i = _i + 1 {
@@ -64,29 +107,36 @@ pub fn normalize_angle(a : Float) -> Float {
   angle
 }
 
+///|
 pub fn angle_diff(a : Float, b : Float) -> Float {
   normalize_angle(b - a)
 }
 
 // Calculate bearing from one point to another
+
+///|
 pub fn bearing(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   @math.atan2f(x2 - x1, z2 - z1)
 }
 
 // Check if angle b is within +/- range of angle a
+
+///|
 pub fn angle_within(a : Float, b : Float, range : Float) -> Bool {
   absf(angle_diff(a, b)) < range
 }
 
 // Sailing speed calculator - wind-based
 // Takes ship heading, wind direction, wind speed, sail amount, sail state, mast hp ratio
+
+///|
 pub fn calc_sailing_speed(
   heading : Float,
   wind_dir : Float,
   wind_speed : Float,
   sail_amount : Float,
   mast_hp_ratio : Float,
-  base_speed : Float
+  base_speed : Float,
 ) -> Float {
   // Calculate relative wind angle (0 = headwind, pi = tailwind)
   let rel_wind = absf(angle_diff(heading, wind_dir))
@@ -98,10 +148,12 @@ pub fn calc_sailing_speed(
     let t = (rel_wind - in_irons_angle) / (close_haul_angle - in_irons_angle)
     lerpf(sail_in_irons, sail_close_haul, t)
   } else if rel_wind < beam_reach_angle {
-    let t = (rel_wind - close_haul_angle) / (beam_reach_angle - close_haul_angle)
+    let t = (rel_wind - close_haul_angle) /
+      (beam_reach_angle - close_haul_angle)
     lerpf(sail_close_haul, sail_beam_reach, t)
   } else if rel_wind < broad_reach_angle {
-    let t = (rel_wind - beam_reach_angle) / (broad_reach_angle - beam_reach_angle)
+    let t = (rel_wind - beam_reach_angle) /
+      (broad_reach_angle - beam_reach_angle)
     lerpf(sail_beam_reach, sail_broad_reach, t)
   } else {
     let t = (rel_wind - broad_reach_angle) / (pi - broad_reach_angle)
@@ -116,11 +168,13 @@ pub fn calc_sailing_speed(
 }
 
 // Ship turning rate calculation
+
+///|
 pub fn calc_turn_rate(
   base_rate : Float,
   rudder_hp_ratio : Float,
   speed : Float,
-  base_speed : Float
+  base_speed : Float,
 ) -> Float {
   // Rudder damage reduces turning
   let rudder_eff : Float = 0.15 + 0.85 * rudder_hp_ratio
@@ -143,19 +197,27 @@ pub fn calc_turn_rate(
 }
 
 // Water height at position (simple wave function)
+
+///|
 pub fn water_height(x : Float, z : Float, time : Float) -> Float {
   let w1 = @math.sinf(x * wave_frequency + time * wave_speed) * wave_amplitude
-  let w2 = @math.sinf(z * wave_frequency * 0.7 + time * wave_speed * 1.3) * wave_amplitude * 0.5
-  let w3 = @math.sinf((x + z) * wave_frequency * 0.5 + time * wave_speed * 0.8) * wave_amplitude * 0.3
+  let w2 = @math.sinf(z * wave_frequency * 0.7 + time * wave_speed * 1.3) *
+    wave_amplitude *
+    0.5
+  let w3 = @math.sinf((x + z) * wave_frequency * 0.5 + time * wave_speed * 0.8) *
+    wave_amplitude *
+    0.3
   w1 + w2 + w3
 }
 
 // Calculate wind crosswind drift
+
+///|
 pub fn calc_wind_drift(
   heading : Float,
   wind_dir : Float,
   wind_speed : Float,
-  ship_speed : Float
+  ship_speed : Float,
 ) -> (Float, Float) {
   // Drift perpendicular to heading based on crosswind component
   let rel_wind = angle_diff(heading, wind_dir)
@@ -168,11 +230,13 @@ pub fn calc_wind_drift(
 }
 
 // Cannon ballistic trajectory - calculate launch velocity for given range
+
+///|
 pub fn calc_cannon_launch(
   fire_angle : Float,
   cannon_speed : Float,
   cannon_arc : Float,
-  target_dist : Float
+  target_dist : Float,
 ) -> (Float, Float, Float) {
   // Horizontal velocity
   let hvel = cannon_speed
@@ -188,6 +252,8 @@ pub fn calc_cannon_launch(
 }
 
 // Get cannon damage for a specific cannon type
+
+///|
 pub fn get_cannon_damage(cannon_type : Int) -> Float {
   if cannon_type == cannon_light {
     light_cannon_damage
@@ -205,6 +271,8 @@ pub fn get_cannon_damage(cannon_type : Int) -> Float {
 }
 
 // Get cannon reload time
+
+///|
 pub fn get_cannon_reload(cannon_type : Int) -> Float {
   if cannon_type == cannon_light {
     light_cannon_reload
@@ -222,6 +290,8 @@ pub fn get_cannon_reload(cannon_type : Int) -> Float {
 }
 
 // Get cannon speed
+
+///|
 pub fn get_cannon_speed(cannon_type : Int) -> Float {
   if cannon_type == cannon_light {
     light_cannon_speed
@@ -239,6 +309,8 @@ pub fn get_cannon_speed(cannon_type : Int) -> Float {
 }
 
 // Get cannon arc
+
+///|
 pub fn get_cannon_arc(cannon_type : Int) -> Float {
   if cannon_type == cannon_light {
     light_cannon_arc
@@ -256,6 +328,8 @@ pub fn get_cannon_arc(cannon_type : Int) -> Float {
 }
 
 // Get damage multipliers for ammo type
+
+///|
 pub fn get_ammo_hull_mult(ammo_type : Int) -> Float {
   if ammo_type == ammo_round_shot {
     round_shot_hull_mult
@@ -268,6 +342,7 @@ pub fn get_ammo_hull_mult(ammo_type : Int) -> Float {
   }
 }
 
+///|
 pub fn get_ammo_mast_mult(ammo_type : Int) -> Float {
   if ammo_type == ammo_round_shot {
     round_shot_mast_mult
@@ -280,6 +355,7 @@ pub fn get_ammo_mast_mult(ammo_type : Int) -> Float {
   }
 }
 
+///|
 pub fn get_ammo_crew_mult(ammo_type : Int) -> Float {
   if ammo_type == ammo_round_shot {
     round_shot_crew_mult
@@ -293,6 +369,8 @@ pub fn get_ammo_crew_mult(ammo_type : Int) -> Float {
 }
 
 // Ship class stats helpers
+
+///|
 pub fn get_class_max_hull(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_max_hull
@@ -309,6 +387,7 @@ pub fn get_class_max_hull(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_max_mast(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_max_mast
@@ -325,6 +404,7 @@ pub fn get_class_max_mast(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_max_rudder(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_max_rudder
@@ -341,6 +421,7 @@ pub fn get_class_max_rudder(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_base_speed(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_base_speed
@@ -357,6 +438,7 @@ pub fn get_class_base_speed(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_turn_rate(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_turn_rate
@@ -373,6 +455,7 @@ pub fn get_class_turn_rate(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_cannon_count(ship_class : Int) -> Int {
   if ship_class == class_sloop {
     sloop_cannon_count
@@ -389,6 +472,7 @@ pub fn get_class_cannon_count(ship_class : Int) -> Int {
   }
 }
 
+///|
 pub fn get_class_max_crew(ship_class : Int) -> Int {
   if ship_class == class_sloop {
     sloop_max_crew
@@ -405,6 +489,7 @@ pub fn get_class_max_crew(ship_class : Int) -> Int {
   }
 }
 
+///|
 pub fn get_class_length(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_length
@@ -421,6 +506,7 @@ pub fn get_class_length(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_width(ship_class : Int) -> Float {
   if ship_class == class_sloop {
     sloop_width
@@ -437,6 +523,7 @@ pub fn get_class_width(ship_class : Int) -> Float {
   }
 }
 
+///|
 pub fn get_class_score(ship_class : Int) -> Int {
   if ship_class == class_sloop {
     score_sloop_kill
@@ -453,6 +540,7 @@ pub fn get_class_score(ship_class : Int) -> Int {
   }
 }
 
+///|
 pub fn get_class_name(ship_class : Int) -> String {
   if ship_class == class_sloop {
     "Sloop"
@@ -469,6 +557,7 @@ pub fn get_class_name(ship_class : Int) -> String {
   }
 }
 
+///|
 pub fn get_reputation_title(rep : Int) -> String {
   if rep >= rep_legend {
     "Legend"
@@ -484,26 +573,38 @@ pub fn get_reputation_title(rep : Int) -> String {
 }
 
 // RNG
+
+///|
 pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
   x = x ^ (x >> 17)
   x = x ^ (x << 5)
-  if x < 0 { x = -x }
+  if x < 0 {
+    x = -x
+  }
   game.rng_state = x
   x
 }
 
+///|
 pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
-  if high <= low { low } else { low + rand_next(game) % (high - low + 1) }
+  if high <= low {
+    low
+  } else {
+    low + rand_next(game) % (high - low + 1)
+  }
 }
 
+///|
 pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let n = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * n
 }
 
 // Pool allocators
+
+///|
 pub fn alloc_enemy(game : Game) -> Int {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     if not(game.enemies[i].active) {
@@ -513,6 +614,7 @@ pub fn alloc_enemy(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_cannonball(game : Game) -> Int {
   for i = 0; i < game.cannonballs.length(); i = i + 1 {
     if not(game.cannonballs[i].active) {
@@ -522,6 +624,7 @@ pub fn alloc_cannonball(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -531,6 +634,7 @@ pub fn alloc_particle(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_wake(game : Game) -> Int {
   for i = 0; i < game.wakes.length(); i = i + 1 {
     if not(game.wakes[i].active) {
@@ -540,6 +644,7 @@ pub fn alloc_wake(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_debris(game : Game) -> Int {
   for i = 0; i < game.debris_pool.length(); i = i + 1 {
     if not(game.debris_pool[i].active) {
@@ -549,6 +654,7 @@ pub fn alloc_debris(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_message(game : Game) -> Int {
   for i = 0; i < game.messages.length(); i = i + 1 {
     if not(game.messages[i].active) {
@@ -567,12 +673,13 @@ pub fn alloc_message(game : Game) -> Int {
   oldest_idx
 }
 
+///|
 pub fn add_battle_message(
   game : Game,
   text : String,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   let idx = alloc_message(game)
   let msg = game.messages[idx]
@@ -585,6 +692,7 @@ pub fn add_battle_message(
   msg.color_b = b
 }
 
+///|
 pub fn add_battle_log(game : Game, text : String) -> Unit {
   if game.battle_log_count < game.battle_log.length() {
     game.battle_log[game.battle_log_count] = text
@@ -598,6 +706,7 @@ pub fn add_battle_log(game : Game, text : String) -> Unit {
   }
 }
 
+///|
 pub fn spawn_particles(
   game : Game,
   wx : Float,
@@ -606,11 +715,13 @@ pub fn spawn_particles(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.5, 0.5)
@@ -630,16 +741,19 @@ pub fn spawn_particles(
   }
 }
 
+///|
 pub fn spawn_smoke(
   game : Game,
   wx : Float,
   wy : Float,
   wz : Float,
-  count : Int
+  count : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.3, 0.3)
@@ -659,16 +773,19 @@ pub fn spawn_smoke(
   }
 }
 
+///|
 pub fn spawn_fire(
   game : Game,
   wx : Float,
   wy : Float,
   wz : Float,
-  count : Int
+  count : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.2, 0.2)
@@ -688,15 +805,18 @@ pub fn spawn_fire(
   }
 }
 
+///|
 pub fn spawn_water_splash(
   game : Game,
   wx : Float,
   wz : Float,
-  count : Int
+  count : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.3, 0.3)
@@ -716,15 +836,18 @@ pub fn spawn_water_splash(
   }
 }
 
+///|
 pub fn spawn_debris_cluster(
   game : Game,
   wx : Float,
   wz : Float,
-  count : Int
+  count : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_debris(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let d = game.debris_pool[idx]
     d.active = true
     d.x = wx + rand_rangef(game, -2.0, 2.0)
@@ -762,16 +885,21 @@ pub fn spawn_debris_cluster(
   }
 }
 
+///|
 pub fn spawn_wake(
   game : Game,
   wx : Float,
   wz : Float,
   heading : Float,
-  speed : Float
+  speed : Float,
 ) -> Unit {
-  if speed < wake_min_speed { return }
+  if speed < wake_min_speed {
+    return
+  }
   let idx = alloc_wake(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let w = game.wakes[idx]
   w.active = true
   w.x = wx
@@ -784,10 +912,19 @@ pub fn spawn_wake(
 }
 
 // Check collision with islands
-pub fn check_island_collision(game : Game, x : Float, z : Float, ship_radius : Float) -> Bool {
+
+///|
+pub fn check_island_collision(
+  game : Game,
+  x : Float,
+  z : Float,
+  ship_radius : Float,
+) -> Bool {
   for i = 0; i < game.island_count; i = i + 1 {
     let island = game.islands[i]
-    if not(island.active) { continue i + 1 }
+    if not(island.active) {
+      continue i + 1
+    }
     let dist = distance2d(x, z, island.x, island.z)
     if dist < island.radius + ship_radius {
       return true
@@ -797,38 +934,56 @@ pub fn check_island_collision(game : Game, x : Float, z : Float, ship_radius : F
 }
 
 // Check ship-to-ship collision
+
+///|
 pub fn check_ship_collision(
   x1 : Float,
   z1 : Float,
   r1 : Float,
   x2 : Float,
   z2 : Float,
-  r2 : Float
+  r2 : Float,
 ) -> Bool {
   let dist = distance2d(x1, z1, x2, z2)
   dist < r1 + r2
 }
 
 // Get total HP ratio for player ship
+
+///|
 pub fn player_hp_ratio(game : Game) -> Float {
   let total = game.player.hull_hp + game.player.sail_hp + game.player.rudder_hp
   let max_total = game.player.max_hp * 3.0
-  if max_total > 0.0 { total / max_total } else { 0.0 }
+  if max_total > 0.0 {
+    total / max_total
+  } else {
+    0.0
+  }
 }
 
 // Check if player can board an enemy
+
+///|
 pub fn check_boarding_range(game : Game, enemy_idx : Int) -> Bool {
   if enemy_idx < 0 || enemy_idx >= game.enemies.length() {
     return false
   }
   let enemy = game.enemies[enemy_idx]
-  if not(enemy.active) { return false }
+  if not(enemy.active) {
+    return false
+  }
   let dist = distance2d(game.player.x, game.player.z, enemy.x, enemy.z)
   dist < boarding_range
 }
 
 // Resolve boarding combat
-pub fn resolve_boarding(player_crew : Int, enemy_crew : Int, game : Game) -> Bool {
+
+///|
+pub fn resolve_boarding(
+  player_crew : Int,
+  enemy_crew : Int,
+  game : Game,
+) -> Bool {
   // Random factor for some variance
   let player_power = Float::from_int(player_crew) * boarding_crew_power
   let enemy_power = Float::from_int(enemy_crew) * boarding_crew_power * 0.8
@@ -837,6 +992,8 @@ pub fn resolve_boarding(player_crew : Int, enemy_crew : Int, game : Game) -> Boo
 }
 
 // Count active fleet ships
+
+///|
 pub fn count_fleet_alive(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.fleet_ships.length(); i = i + 1 {
@@ -848,6 +1005,8 @@ pub fn count_fleet_alive(game : Game) -> Int {
 }
 
 // Count active convoy ships
+
+///|
 pub fn count_convoy_alive(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.convoy_ships.length(); i = i + 1 {
@@ -859,6 +1018,8 @@ pub fn count_convoy_alive(game : Game) -> Int {
 }
 
 // Sync wind helpers
+
+///|
 pub fn sync_wind(game : Game) -> Unit {
   game.wind_angle = game.wind.direction
   game.wind_speed = game.wind.speed

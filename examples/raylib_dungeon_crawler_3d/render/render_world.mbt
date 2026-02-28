@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -12,6 +13,7 @@ pub fn draw_world(game : @types.Game) -> Unit {
   @raylib.end_mode_3d()
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   let eye_x = game.player_x
   let eye_y = @types.player_eye_height
@@ -32,6 +34,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   )
 }
 
+///|
 fn draw_dungeon(game : @types.Game) -> Unit {
   // Only draw tiles near the player for performance
   let pgx = @types.world_to_grid_x(game.player_x)
@@ -64,17 +67,16 @@ fn draw_dungeon(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_wall(
   wx : Float,
   wz : Float,
   game : @types.Game,
   gx : Int,
-  gz : Int
+  gz : Int,
 ) -> Unit {
   // Only draw wall faces that are adjacent to walkable tiles for performance
-  let has_floor_neighbor = @types.is_walkable(
-      @types.get_tile(game, gx - 1, gz),
-    ) ||
+  let has_floor_neighbor = @types.is_walkable(@types.get_tile(game, gx - 1, gz)) ||
     @types.is_walkable(@types.get_tile(game, gx + 1, gz)) ||
     @types.is_walkable(@types.get_tile(game, gx, gz - 1)) ||
     @types.is_walkable(@types.get_tile(game, gx, gz + 1))
@@ -103,6 +105,7 @@ fn draw_wall(
   )
 }
 
+///|
 fn draw_floor_tile(wx : Float, wz : Float) -> Unit {
   let cs = @types.cell_size
   // Floor
@@ -123,6 +126,7 @@ fn draw_floor_tile(wx : Float, wz : Float) -> Unit {
   )
 }
 
+///|
 fn draw_door(wx : Float, wz : Float) -> Unit {
   // Door frame
   @raylib.draw_cube(
@@ -142,10 +146,10 @@ fn draw_door(wx : Float, wz : Float) -> Unit {
   )
 }
 
+///|
 fn draw_stairs(wx : Float, wz : Float, game : @types.Game) -> Unit {
   // Glowing stairs indicator
-  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.06) * 0.2 +
-    0.8
+  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.06) * 0.2 + 0.8
   let g_float : Float = 200.0 * pulse
   let g_val = g_float.to_int()
   let b_float : Float = 255.0 * pulse
@@ -180,6 +184,7 @@ fn draw_stairs(wx : Float, wz : Float, game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_chest(wx : Float, wz : Float, game : @types.Game) -> Unit {
   ignore(game)
   // Chest body
@@ -208,6 +213,7 @@ fn draw_chest(wx : Float, wz : Float, game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_enemies_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
@@ -238,11 +244,12 @@ fn draw_enemies_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_skeleton(
   wx : Float,
   wz : Float,
   flash : Bool,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   let body_color = if flash {
@@ -259,11 +266,7 @@ fn draw_skeleton(
     body_color,
   )
   // Head (skull)
-  @raylib.draw_sphere(
-    @raylib.Vector3::new(wx, 1.3, wz),
-    0.2,
-    body_color,
-  )
+  @raylib.draw_sphere(@raylib.Vector3::new(wx, 1.3, wz), 0.2, body_color)
   // Arms
   @raylib.draw_cube(
     @raylib.Vector3::new(wx - 0.35, 0.7, wz),
@@ -281,11 +284,12 @@ fn draw_skeleton(
   )
 }
 
+///|
 fn draw_archer(
   wx : Float,
   wz : Float,
   flash : Bool,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   let body_color = if flash {
@@ -317,12 +321,8 @@ fn draw_archer(
   )
 }
 
-fn draw_golem(
-  wx : Float,
-  wz : Float,
-  flash : Bool,
-  game : @types.Game
-) -> Unit {
+///|
+fn draw_golem(wx : Float, wz : Float, flash : Bool, game : @types.Game) -> Unit {
   ignore(game)
   let body_color = if flash {
     @raylib.Color::new(255, 255, 255, 255)
@@ -373,11 +373,12 @@ fn draw_golem(
   )
 }
 
+///|
 fn draw_wraith(
   wx : Float,
   wz : Float,
   flash : Bool,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   let bob = @math.sinf(Float::from_int(game.frame_counter) * 0.08) * 0.15
   let body_color = if flash {
@@ -394,11 +395,7 @@ fn draw_wraith(
     body_color,
   )
   // Head
-  @raylib.draw_sphere(
-    @raylib.Vector3::new(wx, 1.5 + bob, wz),
-    0.25,
-    body_color,
-  )
+  @raylib.draw_sphere(@raylib.Vector3::new(wx, 1.5 + bob, wz), 0.25, body_color)
   // Eyes
   @raylib.draw_sphere(
     @raylib.Vector3::new(wx - 0.08, 1.55 + bob, wz + 0.2),
@@ -412,11 +409,12 @@ fn draw_wraith(
   )
 }
 
+///|
 fn draw_dragon(
   wx : Float,
   wz : Float,
   flash : Bool,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   let body_color = if flash {
@@ -476,6 +474,7 @@ fn draw_dragon(
   )
 }
 
+///|
 fn draw_enemy_health_bar(e : @types.Enemy, game : @types.Game) -> Unit {
   ignore(game)
   // Draw a simple health bar as cubes above the enemy
@@ -508,6 +507,7 @@ fn draw_enemy_health_bar(e : @types.Enemy, game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_loot_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.loot.length(); i = i + 1 {
     let l = game.loot[i]
@@ -562,6 +562,7 @@ fn draw_loot_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_projectiles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let p = game.projectiles[i]
@@ -582,6 +583,7 @@ fn draw_projectiles_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
@@ -601,6 +603,7 @@ fn draw_particles_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_sword_swing(game : @types.Game) -> Unit {
   if not(game.swing_active) {
     return

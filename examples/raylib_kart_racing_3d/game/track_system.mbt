@@ -1,5 +1,6 @@
 // Track loading and race management
 
+///|
 pub fn load_track(game : @types.Game, cup : Int, race : Int) -> Unit {
   let wp_data = @levels.get_track_waypoints(cup, race)
   game.waypoint_count = @types.clampi(wp_data.length(), 0, @types.max_waypoints)
@@ -32,8 +33,11 @@ pub fn load_track(game : @types.Game, cup : Int, race : Int) -> Unit {
   game.lap_start_time = 0.0
 }
 
+///|
 fn spawn_karts(game : @types.Game) -> Unit {
-  if game.waypoint_count < 2 { return }
+  if game.waypoint_count < 2 {
+    return
+  }
   let wp0 = @types.get_waypoint(game, 0)
   let wp1 = @types.get_waypoint(game, 1)
   // Direction from wp0 to wp1
@@ -83,14 +87,21 @@ fn spawn_karts(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn spawn_track_powerups(game : @types.Game) -> Unit {
-  if game.waypoint_count < 3 { return }
+  if game.waypoint_count < 3 {
+    return
+  }
   // Place powerups at intervals around the track
   let spacing = 3 // Every 3rd waypoint segment gets a powerup cluster
   let mut pu_idx = 0
   for i = 0; i < game.waypoint_count; i = i + 1 {
-    if i % spacing != 1 { continue i + 1 }
-    if pu_idx >= @types.max_powerups - 1 { break }
+    if i % spacing != 1 {
+      continue i + 1
+    }
+    if pu_idx >= @types.max_powerups - 1 {
+      break
+    }
     let wp0 = @types.get_waypoint(game, i)
     let wp1 = @types.get_waypoint(game, i + 1)
     let mx = (wp0.x + wp1.x) / 2.0
@@ -126,11 +137,17 @@ fn spawn_track_powerups(game : @types.Game) -> Unit {
 }
 
 // Update waypoint tracking for a kart
+
+///|
 pub fn update_kart_waypoint(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
-  if not(kart.active) || kart.finished { return }
+  if not(kart.active) || kart.finished {
+    return
+  }
   let wc = game.waypoint_count
-  if wc < 2 { return }
+  if wc < 2 {
+    return
+  }
   // Check distance to next waypoint
   let next_wp_idx = (kart.waypoint_idx + 1) % wc
   let next_wp = @types.get_waypoint(game, next_wp_idx)
@@ -170,6 +187,8 @@ pub fn update_kart_waypoint(game : @types.Game, kart_idx : Int) -> Unit {
 }
 
 // Update race positions
+
+///|
 pub fn update_positions(game : @types.Game) -> Unit {
   // Simple bubble sort by total_progress (descending = better position)
   let positions : Array[Int] = []
@@ -185,7 +204,9 @@ pub fn update_positions(game : @types.Game) -> Unit {
       let kb = game.karts[b]
       let mut swap = false
       if ka.finished && kb.finished {
-        if ka.finish_time > kb.finish_time { swap = true }
+        if ka.finish_time > kb.finish_time {
+          swap = true
+        }
       } else if ka.finished {
         swap = false
       } else if kb.finished {
@@ -207,6 +228,8 @@ pub fn update_positions(game : @types.Game) -> Unit {
 }
 
 // Check if all karts finished
+
+///|
 pub fn all_karts_finished(game : @types.Game) -> Bool {
   for i = 0; i < @types.max_karts; i = i + 1 {
     if game.karts[i].active && not(game.karts[i].finished) {
@@ -217,14 +240,20 @@ pub fn all_karts_finished(game : @types.Game) -> Bool {
 }
 
 // Check if player finished
+
+///|
 pub fn player_finished(game : @types.Game) -> Bool {
   game.karts[@types.player_kart].finished
 }
 
 // Get ground height at position (interpolate from nearby waypoints)
+
+///|
 pub fn get_ground_height(game : @types.Game, x : Float, z : Float) -> Float {
   let wc = game.waypoint_count
-  if wc < 2 { return 0.0 }
+  if wc < 2 {
+    return 0.0
+  }
   let mut best_dist : Float = 99999.0
   let mut best_idx = 0
   for i = 0; i < wc; i = i + 1 {
@@ -239,7 +268,9 @@ pub fn get_ground_height(game : @types.Game, x : Float, z : Float) -> Float {
   let next_idx = (best_idx + 1) % wc
   let wp1 = game.waypoints[next_idx]
   let seg_len = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
-  if seg_len < 0.01 { return wp0.y }
+  if seg_len < 0.01 {
+    return wp0.y
+  }
   // Project point onto segment
   let dx = wp1.x - wp0.x
   let dz = wp1.z - wp0.z
@@ -250,6 +281,8 @@ pub fn get_ground_height(game : @types.Game, x : Float, z : Float) -> Float {
 }
 
 // Apply finish-race scoring
+
+///|
 pub fn apply_race_results(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
@@ -258,6 +291,8 @@ pub fn apply_race_results(game : @types.Game) -> Unit {
 }
 
 // Reset cup points
+
+///|
 pub fn reset_cup_points(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     game.cup_points[i] = 0
@@ -265,10 +300,14 @@ pub fn reset_cup_points(game : @types.Game) -> Unit {
 }
 
 // Update powerup respawns
+
+///|
 pub fn update_powerup_respawns(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     let pu = game.powerups[i]
-    if not(pu.active) { continue i + 1 }
+    if not(pu.active) {
+      continue i + 1
+    }
     if pu.collected {
       pu.respawn_timer -= dt
       if pu.respawn_timer <= 0.0 {
@@ -280,14 +319,22 @@ pub fn update_powerup_respawns(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Check kart-powerup collisions
+
+///|
 pub fn check_powerup_collisions(game : @types.Game) -> Unit {
   for ki = 0; ki < @types.max_karts; ki = ki + 1 {
     let kart = game.karts[ki]
-    if not(kart.active) || kart.finished { continue ki + 1 }
-    if kart.held_powerup != @types.powerup_none { continue ki + 1 }
+    if not(kart.active) || kart.finished {
+      continue ki + 1
+    }
+    if kart.held_powerup != @types.powerup_none {
+      continue ki + 1
+    }
     for pi = 0; pi < game.powerups.length(); pi = pi + 1 {
       let pu = game.powerups[pi]
-      if not(pu.active) || pu.collected { continue pi + 1 }
+      if not(pu.active) || pu.collected {
+        continue pi + 1
+      }
       let d = @types.distance2d(kart.x, kart.z, pu.x, pu.z)
       if d < 2.0 {
         kart.held_powerup = pu.kind
@@ -301,10 +348,14 @@ pub fn check_powerup_collisions(game : @types.Game) -> Unit {
 }
 
 // Update projectiles
+
+///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
@@ -317,22 +368,42 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     proj.z = proj.z + dz
     // Check collision with karts
     for ki = 0; ki < @types.max_karts; ki = ki + 1 {
-      if ki == proj.owner { continue ki + 1 }
+      if ki == proj.owner {
+        continue ki + 1
+      }
       let kart = game.karts[ki]
-      if not(kart.active) || kart.finished { continue ki + 1 }
-      if kart.spin_timer > 0.0 { continue ki + 1 }
+      if not(kart.active) || kart.finished {
+        continue ki + 1
+      }
+      if kart.spin_timer > 0.0 {
+        continue ki + 1
+      }
       let d = @types.distance2d(proj.x, proj.z, kart.x, kart.z)
       if d < 1.5 {
         if kart.shield_timer > 0.0 {
           kart.shield_timer = 0.0
           @types.spawn_particles(
-            game, kart.x, kart.y + 0.5, kart.z, 12, 100, 200, 255,
+            game,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            12,
+            100,
+            200,
+            255,
           )
         } else {
           kart.spin_timer = 1.5
           kart.speed = kart.speed * 0.3
           @types.spawn_particles(
-            game, kart.x, kart.y + 0.5, kart.z, 15, 255, 100, 50,
+            game,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            15,
+            255,
+            100,
+            50,
           )
         }
         proj.active = false
@@ -343,10 +414,14 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Update particles
+
+///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false

@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_river_raid_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Enemy
+
+// Type aliases
+
+// Traits
+

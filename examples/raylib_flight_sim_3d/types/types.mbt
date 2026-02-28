@@ -1,4 +1,6 @@
 // Aircraft type definition with flight characteristics
+
+///|
 pub(all) struct AircraftStats {
   kind : Int
   name : String
@@ -14,6 +16,7 @@ pub(all) struct AircraftStats {
   ammo_bombs : Int
 }
 
+///|
 pub fn AircraftStats::trainer() -> AircraftStats {
   {
     kind: aircraft_trainer,
@@ -31,6 +34,7 @@ pub fn AircraftStats::trainer() -> AircraftStats {
   }
 }
 
+///|
 pub fn AircraftStats::fighter() -> AircraftStats {
   {
     kind: aircraft_fighter,
@@ -48,6 +52,7 @@ pub fn AircraftStats::fighter() -> AircraftStats {
   }
 }
 
+///|
 pub fn AircraftStats::bomber() -> AircraftStats {
   {
     kind: aircraft_bomber,
@@ -65,6 +70,7 @@ pub fn AircraftStats::bomber() -> AircraftStats {
   }
 }
 
+///|
 pub fn AircraftStats::interceptor() -> AircraftStats {
   {
     kind: aircraft_interceptor,
@@ -82,6 +88,7 @@ pub fn AircraftStats::interceptor() -> AircraftStats {
   }
 }
 
+///|
 pub fn get_aircraft_stats(kind : Int) -> AircraftStats {
   if kind == aircraft_trainer {
     AircraftStats::trainer()
@@ -95,6 +102,8 @@ pub fn get_aircraft_stats(kind : Int) -> AircraftStats {
 }
 
 // Player aircraft
+
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float
@@ -130,6 +139,7 @@ pub(all) struct Player {
   mut weapon_switch_timer : Float
 }
 
+///|
 pub fn Player::new() -> Player {
   {
     x: 0.0,
@@ -167,6 +177,7 @@ pub fn Player::new() -> Player {
   }
 }
 
+///|
 pub fn Player::apply_stats(self : Player, stats : AircraftStats) -> Unit {
   self.aircraft_type = stats.kind
   self.max_hp = stats.max_hp
@@ -179,6 +190,8 @@ pub fn Player::apply_stats(self : Player, stats : AircraftStats) -> Unit {
 }
 
 // Enemy entity
+
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -207,6 +220,7 @@ pub(all) struct Enemy {
   mut heading : Float
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
@@ -238,6 +252,8 @@ pub fn Enemy::inactive() -> Enemy {
 }
 
 // Turret (anti-aircraft emplacement)
+
+///|
 pub(all) struct Turret {
   mut active : Bool
   mut x : Float
@@ -252,6 +268,7 @@ pub(all) struct Turret {
   mut flash_timer : Float
 }
 
+///|
 pub fn Turret::inactive() -> Turret {
   {
     active: false,
@@ -269,6 +286,8 @@ pub fn Turret::inactive() -> Turret {
 }
 
 // Projectile
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -286,6 +305,7 @@ pub(all) struct Projectile {
   mut blast_radius : Float
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -306,6 +326,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Building / structure
+
+///|
 pub(all) struct Building {
   mut active : Bool
   mut kind : Int
@@ -321,6 +343,7 @@ pub(all) struct Building {
   mut flash_timer : Float
 }
 
+///|
 pub fn Building::inactive() -> Building {
   {
     active: false,
@@ -339,6 +362,8 @@ pub fn Building::inactive() -> Building {
 }
 
 // Particle
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut kind : Int
@@ -356,6 +381,7 @@ pub(all) struct Particle {
   mut size : Float
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -376,6 +402,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Checkpoint ring
+
+///|
 pub(all) struct Checkpoint {
   mut active : Bool
   mut x : Float
@@ -386,6 +414,7 @@ pub(all) struct Checkpoint {
   mut order : Int
 }
 
+///|
 pub fn Checkpoint::inactive() -> Checkpoint {
   {
     active: false,
@@ -399,6 +428,8 @@ pub fn Checkpoint::inactive() -> Checkpoint {
 }
 
 // Terrain chunk (one column of terrain)
+
+///|
 pub(all) struct TerrainChunk {
   mut active : Bool
   mut grid_x : Int
@@ -409,6 +440,7 @@ pub(all) struct TerrainChunk {
   mut color_b : Int
 }
 
+///|
 pub fn TerrainChunk::inactive() -> TerrainChunk {
   {
     active: false,
@@ -422,6 +454,8 @@ pub fn TerrainChunk::inactive() -> TerrainChunk {
 }
 
 // Cloud entity
+
+///|
 pub(all) struct Cloud {
   mut active : Bool
   mut x : Float
@@ -433,6 +467,7 @@ pub(all) struct Cloud {
   mut alpha : Int
 }
 
+///|
 pub fn Cloud::inactive() -> Cloud {
   {
     active: false,
@@ -447,6 +482,8 @@ pub fn Cloud::inactive() -> Cloud {
 }
 
 // Weather state
+
+///|
 pub(all) struct WeatherState {
   mut kind : Int
   mut visibility : Float
@@ -459,6 +496,7 @@ pub(all) struct WeatherState {
   mut time_of_day : Float
 }
 
+///|
 pub fn WeatherState::new() -> WeatherState {
   {
     kind: weather_clear,
@@ -473,6 +511,7 @@ pub fn WeatherState::new() -> WeatherState {
   }
 }
 
+///|
 pub fn WeatherState::set_weather(self : WeatherState, kind : Int) -> Unit {
   self.kind = kind
   if kind == weather_clear {
@@ -515,17 +554,22 @@ pub fn WeatherState::set_weather(self : WeatherState, kind : Int) -> Unit {
 }
 
 // Message for radio/event display
+
+///|
 pub(all) struct GameMessage {
   mut text : String
   mut timer : Float
   mut priority : Int
 }
 
+///|
 pub fn GameMessage::empty() -> GameMessage {
   { text: "", timer: 0.0, priority: 0 }
 }
 
 // Mission definition
+
+///|
 pub(all) struct Mission {
   name : String
   kind : Int
@@ -547,6 +591,8 @@ pub(all) struct Mission {
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -625,6 +671,7 @@ pub(all) struct Game {
   best_scores : Array[Int]
 }
 
+///|
 pub fn Game::new() -> Game {
   let missions = build_missions()
   {
@@ -680,6 +727,7 @@ pub fn Game::new() -> Game {
   }
 }
 
+///|
 fn build_missions() -> Array[Mission] {
   let m : Array[Mission] = []
   // Mission 0: Training patrol - fly through checkpoints

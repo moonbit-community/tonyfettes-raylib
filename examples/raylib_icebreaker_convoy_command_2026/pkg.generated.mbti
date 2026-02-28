@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_icebreaker_convoy_command_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type ConvoyShip
+
+type IceChunk
+
+type Particle
+
+type PlayerShip
+
+type StormCell
+
+type Waypoint
+
+// Type aliases
+
+// Traits
+

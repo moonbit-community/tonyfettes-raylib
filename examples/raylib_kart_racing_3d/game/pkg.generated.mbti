@@ -1,0 +1,88 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_kart_racing_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_kart_racing_3d/types",
+}
+
+// Values
+pub fn activate_lightning_bolt(@types.Game, Int) -> Unit
+
+pub fn activate_star_power(@types.Game, Int) -> Unit
+
+pub fn all_karts_finished(@types.Game) -> Bool
+
+pub fn apply_kart_physics(@types.Game, Int, Float) -> Unit
+
+pub fn apply_race_results(@types.Game) -> Unit
+
+pub fn apply_shield_activation(@types.Game, Int) -> Unit
+
+pub fn apply_speed_boost(@types.Game, Int) -> Unit
+
+pub fn apply_triple_mushroom(@types.Game, Int) -> Unit
+
+pub fn calc_item_effectiveness(Int, Int) -> Float
+
+pub fn check_dropped_item_collisions(@types.Game) -> Unit
+
+pub fn check_kart_collisions(@types.Game) -> Unit
+
+pub fn check_powerup_collisions(@types.Game) -> Unit
+
+pub fn check_projectile_impacts(@types.Game) -> Unit
+
+pub fn drop_banana(@types.Game, Int) -> Unit
+
+pub fn drop_oil_slick(@types.Game, Int) -> Unit
+
+pub fn get_ground_height(@types.Game, Float, Float) -> Float
+
+pub fn get_item_color(Int) -> (Int, Int, Int)
+
+pub fn get_item_name(Int) -> String
+
+pub fn has_defensive_item(@types.Kart) -> Bool
+
+pub fn has_offensive_item(@types.Kart) -> Bool
+
+pub fn launch_missile(@types.Game, Int) -> Unit
+
+pub fn load_track(@types.Game, Int, Int) -> Unit
+
+pub fn player_finished(@types.Game) -> Bool
+
+pub fn reset_cup_points(@types.Game) -> Unit
+
+pub fn update_ai_karts(@types.Game, Float) -> Unit
+
+pub fn update_dropped_items(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+pub fn update_item_box_respawns(@types.Game, Float) -> Unit
+
+pub fn update_kart_waypoint(@types.Game, Int) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+pub fn update_player_kart(@types.Game, Float) -> Unit
+
+pub fn update_positions(@types.Game) -> Unit
+
+pub fn update_powerup_respawns(@types.Game, Float) -> Unit
+
+pub fn update_projectile_homing(@types.Game, Float) -> Unit
+
+pub fn update_projectiles(@types.Game, Float) -> Unit
+
+pub fn use_powerup(@types.Game, Int) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

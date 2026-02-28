@@ -1,4 +1,6 @@
 // A single chunk of blocks
+
+///|
 pub(all) struct Chunk {
   blocks : Array[Int]
   cx : Int
@@ -7,11 +9,19 @@ pub(all) struct Chunk {
   mut biome : Int
 }
 
+///|
 pub fn Chunk::new(cx : Int, cz : Int) -> Chunk {
   let size = chunk_x * chunk_y * chunk_z
-  { blocks: Array::make(size, block_air), cx, cz, dirty: true, biome: biome_plains }
+  {
+    blocks: Array::make(size, block_air),
+    cx,
+    cz,
+    dirty: true,
+    biome: biome_plains,
+  }
 }
 
+///|
 pub fn Chunk::get_block(self : Chunk, x : Int, y : Int, z : Int) -> Int {
   if x < 0 || x >= chunk_x || y < 0 || y >= chunk_y || z < 0 || z >= chunk_z {
     block_air
@@ -20,12 +30,13 @@ pub fn Chunk::get_block(self : Chunk, x : Int, y : Int, z : Int) -> Int {
   }
 }
 
+///|
 pub fn Chunk::set_block(
   self : Chunk,
   x : Int,
   y : Int,
   z : Int,
-  block : Int
+  block : Int,
 ) -> Unit {
   if x >= 0 && x < chunk_x && y >= 0 && y < chunk_y && z >= 0 && z < chunk_z {
     self.blocks[y * chunk_x * chunk_z + z * chunk_x + x] = block
@@ -34,25 +45,32 @@ pub fn Chunk::set_block(
 }
 
 // Inventory item slot
+
+///|
 pub(all) struct ItemSlot {
   mut item_id : Int
   mut count : Int
 }
 
+///|
 pub fn ItemSlot::empty() -> ItemSlot {
   { item_id: 0, count: 0 }
 }
 
+///|
 pub fn ItemSlot::make(item_id : Int, count : Int) -> ItemSlot {
   { item_id, count }
 }
 
 // Inventory system
+
+///|
 pub(all) struct Inventory {
   slots : Array[ItemSlot]
   mut selected : Int
 }
 
+///|
 pub fn Inventory::new() -> Inventory {
   let slots : Array[ItemSlot] = []
   for i = 0; i < inventory_slots; i = i + 1 {
@@ -73,6 +91,8 @@ pub fn Inventory::new() -> Inventory {
 }
 
 // Add item to inventory, returns count that could not be added
+
+///|
 pub fn Inventory::add_item(self : Inventory, item_id : Int, count : Int) -> Int {
   let mut remaining = count
   // First try to stack with existing slots
@@ -80,7 +100,9 @@ pub fn Inventory::add_item(self : Inventory, item_id : Int, count : Int) -> Int 
     if remaining <= 0 {
       return 0
     }
-    if self.slots[i].item_id == item_id && self.slots[i].count > 0 && self.slots[i].count < stack_max {
+    if self.slots[i].item_id == item_id &&
+      self.slots[i].count > 0 &&
+      self.slots[i].count < stack_max {
       let can_add = if stack_max - self.slots[i].count < remaining {
         stack_max - self.slots[i].count
       } else {
@@ -106,6 +128,8 @@ pub fn Inventory::add_item(self : Inventory, item_id : Int, count : Int) -> Int 
 }
 
 // Remove one item from the selected hotbar slot
+
+///|
 pub fn Inventory::use_selected(self : Inventory) -> Int {
   let slot = self.slots[self.selected]
   if slot.count > 0 {
@@ -121,6 +145,8 @@ pub fn Inventory::use_selected(self : Inventory) -> Int {
 }
 
 // Get the item id in the selected slot
+
+///|
 pub fn Inventory::selected_item(self : Inventory) -> Int {
   let slot = self.slots[self.selected]
   if slot.count > 0 {
@@ -131,6 +157,8 @@ pub fn Inventory::selected_item(self : Inventory) -> Int {
 }
 
 // Player entity
+
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float
@@ -173,6 +201,7 @@ pub(all) struct Player {
   mut starve_timer : Float
 }
 
+///|
 pub fn Player::new() -> Player {
   let spawn_x = Float::from_int(world_chunks_x * chunk_x) / 2.0
   let spawn_z = Float::from_int(world_chunks_z * chunk_z) / 2.0
@@ -212,6 +241,8 @@ pub fn Player::new() -> Player {
 }
 
 // Ray hit result for block targeting
+
+///|
 pub(all) struct BlockHit {
   mut hit : Bool
   mut bx : Int
@@ -223,11 +254,14 @@ pub(all) struct BlockHit {
   mut distance : Float
 }
 
+///|
 pub fn BlockHit::new() -> BlockHit {
   { hit: false, bx: 0, by: 0, bz: 0, nx: 0, ny: 0, nz: 0, distance: 0.0 }
 }
 
 // Entity (mob) struct
+
+///|
 pub(all) struct Entity {
   mut active : Bool
   mut kind : Int
@@ -250,6 +284,7 @@ pub(all) struct Entity {
   mut attack_cooldown : Float
 }
 
+///|
 pub fn Entity::inactive() -> Entity {
   {
     active: false,
@@ -275,6 +310,8 @@ pub fn Entity::inactive() -> Entity {
 }
 
 // Particle struct for block break effects etc.
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -291,6 +328,7 @@ pub(all) struct Particle {
   mut size : Float
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -310,6 +348,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Crafting recipe
+
+///|
 pub(all) struct CraftingRecipe {
   input1_id : Int
   input1_count : Int
@@ -320,6 +360,7 @@ pub(all) struct CraftingRecipe {
   name : String
 }
 
+///|
 pub fn CraftingRecipe::new(
   in1_id : Int,
   in1_count : Int,
@@ -327,7 +368,7 @@ pub fn CraftingRecipe::new(
   in2_count : Int,
   out_id : Int,
   out_count : Int,
-  name : String
+  name : String,
 ) -> CraftingRecipe {
   {
     input1_id: in1_id,
@@ -341,6 +382,8 @@ pub fn CraftingRecipe::new(
 }
 
 // Biome parameters
+
+///|
 pub(all) struct BiomeParams {
   id : Int
   name : String
@@ -357,6 +400,8 @@ pub(all) struct BiomeParams {
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -426,6 +471,7 @@ pub(all) struct Game {
   mut respawn_count : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   // Create chunks
   let total_chunks = world_chunks_x * world_chunks_z

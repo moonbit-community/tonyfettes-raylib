@@ -1,4 +1,6 @@
 // Enemy entity
+
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -23,6 +25,7 @@ pub(all) struct Enemy {
   mut facing_angle : Float
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
@@ -50,6 +53,8 @@ pub fn Enemy::inactive() -> Enemy {
 }
 
 // Projectile (from archers, spells, traps)
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -64,6 +69,7 @@ pub(all) struct Projectile {
   mut slow_on_hit : Bool
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -81,6 +87,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Particle effect
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -97,6 +105,7 @@ pub(all) struct Particle {
   mut size : Float
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -116,6 +125,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Loot item on ground
+
+///|
 pub(all) struct Loot {
   mut active : Bool
   mut kind : Int
@@ -126,6 +137,7 @@ pub(all) struct Loot {
   mut value : Int
 }
 
+///|
 pub fn Loot::inactive() -> Loot {
   {
     active: false,
@@ -139,6 +151,8 @@ pub fn Loot::inactive() -> Loot {
 }
 
 // Inventory item
+
+///|
 pub(all) struct InvItem {
   mut kind : Int
   mut active : Bool
@@ -147,11 +161,14 @@ pub(all) struct InvItem {
   mut name_idx : Int
 }
 
+///|
 pub fn InvItem::empty() -> InvItem {
   { kind: 0, active: false, rarity: rarity_common, stat_bonus: 0, name_idx: 0 }
 }
 
 // Trap entity
+
+///|
 pub(all) struct Trap {
   mut active : Bool
   mut kind : Int
@@ -163,6 +180,7 @@ pub(all) struct Trap {
   mut visible : Bool
 }
 
+///|
 pub fn Trap::inactive() -> Trap {
   {
     active: false,
@@ -177,6 +195,8 @@ pub fn Trap::inactive() -> Trap {
 }
 
 // Torch for lighting
+
+///|
 pub(all) struct Torch {
   mut active : Bool
   mut gx : Int
@@ -184,11 +204,14 @@ pub(all) struct Torch {
   mut flicker_phase : Float
 }
 
+///|
 pub fn Torch::inactive() -> Torch {
   { active: false, gx: 0, gz: 0, flicker_phase: 0.0 }
 }
 
 // Message log entry
+
+///|
 pub(all) struct MessageEntry {
   mut text : String
   mut timer : Float
@@ -197,11 +220,14 @@ pub(all) struct MessageEntry {
   mut b : Int
 }
 
+///|
 pub fn MessageEntry::empty() -> MessageEntry {
   { text: "", timer: 0.0, r: 200, g: 200, b: 200 }
 }
 
 // Shop item
+
+///|
 pub(all) struct ShopItem {
   mut active : Bool
   mut kind : Int
@@ -210,11 +236,14 @@ pub(all) struct ShopItem {
   mut stat_bonus : Int
 }
 
+///|
 pub fn ShopItem::empty() -> ShopItem {
   { active: false, kind: 0, price: 0, name_idx: 0, stat_bonus: 0 }
 }
 
 // Room for BSP dungeon generation
+
+///|
 pub(all) struct Room {
   mut x : Int
   mut y : Int
@@ -225,47 +254,68 @@ pub(all) struct Room {
   mut enemies_cleared : Bool
 }
 
+///|
 pub fn Room::new(x : Int, y : Int, w : Int, h : Int) -> Room {
   { x, y, w, h, kind: 0, explored: false, enemies_cleared: false }
 }
 
+///|
 pub fn Room::center_x(self : Room) -> Int {
   self.x + self.w / 2
 }
 
+///|
 pub fn Room::center_y(self : Room) -> Int {
   self.y + self.h / 2
 }
 
 // Room types
+
+///|
 pub let room_normal : Int = 0
+
+///|
 pub let room_treasure : Int = 1
+
+///|
 pub let room_boss : Int = 2
+
+///|
 pub let room_shop : Int = 3
+
+///|
 pub let room_shrine : Int = 4
 
 // Floor info
+
+///|
 pub(all) struct FloorInfo {
   mut cleared : Bool
   mut enemies_killed : Int
   mut enemies_total : Int
 }
 
+///|
 pub fn FloorInfo::new() -> FloorInfo {
   { cleared: false, enemies_killed: 0, enemies_total: 0 }
 }
 
 // Player spell slot
+
+///|
 pub(all) struct SpellSlot {
   mut spell_type : Int
   mut active : Bool
 }
 
+///|
 pub fn SpellSlot::empty() -> SpellSlot {
   { spell_type: spell_none, active: false }
 }
 
 // Active buff on player
+
+///|
 pub(all) struct Buff {
   mut kind : Int
   mut timer : Float
@@ -273,19 +323,31 @@ pub(all) struct Buff {
   mut active : Bool
 }
 
+///|
 pub fn Buff::inactive() -> Buff {
   { kind: 0, timer: 0.0, value: 0, active: false }
 }
 
 // Buff kinds
+
+///|
 pub let buff_speed : Int = 0
+
+///|
 pub let buff_strength : Int = 1
+
+///|
 pub let buff_shield : Int = 2
+
+///|
 pub let buff_poison : Int = 3
 
+///|
 pub let max_buffs : Int = 4
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   // State
   mut state : Int
@@ -410,6 +472,7 @@ pub(all) struct Game {
   mut frame_counter : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   let floor_info : Array[FloorInfo] = []
   for i = 0; i < max_floors; i = i + 1 {

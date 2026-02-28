@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -18,11 +19,11 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     start_new_game(game)
     game.state = @types.state_wave_complete
     game.wave_timer = @types.wave_shop_time
@@ -31,6 +32,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.state = @types.state_paused
@@ -84,6 +86,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn switch_weapon(game : @types.Game, weapon : Int) -> Unit {
   if game.player.current_weapon != weapon {
     game.player.current_weapon = weapon
@@ -96,12 +99,17 @@ fn switch_weapon(game : @types.Game, weapon : Int) -> Unit {
   }
 }
 
+///|
 fn cycle_weapon(game : @types.Game, direction : Int) -> Unit {
   let mut next = game.player.current_weapon + direction
   // Wrap around and find next owned weapon
   for _attempts = 0; _attempts < @types.weapon_count; _attempts = _attempts + 1 {
-    if next >= @types.weapon_count { next = 0 }
-    if next < 0 { next = @types.weapon_count - 1 }
+    if next >= @types.weapon_count {
+      next = 0
+    }
+    if next < 0 {
+      next = @types.weapon_count - 1
+    }
     if game.player.owns_weapon[next] {
       switch_weapon(game, next)
       return
@@ -110,6 +118,7 @@ fn cycle_weapon(game : @types.Game, direction : Int) -> Unit {
   }
 }
 
+///|
 fn update_wave_complete(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.state = @types.state_paused
@@ -133,16 +142,19 @@ fn update_wave_complete(game : @types.Game, dt : Float) -> Unit {
   let max_items = @levels.shop_item_count()
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.shop_cursor -= 1
-    if game.shop_cursor < 0 { game.shop_cursor = max_items - 1 }
+    if game.shop_cursor < 0 {
+      game.shop_cursor = max_items - 1
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.shop_cursor += 1
-    if game.shop_cursor >= max_items { game.shop_cursor = 0 }
+    if game.shop_cursor >= max_items {
+      game.shop_cursor = 0
+    }
   }
   // Buy item
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeyE,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeyE) {
     buy_shop_item(game, game.shop_cursor)
   }
   // Weapon selection still works
@@ -169,18 +181,14 @@ fn update_wave_complete(game : @types.Game, dt : Float) -> Unit {
   if game.wave_timer <= 0.0 || @raylib.is_key_pressed(@raylib.KeySpace) {
     start_wave(game, game.current_wave)
     game.state = @types.state_playing
-    @types.show_message(
-      game,
-      "Wave \{game.current_wave + 1} incoming!",
-      2.5,
-    )
+    @types.show_message(game, "Wave \{game.current_wave + 1} incoming!", 2.5)
   }
 }
 
+///|
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     // Return to previous playing state
     if game.wave_active {
       game.state = @types.state_playing
@@ -195,18 +203,21 @@ fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
@@ -242,17 +253,23 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_message(game : @types.Game, dt : Float) -> Unit {
   if game.message_timer > 0.0 {
     game.message_timer -= dt
-    if game.message_timer < 0.0 { game.message_timer = 0.0 }
+    if game.message_timer < 0.0 {
+      game.message_timer = 0.0
+    }
   }
 }
 
+///|
 fn update_pickups(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.pickups.length(); i = i + 1 {
     let pickup = game.pickups[i]
-    if not(pickup.active) { continue i + 1 }
+    if not(pickup.active) {
+      continue i + 1
+    }
     // Update float animation
     pickup.float_timer += dt * 3.0
     pickup.y = 0.5 + @math.sinf(pickup.float_timer) * 0.15
@@ -263,15 +280,30 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
       continue i + 1
     }
     // Check player pickup
-    let dist = @types.distance2d(game.player.x, game.player.z, pickup.x, pickup.z)
+    let dist = @types.distance2d(
+      game.player.x,
+      game.player.z,
+      pickup.x,
+      pickup.z,
+    )
     if dist < 1.5 {
       apply_pickup(game, pickup.kind)
       pickup.active = false
-      @types.spawn_particles(game, pickup.x, pickup.y, pickup.z, 6, 255, 255, 100)
+      @types.spawn_particles(
+        game,
+        pickup.x,
+        pickup.y,
+        pickup.z,
+        6,
+        255,
+        255,
+        100,
+      )
     }
   }
 }
 
+///|
 fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
   if kind == @types.pickup_health {
     let heal : Float = 30.0
@@ -284,7 +316,11 @@ fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
     if weapon != @types.weapon_pistol {
       let add = @types.weapon_mag_size(weapon) * 2
       game.player.ammo[weapon] += add
-      @types.show_message(game, "+\{add} \{@types.weapon_name(weapon)} ammo", 1.5)
+      @types.show_message(
+        game,
+        "+\{add} \{@types.weapon_name(weapon)} ammo",
+        1.5,
+      )
     }
   } else if kind == @types.pickup_speed_boost {
     game.player.speed_boost_timer = @types.pickup_speed_duration
@@ -312,10 +348,13 @@ fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
   }
 }
 
+///|
 fn update_traps(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.traps.length(); i = i + 1 {
     let trap = game.traps[i]
-    if not(trap.active) { continue i + 1 }
+    if not(trap.active) {
+      continue i + 1
+    }
     if trap.cooldown_timer > 0.0 {
       trap.cooldown_timer -= dt
     }
@@ -325,8 +364,11 @@ fn update_traps(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn check_wave_status(game : @types.Game) -> Unit {
-  if not(game.wave_active) { return }
+  if not(game.wave_active) {
+    return
+  }
   // Check if all enemies spawned and all dead
   if game.enemies_spawned >= game.enemies_to_spawn {
     let alive = @types.count_active_enemies(game)
@@ -361,6 +403,7 @@ fn check_wave_status(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn start_new_game(game : @types.Game) -> Unit {
   // Reset player
   game.player.x = 0.0
@@ -474,6 +517,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn start_wave(game : @types.Game, wave : Int) -> Unit {
   game.enemies_to_spawn = @levels.get_wave_total_enemies(wave)
   game.wave_hp_mult = @levels.get_wave_hp_mult(wave)
@@ -484,16 +528,17 @@ fn start_wave(game : @types.Game, wave : Int) -> Unit {
   game.difficulty = 1.0 + Float::from_int(wave) * 0.05
 }
 
+///|
 fn buy_shop_item(game : @types.Game, item_idx : Int) -> Unit {
   let cost = @levels.shop_item_cost(item_idx)
-  if game.player.money < cost { return }
+  if game.player.money < cost {
+    return
+  }
   if item_idx == 0 {
     // Heal
     if game.player.hp < @types.player_max_hp {
       game.player.money -= cost
-      game.player.hp = @types.minf(
-        game.player.hp + 40.0, @types.player_max_hp,
-      )
+      game.player.hp = @types.minf(game.player.hp + 40.0, @types.player_max_hp)
       @types.show_message(game, "Healed! HP: \{game.player.hp.to_int()}", 1.5)
     }
   } else if item_idx == 1 {
@@ -501,10 +546,13 @@ fn buy_shop_item(game : @types.Game, item_idx : Int) -> Unit {
     if game.player.armor < @types.player_max_armor {
       game.player.money -= cost
       game.player.armor = @types.minf(
-        game.player.armor + 30.0, @types.player_max_armor,
+        game.player.armor + 30.0,
+        @types.player_max_armor,
       )
       @types.show_message(
-        game, "Armor up! Armor: \{game.player.armor.to_int()}", 1.5,
+        game,
+        "Armor up! Armor: \{game.player.armor.to_int()}",
+        1.5,
       )
     }
   } else if item_idx == 2 {
@@ -628,6 +676,7 @@ fn buy_shop_item(game : @types.Game, item_idx : Int) -> Unit {
   }
 }
 
+///|
 fn update_crates(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.crates.length(); i = i + 1 {
     let crate = game.crates[i]
@@ -639,9 +688,7 @@ fn update_crates(game : @types.Game, dt : Float) -> Unit {
       continue i + 1
     }
     // Check if player is close enough to pick up
-    let dist = @types.distance2d(
-      game.player.x, game.player.z, crate.x, crate.z,
-    )
+    let dist = @types.distance2d(game.player.x, game.player.z, crate.x, crate.z)
     if dist < 2.0 {
       // Give ammo
       let weapon = crate.kind

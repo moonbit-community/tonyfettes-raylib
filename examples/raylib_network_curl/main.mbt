@@ -1,23 +1,33 @@
 // ── Layout constants ──────────────────────────────────────────────────────────
+///|
 const TARGET_URL : String = "https://example.com"
 
+///|
 const SCREEN_WIDTH : Int = 960
 
+///|
 const SCREEN_HEIGHT : Int = 620
 
+///|
 const FONT_SIZE : Int = 14
 
+///|
 const LINE_HEIGHT : Int = 18
 
+///|
 const HEADER_H : Int = 40
 
+///|
 const FOOTER_H : Int = 28
 
+///|
 const MARGIN : Int = 8
 
+///|
 const MAX_LINE_CHARS : Int = 130
 
 // ── Mutable app state (safe: async runtime is single-threaded) ────────────────
+
 ///|
 struct AppState {
   mut loading : Bool
@@ -51,7 +61,11 @@ fn split_lines(content : String, max_chars : Int) -> Array[String] {
 
 ///|
 async fn main {
-  @raylib.init_window(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib - async network demo")
+  @raylib.init_window(
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT,
+    "raylib - async network demo",
+  )
   @raylib.set_target_fps(60)
   defer @raylib.close_window()
 
@@ -68,11 +82,9 @@ async fn main {
       try {
         let (_resp, body) = @http.get_stream(TARGET_URL)
         defer body.close()
-        let text = try {
-          body.read_all().text()
-        } catch {
-          _ => "(could not decode response body as UTF-8)"
-        }
+        let text = body.read_all().text() catch {
+            _ => "(could not decode response body as UTF-8)"
+          }
         state.lines = split_lines(text, MAX_LINE_CHARS)
         state.status = "\{state.lines.length()} lines from \{TARGET_URL}"
       } catch {
@@ -113,7 +125,13 @@ async fn main {
       let wheel = @raylib.get_mouse_wheel_move()
       if wheel != 0.0 {
         let d = state.scroll - wheel.to_int()
-        state.scroll = if d < 0 { 0 } else if d > max_scroll { max_scroll } else { d }
+        state.scroll = if d < 0 {
+          0
+        } else if d > max_scroll {
+          max_scroll
+        } else {
+          d
+        }
       }
 
       @raylib.begin_drawing()
@@ -148,14 +166,22 @@ async fn main {
         for idx = state.scroll; idx < end_line; idx = idx + 1 {
           let y = HEADER_H + (idx - state.scroll) * LINE_HEIGHT
           @raylib.draw_text(
-            state.lines[idx], MARGIN, y, FONT_SIZE, @raylib.darkgray,
+            state.lines[idx],
+            MARGIN,
+            y,
+            FONT_SIZE,
+            @raylib.darkgray,
           )
         }
 
         // Footer bar
         let footer_y = SCREEN_HEIGHT - FOOTER_H
         @raylib.draw_rectangle(
-          0, footer_y, SCREEN_WIDTH, FOOTER_H, @raylib.lightgray,
+          0,
+          footer_y,
+          SCREEN_WIDTH,
+          FOOTER_H,
+          @raylib.lightgray,
         )
         @raylib.draw_text(
           "\{state.status}  |  \{state.scroll + 1}-\{end_line}  |  arrows/scroll",
@@ -167,7 +193,7 @@ async fn main {
       }
 
       @raylib.end_drawing()
+      // Render loop exited → with_task_group cancels HTTP task automatically
     }
-    // Render loop exited → with_task_group cancels HTTP task automatically
   })
 }

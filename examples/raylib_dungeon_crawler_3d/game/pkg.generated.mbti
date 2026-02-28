@@ -1,0 +1,34 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dungeon_crawler_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_dungeon_crawler_3d/types",
+}
+
+// Values
+pub fn damage_player(@types.Game, Int) -> Unit
+
+pub fn generate_dungeon(@types.Game) -> Unit
+
+pub fn kill_enemy(@types.Game, Int) -> Unit
+
+pub fn update_enemies(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+pub fn update_loot_bob(@types.Game, Float) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+pub fn update_player(@types.Game, Float) -> Unit
+
+pub fn update_projectiles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

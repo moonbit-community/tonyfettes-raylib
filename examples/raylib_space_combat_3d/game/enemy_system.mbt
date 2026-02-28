@@ -1,5 +1,6 @@
 // Enemy AI and behavior
 
+///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let px = game.player.x
   let py = game.player.y
@@ -7,12 +8,16 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
 
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
 
     // Shield regen for enemies that have shields
     if e.shield_hp < e.max_shield_hp && e.max_shield_hp > 0.0 {
       e.shield_hp += 1.0 * dt
-      if e.shield_hp > e.max_shield_hp { e.shield_hp = e.max_shield_hp }
+      if e.shield_hp > e.max_shield_hp {
+        e.shield_hp = e.max_shield_hp
+      }
     }
 
     // Direction to player
@@ -85,11 +90,19 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
-fn update_ai_state(game : @types.Game, idx : Int, dist : Float, dt : Float) -> Unit {
+///|
+fn update_ai_state(
+  game : @types.Game,
+  idx : Int,
+  dist : Float,
+  dt : Float,
+) -> Unit {
   let e = game.enemies[idx]
   e.ai_timer -= dt
 
-  if e.ai_timer > 0.0 { return }
+  if e.ai_timer > 0.0 {
+    return
+  }
 
   let hp_pct = e.hp / e.max_hp
 
@@ -126,7 +139,8 @@ fn update_ai_state(game : @types.Game, idx : Int, dist : Float, dt : Float) -> U
     if hp_pct < e.flee_threshold {
       e.ai_state = @types.ai_flee
       e.ai_timer = 2.0
-    } else if hp_pct < @types.fighter_evade_hp_pct && @types.rand_bool(game, 0.4) {
+    } else if hp_pct < @types.fighter_evade_hp_pct &&
+      @types.rand_bool(game, 0.4) {
       e.ai_state = @types.ai_evade
       e.ai_timer = @types.rand_rangef(game, 1.5, 3.0)
     } else if dist > @types.fighter_attack_range * 1.5 {
@@ -163,6 +177,7 @@ fn update_ai_state(game : @types.Game, idx : Int, dist : Float, dt : Float) -> U
   }
 }
 
+///|
 fn update_fighter_ai(
   game : @types.Game,
   idx : Int,
@@ -170,7 +185,7 @@ fn update_fighter_ai(
   dy : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let spd = @types.fighter_speed
@@ -259,6 +274,7 @@ fn update_fighter_ai(
   ignore(dist)
 }
 
+///|
 fn update_interceptor_ai(
   game : @types.Game,
   idx : Int,
@@ -266,7 +282,7 @@ fn update_interceptor_ai(
   dy : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let spd = @types.interceptor_speed
@@ -317,6 +333,7 @@ fn update_interceptor_ai(
   ignore(dist)
 }
 
+///|
 fn update_bomber_ai(
   game : @types.Game,
   idx : Int,
@@ -324,7 +341,7 @@ fn update_bomber_ai(
   dy : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let spd = @types.bomber_speed
@@ -379,6 +396,7 @@ fn update_bomber_ai(
   ignore(dist)
 }
 
+///|
 fn update_cruiser_ai(
   game : @types.Game,
   idx : Int,
@@ -386,7 +404,7 @@ fn update_cruiser_ai(
   dy : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let spd = @types.cruiser_speed
@@ -428,6 +446,7 @@ fn update_cruiser_ai(
   ignore(dist)
 }
 
+///|
 fn update_capital_ai(
   game : @types.Game,
   idx : Int,
@@ -435,7 +454,7 @@ fn update_capital_ai(
   dy : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let spd = @types.capital_speed
@@ -457,29 +476,42 @@ fn update_capital_ai(
   // Slowly rotate to face player
   let target_yaw = @math.atan2f(dx, dz)
   e.yaw = @types.lerpf(e.yaw, target_yaw, 0.5 * dt)
-  e.pitch = @types.lerpf(e.pitch, @math.atan2f(dy, (dx * dx + dz * dz).sqrt()), 0.3 * dt)
+  e.pitch = @types.lerpf(
+    e.pitch,
+    @math.atan2f(dy, (dx * dx + dz * dz).sqrt()),
+    0.3 * dt,
+  )
   ignore(game)
   ignore(dist)
 }
 
+///|
 fn enemy_fire(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dy : Float,
   dz : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   let e = game.enemies[idx]
   let pidx = @types.alloc_projectile(game)
-  if pidx < 0 { return }
+  if pidx < 0 {
+    return
+  }
   let proj = game.projectiles[pidx]
 
   // Lead targeting for smarter aim
   let lead = @types.lead_target(
-    e.x, e.y, e.z,
-    game.player.x, game.player.y, game.player.z,
-    game.player.vx, game.player.vy, game.player.vz,
+    e.x,
+    e.y,
+    e.z,
+    game.player.x,
+    game.player.y,
+    game.player.z,
+    game.player.vx,
+    game.player.vy,
+    game.player.vz,
     80.0,
   )
 
@@ -531,6 +563,7 @@ fn enemy_fire(
   ignore(dz)
 }
 
+///|
 fn capital_turret_fire(
   game : @types.Game,
   idx : Int,
@@ -538,11 +571,13 @@ fn capital_turret_fire(
   dy : Float,
   dz : Float,
   dist : Float,
-  turret : Int
+  turret : Int,
 ) -> Unit {
   let e = game.enemies[idx]
   let pidx = @types.alloc_projectile(game)
-  if pidx < 0 { return }
+  if pidx < 0 {
+    return
+  }
   let proj = game.projectiles[pidx]
   let norm = @types.normalize3d(dx, dy, dz)
 
@@ -569,6 +604,7 @@ fn capital_turret_fire(
   ignore(dist)
 }
 
+///|
 pub fn damage_enemy(game : @types.Game, idx : Int, damage : Float) -> Unit {
   let e = game.enemies[idx]
 
@@ -673,10 +709,13 @@ pub fn damage_enemy(game : @types.Game, idx : Int, damage : Float) -> Unit {
   }
 }
 
+///|
 pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.asteroids.length(); i = i + 1 {
     let a = game.asteroids[i]
-    if not(a.active) { continue i + 1 }
+    if not(a.active) {
+      continue i + 1
+    }
     // Move
     a.x += a.vx * dt
     a.y += a.vy * dt
@@ -691,7 +730,12 @@ pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
     a.z = @types.wrap_coord(a.z)
     // Check collision with player
     let dist = @types.distance3d(
-      a.x, a.y, a.z, game.player.x, game.player.y, game.player.z,
+      a.x,
+      a.y,
+      a.z,
+      game.player.x,
+      game.player.y,
+      game.player.z,
     )
     if dist < a.size + 1.5 {
       damage_player(game, 20.0)
@@ -704,7 +748,9 @@ pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
     // Check collision with enemies
     for j = 0; j < game.enemies.length(); j = j + 1 {
       let e = game.enemies[j]
-      if not(e.active) { continue j + 1 }
+      if not(e.active) {
+        continue j + 1
+      }
       let edist = @types.distance3d(a.x, a.y, a.z, e.x, e.y, e.z)
       if edist < a.size + e.size * 0.5 {
         e.hp -= 10.0
@@ -721,6 +767,7 @@ pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn destroy_asteroid(game : @types.Game, idx : Int) -> Unit {
   let a = game.asteroids[idx]
   a.active = false
@@ -747,7 +794,9 @@ fn destroy_asteroid(game : @types.Game, idx : Int) -> Unit {
 
     for c = 0; c < @types.asteroid_break_count; c = c + 1 {
       let cidx = @types.alloc_asteroid(game)
-      if cidx < 0 { break }
+      if cidx < 0 {
+        break
+      }
       let child = game.asteroids[cidx]
       child.active = true
       child.x = a.x + @types.rand_rangef(game, -1.0, 1.0)
@@ -769,6 +818,7 @@ fn destroy_asteroid(game : @types.Game, idx : Int) -> Unit {
   }
 }
 
+///|
 pub fn damage_asteroid(game : @types.Game, idx : Int, damage : Float) -> Unit {
   let a = game.asteroids[idx]
   a.hp -= damage

@@ -1,5 +1,6 @@
 // Mission logic update
 
+///|
 pub fn update_mission_logic(game : @types.Game, dt : Float) -> Unit {
   let mission = game.missions[game.current_mission]
   game.mission_timer += dt
@@ -11,12 +12,16 @@ pub fn update_mission_logic(game : @types.Game, dt : Float) -> Unit {
       return
     }
   }
-  if mission.kind == @types.mission_checkpoint || mission.kind == @types.mission_canyon_run {
+  if mission.kind == @types.mission_checkpoint ||
+    mission.kind == @types.mission_canyon_run {
     // Check all checkpoints collected
     if mission.targets_done >= mission.target_count {
       complete_mission(game)
     }
-  } else if mission.kind == @types.mission_destroy || mission.kind == @types.mission_dogfight || mission.kind == @types.mission_intercept || mission.kind == @types.mission_boss {
+  } else if mission.kind == @types.mission_destroy ||
+    mission.kind == @types.mission_dogfight ||
+    mission.kind == @types.mission_intercept ||
+    mission.kind == @types.mission_boss {
     // Check all enemies destroyed
     if mission.targets_done >= mission.target_count {
       complete_mission(game)
@@ -39,7 +44,8 @@ pub fn update_mission_logic(game : @types.Game, dt : Float) -> Unit {
     if mission.targets_done >= mission.target_count {
       complete_mission(game)
     }
-  } else if mission.kind == @types.mission_bombing_run || mission.kind == @types.mission_attack_base {
+  } else if mission.kind == @types.mission_bombing_run ||
+    mission.kind == @types.mission_attack_base {
     // Destroy buildings/installations
     if mission.targets_done >= mission.target_count {
       complete_mission(game)
@@ -87,6 +93,7 @@ pub fn update_mission_logic(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn complete_mission(game : @types.Game) -> Unit {
   let mission = game.missions[game.current_mission]
   game.missions_completed += 1
@@ -96,7 +103,8 @@ fn complete_mission(game : @types.Game) -> Unit {
   game.score += game.mission_score
   // Calculate accuracy
   game.accuracy_pct = @types.calculate_accuracy(
-    game.player.shots_fired, game.player.shots_hit,
+    game.player.shots_fired,
+    game.player.shots_hit,
   )
   // Calculate rating
   game.mission_rating = @types.calculate_rating(game.mission_score)
@@ -104,19 +112,18 @@ fn complete_mission(game : @types.Game) -> Unit {
   if game.mission_score > game.best_scores[game.current_mission] {
     game.best_scores[game.current_mission] = game.mission_score
   }
-  @types.show_message(
-    game,
-    "Mission Complete: " + mission.name + "!",
-    4.0,
-  )
+  @types.show_message(game, "Mission Complete: " + mission.name + "!", 4.0)
   game.state = @types.state_mission_complete
 }
 
+///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
     // Flash timer
     if e.flash_timer > 0.0 {
       e.flash_timer -= dt
@@ -129,14 +136,20 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_air_enemy_ai(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let dist_to_player = @types.distance3d(
-    e.x, e.y, e.z, player.x, player.y, player.z,
+    e.x,
+    e.y,
+    e.z,
+    player.x,
+    player.y,
+    player.z,
   )
   // Maneuver timer
   if e.maneuver_timer > 0.0 {
@@ -152,9 +165,11 @@ fn update_air_enemy_ai(
     e.maneuver_timer = 0.0
   } else if e.evade_timer > 0.0 && e.ai_state != @types.ai_flee {
     e.ai_state = @types.ai_evade
-  } else if dist_to_player < @types.ai_engage_range && e.ai_state == @types.ai_patrol {
+  } else if dist_to_player < @types.ai_engage_range &&
+    e.ai_state == @types.ai_patrol {
     e.ai_state = @types.ai_engage
-  } else if dist_to_player > @types.ai_disengage_range && e.ai_state == @types.ai_engage {
+  } else if dist_to_player > @types.ai_disengage_range &&
+    e.ai_state == @types.ai_engage {
     e.ai_state = @types.ai_patrol
   }
   // Execute AI behavior
@@ -175,7 +190,9 @@ fn update_air_enemy_ai(
   e.z += e.vz * dt
   // Keep above terrain
   let ground = @types.terrain_height_at(e.x, e.z) + 5.0
-  if e.y < ground { e.y = ground }
+  if e.y < ground {
+    e.y = ground
+  }
   // Fire at player if engaging
   if e.ai_state == @types.ai_engage {
     e.fire_timer -= dt
@@ -188,11 +205,8 @@ fn update_air_enemy_ai(
   }
 }
 
-fn ai_patrol(
-  game : @types.Game,
-  e : @types.Enemy,
-  dt : Float
-) -> Unit {
+///|
+fn ai_patrol(game : @types.Game, e : @types.Enemy, dt : Float) -> Unit {
   // Orbit around patrol center
   e.orbit_angle += e.speed * 0.02 * dt
   if e.orbit_angle > @types.two_pi {
@@ -213,11 +227,12 @@ fn ai_patrol(
   ignore(game)
 }
 
+///|
 fn ai_engage(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Turn toward player and close distance
   let dx = player.x - e.x
@@ -246,11 +261,12 @@ fn ai_engage(
   ignore(dt)
 }
 
+///|
 fn ai_evade(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Break turn - turn perpendicular to player direction and climb
   let dx = player.x - e.x
@@ -273,11 +289,12 @@ fn ai_evade(
   ignore(game)
 }
 
+///|
 fn ai_flee(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Fly directly away from player
   let dx = e.x - player.x
@@ -293,11 +310,12 @@ fn ai_flee(
   ignore(game)
 }
 
+///|
 fn update_ground_enemy(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Ground enemies stay stationary but fire at player
   e.fire_timer -= dt
@@ -305,22 +323,23 @@ fn update_ground_enemy(
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < @types.enemy_fire_range {
       enemy_fire(game, e, player)
-      e.fire_timer = @types.enemy_fire_rate + @types.rand_rangef(
-        game, 0.0, 1.0,
-      )
+      e.fire_timer = @types.enemy_fire_rate + @types.rand_rangef(game, 0.0, 1.0)
     }
   }
   // Update heading to face player
   e.heading = @types.bearing_to(e.x, e.z, player.x, player.z)
 }
 
+///|
 fn enemy_fire(
   game : @types.Game,
   e : @types.Enemy,
-  player : @types.Player
+  player : @types.Player,
 ) -> Unit {
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let dx = player.x - e.x
   let dy = player.y - e.y
   let dz = player.z - e.z
@@ -342,11 +361,14 @@ fn enemy_fire(
   proj.blast_radius = 0.0
 }
 
+///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
     proj.x += proj.dx * proj.speed * dt
     proj.y += proj.dy * proj.speed * dt
     proj.z += proj.dz * proj.speed * dt
@@ -373,11 +395,16 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       if proj.kind == @types.proj_bomb {
         @types.spawn_large_explosion(game, proj.x, ground, proj.z)
         // Area damage to buildings and enemies
-        bomb_area_damage(game, proj.x, ground, proj.z, proj.blast_radius, proj.damage)
-      } else {
-        @types.spawn_particles(
-          game, proj.x, proj.y, proj.z, 3, 200, 180, 100,
+        bomb_area_damage(
+          game,
+          proj.x,
+          ground,
+          proj.z,
+          proj.blast_radius,
+          proj.damage,
         )
+      } else {
+        @types.spawn_particles(game, proj.x, proj.y, proj.z, 3, 200, 180, 100)
       }
       continue i + 1
     }
@@ -385,24 +412,27 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       // Check hit player
       if player.alive {
         let dist = @types.distance3d(
-          proj.x, proj.y, proj.z, player.x, player.y, player.z,
+          proj.x,
+          proj.y,
+          proj.z,
+          player.x,
+          player.y,
+          player.z,
         )
         if dist < @types.aircraft_size + 1.0 {
           proj.active = false
           damage_player(game, proj.damage)
-          @types.spawn_particles(
-            game, proj.x, proj.y, proj.z, 5, 255, 100, 50,
-          )
+          @types.spawn_particles(game, proj.x, proj.y, proj.z, 5, 255, 100, 50)
         }
       }
     } else {
       // Check hit enemies
       for j = 0; j < game.enemies.length(); j = j + 1 {
         let e = game.enemies[j]
-        if not(e.active) { continue j + 1 }
-        let dist = @types.distance3d(
-          proj.x, proj.y, proj.z, e.x, e.y, e.z,
-        )
+        if not(e.active) {
+          continue j + 1
+        }
+        let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
         if dist < e.size + 1.0 {
           proj.active = false
           e.hp -= proj.damage
@@ -412,9 +442,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
             e.evade_timer = @types.ai_evade_duration
           }
           player.shots_hit += 1
-          @types.spawn_particles(
-            game, e.x, e.y, e.z, 5, 255, 150, 50,
-          )
+          @types.spawn_particles(game, e.x, e.y, e.z, 5, 255, 150, 50)
           if e.hp <= 0.0 {
             e.active = false
             game.kills += 1
@@ -428,7 +456,11 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
             @types.spawn_explosion(game, e.x, e.y, e.z)
             // Update mission target
             let mission = game.missions[game.current_mission]
-            if mission.kind == @types.mission_destroy || mission.kind == @types.mission_dogfight || mission.kind == @types.mission_intercept || mission.kind == @types.mission_defense || mission.kind == @types.mission_boss {
+            if mission.kind == @types.mission_destroy ||
+              mission.kind == @types.mission_dogfight ||
+              mission.kind == @types.mission_intercept ||
+              mission.kind == @types.mission_defense ||
+              mission.kind == @types.mission_boss {
               mission.targets_done += 1
               @types.show_message(
                 game,
@@ -444,18 +476,21 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn bomb_area_damage(
   game : @types.Game,
   x : Float,
   y : Float,
   z : Float,
   radius : Float,
-  damage : Float
+  damage : Float,
 ) -> Unit {
   // Damage enemies in blast radius
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
     let dist = @types.distance3d(x, y, z, e.x, e.y, e.z)
     if dist < radius {
       let dmg_ratio : Float = 1.0 - dist / radius
@@ -469,7 +504,10 @@ fn bomb_area_damage(
         game.mission_score += @types.score_ground_kill
         @types.spawn_explosion(game, e.x, e.y, e.z)
         let mission = game.missions[game.current_mission]
-        if mission.kind == @types.mission_destroy || mission.kind == @types.mission_bombing_run || mission.kind == @types.mission_attack_base || mission.kind == @types.mission_boss {
+        if mission.kind == @types.mission_destroy ||
+          mission.kind == @types.mission_bombing_run ||
+          mission.kind == @types.mission_attack_base ||
+          mission.kind == @types.mission_boss {
           mission.targets_done += 1
         }
       }
@@ -478,8 +516,12 @@ fn bomb_area_damage(
   // Damage buildings in blast radius
   for i = 0; i < game.buildings.length(); i = i + 1 {
     let b = game.buildings[i]
-    if not(b.active) { continue i + 1 }
-    if not(b.destructible) { continue i + 1 }
+    if not(b.active) {
+      continue i + 1
+    }
+    if not(b.destructible) {
+      continue i + 1
+    }
     let dist = @types.distance3d(x, y, z, b.x, b.y + b.height / 2.0, b.z)
     if dist < radius + 3.0 {
       let dmg_ratio : Float = 1.0 - dist / (radius + 3.0)
@@ -493,7 +535,9 @@ fn bomb_area_damage(
         game.mission_score += @types.score_building_destroy
         @types.spawn_large_explosion(game, b.x, b.y + b.height / 2.0, b.z)
         let mission = game.missions[game.current_mission]
-        if mission.kind == @types.mission_bombing_run || mission.kind == @types.mission_attack_base || mission.kind == @types.mission_boss {
+        if mission.kind == @types.mission_bombing_run ||
+          mission.kind == @types.mission_attack_base ||
+          mission.kind == @types.mission_boss {
           mission.targets_done += 1
         }
       }
@@ -502,7 +546,9 @@ fn bomb_area_damage(
   // Damage turrets in blast radius
   for i = 0; i < game.turrets.length(); i = i + 1 {
     let t = game.turrets[i]
-    if not(t.active) { continue i + 1 }
+    if not(t.active) {
+      continue i + 1
+    }
     let dist = @types.distance3d(x, y, z, t.x, t.y, t.z)
     if dist < radius {
       let dmg_ratio : Float = 1.0 - dist / radius

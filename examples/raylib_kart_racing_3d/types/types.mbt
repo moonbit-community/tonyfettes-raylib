@@ -1,4 +1,6 @@
 // Waypoint for track definition
+
+///|
 pub(all) struct Waypoint {
   x : Float
   y : Float
@@ -6,6 +8,8 @@ pub(all) struct Waypoint {
 }
 
 // Track segment metadata
+
+///|
 pub(all) struct TrackSegment {
   mut seg_type : Int
   mut surface_type : Int
@@ -17,6 +21,7 @@ pub(all) struct TrackSegment {
   mut ramp_height : Float
 }
 
+///|
 pub fn TrackSegment::default() -> TrackSegment {
   {
     seg_type: seg_straight,
@@ -31,6 +36,8 @@ pub fn TrackSegment::default() -> TrackSegment {
 }
 
 // Kart entity
+
+///|
 pub(all) struct Kart {
   mut active : Bool
   mut character_id : Int
@@ -84,6 +91,7 @@ pub(all) struct Kart {
   mut ai_brake_timer : Float
 }
 
+///|
 pub fn Kart::inactive() -> Kart {
   {
     active: false,
@@ -139,6 +147,8 @@ pub fn Kart::inactive() -> Kart {
 }
 
 // Powerup pickup on track
+
+///|
 pub(all) struct Powerup {
   mut active : Bool
   mut x : Float
@@ -150,6 +160,7 @@ pub(all) struct Powerup {
   mut bob_offset : Float
 }
 
+///|
 pub fn Powerup::inactive() -> Powerup {
   {
     active: false,
@@ -164,6 +175,8 @@ pub fn Powerup::inactive() -> Powerup {
 }
 
 // Dropped item on track (banana, oil slick)
+
+///|
 pub(all) struct DroppedItem {
   mut active : Bool
   mut item_type : Int
@@ -175,6 +188,7 @@ pub(all) struct DroppedItem {
   mut rotation : Float
 }
 
+///|
 pub fn DroppedItem::inactive() -> DroppedItem {
   {
     active: false,
@@ -189,6 +203,8 @@ pub fn DroppedItem::inactive() -> DroppedItem {
 }
 
 // Projectile (missile)
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut x : Float
@@ -202,6 +218,7 @@ pub(all) struct Projectile {
   mut homing_strength : Float
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -218,6 +235,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Particle
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut particle_type : Int
@@ -236,14 +255,29 @@ pub(all) struct Particle {
 }
 
 // Particle types
+
+///|
 pub let particle_drift_spark : Int = 0
+
+///|
 pub let particle_boost_flame : Int = 1
+
+///|
 pub let particle_dust : Int = 2
+
+///|
 pub let particle_splash : Int = 3
+
+///|
 pub let particle_explosion : Int = 4
+
+///|
 pub let particle_star_sparkle : Int = 5
+
+///|
 pub let particle_lightning : Int = 6
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -264,11 +298,15 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Cup standings
+
+///|
 pub(all) struct CupStanding {
   mut points : Array[Int]
 }
 
 // Track data for a single track
+
+///|
 pub(all) struct TrackData {
   mut track_name : String
   mut theme : Int
@@ -277,6 +315,7 @@ pub(all) struct TrackData {
   mut segments : Array[TrackSegment]
 }
 
+///|
 pub fn TrackData::default() -> TrackData {
   {
     track_name: "Unknown",
@@ -288,6 +327,8 @@ pub fn TrackData::default() -> TrackData {
 }
 
 // Race result for a single kart
+
+///|
 pub(all) struct RaceResult {
   mut kart_index : Int
   mut position : Int
@@ -296,6 +337,7 @@ pub(all) struct RaceResult {
   mut points_earned : Int
 }
 
+///|
 pub fn RaceResult::default() -> RaceResult {
   {
     kart_index: 0,
@@ -307,6 +349,8 @@ pub fn RaceResult::default() -> RaceResult {
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -379,6 +423,7 @@ pub(all) struct Game {
   mut fastest_lap_time : Float
 }
 
+///|
 pub fn Game::new() -> Game {
   {
     state: state_menu,

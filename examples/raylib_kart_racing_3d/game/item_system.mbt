@@ -1,18 +1,31 @@
 // Item system: dropped items, projectile homing, item box respawns, powerup effects
 
 // Update dropped items (bananas, oil slicks) on the track
+
+///|
 pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.dropped_items.length(); i = i + 1 {
     let item = game.dropped_items[i]
-    if not(item.active) { continue i + 1 }
+    if not(item.active) {
+      continue i + 1
+    }
     // Decrease lifetime
     item.lifetime -= dt
     if item.lifetime <= 0.0 {
       item.active = false
       // Fade-out particles
       @types.spawn_typed_particles(
-        game, @types.particle_dust, item.x, item.y + 0.2, item.z,
-        3, 180, 180, 120, 0.04, 0.3,
+        game,
+        @types.particle_dust,
+        item.x,
+        item.y + 0.2,
+        item.z,
+        3,
+        180,
+        180,
+        120,
+        0.04,
+        0.3,
       )
       continue i + 1
     }
@@ -36,15 +49,23 @@ pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Check collisions between karts and dropped items
+
+///|
 pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
   for ki = 0; ki < @types.max_karts; ki = ki + 1 {
     let kart = game.karts[ki]
-    if not(kart.active) || kart.finished { continue ki + 1 }
+    if not(kart.active) || kart.finished {
+      continue ki + 1
+    }
     // Skip if already spinning or stunned
-    if kart.spin_timer > 0.0 || kart.stunned_timer > 0.0 { continue ki + 1 }
+    if kart.spin_timer > 0.0 || kart.stunned_timer > 0.0 {
+      continue ki + 1
+    }
     for di = 0; di < game.dropped_items.length(); di = di + 1 {
       let item = game.dropped_items[di]
-      if not(item.active) { continue di + 1 }
+      if not(item.active) {
+        continue di + 1
+      }
       // Don't hit your own item for a brief grace period (first 0.5s)
       let grace_time : Float = item.lifetime
       let max_life : Float = if item.item_type == @types.powerup_banana {
@@ -53,7 +74,9 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
         @types.oil_slick_lifetime
       }
       let elapsed = max_life - grace_time
-      if item.owner == ki && elapsed < 0.5 { continue di + 1 }
+      if item.owner == ki && elapsed < 0.5 {
+        continue di + 1
+      }
       let dist = @types.distance2d(kart.x, kart.z, item.x, item.z)
       let hit_radius : Float = 1.3
       if dist < hit_radius {
@@ -61,7 +84,14 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
         if kart.shield_timer > 0.0 {
           kart.shield_timer = 0.0
           @types.spawn_particles(
-            game, kart.x, kart.y + 0.5, kart.z, 10, 100, 200, 255,
+            game,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            10,
+            100,
+            200,
+            255,
           )
           item.active = false
           continue di + 1
@@ -70,7 +100,14 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
         if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
           item.active = false
           @types.spawn_particles(
-            game, item.x, item.y + 0.3, item.z, 6, 255, 255, 100,
+            game,
+            item.x,
+            item.y + 0.3,
+            item.z,
+            6,
+            255,
+            255,
+            100,
           )
           continue di + 1
         }
@@ -87,21 +124,32 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
 }
 
 // Apply banana peel hit effect - causes spin
+
+///|
 fn apply_banana_hit(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.spin_timer = @types.spin_duration
   kart.speed = kart.speed * 0.4
   // Spawn banana peel explosion particles
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.3, kart.z, 12, 255, 230, 50,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.3, kart.z, 12, 255, 230, 50)
   @types.spawn_typed_particles(
-    game, @types.particle_explosion, kart.x, kart.y + 0.5, kart.z,
-    6, 255, 200, 0, 0.08, 0.5,
+    game,
+    @types.particle_explosion,
+    kart.x,
+    kart.y + 0.5,
+    kart.z,
+    6,
+    255,
+    200,
+    0,
+    0.08,
+    0.5,
   )
 }
 
 // Apply oil slick hit effect - causes sliding and speed loss
+
+///|
 fn apply_oil_slick_hit(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.stunned_timer = 1.2
@@ -111,19 +159,30 @@ fn apply_oil_slick_hit(game : @types.Game, kart_idx : Int) -> Unit {
   kart.angle = kart.angle + slide_angle
   // Spawn oil splash particles
   @types.spawn_typed_particles(
-    game, @types.particle_splash, kart.x, kart.y + 0.1, kart.z,
-    8, 40, 40, 50, 0.06, 0.4,
+    game,
+    @types.particle_splash,
+    kart.x,
+    kart.y + 0.1,
+    kart.z,
+    8,
+    40,
+    40,
+    50,
+    0.06,
+    0.4,
   )
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.2, kart.z, 6, 80, 80, 90,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.2, kart.z, 6, 80, 80, 90)
 }
 
 // Update projectile homing behavior
+
+///|
 pub fn update_projectile_homing(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
     // Only home if we have a valid target
     if proj.target_kart < 0 || proj.target_kart >= @types.max_karts {
       continue i + 1
@@ -149,14 +208,25 @@ pub fn update_projectile_homing(game : @types.Game, dt : Float) -> Unit {
       let trail_x = proj.x - @math.sinf(proj.angle) * 0.3
       let trail_z = proj.z - @math.cosf(proj.angle) * 0.3
       @types.spawn_typed_particles(
-        game, @types.particle_boost_flame, trail_x, proj.y, trail_z,
-        1, 255, 120, 30, 0.04, 0.2,
+        game,
+        @types.particle_boost_flame,
+        trail_x,
+        proj.y,
+        trail_z,
+        1,
+        255,
+        120,
+        30,
+        0.04,
+        0.2,
       )
     }
   }
 }
 
 // Enhanced powerup usage effects with more detailed behavior
+
+///|
 pub fn apply_speed_boost(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.boost_timer = @types.boost_duration
@@ -167,15 +237,24 @@ pub fn apply_speed_boost(game : @types.Game, kart_idx : Int) -> Unit {
   let tail_x = kart.x - sin_a * @types.kart_length * 0.6
   let tail_z = kart.z - cos_a * @types.kart_length * 0.6
   @types.spawn_typed_particles(
-    game, @types.particle_boost_flame, tail_x, kart.y + 0.2, tail_z,
-    8, 255, 180, 30, 0.08, 0.4,
+    game,
+    @types.particle_boost_flame,
+    tail_x,
+    kart.y + 0.2,
+    tail_z,
+    8,
+    255,
+    180,
+    30,
+    0.08,
+    0.4,
   )
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.3, kart.z, 6, 255, 200, 0,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.3, kart.z, 6, 255, 200, 0)
 }
 
 // Apply shield activation with visual feedback
+
+///|
 pub fn apply_shield_activation(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.shield_timer = @types.shield_duration
@@ -185,17 +264,30 @@ pub fn apply_shield_activation(game : @types.Game, kart_idx : Int) -> Unit {
     let px = kart.x + @math.sinf(angle_f) * 1.2
     let pz = kart.z + @math.cosf(angle_f) * 1.2
     @types.spawn_typed_particles(
-      game, @types.particle_star_sparkle, px, kart.y + 0.5, pz,
-      1, 80, 180, 255, 0.06, 0.4,
+      game,
+      @types.particle_star_sparkle,
+      px,
+      kart.y + 0.5,
+      pz,
+      1,
+      80,
+      180,
+      255,
+      0.06,
+      0.4,
     )
   }
 }
 
 // Launch missile with enhanced targeting
+
+///|
 pub fn launch_missile(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let proj = game.projectiles[idx]
   proj.active = true
   let sin_a = @math.sinf(kart.angle)
@@ -212,19 +304,30 @@ pub fn launch_missile(game : @types.Game, kart_idx : Int) -> Unit {
   proj.homing_strength = 2.8
   // Launch effect
   @types.spawn_typed_particles(
-    game, @types.particle_boost_flame, proj.x, proj.y, proj.z,
-    6, 255, 100, 30, 0.07, 0.3,
+    game,
+    @types.particle_boost_flame,
+    proj.x,
+    proj.y,
+    proj.z,
+    6,
+    255,
+    100,
+    30,
+    0.07,
+    0.3,
   )
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.3, kart.z, 4, 200, 200, 200,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.3, kart.z, 4, 200, 200, 200)
 }
 
 // Drop banana behind kart with arc trajectory
+
+///|
 pub fn drop_banana(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   let idx = @types.alloc_dropped_item(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let item = game.dropped_items[idx]
   item.active = true
   item.item_type = @types.powerup_banana
@@ -238,16 +341,29 @@ pub fn drop_banana(game : @types.Game, kart_idx : Int) -> Unit {
   item.lifetime = @types.banana_lifetime
   // Drop particles
   @types.spawn_typed_particles(
-    game, @types.particle_dust, item.x, item.y, item.z,
-    3, 255, 230, 50, 0.05, 0.3,
+    game,
+    @types.particle_dust,
+    item.x,
+    item.y,
+    item.z,
+    3,
+    255,
+    230,
+    50,
+    0.05,
+    0.3,
   )
 }
 
 // Drop oil slick behind kart
+
+///|
 pub fn drop_oil_slick(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   let idx = @types.alloc_dropped_item(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let item = game.dropped_items[idx]
   item.active = true
   item.item_type = @types.powerup_oil_slick
@@ -261,12 +377,23 @@ pub fn drop_oil_slick(game : @types.Game, kart_idx : Int) -> Unit {
   item.lifetime = @types.oil_slick_lifetime
   // Drop particles
   @types.spawn_typed_particles(
-    game, @types.particle_splash, item.x, item.y, item.z,
-    4, 40, 40, 50, 0.06, 0.3,
+    game,
+    @types.particle_splash,
+    item.x,
+    item.y,
+    item.z,
+    4,
+    40,
+    40,
+    50,
+    0.06,
+    0.3,
   )
 }
 
 // Activate star power with full effect
+
+///|
 pub fn activate_star_power(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.star_timer = @types.star_duration
@@ -281,68 +408,123 @@ pub fn activate_star_power(game : @types.Game, kart_idx : Int) -> Unit {
     let g = 150 + @types.rand_range(game, 0, 105)
     let b = 50 + @types.rand_range(game, 0, 205)
     @types.spawn_typed_particles(
-      game, @types.particle_star_sparkle, px, kart.y + 0.5, pz,
-      1, r, g, b, 0.07, 0.5,
+      game,
+      @types.particle_star_sparkle,
+      px,
+      kart.y + 0.5,
+      pz,
+      1,
+      r,
+      g,
+      b,
+      0.07,
+      0.5,
     )
   }
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.5, kart.z, 15, 255, 255, 100,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.5, kart.z, 15, 255, 255, 100)
 }
 
 // Activate lightning bolt affecting all opponents
+
+///|
 pub fn activate_lightning_bolt(game : @types.Game, source_kart : Int) -> Unit {
   game.lightning_active = true
   game.lightning_timer = @types.lightning_duration
   game.lightning_source = source_kart
   // Strike all other karts
   for i = 0; i < @types.max_karts; i = i + 1 {
-    if i == source_kart { continue i + 1 }
+    if i == source_kart {
+      continue i + 1
+    }
     let kart = game.karts[i]
-    if not(kart.active) || kart.finished { continue i + 1 }
+    if not(kart.active) || kart.finished {
+      continue i + 1
+    }
     // Star and invincibility protect against lightning
-    if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 { continue i + 1 }
+    if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
+      continue i + 1
+    }
     kart.lightning_timer = @types.lightning_duration
     kart.spin_timer = @types.lightning_spin_duration
     kart.speed = kart.speed * 0.5
     // Lightning strike visual per kart
     @types.spawn_typed_particles(
-      game, @types.particle_lightning, kart.x, kart.y + 1.5, kart.z,
-      8, 255, 255, 100, 0.08, 0.6,
+      game,
+      @types.particle_lightning,
+      kart.x,
+      kart.y + 1.5,
+      kart.z,
+      8,
+      255,
+      255,
+      100,
+      0.08,
+      0.6,
     )
     @types.spawn_typed_particles(
-      game, @types.particle_lightning, kart.x, kart.y + 0.5, kart.z,
-      4, 200, 200, 255, 0.06, 0.4,
+      game,
+      @types.particle_lightning,
+      kart.x,
+      kart.y + 0.5,
+      kart.z,
+      4,
+      200,
+      200,
+      255,
+      0.06,
+      0.4,
     )
   }
   // Big lightning bolt from source
   let src = game.karts[source_kart]
   @types.spawn_typed_particles(
-    game, @types.particle_lightning, src.x, src.y + 3.0, src.z,
-    12, 255, 255, 200, 0.12, 0.8,
+    game,
+    @types.particle_lightning,
+    src.x,
+    src.y + 3.0,
+    src.z,
+    12,
+    255,
+    255,
+    200,
+    0.12,
+    0.8,
   )
 }
 
 // Apply triple mushroom boost (one of three uses)
+
+///|
 pub fn apply_triple_mushroom(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.boost_timer = @types.triple_mushroom_boost
   kart.boost_power = @types.boost_speed_add
   // Mushroom boost particles - pink tinted
   @types.spawn_typed_particles(
-    game, @types.particle_boost_flame, kart.x, kart.y + 0.2, kart.z,
-    6, 255, 150, 200, 0.07, 0.3,
+    game,
+    @types.particle_boost_flame,
+    kart.x,
+    kart.y + 0.2,
+    kart.z,
+    6,
+    255,
+    150,
+    200,
+    0.07,
+    0.3,
   )
-  @types.spawn_particles(
-    game, kart.x, kart.y + 0.3, kart.z, 5, 255, 180, 220,
-  )
+  @types.spawn_particles(game, kart.x, kart.y + 0.3, kart.z, 5, 255, 180, 220)
 }
 
 // Item box respawn with enhanced variety
+
+///|
 pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     let pu = game.powerups[i]
-    if not(pu.active) { continue i + 1 }
+    if not(pu.active) {
+      continue i + 1
+    }
     if pu.collected {
       pu.respawn_timer -= dt
       if pu.respawn_timer <= 0.0 {
@@ -353,8 +535,17 @@ pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
         pu.kind = variety
         // Respawn sparkle
         @types.spawn_typed_particles(
-          game, @types.particle_star_sparkle, pu.x, pu.y, pu.z,
-          4, 255, 255, 200, 0.05, 0.3,
+          game,
+          @types.particle_star_sparkle,
+          pu.x,
+          pu.y,
+          pu.z,
+          4,
+          255,
+          255,
+          200,
+          0.05,
+          0.3,
         )
       }
     }
@@ -367,15 +558,25 @@ pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Projectile-kart collision check with enhanced effects
+
+///|
 pub fn check_projectile_impacts(game : @types.Game) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
     for ki = 0; ki < @types.max_karts; ki = ki + 1 {
-      if ki == proj.owner { continue ki + 1 }
+      if ki == proj.owner {
+        continue ki + 1
+      }
       let kart = game.karts[ki]
-      if not(kart.active) || kart.finished { continue ki + 1 }
-      if kart.spin_timer > 0.0 { continue ki + 1 }
+      if not(kart.active) || kart.finished {
+        continue ki + 1
+      }
+      if kart.spin_timer > 0.0 {
+        continue ki + 1
+      }
       let dist = @types.distance2d(proj.x, proj.z, kart.x, kart.z)
       let hit_dist : Float = 1.6
       if dist < hit_dist {
@@ -383,11 +584,27 @@ pub fn check_projectile_impacts(game : @types.Game) -> Unit {
         if kart.shield_timer > 0.0 {
           kart.shield_timer = 0.0
           @types.spawn_particles(
-            game, kart.x, kart.y + 0.5, kart.z, 14, 100, 200, 255,
+            game,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            14,
+            100,
+            200,
+            255,
           )
           @types.spawn_typed_particles(
-            game, @types.particle_explosion, kart.x, kart.y + 0.5, kart.z,
-            6, 80, 160, 255, 0.08, 0.4,
+            game,
+            @types.particle_explosion,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            6,
+            80,
+            160,
+            255,
+            0.08,
+            0.4,
           )
           proj.active = false
           break
@@ -396,7 +613,14 @@ pub fn check_projectile_impacts(game : @types.Game) -> Unit {
         if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
           proj.active = false
           @types.spawn_particles(
-            game, kart.x, kart.y + 0.5, kart.z, 8, 255, 255, 100,
+            game,
+            kart.x,
+            kart.y + 0.5,
+            kart.z,
+            8,
+            255,
+            255,
+            100,
           )
           break
         }
@@ -405,15 +629,40 @@ pub fn check_projectile_impacts(game : @types.Game) -> Unit {
         kart.speed = kart.speed * 0.25
         // Explosion particles
         @types.spawn_particles(
-          game, kart.x, kart.y + 0.5, kart.z, 18, 255, 100, 50,
+          game,
+          kart.x,
+          kart.y + 0.5,
+          kart.z,
+          18,
+          255,
+          100,
+          50,
         )
         @types.spawn_typed_particles(
-          game, @types.particle_explosion, kart.x, kart.y + 0.8, kart.z,
-          8, 255, 150, 30, 0.1, 0.6,
+          game,
+          @types.particle_explosion,
+          kart.x,
+          kart.y + 0.8,
+          kart.z,
+          8,
+          255,
+          150,
+          30,
+          0.1,
+          0.6,
         )
         @types.spawn_typed_particles(
-          game, @types.particle_explosion, kart.x, kart.y + 0.3, kart.z,
-          6, 80, 80, 80, 0.08, 0.5,
+          game,
+          @types.particle_explosion,
+          kart.x,
+          kart.y + 0.3,
+          kart.z,
+          6,
+          80,
+          80,
+          80,
+          0.08,
+          0.5,
         )
         proj.active = false
         break
@@ -423,6 +672,8 @@ pub fn check_projectile_impacts(game : @types.Game) -> Unit {
 }
 
 // Check if a kart has a defensive item ready
+
+///|
 pub fn has_defensive_item(kart : @types.Kart) -> Bool {
   kart.held_powerup == @types.powerup_shield ||
   kart.held_powerup == @types.powerup_banana ||
@@ -430,6 +681,8 @@ pub fn has_defensive_item(kart : @types.Kart) -> Bool {
 }
 
 // Check if a kart has an offensive item ready
+
+///|
 pub fn has_offensive_item(kart : @types.Kart) -> Bool {
   kart.held_powerup == @types.powerup_missile ||
   kart.held_powerup == @types.powerup_lightning ||
@@ -437,6 +690,8 @@ pub fn has_offensive_item(kart : @types.Kart) -> Bool {
 }
 
 // Get item name for display purposes
+
+///|
 pub fn get_item_name(item_type : Int) -> String {
   if item_type == @types.powerup_none {
     "NONE"
@@ -462,6 +717,8 @@ pub fn get_item_name(item_type : Int) -> String {
 }
 
 // Get item color for UI display (r, g, b)
+
+///|
 pub fn get_item_color(item_type : Int) -> (Int, Int, Int) {
   if item_type == @types.powerup_boost {
     (255, 200, 0)
@@ -485,8 +742,11 @@ pub fn get_item_color(item_type : Int) -> (Int, Int, Int) {
 }
 
 // Calculate item effectiveness based on kart position
+
+///|
 pub fn calc_item_effectiveness(place : Int, item_type : Int) -> Float {
-  if item_type == @types.powerup_boost || item_type == @types.powerup_triple_mushroom {
+  if item_type == @types.powerup_boost ||
+    item_type == @types.powerup_triple_mushroom {
     // Boosts more effective when behind
     if place >= 5 {
       1.5
@@ -511,7 +771,8 @@ pub fn calc_item_effectiveness(place : Int, item_type : Int) -> Float {
     } else {
       0.8
     }
-  } else if item_type == @types.powerup_banana || item_type == @types.powerup_oil_slick {
+  } else if item_type == @types.powerup_banana ||
+    item_type == @types.powerup_oil_slick {
     // Traps best when in the lead
     if place <= 2 {
       1.4

@@ -2,74 +2,134 @@
 // Each level is defined by spawning platforms, collectibles, hazards procedurally
 // 4 worlds x 5 levels = 20 total levels
 
+///|
 pub fn get_world_name(world : Int) -> String {
-  if world == 0 { "Green Hills" }
-  else if world == 1 { "Crystal Caves" }
-  else if world == 2 { "Lava Peaks" }
-  else { "Sky Fortress" }
+  if world == 0 {
+    "Green Hills"
+  } else if world == 1 {
+    "Crystal Caves"
+  } else if world == 2 {
+    "Lava Peaks"
+  } else {
+    "Sky Fortress"
+  }
 }
 
+///|
 pub fn get_level_name(world : Int, level : Int) -> String {
   if world == 0 {
-    if level == 0 { "Meadow Path" }
-    else if level == 1 { "Forest Trail" }
-    else if level == 2 { "Bouncy Grove" }
-    else if level == 3 { "Hilltop Run" }
-    else { "Canopy Heights" }
+    if level == 0 {
+      "Meadow Path"
+    } else if level == 1 {
+      "Forest Trail"
+    } else if level == 2 {
+      "Bouncy Grove"
+    } else if level == 3 {
+      "Hilltop Run"
+    } else {
+      "Canopy Heights"
+    }
   } else if world == 1 {
-    if level == 0 { "Ice Entry" }
-    else if level == 1 { "Frozen Bridges" }
-    else if level == 2 { "Crystal Passage" }
-    else if level == 3 { "Sliding Cavern" }
-    else { "Diamond Core" }
+    if level == 0 {
+      "Ice Entry"
+    } else if level == 1 {
+      "Frozen Bridges"
+    } else if level == 2 {
+      "Crystal Passage"
+    } else if level == 3 {
+      "Sliding Cavern"
+    } else {
+      "Diamond Core"
+    }
   } else if world == 2 {
-    if level == 0 { "Ember Walk" }
-    else if level == 1 { "Crumble Ridge" }
-    else if level == 2 { "Lava Crossing" }
-    else if level == 3 { "Flame Gauntlet" }
-    else { "Volcano Summit" }
+    if level == 0 {
+      "Ember Walk"
+    } else if level == 1 {
+      "Crumble Ridge"
+    } else if level == 2 {
+      "Lava Crossing"
+    } else if level == 3 {
+      "Flame Gauntlet"
+    } else {
+      "Volcano Summit"
+    }
+  } else if level == 0 {
+    "Cloud Step"
+  } else if level == 1 {
+    "Wind Lifts"
+  } else if level == 2 {
+    "Storm Bridges"
+  } else if level == 3 {
+    "Lightning Run"
   } else {
-    if level == 0 { "Cloud Step" }
-    else if level == 1 { "Wind Lifts" }
-    else if level == 2 { "Storm Bridges" }
-    else if level == 3 { "Lightning Run" }
-    else { "Celestial Peak" }
+    "Celestial Peak"
   }
 }
 
 // World color themes
+
+///|
 pub fn world_platform_color(world : Int) -> (Int, Int, Int) {
-  if world == 0 { (80, 160, 60) }
-  else if world == 1 { (80, 120, 180) }
-  else if world == 2 { (160, 80, 40) }
-  else { (140, 140, 160) }
+  if world == 0 {
+    (80, 160, 60)
+  } else if world == 1 {
+    (80, 120, 180)
+  } else if world == 2 {
+    (160, 80, 40)
+  } else {
+    (140, 140, 160)
+  }
 }
 
+///|
 pub fn world_bg_color(world : Int) -> (Int, Int, Int) {
-  if world == 0 { (100, 180, 255) }
-  else if world == 1 { (20, 30, 60) }
-  else if world == 2 { (60, 20, 10) }
-  else { (180, 200, 240) }
+  if world == 0 {
+    (100, 180, 255)
+  } else if world == 1 {
+    (20, 30, 60)
+  } else if world == 2 {
+    (60, 20, 10)
+  } else {
+    (180, 200, 240)
+  }
 }
 
 // Decoration theme colors
+
+///|
 pub fn world_deco_color_1(world : Int) -> (Int, Int, Int) {
-  if world == 0 { (60, 130, 40) }
-  else if world == 1 { (100, 150, 255) }
-  else if world == 2 { (80, 50, 30) }
-  else { (240, 245, 255) }
+  if world == 0 {
+    (60, 130, 40)
+  } else if world == 1 {
+    (100, 150, 255)
+  } else if world == 2 {
+    (80, 50, 30)
+  } else {
+    (240, 245, 255)
+  }
 }
 
+///|
 pub fn world_deco_color_2(world : Int) -> (Int, Int, Int) {
-  if world == 0 { (100, 70, 40) }
-  else if world == 1 { (60, 90, 180) }
-  else if world == 2 { (255, 100, 20) }
-  else { (200, 195, 210) }
+  if world == 0 {
+    (100, 70, 40)
+  } else if world == 1 {
+    (60, 90, 180)
+  } else if world == 2 {
+    (255, 100, 20)
+  } else {
+    (200, 195, 210)
+  }
 }
 
 // Platform layout data per level
 // Returns array of (kind, x, y, z, w, d, move_range, move_speed)
-pub fn get_platform_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float, Float, Float, Float, Float)] {
+
+///|
+pub fn get_platform_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float, Float, Float, Float, Float)] {
   let platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)] = []
   // Start platform (always)
   platforms.push((0, 0.0, 0.0, 0.0, 4.0, 4.0, 0.0, 0.0))
@@ -86,7 +146,12 @@ pub fn get_platform_data(world : Int, level : Int) -> Array[(Int, Float, Float, 
 }
 
 // ========== Forest World (World 0) ==========
-fn build_forest_level(platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)], level : Int) -> Unit {
+
+///|
+fn build_forest_level(
+  platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)],
+  level : Int,
+) -> Unit {
   if level == 0 {
     // Meadow Path - gentle introduction
     platforms.push((0, 0.0, 0.0, -5.0, 3.0, 3.0, 0.0, 0.0))
@@ -165,7 +230,12 @@ fn build_forest_level(platforms : Array[(Int, Float, Float, Float, Float, Float,
 }
 
 // ========== Crystal World (World 1) ==========
-fn build_crystal_level(platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)], level : Int) -> Unit {
+
+///|
+fn build_crystal_level(
+  platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)],
+  level : Int,
+) -> Unit {
   if level == 0 {
     // Ice Entry - introduces ice platforms
     platforms.push((0, 0.0, 0.0, -5.0, 3.0, 3.0, 0.0, 0.0))
@@ -241,7 +311,12 @@ fn build_crystal_level(platforms : Array[(Int, Float, Float, Float, Float, Float
 }
 
 // ========== Lava World (World 2) ==========
-fn build_lava_level(platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)], level : Int) -> Unit {
+
+///|
+fn build_lava_level(
+  platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)],
+  level : Int,
+) -> Unit {
   if level == 0 {
     // Ember Walk - introduces falling platforms
     platforms.push((0, 0.0, 0.0, -5.0, 3.0, 3.0, 0.0, 0.0))
@@ -321,7 +396,12 @@ fn build_lava_level(platforms : Array[(Int, Float, Float, Float, Float, Float, F
 }
 
 // ========== Sky World (World 3) ==========
-fn build_sky_level(platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)], level : Int) -> Unit {
+
+///|
+fn build_sky_level(
+  platforms : Array[(Int, Float, Float, Float, Float, Float, Float, Float)],
+  level : Int,
+) -> Unit {
   if level == 0 {
     // Cloud Step - moving platforms focus
     platforms.push((0, 0.0, 0.0, -5.0, 3.0, 3.0, 0.0, 0.0))
@@ -403,7 +483,12 @@ fn build_sky_level(platforms : Array[(Int, Float, Float, Float, Float, Float, Fl
 }
 
 // Collectible positions for a level
-pub fn get_collectible_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float)] {
+
+///|
+pub fn get_collectible_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float)] {
   let items : Array[(Int, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // Place gems on platforms and vary by world/level
@@ -415,7 +500,13 @@ pub fn get_collectible_data(world : Int, level : Int) -> Array[(Int, Float, Floa
     }
     // Coins near some platforms
     if i % 3 == 1 {
-      let coin_kind : Int = if level >= 3 { 6 } else if level >= 1 { 5 } else { 4 }
+      let coin_kind : Int = if level >= 3 {
+        6
+      } else if level >= 1 {
+        5
+      } else {
+        4
+      }
       items.push((coin_kind, p.1 + 1.0, p.2 + 1.2, p.3))
     }
     // Stars on every 6th platform
@@ -434,11 +525,18 @@ pub fn get_collectible_data(world : Int, level : Int) -> Array[(Int, Float, Floa
 
 // Enemy data for a level
 // Returns array of (kind, x, y, z, patrol_range)
-pub fn get_enemy_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float, Float)] {
+
+///|
+pub fn get_enemy_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float, Float)] {
   let enemies : Array[(Int, Float, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // Enemies start appearing from level 1 onwards
-  if level == 0 { return enemies }
+  if level == 0 {
+    return enemies
+  }
   for i = 2; i < plats.length() - 2; i = i + 1 {
     let p = plats[i]
     // Patrol enemies on wider static platforms
@@ -468,7 +566,12 @@ pub fn get_enemy_data(world : Int, level : Int) -> Array[(Int, Float, Float, Flo
 
 // Hazard data for a level
 // Returns array of (kind, x, y, z, w, h, d)
-pub fn get_hazard_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float, Float, Float, Float)] {
+
+///|
+pub fn get_hazard_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float, Float, Float, Float)] {
   let hazards : Array[(Int, Float, Float, Float, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // Place hazards between platforms where gaps exist
@@ -509,17 +612,27 @@ pub fn get_hazard_data(world : Int, level : Int) -> Array[(Int, Float, Float, Fl
 
 // Power-up data for a level
 // Returns array of (kind, x, y, z)
-pub fn get_powerup_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float)] {
+
+///|
+pub fn get_powerup_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float)] {
   let powerups : Array[(Int, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // One power-up per level, placed on a platform roughly 40% through
   let pu_idx = plats.length() * 2 / 5
   if pu_idx > 0 && pu_idx < plats.length() {
     let p = plats[pu_idx]
-    let kind : Int = if world == 0 { 0 }
-    else if world == 1 { 1 }
-    else if world == 2 { 2 }
-    else { 4 }
+    let kind : Int = if world == 0 {
+      0
+    } else if world == 1 {
+      1
+    } else if world == 2 {
+      2
+    } else {
+      4
+    }
     powerups.push((kind, p.1, p.2 + 2.0, p.3))
   }
   // Second power-up for levels 3+
@@ -527,10 +640,15 @@ pub fn get_powerup_data(world : Int, level : Int) -> Array[(Int, Float, Float, F
     let pu_idx2 = plats.length() * 3 / 4
     if pu_idx2 > 0 && pu_idx2 < plats.length() {
       let p2 = plats[pu_idx2]
-      let kind2 : Int = if world == 0 { 1 }
-      else if world == 1 { 2 }
-      else if world == 2 { 0 }
-      else { 3 }
+      let kind2 : Int = if world == 0 {
+        1
+      } else if world == 1 {
+        2
+      } else if world == 2 {
+        0
+      } else {
+        3
+      }
       powerups.push((kind2, p2.1, p2.2 + 2.0, p2.3))
     }
   }
@@ -539,13 +657,20 @@ pub fn get_powerup_data(world : Int, level : Int) -> Array[(Int, Float, Float, F
 
 // Decoration data for a level
 // Returns array of (kind, x, y, z, scale)
-pub fn get_decoration_data(world : Int, level : Int) -> Array[(Int, Float, Float, Float, Float)] {
+
+///|
+pub fn get_decoration_data(
+  world : Int,
+  level : Int,
+) -> Array[(Int, Float, Float, Float, Float)] {
   let decos : Array[(Int, Float, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   for i = 0; i < plats.length(); i = i + 1 {
     let p = plats[i]
     // Only decorate static platforms
-    if p.0 != 0 { continue i + 1 }
+    if p.0 != 0 {
+      continue i + 1
+    }
     let y_top = p.2 + 0.15
     if world == 0 {
       // Forest: trees and bushes
@@ -593,6 +718,8 @@ pub fn get_decoration_data(world : Int, level : Int) -> Array[(Int, Float, Float
 }
 
 // Goal position (last platform)
+
+///|
 pub fn get_goal_position(world : Int, level : Int) -> (Float, Float, Float) {
   let plats = get_platform_data(world, level)
   let last = plats[plats.length() - 1]
@@ -600,22 +727,39 @@ pub fn get_goal_position(world : Int, level : Int) -> (Float, Float, Float) {
 }
 
 // Get level difficulty rating (1-5)
+
+///|
 pub fn get_level_difficulty(world : Int, level : Int) -> Int {
   let base : Int = world + 1
   let lvl_add : Int = level / 2
   let v = base + lvl_add
-  if v < 1 { 1 } else if v > 5 { 5 } else { v }
+  if v < 1 {
+    1
+  } else if v > 5 {
+    5
+  } else {
+    v
+  }
 }
 
 // Check if a level should have a key requirement
+
+///|
 pub fn level_has_key(world : Int, level : Int) -> Bool {
   level == 4 && world >= 1
 }
 
 // Get recommended star count to unlock a world
+
+///|
 pub fn world_unlock_stars(world : Int) -> Int {
-  if world == 0 { 0 }
-  else if world == 1 { 5 }
-  else if world == 2 { 12 }
-  else { 20 }
+  if world == 0 {
+    0
+  } else if world == 1 {
+    5
+  } else if world == 2 {
+    12
+  } else {
+    20
+  }
 }

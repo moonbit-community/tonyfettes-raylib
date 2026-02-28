@@ -1,4 +1,6 @@
 // Player ship
+
+///|
 pub(all) struct Ship {
   mut x : Float
   mut z : Float
@@ -46,6 +48,7 @@ pub(all) struct Ship {
   mut damage_taken : Float
 }
 
+///|
 pub fn Ship::new_player() -> Ship {
   {
     x: 0.0,
@@ -96,6 +99,8 @@ pub fn Ship::new_player() -> Ship {
 }
 
 // Enemy ship
+
+///|
 pub(all) struct EnemyShip {
   mut active : Bool
   mut x : Float
@@ -144,6 +149,7 @@ pub(all) struct EnemyShip {
   mut formation_offset_z : Float
 }
 
+///|
 pub fn EnemyShip::inactive() -> EnemyShip {
   {
     active: false,
@@ -195,6 +201,8 @@ pub fn EnemyShip::inactive() -> EnemyShip {
 }
 
 // Cannonball
+
+///|
 pub(all) struct Cannonball {
   mut active : Bool
   mut x : Float
@@ -212,6 +220,7 @@ pub(all) struct Cannonball {
   mut trail_timer : Float
 }
 
+///|
 pub fn Cannonball::inactive() -> Cannonball {
   {
     active: false,
@@ -232,6 +241,8 @@ pub fn Cannonball::inactive() -> Cannonball {
 }
 
 // Particle
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -249,13 +260,25 @@ pub(all) struct Particle {
   mut particle_type : Int
 }
 
+///|
 pub let particle_generic : Int = 0
+
+///|
 pub let particle_smoke : Int = 1
+
+///|
 pub let particle_fire : Int = 2
+
+///|
 pub let particle_splash : Int = 3
+
+///|
 pub let particle_debris : Int = 4
+
+///|
 pub let particle_spark : Int = 5
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -276,6 +299,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Island obstacle
+
+///|
 pub(all) struct Island {
   mut active : Bool
   mut x : Float
@@ -295,6 +320,7 @@ pub(all) struct Island {
   mut vegetation_density : Int
 }
 
+///|
 pub fn Island::inactive() -> Island {
   {
     active: false,
@@ -317,6 +343,8 @@ pub fn Island::inactive() -> Island {
 }
 
 // Water wake trail
+
+///|
 pub(all) struct WaterWake {
   mut active : Bool
   mut x : Float
@@ -328,6 +356,7 @@ pub(all) struct WaterWake {
   mut speed_at_spawn : Float
 }
 
+///|
 pub fn WaterWake::inactive() -> WaterWake {
   {
     active: false,
@@ -342,6 +371,8 @@ pub fn WaterWake::inactive() -> WaterWake {
 }
 
 // Floating debris from destroyed ships
+
+///|
 pub(all) struct Debris {
   mut active : Bool
   mut x : Float
@@ -359,11 +390,19 @@ pub(all) struct Debris {
   mut b : Int
 }
 
+///|
 pub let debris_plank : Int = 0
+
+///|
 pub let debris_barrel : Int = 1
+
+///|
 pub let debris_sail_scrap : Int = 2
+
+///|
 pub let debris_mast_piece : Int = 3
 
+///|
 pub fn Debris::inactive() -> Debris {
   {
     active: false,
@@ -384,6 +423,8 @@ pub fn Debris::inactive() -> Debris {
 }
 
 // Wind system
+
+///|
 pub(all) struct Wind {
   mut direction : Float
   mut speed : Float
@@ -397,6 +438,7 @@ pub(all) struct Wind {
   mut turbulence : Float
 }
 
+///|
 pub fn Wind::new() -> Wind {
   {
     direction: 0.5,
@@ -413,6 +455,8 @@ pub fn Wind::new() -> Wind {
 }
 
 // Battle message
+
+///|
 pub(all) struct BattleMessage {
   mut active : Bool
   mut text : String
@@ -423,6 +467,7 @@ pub(all) struct BattleMessage {
   mut color_b : Int
 }
 
+///|
 pub fn BattleMessage::inactive() -> BattleMessage {
   {
     active: false,
@@ -436,6 +481,8 @@ pub fn BattleMessage::inactive() -> BattleMessage {
 }
 
 // Battle objective
+
+///|
 pub(all) struct BattleObjective {
   mut objective_type : Int
   mut target_count : Int
@@ -447,6 +494,7 @@ pub(all) struct BattleObjective {
   mut description : String
 }
 
+///|
 pub fn BattleObjective::new() -> BattleObjective {
   {
     objective_type: objective_destroy_all,
@@ -461,6 +509,8 @@ pub fn BattleObjective::new() -> BattleObjective {
 }
 
 // Battle statistics
+
+///|
 pub(all) struct BattleStats {
   mut ships_sunk : Int
   mut damage_dealt : Float
@@ -474,6 +524,7 @@ pub(all) struct BattleStats {
   mut fortresses_destroyed : Int
 }
 
+///|
 pub fn BattleStats::new() -> BattleStats {
   {
     ships_sunk: 0,
@@ -490,6 +541,8 @@ pub fn BattleStats::new() -> BattleStats {
 }
 
 // Convoy ship (for escort missions)
+
+///|
 pub(all) struct ConvoyShip {
   mut active : Bool
   mut x : Float
@@ -501,6 +554,7 @@ pub(all) struct ConvoyShip {
   mut arrived : Bool
 }
 
+///|
 pub fn ConvoyShip::inactive() -> ConvoyShip {
   {
     active: false,
@@ -515,6 +569,8 @@ pub fn ConvoyShip::inactive() -> ConvoyShip {
 }
 
 // Fleet ally ship (player-commanded)
+
+///|
 pub(all) struct FleetShip {
   mut active : Bool
   mut x : Float
@@ -542,11 +598,19 @@ pub(all) struct FleetShip {
   mut target_z : Float
 }
 
+///|
 pub let fleet_order_follow : Int = 0
+
+///|
 pub let fleet_order_attack : Int = 1
+
+///|
 pub let fleet_order_defend : Int = 2
+
+///|
 pub let fleet_order_hold : Int = 3
 
+///|
 pub fn FleetShip::inactive() -> FleetShip {
   {
     active: false,
@@ -576,10 +640,15 @@ pub fn FleetShip::inactive() -> FleetShip {
   }
 }
 
+///|
 pub let max_fleet_ships : Int = 4
+
+///|
 pub let max_convoy_ships : Int = 4
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -655,6 +724,7 @@ pub(all) struct Game {
   mut convoy_arrived_count : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   {
     state: state_menu,
@@ -743,7 +813,7 @@ pub fn Game::new() -> Game {
       arr
     },
     camera_offset_angle: 0.0,
-    camera_dist: camera_dist,
+    camera_dist,
     camera_height_offset: 0.0,
     menu_cursor: 0,
     menu_blink: 0.0,

@@ -1,0 +1,46 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tower_defense_3d/levels"
+
+import {
+  "tonyfettes/raylib-examples/raylib_tower_defense_3d/types",
+}
+
+// Values
+pub fn enemy_base_hp(Int) -> Float
+
+pub fn enemy_base_speed(Int) -> Float
+
+pub fn enemy_gold_value(Int) -> Int
+
+pub fn enemy_has_shield(Int) -> Bool
+
+pub fn enemy_is_boss(Int) -> Bool
+
+pub fn enemy_is_camo(Int) -> Bool
+
+pub fn enemy_is_flying(Int) -> Bool
+
+pub fn enemy_is_healer(Int) -> Bool
+
+pub fn enemy_score_value(Int) -> Int
+
+pub fn enemy_shield_hp(Int, Float) -> Float
+
+pub fn enemy_spawns_children(Int) -> Bool
+
+pub fn get_map_data(Int) -> Array[String]
+
+pub fn get_map_info(Int) -> @types.MapInfo
+
+pub fn get_wave_def(Int) -> (Int, Int, Float, Float)
+
+pub fn get_wave_info(Int) -> @types.WaveInfo
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,58 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_survival_arena_3d/levels"
+
+// Values
+pub fn boss_ability_cooldown(Int) -> Float
+
+pub fn boss_charge_speed_mult(Int) -> Float
+
+pub fn boss_phase_hp_threshold(Int) -> Float
+
+pub fn enemy_attack_range(Int) -> Float
+
+pub fn enemy_base_damage(Int) -> Float
+
+pub fn enemy_base_hp(Int) -> Float
+
+pub fn enemy_base_speed(Int) -> Float
+
+pub fn enemy_drop_chance(Int) -> Float
+
+pub fn enemy_gold_value(Int) -> Int
+
+pub fn enemy_score_value(Int) -> Int
+
+pub fn enemy_size(Int) -> Float
+
+pub fn enemy_spit_cooldown(Int) -> Float
+
+pub fn get_wave_counts(Int) -> Array[Int]
+
+pub fn get_wave_enemy_kind(Int, Int) -> Int
+
+pub fn get_wave_hp_mult(Int) -> Float
+
+pub fn get_wave_kinds(Int) -> Array[Int]
+
+pub fn get_wave_speed_mult(Int) -> Float
+
+pub fn get_wave_total_enemies(Int) -> Int
+
+pub fn random_pickup_kind(Int) -> Int
+
+pub fn shop_item_cost(Int) -> Int
+
+pub fn shop_item_count() -> Int
+
+pub fn shop_item_name(Int) -> String
+
+pub fn wave_bonus(Int) -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

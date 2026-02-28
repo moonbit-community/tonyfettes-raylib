@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_grappling_tower_climb_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Anchor
+
+type Bullet
+
+type Crystal
+
+type Drone
+
+type Particle
+
+type Pilot
+
+type Platform
+
+// Type aliases
+
+// Traits
+

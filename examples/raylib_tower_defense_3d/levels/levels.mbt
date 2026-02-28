@@ -2,106 +2,55 @@
 
 // Map layouts - returns array of strings (20 chars wide, 15 tall)
 // Legend: '.' = grass, '#' = path, 'S' = start, 'E' = end, '~' = water, 'R' = rock
+
+///|
 pub fn get_map_data(map_idx : Int) -> Array[String] {
   if map_idx == 0 {
     // Map 1: Serpentine - Classic zigzag path
     [
-      "....................",
-      "S###................",
-      "...#................",
-      "...#####............",
-      ".......#............",
-      ".......####.........",
-      "..........#.........",
-      "..........####......",
-      ".............#......",
-      ".............####...",
-      "................#...",
-      "................####",
-      "...................E",
-      "....................",
-      "....................",
+      "....................", "S###................", "...#................", "...#####............",
+      ".......#............", ".......####.........", "..........#.........", "..........####......",
+      ".............#......", ".............####...", "................#...", "................####",
+      "...................E", "....................", "....................",
     ]
   } else if map_idx == 1 {
     // Map 2: Spiral - Enemies spiral inward
     [
-      "....................",
-      "S################..",
-      ".................#..",
-      "..#############..#..",
-      "..#...........#..#..",
-      "..#..#######..#..#..",
-      "..#..#.....#..#..#..",
-      "..#..#..E..#..#..#..",
-      "..#..#.....#..#..#..",
-      "..#..#######..#..#..",
-      "..#...........#..#..",
-      "..#############..#..",
-      ".................#..",
-      "..################..",
-      "....................",
+      "....................", "S################..", ".................#..", "..#############..#..",
+      "..#...........#..#..", "..#..#######..#..#..", "..#..#.....#..#..#..", "..#..#..E..#..#..#..",
+      "..#..#.....#..#..#..", "..#..#######..#..#..", "..#...........#..#..", "..#############..#..",
+      ".................#..", "..################..", "....................",
     ]
   } else if map_idx == 2 {
     // Map 3: Crossroads - Path crosses itself
     [
-      "........S...........",
-      "........#...........",
-      "........#...........",
-      "........####........",
-      "...........#........",
-      "...........#........",
-      "S####......####....",
-      "....#.........#....",
-      "....#.........#....",
-      "....######....#....",
-      ".........#....#....",
-      ".........######....",
-      ".................E..",
-      "....................",
-      "....................",
+      "........S...........", "........#...........", "........#...........", "........####........",
+      "...........#........", "...........#........", "S####......####....", "....#.........#....",
+      "....#.........#....", "....######....#....", ".........#....#....", ".........######....",
+      ".................E..", "....................", "....................",
     ]
   } else if map_idx == 3 {
     // Map 4: Figure-8 - Enemies loop around twice
     [
-      "....................",
-      "..S###########......",
-      "..#..........#......",
-      "..#..........#......",
-      "..#..........#......",
-      "..#####..#####......",
-      "......#..#..........",
-      "......#..#..........",
-      "..#####..#####......",
-      "..#..........#......",
-      "..#..........#......",
-      "..#..........#......",
-      "..############E.....",
-      "....................",
-      "....................",
+      "....................", "..S###########......", "..#..........#......", "..#..........#......",
+      "..#..........#......", "..#####..#####......", "......#..#..........", "......#..#..........",
+      "..#####..#####......", "..#..........#......", "..#..........#......", "..#..........#......",
+      "..############E.....", "....................", "....................",
     ]
   } else {
     // Map 5: Fortress - Open field with water hazards
     [
-      "....................",
-      ".S##...............",
-      "...#..~~...........",
-      "...####~~..........",
-      "......#............",
-      "......####.........",
-      "..~~.....#..~~.....",
-      "..~~.....#..~~.....",
-      ".........####......",
-      "............#......",
-      "..........###......",
-      "..........#........",
-      "....~~....####E....",
-      "....~~.............",
-      "....................",
+      "....................", ".S##...............", "...#..~~...........", "...####~~..........",
+      "......#............", "......####.........", "..~~.....#..~~.....", "..~~.....#..~~.....",
+      ".........####......", "............#......", "..........###......", "..........#........",
+      "....~~....####E....", "....~~.............", "....................",
     ]
   }
 }
 
 // Map info for display
+
+///|
 pub fn get_map_info(map_idx : Int) -> @types.MapInfo {
   if map_idx == 0 {
     {
@@ -147,6 +96,8 @@ pub fn get_map_info(map_idx : Int) -> @types.MapInfo {
 }
 
 // Wave definitions - 30 waves
+
+///|
 pub fn get_wave_def(wave : Int) -> (Int, Int, Float, Float) {
   // Returns (enemy_kind, count, hp_mult, speed_mult)
   if wave == 0 {
@@ -213,11 +164,19 @@ pub fn get_wave_def(wave : Int) -> (Int, Int, Float, Float) {
 }
 
 // Extended wave info for multi-group waves
+
+///|
 pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   if wave == 0 {
     {
       entries: [
-        { enemy_kind: 0, count: 8, hp_mult: 1.0, speed_mult: 1.0, spawn_delay: 0.8 },
+        {
+          enemy_kind: 0,
+          count: 8,
+          hp_mult: 1.0,
+          speed_mult: 1.0,
+          spawn_delay: 0.8,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 0,
@@ -226,7 +185,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 4 {
     {
       entries: [
-        { enemy_kind: 2, count: 5, hp_mult: 1.0, speed_mult: 1.0, spawn_delay: 1.2 },
+        {
+          enemy_kind: 2,
+          count: 5,
+          hp_mult: 1.0,
+          speed_mult: 1.0,
+          spawn_delay: 1.2,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 10,
@@ -235,7 +200,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 5 {
     {
       entries: [
-        { enemy_kind: 6, count: 20, hp_mult: 0.8, speed_mult: 1.2, spawn_delay: 0.3 },
+        {
+          enemy_kind: 6,
+          count: 20,
+          hp_mult: 0.8,
+          speed_mult: 1.2,
+          spawn_delay: 0.3,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 15,
@@ -244,7 +215,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 7 {
     {
       entries: [
-        { enemy_kind: 3, count: 6, hp_mult: 1.0, speed_mult: 1.0, spawn_delay: 1.0 },
+        {
+          enemy_kind: 3,
+          count: 6,
+          hp_mult: 1.0,
+          speed_mult: 1.0,
+          spawn_delay: 1.0,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 15,
@@ -253,7 +230,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 8 {
     {
       entries: [
-        { enemy_kind: 5, count: 4, hp_mult: 1.0, speed_mult: 0.9, spawn_delay: 1.5 },
+        {
+          enemy_kind: 5,
+          count: 4,
+          hp_mult: 1.0,
+          speed_mult: 0.9,
+          spawn_delay: 1.5,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 20,
@@ -262,7 +245,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 9 {
     {
       entries: [
-        { enemy_kind: 4, count: 1, hp_mult: 1.0, speed_mult: 0.7, spawn_delay: 2.0 },
+        {
+          enemy_kind: 4,
+          count: 1,
+          hp_mult: 1.0,
+          speed_mult: 0.7,
+          spawn_delay: 2.0,
+        },
       ],
       is_boss_wave: true,
       bonus_gold: 50,
@@ -271,7 +260,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 11 {
     {
       entries: [
-        { enemy_kind: 7, count: 6, hp_mult: 1.5, speed_mult: 0.9, spawn_delay: 1.2 },
+        {
+          enemy_kind: 7,
+          count: 6,
+          hp_mult: 1.5,
+          speed_mult: 0.9,
+          spawn_delay: 1.2,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 20,
@@ -280,7 +275,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 12 {
     {
       entries: [
-        { enemy_kind: 8, count: 8, hp_mult: 1.2, speed_mult: 1.3, spawn_delay: 0.8 },
+        {
+          enemy_kind: 8,
+          count: 8,
+          hp_mult: 1.2,
+          speed_mult: 1.3,
+          spawn_delay: 0.8,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 20,
@@ -289,7 +290,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 13 {
     {
       entries: [
-        { enemy_kind: 9, count: 5, hp_mult: 1.5, speed_mult: 1.0, spawn_delay: 1.5 },
+        {
+          enemy_kind: 9,
+          count: 5,
+          hp_mult: 1.5,
+          speed_mult: 1.0,
+          spawn_delay: 1.5,
+        },
       ],
       is_boss_wave: false,
       bonus_gold: 25,
@@ -298,7 +305,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 14 {
     {
       entries: [
-        { enemy_kind: 4, count: 2, hp_mult: 1.5, speed_mult: 0.8, spawn_delay: 3.0 },
+        {
+          enemy_kind: 4,
+          count: 2,
+          hp_mult: 1.5,
+          speed_mult: 0.8,
+          spawn_delay: 3.0,
+        },
       ],
       is_boss_wave: true,
       bonus_gold: 75,
@@ -307,7 +320,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 19 {
     {
       entries: [
-        { enemy_kind: 4, count: 3, hp_mult: 2.0, speed_mult: 0.8, spawn_delay: 3.0 },
+        {
+          enemy_kind: 4,
+          count: 3,
+          hp_mult: 2.0,
+          speed_mult: 0.8,
+          spawn_delay: 3.0,
+        },
       ],
       is_boss_wave: true,
       bonus_gold: 100,
@@ -316,7 +335,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 24 {
     {
       entries: [
-        { enemy_kind: 4, count: 4, hp_mult: 2.5, speed_mult: 0.9, spawn_delay: 2.5 },
+        {
+          enemy_kind: 4,
+          count: 4,
+          hp_mult: 2.5,
+          speed_mult: 0.9,
+          spawn_delay: 2.5,
+        },
       ],
       is_boss_wave: true,
       bonus_gold: 125,
@@ -325,7 +350,13 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   } else if wave == 29 {
     {
       entries: [
-        { enemy_kind: 4, count: 5, hp_mult: 3.5, speed_mult: 0.9, spawn_delay: 2.0 },
+        {
+          enemy_kind: 4,
+          count: 5,
+          hp_mult: 3.5,
+          speed_mult: 0.9,
+          spawn_delay: 2.0,
+        },
       ],
       is_boss_wave: true,
       bonus_gold: 200,
@@ -350,6 +381,7 @@ pub fn get_wave_info(wave : Int) -> @types.WaveInfo {
   }
 }
 
+///|
 pub fn enemy_base_hp(kind : Int) -> Float {
   if kind == 0 {
     30.0
@@ -376,6 +408,7 @@ pub fn enemy_base_hp(kind : Int) -> Float {
   }
 }
 
+///|
 pub fn enemy_base_speed(kind : Int) -> Float {
   if kind == 0 {
     2.5
@@ -402,6 +435,7 @@ pub fn enemy_base_speed(kind : Int) -> Float {
   }
 }
 
+///|
 pub fn enemy_gold_value(kind : Int) -> Int {
   if kind == 0 {
     10
@@ -429,6 +463,8 @@ pub fn enemy_gold_value(kind : Int) -> Int {
 }
 
 // Enemy score value (may differ from gold)
+
+///|
 pub fn enemy_score_value(kind : Int) -> Int {
   if kind == 0 {
     10
@@ -456,36 +492,50 @@ pub fn enemy_score_value(kind : Int) -> Int {
 }
 
 // Check if enemy type is flying
+
+///|
 pub fn enemy_is_flying(kind : Int) -> Bool {
   kind == 3
 }
 
 // Check if enemy type is a boss
+
+///|
 pub fn enemy_is_boss(kind : Int) -> Bool {
   kind == 4
 }
 
 // Check if enemy type is camo
+
+///|
 pub fn enemy_is_camo(kind : Int) -> Bool {
   kind == 8
 }
 
 // Check if enemy type spawns children on death
+
+///|
 pub fn enemy_spawns_children(kind : Int) -> Bool {
   kind == 9
 }
 
 // Check if enemy type heals others
+
+///|
 pub fn enemy_is_healer(kind : Int) -> Bool {
   kind == 5
 }
 
 // Check if enemy type has shield
+
+///|
 pub fn enemy_has_shield(kind : Int) -> Bool {
   kind == 7
 }
 
 // Get shield HP for shield enemies
+
+///|
 pub fn enemy_shield_hp(kind : Int, hp_mult : Float) -> Float {
   if kind == 7 {
     let base_hp = enemy_base_hp(kind) * hp_mult

@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_circuit_grid_operator_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Cell
+
+type Pulse
+
+// Type aliases
+
+// Traits
+

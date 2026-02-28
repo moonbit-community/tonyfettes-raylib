@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_food_truck_frenzy_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Chef
+
+type Order
+
+type Particle
+
+type Station
+
+type StoveSlot
+
+type SupplyBox
+
+// Type aliases
+
+// Traits
+

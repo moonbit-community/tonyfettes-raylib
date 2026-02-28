@@ -1,6 +1,7 @@
 // Floor configuration: difficulty scaling
 // Returns (num_rooms, num_skeletons, num_archers, num_golems, num_wraiths, has_boss, num_loot)
 
+///|
 pub fn get_floor_config(floor : Int) -> (Int, Int, Int, Int, Int, Bool, Int) {
   if floor == 0 {
     // Floor 1: Tutorial - crypt
@@ -37,6 +38,8 @@ pub fn get_floor_config(floor : Int) -> (Int, Int, Int, Int, Int, Bool, Int) {
 
 // Extended enemy config per floor
 // Returns (num_slimes, num_bats, num_spiders, num_minotaurs, num_lichs)
+
+///|
 pub fn get_extended_enemy_config(floor : Int) -> (Int, Int, Int, Int, Int) {
   if floor == 0 {
     (2, 1, 0, 0, 0)
@@ -62,6 +65,8 @@ pub fn get_extended_enemy_config(floor : Int) -> (Int, Int, Int, Int, Int) {
 }
 
 // Floor theme mapping (matches theme_* constants in types)
+
+///|
 pub fn get_floor_theme(floor : Int) -> Int {
   // theme values: crypt=0, sewer=1, cavern=2, library=3, prison=4,
   // throne_room=5, mine=6, temple=7, abyss=8, final_chamber=9
@@ -69,6 +74,8 @@ pub fn get_floor_theme(floor : Int) -> Int {
 }
 
 // Floor names
+
+///|
 pub fn get_floor_name(floor : Int) -> String {
   if floor == 0 {
     "The Crypt"
@@ -94,19 +101,25 @@ pub fn get_floor_name(floor : Int) -> String {
 }
 
 // Enemy stat scaling by floor
+
+///|
 pub fn get_enemy_hp_scale(floor : Int) -> Int {
   10 + floor * 5
 }
 
+///|
 pub fn get_enemy_atk_scale(floor : Int) -> Int {
   3 + floor * 2
 }
 
+///|
 pub fn get_enemy_def_scale(floor : Int) -> Int {
   1 + floor
 }
 
 // Theme wall colors (r, g, b)
+
+///|
 pub fn get_theme_wall_color(theme : Int) -> (Int, Int, Int) {
   if theme == 0 {
     // crypt
@@ -142,6 +155,8 @@ pub fn get_theme_wall_color(theme : Int) -> (Int, Int, Int) {
 }
 
 // Theme floor colors (r, g, b)
+
+///|
 pub fn get_theme_floor_color(theme : Int) -> (Int, Int, Int) {
   if theme == 0 {
     (55, 50, 65)
@@ -167,6 +182,8 @@ pub fn get_theme_floor_color(theme : Int) -> (Int, Int, Int) {
 }
 
 // Theme ceiling colors (r, g, b)
+
+///|
 pub fn get_theme_ceiling_color(theme : Int) -> (Int, Int, Int) {
   if theme == 0 {
     (30, 28, 38)
@@ -192,6 +209,8 @@ pub fn get_theme_ceiling_color(theme : Int) -> (Int, Int, Int) {
 }
 
 // Trap count per floor
+
+///|
 pub fn get_floor_trap_count(floor : Int) -> Int {
   if floor == 0 {
     1
@@ -210,17 +229,37 @@ pub fn get_floor_trap_count(floor : Int) -> Int {
 
 // Which trap types are available per floor
 // trap_spike=0, trap_arrow=1, trap_flame=2, trap_poison=3, trap_pitfall=4
+
+///|
 pub fn get_available_trap_type(floor : Int, roll : Int) -> Int {
   if floor <= 1 {
     0
   } else if floor <= 3 {
-    if roll % 2 == 0 { 0 } else { 1 }
+    if roll % 2 == 0 {
+      0
+    } else {
+      1
+    }
   } else if floor <= 5 {
     let r = roll % 3
-    if r == 0 { 0 } else if r == 1 { 1 } else { 2 }
+    if r == 0 {
+      0
+    } else if r == 1 {
+      1
+    } else {
+      2
+    }
   } else if floor <= 7 {
     let r = roll % 4
-    if r == 0 { 0 } else if r == 1 { 1 } else if r == 2 { 2 } else { 3 }
+    if r == 0 {
+      0
+    } else if r == 1 {
+      1
+    } else if r == 2 {
+      2
+    } else {
+      3
+    }
   } else {
     let r = roll % 5
     if r == 0 {
@@ -238,27 +277,65 @@ pub fn get_available_trap_type(floor : Int, roll : Int) -> Int {
 }
 
 // Loot rarity weights per floor (common, uncommon, rare, epic, legendary)
+
+///|
 pub fn get_rarity_weight_common(floor : Int) -> Int {
-  if floor <= 2 { 60 } else if floor <= 5 { 45 } else { 30 }
+  if floor <= 2 {
+    60
+  } else if floor <= 5 {
+    45
+  } else {
+    30
+  }
 }
 
+///|
 pub fn get_rarity_weight_uncommon(floor : Int) -> Int {
-  if floor <= 2 { 30 } else if floor <= 5 { 30 } else { 25 }
+  if floor <= 2 {
+    30
+  } else if floor <= 5 {
+    30
+  } else {
+    25
+  }
 }
 
+///|
 pub fn get_rarity_weight_rare(floor : Int) -> Int {
-  if floor <= 2 { 8 } else if floor <= 5 { 18 } else { 25 }
+  if floor <= 2 {
+    8
+  } else if floor <= 5 {
+    18
+  } else {
+    25
+  }
 }
 
+///|
 pub fn get_rarity_weight_epic(floor : Int) -> Int {
-  if floor <= 2 { 2 } else if floor <= 5 { 6 } else { 15 }
+  if floor <= 2 {
+    2
+  } else if floor <= 5 {
+    6
+  } else {
+    15
+  }
 }
 
+///|
 pub fn get_rarity_weight_legendary(floor : Int) -> Int {
-  if floor <= 2 { 0 } else if floor <= 5 { 1 } else { 5 }
+  if floor <= 2 {
+    0
+  } else if floor <= 5 {
+    1
+  } else {
+    5
+  }
 }
 
 // Boss definitions
+
+///|
 pub fn get_boss_name(floor : Int) -> String {
   if floor == 4 {
     "Warden of Iron"
@@ -269,6 +346,7 @@ pub fn get_boss_name(floor : Int) -> String {
   }
 }
 
+///|
 pub fn get_boss_hp(floor : Int) -> Int {
   if floor == 4 {
     150 + get_enemy_hp_scale(floor) * 3
@@ -279,6 +357,7 @@ pub fn get_boss_hp(floor : Int) -> Int {
   }
 }
 
+///|
 pub fn get_boss_atk(floor : Int) -> Int {
   if floor == 4 {
     12 + get_enemy_atk_scale(floor) * 2
@@ -289,6 +368,7 @@ pub fn get_boss_atk(floor : Int) -> Int {
   }
 }
 
+///|
 pub fn get_boss_def(floor : Int) -> Int {
   if floor == 4 {
     6 + get_enemy_def_scale(floor) * 2
@@ -302,6 +382,8 @@ pub fn get_boss_def(floor : Int) -> Int {
 // Shop inventory generation
 // loot_health_potion=1, loot_mana_potion=4, loot_damage_boost=2,
 // loot_armor=3, loot_key=8, loot_speed_potion=5
+
+///|
 pub fn get_shop_item_type(slot : Int) -> Int {
   if slot == 0 {
     1
@@ -318,6 +400,7 @@ pub fn get_shop_item_type(slot : Int) -> Int {
   }
 }
 
+///|
 pub fn get_shop_item_price(slot : Int) -> Int {
   if slot == 0 {
     25
@@ -334,6 +417,7 @@ pub fn get_shop_item_price(slot : Int) -> Int {
   }
 }
 
+///|
 pub fn get_shop_item_name(slot : Int) -> String {
   if slot == 0 {
     "Health Potion"
@@ -351,6 +435,8 @@ pub fn get_shop_item_name(slot : Int) -> String {
 }
 
 // Shrine buff options
+
+///|
 pub fn get_shrine_buff_name(option : Int) -> String {
   if option == 0 {
     "Vitality (+20 Max HP)"
@@ -364,26 +450,44 @@ pub fn get_shrine_buff_name(option : Int) -> String {
 }
 
 // XP required for each level
+
+///|
 pub fn get_xp_for_level(level : Int) -> Int {
   100 + (level - 1) * 50
 }
 
 // Number of locked doors per floor
+
+///|
 pub fn get_locked_door_count(floor : Int) -> Int {
-  if floor <= 1 { 0 } else if floor <= 4 { 1 } else if floor <= 7 { 2 } else { 3 }
+  if floor <= 1 {
+    0
+  } else if floor <= 4 {
+    1
+  } else if floor <= 7 {
+    2
+  } else {
+    3
+  }
 }
 
 // Whether this floor has a shop
+
+///|
 pub fn floor_has_shop(floor : Int) -> Bool {
   floor == 2 || floor == 5 || floor == 7
 }
 
 // Whether this floor has a shrine
+
+///|
 pub fn floor_has_shrine(floor : Int) -> Bool {
   floor == 1 || floor == 3 || floor == 6 || floor == 8
 }
 
 // Number of torches per room for a theme
+
+///|
 pub fn get_torches_per_room(theme : Int) -> Int {
   if theme == 0 {
     2

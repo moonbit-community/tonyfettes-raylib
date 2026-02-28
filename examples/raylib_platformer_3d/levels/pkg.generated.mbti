@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_platformer_3d/levels"
+
+// Values
+pub fn get_collectible_data(Int, Int) -> Array[(Int, Float, Float, Float)]
+
+pub fn get_decoration_data(Int, Int) -> Array[(Int, Float, Float, Float, Float)]
+
+pub fn get_enemy_data(Int, Int) -> Array[(Int, Float, Float, Float, Float)]
+
+pub fn get_goal_position(Int, Int) -> (Float, Float, Float)
+
+pub fn get_hazard_data(Int, Int) -> Array[(Int, Float, Float, Float, Float, Float, Float)]
+
+pub fn get_level_difficulty(Int, Int) -> Int
+
+pub fn get_level_name(Int, Int) -> String
+
+pub fn get_platform_data(Int, Int) -> Array[(Int, Float, Float, Float, Float, Float, Float, Float)]
+
+pub fn get_powerup_data(Int, Int) -> Array[(Int, Float, Float, Float)]
+
+pub fn get_world_name(Int) -> String
+
+pub fn level_has_key(Int, Int) -> Bool
+
+pub fn world_bg_color(Int) -> (Int, Int, Int)
+
+pub fn world_deco_color_1(Int) -> (Int, Int, Int)
+
+pub fn world_deco_color_2(Int) -> (Int, Int, Int)
+
+pub fn world_platform_color(Int) -> (Int, Int, Int)
+
+pub fn world_unlock_stars(Int) -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

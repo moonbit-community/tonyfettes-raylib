@@ -1,5 +1,6 @@
 // Level loading and stage management
 
+///|
 pub fn load_level(game : @types.Game, world : Int, level : Int) -> Unit {
   game.current_world = world
   game.current_level = level
@@ -76,6 +77,7 @@ pub fn load_level(game : @types.Game, world : Int, level : Int) -> Unit {
   game.anim_jump_stretch = 0.0
 }
 
+///|
 fn clear_pools(game : @types.Game) -> Unit {
   for i = 0; i < game.platforms.length(); i = i + 1 {
     game.platforms[i] = @types.Platform::inactive()
@@ -109,6 +111,7 @@ fn clear_pools(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn load_platforms(game : @types.Game, world : Int, level : Int) -> Unit {
   let plat_data = @levels.get_platform_data(world, level)
   let wc = @levels.world_platform_color(world)
@@ -146,15 +149,18 @@ fn load_platforms(game : @types.Game, world : Int, level : Int) -> Unit {
       plat.r = @types.crystal_ice_r
       plat.g = @types.crystal_ice_g
       plat.b = @types.crystal_ice_b
-    } else if plat.kind == @types.plat_falling || plat.kind == @types.plat_crumbling {
+    } else if plat.kind == @types.plat_falling ||
+      plat.kind == @types.plat_crumbling {
       plat.r = 180
       plat.g = 100
       plat.b = 80
-    } else if plat.kind >= @types.plat_moving_x && plat.kind <= @types.plat_moving_z {
+    } else if plat.kind >= @types.plat_moving_x &&
+      plat.kind <= @types.plat_moving_z {
       plat.r = 120
       plat.g = 150
       plat.b = 200
-    } else if plat.kind == @types.plat_conveyor_l || plat.kind == @types.plat_conveyor_r {
+    } else if plat.kind == @types.plat_conveyor_l ||
+      plat.kind == @types.plat_conveyor_r {
       plat.r = 160
       plat.g = 160
       plat.b = 80
@@ -170,6 +176,7 @@ fn load_platforms(game : @types.Game, world : Int, level : Int) -> Unit {
   }
 }
 
+///|
 fn load_collectibles(game : @types.Game, world : Int, level : Int) -> Unit {
   let coll_data = @levels.get_collectible_data(world, level)
   for i = 0; i < coll_data.length() && i < @types.max_collectibles; i = i + 1 {
@@ -184,14 +191,21 @@ fn load_collectibles(game : @types.Game, world : Int, level : Int) -> Unit {
     c.spin_timer = Float::from_int(i) * 0.7
     c.collected = false
     c.magnet_target = false
-    if c.kind == @types.collect_gem { game.gems_total += 1 }
-    if c.kind == @types.collect_coin_bronze || c.kind == @types.collect_coin_silver || c.kind == @types.collect_coin_gold {
+    if c.kind == @types.collect_gem {
+      game.gems_total += 1
+    }
+    if c.kind == @types.collect_coin_bronze ||
+      c.kind == @types.collect_coin_silver ||
+      c.kind == @types.collect_coin_gold {
       game.total_coins += 1
     }
-    if c.kind == @types.collect_key { game.total_keys += 1 }
+    if c.kind == @types.collect_key {
+      game.total_keys += 1
+    }
   }
 }
 
+///|
 fn load_hazards(game : @types.Game, world : Int, level : Int) -> Unit {
   let hazard_data = @levels.get_hazard_data(world, level)
   for i = 0; i < hazard_data.length() && i < @types.max_hazards; i = i + 1 {
@@ -224,6 +238,7 @@ fn load_hazards(game : @types.Game, world : Int, level : Int) -> Unit {
   }
 }
 
+///|
 fn load_enemies(game : @types.Game, world : Int, level : Int) -> Unit {
   let enemy_data = @levels.get_enemy_data(world, level)
   for i = 0; i < enemy_data.length() && i < @types.max_enemies; i = i + 1 {
@@ -277,6 +292,7 @@ fn load_enemies(game : @types.Game, world : Int, level : Int) -> Unit {
   }
 }
 
+///|
 fn load_powerups(game : @types.Game, world : Int, level : Int) -> Unit {
   let pu_data = @levels.get_powerup_data(world, level)
   for i = 0; i < pu_data.length() && i < @types.max_powerups; i = i + 1 {
@@ -293,6 +309,7 @@ fn load_powerups(game : @types.Game, world : Int, level : Int) -> Unit {
   }
 }
 
+///|
 fn load_decorations(game : @types.Game, world : Int, level : Int) -> Unit {
   let deco_data = @levels.get_decoration_data(world, level)
   for i = 0; i < deco_data.length() && i < @types.max_decorations; i = i + 1 {
@@ -320,10 +337,13 @@ fn load_decorations(game : @types.Game, world : Int, level : Int) -> Unit {
   }
 }
 
+///|
 fn load_checkpoints(game : @types.Game, world : Int, level : Int) -> Unit {
   let plat_data = @levels.get_platform_data(world, level)
   let mut cp_count = 0
-  for i = 0; i < plat_data.length() && cp_count < @types.max_checkpoints; i = i + 1 {
+  for i = 0
+      i < plat_data.length() && cp_count < @types.max_checkpoints
+      i = i + 1 {
     if i > 0 && i % 5 == 0 {
       let pd = plat_data[i]
       // Only place checkpoints on static platforms

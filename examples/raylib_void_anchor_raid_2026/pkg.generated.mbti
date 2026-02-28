@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_void_anchor_raid_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Anchor
+
+type Bullet
+
+type Enemy
+
+type Orb
+
+type Particle
+
+type Player
+
+type Wall
+
+// Type aliases
+
+// Traits
+

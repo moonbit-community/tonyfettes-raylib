@@ -1,44 +1,83 @@
+///|
 pub fn absf(v : Float) -> Float {
-  if v < 0.0 { -v } else { v }
+  if v < 0.0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampf(v : Float, low : Float, high : Float) -> Float {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampi(v : Int, low : Int, high : Int) -> Int {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn minf(a : Float, b : Float) -> Float {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxf(a : Float, b : Float) -> Float {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
+///|
 pub fn sign(v : Float) -> Float {
-  if v > 0.0 { 1.0 } else if v < 0.0 { -1.0 } else { 0.0 }
+  if v > 0.0 {
+    1.0
+  } else if v < 0.0 {
+    -1.0
+  } else {
+    0.0
+  }
 }
 
+///|
 pub fn distance2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x1 - x2
   let dz = z1 - z2
   (dx * dx + dz * dz).sqrt()
 }
 
+///|
 pub fn distance3d(
   x1 : Float,
   y1 : Float,
   z1 : Float,
   x2 : Float,
   y2 : Float,
-  z2 : Float
+  z2 : Float,
 ) -> Float {
   let dx = x1 - x2
   let dy = y1 - y2
@@ -46,11 +85,8 @@ pub fn distance3d(
   (dx * dx + dy * dy + dz * dz).sqrt()
 }
 
-pub fn normalize3d(
-  x : Float,
-  y : Float,
-  z : Float
-) -> (Float, Float, Float) {
+///|
+pub fn normalize3d(x : Float, y : Float, z : Float) -> (Float, Float, Float) {
   let len = (x * x + y * y + z * z).sqrt()
   if len < 0.0001 {
     (0.0, 0.0, 0.0)
@@ -60,55 +96,78 @@ pub fn normalize3d(
 }
 
 // Dot product of two 3d vectors
+
+///|
 pub fn dot3d(
   ax : Float,
   ay : Float,
   az : Float,
   bx : Float,
   by : Float,
-  bz : Float
+  bz : Float,
 ) -> Float {
   ax * bx + ay * by + az * bz
 }
 
 // Angle between two 2d vectors (returns radians)
+
+///|
 pub fn angle_between(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   @math.atan2f(z2 - z1, x2 - x1)
 }
 
 // Check if angle difference is within threshold (for shield check)
+
+///|
 pub fn angle_within(angle1 : Float, angle2 : Float, threshold : Float) -> Bool {
   let mut diff = angle1 - angle2
-  if diff > pi { diff = diff - 2.0 * pi }
-  if diff < -pi { diff = diff + 2.0 * pi }
+  if diff > pi {
+    diff = diff - 2.0 * pi
+  }
+  if diff < -pi {
+    diff = diff + 2.0 * pi
+  }
   absf(diff) < threshold
 }
 
 // RNG
+
+///|
 pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
   x = x ^ (x >> 17)
   x = x ^ (x << 5)
-  if x < 0 { x = -x }
+  if x < 0 {
+    x = -x
+  }
   game.rng_state = x
   x
 }
 
+///|
 pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
-  if high <= low { low } else { low + rand_next(game) % (high - low + 1) }
+  if high <= low {
+    low
+  } else {
+    low + rand_next(game) % (high - low + 1)
+  }
 }
 
+///|
 pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let n = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * n
 }
 
+///|
 pub fn rand_bool(game : Game, chance : Float) -> Bool {
   rand_rangef(game, 0.0, 1.0) < chance
 }
 
 // Allocators
+
+///|
 pub fn alloc_enemy(game : Game) -> Int {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     if not(game.enemies[i].active) {
@@ -118,6 +177,7 @@ pub fn alloc_enemy(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_projectile(game : Game) -> Int {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     if not(game.projectiles[i].active) {
@@ -127,6 +187,7 @@ pub fn alloc_projectile(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -136,6 +197,7 @@ pub fn alloc_particle(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_pickup(game : Game) -> Int {
   for i = 0; i < game.pickups.length(); i = i + 1 {
     if not(game.pickups[i].active) {
@@ -145,6 +207,7 @@ pub fn alloc_pickup(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_barricade(game : Game) -> Int {
   for i = 0; i < game.barricades.length(); i = i + 1 {
     if not(game.barricades[i].active) {
@@ -154,6 +217,7 @@ pub fn alloc_barricade(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_trap(game : Game) -> Int {
   for i = 0; i < game.traps.length(); i = i + 1 {
     if not(game.traps[i].active) {
@@ -164,6 +228,8 @@ pub fn alloc_trap(game : Game) -> Int {
 }
 
 // Spawn particles
+
+///|
 pub fn spawn_particles(
   game : Game,
   wx : Float,
@@ -172,11 +238,13 @@ pub fn spawn_particles(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.3, 0.3)
@@ -197,6 +265,8 @@ pub fn spawn_particles(
 }
 
 // Spawn typed particles
+
+///|
 pub fn spawn_particles_typed(
   game : Game,
   wx : Float,
@@ -206,11 +276,13 @@ pub fn spawn_particles_typed(
   r : Int,
   g : Int,
   b : Int,
-  kind : Int
+  kind : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx + rand_rangef(game, -0.3, 0.3)
@@ -231,6 +303,8 @@ pub fn spawn_particles_typed(
 }
 
 // Spawn directional particles (for muzzle flash etc)
+
+///|
 pub fn spawn_particles_dir(
   game : Game,
   wx : Float,
@@ -242,11 +316,13 @@ pub fn spawn_particles_dir(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.x = wx
@@ -267,9 +343,20 @@ pub fn spawn_particles_dir(
 }
 
 // Spawn shell casing particle
-pub fn spawn_shell_casing(game : Game, x : Float, y : Float, z : Float, right_x : Float, right_z : Float) -> Unit {
+
+///|
+pub fn spawn_shell_casing(
+  game : Game,
+  x : Float,
+  y : Float,
+  z : Float,
+  right_x : Float,
+  right_z : Float,
+) -> Unit {
   let idx = alloc_particle(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let p = game.particles[idx]
   p.active = true
   p.x = x + right_x * 0.3
@@ -288,6 +375,8 @@ pub fn spawn_shell_casing(game : Game, x : Float, y : Float, z : Float, right_x 
 }
 
 // Check if point is inside arena bounds
+
+///|
 pub fn in_arena(x : Float, z : Float) -> Bool {
   let half_w = arena_width / 2.0 - arena_wall_thickness
   let half_d = arena_depth / 2.0 - arena_wall_thickness
@@ -295,6 +384,8 @@ pub fn in_arena(x : Float, z : Float) -> Bool {
 }
 
 // Clamp position to arena bounds
+
+///|
 pub fn clamp_to_arena(x : Float, z : Float) -> (Float, Float) {
   let half_w = arena_width / 2.0 - arena_wall_thickness - 0.3
   let half_d = arena_depth / 2.0 - arena_wall_thickness - 0.3
@@ -302,13 +393,15 @@ pub fn clamp_to_arena(x : Float, z : Float) -> (Float, Float) {
 }
 
 // Check circle vs pillar collision, return pushed position
+
+///|
 pub fn push_from_pillar(
   x : Float,
   z : Float,
   radius : Float,
   px : Float,
   pz : Float,
-  pradius : Float
+  pradius : Float,
 ) -> (Float, Float, Bool) {
   let dx = x - px
   let dz = z - pz
@@ -325,6 +418,8 @@ pub fn push_from_pillar(
 }
 
 // Check circle vs box collision (for low walls, barricades)
+
+///|
 pub fn push_from_box(
   x : Float,
   z : Float,
@@ -332,7 +427,7 @@ pub fn push_from_box(
   bx : Float,
   bz : Float,
   bw : Float,
-  bd : Float
+  bd : Float,
 ) -> (Float, Float, Bool) {
   let half_w = bw / 2.0
   let half_d = bd / 2.0
@@ -347,7 +442,9 @@ pub fn push_from_box(
     let nx = dx / dist
     let nz = dz / dist
     (x + nx * push, z + nz * push, true)
-  } else if dist < 0.001 && (absf(x - bx) < half_w + radius) && (absf(z - bz) < half_d + radius) {
+  } else if dist < 0.001 &&
+    absf(x - bx) < half_w + radius &&
+    absf(z - bz) < half_d + radius {
     // Inside the box, push out on nearest edge
     let dx_edge = half_w + radius - absf(x - bx)
     let dz_edge = half_d + radius - absf(z - bz)
@@ -364,6 +461,8 @@ pub fn push_from_box(
 }
 
 // Weapon name
+
+///|
 pub fn weapon_name(kind : Int) -> String {
   if kind == weapon_pistol {
     "Pistol"
@@ -383,6 +482,8 @@ pub fn weapon_name(kind : Int) -> String {
 }
 
 // Weapon short name for UI slots
+
+///|
 pub fn weapon_short_name(kind : Int) -> String {
   if kind == weapon_pistol {
     "P"
@@ -402,6 +503,8 @@ pub fn weapon_short_name(kind : Int) -> String {
 }
 
 // Weapon fire rate (base)
+
+///|
 pub fn weapon_fire_rate(kind : Int) -> Float {
   if kind == weapon_pistol {
     rate_pistol
@@ -421,6 +524,8 @@ pub fn weapon_fire_rate(kind : Int) -> Float {
 }
 
 // Weapon damage (base)
+
+///|
 pub fn weapon_damage(kind : Int) -> Float {
   if kind == weapon_pistol {
     dmg_pistol
@@ -440,6 +545,8 @@ pub fn weapon_damage(kind : Int) -> Float {
 }
 
 // Weapon projectile speed
+
+///|
 pub fn weapon_proj_speed(kind : Int) -> Float {
   if kind == weapon_pistol {
     speed_pistol
@@ -459,6 +566,8 @@ pub fn weapon_proj_speed(kind : Int) -> Float {
 }
 
 // Weapon reload time (base)
+
+///|
 pub fn weapon_reload_time(kind : Int) -> Float {
   if kind == weapon_pistol {
     reload_pistol
@@ -478,6 +587,8 @@ pub fn weapon_reload_time(kind : Int) -> Float {
 }
 
 // Weapon magazine size (base)
+
+///|
 pub fn weapon_mag_size(kind : Int) -> Int {
   if kind == weapon_pistol {
     mag_pistol
@@ -497,6 +608,8 @@ pub fn weapon_mag_size(kind : Int) -> Int {
 }
 
 // Get effective fire rate with upgrades
+
+///|
 pub fn effective_fire_rate(player : Player, kind : Int) -> Float {
   let base = weapon_fire_rate(kind)
   let lvl = Float::from_int(player.weapon_rate_level[kind])
@@ -505,15 +618,23 @@ pub fn effective_fire_rate(player : Player, kind : Int) -> Float {
 }
 
 // Get effective damage with upgrades and boosts
+
+///|
 pub fn effective_damage(player : Player, kind : Int) -> Float {
   let base = weapon_damage(kind)
   let lvl = Float::from_int(player.weapon_damage_level[kind])
   let upgrade_mult : Float = 1.0 + lvl * 0.2
-  let boost_mult : Float = if player.damage_boost_timer > 0.0 { 1.5 } else { 1.0 }
+  let boost_mult : Float = if player.damage_boost_timer > 0.0 {
+    1.5
+  } else {
+    1.0
+  }
   base * upgrade_mult * player.damage_mult * boost_mult
 }
 
 // Get effective magazine size with upgrades
+
+///|
 pub fn effective_mag_size(player : Player, kind : Int) -> Int {
   let base = weapon_mag_size(kind)
   let lvl = player.weapon_mag_level[kind]
@@ -522,6 +643,8 @@ pub fn effective_mag_size(player : Player, kind : Int) -> Int {
 }
 
 // Enemy name
+
+///|
 pub fn enemy_name(kind : Int) -> String {
   if kind == enemy_zombie {
     "Zombie"
@@ -545,6 +668,8 @@ pub fn enemy_name(kind : Int) -> String {
 }
 
 // Pickup name
+
+///|
 pub fn pickup_name(kind : Int) -> String {
   if kind == pickup_health {
     "Health Pack"
@@ -564,6 +689,8 @@ pub fn pickup_name(kind : Int) -> String {
 }
 
 // Count active enemies
+
+///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
@@ -575,13 +702,23 @@ pub fn count_active_enemies(game : Game) -> Int {
 }
 
 // Show temporary message
+
+///|
 pub fn show_message(game : Game, text : String, duration : Float) -> Unit {
   game.message_text = text
   game.message_timer = duration
 }
 
 // Add kill feed entry
-pub fn add_kill_feed(game : Game, text : String, r : Int, g : Int, b : Int) -> Unit {
+
+///|
+pub fn add_kill_feed(
+  game : Game,
+  text : String,
+  r : Int,
+  g : Int,
+  b : Int,
+) -> Unit {
   // Shift existing entries down
   for i = max_kill_feed - 1; i > 0; i = i - 1 {
     let prev = i - 1
@@ -601,6 +738,8 @@ pub fn add_kill_feed(game : Game, text : String, r : Int, g : Int, b : Int) -> U
 }
 
 // Update kill feed timers
+
+///|
 pub fn update_kill_feed(game : Game, dt : Float) -> Unit {
   for i = 0; i < max_kill_feed; i = i + 1 {
     if game.kill_feed[i].active {
@@ -613,6 +752,8 @@ pub fn update_kill_feed(game : Game, dt : Float) -> Unit {
 }
 
 // Update damage indicators
+
+///|
 pub fn update_damage_indicators(game : Game, dt : Float) -> Unit {
   for i = 0; i < game.damage_indicators.length(); i = i + 1 {
     if game.damage_indicators[i].active {
@@ -625,7 +766,13 @@ pub fn update_damage_indicators(game : Game, dt : Float) -> Unit {
 }
 
 // Add damage indicator from a direction
-pub fn add_damage_indicator(game : Game, from_x : Float, from_z : Float) -> Unit {
+
+///|
+pub fn add_damage_indicator(
+  game : Game,
+  from_x : Float,
+  from_z : Float,
+) -> Unit {
   let angle = @math.atan2f(from_z - game.player.z, from_x - game.player.x)
   // Find inactive slot
   for i = 0; i < game.damage_indicators.length(); i = i + 1 {
@@ -643,12 +790,20 @@ pub fn add_damage_indicator(game : Game, from_x : Float, from_z : Float) -> Unit
 }
 
 // Check if a hit is a headshot based on projectile Y vs enemy center
-pub fn is_headshot_hit(proj_y : Float, enemy_y : Float, enemy_size : Float) -> Bool {
+
+///|
+pub fn is_headshot_hit(
+  proj_y : Float,
+  enemy_y : Float,
+  enemy_size : Float,
+) -> Bool {
   let head_threshold = enemy_y + enemy_size * (1.0 - headshot_head_ratio)
   proj_y > head_threshold
 }
 
 // Get combo multiplier text
+
+///|
 pub fn combo_text(combo : Int) -> String {
   if combo >= 10 {
     "UNSTOPPABLE x\{combo}"
@@ -664,13 +819,30 @@ pub fn combo_text(combo : Int) -> String {
 }
 
 // Collision push against barricades
-pub fn push_from_barricades(game : Game, x : Float, z : Float, radius : Float) -> (Float, Float) {
+
+///|
+pub fn push_from_barricades(
+  game : Game,
+  x : Float,
+  z : Float,
+  radius : Float,
+) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
   for i = 0; i < game.barricades.length(); i = i + 1 {
     let b = game.barricades[i]
-    if not(b.active) { continue i + 1 }
-    let result = push_from_box(rx, rz, radius, b.x, b.z, barricade_size, barricade_size)
+    if not(b.active) {
+      continue i + 1
+    }
+    let result = push_from_box(
+      rx,
+      rz,
+      radius,
+      b.x,
+      b.z,
+      barricade_size,
+      barricade_size,
+    )
     rx = result.0
     rz = result.1
   }
@@ -678,7 +850,14 @@ pub fn push_from_barricades(game : Game, x : Float, z : Float, radius : Float) -
 }
 
 // Collision push against low walls
-pub fn push_from_low_walls(game : Game, x : Float, z : Float, radius : Float) -> (Float, Float) {
+
+///|
+pub fn push_from_low_walls(
+  game : Game,
+  x : Float,
+  z : Float,
+  radius : Float,
+) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
   for i = 0; i < game.low_walls.length(); i = i + 1 {

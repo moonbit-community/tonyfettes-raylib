@@ -1,5 +1,6 @@
 // Player movement and physics
 
+///|
 pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   // Mouse look
@@ -53,18 +54,27 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
     player.bob_timer += dt * bob_speed
   }
   // Apply horizontal speed
-  let base_speed : Float = if player.underwater { @types.player_speed * 0.5 } else { @types.player_speed }
-  let speed = base_speed * (if player.sprint {
-    @types.player_sprint_mult
+  let base_speed : Float = if player.underwater {
+    @types.player_speed * 0.5
   } else {
-    1.0
-  })
+    @types.player_speed
+  }
+  let speed = base_speed *
+    (if player.sprint { @types.player_sprint_mult } else { 1.0 })
   player.vx = move_x * speed
   player.vz = move_z * speed
   // Gravity (reduced in water)
-  let grav : Float = if player.underwater { @types.gravity * 0.3 } else { @types.gravity }
+  let grav : Float = if player.underwater {
+    @types.gravity * 0.3
+  } else {
+    @types.gravity
+  }
   player.vy -= grav * dt
-  let term_vel : Float = if player.underwater { @types.terminal_velocity * 0.3 } else { @types.terminal_velocity }
+  let term_vel : Float = if player.underwater {
+    @types.terminal_velocity * 0.3
+  } else {
+    @types.terminal_velocity
+  }
   if player.vy < -term_vel {
     player.vy = -term_vel
   }
@@ -107,8 +117,10 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
     player.vy = 0.0
   }
   // Clamp to world bounds
-  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) - 0.5
-  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) - 0.5
+  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) -
+    0.5
+  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) -
+    0.5
   player.x = @types.clampf(player.x, 0.5, world_max_x)
   player.z = @types.clampf(player.z, 0.5, world_max_z)
   // Prevent falling below world
@@ -128,7 +140,8 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
         if block == @types.block_cactus {
           let dist_x = @types.absf(player.x - Float::from_int(px + dx) - 0.5)
           let dist_z = @types.absf(player.z - Float::from_int(pz + dz) - 0.5)
-          if dist_x < @types.player_radius + 0.4 && dist_z < @types.player_radius + 0.4 {
+          if dist_x < @types.player_radius + 0.4 &&
+            dist_z < @types.player_radius + 0.4 {
             if game.frame_counter % 30 == 0 {
               damage_player(game, 1)
               @types.show_message(game, "Ouch! Cactus!", 1.0)
@@ -141,11 +154,13 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Check if player AABB collides with any solid block
+
+///|
 fn check_player_collision(
   game : @types.Game,
   px : Float,
   py : Float,
-  pz : Float
+  pz : Float,
 ) -> Bool {
   let r = @types.player_radius
   let h = @types.player_height
@@ -170,6 +185,8 @@ fn check_player_collision(
 }
 
 // Update camera to follow player
+
+///|
 pub fn update_camera_fps(game : @types.Game) -> Unit {
   let player = game.player
   let cos_yaw = @math.cosf(player.yaw)
