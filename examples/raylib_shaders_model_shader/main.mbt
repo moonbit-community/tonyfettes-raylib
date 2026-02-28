@@ -7,7 +7,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - model shader",
   )
-  let _ = @raylib.change_directory("examples/raylib_shaders_model_shader")
+  let _ = @raylib.change_directory("raylib_shaders_model_shader")
   // Define the camera to look into our 3d world
   let mut camera = @raylib.Camera3D::new(
     @raylib.Vector3::new(4.0, 4.0, 4.0),

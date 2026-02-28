@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   let num_frames = 3
-  let _ = @raylib.change_directory("examples/raylib_textures_sprite_button")
+  let _ = @raylib.change_directory("raylib_textures_sprite_button")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - sprite button",
   )

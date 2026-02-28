@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   let num_processes = 9
-  let _ = @raylib.change_directory("examples/raylib_textures_image_processing")
+  let _ = @raylib.change_directory("raylib_textures_image_processing")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - image processing",
   )

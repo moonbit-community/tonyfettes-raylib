@@ -22,7 +22,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [core] example - vr simulator",
   )
-  let _ = @raylib.change_directory("examples/raylib_core_vr_simulator")
+  let _ = @raylib.change_directory("raylib_core_vr_simulator")
 
   // VR device parameters definition
   let device = @raylib.VrDeviceInfo::new(

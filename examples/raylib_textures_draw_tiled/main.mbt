@@ -212,7 +212,7 @@ fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
-  let _ = @raylib.change_directory("examples/raylib_textures_draw_tiled")
+  let _ = @raylib.change_directory("raylib_textures_draw_tiled")
   @raylib.set_config_flags(@raylib.FlagWindowResizable)
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - Draw part of a texture tiled",

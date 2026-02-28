@@ -94,7 +94,7 @@ fn main {
   let screen_height = 450
   let max_spots = 3
   let max_stars = 400
-  let _ = @raylib.change_directory("examples/raylib_shaders_spotlight")
+  let _ = @raylib.change_directory("raylib_shaders_spotlight")
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - spotlight rendering",
   )

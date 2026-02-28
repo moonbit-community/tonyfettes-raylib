@@ -23,7 +23,7 @@ fn main {
   let mut anim_playing = false // Store anim state, what to draw
 
   // Load model
-  let _ = @raylib.change_directory("examples/raylib_models_loading_m3d")
+  let _ = @raylib.change_directory("raylib_models_loading_m3d")
   let model = @raylib.load_model("resources/models/m3d/cesium_man.m3d")
 
   // Load animations

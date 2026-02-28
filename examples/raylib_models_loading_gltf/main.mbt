@@ -18,7 +18,7 @@ fn main {
 
   // Load gltf model
   // NOTE: Requires resources/models/gltf/robot.glb to be placed in the example directory.
-  let _ = @raylib.change_directory("examples/raylib_models_loading_gltf")
+  let _ = @raylib.change_directory("raylib_models_loading_gltf")
   let model = @raylib.load_model("resources/models/gltf/robot.glb")
   let position = @raylib.Vector3::new(0.0, 0.0, 0.0)
 

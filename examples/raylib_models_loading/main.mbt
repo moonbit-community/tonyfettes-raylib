@@ -19,7 +19,7 @@ fn main {
   // Load model
   // NOTE: Requires resources/models/obj/castle.obj and castle_diffuse.png
   // to be placed in the example directory, OR drag-and-drop model files at runtime.
-  let _ = @raylib.change_directory("examples/raylib_models_loading")
+  let _ = @raylib.change_directory("raylib_models_loading")
   let mut model = @raylib.load_model("resources/models/obj/castle.obj")
   let mut texture = @raylib.load_texture(
     "resources/models/obj/castle_diffuse.png",

@@ -17,7 +17,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - texture drawing",
   )
-  let _ = @raylib.change_directory("examples/raylib_shaders_texture_drawing")
+  let _ = @raylib.change_directory("raylib_shaders_texture_drawing")
   let im_blank = @raylib.gen_image_color(1024, 1024, @raylib.blank)
   let texture = @raylib.load_texture_from_image(im_blank)
   @raylib.unload_image(im_blank)

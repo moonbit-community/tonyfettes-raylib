@@ -51,7 +51,7 @@ fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
-  let _ = @raylib.change_directory("examples/raylib_shaders_raymarching")
+  let _ = @raylib.change_directory("raylib_shaders_raymarching")
   @raylib.set_config_flags(@raylib.FlagWindowResizable)
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - raymarching rendering",

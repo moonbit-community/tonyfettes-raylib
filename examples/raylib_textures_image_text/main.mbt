@@ -3,7 +3,7 @@ fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
-  let _ = @raylib.change_directory("examples/raylib_textures_image_text")
+  let _ = @raylib.change_directory("raylib_textures_image_text")
   @raylib.init_window(
     screen_width, screen_height, "raylib [texture] example - image text drawing",
   )

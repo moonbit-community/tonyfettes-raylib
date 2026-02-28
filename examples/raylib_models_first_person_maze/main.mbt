@@ -19,7 +19,7 @@ fn main {
   // Load cubicmap image (RAM)
   // NOTE: Requires resources/cubicmap.png and resources/cubicmap_atlas.png
   // to be placed in the example directory.
-  let _ = @raylib.change_directory("examples/raylib_models_first_person_maze")
+  let _ = @raylib.change_directory("raylib_models_first_person_maze")
   let im_map = @raylib.load_image("resources/cubicmap.png")
   let cubicmap = @raylib.load_texture_from_image(im_map)
   let map_width = @raylib.image_width(im_map)

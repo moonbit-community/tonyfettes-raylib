@@ -20,7 +20,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - palette switch",
   )
-  let _ = @raylib.change_directory("examples/raylib_shaders_palette_switch")
+  let _ = @raylib.change_directory("raylib_shaders_palette_switch")
 
   // Load shader
   let shader = @raylib.load_shader(

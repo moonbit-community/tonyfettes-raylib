@@ -16,7 +16,7 @@ fn main {
   let screen_height = 450
 
   let _ = @raylib.change_directory(
-    "examples/raylib_shaders_vertex_displacement",
+    "raylib_shaders_vertex_displacement",
   )
 
   @raylib.init_window(

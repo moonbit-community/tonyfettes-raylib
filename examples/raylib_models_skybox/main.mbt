@@ -16,7 +16,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [models] example - skybox loading and drawing",
   )
-  let _ = @raylib.change_directory("examples/raylib_models_skybox")
+  let _ = @raylib.change_directory("raylib_models_skybox")
 
   // Define the camera to look into our 3d world
   let mut camera = @raylib.Camera3D::new(

@@ -12,7 +12,7 @@ fn main {
   let screen_height = 450
   let max_bunnies = 50000
   let max_batch_elements = 8192
-  let _ = @raylib.change_directory("examples/raylib_textures_bunnymark")
+  let _ = @raylib.change_directory("raylib_textures_bunnymark")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - bunnymark",
   )
