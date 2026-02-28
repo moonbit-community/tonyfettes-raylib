@@ -190,21 +190,21 @@ fn hazard_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i in 0..<game.hazards.length() {
-    if not(game.hazards[i].active) {
+  for hazard in game.hazards {
+    if not(hazard.active) {
       continue
     }
 
-    let y = game.hazards[i].y
+    let y = hazard.y
     if y < Float::from_int(road_top_y_i) - 20.0 {
       continue
     }
 
-    let x = lane_center_x(game.world_t, game.hazards[i].lane, y)
-    let size = game.hazards[i].size
-    let col = hazard_color(game.hazards[i].kind)
+    let x = lane_center_x(game.world_t, hazard.lane, y)
+    let size = hazard.size
+    let col = hazard_color(hazard.kind)
 
-    if game.hazards[i].kind == hazard_rock {
+    if hazard.kind == hazard_rock {
       @raylib.draw_circle(x.to_int(), y.to_int(), size, col)
       @raylib.draw_circle_lines(
         x.to_int(),
@@ -212,7 +212,7 @@ fn draw_hazards(game : Game) -> Unit {
         size + 3.0,
         @raylib.Color::new(240, 244, 252, 180),
       )
-    } else if game.hazards[i].kind == hazard_landslide {
+    } else if hazard.kind == hazard_landslide {
       @raylib.draw_triangle(
         @raylib.Vector2::new(x - size, y + size * 0.8),
         @raylib.Vector2::new(x + size, y + size * 0.8),
@@ -247,9 +247,9 @@ fn draw_hazards(game : Game) -> Unit {
       )
     }
 
-    let cue = if hazard_tilt_bias(game.hazards[i].kind) < -0.2 {
+    let cue = if hazard_tilt_bias(hazard.kind) < -0.2 {
       "L"
-    } else if hazard_tilt_bias(game.hazards[i].kind) > 0.2 {
+    } else if hazard_tilt_bias(hazard.kind) > 0.2 {
       "R"
     } else {
       "C"

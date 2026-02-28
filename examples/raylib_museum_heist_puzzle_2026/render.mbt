@@ -126,8 +126,7 @@ fn draw_board_tiles(game : Game) -> Unit {
 
 ///|
 fn draw_guard_fov(game : Game) -> Unit {
-  for gi in 0..<game.guards.length() {
-    let g = game.guards[gi]
+  for g in game.guards {
     for y in 0..<board_rows {
       for x in 0..<board_cols {
         if tile_at(game, x, y) == tile_wall {
@@ -219,9 +218,9 @@ fn draw_artifacts(game : Game) -> Unit {
 
 ///|
 fn draw_guards(game : Game) -> Unit {
-  for i in 0..<game.guards.length() {
-    let cx = cell_px(game.guards[i].x) + tile_size / 2
-    let cy = cell_py(game.guards[i].y) + tile_size / 2
+  for guard_val in game.guards {
+    let cx = cell_px(guard_val.x) + tile_size / 2
+    let cy = cell_py(guard_val.y) + tile_size / 2
     @raylib.draw_circle(
       cx,
       cy,
@@ -229,16 +228,16 @@ fn draw_guards(game : Game) -> Unit {
       @raylib.Color::new(184, 62, 72, 255),
     )
     @raylib.draw_circle(
-      cx + game.guards[i].dir_x * tile_size / 5,
-      cy + game.guards[i].dir_y * tile_size / 5,
+      cx + guard_val.dir_x * tile_size / 5,
+      cy + guard_val.dir_y * tile_size / 5,
       Float::from_int(tile_size) * 0.09,
       @raylib.Color::new(255, 230, 214, 255),
     )
     @raylib.draw_line(
       cx,
       cy,
-      cx + game.guards[i].dir_x * tile_size / 2,
-      cy + game.guards[i].dir_y * tile_size / 2,
+      cx + guard_val.dir_x * tile_size / 2,
+      cy + guard_val.dir_y * tile_size / 2,
       @raylib.Color::new(255, 216, 190, 210),
     )
   }

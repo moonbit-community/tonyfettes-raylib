@@ -89,36 +89,36 @@ fn cosf_deg(angle : Float) -> Float {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].ttl = 0.0
-    bullets[i].active = false
+  for bullet in bullets {
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.ttl = 0.0
+    bullet.active = false
   }
 }
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i in 0..<drones.length() {
-    drones[i].x = 0.0
-    drones[i].y = 0.0
-    drones[i].vx = 0.0
-    drones[i].vy = 0.0
-    drones[i].hp = 0
-    drones[i].drop_cd = 0.0
-    drones[i].active = false
+  for drone in drones {
+    drone.x = 0.0
+    drone.y = 0.0
+    drone.vx = 0.0
+    drone.vy = 0.0
+    drone.hp = 0
+    drone.drop_cd = 0.0
+    drone.active = false
   }
 }
 
 ///|
 fn clear_bombs(bombs : Array[Bomb]) -> Unit {
-  for i in 0..<bombs.length() {
-    bombs[i].x = 0.0
-    bombs[i].y = 0.0
-    bombs[i].vy = 0.0
-    bombs[i].active = false
+  for bomb in bombs {
+    bomb.x = 0.0
+    bomb.y = 0.0
+    bomb.vy = 0.0
+    bomb.active = false
   }
 }
 
@@ -132,17 +132,17 @@ fn spawn_bullet(
   let vx = cosf_deg(angle) * 660.0
   let vy = -sinf_deg(angle) * 660.0
   let mut done = false
-  for i in 0..<bullets.length() {
+  for bullet in bullets {
     if done {
       continue
     }
-    if not(bullets[i].active) {
-      bullets[i].active = true
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vx = vx
-      bullets[i].vy = vy
-      bullets[i].ttl = 1.7
+    if not(bullet.active) {
+      bullet.active = true
+      bullet.x = x
+      bullet.y = y
+      bullet.vx = vx
+      bullet.vy = vy
+      bullet.ttl = 1.7
       done = true
     }
   }
@@ -151,15 +151,15 @@ fn spawn_bullet(
 ///|
 fn spawn_bomb(bombs : Array[Bomb], x : Float, y : Float, sector : Int) -> Unit {
   let mut done = false
-  for i in 0..<bombs.length() {
+  for bomb in bombs {
     if done {
       continue
     }
-    if not(bombs[i].active) {
-      bombs[i].active = true
-      bombs[i].x = x
-      bombs[i].y = y
-      bombs[i].vy = Float::from_int(188 + sector * 24)
+    if not(bomb.active) {
+      bomb.active = true
+      bomb.x = x
+      bomb.y = y
+      bomb.vy = Float::from_int(188 + sector * 24)
       done = true
     }
   }
@@ -168,11 +168,11 @@ fn spawn_bomb(bombs : Array[Bomb], x : Float, y : Float, sector : Int) -> Unit {
 ///|
 fn spawn_drone(drones : Array[Drone], sector : Int) -> Unit {
   let mut done = false
-  for i in 0..<drones.length() {
+  for drone in drones {
     if done {
       continue
     }
-    if not(drones[i].active) {
+    if not(drone.active) {
       let side = @raylib.get_random_value(0, 1)
       let kind = @raylib.get_random_value(0, 2)
       let y = Float::from_int(@raylib.get_random_value(78, 290))
@@ -185,14 +185,14 @@ fn spawn_drone(drones : Array[Drone], sector : Int) -> Unit {
       }
       let hp = if kind == 0 { 1 } else if kind == 1 { 2 } else { 3 }
 
-      drones[i].active = true
-      drones[i].x = if side == 0 { -34.0 } else { Float::from_int(sw) + 34.0 }
-      drones[i].y = y
-      drones[i].vx = if side == 0 { base } else { -base }
-      drones[i].vy = Float::from_int(@raylib.get_random_value(26, 54))
-      drones[i].kind = kind
-      drones[i].hp = hp
-      drones[i].drop_cd = Float::from_int(@raylib.get_random_value(70, 140)) /
+      drone.active = true
+      drone.x = if side == 0 { -34.0 } else { Float::from_int(sw) + 34.0 }
+      drone.y = y
+      drone.vx = if side == 0 { base } else { -base }
+      drone.vy = Float::from_int(@raylib.get_random_value(26, 54))
+      drone.kind = kind
+      drone.hp = hp
+      drone.drop_cd = Float::from_int(@raylib.get_random_value(70, 140)) /
         Float::from_int(100)
       done = true
     }
@@ -392,39 +392,39 @@ fn main {
 
       let mut convoy_damage = 0
 
-      for i in 0..<drones.length() {
-        if not(drones[i].active) {
+      for drone in drones {
+        if not(drone.active) {
           continue
         }
 
         let tx = convoy_cx + Float::from_int(@raylib.get_random_value(-90, 90))
-        let ty = convoy_y - Float::from_int(120 + drones[i].kind * 34)
+        let ty = convoy_y - Float::from_int(120 + drone.kind * 34)
 
-        let dx = tx - drones[i].x
-        let dy = ty - drones[i].y
+        let dx = tx - drone.x
+        let dy = ty - drone.y
         let d2 = dx * dx + dy * dy
         if d2 > 12.0 {
           let d = d2.sqrt()
-          let seek : Float = if drones[i].kind == 0 {
+          let seek : Float = if drone.kind == 0 {
             168.0
-          } else if drones[i].kind == 1 {
+          } else if drone.kind == 1 {
             142.0
           } else {
             122.0
           }
           let desired_vx = dx / d * seek
           let desired_vy = dy / d * seek
-          drones[i].vx = drones[i].vx * 0.90 + desired_vx * 0.10
-          drones[i].vy = drones[i].vy * 0.90 + desired_vy * 0.10
+          drone.vx = drone.vx * 0.90 + desired_vx * 0.10
+          drone.vy = drone.vy * 0.90 + desired_vy * 0.10
         }
 
-        drones[i].x = drones[i].x + drones[i].vx * dt
-        drones[i].y = drones[i].y + drones[i].vy * dt
+        drone.x = drone.x + drone.vx * dt
+        drone.y = drone.y + drone.vy * dt
 
-        drones[i].drop_cd = drones[i].drop_cd - dt
-        if drones[i].drop_cd <= 0.0 {
-          spawn_bomb(bombs, drones[i].x, drones[i].y + 12.0, sector)
-          drones[i].drop_cd = if drones[i].kind == 2 {
+        drone.drop_cd = drone.drop_cd - dt
+        if drone.drop_cd <= 0.0 {
+          spawn_bomb(bombs, drone.x, drone.y + 12.0, sector)
+          drone.drop_cd = if drone.kind == 2 {
             Float::from_int(@raylib.get_random_value(45, 95)) /
             Float::from_int(100)
           } else {
@@ -433,109 +433,109 @@ fn main {
           }
         }
 
-        if drones[i].y >= convoy_y - 10.0 &&
-          drones[i].x >= convoy_left &&
-          drones[i].x <= convoy_right {
-          let dmg = if drones[i].kind == 0 {
+        if drone.y >= convoy_y - 10.0 &&
+          drone.x >= convoy_left &&
+          drone.x <= convoy_right {
+          let dmg = if drone.kind == 0 {
             16
-          } else if drones[i].kind == 1 {
+          } else if drone.kind == 1 {
             24
           } else {
             32
           }
           convoy_damage = convoy_damage + dmg
-          drones[i].active = false
+          drone.active = false
           blast_t = 0.30
-          blast_x = drones[i].x
-          blast_y = drones[i].y
+          blast_x = drone.x
+          blast_y = drone.y
         }
 
-        if drones[i].x < -80.0 ||
-          drones[i].x > Float::from_int(sw + 80) ||
-          drones[i].y < -70.0 ||
-          drones[i].y > Float::from_int(sh + 40) {
-          drones[i].active = false
+        if drone.x < -80.0 ||
+          drone.x > Float::from_int(sw + 80) ||
+          drone.y < -70.0 ||
+          drone.y > Float::from_int(sh + 40) {
+          drone.active = false
         }
       }
 
-      for i in 0..<bombs.length() {
-        if not(bombs[i].active) {
+      for bomb in bombs {
+        if not(bomb.active) {
           continue
         }
 
-        bombs[i].y = bombs[i].y + bombs[i].vy * dt
-        bombs[i].vy = bombs[i].vy + 62.0 * dt
+        bomb.y = bomb.y + bomb.vy * dt
+        bomb.vy = bomb.vy + 62.0 * dt
 
-        if bombs[i].y >= convoy_y {
-          if bombs[i].x >= convoy_left && bombs[i].x <= convoy_right {
+        if bomb.y >= convoy_y {
+          if bomb.x >= convoy_left && bomb.x <= convoy_right {
             let dmg = Float::from_int(@raylib.get_random_value(10, 20)).to_int()
             convoy_damage = convoy_damage + dmg
             hit_flash = 0.18
             blast_t = 0.24
-            blast_x = bombs[i].x
+            blast_x = bomb.x
             blast_y = convoy_y
           }
-          bombs[i].active = false
+          bomb.active = false
         }
 
-        if bombs[i].y > Float::from_int(sh + 24) {
-          bombs[i].active = false
+        if bomb.y > Float::from_int(sh + 24) {
+          bomb.active = false
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
-        bullets[i].ttl = bullets[i].ttl - dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
+        bullet.ttl = bullet.ttl - dt
 
-        if bullets[i].ttl <= 0.0 ||
-          bullets[i].x < -20.0 ||
-          bullets[i].x > Float::from_int(sw + 20) ||
-          bullets[i].y < -30.0 ||
-          bullets[i].y > Float::from_int(sh + 20) {
-          bullets[i].active = false
+        if bullet.ttl <= 0.0 ||
+          bullet.x < -20.0 ||
+          bullet.x > Float::from_int(sw + 20) ||
+          bullet.y < -30.0 ||
+          bullet.y > Float::from_int(sh + 20) {
+          bullet.active = false
           continue
         }
 
         let mut hit = false
-        for j in 0..<drones.length() {
+        for drone in drones {
           if hit {
             continue
           }
-          if not(drones[j].active) {
+          if not(drone.active) {
             continue
           }
 
-          let r : Float = if drones[j].kind == 0 {
+          let r : Float = if drone.kind == 0 {
             15.0
-          } else if drones[j].kind == 1 {
+          } else if drone.kind == 1 {
             19.0
           } else {
             23.0
           }
 
-          let dx = bullets[i].x - drones[j].x
-          let dy = bullets[i].y - drones[j].y
+          let dx = bullet.x - drone.x
+          let dy = bullet.y - drone.y
           if dx * dx + dy * dy <= r * r {
-            bullets[i].active = false
-            drones[j].hp = drones[j].hp - 1
-            if drones[j].hp <= 0 {
-              drones[j].active = false
-              let gain = if drones[j].kind == 0 {
+            bullet.active = false
+            drone.hp = drone.hp - 1
+            if drone.hp <= 0 {
+              drone.active = false
+              let gain = if drone.kind == 0 {
                 35
-              } else if drones[j].kind == 1 {
+              } else if drone.kind == 1 {
                 55
               } else {
                 85
               }
               score = score + gain
               blast_t = 0.34
-              blast_x = drones[j].x
-              blast_y = drones[j].y
+              blast_x = drone.x
+              blast_y = drone.y
             }
             hit = true
           }
@@ -718,106 +718,106 @@ fn main {
       @raylib.Color::new(228, 232, 238, 255),
     )
 
-    for i in 0..<drones.length() {
-      if not(drones[i].active) {
+    for drone in drones {
+      if not(drone.active) {
         continue
       }
-      if drones[i].kind == 0 {
+      if drone.kind == 0 {
         @raylib.draw_circle(
-          drones[i].x.to_int(),
-          drones[i].y.to_int(),
+          drone.x.to_int(),
+          drone.y.to_int(),
           11.0,
           @raylib.Color::new(250, 220, 98, 255),
         )
         @raylib.draw_line(
-          (drones[i].x - 16.0).to_int(),
-          drones[i].y.to_int(),
-          (drones[i].x + 16.0).to_int(),
-          drones[i].y.to_int(),
+          (drone.x - 16.0).to_int(),
+          drone.y.to_int(),
+          (drone.x + 16.0).to_int(),
+          drone.y.to_int(),
           @raylib.Color::new(96, 76, 26, 255),
         )
-      } else if drones[i].kind == 1 {
+      } else if drone.kind == 1 {
         @raylib.draw_rectangle(
-          (drones[i].x - 14.0).to_int(),
-          (drones[i].y - 10.0).to_int(),
+          (drone.x - 14.0).to_int(),
+          (drone.y - 10.0).to_int(),
           28,
           20,
           @raylib.Color::new(236, 146, 92, 255),
         )
         @raylib.draw_circle(
-          (drones[i].x - 14.0).to_int(),
-          drones[i].y.to_int(),
+          (drone.x - 14.0).to_int(),
+          drone.y.to_int(),
           6.0,
           @raylib.Color::new(52, 42, 32, 255),
         )
         @raylib.draw_circle(
-          (drones[i].x + 14.0).to_int(),
-          drones[i].y.to_int(),
+          (drone.x + 14.0).to_int(),
+          drone.y.to_int(),
           6.0,
           @raylib.Color::new(52, 42, 32, 255),
         )
       } else {
         @raylib.draw_rectangle(
-          (drones[i].x - 20.0).to_int(),
-          (drones[i].y - 12.0).to_int(),
+          (drone.x - 20.0).to_int(),
+          (drone.y - 12.0).to_int(),
           40,
           24,
           @raylib.Color::new(224, 96, 92, 255),
         )
         @raylib.draw_rectangle(
-          (drones[i].x - 8.0).to_int(),
-          (drones[i].y - 18.0).to_int(),
+          (drone.x - 8.0).to_int(),
+          (drone.y - 18.0).to_int(),
           16,
           6,
           @raylib.Color::new(244, 188, 126, 255),
         )
         @raylib.draw_circle(
-          (drones[i].x - 18.0).to_int(),
-          (drones[i].y + 12.0).to_int(),
+          (drone.x - 18.0).to_int(),
+          (drone.y + 12.0).to_int(),
           6.0,
           @raylib.Color::new(42, 34, 30, 255),
         )
         @raylib.draw_circle(
-          (drones[i].x + 18.0).to_int(),
-          (drones[i].y + 12.0).to_int(),
+          (drone.x + 18.0).to_int(),
+          (drone.y + 12.0).to_int(),
           6.0,
           @raylib.Color::new(42, 34, 30, 255),
         )
       }
     }
 
-    for i in 0..<bombs.length() {
-      if not(bombs[i].active) {
+    for bomb in bombs {
+      if not(bomb.active) {
         continue
       }
       @raylib.draw_line(
-        bombs[i].x.to_int(),
-        (bombs[i].y - 16.0).to_int(),
-        bombs[i].x.to_int(),
-        bombs[i].y.to_int(),
+        bomb.x.to_int(),
+        (bomb.y - 16.0).to_int(),
+        bomb.x.to_int(),
+        bomb.y.to_int(),
         @raylib.Color::new(250, 180, 122, 255),
       )
       @raylib.draw_circle(
-        bombs[i].x.to_int(),
-        bombs[i].y.to_int(),
+        bomb.x.to_int(),
+        bomb.y.to_int(),
         5.0,
         @raylib.Color::new(246, 212, 144, 255),
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
       @raylib.draw_circle(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
+        bullet.x.to_int(),
+        bullet.y.to_int(),
         4.0,
         @raylib.Color::new(236, 240, 250, 255),
       )
       @raylib.draw_circle(
-        (bullets[i].x - 1.0).to_int(),
-        (bullets[i].y - 1.0).to_int(),
+        (bullet.x - 1.0).to_int(),
+        (bullet.y - 1.0).to_int(),
         2.0,
         @raylib.Color::new(136, 188, 246, 255),
       )

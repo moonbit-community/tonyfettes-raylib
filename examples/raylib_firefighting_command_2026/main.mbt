@@ -51,8 +51,8 @@ fn reset_zones(zones : Array[Zone]) -> Unit {
 ///|
 fn active_fire_count(zones : Array[Zone]) -> Int {
   let mut n = 0
-  for i in 0..<zones.length() {
-    if zones[i].fire > 0.0 {
+  for zone in zones {
+    if zone.fire > 0.0 {
       n = n + 1
     }
   }

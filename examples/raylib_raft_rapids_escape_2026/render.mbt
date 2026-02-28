@@ -297,31 +297,31 @@ fn draw_pickup(pk : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       186
     } else {
       112
     }
 
-    let c : @raylib.Color = if game.particles[i].kind == 2 {
+    let c : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(194, 236, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 156, 138, a)
     } else {
       @raylib.Color::new(144, 224, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c,
     )
   }
@@ -1010,12 +1010,12 @@ fn draw_frame(
   draw_world_back(game, ox, oy)
   draw_currents(game, ox, oy)
 
-  for i in 0..<game.obstacles.length() {
-    draw_obstacle(game.obstacles[i], ox, oy)
+  for obstacle in game.obstacles {
+    draw_obstacle(obstacle, ox, oy)
   }
 
-  for i in 0..<game.pickups.length() {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
   draw_hint(game, ox, oy)

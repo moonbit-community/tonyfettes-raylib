@@ -105,8 +105,7 @@ fn rescue_objective_done(game : Game) -> Bool {
 fn update_hostages(game : Game, dt : Float) -> Unit {
   let pickup_r2 = rescue_pickup_radius * rescue_pickup_radius
 
-  for i in 0..<game.hostages.length() {
-    let hostage = game.hostages[i]
+  for hostage in game.hostages {
     if not(hostage.active) {
       continue
     }

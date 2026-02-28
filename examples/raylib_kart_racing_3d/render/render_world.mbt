@@ -414,8 +414,7 @@ fn draw_powerups(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -437,8 +436,7 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -466,8 +464,7 @@ fn draw_themed_decorations(game : @types.Game) -> Unit {
     game.current_cup,
     game.current_race,
   )
-  for di in 0..<deco_data.length() {
-    let deco = deco_data[di]
+  for deco in deco_data {
     let deco_type = deco.0
     let x_offset = deco.1
     let z_progress = deco.2

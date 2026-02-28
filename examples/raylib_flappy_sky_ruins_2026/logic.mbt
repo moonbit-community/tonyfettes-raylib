@@ -72,15 +72,15 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -95,19 +95,19 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -130,44 +130,44 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * 2.4)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * 2.2) + dt * 180.0
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
+    particle.vx = particle.vx * (1.0 - dt * 2.4)
+    particle.vy = particle.vy * (1.0 - dt * 2.2) + dt * 180.0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i in 0..<game.obstacles.length() {
-    game.obstacles[i].active = false
-    game.obstacles[i].x = 0.0
-    game.obstacles[i].gap_y = 0.0
-    game.obstacles[i].gap_h = 0.0
-    game.obstacles[i].w = 0.0
-    game.obstacles[i].speed = 0.0
-    game.obstacles[i].kind = obstacle_kind_gate
-    game.obstacles[i].phase = 0.0
-    game.obstacles[i].scored = false
+  for obstacle in game.obstacles {
+    obstacle.active = false
+    obstacle.x = 0.0
+    obstacle.gap_y = 0.0
+    obstacle.gap_h = 0.0
+    obstacle.w = 0.0
+    obstacle.speed = 0.0
+    obstacle.kind = obstacle_kind_gate
+    obstacle.phase = 0.0
+    obstacle.scored = false
   }
 
-  for i in 0..<game.pickups.length() {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].kind = pickup_score
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.kind = pickup_score
+    pickup.phase = 0.0
   }
 }
 
@@ -231,27 +231,27 @@ fn flap(game : Game) -> Unit {
 
 ///|
 fn spawn_obstacle(game : Game) -> Bool {
-  for i in 0..<game.obstacles.length() {
-    if game.obstacles[i].active {
+  for obstacle in game.obstacles {
+    if obstacle.active {
       continue
     }
 
-    game.obstacles[i].active = true
-    game.obstacles[i].x = world_right() + randf(30.0, 120.0)
-    game.obstacles[i].w = randf(82.0, 124.0)
-    game.obstacles[i].speed = randf(220.0, 320.0) +
+    obstacle.active = true
+    obstacle.x = world_right() + randf(30.0, 120.0)
+    obstacle.w = randf(82.0, 124.0)
+    obstacle.speed = randf(220.0, 320.0) +
       Float::from_int(game.level) * 10.0
 
     let min_y : Float = world_top() + 140.0
     let max_y : Float = world_bottom() - 140.0
-    game.obstacles[i].gap_y = randf(min_y, max_y)
+    obstacle.gap_y = randf(min_y, max_y)
 
-    game.obstacles[i].gap_h = randf(220.0, 340.0) -
+    obstacle.gap_h = randf(220.0, 340.0) -
       Float::from_int(game.level) * 4.0
-    game.obstacles[i].gap_h = clampf(game.obstacles[i].gap_h, 170.0, 340.0)
+    obstacle.gap_h = clampf(obstacle.gap_h, 170.0, 340.0)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.obstacles[i].kind = if roll < 62 {
+    obstacle.kind = if roll < 62 {
       obstacle_kind_gate
     } else if roll < 86 {
       obstacle_kind_beam
@@ -259,8 +259,8 @@ fn spawn_obstacle(game : Game) -> Bool {
       obstacle_kind_spinner
     }
 
-    game.obstacles[i].phase = randf(0.0, 6.28)
-    game.obstacles[i].scored = false
+    obstacle.phase = randf(0.0, 6.28)
+    obstacle.scored = false
 
     return true
   }
@@ -270,17 +270,17 @@ fn spawn_obstacle(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i in 0..<game.pickups.length() {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = world_right() + randf(120.0, 300.0)
-    game.pickups[i].y = randf(world_top() + 120.0, world_bottom() - 120.0)
+    pickup.active = true
+    pickup.x = world_right() + randf(120.0, 300.0)
+    pickup.y = randf(world_top() + 120.0, world_bottom() - 120.0)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 56 {
+    pickup.kind = if roll < 56 {
       pickup_score
     } else if roll < 78 {
       pickup_boost
@@ -290,7 +290,7 @@ fn spawn_pickup(game : Game) -> Bool {
       pickup_heart
     }
 
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -450,19 +450,19 @@ fn use_hint(game : Game) -> Bool {
   let mut best_y : Float = game.py
   let mut best_dist : Float = 1000000000.0
 
-  for i in 0..<game.obstacles.length() {
-    if not(game.obstacles[i].active) {
+  for obstacle in game.obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    if game.obstacles[i].x + game.obstacles[i].w < game.px {
+    if obstacle.x + obstacle.w < game.px {
       continue
     }
 
-    let d : Float = game.obstacles[i].x - game.px
+    let d : Float = obstacle.x - game.px
     if d < best_dist {
       best_dist = d
-      best_y = obstacle_gap_mid(game.obstacles[i])
+      best_y = obstacle_gap_mid(obstacle)
     }
   }
 
@@ -494,22 +494,22 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pickups.length() {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
     let speed : Float = 220.0 + Float::from_int(game.level) * 8.0
-    game.pickups[i].x = game.pickups[i].x - speed * dt
-    game.pickups[i].phase = game.pickups[i].phase + dt * 3.8
+    pickup.x = pickup.x - speed * dt
+    pickup.phase = pickup.phase + dt * 3.8
 
-    game.pickups[i].y = game.pickups[i].y +
-      Float::from_double(@math.sin(game.pickups[i].phase.to_double())) *
+    pickup.y = pickup.y +
+      Float::from_double(@math.sin(pickup.phase.to_double())) *
       dt *
       40.0
 
-    if game.pickups[i].x < world_left() - 70.0 {
-      game.pickups[i].active = false
+    if pickup.x < world_left() - 70.0 {
+      pickup.active = false
     }
   }
 }
@@ -538,12 +538,12 @@ fn update_physics(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_collisions(game : Game) -> Unit {
-  for i in 0..<game.obstacles.length() {
-    if not(game.obstacles[i].active) {
+  for obstacle in game.obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    if point_hits_obstacle(game.obstacles[i], game.px, game.py, player_r) {
+    if point_hits_obstacle(obstacle, game.px, game.py, player_r) {
       damage_player(game, "Obstacle hit")
       return
     }

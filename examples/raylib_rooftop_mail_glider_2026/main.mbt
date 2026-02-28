@@ -282,60 +282,60 @@ fn clear_deliveries(deliveries : Array[Delivery]) -> Unit {
 
 ///|
 fn clear_winds(winds : Array[WindTunnel]) -> Unit {
-  for i in 0..<winds.length() {
-    winds[i].active = false
-    winds[i].x = 0.0
-    winds[i].y = 0.0
-    winds[i].w = 0.0
-    winds[i].h = 0.0
-    winds[i].vx = 0.0
-    winds[i].vy = 0.0
-    winds[i].turbulence = 0.0
-    winds[i].pulse = 0.0
+  for wind in winds {
+    wind.active = false
+    wind.x = 0.0
+    wind.y = 0.0
+    wind.w = 0.0
+    wind.h = 0.0
+    wind.vx = 0.0
+    wind.vy = 0.0
+    wind.turbulence = 0.0
+    wind.pulse = 0.0
   }
 }
 
 ///|
 fn clear_birds(birds : Array[Bird]) -> Unit {
-  for i in 0..<birds.length() {
-    birds[i].active = false
-    birds[i].x = 0.0
-    birds[i].y = 0.0
-    birds[i].vx = 0.0
-    birds[i].vy = 0.0
-    birds[i].size = 0.0
-    birds[i].danger = 0.0
-    birds[i].life = 0.0
-    birds[i].wing_t = 0.0
+  for bird in birds {
+    bird.active = false
+    bird.x = 0.0
+    bird.y = 0.0
+    bird.vx = 0.0
+    bird.vy = 0.0
+    bird.size = 0.0
+    bird.danger = 0.0
+    bird.life = 0.0
+    bird.wing_t = 0.0
   }
 }
 
 ///|
 fn clear_crates(crates : Array[Crate]) -> Unit {
-  for i in 0..<crates.length() {
-    crates[i].active = false
-    crates[i].x = 0.0
-    crates[i].y = 0.0
-    crates[i].vx = 0.0
-    crates[i].vy = 0.0
-    crates[i].kind = 0
-    crates[i].amount = 0
-    crates[i].life = 0.0
-    crates[i].pulse = 0.0
+  for crate in crates {
+    crate.active = false
+    crate.x = 0.0
+    crate.y = 0.0
+    crate.vx = 0.0
+    crate.vy = 0.0
+    crate.kind = 0
+    crate.amount = 0
+    crate.life = 0.0
+    crate.pulse = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -350,19 +350,19 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
-    parts[i].vx = vx
-    parts[i].vy = vy
-    parts[i].life = life
-    parts[i].size = size
-    parts[i].kind = kind
+    part.active = true
+    part.x = x
+    part.y = y
+    part.vx = vx
+    part.vy = vy
+    part.life = life
+    part.size = size
+    part.kind = kind
     break
   }
 }
@@ -391,20 +391,20 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 1.9)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 1.9) + dt * 28.0
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 1.9)
+    part.vy = part.vy * (1.0 - dt * 1.9) + dt * 28.0
   }
 }
 
@@ -496,8 +496,8 @@ fn init_wind_tunnels(
 ///|
 fn active_delivery_count(deliveries : Array[Delivery]) -> Int {
   let mut c : Int = 0
-  for i in 0..<deliveries.length() {
-    if deliveries[i].active {
+  for delivery in deliveries {
+    if delivery.active {
       c = c + 1
     }
   }
@@ -507,8 +507,8 @@ fn active_delivery_count(deliveries : Array[Delivery]) -> Int {
 ///|
 fn active_delivery_for_pad(deliveries : Array[Delivery], pad_id : Int) -> Int {
   let mut c : Int = 0
-  for i in 0..<deliveries.length() {
-    if deliveries[i].active && deliveries[i].pad_id == pad_id {
+  for delivery in deliveries {
+    if delivery.active && delivery.pad_id == pad_id {
       c = c + 1
     }
   }
@@ -524,8 +524,8 @@ fn spawn_delivery(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i in 0..<deliveries.length() {
-    if deliveries[i].active {
+  for delivery in deliveries {
+    if delivery.active {
       continue
     }
 
@@ -540,14 +540,14 @@ fn spawn_delivery(
     let wave_penalty : Float = Float::from_int(wave) * 1.45
     let deadline : Float = maxf(18.0, base_deadline - wave_penalty)
 
-    deliveries[i].active = true
-    deliveries[i].id = serial
-    deliveries[i].pad_id = pad_id
-    deliveries[i].deadline = deadline
-    deliveries[i].max_deadline = deadline
-    deliveries[i].reward = 110 + wave * 7 + randi(0, 56)
-    deliveries[i].priority = randf(0.0, 1.0)
-    deliveries[i].pulse = randf(0.0, 10.0)
+    delivery.active = true
+    delivery.id = serial
+    delivery.pad_id = pad_id
+    delivery.deadline = deadline
+    delivery.max_deadline = deadline
+    delivery.reward = 110 + wave * 7 + randi(0, 56)
+    delivery.priority = randf(0.0, 1.0)
+    delivery.pulse = randf(0.0, 10.0)
 
     placed = true
     break
@@ -567,39 +567,39 @@ fn spawn_bird(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i in 0..<birds.length() {
-    if birds[i].active {
+  for bird in birds {
+    if bird.active {
       continue
     }
 
     let edge : Int = randi(0, 3)
     if edge == 0 {
-      birds[i].x = world_l - 24.0
-      birds[i].y = randf(world_t + 18.0, world_b - 18.0)
-      birds[i].vx = randf(96.0, 188.0)
-      birds[i].vy = randf(-44.0, 44.0)
+      bird.x = world_l - 24.0
+      bird.y = randf(world_t + 18.0, world_b - 18.0)
+      bird.vx = randf(96.0, 188.0)
+      bird.vy = randf(-44.0, 44.0)
     } else if edge == 1 {
-      birds[i].x = world_r + 24.0
-      birds[i].y = randf(world_t + 18.0, world_b - 18.0)
-      birds[i].vx = -randf(96.0, 188.0)
-      birds[i].vy = randf(-44.0, 44.0)
+      bird.x = world_r + 24.0
+      bird.y = randf(world_t + 18.0, world_b - 18.0)
+      bird.vx = -randf(96.0, 188.0)
+      bird.vy = randf(-44.0, 44.0)
     } else if edge == 2 {
-      birds[i].x = randf(world_l + 24.0, world_r - 24.0)
-      birds[i].y = world_t - 24.0
-      birds[i].vx = randf(-64.0, 64.0)
-      birds[i].vy = randf(96.0, 182.0)
+      bird.x = randf(world_l + 24.0, world_r - 24.0)
+      bird.y = world_t - 24.0
+      bird.vx = randf(-64.0, 64.0)
+      bird.vy = randf(96.0, 182.0)
     } else {
-      birds[i].x = randf(world_l + 24.0, world_r - 24.0)
-      birds[i].y = world_b + 24.0
-      birds[i].vx = randf(-64.0, 64.0)
-      birds[i].vy = -randf(96.0, 182.0)
+      bird.x = randf(world_l + 24.0, world_r - 24.0)
+      bird.y = world_b + 24.0
+      bird.vx = randf(-64.0, 64.0)
+      bird.vy = -randf(96.0, 182.0)
     }
 
-    birds[i].active = true
-    birds[i].size = randf(9.0, 18.0)
-    birds[i].danger = randf(0.6, 1.6) + pressure * randf(0.2, 0.8)
-    birds[i].life = randf(6.0, 14.0)
-    birds[i].wing_t = randf(0.0, 12.0)
+    bird.active = true
+    bird.size = randf(9.0, 18.0)
+    bird.danger = randf(0.6, 1.6) + pressure * randf(0.2, 0.8)
+    bird.life = randf(6.0, 14.0)
+    bird.wing_t = randf(0.0, 12.0)
 
     placed = true
     break
@@ -618,26 +618,26 @@ fn spawn_crate(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i in 0..<crates.length() {
-    if crates[i].active {
+  for crate in crates {
+    if crate.active {
       continue
     }
 
-    crates[i].active = true
-    crates[i].x = randf(world_l + 120.0, world_r - 120.0)
-    crates[i].y = randf(world_t + 90.0, world_b - 90.0)
-    crates[i].vx = randf(-20.0, 20.0)
-    crates[i].vy = randf(-18.0, 18.0)
-    crates[i].kind = randi(0, 2)
-    crates[i].amount = if crates[i].kind == 0 {
+    crate.active = true
+    crate.x = randf(world_l + 120.0, world_r - 120.0)
+    crate.y = randf(world_t + 90.0, world_b - 90.0)
+    crate.vx = randf(-20.0, 20.0)
+    crate.vy = randf(-18.0, 18.0)
+    crate.kind = randi(0, 2)
+    crate.amount = if crate.kind == 0 {
       randi(10, 22)
-    } else if crates[i].kind == 1 {
+    } else if crate.kind == 1 {
       randi(10, 20)
     } else {
       randi(1, 3)
     }
-    crates[i].life = randf(14.0, 24.0)
-    crates[i].pulse = randf(0.0, 8.0)
+    crate.life = randf(14.0, 24.0)
+    crate.pulse = randf(0.0, 8.0)
 
     placed = true
     break
@@ -656,13 +656,13 @@ fn nearest_pad_id(
   let mut found : Int = -1
   let mut best : Float = radius * radius
 
-  for i in 0..<pads.length() {
-    let cx : Float = pads[i].x + pads[i].w * 0.5
-    let cy : Float = pads[i].y + pads[i].h * 0.5
+  for pad in pads {
+    let cx : Float = pad.x + pad.w * 0.5
+    let cy : Float = pad.y + pad.h * 0.5
     let d2v : Float = dist2(x, y, cx, cy)
     if d2v <= best {
       best = d2v
-      found = pads[i].id
+      found = pad.id
     }
   }
 
@@ -835,32 +835,32 @@ fn draw_pads(
 
 ///|
 fn draw_wind_tunnels(winds : Array[WindTunnel], scene_t : Float) -> Unit {
-  for i in 0..<winds.length() {
-    if not(winds[i].active) {
+  for wind in winds {
+    if not(wind.active) {
       continue
     }
 
-    let pulse : Float = sinf(scene_t * 6.0 + winds[i].pulse) * 0.5 + 0.5
+    let pulse : Float = sinf(scene_t * 6.0 + wind.pulse) * 0.5 + 0.5
 
     @raylib.draw_rectangle(
-      winds[i].x.to_int(),
-      winds[i].y.to_int(),
-      winds[i].w.to_int(),
-      winds[i].h.to_int(),
+      wind.x.to_int(),
+      wind.y.to_int(),
+      wind.w.to_int(),
+      wind.h.to_int(),
       @raylib.Color::new(88, 168, 238, 24 + (pulse * 42.0).to_int()),
     )
     @raylib.draw_rectangle_lines(
-      winds[i].x.to_int(),
-      winds[i].y.to_int(),
-      winds[i].w.to_int(),
-      winds[i].h.to_int(),
+      wind.x.to_int(),
+      wind.y.to_int(),
+      wind.w.to_int(),
+      wind.h.to_int(),
       @raylib.Color::new(118, 200, 252, 120),
     )
 
-    let cx : Float = winds[i].x + winds[i].w * 0.5
-    let cy : Float = winds[i].y + winds[i].h * 0.5
-    let tip_x : Float = cx + winds[i].vx * 0.18
-    let tip_y : Float = cy + winds[i].vy * 0.18
+    let cx : Float = wind.x + wind.w * 0.5
+    let cy : Float = wind.y + wind.h * 0.5
+    let tip_x : Float = cx + wind.vx * 0.18
+    let tip_y : Float = cy + wind.vy * 0.18
     @raylib.draw_line_ex(
       @raylib.Vector2::new(cx, cy),
       @raylib.Vector2::new(tip_x, tip_y),
@@ -877,23 +877,23 @@ fn draw_wind_tunnels(winds : Array[WindTunnel], scene_t : Float) -> Unit {
 
 ///|
 fn draw_birds(birds : Array[Bird], scene_t : Float) -> Unit {
-  for i in 0..<birds.length() {
-    if not(birds[i].active) {
+  for bird in birds {
+    if not(bird.active) {
       continue
     }
 
-    let wing : Float = sinf(scene_t * 16.0 + birds[i].wing_t) * 0.5 + 0.5
+    let wing : Float = sinf(scene_t * 16.0 + bird.wing_t) * 0.5 + 0.5
     let spread : Float = 6.0 + wing * 7.0
 
     @raylib.draw_triangle(
-      @raylib.Vector2::new(birds[i].x + birds[i].size, birds[i].y),
-      @raylib.Vector2::new(birds[i].x - birds[i].size, birds[i].y - spread),
-      @raylib.Vector2::new(birds[i].x - birds[i].size, birds[i].y + spread),
+      @raylib.Vector2::new(bird.x + bird.size, bird.y),
+      @raylib.Vector2::new(bird.x - bird.size, bird.y - spread),
+      @raylib.Vector2::new(bird.x - bird.size, bird.y + spread),
       @raylib.Color::new(52, 38, 30, 240),
     )
 
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(birds[i].x + birds[i].size * 0.22, birds[i].y),
+      @raylib.Vector2::new(bird.x + bird.size * 0.22, bird.y),
       3.0,
       @raylib.Color::new(232, 216, 164, 230),
     )
@@ -902,45 +902,45 @@ fn draw_birds(birds : Array[Bird], scene_t : Float) -> Unit {
 
 ///|
 fn draw_crates(crates : Array[Crate], scene_t : Float) -> Unit {
-  for i in 0..<crates.length() {
-    if not(crates[i].active) {
+  for crate in crates {
+    if not(crate.active) {
       continue
     }
 
-    let pulse : Float = sinf(scene_t * 5.4 + crates[i].pulse) * 0.5 + 0.5
-    let col = if crates[i].kind == 0 {
+    let pulse : Float = sinf(scene_t * 5.4 + crate.pulse) * 0.5 + 0.5
+    let col = if crate.kind == 0 {
       @raylib.Color::new(106, 204, 252, 220)
-    } else if crates[i].kind == 1 {
+    } else if crate.kind == 1 {
       @raylib.Color::new(250, 138, 110, 220)
     } else {
       @raylib.Color::new(136, 232, 162, 220)
     }
 
     @raylib.draw_rectangle(
-      (crates[i].x - 14.0).to_int(),
-      (crates[i].y - 14.0).to_int(),
+      (crate.x - 14.0).to_int(),
+      (crate.y - 14.0).to_int(),
       28,
       28,
       col,
     )
     @raylib.draw_rectangle_lines(
-      (crates[i].x - 14.0).to_int(),
-      (crates[i].y - 14.0).to_int(),
+      (crate.x - 14.0).to_int(),
+      (crate.y - 14.0).to_int(),
       28,
       28,
       @raylib.Color::new(246, 252, 255, 224),
     )
 
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(crates[i].x, crates[i].y),
+      @raylib.Vector2::new(crate.x, crate.y),
       20.0 + pulse * 7.0,
       @raylib.Color::new(236, 248, 255, (pulse * 86.0).to_int()),
     )
 
     @raylib.draw_text(
-      "\{crates[i].amount}",
-      (crates[i].x - 6.0).to_int(),
-      (crates[i].y - 8.0).to_int(),
+      "\{crate.amount}",
+      (crate.x - 6.0).to_int(),
+      (crate.y - 8.0).to_int(),
       18,
       @raylib.Color::new(20, 24, 30, 240),
     )
@@ -949,21 +949,21 @@ fn draw_crates(crates : Array[Crate], scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    let a : Int = clampf(parts[i].life * 255.0, 0.0, 255.0).to_int()
-    let c = if parts[i].kind == 0 {
+    let a : Int = clampf(part.life * 255.0, 0.0, 255.0).to_int()
+    let c = if part.kind == 0 {
       @raylib.Color::new(164, 226, 252, a)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(252, 156, 120, a)
     } else {
       @raylib.Color::new(244, 236, 168, a)
     }
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(parts[i].x, parts[i].y),
-      parts[i].size,
+      @raylib.Vector2::new(part.x, part.y),
+      part.size,
       c,
     )
   }
@@ -1027,22 +1027,22 @@ fn draw_deliveries_panel(
   )
 
   let mut y : Int = panel_y + 430
-  for i in 0..<deliveries.length() {
-    if not(deliveries[i].active) {
+  for delivery in deliveries {
+    if not(delivery.active) {
       continue
     }
 
-    let urgency : Float = if deliveries[i].max_deadline <= 0.001 {
+    let urgency : Float = if delivery.max_deadline <= 0.001 {
       0.0
     } else {
       clampf(
-        1.0 - deliveries[i].deadline / deliveries[i].max_deadline,
+        1.0 - delivery.deadline / delivery.max_deadline,
         0.0,
         1.0,
       )
     }
 
-    let blink : Float = sinf(scene_t * 8.0 + deliveries[i].pulse) * 0.5 + 0.5
+    let blink : Float = sinf(scene_t * 8.0 + delivery.pulse) * 0.5 + 0.5
     let row_h : Int = 72
 
     @raylib.draw_rectangle(
@@ -1068,21 +1068,21 @@ fn draw_deliveries_panel(
     )
 
     @raylib.draw_text(
-      "#\{deliveries[i].id} -> Pad P\{deliveries[i].pad_id + 1}",
+      "#\{delivery.id} -> Pad P\{delivery.pad_id + 1}",
       panel_x + 24,
       y + 10,
       22,
       @raylib.Color::new(236, 246, 255, 236),
     )
     @raylib.draw_text(
-      "Reward \{deliveries[i].reward}",
+      "Reward \{delivery.reward}",
       panel_x + 24,
       y + 40,
       18,
       @raylib.Color::new(250, 226, 138, 232),
     )
 
-    let dd_txt : String = "\{deliveries[i].deadline.to_int()}s"
+    let dd_txt : String = "\{delivery.deadline.to_int()}s"
     @raylib.draw_text(
       dd_txt,
       panel_x + panel_w - 24 - @raylib.measure_text(dd_txt, 22),
@@ -1978,28 +1978,28 @@ fn main {
       glider.vy = glider.vy + input_y * accel * dt
 
       let mut wind_drain : Float = 0.0
-      for i in 0..<winds.length() {
-        if not(winds[i].active) {
+      for wind in winds {
+        if not(wind.active) {
           continue
         }
-        winds[i].pulse = winds[i].pulse + dt * 2.8
+        wind.pulse = wind.pulse + dt * 2.8
 
         if inside_rectf(
             glider.x,
             glider.y,
-            winds[i].x,
-            winds[i].y,
-            winds[i].w,
-            winds[i].h,
+            wind.x,
+            wind.y,
+            wind.w,
+            wind.h,
           ) {
           let wave_mul : Float = 0.72 +
-            (sinf(winds[i].pulse) * 0.5 + 0.5) * 0.62
-          glider.vx = glider.vx + winds[i].vx * dt * wave_mul
-          glider.vy = glider.vy + winds[i].vy * dt * wave_mul
-          wind_drain = wind_drain + winds[i].turbulence * (0.7 + wave_mul * 0.5)
+            (sinf(wind.pulse) * 0.5 + 0.5) * 0.62
+          glider.vx = glider.vx + wind.vx * dt * wave_mul
+          glider.vy = glider.vy + wind.vy * dt * wave_mul
+          wind_drain = wind_drain + wind.turbulence * (0.7 + wave_mul * 0.5)
 
-          if winds[i].turbulence > 0.42 {
-            glider.hull = glider.hull - dt * (winds[i].turbulence - 0.36) * 1.3
+          if wind.turbulence > 0.42 {
+            glider.hull = glider.hull - dt * (wind.turbulence - 0.36) * 1.3
           }
         }
       }
@@ -2097,17 +2097,17 @@ fn main {
           active_delivery_count(deliveries),
         ) *
         0.01
-      for i in 0..<deliveries.length() {
-        if not(deliveries[i].active) {
+      for delivery in deliveries {
+        if not(delivery.active) {
           continue
         }
 
-        deliveries[i].pulse = deliveries[i].pulse + dt * 3.6
-        deliveries[i].deadline = deliveries[i].deadline -
+        delivery.pulse = delivery.pulse + dt * 3.6
+        delivery.deadline = delivery.deadline -
           dt * (1.0 + queue_pressure)
 
-        if deliveries[i].deadline <= 0.0 {
-          deliveries[i].active = false
+        if delivery.deadline <= 0.0 {
+          delivery.active = false
           failed = failed + 1
           combo = 0
           rep = rep - 7.6
@@ -2118,47 +2118,47 @@ fn main {
       }
 
       // Birds update and collision
-      for i in 0..<birds.length() {
-        if not(birds[i].active) {
+      for bird in birds {
+        if not(bird.active) {
           continue
         }
 
-        birds[i].life = birds[i].life - dt
-        birds[i].wing_t = birds[i].wing_t + dt * 6.8
+        bird.life = bird.life - dt
+        bird.wing_t = bird.wing_t + dt * 6.8
 
         if glider.flare_t > 0.0 {
-          let d2v : Float = dist2(glider.x, glider.y, birds[i].x, birds[i].y)
+          let d2v : Float = dist2(glider.x, glider.y, bird.x, bird.y)
           if d2v <= 220.0 * 220.0 {
             let d : Float = maxf(d2v.sqrt(), 0.001)
-            let nx : Float = (birds[i].x - glider.x) / d
-            let ny : Float = (birds[i].y - glider.y) / d
-            birds[i].vx = birds[i].vx + nx * dt * 220.0
-            birds[i].vy = birds[i].vy + ny * dt * 220.0
+            let nx : Float = (bird.x - glider.x) / d
+            let ny : Float = (bird.y - glider.y) / d
+            bird.vx = bird.vx + nx * dt * 220.0
+            bird.vy = bird.vy + ny * dt * 220.0
           }
         }
 
-        birds[i].x = birds[i].x + birds[i].vx * dt
-        birds[i].y = birds[i].y + birds[i].vy * dt
+        bird.x = bird.x + bird.vx * dt
+        bird.y = bird.y + bird.vy * dt
 
-        if birds[i].life <= 0.0 ||
-          birds[i].x < world_l - 120.0 ||
-          birds[i].x > world_r + 120.0 ||
-          birds[i].y < world_t - 120.0 ||
-          birds[i].y > world_b + 120.0 {
-          birds[i].active = false
+        if bird.life <= 0.0 ||
+          bird.x < world_l - 120.0 ||
+          bird.x > world_r + 120.0 ||
+          bird.y < world_t - 120.0 ||
+          bird.y > world_b + 120.0 {
+          bird.active = false
           continue
         }
 
-        let rr : Float = birds[i].size + 12.0
-        if dist2(glider.x, glider.y, birds[i].x, birds[i].y) <= rr * rr {
-          let dmg : Float = 4.0 + birds[i].danger * 5.0
+        let rr : Float = bird.size + 12.0
+        if dist2(glider.x, glider.y, bird.x, bird.y) <= rr * rr {
+          let dmg : Float = 4.0 + bird.danger * 5.0
           glider.hull = glider.hull - dmg
-          glider.vx = glider.vx - birds[i].vx * 0.18
-          glider.vy = glider.vy - birds[i].vy * 0.18
+          glider.vx = glider.vx - bird.vx * 0.18
+          glider.vy = glider.vy - bird.vy * 0.18
           if glider.bags > 0 {
             glider.bags = glider.bags - 1
           }
-          birds[i].active = false
+          bird.active = false
           combo = 0
           rep = rep - 1.6
           msg = "Bird strike! Hull damage and cargo loss."
@@ -2168,40 +2168,40 @@ fn main {
       }
 
       // Crate update and pickup
-      for i in 0..<crates.length() {
-        if not(crates[i].active) {
+      for crate in crates {
+        if not(crate.active) {
           continue
         }
 
-        crates[i].life = crates[i].life - dt
-        crates[i].pulse = crates[i].pulse + dt * 5.2
-        crates[i].x = crates[i].x + crates[i].vx * dt
-        crates[i].y = crates[i].y + crates[i].vy * dt
+        crate.life = crate.life - dt
+        crate.pulse = crate.pulse + dt * 5.2
+        crate.x = crate.x + crate.vx * dt
+        crate.y = crate.y + crate.vy * dt
 
-        if crates[i].life <= 0.0 {
-          crates[i].active = false
+        if crate.life <= 0.0 {
+          crate.active = false
           continue
         }
 
-        if dist2(glider.x, glider.y, crates[i].x, crates[i].y) <= 30.0 * 30.0 {
-          if crates[i].kind == 0 {
+        if dist2(glider.x, glider.y, crate.x, crate.y) <= 30.0 * 30.0 {
+          if crate.kind == 0 {
             glider.fuel = minf(
               glider.fuel_max,
-              glider.fuel + Float::from_int(crates[i].amount),
+              glider.fuel + Float::from_int(crate.amount),
             )
-            msg = "Collected fuel +\{crates[i].amount}"
-          } else if crates[i].kind == 1 {
+            msg = "Collected fuel +\{crate.amount}"
+          } else if crate.kind == 1 {
             glider.hull = minf(
               glider.hull_max,
-              glider.hull + Float::from_int(crates[i].amount),
+              glider.hull + Float::from_int(crate.amount),
             )
-            msg = "Collected repair pack +\{crates[i].amount}"
+            msg = "Collected repair pack +\{crate.amount}"
           } else {
-            glider.bags = mini(glider.bag_cap, glider.bags + crates[i].amount)
-            msg = "Collected extra bags +\{crates[i].amount}"
+            glider.bags = mini(glider.bag_cap, glider.bags + crate.amount)
+            msg = "Collected extra bags +\{crate.amount}"
           }
           msg_t = 1.2
-          crates[i].active = false
+          crate.active = false
           burst_particles(parts, glider.x, glider.y, 10, 0)
         }
       }
@@ -2239,16 +2239,16 @@ fn main {
           if pad_id >= 0 {
             if glider.bags > 0 {
               let mut delivered : Bool = false
-              for i in 0..<deliveries.length() {
-                if deliveries[i].active && deliveries[i].pad_id == pad_id {
-                  let bonus : Int = (deliveries[i].deadline * 2.2).to_int()
-                  let gain : Int = deliveries[i].reward + combo * 10 + bonus
+              for delivery in deliveries {
+                if delivery.active && delivery.pad_id == pad_id {
+                  let bonus : Int = (delivery.deadline * 2.2).to_int()
+                  let gain : Int = delivery.reward + combo * 10 + bonus
                   score = score + gain
                   completed = completed + 1
                   combo = mini(30, combo + 1)
                   rep = minf(100.0, rep + 2.2 + Float::from_int(combo) * 0.06)
                   glider.bags = glider.bags - 1
-                  deliveries[i].active = false
+                  delivery.active = false
                   delivered = true
                   did = true
                   msg = "Delivered to pad P\{pad_id + 1} +\{gain}"

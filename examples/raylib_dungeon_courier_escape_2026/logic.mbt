@@ -6,59 +6,59 @@ fn set_hint(game : Game, text : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_smokes(game : Game) -> Unit {
-  for i in 0..<game.smokes.length() {
-    game.smokes[i].active = false
-    game.smokes[i].x = 0.0
-    game.smokes[i].y = 0.0
-    game.smokes[i].radius = smoke_radius_base
-    game.smokes[i].life = 0.0
+  for smoke in game.smokes {
+    smoke.active = false
+    smoke.x = 0.0
+    smoke.y = 0.0
+    smoke.radius = smoke_radius_base
+    smoke.life = 0.0
   }
 }
 
 ///|
 fn clear_guards(game : Game) -> Unit {
-  for i in 0..<game.guards.length() {
-    game.guards[i].active = false
-    game.guards[i].x = 0.0
-    game.guards[i].y = 0.0
-    game.guards[i].vx = 0.0
-    game.guards[i].vy = 0.0
-    game.guards[i].dir_deg = 0.0
-    game.guards[i].patrol_a_x = 0.0
-    game.guards[i].patrol_a_y = 0.0
-    game.guards[i].patrol_b_x = 0.0
-    game.guards[i].patrol_b_y = 0.0
-    game.guards[i].to_b = true
-    game.guards[i].speed = guard_speed_base
-    game.guards[i].cone_range = guard_cone_range_base
-    game.guards[i].cone_half_angle = guard_cone_half_angle_base
-    game.guards[i].alert_t = 0.0
-    game.guards[i].investigate_t = 0.0
-    game.guards[i].target_x = 0.0
-    game.guards[i].target_y = 0.0
+  for guard_val in game.guards {
+    guard_val.active = false
+    guard_val.x = 0.0
+    guard_val.y = 0.0
+    guard_val.vx = 0.0
+    guard_val.vy = 0.0
+    guard_val.dir_deg = 0.0
+    guard_val.patrol_a_x = 0.0
+    guard_val.patrol_a_y = 0.0
+    guard_val.patrol_b_x = 0.0
+    guard_val.patrol_b_y = 0.0
+    guard_val.to_b = true
+    guard_val.speed = guard_speed_base
+    guard_val.cone_range = guard_cone_range_base
+    guard_val.cone_half_angle = guard_cone_half_angle_base
+    guard_val.alert_t = 0.0
+    guard_val.investigate_t = 0.0
+    guard_val.target_x = 0.0
+    guard_val.target_y = 0.0
   }
 }
 
 ///|
 fn clear_traps(game : Game) -> Unit {
-  for i in 0..<game.traps.length() {
-    game.traps[i].active = false
-    game.traps[i].x = 0.0
-    game.traps[i].y = 0.0
-    game.traps[i].radius = 0.0
-    game.traps[i].blink_t = 0.0
-    game.traps[i].cooldown = 0.0
+  for trap in game.traps {
+    trap.active = false
+    trap.x = 0.0
+    trap.y = 0.0
+    trap.radius = 0.0
+    trap.blink_t = 0.0
+    trap.cooldown = 0.0
   }
 }
 
 ///|
 fn clear_parcels(game : Game) -> Unit {
-  for i in 0..<game.parcels.length() {
-    game.parcels[i].active = false
-    game.parcels[i].delivered = false
-    game.parcels[i].x = 0.0
-    game.parcels[i].y = 0.0
-    game.parcels[i].pulse = 0.0
+  for parcel in game.parcels {
+    parcel.active = false
+    parcel.delivered = false
+    parcel.x = 0.0
+    parcel.y = 0.0
+    parcel.pulse = 0.0
   }
 }
 
@@ -73,11 +73,11 @@ fn random_world_point(margin : Float) -> (Float, Float) {
 ///|
 fn far_from_exits(game : Game, x : Float, y : Float, min_dist : Float) -> Bool {
   let min_d2 = min_dist * min_dist
-  for i in 0..<game.exits.length() {
-    if not(game.exits[i].active) {
+  for exit in game.exits {
+    if not(exit.active) {
       continue
     }
-    if dist2(x, y, game.exits[i].x, game.exits[i].y) < min_d2 {
+    if dist2(x, y, exit.x, exit.y) < min_d2 {
       return false
     }
   }
@@ -546,15 +546,15 @@ fn update_player_motion(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_smokes(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    game.smokes[i].life = game.smokes[i].life - dt
-    if game.smokes[i].life <= 0.0 {
-      game.smokes[i].active = false
-      game.smokes[i].life = 0.0
+    smoke.life = smoke.life - dt
+    if smoke.life <= 0.0 {
+      smoke.active = false
+      smoke.life = 0.0
     }
   }
 }
@@ -563,13 +563,13 @@ fn update_smokes(game : Game, dt : Float) -> Unit {
 fn player_smoke_cover(game : Game) -> Float {
   let mut factor : Float = 1.0
 
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    if dist2(game.player.x, game.player.y, game.smokes[i].x, game.smokes[i].y) <=
-      game.smokes[i].radius * game.smokes[i].radius {
+    if dist2(game.player.x, game.player.y, smoke.x, smoke.y) <=
+      smoke.radius * smoke.radius {
       factor = minf(factor, smoke_cover_factor)
     }
   }
@@ -588,16 +588,16 @@ fn nearest_smoke_target(
   let mut best_y : Float = 0.0
   let mut best_d2 : Float = 0.0
 
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    let d2 = dist2(x, y, game.smokes[i].x, game.smokes[i].y)
+    let d2 = dist2(x, y, smoke.x, smoke.y)
     if not(found) || d2 < best_d2 {
       found = true
-      best_x = game.smokes[i].x
-      best_y = game.smokes[i].y
+      best_x = smoke.x
+      best_y = smoke.y
       best_d2 = d2
     }
   }
@@ -607,11 +607,11 @@ fn nearest_smoke_target(
 
 ///|
 fn alert_all_guards(game : Game, alert_time : Float) -> Unit {
-  for i in 0..<game.guards.length() {
-    if game.guards[i].active {
-      game.guards[i].alert_t = maxf(game.guards[i].alert_t, alert_time)
-      game.guards[i].target_x = game.player.x
-      game.guards[i].target_y = game.player.y
+  for guard_val in game.guards {
+    if guard_val.active {
+      guard_val.alert_t = maxf(guard_val.alert_t, alert_time)
+      guard_val.target_x = game.player.x
+      guard_val.target_y = game.player.y
     }
   }
 }
@@ -622,115 +622,115 @@ fn update_guards(game : Game, dt : Float) -> Float {
   let wave_scale : Float = (1.0 : Float) +
     Float::from_int(game.wave - 1) * (0.08 : Float)
 
-  for i in 0..<game.guards.length() {
-    if not(game.guards[i].active) {
+  for guard_val in game.guards {
+    if not(guard_val.active) {
       continue
     }
 
-    game.guards[i].alert_t = maxf(0.0, game.guards[i].alert_t - dt)
-    game.guards[i].investigate_t = maxf(0.0, game.guards[i].investigate_t - dt)
+    guard_val.alert_t = maxf(0.0, guard_val.alert_t - dt)
+    guard_val.investigate_t = maxf(0.0, guard_val.investigate_t - dt)
 
-    let smoke = nearest_smoke_target(game, game.guards[i].x, game.guards[i].y)
+    let smoke = nearest_smoke_target(game, guard_val.x, guard_val.y)
 
-    let mut tx = if game.guards[i].to_b {
-      game.guards[i].patrol_b_x
+    let mut tx = if guard_val.to_b {
+      guard_val.patrol_b_x
     } else {
-      game.guards[i].patrol_a_x
+      guard_val.patrol_a_x
     }
-    let mut ty = if game.guards[i].to_b {
-      game.guards[i].patrol_b_y
+    let mut ty = if guard_val.to_b {
+      guard_val.patrol_b_y
     } else {
-      game.guards[i].patrol_a_y
+      guard_val.patrol_a_y
     }
-    let mut move_speed = game.guards[i].speed
+    let mut move_speed = guard_val.speed
 
     if smoke.0 && smoke.3 <= guard_smoke_lure_range * guard_smoke_lure_range {
       tx = smoke.1
       ty = smoke.2
-      move_speed = game.guards[i].speed * 1.2
-      game.guards[i].investigate_t = guard_investigate_hold
-      game.guards[i].target_x = smoke.1
-      game.guards[i].target_y = smoke.2
-    } else if game.guards[i].alert_t > 0.0 {
+      move_speed = guard_val.speed * 1.2
+      guard_val.investigate_t = guard_investigate_hold
+      guard_val.target_x = smoke.1
+      guard_val.target_y = smoke.2
+    } else if guard_val.alert_t > 0.0 {
       tx = game.player.x
       ty = game.player.y
-      move_speed = game.guards[i].speed * guard_alert_speed_mult
-      game.guards[i].target_x = game.player.x
-      game.guards[i].target_y = game.player.y
-    } else if game.guards[i].investigate_t > 0.0 {
-      tx = game.guards[i].target_x
-      ty = game.guards[i].target_y
-      move_speed = game.guards[i].speed * 1.12
-    } else if dist2(game.guards[i].x, game.guards[i].y, tx, ty) <= 18.0 * 18.0 {
-      game.guards[i].to_b = not(game.guards[i].to_b)
-      tx = if game.guards[i].to_b {
-        game.guards[i].patrol_b_x
+      move_speed = guard_val.speed * guard_alert_speed_mult
+      guard_val.target_x = game.player.x
+      guard_val.target_y = game.player.y
+    } else if guard_val.investigate_t > 0.0 {
+      tx = guard_val.target_x
+      ty = guard_val.target_y
+      move_speed = guard_val.speed * 1.12
+    } else if dist2(guard_val.x, guard_val.y, tx, ty) <= 18.0 * 18.0 {
+      guard_val.to_b = not(guard_val.to_b)
+      tx = if guard_val.to_b {
+        guard_val.patrol_b_x
       } else {
-        game.guards[i].patrol_a_x
+        guard_val.patrol_a_x
       }
-      ty = if game.guards[i].to_b {
-        game.guards[i].patrol_b_y
+      ty = if guard_val.to_b {
+        guard_val.patrol_b_y
       } else {
-        game.guards[i].patrol_a_y
+        guard_val.patrol_a_y
       }
     }
 
-    let dx = tx - game.guards[i].x
-    let dy = ty - game.guards[i].y
+    let dx = tx - guard_val.x
+    let dy = ty - guard_val.y
     let len2 = dx * dx + dy * dy
 
     if len2 > 1.0 {
       let inv : Float = (1.0 : Float) / sqrtf(len2)
-      game.guards[i].vx = dx * inv * move_speed
-      game.guards[i].vy = dy * inv * move_speed
+      guard_val.vx = dx * inv * move_speed
+      guard_val.vy = dy * inv * move_speed
     } else {
-      game.guards[i].vx = 0.0
-      game.guards[i].vy = 0.0
+      guard_val.vx = 0.0
+      guard_val.vy = 0.0
     }
 
-    game.guards[i].x = game.guards[i].x + game.guards[i].vx * dt
-    game.guards[i].y = game.guards[i].y + game.guards[i].vy * dt
+    guard_val.x = guard_val.x + guard_val.vx * dt
+    guard_val.y = guard_val.y + guard_val.vy * dt
 
-    game.guards[i].x = clampf(
-      game.guards[i].x,
+    guard_val.x = clampf(
+      guard_val.x,
       world_left + guard_spawn_margin * 0.4,
       world_right - guard_spawn_margin * 0.4,
     )
-    game.guards[i].y = clampf(
-      game.guards[i].y,
+    guard_val.y = clampf(
+      guard_val.y,
       world_top + guard_spawn_margin * 0.4,
       world_bottom - guard_spawn_margin * 0.4,
     )
 
-    if absf(game.guards[i].vx) + absf(game.guards[i].vy) > 0.1 {
-      game.guards[i].dir_deg = heading_deg(game.guards[i].vx, game.guards[i].vy)
+    if absf(guard_val.vx) + absf(guard_val.vy) > 0.1 {
+      guard_val.dir_deg = heading_deg(guard_val.vx, guard_val.vy)
     }
 
-    let pdx = game.player.x - game.guards[i].x
-    let pdy = game.player.y - game.guards[i].y
+    let pdx = game.player.x - guard_val.x
+    let pdy = game.player.y - guard_val.y
     let p_d2 = pdx * pdx + pdy * pdy
 
-    if p_d2 <= game.guards[i].cone_range * game.guards[i].cone_range {
+    if p_d2 <= guard_val.cone_range * guard_val.cone_range {
       let p_dist = sqrtf(maxf(p_d2, 0.0001))
       let ang_to_player = heading_deg(pdx, pdy)
-      let delta = angle_delta_deg(ang_to_player, game.guards[i].dir_deg)
+      let delta = angle_delta_deg(ang_to_player, guard_val.dir_deg)
 
-      if delta <= game.guards[i].cone_half_angle {
+      if delta <= guard_val.cone_half_angle {
         let dist_factor : Float = (1.0 : Float) -
-          p_dist / game.guards[i].cone_range
+          p_dist / guard_val.cone_range
         let ang_factor : Float = (1.0 : Float) -
-          delta / game.guards[i].cone_half_angle
+          delta / guard_val.cone_half_angle
         let intensity = clampf(dist_factor * ang_factor, 0.0, 1.0)
 
         pressure = pressure +
           (guard_detection_base + guard_detection_peak * intensity) * wave_scale
 
-        game.guards[i].alert_t = maxf(
-          game.guards[i].alert_t,
+        guard_val.alert_t = maxf(
+          guard_val.alert_t,
           guard_alert_hold + intensity * 0.6,
         )
-        game.guards[i].target_x = game.player.x
-        game.guards[i].target_y = game.player.y
+        guard_val.target_x = game.player.x
+        guard_val.target_y = game.player.y
       }
     }
   }
@@ -742,22 +742,22 @@ fn update_guards(game : Game, dt : Float) -> Float {
 fn update_traps(game : Game, dt : Float) -> Float {
   let mut pressure : Float = 0.0
 
-  for i in 0..<game.traps.length() {
-    if not(game.traps[i].active) {
+  for trap in game.traps {
+    if not(trap.active) {
       continue
     }
 
-    game.traps[i].blink_t = game.traps[i].blink_t +
+    trap.blink_t = trap.blink_t +
       dt * (2.0 + Float::from_int(game.wave) * 0.18)
-    game.traps[i].cooldown = maxf(0.0, game.traps[i].cooldown - dt)
+    trap.cooldown = maxf(0.0, trap.cooldown - dt)
 
-    let rr = game.traps[i].radius + player_radius
-    if dist2(game.player.x, game.player.y, game.traps[i].x, game.traps[i].y) <=
+    let rr = trap.radius + player_radius
+    if dist2(game.player.x, game.player.y, trap.x, trap.y) <=
       rr * rr {
       pressure = pressure + trap_pressure
 
-      if game.traps[i].cooldown <= 0.0 {
-        game.traps[i].cooldown = trap_trigger_cooldown
+      if trap.cooldown <= 0.0 {
+        trap.cooldown = trap_trigger_cooldown
 
         let damage = trap_damage_base +
           Float::from_int(game.wave - 1) * trap_damage_wave_gain
@@ -776,11 +776,11 @@ fn update_traps(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_parcel_pulses(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.parcels.length() {
-    if not(game.parcels[i].active) {
+  for parcel in game.parcels {
+    if not(parcel.active) {
       continue
     }
-    game.parcels[i].pulse = game.parcels[i].pulse + dt * 3.2
+    parcel.pulse = parcel.pulse + dt * 3.2
   }
 }
 

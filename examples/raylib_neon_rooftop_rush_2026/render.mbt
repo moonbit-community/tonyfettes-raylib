@@ -108,21 +108,21 @@ fn segment_color_glow(seg : Segment) -> @raylib.Color {
 
 ///|
 fn draw_segments(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.segments.length() {
-    if not(game.segments[i].active) {
+  for segment in game.segments {
+    if not(segment.active) {
       continue
     }
 
-    let sx = game.segments[i].x + cam_x
-    let sy = game.segments[i].y + cam_y
-    let sw = game.segments[i].w
-    let sh = game.segments[i].h
+    let sx = segment.x + cam_x
+    let sy = segment.y + cam_y
+    let sw = segment.w
+    let sh = segment.h
 
     if sx > Float::from_int(screen_w) + 50.0 || sx + sw < -50.0 {
       continue
     }
 
-    let base_col = segment_color_base(game.segments[i])
+    let base_col = segment_color_base(segment)
     @raylib.draw_rectangle(
       sx.to_int(),
       sy.to_int(),
@@ -131,7 +131,7 @@ fn draw_segments(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       base_col,
     )
 
-    let glow = segment_color_glow(game.segments[i])
+    let glow = segment_color_glow(segment)
     @raylib.draw_rectangle(
       sx.to_int(),
       (sy - 6.0).to_int(),
@@ -140,7 +140,7 @@ fn draw_segments(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(glow.r.to_int(), glow.g.to_int(), glow.b.to_int(), 170),
     )
 
-    let seed = game.segments[i].window_seed
+    let seed = segment.window_seed
     let mut wy = sy.to_int() + 14
     while wy < sy.to_int() + sh.to_int() - 10 {
       let mut wx = sx.to_int() + 10
@@ -328,18 +328,18 @@ fn draw_obstacle(ob : Obstacle, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_chips(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.chips.length() {
-    if not(game.chips[i].active) {
+  for chip in game.chips {
+    if not(chip.active) {
       continue
     }
 
-    let x = game.chips[i].x + cam_x
-    let y = game.chips[i].y + sinf(game.chips[i].bob_t) * 9.0 + cam_y
+    let x = chip.x + cam_x
+    let y = chip.y + sinf(chip.bob_t) * 9.0 + cam_y
     if x < -40.0 || x > Float::from_int(screen_w) + 40.0 {
       continue
     }
 
-    let spin : Float = 0.5 + 0.5 * sinf(game.chips[i].spin_t)
+    let spin : Float = 0.5 + 0.5 * sinf(chip.spin_t)
     let glow = color_mix(neon_lime(), neon_blue(), spin)
 
     @raylib.draw_circle(
@@ -361,12 +361,11 @@ fn draw_chips(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
 
-    let p = game.particles[i]
     let alpha = clampi((p.life * 255.0).to_int(), 0, 255)
     let col = if p.kind == 0 {
       @raylib.Color::new(130, 250, 216, alpha)
@@ -384,12 +383,11 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i in 0..<game.ghosts.length() {
-    if not(game.ghosts[i].active) {
+  for g in game.ghosts {
+    if not(g.active) {
       continue
     }
 
-    let g = game.ghosts[i]
     let a = clampi((g.life * 160.0).to_int(), 0, 160)
     let tint = if g.hue < 0.5 {
       @raylib.Color::new(96, 178, 255, a)
@@ -908,14 +906,14 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 fn draw_game_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_skyline(game, cam_x, cam_y)
 
-  for i in 0..<game.anchors.length() {
-    draw_anchor(game.anchors[i], cam_x, cam_y)
+  for anchor in game.anchors {
+    draw_anchor(anchor, cam_x, cam_y)
   }
 
   draw_segments(game, cam_x, cam_y)
 
-  for i in 0..<game.obstacles.length() {
-    draw_obstacle(game.obstacles[i], cam_x, cam_y)
+  for obstacle in game.obstacles {
+    draw_obstacle(obstacle, cam_x, cam_y)
   }
 
   draw_chips(game, cam_x, cam_y)

@@ -126,51 +126,51 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
-    game.enemies[i].x = 0.0
-    game.enemies[i].y = 0.0
-    game.enemies[i].vx = 0.0
-    game.enemies[i].vy = 0.0
-    game.enemies[i].r = 0.0
-    game.enemies[i].hp = 0.0
-    game.enemies[i].kind = enemy_wolf
-    game.enemies[i].phase = 0.0
+  for enemy in game.enemies {
+    enemy.active = false
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.r = 0.0
+    enemy.hp = 0.0
+    enemy.kind = enemy_wolf
+    enemy.phase = 0.0
   }
 
-  for i in 0..<game.pickups.length() {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].vx = 0.0
-    game.pickups[i].vy = 0.0
-    game.pickups[i].kind = pickup_fuel
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vx = 0.0
+    pickup.vy = 0.0
+    pickup.kind = pickup_fuel
+    pickup.phase = 0.0
   }
 
-  for i in 0..<game.bullets.length() {
-    game.bullets[i].active = false
-    game.bullets[i].x = 0.0
-    game.bullets[i].y = 0.0
-    game.bullets[i].vx = 0.0
-    game.bullets[i].vy = 0.0
-    game.bullets[i].life = 0.0
-    game.bullets[i].power = 0.0
-    game.bullets[i].kind = bullet_normal
+  for bullet in game.bullets {
+    bullet.active = false
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.life = 0.0
+    bullet.power = 0.0
+    bullet.kind = bullet_normal
   }
 }
 
@@ -185,19 +185,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -220,24 +220,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let damp : Float = if game.particles[i].kind == 2 { 2.7 } else { 1.9 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * damp)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * (damp - 0.4)) +
-      dt * (if game.particles[i].kind == 1 { 180.0 } else { 120.0 })
+    let damp : Float = if particle.kind == 2 { 2.7 } else { 1.9 }
+    particle.vx = particle.vx * (1.0 - dt * damp)
+    particle.vy = particle.vy * (1.0 - dt * (damp - 0.4)) +
+      dt * (if particle.kind == 1 { 180.0 } else { 120.0 })
   }
 }
 
@@ -323,8 +323,8 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_enemy(game : Game) -> Bool {
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       continue
     }
 
@@ -339,36 +339,36 @@ fn spawn_enemy(game : Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      game.enemies[i].x = randf(world_left() + 20.0, world_right() - 20.0)
-      game.enemies[i].y = world_top() - 40.0
+      enemy.x = randf(world_left() + 20.0, world_right() - 20.0)
+      enemy.y = world_top() - 40.0
     } else if side == 1 {
-      game.enemies[i].x = randf(world_left() + 20.0, world_right() - 20.0)
-      game.enemies[i].y = world_bottom() + 40.0
+      enemy.x = randf(world_left() + 20.0, world_right() - 20.0)
+      enemy.y = world_bottom() + 40.0
     } else if side == 2 {
-      game.enemies[i].x = world_left() - 40.0
-      game.enemies[i].y = randf(world_top() + 20.0, world_bottom() - 20.0)
+      enemy.x = world_left() - 40.0
+      enemy.y = randf(world_top() + 20.0, world_bottom() - 20.0)
     } else {
-      game.enemies[i].x = world_right() + 40.0
-      game.enemies[i].y = randf(world_top() + 20.0, world_bottom() - 20.0)
+      enemy.x = world_right() + 40.0
+      enemy.y = randf(world_top() + 20.0, world_bottom() - 20.0)
     }
 
-    game.enemies[i].active = true
-    game.enemies[i].kind = kind
+    enemy.active = true
+    enemy.kind = kind
 
     if kind == enemy_wolf {
-      game.enemies[i].r = randf(17.0, 22.0)
-      game.enemies[i].hp = randf(24.0, 36.0) + Float::from_int(game.wave) * 2.4
+      enemy.r = randf(17.0, 22.0)
+      enemy.hp = randf(24.0, 36.0) + Float::from_int(game.wave) * 2.4
     } else if kind == enemy_brute {
-      game.enemies[i].r = randf(26.0, 34.0)
-      game.enemies[i].hp = randf(60.0, 82.0) + Float::from_int(game.wave) * 4.0
+      enemy.r = randf(26.0, 34.0)
+      enemy.hp = randf(60.0, 82.0) + Float::from_int(game.wave) * 4.0
     } else {
-      game.enemies[i].r = randf(13.0, 18.0)
-      game.enemies[i].hp = randf(16.0, 24.0) + Float::from_int(game.wave) * 1.8
+      enemy.r = randf(13.0, 18.0)
+      enemy.hp = randf(16.0, 24.0) + Float::from_int(game.wave) * 1.8
     }
 
-    game.enemies[i].vx = 0.0
-    game.enemies[i].vy = 0.0
-    game.enemies[i].phase = randf(0.0, 6.28)
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -378,20 +378,20 @@ fn spawn_enemy(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i in 0..<game.pickups.length() {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = randf(world_left() + 26.0, world_right() - 26.0)
-    game.pickups[i].y = world_top() - randf(60.0, 260.0)
-    game.pickups[i].vx = randf(-36.0, 36.0)
-    game.pickups[i].vy = randf(112.0, 170.0)
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.active = true
+    pickup.x = randf(world_left() + 26.0, world_right() - 26.0)
+    pickup.y = world_top() - randf(60.0, 260.0)
+    pickup.vx = randf(-36.0, 36.0)
+    pickup.vy = randf(112.0, 170.0)
+    pickup.phase = randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 38 {
+    pickup.kind = if roll < 38 {
       pickup_fuel
     } else if roll < 62 {
       pickup_medkit
@@ -417,22 +417,22 @@ fn spawn_bullet(
   power : Float,
   kind : Int,
 ) -> Bool {
-  for i in 0..<game.bullets.length() {
-    if game.bullets[i].active {
+  for bullet in game.bullets {
+    if bullet.active {
       continue
     }
 
     let dir = normalize(tx - x, ty - y)
     let speed : Float = if kind == bullet_pierce { 920.0 } else { 760.0 }
 
-    game.bullets[i].active = true
-    game.bullets[i].x = x
-    game.bullets[i].y = y
-    game.bullets[i].vx = dir.0 * speed
-    game.bullets[i].vy = dir.1 * speed
-    game.bullets[i].life = if kind == bullet_pierce { 1.8 } else { 1.4 }
-    game.bullets[i].power = power
-    game.bullets[i].kind = kind
+    bullet.active = true
+    bullet.x = x
+    bullet.y = y
+    bullet.vx = dir.0 * speed
+    bullet.vy = dir.1 * speed
+    bullet.life = if kind == bullet_pierce { 1.8 } else { 1.4 }
+    bullet.power = power
+    bullet.kind = kind
 
     return true
   }
@@ -738,18 +738,18 @@ fn enemy_speed(game : Game, kind : Int) -> Float {
 
 ///|
 fn update_enemies(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
 
-    game.enemies[i].phase = game.enemies[i].phase +
-      dt * (1.2 + Float::from_int(game.enemies[i].kind))
+    enemy.phase = enemy.phase +
+      dt * (1.2 + Float::from_int(enemy.kind))
 
-    let target_x : Float = if game.enemies[i].kind == enemy_wolf {
+    let target_x : Float = if enemy.kind == enemy_wolf {
       if dist2(
-          game.enemies[i].x,
-          game.enemies[i].y,
+          enemy.x,
+          enemy.y,
           game.player_x,
           game.player_y,
         ) <
@@ -762,10 +762,10 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       core_x()
     }
 
-    let target_y : Float = if game.enemies[i].kind == enemy_wolf {
+    let target_y : Float = if enemy.kind == enemy_wolf {
       if dist2(
-          game.enemies[i].x,
-          game.enemies[i].y,
+          enemy.x,
+          enemy.y,
           game.player_x,
           game.player_y,
         ) <
@@ -779,82 +779,82 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     }
 
     let dir = normalize(
-      target_x - game.enemies[i].x,
-      target_y - game.enemies[i].y,
+      target_x - enemy.x,
+      target_y - enemy.y,
     )
-    let speed : Float = enemy_speed(game, game.enemies[i].kind)
+    let speed : Float = enemy_speed(game, enemy.kind)
 
-    let swirl_x : Float = if game.enemies[i].kind == enemy_shard {
-      sinf(game.enemies[i].phase * 5.0) * 120.0
-    } else if game.enemies[i].kind == enemy_wolf {
-      sinf(game.enemies[i].phase * 3.0) * 64.0
+    let swirl_x : Float = if enemy.kind == enemy_shard {
+      sinf(enemy.phase * 5.0) * 120.0
+    } else if enemy.kind == enemy_wolf {
+      sinf(enemy.phase * 3.0) * 64.0
     } else {
-      sinf(game.enemies[i].phase * 1.3) * 24.0
+      sinf(enemy.phase * 1.3) * 24.0
     }
 
-    let swirl_y : Float = if game.enemies[i].kind == enemy_shard {
-      cosf(game.enemies[i].phase * 4.0) * 96.0
+    let swirl_y : Float = if enemy.kind == enemy_shard {
+      cosf(enemy.phase * 4.0) * 96.0
     } else {
-      cosf(game.enemies[i].phase * 1.8) * 22.0
+      cosf(enemy.phase * 1.8) * 22.0
     }
 
-    game.enemies[i].vx = game.enemies[i].vx * (1.0 - dt * 2.2) +
+    enemy.vx = enemy.vx * (1.0 - dt * 2.2) +
       (dir.0 * speed + swirl_x) * dt * 2.2
-    game.enemies[i].vy = game.enemies[i].vy * (1.0 - dt * 2.2) +
+    enemy.vy = enemy.vy * (1.0 - dt * 2.2) +
       (dir.1 * speed + swirl_y) * dt * 2.2
 
-    game.enemies[i].x = game.enemies[i].x + game.enemies[i].vx * dt
-    game.enemies[i].y = game.enemies[i].y + game.enemies[i].vy * dt
+    enemy.x = enemy.x + enemy.vx * dt
+    enemy.y = enemy.y + enemy.vy * dt
 
-    if game.enemies[i].x < world_left() - 90.0 ||
-      game.enemies[i].x > world_right() + 90.0 ||
-      game.enemies[i].y < world_top() - 90.0 ||
-      game.enemies[i].y > world_bottom() + 90.0 {
-      game.enemies[i].active = false
+    if enemy.x < world_left() - 90.0 ||
+      enemy.x > world_right() + 90.0 ||
+      enemy.y < world_top() - 90.0 ||
+      enemy.y > world_bottom() + 90.0 {
+      enemy.active = false
       continue
     }
 
-    let player_rr : Float = game.enemies[i].r + player_r - 3.0
-    if dist2(game.enemies[i].x, game.enemies[i].y, game.player_x, game.player_y) <=
+    let player_rr : Float = enemy.r + player_r - 3.0
+    if dist2(enemy.x, enemy.y, game.player_x, game.player_y) <=
       player_rr * player_rr {
-      hurt_player(game, enemy_touch_damage(game.enemies[i].kind))
+      hurt_player(game, enemy_touch_damage(enemy.kind))
 
-      game.enemies[i].active = if game.enemies[i].kind == enemy_brute {
+      enemy.active = if enemy.kind == enemy_brute {
         true
       } else {
         false
       }
 
-      game.enemies[i].vx = -game.enemies[i].vx * 0.5
-      game.enemies[i].vy = -game.enemies[i].vy * 0.5
+      enemy.vx = -enemy.vx * 0.5
+      enemy.vy = -enemy.vy * 0.5
 
       if game.state != state_play {
         return
       }
     }
 
-    let core_rr : Float = game.enemies[i].r + core_r - 6.0
-    if dist2(game.enemies[i].x, game.enemies[i].y, core_x(), core_y()) <=
+    let core_rr : Float = enemy.r + core_r - 6.0
+    if dist2(enemy.x, enemy.y, core_x(), core_y()) <=
       core_rr * core_rr {
       game.core_heat = maxf(
         0.0,
-        game.core_heat - enemy_core_damage(game.enemies[i].kind),
+        game.core_heat - enemy_core_damage(enemy.kind),
       )
       game.shake_t = maxf(game.shake_t, 0.30)
 
       set_msg(game, "Core under attack!", 0.8)
       burst(game, core_x(), core_y(), 14, 1)
 
-      if game.enemies[i].kind == enemy_brute {
-        game.enemies[i].hp = game.enemies[i].hp - 34.0
-        game.enemies[i].vx = -game.enemies[i].vx * 0.8
-        game.enemies[i].vy = -game.enemies[i].vy * 0.8
-        if game.enemies[i].hp <= 0.0 {
-          game.enemies[i].active = false
+      if enemy.kind == enemy_brute {
+        enemy.hp = enemy.hp - 34.0
+        enemy.vx = -enemy.vx * 0.8
+        enemy.vy = -enemy.vy * 0.8
+        if enemy.hp <= 0.0 {
+          enemy.active = false
           game.score = game.score + 18
         }
       } else {
-        game.enemies[i].active = false
+        enemy.active = false
       }
     }
   }
@@ -873,38 +873,38 @@ fn pickup_radius(kind : Int) -> Float {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pickups.length() {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    game.pickups[i].phase = game.pickups[i].phase + dt * 2.2
-    game.pickups[i].x = game.pickups[i].x +
-      (game.pickups[i].vx + sinf(game.pickups[i].phase * 2.0) * 24.0) * dt
-    game.pickups[i].y = game.pickups[i].y +
-      (game.pickups[i].vy + Float::from_int(game.wave) * 3.0) * dt
+    pickup.phase = pickup.phase + dt * 2.2
+    pickup.x = pickup.x +
+      (pickup.vx + sinf(pickup.phase * 2.0) * 24.0) * dt
+    pickup.y = pickup.y +
+      (pickup.vy + Float::from_int(game.wave) * 3.0) * dt
 
-    if game.pickups[i].x < world_left() + 16.0 {
-      game.pickups[i].x = world_left() + 16.0
-      game.pickups[i].vx = absf(game.pickups[i].vx) * 0.6
+    if pickup.x < world_left() + 16.0 {
+      pickup.x = world_left() + 16.0
+      pickup.vx = absf(pickup.vx) * 0.6
     }
-    if game.pickups[i].x > world_right() - 16.0 {
-      game.pickups[i].x = world_right() - 16.0
-      game.pickups[i].vx = -absf(game.pickups[i].vx) * 0.6
+    if pickup.x > world_right() - 16.0 {
+      pickup.x = world_right() - 16.0
+      pickup.vx = -absf(pickup.vx) * 0.6
     }
 
-    if game.pickups[i].y > world_bottom() + 70.0 {
-      game.pickups[i].active = false
+    if pickup.y > world_bottom() + 70.0 {
+      pickup.active = false
       continue
     }
 
-    let rr : Float = player_r + pickup_radius(game.pickups[i].kind)
-    if dist2(game.player_x, game.player_y, game.pickups[i].x, game.pickups[i].y) <=
+    let rr : Float = player_r + pickup_radius(pickup.kind)
+    if dist2(game.player_x, game.player_y, pickup.x, pickup.y) <=
       rr * rr {
-      let kind : Int = game.pickups[i].kind
-      let px : Float = game.pickups[i].x
-      let py : Float = game.pickups[i].y
-      game.pickups[i].active = false
+      let kind : Int = pickup.kind
+      let px : Float = pickup.x
+      let py : Float = pickup.y
+      pickup.active = false
       collect_pickup(game, kind, px, py)
     }
   }
@@ -922,15 +922,15 @@ fn use_hint(game : Game) -> Bool {
 
   if game.fuel < 42.0 || game.ammo < 40 {
     let mut best_d2 : Float = 1_000_000_000.0
-    for i in 0..<game.pickups.length() {
-      if not(game.pickups[i].active) {
+    for pickup in game.pickups {
+      if not(pickup.active) {
         continue
       }
 
       let want : Bool = if game.fuel < 42.0 {
-        game.pickups[i].kind == pickup_fuel
+        pickup.kind == pickup_fuel
       } else {
-        game.pickups[i].kind == pickup_ammo
+        pickup.kind == pickup_ammo
       }
 
       if not(want) {
@@ -940,14 +940,14 @@ fn use_hint(game : Game) -> Bool {
       let d2 : Float = dist2(
         game.player_x,
         game.player_y,
-        game.pickups[i].x,
-        game.pickups[i].y,
+        pickup.x,
+        pickup.y,
       )
 
       if d2 < best_d2 {
         best_d2 = d2
-        best_x = game.pickups[i].x
-        best_y = game.pickups[i].y
+        best_x = pickup.x
+        best_y = pickup.y
         found_pickup = true
       }
     }
@@ -963,13 +963,13 @@ fn use_hint(game : Game) -> Bool {
       let ly : Float = core_y() + 180.0
 
       let mut threat : Float = 0.0
-      for i in 0..<game.enemies.length() {
-        if not(game.enemies[i].active) {
+      for enemy in game.enemies {
+        if not(enemy.active) {
           continue
         }
 
-        let d2 : Float = dist2(lx, ly, game.enemies[i].x, game.enemies[i].y)
-        let w : Float = if game.enemies[i].kind == enemy_brute {
+        let d2 : Float = dist2(lx, ly, enemy.x, enemy.y)
+        let w : Float = if enemy.kind == enemy_brute {
           1.4
         } else {
           1.0

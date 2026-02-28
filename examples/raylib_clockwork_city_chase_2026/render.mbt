@@ -463,8 +463,7 @@ fn draw_pickup(
 
 ///|
 fn draw_objs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.objs.length() {
-    let o = game.objs[i]
+  for o in game.objs {
     if not(o.active) {
       continue
     }
@@ -514,8 +513,7 @@ fn draw_objs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.shots.length() {
-    let s = game.shots[i]
+  for s in game.shots {
     if not(s.active) {
       continue
     }
@@ -553,8 +551,7 @@ fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_spark_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    let s = game.sparks[i]
+  for s in game.sparks {
     if not(s.active) {
       continue
     }
@@ -579,8 +576,7 @@ fn draw_spark_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ring_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.rings.length() {
-    let r = game.rings[i]
+  for r in game.rings {
     if not(r.active) {
       continue
     }
@@ -605,8 +601,7 @@ fn draw_ring_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ghost_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.ghosts.length() {
-    let g = game.ghosts[i]
+  for g in game.ghosts {
     if not(g.active) {
       continue
     }

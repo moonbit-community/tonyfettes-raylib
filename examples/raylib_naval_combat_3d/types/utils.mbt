@@ -996,8 +996,8 @@ pub fn resolve_boarding(
 ///|
 pub fn count_fleet_alive(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.fleet_ships.length() {
-    if game.fleet_ships[i].active {
+  for fleet_ship in game.fleet_ships {
+    if fleet_ship.active {
       count += 1
     }
   }
@@ -1009,8 +1009,8 @@ pub fn count_fleet_alive(game : Game) -> Int {
 ///|
 pub fn count_convoy_alive(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.convoy_ships.length() {
-    if game.convoy_ships[i].active {
+  for convoy_ship in game.convoy_ships {
+    if convoy_ship.active {
       count += 1
     }
   }

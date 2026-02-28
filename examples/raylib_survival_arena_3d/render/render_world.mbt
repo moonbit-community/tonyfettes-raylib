@@ -187,8 +187,7 @@ fn draw_arena_walls() -> Unit {
 
 ///|
 fn draw_pillars(game : @types.Game) -> Unit {
-  for i in 0..<game.pillars.length() {
-    let pillar = game.pillars[i]
+  for pillar in game.pillars {
     let base_color = @raylib.Color::new(100, 95, 90, 255)
     let top_color = @raylib.Color::new(120, 115, 108, 255)
     let mid_band = @raylib.Color::new(80, 80, 75, 255)
@@ -235,8 +234,7 @@ fn draw_pillars(game : @types.Game) -> Unit {
 fn draw_low_walls(game : @types.Game) -> Unit {
   let wall_color = @raylib.Color::new(85, 80, 75, 255)
   let wall_top = @raylib.Color::new(100, 95, 88, 255)
-  for i in 0..<game.low_walls.length() {
-    let w = game.low_walls[i]
+  for w in game.low_walls {
     // Main wall body
     @raylib.draw_cube(
       @raylib.Vector3::new(w.x, w.height / 2.0, w.z),
@@ -268,8 +266,7 @@ fn draw_low_walls(game : @types.Game) -> Unit {
 fn draw_ramps(game : @types.Game) -> Unit {
   let ramp_color = @raylib.Color::new(75, 80, 70, 255)
   let ramp_top = @raylib.Color::new(90, 95, 85, 255)
-  for i in 0..<game.ramps.length() {
-    let r = game.ramps[i]
+  for r in game.ramps {
     // Draw ramp as a series of steps (approximation)
     let steps = 4
     for s in 0..<steps {
@@ -351,8 +348,7 @@ fn draw_crates(game : @types.Game) -> Unit {
 
 ///|
 fn draw_barricades(game : @types.Game) -> Unit {
-  for i in 0..<game.barricades.length() {
-    let b = game.barricades[i]
+  for b in game.barricades {
     if not(b.active) {
       continue
     }
@@ -424,8 +420,7 @@ fn draw_barricades(game : @types.Game) -> Unit {
 
 ///|
 fn draw_traps(game : @types.Game) -> Unit {
-  for i in 0..<game.traps.length() {
-    let trap = game.traps[i]
+  for trap in game.traps {
     if not(trap.active) {
       continue
     }
@@ -626,8 +621,7 @@ fn draw_pickups_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
@@ -1277,8 +1271,7 @@ fn enemy_color(kind : Int, is_flashing : Bool) -> @raylib.Color {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -1383,8 +1376,7 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

@@ -6,14 +6,14 @@ fn set_message(game : Game, text : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_hazards(game : Game) -> Unit {
-  for i in 0..<game.hazards.length() {
-    game.hazards[i].active = false
-    game.hazards[i].lane = 0
-    game.hazards[i].y = 0.0
-    game.hazards[i].speed = 0.0
-    game.hazards[i].size = 0.0
-    game.hazards[i].kind = hazard_rock
-    game.hazards[i].near_miss_awarded = false
+  for hazard in game.hazards {
+    hazard.active = false
+    hazard.lane = 0
+    hazard.y = 0.0
+    hazard.speed = 0.0
+    hazard.size = 0.0
+    hazard.kind = hazard_rock
+    hazard.near_miss_awarded = false
   }
 }
 

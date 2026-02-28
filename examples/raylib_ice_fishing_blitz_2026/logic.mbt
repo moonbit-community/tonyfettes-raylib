@@ -134,53 +134,53 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i in 0..<game.fish.length() {
-    game.fish[i].active = false
-    game.fish[i].x = 0.0
-    game.fish[i].y = 0.0
-    game.fish[i].vx = 0.0
-    game.fish[i].vy = 0.0
-    game.fish[i].r = 0.0
-    game.fish[i].value = 0
-    game.fish[i].kind = fish_trout
-    game.fish[i].phase = 0.0
-    game.fish[i].hooked = false
+  for fish_elem in game.fish {
+    fish_elem.active = false
+    fish_elem.x = 0.0
+    fish_elem.y = 0.0
+    fish_elem.vx = 0.0
+    fish_elem.vy = 0.0
+    fish_elem.r = 0.0
+    fish_elem.value = 0
+    fish_elem.kind = fish_trout
+    fish_elem.phase = 0.0
+    fish_elem.hooked = false
   }
 
-  for i in 0..<game.hazards.length() {
-    game.hazards[i].active = false
-    game.hazards[i].x = 0.0
-    game.hazards[i].y = 0.0
-    game.hazards[i].vx = 0.0
-    game.hazards[i].vy = 0.0
-    game.hazards[i].r = 0.0
-    game.hazards[i].dmg = 0.0
-    game.hazards[i].kind = hazard_jelly
-    game.hazards[i].phase = 0.0
+  for hazard in game.hazards {
+    hazard.active = false
+    hazard.x = 0.0
+    hazard.y = 0.0
+    hazard.vx = 0.0
+    hazard.vy = 0.0
+    hazard.r = 0.0
+    hazard.dmg = 0.0
+    hazard.kind = hazard_jelly
+    hazard.phase = 0.0
   }
 
-  for i in 0..<game.pickups.length() {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].vx = 0.0
-    game.pickups[i].vy = 0.0
-    game.pickups[i].kind = pickup_bait
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vx = 0.0
+    pickup.vy = 0.0
+    pickup.kind = pickup_bait
+    pickup.phase = 0.0
   }
 }
 
@@ -195,19 +195,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -230,24 +230,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.6 } else { 1.9 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * drag)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * (drag - 0.4)) +
-      dt * (if game.particles[i].kind == 1 { 160.0 } else { 90.0 })
+    let drag : Float = if particle.kind == 2 { 2.6 } else { 1.9 }
+    particle.vx = particle.vx * (1.0 - dt * drag)
+    particle.vy = particle.vy * (1.0 - dt * (drag - 0.4)) +
+      dt * (if particle.kind == 1 { 160.0 } else { 90.0 })
   }
 }
 
@@ -337,8 +337,8 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_fish(game : Game) -> Bool {
-  for i in 0..<game.fish.length() {
-    if game.fish[i].active {
+  for fish_elem in game.fish {
+    if fish_elem.active {
       continue
     }
 
@@ -353,30 +353,30 @@ fn spawn_fish(game : Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 1)
     if side == 0 {
-      game.fish[i].x = world_left() + 20.0
-      game.fish[i].vx = randf(60.0, 130.0)
+      fish_elem.x = world_left() + 20.0
+      fish_elem.vx = randf(60.0, 130.0)
     } else {
-      game.fish[i].x = world_right() - 20.0
-      game.fish[i].vx = randf(-130.0, -60.0)
+      fish_elem.x = world_right() - 20.0
+      fish_elem.vx = randf(-130.0, -60.0)
     }
 
-    game.fish[i].y = randf(topf() + 90.0, bottomf() - 40.0)
-    game.fish[i].vy = randf(-36.0, 36.0)
+    fish_elem.y = randf(topf() + 90.0, bottomf() - 40.0)
+    fish_elem.vy = randf(-36.0, 36.0)
 
-    game.fish[i].active = true
-    game.fish[i].kind = kind
-    game.fish[i].hooked = false
-    game.fish[i].phase = randf(0.0, 6.28)
+    fish_elem.active = true
+    fish_elem.kind = kind
+    fish_elem.hooked = false
+    fish_elem.phase = randf(0.0, 6.28)
 
     if kind == fish_trout {
-      game.fish[i].r = randf(16.0, 22.0)
-      game.fish[i].value = @raylib.get_random_value(22, 35)
+      fish_elem.r = randf(16.0, 22.0)
+      fish_elem.value = @raylib.get_random_value(22, 35)
     } else if kind == fish_salmon {
-      game.fish[i].r = randf(22.0, 28.0)
-      game.fish[i].value = @raylib.get_random_value(38, 56)
+      fish_elem.r = randf(22.0, 28.0)
+      fish_elem.value = @raylib.get_random_value(38, 56)
     } else {
-      game.fish[i].r = randf(14.0, 20.0)
-      game.fish[i].value = @raylib.get_random_value(70, 110)
+      fish_elem.r = randf(14.0, 20.0)
+      fish_elem.value = @raylib.get_random_value(70, 110)
     }
 
     return true
@@ -387,8 +387,8 @@ fn spawn_fish(game : Game) -> Bool {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i in 0..<game.hazards.length() {
-    if game.hazards[i].active {
+  for hazard in game.hazards {
+    if hazard.active {
       continue
     }
 
@@ -401,32 +401,32 @@ fn spawn_hazard(game : Game) -> Bool {
       hazard_ice
     }
 
-    game.hazards[i].active = true
-    game.hazards[i].kind = kind
-    game.hazards[i].phase = randf(0.0, 6.28)
+    hazard.active = true
+    hazard.kind = kind
+    hazard.phase = randf(0.0, 6.28)
 
     if kind == hazard_jelly {
-      game.hazards[i].x = randf(world_left() + 24.0, world_right() - 24.0)
-      game.hazards[i].y = topf() + randf(80.0, 180.0)
-      game.hazards[i].vx = randf(-44.0, 44.0)
-      game.hazards[i].vy = randf(22.0, 80.0)
-      game.hazards[i].r = randf(26.0, 36.0)
-      game.hazards[i].dmg = randf(7.0, 12.0)
+      hazard.x = randf(world_left() + 24.0, world_right() - 24.0)
+      hazard.y = topf() + randf(80.0, 180.0)
+      hazard.vx = randf(-44.0, 44.0)
+      hazard.vy = randf(22.0, 80.0)
+      hazard.r = randf(26.0, 36.0)
+      hazard.dmg = randf(7.0, 12.0)
     } else if kind == hazard_eel {
-      game.hazards[i].x = randf(world_left() + 30.0, world_right() - 30.0)
-      game.hazards[i].y = bottomf() - randf(50.0, 180.0)
-      game.hazards[i].vx = randf(-26.0, 26.0)
-      game.hazards[i].vy = randf(-22.0, 22.0)
-      game.hazards[i].r = randf(18.0, 24.0)
-      game.hazards[i].dmg = randf(10.0, 16.0)
+      hazard.x = randf(world_left() + 30.0, world_right() - 30.0)
+      hazard.y = bottomf() - randf(50.0, 180.0)
+      hazard.vx = randf(-26.0, 26.0)
+      hazard.vy = randf(-22.0, 22.0)
+      hazard.r = randf(18.0, 24.0)
+      hazard.dmg = randf(10.0, 16.0)
     } else {
-      game.hazards[i].x = randf(world_left() + 20.0, world_right() - 20.0)
-      game.hazards[i].y = topf() + 10.0
-      game.hazards[i].vx = randf(-18.0, 18.0)
-      game.hazards[i].vy = randf(180.0, 280.0) +
+      hazard.x = randf(world_left() + 20.0, world_right() - 20.0)
+      hazard.y = topf() + 10.0
+      hazard.vx = randf(-18.0, 18.0)
+      hazard.vy = randf(180.0, 280.0) +
         Float::from_int(game.wave) * 12.0
-      game.hazards[i].r = randf(12.0, 18.0)
-      game.hazards[i].dmg = randf(14.0, 24.0)
+      hazard.r = randf(12.0, 18.0)
+      hazard.dmg = randf(14.0, 24.0)
     }
 
     return true
@@ -437,20 +437,20 @@ fn spawn_hazard(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i in 0..<game.pickups.length() {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = randf(world_left() + 24.0, world_right() - 24.0)
-    game.pickups[i].y = topf() + randf(60.0, 240.0)
-    game.pickups[i].vx = randf(-42.0, 42.0)
-    game.pickups[i].vy = randf(-16.0, 40.0)
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.active = true
+    pickup.x = randf(world_left() + 24.0, world_right() - 24.0)
+    pickup.y = topf() + randf(60.0, 240.0)
+    pickup.vx = randf(-42.0, 42.0)
+    pickup.vy = randf(-16.0, 40.0)
+    pickup.phase = randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 46 {
+    pickup.kind = if roll < 46 {
       pickup_bait
     } else if roll < 80 {
       pickup_repair
@@ -729,69 +729,69 @@ fn update_fish(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.hazards.length() {
-    if not(game.hazards[i].active) {
+  for hazard in game.hazards {
+    if not(hazard.active) {
       continue
     }
 
-    game.hazards[i].phase = game.hazards[i].phase +
-      dt * (1.1 + Float::from_int(game.hazards[i].kind) * 0.9)
+    hazard.phase = hazard.phase +
+      dt * (1.1 + Float::from_int(hazard.kind) * 0.9)
 
-    if game.hazards[i].kind == hazard_jelly {
-      game.hazards[i].vx = game.hazards[i].vx +
-        sinf(game.hazards[i].phase * 1.7) * dt * 72.0
-      game.hazards[i].vy = game.hazards[i].vy +
-        cosf(game.hazards[i].phase * 1.3) * dt * 24.0
-    } else if game.hazards[i].kind == hazard_eel {
-      let dx : Float = game.hook_x - game.hazards[i].x
-      let dy : Float = game.hook_y - game.hazards[i].y
+    if hazard.kind == hazard_jelly {
+      hazard.vx = hazard.vx +
+        sinf(hazard.phase * 1.7) * dt * 72.0
+      hazard.vy = hazard.vy +
+        cosf(hazard.phase * 1.3) * dt * 24.0
+    } else if hazard.kind == hazard_eel {
+      let dx : Float = game.hook_x - hazard.x
+      let dy : Float = game.hook_y - hazard.y
       let d : Float = absf(dx) + absf(dy)
       let nx : Float = if d <= 0.001 { 0.0 } else { dx / d }
       let ny : Float = if d <= 0.001 { 0.0 } else { dy / d }
 
-      game.hazards[i].vx = game.hazards[i].vx * (1.0 - dt * 2.2) +
+      hazard.vx = hazard.vx * (1.0 - dt * 2.2) +
         nx * dt * 300.0
-      game.hazards[i].vy = game.hazards[i].vy * (1.0 - dt * 2.2) +
+      hazard.vy = hazard.vy * (1.0 - dt * 2.2) +
         ny * dt * 300.0
     } else {
-      game.hazards[i].vx = game.hazards[i].vx +
-        sinf(game.hazards[i].phase * 2.5) * dt * 66.0
-      game.hazards[i].vy = game.hazards[i].vy + dt * 44.0
+      hazard.vx = hazard.vx +
+        sinf(hazard.phase * 2.5) * dt * 66.0
+      hazard.vy = hazard.vy + dt * 44.0
     }
 
-    game.hazards[i].vx = clampf(game.hazards[i].vx, -220.0, 220.0)
-    game.hazards[i].vy = clampf(game.hazards[i].vy, -220.0, 280.0)
+    hazard.vx = clampf(hazard.vx, -220.0, 220.0)
+    hazard.vy = clampf(hazard.vy, -220.0, 280.0)
 
-    game.hazards[i].x = game.hazards[i].x + game.hazards[i].vx * dt
-    game.hazards[i].y = game.hazards[i].y + game.hazards[i].vy * dt
+    hazard.x = hazard.x + hazard.vx * dt
+    hazard.y = hazard.y + hazard.vy * dt
 
-    if game.hazards[i].kind == hazard_ice &&
-      game.hazards[i].y > bottomf() + 30.0 {
-      game.hazards[i].active = false
+    if hazard.kind == hazard_ice &&
+      hazard.y > bottomf() + 30.0 {
+      hazard.active = false
       continue
     }
 
-    if game.hazards[i].x < world_left() - 60.0 ||
-      game.hazards[i].x > world_right() + 60.0 ||
-      game.hazards[i].y < topf() - 60.0 ||
-      game.hazards[i].y > bottomf() + 80.0 {
-      game.hazards[i].active = false
+    if hazard.x < world_left() - 60.0 ||
+      hazard.x > world_right() + 60.0 ||
+      hazard.y < topf() - 60.0 ||
+      hazard.y > bottomf() + 80.0 {
+      hazard.active = false
       continue
     }
 
-    let rr : Float = game.hazards[i].r + hook_r
-    if dist2(game.hazards[i].x, game.hazards[i].y, game.hook_x, game.hook_y) <=
+    let rr : Float = hazard.r + hook_r
+    if dist2(hazard.x, hazard.y, game.hook_x, game.hook_y) <=
       rr * rr {
-      game.line_hp = maxf(0.0, game.line_hp - game.hazards[i].dmg)
+      game.line_hp = maxf(0.0, game.line_hp - hazard.dmg)
       game.shake_t = maxf(game.shake_t, 0.22)
 
       burst(game, game.hook_x, game.hook_y, 12, 1)
 
-      if game.hazards[i].kind == hazard_ice {
-        game.hazards[i].active = false
+      if hazard.kind == hazard_ice {
+        hazard.active = false
       } else {
-        game.hazards[i].vx = -game.hazards[i].vx * 0.6
-        game.hazards[i].vy = -game.hazards[i].vy * 0.6
+        hazard.vx = -hazard.vx * 0.6
+        hazard.vy = -hazard.vy * 0.6
       }
 
       if game.carrying_idx >= 0 && @raylib.get_random_value(0, 99) < 34 {
@@ -803,20 +803,20 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
       }
     }
 
-    if game.hazards[i].kind == hazard_eel &&
+    if hazard.kind == hazard_eel &&
       game.carrying_idx >= 0 &&
       game.carrying_idx < game.fish.length() {
       let idx : Int = game.carrying_idx
       if game.fish[idx].active {
-        let r2 : Float = game.hazards[i].r + game.fish[idx].r
+        let r2 : Float = hazard.r + game.fish[idx].r
         if dist2(
-            game.hazards[i].x,
-            game.hazards[i].y,
+            hazard.x,
+            hazard.y,
             game.fish[idx].x,
             game.fish[idx].y,
           ) <=
           r2 * r2 {
-          game.hazards[i].active = false
+          hazard.active = false
           drop_carrying_fish(game)
         }
       }
@@ -826,43 +826,43 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pickups.length() {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    game.pickups[i].phase = game.pickups[i].phase + dt * 2.3
+    pickup.phase = pickup.phase + dt * 2.3
 
-    game.pickups[i].x = game.pickups[i].x +
-      (game.pickups[i].vx + sinf(game.pickups[i].phase * 2.0) * 20.0) * dt
-    game.pickups[i].y = game.pickups[i].y +
-      (game.pickups[i].vy + cosf(game.pickups[i].phase * 1.3) * 18.0) * dt
+    pickup.x = pickup.x +
+      (pickup.vx + sinf(pickup.phase * 2.0) * 20.0) * dt
+    pickup.y = pickup.y +
+      (pickup.vy + cosf(pickup.phase * 1.3) * 18.0) * dt
 
-    if game.pickups[i].x < world_left() + 16.0 {
-      game.pickups[i].x = world_left() + 16.0
-      game.pickups[i].vx = absf(game.pickups[i].vx) * 0.6
+    if pickup.x < world_left() + 16.0 {
+      pickup.x = world_left() + 16.0
+      pickup.vx = absf(pickup.vx) * 0.6
     }
-    if game.pickups[i].x > world_right() - 16.0 {
-      game.pickups[i].x = world_right() - 16.0
-      game.pickups[i].vx = -absf(game.pickups[i].vx) * 0.6
+    if pickup.x > world_right() - 16.0 {
+      pickup.x = world_right() - 16.0
+      pickup.vx = -absf(pickup.vx) * 0.6
     }
 
-    if game.pickups[i].y < topf() + 20.0 {
-      game.pickups[i].y = topf() + 20.0
-      game.pickups[i].vy = absf(game.pickups[i].vy) * 0.6
+    if pickup.y < topf() + 20.0 {
+      pickup.y = topf() + 20.0
+      pickup.vy = absf(pickup.vy) * 0.6
     }
-    if game.pickups[i].y > bottomf() - 16.0 {
-      game.pickups[i].y = bottomf() - 16.0
-      game.pickups[i].vy = -absf(game.pickups[i].vy) * 0.6
+    if pickup.y > bottomf() - 16.0 {
+      pickup.y = bottomf() - 16.0
+      pickup.vy = -absf(pickup.vy) * 0.6
     }
 
     let rr : Float = hook_r + 16.0
-    if dist2(game.hook_x, game.hook_y, game.pickups[i].x, game.pickups[i].y) <=
+    if dist2(game.hook_x, game.hook_y, pickup.x, pickup.y) <=
       rr * rr {
-      let kind : Int = game.pickups[i].kind
-      let px : Float = game.pickups[i].x
-      let py : Float = game.pickups[i].y
-      game.pickups[i].active = false
+      let kind : Int = pickup.kind
+      let px : Float = pickup.x
+      let py : Float = pickup.y
+      pickup.active = false
       collect_pickup(game, kind, px, py)
     }
   }
@@ -884,22 +884,22 @@ fn use_hint(game : Game) -> Bool {
     text = "Hint: bring hooked fish up."
   } else if game.bait < 40.0 {
     let mut best_d2 : Float = 1000000000.0
-    for i in 0..<game.pickups.length() {
-      if not(game.pickups[i].active) || game.pickups[i].kind != pickup_bait {
+    for pickup in game.pickups {
+      if not(pickup.active) || pickup.kind != pickup_bait {
         continue
       }
 
       let d2 : Float = dist2(
         game.hook_x,
         game.hook_y,
-        game.pickups[i].x,
-        game.pickups[i].y,
+        pickup.x,
+        pickup.y,
       )
 
       if d2 < best_d2 {
         best_d2 = d2
-        hx = game.pickups[i].x
-        hy = game.pickups[i].y
+        hx = pickup.x
+        hy = pickup.y
         text = "Hint: bait crate marked."
       }
     }
@@ -907,24 +907,24 @@ fn use_hint(game : Game) -> Bool {
     let mut best_score : Int = -1
     let mut best_d2 : Float = 1000000000.0
 
-    for i in 0..<game.fish.length() {
-      if not(game.fish[i].active) || game.fish[i].hooked {
+    for fish_elem in game.fish {
+      if not(fish_elem.active) || fish_elem.hooked {
         continue
       }
 
       let d2 : Float = dist2(
         game.hook_x,
         game.hook_y,
-        game.fish[i].x,
-        game.fish[i].y,
+        fish_elem.x,
+        fish_elem.y,
       )
 
-      if game.fish[i].value > best_score ||
-        (game.fish[i].value == best_score && d2 < best_d2) {
-        best_score = game.fish[i].value
+      if fish_elem.value > best_score ||
+        (fish_elem.value == best_score && d2 < best_d2) {
+        best_score = fish_elem.value
         best_d2 = d2
-        hx = game.fish[i].x
-        hy = game.fish[i].y
+        hx = fish_elem.x
+        hy = fish_elem.y
         text = "Hint: high-value fish marked."
       }
     }

@@ -6,27 +6,27 @@ fn set_message(game : Game, text : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_incidents(game : Game) -> Unit {
-  for i in 0..<game.incidents.length() {
-    game.incidents[i].active = false
-    game.incidents[i].x = 0
-    game.incidents[i].y = 0
-    game.incidents[i].culprit = 0
-    game.incidents[i].timer = 0.0
-    game.incidents[i].severity = 1
-    game.incidents[i].pulse_t = 0.0
+  for incident in game.incidents {
+    incident.active = false
+    incident.x = 0
+    incident.y = 0
+    incident.culprit = 0
+    incident.timer = 0.0
+    incident.severity = 1
+    incident.pulse_t = 0.0
   }
 }
 
 ///|
 fn reset_case(game : Game) -> Unit {
-  for i in 0..<game.clues.length() {
-    game.clues[i].discovered = false
-    game.clues[i].glow_t = 0.0
+  for clue in game.clues {
+    clue.discovered = false
+    clue.glow_t = 0.0
   }
 
-  for i in 0..<game.suspects.length() {
-    game.suspects[i].deduction_unlocked = false
-    game.suspects[i].suspicion = 0.0
+  for suspect in game.suspects {
+    suspect.deduction_unlocked = false
+    suspect.suspicion = 0.0
   }
 
   for i in 0..<game.chain_progress.length() {
@@ -60,8 +60,8 @@ fn reset_case(game : Game) -> Unit {
 ///|
 fn active_incident_count(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.incidents.length() {
-    if game.incidents[i].active {
+  for incident in game.incidents {
+    if incident.active {
       count = count + 1
     }
   }
@@ -280,26 +280,26 @@ fn spawn_incident(game : Game) -> Unit {
 fn update_incidents(game : Game, dt : Float) -> Unit {
   let slowdown : Float = if game.focus_t > 0.0 { 0.72 } else { 1.0 }
 
-  for i in 0..<game.incidents.length() {
-    if not(game.incidents[i].active) {
+  for incident in game.incidents {
+    if not(incident.active) {
       continue
     }
 
-    let sev_scale = Float::from_int(game.incidents[i].severity - 1)
-    game.incidents[i].pulse_t = game.incidents[i].pulse_t +
+    let sev_scale = Float::from_int(incident.severity - 1)
+    incident.pulse_t = incident.pulse_t +
       dt * (1.0 + sev_scale * 0.6)
-    game.incidents[i].timer = game.incidents[i].timer -
+    incident.timer = incident.timer -
       dt * slowdown * (1.0 + sev_scale * 0.25)
 
-    if game.incidents[i].timer <= 0.0 {
-      game.incidents[i].active = false
+    if incident.timer <= 0.0 {
+      incident.active = false
       game.failed_incidents = game.failed_incidents + 1
-      game.score = maxi(0, game.score - 24 - game.incidents[i].severity * 10)
+      game.score = maxi(0, game.score - 24 - incident.severity * 10)
       game.trust = maxf(
         0.0,
         game.trust -
         trust_penalty_missed_incident -
-        Float::from_int(game.incidents[i].severity) * 2.1,
+        Float::from_int(incident.severity) * 2.1,
       )
       set_message(game, "Incident unresolved. City trust slips.", 1.6)
     }
@@ -309,9 +309,9 @@ fn update_incidents(game : Game, dt : Float) -> Unit {
 ///|
 fn incident_pressure(game : Game) -> Float {
   let mut pressure : Float = 0.0
-  for i in 0..<game.incidents.length() {
-    if game.incidents[i].active {
-      pressure = pressure + Float::from_int(game.incidents[i].severity) * 0.34
+  for incident in game.incidents {
+    if incident.active {
+      pressure = pressure + Float::from_int(incident.severity) * 0.34
     }
   }
   pressure
@@ -332,18 +332,18 @@ fn update_district_pulses(game : Game, dt : Float) -> Unit {
       heat = heat + 0.15
     }
 
-    for j in 0..<game.incidents.length() {
-      if not(game.incidents[j].active) {
+    for incident in game.incidents {
+      if not(incident.active) {
         continue
       }
 
-      let dx0 = x - game.incidents[j].x
+      let dx0 = x - incident.x
       let adx = if dx0 < 0 { -dx0 } else { dx0 }
-      let dy0 = y - game.incidents[j].y
+      let dy0 = y - incident.y
       let ady = if dy0 < 0 { -dy0 } else { dy0 }
 
       if adx == 0 && ady == 0 {
-        heat = heat + 0.42 + Float::from_int(game.incidents[j].severity) * 0.09
+        heat = heat + 0.42 + Float::from_int(incident.severity) * 0.09
       } else if adx + ady == 1 {
         heat = heat + 0.12
       }
@@ -540,9 +540,9 @@ fn handle_inspect(game : Game) -> Unit {
 
 ///|
 fn update_clue_glow(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.clues.length() {
-    if game.clues[i].glow_t > 0.0 {
-      game.clues[i].glow_t = maxf(0.0, game.clues[i].glow_t - dt)
+  for clue in game.clues {
+    if clue.glow_t > 0.0 {
+      clue.glow_t = maxf(0.0, clue.glow_t - dt)
     }
   }
 }

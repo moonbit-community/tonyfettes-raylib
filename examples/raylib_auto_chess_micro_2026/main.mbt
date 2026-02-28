@@ -123,8 +123,8 @@ fn find_target(units : Array[Piece], idx : Int) -> Int {
 
 ///|
 fn occupied(units : Array[Piece], x : Int, y : Int) -> Bool {
-  for i in 0..<units.length() {
-    if units[i].alive && units[i].x == x && units[i].y == y {
+  for unit in units {
+    if unit.alive && unit.x == x && unit.y == y {
       return true
     }
   }
@@ -158,8 +158,8 @@ fn spawn_enemy_round(round : Int, units : Array[Piece]) -> Unit {
 ///|
 fn alive_team(units : Array[Piece], team : Int) -> Int {
   let mut n = 0
-  for i in 0..<units.length() {
-    if units[i].alive && units[i].team == team {
+  for unit in units {
+    if unit.alive && unit.team == team {
       n = n + 1
     }
   }
@@ -365,14 +365,14 @@ fn main {
         }
       }
     } else {
-      for i in 0..<units.length() {
-        if units[i].alive {
-          let px = ox + units[i].x * tile
-          let py = oy + units[i].y * tile
-          let col = if units[i].team == 0 {
-            if units[i].role == 0 {
+      for unit in units {
+        if unit.alive {
+          let px = ox + unit.x * tile
+          let py = oy + unit.y * tile
+          let col = if unit.team == 0 {
+            if unit.role == 0 {
               @raylib.darkblue
-            } else if units[i].role == 1 {
+            } else if unit.role == 1 {
               @raylib.green
             } else {
               @raylib.orange
@@ -382,7 +382,7 @@ fn main {
           }
           @raylib.draw_rectangle(px + 12, py + 12, tile - 26, tile - 26, col)
           @raylib.draw_text(
-            "\{units[i].hp}",
+            "\{unit.hp}",
             px + 18,
             py + 16,
             22,

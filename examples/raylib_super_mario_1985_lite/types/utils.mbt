@@ -186,8 +186,8 @@ pub fn randf(minv : Float, maxv : Float) -> Float {
 ///|
 pub fn remaining_coins(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.coins.length() {
-    if game.coins[i].active {
+  for coin in game.coins {
+    if coin.active {
       count += 1
     }
   }
@@ -197,8 +197,8 @@ pub fn remaining_coins(game : Game) -> Int {
 ///|
 pub fn active_enemy_count(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }

@@ -516,9 +516,9 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (-0.2, 0.2),
       (0.2, 0.2),
     ]
-    for i in 0..<offsets.length() {
-      let ox = offsets[i].0
-      let oz = offsets[i].1
+    for offset in offsets {
+      let ox = offset.0
+      let oz = offset.1
       @raylib.draw_cylinder(
         @raylib.Vector3::new(wx + ox, 0.0, wz + oz),
         0.0,
@@ -544,9 +544,9 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (-0.2, 0.2),
       (0.2, 0.2),
     ]
-    for i in 0..<offsets.length() {
-      let ox = offsets[i].0
-      let oz = offsets[i].1
+    for offset in offsets {
+      let ox = offset.0
+      let oz = offset.1
       @raylib.draw_cube(
         @raylib.Vector3::new(wx + ox, -0.02, wz + oz),
         0.12,
@@ -1008,8 +1008,7 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
 ///|
 fn draw_entities(game : @types.Game) -> Unit {
   let world = game.current_world
-  for i in 0..<game.entities.length() {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) {
       continue
     }
@@ -1433,8 +1432,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
 ///|
 fn draw_shadows(game : @types.Game) -> Unit {
   // Shadow blobs under entities
-  for i in 0..<game.entities.length() {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) || e.falling {
       continue
     }
@@ -1450,8 +1448,7 @@ fn draw_shadows(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

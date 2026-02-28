@@ -162,9 +162,9 @@ fn all_targets_cleared(balls : Array[Ball]) -> Bool {
 ///|
 fn moving_any(balls : Array[Ball]) -> Bool {
   let mut moving = false
-  for i in 0..<balls.length() {
-    if balls[i].active {
-      let s2 = balls[i].vx * balls[i].vx + balls[i].vy * balls[i].vy
+  for ball in balls {
+    if ball.active {
+      let s2 = ball.vx * ball.vx + ball.vy * ball.vy
       if s2 > 64.0 {
         moving = true
       }
@@ -398,45 +398,45 @@ fn main {
         }
       }
 
-      for i in 0..<balls.length() {
-        if not(balls[i].active) {
+      for ball in balls {
+        if not(ball.active) {
           continue
         }
 
-        if balls[i].portal_cd > 0.0 {
-          balls[i].portal_cd = balls[i].portal_cd - dt
-          if balls[i].portal_cd < 0.0 {
-            balls[i].portal_cd = 0.0
+        if ball.portal_cd > 0.0 {
+          ball.portal_cd = ball.portal_cd - dt
+          if ball.portal_cd < 0.0 {
+            ball.portal_cd = 0.0
           }
         }
 
-        balls[i].x = balls[i].x + balls[i].vx * dt
-        balls[i].y = balls[i].y + balls[i].vy * dt
+        ball.x = ball.x + ball.vx * dt
+        ball.y = ball.y + ball.vy * dt
 
         let friction = Float::from_int(1) - dt * 0.84
-        balls[i].vx = balls[i].vx * friction
-        balls[i].vy = balls[i].vy * friction
+        ball.vx = ball.vx * friction
+        ball.vy = ball.vy * friction
 
-        if absf(balls[i].vx) < 6.0 {
-          balls[i].vx = 0.0
+        if absf(ball.vx) < 6.0 {
+          ball.vx = 0.0
         }
-        if absf(balls[i].vy) < 6.0 {
-          balls[i].vy = 0.0
+        if absf(ball.vy) < 6.0 {
+          ball.vy = 0.0
         }
 
-        if ball_in_pocket(balls[i].x, balls[i].y) {
-          if balls[i].id == 0 {
-            balls[i].x = cue_spawn_x()
-            balls[i].y = cue_spawn_y()
-            balls[i].vx = 0.0
-            balls[i].vy = 0.0
-            balls[i].portal_cd = 0.5
+        if ball_in_pocket(ball.x, ball.y) {
+          if ball.id == 0 {
+            ball.x = cue_spawn_x()
+            ball.y = cue_spawn_y()
+            ball.vx = 0.0
+            ball.vy = 0.0
+            ball.portal_cd = 0.5
             if shots_left > 0 {
               shots_left = shots_left - 1
             }
             msg = "Cue scratch: -1 shot."
           } else {
-            balls[i].active = false
+            ball.active = false
             score = score + 60
             msg = "Ball pocketed +60."
           }
@@ -448,48 +448,48 @@ fn main {
         let top = Float::from_int(table_y) + ball_r
         let bottom = Float::from_int(table_y + table_h) - ball_r
 
-        if balls[i].x <= left {
-          if not(goal_opening(balls[i].y)) {
-            balls[i].x = left
-            balls[i].vx = absf(balls[i].vx) * 0.94
+        if ball.x <= left {
+          if not(goal_opening(ball.y)) {
+            ball.x = left
+            ball.vx = absf(ball.vx) * 0.94
           }
         }
-        if balls[i].x >= right {
-          if not(goal_opening(balls[i].y)) {
-            balls[i].x = right
-            balls[i].vx = -absf(balls[i].vx) * 0.94
+        if ball.x >= right {
+          if not(goal_opening(ball.y)) {
+            ball.x = right
+            ball.vx = -absf(ball.vx) * 0.94
           }
         }
-        if balls[i].y <= top {
-          balls[i].y = top
-          balls[i].vy = absf(balls[i].vy) * 0.94
+        if ball.y <= top {
+          ball.y = top
+          ball.vy = absf(ball.vy) * 0.94
         }
-        if balls[i].y >= bottom {
-          balls[i].y = bottom
-          balls[i].vy = -absf(balls[i].vy) * 0.94
+        if ball.y >= bottom {
+          ball.y = bottom
+          ball.vy = -absf(ball.vy) * 0.94
         }
 
-        if balls[i].portal_cd <= 0.0 {
-          let from = nearest_portal_idx(portal_t, balls[i].x, balls[i].y)
+        if ball.portal_cd <= 0.0 {
+          let from = nearest_portal_idx(portal_t, ball.x, ball.y)
           if from >= 0 {
             let to = portal_pair(from)
             let (tx, ty) = portal_pos(portal_t, to)
 
-            let sp = (balls[i].vx * balls[i].vx + balls[i].vy * balls[i].vy).sqrt()
+            let sp = (ball.vx * ball.vx + ball.vy * ball.vy).sqrt()
             if sp > 1.0 {
-              let nx = balls[i].vx / sp
-              let ny = balls[i].vy / sp
-              balls[i].x = tx + nx * (portal_r + ball_r + 2.0)
-              balls[i].y = ty + ny * (portal_r + ball_r + 2.0)
+              let nx = ball.vx / sp
+              let ny = ball.vy / sp
+              ball.x = tx + nx * (portal_r + ball_r + 2.0)
+              ball.y = ty + ny * (portal_r + ball_r + 2.0)
             } else {
-              balls[i].x = tx
-              balls[i].y = ty
+              ball.x = tx
+              ball.y = ty
             }
 
-            balls[i].vx = balls[i].vx * 1.05
-            balls[i].vy = balls[i].vy * 1.05
-            balls[i].portal_cd = 0.45
-            if balls[i].id == 0 {
+            ball.vx = ball.vx * 1.05
+            ball.vy = ball.vy * 1.05
+            ball.portal_cd = 0.45
+            if ball.id == 0 {
               msg = "Cue teleported."
             }
           }
@@ -643,13 +643,13 @@ fn main {
       )
     }
 
-    for i in 0..<balls.length() {
-      if not(balls[i].active) {
+    for ball in balls {
+      if not(ball.active) {
         continue
       }
-      let x = balls[i].x.to_int()
-      let y = balls[i].y.to_int()
-      let c = color_for_id(balls[i].id)
+      let x = ball.x.to_int()
+      let y = ball.y.to_int()
+      let c = color_for_id(ball.id)
       @raylib.draw_circle(x, y, ball_r, c)
       @raylib.draw_circle(
         x - 4,

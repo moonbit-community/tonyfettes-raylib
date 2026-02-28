@@ -190,14 +190,14 @@ fn draw_clues(game : Game) -> Unit {
     )
   }
 
-  for i in 0..<game.clues.length() {
-    if game.clues[i].glow_t <= 0.0 {
+  for clue in game.clues {
+    if clue.glow_t <= 0.0 {
       continue
     }
 
-    let x = cell_center_x(game.clues[i].x)
-    let y = cell_center_y(game.clues[i].y)
-    let glow = game.clues[i].glow_t
+    let x = cell_center_x(clue.x)
+    let y = cell_center_y(clue.y)
+    let glow = clue.glow_t
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
@@ -254,21 +254,21 @@ fn draw_suspects(game : Game) -> Unit {
 
 ///|
 fn draw_incidents(game : Game) -> Unit {
-  for i in 0..<game.incidents.length() {
-    if not(game.incidents[i].active) {
+  for incident in game.incidents {
+    if not(incident.active) {
       continue
     }
 
-    let x = cell_center_x(game.incidents[i].x)
-    let y = cell_center_y(game.incidents[i].y)
-    let sevf = Float::from_int(game.incidents[i].severity)
+    let x = cell_center_x(incident.x)
+    let y = cell_center_y(incident.y)
+    let sevf = Float::from_int(incident.severity)
 
     let pulse : Float = 0.45 +
-      0.55 * sinf(game.city_time * 8.0 + game.incidents[i].pulse_t * 2.0)
+      0.55 * sinf(game.city_time * 8.0 + incident.pulse_t * 2.0)
 
-    let core_col = if game.incidents[i].severity == 1 {
+    let core_col = if incident.severity == 1 {
       @raylib.Color::new(244, 188, 122, 230)
-    } else if game.incidents[i].severity == 2 {
+    } else if incident.severity == 2 {
       @raylib.Color::new(244, 136, 102, 230)
     } else {
       @raylib.Color::new(244, 90, 104, 230)
@@ -290,7 +290,7 @@ fn draw_incidents(game : Game) -> Unit {
     )
 
     @raylib.draw_text(
-      game.incidents[i].timer.to_int().to_string(),
+      incident.timer.to_int().to_string(),
       (x - 8.0).to_int(),
       (y - 8.0).to_int(),
       16,

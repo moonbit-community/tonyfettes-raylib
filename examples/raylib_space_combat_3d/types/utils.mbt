@@ -579,8 +579,8 @@ pub fn spawn_debris(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -592,8 +592,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_enemies_of_type(game : Game, kind : Int) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active && game.enemies[i].kind == kind {
+  for enemy in game.enemies {
+    if enemy.active && enemy.kind == kind {
       count += 1
     }
   }

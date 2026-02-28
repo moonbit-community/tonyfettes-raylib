@@ -164,28 +164,28 @@ fn inside_rect(
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i in 0..<items.length() {
-    items[i].active = false
-    items[i].x = 0.0
-    items[i].y = 0.0
-    items[i].kind = 0
-    items[i].t = 0.0
-    items[i].life = 0.0
+  for item in items {
+    item.active = false
+    item.x = 0.0
+    item.y = 0.0
+    item.kind = 0
+    item.t = 0.0
+    item.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -222,20 +222,20 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i in 0..<parts.length() {
+  for part in parts {
     if left <= 0 {
       break
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(16, 74)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(16, 74)) / 100.0
+      part.kind = kind
       left = left - 1
     }
   }
@@ -1061,28 +1061,28 @@ fn main {
           pickup_spawn_cd = randf(4.2, 6.8)
         }
 
-        for i in 0..<pickups.length() {
-          if not(pickups[i].active) {
+        for pickup in pickups {
+          if not(pickup.active) {
             continue
           }
 
-          pickups[i].t = pickups[i].t + dt
-          if pickups[i].t >= pickups[i].life {
-            pickups[i].active = false
+          pickup.t = pickup.t + dt
+          if pickup.t >= pickup.life {
+            pickup.active = false
             continue
           }
 
-          let pget = dist2(player.x, player.y, pickups[i].x, pickups[i].y) <=
+          let pget = dist2(player.x, player.y, pickup.x, pickup.y) <=
             30.0 * 30.0
-          let aget = dist2(ai.x, ai.y, pickups[i].x, pickups[i].y) <=
+          let aget = dist2(ai.x, ai.y, pickup.x, pickup.y) <=
             30.0 * 30.0
 
           if pget {
-            if pickups[i].kind == 0 {
+            if pickup.kind == 0 {
               player.boost = clampf(player.boost + 34.0, 0.0, 100.0)
               msg = "Nitro cell"
               msg_t = 0.46
-            } else if pickups[i].kind == 1 {
+            } else if pickup.kind == 1 {
               player.dash_cd = clampf(player.dash_cd - 0.9, 0.0, 99.0)
               player.pulse_cd = clampf(player.pulse_cd - 0.9, 0.0, 99.0)
               msg = "Cooldown chip"
@@ -1093,19 +1093,19 @@ fn main {
               msg = "Overdrive"
               msg_t = 0.46
             }
-            pickups[i].active = false
-            burst(particles, pickups[i].x, pickups[i].y, 10, 0.13, 2)
+            pickup.active = false
+            burst(particles, pickup.x, pickup.y, 10, 0.13, 2)
           } else if aget {
-            if pickups[i].kind == 0 {
+            if pickup.kind == 0 {
               ai.boost = clampf(ai.boost + 30.0, 0.0, 100.0)
-            } else if pickups[i].kind == 1 {
+            } else if pickup.kind == 1 {
               ai.dash_cd = clampf(ai.dash_cd - 0.7, 0.0, 99.0)
               ai.pulse_cd = clampf(ai.pulse_cd - 0.7, 0.0, 99.0)
             } else {
               ai.speed = ai.speed + 104.0
             }
-            pickups[i].active = false
-            burst(particles, pickups[i].x, pickups[i].y, 8, 0.11, 1)
+            pickup.active = false
+            burst(particles, pickup.x, pickup.y, 8, 0.11, 1)
           }
         }
 
@@ -1123,19 +1123,19 @@ fn main {
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (1.0 - dt * 2.1)
-          particles[i].vy = particles[i].vy + 220.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (1.0 - dt * 2.1)
+          particle.vy = particle.vy + 220.0 * dt
         }
       }
     } else {
@@ -1169,29 +1169,29 @@ fn main {
 
     draw_field_lines()
 
-    for i in 0..<pickups.length() {
-      if pickups[i].active {
-        let pulse = if (pickups[i].t * 8.0).to_int() % 2 == 0 {
+    for pickup in pickups {
+      if pickup.active {
+        let pulse = if (pickup.t * 8.0).to_int() % 2 == 0 {
           255
         } else {
           184
         }
-        let col = if pickups[i].kind == 0 {
+        let col = if pickup.kind == 0 {
           @raylib.Color::new(128, 236, 168, pulse)
-        } else if pickups[i].kind == 1 {
+        } else if pickup.kind == 1 {
           @raylib.Color::new(128, 212, 248, pulse)
         } else {
           @raylib.Color::new(244, 208, 118, pulse)
         }
         @raylib.draw_circle(
-          pickups[i].x.to_int(),
-          pickups[i].y.to_int(),
+          pickup.x.to_int(),
+          pickup.y.to_int(),
           11.0,
           col,
         )
         @raylib.draw_circle_lines(
-          pickups[i].x.to_int(),
-          pickups[i].y.to_int(),
+          pickup.x.to_int(),
+          pickup.y.to_int(),
           15.0,
           @raylib.Color::new(28, 36, 52, pulse),
         )
@@ -1222,31 +1222,31 @@ fn main {
     draw_car(player, true)
     draw_car(ai, false)
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let ratio : Float = 1.0 - particles[i].t / particles[i].life
+      let ratio : Float = 1.0 - particle.t / particle.life
       let alpha = (ratio * 255.0).to_int()
       if alpha <= 0 {
         continue
       }
 
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(152, 232, 252, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 164, 152, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(154, 244, 196, alpha)
       } else {
         @raylib.Color::new(252, 128, 148, alpha)
       }
 
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

@@ -73,8 +73,7 @@ fn check_cannonball_vs_enemies(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
@@ -248,8 +247,7 @@ fn check_cannonball_vs_fleet(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i in 0..<game.fleet_ships.length() {
-    let fs = game.fleet_ships[i]
+  for fs in game.fleet_ships {
     if not(fs.active) {
       continue
     }
@@ -278,8 +276,7 @@ fn check_cannonball_vs_convoy(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i in 0..<game.convoy_ships.length() {
-    let cs = game.convoy_ships[i]
+  for cs in game.convoy_ships {
     if not(cs.active) {
       continue
     }

@@ -8,21 +8,21 @@ fn reset_controls(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i in 0..<game.mines.length() {
-    game.mines[i].active = false
-    game.mines[i].x = 0.0
-    game.mines[i].y = 0.0
-    game.mines[i].r = 0.0
-    game.mines[i].reveal_t = 0.0
-    game.mines[i].armed = true
+  for mine in game.mines {
+    mine.active = false
+    mine.x = 0.0
+    mine.y = 0.0
+    mine.r = 0.0
+    mine.reveal_t = 0.0
+    mine.armed = true
   }
 
-  for i in 0..<game.targets.length() {
-    game.targets[i].active = false
-    game.targets[i].x = 0.0
-    game.targets[i].y = 0.0
-    game.targets[i].detected = false
-    game.targets[i].pulse_t = 0.0
+  for target in game.targets {
+    target.active = false
+    target.x = 0.0
+    target.y = 0.0
+    target.detected = false
+    target.pulse_t = 0.0
   }
 }
 

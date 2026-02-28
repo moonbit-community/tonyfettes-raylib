@@ -119,8 +119,8 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i in 0..<units.length() {
-        units[i].alive = false
+      for unit in units {
+        unit.alive = false
       }
       player_base_hp = 320
       enemy_base_hp = 320
@@ -274,24 +274,24 @@ fn main {
     @raylib.draw_rectangle(20, 250, 60, 200, @raylib.blue)
     @raylib.draw_rectangle(sw - 80, 250, 60, 200, @raylib.red)
 
-    for i in 0..<units.length() {
-      if units[i].alive {
-        let y = lane_y(units[i].lane)
-        let color = if units[i].team == 0 {
-          if units[i].kind == 0 {
+    for unit in units {
+      if unit.alive {
+        let y = lane_y(unit.lane)
+        let color = if unit.team == 0 {
+          if unit.kind == 0 {
             @raylib.skyblue
           } else {
             @raylib.lime
           }
-        } else if units[i].kind == 0 {
+        } else if unit.kind == 0 {
           @raylib.maroon
         } else {
           @raylib.orange
         }
-        @raylib.draw_circle(units[i].x.to_int(), y, 12.0, color)
+        @raylib.draw_circle(unit.x.to_int(), y, 12.0, color)
         @raylib.draw_text(
-          "\{units[i].hp}",
-          units[i].x.to_int() - 10,
+          "\{unit.hp}",
+          unit.x.to_int() - 10,
           y - 26,
           18,
           @raylib.white,

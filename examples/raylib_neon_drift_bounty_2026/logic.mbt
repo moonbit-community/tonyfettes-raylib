@@ -1,74 +1,74 @@
 ///|
 fn clear_entities(game : Game) -> Unit {
-  for i in 0..<game.entities.length() {
-    game.entities[i].active = false
-    game.entities[i].kind = foe_bike
-    game.entities[i].x = 0.0
-    game.entities[i].y = 0.0
-    game.entities[i].vx = 0.0
-    game.entities[i].vy = 0.0
-    game.entities[i].w = 0.0
-    game.entities[i].h = 0.0
-    game.entities[i].hp = 0.0
-    game.entities[i].shot_cd = 0.0
-    game.entities[i].spin = 0.0
-    game.entities[i].cloak = false
-    game.entities[i].reward = 0
+  for entity in game.entities {
+    entity.active = false
+    entity.kind = foe_bike
+    entity.x = 0.0
+    entity.y = 0.0
+    entity.vx = 0.0
+    entity.vy = 0.0
+    entity.w = 0.0
+    entity.h = 0.0
+    entity.hp = 0.0
+    entity.shot_cd = 0.0
+    entity.spin = 0.0
+    entity.cloak = false
+    entity.reward = 0
   }
 }
 
 ///|
 fn clear_bullets(game : Game) -> Unit {
-  for i in 0..<game.bullets.length() {
-    game.bullets[i].active = false
-    game.bullets[i].from_player = true
-    game.bullets[i].x = 0.0
-    game.bullets[i].y = 0.0
-    game.bullets[i].vx = 0.0
-    game.bullets[i].vy = 0.0
-    game.bullets[i].life = 0.0
-    game.bullets[i].dmg = 0.0
-    game.bullets[i].kind = 0
+  for bullet in game.bullets {
+    bullet.active = false
+    bullet.from_player = true
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.life = 0.0
+    bullet.dmg = 0.0
+    bullet.kind = 0
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i in 0..<game.rings.length() {
-    game.rings[i].active = false
-    game.rings[i].x = 0.0
-    game.rings[i].y = 0.0
-    game.rings[i].r = 0.0
-    game.rings[i].life = 0.0
-    game.rings[i].kind = 0
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
   }
 }
 
 ///|
 fn clear_images(game : Game) -> Unit {
-  for i in 0..<game.images.length() {
-    game.images[i].active = false
-    game.images[i].x = 0.0
-    game.images[i].y = 0.0
-    game.images[i].w = 0.0
-    game.images[i].h = 0.0
-    game.images[i].rot = 0.0
-    game.images[i].life = 0.0
-    game.images[i].kind = 0
+  for image in game.images {
+    image.active = false
+    image.x = 0.0
+    image.y = 0.0
+    image.w = 0.0
+    image.h = 0.0
+    image.rot = 0.0
+    image.life = 0.0
+    image.kind = 0
   }
 }
 
@@ -625,28 +625,28 @@ fn apply_hack_pulse(game : Game) -> Unit {
   let rr2 = hack_radius * hack_radius
   let kill2 = hack_pulse_kill * hack_pulse_kill
 
-  for i in 0..<game.entities.length() {
-    if not(game.entities[i].active) {
+  for entity in game.entities {
+    if not(entity.active) {
       continue
     }
 
     let d2 = dist2(
       game.hero.x,
       game.hero.y,
-      game.entities[i].x,
-      game.entities[i].y,
+      entity.x,
+      entity.y,
     )
     if d2 > rr2 {
       continue
     }
 
-    game.entities[i].cloak = false
+    entity.cloak = false
 
-    if entity_is_hostile(game.entities[i].kind) && d2 <= kill2 {
-      let kind = game.entities[i].kind
-      let x = game.entities[i].x
-      let y = game.entities[i].y
-      game.entities[i].active = false
+    if entity_is_hostile(entity.kind) && d2 <= kill2 {
+      let kind = entity.kind
+      let x = entity.x
+      let y = entity.y
+      entity.active = false
       add_score(game, if kind == foe_truck { 140 } else { 88 })
       push_combo(game)
       burst(game, x, y, 18, 1)
@@ -655,23 +655,23 @@ fn apply_hack_pulse(game : Game) -> Unit {
     }
   }
 
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) || game.bullets[i].from_player {
+  for bullet in game.bullets {
+    if not(bullet.active) || bullet.from_player {
       continue
     }
 
     let d2 = dist2(
       game.hero.x,
       game.hero.y,
-      game.bullets[i].x,
-      game.bullets[i].y,
+      bullet.x,
+      bullet.y,
     )
     if d2 <= rr2 {
-      game.bullets[i].active = false
+      bullet.active = false
       emit_spark(
         game,
-        game.bullets[i].x,
-        game.bullets[i].y,
+        bullet.x,
+        bullet.y,
         randf(-90.0, 90.0),
         randf(-90.0, 90.0),
         randf(0.2, 0.45),
@@ -997,27 +997,27 @@ fn update_entities(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
 
-    game.bullets[i].x = game.bullets[i].x + game.bullets[i].vx * dt
-    game.bullets[i].y = game.bullets[i].y +
-      (game.bullets[i].vy + game.scroll_speed * 0.1) * dt
-    game.bullets[i].life = game.bullets[i].life - dt
+    bullet.x = bullet.x + bullet.vx * dt
+    bullet.y = bullet.y +
+      (bullet.vy + game.scroll_speed * 0.1) * dt
+    bullet.life = bullet.life - dt
 
-    let dead = game.bullets[i].life <= 0.0 ||
-      game.bullets[i].y < -120.0 ||
-      game.bullets[i].y > Float::from_int(screen_h) + 120.0 ||
-      game.bullets[i].x < -120.0 ||
-      game.bullets[i].x > Float::from_int(screen_w) + 120.0
+    let dead = bullet.life <= 0.0 ||
+      bullet.y < -120.0 ||
+      bullet.y > Float::from_int(screen_h) + 120.0 ||
+      bullet.x < -120.0 ||
+      bullet.x > Float::from_int(screen_w) + 120.0
     if dead {
-      game.bullets[i].active = false
+      bullet.active = false
       continue
     }
 
-    if game.bullets[i].from_player {
+    if bullet.from_player {
       let mut hit = false
       for j in 0..<game.entities.length() {
         if not(game.entities[j].active) || is_pickup(game.entities[j].kind) {
@@ -1025,15 +1025,15 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
         }
 
         let d2 = dist2(
-          game.bullets[i].x,
-          game.bullets[i].y,
+          bullet.x,
+          bullet.y,
           game.entities[j].x,
           game.entities[j].y,
         )
         let rr = entity_hit_radius(game.entities[j]) + 8.0
         if d2 <= rr * rr {
-          game.entities[j].hp = game.entities[j].hp - game.bullets[i].dmg
-          game.bullets[i].active = false
+          game.entities[j].hp = game.entities[j].hp - bullet.dmg
+          bullet.active = false
           hit = true
 
           emit_spark(
@@ -1059,15 +1059,15 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       }
     } else {
       let d2 = dist2(
-        game.bullets[i].x,
-        game.bullets[i].y,
+        bullet.x,
+        bullet.y,
         game.hero.x,
         game.hero.y,
       )
       let rr = player_hit_radius(game.hero) + 8.0
       if d2 <= rr * rr {
-        game.bullets[i].active = false
-        damage_player(game, game.bullets[i].dmg)
+        bullet.active = false
+        damage_player(game, bullet.dmg)
         continue
       }
     }
@@ -1076,43 +1076,43 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y +
-      (game.sparks[i].vy + game.scroll_speed * 0.16) * dt
-    game.sparks[i].life = game.sparks[i].life - dt
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y +
+      (spark.vy + game.scroll_speed * 0.16) * dt
+    spark.life = spark.life - dt
 
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    if spark.life <= 0.0 {
+      spark.active = false
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    game.rings[i].life = game.rings[i].life - dt
-    game.rings[i].r = game.rings[i].r +
-      (130.0 + Float::from_int(game.rings[i].kind) * 52.0) * dt
-    if game.rings[i].life <= 0.0 {
-      game.rings[i].active = false
+    ring.life = ring.life - dt
+    ring.r = ring.r +
+      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    if ring.life <= 0.0 {
+      ring.active = false
     }
   }
 
-  for i in 0..<game.images.length() {
-    if not(game.images[i].active) {
+  for image in game.images {
+    if not(image.active) {
       continue
     }
 
-    game.images[i].y = game.images[i].y + game.scroll_speed * 0.26 * dt
-    game.images[i].life = game.images[i].life - dt
-    if game.images[i].life <= 0.0 {
-      game.images[i].active = false
+    image.y = image.y + game.scroll_speed * 0.26 * dt
+    image.life = image.life - dt
+    if image.life <= 0.0 {
+      image.active = false
     }
   }
 }

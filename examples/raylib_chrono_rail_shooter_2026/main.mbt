@@ -195,74 +195,74 @@ fn enemy_hp(kind : Int, level : Int) -> Float {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
-    enemies[i].kind = 0
-    enemies[i].x = 0.0
-    enemies[i].y = 0.0
-    enemies[i].vx = 0.0
-    enemies[i].vy = 0.0
-    enemies[i].hp = 0.0
-    enemies[i].fire_cd = 0.0
-    enemies[i].phase = 0.0
-    enemies[i].t = 0.0
+  for enemy in enemies {
+    enemy.active = false
+    enemy.kind = 0
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0.0
+    enemy.fire_cd = 0.0
+    enemy.phase = 0.0
+    enemy.t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].active = false
-    bullets[i].team = 0
-    bullets[i].kind = 0
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].dmg = 0.0
-    bullets[i].radius = 0.0
-    bullets[i].life = 0.0
+  for bullet in bullets {
+    bullet.active = false
+    bullet.team = 0
+    bullet.kind = 0
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.dmg = 0.0
+    bullet.radius = 0.0
+    bullet.life = 0.0
   }
 }
 
 ///|
 fn clear_pickups(pickups : Array[Pickup]) -> Unit {
-  for i in 0..<pickups.length() {
-    pickups[i].active = false
-    pickups[i].kind = 0
-    pickups[i].x = 0.0
-    pickups[i].y = 0.0
-    pickups[i].vy = 0.0
-    pickups[i].t = 0.0
+  for pickup in pickups {
+    pickup.active = false
+    pickup.kind = 0
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vy = 0.0
+    pickup.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].t = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.t = 0.0
   }
 }
 
 ///|
 fn clear_panels(panels : Array[Panel]) -> Unit {
-  for i in 0..<panels.length() {
-    panels[i].active = false
-    panels[i].x = 0.0
-    panels[i].y = 0.0
-    panels[i].w = 0.0
-    panels[i].h = 0.0
-    panels[i].hazard = false
-    panels[i].boost = false
-    panels[i].t = 0.0
+  for panel in panels {
+    panel.active = false
+    panel.x = 0.0
+    panel.y = 0.0
+    panel.w = 0.0
+    panel.h = 0.0
+    panel.hazard = false
+    panel.boost = false
+    panel.t = 0.0
   }
 }
 
@@ -274,23 +274,23 @@ fn add_enemy(
   y : Float,
   level : Int,
 ) -> Bool {
-  for i in 0..<enemies.length() {
-    if not(enemies[i].active) {
-      enemies[i].active = true
-      enemies[i].kind = kind
-      enemies[i].x = x
-      enemies[i].y = y
-      enemies[i].vx = 0.0
-      enemies[i].vy = 0.0
-      enemies[i].hp = enemy_hp(kind, level)
-      enemies[i].phase = randf(0.0, 99.0)
-      enemies[i].t = 0.0
+  for enemy in enemies {
+    if not(enemy.active) {
+      enemy.active = true
+      enemy.kind = kind
+      enemy.x = x
+      enemy.y = y
+      enemy.vx = 0.0
+      enemy.vy = 0.0
+      enemy.hp = enemy_hp(kind, level)
+      enemy.phase = randf(0.0, 99.0)
+      enemy.t = 0.0
       if kind == 0 {
-        enemies[i].fire_cd = randf(0.8, 1.4)
+        enemy.fire_cd = randf(0.8, 1.4)
       } else if kind == 1 {
-        enemies[i].fire_cd = randf(0.66, 1.2)
+        enemy.fire_cd = randf(0.66, 1.2)
       } else {
-        enemies[i].fire_cd = randf(1.3, 2.0)
+        enemy.fire_cd = randf(1.3, 2.0)
       }
       return true
     }
@@ -311,18 +311,18 @@ fn add_bullet(
   radius : Float,
   life : Float,
 ) -> Bool {
-  for i in 0..<bullets.length() {
-    if not(bullets[i].active) {
-      bullets[i].active = true
-      bullets[i].team = team
-      bullets[i].kind = kind
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vx = vx
-      bullets[i].vy = vy
-      bullets[i].dmg = dmg
-      bullets[i].radius = radius
-      bullets[i].life = life
+  for bullet in bullets {
+    if not(bullet.active) {
+      bullet.active = true
+      bullet.team = team
+      bullet.kind = kind
+      bullet.x = x
+      bullet.y = y
+      bullet.vx = vx
+      bullet.vy = vy
+      bullet.dmg = dmg
+      bullet.radius = radius
+      bullet.life = life
       return true
     }
   }
@@ -337,14 +337,14 @@ fn add_pickup(
   y : Float,
   vy : Float,
 ) -> Bool {
-  for i in 0..<pickups.length() {
-    if not(pickups[i].active) {
-      pickups[i].active = true
-      pickups[i].kind = kind
-      pickups[i].x = x
-      pickups[i].y = y
-      pickups[i].vy = vy
-      pickups[i].t = 0.0
+  for pickup in pickups {
+    if not(pickup.active) {
+      pickup.active = true
+      pickup.kind = kind
+      pickup.x = x
+      pickup.y = y
+      pickup.vy = vy
+      pickup.t = 0.0
       return true
     }
   }
@@ -362,17 +362,17 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = vx
-      parts[i].vy = vy
-      parts[i].size = size
-      parts[i].life = life
-      parts[i].t = 0.0
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
+      part.vx = vx
+      part.vy = vy
+      part.size = size
+      part.life = life
+      part.t = 0.0
       return true
     }
   }
@@ -389,16 +389,16 @@ fn add_panel(
   hazard : Bool,
   boost : Bool,
 ) -> Bool {
-  for i in 0..<panels.length() {
-    if not(panels[i].active) {
-      panels[i].active = true
-      panels[i].x = x
-      panels[i].y = y
-      panels[i].w = w
-      panels[i].h = h
-      panels[i].hazard = hazard
-      panels[i].boost = boost
-      panels[i].t = 0.0
+  for panel in panels {
+    if not(panel.active) {
+      panel.active = true
+      panel.x = x
+      panel.y = y
+      panel.w = w
+      panel.h = h
+      panel.hazard = hazard
+      panel.boost = boost
+      panel.t = 0.0
       return true
     }
   }
@@ -1064,21 +1064,21 @@ fn main {
 
         burst(particles, player.x, player.y, 80, 0.34, 3)
 
-        for i in 0..<bullets.length() {
-          if bullets[i].active &&
-            bullets[i].team == 2 &&
-            dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
+        for bullet in bullets {
+          if bullet.active &&
+            bullet.team == 2 &&
+            dist2(player.x, player.y, bullet.x, bullet.y) <=
             280.0 * 280.0 {
-            bullets[i].active = false
+            bullet.active = false
           }
         }
 
-        for i in 0..<enemies.length() {
-          if enemies[i].active &&
-            dist2(player.x, player.y, enemies[i].x, enemies[i].y) <=
+        for enemy in enemies {
+          if enemy.active &&
+            dist2(player.x, player.y, enemy.x, enemy.y) <=
             290.0 * 290.0 {
-            enemies[i].hp = enemies[i].hp - 42.0
-            enemies[i].vx = enemies[i].vx * 0.2
+            enemy.hp = enemy.hp - 42.0
+            enemy.vx = enemy.vx * 0.2
           }
         }
 
@@ -1111,30 +1111,30 @@ fn main {
         ignore(add_panel(panels, x, -60.0, w, h, hazard, boost))
       }
 
-      for i in 0..<panels.length() {
-        if not(panels[i].active) {
+      for panel in panels {
+        if not(panel.active) {
           continue
         }
 
-        panels[i].t = panels[i].t + dt
-        panels[i].y = panels[i].y + scroll_speed * dt
+        panel.t = panel.t + dt
+        panel.y = panel.y + scroll_speed * dt
 
-        if panels[i].y - panels[i].h * 0.5 > Float::from_int(sh) + 80.0 {
-          panels[i].active = false
+        if panel.y - panel.h * 0.5 > Float::from_int(sh) + 80.0 {
+          panel.active = false
           continue
         }
 
-        if absf(panels[i].y - player.y) <= panels[i].h * 0.5 + 16.0 &&
-          player.x >= panels[i].x - panels[i].w * 0.5 - 12.0 &&
-          player.x <= panels[i].x + panels[i].w * 0.5 + 12.0 {
-          if panels[i].hazard {
+        if absf(panel.y - player.y) <= panel.h * 0.5 + 16.0 &&
+          player.x >= panel.x - panel.w * 0.5 - 12.0 &&
+          player.x <= panel.x + panel.w * 0.5 + 12.0 {
+          if panel.hazard {
             on_player_hit(12.0, "Rail hazard")
-            panels[i].active = false
+            panel.active = false
             burst(particles, player.x, player.y, 14, 0.2, 2)
-          } else if panels[i].boost {
+          } else if panel.boost {
             player.vy = player.vy - 180.0
             player.energy = clampf(player.energy + 16.0, 0.0, 100.0)
-            panels[i].boost = false
+            panel.boost = false
             msg = "Boost strip"
             msg_t = 0.42
             burst(particles, player.x, player.y, 10, 0.18, 0)
@@ -1196,41 +1196,41 @@ fn main {
         msg_t = 2.2
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        enemies[i].t = enemies[i].t + dt
-        enemies[i].fire_cd = enemies[i].fire_cd - dt
+        enemy.t = enemy.t + dt
+        enemy.fire_cd = enemy.fire_cd - dt
 
-        if enemies[i].kind == 0 {
-          enemies[i].vy = scroll_speed + 90.0
-          enemies[i].vx = @math.sinf(enemies[i].t * 2.2 + enemies[i].phase) *
+        if enemy.kind == 0 {
+          enemy.vy = scroll_speed + 90.0
+          enemy.vx = @math.sinf(enemy.t * 2.2 + enemy.phase) *
             96.0
-        } else if enemies[i].kind == 1 {
-          enemies[i].vy = scroll_speed + 132.0
-          enemies[i].vx = @math.sinf(enemies[i].t * 3.0 + enemies[i].phase) *
+        } else if enemy.kind == 1 {
+          enemy.vy = scroll_speed + 132.0
+          enemy.vx = @math.sinf(enemy.t * 3.0 + enemy.phase) *
             148.0
         } else {
-          enemies[i].vy = scroll_speed + 78.0
-          enemies[i].vx = @math.sinf(enemies[i].t * 1.3 + enemies[i].phase) *
+          enemy.vy = scroll_speed + 78.0
+          enemy.vx = @math.sinf(enemy.t * 1.3 + enemy.phase) *
             72.0
         }
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
-        enemies[i].x = clampf(enemies[i].x, rail_l + 18.0, rail_r - 18.0)
+        enemy.x = enemy.x + enemy.vx * dt
+        enemy.y = enemy.y + enemy.vy * dt
+        enemy.x = clampf(enemy.x, rail_l + 18.0, rail_r - 18.0)
 
-        if enemies[i].y > Float::from_int(sh) + 80.0 {
-          enemies[i].active = false
+        if enemy.y > Float::from_int(sh) + 80.0 {
+          enemy.active = false
           continue
         }
 
-        if enemies[i].fire_cd <= 0.0 &&
-          enemies[i].y < Float::from_int(sh) - 20.0 {
-          let tx = player.x - enemies[i].x
-          let ty = player.y - enemies[i].y
+        if enemy.fire_cd <= 0.0 &&
+          enemy.y < Float::from_int(sh) - 20.0 {
+          let tx = player.x - enemy.x
+          let ty = player.y - enemy.y
           let mut inv : Float = 0.0
           let l2 : Float = tx * tx + ty * ty
           if l2 > 0.01 {
@@ -1239,27 +1239,27 @@ fn main {
 
           let spd : Float = 230.0 +
             Float::from_int(level) * 6.0 +
-            Float::from_int(enemies[i].kind) * 22.0
+            Float::from_int(enemy.kind) * 22.0
 
-          if enemies[i].kind <= 1 {
+          if enemy.kind <= 1 {
             ignore(
               add_bullet(
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * spd,
                 ty * inv * spd,
-                8.0 + Float::from_int(enemies[i].kind) * 2.0,
+                8.0 + Float::from_int(enemy.kind) * 2.0,
                 5.0,
                 3.4,
               ),
             )
-            if enemies[i].kind == 0 {
-              enemies[i].fire_cd = randf(0.92, 1.46)
+            if enemy.kind == 0 {
+              enemy.fire_cd = randf(0.92, 1.46)
             } else {
-              enemies[i].fire_cd = randf(0.72, 1.16)
+              enemy.fire_cd = randf(0.72, 1.16)
             }
           } else {
             ignore(
@@ -1267,8 +1267,8 @@ fn main {
                 bullets,
                 2,
                 1,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * spd,
                 ty * inv * spd,
                 12.0,
@@ -1281,8 +1281,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * (spd - 56.0) - 66.0,
                 ty * inv * (spd - 56.0),
                 8.0,
@@ -1295,8 +1295,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * (spd - 56.0) + 66.0,
                 ty * inv * (spd - 56.0),
                 8.0,
@@ -1304,18 +1304,18 @@ fn main {
                 3.4,
               ),
             )
-            enemies[i].fire_cd = randf(1.26, 1.92)
+            enemy.fire_cd = randf(1.26, 1.92)
           }
         }
 
-        if dist2(enemies[i].x, enemies[i].y, player.x, player.y) <=
-          (enemy_radius(enemies[i].kind) + 17.0) *
-          (enemy_radius(enemies[i].kind) + 17.0) {
+        if dist2(enemy.x, enemy.y, player.x, player.y) <=
+          (enemy_radius(enemy.kind) + 17.0) *
+          (enemy_radius(enemy.kind) + 17.0) {
           on_player_hit(
-            10.0 + Float::from_int(enemies[i].kind) * 2.6,
+            10.0 + Float::from_int(enemy.kind) * 2.6,
             "Hull collision",
           )
-          enemies[i].active = false
+          enemy.active = false
           burst(particles, player.x, player.y, 22, 0.25, 2)
         }
       }
@@ -1386,91 +1386,91 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].team == 2 {
-          bullets[i].y = bullets[i].y + scroll_speed * dt * 0.2
+        if bullet.team == 2 {
+          bullet.y = bullet.y + scroll_speed * dt * 0.2
         }
 
-        if bullets[i].x < rail_l - 120.0 ||
-          bullets[i].x > rail_r + 120.0 ||
-          bullets[i].y < -220.0 ||
-          bullets[i].y > Float::from_int(sh) + 220.0 {
-          bullets[i].active = false
+        if bullet.x < rail_l - 120.0 ||
+          bullet.x > rail_r + 120.0 ||
+          bullet.y < -220.0 ||
+          bullet.y > Float::from_int(sh) + 220.0 {
+          bullet.active = false
           continue
         }
 
-        if bullets[i].team == 1 {
+        if bullet.team == 1 {
           let mut hit_done : Bool = false
-          for j in 0..<enemies.length() {
+          for enemy in enemies {
             if hit_done {
               continue
             }
-            if not(enemies[j].active) {
+            if not(enemy.active) {
               continue
             }
 
-            let rr = bullets[i].radius + enemy_radius(enemies[j].kind)
-            if dist2(bullets[i].x, bullets[i].y, enemies[j].x, enemies[j].y) <=
+            let rr = bullet.radius + enemy_radius(enemy.kind)
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
               rr * rr {
-              enemies[j].hp = enemies[j].hp - bullets[i].dmg
-              bullets[i].active = false
+              enemy.hp = enemy.hp - bullet.dmg
+              bullet.active = false
               hit_done = true
 
-              burst(particles, bullets[i].x, bullets[i].y, 6, 0.12, 1)
+              burst(particles, bullet.x, bullet.y, 6, 0.12, 1)
 
-              if enemies[j].hp <= 0.0 {
-                enemies[j].active = false
+              if enemy.hp <= 0.0 {
+                enemy.active = false
                 player.score = player.score +
                   52 +
-                  enemies[j].kind * 24 +
+                  enemy.kind * 24 +
                   player.combo * 3
                 player.combo = player.combo + 1
                 if player.combo > player.best_combo {
                   player.best_combo = player.combo
                 }
-                if @raylib.get_random_value(0, 99) < 22 + enemies[j].kind * 10 {
+                if @raylib.get_random_value(0, 99) < 22 + enemy.kind * 10 {
                   ignore(
                     add_pickup(
                       pickups,
                       @raylib.get_random_value(0, 2),
-                      enemies[j].x,
-                      enemies[j].y,
+                      enemy.x,
+                      enemy.y,
                       120.0,
                     ),
                   )
                 }
-                burst(particles, enemies[j].x, enemies[j].y, 22, 0.2, 0)
+                burst(particles, enemy.x, enemy.y, 22, 0.2, 0)
               }
             }
           }
 
-          if bullets[i].active && boss.active {
-            let rr = bullets[i].radius + 48.0
-            if dist2(bullets[i].x, bullets[i].y, boss.x, boss.y) <= rr * rr {
-              boss.hp = boss.hp - bullets[i].dmg
-              bullets[i].active = false
+          if bullet.active && boss.active {
+            let rr = bullet.radius + 48.0
+            if dist2(bullet.x, bullet.y, boss.x, boss.y) <= rr * rr {
+              boss.hp = boss.hp - bullet.dmg
+              bullet.active = false
               player.score = player.score + 8
-              burst(particles, bullets[i].x, bullets[i].y, 5, 0.1, 3)
+              burst(particles, bullet.x, bullet.y, 5, 0.1, 3)
             }
           }
         } else {
-          let rr = bullets[i].radius + 16.0
-          if dist2(bullets[i].x, bullets[i].y, player.x, player.y) <= rr * rr {
-            on_player_hit(bullets[i].dmg, "Enemy fire")
-            bullets[i].active = false
+          let rr = bullet.radius + 16.0
+          if dist2(bullet.x, bullet.y, player.x, player.y) <= rr * rr {
+            on_player_hit(bullet.dmg, "Enemy fire")
+            bullet.active = false
           }
         }
       }
@@ -1508,22 +1508,22 @@ fn main {
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].life = particles[i].life - dt
-        if particles[i].life <= 0.0 {
-          particles[i].active = false
+        particle.life = particle.life - dt
+        if particle.life <= 0.0 {
+          particle.active = false
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vy = particles[i].vy + dt * 120.0
-        particles[i].vx = particles[i].vx * (1.0 - dt * 1.5)
+        particle.t = particle.t + dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vy = particle.vy + dt * 120.0
+        particle.vx = particle.vx * (1.0 - dt * 1.5)
       }
 
       if player.hp <= 0.0 {
@@ -1595,19 +1595,19 @@ fn main {
       @raylib.Color::new(70, 120, 170, 210),
     )
 
-    for i in 0..<panels.length() {
-      if not(panels[i].active) {
+    for panel in panels {
+      if not(panel.active) {
         continue
       }
 
-      let x = (panels[i].x - panels[i].w * 0.5).to_int()
-      let y = (panels[i].y - panels[i].h * 0.5).to_int()
-      let w = panels[i].w.to_int()
-      let h = panels[i].h.to_int()
+      let x = (panel.x - panel.w * 0.5).to_int()
+      let y = (panel.y - panel.h * 0.5).to_int()
+      let w = panel.w.to_int()
+      let h = panel.h.to_int()
 
-      let col = if panels[i].hazard {
+      let col = if panel.hazard {
         @raylib.Color::new(148, 54, 66, 244)
-      } else if panels[i].boost {
+      } else if panel.boost {
         @raylib.Color::new(44, 138, 166, 244)
       } else {
         @raylib.Color::new(60, 68, 88, 236)
@@ -1621,7 +1621,7 @@ fn main {
         @raylib.Color::new(22, 28, 40, 255),
       )
 
-      if panels[i].hazard {
+      if panel.hazard {
         for k in 0..<4 {
           let lx0 = x + 8 + k * ((w - 16) / 4)
           let ly0 = y + 4
@@ -1638,76 +1638,76 @@ fn main {
       }
     }
 
-    for i in 0..<pickups.length() {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
 
-      let col = if pickups[i].kind == 0 {
+      let col = if pickup.kind == 0 {
         @raylib.Color::new(110, 236, 182, 246)
-      } else if pickups[i].kind == 1 {
+      } else if pickup.kind == 1 {
         @raylib.Color::new(102, 170, 252, 246)
       } else {
         @raylib.Color::new(252, 208, 94, 246)
       }
       @raylib.draw_circle(
-        pickups[i].x.to_int(),
-        pickups[i].y.to_int(),
+        pickup.x.to_int(),
+        pickup.y.to_int(),
         10.0,
         col,
       )
       @raylib.draw_circle_lines(
-        pickups[i].x.to_int(),
-        pickups[i].y.to_int(),
+        pickup.x.to_int(),
+        pickup.y.to_int(),
         14.0,
         @raylib.Color::new(250, 250, 250, 180),
       )
     }
 
-    for i in 0..<enemies.length() {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
 
-      if enemies[i].kind == 0 {
+      if enemy.kind == 0 {
         @raylib.draw_circle(
-          enemies[i].x.to_int(),
-          enemies[i].y.to_int(),
+          enemy.x.to_int(),
+          enemy.y.to_int(),
           16.0,
           @raylib.Color::new(224, 92, 94, 242),
         )
         @raylib.draw_circle_lines(
-          enemies[i].x.to_int(),
-          enemies[i].y.to_int(),
+          enemy.x.to_int(),
+          enemy.y.to_int(),
           20.0,
           @raylib.Color::new(248, 196, 198, 180),
         )
-      } else if enemies[i].kind == 1 {
+      } else if enemy.kind == 1 {
         @raylib.draw_rectangle(
-          (enemies[i].x - 18.0).to_int(),
-          (enemies[i].y - 14.0).to_int(),
+          (enemy.x - 18.0).to_int(),
+          (enemy.y - 14.0).to_int(),
           36,
           28,
           @raylib.Color::new(220, 122, 62, 244),
         )
         @raylib.draw_rectangle_lines(
-          (enemies[i].x - 22.0).to_int(),
-          (enemies[i].y - 18.0).to_int(),
+          (enemy.x - 22.0).to_int(),
+          (enemy.y - 18.0).to_int(),
           44,
           36,
           @raylib.Color::new(248, 226, 200, 176),
         )
       } else {
         @raylib.draw_rectangle(
-          (enemies[i].x - 24.0).to_int(),
-          (enemies[i].y - 20.0).to_int(),
+          (enemy.x - 24.0).to_int(),
+          (enemy.y - 20.0).to_int(),
           48,
           40,
           @raylib.Color::new(156, 84, 170, 240),
         )
         @raylib.draw_circle(
-          enemies[i].x.to_int(),
-          (enemies[i].y - 4.0).to_int(),
+          enemy.x.to_int(),
+          (enemy.y - 4.0).to_int(),
           12.0,
           @raylib.Color::new(236, 188, 250, 210),
         )
@@ -1761,51 +1761,51 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
 
-      let col = if bullets[i].team == 1 {
-        if bullets[i].kind == 1 {
+      let col = if bullet.team == 1 {
+        if bullet.kind == 1 {
           @raylib.Color::new(120, 238, 255, 248)
         } else {
           @raylib.Color::new(248, 246, 150, 248)
         }
-      } else if bullets[i].kind == 1 {
+      } else if bullet.kind == 1 {
         @raylib.Color::new(244, 114, 232, 246)
       } else {
         @raylib.Color::new(250, 120, 126, 242)
       }
 
       @raylib.draw_circle(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
-        bullets[i].radius,
+        bullet.x.to_int(),
+        bullet.y.to_int(),
+        bullet.radius,
         col,
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let life01 : Float = clampf(particles[i].life / 0.8, 0.0, 1.0)
+      let life01 : Float = clampf(particle.life / 0.8, 0.0, 1.0)
       let alpha : Int = (life01 * 255.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(104, 220, 254, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 126, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(254, 122, 122, alpha)
       } else {
         @raylib.Color::new(226, 152, 255, alpha)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

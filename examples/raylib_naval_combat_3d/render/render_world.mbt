@@ -246,8 +246,7 @@ fn draw_player_ship(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemy_ships(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
@@ -339,8 +338,7 @@ fn draw_enemy_ships(game : @types.Game) -> Unit {
 
 ///|
 fn draw_cannonballs(game : @types.Game) -> Unit {
-  for i in 0..<game.cannonballs.length() {
-    let cb = game.cannonballs[i]
+  for cb in game.cannonballs {
     if not(cb.active) {
       continue
     }
@@ -365,8 +363,7 @@ fn draw_cannonballs(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

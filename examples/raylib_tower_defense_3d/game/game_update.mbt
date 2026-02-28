@@ -151,8 +151,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Check wave complete
   if game.enemies_spawned >= game.enemies_to_spawn {
     let mut alive = false
-    for i in 0..<game.enemies.length() {
-      if game.enemies[i].active {
+    for enemy in game.enemies {
+      if enemy.active {
         alive = true
         break
       }
@@ -385,8 +385,7 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -417,8 +416,7 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_chain_lines(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.chain_lines.length() {
-    let cl = game.chain_lines[i]
+  for cl in game.chain_lines {
     if not(cl.active) {
       continue
     }

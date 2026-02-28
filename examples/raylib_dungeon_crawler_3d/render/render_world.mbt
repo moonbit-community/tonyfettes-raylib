@@ -215,8 +215,7 @@ fn draw_chest(wx : Float, wz : Float, game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -509,8 +508,7 @@ fn draw_enemy_health_bar(e : @types.Enemy, game : @types.Game) -> Unit {
 
 ///|
 fn draw_loot_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.loot.length() {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
       continue
     }
@@ -564,8 +562,7 @@ fn draw_loot_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
       continue
     }
@@ -585,8 +582,7 @@ fn draw_projectiles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

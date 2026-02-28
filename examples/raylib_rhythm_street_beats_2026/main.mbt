@@ -127,30 +127,30 @@ fn note_y(note_t : Float, song_t : Float) -> Float {
 
 ///|
 fn clear_notes(notes : Array[Note]) -> Unit {
-  for i in 0..<notes.length() {
-    notes[i].active = false
-    notes[i].lane = 0
-    notes[i].time = 0.0
-    notes[i].kind = 0
-    notes[i].end_time = 0.0
-    notes[i].state = 0
-    notes[i].hold_ratio = 0.0
-    notes[i].pop_t = 0.0
+  for note in notes {
+    note.active = false
+    note.lane = 0
+    note.time = 0.0
+    note.kind = 0
+    note.end_time = 0.0
+    note.state = 0
+    note.hold_ratio = 0.0
+    note.pop_t = 0.0
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].size = 0.0
-    ps[i].t = 0.0
-    ps[i].life = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.size = 0.0
+    ps_elem.t = 0.0
+    ps_elem.life = 0.0
+    ps_elem.kind = 0
   }
 }
 
@@ -163,20 +163,20 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 90)) * speed
-      ps[i].size = Float::from_int(@raylib.get_random_value(3, 7))
-      ps[i].t = 0.0
-      ps[i].life = Float::from_int(@raylib.get_random_value(20, 56)) / 100.0
-      ps[i].kind = kind
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 90)) * speed
+      ps_elem.size = Float::from_int(@raylib.get_random_value(3, 7))
+      ps_elem.t = 0.0
+      ps_elem.life = Float::from_int(@raylib.get_random_value(20, 56)) / 100.0
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -662,18 +662,18 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      particles[i].t = particles[i].t + dt
-      if particles[i].t >= particles[i].life {
-        particles[i].active = false
+      particle.t = particle.t + dt
+      if particle.t >= particle.life {
+        particle.active = false
       } else {
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 1.8)
-        particles[i].vy = particles[i].vy + 560.0 * dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (Float::from_int(1) - dt * 1.8)
+        particle.vy = particle.vy + 560.0 * dt
       }
     }
 
@@ -874,26 +874,26 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let life_k = particles[i].t / particles[i].life
+      let life_k = particle.t / particle.life
       let alpha : Int = ((Float::from_int(1) - life_k) * 230.0).to_int()
       let mut col = @raylib.Color::new(116, 220, 252, alpha)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         col = @raylib.Color::new(136, 246, 176, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         col = @raylib.Color::new(250, 188, 98, alpha)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         col = @raylib.Color::new(232, 82, 104, alpha)
       }
 
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        (particles[i].y + shake_y).to_int(),
-        particles[i].size,
+        (particle.x + shake_x).to_int(),
+        (particle.y + shake_y).to_int(),
+        particle.size,
         col,
       )
     }

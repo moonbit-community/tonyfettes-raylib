@@ -84,15 +84,15 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -107,19 +107,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -142,35 +142,35 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.8 } else { 2.1 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - drag * dt)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - (drag - 0.4) * dt) +
-      dt * (if game.particles[i].kind == 1 { 84.0 } else { 118.0 })
+    let drag : Float = if particle.kind == 2 { 2.8 } else { 2.1 }
+    particle.vx = particle.vx * (1.0 - drag * dt)
+    particle.vy = particle.vy * (1.0 - (drag - 0.4) * dt) +
+      dt * (if particle.kind == 1 { 84.0 } else { 118.0 })
   }
 }
 
 ///|
 fn flare_cover_at(game : Game, x : Int, y : Int) -> Bool {
-  for i in 0..<game.flares.length() {
-    if not(game.flares[i].active) {
+  for flare in game.flares {
+    if not(flare.active) {
       continue
     }
 
-    let d : Int = manhattan(x, y, game.flares[i].x, game.flares[i].y)
+    let d : Int = manhattan(x, y, flare.x, flare.y)
     if d <= 2 {
       return true
     }
@@ -254,8 +254,8 @@ fn build_map(game : Game) -> Unit {
     (14, 3),
   ]
 
-  for i in 0..<extra_walls.length() {
-    set_tile(game, extra_walls[i].0, extra_walls[i].1, tile_wall)
+  for extra_wall in extra_walls {
+    set_tile(game, extra_wall.0, extra_wall.1, tile_wall)
   }
 
   set_tile(game, exit_x, exit_y, tile_exit)
@@ -327,11 +327,11 @@ fn init_drones(game : Game) -> Unit {
 
 ///|
 fn clear_flares(game : Game) -> Unit {
-  for i in 0..<game.flares.length() {
-    game.flares[i].active = false
-    game.flares[i].x = 0
-    game.flares[i].y = 0
-    game.flares[i].t = 0.0
+  for flare in game.flares {
+    flare.active = false
+    flare.x = 0
+    flare.y = 0
+    flare.t = 0.0
   }
 }
 
@@ -723,23 +723,23 @@ fn update_drones(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_flares(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.flares.length() {
-    if not(game.flares[i].active) {
+  for flare in game.flares {
+    if not(flare.active) {
       continue
     }
 
-    game.flares[i].t = game.flares[i].t - dt
-    if game.flares[i].t <= 0.0 {
-      game.flares[i].active = false
+    flare.t = flare.t - dt
+    if flare.t <= 0.0 {
+      flare.active = false
       continue
     }
 
     if @raylib.get_random_value(0, 4) == 0 {
       emit_particle(
         game,
-        Float::from_int(cell_center_x(Float::from_int(game.flares[i].x))) +
+        Float::from_int(cell_center_x(Float::from_int(flare.x))) +
         randf(-16.0, 16.0),
-        Float::from_int(cell_center_y(Float::from_int(game.flares[i].y))) +
+        Float::from_int(cell_center_y(Float::from_int(flare.y))) +
         randf(-16.0, 16.0),
         randf(-20.0, 20.0),
         randf(-28.0, -8.0),
@@ -778,22 +778,22 @@ fn deploy_flare(game : Game) -> Bool {
   game.action_cd = 0.34
 
   let mut stunned : Int = 0
-  for i in 0..<game.drones.length() {
-    if not(game.drones[i].active) || game.drones[i].mode == drone_stunned {
+  for drone in game.drones {
+    if not(drone.active) || drone.mode == drone_stunned {
       continue
     }
 
     let d : Int = manhattan(
       game.player.x,
       game.player.y,
-      game.drones[i].body.x,
-      game.drones[i].body.y,
+      drone.body.x,
+      drone.body.y,
     )
 
     if d <= 2 {
-      game.drones[i].mode = drone_stunned
-      game.drones[i].stun_t = flare_stun_t
-      game.drones[i].move_cd = 0.14
+      drone.mode = drone_stunned
+      drone.stun_t = flare_stun_t
+      drone.move_cd = 0.14
       stunned = stunned + 1
     }
   }
@@ -853,13 +853,13 @@ fn handle_player_hit(game : Game) -> Unit {
     return
   }
 
-  for i in 0..<game.drones.length() {
-    if not(game.drones[i].active) || game.drones[i].mode == drone_stunned {
+  for drone in game.drones {
+    if not(drone.active) || drone.mode == drone_stunned {
       continue
     }
 
-    if game.drones[i].body.x == game.player.x &&
-      game.drones[i].body.y == game.player.y {
+    if drone.body.x == game.player.x &&
+      drone.body.y == game.player.y {
       game.lives = game.lives - 1
       game.flash_t = 1.05
       game.shake_t = 0.28

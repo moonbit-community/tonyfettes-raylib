@@ -61,8 +61,7 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     enemy.x = clamped.0
     enemy.z = clamped.1
     // Pillar collision
-    for pi in 0..<game.pillars.length() {
-      let pillar = game.pillars[pi]
+    for pillar in game.pillars {
       let result = @types.push_from_pillar(
         enemy.x,
         enemy.z,
@@ -75,8 +74,7 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
       enemy.z = result.1
     }
     // Barricade collision + barricade damage
-    for bi in 0..<game.barricades.length() {
-      let barr = game.barricades[bi]
+    for barr in game.barricades {
       if not(barr.active) {
         continue
       }
@@ -124,8 +122,7 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
       }
     }
     // Trap interaction
-    for ti in 0..<game.traps.length() {
-      let trap = game.traps[ti]
+    for trap in game.traps {
       if not(trap.active) {
         continue
       }
@@ -480,8 +477,7 @@ fn update_necromancer_ai(
   if enemy.revive_timer <= 0.0 {
     // Try to find a dead enemy to revive (using can_revive flag)
     let mut revived = false
-    for j in 0..<game.enemies.length() {
-      let target = game.enemies[j]
+    for target in game.enemies {
       if not(target.active) && target.can_revive {
         let revive_dist = @types.distance2d(
           enemy.x,

@@ -107,14 +107,14 @@ fn inside_rect(
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -127,19 +127,19 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 62)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(12, 62)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -516,18 +516,18 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 260.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 260.0 * dt
+      particle.ttl = particle.ttl - dt
 
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -1165,23 +1165,23 @@ fn main {
       @raylib.Color::new(164, 88, 52, 255),
     )
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let c = if particles[i].kind == 0 {
+      let c = if particle.kind == 0 {
         @raylib.Color::new(254, 126, 126, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 130, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(238, 156, 254, 255)
       } else {
         @raylib.Color::new(118, 226, 246, 255)
       }
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         c,
       )

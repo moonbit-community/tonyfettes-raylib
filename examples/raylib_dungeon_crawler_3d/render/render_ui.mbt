@@ -398,8 +398,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw enemies on minimap
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -429,8 +428,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw loot on minimap
-  for i in 0..<game.loot.length() {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
       continue
     }

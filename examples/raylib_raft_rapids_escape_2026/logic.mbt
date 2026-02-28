@@ -130,38 +130,38 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i in 0..<game.obstacles.length() {
-    game.obstacles[i].active = false
-    game.obstacles[i].x = 0.0
-    game.obstacles[i].y = 0.0
-    game.obstacles[i].w = 0.0
-    game.obstacles[i].h = 0.0
-    game.obstacles[i].vx = 0.0
-    game.obstacles[i].vy = 0.0
-    game.obstacles[i].kind = obstacle_rock
-    game.obstacles[i].phase = 0.0
+  for obstacle in game.obstacles {
+    obstacle.active = false
+    obstacle.x = 0.0
+    obstacle.y = 0.0
+    obstacle.w = 0.0
+    obstacle.h = 0.0
+    obstacle.vx = 0.0
+    obstacle.vy = 0.0
+    obstacle.kind = obstacle_rock
+    obstacle.phase = 0.0
   }
 
-  for i in 0..<game.pickups.length() {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].kind = pickup_coin
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.kind = pickup_coin
+    pickup.phase = 0.0
   }
 }
 
@@ -176,19 +176,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -211,24 +211,24 @@ fn splash(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.8 } else { 1.9 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * drag)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * (drag - 0.5)) +
-      dt * (if game.particles[i].kind == 2 { 250.0 } else { 160.0 })
+    let drag : Float = if particle.kind == 2 { 2.8 } else { 1.9 }
+    particle.vx = particle.vx * (1.0 - dt * drag)
+    particle.vy = particle.vy * (1.0 - dt * (drag - 0.5)) +
+      dt * (if particle.kind == 2 { 250.0 } else { 160.0 })
   }
 }
 
@@ -436,8 +436,8 @@ fn collect_pickup(game : Game, kind : Int, x : Float, y : Float) -> Unit {
 
 ///|
 fn spawn_obstacle(game : Game) -> Bool {
-  for i in 0..<game.obstacles.length() {
-    if game.obstacles[i].active {
+  for obstacle in game.obstacles {
+    if obstacle.active {
       continue
     }
 
@@ -466,23 +466,23 @@ fn spawn_obstacle(game : Game) -> Bool {
       randf(50.0, 74.0)
     }
 
-    game.obstacles[i].active = true
-    game.obstacles[i].kind = kind
-    game.obstacles[i].w = w
-    game.obstacles[i].h = h
+    obstacle.active = true
+    obstacle.kind = kind
+    obstacle.w = w
+    obstacle.h = h
 
-    game.obstacles[i].x = randf(world_left() + 20.0, world_right() - w - 20.0)
-    game.obstacles[i].y = world_top() - h - randf(30.0, 180.0)
+    obstacle.x = randf(world_left() + 20.0, world_right() - w - 20.0)
+    obstacle.y = world_top() - h - randf(30.0, 180.0)
 
-    game.obstacles[i].vx = randf(-42.0, 42.0)
-    game.obstacles[i].vy = if kind == obstacle_log {
+    obstacle.vx = randf(-42.0, 42.0)
+    obstacle.vy = if kind == obstacle_log {
       randf(220.0, 300.0) + Float::from_int(game.level) * 20.0
     } else if kind == obstacle_mine {
       randf(170.0, 240.0) + Float::from_int(game.level) * 16.0
     } else {
       randf(190.0, 270.0) + Float::from_int(game.level) * 18.0
     }
-    game.obstacles[i].phase = randf(0.0, 6.28)
+    obstacle.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -492,18 +492,18 @@ fn spawn_obstacle(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i in 0..<game.pickups.length() {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = randf(world_left() + 36.0, world_right() - 36.0)
-    game.pickups[i].y = world_top() - randf(50.0, 260.0)
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.active = true
+    pickup.x = randf(world_left() + 36.0, world_right() - 36.0)
+    pickup.y = world_top() - randf(50.0, 260.0)
+    pickup.phase = randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 58 {
+    pickup.kind = if roll < 58 {
       pickup_coin
     } else if roll < 80 {
       pickup_fuel
@@ -584,44 +584,44 @@ fn update_raft(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_obstacles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.obstacles.length() {
-    if not(game.obstacles[i].active) {
+  for obstacle in game.obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    game.obstacles[i].phase = game.obstacles[i].phase +
-      dt * (1.3 + Float::from_int(game.obstacles[i].kind))
+    obstacle.phase = obstacle.phase +
+      dt * (1.3 + Float::from_int(obstacle.kind))
 
-    let sway : Float = if game.obstacles[i].kind == obstacle_log {
-      sinf(game.obstacles[i].phase * 1.9) * 32.0
-    } else if game.obstacles[i].kind == obstacle_mine {
-      sinf(game.obstacles[i].phase * 2.6) * 19.0
+    let sway : Float = if obstacle.kind == obstacle_log {
+      sinf(obstacle.phase * 1.9) * 32.0
+    } else if obstacle.kind == obstacle_mine {
+      sinf(obstacle.phase * 2.6) * 19.0
     } else {
-      sinf(game.obstacles[i].phase * 1.3) * 24.0
+      sinf(obstacle.phase * 1.3) * 24.0
     }
 
-    game.obstacles[i].x = game.obstacles[i].x +
+    obstacle.x = obstacle.x +
       (
-        game.obstacles[i].vx +
+        obstacle.vx +
         sway +
-        water_current_x(game, game.obstacles[i].y) * 0.08
+        water_current_x(game, obstacle.y) * 0.08
       ) *
       dt
-    game.obstacles[i].y = game.obstacles[i].y +
-      (game.obstacles[i].vy + water_current_y(game, game.obstacles[i].x) * 0.06) *
+    obstacle.y = obstacle.y +
+      (obstacle.vy + water_current_y(game, obstacle.x) * 0.06) *
       dt
 
-    if game.obstacles[i].x < world_left() + 4.0 {
-      game.obstacles[i].x = world_left() + 4.0
-      game.obstacles[i].vx = absf(game.obstacles[i].vx) * 0.7
+    if obstacle.x < world_left() + 4.0 {
+      obstacle.x = world_left() + 4.0
+      obstacle.vx = absf(obstacle.vx) * 0.7
     }
-    if game.obstacles[i].x + game.obstacles[i].w > world_right() - 4.0 {
-      game.obstacles[i].x = world_right() - game.obstacles[i].w - 4.0
-      game.obstacles[i].vx = -absf(game.obstacles[i].vx) * 0.7
+    if obstacle.x + obstacle.w > world_right() - 4.0 {
+      obstacle.x = world_right() - obstacle.w - 4.0
+      obstacle.vx = -absf(obstacle.vx) * 0.7
     }
 
-    if game.obstacles[i].y > world_bottom() + 120.0 {
-      game.obstacles[i].active = false
+    if obstacle.y > world_bottom() + 120.0 {
+      obstacle.active = false
       game.score = game.score + 3 + game.level
       continue
     }
@@ -630,18 +630,18 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
       game.raft_x,
       game.raft_y,
       raft_r,
-      game.obstacles[i].x,
-      game.obstacles[i].y,
-      game.obstacles[i].w,
-      game.obstacles[i].h,
+      obstacle.x,
+      obstacle.y,
+      obstacle.w,
+      obstacle.h,
     )
 
     if hit {
-      let kind : Int = game.obstacles[i].kind
-      let ox : Float = game.obstacles[i].x + game.obstacles[i].w * 0.5
-      let oy : Float = game.obstacles[i].y + game.obstacles[i].h * 0.5
+      let kind : Int = obstacle.kind
+      let ox : Float = obstacle.x + obstacle.w * 0.5
+      let oy : Float = obstacle.y + obstacle.h * 0.5
 
-      game.obstacles[i].active = false
+      obstacle.active = false
       hurt_player(game, kind, ox, oy)
 
       if game.state != state_play {
@@ -653,51 +653,51 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pickups.length() {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    game.pickups[i].phase = game.pickups[i].phase + dt * 2.4
+    pickup.phase = pickup.phase + dt * 2.4
 
-    game.pickups[i].x = game.pickups[i].x +
+    pickup.x = pickup.x +
       (
-        sinf(game.pickups[i].phase * 2.3) * 22.0 +
-        water_current_x(game, game.pickups[i].y) * 0.10
+        sinf(pickup.phase * 2.3) * 22.0 +
+        water_current_x(game, pickup.y) * 0.10
       ) *
       dt
-    game.pickups[i].y = game.pickups[i].y +
+    pickup.y = pickup.y +
       (
         160.0 +
         Float::from_int(game.level) * 18.0 +
-        water_current_y(game, game.pickups[i].x) * 0.08
+        water_current_y(game, pickup.x) * 0.08
       ) *
       dt
 
-    game.pickups[i].x = clampf(
-      game.pickups[i].x,
+    pickup.x = clampf(
+      pickup.x,
       world_left() + 20.0,
       world_right() - 20.0,
     )
 
-    if game.pickups[i].y > world_bottom() + 90.0 {
-      game.pickups[i].active = false
+    if pickup.y > world_bottom() + 90.0 {
+      pickup.active = false
       continue
     }
 
-    let r : Float = raft_r + pickup_radius(game.pickups[i].kind)
+    let r : Float = raft_r + pickup_radius(pickup.kind)
     let d2 : Float = point_dist2(
       game.raft_x,
       game.raft_y,
-      game.pickups[i].x,
-      game.pickups[i].y,
+      pickup.x,
+      pickup.y,
     )
 
     if d2 <= r * r {
-      let kind : Int = game.pickups[i].kind
-      let px : Float = game.pickups[i].x
-      let py : Float = game.pickups[i].y
-      game.pickups[i].active = false
+      let kind : Int = pickup.kind
+      let px : Float = pickup.x
+      let py : Float = pickup.y
+      pickup.active = false
       collect_pickup(game, kind, px, py)
     }
   }
@@ -725,20 +725,20 @@ fn use_hint(game : Game) -> Bool {
 
     let mut cost : Float = 0.0
 
-    for i in 0..<game.obstacles.length() {
-      if not(game.obstacles[i].active) {
+    for obstacle in game.obstacles {
+      if not(obstacle.active) {
         continue
       }
 
-      if absf(game.obstacles[i].y - best_y) > 260.0 {
+      if absf(obstacle.y - best_y) > 260.0 {
         continue
       }
 
-      let ox : Float = game.obstacles[i].x + game.obstacles[i].w * 0.5
+      let ox : Float = obstacle.x + obstacle.w * 0.5
       let dx : Float = absf(ox - lane_x)
       cost = cost + maxf(0.0, 220.0 - dx)
 
-      if game.obstacles[i].kind == obstacle_mine {
+      if obstacle.kind == obstacle_mine {
         cost = cost + maxf(0.0, 100.0 - dx)
       }
     }
@@ -752,31 +752,31 @@ fn use_hint(game : Game) -> Bool {
   let mut pickup_found : Bool = false
   let mut pickup_dist : Float = 1_000_000.0
 
-  for i in 0..<game.pickups.length() {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    if game.pickups[i].kind != pickup_fuel &&
-      game.pickups[i].kind != pickup_shield {
+    if pickup.kind != pickup_fuel &&
+      pickup.kind != pickup_shield {
       continue
     }
 
-    if game.pickups[i].y > game.raft_y + 40.0 {
+    if pickup.y > game.raft_y + 40.0 {
       continue
     }
 
     let d2 : Float = point_dist2(
       game.raft_x,
       game.raft_y,
-      game.pickups[i].x,
-      game.pickups[i].y,
+      pickup.x,
+      pickup.y,
     )
 
     if d2 < pickup_dist {
       pickup_dist = d2
-      best_x = game.pickups[i].x
-      best_y = game.pickups[i].y
+      best_x = pickup.x
+      best_y = pickup.y
       pickup_found = true
     }
   }

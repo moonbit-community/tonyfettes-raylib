@@ -7,8 +7,8 @@ fn set_status(game : Game, text : String, ttl : Float) -> Unit {
 ///|
 fn active_enemy_count(game : Game) -> Int {
   let mut total = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       total = total + 1
     }
   }
@@ -18,8 +18,8 @@ fn active_enemy_count(game : Game) -> Int {
 ///|
 fn living_beacon_count(game : Game) -> Int {
   let mut total = 0
-  for i in 0..<game.beacons.length() {
-    if game.beacons[i].integrity > 0.0 {
+  for beacon in game.beacons {
+    if beacon.integrity > 0.0 {
       total = total + 1
     }
   }
@@ -29,8 +29,8 @@ fn living_beacon_count(game : Game) -> Int {
 ///|
 fn beacon_total_integrity(game : Game) -> Float {
   let mut total : Float = 0.0
-  for i in 0..<game.beacons.length() {
-    total = total + maxf(game.beacons[i].integrity, 0.0)
+  for beacon in game.beacons {
+    total = total + maxf(beacon.integrity, 0.0)
   }
   total
 }
@@ -76,27 +76,27 @@ fn reset_player(player : Player) -> Unit {
 
 ///|
 fn reset_beacons(game : Game) -> Unit {
-  for i in 0..<game.beacons.length() {
-    game.beacons[i].integrity = beacon_integrity_max
-    game.beacons[i].pulse_t = 0.0
+  for beacon in game.beacons {
+    beacon.integrity = beacon_integrity_max
+    beacon.pulse_t = 0.0
   }
 }
 
 ///|
 fn reset_traps(game : Game) -> Unit {
-  for i in 0..<game.traps.length() {
-    game.traps[i].active = false
-    game.traps[i].trigger_cd = 0.0
-    game.traps[i].flash_t = 0.0
+  for trap in game.traps {
+    trap.active = false
+    trap.trigger_cd = 0.0
+    trap.flash_t = 0.0
   }
 }
 
 ///|
 fn reset_enemies(game : Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
-    game.enemies[i].slow_t = 0.0
-    game.enemies[i].anim_t = 0.0
+  for enemy in game.enemies {
+    enemy.active = false
+    enemy.slow_t = 0.0
+    enemy.anim_t = 0.0
   }
 }
 
@@ -541,15 +541,15 @@ fn update_spawning(game : Game, dt : Float) -> Unit {
 fn update_traps(game : Game, dt : Float) -> Unit {
   let power = trap_damage + Float::from_int(maxi(game.night - 1, 0)) * 1.8
 
-  for i in 0..<game.traps.length() {
-    if game.traps[i].trigger_cd > 0.0 {
-      game.traps[i].trigger_cd = maxf(game.traps[i].trigger_cd - dt, 0.0)
+  for trap in game.traps {
+    if trap.trigger_cd > 0.0 {
+      trap.trigger_cd = maxf(trap.trigger_cd - dt, 0.0)
     }
-    if game.traps[i].flash_t > 0.0 {
-      game.traps[i].flash_t = maxf(game.traps[i].flash_t - dt, 0.0)
+    if trap.flash_t > 0.0 {
+      trap.flash_t = maxf(trap.flash_t - dt, 0.0)
     }
 
-    if not(game.traps[i].active) || game.traps[i].trigger_cd > 0.0 {
+    if not(trap.active) || trap.trigger_cd > 0.0 {
       continue
     }
 
@@ -562,8 +562,8 @@ fn update_traps(game : Game, dt : Float) -> Unit {
       }
 
       let d2 = dist2(
-        game.traps[i].x,
-        game.traps[i].y,
+        trap.x,
+        trap.y,
         game.enemies[j].x,
         game.enemies[j].y,
       )
@@ -574,8 +574,8 @@ fn update_traps(game : Game, dt : Float) -> Unit {
     }
 
     if hit_index >= 0 {
-      game.traps[i].trigger_cd = trap_rearm_time
-      game.traps[i].flash_t = trap_flash_time
+      trap.trigger_cd = trap_rearm_time
+      trap.flash_t = trap_flash_time
       game.sweep_charge = clampf(
         game.sweep_charge + sweep_charge_hit * 0.6,
         0.0,
@@ -697,8 +697,8 @@ fn tick_play_timers(game : Game, dt : Float) -> Unit {
   game.night_banner_t = maxf(game.night_banner_t - dt, 0.0)
   game.shake_t = maxf(game.shake_t - dt, 0.0)
 
-  for i in 0..<game.beacons.length() {
-    game.beacons[i].pulse_t = maxf(game.beacons[i].pulse_t - dt, 0.0)
+  for beacon in game.beacons {
+    beacon.pulse_t = maxf(beacon.pulse_t - dt, 0.0)
   }
 }
 

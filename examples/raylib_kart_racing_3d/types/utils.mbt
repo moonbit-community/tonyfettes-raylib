@@ -705,8 +705,8 @@ pub fn get_item_weights(place : Int) -> Array[Int] {
 pub fn pick_random_powerup(game : Game, place : Int) -> Int {
   let weights = get_item_weights(place)
   let mut total = 0
-  for i in 0..<weights.length() {
-    total = total + weights[i]
+  for weight in weights {
+    total = total + weight
   }
   if total == 0 {
     return powerup_boost

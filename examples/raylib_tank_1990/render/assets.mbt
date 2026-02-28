@@ -123,8 +123,8 @@ fn load_texture_list(
   files : Array[String],
 ) -> Array[@raylib.Texture] {
   let textures : Array[@raylib.Texture] = []
-  for i in 0..<files.length() {
-    let path = "\{prefix}/\{files[i]}"
+  for file in files {
+    let path = "\{prefix}/\{file}"
     match load_texture_opt(path) {
       Some(texture) => textures.push(texture)
       None => ()
@@ -143,8 +143,8 @@ fn unload_texture_opt(texture : @raylib.Texture?) -> Unit {
 
 ///|
 fn unload_texture_list(textures : Array[@raylib.Texture]) -> Unit {
-  for i in 0..<textures.length() {
-    @raylib.unload_texture(textures[i])
+  for texture in textures {
+    @raylib.unload_texture(texture)
   }
 }
 

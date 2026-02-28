@@ -119,8 +119,7 @@ fn complete_mission(game : @types.Game) -> Unit {
 ///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -364,8 +363,7 @@ fn enemy_fire(
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -427,8 +425,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       }
     } else {
       // Check hit enemies
-      for j in 0..<game.enemies.length() {
-        let e = game.enemies[j]
+      for e in game.enemies {
         if not(e.active) {
           continue
         }
@@ -486,8 +483,7 @@ fn bomb_area_damage(
   damage : Float,
 ) -> Unit {
   // Damage enemies in blast radius
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -514,8 +510,7 @@ fn bomb_area_damage(
     }
   }
   // Damage buildings in blast radius
-  for i in 0..<game.buildings.length() {
-    let b = game.buildings[i]
+  for b in game.buildings {
     if not(b.active) {
       continue
     }
@@ -544,8 +539,7 @@ fn bomb_area_damage(
     }
   }
   // Damage turrets in blast radius
-  for i in 0..<game.turrets.length() {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
       continue
     }

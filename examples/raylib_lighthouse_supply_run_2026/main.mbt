@@ -170,28 +170,28 @@ fn clear_lights(lights : Array[Lighthouse]) -> Unit {
 
 ///|
 fn clear_reefs(reefs : Array[Reef]) -> Unit {
-  for i in 0..<reefs.length() {
-    reefs[i].active = false
-    reefs[i].x = 0.0
-    reefs[i].y = 0.0
-    reefs[i].radius = 0.0
-    reefs[i].hardness = 0.0
-    reefs[i].pulse = 0.0
+  for reef in reefs {
+    reef.active = false
+    reef.x = 0.0
+    reef.y = 0.0
+    reef.radius = 0.0
+    reef.hardness = 0.0
+    reef.pulse = 0.0
   }
 }
 
 ///|
 fn clear_storms(storms : Array[Storm]) -> Unit {
-  for i in 0..<storms.length() {
-    storms[i].active = false
-    storms[i].x = 0.0
-    storms[i].y = 0.0
-    storms[i].vx = 0.0
-    storms[i].vy = 0.0
-    storms[i].radius = 0.0
-    storms[i].intensity = 0.0
-    storms[i].life = 0.0
-    storms[i].phase = 0.0
+  for storm in storms {
+    storm.active = false
+    storm.x = 0.0
+    storm.y = 0.0
+    storm.vx = 0.0
+    storm.vy = 0.0
+    storm.radius = 0.0
+    storm.intensity = 0.0
+    storm.life = 0.0
+    storm.phase = 0.0
   }
 }
 
@@ -213,15 +213,15 @@ fn clear_pirates(pirates : Array[Pirate]) -> Unit {
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -232,14 +232,14 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
+    part.active = true
+    part.x = x
+    part.y = y
     let a : Float = randf(0.0, 6.28318)
     let s : Float = if kind == 0 {
       randf(8.0, 40.0)
@@ -248,17 +248,17 @@ fn add_particle(
     } else {
       randf(14.0, 88.0)
     }
-    parts[i].vx = @math.cosf(a) * s
-    parts[i].vy = @math.sinf(a) * s
-    parts[i].life = if kind == 0 {
+    part.vx = @math.cosf(a) * s
+    part.vy = @math.sinf(a) * s
+    part.life = if kind == 0 {
       randf(0.4, 1.0)
     } else if kind == 1 {
       randf(0.15, 0.45)
     } else {
       randf(0.25, 0.8)
     }
-    parts[i].size = if kind == 1 { randf(2.4, 7.6) } else { randf(1.7, 5.2) }
-    parts[i].kind = kind
+    part.size = if kind == 1 { randf(2.4, 7.6) } else { randf(1.7, 5.2) }
+    part.kind = kind
     return
   }
 }
@@ -278,29 +278,29 @@ fn burst(
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-      parts[i].vy = parts[i].vy + dt * 8.0
-    } else if parts[i].kind == 1 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.2)
-      parts[i].vy = parts[i].vy + dt * 170.0
+    if part.kind == 0 {
+      part.vx = part.vx * (1.0 - dt * 0.8)
+      part.vy = part.vy + dt * 8.0
+    } else if part.kind == 1 {
+      part.vx = part.vx * (1.0 - dt * 4.2)
+      part.vy = part.vy + dt * 170.0
     } else {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.1)
-      parts[i].vy = parts[i].vy + dt * 44.0
+      part.vx = part.vx * (1.0 - dt * 2.1)
+      part.vy = part.vy + dt * 44.0
     }
   }
 }
@@ -371,11 +371,11 @@ fn init_reefs(
     }
 
     let mut near_light : Bool = false
-    for i in 0..<lights.length() {
-      if not(lights[i].active) {
+    for light in lights {
+      if not(light.active) {
         continue
       }
-      if dist2(x, y, lights[i].x, lights[i].y) < 120.0 * 120.0 {
+      if dist2(x, y, light.x, light.y) < 120.0 * 120.0 {
         near_light = true
         break
       }
@@ -385,13 +385,13 @@ fn init_reefs(
     }
 
     let mut overlap : Bool = false
-    for i in 0..<reefs.length() {
-      if not(reefs[i].active) {
+    for reef in reefs {
+      if not(reef.active) {
         continue
       }
 
-      let rsum : Float = rr + reefs[i].radius + 8.0
-      if dist2(x, y, reefs[i].x, reefs[i].y) < rsum * rsum {
+      let rsum : Float = rr + reef.radius + 8.0
+      if dist2(x, y, reef.x, reef.y) < rsum * rsum {
         overlap = true
         break
       }
@@ -414,8 +414,8 @@ fn init_reefs(
 ///|
 fn active_storms(storms : Array[Storm]) -> Int {
   let mut n : Int = 0
-  for i in 0..<storms.length() {
-    if storms[i].active {
+  for storm in storms {
+    if storm.active {
       n = n + 1
     }
   }
@@ -425,8 +425,8 @@ fn active_storms(storms : Array[Storm]) -> Int {
 ///|
 fn active_pirates(pirates : Array[Pirate]) -> Int {
   let mut n : Int = 0
-  for i in 0..<pirates.length() {
-    if pirates[i].active {
+  for pirate in pirates {
+    if pirate.active {
       n = n + 1
     }
   }
@@ -436,12 +436,12 @@ fn active_pirates(pirates : Array[Pirate]) -> Int {
 ///|
 fn peak_demand(lights : Array[Lighthouse]) -> Float {
   let mut best : Float = 0.0
-  for i in 0..<lights.length() {
-    if not(lights[i].active) {
+  for light in lights {
+    if not(light.active) {
       continue
     }
-    if lights[i].demand > best {
-      best = lights[i].demand
+    if light.demand > best {
+      best = light.demand
     }
   }
   best
@@ -450,9 +450,9 @@ fn peak_demand(lights : Array[Lighthouse]) -> Float {
 ///|
 fn total_demand(lights : Array[Lighthouse]) -> Float {
   let mut sum : Float = 0.0
-  for i in 0..<lights.length() {
-    if lights[i].active {
-      sum = sum + lights[i].demand
+  for light in lights {
+    if light.active {
+      sum = sum + light.demand
     }
   }
   sum
@@ -467,39 +467,39 @@ fn spawn_storm(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i in 0..<storms.length() {
-    if storms[i].active {
+  for storm in storms {
+    if storm.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      storms[i].x = world_l - 56.0
-      storms[i].y = randf(world_t + 20.0, world_b - 20.0)
-      storms[i].vx = randf(18.0, 48.0)
-      storms[i].vy = randf(-12.0, 12.0)
+      storm.x = world_l - 56.0
+      storm.y = randf(world_t + 20.0, world_b - 20.0)
+      storm.vx = randf(18.0, 48.0)
+      storm.vy = randf(-12.0, 12.0)
     } else if side == 1 {
-      storms[i].x = world_r + 56.0
-      storms[i].y = randf(world_t + 20.0, world_b - 20.0)
-      storms[i].vx = randf(-48.0, -18.0)
-      storms[i].vy = randf(-12.0, 12.0)
+      storm.x = world_r + 56.0
+      storm.y = randf(world_t + 20.0, world_b - 20.0)
+      storm.vx = randf(-48.0, -18.0)
+      storm.vy = randf(-12.0, 12.0)
     } else if side == 2 {
-      storms[i].x = randf(world_l + 20.0, world_r - 20.0)
-      storms[i].y = world_t - 56.0
-      storms[i].vx = randf(-16.0, 16.0)
-      storms[i].vy = randf(20.0, 42.0)
+      storm.x = randf(world_l + 20.0, world_r - 20.0)
+      storm.y = world_t - 56.0
+      storm.vx = randf(-16.0, 16.0)
+      storm.vy = randf(20.0, 42.0)
     } else {
-      storms[i].x = randf(world_l + 20.0, world_r - 20.0)
-      storms[i].y = world_b + 56.0
-      storms[i].vx = randf(-16.0, 16.0)
-      storms[i].vy = randf(-42.0, -20.0)
+      storm.x = randf(world_l + 20.0, world_r - 20.0)
+      storm.y = world_b + 56.0
+      storm.vx = randf(-16.0, 16.0)
+      storm.vy = randf(-42.0, -20.0)
     }
 
-    storms[i].active = true
-    storms[i].radius = randf(64.0, 136.0)
-    storms[i].intensity = randf(0.75, 1.55) + Float::from_int(tier) * 0.03
-    storms[i].life = randf(18.0, 42.0)
-    storms[i].phase = randf(0.0, 20.0)
+    storm.active = true
+    storm.radius = randf(64.0, 136.0)
+    storm.intensity = randf(0.75, 1.55) + Float::from_int(tier) * 0.03
+    storm.life = randf(18.0, 42.0)
+    storm.phase = randf(0.0, 20.0)
     return true
   }
   false
@@ -515,34 +515,34 @@ fn spawn_pirate(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i in 0..<pirates.length() {
-    if pirates[i].active {
+  for pirate in pirates {
+    if pirate.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      pirates[i].x = world_l - 34.0
-      pirates[i].y = randf(world_t + 16.0, world_b - 16.0)
+      pirate.x = world_l - 34.0
+      pirate.y = randf(world_t + 16.0, world_b - 16.0)
     } else if side == 1 {
-      pirates[i].x = world_r + 34.0
-      pirates[i].y = randf(world_t + 16.0, world_b - 16.0)
+      pirate.x = world_r + 34.0
+      pirate.y = randf(world_t + 16.0, world_b - 16.0)
     } else if side == 2 {
-      pirates[i].x = randf(world_l + 16.0, world_r - 16.0)
-      pirates[i].y = world_t - 34.0
+      pirate.x = randf(world_l + 16.0, world_r - 16.0)
+      pirate.y = world_t - 34.0
     } else {
-      pirates[i].x = randf(world_l + 16.0, world_r - 16.0)
-      pirates[i].y = world_b + 34.0
+      pirate.x = randf(world_l + 16.0, world_r - 16.0)
+      pirate.y = world_b + 34.0
     }
 
-    pirates[i].active = true
-    pirates[i].vx = 0.0
-    pirates[i].vy = 0.0
-    pirates[i].speed = randf(68.0, 98.0) + Float::from_int(tier) * 2.1
-    pirates[i].attack_cd = randf(0.2, 1.0)
-    pirates[i].blink_t = 0.0
-    pirates[i].target_i = -1
-    pirates[i].id = serial
+    pirate.active = true
+    pirate.vx = 0.0
+    pirate.vy = 0.0
+    pirate.speed = randf(68.0, 98.0) + Float::from_int(tier) * 2.1
+    pirate.attack_cd = randf(0.2, 1.0)
+    pirate.blink_t = 0.0
+    pirate.target_i = -1
+    pirate.id = serial
     return true
   }
   false
@@ -557,37 +557,37 @@ fn update_storms(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i in 0..<storms.length() {
-    if not(storms[i].active) {
+  for storm in storms {
+    if not(storm.active) {
       continue
     }
 
-    storms[i].life = storms[i].life - dt
-    if storms[i].life <= 0.0 {
-      storms[i].active = false
+    storm.life = storm.life - dt
+    if storm.life <= 0.0 {
+      storm.active = false
       continue
     }
 
-    storms[i].phase = storms[i].phase + dt * (0.8 + storms[i].intensity * 0.35)
-    let p : Float = 0.88 + 0.2 * (@math.sinf(storms[i].phase) * 0.5 + 0.5)
+    storm.phase = storm.phase + dt * (0.8 + storm.intensity * 0.35)
+    let p : Float = 0.88 + 0.2 * (@math.sinf(storm.phase) * 0.5 + 0.5)
 
-    storms[i].x = storms[i].x + storms[i].vx * dt * p
-    storms[i].y = storms[i].y + storms[i].vy * dt * p
+    storm.x = storm.x + storm.vx * dt * p
+    storm.y = storm.y + storm.vy * dt * p
 
-    if storms[i].x < world_l - 130.0 {
-      storms[i].x = world_l - 130.0
-      storms[i].vx = absf(storms[i].vx)
-    } else if storms[i].x > world_r + 130.0 {
-      storms[i].x = world_r + 130.0
-      storms[i].vx = -absf(storms[i].vx)
+    if storm.x < world_l - 130.0 {
+      storm.x = world_l - 130.0
+      storm.vx = absf(storm.vx)
+    } else if storm.x > world_r + 130.0 {
+      storm.x = world_r + 130.0
+      storm.vx = -absf(storm.vx)
     }
 
-    if storms[i].y < world_t - 130.0 {
-      storms[i].y = world_t - 130.0
-      storms[i].vy = absf(storms[i].vy)
-    } else if storms[i].y > world_b + 130.0 {
-      storms[i].y = world_b + 130.0
-      storms[i].vy = -absf(storms[i].vy)
+    if storm.y < world_t - 130.0 {
+      storm.y = world_t - 130.0
+      storm.vy = absf(storm.vy)
+    } else if storm.y > world_b + 130.0 {
+      storm.y = world_b + 130.0
+      storm.vy = -absf(storm.vy)
     }
   }
 }
@@ -700,37 +700,37 @@ fn update_light_demands(
   let mut urgent_count : Int = 0
   let mut demand_sum : Float = 0.0
 
-  for i in 0..<lights.length() {
-    if not(lights[i].active) {
+  for light in lights {
+    if not(light.active) {
       continue
     }
 
-    if lights[i].warning_t > 0.0 {
-      lights[i].warning_t = lights[i].warning_t - dt
-      if lights[i].warning_t < 0.0 {
-        lights[i].warning_t = 0.0
+    if light.warning_t > 0.0 {
+      light.warning_t = light.warning_t - dt
+      if light.warning_t < 0.0 {
+        light.warning_t = 0.0
       }
     }
 
     let inc : Float = dt *
       (
         2.3 +
-        Float::from_int(lights[i].priority) * 0.65 +
+        Float::from_int(light.priority) * 0.65 +
         Float::from_int(tier) * 0.22
       )
-    lights[i].demand = lights[i].demand + inc
+    light.demand = light.demand + inc
 
-    if lights[i].demand >= 72.0 {
+    if light.demand >= 72.0 {
       urgent_count = urgent_count + 1
     }
 
-    if lights[i].demand >= 100.0 {
+    if light.demand >= 100.0 {
       blackout_gain = blackout_gain + 1
-      lights[i].demand = randf(56.0, 70.0)
-      lights[i].warning_t = 1.6
+      light.demand = randf(56.0, 70.0)
+      light.warning_t = 1.6
     }
 
-    demand_sum = demand_sum + lights[i].demand
+    demand_sum = demand_sum + light.demand
   }
 
   (blackout_gain, urgent_count, demand_sum)
@@ -748,17 +748,17 @@ fn deliver_to_lights(
     let mut used : Int = 0
     let mut lights_served : Int = 0
 
-    for i in 0..<lights.length() {
-      if not(lights[i].active) || lights[i].demand <= 0.1 || player.cargo <= 0 {
+    for light in lights {
+      if not(light.active) || light.demand <= 0.1 || player.cargo <= 0 {
         continue
       }
 
-      let d2 : Float = dist2(player.x, player.y, lights[i].x, lights[i].y)
+      let d2 : Float = dist2(player.x, player.y, light.x, light.y)
       if d2 > 92.0 * 92.0 {
         continue
       }
 
-      let need_i : Int = lights[i].demand.to_int() + 1
+      let need_i : Int = light.demand.to_int() + 1
       let give : Int = mini(player.cargo, mini(need_i, 18))
       if give <= 0 {
         continue
@@ -767,14 +767,14 @@ fn deliver_to_lights(
       player.cargo = player.cargo - give
       used = used + give
       lights_served = lights_served + 1
-      lights[i].served = lights[i].served + give
-      lights[i].demand = maxf(
+      light.served = light.served + give
+      light.demand = maxf(
         0.0,
-        lights[i].demand - Float::from_int(give) * 1.3,
+        light.demand - Float::from_int(give) * 1.3,
       )
-      lights[i].warning_t = 0.0
+      light.warning_t = 0.0
 
-      burst(parts, lights[i].x, lights[i].y, 10 + give / 2, 2)
+      burst(parts, light.x, light.y, 10 + give / 2, 2)
     }
 
     (used, lights_served)
@@ -793,17 +793,17 @@ fn nearest_urgent_light(
   let mut best_y : Float = y
   let mut best_dem : Float = 0.0
 
-  for i in 0..<lights.length() {
-    if not(lights[i].active) || lights[i].demand < 40.0 {
+  for light in lights {
+    if not(light.active) || light.demand < 40.0 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, lights[i].x, lights[i].y)
+    let d2v : Float = dist2(x, y, light.x, light.y)
     if d2v < best_d2 {
       best_d2 = d2v
-      best_x = lights[i].x
-      best_y = lights[i].y
-      best_dem = lights[i].demand
+      best_x = light.x
+      best_y = light.y
+      best_dem = light.demand
       found = true
     }
   }
@@ -959,29 +959,29 @@ fn draw_lights(lights : Array[Lighthouse], t : Float) -> Unit {
 
 ///|
 fn draw_reefs(reefs : Array[Reef], t : Float) -> Unit {
-  for i in 0..<reefs.length() {
-    if not(reefs[i].active) {
+  for reef in reefs {
+    if not(reef.active) {
       continue
     }
 
     let pulse : Float = 0.86 +
-      0.22 * (@math.sinf(t * 1.8 + reefs[i].pulse) * 0.5 + 0.5)
-    let rr : Float = reefs[i].radius * pulse
-    let h01 : Float = clampf(reefs[i].hardness / 120.0, 0.0, 1.0)
+      0.22 * (@math.sinf(t * 1.8 + reef.pulse) * 0.5 + 0.5)
+    let rr : Float = reef.radius * pulse
+    let h01 : Float = clampf(reef.hardness / 120.0, 0.0, 1.0)
 
     let r : Int = 88 + (h01 * 40.0).to_int()
     let g : Int = 130 + (h01 * 44.0).to_int()
     let b : Int = 120 + (h01 * 14.0).to_int()
 
     @raylib.draw_circle(
-      reefs[i].x.to_int(),
-      reefs[i].y.to_int(),
+      reef.x.to_int(),
+      reef.y.to_int(),
       rr + 2.0,
       @raylib.Color::new(54, 88, 116, 170),
     )
     @raylib.draw_circle(
-      reefs[i].x.to_int(),
-      reefs[i].y.to_int(),
+      reef.x.to_int(),
+      reef.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -990,40 +990,40 @@ fn draw_reefs(reefs : Array[Reef], t : Float) -> Unit {
 
 ///|
 fn draw_storms(storms : Array[Storm], t : Float) -> Unit {
-  for i in 0..<storms.length() {
-    if not(storms[i].active) {
+  for storm in storms {
+    if not(storm.active) {
       continue
     }
 
     let p : Float = 0.84 +
-      0.22 * (@math.sinf(t * 2.0 + storms[i].phase) * 0.5 + 0.5)
-    let rr0 : Float = storms[i].radius * p
-    let rr1 : Float = storms[i].radius * (0.58 + p * 0.2)
+      0.22 * (@math.sinf(t * 2.0 + storm.phase) * 0.5 + 0.5)
+    let rr0 : Float = storm.radius * p
+    let rr1 : Float = storm.radius * (0.58 + p * 0.2)
 
-    let a0 : Int = 50 + (storms[i].intensity * 62.0).to_int()
-    let a1 : Int = 22 + (storms[i].intensity * 30.0).to_int()
+    let a0 : Int = 50 + (storm.intensity * 62.0).to_int()
+    let a1 : Int = 22 + (storm.intensity * 30.0).to_int()
 
     @raylib.draw_circle(
-      storms[i].x.to_int(),
-      storms[i].y.to_int(),
+      storm.x.to_int(),
+      storm.y.to_int(),
       rr0,
       @raylib.Color::new(132, 168, 212, a0),
     )
     @raylib.draw_circle(
-      storms[i].x.to_int(),
-      storms[i].y.to_int(),
+      storm.x.to_int(),
+      storm.y.to_int(),
       rr1,
       @raylib.Color::new(186, 214, 246, a1),
     )
 
-    let bx : Int = (storms[i].x +
-    @math.sinf(t * 5.2 + storms[i].phase) * storms[i].radius * 0.24).to_int()
-    let by : Int = (storms[i].y +
-    @math.cosf(t * 4.4 + storms[i].phase * 0.6) * storms[i].radius * 0.24).to_int()
+    let bx : Int = (storm.x +
+    @math.sinf(t * 5.2 + storm.phase) * storm.radius * 0.24).to_int()
+    let by : Int = (storm.y +
+    @math.cosf(t * 4.4 + storm.phase * 0.6) * storm.radius * 0.24).to_int()
     @raylib.draw_circle(
       bx,
       by,
-      2.6 + storms[i].intensity * 2.2,
+      2.6 + storm.intensity * 2.2,
       @raylib.Color::new(248, 252, 255, 206),
     )
   }
@@ -1146,23 +1146,23 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(194, 226, 252, 186)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(248, 194, 144, 220)
     } else {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -1803,49 +1803,49 @@ fn main {
 
       // Reef collisions
       let mut reef_damage : Float = 0.0
-      for i in 0..<reefs.length() {
-        if not(reefs[i].active) {
+      for reef in reefs {
+        if not(reef.active) {
           continue
         }
 
-        reefs[i].pulse = reefs[i].pulse + dt * 0.5
+        reef.pulse = reef.pulse + dt * 0.5
 
-        let rr : Float = reefs[i].radius + 11.0
-        let d2v : Float = dist2(player.x, player.y, reefs[i].x, reefs[i].y)
+        let rr : Float = reef.radius + 11.0
+        let d2v : Float = dist2(player.x, player.y, reef.x, reef.y)
         if d2v >= rr * rr {
           continue
         }
 
         let d : Float = maxf(0.0001, d2v.sqrt())
-        let nx : Float = (player.x - reefs[i].x) / d
-        let ny : Float = (player.y - reefs[i].y) / d
+        let nx : Float = (player.x - reef.x) / d
+        let ny : Float = (player.y - reef.y) / d
         let push : Float = (rr - d) * dt * 18.0
 
         player.x = player.x + nx * push
         player.y = player.y + ny * push
 
         if sp2 > 80.0 {
-          reef_damage = reef_damage + dt * (1.0 + reefs[i].hardness * 0.02)
+          reef_damage = reef_damage + dt * (1.0 + reef.hardness * 0.02)
         }
       }
 
       update_storms(storms, dt, world_l, world_t, world_r, world_b)
 
       let mut storm_damage : Float = 0.0
-      for i in 0..<storms.length() {
-        if not(storms[i].active) {
+      for storm in storms {
+        if not(storm.active) {
           continue
         }
 
-        let d2v : Float = dist2(player.x, player.y, storms[i].x, storms[i].y)
-        let rr : Float = storms[i].radius
+        let d2v : Float = dist2(player.x, player.y, storm.x, storm.y)
+        let rr : Float = storm.radius
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
           storm_damage = storm_damage +
-            dt * storms[i].intensity * (1.4 + ratio * 2.1)
+            dt * storm.intensity * (1.4 + ratio * 2.1)
           player.energy = maxf(
             0.0,
-            player.energy - dt * storms[i].intensity * (0.8 + ratio * 1.7),
+            player.energy - dt * storm.intensity * (0.8 + ratio * 1.7),
           )
         }
       }

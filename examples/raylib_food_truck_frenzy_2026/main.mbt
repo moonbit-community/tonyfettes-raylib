@@ -377,40 +377,40 @@ fn clear_orders(orders : Array[Order]) -> Unit {
 
 ///|
 fn clear_stoves(stoves : Array[StoveSlot]) -> Unit {
-  for i in 0..<stoves.length() {
-    stoves[i].active = false
-    stoves[i].kind = 0
-    stoves[i].progress = 0.0
-    stoves[i].need = 1.0
-    stoves[i].quality = 1.0
-    stoves[i].pulse = 0.0
+  for stove in stoves {
+    stove.active = false
+    stove.kind = 0
+    stove.progress = 0.0
+    stove.need = 1.0
+    stove.quality = 1.0
+    stove.pulse = 0.0
   }
 }
 
 ///|
 fn clear_boxes(boxes : Array[SupplyBox]) -> Unit {
-  for i in 0..<boxes.length() {
-    boxes[i].active = false
-    boxes[i].x = 0.0
-    boxes[i].y = 0.0
-    boxes[i].kind = 0
-    boxes[i].amount = 0
-    boxes[i].life = 0.0
-    boxes[i].pulse = 0.0
+  for box in boxes {
+    box.active = false
+    box.x = 0.0
+    box.y = 0.0
+    box.kind = 0
+    box.amount = 0
+    box.life = 0.0
+    box.pulse = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -425,18 +425,18 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
-    parts[i].vx = vx
-    parts[i].vy = vy
-    parts[i].life = life
-    parts[i].size = size
-    parts[i].kind = kind
+    part.active = true
+    part.x = x
+    part.y = y
+    part.vx = vx
+    part.vy = vy
+    part.life = life
+    part.size = size
+    part.kind = kind
     break
   }
 }
@@ -465,19 +465,19 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 1.8)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 1.7) + dt * 42.0
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 1.8)
+    part.vy = part.vy * (1.0 - dt * 1.7) + dt * 42.0
   }
 }
 
@@ -485,8 +485,8 @@ fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
 fn spawn_order(orders : Array[Order], wave : Int, serial : Int) -> Bool {
   let mut placed : Bool = false
 
-  for i in 0..<orders.length() {
-    if orders[i].active {
+  for order in orders {
+    if order.active {
       continue
     }
 
@@ -511,14 +511,14 @@ fn spawn_order(orders : Array[Order], wave : Int, serial : Int) -> Bool {
     let wave_penalty : Float = Float::from_int(wave) * 1.35
     let deadline : Float = maxf(20.0, base_deadline - wave_penalty)
 
-    orders[i].active = true
-    orders[i].id = serial
-    orders[i].kind = kind
-    orders[i].deadline = deadline
-    orders[i].max_deadline = deadline
-    orders[i].reward = recipe_reward(kind) + wave * 4
-    orders[i].pulse = randf(0.0, 10.0)
-    orders[i].mood = randf(0.0, 0.35)
+    order.active = true
+    order.id = serial
+    order.kind = kind
+    order.deadline = deadline
+    order.max_deadline = deadline
+    order.reward = recipe_reward(kind) + wave * 4
+    order.pulse = randf(0.0, 10.0)
+    order.mood = randf(0.0, 0.35)
 
     placed = true
     break
@@ -537,17 +537,17 @@ fn spawn_supply_box(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i in 0..<boxes.length() {
-    if boxes[i].active {
+  for box in boxes {
+    if box.active {
       continue
     }
-    boxes[i].active = true
-    boxes[i].x = randf(world_l + 120.0, world_r - 120.0)
-    boxes[i].y = randf(world_t + 120.0, world_b - 120.0)
-    boxes[i].kind = randi(0, 4)
-    boxes[i].amount = randi(1, 3)
-    boxes[i].life = randf(14.0, 24.0)
-    boxes[i].pulse = randf(0.0, 12.0)
+    box.active = true
+    box.x = randf(world_l + 120.0, world_r - 120.0)
+    box.y = randf(world_t + 120.0, world_b - 120.0)
+    box.kind = randi(0, 4)
+    box.amount = randi(1, 3)
+    box.life = randf(14.0, 24.0)
+    box.pulse = randf(0.0, 12.0)
     placed = true
     break
   }
@@ -558,8 +558,8 @@ fn spawn_supply_box(
 ///|
 fn find_pending_for_kind(orders : Array[Order], kind : Int) -> Int {
   let mut c : Int = 0
-  for i in 0..<orders.length() {
-    if orders[i].active && orders[i].kind == kind {
+  for order in orders {
+    if order.active && order.kind == kind {
       c = c + 1
     }
   }
@@ -569,8 +569,8 @@ fn find_pending_for_kind(orders : Array[Order], kind : Int) -> Int {
 ///|
 fn find_cooking_for_kind(stoves : Array[StoveSlot], kind : Int) -> Int {
   let mut c : Int = 0
-  for i in 0..<stoves.length() {
-    if stoves[i].active && stoves[i].kind == kind {
+  for stove in stoves {
+    if stove.active && stove.kind == kind {
       c = c + 1
     }
   }
@@ -587,11 +587,11 @@ fn choose_recipe_for_cook(
   let mut best_kind : Int = -1
   let mut best_time : Float = 10000.0
 
-  for i in 0..<orders.length() {
-    if not(orders[i].active) {
+  for order in orders {
+    if not(order.active) {
       continue
     }
-    let k : Int = orders[i].kind
+    let k : Int = order.kind
     let ready : Int = meals[k]
     let cooking : Int = find_cooking_for_kind(stoves, k)
     let pending : Int = find_pending_for_kind(orders, k)
@@ -602,8 +602,8 @@ fn choose_recipe_for_cook(
     if not(recipe_can_make(k, ingredients)) {
       continue
     }
-    if orders[i].deadline < best_time {
-      best_time = orders[i].deadline
+    if order.deadline < best_time {
+      best_time = order.deadline
       best_kind = k
     }
   }
@@ -803,17 +803,17 @@ fn draw_orders_panel(
   )
 
   let mut draw_y : Int = panel_y + 56
-  for i in 0..<orders.length() {
-    if not(orders[i].active) {
+  for order in orders {
+    if not(order.active) {
       continue
     }
 
-    let urgency : Float = if orders[i].max_deadline <= 0.001 {
+    let urgency : Float = if order.max_deadline <= 0.001 {
       0.0
     } else {
-      clampf(1.0 - orders[i].deadline / orders[i].max_deadline, 0.0, 1.0)
+      clampf(1.0 - order.deadline / order.max_deadline, 0.0, 1.0)
     }
-    let blink : Float = sinf(scene_t * 8.0 + orders[i].pulse) * 0.5 + 0.5
+    let blink : Float = sinf(scene_t * 8.0 + order.pulse) * 0.5 + 0.5
     let card_h : Int = 86
 
     @raylib.draw_rectangle(
@@ -838,7 +838,7 @@ fn draw_orders_panel(
       @raylib.Color::new(198, 214, 236, 176),
     )
 
-    let rc = recipe_color(orders[i].kind)
+    let rc = recipe_color(order.kind)
     @raylib.draw_circle_v(
       @raylib.Vector2::new(
         Float::from_int(panel_x + 44),
@@ -849,14 +849,14 @@ fn draw_orders_panel(
     )
 
     @raylib.draw_text(
-      "#\{orders[i].id} \{recipe_short(orders[i].kind)}",
+      "#\{order.id} \{recipe_short(order.kind)}",
       panel_x + 72,
       draw_y + 10,
       24,
       @raylib.Color::new(236, 246, 255, 238),
     )
 
-    let dd_txt : String = "\{orders[i].deadline.to_int()}s"
+    let dd_txt : String = "\{order.deadline.to_int()}s"
     @raylib.draw_text(
       dd_txt,
       panel_x + panel_w - 22 - @raylib.measure_text(dd_txt, 22),
@@ -869,7 +869,7 @@ fn draw_orders_panel(
       },
     )
 
-    let has_ready : Bool = meals[orders[i].kind] > 0
+    let has_ready : Bool = meals[order.kind] > 0
     @raylib.draw_text(
       if has_ready {
         "READY"
@@ -1020,35 +1020,35 @@ fn draw_stoves(
 
 ///|
 fn draw_supply_boxes(boxes : Array[SupplyBox], scene_t : Float) -> Unit {
-  for i in 0..<boxes.length() {
-    if not(boxes[i].active) {
+  for box in boxes {
+    if not(box.active) {
       continue
     }
-    let pulse : Float = sinf(scene_t * 5.8 + boxes[i].pulse) * 0.5 + 0.5
+    let pulse : Float = sinf(scene_t * 5.8 + box.pulse) * 0.5 + 0.5
     @raylib.draw_rectangle(
-      (boxes[i].x - 14.0).to_int(),
-      (boxes[i].y - 14.0).to_int(),
+      (box.x - 14.0).to_int(),
+      (box.y - 14.0).to_int(),
       28,
       28,
-      recipe_color(boxes[i].kind),
+      recipe_color(box.kind),
     )
     @raylib.draw_rectangle_lines(
-      (boxes[i].x - 14.0).to_int(),
-      (boxes[i].y - 14.0).to_int(),
+      (box.x - 14.0).to_int(),
+      (box.y - 14.0).to_int(),
       28,
       28,
       @raylib.Color::new(248, 252, 255, 232),
     )
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(boxes[i].x, boxes[i].y),
+      @raylib.Vector2::new(box.x, box.y),
       20.0 + pulse * 8.0,
       @raylib.Color::new(248, 252, 255, (pulse * 80.0).to_int()),
     )
 
     @raylib.draw_text(
-      "\{boxes[i].amount}",
-      (boxes[i].x - 6.0).to_int(),
-      (boxes[i].y - 8.0).to_int(),
+      "\{box.amount}",
+      (box.x - 6.0).to_int(),
+      (box.y - 8.0).to_int(),
       18,
       @raylib.Color::new(20, 24, 32, 240),
     )
@@ -1057,21 +1057,21 @@ fn draw_supply_boxes(boxes : Array[SupplyBox], scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    let alpha : Int = clampf(parts[i].life * 255.0, 0.0, 255.0).to_int()
-    let color = if parts[i].kind == 0 {
+    let alpha : Int = clampf(part.life * 255.0, 0.0, 255.0).to_int()
+    let color = if part.kind == 0 {
       @raylib.Color::new(148, 218, 254, alpha)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(255, 154, 98, alpha)
     } else {
       @raylib.Color::new(246, 236, 160, alpha)
     }
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(parts[i].x, parts[i].y),
-      parts[i].size,
+      @raylib.Vector2::new(part.x, part.y),
+      part.size,
       color,
     )
   }
@@ -1940,17 +1940,17 @@ fn main {
 
       // Orders tick
       let mut active_orders : Int = 0
-      for i in 0..<orders.length() {
-        if not(orders[i].active) {
+      for order in orders {
+        if not(order.active) {
           continue
         }
         active_orders = active_orders + 1
-        orders[i].pulse = orders[i].pulse + dt * 3.6
+        order.pulse = order.pulse + dt * 3.6
         let queue_pressure : Float = Float::from_int(active_orders) * 0.007
-        orders[i].deadline = orders[i].deadline -
+        order.deadline = order.deadline -
           dt * (1.0 + heat_penalty + dirt_penalty + queue_pressure)
-        if orders[i].deadline <= 0.0 {
-          orders[i].active = false
+        if order.deadline <= 0.0 {
+          order.active = false
           combo = 0
           lost = lost + 1
           rep = rep - 7.4
@@ -1962,22 +1962,22 @@ fn main {
 
       // Stove updates
       let cook_speed : Float = 0.72 + clean * 0.006
-      for i in 0..<stoves.length() {
-        if not(stoves[i].active) {
+      for stove in stoves {
+        if not(stove.active) {
           continue
         }
-        stoves[i].progress = stoves[i].progress + dt * cook_speed
-        stoves[i].quality = clampf(
-          stoves[i].quality - dt * (0.03 + heat * 0.0009),
+        stove.progress = stove.progress + dt * cook_speed
+        stove.quality = clampf(
+          stove.quality - dt * (0.03 + heat * 0.0009),
           0.5,
           1.0,
         )
-        if stoves[i].progress >= stoves[i].need {
-          meals[stoves[i].kind] = meals[stoves[i].kind] + 1
-          if meals[stoves[i].kind] > 16 {
-            meals[stoves[i].kind] = 16
+        if stove.progress >= stove.need {
+          meals[stove.kind] = meals[stove.kind] + 1
+          if meals[stove.kind] > 16 {
+            meals[stove.kind] = 16
           }
-          stoves[i].active = false
+          stove.active = false
           clean = clean - 1.4
           heat = heat + 1.8
           burst_particles(
@@ -1991,22 +1991,22 @@ fn main {
       }
 
       // Supply box updates
-      for i in 0..<boxes.length() {
-        if not(boxes[i].active) {
+      for box in boxes {
+        if not(box.active) {
           continue
         }
-        boxes[i].life = boxes[i].life - dt
-        boxes[i].pulse = boxes[i].pulse + dt * 4.6
-        if boxes[i].life <= 0.0 {
-          boxes[i].active = false
+        box.life = box.life - dt
+        box.pulse = box.pulse + dt * 4.6
+        if box.life <= 0.0 {
+          box.active = false
         }
-        if dist2(chef.x, chef.y, boxes[i].x, boxes[i].y) <= 34.0 * 34.0 {
-          ingredients[boxes[i].kind] = mini(
+        if dist2(chef.x, chef.y, box.x, box.y) <= 34.0 * 34.0 {
+          ingredients[box.kind] = mini(
             24,
-            ingredients[boxes[i].kind] + boxes[i].amount,
+            ingredients[box.kind] + box.amount,
           )
-          boxes[i].active = false
-          msg = "Supply drop: +\{boxes[i].amount} \{ingredient_name(boxes[i].kind)}"
+          box.active = false
+          msg = "Supply drop: +\{box.amount} \{ingredient_name(box.kind)}"
           msg_t = 1.2
           burst_particles(parts, chef.x, chef.y, 10, 0)
         }
@@ -2214,22 +2214,22 @@ fn main {
       draw_floor_grid(world_x, world_y, world_w, world_h, scene_t)
 
       let mut active_orders : Int = 0
-      for i in 0..<orders.length() {
-        if orders[i].active {
+      for order in orders {
+        if order.active {
           active_orders = active_orders + 1
         }
       }
 
-      for i in 0..<stations.length() {
+      for station in stations {
         let near : Bool = inside_rectf(
           chef.x,
           chef.y,
-          stations[i].x,
-          stations[i].y,
-          stations[i].w,
-          stations[i].h,
+          station.x,
+          station.y,
+          station.w,
+          station.h,
         )
-        draw_station(stations[i], near, scene_t)
+        draw_station(station, near, scene_t)
       }
 
       draw_supply_boxes(boxes, scene_t)

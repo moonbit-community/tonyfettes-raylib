@@ -142,8 +142,7 @@ fn update_game_over(game : @types.Game) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -180,9 +179,9 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.messages.length() {
-    if game.messages[i].timer > 0.0 {
-      game.messages[i].timer -= dt
+  for message in game.messages {
+    if message.timer > 0.0 {
+      message.timer -= dt
     }
   }
 }
@@ -250,8 +249,8 @@ fn update_terrain(game : @types.Game) -> Unit {
   game.last_terrain_cx = cx
   game.last_terrain_cz = cz
   // Deactivate all terrain
-  for i in 0..<game.terrain.length() {
-    game.terrain[i].active = false
+  for terrain_elem in game.terrain {
+    terrain_elem.active = false
   }
   // Generate terrain around player
   let view = @types.terrain_view_range
@@ -316,18 +315,18 @@ fn update_clouds(game : @types.Game) -> Unit {
   // Generate clouds around player if needed
   let player = game.player
   let mut active_count = 0
-  for i in 0..<game.clouds.length() {
-    if game.clouds[i].active {
+  for cloud in game.clouds {
+    if cloud.active {
       active_count += 1
       // Remove clouds that are too far away
       let d = @types.distance2d(
         player.x,
         player.z,
-        game.clouds[i].x,
-        game.clouds[i].z,
+        cloud.x,
+        cloud.z,
       )
       if d > 200.0 {
-        game.clouds[i].active = false
+        cloud.active = false
         active_count -= 1
       }
     }
@@ -373,8 +372,7 @@ fn update_clouds(game : @types.Game) -> Unit {
 ///|
 fn update_checkpoints(game : @types.Game) -> Unit {
   let player = game.player
-  for i in 0..<game.checkpoints.length() {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) {
       continue
     }
@@ -401,8 +399,7 @@ fn update_checkpoints(game : @types.Game) -> Unit {
 ///|
 fn update_turrets(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i in 0..<game.turrets.length() {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
       continue
     }
@@ -473,16 +470,14 @@ fn turret_fire(
 ///|
 fn update_buildings_projectile_check(game : @types.Game) -> Unit {
   // Check if any player projectiles hit buildings
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
     if proj.is_enemy {
       continue
     }
-    for j in 0..<game.buildings.length() {
-      let b = game.buildings[j]
+    for b in game.buildings {
       if not(b.active) {
         continue
       }
@@ -528,16 +523,14 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
     }
   }
   // Also check projectiles vs turrets
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
     if proj.is_enemy {
       continue
     }
-    for j in 0..<game.turrets.length() {
-      let t = game.turrets[j]
+    for t in game.turrets {
       if not(t.active) {
         continue
       }
@@ -590,8 +583,7 @@ fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   game.damage_warning = player.hp < player.max_hp * 0.3
   // Incoming fire warning
   let mut incoming = false
-  for i in 0..<game.projectiles.length() {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
       continue
     }
@@ -689,33 +681,33 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
   game.damage_warning = false
   game.incoming_warning = false
   // Clear entities
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
+  for enemy in game.enemies {
+    enemy.active = false
   }
-  for i in 0..<game.turrets.length() {
-    game.turrets[i].active = false
+  for turret in game.turrets {
+    turret.active = false
   }
-  for i in 0..<game.projectiles.length() {
-    game.projectiles[i].active = false
+  for projectile in game.projectiles {
+    projectile.active = false
   }
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
+  for particle in game.particles {
+    particle.active = false
   }
-  for i in 0..<game.checkpoints.length() {
-    game.checkpoints[i].active = false
-    game.checkpoints[i].collected = false
+  for checkpoint in game.checkpoints {
+    checkpoint.active = false
+    checkpoint.collected = false
   }
-  for i in 0..<game.buildings.length() {
-    game.buildings[i].active = false
+  for building in game.buildings {
+    building.active = false
   }
-  for i in 0..<game.clouds.length() {
-    game.clouds[i].active = false
+  for cloud in game.clouds {
+    cloud.active = false
   }
-  for i in 0..<game.terrain.length() {
-    game.terrain[i].active = false
+  for terrain_elem in game.terrain {
+    terrain_elem.active = false
   }
-  for i in 0..<game.messages.length() {
-    game.messages[i].timer = 0.0
+  for message in game.messages {
+    message.timer = 0.0
   }
   game.last_terrain_cx = -9999
   game.last_terrain_cz = -9999

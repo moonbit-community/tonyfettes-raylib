@@ -836,8 +836,8 @@ pub fn push_message(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -849,8 +849,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_active_turrets(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.turrets.length() {
-    if game.turrets[i].active {
+  for turret in game.turrets {
+    if turret.active {
       count += 1
     }
   }
@@ -862,8 +862,8 @@ pub fn count_active_turrets(game : Game) -> Int {
 ///|
 pub fn count_active_buildings(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.buildings.length() {
-    if game.buildings[i].active {
+  for building in game.buildings {
+    if building.active {
       count += 1
     }
   }
@@ -875,8 +875,8 @@ pub fn count_active_buildings(game : Game) -> Int {
 ///|
 pub fn count_remaining_checkpoints(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.checkpoints.length() {
-    if game.checkpoints[i].active && not(game.checkpoints[i].collected) {
+  for checkpoint in game.checkpoints {
+    if checkpoint.active && not(checkpoint.collected) {
       count += 1
     }
   }

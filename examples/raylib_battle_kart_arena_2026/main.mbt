@@ -219,14 +219,14 @@ fn reset_karts(karts : Array[Kart]) -> Unit {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i in 0..<shots.length() {
-    shots[i].x = 0.0
-    shots[i].y = 0.0
-    shots[i].vx = 0.0
-    shots[i].vy = 0.0
-    shots[i].ttl = 0.0
-    shots[i].owner = -1
-    shots[i].active = false
+  for shot in shots {
+    shot.x = 0.0
+    shot.y = 0.0
+    shot.vx = 0.0
+    shot.vy = 0.0
+    shot.ttl = 0.0
+    shot.owner = -1
+    shot.active = false
   }
 }
 
@@ -253,14 +253,14 @@ fn reset_pickups(pickups : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i in 0..<sparks.length() {
-    sparks[i].x = 0.0
-    sparks[i].y = 0.0
-    sparks[i].vx = 0.0
-    sparks[i].vy = 0.0
-    sparks[i].ttl = 0.0
-    sparks[i].kind = 0
-    sparks[i].active = false
+  for spark in sparks {
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.ttl = 0.0
+    spark.kind = 0
+    spark.active = false
   }
 }
 
@@ -273,21 +273,21 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<sparks.length() {
+  for spark in sparks {
     if done {
       continue
     }
-    if not(sparks[i].active) {
-      sparks[i].active = true
-      sparks[i].x = x
-      sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
+    if not(spark.active) {
+      spark.active = true
+      spark.x = x
+      spark.y = y
+      spark.vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
         speed_scale
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
+      spark.vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
         speed_scale
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(14, 50)) /
+      spark.ttl = Float::from_int(@raylib.get_random_value(14, 50)) /
         Float::from_int(100)
-      sparks[i].kind = kind
+      spark.kind = kind
       done = true
     }
   }
@@ -324,18 +324,18 @@ fn spawn_shot(
   let speed : Float = 680.0
 
   let mut done = false
-  for i in 0..<shots.length() {
+  for shot in shots {
     if done {
       continue
     }
-    if not(shots[i].active) {
-      shots[i].active = true
-      shots[i].x = x
-      shots[i].y = y
-      shots[i].vx = dx / d * speed
-      shots[i].vy = dy / d * speed
-      shots[i].ttl = 1.6
-      shots[i].owner = owner
+    if not(shot.active) {
+      shot.active = true
+      shot.x = x
+      shot.y = y
+      shot.vx = dx / d * speed
+      shot.vy = dy / d * speed
+      shot.ttl = 1.6
+      shot.owner = owner
       done = true
     }
   }
@@ -654,18 +654,18 @@ fn main {
         }
       }
 
-      for i in 0..<pickups.length() {
-        if pickups[i].active {
-          let dx = karts[0].x - pickups[i].x
-          let dy = karts[0].y - pickups[i].y
+      for pickup in pickups {
+        if pickup.active {
+          let dx = karts[0].x - pickup.x
+          let dy = karts[0].y - pickup.y
           if dx * dx + dy * dy <= 28.0 * 28.0 {
-            if pickups[i].kind == 0 {
+            if pickup.kind == 0 {
               ammo = ammo + 4
               if ammo > 16 {
                 ammo = 16
               }
               msg = "Ammo +4"
-            } else if pickups[i].kind == 1 {
+            } else if pickup.kind == 1 {
               boost = boost + 35.0
               if boost > 100.0 {
                 boost = 100.0
@@ -678,47 +678,47 @@ fn main {
               }
               msg = "Integrity +1"
             }
-            pickups[i].active = false
-            pickups[i].respawn = 8.0
-            burst(sparks, pickups[i].x, pickups[i].y, 16, 1.0, 0)
+            pickup.active = false
+            pickup.respawn = 8.0
+            burst(sparks, pickup.x, pickup.y, 16, 1.0, 0)
           }
         } else {
-          pickups[i].respawn = pickups[i].respawn - dt
-          if pickups[i].respawn <= 0.0 {
-            pickups[i].respawn = 0.0
-            pickups[i].active = true
+          pickup.respawn = pickup.respawn - dt
+          if pickup.respawn <= 0.0 {
+            pickup.respawn = 0.0
+            pickup.active = true
           }
         }
       }
 
-      for i in 0..<shots.length() {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
 
-        shots[i].x = shots[i].x + shots[i].vx * dt
-        shots[i].y = shots[i].y + shots[i].vy * dt
-        shots[i].ttl = shots[i].ttl - dt
+        shot.x = shot.x + shot.vx * dt
+        shot.y = shot.y + shot.vy * dt
+        shot.ttl = shot.ttl - dt
 
-        if shots[i].ttl <= 0.0 ||
-          shots[i].x < 0.0 ||
-          shots[i].x > Float::from_int(sw) ||
-          shots[i].y < 0.0 ||
-          shots[i].y > Float::from_int(sh) {
-          shots[i].active = false
+        if shot.ttl <= 0.0 ||
+          shot.x < 0.0 ||
+          shot.x > Float::from_int(sw) ||
+          shot.y < 0.0 ||
+          shot.y > Float::from_int(sh) {
+          shot.active = false
           continue
         }
 
-        if shots[i].owner == 0 {
+        if shot.owner == 0 {
           let mut hit = false
           for j in 1..<karts.length() {
             if hit {
               continue
             }
-            let dx = shots[i].x - karts[j].x
-            let dy = shots[i].y - karts[j].y
+            let dx = shot.x - karts[j].x
+            let dy = shot.y - karts[j].y
             if dx * dx + dy * dy <= 18.0 * 18.0 {
-              shots[i].active = false
+              shot.active = false
               karts[j].hp = karts[j].hp - 1
               hit = true
               burst(sparks, karts[j].x, karts[j].y, 10, 0.9, 1)
@@ -733,10 +733,10 @@ fn main {
             }
           }
         } else {
-          let dx = shots[i].x - karts[0].x
-          let dy = shots[i].y - karts[0].y
+          let dx = shot.x - karts[0].x
+          let dy = shot.y - karts[0].y
           if dx * dx + dy * dy <= 18.0 * 18.0 {
-            shots[i].active = false
+            shot.active = false
             karts[0].hp = karts[0].hp - 1
             hit_flash = 0.22
             shake_t = 0.16
@@ -770,17 +770,17 @@ fn main {
       }
     }
 
-    for i in 0..<sparks.length() {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      sparks[i].x = sparks[i].x + sparks[i].vx * dt
-      sparks[i].y = sparks[i].y + sparks[i].vy * dt
-      sparks[i].vx = sparks[i].vx * (Float::from_int(1) - dt * 2.4)
-      sparks[i].vy = sparks[i].vy * (Float::from_int(1) - dt * 2.4)
-      sparks[i].ttl = sparks[i].ttl - dt
-      if sparks[i].ttl <= 0.0 {
-        sparks[i].active = false
+      spark.x = spark.x + spark.vx * dt
+      spark.y = spark.y + spark.vy * dt
+      spark.vx = spark.vx * (Float::from_int(1) - dt * 2.4)
+      spark.vy = spark.vy * (Float::from_int(1) - dt * 2.4)
+      spark.ttl = spark.ttl - dt
+      if spark.ttl <= 0.0 {
+        spark.active = false
       }
     }
 
@@ -839,15 +839,15 @@ fn main {
       @raylib.Color::new(248, 220, 220, 255),
     )
 
-    for i in 0..<pickups.length() {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
-      let x = (pickups[i].x + shake_x).to_int()
-      let y = pickups[i].y.to_int()
-      let c = if pickups[i].kind == 0 {
+      let x = (pickup.x + shake_x).to_int()
+      let y = pickup.y.to_int()
+      let c = if pickup.kind == 0 {
         @raylib.Color::new(116, 220, 246, 255)
-      } else if pickups[i].kind == 1 {
+      } else if pickup.kind == 1 {
         @raylib.Color::new(246, 194, 104, 255)
       } else {
         @raylib.Color::new(142, 238, 152, 255)
@@ -876,33 +876,33 @@ fn main {
       @raylib.draw_text("\{karts[i].lap + 1}", x - 6, y - 33, 20, @raylib.white)
     }
 
-    for i in 0..<shots.length() {
-      if not(shots[i].active) {
+    for shot in shots {
+      if not(shot.active) {
         continue
       }
-      let x = (shots[i].x + shake_x).to_int()
-      let y = shots[i].y.to_int()
+      let x = (shot.x + shake_x).to_int()
+      let y = shot.y.to_int()
       @raylib.draw_circle(x, y, 4.0, @raylib.Color::new(246, 248, 252, 255))
     }
 
-    for i in 0..<sparks.length() {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      let a = (sparks[i].ttl * 255.0).to_int()
+      let a = (spark.ttl * 255.0).to_int()
       if a <= 0 {
         continue
       }
-      let c = if sparks[i].kind == 0 {
+      let c = if spark.kind == 0 {
         @raylib.Color::new(122, 236, 250, a)
-      } else if sparks[i].kind == 1 {
+      } else if spark.kind == 1 {
         @raylib.Color::new(250, 220, 138, a)
       } else {
         @raylib.Color::new(250, 128, 128, a)
       }
       @raylib.draw_circle(
-        (sparks[i].x + shake_x).to_int(),
-        sparks[i].y.to_int(),
+        (spark.x + shake_x).to_int(),
+        spark.y.to_int(),
         2.2,
         c,
       )

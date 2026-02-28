@@ -474,11 +474,11 @@ fn main {
 
     heat = 10.0 + Float::from_int(level - 1) * 6.0
 
-    for i in 0..<smokes.length() {
-      smokes[i].active = false
+    for smoke in smokes {
+      smoke.active = false
     }
-    for i in 0..<particles.length() {
-      particles[i].active = false
+    for particle in particles {
+      particle.active = false
     }
 
     init_cops(cops, level)
@@ -705,51 +705,51 @@ fn main {
         heat = heat + dt * 8.2
       }
 
-      for i in 0..<smokes.length() {
-        if not(smokes[i].active) {
+      for smoke in smokes {
+        if not(smoke.active) {
           continue
         }
-        smokes[i].t = smokes[i].t + dt
-        smokes[i].r = smokes[i].r + dt * 96.0
-        if smokes[i].r > 280.0 {
-          smokes[i].r = 280.0
+        smoke.t = smoke.t + dt
+        smoke.r = smoke.r + dt * 96.0
+        if smoke.r > 280.0 {
+          smoke.r = 280.0
         }
-        smokes[i].life = smokes[i].life - dt
-        if smokes[i].life <= 0.0 {
-          smokes[i].active = false
+        smoke.life = smoke.life - dt
+        if smoke.life <= 0.0 {
+          smoke.active = false
           continue
         }
 
-        let d2 : Float = dist2(player.x, player.y, smokes[i].x, smokes[i].y)
-        if d2 <= smokes[i].r * smokes[i].r {
+        let d2 : Float = dist2(player.x, player.y, smoke.x, smoke.y)
+        if d2 <= smoke.r * smoke.r {
           heat = heat - 12.0 * dt
         }
       }
 
       let mut near_cops : Int = 0
-      for i in 0..<cops.length() {
-        if not(cops[i].active) {
+      for cop in cops {
+        if not(cop.active) {
           continue
         }
 
-        if cops[i].stun_t > 0.0 {
-          cops[i].stun_t = cops[i].stun_t - dt
-          if cops[i].stun_t < 0.0 {
-            cops[i].stun_t = 0.0
+        if cop.stun_t > 0.0 {
+          cop.stun_t = cop.stun_t - dt
+          if cop.stun_t < 0.0 {
+            cop.stun_t = 0.0
           }
         }
 
-        cops[i].reroute_t = cops[i].reroute_t - dt
-        if cops[i].reroute_t <= 0.0 {
-          cops[i].reroute_t = randf(0.6, 1.6)
-          cops[i].agro = randf(0.75, 1.3)
+        cop.reroute_t = cop.reroute_t - dt
+        if cop.reroute_t <= 0.0 {
+          cop.reroute_t = randf(0.6, 1.6)
+          cop.agro = randf(0.75, 1.3)
         }
 
         let lead_x : Float = player.x + player.vx * 0.35 + randf(-40.0, 40.0)
         let lead_y : Float = player.y + player.vy * 0.35 + randf(-40.0, 40.0)
 
-        let dx : Float = lead_x - cops[i].x
-        let dy : Float = lead_y - cops[i].y
+        let dx : Float = lead_x - cop.x
+        let dy : Float = lead_y - cop.y
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
@@ -758,71 +758,71 @@ fn main {
         }
 
         let mut in_smoke : Bool = false
-        for j in 0..<smokes.length() {
-          if not(smokes[j].active) {
+        for smoke in smokes {
+          if not(smoke.active) {
             continue
           }
           let sd2 : Float = dist2(
-            cops[i].x,
-            cops[i].y,
-            smokes[j].x,
-            smokes[j].y,
+            cop.x,
+            cop.y,
+            smoke.x,
+            smoke.y,
           )
-          if sd2 <= smokes[j].r * smokes[j].r {
+          if sd2 <= smoke.r * smoke.r {
             in_smoke = true
             break
           }
         }
 
         if in_smoke {
-          cops[i].stun_t = 0.85
+          cop.stun_t = 0.85
         }
 
-        if cops[i].stun_t > 0.0 {
-          cops[i].vx = cops[i].vx * (1.0 - dt * 2.8)
-          cops[i].vy = cops[i].vy * (1.0 - dt * 2.8)
+        if cop.stun_t > 0.0 {
+          cop.vx = cop.vx * (1.0 - dt * 2.8)
+          cop.vy = cop.vy * (1.0 - dt * 2.8)
         } else {
-          let base_speed : Float = if cops[i].kind == 0 { 228.0 } else { 286.0 }
+          let base_speed : Float = if cop.kind == 0 { 228.0 } else { 286.0 }
           let speed_gain : Float = heat *
-            (if cops[i].kind == 0 { 0.56 } else { 0.74 })
-          let cop_speed : Float = (base_speed + speed_gain) * cops[i].agro
+            (if cop.kind == 0 { 0.56 } else { 0.74 })
+          let cop_speed : Float = (base_speed + speed_gain) * cop.agro
           let tx : Float = dx / d * cop_speed
           let ty : Float = dy / d * cop_speed
-          cops[i].vx = cops[i].vx + (tx - cops[i].vx * 1.65) * dt
-          cops[i].vy = cops[i].vy + (ty - cops[i].vy * 1.65) * dt
+          cop.vx = cop.vx + (tx - cop.vx * 1.65) * dt
+          cop.vy = cop.vy + (ty - cop.vy * 1.65) * dt
         }
 
-        cops[i].x = cops[i].x + cops[i].vx * dt
-        cops[i].y = cops[i].y + cops[i].vy * dt
+        cop.x = cop.x + cop.vx * dt
+        cop.y = cop.y + cop.vy * dt
 
-        if cops[i].x < 40.0 {
-          cops[i].x = 40.0
-          cops[i].vx = cops[i].vx.abs()
+        if cop.x < 40.0 {
+          cop.x = 40.0
+          cop.vx = cop.vx.abs()
         }
-        if cops[i].x > world_w - 40.0 {
-          cops[i].x = world_w - 40.0
-          cops[i].vx = -cops[i].vx.abs()
+        if cop.x > world_w - 40.0 {
+          cop.x = world_w - 40.0
+          cop.vx = -cop.vx.abs()
         }
-        if cops[i].y < 40.0 {
-          cops[i].y = 40.0
-          cops[i].vy = cops[i].vy.abs()
+        if cop.y < 40.0 {
+          cop.y = 40.0
+          cop.vy = cop.vy.abs()
         }
-        if cops[i].y > world_h - 40.0 {
-          cops[i].y = world_h - 40.0
-          cops[i].vy = -cops[i].vy.abs()
+        if cop.y > world_h - 40.0 {
+          cop.y = world_h - 40.0
+          cop.vy = -cop.vy.abs()
         }
 
         let rr : Float = 34.0
-        if dist2(player.x, player.y, cops[i].x, cops[i].y) <= rr * rr {
+        if dist2(player.x, player.y, cop.x, cop.y) <= rr * rr {
           if player.boost_t > 0.0 && speed > 220.0 {
-            cops[i].stun_t = 1.1
+            cop.stun_t = 1.1
             player.cash = player.cash + 26
             heat = heat - 5.0
-            burst_particles(particles, cops[i].x, cops[i].y, 16, 94.0, 2)
+            burst_particles(particles, cop.x, cop.y, 16, 94.0, 2)
           } else if player.hit_cd <= 0.0 {
             let dmg : Float = 13.0 +
               heat * 0.12 +
-              Float::from_int(cops[i].kind) * 3.5
+              Float::from_int(cop.kind) * 3.5
             player.hp = player.hp - dmg
             player.hit_cd = 0.62
             player.flash_t = 0.18
@@ -830,14 +830,14 @@ fn main {
             player.combo = 0
             heat = heat + 9.0
 
-            let pdx : Float = player.x - cops[i].x
-            let pdy : Float = player.y - cops[i].y
+            let pdx : Float = player.x - cop.x
+            let pdy : Float = player.y - cop.y
             let pd2 : Float = pdx * pdx + pdy * pdy
             let pinv : Float = if pd2 < 1.0 { 0.0 } else { 1.0 / pd2.sqrt() }
             player.vx = player.vx + pdx * pinv * 150.0
             player.vy = player.vy + pdy * pinv * 150.0
-            cops[i].vx = cops[i].vx - pdx * pinv * 130.0
-            cops[i].vy = cops[i].vy - pdy * pinv * 130.0
+            cop.vx = cop.vx - pdx * pinv * 130.0
+            cop.vy = cop.vy - pdy * pinv * 130.0
 
             burst_particles(particles, player.x, player.y, 24, 112.0, 2)
           }
@@ -886,19 +886,19 @@ fn main {
         )
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
           continue
         }
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 0.8)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 0.8)
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 0.8)
+        particle.vy = particle.vy * (1.0 - dt * 0.8)
       }
 
       player.hp = clampf(player.hp, 0.0, 100.0)
@@ -1000,40 +1000,40 @@ fn main {
       ly = ly + 140.0
     }
 
-    for i in 0..<smokes.length() {
-      if not(smokes[i].active) {
+    for smoke in smokes {
+      if not(smoke.active) {
         continue
       }
-      let sx : Float = smokes[i].x - cam_x + shake_x
-      let sy : Float = smokes[i].y - cam_y + shake_y
+      let sx : Float = smoke.x - cam_x + shake_x
+      let sy : Float = smoke.y - cam_y + shake_y
       if sx < -320.0 ||
         sy < -320.0 ||
         sx > Float::from_int(sw + 320) ||
         sy > Float::from_int(sh + 320) {
         continue
       }
-      let life_ratio : Float = 1.0 - smokes[i].t / smokes[i].life
+      let life_ratio : Float = 1.0 - smoke.t / smoke.life
       let alpha : Int = clampf(110.0 * life_ratio, 0.0, 130.0).to_int()
       @raylib.draw_circle(
         sx.to_int(),
         sy.to_int(),
-        smokes[i].r,
+        smoke.r,
         @raylib.Color::new(136, 152, 164, alpha),
       )
       @raylib.draw_circle(
         sx.to_int(),
         sy.to_int(),
-        smokes[i].r * 0.65,
+        smoke.r * 0.65,
         @raylib.Color::new(94, 108, 122, alpha + 24),
       )
     }
 
-    for i in 0..<pickups.length() {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
-      let px : Float = pickups[i].x - cam_x + shake_x
-      let py : Float = pickups[i].y - cam_y + shake_y
+      let px : Float = pickup.x - cam_x + shake_x
+      let py : Float = pickup.y - cam_y + shake_y
       if px < -32.0 ||
         py < -32.0 ||
         px > Float::from_int(sw + 32) ||
@@ -1041,7 +1041,7 @@ fn main {
         continue
       }
 
-      let pulse : Float = 1.0 + pickups[i].pulse_t * 0.9
+      let pulse : Float = 1.0 + pickup.pulse_t * 0.9
       let glow : Float = 12.0 + pulse * 6.0
       @raylib.draw_circle(
         px.to_int(),
@@ -1181,13 +1181,13 @@ fn main {
       @raylib.Color::new(208, 214, 222, 180),
     )
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let vx : Float = particles[i].x - cam_x + shake_x
-      let vy : Float = particles[i].y - cam_y + shake_y
+      let vx : Float = particle.x - cam_x + shake_x
+      let vy : Float = particle.y - cam_y + shake_y
       if vx < -20.0 ||
         vy < -20.0 ||
         vx > Float::from_int(sw + 20) ||
@@ -1195,11 +1195,11 @@ fn main {
         continue
       }
 
-      let life_ratio : Float = 1.0 - particles[i].t / particles[i].life
+      let life_ratio : Float = 1.0 - particle.t / particle.life
       let alpha : Int = clampf(life_ratio * 220.0, 0.0, 220.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(206, 216, 228, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 182, 112, alpha)
       } else {
         @raylib.Color::new(150, 220, 252, alpha)
@@ -1207,7 +1207,7 @@ fn main {
       @raylib.draw_circle(
         vx.to_int(),
         vy.to_int(),
-        particles[i].size * life_ratio,
+        particle.size * life_ratio,
         col,
       )
     }

@@ -306,8 +306,8 @@ fn init_enemy_wave(
   core_x : Float,
   core_y : Float,
 ) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
+  for enemy in enemies {
+    enemy.active = false
   }
   let initial : Int = 12 + level * 3
   for i in 0..<initial {
@@ -590,19 +590,19 @@ fn main {
     core.hp = 1000.0 + Float::from_int(level - 1) * 130.0
     core.shield = 260.0
 
-    for i in 0..<bullets.length() {
-      bullets[i].active = false
+    for bullet in bullets {
+      bullet.active = false
     }
-    for i in 0..<drops.length() {
-      drops[i].active = false
+    for drop in drops {
+      drop.active = false
     }
-    for i in 0..<particles.length() {
-      particles[i].active = false
+    for particle in particles {
+      particle.active = false
     }
-    for i in 0..<turrets.length() {
-      turrets[i].active = false
-      turrets[i].hp = 0.0
-      turrets[i].cd = 0.0
+    for turret in turrets {
+      turret.active = false
+      turret.hp = 0.0
+      turret.cd = 0.0
     }
 
     let ring_r : Float = 340.0
@@ -858,14 +858,14 @@ fn main {
       if pulse_press && hero.pulse_cd <= 0.0 {
         hero.pulse_cd = 8.0
         burst_particles(particles, hero.x, hero.y, 60, 160.0, 1)
-        for i in 0..<enemies.length() {
-          if not(enemies[i].active) {
+        for enemy in enemies {
+          if not(enemy.active) {
             continue
           }
-          let d2 : Float = dist2(hero.x, hero.y, enemies[i].x, enemies[i].y)
+          let d2 : Float = dist2(hero.x, hero.y, enemy.x, enemy.y)
           if d2 <= 230.0 * 230.0 {
-            enemies[i].stun_t = 1.5
-            enemies[i].hp = enemies[i].hp - 24.0
+            enemy.stun_t = 1.5
+            enemy.hp = enemy.hp - 24.0
           }
         }
       }
@@ -950,25 +950,25 @@ fn main {
         spawn_cd = next
       }
 
-      for i in 0..<turrets.length() {
-        if not(turrets[i].active) {
+      for turret in turrets {
+        if not(turret.active) {
           continue
         }
 
-        if turrets[i].hp <= 0.0 {
-          turrets[i].active = false
-          burst_particles(particles, turrets[i].x, turrets[i].y, 26, 88.0, 2)
+        if turret.hp <= 0.0 {
+          turret.active = false
+          burst_particles(particles, turret.x, turret.y, 26, 88.0, 2)
           continue
         }
 
-        if turrets[i].cd > 0.0 {
-          turrets[i].cd = turrets[i].cd - dt
-          if turrets[i].cd < 0.0 {
-            turrets[i].cd = 0.0
+        if turret.cd > 0.0 {
+          turret.cd = turret.cd - dt
+          if turret.cd < 0.0 {
+            turret.cd = 0.0
           }
         }
 
-        if turrets[i].cd <= 0.0 {
+        if turret.cd <= 0.0 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
           for j in 0..<enemies.length() {
@@ -976,8 +976,8 @@ fn main {
               continue
             }
             let d2 : Float = dist2(
-              turrets[i].x,
-              turrets[i].y,
+              turret.x,
+              turret.y,
               enemies[j].x,
               enemies[j].y,
             )
@@ -988,46 +988,46 @@ fn main {
           }
 
           if best >= 0 {
-            let dx : Float = enemies[best].x - turrets[i].x
-            let dy : Float = enemies[best].y - turrets[i].y
+            let dx : Float = enemies[best].x - turret.x
+            let dy : Float = enemies[best].y - turret.y
             let d2 : Float = dx * dx + dy * dy
             let inv : Float = if d2 < 1.0 { 0.0 } else { 1.0 / d2.sqrt() }
             spawn_bullet(
               bullets,
               1,
-              turrets[i].x,
-              turrets[i].y,
+              turret.x,
+              turret.y,
               dx * inv * 560.0,
               dy * inv * 560.0,
               22.0,
               1.2,
             )
-            turrets[i].cd = 0.26
+            turret.cd = 0.26
           }
         }
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        if enemies[i].stun_t > 0.0 {
-          enemies[i].stun_t = enemies[i].stun_t - dt
-          if enemies[i].stun_t < 0.0 {
-            enemies[i].stun_t = 0.0
+        if enemy.stun_t > 0.0 {
+          enemy.stun_t = enemy.stun_t - dt
+          if enemy.stun_t < 0.0 {
+            enemy.stun_t = 0.0
           }
         }
-        if enemies[i].bite_cd > 0.0 {
-          enemies[i].bite_cd = enemies[i].bite_cd - dt
-          if enemies[i].bite_cd < 0.0 {
-            enemies[i].bite_cd = 0.0
+        if enemy.bite_cd > 0.0 {
+          enemy.bite_cd = enemy.bite_cd - dt
+          if enemy.bite_cd < 0.0 {
+            enemy.bite_cd = 0.0
           }
         }
 
         let target_hero_d2 : Float = dist2(
-          enemies[i].x,
-          enemies[i].y,
+          enemy.x,
+          enemy.y,
           hero.x,
           hero.y,
         )
@@ -1038,21 +1038,21 @@ fn main {
           ty = hero.y
         }
 
-        if enemies[i].stun_t > 0.0 {
-          enemies[i].vx = enemies[i].vx * (1.0 - dt * 3.4)
-          enemies[i].vy = enemies[i].vy * (1.0 - dt * 3.4)
+        if enemy.stun_t > 0.0 {
+          enemy.vx = enemy.vx * (1.0 - dt * 3.4)
+          enemy.vy = enemy.vy * (1.0 - dt * 3.4)
         } else {
-          let dx : Float = tx - enemies[i].x
-          let dy : Float = ty - enemies[i].y
+          let dx : Float = tx - enemy.x
+          let dy : Float = ty - enemy.y
           let d2 : Float = dx * dx + dy * dy
           let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-          let base_speed : Float = if enemies[i].kind == 0 {
+          let base_speed : Float = if enemy.kind == 0 {
             170.0
           } else {
             126.0
           }
-          let level_gain : Float = if enemies[i].kind == 0 {
+          let level_gain : Float = if enemy.kind == 0 {
             15.0
           } else {
             12.0
@@ -1062,36 +1062,36 @@ fn main {
           let txv : Float = dx / d * speed
           let tyv : Float = dy / d * speed
 
-          enemies[i].vx = enemies[i].vx + (txv - enemies[i].vx * 2.0) * dt
-          enemies[i].vy = enemies[i].vy + (tyv - enemies[i].vy * 2.0) * dt
+          enemy.vx = enemy.vx + (txv - enemy.vx * 2.0) * dt
+          enemy.vy = enemy.vy + (tyv - enemy.vy * 2.0) * dt
         }
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
+        enemy.x = enemy.x + enemy.vx * dt
+        enemy.y = enemy.y + enemy.vy * dt
 
-        if enemies[i].x < 24.0 {
-          enemies[i].x = 24.0
-          enemies[i].vx = enemies[i].vx.abs()
+        if enemy.x < 24.0 {
+          enemy.x = 24.0
+          enemy.vx = enemy.vx.abs()
         }
-        if enemies[i].x > world_w - 24.0 {
-          enemies[i].x = world_w - 24.0
-          enemies[i].vx = -enemies[i].vx.abs()
+        if enemy.x > world_w - 24.0 {
+          enemy.x = world_w - 24.0
+          enemy.vx = -enemy.vx.abs()
         }
-        if enemies[i].y < 24.0 {
-          enemies[i].y = 24.0
-          enemies[i].vy = enemies[i].vy.abs()
+        if enemy.y < 24.0 {
+          enemy.y = 24.0
+          enemy.vy = enemy.vy.abs()
         }
-        if enemies[i].y > world_h - 24.0 {
-          enemies[i].y = world_h - 24.0
-          enemies[i].vy = -enemies[i].vy.abs()
+        if enemy.y > world_h - 24.0 {
+          enemy.y = world_h - 24.0
+          enemy.vy = -enemy.vy.abs()
         }
 
-        if enemies[i].bite_cd <= 0.0 {
+        if enemy.bite_cd <= 0.0 {
           let hr : Float = 30.0
-          if dist2(enemies[i].x, enemies[i].y, hero.x, hero.y) <= hr * hr {
-            enemies[i].bite_cd = 0.65
+          if dist2(enemy.x, enemy.y, hero.x, hero.y) <= hr * hr {
+            enemy.bite_cd = 0.65
             if hero.hit_cd <= 0.0 {
-              let bite_dmg : Float = if enemies[i].kind == 0 {
+              let bite_dmg : Float = if enemy.kind == 0 {
                 16.0
               } else {
                 22.0
@@ -1105,9 +1105,9 @@ fn main {
           }
 
           let cr : Float = 42.0
-          if dist2(enemies[i].x, enemies[i].y, core.x, core.y) <= cr * cr {
-            enemies[i].bite_cd = 0.55
-            let dmg : Float = if enemies[i].kind == 0 { 14.0 } else { 22.0 }
+          if dist2(enemy.x, enemy.y, core.x, core.y) <= cr * cr {
+            enemy.bite_cd = 0.55
+            let dmg : Float = if enemy.kind == 0 { 14.0 } else { 22.0 }
             if core.shield > 0.0 {
               core.shield = core.shield - dmg
               if core.shield < 0.0 {
@@ -1120,23 +1120,23 @@ fn main {
             burst_particles(particles, core.x, core.y, 16, 88.0, 1)
           }
 
-          for j in 0..<turrets.length() {
-            if not(turrets[j].active) {
+          for turret in turrets {
+            if not(turret.active) {
               continue
             }
-            if dist2(enemies[i].x, enemies[i].y, turrets[j].x, turrets[j].y) <=
+            if dist2(enemy.x, enemy.y, turret.x, turret.y) <=
               30.0 * 30.0 {
-              enemies[i].bite_cd = 0.65
-              let turret_dmg : Float = if enemies[i].kind == 0 {
+              enemy.bite_cd = 0.65
+              let turret_dmg : Float = if enemy.kind == 0 {
                 18.0
               } else {
                 26.0
               }
-              turrets[j].hp = turrets[j].hp - turret_dmg
+              turret.hp = turret.hp - turret_dmg
               burst_particles(
                 particles,
-                turrets[j].x,
-                turrets[j].y,
+                turret.x,
+                turret.y,
                 10,
                 70.0,
                 2,
@@ -1147,51 +1147,51 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < 0.0 ||
-          bullets[i].y < 0.0 ||
-          bullets[i].x > world_w ||
-          bullets[i].y > world_h {
-          bullets[i].active = false
+        if bullet.x < 0.0 ||
+          bullet.y < 0.0 ||
+          bullet.x > world_w ||
+          bullet.y > world_h {
+          bullet.active = false
           continue
         }
 
         let mut hit : Bool = false
-        for j in 0..<enemies.length() {
-          if not(enemies[j].active) {
+        for enemy in enemies {
+          if not(enemy.active) {
             continue
           }
-          if dist2(bullets[i].x, bullets[i].y, enemies[j].x, enemies[j].y) <=
+          if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
             22.0 * 22.0 {
-            enemies[j].hp = enemies[j].hp - bullets[i].dmg
-            if bullets[i].kind == 0 {
-              enemies[j].stun_t = enemies[j].stun_t + 0.06
+            enemy.hp = enemy.hp - bullet.dmg
+            if bullet.kind == 0 {
+              enemy.stun_t = enemy.stun_t + 0.06
             } else {
-              enemies[j].stun_t = enemies[j].stun_t + 0.14
+              enemy.stun_t = enemy.stun_t + 0.14
             }
-            let hit_fx_kind : Int = if bullets[i].kind == 0 { 1 } else { 2 }
+            let hit_fx_kind : Int = if bullet.kind == 0 { 1 } else { 2 }
             burst_particles(
               particles,
-              bullets[i].x,
-              bullets[i].y,
+              bullet.x,
+              bullet.y,
               6,
               55.0,
               hit_fx_kind,
             )
-            bullets[i].active = false
+            bullet.active = false
             hit = true
             break
           }
@@ -1202,42 +1202,42 @@ fn main {
         }
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        if enemies[i].hp <= 0.0 {
-          enemies[i].active = false
-          let drop_v : Int = if enemies[i].kind == 0 {
+        if enemy.hp <= 0.0 {
+          enemy.active = false
+          let drop_v : Int = if enemy.kind == 0 {
             34 + level * 6
           } else {
             66 + level * 10
           }
-          spawn_drop(drops, enemies[i].x, enemies[i].y, drop_v)
-          let kill_score : Int = if enemies[i].kind == 0 { 18 } else { 42 }
+          spawn_drop(drops, enemy.x, enemy.y, drop_v)
+          let kill_score : Int = if enemy.kind == 0 { 18 } else { 42 }
           hero.score = hero.score + kill_score
-          burst_particles(particles, enemies[i].x, enemies[i].y, 20, 96.0, 2)
+          burst_particles(particles, enemy.x, enemy.y, 20, 96.0, 2)
         }
       }
 
-      for i in 0..<drops.length() {
-        if not(drops[i].active) {
+      for drop in drops {
+        if not(drop.active) {
           continue
         }
-        drops[i].t = drops[i].t + dt
-        drops[i].life = drops[i].life - dt
-        if drops[i].life <= 0.0 {
-          drops[i].active = false
+        drop.t = drop.t + dt
+        drop.life = drop.life - dt
+        if drop.life <= 0.0 {
+          drop.active = false
           continue
         }
 
-        let w : Float = 1.0 + @math.sinf(drops[i].t * 4.0) * 0.14
-        if dist2(hero.x, hero.y, drops[i].x, drops[i].y) <=
+        let w : Float = 1.0 + @math.sinf(drop.t * 4.0) * 0.14
+        if dist2(hero.x, hero.y, drop.x, drop.y) <=
           34.0 * w * (34.0 * w) {
-          hero.scrap = hero.scrap + drops[i].value
-          hero.score = hero.score + drops[i].value
-          drops[i].active = false
+          hero.scrap = hero.scrap + drop.value
+          hero.score = hero.score + drop.value
+          drop.active = false
           burst_particles(particles, hero.x, hero.y, 12, 70.0, 1)
           continue
         }
@@ -1256,20 +1256,20 @@ fn main {
         state = 2
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
           continue
         }
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 0.75)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 0.75)
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 0.75)
+        particle.vy = particle.vy * (1.0 - dt * 0.75)
       }
     }
 
@@ -1367,12 +1367,12 @@ fn main {
       )
     }
 
-    for i in 0..<turrets.length() {
-      if not(turrets[i].active) {
+    for turret in turrets {
+      if not(turret.active) {
         continue
       }
-      let tx : Float = turrets[i].x - cam_x + shake_x
-      let ty : Float = turrets[i].y - cam_y + shake_y
+      let tx : Float = turret.x - cam_x + shake_x
+      let ty : Float = turret.y - cam_y + shake_y
       if tx < -50.0 ||
         ty < -50.0 ||
         tx > Float::from_int(sw + 50) ||
@@ -1401,19 +1401,19 @@ fn main {
       )
     }
 
-    for i in 0..<drops.length() {
-      if not(drops[i].active) {
+    for drop in drops {
+      if not(drop.active) {
         continue
       }
-      let dx : Float = drops[i].x - cam_x + shake_x
-      let dy : Float = drops[i].y - cam_y + shake_y
+      let dx : Float = drop.x - cam_x + shake_x
+      let dy : Float = drop.y - cam_y + shake_y
       if dx < -30.0 ||
         dy < -30.0 ||
         dx > Float::from_int(sw + 30) ||
         dy > Float::from_int(sh + 30) {
         continue
       }
-      let pulse : Float = 1.0 + @math.sinf(drops[i].t * 4.0) * 0.12
+      let pulse : Float = 1.0 + @math.sinf(drop.t * 4.0) * 0.12
       @raylib.draw_circle(
         dx.to_int(),
         dy.to_int(),
@@ -1429,12 +1429,12 @@ fn main {
       )
     }
 
-    for i in 0..<enemies.length() {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      let ex : Float = enemies[i].x - cam_x + shake_x
-      let ey : Float = enemies[i].y - cam_y + shake_y
+      let ex : Float = enemy.x - cam_x + shake_x
+      let ey : Float = enemy.y - cam_y + shake_y
       if ex < -80.0 ||
         ey < -80.0 ||
         ex > Float::from_int(sw + 80) ||
@@ -1442,15 +1442,15 @@ fn main {
         continue
       }
 
-      let col = if enemies[i].stun_t > 0.0 {
+      let col = if enemy.stun_t > 0.0 {
         @raylib.Color::new(150, 226, 252, 255)
-      } else if enemies[i].kind == 0 {
+      } else if enemy.kind == 0 {
         @raylib.Color::new(236, 106, 96, 255)
       } else {
         @raylib.Color::new(250, 154, 90, 255)
       }
 
-      let r : Float = if enemies[i].kind == 0 { 14.0 } else { 18.0 }
+      let r : Float = if enemy.kind == 0 { 14.0 } else { 18.0 }
       @raylib.draw_circle(ex.to_int(), ey.to_int(), r, col)
       @raylib.draw_circle(
         (ex - 4.0).to_int(),
@@ -1466,12 +1466,12 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
-      let bx : Float = bullets[i].x - cam_x + shake_x
-      let by : Float = bullets[i].y - cam_y + shake_y
+      let bx : Float = bullet.x - cam_x + shake_x
+      let by : Float = bullet.y - cam_y + shake_y
       if bx < -8.0 ||
         by < -8.0 ||
         bx > Float::from_int(sw + 8) ||
@@ -1479,7 +1479,7 @@ fn main {
         continue
       }
 
-      let col = if bullets[i].kind == 0 {
+      let col = if bullet.kind == 0 {
         @raylib.Color::new(252, 236, 130, 255)
       } else {
         @raylib.Color::new(126, 220, 252, 255)
@@ -1487,7 +1487,7 @@ fn main {
       @raylib.draw_circle(
         bx.to_int(),
         by.to_int(),
-        if bullets[i].kind == 0 {
+        if bullet.kind == 0 {
           4.0
         } else {
           3.0
@@ -1522,12 +1522,12 @@ fn main {
       @raylib.Color::new(246, 248, 252, 255),
     )
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let px : Float = particles[i].x - cam_x + shake_x
-      let py : Float = particles[i].y - cam_y + shake_y
+      let px : Float = particle.x - cam_x + shake_x
+      let py : Float = particle.y - cam_y + shake_y
       if px < -20.0 ||
         py < -20.0 ||
         px > Float::from_int(sw + 20) ||
@@ -1535,11 +1535,11 @@ fn main {
         continue
       }
 
-      let life_r : Float = 1.0 - particles[i].t / particles[i].life
+      let life_r : Float = 1.0 - particle.t / particle.life
       let alpha : Int = clampf(life_r * 220.0, 0.0, 220.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(198, 216, 236, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 196, 126, alpha)
       } else {
         @raylib.Color::new(140, 220, 252, alpha)
@@ -1547,7 +1547,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        particles[i].size * life_r,
+        particle.size * life_r,
         col,
       )
     }

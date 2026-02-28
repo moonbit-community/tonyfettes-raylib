@@ -750,8 +750,8 @@ fn draw_frame(game : Game) -> Unit {
   draw_background(game, ox, oy)
   draw_lanes(game, ox, oy)
 
-  for i in 0..<game.threats.length() {
-    draw_threat(game.threats[i], ox, oy)
+  for threat in game.threats {
+    draw_threat(threat, ox, oy)
   }
 
   draw_action_fx(game, ox, oy)

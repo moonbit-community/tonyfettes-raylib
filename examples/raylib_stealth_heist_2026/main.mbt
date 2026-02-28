@@ -199,8 +199,8 @@ fn move_guard_toward_player(
 
 ///|
 fn all_cards_collected(cards : Array[Card]) -> Bool {
-  for i in 0..<cards.length() {
-    if not(cards[i].collected) {
+  for card in cards {
+    if not(card.collected) {
       return false
     }
   }
@@ -210,8 +210,8 @@ fn all_cards_collected(cards : Array[Card]) -> Bool {
 ///|
 fn collected_cards(cards : Array[Card]) -> Int {
   let mut count = 0
-  for i in 0..<cards.length() {
-    if cards[i].collected {
+  for card in cards {
+    if card.collected {
       count = count + 1
     }
   }
@@ -297,11 +297,11 @@ fn main {
 
       if @raylib.is_key_pressed(@raylib.KeySpace) && smoke > 0 {
         smoke = smoke - 1
-        for i in 0..<guards.length() {
-          let dx = (guards[i].x - player_x).abs()
-          let dy = (guards[i].y - player_y).abs()
+        for guard_val in guards {
+          let dx = (guard_val.x - player_x).abs()
+          let dy = (guard_val.y - player_y).abs()
           if dx + dy <= 4 {
-            guards[i].stunned = 3
+            guard_val.stunned = 3
           }
         }
         acted = true
@@ -321,40 +321,40 @@ fn main {
         turns = turns + 1
 
         let mut seen = false
-        for i in 0..<guards.length() {
-          if guards[i].stunned > 0 {
-            guards[i].stunned = guards[i].stunned - 1
+        for guard_val in guards {
+          if guard_val.stunned > 0 {
+            guard_val.stunned = guard_val.stunned - 1
             continue
           }
 
           if has_line_of_sight(
               map,
-              guards[i].x,
-              guards[i].y,
+              guard_val.x,
+              guard_val.y,
               player_x,
               player_y,
             ) {
             seen = true
-            move_guard_toward_player(map, guards[i], player_x, player_y)
+            move_guard_toward_player(map, guard_val, player_x, player_y)
           } else {
             let mut moved = false
             for _k in 0..<4 {
               let (nx, ny, ok) = try_step(
                 map,
-                guards[i].x,
-                guards[i].y,
-                guards[i].dir,
+                guard_val.x,
+                guard_val.y,
+                guard_val.dir,
               )
               if ok {
-                guards[i].x = nx
-                guards[i].y = ny
+                guard_val.x = nx
+                guard_val.y = ny
                 moved = true
                 break
               }
-              guards[i].dir = (guards[i].dir + 1) % 4
+              guard_val.dir = (guard_val.dir + 1) % 4
             }
             if not(moved) {
-              guards[i].dir = (guards[i].dir + 1) % 4
+              guard_val.dir = (guard_val.dir + 1) % 4
             }
           }
         }
@@ -364,9 +364,9 @@ fn main {
           msg = "Guard sightline! Alert +1."
         }
 
-        for i in 0..<guards.length() {
-          let dx = (guards[i].x - player_x).abs()
-          let dy = (guards[i].y - player_y).abs()
+        for guard_val in guards {
+          let dx = (guard_val.x - player_x).abs()
+          let dy = (guard_val.y - player_y).abs()
           if dx + dy <= 1 {
             lost = true
             msg = "Caught by security."
@@ -426,30 +426,30 @@ fn main {
       }
     }
 
-    for i in 0..<cards.length() {
-      if not(cards[i].collected) {
-        let cx = map_x + cards[i].x * tile + tile / 2
-        let cy = map_y + cards[i].y * tile + tile / 2
+    for card in cards {
+      if not(card.collected) {
+        let cx = map_x + card.x * tile + tile / 2
+        let cy = map_y + card.y * tile + tile / 2
         @raylib.draw_circle(cx, cy, 12.0, @raylib.gold)
         @raylib.draw_circle_lines(cx, cy, 12.0, @raylib.yellow)
       }
     }
 
-    for i in 0..<guards.length() {
-      let gx = map_x + guards[i].x * tile + tile / 2
-      let gy = map_y + guards[i].y * tile + tile / 2
+    for guard_val in guards {
+      let gx = map_x + guard_val.x * tile + tile / 2
+      let gy = map_y + guard_val.y * tile + tile / 2
       @raylib.draw_circle(
         gx,
         gy,
         15.0,
-        if guards[i].stunned > 0 {
+        if guard_val.stunned > 0 {
           @raylib.gray
         } else {
           @raylib.red
         },
       )
       @raylib.draw_circle_lines(gx, gy, 15.0, @raylib.white)
-      if guards[i].stunned > 0 {
+      if guard_val.stunned > 0 {
         @raylib.draw_text("Z", gx - 6, gy - 34, 24, @raylib.lightgray)
       }
     }

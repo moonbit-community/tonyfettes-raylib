@@ -693,8 +693,8 @@ pub fn pickup_name(kind : Int) -> String {
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -755,11 +755,11 @@ pub fn update_kill_feed(game : Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_damage_indicators(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.damage_indicators.length() {
-    if game.damage_indicators[i].active {
-      game.damage_indicators[i].timer -= dt
-      if game.damage_indicators[i].timer <= 0.0 {
-        game.damage_indicators[i].active = false
+  for damage_indicator in game.damage_indicators {
+    if damage_indicator.active {
+      damage_indicator.timer -= dt
+      if damage_indicator.timer <= 0.0 {
+        damage_indicator.active = false
       }
     }
   }
@@ -775,11 +775,11 @@ pub fn add_damage_indicator(
 ) -> Unit {
   let angle = @math.atan2f(from_z - game.player.z, from_x - game.player.x)
   // Find inactive slot
-  for i in 0..<game.damage_indicators.length() {
-    if not(game.damage_indicators[i].active) {
-      game.damage_indicators[i].active = true
-      game.damage_indicators[i].angle = angle - game.player.yaw
-      game.damage_indicators[i].timer = 1.0
+  for damage_indicator in game.damage_indicators {
+    if not(damage_indicator.active) {
+      damage_indicator.active = true
+      damage_indicator.angle = angle - game.player.yaw
+      damage_indicator.timer = 1.0
       return
     }
   }
@@ -829,8 +829,7 @@ pub fn push_from_barricades(
 ) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
-  for i in 0..<game.barricades.length() {
-    let b = game.barricades[i]
+  for b in game.barricades {
     if not(b.active) {
       continue
     }
@@ -860,8 +859,7 @@ pub fn push_from_low_walls(
 ) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
-  for i in 0..<game.low_walls.length() {
-    let w = game.low_walls[i]
+  for w in game.low_walls {
     let result = push_from_box(rx, rz, radius, w.x, w.z, w.width, w.depth)
     rx = result.0
     rz = result.1

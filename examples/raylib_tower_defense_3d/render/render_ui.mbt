@@ -544,8 +544,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw towers on minimap
-  for i in 0..<game.towers.length() {
-    let tower = game.towers[i]
+  for tower in game.towers {
     if not(tower.active) {
       continue
     }
@@ -560,8 +559,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
     )
   }
   // Draw enemies on minimap
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }

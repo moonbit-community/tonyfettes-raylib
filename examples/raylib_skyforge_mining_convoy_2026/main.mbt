@@ -281,8 +281,8 @@ fn init_wave(
   level : Int,
   convoy_x : Float,
 ) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
+  for enemy in enemies {
+    enemy.active = false
   }
   let initial : Int = 14 + level * 4
   for i in 0..<initial {
@@ -569,14 +569,14 @@ fn main {
       trucks[i].flash_t = 0.0
     }
 
-    for i in 0..<bullets.length() {
-      bullets[i].active = false
+    for bullet in bullets {
+      bullet.active = false
     }
-    for i in 0..<ores.length() {
-      ores[i].active = false
+    for ore in ores {
+      ore.active = false
     }
-    for i in 0..<particles.length() {
-      particles[i].active = false
+    for particle in particles {
+      particle.active = false
     }
 
     init_wave(enemies, level, convoy_start)
@@ -598,9 +598,9 @@ fn main {
     }
 
     let mut convoy_head_x : Float = 0.0
-    for i in 0..<trucks.length() {
-      if trucks[i].active && trucks[i].x > convoy_head_x {
-        convoy_head_x = trucks[i].x
+    for truck in trucks {
+      if truck.active && truck.x > convoy_head_x {
+        convoy_head_x = truck.x
       }
     }
 
@@ -824,14 +824,14 @@ fn main {
         pilot.energy = pilot.energy - 40.0
         pilot.pulse_cd = 5.8
         burst_particles(particles, pilot.x, pilot.y, 60, 164.0, 1)
-        for i in 0..<enemies.length() {
-          if not(enemies[i].active) {
+        for enemy in enemies {
+          if not(enemy.active) {
             continue
           }
-          let d2 : Float = dist2(pilot.x, pilot.y, enemies[i].x, enemies[i].y)
+          let d2 : Float = dist2(pilot.x, pilot.y, enemy.x, enemy.y)
           if d2 <= 240.0 * 240.0 {
-            enemies[i].hp = enemies[i].hp - 30.0
-            enemies[i].slow_t = enemies[i].slow_t + 2.5
+            enemy.hp = enemy.hp - 30.0
+            enemy.slow_t = enemy.slow_t + 2.5
           }
         }
       }
@@ -891,27 +891,27 @@ fn main {
       }
 
       let mut alive_trucks : Int = 0
-      for i in 0..<trucks.length() {
-        if not(trucks[i].active) {
+      for truck in trucks {
+        if not(truck.active) {
           continue
         }
         alive_trucks = alive_trucks + 1
-        trucks[i].vx = convoy_speed
-        trucks[i].x = trucks[i].x + trucks[i].vx * dt
-        if trucks[i].x > world_w - 120.0 {
-          trucks[i].x = world_w - 120.0
+        truck.vx = convoy_speed
+        truck.x = truck.x + truck.vx * dt
+        if truck.x > world_w - 120.0 {
+          truck.x = world_w - 120.0
         }
 
-        if trucks[i].flash_t > 0.0 {
-          trucks[i].flash_t = trucks[i].flash_t - dt
-          if trucks[i].flash_t < 0.0 {
-            trucks[i].flash_t = 0.0
+        if truck.flash_t > 0.0 {
+          truck.flash_t = truck.flash_t - dt
+          if truck.flash_t < 0.0 {
+            truck.flash_t = 0.0
           }
         }
 
-        if trucks[i].hp <= 0.0 {
-          trucks[i].active = false
-          burst_particles(particles, trucks[i].x, trucks[i].y, 32, 100.0, 2)
+        if truck.hp <= 0.0 {
+          truck.active = false
+          burst_particles(particles, truck.x, truck.y, 32, 100.0, 2)
         }
       }
 
@@ -929,39 +929,39 @@ fn main {
         spawn_cd = next
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        if enemies[i].slow_t > 0.0 {
-          enemies[i].slow_t = enemies[i].slow_t - dt
-          if enemies[i].slow_t < 0.0 {
-            enemies[i].slow_t = 0.0
+        if enemy.slow_t > 0.0 {
+          enemy.slow_t = enemy.slow_t - dt
+          if enemy.slow_t < 0.0 {
+            enemy.slow_t = 0.0
           }
         }
-        if enemies[i].shock_t > 0.0 {
-          enemies[i].shock_t = enemies[i].shock_t - dt
-          if enemies[i].shock_t < 0.0 {
-            enemies[i].shock_t = 0.0
+        if enemy.shock_t > 0.0 {
+          enemy.shock_t = enemy.shock_t - dt
+          if enemy.shock_t < 0.0 {
+            enemy.shock_t = 0.0
           }
         }
-        if enemies[i].fire_cd > 0.0 {
-          enemies[i].fire_cd = enemies[i].fire_cd - dt
-          if enemies[i].fire_cd < 0.0 {
-            enemies[i].fire_cd = 0.0
+        if enemy.fire_cd > 0.0 {
+          enemy.fire_cd = enemy.fire_cd - dt
+          if enemy.fire_cd < 0.0 {
+            enemy.fire_cd = 0.0
           }
         }
-        if enemies[i].bite_cd > 0.0 {
-          enemies[i].bite_cd = enemies[i].bite_cd - dt
-          if enemies[i].bite_cd < 0.0 {
-            enemies[i].bite_cd = 0.0
+        if enemy.bite_cd > 0.0 {
+          enemy.bite_cd = enemy.bite_cd - dt
+          if enemy.bite_cd < 0.0 {
+            enemy.bite_cd = 0.0
           }
         }
 
         let mut tx : Float = pilot.x
         let mut ty : Float = pilot.y
-        let d2p : Float = dist2(enemies[i].x, enemies[i].y, pilot.x, pilot.y)
+        let d2p : Float = dist2(enemy.x, enemy.y, pilot.x, pilot.y)
         if d2p > 260.0 * 260.0 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
@@ -970,8 +970,8 @@ fn main {
               continue
             }
             let d2 : Float = dist2(
-              enemies[i].x,
-              enemies[i].y,
+              enemy.x,
+              enemy.y,
               trucks[j].x,
               trucks[j].y,
             )
@@ -986,65 +986,65 @@ fn main {
           }
         }
 
-        let dx : Float = tx - enemies[i].x
-        let dy : Float = ty - enemies[i].y
+        let dx : Float = tx - enemy.x
+        let dy : Float = ty - enemy.y
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemies[i].kind == 0 {
+        let base_speed : Float = if enemy.kind == 0 {
           176.0
         } else {
           132.0
         }
-        let level_gain : Float = if enemies[i].kind == 0 { 16.0 } else { 12.0 }
+        let level_gain : Float = if enemy.kind == 0 { 16.0 } else { 12.0 }
         let mut speed : Float = base_speed +
           Float::from_int(level - 1) * level_gain
 
-        if enemies[i].slow_t > 0.0 {
+        if enemy.slow_t > 0.0 {
           speed = speed * 0.56
         }
-        if enemies[i].shock_t > 0.0 {
+        if enemy.shock_t > 0.0 {
           speed = speed * 0.34
         }
 
         let vx_t : Float = dx / d * speed
         let vy_t : Float = dy / d * speed
 
-        enemies[i].vx = enemies[i].vx + (vx_t - enemies[i].vx * 2.0) * dt
-        enemies[i].vy = enemies[i].vy + (vy_t - enemies[i].vy * 2.0) * dt
+        enemy.vx = enemy.vx + (vx_t - enemy.vx * 2.0) * dt
+        enemy.vy = enemy.vy + (vy_t - enemy.vy * 2.0) * dt
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
+        enemy.x = enemy.x + enemy.vx * dt
+        enemy.y = enemy.y + enemy.vy * dt
 
-        if enemies[i].x < 24.0 {
-          enemies[i].x = 24.0
-          enemies[i].vx = enemies[i].vx.abs() * 0.3
+        if enemy.x < 24.0 {
+          enemy.x = 24.0
+          enemy.vx = enemy.vx.abs() * 0.3
         }
-        if enemies[i].x > world_w - 24.0 {
-          enemies[i].x = world_w - 24.0
-          enemies[i].vx = -enemies[i].vx.abs() * 0.3
+        if enemy.x > world_w - 24.0 {
+          enemy.x = world_w - 24.0
+          enemy.vx = -enemy.vx.abs() * 0.3
         }
-        if enemies[i].y < 120.0 {
-          enemies[i].y = 120.0
-          enemies[i].vy = enemies[i].vy.abs() * 0.3
+        if enemy.y < 120.0 {
+          enemy.y = 120.0
+          enemy.vy = enemy.vy.abs() * 0.3
         }
-        if enemies[i].y > world_h - 120.0 {
-          enemies[i].y = world_h - 120.0
-          enemies[i].vy = -enemies[i].vy.abs() * 0.3
+        if enemy.y > world_h - 120.0 {
+          enemy.y = world_h - 120.0
+          enemy.vy = -enemy.vy.abs() * 0.3
         }
 
-        if enemies[i].kind == 1 &&
-          enemies[i].fire_cd <= 0.0 &&
+        if enemy.kind == 1 &&
+          enemy.fire_cd <= 0.0 &&
           d <= 520.0 &&
-          enemies[i].shock_t <= 0.0 {
-          enemies[i].fire_cd = 1.3
+          enemy.shock_t <= 0.0 {
+          enemy.fire_cd = 1.3
           let inv : Float = if d2 < 1.0 { 0.0 } else { 1.0 / d2.sqrt() }
           spawn_bullet(
             bullets,
             2,
             false,
-            enemies[i].x,
-            enemies[i].y,
+            enemy.x,
+            enemy.y,
             dx * inv * 360.0,
             dy * inv * 360.0,
             16.0,
@@ -1052,11 +1052,11 @@ fn main {
           )
         }
 
-        if enemies[i].bite_cd <= 0.0 {
-          if dist2(enemies[i].x, enemies[i].y, pilot.x, pilot.y) <= 30.0 * 30.0 {
-            enemies[i].bite_cd = 0.64
+        if enemy.bite_cd <= 0.0 {
+          if dist2(enemy.x, enemy.y, pilot.x, pilot.y) <= 30.0 * 30.0 {
+            enemy.bite_cd = 0.64
             if pilot.hit_cd <= 0.0 {
-              let bite_dmg : Float = if enemies[i].kind == 0 {
+              let bite_dmg : Float = if enemy.kind == 0 {
                 12.0
               } else {
                 20.0
@@ -1070,106 +1070,106 @@ fn main {
             }
           }
 
-          for j in 0..<trucks.length() {
-            if not(trucks[j].active) {
+          for truck in trucks {
+            if not(truck.active) {
               continue
             }
-            if dist2(enemies[i].x, enemies[i].y, trucks[j].x, trucks[j].y) <=
+            if dist2(enemy.x, enemy.y, truck.x, truck.y) <=
               34.0 * 34.0 {
-              enemies[i].bite_cd = 0.66
-              let truck_dmg : Float = if enemies[i].kind == 0 {
+              enemy.bite_cd = 0.66
+              let truck_dmg : Float = if enemy.kind == 0 {
                 14.0
               } else {
                 24.0
               }
-              trucks[j].hp = trucks[j].hp - truck_dmg
-              trucks[j].flash_t = 0.14
-              burst_particles(particles, trucks[j].x, trucks[j].y, 12, 80.0, 2)
+              truck.hp = truck.hp - truck_dmg
+              truck.flash_t = 0.14
+              burst_particles(particles, truck.x, truck.y, 12, 80.0, 2)
               break
             }
           }
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < 0.0 ||
-          bullets[i].y < 0.0 ||
-          bullets[i].x > world_w ||
-          bullets[i].y > world_h {
-          bullets[i].active = false
+        if bullet.x < 0.0 ||
+          bullet.y < 0.0 ||
+          bullet.x > world_w ||
+          bullet.y > world_h {
+          bullet.active = false
           continue
         }
 
-        if bullets[i].from_player {
-          for j in 0..<enemies.length() {
-            if not(enemies[j].active) {
+        if bullet.from_player {
+          for enemy in enemies {
+            if not(enemy.active) {
               continue
             }
-            if dist2(bullets[i].x, bullets[i].y, enemies[j].x, enemies[j].y) <=
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
               22.0 * 22.0 {
-              enemies[j].hp = enemies[j].hp - bullets[i].dmg
-              burst_particles(particles, bullets[i].x, bullets[i].y, 6, 56.0, 0)
-              bullets[i].active = false
+              enemy.hp = enemy.hp - bullet.dmg
+              burst_particles(particles, bullet.x, bullet.y, 6, 56.0, 0)
+              bullet.active = false
               break
             }
           }
         } else {
-          if dist2(bullets[i].x, bullets[i].y, pilot.x, pilot.y) <= 24.0 * 24.0 {
+          if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <= 24.0 * 24.0 {
             if pilot.hit_cd <= 0.0 {
-              pilot.hp = pilot.hp - bullets[i].dmg
+              pilot.hp = pilot.hp - bullet.dmg
               pilot.hit_cd = 0.34
               pilot.flash_t = 0.14
               pilot.shake_t = 0.2
               pilot.combo = 0
             }
-            burst_particles(particles, bullets[i].x, bullets[i].y, 10, 72.0, 2)
-            bullets[i].active = false
+            burst_particles(particles, bullet.x, bullet.y, 10, 72.0, 2)
+            bullet.active = false
             continue
           }
 
-          for j in 0..<trucks.length() {
-            if not(trucks[j].active) {
+          for truck in trucks {
+            if not(truck.active) {
               continue
             }
-            if dist2(bullets[i].x, bullets[i].y, trucks[j].x, trucks[j].y) <=
+            if dist2(bullet.x, bullet.y, truck.x, truck.y) <=
               24.0 * 24.0 {
-              trucks[j].hp = trucks[j].hp - bullets[i].dmg
-              trucks[j].flash_t = 0.14
-              burst_particles(particles, bullets[i].x, bullets[i].y, 8, 66.0, 2)
-              bullets[i].active = false
+              truck.hp = truck.hp - bullet.dmg
+              truck.flash_t = 0.14
+              burst_particles(particles, bullet.x, bullet.y, 8, 66.0, 2)
+              bullet.active = false
               break
             }
           }
         }
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
-        if enemies[i].hp <= 0.0 {
-          enemies[i].active = false
-          let ore_value : Int = if enemies[i].kind == 0 {
+        if enemy.hp <= 0.0 {
+          enemy.active = false
+          let ore_value : Int = if enemy.kind == 0 {
             18 + level * 3
           } else {
             28 + level * 4
           }
-          spawn_ore(ores, enemies[i].x, enemies[i].y, ore_value)
+          spawn_ore(ores, enemy.x, enemy.y, ore_value)
 
-          let kill_score : Int = if enemies[i].kind == 0 { 22 } else { 52 }
+          let kill_score : Int = if enemy.kind == 0 { 22 } else { 52 }
           pilot.score = pilot.score + kill_score + pilot.combo
           pilot.combo = pilot.combo + 1
           if pilot.combo > 60 {
@@ -1178,11 +1178,11 @@ fn main {
 
           burst_particles(
             particles,
-            enemies[i].x,
-            enemies[i].y,
+            enemy.x,
+            enemy.y,
             24,
             96.0,
-            if enemies[i].kind == 0 {
+            if enemy.kind == 0 {
               0
             } else {
               2
@@ -1217,19 +1217,19 @@ fn main {
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
           continue
         }
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 0.74)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 0.74)
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 0.74)
+        particle.vy = particle.vy * (1.0 - dt * 0.74)
       }
 
       if pilot.hp <= 0.0 {
@@ -1239,11 +1239,11 @@ fn main {
       } else {
         let mut alive : Int = 0
         let mut max_x : Float = 0.0
-        for i in 0..<trucks.length() {
-          if trucks[i].active {
+        for truck in trucks {
+          if truck.active {
             alive = alive + 1
-            if trucks[i].x > max_x {
-              max_x = trucks[i].x
+            if truck.x > max_x {
+              max_x = truck.x
             }
           }
         }
@@ -1326,19 +1326,19 @@ fn main {
       @raylib.Color::new(226, 248, 255, 220),
     )
 
-    for i in 0..<ores.length() {
-      if not(ores[i].active) {
+    for ore in ores {
+      if not(ore.active) {
         continue
       }
-      let ox : Float = ores[i].x - cam_x + shake_x
-      let oy : Float = ores[i].y + shake_y
+      let ox : Float = ore.x - cam_x + shake_x
+      let oy : Float = ore.y + shake_y
       if ox < -24.0 ||
         oy < -24.0 ||
         ox > Float::from_int(sw + 24) ||
         oy > Float::from_int(sh + 24) {
         continue
       }
-      let pulse : Float = 1.0 + @math.sinf(ores[i].t * 4.0) * 0.12
+      let pulse : Float = 1.0 + @math.sinf(ore.t * 4.0) * 0.12
       @raylib.draw_circle(
         ox.to_int(),
         oy.to_int(),
@@ -1354,12 +1354,12 @@ fn main {
       )
     }
 
-    for i in 0..<trucks.length() {
-      if not(trucks[i].active) {
+    for truck in trucks {
+      if not(truck.active) {
         continue
       }
-      let tx : Float = trucks[i].x - cam_x + shake_x
-      let ty : Float = trucks[i].y + shake_y
+      let tx : Float = truck.x - cam_x + shake_x
+      let ty : Float = truck.y + shake_y
       if tx < -120.0 ||
         ty < -120.0 ||
         tx > Float::from_int(sw + 120) ||
@@ -1367,7 +1367,7 @@ fn main {
         continue
       }
 
-      let col = if trucks[i].flash_t > 0.0 {
+      let col = if truck.flash_t > 0.0 {
         @raylib.Color::new(252, 220, 160, 255)
       } else {
         @raylib.Color::new(112, 178, 234, 255)
@@ -1401,12 +1401,12 @@ fn main {
       )
     }
 
-    for i in 0..<enemies.length() {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      let ex : Float = enemies[i].x - cam_x + shake_x
-      let ey : Float = enemies[i].y + shake_y
+      let ex : Float = enemy.x - cam_x + shake_x
+      let ey : Float = enemy.y + shake_y
       if ex < -80.0 ||
         ey < -80.0 ||
         ex > Float::from_int(sw + 80) ||
@@ -1414,17 +1414,17 @@ fn main {
         continue
       }
 
-      let col = if enemies[i].shock_t > 0.0 {
+      let col = if enemy.shock_t > 0.0 {
         @raylib.Color::new(154, 216, 252, 255)
-      } else if enemies[i].slow_t > 0.0 {
+      } else if enemy.slow_t > 0.0 {
         @raylib.Color::new(172, 188, 252, 255)
-      } else if enemies[i].kind == 0 {
+      } else if enemy.kind == 0 {
         @raylib.Color::new(236, 108, 94, 255)
       } else {
         @raylib.Color::new(248, 160, 96, 255)
       }
 
-      let r : Float = if enemies[i].kind == 0 { 14.0 } else { 18.0 }
+      let r : Float = if enemy.kind == 0 { 14.0 } else { 18.0 }
       @raylib.draw_circle(ex.to_int(), ey.to_int(), r, col)
       @raylib.draw_circle(
         (ex - 4.0).to_int(),
@@ -1440,12 +1440,12 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
-      let px : Float = bullets[i].x - cam_x + shake_x
-      let py : Float = bullets[i].y + shake_y
+      let px : Float = bullet.x - cam_x + shake_x
+      let py : Float = bullet.y + shake_y
       if px < -8.0 ||
         py < -8.0 ||
         px > Float::from_int(sw + 8) ||
@@ -1453,7 +1453,7 @@ fn main {
         continue
       }
 
-      let col = if bullets[i].from_player {
+      let col = if bullet.from_player {
         @raylib.Color::new(252, 220, 132, 255)
       } else {
         @raylib.Color::new(242, 146, 146, 255)
@@ -1461,7 +1461,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        if bullets[i].from_player {
+        if bullet.from_player {
           4.0
         } else {
           3.0
@@ -1496,12 +1496,12 @@ fn main {
       @raylib.Color::new(246, 248, 252, 255),
     )
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let px : Float = particles[i].x - cam_x + shake_x
-      let py : Float = particles[i].y + shake_y
+      let px : Float = particle.x - cam_x + shake_x
+      let py : Float = particle.y + shake_y
       if px < -20.0 ||
         py < -20.0 ||
         px > Float::from_int(sw + 20) ||
@@ -1509,11 +1509,11 @@ fn main {
         continue
       }
 
-      let life_r : Float = 1.0 - particles[i].t / particles[i].life
+      let life_r : Float = 1.0 - particle.t / particle.life
       let alpha : Int = clampf(life_r * 220.0, 0.0, 220.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(252, 186, 122, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(132, 216, 252, alpha)
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
@@ -1521,7 +1521,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        particles[i].size * life_r,
+        particle.size * life_r,
         col,
       )
     }
@@ -1648,8 +1648,8 @@ fn main {
     )
 
     let mut alive_trucks : Int = 0
-    for i in 0..<trucks.length() {
-      if trucks[i].active {
+    for truck in trucks {
+      if truck.active {
         alive_trucks = alive_trucks + 1
       }
     }

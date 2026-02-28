@@ -126,8 +126,7 @@ fn stomp_enemy(game : @types.Game, enemy : @types.Enemy) -> Unit {
 
 ///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }

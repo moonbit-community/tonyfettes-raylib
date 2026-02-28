@@ -71,8 +71,7 @@ fn draw_player(game : Game) -> Unit {
 
 ///|
 fn draw_ghosts(game : Game) -> Unit {
-  for i in 0..<game.ghosts.length() {
-    let ghost = game.ghosts[i]
+  for ghost in game.ghosts {
     let cx = tile_center_x(ghost.x)
     let cy = tile_center_y(ghost.y)
     let color = if game.frightened_timer > 0.0 {

@@ -665,8 +665,7 @@ pub fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
 
 ///|
 fn check_loot_pickup(game : @types.Game) -> Unit {
-  for i in 0..<game.loot.length() {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
       continue
     }
@@ -789,8 +788,7 @@ fn check_chest_open(game : @types.Game) -> Unit {
   let gz = @types.world_to_grid_z(check_z)
   if @types.get_tile(game, gx, gz) == @types.tile_chest {
     // Check for mimic
-    for i in 0..<game.enemies.length() {
-      let e = game.enemies[i]
+    for e in game.enemies {
       if e.active && e.kind == @types.enemy_mimic {
         let egx = @types.world_to_grid_x(e.x)
         let egz = @types.world_to_grid_z(e.z)
@@ -938,8 +936,7 @@ fn check_shrine_interact(game : @types.Game) -> Unit {
 fn check_traps(game : @types.Game, dt : Float) -> Unit {
   let pgx = @types.world_to_grid_x(game.player_x)
   let pgz = @types.world_to_grid_z(game.player_z)
-  for i in 0..<game.traps.length() {
-    let trap = game.traps[i]
+  for trap in game.traps {
     if not(trap.active) {
       continue
     }
@@ -1002,16 +999,16 @@ fn check_traps(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn add_spell_to_player(game : @types.Game, spell_type : Int) -> Bool {
   // Check if already have this spell
-  for i in 0..<game.spells.length() {
-    if game.spells[i].active && game.spells[i].spell_type == spell_type {
+  for spell in game.spells {
+    if spell.active && spell.spell_type == spell_type {
       return false
     }
   }
   // Find empty slot
-  for i in 0..<game.spells.length() {
-    if not(game.spells[i].active) {
-      game.spells[i].active = true
-      game.spells[i].spell_type = spell_type
+  for spell in game.spells {
+    if not(spell.active) {
+      spell.active = true
+      spell.spell_type = spell_type
       return true
     }
   }

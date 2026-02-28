@@ -241,24 +241,24 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(14, 18, 28, 255))
 
-    for i in 0..<wells.length() {
-      if wells[i].mass > 0.0 {
+    for well in wells {
+      if well.mass > 0.0 {
         @raylib.draw_circle(
-          wells[i].x.to_int(),
-          wells[i].y.to_int(),
-          wells[i].r + 12.0,
+          well.x.to_int(),
+          well.y.to_int(),
+          well.r + 12.0,
           @raylib.fade(@raylib.darkblue, 0.35),
         )
         @raylib.draw_circle(
-          wells[i].x.to_int(),
-          wells[i].y.to_int(),
-          wells[i].r,
+          well.x.to_int(),
+          well.y.to_int(),
+          well.r,
           @raylib.purple,
         )
         @raylib.draw_circle_lines(
-          wells[i].x.to_int(),
-          wells[i].y.to_int(),
-          wells[i].r,
+          well.x.to_int(),
+          well.y.to_int(),
+          well.r,
           @raylib.white,
         )
       }

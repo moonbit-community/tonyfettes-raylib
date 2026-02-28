@@ -38,8 +38,8 @@ fn fish_value(kind : Int) -> Int {
 
 ///|
 fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
-  for i in 0..<fishes.length() {
-    if not(fishes[i].alive) {
+  for fish in fishes {
+    if not(fish.alive) {
       let roll = @raylib.get_random_value(0, 99)
       let kind = if roll < 62 - rare_bonus {
         0
@@ -50,19 +50,19 @@ fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
       }
 
       let from_left = @raylib.get_random_value(0, 1) == 0
-      fishes[i].alive = true
-      fishes[i].kind = kind
-      fishes[i].size = if kind == 0 {
+      fish.alive = true
+      fish.kind = kind
+      fish.size = if kind == 0 {
         16.0
       } else if kind == 1 {
         22.0
       } else {
         28.0
       }
-      fishes[i].x = if from_left { -40.0 } else { Float::from_int(sw + 40) }
-      fishes[i].y = Float::from_int(@raylib.get_random_value(220, sh - 70))
+      fish.x = if from_left { -40.0 } else { Float::from_int(sw + 40) }
+      fish.y = Float::from_int(@raylib.get_random_value(220, sh - 70))
       let speed = Float::from_int(@raylib.get_random_value(60, 130))
-      fishes[i].vx = if from_left { speed } else { -speed }
+      fish.vx = if from_left { speed } else { -speed }
       break
     }
   }
@@ -70,8 +70,8 @@ fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
 
 ///|
 fn reset_fishes(fishes : Array[Fish]) -> Unit {
-  for i in 0..<fishes.length() {
-    fishes[i].alive = false
+  for fish in fishes {
+    fish.alive = false
   }
 }
 
@@ -298,31 +298,31 @@ fn main {
     )
     @raylib.draw_circle(hook_x.to_int(), hook_y.to_int(), 5.0, @raylib.white)
 
-    for i in 0..<fishes.length() {
-      if fishes[i].alive {
-        let c = fish_color(fishes[i].kind)
+    for fish in fishes {
+      if fish.alive {
+        let c = fish_color(fish.kind)
         @raylib.draw_ellipse(
-          fishes[i].x.to_int(),
-          fishes[i].y.to_int(),
-          fishes[i].size,
-          fishes[i].size * 0.62,
+          fish.x.to_int(),
+          fish.y.to_int(),
+          fish.size,
+          fish.size * 0.62,
           c,
         )
         @raylib.draw_triangle(
-          @raylib.Vector2::new(fishes[i].x - fishes[i].size, fishes[i].y),
+          @raylib.Vector2::new(fish.x - fish.size, fish.y),
           @raylib.Vector2::new(
-            fishes[i].x - fishes[i].size - 11.0,
-            fishes[i].y - 8.0,
+            fish.x - fish.size - 11.0,
+            fish.y - 8.0,
           ),
           @raylib.Vector2::new(
-            fishes[i].x - fishes[i].size - 11.0,
-            fishes[i].y + 8.0,
+            fish.x - fish.size - 11.0,
+            fish.y + 8.0,
           ),
           c,
         )
         @raylib.draw_circle(
-          (fishes[i].x + fishes[i].size * 0.35).to_int(),
-          (fishes[i].y - 2.0).to_int(),
+          (fish.x + fish.size * 0.35).to_int(),
+          (fish.y - 2.0).to_int(),
           2.5,
           @raylib.black,
         )

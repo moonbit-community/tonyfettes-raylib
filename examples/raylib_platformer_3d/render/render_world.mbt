@@ -69,8 +69,7 @@ fn draw_world_floor(game : @types.Game) -> Unit {
 
 ///|
 fn draw_platforms(game : @types.Game) -> Unit {
-  for i in 0..<game.platforms.length() {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
       continue
     }
@@ -269,8 +268,7 @@ fn draw_platform_rails(plat : @types.Platform) -> Unit {
 
 ///|
 fn draw_collectibles(game : @types.Game) -> Unit {
-  for i in 0..<game.collectibles.length() {
-    let c = game.collectibles[i]
+  for c in game.collectibles {
     if not(c.active) || c.collected {
       continue
     }
@@ -471,8 +469,7 @@ fn draw_key(x : Float, y : Float, z : Float, spin : Float) -> Unit {
 
 ///|
 fn draw_powerups_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.powerups.length() {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) || pu.collected {
       continue
     }
@@ -560,8 +557,7 @@ fn draw_powerups_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_hazards(game : @types.Game) -> Unit {
-  for i in 0..<game.hazards.length() {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
       continue
     }
@@ -775,8 +771,7 @@ fn draw_crusher(h : @types.Hazard) -> Unit {
 
 ///|
 fn draw_enemies_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -988,8 +983,7 @@ fn draw_enemy_turret(e : @types.Enemy) -> Unit {
 
 ///|
 fn draw_projectiles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -1009,8 +1003,7 @@ fn draw_projectiles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_checkpoints(game : @types.Game) -> Unit {
-  for i in 0..<game.checkpoints.length() {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) {
       continue
     }
@@ -1277,8 +1270,7 @@ fn draw_player_shadow(game : @types.Game) -> Unit {
 
 ///|
 fn draw_decorations(game : @types.Game) -> Unit {
-  for i in 0..<game.decorations.length() {
-    let d = game.decorations[i]
+  for d in game.decorations {
     if not(d.active) {
       continue
     }
@@ -1527,8 +1519,7 @@ fn draw_lamp(d : @types.Decoration) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

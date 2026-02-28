@@ -18,8 +18,8 @@ fn reset_threat(threat : Threat) -> Unit {
 
 ///|
 fn clear_threats(game : Game) -> Unit {
-  for i in 0..<game.threats.length() {
-    reset_threat(game.threats[i])
+  for threat in game.threats {
+    reset_threat(threat)
   }
 }
 
@@ -355,22 +355,22 @@ fn handle_guard(game : Game) -> Unit {
 
   let mut stunned_now = 0
 
-  for i in 0..<game.threats.length() {
-    if not(game.threats[i].active) {
+  for threat in game.threats {
+    if not(threat.active) {
       continue
     }
-    if game.threats[i].kind != threat_incident {
+    if threat.kind != threat_incident {
       continue
     }
 
-    let reach = guard_radius + game.threats[i].radius
-    if dist2(game.troupe_x, game.troupe_y, game.threats[i].x, game.threats[i].y) >
+    let reach = guard_radius + threat.radius
+    if dist2(game.troupe_x, game.troupe_y, threat.x, threat.y) >
       squaref(reach) {
       continue
     }
 
-    let fresh = game.threats[i].stun_t <= 0.0
-    game.threats[i].stun_t = maxf(game.threats[i].stun_t, guard_stun_time)
+    let fresh = threat.stun_t <= 0.0
+    threat.stun_t = maxf(threat.stun_t, guard_stun_time)
 
     if fresh {
       stunned_now = stunned_now + 1

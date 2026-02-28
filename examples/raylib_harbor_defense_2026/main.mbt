@@ -155,71 +155,71 @@ fn inside_rect(
 
 ///|
 fn clear_enemies(enemies : Array[EnemyShip]) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
-    enemies[i].kind = 0
-    enemies[i].x = 0.0
-    enemies[i].y = 0.0
-    enemies[i].vx = 0.0
-    enemies[i].vy = 0.0
-    enemies[i].hp = 0.0
-    enemies[i].fire_cd = 0.0
-    enemies[i].t = 0.0
+  for enemy in enemies {
+    enemy.active = false
+    enemy.kind = 0
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0.0
+    enemy.fire_cd = 0.0
+    enemy.t = 0.0
   }
 }
 
 ///|
 fn clear_boats(boats : Array[CivilianBoat]) -> Unit {
-  for i in 0..<boats.length() {
-    boats[i].active = false
-    boats[i].x = 0.0
-    boats[i].y = 0.0
-    boats[i].vx = 0.0
-    boats[i].hp = 0.0
-    boats[i].value = 0
-    boats[i].panic_t = 0.0
+  for boat in boats {
+    boat.active = false
+    boat.x = 0.0
+    boat.y = 0.0
+    boat.vx = 0.0
+    boat.hp = 0.0
+    boat.value = 0
+    boat.panic_t = 0.0
   }
 }
 
 ///|
 fn clear_projectiles(projectiles : Array[Projectile]) -> Unit {
-  for i in 0..<projectiles.length() {
-    projectiles[i].active = false
-    projectiles[i].x = 0.0
-    projectiles[i].y = 0.0
-    projectiles[i].vx = 0.0
-    projectiles[i].vy = 0.0
-    projectiles[i].dmg = 0.0
-    projectiles[i].life = 0.0
-    projectiles[i].from_enemy = false
-    projectiles[i].kind = 0
+  for projectile in projectiles {
+    projectile.active = false
+    projectile.x = 0.0
+    projectile.y = 0.0
+    projectile.vx = 0.0
+    projectile.vy = 0.0
+    projectile.dmg = 0.0
+    projectile.life = 0.0
+    projectile.from_enemy = false
+    projectile.kind = 0
   }
 }
 
 ///|
 fn clear_pickups(pickups : Array[Pickup]) -> Unit {
-  for i in 0..<pickups.length() {
-    pickups[i].active = false
-    pickups[i].x = 0.0
-    pickups[i].y = 0.0
-    pickups[i].vy = 0.0
-    pickups[i].kind = 0
-    pickups[i].t = 0.0
+  for pickup in pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vy = 0.0
+    pickup.kind = 0
+    pickup.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -360,20 +360,20 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i in 0..<parts.length() {
+  for part in parts {
     if left <= 0 {
       break
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(16, 72)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(16, 72)) / 100.0
+      part.kind = kind
       left = left - 1
     }
   }
@@ -817,25 +817,25 @@ fn main {
         burst(particles, cannon.x, cannon.y - 38.0, 26, 0.24, 2)
 
         let mut blast_kills : Int = 0
-        for i in 0..<enemies.length() {
-          if enemies[i].active &&
-            dist2(cannon.x, cannon.y - 40.0, enemies[i].x, enemies[i].y) <=
+        for enemy in enemies {
+          if enemy.active &&
+            dist2(cannon.x, cannon.y - 40.0, enemy.x, enemy.y) <=
             220.0 * 220.0 {
-            enemies[i].active = false
+            enemy.active = false
             blast_kills = blast_kills + 1
             cannon.kills = cannon.kills + 1
             cannon.combo = cannon.combo + 1
             cannon.score = cannon.score + 54 + cannon.combo * 3
-            burst(particles, enemies[i].x, enemies[i].y, 12, 0.19, 1)
+            burst(particles, enemy.x, enemy.y, 12, 0.19, 1)
           }
         }
 
-        for i in 0..<projectiles.length() {
-          if projectiles[i].active &&
-            projectiles[i].from_enemy &&
-            dist2(cannon.x, cannon.y - 40.0, projectiles[i].x, projectiles[i].y) <=
+        for projectile in projectiles {
+          if projectile.active &&
+            projectile.from_enemy &&
+            dist2(cannon.x, cannon.y - 40.0, projectile.x, projectile.y) <=
             230.0 * 230.0 {
-            projectiles[i].active = false
+            projectile.active = false
             cannon.score = cannon.score + 2
           }
         }
@@ -871,58 +871,58 @@ fn main {
         boat_spawn_cd = randf(4.0, 6.2)
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        enemies[i].t = enemies[i].t + dt
+        enemy.t = enemy.t + dt
 
-        let phase_rate : Float = 1.3 + Float::from_int(enemies[i].kind) * 0.5
-        let phase = (enemies[i].t * phase_rate).to_int()
+        let phase_rate : Float = 1.3 + Float::from_int(enemy.kind) * 0.5
+        let phase = (enemy.t * phase_rate).to_int()
         let drift : Float = if phase % 2 == 0 { -1.0 } else { 1.0 }
 
-        enemies[i].x = enemies[i].x +
-          enemies[i].vx * dt +
+        enemy.x = enemy.x +
+          enemy.vx * dt +
           drift * dt * (14.0 + Float::from_int(wave) * 0.5)
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
-        enemies[i].x = clampf(enemies[i].x, 28.0, world_w - 28.0)
+        enemy.y = enemy.y + enemy.vy * dt
+        enemy.x = clampf(enemy.x, 28.0, world_w - 28.0)
 
-        enemies[i].fire_cd = enemies[i].fire_cd - dt
-        if enemies[i].fire_cd <= 0.0 &&
-          absf(enemies[i].x - cannon.x) < 360.0 &&
-          enemies[i].y < harbor_y - 40.0 {
-          let dx : Float = cannon.x - enemies[i].x + randf(-20.0, 20.0)
-          let dy : Float = cannon.y - enemies[i].y
+        enemy.fire_cd = enemy.fire_cd - dt
+        if enemy.fire_cd <= 0.0 &&
+          absf(enemy.x - cannon.x) < 360.0 &&
+          enemy.y < harbor_y - 40.0 {
+          let dx : Float = cannon.x - enemy.x + randf(-20.0, 20.0)
+          let dy : Float = cannon.y - enemy.y
           let inv : Float = 1.0 / clampf(absf(dx) + absf(dy), 32.0, 2000.0)
           let speed : Float = 220.0 +
-            Float::from_int(enemies[i].kind) * 42.0 +
+            Float::from_int(enemy.kind) * 42.0 +
             Float::from_int(wave) * 6.0
           ignore(
             spawn_projectile(
               projectiles,
-              enemies[i].x,
-              enemies[i].y + 14.0,
+              enemy.x,
+              enemy.y + 14.0,
               dx * inv * speed,
               dy * inv * speed,
-              11.0 + Float::from_int(enemies[i].kind) * 5.0,
+              11.0 + Float::from_int(enemy.kind) * 5.0,
               true,
-              enemies[i].kind,
+              enemy.kind,
               4.0,
             ),
           )
-          enemies[i].fire_cd = randf(0.95, 1.92)
+          enemy.fire_cd = randf(0.95, 1.92)
         }
 
-        if enemies[i].y > harbor_y {
-          enemies[i].active = false
+        if enemy.y > harbor_y {
+          enemy.active = false
           civilians_lost = civilians_lost + 1
           cannon.combo = 0
           on_harbor_hit(
             9.0 + Float::from_int(wave) * 0.5,
             "Enemy breached harbor",
           )
-          burst(particles, enemies[i].x, harbor_y - 8.0, 16, 0.22, 3)
+          burst(particles, enemy.x, harbor_y - 8.0, 16, 0.22, 3)
         }
       }
 
@@ -947,11 +947,11 @@ fn main {
           continue
         }
 
-        for e in 0..<enemies.length() {
-          if enemies[e].active &&
-            dist2(boats[i].x, boats[i].y - 8.0, enemies[e].x, enemies[e].y) <=
+        for enemy in enemies {
+          if enemy.active &&
+            dist2(boats[i].x, boats[i].y - 8.0, enemy.x, enemy.y) <=
             36.0 * 36.0 {
-            enemies[e].active = false
+            enemy.active = false
             boats[i].hp = boats[i].hp - 36.0
             boats[i].panic_t = 1.2
             burst(particles, boats[i].x, boats[i].y - 8.0, 10, 0.18, 3)
@@ -968,90 +968,90 @@ fn main {
         }
       }
 
-      for i in 0..<projectiles.length() {
-        if not(projectiles[i].active) {
+      for projectile in projectiles {
+        if not(projectile.active) {
           continue
         }
 
-        projectiles[i].life = projectiles[i].life - dt
-        if projectiles[i].life <= 0.0 {
-          projectiles[i].active = false
+        projectile.life = projectile.life - dt
+        if projectile.life <= 0.0 {
+          projectile.active = false
           continue
         }
 
-        projectiles[i].x = projectiles[i].x + projectiles[i].vx * dt
-        projectiles[i].y = projectiles[i].y + projectiles[i].vy * dt
+        projectile.x = projectile.x + projectile.vx * dt
+        projectile.y = projectile.y + projectile.vy * dt
 
-        if projectiles[i].x < -48.0 ||
-          projectiles[i].x > world_w + 48.0 ||
-          projectiles[i].y < -48.0 ||
-          projectiles[i].y > world_h + 48.0 {
-          projectiles[i].active = false
+        if projectile.x < -48.0 ||
+          projectile.x > world_w + 48.0 ||
+          projectile.y < -48.0 ||
+          projectile.y > world_h + 48.0 {
+          projectile.active = false
           continue
         }
 
-        if projectiles[i].from_enemy {
+        if projectile.from_enemy {
           if cannon.shield_t > 0.0 &&
-            dist2(projectiles[i].x, projectiles[i].y, cannon.x, cannon.y) <=
+            dist2(projectile.x, projectile.y, cannon.x, cannon.y) <=
             58.0 * 58.0 {
-            projectiles[i].active = false
+            projectile.active = false
             cannon.score = cannon.score + 2
-            burst(particles, projectiles[i].x, projectiles[i].y, 5, 0.10, 2)
+            burst(particles, projectile.x, projectile.y, 5, 0.10, 2)
             continue
           }
 
           if dist2(
-              projectiles[i].x,
-              projectiles[i].y,
+              projectile.x,
+              projectile.y,
               cannon.x,
               cannon.y - 22.0,
             ) <=
             30.0 * 30.0 {
-            projectiles[i].active = false
-            on_harbor_hit(projectiles[i].dmg, "Harbor battery hit")
+            projectile.active = false
+            on_harbor_hit(projectile.dmg, "Harbor battery hit")
             continue
           }
 
-          for b in 0..<boats.length() {
-            if boats[b].active &&
+          for boat in boats {
+            if boat.active &&
               dist2(
-                projectiles[i].x,
-                projectiles[i].y,
-                boats[b].x,
-                boats[b].y - 8.0,
+                projectile.x,
+                projectile.y,
+                boat.x,
+                boat.y - 8.0,
               ) <=
               20.0 * 20.0 {
-              projectiles[i].active = false
-              boats[b].hp = boats[b].hp - projectiles[i].dmg * 0.9
-              boats[b].panic_t = 1.0
-              burst(particles, boats[b].x, boats[b].y - 8.0, 4, 0.12, 3)
+              projectile.active = false
+              boat.hp = boat.hp - projectile.dmg * 0.9
+              boat.panic_t = 1.0
+              burst(particles, boat.x, boat.y - 8.0, 4, 0.12, 3)
               break
             }
           }
         } else {
           let mut hit_enemy = false
-          for e in 0..<enemies.length() {
-            if enemies[e].active &&
+          for enemy in enemies {
+            if enemy.active &&
               dist2(
-                projectiles[i].x,
-                projectiles[i].y,
-                enemies[e].x,
-                enemies[e].y,
+                projectile.x,
+                projectile.y,
+                enemy.x,
+                enemy.y,
               ) <=
               24.0 * 24.0 {
-              projectiles[i].active = false
-              enemies[e].hp = enemies[e].hp - projectiles[i].dmg
-              burst(particles, projectiles[i].x, projectiles[i].y, 6, 0.10, 0)
+              projectile.active = false
+              enemy.hp = enemy.hp - projectile.dmg
+              burst(particles, projectile.x, projectile.y, 6, 0.10, 0)
 
-              if enemies[e].hp <= 0.0 {
-                enemies[e].active = false
+              if enemy.hp <= 0.0 {
+                enemy.active = false
                 cannon.kills = cannon.kills + 1
                 cannon.combo = cannon.combo + 1
                 cannon.score = cannon.score + 38 + cannon.combo * 3 + wave * 2
-                burst(particles, enemies[e].x, enemies[e].y, 12, 0.18, 1)
+                burst(particles, enemy.x, enemy.y, 12, 0.18, 1)
 
                 if @raylib.get_random_value(0, 99) < 23 {
-                  ignore(spawn_pickup(pickups, enemies[e].x, enemies[e].y))
+                  ignore(spawn_pickup(pickups, enemy.x, enemy.y))
                 }
               }
 
@@ -1064,18 +1064,18 @@ fn main {
             continue
           }
 
-          for b in 0..<boats.length() {
-            if boats[b].active &&
+          for boat in boats {
+            if boat.active &&
               dist2(
-                projectiles[i].x,
-                projectiles[i].y,
-                boats[b].x,
-                boats[b].y - 10.0,
+                projectile.x,
+                projectile.y,
+                boat.x,
+                boat.y - 10.0,
               ) <=
               20.0 * 20.0 {
-              projectiles[i].active = false
-              boats[b].hp = boats[b].hp - projectiles[i].dmg * 1.5
-              boats[b].panic_t = 1.3
+              projectile.active = false
+              boat.hp = boat.hp - projectile.dmg * 1.5
+              boat.panic_t = 1.3
               cannon.combo = 0
               cannon.score = cannon.score - 18
               if cannon.score < 0 {
@@ -1083,36 +1083,36 @@ fn main {
               }
               message = "Friendly fire"
               message_t = 0.66
-              burst(particles, boats[b].x, boats[b].y - 10.0, 6, 0.12, 3)
+              burst(particles, boat.x, boat.y - 10.0, 6, 0.12, 3)
               break
             }
           }
         }
       }
 
-      for i in 0..<pickups.length() {
-        if not(pickups[i].active) {
+      for pickup in pickups {
+        if not(pickup.active) {
           continue
         }
 
-        pickups[i].t = pickups[i].t + dt
-        pickups[i].y = pickups[i].y + pickups[i].vy * dt
-        pickups[i].vy = pickups[i].vy + 68.0 * dt
+        pickup.t = pickup.t + dt
+        pickup.y = pickup.y + pickup.vy * dt
+        pickup.vy = pickup.vy + 68.0 * dt
 
-        if pickups[i].y > world_h + 40.0 {
-          pickups[i].active = false
+        if pickup.y > world_h + 40.0 {
+          pickup.active = false
           continue
         }
 
-        if dist2(pickups[i].x, pickups[i].y, cannon.x, cannon.y - 20.0) <=
+        if dist2(pickup.x, pickup.y, cannon.x, cannon.y - 20.0) <=
           34.0 * 34.0 {
-          if pickups[i].kind == 0 {
+          if pickup.kind == 0 {
             cannon.hp = cannon.hp + 30.0
             if cannon.hp > 240.0 {
               cannon.hp = 240.0
             }
             message = "Repair kit"
-          } else if pickups[i].kind == 1 {
+          } else if pickup.kind == 1 {
             cannon.heat = cannon.heat - 42.0
             if cannon.heat < 0.0 {
               cannon.heat = 0.0
@@ -1121,7 +1121,7 @@ fn main {
               cannon.overheated = false
             }
             message = "Coolant"
-          } else if pickups[i].kind == 2 {
+          } else if pickup.kind == 2 {
             cannon.bomb_cd = cannon.bomb_cd - 2.1
             if cannon.bomb_cd < 0.0 {
               cannon.bomb_cd = 0.0
@@ -1133,24 +1133,24 @@ fn main {
           }
 
           message_t = 0.66
-          pickups[i].active = false
+          pickup.active = false
           burst(particles, cannon.x, cannon.y - 30.0, 10, 0.16, 2)
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (1.0 - dt * 1.9)
-          particles[i].vy = particles[i].vy + 260.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (1.0 - dt * 1.9)
+          particle.vy = particle.vy + 260.0 * dt
         }
       }
 
@@ -1229,34 +1229,34 @@ fn main {
       @raylib.Color::new(90, 106, 118, 255),
     )
 
-    for i in 0..<boats.length() {
-      if boats[i].active {
-        draw_boat(boats[i])
+    for boat in boats {
+      if boat.active {
+        draw_boat(boat)
       }
     }
 
-    for i in 0..<enemies.length() {
-      if enemies[i].active {
-        draw_enemy(enemies[i])
+    for enemy in enemies {
+      if enemy.active {
+        draw_enemy(enemy)
       }
     }
 
-    for i in 0..<pickups.length() {
-      if pickups[i].active {
-        let blink = (pickups[i].t * 10.0).to_int() % 2 == 0
-        let col = if pickups[i].kind == 0 {
+    for pickup in pickups {
+      if pickup.active {
+        let blink = (pickup.t * 10.0).to_int() % 2 == 0
+        let col = if pickup.kind == 0 {
           @raylib.Color::new(134, 246, 176, if blink { 255 } else { 196 })
-        } else if pickups[i].kind == 1 {
+        } else if pickup.kind == 1 {
           @raylib.Color::new(124, 220, 254, if blink { 255 } else { 196 })
-        } else if pickups[i].kind == 2 {
+        } else if pickup.kind == 2 {
           @raylib.Color::new(254, 212, 124, if blink { 255 } else { 196 })
         } else {
           @raylib.Color::new(246, 164, 240, if blink { 255 } else { 196 })
         }
 
         @raylib.draw_rectangle(
-          (pickups[i].x - 12.0).to_int(),
-          (pickups[i].y - 12.0).to_int(),
+          (pickup.x - 12.0).to_int(),
+          (pickup.y - 12.0).to_int(),
           24,
           24,
           col,
@@ -1264,54 +1264,54 @@ fn main {
       }
     }
 
-    for i in 0..<projectiles.length() {
-      if not(projectiles[i].active) {
+    for projectile in projectiles {
+      if not(projectile.active) {
         continue
       }
 
-      if projectiles[i].from_enemy {
-        let r : Float = 5.0 + Float::from_int(projectiles[i].kind)
+      if projectile.from_enemy {
+        let r : Float = 5.0 + Float::from_int(projectile.kind)
         @raylib.draw_circle(
-          projectiles[i].x.to_int(),
-          projectiles[i].y.to_int(),
+          projectile.x.to_int(),
+          projectile.y.to_int(),
           r,
           @raylib.Color::new(252, 126, 116, 255),
         )
       } else {
         @raylib.draw_circle(
-          projectiles[i].x.to_int(),
-          projectiles[i].y.to_int(),
+          projectile.x.to_int(),
+          projectile.y.to_int(),
           4.2,
           @raylib.Color::new(126, 226, 250, 255),
         )
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let life_ratio : Float = 1.0 - particles[i].t / particles[i].life
+      let life_ratio : Float = 1.0 - particle.t / particle.life
       let alpha = (life_ratio * 255.0).to_int()
       if alpha <= 0 {
         continue
       }
 
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(144, 236, 255, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 178, 142, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(154, 238, 196, alpha)
       } else {
         @raylib.Color::new(252, 124, 128, alpha)
       }
 
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

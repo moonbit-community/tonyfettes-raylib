@@ -1,77 +1,77 @@
 ///|
 fn clear_segments(game : Game) -> Unit {
-  for i in 0..<game.segments.length() {
-    game.segments[i].active = false
-    game.segments[i].x = -2000.0
-    game.segments[i].y = Float::from_int(screen_h) + 200.0
-    game.segments[i].w = 0.0
-    game.segments[i].h = 0.0
-    game.segments[i].skin = 0
-    game.segments[i].neon = 0
-    game.segments[i].window_seed = 0
+  for segment in game.segments {
+    segment.active = false
+    segment.x = -2000.0
+    segment.y = Float::from_int(screen_h) + 200.0
+    segment.w = 0.0
+    segment.h = 0.0
+    segment.skin = 0
+    segment.neon = 0
+    segment.window_seed = 0
   }
 }
 
 ///|
 fn clear_obstacles(game : Game) -> Unit {
-  for i in 0..<game.obstacles.length() {
-    game.obstacles[i].active = false
-    game.obstacles[i].kind = obstacle_vent
-    game.obstacles[i].x = -2000.0
-    game.obstacles[i].y = 0.0
-    game.obstacles[i].w = 0.0
-    game.obstacles[i].h = 0.0
-    game.obstacles[i].vx = 0.0
-    game.obstacles[i].phase = 0.0
-    game.obstacles[i].hit_lock = 0.0
+  for obstacle in game.obstacles {
+    obstacle.active = false
+    obstacle.kind = obstacle_vent
+    obstacle.x = -2000.0
+    obstacle.y = 0.0
+    obstacle.w = 0.0
+    obstacle.h = 0.0
+    obstacle.vx = 0.0
+    obstacle.phase = 0.0
+    obstacle.hit_lock = 0.0
   }
 }
 
 ///|
 fn clear_chips(game : Game) -> Unit {
-  for i in 0..<game.chips.length() {
-    game.chips[i].active = false
-    game.chips[i].x = -2000.0
-    game.chips[i].y = 0.0
-    game.chips[i].bob_t = 0.0
-    game.chips[i].spin_t = 0.0
+  for chip in game.chips {
+    chip.active = false
+    chip.x = -2000.0
+    chip.y = 0.0
+    chip.bob_t = 0.0
+    chip.spin_t = 0.0
   }
 }
 
 ///|
 fn clear_anchors(game : Game) -> Unit {
-  for i in 0..<game.anchors.length() {
-    game.anchors[i].active = false
-    game.anchors[i].x = -2000.0
-    game.anchors[i].y = 0.0
-    game.anchors[i].glow_t = 0.0
+  for anchor in game.anchors {
+    anchor.active = false
+    anchor.x = -2000.0
+    anchor.y = 0.0
+    anchor.glow_t = 0.0
   }
 }
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_ghosts(game : Game) -> Unit {
-  for i in 0..<game.ghosts.length() {
-    game.ghosts[i].active = false
-    game.ghosts[i].x = 0.0
-    game.ghosts[i].y = 0.0
-    game.ghosts[i].w = 0.0
-    game.ghosts[i].h = 0.0
-    game.ghosts[i].life = 0.0
-    game.ghosts[i].hue = 0.0
+  for ghost in game.ghosts {
+    ghost.active = false
+    ghost.x = 0.0
+    ghost.y = 0.0
+    ghost.w = 0.0
+    ghost.h = 0.0
+    ghost.life = 0.0
+    ghost.hue = 0.0
   }
 }
 
@@ -338,15 +338,15 @@ fn spawn_ghost(game : Game, hero : Player, hue : Float) -> Unit {
 fn best_right_edge(game : Game) -> (Float, Float) {
   let mut right_x : Float = -10000.0
   let mut right_y : Float = 460.0
-  for i in 0..<game.segments.length() {
-    if not(game.segments[i].active) {
+  for segment in game.segments {
+    if not(segment.active) {
       continue
     }
 
-    let edge = game.segments[i].x + game.segments[i].w
+    let edge = segment.x + segment.w
     if edge > right_x {
       right_x = edge
-      right_y = game.segments[i].y
+      right_y = segment.y
     }
   }
 
@@ -444,12 +444,12 @@ fn spawn_stage_chunk(game : Game) -> Unit {
 ///|
 fn ensure_world(game : Game) -> Unit {
   let mut right : Float = -10000.0
-  for i in 0..<game.segments.length() {
-    if not(game.segments[i].active) {
+  for segment in game.segments {
+    if not(segment.active) {
       continue
     }
 
-    right = maxf(right, game.segments[i].x + game.segments[i].w)
+    right = maxf(right, segment.x + segment.w)
   }
 
   if right < -9000.0 {
@@ -502,63 +502,63 @@ fn ensure_world(game : Game) -> Unit {
 
 ///|
 fn shift_world(game : Game, dx : Float) -> Unit {
-  for i in 0..<game.segments.length() {
-    if game.segments[i].active {
-      game.segments[i].x = game.segments[i].x - dx
-      if game.segments[i].x + game.segments[i].w < -280.0 {
-        game.segments[i].active = false
+  for segment in game.segments {
+    if segment.active {
+      segment.x = segment.x - dx
+      if segment.x + segment.w < -280.0 {
+        segment.active = false
       }
     }
   }
 
-  for i in 0..<game.obstacles.length() {
-    if not(game.obstacles[i].active) {
+  for obstacle in game.obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    game.obstacles[i].x = game.obstacles[i].x - dx
-    if game.obstacles[i].x + game.obstacles[i].w < -220.0 {
-      game.obstacles[i].active = false
+    obstacle.x = obstacle.x - dx
+    if obstacle.x + obstacle.w < -220.0 {
+      obstacle.active = false
       continue
     }
 
-    game.obstacles[i].phase = game.obstacles[i].phase + 1.7 * dx * 0.01
-    if game.obstacles[i].kind == obstacle_drone {
-      game.obstacles[i].x = game.obstacles[i].x + game.obstacles[i].vx * 0.04
-      game.obstacles[i].y = game.obstacles[i].y +
-        sinf(game.obstacles[i].phase) * 0.9
+    obstacle.phase = obstacle.phase + 1.7 * dx * 0.01
+    if obstacle.kind == obstacle_drone {
+      obstacle.x = obstacle.x + obstacle.vx * 0.04
+      obstacle.y = obstacle.y +
+        sinf(obstacle.phase) * 0.9
     }
 
-    if game.obstacles[i].hit_lock > 0.0 {
-      game.obstacles[i].hit_lock = maxf(
+    if obstacle.hit_lock > 0.0 {
+      obstacle.hit_lock = maxf(
         0.0,
-        game.obstacles[i].hit_lock - 0.008 * dx,
+        obstacle.hit_lock - 0.008 * dx,
       )
     }
   }
 
-  for i in 0..<game.chips.length() {
-    if not(game.chips[i].active) {
+  for chip in game.chips {
+    if not(chip.active) {
       continue
     }
 
-    game.chips[i].x = game.chips[i].x - dx
-    game.chips[i].bob_t = game.chips[i].bob_t + 0.07
-    game.chips[i].spin_t = game.chips[i].spin_t + 0.21
-    if game.chips[i].x < -220.0 {
-      game.chips[i].active = false
+    chip.x = chip.x - dx
+    chip.bob_t = chip.bob_t + 0.07
+    chip.spin_t = chip.spin_t + 0.21
+    if chip.x < -220.0 {
+      chip.active = false
     }
   }
 
-  for i in 0..<game.anchors.length() {
-    if not(game.anchors[i].active) {
+  for anchor in game.anchors {
+    if not(anchor.active) {
       continue
     }
 
-    game.anchors[i].x = game.anchors[i].x - dx
-    game.anchors[i].glow_t = game.anchors[i].glow_t + 0.09
-    if game.anchors[i].x < -260.0 {
-      game.anchors[i].active = false
+    anchor.x = anchor.x - dx
+    anchor.glow_t = anchor.glow_t + 0.09
+    if anchor.x < -260.0 {
+      anchor.active = false
     }
   }
 }
@@ -568,16 +568,16 @@ fn find_floor(game : Game, center_x : Float) -> (Bool, Float) {
   let mut found = false
   let mut best_y = Float::from_int(screen_h) + 400.0
 
-  for i in 0..<game.segments.length() {
-    if not(game.segments[i].active) {
+  for segment in game.segments {
+    if not(segment.active) {
       continue
     }
 
-    let s0 = game.segments[i].x + 4.0
-    let s1 = game.segments[i].x + game.segments[i].w - 4.0
+    let s0 = segment.x + 4.0
+    let s1 = segment.x + segment.w - 4.0
     if center_x >= s0 && center_x <= s1 {
-      if game.segments[i].y < best_y {
-        best_y = game.segments[i].y
+      if segment.y < best_y {
+        best_y = segment.y
         found = true
       }
     }
@@ -634,13 +634,13 @@ fn try_grapple(game : Game) -> Bool {
   let mut best_dist : Float = 1000000000.0
   let mut best_y = hero_cy
 
-  for i in 0..<game.anchors.length() {
-    if not(game.anchors[i].active) {
+  for anchor in game.anchors {
+    if not(anchor.active) {
       continue
     }
 
-    let dx = game.anchors[i].x - hero_cx
-    let dy = game.anchors[i].y - hero_cy
+    let dx = anchor.x - hero_cx
+    let dy = anchor.y - hero_cy
     if dx < 30.0 || dx > 320.0 {
       continue
     }
@@ -652,7 +652,7 @@ fn try_grapple(game : Game) -> Bool {
     let d2 = dx * dx + dy * dy
     if d2 < best_dist {
       best_dist = d2
-      best_y = game.anchors[i].y
+      best_y = anchor.y
       found = true
     }
   }
@@ -838,23 +838,23 @@ fn gain_combo(game : Game, amount : Int) -> Unit {
 ///|
 fn update_obstacles(game : Game, dt : Float) -> Unit {
   let hb = hero_hitbox(game.hero)
-  for i in 0..<game.obstacles.length() {
-    if not(game.obstacles[i].active) {
+  for obstacle in game.obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    if game.obstacles[i].kind == obstacle_drone {
-      game.obstacles[i].phase = game.obstacles[i].phase + dt * 3.8
-      game.obstacles[i].y = game.obstacles[i].y +
-        sinf(game.obstacles[i].phase) * 26.0 * dt
+    if obstacle.kind == obstacle_drone {
+      obstacle.phase = obstacle.phase + dt * 3.8
+      obstacle.y = obstacle.y +
+        sinf(obstacle.phase) * 26.0 * dt
     }
 
-    if game.obstacles[i].kind == obstacle_laser {
-      game.obstacles[i].phase = game.obstacles[i].phase + dt * 5.4
+    if obstacle.kind == obstacle_laser {
+      obstacle.phase = obstacle.phase + dt * 5.4
     }
 
-    if game.obstacles[i].hit_lock > 0.0 {
-      game.obstacles[i].hit_lock = maxf(0.0, game.obstacles[i].hit_lock - dt)
+    if obstacle.hit_lock > 0.0 {
+      obstacle.hit_lock = maxf(0.0, obstacle.hit_lock - dt)
     }
 
     if not(
@@ -863,45 +863,45 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
           hb.1,
           hb.2,
           hb.3,
-          game.obstacles[i].x,
-          game.obstacles[i].y,
-          game.obstacles[i].w,
-          game.obstacles[i].h,
+          obstacle.x,
+          obstacle.y,
+          obstacle.w,
+          obstacle.h,
         ),
       ) {
       continue
     }
 
     let mut ignored_hit = false
-    if game.obstacles[i].kind == obstacle_sign {
+    if obstacle.kind == obstacle_sign {
       if game.hero.slide_t > 0.0 {
         ignored_hit = true
       }
     }
 
-    if game.obstacles[i].kind == obstacle_vent {
+    if obstacle.kind == obstacle_vent {
       if game.hero.vy < -10.0 {
         ignored_hit = true
       }
     }
 
-    if game.obstacles[i].kind == obstacle_laser {
-      let pulse : Float = 0.5 + 0.5 * sinf(game.obstacles[i].phase)
+    if obstacle.kind == obstacle_laser {
+      let pulse : Float = 0.5 + 0.5 * sinf(obstacle.phase)
       if pulse < 0.35 {
         ignored_hit = true
       }
     }
 
-    if game.hero.grapple_t > 0.0 && game.obstacles[i].kind == obstacle_drone {
+    if game.hero.grapple_t > 0.0 && obstacle.kind == obstacle_drone {
       ignored_hit = true
-      game.obstacles[i].active = false
+      obstacle.active = false
       game.score = game.score +
         (Float::from_int(260) * score_multiplier(game)).to_int()
       gain_combo(game, 2)
       burst_particles(
         game,
-        game.obstacles[i].x + game.obstacles[i].w * 0.5,
-        game.obstacles[i].y + game.obstacles[i].h * 0.5,
+        obstacle.x + obstacle.w * 0.5,
+        obstacle.y + obstacle.h * 0.5,
         20,
         1,
       )
@@ -911,14 +911,14 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.obstacles[i].hit_lock <= 0.0 {
-      let dmg : Float = if game.obstacles[i].kind == obstacle_laser {
+    if obstacle.hit_lock <= 0.0 {
+      let dmg : Float = if obstacle.kind == obstacle_laser {
         18.0
       } else {
         13.0
       }
       apply_damage(game, dmg)
-      game.obstacles[i].hit_lock = 0.2
+      obstacle.hit_lock = 0.2
     }
   }
 }
@@ -929,53 +929,53 @@ fn update_chips(game : Game, _dt : Float) -> Unit {
   let cx = hero.x + hero.w * 0.5
   let cy = hero.y + hero.h * 0.45
 
-  for i in 0..<game.chips.length() {
-    if not(game.chips[i].active) {
+  for chip in game.chips {
+    if not(chip.active) {
       continue
     }
 
-    let bob_y = game.chips[i].y + sinf(game.chips[i].bob_t) * 9.0
-    let d2 = dist_sq(cx, cy, game.chips[i].x, bob_y)
+    let bob_y = chip.y + sinf(chip.bob_t) * 9.0
+    let d2 = dist_sq(cx, cy, chip.x, bob_y)
     if d2 <= 34.0 * 34.0 {
-      game.chips[i].active = false
+      chip.active = false
       game.chips_collected = game.chips_collected + 1
       gain_combo(game, 1)
       let base = 100 + game.combo * 5
       game.score = game.score +
         (Float::from_int(base) * score_multiplier(game)).to_int()
-      burst_particles(game, game.chips[i].x, bob_y, 8, 0)
+      burst_particles(game, chip.x, bob_y, 8, 0)
     }
   }
 }
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * 2.8)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * 2.0) +
-      dt * (if game.particles[i].kind == 1 { 130.0 } else { 220.0 })
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
+    particle.vx = particle.vx * (1.0 - dt * 2.8)
+    particle.vy = particle.vy * (1.0 - dt * 2.0) +
+      dt * (if particle.kind == 1 { 130.0 } else { 220.0 })
   }
 
-  for i in 0..<game.ghosts.length() {
-    if not(game.ghosts[i].active) {
+  for ghost in game.ghosts {
+    if not(ghost.active) {
       continue
     }
 
-    game.ghosts[i].life = game.ghosts[i].life - dt
-    if game.ghosts[i].life <= 0.0 {
-      game.ghosts[i].active = false
+    ghost.life = ghost.life - dt
+    if ghost.life <= 0.0 {
+      ghost.active = false
     }
   }
 }

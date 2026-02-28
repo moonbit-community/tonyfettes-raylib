@@ -61,25 +61,25 @@ fn draw_bg(game : Game) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let c : @raylib.Color = if game.sparks[i].kind == 0 {
+    let c : @raylib.Color = if spark.kind == 0 {
       @raylib.Color::new(255, 218, 110, 236)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(126, 220, 255, 236)
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       @raylib.Color::new(246, 110, 96, 228)
     } else {
       @raylib.Color::new(220, 232, 255, 226)
     }
 
     @raylib.draw_circle(
-      game.sparks[i].x.to_int(),
-      game.sparks[i].y.to_int(),
-      maxf(1.0, game.sparks[i].size),
+      spark.x.to_int(),
+      spark.y.to_int(),
+      maxf(1.0, spark.size),
       c,
     )
   }

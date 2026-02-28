@@ -121,11 +121,11 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 
   // Enemy damage flash decay
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active && game.enemies[i].damage_flash > 0.0 {
-      game.enemies[i].damage_flash -= dt * 4.0
-      if game.enemies[i].damage_flash < 0.0 {
-        game.enemies[i].damage_flash = 0.0
+  for enemy in game.enemies {
+    if enemy.active && enemy.damage_flash > 0.0 {
+      enemy.damage_flash -= dt * 4.0
+      if enemy.damage_flash < 0.0 {
+        enemy.damage_flash = 0.0
       }
     }
   }
@@ -244,8 +244,8 @@ fn complete_mission(game : @types.Game) -> Unit {
 
 ///|
 fn check_station_alive(game : @types.Game, kind : Int) -> Bool {
-  for i in 0..<game.stations.length() {
-    if game.stations[i].active && game.stations[i].kind == kind {
+  for station in game.stations {
+    if station.active && station.kind == kind {
       return true
     }
   }
@@ -439,26 +439,26 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   p.shots_hit = 0
 
   // Clear pools
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
+  for enemy in game.enemies {
+    enemy.active = false
   }
-  for i in 0..<game.projectiles.length() {
-    game.projectiles[i].active = false
+  for projectile in game.projectiles {
+    projectile.active = false
   }
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
+  for particle in game.particles {
+    particle.active = false
   }
-  for i in 0..<game.asteroids.length() {
-    game.asteroids[i].active = false
+  for asteroid in game.asteroids {
+    asteroid.active = false
   }
-  for i in 0..<game.powerups.length() {
-    game.powerups[i].active = false
+  for powerup in game.powerups {
+    powerup.active = false
   }
-  for i in 0..<game.stations.length() {
-    game.stations[i].active = false
+  for station in game.stations {
+    station.active = false
   }
-  for i in 0..<game.debris.length() {
-    game.debris[i].active = false
+  for debri in game.debris {
+    debri.active = false
   }
   for i in 0..<@types.max_kill_feed {
     game.kill_feed[i].active = false
@@ -885,8 +885,7 @@ fn collect_powerup(game : @types.Game, idx : Int) -> Unit {
 
 ///|
 fn update_stations(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.stations.length() {
-    let s = game.stations[i]
+  for s in game.stations {
     if not(s.active) {
       continue
     }
@@ -909,8 +908,7 @@ fn update_stations(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.debris.length() {
-    let d = game.debris[i]
+  for d in game.debris {
     if not(d.active) {
       continue
     }

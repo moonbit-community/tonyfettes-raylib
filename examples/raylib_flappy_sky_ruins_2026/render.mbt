@@ -244,31 +244,31 @@ fn draw_hint(game : Game) -> Unit {
 
 ///|
 fn draw_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       196
     } else {
       132
     }
 
-    let c : @raylib.Color = if game.particles[i].kind == 2 {
+    let c : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(255, 170, 122, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 224, 138, a)
     } else {
       @raylib.Color::new(138, 232, 180, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int(),
-      game.particles[i].y.to_int(),
-      1.0 + game.particles[i].size,
+      particle.x.to_int(),
+      particle.y.to_int(),
+      1.0 + particle.size,
       c,
     )
   }
@@ -693,12 +693,12 @@ fn draw_result_overlay(
 fn draw_world(game : Game) -> Unit {
   draw_world_back(game)
 
-  for i in 0..<game.obstacles.length() {
-    draw_obstacle(game.obstacles[i])
+  for obstacle in game.obstacles {
+    draw_obstacle(obstacle)
   }
 
-  for i in 0..<game.pickups.length() {
-    draw_pickup(game.pickups[i])
+  for pickup in game.pickups {
+    draw_pickup(pickup)
   }
 
   draw_hint(game)

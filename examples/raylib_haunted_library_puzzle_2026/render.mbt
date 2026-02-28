@@ -366,23 +366,23 @@ fn draw_ghost(g : Ghost, game : Game, ox : Int, oy : Int, i : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let c = if game.particles[i].kind == 2 {
+    let c = if particle.kind == 2 {
       @raylib.Color::new(206, 154, 248, 196)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 224, 146, 192)
     } else {
       @raylib.Color::new(156, 212, 255, 170)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c,
     )
   }

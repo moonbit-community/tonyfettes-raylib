@@ -119,16 +119,16 @@ fn draw_world_back(game : Game) -> Unit {
 
 ///|
 fn draw_signal_links(game : Game) -> Unit {
-  for i in 0..<game.towers.length() {
-    if not(game.towers[i].active) {
+  for tower in game.towers {
+    if not(tower.active) {
       continue
     }
 
-    let progress : Float = if game.towers[i].need <= 0 {
+    let progress : Float = if tower.need <= 0 {
       0.0
     } else {
-      Float::from_int(game.towers[i].delivered) /
-      Float::from_int(game.towers[i].need)
+      Float::from_int(tower.delivered) /
+      Float::from_int(tower.need)
     }
 
     let alpha = 32 + (progress * 124.0).to_int()
@@ -136,8 +136,8 @@ fn draw_signal_links(game : Game) -> Unit {
     @raylib.draw_line(
       depot_x().to_int(),
       depot_y().to_int(),
-      game.towers[i].x.to_int(),
-      game.towers[i].y.to_int(),
+      tower.x.to_int(),
+      tower.y.to_int(),
       @raylib.Color::new(118, 206, 255, alpha),
     )
   }
@@ -255,33 +255,33 @@ fn draw_depot(game : Game) -> Unit {
 
 ///|
 fn draw_storms(game : Game) -> Unit {
-  for i in 0..<game.storms.length() {
-    if not(game.storms[i].active) {
+  for storm in game.storms {
+    if not(storm.active) {
       continue
     }
 
-    let base_alpha = 28 + (game.storms[i].strength * 28.0).to_int()
+    let base_alpha = 28 + (storm.strength * 28.0).to_int()
 
     @raylib.draw_circle(
-      game.storms[i].x.to_int(),
-      game.storms[i].y.to_int(),
-      game.storms[i].r,
+      storm.x.to_int(),
+      storm.y.to_int(),
+      storm.r,
       @raylib.Color::new(202, 228, 255, base_alpha),
     )
 
     @raylib.draw_circle_lines(
-      game.storms[i].x.to_int(),
-      game.storms[i].y.to_int(),
-      game.storms[i].r,
+      storm.x.to_int(),
+      storm.y.to_int(),
+      storm.r,
       @raylib.Color::new(224, 240, 255, 70),
     )
 
     for k in 0..<12 {
-      let a = game.storms[i].phase + Float::from_int(k) * 0.52
-      let sx = game.storms[i].x + cosf(a) * (game.storms[i].r - 12.0)
-      let sy = game.storms[i].y + sinf(a) * (game.storms[i].r - 12.0)
-      let ex = sx + game.storms[i].vx * 0.06 + cosf(a * 2.0) * 8.0
-      let ey = sy + game.storms[i].vy * 0.06 + sinf(a * 2.0) * 8.0
+      let a = storm.phase + Float::from_int(k) * 0.52
+      let sx = storm.x + cosf(a) * (storm.r - 12.0)
+      let sy = storm.y + sinf(a) * (storm.r - 12.0)
+      let ex = sx + storm.vx * 0.06 + cosf(a * 2.0) * 8.0
+      let ey = sy + storm.vy * 0.06 + sinf(a * 2.0) * 8.0
 
       @raylib.draw_line(
         sx.to_int(),

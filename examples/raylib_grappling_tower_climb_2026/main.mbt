@@ -179,82 +179,82 @@ fn inside_rect(
 
 ///|
 fn clear_platforms(platforms : Array[Platform]) -> Unit {
-  for i in 0..<platforms.length() {
-    platforms[i].active = false
-    platforms[i].x = 0.0
-    platforms[i].base_x = 0.0
-    platforms[i].y = 0.0
-    platforms[i].w = 0.0
-    platforms[i].moving = false
-    platforms[i].amp = 0.0
-    platforms[i].speed = 0.0
-    platforms[i].phase = 0.0
+  for platform in platforms {
+    platform.active = false
+    platform.x = 0.0
+    platform.base_x = 0.0
+    platform.y = 0.0
+    platform.w = 0.0
+    platform.moving = false
+    platform.amp = 0.0
+    platform.speed = 0.0
+    platform.phase = 0.0
   }
 }
 
 ///|
 fn clear_anchors(anchors : Array[Anchor]) -> Unit {
-  for i in 0..<anchors.length() {
-    anchors[i].active = false
-    anchors[i].x = 0.0
-    anchors[i].y = 0.0
+  for anchor in anchors {
+    anchor.active = false
+    anchor.x = 0.0
+    anchor.y = 0.0
   }
 }
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i in 0..<drones.length() {
-    drones[i].active = false
-    drones[i].kind = 0
-    drones[i].x = 0.0
-    drones[i].y = 0.0
-    drones[i].base_y = 0.0
-    drones[i].vx = 0.0
-    drones[i].hp = 0.0
-    drones[i].fire_cd = 0.0
-    drones[i].stun_t = 0.0
-    drones[i].t = 0.0
+  for drone in drones {
+    drone.active = false
+    drone.kind = 0
+    drone.x = 0.0
+    drone.y = 0.0
+    drone.base_y = 0.0
+    drone.vx = 0.0
+    drone.hp = 0.0
+    drone.fire_cd = 0.0
+    drone.stun_t = 0.0
+    drone.t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].active = false
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].dmg = 0.0
-    bullets[i].life = 0.0
-    bullets[i].team = 0
+  for bullet in bullets {
+    bullet.active = false
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.dmg = 0.0
+    bullet.life = 0.0
+    bullet.team = 0
   }
 }
 
 ///|
 fn clear_crystals(crystals : Array[Crystal]) -> Unit {
-  for i in 0..<crystals.length() {
-    crystals[i].active = false
-    crystals[i].x = 0.0
-    crystals[i].y = 0.0
-    crystals[i].value = 0
-    crystals[i].t = 0.0
-    crystals[i].life = 0.0
+  for crystal in crystals {
+    crystal.active = false
+    crystal.x = 0.0
+    crystal.y = 0.0
+    crystal.value = 0
+    crystal.t = 0.0
+    crystal.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -419,20 +419,20 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i in 0..<parts.length() {
+  for part in parts {
     if left <= 0 {
       break
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(18, 74)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(18, 74)) / 100.0
+      part.kind = kind
       left = left - 1
     }
   }
@@ -831,24 +831,24 @@ fn main {
       }
 
       // Update moving platforms.
-      for i in 0..<platforms.length() {
-        if not(platforms[i].active) {
+      for platform in platforms {
+        if not(platform.active) {
           continue
         }
 
-        if platforms[i].moving {
-          platforms[i].phase = platforms[i].phase + dt * platforms[i].speed
-          platforms[i].x = platforms[i].base_x +
-            @math.sinf(platforms[i].phase) * platforms[i].amp
-          platforms[i].x = clampf(
-            platforms[i].x,
-            tower_l + platforms[i].w * 0.5 + 8.0,
-            tower_r - platforms[i].w * 0.5 - 8.0,
+        if platform.moving {
+          platform.phase = platform.phase + dt * platform.speed
+          platform.x = platform.base_x +
+            @math.sinf(platform.phase) * platform.amp
+          platform.x = clampf(
+            platform.x,
+            tower_l + platform.w * 0.5 + 8.0,
+            tower_r - platform.w * 0.5 - 8.0,
           )
         }
 
-        if platforms[i].y - cam_y > Float::from_int(sh) + 240.0 {
-          platforms[i].active = false
+        if platform.y - cam_y > Float::from_int(sh) + 240.0 {
+          platform.active = false
         }
       }
 
@@ -964,15 +964,15 @@ fn main {
         msg = "Shock pulse"
         msg_t = 0.72
 
-        for i in 0..<drones.length() {
-          if drones[i].active &&
-            dist2(pilot.x, pilot.y, drones[i].x, drones[i].y) <= 190.0 * 190.0 {
-            drones[i].hp = drones[i].hp - (36.0 + Float::from_int(level) * 1.2)
-            drones[i].stun_t = 1.0
-            if drones[i].hp <= 0.0 {
-              let dx = drones[i].x
-              let dy = drones[i].y
-              drones[i].active = false
+        for drone in drones {
+          if drone.active &&
+            dist2(pilot.x, pilot.y, drone.x, drone.y) <= 190.0 * 190.0 {
+            drone.hp = drone.hp - (36.0 + Float::from_int(level) * 1.2)
+            drone.stun_t = 1.0
+            if drone.hp <= 0.0 {
+              let dx = drone.x
+              let dy = drone.y
+              drone.active = false
               pilot.score = pilot.score + 88 + pilot.combo * 4
               pilot.combo = pilot.combo + 1
               if @raylib.get_random_value(0, 99) < 56 {
@@ -990,11 +990,11 @@ fn main {
           }
         }
 
-        for i in 0..<bullets.length() {
-          if bullets[i].active &&
-            bullets[i].team == 2 &&
-            dist2(pilot.x, pilot.y, bullets[i].x, bullets[i].y) <= 210.0 * 210.0 {
-            bullets[i].active = false
+        for bullet in bullets {
+          if bullet.active &&
+            bullet.team == 2 &&
+            dist2(pilot.x, pilot.y, bullet.x, bullet.y) <= 210.0 * 210.0 {
+            bullet.active = false
           }
         }
 
@@ -1022,18 +1022,18 @@ fn main {
       }
 
       pilot.grounded = false
-      for i in 0..<platforms.length() {
-        if not(platforms[i].active) {
+      for platform in platforms {
+        if not(platform.active) {
           continue
         }
 
         if pilot.vy >= 0.0 &&
-          prev_y + 20.0 <= platforms[i].y &&
-          pilot.y + 20.0 >= platforms[i].y {
-          let half = platforms[i].w * 0.5
-          if pilot.x >= platforms[i].x - half - 16.0 &&
-            pilot.x <= platforms[i].x + half + 16.0 {
-            pilot.y = platforms[i].y - 20.0
+          prev_y + 20.0 <= platform.y &&
+          pilot.y + 20.0 >= platform.y {
+          let half = platform.w * 0.5
+          if pilot.x >= platform.x - half - 16.0 &&
+            pilot.x <= platform.x + half + 16.0 {
+            pilot.y = platform.y - 20.0
             pilot.vy = 0.0
             pilot.grounded = true
             pilot.coyote_t = 0.12
@@ -1048,12 +1048,12 @@ fn main {
       }
 
       if pilot.dash_t > 0.0 {
-        for i in 0..<drones.length() {
-          if drones[i].active &&
-            dist2(pilot.x, pilot.y, drones[i].x, drones[i].y) <= 30.0 * 30.0 {
-            let dx = drones[i].x
-            let dy = drones[i].y
-            drones[i].active = false
+        for drone in drones {
+          if drone.active &&
+            dist2(pilot.x, pilot.y, drone.x, drone.y) <= 30.0 * 30.0 {
+            let dx = drone.x
+            let dy = drone.y
+            drone.active = false
             pilot.score = pilot.score + 64 + pilot.combo * 3
             pilot.combo = pilot.combo + 1
             pilot.vx = pilot.vx * 0.78
@@ -1086,22 +1086,22 @@ fn main {
         spawn_cd = randf(0.64, 1.32)
       }
 
-      for i in 0..<drones.length() {
-        if not(drones[i].active) {
+      for drone in drones {
+        if not(drone.active) {
           continue
         }
 
-        drones[i].t = drones[i].t + dt
-        drones[i].fire_cd = drones[i].fire_cd - dt
-        drones[i].stun_t = drones[i].stun_t - dt
-        if drones[i].fire_cd < 0.0 {
-          drones[i].fire_cd = 0.0
+        drone.t = drone.t + dt
+        drone.fire_cd = drone.fire_cd - dt
+        drone.stun_t = drone.stun_t - dt
+        if drone.fire_cd < 0.0 {
+          drone.fire_cd = 0.0
         }
-        if drones[i].stun_t < 0.0 {
-          drones[i].stun_t = 0.0
+        if drone.stun_t < 0.0 {
+          drone.stun_t = 0.0
         }
 
-        let dx = pilot.x - drones[i].x
+        let dx = pilot.x - drone.x
         let mut chase : Float = 0.0
         if dx < -6.0 {
           chase = -1.0
@@ -1109,155 +1109,155 @@ fn main {
           chase = 1.0
         }
 
-        if drones[i].stun_t <= 0.0 {
+        if drone.stun_t <= 0.0 {
           let accel : Float = 140.0 +
-            Float::from_int(drones[i].kind) * 34.0 +
+            Float::from_int(drone.kind) * 34.0 +
             Float::from_int(level) * 3.2
-          drones[i].vx = drones[i].vx + chase * accel * dt
+          drone.vx = drone.vx + chase * accel * dt
         }
 
-        drones[i].vx = drones[i].vx * (1.0 - dt * 2.6)
-        drones[i].vx = clampf(drones[i].vx, -220.0, 220.0)
+        drone.vx = drone.vx * (1.0 - dt * 2.6)
+        drone.vx = clampf(drone.vx, -220.0, 220.0)
 
-        drones[i].x = drones[i].x + drones[i].vx * dt
-        drones[i].base_y = drones[i].base_y +
-          clampf(pilot.y - 120.0 - drones[i].base_y, -120.0, 120.0) * dt * 0.07
-        drones[i].y = drones[i].base_y +
+        drone.x = drone.x + drone.vx * dt
+        drone.base_y = drone.base_y +
+          clampf(pilot.y - 120.0 - drone.base_y, -120.0, 120.0) * dt * 0.07
+        drone.y = drone.base_y +
           @math.sinf(
-            drones[i].t * (1.3 + Float::from_int(drones[i].kind) * 0.3),
+            drone.t * (1.3 + Float::from_int(drone.kind) * 0.3),
           ) *
-          (14.0 + Float::from_int(drones[i].kind) * 6.0)
+          (14.0 + Float::from_int(drone.kind) * 6.0)
 
-        drones[i].x = clampf(drones[i].x, tower_l + 24.0, tower_r - 24.0)
+        drone.x = clampf(drone.x, tower_l + 24.0, tower_r - 24.0)
 
-        if drones[i].fire_cd <= 0.0 &&
-          dist2(drones[i].x, drones[i].y, pilot.x, pilot.y) <= 380.0 * 380.0 {
-          drones[i].fire_cd = randf(0.78, 1.66)
-          let tx = pilot.x - drones[i].x
-          let ty = pilot.y - drones[i].y
+        if drone.fire_cd <= 0.0 &&
+          dist2(drone.x, drone.y, pilot.x, pilot.y) <= 380.0 * 380.0 {
+          drone.fire_cd = randf(0.78, 1.66)
+          let tx = pilot.x - drone.x
+          let ty = pilot.y - drone.y
           let mut inv : Float = 0.0
           let l2 = tx * tx + ty * ty
           if l2 > 0.01 {
             inv = 1.0 / l2.sqrt()
           }
           let bspd : Float = 220.0 +
-            Float::from_int(drones[i].kind) * 38.0 +
+            Float::from_int(drone.kind) * 38.0 +
             Float::from_int(level) * 2.0
           ignore(
             add_bullet(
               bullets,
-              drones[i].x,
-              drones[i].y,
+              drone.x,
+              drone.y,
               tx * inv * bspd,
               ty * inv * bspd,
-              9.0 + Float::from_int(drones[i].kind) * 2.4,
+              9.0 + Float::from_int(drone.kind) * 2.4,
               2.7,
               2,
             ),
           )
         }
 
-        if dist2(drones[i].x, drones[i].y, pilot.x, pilot.y) <= 24.0 * 24.0 {
-          on_hit(8.0 + Float::from_int(drones[i].kind) * 2.0, "Drone collision")
-          drones[i].stun_t = 0.54
-          drones[i].vx = -drones[i].vx
+        if dist2(drone.x, drone.y, pilot.x, pilot.y) <= 24.0 * 24.0 {
+          on_hit(8.0 + Float::from_int(drone.kind) * 2.0, "Drone collision")
+          drone.stun_t = 0.54
+          drone.vx = -drone.vx
         }
 
-        if drones[i].y - cam_y > Float::from_int(sh) + 260.0 {
-          drones[i].active = false
+        if drone.y - cam_y > Float::from_int(sh) + 260.0 {
+          drone.active = false
         }
       }
 
       // Bullets.
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < tower_l - 30.0 ||
-          bullets[i].x > tower_r + 30.0 ||
-          bullets[i].y < pilot.y - 1200.0 ||
-          bullets[i].y > pilot.y + 1200.0 {
-          bullets[i].active = false
+        if bullet.x < tower_l - 30.0 ||
+          bullet.x > tower_r + 30.0 ||
+          bullet.y < pilot.y - 1200.0 ||
+          bullet.y > pilot.y + 1200.0 {
+          bullet.active = false
           continue
         }
 
-        if bullets[i].team == 2 {
+        if bullet.team == 2 {
           if pilot.dash_t > 0.0 &&
-            dist2(bullets[i].x, bullets[i].y, pilot.x, pilot.y) <= 20.0 * 20.0 {
-            bullets[i].active = false
+            dist2(bullet.x, bullet.y, pilot.x, pilot.y) <= 20.0 * 20.0 {
+            bullet.active = false
             pilot.score = pilot.score + 2
-            burst(particles, bullets[i].x, bullets[i].y, 4, 0.08, 2)
-          } else if dist2(bullets[i].x, bullets[i].y, pilot.x, pilot.y) <=
+            burst(particles, bullet.x, bullet.y, 4, 0.08, 2)
+          } else if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <=
             16.0 * 16.0 {
-            bullets[i].active = false
-            on_hit(bullets[i].dmg, "Laser hit")
+            bullet.active = false
+            on_hit(bullet.dmg, "Laser hit")
           }
         }
       }
 
       // Crystals.
-      for i in 0..<crystals.length() {
-        if not(crystals[i].active) {
+      for crystal in crystals {
+        if not(crystal.active) {
           continue
         }
 
-        crystals[i].t = crystals[i].t + dt
-        if crystals[i].t >= crystals[i].life {
-          crystals[i].active = false
+        crystal.t = crystal.t + dt
+        if crystal.t >= crystal.life {
+          crystal.active = false
           continue
         }
 
-        if dist2(crystals[i].x, crystals[i].y, pilot.x, pilot.y) <= 24.0 * 24.0 {
-          pilot.score = pilot.score + crystals[i].value
+        if dist2(crystal.x, crystal.y, pilot.x, pilot.y) <= 24.0 * 24.0 {
+          pilot.score = pilot.score + crystal.value
           pilot.energy = clampf(
-            pilot.energy + Float::from_int(crystals[i].value) * 0.24,
+            pilot.energy + Float::from_int(crystal.value) * 0.24,
             0.0,
             100.0,
           )
           pilot.combo = pilot.combo + 1
-          msg = "Crystal +\{crystals[i].value}"
+          msg = "Crystal +\{crystal.value}"
           msg_t = 0.44
-          burst(particles, crystals[i].x, crystals[i].y, 8, 0.11, 2)
-          crystals[i].active = false
+          burst(particles, crystal.x, crystal.y, 8, 0.11, 2)
+          crystal.active = false
         }
 
-        if crystals[i].y - cam_y > Float::from_int(sh) + 240.0 {
-          crystals[i].active = false
+        if crystal.y - cam_y > Float::from_int(sh) + 240.0 {
+          crystal.active = false
         }
       }
 
       // Particles.
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (1.0 - dt * 2.0)
-          particles[i].vy = particles[i].vy + 220.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (1.0 - dt * 2.0)
+          particle.vy = particle.vy + 220.0 * dt
         }
       }
 
       // Cleanup / generation.
-      for i in 0..<anchors.length() {
-        if anchors[i].active &&
-          anchors[i].y - cam_y > Float::from_int(sh) + 240.0 {
-          anchors[i].active = false
+      for anchor in anchors {
+        if anchor.active &&
+          anchor.y - cam_y > Float::from_int(sh) + 240.0 {
+          anchor.active = false
         }
       }
 
@@ -1364,47 +1364,47 @@ fn main {
     }
 
     // Platforms.
-    for i in 0..<platforms.length() {
-      if not(platforms[i].active) {
+    for platform in platforms {
+      if not(platform.active) {
         continue
       }
 
-      let sy = platforms[i].y - cam_y
+      let sy = platform.y - cam_y
       if sy < -80.0 || sy > Float::from_int(sh) + 80.0 {
         continue
       }
 
-      let px = (platforms[i].x - platforms[i].w * 0.5).to_int()
+      let px = (platform.x - platform.w * 0.5).to_int()
       let py = sy.to_int()
       @raylib.draw_rectangle(
         px,
         py,
-        platforms[i].w.to_int(),
+        platform.w.to_int(),
         14,
         @raylib.Color::new(108, 130, 156, 255),
       )
       @raylib.draw_rectangle(
         px + 10,
         py + 4,
-        platforms[i].w.to_int() - 20,
+        platform.w.to_int() - 20,
         8,
         @raylib.Color::new(150, 176, 206, 190),
       )
     }
 
     // Anchors.
-    for i in 0..<anchors.length() {
-      if anchors[i].active {
-        let sy = anchors[i].y - cam_y
+    for anchor in anchors {
+      if anchor.active {
+        let sy = anchor.y - cam_y
         if sy >= -40.0 && sy <= Float::from_int(sh) + 40.0 {
           @raylib.draw_circle(
-            anchors[i].x.to_int(),
+            anchor.x.to_int(),
             sy.to_int(),
             8.0,
             @raylib.Color::new(126, 230, 210, 255),
           )
           @raylib.draw_circle_lines(
-            anchors[i].x.to_int(),
+            anchor.x.to_int(),
             sy.to_int(),
             12.0,
             @raylib.Color::new(80, 180, 168, 255),
@@ -1414,26 +1414,26 @@ fn main {
     }
 
     // Crystals.
-    for i in 0..<crystals.length() {
-      if crystals[i].active {
-        let sy = crystals[i].y - cam_y
+    for crystal in crystals {
+      if crystal.active {
+        let sy = crystal.y - cam_y
         if sy >= -36.0 && sy <= Float::from_int(sh) + 36.0 {
-          let blink = (crystals[i].t * 8.0).to_int() % 2 == 0
+          let blink = (crystal.t * 8.0).to_int() % 2 == 0
           let col = if blink {
             @raylib.Color::new(146, 246, 202, 255)
           } else {
             @raylib.Color::new(112, 216, 176, 220)
           }
           @raylib.draw_triangle(
-            @raylib.Vector2::new(crystals[i].x, sy - 10.0),
-            @raylib.Vector2::new(crystals[i].x - 8.0, sy + 4.0),
-            @raylib.Vector2::new(crystals[i].x + 8.0, sy + 4.0),
+            @raylib.Vector2::new(crystal.x, sy - 10.0),
+            @raylib.Vector2::new(crystal.x - 8.0, sy + 4.0),
+            @raylib.Vector2::new(crystal.x + 8.0, sy + 4.0),
             col,
           )
           @raylib.draw_triangle(
-            @raylib.Vector2::new(crystals[i].x, sy + 12.0),
-            @raylib.Vector2::new(crystals[i].x - 8.0, sy + 4.0),
-            @raylib.Vector2::new(crystals[i].x + 8.0, sy + 4.0),
+            @raylib.Vector2::new(crystal.x, sy + 12.0),
+            @raylib.Vector2::new(crystal.x - 8.0, sy + 4.0),
+            @raylib.Vector2::new(crystal.x + 8.0, sy + 4.0),
             @raylib.Color::new(98, 194, 158, 220),
           )
         }
@@ -1441,29 +1441,29 @@ fn main {
     }
 
     // Drones.
-    for i in 0..<drones.length() {
-      if drones[i].active {
-        let sy = drones[i].y - cam_y
+    for drone in drones {
+      if drone.active {
+        let sy = drone.y - cam_y
         if sy >= -40.0 && sy <= Float::from_int(sh) + 40.0 {
-          let body_col = if drones[i].kind == 0 {
+          let body_col = if drone.kind == 0 {
             @raylib.Color::new(226, 132, 126, 255)
-          } else if drones[i].kind == 1 {
+          } else if drone.kind == 1 {
             @raylib.Color::new(214, 98, 142, 255)
           } else {
             @raylib.Color::new(180, 86, 160, 255)
           }
 
-          @raylib.draw_circle(drones[i].x.to_int(), sy.to_int(), 14.0, body_col)
+          @raylib.draw_circle(drone.x.to_int(), sy.to_int(), 14.0, body_col)
           @raylib.draw_circle(
-            drones[i].x.to_int(),
+            drone.x.to_int(),
             sy.to_int(),
             6.0,
             @raylib.Color::new(252, 236, 210, 255),
           )
 
-          if drones[i].stun_t > 0.0 {
+          if drone.stun_t > 0.0 {
             @raylib.draw_circle_lines(
-              drones[i].x.to_int(),
+              drone.x.to_int(),
               sy.to_int(),
               18.0,
               @raylib.Color::new(134, 228, 255, 255),
@@ -1474,20 +1474,20 @@ fn main {
     }
 
     // Bullets.
-    for i in 0..<bullets.length() {
-      if bullets[i].active {
-        let sy = bullets[i].y - cam_y
+    for bullet in bullets {
+      if bullet.active {
+        let sy = bullet.y - cam_y
         if sy >= -20.0 && sy <= Float::from_int(sh) + 20.0 {
-          if bullets[i].team == 2 {
+          if bullet.team == 2 {
             @raylib.draw_circle(
-              bullets[i].x.to_int(),
+              bullet.x.to_int(),
               sy.to_int(),
               4.6,
               @raylib.Color::new(252, 132, 128, 255),
             )
           } else {
             @raylib.draw_circle(
-              bullets[i].x.to_int(),
+              bullet.x.to_int(),
               sy.to_int(),
               4.2,
               @raylib.Color::new(124, 226, 252, 255),
@@ -1530,33 +1530,33 @@ fn main {
     )
 
     // Particles.
-    for i in 0..<particles.length() {
-      if particles[i].active {
-        let sy = particles[i].y - cam_y
+    for particle in particles {
+      if particle.active {
+        let sy = particle.y - cam_y
         if sy < -40.0 || sy > Float::from_int(sh) + 40.0 {
           continue
         }
 
-        let ratio : Float = 1.0 - particles[i].t / particles[i].life
+        let ratio : Float = 1.0 - particle.t / particle.life
         let alpha = (ratio * 255.0).to_int()
         if alpha <= 0 {
           continue
         }
 
-        let col = if particles[i].kind == 0 {
+        let col = if particle.kind == 0 {
           @raylib.Color::new(154, 236, 252, alpha)
-        } else if particles[i].kind == 1 {
+        } else if particle.kind == 1 {
           @raylib.Color::new(252, 172, 142, alpha)
-        } else if particles[i].kind == 2 {
+        } else if particle.kind == 2 {
           @raylib.Color::new(150, 244, 202, alpha)
         } else {
           @raylib.Color::new(252, 124, 144, alpha)
         }
 
         @raylib.draw_circle(
-          particles[i].x.to_int(),
+          particle.x.to_int(),
           sy.to_int(),
-          particles[i].size,
+          particle.size,
           col,
         )
       }

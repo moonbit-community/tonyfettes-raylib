@@ -36,9 +36,9 @@ fn maybe_consume_pellet(game : Game) -> Unit {
       game.score = game.score + 50
       game.pellets_left = game.pellets_left - 1
       game.frightened_timer = 8.0
-      for i in 0..<game.ghosts.length() {
-        game.ghosts[i].dir_x = -game.ghosts[i].dir_x
-        game.ghosts[i].dir_y = -game.ghosts[i].dir_y
+      for ghost in game.ghosts {
+        ghost.dir_x = -ghost.dir_x
+        ghost.dir_y = -ghost.dir_y
       }
     }
     _ => ()
@@ -106,8 +106,8 @@ fn step_ghost(game : Game, ghost : Ghost) -> Unit {
   let mut best_dist = 1_000_000
   let mut found = false
 
-  for i in 0..<dirs.length() {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     if is_reverse(dx, dy, ghost.dir_x, ghost.dir_y) {
       continue
     }
@@ -144,8 +144,7 @@ fn step_ghost(game : Game, ghost : Ghost) -> Unit {
 
 ///|
 fn resolve_collisions(game : Game) -> Unit {
-  for i in 0..<game.ghosts.length() {
-    let ghost = game.ghosts[i]
+  for ghost in game.ghosts {
     if ghost.x == game.player_x && ghost.y == game.player_y {
       if game.frightened_timer > 0.0 {
         game.score = game.score + 200
@@ -181,9 +180,9 @@ fn update_phase(game : Game, dt : Float) -> Unit {
   if game.phase_timer >= 7.0 {
     game.phase_timer = 0.0
     game.chase_mode = not(game.chase_mode)
-    for i in 0..<game.ghosts.length() {
-      game.ghosts[i].dir_x = -game.ghosts[i].dir_x
-      game.ghosts[i].dir_y = -game.ghosts[i].dir_y
+    for ghost in game.ghosts {
+      ghost.dir_x = -ghost.dir_x
+      ghost.dir_y = -ghost.dir_y
     }
   }
 }
@@ -214,8 +213,8 @@ fn update_game(game : Game, dt : Float) -> Unit {
   }
   if game.step_timer_ghost >= ghost_step {
     game.step_timer_ghost = game.step_timer_ghost - ghost_step
-    for i in 0..<game.ghosts.length() {
-      step_ghost(game, game.ghosts[i])
+    for ghost in game.ghosts {
+      step_ghost(game, ghost)
     }
     resolve_collisions(game)
   }

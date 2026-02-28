@@ -151,14 +151,14 @@ fn draw_vault_core(game : Game) -> Unit {
 
 ///|
 fn draw_breaches(game : Game) -> Unit {
-  for i in 0..<game.breaches.length() {
-    if game.breaches[i].room != game.keeper.room {
+  for breach in game.breaches {
+    if breach.room != game.keeper.room {
       continue
     }
 
-    let x = breach_anchor_x(game.breaches[i].room)
-    let y = breach_anchor_y(game.breaches[i].room)
-    let severity = game.breaches[i].severity
+    let x = breach_anchor_x(breach.room)
+    let y = breach_anchor_y(breach.room)
+    let severity = breach.severity
     let ratio = clamp01(severity / breach_severity_max)
 
     if severity > 0.0 {
@@ -202,21 +202,21 @@ fn draw_breaches(game : Game) -> Unit {
 
 ///|
 fn draw_flames(game : Game) -> Unit {
-  for i in 0..<game.flames.length() {
-    if not(game.flames[i].active) || game.flames[i].room != game.keeper.room {
+  for flame in game.flames {
+    if not(flame.active) || flame.room != game.keeper.room {
       continue
     }
 
-    let heat = clamp01(game.flames[i].intensity / 100.0)
+    let heat = clamp01(flame.intensity / 100.0)
     @raylib.draw_circle(
-      game.flames[i].x.to_int(),
-      game.flames[i].y.to_int(),
+      flame.x.to_int(),
+      flame.y.to_int(),
       8.0 + heat * 20.0,
       @raylib.Color::new(255, 108 + (heat * 86.0).to_int(), 40, 190),
     )
     @raylib.draw_circle(
-      game.flames[i].x.to_int(),
-      game.flames[i].y.to_int(),
+      flame.x.to_int(),
+      flame.y.to_int(),
       4.0 + heat * 12.0,
       @raylib.Color::new(255, 198 + (heat * 50.0).to_int(), 90, 220),
     )
@@ -225,28 +225,28 @@ fn draw_flames(game : Game) -> Unit {
 
 ///|
 fn draw_raiders(game : Game) -> Unit {
-  for i in 0..<game.raiders.length() {
-    if not(game.raiders[i].active) || game.raiders[i].room != game.keeper.room {
+  for raider in game.raiders {
+    if not(raider.active) || raider.room != game.keeper.room {
       continue
     }
 
-    let panic_alpha = if game.raiders[i].panic_t > 0.0 { 220 } else { 176 }
+    let panic_alpha = if raider.panic_t > 0.0 { 220 } else { 176 }
     @raylib.draw_circle(
-      game.raiders[i].x.to_int(),
-      game.raiders[i].y.to_int(),
+      raider.x.to_int(),
+      raider.y.to_int(),
       raider_radius,
       @raylib.Color::new(212, 72, 86, panic_alpha),
     )
     @raylib.draw_circle_lines(
-      game.raiders[i].x.to_int(),
-      game.raiders[i].y.to_int(),
+      raider.x.to_int(),
+      raider.y.to_int(),
       raider_radius + 3.0,
       @raylib.Color::new(252, 162, 174, 210),
     )
 
-    let ratio = clamp01(game.raiders[i].hp / game.raiders[i].max_hp)
-    let bx = game.raiders[i].x.to_int() - 20
-    let by = game.raiders[i].y.to_int() - 24
+    let ratio = clamp01(raider.hp / raider.max_hp)
+    let bx = raider.x.to_int() - 20
+    let by = raider.y.to_int() - 24
     @raylib.draw_rectangle(bx, by, 40, 4, @raylib.Color::new(28, 18, 24, 220))
     @raylib.draw_rectangle(
       bx,
@@ -314,8 +314,8 @@ fn draw_keeper(game : Game) -> Unit {
 ///|
 fn count_raiders_in_room(game : Game, room : Int) -> Int {
   let mut count = 0
-  for i in 0..<game.raiders.length() {
-    if game.raiders[i].active && game.raiders[i].room == room {
+  for raider in game.raiders {
+    if raider.active && raider.room == room {
       count = count + 1
     }
   }
@@ -325,8 +325,8 @@ fn count_raiders_in_room(game : Game, room : Int) -> Int {
 ///|
 fn count_flames_in_room(game : Game, room : Int) -> Int {
   let mut count = 0
-  for i in 0..<game.flames.length() {
-    if game.flames[i].active && game.flames[i].room == room {
+  for flame in game.flames {
+    if flame.active && flame.room == room {
       count = count + 1
     }
   }

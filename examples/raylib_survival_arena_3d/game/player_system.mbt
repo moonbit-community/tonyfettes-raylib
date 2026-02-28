@@ -100,8 +100,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   let mut final_x = clamped.0
   let mut final_z = clamped.1
   // Collision with pillars
-  for i in 0..<game.pillars.length() {
-    let pillar = game.pillars[i]
+  for pillar in game.pillars {
     let result = @types.push_from_pillar(
       final_x,
       final_z,

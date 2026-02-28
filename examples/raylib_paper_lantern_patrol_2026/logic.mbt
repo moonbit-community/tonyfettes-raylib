@@ -7,8 +7,8 @@ fn set_status(game : Game, text : String, ttl : Float) -> Unit {
 ///|
 fn active_lantern_count(game : Game) -> Int {
   let mut total = 0
-  for i in 0..<game.lanterns.length() {
-    if game.lanterns[i].active {
+  for lantern in game.lanterns {
+    if lantern.active {
       total = total + 1
     }
   }
@@ -18,8 +18,8 @@ fn active_lantern_count(game : Game) -> Int {
 ///|
 fn active_gust_count(game : Game) -> Int {
   let mut total = 0
-  for i in 0..<game.gusts.length() {
-    if game.gusts[i].active {
+  for gust in game.gusts {
+    if gust.active {
       total = total + 1
     }
   }
@@ -29,8 +29,8 @@ fn active_gust_count(game : Game) -> Int {
 ///|
 fn active_thief_count(game : Game) -> Int {
   let mut total = 0
-  for i in 0..<game.thieves.length() {
-    if game.thieves[i].active {
+  for thieve in game.thieves {
+    if thieve.active {
       total = total + 1
     }
   }
@@ -52,59 +52,59 @@ fn reset_patrol(patrol : Patrol) -> Unit {
 
 ///|
 fn reset_lanterns(game : Game) -> Unit {
-  for i in 0..<game.lanterns.length() {
-    game.lanterns[i].active = false
-    game.lanterns[i].x = 0.0
-    game.lanterns[i].y = 0.0
-    game.lanterns[i].vx = 0.0
-    game.lanterns[i].vy = 0.0
-    game.lanterns[i].flame = 0.0
-    game.lanterns[i].target_shrine = 0
-    game.lanterns[i].escorting = false
-    game.lanterns[i].wobble = 0.0
+  for lantern in game.lanterns {
+    lantern.active = false
+    lantern.x = 0.0
+    lantern.y = 0.0
+    lantern.vx = 0.0
+    lantern.vy = 0.0
+    lantern.flame = 0.0
+    lantern.target_shrine = 0
+    lantern.escorting = false
+    lantern.wobble = 0.0
   }
 }
 
 ///|
 fn reset_gusts(game : Game) -> Unit {
-  for i in 0..<game.gusts.length() {
-    game.gusts[i].active = false
-    game.gusts[i].x = 0.0
-    game.gusts[i].y = 0.0
-    game.gusts[i].vx = 0.0
-    game.gusts[i].vy = 0.0
-    game.gusts[i].radius = 0.0
-    game.gusts[i].power = 0.0
-    game.gusts[i].life = 0.0
+  for gust in game.gusts {
+    gust.active = false
+    gust.x = 0.0
+    gust.y = 0.0
+    gust.vx = 0.0
+    gust.vy = 0.0
+    gust.radius = 0.0
+    gust.power = 0.0
+    gust.life = 0.0
   }
 }
 
 ///|
 fn reset_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].power = 0.0
-    game.sparks[i].size = 0.0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.power = 0.0
+    spark.size = 0.0
   }
 }
 
 ///|
 fn reset_thieves(game : Game) -> Unit {
-  for i in 0..<game.thieves.length() {
-    game.thieves[i].active = false
-    game.thieves[i].x = 0.0
-    game.thieves[i].y = 0.0
-    game.thieves[i].vx = 0.0
-    game.thieves[i].vy = 0.0
-    game.thieves[i].speed = 0.0
-    game.thieves[i].target = -1
-    game.thieves[i].steal_cd = 0.0
-    game.thieves[i].life = 0.0
+  for thieve in game.thieves {
+    thieve.active = false
+    thieve.x = 0.0
+    thieve.y = 0.0
+    thieve.vx = 0.0
+    thieve.vy = 0.0
+    thieve.speed = 0.0
+    thieve.target = -1
+    thieve.steal_cd = 0.0
+    thieve.life = 0.0
   }
 }
 
@@ -614,110 +614,110 @@ fn update_spawning(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_gusts(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.gusts.length() {
-    if not(game.gusts[i].active) {
+  for gust in game.gusts {
+    if not(gust.active) {
       continue
     }
 
-    game.gusts[i].x = game.gusts[i].x + game.gusts[i].vx * dt
-    game.gusts[i].y = game.gusts[i].y + game.gusts[i].vy * dt
-    game.gusts[i].life = game.gusts[i].life - dt
+    gust.x = gust.x + gust.vx * dt
+    gust.y = gust.y + gust.vy * dt
+    gust.life = gust.life - dt
 
     if game.patrol.calm_t > 0.0 &&
-      dist2(game.gusts[i].x, game.gusts[i].y, game.patrol.x, game.patrol.y) <=
-      squaref(calm_radius + game.gusts[i].radius) {
+      dist2(gust.x, gust.y, game.patrol.x, game.patrol.y) <=
+      squaref(calm_radius + gust.radius) {
       let damp = clampf(1.0 - dt * 1.6, 0.50, 1.0)
-      game.gusts[i].vx = game.gusts[i].vx * damp
-      game.gusts[i].vy = game.gusts[i].vy * damp
+      gust.vx = gust.vx * damp
+      gust.vy = gust.vy * damp
     }
 
-    if game.gusts[i].x < play_left - 160.0 ||
-      game.gusts[i].x > play_right + 160.0 ||
-      game.gusts[i].y < play_top - 160.0 ||
-      game.gusts[i].y > play_bottom + 160.0 ||
-      game.gusts[i].life <= 0.0 {
-      game.gusts[i].active = false
+    if gust.x < play_left - 160.0 ||
+      gust.x > play_right + 160.0 ||
+      gust.y < play_top - 160.0 ||
+      gust.y > play_bottom + 160.0 ||
+      gust.life <= 0.0 {
+      gust.active = false
     }
   }
 }
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
     let in_calm = game.patrol.calm_t > 0.0 &&
-      dist2(game.sparks[i].x, game.sparks[i].y, game.patrol.x, game.patrol.y) <=
+      dist2(spark.x, spark.y, game.patrol.x, game.patrol.y) <=
       squaref(calm_radius)
 
     if in_calm {
       let calm_drag = clampf(1.0 - dt * 4.0, 0.35, 1.0)
-      game.sparks[i].vx = game.sparks[i].vx * calm_drag
-      game.sparks[i].vy = game.sparks[i].vy * calm_drag
-      game.sparks[i].life = game.sparks[i].life - dt * 1.6
+      spark.vx = spark.vx * calm_drag
+      spark.vy = spark.vy * calm_drag
+      spark.life = spark.life - dt * 1.6
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].life = game.sparks[i].life - dt
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.life = spark.life - dt
 
-    if game.sparks[i].life <= 0.0 ||
-      game.sparks[i].x < play_left - 80.0 ||
-      game.sparks[i].x > play_right + 80.0 ||
-      game.sparks[i].y < play_top - 80.0 ||
-      game.sparks[i].y > play_bottom + 80.0 {
-      game.sparks[i].active = false
+    if spark.life <= 0.0 ||
+      spark.x < play_left - 80.0 ||
+      spark.x > play_right + 80.0 ||
+      spark.y < play_top - 80.0 ||
+      spark.y > play_bottom + 80.0 {
+      spark.active = false
     }
   }
 }
 
 ///|
 fn update_thieves(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.thieves.length() {
-    if not(game.thieves[i].active) {
+  for thieve in game.thieves {
+    if not(thieve.active) {
       continue
     }
 
-    game.thieves[i].steal_cd = maxf(game.thieves[i].steal_cd - dt, 0.0)
-    game.thieves[i].life = game.thieves[i].life - dt
+    thieve.steal_cd = maxf(thieve.steal_cd - dt, 0.0)
+    thieve.life = thieve.life - dt
 
-    if game.thieves[i].life <= 0.0 {
-      game.thieves[i].active = false
+    if thieve.life <= 0.0 {
+      thieve.active = false
       continue
     }
 
     let target = nearest_active_lantern(
       game,
-      game.thieves[i].x,
-      game.thieves[i].y,
+      thieve.x,
+      thieve.y,
       100000000.0,
     )
-    game.thieves[i].target = target
+    thieve.target = target
 
     let mut vx : Float = 0.0
     let mut vy : Float = 0.0
 
     if target >= 0 {
-      let dx = game.lanterns[target].x - game.thieves[i].x
-      let dy = game.lanterns[target].y - game.thieves[i].y
+      let dx = game.lanterns[target].x - thieve.x
+      let dy = game.lanterns[target].y - thieve.y
       let d2 = dx * dx + dy * dy
 
       if d2 <= squaref(thief_contact_radius) {
-        if game.thieves[i].steal_cd <= 0.0 {
+        if thieve.steal_cd <= 0.0 {
           game.lanterns[target].flame = game.lanterns[target].flame -
             thief_drain_burst
-          game.thieves[i].steal_cd = thief_steal_period
+          thieve.steal_cd = thief_steal_period
           game.screen_flash_t = maxf(game.screen_flash_t, 0.12)
         }
       } else {
         let inv = Float::from_int(1) / maxf(d2.sqrt(), 0.001)
-        let mut speed = game.thieves[i].speed
+        let mut speed = thieve.speed
         if game.patrol.calm_t > 0.0 &&
           dist2(
-            game.thieves[i].x,
-            game.thieves[i].y,
+            thieve.x,
+            thieve.y,
             game.patrol.x,
             game.patrol.y,
           ) <=
@@ -730,36 +730,36 @@ fn update_thieves(game : Game, dt : Float) -> Unit {
       }
     } else {
       let gate = gate_position()
-      let dx = gate.0 - game.thieves[i].x
-      let dy = gate.1 - game.thieves[i].y
+      let dx = gate.0 - thieve.x
+      let dy = gate.1 - thieve.y
       let inv = Float::from_int(1) / maxf((dx * dx + dy * dy).sqrt(), 0.001)
-      vx = dx * inv * (game.thieves[i].speed * 0.36)
-      vy = dy * inv * (game.thieves[i].speed * 0.36)
+      vx = dx * inv * (thieve.speed * 0.36)
+      vy = dy * inv * (thieve.speed * 0.36)
     }
 
-    game.thieves[i].vx = vx
-    game.thieves[i].vy = vy
-    game.thieves[i].x = game.thieves[i].x + game.thieves[i].vx * dt
-    game.thieves[i].y = game.thieves[i].y + game.thieves[i].vy * dt
+    thieve.vx = vx
+    thieve.vy = vy
+    thieve.x = thieve.x + thieve.vx * dt
+    thieve.y = thieve.y + thieve.vy * dt
 
     if game.patrol.guard_t > 0.0 {
-      let dx = game.thieves[i].x - game.patrol.x
-      let dy = game.thieves[i].y - game.patrol.y
+      let dx = thieve.x - game.patrol.x
+      let dy = thieve.y - game.patrol.y
       let d2 = dx * dx + dy * dy
       if d2 <= squaref(guard_radius) {
         let inv = Float::from_int(1) / maxf(d2.sqrt(), 0.001)
-        game.thieves[i].x = game.thieves[i].x + dx * inv * guard_push * dt
-        game.thieves[i].y = game.thieves[i].y + dy * inv * guard_push * dt
-        game.thieves[i].life = game.thieves[i].life - dt * 1.8
+        thieve.x = thieve.x + dx * inv * guard_push * dt
+        thieve.y = thieve.y + dy * inv * guard_push * dt
+        thieve.life = thieve.life - dt * 1.8
       }
     }
 
-    if game.thieves[i].x < play_left - 140.0 ||
-      game.thieves[i].x > play_right + 140.0 ||
-      game.thieves[i].y < play_top - 140.0 ||
-      game.thieves[i].y > play_bottom + 140.0 ||
-      game.thieves[i].life <= 0.0 {
-      game.thieves[i].active = false
+    if thieve.x < play_left - 140.0 ||
+      thieve.x > play_right + 140.0 ||
+      thieve.y < play_top - 140.0 ||
+      thieve.y > play_bottom + 140.0 ||
+      thieve.life <= 0.0 {
+      thieve.active = false
     }
   }
 }
@@ -819,18 +819,18 @@ fn update_lanterns(game : Game, dt : Float) -> Unit {
     game.lanterns[i].vx = game.lanterns[i].vx + randf(-15.0, 15.0) * dt
     game.lanterns[i].vy = game.lanterns[i].vy + randf(-15.0, 15.0) * dt
 
-    for g in 0..<game.gusts.length() {
-      if not(game.gusts[g].active) {
+    for gust in game.gusts {
+      if not(gust.active) {
         continue
       }
 
       let d2 = dist2(
         game.lanterns[i].x,
         game.lanterns[i].y,
-        game.gusts[g].x,
-        game.gusts[g].y,
+        gust.x,
+        gust.y,
       )
-      let r2 = squaref(game.gusts[g].radius)
+      let r2 = squaref(gust.radius)
       if d2 > r2 {
         continue
       }
@@ -838,27 +838,27 @@ fn update_lanterns(game : Game, dt : Float) -> Unit {
       let influence : Float = Float::from_int(1) -
         d2 / maxf(r2, Float::from_int(1))
       game.lanterns[i].vx = game.lanterns[i].vx +
-        game.gusts[g].vx * game.gusts[g].power * influence * 0.34 * dt
+        gust.vx * gust.power * influence * 0.34 * dt
       game.lanterns[i].vy = game.lanterns[i].vy +
-        game.gusts[g].vy * game.gusts[g].power * influence * 0.34 * dt
+        gust.vy * gust.power * influence * 0.34 * dt
       drain = drain + gust_drain_power * influence * dt
     }
 
-    for s in 0..<game.sparks.length() {
-      if not(game.sparks[s].active) {
+    for spark in game.sparks {
+      if not(spark.active) {
         continue
       }
 
       let d2 = dist2(
         game.lanterns[i].x,
         game.lanterns[i].y,
-        game.sparks[s].x,
-        game.sparks[s].y,
+        spark.x,
+        spark.y,
       )
 
-      if d2 <= squaref(game.sparks[s].size + lantern_radius + 4.0) {
-        drain = drain + game.sparks[s].power * dt
-        game.sparks[s].active = false
+      if d2 <= squaref(spark.size + lantern_radius + 4.0) {
+        drain = drain + spark.power * dt
+        spark.active = false
       }
     }
 

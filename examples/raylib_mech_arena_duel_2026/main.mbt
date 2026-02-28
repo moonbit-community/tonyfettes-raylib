@@ -34,14 +34,14 @@ fn spawn_shot(
   vy : Float,
   from_enemy : Bool,
 ) -> Unit {
-  for i in 0..<shots.length() {
-    if not(shots[i].alive) {
-      shots[i].alive = true
-      shots[i].x = x
-      shots[i].y = y
-      shots[i].vx = vx
-      shots[i].vy = vy
-      shots[i].from_enemy = from_enemy
+  for shot in shots {
+    if not(shot.alive) {
+      shot.alive = true
+      shot.x = x
+      shot.y = y
+      shot.vx = vx
+      shot.vy = vy
+      shot.from_enemy = from_enemy
       break
     }
   }
@@ -49,16 +49,16 @@ fn spawn_shot(
 
 ///|
 fn spawn_bot(bots : Array[Bot], wave : Int) -> Unit {
-  for i in 0..<bots.length() {
-    if not(bots[i].alive) {
-      bots[i].alive = true
-      bots[i].x = Float::from_int(@raylib.get_random_value(200, sw - 100))
-      bots[i].y = Float::from_int(@raylib.get_random_value(140, sh - 120))
-      bots[i].hp = 20 + wave * 2
-      bots[i].fire_cd = Float::from_int(@raylib.get_random_value(1, 2))
-      bots[i].dir_x = Float::from_int(@raylib.get_random_value(-100, 100)) /
+  for bot in bots {
+    if not(bot.alive) {
+      bot.alive = true
+      bot.x = Float::from_int(@raylib.get_random_value(200, sw - 100))
+      bot.y = Float::from_int(@raylib.get_random_value(140, sh - 120))
+      bot.hp = 20 + wave * 2
+      bot.fire_cd = Float::from_int(@raylib.get_random_value(1, 2))
+      bot.dir_x = Float::from_int(@raylib.get_random_value(-100, 100)) /
         100.0
-      bots[i].dir_y = Float::from_int(@raylib.get_random_value(-100, 100)) /
+      bot.dir_y = Float::from_int(@raylib.get_random_value(-100, 100)) /
         100.0
       break
     }
@@ -67,15 +67,15 @@ fn spawn_bot(bots : Array[Bot], wave : Int) -> Unit {
 
 ///|
 fn reset_bots(bots : Array[Bot]) -> Unit {
-  for i in 0..<bots.length() {
-    bots[i].alive = false
+  for bot in bots {
+    bot.alive = false
   }
 }
 
 ///|
 fn reset_shots(shots : Array[Shot]) -> Unit {
-  for i in 0..<shots.length() {
-    shots[i].alive = false
+  for shot in shots {
+    shot.alive = false
   }
 }
 
@@ -218,35 +218,35 @@ fn main {
 
       // AI update
       let mut alive_count = 0
-      for i in 0..<bots.length() {
-        if not(bots[i].alive) {
+      for bot in bots {
+        if not(bot.alive) {
           continue
         }
         alive_count = alive_count + 1
 
-        bots[i].x = bots[i].x + bots[i].dir_x * 120.0 * dt
-        bots[i].y = bots[i].y + bots[i].dir_y * 120.0 * dt
+        bot.x = bot.x + bot.dir_x * 120.0 * dt
+        bot.y = bot.y + bot.dir_y * 120.0 * dt
 
-        if bots[i].x < 120.0 || bots[i].x > Float::from_int(sw - 80) {
-          bots[i].dir_x = -bots[i].dir_x
+        if bot.x < 120.0 || bot.x > Float::from_int(sw - 80) {
+          bot.dir_x = -bot.dir_x
         }
-        if bots[i].y < 130.0 || bots[i].y > Float::from_int(sh - 80) {
-          bots[i].dir_y = -bots[i].dir_y
+        if bot.y < 130.0 || bot.y > Float::from_int(sh - 80) {
+          bot.dir_y = -bot.dir_y
         }
 
-        bots[i].fire_cd = bots[i].fire_cd - dt
-        if bots[i].fire_cd <= 0.0 {
-          bots[i].fire_cd = Float::from_int(@raylib.get_random_value(1, 3))
-          let mut dx = px - bots[i].x
-          let mut dy = py - bots[i].y
+        bot.fire_cd = bot.fire_cd - dt
+        if bot.fire_cd <= 0.0 {
+          bot.fire_cd = Float::from_int(@raylib.get_random_value(1, 3))
+          let mut dx = px - bot.x
+          let mut dy = py - bot.y
           let d = (dx * dx + dy * dy).sqrt()
           if d > 0.001 {
             dx = dx / d
             dy = dy / d
             spawn_shot(
               shots,
-              bots[i].x,
-              bots[i].y,
+              bot.x,
+              bot.y,
               dx * 340.0,
               dy * 340.0,
               true,
@@ -254,9 +254,9 @@ fn main {
           }
         }
 
-        if (bots[i].x - px).abs() < 30.0 && (bots[i].y - py).abs() < 30.0 {
+        if (bot.x - px).abs() < 30.0 && (bot.y - py).abs() < 30.0 {
           php = php - 8
-          bots[i].alive = false
+          bot.alive = false
           msg = "Bot collision."
         }
       }
@@ -273,38 +273,38 @@ fn main {
       }
 
       // Shot update + collision
-      for i in 0..<shots.length() {
-        if not(shots[i].alive) {
+      for shot in shots {
+        if not(shot.alive) {
           continue
         }
-        shots[i].x = shots[i].x + shots[i].vx * dt
-        shots[i].y = shots[i].y + shots[i].vy * dt
+        shot.x = shot.x + shot.vx * dt
+        shot.y = shot.y + shot.vy * dt
 
-        if shots[i].x < 0.0 ||
-          shots[i].x > Float::from_int(sw) ||
-          shots[i].y < 90.0 ||
-          shots[i].y > Float::from_int(sh) {
-          shots[i].alive = false
+        if shot.x < 0.0 ||
+          shot.x > Float::from_int(sw) ||
+          shot.y < 90.0 ||
+          shot.y > Float::from_int(sh) {
+          shot.alive = false
           continue
         }
 
-        if shots[i].from_enemy {
-          if (shots[i].x - px).abs() < 16.0 && (shots[i].y - py).abs() < 16.0 {
-            shots[i].alive = false
+        if shot.from_enemy {
+          if (shot.x - px).abs() < 16.0 && (shot.y - py).abs() < 16.0 {
+            shot.alive = false
             php = php - 9
             msg = "Mech hit by enemy fire."
           }
         } else {
-          for bi in 0..<bots.length() {
-            if not(bots[bi].alive) {
+          for bot in bots {
+            if not(bot.alive) {
               continue
             }
-            if (shots[i].x - bots[bi].x).abs() < 18.0 &&
-              (shots[i].y - bots[bi].y).abs() < 18.0 {
-              shots[i].alive = false
-              bots[bi].hp = bots[bi].hp - 12
-              if bots[bi].hp <= 0 {
-                bots[bi].alive = false
+            if (shot.x - bot.x).abs() < 18.0 &&
+              (shot.y - bot.y).abs() < 18.0 {
+              shot.alive = false
+              bot.hp = bot.hp - 12
+              if bot.hp <= 0 {
+                bot.alive = false
                 kills = kills + 1
                 score = score + 26 + wave
                 msg = "Bot destroyed."
@@ -333,40 +333,40 @@ fn main {
       @raylib.draw_line(x, 120, x, sh - 20, @raylib.fade(@raylib.gray, 0.14))
     }
 
-    for i in 0..<bots.length() {
-      if bots[i].alive {
+    for bot in bots {
+      if bot.alive {
         @raylib.draw_rectangle(
-          (bots[i].x - 18.0).to_int(),
-          (bots[i].y - 18.0).to_int(),
+          (bot.x - 18.0).to_int(),
+          (bot.y - 18.0).to_int(),
           36,
           36,
           @raylib.maroon,
         )
         @raylib.draw_rectangle_lines(
-          (bots[i].x - 18.0).to_int(),
-          (bots[i].y - 18.0).to_int(),
+          (bot.x - 18.0).to_int(),
+          (bot.y - 18.0).to_int(),
           36,
           36,
           @raylib.white,
         )
         @raylib.draw_text(
-          "\{bots[i].hp}",
-          (bots[i].x - 10.0).to_int(),
-          (bots[i].y - 30.0).to_int(),
+          "\{bot.hp}",
+          (bot.x - 10.0).to_int(),
+          (bot.y - 30.0).to_int(),
           16,
           @raylib.raywhite,
         )
       }
     }
 
-    for i in 0..<shots.length() {
-      if shots[i].alive {
-        let c = if shots[i].from_enemy {
+    for shot in shots {
+      if shot.alive {
+        let c = if shot.from_enemy {
           @raylib.orange
         } else {
           @raylib.skyblue
         }
-        @raylib.draw_circle(shots[i].x.to_int(), shots[i].y.to_int(), 4.0, c)
+        @raylib.draw_circle(shot.x.to_int(), shot.y.to_int(), 4.0, c)
       }
     }
 

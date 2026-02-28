@@ -81,28 +81,28 @@ fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_enemies(game : Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
-    game.enemies[i].x = 0.0
-    game.enemies[i].y = 0.0
-    game.enemies[i].vx = 0.0
-    game.enemies[i].vy = 0.0
-    game.enemies[i].hp = 0.0
-    game.enemies[i].max_hp = 0.0
-    game.enemies[i].radius = 20.0
-    game.enemies[i].speed = 0.0
-    game.enemies[i].state = enemy_state_seek
-    game.enemies[i].state_t = 0.0
-    game.enemies[i].telegraph_total_t = 0.0
-    game.enemies[i].visual_phase = 0.0
+  for enemy in game.enemies {
+    enemy.active = false
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0.0
+    enemy.max_hp = 0.0
+    enemy.radius = 20.0
+    enemy.speed = 0.0
+    enemy.state = enemy_state_seek
+    enemy.state_t = 0.0
+    enemy.telegraph_total_t = 0.0
+    enemy.visual_phase = 0.0
   }
 }
 
 ///|
 fn active_enemy_count(game : Game) -> Int {
   let mut count : Int = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count = count + 1
     }
   }
@@ -230,8 +230,8 @@ fn hurt_player(game : Game, dmg : Float) -> Unit {
 
 ///|
 fn spawn_enemy(game : Game) -> Bool {
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       continue
     }
 
@@ -239,30 +239,30 @@ fn spawn_enemy(game : Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      game.enemies[i].x = randf(arena_left() + 26.0, arena_right() - 26.0)
-      game.enemies[i].y = arena_top() - randf(20.0, 80.0)
+      enemy.x = randf(arena_left() + 26.0, arena_right() - 26.0)
+      enemy.y = arena_top() - randf(20.0, 80.0)
     } else if side == 1 {
-      game.enemies[i].x = randf(arena_left() + 26.0, arena_right() - 26.0)
-      game.enemies[i].y = arena_bottom() + randf(20.0, 80.0)
+      enemy.x = randf(arena_left() + 26.0, arena_right() - 26.0)
+      enemy.y = arena_bottom() + randf(20.0, 80.0)
     } else if side == 2 {
-      game.enemies[i].x = arena_left() - randf(20.0, 80.0)
-      game.enemies[i].y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
+      enemy.x = arena_left() - randf(20.0, 80.0)
+      enemy.y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
     } else {
-      game.enemies[i].x = arena_right() + randf(20.0, 80.0)
-      game.enemies[i].y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
+      enemy.x = arena_right() + randf(20.0, 80.0)
+      enemy.y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
     }
 
-    game.enemies[i].active = true
-    game.enemies[i].radius = randf(18.0, 26.0)
-    game.enemies[i].max_hp = 60.0 + wave_f * 7.0 + randf(-6.0, 12.0)
-    game.enemies[i].hp = game.enemies[i].max_hp
-    game.enemies[i].speed = 126.0 + wave_f * 10.0 + randf(-18.0, 18.0)
-    game.enemies[i].vx = 0.0
-    game.enemies[i].vy = 0.0
-    game.enemies[i].state = enemy_state_seek
-    game.enemies[i].state_t = 0.0
-    game.enemies[i].telegraph_total_t = 0.0
-    game.enemies[i].visual_phase = randf(0.0, 6.28)
+    enemy.active = true
+    enemy.radius = randf(18.0, 26.0)
+    enemy.max_hp = 60.0 + wave_f * 7.0 + randf(-6.0, 12.0)
+    enemy.hp = enemy.max_hp
+    enemy.speed = 126.0 + wave_f * 10.0 + randf(-18.0, 18.0)
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.state = enemy_state_seek
+    enemy.state_t = 0.0
+    enemy.telegraph_total_t = 0.0
+    enemy.visual_phase = randf(0.0, 6.28)
 
     return true
   }

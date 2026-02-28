@@ -94,14 +94,14 @@ fn add_score(game : Game, delta : Int) -> Unit {
 
 ///|
 fn clear_hazards(game : Game) -> Unit {
-  for i in 0..<game.hazards.length() {
-    game.hazards[i].active = false
-    game.hazards[i].kind = hazard_debris
-    game.hazards[i].lane = 0.0
-    game.hazards[i].dist = 0.0
-    game.hazards[i].size = 0.0
-    game.hazards[i].drift = 0.0
-    game.hazards[i].phase = 0.0
+  for hazard in game.hazards {
+    hazard.active = false
+    hazard.kind = hazard_debris
+    hazard.lane = 0.0
+    hazard.dist = 0.0
+    hazard.size = 0.0
+    hazard.drift = 0.0
+    hazard.phase = 0.0
   }
 }
 
@@ -166,8 +166,8 @@ fn reset_run(game : Game) -> Unit {
 fn current_rank(game : Game) -> Int {
   let mut ahead : Int = 0
 
-  for i in 0..<game.rivals.length() {
-    if game.rivals[i].active && game.rivals[i].dist > game.distance {
+  for rival in game.rivals {
+    if rival.active && rival.dist > game.distance {
       ahead = ahead + 1
     }
   }
@@ -177,26 +177,26 @@ fn current_rank(game : Game) -> Int {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i in 0..<game.hazards.length() {
-    if game.hazards[i].active {
+  for hazard in game.hazards {
+    if hazard.active {
       continue
     }
 
     let kind_roll = @raylib.get_random_value(0, 99)
     let kind : Int = if kind_roll < 58 { hazard_debris } else { hazard_wave }
 
-    game.hazards[i].active = true
-    game.hazards[i].kind = kind
-    game.hazards[i].lane = Float::from_int(@raylib.get_random_value(-95, 95)) /
+    hazard.active = true
+    hazard.kind = kind
+    hazard.lane = Float::from_int(@raylib.get_random_value(-95, 95)) /
       100.0
-    game.hazards[i].dist = game.distance + randf(420.0, 1380.0)
-    game.hazards[i].size = if kind == hazard_debris {
+    hazard.dist = game.distance + randf(420.0, 1380.0)
+    hazard.size = if kind == hazard_debris {
       randf(18.0, 33.0)
     } else {
       randf(30.0, 56.0)
     }
-    game.hazards[i].drift = randf(-0.4, 0.4)
-    game.hazards[i].phase = randf(0.0, 6.28)
+    hazard.drift = randf(-0.4, 0.4)
+    hazard.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -349,34 +349,34 @@ fn update_hazard_spawning(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.hazards.length() {
-    if not(game.hazards[i].active) {
+  for hazard in game.hazards {
+    if not(hazard.active) {
       continue
     }
 
-    game.hazards[i].phase = game.hazards[i].phase + dt
-    game.hazards[i].lane = clampf(
-      game.hazards[i].lane + game.hazards[i].drift * dt * 0.4,
+    hazard.phase = hazard.phase + dt
+    hazard.lane = clampf(
+      hazard.lane + hazard.drift * dt * 0.4,
       -1.08,
       1.08,
     )
 
-    if game.hazards[i].dist < game.distance - 120.0 {
-      game.hazards[i].active = false
+    if hazard.dist < game.distance - 120.0 {
+      hazard.active = false
       continue
     }
 
-    let lane_delta : Float = absf(game.hazards[i].lane - game.lane)
-    let dist_delta : Float = absf(game.hazards[i].dist - game.distance)
+    let lane_delta : Float = absf(hazard.lane - game.lane)
+    let dist_delta : Float = absf(hazard.dist - game.distance)
 
-    let lane_hit_w : Float = if game.hazards[i].kind == hazard_debris {
+    let lane_hit_w : Float = if hazard.kind == hazard_debris {
       0.2
     } else {
       0.28
     }
 
     if dist_delta < 26.0 && lane_delta < lane_hit_w {
-      if game.hazards[i].kind == hazard_debris {
+      if hazard.kind == hazard_debris {
         let shield : Float = if game.burst_t > 0.0 { 0.5 } else { 1.0 }
 
         game.speed = maxf(72.0, game.speed - 46.0 * shield)
@@ -401,55 +401,55 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
         set_message(game, "Wave rocked the boat", 0.7)
       }
 
-      game.hazards[i].active = false
+      hazard.active = false
     }
   }
 }
 
 ///|
 fn update_rivals(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.rivals.length() {
-    if not(game.rivals[i].active) {
+  for rival in game.rivals {
+    if not(rival.active) {
       continue
     }
 
-    game.rivals[i].stroke_t = game.rivals[i].stroke_t +
-      dt * (1.4 + game.rivals[i].speed_bias * 0.01)
-    if game.rivals[i].stroke_t > 6.28 {
-      game.rivals[i].stroke_t = game.rivals[i].stroke_t - 6.28
+    rival.stroke_t = rival.stroke_t +
+      dt * (1.4 + rival.speed_bias * 0.01)
+    if rival.stroke_t > 6.28 {
+      rival.stroke_t = rival.stroke_t - 6.28
     }
 
     let tempo : Float = 0.5 +
       0.5 *
-      sinf(game.rivals[i].stroke_t + Float::from_int(game.rivals[i].id) * 0.35)
+      sinf(rival.stroke_t + Float::from_int(rival.id) * 0.35)
 
     let mut rival_speed : Float = base_speed +
       8.0 +
-      game.rivals[i].speed_bias +
+      rival.speed_bias +
       tempo * 44.0
 
     if game.distance > finish_distance * 0.82 {
       rival_speed = rival_speed + 11.0
     }
 
-    game.rivals[i].dist = game.rivals[i].dist + rival_speed * dt
+    rival.dist = rival.dist + rival_speed * dt
 
     let path_t : Float = game.ui_t *
-      (0.62 + Float::from_int(game.rivals[i].id) * 0.08) +
-      Float::from_int(game.rivals[i].id) * 0.9
+      (0.62 + Float::from_int(rival.id) * 0.08) +
+      Float::from_int(rival.id) * 0.9
 
-    game.rivals[i].lane = clampf(
-      game.rivals[i].lane + sinf(path_t) * dt * 0.3,
+    rival.lane = clampf(
+      rival.lane + sinf(path_t) * dt * 0.3,
       -1.02,
       1.02,
     )
 
-    let near_dist : Float = absf(game.rivals[i].dist - game.distance)
-    let near_lane : Float = absf(game.rivals[i].lane - game.lane)
+    let near_dist : Float = absf(rival.dist - game.distance)
+    let near_lane : Float = absf(rival.lane - game.lane)
 
     if near_dist < 15.0 && near_lane < 0.2 {
       if game.speed >= rival_speed {
-        game.rivals[i].dist = game.rivals[i].dist - dt * 20.0
+        rival.dist = rival.dist - dt * 20.0
         add_score(game, 5)
       } else {
         game.speed = maxf(68.0, game.speed - 14.0)

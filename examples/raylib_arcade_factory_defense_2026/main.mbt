@@ -210,75 +210,75 @@ fn turret_range(kind : Int) -> Float {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
-    enemies[i].kind = 0
-    enemies[i].x = 0.0
-    enemies[i].y = 0.0
-    enemies[i].vx = 0.0
-    enemies[i].vy = 0.0
-    enemies[i].hp = 0.0
-    enemies[i].fire_cd = 0.0
-    enemies[i].t = 0.0
+  for enemy in enemies {
+    enemy.active = false
+    enemy.kind = 0
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0.0
+    enemy.fire_cd = 0.0
+    enemy.t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].active = false
-    bullets[i].team = 0
-    bullets[i].kind = 0
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].dmg = 0.0
-    bullets[i].r = 0.0
-    bullets[i].life = 0.0
+  for bullet in bullets {
+    bullet.active = false
+    bullet.team = 0
+    bullet.kind = 0
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.dmg = 0.0
+    bullet.r = 0.0
+    bullet.life = 0.0
   }
 }
 
 ///|
 fn clear_turrets(turrets : Array[Turret]) -> Unit {
-  for i in 0..<turrets.length() {
-    turrets[i].active = false
-    turrets[i].kind = 0
-    turrets[i].x = 0.0
-    turrets[i].y = 0.0
-    turrets[i].hp = 0.0
-    turrets[i].fire_cd = 0.0
-    turrets[i].t = 0.0
+  for turret in turrets {
+    turret.active = false
+    turret.kind = 0
+    turret.x = 0.0
+    turret.y = 0.0
+    turret.hp = 0.0
+    turret.fire_cd = 0.0
+    turret.t = 0.0
   }
 }
 
 ///|
 fn clear_scraps(scraps : Array[Scrap]) -> Unit {
-  for i in 0..<scraps.length() {
-    scraps[i].active = false
-    scraps[i].kind = 0
-    scraps[i].x = 0.0
-    scraps[i].y = 0.0
-    scraps[i].vx = 0.0
-    scraps[i].vy = 0.0
-    scraps[i].value = 0
-    scraps[i].life = 0.0
-    scraps[i].t = 0.0
+  for scrap in scraps {
+    scrap.active = false
+    scrap.kind = 0
+    scrap.x = 0.0
+    scrap.y = 0.0
+    scrap.vx = 0.0
+    scrap.vy = 0.0
+    scrap.value = 0
+    scrap.life = 0.0
+    scrap.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].t = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.t = 0.0
   }
 }
 
@@ -290,22 +290,22 @@ fn add_enemy(
   y : Float,
   wave : Int,
 ) -> Bool {
-  for i in 0..<enemies.length() {
-    if not(enemies[i].active) {
-      enemies[i].active = true
-      enemies[i].kind = kind
-      enemies[i].x = x
-      enemies[i].y = y
-      enemies[i].vx = randf(-40.0, 40.0)
-      enemies[i].vy = randf(-40.0, 40.0)
-      enemies[i].hp = enemy_hp(kind, wave)
-      enemies[i].t = randf(0.0, 99.0)
+  for enemy in enemies {
+    if not(enemy.active) {
+      enemy.active = true
+      enemy.kind = kind
+      enemy.x = x
+      enemy.y = y
+      enemy.vx = randf(-40.0, 40.0)
+      enemy.vy = randf(-40.0, 40.0)
+      enemy.hp = enemy_hp(kind, wave)
+      enemy.t = randf(0.0, 99.0)
       if kind == 0 {
-        enemies[i].fire_cd = randf(1.6, 2.5)
+        enemy.fire_cd = randf(1.6, 2.5)
       } else if kind == 1 {
-        enemies[i].fire_cd = randf(0.8, 1.4)
+        enemy.fire_cd = randf(0.8, 1.4)
       } else {
-        enemies[i].fire_cd = randf(1.2, 2.0)
+        enemy.fire_cd = randf(1.2, 2.0)
       }
       return true
     }
@@ -326,18 +326,18 @@ fn add_bullet(
   r : Float,
   life : Float,
 ) -> Bool {
-  for i in 0..<bullets.length() {
-    if not(bullets[i].active) {
-      bullets[i].active = true
-      bullets[i].team = team
-      bullets[i].kind = kind
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vx = vx
-      bullets[i].vy = vy
-      bullets[i].dmg = dmg
-      bullets[i].r = r
-      bullets[i].life = life
+  for bullet in bullets {
+    if not(bullet.active) {
+      bullet.active = true
+      bullet.team = team
+      bullet.kind = kind
+      bullet.x = x
+      bullet.y = y
+      bullet.vx = vx
+      bullet.vy = vy
+      bullet.dmg = dmg
+      bullet.r = r
+      bullet.life = life
       return true
     }
   }
@@ -351,20 +351,20 @@ fn add_turret(
   x : Float,
   y : Float,
 ) -> Bool {
-  for i in 0..<turrets.length() {
-    if not(turrets[i].active) {
-      turrets[i].active = true
-      turrets[i].kind = kind
-      turrets[i].x = x
-      turrets[i].y = y
+  for turret in turrets {
+    if not(turret.active) {
+      turret.active = true
+      turret.kind = kind
+      turret.x = x
+      turret.y = y
       if kind == 0 {
-        turrets[i].hp = 100.0
-        turrets[i].fire_cd = randf(0.08, 0.2)
+        turret.hp = 100.0
+        turret.fire_cd = randf(0.08, 0.2)
       } else {
-        turrets[i].hp = 160.0
-        turrets[i].fire_cd = randf(0.2, 0.5)
+        turret.hp = 160.0
+        turret.fire_cd = randf(0.2, 0.5)
       }
-      turrets[i].t = randf(0.0, 20.0)
+      turret.t = randf(0.0, 20.0)
       return true
     }
   }
@@ -382,17 +382,17 @@ fn add_scrap(
   value : Int,
   life : Float,
 ) -> Bool {
-  for i in 0..<scraps.length() {
-    if not(scraps[i].active) {
-      scraps[i].active = true
-      scraps[i].kind = kind
-      scraps[i].x = x
-      scraps[i].y = y
-      scraps[i].vx = vx
-      scraps[i].vy = vy
-      scraps[i].value = value
-      scraps[i].life = life
-      scraps[i].t = randf(0.0, 20.0)
+  for scrap in scraps {
+    if not(scrap.active) {
+      scrap.active = true
+      scrap.kind = kind
+      scrap.x = x
+      scrap.y = y
+      scrap.vx = vx
+      scrap.vy = vy
+      scrap.value = value
+      scrap.life = life
+      scrap.t = randf(0.0, 20.0)
       return true
     }
   }
@@ -410,17 +410,17 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = vx
-      parts[i].vy = vy
-      parts[i].size = size
-      parts[i].life = life
-      parts[i].t = 0.0
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
+      part.vx = vx
+      part.vy = vy
+      part.size = size
+      part.life = life
+      part.t = 0.0
       return true
     }
   }
@@ -457,8 +457,8 @@ fn burst(
 ///|
 fn count_active_enemies(enemies : Array[Enemy]) -> Int {
   let mut cnt : Int = 0
-  for i in 0..<enemies.length() {
-    if enemies[i].active {
+  for enemy in enemies {
+    if enemy.active {
       cnt = cnt + 1
     }
   }
@@ -478,11 +478,11 @@ fn can_place_turret(turrets : Array[Turret], x : Float, y : Float) -> Bool {
     return false
   }
 
-  for i in 0..<turrets.length() {
-    if not(turrets[i].active) {
+  for turret in turrets {
+    if not(turret.active) {
       continue
     }
-    if dist2(x, y, turrets[i].x, turrets[i].y) <= 56.0 * 56.0 {
+    if dist2(x, y, turret.x, turret.y) <= 56.0 * 56.0 {
       return false
     }
   }
@@ -1273,36 +1273,36 @@ fn main {
 
         burst(particles, player.x, player.y, 88, 0.36, 3)
 
-        for i in 0..<bullets.length() {
-          if bullets[i].active &&
-            bullets[i].team == 2 &&
-            dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
+        for bullet in bullets {
+          if bullet.active &&
+            bullet.team == 2 &&
+            dist2(player.x, player.y, bullet.x, bullet.y) <=
             280.0 * 280.0 {
-            bullets[i].active = false
+            bullet.active = false
           }
         }
 
-        for i in 0..<enemies.length() {
-          if enemies[i].active &&
-            dist2(player.x, player.y, enemies[i].x, enemies[i].y) <=
+        for enemy in enemies {
+          if enemy.active &&
+            dist2(player.x, player.y, enemy.x, enemy.y) <=
             240.0 * 240.0 {
-            enemies[i].hp = enemies[i].hp - 44.0
-            enemies[i].vx = enemies[i].vx * 0.2
-            enemies[i].vy = enemies[i].vy * 0.2
+            enemy.hp = enemy.hp - 44.0
+            enemy.vx = enemy.vx * 0.2
+            enemy.vy = enemy.vy * 0.2
           }
         }
       }
 
       // Turret update.
-      for i in 0..<turrets.length() {
-        if not(turrets[i].active) {
+      for turret in turrets {
+        if not(turret.active) {
           continue
         }
 
-        turrets[i].t = turrets[i].t + dt
-        turrets[i].fire_cd = turrets[i].fire_cd - dt
+        turret.t = turret.t + dt
+        turret.fire_cd = turret.fire_cd - dt
 
-        let range : Float = turret_range(turrets[i].kind)
+        let range : Float = turret_range(turret.kind)
         let mut target_i : Int = -1
         let mut best_d2 : Float = 99999999.0
 
@@ -1311,8 +1311,8 @@ fn main {
             continue
           }
           let d2 : Float = dist2(
-            turrets[i].x,
-            turrets[i].y,
+            turret.x,
+            turret.y,
             enemies[e].x,
             enemies[e].y,
           )
@@ -1322,17 +1322,17 @@ fn main {
           }
         }
 
-        if target_i >= 0 && turrets[i].fire_cd <= 0.0 {
-          let tx : Float = enemies[target_i].x - turrets[i].x
-          let ty : Float = enemies[target_i].y - turrets[i].y
+        if target_i >= 0 && turret.fire_cd <= 0.0 {
+          let tx : Float = enemies[target_i].x - turret.x
+          let ty : Float = enemies[target_i].y - turret.y
           let mut inv : Float = 0.0
           let l2 : Float = tx * tx + ty * ty
           if l2 > 0.01 {
             inv = 1.0 / l2.sqrt()
           }
 
-          if turrets[i].kind == 0 {
-            turrets[i].fire_cd = clampf(
+          if turret.kind == 0 {
+            turret.fire_cd = clampf(
               0.24 - Float::from_int(wave) * 0.004,
               0.14,
               0.24,
@@ -1342,8 +1342,8 @@ fn main {
                 bullets,
                 1,
                 1,
-                turrets[i].x,
-                turrets[i].y,
+                turret.x,
+                turret.y,
                 tx * inv * 540.0,
                 ty * inv * 540.0,
                 8.0,
@@ -1352,7 +1352,7 @@ fn main {
               ),
             )
           } else {
-            turrets[i].fire_cd = clampf(
+            turret.fire_cd = clampf(
               0.86 - Float::from_int(wave) * 0.012,
               0.46,
               0.86,
@@ -1362,8 +1362,8 @@ fn main {
                 bullets,
                 1,
                 2,
-                turrets[i].x,
-                turrets[i].y,
+                turret.x,
+                turret.y,
                 tx * inv * 430.0,
                 ty * inv * 430.0,
                 28.0,
@@ -1373,98 +1373,98 @@ fn main {
             )
           }
 
-          burst(particles, turrets[i].x, turrets[i].y, 5, 0.1, 1)
+          burst(particles, turret.x, turret.y, 5, 0.1, 1)
         }
 
-        if turrets[i].hp <= 0.0 {
-          turrets[i].active = false
-          burst(particles, turrets[i].x, turrets[i].y, 18, 0.2, 2)
+        if turret.hp <= 0.0 {
+          turret.active = false
+          burst(particles, turret.x, turret.y, 18, 0.2, 2)
         }
       }
 
       // Enemies update.
-      for i in 0..<enemies.length() {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        enemies[i].t = enemies[i].t + dt
-        enemies[i].fire_cd = enemies[i].fire_cd - dt
+        enemy.t = enemy.t + dt
+        enemy.fire_cd = enemy.fire_cd - dt
 
         // target core by default, sometimes player when close.
         let mut txg : Float = core_x
         let mut tyg : Float = core_y
-        if dist2(enemies[i].x, enemies[i].y, player.x, player.y) <=
+        if dist2(enemy.x, enemy.y, player.x, player.y) <=
           260.0 * 260.0 {
           txg = player.x
           tyg = player.y
         }
 
-        let tx : Float = txg - enemies[i].x
-        let ty : Float = tyg - enemies[i].y
+        let tx : Float = txg - enemy.x
+        let ty : Float = tyg - enemy.y
         let mut inv : Float = 0.0
         let l2 : Float = tx * tx + ty * ty
         if l2 > 0.01 {
           inv = 1.0 / l2.sqrt()
         }
 
-        if enemies[i].kind == 0 {
+        if enemy.kind == 0 {
           let acc : Float = 180.0 + Float::from_int(wave) * 6.0
-          enemies[i].vx = enemies[i].vx + tx * inv * acc * dt
-          enemies[i].vy = enemies[i].vy + ty * inv * acc * dt
-        } else if enemies[i].kind == 1 {
+          enemy.vx = enemy.vx + tx * inv * acc * dt
+          enemy.vy = enemy.vy + ty * inv * acc * dt
+        } else if enemy.kind == 1 {
           let orbit : Float = 220.0
           let mut d : Float = 0.0
           if l2 > 0.01 {
             d = l2.sqrt()
           }
           let err : Float = d - orbit
-          enemies[i].vx = enemies[i].vx +
+          enemy.vx = enemy.vx +
             tx * inv * err * 0.7 * dt +
-            @math.sinf(enemies[i].t * 2.4) * 24.0 * dt
-          enemies[i].vy = enemies[i].vy +
+            @math.sinf(enemy.t * 2.4) * 24.0 * dt
+          enemy.vy = enemy.vy +
             ty * inv * err * 0.7 * dt +
-            @math.cosf(enemies[i].t * 2.0) * 24.0 * dt
+            @math.cosf(enemy.t * 2.0) * 24.0 * dt
         } else {
           let acc : Float = 108.0 + Float::from_int(wave) * 4.0
-          enemies[i].vx = enemies[i].vx + tx * inv * acc * dt
-          enemies[i].vy = enemies[i].vy + ty * inv * acc * dt
+          enemy.vx = enemy.vx + tx * inv * acc * dt
+          enemy.vy = enemy.vy + ty * inv * acc * dt
         }
 
-        let max_spd : Float = if enemies[i].kind == 2 {
+        let max_spd : Float = if enemy.kind == 2 {
           170.0
         } else {
           240.0 + Float::from_int(wave) * 4.0
         }
-        let sp2 : Float = enemies[i].vx * enemies[i].vx +
-          enemies[i].vy * enemies[i].vy
+        let sp2 : Float = enemy.vx * enemy.vx +
+          enemy.vy * enemy.vy
         if sp2 > max_spd * max_spd {
           let invs : Float = max_spd / sp2.sqrt()
-          enemies[i].vx = enemies[i].vx * invs
-          enemies[i].vy = enemies[i].vy * invs
+          enemy.vx = enemy.vx * invs
+          enemy.vy = enemy.vy * invs
         }
 
-        enemies[i].x = clampf(
-          enemies[i].x + enemies[i].vx * dt,
+        enemy.x = clampf(
+          enemy.x + enemy.vx * dt,
           arena_l,
           arena_r,
         )
-        enemies[i].y = clampf(
-          enemies[i].y + enemies[i].vy * dt,
+        enemy.y = clampf(
+          enemy.y + enemy.vy * dt,
           arena_t,
           arena_b,
         )
 
-        if enemies[i].fire_cd <= 0.0 {
-          if enemies[i].kind == 1 {
-            enemies[i].fire_cd = randf(0.82, 1.4)
+        if enemy.fire_cd <= 0.0 {
+          if enemy.kind == 1 {
+            enemy.fire_cd = randf(0.82, 1.4)
             ignore(
               add_bullet(
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * 320.0,
                 ty * inv * 320.0,
                 8.0,
@@ -1472,8 +1472,8 @@ fn main {
                 2.8,
               ),
             )
-          } else if enemies[i].kind == 2 {
-            enemies[i].fire_cd = randf(1.22, 1.96)
+          } else if enemy.kind == 2 {
+            enemy.fire_cd = randf(1.22, 1.96)
             let sx : Float = -ty * inv
             let sy : Float = tx * inv
             ignore(
@@ -1481,8 +1481,8 @@ fn main {
                 bullets,
                 2,
                 1,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * 270.0,
                 ty * inv * 270.0,
                 12.0,
@@ -1495,8 +1495,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * 250.0 + sx * 72.0,
                 ty * inv * 250.0 + sy * 72.0,
                 7.0,
@@ -1509,8 +1509,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 tx * inv * 250.0 - sx * 72.0,
                 ty * inv * 250.0 - sy * 72.0,
                 7.0,
@@ -1522,41 +1522,41 @@ fn main {
         }
 
         // Contact with player.
-        let rr_p : Float = enemy_radius(enemies[i].kind) + 17.0
-        if dist2(enemies[i].x, enemies[i].y, player.x, player.y) <= rr_p * rr_p {
+        let rr_p : Float = enemy_radius(enemy.kind) + 17.0
+        if dist2(enemy.x, enemy.y, player.x, player.y) <= rr_p * rr_p {
           on_player_hit(
-            8.0 + Float::from_int(enemies[i].kind) * 2.4,
+            8.0 + Float::from_int(enemy.kind) * 2.4,
             "Direct hit",
           )
-          enemies[i].vx = -enemies[i].vx
-          enemies[i].vy = -enemies[i].vy
+          enemy.vx = -enemy.vx
+          enemy.vy = -enemy.vy
         }
 
         // Contact with core.
-        let rr_c : Float = enemy_radius(enemies[i].kind) + core_r
-        if dist2(enemies[i].x, enemies[i].y, core_x, core_y) <= rr_c * rr_c {
+        let rr_c : Float = enemy_radius(enemy.kind) + core_r
+        if dist2(enemy.x, enemy.y, core_x, core_y) <= rr_c * rr_c {
           core_hp = core_hp -
-            dt * (12.0 + Float::from_int(enemies[i].kind) * 5.0)
-          enemies[i].vx = (enemies[i].x - core_x) * 0.8
-          enemies[i].vy = (enemies[i].y - core_y) * 0.8
+            dt * (12.0 + Float::from_int(enemy.kind) * 5.0)
+          enemy.vx = (enemy.x - core_x) * 0.8
+          enemy.vy = (enemy.y - core_y) * 0.8
         }
 
         // Ramming turrets.
-        for t in 0..<turrets.length() {
-          if not(turrets[t].active) {
+        for turret in turrets {
+          if not(turret.active) {
             continue
           }
-          if dist2(enemies[i].x, enemies[i].y, turrets[t].x, turrets[t].y) <=
-            (enemy_radius(enemies[i].kind) + 20.0) *
-            (enemy_radius(enemies[i].kind) + 20.0) {
-            turrets[t].hp = turrets[t].hp -
-              dt * (10.0 + Float::from_int(enemies[i].kind) * 6.0)
-            enemies[i].hp = enemies[i].hp - dt * 10.0
+          if dist2(enemy.x, enemy.y, turret.x, turret.y) <=
+            (enemy_radius(enemy.kind) + 20.0) *
+            (enemy_radius(enemy.kind) + 20.0) {
+            turret.hp = turret.hp -
+              dt * (10.0 + Float::from_int(enemy.kind) * 6.0)
+            enemy.hp = enemy.hp - dt * 10.0
           }
         }
 
-        if enemies[i].hp <= 0.0 {
-          let reward : Int = 44 + enemies[i].kind * 24 + player.combo * 2
+        if enemy.hp <= 0.0 {
+          let reward : Int = 44 + enemy.kind * 24 + player.combo * 2
           player.score = player.score + reward
           player.combo = player.combo + 1
           if player.combo > player.best_combo {
@@ -1570,8 +1570,8 @@ fn main {
               add_scrap(
                 scraps,
                 @raylib.get_random_value(0, 2),
-                enemies[i].x,
-                enemies[i].y,
+                enemy.x,
+                enemy.y,
                 randf(-90.0, 90.0),
                 randf(-90.0, 90.0),
                 val,
@@ -1580,8 +1580,8 @@ fn main {
             )
           }
 
-          burst(particles, enemies[i].x, enemies[i].y, 22, 0.2, 0)
-          enemies[i].active = false
+          burst(particles, enemy.x, enemy.y, 22, 0.2, 0)
+          enemy.active = false
         }
       }
 
@@ -1616,70 +1616,70 @@ fn main {
       }
 
       // Bullet update + hit resolve.
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < arena_l - 40.0 ||
-          bullets[i].x > arena_r + 40.0 ||
-          bullets[i].y < arena_t - 40.0 ||
-          bullets[i].y > arena_b + 40.0 {
-          bullets[i].active = false
+        if bullet.x < arena_l - 40.0 ||
+          bullet.x > arena_r + 40.0 ||
+          bullet.y < arena_t - 40.0 ||
+          bullet.y > arena_b + 40.0 {
+          bullet.active = false
           continue
         }
 
-        if bullets[i].team == 1 {
+        if bullet.team == 1 {
           let mut consumed : Bool = false
-          for e in 0..<enemies.length() {
+          for enemy in enemies {
             if consumed {
               continue
             }
-            if not(enemies[e].active) {
+            if not(enemy.active) {
               continue
             }
-            let rr : Float = bullets[i].r + enemy_radius(enemies[e].kind)
-            if dist2(bullets[i].x, bullets[i].y, enemies[e].x, enemies[e].y) <=
+            let rr : Float = bullet.r + enemy_radius(enemy.kind)
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
               rr * rr {
-              enemies[e].hp = enemies[e].hp - bullets[i].dmg
+              enemy.hp = enemy.hp - bullet.dmg
               consumed = true
-              bullets[i].active = false
-              burst(particles, bullets[i].x, bullets[i].y, 4, 0.1, 1)
+              bullet.active = false
+              burst(particles, bullet.x, bullet.y, 4, 0.1, 1)
             }
           }
         } else {
-          if dist2(bullets[i].x, bullets[i].y, player.x, player.y) <=
-            (bullets[i].r + 16.0) * (bullets[i].r + 16.0) {
-            on_player_hit(bullets[i].dmg, "Enemy projectile")
-            bullets[i].active = false
+          if dist2(bullet.x, bullet.y, player.x, player.y) <=
+            (bullet.r + 16.0) * (bullet.r + 16.0) {
+            on_player_hit(bullet.dmg, "Enemy projectile")
+            bullet.active = false
             continue
           }
 
-          if dist2(bullets[i].x, bullets[i].y, core_x, core_y) <=
-            (bullets[i].r + core_r) * (bullets[i].r + core_r) {
-            core_hp = core_hp - bullets[i].dmg * 0.72
-            bullets[i].active = false
-            burst(particles, bullets[i].x, bullets[i].y, 4, 0.1, 2)
+          if dist2(bullet.x, bullet.y, core_x, core_y) <=
+            (bullet.r + core_r) * (bullet.r + core_r) {
+            core_hp = core_hp - bullet.dmg * 0.72
+            bullet.active = false
+            burst(particles, bullet.x, bullet.y, 4, 0.1, 2)
             continue
           }
 
-          for t in 0..<turrets.length() {
-            if not(turrets[t].active) {
+          for turret in turrets {
+            if not(turret.active) {
               continue
             }
-            if dist2(bullets[i].x, bullets[i].y, turrets[t].x, turrets[t].y) <=
-              (bullets[i].r + 16.0) * (bullets[i].r + 16.0) {
-              turrets[t].hp = turrets[t].hp - bullets[i].dmg
-              bullets[i].active = false
+            if dist2(bullet.x, bullet.y, turret.x, turret.y) <=
+              (bullet.r + 16.0) * (bullet.r + 16.0) {
+              turret.hp = turret.hp - bullet.dmg
+              bullet.active = false
               break
             }
           }
@@ -1687,22 +1687,22 @@ fn main {
       }
 
       // Particle update.
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].life = particles[i].life - dt
-        if particles[i].life <= 0.0 {
-          particles[i].active = false
+        particle.life = particle.life - dt
+        if particle.life <= 0.0 {
+          particle.active = false
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 1.9)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 1.9)
+        particle.t = particle.t + dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 1.9)
+        particle.vy = particle.vy * (1.0 - dt * 1.9)
       }
 
       // Loss checks.
@@ -1798,31 +1798,31 @@ fn main {
     )
 
     // Turrets.
-    for i in 0..<turrets.length() {
-      if not(turrets[i].active) {
+    for turret in turrets {
+      if not(turret.active) {
         continue
       }
 
-      if turrets[i].kind == 0 {
+      if turret.kind == 0 {
         @raylib.draw_rectangle(
-          (turrets[i].x - 15.0).to_int(),
-          (turrets[i].y - 15.0).to_int(),
+          (turret.x - 15.0).to_int(),
+          (turret.y - 15.0).to_int(),
           30,
           30,
           @raylib.Color::new(82, 170, 210, 242),
         )
       } else {
         @raylib.draw_rectangle(
-          (turrets[i].x - 18.0).to_int(),
-          (turrets[i].y - 18.0).to_int(),
+          (turret.x - 18.0).to_int(),
+          (turret.y - 18.0).to_int(),
           36,
           36,
           @raylib.Color::new(126, 156, 214, 242),
         )
       }
       @raylib.draw_rectangle_lines(
-        (turrets[i].x - 20.0).to_int(),
-        (turrets[i].y - 20.0).to_int(),
+        (turret.x - 20.0).to_int(),
+        (turret.y - 20.0).to_int(),
         40,
         40,
         @raylib.Color::new(210, 236, 252, 170),
@@ -1830,82 +1830,82 @@ fn main {
     }
 
     // Scraps.
-    for i in 0..<scraps.length() {
-      if not(scraps[i].active) {
+    for scrap in scraps {
+      if not(scrap.active) {
         continue
       }
-      let col = if scraps[i].kind == 0 {
+      let col = if scrap.kind == 0 {
         @raylib.Color::new(112, 236, 194, 236)
-      } else if scraps[i].kind == 1 {
+      } else if scrap.kind == 1 {
         @raylib.Color::new(112, 196, 252, 236)
       } else {
         @raylib.Color::new(250, 216, 118, 236)
       }
       @raylib.draw_circle(
-        scraps[i].x.to_int(),
-        scraps[i].y.to_int(),
-        6.0 + Float::from_int(scraps[i].value),
+        scrap.x.to_int(),
+        scrap.y.to_int(),
+        6.0 + Float::from_int(scrap.value),
         col,
       )
     }
 
     // Enemies.
-    for i in 0..<enemies.length() {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      if enemies[i].kind == 0 {
+      if enemy.kind == 0 {
         @raylib.draw_circle(
-          enemies[i].x.to_int(),
-          enemies[i].y.to_int(),
+          enemy.x.to_int(),
+          enemy.y.to_int(),
           15.0,
           @raylib.Color::new(232, 106, 114, 242),
         )
-      } else if enemies[i].kind == 1 {
+      } else if enemy.kind == 1 {
         @raylib.draw_rectangle(
-          (enemies[i].x - 18.0).to_int(),
-          (enemies[i].y - 14.0).to_int(),
+          (enemy.x - 18.0).to_int(),
+          (enemy.y - 14.0).to_int(),
           36,
           28,
           @raylib.Color::new(236, 146, 80, 242),
         )
       } else {
         @raylib.draw_rectangle(
-          (enemies[i].x - 24.0).to_int(),
-          (enemies[i].y - 20.0).to_int(),
+          (enemy.x - 24.0).to_int(),
+          (enemy.y - 20.0).to_int(),
           48,
           40,
           @raylib.Color::new(166, 98, 192, 242),
         )
       }
       @raylib.draw_circle_lines(
-        enemies[i].x.to_int(),
-        enemies[i].y.to_int(),
-        enemy_radius(enemies[i].kind) + 4.0,
+        enemy.x.to_int(),
+        enemy.y.to_int(),
+        enemy_radius(enemy.kind) + 4.0,
         @raylib.Color::new(250, 214, 220, 150),
       )
     }
 
     // Bullets.
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
-      let col = if bullets[i].team == 1 {
-        if bullets[i].kind == 2 {
+      let col = if bullet.team == 1 {
+        if bullet.kind == 2 {
           @raylib.Color::new(128, 234, 255, 250)
         } else {
           @raylib.Color::new(250, 246, 150, 250)
         }
-      } else if bullets[i].kind == 1 {
+      } else if bullet.kind == 1 {
         @raylib.Color::new(250, 126, 234, 246)
       } else {
         @raylib.Color::new(252, 130, 140, 242)
       }
       @raylib.draw_circle(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
-        bullets[i].r,
+        bullet.x.to_int(),
+        bullet.y.to_int(),
+        bullet.r,
         col,
       )
     }
@@ -1965,24 +1965,24 @@ fn main {
     }
 
     // Particles.
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let alpha : Int = (clampf(particles[i].life / 0.82, 0.0, 1.0) * 255.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let alpha : Int = (clampf(particle.life / 0.82, 0.0, 1.0) * 255.0).to_int()
+      let col = if particle.kind == 0 {
         @raylib.Color::new(112, 224, 252, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 236, 146, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(252, 132, 132, alpha)
       } else {
         @raylib.Color::new(230, 166, 252, alpha)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

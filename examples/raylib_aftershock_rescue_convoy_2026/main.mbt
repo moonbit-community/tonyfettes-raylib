@@ -180,13 +180,13 @@ fn inside_rect(
 
 ///|
 fn clear_districts(districts : Array[District]) -> Unit {
-  for i in 0..<districts.length() {
-    districts[i].active = false
-    districts[i].x = 0.0
-    districts[i].y = 0.0
-    districts[i].queue = 0.0
-    districts[i].stress = 0.0
-    districts[i].alarm_t = 0.0
+  for district in districts {
+    district.active = false
+    district.x = 0.0
+    district.y = 0.0
+    district.queue = 0.0
+    district.stress = 0.0
+    district.alarm_t = 0.0
   }
 }
 
@@ -207,59 +207,59 @@ fn clear_groups(groups : Array[SurvivorGroup]) -> Unit {
 
 ///|
 fn clear_cracks(cracks : Array[CrackZone]) -> Unit {
-  for i in 0..<cracks.length() {
-    cracks[i].active = false
-    cracks[i].x = 0.0
-    cracks[i].y = 0.0
-    cracks[i].vx = 0.0
-    cracks[i].vy = 0.0
-    cracks[i].radius = 0.0
-    cracks[i].intensity = 0.0
-    cracks[i].life = 0.0
-    cracks[i].phase = 0.0
+  for crack in cracks {
+    crack.active = false
+    crack.x = 0.0
+    crack.y = 0.0
+    crack.vx = 0.0
+    crack.vy = 0.0
+    crack.radius = 0.0
+    crack.intensity = 0.0
+    crack.life = 0.0
+    crack.phase = 0.0
   }
 }
 
 ///|
 fn clear_dusts(dusts : Array[DustCloud]) -> Unit {
-  for i in 0..<dusts.length() {
-    dusts[i].active = false
-    dusts[i].x = 0.0
-    dusts[i].y = 0.0
-    dusts[i].vx = 0.0
-    dusts[i].vy = 0.0
-    dusts[i].radius = 0.0
-    dusts[i].density = 0.0
-    dusts[i].life = 0.0
-    dusts[i].phase = 0.0
+  for dust in dusts {
+    dust.active = false
+    dust.x = 0.0
+    dust.y = 0.0
+    dust.vx = 0.0
+    dust.vy = 0.0
+    dust.radius = 0.0
+    dust.density = 0.0
+    dust.life = 0.0
+    dust.phase = 0.0
   }
 }
 
 ///|
 fn clear_obstacles(obstacles : Array[Obstacle]) -> Unit {
-  for i in 0..<obstacles.length() {
-    obstacles[i].active = false
-    obstacles[i].x = 0.0
-    obstacles[i].y = 0.0
-    obstacles[i].vx = 0.0
-    obstacles[i].vy = 0.0
-    obstacles[i].size = 0.0
-    obstacles[i].hard = 0.0
-    obstacles[i].spin = 0.0
+  for obstacle in obstacles {
+    obstacle.active = false
+    obstacle.x = 0.0
+    obstacle.y = 0.0
+    obstacle.vx = 0.0
+    obstacle.vy = 0.0
+    obstacle.size = 0.0
+    obstacle.hard = 0.0
+    obstacle.spin = 0.0
   }
 }
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -270,14 +270,14 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
+    part.active = true
+    part.x = x
+    part.y = y
 
     let a : Float = randf(0.0, 6.28318)
     let s : Float = if kind == 0 {
@@ -290,9 +290,9 @@ fn add_particle(
       randf(14.0, 90.0)
     }
 
-    parts[i].vx = @math.cosf(a) * s
-    parts[i].vy = @math.sinf(a) * s
-    parts[i].life = if kind == 0 {
+    part.vx = @math.cosf(a) * s
+    part.vy = @math.sinf(a) * s
+    part.life = if kind == 0 {
       randf(0.45, 1.0)
     } else if kind == 1 {
       randf(0.18, 0.52)
@@ -301,8 +301,8 @@ fn add_particle(
     } else {
       randf(0.24, 0.8)
     }
-    parts[i].size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.4) }
-    parts[i].kind = kind
+    part.size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.4) }
+    part.kind = kind
     return
   }
 }
@@ -322,32 +322,32 @@ fn burst(
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-      parts[i].vy = parts[i].vy + dt * 10.0
-    } else if parts[i].kind == 1 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.0)
-      parts[i].vy = parts[i].vy + dt * 172.0
-    } else if parts[i].kind == 2 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.6)
-      parts[i].vy = parts[i].vy - dt * 18.0
+    if part.kind == 0 {
+      part.vx = part.vx * (1.0 - dt * 0.8)
+      part.vy = part.vy + dt * 10.0
+    } else if part.kind == 1 {
+      part.vx = part.vx * (1.0 - dt * 4.0)
+      part.vy = part.vy + dt * 172.0
+    } else if part.kind == 2 {
+      part.vx = part.vx * (1.0 - dt * 2.6)
+      part.vy = part.vy - dt * 18.0
     } else {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.0)
-      parts[i].vy = parts[i].vy + dt * 42.0
+      part.vx = part.vx * (1.0 - dt * 2.0)
+      part.vy = part.vy + dt * 42.0
     }
   }
 }
@@ -452,11 +452,11 @@ fn init_obstacles(
     }
 
     let mut near_dist : Bool = false
-    for i in 0..<districts.length() {
-      if not(districts[i].active) {
+    for district in districts {
+      if not(district.active) {
         continue
       }
-      if dist2(x, y, districts[i].x, districts[i].y) < 120.0 * 120.0 {
+      if dist2(x, y, district.x, district.y) < 120.0 * 120.0 {
         near_dist = true
         break
       }
@@ -466,12 +466,12 @@ fn init_obstacles(
     }
 
     let mut overlap : Bool = false
-    for i in 0..<obstacles.length() {
-      if not(obstacles[i].active) {
+    for obstacle in obstacles {
+      if not(obstacle.active) {
         continue
       }
-      let rr : Float = obstacles[i].size + 12.0
-      if dist2(x, y, obstacles[i].x, obstacles[i].y) < rr * rr {
+      let rr : Float = obstacle.size + 12.0
+      if dist2(x, y, obstacle.x, obstacle.y) < rr * rr {
         overlap = true
         break
       }
@@ -503,39 +503,39 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i in 0..<groups.length() {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      groups[i].x = world_l + randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(6.0, 18.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_l + randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(6.0, 18.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 1 {
-      groups[i].x = world_r - randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(-18.0, -6.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_r - randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(-18.0, -6.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 2 {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_t + randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(6.0, 18.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_t + randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(6.0, 18.0)
     } else {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_b - randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(-18.0, -6.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_b - randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(-18.0, -6.0)
     }
 
-    groups[i].active = true
-    groups[i].count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
-    groups[i].panic = randf(4.0, 24.0)
-    groups[i].flare_t = randf(0.5, 1.3)
-    groups[i].id = serial
+    group.active = true
+    group.count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
+    group.panic = randf(4.0, 24.0)
+    group.flare_t = randf(0.5, 1.3)
+    group.id = serial
     return true
   }
 
@@ -551,39 +551,39 @@ fn spawn_crack(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i in 0..<cracks.length() {
-    if cracks[i].active {
+  for crack in cracks {
+    if crack.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      cracks[i].x = world_l - 84.0
-      cracks[i].y = randf(world_t + 20.0, world_b - 20.0)
-      cracks[i].vx = randf(12.0, 34.0)
-      cracks[i].vy = randf(-9.0, 9.0)
+      crack.x = world_l - 84.0
+      crack.y = randf(world_t + 20.0, world_b - 20.0)
+      crack.vx = randf(12.0, 34.0)
+      crack.vy = randf(-9.0, 9.0)
     } else if side == 1 {
-      cracks[i].x = world_r + 84.0
-      cracks[i].y = randf(world_t + 20.0, world_b - 20.0)
-      cracks[i].vx = randf(-34.0, -12.0)
-      cracks[i].vy = randf(-9.0, 9.0)
+      crack.x = world_r + 84.0
+      crack.y = randf(world_t + 20.0, world_b - 20.0)
+      crack.vx = randf(-34.0, -12.0)
+      crack.vy = randf(-9.0, 9.0)
     } else if side == 2 {
-      cracks[i].x = randf(world_l + 20.0, world_r - 20.0)
-      cracks[i].y = world_t - 84.0
-      cracks[i].vx = randf(-12.0, 12.0)
-      cracks[i].vy = randf(14.0, 30.0)
+      crack.x = randf(world_l + 20.0, world_r - 20.0)
+      crack.y = world_t - 84.0
+      crack.vx = randf(-12.0, 12.0)
+      crack.vy = randf(14.0, 30.0)
     } else {
-      cracks[i].x = randf(world_l + 20.0, world_r - 20.0)
-      cracks[i].y = world_b + 84.0
-      cracks[i].vx = randf(-12.0, 12.0)
-      cracks[i].vy = randf(-30.0, -14.0)
+      crack.x = randf(world_l + 20.0, world_r - 20.0)
+      crack.y = world_b + 84.0
+      crack.vx = randf(-12.0, 12.0)
+      crack.vy = randf(-30.0, -14.0)
     }
 
-    cracks[i].active = true
-    cracks[i].radius = randf(70.0, 146.0)
-    cracks[i].intensity = randf(0.46, 1.14) + Float::from_int(tier) * 0.04
-    cracks[i].life = randf(20.0, 42.0)
-    cracks[i].phase = randf(0.0, 20.0)
+    crack.active = true
+    crack.radius = randf(70.0, 146.0)
+    crack.intensity = randf(0.46, 1.14) + Float::from_int(tier) * 0.04
+    crack.life = randf(20.0, 42.0)
+    crack.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -597,20 +597,20 @@ fn spawn_dust(
   y : Float,
   intensity : Float,
 ) -> Bool {
-  for i in 0..<dusts.length() {
-    if dusts[i].active {
+  for dust in dusts {
+    if dust.active {
       continue
     }
 
-    dusts[i].active = true
-    dusts[i].x = x + randf(-22.0, 22.0)
-    dusts[i].y = y + randf(-22.0, 22.0)
-    dusts[i].vx = randf(-16.0, 16.0)
-    dusts[i].vy = randf(-32.0, -8.0)
-    dusts[i].radius = randf(28.0, 74.0)
-    dusts[i].density = randf(0.4, 1.0) + intensity * 0.2
-    dusts[i].life = randf(4.0, 10.0)
-    dusts[i].phase = randf(0.0, 20.0)
+    dust.active = true
+    dust.x = x + randf(-22.0, 22.0)
+    dust.y = y + randf(-22.0, 22.0)
+    dust.vx = randf(-16.0, 16.0)
+    dust.vy = randf(-32.0, -8.0)
+    dust.radius = randf(28.0, 74.0)
+    dust.density = randf(0.4, 1.0) + intensity * 0.2
+    dust.life = randf(4.0, 10.0)
+    dust.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -620,8 +620,8 @@ fn spawn_dust(
 ///|
 fn active_groups(groups : Array[SurvivorGroup]) -> Int {
   let mut n : Int = 0
-  for i in 0..<groups.length() {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       n = n + 1
     }
   }
@@ -631,8 +631,8 @@ fn active_groups(groups : Array[SurvivorGroup]) -> Int {
 ///|
 fn active_cracks(cracks : Array[CrackZone]) -> Int {
   let mut n : Int = 0
-  for i in 0..<cracks.length() {
-    if cracks[i].active {
+  for crack in cracks {
+    if crack.active {
       n = n + 1
     }
   }
@@ -642,8 +642,8 @@ fn active_cracks(cracks : Array[CrackZone]) -> Int {
 ///|
 fn active_critical(groups : Array[SurvivorGroup]) -> Int {
   let mut n : Int = 0
-  for i in 0..<groups.length() {
-    if groups[i].active && groups[i].panic >= 70.0 {
+  for group in groups {
+    if group.active && group.panic >= 70.0 {
       n = n + 1
     }
   }
@@ -653,9 +653,9 @@ fn active_critical(groups : Array[SurvivorGroup]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[SurvivorGroup]) -> Float {
   let mut best : Float = 0.0
-  for i in 0..<groups.length() {
-    if groups[i].active && groups[i].panic > best {
-      best = groups[i].panic
+  for group in groups {
+    if group.active && group.panic > best {
+      best = group.panic
     }
   }
   best
@@ -664,9 +664,9 @@ fn peak_group_panic(groups : Array[SurvivorGroup]) -> Float {
 ///|
 fn peak_crack_intensity(cracks : Array[CrackZone]) -> Float {
   let mut best : Float = 0.0
-  for i in 0..<cracks.length() {
-    if cracks[i].active && cracks[i].intensity > best {
-      best = cracks[i].intensity
+  for crack in cracks {
+    if crack.active && crack.intensity > best {
+      best = crack.intensity
     }
   }
   best
@@ -682,43 +682,43 @@ fn update_cracks(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i in 0..<cracks.length() {
-    if not(cracks[i].active) {
+  for crack in cracks {
+    if not(crack.active) {
       continue
     }
 
-    cracks[i].life = cracks[i].life - dt
-    if cracks[i].life <= 0.0 {
-      cracks[i].active = false
+    crack.life = crack.life - dt
+    if crack.life <= 0.0 {
+      crack.active = false
       continue
     }
 
-    cracks[i].phase = cracks[i].phase + dt * (0.8 + cracks[i].intensity * 0.35)
-    let pulse : Float = 0.88 + 0.16 * (@math.sinf(cracks[i].phase) * 0.5 + 0.5)
+    crack.phase = crack.phase + dt * (0.8 + crack.intensity * 0.35)
+    let pulse : Float = 0.88 + 0.16 * (@math.sinf(crack.phase) * 0.5 + 0.5)
 
-    cracks[i].x = cracks[i].x + cracks[i].vx * dt * pulse
-    cracks[i].y = cracks[i].y + cracks[i].vy * dt * pulse
+    crack.x = crack.x + crack.vx * dt * pulse
+    crack.y = crack.y + crack.vy * dt * pulse
 
-    if cracks[i].x < world_l - 160.0 {
-      cracks[i].x = world_l - 160.0
-      cracks[i].vx = absf(cracks[i].vx)
-    } else if cracks[i].x > world_r + 160.0 {
-      cracks[i].x = world_r + 160.0
-      cracks[i].vx = -absf(cracks[i].vx)
+    if crack.x < world_l - 160.0 {
+      crack.x = world_l - 160.0
+      crack.vx = absf(crack.vx)
+    } else if crack.x > world_r + 160.0 {
+      crack.x = world_r + 160.0
+      crack.vx = -absf(crack.vx)
     }
 
-    if cracks[i].y < world_t - 160.0 {
-      cracks[i].y = world_t - 160.0
-      cracks[i].vy = absf(cracks[i].vy)
-    } else if cracks[i].y > world_b + 160.0 {
-      cracks[i].y = world_b + 160.0
-      cracks[i].vy = -absf(cracks[i].vy)
+    if crack.y < world_t - 160.0 {
+      crack.y = world_t - 160.0
+      crack.vy = absf(crack.vy)
+    } else if crack.y > world_b + 160.0 {
+      crack.y = world_b + 160.0
+      crack.vy = -absf(crack.vy)
     }
 
-    cracks[i].intensity = clampf(cracks[i].intensity + dt * 0.06, 0.2, 2.2)
+    crack.intensity = clampf(crack.intensity + dt * 0.06, 0.2, 2.2)
 
     if @raylib.get_random_value(0, 100) < 14 {
-      ignore(spawn_dust(dusts, cracks[i].x, cracks[i].y, cracks[i].intensity))
+      ignore(spawn_dust(dusts, crack.x, crack.y, crack.intensity))
     }
   }
 }
@@ -732,25 +732,25 @@ fn update_dusts(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i in 0..<dusts.length() {
-    if not(dusts[i].active) {
+  for dust in dusts {
+    if not(dust.active) {
       continue
     }
 
-    dusts[i].life = dusts[i].life - dt
-    if dusts[i].life <= 0.0 {
-      dusts[i].active = false
+    dust.life = dust.life - dt
+    if dust.life <= 0.0 {
+      dust.active = false
       continue
     }
 
-    dusts[i].phase = dusts[i].phase + dt * (0.7 + dusts[i].density * 0.3)
-    let pulse : Float = 0.82 + 0.22 * (@math.sinf(dusts[i].phase) * 0.5 + 0.5)
+    dust.phase = dust.phase + dt * (0.7 + dust.density * 0.3)
+    let pulse : Float = 0.82 + 0.22 * (@math.sinf(dust.phase) * 0.5 + 0.5)
 
-    dusts[i].x = dusts[i].x + dusts[i].vx * dt * pulse
-    dusts[i].y = dusts[i].y + dusts[i].vy * dt * pulse
+    dust.x = dust.x + dust.vx * dt * pulse
+    dust.y = dust.y + dust.vy * dt * pulse
 
-    dusts[i].x = clampf(dusts[i].x, world_l - 120.0, world_r + 120.0)
-    dusts[i].y = clampf(dusts[i].y, world_t - 140.0, world_b + 60.0)
+    dust.x = clampf(dust.x, world_l - 120.0, world_r + 120.0)
+    dust.y = clampf(dust.y, world_t - 140.0, world_b + 60.0)
   }
 }
 
@@ -763,35 +763,35 @@ fn update_obstacles(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i in 0..<obstacles.length() {
-    if not(obstacles[i].active) {
+  for obstacle in obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    obstacles[i].spin = obstacles[i].spin + dt * 0.7
+    obstacle.spin = obstacle.spin + dt * 0.7
 
     let drift : Float = 0.84 +
-      0.22 * (@math.sinf(obstacles[i].spin) * 0.5 + 0.5)
-    obstacles[i].x = obstacles[i].x + obstacles[i].vx * dt * drift
-    obstacles[i].y = obstacles[i].y + obstacles[i].vy * dt * drift
+      0.22 * (@math.sinf(obstacle.spin) * 0.5 + 0.5)
+    obstacle.x = obstacle.x + obstacle.vx * dt * drift
+    obstacle.y = obstacle.y + obstacle.vy * dt * drift
 
-    if obstacles[i].x < world_l + obstacles[i].size {
-      obstacles[i].x = world_l + obstacles[i].size
-      obstacles[i].vx = absf(obstacles[i].vx) * randf(0.66, 1.1)
-    } else if obstacles[i].x > world_r - obstacles[i].size {
-      obstacles[i].x = world_r - obstacles[i].size
-      obstacles[i].vx = -absf(obstacles[i].vx) * randf(0.66, 1.1)
+    if obstacle.x < world_l + obstacle.size {
+      obstacle.x = world_l + obstacle.size
+      obstacle.vx = absf(obstacle.vx) * randf(0.66, 1.1)
+    } else if obstacle.x > world_r - obstacle.size {
+      obstacle.x = world_r - obstacle.size
+      obstacle.vx = -absf(obstacle.vx) * randf(0.66, 1.1)
     }
 
-    if obstacles[i].y < world_t + obstacles[i].size {
-      obstacles[i].y = world_t + obstacles[i].size
-      obstacles[i].vy = absf(obstacles[i].vy) * randf(0.66, 1.1)
-    } else if obstacles[i].y > world_b - obstacles[i].size {
-      obstacles[i].y = world_b - obstacles[i].size
-      obstacles[i].vy = -absf(obstacles[i].vy) * randf(0.66, 1.1)
+    if obstacle.y < world_t + obstacle.size {
+      obstacle.y = world_t + obstacle.size
+      obstacle.vy = absf(obstacle.vy) * randf(0.66, 1.1)
+    } else if obstacle.y > world_b - obstacle.size {
+      obstacle.y = world_b - obstacle.size
+      obstacle.vy = -absf(obstacle.vy) * randf(0.66, 1.1)
     }
 
-    obstacles[i].hard = maxf(8.0, obstacles[i].hard - dt * 0.02)
+    obstacle.hard = maxf(8.0, obstacle.hard - dt * 0.02)
   }
 }
 
@@ -811,74 +811,74 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i in 0..<groups.length() {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    groups[i].x = groups[i].x + groups[i].drift_x * dt
-    groups[i].y = groups[i].y + groups[i].drift_y * dt
+    group.x = group.x + group.drift_x * dt
+    group.y = group.y + group.drift_y * dt
 
-    if groups[i].x < world_l + 18.0 || groups[i].x > world_r - 18.0 {
-      groups[i].drift_x = -groups[i].drift_x
-      groups[i].x = clampf(groups[i].x, world_l + 18.0, world_r - 18.0)
+    if group.x < world_l + 18.0 || group.x > world_r - 18.0 {
+      group.drift_x = -group.drift_x
+      group.x = clampf(group.x, world_l + 18.0, world_r - 18.0)
     }
-    if groups[i].y < world_t + 18.0 || groups[i].y > world_b - 18.0 {
-      groups[i].drift_y = -groups[i].drift_y
-      groups[i].y = clampf(groups[i].y, world_t + 18.0, world_b - 18.0)
+    if group.y < world_t + 18.0 || group.y > world_b - 18.0 {
+      group.drift_y = -group.drift_y
+      group.y = clampf(group.y, world_t + 18.0, world_b - 18.0)
     }
 
-    groups[i].flare_t = groups[i].flare_t - dt
-    if groups[i].flare_t <= 0.0 {
-      groups[i].flare_t = randf(0.6, 1.4)
+    group.flare_t = group.flare_t - dt
+    if group.flare_t <= 0.0 {
+      group.flare_t = randf(0.6, 1.4)
     }
 
     let mut panic_gain : Float = dt * 2.1
 
-    let safe_d2 : Float = dist2(groups[i].x, groups[i].y, safe_x, safe_y)
+    let safe_d2 : Float = dist2(group.x, group.y, safe_x, safe_y)
     if safe_d2 > 390.0 * 390.0 {
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j in 0..<cracks.length() {
-      if not(cracks[j].active) {
+    for crack in cracks {
+      if not(crack.active) {
         continue
       }
 
-      let rr : Float = cracks[j].radius
+      let rr : Float = crack.radius
       let d2v : Float = dist2(
-        groups[i].x,
-        groups[i].y,
-        cracks[j].x,
-        cracks[j].y,
+        group.x,
+        group.y,
+        crack.x,
+        crack.y,
       )
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * cracks[j].intensity * (0.9 + ratio * 1.8)
+        panic_gain = panic_gain + dt * crack.intensity * (0.9 + ratio * 1.8)
       }
     }
 
-    for j in 0..<dusts.length() {
-      if not(dusts[j].active) {
+    for dust in dusts {
+      if not(dust.active) {
         continue
       }
 
-      let rr : Float = dusts[j].radius
-      let d2v : Float = dist2(groups[i].x, groups[i].y, dusts[j].x, dusts[j].y)
+      let rr : Float = dust.radius
+      let d2v : Float = dist2(group.x, group.y, dust.x, dust.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * dusts[j].density * (0.4 + ratio * 1.1)
+        panic_gain = panic_gain + dt * dust.density * (0.4 + ratio * 1.1)
       }
     }
 
-    groups[i].panic = groups[i].panic + panic_gain
-    if groups[i].panic > 100.0 {
-      lost = lost + groups[i].count
-      groups[i].active = false
+    group.panic = group.panic + panic_gain
+    if group.panic > 100.0 {
+      lost = lost + group.count
+      group.active = false
       continue
     }
 
-    panic_sum = panic_sum + groups[i].panic
+    panic_sum = panic_sum + group.panic
   }
 
   (lost, panic_sum)
@@ -896,12 +896,12 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut groups_hit : Int = 0
 
-    for i in 0..<groups.length() {
-      if not(groups[i].active) || groups[i].count <= 0 {
+    for group in groups {
+      if not(group.active) || group.count <= 0 {
         continue
       }
 
-      let d2v : Float = dist2(player.x, player.y, groups[i].x, groups[i].y)
+      let d2v : Float = dist2(player.x, player.y, group.x, group.y)
       if d2v > 84.0 * 84.0 {
         continue
       }
@@ -911,21 +911,21 @@ fn rescue_groups(
         break
       }
 
-      let take : Int = mini(groups[i].count, mini(cap_left, 8))
+      let take : Int = mini(group.count, mini(cap_left, 8))
       if take <= 0 {
         continue
       }
 
       player.onboard = player.onboard + take
-      groups[i].count = groups[i].count - take
-      groups[i].panic = maxf(0.0, groups[i].panic - Float::from_int(take) * 2.8)
+      group.count = group.count - take
+      group.panic = maxf(0.0, group.panic - Float::from_int(take) * 2.8)
       rescued_people = rescued_people + take
       groups_hit = groups_hit + 1
 
-      burst(parts, groups[i].x, groups[i].y, 9 + take / 2, 2)
+      burst(parts, group.x, group.y, 9 + take / 2, 2)
 
-      if groups[i].count <= 0 {
-        groups[i].active = false
+      if group.count <= 0 {
+        group.active = false
       }
     }
 
@@ -949,29 +949,29 @@ fn stabilize_cracks(
     let mut hits : Int = 0
     let mut reduction : Float = 0.0
 
-    for i in 0..<cracks.length() {
-      if not(cracks[i].active) {
+    for crack in cracks {
+      if not(crack.active) {
         continue
       }
 
-      let rr : Float = cracks[i].radius + 70.0
-      let d2v : Float = dist2(player.x, player.y, cracks[i].x, cracks[i].y)
+      let rr : Float = crack.radius + 70.0
+      let d2v : Float = dist2(player.x, player.y, crack.x, crack.y)
       if d2v > rr * rr {
         continue
       }
 
       let cut : Float = 0.24 + Float::from_int(player.medkits) * 0.02
-      cracks[i].intensity = maxf(0.12, cracks[i].intensity - cut)
-      cracks[i].radius = maxf(28.0, cracks[i].radius - 8.0)
+      crack.intensity = maxf(0.12, crack.intensity - cut)
+      crack.radius = maxf(28.0, crack.radius - 8.0)
       player.medkits = player.medkits - 1
       hits = hits + 1
       reduction = reduction + cut
 
-      burst(parts, cracks[i].x, cracks[i].y, 12, 3)
+      burst(parts, crack.x, crack.y, 12, 3)
 
-      if cracks[i].intensity <= 0.14 {
-        cracks[i].active = false
-        burst(parts, cracks[i].x, cracks[i].y, 16, 2)
+      if crack.intensity <= 0.14 {
+        crack.active = false
+        burst(parts, crack.x, crack.y, 16, 2)
       }
 
       if player.medkits <= 0 {
@@ -999,17 +999,17 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i in 0..<groups.length() {
-    if not(groups[i].active) || groups[i].panic < 30.0 {
+  for group in groups {
+    if not(group.active) || group.panic < 30.0 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, groups[i].x, groups[i].y)
+    let d2v : Float = dist2(x, y, group.x, group.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = groups[i].x
-      by = groups[i].y
-      bp = groups[i].panic
+      bx = group.x
+      by = group.y
+      bp = group.panic
       found = true
     }
   }
@@ -1029,17 +1029,17 @@ fn nearest_hot_crack(
   let mut bi : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i in 0..<cracks.length() {
-    if not(cracks[i].active) || cracks[i].intensity < 0.8 {
+  for crack in cracks {
+    if not(crack.active) || crack.intensity < 0.8 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, cracks[i].x, cracks[i].y)
+    let d2v : Float = dist2(x, y, crack.x, crack.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = cracks[i].x
-      by = cracks[i].y
-      bi = cracks[i].intensity
+      bx = crack.x
+      by = crack.y
+      bi = crack.intensity
       found = true
     }
   }
@@ -1215,50 +1215,50 @@ fn draw_districts(districts : Array[District], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[SurvivorGroup], t : Float) -> Unit {
-  for i in 0..<groups.length() {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    let p01 : Float = clampf(groups[i].panic / 100.0, 0.0, 1.0)
+    let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
     let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(groups[i].id) * 0.3,
+        t * 6.0 + Float::from_int(group.id) * 0.3,
       ) *
       0.5 +
       0.5
 
-    let col : @raylib.Color = if groups[i].panic >= 72.0 {
+    let col : @raylib.Color = if group.panic >= 72.0 {
       @raylib.Color::new(248, 154, 132, 252)
     } else {
       @raylib.Color::new(246, 226, 194, 248)
     }
 
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       11.0 + flare * 3.0,
       col,
     )
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       4.0,
       @raylib.Color::new(252, 246, 236, 246),
     )
 
     @raylib.draw_text(
-      "G\{groups[i].id} N:\{groups[i].count} P:\{groups[i].panic.to_int()}",
-      (groups[i].x - 54.0).to_int(),
-      (groups[i].y + 14.0).to_int(),
+      "G\{group.id} N:\{group.count} P:\{group.panic.to_int()}",
+      (group.x - 54.0).to_int(),
+      (group.y + 14.0).to_int(),
       16,
       @raylib.Color::new(246, 234, 220, 236),
     )
 
-    if groups[i].flare_t < 0.18 {
+    if group.flare_t < 0.18 {
       let rr : Float = 18.0 + p01 * 42.0
       @raylib.draw_circle(
-        groups[i].x.to_int(),
-        groups[i].y.to_int(),
+        group.x.to_int(),
+        group.y.to_int(),
         rr,
         @raylib.Color::new(252, 204, 136, 66),
       )
@@ -1268,40 +1268,40 @@ fn draw_groups(groups : Array[SurvivorGroup], t : Float) -> Unit {
 
 ///|
 fn draw_cracks(cracks : Array[CrackZone], t : Float) -> Unit {
-  for i in 0..<cracks.length() {
-    if not(cracks[i].active) {
+  for crack in cracks {
+    if not(crack.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + cracks[i].phase) * 0.5 + 0.5)
-    let r0 : Float = cracks[i].radius * pulse
-    let r1 : Float = cracks[i].radius * (0.58 + pulse * 0.18)
+      0.2 * (@math.sinf(t * 1.8 + crack.phase) * 0.5 + 0.5)
+    let r0 : Float = crack.radius * pulse
+    let r1 : Float = crack.radius * (0.58 + pulse * 0.18)
 
-    let a0 : Int = 24 + (cracks[i].intensity * 42.0).to_int()
-    let a1 : Int = 12 + (cracks[i].intensity * 24.0).to_int()
+    let a0 : Int = 24 + (crack.intensity * 42.0).to_int()
+    let a1 : Int = 12 + (crack.intensity * 24.0).to_int()
 
     @raylib.draw_circle(
-      cracks[i].x.to_int(),
-      cracks[i].y.to_int(),
+      crack.x.to_int(),
+      crack.y.to_int(),
       r0,
       @raylib.Color::new(196, 110, 70, a0),
     )
     @raylib.draw_circle(
-      cracks[i].x.to_int(),
-      cracks[i].y.to_int(),
+      crack.x.to_int(),
+      crack.y.to_int(),
       r1,
       @raylib.Color::new(238, 176, 116, a1),
     )
 
-    let spark_x : Float = cracks[i].x +
-      @math.sinf(t * 5.0 + cracks[i].phase) * cracks[i].radius * 0.24
-    let spark_y : Float = cracks[i].y +
-      @math.cosf(t * 4.6 + cracks[i].phase * 0.8) * cracks[i].radius * 0.24
+    let spark_x : Float = crack.x +
+      @math.sinf(t * 5.0 + crack.phase) * crack.radius * 0.24
+    let spark_y : Float = crack.y +
+      @math.cosf(t * 4.6 + crack.phase * 0.8) * crack.radius * 0.24
     @raylib.draw_circle(
       spark_x.to_int(),
       spark_y.to_int(),
-      3.0 + cracks[i].intensity * 2.0,
+      3.0 + crack.intensity * 2.0,
       @raylib.Color::new(255, 238, 180, 208),
     )
   }
@@ -1309,28 +1309,28 @@ fn draw_cracks(cracks : Array[CrackZone], t : Float) -> Unit {
 
 ///|
 fn draw_dusts(dusts : Array[DustCloud], t : Float) -> Unit {
-  for i in 0..<dusts.length() {
-    if not(dusts[i].active) {
+  for dust in dusts {
+    if not(dust.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + dusts[i].phase) * 0.5 + 0.5)
-    let r0 : Float = dusts[i].radius * pulse
-    let r1 : Float = dusts[i].radius * (0.62 + pulse * 0.14)
+      0.2 * (@math.sinf(t * 1.8 + dust.phase) * 0.5 + 0.5)
+    let r0 : Float = dust.radius * pulse
+    let r1 : Float = dust.radius * (0.62 + pulse * 0.14)
 
-    let a0 : Int = 20 + (dusts[i].density * 56.0).to_int()
-    let a1 : Int = 10 + (dusts[i].density * 30.0).to_int()
+    let a0 : Int = 20 + (dust.density * 56.0).to_int()
+    let a1 : Int = 10 + (dust.density * 30.0).to_int()
 
     @raylib.draw_circle(
-      dusts[i].x.to_int(),
-      dusts[i].y.to_int(),
+      dust.x.to_int(),
+      dust.y.to_int(),
       r0,
       @raylib.Color::new(98, 96, 92, a0),
     )
     @raylib.draw_circle(
-      dusts[i].x.to_int(),
-      dusts[i].y.to_int(),
+      dust.x.to_int(),
+      dust.y.to_int(),
       r1,
       @raylib.Color::new(138, 132, 124, a1),
     )
@@ -1339,28 +1339,28 @@ fn draw_dusts(dusts : Array[DustCloud], t : Float) -> Unit {
 
 ///|
 fn draw_obstacles(obstacles : Array[Obstacle], t : Float) -> Unit {
-  for i in 0..<obstacles.length() {
-    if not(obstacles[i].active) {
+  for obstacle in obstacles {
+    if not(obstacle.active) {
       continue
     }
 
-    let wob : Float = @math.sinf(t * 4.0 + obstacles[i].spin) * 0.5 + 0.5
-    let rr : Float = obstacles[i].size * (0.88 + wob * 0.2)
-    let h01 : Float = clampf(obstacles[i].hard / 100.0, 0.0, 1.0)
+    let wob : Float = @math.sinf(t * 4.0 + obstacle.spin) * 0.5 + 0.5
+    let rr : Float = obstacle.size * (0.88 + wob * 0.2)
+    let h01 : Float = clampf(obstacle.hard / 100.0, 0.0, 1.0)
 
     let r : Int = 92 + (h01 * 54.0).to_int()
     let g : Int = 88 + (h01 * 38.0).to_int()
     let b : Int = 74 + (h01 * 22.0).to_int()
 
     @raylib.draw_circle(
-      obstacles[i].x.to_int(),
-      obstacles[i].y.to_int(),
+      obstacle.x.to_int(),
+      obstacle.y.to_int(),
       rr + 1.8,
       @raylib.Color::new(46, 70, 92, 174),
     )
     @raylib.draw_circle(
-      obstacles[i].x.to_int(),
-      obstacles[i].y.to_int(),
+      obstacle.x.to_int(),
+      obstacle.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -1452,25 +1452,25 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(194, 226, 252, 184)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(248, 194, 146, 220)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(160, 210, 250, 214)
     } else {
       @raylib.Color::new(248, 236, 190, 214)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -2027,36 +2027,36 @@ fn main {
       let mut crack_drag : Float = 0.0
       let mut battery_mul : Float = 1.0
       let mut dust_damage : Float = 0.0
-      for i in 0..<cracks.length() {
-        if not(cracks[i].active) {
+      for crack in cracks {
+        if not(crack.active) {
           continue
         }
 
-        let rr : Float = cracks[i].radius
-        let d2v : Float = dist2(player.x, player.y, cracks[i].x, cracks[i].y)
+        let rr : Float = crack.radius
+        let d2v : Float = dist2(player.x, player.y, crack.x, crack.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          crack_drag = crack_drag + cracks[i].intensity * (0.2 + ratio * 0.56)
+          crack_drag = crack_drag + crack.intensity * (0.2 + ratio * 0.56)
           battery_mul = battery_mul +
-            cracks[i].intensity * (0.16 + ratio * 0.48)
+            crack.intensity * (0.16 + ratio * 0.48)
           dust_damage = dust_damage +
-            dt * cracks[i].intensity * (0.42 + ratio * 1.0)
+            dt * crack.intensity * (0.42 + ratio * 1.0)
         }
       }
 
-      for i in 0..<dusts.length() {
-        if not(dusts[i].active) {
+      for dust in dusts {
+        if not(dust.active) {
           continue
         }
 
-        let rr : Float = dusts[i].radius
-        let d2v : Float = dist2(player.x, player.y, dusts[i].x, dusts[i].y)
+        let rr : Float = dust.radius
+        let d2v : Float = dist2(player.x, player.y, dust.x, dust.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          crack_drag = crack_drag + dusts[i].density * (0.14 + ratio * 0.34)
-          battery_mul = battery_mul + dusts[i].density * (0.12 + ratio * 0.3)
+          crack_drag = crack_drag + dust.density * (0.14 + ratio * 0.34)
+          battery_mul = battery_mul + dust.density * (0.12 + ratio * 0.3)
           dust_damage = dust_damage +
-            dt * dusts[i].density * (0.3 + ratio * 0.7)
+            dt * dust.density * (0.3 + ratio * 0.7)
         }
       }
 
@@ -2202,22 +2202,22 @@ fn main {
 
       // Obstacle collision damage
       let mut collision_dmg : Float = 0.0
-      for i in 0..<obstacles.length() {
-        if not(obstacles[i].active) {
+      for obstacle in obstacles {
+        if not(obstacle.active) {
           continue
         }
 
-        let rr : Float = obstacles[i].size + 11.0
+        let rr : Float = obstacle.size + 11.0
         let d2v : Float = dist2(
           player.x,
           player.y,
-          obstacles[i].x,
-          obstacles[i].y,
+          obstacle.x,
+          obstacle.y,
         )
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
-          let nx : Float = (player.x - obstacles[i].x) / d
-          let ny : Float = (player.y - obstacles[i].y) / d
+          let nx : Float = (player.x - obstacle.x) / d
+          let ny : Float = (player.y - obstacle.y) / d
           let push : Float = (rr - d) * dt * 24.0
 
           player.x = player.x + nx * push
@@ -2225,77 +2225,77 @@ fn main {
 
           if sp2 > 70.0 {
             collision_dmg = collision_dmg +
-              dt * (1.0 + obstacles[i].hard * 0.018)
+              dt * (1.0 + obstacle.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
       }
 
       // District queues rise over time, especially near cracks/dust
-      for i in 0..<districts.length() {
-        if not(districts[i].active) {
+      for district in districts {
+        if not(district.active) {
           continue
         }
 
-        if districts[i].alarm_t > 0.0 {
-          districts[i].alarm_t = districts[i].alarm_t - dt
-          if districts[i].alarm_t < 0.0 {
-            districts[i].alarm_t = 0.0
+        if district.alarm_t > 0.0 {
+          district.alarm_t = district.alarm_t - dt
+          if district.alarm_t < 0.0 {
+            district.alarm_t = 0.0
           }
         }
 
         let mut crack_load : Float = 0.0
-        for j in 0..<cracks.length() {
-          if not(cracks[j].active) {
+        for crack in cracks {
+          if not(crack.active) {
             continue
           }
 
-          let rr : Float = cracks[j].radius
+          let rr : Float = crack.radius
           let d2v : Float = dist2(
-            districts[i].x,
-            districts[i].y,
-            cracks[j].x,
-            cracks[j].y,
+            district.x,
+            district.y,
+            crack.x,
+            crack.y,
           )
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            crack_load = crack_load + cracks[j].intensity * (0.4 + ratio * 1.0)
+            crack_load = crack_load + crack.intensity * (0.4 + ratio * 1.0)
           }
         }
 
-        for j in 0..<dusts.length() {
-          if not(dusts[j].active) {
+        for dust in dusts {
+          if not(dust.active) {
             continue
           }
 
-          let rr : Float = dusts[j].radius
+          let rr : Float = dust.radius
           let d2v : Float = dist2(
-            districts[i].x,
-            districts[i].y,
-            dusts[j].x,
-            dusts[j].y,
+            district.x,
+            district.y,
+            dust.x,
+            dust.y,
           )
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            crack_load = crack_load + dusts[j].density * (0.2 + ratio * 0.7)
+            crack_load = crack_load + dust.density * (0.2 + ratio * 0.7)
           }
         }
 
-        districts[i].stress = clampf(
-          districts[i].stress + dt * (0.9 + crack_load * 2.2),
+        district.stress = clampf(
+          district.stress + dt * (0.9 + crack_load * 2.2),
           0.0,
           100.0,
         )
-        districts[i].queue = districts[i].queue +
+        district.queue = district.queue +
           dt * (1.6 + crack_load * 1.4 + Float::from_int(tier) * 0.2)
 
-        if districts[i].queue > 100.0 {
-          districts[i].queue = 74.0 + randf(0.0, 10.0)
-          districts[i].alarm_t = 1.2
+        if district.queue > 100.0 {
+          district.queue = 74.0 + randf(0.0, 10.0)
+          district.alarm_t = 1.2
           lost_people = lost_people + 3
-          msg = "District D\{districts[i].id} overwhelmed"
+          msg = "District D\{district.id} overwhelmed"
           msg_t = 0.85
-          burst(parts, districts[i].x, districts[i].y, 14, 1)
+          burst(parts, district.x, district.y, 14, 1)
         }
       }
 

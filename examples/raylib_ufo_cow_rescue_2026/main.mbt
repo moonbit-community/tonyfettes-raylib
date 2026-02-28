@@ -153,66 +153,66 @@ fn randf(lo : Float, hi : Float) -> Float {
 
 ///|
 fn clear_cows(cows : Array[Cow]) -> Unit {
-  for i in 0..<cows.length() {
-    cows[i].active = false
-    cows[i].x = 0.0
-    cows[i].y = 0.0
-    cows[i].vx = 0.0
-    cows[i].state = 0
-    cows[i].t = 0.0
-    cows[i].panic_t = 0.0
+  for cow in cows {
+    cow.active = false
+    cow.x = 0.0
+    cow.y = 0.0
+    cow.vx = 0.0
+    cow.state = 0
+    cow.t = 0.0
+    cow.panic_t = 0.0
   }
 }
 
 ///|
 fn clear_farmers(farmers : Array[Farmer]) -> Unit {
-  for i in 0..<farmers.length() {
-    farmers[i].active = false
-    farmers[i].x = 0.0
-    farmers[i].y = 0.0
-    farmers[i].vx = 0.0
-    farmers[i].hp = 0.0
-    farmers[i].fire_cd = 0.0
-    farmers[i].panic_t = 0.0
+  for farmer in farmers {
+    farmer.active = false
+    farmer.x = 0.0
+    farmer.y = 0.0
+    farmer.vx = 0.0
+    farmer.hp = 0.0
+    farmer.fire_cd = 0.0
+    farmer.panic_t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].active = false
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].dmg = 0.0
-    bullets[i].life = 0.0
+  for bullet in bullets {
+    bullet.active = false
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.dmg = 0.0
+    bullet.life = 0.0
   }
 }
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i in 0..<items.length() {
-    items[i].active = false
-    items[i].x = 0.0
-    items[i].y = 0.0
-    items[i].kind = 0
-    items[i].t = 0.0
+  for item in items {
+    item.active = false
+    item.x = 0.0
+    item.y = 0.0
+    item.kind = 0
+    item.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -225,20 +225,20 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<parts.length() {
+  for part in parts {
     if done {
       continue
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(18, 74)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(18, 74)) / 100.0
+      part.kind = kind
       done = true
     }
   }
@@ -665,14 +665,14 @@ fn main {
         msg_t = 0.7
         burst(particles, ufo.x, ufo.y, 28, 0.30, 2)
 
-        for i in 0..<farmers.length() {
-          if farmers[i].active &&
-            dist2(ufo.x, ufo.y, farmers[i].x, farmers[i].y) <= 180.0 * 180.0 {
-            farmers[i].hp = farmers[i].hp -
+        for farmer in farmers {
+          if farmer.active &&
+            dist2(ufo.x, ufo.y, farmer.x, farmer.y) <= 180.0 * 180.0 {
+            farmer.hp = farmer.hp -
               (36.0 + Float::from_int(level) * 2.0)
-            farmers[i].panic_t = 1.1
-            if farmers[i].hp <= 0.0 {
-              farmers[i].active = false
+            farmer.panic_t = 1.1
+            if farmer.hp <= 0.0 {
+              farmer.active = false
               kills = kills + 1
               ufo.score = ufo.score + 86 + ufo.combo * 4
               ufo.combo = ufo.combo + 1
@@ -680,10 +680,10 @@ fn main {
           }
         }
 
-        for i in 0..<bullets.length() {
-          if bullets[i].active &&
-            dist2(ufo.x, ufo.y, bullets[i].x, bullets[i].y) <= 170.0 * 170.0 {
-            bullets[i].active = false
+        for bullet in bullets {
+          if bullet.active &&
+            dist2(ufo.x, ufo.y, bullet.x, bullet.y) <= 170.0 * 170.0 {
+            bullet.active = false
           }
         }
       }
@@ -732,59 +732,59 @@ fn main {
         spawn_pickup_cd = randf(4.0, 7.0)
       }
 
-      for i in 0..<cows.length() {
-        if not(cows[i].active) {
+      for cow in cows {
+        if not(cow.active) {
           continue
         }
 
-        cows[i].t = cows[i].t + dt
-        cows[i].panic_t = cows[i].panic_t - dt
-        if cows[i].panic_t < 0.0 {
-          cows[i].panic_t = 0.0
+        cow.t = cow.t + dt
+        cow.panic_t = cow.panic_t - dt
+        if cow.panic_t < 0.0 {
+          cow.panic_t = 0.0
         }
 
-        if cows[i].state == 0 {
-          let drift : Float = if (cows[i].t * 3.0).to_int() % 2 == 0 {
+        if cow.state == 0 {
+          let drift : Float = if (cow.t * 3.0).to_int() % 2 == 0 {
             -1.0
           } else {
             1.0
           }
-          cows[i].vx = cows[i].vx + drift * dt * 8.0
-          cows[i].vx = clampf(cows[i].vx, -34.0, 34.0)
-          cows[i].x = cows[i].x + cows[i].vx * dt
-          cows[i].x = clampf(cows[i].x, 40.0, world_w - 40.0)
+          cow.vx = cow.vx + drift * dt * 8.0
+          cow.vx = clampf(cow.vx, -34.0, 34.0)
+          cow.x = cow.x + cow.vx * dt
+          cow.x = clampf(cow.x, 40.0, world_w - 40.0)
 
           if beam_on &&
-            dist2(cows[i].x, cows[i].y, ufo.x, ufo.y + 100.0) <= 120.0 * 120.0 {
-            cows[i].state = 1
-            cows[i].panic_t = 0.8
+            dist2(cow.x, cow.y, ufo.x, ufo.y + 100.0) <= 120.0 * 120.0 {
+            cow.state = 1
+            cow.panic_t = 0.8
           }
-        } else if cows[i].state == 1 {
+        } else if cow.state == 1 {
           let tx = ufo.x
           let ty = ufo.y + 42.0
-          let dx = tx - cows[i].x
-          let dy = ty - cows[i].y
-          cows[i].x = cows[i].x + dx * dt * 4.0
-          cows[i].y = cows[i].y + dy * dt * 4.0
+          let dx = tx - cow.x
+          let dy = ty - cow.y
+          cow.x = cow.x + dx * dt * 4.0
+          cow.y = cow.y + dy * dt * 4.0
 
           if absf(dx) < 10.0 && absf(dy) < 10.0 {
-            cows[i].state = 2
+            cow.state = 2
           }
 
           if not(beam_on) {
-            cows[i].state = 0
-            cows[i].y = ground_y
+            cow.state = 0
+            cow.y = ground_y
           }
         } else {
-          cows[i].x = ufo.x
-          cows[i].y = ufo.y + 42.0
+          cow.x = ufo.x
+          cow.y = ufo.y + 42.0
 
           if not(beam_on) {
-            cows[i].state = 0
-            cows[i].y = ground_y
-            cows[i].vx = randf(-20.0, 20.0)
+            cow.state = 0
+            cow.y = ground_y
+            cow.vx = randf(-20.0, 20.0)
           } else if absf(ufo.x - ship_x) < 96.0 && ufo.y < 116.0 {
-            cows[i].active = false
+            cow.active = false
             ufo.rescued = ufo.rescued + 1
             ufo.combo = ufo.combo + 1
             let pts = 120 + ufo.combo * 8
@@ -796,27 +796,27 @@ fn main {
         }
       }
 
-      for i in 0..<farmers.length() {
-        if not(farmers[i].active) {
+      for farmer in farmers {
+        if not(farmer.active) {
           continue
         }
 
-        farmers[i].panic_t = farmers[i].panic_t - dt
-        if farmers[i].panic_t < 0.0 {
-          farmers[i].panic_t = 0.0
+        farmer.panic_t = farmer.panic_t - dt
+        if farmer.panic_t < 0.0 {
+          farmer.panic_t = 0.0
         }
 
-        farmers[i].fire_cd = farmers[i].fire_cd - dt
-        if farmers[i].fire_cd < 0.0 {
-          farmers[i].fire_cd = 0.0
+        farmer.fire_cd = farmer.fire_cd - dt
+        if farmer.fire_cd < 0.0 {
+          farmer.fire_cd = 0.0
         }
 
         let mut tx = ufo.x
         let mut found_cow = false
-        for c in 0..<cows.length() {
-          if cows[c].active && cows[c].state == 0 {
-            if absf(cows[c].x - farmers[i].x) < 180.0 {
-              tx = cows[c].x
+        for cow in cows {
+          if cow.active && cow.state == 0 {
+            if absf(cow.x - farmer.x) < 180.0 {
+              tx = cow.x
               found_cow = true
             }
           }
@@ -824,33 +824,33 @@ fn main {
 
         if beam_on {
           tx = ufo.x
-          farmers[i].panic_t = 0.7
+          farmer.panic_t = 0.7
         } else if not(found_cow) {
           tx = ufo.x
         }
 
-        if tx < farmers[i].x - 6.0 {
-          farmers[i].vx = farmers[i].vx - dt * 64.0
-        } else if tx > farmers[i].x + 6.0 {
-          farmers[i].vx = farmers[i].vx + dt * 64.0
+        if tx < farmer.x - 6.0 {
+          farmer.vx = farmer.vx - dt * 64.0
+        } else if tx > farmer.x + 6.0 {
+          farmer.vx = farmer.vx + dt * 64.0
         }
-        farmers[i].vx = clampf(farmers[i].vx, -96.0, 96.0)
+        farmer.vx = clampf(farmer.vx, -96.0, 96.0)
 
-        let panic_drag : Float = if farmers[i].panic_t > 0.0 {
+        let panic_drag : Float = if farmer.panic_t > 0.0 {
           4.6
         } else {
           2.5
         }
-        farmers[i].vx = farmers[i].vx * (Float::from_int(1) - dt * panic_drag)
+        farmer.vx = farmer.vx * (Float::from_int(1) - dt * panic_drag)
 
-        farmers[i].x = farmers[i].x + farmers[i].vx * dt
-        farmers[i].x = clampf(farmers[i].x, 30.0, world_w - 30.0)
+        farmer.x = farmer.x + farmer.vx * dt
+        farmer.x = clampf(farmer.x, 30.0, world_w - 30.0)
 
         // Farmers can seize nearby ground cows; this counts as missed.
         for c in 0..<cows.length() {
           if cows[c].active &&
             cows[c].state == 0 &&
-            absf(cows[c].x - farmers[i].x) < 18.0 {
+            absf(cows[c].x - farmer.x) < 18.0 {
             cows[c].active = false
             missed = missed + 1
             ufo.combo = 0
@@ -861,15 +861,15 @@ fn main {
           }
         }
 
-        if farmers[i].fire_cd <= 0.0 &&
-          absf(farmers[i].x - ufo.x) < 260.0 &&
+        if farmer.fire_cd <= 0.0 &&
+          absf(farmer.x - ufo.x) < 260.0 &&
           ufo.y < 340.0 {
-          farmers[i].fire_cd = randf(0.86, 1.5)
+          farmer.fire_cd = randf(0.86, 1.5)
           ignore(
             spawn_enemy_bullet(
               bullets,
-              farmers[i].x,
-              farmers[i].y - 18.0,
+              farmer.x,
+              farmer.y - 18.0,
               ufo.x,
               ufo.y,
               11.0 + Float::from_int(level) * 1.4,
@@ -878,48 +878,48 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < -40.0 ||
-          bullets[i].x > world_w + 40.0 ||
-          bullets[i].y < -40.0 ||
-          bullets[i].y > world_h + 40.0 {
-          bullets[i].active = false
+        if bullet.x < -40.0 ||
+          bullet.x > world_w + 40.0 ||
+          bullet.y < -40.0 ||
+          bullet.y > world_h + 40.0 {
+          bullet.active = false
           continue
         }
 
-        if dist2(bullets[i].x, bullets[i].y, ufo.x, ufo.y) <= 20.0 * 20.0 {
-          bullets[i].active = false
-          on_hit(bullets[i].dmg, "Laser hit")
+        if dist2(bullet.x, bullet.y, ufo.x, ufo.y) <= 20.0 * 20.0 {
+          bullet.active = false
+          on_hit(bullet.dmg, "Laser hit")
         }
       }
 
-      for i in 0..<pickups.length() {
-        if not(pickups[i].active) {
+      for pickup in pickups {
+        if not(pickup.active) {
           continue
         }
-        pickups[i].t = pickups[i].t + dt
+        pickup.t = pickup.t + dt
 
-        if dist2(pickups[i].x, pickups[i].y, ufo.x, ufo.y + 80.0) <= 34.0 * 34.0 {
-          if pickups[i].kind == 0 {
+        if dist2(pickup.x, pickup.y, ufo.x, ufo.y + 80.0) <= 34.0 * 34.0 {
+          if pickup.kind == 0 {
             ufo.energy = ufo.energy + 26.0
             if ufo.energy > 100.0 {
               ufo.energy = 100.0
             }
             msg = "Battery"
-          } else if pickups[i].kind == 1 {
+          } else if pickup.kind == 1 {
             ufo.hp = ufo.hp + 24.0
             if ufo.hp > 220.0 {
               ufo.hp = 220.0
@@ -931,24 +931,24 @@ fn main {
             msg = "Data cache +64"
           }
           msg_t = 0.64
-          pickups[i].active = false
+          pickup.active = false
           burst(particles, ufo.x, ufo.y, 10, 0.20, 0)
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 2.0)
-          particles[i].vy = particles[i].vy + 260.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (Float::from_int(1) - dt * 2.0)
+          particle.vy = particle.vy + 260.0 * dt
         }
       }
 
@@ -1037,115 +1037,115 @@ fn main {
       @raylib.Color::new(84, 136, 196, 255),
     )
 
-    for i in 0..<pickups.length() {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
-      let blink : Int = if (pickups[i].t * 8.0).to_int() % 2 == 0 {
+      let blink : Int = if (pickup.t * 8.0).to_int() % 2 == 0 {
         255
       } else {
         180
       }
-      let col = if pickups[i].kind == 0 {
+      let col = if pickup.kind == 0 {
         @raylib.Color::new(128, 220, 250, blink)
-      } else if pickups[i].kind == 1 {
+      } else if pickup.kind == 1 {
         @raylib.Color::new(252, 142, 158, blink)
       } else {
         @raylib.Color::new(240, 220, 126, blink)
       }
       @raylib.draw_circle(
-        pickups[i].x.to_int(),
-        pickups[i].y.to_int(),
+        pickup.x.to_int(),
+        pickup.y.to_int(),
         10.0,
         col,
       )
       @raylib.draw_circle_lines(
-        pickups[i].x.to_int(),
-        pickups[i].y.to_int(),
+        pickup.x.to_int(),
+        pickup.y.to_int(),
         16.0,
         @raylib.Color::new(246, 250, 255, blink),
       )
     }
 
-    for i in 0..<cows.length() {
-      if not(cows[i].active) {
+    for cow in cows {
+      if not(cow.active) {
         continue
       }
 
       let mut col = @raylib.Color::new(238, 228, 216, 255)
-      if cows[i].panic_t > 0.0 {
+      if cow.panic_t > 0.0 {
         col = @raylib.Color::new(250, 198, 182, 255)
       }
 
-      @raylib.draw_circle(cows[i].x.to_int(), cows[i].y.to_int(), 13.0, col)
+      @raylib.draw_circle(cow.x.to_int(), cow.y.to_int(), 13.0, col)
       @raylib.draw_circle(
-        (cows[i].x - 6.0).to_int(),
-        (cows[i].y - 3.0).to_int(),
+        (cow.x - 6.0).to_int(),
+        (cow.y - 3.0).to_int(),
         2.0,
         @raylib.Color::new(38, 36, 34, 255),
       )
       @raylib.draw_circle(
-        (cows[i].x + 6.0).to_int(),
-        (cows[i].y - 3.0).to_int(),
+        (cow.x + 6.0).to_int(),
+        (cow.y - 3.0).to_int(),
         2.0,
         @raylib.Color::new(38, 36, 34, 255),
       )
     }
 
-    for i in 0..<farmers.length() {
-      if not(farmers[i].active) {
+    for farmer in farmers {
+      if not(farmer.active) {
         continue
       }
       let mut col = @raylib.Color::new(178, 96, 86, 255)
-      if farmers[i].panic_t > 0.0 {
+      if farmer.panic_t > 0.0 {
         col = @raylib.Color::new(232, 142, 124, 255)
       }
       @raylib.draw_rectangle(
-        (farmers[i].x - 10.0).to_int(),
-        (farmers[i].y - 22.0).to_int(),
+        (farmer.x - 10.0).to_int(),
+        (farmer.y - 22.0).to_int(),
         20,
         24,
         col,
       )
       @raylib.draw_rectangle(
-        (farmers[i].x - 4.0).to_int(),
-        (farmers[i].y - 14.0).to_int(),
+        (farmer.x - 4.0).to_int(),
+        (farmer.y - 14.0).to_int(),
         8,
         12,
         @raylib.Color::new(30, 34, 52, 255),
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
       @raylib.draw_circle(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
+        bullet.x.to_int(),
+        bullet.y.to_int(),
         4.0,
         @raylib.Color::new(246, 132, 152, 255),
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let k = particles[i].t / particles[i].life
+      let k = particle.t / particle.life
       let a : Int = ((Float::from_int(1) - k) * 220.0).to_int()
       let mut c = @raylib.Color::new(124, 224, 252, a)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         c = @raylib.Color::new(142, 246, 182, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         c = @raylib.Color::new(252, 192, 106, a)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         c = @raylib.Color::new(236, 96, 118, a)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         c,
       )
     }

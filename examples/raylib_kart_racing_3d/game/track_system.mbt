@@ -303,8 +303,7 @@ pub fn reset_cup_points(game : @types.Game) -> Unit {
 
 ///|
 pub fn update_powerup_respawns(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.powerups.length() {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) {
       continue
     }
@@ -330,8 +329,7 @@ pub fn check_powerup_collisions(game : @types.Game) -> Unit {
     if kart.held_powerup != @types.powerup_none {
       continue
     }
-    for pi in 0..<game.powerups.length() {
-      let pu = game.powerups[pi]
+    for pu in game.powerups {
       if not(pu.active) || pu.collected {
         continue
       }
@@ -351,8 +349,7 @@ pub fn check_powerup_collisions(game : @types.Game) -> Unit {
 
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -417,8 +414,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

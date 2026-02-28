@@ -1,57 +1,57 @@
 ///|
 fn clear_customers(game : Game) -> Unit {
-  for i in 0..<game.customers.length() {
-    game.customers[i].active = false
-    game.customers[i].tea_type = tea_jasmine
-    game.customers[i].slot = 0
-    game.customers[i].x = 0.0
-    game.customers[i].y = 0.0
-    game.customers[i].patience = 0.0
-    game.customers[i].patience_max = 0.0
-    game.customers[i].life = 0.0
-    game.customers[i].reward = 0
-    game.customers[i].mood = 0.0
-    game.customers[i].served_t = 0.0
-    game.customers[i].angry = false
+  for customer in game.customers {
+    customer.active = false
+    customer.tea_type = tea_jasmine
+    customer.slot = 0
+    customer.x = 0.0
+    customer.y = 0.0
+    customer.patience = 0.0
+    customer.patience_max = 0.0
+    customer.life = 0.0
+    customer.reward = 0
+    customer.mood = 0.0
+    customer.served_t = 0.0
+    customer.angry = false
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i in 0..<game.rings.length() {
-    game.rings[i].active = false
-    game.rings[i].x = 0.0
-    game.rings[i].y = 0.0
-    game.rings[i].r = 0.0
-    game.rings[i].life = 0.0
-    game.rings[i].kind = 0
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
   }
 }
 
 ///|
 fn clear_shadows(game : Game) -> Unit {
-  for i in 0..<game.shadows.length() {
-    game.shadows[i].active = false
-    game.shadows[i].x = 0.0
-    game.shadows[i].y = 0.0
-    game.shadows[i].w = 0.0
-    game.shadows[i].h = 0.0
-    game.shadows[i].life = 0.0
-    game.shadows[i].rot = 0.0
+  for shadow in game.shadows {
+    shadow.active = false
+    shadow.x = 0.0
+    shadow.y = 0.0
+    shadow.w = 0.0
+    shadow.h = 0.0
+    shadow.life = 0.0
+    shadow.rot = 0.0
   }
 }
 
@@ -234,8 +234,8 @@ fn clear_combo(game : Game) -> Unit {
 
 ///|
 fn slot_used(game : Game, slot : Int) -> Bool {
-  for i in 0..<game.customers.length() {
-    if game.customers[i].active && game.customers[i].slot == slot {
+  for customer in game.customers {
+    if customer.active && customer.slot == slot {
       return true
     }
   }
@@ -579,30 +579,30 @@ fn customer_drain_rate(game : Game) -> Float {
 fn update_customers(game : Game, dt : Float) -> Unit {
   let drain = customer_drain_rate(game)
 
-  for i in 0..<game.customers.length() {
-    if not(game.customers[i].active) {
+  for customer in game.customers {
+    if not(customer.active) {
       continue
     }
 
-    game.customers[i].life = game.customers[i].life + dt
-    game.customers[i].patience = game.customers[i].patience - drain * dt
-    game.customers[i].served_t = maxf(0.0, game.customers[i].served_t - dt)
+    customer.life = customer.life + dt
+    customer.patience = customer.patience - drain * dt
+    customer.served_t = maxf(0.0, customer.served_t - dt)
 
-    if game.customers[i].patience <= game.customers[i].patience_max * 0.25 {
-      game.customers[i].angry = true
+    if customer.patience <= customer.patience_max * 0.25 {
+      customer.angry = true
     }
 
-    game.customers[i].mood = clampf(
-      game.customers[i].patience / maxf(1.0, game.customers[i].patience_max),
+    customer.mood = clampf(
+      customer.patience / maxf(1.0, customer.patience_max),
       0.0,
       1.0,
     )
 
-    if game.customers[i].patience <= 0.0 {
-      let x = game.customers[i].x
-      let y = game.customers[i].y
+    if customer.patience <= 0.0 {
+      let x = customer.x
+      let y = customer.y
 
-      game.customers[i].active = false
+      customer.active = false
       game.missed = game.missed + 1
       game.reputation = maxf(0.0, game.reputation - miss_penalty)
       game.focus = maxf(0.0, game.focus - 10.0)
@@ -658,46 +658,46 @@ fn update_focus(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].life = game.sparks[i].life - dt
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.life = spark.life - dt
 
-    if game.sparks[i].kind == 3 {
-      game.sparks[i].vy = game.sparks[i].vy + 14.0 * dt
+    if spark.kind == 3 {
+      spark.vy = spark.vy + 14.0 * dt
     }
 
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    if spark.life <= 0.0 {
+      spark.active = false
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    game.rings[i].life = game.rings[i].life - dt
-    game.rings[i].r = game.rings[i].r +
-      (120.0 + Float::from_int(game.rings[i].kind) * 38.0) * dt
+    ring.life = ring.life - dt
+    ring.r = ring.r +
+      (120.0 + Float::from_int(ring.kind) * 38.0) * dt
 
-    if game.rings[i].life <= 0.0 {
-      game.rings[i].active = false
+    if ring.life <= 0.0 {
+      ring.active = false
     }
   }
 
-  for i in 0..<game.shadows.length() {
-    if not(game.shadows[i].active) {
+  for shadow in game.shadows {
+    if not(shadow.active) {
       continue
     }
 
-    game.shadows[i].life = game.shadows[i].life - dt
-    if game.shadows[i].life <= 0.0 {
-      game.shadows[i].active = false
+    shadow.life = shadow.life - dt
+    if shadow.life <= 0.0 {
+      shadow.active = false
     }
   }
 }

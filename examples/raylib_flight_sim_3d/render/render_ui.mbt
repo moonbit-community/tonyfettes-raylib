@@ -1021,8 +1021,7 @@ fn draw_radar(game : @types.Game) -> Unit {
   // Enemy blips
   let player = game.player
   let radar_scale = @types.radar_range / Float::from_int(radar_r)
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -1050,8 +1049,7 @@ fn draw_radar(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(bx - 1, by - 1, 3, 3, blip_color)
   }
   // Turret blips
-  for i in 0..<game.turrets.length() {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
       continue
     }

@@ -217,14 +217,14 @@ fn draw_junctions(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_trains(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.trains.length() {
-    if not(game.trains[i].active) {
+  for train in game.trains {
+    if not(train.active) {
       continue
     }
 
-    let cx : Int = cell_center_x(game.trains[i].x) + ox
-    let cy : Int = board_py(lane_to_y(game.trains[i].lane)) + cell / 2 + oy
-    let col = train_target_color(game.trains[i].color_id)
+    let cx : Int = cell_center_x(train.x) + ox
+    let cy : Int = board_py(lane_to_y(train.lane)) + cell / 2 + oy
+    let col = train_target_color(train.color_id)
 
     @raylib.draw_rectangle(
       cx - 18,
@@ -256,17 +256,17 @@ fn draw_trains(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_inspectors(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.inspectors.length() {
-    if not(game.inspectors[i].active) {
+  for inspector in game.inspectors {
+    if not(inspector.active) {
       continue
     }
 
-    let cx : Int = cell_center_x(game.inspectors[i].body.fx) + ox
-    let cy : Int = cell_center_y(game.inspectors[i].body.fy) + oy
+    let cx : Int = cell_center_x(inspector.body.fx) + ox
+    let cy : Int = cell_center_y(inspector.body.fy) + oy
 
-    let col = if game.inspectors[i].mode == inspector_stunned {
+    let col = if inspector.mode == inspector_stunned {
       @raylib.Color::new(164, 144, 248, 228)
-    } else if game.inspectors[i].mode == inspector_hunt {
+    } else if inspector.mode == inspector_hunt {
       @raylib.Color::new(250, 144, 164, 232)
     } else {
       @raylib.Color::new(238, 202, 154, 232)
@@ -288,7 +288,7 @@ fn draw_inspectors(game : Game, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(30, 42, 62, 255),
     )
 
-    if game.inspectors[i].mode == inspector_hunt {
+    if inspector.mode == inspector_hunt {
       @raylib.draw_circle_lines(
         cx,
         cy - 2,
@@ -325,23 +325,23 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let col = if game.particles[i].kind == 2 {
+    let col = if particle.kind == 2 {
       @raylib.Color::new(194, 170, 246, 186)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(248, 224, 152, 192)
     } else {
       @raylib.Color::new(170, 220, 252, 168)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       col,
     )
   }

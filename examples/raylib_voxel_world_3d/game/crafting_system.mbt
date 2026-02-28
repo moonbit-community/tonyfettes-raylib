@@ -384,8 +384,8 @@ pub fn find_first_craftable(game : @types.Game) -> Int {
 pub fn count_craftable_recipes(game : @types.Game) -> Int {
   let recipes = @levels.get_crafting_recipes()
   let mut count = 0
-  for i in 0..<recipes.length() {
-    if can_craft_recipe(game, recipes[i]) {
+  for recipe in recipes {
+    if can_craft_recipe(game, recipe) {
       count += 1
     }
   }

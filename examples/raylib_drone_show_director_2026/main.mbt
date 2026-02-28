@@ -347,44 +347,44 @@ fn clear_requests(requests : Array[Request]) -> Unit {
 
 ///|
 fn clear_gusts(gusts : Array[Gust]) -> Unit {
-  for i in 0..<gusts.length() {
-    gusts[i].active = false
-    gusts[i].x = 0.0
-    gusts[i].y = 0.0
-    gusts[i].vx = 0.0
-    gusts[i].vy = 0.0
-    gusts[i].radius = 0.0
-    gusts[i].life = 0.0
-    gusts[i].strength = 0.0
-    gusts[i].pulse = 0.0
+  for gust in gusts {
+    gust.active = false
+    gust.x = 0.0
+    gust.y = 0.0
+    gust.vx = 0.0
+    gust.vy = 0.0
+    gust.radius = 0.0
+    gust.life = 0.0
+    gust.strength = 0.0
+    gust.pulse = 0.0
   }
 }
 
 ///|
 fn clear_fireworks(fireworks : Array[Firework]) -> Unit {
-  for i in 0..<fireworks.length() {
-    fireworks[i].active = false
-    fireworks[i].x = 0.0
-    fireworks[i].y = 0.0
-    fireworks[i].vx = 0.0
-    fireworks[i].vy = 0.0
-    fireworks[i].life = 0.0
-    fireworks[i].burst_t = 0.0
-    fireworks[i].color = 0
+  for firework in fireworks {
+    firework.active = false
+    firework.x = 0.0
+    firework.y = 0.0
+    firework.vx = 0.0
+    firework.vy = 0.0
+    firework.life = 0.0
+    firework.burst_t = 0.0
+    firework.color = 0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -399,18 +399,18 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
-    parts[i].vx = vx
-    parts[i].vy = vy
-    parts[i].life = life
-    parts[i].size = size
-    parts[i].kind = kind
+    part.active = true
+    part.x = x
+    part.y = y
+    part.vx = vx
+    part.vy = vy
+    part.life = life
+    part.size = size
+    part.kind = kind
     break
   }
 }
@@ -439,43 +439,43 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 1.9)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 1.9) + dt * 28.0
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 1.9)
+    part.vy = part.vy * (1.0 - dt * 1.9) + dt * 28.0
   }
 }
 
 ///|
 fn spawn_request(requests : Array[Request], wave : Int, serial : Int) -> Bool {
   let mut placed : Bool = false
-  for i in 0..<requests.length() {
-    if requests[i].active {
+  for request in requests {
+    if request.active {
       continue
     }
 
-    requests[i].active = true
-    requests[i].id = serial
-    requests[i].pattern = randi(0, 4)
+    request.active = true
+    request.id = serial
+    request.pattern = randi(0, 4)
     let base_deadline : Float = randf(34.0, 68.0)
-    requests[i].deadline = maxf(
+    request.deadline = maxf(
       18.0,
       base_deadline - Float::from_int(wave) * 1.3,
     )
-    requests[i].max_deadline = requests[i].deadline
-    requests[i].min_quality = randf(58.0, 82.0) + Float::from_int(wave) * 0.7
-    requests[i].reward = 120 + requests[i].pattern * 20 + wave * 8
-    requests[i].progress = 0.0
-    requests[i].pulse = randf(0.0, 12.0)
+    request.max_deadline = request.deadline
+    request.min_quality = randf(58.0, 82.0) + Float::from_int(wave) * 0.7
+    request.reward = 120 + request.pattern * 20 + wave * 8
+    request.progress = 0.0
+    request.pulse = randf(0.0, 12.0)
 
     placed = true
     break
@@ -493,39 +493,39 @@ fn spawn_gust(
   pressure : Float,
 ) -> Bool {
   let mut placed : Bool = false
-  for i in 0..<gusts.length() {
-    if gusts[i].active {
+  for gust in gusts {
+    if gust.active {
       continue
     }
 
     let edge : Int = randi(0, 3)
     if edge == 0 {
-      gusts[i].x = world_l - 20.0
-      gusts[i].y = randf(world_t + 40.0, world_b - 40.0)
-      gusts[i].vx = randf(50.0, 130.0)
-      gusts[i].vy = randf(-56.0, 56.0)
+      gust.x = world_l - 20.0
+      gust.y = randf(world_t + 40.0, world_b - 40.0)
+      gust.vx = randf(50.0, 130.0)
+      gust.vy = randf(-56.0, 56.0)
     } else if edge == 1 {
-      gusts[i].x = world_r + 20.0
-      gusts[i].y = randf(world_t + 40.0, world_b - 40.0)
-      gusts[i].vx = -randf(50.0, 130.0)
-      gusts[i].vy = randf(-56.0, 56.0)
+      gust.x = world_r + 20.0
+      gust.y = randf(world_t + 40.0, world_b - 40.0)
+      gust.vx = -randf(50.0, 130.0)
+      gust.vy = randf(-56.0, 56.0)
     } else if edge == 2 {
-      gusts[i].x = randf(world_l + 40.0, world_r - 40.0)
-      gusts[i].y = world_t - 20.0
-      gusts[i].vx = randf(-64.0, 64.0)
-      gusts[i].vy = randf(50.0, 130.0)
+      gust.x = randf(world_l + 40.0, world_r - 40.0)
+      gust.y = world_t - 20.0
+      gust.vx = randf(-64.0, 64.0)
+      gust.vy = randf(50.0, 130.0)
     } else {
-      gusts[i].x = randf(world_l + 40.0, world_r - 40.0)
-      gusts[i].y = world_b + 20.0
-      gusts[i].vx = randf(-64.0, 64.0)
-      gusts[i].vy = -randf(50.0, 130.0)
+      gust.x = randf(world_l + 40.0, world_r - 40.0)
+      gust.y = world_b + 20.0
+      gust.vx = randf(-64.0, 64.0)
+      gust.vy = -randf(50.0, 130.0)
     }
 
-    gusts[i].active = true
-    gusts[i].radius = randf(56.0, 110.0)
-    gusts[i].life = randf(5.0, 9.0)
-    gusts[i].strength = randf(38.0, 86.0) + pressure * randf(8.0, 28.0)
-    gusts[i].pulse = randf(0.0, 16.0)
+    gust.active = true
+    gust.radius = randf(56.0, 110.0)
+    gust.life = randf(5.0, 9.0)
+    gust.strength = randf(38.0, 86.0) + pressure * randf(8.0, 28.0)
+    gust.pulse = randf(0.0, 16.0)
     placed = true
     break
   }
@@ -540,18 +540,18 @@ fn spawn_firework(
   world_b : Float,
 ) -> Bool {
   let mut placed : Bool = false
-  for i in 0..<fireworks.length() {
-    if fireworks[i].active {
+  for firework in fireworks {
+    if firework.active {
       continue
     }
-    fireworks[i].active = true
-    fireworks[i].x = randf(world_l + 40.0, world_r - 40.0)
-    fireworks[i].y = world_b + 18.0
-    fireworks[i].vx = randf(-24.0, 24.0)
-    fireworks[i].vy = -randf(170.0, 280.0)
-    fireworks[i].life = randf(0.9, 1.5)
-    fireworks[i].burst_t = randf(0.4, 1.1)
-    fireworks[i].color = randi(0, 4)
+    firework.active = true
+    firework.x = randf(world_l + 40.0, world_r - 40.0)
+    firework.y = world_b + 18.0
+    firework.vx = randf(-24.0, 24.0)
+    firework.vy = -randf(170.0, 280.0)
+    firework.life = randf(0.9, 1.5)
+    firework.burst_t = randf(0.4, 1.1)
+    firework.color = randi(0, 4)
     placed = true
     break
   }
@@ -609,13 +609,13 @@ fn nearest_station_kind(
 ) -> Int {
   let mut found : Int = -1
   let mut best : Float = radius * radius
-  for i in 0..<stations.length() {
-    let cx : Float = stations[i].x + stations[i].w * 0.5
-    let cy : Float = stations[i].y + stations[i].h * 0.5
+  for station in stations {
+    let cx : Float = station.x + station.w * 0.5
+    let cy : Float = station.y + station.h * 0.5
     let d2v : Float = dist2(x, y, cx, cy)
     if d2v <= best {
       best = d2v
-      found = stations[i].kind
+      found = station.kind
     }
   }
   found
@@ -624,8 +624,8 @@ fn nearest_station_kind(
 ///|
 fn active_requests_count(requests : Array[Request]) -> Int {
   let mut c : Int = 0
-  for i in 0..<requests.length() {
-    if requests[i].active {
+  for request in requests {
+    if request.active {
       c = c + 1
     }
   }
@@ -777,21 +777,21 @@ fn draw_stations(
 
 ///|
 fn draw_gusts(gusts : Array[Gust], scene_t : Float) -> Unit {
-  for i in 0..<gusts.length() {
-    if not(gusts[i].active) {
+  for gust in gusts {
+    if not(gust.active) {
       continue
     }
-    let pulse : Float = sinf(scene_t * 5.0 + gusts[i].pulse) * 0.5 + 0.5
-    let rr : Float = gusts[i].radius * (0.86 + pulse * 0.18)
+    let pulse : Float = sinf(scene_t * 5.0 + gust.pulse) * 0.5 + 0.5
+    let rr : Float = gust.radius * (0.86 + pulse * 0.18)
     @raylib.draw_circle_lines(
-      gusts[i].x.to_int(),
-      gusts[i].y.to_int(),
+      gust.x.to_int(),
+      gust.y.to_int(),
       rr,
       @raylib.Color::new(120, 190, 255, 166),
     )
     @raylib.draw_circle_lines(
-      gusts[i].x.to_int(),
-      gusts[i].y.to_int(),
+      gust.x.to_int(),
+      gust.y.to_int(),
       rr * 0.62,
       @raylib.Color::new(176, 224, 255, 122),
     )
@@ -800,8 +800,7 @@ fn draw_gusts(gusts : Array[Gust], scene_t : Float) -> Unit {
 
 ///|
 fn draw_drones(drones : Array[Drone], scene_t : Float) -> Unit {
-  for i in 0..<drones.length() {
-    let d = drones[i]
+  for d in drones {
     if not(d.active) {
       continue
     }
@@ -847,14 +846,14 @@ fn draw_drones(drones : Array[Drone], scene_t : Float) -> Unit {
 
 ///|
 fn draw_fireworks(fireworks : Array[Firework]) -> Unit {
-  for i in 0..<fireworks.length() {
-    if not(fireworks[i].active) {
+  for firework in fireworks {
+    if not(firework.active) {
       continue
     }
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(fireworks[i].x, fireworks[i].y),
+      @raylib.Vector2::new(firework.x, firework.y),
       3.2,
-      match fireworks[i].color {
+      match firework.color {
         0 => @raylib.Color::new(255, 156, 126, 220)
         1 => @raylib.Color::new(132, 228, 166, 220)
         2 => @raylib.Color::new(134, 210, 255, 220)
@@ -867,23 +866,23 @@ fn draw_fireworks(fireworks : Array[Firework]) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let alpha : Int = clampf(parts[i].life * 255.0, 0.0, 255.0).to_int()
-    let color = if parts[i].kind == 0 {
+    let alpha : Int = clampf(part.life * 255.0, 0.0, 255.0).to_int()
+    let color = if part.kind == 0 {
       @raylib.Color::new(156, 222, 252, alpha)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(252, 166, 118, alpha)
     } else {
       @raylib.Color::new(255, 238, 172, alpha)
     }
 
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(parts[i].x, parts[i].y),
-      parts[i].size,
+      @raylib.Vector2::new(part.x, part.y),
+      part.size,
       color,
     )
   }
@@ -933,19 +932,19 @@ fn draw_requests_panel(
   )
 
   let mut y : Int = panel_y + 438
-  for i in 0..<requests.length() {
-    if not(requests[i].active) {
+  for request in requests {
+    if not(request.active) {
       continue
     }
 
-    let urgency : Float = if requests[i].max_deadline <= 0.001 {
+    let urgency : Float = if request.max_deadline <= 0.001 {
       0.0
     } else {
-      clampf(1.0 - requests[i].deadline / requests[i].max_deadline, 0.0, 1.0)
+      clampf(1.0 - request.deadline / request.max_deadline, 0.0, 1.0)
     }
 
-    let blink : Float = sinf(scene_t * 7.0 + requests[i].pulse) * 0.5 + 0.5
-    let matching : Bool = current_pattern == requests[i].pattern
+    let blink : Float = sinf(scene_t * 7.0 + request.pulse) * 0.5 + 0.5
+    let matching : Bool = current_pattern == request.pattern
     let row_h : Int = 84
 
     @raylib.draw_rectangle(
@@ -970,7 +969,7 @@ fn draw_requests_panel(
       @raylib.Color::new(186, 208, 232, 176),
     )
 
-    let pc = pattern_color(requests[i].pattern)
+    let pc = pattern_color(request.pattern)
     @raylib.draw_circle_v(
       @raylib.Vector2::new(
         Float::from_int(panel_x + 42),
@@ -981,14 +980,14 @@ fn draw_requests_panel(
     )
 
     @raylib.draw_text(
-      "#\{requests[i].id} \{pattern_short(requests[i].pattern)}",
+      "#\{request.id} \{pattern_short(request.pattern)}",
       panel_x + 66,
       y + 10,
       23,
       @raylib.Color::new(236, 246, 255, 236),
     )
 
-    let dd_txt : String = "\{requests[i].deadline.to_int()}s"
+    let dd_txt : String = "\{request.deadline.to_int()}s"
     @raylib.draw_text(
       dd_txt,
       panel_x + panel_w - 24 - @raylib.measure_text(dd_txt, 22),
@@ -1002,7 +1001,7 @@ fn draw_requests_panel(
     )
 
     @raylib.draw_text(
-      "Need Q\{requests[i].min_quality.to_int()}  Reward \{requests[i].reward}",
+      "Need Q\{request.min_quality.to_int()}  Reward \{request.reward}",
       panel_x + 66,
       y + 40,
       18,
@@ -1021,9 +1020,9 @@ fn draw_requests_panel(
       panel_x + panel_w - progress_bar_w - 22,
       y + 48,
       (Float::from_int(progress_bar_w - 4) *
-      clampf(requests[i].progress / 100.0, 0.0, 1.0)).to_int(),
+      clampf(request.progress / 100.0, 0.0, 1.0)).to_int(),
       12,
-      if matching && quality >= requests[i].min_quality {
+      if matching && quality >= request.min_quality {
         @raylib.Color::new(126, 236, 152, 232)
       } else {
         @raylib.Color::new(244, 204, 124, 180 + (blink * 60.0).to_int())
@@ -1658,16 +1657,16 @@ fn main {
     clear_fireworks(fireworks)
     clear_particles(parts)
 
-    for i in 0..<drones.length() {
-      drones[i].active = true
-      drones[i].x = stage_cx + randf(-120.0, 120.0)
-      drones[i].y = stage_cy + randf(-90.0, 90.0)
-      drones[i].vx = randf(-14.0, 14.0)
-      drones[i].vy = randf(-14.0, 14.0)
-      drones[i].battery = randf(76.0, 100.0)
-      drones[i].temp = randf(14.0, 24.0)
-      drones[i].state = 0
-      drones[i].flash_t = randf(0.0, 10.0)
+    for drone in drones {
+      drone.active = true
+      drone.x = stage_cx + randf(-120.0, 120.0)
+      drone.y = stage_cy + randf(-90.0, 90.0)
+      drone.vx = randf(-14.0, 14.0)
+      drone.vy = randf(-14.0, 14.0)
+      drone.battery = randf(76.0, 100.0)
+      drone.temp = randf(14.0, 24.0)
+      drone.state = 0
+      drone.flash_t = randf(0.0, 10.0)
     }
 
     director.x = stage_cx
@@ -1931,21 +1930,21 @@ fn main {
         )
         if near == 0 {
           let mut revived : Bool = false
-          for i in 0..<drones.length() {
-            if not(drones[i].active) && not(revived) {
-              drones[i].active = true
-              drones[i].x = director.x + randf(-30.0, 30.0)
-              drones[i].y = director.y + randf(-30.0, 30.0)
-              drones[i].vx = randf(-20.0, 20.0)
-              drones[i].vy = randf(-20.0, 20.0)
-              drones[i].battery = 58.0
-              drones[i].temp = 28.0
-              drones[i].state = 1
+          for drone in drones {
+            if not(drone.active) && not(revived) {
+              drone.active = true
+              drone.x = director.x + randf(-30.0, 30.0)
+              drone.y = director.y + randf(-30.0, 30.0)
+              drone.vx = randf(-20.0, 20.0)
+              drone.vy = randf(-20.0, 20.0)
+              drone.battery = 58.0
+              drone.temp = 28.0
+              drone.state = 1
               revived = true
               drone_losses = maxi(0, drone_losses - 1)
             }
-            if drones[i].active {
-              drones[i].battery = minf(100.0, drones[i].battery + 22.0)
+            if drone.active {
+              drone.battery = minf(100.0, drone.battery + 22.0)
             }
           }
           director.energy = minf(director.energy_max, director.energy + 32.0)
@@ -1963,9 +1962,9 @@ fn main {
             0,
           )
         } else if near == 1 {
-          for i in 0..<drones.length() {
-            if drones[i].active {
-              drones[i].temp = maxf(0.0, drones[i].temp - 26.0)
+          for drone in drones {
+            if drone.active {
+              drone.temp = maxf(0.0, drone.temp - 26.0)
             }
           }
           msg = "Cooling mist lowered swarm temperature."
@@ -2021,42 +2020,42 @@ fn main {
       }
 
       // Update gusts
-      for i in 0..<gusts.length() {
-        if not(gusts[i].active) {
+      for gust in gusts {
+        if not(gust.active) {
           continue
         }
-        gusts[i].life = gusts[i].life - dt
-        gusts[i].pulse = gusts[i].pulse + dt * 4.5
-        gusts[i].x = gusts[i].x + gusts[i].vx * dt
-        gusts[i].y = gusts[i].y + gusts[i].vy * dt
+        gust.life = gust.life - dt
+        gust.pulse = gust.pulse + dt * 4.5
+        gust.x = gust.x + gust.vx * dt
+        gust.y = gust.y + gust.vy * dt
 
-        if gusts[i].life <= 0.0 ||
-          gusts[i].x < world_l - 180.0 ||
-          gusts[i].x > world_r + 180.0 ||
-          gusts[i].y < world_t - 180.0 ||
-          gusts[i].y > world_b + 180.0 {
-          gusts[i].active = false
+        if gust.life <= 0.0 ||
+          gust.x < world_l - 180.0 ||
+          gust.x > world_r + 180.0 ||
+          gust.y < world_t - 180.0 ||
+          gust.y > world_b + 180.0 {
+          gust.active = false
         }
       }
 
       // Update fireworks
-      for i in 0..<fireworks.length() {
-        if not(fireworks[i].active) {
+      for firework in fireworks {
+        if not(firework.active) {
           continue
         }
-        fireworks[i].life = fireworks[i].life - dt
-        fireworks[i].burst_t = fireworks[i].burst_t - dt
-        fireworks[i].x = fireworks[i].x + fireworks[i].vx * dt
-        fireworks[i].y = fireworks[i].y + fireworks[i].vy * dt
-        fireworks[i].vy = fireworks[i].vy + dt * 54.0
+        firework.life = firework.life - dt
+        firework.burst_t = firework.burst_t - dt
+        firework.x = firework.x + firework.vx * dt
+        firework.y = firework.y + firework.vy * dt
+        firework.vy = firework.vy + dt * 54.0
 
-        if fireworks[i].burst_t <= 0.0 {
-          fireworks[i].active = false
+        if firework.burst_t <= 0.0 {
+          firework.active = false
           for _j in 0..<20 {
             spawn_particle(
               parts,
-              fireworks[i].x,
-              fireworks[i].y,
+              firework.x,
+              firework.y,
               randf(-180.0, 180.0),
               randf(-180.0, 180.0),
               randf(0.4, 1.1),
@@ -2066,8 +2065,8 @@ fn main {
           }
         }
 
-        if fireworks[i].life <= 0.0 {
-          fireworks[i].active = false
+        if firework.life <= 0.0 {
+          firework.active = false
         }
       }
 
@@ -2102,34 +2101,34 @@ fn main {
         drones[i].vx = drones[i].vx + dx * dt * attract
         drones[i].vy = drones[i].vy + dy * dt * attract
 
-        for g in 0..<gusts.length() {
-          if not(gusts[g].active) {
+        for gust in gusts {
+          if not(gust.active) {
             continue
           }
           let d2v : Float = dist2(
             drones[i].x,
             drones[i].y,
-            gusts[g].x,
-            gusts[g].y,
+            gust.x,
+            gust.y,
           )
-          let rr : Float = gusts[g].radius
+          let rr : Float = gust.radius
           if d2v <= rr * rr {
             let dd : Float = d2v.sqrt()
             let fall : Float = 1.0 - dd / rr
             let nx : Float = if dd <= 0.001 {
               0.0
             } else {
-              (drones[i].x - gusts[g].x) / dd
+              (drones[i].x - gust.x) / dd
             }
             let ny : Float = if dd <= 0.001 {
               0.0
             } else {
-              (drones[i].y - gusts[g].y) / dd
+              (drones[i].y - gust.y) / dd
             }
             drones[i].vx = drones[i].vx +
-              (gusts[g].vx * 0.4 + nx * gusts[g].strength) * dt * fall
+              (gust.vx * 0.4 + nx * gust.strength) * dt * fall
             drones[i].vy = drones[i].vy +
-              (gusts[g].vy * 0.4 + ny * gusts[g].strength) * dt * fall
+              (gust.vy * 0.4 + ny * gust.strength) * dt * fall
             drones[i].temp = drones[i].temp + dt * (0.8 + fall * 1.3)
           }
         }
@@ -2309,10 +2308,10 @@ fn main {
 
       let mut heat_sum_draw : Float = 0.0
       let mut active_count_draw : Int = 0
-      for i in 0..<drones.length() {
-        if drones[i].active {
+      for drone in drones {
+        if drone.active {
           active_count_draw = active_count_draw + 1
-          heat_sum_draw = heat_sum_draw + drones[i].temp
+          heat_sum_draw = heat_sum_draw + drone.temp
         }
       }
       let heat_avg_draw : Float = if active_count_draw <= 0 {

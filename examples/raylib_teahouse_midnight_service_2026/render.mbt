@@ -586,22 +586,22 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let life = if game.sparks[i].kind == 3 {
-      clampf(game.sparks[i].life / 1.6, 0.0, 1.0)
+    let life = if spark.kind == 3 {
+      clampf(spark.life / 1.6, 0.0, 1.0)
     } else {
-      clampf(game.sparks[i].life / 1.1, 0.0, 1.0)
+      clampf(spark.life / 1.1, 0.0, 1.0)
     }
 
-    let base = if game.sparks[i].kind == 0 {
+    let base = if spark.kind == 0 {
       amber()
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       pink()
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       jade()
     } else {
       @raylib.Color::new(232, 244, 255, 255)
@@ -609,59 +609,59 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
     let col = a_col(base, (life * 220.0).to_int())
 
-    if game.sparks[i].kind == 3 {
+    if spark.kind == 3 {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x * 0.2).to_int(),
-        (game.sparks[i].y + cam_y * 0.2).to_int(),
-        maxf(0.6, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x * 0.2).to_int(),
+        (spark.y + cam_y * 0.2).to_int(),
+        maxf(0.6, spark.size * (0.4 + life)),
         col,
       )
     } else {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x).to_int(),
-        (game.sparks[i].y + cam_y).to_int(),
-        maxf(0.8, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x).to_int(),
+        (spark.y + cam_y).to_int(),
+        maxf(0.8, spark.size * (0.4 + life)),
         col,
       )
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    let life = clampf(game.rings[i].life / 1.0, 0.0, 1.0)
-    let col = if game.rings[i].kind == 0 {
+    let life = clampf(ring.life / 1.0, 0.0, 1.0)
+    let col = if ring.kind == 0 {
       a_col(cyan(), (life * 190.0).to_int())
-    } else if game.rings[i].kind == 1 {
+    } else if ring.kind == 1 {
       a_col(pink(), (life * 190.0).to_int())
     } else {
       a_col(jade(), (life * 190.0).to_int())
     }
 
     @raylib.draw_circle_lines(
-      (game.rings[i].x + cam_x).to_int(),
-      (game.rings[i].y + cam_y).to_int(),
-      game.rings[i].r,
+      (ring.x + cam_x).to_int(),
+      (ring.y + cam_y).to_int(),
+      ring.r,
       col,
     )
   }
 
-  for i in 0..<game.shadows.length() {
-    if not(game.shadows[i].active) {
+  for shadow in game.shadows {
+    if not(shadow.active) {
       continue
     }
 
-    let life = clampf(game.shadows[i].life / 0.24, 0.0, 1.0)
+    let life = clampf(shadow.life / 0.24, 0.0, 1.0)
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(game.shadows[i].rot * 0.06)) * 0.24
+      absf(sinf(shadow.rot * 0.06)) * 0.24
 
     @raylib.draw_rectangle(
-      (game.shadows[i].x - game.shadows[i].w * 0.5 * stretch + cam_x * 0.2).to_int(),
-      (game.shadows[i].y - game.shadows[i].h * 0.5 + cam_y * 0.2).to_int(),
-      maxf(2.0, game.shadows[i].w * stretch).to_int(),
-      maxf(2.0, game.shadows[i].h).to_int(),
+      (shadow.x - shadow.w * 0.5 * stretch + cam_x * 0.2).to_int(),
+      (shadow.y - shadow.h * 0.5 + cam_y * 0.2).to_int(),
+      maxf(2.0, shadow.w * stretch).to_int(),
+      maxf(2.0, shadow.h).to_int(),
       @raylib.Color::new(116, 218, 255, (life * 118.0).to_int()),
     )
   }
@@ -1262,9 +1262,9 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_brewer(game, cam_x, cam_y)
   draw_counter(game, cam_x, cam_y)
 
-  for i in 0..<game.customers.length() {
-    if game.customers[i].active {
-      draw_customer(game.customers[i], cam_x, cam_y)
+  for customer in game.customers {
+    if customer.active {
+      draw_customer(customer, cam_x, cam_y)
     }
   }
 

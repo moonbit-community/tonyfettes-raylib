@@ -1,75 +1,75 @@
 ///|
 fn clear_ents(game : Game) -> Unit {
-  for i in 0..<game.ents.length() {
-    game.ents[i].active = false
-    game.ents[i].kind = ent_guard
-    game.ents[i].x = 0.0
-    game.ents[i].y = 0.0
-    game.ents[i].vx = 0.0
-    game.ents[i].vy = 0.0
-    game.ents[i].w = 0.0
-    game.ents[i].h = 0.0
-    game.ents[i].hp = 0.0
-    game.ents[i].lane = 0
-    game.ents[i].shot_cd = 0.0
-    game.ents[i].spin = 0.0
-    game.ents[i].cloak = false
-    game.ents[i].reward = 0
+  for ent in game.ents {
+    ent.active = false
+    ent.kind = ent_guard
+    ent.x = 0.0
+    ent.y = 0.0
+    ent.vx = 0.0
+    ent.vy = 0.0
+    ent.w = 0.0
+    ent.h = 0.0
+    ent.hp = 0.0
+    ent.lane = 0
+    ent.shot_cd = 0.0
+    ent.spin = 0.0
+    ent.cloak = false
+    ent.reward = 0
   }
 }
 
 ///|
 fn clear_shots(game : Game) -> Unit {
-  for i in 0..<game.shots.length() {
-    game.shots[i].active = false
-    game.shots[i].from_player = true
-    game.shots[i].x = 0.0
-    game.shots[i].y = 0.0
-    game.shots[i].vx = 0.0
-    game.shots[i].vy = 0.0
-    game.shots[i].life = 0.0
-    game.shots[i].dmg = 0.0
-    game.shots[i].kind = 0
+  for shot in game.shots {
+    shot.active = false
+    shot.from_player = true
+    shot.x = 0.0
+    shot.y = 0.0
+    shot.vx = 0.0
+    shot.vy = 0.0
+    shot.life = 0.0
+    shot.dmg = 0.0
+    shot.kind = 0
   }
 }
 
 ///|
 fn clear_fx(game : Game) -> Unit {
-  for i in 0..<game.fxs.length() {
-    game.fxs[i].active = false
-    game.fxs[i].x = 0.0
-    game.fxs[i].y = 0.0
-    game.fxs[i].vx = 0.0
-    game.fxs[i].vy = 0.0
-    game.fxs[i].life = 0.0
-    game.fxs[i].size = 0.0
-    game.fxs[i].kind = 0
+  for fx in game.fxs {
+    fx.active = false
+    fx.x = 0.0
+    fx.y = 0.0
+    fx.vx = 0.0
+    fx.vy = 0.0
+    fx.life = 0.0
+    fx.size = 0.0
+    fx.kind = 0
   }
 }
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i in 0..<game.rings.length() {
-    game.rings[i].active = false
-    game.rings[i].x = 0.0
-    game.rings[i].y = 0.0
-    game.rings[i].r = 0.0
-    game.rings[i].life = 0.0
-    game.rings[i].kind = 0
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
   }
 }
 
 ///|
 fn clear_shadows(game : Game) -> Unit {
-  for i in 0..<game.shadows.length() {
-    game.shadows[i].active = false
-    game.shadows[i].x = 0.0
-    game.shadows[i].y = 0.0
-    game.shadows[i].w = 0.0
-    game.shadows[i].h = 0.0
-    game.shadows[i].rot = 0.0
-    game.shadows[i].life = 0.0
-    game.shadows[i].kind = 0
+  for shadow in game.shadows {
+    shadow.active = false
+    shadow.x = 0.0
+    shadow.y = 0.0
+    shadow.w = 0.0
+    shadow.h = 0.0
+    shadow.rot = 0.0
+    shadow.life = 0.0
+    shadow.kind = 0
   }
 }
 
@@ -618,23 +618,23 @@ fn apply_hook(game : Game) -> Unit {
   let rr2 = hook_radius * hook_radius
   let kill2 = hook_kill_radius * hook_kill_radius
 
-  for i in 0..<game.ents.length() {
-    if not(game.ents[i].active) {
+  for ent in game.ents {
+    if not(ent.active) {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.ents[i].x, game.ents[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, ent.x, ent.y)
     if d2 > rr2 {
       continue
     }
 
-    game.ents[i].cloak = false
+    ent.cloak = false
 
-    if is_hostile(game.ents[i].kind) && d2 <= kill2 {
-      let kind = game.ents[i].kind
-      let x = game.ents[i].x
-      let y = game.ents[i].y
-      game.ents[i].active = false
+    if is_hostile(ent.kind) && d2 <= kill2 {
+      let kind = ent.kind
+      let x = ent.x
+      let y = ent.y
+      ent.active = false
       add_score(game, if kind == ent_crate { 150 } else { 88 })
       push_combo(game)
       burst(game, x, y, 18, 1)
@@ -643,18 +643,18 @@ fn apply_hook(game : Game) -> Unit {
     }
   }
 
-  for i in 0..<game.shots.length() {
-    if not(game.shots[i].active) || game.shots[i].from_player {
+  for shot in game.shots {
+    if not(shot.active) || shot.from_player {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.shots[i].x, game.shots[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, shot.x, shot.y)
     if d2 <= rr2 {
-      game.shots[i].active = false
+      shot.active = false
       emit_fx(
         game,
-        game.shots[i].x,
-        game.shots[i].y,
+        shot.x,
+        shot.y,
         randf(-90.0, 90.0),
         randf(-90.0, 90.0),
         randf(0.2, 0.45),
@@ -979,27 +979,27 @@ fn update_ents(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_shots(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.shots.length() {
-    if not(game.shots[i].active) {
+  for shot in game.shots {
+    if not(shot.active) {
       continue
     }
 
-    game.shots[i].x = game.shots[i].x + game.shots[i].vx * dt
-    game.shots[i].y = game.shots[i].y + game.shots[i].vy * dt
-    game.shots[i].life = game.shots[i].life - dt
+    shot.x = shot.x + shot.vx * dt
+    shot.y = shot.y + shot.vy * dt
+    shot.life = shot.life - dt
 
-    let dead = game.shots[i].life <= 0.0 ||
-      game.shots[i].x < -120.0 ||
-      game.shots[i].x > Float::from_int(screen_w) + 120.0 ||
-      game.shots[i].y < Float::from_int(hud_h) - 120.0 ||
-      game.shots[i].y > Float::from_int(screen_h) + 120.0
+    let dead = shot.life <= 0.0 ||
+      shot.x < -120.0 ||
+      shot.x > Float::from_int(screen_w) + 120.0 ||
+      shot.y < Float::from_int(hud_h) - 120.0 ||
+      shot.y > Float::from_int(screen_h) + 120.0
 
     if dead {
-      game.shots[i].active = false
+      shot.active = false
       continue
     }
 
-    if game.shots[i].from_player {
+    if shot.from_player {
       let mut hit = false
 
       for j in 0..<game.ents.length() {
@@ -1008,15 +1008,15 @@ fn update_shots(game : Game, dt : Float) -> Unit {
         }
 
         let d2 = dist2(
-          game.shots[i].x,
-          game.shots[i].y,
+          shot.x,
+          shot.y,
           game.ents[j].x,
           game.ents[j].y,
         )
         let rr = ent_hit_r(game.ents[j]) + 8.0
         if d2 <= rr * rr {
-          game.ents[j].hp = game.ents[j].hp - game.shots[i].dmg
-          game.shots[i].active = false
+          game.ents[j].hp = game.ents[j].hp - shot.dmg
+          shot.active = false
           hit = true
 
           emit_fx(
@@ -1041,11 +1041,11 @@ fn update_shots(game : Game, dt : Float) -> Unit {
         continue
       }
     } else {
-      let d2 = dist2(game.shots[i].x, game.shots[i].y, game.hero.x, game.hero.y)
+      let d2 = dist2(shot.x, shot.y, game.hero.x, game.hero.y)
       let rr = player_hit_r(game.hero) + 8.0
       if d2 <= rr * rr {
-        game.shots[i].active = false
-        hurt_player(game, game.shots[i].dmg)
+        shot.active = false
+        hurt_player(game, shot.dmg)
         continue
       }
     }
@@ -1054,42 +1054,42 @@ fn update_shots(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_fx(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.fxs.length() {
-    if not(game.fxs[i].active) {
+  for fx in game.fxs {
+    if not(fx.active) {
       continue
     }
 
-    game.fxs[i].x = game.fxs[i].x + (game.fxs[i].vx - game.scroll * 0.2) * dt
-    game.fxs[i].y = game.fxs[i].y + game.fxs[i].vy * dt
-    game.fxs[i].life = game.fxs[i].life - dt
+    fx.x = fx.x + (fx.vx - game.scroll * 0.2) * dt
+    fx.y = fx.y + fx.vy * dt
+    fx.life = fx.life - dt
 
-    if game.fxs[i].life <= 0.0 {
-      game.fxs[i].active = false
+    if fx.life <= 0.0 {
+      fx.active = false
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    game.rings[i].life = game.rings[i].life - dt
-    game.rings[i].r = game.rings[i].r +
-      (130.0 + Float::from_int(game.rings[i].kind) * 52.0) * dt
-    if game.rings[i].life <= 0.0 {
-      game.rings[i].active = false
+    ring.life = ring.life - dt
+    ring.r = ring.r +
+      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    if ring.life <= 0.0 {
+      ring.active = false
     }
   }
 
-  for i in 0..<game.shadows.length() {
-    if not(game.shadows[i].active) {
+  for shadow in game.shadows {
+    if not(shadow.active) {
       continue
     }
 
-    game.shadows[i].x = game.shadows[i].x - game.scroll * 0.28 * dt
-    game.shadows[i].life = game.shadows[i].life - dt
-    if game.shadows[i].life <= 0.0 {
-      game.shadows[i].active = false
+    shadow.x = shadow.x - game.scroll * 0.28 * dt
+    shadow.life = shadow.life - dt
+    if shadow.life <= 0.0 {
+      shadow.active = false
     }
   }
 }

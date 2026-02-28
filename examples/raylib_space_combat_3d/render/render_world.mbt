@@ -56,8 +56,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 
 ///|
 fn draw_stars(game : @types.Game) -> Unit {
-  for i in 0..<game.stars.length() {
-    let s = game.stars[i]
+  for s in game.stars {
     @raylib.draw_cube(
       @raylib.Vector3::new(s.x, s.y, s.z),
       0.3,
@@ -393,8 +392,7 @@ fn draw_player_ship(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -727,8 +725,7 @@ fn draw_capital_ship(
 
 ///|
 fn draw_asteroids(game : @types.Game) -> Unit {
-  for i in 0..<game.asteroids.length() {
-    let a = game.asteroids[i]
+  for a in game.asteroids {
     if not(a.active) {
       continue
     }
@@ -814,8 +811,7 @@ fn draw_asteroids(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stations(game : @types.Game) -> Unit {
-  for i in 0..<game.stations.length() {
-    let s = game.stations[i]
+  for s in game.stations {
     if not(s.active) {
       continue
     }
@@ -935,8 +931,7 @@ fn draw_stations(game : @types.Game) -> Unit {
 
 ///|
 fn draw_powerups(game : @types.Game) -> Unit {
-  for i in 0..<game.powerups.length() {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) {
       continue
     }
@@ -1025,8 +1020,7 @@ fn draw_powerups(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -1120,8 +1114,7 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -1157,8 +1150,7 @@ fn draw_particles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_debris_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.debris.length() {
-    let d = game.debris[i]
+  for d in game.debris {
     if not(d.active) {
       continue
     }
@@ -1304,8 +1296,7 @@ fn draw_lead_indicator(game : @types.Game) -> Unit {
 ///|
 fn draw_waypoint_markers(game : @types.Game) -> Unit {
   // Draw markers for stations
-  for i in 0..<game.stations.length() {
-    let s = game.stations[i]
+  for s in game.stations {
     if not(s.active) {
       continue
     }

@@ -100,8 +100,8 @@ fn emit_pulse(
 ///|
 fn active_enemy_count(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count = count + 1
     }
   }
@@ -486,26 +486,26 @@ fn kill_enemy(game : Game, enemy_index : Int, by_barrier : Bool) -> Unit {
 
 ///|
 fn update_nodes(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.nodes.length() {
-    if not(game.nodes[i].active) {
+  for node in game.nodes {
+    if not(node.active) {
       continue
     }
 
-    game.nodes[i].pulse = maxf(0.0, game.nodes[i].pulse - dt * 2.8)
+    node.pulse = maxf(0.0, node.pulse - dt * 2.8)
 
-    if game.nodes[i].cooldown > 0.0 {
-      game.nodes[i].cooldown = game.nodes[i].cooldown - dt
+    if node.cooldown > 0.0 {
+      node.cooldown = node.cooldown - dt
     }
-    if game.nodes[i].cooldown > 0.0 {
+    if node.cooldown > 0.0 {
       continue
     }
 
-    let x = cell_center_x(game.nodes[i].gx)
-    let y = cell_center_y(game.nodes[i].gy)
-    let range = node_range(game.nodes[i].level)
+    let x = cell_center_x(node.gx)
+    let y = cell_center_y(node.gy)
+    let range = node_range(node.level)
     let range2 = range * range
-    let fx = dir_vec_x(game.nodes[i].facing)
-    let fy = dir_vec_y(game.nodes[i].facing)
+    let fx = dir_vec_x(node.facing)
+    let fy = dir_vec_y(node.facing)
 
     let mut best = -1
     let mut best_d2 = range2
@@ -543,35 +543,35 @@ fn update_nodes(game : Game, dt : Float) -> Unit {
         y,
         game.enemies[best].x,
         game.enemies[best].y,
-        node_damage(game.nodes[i].level),
+        node_damage(node.level),
       )
-      game.nodes[i].cooldown = node_fire_cd(game.nodes[i].level)
-      game.nodes[i].pulse = maxf(game.nodes[i].pulse, 0.72)
+      node.cooldown = node_fire_cd(node.level)
+      node.pulse = maxf(node.pulse, 0.72)
     }
   }
 }
 
 ///|
 fn update_bolts(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.bolts.length() {
-    if not(game.bolts[i].active) {
+  for bolt in game.bolts {
+    if not(bolt.active) {
       continue
     }
 
-    game.bolts[i].life = game.bolts[i].life - dt
-    if game.bolts[i].life <= 0.0 {
-      game.bolts[i].active = false
+    bolt.life = bolt.life - dt
+    if bolt.life <= 0.0 {
+      bolt.active = false
       continue
     }
 
-    game.bolts[i].x = game.bolts[i].x + game.bolts[i].vx * dt
-    game.bolts[i].y = game.bolts[i].y + game.bolts[i].vy * dt
+    bolt.x = bolt.x + bolt.vx * dt
+    bolt.y = bolt.y + bolt.vy * dt
 
-    if game.bolts[i].x < board_left() - 110.0 ||
-      game.bolts[i].x > board_right() + 110.0 ||
-      game.bolts[i].y < board_top() - 110.0 ||
-      game.bolts[i].y > board_bottom() + 110.0 {
-      game.bolts[i].active = false
+    if bolt.x < board_left() - 110.0 ||
+      bolt.x > board_right() + 110.0 ||
+      bolt.y < board_top() - 110.0 ||
+      bolt.y > board_bottom() + 110.0 {
+      bolt.active = false
       continue
     }
 
@@ -583,15 +583,15 @@ fn update_bolts(game : Game, dt : Float) -> Unit {
       let hit_r = game.enemies[j].radius + bolt_hit_radius
       let hit_r2 = hit_r * hit_r
       if dist2(
-          game.bolts[i].x,
-          game.bolts[i].y,
+          bolt.x,
+          bolt.y,
           game.enemies[j].x,
           game.enemies[j].y,
         ) <=
         hit_r2 {
-        game.enemies[j].hp = game.enemies[j].hp - game.bolts[i].dmg
-        game.bolts[i].active = false
-        emit_pulse(game, game.bolts[i].x, game.bolts[i].y, 7.0, 0.22, 0)
+        game.enemies[j].hp = game.enemies[j].hp - bolt.dmg
+        bolt.active = false
+        emit_pulse(game, bolt.x, bolt.y, 7.0, 0.22, 0)
 
         if game.enemies[j].hp <= 0.0 {
           kill_enemy(game, j, false)
@@ -707,25 +707,25 @@ fn trigger_barrier(game : Game) -> Unit {
 
 ///|
 fn update_pulses(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pulses.length() {
-    if not(game.pulses[i].active) {
+  for puls in game.pulses {
+    if not(puls.active) {
       continue
     }
 
-    game.pulses[i].life = game.pulses[i].life - dt
-    if game.pulses[i].life <= 0.0 {
-      game.pulses[i].active = false
+    puls.life = puls.life - dt
+    if puls.life <= 0.0 {
+      puls.active = false
       continue
     }
 
-    let speed : Float = if game.pulses[i].kind == 0 {
+    let speed : Float = if puls.kind == 0 {
       66.0
-    } else if game.pulses[i].kind == 1 {
+    } else if puls.kind == 1 {
       92.0
     } else {
       120.0
     }
-    game.pulses[i].radius = game.pulses[i].radius + dt * speed
+    puls.radius = puls.radius + dt * speed
   }
 }
 

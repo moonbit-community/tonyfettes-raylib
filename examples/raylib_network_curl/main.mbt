@@ -41,8 +41,8 @@ fn split_lines(content : String, max_chars : Int) -> Array[String] {
   let lines : Array[String] = []
   let line : StringBuilder = StringBuilder::new()
   let mut n = 0
-  for i in 0..<content.length() {
-    let ch = content[i].to_int().unsafe_to_char()
+  for content_elem in content {
+    let ch = content_elem.to_int().unsafe_to_char()
     if ch == '\n' {
       lines.push(line.to_string())
       line.reset()

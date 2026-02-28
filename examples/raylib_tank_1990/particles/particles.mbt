@@ -132,11 +132,10 @@ pub fn spawn_respawn_burst(game : @types.Game, x : Float, y : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
-    let p = game.particles[i]
     p.life -= dt * p.fade
     if p.life <= 0.0 {
       p.active = false

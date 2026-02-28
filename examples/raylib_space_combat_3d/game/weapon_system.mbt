@@ -186,8 +186,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
       // Check against enemy stations
       if proj.active {
-        for j in 0..<game.stations.length() {
-          let s = game.stations[j]
+        for s in game.stations {
           if not(s.active) {
             continue
           }
@@ -232,8 +231,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
       // Enemy projectiles also hit friendly stations
       if proj.active {
-        for j in 0..<game.stations.length() {
-          let s = game.stations[j]
+        for s in game.stations {
           if not(s.active) {
             continue
           }
@@ -304,8 +302,7 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

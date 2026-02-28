@@ -169,8 +169,8 @@ fn try_move(game : Game, dx : Int, dy : Int) -> Bool {
 fn try_rotate(game : Game, dir : Int) -> Unit {
   let new_rot = normalize_rot(game.piece_rot + dir)
   let kicks : Array[Int] = [0, -1, 1, -2, 2]
-  for i in 0..<kicks.length() {
-    let x = game.piece_x + kicks[i]
+  for kick in kicks {
+    let x = game.piece_x + kick
     if not(collides(game, game.piece_kind, new_rot, x, game.piece_y)) {
       game.piece_rot = new_rot
       game.piece_x = x

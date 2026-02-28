@@ -159,32 +159,32 @@ fn draw_exits(game : Game) -> Unit {
 
 ///|
 fn draw_traps(game : Game) -> Unit {
-  for i in 0..<game.traps.length() {
-    if not(game.traps[i].active) {
+  for trap in game.traps {
+    if not(trap.active) {
       continue
     }
 
     let blink : Float = (0.5 : Float) +
-      (0.5 : Float) * sinf(game.traps[i].blink_t * 5.2)
+      (0.5 : Float) * sinf(trap.blink_t * 5.2)
     let alpha = 70 + (blink * 120.0).to_int()
 
     @raylib.draw_circle(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
-      game.traps[i].radius + 8.0,
+      trap.x.to_int(),
+      trap.y.to_int(),
+      trap.radius + 8.0,
       @raylib.Color::new(230, 76, 124, alpha / 3),
     )
 
     @raylib.draw_circle_lines(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
-      game.traps[i].radius,
+      trap.x.to_int(),
+      trap.y.to_int(),
+      trap.radius,
       @raylib.Color::new(250, 98, 146, alpha),
     )
 
     @raylib.draw_circle(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
       4.0,
       col_trap(),
     )
@@ -193,34 +193,34 @@ fn draw_traps(game : Game) -> Unit {
 
 ///|
 fn draw_parcels(game : Game) -> Unit {
-  for i in 0..<game.parcels.length() {
-    if not(game.parcels[i].active) || game.parcels[i].delivered {
+  for parcel in game.parcels {
+    if not(parcel.active) || parcel.delivered {
       continue
     }
 
     let pulse : Float = (0.5 : Float) +
-      (0.5 : Float) * sinf(game.parcels[i].pulse)
+      (0.5 : Float) * sinf(parcel.pulse)
 
     @raylib.draw_circle(
-      game.parcels[i].x.to_int(),
-      game.parcels[i].y.to_int(),
+      parcel.x.to_int(),
+      parcel.y.to_int(),
       (18.0 : Float) + pulse * (4.0 : Float),
       @raylib.Color::new(250, 214, 108, 58),
     )
 
     @raylib.draw_rectangle(
-      (game.parcels[i].x - 10.0).to_int(),
-      (game.parcels[i].y - 8.0).to_int(),
+      (parcel.x - 10.0).to_int(),
+      (parcel.y - 8.0).to_int(),
       20,
       16,
       col_parcel(),
     )
 
     @raylib.draw_line(
-      game.parcels[i].x.to_int(),
-      (game.parcels[i].y - 8.0).to_int(),
-      game.parcels[i].x.to_int(),
-      (game.parcels[i].y + 8.0).to_int(),
+      parcel.x.to_int(),
+      (parcel.y - 8.0).to_int(),
+      parcel.x.to_int(),
+      (parcel.y + 8.0).to_int(),
       @raylib.Color::new(180, 134, 64, 220),
     )
   }
@@ -228,23 +228,23 @@ fn draw_parcels(game : Game) -> Unit {
 
 ///|
 fn draw_smokes(game : Game) -> Unit {
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    let life_ratio = clampf(game.smokes[i].life / smoke_life_secs, 0.0, 1.0)
+    let life_ratio = clampf(smoke.life / smoke_life_secs, 0.0, 1.0)
 
     @raylib.draw_circle(
-      game.smokes[i].x.to_int(),
-      game.smokes[i].y.to_int(),
-      game.smokes[i].radius,
+      smoke.x.to_int(),
+      smoke.y.to_int(),
+      smoke.radius,
       @raylib.Color::new(154, 162, 176, ((56.0 : Float) * life_ratio).to_int()),
     )
     @raylib.draw_circle_lines(
-      game.smokes[i].x.to_int(),
-      game.smokes[i].y.to_int(),
-      game.smokes[i].radius,
+      smoke.x.to_int(),
+      smoke.y.to_int(),
+      smoke.radius,
       @raylib.Color::new(212, 220, 236, ((136.0 : Float) * life_ratio).to_int()),
     )
   }
@@ -303,9 +303,9 @@ fn draw_guard(g : Guard) -> Unit {
 
 ///|
 fn draw_guards(game : Game) -> Unit {
-  for i in 0..<game.guards.length() {
-    if game.guards[i].active {
-      draw_guard(game.guards[i])
+  for guard_val in game.guards {
+    if guard_val.active {
+      draw_guard(guard_val)
     }
   }
 }

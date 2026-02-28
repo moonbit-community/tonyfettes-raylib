@@ -51,8 +51,8 @@ fn crate_at(crates : Array[Pos], x : Int, y : Int) -> Int {
 
 ///|
 fn is_target(targets : Array[Pos], x : Int, y : Int) -> Bool {
-  for i in 0..<targets.length() {
-    if targets[i].x == x && targets[i].y == y {
+  for target in targets {
+    if target.x == x && target.y == y {
       return true
     }
   }
@@ -61,8 +61,8 @@ fn is_target(targets : Array[Pos], x : Int, y : Int) -> Bool {
 
 ///|
 fn all_delivered(crates : Array[Pos], targets : Array[Pos]) -> Bool {
-  for i in 0..<crates.length() {
-    if not(is_target(targets, crates[i].x, crates[i].y)) {
+  for crate in crates {
+    if not(is_target(targets, crate.x, crate.y)) {
       return false
     }
   }
@@ -260,10 +260,10 @@ fn main {
       }
     }
 
-    for i in 0..<crates.length() {
-      let cx = ox + crates[i].x * cell
-      let cy = oy + crates[i].y * cell
-      let docked = is_target(targets, crates[i].x, crates[i].y)
+    for crate in crates {
+      let cx = ox + crate.x * cell
+      let cy = oy + crate.y * cell
+      let docked = is_target(targets, crate.x, crate.y)
       @raylib.draw_rectangle(
         cx + 10,
         cy + 12,

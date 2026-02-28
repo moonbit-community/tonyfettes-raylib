@@ -1,73 +1,73 @@
 ///|
 fn clear_foes(game : Game) -> Unit {
-  for i in 0..<game.foes.length() {
-    game.foes[i].active = false
-    game.foes[i].kind = foe_wisp
-    game.foes[i].x = 0.0
-    game.foes[i].y = 0.0
-    game.foes[i].vx = 0.0
-    game.foes[i].vy = 0.0
-    game.foes[i].w = 0.0
-    game.foes[i].h = 0.0
-    game.foes[i].hp = 0.0
-    game.foes[i].life = 0.0
-    game.foes[i].phase = 0.0
-    game.foes[i].shot_cd = 0.0
-    game.foes[i].reward = 0
-    game.foes[i].marked = false
+  for foe in game.foes {
+    foe.active = false
+    foe.kind = foe_wisp
+    foe.x = 0.0
+    foe.y = 0.0
+    foe.vx = 0.0
+    foe.vy = 0.0
+    foe.w = 0.0
+    foe.h = 0.0
+    foe.hp = 0.0
+    foe.life = 0.0
+    foe.phase = 0.0
+    foe.shot_cd = 0.0
+    foe.reward = 0
+    foe.marked = false
   }
 }
 
 ///|
 fn clear_bolts(game : Game) -> Unit {
-  for i in 0..<game.bolts.length() {
-    game.bolts[i].active = false
-    game.bolts[i].x = 0.0
-    game.bolts[i].y = 0.0
-    game.bolts[i].vx = 0.0
-    game.bolts[i].vy = 0.0
-    game.bolts[i].life = 0.0
-    game.bolts[i].dmg = 0.0
-    game.bolts[i].kind = 0
+  for bolt in game.bolts {
+    bolt.active = false
+    bolt.x = 0.0
+    bolt.y = 0.0
+    bolt.vx = 0.0
+    bolt.vy = 0.0
+    bolt.life = 0.0
+    bolt.dmg = 0.0
+    bolt.kind = 0
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i in 0..<game.rings.length() {
-    game.rings[i].active = false
-    game.rings[i].x = 0.0
-    game.rings[i].y = 0.0
-    game.rings[i].r = 0.0
-    game.rings[i].life = 0.0
-    game.rings[i].kind = 0
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
   }
 }
 
 ///|
 fn clear_echoes(game : Game) -> Unit {
-  for i in 0..<game.echoes.length() {
-    game.echoes[i].active = false
-    game.echoes[i].x = 0.0
-    game.echoes[i].y = 0.0
-    game.echoes[i].w = 0.0
-    game.echoes[i].h = 0.0
-    game.echoes[i].life = 0.0
-    game.echoes[i].rot = 0.0
+  for echoe in game.echoes {
+    echoe.active = false
+    echoe.x = 0.0
+    echoe.y = 0.0
+    echoe.w = 0.0
+    echoe.h = 0.0
+    echoe.life = 0.0
+    echoe.rot = 0.0
   }
 }
 
@@ -417,53 +417,53 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
 
   let rr2 = bell_shock_radius * bell_shock_radius
 
-  for i in 0..<game.foes.length() {
-    if not(game.foes[i].active) {
+  for foe in game.foes {
+    if not(foe.active) {
       continue
     }
 
     let d2 = dist2(
       game.bells[bell_i].x,
       game.bells[bell_i].y,
-      game.foes[i].x,
-      game.foes[i].y,
+      foe.x,
+      foe.y,
     )
     if d2 > rr2 {
       continue
     }
 
-    if is_relic(game.foes[i].kind) {
-      game.foes[i].active = false
+    if is_relic(foe.kind) {
+      foe.active = false
       game.rescued = game.rescued + 1
       add_score(game, 180)
       game.spirit = minf(spirit_max, game.spirit + 20.0)
       game.shrine_hp = minf(shrine_max_hp, game.shrine_hp + 12.0)
-      spawn_ring(game, game.foes[i].x, game.foes[i].y, 10.0, 0.5, 2)
-      burst_sparks(game, game.foes[i].x, game.foes[i].y, 12, 2)
+      spawn_ring(game, foe.x, foe.y, 10.0, 0.5, 2)
+      burst_sparks(game, foe.x, foe.y, 12, 2)
       continue
     }
 
-    let dmg = if game.foes[i].kind == foe_brute {
+    let dmg = if foe.kind == foe_brute {
       bell_shock_damage * 0.7
     } else {
       bell_shock_damage
     }
 
-    game.foes[i].hp = game.foes[i].hp - dmg
-    game.foes[i].marked = true
+    foe.hp = foe.hp - dmg
+    foe.marked = true
 
-    let dx = game.foes[i].x - game.bells[bell_i].x
-    let dy = game.foes[i].y - game.bells[bell_i].y
+    let dx = foe.x - game.bells[bell_i].x
+    let dy = foe.y - game.bells[bell_i].y
     let n2 = maxf(1.0, dx * dx + dy * dy)
     let inv = Float::from_int(1) / sqrtf(n2)
-    game.foes[i].vx = game.foes[i].vx + dx * inv * 220.0
-    game.foes[i].vy = game.foes[i].vy + dy * inv * 220.0
+    foe.vx = foe.vx + dx * inv * 220.0
+    foe.vy = foe.vy + dy * inv * 220.0
 
-    if game.foes[i].hp <= 0.0 {
-      let x = game.foes[i].x
-      let y = game.foes[i].y
-      let reward = game.foes[i].reward
-      game.foes[i].active = false
+    if foe.hp <= 0.0 {
+      let x = foe.x
+      let y = foe.y
+      let reward = foe.reward
+      foe.active = false
       add_score(game, reward)
       push_combo(game)
       game.defeats = game.defeats + 1
@@ -472,23 +472,23 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
     }
   }
 
-  for i in 0..<game.bolts.length() {
-    if not(game.bolts[i].active) {
+  for bolt in game.bolts {
+    if not(bolt.active) {
       continue
     }
 
     let d2 = dist2(
       game.bells[bell_i].x,
       game.bells[bell_i].y,
-      game.bolts[i].x,
-      game.bolts[i].y,
+      bolt.x,
+      bolt.y,
     )
     if d2 <= rr2 {
-      game.bolts[i].active = false
+      bolt.active = false
       emit_spark(
         game,
-        game.bolts[i].x,
-        game.bolts[i].y,
+        bolt.x,
+        bolt.y,
         randf(-80.0, 80.0),
         randf(-80.0, 80.0),
         randf(0.2, 0.42),
@@ -925,31 +925,31 @@ fn update_foes(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bolts(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.bolts.length() {
-    if not(game.bolts[i].active) {
+  for bolt in game.bolts {
+    if not(bolt.active) {
       continue
     }
 
-    game.bolts[i].x = game.bolts[i].x + game.bolts[i].vx * dt
-    game.bolts[i].y = game.bolts[i].y + game.bolts[i].vy * dt
-    game.bolts[i].life = game.bolts[i].life - dt
+    bolt.x = bolt.x + bolt.vx * dt
+    bolt.y = bolt.y + bolt.vy * dt
+    bolt.life = bolt.life - dt
 
-    let dead = game.bolts[i].life <= 0.0 ||
-      game.bolts[i].x < play_left - 120.0 ||
-      game.bolts[i].x > play_right + 120.0 ||
-      game.bolts[i].y < play_top - 120.0 ||
-      game.bolts[i].y > play_bottom + 120.0
+    let dead = bolt.life <= 0.0 ||
+      bolt.x < play_left - 120.0 ||
+      bolt.x > play_right + 120.0 ||
+      bolt.y < play_top - 120.0 ||
+      bolt.y > play_bottom + 120.0
 
     if dead {
-      game.bolts[i].active = false
+      bolt.active = false
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.bolts[i].x, game.bolts[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, bolt.x, bolt.y)
     let rr = hero_hit_r(game.hero) + 8.0
     if d2 <= rr * rr {
-      game.bolts[i].active = false
-      hurt_hero(game, game.bolts[i].dmg)
+      bolt.active = false
+      hurt_hero(game, bolt.dmg)
       emit_spark(
         game,
         game.hero.x,
@@ -966,46 +966,46 @@ fn update_bolts(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].life = game.sparks[i].life - dt
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.life = spark.life - dt
 
-    if game.sparks[i].kind == 3 {
-      game.sparks[i].vy = game.sparks[i].vy + 12.0 * dt
+    if spark.kind == 3 {
+      spark.vy = spark.vy + 12.0 * dt
     }
 
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    if spark.life <= 0.0 {
+      spark.active = false
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    game.rings[i].life = game.rings[i].life - dt
-    game.rings[i].r = game.rings[i].r +
-      (130.0 + Float::from_int(game.rings[i].kind) * 44.0) * dt
+    ring.life = ring.life - dt
+    ring.r = ring.r +
+      (130.0 + Float::from_int(ring.kind) * 44.0) * dt
 
-    if game.rings[i].life <= 0.0 {
-      game.rings[i].active = false
+    if ring.life <= 0.0 {
+      ring.active = false
     }
   }
 
-  for i in 0..<game.echoes.length() {
-    if not(game.echoes[i].active) {
+  for echoe in game.echoes {
+    if not(echoe.active) {
       continue
     }
 
-    game.echoes[i].life = game.echoes[i].life - dt
-    if game.echoes[i].life <= 0.0 {
-      game.echoes[i].active = false
+    echoe.life = echoe.life - dt
+    if echoe.life <= 0.0 {
+      echoe.active = false
     }
   }
 }

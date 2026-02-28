@@ -104,22 +104,22 @@ fn best_auto_aim(game : Game) -> (Float, Float) {
 
   let mut best : Float = 1_000_000_000.0
 
-  for i in 0..<game.enemies.length() {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
 
     let d2 : Float = dist2(
       game.player_x,
       game.player_y,
-      game.enemies[i].x,
-      game.enemies[i].y,
+      enemy.x,
+      enemy.y,
     )
 
     if d2 < best {
       best = d2
-      tx = game.enemies[i].x
-      ty = game.enemies[i].y
+      tx = enemy.x
+      ty = enemy.y
     }
   }
 

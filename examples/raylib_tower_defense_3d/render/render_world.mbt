@@ -234,8 +234,7 @@ fn draw_path_markers(game : @types.Game) -> Unit {
 
 ///|
 fn draw_towers(game : @types.Game) -> Unit {
-  for i in 0..<game.towers.length() {
-    let tower = game.towers[i]
+  for tower in game.towers {
     if not(tower.active) {
       continue
     }
@@ -686,8 +685,7 @@ fn draw_buff_tower(
   // Buff range indicator
   let range = @types.tower_effective_range(game.towers[0])
   // Find this tower to get actual range
-  for i in 0..<game.towers.length() {
-    let t = game.towers[i]
+  for t in game.towers {
     if t.active && t.kind == @types.tower_buff {
       let tx = @types.grid_to_world_x(t.gx)
       let tz = @types.grid_to_world_z(t.gy)
@@ -831,8 +829,7 @@ fn tower_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
@@ -1268,8 +1265,7 @@ fn draw_enemy_shield_bar(enemy : @types.Enemy) -> Unit {
 
 ///|
 fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
@@ -1376,8 +1372,7 @@ fn enemy_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -1471,8 +1466,7 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
-  for i in 0..<game.chain_lines.length() {
-    let cl = game.chain_lines[i]
+  for cl in game.chain_lines {
     if not(cl.active) {
       continue
     }
@@ -1499,8 +1493,7 @@ fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

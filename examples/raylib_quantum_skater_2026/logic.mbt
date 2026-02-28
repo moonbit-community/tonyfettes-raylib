@@ -1,43 +1,43 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i in 0..<game.objs.length() {
-    game.objs[i].active = false
-    game.objs[i].kind = obj_wall
-    game.objs[i].lane = 0
-    game.objs[i].z = 0.0
-    game.objs[i].y_off = 0.0
-    game.objs[i].w = 0.0
-    game.objs[i].h = 0.0
-    game.objs[i].phase_only = 0
-    game.objs[i].spin = 0.0
-    game.objs[i].hit_lock = 0.0
+  for obj in game.objs {
+    obj.active = false
+    obj.kind = obj_wall
+    obj.lane = 0
+    obj.z = 0.0
+    obj.y_off = 0.0
+    obj.w = 0.0
+    obj.h = 0.0
+    obj.phase_only = 0
+    obj.spin = 0.0
+    obj.hit_lock = 0.0
   }
 }
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_trails(game : Game) -> Unit {
-  for i in 0..<game.trails.length() {
-    game.trails[i].active = false
-    game.trails[i].x = 0.0
-    game.trails[i].y = 0.0
-    game.trails[i].w = 0.0
-    game.trails[i].h = 0.0
-    game.trails[i].life = 0.0
-    game.trails[i].beta = false
+  for trail in game.trails {
+    trail.active = false
+    trail.x = 0.0
+    trail.y = 0.0
+    trail.w = 0.0
+    trail.h = 0.0
+    trail.life = 0.0
+    trail.beta = false
   }
 }
 
@@ -571,12 +571,11 @@ fn update_objects(game : Game, dt : Float) -> Unit {
   let dz = game.speed * game.speed_mul * dt
   game.stage_progress = game.stage_progress + dz
 
-  for i in 0..<game.objs.length() {
-    if not(game.objs[i].active) {
+  for o in game.objs {
+    if not(o.active) {
       continue
     }
 
-    let o = game.objs[i]
     o.z = o.z - dz
     o.spin = o.spin + dt * 2.0
 
@@ -677,31 +676,31 @@ fn update_objects(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * 2.3)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * 1.8) - dt * 140.0
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
+    particle.vx = particle.vx * (1.0 - dt * 2.3)
+    particle.vy = particle.vy * (1.0 - dt * 1.8) - dt * 140.0
   }
 
-  for i in 0..<game.trails.length() {
-    if not(game.trails[i].active) {
+  for trail in game.trails {
+    if not(trail.active) {
       continue
     }
 
-    game.trails[i].life = game.trails[i].life - dt
-    if game.trails[i].life <= 0.0 {
-      game.trails[i].active = false
+    trail.life = trail.life - dt
+    if trail.life <= 0.0 {
+      trail.active = false
     }
   }
 }
@@ -798,15 +797,15 @@ fn update_title_scene(game : Game, dt : Float) -> Unit {
   game.title_t = game.title_t + dt
 
   let demo_dz = base_speed * 0.52 * dt
-  for i in 0..<game.objs.length() {
-    if not(game.objs[i].active) {
+  for obj in game.objs {
+    if not(obj.active) {
       continue
     }
 
-    game.objs[i].z = game.objs[i].z - demo_dz
-    game.objs[i].spin = game.objs[i].spin + dt * 2.0
-    if game.objs[i].z < -180.0 {
-      game.objs[i].active = false
+    obj.z = obj.z - demo_dz
+    obj.spin = obj.spin + dt * 2.0
+    if obj.z < -180.0 {
+      obj.active = false
     }
   }
 

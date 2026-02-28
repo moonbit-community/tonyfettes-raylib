@@ -88,8 +88,8 @@ fn reset_pellets(game : Game) -> Unit {
     (maze_cols / 2 + 1, maze_rows / 2),
     (maze_cols / 2, maze_rows / 2 - 1),
   ]
-  for i in 0..<spawn_cells.length() {
-    let (x, y) = spawn_cells[i]
+  for spawn_cell in spawn_cells {
+    let (x, y) = spawn_cell
     let idx = map_index(x, y)
     if game.pellets[idx] != 0 {
       game.pellets[idx] = 0
@@ -103,8 +103,8 @@ fn reset_pellets(game : Game) -> Unit {
     (1, maze_rows - 2),
     (maze_cols - 2, maze_rows - 2),
   ]
-  for i in 0..<power_spots.length() {
-    let (x, y) = power_spots[i]
+  for power_spot in power_spots {
+    let (x, y) = power_spot
     if game.walls[map_index(x, y)] == 0 {
       if game.pellets[map_index(x, y)] == 0 {
         game.pellets_left = game.pellets_left + 1
@@ -123,11 +123,11 @@ fn reset_positions(game : Game) -> Unit {
   game.want_x = 0
   game.want_y = 0
 
-  for i in 0..<game.ghosts.length() {
-    game.ghosts[i].x = game.ghosts[i].start_x
-    game.ghosts[i].y = game.ghosts[i].start_y
-    game.ghosts[i].dir_x = 1
-    game.ghosts[i].dir_y = 0
+  for ghost in game.ghosts {
+    ghost.x = ghost.start_x
+    ghost.y = ghost.start_y
+    ghost.dir_x = 1
+    ghost.dir_y = 0
   }
 }
 

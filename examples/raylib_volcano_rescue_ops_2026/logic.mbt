@@ -154,11 +154,11 @@ fn is_walkable(game : Game, x : Int, y : Int) -> Bool {
 ///|
 fn clear_sites(game : Game) -> Unit {
   game.site_count = 0
-  for i in 0..<game.sites.length() {
-    game.sites[i].active = false
-    game.sites[i].x = 0
-    game.sites[i].y = 0
-    game.sites[i].waiting = 0
+  for site in game.sites {
+    site.active = false
+    site.x = 0
+    site.y = 0
+    site.waiting = 0
   }
 }
 

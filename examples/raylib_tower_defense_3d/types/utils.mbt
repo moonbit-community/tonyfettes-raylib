@@ -654,8 +654,8 @@ pub fn find_target(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -667,8 +667,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_active_towers(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.towers.length() {
-    if game.towers[i].active {
+  for tower in game.towers {
+    if tower.active {
       count += 1
     }
   }
@@ -1022,9 +1022,8 @@ pub fn add_chain_line(
   y2 : Float,
   z2 : Float,
 ) -> Unit {
-  for i in 0..<game.chain_lines.length() {
-    if not(game.chain_lines[i].active) {
-      let cl = game.chain_lines[i]
+  for cl in game.chain_lines {
+    if not(cl.active) {
       cl.active = true
       cl.x1 = x1
       cl.y1 = y1

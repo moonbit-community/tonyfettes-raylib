@@ -321,30 +321,30 @@ fn draw_wagons(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_raiders(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.raiders.length() {
-    if not(game.raiders[i].active) {
+  for raider in game.raiders {
+    if not(raider.active) {
       continue
     }
 
-    let x = game.raiders[i].x + cam_x
-    let y = game.raiders[i].y + cam_y
+    let x = raider.x + cam_x
+    let y = raider.y + cam_y
 
-    let mut col = if game.raiders[i].kind == raider_brute {
+    let mut col = if raider.kind == raider_brute {
       @raylib.Color::new(212, 86, 62, 255)
-    } else if game.raiders[i].kind == raider_rider {
+    } else if raider.kind == raider_rider {
       @raylib.Color::new(252, 166, 68, 255)
     } else {
       @raylib.Color::new(236, 112, 84, 255)
     }
 
-    if game.raiders[i].flash_t > 0.0 {
+    if raider.flash_t > 0.0 {
       col = @raylib.Color::new(250, 236, 214, 255)
     }
 
-    @raylib.draw_circle(x.to_int(), y.to_int(), game.raiders[i].radius, col)
+    @raylib.draw_circle(x.to_int(), y.to_int(), raider.radius, col)
 
-    let mut nx = game.raiders[i].vx
-    let mut ny = game.raiders[i].vy
+    let mut nx = raider.vx
+    let mut ny = raider.vy
     let n_len = sqrtf(nx * nx + ny * ny)
     if n_len > 0.01 {
       nx = nx / n_len
@@ -355,21 +355,21 @@ fn draw_raiders(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
 
     let tip = @raylib.Vector2::new(
-      x + nx * (game.raiders[i].radius + 8.0),
-      y + ny * (game.raiders[i].radius + 8.0),
+      x + nx * (raider.radius + 8.0),
+      y + ny * (raider.radius + 8.0),
     )
     let left = @raylib.Vector2::new(x - ny * 5.0, y + nx * 5.0)
     let right = @raylib.Vector2::new(x + ny * 5.0, y - nx * 5.0)
     @raylib.draw_triangle(tip, left, right, @raylib.Color::new(42, 32, 28, 220))
 
-    let raider_max_hp : Float = if game.raiders[i].kind == raider_brute {
+    let raider_max_hp : Float = if raider.kind == raider_brute {
       108.0
-    } else if game.raiders[i].kind == raider_rider {
+    } else if raider.kind == raider_rider {
       72.0
     } else {
       62.0
     }
-    let hp = clamp01(game.raiders[i].hp / raider_max_hp)
+    let hp = clamp01(raider.hp / raider_max_hp)
     @raylib.draw_rectangle(
       x.to_int() - 18,
       y.to_int() - 24,
@@ -389,15 +389,15 @@ fn draw_raiders(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
 
-    let alpha = clampi((game.bullets[i].life * 380.0).to_int(), 0, 255)
+    let alpha = clampi((bullet.life * 380.0).to_int(), 0, 255)
     @raylib.draw_circle(
-      (game.bullets[i].x + cam_x).to_int(),
-      (game.bullets[i].y + cam_y).to_int(),
+      (bullet.x + cam_x).to_int(),
+      (bullet.y + cam_y).to_int(),
       3.8,
       @raylib.Color::new(246, 244, 172, alpha),
     )
@@ -406,17 +406,17 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_dust(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.dusts.length() {
-    if not(game.dusts[i].active) {
+  for dust in game.dusts {
+    if not(dust.active) {
       continue
     }
 
-    let mut alpha = clampi((game.dusts[i].life * 280.0).to_int(), 0, 255)
-    let col = if game.dusts[i].kind == 1 {
+    let mut alpha = clampi((dust.life * 280.0).to_int(), 0, 255)
+    let col = if dust.kind == 1 {
       @raylib.Color::new(238, 118, 86, alpha)
-    } else if game.dusts[i].kind == 2 {
+    } else if dust.kind == 2 {
       @raylib.Color::new(255, 246, 182, alpha)
-    } else if game.dusts[i].kind == 3 {
+    } else if dust.kind == 3 {
       alpha = clampi(alpha + 30, 0, 255)
       @raylib.Color::new(120, 244, 204, alpha)
     } else {
@@ -424,9 +424,9 @@ fn draw_dust(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
 
     @raylib.draw_circle(
-      (game.dusts[i].x + cam_x).to_int(),
-      (game.dusts[i].y + cam_y).to_int(),
-      game.dusts[i].size,
+      (dust.x + cam_x).to_int(),
+      (dust.y + cam_y).to_int(),
+      dust.size,
       col,
     )
   }

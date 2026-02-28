@@ -126,12 +126,11 @@ fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_flares(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.flares.length() {
-    if not(game.flares[i].active) {
+  for f0 in game.flares {
+    if not(f0.active) {
       continue
     }
 
-    let f0 = game.flares[i]
     let r = ring_radius(f0.ring)
     let segs = 16
 
@@ -246,19 +245,18 @@ fn draw_enemy(game : Game, e : Enemy, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    draw_enemy(game, game.enemies[i], cam_x, cam_y)
+  for enemy in game.enemies {
+    draw_enemy(game, enemy, cam_x, cam_y)
   }
 }
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for b in game.bullets {
+    if not(b.active) {
       continue
     }
 
-    let b = game.bullets[i]
     let r = ring_radius(clampi((b.ring_f + 0.5).to_int(), 0, ring_count - 1))
     let p = world_to_screen(
       world_x(r, b.angle),
@@ -278,12 +276,11 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i in 0..<game.enemy_bullets.length() {
-    if not(game.enemy_bullets[i].active) {
+  for b in game.enemy_bullets {
+    if not(b.active) {
       continue
     }
 
-    let b = game.enemy_bullets[i]
     let p = world_to_screen(b.x, b.y, cam_x, cam_y)
     let col = if b.kind == 1 {
       @raylib.Color::new(255, 176, 106, 255)
@@ -299,12 +296,11 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
 
-    let p = game.particles[i]
     let s = world_to_screen(p.x, p.y, cam_x, cam_y)
     let alpha = clampi((p.life * 255.0).to_int(), 0, 255)
 
@@ -322,12 +318,11 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_shocks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.shocks.length() {
-    if not(game.shocks[i].active) {
+  for s in game.shocks {
+    if not(s.active) {
       continue
     }
 
-    let s = game.shocks[i]
     let r = ring_radius(s.ring)
     let segs = 24
 

@@ -74,8 +74,8 @@ fn init_map() -> Array[Int] {
     (cols - 3, rows - 2),
     (cols - 2, rows - 3),
   ]
-  for i in 0..<clear_cells.length() {
-    let (x, y) = clear_cells[i]
+  for clear_cell in clear_cells {
+    let (x, y) = clear_cell
     map[idx(x, y)] = 0
   }
 
@@ -106,8 +106,8 @@ fn fire_hits(map : Array[Int], bomb : Bomb, tx : Int, ty : Int) -> Bool {
   }
 
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-  for i in 0..<dirs.length() {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     let mut x = bomb.x
     let mut y = bomb.y
     for _step in 0..<3 {
@@ -139,8 +139,8 @@ fn apply_explosion(map : Array[Int], bomb : Bomb) -> Int {
 
   let mut destroyed = 0
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-  for i in 0..<dirs.length() {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     let mut x = bomb.x
     let mut y = bomb.y
     for _step in 0..<3 {
@@ -301,43 +301,43 @@ fn main {
         lose = true
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].alive) {
+      for enemy in enemies {
+        if not(enemy.alive) {
           continue
         }
 
-        if fire_hits(map, bomb, enemies[i].x, enemies[i].y) {
-          enemies[i].alive = false
+        if fire_hits(map, bomb, enemy.x, enemy.y) {
+          enemy.alive = false
           score = score + 120
           continue
         }
 
-        enemies[i].step_timer = enemies[i].step_timer + dt
-        if enemies[i].step_timer >= 0.32 {
-          enemies[i].step_timer = enemies[i].step_timer - 0.32
+        enemy.step_timer = enemy.step_timer + dt
+        if enemy.step_timer >= 0.32 {
+          enemy.step_timer = enemy.step_timer - 0.32
           let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
           let start = @raylib.get_random_value(0, 3)
           for try_i in 0..<dirs.length() {
             let j = (start + try_i) % dirs.length()
             let (ddx, ddy) = dirs[j]
-            let nx = enemies[i].x + ddx
-            let ny = enemies[i].y + ddy
+            let nx = enemy.x + ddx
+            let ny = enemy.y + ddy
             if is_walkable(map, nx, ny, bomb) {
-              enemies[i].x = nx
-              enemies[i].y = ny
+              enemy.x = nx
+              enemy.y = ny
               break
             }
           }
         }
 
-        if enemies[i].x == player_x && enemies[i].y == player_y {
+        if enemy.x == player_x && enemy.y == player_y {
           lose = true
         }
       }
 
       let mut alive_enemy = 0
-      for i in 0..<enemies.length() {
-        if enemies[i].alive {
+      for enemy in enemies {
+        if enemy.alive {
           alive_enemy = alive_enemy + 1
         }
       }
@@ -400,10 +400,10 @@ fn main {
       @raylib.skyblue,
     )
 
-    for i in 0..<enemies.length() {
-      if enemies[i].alive {
-        let ex = off_x + enemies[i].x * tile
-        let ey = off_y + enemies[i].y * tile
+    for enemy in enemies {
+      if enemy.alive {
+        let ex = off_x + enemy.x * tile
+        let ey = off_y + enemy.y * tile
         @raylib.draw_rectangle(
           ex + 8,
           ey + 8,

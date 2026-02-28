@@ -322,8 +322,7 @@ fn check_wall_slide(game : @types.Game) -> Unit {
   let ph = @types.player_height
   let check_dist : Float = 0.15
   // Check left and right walls
-  for i in 0..<game.platforms.length() {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
       continue
     }
@@ -368,8 +367,7 @@ fn apply_conveyor_force(game : @types.Game, dt : Float) -> Unit {
   if not(game.grounded) {
     return
   }
-  for i in 0..<game.platforms.length() {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
       continue
     }
@@ -399,8 +397,7 @@ fn apply_conveyor_force(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn pull_collectibles_magnet(game : @types.Game, dt : Float) -> Unit {
   let mag_range = @types.powerup_magnet_range
-  for i in 0..<game.collectibles.length() {
-    let c = game.collectibles[i]
+  for c in game.collectibles {
     if not(c.active) || c.collected {
       continue
     }
@@ -420,8 +417,7 @@ fn pull_collectibles_magnet(game : @types.Game, dt : Float) -> Unit {
 fn resolve_platform_collisions(game : @types.Game) -> Unit {
   let pr = @types.player_radius
   let ph = @types.player_height
-  for i in 0..<game.platforms.length() {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
       continue
     }
@@ -550,8 +546,7 @@ fn carry_player_on_platform(game : @types.Game, plat : @types.Platform) -> Unit 
 
 ///|
 fn update_platforms(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.platforms.length() {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
       continue
     }
@@ -632,8 +627,7 @@ fn update_platforms(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_collectibles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.collectibles.length() {
-    let c = game.collectibles[i]
+  for c in game.collectibles {
     if not(c.active) || c.collected {
       continue
     }

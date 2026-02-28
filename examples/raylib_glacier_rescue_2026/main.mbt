@@ -582,14 +582,14 @@ fn main {
     avalanche_cd = 5.0
     announce_t = 2.8
 
-    for i in 0..<avalanches.length() {
-      avalanches[i].active = false
+    for avalanch in avalanches {
+      avalanch.active = false
     }
-    for i in 0..<flares.length() {
-      flares[i].active = false
+    for flare in flares {
+      flare.active = false
     }
-    for i in 0..<particles.length() {
-      particles[i].active = false
+    for particle in particles {
+      particle.active = false
     }
 
     spawn_survivors(survivors, level)
@@ -839,12 +839,12 @@ fn main {
       if heli.boost_t > 0.0 {
         cold_rate = cold_rate + 3.2
       }
-      for i in 0..<flares.length() {
-        if not(flares[i].active) {
+      for flare in flares {
+        if not(flare.active) {
           continue
         }
-        let d2 = dist2(heli.x, heli.y, flares[i].x, flares[i].y)
-        if d2 < flares[i].r * flares[i].r {
+        let d2 = dist2(heli.x, heli.y, flare.x, flare.y)
+        if d2 < flare.r * flare.r {
           cold_rate = cold_rate - 10.0
         }
       }
@@ -865,78 +865,78 @@ fn main {
       }
 
       let mut impact = false
-      for i in 0..<hazards.length() {
-        if not(hazards[i].active) {
+      for hazard in hazards {
+        if not(hazard.active) {
           continue
         }
 
-        hazards[i].life = hazards[i].life - dt
-        if hazards[i].life <= 0.0 {
-          hazards[i].life = randf(8.0, 18.0)
+        hazard.life = hazard.life - dt
+        if hazard.life <= 0.0 {
+          hazard.life = randf(8.0, 18.0)
           let a = randf(0.0, 6.283)
-          let spd = if hazards[i].kind == 0 {
+          let spd = if hazard.kind == 0 {
             randf(22.0, 54.0)
           } else {
             randf(42.0, 92.0)
           }
-          hazards[i].vx = cosf(a) * spd
-          hazards[i].vy = sinf(a) * spd
+          hazard.vx = cosf(a) * spd
+          hazard.vy = sinf(a) * spd
         }
 
-        hazards[i].x = hazards[i].x + (hazards[i].vx + storm.wind_x * 0.16) * dt
-        hazards[i].y = hazards[i].y + (hazards[i].vy + storm.wind_y * 0.16) * dt
-        let spin_speed : Float = if hazards[i].kind == 0 { 2.2 } else { 3.8 }
-        hazards[i].spin = hazards[i].spin + dt * spin_speed
+        hazard.x = hazard.x + (hazard.vx + storm.wind_x * 0.16) * dt
+        hazard.y = hazard.y + (hazard.vy + storm.wind_y * 0.16) * dt
+        let spin_speed : Float = if hazard.kind == 0 { 2.2 } else { 3.8 }
+        hazard.spin = hazard.spin + dt * spin_speed
 
-        if hazards[i].x < 80.0 {
-          hazards[i].x = 80.0
-          hazards[i].vx = hazards[i].vx.abs()
+        if hazard.x < 80.0 {
+          hazard.x = 80.0
+          hazard.vx = hazard.vx.abs()
         }
-        if hazards[i].x > world_w - 80.0 {
-          hazards[i].x = world_w - 80.0
-          hazards[i].vx = -hazards[i].vx.abs()
+        if hazard.x > world_w - 80.0 {
+          hazard.x = world_w - 80.0
+          hazard.vx = -hazard.vx.abs()
         }
-        if hazards[i].y < 80.0 {
-          hazards[i].y = 80.0
-          hazards[i].vy = hazards[i].vy.abs()
+        if hazard.y < 80.0 {
+          hazard.y = 80.0
+          hazard.vy = hazard.vy.abs()
         }
-        if hazards[i].y > world_h - 80.0 {
-          hazards[i].y = world_h - 80.0
-          hazards[i].vy = -hazards[i].vy.abs()
+        if hazard.y > world_h - 80.0 {
+          hazard.y = world_h - 80.0
+          hazard.vy = -hazard.vy.abs()
         }
 
-        let rr = hazards[i].r + 17.0
-        if dist2(heli.x, heli.y, hazards[i].x, hazards[i].y) < rr * rr {
+        let rr = hazard.r + 17.0
+        if dist2(heli.x, heli.y, hazard.x, hazard.y) < rr * rr {
           impact = true
-          let dx = heli.x - hazards[i].x
-          let dy = heli.y - hazards[i].y
+          let dx = heli.x - hazard.x
+          let dy = heli.y - hazard.y
           let d2 = dx * dx + dy * dy
           let inv : Float = if d2 < 1.0 { 0.0 } else { 1.0 / d2.sqrt() }
           heli.vx = heli.vx + dx * inv * 140.0
           heli.vy = heli.vy + dy * inv * 140.0
-          hazards[i].vx = hazards[i].vx - dx * inv * 120.0
-          hazards[i].vy = hazards[i].vy - dy * inv * 120.0
+          hazard.vx = hazard.vx - dx * inv * 120.0
+          hazard.vy = hazard.vy - dy * inv * 120.0
           burst_particles(particles, heli.x, heli.y, 18, 102.0, 2)
         }
       }
 
-      for i in 0..<avalanches.length() {
-        if not(avalanches[i].active) {
+      for avalanch in avalanches {
+        if not(avalanch.active) {
           continue
         }
 
-        avalanches[i].x = avalanches[i].x + avalanches[i].speed * dt
-        avalanches[i].life = avalanches[i].life - dt
+        avalanch.x = avalanch.x + avalanch.speed * dt
+        avalanch.life = avalanch.life - dt
 
-        if avalanches[i].x > world_w + avalanches[i].w ||
-          avalanches[i].life <= 0.0 {
-          avalanches[i].active = false
+        if avalanch.x > world_w + avalanch.w ||
+          avalanch.life <= 0.0 {
+          avalanch.active = false
           continue
         }
 
-        let inside_x = heli.x >= avalanches[i].x &&
-          heli.x <= avalanches[i].x + avalanches[i].w
-        let inside_y = (heli.y - avalanches[i].y).abs() <= 34.0
+        let inside_x = heli.x >= avalanch.x &&
+          heli.x <= avalanch.x + avalanch.w
+        let inside_y = (heli.y - avalanch.y).abs() <= 34.0
         if inside_x && inside_y {
           impact = true
           heli.vx = heli.vx + 210.0 * dt
@@ -952,44 +952,44 @@ fn main {
       }
 
       let mut carrying_now : Int = 0
-      for i in 0..<survivors.length() {
-        if not(survivors[i].active) {
+      for survivor in survivors {
+        if not(survivor.active) {
           continue
         }
 
-        survivors[i].panic_t = survivors[i].panic_t + dt
-        survivors[i].beacon_t = survivors[i].beacon_t +
+        survivor.panic_t = survivor.panic_t + dt
+        survivor.beacon_t = survivor.beacon_t +
           dt * (1.2 + storm.severity)
 
-        if not(survivors[i].carried) {
+        if not(survivor.carried) {
           let mut freeze_rate : Float = 2.4 + storm.severity * 4.1
-          for j in 0..<flares.length() {
-            if not(flares[j].active) {
+          for flare in flares {
+            if not(flare.active) {
               continue
             }
             let d2 = dist2(
-              survivors[i].x,
-              survivors[i].y,
-              flares[j].x,
-              flares[j].y,
+              survivor.x,
+              survivor.y,
+              flare.x,
+              flare.y,
             )
-            if d2 < flares[j].r * flares[j].r {
+            if d2 < flare.r * flare.r {
               freeze_rate = freeze_rate - 4.2
             }
           }
           if freeze_rate < 0.7 {
             freeze_rate = 0.7
           }
-          survivors[i].freeze = survivors[i].freeze + freeze_rate * dt
+          survivor.freeze = survivor.freeze + freeze_rate * dt
 
-          if survivors[i].freeze >= 100.0 {
-            survivors[i].active = false
-            survivors[i].saved = false
+          if survivor.freeze >= 100.0 {
+            survivor.active = false
+            survivor.saved = false
             heli.lost = heli.lost + 1
             burst_particles(
               particles,
-              survivors[i].x,
-              survivors[i].y,
+              survivor.x,
+              survivor.y,
               16,
               52.0,
               0,
@@ -999,17 +999,17 @@ fn main {
 
           let pickup_r : Float = 34.0
           if heli.onboard < 4 &&
-            dist2(heli.x, heli.y, survivors[i].x, survivors[i].y) <=
+            dist2(heli.x, heli.y, survivor.x, survivor.y) <=
             pickup_r * pickup_r {
-            survivors[i].carried = true
-            survivors[i].offset_x = randf(-18.0, 18.0)
-            survivors[i].offset_y = randf(-12.0, 18.0)
+            survivor.carried = true
+            survivor.offset_x = randf(-18.0, 18.0)
+            survivor.offset_y = randf(-12.0, 18.0)
             heli.onboard = heli.onboard + 1
             heli.score = heli.score + 90
             burst_particles(
               particles,
-              survivors[i].x,
-              survivors[i].y,
+              survivor.x,
+              survivor.y,
               8,
               42.0,
               1,
@@ -1017,30 +1017,30 @@ fn main {
           }
         }
 
-        if survivors[i].carried {
+        if survivor.carried {
           carrying_now = carrying_now + 1
           let slot = carrying_now - 1
           let row = slot / 2
           let col = slot % 2
           let tx = heli.x + Float::from_int(col * 26 - 13)
           let ty = heli.y + 34.0 + Float::from_int(row * 20)
-          survivors[i].x = lerpf(survivors[i].x, tx, dt * 8.2)
-          survivors[i].y = lerpf(survivors[i].y, ty, dt * 8.2)
-          survivors[i].freeze = survivors[i].freeze - 5.8 * dt
-          if survivors[i].freeze < 0.0 {
-            survivors[i].freeze = 0.0
+          survivor.x = lerpf(survivor.x, tx, dt * 8.2)
+          survivor.y = lerpf(survivor.y, ty, dt * 8.2)
+          survivor.freeze = survivor.freeze - 5.8 * dt
+          if survivor.freeze < 0.0 {
+            survivor.freeze = 0.0
           }
         }
       }
 
       if near_base && speed < 86.0 && heli.onboard > 0 {
-        for i in 0..<survivors.length() {
-          if not(survivors[i].active) || not(survivors[i].carried) {
+        for survivor in survivors {
+          if not(survivor.active) || not(survivor.carried) {
             continue
           }
-          survivors[i].active = false
-          survivors[i].saved = true
-          survivors[i].carried = false
+          survivor.active = false
+          survivor.saved = true
+          survivor.carried = false
           heli.rescued = heli.rescued + 1
           heli.onboard = heli.onboard - 1
           heli.score = heli.score + 220
@@ -1055,18 +1055,18 @@ fn main {
         }
       }
 
-      for i in 0..<flares.length() {
-        if not(flares[i].active) {
+      for flare in flares {
+        if not(flare.active) {
           continue
         }
-        flares[i].t = flares[i].t + dt
-        flares[i].r = flares[i].r + dt * 148.0
-        if flares[i].r > 320.0 {
-          flares[i].r = 320.0
+        flare.t = flare.t + dt
+        flare.r = flare.r + dt * 148.0
+        if flare.r > 320.0 {
+          flare.r = 320.0
         }
-        flares[i].life = flares[i].life - dt
-        if flares[i].life <= 0.0 {
-          flares[i].active = false
+        flare.life = flare.life - dt
+        if flare.life <= 0.0 {
+          flare.active = false
         }
       }
 
@@ -1101,19 +1101,19 @@ fn main {
         )
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
           continue
         }
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 0.35)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 0.35)
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 0.35)
+        particle.vy = particle.vy * (1.0 - dt * 0.35)
       }
 
       if heli.hull <= 0.0 {
@@ -1178,34 +1178,34 @@ fn main {
       gy = gy + 140.0
     }
 
-    for i in 0..<avalanches.length() {
-      if not(avalanches[i].active) {
+    for avalanch in avalanches {
+      if not(avalanch.active) {
         continue
       }
-      let sx = (avalanches[i].x - cam_x + shake_x).to_int()
-      let sy = (avalanches[i].y - cam_y + shake_y).to_int()
+      let sx = (avalanch.x - cam_x + shake_x).to_int()
+      let sy = (avalanch.y - cam_y + shake_y).to_int()
       @raylib.draw_rectangle(
         sx,
         sy - 24,
-        avalanches[i].w.to_int(),
+        avalanch.w.to_int(),
         48,
         @raylib.Color::new(232, 244, 252, 88),
       )
       @raylib.draw_rectangle(
         sx,
         sy - 8,
-        avalanches[i].w.to_int(),
+        avalanch.w.to_int(),
         16,
         @raylib.Color::new(252, 252, 255, 142),
       )
     }
 
-    for i in 0..<hazards.length() {
-      if not(hazards[i].active) {
+    for hazard in hazards {
+      if not(hazard.active) {
         continue
       }
-      let hx = hazards[i].x - cam_x + shake_x
-      let hy = hazards[i].y - cam_y + shake_y
+      let hx = hazard.x - cam_x + shake_x
+      let hy = hazard.y - cam_y + shake_y
       if hx < -80.0 ||
         hy < -80.0 ||
         hx > Float::from_int(sw + 80) ||
@@ -1213,68 +1213,68 @@ fn main {
         continue
       }
 
-      if hazards[i].kind == 0 {
+      if hazard.kind == 0 {
         @raylib.draw_circle(
           hx.to_int(),
           hy.to_int(),
-          hazards[i].r,
+          hazard.r,
           @raylib.Color::new(122, 154, 178, 235),
         )
         @raylib.draw_circle(
           hx.to_int(),
           hy.to_int(),
-          hazards[i].r * 0.58,
+          hazard.r * 0.58,
           @raylib.Color::new(178, 210, 232, 230),
         )
       } else {
         @raylib.draw_circle(
           hx.to_int(),
           hy.to_int(),
-          hazards[i].r,
+          hazard.r,
           @raylib.Color::new(112, 128, 150, 245),
         )
         @raylib.draw_line(
-          (hx - hazards[i].r * 0.8).to_int(),
+          (hx - hazard.r * 0.8).to_int(),
           hy.to_int(),
-          (hx + hazards[i].r * 0.8).to_int(),
+          (hx + hazard.r * 0.8).to_int(),
           hy.to_int(),
           @raylib.Color::new(236, 244, 252, 180),
         )
         @raylib.draw_line(
           hx.to_int(),
-          (hy - hazards[i].r * 0.8).to_int(),
+          (hy - hazard.r * 0.8).to_int(),
           hx.to_int(),
-          (hy + hazards[i].r * 0.8).to_int(),
+          (hy + hazard.r * 0.8).to_int(),
           @raylib.Color::new(236, 244, 252, 180),
         )
       }
     }
 
-    for i in 0..<flares.length() {
-      if not(flares[i].active) {
+    for flare in flares {
+      if not(flare.active) {
         continue
       }
-      let fx = flares[i].x - cam_x + shake_x
-      let fy = flares[i].y - cam_y + shake_y
+      let fx = flare.x - cam_x + shake_x
+      let fy = flare.y - cam_y + shake_y
       if fx < -360.0 ||
         fy < -360.0 ||
         fx > Float::from_int(sw + 360) ||
         fy > Float::from_int(sh + 360) {
         continue
       }
-      let flare_ratio : Float = 1.0 - flares[i].t / flares[i].life
+      let flare_ratio : Float = 1.0 - flare.t / flare.life
       let alpha = (Float::from_int(120) * flare_ratio).to_int()
       let aa = if alpha < 0 { 0 } else { alpha }
       @raylib.draw_circle_lines(
         fx.to_int(),
         fy.to_int(),
-        flares[i].r,
+        flare.r,
         @raylib.Color::new(252, 214, 120, aa),
       )
       @raylib.draw_circle_lines(
         fx.to_int(),
         fy.to_int(),
-        flares[i].r * 0.6,
+        flare.r * 0.6,
         @raylib.Color::new(252, 156, 102, aa + 20),
       )
     }
@@ -1299,13 +1299,13 @@ fn main {
       @raylib.Color::new(14, 28, 42, 250),
     )
 
-    for i in 0..<survivors.length() {
-      if not(survivors[i].active) {
+    for survivor in survivors {
+      if not(survivor.active) {
         continue
       }
 
-      let sx = survivors[i].x - cam_x + shake_x
-      let sy = survivors[i].y - cam_y + shake_y
+      let sx = survivor.x - cam_x + shake_x
+      let sy = survivor.y - cam_y + shake_y
       if sx < -40.0 ||
         sy < -40.0 ||
         sx > Float::from_int(sw + 40) ||
@@ -1313,10 +1313,10 @@ fn main {
         continue
       }
 
-      let tone_f : Float = 220.0 - survivors[i].freeze * 1.4
+      let tone_f : Float = 220.0 - survivor.freeze * 1.4
       let tone = tone_f.to_int()
       let tr = clampf(Float::from_int(tone), 90.0, 235.0).to_int()
-      let col = if survivors[i].carried {
+      let col = if survivor.carried {
         @raylib.Color::new(248, 214, 132, 255)
       } else {
         @raylib.Color::new(tr, tr, 252, 255)
@@ -1331,16 +1331,16 @@ fn main {
         @raylib.Color::new(92, 136, 198, 255),
       )
 
-      if survivors[i].beacon_t > 0.65 {
-        survivors[i].beacon_t = survivors[i].beacon_t - 0.65
-        burst_particles(particles, survivors[i].x, survivors[i].y, 4, 26.0, 1)
+      if survivor.beacon_t > 0.65 {
+        survivor.beacon_t = survivor.beacon_t - 0.65
+        burst_particles(particles, survivor.x, survivor.y, 4, 26.0, 1)
       }
 
-      if not(survivors[i].carried) {
+      if not(survivor.carried) {
         @raylib.draw_circle_lines(
           sx.to_int(),
           sy.to_int(),
-          18.0 + sinf(survivors[i].panic_t * 4.0).abs() * 6.0,
+          18.0 + sinf(survivor.panic_t * 4.0).abs() * 6.0,
           @raylib.Color::new(152, 206, 252, 126),
         )
       }
@@ -1392,12 +1392,12 @@ fn main {
       @raylib.Color::new(210, 226, 236, 200),
     )
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let px = particles[i].x - cam_x + shake_x
-      let py = particles[i].y - cam_y + shake_y
+      let px = particle.x - cam_x + shake_x
+      let py = particle.y - cam_y + shake_y
       if px < -20.0 ||
         py < -20.0 ||
         px > Float::from_int(sw + 20) ||
@@ -1405,11 +1405,11 @@ fn main {
         continue
       }
 
-      let life_r : Float = 1.0 - particles[i].t / particles[i].life
+      let life_r : Float = 1.0 - particle.t / particle.life
       let a = clampf(life_r * 210.0, 0.0, 210.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(238, 246, 255, a)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 198, 126, a)
       } else {
         @raylib.Color::new(164, 220, 252, a)
@@ -1417,7 +1417,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        particles[i].size * life_r,
+        particle.size * life_r,
         col,
       )
     }

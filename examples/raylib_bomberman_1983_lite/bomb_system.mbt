@@ -11,8 +11,8 @@ fn alloc_bomb(game : Game) -> Int {
 ///|
 fn count_team_bombs(game : Game, team : Int) -> Int {
   let mut n = 0
-  for i in 0..<game.bombs.length() {
-    if game.bombs[i].active && game.bombs[i].owner_team == team {
+  for bomb in game.bombs {
+    if bomb.active && bomb.owner_team == team {
       n += 1
     }
   }
@@ -42,10 +42,10 @@ fn can_player_place_bomb(game : Game, player_index : Int) -> Bool {
     return false
   }
 
-  for i in 0..<game.bombs.length() {
-    if game.bombs[i].active &&
-      game.bombs[i].tile_x == tx &&
-      game.bombs[i].tile_y == ty {
+  for bomb in game.bombs {
+    if bomb.active &&
+      bomb.tile_x == tx &&
+      bomb.tile_y == ty {
       return false
     }
   }
@@ -92,8 +92,7 @@ fn is_blast_blocking_tile(tile : Int) -> Bool {
 
 ///|
 fn mark_chain_bombs(game : Game, tx : Int, ty : Int) -> Unit {
-  for i in 0..<game.bombs.length() {
-    let b = game.bombs[i]
+  for b in game.bombs {
     if not(b.active) || b.exploding {
       continue
     }

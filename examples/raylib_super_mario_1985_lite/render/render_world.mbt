@@ -271,8 +271,7 @@ fn draw_flag(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_coins(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.coins.length() {
-    let c = game.coins[i]
+  for c in game.coins {
     if not(c.active) {
       continue
     }
@@ -332,8 +331,7 @@ fn draw_enemy(enemy : @types.Enemy, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if e.active {
       draw_enemy(e, cam_x, shake_y)
     }
@@ -422,8 +420,7 @@ fn draw_player(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }

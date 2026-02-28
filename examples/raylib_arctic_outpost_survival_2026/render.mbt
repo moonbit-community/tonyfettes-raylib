@@ -367,31 +367,31 @@ fn draw_bullet(b : Bullet, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       180
     } else {
       108
     }
 
-    let c : @raylib.Color = if game.particles[i].kind == 2 {
+    let c : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(208, 180, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 160, 172, a)
     } else {
       @raylib.Color::new(180, 236, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c,
     )
   }
@@ -1088,16 +1088,16 @@ fn draw_frame(
   draw_storm(game, ox, oy)
   draw_core(game, ox, oy)
 
-  for i in 0..<game.enemies.length() {
-    draw_enemy(game.enemies[i], ox, oy)
+  for enemy in game.enemies {
+    draw_enemy(enemy, ox, oy)
   }
 
-  for i in 0..<game.pickups.length() {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
-  for i in 0..<game.bullets.length() {
-    draw_bullet(game.bullets[i], ox, oy)
+  for bullet in game.bullets {
+    draw_bullet(bullet, ox, oy)
   }
 
   draw_hint(game, ox, oy)

@@ -43,8 +43,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 ///|
 fn draw_terrain(game : @types.Game) -> Unit {
   let scale = @types.terrain_chunk_scale
-  for i in 0..<game.terrain.length() {
-    let t = game.terrain[i]
+  for t in game.terrain {
     if not(t.active) {
       continue
     }
@@ -75,8 +74,7 @@ fn draw_terrain(game : @types.Game) -> Unit {
 
 ///|
 fn draw_checkpoints(game : @types.Game) -> Unit {
-  for i in 0..<game.checkpoints.length() {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) || cp.collected {
       continue
     }
@@ -121,8 +119,7 @@ fn draw_checkpoints(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -221,8 +218,7 @@ fn draw_enemies(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
       continue
     }
@@ -251,8 +247,7 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -349,8 +344,7 @@ fn draw_player_aircraft(game : @types.Game) -> Unit {
 
 ///|
 fn draw_buildings(game : @types.Game) -> Unit {
-  for i in 0..<game.buildings.length() {
-    let b = game.buildings[i]
+  for b in game.buildings {
     if not(b.active) {
       continue
     }
@@ -583,8 +577,7 @@ fn draw_buildings(game : @types.Game) -> Unit {
 
 ///|
 fn draw_turrets_3d(game : @types.Game) -> Unit {
-  for i in 0..<game.turrets.length() {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
       continue
     }
@@ -679,8 +672,7 @@ fn draw_turrets_3d(game : @types.Game) -> Unit {
 fn draw_terrain_details(game : @types.Game) -> Unit {
   let scale = @types.terrain_chunk_scale
   let detail_range : Float = 50.0
-  for i in 0..<game.terrain.length() {
-    let t = game.terrain[i]
+  for t in game.terrain {
     if not(t.active) {
       continue
     }

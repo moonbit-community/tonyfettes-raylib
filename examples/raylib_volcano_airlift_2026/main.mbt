@@ -120,16 +120,16 @@ fn spawn_cloud(clouds : Array[Cloud], level : Int) -> Unit {
   let r = Float::from_int(@raylib.get_random_value(20, 36))
 
   let mut done = false
-  for i in 0..<clouds.length() {
+  for cloud in clouds {
     if done {
       continue
     }
-    if not(clouds[i].active) {
-      clouds[i].active = true
-      clouds[i].x = x
-      clouds[i].y = y
-      clouds[i].vx = speed
-      clouds[i].r = r
+    if not(cloud.active) {
+      cloud.active = true
+      cloud.x = x
+      cloud.y = y
+      cloud.vx = speed
+      cloud.r = r
       done = true
     }
   }
@@ -689,28 +689,28 @@ fn main {
     }
 
     // Clouds
-    for i in 0..<clouds.length() {
-      if not(clouds[i].active) {
+    for cloud in clouds {
+      if not(cloud.active) {
         continue
       }
-      let cx = (clouds[i].x + shake_x).to_int()
-      let cy = clouds[i].y.to_int()
+      let cx = (cloud.x + shake_x).to_int()
+      let cy = cloud.y.to_int()
       @raylib.draw_circle(
         cx,
         cy,
-        clouds[i].r,
+        cloud.r,
         @raylib.Color::new(72, 78, 92, 255),
       )
       @raylib.draw_circle(
         cx - 16,
         cy + 4,
-        clouds[i].r * 0.7,
+        cloud.r * 0.7,
         @raylib.Color::new(88, 94, 108, 255),
       )
       @raylib.draw_circle(
         cx + 16,
         cy + 5,
-        clouds[i].r * 0.72,
+        cloud.r * 0.72,
         @raylib.Color::new(88, 94, 108, 255),
       )
     }

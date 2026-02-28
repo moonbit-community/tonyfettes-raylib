@@ -432,8 +432,7 @@ pub fn is_enemy_behind_player(
 pub fn count_engaged_enemies(game : @types.Game) -> Int {
   let mut count = 0
   let player = game.player
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -454,8 +453,7 @@ pub fn count_engaged_enemies(game : @types.Game) -> Int {
 pub fn check_enemy_threat_level(game : @types.Game) -> Int {
   let player = game.player
   let mut threat = 0
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -469,8 +467,7 @@ pub fn check_enemy_threat_level(game : @types.Game) -> Int {
     }
   }
   // Add turret threats
-  for i in 0..<game.turrets.length() {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
       continue
     }
@@ -543,8 +540,7 @@ pub fn no_damage_bonus(current_hp : Float, max_hp : Float) -> Int {
 
 ///|
 pub fn should_enemy_evade(game : @types.Game, e : @types.Enemy) -> Bool {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -643,8 +639,7 @@ pub fn get_threat_direction(game : @types.Game) -> Int {
   let (fx, _fy, fz) = @types.get_forward(player.pitch, player.yaw)
   let mut closest_dist : Float = 99999.0
   let mut closest_dir = -1
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }

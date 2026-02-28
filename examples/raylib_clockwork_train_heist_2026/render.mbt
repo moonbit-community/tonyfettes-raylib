@@ -185,15 +185,15 @@ fn draw_train_shell(ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_loot(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.loots.length() {
-    if not(game.loots[i].active) {
+  for loot in game.loots {
+    if not(loot.active) {
       continue
     }
 
-    let cx : Int = board_px(game.loots[i].x) + cell / 2 + ox
-    let cy : Int = board_py(game.loots[i].y) + cell / 2 + oy
+    let cx : Int = board_px(loot.x) + cell / 2 + ox
+    let cy : Int = board_py(loot.y) + cell / 2 + oy
 
-    let kind : Int = game.loots[i].kind
+    let kind : Int = loot.kind
     if kind == loot_blueprint {
       @raylib.draw_rectangle(
         cx - 15,
@@ -362,23 +362,23 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let col = if game.particles[i].kind == 2 {
+    let col = if particle.kind == 2 {
       @raylib.Color::new(194, 170, 246, 188)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(250, 226, 152, 194)
     } else {
       @raylib.Color::new(170, 220, 252, 166)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       col,
     )
   }
@@ -391,8 +391,8 @@ fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
   draw_loot(game, ox, oy)
   draw_smokes(game, ox, oy)
 
-  for i in 0..<game.guards.length() {
-    draw_guard(game.guards[i], game, ox, oy)
+  for guard_val in game.guards {
+    draw_guard(guard_val, game, ox, oy)
   }
 
   draw_player(game, ox, oy)

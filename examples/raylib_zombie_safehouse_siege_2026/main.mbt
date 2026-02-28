@@ -169,60 +169,60 @@ fn safe_len2(v2 : Float) -> Float {
 
 ///|
 fn clear_zombies(zs : Array[Zombie]) -> Unit {
-  for i in 0..<zs.length() {
-    zs[i].active = false
-    zs[i].kind = 0
-    zs[i].x = 0.0
-    zs[i].y = 0.0
-    zs[i].vx = 0.0
-    zs[i].vy = 0.0
-    zs[i].hp = 0.0
-    zs[i].speed = 0.0
-    zs[i].atk_cd = 0.0
-    zs[i].stun_t = 0.0
-    zs[i].burn_t = 0.0
-    zs[i].flash_t = 0.0
+  for zs_elem in zs {
+    zs_elem.active = false
+    zs_elem.kind = 0
+    zs_elem.x = 0.0
+    zs_elem.y = 0.0
+    zs_elem.vx = 0.0
+    zs_elem.vy = 0.0
+    zs_elem.hp = 0.0
+    zs_elem.speed = 0.0
+    zs_elem.atk_cd = 0.0
+    zs_elem.stun_t = 0.0
+    zs_elem.burn_t = 0.0
+    zs_elem.flash_t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i in 0..<bs.length() {
-    bs[i].active = false
-    bs[i].kind = 0
-    bs[i].x = 0.0
-    bs[i].y = 0.0
-    bs[i].vx = 0.0
-    bs[i].vy = 0.0
-    bs[i].dmg = 0.0
-    bs[i].life = 0.0
+  for bs_elem in bs {
+    bs_elem.active = false
+    bs_elem.kind = 0
+    bs_elem.x = 0.0
+    bs_elem.y = 0.0
+    bs_elem.vx = 0.0
+    bs_elem.vy = 0.0
+    bs_elem.dmg = 0.0
+    bs_elem.life = 0.0
   }
 }
 
 ///|
 fn clear_scraps(ss : Array[Scrap]) -> Unit {
-  for i in 0..<ss.length() {
-    ss[i].active = false
-    ss[i].x = 0.0
-    ss[i].y = 0.0
-    ss[i].value = 0
-    ss[i].t = 0.0
-    ss[i].life = 0.0
+  for ss_elem in ss {
+    ss_elem.active = false
+    ss_elem.x = 0.0
+    ss_elem.y = 0.0
+    ss_elem.value = 0
+    ss_elem.t = 0.0
+    ss_elem.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].size = 0.0
-    ps[i].t = 0.0
-    ps[i].life = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.size = 0.0
+    ps_elem.t = 0.0
+    ps_elem.life = 0.0
+    ps_elem.kind = 0
   }
 }
 
@@ -235,21 +235,21 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done : Bool = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
-      ps[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      ps[i].t = 0.0
-      ps[i].life = Float::from_int(@raylib.get_random_value(18, 70)) / 100.0
-      ps[i].kind = kind
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-280, 280)) * speed
+      ps_elem.size = Float::from_int(@raylib.get_random_value(2, 7))
+      ps_elem.t = 0.0
+      ps_elem.life = Float::from_int(@raylib.get_random_value(18, 70)) / 100.0
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -282,20 +282,20 @@ fn spawn_bullet(
   kind : Int,
 ) -> Unit {
   let mut done : Bool = false
-  for i in 0..<bs.length() {
+  for bs_elem in bs {
     if done {
       continue
     }
 
-    if not(bs[i].active) {
-      bs[i].active = true
-      bs[i].kind = kind
-      bs[i].x = x
-      bs[i].y = y
-      bs[i].vx = dx * speed
-      bs[i].vy = dy * speed
-      bs[i].dmg = dmg
-      bs[i].life = if kind == 2 { 0.74 } else { 0.54 }
+    if not(bs_elem.active) {
+      bs_elem.active = true
+      bs_elem.kind = kind
+      bs_elem.x = x
+      bs_elem.y = y
+      bs_elem.vx = dx * speed
+      bs_elem.vy = dy * speed
+      bs_elem.dmg = dmg
+      bs_elem.life = if kind == 2 { 0.74 } else { 0.54 }
       done = true
     }
   }
@@ -875,25 +875,25 @@ fn main {
       }
 
       if phase == 0 {
-        for i in 0..<scraps.length() {
-          if not(scraps[i].active) {
+        for scrap in scraps {
+          if not(scrap.active) {
             continue
           }
 
-          scraps[i].t = scraps[i].t + dt
-          scraps[i].life = scraps[i].life - dt
-          if scraps[i].life <= 0.0 {
-            scraps[i].active = false
+          scrap.t = scrap.t + dt
+          scrap.life = scrap.life - dt
+          if scrap.life <= 0.0 {
+            scrap.active = false
             continue
           }
 
-          if dist2(player.x, player.y, scraps[i].x, scraps[i].y) <= 26.0 * 26.0 {
+          if dist2(player.x, player.y, scrap.x, scrap.y) <= 26.0 * 26.0 {
             if player.harvest_t <= 0.0 {
               player.harvest_t = 0.06
-              scrap_bank = scrap_bank + scraps[i].value
-              day_collected = day_collected + scraps[i].value
-              score = score + scraps[i].value * 14
-              scraps[i].active = false
+              scrap_bank = scrap_bank + scrap.value
+              day_collected = day_collected + scrap.value
+              score = score + scrap.value * 14
+              scrap.active = false
               burst(particles, player.x, player.y, 6, 0.20, 0)
             }
           }
@@ -933,33 +933,33 @@ fn main {
         }
       }
 
-      for i in 0..<zombies.length() {
-        if not(zombies[i].active) {
+      for zomby in zombies {
+        if not(zomby.active) {
           continue
         }
 
-        zombies[i].atk_cd = zombies[i].atk_cd - dt
-        if zombies[i].atk_cd < 0.0 {
-          zombies[i].atk_cd = 0.0
+        zomby.atk_cd = zomby.atk_cd - dt
+        if zomby.atk_cd < 0.0 {
+          zomby.atk_cd = 0.0
         }
-        zombies[i].stun_t = zombies[i].stun_t - dt
-        if zombies[i].stun_t < 0.0 {
-          zombies[i].stun_t = 0.0
+        zomby.stun_t = zomby.stun_t - dt
+        if zomby.stun_t < 0.0 {
+          zomby.stun_t = 0.0
         }
-        zombies[i].burn_t = zombies[i].burn_t - dt
-        if zombies[i].burn_t < 0.0 {
-          zombies[i].burn_t = 0.0
+        zomby.burn_t = zomby.burn_t - dt
+        if zomby.burn_t < 0.0 {
+          zomby.burn_t = 0.0
         }
-        zombies[i].flash_t = zombies[i].flash_t - dt
-        if zombies[i].flash_t < 0.0 {
-          zombies[i].flash_t = 0.0
-        }
-
-        if zombies[i].burn_t > 0.0 {
-          zombies[i].hp = zombies[i].hp - dt * 7.2
+        zomby.flash_t = zomby.flash_t - dt
+        if zomby.flash_t < 0.0 {
+          zomby.flash_t = 0.0
         }
 
-        if zombies[i].hp <= 0.0 {
+        if zomby.burn_t > 0.0 {
+          zomby.hp = zomby.hp - dt * 7.2
+        }
+
+        if zomby.hp <= 0.0 {
           let drop_roll = @raylib.get_random_value(0, 99)
           let drop_val = if drop_roll > 88 {
             5
@@ -968,74 +968,74 @@ fn main {
           } else {
             1
           }
-          ignore(spawn_scrap(scraps, zombies[i].x, zombies[i].y, drop_val))
+          ignore(spawn_scrap(scraps, zomby.x, zomby.y, drop_val))
           score = score + 35 + combo
           combo = combo + 1
           rescued = rescued + 1
-          burst(particles, zombies[i].x, zombies[i].y, 14, 0.28, 2)
-          zombies[i].active = false
+          burst(particles, zomby.x, zomby.y, 14, 0.28, 2)
+          zomby.active = false
           continue
         }
 
-        if zombies[i].stun_t > 0.0 {
-          zombies[i].vx = zombies[i].vx * (Float::from_int(1) - dt * 8.0)
-          zombies[i].vy = zombies[i].vy * (Float::from_int(1) - dt * 8.0)
+        if zomby.stun_t > 0.0 {
+          zomby.vx = zomby.vx * (Float::from_int(1) - dt * 8.0)
+          zomby.vy = zomby.vy * (Float::from_int(1) - dt * 8.0)
         } else {
           let mut tx : Float = base_x
           let mut ty : Float = base_y
 
-          let d_player = dist2(zombies[i].x, zombies[i].y, player.x, player.y)
-          let d_base = dist2(zombies[i].x, zombies[i].y, base_x, base_y)
+          let d_player = dist2(zomby.x, zomby.y, player.x, player.y)
+          let d_base = dist2(zomby.x, zomby.y, base_x, base_y)
 
           if d_player < d_base * 0.72 {
             tx = player.x
             ty = player.y
           }
 
-          let dx = tx - zombies[i].x
-          let dy = ty - zombies[i].y
+          let dx = tx - zomby.x
+          let dy = ty - zomby.y
           let n2 = dx * dx + dy * dy
           let n = safe_len2(n2)
-          let chase = zombies[i].speed *
-            (if zombies[i].kind == 2 { 1.14 } else { 1.0 })
+          let chase = zomby.speed *
+            (if zomby.kind == 2 { 1.14 } else { 1.0 })
 
-          zombies[i].vx = zombies[i].vx * (Float::from_int(1) - dt * 2.6) +
+          zomby.vx = zomby.vx * (Float::from_int(1) - dt * 2.6) +
             dx / n * chase * dt * 2.6
-          zombies[i].vy = zombies[i].vy * (Float::from_int(1) - dt * 2.6) +
+          zomby.vy = zomby.vy * (Float::from_int(1) - dt * 2.6) +
             dy / n * chase * dt * 2.6
         }
 
-        zombies[i].x = zombies[i].x + zombies[i].vx * dt
-        zombies[i].y = zombies[i].y + zombies[i].vy * dt
+        zomby.x = zomby.x + zomby.vx * dt
+        zomby.y = zomby.y + zomby.vy * dt
 
-        if zombies[i].x < -46.0 {
-          zombies[i].x = -46.0
+        if zomby.x < -46.0 {
+          zomby.x = -46.0
         }
-        if zombies[i].x > world_w + 46.0 {
-          zombies[i].x = world_w + 46.0
+        if zomby.x > world_w + 46.0 {
+          zomby.x = world_w + 46.0
         }
-        if zombies[i].y < -46.0 {
-          zombies[i].y = -46.0
+        if zomby.y < -46.0 {
+          zomby.y = -46.0
         }
-        if zombies[i].y > world_h + 46.0 {
-          zombies[i].y = world_h + 46.0
+        if zomby.y > world_h + 46.0 {
+          zomby.y = world_h + 46.0
         }
 
-        let zrad : Float = if zombies[i].kind == 1 {
+        let zrad : Float = if zomby.kind == 1 {
           22.0
-        } else if zombies[i].kind == 2 {
+        } else if zomby.kind == 2 {
           14.0
         } else {
           18.0
         }
 
-        if dist2(zombies[i].x, zombies[i].y, player.x, player.y) <=
+        if dist2(zomby.x, zomby.y, player.x, player.y) <=
           (zrad + 14.0) * (zrad + 14.0) {
-          if zombies[i].atk_cd <= 0.0 {
-            zombies[i].atk_cd = if zombies[i].kind == 2 { 0.45 } else { 0.72 }
-            let bite_dmg : Float = if zombies[i].kind == 1 {
+          if zomby.atk_cd <= 0.0 {
+            zomby.atk_cd = if zomby.kind == 2 { 0.45 } else { 0.72 }
+            let bite_dmg : Float = if zomby.kind == 1 {
               18.0
-            } else if zombies[i].kind == 2 {
+            } else if zomby.kind == 2 {
               10.0
             } else {
               13.0
@@ -1047,13 +1047,13 @@ fn main {
           }
         }
 
-        if dist2(zombies[i].x, zombies[i].y, base_x, base_y) <=
+        if dist2(zomby.x, zomby.y, base_x, base_y) <=
           (zrad + 82.0) * (zrad + 82.0) {
-          if zombies[i].atk_cd <= 0.0 {
-            zombies[i].atk_cd = if zombies[i].kind == 2 { 0.56 } else { 0.78 }
-            let dmg : Float = if zombies[i].kind == 1 {
+          if zomby.atk_cd <= 0.0 {
+            zomby.atk_cd = if zomby.kind == 2 { 0.56 } else { 0.78 }
+            let dmg : Float = if zomby.kind == 1 {
               21.0
-            } else if zombies[i].kind == 2 {
+            } else if zomby.kind == 2 {
               10.0
             } else {
               14.0
@@ -1080,59 +1080,59 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < -40.0 ||
-          bullets[i].x > world_w + 40.0 ||
-          bullets[i].y < -40.0 ||
-          bullets[i].y > world_h + 40.0 {
-          bullets[i].active = false
+        if bullet.x < -40.0 ||
+          bullet.x > world_w + 40.0 ||
+          bullet.y < -40.0 ||
+          bullet.y > world_h + 40.0 {
+          bullet.active = false
           continue
         }
 
-        for j in 0..<zombies.length() {
-          if not(zombies[j].active) {
+        for zomby in zombies {
+          if not(zomby.active) {
             continue
           }
 
-          let zrad : Float = if zombies[j].kind == 1 {
+          let zrad : Float = if zomby.kind == 1 {
             22.0
-          } else if zombies[j].kind == 2 {
+          } else if zomby.kind == 2 {
             14.0
           } else {
             18.0
           }
-          if dist2(bullets[i].x, bullets[i].y, zombies[j].x, zombies[j].y) <=
+          if dist2(bullet.x, bullet.y, zomby.x, zomby.y) <=
             zrad * zrad {
-            zombies[j].hp = zombies[j].hp - bullets[i].dmg
-            zombies[j].flash_t = 0.14
+            zomby.hp = zomby.hp - bullet.dmg
+            zomby.flash_t = 0.14
 
-            if bullets[i].kind == 2 {
-              zombies[j].burn_t = 1.8
+            if bullet.kind == 2 {
+              zomby.burn_t = 1.8
             }
 
-            let dx = zombies[j].x - player.x
-            let dy = zombies[j].y - player.y
+            let dx = zomby.x - player.x
+            let dy = zomby.y - player.y
             let n2 = dx * dx + dy * dy
             let n = safe_len2(n2)
-            zombies[j].vx = zombies[j].vx + dx / n * 112.0
-            zombies[j].vy = zombies[j].vy + dy / n * 112.0
-            zombies[j].stun_t = 0.12
+            zomby.vx = zomby.vx + dx / n * 112.0
+            zomby.vy = zomby.vy + dy / n * 112.0
+            zomby.stun_t = 0.12
 
-            burst(particles, bullets[i].x, bullets[i].y, 6, 0.18, 2)
-            bullets[i].active = false
+            burst(particles, bullet.x, bullet.y, 6, 0.18, 2)
+            bullet.active = false
             break
           }
         }
@@ -1187,36 +1187,36 @@ fn main {
         }
       }
 
-      for i in 0..<scraps.length() {
-        if not(scraps[i].active) {
+      for scrap in scraps {
+        if not(scrap.active) {
           continue
         }
-        scraps[i].t = scraps[i].t + dt
-        scraps[i].life = scraps[i].life - dt
-        if scraps[i].life <= 0.0 {
-          scraps[i].active = false
+        scrap.t = scrap.t + dt
+        scrap.life = scrap.life - dt
+        if scrap.life <= 0.0 {
+          scrap.active = false
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 2.0)
-          particles[i].vy = particles[i].vy + 320.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (Float::from_int(1) - dt * 2.0)
+          particle.vy = particle.vy + 320.0 * dt
         }
       }
 
       let mut alive_zombies : Int = 0
-      for i in 0..<zombies.length() {
-        if zombies[i].active {
+      for zomby in zombies {
+        if zomby.active {
           alive_zombies = alive_zombies + 1
         }
       }
@@ -1357,145 +1357,145 @@ fn main {
       )
     }
 
-    for i in 0..<scraps.length() {
-      if not(scraps[i].active) {
+    for scrap in scraps {
+      if not(scrap.active) {
         continue
       }
 
-      let bob_phase : Int = (scraps[i].t * 8.0).to_int() % 4
+      let bob_phase : Int = (scrap.t * 8.0).to_int() % 4
       let bob : Float = if bob_phase < 2 { 2.0 } else { -2.0 }
       let mut col = @raylib.Color::new(218, 198, 112, 255)
-      if scraps[i].value >= 3 {
+      if scrap.value >= 3 {
         col = @raylib.Color::new(108, 222, 198, 255)
       }
-      if scraps[i].value >= 5 {
+      if scrap.value >= 5 {
         col = @raylib.Color::new(236, 140, 244, 255)
       }
       @raylib.draw_rectangle(
-        (scraps[i].x - 8.0).to_int(),
-        (scraps[i].y - 8.0 + bob).to_int(),
+        (scrap.x - 8.0).to_int(),
+        (scrap.y - 8.0 + bob).to_int(),
         16,
         16,
         col,
       )
       @raylib.draw_rectangle(
-        (scraps[i].x - 4.0).to_int(),
-        (scraps[i].y - 4.0 + bob).to_int(),
+        (scrap.x - 4.0).to_int(),
+        (scrap.y - 4.0 + bob).to_int(),
         8,
         8,
         @raylib.Color::new(24, 32, 44, 220),
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
 
-      let col = if bullets[i].kind == 2 {
+      let col = if bullet.kind == 2 {
         @raylib.Color::new(252, 160, 92, 255)
       } else {
         @raylib.Color::new(156, 228, 252, 255)
       }
-      let brad : Float = if bullets[i].kind == 2 { 5.0 } else { 4.0 }
+      let brad : Float = if bullet.kind == 2 { 5.0 } else { 4.0 }
       @raylib.draw_circle(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
+        bullet.x.to_int(),
+        bullet.y.to_int(),
         brad,
         col,
       )
     }
 
-    for i in 0..<zombies.length() {
-      if not(zombies[i].active) {
+    for zomby in zombies {
+      if not(zomby.active) {
         continue
       }
 
-      let rad : Float = if zombies[i].kind == 1 {
+      let rad : Float = if zomby.kind == 1 {
         22.0
-      } else if zombies[i].kind == 2 {
+      } else if zomby.kind == 2 {
         14.0
       } else {
         18.0
       }
       let mut col = @raylib.Color::new(98, 182, 104, 255)
-      if zombies[i].kind == 1 {
+      if zomby.kind == 1 {
         col = @raylib.Color::new(124, 98, 78, 255)
-      } else if zombies[i].kind == 2 {
+      } else if zomby.kind == 2 {
         col = @raylib.Color::new(172, 220, 106, 255)
       }
 
-      if zombies[i].burn_t > 0.0 {
+      if zomby.burn_t > 0.0 {
         col = @raylib.Color::new(238, 124, 72, 255)
       }
-      if zombies[i].flash_t > 0.0 {
+      if zomby.flash_t > 0.0 {
         col = @raylib.Color::new(255, 235, 210, 255)
       }
 
       @raylib.draw_circle(
-        zombies[i].x.to_int(),
-        zombies[i].y.to_int(),
+        zomby.x.to_int(),
+        zomby.y.to_int(),
         rad,
         col,
       )
       @raylib.draw_circle(
-        (zombies[i].x - rad * 0.34).to_int(),
-        (zombies[i].y - rad * 0.2).to_int(),
+        (zomby.x - rad * 0.34).to_int(),
+        (zomby.y - rad * 0.2).to_int(),
         3.0,
         @raylib.Color::new(20, 28, 22, 255),
       )
       @raylib.draw_circle(
-        (zombies[i].x + rad * 0.34).to_int(),
-        (zombies[i].y - rad * 0.2).to_int(),
+        (zomby.x + rad * 0.34).to_int(),
+        (zomby.y - rad * 0.2).to_int(),
         3.0,
         @raylib.Color::new(20, 28, 22, 255),
       )
 
-      let hp_ratio = zombies[i].hp /
-        (if zombies[i].kind == 1 {
+      let hp_ratio = zomby.hp /
+        (if zomby.kind == 1 {
           70.0 + Float::from_int(wave) * 8.0
-        } else if zombies[i].kind == 2 {
+        } else if zomby.kind == 2 {
           36.0 + Float::from_int(wave) * 4.0
         } else {
           44.0 + Float::from_int(wave) * 6.0
         })
       let hpw = (clampf(hp_ratio, 0.0, 1.0) * rad * 2.0).to_int()
       @raylib.draw_rectangle(
-        (zombies[i].x - rad).to_int(),
-        (zombies[i].y - rad - 12.0).to_int(),
+        (zomby.x - rad).to_int(),
+        (zomby.y - rad - 12.0).to_int(),
         (rad * 2.0).to_int(),
         4,
         @raylib.Color::new(20, 24, 20, 180),
       )
       @raylib.draw_rectangle(
-        (zombies[i].x - rad).to_int(),
-        (zombies[i].y - rad - 12.0).to_int(),
+        (zomby.x - rad).to_int(),
+        (zomby.y - rad - 12.0).to_int(),
         hpw,
         4,
         @raylib.Color::new(234, 86, 94, 214),
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let k = particles[i].t / particles[i].life
+      let k = particle.t / particle.life
       let a : Int = ((Float::from_int(1) - k) * 220.0).to_int()
       let mut c = @raylib.Color::new(126, 228, 248, a)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         c = @raylib.Color::new(152, 244, 188, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         c = @raylib.Color::new(252, 166, 98, a)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         c = @raylib.Color::new(234, 88, 102, a)
       }
 
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         c,
       )
     }

@@ -184,70 +184,70 @@ fn cell_center_y(gy : Int) -> Float {
 
 ///|
 fn clear_crates(crates : Array[Crate]) -> Unit {
-  for i in 0..<crates.length() {
-    crates[i].active = false
-    crates[i].gx = 0
-    crates[i].gy = 0
+  for crate in crates {
+    crate.active = false
+    crate.gx = 0
+    crate.gy = 0
   }
 }
 
 ///|
 fn clear_plates(plates : Array[Plate]) -> Unit {
-  for i in 0..<plates.length() {
-    plates[i].active = false
-    plates[i].gx = 0
-    plates[i].gy = 0
-    plates[i].pressed = false
+  for plate in plates {
+    plate.active = false
+    plate.gx = 0
+    plate.gy = 0
+    plate.pressed = false
   }
 }
 
 ///|
 fn clear_relics(relics : Array[Relic]) -> Unit {
-  for i in 0..<relics.length() {
-    relics[i].active = false
-    relics[i].gx = 0
-    relics[i].gy = 0
-    relics[i].taken = false
+  for relic in relics {
+    relic.active = false
+    relic.gx = 0
+    relic.gy = 0
+    relic.taken = false
   }
 }
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].active = false
-    enemies[i].kind = 0
-    enemies[i].gx = 0
-    enemies[i].gy = 0
-    enemies[i].hp = 0.0
-    enemies[i].move_cd = 0.0
-    enemies[i].atk_cd = 0.0
-    enemies[i].stun_t = 0.0
-    enemies[i].hurt_cd = 0.0
+  for enemy in enemies {
+    enemy.active = false
+    enemy.kind = 0
+    enemy.gx = 0
+    enemy.gy = 0
+    enemy.hp = 0.0
+    enemy.move_cd = 0.0
+    enemy.atk_cd = 0.0
+    enemy.stun_t = 0.0
+    enemy.hurt_cd = 0.0
   }
 }
 
 ///|
 fn clear_spikes(spikes : Array[Spike]) -> Unit {
-  for i in 0..<spikes.length() {
-    spikes[i].active = false
-    spikes[i].gx = 0
-    spikes[i].gy = 0
-    spikes[i].t = 0.0
+  for spike in spikes {
+    spike.active = false
+    spike.gx = 0
+    spike.gy = 0
+    spike.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -312,20 +312,20 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i in 0..<parts.length() {
+  for part in parts {
     if left <= 0 {
       break
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(14, 72)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(14, 72)) / 100.0
+      part.kind = kind
       left = left - 1
     }
   }
@@ -440,8 +440,8 @@ fn main {
       false
     } else {
       let mut has_plate = false
-      for i in 0..<plates.length() {
-        if plates[i].active && plates[i].gx == gx && plates[i].gy == gy {
+      for plate in plates {
+        if plate.active && plate.gx == gx && plate.gy == gy {
           has_plate = true
           break
         }
@@ -633,8 +633,8 @@ fn main {
           if absi(gx - player.gx) + absi(gy - player.gy) >= 5 &&
             absi(gx - exit_x) + absi(gy - exit_y) >= 5 {
             let mut exists = false
-            for k in 0..<spikes.length() {
-              if spikes[k].active && spikes[k].gx == gx && spikes[k].gy == gy {
+            for spike in spikes {
+              if spike.active && spike.gx == gx && spike.gy == gy {
                 exists = true
                 break
               }
@@ -685,15 +685,15 @@ fn main {
 
   let update_plate_state = fn() {
     plates_pressed = 0
-    for i in 0..<plates.length() {
-      if not(plates[i].active) {
+    for plate in plates {
+      if not(plate.active) {
         continue
       }
 
-      let on_player = player.gx == plates[i].gx && player.gy == plates[i].gy
-      let on_crate = crate_at(crates, plates[i].gx, plates[i].gy) >= 0
-      plates[i].pressed = on_player || on_crate
-      if plates[i].pressed {
+      let on_player = player.gx == plate.gx && player.gy == plate.gy
+      let on_crate = crate_at(crates, plate.gx, plate.gy) >= 0
+      plate.pressed = on_player || on_crate
+      if plate.pressed {
         plates_pressed = plates_pressed + 1
       }
     }
@@ -849,9 +849,9 @@ fn main {
         player.bomb_cd = 0.0
       }
 
-      for i in 0..<spikes.length() {
-        if spikes[i].active {
-          spikes[i].t = spikes[i].t + dt
+      for spike in spikes {
+        if spike.active {
+          spike.t = spike.t + dt
         }
       }
 
@@ -1195,19 +1195,19 @@ fn main {
         )
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (1.0 - dt * 2.0)
-          particles[i].vy = particles[i].vy + 250.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (1.0 - dt * 2.0)
+          particle.vy = particle.vy + 250.0 * dt
         }
       }
 
@@ -1282,14 +1282,14 @@ fn main {
       }
     }
 
-    for i in 0..<spikes.length() {
-      if not(spikes[i].active) {
+    for spike in spikes {
+      if not(spike.active) {
         continue
       }
 
-      let up = spike_is_up(spikes[i])
-      let px = map_x + spikes[i].gx * tile
-      let py = map_y + spikes[i].gy * tile
+      let up = spike_is_up(spike)
+      let px = map_x + spike.gx * tile
+      let py = map_y + spike.gy * tile
       if up {
         @raylib.draw_triangle(
           @raylib.Vector2::new(
@@ -1317,13 +1317,13 @@ fn main {
       }
     }
 
-    for i in 0..<plates.length() {
-      if not(plates[i].active) {
+    for plate in plates {
+      if not(plate.active) {
         continue
       }
-      let cx = cell_center_x(plates[i].gx)
-      let cy = cell_center_y(plates[i].gy)
-      let col = if plates[i].pressed {
+      let cx = cell_center_x(plate.gx)
+      let cy = cell_center_y(plate.gy)
+      let col = if plate.pressed {
         @raylib.Color::new(132, 218, 146, 255)
       } else {
         @raylib.Color::new(226, 184, 90, 255)
@@ -1368,10 +1368,10 @@ fn main {
       )
     }
 
-    for i in 0..<relics.length() {
-      if relics[i].active && not(relics[i].taken) {
-        let cx = cell_center_x(relics[i].gx)
-        let cy = cell_center_y(relics[i].gy)
+    for relic in relics {
+      if relic.active && not(relic.taken) {
+        let cx = cell_center_x(relic.gx)
+        let cy = cell_center_y(relic.gy)
         @raylib.draw_triangle(
           @raylib.Vector2::new(cx, cy - 14.0),
           @raylib.Vector2::new(cx - 12.0, cy + 6.0),
@@ -1387,10 +1387,10 @@ fn main {
       }
     }
 
-    for i in 0..<crates.length() {
-      if crates[i].active {
-        let px = map_x + crates[i].gx * tile
-        let py = map_y + crates[i].gy * tile
+    for crate in crates {
+      if crate.active {
+        let px = map_x + crate.gx * tile
+        let py = map_y + crate.gy * tile
         @raylib.draw_rectangle(
           px + 8,
           py + 8,
@@ -1408,13 +1408,13 @@ fn main {
       }
     }
 
-    for i in 0..<enemies.length() {
-      if enemies[i].active {
-        let cx = cell_center_x(enemies[i].gx)
-        let cy = cell_center_y(enemies[i].gy)
-        let body_col = if enemies[i].kind == 0 {
+    for enemy in enemies {
+      if enemy.active {
+        let cx = cell_center_x(enemy.gx)
+        let cy = cell_center_y(enemy.gy)
+        let body_col = if enemy.kind == 0 {
           @raylib.Color::new(186, 162, 122, 255)
-        } else if enemies[i].kind == 1 {
+        } else if enemy.kind == 1 {
           @raylib.Color::new(162, 132, 106, 255)
         } else {
           @raylib.Color::new(138, 106, 86, 255)
@@ -1442,31 +1442,31 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let ratio : Float = 1.0 - particles[i].t / particles[i].life
+      let ratio : Float = 1.0 - particle.t / particle.life
       let a = (ratio * 255.0).to_int()
       if a <= 0 {
         continue
       }
 
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(152, 236, 248, a)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 166, 118, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(140, 236, 184, a)
       } else {
         @raylib.Color::new(252, 112, 120, a)
       }
 
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

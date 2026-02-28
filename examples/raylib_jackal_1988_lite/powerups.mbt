@@ -53,9 +53,8 @@ fn spawn_random_powerup(game : Game, x : Float, y : Float) -> Unit {
 ///|
 fn clear_all_enemies_by_grenade(game : Game, team : Int) -> Unit {
   let mut killed = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
-      let enemy = game.enemies[i]
+  for enemy in game.enemies {
+    if enemy.active {
       enemy.active = false
       game.enemies_alive -= 1
       spawn_explosion(game, enemy.x, enemy.y, 1.4)
@@ -130,12 +129,11 @@ fn powerup_radius(kind : Int) -> Float {
 
 ///|
 fn update_powerups(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.powerups.length() {
-    if not(game.powerups[i].active) {
+  for p in game.powerups {
+    if not(p.active) {
       continue
     }
 
-    let p = game.powerups[i]
     p.ttl -= dt
     p.blink += dt
     p.pulse += dt * 3.0

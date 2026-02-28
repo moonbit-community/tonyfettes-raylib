@@ -118,12 +118,11 @@ fn update_bullet_vs_bullet(game : @types.Game) -> Unit {
 
 ///|
 fn update_bullets(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
 
-    let bullet = game.bullets[i]
     bullet.ttl -= dt
     if bullet.ttl <= 0.0 {
       bullet.active = false

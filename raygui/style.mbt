@@ -249,8 +249,7 @@ pub fn gui_load_style(file_name : String) -> Unit {
 ///|
 fn gui_load_style_from_text(text : String) -> Unit {
   let lines = get_text_lines(text)
-  for i in 0..<lines.length() {
-    let line = lines[i]
+  for line in lines {
     if line.length() == 0 {
       continue
     }

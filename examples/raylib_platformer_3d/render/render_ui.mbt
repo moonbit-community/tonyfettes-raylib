@@ -369,8 +369,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let mut max_x : Float = game.px
   let mut min_z : Float = game.pz
   let mut max_z : Float = game.pz
-  for i in 0..<game.platforms.length() {
-    let p = game.platforms[i]
+  for p in game.platforms {
     if not(p.active) {
       continue
     }
@@ -394,8 +393,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let offset_x : Float = Float::from_int(mm_x + 5) - min_x * scale + 5.0
   let offset_z : Float = Float::from_int(mm_y + 5) - min_z * scale + 5.0
   // Draw platforms on minimap
-  for i in 0..<game.platforms.length() {
-    let p = game.platforms[i]
+  for p in game.platforms {
     if not(p.active) {
       continue
     }
@@ -432,8 +430,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
     @raylib.Color::new(60, 140, 220, 255),
   )
   // Enemies on minimap
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -1104,8 +1101,7 @@ fn draw_campaign_complete(game : @types.Game) -> Unit {
 
 ///|
 fn draw_score_flies(game : @types.Game) -> Unit {
-  for i in 0..<game.score_flies.length() {
-    let sf = game.score_flies[i]
+  for sf in game.score_flies {
     if not(sf.active) {
       continue
     }

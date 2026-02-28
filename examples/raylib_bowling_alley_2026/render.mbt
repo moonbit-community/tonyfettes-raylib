@@ -216,8 +216,8 @@ fn draw_pin(pin : Pin, sx : Int, sy : Int) -> Unit {
 
 ///|
 fn draw_pins(game : Game, sx : Int, sy : Int) -> Unit {
-  for i in 0..<game.pins.length() {
-    draw_pin(game.pins[i], sx, sy)
+  for pin in game.pins {
+    draw_pin(pin, sx, sy)
   }
 }
 
@@ -243,31 +243,31 @@ fn draw_ball(game : Game, sx : Int, sy : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, sx : Int, sy : Int) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let alpha : Int = if game.sparks[i].life > 0.7 {
+    let alpha : Int = if spark.life > 0.7 {
       238
-    } else if game.sparks[i].life > 0.4 {
+    } else if spark.life > 0.4 {
       200
     } else {
       146
     }
 
-    let c : @raylib.Color = if game.sparks[i].kind == 1 {
+    let c : @raylib.Color = if spark.kind == 1 {
       @raylib.Color::new(255, 226, 140, alpha)
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       @raylib.Color::new(168, 206, 255, alpha)
     } else {
       @raylib.Color::new(255, 182, 108, alpha)
     }
 
     @raylib.draw_circle(
-      game.sparks[i].x.to_int() + sx,
-      game.sparks[i].y.to_int() + sy,
-      1.0 + game.sparks[i].size,
+      spark.x.to_int() + sx,
+      spark.y.to_int() + sy,
+      1.0 + spark.size,
       c,
     )
   }

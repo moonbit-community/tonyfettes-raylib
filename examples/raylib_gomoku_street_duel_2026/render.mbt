@@ -88,8 +88,8 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
     (11, 11),
   ]
 
-  for i in 0..<stars.length() {
-    let (sx, sy) = stars[i]
+  for star in stars {
+    let (sx, sy) = star
     @raylib.draw_circle(
       board_x + sx * tile,
       board_y + sy * tile,
@@ -590,41 +590,41 @@ fn draw_touch_overlay(
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let alpha : Int = if game.sparks[i].life > 0.72 {
+    let alpha : Int = if spark.life > 0.72 {
       244
-    } else if game.sparks[i].life > 0.44 {
+    } else if spark.life > 0.44 {
       206
-    } else if game.sparks[i].life > 0.22 {
+    } else if spark.life > 0.22 {
       170
     } else {
       126
     }
 
-    let core : @raylib.Color = if game.sparks[i].kind == 1 {
+    let core : @raylib.Color = if spark.kind == 1 {
       @raylib.Color::new(255, 214, 108, alpha)
-    } else if game.sparks[i].kind == 0 {
+    } else if spark.kind == 0 {
       @raylib.Color::new(130, 208, 255, alpha)
     } else {
       @raylib.Color::new(210, 196, 255, alpha)
     }
 
-    let edge : @raylib.Color = if game.sparks[i].kind == 1 {
+    let edge : @raylib.Color = if spark.kind == 1 {
       @raylib.Color::new(255, 242, 196, alpha - 44)
-    } else if game.sparks[i].kind == 0 {
+    } else if spark.kind == 0 {
       @raylib.Color::new(206, 236, 255, alpha - 44)
     } else {
       @raylib.Color::new(230, 220, 255, alpha - 44)
     }
 
     let r : Float = 1.2 +
-      game.sparks[i].size * (0.46 + game.sparks[i].life * 0.84)
-    let x : Int = game.sparks[i].x.to_int()
-    let y : Int = game.sparks[i].y.to_int()
+      spark.size * (0.46 + spark.life * 0.84)
+    let x : Int = spark.x.to_int()
+    let y : Int = spark.y.to_int()
 
     @raylib.draw_circle(x, y, r, core)
     @raylib.draw_circle_lines(x, y, r + 1.0, edge)

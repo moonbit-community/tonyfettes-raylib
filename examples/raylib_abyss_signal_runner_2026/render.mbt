@@ -368,8 +368,7 @@ fn draw_obj_scrap(
 
 ///|
 fn draw_objects(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.objs.length() {
-    let o = game.objs[i]
+  for o in game.objs {
     if not(o.active) {
       continue
     }
@@ -416,8 +415,7 @@ fn draw_objects(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.trails.length() {
-    let t = game.trails[i]
+  for t in game.trails {
     if not(t.active) {
       continue
     }
@@ -441,8 +439,7 @@ fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -467,8 +464,7 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ripples(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.ripples.length() {
-    let r = game.ripples[i]
+  for r in game.ripples {
     if not(r.active) {
       continue
     }

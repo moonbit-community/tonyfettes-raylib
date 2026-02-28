@@ -329,8 +329,7 @@ fn fire_projectile(
 
 ///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -380,8 +379,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     }
     // Pillar collision
     let mut hit_pillar = false
-    for pi in 0..<game.pillars.length() {
-      let pillar = game.pillars[pi]
+    for pillar in game.pillars {
       let pdist = @types.distance2d(proj.x, proj.z, pillar.x, pillar.z)
       if pdist < pillar.radius + 0.2 && proj.y < pillar.height {
         hit_pillar = true
@@ -416,8 +414,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     // Barricade collision (enemy projectiles can hit barricades)
     if proj.is_enemy {
       let mut hit_barricade = false
-      for bi in 0..<game.barricades.length() {
-        let barr = game.barricades[bi]
+      for barr in game.barricades {
         if not(barr.active) {
           continue
         }
@@ -565,8 +562,7 @@ fn apply_explosion(
     damage_player(game, self_dmg)
   }
   // Damage barricades
-  for bi in 0..<game.barricades.length() {
-    let barr = game.barricades[bi]
+  for barr in game.barricades {
     if not(barr.active) {
       continue
     }

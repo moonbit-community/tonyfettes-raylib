@@ -1,26 +1,26 @@
 ///|
 fn clear_towers(game : Game) -> Unit {
-  for i in 0..<game.towers.length() {
-    game.towers[i].active = false
-    game.towers[i].x = 0.0
-    game.towers[i].y = 0.0
-    game.towers[i].need = 0
-    game.towers[i].delivered = 0
-    game.towers[i].pulse_t = 0.0
+  for tower in game.towers {
+    tower.active = false
+    tower.x = 0.0
+    tower.y = 0.0
+    tower.need = 0
+    tower.delivered = 0
+    tower.pulse_t = 0.0
   }
 }
 
 ///|
 fn clear_storms(game : Game) -> Unit {
-  for i in 0..<game.storms.length() {
-    game.storms[i].active = false
-    game.storms[i].x = 0.0
-    game.storms[i].y = 0.0
-    game.storms[i].r = 0.0
-    game.storms[i].vx = 0.0
-    game.storms[i].vy = 0.0
-    game.storms[i].phase = 0.0
-    game.storms[i].strength = 0.0
+  for storm in game.storms {
+    storm.active = false
+    storm.x = 0.0
+    storm.y = 0.0
+    storm.r = 0.0
+    storm.vx = 0.0
+    storm.vy = 0.0
+    storm.phase = 0.0
+    storm.strength = 0.0
   }
 }
 
@@ -243,34 +243,34 @@ fn update_storms(game : Game, dt : Float) -> Unit {
   let top = world_top() + 20.0
   let bottom = world_bottom() - 20.0
 
-  for i in 0..<game.storms.length() {
-    if not(game.storms[i].active) {
+  for storm in game.storms {
+    if not(storm.active) {
       continue
     }
 
-    game.storms[i].phase = game.storms[i].phase +
-      dt * (0.8 + game.storms[i].strength * 0.8)
+    storm.phase = storm.phase +
+      dt * (0.8 + storm.strength * 0.8)
 
-    let drift_x = cosf(game.storms[i].phase * 0.7) * 18.0
-    let drift_y = sinf(game.storms[i].phase * 0.6) * 14.0
+    let drift_x = cosf(storm.phase * 0.7) * 18.0
+    let drift_y = sinf(storm.phase * 0.6) * 14.0
 
-    game.storms[i].x = game.storms[i].x + (game.storms[i].vx + drift_x) * dt
-    game.storms[i].y = game.storms[i].y + (game.storms[i].vy + drift_y) * dt
+    storm.x = storm.x + (storm.vx + drift_x) * dt
+    storm.y = storm.y + (storm.vy + drift_y) * dt
 
-    if game.storms[i].x - game.storms[i].r < left {
-      game.storms[i].x = left + game.storms[i].r
-      game.storms[i].vx = absf(game.storms[i].vx)
-    } else if game.storms[i].x + game.storms[i].r > right {
-      game.storms[i].x = right - game.storms[i].r
-      game.storms[i].vx = -absf(game.storms[i].vx)
+    if storm.x - storm.r < left {
+      storm.x = left + storm.r
+      storm.vx = absf(storm.vx)
+    } else if storm.x + storm.r > right {
+      storm.x = right - storm.r
+      storm.vx = -absf(storm.vx)
     }
 
-    if game.storms[i].y - game.storms[i].r < top {
-      game.storms[i].y = top + game.storms[i].r
-      game.storms[i].vy = absf(game.storms[i].vy)
-    } else if game.storms[i].y + game.storms[i].r > bottom {
-      game.storms[i].y = bottom - game.storms[i].r
-      game.storms[i].vy = -absf(game.storms[i].vy)
+    if storm.y - storm.r < top {
+      storm.y = top + storm.r
+      storm.vy = absf(storm.vy)
+    } else if storm.y + storm.r > bottom {
+      storm.y = bottom - storm.r
+      storm.vy = -absf(storm.vy)
     }
   }
 }

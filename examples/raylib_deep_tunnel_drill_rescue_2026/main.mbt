@@ -222,16 +222,16 @@ fn inside_rect(
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].pulse = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.pulse = 0.0
   }
 }
 
@@ -242,19 +242,19 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(20.0, 220.0)
-      parts[i].vx = @math.cosf(a) * s
-      parts[i].vy = @math.sinf(a) * s
-      parts[i].size = randf(2.0, 8.0)
-      parts[i].life = randf(0.2, 1.0)
-      parts[i].pulse = randf(0.0, 12.0)
+      part.vx = @math.cosf(a) * s
+      part.vy = @math.sinf(a) * s
+      part.size = randf(2.0, 8.0)
+      part.life = randf(0.2, 1.0)
+      part.pulse = randf(0.0, 12.0)
       return
     }
   }
@@ -275,48 +275,48 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].pulse = parts[i].pulse + dt
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 2.3)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 2.1) + 6.0 * dt
+    part.pulse = part.pulse + dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 2.3)
+    part.vy = part.vy * (1.0 - dt * 2.1) + 6.0 * dt
   }
 }
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let c = if parts[i].kind == 0 {
+    let c = if part.kind == 0 {
       @raylib.Color::new(184, 126, 92, 230)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(140, 214, 252, 236)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(132, 238, 156, 236)
-    } else if parts[i].kind == 3 {
+    } else if part.kind == 3 {
       @raylib.Color::new(246, 232, 134, 236)
     } else {
       @raylib.Color::new(244, 132, 144, 236)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size * parts[i].life * 2.0,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size * part.life * 2.0,
       c,
     )
   }
@@ -400,8 +400,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
 ///|
 fn count_tiles(tiles : Array[Int], kind : Int) -> Int {
   let mut n : Int = 0
-  for i in 0..<tiles.length() {
-    if tiles[i] == kind {
+  for tile in tiles {
+    if tile == kind {
       n = n + 1
     }
   }

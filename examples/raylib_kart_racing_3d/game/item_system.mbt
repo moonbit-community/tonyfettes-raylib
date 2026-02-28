@@ -4,8 +4,7 @@
 
 ///|
 pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.dropped_items.length() {
-    let item = game.dropped_items[i]
+  for item in game.dropped_items {
     if not(item.active) {
       continue
     }
@@ -61,8 +60,7 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
     if kart.spin_timer > 0.0 || kart.stunned_timer > 0.0 {
       continue
     }
-    for di in 0..<game.dropped_items.length() {
-      let item = game.dropped_items[di]
+    for item in game.dropped_items {
       if not(item.active) {
         continue
       }
@@ -178,8 +176,7 @@ fn apply_oil_slick_hit(game : @types.Game, kart_idx : Int) -> Unit {
 
 ///|
 pub fn update_projectile_homing(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -520,8 +517,7 @@ pub fn apply_triple_mushroom(game : @types.Game, kart_idx : Int) -> Unit {
 
 ///|
 pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.powerups.length() {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) {
       continue
     }
@@ -561,8 +557,7 @@ pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn check_projectile_impacts(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }

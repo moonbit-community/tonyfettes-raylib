@@ -83,15 +83,15 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -106,19 +106,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -141,24 +141,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 1 { 2.1 } else { 2.8 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - drag * dt)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - (drag - 0.4) * dt) +
-      dt * (if game.particles[i].kind == 1 { 85.0 } else { 120.0 })
+    let drag : Float = if particle.kind == 1 { 2.1 } else { 2.8 }
+    particle.vx = particle.vx * (1.0 - drag * dt)
+    particle.vy = particle.vy * (1.0 - (drag - 0.4) * dt) +
+      dt * (if particle.kind == 1 { 85.0 } else { 120.0 })
   }
 }
 
@@ -702,22 +702,22 @@ fn try_stun_pulse(game : Game) -> Bool {
   }
 
   let mut hits : Int = 0
-  for i in 0..<game.ghosts.length() {
-    if not(game.ghosts[i].active) || game.ghosts[i].mode == ghost_stunned {
+  for ghost in game.ghosts {
+    if not(ghost.active) || ghost.mode == ghost_stunned {
       continue
     }
 
     let d : Int = manhattan(
       game.player.x,
       game.player.y,
-      game.ghosts[i].body.x,
-      game.ghosts[i].body.y,
+      ghost.body.x,
+      ghost.body.y,
     )
 
     if d <= 2 {
-      game.ghosts[i].mode = ghost_stunned
-      game.ghosts[i].stun_t = 2.6
-      game.ghosts[i].move_cd = 0.22
+      ghost.mode = ghost_stunned
+      ghost.stun_t = 2.6
+      ghost.move_cd = 0.22
       hits = hits + 1
     }
   }

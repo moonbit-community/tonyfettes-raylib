@@ -143,53 +143,53 @@ fn reset_trucks(trucks : Array[Truck], level : Int) -> Unit {
 
 ///|
 fn clear_meteors(meteors : Array[Meteor]) -> Unit {
-  for i in 0..<meteors.length() {
-    meteors[i].x = 0.0
-    meteors[i].y = 0.0
-    meteors[i].vx = 0.0
-    meteors[i].vy = 0.0
-    meteors[i].r = 0.0
-    meteors[i].hp = 0
-    meteors[i].ore = 0
-    meteors[i].active = false
+  for meteor in meteors {
+    meteor.x = 0.0
+    meteor.y = 0.0
+    meteor.vx = 0.0
+    meteor.vy = 0.0
+    meteor.r = 0.0
+    meteor.hp = 0
+    meteor.ore = 0
+    meteor.active = false
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].ttl = 0.0
-    bullets[i].active = false
+  for bullet in bullets {
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.ttl = 0.0
+    bullet.active = false
   }
 }
 
 ///|
 fn clear_ores(ores : Array[Ore]) -> Unit {
-  for i in 0..<ores.length() {
-    ores[i].x = 0.0
-    ores[i].y = 0.0
-    ores[i].vx = 0.0
-    ores[i].vy = 0.0
-    ores[i].amount = 0
-    ores[i].ttl = 0.0
-    ores[i].active = false
+  for ore in ores {
+    ore.x = 0.0
+    ore.y = 0.0
+    ore.vx = 0.0
+    ore.vy = 0.0
+    ore.amount = 0
+    ore.ttl = 0.0
+    ore.active = false
   }
 }
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i in 0..<sparks.length() {
-    sparks[i].x = 0.0
-    sparks[i].y = 0.0
-    sparks[i].vx = 0.0
-    sparks[i].vy = 0.0
-    sparks[i].ttl = 0.0
-    sparks[i].kind = 0
-    sparks[i].active = false
+  for spark in sparks {
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.ttl = 0.0
+    spark.kind = 0
+    spark.active = false
   }
 }
 
@@ -202,21 +202,21 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<sparks.length() {
+  for spark in sparks {
     if done {
       continue
     }
-    if not(sparks[i].active) {
-      sparks[i].active = true
-      sparks[i].x = x
-      sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
+    if not(spark.active) {
+      spark.active = true
+      spark.x = x
+      spark.y = y
+      spark.vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
         speed
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
+      spark.vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
         speed
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(12, 48)) /
+      spark.ttl = Float::from_int(@raylib.get_random_value(12, 48)) /
         Float::from_int(100)
-      sparks[i].kind = kind
+      spark.kind = kind
       done = true
     }
   }
@@ -252,17 +252,17 @@ fn spawn_bullet(
   let speed : Float = 720.0
 
   let mut done = false
-  for i in 0..<bullets.length() {
+  for bullet in bullets {
     if done {
       continue
     }
-    if not(bullets[i].active) {
-      bullets[i].active = true
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vx = dx / d * speed
-      bullets[i].vy = dy / d * speed
-      bullets[i].ttl = 1.25
+    if not(bullet.active) {
+      bullet.active = true
+      bullet.x = x
+      bullet.y = y
+      bullet.vx = dx / d * speed
+      bullet.vy = dy / d * speed
+      bullet.ttl = 1.25
       done = true
     }
   }
@@ -271,11 +271,11 @@ fn spawn_bullet(
 ///|
 fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
   let mut done = false
-  for i in 0..<meteors.length() {
+  for meteor in meteors {
     if done {
       continue
     }
-    if not(meteors[i].active) {
+    if not(meteor.active) {
       let lane = @raylib.get_random_value(0, lane_n - 1)
       let target_x = Float::from_int(@raylib.get_random_value(80, sw - 160))
       let spawn_x = target_x +
@@ -295,15 +295,15 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
         @raylib.get_random_value(14 + level, 28 + level * 2),
       )
 
-      meteors[i].active = true
-      meteors[i].x = spawn_x
-      meteors[i].y = spawn_y
-      meteors[i].vx = dx / d * speed +
+      meteor.active = true
+      meteor.x = spawn_x
+      meteor.y = spawn_y
+      meteor.vx = dx / d * speed +
         Float::from_int(@raylib.get_random_value(-30, 30))
-      meteors[i].vy = dy / d * speed
-      meteors[i].r = size
-      meteors[i].hp = if size > 30.0 { 3 } else if size > 22.0 { 2 } else { 1 }
-      meteors[i].ore = if size > 30.0 { 3 } else if size > 22.0 { 2 } else { 1 }
+      meteor.vy = dy / d * speed
+      meteor.r = size
+      meteor.hp = if size > 30.0 { 3 } else if size > 22.0 { 2 } else { 1 }
+      meteor.ore = if size > 30.0 { 3 } else if size > 22.0 { 2 } else { 1 }
       done = true
     }
   }
@@ -312,18 +312,18 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
 ///|
 fn spawn_ore(ores : Array[Ore], x : Float, y : Float, amount : Int) -> Unit {
   let mut done = false
-  for i in 0..<ores.length() {
+  for ore in ores {
     if done {
       continue
     }
-    if not(ores[i].active) {
-      ores[i].active = true
-      ores[i].x = x
-      ores[i].y = y
-      ores[i].vx = Float::from_int(@raylib.get_random_value(-80, 80))
-      ores[i].vy = Float::from_int(@raylib.get_random_value(-130, -40))
-      ores[i].amount = amount
-      ores[i].ttl = 10.0
+    if not(ore.active) {
+      ore.active = true
+      ore.x = x
+      ore.y = y
+      ore.vx = Float::from_int(@raylib.get_random_value(-80, 80))
+      ore.vy = Float::from_int(@raylib.get_random_value(-130, -40))
+      ore.amount = amount
+      ore.ttl = 10.0
       done = true
     }
   }
@@ -356,8 +356,8 @@ fn setup_level(
 ///|
 fn alive_truck_count(trucks : Array[Truck]) -> Int {
   let mut c = 0
-  for i in 0..<trucks.length() {
-    if trucks[i].alive {
+  for truck in trucks {
+    if truck.alive {
       c = c + 1
     }
   }
@@ -674,18 +674,18 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if bullets[i].active {
-          bullets[i].x = bullets[i].x + bullets[i].vx * dt
-          bullets[i].y = bullets[i].y + bullets[i].vy * dt
-          bullets[i].ttl = bullets[i].ttl - dt
+      for bullet in bullets {
+        if bullet.active {
+          bullet.x = bullet.x + bullet.vx * dt
+          bullet.y = bullet.y + bullet.vy * dt
+          bullet.ttl = bullet.ttl - dt
 
-          if bullets[i].ttl <= 0.0 ||
-            bullets[i].x < -40.0 ||
-            bullets[i].x > Float::from_int(sw + 40) ||
-            bullets[i].y < -40.0 ||
-            bullets[i].y > Float::from_int(sh + 40) {
-            bullets[i].active = false
+          if bullet.ttl <= 0.0 ||
+            bullet.x < -40.0 ||
+            bullet.x > Float::from_int(sw + 40) ||
+            bullet.y < -40.0 ||
+            bullet.y > Float::from_int(sh + 40) {
+            bullet.active = false
           }
         }
       }
@@ -708,14 +708,14 @@ fn main {
 
         let mut killed = false
 
-        for b in 0..<bullets.length() {
-          if not(bullets[b].active) {
+        for bullet in bullets {
+          if not(bullet.active) {
             continue
           }
           let hit_r = meteors[i].r + 5.0
-          if sqdist(bullets[b].x, bullets[b].y, meteors[i].x, meteors[i].y) <=
+          if sqdist(bullet.x, bullet.y, meteors[i].x, meteors[i].y) <=
             hit_r * hit_r {
-            bullets[b].active = false
+            bullet.active = false
             meteors[i].hp = meteors[i].hp - 1
             burst(sparks, meteors[i].x, meteors[i].y, 6, 0.22, 0)
 
@@ -792,49 +792,49 @@ fn main {
         }
       }
 
-      for i in 0..<ores.length() {
-        if not(ores[i].active) {
+      for ore in ores {
+        if not(ore.active) {
           continue
         }
 
-        ores[i].x = ores[i].x + ores[i].vx * dt
-        ores[i].y = ores[i].y + ores[i].vy * dt
-        ores[i].vy = ores[i].vy + 180.0 * dt
-        ores[i].ttl = ores[i].ttl - dt
+        ore.x = ore.x + ore.vx * dt
+        ore.y = ore.y + ore.vy * dt
+        ore.vy = ore.vy + 180.0 * dt
+        ore.ttl = ore.ttl - dt
 
         let floor_y = lane_y(2) + 16.0
-        if ores[i].y > floor_y {
-          ores[i].y = floor_y
-          ores[i].vy = -ores[i].vy * 0.36
-          ores[i].vx = ores[i].vx * 0.70
+        if ore.y > floor_y {
+          ore.y = floor_y
+          ore.vy = -ore.vy * 0.36
+          ore.vx = ore.vx * 0.70
         }
 
-        if ores[i].ttl <= 0.0 {
-          ores[i].active = false
+        if ore.ttl <= 0.0 {
+          ore.active = false
           continue
         }
 
-        if sqdist(px, py, ores[i].x, ores[i].y) <= 24.0 * 24.0 {
-          ore_bank = ore_bank + ores[i].amount
-          score = score + ores[i].amount * 12
-          msg = "Ore recovered +\\{ores[i].amount}."
-          burst(sparks, ores[i].x, ores[i].y, 8, 0.26, 3)
-          ores[i].active = false
+        if sqdist(px, py, ore.x, ore.y) <= 24.0 * 24.0 {
+          ore_bank = ore_bank + ore.amount
+          score = score + ore.amount * 12
+          msg = "Ore recovered +\\{ore.amount}."
+          burst(sparks, ore.x, ore.y, 8, 0.26, 3)
+          ore.active = false
           continue
         }
 
         let mut loaded = false
-        for t in 0..<trucks.length() {
-          if not(trucks[t].alive) {
+        for truck in trucks {
+          if not(truck.alive) {
             continue
           }
 
-          let tx = trucks[t].x
-          let ty = lane_y(trucks[t].lane)
-          if absf(ores[i].x - tx) < 28.0 && absf(ores[i].y - ty) < 18.0 {
-            trucks[t].cargo = trucks[t].cargo + ores[i].amount
-            score = score + ores[i].amount * 8
-            ores[i].active = false
+          let tx = truck.x
+          let ty = lane_y(truck.lane)
+          if absf(ore.x - tx) < 28.0 && absf(ore.y - ty) < 18.0 {
+            truck.cargo = truck.cargo + ore.amount
+            score = score + ore.amount * 8
+            ore.active = false
             loaded = true
             burst(sparks, tx, ty - 6.0, 6, 0.20, 1)
             break
@@ -846,18 +846,18 @@ fn main {
         }
       }
 
-      for i in 0..<sparks.length() {
-        if not(sparks[i].active) {
+      for spark in sparks {
+        if not(spark.active) {
           continue
         }
 
-        sparks[i].x = sparks[i].x + sparks[i].vx * dt
-        sparks[i].y = sparks[i].y + sparks[i].vy * dt
-        sparks[i].vy = sparks[i].vy + 220.0 * dt
-        sparks[i].ttl = sparks[i].ttl - dt
+        spark.x = spark.x + spark.vx * dt
+        spark.y = spark.y + spark.vy * dt
+        spark.vy = spark.vy + 220.0 * dt
+        spark.ttl = spark.ttl - dt
 
-        if sparks[i].ttl <= 0.0 {
-          sparks[i].active = false
+        if spark.ttl <= 0.0 {
+          spark.active = false
         }
       }
 
@@ -977,13 +977,13 @@ fn main {
       @raylib.Color::new(222, 236, 248, 255),
     )
 
-    for i in 0..<trucks.length() {
-      if not(trucks[i].alive) {
+    for truck in trucks {
+      if not(truck.alive) {
         continue
       }
 
-      let tx = trucks[i].x.to_int()
-      let ty = lane_y(trucks[i].lane).to_int()
+      let tx = truck.x.to_int()
+      let ty = lane_y(truck.lane).to_int()
 
       @raylib.draw_rectangle(
         tx - 30,
@@ -1012,7 +1012,7 @@ fn main {
         @raylib.Color::new(28, 30, 36, 255),
       )
       @raylib.draw_text(
-        "\\{trucks[i].cargo}",
+        "\\{truck.cargo}",
         tx - 6,
         ty - 10,
         18,
@@ -1029,20 +1029,20 @@ fn main {
       @raylib.draw_rectangle(
         tx - 28,
         ty - 28,
-        (Float::from_int(trucks[i].hp) / 8.0 * 56.0).to_int(),
+        (Float::from_int(truck.hp) / 8.0 * 56.0).to_int(),
         6,
         @raylib.Color::new(110, 230, 146, 255),
       )
     }
 
-    for i in 0..<meteors.length() {
-      if not(meteors[i].active) {
+    for meteor in meteors {
+      if not(meteor.active) {
         continue
       }
 
-      let mx = meteors[i].x.to_int()
-      let my = meteors[i].y.to_int()
-      let r = meteors[i].r
+      let mx = meteor.x.to_int()
+      let my = meteor.y.to_int()
+      let r = meteor.r
 
       @raylib.draw_circle(mx, my, r, @raylib.Color::new(130, 92, 64, 255))
       @raylib.draw_circle(
@@ -1058,7 +1058,7 @@ fn main {
         @raylib.Color::new(102, 72, 50, 255),
       )
       @raylib.draw_text(
-        "\\{meteors[i].hp}",
+        "\\{meteor.hp}",
         mx - 5,
         my - 9,
         18,
@@ -1066,12 +1066,12 @@ fn main {
       )
     }
 
-    for i in 0..<ores.length() {
-      if not(ores[i].active) {
+    for ore in ores {
+      if not(ore.active) {
         continue
       }
-      let ox = ores[i].x.to_int()
-      let oy = ores[i].y.to_int()
+      let ox = ore.x.to_int()
+      let oy = ore.y.to_int()
       @raylib.draw_circle(ox, oy, 8.0, @raylib.Color::new(82, 238, 232, 255))
       @raylib.draw_circle(
         ox + 2,
@@ -1080,7 +1080,7 @@ fn main {
         @raylib.Color::new(182, 252, 246, 255),
       )
       @raylib.draw_text(
-        "+\\{ores[i].amount}",
+        "+\\{ore.amount}",
         ox - 9,
         oy - 22,
         16,
@@ -1088,33 +1088,33 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
       @raylib.draw_line(
-        bullets[i].x.to_int(),
-        bullets[i].y.to_int(),
-        (bullets[i].x - bullets[i].vx * 0.02).to_int(),
-        (bullets[i].y - bullets[i].vy * 0.02).to_int(),
+        bullet.x.to_int(),
+        bullet.y.to_int(),
+        (bullet.x - bullet.vx * 0.02).to_int(),
+        (bullet.y - bullet.vy * 0.02).to_int(),
         @raylib.Color::new(252, 120, 90, 255),
       )
     }
 
-    for i in 0..<sparks.length() {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      let c = if sparks[i].kind == 0 {
+      let c = if spark.kind == 0 {
         @raylib.Color::new(255, 130, 88, 255)
-      } else if sparks[i].kind == 1 {
+      } else if spark.kind == 1 {
         @raylib.Color::new(255, 216, 118, 255)
-      } else if sparks[i].kind == 2 {
+      } else if spark.kind == 2 {
         @raylib.Color::new(236, 118, 108, 255)
       } else {
         @raylib.Color::new(120, 244, 228, 255)
       }
-      @raylib.draw_circle(sparks[i].x.to_int(), sparks[i].y.to_int(), 2.0, c)
+      @raylib.draw_circle(spark.x.to_int(), spark.y.to_int(), 2.0, c)
     }
 
     if invuln_t <= 0.0 || (invuln_t * 12.0).to_int() % 2 == 0 {

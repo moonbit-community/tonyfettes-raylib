@@ -213,8 +213,7 @@ fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -265,8 +264,7 @@ fn update_message(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.pickups.length() {
-    let pickup = game.pickups[i]
+  for pickup in game.pickups {
     if not(pickup.active) {
       continue
     }
@@ -350,8 +348,7 @@ fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
 
 ///|
 fn update_traps(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.traps.length() {
-    let trap = game.traps[i]
+  for trap in game.traps {
     if not(trap.active) {
       continue
     }
@@ -505,15 +502,15 @@ fn start_new_game(game : @types.Game) -> Unit {
     game.damage_indicators[i] = @types.DamageIndicator::inactive()
   }
   // Reset weapon cooldowns
-  for i in 0..<game.weapons.length() {
-    game.weapons[i].reload_timer = 0.0
-    game.weapons[i].reloading = false
-    game.weapons[i].reload_time = 0.0
+  for weapon in game.weapons {
+    weapon.reload_timer = 0.0
+    weapon.reloading = false
+    weapon.reload_time = 0.0
   }
   // Reset crates
-  for i in 0..<game.crates.length() {
-    game.crates[i].active = true
-    game.crates[i].respawn_timer = 0.0
+  for crate in game.crates {
+    crate.active = true
+    crate.respawn_timer = 0.0
   }
 }
 
@@ -678,8 +675,7 @@ fn buy_shop_item(game : @types.Game, item_idx : Int) -> Unit {
 
 ///|
 fn update_crates(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.crates.length() {
-    let crate = game.crates[i]
+  for crate in game.crates {
     if not(crate.active) {
       crate.respawn_timer -= dt
       if crate.respawn_timer <= 0.0 {

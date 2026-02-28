@@ -23,20 +23,20 @@ struct Obj {
 
 ///|
 fn reset_objs(objs : Array[Obj]) -> Unit {
-  for i in 0..<objs.length() {
-    objs[i].alive = false
+  for obj in objs {
+    obj.alive = false
   }
 }
 
 ///|
 fn spawn_obj(objs : Array[Obj], lane : Int, kind : Int) -> Unit {
-  for i in 0..<objs.length() {
-    if not(objs[i].alive) {
-      objs[i].alive = true
-      objs[i].lane = lane
-      objs[i].x = lane_x(lane)
-      objs[i].y = -40.0
-      objs[i].kind = kind
+  for obj in objs {
+    if not(obj.alive) {
+      obj.alive = true
+      obj.lane = lane
+      obj.x = lane_x(lane)
+      obj.y = -40.0
+      obj.kind = kind
       break
     }
   }
@@ -128,46 +128,46 @@ fn main {
         }
       }
 
-      for i in 0..<objs.length() {
-        if not(objs[i].alive) {
+      for obj in objs {
+        if not(obj.alive) {
           continue
         }
 
-        objs[i].y = objs[i].y + run_speed * dt
+        obj.y = obj.y + run_speed * dt
 
-        if objs[i].y > Float::from_int(sh + 60) {
-          objs[i].alive = false
+        if obj.y > Float::from_int(sh + 60) {
+          obj.alive = false
           continue
         }
 
-        if objs[i].lane != player_lane {
+        if obj.lane != player_lane {
           continue
         }
 
-        let dy = (objs[i].y - player_y).abs()
+        let dy = (obj.y - player_y).abs()
         if dy < 36.0 {
-          if objs[i].kind == 0 || objs[i].kind == 1 {
+          if obj.kind == 0 || obj.kind == 1 {
             if invuln_timer <= 0.0 {
               lives = lives - 1
               invuln_timer = 1.1
               score = score - 40
-              msg = if objs[i].kind == 0 {
+              msg = if obj.kind == 0 {
                 "Crashed into tree."
               } else {
                 "Hit a rock."
               }
             }
-            objs[i].alive = false
-          } else if objs[i].kind == 2 {
+            obj.alive = false
+          } else if obj.kind == 2 {
             rescued = rescued + 1
             score = score + 120
             msg = "Civilian rescued!"
-            objs[i].alive = false
+            obj.alive = false
           } else {
             boost_timer = 3.2
             score = score + 45
             msg = "Speed boost collected."
-            objs[i].alive = false
+            obj.alive = false
           }
         }
       }
@@ -212,11 +212,11 @@ fn main {
       )
     }
 
-    for i in 0..<objs.length() {
-      if objs[i].alive {
-        let x = objs[i].x
-        let y = objs[i].y
-        if objs[i].kind == 0 {
+    for obj in objs {
+      if obj.alive {
+        let x = obj.x
+        let y = obj.y
+        if obj.kind == 0 {
           @raylib.draw_triangle(
             @raylib.Vector2::new(x, y - 26.0),
             @raylib.Vector2::new(x - 22.0, y + 14.0),
@@ -230,10 +230,10 @@ fn main {
             10,
             @raylib.brown,
           )
-        } else if objs[i].kind == 1 {
+        } else if obj.kind == 1 {
           @raylib.draw_circle(x.to_int(), y.to_int(), 14.0, @raylib.darkgray)
           @raylib.draw_circle_lines(x.to_int(), y.to_int(), 14.0, @raylib.black)
-        } else if objs[i].kind == 2 {
+        } else if obj.kind == 2 {
           @raylib.draw_circle(x.to_int(), y.to_int(), 13.0, @raylib.orange)
           @raylib.draw_text(
             "!",

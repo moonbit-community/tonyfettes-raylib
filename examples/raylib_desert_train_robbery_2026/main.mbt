@@ -120,39 +120,39 @@ fn inside_rect(
 
 ///|
 fn clear_sheriffs(ss : Array[Sheriff]) -> Unit {
-  for i in 0..<ss.length() {
-    ss[i].wagon_idx = 0
-    ss[i].rel_x = 0.0
-    ss[i].hp = 0
-    ss[i].shoot_cd = 0.0
-    ss[i].hit_cd = 0.0
-    ss[i].active = false
+  for ss_elem in ss {
+    ss_elem.wagon_idx = 0
+    ss_elem.rel_x = 0.0
+    ss_elem.hp = 0
+    ss_elem.shoot_cd = 0.0
+    ss_elem.hit_cd = 0.0
+    ss_elem.active = false
   }
 }
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i in 0..<bs.length() {
-    bs[i].x = 0.0
-    bs[i].y = 0.0
-    bs[i].vx = 0.0
-    bs[i].vy = 0.0
-    bs[i].ttl = 0.0
-    bs[i].owner = 0
-    bs[i].active = false
+  for bs_elem in bs {
+    bs_elem.x = 0.0
+    bs_elem.y = 0.0
+    bs_elem.vx = 0.0
+    bs_elem.vy = 0.0
+    bs_elem.ttl = 0.0
+    bs_elem.owner = 0
+    bs_elem.active = false
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -165,19 +165,19 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 64)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(12, 64)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -215,19 +215,19 @@ fn spawn_bullet(
   let d : Float = d2.sqrt()
 
   let mut done = false
-  for i in 0..<bs.length() {
+  for bs_elem in bs {
     if done {
       continue
     }
 
-    if not(bs[i].active) {
-      bs[i].active = true
-      bs[i].owner = owner
-      bs[i].x = x
-      bs[i].y = y
-      bs[i].vx = dx / d * speed
-      bs[i].vy = dy / d * speed
-      bs[i].ttl = 1.7
+    if not(bs_elem.active) {
+      bs_elem.active = true
+      bs_elem.owner = owner
+      bs_elem.x = x
+      bs_elem.y = y
+      bs_elem.vx = dx / d * speed
+      bs_elem.vy = dy / d * speed
+      bs_elem.ttl = 1.7
       done = true
     }
   }
@@ -236,8 +236,8 @@ fn spawn_bullet(
 ///|
 fn rightmost_wagon_x(wagons : Array[Wagon]) -> Float {
   let mut r : Float = -1000.0
-  for i in 0..<wagons.length() {
-    let x : Float = wagons[i].x + wagons[i].len
+  for wagon in wagons {
+    let x : Float = wagon.x + wagon.len
     if x > r {
       r = x
     }
@@ -248,15 +248,15 @@ fn rightmost_wagon_x(wagons : Array[Wagon]) -> Float {
 ///|
 fn init_wagons(wagons : Array[Wagon]) -> Unit {
   let mut x : Float = -40.0
-  for i in 0..<wagons.length() {
+  for wagon in wagons {
     let len = Float::from_int(@raylib.get_random_value(176, 228))
     let roof = Float::from_int(@raylib.get_random_value(500, 560))
     let loot = @raylib.get_random_value(1, 3)
 
-    wagons[i].x = x
-    wagons[i].len = len
-    wagons[i].roof_y = roof
-    wagons[i].loot = loot
+    wagon.x = x
+    wagon.len = len
+    wagon.roof_y = roof
+    wagon.loot = loot
 
     x = x + len + Float::from_int(@raylib.get_random_value(24, 58))
   }
@@ -312,21 +312,21 @@ fn spawn_sheriff(
   let idx = @raylib.get_random_value(0, wagons.length() - 1)
 
   let mut done = false
-  for i in 0..<sheriffs.length() {
+  for sheriff in sheriffs {
     if done {
       continue
     }
 
-    if not(sheriffs[i].active) {
-      sheriffs[i].active = true
-      sheriffs[i].wagon_idx = idx
-      sheriffs[i].rel_x = Float::from_int(
+    if not(sheriff.active) {
+      sheriff.active = true
+      sheriff.wagon_idx = idx
+      sheriff.rel_x = Float::from_int(
         @raylib.get_random_value(24, (wagons[idx].len - 24.0).to_int()),
       )
-      sheriffs[i].hp = if level == 1 { 2 } else if level == 2 { 3 } else { 4 }
-      sheriffs[i].shoot_cd = Float::from_int(@raylib.get_random_value(50, 120)) /
+      sheriff.hp = if level == 1 { 2 } else if level == 2 { 3 } else { 4 }
+      sheriff.shoot_cd = Float::from_int(@raylib.get_random_value(50, 120)) /
         Float::from_int(100)
-      sheriffs[i].hit_cd = 0.0
+      sheriff.hit_cd = 0.0
       done = true
     }
   }
@@ -544,18 +544,18 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 220.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 220.0 * dt
+      particle.ttl = particle.ttl - dt
 
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -580,9 +580,9 @@ fn main {
           wagons[i].x = rightmost +
             Float::from_int(@raylib.get_random_value(22, 56))
 
-          for s in 0..<sheriffs.length() {
-            if sheriffs[s].active && sheriffs[s].wagon_idx == i {
-              sheriffs[s].active = false
+          for sheriff in sheriffs {
+            if sheriff.active && sheriff.wagon_idx == i {
+              sheriff.active = false
             }
           }
         }
@@ -683,10 +683,10 @@ fn main {
         landed = true
       }
 
-      for i in 0..<wagons.length() {
-        let left = wagons[i].x + 10.0
-        let right = wagons[i].x + wagons[i].len - 10.0
-        let roof = wagons[i].roof_y
+      for wagon in wagons {
+        let left = wagon.x + 10.0
+        let right = wagon.x + wagon.len - 10.0
+        let roof = wagon.roof_y
 
         if player.x >= left && player.x <= right {
           if old_y <= roof && player.y >= roof && player.vy > 0.0 {
@@ -740,12 +740,12 @@ fn main {
 
       if loot && player.loot_cd <= 0.0 {
         let mut looted_any = false
-        for i in 0..<wagons.length() {
-          let cx = wagons[i].x + wagons[i].len * 0.5
-          let cy = wagons[i].roof_y - 12.0
-          if wagons[i].loot > 0 &&
+        for wagon in wagons {
+          let cx = wagon.x + wagon.len * 0.5
+          let cy = wagon.roof_y - 12.0
+          if wagon.loot > 0 &&
             sqdist(player.x, player.y - 18.0, cx, cy) <= 42.0 * 42.0 {
-            wagons[i].loot = wagons[i].loot - 1
+            wagon.loot = wagon.loot - 1
             looted = looted + 1
             score = score + 62
             stars = stars + 1
@@ -759,28 +759,28 @@ fn main {
         }
       }
 
-      for i in 0..<sheriffs.length() {
-        if not(sheriffs[i].active) {
+      for sheriff in sheriffs {
+        if not(sheriff.active) {
           continue
         }
 
-        if sheriffs[i].hit_cd > 0.0 {
-          sheriffs[i].hit_cd = sheriffs[i].hit_cd - dt
-          if sheriffs[i].hit_cd < 0.0 {
-            sheriffs[i].hit_cd = 0.0
+        if sheriff.hit_cd > 0.0 {
+          sheriff.hit_cd = sheriff.hit_cd - dt
+          if sheriff.hit_cd < 0.0 {
+            sheriff.hit_cd = 0.0
           }
         }
 
-        if sheriffs[i].shoot_cd > 0.0 {
-          sheriffs[i].shoot_cd = sheriffs[i].shoot_cd - dt
-          if sheriffs[i].shoot_cd < 0.0 {
-            sheriffs[i].shoot_cd = 0.0
+        if sheriff.shoot_cd > 0.0 {
+          sheriff.shoot_cd = sheriff.shoot_cd - dt
+          if sheriff.shoot_cd < 0.0 {
+            sheriff.shoot_cd = 0.0
           }
         }
 
-        let wi = sheriffs[i].wagon_idx
+        let wi = sheriff.wagon_idx
         if wi < 0 || wi >= wagons.length() {
-          sheriffs[i].active = false
+          sheriff.active = false
           continue
         }
 
@@ -789,20 +789,20 @@ fn main {
         let roof = wagons[wi].roof_y
 
         let target_rel = clampf(player.x - wx, 18.0, wl - 18.0)
-        if target_rel < sheriffs[i].rel_x {
-          sheriffs[i].rel_x = sheriffs[i].rel_x -
+        if target_rel < sheriff.rel_x {
+          sheriff.rel_x = sheriff.rel_x -
             Float::from_int(74 + level * 14) * dt
-        } else if target_rel > sheriffs[i].rel_x {
-          sheriffs[i].rel_x = sheriffs[i].rel_x +
+        } else if target_rel > sheriff.rel_x {
+          sheriff.rel_x = sheriff.rel_x +
             Float::from_int(74 + level * 14) * dt
         }
 
-        sheriffs[i].rel_x = clampf(sheriffs[i].rel_x, 18.0, wl - 18.0)
+        sheriff.rel_x = clampf(sheriff.rel_x, 18.0, wl - 18.0)
 
-        let sx = wx + sheriffs[i].rel_x
+        let sx = wx + sheriff.rel_x
         let sy = roof - 16.0
 
-        if sheriffs[i].shoot_cd <= 0.0 {
+        if sheriff.shoot_cd <= 0.0 {
           let dx = player.x - sx
           let dy = player.y - 24.0 - sy
           let d2 = dx * dx + dy * dy
@@ -816,7 +816,7 @@ fn main {
               2,
               520.0,
             )
-            sheriffs[i].shoot_cd = Float::from_int(
+            sheriff.shoot_cd = Float::from_int(
                 @raylib.get_random_value(72, 136),
               ) /
               Float::from_int(100)
@@ -840,47 +840,47 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
-        bullets[i].ttl = bullets[i].ttl - dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
+        bullet.ttl = bullet.ttl - dt
 
-        if bullets[i].ttl <= 0.0 ||
-          bullets[i].x < -60.0 ||
-          bullets[i].x > Float::from_int(sw + 60) ||
-          bullets[i].y < 80.0 ||
-          bullets[i].y > Float::from_int(sh + 60) {
-          bullets[i].active = false
+        if bullet.ttl <= 0.0 ||
+          bullet.x < -60.0 ||
+          bullet.x > Float::from_int(sw + 60) ||
+          bullet.y < 80.0 ||
+          bullet.y > Float::from_int(sh + 60) {
+          bullet.active = false
           continue
         }
 
         let mut hit = false
 
-        if bullets[i].owner == 1 {
-          for s in 0..<sheriffs.length() {
-            if not(sheriffs[s].active) {
+        if bullet.owner == 1 {
+          for sheriff in sheriffs {
+            if not(sheriff.active) {
               continue
             }
 
-            let wi = sheriffs[s].wagon_idx
+            let wi = sheriff.wagon_idx
             if wi < 0 || wi >= wagons.length() {
               continue
             }
 
-            let sx = wagons[wi].x + sheriffs[s].rel_x
+            let sx = wagons[wi].x + sheriff.rel_x
             let sy = wagons[wi].roof_y - 16.0
-            if sqdist(bullets[i].x, bullets[i].y, sx, sy) <= 20.0 * 20.0 {
-              sheriffs[s].hp = sheriffs[s].hp - 1
-              sheriffs[s].hit_cd = 0.22
-              bullets[i].active = false
+            if sqdist(bullet.x, bullet.y, sx, sy) <= 20.0 * 20.0 {
+              sheriff.hp = sheriff.hp - 1
+              sheriff.hit_cd = 0.22
+              bullet.active = false
               hit = true
               burst(particles, sx, sy, 10, 0.26, 1)
-              if sheriffs[s].hp <= 0 {
-                sheriffs[s].active = false
+              if sheriff.hp <= 0 {
+                sheriff.active = false
                 score = score + 78
                 stars = stars + 1
                 burst(particles, sx, sy, 20, 0.52, 2)
@@ -888,9 +888,9 @@ fn main {
               break
             }
           }
-        } else if sqdist(bullets[i].x, bullets[i].y, player.x, player.y - 22.0) <=
+        } else if sqdist(bullet.x, bullet.y, player.x, player.y - 22.0) <=
           22.0 * 22.0 {
-          bullets[i].active = false
+          bullet.active = false
           hit = true
           if player.hit_cd <= 0.0 {
             player.hp = player.hp - 1
@@ -987,10 +987,10 @@ fn main {
       )
     }
 
-    for i in 0..<wagons.length() {
-      let wx = wagons[i].x + shake_x
-      let wy = wagons[i].roof_y
-      let len = wagons[i].len
+    for wagon in wagons {
+      let wx = wagon.x + shake_x
+      let wy = wagon.roof_y
+      let len = wagon.len
 
       @raylib.draw_rectangle(
         wx.to_int(),
@@ -1027,7 +1027,7 @@ fn main {
         @raylib.Color::new(38, 30, 28, 255),
       )
 
-      if wagons[i].loot > 0 {
+      if wagon.loot > 0 {
         let cx = (wx + len * 0.5).to_int()
         let cy = (wy - 14.0).to_int()
         @raylib.draw_rectangle(
@@ -1038,7 +1038,7 @@ fn main {
           @raylib.Color::new(142, 102, 60, 255),
         )
         @raylib.draw_text(
-          "\{wagons[i].loot}",
+          "\{wagon.loot}",
           cx - 5,
           cy - 10,
           18,
@@ -1047,20 +1047,20 @@ fn main {
       }
     }
 
-    for i in 0..<sheriffs.length() {
-      if not(sheriffs[i].active) {
+    for sheriff in sheriffs {
+      if not(sheriff.active) {
         continue
       }
 
-      let wi = sheriffs[i].wagon_idx
+      let wi = sheriff.wagon_idx
       if wi < 0 || wi >= wagons.length() {
         continue
       }
 
-      let sx = (wagons[wi].x + sheriffs[i].rel_x + shake_x).to_int()
+      let sx = (wagons[wi].x + sheriff.rel_x + shake_x).to_int()
       let sy = (wagons[wi].roof_y - 16.0).to_int()
 
-      let col = if sheriffs[i].hit_cd > 0.0 {
+      let col = if sheriff.hit_cd > 0.0 {
         @raylib.Color::new(252, 234, 146, 255)
       } else {
         @raylib.Color::new(238, 108, 90, 255)
@@ -1130,44 +1130,44 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
 
-      let col = if bullets[i].owner == 1 {
+      let col = if bullet.owner == 1 {
         @raylib.Color::new(126, 240, 252, 255)
       } else {
         @raylib.Color::new(252, 132, 116, 255)
       }
 
       @raylib.draw_line(
-        (bullets[i].x + shake_x).to_int(),
-        bullets[i].y.to_int(),
-        (bullets[i].x - bullets[i].vx * 0.02 + shake_x).to_int(),
-        (bullets[i].y - bullets[i].vy * 0.02).to_int(),
+        (bullet.x + shake_x).to_int(),
+        bullet.y.to_int(),
+        (bullet.x - bullet.vx * 0.02 + shake_x).to_int(),
+        (bullet.y - bullet.vy * 0.02).to_int(),
         col,
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(252, 126, 126, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 124, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(232, 164, 252, 255)
       } else {
         @raylib.Color::new(120, 228, 246, 255)
       }
 
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         col,
       )

@@ -466,8 +466,7 @@ fn draw_entity_pickup(
 
 ///|
 fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.entities.length() {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) {
       continue
     }
@@ -517,8 +516,7 @@ fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    let b = game.bullets[i]
+  for b in game.bullets {
     if not(b.active) {
       continue
     }
@@ -556,8 +554,7 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    let s = game.sparks[i]
+  for s in game.sparks {
     if not(s.active) {
       continue
     }
@@ -582,8 +579,7 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.rings.length() {
-    let r = game.rings[i]
+  for r in game.rings {
     if not(r.active) {
       continue
     }
@@ -608,8 +604,7 @@ fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_afterimages(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.images.length() {
-    let it = game.images[i]
+  for it in game.images {
     if not(it.active) {
       continue
     }

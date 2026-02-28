@@ -84,15 +84,15 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -107,19 +107,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -142,35 +142,35 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.6 } else { 2.1 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - drag * dt)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - (drag - 0.5) * dt) +
-      dt * (if game.particles[i].kind == 1 { 84.0 } else { 122.0 })
+    let drag : Float = if particle.kind == 2 { 2.6 } else { 2.1 }
+    particle.vx = particle.vx * (1.0 - drag * dt)
+    particle.vy = particle.vy * (1.0 - (drag - 0.5) * dt) +
+      dt * (if particle.kind == 1 { 84.0 } else { 122.0 })
   }
 }
 
 ///|
 fn smoke_cover_at(game : Game, x : Int, y : Int) -> Bool {
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    let d : Int = manhattan(x, y, game.smokes[i].x, game.smokes[i].y)
+    let d : Int = manhattan(x, y, smoke.x, smoke.y)
     if d <= 1 {
       return true
     }
@@ -274,8 +274,8 @@ fn clear_map(game : Game) -> Unit {
     (16, 6),
   ]
 
-  for i in 0..<crate_cells.length() {
-    set_tile(game, crate_cells[i].0, crate_cells[i].1, tile_wall)
+  for crate_cell in crate_cells {
+    set_tile(game, crate_cell.0, crate_cell.1, tile_wall)
   }
 
   set_tile(game, start_x, start_y, tile_floor)
@@ -370,11 +370,11 @@ fn start_run(game : Game) -> Unit {
   load_guards(game)
   clear_particles(game)
 
-  for i in 0..<game.smokes.length() {
-    game.smokes[i].active = false
-    game.smokes[i].x = 0
-    game.smokes[i].y = 0
-    game.smokes[i].t = 0.0
+  for smoke in game.smokes {
+    smoke.active = false
+    smoke.x = 0
+    smoke.y = 0
+    smoke.t = 0.0
   }
 
   actor_place(game.player, start_x, start_y)
@@ -494,22 +494,22 @@ fn deploy_smoke(game : Game) -> Bool {
   game.action_cd = 0.35
 
   let mut stunned : Int = 0
-  for i in 0..<game.guards.length() {
-    if not(game.guards[i].active) || game.guards[i].mode == guard_stunned {
+  for guard_val in game.guards {
+    if not(guard_val.active) || guard_val.mode == guard_stunned {
       continue
     }
 
     let d : Int = manhattan(
-      game.guards[i].body.x,
-      game.guards[i].body.y,
+      guard_val.body.x,
+      guard_val.body.y,
       game.player.x,
       game.player.y,
     )
 
     if d <= 2 {
-      game.guards[i].mode = guard_stunned
-      game.guards[i].stun_t = 2.3
-      game.guards[i].move_cd = 0.18
+      guard_val.mode = guard_stunned
+      guard_val.stun_t = 2.3
+      guard_val.move_cd = 0.18
       stunned = stunned + 1
     }
   }
@@ -538,23 +538,23 @@ fn deploy_smoke(game : Game) -> Bool {
 
 ///|
 fn update_smokes(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.smokes.length() {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    game.smokes[i].t = game.smokes[i].t - dt
-    if game.smokes[i].t <= 0.0 {
-      game.smokes[i].active = false
+    smoke.t = smoke.t - dt
+    if smoke.t <= 0.0 {
+      smoke.active = false
       continue
     }
 
     if @raylib.get_random_value(0, 4) == 0 {
       emit_particle(
         game,
-        Float::from_int(cell_center_x(Float::from_int(game.smokes[i].x))) +
+        Float::from_int(cell_center_x(Float::from_int(smoke.x))) +
         randf(-14.0, 14.0),
-        Float::from_int(cell_center_y(Float::from_int(game.smokes[i].y))) +
+        Float::from_int(cell_center_y(Float::from_int(smoke.y))) +
         randf(-14.0, 14.0),
         randf(-18.0, 18.0),
         randf(-26.0, -8.0),
@@ -905,13 +905,13 @@ fn handle_player_caught(game : Game) -> Unit {
     actor_place(game.player, start_x, start_y)
     game.move_cd = 0.24
 
-    for g in 0..<game.guards.length() {
-      if not(game.guards[g].active) {
+    for guard_val in game.guards {
+      if not(guard_val.active) {
         continue
       }
-      game.guards[g].mode = guard_stunned
-      game.guards[g].stun_t = 1.1
-      game.guards[g].move_cd = 0.18
+      guard_val.mode = guard_stunned
+      guard_val.stun_t = 1.1
+      guard_val.move_cd = 0.18
     }
 
     set_msg(game, "Spotted. You lost a life.", 1.8)

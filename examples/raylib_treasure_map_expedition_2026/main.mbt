@@ -189,11 +189,11 @@ fn main {
         }
       }
 
-      for i in 0..<relics.length() {
-        if not(relics[i].taken) && relics[i].x == px && relics[i].y == py {
-          relics[i].taken = true
-          bag_value = bag_value + relics[i].value
-          msg = "Relic found +\{relics[i].value}."
+      for relic in relics {
+        if not(relic.taken) && relic.x == px && relic.y == py {
+          relic.taken = true
+          bag_value = bag_value + relic.value
+          msg = "Relic found +\{relic.value}."
         }
       }
 
@@ -204,8 +204,8 @@ fn main {
       }
 
       let mut all_taken = true
-      for i in 0..<relics.length() {
-        if not(relics[i].taken) {
+      for relic in relics {
+        if not(relic.taken) {
           all_taken = false
         }
       }
@@ -256,10 +256,10 @@ fn main {
       }
     }
 
-    for i in 0..<relics.length() {
-      if not(relics[i].taken) && seen[idx(relics[i].x, relics[i].y)] {
-        let rx = ox + relics[i].x * cell + cell / 2
-        let ry = oy + relics[i].y * cell + cell / 2
+    for relic in relics {
+      if not(relic.taken) && seen[idx(relic.x, relic.y)] {
+        let rx = ox + relic.x * cell + cell / 2
+        let ry = oy + relic.y * cell + cell / 2
         @raylib.draw_circle(rx, ry, 10.0, @raylib.gold)
         @raylib.draw_circle_lines(rx, ry, 10.0, @raylib.yellow)
       }

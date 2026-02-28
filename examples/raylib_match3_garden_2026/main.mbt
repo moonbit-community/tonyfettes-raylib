@@ -131,8 +131,8 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
   }
 
   let mut count = 0
-  for i in 0..<marks.length() {
-    if marks[i] {
+  for mark in marks {
+    if mark {
       count = count + 1
     }
   }

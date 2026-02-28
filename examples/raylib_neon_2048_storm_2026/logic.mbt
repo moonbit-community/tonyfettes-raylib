@@ -104,15 +104,15 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -127,19 +127,19 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
@@ -162,21 +162,21 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 2.5)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 2.2) + dt * 180.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 2.5)
+    spark.vy = spark.vy * (1.0 - dt * 2.2) + dt * 180.0
   }
 }
 
@@ -251,8 +251,8 @@ fn line_index(line : Int, pos : Int, dir : Int) -> Int {
 fn spawn_tile(game : Game, kind : Int) -> Bool {
   let mut empty_count : Int = 0
 
-  for i in 0..<game.board.length() {
-    if game.board[i] == 0 {
+  for board_elem in game.board {
+    if board_elem == 0 {
       empty_count = empty_count + 1
     }
   }
@@ -304,8 +304,8 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
 fn spawn_blocker(game : Game) -> Bool {
   let mut empty_count : Int = 0
 
-  for i in 0..<game.board.length() {
-    if game.board[i] == 0 {
+  for board_elem in game.board {
+    if board_elem == 0 {
       empty_count = empty_count + 1
     }
   }

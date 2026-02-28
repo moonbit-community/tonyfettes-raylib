@@ -120,8 +120,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
       )
     }
     // Enemy wakes
-    for i in 0..<game.enemies.length() {
-      let e = game.enemies[i]
+    for e in game.enemies {
       if not(e.active) {
         continue
       }
@@ -271,8 +270,7 @@ fn update_game_over(game : @types.Game) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -313,8 +311,7 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_wakes(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.wakes.length() {
-    let w = game.wakes[i]
+  for w in game.wakes {
     if not(w.active) {
       continue
     }
@@ -331,8 +328,7 @@ fn update_wakes(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.debris_pool.length() {
-    let d = game.debris_pool[i]
+  for d in game.debris_pool {
     if not(d.active) {
       continue
     }
@@ -361,8 +357,7 @@ fn update_debris(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.messages.length() {
-    let msg = game.messages[i]
+  for msg in game.messages {
     if not(msg.active) {
       continue
     }
@@ -655,8 +650,7 @@ fn fire_fleet_broadside(
 
 ///|
 fn update_convoy(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.convoy_ships.length() {
-    let cs = game.convoy_ships[i]
+  for cs in game.convoy_ships {
     if not(cs.active) {
       continue
     }
@@ -797,8 +791,8 @@ fn check_objectives(game : @types.Game) -> Unit {
   }
   // Count enemies alive
   let mut alive = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       alive += 1
     }
   }
@@ -820,8 +814,7 @@ fn check_objectives(game : @types.Game) -> Unit {
     // Check if any convoy ships are still active and haven't arrived
     let convoy_alive = @types.count_convoy_alive(game)
     let mut all_arrived = true
-    for i in 0..<game.convoy_ships.length() {
-      let cs = game.convoy_ships[i]
+    for cs in game.convoy_ships {
       if cs.active && not(cs.arrived) {
         all_arrived = false
       }

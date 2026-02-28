@@ -3,8 +3,7 @@
 ///|
 fn update_towers(game : @types.Game, dt : Float) -> Unit {
   // First, reset buff bonuses on all towers
-  for i in 0..<game.towers.length() {
-    let tower = game.towers[i]
+  for tower in game.towers {
     if not(tower.active) {
       continue
     }
@@ -158,8 +157,7 @@ fn update_flame_aura(game : @types.Game, tower_idx : Int, dt : Float) -> Unit {
     let tx = @types.grid_to_world_x(tower.gx)
     let tz = @types.grid_to_world_z(tower.gy)
     let aura_range : Float = @types.tower_effective_range(tower) * 0.6
-    for i in 0..<game.enemies.length() {
-      let enemy = game.enemies[i]
+    for enemy in game.enemies {
       if not(enemy.active) {
         continue
       }

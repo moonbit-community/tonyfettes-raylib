@@ -642,8 +642,8 @@ fn draw_frame(game : Game) -> Unit {
 
   draw_rooftop(ox, oy)
 
-  for i in 0..<game.enemies.length() {
-    draw_enemy(game.enemies[i], game, ox, oy)
+  for enemy in game.enemies {
+    draw_enemy(enemy, game, ox, oy)
   }
 
   draw_player(game, ox, oy)

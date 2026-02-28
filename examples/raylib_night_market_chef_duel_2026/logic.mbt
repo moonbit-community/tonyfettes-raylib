@@ -20,8 +20,8 @@ fn clear_cooking(game : Game) -> Unit {
 
 ///|
 fn clear_round_entities(game : Game) -> Unit {
-  for i in 0..<game.orders.length() {
-    clear_order(game.orders[i])
+  for order in game.orders {
+    clear_order(order)
   }
   clear_cooking(game)
   game.ready_dish = dish_none

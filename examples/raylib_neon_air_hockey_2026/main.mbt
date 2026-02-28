@@ -105,13 +105,13 @@ fn goal_bottom() -> Float {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i in 0..<sparks.length() {
-    sparks[i].x = 0.0
-    sparks[i].y = 0.0
-    sparks[i].vx = 0.0
-    sparks[i].vy = 0.0
-    sparks[i].ttl = 0.0
-    sparks[i].active = false
+  for spark in sparks {
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.ttl = 0.0
+    spark.active = false
   }
 }
 
@@ -124,14 +124,14 @@ fn spawn_spark(
   color_bias : Int,
 ) -> Unit {
   let mut placed = false
-  for i in 0..<sparks.length() {
+  for spark in sparks {
     if placed {
       continue
     }
-    if not(sparks[i].active) {
-      sparks[i].active = true
-      sparks[i].x = x
-      sparks[i].y = y
+    if not(spark.active) {
+      spark.active = true
+      spark.x = x
+      spark.y = y
 
       let mut vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed_scale
@@ -143,9 +143,9 @@ fn spawn_spark(
         vx = vx - Float::from_int(-color_bias)
       }
 
-      sparks[i].vx = vx
-      sparks[i].vy = vy
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(18, 45)) /
+      spark.vx = vx
+      spark.vy = vy
+      spark.ttl = Float::from_int(@raylib.get_random_value(18, 45)) /
         Float::from_int(100)
       placed = true
     }
@@ -668,17 +668,17 @@ fn main {
       }
     }
 
-    for i in 0..<sparks.length() {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      sparks[i].x = sparks[i].x + sparks[i].vx * dt
-      sparks[i].y = sparks[i].y + sparks[i].vy * dt
-      sparks[i].vx = sparks[i].vx * (Float::from_int(1) - dt * 2.2)
-      sparks[i].vy = sparks[i].vy * (Float::from_int(1) - dt * 2.2)
-      sparks[i].ttl = sparks[i].ttl - dt
-      if sparks[i].ttl <= 0.0 {
-        sparks[i].active = false
+      spark.x = spark.x + spark.vx * dt
+      spark.y = spark.y + spark.vy * dt
+      spark.vx = spark.vx * (Float::from_int(1) - dt * 2.2)
+      spark.vy = spark.vy * (Float::from_int(1) - dt * 2.2)
+      spark.ttl = spark.ttl - dt
+      if spark.ttl <= 0.0 {
+        spark.active = false
       }
     }
 
@@ -818,15 +818,15 @@ fn main {
       @raylib.Color::new(84, 120, 174, 255),
     )
 
-    for i in 0..<sparks.length() {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      let a = (sparks[i].ttl * 255.0).to_int()
+      let a = (spark.ttl * 255.0).to_int()
       if a > 0 {
         @raylib.draw_circle(
-          (sparks[i].x + shake).to_int(),
-          sparks[i].y.to_int(),
+          (spark.x + shake).to_int(),
+          spark.y.to_int(),
           2.0,
           @raylib.Color::new(246, 220, 138, a),
         )

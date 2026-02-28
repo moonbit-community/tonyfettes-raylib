@@ -64,8 +64,8 @@ fn terrain_color(t : Int) -> @raylib.Color {
 fn adjacent_roads(zone : Array[Int], x : Int, y : Int) -> Int {
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
   let mut count = 0
-  for i in 0..<dirs.length() {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     let nx = x + dx
     let ny = y + dy
     if inb(nx, ny) && zone[gidx(nx, ny)] == 1 {

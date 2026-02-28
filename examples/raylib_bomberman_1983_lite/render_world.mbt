@@ -10,8 +10,7 @@ fn draw_starfield(game : Game) -> Unit {
     game.profile.sky_bottom,
   )
 
-  for i in 0..<game.stars.length() {
-    let star = game.stars[i]
+  for star in game.stars {
     let phase = Float::from_double(@math.sin(star.twinkle.to_double())) * 0.5 +
       0.5
     let alpha = Float::from_double(0.25 + phase.to_double() * 0.75)
@@ -314,12 +313,10 @@ fn draw_players(game : Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
-    let enemy = game.enemies[i]
-
     if enemy.invuln_timer > 0.0 {
       let blink = (enemy.invuln_timer * 14.0).to_int() % 2
       if blink == 0 {
@@ -347,11 +344,10 @@ fn draw_enemies(game : Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
-    let bullet = game.bullets[i]
     let color = if bullet.owner_team == team_enemy {
       @raylib.Color::new(255, 94, 94, 255)
     } else if bullet.owner_team == team_player2 {
@@ -370,8 +366,7 @@ fn draw_bullets(game : Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_bombs(game : Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.bombs.length() {
-    let bomb = game.bombs[i]
+  for bomb in game.bombs {
     if not(bomb.active) {
       continue
     }
@@ -449,11 +444,10 @@ fn draw_bombs(game : Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
-    let p = game.particles[i]
     let alpha = clampf(p.life / p.max_life, 0.0, 1.0)
     let c = @raylib.color_alpha(p.color, alpha)
     @raylib.draw_circle(
@@ -505,11 +499,10 @@ fn powerup_text(kind : Int) -> String {
 
 ///|
 fn draw_powerups(game : Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i in 0..<game.powerups.length() {
-    if not(game.powerups[i].active) {
+  for p in game.powerups {
+    if not(p.active) {
       continue
     }
-    let p = game.powerups[i]
     let blink_visible = p.ttl > 3.0 || (p.blink * 8.0).to_int() % 2 == 0
     if not(blink_visible) {
       continue

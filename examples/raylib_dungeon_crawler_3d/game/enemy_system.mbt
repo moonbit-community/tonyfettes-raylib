@@ -2,8 +2,7 @@
 
 ///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -709,8 +708,7 @@ fn summon_skeleton(game : @types.Game, e : @types.Enemy) -> Unit {
 
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
       continue
     }
@@ -794,8 +792,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -817,8 +814,7 @@ pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_loot_bob(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.loot.length() {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
       continue
     }

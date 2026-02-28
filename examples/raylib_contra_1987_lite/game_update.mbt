@@ -1,13 +1,13 @@
 ///|
 fn update_starfield(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.stars.length() {
-    game.stars[i].y += game.stars[i].speed * dt
-    game.stars[i].twinkle += dt * 3.0
-    if game.stars[i].y > Float::from_int(screen_height + 10) {
-      game.stars[i].y = -4.0
-      game.stars[i].x = Float::from_int(rand_range(game, 0, screen_width))
-      game.stars[i].speed = Float::from_int(rand_range(game, 12, 85))
-      game.stars[i].twinkle = rand_rangef(game, 0.0, 6.2)
+  for star in game.stars {
+    star.y += star.speed * dt
+    star.twinkle += dt * 3.0
+    if star.y > Float::from_int(screen_height + 10) {
+      star.y = -4.0
+      star.x = Float::from_int(rand_range(game, 0, screen_width))
+      star.speed = Float::from_int(rand_range(game, 12, 85))
+      star.twinkle = rand_rangef(game, 0.0, 6.2)
     }
   }
 }

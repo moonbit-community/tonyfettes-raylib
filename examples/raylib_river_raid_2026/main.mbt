@@ -44,12 +44,12 @@ fn right_bank(y : Int, center : Float, curve : Float) -> Float {
 
 ///|
 fn spawn_bullet(bullets : Array[Bullet], x : Float, y : Float) -> Unit {
-  for i in 0..<bullets.length() {
-    if not(bullets[i].alive) {
-      bullets[i].alive = true
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vy = -620.0
+  for bullet in bullets {
+    if not(bullet.alive) {
+      bullet.alive = true
+      bullet.x = x
+      bullet.y = y
+      bullet.vy = -620.0
       break
     }
   }
@@ -62,25 +62,25 @@ fn spawn_enemy(
   x : Float,
   y : Float,
 ) -> Unit {
-  for i in 0..<enemies.length() {
-    if not(enemies[i].alive) {
-      enemies[i].alive = true
-      enemies[i].kind = kind
-      enemies[i].x = x
-      enemies[i].y = y
-      enemies[i].vx = if kind == 0 {
+  for enemy in enemies {
+    if not(enemy.alive) {
+      enemy.alive = true
+      enemy.kind = kind
+      enemy.x = x
+      enemy.y = y
+      enemy.vx = if kind == 0 {
         Float::from_int(@raylib.get_random_value(-40, 40))
       } else {
         0.0
       }
-      enemies[i].vy = if kind == 0 {
+      enemy.vy = if kind == 0 {
         90.0
       } else if kind == 1 {
         70.0
       } else {
         40.0
       }
-      enemies[i].hp = if kind == 1 { 2 } else { 1 }
+      enemy.hp = if kind == 1 { 2 } else { 1 }
       break
     }
   }
@@ -88,15 +88,15 @@ fn spawn_enemy(
 
 ///|
 fn reset_bullets(bullets : Array[Bullet]) -> Unit {
-  for i in 0..<bullets.length() {
-    bullets[i].alive = false
+  for bullet in bullets {
+    bullet.alive = false
   }
 }
 
 ///|
 fn reset_enemies(enemies : Array[Enemy]) -> Unit {
-  for i in 0..<enemies.length() {
-    enemies[i].alive = false
+  for enemy in enemies {
+    enemy.alive = false
   }
 }
 
@@ -255,75 +255,75 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].alive) {
+      for bullet in bullets {
+        if not(bullet.alive) {
           continue
         }
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
-        if bullets[i].y < -30.0 {
-          bullets[i].alive = false
+        bullet.y = bullet.y + bullet.vy * dt
+        if bullet.y < -30.0 {
+          bullet.alive = false
         }
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].alive) {
+      for enemy in enemies {
+        if not(enemy.alive) {
           continue
         }
 
-        if enemies[i].kind == 0 {
-          enemies[i].x = enemies[i].x + enemies[i].vx * dt
-          if enemies[i].x <
-            left_bank(enemies[i].y.to_int(), river_center, river_curve) + 20.0 {
-            enemies[i].vx = enemies[i].vx.abs()
+        if enemy.kind == 0 {
+          enemy.x = enemy.x + enemy.vx * dt
+          if enemy.x <
+            left_bank(enemy.y.to_int(), river_center, river_curve) + 20.0 {
+            enemy.vx = enemy.vx.abs()
           }
-          if enemies[i].x >
-            right_bank(enemies[i].y.to_int(), river_center, river_curve) - 20.0 {
-            enemies[i].vx = -enemies[i].vx.abs()
+          if enemy.x >
+            right_bank(enemy.y.to_int(), river_center, river_curve) - 20.0 {
+            enemy.vx = -enemy.vx.abs()
           }
-        } else if enemies[i].kind == 1 {
-          let chase = player_x - enemies[i].x
+        } else if enemy.kind == 1 {
+          let chase = player_x - enemy.x
           if chase > 6.0 {
-            enemies[i].x = enemies[i].x + 58.0 * dt
+            enemy.x = enemy.x + 58.0 * dt
           } else if chase < -6.0 {
-            enemies[i].x = enemies[i].x - 58.0 * dt
+            enemy.x = enemy.x - 58.0 * dt
           }
         }
 
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt + scroll_speed * dt
+        enemy.y = enemy.y + enemy.vy * dt + scroll_speed * dt
 
-        if enemies[i].y > Float::from_int(sh + 40) {
-          enemies[i].alive = false
+        if enemy.y > Float::from_int(sh + 40) {
+          enemy.alive = false
           continue
         }
 
-        let el = left_bank(enemies[i].y.to_int(), river_center, river_curve)
-        let er = right_bank(enemies[i].y.to_int(), river_center, river_curve)
-        if enemies[i].x < el + 18.0 {
-          enemies[i].x = el + 18.0
+        let el = left_bank(enemy.y.to_int(), river_center, river_curve)
+        let er = right_bank(enemy.y.to_int(), river_center, river_curve)
+        if enemy.x < el + 18.0 {
+          enemy.x = el + 18.0
         }
-        if enemies[i].x > er - 18.0 {
-          enemies[i].x = er - 18.0
+        if enemy.x > er - 18.0 {
+          enemy.x = er - 18.0
         }
       }
 
-      for bi in 0..<bullets.length() {
-        if not(bullets[bi].alive) {
+      for bullet in bullets {
+        if not(bullet.alive) {
           continue
         }
-        for ei in 0..<enemies.length() {
-          if not(enemies[ei].alive) {
+        for enemy in enemies {
+          if not(enemy.alive) {
             continue
           }
-          let dx = enemies[ei].x - bullets[bi].x
-          let dy = enemies[ei].y - bullets[bi].y
+          let dx = enemy.x - bullet.x
+          let dy = enemy.y - bullet.y
           if dx * dx + dy * dy <= 18.0 * 18.0 {
-            bullets[bi].alive = false
-            enemies[ei].hp = enemies[ei].hp - 1
-            if enemies[ei].hp <= 0 {
-              enemies[ei].alive = false
-              if enemies[ei].kind == 0 {
+            bullet.alive = false
+            enemy.hp = enemy.hp - 1
+            if enemy.hp <= 0 {
+              enemy.alive = false
+              if enemy.kind == 0 {
                 score = score + 30
-              } else if enemies[ei].kind == 1 {
+              } else if enemy.kind == 1 {
                 score = score + 55
               } else {
                 fuel = fuel + 10.0
@@ -338,15 +338,15 @@ fn main {
         }
       }
 
-      for i in 0..<enemies.length() {
-        if not(enemies[i].alive) {
+      for enemy in enemies {
+        if not(enemy.alive) {
           continue
         }
-        let dx = enemies[i].x - player_x
-        let dy = enemies[i].y - player_y
+        let dx = enemy.x - player_x
+        let dy = enemy.y - player_y
         if dx * dx + dy * dy <= 26.0 * 26.0 {
-          enemies[i].alive = false
-          if enemies[i].kind == 2 {
+          enemy.alive = false
+          if enemy.kind == 2 {
             fuel = fuel + 24.0
             if fuel > 100.0 {
               fuel = 100.0
@@ -387,42 +387,42 @@ fn main {
       @raylib.draw_line(r.to_int(), y, r.to_int(), y + 3, @raylib.darkbrown)
     }
 
-    for i in 0..<enemies.length() {
-      if enemies[i].alive {
-        if enemies[i].kind == 0 {
+    for enemy in enemies {
+      if enemy.alive {
+        if enemy.kind == 0 {
           @raylib.draw_triangle(
-            @raylib.Vector2::new(enemies[i].x, enemies[i].y - 12.0),
-            @raylib.Vector2::new(enemies[i].x - 11.0, enemies[i].y + 10.0),
-            @raylib.Vector2::new(enemies[i].x + 11.0, enemies[i].y + 10.0),
+            @raylib.Vector2::new(enemy.x, enemy.y - 12.0),
+            @raylib.Vector2::new(enemy.x - 11.0, enemy.y + 10.0),
+            @raylib.Vector2::new(enemy.x + 11.0, enemy.y + 10.0),
             @raylib.red,
           )
-        } else if enemies[i].kind == 1 {
+        } else if enemy.kind == 1 {
           @raylib.draw_rectangle(
-            (enemies[i].x - 14.0).to_int(),
-            (enemies[i].y - 10.0).to_int(),
+            (enemy.x - 14.0).to_int(),
+            (enemy.y - 10.0).to_int(),
             28,
             20,
             @raylib.maroon,
           )
           @raylib.draw_rectangle(
-            (enemies[i].x - 5.0).to_int(),
-            (enemies[i].y - 16.0).to_int(),
+            (enemy.x - 5.0).to_int(),
+            (enemy.y - 16.0).to_int(),
             10,
             8,
             @raylib.gray,
           )
         } else {
           @raylib.draw_rectangle(
-            (enemies[i].x - 11.0).to_int(),
-            (enemies[i].y - 11.0).to_int(),
+            (enemy.x - 11.0).to_int(),
+            (enemy.y - 11.0).to_int(),
             22,
             22,
             @raylib.gold,
           )
           @raylib.draw_text(
             "F",
-            (enemies[i].x - 6.0).to_int(),
-            (enemies[i].y - 8.0).to_int(),
+            (enemy.x - 6.0).to_int(),
+            (enemy.y - 8.0).to_int(),
             18,
             @raylib.black,
           )
@@ -430,11 +430,11 @@ fn main {
       }
     }
 
-    for i in 0..<bullets.length() {
-      if bullets[i].alive {
+    for bullet in bullets {
+      if bullet.alive {
         @raylib.draw_rectangle(
-          (bullets[i].x - 2.0).to_int(),
-          (bullets[i].y - 8.0).to_int(),
+          (bullet.x - 2.0).to_int(),
+          (bullet.y - 8.0).to_int(),
           4,
           10,
           @raylib.yellow,

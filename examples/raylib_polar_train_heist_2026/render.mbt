@@ -346,23 +346,23 @@ fn ent_base_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_shadow_blobs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.shadows.length() {
-    if not(game.shadows[i].active) {
+  for shadow in game.shadows {
+    if not(shadow.active) {
       continue
     }
 
-    let t = clampf(game.shadows[i].life / 0.28, 0.0, 1.0)
+    let t = clampf(shadow.life / 0.28, 0.0, 1.0)
     let a = (t * 120.0).to_int()
     let col = @raylib.Color::new(30, 64, 104, a)
 
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(game.shadows[i].rot * 0.05)) * 0.24
-    let kind_boost = Float::from_int(game.shadows[i].kind) * 0.08
+      absf(sinf(shadow.rot * 0.05)) * 0.24
+    let kind_boost = Float::from_int(shadow.kind) * 0.08
     @raylib.draw_rectangle(
-      (game.shadows[i].x - game.shadows[i].w * (0.5 + kind_boost) + cam_x * 0.34).to_int(),
-      (game.shadows[i].y - game.shadows[i].h * 0.5 + cam_y * 0.34).to_int(),
-      maxf(2.0, game.shadows[i].w * stretch).to_int(),
-      maxf(2.0, game.shadows[i].h).to_int(),
+      (shadow.x - shadow.w * (0.5 + kind_boost) + cam_x * 0.34).to_int(),
+      (shadow.y - shadow.h * 0.5 + cam_y * 0.34).to_int(),
+      maxf(2.0, shadow.w * stretch).to_int(),
+      maxf(2.0, shadow.h).to_int(),
       col,
     )
   }
@@ -793,27 +793,27 @@ fn shot_col(s : Shot) -> @raylib.Color {
 
 ///|
 fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.shots.length() {
-    if not(game.shots[i].active) {
+  for shot in game.shots {
+    if not(shot.active) {
       continue
     }
 
-    let col = shot_col(game.shots[i])
-    let len : Float = if game.shots[i].from_player { 18.0 } else { 12.0 }
-    let vx = game.shots[i].vx
-    let vy = game.shots[i].vy
+    let col = shot_col(shot)
+    let len : Float = if shot.from_player { 18.0 } else { 12.0 }
+    let vx = shot.vx
+    let vy = shot.vy
     let v2 = maxf(1.0, vx * vx + vy * vy)
     let inv = Float::from_int(1) / sqrtf(v2)
 
-    let x0 = game.shots[i].x + cam_x
-    let y0 = game.shots[i].y + cam_y
+    let x0 = shot.x + cam_x
+    let y0 = shot.y + cam_y
     let x1 = x0 - vx * inv * len
     let y1 = y0 - vy * inv * len
 
     @raylib.draw_line_ex(
       @raylib.Vector2::new(x0, y0),
       @raylib.Vector2::new(x1, y1),
-      if game.shots[i].from_player {
+      if shot.from_player {
         3.4
       } else {
         2.8
@@ -823,7 +823,7 @@ fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.draw_circle(
       x0.to_int(),
       y0.to_int(),
-      if game.shots[i].from_player {
+      if shot.from_player {
         3.6
       } else {
         3.0
@@ -848,45 +848,45 @@ fn fx_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.fxs.length() {
-    if not(game.fxs[i].active) {
+  for fx in game.fxs {
+    if not(fx.active) {
       continue
     }
 
-    let base = fx_col(game.fxs[i].kind)
-    let life_norm = if game.fxs[i].kind == 3 {
-      clampf(game.fxs[i].life / 1.4, 0.0, 1.0)
+    let base = fx_col(fx.kind)
+    let life_norm = if fx.kind == 3 {
+      clampf(fx.life / 1.4, 0.0, 1.0)
     } else {
-      clampf(game.fxs[i].life / 1.0, 0.0, 1.0)
+      clampf(fx.life / 1.0, 0.0, 1.0)
     }
     let col = a_col(base, (life_norm * 220.0).to_int())
 
-    if game.fxs[i].kind == 3 {
+    if fx.kind == 3 {
       @raylib.draw_circle(
-        (game.fxs[i].x + cam_x * 0.2).to_int(),
-        (game.fxs[i].y + cam_y * 0.2).to_int(),
-        maxf(0.6, game.fxs[i].size * (0.5 + life_norm)),
+        (fx.x + cam_x * 0.2).to_int(),
+        (fx.y + cam_y * 0.2).to_int(),
+        maxf(0.6, fx.size * (0.5 + life_norm)),
         col,
       )
     } else {
       @raylib.draw_circle(
-        (game.fxs[i].x + cam_x).to_int(),
-        (game.fxs[i].y + cam_y).to_int(),
-        maxf(0.8, game.fxs[i].size * (0.4 + life_norm)),
+        (fx.x + cam_x).to_int(),
+        (fx.y + cam_y).to_int(),
+        maxf(0.8, fx.size * (0.4 + life_norm)),
         col,
       )
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    let life_norm = clampf(game.rings[i].life / 1.0, 0.0, 1.0)
-    let col = if game.rings[i].kind == 0 {
+    let life_norm = clampf(ring.life / 1.0, 0.0, 1.0)
+    let col = if ring.kind == 0 {
       a_col(cyan(), (life_norm * 190.0).to_int())
-    } else if game.rings[i].kind == 1 {
+    } else if ring.kind == 1 {
       a_col(
         @raylib.Color::new(255, 122, 166, 255),
         (life_norm * 190.0).to_int(),
@@ -899,9 +899,9 @@ fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
 
     @raylib.draw_circle_lines(
-      (game.rings[i].x + cam_x).to_int(),
-      (game.rings[i].y + cam_y).to_int(),
-      game.rings[i].r,
+      (ring.x + cam_x).to_int(),
+      (ring.y + cam_y).to_int(),
+      ring.r,
       col,
     )
   }
@@ -1484,15 +1484,15 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
   draw_shadow_blobs(game, cam_x, cam_y)
 
-  for i in 0..<game.ents.length() {
-    if game.ents[i].active && is_pickup(game.ents[i].kind) {
-      draw_ent(game.ents[i], cam_x, cam_y)
+  for ent in game.ents {
+    if ent.active && is_pickup(ent.kind) {
+      draw_ent(ent, cam_x, cam_y)
     }
   }
 
-  for i in 0..<game.ents.length() {
-    if game.ents[i].active && is_hostile(game.ents[i].kind) {
-      draw_ent(game.ents[i], cam_x, cam_y)
+  for ent in game.ents {
+    if ent.active && is_hostile(ent.kind) {
+      draw_ent(ent, cam_x, cam_y)
     }
   }
 

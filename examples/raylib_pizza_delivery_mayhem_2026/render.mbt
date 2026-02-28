@@ -330,31 +330,31 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       184
     } else {
       108
     }
 
-    let c0 : @raylib.Color = if game.particles[i].kind == 2 {
+    let c0 : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(206, 174, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 164, 164, a)
     } else {
       @raylib.Color::new(174, 234, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c0,
     )
   }
@@ -1074,12 +1074,12 @@ fn draw_frame(
     draw_order(game.orders[i], highlight, ox, oy)
   }
 
-  for i in 0..<game.traffic.length() {
-    draw_traffic(game.traffic[i], ox, oy)
+  for traffic_elem in game.traffic {
+    draw_traffic(traffic_elem, ox, oy)
   }
 
-  for i in 0..<game.pickups.length() {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
   draw_hint(game, ox, oy)

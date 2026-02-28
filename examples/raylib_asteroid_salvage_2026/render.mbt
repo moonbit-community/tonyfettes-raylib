@@ -58,25 +58,25 @@ fn draw_ship(game : Game) -> Unit {
 
 ///|
 fn draw_rocks(game : Game) -> Unit {
-  for i in 0..<game.rocks.length() {
-    if not(game.rocks[i].active) {
+  for rock in game.rocks {
+    if not(rock.active) {
       continue
     }
-    let color = match game.rocks[i].size {
+    let color = match rock.size {
       2 => @raylib.lightgray
       1 => @raylib.gray
       _ => @raylib.darkgray
     }
     @raylib.draw_circle_lines(
-      game.rocks[i].x.to_int(),
-      game.rocks[i].y.to_int(),
-      game.rocks[i].radius,
+      rock.x.to_int(),
+      rock.y.to_int(),
+      rock.radius,
       color,
     )
     @raylib.draw_circle_lines(
-      (game.rocks[i].x + 3.0).to_int(),
-      (game.rocks[i].y - 2.0).to_int(),
-      game.rocks[i].radius * 0.6,
+      (rock.x + 3.0).to_int(),
+      (rock.y - 2.0).to_int(),
+      rock.radius * 0.6,
       color,
     )
   }
@@ -84,13 +84,13 @@ fn draw_rocks(game : Game) -> Unit {
 
 ///|
 fn draw_bullets(game : Game) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
     @raylib.draw_circle(
-      game.bullets[i].x.to_int(),
-      game.bullets[i].y.to_int(),
+      bullet.x.to_int(),
+      bullet.y.to_int(),
       2.4,
       @raylib.yellow,
     )

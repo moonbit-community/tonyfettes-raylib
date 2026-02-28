@@ -63,8 +63,8 @@ fn can_player_fire(game : Game, index : Int) -> Bool {
 
   let team = team_of_player(index)
   let mut active_count = 0
-  for i in 0..<game.bullets.length() {
-    if game.bullets[i].active && game.bullets[i].owner_team == team {
+  for bullet in game.bullets {
+    if bullet.active && bullet.owner_team == team {
       active_count += 1
     }
   }

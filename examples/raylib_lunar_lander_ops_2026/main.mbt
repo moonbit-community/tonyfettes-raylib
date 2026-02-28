@@ -97,26 +97,26 @@ fn sample_height(heights : Array[Float], x : Float) -> Float {
 
 ///|
 fn clear_meteors(meteors : Array[Meteor]) -> Unit {
-  for i in 0..<meteors.length() {
-    meteors[i].x = 0.0
-    meteors[i].y = 0.0
-    meteors[i].vy = 0.0
-    meteors[i].active = false
+  for meteor in meteors {
+    meteor.x = 0.0
+    meteor.y = 0.0
+    meteor.vy = 0.0
+    meteor.active = false
   }
 }
 
 ///|
 fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
   let mut placed = false
-  for i in 0..<meteors.length() {
+  for meteor in meteors {
     if placed {
       continue
     }
-    if not(meteors[i].active) {
-      meteors[i].active = true
-      meteors[i].x = Float::from_int(@raylib.get_random_value(20, sw - 20))
-      meteors[i].y = -18.0
-      meteors[i].vy = Float::from_int(
+    if not(meteor.active) {
+      meteor.active = true
+      meteor.x = Float::from_int(@raylib.get_random_value(20, sw - 20))
+      meteor.y = -18.0
+      meteor.vy = Float::from_int(
         @raylib.get_random_value(170 + level * 20, 260 + level * 30),
       )
       placed = true
@@ -399,19 +399,19 @@ fn main {
         }
 
         let mut meteor_hit = false
-        for i in 0..<meteors.length() {
-          if not(meteors[i].active) {
+        for meteor in meteors {
+          if not(meteor.active) {
             continue
           }
-          meteors[i].y = meteors[i].y + meteors[i].vy * dt
-          if meteors[i].y > Float::from_int(sh + 40) {
-            meteors[i].active = false
+          meteor.y = meteor.y + meteor.vy * dt
+          if meteor.y > Float::from_int(sh + 40) {
+            meteor.active = false
             continue
           }
-          let dx = meteors[i].x - x
-          let dy = meteors[i].y - y
+          let dx = meteor.x - x
+          let dy = meteor.y - y
           if dx * dx + dy * dy < 20.0 * 20.0 {
-            meteors[i].active = false
+            meteor.active = false
             meteor_hit = true
           }
         }
@@ -576,26 +576,26 @@ fn main {
       @raylib.Color::new(248, 232, 170, 255),
     )
 
-    for i in 0..<meteors.length() {
-      if not(meteors[i].active) {
+    for meteor in meteors {
+      if not(meteor.active) {
         continue
       }
       @raylib.draw_line(
-        meteors[i].x.to_int(),
-        (meteors[i].y - 22.0).to_int(),
-        meteors[i].x.to_int(),
-        meteors[i].y.to_int(),
+        meteor.x.to_int(),
+        (meteor.y - 22.0).to_int(),
+        meteor.x.to_int(),
+        meteor.y.to_int(),
         @raylib.Color::new(244, 152, 88, 255),
       )
       @raylib.draw_circle(
-        meteors[i].x.to_int(),
-        meteors[i].y.to_int(),
+        meteor.x.to_int(),
+        meteor.y.to_int(),
         6.0,
         @raylib.Color::new(250, 202, 122, 255),
       )
       @raylib.draw_circle(
-        meteors[i].x.to_int(),
-        meteors[i].y.to_int(),
+        meteor.x.to_int(),
+        meteor.y.to_int(),
         3.0,
         @raylib.Color::new(98, 78, 62, 255),
       )

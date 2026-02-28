@@ -6,47 +6,47 @@ fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_raiders(game : Game) -> Unit {
-  for i in 0..<game.raiders.length() {
-    game.raiders[i].active = false
-    game.raiders[i].kind = raider_skirmisher
-    game.raiders[i].x = 0.0
-    game.raiders[i].y = 0.0
-    game.raiders[i].vx = 0.0
-    game.raiders[i].vy = 0.0
-    game.raiders[i].speed = 0.0
-    game.raiders[i].hp = 0.0
-    game.raiders[i].target_wagon = 0
-    game.raiders[i].lane = 0
-    game.raiders[i].attack_cd = 0.0
-    game.raiders[i].flash_t = 0.0
-    game.raiders[i].radius = 16.0
+  for raider in game.raiders {
+    raider.active = false
+    raider.kind = raider_skirmisher
+    raider.x = 0.0
+    raider.y = 0.0
+    raider.vx = 0.0
+    raider.vy = 0.0
+    raider.speed = 0.0
+    raider.hp = 0.0
+    raider.target_wagon = 0
+    raider.lane = 0
+    raider.attack_cd = 0.0
+    raider.flash_t = 0.0
+    raider.radius = 16.0
   }
 }
 
 ///|
 fn clear_bullets(game : Game) -> Unit {
-  for i in 0..<game.bullets.length() {
-    game.bullets[i].active = false
-    game.bullets[i].x = 0.0
-    game.bullets[i].y = 0.0
-    game.bullets[i].vx = 0.0
-    game.bullets[i].vy = 0.0
-    game.bullets[i].life = 0.0
-    game.bullets[i].dmg = 0.0
+  for bullet in game.bullets {
+    bullet.active = false
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.life = 0.0
+    bullet.dmg = 0.0
   }
 }
 
 ///|
 fn clear_dust(game : Game) -> Unit {
-  for i in 0..<game.dusts.length() {
-    game.dusts[i].active = false
-    game.dusts[i].x = 0.0
-    game.dusts[i].y = 0.0
-    game.dusts[i].vx = 0.0
-    game.dusts[i].vy = 0.0
-    game.dusts[i].life = 0.0
-    game.dusts[i].size = 0.0
-    game.dusts[i].kind = 0
+  for dust in game.dusts {
+    dust.active = false
+    dust.x = 0.0
+    dust.y = 0.0
+    dust.vx = 0.0
+    dust.vy = 0.0
+    dust.life = 0.0
+    dust.size = 0.0
+    dust.kind = 0
   }
 }
 
@@ -212,8 +212,8 @@ fn lane_y(game : Game, index : Int) -> Float {
 ///|
 fn active_raider_count(game : Game) -> Int {
   let mut c = 0
-  for i in 0..<game.raiders.length() {
-    if game.raiders[i].active {
+  for raider in game.raiders {
+    if raider.active {
       c = c + 1
     }
   }
@@ -277,8 +277,8 @@ fn nearest_wagon_index(
 
 ///|
 fn all_wagons_broken(game : Game) -> Bool {
-  for i in 0..<game.wagons.length() {
-    if game.wagons[i].hp > 0.0 {
+  for wagon in game.wagons {
+    if wagon.hp > 0.0 {
       return false
     }
   }
@@ -695,30 +695,30 @@ fn update_hero(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
+  for bullet in game.bullets {
+    if not(bullet.active) {
       continue
     }
 
-    game.bullets[i].life = game.bullets[i].life - dt
-    if game.bullets[i].life <= 0.0 {
-      game.bullets[i].active = false
+    bullet.life = bullet.life - dt
+    if bullet.life <= 0.0 {
+      bullet.active = false
       continue
     }
 
-    game.bullets[i].x = game.bullets[i].x + game.bullets[i].vx * dt
-    game.bullets[i].y = game.bullets[i].y + game.bullets[i].vy * dt
+    bullet.x = bullet.x + bullet.vx * dt
+    bullet.y = bullet.y + bullet.vy * dt
 
-    if game.bullets[i].x < -80.0 ||
-      game.bullets[i].x > Float::from_int(screen_w) + 80.0 ||
-      game.bullets[i].y < -80.0 ||
-      game.bullets[i].y > Float::from_int(screen_h) + 80.0 {
-      game.bullets[i].active = false
+    if bullet.x < -80.0 ||
+      bullet.x > Float::from_int(screen_w) + 80.0 ||
+      bullet.y < -80.0 ||
+      bullet.y > Float::from_int(screen_h) + 80.0 {
+      bullet.active = false
       continue
     }
 
     for j in 0..<game.raiders.length() {
-      if not(game.bullets[i].active) {
+      if not(bullet.active) {
         break
       }
 
@@ -728,20 +728,20 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
       let rr = game.raiders[j].radius + 5.0
       if dist2(
-          game.bullets[i].x,
-          game.bullets[i].y,
+          bullet.x,
+          bullet.y,
           game.raiders[j].x,
           game.raiders[j].y,
         ) <=
         rr * rr {
-        game.raiders[j].hp = game.raiders[j].hp - game.bullets[i].dmg
+        game.raiders[j].hp = game.raiders[j].hp - bullet.dmg
         game.raiders[j].flash_t = 0.12
-        game.bullets[i].active = false
+        bullet.active = false
 
         emit_dust(
           game,
-          game.bullets[i].x,
-          game.bullets[i].y,
+          bullet.x,
+          bullet.y,
           randf(-90.0, 90.0),
           randf(-90.0, 90.0),
           0.2,
@@ -895,21 +895,21 @@ fn update_raiders(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_dust(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.dusts.length() {
-    if not(game.dusts[i].active) {
+  for dust in game.dusts {
+    if not(dust.active) {
       continue
     }
 
-    game.dusts[i].life = game.dusts[i].life - dt
-    if game.dusts[i].life <= 0.0 {
-      game.dusts[i].active = false
+    dust.life = dust.life - dt
+    if dust.life <= 0.0 {
+      dust.active = false
       continue
     }
 
-    game.dusts[i].x = game.dusts[i].x + game.dusts[i].vx * dt
-    game.dusts[i].y = game.dusts[i].y + game.dusts[i].vy * dt
-    game.dusts[i].vx = game.dusts[i].vx * (1.0 - dt * 2.2)
-    game.dusts[i].vy = game.dusts[i].vy * (1.0 - dt * 2.2) + dt * 26.0
+    dust.x = dust.x + dust.vx * dt
+    dust.y = dust.y + dust.vy * dt
+    dust.vx = dust.vx * (1.0 - dt * 2.2)
+    dust.vy = dust.vy * (1.0 - dt * 2.2) + dt * 26.0
   }
 }
 
@@ -957,8 +957,8 @@ fn award_checkpoint(game : Game) -> Unit {
     1.4,
   )
 
-  for i in 0..<game.wagons.length() {
-    burst_dust(game, game.wagons[i].x, game.wagons[i].y, 9, 3)
+  for wagon in game.wagons {
+    burst_dust(game, wagon.x, wagon.y, 9, 3)
   }
 
   if game.checkpoint >= checkpoint_total {

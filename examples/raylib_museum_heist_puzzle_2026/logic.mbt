@@ -376,13 +376,13 @@ fn try_move_player(game : Game, dir : Int) -> Unit {
 
 ///|
 fn collect_artifacts(game : Game) -> Unit {
-  for i in 0..<game.artifacts.length() {
-    if game.artifacts[i].taken {
+  for artifact in game.artifacts {
+    if artifact.taken {
       continue
     }
-    if game.artifacts[i].x == game.player_x &&
-      game.artifacts[i].y == game.player_y {
-      game.artifacts[i].taken = true
+    if artifact.x == game.player_x &&
+      artifact.y == game.player_y {
+      artifact.taken = true
       game.artifacts_collected = game.artifacts_collected + 1
     }
   }
@@ -475,8 +475,8 @@ fn guard_sees_cell(game : Game, g : Guard, cx : Int, cy : Int) -> Bool {
 
 ///|
 fn any_guard_on_cell(game : Game, cx : Int, cy : Int) -> Bool {
-  for i in 0..<game.guards.length() {
-    if game.guards[i].x == cx && game.guards[i].y == cy {
+  for guard_val in game.guards {
+    if guard_val.x == cx && guard_val.y == cy {
       return true
     }
   }
@@ -489,8 +489,8 @@ fn player_spotted(game : Game) -> Bool {
     return true
   }
 
-  for i in 0..<game.guards.length() {
-    if guard_sees_cell(game, game.guards[i], game.player_x, game.player_y) {
+  for guard_val in game.guards {
+    if guard_sees_cell(game, guard_val, game.player_x, game.player_y) {
       return true
     }
   }

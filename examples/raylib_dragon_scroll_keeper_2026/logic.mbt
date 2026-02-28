@@ -20,10 +20,10 @@ fn clear_flames(game : Game) -> Unit {
 
 ///|
 fn clear_breaches(game : Game) -> Unit {
-  for i in 0..<game.breaches.length() {
-    game.breaches[i].severity = 0.0
-    game.breaches[i].raider_cd = randf(0.8, 1.6)
-    game.breaches[i].ember_cd = randf(0.7, 1.4)
+  for breach in game.breaches {
+    breach.severity = 0.0
+    breach.raider_cd = randf(0.8, 1.6)
+    breach.ember_cd = randf(0.7, 1.4)
   }
 }
 
@@ -675,8 +675,8 @@ fn update_breach_system(game : Game, dt : Float) -> Float {
 
   let mut integrity_loss : Float = 0.0
 
-  for i in 0..<game.breaches.length() {
-    let severity = game.breaches[i].severity
+  for breach in game.breaches {
+    let severity = breach.severity
     if severity <= 0.0 {
       continue
     }
@@ -684,17 +684,17 @@ fn update_breach_system(game : Game, dt : Float) -> Float {
     let pressure = severity / breach_severity_max
     integrity_loss = integrity_loss + pressure * breach_integrity_drain * dt
 
-    game.breaches[i].severity = clampf(
+    breach.severity = clampf(
       severity + Float::from_int(game.wave - 1) * breach_wave_growth * dt,
       0.0,
       breach_severity_max,
     )
 
-    game.breaches[i].raider_cd = game.breaches[i].raider_cd -
+    breach.raider_cd = breach.raider_cd -
       dt * (1.0 + pressure * 0.8)
-    if game.breaches[i].raider_cd <= 0.0 {
-      ignore(spawn_raider_from_room(game, game.breaches[i].room))
-      game.breaches[i].raider_cd = maxf(
+    if breach.raider_cd <= 0.0 {
+      ignore(spawn_raider_from_room(game, breach.room))
+      breach.raider_cd = maxf(
         raider_spawn_cd_floor,
         raider_spawn_cd_base -
         Float::from_int(game.wave - 1) * 0.09 -
@@ -703,19 +703,19 @@ fn update_breach_system(game : Game, dt : Float) -> Float {
       )
     }
 
-    game.breaches[i].ember_cd = game.breaches[i].ember_cd -
+    breach.ember_cd = breach.ember_cd -
       dt * (1.0 + pressure * 0.5)
-    if game.breaches[i].ember_cd <= 0.0 {
+    if breach.ember_cd <= 0.0 {
       ignore(
         spawn_flame(
           game,
-          game.breaches[i].room,
-          breach_anchor_x(game.breaches[i].room) + randf(-26.0, 26.0),
-          breach_anchor_y(game.breaches[i].room) + randf(-24.0, 24.0),
+          breach.room,
+          breach_anchor_x(breach.room) + randf(-26.0, 26.0),
+          breach_anchor_y(breach.room) + randf(-24.0, 24.0),
           28.0 + pressure * 34.0,
         ),
       )
-      game.breaches[i].ember_cd = maxf(
+      breach.ember_cd = maxf(
         flame_spawn_cd_floor,
         flame_spawn_cd_base -
         Float::from_int(game.wave - 1) * 0.08 -
@@ -734,85 +734,85 @@ fn update_raiders(game : Game, dt : Float) -> Float {
   let wavef = Float::from_int(game.wave - 1)
   let speed_base = raider_speed_base + wavef * raider_speed_wave_bonus
 
-  for i in 0..<game.raiders.length() {
-    if not(game.raiders[i].active) {
+  for raider in game.raiders {
+    if not(raider.active) {
       continue
     }
 
-    if game.raiders[i].attack_cd > 0.0 {
-      game.raiders[i].attack_cd = maxf(0.0, game.raiders[i].attack_cd - dt)
+    if raider.attack_cd > 0.0 {
+      raider.attack_cd = maxf(0.0, raider.attack_cd - dt)
     }
-    if game.raiders[i].panic_t > 0.0 {
-      game.raiders[i].panic_t = maxf(0.0, game.raiders[i].panic_t - dt)
+    if raider.panic_t > 0.0 {
+      raider.panic_t = maxf(0.0, raider.panic_t - dt)
     }
 
-    let mut goal_x = raider_goal_x(game.raiders[i].room)
-    let mut goal_y = raider_goal_y(game.raiders[i].room)
+    let mut goal_x = raider_goal_x(raider.room)
+    let mut goal_y = raider_goal_y(raider.room)
     let mut move_speed = speed_base
 
-    if game.raiders[i].panic_t > 0.0 && game.raiders[i].room == game.keeper.room {
-      goal_x = game.raiders[i].x + (game.raiders[i].x - game.keeper.x)
-      goal_y = game.raiders[i].y + (game.raiders[i].y - game.keeper.y)
+    if raider.panic_t > 0.0 && raider.room == game.keeper.room {
+      goal_x = raider.x + (raider.x - game.keeper.x)
+      goal_y = raider.y + (raider.y - game.keeper.y)
       move_speed = move_speed * 1.25
     }
 
-    let dx = goal_x - game.raiders[i].x
-    let dy = goal_y - game.raiders[i].y
+    let dx = goal_x - raider.x
+    let dy = goal_y - raider.y
     let d2 = dx * dx + dy * dy
 
     if d2 > 0.01 {
       let inv : Float = Float::from_int(1) / sqrtf(d2)
-      game.raiders[i].x = game.raiders[i].x + dx * inv * move_speed * dt
-      game.raiders[i].y = game.raiders[i].y + dy * inv * move_speed * dt
+      raider.x = raider.x + dx * inv * move_speed * dt
+      raider.y = raider.y + dy * inv * move_speed * dt
     }
 
-    game.raiders[i].x = clampf(
-      game.raiders[i].x,
+    raider.x = clampf(
+      raider.x,
       chamber_left + raider_radius,
       chamber_right() - raider_radius,
     )
-    game.raiders[i].y = clampf(
-      game.raiders[i].y,
+    raider.y = clampf(
+      raider.y,
       chamber_top + raider_radius,
       chamber_bottom() - raider_radius,
     )
 
-    if game.raiders[i].room < vault_room &&
-      game.raiders[i].x >= chamber_right() - 10.0 &&
-      absf(game.raiders[i].y - door_center_y) <= door_half_h {
-      game.raiders[i].room = game.raiders[i].room + 1
-      game.raiders[i].x = chamber_left + 12.0
-    } else if game.raiders[i].room > vault_room &&
-      game.raiders[i].x <= chamber_left + 10.0 &&
-      absf(game.raiders[i].y - door_center_y) <= door_half_h {
-      game.raiders[i].room = game.raiders[i].room - 1
-      game.raiders[i].x = chamber_right() - 12.0
+    if raider.room < vault_room &&
+      raider.x >= chamber_right() - 10.0 &&
+      absf(raider.y - door_center_y) <= door_half_h {
+      raider.room = raider.room + 1
+      raider.x = chamber_left + 12.0
+    } else if raider.room > vault_room &&
+      raider.x <= chamber_left + 10.0 &&
+      absf(raider.y - door_center_y) <= door_half_h {
+      raider.room = raider.room - 1
+      raider.x = chamber_right() - 12.0
     }
 
-    if game.raiders[i].room == vault_room &&
+    if raider.room == vault_room &&
       dist2(
-        game.raiders[i].x,
-        game.raiders[i].y,
+        raider.x,
+        raider.y,
         vault_core_x(),
         vault_core_y(),
       ) <=
       52.0 * 52.0 &&
-      game.raiders[i].attack_cd <= 0.0 {
+      raider.attack_cd <= 0.0 {
       integrity_loss = integrity_loss + raider_vault_strike + wavef * 0.45
-      game.raiders[i].attack_cd = randf(0.68, 1.14)
+      raider.attack_cd = randf(0.68, 1.14)
     }
 
-    if game.raiders[i].room == game.keeper.room &&
-      dist2(game.raiders[i].x, game.raiders[i].y, game.keeper.x, game.keeper.y) <=
+    if raider.room == game.keeper.room &&
+      dist2(raider.x, raider.y, game.keeper.x, game.keeper.y) <=
       (keeper_radius + raider_radius + 4.0) *
       (keeper_radius + raider_radius + 4.0) &&
-      game.raiders[i].attack_cd <= 0.0 {
+      raider.attack_cd <= 0.0 {
       game.keeper.stamina = maxf(
         0.0,
         game.keeper.stamina - raider_keeper_stamina_hit,
       )
       integrity_loss = integrity_loss + 0.7
-      game.raiders[i].attack_cd = 0.9
+      raider.attack_cd = 0.9
     }
   }
 

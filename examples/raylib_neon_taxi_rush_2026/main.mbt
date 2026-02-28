@@ -182,67 +182,67 @@ fn road_hit(x : Float, y : Float) -> Bool {
 
 ///|
 fn clear_traffic(ts : Array[Traffic]) -> Unit {
-  for i in 0..<ts.length() {
-    ts[i].active = false
-    ts[i].x = 0.0
-    ts[i].y = 0.0
-    ts[i].vx = 0.0
-    ts[i].vy = 0.0
-    ts[i].speed = 0.0
-    ts[i].lane = 0
-    ts[i].size = 0.0
-    ts[i].hp = 0.0
-    ts[i].horn_t = 0.0
+  for ts_elem in ts {
+    ts_elem.active = false
+    ts_elem.x = 0.0
+    ts_elem.y = 0.0
+    ts_elem.vx = 0.0
+    ts_elem.vy = 0.0
+    ts_elem.speed = 0.0
+    ts_elem.lane = 0
+    ts_elem.size = 0.0
+    ts_elem.hp = 0.0
+    ts_elem.horn_t = 0.0
   }
 }
 
 ///|
 fn clear_passengers(ps : Array[Passenger]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].dx = 0.0
-    ps[i].dy = 0.0
-    ps[i].fare = 0
-    ps[i].wait_t = 0.0
-    ps[i].state = 0
-    ps[i].pulse_t = 0.0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.dx = 0.0
+    ps_elem.dy = 0.0
+    ps_elem.fare = 0
+    ps_elem.wait_t = 0.0
+    ps_elem.state = 0
+    ps_elem.pulse_t = 0.0
   }
 }
 
 ///|
 fn clear_fuels(fs : Array[FuelPickup]) -> Unit {
-  for i in 0..<fs.length() {
-    fs[i].active = false
-    fs[i].x = 0.0
-    fs[i].y = 0.0
-    fs[i].amount = 0.0
-    fs[i].t = 0.0
-    fs[i].life = 0.0
+  for fs_elem in fs {
+    fs_elem.active = false
+    fs_elem.x = 0.0
+    fs_elem.y = 0.0
+    fs_elem.amount = 0.0
+    fs_elem.t = 0.0
+    fs_elem.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].size = 0.0
-    ps[i].t = 0.0
-    ps[i].life = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.size = 0.0
+    ps_elem.t = 0.0
+    ps_elem.life = 0.0
+    ps_elem.kind = 0
   }
 }
 
 ///|
 fn clear_markers(ms : Array[Marker]) -> Unit {
-  for i in 0..<ms.length() {
-    ms[i].x = 0.0
-    ms[i].y = 0.0
+  for ms_elem in ms {
+    ms_elem.x = 0.0
+    ms_elem.y = 0.0
   }
 }
 
@@ -255,21 +255,21 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].size = Float::from_int(@raylib.get_random_value(2, 6))
-      ps[i].t = 0.0
-      ps[i].life = Float::from_int(@raylib.get_random_value(16, 72)) / 100.0
-      ps[i].kind = kind
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.size = Float::from_int(@raylib.get_random_value(2, 6))
+      ps_elem.t = 0.0
+      ps_elem.life = Float::from_int(@raylib.get_random_value(16, 72)) / 100.0
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -785,24 +785,24 @@ fn main {
         msg_t = 0.5
         burst(particles, taxi.x, taxi.y, 16, 0.26, 2)
 
-        for i in 0..<traffic.length() {
-          if not(traffic[i].active) {
+        for traffic_elem in traffic {
+          if not(traffic_elem.active) {
             continue
           }
 
-          let d2 = dist2(taxi.x, taxi.y, traffic[i].x, traffic[i].y)
+          let d2 = dist2(taxi.x, taxi.y, traffic_elem.x, traffic_elem.y)
           if d2 <= 110.0 * 110.0 {
-            let dx = traffic[i].x - taxi.x
-            let dy = traffic[i].y - taxi.y
+            let dx = traffic_elem.x - taxi.x
+            let dy = traffic_elem.y - taxi.y
             let n2 = dx * dx + dy * dy
             let n = if n2 < Float::from_int(1) {
               Float::from_int(1)
             } else {
               n2.sqrt()
             }
-            traffic[i].vx = traffic[i].vx + dx / n * 200.0
-            traffic[i].vy = traffic[i].vy + dy / n * 200.0
-            traffic[i].horn_t = 0.9
+            traffic_elem.vx = traffic_elem.vx + dx / n * 200.0
+            traffic_elem.vy = traffic_elem.vy + dy / n * 200.0
+            traffic_elem.horn_t = 0.9
           }
         }
       }
@@ -829,33 +829,33 @@ fn main {
         fuel_cd = randf(6.4, 10.0)
       }
 
-      for i in 0..<traffic.length() {
-        if not(traffic[i].active) {
+      for traffic_elem in traffic {
+        if not(traffic_elem.active) {
           continue
         }
 
-        traffic[i].x = traffic[i].x + traffic[i].vx * traffic[i].speed * dt
-        traffic[i].y = traffic[i].y + traffic[i].vy * traffic[i].speed * dt
+        traffic_elem.x = traffic_elem.x + traffic_elem.vx * traffic_elem.speed * dt
+        traffic_elem.y = traffic_elem.y + traffic_elem.vy * traffic_elem.speed * dt
 
-        if traffic[i].horn_t > 0.0 {
-          traffic[i].horn_t = traffic[i].horn_t - dt
-          if traffic[i].horn_t < 0.0 {
-            traffic[i].horn_t = 0.0
+        if traffic_elem.horn_t > 0.0 {
+          traffic_elem.horn_t = traffic_elem.horn_t - dt
+          if traffic_elem.horn_t < 0.0 {
+            traffic_elem.horn_t = 0.0
           }
         }
 
-        if traffic[i].x < -70.0 ||
-          traffic[i].x > world_w + 70.0 ||
-          traffic[i].y < -70.0 ||
-          traffic[i].y > world_h + 70.0 {
-          traffic[i].active = false
+        if traffic_elem.x < -70.0 ||
+          traffic_elem.x > world_w + 70.0 ||
+          traffic_elem.y < -70.0 ||
+          traffic_elem.y > world_h + 70.0 {
+          traffic_elem.active = false
           continue
         }
 
-        if dist2(taxi.x, taxi.y, traffic[i].x, traffic[i].y) <=
-          (traffic[i].size + 20.0) * (traffic[i].size + 20.0) {
-          let dx = taxi.x - traffic[i].x
-          let dy = taxi.y - traffic[i].y
+        if dist2(taxi.x, taxi.y, traffic_elem.x, traffic_elem.y) <=
+          (traffic_elem.size + 20.0) * (traffic_elem.size + 20.0) {
+          let dx = taxi.x - traffic_elem.x
+          let dy = taxi.y - traffic_elem.y
           let n2 = dx * dx + dy * dy
           let n = if n2 < Float::from_int(1) {
             Float::from_int(1)
@@ -865,8 +865,8 @@ fn main {
 
           taxi.vx = taxi.vx + dx / n * 180.0
           taxi.vy = taxi.vy + dy / n * 180.0
-          traffic[i].vx = traffic[i].vx - dx / n * 0.65
-          traffic[i].vy = traffic[i].vy - dy / n * 0.65
+          traffic_elem.vx = traffic_elem.vx - dx / n * 0.65
+          traffic_elem.vy = traffic_elem.vy - dy / n * 0.65
 
           taxi.hp = taxi.hp - 17.0
           taxi.flash_t = 0.18
@@ -969,19 +969,19 @@ fn main {
         }
       }
 
-      for i in 0..<particles.length() {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 1.8)
-          particles[i].vy = particles[i].vy + 200.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (Float::from_int(1) - dt * 1.8)
+          particle.vy = particle.vy + 200.0 * dt
         }
       }
 
@@ -1067,46 +1067,46 @@ fn main {
       }
     }
 
-    for i in 0..<fuels.length() {
-      if not(fuels[i].active) {
+    for fuel in fuels {
+      if not(fuel.active) {
         continue
       }
-      let blink = if (fuels[i].t * 6.0).to_int() % 2 == 0 { 255 } else { 180 }
+      let blink = if (fuel.t * 6.0).to_int() % 2 == 0 { 255 } else { 180 }
       @raylib.draw_circle(
-        fuels[i].x.to_int(),
-        fuels[i].y.to_int(),
+        fuel.x.to_int(),
+        fuel.y.to_int(),
         10.0,
         @raylib.Color::new(88, 222, 162, blink),
       )
       @raylib.draw_rectangle(
-        (fuels[i].x - 4.0).to_int(),
-        (fuels[i].y - 6.0).to_int(),
+        (fuel.x - 4.0).to_int(),
+        (fuel.y - 6.0).to_int(),
         8,
         12,
         @raylib.Color::new(12, 40, 30, 240),
       )
     }
 
-    for i in 0..<passengers.length() {
-      if not(passengers[i].active) {
+    for passenger in passengers {
+      if not(passenger.active) {
         continue
       }
 
-      if passengers[i].state == 0 {
-        let pulse : Float = if (passengers[i].pulse_t * 5.0).to_int() % 2 == 0 {
+      if passenger.state == 0 {
+        let pulse : Float = if (passenger.pulse_t * 5.0).to_int() % 2 == 0 {
           6.0
         } else {
           3.0
         }
         @raylib.draw_circle(
-          passengers[i].x.to_int(),
-          passengers[i].y.to_int(),
+          passenger.x.to_int(),
+          passenger.y.to_int(),
           10.0,
           @raylib.Color::new(248, 210, 116, 255),
         )
         @raylib.draw_circle_lines(
-          passengers[i].x.to_int(),
-          passengers[i].y.to_int(),
+          passenger.x.to_int(),
+          passenger.y.to_int(),
           16.0 + pulse,
           @raylib.Color::new(250, 236, 182, 190),
         )
@@ -1128,56 +1128,56 @@ fn main {
       )
     }
 
-    for i in 0..<traffic.length() {
-      if not(traffic[i].active) {
+    for traffic_elem in traffic {
+      if not(traffic_elem.active) {
         continue
       }
 
       let mut c = @raylib.Color::new(164, 128, 234, 255)
-      if traffic[i].lane % 3 == 0 {
+      if traffic_elem.lane % 3 == 0 {
         c = @raylib.Color::new(246, 128, 142, 255)
-      } else if traffic[i].lane % 3 == 1 {
+      } else if traffic_elem.lane % 3 == 1 {
         c = @raylib.Color::new(114, 206, 248, 255)
       }
-      if traffic[i].horn_t > 0.0 {
+      if traffic_elem.horn_t > 0.0 {
         c = @raylib.Color::new(255, 240, 190, 255)
       }
 
       @raylib.draw_rectangle(
-        (traffic[i].x - traffic[i].size).to_int(),
-        (traffic[i].y - traffic[i].size * 0.62).to_int(),
-        (traffic[i].size * 2.0).to_int(),
-        (traffic[i].size * 1.24).to_int(),
+        (traffic_elem.x - traffic_elem.size).to_int(),
+        (traffic_elem.y - traffic_elem.size * 0.62).to_int(),
+        (traffic_elem.size * 2.0).to_int(),
+        (traffic_elem.size * 1.24).to_int(),
         c,
       )
       @raylib.draw_rectangle(
-        (traffic[i].x - traffic[i].size * 0.5).to_int(),
-        (traffic[i].y - traffic[i].size * 0.42).to_int(),
-        traffic[i].size.to_int(),
-        (traffic[i].size * 0.84).to_int(),
+        (traffic_elem.x - traffic_elem.size * 0.5).to_int(),
+        (traffic_elem.y - traffic_elem.size * 0.42).to_int(),
+        traffic_elem.size.to_int(),
+        (traffic_elem.size * 0.84).to_int(),
         @raylib.Color::new(22, 24, 40, 220),
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let k = particles[i].t / particles[i].life
+      let k = particle.t / particle.life
       let a : Int = ((Float::from_int(1) - k) * 220.0).to_int()
       let mut c = @raylib.Color::new(120, 230, 252, a)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         c = @raylib.Color::new(136, 248, 176, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         c = @raylib.Color::new(248, 180, 96, a)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         c = @raylib.Color::new(236, 88, 108, a)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         c,
       )
     }

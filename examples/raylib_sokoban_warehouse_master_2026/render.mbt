@@ -232,20 +232,20 @@ fn draw_board(game : Game) -> Unit {
   let ppy : Int = top + game.player_y * tile
   draw_player(ppx, ppy, tile, game.pulse_t)
 
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let sx : Int = left + (game.sparks[i].x * Float::from_int(tile)).to_int()
-    let sy : Int = top + (game.sparks[i].y * Float::from_int(tile)).to_int()
-    let sr : Float = maxf(1.0, Float::from_int(tile) * game.sparks[i].size)
+    let sx : Int = left + (spark.x * Float::from_int(tile)).to_int()
+    let sy : Int = top + (spark.y * Float::from_int(tile)).to_int()
+    let sr : Float = maxf(1.0, Float::from_int(tile) * spark.size)
 
-    let c = if game.sparks[i].kind == 0 {
+    let c = if spark.kind == 0 {
       @raylib.Color::new(255, 218, 102, 235)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(248, 164, 78, 225)
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       @raylib.Color::new(236, 100, 86, 214)
     } else {
       @raylib.Color::new(118, 222, 254, 228)

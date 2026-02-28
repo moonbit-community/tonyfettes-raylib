@@ -151,8 +151,8 @@ fn goals_completed(
   goals_y : Array[Int],
 ) -> Int {
   let mut c = 0
-  for i in 0..<orbs.length() {
-    if orbs[i].active && goal_at(goals_x, goals_y, orbs[i].x, orbs[i].y) {
+  for orb in orbs {
+    if orb.active && goal_at(goals_x, goals_y, orb.x, orb.y) {
       c = c + 1
     }
   }
@@ -630,12 +630,12 @@ fn main {
       }
     }
 
-    for i in 0..<orbs.length() {
-      if not(orbs[i].active) {
+    for orb in orbs {
+      if not(orb.active) {
         continue
       }
-      let x = ox + orbs[i].x * cell + cell / 2
-      let y = oy + orbs[i].y * cell + cell / 2
+      let x = ox + orb.x * cell + cell / 2
+      let y = oy + orb.y * cell + cell / 2
       @raylib.draw_circle(x, y, 18.0, @raylib.Color::new(198, 214, 234, 255))
       @raylib.draw_circle(
         x - 5,

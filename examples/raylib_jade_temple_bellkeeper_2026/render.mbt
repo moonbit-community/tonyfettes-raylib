@@ -512,19 +512,19 @@ fn draw_hero(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bolts(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.bolts.length() {
-    if not(game.bolts[i].active) {
+  for bolt in game.bolts {
+    if not(bolt.active) {
       continue
     }
 
-    let x0 = game.bolts[i].x + cam_x
-    let y0 = game.bolts[i].y + cam_y
-    let vx = game.bolts[i].vx
-    let vy = game.bolts[i].vy
+    let x0 = bolt.x + cam_x
+    let y0 = bolt.y + cam_y
+    let vx = bolt.vx
+    let vy = bolt.vy
     let n2 = maxf(1.0, vx * vx + vy * vy)
     let inv = Float::from_int(1) / sqrtf(n2)
     let len : Float = 16.0
-    let col = if game.bolts[i].kind == 1 {
+    let col = if bolt.kind == 1 {
       @raylib.Color::new(128, 236, 255, 230)
     } else {
       @raylib.Color::new(255, 156, 210, 230)
@@ -560,72 +560,72 @@ fn spark_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let life = if game.sparks[i].kind == 3 {
-      clampf(game.sparks[i].life / 1.6, 0.0, 1.0)
+    let life = if spark.kind == 3 {
+      clampf(spark.life / 1.6, 0.0, 1.0)
     } else {
-      clampf(game.sparks[i].life / 1.1, 0.0, 1.0)
+      clampf(spark.life / 1.1, 0.0, 1.0)
     }
 
-    let col = a_col(spark_col(game.sparks[i].kind), (life * 220.0).to_int())
+    let col = a_col(spark_col(spark.kind), (life * 220.0).to_int())
 
-    if game.sparks[i].kind == 3 {
+    if spark.kind == 3 {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x * 0.2).to_int(),
-        (game.sparks[i].y + cam_y * 0.2).to_int(),
-        maxf(0.6, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x * 0.2).to_int(),
+        (spark.y + cam_y * 0.2).to_int(),
+        maxf(0.6, spark.size * (0.4 + life)),
         col,
       )
     } else {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x).to_int(),
-        (game.sparks[i].y + cam_y).to_int(),
-        maxf(0.8, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x).to_int(),
+        (spark.y + cam_y).to_int(),
+        maxf(0.8, spark.size * (0.4 + life)),
         col,
       )
     }
   }
 
-  for i in 0..<game.rings.length() {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    let life = clampf(game.rings[i].life / 1.0, 0.0, 1.0)
-    let col = if game.rings[i].kind == 0 {
+    let life = clampf(ring.life / 1.0, 0.0, 1.0)
+    let col = if ring.kind == 0 {
       a_col(cyan(), (life * 190.0).to_int())
-    } else if game.rings[i].kind == 1 {
+    } else if ring.kind == 1 {
       a_col(pink(), (life * 190.0).to_int())
     } else {
       a_col(jade(), (life * 190.0).to_int())
     }
 
     @raylib.draw_circle_lines(
-      (game.rings[i].x + cam_x).to_int(),
-      (game.rings[i].y + cam_y).to_int(),
-      game.rings[i].r,
+      (ring.x + cam_x).to_int(),
+      (ring.y + cam_y).to_int(),
+      ring.r,
       col,
     )
   }
 
-  for i in 0..<game.echoes.length() {
-    if not(game.echoes[i].active) {
+  for echoe in game.echoes {
+    if not(echoe.active) {
       continue
     }
 
-    let life = clampf(game.echoes[i].life / 0.24, 0.0, 1.0)
+    let life = clampf(echoe.life / 0.24, 0.0, 1.0)
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(game.echoes[i].rot * 0.06)) * 0.24
+      absf(sinf(echoe.rot * 0.06)) * 0.24
 
     @raylib.draw_rectangle(
-      (game.echoes[i].x - game.echoes[i].w * 0.5 * stretch + cam_x * 0.2).to_int(),
-      (game.echoes[i].y - game.echoes[i].h * 0.5 + cam_y * 0.2).to_int(),
-      maxf(2.0, game.echoes[i].w * stretch).to_int(),
-      maxf(2.0, game.echoes[i].h).to_int(),
+      (echoe.x - echoe.w * 0.5 * stretch + cam_x * 0.2).to_int(),
+      (echoe.y - echoe.h * 0.5 + cam_y * 0.2).to_int(),
+      maxf(2.0, echoe.w * stretch).to_int(),
+      maxf(2.0, echoe.h).to_int(),
       @raylib.Color::new(110, 214, 255, (life * 120.0).to_int()),
     )
   }
@@ -1231,15 +1231,15 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     draw_bell(game.bells[i], i, cam_x, cam_y)
   }
 
-  for i in 0..<game.foes.length() {
-    if game.foes[i].active && is_relic(game.foes[i].kind) {
-      draw_foe(game.foes[i], cam_x, cam_y)
+  for foe in game.foes {
+    if foe.active && is_relic(foe.kind) {
+      draw_foe(foe, cam_x, cam_y)
     }
   }
 
-  for i in 0..<game.foes.length() {
-    if game.foes[i].active && is_hostile(game.foes[i].kind) {
-      draw_foe(game.foes[i], cam_x, cam_y)
+  for foe in game.foes {
+    if foe.active && is_hostile(foe.kind) {
+      draw_foe(foe, cam_x, cam_y)
     }
   }
 

@@ -402,9 +402,9 @@ fn rotate_adjacent_mirrors(game : @types.Game, gx : Int, gy : Int) -> Unit {
     (gx, gy - 1),
     (gx, gy + 1),
   ]
-  for i in 0..<neighbors.length() {
-    let nx = neighbors[i].0
-    let ny = neighbors[i].1
+  for neighbor in neighbors {
+    let nx = neighbor.0
+    let ny = neighbor.1
     if @types.in_bounds(nx, ny) {
       let tile = @types.get_tile(game, nx, ny)
       if @types.is_mirror(tile) {
@@ -493,8 +493,7 @@ fn update_player_animation(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_entity_animations(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.entities.length() {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) {
       continue
     }

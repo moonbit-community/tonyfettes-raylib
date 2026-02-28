@@ -84,15 +84,15 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -107,19 +107,19 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.particles.length() {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
@@ -142,24 +142,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.8 } else { 2.1 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - drag * dt)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - (drag - 0.4) * dt) +
-      dt * (if game.particles[i].kind == 1 { 84.0 } else { 118.0 })
+    let drag : Float = if particle.kind == 2 { 2.8 } else { 2.1 }
+    particle.vx = particle.vx * (1.0 - drag * dt)
+    particle.vy = particle.vy * (1.0 - (drag - 0.4) * dt) +
+      dt * (if particle.kind == 1 { 84.0 } else { 118.0 })
   }
 }
 
@@ -237,15 +237,15 @@ fn init_inspectors(game : Game) -> Unit {
 
 ///|
 fn clear_trains(game : Game) -> Unit {
-  for i in 0..<game.trains.length() {
-    game.trains[i].active = false
-    game.trains[i].x = 0.0
-    game.trains[i].prev_x = 0.0
-    game.trains[i].lane = 0
-    game.trains[i].target_lane = 0
-    game.trains[i].speed = 0.0
-    game.trains[i].passed_junction = -1
-    game.trains[i].color_id = 0
+  for train in game.trains {
+    train.active = false
+    train.x = 0.0
+    train.prev_x = 0.0
+    train.lane = 0
+    train.target_lane = 0
+    train.speed = 0.0
+    train.passed_junction = -1
+    train.color_id = 0
   }
 }
 
@@ -360,8 +360,8 @@ fn train_color_from_target(target_lane : Int) -> Int {
 ///|
 fn active_train_count(game : Game) -> Int {
   let mut n : Int = 0
-  for i in 0..<game.trains.length() {
-    if game.trains[i].active {
+  for train in game.trains {
+    if train.active {
       n = n + 1
     }
   }
@@ -474,23 +474,23 @@ fn deploy_emp(game : Game) -> Bool {
   game.slow_t = 1.7
 
   let mut hits : Int = 0
-  for i in 0..<game.inspectors.length() {
-    if not(game.inspectors[i].active) ||
-      game.inspectors[i].mode == inspector_stunned {
+  for inspector in game.inspectors {
+    if not(inspector.active) ||
+      inspector.mode == inspector_stunned {
       continue
     }
 
     let d : Int = manhattan(
       game.player.x,
       game.player.y,
-      game.inspectors[i].body.x,
-      game.inspectors[i].body.y,
+      inspector.body.x,
+      inspector.body.y,
     )
 
     if d <= 2 {
-      game.inspectors[i].mode = inspector_stunned
-      game.inspectors[i].stun_t = 2.2
-      game.inspectors[i].move_cd = 0.12
+      inspector.mode = inspector_stunned
+      inspector.stun_t = 2.2
+      inspector.move_cd = 0.12
       hits = hits + 1
     }
   }
@@ -596,12 +596,12 @@ fn blocked_for_inspector(game : Game, x : Int, y : Int) -> Bool {
     return true
   }
 
-  for i in 0..<game.inspectors.length() {
-    if not(game.inspectors[i].active) {
+  for inspector in game.inspectors {
+    if not(inspector.active) {
       continue
     }
 
-    if game.inspectors[i].body.x == x && game.inspectors[i].body.y == y {
+    if inspector.body.x == x && inspector.body.y == y {
       return true
     }
   }
@@ -736,35 +736,35 @@ fn update_inspectors(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_trains(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.trains.length() {
-    if not(game.trains[i].active) {
+  for train in game.trains {
+    if not(train.active) {
       continue
     }
 
-    game.trains[i].prev_x = game.trains[i].x
+    train.prev_x = train.x
 
     let slow_mul : Float = if game.slow_t > 0.0 { 0.52 } else { 1.0 }
-    game.trains[i].x = game.trains[i].x + game.trains[i].speed * slow_mul * dt
+    train.x = train.x + train.speed * slow_mul * dt
 
-    while game.trains[i].passed_junction + 1 < junction_n {
-      let j : Int = game.trains[i].passed_junction + 1
+    while train.passed_junction + 1 < junction_n {
+      let j : Int = train.passed_junction + 1
       let jx : Float = Float::from_int(junction_x(j))
 
-      if game.trains[i].prev_x < jx && game.trains[i].x >= jx {
+      if train.prev_x < jx && train.x >= jx {
         let dir : Int = game.switch_state[j]
-        game.trains[i].lane = clampi(
-          game.trains[i].lane + dir,
+        train.lane = clampi(
+          train.lane + dir,
           0,
           train_lane_n - 1,
         )
-        game.trains[i].passed_junction = j
+        train.passed_junction = j
       } else {
         break
       }
     }
 
-    if game.trains[i].x >= train_exit_x {
-      if game.trains[i].lane == game.trains[i].target_lane {
+    if train.x >= train_exit_x {
+      if train.lane == train.target_lane {
         game.routed_ok = game.routed_ok + 1
         game.score = game.score + score_route_ok
 
@@ -772,7 +772,7 @@ fn update_trains(game : Game, dt : Float) -> Unit {
           game,
           Float::from_int(cell_center_x(train_exit_x)),
           Float::from_int(
-            cell_center_y(Float::from_int(lane_to_y(game.trains[i].lane))),
+            cell_center_y(Float::from_int(lane_to_y(train.lane))),
           ),
           14,
           1,
@@ -790,14 +790,14 @@ fn update_trains(game : Game, dt : Float) -> Unit {
           game,
           Float::from_int(cell_center_x(train_exit_x)),
           Float::from_int(
-            cell_center_y(Float::from_int(lane_to_y(game.trains[i].lane))),
+            cell_center_y(Float::from_int(lane_to_y(train.lane))),
           ),
           24,
           2,
         )
       }
 
-      game.trains[i].active = false
+      train.active = false
     }
   }
 }
@@ -855,14 +855,14 @@ fn handle_player_spotted(game : Game) -> Unit {
     return
   }
 
-  for i in 0..<game.inspectors.length() {
-    if not(game.inspectors[i].active) ||
-      game.inspectors[i].mode == inspector_stunned {
+  for inspector in game.inspectors {
+    if not(inspector.active) ||
+      inspector.mode == inspector_stunned {
       continue
     }
 
-    if game.inspectors[i].body.x == game.player.x &&
-      game.inspectors[i].body.y == game.player.y {
+    if inspector.body.x == game.player.x &&
+      inspector.body.y == game.player.y {
       game.lives = game.lives - 1
       game.flash_t = 1.0
       game.shake_t = 0.26

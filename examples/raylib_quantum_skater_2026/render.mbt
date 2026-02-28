@@ -275,12 +275,11 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.trails.length() {
-    if not(game.trails[i].active) {
+  for t in game.trails {
+    if not(t.active) {
       continue
     }
 
-    let t = game.trails[i]
     let s = world_to_screen(t.x, t.y, 0.0, cam_x, cam_y)
     let alpha = clampi((t.life * 255.0).to_int(), 0, 255)
     let col = if t.beta {
@@ -301,12 +300,11 @@ fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
 
-    let p = game.particles[i]
     let s = world_to_screen(p.x, p.y, 0.0, cam_x, cam_y)
     let alpha = clampi((p.life * 255.0).to_int(), 0, 255)
     let col = if p.kind == 0 {
@@ -805,8 +803,8 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_backdrop(game, cam_x, cam_y)
   draw_track_grid(game, cam_x, cam_y)
 
-  for i in 0..<game.objs.length() {
-    draw_obj(game, game.objs[i], cam_x, cam_y)
+  for obj in game.objs {
+    draw_obj(game, obj, cam_x, cam_y)
   }
 
   draw_trails(game, cam_x, cam_y)

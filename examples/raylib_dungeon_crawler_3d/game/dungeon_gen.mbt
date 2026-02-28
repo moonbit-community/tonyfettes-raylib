@@ -8,23 +8,23 @@ pub fn generate_dungeon(game : @types.Game) -> Unit {
     game.explored[i] = false
   }
   // Clear entities
-  for i in 0..<game.enemies.length() {
-    game.enemies[i].active = false
+  for enemy in game.enemies {
+    enemy.active = false
   }
-  for i in 0..<game.projectiles.length() {
-    game.projectiles[i].active = false
+  for projectile in game.projectiles {
+    projectile.active = false
   }
-  for i in 0..<game.particles.length() {
-    game.particles[i].active = false
+  for particle in game.particles {
+    particle.active = false
   }
-  for i in 0..<game.loot.length() {
-    game.loot[i].active = false
+  for loot_elem in game.loot {
+    loot_elem.active = false
   }
-  for i in 0..<game.traps.length() {
-    game.traps[i].active = false
+  for trap in game.traps {
+    trap.active = false
   }
-  for i in 0..<game.torches.length() {
-    game.torches[i].active = false
+  for torch in game.torches {
+    torch.active = false
   }
   // Set floor theme
   game.floor_theme = @levels.get_floor_theme(game.current_floor)

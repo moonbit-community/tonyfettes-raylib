@@ -223,8 +223,7 @@ fn fire_laser(
   let p = game.player
   // Fire two bolts (left and right of ship)
   let offsets : Array[Float] = [0.4, -0.4]
-  for o in 0..<offsets.length() {
-    let off = offsets[o]
+  for off in offsets {
     let idx = @types.alloc_projectile(game)
     if idx < 0 {
       break

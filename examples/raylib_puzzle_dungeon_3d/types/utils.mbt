@@ -554,8 +554,8 @@ pub fn count_plates(game : Game) -> Int {
 ///|
 pub fn count_diamonds(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.entities.length() {
-    if game.entities[i].active && game.entities[i].kind == entity_diamond {
+  for entity in game.entities {
+    if entity.active && entity.kind == entity_diamond {
       count += 1
     }
   }
@@ -797,8 +797,7 @@ fn add_laser_segment(
 ///|
 pub fn resolve_conveyors(game : Game) -> Unit {
   // Process each entity on a conveyor
-  for i in 0..<game.entities.length() {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) || e.falling {
       continue
     }

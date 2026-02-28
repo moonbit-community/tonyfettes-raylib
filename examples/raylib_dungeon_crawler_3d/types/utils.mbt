@@ -285,8 +285,8 @@ pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
 ///|
 pub fn rand_weighted(game : Game, weights : Array[Int]) -> Int {
   let mut total = 0
-  for i in 0..<weights.length() {
-    total += weights[i]
+  for weight in weights {
+    total += weight
   }
   if total <= 0 {
     return 0
@@ -461,8 +461,8 @@ pub fn update_explored(game : Game) -> Unit {
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.enemies.length() {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -526,8 +526,8 @@ pub fn alloc_inventory(game : Game) -> Int {
 ///|
 pub fn count_inventory_items(game : Game) -> Int {
   let mut count = 0
-  for i in 0..<game.inventory.length() {
-    if game.inventory[i].active {
+  for inventory_elem in game.inventory {
+    if inventory_elem.active {
       count += 1
     }
   }
@@ -687,9 +687,9 @@ pub fn get_spell_mana_cost(spell_type : Int) -> Int {
 ///|
 pub fn calc_player_defense(game : Game) -> Int {
   let mut total = game.player_def + get_armor_defense(game.player_armor)
-  for i in 0..<game.buffs.length() {
-    if game.buffs[i].active && game.buffs[i].kind == buff_shield {
-      total += game.buffs[i].value
+  for buff in game.buffs {
+    if buff.active && buff.kind == buff_shield {
+      total += buff.value
     }
   }
   total
@@ -703,9 +703,9 @@ pub fn calc_player_attack(game : Game) -> Int {
   let mult = get_weapon_damage_mult(game.player_weapon)
   let base_f = Float::from_int(base) * mult
   let mut total = base_f.to_int()
-  for i in 0..<game.buffs.length() {
-    if game.buffs[i].active && game.buffs[i].kind == buff_strength {
-      total += game.buffs[i].value
+  for buff in game.buffs {
+    if buff.active && buff.kind == buff_strength {
+      total += buff.value
     }
   }
   total
@@ -903,8 +903,8 @@ pub fn find_walkable_in_room(game : Game, room : Room) -> (Int, Int) {
 
 ///|
 pub fn has_buff(game : Game, kind : Int) -> Bool {
-  for i in 0..<game.buffs.length() {
-    if game.buffs[i].active && game.buffs[i].kind == kind {
+  for buff in game.buffs {
+    if buff.active && buff.kind == kind {
       return true
     }
   }
@@ -916,20 +916,20 @@ pub fn has_buff(game : Game, kind : Int) -> Bool {
 ///|
 pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit {
   // Check if already have this buff, refresh it
-  for i in 0..<game.buffs.length() {
-    if game.buffs[i].active && game.buffs[i].kind == kind {
-      game.buffs[i].timer = duration
-      game.buffs[i].value = value
+  for buff in game.buffs {
+    if buff.active && buff.kind == kind {
+      buff.timer = duration
+      buff.value = value
       return
     }
   }
   // Find empty slot
-  for i in 0..<game.buffs.length() {
-    if not(game.buffs[i].active) {
-      game.buffs[i].active = true
-      game.buffs[i].kind = kind
-      game.buffs[i].timer = duration
-      game.buffs[i].value = value
+  for buff in game.buffs {
+    if not(buff.active) {
+      buff.active = true
+      buff.kind = kind
+      buff.timer = duration
+      buff.value = value
       return
     }
   }
@@ -939,11 +939,11 @@ pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit 
 
 ///|
 pub fn update_buffs(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.buffs.length() {
-    if game.buffs[i].active {
-      game.buffs[i].timer -= dt
-      if game.buffs[i].timer <= 0.0 {
-        game.buffs[i].active = false
+  for buff in game.buffs {
+    if buff.active {
+      buff.timer -= dt
+      if buff.timer <= 0.0 {
+        buff.active = false
       }
     }
   }
@@ -953,11 +953,11 @@ pub fn update_buffs(game : Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_messages(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.messages.length() {
-    if game.messages[i].timer > 0.0 {
-      game.messages[i].timer -= dt
-      if game.messages[i].timer < 0.0 {
-        game.messages[i].timer = 0.0
+  for message in game.messages {
+    if message.timer > 0.0 {
+      message.timer -= dt
+      if message.timer < 0.0 {
+        message.timer = 0.0
       }
     }
   }

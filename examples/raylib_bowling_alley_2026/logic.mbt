@@ -66,15 +66,15 @@ fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -89,19 +89,19 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
@@ -124,21 +124,21 @@ fn burst_sparks(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit 
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 2.8)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 2.4) + dt * 180.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 2.8)
+    spark.vy = spark.vy * (1.0 - dt * 2.4) + dt * 180.0
   }
 }
 
@@ -193,8 +193,8 @@ fn reset_full_rack(game : Game) -> Unit {
 ///|
 fn count_standing(game : Game) -> Int {
   let mut n : Int = 0
-  for i in 0..<game.pins.length() {
-    if game.pins[i].standing {
+  for pin in game.pins {
+    if pin.standing {
       n = n + 1
     }
   }
@@ -203,13 +203,13 @@ fn count_standing(game : Game) -> Int {
 
 ///|
 fn pins_are_quiet(game : Game) -> Bool {
-  for i in 0..<game.pins.length() {
-    if game.pins[i].standing {
+  for pin in game.pins {
+    if pin.standing {
       continue
     }
 
-    let speed2 : Float = game.pins[i].vx * game.pins[i].vx +
-      game.pins[i].vy * game.pins[i].vy
+    let speed2 : Float = pin.vx * pin.vx +
+      pin.vy * pin.vy
     if speed2 > 324.0 {
       return false
     }
@@ -534,37 +534,37 @@ fn collide_ball_pins(game : Game) -> Unit {
 
 ///|
 fn update_pin_motion(game : Game, dt : Float) -> Unit {
-  for i in 0..<game.pins.length() {
-    if game.pins[i].standing {
+  for pin in game.pins {
+    if pin.standing {
       continue
     }
 
-    game.pins[i].x = game.pins[i].x + game.pins[i].vx * dt
-    game.pins[i].y = game.pins[i].y + game.pins[i].vy * dt
+    pin.x = pin.x + pin.vx * dt
+    pin.y = pin.y + pin.vy * dt
 
-    game.pins[i].vx = game.pins[i].vx * (1.0 - dt * 2.5)
-    game.pins[i].vy = game.pins[i].vy * (1.0 - dt * 2.2) + dt * 160.0
-    game.pins[i].ang = game.pins[i].ang + game.pins[i].ang_v * dt
-    game.pins[i].ang_v = game.pins[i].ang_v * (1.0 - dt * 2.1)
+    pin.vx = pin.vx * (1.0 - dt * 2.5)
+    pin.vy = pin.vy * (1.0 - dt * 2.2) + dt * 160.0
+    pin.ang = pin.ang + pin.ang_v * dt
+    pin.ang_v = pin.ang_v * (1.0 - dt * 2.1)
 
     let min_x : Float = lane_left + 20.0
     let max_x : Float = lane_right - 20.0
 
-    if game.pins[i].x < min_x {
-      game.pins[i].x = min_x
-      game.pins[i].vx = absf(game.pins[i].vx) * 0.48
-    } else if game.pins[i].x > max_x {
-      game.pins[i].x = max_x
-      game.pins[i].vx = -absf(game.pins[i].vx) * 0.48
+    if pin.x < min_x {
+      pin.x = min_x
+      pin.vx = absf(pin.vx) * 0.48
+    } else if pin.x > max_x {
+      pin.x = max_x
+      pin.vx = -absf(pin.vx) * 0.48
     }
 
-    if game.pins[i].y < lane_top + 12.0 {
-      game.pins[i].y = lane_top + 12.0
-      game.pins[i].vy = absf(game.pins[i].vy) * 0.38
+    if pin.y < lane_top + 12.0 {
+      pin.y = lane_top + 12.0
+      pin.vy = absf(pin.vy) * 0.38
     }
-    if game.pins[i].y > lane_bottom - 6.0 {
-      game.pins[i].y = lane_bottom - 6.0
-      game.pins[i].vy = -absf(game.pins[i].vy) * 0.28
+    if pin.y > lane_bottom - 6.0 {
+      pin.y = lane_bottom - 6.0
+      pin.vy = -absf(pin.vy) * 0.28
     }
   }
 }

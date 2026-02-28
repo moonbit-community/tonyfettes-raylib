@@ -148,64 +148,64 @@ fn inside_rect(
 
 ///|
 fn clear_ice(ice : Array[IceChunk]) -> Unit {
-  for i in 0..<ice.length() {
-    ice[i].active = false
-    ice[i].x = 0.0
-    ice[i].y = 0.0
-    ice[i].vx = 0.0
-    ice[i].vy = 0.0
-    ice[i].radius = 0.0
-    ice[i].hard = 0.0
-    ice[i].crack_t = 0.0
-    ice[i].tone = 0.0
+  for ice_elem in ice {
+    ice_elem.active = false
+    ice_elem.x = 0.0
+    ice_elem.y = 0.0
+    ice_elem.vx = 0.0
+    ice_elem.vy = 0.0
+    ice_elem.radius = 0.0
+    ice_elem.hard = 0.0
+    ice_elem.crack_t = 0.0
+    ice_elem.tone = 0.0
   }
 }
 
 ///|
 fn clear_convoys(convoys : Array[ConvoyShip]) -> Unit {
-  for i in 0..<convoys.length() {
-    convoys[i].active = false
-    convoys[i].x = 0.0
-    convoys[i].y = 0.0
-    convoys[i].vx = 0.0
-    convoys[i].vy = 0.0
-    convoys[i].speed = 0.0
-    convoys[i].hp = 0.0
-    convoys[i].cargo = 0
-    convoys[i].route_i = 0
-    convoys[i].stuck_t = 0.0
-    convoys[i].panic = 0.0
-    convoys[i].blink_t = 0.0
-    convoys[i].id = 0
+  for convoy in convoys {
+    convoy.active = false
+    convoy.x = 0.0
+    convoy.y = 0.0
+    convoy.vx = 0.0
+    convoy.vy = 0.0
+    convoy.speed = 0.0
+    convoy.hp = 0.0
+    convoy.cargo = 0
+    convoy.route_i = 0
+    convoy.stuck_t = 0.0
+    convoy.panic = 0.0
+    convoy.blink_t = 0.0
+    convoy.id = 0
   }
 }
 
 ///|
 fn clear_storms(storms : Array[StormCell]) -> Unit {
-  for i in 0..<storms.length() {
-    storms[i].active = false
-    storms[i].x = 0.0
-    storms[i].y = 0.0
-    storms[i].vx = 0.0
-    storms[i].vy = 0.0
-    storms[i].radius = 0.0
-    storms[i].intensity = 0.0
-    storms[i].life = 0.0
-    storms[i].phase = 0.0
+  for storm in storms {
+    storm.active = false
+    storm.x = 0.0
+    storm.y = 0.0
+    storm.vx = 0.0
+    storm.vy = 0.0
+    storm.radius = 0.0
+    storm.intensity = 0.0
+    storm.life = 0.0
+    storm.phase = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -216,11 +216,11 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = if kind == 0 {
         randf(8.0, 46.0)
@@ -229,17 +229,17 @@ fn add_particle(
       } else {
         randf(18.0, 100.0)
       }
-      parts[i].vx = @math.cosf(a) * s
-      parts[i].vy = @math.sinf(a) * s
-      parts[i].life = if kind == 0 {
+      part.vx = @math.cosf(a) * s
+      part.vy = @math.sinf(a) * s
+      part.life = if kind == 0 {
         randf(0.5, 1.2)
       } else if kind == 1 {
         randf(0.15, 0.45)
       } else {
         randf(0.22, 0.72)
       }
-      parts[i].size = if kind == 1 { randf(2.0, 6.5) } else { randf(1.8, 4.8) }
-      parts[i].kind = kind
+      part.size = if kind == 1 { randf(2.0, 6.5) } else { randf(1.8, 4.8) }
+      part.kind = kind
       return
     }
   }
@@ -260,28 +260,28 @@ fn burst(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vy = parts[i].vy + dt * 10.0
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-    } else if parts[i].kind == 1 {
-      parts[i].vy = parts[i].vy + dt * 180.0
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.5)
+    if part.kind == 0 {
+      part.vy = part.vy + dt * 10.0
+      part.vx = part.vx * (1.0 - dt * 0.8)
+    } else if part.kind == 1 {
+      part.vy = part.vy + dt * 180.0
+      part.vx = part.vx * (1.0 - dt * 4.5)
     } else {
-      parts[i].vy = parts[i].vy + dt * 40.0
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.3)
+      part.vy = part.vy + dt * 40.0
+      part.vx = part.vx * (1.0 - dt * 2.3)
     }
   }
 }
@@ -350,8 +350,8 @@ fn setup_ice_field(
 
     // keep start/end harbor and route lanes somewhat open
     let mut lane_penalty : Float = 99999.0
-    for i in 0..<route.length() {
-      let d2v : Float = dist2(x, y, route[i].x, route[i].y)
+    for route_elem in route {
+      let d2v : Float = dist2(x, y, route_elem.x, route_elem.y)
       if d2v < lane_penalty {
         lane_penalty = d2v
       }
@@ -362,12 +362,12 @@ fn setup_ice_field(
     }
 
     let mut overlap : Bool = false
-    for j in 0..<ice.length() {
-      if not(ice[j].active) {
+    for ice_elem in ice {
+      if not(ice_elem.active) {
         continue
       }
-      let rr : Float = ice[j].radius + 16.0
-      if dist2(x, y, ice[j].x, ice[j].y) < rr * rr {
+      let rr : Float = ice_elem.radius + 16.0
+      if dist2(x, y, ice_elem.x, ice_elem.y) < rr * rr {
         overlap = true
         break
       }
@@ -397,25 +397,25 @@ fn spawn_convoy(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i in 0..<convoys.length() {
-    if convoys[i].active {
+  for convoy in convoys {
+    if convoy.active {
       continue
     }
 
     let cargo : Int = 8 + @raylib.get_random_value(0, 8 + tier * 3)
-    convoys[i].active = true
-    convoys[i].x = route[0].x - randf(50.0, 120.0)
-    convoys[i].y = route[0].y + randf(-30.0, 30.0)
-    convoys[i].vx = 0.0
-    convoys[i].vy = 0.0
-    convoys[i].speed = randf(56.0, 82.0) + Float::from_int(tier) * 2.0
-    convoys[i].hp = 100.0
-    convoys[i].cargo = cargo
-    convoys[i].route_i = 1
-    convoys[i].stuck_t = 0.0
-    convoys[i].panic = 0.0
-    convoys[i].blink_t = 0.0
-    convoys[i].id = serial
+    convoy.active = true
+    convoy.x = route[0].x - randf(50.0, 120.0)
+    convoy.y = route[0].y + randf(-30.0, 30.0)
+    convoy.vx = 0.0
+    convoy.vy = 0.0
+    convoy.speed = randf(56.0, 82.0) + Float::from_int(tier) * 2.0
+    convoy.hp = 100.0
+    convoy.cargo = cargo
+    convoy.route_i = 1
+    convoy.stuck_t = 0.0
+    convoy.panic = 0.0
+    convoy.blink_t = 0.0
+    convoy.id = serial
     return true
   }
   false
@@ -430,39 +430,39 @@ fn spawn_storm(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i in 0..<storms.length() {
-    if storms[i].active {
+  for storm in storms {
+    if storm.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      storms[i].x = world_l - 40.0
-      storms[i].y = randf(world_t + 20.0, world_b - 20.0)
-      storms[i].vx = randf(16.0, 46.0)
-      storms[i].vy = randf(-12.0, 12.0)
+      storm.x = world_l - 40.0
+      storm.y = randf(world_t + 20.0, world_b - 20.0)
+      storm.vx = randf(16.0, 46.0)
+      storm.vy = randf(-12.0, 12.0)
     } else if side == 1 {
-      storms[i].x = world_r + 40.0
-      storms[i].y = randf(world_t + 20.0, world_b - 20.0)
-      storms[i].vx = randf(-46.0, -16.0)
-      storms[i].vy = randf(-12.0, 12.0)
+      storm.x = world_r + 40.0
+      storm.y = randf(world_t + 20.0, world_b - 20.0)
+      storm.vx = randf(-46.0, -16.0)
+      storm.vy = randf(-12.0, 12.0)
     } else if side == 2 {
-      storms[i].x = randf(world_l + 20.0, world_r - 20.0)
-      storms[i].y = world_t - 40.0
-      storms[i].vx = randf(-14.0, 14.0)
-      storms[i].vy = randf(16.0, 42.0)
+      storm.x = randf(world_l + 20.0, world_r - 20.0)
+      storm.y = world_t - 40.0
+      storm.vx = randf(-14.0, 14.0)
+      storm.vy = randf(16.0, 42.0)
     } else {
-      storms[i].x = randf(world_l + 20.0, world_r - 20.0)
-      storms[i].y = world_b + 40.0
-      storms[i].vx = randf(-14.0, 14.0)
-      storms[i].vy = randf(-42.0, -16.0)
+      storm.x = randf(world_l + 20.0, world_r - 20.0)
+      storm.y = world_b + 40.0
+      storm.vx = randf(-14.0, 14.0)
+      storm.vy = randf(-42.0, -16.0)
     }
 
-    storms[i].active = true
-    storms[i].radius = randf(68.0, 138.0)
-    storms[i].intensity = randf(0.7, 1.5) + Float::from_int(tier) * 0.04
-    storms[i].life = randf(20.0, 40.0) + Float::from_int(tier) * 1.0
-    storms[i].phase = randf(0.0, 20.0)
+    storm.active = true
+    storm.radius = randf(68.0, 138.0)
+    storm.intensity = randf(0.7, 1.5) + Float::from_int(tier) * 0.04
+    storm.life = randf(20.0, 40.0) + Float::from_int(tier) * 1.0
+    storm.phase = randf(0.0, 20.0)
     return true
   }
   false
@@ -471,8 +471,8 @@ fn spawn_storm(
 ///|
 fn active_ice_count(ice : Array[IceChunk]) -> Int {
   let mut n : Int = 0
-  for i in 0..<ice.length() {
-    if ice[i].active {
+  for ice_elem in ice {
+    if ice_elem.active {
       n = n + 1
     }
   }
@@ -482,8 +482,8 @@ fn active_ice_count(ice : Array[IceChunk]) -> Int {
 ///|
 fn active_convoy_count(convoys : Array[ConvoyShip]) -> Int {
   let mut n : Int = 0
-  for i in 0..<convoys.length() {
-    if convoys[i].active {
+  for convoy in convoys {
+    if convoy.active {
       n = n + 1
     }
   }
@@ -493,8 +493,8 @@ fn active_convoy_count(convoys : Array[ConvoyShip]) -> Int {
 ///|
 fn active_storm_count(storms : Array[StormCell]) -> Int {
   let mut n : Int = 0
-  for i in 0..<storms.length() {
-    if storms[i].active {
+  for storm in storms {
+    if storm.active {
       n = n + 1
     }
   }
@@ -569,37 +569,37 @@ fn update_storms(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i in 0..<storms.length() {
-    if not(storms[i].active) {
+  for storm in storms {
+    if not(storm.active) {
       continue
     }
 
-    storms[i].life = storms[i].life - dt
-    if storms[i].life <= 0.0 {
-      storms[i].active = false
+    storm.life = storm.life - dt
+    if storm.life <= 0.0 {
+      storm.active = false
       continue
     }
 
-    storms[i].phase = storms[i].phase + dt * (0.8 + storms[i].intensity * 0.4)
+    storm.phase = storm.phase + dt * (0.8 + storm.intensity * 0.4)
 
-    let pulse : Float = 0.92 + 0.16 * (@math.sinf(storms[i].phase) * 0.5 + 0.5)
-    storms[i].x = storms[i].x + storms[i].vx * dt * pulse
-    storms[i].y = storms[i].y + storms[i].vy * dt * pulse
+    let pulse : Float = 0.92 + 0.16 * (@math.sinf(storm.phase) * 0.5 + 0.5)
+    storm.x = storm.x + storm.vx * dt * pulse
+    storm.y = storm.y + storm.vy * dt * pulse
 
-    if storms[i].x < world_l - 120.0 {
-      storms[i].x = world_l - 120.0
-      storms[i].vx = absf(storms[i].vx)
-    } else if storms[i].x > world_r + 120.0 {
-      storms[i].x = world_r + 120.0
-      storms[i].vx = -absf(storms[i].vx)
+    if storm.x < world_l - 120.0 {
+      storm.x = world_l - 120.0
+      storm.vx = absf(storm.vx)
+    } else if storm.x > world_r + 120.0 {
+      storm.x = world_r + 120.0
+      storm.vx = -absf(storm.vx)
     }
 
-    if storms[i].y < world_t - 120.0 {
-      storms[i].y = world_t - 120.0
-      storms[i].vy = absf(storms[i].vy)
-    } else if storms[i].y > world_b + 120.0 {
-      storms[i].y = world_b + 120.0
-      storms[i].vy = -absf(storms[i].vy)
+    if storm.y < world_t - 120.0 {
+      storm.y = world_t - 120.0
+      storm.vy = absf(storm.vy)
+    } else if storm.y > world_b + 120.0 {
+      storm.y = world_b + 120.0
+      storm.vy = -absf(storm.vy)
     }
   }
 }
@@ -613,39 +613,39 @@ fn update_player_damage_from_hazards(
 ) -> Float {
   let mut damage : Float = 0.0
 
-  for i in 0..<storms.length() {
-    if not(storms[i].active) {
+  for storm in storms {
+    if not(storm.active) {
       continue
     }
-    let d2 : Float = dist2(ship.x, ship.y, storms[i].x, storms[i].y)
-    let rr : Float = storms[i].radius
+    let d2 : Float = dist2(ship.x, ship.y, storm.x, storm.y)
+    let rr : Float = storm.radius
     if d2 < rr * rr {
       let ratio : Float = 1.0 - d2.sqrt() / rr
-      let dmg : Float = dt * storms[i].intensity * (1.8 + ratio * 2.1)
+      let dmg : Float = dt * storm.intensity * (1.8 + ratio * 2.1)
       damage = damage + dmg
       ship.energy = maxf(
         0.0,
-        ship.energy - dt * storms[i].intensity * (0.6 + ratio * 1.5),
+        ship.energy - dt * storm.intensity * (0.6 + ratio * 1.5),
       )
     }
   }
 
-  for i in 0..<ice.length() {
-    if not(ice[i].active) {
+  for ice_elem in ice {
+    if not(ice_elem.active) {
       continue
     }
-    let rr : Float = ice[i].radius + 12.0
-    let d2 : Float = dist2(ship.x, ship.y, ice[i].x, ice[i].y)
+    let rr : Float = ice_elem.radius + 12.0
+    let d2 : Float = dist2(ship.x, ship.y, ice_elem.x, ice_elem.y)
     if d2 < rr * rr {
       let d : Float = maxf(0.001, d2.sqrt())
       let push : Float = (rr - d) * dt * 18.0
-      let nx : Float = (ship.x - ice[i].x) / d
-      let ny : Float = (ship.y - ice[i].y) / d
+      let nx : Float = (ship.x - ice_elem.x) / d
+      let ny : Float = (ship.y - ice_elem.y) / d
       ship.x = ship.x + nx * push
       ship.y = ship.y + ny * push
 
       if ship.cutter_heat <= 0.2 {
-        damage = damage + dt * (ice[i].hard * 0.02 + 2.2)
+        damage = damage + dt * (ice_elem.hard * 0.02 + 2.2)
       }
     }
   }
@@ -671,31 +671,31 @@ fn carve_ice_with_cutter(
     let mut cleared : Int = 0
     let mut score_gain : Float = 0.0
 
-    for i in 0..<ice.length() {
-      if not(ice[i].active) {
+    for ice_elem in ice {
+      if not(ice_elem.active) {
         continue
       }
 
-      let rr : Float = ice[i].radius + 44.0
-      let d2 : Float = dist2(ship.x, ship.y, ice[i].x, ice[i].y)
+      let rr : Float = ice_elem.radius + 44.0
+      let d2 : Float = dist2(ship.x, ship.y, ice_elem.x, ice_elem.y)
       if d2 > rr * rr {
         continue
       }
 
       let impact : Float = dt * (26.0 + ship.cutter_heat * 55.0)
-      ice[i].hard = ice[i].hard - impact
-      ice[i].crack_t = 0.25
+      ice_elem.hard = ice_elem.hard - impact
+      ice_elem.crack_t = 0.25
 
       if @raylib.get_random_value(0, 100) < 36 {
-        burst(parts, ice[i].x, ice[i].y, 2, 1)
+        burst(parts, ice_elem.x, ice_elem.y, 2, 1)
       }
 
       score_gain = score_gain + impact * 0.45
 
-      if ice[i].hard <= 0.0 {
-        ice[i].active = false
+      if ice_elem.hard <= 0.0 {
+        ice_elem.active = false
         cleared = cleared + 1
-        burst(parts, ice[i].x, ice[i].y, 10, 2)
+        burst(parts, ice_elem.x, ice_elem.y, 10, 2)
       }
     }
 
@@ -714,23 +714,23 @@ fn repair_nearby_convoys(
     0
   } else {
     let mut count : Int = 0
-    for i in 0..<convoys.length() {
-      if not(convoys[i].active) {
+    for convoy in convoys {
+      if not(convoy.active) {
         continue
       }
-      if convoys[i].hp >= 99.0 {
+      if convoy.hp >= 99.0 {
         continue
       }
 
-      let d2 : Float = dist2(ship.x, ship.y, convoys[i].x, convoys[i].y)
+      let d2 : Float = dist2(ship.x, ship.y, convoy.x, convoy.y)
       if d2 > 90.0 * 90.0 {
         continue
       }
 
-      convoys[i].hp = minf(100.0, convoys[i].hp + 26.0)
-      convoys[i].panic = maxf(0.0, convoys[i].panic - 1.2)
-      convoys[i].blink_t = 0.35
-      burst(parts, convoys[i].x, convoys[i].y, 8, 2)
+      convoy.hp = minf(100.0, convoy.hp + 26.0)
+      convoy.panic = maxf(0.0, convoy.panic - 1.2)
+      convoy.blink_t = 0.35
+      burst(parts, convoy.x, convoy.y, 8, 2)
       count = count + 1
     }
 
@@ -757,28 +757,28 @@ fn scan_hazards(
     let mut best_d2 : Float = 999999999.0
     let mut kind : Int = 0
 
-    for i in 0..<ice.length() {
-      if not(ice[i].active) || ice[i].hard < 24.0 {
+    for ice_elem in ice {
+      if not(ice_elem.active) || ice_elem.hard < 24.0 {
         continue
       }
-      let d2v : Float = dist2(ship.x, ship.y, ice[i].x, ice[i].y)
+      let d2v : Float = dist2(ship.x, ship.y, ice_elem.x, ice_elem.y)
       if d2v < best_d2 {
         best_d2 = d2v
-        best_x = ice[i].x
-        best_y = ice[i].y
+        best_x = ice_elem.x
+        best_y = ice_elem.y
         kind = 1
       }
     }
 
-    for i in 0..<storms.length() {
-      if not(storms[i].active) {
+    for storm in storms {
+      if not(storm.active) {
         continue
       }
-      let d2v : Float = dist2(ship.x, ship.y, storms[i].x, storms[i].y)
+      let d2v : Float = dist2(ship.x, ship.y, storm.x, storm.y)
       if d2v < best_d2 {
         best_d2 = d2v
-        best_x = storms[i].x
-        best_y = storms[i].y
+        best_x = storm.x
+        best_y = storm.y
         kind = 2
       }
     }
@@ -810,111 +810,111 @@ fn update_convoys(
   let mut score_gain : Int = 0
   let mut wait_accum : Float = 0.0
 
-  for i in 0..<convoys.length() {
-    if not(convoys[i].active) {
+  for convoy in convoys {
+    if not(convoy.active) {
       continue
     }
 
-    if convoys[i].blink_t > 0.0 {
-      convoys[i].blink_t = convoys[i].blink_t - dt
-      if convoys[i].blink_t < 0.0 {
-        convoys[i].blink_t = 0.0
+    if convoy.blink_t > 0.0 {
+      convoy.blink_t = convoy.blink_t - dt
+      if convoy.blink_t < 0.0 {
+        convoy.blink_t = 0.0
       }
     }
 
-    convoys[i].panic = maxf(0.0, convoys[i].panic - dt * 0.42)
+    convoy.panic = maxf(0.0, convoy.panic - dt * 0.42)
 
-    if convoys[i].route_i >= route.length() {
-      convoys[i].active = false
+    if convoy.route_i >= route.length() {
+      convoy.active = false
       delivered = delivered + 1
-      score_gain = score_gain + convoys[i].cargo * 9 + convoys[i].hp.to_int()
-      burst(parts, convoys[i].x, convoys[i].y, 14, 2)
+      score_gain = score_gain + convoy.cargo * 9 + convoy.hp.to_int()
+      burst(parts, convoy.x, convoy.y, 14, 2)
       continue
     }
 
-    let tx : Float = route[convoys[i].route_i].x
-    let ty : Float = route[convoys[i].route_i].y
+    let tx : Float = route[convoy.route_i].x
+    let ty : Float = route[convoy.route_i].y
 
     let mut blocked : Bool = false
     let mut block_damage : Float = 0.0
 
-    for j in 0..<ice.length() {
-      if not(ice[j].active) {
+    for ice_elem in ice {
+      if not(ice_elem.active) {
         continue
       }
 
-      let rr : Float = ice[j].radius + 18.0
-      let d2v : Float = dist2(convoys[i].x, convoys[i].y, ice[j].x, ice[j].y)
+      let rr : Float = ice_elem.radius + 18.0
+      let d2v : Float = dist2(convoy.x, convoy.y, ice_elem.x, ice_elem.y)
       if d2v < rr * rr {
-        if ice[j].hard > 20.0 {
+        if ice_elem.hard > 20.0 {
           blocked = true
-          block_damage = block_damage + 0.6 + ice[j].hard * 0.015
+          block_damage = block_damage + 0.6 + ice_elem.hard * 0.015
         } else {
-          ice[j].hard = maxf(0.0, ice[j].hard - dt * 2.6)
+          ice_elem.hard = maxf(0.0, ice_elem.hard - dt * 2.6)
         }
       }
     }
 
     let mut storm_slow : Float = 0.0
-    for j in 0..<storms.length() {
-      if not(storms[j].active) {
+    for storm in storms {
+      if not(storm.active) {
         continue
       }
 
-      let rr : Float = storms[j].radius
+      let rr : Float = storm.radius
       let d2v : Float = dist2(
-        convoys[i].x,
-        convoys[i].y,
-        storms[j].x,
-        storms[j].y,
+        convoy.x,
+        convoy.y,
+        storm.x,
+        storm.y,
       )
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        storm_slow = storm_slow + storms[j].intensity * (0.16 + ratio * 0.5)
-        convoys[i].hp = convoys[i].hp -
-          dt * storms[j].intensity * (0.6 + ratio * 1.5)
-        convoys[i].panic = convoys[i].panic + dt * 1.0
+        storm_slow = storm_slow + storm.intensity * (0.16 + ratio * 0.5)
+        convoy.hp = convoy.hp -
+          dt * storm.intensity * (0.6 + ratio * 1.5)
+        convoy.panic = convoy.panic + dt * 1.0
       }
     }
 
     if blocked {
-      convoys[i].stuck_t = convoys[i].stuck_t + dt
-      convoys[i].panic = convoys[i].panic + dt * 0.65
-      convoys[i].hp = convoys[i].hp - dt * (0.45 + block_damage)
-      convoys[i].vx = convoys[i].vx * (1.0 - dt * 3.6)
-      convoys[i].vy = convoys[i].vy * (1.0 - dt * 3.6)
+      convoy.stuck_t = convoy.stuck_t + dt
+      convoy.panic = convoy.panic + dt * 0.65
+      convoy.hp = convoy.hp - dt * (0.45 + block_damage)
+      convoy.vx = convoy.vx * (1.0 - dt * 3.6)
+      convoy.vy = convoy.vy * (1.0 - dt * 3.6)
       wait_accum = wait_accum + dt
-      if convoys[i].stuck_t > 4.5 {
-        convoys[i].hp = convoys[i].hp - dt * 1.8
+      if convoy.stuck_t > 4.5 {
+        convoy.hp = convoy.hp - dt * 1.8
       }
     } else {
-      convoys[i].stuck_t = maxf(0.0, convoys[i].stuck_t - dt * 2.2)
+      convoy.stuck_t = maxf(0.0, convoy.stuck_t - dt * 2.2)
 
-      let dx : Float = tx - convoys[i].x
-      let dy : Float = ty - convoys[i].y
+      let dx : Float = tx - convoy.x
+      let dy : Float = ty - convoy.y
       let d : Float = maxf(0.0001, (dx * dx + dy * dy).sqrt())
 
       let slow : Float = clampf(1.0 - storm_slow, 0.28, 1.0)
-      let speed : Float = convoys[i].speed * slow
+      let speed : Float = convoy.speed * slow
 
-      convoys[i].vx = dx / d * speed
-      convoys[i].vy = dy / d * speed
+      convoy.vx = dx / d * speed
+      convoy.vy = dy / d * speed
 
-      convoys[i].x = convoys[i].x + convoys[i].vx * dt
-      convoys[i].y = convoys[i].y + convoys[i].vy * dt
+      convoy.x = convoy.x + convoy.vx * dt
+      convoy.y = convoy.y + convoy.vy * dt
 
       if d < 18.0 {
-        convoys[i].route_i = convoys[i].route_i + 1
+        convoy.route_i = convoy.route_i + 1
       }
     }
 
-    convoys[i].hp = clampf(convoys[i].hp, 0.0, 100.0)
+    convoy.hp = clampf(convoy.hp, 0.0, 100.0)
 
-    if convoys[i].hp <= 0.0 {
-      convoys[i].active = false
+    if convoy.hp <= 0.0 {
+      convoy.active = false
       sunk = sunk + 1
       score_gain = score_gain - 60
-      burst(parts, convoys[i].x, convoys[i].y, 18, 1)
+      burst(parts, convoy.x, convoy.y, 18, 1)
       continue
     }
   }
@@ -986,10 +986,10 @@ fn draw_route(route : Array[Waypoint]) -> Unit {
     )
   }
 
-  for i in 0..<route.length() {
+  for route_elem in route {
     @raylib.draw_circle(
-      route[i].x.to_int(),
-      route[i].y.to_int(),
+      route_elem.x.to_int(),
+      route_elem.y.to_int(),
       6.0,
       @raylib.Color::new(202, 236, 255, 205),
     )
@@ -998,47 +998,47 @@ fn draw_route(route : Array[Waypoint]) -> Unit {
 
 ///|
 fn draw_ice(ice : Array[IceChunk], scene_t : Float) -> Unit {
-  for i in 0..<ice.length() {
-    if not(ice[i].active) {
+  for ice_elem in ice {
+    if not(ice_elem.active) {
       continue
     }
 
-    let hard01 : Float = clampf(ice[i].hard / 100.0, 0.0, 1.0)
+    let hard01 : Float = clampf(ice_elem.hard / 100.0, 0.0, 1.0)
     let pulse : Float = 0.82 +
-      0.2 * (@math.sinf(scene_t * 1.8 + ice[i].tone * 12.0) * 0.5 + 0.5)
+      0.2 * (@math.sinf(scene_t * 1.8 + ice_elem.tone * 12.0) * 0.5 + 0.5)
 
     let cr : Int = 158 + (hard01 * 48.0).to_int()
     let cg : Int = 198 + (hard01 * 42.0).to_int()
     let cb : Int = 222 + (pulse * 25.0).to_int()
 
     @raylib.draw_circle(
-      ice[i].x.to_int(),
-      ice[i].y.to_int(),
-      ice[i].radius + 1.5,
+      ice_elem.x.to_int(),
+      ice_elem.y.to_int(),
+      ice_elem.radius + 1.5,
       @raylib.Color::new(102, 154, 194, 180),
     )
     @raylib.draw_circle(
-      ice[i].x.to_int(),
-      ice[i].y.to_int(),
-      ice[i].radius,
+      ice_elem.x.to_int(),
+      ice_elem.y.to_int(),
+      ice_elem.radius,
       @raylib.Color::new(cr, cg, cb, 238),
     )
 
-    if ice[i].crack_t > 0.0 {
-      let r : Float = ice[i].radius * (0.28 + 0.18 * ice[i].crack_t)
+    if ice_elem.crack_t > 0.0 {
+      let r : Float = ice_elem.radius * (0.28 + 0.18 * ice_elem.crack_t)
       @raylib.draw_circle(
-        ice[i].x.to_int(),
-        ice[i].y.to_int(),
+        ice_elem.x.to_int(),
+        ice_elem.y.to_int(),
         r,
         @raylib.Color::new(234, 248, 255, 188),
       )
     }
 
-    if ice[i].hard > 72.0 {
+    if ice_elem.hard > 72.0 {
       @raylib.draw_circle(
-        (ice[i].x + ice[i].radius * 0.28).to_int(),
-        (ice[i].y - ice[i].radius * 0.2).to_int(),
-        maxf(1.5, ice[i].radius * 0.16),
+        (ice_elem.x + ice_elem.radius * 0.28).to_int(),
+        (ice_elem.y - ice_elem.radius * 0.2).to_int(),
+        maxf(1.5, ice_elem.radius * 0.16),
         @raylib.Color::new(240, 252, 255, 152),
       )
     }
@@ -1047,40 +1047,40 @@ fn draw_ice(ice : Array[IceChunk], scene_t : Float) -> Unit {
 
 ///|
 fn draw_storms(storms : Array[StormCell], scene_t : Float) -> Unit {
-  for i in 0..<storms.length() {
-    if not(storms[i].active) {
+  for storm in storms {
+    if not(storm.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.22 * (@math.sinf(scene_t * 2.1 + storms[i].phase * 1.9) * 0.5 + 0.5)
-    let r0 : Float = storms[i].radius * pulse
-    let r1 : Float = storms[i].radius * (0.62 + pulse * 0.16)
+      0.22 * (@math.sinf(scene_t * 2.1 + storm.phase * 1.9) * 0.5 + 0.5)
+    let r0 : Float = storm.radius * pulse
+    let r1 : Float = storm.radius * (0.62 + pulse * 0.16)
 
-    let alpha0 : Int = 56 + (storms[i].intensity * 58.0).to_int()
-    let alpha1 : Int = 26 + (storms[i].intensity * 32.0).to_int()
+    let alpha0 : Int = 56 + (storm.intensity * 58.0).to_int()
+    let alpha1 : Int = 26 + (storm.intensity * 32.0).to_int()
 
     @raylib.draw_circle(
-      storms[i].x.to_int(),
-      storms[i].y.to_int(),
+      storm.x.to_int(),
+      storm.y.to_int(),
       r0,
       @raylib.Color::new(134, 172, 216, alpha0),
     )
     @raylib.draw_circle(
-      storms[i].x.to_int(),
-      storms[i].y.to_int(),
+      storm.x.to_int(),
+      storm.y.to_int(),
       r1,
       @raylib.Color::new(192, 218, 250, alpha1),
     )
 
-    let bolt_x : Int = (storms[i].x +
-    @math.sinf(scene_t * 4.0 + storms[i].phase) * storms[i].radius * 0.28).to_int()
-    let bolt_y : Int = (storms[i].y +
-    @math.cosf(scene_t * 3.2 + storms[i].phase * 0.7) * storms[i].radius * 0.24).to_int()
+    let bolt_x : Int = (storm.x +
+    @math.sinf(scene_t * 4.0 + storm.phase) * storm.radius * 0.28).to_int()
+    let bolt_y : Int = (storm.y +
+    @math.cosf(scene_t * 3.2 + storm.phase * 0.7) * storm.radius * 0.24).to_int()
     @raylib.draw_circle(
       bolt_x,
       bolt_y,
-      3.0 + storms[i].intensity * 1.8,
+      3.0 + storm.intensity * 1.8,
       @raylib.Color::new(248, 250, 255, 210),
     )
   }
@@ -1104,19 +1104,19 @@ fn convoy_color(hp : Float, panic : Float) -> @raylib.Color {
 
 ///|
 fn draw_convoys(convoys : Array[ConvoyShip]) -> Unit {
-  for i in 0..<convoys.length() {
-    if not(convoys[i].active) {
+  for convoy in convoys {
+    if not(convoy.active) {
       continue
     }
 
-    let col : @raylib.Color = if convoys[i].blink_t > 0.0 {
+    let col : @raylib.Color = if convoy.blink_t > 0.0 {
       @raylib.Color::new(248, 244, 186, 252)
     } else {
-      convoy_color(convoys[i].hp, convoys[i].panic)
+      convoy_color(convoy.hp, convoy.panic)
     }
 
-    let x : Int = convoys[i].x.to_int()
-    let y : Int = convoys[i].y.to_int()
+    let x : Int = convoy.x.to_int()
+    let y : Int = convoy.y.to_int()
 
     @raylib.draw_rectangle(x - 14, y - 8, 28, 16, col)
     @raylib.draw_rectangle(
@@ -1135,7 +1135,7 @@ fn draw_convoys(convoys : Array[ConvoyShip]) -> Unit {
     )
 
     @raylib.draw_text(
-      "#\{convoys[i].id} \{convoys[i].hp.to_int()}%",
+      "#\{convoy.id} \{convoy.hp.to_int()}%",
       x - 20,
       y - 26,
       14,
@@ -1236,23 +1236,23 @@ fn draw_player(ship : PlayerShip, scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i in 0..<parts.length() {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(206, 230, 252, 180)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(250, 212, 138, 220)
     } else {
       @raylib.Color::new(172, 244, 206, 210)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -1995,8 +1995,8 @@ fn main {
           let x : Float = randf(world_l + 20.0, world_r - 20.0)
           let y : Float = randf(world_t + 20.0, world_b - 20.0)
           let mut ok : Bool = true
-          for k in 0..<route.length() {
-            if dist2(x, y, route[k].x, route[k].y) < 42.0 * 42.0 {
+          for route_elem in route {
+            if dist2(x, y, route_elem.x, route_elem.y) < 42.0 * 42.0 {
               ok = false
               break
             }
@@ -2006,17 +2006,17 @@ fn main {
             continue
           }
 
-          for k in 0..<ice.length() {
-            if not(ice[k].active) {
-              ice[k].active = true
-              ice[k].x = x
-              ice[k].y = y
-              ice[k].vx = randf(-22.0, 22.0)
-              ice[k].vy = randf(-22.0, 22.0)
-              ice[k].radius = randf(10.0, 24.0)
-              ice[k].hard = randf(30.0, 80.0)
-              ice[k].crack_t = 0.0
-              ice[k].tone = randf(0.0, 1.0)
+          for ice_elem in ice {
+            if not(ice_elem.active) {
+              ice_elem.active = true
+              ice_elem.x = x
+              ice_elem.y = y
+              ice_elem.vx = randf(-22.0, 22.0)
+              ice_elem.vy = randf(-22.0, 22.0)
+              ice_elem.radius = randf(10.0, 24.0)
+              ice_elem.hard = randf(30.0, 80.0)
+              ice_elem.crack_t = 0.0
+              ice_elem.tone = randf(0.0, 1.0)
               break
             }
           }

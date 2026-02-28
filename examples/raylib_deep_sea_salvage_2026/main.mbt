@@ -27,13 +27,13 @@ struct Mine {
 
 ///|
 fn spawn_relic(rs : Array[Relic]) -> Unit {
-  for i in 0..<rs.length() {
-    if not(rs[i].alive) {
-      rs[i].alive = true
-      rs[i].x = Float::from_int(@raylib.get_random_value(110, sw - 110))
-      rs[i].y = Float::from_int(@raylib.get_random_value(220, sh - 70))
-      rs[i].size = Float::from_int(@raylib.get_random_value(12, 22))
-      rs[i].value = @raylib.get_random_value(20, 90)
+  for rs_elem in rs {
+    if not(rs_elem.alive) {
+      rs_elem.alive = true
+      rs_elem.x = Float::from_int(@raylib.get_random_value(110, sw - 110))
+      rs_elem.y = Float::from_int(@raylib.get_random_value(220, sh - 70))
+      rs_elem.size = Float::from_int(@raylib.get_random_value(12, 22))
+      rs_elem.value = @raylib.get_random_value(20, 90)
       break
     }
   }
@@ -41,13 +41,13 @@ fn spawn_relic(rs : Array[Relic]) -> Unit {
 
 ///|
 fn spawn_mine(ms : Array[Mine]) -> Unit {
-  for i in 0..<ms.length() {
-    if not(ms[i].alive) {
-      ms[i].alive = true
-      ms[i].x = Float::from_int(@raylib.get_random_value(120, sw - 120))
-      ms[i].y = Float::from_int(@raylib.get_random_value(200, sh - 80))
-      ms[i].vx = Float::from_int(@raylib.get_random_value(-70, 70))
-      ms[i].r = Float::from_int(@raylib.get_random_value(12, 20))
+  for ms_elem in ms {
+    if not(ms_elem.alive) {
+      ms_elem.alive = true
+      ms_elem.x = Float::from_int(@raylib.get_random_value(120, sw - 120))
+      ms_elem.y = Float::from_int(@raylib.get_random_value(200, sh - 80))
+      ms_elem.vx = Float::from_int(@raylib.get_random_value(-70, 70))
+      ms_elem.r = Float::from_int(@raylib.get_random_value(12, 20))
       break
     }
   }
@@ -55,15 +55,15 @@ fn spawn_mine(ms : Array[Mine]) -> Unit {
 
 ///|
 fn reset_relics(rs : Array[Relic]) -> Unit {
-  for i in 0..<rs.length() {
-    rs[i].alive = false
+  for rs_elem in rs {
+    rs_elem.alive = false
   }
 }
 
 ///|
 fn reset_mines(ms : Array[Mine]) -> Unit {
-  for i in 0..<ms.length() {
-    ms[i].alive = false
+  for ms_elem in ms {
+    ms_elem.alive = false
   }
 }
 
@@ -212,43 +212,43 @@ fn main {
         spawn_mine(mines)
       }
 
-      for i in 0..<mines.length() {
-        if not(mines[i].alive) {
+      for mine in mines {
+        if not(mine.alive) {
           continue
         }
 
-        mines[i].x = mines[i].x + mines[i].vx * dt
-        if mines[i].x < 80.0 {
-          mines[i].x = 80.0
-          mines[i].vx = mines[i].vx.abs()
+        mine.x = mine.x + mine.vx * dt
+        if mine.x < 80.0 {
+          mine.x = 80.0
+          mine.vx = mine.vx.abs()
         }
-        if mines[i].x > Float::from_int(sw - 80) {
-          mines[i].x = Float::from_int(sw - 80)
-          mines[i].vx = -mines[i].vx.abs()
+        if mine.x > Float::from_int(sw - 80) {
+          mine.x = Float::from_int(sw - 80)
+          mine.vx = -mine.vx.abs()
         }
 
-        let dx = mines[i].x - px
-        let dy = mines[i].y - py
-        let rr = mines[i].r + 12.0
+        let dx = mine.x - px
+        let dy = mine.y - py
+        let rr = mine.r + 12.0
         if dx * dx + dy * dy <= rr * rr {
           hull = hull - 10
           fuel = fuel - 6.0
-          mines[i].alive = false
+          mine.alive = false
           msg = "Mine impact!"
         }
       }
 
-      for i in 0..<relics.length() {
-        if not(relics[i].alive) {
+      for relic in relics {
+        if not(relic.alive) {
           continue
         }
-        let dx = relics[i].x - px
-        let dy = relics[i].y - py
-        let rr = relics[i].size + 12.0
+        let dx = relic.x - px
+        let dy = relic.y - py
+        let rr = relic.size + 12.0
         if dx * dx + dy * dy <= rr * rr {
-          relics[i].alive = false
-          cargo_value = cargo_value + relics[i].value
-          msg = "Relic secured +\{relics[i].value}."
+          relic.alive = false
+          cargo_value = cargo_value + relic.value
+          msg = "Relic secured +\{relic.value}."
         }
       }
 
@@ -290,35 +290,35 @@ fn main {
       @raylib.draw_line(0, y, sw, y, @raylib.fade(@raylib.skyblue, 0.12))
     }
 
-    for i in 0..<relics.length() {
-      if relics[i].alive {
+    for relic in relics {
+      if relic.alive {
         @raylib.draw_circle(
-          relics[i].x.to_int(),
-          relics[i].y.to_int(),
-          relics[i].size,
+          relic.x.to_int(),
+          relic.y.to_int(),
+          relic.size,
           @raylib.gold,
         )
         @raylib.draw_circle_lines(
-          relics[i].x.to_int(),
-          relics[i].y.to_int(),
-          relics[i].size,
+          relic.x.to_int(),
+          relic.y.to_int(),
+          relic.size,
           @raylib.yellow,
         )
       }
     }
 
-    for i in 0..<mines.length() {
-      if mines[i].alive {
+    for mine in mines {
+      if mine.alive {
         @raylib.draw_circle(
-          mines[i].x.to_int(),
-          mines[i].y.to_int(),
-          mines[i].r,
+          mine.x.to_int(),
+          mine.y.to_int(),
+          mine.r,
           @raylib.maroon,
         )
         @raylib.draw_circle_lines(
-          mines[i].x.to_int(),
-          mines[i].y.to_int(),
-          mines[i].r,
+          mine.x.to_int(),
+          mine.y.to_int(),
+          mine.r,
           @raylib.red,
         )
       }

@@ -356,8 +356,7 @@ fn update_world_intro(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.particles.length() {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -378,8 +377,7 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_score_flies(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.score_flies.length() {
-    let sf = game.score_flies[i]
+  for sf in game.score_flies {
     if not(sf.active) {
       continue
     }
@@ -431,8 +429,7 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
@@ -551,8 +548,7 @@ fn update_enemy_turret(
 
 ///|
 fn update_powerups(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.powerups.length() {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) || pu.collected {
       continue
     }
@@ -638,8 +634,7 @@ fn expire_powerup(game : @types.Game) -> Unit {
 
 ///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -681,8 +676,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..<game.hazards.length() {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
       continue
     }
@@ -734,8 +728,7 @@ fn check_hazard_collision(game : @types.Game) -> Unit {
   if game.invincible_timer > 0.0 {
     return
   }
-  for i in 0..<game.hazards.length() {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
       continue
     }
@@ -783,8 +776,7 @@ fn check_enemy_collision(game : @types.Game) -> Unit {
   if game.invincible_timer > 0.0 {
     return
   }
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) || e.stunned {
       continue
     }
@@ -854,8 +846,7 @@ fn check_enemy_collision(game : @types.Game) -> Unit {
 
 ///|
 fn check_checkpoint_collision(game : @types.Game) -> Unit {
-  for i in 0..<game.checkpoints.length() {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) || cp.activated {
       continue
     }

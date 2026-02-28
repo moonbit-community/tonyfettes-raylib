@@ -179,58 +179,58 @@ fn blocked(level : Int, x : Float, y : Float, r : Float) -> Bool {
 
 ///|
 fn clear_guards(gs : Array[Guard]) -> Unit {
-  for i in 0..<gs.length() {
-    gs[i].x = 0.0
-    gs[i].y = 0.0
-    gs[i].vx = 0.0
-    gs[i].vy = 0.0
-    gs[i].ax = 0.0
-    gs[i].ay = 0.0
-    gs[i].bx = 0.0
-    gs[i].by = 0.0
-    gs[i].to_b = true
-    gs[i].speed = 0.0
-    gs[i].detect_r = 0.0
-    gs[i].shoot_cd = 0.0
-    gs[i].stun_t = 0.0
-    gs[i].alert_t = 0.0
-    gs[i].active = false
+  for gs_elem in gs {
+    gs_elem.x = 0.0
+    gs_elem.y = 0.0
+    gs_elem.vx = 0.0
+    gs_elem.vy = 0.0
+    gs_elem.ax = 0.0
+    gs_elem.ay = 0.0
+    gs_elem.bx = 0.0
+    gs_elem.by = 0.0
+    gs_elem.to_b = true
+    gs_elem.speed = 0.0
+    gs_elem.detect_r = 0.0
+    gs_elem.shoot_cd = 0.0
+    gs_elem.stun_t = 0.0
+    gs_elem.alert_t = 0.0
+    gs_elem.active = false
   }
 }
 
 ///|
 fn clear_keycards(cards : Array[Keycard]) -> Unit {
-  for i in 0..<cards.length() {
-    cards[i].x = 0.0
-    cards[i].y = 0.0
-    cards[i].kind = 0
-    cards[i].active = false
+  for card in cards {
+    card.x = 0.0
+    card.y = 0.0
+    card.kind = 0
+    card.active = false
   }
 }
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i in 0..<bs.length() {
-    bs[i].x = 0.0
-    bs[i].y = 0.0
-    bs[i].vx = 0.0
-    bs[i].vy = 0.0
-    bs[i].ttl = 0.0
-    bs[i].owner = 0
-    bs[i].active = false
+  for bs_elem in bs {
+    bs_elem.x = 0.0
+    bs_elem.y = 0.0
+    bs_elem.vx = 0.0
+    bs_elem.vy = 0.0
+    bs_elem.ttl = 0.0
+    bs_elem.owner = 0
+    bs_elem.active = false
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -243,19 +243,19 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(10, 58)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(10, 58)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -292,18 +292,18 @@ fn spawn_bullet(
   let d : Float = d2.sqrt()
 
   let mut done = false
-  for i in 0..<bs.length() {
+  for bs_elem in bs {
     if done {
       continue
     }
-    if not(bs[i].active) {
-      bs[i].active = true
-      bs[i].owner = owner
-      bs[i].x = x
-      bs[i].y = y
-      bs[i].vx = dx / d * speed
-      bs[i].vy = dy / d * speed
-      bs[i].ttl = 1.6
+    if not(bs_elem.active) {
+      bs_elem.active = true
+      bs_elem.owner = owner
+      bs_elem.x = x
+      bs_elem.y = y
+      bs_elem.vx = dx / d * speed
+      bs_elem.vy = dy / d * speed
+      bs_elem.ttl = 1.6
       done = true
     }
   }
@@ -646,16 +646,16 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 220.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 220.0 * dt
+      particle.ttl = particle.ttl - dt
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -774,18 +774,18 @@ fn main {
         msg = "EMP pulse"
         burst(particles, player.x, player.y, 24, 0.54, 3)
 
-        for i in 0..<guards.length() {
-          if not(guards[i].active) {
+        for guard_val in guards {
+          if not(guard_val.active) {
             continue
           }
-          if sqdist(player.x, player.y, guards[i].x, guards[i].y) <=
+          if sqdist(player.x, player.y, guard_val.x, guard_val.y) <=
             178.0 * 178.0 {
-            guards[i].stun_t = Float::from_int(
+            guard_val.stun_t = Float::from_int(
                 @raylib.get_random_value(160, 250),
               ) /
               Float::from_int(100)
-            guards[i].alert_t = 0.0
-            burst(particles, guards[i].x, guards[i].y, 10, 0.30, 1)
+            guard_val.alert_t = 0.0
+            burst(particles, guard_val.x, guard_val.y, 10, 0.30, 1)
           }
         }
       }
@@ -799,136 +799,136 @@ fn main {
       }
       player.stamina = clampf(player.stamina, 0.0, 100.0)
 
-      for i in 0..<guards.length() {
-        if not(guards[i].active) {
+      for guard_val in guards {
+        if not(guard_val.active) {
           continue
         }
 
-        if guards[i].shoot_cd > 0.0 {
-          guards[i].shoot_cd = guards[i].shoot_cd - dt
-          if guards[i].shoot_cd < 0.0 {
-            guards[i].shoot_cd = 0.0
+        if guard_val.shoot_cd > 0.0 {
+          guard_val.shoot_cd = guard_val.shoot_cd - dt
+          if guard_val.shoot_cd < 0.0 {
+            guard_val.shoot_cd = 0.0
           }
         }
 
-        if guards[i].stun_t > 0.0 {
-          guards[i].stun_t = guards[i].stun_t - dt
-          if guards[i].stun_t < 0.0 {
-            guards[i].stun_t = 0.0
+        if guard_val.stun_t > 0.0 {
+          guard_val.stun_t = guard_val.stun_t - dt
+          if guard_val.stun_t < 0.0 {
+            guard_val.stun_t = 0.0
           }
         }
 
-        if guards[i].alert_t > 0.0 {
-          guards[i].alert_t = guards[i].alert_t - dt
-          if guards[i].alert_t < 0.0 {
-            guards[i].alert_t = 0.0
+        if guard_val.alert_t > 0.0 {
+          guard_val.alert_t = guard_val.alert_t - dt
+          if guard_val.alert_t < 0.0 {
+            guard_val.alert_t = 0.0
           }
         }
 
-        let dx = player.x - guards[i].x
-        let dy = player.y - guards[i].y
+        let dx = player.x - guard_val.x
+        let dy = player.y - guard_val.y
         let d2 = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
         let detect_r = if player.cloak_t > 0.0 {
-          guards[i].detect_r * 0.46
+          guard_val.detect_r * 0.46
         } else {
-          guards[i].detect_r
+          guard_val.detect_r
         }
 
-        let mut target_x = if guards[i].to_b {
-          guards[i].bx
+        let mut target_x = if guard_val.to_b {
+          guard_val.bx
         } else {
-          guards[i].ax
+          guard_val.ax
         }
-        let mut target_y = if guards[i].to_b {
-          guards[i].by
+        let mut target_y = if guard_val.to_b {
+          guard_val.by
         } else {
-          guards[i].ay
+          guard_val.ay
         }
         let mut chase = false
 
-        if d <= detect_r && guards[i].stun_t <= 0.0 {
-          let vel2 = guards[i].vx * guards[i].vx + guards[i].vy * guards[i].vy
+        if d <= detect_r && guard_val.stun_t <= 0.0 {
+          let vel2 = guard_val.vx * guard_val.vx + guard_val.vy * guard_val.vy
           let invl : Float = if vel2 < 1.0 { 0.0 } else { 1.0 / vel2.sqrt() }
           let fx : Float = if invl == 0.0 {
             Float::from_int(1)
           } else {
-            guards[i].vx * invl
+            guard_val.vx * invl
           }
           let fy : Float = if invl == 0.0 {
             Float::from_int(0)
           } else {
-            guards[i].vy * invl
+            guard_val.vy * invl
           }
           let dot : Float = dx / d * fx + dy / d * fy
 
-          if dot >= 0.12 || guards[i].alert_t > 0.0 {
+          if dot >= 0.12 || guard_val.alert_t > 0.0 {
             target_x = player.x
             target_y = player.y
-            guards[i].alert_t = 1.1
+            guard_val.alert_t = 1.1
             chase = true
           }
         }
 
-        let dir_x = target_x - guards[i].x
-        let dir_y = target_y - guards[i].y
+        let dir_x = target_x - guard_val.x
+        let dir_y = target_y - guard_val.y
         let dir2 = dir_x * dir_x + dir_y * dir_y
         let dir_d : Float = if dir2 < 1.0 { 1.0 } else { dir2.sqrt() }
 
-        if guards[i].stun_t > 0.0 {
-          guards[i].vx = guards[i].vx * (Float::from_int(1) - dt * 4.2)
-          guards[i].vy = guards[i].vy * (Float::from_int(1) - dt * 4.2)
+        if guard_val.stun_t > 0.0 {
+          guard_val.vx = guard_val.vx * (Float::from_int(1) - dt * 4.2)
+          guard_val.vy = guard_val.vy * (Float::from_int(1) - dt * 4.2)
         } else {
           let speed = if chase {
-            guards[i].speed * 1.22
+            guard_val.speed * 1.22
           } else {
-            guards[i].speed
+            guard_val.speed
           }
           let tx = dir_x / dir_d * speed
           let ty = dir_y / dir_d * speed
-          guards[i].vx = guards[i].vx * (Float::from_int(1) - dt * 3.0) +
+          guard_val.vx = guard_val.vx * (Float::from_int(1) - dt * 3.0) +
             tx * dt * 3.0
-          guards[i].vy = guards[i].vy * (Float::from_int(1) - dt * 3.0) +
+          guard_val.vy = guard_val.vy * (Float::from_int(1) - dt * 3.0) +
             ty * dt * 3.0
         }
 
         if not(chase) && dir_d < 20.0 {
-          guards[i].to_b = not(guards[i].to_b)
+          guard_val.to_b = not(guard_val.to_b)
         }
 
-        let old_x = guards[i].x
-        let old_y = guards[i].y
-        guards[i].x = guards[i].x + guards[i].vx * dt
-        guards[i].y = guards[i].y + guards[i].vy * dt
+        let old_x = guard_val.x
+        let old_y = guard_val.y
+        guard_val.x = guard_val.x + guard_val.vx * dt
+        guard_val.y = guard_val.y + guard_val.vy * dt
 
-        if blocked(level, guards[i].x, guards[i].y, 16.0) {
-          guards[i].x = old_x
-          guards[i].y = old_y
-          guards[i].vx = -guards[i].vx * 0.5
-          guards[i].vy = -guards[i].vy * 0.5
-          guards[i].to_b = not(guards[i].to_b)
+        if blocked(level, guard_val.x, guard_val.y, 16.0) {
+          guard_val.x = old_x
+          guard_val.y = old_y
+          guard_val.vx = -guard_val.vx * 0.5
+          guard_val.vy = -guard_val.vy * 0.5
+          guard_val.to_b = not(guard_val.to_b)
         }
 
-        if guards[i].shoot_cd <= 0.0 && guards[i].stun_t <= 0.0 && d <= 360.0 {
+        if guard_val.shoot_cd <= 0.0 && guard_val.stun_t <= 0.0 && d <= 360.0 {
           spawn_bullet(
             bullets,
-            guards[i].x,
-            guards[i].y - 8.0,
-            player.x - guards[i].x,
-            player.y - guards[i].y,
+            guard_val.x,
+            guard_val.y - 8.0,
+            player.x - guard_val.x,
+            player.y - guard_val.y,
             2,
             Float::from_int(430 + level * 36),
           )
-          guards[i].shoot_cd = Float::from_int(
+          guard_val.shoot_cd = Float::from_int(
               @raylib.get_random_value(86, 152),
             ) /
             Float::from_int(100)
         }
 
-        if sqdist(player.x, player.y, guards[i].x, guards[i].y) <= 30.0 * 30.0 &&
+        if sqdist(player.x, player.y, guard_val.x, guard_val.y) <= 30.0 * 30.0 &&
           player.hit_cd <= 0.0 &&
-          guards[i].stun_t <= 0.0 {
+          guard_val.stun_t <= 0.0 {
           player.hp = player.hp - 1
           player.hit_cd = 1.0
           player.flash_t = 0.30
@@ -944,34 +944,34 @@ fn main {
         }
       }
 
-      for i in 0..<bullets.length() {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
-        bullets[i].ttl = bullets[i].ttl - dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
+        bullet.ttl = bullet.ttl - dt
 
-        if bullets[i].ttl <= 0.0 ||
-          bullets[i].x < -40.0 ||
-          bullets[i].x > Float::from_int(sw + 40) ||
-          bullets[i].y < 110.0 ||
-          bullets[i].y > Float::from_int(sh + 40) {
-          bullets[i].active = false
+        if bullet.ttl <= 0.0 ||
+          bullet.x < -40.0 ||
+          bullet.x > Float::from_int(sw + 40) ||
+          bullet.y < 110.0 ||
+          bullet.y > Float::from_int(sh + 40) {
+          bullet.active = false
           continue
         }
 
-        if blocked(level, bullets[i].x, bullets[i].y, 3.0) {
-          bullets[i].active = false
-          burst(particles, bullets[i].x, bullets[i].y, 5, 0.16, 2)
+        if blocked(level, bullet.x, bullet.y, 3.0) {
+          bullet.active = false
+          burst(particles, bullet.x, bullet.y, 5, 0.16, 2)
           continue
         }
 
-        if bullets[i].owner == 2 &&
-          sqdist(bullets[i].x, bullets[i].y, player.x, player.y - 8.0) <=
+        if bullet.owner == 2 &&
+          sqdist(bullet.x, bullet.y, player.x, player.y - 8.0) <=
           18.0 * 18.0 {
-          bullets[i].active = false
+          bullet.active = false
           if player.hit_cd <= 0.0 {
             player.hp = player.hp - 1
             player.hit_cd = 1.0
@@ -989,18 +989,18 @@ fn main {
         }
       }
 
-      for i in 0..<cards.length() {
-        if not(cards[i].active) {
+      for card in cards {
+        if not(card.active) {
           continue
         }
 
-        if sqdist(player.x, player.y, cards[i].x, cards[i].y) <= 24.0 * 24.0 {
-          cards[i].active = false
+        if sqdist(player.x, player.y, card.x, card.y) <= 24.0 * 24.0 {
+          card.active = false
           collected = collected + 1
-          score = score + 88 + cards[i].kind * 14
-          stars = stars + 1 + cards[i].kind
+          score = score + 88 + card.kind * 14
+          stars = stars + 1 + card.kind
           msg = "Keycard acquired"
-          burst(particles, cards[i].x, cards[i].y, 14, 0.30, 1)
+          burst(particles, card.x, card.y, 14, 0.30, 1)
         }
       }
 
@@ -1207,16 +1207,16 @@ fn main {
       @raylib.Color::new(236, 244, 252, 255),
     )
 
-    for i in 0..<cards.length() {
-      if not(cards[i].active) {
+    for card in cards {
+      if not(card.active) {
         continue
       }
 
-      let cx = (cards[i].x + shake_x).to_int()
-      let cy = cards[i].y.to_int()
-      let col = if cards[i].kind == 0 {
+      let cx = (card.x + shake_x).to_int()
+      let cy = card.y.to_int()
+      let col = if card.kind == 0 {
         @raylib.Color::new(246, 212, 124, 255)
-      } else if cards[i].kind == 1 {
+      } else if card.kind == 1 {
         @raylib.Color::new(126, 218, 248, 255)
       } else {
         @raylib.Color::new(224, 156, 252, 255)
@@ -1231,31 +1231,31 @@ fn main {
       )
     }
 
-    for i in 0..<guards.length() {
-      if not(guards[i].active) {
+    for guard_val in guards {
+      if not(guard_val.active) {
         continue
       }
 
-      let gx = guards[i].x + shake_x
-      let gy = guards[i].y
-      let vel2 = guards[i].vx * guards[i].vx + guards[i].vy * guards[i].vy
+      let gx = guard_val.x + shake_x
+      let gy = guard_val.y
+      let vel2 = guard_val.vx * guard_val.vx + guard_val.vy * guard_val.vy
       let invl : Float = if vel2 < 1.0 { 0.0 } else { 1.0 / vel2.sqrt() }
       let fx : Float = if invl == 0.0 {
         Float::from_int(1)
       } else {
-        guards[i].vx * invl
+        guard_val.vx * invl
       }
       let fy : Float = if invl == 0.0 {
         Float::from_int(0)
       } else {
-        guards[i].vy * invl
+        guard_val.vy * invl
       }
 
-      if guards[i].stun_t <= 0.0 {
+      if guard_val.stun_t <= 0.0 {
         let cone_r = if player.cloak_t > 0.0 {
-          guards[i].detect_r * 0.46
+          guard_val.detect_r * 0.46
         } else {
-          guards[i].detect_r
+          guard_val.detect_r
         }
         let lx = gx + fx * cone_r + -fy * cone_r * 0.45
         let ly = gy + fy * cone_r + fx * cone_r * 0.45
@@ -1269,7 +1269,7 @@ fn main {
         )
       }
 
-      let col = if guards[i].stun_t > 0.0 {
+      let col = if guard_val.stun_t > 0.0 {
         @raylib.Color::new(130, 236, 248, 255)
       } else {
         @raylib.Color::new(238, 112, 96, 255)
@@ -1366,35 +1366,35 @@ fn main {
       )
     }
 
-    for i in 0..<bullets.length() {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
       @raylib.draw_line(
-        (bullets[i].x + shake_x).to_int(),
-        bullets[i].y.to_int(),
-        (bullets[i].x - bullets[i].vx * 0.02 + shake_x).to_int(),
-        (bullets[i].y - bullets[i].vy * 0.02).to_int(),
+        (bullet.x + shake_x).to_int(),
+        bullet.y.to_int(),
+        (bullet.x - bullet.vx * 0.02 + shake_x).to_int(),
+        (bullet.y - bullet.vy * 0.02).to_int(),
         @raylib.Color::new(252, 140, 124, 255),
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(252, 128, 128, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 132, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(222, 156, 252, 255)
       } else {
         @raylib.Color::new(120, 226, 246, 255)
       }
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         col,
       )

@@ -127,8 +127,7 @@ fn spawn_ground_skid(game : Game, fighter : Fighter) -> Unit {
 
 ///|
 fn update_particle_list(list : Array[Particle], dt : Float) -> Unit {
-  for i in 0..<list.length() {
-    let p = list[i]
+  for p in list {
     if not(p.active) {
       continue
     }
@@ -159,8 +158,7 @@ fn draw_particle_list(
   camera_x : Float,
   camera_y : Float,
 ) -> Unit {
-  for i in 0..<list.length() {
-    let p = list[i]
+  for p in list {
     if not(p.active) {
       continue
     }

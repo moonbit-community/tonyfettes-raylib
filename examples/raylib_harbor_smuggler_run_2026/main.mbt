@@ -113,41 +113,41 @@ fn inside_rect(
 
 ///|
 fn clear_patrols(ps : Array[Patrol]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].speed = 0.0
-    ps[i].radius = 0.0
-    ps[i].kind = 0
-    ps[i].alert_t = 0.0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.speed = 0.0
+    ps_elem.radius = 0.0
+    ps_elem.kind = 0
+    ps_elem.alert_t = 0.0
+    ps_elem.active = false
   }
 }
 
 ///|
 fn clear_crates(cs : Array[Crate]) -> Unit {
-  for i in 0..<cs.length() {
-    cs[i].x = 0.0
-    cs[i].y = 0.0
-    cs[i].vx = 0.0
-    cs[i].vy = 0.0
-    cs[i].value = 0
-    cs[i].active = false
+  for cs_elem in cs {
+    cs_elem.x = 0.0
+    cs_elem.y = 0.0
+    cs_elem.vx = 0.0
+    cs_elem.vy = 0.0
+    cs_elem.value = 0
+    cs_elem.active = false
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -160,20 +160,20 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 60)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(12, 60)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -221,30 +221,30 @@ fn spawn_patrol(ps : Array[Patrol], level : Int, wave_t : Float) -> Unit {
   let kind = @raylib.get_random_value(0, 2)
 
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].kind = kind
-      ps[i].radius = if kind == 2 { 20.0 } else { 18.0 }
-      ps[i].speed = Float::from_int(
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.kind = kind
+      ps_elem.radius = if kind == 2 { 20.0 } else { 18.0 }
+      ps_elem.speed = Float::from_int(
         @raylib.get_random_value(86 + level * 14, 126 + level * 22),
       )
-      ps[i].alert_t = 0.0
+      ps_elem.alert_t = 0.0
 
       let jitter = Float::from_int((wave_t * 100.0).to_int() % 60 - 30)
       if side == 0 {
-        ps[i].x = -80.0 + jitter
-        ps[i].vx = ps[i].speed
+        ps_elem.x = -80.0 + jitter
+        ps_elem.vx = ps_elem.speed
       } else {
-        ps[i].x = Float::from_int(sw + 80) + jitter
-        ps[i].vx = -ps[i].speed
+        ps_elem.x = Float::from_int(sw + 80) + jitter
+        ps_elem.vx = -ps_elem.speed
       }
-      ps[i].y = y
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-38, 38))
+      ps_elem.y = y
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-38, 38))
       done = true
     }
   }
@@ -274,19 +274,19 @@ fn spawn_crate(cs : Array[Crate], level : Int, wave_t : Float) -> Unit {
   }
 
   let mut done = false
-  for i in 0..<cs.length() {
+  for cs_elem in cs {
     if done {
       continue
     }
 
-    if not(cs[i].active) {
+    if not(cs_elem.active) {
       let drift = Float::from_int(@raylib.get_random_value(-16, 16))
-      cs[i].active = true
-      cs[i].x = Float::from_int(@raylib.get_random_value(110, 920)) + drift
-      cs[i].y = y + Float::from_int((wave_t * 120.0).to_int() % 40 - 20)
-      cs[i].vx = Float::from_int(@raylib.get_random_value(-18, 18))
-      cs[i].vy = Float::from_int(@raylib.get_random_value(-10, 10))
-      cs[i].value = value
+      cs_elem.active = true
+      cs_elem.x = Float::from_int(@raylib.get_random_value(110, 920)) + drift
+      cs_elem.y = y + Float::from_int((wave_t * 120.0).to_int() % 40 - 20)
+      cs_elem.vx = Float::from_int(@raylib.get_random_value(-18, 18))
+      cs_elem.vy = Float::from_int(@raylib.get_random_value(-10, 10))
+      cs_elem.value = value
       done = true
     }
   }
@@ -501,18 +501,18 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 220.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 220.0 * dt
+      particle.ttl = particle.ttl - dt
 
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -639,38 +639,38 @@ fn main {
         crate_cd = crate_base_cd * jitter
       }
 
-      for i in 0..<crates.length() {
-        if not(crates[i].active) {
+      for crate in crates {
+        if not(crate.active) {
           continue
         }
 
-        crates[i].x = crates[i].x + crates[i].vx * dt
-        crates[i].y = crates[i].y + crates[i].vy * dt
+        crate.x = crate.x + crate.vx * dt
+        crate.y = crate.y + crate.vy * dt
 
-        if crates[i].x < 60.0 {
-          crates[i].x = 60.0
-          crates[i].vx = absf(crates[i].vx)
+        if crate.x < 60.0 {
+          crate.x = 60.0
+          crate.vx = absf(crate.vx)
         }
-        if crates[i].x > Float::from_int(sw - 220) {
-          crates[i].x = Float::from_int(sw - 220)
-          crates[i].vx = -absf(crates[i].vx)
+        if crate.x > Float::from_int(sw - 220) {
+          crate.x = Float::from_int(sw - 220)
+          crate.vx = -absf(crate.vx)
         }
-        if crates[i].y < water_top + 20.0 {
-          crates[i].y = water_top + 20.0
-          crates[i].vy = absf(crates[i].vy)
+        if crate.y < water_top + 20.0 {
+          crate.y = water_top + 20.0
+          crate.vy = absf(crate.vy)
         }
-        if crates[i].y > water_bottom - 20.0 {
-          crates[i].y = water_bottom - 20.0
-          crates[i].vy = -absf(crates[i].vy)
+        if crate.y > water_bottom - 20.0 {
+          crate.y = water_bottom - 20.0
+          crate.vy = -absf(crate.vy)
         }
 
         if player.cargo < 7 &&
-          sqdist(player.x, player.y, crates[i].x, crates[i].y) <= 42.0 * 42.0 {
-          player.cargo = player.cargo + crates[i].value
-          score = score + crates[i].value * 10
-          msg = "Cargo loaded +\{crates[i].value}"
-          burst(particles, crates[i].x, crates[i].y, 10, 0.26, 3)
-          crates[i].active = false
+          sqdist(player.x, player.y, crate.x, crate.y) <= 42.0 * 42.0 {
+          player.cargo = player.cargo + crate.value
+          score = score + crate.value * 10
+          msg = "Cargo loaded +\{crate.value}"
+          burst(particles, crate.x, crate.y, 10, 0.26, 3)
+          crate.active = false
         }
       }
 
@@ -694,79 +694,79 @@ fn main {
         }
       }
 
-      for i in 0..<patrols.length() {
-        if not(patrols[i].active) {
+      for patrol in patrols {
+        if not(patrol.active) {
           continue
         }
 
-        patrols[i].x = patrols[i].x + patrols[i].vx * dt
-        patrols[i].y = patrols[i].y + patrols[i].vy * dt
+        patrol.x = patrol.x + patrol.vx * dt
+        patrol.y = patrol.y + patrol.vy * dt
 
-        if patrols[i].x < 26.0 {
-          patrols[i].x = 26.0
-          patrols[i].vx = absf(patrols[i].vx)
+        if patrol.x < 26.0 {
+          patrol.x = 26.0
+          patrol.vx = absf(patrol.vx)
         }
-        if patrols[i].x > Float::from_int(sw - 26) {
-          patrols[i].x = Float::from_int(sw - 26)
-          patrols[i].vx = -absf(patrols[i].vx)
+        if patrol.x > Float::from_int(sw - 26) {
+          patrol.x = Float::from_int(sw - 26)
+          patrol.vx = -absf(patrol.vx)
         }
-        if patrols[i].y < water_top + 26.0 {
-          patrols[i].y = water_top + 26.0
-          patrols[i].vy = absf(patrols[i].vy)
+        if patrol.y < water_top + 26.0 {
+          patrol.y = water_top + 26.0
+          patrol.vy = absf(patrol.vy)
         }
-        if patrols[i].y > water_bottom - 26.0 {
-          patrols[i].y = water_bottom - 26.0
-          patrols[i].vy = -absf(patrols[i].vy)
+        if patrol.y > water_bottom - 26.0 {
+          patrol.y = water_bottom - 26.0
+          patrol.vy = -absf(patrol.vy)
         }
 
-        if patrols[i].alert_t > 0.0 {
-          patrols[i].alert_t = patrols[i].alert_t - dt
-          if patrols[i].alert_t < 0.0 {
-            patrols[i].alert_t = 0.0
+        if patrol.alert_t > 0.0 {
+          patrol.alert_t = patrol.alert_t - dt
+          if patrol.alert_t < 0.0 {
+            patrol.alert_t = 0.0
           }
         }
 
         let mut detect_r = Float::from_int(160 + level * 24)
-        if patrols[i].kind == 1 {
+        if patrol.kind == 1 {
           detect_r = detect_r + 34.0
         }
         if player.stealth_t > 0.0 {
           detect_r = detect_r * 0.42
         }
 
-        let d2 = sqdist(player.x, player.y, patrols[i].x, patrols[i].y)
+        let d2 = sqdist(player.x, player.y, patrol.x, patrol.y)
         if d2 <= detect_r * detect_r {
-          patrols[i].alert_t = 1.2
+          patrol.alert_t = 1.2
 
-          let dx = player.x - patrols[i].x
-          let dy = player.y - patrols[i].y
+          let dx = player.x - patrol.x
+          let dy = player.y - patrol.y
           let nd2 = dx * dx + dy * dy
           let nd : Float = if nd2 < 1.0 { 1.0 } else { nd2.sqrt() }
 
-          let chase = patrols[i].speed *
-            (if patrols[i].kind == 2 { 1.24 } else { 1.0 })
-          patrols[i].vx = patrols[i].vx * (Float::from_int(1) - dt * 2.8) +
+          let chase = patrol.speed *
+            (if patrol.kind == 2 { 1.24 } else { 1.0 })
+          patrol.vx = patrol.vx * (Float::from_int(1) - dt * 2.8) +
             dx / nd * chase * dt * 2.8
-          patrols[i].vy = patrols[i].vy * (Float::from_int(1) - dt * 2.8) +
+          patrol.vy = patrol.vy * (Float::from_int(1) - dt * 2.8) +
             dy / nd * chase * dt * 2.8
         } else {
           let drift_x = Float::from_int(@raylib.get_random_value(-36, 36)) * dt
           let drift_y = Float::from_int(@raylib.get_random_value(-36, 36)) * dt
-          patrols[i].vx = patrols[i].vx + drift_x
-          patrols[i].vy = patrols[i].vy + drift_y
+          patrol.vx = patrol.vx + drift_x
+          patrol.vy = patrol.vy + drift_y
         }
 
-        let patrol_max = patrols[i].speed * 1.25
-        patrols[i].vx = clampf(patrols[i].vx, -patrol_max, patrol_max)
-        patrols[i].vy = clampf(patrols[i].vy, -patrol_max, patrol_max)
+        let patrol_max = patrol.speed * 1.25
+        patrol.vx = clampf(patrol.vx, -patrol_max, patrol_max)
+        patrol.vy = clampf(patrol.vy, -patrol_max, patrol_max)
 
-        let hit_r = patrols[i].radius + 18.0
+        let hit_r = patrol.radius + 18.0
         if d2 <= hit_r * hit_r {
           if player.dash_t > 0.0 && absf(player.vx) + absf(player.vy) > 220.0 {
-            patrols[i].active = false
+            patrol.active = false
             score = score + 44
             msg = "Patrol disabled"
-            burst(particles, patrols[i].x, patrols[i].y, 22, 0.54, 2)
+            burst(particles, patrol.x, patrol.y, 22, 0.54, 2)
           } else if player.hit_cd <= 0.0 {
             player.hp = player.hp - 1
             if player.cargo > 0 {
@@ -932,13 +932,13 @@ fn main {
       @raylib.Color::new(224, 246, 234, 255),
     )
 
-    for i in 0..<crates.length() {
-      if not(crates[i].active) {
+    for crate in crates {
+      if not(crate.active) {
         continue
       }
 
-      let cx = (crates[i].x + shake_x).to_int()
-      let cy = crates[i].y.to_int()
+      let cx = (crate.x + shake_x).to_int()
+      let cy = crate.y.to_int()
 
       @raylib.draw_rectangle(
         cx - 14,
@@ -955,7 +955,7 @@ fn main {
         @raylib.Color::new(190, 146, 94, 255),
       )
       @raylib.draw_text(
-        "\{crates[i].value}",
+        "\{crate.value}",
         cx - 5,
         cy - 10,
         18,
@@ -963,25 +963,25 @@ fn main {
       )
     }
 
-    for i in 0..<patrols.length() {
-      if not(patrols[i].active) {
+    for patrol in patrols {
+      if not(patrol.active) {
         continue
       }
 
-      let px = (patrols[i].x + shake_x).to_int()
-      let py = patrols[i].y.to_int()
-      let hull_col = if patrols[i].kind == 2 {
+      let px = (patrol.x + shake_x).to_int()
+      let py = patrol.y.to_int()
+      let hull_col = if patrol.kind == 2 {
         @raylib.Color::new(248, 104, 102, 255)
-      } else if patrols[i].kind == 1 {
+      } else if patrol.kind == 1 {
         @raylib.Color::new(236, 124, 98, 255)
       } else {
         @raylib.Color::new(220, 92, 82, 255)
       }
 
       @raylib.draw_triangle(
-        @raylib.Vector2::new(patrols[i].x + 22.0 + shake_x, patrols[i].y),
-        @raylib.Vector2::new(patrols[i].x - 20.0 + shake_x, patrols[i].y - 14.0),
-        @raylib.Vector2::new(patrols[i].x - 20.0 + shake_x, patrols[i].y + 14.0),
+        @raylib.Vector2::new(patrol.x + 22.0 + shake_x, patrol.y),
+        @raylib.Vector2::new(patrol.x - 20.0 + shake_x, patrol.y - 14.0),
+        @raylib.Vector2::new(patrol.x - 20.0 + shake_x, patrol.y + 14.0),
         hull_col,
       )
       @raylib.draw_rectangle(
@@ -992,8 +992,8 @@ fn main {
         @raylib.Color::new(238, 206, 182, 255),
       )
 
-      if patrols[i].alert_t > 0.0 {
-        let ring = Float::from_int(130 + patrols[i].kind * 20)
+      if patrol.alert_t > 0.0 {
+        let ring = Float::from_int(130 + patrol.kind * 20)
         @raylib.draw_circle_lines(
           px,
           py,
@@ -1063,23 +1063,23 @@ fn main {
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let c = if particles[i].kind == 0 {
+      let c = if particle.kind == 0 {
         @raylib.Color::new(254, 124, 126, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 126, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(238, 156, 254, 255)
       } else {
         @raylib.Color::new(118, 226, 246, 255)
       }
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         c,
       )

@@ -6,8 +6,7 @@ fn update_coins(game : @types.Game, dt : Float) -> Unit {
   let px1 = player.x + @types.player_half_w()
   let py1 = player.y + @types.player_half_h()
 
-  for i in 0..<game.coins.length() {
-    let coin = game.coins[i]
+  for coin in game.coins {
     if not(coin.active) {
       continue
     }

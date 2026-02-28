@@ -145,8 +145,8 @@ fn draw_unit(x : Int, y : Int, color : @raylib.Color, glyph : String) -> Unit {
 ///|
 fn alive_mobs(mobs : Array[Mob]) -> Int {
   let mut n = 0
-  for i in 0..<mobs.length() {
-    if mobs[i].alive {
+  for mob in mobs {
+    if mob.alive {
       n = n + 1
     }
   }
@@ -232,37 +232,37 @@ fn main {
         }
 
         // Enemy turn
-        for i in 0..<mobs.length() {
-          if not(mobs[i].alive) {
+        for mob in mobs {
+          if not(mob.alive) {
             continue
           }
-          let dist = (mobs[i].x - hero_x).abs() + (mobs[i].y - hero_y).abs()
+          let dist = (mob.x - hero_x).abs() + (mob.y - hero_y).abs()
           if dist == 1 {
             hero_hp = hero_hp - 2
             continue
           }
-          let (sx, sy) = step_toward(mobs[i].x, mobs[i].y, hero_x, hero_y)
-          let nx = mobs[i].x + sx
-          let ny = mobs[i].y + sy
+          let (sx, sy) = step_toward(mob.x, mob.y, hero_x, hero_y)
+          let nx = mob.x + sx
+          let ny = mob.y + sy
           if passable(level, mobs, nx, ny) && not(nx == hero_x && ny == hero_y) {
-            mobs[i].x = nx
-            mobs[i].y = ny
+            mob.x = nx
+            mob.y = ny
           } else {
             let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
             let start = @raylib.get_random_value(0, 3)
             for t in 0..<4 {
               let (rx, ry) = dirs[(start + t) % 4]
-              let wx = mobs[i].x + rx
-              let wy = mobs[i].y + ry
+              let wx = mob.x + rx
+              let wy = mob.y + ry
               if passable(level, mobs, wx, wy) &&
                 not(wx == hero_x && wy == hero_y) {
-                mobs[i].x = wx
-                mobs[i].y = wy
+                mob.x = wx
+                mob.y = wy
                 break
               }
             }
           }
-          if (mobs[i].x - hero_x).abs() + (mobs[i].y - hero_y).abs() == 1 {
+          if (mob.x - hero_x).abs() + (mob.y - hero_y).abs() == 1 {
             hero_hp = hero_hp - 1
           }
         }
@@ -284,9 +284,9 @@ fn main {
     draw_board(level)
     draw_unit(hero_x, hero_y, @raylib.skyblue, "@")
 
-    for i in 0..<mobs.length() {
-      if mobs[i].alive {
-        draw_unit(mobs[i].x, mobs[i].y, @raylib.red, "M")
+    for mob in mobs {
+      if mob.alive {
+        draw_unit(mob.x, mob.y, @raylib.red, "M")
       }
     }
 

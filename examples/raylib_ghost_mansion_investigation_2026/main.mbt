@@ -149,41 +149,41 @@ fn blocked(x : Float, y : Float, r : Float, level : Int) -> Bool {
 
 ///|
 fn clear_ghosts(gs : Array[Ghost]) -> Unit {
-  for i in 0..<gs.length() {
-    gs[i].x = 0.0
-    gs[i].y = 0.0
-    gs[i].vx = 0.0
-    gs[i].vy = 0.0
-    gs[i].speed = 0.0
-    gs[i].radius = 18.0
-    gs[i].wander_t = 0.0
-    gs[i].stun_t = 0.0
-    gs[i].alert_t = 0.0
-    gs[i].kind = 0
-    gs[i].active = false
+  for gs_elem in gs {
+    gs_elem.x = 0.0
+    gs_elem.y = 0.0
+    gs_elem.vx = 0.0
+    gs_elem.vy = 0.0
+    gs_elem.speed = 0.0
+    gs_elem.radius = 18.0
+    gs_elem.wander_t = 0.0
+    gs_elem.stun_t = 0.0
+    gs_elem.alert_t = 0.0
+    gs_elem.kind = 0
+    gs_elem.active = false
   }
 }
 
 ///|
 fn clear_clues(cs : Array[Clue]) -> Unit {
-  for i in 0..<cs.length() {
-    cs[i].x = 0.0
-    cs[i].y = 0.0
-    cs[i].kind = 0
-    cs[i].active = false
+  for cs_elem in cs {
+    cs_elem.x = 0.0
+    cs_elem.y = 0.0
+    cs_elem.kind = 0
+    cs_elem.active = false
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i in 0..<ps.length() {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -196,19 +196,19 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i in 0..<ps.length() {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 62)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(12, 62)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -306,36 +306,36 @@ fn init_clues(level : Int, cs : Array[Clue]) -> Int {
 ///|
 fn spawn_ghost(gs : Array[Ghost], level : Int) -> Unit {
   let mut done = false
-  for i in 0..<gs.length() {
+  for gs_elem in gs {
     if done {
       continue
     }
 
-    if not(gs[i].active) {
-      gs[i].active = true
-      gs[i].kind = @raylib.get_random_value(0, 2)
-      gs[i].radius = if gs[i].kind == 2 { 20.0 } else { 18.0 }
-      gs[i].speed = Float::from_int(
+    if not(gs_elem.active) {
+      gs_elem.active = true
+      gs_elem.kind = @raylib.get_random_value(0, 2)
+      gs_elem.radius = if gs_elem.kind == 2 { 20.0 } else { 18.0 }
+      gs_elem.speed = Float::from_int(
         @raylib.get_random_value(84 + level * 12, 130 + level * 18),
       )
-      gs[i].stun_t = 0.0
-      gs[i].alert_t = 0.0
-      gs[i].wander_t = Float::from_int(@raylib.get_random_value(80, 240)) /
+      gs_elem.stun_t = 0.0
+      gs_elem.alert_t = 0.0
+      gs_elem.wander_t = Float::from_int(@raylib.get_random_value(80, 240)) /
         Float::from_int(100)
 
       let mut placed = false
       while not(placed) {
         let x = Float::from_int(@raylib.get_random_value(70, sw - 70))
         let y = Float::from_int(@raylib.get_random_value(152, sh - 70))
-        if not(blocked(x, y, gs[i].radius, level)) {
-          gs[i].x = x
-          gs[i].y = y
+        if not(blocked(x, y, gs_elem.radius, level)) {
+          gs_elem.x = x
+          gs_elem.y = y
           placed = true
         }
       }
 
-      gs[i].vx = Float::from_int(@raylib.get_random_value(-70, 70))
-      gs[i].vy = Float::from_int(@raylib.get_random_value(-70, 70))
+      gs_elem.vx = Float::from_int(@raylib.get_random_value(-70, 70))
+      gs_elem.vy = Float::from_int(@raylib.get_random_value(-70, 70))
       done = true
     }
   }
@@ -549,16 +549,16 @@ fn main {
       }
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 240.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 240.0 * dt
+      particle.ttl = particle.ttl - dt
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -672,18 +672,18 @@ fn main {
         msg = "EM pulse"
         burst(particles, player.x, player.y, 24, 0.52, 2)
 
-        for i in 0..<ghosts.length() {
-          if not(ghosts[i].active) {
+        for ghost in ghosts {
+          if not(ghost.active) {
             continue
           }
-          if sqdist(player.x, player.y, ghosts[i].x, ghosts[i].y) <=
+          if sqdist(player.x, player.y, ghost.x, ghost.y) <=
             172.0 * 172.0 {
-            ghosts[i].stun_t = Float::from_int(
+            ghost.stun_t = Float::from_int(
                 @raylib.get_random_value(160, 250),
               ) /
               Float::from_int(100)
-            ghosts[i].alert_t = 0.0
-            burst(particles, ghosts[i].x, ghosts[i].y, 10, 0.30, 3)
+            ghost.alert_t = 0.0
+            burst(particles, ghost.x, ghost.y, 10, 0.30, 3)
           }
         }
       }
@@ -698,27 +698,27 @@ fn main {
 
       let mut nearby_terror : Float = 0.0
 
-      for i in 0..<ghosts.length() {
-        if not(ghosts[i].active) {
+      for ghost in ghosts {
+        if not(ghost.active) {
           continue
         }
 
-        if ghosts[i].stun_t > 0.0 {
-          ghosts[i].stun_t = ghosts[i].stun_t - dt
-          if ghosts[i].stun_t < 0.0 {
-            ghosts[i].stun_t = 0.0
+        if ghost.stun_t > 0.0 {
+          ghost.stun_t = ghost.stun_t - dt
+          if ghost.stun_t < 0.0 {
+            ghost.stun_t = 0.0
           }
         }
 
-        if ghosts[i].alert_t > 0.0 {
-          ghosts[i].alert_t = ghosts[i].alert_t - dt
-          if ghosts[i].alert_t < 0.0 {
-            ghosts[i].alert_t = 0.0
+        if ghost.alert_t > 0.0 {
+          ghost.alert_t = ghost.alert_t - dt
+          if ghost.alert_t < 0.0 {
+            ghost.alert_t = 0.0
           }
         }
 
-        let dx = player.x - ghosts[i].x
-        let dy = player.y - ghosts[i].y
+        let dx = player.x - ghost.x
+        let dy = player.y - ghost.y
         let d2 = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
@@ -726,28 +726,28 @@ fn main {
           nearby_terror = nearby_terror + (Float::from_int(180) - d) / 180.0
         }
 
-        if ghosts[i].stun_t > 0.0 {
-          ghosts[i].vx = ghosts[i].vx * (Float::from_int(1) - dt * 4.4)
-          ghosts[i].vy = ghosts[i].vy * (Float::from_int(1) - dt * 4.4)
+        if ghost.stun_t > 0.0 {
+          ghost.vx = ghost.vx * (Float::from_int(1) - dt * 4.4)
+          ghost.vy = ghost.vy * (Float::from_int(1) - dt * 4.4)
         } else {
-          let mut target_vx = ghosts[i].vx
-          let mut target_vy = ghosts[i].vy
+          let mut target_vx = ghost.vx
+          let mut target_vy = ghost.vy
 
           let detect_r : Float = Float::from_int(
-            220 + level * 40 + ghosts[i].kind * 22,
+            220 + level * 40 + ghost.kind * 22,
           )
           if d < detect_r {
-            ghosts[i].alert_t = 1.1
-            let mut chase = ghosts[i].speed
-            if in_lantern(player, ghosts[i].x, ghosts[i].y) {
+            ghost.alert_t = 1.1
+            let mut chase = ghost.speed
+            if in_lantern(player, ghost.x, ghost.y) {
               chase = chase * 0.46
             }
             target_vx = dx / d * chase
             target_vy = dy / d * chase
           } else {
-            ghosts[i].wander_t = ghosts[i].wander_t - dt
-            if ghosts[i].wander_t <= 0.0 {
-              ghosts[i].wander_t = Float::from_int(
+            ghost.wander_t = ghost.wander_t - dt
+            if ghost.wander_t <= 0.0 {
+              ghost.wander_t = Float::from_int(
                   @raylib.get_random_value(80, 220),
                 ) /
                 Float::from_int(100)
@@ -756,26 +756,26 @@ fn main {
             }
           }
 
-          ghosts[i].vx = ghosts[i].vx * (Float::from_int(1) - dt * 2.8) +
+          ghost.vx = ghost.vx * (Float::from_int(1) - dt * 2.8) +
             target_vx * dt * 2.8
-          ghosts[i].vy = ghosts[i].vy * (Float::from_int(1) - dt * 2.8) +
+          ghost.vy = ghost.vy * (Float::from_int(1) - dt * 2.8) +
             target_vy * dt * 2.8
         }
 
-        let old_x = ghosts[i].x
-        let old_y = ghosts[i].y
-        ghosts[i].x = ghosts[i].x + ghosts[i].vx * dt
-        ghosts[i].y = ghosts[i].y + ghosts[i].vy * dt
+        let old_x = ghost.x
+        let old_y = ghost.y
+        ghost.x = ghost.x + ghost.vx * dt
+        ghost.y = ghost.y + ghost.vy * dt
 
-        if blocked(ghosts[i].x, ghosts[i].y, ghosts[i].radius, level) {
-          ghosts[i].x = old_x
-          ghosts[i].y = old_y
-          ghosts[i].vx = -ghosts[i].vx * 0.46
-          ghosts[i].vy = -ghosts[i].vy * 0.46
-          ghosts[i].wander_t = 0.0
+        if blocked(ghost.x, ghost.y, ghost.radius, level) {
+          ghost.x = old_x
+          ghost.y = old_y
+          ghost.vx = -ghost.vx * 0.46
+          ghost.vy = -ghost.vy * 0.46
+          ghost.wander_t = 0.0
         }
 
-        let hit_r = ghosts[i].radius + 16.0
+        let hit_r = ghost.radius + 16.0
         if d2 <= hit_r * hit_r && player.hit_cd <= 0.0 {
           player.hp = player.hp - 1
           player.sanity = player.sanity - 14.0
@@ -805,23 +805,23 @@ fn main {
         msg = "Sanity collapsed"
       }
 
-      for i in 0..<clues.length() {
-        if not(clues[i].active) {
+      for clue in clues {
+        if not(clue.active) {
           continue
         }
 
-        if sqdist(player.x, player.y, clues[i].x, clues[i].y) <= 28.0 * 28.0 {
-          clues[i].active = false
+        if sqdist(player.x, player.y, clue.x, clue.y) <= 28.0 * 28.0 {
+          clue.active = false
           collected = collected + 1
-          score = score + 95 + clues[i].kind * 18
-          stars = stars + 1 + clues[i].kind
+          score = score + 95 + clue.kind * 18
+          stars = stars + 1 + clue.kind
           player.battery = player.battery +
-            Float::from_int(8 + clues[i].kind * 4)
+            Float::from_int(8 + clue.kind * 4)
           if player.battery > 100.0 {
             player.battery = 100.0
           }
           msg = "Clue recovered"
-          burst(particles, clues[i].x, clues[i].y, 16, 0.34, 1)
+          burst(particles, clue.x, clue.y, 16, 0.34, 1)
         }
       }
 
@@ -947,16 +947,16 @@ fn main {
       @raylib.Color::new(234, 246, 236, 255),
     )
 
-    for i in 0..<clues.length() {
-      if not(clues[i].active) {
+    for clue in clues {
+      if not(clue.active) {
         continue
       }
 
-      let cx = (clues[i].x + shake_x).to_int()
-      let cy = clues[i].y.to_int()
-      let col = if clues[i].kind == 0 {
+      let cx = (clue.x + shake_x).to_int()
+      let cy = clue.y.to_int()
+      let col = if clue.kind == 0 {
         @raylib.Color::new(242, 212, 132, 255)
-      } else if clues[i].kind == 1 {
+      } else if clue.kind == 1 {
         @raylib.Color::new(132, 214, 242, 255)
       } else {
         @raylib.Color::new(224, 156, 250, 255)
@@ -965,29 +965,29 @@ fn main {
       @raylib.draw_circle(cx, cy, 5.0, @raylib.Color::new(252, 248, 236, 255))
     }
 
-    for i in 0..<ghosts.length() {
-      if not(ghosts[i].active) {
+    for ghost in ghosts {
+      if not(ghost.active) {
         continue
       }
 
-      let gx = (ghosts[i].x + shake_x).to_int()
-      let gy = ghosts[i].y.to_int()
+      let gx = (ghost.x + shake_x).to_int()
+      let gy = ghost.y.to_int()
 
-      let col = if ghosts[i].stun_t > 0.0 {
+      let col = if ghost.stun_t > 0.0 {
         @raylib.Color::new(132, 236, 248, 255)
-      } else if ghosts[i].kind == 2 {
+      } else if ghost.kind == 2 {
         @raylib.Color::new(252, 164, 196, 255)
-      } else if ghosts[i].kind == 1 {
+      } else if ghost.kind == 1 {
         @raylib.Color::new(232, 182, 252, 255)
       } else {
         @raylib.Color::new(212, 206, 244, 255)
       }
 
-      @raylib.draw_circle(gx, gy - 6, ghosts[i].radius, col)
+      @raylib.draw_circle(gx, gy - 6, ghost.radius, col)
       @raylib.draw_rectangle(
-        gx - ghosts[i].radius.to_int(),
+        gx - ghost.radius.to_int(),
         gy - 2,
-        (ghosts[i].radius * 2.0).to_int(),
+        (ghost.radius * 2.0).to_int(),
         28,
         col,
       )
@@ -1004,7 +1004,7 @@ fn main {
         @raylib.Color::new(22, 30, 38, 255),
       )
 
-      if ghosts[i].alert_t > 0.0 {
+      if ghost.alert_t > 0.0 {
         @raylib.draw_circle_lines(
           gx,
           gy,
@@ -1093,24 +1093,24 @@ fn main {
       )
     }
 
-    for i in 0..<particles.length() {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let c = if particles[i].kind == 0 {
+      let c = if particle.kind == 0 {
         @raylib.Color::new(252, 128, 128, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 132, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(222, 156, 252, 255)
       } else {
         @raylib.Color::new(120, 226, 246, 255)
       }
 
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         c,
       )

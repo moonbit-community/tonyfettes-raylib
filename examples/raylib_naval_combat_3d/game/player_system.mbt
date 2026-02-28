@@ -393,8 +393,7 @@ fn get_ammo_name(ammo_type : Int) -> String {
 
 ///|
 fn set_fleet_order(game : @types.Game, order : Int) -> Unit {
-  for i in 0..<game.fleet_ships.length() {
-    let fs = game.fleet_ships[i]
+  for fs in game.fleet_ships {
     if not(fs.active) {
       continue
     }

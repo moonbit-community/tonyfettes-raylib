@@ -491,8 +491,7 @@ fn maybe_target_convoy(game : @types.Game, enemy_idx : Int, dt : Float) -> Unit 
     game.player.x,
     game.player.z,
   )
-  for i in 0..<game.convoy_ships.length() {
-    let cs = game.convoy_ships[i]
+  for cs in game.convoy_ships {
     if not(cs.active) {
       continue
     }

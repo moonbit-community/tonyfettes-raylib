@@ -182,47 +182,47 @@ fn draw_beacons(game : Game) -> Unit {
 
 ///|
 fn draw_traps(game : Game) -> Unit {
-  for i in 0..<game.traps.length() {
+  for trap in game.traps {
     @raylib.draw_circle_lines(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
       20.0,
       @raylib.Color::new(70, 108, 72, 140),
     )
 
-    if not(game.traps[i].active) {
+    if not(trap.active) {
       continue
     }
 
     @raylib.draw_circle(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
       13.0,
       @raylib.Color::new(92, 188, 116, 222),
     )
 
     @raylib.draw_circle_lines(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
       trap_trigger_radius,
       @raylib.Color::new(122, 216, 132, 70),
     )
 
-    if game.traps[i].trigger_cd > 0.0 {
-      let ratio = clampf(game.traps[i].trigger_cd / trap_rearm_time, 0.0, 1.0)
+    if trap.trigger_cd > 0.0 {
+      let ratio = clampf(trap.trigger_cd / trap_rearm_time, 0.0, 1.0)
       @raylib.draw_circle_lines(
-        game.traps[i].x.to_int(),
-        game.traps[i].y.to_int(),
+        trap.x.to_int(),
+        trap.y.to_int(),
         24.0 + ratio * 12.0,
         @raylib.Color::new(248, 196, 90, 180),
       )
     }
 
-    if game.traps[i].flash_t > 0.0 {
+    if trap.flash_t > 0.0 {
       @raylib.draw_circle(
-        game.traps[i].x.to_int(),
-        game.traps[i].y.to_int(),
-        28.0 + game.traps[i].flash_t * 38.0,
+        trap.x.to_int(),
+        trap.y.to_int(),
+        28.0 + trap.flash_t * 38.0,
         @raylib.Color::new(186, 248, 176, 72),
       )
     }
@@ -231,48 +231,48 @@ fn draw_traps(game : Game) -> Unit {
 
 ///|
 fn draw_enemies(game : Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
 
-    let radius = enemy_hit_radius(game.enemies[i].kind)
-    let base_color = match game.enemies[i].kind {
+    let radius = enemy_hit_radius(enemy.kind)
+    let base_color = match enemy.kind {
       1 => @raylib.Color::new(214, 164, 82, 236)
       2 => @raylib.Color::new(186, 88, 74, 236)
       _ => @raylib.Color::new(174, 208, 102, 236)
     }
 
     @raylib.draw_circle(
-      game.enemies[i].x.to_int(),
-      game.enemies[i].y.to_int(),
+      enemy.x.to_int(),
+      enemy.y.to_int(),
       radius,
       base_color,
     )
 
-    if game.enemies[i].slow_t > 0.0 {
+    if enemy.slow_t > 0.0 {
       @raylib.draw_circle_lines(
-        game.enemies[i].x.to_int(),
-        game.enemies[i].y.to_int(),
+        enemy.x.to_int(),
+        enemy.y.to_int(),
         radius + 4.0,
         @raylib.Color::new(110, 220, 238, 220),
       )
     }
 
     @raylib.draw_circle_lines(
-      game.enemies[i].x.to_int(),
-      game.enemies[i].y.to_int(),
+      enemy.x.to_int(),
+      enemy.y.to_int(),
       radius + 2.0,
       @raylib.Color::new(28, 32, 22, 240),
     )
 
     let hp_ratio = clampf(
-      game.enemies[i].hp / maxf(game.enemies[i].max_hp, 1.0),
+      enemy.hp / maxf(enemy.max_hp, 1.0),
       0.0,
       1.0,
     )
-    let bar_x = game.enemies[i].x.to_int() - 18
-    let bar_y = game.enemies[i].y.to_int() - radius.to_int() - 14
+    let bar_x = enemy.x.to_int() - 18
+    let bar_y = enemy.y.to_int() - radius.to_int() - 14
     @raylib.draw_rectangle(
       bar_x,
       bar_y,

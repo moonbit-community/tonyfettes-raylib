@@ -256,8 +256,7 @@ pub fn draw_damage_smoke(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_tracer_trails(game : @types.Game) -> Unit {
-  for i in 0..<game.projectiles.length() {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
       continue
     }
@@ -358,8 +357,7 @@ pub fn draw_celestial_body(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_enemy_damage_trails(game : @types.Game) -> Unit {
-  for i in 0..<game.enemies.length() {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
       continue
     }
