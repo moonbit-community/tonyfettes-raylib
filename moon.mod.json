@@ -1,6 +1,6 @@
 {
   "name": "tonyfettes/raylib",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "readme": "README.md",
   "repository": "https://github.com/moonbit-community/tonyfettes-raylib",
   "license": "MIT",
@@ -20,8 +20,7 @@
     "CONTRIBUTING.md",
     "WORKFLOW.md",
     "setup.sh",
-    "clean.sh",
-    "CMakeLists.txt"
+    "clean.sh"
   ],
   "deps": {}
 }
