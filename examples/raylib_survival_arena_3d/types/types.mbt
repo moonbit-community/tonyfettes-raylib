@@ -1,4 +1,5 @@
 // Player entity
+
 ///|
 pub(all) struct Player {
   mut x : Float

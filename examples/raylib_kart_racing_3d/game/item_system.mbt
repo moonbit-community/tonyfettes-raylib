@@ -1,6 +1,7 @@
 // Item system: dropped items, projectile homing, item box respawns, powerup effects
 
 // Update dropped items (bananas, oil slicks) on the track
+
 ///|
 pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.dropped_items.length(); i = i + 1 {

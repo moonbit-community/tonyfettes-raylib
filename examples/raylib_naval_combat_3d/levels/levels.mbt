@@ -1,5 +1,6 @@
 // Battle definitions - 12 scenarios
 // Returns (enemy_count, enemy_hp, enemy_speed, enemy_fire_rate, enemy_damage, detect_range, score_per_kill)
+
 ///|
 pub fn get_battle_def(
   battle : Int,

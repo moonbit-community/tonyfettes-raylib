@@ -1,6 +1,7 @@
 // Visual effects rendering: drift sparks, boost flames, explosions, dust, speed lines, confetti
 
 // Draw all visual effects
+
 ///|
 pub fn draw_effects(game : @types.Game) -> Unit {
   draw_drift_spark_trails(game)

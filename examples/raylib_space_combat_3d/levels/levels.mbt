@@ -1,5 +1,6 @@
 // Mission definitions
 // Returns (num_fighters, num_cruisers, num_asteroids, hp_mult, speed_mult)
+
 ///|
 pub fn get_mission_def(mission : Int) -> (Int, Int, Int, Float, Float) {
   if mission == 0 {

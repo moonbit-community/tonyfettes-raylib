@@ -1,6 +1,7 @@
 // Block interaction: targeting, breaking, placing, mining
 
 // DDA ray march to find the block the player is looking at
+
 ///|
 pub fn update_block_target(game : @types.Game) -> Unit {
   let target = game.target

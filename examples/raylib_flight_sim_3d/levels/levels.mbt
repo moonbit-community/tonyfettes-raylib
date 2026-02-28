@@ -1,5 +1,6 @@
 // Mission checkpoint positions
 // Returns (x, y, z) for checkpoint index in a given mission
+
 ///|
 pub fn get_checkpoint_pos(mission : Int, index : Int) -> (Float, Float, Float) {
   if mission == 0 {

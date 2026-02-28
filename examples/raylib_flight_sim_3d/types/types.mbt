@@ -1,4 +1,5 @@
 // Aircraft type definition with flight characteristics
+
 ///|
 pub(all) struct AircraftStats {
   kind : Int

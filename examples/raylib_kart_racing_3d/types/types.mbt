@@ -1,4 +1,5 @@
 // Waypoint for track definition
+
 ///|
 pub(all) struct Waypoint {
   x : Float

@@ -1,4 +1,5 @@
 // Enemy entity
+
 ///|
 pub(all) struct Enemy {
   mut active : Bool

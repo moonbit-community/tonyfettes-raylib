@@ -1,4 +1,5 @@
 // Entity on the grid (block, diamond, key, bomb)
+
 ///|
 pub(all) struct Entity {
   mut active : Bool

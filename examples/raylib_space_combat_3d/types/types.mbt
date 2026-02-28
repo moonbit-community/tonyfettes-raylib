@@ -1,4 +1,5 @@
 // Player ship
+
 ///|
 pub(all) struct Player {
   mut x : Float

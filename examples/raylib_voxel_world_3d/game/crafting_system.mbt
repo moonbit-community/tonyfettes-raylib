@@ -4,6 +4,7 @@
 // ========== Tool durability tracking ==========
 
 // Maximum durability for each tool tier
+
 ///|
 pub fn get_tool_max_durability(tool : Int) -> Int {
   if tool == @types.tool_hand {

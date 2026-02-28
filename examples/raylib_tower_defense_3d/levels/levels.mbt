@@ -2,6 +2,7 @@
 
 // Map layouts - returns array of strings (20 chars wide, 15 tall)
 // Legend: '.' = grass, '#' = path, 'S' = start, 'E' = end, '~' = water, 'R' = rock
+
 ///|
 pub fn get_map_data(map_idx : Int) -> Array[String] {
   if map_idx == 0 {

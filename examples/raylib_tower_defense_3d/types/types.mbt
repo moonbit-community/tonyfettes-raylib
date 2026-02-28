@@ -1,4 +1,5 @@
 // Status effect on an enemy
+
 ///|
 pub(all) struct StatusEffect {
   mut kind : Int

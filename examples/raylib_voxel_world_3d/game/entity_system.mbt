@@ -3,6 +3,7 @@
 // ========== Animal AI: random wandering ==========
 
 // Get a random wander target near the entity's current position
+
 ///|
 pub fn pick_wander_target(game : @types.Game, ent : @types.Entity) -> Unit {
   let range : Float = 12.0

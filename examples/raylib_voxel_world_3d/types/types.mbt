@@ -1,4 +1,5 @@
 // A single chunk of blocks
+
 ///|
 pub(all) struct Chunk {
   blocks : Array[Int]

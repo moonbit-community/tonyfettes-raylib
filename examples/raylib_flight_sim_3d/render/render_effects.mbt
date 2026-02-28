@@ -1,6 +1,7 @@
 // Visual effects rendering: clouds, weather, explosions, trails, sun/moon
 
 // Draw cloud layer
+
 ///|
 pub fn draw_clouds(game : @types.Game) -> Unit {
   for i = 0; i < game.clouds.length(); i = i + 1 {
