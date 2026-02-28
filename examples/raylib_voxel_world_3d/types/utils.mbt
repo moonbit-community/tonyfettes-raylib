@@ -115,16 +115,17 @@ pub fn smoothstep(edge0 : Float, edge1 : Float, x : Float) -> Float {
 
 ///|
 fn hash_int(x_in : Int) -> Int {
-  let mut x = x_in
-  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
-  x = x * 73244475 // 0x45d9f3b
-  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
-  x = x * 73244475
-  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
-  if x < 0 {
-    -x
+  let mut x = x_in.reinterpret_as_uint()
+  x = x ^ (x >> 16)
+  x = x * 73244475U // 0x45d9f3b
+  x = x ^ (x >> 16)
+  x = x * 73244475U
+  x = x ^ (x >> 16)
+  let result = x.reinterpret_as_int()
+  if result < 0 {
+    -result
   } else {
-    x
+    result
   }
 }
 
