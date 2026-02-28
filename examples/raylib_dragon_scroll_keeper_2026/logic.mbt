@@ -690,8 +690,7 @@ fn update_breach_system(game : Game, dt : Float) -> Float {
       breach_severity_max,
     )
 
-    breach.raider_cd = breach.raider_cd -
-      dt * (1.0 + pressure * 0.8)
+    breach.raider_cd = breach.raider_cd - dt * (1.0 + pressure * 0.8)
     if breach.raider_cd <= 0.0 {
       ignore(spawn_raider_from_room(game, breach.room))
       breach.raider_cd = maxf(
@@ -703,8 +702,7 @@ fn update_breach_system(game : Game, dt : Float) -> Float {
       )
     }
 
-    breach.ember_cd = breach.ember_cd -
-      dt * (1.0 + pressure * 0.5)
+    breach.ember_cd = breach.ember_cd - dt * (1.0 + pressure * 0.5)
     if breach.ember_cd <= 0.0 {
       ignore(
         spawn_flame(
@@ -790,13 +788,7 @@ fn update_raiders(game : Game, dt : Float) -> Float {
     }
 
     if raider.room == vault_room &&
-      dist2(
-        raider.x,
-        raider.y,
-        vault_core_x(),
-        vault_core_y(),
-      ) <=
-      52.0 * 52.0 &&
+      dist2(raider.x, raider.y, vault_core_x(), vault_core_y()) <= 52.0 * 52.0 &&
       raider.attack_cd <= 0.0 {
       integrity_loss = integrity_loss + raider_vault_strike + wavef * 0.45
       raider.attack_cd = randf(0.68, 1.14)

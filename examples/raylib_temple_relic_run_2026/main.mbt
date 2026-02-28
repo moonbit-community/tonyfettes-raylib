@@ -938,7 +938,7 @@ fn main {
         player.slash_cd = 0.32
         let mut hit_count : Int = 0
 
-        for step in 1..=2 {
+        for step in 1..<=2 {
           let tx = player.gx + player.face_x * step
           let ty = player.gy + player.face_y * step
           let e = enemy_at(enemies, tx, ty)
@@ -1001,7 +1001,7 @@ fn main {
 
         let mut nx = player.gx
         let mut ny = player.gy
-        for step in 1..=2 {
+        for step in 1..<=2 {
           let tx = player.gx + player.face_x * step
           let ty = player.gy + player.face_y * step
 
@@ -1053,8 +1053,8 @@ fn main {
           }
         }
 
-        for y in (player.gy - 1)..=(player.gy + 1) {
-          for x in (player.gx - 1)..=(player.gx + 1) {
+        for y in (player.gy - 1)..<=(player.gy + 1) {
+          for x in (player.gx - 1)..<=(player.gx + 1) {
             if in_bounds(x, y) &&
               not(x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1) {
               if tiles[idx(x, y)] == 1 {

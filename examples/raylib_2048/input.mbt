@@ -51,7 +51,8 @@ fn handle_play_input(game : Game) -> Unit {
     ignore(try_move(game, 1, 0))
   }
   // Undo
-  if @raylib.is_key_pressed(@raylib.KeyZ) || @raylib.is_key_pressed(@raylib.KeyU) {
+  if @raylib.is_key_pressed(@raylib.KeyZ) ||
+    @raylib.is_key_pressed(@raylib.KeyU) {
     game.undo()
   }
   // Restart
@@ -116,7 +117,8 @@ fn handle_over_input(game : Game) -> Unit {
     game.reset()
     return
   }
-  if @raylib.is_key_pressed(@raylib.KeyZ) || @raylib.is_key_pressed(@raylib.KeyU) {
+  if @raylib.is_key_pressed(@raylib.KeyZ) ||
+    @raylib.is_key_pressed(@raylib.KeyU) {
     game.undo()
   }
 }

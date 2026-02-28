@@ -670,7 +670,7 @@ fn main {
       @raylib.Color::new(80, 122, 190, 255),
     )
 
-    for i in 0..=16 {
+    for i in 0..<=16 {
       let gx = arena_x + i * (arena_w / 16)
       @raylib.draw_line(
         gx,
@@ -680,7 +680,7 @@ fn main {
         @raylib.Color::new(36, 56, 86, 130),
       )
     }
-    for i in 0..=10 {
+    for i in 0..<=10 {
       let gy = arena_y + i * (arena_h / 10)
       @raylib.draw_line(
         arena_x,
@@ -807,12 +807,7 @@ fn main {
       } else {
         @raylib.Color::new(248, 124, 124, a)
       }
-      @raylib.draw_circle(
-        (part.x + shake_x).to_int(),
-        part.y.to_int(),
-        2.2,
-        c,
-      )
+      @raylib.draw_circle((part.x + shake_x).to_int(), part.y.to_int(), 2.2, c)
     }
 
     @raylib.draw_rectangle(0, 0, sw, 98, @raylib.Color::new(8, 12, 20, 230))

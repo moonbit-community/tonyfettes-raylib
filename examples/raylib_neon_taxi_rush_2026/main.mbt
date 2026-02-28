@@ -56,7 +56,6 @@ struct Traffic {
   mut speed : Float
   mut lane : Int
   mut size : Float
-  mut hp : Float
   mut horn_t : Float
 }
 
@@ -191,7 +190,6 @@ fn clear_traffic(ts : Array[Traffic]) -> Unit {
     ts_elem.speed = 0.0
     ts_elem.lane = 0
     ts_elem.size = 0.0
-    ts_elem.hp = 0.0
     ts_elem.horn_t = 0.0
   }
 }
@@ -406,7 +404,6 @@ fn spawn_traffic(ts : Array[Traffic], wave : Int) -> Bool {
       Float::from_int(@raylib.get_random_value(-18, 22))
     ts[slot].lane = lane
     ts[slot].size = Float::from_int(@raylib.get_random_value(16, 24))
-    ts[slot].hp = 60.0
     ts[slot].horn_t = 0.0
     true
   }
@@ -498,7 +495,6 @@ fn main {
       speed: 0.0,
       lane: 0,
       size: 0.0,
-      hp: 0.0,
       horn_t: 0.0,
     }
   })
@@ -834,8 +830,10 @@ fn main {
           continue
         }
 
-        traffic_elem.x = traffic_elem.x + traffic_elem.vx * traffic_elem.speed * dt
-        traffic_elem.y = traffic_elem.y + traffic_elem.vy * traffic_elem.speed * dt
+        traffic_elem.x = traffic_elem.x +
+          traffic_elem.vx * traffic_elem.speed * dt
+        traffic_elem.y = traffic_elem.y +
+          traffic_elem.vy * traffic_elem.speed * dt
 
         if traffic_elem.horn_t > 0.0 {
           traffic_elem.horn_t = traffic_elem.horn_t - dt

@@ -37,7 +37,6 @@ struct Helicopter {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut tilt : Float
   mut rotor : Float
   mut fuel : Float
   mut hull : Float
@@ -56,15 +55,12 @@ struct Helicopter {
 ///|
 struct Survivor {
   mut active : Bool
-  mut saved : Bool
   mut carried : Bool
   mut x : Float
   mut y : Float
   mut panic_t : Float
   mut freeze : Float
   mut beacon_t : Float
-  mut offset_x : Float
-  mut offset_y : Float
 }
 
 ///|
@@ -239,19 +235,15 @@ fn spawn_survivors(survivors : FixedArray[Survivor], level : Int) -> Unit {
         randf(-64.0, 64.0)
       survivors[i] = {
         active: true,
-        saved: false,
         carried: false,
         x: clampf(px, 220.0, world_w - 120.0),
         y: clampf(py, 140.0, world_h - 120.0),
         panic_t: randf(0.0, 2.0),
         freeze: randf(5.0, 24.0),
         beacon_t: randf(0.0, 1.0),
-        offset_x: randf(-12.0, 12.0),
-        offset_y: randf(-8.0, 8.0),
       }
     } else {
       survivors[i].active = false
-      survivors[i].saved = false
       survivors[i].carried = false
     }
   }
@@ -454,15 +446,12 @@ fn main {
 
   let survivors = FixedArray::make(max_survivors, {
     active: false,
-    saved: false,
     carried: false,
     x: 0.0,
     y: 0.0,
     panic_t: 0.0,
     freeze: 0.0,
     beacon_t: 0.0,
-    offset_x: 0.0,
-    offset_y: 0.0,
   })
 
   let hazards = FixedArray::make(max_hazards, {
@@ -512,7 +501,6 @@ fn main {
     y: base_y,
     vx: 0.0,
     vy: 0.0,
-    tilt: 0.0,
     rotor: 0.0,
     fuel: 100.0,
     hull: 100.0,
@@ -556,7 +544,6 @@ fn main {
     heli.y = base_y
     heli.vx = 0.0
     heli.vy = 0.0
-    heli.tilt = 0.0
     heli.rotor = 0.0
     heli.fuel = 100.0
     heli.hull = 100.0
@@ -810,7 +797,6 @@ fn main {
         heli.vy = -heli.vy.abs() * 0.28
       }
 
-      heli.tilt = clampf(heli.vx * 0.12, -24.0, 24.0)
       let rotor_speed : Float = if heli.boost_t > 0.0 { 880.0 } else { 620.0 }
       heli.rotor = heli.rotor + dt * rotor_speed
 
@@ -928,8 +914,7 @@ fn main {
         avalanche.x = avalanche.x + avalanche.speed * dt
         avalanche.life = avalanche.life - dt
 
-        if avalanche.x > world_w + avalanche.w ||
-          avalanche.life <= 0.0 {
+        if avalanche.x > world_w + avalanche.w || avalanche.life <= 0.0 {
           avalanche.active = false
           continue
         }
@@ -958,8 +943,7 @@ fn main {
         }
 
         survivor.panic_t = survivor.panic_t + dt
-        survivor.beacon_t = survivor.beacon_t +
-          dt * (1.2 + storm.severity)
+        survivor.beacon_t = survivor.beacon_t + dt * (1.2 + storm.severity)
 
         if not(survivor.carried) {
           let mut freeze_rate : Float = 2.4 + storm.severity * 4.1
@@ -967,12 +951,7 @@ fn main {
             if not(flare.active) {
               continue
             }
-            let d2 = dist2(
-              survivor.x,
-              survivor.y,
-              flare.x,
-              flare.y,
-            )
+            let d2 = dist2(survivor.x, survivor.y, flare.x, flare.y)
             if d2 < flare.r * flare.r {
               freeze_rate = freeze_rate - 4.2
             }
@@ -984,36 +963,18 @@ fn main {
 
           if survivor.freeze >= 100.0 {
             survivor.active = false
-            survivor.saved = false
             heli.lost = heli.lost + 1
-            burst_particles(
-              particles,
-              survivor.x,
-              survivor.y,
-              16,
-              52.0,
-              0,
-            )
+            burst_particles(particles, survivor.x, survivor.y, 16, 52.0, 0)
             continue
           }
 
           let pickup_r : Float = 34.0
           if heli.onboard < 4 &&
-            dist2(heli.x, heli.y, survivor.x, survivor.y) <=
-            pickup_r * pickup_r {
+            dist2(heli.x, heli.y, survivor.x, survivor.y) <= pickup_r * pickup_r {
             survivor.carried = true
-            survivor.offset_x = randf(-18.0, 18.0)
-            survivor.offset_y = randf(-12.0, 18.0)
             heli.onboard = heli.onboard + 1
             heli.score = heli.score + 90
-            burst_particles(
-              particles,
-              survivor.x,
-              survivor.y,
-              8,
-              42.0,
-              1,
-            )
+            burst_particles(particles, survivor.x, survivor.y, 8, 42.0, 1)
           }
         }
 
@@ -1039,7 +1000,6 @@ fn main {
             continue
           }
           survivor.active = false
-          survivor.saved = true
           survivor.carried = false
           heli.rescued = heli.rescued + 1
           heli.onboard = heli.onboard - 1
@@ -1414,12 +1374,7 @@ fn main {
       } else {
         @raylib.Color::new(164, 220, 252, a)
       }
-      @raylib.draw_circle(
-        px.to_int(),
-        py.to_int(),
-        particle.size * life_r,
-        col,
-      )
+      @raylib.draw_circle(px.to_int(), py.to_int(), particle.size * life_r, col)
     }
 
     if storm.whiteout_t > 0.0 {

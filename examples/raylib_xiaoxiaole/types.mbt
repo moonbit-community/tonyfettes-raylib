@@ -111,7 +111,6 @@ fn cell_y(row : Int) -> Float {
   Float::from_int(board_top + row * (cell_px + cell_gap))
 }
 
-
 ///|
 fn idx(r : Int, c : Int) -> Int {
   r * grid_cols + c

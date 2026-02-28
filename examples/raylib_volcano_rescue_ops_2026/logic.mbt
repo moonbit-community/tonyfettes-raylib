@@ -759,8 +759,8 @@ fn update_route_run(game : Game, dt : Float) -> Unit {
 fn lava_pressure(game : Game) -> Int {
   let mut pressure : Int = 0
 
-  for oy in -1..=1 {
-    for ox in -1..=1 {
+  for oy in -1..<=1 {
+    for ox in -1..<=1 {
       let nx : Int = game.truck_x + ox
       let ny : Int = game.truck_y + oy
       if lava_at(game, nx, ny) {

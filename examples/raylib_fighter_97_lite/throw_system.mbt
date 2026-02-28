@@ -96,7 +96,6 @@ fn apply_throw_hit(
   attacker.vx = 0.0
   attacker.vy = 0.0
   attacker.move_connected = true
-  attacker.move_was_blocked = false
   attacker.move_cancel_enabled = false
   attacker.throw_tech_timer = 0
 
@@ -111,11 +110,9 @@ fn apply_throw_hit(
   defender.vx = throw_horizontal_velocity(attacker, defender)
   defender.vy = throw_launch_y * 0.06
   defender.on_ground = false
-  defender.jumped = true
   defender.crouching = false
 
   defender.combo_counter += 1
-  defender.combo_damage += throw_damage
   defender.combo_timer = combo_timeout_frames
 
   let hit_x = (attacker.x + defender.x) * 0.5

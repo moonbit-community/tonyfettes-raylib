@@ -462,7 +462,7 @@ fn draw_title_screen(game : Game) -> Unit {
 
 ///|
 fn draw_select_card(
-  game : Game,
+  _game : Game,
   archetype : CharacterArchetype,
   index : Int,
   x : Int,

@@ -21,8 +21,8 @@ fn tank_hits_world(game : Game, x : Float, y : Float) -> Bool {
   let min_ty = world_y_to_tile(y - half)
   let max_ty = world_y_to_tile(y + half)
 
-  for ty in min_ty..=max_ty {
-    for tx in min_tx..=max_tx {
+  for ty in min_ty..<=max_ty {
+    for tx in min_tx..<=max_tx {
       let tile = get_tile(game, tx, ty)
       if is_tile_solid_for_tank(tile) {
         return true

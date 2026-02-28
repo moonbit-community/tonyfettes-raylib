@@ -445,8 +445,8 @@ pub fn update_explored(game : Game) -> Unit {
   let gx = world_to_grid_x(game.player_x)
   let gz = world_to_grid_z(game.player_z)
   let radius = 4
-  for dy in -radius..=radius {
-    for dx in -radius..=radius {
+  for dy in -radius..<=radius {
+    for dx in -radius..<=radius {
       let nx = gx + dx
       let nz = gz + dy
       if in_bounds(nx, nz) {

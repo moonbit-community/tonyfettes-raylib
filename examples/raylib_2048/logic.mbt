@@ -280,8 +280,16 @@ fn update_animations(game : Game, dt : Float) -> Unit {
     let dx = tile.target_x - tile.anim_x
     let dy = tile.target_y - tile.anim_y
     if absf(dx) > 0.5 || absf(dy) > 0.5 {
-      tile.anim_x = lerpf(tile.anim_x, tile.target_x, clampf(anim_slide_speed * dt, 0.0, 1.0))
-      tile.anim_y = lerpf(tile.anim_y, tile.target_y, clampf(anim_slide_speed * dt, 0.0, 1.0))
+      tile.anim_x = lerpf(
+        tile.anim_x,
+        tile.target_x,
+        clampf(anim_slide_speed * dt, 0.0, 1.0),
+      )
+      tile.anim_y = lerpf(
+        tile.anim_y,
+        tile.target_y,
+        clampf(anim_slide_speed * dt, 0.0, 1.0),
+      )
       all_done = false
     } else {
       tile.anim_x = tile.target_x

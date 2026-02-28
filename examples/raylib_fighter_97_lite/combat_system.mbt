@@ -50,7 +50,7 @@ fn attacker_remaining_recovery(attacker : Fighter, mv : MoveSpec) -> Int {
 
 ///|
 fn compute_damage(
-  attacker : Fighter,
+  _attacker : Fighter,
   defender : Fighter,
   attacker_archetype : CharacterArchetype,
   defender_archetype : CharacterArchetype,
@@ -115,7 +115,6 @@ fn apply_successful_hit(
 
   if mv.launch_y < -60.0 || mv.knockdown {
     defender.on_ground = false
-    defender.jumped = true
     defender.crouching = false
   }
 
@@ -128,13 +127,10 @@ fn apply_successful_hit(
   defender.hitstop = mv.hitstop_frames
 
   attacker.move_connected = true
-  attacker.move_was_blocked = false
   attacker.move_cancel_enabled = mv.cancel_on_hit
 
   defender.combo_counter += 1
   defender.combo_timer = combo_timeout_frames
-  defender.combo_damage += damage
-  defender.counter_hit_flag = counter_hit
 
   add_meter(attacker, mv.meter_gain_on_hit, attacker_archetype)
   add_meter(defender, meter_gain_hit_taken, defender_archetype)
@@ -246,7 +242,6 @@ fn apply_blocked_hit(
   defender.hitstop = mv.hitstop_frames / 2 + 2
 
   attacker.move_connected = true
-  attacker.move_was_blocked = true
   attacker.move_cancel_enabled = false
 
   add_meter(

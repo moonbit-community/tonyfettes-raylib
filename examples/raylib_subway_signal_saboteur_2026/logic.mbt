@@ -475,8 +475,7 @@ fn deploy_emp(game : Game) -> Bool {
 
   let mut hits : Int = 0
   for inspector in game.inspectors {
-    if not(inspector.active) ||
-      inspector.mode == inspector_stunned {
+    if not(inspector.active) || inspector.mode == inspector_stunned {
       continue
     }
 
@@ -752,11 +751,7 @@ fn update_trains(game : Game, dt : Float) -> Unit {
 
       if train.prev_x < jx && train.x >= jx {
         let dir : Int = game.switch_state[j]
-        train.lane = clampi(
-          train.lane + dir,
-          0,
-          train_lane_n - 1,
-        )
+        train.lane = clampi(train.lane + dir, 0, train_lane_n - 1)
         train.passed_junction = j
       } else {
         break
@@ -771,9 +766,7 @@ fn update_trains(game : Game, dt : Float) -> Unit {
         burst(
           game,
           Float::from_int(cell_center_x(train_exit_x)),
-          Float::from_int(
-            cell_center_y(Float::from_int(lane_to_y(train.lane))),
-          ),
+          Float::from_int(cell_center_y(Float::from_int(lane_to_y(train.lane)))),
           14,
           1,
         )
@@ -789,9 +782,7 @@ fn update_trains(game : Game, dt : Float) -> Unit {
         burst(
           game,
           Float::from_int(cell_center_x(train_exit_x)),
-          Float::from_int(
-            cell_center_y(Float::from_int(lane_to_y(train.lane))),
-          ),
+          Float::from_int(cell_center_y(Float::from_int(lane_to_y(train.lane)))),
           24,
           2,
         )
@@ -856,13 +847,11 @@ fn handle_player_spotted(game : Game) -> Unit {
   }
 
   for inspector in game.inspectors {
-    if not(inspector.active) ||
-      inspector.mode == inspector_stunned {
+    if not(inspector.active) || inspector.mode == inspector_stunned {
       continue
     }
 
-    if inspector.body.x == game.player.x &&
-      inspector.body.y == game.player.y {
+    if inspector.body.x == game.player.x && inspector.body.y == game.player.y {
       game.lives = game.lives - 1
       game.flash_t = 1.0
       game.shake_t = 0.26

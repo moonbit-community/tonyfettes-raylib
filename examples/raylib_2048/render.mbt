@@ -159,7 +159,7 @@ fn draw_score_box(
   w : Int,
   h : Int,
   label : String,
-  value : Int
+  value : Int,
 ) -> Unit {
   @raylib.draw_rectangle_rounded(rect(x, y, w, h), 0.25, 6, score_bg_color)
   let label_size = 11
@@ -259,13 +259,7 @@ fn draw_overlay_won(game : Game) -> Unit {
   let by = cy + 10
   @raylib.draw_rectangle_rounded(rect(bx, by, bw, bh), 0.3, 6, btn_color)
   let btw = @raylib.measure_text(btn_text, bs)
-  @raylib.draw_text(
-    btn_text,
-    bx + (bw - btw) / 2,
-    by + 12,
-    bs,
-    btn_text_color,
-  )
+  @raylib.draw_text(btn_text, bx + (bw - btw) / 2, by + 12, bs, btn_text_color)
   ignore(game)
 }
 

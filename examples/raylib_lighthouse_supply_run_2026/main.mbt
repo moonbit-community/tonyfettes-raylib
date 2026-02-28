@@ -768,10 +768,7 @@ fn deliver_to_lights(
       used = used + give
       lights_served = lights_served + 1
       light.served = light.served + give
-      light.demand = maxf(
-        0.0,
-        light.demand - Float::from_int(give) * 1.3,
-      )
+      light.demand = maxf(0.0, light.demand - Float::from_int(give) * 1.3)
       light.warning_t = 0.0
 
       burst(parts, light.x, light.y, 10 + give / 2, 2)
@@ -1159,12 +1156,7 @@ fn draw_parts(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 

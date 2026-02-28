@@ -1276,16 +1276,14 @@ fn main {
         for bullet in bullets {
           if bullet.active &&
             bullet.team == 2 &&
-            dist2(player.x, player.y, bullet.x, bullet.y) <=
-            280.0 * 280.0 {
+            dist2(player.x, player.y, bullet.x, bullet.y) <= 280.0 * 280.0 {
             bullet.active = false
           }
         }
 
         for enemy in enemies {
           if enemy.active &&
-            dist2(player.x, player.y, enemy.x, enemy.y) <=
-            240.0 * 240.0 {
+            dist2(player.x, player.y, enemy.x, enemy.y) <= 240.0 * 240.0 {
             enemy.hp = enemy.hp - 44.0
             enemy.vx = enemy.vx * 0.2
             enemy.vy = enemy.vy * 0.2
@@ -1310,12 +1308,7 @@ fn main {
           if not(enemies[e].active) {
             continue
           }
-          let d2 : Float = dist2(
-            turret.x,
-            turret.y,
-            enemies[e].x,
-            enemies[e].y,
-          )
+          let d2 : Float = dist2(turret.x, turret.y, enemies[e].x, enemies[e].y)
           if d2 <= range * range && d2 < best_d2 {
             best_d2 = d2
             target_i = e
@@ -1394,8 +1387,7 @@ fn main {
         // target core by default, sometimes player when close.
         let mut txg : Float = core_x
         let mut tyg : Float = core_y
-        if dist2(enemy.x, enemy.y, player.x, player.y) <=
-          260.0 * 260.0 {
+        if dist2(enemy.x, enemy.y, player.x, player.y) <= 260.0 * 260.0 {
           txg = player.x
           tyg = player.y
         }
@@ -1436,24 +1428,15 @@ fn main {
         } else {
           240.0 + Float::from_int(wave) * 4.0
         }
-        let sp2 : Float = enemy.vx * enemy.vx +
-          enemy.vy * enemy.vy
+        let sp2 : Float = enemy.vx * enemy.vx + enemy.vy * enemy.vy
         if sp2 > max_spd * max_spd {
           let invs : Float = max_spd / sp2.sqrt()
           enemy.vx = enemy.vx * invs
           enemy.vy = enemy.vy * invs
         }
 
-        enemy.x = clampf(
-          enemy.x + enemy.vx * dt,
-          arena_l,
-          arena_r,
-        )
-        enemy.y = clampf(
-          enemy.y + enemy.vy * dt,
-          arena_t,
-          arena_b,
-        )
+        enemy.x = clampf(enemy.x + enemy.vx * dt, arena_l, arena_r)
+        enemy.y = clampf(enemy.y + enemy.vy * dt, arena_t, arena_b)
 
         if enemy.fire_cd <= 0.0 {
           if enemy.kind == 1 {
@@ -1524,10 +1507,7 @@ fn main {
         // Contact with player.
         let rr_p : Float = enemy_radius(enemy.kind) + 17.0
         if dist2(enemy.x, enemy.y, player.x, player.y) <= rr_p * rr_p {
-          on_player_hit(
-            8.0 + Float::from_int(enemy.kind) * 2.4,
-            "Direct hit",
-          )
+          on_player_hit(8.0 + Float::from_int(enemy.kind) * 2.4, "Direct hit")
           enemy.vx = -enemy.vx
           enemy.vy = -enemy.vy
         }
@@ -1535,8 +1515,7 @@ fn main {
         // Contact with core.
         let rr_c : Float = enemy_radius(enemy.kind) + core_r
         if dist2(enemy.x, enemy.y, core_x, core_y) <= rr_c * rr_c {
-          core_hp = core_hp -
-            dt * (12.0 + Float::from_int(enemy.kind) * 5.0)
+          core_hp = core_hp - dt * (12.0 + Float::from_int(enemy.kind) * 5.0)
           enemy.vx = (enemy.x - core_x) * 0.8
           enemy.vy = (enemy.y - core_y) * 0.8
         }
@@ -1648,8 +1627,7 @@ fn main {
               continue
             }
             let rr : Float = bullet.r + enemy_radius(enemy.kind)
-            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-              rr * rr {
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= rr * rr {
               enemy.hp = enemy.hp - bullet.dmg
               consumed = true
               bullet.active = false
@@ -1902,12 +1880,7 @@ fn main {
       } else {
         @raylib.Color::new(252, 130, 140, 242)
       }
-      @raylib.draw_circle(
-        bullet.x.to_int(),
-        bullet.y.to_int(),
-        bullet.r,
-        col,
-      )
+      @raylib.draw_circle(bullet.x.to_int(), bullet.y.to_int(), bullet.r, col)
     }
 
     // Player.

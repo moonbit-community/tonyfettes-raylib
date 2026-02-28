@@ -75,7 +75,6 @@ struct Enemy {
 ///|
 struct Bullet {
   mut active : Bool
-  kind : Int
   from_player : Bool
   mut x : Float
   mut y : Float
@@ -205,7 +204,7 @@ fn burst_particles(
 ///|
 fn spawn_bullet(
   bullets : FixedArray[Bullet],
-  kind : Int,
+  _kind : Int,
   from_player : Bool,
   x : Float,
   y : Float,
@@ -216,7 +215,7 @@ fn spawn_bullet(
 ) -> Unit {
   for i in 0..<bullets.length() {
     if not(bullets[i].active) {
-      bullets[i] = { active: true, kind, from_player, x, y, vx, vy, dmg, life }
+      bullets[i] = { active: true, from_player, x, y, vx, vy, dmg, life }
       break
     }
   }
@@ -459,7 +458,6 @@ fn main {
 
   let bullets = FixedArray::make(max_bullets, {
     active: false,
-    kind: 0,
     from_player: true,
     x: 0.0,
     y: 0.0,
@@ -969,12 +967,7 @@ fn main {
             if not(trucks[j].active) {
               continue
             }
-            let d2 : Float = dist2(
-              enemy.x,
-              enemy.y,
-              trucks[j].x,
-              trucks[j].y,
-            )
+            let d2 : Float = dist2(enemy.x, enemy.y, trucks[j].x, trucks[j].y)
             if d2 < best_d2 {
               best_d2 = d2
               best = j
@@ -991,11 +984,7 @@ fn main {
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemy.kind == 0 {
-          176.0
-        } else {
-          132.0
-        }
+        let base_speed : Float = if enemy.kind == 0 { 176.0 } else { 132.0 }
         let level_gain : Float = if enemy.kind == 0 { 16.0 } else { 12.0 }
         let mut speed : Float = base_speed +
           Float::from_int(level - 1) * level_gain
@@ -1056,11 +1045,7 @@ fn main {
           if dist2(enemy.x, enemy.y, pilot.x, pilot.y) <= 30.0 * 30.0 {
             enemy.bite_cd = 0.64
             if pilot.hit_cd <= 0.0 {
-              let bite_dmg : Float = if enemy.kind == 0 {
-                12.0
-              } else {
-                20.0
-              }
+              let bite_dmg : Float = if enemy.kind == 0 { 12.0 } else { 20.0 }
               pilot.hp = pilot.hp - bite_dmg
               pilot.hit_cd = 0.42
               pilot.flash_t = 0.16
@@ -1074,14 +1059,9 @@ fn main {
             if not(truck.active) {
               continue
             }
-            if dist2(enemy.x, enemy.y, truck.x, truck.y) <=
-              34.0 * 34.0 {
+            if dist2(enemy.x, enemy.y, truck.x, truck.y) <= 34.0 * 34.0 {
               enemy.bite_cd = 0.66
-              let truck_dmg : Float = if enemy.kind == 0 {
-                14.0
-              } else {
-                24.0
-              }
+              let truck_dmg : Float = if enemy.kind == 0 { 14.0 } else { 24.0 }
               truck.hp = truck.hp - truck_dmg
               truck.flash_t = 0.14
               burst_particles(particles, truck.x, truck.y, 12, 80.0, 2)
@@ -1118,8 +1098,7 @@ fn main {
             if not(enemy.active) {
               continue
             }
-            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-              22.0 * 22.0 {
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= 22.0 * 22.0 {
               enemy.hp = enemy.hp - bullet.dmg
               burst_particles(particles, bullet.x, bullet.y, 6, 56.0, 0)
               bullet.active = false
@@ -1144,8 +1123,7 @@ fn main {
             if not(truck.active) {
               continue
             }
-            if dist2(bullet.x, bullet.y, truck.x, truck.y) <=
-              24.0 * 24.0 {
+            if dist2(bullet.x, bullet.y, truck.x, truck.y) <= 24.0 * 24.0 {
               truck.hp = truck.hp - bullet.dmg
               truck.flash_t = 0.14
               burst_particles(particles, bullet.x, bullet.y, 8, 66.0, 2)
@@ -1518,12 +1496,7 @@ fn main {
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
       }
-      @raylib.draw_circle(
-        px.to_int(),
-        py.to_int(),
-        particle.size * life_r,
-        col,
-      )
+      @raylib.draw_circle(px.to_int(), py.to_int(), particle.size * life_r, col)
     }
 
     @raylib.draw_rectangle(

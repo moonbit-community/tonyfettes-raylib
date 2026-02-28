@@ -428,13 +428,7 @@ fn trap_is_hot(trap : Trap) -> Bool {
 ///|
 fn refresh_plates(game : Game) -> Unit {
   for plate in game.plates {
-    plate.pressed = player_hits_rect(
-      game,
-      plate.x,
-      plate.y,
-      plate.w,
-      plate.h,
-    )
+    plate.pressed = player_hits_rect(game, plate.x, plate.y, plate.w, plate.h)
   }
 }
 
@@ -458,14 +452,7 @@ fn refresh_doors(game : Game, dt : Float) -> Unit {
     door.open = door.timer > 0.0
 
     // Prevent doors from sealing while the player is inside the doorway volume.
-    if not(door.open) &&
-      player_hits_rect(
-        game,
-        door.x,
-        door.y,
-        door.w,
-        door.h,
-      ) {
+    if not(door.open) && player_hits_rect(game, door.x, door.y, door.w, door.h) {
       door.open = true
     }
   }
@@ -477,16 +464,7 @@ fn collides_closed_door(game : Game, x : Float, y : Float) -> Bool {
 
   for door in game.doors {
     if not(door.open) &&
-      rects_overlap(
-        px,
-        py,
-        pw,
-        ph,
-        door.x,
-        door.y,
-        door.w,
-        door.h,
-      ) {
+      rects_overlap(px, py, pw, ph, door.x, door.y, door.w, door.h) {
       return true
     }
   }
@@ -591,13 +569,7 @@ fn fail_stage(game : Game, reason : String) -> Unit {
 ///|
 fn check_hazards(game : Game) -> Bool {
   for hazard in game.hazards {
-    if player_hits_rect(
-        game,
-        hazard.x,
-        hazard.y,
-        hazard.w,
-        hazard.h,
-      ) {
+    if player_hits_rect(game, hazard.x, hazard.y, hazard.w, hazard.h) {
       fail_stage(game, hazard.label)
       return true
     }
@@ -610,13 +582,7 @@ fn check_hazards(game : Game) -> Bool {
 fn check_traps(game : Game) -> Bool {
   for trap in game.traps {
     if trap_is_hot(trap) &&
-      player_hits_rect(
-        game,
-        trap.x,
-        trap.y,
-        trap.w,
-        trap.h,
-      ) {
+      player_hits_rect(game, trap.x, trap.y, trap.w, trap.h) {
       fail_stage(game, trap.label)
       return true
     }

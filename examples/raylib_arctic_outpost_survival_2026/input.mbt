@@ -109,12 +109,7 @@ fn best_auto_aim(game : Game) -> (Float, Float) {
       continue
     }
 
-    let d2 : Float = dist2(
-      game.player_x,
-      game.player_y,
-      enemy.x,
-      enemy.y,
-    )
+    let d2 : Float = dist2(game.player_x, game.player_y, enemy.x, enemy.y)
 
     if d2 < best {
       best = d2

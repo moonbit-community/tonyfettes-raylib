@@ -22,8 +22,6 @@ struct Thief {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut fx : Float
-  mut fy : Float
   mut hp : Int
   mut stamina : Float
   mut pulse_cd : Float
@@ -87,15 +85,6 @@ fn clampf(v : Float, lo : Float, hi : Float) -> Float {
     lo
   } else if v > hi {
     hi
-  } else {
-    v
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
   } else {
     v
   }
@@ -315,8 +304,6 @@ fn reset_player(p : Thief) -> Unit {
   p.y = 734.0
   p.vx = 0.0
   p.vy = 0.0
-  p.fx = 1.0
-  p.fy = 0.0
   p.hp = 6
   p.stamina = 100.0
   p.pulse_cd = 0.0
@@ -474,8 +461,6 @@ fn main {
     y: 734.0,
     vx: 0.0,
     vy: 0.0,
-    fx: 1.0,
-    fy: 0.0,
     hp: 6,
     stamina: 100.0,
     pulse_cd: 0.0,
@@ -728,9 +713,7 @@ fn main {
 
       if ax != 0.0 || ay != 0.0 {
         let d2 = ax * ax + ay * ay
-        let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
-        player.fx = ax / d
-        player.fy = ay / d
+        let _d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
       }
 
       let sprint_on = sprint && player.stamina > 6.0
@@ -969,8 +952,7 @@ fn main {
         }
 
         if bullet.owner == 2 &&
-          sqdist(bullet.x, bullet.y, player.x, player.y - 8.0) <=
-          18.0 * 18.0 {
+          sqdist(bullet.x, bullet.y, player.x, player.y - 8.0) <= 18.0 * 18.0 {
           bullet.active = false
           if player.hit_cd <= 0.0 {
             player.hp = player.hp - 1

@@ -996,8 +996,7 @@ fn main {
           let dy = ty - zombie.y
           let n2 = dx * dx + dy * dy
           let n = safe_len2(n2)
-          let chase = zombie.speed *
-            (if zombie.kind == 2 { 1.14 } else { 1.0 })
+          let chase = zombie.speed * (if zombie.kind == 2 { 1.14 } else { 1.0 })
 
           zombie.vx = zombie.vx * (Float::from_int(1) - dt * 2.6) +
             dx / n * chase * dt * 2.6
@@ -1114,8 +1113,7 @@ fn main {
           } else {
             18.0
           }
-          if dist2(bullet.x, bullet.y, zombie.x, zombie.y) <=
-            zrad * zrad {
+          if dist2(bullet.x, bullet.y, zombie.x, zombie.y) <= zrad * zrad {
             zombie.hp = zombie.hp - bullet.dmg
             zombie.flash_t = 0.14
 
@@ -1398,12 +1396,7 @@ fn main {
         @raylib.Color::new(156, 228, 252, 255)
       }
       let brad : Float = if bullet.kind == 2 { 5.0 } else { 4.0 }
-      @raylib.draw_circle(
-        bullet.x.to_int(),
-        bullet.y.to_int(),
-        brad,
-        col,
-      )
+      @raylib.draw_circle(bullet.x.to_int(), bullet.y.to_int(), brad, col)
     }
 
     for zombie in zombies {
@@ -1432,12 +1425,7 @@ fn main {
         col = @raylib.Color::new(255, 235, 210, 255)
       }
 
-      @raylib.draw_circle(
-        zombie.x.to_int(),
-        zombie.y.to_int(),
-        rad,
-        col,
-      )
+      @raylib.draw_circle(zombie.x.to_int(), zombie.y.to_int(), rad, col)
       @raylib.draw_circle(
         (zombie.x - rad * 0.34).to_int(),
         (zombie.y - rad * 0.2).to_int(),

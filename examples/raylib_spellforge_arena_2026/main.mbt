@@ -974,11 +974,7 @@ fn main {
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemy.kind == 0 {
-          178.0
-        } else {
-          132.0
-        }
+        let base_speed : Float = if enemy.kind == 0 { 178.0 } else { 132.0 }
         let level_gain : Float = if enemy.kind == 0 { 16.0 } else { 12.0 }
         let mut speed : Float = base_speed +
           Float::from_int(level - 1) * level_gain
@@ -1020,11 +1016,7 @@ fn main {
           if dist2(enemy.x, enemy.y, mage.x, mage.y) <= 30.0 * 30.0 {
             enemy.bite_cd = 0.6
             if mage.hit_cd <= 0.0 {
-              let bite_dmg : Float = if enemy.kind == 0 {
-                14.0
-              } else {
-                22.0
-              }
+              let bite_dmg : Float = if enemy.kind == 0 { 14.0 } else { 22.0 }
               mage.hp = mage.hp - bite_dmg
               mage.hit_cd = 0.42
               mage.flash_t = 0.18
@@ -1063,25 +1055,13 @@ fn main {
             if not(enemy.active) {
               continue
             }
-            if dist2(
-                projectile.x,
-                projectile.y,
-                enemy.x,
-                enemy.y,
-              ) <=
+            if dist2(projectile.x, projectile.y, enemy.x, enemy.y) <=
               22.0 * 22.0 {
               enemy.hp = enemy.hp - projectile.dmg
               if projectile.kind == 0 {
                 enemy.burn_t = enemy.burn_t + 1.8
               }
-              burst_particles(
-                particles,
-                projectile.x,
-                projectile.y,
-                6,
-                60.0,
-                0,
-              )
+              burst_particles(particles, projectile.x, projectile.y, 6, 60.0, 0)
               projectile.active = false
               break
             }
@@ -1143,8 +1123,7 @@ fn main {
         }
 
         let pulse : Float = 1.0 + @math.sinf(orb.t * 4.2) * 0.12
-        if dist2(mage.x, mage.y, orb.x, orb.y) <=
-          34.0 * pulse * (34.0 * pulse) {
+        if dist2(mage.x, mage.y, orb.x, orb.y) <= 34.0 * pulse * (34.0 * pulse) {
           if orb.kind == 0 {
             mage.mana = mage.mana + Float::from_int(orb.value)
             if mage.mana > 260.0 {
@@ -1400,12 +1379,7 @@ fn main {
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
       }
-      @raylib.draw_circle(
-        px.to_int(),
-        py.to_int(),
-        particle.size * life_r,
-        col,
-      )
+      @raylib.draw_circle(px.to_int(), py.to_int(), particle.size * life_r, col)
     }
 
     @raylib.draw_rectangle(

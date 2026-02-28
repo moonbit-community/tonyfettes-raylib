@@ -983,8 +983,7 @@ fn update_shots(game : Game, dt : Float) -> Unit {
     }
 
     shot.x = shot.x + shot.vx * dt
-    shot.y = shot.y +
-      (shot.vy + game.scroll * 0.1) * dt
+    shot.y = shot.y + (shot.vy + game.scroll * 0.1) * dt
     shot.life = shot.life - dt
 
     let dead = shot.life <= 0.0 ||
@@ -1004,12 +1003,7 @@ fn update_shots(game : Game, dt : Float) -> Unit {
           continue
         }
 
-        let d2 = dist2(
-          shot.x,
-          shot.y,
-          game.objs[j].x,
-          game.objs[j].y,
-        )
+        let d2 = dist2(shot.x, shot.y, game.objs[j].x, game.objs[j].y)
         let rr = obj_hit_r(game.objs[j]) + 8.0
         if d2 <= rr * rr {
           game.objs[j].hp = game.objs[j].hp - shot.dmg
@@ -1057,8 +1051,7 @@ fn update_fx(game : Game, dt : Float) -> Unit {
     }
 
     spark.x = spark.x + spark.vx * dt
-    spark.y = spark.y +
-      (spark.vy + game.scroll * 0.16) * dt
+    spark.y = spark.y + (spark.vy + game.scroll * 0.16) * dt
     spark.life = spark.life - dt
 
     if spark.life <= 0.0 {
@@ -1072,8 +1065,7 @@ fn update_fx(game : Game, dt : Float) -> Unit {
     }
 
     ring.life = ring.life - dt
-    ring.r = ring.r +
-      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    ring.r = ring.r + (130.0 + Float::from_int(ring.kind) * 52.0) * dt
     if ring.life <= 0.0 {
       ring.active = false
     }

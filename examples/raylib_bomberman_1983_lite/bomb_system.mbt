@@ -43,9 +43,7 @@ fn can_player_place_bomb(game : Game, player_index : Int) -> Bool {
   }
 
   for bomb in game.bombs {
-    if bomb.active &&
-      bomb.tile_x == tx &&
-      bomb.tile_y == ty {
+    if bomb.active && bomb.tile_x == tx && bomb.tile_y == ty {
       return false
     }
   }
@@ -197,7 +195,7 @@ fn trigger_bomb(game : Game, bomb_index : Int) -> Unit {
     } else {
       0
     }
-    for step in 1..=range {
+    for step in 1..<=range {
       let nx = tx + dx * step
       let ny = ty + dy * step
       if not(in_tile_bounds(nx, ny)) {

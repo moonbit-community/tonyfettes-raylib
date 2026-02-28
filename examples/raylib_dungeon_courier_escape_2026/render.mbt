@@ -164,8 +164,7 @@ fn draw_traps(game : Game) -> Unit {
       continue
     }
 
-    let blink : Float = (0.5 : Float) +
-      (0.5 : Float) * sinf(trap.blink_t * 5.2)
+    let blink : Float = (0.5 : Float) + (0.5 : Float) * sinf(trap.blink_t * 5.2)
     let alpha = 70 + (blink * 120.0).to_int()
 
     @raylib.draw_circle(
@@ -182,12 +181,7 @@ fn draw_traps(game : Game) -> Unit {
       @raylib.Color::new(250, 98, 146, alpha),
     )
 
-    @raylib.draw_circle(
-      trap.x.to_int(),
-      trap.y.to_int(),
-      4.0,
-      col_trap(),
-    )
+    @raylib.draw_circle(trap.x.to_int(), trap.y.to_int(), 4.0, col_trap())
   }
 }
 
@@ -198,8 +192,7 @@ fn draw_parcels(game : Game) -> Unit {
       continue
     }
 
-    let pulse : Float = (0.5 : Float) +
-      (0.5 : Float) * sinf(parcel.pulse)
+    let pulse : Float = (0.5 : Float) + (0.5 : Float) * sinf(parcel.pulse)
 
     @raylib.draw_circle(
       parcel.x.to_int(),

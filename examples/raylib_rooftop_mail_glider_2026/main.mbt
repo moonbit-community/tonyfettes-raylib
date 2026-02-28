@@ -4,7 +4,6 @@ struct Glider {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut heading : Float
   mut fuel : Float
   fuel_max : Float
   mut hull : Float
@@ -43,7 +42,6 @@ struct Delivery {
   mut deadline : Float
   mut max_deadline : Float
   mut reward : Int
-  mut priority : Float
   mut pulse : Float
 }
 
@@ -137,15 +135,6 @@ fn mini(a : Int, b : Int) -> Int {
 }
 
 ///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
 fn absf(v : Float) -> Float {
   if v < 0.0 {
     -v
@@ -157,11 +146,6 @@ fn absf(v : Float) -> Float {
 ///|
 fn sinf(v : Float) -> Float {
   Float::from_double(@math.sin(v.to_double()))
-}
-
-///|
-fn cosf(v : Float) -> Float {
-  Float::from_double(@math.cos(v.to_double()))
 }
 
 ///|
@@ -275,7 +259,6 @@ fn clear_deliveries(deliveries : Array[Delivery]) -> Unit {
     deliveries[i].deadline = 0.0
     deliveries[i].max_deadline = 0.0
     deliveries[i].reward = 0
-    deliveries[i].priority = 0.0
     deliveries[i].pulse = 0.0
   }
 }
@@ -546,7 +529,6 @@ fn spawn_delivery(
     delivery.deadline = deadline
     delivery.max_deadline = deadline
     delivery.reward = 110 + wave * 7 + randi(0, 56)
-    delivery.priority = randf(0.0, 1.0)
     delivery.pulse = randf(0.0, 10.0)
 
     placed = true
@@ -706,7 +688,7 @@ fn draw_sky_background(
 fn draw_city_blocks(
   world_x : Int,
   world_y : Int,
-  world_w : Int,
+  _world_w : Int,
   world_h : Int,
   scene_t : Float,
 ) -> Unit {
@@ -961,11 +943,7 @@ fn draw_particles(parts : Array[Particle]) -> Unit {
     } else {
       @raylib.Color::new(244, 236, 168, a)
     }
-    @raylib.draw_circle_v(
-      @raylib.Vector2::new(part.x, part.y),
-      part.size,
-      c,
-    )
+    @raylib.draw_circle_v(@raylib.Vector2::new(part.x, part.y), part.size, c)
   }
 }
 
@@ -1035,11 +1013,7 @@ fn draw_deliveries_panel(
     let urgency : Float = if delivery.max_deadline <= 0.001 {
       0.0
     } else {
-      clampf(
-        1.0 - delivery.deadline / delivery.max_deadline,
-        0.0,
-        1.0,
-      )
+      clampf(1.0 - delivery.deadline / delivery.max_deadline, 0.0, 1.0)
     }
 
     let blink : Float = sinf(scene_t * 8.0 + delivery.pulse) * 0.5 + 0.5
@@ -1627,7 +1601,6 @@ fn main {
       deadline: 0.0,
       max_deadline: 0.0,
       reward: 0,
-      priority: 0.0,
       pulse: 0.0,
     }
   })
@@ -1692,7 +1665,6 @@ fn main {
     y: depot.y + depot.h * 0.5,
     vx: 0.0,
     vy: 0.0,
-    heading: 0.0,
     fuel: 100.0,
     fuel_max: 100.0,
     hull: 100.0,
@@ -1744,7 +1716,6 @@ fn main {
     glider.y = depot.y + depot.h * 0.5
     glider.vx = 0.0
     glider.vy = 0.0
-    glider.heading = 0.0
     glider.fuel = 100.0
     glider.hull = 100.0
     glider.bags = 0
@@ -1984,16 +1955,8 @@ fn main {
         }
         wind.pulse = wind.pulse + dt * 2.8
 
-        if inside_rectf(
-            glider.x,
-            glider.y,
-            wind.x,
-            wind.y,
-            wind.w,
-            wind.h,
-          ) {
-          let wave_mul : Float = 0.72 +
-            (sinf(wind.pulse) * 0.5 + 0.5) * 0.62
+        if inside_rectf(glider.x, glider.y, wind.x, wind.y, wind.w, wind.h) {
+          let wave_mul : Float = 0.72 + (sinf(wind.pulse) * 0.5 + 0.5) * 0.62
           glider.vx = glider.vx + wind.vx * dt * wave_mul
           glider.vy = glider.vy + wind.vy * dt * wave_mul
           wind_drain = wind_drain + wind.turbulence * (0.7 + wave_mul * 0.5)
@@ -2103,8 +2066,7 @@ fn main {
         }
 
         delivery.pulse = delivery.pulse + dt * 3.6
-        delivery.deadline = delivery.deadline -
-          dt * (1.0 + queue_pressure)
+        delivery.deadline = delivery.deadline - dt * (1.0 + queue_pressure)
 
         if delivery.deadline <= 0.0 {
           delivery.active = false

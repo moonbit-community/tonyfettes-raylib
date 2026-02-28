@@ -239,15 +239,13 @@ fn spawn_obstacle(game : Game) -> Bool {
     obstacle.active = true
     obstacle.x = world_right() + randf(30.0, 120.0)
     obstacle.w = randf(82.0, 124.0)
-    obstacle.speed = randf(220.0, 320.0) +
-      Float::from_int(game.level) * 10.0
+    obstacle.speed = randf(220.0, 320.0) + Float::from_int(game.level) * 10.0
 
     let min_y : Float = world_top() + 140.0
     let max_y : Float = world_bottom() - 140.0
     obstacle.gap_y = randf(min_y, max_y)
 
-    obstacle.gap_h = randf(220.0, 340.0) -
-      Float::from_int(game.level) * 4.0
+    obstacle.gap_h = randf(220.0, 340.0) - Float::from_int(game.level) * 4.0
     obstacle.gap_h = clampf(obstacle.gap_h, 170.0, 340.0)
 
     let roll : Int = @raylib.get_random_value(0, 99)
@@ -504,9 +502,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     pickup.phase = pickup.phase + dt * 3.8
 
     pickup.y = pickup.y +
-      Float::from_double(@math.sin(pickup.phase.to_double())) *
-      dt *
-      40.0
+      Float::from_double(@math.sin(pickup.phase.to_double())) * dt * 40.0
 
     if pickup.x < world_left() - 70.0 {
       pickup.active = false

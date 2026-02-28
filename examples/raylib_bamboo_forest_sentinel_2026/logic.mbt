@@ -561,12 +561,7 @@ fn update_traps(game : Game, dt : Float) -> Unit {
         continue
       }
 
-      let d2 = dist2(
-        trap.x,
-        trap.y,
-        game.enemies[j].x,
-        game.enemies[j].y,
-      )
+      let d2 = dist2(trap.x, trap.y, game.enemies[j].x, game.enemies[j].y)
       if d2 <= best_d2 {
         hit_index = j
         best_d2 = d2

@@ -180,7 +180,6 @@ fn clear_world(game : Game) -> Unit {
     order.y_to = 0.0
     order.timer = 0.0
     order.value = 0
-    order.id = 0
   }
 
   for pickup in game.pickups {
@@ -386,7 +385,6 @@ fn spawn_order(game : Game) -> Bool {
     order.timer = randf(24.0, 42.0) - Float::from_int(game.wave) * 0.6
     order.timer = maxf(16.0, order.timer)
     order.value = @raylib.get_random_value(70, 130)
-    order.id = @raylib.get_random_value(1000, 9999)
 
     return true
   }
@@ -734,10 +732,8 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
 
     pickup.phase = pickup.phase + dt * 2.4
 
-    pickup.x = pickup.x +
-      (pickup.vx + sinf(pickup.phase * 2.0) * 22.0) * dt
-    pickup.y = pickup.y +
-      (pickup.vy + cosf(pickup.phase * 2.1) * 22.0) * dt
+    pickup.x = pickup.x + (pickup.vx + sinf(pickup.phase * 2.0) * 22.0) * dt
+    pickup.y = pickup.y + (pickup.vy + cosf(pickup.phase * 2.1) * 22.0) * dt
 
     if pickup.x < world_left() + 16.0 {
       pickup.x = world_left() + 16.0
@@ -758,8 +754,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     let rr : Float = rider_r + pickup_distance(pickup.kind)
-    if dist2(game.rider_x, game.rider_y, pickup.x, pickup.y) <=
-      rr * rr {
+    if dist2(game.rider_x, game.rider_y, pickup.x, pickup.y) <= rr * rr {
       let kind : Int = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y

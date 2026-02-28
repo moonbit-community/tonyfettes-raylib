@@ -4,7 +4,6 @@ struct PatrolCraft {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut heading : Float
   mut battery : Float
   battery_max : Float
   mut hull : Float
@@ -142,15 +141,6 @@ fn maxf(a : Float, b : Float) -> Float {
 ///|
 fn mini(a : Int, b : Int) -> Int {
   if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
     a
   } else {
     b
@@ -422,7 +412,7 @@ fn init_towers(
   towers : Array[Tower],
   world_l : Float,
   world_t : Float,
-  world_w : Float,
+  _world_w : Float,
   world_h : Float,
 ) -> Unit {
   if towers.length() < 10 {
@@ -1062,12 +1052,7 @@ fn draw_storms(storms : Array[StormCell], scene_t : Float) -> Unit {
     @raylib.draw_circle_v(
       @raylib.Vector2::new(storm.x, storm.y),
       rr,
-      @raylib.Color::new(
-        126,
-        184,
-        248,
-        34 + (storm.intensity * 42.0).to_int(),
-      ),
+      @raylib.Color::new(126, 184, 248, 34 + (storm.intensity * 42.0).to_int()),
     )
     @raylib.draw_circle_lines(
       storm.x.to_int(),
@@ -1140,11 +1125,7 @@ fn draw_particles(parts : Array[Particle]) -> Unit {
     } else {
       @raylib.Color::new(246, 236, 168, a)
     }
-    @raylib.draw_circle_v(
-      @raylib.Vector2::new(part.x, part.y),
-      part.size,
-      c,
-    )
+    @raylib.draw_circle_v(@raylib.Vector2::new(part.x, part.y), part.size, c)
   }
 }
 
@@ -1869,7 +1850,6 @@ fn main {
     y: depot.y + depot.h * 0.5,
     vx: 0.0,
     vy: 0.0,
-    heading: 0.0,
     battery: 100.0,
     battery_max: 100.0,
     hull: 100.0,
@@ -1930,7 +1910,6 @@ fn main {
     craft.y = depot.y + depot.h * 0.5
     craft.vx = 0.0
     craft.vy = 0.0
-    craft.heading = 0.0
     craft.battery = 100.0
     craft.hull = 100.0
     craft.wire = 0
@@ -2170,20 +2149,11 @@ fn main {
         }
         wind.pulse = wind.pulse + dt * 2.8
 
-        if inside_rectf(
-            craft.x,
-            craft.y,
-            wind.x,
-            wind.y,
-            wind.w,
-            wind.h,
-          ) {
-          let wave_mul : Float = 0.72 +
-            (sinf(wind.pulse) * 0.5 + 0.5) * 0.62
+        if inside_rectf(craft.x, craft.y, wind.x, wind.y, wind.w, wind.h) {
+          let wave_mul : Float = 0.72 + (sinf(wind.pulse) * 0.5 + 0.5) * 0.62
           craft.vx = craft.vx + wind.vx * dt * wave_mul
           craft.vy = craft.vy + wind.vy * dt * wave_mul
-          wind_penalty = wind_penalty +
-            wind.turbulence * (0.7 + wave_mul * 0.5)
+          wind_penalty = wind_penalty + wind.turbulence * (0.7 + wave_mul * 0.5)
 
           if wind.turbulence > 0.42 {
             craft.hull = craft.hull - dt * (wind.turbulence - 0.36) * 1.4
@@ -2255,10 +2225,7 @@ fn main {
               towers[fault.tower_id].y,
             ) <=
             220.0 * 220.0 {
-            fault.deadline = minf(
-              fault.max_deadline,
-              fault.deadline + 6.0,
-            )
+            fault.deadline = minf(fault.max_deadline, fault.deadline + 6.0)
           }
         }
 

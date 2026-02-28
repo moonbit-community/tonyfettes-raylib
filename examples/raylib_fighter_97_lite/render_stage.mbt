@@ -161,7 +161,7 @@ fn draw_stage_floor(game : Game) -> Unit {
     @raylib.Color::new(42, 38, 36, 255),
   )
 
-  for i in 0..=40 {
+  for i in 0..<=40 {
     let t = Float::from_int(i) / f(40.0)
     let y = floor_top + (t * t * f(210.0)).to_int()
     let alpha = f(0.16) - t * f(0.14)
@@ -174,7 +174,7 @@ fn draw_stage_floor(game : Game) -> Unit {
     )
   }
 
-  for i in -14..=14 {
+  for i in -14..<=14 {
     let x = screen_width / 2 + i * 48 + (game.bg_scroll * f(0.8)).to_int() % 48
     let alpha = f(0.2) -
       Float::from_int(absf(Float::from_int(i)).to_int()) * f(0.008)

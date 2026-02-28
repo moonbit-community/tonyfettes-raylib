@@ -723,12 +723,7 @@ fn update_groups(
       }
 
       let rr : Float = flood.radius
-      let d2v : Float = dist2(
-        group.x,
-        group.y,
-        flood.x,
-        flood.y,
-      )
+      let d2v : Float = dist2(group.x, group.y, flood.x, flood.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
         panic_gain = panic_gain + dt * flood.pressure * (0.8 + ratio * 1.6)
@@ -990,9 +985,7 @@ fn draw_groups(groups : Array[Group], t : Float) -> Unit {
     }
 
     let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
-    let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(group.id) * 0.3,
-      ) *
+    let flare : Float = @math.sinf(t * 6.0 + Float::from_int(group.id) * 0.3) *
       0.5 +
       0.5
 
@@ -1174,12 +1167,7 @@ fn draw_parts(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 
@@ -1843,12 +1831,7 @@ fn main {
         }
 
         let rr : Float = barrier.size + 11.0
-        let d2v : Float = dist2(
-          player.x,
-          player.y,
-          barrier.x,
-          barrier.y,
-        )
+        let d2v : Float = dist2(player.x, player.y, barrier.x, barrier.y)
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
           let nx : Float = (player.x - barrier.x) / d
@@ -1859,8 +1842,7 @@ fn main {
           player.y = player.y + ny * push
 
           if sp2 > 70.0 {
-            collision_dmg = collision_dmg +
-              dt * (1.1 + barrier.hard * 0.018)
+            collision_dmg = collision_dmg + dt * (1.1 + barrier.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
@@ -1886,12 +1868,7 @@ fn main {
           }
 
           let rr : Float = flood.radius
-          let d2v : Float = dist2(
-            shelter.x,
-            shelter.y,
-            flood.x,
-            flood.y,
-          )
+          let d2v : Float = dist2(shelter.x, shelter.y, flood.x, flood.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
             flood_load = flood_load + flood.pressure * (0.3 + ratio * 0.9)

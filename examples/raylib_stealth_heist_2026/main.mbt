@@ -68,22 +68,22 @@ fn build_map(map : Array[Int]) -> Unit {
     set_wall(map, map_w - 1, y)
   }
 
-  for y in 2..=9 {
+  for y in 2..<=9 {
     if y != 5 {
       set_wall(map, 4, y)
     }
   }
-  for y in 1..=8 {
+  for y in 1..<=8 {
     if y != 3 && y != 7 {
       set_wall(map, 9, y)
     }
   }
-  for x in 6..=15 {
+  for x in 6..<=15 {
     if x != 12 {
       set_wall(map, x, 6)
     }
   }
-  for x in 2..=10 {
+  for x in 2..<=10 {
     if x != 7 {
       set_wall(map, x, 9)
     }

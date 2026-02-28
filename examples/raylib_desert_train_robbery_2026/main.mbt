@@ -790,11 +790,9 @@ fn main {
 
         let target_rel = clampf(player.x - wx, 18.0, wl - 18.0)
         if target_rel < sheriff.rel_x {
-          sheriff.rel_x = sheriff.rel_x -
-            Float::from_int(74 + level * 14) * dt
+          sheriff.rel_x = sheriff.rel_x - Float::from_int(74 + level * 14) * dt
         } else if target_rel > sheriff.rel_x {
-          sheriff.rel_x = sheriff.rel_x +
-            Float::from_int(74 + level * 14) * dt
+          sheriff.rel_x = sheriff.rel_x + Float::from_int(74 + level * 14) * dt
         }
 
         sheriff.rel_x = clampf(sheriff.rel_x, 18.0, wl - 18.0)

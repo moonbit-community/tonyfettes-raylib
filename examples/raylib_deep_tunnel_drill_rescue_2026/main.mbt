@@ -355,8 +355,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
 
   // base platform near top center
   let base_cx : Int = grid_w / 2
-  for gy in 0..=2 {
-    for gx in (base_cx - 2)..=(base_cx + 2) {
+  for gy in 0..<=2 {
+    for gx in (base_cx - 2)..<=(base_cx + 2) {
       if in_bounds(gx, gy) {
         set_tile(tiles, gx, gy, tile_base)
       }
@@ -364,8 +364,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
   }
 
   // ensure tunnels around base
-  for gx in (base_cx - 1)..=(base_cx + 1) {
-    for gy in 2..=4 {
+  for gx in (base_cx - 1)..<=(base_cx + 1) {
+    for gy in 2..<=4 {
       if in_bounds(gx, gy) {
         set_tile(tiles, gx, gy, tile_empty)
       }
@@ -430,8 +430,8 @@ fn gas_near_count(tiles : Array[Int], px : Float, py : Float) -> Int {
   let gy : Int = world_to_gy(py)
 
   let mut c : Int = 0
-  for oy in -1..=1 {
-    for ox in -1..=1 {
+  for oy in -1..<=1 {
+    for ox in -1..<=1 {
       let tx : Int = gx + ox
       let ty : Int = gy + oy
       if get_tile(tiles, tx, ty) == tile_gas {
@@ -492,8 +492,8 @@ fn drop_bomb(
   let mut casualties : Int = casualties_ref
   let mut crystals : Int = crystals_ref
 
-  for oy in -2..=2 {
-    for ox in -2..=2 {
+  for oy in -2..<=2 {
+    for ox in -2..<=2 {
       let tx : Int = gx + ox
       let ty : Int = gy + oy
       if not(in_bounds(tx, ty)) {
@@ -1446,8 +1446,8 @@ fn main {
           (tile_here == tile_miner && player.carried < player.carry_max)
         ) {
         let mut rescued_now : Int = 0
-        for oy in -1..=1 {
-          for ox in -1..=1 {
+        for oy in -1..<=1 {
+          for ox in -1..<=1 {
             let gx : Int = cgx + ox
             let gy : Int = cgy + oy
             if get_tile(tiles, gx, gy) == tile_miner {

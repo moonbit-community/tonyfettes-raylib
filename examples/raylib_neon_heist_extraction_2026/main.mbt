@@ -282,15 +282,7 @@ fn bounce_from_walls(
       continue
     }
 
-    if circle_rect_hit(
-        nx,
-        ny,
-        r,
-        wall.x,
-        wall.y,
-        wall.w,
-        wall.h,
-      ) {
+    if circle_rect_hit(nx, ny, r, wall.x, wall.y, wall.w, wall.h) {
       if absf(vx) > absf(vy) {
         nx = nx - vx * 0.05
         nvx = -vx * 0.26
@@ -1359,13 +1351,8 @@ fn main {
           if not(camera.active) {
             continue
           }
-          if dist2(player.x, player.y, camera.x, camera.y) <=
-            330.0 * 330.0 {
-            camera.disabled_t = clampf(
-              camera.disabled_t + 5.2,
-              0.0,
-              8.0,
-            )
+          if dist2(player.x, player.y, camera.x, camera.y) <= 330.0 * 330.0 {
+            camera.disabled_t = clampf(camera.disabled_t + 5.2, 0.0, 8.0)
           }
         }
 
@@ -1385,8 +1372,7 @@ fn main {
         for bullet in bullets {
           if bullet.active &&
             bullet.team == 2 &&
-            dist2(player.x, player.y, bullet.x, bullet.y) <=
-            280.0 * 280.0 {
+            dist2(player.x, player.y, bullet.x, bullet.y) <= 280.0 * 280.0 {
             bullet.active = false
           }
         }
@@ -1490,8 +1476,7 @@ fn main {
           if not(terminal.active) || terminal.hacked {
             continue
           }
-          if dist2(player.x, player.y, terminal.x, terminal.y) <=
-            62.0 * 62.0 {
+          if dist2(player.x, player.y, terminal.x, terminal.y) <= 62.0 * 62.0 {
             terminal.progress = terminal.progress + dt * 38.0
             hacked_this_frame = true
             if terminal.progress >= 100.0 {
@@ -1932,8 +1917,7 @@ fn main {
               continue
             }
             let rr : Float = bullet.r + guard_radius(guard_val.kind)
-            if dist2(bullet.x, bullet.y, guard_val.x, guard_val.y) <=
-              rr * rr {
+            if dist2(bullet.x, bullet.y, guard_val.x, guard_val.y) <= rr * rr {
               guard_val.hp = guard_val.hp - bullet.dmg
               bullet.active = false
               consumed = true
@@ -2221,12 +2205,7 @@ fn main {
       } else {
         @raylib.Color::new(224, 108, 120, 244)
       }
-      @raylib.draw_circle(
-        camera.x.to_int(),
-        camera.y.to_int(),
-        13.0,
-        cam_col,
-      )
+      @raylib.draw_circle(camera.x.to_int(), camera.y.to_int(), 13.0, cam_col)
       @raylib.draw_circle_lines(
         camera.x.to_int(),
         camera.y.to_int(),
@@ -2312,12 +2291,7 @@ fn main {
       } else {
         @raylib.Color::new(252, 132, 142, 242)
       }
-      @raylib.draw_circle(
-        bullet.x.to_int(),
-        bullet.y.to_int(),
-        bullet.r,
-        col,
-      )
+      @raylib.draw_circle(bullet.x.to_int(), bullet.y.to_int(), bullet.r, col)
     }
 
     // player

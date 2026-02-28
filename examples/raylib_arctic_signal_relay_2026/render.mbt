@@ -127,8 +127,7 @@ fn draw_signal_links(game : Game) -> Unit {
     let progress : Float = if tower.need <= 0 {
       0.0
     } else {
-      Float::from_int(tower.delivered) /
-      Float::from_int(tower.need)
+      Float::from_int(tower.delivered) / Float::from_int(tower.need)
     }
 
     let alpha = 32 + (progress * 124.0).to_int()

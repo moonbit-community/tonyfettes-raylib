@@ -69,13 +69,7 @@ fn draw_panel(game : Game) -> Unit {
   } else {
     panel_text_color
   }
-  @raylib.draw_text(
-    game.moves_left.to_string(),
-    460,
-    38,
-    32,
-    moves_color,
-  )
+  @raylib.draw_text(game.moves_left.to_string(), 460, 38, 32, moves_color)
   // Best
   @raylib.draw_text("Best", 570, 20, 16, panel_label_color)
   @raylib.draw_text(game.best_score.to_string(), 570, 38, 24, panel_text_color)
@@ -83,13 +77,7 @@ fn draw_panel(game : Game) -> Unit {
   if game.msg_t > 0.0 {
     let alpha = clampf(game.msg_t * 3.0, 0.0, 1.0)
     let a = (alpha * 255.0).to_int()
-    @raylib.draw_text(
-      game.msg,
-      36,
-      90,
-      24,
-      @raylib.Color::new(241, 196, 15, a),
-    )
+    @raylib.draw_text(game.msg, 36, 90, 24, @raylib.Color::new(241, 196, 15, a))
   }
   // Progress bar
   let bar_x = 36
@@ -123,13 +111,7 @@ fn draw_board(game : Game) -> Unit {
   // Board background
   let bw = grid_cols * (cell_px + cell_gap) - cell_gap + 16
   let bh = grid_rows * (cell_px + cell_gap) - cell_gap + 16
-  @raylib.draw_rectangle(
-    board_left - 8,
-    board_top - 8,
-    bw,
-    bh,
-    board_bg_color,
-  )
+  @raylib.draw_rectangle(board_left - 8, board_top - 8, bw, bh, board_bg_color)
   // Gems
   let cp = Float::from_int(cell_px)
   for i in 0..<cell_count {
@@ -184,10 +166,8 @@ fn draw_board(game : Game) -> Unit {
   // Hint animation
   if game.state == state_play && game.hint_r1 >= 0 && game.hint_t > 2.0 {
     let pulse = Float::from_double(
-      @math.sin(
-        (game.hint_t - 2.0).to_double() * 4.0,
-      ),
-    ) *
+        @math.sin((game.hint_t - 2.0).to_double() * 4.0),
+      ) *
       0.5 +
       0.5
     let alpha = (pulse * 180.0).to_int()

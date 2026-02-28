@@ -1074,8 +1074,7 @@ fn main {
 
           let pget = dist2(player.x, player.y, pickup.x, pickup.y) <=
             30.0 * 30.0
-          let aget = dist2(ai.x, ai.y, pickup.x, pickup.y) <=
-            30.0 * 30.0
+          let aget = dist2(ai.x, ai.y, pickup.x, pickup.y) <= 30.0 * 30.0
 
           if pget {
             if pickup.kind == 0 {
@@ -1171,11 +1170,7 @@ fn main {
 
     for pickup in pickups {
       if pickup.active {
-        let pulse = if (pickup.t * 8.0).to_int() % 2 == 0 {
-          255
-        } else {
-          184
-        }
+        let pulse = if (pickup.t * 8.0).to_int() % 2 == 0 { 255 } else { 184 }
         let col = if pickup.kind == 0 {
           @raylib.Color::new(128, 236, 168, pulse)
         } else if pickup.kind == 1 {
@@ -1183,12 +1178,7 @@ fn main {
         } else {
           @raylib.Color::new(244, 208, 118, pulse)
         }
-        @raylib.draw_circle(
-          pickup.x.to_int(),
-          pickup.y.to_int(),
-          11.0,
-          col,
-        )
+        @raylib.draw_circle(pickup.x.to_int(), pickup.y.to_int(), 11.0, col)
         @raylib.draw_circle_lines(
           pickup.x.to_int(),
           pickup.y.to_int(),

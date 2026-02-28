@@ -286,10 +286,8 @@ fn update_incidents(game : Game, dt : Float) -> Unit {
     }
 
     let sev_scale = Float::from_int(incident.severity - 1)
-    incident.pulse_t = incident.pulse_t +
-      dt * (1.0 + sev_scale * 0.6)
-    incident.timer = incident.timer -
-      dt * slowdown * (1.0 + sev_scale * 0.25)
+    incident.pulse_t = incident.pulse_t + dt * (1.0 + sev_scale * 0.6)
+    incident.timer = incident.timer - dt * slowdown * (1.0 + sev_scale * 0.25)
 
     if incident.timer <= 0.0 {
       incident.active = false

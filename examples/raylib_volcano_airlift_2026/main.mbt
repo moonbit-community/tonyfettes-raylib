@@ -695,12 +695,7 @@ fn main {
       }
       let cx = (cloud.x + shake_x).to_int()
       let cy = cloud.y.to_int()
-      @raylib.draw_circle(
-        cx,
-        cy,
-        cloud.r,
-        @raylib.Color::new(72, 78, 92, 255),
-      )
+      @raylib.draw_circle(cx, cy, cloud.r, @raylib.Color::new(72, 78, 92, 255))
       @raylib.draw_circle(
         cx - 16,
         cy + 4,

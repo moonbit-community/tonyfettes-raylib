@@ -4,7 +4,6 @@ struct Director {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut heading : Float
   mut energy : Float
   energy_max : Float
   mut action_cd : Float
@@ -24,7 +23,6 @@ struct Drone {
   mut temp : Float
   mut state : Int
   mut flash_t : Float
-  id : Int
 }
 
 ///|
@@ -467,10 +465,7 @@ fn spawn_request(requests : Array[Request], wave : Int, serial : Int) -> Bool {
     request.id = serial
     request.pattern = randi(0, 4)
     let base_deadline : Float = randf(34.0, 68.0)
-    request.deadline = maxf(
-      18.0,
-      base_deadline - Float::from_int(wave) * 1.3,
-    )
+    request.deadline = maxf(18.0, base_deadline - Float::from_int(wave) * 1.3)
     request.max_deadline = request.deadline
     request.min_quality = randf(58.0, 82.0) + Float::from_int(wave) * 0.7
     request.reward = 120 + request.pattern * 20 + wave * 8
@@ -1543,7 +1538,7 @@ fn main {
     { x: stage_cx - 96.0, y: world_t + 38.0, w: 192.0, h: 92.0, kind: 2 },
   ]
 
-  let drones : Array[Drone] = Array::makei(58, fn(i) {
+  let drones : Array[Drone] = Array::makei(58, fn(_i) {
     {
       active: true,
       x: stage_cx + randf(-120.0, 120.0),
@@ -1554,7 +1549,6 @@ fn main {
       temp: randf(14.0, 24.0),
       state: 0,
       flash_t: randf(0.0, 10.0),
-      id: i + 1,
     }
   })
 
@@ -1617,7 +1611,6 @@ fn main {
     y: stage_cy + 20.0,
     vx: 0.0,
     vy: 0.0,
-    heading: 0.0,
     energy: 100.0,
     energy_max: 100.0,
     action_cd: 0.0,
@@ -1673,7 +1666,6 @@ fn main {
     director.y = stage_cy + 20.0
     director.vx = 0.0
     director.vy = 0.0
-    director.heading = 0.0
     director.energy = 100.0
     director.action_cd = 0.0
     director.sync_t = 0.0
@@ -2105,12 +2097,7 @@ fn main {
           if not(gust.active) {
             continue
           }
-          let d2v : Float = dist2(
-            drones[i].x,
-            drones[i].y,
-            gust.x,
-            gust.y,
-          )
+          let d2v : Float = dist2(drones[i].x, drones[i].y, gust.x, gust.y)
           let rr : Float = gust.radius
           if d2v <= rr * rr {
             let dd : Float = d2v.sqrt()

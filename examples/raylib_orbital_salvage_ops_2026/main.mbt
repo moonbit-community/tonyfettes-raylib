@@ -937,13 +937,7 @@ fn main {
           (m.radius + drone_radius(drone.kind) + 40.0) *
           (m.radius + drone_radius(drone.kind) + 40.0) {
           drone.hp = drone.hp - 50.0
-          let (knx, kny) = push_from_center(
-            drone.x,
-            drone.y,
-            m.x,
-            m.y,
-            280.0,
-          )
+          let (knx, kny) = push_from_center(drone.x, drone.y, m.x, m.y, 280.0)
           drone.vx = drone.vx + knx
           drone.vy = drone.vy + kny
           if drone.hp <= 0.0 {
@@ -1247,8 +1241,7 @@ fn main {
         for bullet in bullets {
           if bullet.active &&
             bullet.team == 2 &&
-            dist2(player.x, player.y, bullet.x, bullet.y) <=
-            300.0 * 300.0 {
+            dist2(player.x, player.y, bullet.x, bullet.y) <= 300.0 * 300.0 {
             bullet.active = false
           }
         }
@@ -1257,8 +1250,7 @@ fn main {
           if not(drone.active) {
             continue
           }
-          if dist2(player.x, player.y, drone.x, drone.y) <=
-            340.0 * 340.0 {
+          if dist2(player.x, player.y, drone.x, drone.y) <= 340.0 * 340.0 {
             drone.hp = drone.hp - 42.0
             let (kx, ky) = push_from_center(
               drone.x,
@@ -1644,8 +1636,7 @@ fn main {
         } else {
           240.0 + Float::from_int(level) * 5.0
         }
-        let v2 : Float = drone.vx * drone.vx +
-          drone.vy * drone.vy
+        let v2 : Float = drone.vx * drone.vx + drone.vy * drone.vy
         if v2 > maxv * maxv {
           let invs : Float = maxv / v2.sqrt()
           drone.vx = drone.vx * invs
@@ -1775,7 +1766,7 @@ fn main {
           let sx : Float = -ty * inv
           let sy : Float = tx * inv
 
-          for k in -2..=2 {
+          for k in -2..<=2 {
             let drift : Float = Float::from_int(k) * 70.0
             ignore(
               add_bullet(
@@ -1861,8 +1852,7 @@ fn main {
             continue
           }
           let rr : Float = bullet.radius + wreck.radius
-          if dist2(bullet.x, bullet.y, wreck.x, wreck.y) <=
-            rr * rr {
+          if dist2(bullet.x, bullet.y, wreck.x, wreck.y) <= rr * rr {
             bullet.active = false
             blocked = true
             break
@@ -1884,8 +1874,7 @@ fn main {
             }
 
             let rr : Float = bullet.radius + drone_radius(drone.kind)
-            if dist2(bullet.x, bullet.y, drone.x, drone.y) <=
-              rr * rr {
+            if dist2(bullet.x, bullet.y, drone.x, drone.y) <= rr * rr {
               drone.hp = drone.hp - bullet.dmg
               bullet.active = false
               hit_done = true
@@ -1936,8 +1925,7 @@ fn main {
                 continue
               }
               let rr : Float = bullet.radius + mine.radius
-              if dist2(bullet.x, bullet.y, mine.x, mine.y) <=
-                rr * rr {
+              if dist2(bullet.x, bullet.y, mine.x, mine.y) <= rr * rr {
                 bullet.active = false
                 pop_mine(mine, 1)
                 break

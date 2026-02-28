@@ -257,11 +257,7 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       )
     }
 
-    let hp_ratio = clampf(
-      enemy.hp / maxf(enemy.max_hp, 1.0),
-      0.0,
-      1.0,
-    )
+    let hp_ratio = clampf(enemy.hp / maxf(enemy.max_hp, 1.0), 0.0, 1.0)
     let bw = (enemy.radius * 2.2).to_int()
     let bx = x.to_int() - bw / 2
     let by = y.to_int() - enemy.radius.to_int() - 9
@@ -318,11 +314,7 @@ fn draw_pulses(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       continue
     }
 
-    let ratio = clampf(
-      pulse.life / maxf(pulse.max_life, 0.0001),
-      0.0,
-      1.0,
-    )
+    let ratio = clampf(pulse.life / maxf(pulse.max_life, 0.0001), 0.0, 1.0)
     @raylib.draw_circle_lines(
       (pulse.x + cam_x).to_int(),
       (pulse.y + cam_y).to_int(),

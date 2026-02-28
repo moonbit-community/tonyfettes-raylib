@@ -29,7 +29,9 @@ let board_left : Int = 16
 let board_size : Int = screen_w - board_left * 2
 
 ///|
-let cell_size : Int = (board_size - board_padding * 2 - cell_gap * (grid_size - 1)) /
+let cell_size : Int = (
+    board_size - board_padding * 2 - cell_gap * (grid_size - 1)
+  ) /
   grid_size
 
 ///|

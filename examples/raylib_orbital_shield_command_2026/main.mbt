@@ -693,7 +693,7 @@ fn main {
     let sdx = cosf_deg(shield_angle)
     let sdy = sinf_deg(shield_angle)
 
-    for i in -7..=7 {
+    for i in -7..<=7 {
       let a = shield_angle + Float::from_int(i) * 3.2
       let dx = cosf_deg(a)
       let dy = sinf_deg(a)

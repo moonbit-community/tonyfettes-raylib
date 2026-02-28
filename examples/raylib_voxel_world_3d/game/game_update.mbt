@@ -506,9 +506,9 @@ fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
   )
   let min_y = @types.maxi(1, pcy - 10)
   let max_y = @types.mini(@types.chunk_y - 1, pcy + 10)
-  for wy in min_y..=max_y {
-    for wz in min_z..=max_z {
-      for wx in min_x..=max_x {
+  for wy in min_y..<=max_y {
+    for wz in min_z..<=max_z {
+      for wx in min_x..<=max_x {
         let block = @types.get_world_block(game, wx, wy, wz)
         if @types.is_gravity_block(block) {
           let below = @types.get_world_block(game, wx, wy - 1, wz)

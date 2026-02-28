@@ -364,8 +364,7 @@ fn handle_guard(game : Game) -> Unit {
     }
 
     let reach = guard_radius + threat.radius
-    if dist2(game.troupe_x, game.troupe_y, threat.x, threat.y) >
-      squaref(reach) {
+    if dist2(game.troupe_x, game.troupe_y, threat.x, threat.y) > squaref(reach) {
       continue
     }
 

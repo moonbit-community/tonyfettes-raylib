@@ -14,7 +14,7 @@ fn enemy_resolve_x(
     let top_ty = @types.world_to_tile_y(enemy.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(enemy.y + half_h - 2.0)
     let mut blocked = false
-    for ty in top_ty..=bottom_ty {
+    for ty in top_ty..<=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -33,7 +33,7 @@ fn enemy_resolve_x(
     let top_ty = @types.world_to_tile_y(enemy.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(enemy.y + half_h - 2.0)
     let mut blocked = false
-    for ty in top_ty..=bottom_ty {
+    for ty in top_ty..<=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -65,7 +65,7 @@ fn enemy_resolve_y(
     let left_tx = @types.world_to_tile_x(enemy.x - half_w + 2.0)
     let right_tx = @types.world_to_tile_x(enemy.x + half_w - 2.0)
     let mut blocked = false
-    for tx in left_tx..=right_tx {
+    for tx in left_tx..<=right_tx {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -83,7 +83,7 @@ fn enemy_resolve_y(
     let left_tx = @types.world_to_tile_x(enemy.x - half_w + 2.0)
     let right_tx = @types.world_to_tile_x(enemy.x + half_w - 2.0)
     let mut blocked = false
-    for tx in left_tx..=right_tx {
+    for tx in left_tx..<=right_tx {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break

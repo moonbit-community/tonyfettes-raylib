@@ -211,10 +211,8 @@ fn burst_particle(
       particle.active = true
       particle.x = x
       particle.y = y
-      particle.vx = Float::from_int(@raylib.get_random_value(-260, 260)) *
-        speed
-      particle.vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
-        speed
+      particle.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      particle.vy = Float::from_int(@raylib.get_random_value(-220, 220)) * speed
       particle.ttl = Float::from_int(@raylib.get_random_value(12, 54)) /
         Float::from_int(100)
       particle.kind = kind

@@ -245,8 +245,8 @@ fn clear_map(game : Game) -> Unit {
     let x0 : Int = 1 + car * 5
     let x1 : Int = x0 + 3
 
-    for y in 2..=10 {
-      for x in x0..=x1 {
+    for y in 2..<=10 {
+      for x in x0..<=x1 {
         set_tile(game, x, y, tile_floor)
       }
     }

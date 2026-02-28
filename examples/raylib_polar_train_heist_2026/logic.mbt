@@ -1007,12 +1007,7 @@ fn update_shots(game : Game, dt : Float) -> Unit {
           continue
         }
 
-        let d2 = dist2(
-          shot.x,
-          shot.y,
-          game.ents[j].x,
-          game.ents[j].y,
-        )
+        let d2 = dist2(shot.x, shot.y, game.ents[j].x, game.ents[j].y)
         let rr = ent_hit_r(game.ents[j]) + 8.0
         if d2 <= rr * rr {
           game.ents[j].hp = game.ents[j].hp - shot.dmg
@@ -1074,8 +1069,7 @@ fn update_fx(game : Game, dt : Float) -> Unit {
     }
 
     ring.life = ring.life - dt
-    ring.r = ring.r +
-      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    ring.r = ring.r + (130.0 + Float::from_int(ring.kind) * 52.0) * dt
     if ring.life <= 0.0 {
       ring.active = false
     }

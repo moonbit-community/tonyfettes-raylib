@@ -1025,12 +1025,7 @@ fn main {
           }
         }
 
-        let target_hero_d2 : Float = dist2(
-          enemy.x,
-          enemy.y,
-          hero.x,
-          hero.y,
-        )
+        let target_hero_d2 : Float = dist2(enemy.x, enemy.y, hero.x, hero.y)
         let mut tx : Float = core.x
         let mut ty : Float = core.y
         if target_hero_d2 <= 280.0 * 280.0 {
@@ -1047,16 +1042,8 @@ fn main {
           let d2 : Float = dx * dx + dy * dy
           let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-          let base_speed : Float = if enemy.kind == 0 {
-            170.0
-          } else {
-            126.0
-          }
-          let level_gain : Float = if enemy.kind == 0 {
-            15.0
-          } else {
-            12.0
-          }
+          let base_speed : Float = if enemy.kind == 0 { 170.0 } else { 126.0 }
+          let level_gain : Float = if enemy.kind == 0 { 15.0 } else { 12.0 }
           let speed : Float = base_speed +
             Float::from_int(level - 1) * level_gain
           let txv : Float = dx / d * speed
@@ -1091,11 +1078,7 @@ fn main {
           if dist2(enemy.x, enemy.y, hero.x, hero.y) <= hr * hr {
             enemy.bite_cd = 0.65
             if hero.hit_cd <= 0.0 {
-              let bite_dmg : Float = if enemy.kind == 0 {
-                16.0
-              } else {
-                22.0
-              }
+              let bite_dmg : Float = if enemy.kind == 0 { 16.0 } else { 22.0 }
               hero.hp = hero.hp - bite_dmg
               hero.hit_cd = 0.4
               hero.flash_t = 0.16
@@ -1124,23 +1107,11 @@ fn main {
             if not(turret.active) {
               continue
             }
-            if dist2(enemy.x, enemy.y, turret.x, turret.y) <=
-              30.0 * 30.0 {
+            if dist2(enemy.x, enemy.y, turret.x, turret.y) <= 30.0 * 30.0 {
               enemy.bite_cd = 0.65
-              let turret_dmg : Float = if enemy.kind == 0 {
-                18.0
-              } else {
-                26.0
-              }
+              let turret_dmg : Float = if enemy.kind == 0 { 18.0 } else { 26.0 }
               turret.hp = turret.hp - turret_dmg
-              burst_particles(
-                particles,
-                turret.x,
-                turret.y,
-                10,
-                70.0,
-                2,
-              )
+              burst_particles(particles, turret.x, turret.y, 10, 70.0, 2)
               break
             }
           }
@@ -1174,8 +1145,7 @@ fn main {
           if not(enemy.active) {
             continue
           }
-          if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-            22.0 * 22.0 {
+          if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= 22.0 * 22.0 {
             enemy.hp = enemy.hp - bullet.dmg
             if bullet.kind == 0 {
               enemy.stun_t = enemy.stun_t + 0.06
@@ -1183,14 +1153,7 @@ fn main {
               enemy.stun_t = enemy.stun_t + 0.14
             }
             let hit_fx_kind : Int = if bullet.kind == 0 { 1 } else { 2 }
-            burst_particles(
-              particles,
-              bullet.x,
-              bullet.y,
-              6,
-              55.0,
-              hit_fx_kind,
-            )
+            burst_particles(particles, bullet.x, bullet.y, 6, 55.0, hit_fx_kind)
             bullet.active = false
             hit = true
             break
@@ -1233,8 +1196,7 @@ fn main {
         }
 
         let w : Float = 1.0 + @math.sinf(drop.t * 4.0) * 0.14
-        if dist2(hero.x, hero.y, drop.x, drop.y) <=
-          34.0 * w * (34.0 * w) {
+        if dist2(hero.x, hero.y, drop.x, drop.y) <= 34.0 * w * (34.0 * w) {
           hero.scrap = hero.scrap + drop.value
           hero.score = hero.score + drop.value
           drop.active = false
@@ -1544,12 +1506,7 @@ fn main {
       } else {
         @raylib.Color::new(140, 220, 252, alpha)
       }
-      @raylib.draw_circle(
-        px.to_int(),
-        py.to_int(),
-        particle.size * life_r,
-        col,
-      )
+      @raylib.draw_circle(px.to_int(), py.to_int(), particle.size * life_r, col)
     }
 
     @raylib.draw_rectangle(

@@ -33,7 +33,6 @@ fn spawn_stage_dust(
   }
   let p = game.particles[idx]
   p.active = true
-  p.kind = spark_kind_hit
   p.x = x
   p.y = y
   p.vx = vx
@@ -42,8 +41,6 @@ fn spawn_stage_dust(
   p.max_life = f(0.45)
   p.size = rand_rangef(game, f(3.0), f(8.0))
   p.growth = rand_rangef(game, f(-8.0), f(10.0))
-  p.spin = rand_rangef(game, f(-7.0), f(7.0))
-  p.rot = rand_rangef(game, f(0.0), f(6.2))
   p.color = color
 }
 
@@ -89,7 +86,6 @@ fn spawn_hit_spark(
 
     let p = game.hit_sparks[idx]
     p.active = true
-    p.kind = kind
     p.x = x
     p.y = y
     p.vx = vx
@@ -102,8 +98,6 @@ fn spawn_hit_spark(
       rand_rangef(game, f(3.0), f(8.0))
     }
     p.growth = rand_rangef(game, f(-10.0), f(12.0))
-    p.spin = rand_rangef(game, f(-14.0), f(14.0))
-    p.rot = angle
     p.color = color
   }
 }
@@ -148,7 +142,6 @@ fn update_particle_list(list : Array[Particle], dt : Float) -> Unit {
     if p.size < f(1.0) {
       p.size = f(1.0)
     }
-    p.rot += p.spin * dt
   }
 }
 

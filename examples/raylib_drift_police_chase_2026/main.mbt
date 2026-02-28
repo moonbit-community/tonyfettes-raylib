@@ -762,12 +762,7 @@ fn main {
           if not(smoke.active) {
             continue
           }
-          let sd2 : Float = dist2(
-            cop.x,
-            cop.y,
-            smoke.x,
-            smoke.y,
-          )
+          let sd2 : Float = dist2(cop.x, cop.y, smoke.x, smoke.y)
           if sd2 <= smoke.r * smoke.r {
             in_smoke = true
             break

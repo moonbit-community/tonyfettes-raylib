@@ -682,8 +682,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
 
     ring.life = ring.life - dt
-    ring.r = ring.r +
-      (120.0 + Float::from_int(ring.kind) * 38.0) * dt
+    ring.r = ring.r + (120.0 + Float::from_int(ring.kind) * 38.0) * dt
 
     if ring.life <= 0.0 {
       ring.active = false

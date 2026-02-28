@@ -442,8 +442,8 @@ fn draw_traps(game : @types.Game) -> Unit {
       } else {
         @raylib.Color::new(150, 150, 150, 255)
       }
-      for sx in -1..=1 {
-        for sz in -1..=1 {
+      for sx in -1..<=1 {
+        for sz in -1..<=1 {
           let spike_x = trap.x + Float::from_int(sx) * 0.5
           let spike_z = trap.z + Float::from_int(sz) * 0.5
           @raylib.draw_cube(

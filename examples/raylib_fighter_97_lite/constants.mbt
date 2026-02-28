@@ -44,9 +44,6 @@ let max_hit_sparks : Int = 360
 let direction_buffer_size : Int = 42
 
 ///|
-let button_buffer_size : Int = 22
-
-///|
 let state_title : Int = 0
 
 ///|
@@ -177,9 +174,6 @@ let motion_qcf : Int = 1
 
 ///|
 let motion_dp : Int = 2
-
-///|
-let motion_qcb : Int = 3
 
 ///|
 let max_round_wins : Int = 2
@@ -329,9 +323,6 @@ let training_info_duration : Float = 1.8
 let tap_window : Float = 0.24
 
 ///|
-let input_deadzone : Int = 0
-
-///|
 let cpu_think_period : Float = 0.1
 
 ///|
@@ -371,16 +362,7 @@ let camera_zoom_close : Float = 1.06
 let camera_zoom_far : Float = 0.95
 
 ///|
-let stage_bg_layer_count : Int = 5
-
-///|
 let select_grid_columns : Int = 3
-
-///|
-let select_grid_rows : Int = 2
-
-///|
-let palette_cycle_speed : Float = 1.8
 
 ///|
 let quote_box_w : Int = 520
@@ -393,12 +375,6 @@ let font_title : Int = 62
 
 ///|
 let font_subtitle : Int = 28
-
-///|
-let font_hud : Int = 24
-
-///|
-let font_small : Int = 18
 
 ///|
 let dir_neutral : Int = 0

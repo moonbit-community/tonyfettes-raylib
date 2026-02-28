@@ -862,17 +862,11 @@ fn update_convoys(
       }
 
       let rr : Float = storm.radius
-      let d2v : Float = dist2(
-        convoy.x,
-        convoy.y,
-        storm.x,
-        storm.y,
-      )
+      let d2v : Float = dist2(convoy.x, convoy.y, storm.x, storm.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
         storm_slow = storm_slow + storm.intensity * (0.16 + ratio * 0.5)
-        convoy.hp = convoy.hp -
-          dt * storm.intensity * (0.6 + ratio * 1.5)
+        convoy.hp = convoy.hp - dt * storm.intensity * (0.6 + ratio * 1.5)
         convoy.panic = convoy.panic + dt * 1.0
       }
     }
@@ -1249,12 +1243,7 @@ fn draw_particles(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(172, 244, 206, 210)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 

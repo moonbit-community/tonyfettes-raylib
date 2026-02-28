@@ -133,9 +133,9 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let px = player.x.to_int()
   let py = player.y.to_int()
   let pz = player.z.to_int()
-  for cy in py..=(py + 1) {
-    for dx in -1..=1 {
-      for dz in -1..=1 {
+  for cy in py..<=(py + 1) {
+    for dx in -1..<=1 {
+      for dz in -1..<=1 {
         let block = @types.get_world_block(game, px + dx, cy, pz + dz)
         if block == @types.block_cactus {
           let dist_x = @types.absf(player.x - Float::from_int(px + dx) - 0.5)
@@ -171,9 +171,9 @@ fn check_player_collision(
   let max_y = @types.floorf(py + h)
   let min_z = @types.floorf(pz - r)
   let max_z = @types.floorf(pz + r)
-  for by in min_y..=max_y {
-    for bz in min_z..=max_z {
-      for bx in min_x..=max_x {
+  for by in min_y..<=max_y {
+    for bz in min_z..<=max_z {
+      for bx in min_x..<=max_x {
         let block = @types.get_world_block(game, bx, by, bz)
         if @types.is_solid(block) {
           return true

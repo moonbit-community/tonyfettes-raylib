@@ -255,8 +255,8 @@ fn update_terrain(game : @types.Game) -> Unit {
   // Generate terrain around player
   let view = @types.terrain_view_range
   let mut tidx = 0
-  for gx in (cx - view)..=(cx + view) {
-    for gz in (cz - view)..=(cz + view) {
+  for gx in (cx - view)..<=(cx + view) {
+    for gz in (cz - view)..<=(cz + view) {
       if tidx >= game.terrain.length() {
         break
       }
@@ -319,12 +319,7 @@ fn update_clouds(game : @types.Game) -> Unit {
     if cloud.active {
       active_count += 1
       // Remove clouds that are too far away
-      let d = @types.distance2d(
-        player.x,
-        player.z,
-        cloud.x,
-        cloud.z,
-      )
+      let d = @types.distance2d(player.x, player.z, cloud.x, cloud.z)
       if d > 200.0 {
         cloud.active = false
         active_count -= 1

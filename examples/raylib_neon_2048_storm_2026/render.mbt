@@ -211,7 +211,7 @@ fn draw_grid(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = board_n * tile
   let bh : Int = board_n * tile
 
-  for i in 0..=board_n {
+  for i in 0..<=board_n {
     let px : Int = bx + i * tile
     @raylib.draw_line(
       px,
@@ -280,12 +280,7 @@ fn draw_sparks(game : Game) -> Unit {
       @raylib.Color::new(190, 234, 255, alpha)
     }
 
-    @raylib.draw_circle(
-      spark.x.to_int(),
-      spark.y.to_int(),
-      1.0 + spark.size,
-      c,
-    )
+    @raylib.draw_circle(spark.x.to_int(), spark.y.to_int(), 1.0 + spark.size, c)
   }
 }
 

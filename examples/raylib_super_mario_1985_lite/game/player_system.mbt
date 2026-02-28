@@ -42,7 +42,7 @@ fn resolve_player_x(game : @types.Game, dt : Float) -> Unit {
     let top_ty = @types.world_to_tile_y(player.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(player.y + half_h - 2.0)
     let mut blocked = false
-    for ty in top_ty..=bottom_ty {
+    for ty in top_ty..<=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -60,7 +60,7 @@ fn resolve_player_x(game : @types.Game, dt : Float) -> Unit {
     let top_ty = @types.world_to_tile_y(player.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(player.y + half_h - 2.0)
     let mut blocked = false
-    for ty in top_ty..=bottom_ty {
+    for ty in top_ty..<=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -90,7 +90,7 @@ fn resolve_player_y(game : @types.Game, dt : Float) -> Unit {
     let left_tx = @types.world_to_tile_x(player.x - half_w + 3.0)
     let right_tx = @types.world_to_tile_x(player.x + half_w - 3.0)
     let mut blocked = false
-    for tx in left_tx..=right_tx {
+    for tx in left_tx..<=right_tx {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -109,7 +109,7 @@ fn resolve_player_y(game : @types.Game, dt : Float) -> Unit {
     let left_tx = @types.world_to_tile_x(player.x - half_w + 3.0)
     let right_tx = @types.world_to_tile_x(player.x + half_w - 3.0)
     let mut blocked = false
-    for tx in left_tx..=right_tx {
+    for tx in left_tx..<=right_tx {
       let tile = @types.get_tile(game, tx, ty)
       if @types.tile_is_solid(tile) {
         blocked = true

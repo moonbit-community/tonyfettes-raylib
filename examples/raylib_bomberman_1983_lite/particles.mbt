@@ -31,8 +31,6 @@ fn spawn_particle(
   game.particles[idx].life = life
   game.particles[idx].max_life = life
   game.particles[idx].size = size
-  game.particles[idx].rot = rand_rangef(game, 0.0, 6.28318)
-  game.particles[idx].spin = rand_rangef(game, -5.2, 5.2)
   game.particles[idx].fade = rand_rangef(game, 0.7, 1.5)
   game.particles[idx].color = color
 }
@@ -79,7 +77,7 @@ fn spawn_explosion(game : Game, x : Float, y : Float, strength : Float) -> Unit 
   }
 
   // Smoke puffs.
-  for _i in 0..<(clampi((strength * 10.0).to_int(), 4, 20)) {
+  for _i in 0..<clampi((strength * 10.0).to_int(), 4, 20) {
     let angle = rand_rangef(game, 0.0, 6.28318)
     let speed = rand_rangef(game, 12.0, 58.0)
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed
@@ -136,6 +134,5 @@ fn update_particles(game : Game, dt : Float) -> Unit {
     p.vx *= 1.0 - 0.8 * dt
     p.vy *= 1.0 - 0.8 * dt
     p.vy += 22.0 * dt
-    p.rot += p.spin * dt
   }
 }

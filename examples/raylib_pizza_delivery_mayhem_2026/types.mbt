@@ -21,7 +21,6 @@ struct Order {
   mut y_to : Float
   mut timer : Float
   mut value : Int
-  mut id : Int
 }
 
 ///|
@@ -117,7 +116,6 @@ fn Order::new() -> Order {
     y_to: 0.0,
     timer: 0.0,
     value: 0,
-    id: 0,
   }
 }
 

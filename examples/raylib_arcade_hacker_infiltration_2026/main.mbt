@@ -1123,8 +1123,7 @@ fn main {
           let mut shocked = 0
           for camera in cameras {
             if camera.active {
-              let d = absi(camera.gx - player.gx) +
-                absi(camera.gy - player.gy)
+              let d = absi(camera.gx - player.gx) + absi(camera.gy - player.gy)
               if d <= 6 {
                 camera.disable_t = 4.2
                 disabled = disabled + 1
@@ -1205,14 +1204,7 @@ fn main {
 
         if camera.disable_t <= 0.0 && player.cloak_t <= 0.0 {
           if camera_facing(camera, player.gx, player.gy) &&
-            visible_line(
-              tiles,
-              camera.gx,
-              camera.gy,
-              player.gx,
-              player.gy,
-              8,
-            ) {
+            visible_line(tiles, camera.gx, camera.gy, player.gx, player.gy, 8) {
             alarm = alarm + dt * 24.0
           }
         }
@@ -1555,7 +1547,7 @@ fn main {
         continue
       }
 
-      for step in 1..=8 {
+      for step in 1..<=8 {
         let gx = if camera.dir == 1 {
           camera.gx + step
         } else if camera.dir == 3 {

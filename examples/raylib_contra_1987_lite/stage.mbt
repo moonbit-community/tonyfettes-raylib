@@ -137,10 +137,7 @@ fn respawn_player_tank(game : Game, index : Int) -> Unit {
   player.active = true
   player.x = spawn_x
   player.y = spawn_y
-  player.spawn_x = spawn_x
-  player.spawn_y = spawn_y
   player.hp = 1
-  player.max_hp = 1
   player.move_speed = speed_player
   player.reload_delay = player_reload_base *
     (1.0 - Float::from_int(player.weapon_level) * 0.07)

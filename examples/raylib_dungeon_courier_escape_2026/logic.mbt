@@ -201,7 +201,7 @@ fn setup_guards(game : Game, wave : Int, count : Int) -> Unit {
 }
 
 ///|
-fn setup_traps(game : Game, wave : Int, count : Int) -> Unit {
+fn setup_traps(game : Game, _wave : Int, count : Int) -> Unit {
   clear_traps(game)
 
   for i in 0..<count {
@@ -716,8 +716,7 @@ fn update_guards(game : Game, dt : Float) -> Float {
       let delta = angle_delta_deg(ang_to_player, guard_val.dir_deg)
 
       if delta <= guard_val.cone_half_angle {
-        let dist_factor : Float = (1.0 : Float) -
-          p_dist / guard_val.cone_range
+        let dist_factor : Float = (1.0 : Float) - p_dist / guard_val.cone_range
         let ang_factor : Float = (1.0 : Float) -
           delta / guard_val.cone_half_angle
         let intensity = clampf(dist_factor * ang_factor, 0.0, 1.0)
@@ -747,13 +746,11 @@ fn update_traps(game : Game, dt : Float) -> Float {
       continue
     }
 
-    trap.blink_t = trap.blink_t +
-      dt * (2.0 + Float::from_int(game.wave) * 0.18)
+    trap.blink_t = trap.blink_t + dt * (2.0 + Float::from_int(game.wave) * 0.18)
     trap.cooldown = maxf(0.0, trap.cooldown - dt)
 
     let rr = trap.radius + player_radius
-    if dist2(game.player.x, game.player.y, trap.x, trap.y) <=
-      rr * rr {
+    if dist2(game.player.x, game.player.y, trap.x, trap.y) <= rr * rr {
       pressure = pressure + trap_pressure
 
       if trap.cooldown <= 0.0 {

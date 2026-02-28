@@ -52,13 +52,7 @@ fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
       let from_left = @raylib.get_random_value(0, 1) == 0
       fish.alive = true
       fish.kind = kind
-      fish.size = if kind == 0 {
-        16.0
-      } else if kind == 1 {
-        22.0
-      } else {
-        28.0
-      }
+      fish.size = if kind == 0 { 16.0 } else if kind == 1 { 22.0 } else { 28.0 }
       fish.x = if from_left { -40.0 } else { Float::from_int(sw + 40) }
       fish.y = Float::from_int(@raylib.get_random_value(220, sh - 70))
       let speed = Float::from_int(@raylib.get_random_value(60, 130))
@@ -310,14 +304,8 @@ fn main {
         )
         @raylib.draw_triangle(
           @raylib.Vector2::new(fish.x - fish.size, fish.y),
-          @raylib.Vector2::new(
-            fish.x - fish.size - 11.0,
-            fish.y - 8.0,
-          ),
-          @raylib.Vector2::new(
-            fish.x - fish.size - 11.0,
-            fish.y + 8.0,
-          ),
+          @raylib.Vector2::new(fish.x - fish.size - 11.0, fish.y - 8.0),
+          @raylib.Vector2::new(fish.x - fish.size - 11.0, fish.y + 8.0),
           c,
         )
         @raylib.draw_circle(

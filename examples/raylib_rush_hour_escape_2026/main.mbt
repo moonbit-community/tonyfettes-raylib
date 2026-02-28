@@ -479,7 +479,7 @@ fn main {
       @raylib.Color::new(224, 214, 196, 255),
     )
 
-    for y in 0..=gh {
+    for y in 0..<=gh {
       let ly = oy + y * cell
       @raylib.draw_line(
         ox,
@@ -489,7 +489,7 @@ fn main {
         @raylib.Color::new(166, 150, 128, 255),
       )
     }
-    for x in 0..=gw {
+    for x in 0..<=gw {
       let lx = ox + x * cell
       @raylib.draw_line(
         lx,

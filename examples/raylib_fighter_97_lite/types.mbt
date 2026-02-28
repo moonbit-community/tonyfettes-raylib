@@ -3,7 +3,6 @@ struct InputState {
   mut x : Int
   mut y : Int
   mut prev_x : Int
-  mut prev_y : Int
   mut hold_forward : Bool
   mut hold_back : Bool
   mut hold_up : Bool
@@ -17,11 +16,6 @@ struct InputState {
   mut hp_pressed : Bool
   mut lk_pressed : Bool
   mut hk_pressed : Bool
-  mut start_pressed : Bool
-  mut lp_released : Bool
-  mut hp_released : Bool
-  mut lk_released : Bool
-  mut hk_released : Bool
   mut any_attack_pressed : Bool
   mut dash_forward_pressed : Bool
   mut dash_back_pressed : Bool
@@ -40,7 +34,6 @@ fn InputState::new() -> InputState {
     x: 0,
     y: 0,
     prev_x: 0,
-    prev_y: 0,
     hold_forward: false,
     hold_back: false,
     hold_up: false,
@@ -54,11 +47,6 @@ fn InputState::new() -> InputState {
     hp_pressed: false,
     lk_pressed: false,
     hk_pressed: false,
-    start_pressed: false,
-    lp_released: false,
-    hp_released: false,
-    lk_released: false,
-    hk_released: false,
     any_attack_pressed: false,
     dash_forward_pressed: false,
     dash_back_pressed: false,
@@ -74,7 +62,6 @@ fn InputState::new() -> InputState {
 
 ///|
 struct MoveSpec {
-  mut name : String
   mut attack_id : Int
   mut move_kind : Int
   mut total_frames : Int
@@ -101,7 +88,6 @@ struct MoveSpec {
   mut overhead_attack : Bool
   airborne_only : Bool
   crouch_only : Bool
-  mut invuln_start : Int
   mut invuln_end : Int
   mut cancel_window_start : Int
   mut cancel_window_end : Int
@@ -112,7 +98,6 @@ struct MoveSpec {
 ///|
 fn MoveSpec::empty() -> MoveSpec {
   {
-    name: "none",
     attack_id: attack_none,
     move_kind: move_kind_normal,
     total_frames: 1,
@@ -139,7 +124,6 @@ fn MoveSpec::empty() -> MoveSpec {
     overhead_attack: false,
     airborne_only: false,
     crouch_only: false,
-    invuln_start: 0,
     invuln_end: 0,
     cancel_window_start: 0,
     cancel_window_end: 0,
@@ -150,7 +134,6 @@ fn MoveSpec::empty() -> MoveSpec {
 
 ///|
 struct CharacterArchetype {
-  id : Int
   name : String
   title : String
   intro_quote : String
@@ -177,7 +160,6 @@ struct CharacterArchetype {
 ///|
 struct Particle {
   mut active : Bool
-  mut kind : Int
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -186,8 +168,6 @@ struct Particle {
   mut max_life : Float
   mut size : Float
   mut growth : Float
-  mut spin : Float
-  mut rot : Float
   mut color : @raylib.Color
 }
 
@@ -195,7 +175,6 @@ struct Particle {
 fn Particle::inactive() -> Particle {
   {
     active: false,
-    kind: spark_kind_hit,
     x: 0.0,
     y: 0.0,
     vx: 0.0,
@@ -204,8 +183,6 @@ fn Particle::inactive() -> Particle {
     max_life: 0.6,
     size: 4.0,
     growth: 0.0,
-    spin: 0.0,
-    rot: 0.0,
     color: @raylib.white,
   }
 }
@@ -222,7 +199,6 @@ struct Fighter {
   mut facing : Int
   mut on_ground : Bool
   mut crouching : Bool
-  mut jumped : Bool
   mut health : Int
   mut guard_meter : Int
   mut super_meter : Int
@@ -232,7 +208,6 @@ struct Fighter {
   mut action_elapsed : Float
   mut current_move : MoveSpec
   mut move_connected : Bool
-  mut move_was_blocked : Bool
   mut move_cancel_enabled : Bool
   mut hitstop : Int
   mut hitstun : Int
@@ -241,18 +216,14 @@ struct Fighter {
   mut invuln : Int
   mut throw_tech_timer : Int
   mut combo_counter : Int
-  mut combo_damage : Int
   mut combo_timer : Int
-  mut counter_hit_flag : Bool
   mut flash_timer : Float
-  mut trail_timer : Float
   mut shake_timer : Float
   mut hurt_shake_x : Float
   mut hurt_shake_y : Float
   mut ai_timer : Float
   mut ai_mode : Int
   mut ai_cooldown : Float
-  mut ai_wants_jump : Bool
   mut ai_wants_special : Bool
   mut ai_wants_super : Bool
   mut ai_wants_throw : Bool
@@ -280,7 +251,6 @@ fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     },
     on_ground: true,
     crouching: false,
-    jumped: false,
     health: health_max,
     guard_meter: guard_max,
     super_meter: 0,
@@ -290,7 +260,6 @@ fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     action_elapsed: 0.0,
     current_move: MoveSpec::empty(),
     move_connected: false,
-    move_was_blocked: false,
     move_cancel_enabled: false,
     hitstop: 0,
     hitstun: 0,
@@ -299,18 +268,14 @@ fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     invuln: 0,
     throw_tech_timer: 0,
     combo_counter: 0,
-    combo_damage: 0,
     combo_timer: 0,
-    counter_hit_flag: false,
     flash_timer: 0.0,
-    trail_timer: 0.0,
     shake_timer: 0.0,
     hurt_shake_x: 0.0,
     hurt_shake_y: 0.0,
     ai_timer: 0.0,
     ai_mode: ai_mode_idle,
     ai_cooldown: 0.0,
-    ai_wants_jump: false,
     ai_wants_special: false,
     ai_wants_super: false,
     ai_wants_throw: false,
