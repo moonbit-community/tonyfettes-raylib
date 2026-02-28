@@ -66,7 +66,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     let font_size = 20
-    for x = 0; x < rect_count; x = x + 1 {
+    for x in 0..<rect_count {
       @raylib.draw_rectangle_rec(rect_rects[x], rect_colors[x])
     }
 
@@ -126,7 +126,7 @@ fn generate_sequence(
   let rect_seq_width = Float::from_int(rect_count) * rect_width
   let start_x = (screen_width - rect_seq_width) * 0.5
 
-  for x = 0; x < rect_count; x = x + 1 {
+  for x in 0..<rect_count {
     // Remap: (value - inputStart) / (inputEnd - inputStart) * (outputEnd - outputStart) + outputStart
     let rect_height = Float::from_int(seq[x]) /
       Float::from_int(rect_count - 1) *
@@ -157,7 +157,7 @@ fn shuffle_sequence(
   rect_count : Int,
 ) -> Unit {
   let seq = @raylib.load_random_sequence(rect_count, 0, rect_count - 1)
-  for i = 0; i < rect_count; i = i + 1 {
+  for i in 0..<rect_count {
     let j = seq[i]
     // Swap color, height, and y between i and j
     let tmp_c = colors[i]

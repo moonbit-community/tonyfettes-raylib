@@ -160,7 +160,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -174,7 +174,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
+  for i in 0..<game.survivors.length() {
     game.survivors[i].active = false
     game.survivors[i].x = 0.0
     game.survivors[i].y = 0.0
@@ -185,7 +185,7 @@ fn clear_world(game : Game) -> Unit {
     game.survivors[i].phase = 0.0
   }
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     game.hazards[i].active = false
     game.hazards[i].x = 0.0
     game.hazards[i].y = 0.0
@@ -197,7 +197,7 @@ fn clear_world(game : Game) -> Unit {
     game.hazards[i].phase = 0.0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i].active = false
     game.pickups[i].x = 0.0
     game.pickups[i].y = 0.0
@@ -219,7 +219,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -238,7 +238,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -254,7 +254,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -363,7 +363,7 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_survivor(game : Game) -> Bool {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
+  for i in 0..<game.survivors.length() {
     if game.survivors[i].active {
       continue
     }
@@ -391,7 +391,7 @@ fn spawn_survivor(game : Game) -> Bool {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if game.hazards[i].active {
       continue
     }
@@ -447,7 +447,7 @@ fn spawn_hazard(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if game.pickups[i].active {
       continue
     }
@@ -477,7 +477,7 @@ fn spawn_pickup(game : Game) -> Bool {
 ///|
 fn count_active_survivors(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < game.survivors.length(); i = i + 1 {
+  for i in 0..<game.survivors.length() {
     if game.survivors[i].active {
       n = n + 1
     }
@@ -712,7 +712,7 @@ fn update_hook(game : Game, dt : Float) -> Float {
   let tip_y : Float = hook_tip_y(game)
 
   if game.carrying_idx < 0 && game.hook_len > 82.0 {
-    for i = 0; i < game.survivors.length(); i = i + 1 {
+    for i in 0..<game.survivors.length() {
       if not(game.survivors[i].active) || game.survivors[i].carried {
         continue
       }
@@ -757,7 +757,7 @@ fn update_hook(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_survivors(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
+  for i in 0..<game.survivors.length() {
     if not(game.survivors[i].active) {
       continue
     }
@@ -819,7 +819,7 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
   let tip_x : Float = hook_tip_x(game)
   let tip_y : Float = hook_tip_y(game)
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if not(game.hazards[i].active) {
       continue
     }
@@ -914,7 +914,7 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }
@@ -970,7 +970,7 @@ fn use_hint(game : Game) -> Bool {
     let mut best_d2 : Float = 1000000000.0
 
     if game.fuel < 40.0 {
-      for i = 0; i < game.pickups.length(); i = i + 1 {
+      for i in 0..<game.pickups.length() {
         if not(game.pickups[i].active) || game.pickups[i].kind != pickup_fuel {
           continue
         }
@@ -992,7 +992,7 @@ fn use_hint(game : Game) -> Bool {
     }
 
     if best_d2 >= 900000000.0 {
-      for i = 0; i < game.survivors.length(); i = i + 1 {
+      for i in 0..<game.survivors.length() {
         if not(game.survivors[i].active) || game.survivors[i].carried {
           continue
         }

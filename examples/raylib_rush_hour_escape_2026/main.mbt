@@ -53,7 +53,7 @@ fn inside_rect(
 
 ///|
 fn clear_cars(cars : Array[Car]) -> Unit {
-  for i = 0; i < cars.length(); i = i + 1 {
+  for i in 0..<cars.length() {
     cars[i] = {
       x: 0,
       y: 0,
@@ -158,7 +158,7 @@ fn occupied_by(
   gy : Int,
 ) -> Bool {
   let mut occ = false
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     if i == skip || not(cars[i].active) {
       continue
     }
@@ -176,7 +176,7 @@ fn occupied_by(
 ///|
 fn find_car_at(cars : Array[Car], count : Int, gx : Int, gy : Int) -> Int {
   let mut found = -1
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     if not(cars[i].active) {
       continue
     }
@@ -479,7 +479,7 @@ fn main {
       @raylib.Color::new(224, 214, 196, 255),
     )
 
-    for y = 0; y <= gh; y = y + 1 {
+    for y in 0..=gh {
       let ly = oy + y * cell
       @raylib.draw_line(
         ox,
@@ -489,7 +489,7 @@ fn main {
         @raylib.Color::new(166, 150, 128, 255),
       )
     }
-    for x = 0; x <= gw; x = x + 1 {
+    for x in 0..=gw {
       let lx = ox + x * cell
       @raylib.draw_line(
         lx,
@@ -516,7 +516,7 @@ fn main {
       @raylib.Color::new(250, 220, 220, 255),
     )
 
-    for i = 0; i < car_count; i = i + 1 {
+    for i in 0..<car_count {
       if not(cars[i].active) {
         continue
       }

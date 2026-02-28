@@ -79,7 +79,7 @@ fn set_cell(game : Game, x : Int, y : Int, p : Int) -> Unit {
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.board.length(); i = i + 1 {
+  for i in 0..<game.board.length() {
     game.board[i] = player_empty
   }
 }
@@ -87,7 +87,7 @@ fn clear_board(game : Game) -> Unit {
 ///|
 fn clear_history(game : Game) -> Unit {
   game.hist_len = 0
-  for i = 0; i < game.hist_x.length(); i = i + 1 {
+  for i in 0..<game.hist_x.length() {
     game.hist_x[i] = 0
     game.hist_y[i] = 0
     game.hist_p[i] = player_empty
@@ -96,7 +96,7 @@ fn clear_history(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -141,7 +141,7 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if game.sparks[i].active {
       continue
     }
@@ -195,7 +195,7 @@ fn burst_move(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
   let (cx, cy, tilef) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tilef * 0.22)
 
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_spark(
       game,
       cx + randf(-spread, spread),
@@ -211,7 +211,7 @@ fn burst_move(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -309,7 +309,7 @@ fn count_one_side(
 fn check_five_from(game : Game, x : Int, y : Int, p : Int) -> Bool {
   let dirs : Array[(Int, Int)] = [(1, 0), (0, 1), (1, 1), (1, -1)]
 
-  for i = 0; i < dirs.length(); i = i + 1 {
+  for i in 0..<dirs.length() {
     let (dx, dy) = dirs[i]
     let c1 : Int = count_one_side(game, x, y, p, dx, dy)
     let c2 : Int = count_one_side(game, x, y, p, -dx, -dy)
@@ -434,7 +434,7 @@ fn undo_last_turn(game : Game) -> Bool {
 
   // Rebuild last move markers.
   clear_last_moves(game)
-  for i = 0; i < game.hist_len; i = i + 1 {
+  for i in 0..<game.hist_len {
     let p : Int = game.hist_p[i]
     if p == player_human {
       game.last_hx = game.hist_x[i]

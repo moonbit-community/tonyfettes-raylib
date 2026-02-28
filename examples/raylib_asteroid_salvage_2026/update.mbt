@@ -5,7 +5,7 @@ fn length_sq(dx : Float, dy : Float) -> Float {
 
 ///|
 fn fire_bullet(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       let dir_x : Float = Float::from_double(
         @math.cos(game.ship_angle.to_double()),
@@ -78,7 +78,7 @@ fn update_ship(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }
@@ -93,7 +93,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_rocks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.rocks.length(); i = i + 1 {
+  for i in 0..<game.rocks.length() {
     if not(game.rocks[i].active) {
       continue
     }
@@ -116,7 +116,7 @@ fn split_rock(game : Game, rock : Rock, hit_x : Float, hit_y : Float) -> Unit {
   }
 
   let next_size = rock.size - 1
-  for i = 0; i < 2; i = i + 1 {
+  for i in 0..<2 {
     let angle : Float = random_range((0.0 : Float), pi * 2.0)
     let speed : Float = random_range(60.0, 160.0)
     let vx : Float = Float::from_double(@math.cos(angle.to_double())) * speed +
@@ -129,11 +129,11 @@ fn split_rock(game : Game, rock : Rock, hit_x : Float, hit_y : Float) -> Unit {
 
 ///|
 fn bullet_vs_rocks(game : Game) -> Unit {
-  for bi = 0; bi < game.bullets.length(); bi = bi + 1 {
+  for bi in 0..<game.bullets.length() {
     if not(game.bullets[bi].active) {
       continue
     }
-    for ri = 0; ri < game.rocks.length(); ri = ri + 1 {
+    for ri in 0..<game.rocks.length() {
       if not(game.rocks[ri].active) {
         continue
       }
@@ -160,7 +160,7 @@ fn ship_vs_rocks(game : Game) -> Unit {
   }
 
   let ship_r : Float = 11.0
-  for ri = 0; ri < game.rocks.length(); ri = ri + 1 {
+  for ri in 0..<game.rocks.length() {
     if not(game.rocks[ri].active) {
       continue
     }
@@ -182,7 +182,7 @@ fn ship_vs_rocks(game : Game) -> Unit {
 ///|
 fn maybe_advance_wave(game : Game) -> Unit {
   let mut alive = 0
-  for i = 0; i < game.rocks.length(); i = i + 1 {
+  for i in 0..<game.rocks.length() {
     if game.rocks[i].active {
       alive = alive + 1
     }

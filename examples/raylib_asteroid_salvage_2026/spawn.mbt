@@ -44,10 +44,10 @@ fn ship_reset(game : Game) -> Unit {
 
 ///|
 fn clear_entities(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     game.bullets[i].active = false
   }
-  for i = 0; i < game.rocks.length(); i = i + 1 {
+  for i in 0..<game.rocks.length() {
     game.rocks[i].active = false
   }
 }
@@ -61,7 +61,7 @@ fn spawn_rock(
   vx : Float,
   vy : Float,
 ) -> Unit {
-  for i = 0; i < game.rocks.length(); i = i + 1 {
+  for i in 0..<game.rocks.length() {
     if not(game.rocks[i].active) {
       game.rocks[i].active = true
       game.rocks[i].size = size
@@ -82,7 +82,7 @@ fn spawn_rock(
 ///|
 fn spawn_wave(game : Game) -> Unit {
   let count = 4 + game.wave
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let edge = @raylib.get_random_value(0, 3)
     let mut x : Float = 0.0
     let mut y : Float = 0.0

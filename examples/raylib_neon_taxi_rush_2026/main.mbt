@@ -182,7 +182,7 @@ fn road_hit(x : Float, y : Float) -> Bool {
 
 ///|
 fn clear_traffic(ts : Array[Traffic]) -> Unit {
-  for i = 0; i < ts.length(); i = i + 1 {
+  for i in 0..<ts.length() {
     ts[i].active = false
     ts[i].x = 0.0
     ts[i].y = 0.0
@@ -198,7 +198,7 @@ fn clear_traffic(ts : Array[Traffic]) -> Unit {
 
 ///|
 fn clear_passengers(ps : Array[Passenger]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -213,7 +213,7 @@ fn clear_passengers(ps : Array[Passenger]) -> Unit {
 
 ///|
 fn clear_fuels(fs : Array[FuelPickup]) -> Unit {
-  for i = 0; i < fs.length(); i = i + 1 {
+  for i in 0..<fs.length() {
     fs[i].active = false
     fs[i].x = 0.0
     fs[i].y = 0.0
@@ -225,7 +225,7 @@ fn clear_fuels(fs : Array[FuelPickup]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -240,7 +240,7 @@ fn clear_particles(ps : Array[Particle]) -> Unit {
 
 ///|
 fn clear_markers(ms : Array[Marker]) -> Unit {
-  for i = 0; i < ms.length(); i = i + 1 {
+  for i in 0..<ms.length() {
     ms[i].x = 0.0
     ms[i].y = 0.0
   }
@@ -255,7 +255,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -284,7 +284,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -295,7 +295,7 @@ fn setup_markers(ms : Array[Marker]) -> Int {
   clear_markers(ms)
   let mut n = 0
 
-  for yi = 0; yi < 4; yi = yi + 1 {
+  for yi in 0..<4 {
     let y : Float = if yi == 0 {
       Float::from_int(140)
     } else if yi == 1 {
@@ -306,7 +306,7 @@ fn setup_markers(ms : Array[Marker]) -> Int {
       Float::from_int(620)
     }
 
-    for xi = 0; xi < 5; xi = xi + 1 {
+    for xi in 0..<5 {
       let x : Float = if xi == 0 {
         Float::from_int(180)
       } else if xi == 1 {
@@ -333,7 +333,7 @@ fn setup_markers(ms : Array[Marker]) -> Int {
 ///|
 fn spawn_traffic(ts : Array[Traffic], wave : Int) -> Bool {
   let mut slot = -1
-  for i = 0; i < ts.length(); i = i + 1 {
+  for i in 0..<ts.length() {
     if slot < 0 && not(ts[i].active) {
       slot = i
     }
@@ -420,7 +420,7 @@ fn spawn_passenger(
   wave : Int,
 ) -> Bool {
   let mut slot = -1
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if slot < 0 && not(ps[i].active) {
       slot = i
     }
@@ -463,7 +463,7 @@ fn spawn_fuel(
   marker_count : Int,
 ) -> Bool {
   let mut slot = -1
-  for i = 0; i < fs.length(); i = i + 1 {
+  for i in 0..<fs.length() {
     if slot < 0 && not(fs[i].active) {
       slot = i
     }
@@ -613,12 +613,12 @@ fn main {
     clear_fuels(fuels)
     clear_particles(particles)
 
-    for i = 0; i < 8; i = i + 1 {
+    for i in 0..<8 {
       ignore(i)
       ignore(spawn_passenger(passengers, markers, marker_count, wave))
     }
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       ignore(i)
       ignore(spawn_fuel(fuels, markers, marker_count))
     }
@@ -785,7 +785,7 @@ fn main {
         msg_t = 0.5
         burst(particles, taxi.x, taxi.y, 16, 0.26, 2)
 
-        for i = 0; i < traffic.length(); i = i + 1 {
+        for i in 0..<traffic.length() {
           if not(traffic[i].active) {
             continue
           }
@@ -829,7 +829,7 @@ fn main {
         fuel_cd = randf(6.4, 10.0)
       }
 
-      for i = 0; i < traffic.length(); i = i + 1 {
+      for i in 0..<traffic.length() {
         if not(traffic[i].active) {
           continue
         }
@@ -877,7 +877,7 @@ fn main {
         }
       }
 
-      for i = 0; i < passengers.length(); i = i + 1 {
+      for i in 0..<passengers.length() {
         if not(passengers[i].active) {
           continue
         }
@@ -945,7 +945,7 @@ fn main {
         }
       }
 
-      for i = 0; i < fuels.length(); i = i + 1 {
+      for i in 0..<fuels.length() {
         if not(fuels[i].active) {
           continue
         }
@@ -969,7 +969,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1021,7 +1021,7 @@ fn main {
     let road_col = @raylib.Color::new(44, 48, 64, 255)
     let lane_col = @raylib.Color::new(116, 124, 152, 180)
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       let y = if i == 0 {
         140
       } else if i == 1 {
@@ -1032,7 +1032,7 @@ fn main {
         620
       }
       @raylib.draw_rectangle(0, y - 40, sw, 80, road_col)
-      for dash = 0; dash < 22; dash = dash + 1 {
+      for dash in 0..<22 {
         @raylib.draw_rectangle(
           dash * 64 + (@raylib.get_time() * 120.0).to_int() % 64,
           y - 2,
@@ -1043,7 +1043,7 @@ fn main {
       }
     }
 
-    for i = 0; i < 5; i = i + 1 {
+    for i in 0..<5 {
       let x = if i == 0 {
         180
       } else if i == 1 {
@@ -1056,7 +1056,7 @@ fn main {
         1100
       }
       @raylib.draw_rectangle(x - 40, 74, 80, sh - 74, road_col)
-      for dash = 0; dash < 14; dash = dash + 1 {
+      for dash in 0..<14 {
         @raylib.draw_rectangle(
           x - 2,
           dash * 64 + 90 + (@raylib.get_time() * 90.0).to_int() % 64,
@@ -1067,7 +1067,7 @@ fn main {
       }
     }
 
-    for i = 0; i < fuels.length(); i = i + 1 {
+    for i in 0..<fuels.length() {
       if not(fuels[i].active) {
         continue
       }
@@ -1087,7 +1087,7 @@ fn main {
       )
     }
 
-    for i = 0; i < passengers.length(); i = i + 1 {
+    for i in 0..<passengers.length() {
       if not(passengers[i].active) {
         continue
       }
@@ -1128,7 +1128,7 @@ fn main {
       )
     }
 
-    for i = 0; i < traffic.length(); i = i + 1 {
+    for i in 0..<traffic.length() {
       if not(traffic[i].active) {
         continue
       }
@@ -1159,7 +1159,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

@@ -139,7 +139,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -156,7 +156,7 @@ fn burst_particles(
   power : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -198,7 +198,7 @@ fn respawn_pickup(pickups : FixedArray[Pickup], idx : Int, level : Int) -> Unit 
 
 ///|
 fn init_pickups(pickups : FixedArray[Pickup], level : Int) -> Unit {
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     respawn_pickup(pickups, i, level)
   }
 }
@@ -210,7 +210,7 @@ fn init_cops(cops : FixedArray[Cop], level : Int) -> Unit {
     10.0,
     Float::from_int(max_cops),
   ).to_int()
-  for i = 0; i < cops.length(); i = i + 1 {
+  for i in 0..<cops.length() {
     if i < total {
       let kind : Int = if i % 4 == 0 { 1 } else { 0 }
       cops[i] = {
@@ -232,7 +232,7 @@ fn init_cops(cops : FixedArray[Cop], level : Int) -> Unit {
 
 ///|
 fn spawn_smoke(smokes : FixedArray[Smoke], x : Float, y : Float) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
+  for i in 0..<smokes.length() {
     if not(smokes[i].active) {
       smokes[i] = { active: true, x, y, r: 36.0, t: 0.0, life: 3.8 }
       break
@@ -474,10 +474,10 @@ fn main {
 
     heat = 10.0 + Float::from_int(level - 1) * 6.0
 
-    for i = 0; i < smokes.length(); i = i + 1 {
+    for i in 0..<smokes.length() {
       smokes[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
 
@@ -705,7 +705,7 @@ fn main {
         heat = heat + dt * 8.2
       }
 
-      for i = 0; i < smokes.length(); i = i + 1 {
+      for i in 0..<smokes.length() {
         if not(smokes[i].active) {
           continue
         }
@@ -727,7 +727,7 @@ fn main {
       }
 
       let mut near_cops : Int = 0
-      for i = 0; i < cops.length(); i = i + 1 {
+      for i in 0..<cops.length() {
         if not(cops[i].active) {
           continue
         }
@@ -758,7 +758,7 @@ fn main {
         }
 
         let mut in_smoke : Bool = false
-        for j = 0; j < smokes.length(); j = j + 1 {
+        for j in 0..<smokes.length() {
           if not(smokes[j].active) {
             continue
           }
@@ -847,7 +847,7 @@ fn main {
       heat = heat + Float::from_int(near_cops) * dt * 0.9
       heat = clampf(heat, 0.0, 120.0)
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -886,7 +886,7 @@ fn main {
         )
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1000,7 +1000,7 @@ fn main {
       ly = ly + 140.0
     }
 
-    for i = 0; i < smokes.length(); i = i + 1 {
+    for i in 0..<smokes.length() {
       if not(smokes[i].active) {
         continue
       }
@@ -1028,7 +1028,7 @@ fn main {
       )
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -1065,7 +1065,7 @@ fn main {
       )
     }
 
-    for i = 0; i < cops.length(); i = i + 1 {
+    for i in 0..<cops.length() {
       if not(cops[i].active) {
         continue
       }
@@ -1181,7 +1181,7 @@ fn main {
       @raylib.Color::new(208, 214, 222, 180),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

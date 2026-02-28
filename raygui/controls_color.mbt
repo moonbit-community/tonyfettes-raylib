@@ -133,7 +133,7 @@ pub fn gui_color_bar_hue(
     @raylib.Color::new(0xFF, 0x00, 0xFF, 0xFF), // Magenta
     @raylib.Color::new(0xFF, 0x00, 0x00, 0xFF), // Red (wrap)
   ]
-  for i = 0; i < 6; i = i + 1 {
+  for i in 0..<6 {
     let sector = @raylib.Rectangle::new(
       bx,
       by + Float::from_int(i) * sector_h,

@@ -159,7 +159,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -176,7 +176,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -214,7 +214,7 @@ fn spawn_bullet(
   dmg : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       bullets[i] = { active: true, kind, from_player, x, y, vx, vy, dmg, life }
       break
@@ -224,7 +224,7 @@ fn spawn_bullet(
 
 ///|
 fn spawn_ore(ores : FixedArray[Ore], x : Float, y : Float, value : Int) -> Unit {
-  for i = 0; i < ores.length(); i = i + 1 {
+  for i in 0..<ores.length() {
     if not(ores[i].active) {
       ores[i] = { active: true, x, y, value, t: 0.0, life: 24.0 }
       break
@@ -238,7 +238,7 @@ fn spawn_enemy(
   level : Int,
   convoy_x : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       let kind : Int = if @raylib.get_random_value(0, 100) < 26 + level * 6 {
         1
@@ -281,11 +281,11 @@ fn init_wave(
   level : Int,
   convoy_x : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
   }
   let initial : Int = 14 + level * 4
-  for i = 0; i < initial; i = i + 1 {
+  for i in 0..<initial {
     spawn_enemy(enemies, level, convoy_x)
   }
 }
@@ -560,7 +560,7 @@ fn main {
     let lane0 : Float = 420.0
     let lane_gap : Float = 180.0
 
-    for i = 0; i < trucks.length(); i = i + 1 {
+    for i in 0..<trucks.length() {
       trucks[i].active = true
       trucks[i].x = convoy_start - Float::from_int(i) * 150.0
       trucks[i].y = lane0 + Float::from_int(i) * lane_gap
@@ -569,13 +569,13 @@ fn main {
       trucks[i].flash_t = 0.0
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       bullets[i].active = false
     }
-    for i = 0; i < ores.length(); i = i + 1 {
+    for i in 0..<ores.length() {
       ores[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
 
@@ -598,7 +598,7 @@ fn main {
     }
 
     let mut convoy_head_x : Float = 0.0
-    for i = 0; i < trucks.length(); i = i + 1 {
+    for i in 0..<trucks.length() {
       if trucks[i].active && trucks[i].x > convoy_head_x {
         convoy_head_x = trucks[i].x
       }
@@ -824,7 +824,7 @@ fn main {
         pilot.energy = pilot.energy - 40.0
         pilot.pulse_cd = 5.8
         burst_particles(particles, pilot.x, pilot.y, 60, 164.0, 1)
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -838,10 +838,10 @@ fn main {
 
       if storm_press && pilot.overdrive_cd <= 0.0 && pilot.energy >= 56.0 {
         pilot.energy = pilot.energy - 56.0
-        for k = 0; k < 7; k = k + 1 {
+        for k in 0..<7 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].active) {
               continue
             }
@@ -891,7 +891,7 @@ fn main {
       }
 
       let mut alive_trucks : Int = 0
-      for i = 0; i < trucks.length(); i = i + 1 {
+      for i in 0..<trucks.length() {
         if not(trucks[i].active) {
           continue
         }
@@ -929,7 +929,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -965,7 +965,7 @@ fn main {
         if d2p > 260.0 * 260.0 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for j = 0; j < trucks.length(); j = j + 1 {
+          for j in 0..<trucks.length() {
             if not(trucks[j].active) {
               continue
             }
@@ -1070,7 +1070,7 @@ fn main {
             }
           }
 
-          for j = 0; j < trucks.length(); j = j + 1 {
+          for j in 0..<trucks.length() {
             if not(trucks[j].active) {
               continue
             }
@@ -1091,7 +1091,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1114,7 +1114,7 @@ fn main {
         }
 
         if bullets[i].from_player {
-          for j = 0; j < enemies.length(); j = j + 1 {
+          for j in 0..<enemies.length() {
             if not(enemies[j].active) {
               continue
             }
@@ -1140,7 +1140,7 @@ fn main {
             continue
           }
 
-          for j = 0; j < trucks.length(); j = j + 1 {
+          for j in 0..<trucks.length() {
             if not(trucks[j].active) {
               continue
             }
@@ -1156,7 +1156,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1191,7 +1191,7 @@ fn main {
         }
       }
 
-      for i = 0; i < ores.length(); i = i + 1 {
+      for i in 0..<ores.length() {
         if not(ores[i].active) {
           continue
         }
@@ -1217,7 +1217,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1239,7 +1239,7 @@ fn main {
       } else {
         let mut alive : Int = 0
         let mut max_x : Float = 0.0
-        for i = 0; i < trucks.length(); i = i + 1 {
+        for i in 0..<trucks.length() {
           if trucks[i].active {
             alive = alive + 1
             if trucks[i].x > max_x {
@@ -1326,7 +1326,7 @@ fn main {
       @raylib.Color::new(226, 248, 255, 220),
     )
 
-    for i = 0; i < ores.length(); i = i + 1 {
+    for i in 0..<ores.length() {
       if not(ores[i].active) {
         continue
       }
@@ -1354,7 +1354,7 @@ fn main {
       )
     }
 
-    for i = 0; i < trucks.length(); i = i + 1 {
+    for i in 0..<trucks.length() {
       if not(trucks[i].active) {
         continue
       }
@@ -1401,7 +1401,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -1440,7 +1440,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1496,7 +1496,7 @@ fn main {
       @raylib.Color::new(246, 248, 252, 255),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -1648,7 +1648,7 @@ fn main {
     )
 
     let mut alive_trucks : Int = 0
-    for i = 0; i < trucks.length(); i = i + 1 {
+    for i in 0..<trucks.length() {
       if trucks[i].active {
         alive_trucks = alive_trucks + 1
       }

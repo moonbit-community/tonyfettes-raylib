@@ -54,7 +54,7 @@ fn ingredient_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn reset_drops(drops : Array[Drop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     drops[i].alive = false
   }
 }
@@ -66,7 +66,7 @@ fn spawn_drop(
   kind : Int,
   speed : Float,
 ) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].alive) {
       drops[i].alive = true
       drops[i].lane = lane
@@ -185,7 +185,7 @@ fn main {
         spawn_drop(drops, lane, kind, speed)
       }
 
-      for i = 0; i < drops.length(); i = i + 1 {
+      for i in 0..<drops.length() {
         if not(drops[i].alive) {
           continue
         }
@@ -251,7 +251,7 @@ fn main {
       @raylib.Color::new(232, 220, 196, 255),
     )
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let x = lane_x(l)
       @raylib.draw_line(
         x.to_int(),
@@ -264,7 +264,7 @@ fn main {
       @raylib.draw_circle(x.to_int(), 116, 6.0, @raylib.black)
     }
 
-    for i = 0; i < drops.length(); i = i + 1 {
+    for i in 0..<drops.length() {
       if drops[i].alive {
         let c = ingredient_color(drops[i].kind)
         @raylib.draw_circle(drops[i].x.to_int(), drops[i].y.to_int(), 16.0, c)

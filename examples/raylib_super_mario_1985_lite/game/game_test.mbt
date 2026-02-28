@@ -48,7 +48,7 @@ test "gravity: player in air falls" {
   game.player.y = @types.tile_top(@types.ground_row) - 200.0
   game.player.on_ground = false
   let y_before = game.player.y
-  for i = 0; i < 10; i = i + 1 {
+  for i in 0..<10 {
     update_game(game, no_input, dt)
   }
   assert_true(game.player.y > y_before)
@@ -62,7 +62,7 @@ test "ground collision: player lands on tile" {
     5.0
   game.player.vy = 200.0
   game.player.on_ground = false
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     update_game(game, no_input, dt)
   }
   assert_true(game.player.on_ground)
@@ -176,7 +176,7 @@ test "flag trigger: player reaches flag x sets reached_flag" {
     accept: false,
     restart: false,
   }
-  for i = 0; i < 30; i = i + 1 {
+  for i in 0..<30 {
     update_game(game, right_input, dt)
     if player.reached_flag {
       break
@@ -190,7 +190,7 @@ test "timer expiry: time runs out triggers game over" {
   let game = setup_game()
   game.time_left = 1
   game.time_accum = 0.0
-  for i = 0; i < 120; i = i + 1 {
+  for i in 0..<120 {
     if game.state != @types.state_playing {
       break
     }

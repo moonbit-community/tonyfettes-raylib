@@ -108,7 +108,7 @@ fn find_target(units : Array[Piece], idx : Int) -> Int {
   let self = units[idx]
   let mut best = -1
   let mut best_d = 1_000_000
-  for i = 0; i < units.length(); i = i + 1 {
+  for i in 0..<units.length() {
     if i == idx || not(units[i].alive) || units[i].team == self.team {
       continue
     }
@@ -123,7 +123,7 @@ fn find_target(units : Array[Piece], idx : Int) -> Int {
 
 ///|
 fn occupied(units : Array[Piece], x : Int, y : Int) -> Bool {
-  for i = 0; i < units.length(); i = i + 1 {
+  for i in 0..<units.length() {
     if units[i].alive && units[i].x == x && units[i].y == y {
       return true
     }
@@ -134,8 +134,8 @@ fn occupied(units : Array[Piece], x : Int, y : Int) -> Bool {
 ///|
 fn copy_board_to_units(board : Array[Int], units : Array[Piece]) -> Unit {
   units.clear()
-  for y = 0; y < gh; y = y + 1 {
-    for x = 0; x < gw; x = x + 1 {
+  for y in 0..<gh {
+    for x in 0..<gw {
       let role = board[y * gw + x]
       if role >= 0 {
         units.push(setup_piece(0, role, x, y))
@@ -147,7 +147,7 @@ fn copy_board_to_units(board : Array[Int], units : Array[Piece]) -> Unit {
 ///|
 fn spawn_enemy_round(round : Int, units : Array[Piece]) -> Unit {
   let enemy_count = 2 + round
-  for i = 0; i < enemy_count; i = i + 1 {
+  for i in 0..<enemy_count {
     let role = @raylib.get_random_value(0, 2)
     let ex = gw - 1 - @raylib.get_random_value(0, 1)
     let ey = @raylib.get_random_value(0, gh - 1)
@@ -158,7 +158,7 @@ fn spawn_enemy_round(round : Int, units : Array[Piece]) -> Unit {
 ///|
 fn alive_team(units : Array[Piece], team : Int) -> Int {
   let mut n = 0
-  for i = 0; i < units.length(); i = i + 1 {
+  for i in 0..<units.length() {
     if units[i].alive && units[i].team == team {
       n = n + 1
     }
@@ -187,7 +187,7 @@ fn main {
     let dt = @raylib.get_frame_time()
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i = 0; i < board.length(); i = i + 1 {
+      for i in 0..<board.length() {
         board[i] = -1
       }
       units.clear()
@@ -248,7 +248,7 @@ fn main {
           }
         }
       } else {
-        for i = 0; i < units.length(); i = i + 1 {
+        for i in 0..<units.length() {
           if not(units[i].alive) {
             continue
           }
@@ -327,8 +327,8 @@ fn main {
     @raylib.draw_text("Gold \{gold}", 170, 58, 24, @raylib.gold)
     @raylib.draw_text("Life \{life}", 300, 58, 24, @raylib.lime)
 
-    for y = 0; y < gh; y = y + 1 {
-      for x = 0; x < gw; x = x + 1 {
+    for y in 0..<gh {
+      for x in 0..<gw {
         let px = ox + x * tile
         let py = oy + y * tile
         let left_side = x < 3
@@ -347,8 +347,8 @@ fn main {
     }
 
     if phase == phase_prep {
-      for y = 0; y < gh; y = y + 1 {
-        for x = 0; x < gw; x = x + 1 {
+      for y in 0..<gh {
+        for x in 0..<gw {
           let role = board[y * gw + x]
           if role >= 0 {
             let px = ox + x * tile
@@ -365,7 +365,7 @@ fn main {
         }
       }
     } else {
-      for i = 0; i < units.length(); i = i + 1 {
+      for i in 0..<units.length() {
         if units[i].alive {
           let px = ox + units[i].x * tile
           let py = oy + units[i].y * tile

@@ -1037,7 +1037,7 @@ pub fn get_track_length_estimate(cup : Int, race : Int) -> Float {
     return 0.0
   }
   let mut total : Float = 0.0
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let cur = wps[i]
     let next_idx = (i + 1) % count
     let next = wps[next_idx]

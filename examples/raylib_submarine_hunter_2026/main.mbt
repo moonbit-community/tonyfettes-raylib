@@ -25,7 +25,7 @@ struct Enemy {
 
 ///|
 fn spawn_torpedo(ts : Array[Torpedo], x : Float, y : Float, vx : Float) -> Unit {
-  for i = 0; i < ts.length(); i = i + 1 {
+  for i in 0..<ts.length() {
     if not(ts[i].alive) {
       ts[i].alive = true
       ts[i].x = x
@@ -38,7 +38,7 @@ fn spawn_torpedo(ts : Array[Torpedo], x : Float, y : Float, vx : Float) -> Unit 
 
 ///|
 fn spawn_enemy(es : Array[Enemy]) -> Unit {
-  for i = 0; i < es.length(); i = i + 1 {
+  for i in 0..<es.length() {
     if not(es[i].alive) {
       es[i].alive = true
       es[i].x = Float::from_int(sw + 80)
@@ -54,14 +54,14 @@ fn spawn_enemy(es : Array[Enemy]) -> Unit {
 
 ///|
 fn reset_torpedoes(ts : Array[Torpedo]) -> Unit {
-  for i = 0; i < ts.length(); i = i + 1 {
+  for i in 0..<ts.length() {
     ts[i].alive = false
   }
 }
 
 ///|
 fn reset_enemies(es : Array[Enemy]) -> Unit {
-  for i = 0; i < es.length(); i = i + 1 {
+  for i in 0..<es.length() {
     es[i].alive = false
   }
 }
@@ -192,7 +192,7 @@ fn main {
         spawn_enemy(enemies)
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].alive) {
           continue
         }
@@ -222,7 +222,7 @@ fn main {
         }
       }
 
-      for i = 0; i < player_t.length(); i = i + 1 {
+      for i in 0..<player_t.length() {
         if not(player_t[i].alive) {
           continue
         }
@@ -232,7 +232,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemy_t.length(); i = i + 1 {
+      for i in 0..<enemy_t.length() {
         if not(enemy_t[i].alive) {
           continue
         }
@@ -248,11 +248,11 @@ fn main {
         }
       }
 
-      for ti = 0; ti < player_t.length(); ti = ti + 1 {
+      for ti in 0..<player_t.length() {
         if not(player_t[ti].alive) {
           continue
         }
-        for ei = 0; ei < enemies.length(); ei = ei + 1 {
+        for ei in 0..<enemies.length() {
           if not(enemies[ei].alive) {
             continue
           }
@@ -316,7 +316,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].alive {
         let visible = not(enemies[i].stealth) || sonar_active > 0.0
         let c = if visible {
@@ -349,7 +349,7 @@ fn main {
       }
     }
 
-    for i = 0; i < player_t.length(); i = i + 1 {
+    for i in 0..<player_t.length() {
       if player_t[i].alive {
         @raylib.draw_rectangle(
           (player_t[i].x - 8.0).to_int(),
@@ -360,7 +360,7 @@ fn main {
         )
       }
     }
-    for i = 0; i < enemy_t.length(); i = i + 1 {
+    for i in 0..<enemy_t.length() {
       if enemy_t[i].alive {
         @raylib.draw_rectangle(
           (enemy_t[i].x - 8.0).to_int(),

@@ -6,7 +6,7 @@ fn set_message(game : Game, text : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_incidents(game : Game) -> Unit {
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     game.incidents[i].active = false
     game.incidents[i].x = 0
     game.incidents[i].y = 0
@@ -19,20 +19,20 @@ fn clear_incidents(game : Game) -> Unit {
 
 ///|
 fn reset_case(game : Game) -> Unit {
-  for i = 0; i < game.clues.length(); i = i + 1 {
+  for i in 0..<game.clues.length() {
     game.clues[i].discovered = false
     game.clues[i].glow_t = 0.0
   }
 
-  for i = 0; i < game.suspects.length(); i = i + 1 {
+  for i in 0..<game.suspects.length() {
     game.suspects[i].deduction_unlocked = false
     game.suspects[i].suspicion = 0.0
   }
 
-  for i = 0; i < game.chain_progress.length(); i = i + 1 {
+  for i in 0..<game.chain_progress.length() {
     game.chain_progress[i] = 0
   }
-  for i = 0; i < game.evidence_score.length(); i = i + 1 {
+  for i in 0..<game.evidence_score.length() {
     game.evidence_score[i] = 0
   }
 
@@ -60,7 +60,7 @@ fn reset_case(game : Game) -> Unit {
 ///|
 fn active_incident_count(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     if game.incidents[i].active {
       count = count + 1
     }
@@ -70,7 +70,7 @@ fn active_incident_count(game : Game) -> Int {
 
 ///|
 fn suspect_index_at_cell(game : Game, cell_x : Int, cell_y : Int) -> Int {
-  for i = 0; i < game.suspects.length(); i = i + 1 {
+  for i in 0..<game.suspects.length() {
     if game.suspects[i].home_x == cell_x && game.suspects[i].home_y == cell_y {
       return i
     }
@@ -85,7 +85,7 @@ fn clue_index_at_cell(
   cell_y : Int,
   undiscovered_only : Bool,
 ) -> Int {
-  for i = 0; i < game.clues.length(); i = i + 1 {
+  for i in 0..<game.clues.length() {
     if game.clues[i].x != cell_x || game.clues[i].y != cell_y {
       continue
     }
@@ -99,7 +99,7 @@ fn clue_index_at_cell(
 
 ///|
 fn incident_index_at_cell(game : Game, cell_x : Int, cell_y : Int) -> Int {
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     if game.incidents[i].active &&
       game.incidents[i].x == cell_x &&
       game.incidents[i].y == cell_y {
@@ -116,7 +116,7 @@ fn completed_chains(game : Game, suspect : Int) -> Int {
   }
 
   let mut done = 0
-  for chain = 0; chain < chains_per_suspect; chain = chain + 1 {
+  for chain in 0..<chains_per_suspect {
     let slot = chain_slot(suspect, chain)
     if game.chain_progress[slot] >= clue_steps_per_chain {
       done = done + 1
@@ -141,7 +141,7 @@ fn suspect_confidence(game : Game, suspect : Int) -> Int {
 
 ///|
 fn update_suspect_suspicion(game : Game) -> Unit {
-  for i = 0; i < game.suspects.length(); i = i + 1 {
+  for i in 0..<game.suspects.length() {
     let conf = Float::from_int(suspect_confidence(game, i))
     game.suspects[i].suspicion = clamp01(conf / 42.0)
   }
@@ -219,7 +219,7 @@ fn discover_clue(game : Game, clue_index : Int) -> Unit {
 
 ///|
 fn alloc_incident_slot(game : Game) -> Int {
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     if not(game.incidents[i].active) {
       return i
     }
@@ -227,7 +227,7 @@ fn alloc_incident_slot(game : Game) -> Int {
 
   let mut best = 0
   let mut best_timer = game.incidents[0].timer
-  for i = 1; i < game.incidents.length(); i = i + 1 {
+  for i in 1..<game.incidents.length() {
     if game.incidents[i].timer > best_timer {
       best = i
       best_timer = game.incidents[i].timer
@@ -280,7 +280,7 @@ fn spawn_incident(game : Game) -> Unit {
 fn update_incidents(game : Game, dt : Float) -> Unit {
   let slowdown : Float = if game.focus_t > 0.0 { 0.72 } else { 1.0 }
 
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     if not(game.incidents[i].active) {
       continue
     }
@@ -309,7 +309,7 @@ fn update_incidents(game : Game, dt : Float) -> Unit {
 ///|
 fn incident_pressure(game : Game) -> Float {
   let mut pressure : Float = 0.0
-  for i = 0; i < game.incidents.length(); i = i + 1 {
+  for i in 0..<game.incidents.length() {
     if game.incidents[i].active {
       pressure = pressure + Float::from_int(game.incidents[i].severity) * 0.34
     }
@@ -321,7 +321,7 @@ fn incident_pressure(game : Game) -> Float {
 fn update_district_pulses(game : Game, dt : Float) -> Unit {
   game.city_time = game.city_time + dt
 
-  for i = 0; i < game.pulses.length(); i = i + 1 {
+  for i in 0..<game.pulses.length() {
     let x = i % city_cols
     let y = i / city_cols
 
@@ -332,7 +332,7 @@ fn update_district_pulses(game : Game, dt : Float) -> Unit {
       heat = heat + 0.15
     }
 
-    for j = 0; j < game.incidents.length(); j = j + 1 {
+    for j in 0..<game.incidents.length() {
       if not(game.incidents[j].active) {
         continue
       }
@@ -540,7 +540,7 @@ fn handle_inspect(game : Game) -> Unit {
 
 ///|
 fn update_clue_glow(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.clues.length(); i = i + 1 {
+  for i in 0..<game.clues.length() {
     if game.clues[i].glow_t > 0.0 {
       game.clues[i].glow_t = maxf(0.0, game.clues[i].glow_t - dt)
     }

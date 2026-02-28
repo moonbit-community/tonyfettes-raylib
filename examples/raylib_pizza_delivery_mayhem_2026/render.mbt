@@ -66,7 +66,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(176, 206, 226, 206),
   )
 
-  for i = 0; i <= world_w / road_step; i = i + 1 {
+  for i in 0..=(world_w / road_step) {
     let x : Int = world_x0 + ox + i * road_step
     @raylib.draw_rectangle(
       x - 22,
@@ -76,7 +76,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(62, 76, 88, 236),
     )
 
-    for j = 0; j < world_h / 52; j = j + 1 {
+    for j in 0..<(world_h / 52) {
       @raylib.draw_rectangle(
         x - 2,
         world_y0 + oy + j * 52 + 10,
@@ -87,7 +87,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     }
   }
 
-  for i = 0; i <= world_h / road_step; i = i + 1 {
+  for i in 0..=(world_h / road_step) {
     let y : Int = world_y0 + oy + i * road_step
     @raylib.draw_rectangle(
       world_x0 + ox,
@@ -97,7 +97,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(62, 76, 88, 236),
     )
 
-    for j = 0; j < world_w / 52; j = j + 1 {
+    for j in 0..<(world_w / 52) {
       @raylib.draw_rectangle(
         world_x0 + ox + j * 52 + 10,
         y - 2,
@@ -108,7 +108,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     }
   }
 
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let rx : Int = restaurant_x(i).to_int() - 42 + ox
     let ry : Int = restaurant_y(i).to_int() - 36 + oy
 
@@ -330,7 +330,7 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -1069,16 +1069,16 @@ fn draw_frame(
 
   draw_world_back(game, ox, oy)
 
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     let highlight : Bool = game.cargo_idx == i
     draw_order(game.orders[i], highlight, ox, oy)
   }
 
-  for i = 0; i < game.traffic.length(); i = i + 1 {
+  for i in 0..<game.traffic.length() {
     draw_traffic(game.traffic[i], ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     draw_pickup(game.pickups[i], ox, oy)
   }
 

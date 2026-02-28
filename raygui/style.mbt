@@ -17,7 +17,7 @@ pub fn gui_set_style(control : Int, property : Int, value : Int) -> Unit {
   gui_style[control * (max_props_base + max_props_extended) + property] = value
   // Default properties are propagated to all controls
   if control == 0 && property < max_props_base {
-    for i = 1; i < max_controls; i = i + 1 {
+    for i in 1..<max_controls {
       gui_style[i * (max_props_base + max_props_extended) + property] = value
     }
   }
@@ -249,7 +249,7 @@ pub fn gui_load_style(file_name : String) -> Unit {
 ///|
 fn gui_load_style_from_text(text : String) -> Unit {
   let lines = get_text_lines(text)
-  for i = 0; i < lines.length(); i = i + 1 {
+  for i in 0..<lines.length() {
     let line = lines[i]
     if line.length() == 0 {
       continue
@@ -312,7 +312,7 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
   let prop_count = style_read_int(data, offset)
   offset = offset + 4
   // Read properties
-  for i = 0; i < prop_count; i = i + 1 {
+  for i in 0..<prop_count {
     if offset + 8 > data.length() {
       break
     }

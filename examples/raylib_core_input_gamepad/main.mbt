@@ -238,7 +238,7 @@ fn main {
         10,
         @raylib.maroon,
       )
-      for i = 0; i < axis_count; i = i + 1 {
+      for i in 0..<axis_count {
         let axis_val = @raylib.get_gamepad_axis_movement(gamepad, i)
         @raylib.draw_text(
           "AXIS \{i}: \{axis_val}",

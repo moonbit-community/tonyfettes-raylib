@@ -79,7 +79,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "Start Game",
     "Difficulty: " + @types.difficulty_name(game.difficulty),
   ]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 240 + i * 55
     let is_sel = game.menu_cursor == i
     let blink = @math.sinf(game.menu_blink * 2.0)
@@ -126,7 +126,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "8 Tower Types with 3 Upgrade Levels", "10 Enemy Types including Bosses", "5 Unique Maps | 30 Waves Each",
     "Status Effects: Slow, Burn, Stun, Chain", "Economy: Interest, Sell, Wave Bonuses",
   ]
-  for i = 0; i < feature_items.length(); i = i + 1 {
+  for i in 0..<feature_items.length() {
     let fy = features_y + 22 + i * 18
     let feat_w = @raylib.measure_text(feature_items[i], 13)
     @raylib.draw_text(
@@ -180,7 +180,7 @@ fn draw_map_select(game : @types.Game) -> Unit {
     @raylib.Color::new(60, 100, 150, 255),
   )
   // Map entries
-  for i = 0; i < @types.map_count; i = i + 1 {
+  for i in 0..<@types.map_count {
     let info = @levels.get_map_info(i)
     let y = 100 + i * 110
     let is_sel = game.menu_cursor == i
@@ -286,12 +286,12 @@ fn draw_map_preview(
   }
   let cell_w = pw / @types.map_w
   let cell_h = ph / @types.map_h
-  for gy = 0; gy < @types.map_h; gy = gy + 1 {
+  for gy in 0..<@types.map_h {
     if gy >= rows {
-      continue gy + 1
+      continue
     }
     let row = layout[gy]
-    for gx = 0; gx < @types.map_w; gx = gx + 1 {
+    for gx in 0..<@types.map_w {
       let ch = if gx < row.length() { row[gx] } else { '.' }
       let cx = px + gx * cell_w
       let cy = py + gy * cell_h
@@ -495,8 +495,8 @@ fn draw_minimap(game : @types.Game) -> Unit {
   // Draw tiles
   let cw = mw / @types.map_w
   let ch = mh / @types.map_h
-  for gy = 0; gy < @types.map_h; gy = gy + 1 {
-    for gx = 0; gx < @types.map_w; gx = gx + 1 {
+  for gy in 0..<@types.map_h {
+    for gx in 0..<@types.map_w {
       let tile = @types.get_tile(game, gx, gy)
       let cx = mx + gx * cw
       let cy = my + gy * ch
@@ -544,10 +544,10 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw towers on minimap
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     let cx = mx + tower.gx * cw
     let cy = my + tower.gy * ch
@@ -560,10 +560,10 @@ fn draw_minimap(game : @types.Game) -> Unit {
     )
   }
   // Draw enemies on minimap
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let egx = @types.world_to_grid_x(enemy.x)
     let egy = @types.world_to_grid_y(enemy.z)
@@ -713,7 +713,7 @@ fn draw_build_ui(game : @types.Game) -> Unit {
     (@types.tower_splash, "7: Splash", @types.cost_splash, "Area dmg"),
     (@types.tower_buff, "8: Buff", @types.cost_buff, "Boosts"),
   ]
-  for i = 0; i < tower_types.length(); i = i + 1 {
+  for i in 0..<tower_types.length() {
     let entry = tower_types[i]
     let y = panel_y + 38 + i * 55
     let is_sel = game.selected_tower_type == entry.0

@@ -56,8 +56,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_grid_base(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -108,7 +108,7 @@ fn draw_grid_base(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_seals(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < seal_need; i = i + 1 {
+  for i in 0..<seal_need {
     let p = seal_pos(i)
     let cx : Int = board_px(p.0) + cell / 2 + ox
     let cy : Int = board_py(p.1) + cell / 2 + oy
@@ -149,7 +149,7 @@ fn draw_seals(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_pages(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < max_pages; i = i + 1 {
+  for i in 0..<max_pages {
     if game.page_taken[i] {
       continue
     }
@@ -203,7 +203,7 @@ fn draw_pages(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_shelves(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.shelf_n; i = i + 1 {
+  for i in 0..<game.shelf_n {
     let x : Int = game.shelf_x[i]
     let y : Int = game.shelf_y[i]
     let rx : Int = board_px(x) + 6 + ox
@@ -366,7 +366,7 @@ fn draw_ghost(g : Ghost, game : Game, ox : Int, oy : Int, i : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -396,7 +396,7 @@ fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
   draw_shelves(game, ox, oy)
   draw_gate(game, ox, oy)
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     draw_ghost(game.ghosts[i], game, ox, oy, i)
   }
 

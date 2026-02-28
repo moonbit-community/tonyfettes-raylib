@@ -64,7 +64,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "WASD - Move | Mouse - Look", "Left Click - Shoot | Shift - Sprint", "1-4 / Scroll - Switch Weapon",
     "ESC - Pause",
   ]
-  for i = 0; i < controls.length(); i = i + 1 {
+  for i in 0..<controls.length() {
     let text = controls[i]
     let cw = @raylib.measure_text(text, 16)
     @raylib.draw_text(
@@ -224,7 +224,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_text(ammo_text, ammo_x, ammo_y + 22, 18, ammo_color)
   // Weapon slots indicator
   let slot_y = sh - 95
-  for i = 0; i < @types.weapon_count; i = i + 1 {
+  for i in 0..<@types.weapon_count {
     let slot_x = ammo_x + i * 50
     let is_selected = i == player.current_weapon
     let bg_color = if is_selected {
@@ -625,7 +625,7 @@ fn draw_shop_ui(game : @types.Game) -> Unit {
     ("Place Barricade", @types.cost_barricade),
     ("Place Spike Trap", @types.cost_trap_spike),
   ]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let item = items[i]
     let iy = panel_y + 58 + i * 38
     let is_sel = game.shop_cursor == i
@@ -736,7 +736,7 @@ fn draw_game_over(game : @types.Game) -> Unit {
     "Wave Reached: \{game.current_wave + 1}/\{@types.max_waves}",
     "Gold Earned: \{player.money + player.score}",
   ]
-  for i = 0; i < stats.length(); i = i + 1 {
+  for i in 0..<stats.length() {
     let text = stats[i]
     let stw = @raylib.measure_text(text, 22)
     @raylib.draw_text(

@@ -227,7 +227,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -255,7 +255,7 @@ fn pointer_on_circle(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if dist2(p.x, p.y, cx, cy) <= r * r {
         hit = true
@@ -268,7 +268,7 @@ fn pointer_on_circle(
 
 ///|
 fn clear_deliveries(deliveries : Array[Delivery]) -> Unit {
-  for i = 0; i < deliveries.length(); i = i + 1 {
+  for i in 0..<deliveries.length() {
     deliveries[i].active = false
     deliveries[i].id = i + 1
     deliveries[i].pad_id = 0
@@ -282,7 +282,7 @@ fn clear_deliveries(deliveries : Array[Delivery]) -> Unit {
 
 ///|
 fn clear_winds(winds : Array[WindTunnel]) -> Unit {
-  for i = 0; i < winds.length(); i = i + 1 {
+  for i in 0..<winds.length() {
     winds[i].active = false
     winds[i].x = 0.0
     winds[i].y = 0.0
@@ -297,7 +297,7 @@ fn clear_winds(winds : Array[WindTunnel]) -> Unit {
 
 ///|
 fn clear_birds(birds : Array[Bird]) -> Unit {
-  for i = 0; i < birds.length(); i = i + 1 {
+  for i in 0..<birds.length() {
     birds[i].active = false
     birds[i].x = 0.0
     birds[i].y = 0.0
@@ -312,7 +312,7 @@ fn clear_birds(birds : Array[Bird]) -> Unit {
 
 ///|
 fn clear_crates(crates : Array[Crate]) -> Unit {
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     crates[i].active = false
     crates[i].x = 0.0
     crates[i].y = 0.0
@@ -327,7 +327,7 @@ fn clear_crates(crates : Array[Crate]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -350,7 +350,7 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -375,7 +375,7 @@ fn burst_particles(
   count : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     spawn_particle(
       parts,
       x + randf(-8.0, 8.0),
@@ -391,7 +391,7 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -496,7 +496,7 @@ fn init_wind_tunnels(
 ///|
 fn active_delivery_count(deliveries : Array[Delivery]) -> Int {
   let mut c : Int = 0
-  for i = 0; i < deliveries.length(); i = i + 1 {
+  for i in 0..<deliveries.length() {
     if deliveries[i].active {
       c = c + 1
     }
@@ -507,7 +507,7 @@ fn active_delivery_count(deliveries : Array[Delivery]) -> Int {
 ///|
 fn active_delivery_for_pad(deliveries : Array[Delivery], pad_id : Int) -> Int {
   let mut c : Int = 0
-  for i = 0; i < deliveries.length(); i = i + 1 {
+  for i in 0..<deliveries.length() {
     if deliveries[i].active && deliveries[i].pad_id == pad_id {
       c = c + 1
     }
@@ -524,7 +524,7 @@ fn spawn_delivery(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < deliveries.length(); i = i + 1 {
+  for i in 0..<deliveries.length() {
     if deliveries[i].active {
       continue
     }
@@ -567,7 +567,7 @@ fn spawn_bird(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < birds.length(); i = i + 1 {
+  for i in 0..<birds.length() {
     if birds[i].active {
       continue
     }
@@ -618,7 +618,7 @@ fn spawn_crate(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     if crates[i].active {
       continue
     }
@@ -656,7 +656,7 @@ fn nearest_pad_id(
   let mut found : Int = -1
   let mut best : Float = radius * radius
 
-  for i = 0; i < pads.length(); i = i + 1 {
+  for i in 0..<pads.length() {
     let cx : Float = pads[i].x + pads[i].w * 0.5
     let cy : Float = pads[i].y + pads[i].h * 0.5
     let d2v : Float = dist2(x, y, cx, cy)
@@ -686,7 +686,7 @@ fn draw_sky_background(
     @raylib.Color::new(18, 30, 54, 255),
   )
 
-  for i = 0; i < 26; i = i + 1 {
+  for i in 0..<26 {
     let y0 : Float = Float::from_int(world_y) +
       Float::from_int(i) * Float::from_int(world_h) / 26.0
     let wave : Float = sinf(scene_t * 1.6 + Float::from_int(i) * 0.4) * 0.5 +
@@ -712,7 +712,7 @@ fn draw_city_blocks(
 ) -> Unit {
   let base_y : Int = world_y + world_h - 40
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let w : Int = 44 + i % 4 * 18
     let h : Int = 64 + i * 13 % 7 * 22
     let x : Int = world_x + i * 72 - 20
@@ -720,7 +720,7 @@ fn draw_city_blocks(
 
     @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(26, 32, 44, 228))
 
-    for j = 0; j < 3; j = j + 1 {
+    for j in 0..<3 {
       let wx : Int = x + 6 + j * 14
       let mut wy : Int = y + 8
       while wy < y + h - 8 {
@@ -787,7 +787,7 @@ fn draw_pads(
   deliveries : Array[Delivery],
   scene_t : Float,
 ) -> Unit {
-  for i = 0; i < pads.length(); i = i + 1 {
+  for i in 0..<pads.length() {
     let has_request : Bool = active_delivery_for_pad(deliveries, pads[i].id) > 0
 
     @raylib.draw_rectangle(
@@ -835,7 +835,7 @@ fn draw_pads(
 
 ///|
 fn draw_wind_tunnels(winds : Array[WindTunnel], scene_t : Float) -> Unit {
-  for i = 0; i < winds.length(); i = i + 1 {
+  for i in 0..<winds.length() {
     if not(winds[i].active) {
       continue
     }
@@ -877,7 +877,7 @@ fn draw_wind_tunnels(winds : Array[WindTunnel], scene_t : Float) -> Unit {
 
 ///|
 fn draw_birds(birds : Array[Bird], scene_t : Float) -> Unit {
-  for i = 0; i < birds.length(); i = i + 1 {
+  for i in 0..<birds.length() {
     if not(birds[i].active) {
       continue
     }
@@ -902,7 +902,7 @@ fn draw_birds(birds : Array[Bird], scene_t : Float) -> Unit {
 
 ///|
 fn draw_crates(crates : Array[Crate], scene_t : Float) -> Unit {
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     if not(crates[i].active) {
       continue
     }
@@ -949,7 +949,7 @@ fn draw_crates(crates : Array[Crate], scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1027,7 +1027,7 @@ fn draw_deliveries_panel(
   )
 
   let mut y : Int = panel_y + 430
-  for i = 0; i < deliveries.length(); i = i + 1 {
+  for i in 0..<deliveries.length() {
     if not(deliveries[i].active) {
       continue
     }
@@ -1456,7 +1456,7 @@ fn draw_touch_controls(
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 16, 28, 255))
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let yy : Float = Float::from_int(i) / 24.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.0) * 0.5 + 0.5
     let alpha : Int = 18 + (wave * 44.0).to_int()
@@ -1978,7 +1978,7 @@ fn main {
       glider.vy = glider.vy + input_y * accel * dt
 
       let mut wind_drain : Float = 0.0
-      for i = 0; i < winds.length(); i = i + 1 {
+      for i in 0..<winds.length() {
         if not(winds[i].active) {
           continue
         }
@@ -2097,7 +2097,7 @@ fn main {
           active_delivery_count(deliveries),
         ) *
         0.01
-      for i = 0; i < deliveries.length(); i = i + 1 {
+      for i in 0..<deliveries.length() {
         if not(deliveries[i].active) {
           continue
         }
@@ -2118,7 +2118,7 @@ fn main {
       }
 
       // Birds update and collision
-      for i = 0; i < birds.length(); i = i + 1 {
+      for i in 0..<birds.length() {
         if not(birds[i].active) {
           continue
         }
@@ -2168,7 +2168,7 @@ fn main {
       }
 
       // Crate update and pickup
-      for i = 0; i < crates.length(); i = i + 1 {
+      for i in 0..<crates.length() {
         if not(crates[i].active) {
           continue
         }
@@ -2239,7 +2239,7 @@ fn main {
           if pad_id >= 0 {
             if glider.bags > 0 {
               let mut delivered : Bool = false
-              for i = 0; i < deliveries.length(); i = i + 1 {
+              for i in 0..<deliveries.length() {
                 if deliveries[i].active && deliveries[i].pad_id == pad_id {
                   let bonus : Int = (deliveries[i].deadline * 2.2).to_int()
                   let gain : Int = deliveries[i].reward + combo * 10 + bonus

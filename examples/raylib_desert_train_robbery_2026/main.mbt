@@ -120,7 +120,7 @@ fn inside_rect(
 
 ///|
 fn clear_sheriffs(ss : Array[Sheriff]) -> Unit {
-  for i = 0; i < ss.length(); i = i + 1 {
+  for i in 0..<ss.length() {
     ss[i].wagon_idx = 0
     ss[i].rel_x = 0.0
     ss[i].hp = 0
@@ -132,7 +132,7 @@ fn clear_sheriffs(ss : Array[Sheriff]) -> Unit {
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     bs[i].x = 0.0
     bs[i].y = 0.0
     bs[i].vx = 0.0
@@ -145,7 +145,7 @@ fn clear_bullets(bs : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -165,7 +165,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -192,7 +192,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -215,7 +215,7 @@ fn spawn_bullet(
   let d : Float = d2.sqrt()
 
   let mut done = false
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     if done {
       continue
     }
@@ -236,7 +236,7 @@ fn spawn_bullet(
 ///|
 fn rightmost_wagon_x(wagons : Array[Wagon]) -> Float {
   let mut r : Float = -1000.0
-  for i = 0; i < wagons.length(); i = i + 1 {
+  for i in 0..<wagons.length() {
     let x : Float = wagons[i].x + wagons[i].len
     if x > r {
       r = x
@@ -248,7 +248,7 @@ fn rightmost_wagon_x(wagons : Array[Wagon]) -> Float {
 ///|
 fn init_wagons(wagons : Array[Wagon]) -> Unit {
   let mut x : Float = -40.0
-  for i = 0; i < wagons.length(); i = i + 1 {
+  for i in 0..<wagons.length() {
     let len = Float::from_int(@raylib.get_random_value(176, 228))
     let roof = Float::from_int(@raylib.get_random_value(500, 560))
     let loot = @raylib.get_random_value(1, 3)
@@ -312,7 +312,7 @@ fn spawn_sheriff(
   let idx = @raylib.get_random_value(0, wagons.length() - 1)
 
   let mut done = false
-  for i = 0; i < sheriffs.length(); i = i + 1 {
+  for i in 0..<sheriffs.length() {
     if done {
       continue
     }
@@ -335,7 +335,7 @@ fn spawn_sheriff(
 ///|
 fn player_support_wagon(player : Rider, wagons : Array[Wagon]) -> Int {
   let mut idx = -1
-  for i = 0; i < wagons.length(); i = i + 1 {
+  for i in 0..<wagons.length() {
     let left = wagons[i].x + 10.0
     let right = wagons[i].x + wagons[i].len - 10.0
     if player.x >= left &&
@@ -544,7 +544,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -569,7 +569,7 @@ fn main {
       }
 
       // Move wagons and recycle off-screen ones.
-      for i = 0; i < wagons.length(); i = i + 1 {
+      for i in 0..<wagons.length() {
         wagons[i].x = wagons[i].x + train_speed * dt
 
         if wagons[i].x + wagons[i].len < -100.0 {
@@ -580,7 +580,7 @@ fn main {
           wagons[i].x = rightmost +
             Float::from_int(@raylib.get_random_value(22, 56))
 
-          for s = 0; s < sheriffs.length(); s = s + 1 {
+          for s in 0..<sheriffs.length() {
             if sheriffs[s].active && sheriffs[s].wagon_idx == i {
               sheriffs[s].active = false
             }
@@ -683,7 +683,7 @@ fn main {
         landed = true
       }
 
-      for i = 0; i < wagons.length(); i = i + 1 {
+      for i in 0..<wagons.length() {
         let left = wagons[i].x + 10.0
         let right = wagons[i].x + wagons[i].len - 10.0
         let roof = wagons[i].roof_y
@@ -740,7 +740,7 @@ fn main {
 
       if loot && player.loot_cd <= 0.0 {
         let mut looted_any = false
-        for i = 0; i < wagons.length(); i = i + 1 {
+        for i in 0..<wagons.length() {
           let cx = wagons[i].x + wagons[i].len * 0.5
           let cy = wagons[i].roof_y - 12.0
           if wagons[i].loot > 0 &&
@@ -759,7 +759,7 @@ fn main {
         }
       }
 
-      for i = 0; i < sheriffs.length(); i = i + 1 {
+      for i in 0..<sheriffs.length() {
         if not(sheriffs[i].active) {
           continue
         }
@@ -840,7 +840,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -861,7 +861,7 @@ fn main {
         let mut hit = false
 
         if bullets[i].owner == 1 {
-          for s = 0; s < sheriffs.length(); s = s + 1 {
+          for s in 0..<sheriffs.length() {
             if not(sheriffs[s].active) {
               continue
             }
@@ -951,7 +951,7 @@ fn main {
       @raylib.Color::new(248, 196, 126, 255),
     )
 
-    for i = 0; i < 46; i = i + 1 {
+    for i in 0..<46 {
       let x = (i * 66 + (wave_t * 70.0).to_int()) % (sw + 180) - 90
       let h = 60 + i * 23 % 170
       @raylib.draw_triangle(
@@ -976,7 +976,7 @@ fn main {
     @raylib.draw_line(0, 736, sw, 736, @raylib.Color::new(90, 70, 60, 255))
     @raylib.draw_line(0, 752, sw, 752, @raylib.Color::new(90, 70, 60, 255))
 
-    for s = 0; s < 54; s = s + 1 {
+    for s in 0..<54 {
       let x = (s * 44 + (wave_t * 200.0).to_int()) % (sw + 80) - 40
       @raylib.draw_rectangle(
         x,
@@ -987,7 +987,7 @@ fn main {
       )
     }
 
-    for i = 0; i < wagons.length(); i = i + 1 {
+    for i in 0..<wagons.length() {
       let wx = wagons[i].x + shake_x
       let wy = wagons[i].roof_y
       let len = wagons[i].len
@@ -1047,7 +1047,7 @@ fn main {
       }
     }
 
-    for i = 0; i < sheriffs.length(); i = i + 1 {
+    for i in 0..<sheriffs.length() {
       if not(sheriffs[i].active) {
         continue
       }
@@ -1130,7 +1130,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1150,7 +1150,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

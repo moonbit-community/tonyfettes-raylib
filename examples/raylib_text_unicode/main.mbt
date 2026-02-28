@@ -389,7 +389,7 @@ fn main {
     color: @raylib.lightgray,
   })
   // Initialize with distinct objects
-  for i = 0; i < emoji_count; i = i + 1 {
+  for i in 0..<emoji_count {
     emoji[i] = { index: 0, message: 0, color: @raylib.lightgray }
   }
 
@@ -401,7 +401,7 @@ fn main {
     hovered = -1
     selected = -1
     let start = @raylib.get_random_value(45, 360)
-    for i = 0; i < emoji_count; i = i + 1 {
+    for i in 0..<emoji_count {
       emoji[i].index = @raylib.get_random_value(
         0,
         emoji_codepoints.length() - 1,
@@ -442,7 +442,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     // Draw random emojis in the background
-    for i = 0; i < emoji_count; i = i + 1 {
+    for i in 0..<emoji_count {
       let txt = emoji_codepoints[emoji[i].index]
       let emoji_rect = @raylib.Rectangle::new(
         position.x,

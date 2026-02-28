@@ -191,7 +191,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -219,7 +219,7 @@ fn pointer_on_circle(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if dist2(p.x, p.y, cx, cy) <= r * r {
         hit = true
@@ -345,7 +345,7 @@ fn recipe_need(kind : Int, ingredient : Int) -> Int {
 ///|
 fn recipe_can_make(kind : Int, ingredients : Array[Int]) -> Bool {
   let mut ok : Bool = true
-  for i = 0; i < ingredients.length(); i = i + 1 {
+  for i in 0..<ingredients.length() {
     if ingredients[i] < recipe_need(kind, i) {
       ok = false
     }
@@ -355,7 +355,7 @@ fn recipe_can_make(kind : Int, ingredients : Array[Int]) -> Bool {
 
 ///|
 fn recipe_consume(kind : Int, ingredients : Array[Int]) -> Unit {
-  for i = 0; i < ingredients.length(); i = i + 1 {
+  for i in 0..<ingredients.length() {
     let need : Int = recipe_need(kind, i)
     ingredients[i] = maxi(0, ingredients[i] - need)
   }
@@ -363,7 +363,7 @@ fn recipe_consume(kind : Int, ingredients : Array[Int]) -> Unit {
 
 ///|
 fn clear_orders(orders : Array[Order]) -> Unit {
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     orders[i].active = false
     orders[i].id = i + 1
     orders[i].kind = 0
@@ -377,7 +377,7 @@ fn clear_orders(orders : Array[Order]) -> Unit {
 
 ///|
 fn clear_stoves(stoves : Array[StoveSlot]) -> Unit {
-  for i = 0; i < stoves.length(); i = i + 1 {
+  for i in 0..<stoves.length() {
     stoves[i].active = false
     stoves[i].kind = 0
     stoves[i].progress = 0.0
@@ -389,7 +389,7 @@ fn clear_stoves(stoves : Array[StoveSlot]) -> Unit {
 
 ///|
 fn clear_boxes(boxes : Array[SupplyBox]) -> Unit {
-  for i = 0; i < boxes.length(); i = i + 1 {
+  for i in 0..<boxes.length() {
     boxes[i].active = false
     boxes[i].x = 0.0
     boxes[i].y = 0.0
@@ -402,7 +402,7 @@ fn clear_boxes(boxes : Array[SupplyBox]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -425,7 +425,7 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -449,7 +449,7 @@ fn burst_particles(
   count : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     spawn_particle(
       parts,
       x + randf(-8.0, 8.0),
@@ -465,7 +465,7 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -485,7 +485,7 @@ fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
 fn spawn_order(orders : Array[Order], wave : Int, serial : Int) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     if orders[i].active {
       continue
     }
@@ -537,7 +537,7 @@ fn spawn_supply_box(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < boxes.length(); i = i + 1 {
+  for i in 0..<boxes.length() {
     if boxes[i].active {
       continue
     }
@@ -558,7 +558,7 @@ fn spawn_supply_box(
 ///|
 fn find_pending_for_kind(orders : Array[Order], kind : Int) -> Int {
   let mut c : Int = 0
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     if orders[i].active && orders[i].kind == kind {
       c = c + 1
     }
@@ -569,7 +569,7 @@ fn find_pending_for_kind(orders : Array[Order], kind : Int) -> Int {
 ///|
 fn find_cooking_for_kind(stoves : Array[StoveSlot], kind : Int) -> Int {
   let mut c : Int = 0
-  for i = 0; i < stoves.length(); i = i + 1 {
+  for i in 0..<stoves.length() {
     if stoves[i].active && stoves[i].kind == kind {
       c = c + 1
     }
@@ -587,7 +587,7 @@ fn choose_recipe_for_cook(
   let mut best_kind : Int = -1
   let mut best_time : Float = 10000.0
 
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     if not(orders[i].active) {
       continue
     }
@@ -612,7 +612,7 @@ fn choose_recipe_for_cook(
     best_kind
   } else {
     let mut fallback : Int = -1
-    for k = 0; k < 5; k = k + 1 {
+    for k in 0..<5 {
       if recipe_can_make(k, ingredients) {
         fallback = k
       }
@@ -624,7 +624,7 @@ fn choose_recipe_for_cook(
 ///|
 fn open_stove_slot(stoves : Array[StoveSlot]) -> Int {
   let mut idx : Int = -1
-  for i = 0; i < stoves.length(); i = i + 1 {
+  for i in 0..<stoves.length() {
     if not(stoves[i].active) {
       idx = i
       break
@@ -641,7 +641,7 @@ fn earliest_servable_order_index(
   let mut idx : Int = -1
   let mut best_deadline : Float = 10000.0
 
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     if not(orders[i].active) {
       continue
     }
@@ -672,8 +672,8 @@ fn draw_floor_grid(x : Int, y : Int, w : Int, h : Int, scene_t : Float) -> Unit 
   let cols : Int = w / cell + 1
   let rows : Int = h / cell + 1
 
-  for r = 0; r < rows; r = r + 1 {
-    for c = 0; c < cols; c = c + 1 {
+  for r in 0..<rows {
+    for c in 0..<cols {
       let px : Int = x + c * cell
       let py : Int = y + r * cell
       let wave : Float = sinf(scene_t * 1.8 + Float::from_int(r + c) * 0.45) *
@@ -803,7 +803,7 @@ fn draw_orders_panel(
   )
 
   let mut draw_y : Int = panel_y + 56
-  for i = 0; i < orders.length(); i = i + 1 {
+  for i in 0..<orders.length() {
     if not(orders[i].active) {
       continue
     }
@@ -932,7 +932,7 @@ fn draw_inventory_panel(
   )
 
   let mut y0 : Int = panel_y + 604
-  for i = 0; i < ingredients.length(); i = i + 1 {
+  for i in 0..<ingredients.length() {
     let text : String = "\{ingredient_name(i)}: \{ingredients[i]}"
     @raylib.draw_text(
       text,
@@ -945,7 +945,7 @@ fn draw_inventory_panel(
   }
 
   y0 = panel_y + 604
-  for k = 0; k < meals.length(); k = k + 1 {
+  for k in 0..<meals.length() {
     let t : String = "\{recipe_short(k)} x\{meals[k]}"
     @raylib.draw_text(t, panel_x + 242, y0, 20, recipe_color(k))
     y0 = y0 + 30
@@ -960,7 +960,7 @@ fn draw_stoves(
   parts : Array[Particle],
   dt : Float,
 ) -> Unit {
-  for i = 0; i < stoves.length(); i = i + 1 {
+  for i in 0..<stoves.length() {
     let x : Float = stove_x + Float::from_int(i) * 84.0
     let y : Float = stove_y + 14.0
     @raylib.draw_rectangle(
@@ -1020,7 +1020,7 @@ fn draw_stoves(
 
 ///|
 fn draw_supply_boxes(boxes : Array[SupplyBox], scene_t : Float) -> Unit {
-  for i = 0; i < boxes.length(); i = i + 1 {
+  for i in 0..<boxes.length() {
     if not(boxes[i].active) {
       continue
     }
@@ -1057,7 +1057,7 @@ fn draw_supply_boxes(boxes : Array[SupplyBox], scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1401,7 +1401,7 @@ fn draw_hud(
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 16, 26, 255))
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let yy : Float = Float::from_int(i) / 24.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.4) * 0.5 + 0.5
     let alpha : Int = 22 + (wave * 46.0).to_int()
@@ -1655,7 +1655,7 @@ fn main {
     clear_boxes(boxes)
     clear_particles(parts)
 
-    for i = 0; i < ingredients.length(); i = i + 1 {
+    for i in 0..<ingredients.length() {
       ingredients[i] = 4
       meals[i] = 0
       bin_cd[i] = 0.0
@@ -1729,7 +1729,7 @@ fn main {
       }
     }
 
-    for i = 0; i < bin_cd.length(); i = i + 1 {
+    for i in 0..<bin_cd.length() {
       if bin_cd[i] > 0.0 {
         bin_cd[i] = bin_cd[i] - dt
         if bin_cd[i] < 0.0 {
@@ -1940,7 +1940,7 @@ fn main {
 
       // Orders tick
       let mut active_orders : Int = 0
-      for i = 0; i < orders.length(); i = i + 1 {
+      for i in 0..<orders.length() {
         if not(orders[i].active) {
           continue
         }
@@ -1962,7 +1962,7 @@ fn main {
 
       // Stove updates
       let cook_speed : Float = 0.72 + clean * 0.006
-      for i = 0; i < stoves.length(); i = i + 1 {
+      for i in 0..<stoves.length() {
         if not(stoves[i].active) {
           continue
         }
@@ -1991,7 +1991,7 @@ fn main {
       }
 
       // Supply box updates
-      for i = 0; i < boxes.length(); i = i + 1 {
+      for i in 0..<boxes.length() {
         if not(boxes[i].active) {
           continue
         }
@@ -2017,7 +2017,7 @@ fn main {
         let mut did_action : Bool = false
 
         // Ingredient bins
-        for k = 0; k < 5; k = k + 1 {
+        for k in 0..<5 {
           if did_action {
             continue
           }
@@ -2214,13 +2214,13 @@ fn main {
       draw_floor_grid(world_x, world_y, world_w, world_h, scene_t)
 
       let mut active_orders : Int = 0
-      for i = 0; i < orders.length(); i = i + 1 {
+      for i in 0..<orders.length() {
         if orders[i].active {
           active_orders = active_orders + 1
         }
       }
 
-      for i = 0; i < stations.length(); i = i + 1 {
+      for i in 0..<stations.length() {
         let near : Bool = inside_rectf(
           chef.x,
           chef.y,

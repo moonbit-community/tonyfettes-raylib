@@ -189,7 +189,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -206,7 +206,7 @@ fn burst_particles(
   power : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let ang = randf(0.0, 6.283)
     let spd = randf(power * 0.35, power)
     emit_particle(
@@ -229,7 +229,7 @@ fn spawn_survivors(survivors : FixedArray[Survivor], level : Int) -> Unit {
     20.0,
     Float::from_int(max_survivors),
   ).to_int()
-  for i = 0; i < survivors.length(); i = i + 1 {
+  for i in 0..<survivors.length() {
     if i < total {
       let lane = i % 6
       let col = i / 6
@@ -264,7 +264,7 @@ fn spawn_hazards(hazards : FixedArray[Hazard], level : Int) -> Unit {
     18.0,
     Float::from_int(max_hazards),
   ).to_int()
-  for i = 0; i < hazards.length(); i = i + 1 {
+  for i in 0..<hazards.length() {
     if i < total {
       let kind = if i % 3 == 0 { 1 } else { 0 }
       let r = if kind == 0 { randf(20.0, 34.0) } else { randf(28.0, 42.0) }
@@ -289,7 +289,7 @@ fn spawn_hazards(hazards : FixedArray[Hazard], level : Int) -> Unit {
 
 ///|
 fn spawn_avalanche(avalanches : FixedArray[Avalanche], level : Int) -> Unit {
-  for i = 0; i < avalanches.length(); i = i + 1 {
+  for i in 0..<avalanches.length() {
     if not(avalanches[i].active) {
       let y = randf(160.0, world_h - 240.0)
       let wide = randf(260.0, 520.0)
@@ -308,7 +308,7 @@ fn spawn_avalanche(avalanches : FixedArray[Avalanche], level : Int) -> Unit {
 
 ///|
 fn spawn_flare(flares : FixedArray[Flare], x : Float, y : Float) -> Unit {
-  for i = 0; i < flares.length(); i = i + 1 {
+  for i in 0..<flares.length() {
     if not(flares[i].active) {
       flares[i] = { active: true, x, y, r: 36.0, t: 0.0, life: 3.8 }
       break
@@ -582,13 +582,13 @@ fn main {
     avalanche_cd = 5.0
     announce_t = 2.8
 
-    for i = 0; i < avalanches.length(); i = i + 1 {
+    for i in 0..<avalanches.length() {
       avalanches[i].active = false
     }
-    for i = 0; i < flares.length(); i = i + 1 {
+    for i in 0..<flares.length() {
       flares[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
 
@@ -839,7 +839,7 @@ fn main {
       if heli.boost_t > 0.0 {
         cold_rate = cold_rate + 3.2
       }
-      for i = 0; i < flares.length(); i = i + 1 {
+      for i in 0..<flares.length() {
         if not(flares[i].active) {
           continue
         }
@@ -865,7 +865,7 @@ fn main {
       }
 
       let mut impact = false
-      for i = 0; i < hazards.length(); i = i + 1 {
+      for i in 0..<hazards.length() {
         if not(hazards[i].active) {
           continue
         }
@@ -920,7 +920,7 @@ fn main {
         }
       }
 
-      for i = 0; i < avalanches.length(); i = i + 1 {
+      for i in 0..<avalanches.length() {
         if not(avalanches[i].active) {
           continue
         }
@@ -952,7 +952,7 @@ fn main {
       }
 
       let mut carrying_now : Int = 0
-      for i = 0; i < survivors.length(); i = i + 1 {
+      for i in 0..<survivors.length() {
         if not(survivors[i].active) {
           continue
         }
@@ -963,7 +963,7 @@ fn main {
 
         if not(survivors[i].carried) {
           let mut freeze_rate : Float = 2.4 + storm.severity * 4.1
-          for j = 0; j < flares.length(); j = j + 1 {
+          for j in 0..<flares.length() {
             if not(flares[j].active) {
               continue
             }
@@ -1034,7 +1034,7 @@ fn main {
       }
 
       if near_base && speed < 86.0 && heli.onboard > 0 {
-        for i = 0; i < survivors.length(); i = i + 1 {
+        for i in 0..<survivors.length() {
           if not(survivors[i].active) || not(survivors[i].carried) {
             continue
           }
@@ -1055,7 +1055,7 @@ fn main {
         }
       }
 
-      for i = 0; i < flares.length(); i = i + 1 {
+      for i in 0..<flares.length() {
         if not(flares[i].active) {
           continue
         }
@@ -1074,7 +1074,7 @@ fn main {
       if storm.whiteout_t > 0.0 {
         snow_count = snow_count + 4
       }
-      for i = 0; i < snow_count; i = i + 1 {
+      for i in 0..<snow_count {
         let ang = randf(0.0, 6.283)
         emit_particle(
           particles,
@@ -1101,7 +1101,7 @@ fn main {
         )
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1178,7 +1178,7 @@ fn main {
       gy = gy + 140.0
     }
 
-    for i = 0; i < avalanches.length(); i = i + 1 {
+    for i in 0..<avalanches.length() {
       if not(avalanches[i].active) {
         continue
       }
@@ -1200,7 +1200,7 @@ fn main {
       )
     }
 
-    for i = 0; i < hazards.length(); i = i + 1 {
+    for i in 0..<hazards.length() {
       if not(hazards[i].active) {
         continue
       }
@@ -1250,7 +1250,7 @@ fn main {
       }
     }
 
-    for i = 0; i < flares.length(); i = i + 1 {
+    for i in 0..<flares.length() {
       if not(flares[i].active) {
         continue
       }
@@ -1299,7 +1299,7 @@ fn main {
       @raylib.Color::new(14, 28, 42, 250),
     )
 
-    for i = 0; i < survivors.length(); i = i + 1 {
+    for i in 0..<survivors.length() {
       if not(survivors[i].active) {
         continue
       }
@@ -1392,7 +1392,7 @@ fn main {
       @raylib.Color::new(210, 226, 236, 200),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

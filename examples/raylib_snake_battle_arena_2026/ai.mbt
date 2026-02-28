@@ -32,7 +32,7 @@ fn direction_score_player(game : Game, dir : Int) -> Int {
     food_distance(nx, ny, game.food_x, game.food_y) * 70
 
   // Prefer cells with room around to avoid dead ends.
-  for d = 0; d < 4; d = d + 1 {
+  for d in 0..<4 {
     let tx : Int = wrap_x(nx + dir_dx(d))
     let ty : Int = wrap_y(ny + dir_dy(d))
 
@@ -51,7 +51,7 @@ fn suggest_player_dir(game : Game) -> Int {
   let mut best_dir : Int = -1
   let mut best_score : Int = -999999
 
-  for d = 0; d < 4; d = d + 1 {
+  for d in 0..<4 {
     let s : Int = direction_score_player(game, d)
     if s > best_score {
       best_score = s
@@ -87,7 +87,7 @@ fn direction_score_rival(game : Game, rid : Int, dir : Int) -> Int {
   }
 
   // Prefer having exits.
-  for d = 0; d < 4; d = d + 1 {
+  for d in 0..<4 {
     let tx : Int = wrap_x(nx + dir_dx(d))
     let ty : Int = wrap_y(ny + dir_dy(d))
     if not(rival_would_collide(game, rid, tx, ty)) {
@@ -105,7 +105,7 @@ fn ai_choose_dir(game : Game, rid : Int) -> Int {
   let mut best_dir : Int = rival.dir
   let mut best_score : Int = -999999
 
-  for d = 0; d < 4; d = d + 1 {
+  for d in 0..<4 {
     let s : Int = direction_score_rival(game, rid, d)
     if s > best_score {
       best_score = s

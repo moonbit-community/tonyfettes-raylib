@@ -22,14 +22,14 @@ struct Hazard {
 
 ///|
 fn reset_hazards(hazards : Array[Hazard]) -> Unit {
-  for i = 0; i < hazards.length(); i = i + 1 {
+  for i in 0..<hazards.length() {
     hazards[i].alive = false
   }
 }
 
 ///|
 fn spawn_hazard(hazards : Array[Hazard], lane : Int, kind : Int) -> Unit {
-  for i = 0; i < hazards.length(); i = i + 1 {
+  for i in 0..<hazards.length() {
     if not(hazards[i].alive) {
       hazards[i].alive = true
       hazards[i].x = Float::from_int(sw + 60)
@@ -135,7 +135,7 @@ fn main {
         }
       }
 
-      for i = 0; i < hazards.length(); i = i + 1 {
+      for i in 0..<hazards.length() {
         if not(hazards[i].alive) {
           continue
         }
@@ -183,7 +183,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(21, 18, 16, 255))
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let y = lane_y(l)
       @raylib.draw_line(30, y.to_int(), sw - 20, y.to_int(), @raylib.darkgray)
       @raylib.draw_line(
@@ -202,7 +202,7 @@ fn main {
       )
     }
 
-    for i = 0; i < hazards.length(); i = i + 1 {
+    for i in 0..<hazards.length() {
       if hazards[i].alive {
         let y = lane_y(hazards[i].lane)
         if hazards[i].kind == 0 {

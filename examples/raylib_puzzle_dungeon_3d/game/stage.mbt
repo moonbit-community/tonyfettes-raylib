@@ -27,36 +27,36 @@ pub fn load_floor(game : @types.Game, floor : Int) -> Unit {
   game.laser_targets_hit = 0
   game.laser_targets_total = 0
   // Clear entities
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     game.entities[i] = @types.Entity::inactive()
   }
   // Clear particles
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
   // Clear laser segments
-  for i = 0; i < @types.max_laser_segments; i = i + 1 {
+  for i in 0..<@types.max_laser_segments {
     game.laser_segments[i].active = false
   }
   // Clear decorations
-  for i = 0; i < @types.max_decorations; i = i + 1 {
+  for i in 0..<@types.max_decorations {
     game.decorations[i].active = false
   }
   game.decoration_count = 0
   // Load level data
   let data = @levels.get_floor_data(floor)
   let mut entity_count = 0
-  for gy = 0; gy < @types.grid_h; gy = gy + 1 {
+  for gy in 0..<@types.grid_h {
     if gy >= data.length() {
       // Fill rest with walls
-      for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+      for gx in 0..<@types.grid_w {
         @types.set_tile(game, gx, gy, @types.tile_wall)
       }
-      continue gy + 1
+      continue
     }
     let row = data[gy]
     let row_bytes = @utf8.encode(row)
-    for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+    for gx in 0..<@types.grid_w {
       let ch : Byte = if gx < row_bytes.length() { row_bytes[gx] } else { b'#' }
       let result = parse_tile_char(ch, gx, gy)
       @types.set_tile(game, gx, gy, result.0)
@@ -182,7 +182,7 @@ fn parse_tile_char(ch : Byte, _gx : Int, _gy : Int) -> (Int, Int, Bool) {
 fn save_undo(game : @types.Game) -> Unit {
   if game.undo_count >= @types.max_undo {
     // Shift everything down by 1
-    for i = 0; i < @types.max_undo - 1; i = i + 1 {
+    for i in 0..<(@types.max_undo - 1) {
       game.undo_stack[i] = game.undo_stack[i + 1]
     }
     game.undo_count = @types.max_undo - 1
@@ -195,11 +195,11 @@ fn save_undo(game : @types.Game) -> Unit {
   state.keys_held = game.keys_held
   state.diamonds_collected = game.diamonds_collected
   // Copy tiles
-  for i = 0; i < @types.grid_total; i = i + 1 {
+  for i in 0..<@types.grid_total {
     state.tiles[i] = game.tiles[i]
   }
   // Copy entities
-  for i = 0; i < @types.max_entities; i = i + 1 {
+  for i in 0..<@types.max_entities {
     state.entity_gx[i] = game.entities[i].gx
     state.entity_gy[i] = game.entities[i].gy
     state.entity_active[i] = game.entities[i].active
@@ -227,11 +227,11 @@ fn undo_move(game : @types.Game) -> Unit {
   game.keys_held = state.keys_held
   game.diamonds_collected = state.diamonds_collected
   // Restore tiles
-  for i = 0; i < @types.grid_total; i = i + 1 {
+  for i in 0..<@types.grid_total {
     game.tiles[i] = state.tiles[i]
   }
   // Restore entities
-  for i = 0; i < @types.max_entities; i = i + 1 {
+  for i in 0..<@types.max_entities {
     game.entities[i].gx = state.entity_gx[i]
     game.entities[i].gy = state.entity_gy[i]
     game.entities[i].active = state.entity_active[i]
@@ -253,7 +253,7 @@ fn undo_move(game : @types.Game) -> Unit {
 
 ///|
 fn reset_progress(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_floors; i = i + 1 {
+  for i in 0..<@types.max_floors {
     game.floor_info[i].unlocked = false
     game.floor_info[i].completed = false
     game.floor_info[i].best_moves = 999
@@ -265,7 +265,7 @@ fn reset_progress(game : @types.Game) -> Unit {
   game.total_undos = 0
   game.levels_completed = 0
   // Reset achievements
-  for i = 0; i < @types.max_achievements; i = i + 1 {
+  for i in 0..<@types.max_achievements {
     game.achievements[i].unlocked = false
   }
 }

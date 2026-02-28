@@ -65,15 +65,15 @@ fn set_tile(game : Game, x : Int, y : Int, tile : Int) -> Unit {
 
 ///|
 fn fill_board_floor(game : Game) -> Unit {
-  for i = 0; i < game.tiles.length(); i = i + 1 {
+  for i in 0..<game.tiles.length() {
     game.tiles[i] = tile_floor
   }
 }
 
 ///|
 fn add_wall_rect(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
-  for yy = y; yy < y + h; yy = yy + 1 {
-    for xx = x; xx < x + w; xx = xx + 1 {
+  for yy in y..<(y + h) {
+    for xx in x..<(x + w) {
       set_tile(game, xx, yy, tile_wall)
     }
   }
@@ -81,8 +81,8 @@ fn add_wall_rect(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
 
 ///|
 fn carve_floor_rect(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
-  for yy = y; yy < y + h; yy = yy + 1 {
-    for xx = x; xx < x + w; xx = xx + 1 {
+  for yy in y..<(y + h) {
+    for xx in x..<(x + w) {
       set_tile(game, xx, yy, tile_floor)
     }
   }
@@ -376,7 +376,7 @@ fn try_move_player(game : Game, dir : Int) -> Unit {
 
 ///|
 fn collect_artifacts(game : Game) -> Unit {
-  for i = 0; i < game.artifacts.length(); i = i + 1 {
+  for i in 0..<game.artifacts.length() {
     if game.artifacts[i].taken {
       continue
     }
@@ -475,7 +475,7 @@ fn guard_sees_cell(game : Game, g : Guard, cx : Int, cy : Int) -> Bool {
 
 ///|
 fn any_guard_on_cell(game : Game, cx : Int, cy : Int) -> Bool {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if game.guards[i].x == cx && game.guards[i].y == cy {
       return true
     }
@@ -489,7 +489,7 @@ fn player_spotted(game : Game) -> Bool {
     return true
   }
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if guard_sees_cell(game, game.guards[i], game.player_x, game.player_y) {
       return true
     }
@@ -553,7 +553,7 @@ fn advance_guard_once(game : Game, guard_idx : Int) -> Unit {
 
 ///|
 fn update_guards(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     game.guards[i].step_timer = game.guards[i].step_timer - dt
     while game.guards[i].step_timer <= 0.0 {
       game.guards[i].step_timer = game.guards[i].step_timer +

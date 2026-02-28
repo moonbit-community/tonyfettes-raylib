@@ -1,6 +1,6 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     game.objs[i].active = false
     game.objs[i].kind = obj_lantern
     game.objs[i].x = 0.0
@@ -19,7 +19,7 @@ fn clear_objs(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -33,7 +33,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn clear_halos(game : Game) -> Unit {
-  for i = 0; i < game.halos.length(); i = i + 1 {
+  for i in 0..<game.halos.length() {
     game.halos[i].active = false
     game.halos[i].x = 0.0
     game.halos[i].y = 0.0
@@ -45,7 +45,7 @@ fn clear_halos(game : Game) -> Unit {
 
 ///|
 fn clear_trails(game : Game) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     game.trails[i].active = false
     game.trails[i].x = 0.0
     game.trails[i].y = 0.0
@@ -76,7 +76,7 @@ fn reset_kite(game : Game) -> Unit {
 
 ///|
 fn alloc_obj(game : Game) -> Int {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
     }
@@ -84,7 +84,7 @@ fn alloc_obj(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.objs[0].life
-  for i = 1; i < game.objs.length(); i = i + 1 {
+  for i in 1..<game.objs.length() {
     if game.objs[i].life < best_life {
       best_life = game.objs[i].life
       best = i
@@ -95,7 +95,7 @@ fn alloc_obj(game : Game) -> Int {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -103,7 +103,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -114,7 +114,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_halo(game : Game) -> Int {
-  for i = 0; i < game.halos.length(); i = i + 1 {
+  for i in 0..<game.halos.length() {
     if not(game.halos[i].active) {
       return i
     }
@@ -122,7 +122,7 @@ fn alloc_halo(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.halos[0].life
-  for i = 1; i < game.halos.length(); i = i + 1 {
+  for i in 1..<game.halos.length() {
     if game.halos[i].life < best_life {
       best_life = game.halos[i].life
       best = i
@@ -133,7 +133,7 @@ fn alloc_halo(game : Game) -> Int {
 
 ///|
 fn alloc_trail(game : Game) -> Int {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       return i
     }
@@ -141,7 +141,7 @@ fn alloc_trail(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.trails[0].life
-  for i = 1; i < game.trails.length(); i = i + 1 {
+  for i in 1..<game.trails.length() {
     if game.trails[i].life < best_life {
       best_life = game.trails[i].life
       best = i
@@ -174,7 +174,7 @@ fn emit_spark(
 
 ///|
 fn burst_sparks(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_spark(
       game,
       x + randf(-16.0, 16.0),
@@ -519,7 +519,7 @@ fn spawn_koi(game : Game) -> Unit {
 fn spawn_wave(game : Game) -> Unit {
   let count = 1 + randi(0, 2)
 
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let roll = randi(0, 99)
     if roll < 42 {
       spawn_lantern(game)
@@ -581,7 +581,7 @@ fn apply_burst(game : Game) -> Unit {
   burst_sparks(game, game.kite.x, game.kite.y, 40, 2)
 
   let rr2 = burst_radius * burst_radius
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -716,7 +716,7 @@ fn collect_obj(game : Game, kind : Int, value : Int) -> Unit {
 fn update_objs(game : Game, dt : Float) -> Unit {
   let kite_rr = kite_hit_r(game.kite)
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -829,7 +829,7 @@ fn update_objs(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -849,7 +849,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.halos.length(); i = i + 1 {
+  for i in 0..<game.halos.length() {
     if not(game.halos[i].active) {
       continue
     }
@@ -862,7 +862,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       continue
     }
@@ -877,7 +877,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 ///|
 fn emit_snow(game : Game, dt : Float) -> Unit {
   let tries = clampi((dt * 260.0).to_int(), 1, 16)
-  for _i = 0; _i < tries; _i = _i + 1 {
+  for _i in 0..<tries {
     if chance(34) {
       emit_spark(
         game,

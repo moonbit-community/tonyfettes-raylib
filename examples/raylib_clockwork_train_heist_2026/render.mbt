@@ -69,8 +69,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_tile_map(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -153,7 +153,7 @@ fn draw_tile_map(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_train_shell(ox : Int, oy : Int) -> Unit {
-  for car = 0; car < 5; car = car + 1 {
+  for car in 0..<5 {
     let x0 : Int = board_px(1 + car * 5) + ox
     let y0 : Int = board_py(2) + oy
     let cw : Int = cell * 4
@@ -176,7 +176,7 @@ fn draw_train_shell(ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for c = 0; c < 4; c = c + 1 {
+  for c in 0..<4 {
     let cx : Int = board_px(5 + c * 5) + cell / 2 + ox
     let cy : Int = board_py(6) + cell / 2 + oy
     @raylib.draw_circle(cx, cy, 13.0, @raylib.Color::new(174, 210, 244, 84))
@@ -185,7 +185,7 @@ fn draw_train_shell(ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_loot(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.loots.length(); i = i + 1 {
+  for i in 0..<game.loots.length() {
     if not(game.loots[i].active) {
       continue
     }
@@ -260,7 +260,7 @@ fn draw_loot(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_smokes(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -362,7 +362,7 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -391,7 +391,7 @@ fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
   draw_loot(game, ox, oy)
   draw_smokes(game, ox, oy)
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     draw_guard(game.guards[i], game, ox, oy)
   }
 

@@ -61,7 +61,7 @@ fn draw_track(game : @types.Game) -> Unit {
     255,
   )
   let stripe_color = @raylib.Color::new(200, 200, 200, 200)
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp0 = game.waypoints[i]
     let wp1 = game.waypoints[(i + 1) % wc]
     // Direction vector
@@ -69,14 +69,14 @@ fn draw_track(game : @types.Game) -> Unit {
     let dz = wp1.z - wp0.z
     let dist = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
     if dist < 0.01 {
-      continue i + 1
+      continue
     }
     // Perpendicular for road width
     let px = -dz / dist * @types.road_half
     let pz = dx / dist * @types.road_half
     // Draw road surface as series of cubes along the segment
     let steps = (dist / 2.0).to_int() + 1
-    for s = 0; s < steps; s = s + 1 {
+    for s in 0..<steps {
       let t = Float::from_int(s) / Float::from_int(steps)
       let cx = @types.lerpf(wp0.x, wp1.x, t)
       let cy = @types.lerpf(wp0.y, wp1.y, t)
@@ -136,7 +136,7 @@ fn draw_start_finish_line(game : @types.Game) -> Unit {
   let pz = dx / dist * @types.road_half
   // Draw checkered start/finish line
   let num_checks = 8
-  for c = 0; c < num_checks; c = c + 1 {
+  for c in 0..<num_checks {
     let t = Float::from_int(c) / Float::from_int(num_checks) * 2.0 - 1.0
     let cx = wp0.x + px * t
     let cz = wp0.z + pz * t
@@ -185,14 +185,14 @@ fn draw_trackside_objects(game : @types.Game) -> Unit {
     return
   }
   // Place trees/rocks along the track edges
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp = game.waypoints[i]
     let next = game.waypoints[(i + 1) % wc]
     let dx = next.x - wp.x
     let dz = next.z - wp.z
     let dist = @types.distance2d(wp.x, wp.z, next.x, next.z)
     if dist < 0.01 {
-      continue i + 1
+      continue
     }
     let px = -dz / dist
     let pz = dx / dist
@@ -232,10 +232,10 @@ fn draw_trackside_objects(game : @types.Game) -> Unit {
 
 ///|
 fn draw_karts(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     let colors = @types.kart_colors
     let ci = @types.clampi(i, 0, colors.length() - 1)
@@ -366,10 +366,10 @@ fn draw_karts(game : @types.Game) -> Unit {
 
 ///|
 fn draw_powerups(game : @types.Game) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     let pu = game.powerups[i]
     if not(pu.active) || pu.collected {
-      continue i + 1
+      continue
     }
     let bob = @math.sinf(
         Float::from_int(game.frame_counter) * 0.08 + Float::from_int(i),
@@ -414,10 +414,10 @@ fn draw_powerups(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     @raylib.draw_sphere(
       @raylib.Vector3::new(proj.x, proj.y, proj.z),
@@ -437,10 +437,10 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)
@@ -466,27 +466,27 @@ fn draw_themed_decorations(game : @types.Game) -> Unit {
     game.current_cup,
     game.current_race,
   )
-  for di = 0; di < deco_data.length(); di = di + 1 {
+  for di in 0..<deco_data.length() {
     let deco = deco_data[di]
     let deco_type = deco.0
     let x_offset = deco.1
     let z_progress = deco.2
     let scale = deco.3
     // Place decoration along each segment based on z_progress
-    for si = 0; si < wc; si = si + 1 {
+    for si in 0..<wc {
       let wp0 = game.waypoints[si]
       let wp1 = game.waypoints[(si + 1) % wc]
       let dx = wp1.x - wp0.x
       let dz = wp1.z - wp0.z
       let dist = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
       if dist < 0.01 {
-        continue si + 1
+        continue
       }
       // Only place decorations at matching segment progress
       let seg_match_f : Float = Float::from_int(si) / Float::from_int(wc)
       let diff = @types.absf(seg_match_f - z_progress)
       if diff > 0.15 && diff < 0.85 {
-        continue si + 1
+        continue
       }
       let px = -dz / dist
       let pz = dx / dist
@@ -768,7 +768,7 @@ fn draw_decoration_object(
     let win_w : Float = sf(0.25, scale)
     let win_h : Float = sf(0.35, scale)
     let win_d : Float = sf(0.05, scale)
-    for wy = 0; wy < 4; wy = wy + 1 {
+    for wy in 0..<4 {
       let wy_f = Float::from_int(wy)
       let win_y : Float = y + sf(1.0, scale) + wy_f * sf(1.2, scale)
       @raylib.draw_cube(
@@ -891,7 +891,7 @@ fn draw_surface_indicators(game : @types.Game) -> Unit {
   if wc < 2 {
     return
   }
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let seg = game.segments[i]
     let wp0 = game.waypoints[i]
     let wp1 = game.waypoints[(i + 1) % wc]
@@ -974,7 +974,7 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
   let horizon_y : Float = -5.0
   let horizon_dist : Float = 80.0
   // Draw distant horizon cubes around the player
-  for h = 0; h < 8; h = h + 1 {
+  for h in 0..<8 {
     let angle_f = Float::from_int(h) * @types.two_pi / 8.0
     let hx = player.x + @math.sinf(angle_f) * horizon_dist
     let hz = player.z + @math.cosf(angle_f) * horizon_dist
@@ -989,7 +989,7 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
   // Theme-specific sky objects
   if theme == @types.theme_night {
     // Stars in the sky
-    for s = 0; s < 12; s = s + 1 {
+    for s in 0..<12 {
       let sa = Float::from_int(s) * @types.two_pi / 12.0 +
         game.preview_rotation * 0.1
       let sr : Float = 50.0 + Float::from_int(s % 3) * 10.0
@@ -1009,7 +1009,7 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
     }
   } else if theme == @types.theme_volcano {
     // Smoke/ash in the air
-    for s = 0; s < 6; s = s + 1 {
+    for s in 0..<6 {
       let sa = Float::from_int(s) * @types.two_pi / 6.0
       let sr : Float = 30.0 + Float::from_int(s) * 5.0
       let smoke_x = player.x + @math.sinf(sa) * sr
@@ -1029,10 +1029,10 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
 
 ///|
 fn draw_kart_details(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     let ci = @types.clampi(i, 0, @types.kart_accent_colors.length() - 1)
     let ac = @types.kart_accent_colors[ci]

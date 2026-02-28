@@ -175,7 +175,7 @@ pub fn get_tool_effectiveness(tool : Int, block : Int) -> Float {
 pub fn count_item_in_inventory(game : @types.Game, item_id : Int) -> Int {
   let inv = game.player.inventory
   let mut total = 0
-  for i = 0; i < @types.inventory_slots; i = i + 1 {
+  for i in 0..<@types.inventory_slots {
     if inv.slots[i].item_id == item_id && inv.slots[i].count > 0 {
       total += inv.slots[i].count
     }
@@ -213,7 +213,7 @@ pub fn remove_item_from_inventory(
 ) -> Bool {
   let inv = game.player.inventory
   let mut remaining = amount
-  for i = 0; i < @types.inventory_slots; i = i + 1 {
+  for i in 0..<@types.inventory_slots {
     if remaining <= 0 {
       return true
     }
@@ -370,7 +370,7 @@ pub fn is_smeltable(block : Int) -> Bool {
 ///|
 pub fn find_first_craftable(game : @types.Game) -> Int {
   let recipes = @levels.get_crafting_recipes()
-  for i = 0; i < recipes.length(); i = i + 1 {
+  for i in 0..<recipes.length() {
     if can_craft_recipe(game, recipes[i]) {
       return i
     }
@@ -384,7 +384,7 @@ pub fn find_first_craftable(game : @types.Game) -> Int {
 pub fn count_craftable_recipes(game : @types.Game) -> Int {
   let recipes = @levels.get_crafting_recipes()
   let mut count = 0
-  for i = 0; i < recipes.length(); i = i + 1 {
+  for i in 0..<recipes.length() {
     if can_craft_recipe(game, recipes[i]) {
       count += 1
     }

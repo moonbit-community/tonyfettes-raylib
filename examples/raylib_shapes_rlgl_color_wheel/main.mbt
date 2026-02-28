@@ -231,7 +231,7 @@ fn main {
     // Begin rendering color wheel
     let tri_count = triangle_count.to_int()
     @rl.begin(render_type)
-    for i = 0; i < tri_count; i = i + 1 {
+    for i in 0..<tri_count {
       let angle_offset = pi * 2.0 / triangle_count
       let angle = angle_offset * Float::from_int(i)
       let angle_offset_calc = (Float::from_int(i) + 1.0) * angle_offset

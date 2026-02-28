@@ -284,7 +284,7 @@ fn main {
     )
     @raylib.draw_text("QUEUE", 600, 178, 30, @raylib.white)
 
-    for i = 0; i < queue.length(); i = i + 1 {
+    for i in 0..<queue.length() {
       let y = 220 + i * 80
       let s = queue[i]
       @raylib.draw_rectangle(

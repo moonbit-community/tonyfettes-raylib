@@ -45,8 +45,8 @@ fn in_bounds(row : Int, col : Int) -> Bool {
 ///|
 fn count_adjacent(mines : Array[Int], row : Int, col : Int) -> Int {
   let mut count = 0
-  for dr = -1; dr <= 1; dr = dr + 1 {
-    for dc = -1; dc <= 1; dc = dc + 1 {
+  for dr in -1..=1 {
+    for dc in -1..=1 {
       if not(dr == 0 && dc == 0) {
         let nr = row + dr
         let nc = col + dc
@@ -83,7 +83,7 @@ fn generate_mines(
 ) -> Unit {
   let total = Rows * Cols
   // Clear
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     mines[i] = 0
     adjacent[i] = 0
   }
@@ -106,8 +106,8 @@ fn generate_mines(
     placed = placed + 1
   }
   // Compute adjacency counts
-  for r = 0; r < Rows; r = r + 1 {
-    for c = 0; c < Cols; c = c + 1 {
+  for r in 0..<Rows {
+    for c in 0..<Cols {
       adjacent[cell_index(r, c)] = count_adjacent(mines, r, c)
     }
   }
@@ -131,8 +131,8 @@ fn flood_fill(
   }
   revealed[idx] = 1
   if adjacent[idx] == 0 {
-    for dr = -1; dr <= 1; dr = dr + 1 {
-      for dc = -1; dc <= 1; dc = dc + 1 {
+    for dr in -1..=1 {
+      for dc in -1..=1 {
         if not(dr == 0 && dc == 0) {
           flood_fill(mines, revealed, flagged, adjacent, row + dr, col + dc)
         }
@@ -144,7 +144,7 @@ fn flood_fill(
 ///|
 fn check_win(mines : Array[Int], revealed : Array[Int]) -> Bool {
   let total = Rows * Cols
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     if mines[i] == 0 && revealed[i] == 0 {
       return false
     }
@@ -160,7 +160,7 @@ fn reset_game(
   adjacent : Array[Int],
 ) -> Unit {
   let total = Rows * Cols
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     mines[i] = 0
     revealed[i] = 0
     flagged[i] = 0
@@ -301,8 +301,8 @@ fn main {
     )
 
     // Grid
-    for r = 0; r < Rows; r = r + 1 {
-      for c = 0; c < Cols; c = c + 1 {
+    for r in 0..<Rows {
+      for c in 0..<Cols {
         let idx = cell_index(r, c)
         let x = GridOffsetX + c * CellSize
         let y = GridOffsetY + r * CellSize

@@ -83,7 +83,7 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -106,7 +106,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -125,7 +125,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-10.0, 10.0),
@@ -141,7 +141,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -164,7 +164,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 
 ///|
 fn shelf_index_at(game : Game, x : Int, y : Int) -> Int {
-  for i = 0; i < game.shelf_n; i = i + 1 {
+  for i in 0..<game.shelf_n {
     if game.shelf_x[i] == x && game.shelf_y[i] == y {
       return i
     }
@@ -174,7 +174,7 @@ fn shelf_index_at(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn page_index_at(game : Game, x : Int, y : Int) -> Int {
-  for i = 0; i < max_pages; i = i + 1 {
+  for i in 0..<max_pages {
     if not(game.page_taken[i]) && game.page_x[i] == x && game.page_y[i] == y {
       return i
     }
@@ -184,7 +184,7 @@ fn page_index_at(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn ghost_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if i == skip || not(game.ghosts[i].active) {
       continue
     }
@@ -199,7 +199,7 @@ fn ghost_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
 
 ///|
 fn seal_index_at(x : Int, y : Int) -> Int {
-  for i = 0; i < seal_need; i = i + 1 {
+  for i in 0..<seal_need {
     let p = seal_pos(i)
     if p.0 == x && p.1 == y {
       return i
@@ -237,8 +237,8 @@ fn blocked_for_actor(game : Game, gid : Int, x : Int, y : Int) -> Bool {
 
 ///|
 fn clear_map(game : Game) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       if x == 0 || y == 0 || x == grid_w - 1 || y == grid_h - 1 {
         set_tile(game, x, y, tile_wall)
       } else {
@@ -248,7 +248,7 @@ fn clear_map(game : Game) -> Unit {
   }
 
   for x = 3; x < grid_w - 2; x = x + 4 {
-    for y = 1; y < grid_h - 1; y = y + 1 {
+    for y in 1..<(grid_h - 1) {
       let keep_gap : Bool = y == 2 || y == grid_h - 3 || (x + y) % 5 == 0
       if not(keep_gap) {
         set_tile(game, x, y, tile_wall)
@@ -257,7 +257,7 @@ fn clear_map(game : Game) -> Unit {
   }
 
   for y = 3; y < grid_h - 2; y = y + 4 {
-    for x = 2; x < grid_w - 2; x = x + 1 {
+    for x in 2..<(grid_w - 2) {
       let keep_gap : Bool = x == 5 || x == 10 || x == 15
       if not(keep_gap) {
         set_tile(game, x, y, tile_wall)
@@ -287,7 +287,7 @@ fn load_layout(game : Game) -> Unit {
   ]
 
   game.shelf_n = mini(shelf_list.length(), max_shelves)
-  for i = 0; i < game.shelf_n; i = i + 1 {
+  for i in 0..<game.shelf_n {
     game.shelf_x[i] = shelf_list[i].0
     game.shelf_y[i] = shelf_list[i].1
   }
@@ -299,7 +299,7 @@ fn load_layout(game : Game) -> Unit {
     (4, 6),
     (15, 11),
   ]
-  for i = 0; i < max_pages; i = i + 1 {
+  for i in 0..<max_pages {
     game.page_x[i] = page_list[i].0
     game.page_y[i] = page_list[i].1
     game.page_taken[i] = false
@@ -313,7 +313,7 @@ fn load_layout(game : Game) -> Unit {
     (6, 4),
   ]
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     game.ghosts[i].active = i < ghost_spawn.length()
     game.ghosts[i].mode = ghost_patrol
     game.ghosts[i].stun_t = 0.0
@@ -332,7 +332,7 @@ fn load_layout(game : Game) -> Unit {
 ///|
 fn count_seals_on(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < seal_need; i = i + 1 {
+  for i in 0..<seal_need {
     let p = seal_pos(i)
     if shelf_index_at(game, p.0, p.1) >= 0 {
       n = n + 1
@@ -550,7 +550,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   if x0 == x1 {
     let y_min : Int = mini(y0, y1)
     let y_max : Int = maxi(y0, y1)
-    for y = y_min + 1; y < y_max; y = y + 1 {
+    for y in (y_min + 1)..<y_max {
       if tile_at(game, x0, y) == tile_wall || shelf_index_at(game, x0, y) >= 0 {
         return false
       }
@@ -561,7 +561,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   if y0 == y1 {
     let x_min : Int = mini(x0, x1)
     let x_max : Int = maxi(x0, x1)
-    for x = x_min + 1; x < x_max; x = x + 1 {
+    for x in (x_min + 1)..<x_max {
       if tile_at(game, x, y0) == tile_wall || shelf_index_at(game, x, y0) >= 0 {
         return false
       }
@@ -610,7 +610,7 @@ fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
     let mut best_i : Int = -1
     let mut best_d : Int = 999999
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       let nx : Int = gx + dirs[i].0
       let ny : Int = gy + dirs[i].1
       if blocked_for_actor(game, gid, nx, ny) {
@@ -632,7 +632,7 @@ fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
   g.seed = ghost_seed_next(g.seed)
   let start : Int = g.seed % 4
 
-  for t = 0; t < 4; t = t + 1 {
+  for t in 0..<4 {
     let k : Int = (start + t) % 4
     let nx : Int = gx + dirs[k].0
     let ny : Int = gy + dirs[k].1
@@ -649,7 +649,7 @@ fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
 
 ///|
 fn update_ghosts(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       continue
     }
@@ -702,7 +702,7 @@ fn try_stun_pulse(game : Game) -> Bool {
   }
 
   let mut hits : Int = 0
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) || game.ghosts[i].mode == ghost_stunned {
       continue
     }
@@ -749,7 +749,7 @@ fn handle_player_hit(game : Game) -> Unit {
     return
   }
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) || game.ghosts[i].mode == ghost_stunned {
       continue
     }

@@ -179,7 +179,7 @@ fn cell_center_y(gy : Int) -> Float {
 
 ///|
 fn clear_terminals(terminals : Array[Terminal]) -> Unit {
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     terminals[i].active = false
     terminals[i].gx = 0
     terminals[i].gy = 0
@@ -189,7 +189,7 @@ fn clear_terminals(terminals : Array[Terminal]) -> Unit {
 
 ///|
 fn clear_guards(guards : Array[Guard]) -> Unit {
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     guards[i].active = false
     guards[i].kind = 0
     guards[i].gx = 0
@@ -205,7 +205,7 @@ fn clear_guards(guards : Array[Guard]) -> Unit {
 
 ///|
 fn clear_cameras(cameras : Array[Camera]) -> Unit {
-  for i = 0; i < cameras.length(); i = i + 1 {
+  for i in 0..<cameras.length() {
     cameras[i].active = false
     cameras[i].gx = 0
     cameras[i].gy = 0
@@ -217,7 +217,7 @@ fn clear_cameras(cameras : Array[Camera]) -> Unit {
 
 ///|
 fn clear_pickups(pickups : Array[Pickup]) -> Unit {
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     pickups[i].active = false
     pickups[i].gx = 0
     pickups[i].gy = 0
@@ -227,7 +227,7 @@ fn clear_pickups(pickups : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -243,7 +243,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 ///|
 fn guard_at(guards : Array[Guard], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if guards[i].active && guards[i].gx == gx && guards[i].gy == gy {
       found = i
       break
@@ -255,7 +255,7 @@ fn guard_at(guards : Array[Guard], gx : Int, gy : Int) -> Int {
 ///|
 fn terminal_at(terminals : Array[Terminal], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     if terminals[i].active &&
       terminals[i].gx == gx &&
       terminals[i].gy == gy &&
@@ -270,7 +270,7 @@ fn terminal_at(terminals : Array[Terminal], gx : Int, gy : Int) -> Int {
 ///|
 fn pickup_at(pickups : Array[Pickup], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     if pickups[i].active && pickups[i].gx == gx && pickups[i].gy == gy {
       found = i
       break
@@ -282,7 +282,7 @@ fn pickup_at(pickups : Array[Pickup], gx : Int, gy : Int) -> Int {
 ///|
 fn camera_at(cameras : Array[Camera], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < cameras.length(); i = i + 1 {
+  for i in 0..<cameras.length() {
     if cameras[i].active && cameras[i].gx == gx && cameras[i].gy == gy {
       found = i
       break
@@ -375,7 +375,7 @@ fn spawn_guard(
   stage : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if not(guards[i].active) {
       slot = i
       break
@@ -409,7 +409,7 @@ fn spawn_pickup(
   kind : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     if not(pickups[i].active) {
       slot = i
       break
@@ -437,7 +437,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -661,7 +661,7 @@ fn main {
 
   let count_hacked = fn() {
     let mut done = 0
-    for i = 0; i < terminals.length(); i = i + 1 {
+    for i in 0..<terminals.length() {
       if terminals[i].active && terminals[i].hacked {
         done = done + 1
       }
@@ -670,8 +670,8 @@ fn main {
   }
 
   let setup_stage = fn(stage_i : Int) {
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         if x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1 {
           tiles[idx(x, y)] = 1
         } else {
@@ -701,7 +701,7 @@ fn main {
     exit_open = false
 
     // Partition walls with several random gates.
-    for wi = 0; wi < 3; wi = wi + 1 {
+    for wi in 0..<3 {
       let wall_x = 5 + wi * 5
       let g1 = @raylib.get_random_value(1, map_h - 2)
       let mut g2 = @raylib.get_random_value(1, map_h - 2)
@@ -709,7 +709,7 @@ fn main {
         g2 = clampi(g2 + 2, 1, map_h - 2)
       }
       let g3 = map_h / 2
-      for y = 1; y < map_h - 1; y = y + 1 {
+      for y in 1..<(map_h - 1) {
         if y == g1 || y == g2 || y == g3 {
           ignore(())
         } else {
@@ -718,7 +718,7 @@ fn main {
       }
     }
 
-    for hi = 0; hi < 2; hi = hi + 1 {
+    for hi in 0..<2 {
       let wall_y = 4 + hi * 4
       let g1 = @raylib.get_random_value(1, map_w - 2)
       let mut g2 = @raylib.get_random_value(1, map_w - 2)
@@ -730,7 +730,7 @@ fn main {
         g3 = clampi(g3 + 3, 1, map_w - 2)
       }
 
-      for x = 1; x < map_w - 1; x = x + 1 {
+      for x in 1..<(map_w - 1) {
         if x == g1 || x == g2 || x == g3 {
           ignore(())
         } else {
@@ -750,14 +750,14 @@ fn main {
     terminal_total = clampi(3 + stage_i, 3, 8)
     terminal_done = 0
 
-    for i = 0; i < terminal_total; i = i + 1 {
+    for i in 0..<terminal_total {
       ignore(i)
-      for _a = 0; _a < 240; _a = _a + 1 {
+      for _a in 0..<240 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 6) {
           let mut slot : Int = -1
-          for k = 0; k < terminals.length(); k = k + 1 {
+          for k in 0..<terminals.length() {
             if not(terminals[k].active) {
               slot = k
               break
@@ -775,14 +775,14 @@ fn main {
     }
 
     let camera_count = clampi(3 + stage_i * 2, 3, 16)
-    for i = 0; i < camera_count; i = i + 1 {
+    for i in 0..<camera_count {
       ignore(i)
-      for _a = 0; _a < 240; _a = _a + 1 {
+      for _a in 0..<240 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 5) {
           let mut slot : Int = -1
-          for k = 0; k < cameras.length(); k = k + 1 {
+          for k in 0..<cameras.length() {
             if not(cameras[k].active) {
               slot = k
               break
@@ -802,9 +802,9 @@ fn main {
     }
 
     let guard_count = clampi(5 + stage_i * 3, 5, 30)
-    for i = 0; i < guard_count; i = i + 1 {
+    for i in 0..<guard_count {
       ignore(i)
-      for _a = 0; _a < 260; _a = _a + 1 {
+      for _a in 0..<260 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 7) {
@@ -816,9 +816,9 @@ fn main {
     }
 
     let pickup_count = clampi(4 + stage_i, 4, 10)
-    for i = 0; i < pickup_count; i = i + 1 {
+    for i in 0..<pickup_count {
       ignore(i)
-      for _a = 0; _a < 200; _a = _a + 1 {
+      for _a in 0..<200 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 4) {
@@ -1069,7 +1069,7 @@ fn main {
 
       if hack_press && player.hack_cd <= 0.0 {
         let mut target : Int = -1
-        for i = 0; i < terminals.length(); i = i + 1 {
+        for i in 0..<terminals.length() {
           if terminals[i].active && not(terminals[i].hacked) {
             let d = absi(terminals[i].gx - player.gx) +
               absi(terminals[i].gy - player.gy)
@@ -1121,7 +1121,7 @@ fn main {
 
           let mut disabled = 0
           let mut shocked = 0
-          for i = 0; i < cameras.length(); i = i + 1 {
+          for i in 0..<cameras.length() {
             if cameras[i].active {
               let d = absi(cameras[i].gx - player.gx) +
                 absi(cameras[i].gy - player.gy)
@@ -1132,7 +1132,7 @@ fn main {
             }
           }
 
-          for i = 0; i < guards.length(); i = i + 1 {
+          for i in 0..<guards.length() {
             if guards[i].active {
               let d = absi(guards[i].gx - player.gx) +
                 absi(guards[i].gy - player.gy)
@@ -1184,7 +1184,7 @@ fn main {
         }
       }
 
-      for i = 0; i < cameras.length(); i = i + 1 {
+      for i in 0..<cameras.length() {
         if not(cameras[i].active) {
           continue
         }
@@ -1218,7 +1218,7 @@ fn main {
         }
       }
 
-      for i = 0; i < guards.length(); i = i + 1 {
+      for i in 0..<guards.length() {
         if not(guards[i].active) {
           continue
         }
@@ -1360,8 +1360,8 @@ fn main {
         msg = "Security strike \{strikes}/3"
         msg_t = 0.72
 
-        for _r = 0; _r < 2; _r = _r + 1 {
-          for _a = 0; _a < 220; _a = _a + 1 {
+        for _r in 0..<2 {
+          for _a in 0..<220 {
             let gx = @raylib.get_random_value(1, map_w - 2)
             let gy = @raylib.get_random_value(1, map_h - 2)
             if can_walk(tiles, gx, gy) &&
@@ -1386,7 +1386,7 @@ fn main {
       if guard_spawn_cd <= 0.0 {
         guard_spawn_cd = randf(7.0, 11.0)
 
-        for _a = 0; _a < 240; _a = _a + 1 {
+        for _a in 0..<240 {
           let gx = @raylib.get_random_value(1, map_w - 2)
           let gy = @raylib.get_random_value(1, map_h - 2)
           if can_walk(tiles, gx, gy) &&
@@ -1403,7 +1403,7 @@ fn main {
       pickup_spawn_cd = pickup_spawn_cd - dt
       if pickup_spawn_cd <= 0.0 {
         pickup_spawn_cd = randf(4.8, 7.4)
-        for _a = 0; _a < 220; _a = _a + 1 {
+        for _a in 0..<220 {
           let gx = @raylib.get_random_value(1, map_w - 2)
           let gy = @raylib.get_random_value(1, map_h - 2)
           if can_walk(tiles, gx, gy) && pickup_at(pickups, gx, gy) < 0 {
@@ -1469,7 +1469,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1518,8 +1518,8 @@ fn main {
       @raylib.Color::new(18, 24, 40, 255),
     )
 
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         let px = map_x + x * tile
         let py = map_y + y * tile
         if tiles[idx(x, y)] == 1 {
@@ -1550,12 +1550,12 @@ fn main {
     }
 
     // Camera cone projection.
-    for i = 0; i < cameras.length(); i = i + 1 {
+    for i in 0..<cameras.length() {
       if not(cameras[i].active) || cameras[i].disable_t > 0.0 {
         continue
       }
 
-      for step = 1; step <= 8; step = step + 1 {
+      for step in 1..=8 {
         let gx = if cameras[i].dir == 1 {
           cameras[i].gx + step
         } else if cameras[i].dir == 3 {
@@ -1617,7 +1617,7 @@ fn main {
       )
     }
 
-    for i = 0; i < terminals.length(); i = i + 1 {
+    for i in 0..<terminals.length() {
       if terminals[i].active {
         let cx = cell_center_x(terminals[i].gx)
         let cy = cell_center_y(terminals[i].gy)
@@ -1643,7 +1643,7 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if pickups[i].active {
         let cx = cell_center_x(pickups[i].gx)
         let cy = cell_center_y(pickups[i].gy)
@@ -1660,19 +1660,19 @@ fn main {
       }
     }
 
-    for i = 0; i < cameras.length(); i = i + 1 {
+    for i in 0..<cameras.length() {
       if cameras[i].active {
         draw_camera(cameras[i])
       }
     }
 
-    for i = 0; i < guards.length(); i = i + 1 {
+    for i in 0..<guards.length() {
       if guards[i].active {
         draw_guard(guards[i])
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

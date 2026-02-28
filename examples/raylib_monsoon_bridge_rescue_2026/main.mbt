@@ -274,7 +274,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -302,7 +302,7 @@ fn pointer_on_circle(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if point_in_circle(p.x, p.y, cx, cy, r) {
         hit = true
@@ -315,7 +315,7 @@ fn pointer_on_circle(
 
 ///|
 fn clear_rafts(rafts : Array[RaftGroup]) -> Unit {
-  for i = 0; i < rafts.length(); i = i + 1 {
+  for i in 0..<rafts.length() {
     rafts[i].active = false
     rafts[i].x = 0.0
     rafts[i].y = 0.0
@@ -330,7 +330,7 @@ fn clear_rafts(rafts : Array[RaftGroup]) -> Unit {
 
 ///|
 fn clear_debris(obstacles : Array[Debris]) -> Unit {
-  for i = 0; i < obstacles.length(); i = i + 1 {
+  for i in 0..<obstacles.length() {
     obstacles[i].active = false
     obstacles[i].x = 0.0
     obstacles[i].y = 0.0
@@ -344,7 +344,7 @@ fn clear_debris(obstacles : Array[Debris]) -> Unit {
 
 ///|
 fn clear_lightning(strikes : Array[LightningStrike]) -> Unit {
-  for i = 0; i < strikes.length(); i = i + 1 {
+  for i in 0..<strikes.length() {
     strikes[i].active = false
     strikes[i].x = 0.0
     strikes[i].y = 0.0
@@ -358,7 +358,7 @@ fn clear_lightning(strikes : Array[LightningStrike]) -> Unit {
 
 ///|
 fn clear_supplies(supplies : Array[SupplyCrate]) -> Unit {
-  for i = 0; i < supplies.length(); i = i + 1 {
+  for i in 0..<supplies.length() {
     supplies[i].active = false
     supplies[i].x = 0.0
     supplies[i].y = 0.0
@@ -372,7 +372,7 @@ fn clear_supplies(supplies : Array[SupplyCrate]) -> Unit {
 
 ///|
 fn clear_rain(rain : Array[RainDrop]) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
+  for i in 0..<rain.length() {
     rain[i].active = false
     rain[i].x = 0.0
     rain[i].y = 0.0
@@ -385,7 +385,7 @@ fn clear_rain(rain : Array[RainDrop]) -> Unit {
 
 ///|
 fn clear_wakes(wakes : Array[WakeParticle]) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
+  for i in 0..<wakes.length() {
     wakes[i].active = false
     wakes[i].x = 0.0
     wakes[i].y = 0.0
@@ -410,7 +410,7 @@ fn init_currents(
   let cw : Float = Float::from_int(world_w) / Float::from_int(cols)
   let ch : Float = Float::from_int(world_h) / Float::from_int(rows)
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     let c : Int = i % cols
     let r : Int = i / cols
     cells[i].x = Float::from_int(world_x) + Float::from_int(c) * cw
@@ -438,7 +438,7 @@ fn init_bridge(
   let cx : Float = Float::from_int(world_x + world_w / 2)
   let step : Float = Float::from_int(world_h - 170) /
     Float::from_int(spans.length())
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     spans[i].x = cx - 54.0 + randf(-10.0, 10.0)
     spans[i].y = Float::from_int(world_y) + 84.0 + Float::from_int(i) * step
     spans[i].w = 108.0
@@ -457,7 +457,7 @@ fn refill_rain(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
+  for i in 0..<rain.length() {
     rain[i].active = true
     rain[i].x = randf(world_l, world_r)
     rain[i].y = randf(world_t, world_b)
@@ -479,7 +479,7 @@ fn find_flow(
   let mut out_vy : Float = 0.0
   let mut out_t : Float = 0.0
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if inside_rectf(x, y, cells[i].x, cells[i].y, cells[i].w, cells[i].h) {
       let wave : Float = sinf(cells[i].pulse + x * 0.0017 + y * 0.0023)
       out_vx = cells[i].vx + wave * (6.0 + storm * 7.0)
@@ -502,7 +502,7 @@ fn spawn_raft(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < rafts.length(); i = i + 1 {
+  for i in 0..<rafts.length() {
     if rafts[i].active {
       continue
     }
@@ -546,7 +546,7 @@ fn spawn_debris(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if debris[i].active {
       continue
     }
@@ -576,7 +576,7 @@ fn spawn_lightning(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < strikes.length(); i = i + 1 {
+  for i in 0..<strikes.length() {
     if strikes[i].active {
       continue
     }
@@ -605,7 +605,7 @@ fn spawn_supply(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < supplies.length(); i = i + 1 {
+  for i in 0..<supplies.length() {
     if supplies[i].active {
       continue
     }
@@ -638,7 +638,7 @@ fn spawn_wake(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
+  for i in 0..<wakes.length() {
     if wakes[i].active {
       continue
     }
@@ -656,7 +656,7 @@ fn spawn_wake(
 
 ///|
 fn update_wakes(wakes : Array[WakeParticle], dt : Float) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
+  for i in 0..<wakes.length() {
     if not(wakes[i].active) {
       continue
     }
@@ -682,7 +682,7 @@ fn update_rain(
   world_b : Float,
   wind_x : Float,
 ) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
+  for i in 0..<rain.length() {
     if not(rain[i].active) {
       continue
     }
@@ -714,7 +714,7 @@ fn calm_rafts(
   dt : Float,
 ) -> Unit {
   let r2 : Float = radius * radius
-  for i = 0; i < rafts.length(); i = i + 1 {
+  for i in 0..<rafts.length() {
     if not(rafts[i].active) {
       continue
     }
@@ -738,7 +738,7 @@ fn nearest_span_index(
 ) -> Int {
   let mut found : Int = -1
   let mut best : Float = radius * radius
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     let cx : Float = spans[i].x + spans[i].w * 0.5
     let cy : Float = spans[i].y + spans[i].h * 0.5
     let d2 : Float = dist2(x, y, cx, cy)
@@ -753,7 +753,7 @@ fn nearest_span_index(
 ///|
 fn min_bridge_integrity(spans : Array[BridgeSpan]) -> Float {
   let mut out : Float = 100.0
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     out = minf(out, spans[i].integrity)
   }
   out
@@ -774,7 +774,7 @@ fn draw_river(
 
   let stripe_count : Int = 46
   let seg_h : Float = Float::from_int(h) / Float::from_int(stripe_count)
-  for i = 0; i < stripe_count; i = i + 1 {
+  for i in 0..<stripe_count {
     let py : Float = Float::from_int(y) + Float::from_int(i) * seg_h
     let wave : Float = sinf(scene_t * 2.4 + Float::from_int(i) * 0.42)
     let shift : Int = (wave * 18.0).to_int()
@@ -793,7 +793,7 @@ fn draw_river(
 
 ///|
 fn draw_current_grid(cells : Array[CurrentCell], storm : Float) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     let wave : Float = sinf(cells[i].pulse)
     let tone : Int = 34 +
       ((wave + 1.0) * 28.0).to_int() +
@@ -826,7 +826,7 @@ fn draw_current_grid(cells : Array[CurrentCell], storm : Float) -> Unit {
 
 ///|
 fn draw_spans(spans : Array[BridgeSpan], scene_t : Float) -> Unit {
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     let p : Float = clampf(spans[i].integrity / 100.0, 0.0, 1.0)
     let red : Int = 210 - (p * 100.0).to_int()
     let green : Int = 34 + (p * 180.0).to_int()
@@ -877,7 +877,7 @@ fn draw_spans(spans : Array[BridgeSpan], scene_t : Float) -> Unit {
 
 ///|
 fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
-  for i = 0; i < rafts.length(); i = i + 1 {
+  for i in 0..<rafts.length() {
     if not(rafts[i].active) {
       continue
     }
@@ -912,7 +912,7 @@ fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
 
 ///|
 fn draw_debris_field(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if not(debris[i].active) {
       continue
     }
@@ -937,7 +937,7 @@ fn draw_debris_field(debris : Array[Debris]) -> Unit {
 
 ///|
 fn draw_strikes(strikes : Array[LightningStrike], scene_t : Float) -> Unit {
-  for i = 0; i < strikes.length(); i = i + 1 {
+  for i in 0..<strikes.length() {
     if not(strikes[i].active) {
       continue
     }
@@ -981,7 +981,7 @@ fn draw_strikes(strikes : Array[LightningStrike], scene_t : Float) -> Unit {
 
 ///|
 fn draw_supplies(supplies : Array[SupplyCrate], scene_t : Float) -> Unit {
-  for i = 0; i < supplies.length(); i = i + 1 {
+  for i in 0..<supplies.length() {
     if not(supplies[i].active) {
       continue
     }
@@ -1026,7 +1026,7 @@ fn draw_supplies(supplies : Array[SupplyCrate], scene_t : Float) -> Unit {
 
 ///|
 fn draw_rain(rain : Array[RainDrop], wind_x : Float) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
+  for i in 0..<rain.length() {
     if not(rain[i].active) {
       continue
     }
@@ -1045,7 +1045,7 @@ fn draw_rain(rain : Array[RainDrop], wind_x : Float) -> Unit {
 
 ///|
 fn draw_wakes(wakes : Array[WakeParticle]) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
+  for i in 0..<wakes.length() {
     if not(wakes[i].active) {
       continue
     }
@@ -1508,7 +1508,7 @@ fn draw_panel(
 ///|
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(9, 16, 26, 255))
-  for i = 0; i < 26; i = i + 1 {
+  for i in 0..<26 {
     let yy : Float = Float::from_int(i) / 26.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.0) * 0.5 + 0.5
     let alpha : Int = 20 + (wave * 54.0).to_int()
@@ -1914,7 +1914,7 @@ fn main {
       }
     }
 
-    for i = 0; i < currents.length(); i = i + 1 {
+    for i in 0..<currents.length() {
       currents[i].pulse = currents[i].pulse +
         dt * (0.9 + Float::from_int(i % 3) * 0.35)
     }
@@ -2158,7 +2158,7 @@ fn main {
         boat.fuel = boat.fuel - 6.0
         msg = "Siren pulse active: nearby rafts panic slower."
         msg_t = 2.2
-        for _i = 0; _i < 24; _i = _i + 1 {
+        for _i in 0..<24 {
           spawn_wake(
             wakes,
             boat.x,
@@ -2212,7 +2212,7 @@ fn main {
       }
 
       // Bridge erosion
-      for i = 0; i < spans.length(); i = i + 1 {
+      for i in 0..<spans.length() {
         let decay : Float = dt *
           (0.78 + storm_level * 1.62 + spans[i].stress * 0.26)
         spans[i].integrity = spans[i].integrity - decay
@@ -2226,7 +2226,7 @@ fn main {
       }
 
       // Raft updates
-      for i = 0; i < rafts.length(); i = i + 1 {
+      for i in 0..<rafts.length() {
         if not(rafts[i].active) {
           continue
         }
@@ -2260,7 +2260,7 @@ fn main {
       }
 
       // Debris updates + collisions
-      for i = 0; i < debris.length(); i = i + 1 {
+      for i in 0..<debris.length() {
         if not(debris[i].active) {
           continue
         }
@@ -2293,7 +2293,7 @@ fn main {
           debris[i].active = false
           msg = "Debris hit! Hull damage."
           msg_t = 1.2
-          for _j = 0; _j < 10; _j = _j + 1 {
+          for _j in 0..<10 {
             spawn_wake(
               wakes,
               boat.x + randf(-4.0, 4.0),
@@ -2308,7 +2308,7 @@ fn main {
       }
 
       // Lightning updates + effects
-      for i = 0; i < strikes.length(); i = i + 1 {
+      for i in 0..<strikes.length() {
         if not(strikes[i].active) {
           continue
         }
@@ -2326,7 +2326,7 @@ fn main {
             boat.vy = boat.vy + randf(-40.0, 40.0) * dt
           }
 
-          for s = 0; s < spans.length(); s = s + 1 {
+          for s in 0..<spans.length() {
             let sx : Float = spans[s].x + spans[s].w * 0.5
             let sy : Float = spans[s].y + spans[s].h * 0.5
             if dist2(sx, sy, strikes[i].x, strikes[i].y) <=
@@ -2343,7 +2343,7 @@ fn main {
       }
 
       // Supplies
-      for i = 0; i < supplies.length(); i = i + 1 {
+      for i in 0..<supplies.length() {
         if not(supplies[i].active) {
           continue
         }
@@ -2423,7 +2423,7 @@ fn main {
         // Pick up from nearest raft
         let mut nearest_raft : Int = -1
         let mut best_d2 : Float = 54.0 * 54.0
-        for i = 0; i < rafts.length(); i = i + 1 {
+        for i in 0..<rafts.length() {
           if not(rafts[i].active) {
             continue
           }

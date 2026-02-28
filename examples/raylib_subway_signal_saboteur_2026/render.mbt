@@ -67,8 +67,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_tiles(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -144,10 +144,10 @@ fn draw_tiles(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_junctions(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < junction_n; i = i + 1 {
+  for i in 0..<junction_n {
     let jx : Int = junction_x(i)
 
-    for lane = 0; lane < train_lane_n; lane = lane + 1 {
+    for lane in 0..<train_lane_n {
       let cy : Int = board_py(lane_to_y(lane)) + cell / 2 + oy
       let cx : Int = board_px(jx) + cell / 2 + ox
 
@@ -217,7 +217,7 @@ fn draw_junctions(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_trains(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     if not(game.trains[i].active) {
       continue
     }
@@ -256,7 +256,7 @@ fn draw_trains(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_inspectors(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     if not(game.inspectors[i].active) {
       continue
     }
@@ -325,7 +325,7 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -614,7 +614,7 @@ fn draw_panel(game : Game) -> Unit {
     @raylib.Color::new(206, 228, 248, 236),
   )
 
-  for i = 0; i < junction_n; i = i + 1 {
+  for i in 0..<junction_n {
     let mode_txt : String = if game.switch_state[i] < 0 {
       "UP"
     } else if game.switch_state[i] > 0 {

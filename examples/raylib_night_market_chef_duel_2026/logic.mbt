@@ -20,7 +20,7 @@ fn clear_cooking(game : Game) -> Unit {
 
 ///|
 fn clear_round_entities(game : Game) -> Unit {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     clear_order(game.orders[i])
   }
   clear_cooking(game)
@@ -93,7 +93,7 @@ fn base_patience(game : Game, dish : Int) -> Float {
 
 ///|
 fn find_free_order_slot(game : Game) -> Int {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if not(game.orders[i].active) {
       return i
     }
@@ -153,7 +153,7 @@ fn choose_target_order(game : Game) -> Int {
 
   let mut best = -1
   let mut best_patience : Float = 99999.0
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if game.orders[i].active && game.orders[i].patience < best_patience {
       best_patience = game.orders[i].patience
       best = i
@@ -178,7 +178,7 @@ fn register_failure(game : Game) -> Unit {
 
 ///|
 fn update_orders(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if game.orders[i].active {
       game.orders[i].patience = game.orders[i].patience - dt
       if game.orders[i].patience <= 0.0 {
@@ -207,7 +207,7 @@ fn find_matching_order(game : Game, dish : Int) -> Int {
 
   let mut best = -1
   let mut best_patience : Float = 99999.0
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if game.orders[i].active &&
       game.orders[i].dish == dish &&
       game.orders[i].patience < best_patience {
@@ -401,7 +401,7 @@ fn move_cursor(game : Game, dir_x : Int, dir_y : Int) -> Unit {
   let mut best = game.cursor
   let mut best_score : Float = 1000000.0
 
-  for i = 0; i < node_count; i = i + 1 {
+  for i in 0..<node_count {
     if i != game.cursor {
       let p = node_pos(i)
       let vx = p.0 - cur.0

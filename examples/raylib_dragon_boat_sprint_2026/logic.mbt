@@ -94,7 +94,7 @@ fn add_score(game : Game, delta : Int) -> Unit {
 
 ///|
 fn clear_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     game.hazards[i].active = false
     game.hazards[i].kind = hazard_debris
     game.hazards[i].lane = 0.0
@@ -107,7 +107,7 @@ fn clear_hazards(game : Game) -> Unit {
 
 ///|
 fn setup_rivals(game : Game) -> Unit {
-  for i = 0; i < game.rivals.length(); i = i + 1 {
+  for i in 0..<game.rivals.length() {
     let lane_seed : Float = if i == 0 {
       -0.78
     } else if i == 1 {
@@ -166,7 +166,7 @@ fn reset_run(game : Game) -> Unit {
 fn current_rank(game : Game) -> Int {
   let mut ahead : Int = 0
 
-  for i = 0; i < game.rivals.length(); i = i + 1 {
+  for i in 0..<game.rivals.length() {
     if game.rivals[i].active && game.rivals[i].dist > game.distance {
       ahead = ahead + 1
     }
@@ -177,7 +177,7 @@ fn current_rank(game : Game) -> Int {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if game.hazards[i].active {
       continue
     }
@@ -349,7 +349,7 @@ fn update_hazard_spawning(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if not(game.hazards[i].active) {
       continue
     }
@@ -408,7 +408,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_rivals(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.rivals.length(); i = i + 1 {
+  for i in 0..<game.rivals.length() {
     if not(game.rivals[i].active) {
       continue
     }

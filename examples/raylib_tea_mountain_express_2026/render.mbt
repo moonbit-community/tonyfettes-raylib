@@ -51,7 +51,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(14, 24, 40, 255),
   )
 
-  for i = 0; i < 9; i = i + 1 {
+  for i in 0..<9 {
     let fi = Float::from_int(i)
     let drift = sinf(game.world_t * 0.18 + fi * 0.73) * 70.0
     let ridge_y = 170 + i * 62
@@ -71,7 +71,7 @@ fn draw_background(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < 26; i = i + 1 {
+  for i in 0..<26 {
     let fi = Float::from_int(i)
     let x = (fi * 78.0 + game.world_t * 16.0 + sinf(fi * 1.3) * 40.0) %
       Float::from_int(screen_w)
@@ -190,7 +190,7 @@ fn hazard_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if not(game.hazards[i].active) {
       continue
     }

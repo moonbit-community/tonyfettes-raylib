@@ -33,8 +33,8 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 ///|
 fn draw_floor_tiles(game : @types.Game) -> Unit {
   let world = game.current_world
-  for gy = 0; gy < @types.grid_h; gy = gy + 1 {
-    for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+  for gy in 0..<@types.grid_h {
+    for gx in 0..<@types.grid_w {
       let tile = @types.get_tile(game, gx, gy)
       let wx = Float::from_int(gx)
       let wz = Float::from_int(gy)
@@ -516,7 +516,7 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (-0.2, 0.2),
       (0.2, 0.2),
     ]
-    for i = 0; i < offsets.length(); i = i + 1 {
+    for i in 0..<offsets.length() {
       let ox = offsets[i].0
       let oz = offsets[i].1
       @raylib.draw_cylinder(
@@ -544,7 +544,7 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (-0.2, 0.2),
       (0.2, 0.2),
     ]
-    for i = 0; i < offsets.length(); i = i + 1 {
+    for i in 0..<offsets.length() {
       let ox = offsets[i].0
       let oz = offsets[i].1
       @raylib.draw_cube(
@@ -584,7 +584,7 @@ fn draw_conveyor(
   let arrow_dx = Float::from_int(@types.dir_dx(dir))
   let arrow_dz = Float::from_int(@types.dir_dy(dir))
   // Three arrows along conveyor direction
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let fi = Float::from_int(i)
     let offset : Float = (fi - 1.0) * 0.25 + anim_offset
     let ax = wx + arrow_dx * offset
@@ -742,7 +742,7 @@ fn draw_gate(wx : Float, wz : Float, open : Bool, world : Int) -> Unit {
       ),
     )
     // Horizontal bars
-    for i = 0; i < 3; i = i + 1 {
+    for i in 0..<3 {
       let bar_y : Float = 0.15 + Float::from_int(i) * 0.2
       @raylib.draw_cube(
         @raylib.Vector3::new(wx, bar_y, wz),
@@ -852,7 +852,7 @@ fn draw_laser_target(
   draw_floor(wx, wz, world)
   // Check if this target is hit by a laser
   let mut is_hit = false
-  for i = 0; i < game.laser_segment_count; i = i + 1 {
+  for i in 0..<game.laser_segment_count {
     let seg = game.laser_segments[i]
     if seg.active && seg.end_gx == wx.to_int() && seg.end_gy == wz.to_int() {
       is_hit = true
@@ -945,10 +945,10 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
   let pulse = @math.sinf(fc * 0.15) * 0.3 + 0.7
   let pulse_alpha = (pulse * 200.0).to_int()
   let a = @types.clampi(pulse_alpha, 80, 255)
-  for i = 0; i < game.laser_segment_count; i = i + 1 {
+  for i in 0..<game.laser_segment_count {
     let seg = game.laser_segments[i]
     if not(seg.active) {
-      continue i + 1
+      continue
     }
     let sx = Float::from_int(seg.start_gx)
     let sy = Float::from_int(seg.start_gy)
@@ -1008,10 +1008,10 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
 ///|
 fn draw_entities(game : @types.Game) -> Unit {
   let world = game.current_world
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     let e = game.entities[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let wx = e.anim_x
     let wz = e.anim_y
@@ -1327,10 +1327,10 @@ fn draw_player(game : @types.Game) -> Unit {
 ///|
 fn draw_decorations(game : @types.Game) -> Unit {
   let fc = Float::from_int(game.frame_counter)
-  for i = 0; i < game.decoration_count; i = i + 1 {
+  for i in 0..<game.decoration_count {
     let d = game.decorations[i]
     if not(d.active) {
-      continue i + 1
+      continue
     }
     if d.kind == @types.deco_torch {
       // Wall torch: bracket + flame
@@ -1433,10 +1433,10 @@ fn draw_decorations(game : @types.Game) -> Unit {
 ///|
 fn draw_shadows(game : @types.Game) -> Unit {
   // Shadow blobs under entities
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     let e = game.entities[i]
     if not(e.active) || e.falling {
-      continue i + 1
+      continue
     }
     @raylib.draw_cube(
       @raylib.Vector3::new(e.anim_x, 0.005, e.anim_y),
@@ -1450,10 +1450,10 @@ fn draw_shadows(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha_f = p.life / p.max_life
     let alpha = (alpha_f * 255.0).to_int()

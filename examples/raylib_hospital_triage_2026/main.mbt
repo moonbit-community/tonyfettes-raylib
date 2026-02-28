@@ -24,14 +24,14 @@ struct Patient {
 
 ///|
 fn reset_patients(ps : Array[Patient]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].alive = false
   }
 }
 
 ///|
 fn spawn_patient(ps : Array[Patient]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if not(ps[i].alive) {
       let w = @raylib.get_random_value(0, ward_count - 1)
       let r = @raylib.get_random_value(0, 99)
@@ -183,7 +183,7 @@ fn main {
         }
       }
 
-      for i = 0; i < patients.length(); i = i + 1 {
+      for i in 0..<patients.length() {
         if not(patients[i].alive) {
           continue
         }
@@ -232,7 +232,7 @@ fn main {
         ) {
         let mut pick = -1
         let mut best_y : Float = 1_000_000.0
-        for i = 0; i < patients.length(); i = i + 1 {
+        for i in 0..<patients.length() {
           if patients[i].alive && patients[i].ward == nurse_ward {
             if patients[i].y < best_y {
               best_y = patients[i].y
@@ -274,7 +274,7 @@ fn main {
       @raylib.Color::new(248, 248, 248, 255),
     )
 
-    for w = 0; w < ward_count; w = w + 1 {
+    for w in 0..<ward_count {
       let x = ward_x(w)
       @raylib.draw_rectangle(
         (x - 75.0).to_int(),
@@ -299,7 +299,7 @@ fn main {
       )
     }
 
-    for i = 0; i < patients.length(); i = i + 1 {
+    for i in 0..<patients.length() {
       if patients[i].alive {
         let c = severity_color(patients[i].severity)
         @raylib.draw_circle(

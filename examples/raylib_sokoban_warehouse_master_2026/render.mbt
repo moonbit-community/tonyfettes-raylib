@@ -6,7 +6,7 @@ fn draw_bg(game : Game) -> Unit {
 
   @raylib.clear_background(@raylib.Color::new(10, 13, 20, 255))
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let y : Int = i * 60 - 18
     let alpha : Int = 18 + i * 13 % 32
     @raylib.draw_rectangle(
@@ -199,8 +199,8 @@ fn draw_board(game : Game) -> Unit {
     @raylib.Color::new(96, 132, 166, 120),
   )
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       let t : Int = tile_at(game, x, y)
       let px : Int = left + x * tile
       let py : Int = top + y * tile
@@ -232,7 +232,7 @@ fn draw_board(game : Game) -> Unit {
   let ppy : Int = top + game.player_y * tile
   draw_player(ppx, ppy, tile, game.pulse_t)
 
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }

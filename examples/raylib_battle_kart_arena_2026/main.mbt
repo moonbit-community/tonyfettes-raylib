@@ -219,7 +219,7 @@ fn reset_karts(karts : Array[Kart]) -> Unit {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     shots[i].x = 0.0
     shots[i].y = 0.0
     shots[i].vx = 0.0
@@ -253,7 +253,7 @@ fn reset_pickups(pickups : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     sparks[i].x = 0.0
     sparks[i].y = 0.0
     sparks[i].vx = 0.0
@@ -273,7 +273,7 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     if done {
       continue
     }
@@ -302,7 +302,7 @@ fn burst(
   speed_scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(sparks, x, y, speed_scale, kind)
   }
 }
@@ -324,7 +324,7 @@ fn spawn_shot(
   let speed : Float = 680.0
 
   let mut done = false
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if done {
       continue
     }
@@ -619,7 +619,7 @@ fn main {
         ammo = ammo - 1
       }
 
-      for i = 1; i < karts.length(); i = i + 1 {
+      for i in 1..<karts.length() {
         let tx = wx[karts[i].next_wp]
         let ty = wy[karts[i].next_wp]
         let dx = tx - karts[i].x
@@ -654,7 +654,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if pickups[i].active {
           let dx = karts[0].x - pickups[i].x
           let dy = karts[0].y - pickups[i].y
@@ -691,7 +691,7 @@ fn main {
         }
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
@@ -711,7 +711,7 @@ fn main {
 
         if shots[i].owner == 0 {
           let mut hit = false
-          for j = 1; j < karts.length(); j = j + 1 {
+          for j in 1..<karts.length() {
             if hit {
               continue
             }
@@ -758,7 +758,7 @@ fn main {
       }
 
       let mut ai_won = false
-      for i = 1; i < karts.length(); i = i + 1 {
+      for i in 1..<karts.length() {
         if karts[i].lap >= lap_target {
           ai_won = true
         }
@@ -770,7 +770,7 @@ fn main {
       }
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }
@@ -813,7 +813,7 @@ fn main {
     let ih = (inner_b - inner_t).to_int()
     @raylib.draw_rectangle(il, it, iw, ih, @raylib.Color::new(38, 92, 58, 255))
 
-    for i = 0; i < 36; i = i + 1 {
+    for i in 0..<36 {
       let dash_x = ol + i * 30
       @raylib.draw_rectangle(
         dash_x,
@@ -839,7 +839,7 @@ fn main {
       @raylib.Color::new(248, 220, 220, 255),
     )
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -856,7 +856,7 @@ fn main {
       @raylib.draw_circle_lines(x, y, 12.0, @raylib.Color::new(22, 30, 42, 255))
     }
 
-    for i = 0; i < karts.length(); i = i + 1 {
+    for i in 0..<karts.length() {
       let x = (karts[i].x + shake_x).to_int()
       let y = karts[i].y.to_int()
       let c = if i == 0 {
@@ -876,7 +876,7 @@ fn main {
       @raylib.draw_text("\{karts[i].lap + 1}", x - 6, y - 33, 20, @raylib.white)
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if not(shots[i].active) {
         continue
       }
@@ -885,7 +885,7 @@ fn main {
       @raylib.draw_circle(x, y, 4.0, @raylib.Color::new(246, 248, 252, 255))
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }

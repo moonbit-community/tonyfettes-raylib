@@ -34,7 +34,7 @@ fn spawn_shot(
   vy : Float,
   from_enemy : Bool,
 ) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if not(shots[i].alive) {
       shots[i].alive = true
       shots[i].x = x
@@ -49,7 +49,7 @@ fn spawn_shot(
 
 ///|
 fn spawn_bot(bots : Array[Bot], wave : Int) -> Unit {
-  for i = 0; i < bots.length(); i = i + 1 {
+  for i in 0..<bots.length() {
     if not(bots[i].alive) {
       bots[i].alive = true
       bots[i].x = Float::from_int(@raylib.get_random_value(200, sw - 100))
@@ -67,14 +67,14 @@ fn spawn_bot(bots : Array[Bot], wave : Int) -> Unit {
 
 ///|
 fn reset_bots(bots : Array[Bot]) -> Unit {
-  for i = 0; i < bots.length(); i = i + 1 {
+  for i in 0..<bots.length() {
     bots[i].alive = false
   }
 }
 
 ///|
 fn reset_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     shots[i].alive = false
   }
 }
@@ -116,7 +116,7 @@ fn main {
   let mut over = false
   let mut msg = "WASD move, mouse aim, LMB/J shoot, K dash"
 
-  for _i = 0; _i < 4; _i = _i + 1 {
+  for _i in 0..<4 {
     spawn_bot(bots, wave)
   }
 
@@ -141,7 +141,7 @@ fn main {
       msg = "Arena reset."
       reset_shots(shots)
       reset_bots(bots)
-      for _i = 0; _i < 4; _i = _i + 1 {
+      for _i in 0..<4 {
         spawn_bot(bots, wave)
       }
     }
@@ -218,7 +218,7 @@ fn main {
 
       // AI update
       let mut alive_count = 0
-      for i = 0; i < bots.length(); i = i + 1 {
+      for i in 0..<bots.length() {
         if not(bots[i].alive) {
           continue
         }
@@ -266,14 +266,14 @@ fn main {
         score = score + wave_bonus
         wave = wave + 1
         let spawn_n = 3 + wave
-        for _i = 0; _i < spawn_n; _i = _i + 1 {
+        for _i in 0..<spawn_n {
           spawn_bot(bots, wave)
         }
         msg = "Wave \{wave} begins."
       }
 
       // Shot update + collision
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].alive) {
           continue
         }
@@ -295,7 +295,7 @@ fn main {
             msg = "Mech hit by enemy fire."
           }
         } else {
-          for bi = 0; bi < bots.length(); bi = bi + 1 {
+          for bi in 0..<bots.length() {
             if not(bots[bi].alive) {
               continue
             }
@@ -333,7 +333,7 @@ fn main {
       @raylib.draw_line(x, 120, x, sh - 20, @raylib.fade(@raylib.gray, 0.14))
     }
 
-    for i = 0; i < bots.length(); i = i + 1 {
+    for i in 0..<bots.length() {
       if bots[i].alive {
         @raylib.draw_rectangle(
           (bots[i].x - 18.0).to_int(),
@@ -359,7 +359,7 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if shots[i].alive {
         let c = if shots[i].from_enemy {
           @raylib.orange

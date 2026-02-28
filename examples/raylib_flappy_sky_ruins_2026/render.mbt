@@ -23,7 +23,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(70, 38, 72, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 64
     @raylib.draw_rectangle(
       0,
@@ -59,7 +59,7 @@ fn draw_world_back(game : Game) -> Unit {
   )
 
   let wave : Float = bg_wave(game, 1.5)
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let y : Int = world_y0 + i * 48
     @raylib.draw_rectangle(
       world_x0 + 6,
@@ -244,7 +244,7 @@ fn draw_hint(game : Game) -> Unit {
 
 ///|
 fn draw_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -693,11 +693,11 @@ fn draw_result_overlay(
 fn draw_world(game : Game) -> Unit {
   draw_world_back(game)
 
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     draw_obstacle(game.obstacles[i])
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     draw_pickup(game.pickups[i])
   }
 

@@ -11,7 +11,7 @@ fn enemy_spawn_x(slot : Int) -> Float {
 
 ///|
 fn alloc_enemy_slot(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -55,7 +55,7 @@ fn spawn_enemy(game : Game) -> Bool {
 fn choose_enemy_target_player(game : Game, enemy : Tank) -> Int {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     let player = game.players[i]
     if player.active {
       let d = distance_sq(enemy.x, enemy.y, player.x, player.y)
@@ -207,9 +207,9 @@ fn update_enemy_spawn(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_enemies(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
-      continue i + 1
+      continue
     }
 
     let enemy = game.enemies[i]
@@ -227,7 +227,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     }
 
     if game.freeze_all_timer > 0.0 {
-      continue i + 1
+      continue
     }
 
     enemy.ai_move_timer -= dt

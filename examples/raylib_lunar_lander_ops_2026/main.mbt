@@ -97,7 +97,7 @@ fn sample_height(heights : Array[Float], x : Float) -> Float {
 
 ///|
 fn clear_meteors(meteors : Array[Meteor]) -> Unit {
-  for i = 0; i < meteors.length(); i = i + 1 {
+  for i in 0..<meteors.length() {
     meteors[i].x = 0.0
     meteors[i].y = 0.0
     meteors[i].vy = 0.0
@@ -108,7 +108,7 @@ fn clear_meteors(meteors : Array[Meteor]) -> Unit {
 ///|
 fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
   let mut placed = false
-  for i = 0; i < meteors.length(); i = i + 1 {
+  for i in 0..<meteors.length() {
     if placed {
       continue
     }
@@ -399,7 +399,7 @@ fn main {
         }
 
         let mut meteor_hit = false
-        for i = 0; i < meteors.length(); i = i + 1 {
+        for i in 0..<meteors.length() {
           if not(meteors[i].active) {
             continue
           }
@@ -509,7 +509,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, 280, @raylib.Color::new(18, 34, 66, 255))
     @raylib.draw_rectangle(0, 0, sw, 140, @raylib.Color::new(30, 58, 98, 255))
 
-    for i = 0; i < 84; i = i + 1 {
+    for i in 0..<84 {
       let sx = (i * 173 + level * 97) % sw
       let sy = (i * 97 + level * 61) % 420
       let b = 140 + i * 13 % 100
@@ -526,7 +526,7 @@ fn main {
     let ground_color = @raylib.Color::new(70, 56, 64, 255)
     let ground_color2 = @raylib.Color::new(56, 44, 52, 255)
 
-    for i = 0; i < segs; i = i + 1 {
+    for i in 0..<segs {
       let x1 = Float::from_int(i) * step
       let x2 = Float::from_int(i + 1) * step
       let y1 = heights[i]
@@ -576,7 +576,7 @@ fn main {
       @raylib.Color::new(248, 232, 170, 255),
     )
 
-    for i = 0; i < meteors.length(); i = i + 1 {
+    for i in 0..<meteors.length() {
       if not(meteors[i].active) {
         continue
       }

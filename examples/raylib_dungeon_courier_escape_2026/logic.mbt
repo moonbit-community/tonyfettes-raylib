@@ -6,7 +6,7 @@ fn set_hint(game : Game, text : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_smokes(game : Game) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     game.smokes[i].active = false
     game.smokes[i].x = 0.0
     game.smokes[i].y = 0.0
@@ -17,7 +17,7 @@ fn clear_smokes(game : Game) -> Unit {
 
 ///|
 fn clear_guards(game : Game) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     game.guards[i].active = false
     game.guards[i].x = 0.0
     game.guards[i].y = 0.0
@@ -41,7 +41,7 @@ fn clear_guards(game : Game) -> Unit {
 
 ///|
 fn clear_traps(game : Game) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     game.traps[i].active = false
     game.traps[i].x = 0.0
     game.traps[i].y = 0.0
@@ -53,7 +53,7 @@ fn clear_traps(game : Game) -> Unit {
 
 ///|
 fn clear_parcels(game : Game) -> Unit {
-  for i = 0; i < game.parcels.length(); i = i + 1 {
+  for i in 0..<game.parcels.length() {
     game.parcels[i].active = false
     game.parcels[i].delivered = false
     game.parcels[i].x = 0.0
@@ -73,7 +73,7 @@ fn random_world_point(margin : Float) -> (Float, Float) {
 ///|
 fn far_from_exits(game : Game, x : Float, y : Float, min_dist : Float) -> Bool {
   let min_d2 = min_dist * min_dist
-  for i = 0; i < game.exits.length(); i = i + 1 {
+  for i in 0..<game.exits.length() {
     if not(game.exits[i].active) {
       continue
     }
@@ -98,7 +98,7 @@ fn far_from_active_parcels(
   upto : Int,
 ) -> Bool {
   let min_d2 = min_dist * min_dist
-  for i = 0; i < upto; i = i + 1 {
+  for i in 0..<upto {
     if not(game.parcels[i].active) {
       continue
     }
@@ -113,10 +113,10 @@ fn far_from_active_parcels(
 fn setup_parcels(game : Game, count : Int) -> Unit {
   clear_parcels(game)
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut placed = false
 
-    for _attempt = 0; _attempt < 64; _attempt = _attempt + 1 {
+    for _attempt in 0..<64 {
       let p = random_world_point(parcel_spawn_margin)
       if not(far_from_exits(game, p.0, p.1, 116.0)) {
         continue
@@ -156,7 +156,7 @@ fn setup_guards(game : Game, wave : Int, count : Int) -> Unit {
   let wavef = Float::from_int(wave - 1)
   let cone_add = Float::from_int(clampi(wave - 1, 0, 8)) * 1.6
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let p0 = random_world_point(guard_spawn_margin)
     let mut p1 = random_world_point(guard_spawn_margin)
 
@@ -204,10 +204,10 @@ fn setup_guards(game : Game, wave : Int, count : Int) -> Unit {
 fn setup_traps(game : Game, wave : Int, count : Int) -> Unit {
   clear_traps(game)
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut placed = false
 
-    for _attempt = 0; _attempt < 48; _attempt = _attempt + 1 {
+    for _attempt in 0..<48 {
       let p = random_world_point(trap_spawn_margin)
       if not(far_from_exits(game, p.0, p.1, 88.0)) {
         continue
@@ -335,7 +335,7 @@ fn fail_mission(game : Game, reason : String) -> Unit {
 
 ///|
 fn alloc_smoke_slot(game : Game) -> Int {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       return i
     }
@@ -343,7 +343,7 @@ fn alloc_smoke_slot(game : Game) -> Int {
 
   let mut oldest = 0
   let mut life = game.smokes[0].life
-  for i = 1; i < game.smokes.length(); i = i + 1 {
+  for i in 1..<game.smokes.length() {
     if game.smokes[i].life < life {
       life = game.smokes[i].life
       oldest = i
@@ -378,7 +378,7 @@ fn nearest_parcel(game : Game, max_d2 : Float) -> Int {
   let mut best = -1
   let mut best_d2 = max_d2
 
-  for i = 0; i < game.parcels.length(); i = i + 1 {
+  for i in 0..<game.parcels.length() {
     if not(game.parcels[i].active) || game.parcels[i].delivered {
       continue
     }
@@ -403,7 +403,7 @@ fn nearest_exit(game : Game, max_d2 : Float) -> Int {
   let mut best = -1
   let mut best_d2 = max_d2
 
-  for i = 0; i < game.exits.length(); i = i + 1 {
+  for i in 0..<game.exits.length() {
     if not(game.exits[i].active) {
       continue
     }
@@ -546,7 +546,7 @@ fn update_player_motion(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_smokes(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -563,7 +563,7 @@ fn update_smokes(game : Game, dt : Float) -> Unit {
 fn player_smoke_cover(game : Game) -> Float {
   let mut factor : Float = 1.0
 
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -588,7 +588,7 @@ fn nearest_smoke_target(
   let mut best_y : Float = 0.0
   let mut best_d2 : Float = 0.0
 
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -607,7 +607,7 @@ fn nearest_smoke_target(
 
 ///|
 fn alert_all_guards(game : Game, alert_time : Float) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if game.guards[i].active {
       game.guards[i].alert_t = maxf(game.guards[i].alert_t, alert_time)
       game.guards[i].target_x = game.player.x
@@ -622,7 +622,7 @@ fn update_guards(game : Game, dt : Float) -> Float {
   let wave_scale : Float = (1.0 : Float) +
     Float::from_int(game.wave - 1) * (0.08 : Float)
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if not(game.guards[i].active) {
       continue
     }
@@ -742,7 +742,7 @@ fn update_guards(game : Game, dt : Float) -> Float {
 fn update_traps(game : Game, dt : Float) -> Float {
   let mut pressure : Float = 0.0
 
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     if not(game.traps[i].active) {
       continue
     }
@@ -776,7 +776,7 @@ fn update_traps(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_parcel_pulses(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.parcels.length(); i = i + 1 {
+  for i in 0..<game.parcels.length() {
     if not(game.parcels[i].active) {
       continue
     }

@@ -155,7 +155,7 @@ fn inside_rect(
 
 ///|
 fn clear_enemies(enemies : Array[EnemyShip]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
     enemies[i].kind = 0
     enemies[i].x = 0.0
@@ -170,7 +170,7 @@ fn clear_enemies(enemies : Array[EnemyShip]) -> Unit {
 
 ///|
 fn clear_boats(boats : Array[CivilianBoat]) -> Unit {
-  for i = 0; i < boats.length(); i = i + 1 {
+  for i in 0..<boats.length() {
     boats[i].active = false
     boats[i].x = 0.0
     boats[i].y = 0.0
@@ -183,7 +183,7 @@ fn clear_boats(boats : Array[CivilianBoat]) -> Unit {
 
 ///|
 fn clear_projectiles(projectiles : Array[Projectile]) -> Unit {
-  for i = 0; i < projectiles.length(); i = i + 1 {
+  for i in 0..<projectiles.length() {
     projectiles[i].active = false
     projectiles[i].x = 0.0
     projectiles[i].y = 0.0
@@ -198,7 +198,7 @@ fn clear_projectiles(projectiles : Array[Projectile]) -> Unit {
 
 ///|
 fn clear_pickups(pickups : Array[Pickup]) -> Unit {
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     pickups[i].active = false
     pickups[i].x = 0.0
     pickups[i].y = 0.0
@@ -210,7 +210,7 @@ fn clear_pickups(pickups : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -226,7 +226,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 ///|
 fn spawn_enemy(enemies : Array[EnemyShip], wave : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       slot = i
       break
@@ -265,7 +265,7 @@ fn spawn_enemy(enemies : Array[EnemyShip], wave : Int) -> Bool {
 ///|
 fn spawn_boat(boats : Array[CivilianBoat]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < boats.length(); i = i + 1 {
+  for i in 0..<boats.length() {
     if not(boats[i].active) {
       slot = i
       break
@@ -304,7 +304,7 @@ fn spawn_projectile(
   life : Float,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < projectiles.length(); i = i + 1 {
+  for i in 0..<projectiles.length() {
     if not(projectiles[i].active) {
       slot = i
       break
@@ -330,7 +330,7 @@ fn spawn_projectile(
 ///|
 fn spawn_pickup(pickups : Array[Pickup], x : Float, y : Float) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     if not(pickups[i].active) {
       slot = i
       break
@@ -360,7 +360,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -638,12 +638,12 @@ fn main {
     clear_pickups(pickups)
     clear_particles(particles)
 
-    for i = 0; i < 7; i = i + 1 {
+    for i in 0..<7 {
       ignore(i)
       ignore(spawn_enemy(enemies, wave))
     }
 
-    for i = 0; i < 3; i = i + 1 {
+    for i in 0..<3 {
       ignore(i)
       ignore(spawn_boat(boats))
     }
@@ -817,7 +817,7 @@ fn main {
         burst(particles, cannon.x, cannon.y - 38.0, 26, 0.24, 2)
 
         let mut blast_kills : Int = 0
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if enemies[i].active &&
             dist2(cannon.x, cannon.y - 40.0, enemies[i].x, enemies[i].y) <=
             220.0 * 220.0 {
@@ -830,7 +830,7 @@ fn main {
           }
         }
 
-        for i = 0; i < projectiles.length(); i = i + 1 {
+        for i in 0..<projectiles.length() {
           if projectiles[i].active &&
             projectiles[i].from_enemy &&
             dist2(cannon.x, cannon.y - 40.0, projectiles[i].x, projectiles[i].y) <=
@@ -871,7 +871,7 @@ fn main {
         boat_spawn_cd = randf(4.0, 6.2)
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -926,7 +926,7 @@ fn main {
         }
       }
 
-      for i = 0; i < boats.length(); i = i + 1 {
+      for i in 0..<boats.length() {
         if not(boats[i].active) {
           continue
         }
@@ -947,7 +947,7 @@ fn main {
           continue
         }
 
-        for e = 0; e < enemies.length(); e = e + 1 {
+        for e in 0..<enemies.length() {
           if enemies[e].active &&
             dist2(boats[i].x, boats[i].y - 8.0, enemies[e].x, enemies[e].y) <=
             36.0 * 36.0 {
@@ -968,7 +968,7 @@ fn main {
         }
       }
 
-      for i = 0; i < projectiles.length(); i = i + 1 {
+      for i in 0..<projectiles.length() {
         if not(projectiles[i].active) {
           continue
         }
@@ -1012,7 +1012,7 @@ fn main {
             continue
           }
 
-          for b = 0; b < boats.length(); b = b + 1 {
+          for b in 0..<boats.length() {
             if boats[b].active &&
               dist2(
                 projectiles[i].x,
@@ -1030,7 +1030,7 @@ fn main {
           }
         } else {
           let mut hit_enemy = false
-          for e = 0; e < enemies.length(); e = e + 1 {
+          for e in 0..<enemies.length() {
             if enemies[e].active &&
               dist2(
                 projectiles[i].x,
@@ -1064,7 +1064,7 @@ fn main {
             continue
           }
 
-          for b = 0; b < boats.length(); b = b + 1 {
+          for b in 0..<boats.length() {
             if boats[b].active &&
               dist2(
                 projectiles[i].x,
@@ -1090,7 +1090,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -1138,7 +1138,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1183,7 +1183,7 @@ fn main {
       @raylib.Color::new(20, 76, 114, 255),
     )
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let wx = i * 74 + (timer * 30.0).to_int() % 74
       let wy = 536 + i * 17 % 176
       @raylib.draw_rectangle(
@@ -1195,7 +1195,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 18; i = i + 1 {
+    for i in 0..<18 {
       let x = i * 80 + 16
       let h = 80 + i * 13 % 180
       @raylib.draw_rectangle(
@@ -1229,19 +1229,19 @@ fn main {
       @raylib.Color::new(90, 106, 118, 255),
     )
 
-    for i = 0; i < boats.length(); i = i + 1 {
+    for i in 0..<boats.length() {
       if boats[i].active {
         draw_boat(boats[i])
       }
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].active {
         draw_enemy(enemies[i])
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if pickups[i].active {
         let blink = (pickups[i].t * 10.0).to_int() % 2 == 0
         let col = if pickups[i].kind == 0 {
@@ -1264,7 +1264,7 @@ fn main {
       }
     }
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
+    for i in 0..<projectiles.length() {
       if not(projectiles[i].active) {
         continue
       }
@@ -1287,7 +1287,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

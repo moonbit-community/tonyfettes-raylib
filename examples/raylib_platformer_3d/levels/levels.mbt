@@ -492,7 +492,7 @@ pub fn get_collectible_data(
   let items : Array[(Int, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // Place gems on platforms and vary by world/level
-  for i = 1; i < plats.length() - 1; i = i + 1 {
+  for i in 1..<(plats.length() - 1) {
     let p = plats[i]
     // Gems on every 2nd or 3rd platform
     if i % 2 == 0 {
@@ -537,7 +537,7 @@ pub fn get_enemy_data(
   if level == 0 {
     return enemies
   }
-  for i = 2; i < plats.length() - 2; i = i + 1 {
+  for i in 2..<(plats.length() - 2) {
     let p = plats[i]
     // Patrol enemies on wider static platforms
     if p.0 == 0 && p.4 >= 2.5 && i % 4 == 2 {
@@ -575,7 +575,7 @@ pub fn get_hazard_data(
   let hazards : Array[(Int, Float, Float, Float, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
   // Place hazards between platforms where gaps exist
-  for i = 1; i < plats.length() - 1; i = i + 1 {
+  for i in 1..<(plats.length() - 1) {
     let p = plats[i]
     // Spikes on ground in forest world
     if world == 0 && level >= 2 && i % 5 == 3 {
@@ -665,11 +665,11 @@ pub fn get_decoration_data(
 ) -> Array[(Int, Float, Float, Float, Float)] {
   let decos : Array[(Int, Float, Float, Float, Float)] = []
   let plats = get_platform_data(world, level)
-  for i = 0; i < plats.length(); i = i + 1 {
+  for i in 0..<plats.length() {
     let p = plats[i]
     // Only decorate static platforms
     if p.0 != 0 {
-      continue i + 1
+      continue
     }
     let y_top = p.2 + 0.15
     if world == 0 {

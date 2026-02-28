@@ -147,7 +147,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -164,7 +164,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -202,7 +202,7 @@ fn spawn_projectile(
   dmg : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < projectiles.length(); i = i + 1 {
+  for i in 0..<projectiles.length() {
     if not(projectiles[i].active) {
       projectiles[i] = {
         active: true,
@@ -228,7 +228,7 @@ fn spawn_orb(
   kind : Int,
   value : Int,
 ) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     if not(orbs[i].active) {
       orbs[i] = { active: true, kind, x, y, value, t: 0.0, life: 22.0 }
       break
@@ -243,7 +243,7 @@ fn spawn_enemy(
   center_x : Float,
   center_y : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       let edge : Int = @raylib.get_random_value(0, 3)
       let kind : Int = if @raylib.get_random_value(0, 100) < 25 + level * 6 {
@@ -304,11 +304,11 @@ fn init_wave(
   center_x : Float,
   center_y : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
   }
   let initial : Int = 14 + level * 4
-  for i = 0; i < initial; i = i + 1 {
+  for i in 0..<initial {
     spawn_enemy(enemies, level, center_x, center_y)
   }
 }
@@ -583,13 +583,13 @@ fn main {
     mage.score = 0
     mage.combo = 0
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
+    for i in 0..<projectiles.length() {
       projectiles[i].active = false
     }
-    for i = 0; i < orbs.length(); i = i + 1 {
+    for i in 0..<orbs.length() {
       orbs[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
 
@@ -867,7 +867,7 @@ fn main {
         mage.mana = mage.mana - 46.0
         mage.frost_cd = 4.8
         burst_particles(particles, mage.x, mage.y, 52, 150.0, 1)
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -883,10 +883,10 @@ fn main {
         mage.mana = mage.mana - 60.0
         mage.storm_cd = 7.2
         let mut hits : Int = 0
-        for _j = 0; _j < 8; _j = _j + 1 {
+        for _j in 0..<8 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].active) {
               continue
             }
@@ -928,7 +928,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1036,7 +1036,7 @@ fn main {
         }
       }
 
-      for i = 0; i < projectiles.length(); i = i + 1 {
+      for i in 0..<projectiles.length() {
         if not(projectiles[i].active) {
           continue
         }
@@ -1059,7 +1059,7 @@ fn main {
         }
 
         if projectiles[i].from_player {
-          for j = 0; j < enemies.length(); j = j + 1 {
+          for j in 0..<enemies.length() {
             if not(enemies[j].active) {
               continue
             }
@@ -1089,7 +1089,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1130,7 +1130,7 @@ fn main {
         }
       }
 
-      for i = 0; i < orbs.length(); i = i + 1 {
+      for i in 0..<orbs.length() {
         if not(orbs[i].active) {
           continue
         }
@@ -1173,7 +1173,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1247,7 +1247,7 @@ fn main {
       gy = gy + 120.0
     }
 
-    for i = 0; i < orbs.length(); i = i + 1 {
+    for i in 0..<orbs.length() {
       if not(orbs[i].active) {
         continue
       }
@@ -1274,7 +1274,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -1322,7 +1322,7 @@ fn main {
       }
     }
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
+    for i in 0..<projectiles.length() {
       if not(projectiles[i].active) {
         continue
       }
@@ -1379,7 +1379,7 @@ fn main {
       @raylib.Color::new(246, 248, 252, 255),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

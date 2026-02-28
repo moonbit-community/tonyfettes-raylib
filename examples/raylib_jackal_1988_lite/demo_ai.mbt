@@ -15,9 +15,9 @@ fn opposite_dir(dir : Int) -> Int {
 fn demo_nearest_enemy(game : Game, x : Float, y : Float) -> (Int, Float) {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
-      continue i + 1
+      continue
     }
     let d = distance_sq(x, y, game.enemies[i].x, game.enemies[i].y)
     if d < best_dist {
@@ -32,9 +32,9 @@ fn demo_nearest_enemy(game : Game, x : Float, y : Float) -> (Int, Float) {
 fn demo_nearest_powerup(game : Game, x : Float, y : Float) -> (Int, Float) {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
-      continue i + 1
+      continue
     }
     let d = distance_sq(x, y, game.powerups[i].x, game.powerups[i].y)
     if d < best_dist {

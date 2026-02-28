@@ -81,7 +81,7 @@ fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_enemies(game : Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i].active = false
     game.enemies[i].x = 0.0
     game.enemies[i].y = 0.0
@@ -101,7 +101,7 @@ fn clear_enemies(game : Game) -> Unit {
 ///|
 fn active_enemy_count(game : Game) -> Int {
   let mut count : Int = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       count = count + 1
     }
@@ -230,7 +230,7 @@ fn hurt_player(game : Game, dmg : Float) -> Unit {
 
 ///|
 fn spawn_enemy(game : Game) -> Bool {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       continue
     }
@@ -332,7 +332,7 @@ fn resolve_parry_window(game : Game) -> Int {
 
   let mut parried : Int = 0
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }
@@ -444,7 +444,7 @@ fn try_player_attack(game : Game, attack : Int) -> Bool {
 
   let mut hit_count : Int = 0
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }
@@ -753,7 +753,7 @@ fn keep_enemy_inside_rooftop(game : Game, idx : Int) -> Unit {
 
 ///|
 fn update_enemies(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }

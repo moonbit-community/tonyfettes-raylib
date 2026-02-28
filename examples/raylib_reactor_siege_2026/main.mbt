@@ -164,7 +164,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -181,7 +181,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -218,7 +218,7 @@ fn spawn_bullet(
   dmg : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       bullets[i] = { active: true, kind, x, y, vx, vy, dmg, life }
       break
@@ -233,7 +233,7 @@ fn spawn_drop(
   y : Float,
   value : Int,
 ) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].active) {
       drops[i] = { active: true, x, y, value, t: 0.0, life: 20.0 }
       break
@@ -248,7 +248,7 @@ fn spawn_enemy(
   core_x : Float,
   core_y : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       let edge : Int = @raylib.get_random_value(0, 3)
       let kind : Int = if @raylib.get_random_value(0, 100) < 22 + level * 6 {
@@ -306,11 +306,11 @@ fn init_enemy_wave(
   core_x : Float,
   core_y : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
   }
   let initial : Int = 12 + level * 3
-  for i = 0; i < initial; i = i + 1 {
+  for i in 0..<initial {
     spawn_enemy(enemies, level, core_x, core_y)
   }
 }
@@ -590,23 +590,23 @@ fn main {
     core.hp = 1000.0 + Float::from_int(level - 1) * 130.0
     core.shield = 260.0
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       bullets[i].active = false
     }
-    for i = 0; i < drops.length(); i = i + 1 {
+    for i in 0..<drops.length() {
       drops[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
-    for i = 0; i < turrets.length(); i = i + 1 {
+    for i in 0..<turrets.length() {
       turrets[i].active = false
       turrets[i].hp = 0.0
       turrets[i].cd = 0.0
     }
 
     let ring_r : Float = 340.0
-    for i = 0; i < pad_count; i = i + 1 {
+    for i in 0..<pad_count {
       let ang : Float = Float::from_int(i) * 6.283 / Float::from_int(pad_count)
       let px : Float = core.x + @math.cosf(ang) * ring_r
       let py : Float = core.y + @math.sinf(ang) * ring_r
@@ -858,7 +858,7 @@ fn main {
       if pulse_press && hero.pulse_cd <= 0.0 {
         hero.pulse_cd = 8.0
         burst_particles(particles, hero.x, hero.y, 60, 160.0, 1)
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -891,7 +891,7 @@ fn main {
 
       if build_press {
         let mut build_idx : Int = -1
-        for i = 0; i < pad_count; i = i + 1 {
+        for i in 0..<pad_count {
           let d2 : Float = dist2(hero.x, hero.y, pad_xs[i], pad_ys[i])
           if d2 <= 78.0 * 78.0 {
             build_idx = i
@@ -950,7 +950,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < turrets.length(); i = i + 1 {
+      for i in 0..<turrets.length() {
         if not(turrets[i].active) {
           continue
         }
@@ -971,7 +971,7 @@ fn main {
         if turrets[i].cd <= 0.0 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for j = 0; j < enemies.length(); j = j + 1 {
+          for j in 0..<enemies.length() {
             if not(enemies[j].active) {
               continue
             }
@@ -1007,7 +1007,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1120,7 +1120,7 @@ fn main {
             burst_particles(particles, core.x, core.y, 16, 88.0, 1)
           }
 
-          for j = 0; j < turrets.length(); j = j + 1 {
+          for j in 0..<turrets.length() {
             if not(turrets[j].active) {
               continue
             }
@@ -1147,7 +1147,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1170,7 +1170,7 @@ fn main {
         }
 
         let mut hit : Bool = false
-        for j = 0; j < enemies.length(); j = j + 1 {
+        for j in 0..<enemies.length() {
           if not(enemies[j].active) {
             continue
           }
@@ -1202,7 +1202,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1221,7 +1221,7 @@ fn main {
         }
       }
 
-      for i = 0; i < drops.length(); i = i + 1 {
+      for i in 0..<drops.length() {
         if not(drops[i].active) {
           continue
         }
@@ -1256,7 +1256,7 @@ fn main {
         state = 2
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1344,7 +1344,7 @@ fn main {
       @raylib.Color::new(154, 216, 252, 180),
     )
 
-    for i = 0; i < pad_count; i = i + 1 {
+    for i in 0..<pad_count {
       let px : Float = pad_xs[i] - cam_x + shake_x
       let py : Float = pad_ys[i] - cam_y + shake_y
       if px < -40.0 ||
@@ -1367,7 +1367,7 @@ fn main {
       )
     }
 
-    for i = 0; i < turrets.length(); i = i + 1 {
+    for i in 0..<turrets.length() {
       if not(turrets[i].active) {
         continue
       }
@@ -1401,7 +1401,7 @@ fn main {
       )
     }
 
-    for i = 0; i < drops.length(); i = i + 1 {
+    for i in 0..<drops.length() {
       if not(drops[i].active) {
         continue
       }
@@ -1429,7 +1429,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -1466,7 +1466,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1522,7 +1522,7 @@ fn main {
       @raylib.Color::new(246, 248, 252, 255),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

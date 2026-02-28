@@ -277,7 +277,7 @@ fn bounce_from_walls(
   let mut nvx : Float = vx
   let mut nvy : Float = vy
 
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     if not(walls[i].active) {
       continue
     }
@@ -306,7 +306,7 @@ fn bounce_from_walls(
 
 ///|
 fn clear_guards(guards : Array[Guard]) -> Unit {
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     guards[i].active = false
     guards[i].kind = 0
     guards[i].x = 0.0
@@ -327,7 +327,7 @@ fn clear_guards(guards : Array[Guard]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].team = 0
     bullets[i].kind = 0
@@ -343,7 +343,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_cameras(cameras : Array[CameraUnit]) -> Unit {
-  for i = 0; i < cameras.length(); i = i + 1 {
+  for i in 0..<cameras.length() {
     cameras[i].active = false
     cameras[i].x = 0.0
     cameras[i].y = 0.0
@@ -360,7 +360,7 @@ fn clear_cameras(cameras : Array[CameraUnit]) -> Unit {
 
 ///|
 fn clear_terminals(terminals : Array[Terminal]) -> Unit {
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     terminals[i].active = false
     terminals[i].x = 0.0
     terminals[i].y = 0.0
@@ -371,7 +371,7 @@ fn clear_terminals(terminals : Array[Terminal]) -> Unit {
 
 ///|
 fn clear_vaults(vaults : Array[Vault]) -> Unit {
-  for i = 0; i < vaults.length(); i = i + 1 {
+  for i in 0..<vaults.length() {
     vaults[i].active = false
     vaults[i].x = 0.0
     vaults[i].y = 0.0
@@ -382,7 +382,7 @@ fn clear_vaults(vaults : Array[Vault]) -> Unit {
 
 ///|
 fn clear_loot(loot : Array[Loot]) -> Unit {
-  for i = 0; i < loot.length(); i = i + 1 {
+  for i in 0..<loot.length() {
     loot[i].active = false
     loot[i].kind = 0
     loot[i].x = 0.0
@@ -397,7 +397,7 @@ fn clear_loot(loot : Array[Loot]) -> Unit {
 
 ///|
 fn clear_walls(walls : Array[Wall]) -> Unit {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     walls[i].active = false
     walls[i].x = 0.0
     walls[i].y = 0.0
@@ -408,7 +408,7 @@ fn clear_walls(walls : Array[Wall]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -431,7 +431,7 @@ fn add_guard(
   home_y : Float,
   wave : Int,
 ) -> Bool {
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if not(guards[i].active) {
       guards[i].active = true
       guards[i].kind = kind
@@ -467,7 +467,7 @@ fn add_bullet(
   r : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       bullets[i].active = true
       bullets[i].team = team
@@ -496,7 +496,7 @@ fn add_camera(
   range : Float,
   gain : Float,
 ) -> Bool {
-  for i = 0; i < cameras.length(); i = i + 1 {
+  for i in 0..<cameras.length() {
     if not(cameras[i].active) {
       cameras[i].active = true
       cameras[i].x = x
@@ -517,7 +517,7 @@ fn add_camera(
 
 ///|
 fn add_terminal(terminals : Array[Terminal], x : Float, y : Float) -> Bool {
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     if not(terminals[i].active) {
       terminals[i].active = true
       terminals[i].x = x
@@ -532,7 +532,7 @@ fn add_terminal(terminals : Array[Terminal], x : Float, y : Float) -> Bool {
 
 ///|
 fn add_vault(vaults : Array[Vault], x : Float, y : Float) -> Bool {
-  for i = 0; i < vaults.length(); i = i + 1 {
+  for i in 0..<vaults.length() {
     if not(vaults[i].active) {
       vaults[i].active = true
       vaults[i].x = x
@@ -556,7 +556,7 @@ fn add_loot(
   value : Int,
   life : Float,
 ) -> Bool {
-  for i = 0; i < loot.length(); i = i + 1 {
+  for i in 0..<loot.length() {
     if not(loot[i].active) {
       loot[i].active = true
       loot[i].kind = kind
@@ -581,7 +581,7 @@ fn add_wall(
   w : Float,
   h : Float,
 ) -> Bool {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     if not(walls[i].active) {
       walls[i].active = true
       walls[i].x = x
@@ -605,7 +605,7 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -631,7 +631,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(70.0, 340.0) * scale
     ignore(
@@ -652,7 +652,7 @@ fn burst(
 ///|
 fn count_hacked(terminals : Array[Terminal]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     if terminals[i].active && terminals[i].hacked {
       n = n + 1
     }
@@ -663,7 +663,7 @@ fn count_hacked(terminals : Array[Terminal]) -> Int {
 ///|
 fn count_terminals(terminals : Array[Terminal]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     if terminals[i].active {
       n = n + 1
     }
@@ -674,7 +674,7 @@ fn count_terminals(terminals : Array[Terminal]) -> Int {
 ///|
 fn count_active_guards(guards : Array[Guard]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if guards[i].active {
       n = n + 1
     }
@@ -1355,7 +1355,7 @@ fn main {
 
         burst(particles, player.x, player.y, 80, 0.34, 3)
 
-        for i = 0; i < cameras.length(); i = i + 1 {
+        for i in 0..<cameras.length() {
           if not(cameras[i].active) {
             continue
           }
@@ -1369,7 +1369,7 @@ fn main {
           }
         }
 
-        for i = 0; i < guards.length(); i = i + 1 {
+        for i in 0..<guards.length() {
           if not(guards[i].active) {
             continue
           }
@@ -1382,7 +1382,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             bullets[i].team == 2 &&
             dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
@@ -1486,7 +1486,7 @@ fn main {
       // hacking
       let mut hacked_this_frame : Bool = false
       if hack_hold {
-        for i = 0; i < terminals.length(); i = i + 1 {
+        for i in 0..<terminals.length() {
           if not(terminals[i].active) || terminals[i].hacked {
             continue
           }
@@ -1508,7 +1508,7 @@ fn main {
       }
 
       if not(hacked_this_frame) {
-        for i = 0; i < terminals.length(); i = i + 1 {
+        for i in 0..<terminals.length() {
           if terminals[i].active && not(terminals[i].hacked) {
             terminals[i].progress = clampf(
               terminals[i].progress - dt * 10.0,
@@ -1521,7 +1521,7 @@ fn main {
 
       // unlock vaults when all terminals hacked
       if count_hacked(terminals) == count_terminals(terminals) {
-        for i = 0; i < vaults.length(); i = i + 1 {
+        for i in 0..<vaults.length() {
           if vaults[i].active {
             vaults[i].open = true
           }
@@ -1529,13 +1529,13 @@ fn main {
       }
 
       // vault spawn
-      for i = 0; i < vaults.length(); i = i + 1 {
+      for i in 0..<vaults.length() {
         if not(vaults[i].active) || not(vaults[i].open) || vaults[i].spawned {
           continue
         }
         if dist2(player.x, player.y, vaults[i].x, vaults[i].y) <= 100.0 * 100.0 {
           vaults[i].spawned = true
-          for k = 0; k < 14; k = k + 1 {
+          for k in 0..<14 {
             ignore(
               add_loot(
                 loot,
@@ -1556,7 +1556,7 @@ fn main {
       }
 
       // camera update/detection
-      for i = 0; i < cameras.length(); i = i + 1 {
+      for i in 0..<cameras.length() {
         if not(cameras[i].active) {
           continue
         }
@@ -1597,7 +1597,7 @@ fn main {
       }
 
       // guards update
-      for i = 0; i < guards.length(); i = i + 1 {
+      for i in 0..<guards.length() {
         if not(guards[i].active) {
           continue
         }
@@ -1811,7 +1811,7 @@ fn main {
           }
 
           let drops : Int = 1 + @raylib.get_random_value(0, 2)
-          for d = 0; d < drops; d = d + 1 {
+          for d in 0..<drops {
             ignore(
               add_loot(
                 loot,
@@ -1832,7 +1832,7 @@ fn main {
       }
 
       // loot update
-      for i = 0; i < loot.length(); i = i + 1 {
+      for i in 0..<loot.length() {
         if not(loot[i].active) {
           continue
         }
@@ -1875,7 +1875,7 @@ fn main {
       }
 
       // bullet update + collisions
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1899,7 +1899,7 @@ fn main {
 
         // wall hit
         let mut blocked : Bool = false
-        for w = 0; w < walls.length(); w = w + 1 {
+        for w in 0..<walls.length() {
           if not(walls[w].active) {
             continue
           }
@@ -1924,7 +1924,7 @@ fn main {
         if bullets[i].team == 1 {
           let mut consumed : Bool = false
 
-          for g = 0; g < guards.length(); g = g + 1 {
+          for g in 0..<guards.length() {
             if consumed {
               continue
             }
@@ -1942,7 +1942,7 @@ fn main {
           }
 
           if bullets[i].active {
-            for c = 0; c < cameras.length(); c = c + 1 {
+            for c in 0..<cameras.length() {
               if not(cameras[c].active) {
                 continue
               }
@@ -1968,7 +1968,7 @@ fn main {
       }
 
       // particle update
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -2016,16 +2016,16 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(8, 12, 20, 255))
 
-    for gy = 0; gy < 15; gy = gy + 1 {
+    for gy in 0..<15 {
       let y : Int = 90 + gy * 44
       @raylib.draw_line(0, y, sw, y, @raylib.Color::new(22, 30, 46, 122))
     }
-    for gx = 0; gx < 26; gx = gx + 1 {
+    for gx in 0..<26 {
       let x : Int = gx * 50
       @raylib.draw_line(x, 90, x, sh, @raylib.Color::new(22, 30, 46, 102))
     }
 
-    for i = 0; i < 170; i = i + 1 {
+    for i in 0..<170 {
       let fi : Float = Float::from_int(i)
       let sx : Int = ((
         fi * 79.0 + stars_t * (0.2 + Float::from_int(i % 7) * 0.08)
@@ -2086,7 +2086,7 @@ fn main {
     )
 
     // walls
-    for i = 0; i < walls.length(); i = i + 1 {
+    for i in 0..<walls.length() {
       if not(walls[i].active) {
         continue
       }
@@ -2107,7 +2107,7 @@ fn main {
     }
 
     // terminals
-    for i = 0; i < terminals.length(); i = i + 1 {
+    for i in 0..<terminals.length() {
       if not(terminals[i].active) {
         continue
       }
@@ -2152,7 +2152,7 @@ fn main {
     }
 
     // vaults
-    for i = 0; i < vaults.length(); i = i + 1 {
+    for i in 0..<vaults.length() {
       if not(vaults[i].active) {
         continue
       }
@@ -2178,7 +2178,7 @@ fn main {
     }
 
     // cameras + view cone
-    for i = 0; i < cameras.length(); i = i + 1 {
+    for i in 0..<cameras.length() {
       if not(cameras[i].active) {
         continue
       }
@@ -2236,7 +2236,7 @@ fn main {
     }
 
     // loot
-    for i = 0; i < loot.length(); i = i + 1 {
+    for i in 0..<loot.length() {
       if not(loot[i].active) {
         continue
       }
@@ -2256,7 +2256,7 @@ fn main {
     }
 
     // guards
-    for i = 0; i < guards.length(); i = i + 1 {
+    for i in 0..<guards.length() {
       if not(guards[i].active) {
         continue
       }
@@ -2301,7 +2301,7 @@ fn main {
     }
 
     // bullets
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -2356,7 +2356,7 @@ fn main {
     }
 
     // particles
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

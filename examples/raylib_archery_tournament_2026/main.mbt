@@ -129,7 +129,7 @@ fn main {
         arrows_left = arrows_left - 1
       }
 
-      for i = 0; i < targets.length(); i = i + 1 {
+      for i in 0..<targets.length() {
         if targets[i].alive {
           targets[i].x = targets[i].x + targets[i].vx * dt
           if targets[i].x < 760.0 {
@@ -149,7 +149,7 @@ fn main {
         arrow.x = arrow.x + arrow.vx * dt
         arrow.y = arrow.y + arrow.vy * dt
 
-        for i = 0; i < targets.length(); i = i + 1 {
+        for i in 0..<targets.length() {
           if not(targets[i].alive) {
             continue
           }
@@ -181,7 +181,7 @@ fn main {
       }
 
       let mut alive_count = 0
-      for i = 0; i < targets.length(); i = i + 1 {
+      for i in 0..<targets.length() {
         if targets[i].alive {
           alive_count = alive_count + 1
         }
@@ -237,7 +237,7 @@ fn main {
       @raylib.darkbrown,
     )
 
-    for i = 0; i < targets.length(); i = i + 1 {
+    for i in 0..<targets.length() {
       if targets[i].alive {
         @raylib.draw_circle(
           targets[i].x.to_int(),

@@ -179,7 +179,7 @@ fn blocked(level : Int, x : Float, y : Float, r : Float) -> Bool {
 
 ///|
 fn clear_guards(gs : Array[Guard]) -> Unit {
-  for i = 0; i < gs.length(); i = i + 1 {
+  for i in 0..<gs.length() {
     gs[i].x = 0.0
     gs[i].y = 0.0
     gs[i].vx = 0.0
@@ -200,7 +200,7 @@ fn clear_guards(gs : Array[Guard]) -> Unit {
 
 ///|
 fn clear_keycards(cards : Array[Keycard]) -> Unit {
-  for i = 0; i < cards.length(); i = i + 1 {
+  for i in 0..<cards.length() {
     cards[i].x = 0.0
     cards[i].y = 0.0
     cards[i].kind = 0
@@ -210,7 +210,7 @@ fn clear_keycards(cards : Array[Keycard]) -> Unit {
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     bs[i].x = 0.0
     bs[i].y = 0.0
     bs[i].vx = 0.0
@@ -223,7 +223,7 @@ fn clear_bullets(bs : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -243,7 +243,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -270,7 +270,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -292,7 +292,7 @@ fn spawn_bullet(
   let d : Float = d2.sqrt()
 
   let mut done = false
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     if done {
       continue
     }
@@ -646,7 +646,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -774,7 +774,7 @@ fn main {
         msg = "EMP pulse"
         burst(particles, player.x, player.y, 24, 0.54, 3)
 
-        for i = 0; i < guards.length(); i = i + 1 {
+        for i in 0..<guards.length() {
           if not(guards[i].active) {
             continue
           }
@@ -799,7 +799,7 @@ fn main {
       }
       player.stamina = clampf(player.stamina, 0.0, 100.0)
 
-      for i = 0; i < guards.length(); i = i + 1 {
+      for i in 0..<guards.length() {
         if not(guards[i].active) {
           continue
         }
@@ -944,7 +944,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -989,7 +989,7 @@ fn main {
         }
       }
 
-      for i = 0; i < cards.length(); i = i + 1 {
+      for i in 0..<cards.length() {
         if not(cards[i].active) {
           continue
         }
@@ -1060,7 +1060,7 @@ fn main {
       @raylib.Color::new(18, 28 + glow / 11, 58 + glow / 6, 255),
     )
 
-    for i = 0; i < 84; i = i + 1 {
+    for i in 0..<84 {
       let x = (i * 98 + (wave_t * 54.0).to_int()) % (sw + 180) - 90
       let h = 120 + i * 37 % 250
       let w = 40 + i * 13 % 66
@@ -1207,7 +1207,7 @@ fn main {
       @raylib.Color::new(236, 244, 252, 255),
     )
 
-    for i = 0; i < cards.length(); i = i + 1 {
+    for i in 0..<cards.length() {
       if not(cards[i].active) {
         continue
       }
@@ -1231,7 +1231,7 @@ fn main {
       )
     }
 
-    for i = 0; i < guards.length(); i = i + 1 {
+    for i in 0..<guards.length() {
       if not(guards[i].active) {
         continue
       }
@@ -1366,7 +1366,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1379,7 +1379,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

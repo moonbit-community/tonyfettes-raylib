@@ -170,7 +170,7 @@ fn generate_cave(
   let mut top : Float = 150.0
   let mut gap : Float = 360.0
 
-  for i = 0; i <= seg_count; i = i + 1 {
+  for i in 0..=seg_count {
     top = top + randf(-28.0, 28.0)
     top = clampf(top, 90.0, 300.0)
 
@@ -202,7 +202,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -219,7 +219,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -257,7 +257,7 @@ fn spawn_projectile(
   dmg : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < projectiles.length(); i = i + 1 {
+  for i in 0..<projectiles.length() {
     if not(projectiles[i].active) {
       projectiles[i] = {
         active: true,
@@ -282,7 +282,7 @@ fn init_crystals(
   cave_bottom : FixedArray[Float],
   target : Int,
 ) -> Unit {
-  for i = 0; i < crystals.length(); i = i + 1 {
+  for i in 0..<crystals.length() {
     let frac : Float = Float::from_int(i) / Float::from_int(crystals.length())
     let x : Float = 180.0 + frac * (world_w - 360.0) + randf(-42.0, 42.0)
     let top : Float = sample_line(cave_top, x)
@@ -307,7 +307,7 @@ fn spawn_enemy(
   cave_top : FixedArray[Float],
   cave_bottom : FixedArray[Float],
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       let kind : Int = if @raylib.get_random_value(0, 100) < 22 + level * 6 {
         1
@@ -354,11 +354,11 @@ fn init_wave(
   cave_top : FixedArray[Float],
   cave_bottom : FixedArray[Float],
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
   }
   let initial : Int = 12 + level * 4
-  for i = 0; i < initial; i = i + 1 {
+  for i in 0..<initial {
     spawn_enemy(enemies, level, player_x, cave_top, cave_bottom)
   }
 }
@@ -629,10 +629,10 @@ fn main {
     player.score = 0
     player.combo = 0
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
+    for i in 0..<projectiles.length() {
       projectiles[i].active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       particles[i].active = false
     }
 
@@ -885,7 +885,7 @@ fn main {
         player.fuel = player.fuel - 40.0
         player.pulse_cd = 5.8
         burst_particles(particles, player.x, player.y, 58, 160.0, 1)
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -900,10 +900,10 @@ fn main {
       if storm_press && player.storm_cd <= 0.0 && player.fuel >= 56.0 {
         player.fuel = player.fuel - 56.0
         player.storm_cd = 7.6
-        for k = 0; k < 7; k = k + 1 {
+        for k in 0..<7 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].active) {
               continue
             }
@@ -984,7 +984,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1099,7 +1099,7 @@ fn main {
         }
       }
 
-      for i = 0; i < projectiles.length(); i = i + 1 {
+      for i in 0..<projectiles.length() {
         if not(projectiles[i].active) {
           continue
         }
@@ -1122,7 +1122,7 @@ fn main {
         }
 
         if projectiles[i].from_player {
-          for j = 0; j < enemies.length(); j = j + 1 {
+          for j in 0..<enemies.length() {
             if not(enemies[j].active) {
               continue
             }
@@ -1169,7 +1169,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1198,7 +1198,7 @@ fn main {
         }
       }
 
-      for i = 0; i < crystals.length(); i = i + 1 {
+      for i in 0..<crystals.length() {
         if not(crystals[i].active) {
           continue
         }
@@ -1217,7 +1217,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1274,7 +1274,7 @@ fn main {
       seg_count - 1,
     )
 
-    for i = start_seg; i <= end_seg; i = i + 1 {
+    for i in start_seg..=end_seg {
       let x0 : Float = Float::from_int(i) * seg_w - cam_x + shake_x
       let top0 : Float = cave_top[i] + shake_y
       let top1 : Float = cave_top[i + 1] + shake_y
@@ -1333,7 +1333,7 @@ fn main {
       @raylib.Color::new(222, 248, 255, 220),
     )
 
-    for i = 0; i < crystals.length(); i = i + 1 {
+    for i in 0..<crystals.length() {
       if not(crystals[i].active) {
         continue
       }
@@ -1362,7 +1362,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -1410,7 +1410,7 @@ fn main {
       }
     }
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
+    for i in 0..<projectiles.length() {
       if not(projectiles[i].active) {
         continue
       }
@@ -1480,7 +1480,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

@@ -21,8 +21,8 @@ fn tunnel_wrap_x(x : Int) -> Int {
 
 ///|
 fn build_walls(game : Game) -> Unit {
-  for y = 0; y < maze_rows; y = y + 1 {
-    for x = 0; x < maze_cols; x = x + 1 {
+  for y in 0..<maze_rows {
+    for x in 0..<maze_cols {
       let mut wall = false
       if x == 0 || x == maze_cols - 1 || y == 0 || y == maze_rows - 1 {
         wall = true
@@ -68,8 +68,8 @@ fn is_walkable(game : Game, x : Int, y : Int) -> Bool {
 ///|
 fn reset_pellets(game : Game) -> Unit {
   game.pellets_left = 0
-  for y = 0; y < maze_rows; y = y + 1 {
-    for x = 0; x < maze_cols; x = x + 1 {
+  for y in 0..<maze_rows {
+    for x in 0..<maze_cols {
       let i = map_index(x, y)
       if game.walls[i] == 0 {
         game.pellets[i] = 1
@@ -88,7 +88,7 @@ fn reset_pellets(game : Game) -> Unit {
     (maze_cols / 2 + 1, maze_rows / 2),
     (maze_cols / 2, maze_rows / 2 - 1),
   ]
-  for i = 0; i < spawn_cells.length(); i = i + 1 {
+  for i in 0..<spawn_cells.length() {
     let (x, y) = spawn_cells[i]
     let idx = map_index(x, y)
     if game.pellets[idx] != 0 {
@@ -103,7 +103,7 @@ fn reset_pellets(game : Game) -> Unit {
     (1, maze_rows - 2),
     (maze_cols - 2, maze_rows - 2),
   ]
-  for i = 0; i < power_spots.length(); i = i + 1 {
+  for i in 0..<power_spots.length() {
     let (x, y) = power_spots[i]
     if game.walls[map_index(x, y)] == 0 {
       if game.pellets[map_index(x, y)] == 0 {
@@ -123,7 +123,7 @@ fn reset_positions(game : Game) -> Unit {
   game.want_x = 0
   game.want_y = 0
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     game.ghosts[i].x = game.ghosts[i].start_x
     game.ghosts[i].y = game.ghosts[i].start_y
     game.ghosts[i].dir_x = 1

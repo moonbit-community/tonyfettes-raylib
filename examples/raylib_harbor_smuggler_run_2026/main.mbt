@@ -113,7 +113,7 @@ fn inside_rect(
 
 ///|
 fn clear_patrols(ps : Array[Patrol]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -128,7 +128,7 @@ fn clear_patrols(ps : Array[Patrol]) -> Unit {
 
 ///|
 fn clear_crates(cs : Array[Crate]) -> Unit {
-  for i = 0; i < cs.length(); i = i + 1 {
+  for i in 0..<cs.length() {
     cs[i].x = 0.0
     cs[i].y = 0.0
     cs[i].vx = 0.0
@@ -140,7 +140,7 @@ fn clear_crates(cs : Array[Crate]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -160,7 +160,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -188,7 +188,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -221,7 +221,7 @@ fn spawn_patrol(ps : Array[Patrol], level : Int, wave_t : Float) -> Unit {
   let kind = @raylib.get_random_value(0, 2)
 
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -274,7 +274,7 @@ fn spawn_crate(cs : Array[Crate], level : Int, wave_t : Float) -> Unit {
   }
 
   let mut done = false
-  for i = 0; i < cs.length(); i = i + 1 {
+  for i in 0..<cs.length() {
     if done {
       continue
     }
@@ -501,7 +501,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -639,7 +639,7 @@ fn main {
         crate_cd = crate_base_cd * jitter
       }
 
-      for i = 0; i < crates.length(); i = i + 1 {
+      for i in 0..<crates.length() {
         if not(crates[i].active) {
           continue
         }
@@ -694,7 +694,7 @@ fn main {
         }
       }
 
-      for i = 0; i < patrols.length(); i = i + 1 {
+      for i in 0..<patrols.length() {
         if not(patrols[i].active) {
           continue
         }
@@ -820,7 +820,7 @@ fn main {
       @raylib.Color::new(18, 28 + glow / 9, 58 + glow / 4, 255),
     )
 
-    for i = 0; i < 88; i = i + 1 {
+    for i in 0..<88 {
       let x = (i * 102 + (wave_t * 62.0).to_int()) % (sw + 200) - 100
       let h = 120 + i * 41 % 300
       let w = 40 + i * 13 % 76
@@ -868,7 +868,7 @@ fn main {
     )
 
     let wave_shift = (wave_t * 120.0).to_int()
-    for i = 0; i < 44; i = i + 1 {
+    for i in 0..<44 {
       let y = (water_top + 16.0 + Float::from_int(i * 14)).to_int()
       let phase = (i * 41 + wave_shift) % 90
       let alpha = 24 + phase
@@ -932,7 +932,7 @@ fn main {
       @raylib.Color::new(224, 246, 234, 255),
     )
 
-    for i = 0; i < crates.length(); i = i + 1 {
+    for i in 0..<crates.length() {
       if not(crates[i].active) {
         continue
       }
@@ -963,7 +963,7 @@ fn main {
       )
     }
 
-    for i = 0; i < patrols.length(); i = i + 1 {
+    for i in 0..<patrols.length() {
       if not(patrols[i].active) {
         continue
       }
@@ -1063,7 +1063,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

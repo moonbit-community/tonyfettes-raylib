@@ -223,7 +223,7 @@ fn drone_hp(kind : Int, level : Int) -> Float {
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     drones[i].active = false
     drones[i].kind = 0
     drones[i].x = 0.0
@@ -238,7 +238,7 @@ fn clear_drones(drones : Array[Drone]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].team = 0
     bullets[i].kind = 0
@@ -254,7 +254,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_scrap(scraps : Array[Scrap]) -> Unit {
-  for i = 0; i < scraps.length(); i = i + 1 {
+  for i in 0..<scraps.length() {
     scraps[i].active = false
     scraps[i].kind = 0
     scraps[i].x = 0.0
@@ -269,7 +269,7 @@ fn clear_scrap(scraps : Array[Scrap]) -> Unit {
 
 ///|
 fn clear_mines(mines : Array[Mine]) -> Unit {
-  for i = 0; i < mines.length(); i = i + 1 {
+  for i in 0..<mines.length() {
     mines[i].active = false
     mines[i].x = 0.0
     mines[i].y = 0.0
@@ -283,7 +283,7 @@ fn clear_mines(mines : Array[Mine]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -298,7 +298,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 
 ///|
 fn clear_wrecks(wrecks : Array[Wreck]) -> Unit {
-  for i = 0; i < wrecks.length(); i = i + 1 {
+  for i in 0..<wrecks.length() {
     wrecks[i].active = false
     wrecks[i].x = 0.0
     wrecks[i].y = 0.0
@@ -314,7 +314,7 @@ fn add_drone(
   y : Float,
   level : Int,
 ) -> Bool {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     if not(drones[i].active) {
       drones[i].active = true
       drones[i].kind = kind
@@ -350,7 +350,7 @@ fn add_bullet(
   radius : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       bullets[i].active = true
       bullets[i].team = team
@@ -378,7 +378,7 @@ fn add_scrap(
   vy : Float,
   value : Int,
 ) -> Bool {
-  for i = 0; i < scraps.length(); i = i + 1 {
+  for i in 0..<scraps.length() {
     if not(scraps[i].active) {
       scraps[i].active = true
       scraps[i].kind = kind
@@ -404,7 +404,7 @@ fn add_mine(
   vy : Float,
   r : Float,
 ) -> Bool {
-  for i = 0; i < mines.length(); i = i + 1 {
+  for i in 0..<mines.length() {
     if not(mines[i].active) {
       mines[i].active = true
       mines[i].x = x
@@ -431,7 +431,7 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -457,7 +457,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(60.0, 320.0) * scale
     ignore(
@@ -496,7 +496,7 @@ fn push_from_center(
 ///|
 fn spawn_map_wrecks(wrecks : Array[Wreck]) -> Unit {
   clear_wrecks(wrecks)
-  for i = 0; i < wrecks.length(); i = i + 1 {
+  for i in 0..<wrecks.length() {
     let mut px : Float = randf(120.0, world_w - 120.0)
     let mut py : Float = randf(120.0, world_h - 120.0)
     let mut rr : Float = randf(24.0, 72.0)
@@ -861,7 +861,7 @@ fn main {
     clear_particles(particles)
     spawn_map_wrecks(wrecks)
 
-    for i = 0; i < 44; i = i + 1 {
+    for i in 0..<44 {
       let sx = randf(100.0, world_w - 100.0)
       let sy = randf(100.0, world_h - 100.0)
       if dist2(sx, sy, player.x, player.y) > 220.0 * 220.0 &&
@@ -919,7 +919,7 @@ fn main {
       m.active = false
       burst(particles, m.x, m.y, 26, 0.28, 2)
 
-      for bi = 0; bi < bullets.length(); bi = bi + 1 {
+      for bi in 0..<bullets.length() {
         if not(bullets[bi].active) {
           continue
         }
@@ -929,7 +929,7 @@ fn main {
         }
       }
 
-      for di = 0; di < drones.length(); di = di + 1 {
+      for di in 0..<drones.length() {
         if not(drones[di].active) {
           continue
         }
@@ -1168,7 +1168,7 @@ fn main {
       player.y = clampf(player.y, 30.0, world_h - 30.0)
 
       // Wreck collisions
-      for i = 0; i < wrecks.length(); i = i + 1 {
+      for i in 0..<wrecks.length() {
         if not(wrecks[i].active) {
           continue
         }
@@ -1212,7 +1212,7 @@ fn main {
       }
 
       if player.tractor_on {
-        for i = 0; i < scraps.length(); i = i + 1 {
+        for i in 0..<scraps.length() {
           if not(scraps[i].active) {
             continue
           }
@@ -1244,7 +1244,7 @@ fn main {
 
         burst(particles, player.x, player.y, 84, 0.36, 3)
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             bullets[i].team == 2 &&
             dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
@@ -1253,7 +1253,7 @@ fn main {
           }
         }
 
-        for i = 0; i < drones.length(); i = i + 1 {
+        for i in 0..<drones.length() {
           if not(drones[i].active) {
             continue
           }
@@ -1272,7 +1272,7 @@ fn main {
           }
         }
 
-        for i = 0; i < mines.length(); i = i + 1 {
+        for i in 0..<mines.length() {
           if not(mines[i].active) {
             continue
           }
@@ -1292,7 +1292,7 @@ fn main {
         let mut aim_y : Float = player.face_y
 
         let mut best_d2 : Float = 999999999.0
-        for i = 0; i < drones.length(); i = i + 1 {
+        for i in 0..<drones.length() {
           if not(drones[i].active) {
             continue
           }
@@ -1506,7 +1506,7 @@ fn main {
       }
 
       // Update mines.
-      for i = 0; i < mines.length(); i = i + 1 {
+      for i in 0..<mines.length() {
         if not(mines[i].active) {
           continue
         }
@@ -1549,7 +1549,7 @@ fn main {
           }
 
           let mut detonated : Bool = false
-          for di = 0; di < drones.length(); di = di + 1 {
+          for di in 0..<drones.length() {
             if not(drones[di].active) {
               continue
             }
@@ -1575,7 +1575,7 @@ fn main {
       }
 
       // Update drones.
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if not(drones[i].active) {
           continue
         }
@@ -1621,7 +1621,7 @@ fn main {
         }
 
         // Simple avoidance from nearest wreck.
-        for wi = 0; wi < wrecks.length(); wi = wi + 1 {
+        for wi in 0..<wrecks.length() {
           if not(wrecks[wi].active) {
             continue
           }
@@ -1775,7 +1775,7 @@ fn main {
           let sx : Float = -ty * inv
           let sy : Float = tx * inv
 
-          for k = -2; k <= 2; k = k + 1 {
+          for k in -2..=2 {
             let drift : Float = Float::from_int(k) * 70.0
             ignore(
               add_bullet(
@@ -1832,7 +1832,7 @@ fn main {
       }
 
       // Update bullets and resolve collisions.
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1856,7 +1856,7 @@ fn main {
 
         // Wreck block.
         let mut blocked : Bool = false
-        for wi = 0; wi < wrecks.length(); wi = wi + 1 {
+        for wi in 0..<wrecks.length() {
           if not(wrecks[wi].active) {
             continue
           }
@@ -1875,7 +1875,7 @@ fn main {
         if bullets[i].team == 1 {
           let mut hit_done : Bool = false
 
-          for di = 0; di < drones.length(); di = di + 1 {
+          for di in 0..<drones.length() {
             if hit_done {
               continue
             }
@@ -1931,7 +1931,7 @@ fn main {
           }
 
           if bullets[i].active {
-            for mi = 0; mi < mines.length(); mi = mi + 1 {
+            for mi in 0..<mines.length() {
               if not(mines[mi].active) {
                 continue
               }
@@ -1954,7 +1954,7 @@ fn main {
       }
 
       // Update scrap.
-      for i = 0; i < scraps.length(); i = i + 1 {
+      for i in 0..<scraps.length() {
         if not(scraps[i].active) {
           continue
         }
@@ -1993,7 +1993,7 @@ fn main {
       }
 
       // Update particles.
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -2063,7 +2063,7 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(4, 8, 16, 255))
 
     // Space starfield.
-    for i = 0; i < 240; i = i + 1 {
+    for i in 0..<240 {
       let fi : Float = Float::from_int(i)
       let sx = ((fi * 193.0 + stars_t * (0.2 + Float::from_int(i % 5) * 0.12)) %
       Float::from_int(sw)).to_int()
@@ -2120,7 +2120,7 @@ fn main {
     )
 
     // Wrecks.
-    for i = 0; i < wrecks.length(); i = i + 1 {
+    for i in 0..<wrecks.length() {
       if not(wrecks[i].active) {
         continue
       }
@@ -2147,7 +2147,7 @@ fn main {
     }
 
     // Mines.
-    for i = 0; i < mines.length(); i = i + 1 {
+    for i in 0..<mines.length() {
       if not(mines[i].active) {
         continue
       }
@@ -2189,7 +2189,7 @@ fn main {
     }
 
     // Scrap.
-    for i = 0; i < scraps.length(); i = i + 1 {
+    for i in 0..<scraps.length() {
       if not(scraps[i].active) {
         continue
       }
@@ -2216,7 +2216,7 @@ fn main {
     }
 
     // Drones.
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       if not(drones[i].active) {
         continue
       }
@@ -2295,7 +2295,7 @@ fn main {
     }
 
     // Bullets.
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -2350,7 +2350,7 @@ fn main {
         320.0,
         @raylib.Color::new(102, 222, 248, 116),
       )
-      for i = 0; i < scraps.length(); i = i + 1 {
+      for i in 0..<scraps.length() {
         if not(scraps[i].active) || not(scraps[i].magnet) {
           continue
         }
@@ -2374,7 +2374,7 @@ fn main {
     }
 
     // Particles.
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -2551,7 +2551,7 @@ fn main {
     let bmy : Int = map_y + (beacon_y * map_fy).to_int()
     @raylib.draw_circle(bmx, bmy, 4.0, @raylib.Color::new(130, 230, 252, 250))
 
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       if not(drones[i].active) {
         continue
       }

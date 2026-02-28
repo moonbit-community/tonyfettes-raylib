@@ -4,10 +4,10 @@
 
 ///|
 pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.dropped_items.length(); i = i + 1 {
+  for i in 0..<game.dropped_items.length() {
     let item = game.dropped_items[i]
     if not(item.active) {
-      continue i + 1
+      continue
     }
     // Decrease lifetime
     item.lifetime -= dt
@@ -27,7 +27,7 @@ pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
         0.04,
         0.3,
       )
-      continue i + 1
+      continue
     }
     // Banana rotation animation
     if item.item_type == @types.powerup_banana {
@@ -52,19 +52,19 @@ pub fn update_dropped_items(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
-  for ki = 0; ki < @types.max_karts; ki = ki + 1 {
+  for ki in 0..<@types.max_karts {
     let kart = game.karts[ki]
     if not(kart.active) || kart.finished {
-      continue ki + 1
+      continue
     }
     // Skip if already spinning or stunned
     if kart.spin_timer > 0.0 || kart.stunned_timer > 0.0 {
-      continue ki + 1
+      continue
     }
-    for di = 0; di < game.dropped_items.length(); di = di + 1 {
+    for di in 0..<game.dropped_items.length() {
       let item = game.dropped_items[di]
       if not(item.active) {
-        continue di + 1
+        continue
       }
       // Don't hit your own item for a brief grace period (first 0.5s)
       let grace_time : Float = item.lifetime
@@ -75,7 +75,7 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
       }
       let elapsed = max_life - grace_time
       if item.owner == ki && elapsed < 0.5 {
-        continue di + 1
+        continue
       }
       let dist = @types.distance2d(kart.x, kart.z, item.x, item.z)
       let hit_radius : Float = 1.3
@@ -94,7 +94,7 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
             255,
           )
           item.active = false
-          continue di + 1
+          continue
         }
         // Check for star invincibility
         if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
@@ -109,7 +109,7 @@ pub fn check_dropped_item_collisions(game : @types.Game) -> Unit {
             255,
             100,
           )
-          continue di + 1
+          continue
         }
         // Apply item effect
         if item.item_type == @types.powerup_banana {
@@ -178,20 +178,20 @@ fn apply_oil_slick_hit(game : @types.Game, kart_idx : Int) -> Unit {
 
 ///|
 pub fn update_projectile_homing(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     // Only home if we have a valid target
     if proj.target_kart < 0 || proj.target_kart >= @types.max_karts {
-      continue i + 1
+      continue
     }
     let target = game.karts[proj.target_kart]
     if not(target.active) || target.finished {
       // Lost target, find a new one
       proj.target_kart = @types.find_target_ahead(game, proj.owner)
-      continue i + 1
+      continue
     }
     // Calculate angle to target
     let dx = target.x - proj.x
@@ -259,7 +259,7 @@ pub fn apply_shield_activation(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
   kart.shield_timer = @types.shield_duration
   // Shield activation ring particles
-  for a = 0; a < 12; a = a + 1 {
+  for a in 0..<12 {
     let angle_f = Float::from_int(a) * @types.two_pi / 12.0
     let px = kart.x + @math.sinf(angle_f) * 1.2
     let pz = kart.z + @math.cosf(angle_f) * 1.2
@@ -399,7 +399,7 @@ pub fn activate_star_power(game : @types.Game, kart_idx : Int) -> Unit {
   kart.star_timer = @types.star_duration
   kart.invincible_timer = @types.star_duration
   // Star activation burst
-  for a = 0; a < 16; a = a + 1 {
+  for a in 0..<16 {
     let angle_f = Float::from_int(a) * @types.two_pi / 16.0
     let radius : Float = 1.5
     let px = kart.x + @math.sinf(angle_f) * radius
@@ -432,17 +432,17 @@ pub fn activate_lightning_bolt(game : @types.Game, source_kart : Int) -> Unit {
   game.lightning_timer = @types.lightning_duration
   game.lightning_source = source_kart
   // Strike all other karts
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     if i == source_kart {
-      continue i + 1
+      continue
     }
     let kart = game.karts[i]
     if not(kart.active) || kart.finished {
-      continue i + 1
+      continue
     }
     // Star and invincibility protect against lightning
     if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
-      continue i + 1
+      continue
     }
     kart.lightning_timer = @types.lightning_duration
     kart.spin_timer = @types.lightning_spin_duration
@@ -520,10 +520,10 @@ pub fn apply_triple_mushroom(game : @types.Game, kart_idx : Int) -> Unit {
 
 ///|
 pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     let pu = game.powerups[i]
     if not(pu.active) {
-      continue i + 1
+      continue
     }
     if pu.collected {
       pu.respawn_timer -= dt
@@ -561,21 +561,21 @@ pub fn update_item_box_respawns(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn check_projectile_impacts(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
-    for ki = 0; ki < @types.max_karts; ki = ki + 1 {
+    for ki in 0..<@types.max_karts {
       if ki == proj.owner {
-        continue ki + 1
+        continue
       }
       let kart = game.karts[ki]
       if not(kart.active) || kart.finished {
-        continue ki + 1
+        continue
       }
       if kart.spin_timer > 0.0 {
-        continue ki + 1
+        continue
       }
       let dist = @types.distance2d(proj.x, proj.z, kart.x, kart.z)
       let hit_dist : Float = 1.6

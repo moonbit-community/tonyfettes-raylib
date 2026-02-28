@@ -316,13 +316,13 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   let floor_info : Array[FloorInfo] = []
-  for i = 0; i < max_floors; i = i + 1 {
+  for i in 0..<max_floors {
     floor_info.push(FloorInfo::new())
     ignore(i)
   }
   floor_info[0].unlocked = true
   let achievements : Array[AchievementInfo] = []
-  for i = 0; i < max_achievements; i = i + 1 {
+  for i in 0..<max_achievements {
     achievements.push(AchievementInfo::new())
     ignore(i)
   }
@@ -353,7 +353,7 @@ pub fn Game::new() -> Game {
     used_undo: false,
     laser_segments: {
       let arr : Array[LaserSegment] = []
-      for i = 0; i < max_laser_segments; i = i + 1 {
+      for i in 0..<max_laser_segments {
         arr.push(LaserSegment::inactive())
         ignore(i)
       }
@@ -364,7 +364,7 @@ pub fn Game::new() -> Game {
     laser_targets_total: 0,
     decorations: {
       let arr : Array[Decoration] = []
-      for i = 0; i < max_decorations; i = i + 1 {
+      for i in 0..<max_decorations {
         arr.push(Decoration::inactive())
         ignore(i)
       }
@@ -378,7 +378,7 @@ pub fn Game::new() -> Game {
     gate_opening: false,
     undo_stack: {
       let arr : Array[UndoState] = []
-      for i = 0; i < max_undo; i = i + 1 {
+      for i in 0..<max_undo {
         arr.push(UndoState::empty())
         ignore(i)
       }

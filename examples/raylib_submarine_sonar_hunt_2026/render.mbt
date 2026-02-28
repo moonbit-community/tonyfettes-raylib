@@ -7,7 +7,7 @@ fn draw_ocean_background(game : Game) -> Unit {
     @raylib.draw_rectangle(0, y, screen_w, 4, @raylib.Color::new(r, g, b, 255))
   }
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let y = 34 + i * 26
     let phase = game.time_s * 1.5 + Float::from_int(i) * 0.7
     let xoff = (sinf(phase) * 18.0).to_int()
@@ -47,7 +47,7 @@ fn draw_arena() -> Unit {
     @raylib.Color::new(132, 210, 244, 170),
   )
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let px = arena_x0 + i * 50
     let y = arena_y0 + 20 + (sinf(Float::from_int(i) * 0.8) * 7.0).to_int()
     @raylib.draw_line(px, y, px + 34, y, @raylib.Color::new(182, 228, 252, 98))
@@ -73,7 +73,7 @@ fn draw_hot_zone(game : Game) -> Unit {
 
 ///|
 fn draw_targets(game : Game) -> Unit {
-  for i = 0; i < game.target_goal; i = i + 1 {
+  for i in 0..<game.target_goal {
     if not(game.targets[i].active) {
       continue
     }
@@ -107,7 +107,7 @@ fn draw_targets(game : Game) -> Unit {
 
 ///|
 fn draw_mines(game : Game) -> Unit {
-  for i = 0; i < game.mine_count; i = i + 1 {
+  for i in 0..<game.mine_count {
     if not(game.mines[i].active) {
       continue
     }

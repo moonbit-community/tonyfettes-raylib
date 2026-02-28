@@ -120,7 +120,7 @@ fn main {
   }
 
   // De-Initialization
-  for i = 0; i < max_postpro_shaders; i = i + 1 {
+  for i in 0..<max_postpro_shaders {
     @raylib.unload_shader(shaders[i])
   }
   @raylib.unload_render_texture(target)

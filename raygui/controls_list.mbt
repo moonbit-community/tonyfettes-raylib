@@ -136,7 +136,7 @@ pub fn gui_dropdown_box(
         }
       }
       // Check item selection and focus
-      for i = 0; i < item_count; i = i + 1 {
+      for i in 0..<item_count {
         let item_y = if roll_up {
           by - Float::from_int(i + 1) * (bh + item_spacing)
         } else {
@@ -217,7 +217,7 @@ pub fn gui_dropdown_box(
     }
     gui_panel(bounds_open, "")
     // Draw individual items
-    for i = 0; i < item_count; i = i + 1 {
+    for i in 0..<item_count {
       let item_y = if roll_up {
         by - Float::from_int(i + 1) * (bh + item_spacing)
       } else {
@@ -413,7 +413,7 @@ pub fn gui_list_view_ex(
       state = GuiState::Focused
       // Check focused and selected item
       let mut check_y : Float = item_start_y
-      for i = 0; i < visible_items; i = i + 1 {
+      for i in 0..<visible_items {
         let ib = @raylib.Rectangle::new(item_x, check_y, item_w, item_h)
         if check_collision_point_rec(mouse, ib) {
           item_focused = start_index + i

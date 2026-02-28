@@ -26,7 +26,7 @@ fn set_well(
 
 ///|
 fn clear_wells(wells : Array[Well]) -> Unit {
-  for i = 0; i < wells.length(); i = i + 1 {
+  for i in 0..<wells.length() {
     set_well(wells, i, 0.0, 0.0, 0.0, 0.0)
   }
 }
@@ -152,7 +152,7 @@ fn main {
       if moving {
         shot_time = shot_time + dt
 
-        for i = 0; i < wells.length(); i = i + 1 {
+        for i in 0..<wells.length() {
           if wells[i].mass <= 0.0 {
             continue
           }
@@ -241,7 +241,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(14, 18, 28, 255))
 
-    for i = 0; i < wells.length(); i = i + 1 {
+    for i in 0..<wells.length() {
       if wells[i].mass > 0.0 {
         @raylib.draw_circle(
           wells[i].x.to_int(),

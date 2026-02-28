@@ -79,34 +79,34 @@ pub fn load_level(game : @types.Game, world : Int, level : Int) -> Unit {
 
 ///|
 fn clear_pools(game : @types.Game) -> Unit {
-  for i = 0; i < game.platforms.length(); i = i + 1 {
+  for i in 0..<game.platforms.length() {
     game.platforms[i] = @types.Platform::inactive()
   }
-  for i = 0; i < game.collectibles.length(); i = i + 1 {
+  for i in 0..<game.collectibles.length() {
     game.collectibles[i] = @types.Collectible::inactive()
   }
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     game.hazards[i] = @types.Hazard::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
+  for i in 0..<game.checkpoints.length() {
     game.checkpoints[i] = @types.Checkpoint::inactive()
   }
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.Enemy::inactive()
   }
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     game.powerups[i] = @types.PowerUp::inactive()
   }
-  for i = 0; i < game.decorations.length(); i = i + 1 {
+  for i in 0..<game.decorations.length() {
     game.decorations[i] = @types.Decoration::inactive()
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i] = @types.Projectile::inactive()
   }
-  for i = 0; i < game.score_flies.length(); i = i + 1 {
+  for i in 0..<game.score_flies.length() {
     game.score_flies[i] = @types.ScoreFly::inactive()
   }
 }

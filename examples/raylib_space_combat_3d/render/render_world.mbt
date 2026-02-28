@@ -56,7 +56,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 
 ///|
 fn draw_stars(game : @types.Game) -> Unit {
-  for i = 0; i < game.stars.length(); i = i + 1 {
+  for i in 0..<game.stars.length() {
     let s = game.stars[i]
     @raylib.draw_cube(
       @raylib.Vector3::new(s.x, s.y, s.z),
@@ -69,7 +69,7 @@ fn draw_stars(game : @types.Game) -> Unit {
 
   // Nebula-like colored cubes scattered around
   let frame_f = Float::from_int(game.frame_counter)
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let fi = Float::from_int(i)
     let nx = @math.sinf(fi * 1.7) * 400.0
     let ny = @math.cosf(fi * 2.3) * 200.0
@@ -338,7 +338,7 @@ fn draw_player_ship(game : @types.Game) -> Unit {
 
   // Engine glow (two engines)
   let eng_off : Float = 0.3 * scale
-  for eng = 0; eng < 2; eng = eng + 1 {
+  for eng in 0..<2 {
     let side : Float = if eng == 0 { 1.0 } else { -1.0 }
     let eng_x = p.x - fwd.0 * 1.3 * scale + rgt.0 * eng_off * side
     let eng_y = p.y - fwd.1 * 1.3 * scale
@@ -393,10 +393,10 @@ fn draw_player_ship(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
 
     // Damage flash tint
@@ -687,7 +687,7 @@ fn draw_capital_ship(
   )
   // Turret mounts (visual indicators)
   let frame_f = Float::from_int(game.frame_counter)
-  for t = 0; t < 4; t = t + 1 {
+  for t in 0..<4 {
     let ft = Float::from_int(t)
     let turret_x = e.x + @math.sinf(ft * 1.57) * 2.0
     let turret_y = e.y + 1.5
@@ -701,7 +701,7 @@ fn draw_capital_ship(
     ignore(t)
   }
   // Engine glow (4 engines)
-  for eng = 0; eng < 4; eng = eng + 1 {
+  for eng in 0..<4 {
     let fe = Float::from_int(eng)
     let eng_x = e.x + (fe - 1.5) * 1.2
     let eng_y = e.y - 0.5
@@ -727,10 +727,10 @@ fn draw_capital_ship(
 
 ///|
 fn draw_asteroids(game : @types.Game) -> Unit {
-  for i = 0; i < game.asteroids.length(); i = i + 1 {
+  for i in 0..<game.asteroids.length() {
     let a = game.asteroids[i]
     if not(a.active) {
-      continue i + 1
+      continue
     }
 
     // Color varies by size tier
@@ -814,10 +814,10 @@ fn draw_asteroids(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stations(game : @types.Game) -> Unit {
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     let s = game.stations[i]
     if not(s.active) {
-      continue i + 1
+      continue
     }
 
     let is_friendly = s.kind == @types.station_friendly
@@ -838,7 +838,7 @@ fn draw_stations(game : @types.Game) -> Unit {
 
     // Rotating ring (simulated with cubes at offsets)
     let ring_r : Float = 6.0
-    for seg = 0; seg < 8; seg = seg + 1 {
+    for seg in 0..<8 {
       let angle = Float::from_int(seg) * (@types.two_pi / 8.0) + s.ring_angle
       let rx = s.x + @math.cosf(angle) * ring_r
       let ry = s.y
@@ -859,7 +859,7 @@ fn draw_stations(game : @types.Game) -> Unit {
     }
 
     // Docking arms (4 extending outward)
-    for arm = 0; arm < 4; arm = arm + 1 {
+    for arm in 0..<4 {
       let arm_angle = Float::from_int(arm) * (@types.two_pi / 4.0) + s.rot_angle
       let ax = s.x + @math.cosf(arm_angle) * 3.0
       let az = s.z + @math.sinf(arm_angle) * 3.0
@@ -935,10 +935,10 @@ fn draw_stations(game : @types.Game) -> Unit {
 
 ///|
 fn draw_powerups(game : @types.Game) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     let pu = game.powerups[i]
     if not(pu.active) {
-      continue i + 1
+      continue
     }
 
     // Bob animation
@@ -1025,10 +1025,10 @@ fn draw_powerups(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
 
     if proj.from_player {
@@ -1120,10 +1120,10 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha_f : Float = p.life / p.max_life * 255.0
     let a = @types.clampi(alpha_f.to_int(), 0, 255)
@@ -1157,10 +1157,10 @@ fn draw_particles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_debris_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.debris.length(); i = i + 1 {
+  for i in 0..<game.debris.length() {
     let d = game.debris[i]
     if not(d.active) {
-      continue i + 1
+      continue
     }
     let alpha_f : Float = @types.minf(d.life / 2.0, 1.0) * 255.0
     let a = @types.clampi(alpha_f.to_int(), 0, 255)
@@ -1304,10 +1304,10 @@ fn draw_lead_indicator(game : @types.Game) -> Unit {
 ///|
 fn draw_waypoint_markers(game : @types.Game) -> Unit {
   // Draw markers for stations
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     let s = game.stations[i]
     if not(s.active) {
-      continue i + 1
+      continue
     }
     let marker_y = s.y + 8.0
     let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.08) * 0.5

@@ -18,7 +18,7 @@ fn reset_threat(threat : Threat) -> Unit {
 
 ///|
 fn clear_threats(game : Game) -> Unit {
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     reset_threat(game.threats[i])
   }
 }
@@ -85,7 +85,7 @@ fn start_run(game : Game) -> Unit {
 ///|
 fn spawn_threat(game : Game) -> Unit {
   let mut slot = -1
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       slot = i
       break
@@ -318,7 +318,7 @@ fn handle_strike(game : Game) -> Unit {
   game.strike_t = strike_fx_time
 
   let mut cleared_now = 0
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }
@@ -355,7 +355,7 @@ fn handle_guard(game : Game) -> Unit {
 
   let mut stunned_now = 0
 
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }
@@ -461,7 +461,7 @@ fn update_spawn(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_threats(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }
@@ -525,7 +525,7 @@ fn apply_burst_field(game : Game) -> Unit {
   }
 
   let mut cleared_now = 0
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }

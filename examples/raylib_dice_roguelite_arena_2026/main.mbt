@@ -169,7 +169,7 @@ fn face_desc(face : Int) -> String {
 
 ///|
 fn clear_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     sp[i].active = false
     sp[i].x = 0.0
     sp[i].y = 0.0
@@ -183,7 +183,7 @@ fn clear_sparks(sp : Array[Spark]) -> Unit {
 
 ///|
 fn add_spark(sp : Array[Spark], x : Float, y : Float, kind : Int) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       sp[i].active = true
       sp[i].x = x
@@ -208,14 +208,14 @@ fn burst_sparks(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_spark(sp, x, y, kind)
   }
 }
 
 ///|
 fn update_sparks(sp : Array[Spark], dt : Float) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       continue
     }
@@ -233,7 +233,7 @@ fn update_sparks(sp : Array[Spark], dt : Float) -> Unit {
 
 ///|
 fn draw_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       continue
     }
@@ -399,7 +399,7 @@ fn roll_face(art : Artifacts) -> Int {
 
 ///|
 fn init_dice(dice : Array[Dice]) -> Unit {
-  for i = 0; i < dice.length(); i = i + 1 {
+  for i in 0..<dice.length() {
     dice[i].value = 1
     dice[i].face = 0
     dice[i].used = false
@@ -411,7 +411,7 @@ fn init_dice(dice : Array[Dice]) -> Unit {
 
 ///|
 fn roll_dice(dice : Array[Dice], art : Artifacts, force_all : Bool) -> Unit {
-  for i = 0; i < dice.length(); i = i + 1 {
+  for i in 0..<dice.length() {
     if force_all || not(dice[i].used) {
       dice[i].face = roll_face(art)
       dice[i].value = @raylib.get_random_value(1, 6)
@@ -550,7 +550,7 @@ fn set_reward_card(card : RewardCard, kind : Int, value : Int) -> Unit {
 
 ///|
 fn generate_rewards(cards : Array[RewardCard], floor : Int) -> Unit {
-  for i = 0; i < cards.length(); i = i + 1 {
+  for i in 0..<cards.length() {
     let mut kind : Int = @raylib.get_random_value(0, 9)
     if floor <= 2 && kind == 8 {
       kind = 1
@@ -898,7 +898,7 @@ fn main {
     player.energy = clampi(player.energy, 1, 9)
     player.shield = player.shield + art.start_shield / 2
 
-    for i = 0; i < dice.length(); i = i + 1 {
+    for i in 0..<dice.length() {
       dice[i].used = false
     }
 
@@ -1011,7 +1011,7 @@ fn main {
           }
         }
       } else {
-        for i = 0; i < dice.length(); i = i + 1 {
+        for i in 0..<dice.length() {
           if dice[i].pulse_t > 0.0 {
             dice[i].pulse_t = dice[i].pulse_t - dt
             if dice[i].pulse_t < 0.0 {
@@ -1023,7 +1023,7 @@ fn main {
         let mut clicked_die : Int = -1
         let mut hovered_die : Int = -1
 
-        for i = 0; i < dice.length(); i = i + 1 {
+        for i in 0..<dice.length() {
           let col : Int = i % 3
           let row : Int = i / 3
           let dx : Int = 458 + col * 154
@@ -1077,7 +1077,7 @@ fn main {
         if reroll_trigger {
           rerolls_left = rerolls_left - 1
           player.energy = player.energy - 1
-          for i = 0; i < dice.length(); i = i + 1 {
+          for i in 0..<dice.length() {
             if not(dice[i].used) {
               dice[i].face = roll_face(art)
               dice[i].value = @raylib.get_random_value(1, 6)
@@ -1151,7 +1151,7 @@ fn main {
     } else if state == 2 {
       let mut picked : Int = -1
 
-      for i = 0; i < 3; i = i + 1 {
+      for i in 0..<3 {
         let x = 194 + i * 330
         let y = 292
         if inside_rect(mouse.x, mouse.y, x, y, 290, 220) {
@@ -1195,7 +1195,7 @@ fn main {
           player.shield = player.shield / 2 + art.start_shield
           combo_hits = 0
 
-          for i = 0; i < dice.length(); i = i + 1 {
+          for i in 0..<dice.length() {
             dice[i].used = false
           }
           roll_dice(dice, art, true)
@@ -1227,7 +1227,7 @@ fn main {
       @raylib.Color::new(10, 12, 22, 255),
     )
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let fi : Float = Float::from_int(i)
       let x : Int = (fi * 80.0 + bg_t * (18.0 + Float::from_int(i % 5) * 7.0)).to_int() %
         sw
@@ -1240,7 +1240,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 14; i = i + 1 {
+    for i in 0..<14 {
       let fi : Float = Float::from_int(i)
       let base_x : Float = fi * 108.0 -
         bg_t * (18.0 + Float::from_int(i % 4) * 6.0)
@@ -1386,7 +1386,7 @@ fn main {
     )
 
     if state == 1 {
-      for i = 0; i < dice.length(); i = i + 1 {
+      for i in 0..<dice.length() {
         let x : Int = dice[i].x.to_int()
         let y : Int = dice[i].y.to_int()
 
@@ -1629,7 +1629,7 @@ fn main {
         @raylib.Color::new(194, 220, 252, 240),
       )
 
-      for i = 0; i < 3; i = i + 1 {
+      for i in 0..<3 {
         let x = 194 + i * 330
         let y = 292
         let over : Bool = inside_rect(mouse.x, mouse.y, x, y, 290, 220)

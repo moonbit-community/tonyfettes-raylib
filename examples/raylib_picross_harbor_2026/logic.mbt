@@ -86,14 +86,14 @@ fn set_cell(game : Game, x : Int, y : Int, state : Int) -> Unit {
 
 ///|
 fn clear_solution_and_cells(game : Game) -> Unit {
-  for i = 0; i < max_cells; i = i + 1 {
+  for i in 0..<max_cells {
     game.solution[i] = false
     game.cells[i] = cell_unknown
     game.row_clues[i] = 0
     game.col_clues[i] = 0
   }
 
-  for i = 0; i < max_board; i = i + 1 {
+  for i in 0..<max_board {
     game.row_clue_counts[i] = 0
     game.col_clue_counts[i] = 0
   }
@@ -102,7 +102,7 @@ fn clear_solution_and_cells(game : Game) -> Unit {
 ///|
 fn clear_undo(game : Game) -> Unit {
   game.undo_len = 0
-  for i = 0; i < game.undo.length(); i = i + 1 {
+  for i in 0..<game.undo.length() {
     game.undo[i] = {
       valid: false,
       x: 0,
@@ -119,7 +119,7 @@ fn clear_undo(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -153,14 +153,14 @@ fn contribution_wrong(cell_state : Int, sol : Bool) -> Int {
 fn compute_row_clues(game : Game, y : Int) -> Unit {
   let base : Int = y * max_board
 
-  for k = 0; k < max_board; k = k + 1 {
+  for k in 0..<max_board {
     game.row_clues[base + k] = 0
   }
 
   let mut run : Int = 0
   let mut cnt : Int = 0
 
-  for x = 0; x < game.grid_w; x = x + 1 {
+  for x in 0..<game.grid_w {
     if solution_at(game, x, y) {
       run = run + 1
     } else if run > 0 {
@@ -187,14 +187,14 @@ fn compute_row_clues(game : Game, y : Int) -> Unit {
 fn compute_col_clues(game : Game, x : Int) -> Unit {
   let base : Int = x * max_board
 
-  for k = 0; k < max_board; k = k + 1 {
+  for k in 0..<max_board {
     game.col_clues[base + k] = 0
   }
 
   let mut run : Int = 0
   let mut cnt : Int = 0
 
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     if solution_at(game, x, y) {
       run = run + 1
     } else if run > 0 {
@@ -219,11 +219,11 @@ fn compute_col_clues(game : Game, x : Int) -> Unit {
 
 ///|
 fn compute_all_clues(game : Game) -> Unit {
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     compute_row_clues(game, y)
   }
 
-  for x = 0; x < game.grid_w; x = x + 1 {
+  for x in 0..<game.grid_w {
     compute_col_clues(game, x)
   }
 }
@@ -247,7 +247,7 @@ fn apply_level_rows(
 
   game.grid_h = mini(rows.length(), max_board)
   game.grid_w = 0
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     if rows[y].length() > game.grid_w {
       game.grid_w = rows[y].length()
     }
@@ -255,9 +255,9 @@ fn apply_level_rows(
   game.grid_w = mini(game.grid_w, max_board)
 
   game.solution_total = 0
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     let row = rows[y]
-    for x = 0; x < game.grid_w; x = x + 1 {
+    for x in 0..<game.grid_w {
       let filled : Bool = x < row.length() && row[x] != 0
       set_solution(game, x, y, filled)
       set_cell(game, x, y, cell_unknown)
@@ -292,7 +292,7 @@ fn apply_level_rows(
 ///|
 fn max_row_clues(game : Game) -> Int {
   let mut out : Int = 1
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     if game.row_clue_counts[y] > out {
       out = game.row_clue_counts[y]
     }
@@ -303,7 +303,7 @@ fn max_row_clues(game : Game) -> Int {
 ///|
 fn max_col_clues(game : Game) -> Int {
   let mut out : Int = 1
-  for x = 0; x < game.grid_w; x = x + 1 {
+  for x in 0..<game.grid_w {
     if game.col_clue_counts[x] > out {
       out = game.col_clue_counts[x]
     }
@@ -349,7 +349,7 @@ fn board_metrics(game : Game) -> (Int, Int, Int, Int, Int, Int, Int) {
 
 ///|
 fn row_solved(game : Game, y : Int) -> Bool {
-  for x = 0; x < game.grid_w; x = x + 1 {
+  for x in 0..<game.grid_w {
     let sol : Bool = solution_at(game, x, y)
     let state : Int = cell_at(game, x, y)
 
@@ -367,7 +367,7 @@ fn row_solved(game : Game, y : Int) -> Bool {
 
 ///|
 fn col_solved(game : Game, x : Int) -> Bool {
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     let sol : Bool = solution_at(game, x, y)
     let state : Int = cell_at(game, x, y)
 
@@ -407,7 +407,7 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if game.sparks[i].active {
       continue
     }
@@ -428,7 +428,7 @@ fn spawn_spark(
 fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
   let (cx, cy, tile_f) = world_for_cell(game, x, y)
 
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     let spread : Float = maxf(6.0, tile_f * 0.22)
     spawn_spark(
       game,
@@ -445,7 +445,7 @@ fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -466,7 +466,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 ///|
 fn push_undo(game : Game, step : UndoStep) -> Unit {
   if game.undo_len >= game.undo.length() {
-    for i = 1; i < game.undo.length(); i = i + 1 {
+    for i in 1..<game.undo.length() {
       game.undo[i - 1] = game.undo[i]
     }
     game.undo_len = game.undo.length() - 1
@@ -522,8 +522,8 @@ fn complete_level(game : Game) -> Unit {
   game.message_t = 1.4
   game.shake_t = 0.24
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if solution_at(game, x, y) {
         burst_cell(game, x, y, 12, 0)
       }
@@ -548,8 +548,8 @@ fn fail_level(game : Game) -> Unit {
   game.shake_t = 0.3
   game.state = state_level_fail
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if cell_at(game, x, y) == cell_fill && not(solution_at(game, x, y)) {
         burst_cell(game, x, y, 10, 2)
       }
@@ -678,8 +678,8 @@ fn use_hint(game : Game) -> Bool {
   }
 
   // Priority 1: fill required cells that are not filled.
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if solution_at(game, x, y) && cell_at(game, x, y) != cell_fill {
         game.cursor_x = x
         game.cursor_y = y
@@ -689,8 +689,8 @@ fn use_hint(game : Game) -> Bool {
   }
 
   // Priority 2: remove wrong fills by setting cross.
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if not(solution_at(game, x, y)) && cell_at(game, x, y) == cell_fill {
         game.cursor_x = x
         game.cursor_y = y
@@ -700,8 +700,8 @@ fn use_hint(game : Game) -> Bool {
   }
 
   // Priority 3: suggest a non-solution cross.
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if not(solution_at(game, x, y)) && cell_at(game, x, y) == cell_unknown {
         game.cursor_x = x
         game.cursor_y = y

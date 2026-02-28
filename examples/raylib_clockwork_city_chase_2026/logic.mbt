@@ -1,6 +1,6 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     game.objs[i].active = false
     game.objs[i].kind = obj_scout
     game.objs[i].x = 0.0
@@ -19,7 +19,7 @@ fn clear_objs(game : Game) -> Unit {
 
 ///|
 fn clear_shots(game : Game) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     game.shots[i].active = false
     game.shots[i].from_player = true
     game.shots[i].x = 0.0
@@ -34,7 +34,7 @@ fn clear_shots(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -48,7 +48,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     game.rings[i].active = false
     game.rings[i].x = 0.0
     game.rings[i].y = 0.0
@@ -60,7 +60,7 @@ fn clear_rings(game : Game) -> Unit {
 
 ///|
 fn clear_ghosts(game : Game) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     game.ghosts[i].active = false
     game.ghosts[i].x = 0.0
     game.ghosts[i].y = 0.0
@@ -89,7 +89,7 @@ fn reset_player(hero : Player) -> Unit {
 
 ///|
 fn alloc_obj(game : Game) -> Int {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
     }
@@ -97,7 +97,7 @@ fn alloc_obj(game : Game) -> Int {
 
   let mut best = 0
   let mut best_y = game.objs[0].y
-  for i = 1; i < game.objs.length(); i = i + 1 {
+  for i in 1..<game.objs.length() {
     if game.objs[i].y > best_y {
       best_y = game.objs[i].y
       best = i
@@ -108,7 +108,7 @@ fn alloc_obj(game : Game) -> Int {
 
 ///|
 fn alloc_shot(game : Game) -> Int {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     if not(game.shots[i].active) {
       return i
     }
@@ -116,7 +116,7 @@ fn alloc_shot(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.shots[0].life
-  for i = 1; i < game.shots.length(); i = i + 1 {
+  for i in 1..<game.shots.length() {
     if game.shots[i].life < best_life {
       best_life = game.shots[i].life
       best = i
@@ -127,7 +127,7 @@ fn alloc_shot(game : Game) -> Int {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -135,7 +135,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -146,7 +146,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_ring(game : Game) -> Int {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       return i
     }
@@ -154,7 +154,7 @@ fn alloc_ring(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.rings[0].life
-  for i = 1; i < game.rings.length(); i = i + 1 {
+  for i in 1..<game.rings.length() {
     if game.rings[i].life < best_life {
       best_life = game.rings[i].life
       best = i
@@ -165,7 +165,7 @@ fn alloc_ring(game : Game) -> Int {
 
 ///|
 fn alloc_ghost(game : Game) -> Int {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       return i
     }
@@ -173,7 +173,7 @@ fn alloc_ghost(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.ghosts[0].life
-  for i = 1; i < game.ghosts.length(); i = i + 1 {
+  for i in 1..<game.ghosts.length() {
     if game.ghosts[i].life < best_life {
       best_life = game.ghosts[i].life
       best = i
@@ -206,7 +206,7 @@ fn emit_spark(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, count : Int, kind : Int) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     emit_spark(
       game,
       x + randf(-20.0, 20.0),
@@ -476,7 +476,7 @@ fn spawn_wave(game : Game, y : Float) -> Unit {
   let center = track_center(depth, game.time_s)
 
   let c = 1 + randi(0, 2)
-  for _i = 0; _i < c; _i = _i + 1 {
+  for _i in 0..<c {
     let roll = randi(0, 99)
 
     if roll < 34 {
@@ -622,7 +622,7 @@ fn apply_emp(game : Game) -> Unit {
   let rr2 = emp_radius * emp_radius
   let kill2 = emp_kill_radius * emp_kill_radius
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -647,7 +647,7 @@ fn apply_emp(game : Game) -> Unit {
     }
   }
 
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     if not(game.shots[i].active) || game.shots[i].from_player {
       continue
     }
@@ -899,7 +899,7 @@ fn collect_item(game : Game, kind : Int) -> Unit {
 fn update_objs(game : Game, dt : Float) -> Unit {
   let ram = game.dash_t > 0.0
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -977,7 +977,7 @@ fn update_objs(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_shots(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     if not(game.shots[i].active) {
       continue
     }
@@ -999,7 +999,7 @@ fn update_shots(game : Game, dt : Float) -> Unit {
 
     if game.shots[i].from_player {
       let mut hit = false
-      for j = 0; j < game.objs.length(); j = j + 1 {
+      for j in 0..<game.objs.length() {
         if not(game.objs[j].active) || is_pickup(game.objs[j].kind) {
           continue
         }
@@ -1051,7 +1051,7 @@ fn update_shots(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_fx(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -1066,7 +1066,7 @@ fn update_fx(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -1079,7 +1079,7 @@ fn update_fx(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       continue
     }

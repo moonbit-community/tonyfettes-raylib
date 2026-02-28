@@ -80,7 +80,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
 
-    for i = 0; i < branches.length(); i = i + 1 {
+    for i in 0..<branches.length() {
       let branch = branches[i]
       if branch.length >= 2.0 {
         if bezier.val {

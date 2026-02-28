@@ -41,7 +41,7 @@ fn is_wall(walls : Array[Bool], x : Int, y : Int) -> Bool {
 
 ///|
 fn crate_at(crates : Array[Pos], x : Int, y : Int) -> Int {
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     if crates[i].x == x && crates[i].y == y {
       return i
     }
@@ -51,7 +51,7 @@ fn crate_at(crates : Array[Pos], x : Int, y : Int) -> Int {
 
 ///|
 fn is_target(targets : Array[Pos], x : Int, y : Int) -> Bool {
-  for i = 0; i < targets.length(); i = i + 1 {
+  for i in 0..<targets.length() {
     if targets[i].x == x && targets[i].y == y {
       return true
     }
@@ -61,7 +61,7 @@ fn is_target(targets : Array[Pos], x : Int, y : Int) -> Bool {
 
 ///|
 fn all_delivered(crates : Array[Pos], targets : Array[Pos]) -> Bool {
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     if not(is_target(targets, crates[i].x, crates[i].y)) {
       return false
     }
@@ -75,15 +75,15 @@ fn reset_level(
   crates : Array[Pos],
   targets : Array[Pos],
 ) -> (Int, Int) {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     walls[i] = false
   }
 
-  for x = 0; x < gw; x = x + 1 {
+  for x in 0..<gw {
     walls[gidx(x, 0)] = true
     walls[gidx(x, gh - 1)] = true
   }
-  for y = 0; y < gh; y = y + 1 {
+  for y in 0..<gh {
     walls[gidx(0, y)] = true
     walls[gidx(gw - 1, y)] = true
   }
@@ -218,8 +218,8 @@ fn main {
 
     @raylib.draw_rectangle(0, 0, sw, 100, @raylib.Color::new(42, 48, 62, 255))
 
-    for y = 0; y < gh; y = y + 1 {
-      for x = 0; x < gw; x = x + 1 {
+    for y in 0..<gh {
+      for x in 0..<gw {
         let rx = ox + x * cell
         let ry = oy + y * cell
 
@@ -260,7 +260,7 @@ fn main {
       }
     }
 
-    for i = 0; i < crates.length(); i = i + 1 {
+    for i in 0..<crates.length() {
       let cx = ox + crates[i].x * cell
       let cy = oy + crates[i].y * cell
       let docked = is_target(targets, crates[i].x, crates[i].y)

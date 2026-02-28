@@ -179,7 +179,7 @@ fn inside_rect(
 
 ///|
 fn clear_platforms(platforms : Array[Platform]) -> Unit {
-  for i = 0; i < platforms.length(); i = i + 1 {
+  for i in 0..<platforms.length() {
     platforms[i].active = false
     platforms[i].x = 0.0
     platforms[i].base_x = 0.0
@@ -194,7 +194,7 @@ fn clear_platforms(platforms : Array[Platform]) -> Unit {
 
 ///|
 fn clear_anchors(anchors : Array[Anchor]) -> Unit {
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     anchors[i].active = false
     anchors[i].x = 0.0
     anchors[i].y = 0.0
@@ -203,7 +203,7 @@ fn clear_anchors(anchors : Array[Anchor]) -> Unit {
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     drones[i].active = false
     drones[i].kind = 0
     drones[i].x = 0.0
@@ -219,7 +219,7 @@ fn clear_drones(drones : Array[Drone]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].x = 0.0
     bullets[i].y = 0.0
@@ -233,7 +233,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_crystals(crystals : Array[Crystal]) -> Unit {
-  for i = 0; i < crystals.length(); i = i + 1 {
+  for i in 0..<crystals.length() {
     crystals[i].active = false
     crystals[i].x = 0.0
     crystals[i].y = 0.0
@@ -245,7 +245,7 @@ fn clear_crystals(crystals : Array[Crystal]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -269,7 +269,7 @@ fn add_platform(
   speed : Float,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < platforms.length(); i = i + 1 {
+  for i in 0..<platforms.length() {
     if not(platforms[i].active) {
       slot = i
       break
@@ -295,7 +295,7 @@ fn add_platform(
 ///|
 fn add_anchor(anchors : Array[Anchor], x : Float, y : Float) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     if not(anchors[i].active) {
       slot = i
       break
@@ -321,7 +321,7 @@ fn add_drone(
   level : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     if not(drones[i].active) {
       slot = i
       break
@@ -359,7 +359,7 @@ fn add_bullet(
   team : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       slot = i
       break
@@ -389,7 +389,7 @@ fn add_crystal(
   value : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < crystals.length(); i = i + 1 {
+  for i in 0..<crystals.length() {
     if not(crystals[i].active) {
       slot = i
       break
@@ -419,7 +419,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -661,7 +661,7 @@ fn main {
     ignore(add_anchor(anchors, (tower_l + tower_r) * 0.5, 58.0))
 
     gen_top_y = 140.0
-    for i = 0; i < 26; i = i + 1 {
+    for i in 0..<26 {
       ignore(i)
       gen_top_y = gen_top_y - randf(92.0, 132.0)
       generate_layer(platforms, anchors, crystals, drones, gen_top_y, 1)
@@ -831,7 +831,7 @@ fn main {
       }
 
       // Update moving platforms.
-      for i = 0; i < platforms.length(); i = i + 1 {
+      for i in 0..<platforms.length() {
         if not(platforms[i].active) {
           continue
         }
@@ -857,7 +857,7 @@ fn main {
         if not(pilot.grapple_on) {
           let mut best_i : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for i = 0; i < anchors.length(); i = i + 1 {
+          for i in 0..<anchors.length() {
             if anchors[i].active {
               let d2 = dist2(pilot.x, pilot.y, anchors[i].x, anchors[i].y)
               if d2 <= 290.0 * 290.0 && d2 < best_d2 {
@@ -964,7 +964,7 @@ fn main {
         msg = "Shock pulse"
         msg_t = 0.72
 
-        for i = 0; i < drones.length(); i = i + 1 {
+        for i in 0..<drones.length() {
           if drones[i].active &&
             dist2(pilot.x, pilot.y, drones[i].x, drones[i].y) <= 190.0 * 190.0 {
             drones[i].hp = drones[i].hp - (36.0 + Float::from_int(level) * 1.2)
@@ -990,7 +990,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             bullets[i].team == 2 &&
             dist2(pilot.x, pilot.y, bullets[i].x, bullets[i].y) <= 210.0 * 210.0 {
@@ -1022,7 +1022,7 @@ fn main {
       }
 
       pilot.grounded = false
-      for i = 0; i < platforms.length(); i = i + 1 {
+      for i in 0..<platforms.length() {
         if not(platforms[i].active) {
           continue
         }
@@ -1048,7 +1048,7 @@ fn main {
       }
 
       if pilot.dash_t > 0.0 {
-        for i = 0; i < drones.length(); i = i + 1 {
+        for i in 0..<drones.length() {
           if drones[i].active &&
             dist2(pilot.x, pilot.y, drones[i].x, drones[i].y) <= 30.0 * 30.0 {
             let dx = drones[i].x
@@ -1086,7 +1086,7 @@ fn main {
         spawn_cd = randf(0.64, 1.32)
       }
 
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if not(drones[i].active) {
           continue
         }
@@ -1169,7 +1169,7 @@ fn main {
       }
 
       // Bullets.
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1206,7 +1206,7 @@ fn main {
       }
 
       // Crystals.
-      for i = 0; i < crystals.length(); i = i + 1 {
+      for i in 0..<crystals.length() {
         if not(crystals[i].active) {
           continue
         }
@@ -1237,7 +1237,7 @@ fn main {
       }
 
       // Particles.
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1254,7 +1254,7 @@ fn main {
       }
 
       // Cleanup / generation.
-      for i = 0; i < anchors.length(); i = i + 1 {
+      for i in 0..<anchors.length() {
         if anchors[i].active &&
           anchors[i].y - cam_y > Float::from_int(sh) + 240.0 {
           anchors[i].active = false
@@ -1296,7 +1296,7 @@ fn main {
     @raylib.clear_background(bg_col)
 
     // Parallax skyline.
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let x = i * 56
       let h = 80 + i * 17 % 220
       let y0 = sh - h - ((cam_y * 0.08).to_int() + i * 12) % 44
@@ -1332,7 +1332,7 @@ fn main {
       @raylib.Color::new(44, 52, 70, 255),
     )
 
-    for i = 0; i < 18; i = i + 1 {
+    for i in 0..<18 {
       let wy = i * 44 + (cam_y * 0.30).to_int() % 44
       @raylib.draw_rectangle(
         (tower_l - 18.0).to_int(),
@@ -1358,13 +1358,13 @@ fn main {
       @raylib.Color::new(24, 32, 46, 255),
     )
 
-    for i = 0; i < 16; i = i + 1 {
+    for i in 0..<16 {
       let gx = tower_l.to_int() + i * 38
       @raylib.draw_line(gx, 0, gx, sh, @raylib.Color::new(38, 50, 70, 80))
     }
 
     // Platforms.
-    for i = 0; i < platforms.length(); i = i + 1 {
+    for i in 0..<platforms.length() {
       if not(platforms[i].active) {
         continue
       }
@@ -1393,7 +1393,7 @@ fn main {
     }
 
     // Anchors.
-    for i = 0; i < anchors.length(); i = i + 1 {
+    for i in 0..<anchors.length() {
       if anchors[i].active {
         let sy = anchors[i].y - cam_y
         if sy >= -40.0 && sy <= Float::from_int(sh) + 40.0 {
@@ -1414,7 +1414,7 @@ fn main {
     }
 
     // Crystals.
-    for i = 0; i < crystals.length(); i = i + 1 {
+    for i in 0..<crystals.length() {
       if crystals[i].active {
         let sy = crystals[i].y - cam_y
         if sy >= -36.0 && sy <= Float::from_int(sh) + 36.0 {
@@ -1441,7 +1441,7 @@ fn main {
     }
 
     // Drones.
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       if drones[i].active {
         let sy = drones[i].y - cam_y
         if sy >= -40.0 && sy <= Float::from_int(sh) + 40.0 {
@@ -1474,7 +1474,7 @@ fn main {
     }
 
     // Bullets.
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if bullets[i].active {
         let sy = bullets[i].y - cam_y
         if sy >= -20.0 && sy <= Float::from_int(sh) + 20.0 {
@@ -1530,7 +1530,7 @@ fn main {
     )
 
     // Particles.
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if particles[i].active {
         let sy = particles[i].y - cam_y
         if sy < -40.0 || sy > Float::from_int(sh) + 40.0 {

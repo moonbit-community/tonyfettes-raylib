@@ -114,7 +114,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(164, 60, 180, 40),
   )
 
-  for i = 0; i < 140; i = i + 1 {
+  for i in 0..<140 {
     let p = Float::from_int(i)
     let x = (p * 79.0 + sinf(game.time_s * 0.16 + p * 0.38) * 76.0) %
       Float::from_int(screen_w)
@@ -141,7 +141,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 fn draw_horizon(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let base_y = Float::from_int(hud_h) + 20.0
 
-  for i = 0; i < 44; i = i + 1 {
+  for i in 0..<44 {
     let p = Float::from_int(i)
     let w = 18 + i * 17 % 52
     let h = 46 + i * 31 % 180
@@ -248,7 +248,7 @@ fn draw_track(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(255, 112, 216, 120 + (pulse * 90.0).to_int()),
     )
 
-    for lane = 1; lane < lane_count; lane = lane + 1 {
+    for lane in 1..<lane_count {
       let t = Float::from_int(lane) / Float::from_int(lane_count)
       let x0 = lerpf(e0.0, e0.1, t) + cam_x
       let x1 = lerpf(e1.0, e1.1, t) + cam_x
@@ -463,7 +463,7 @@ fn draw_pickup(
 
 ///|
 fn draw_objs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     let o = game.objs[i]
     if not(o.active) {
       continue
@@ -514,7 +514,7 @@ fn draw_objs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     let s = game.shots[i]
     if not(s.active) {
       continue
@@ -553,7 +553,7 @@ fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_spark_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     let s = game.sparks[i]
     if not(s.active) {
       continue
@@ -579,7 +579,7 @@ fn draw_spark_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ring_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     let r = game.rings[i]
     if not(r.active) {
       continue
@@ -605,7 +605,7 @@ fn draw_ring_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ghost_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     let g = game.ghosts[i]
     if not(g.active) {
       continue

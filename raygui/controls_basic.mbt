@@ -205,7 +205,7 @@ pub fn gui_toggle_group(
   let mut prev_row = rows[0]
   let mut cur_x = init_x
   let mut cur_y = bounds.y
-  for i = 0; i < item_count; i = i + 1 {
+  for i in 0..<item_count {
     if prev_row != rows[i] {
       cur_x = init_x
       cur_y = cur_y +
@@ -486,7 +486,7 @@ pub fn gui_toggle_slider(
     get_color(gui_get_style(ControlToggle, BaseColorNormal + si * 3)),
   )
   // Draw text for each item
-  for i = 0; i < item_count; i = i + 1 {
+  for i in 0..<item_count {
     let item_x = bx + Float::from_int(i) * slider_width
     let item_bounds = @raylib.Rectangle::new(item_x, by, slider_width, bh)
     gui_draw_text(

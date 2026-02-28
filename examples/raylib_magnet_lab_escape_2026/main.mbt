@@ -230,7 +230,7 @@ fn drone_hp(kind : Int, level : Int) -> Float {
 
 ///|
 fn clear_platforms(platforms : Array[Platform]) -> Unit {
-  for i = 0; i < platforms.length(); i = i + 1 {
+  for i in 0..<platforms.length() {
     platforms[i].active = false
     platforms[i].x = 0.0
     platforms[i].y = 0.0
@@ -245,7 +245,7 @@ fn clear_platforms(platforms : Array[Platform]) -> Unit {
 
 ///|
 fn clear_gates(gates : Array[Gate]) -> Unit {
-  for i = 0; i < gates.length(); i = i + 1 {
+  for i in 0..<gates.length() {
     gates[i].active = false
     gates[i].x = 0.0
     gates[i].req = 0
@@ -255,7 +255,7 @@ fn clear_gates(gates : Array[Gate]) -> Unit {
 
 ///|
 fn clear_cores(cores : Array[Core]) -> Unit {
-  for i = 0; i < cores.length(); i = i + 1 {
+  for i in 0..<cores.length() {
     cores[i].active = false
     cores[i].kind = 0
     cores[i].x = 0.0
@@ -271,7 +271,7 @@ fn clear_cores(cores : Array[Core]) -> Unit {
 
 ///|
 fn clear_boxes(boxes : Array[Box]) -> Unit {
-  for i = 0; i < boxes.length(); i = i + 1 {
+  for i in 0..<boxes.length() {
     boxes[i].active = false
     boxes[i].kind = 0
     boxes[i].x = 0.0
@@ -287,7 +287,7 @@ fn clear_boxes(boxes : Array[Box]) -> Unit {
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     drones[i].active = false
     drones[i].kind = 0
     drones[i].x = 0.0
@@ -302,7 +302,7 @@ fn clear_drones(drones : Array[Drone]) -> Unit {
 
 ///|
 fn clear_bolts(bolts : Array[Bolt]) -> Unit {
-  for i = 0; i < bolts.length(); i = i + 1 {
+  for i in 0..<bolts.length() {
     bolts[i].active = false
     bolts[i].team = 0
     bolts[i].kind = 0
@@ -318,7 +318,7 @@ fn clear_bolts(bolts : Array[Bolt]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -342,7 +342,7 @@ fn add_platform(
   amp : Float,
   speed : Float,
 ) -> Bool {
-  for i = 0; i < platforms.length(); i = i + 1 {
+  for i in 0..<platforms.length() {
     if not(platforms[i].active) {
       platforms[i].active = true
       platforms[i].x = x
@@ -361,7 +361,7 @@ fn add_platform(
 
 ///|
 fn add_gate(gates : Array[Gate], x : Float, req : Int) -> Bool {
-  for i = 0; i < gates.length(); i = i + 1 {
+  for i in 0..<gates.length() {
     if not(gates[i].active) {
       gates[i].active = true
       gates[i].x = x
@@ -383,7 +383,7 @@ fn add_core(
   vy : Float,
   value : Int,
 ) -> Bool {
-  for i = 0; i < cores.length(); i = i + 1 {
+  for i in 0..<cores.length() {
     if not(cores[i].active) {
       cores[i].active = true
       cores[i].kind = kind
@@ -416,7 +416,7 @@ fn add_box(
   vx : Float,
   vy : Float,
 ) -> Bool {
-  for i = 0; i < boxes.length(); i = i + 1 {
+  for i in 0..<boxes.length() {
     if not(boxes[i].active) {
       boxes[i].active = true
       boxes[i].kind = kind
@@ -446,7 +446,7 @@ fn add_drone(
   y : Float,
   level : Int,
 ) -> Bool {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     if not(drones[i].active) {
       drones[i].active = true
       drones[i].kind = kind
@@ -482,7 +482,7 @@ fn add_bolt(
   r : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bolts.length(); i = i + 1 {
+  for i in 0..<bolts.length() {
     if not(bolts[i].active) {
       bolts[i].active = true
       bolts[i].team = team
@@ -511,7 +511,7 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -537,7 +537,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(60.0, 340.0) * scale
     ignore(
@@ -565,7 +565,7 @@ fn gate_block_circle(
 ) -> (Float, Float) {
   let mut nx : Float = x
   let mut nvx : Float = vx
-  for i = 0; i < gates.length(); i = i + 1 {
+  for i in 0..<gates.length() {
     if not(gates[i].active) || gates[i].open {
       continue
     }
@@ -600,7 +600,7 @@ fn setup_world(
   clear_boxes(boxes)
 
   // Static platform layout: each sector has a small pattern.
-  for sec = 0; sec < 18; sec = sec + 1 {
+  for sec in 0..<18 {
     let base_x : Float = 220.0 + Float::from_int(sec) * 300.0
 
     ignore(
@@ -651,7 +651,7 @@ fn setup_world(
   ignore(add_gate(gates, 4040.0, 56))
   ignore(add_gate(gates, 4920.0, 82))
 
-  for i = 0; i < 95; i = i + 1 {
+  for i in 0..<95 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(220.0, 620.0)
     let value : Int = 1 + @raylib.get_random_value(0, 2)
@@ -668,7 +668,7 @@ fn setup_world(
     )
   }
 
-  for i = 0; i < 68; i = i + 1 {
+  for i in 0..<68 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(280.0, 640.0)
     ignore(
@@ -1063,7 +1063,7 @@ fn main {
       }
 
       // Gate progression.
-      for i = 0; i < gates.length(); i = i + 1 {
+      for i in 0..<gates.length() {
         if not(gates[i].active) {
           continue
         }
@@ -1211,7 +1211,7 @@ fn main {
       }
 
       // Update moving platforms.
-      for i = 0; i < platforms.length(); i = i + 1 {
+      for i in 0..<platforms.length() {
         if not(platforms[i].active) {
           continue
         }
@@ -1268,7 +1268,7 @@ fn main {
         player.grounded = true
       }
 
-      for i = 0; i < platforms.length(); i = i + 1 {
+      for i in 0..<platforms.length() {
         if not(platforms[i].active) {
           continue
         }
@@ -1349,7 +1349,7 @@ fn main {
       if player.magnet_on {
         let sign : Float = Float::from_int(player.polarity)
 
-        for i = 0; i < cores.length(); i = i + 1 {
+        for i in 0..<cores.length() {
           if not(cores[i].active) {
             continue
           }
@@ -1370,7 +1370,7 @@ fn main {
           }
         }
 
-        for i = 0; i < boxes.length(); i = i + 1 {
+        for i in 0..<boxes.length() {
           if not(boxes[i].active) {
             continue
           }
@@ -1391,7 +1391,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bolts.length(); i = i + 1 {
+        for i in 0..<bolts.length() {
           if not(bolts[i].active) || bolts[i].team != 2 {
             continue
           }
@@ -1415,7 +1415,7 @@ fn main {
       drone_cd = drone_cd - dt
       if drone_cd <= 0.0 {
         let mut frontier : Float = world_w - 260.0
-        for i = 0; i < gates.length(); i = i + 1 {
+        for i in 0..<gates.length() {
           if gates[i].active && not(gates[i].open) && gates[i].x < frontier {
             frontier = gates[i].x - 80.0
           }
@@ -1445,7 +1445,7 @@ fn main {
       if core_cd <= 0.0 {
         core_cd = randf(2.2, 4.6)
         let mut frontier : Float = world_w - 320.0
-        for i = 0; i < gates.length(); i = i + 1 {
+        for i in 0..<gates.length() {
           if gates[i].active && not(gates[i].open) && gates[i].x < frontier {
             frontier = gates[i].x - 180.0
           }
@@ -1466,7 +1466,7 @@ fn main {
       }
 
       // Update cores.
-      for i = 0; i < cores.length(); i = i + 1 {
+      for i in 0..<cores.length() {
         if not(cores[i].active) {
           continue
         }
@@ -1509,7 +1509,7 @@ fn main {
           }
         }
 
-        for p = 0; p < platforms.length(); p = p + 1 {
+        for p in 0..<platforms.length() {
           if not(platforms[p].active) {
             continue
           }
@@ -1545,7 +1545,7 @@ fn main {
         let speed2 : Float = cores[i].vx * cores[i].vx +
           cores[i].vy * cores[i].vy
         if speed2 >= 170.0 * 170.0 {
-          for d = 0; d < drones.length(); d = d + 1 {
+          for d in 0..<drones.length() {
             if not(drones[d].active) {
               continue
             }
@@ -1573,7 +1573,7 @@ fn main {
       }
 
       // Update boxes.
-      for i = 0; i < boxes.length(); i = i + 1 {
+      for i in 0..<boxes.length() {
         if not(boxes[i].active) {
           continue
         }
@@ -1615,7 +1615,7 @@ fn main {
           }
         }
 
-        for p = 0; p < platforms.length(); p = p + 1 {
+        for p in 0..<platforms.length() {
           if not(platforms[p].active) {
             continue
           }
@@ -1639,7 +1639,7 @@ fn main {
         let speed2 : Float = boxes[i].vx * boxes[i].vx +
           boxes[i].vy * boxes[i].vy
         if speed2 >= 180.0 * 180.0 {
-          for d = 0; d < drones.length(); d = d + 1 {
+          for d in 0..<drones.length() {
             if not(drones[d].active) {
               continue
             }
@@ -1673,7 +1673,7 @@ fn main {
       }
 
       // Update drones.
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if not(drones[i].active) {
           continue
         }
@@ -1861,7 +1861,7 @@ fn main {
       }
 
       // Update bolts.
-      for i = 0; i < bolts.length(); i = i + 1 {
+      for i in 0..<bolts.length() {
         if not(bolts[i].active) {
           continue
         }
@@ -1903,7 +1903,7 @@ fn main {
         bolts[i].x = bx
         bolts[i].vx = bvx
 
-        for p = 0; p < platforms.length(); p = p + 1 {
+        for p in 0..<platforms.length() {
           if not(platforms[p].active) {
             continue
           }
@@ -1926,7 +1926,7 @@ fn main {
 
         if bolts[i].team == 1 {
           let mut hit_done : Bool = false
-          for d = 0; d < drones.length(); d = d + 1 {
+          for d in 0..<drones.length() {
             if hit_done {
               continue
             }
@@ -1944,7 +1944,7 @@ fn main {
           }
 
           if bolts[i].active {
-            for b = 0; b < boxes.length(); b = b + 1 {
+            for b in 0..<boxes.length() {
               if not(boxes[b].active) {
                 continue
               }
@@ -1965,7 +1965,7 @@ fn main {
       }
 
       // Particle update.
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -2018,7 +2018,7 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(6, 10, 18, 255))
 
     // Parallax backdrop.
-    for i = 0; i < 120; i = i + 1 {
+    for i in 0..<120 {
       let fi : Float = Float::from_int(i)
       let px : Int = ((
         fi * 73.0 +
@@ -2079,7 +2079,7 @@ fn main {
     )
 
     // Platforms.
-    for i = 0; i < platforms.length(); i = i + 1 {
+    for i in 0..<platforms.length() {
       if not(platforms[i].active) {
         continue
       }
@@ -2098,7 +2098,7 @@ fn main {
         @raylib.Color::new(138, 164, 194, 180),
       )
 
-      for s = 0; s < 5; s = s + 1 {
+      for s in 0..<5 {
         let lx0 : Int = x + s * (w / 5)
         let lx1 : Int = lx0 + 10
         @raylib.draw_line(
@@ -2112,7 +2112,7 @@ fn main {
     }
 
     // Gates.
-    for i = 0; i < gates.length(); i = i + 1 {
+    for i in 0..<gates.length() {
       if not(gates[i].active) {
         continue
       }
@@ -2159,7 +2159,7 @@ fn main {
     }
 
     // Cores.
-    for i = 0; i < cores.length(); i = i + 1 {
+    for i in 0..<cores.length() {
       if not(cores[i].active) {
         continue
       }
@@ -2184,7 +2184,7 @@ fn main {
     }
 
     // Boxes.
-    for i = 0; i < boxes.length(); i = i + 1 {
+    for i in 0..<boxes.length() {
       if not(boxes[i].active) {
         continue
       }
@@ -2215,7 +2215,7 @@ fn main {
     }
 
     // Drones.
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       if not(drones[i].active) {
         continue
       }
@@ -2268,7 +2268,7 @@ fn main {
     }
 
     // Bolts.
-    for i = 0; i < bolts.length(); i = i + 1 {
+    for i in 0..<bolts.length() {
       if not(bolts[i].active) {
         continue
       }
@@ -2325,7 +2325,7 @@ fn main {
         310.0,
         @raylib.Color::new(112, 224, 248, 110),
       )
-      for i = 0; i < cores.length(); i = i + 1 {
+      for i in 0..<cores.length() {
         if not(cores[i].active) || not(cores[i].magnetized) {
           continue
         }
@@ -2337,7 +2337,7 @@ fn main {
           @raylib.Color::new(126, 232, 252, 116),
         )
       }
-      for i = 0; i < boxes.length(); i = i + 1 {
+      for i in 0..<boxes.length() {
         if not(boxes[i].active) || not(boxes[i].magnetized) {
           continue
         }
@@ -2352,7 +2352,7 @@ fn main {
     }
 
     // Particles.
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -2542,7 +2542,7 @@ fn main {
       @raylib.Color::new(160, 246, 255, 246),
     )
 
-    for i = 0; i < gates.length(); i = i + 1 {
+    for i in 0..<gates.length() {
       if not(gates[i].active) {
         continue
       }

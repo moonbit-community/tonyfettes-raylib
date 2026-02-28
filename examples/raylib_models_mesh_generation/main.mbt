@@ -41,7 +41,7 @@ fn main {
   models.push(@raylib.load_model_from_mesh(@raylib.gen_mesh_poly(5, 2.0)))
 
   // Set checked texture as default diffuse component for all models material
-  for i = 0; i < num_models; i = i + 1 {
+  for i in 0..<num_models {
     @raylib.set_model_material_texture(
       models[i],
       0,
@@ -113,7 +113,7 @@ fn main {
 
   // De-Initialization
   @raylib.unload_texture(texture)
-  for i = 0; i < num_models; i = i + 1 {
+  for i in 0..<num_models {
     @raylib.unload_model(models[i])
   }
   @raylib.close_window()

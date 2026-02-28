@@ -408,7 +408,7 @@ fn init_title_scene(game : Game) -> Unit {
 
 ///|
 fn update_trap_timers(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     game.traps[i].timer = game.traps[i].timer + dt
     while game.traps[i].timer >= game.traps[i].cycle {
       game.traps[i].timer = game.traps[i].timer - game.traps[i].cycle
@@ -427,7 +427,7 @@ fn trap_is_hot(trap : Trap) -> Bool {
 
 ///|
 fn refresh_plates(game : Game) -> Unit {
-  for i = 0; i < game.plates.length(); i = i + 1 {
+  for i in 0..<game.plates.length() {
     game.plates[i].pressed = player_hits_rect(
       game,
       game.plates[i].x,
@@ -440,7 +440,7 @@ fn refresh_plates(game : Game) -> Unit {
 
 ///|
 fn refresh_doors(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.doors.length(); i = i + 1 {
+  for i in 0..<game.doors.length() {
     let plate_index = game.doors[i].plate_index
     let plate_pressed : Bool = if plate_index >= 0 &&
       plate_index < game.plates.length() {
@@ -475,7 +475,7 @@ fn refresh_doors(game : Game, dt : Float) -> Unit {
 fn collides_closed_door(game : Game, x : Float, y : Float) -> Bool {
   let (px, py, pw, ph) = player_rect_at(game, x, y)
 
-  for i = 0; i < game.doors.length(); i = i + 1 {
+  for i in 0..<game.doors.length() {
     if not(game.doors[i].open) &&
       rects_overlap(
         px,
@@ -555,7 +555,7 @@ fn move_player(game : Game, dt : Float) -> Unit {
 
 ///|
 fn collect_relics(game : Game) -> Unit {
-  for i = 0; i < game.relics.length(); i = i + 1 {
+  for i in 0..<game.relics.length() {
     if not(game.relics[i].active) {
       continue
     }
@@ -590,7 +590,7 @@ fn fail_stage(game : Game, reason : String) -> Unit {
 
 ///|
 fn check_hazards(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if player_hits_rect(
         game,
         game.hazards[i].x,
@@ -608,7 +608,7 @@ fn check_hazards(game : Game) -> Bool {
 
 ///|
 fn check_traps(game : Game) -> Bool {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     if trap_is_hot(game.traps[i]) &&
       player_hits_rect(
         game,

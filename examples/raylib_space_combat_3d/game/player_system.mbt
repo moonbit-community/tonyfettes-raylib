@@ -223,7 +223,7 @@ fn fire_laser(
   let p = game.player
   // Fire two bolts (left and right of ship)
   let offsets : Array[Float] = [0.4, -0.4]
-  for o = 0; o < offsets.length(); o = o + 1 {
+  for o in 0..<offsets.length() {
     let off = offsets[o]
     let idx = @types.alloc_projectile(game)
     if idx < 0 {
@@ -341,7 +341,7 @@ fn fire_railgun(
 fn cycle_target(game : @types.Game) -> Unit {
   let start = game.target_idx + 1
   // Search forward from current
-  for i = start; i < game.enemies.length(); i = i + 1 {
+  for i in start..<game.enemies.length() {
     if game.enemies[i].active {
       game.target_idx = i
       game.target_lock_timer = 0.0
@@ -349,7 +349,7 @@ fn cycle_target(game : @types.Game) -> Unit {
     }
   }
   // Wrap around
-  for i = 0; i < start; i = i + 1 {
+  for i in 0..<start {
     if i < game.enemies.length() && game.enemies[i].active {
       game.target_idx = i
       game.target_lock_timer = 0.0

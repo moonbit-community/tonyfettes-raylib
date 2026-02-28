@@ -67,7 +67,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(255, 248, 196, 178),
   )
 
-  for i = 0; i < 140; i = i + 1 {
+  for i in 0..<140 {
     let fi = Float::from_int(i)
     let x = (fi * 91.0 + fi * fi * 0.17 + game.time_s * 5.0) %
       Float::from_int(screen_w)
@@ -84,7 +84,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_dunes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for layer = 0; layer < 3; layer = layer + 1 {
+  for layer in 0..<3 {
     let lf = Float::from_int(layer)
     let height : Float = 440.0 + lf * 86.0
     let amp : Float = 24.0 + lf * 14.0
@@ -118,7 +118,7 @@ fn draw_dunes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_lanes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < lane_count; i = i + 1 {
+  for i in 0..<lane_count {
     let y = lane_y(game, i) + cam_y * 0.2
     let li = Float::from_int(i)
     let lane_col = if i % 2 == 0 {
@@ -199,7 +199,7 @@ fn draw_perimeter(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_wagons(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     let x = (game.wagons[i].x + cam_x).to_int()
     let y = (game.wagons[i].y + cam_y).to_int()
     let hp_ratio = clamp01(
@@ -321,7 +321,7 @@ fn draw_wagons(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_raiders(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     if not(game.raiders[i].active) {
       continue
     }
@@ -389,7 +389,7 @@ fn draw_raiders(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }
@@ -406,7 +406,7 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_dust(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.dusts.length(); i = i + 1 {
+  for i in 0..<game.dusts.length() {
     if not(game.dusts[i].active) {
       continue
     }

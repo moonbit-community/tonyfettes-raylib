@@ -1,6 +1,6 @@
 ///|
 fn clear_towers(game : Game) -> Unit {
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     game.towers[i].active = false
     game.towers[i].x = 0.0
     game.towers[i].y = 0.0
@@ -12,7 +12,7 @@ fn clear_towers(game : Game) -> Unit {
 
 ///|
 fn clear_storms(game : Game) -> Unit {
-  for i = 0; i < game.storms.length(); i = i + 1 {
+  for i in 0..<game.storms.length() {
     game.storms[i].active = false
     game.storms[i].x = 0.0
     game.storms[i].y = 0.0
@@ -58,7 +58,7 @@ fn tower_spot_ok(game : Game, placed : Int, x : Float, y : Float) -> Bool {
     return false
   }
 
-  for i = 0; i < placed; i = i + 1 {
+  for i in 0..<placed {
     if not(game.towers[i].active) {
       continue
     }
@@ -99,11 +99,11 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
   game.flash_t = 0.0
 
   let tower_count = stage_tower_count(game.stage)
-  for i = 0; i < tower_count; i = i + 1 {
+  for i in 0..<tower_count {
     let mut tx = randf(world_left() + 120.0, world_right() - 120.0)
     let mut ty = randf(world_top() + 120.0, world_bottom() - 120.0)
 
-    for _attempt = 0; _attempt < 36; _attempt = _attempt + 1 {
+    for _attempt in 0..<36 {
       let cand_x = randf(world_left() + 120.0, world_right() - 120.0)
       let cand_y = randf(world_top() + 120.0, world_bottom() - 120.0)
       if tower_spot_ok(game, i, cand_x, cand_y) {
@@ -123,11 +123,11 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
   }
 
   let storm_count = stage_storm_count(game.stage)
-  for i = 0; i < storm_count; i = i + 1 {
+  for i in 0..<storm_count {
     let mut sx = randf(world_left() + 140.0, world_right() - 140.0)
     let mut sy = randf(world_top() + 140.0, world_bottom() - 140.0)
 
-    for _attempt = 0; _attempt < 24; _attempt = _attempt + 1 {
+    for _attempt in 0..<24 {
       if dist2(sx, sy, depot_x(), depot_y()) > 230.0 * 230.0 {
         break
       }
@@ -185,7 +185,7 @@ fn init_title_scene(game : Game) -> Unit {
   game.flash_t = 0.0
   set_hint(game, "Arctic relay prep", 0.0)
 
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     game.towers[i].active = true
     game.towers[i].x = world_left() + 420.0 + Float::from_int(i) * 170.0
     game.towers[i].y = world_top() + 210.0 + Float::from_int(i % 2) * 220.0
@@ -194,7 +194,7 @@ fn init_title_scene(game : Game) -> Unit {
     game.towers[i].pulse_t = Float::from_int(i)
   }
 
-  for i = 0; i < 2; i = i + 1 {
+  for i in 0..<2 {
     game.storms[i].active = true
     game.storms[i].x = world_left() + 500.0 + Float::from_int(i) * 200.0
     game.storms[i].y = world_top() + 260.0 + Float::from_int(i) * 180.0
@@ -211,7 +211,7 @@ fn closest_pending_tower(game : Game, x : Float, y : Float) -> Int {
   let mut best_idx = -1
   let mut best_d2 = tower_interact_r() * tower_interact_r()
 
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if not(game.towers[i].active) {
       continue
     }
@@ -243,7 +243,7 @@ fn update_storms(game : Game, dt : Float) -> Unit {
   let top = world_top() + 20.0
   let bottom = world_bottom() - 20.0
 
-  for i = 0; i < game.storms.length(); i = i + 1 {
+  for i in 0..<game.storms.length() {
     if not(game.storms[i].active) {
       continue
     }
@@ -281,7 +281,7 @@ fn storm_effect_at(game : Game, x : Float, y : Float) -> (Float, Float, Float) {
   let mut wind_x : Float = 0.0
   let mut wind_y : Float = 0.0
 
-  for i = 0; i < game.storms.length(); i = i + 1 {
+  for i in 0..<game.storms.length() {
     if not(game.storms[i].active) {
       continue
     }
@@ -471,7 +471,7 @@ fn update_play_state(game : Game, dt : Float) -> Unit {
   update_proximity(game)
   update_resources(game, dt, game.storm_intensity)
 
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if game.towers[i].active {
       game.towers[i].pulse_t = game.towers[i].pulse_t +
         dt * (1.2 + Float::from_int(i) * 0.15)

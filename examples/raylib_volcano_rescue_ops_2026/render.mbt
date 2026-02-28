@@ -60,7 +60,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(66, 86, 118, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 24
     @raylib.draw_rectangle(
       0,
@@ -135,8 +135,8 @@ fn draw_map(game : Game) -> Unit {
     @raylib.Color::new(188, 154, 116, 210),
   )
 
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       draw_cell_base(game, x, y)
     }
   }
@@ -169,7 +169,7 @@ fn draw_map(game : Game) -> Unit {
 
 ///|
 fn draw_sites(game : Game) -> Unit {
-  for i = 0; i < game.site_count; i = i + 1 {
+  for i in 0..<game.site_count {
     if not(game.sites[i].active) {
       continue
     }
@@ -223,7 +223,7 @@ fn draw_route_preview(game : Game) -> Unit {
   let mut px : Int = cell_center_x(x)
   let mut py : Int = cell_center_y(y)
 
-  for i = 0; i < game.route_len; i = i + 1 {
+  for i in 0..<game.route_len {
     let dir : Int = game.route[i]
     x = x + route_dx(dir)
     y = y + route_dy(dir)

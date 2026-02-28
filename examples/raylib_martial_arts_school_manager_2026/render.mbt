@@ -61,7 +61,7 @@ fn draw_meter(
 fn draw_background(game : Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(16, 20, 30, 255))
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let wave = (sinf(game.scene_t * 0.6 + Float::from_int(i) * 0.38) * 18.0).to_int()
     let y = i * 72 + wave
     let tone = 28 + i * 2
@@ -254,7 +254,7 @@ fn draw_student_table(game : Game) -> Unit {
     @raylib.Color::new(170, 194, 222, 220),
   )
 
-  for col = 0; col < room_count; col = col + 1 {
+  for col in 0..<room_count {
     let x = grid_x + col * (cell_w + cell_gap)
     let title = room_name(col)
     let tw = @raylib.measure_text(title, 24)
@@ -282,7 +282,7 @@ fn draw_student_table(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     let y = row_start_y + i * row_h
 
     @raylib.draw_rectangle(
@@ -337,7 +337,7 @@ fn draw_student_table(game : Game) -> Unit {
       fatigue_color(game.students[i].fatigue),
     )
 
-    for col = 0; col < room_count; col = col + 1 {
+    for col in 0..<room_count {
       let x = grid_x + col * (cell_w + cell_gap)
       let assigned = game.students[i].room == col
       let selected = (game.state == state_playing || game.state == state_paused) &&
@@ -503,7 +503,7 @@ fn draw_overlay_card(
     @raylib.Color::new(248, 238, 208, 244),
   )
 
-  for i = 0; i < lines.length(); i = i + 1 {
+  for i in 0..<lines.length() {
     @raylib.draw_text(
       lines[i],
       x + 60,

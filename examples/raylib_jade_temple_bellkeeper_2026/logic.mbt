@@ -1,6 +1,6 @@
 ///|
 fn clear_foes(game : Game) -> Unit {
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     game.foes[i].active = false
     game.foes[i].kind = foe_wisp
     game.foes[i].x = 0.0
@@ -20,7 +20,7 @@ fn clear_foes(game : Game) -> Unit {
 
 ///|
 fn clear_bolts(game : Game) -> Unit {
-  for i = 0; i < game.bolts.length(); i = i + 1 {
+  for i in 0..<game.bolts.length() {
     game.bolts[i].active = false
     game.bolts[i].x = 0.0
     game.bolts[i].y = 0.0
@@ -34,7 +34,7 @@ fn clear_bolts(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -48,7 +48,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     game.rings[i].active = false
     game.rings[i].x = 0.0
     game.rings[i].y = 0.0
@@ -60,7 +60,7 @@ fn clear_rings(game : Game) -> Unit {
 
 ///|
 fn clear_echoes(game : Game) -> Unit {
-  for i = 0; i < game.echoes.length(); i = i + 1 {
+  for i in 0..<game.echoes.length() {
     game.echoes[i].active = false
     game.echoes[i].x = 0.0
     game.echoes[i].y = 0.0
@@ -73,7 +73,7 @@ fn clear_echoes(game : Game) -> Unit {
 
 ///|
 fn reset_bells(game : Game) -> Unit {
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     let p = bell_pos(i)
     game.bells[i].x = p.0
     game.bells[i].y = p.1
@@ -102,7 +102,7 @@ fn reset_hero(game : Game) -> Unit {
 
 ///|
 fn alloc_foe(game : Game) -> Int {
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     if not(game.foes[i].active) {
       return i
     }
@@ -110,7 +110,7 @@ fn alloc_foe(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.foes[0].life
-  for i = 1; i < game.foes.length(); i = i + 1 {
+  for i in 1..<game.foes.length() {
     if game.foes[i].life < best_life {
       best_life = game.foes[i].life
       best = i
@@ -121,7 +121,7 @@ fn alloc_foe(game : Game) -> Int {
 
 ///|
 fn alloc_bolt(game : Game) -> Int {
-  for i = 0; i < game.bolts.length(); i = i + 1 {
+  for i in 0..<game.bolts.length() {
     if not(game.bolts[i].active) {
       return i
     }
@@ -129,7 +129,7 @@ fn alloc_bolt(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.bolts[0].life
-  for i = 1; i < game.bolts.length(); i = i + 1 {
+  for i in 1..<game.bolts.length() {
     if game.bolts[i].life < best_life {
       best_life = game.bolts[i].life
       best = i
@@ -140,7 +140,7 @@ fn alloc_bolt(game : Game) -> Int {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -148,7 +148,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -159,7 +159,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_ring(game : Game) -> Int {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       return i
     }
@@ -167,7 +167,7 @@ fn alloc_ring(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.rings[0].life
-  for i = 1; i < game.rings.length(); i = i + 1 {
+  for i in 1..<game.rings.length() {
     if game.rings[i].life < best_life {
       best_life = game.rings[i].life
       best = i
@@ -178,7 +178,7 @@ fn alloc_ring(game : Game) -> Int {
 
 ///|
 fn alloc_echo(game : Game) -> Int {
-  for i = 0; i < game.echoes.length(); i = i + 1 {
+  for i in 0..<game.echoes.length() {
     if not(game.echoes[i].active) {
       return i
     }
@@ -186,7 +186,7 @@ fn alloc_echo(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.echoes[0].life
-  for i = 1; i < game.echoes.length(); i = i + 1 {
+  for i in 1..<game.echoes.length() {
     if game.echoes[i].life < best_life {
       best_life = game.echoes[i].life
       best = i
@@ -219,7 +219,7 @@ fn emit_spark(
 
 ///|
 fn burst_sparks(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_spark(
       game,
       x + randf(-16.0, 16.0),
@@ -417,7 +417,7 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
 
   let rr2 = bell_shock_radius * bell_shock_radius
 
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     if not(game.foes[i].active) {
       continue
     }
@@ -472,7 +472,7 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
     }
   }
 
-  for i = 0; i < game.bolts.length(); i = i + 1 {
+  for i in 0..<game.bolts.length() {
     if not(game.bolts[i].active) {
       continue
     }
@@ -504,7 +504,7 @@ fn find_nearest_bell(game : Game) -> Int {
   let mut best = -1
   let mut best_d2 = bell_ring_reach * bell_ring_reach
 
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     let d2 = dist2(game.hero.x, game.hero.y, game.bells[i].x, game.bells[i].y)
     if d2 <= best_d2 {
       best_d2 = d2
@@ -614,7 +614,7 @@ fn spawn_relic(game : Game) -> Unit {
 fn spawn_wave(game : Game) -> Unit {
   let n = 1 + randi(0, 1 + game.stage / 2)
 
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     let roll = randi(0, 99)
     if roll < 40 {
       spawn_wisp(game)
@@ -762,7 +762,7 @@ fn kill_foe(game : Game, i : Int, reward : Int, kind : Int) -> Unit {
 fn update_foes(game : Game, dt : Float) -> Unit {
   let dash_hit = game.hero.dash_t > 0.0
 
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     if not(game.foes[i].active) {
       continue
     }
@@ -925,7 +925,7 @@ fn update_foes(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bolts(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bolts.length(); i = i + 1 {
+  for i in 0..<game.bolts.length() {
     if not(game.bolts[i].active) {
       continue
     }
@@ -966,7 +966,7 @@ fn update_bolts(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -984,7 +984,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -998,7 +998,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.echoes.length(); i = i + 1 {
+  for i in 0..<game.echoes.length() {
     if not(game.echoes[i].active) {
       continue
     }
@@ -1012,7 +1012,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bells(game : Game, dt : Float) -> Unit {
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     game.bells[i].cooldown = maxf(0.0, game.bells[i].cooldown - dt)
     game.bells[i].glow = maxf(0.0, game.bells[i].glow - dt)
 
@@ -1032,7 +1032,7 @@ fn update_bells(game : Game, dt : Float) -> Unit {
 fn emit_ambient(game : Game, dt : Float) -> Unit {
   let tries = clampi((dt * 200.0).to_int(), 1, 12)
 
-  for _i = 0; _i < tries; _i = _i + 1 {
+  for _i in 0..<tries {
     if chance(28) {
       emit_spark(
         game,

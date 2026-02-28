@@ -24,14 +24,14 @@ struct Package {
 
 ///|
 fn reset_packages(ps : Array[Package]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].alive = false
   }
 }
 
 ///|
 fn spawn_package(ps : Array[Package]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if not(ps[i].alive) {
       let lane = @raylib.get_random_value(0, lane_count - 1)
       ps[i].alive = true
@@ -164,7 +164,7 @@ fn main {
         spawn_package(packages)
       }
 
-      for i = 0; i < packages.length(); i = i + 1 {
+      for i in 0..<packages.length() {
         if not(packages[i].alive) {
           continue
         }
@@ -219,7 +219,7 @@ fn main {
       @raylib.Color::new(220, 226, 232, 255),
     )
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let y = lane_y(l)
       @raylib.draw_line(60, y.to_int(), sw - 60, y.to_int(), @raylib.gray)
       @raylib.draw_line(
@@ -269,7 +269,7 @@ fn main {
       @raylib.white,
     )
 
-    for i = 0; i < packages.length(); i = i + 1 {
+    for i in 0..<packages.length() {
       if packages[i].alive {
         let col = code_color(packages[i].code)
         @raylib.draw_rectangle(

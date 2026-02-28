@@ -139,7 +139,7 @@ fn update_racing(game : @types.Game, dt : Float) -> Unit {
   update_player_kart(game, dt)
   update_ai_karts(game, dt)
   // Waypoint tracking and surface detection for all karts
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     update_kart_waypoint(game, i)
     update_kart_surface(game, i)
     update_kart_wrong_way(game, i, dt)
@@ -159,7 +159,7 @@ fn update_racing(game : @types.Game, dt : Float) -> Unit {
   // Check race end
   if player_finished(game) || all_karts_finished(game) {
     // Auto-finish any remaining karts
-    for i = 0; i < @types.max_karts; i = i + 1 {
+    for i in 0..<@types.max_karts {
       let kart = game.karts[i]
       if kart.active && not(kart.finished) {
         kart.finished = true
@@ -321,7 +321,7 @@ fn update_lightning_effect(game : @types.Game, dt : Float) -> Unit {
     if game.lightning_timer <= 0.0 {
       game.lightning_active = false
       // Restore all karts from lightning
-      for i = 0; i < @types.max_karts; i = i + 1 {
+      for i in 0..<@types.max_karts {
         game.karts[i].lightning_timer = 0.0
       }
     }
@@ -333,10 +333,10 @@ fn update_lightning_effect(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn update_star_effects(game : @types.Game, dt : Float) -> Unit {
   game.star_rainbow_timer += dt * 5.0
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     if kart.star_timer > 0.0 {
       kart.star_timer -= dt
@@ -368,13 +368,13 @@ fn update_star_effects(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn emit_surface_particles(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) || not(kart.on_ground) {
-      continue i + 1
+      continue
     }
     if kart.speed < 3.0 {
-      continue i + 1
+      continue
     }
     // Dust on dirt/grass
     if kart.on_surface_type == @types.surface_dirt ||

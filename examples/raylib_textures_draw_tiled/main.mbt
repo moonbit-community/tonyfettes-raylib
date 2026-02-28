@@ -246,7 +246,7 @@ fn main {
   // Calculate rectangle for each color
   let mut cx = 0
   let mut cy = 0
-  for i = 0; i < max_colors; i = i + 1 {
+  for i in 0..<max_colors {
     color_rec[i] = @raylib.Rectangle::new(
       fi(2 + margin_size + cx),
       fi(22 + 256 + margin_size + cy),
@@ -273,7 +273,7 @@ fn main {
       let mouse = @raylib.get_mouse_position()
 
       // Check which pattern was clicked
-      for i = 0; i < rec_pattern.length(); i = i + 1 {
+      for i in 0..<rec_pattern.length() {
         if @raylib.check_collision_point_rec(
             mouse,
             @raylib.Rectangle::new(
@@ -289,7 +289,7 @@ fn main {
       }
 
       // Check which color was clicked
-      for i = 0; i < max_colors; i = i + 1 {
+      for i in 0..<max_colors {
         if @raylib.check_collision_point_rec(mouse, color_rec[i]) {
           active_col = i
           break
@@ -379,7 +379,7 @@ fn main {
       10,
       @raylib.black,
     )
-    for i = 0; i < max_colors; i = i + 1 {
+    for i in 0..<max_colors {
       @raylib.draw_rectangle_rec(color_rec[i], colors[i])
       if active_col == i {
         @raylib.draw_rectangle_lines_ex(

@@ -164,7 +164,7 @@ fn inside_rect(
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     items[i].active = false
     items[i].x = 0.0
     items[i].y = 0.0
@@ -176,7 +176,7 @@ fn clear_pickups(items : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -192,7 +192,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 ///|
 fn spawn_pickup(items : Array[Pickup]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     if not(items[i].active) {
       slot = i
       break
@@ -222,7 +222,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -513,7 +513,7 @@ fn draw_field_lines() -> Unit {
     @raylib.Color::new(40, 88, 52, 255),
   )
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let stripe_y = field_t.to_int() + i * 32
     let tint = if i % 2 == 0 { 42 } else { 36 }
     @raylib.draw_rectangle(
@@ -1061,7 +1061,7 @@ fn main {
           pickup_spawn_cd = randf(4.2, 6.8)
         }
 
-        for i = 0; i < pickups.length(); i = i + 1 {
+        for i in 0..<pickups.length() {
           if not(pickups[i].active) {
             continue
           }
@@ -1123,7 +1123,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1161,7 +1161,7 @@ fn main {
 
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 22, 34, 255))
 
-    for i = 0; i < 30; i = i + 1 {
+    for i in 0..<30 {
       let px = i * 44 + (match_time * 10.0).to_int() % 44
       let py = 36 + i * 19 % 44
       @raylib.draw_circle(px, py, 2.0, @raylib.Color::new(146, 188, 232, 150))
@@ -1169,7 +1169,7 @@ fn main {
 
     draw_field_lines()
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if pickups[i].active {
         let pulse = if (pickups[i].t * 8.0).to_int() % 2 == 0 {
           255
@@ -1222,7 +1222,7 @@ fn main {
     draw_car(player, true)
     draw_car(ai, false)
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

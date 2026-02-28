@@ -3,7 +3,7 @@ fn text_subtext(text : String, end_pos : Int) -> String {
   let len = text.length()
   let n = if end_pos < len { end_pos } else { len }
   let buf = StringBuilder::new()
-  for i = 0; i < n; i = i + 1 {
+  for i in 0..<n {
     buf.write_char(text[i].to_int().unsafe_to_char())
   }
   buf.to_string()

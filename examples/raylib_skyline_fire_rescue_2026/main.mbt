@@ -186,7 +186,7 @@ fn building_center_y(b : Building) -> Float {
 
 ///|
 fn clear_buildings(buildings : Array[Building]) -> Unit {
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     buildings[i].active = false
     buildings[i].x = 0.0
     buildings[i].y = 0.0
@@ -206,7 +206,7 @@ fn clear_buildings(buildings : Array[Building]) -> Unit {
 
 ///|
 fn clear_drops(drops : Array[WaterDrop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     drops[i].active = false
     drops[i].x = 0.0
     drops[i].y = 0.0
@@ -220,7 +220,7 @@ fn clear_drops(drops : Array[WaterDrop]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -244,7 +244,7 @@ fn add_building(
   fire : Float,
   name : String,
 ) -> Bool {
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       buildings[i].active = true
       buildings[i].x = x
@@ -322,7 +322,7 @@ fn setup_city(buildings : Array[Building]) -> Unit {
     ),
   )
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       continue
     }
@@ -343,7 +343,7 @@ fn add_drop(
   life : Float,
   kind : Int,
 ) -> Bool {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].active) {
       drops[i].active = true
       drops[i].x = x
@@ -366,7 +366,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -392,14 +392,14 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -420,7 +420,7 @@ fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -453,7 +453,7 @@ fn update_drops(
 ) -> Float {
   let mut hit_power : Float = 0.0
 
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].active) {
       continue
     }
@@ -477,7 +477,7 @@ fn update_drops(
 
     let r : Float = if drops[i].kind == 0 { 4.0 } else { 6.0 }
 
-    for b = 0; b < buildings.length(); b = b + 1 {
+    for b in 0..<buildings.length() {
       if not(buildings[b].active) || buildings[b].collapsed {
         continue
       }
@@ -517,7 +517,7 @@ fn nearest_viable_building(
   let mut best : Int = -1
   let mut best_d2 : Float = 99999999.0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) || buildings[i].collapsed {
       continue
     }
@@ -545,7 +545,7 @@ fn update_fire_system(
   let mut new_casualties : Int = 0
   let mut collapsed_n : Int = 0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       continue
     }
@@ -673,7 +673,7 @@ fn try_rescue(
 
   let mut loaded : Int = 0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) || buildings[i].collapsed {
       continue
     }
@@ -715,7 +715,7 @@ fn draw_city_bg(t : Float) -> Unit {
 
   // roads
   let road_x : Int = world_l.to_int()
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let y : Int = 94 + i * 168
     @raylib.draw_rectangle(
       road_x,
@@ -724,7 +724,7 @@ fn draw_city_bg(t : Float) -> Unit {
       22,
       @raylib.Color::new(40, 46, 62, 236),
     )
-    for k = 0; k < 28; k = k + 1 {
+    for k in 0..<28 {
       let x : Int = road_x + k * 38
       @raylib.draw_rectangle(
         x + (t * 120.0).to_int() % 38,
@@ -736,7 +736,7 @@ fn draw_city_bg(t : Float) -> Unit {
     }
   }
 
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let x : Int = 130 + i * 178
     @raylib.draw_rectangle(
       x,
@@ -748,7 +748,7 @@ fn draw_city_bg(t : Float) -> Unit {
   }
 
   // skyline lights
-  for i = 0; i < 44; i = i + 1 {
+  for i in 0..<44 {
     let fi : Float = Float::from_int(i)
     let x : Int = (fi * 71.0 + t * (20.0 + Float::from_int(i % 6) * 7.0)).to_int() %
       (world_r - world_l).to_int() +
@@ -828,7 +828,7 @@ fn draw_special_zones() -> Unit {
 
 ///|
 fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       continue
     }
@@ -853,8 +853,8 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
     )
 
     // windows
-    for wy = 0; wy < 4; wy = wy + 1 {
-      for wx = 0; wx < 5; wx = wx + 1 {
+    for wy in 0..<4 {
+      for wx in 0..<5 {
         let px : Int = bx + 12 + wx * ((bw - 24) / 5)
         let py : Int = by + 12 + wy * ((bh - 24) / 4)
 
@@ -871,7 +871,7 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
 
     if not(buildings[i].collapsed) {
       let fire_n : Int = clampi((buildings[i].fire / 18.0).to_int(), 0, 7)
-      for f = 0; f < fire_n; f = f + 1 {
+      for f in 0..<fire_n {
         let fx : Float = buildings[i].x + randf(10.0, buildings[i].w - 10.0)
         let fy : Float = buildings[i].y + randf(8.0, buildings[i].h - 8.0)
         let rr : Float = 6.0 +
@@ -892,7 +892,7 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
       }
 
       if buildings[i].fire > 0.0 {
-        for s = 0; s < 3; s = s + 1 {
+        for s in 0..<3 {
           let sx : Int = (buildings[i].x + randf(8.0, buildings[i].w - 8.0)).to_int()
           let sy : Int = (buildings[i].y -
           randf(8.0, 24.0) -
@@ -948,7 +948,7 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
 
 ///|
 fn draw_drops(drops : Array[WaterDrop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].active) {
       continue
     }
@@ -1421,7 +1421,7 @@ fn main {
       // fire water action
       if fire_action && heli.fire_cd <= 0.0 && heli.water >= 2.0 {
         let n : Int = 6 + @raylib.get_random_value(0, 3)
-        for i = 0; i < n; i = i + 1 {
+        for i in 0..<n {
           let ax : Float = randf(-0.6, 0.6)
           let vx : Float = ax * 80.0 + heli.vx * 0.3
           let vy : Float = randf(120.0, 210.0)

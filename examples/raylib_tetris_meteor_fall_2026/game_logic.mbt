@@ -5,7 +5,7 @@ fn board_index(x : Int, y : Int) -> Int {
 
 ///|
 fn refill_bag(game : Game) -> Unit {
-  for i = 0; i < bag_size; i = i + 1 {
+  for i in 0..<bag_size {
     game.bag[i] = i
   }
   let mut i = bag_size - 1
@@ -31,7 +31,7 @@ fn take_bag_piece(game : Game) -> Int {
 
 ///|
 fn collides(game : Game, kind : Int, rot : Int, px : Int, py : Int) -> Bool {
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let c = piece_cell(kind, rot, i)
     let x = px + c.x
     let y = py + c.y
@@ -47,7 +47,7 @@ fn collides(game : Game, kind : Int, rot : Int, px : Int, py : Int) -> Bool {
 
 ///|
 fn lock_piece(game : Game) -> Unit {
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let c = piece_cell(game.piece_kind, game.piece_rot, i)
     let x = game.piece_x + c.x
     let y = game.piece_y + c.y
@@ -67,7 +67,7 @@ fn clear_lines(game : Game) -> Int {
   let mut y = board_rows - 1
   while y >= 0 {
     let mut full = true
-    for x = 0; x < board_cols; x = x + 1 {
+    for x in 0..<board_cols {
       if game.board[board_index(x, y)] == 0 {
         full = false
       }
@@ -76,12 +76,12 @@ fn clear_lines(game : Game) -> Int {
       cleared = cleared + 1
       let mut yy = y
       while yy > 0 {
-        for x = 0; x < board_cols; x = x + 1 {
+        for x in 0..<board_cols {
           game.board[board_index(x, yy)] = game.board[board_index(x, yy - 1)]
         }
         yy = yy - 1
       }
-      for x = 0; x < board_cols; x = x + 1 {
+      for x in 0..<board_cols {
         game.board[board_index(x, 0)] = 0
       }
       // Keep y the same and recheck after shift.
@@ -169,7 +169,7 @@ fn try_move(game : Game, dx : Int, dy : Int) -> Bool {
 fn try_rotate(game : Game, dir : Int) -> Unit {
   let new_rot = normalize_rot(game.piece_rot + dir)
   let kicks : Array[Int] = [0, -1, 1, -2, 2]
-  for i = 0; i < kicks.length(); i = i + 1 {
+  for i in 0..<kicks.length() {
     let x = game.piece_x + kicks[i]
     if not(collides(game, game.piece_kind, new_rot, x, game.piece_y)) {
       game.piece_rot = new_rot
@@ -204,7 +204,7 @@ fn use_hold(game : Game) -> Unit {
 
 ///|
 fn reset_game(game : Game) -> Unit {
-  for i = 0; i < game.board.length(); i = i + 1 {
+  for i in 0..<game.board.length() {
     game.board[i] = 0
   }
   game.score = 0

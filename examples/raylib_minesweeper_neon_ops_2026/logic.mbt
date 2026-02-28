@@ -104,7 +104,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -127,7 +127,7 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if game.sparks[i].active {
       continue
     }
@@ -146,7 +146,7 @@ fn spawn_spark(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(
       game,
       x + randf(-8.0, 8.0),
@@ -162,7 +162,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -182,7 +182,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.cells.length(); i = i + 1 {
+  for i in 0..<game.cells.length() {
     game.cells[i].mine = false
     game.cells[i].revealed = false
     game.cells[i].flagged = false
@@ -195,8 +195,8 @@ fn clear_board(game : Game) -> Unit {
 fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
   let mut n : Int = 0
 
-  for oy = -1; oy <= 1; oy = oy + 1 {
-    for ox = -1; ox <= 1; ox = ox + 1 {
+  for oy in -1..=1 {
+    for ox in -1..=1 {
       if ox == 0 && oy == 0 {
         continue
       }
@@ -216,8 +216,8 @@ fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn recompute_around(game : Game) -> Unit {
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let i : Int = idx(x, y)
       if game.cells[i].mine {
         game.cells[i].around = -1
@@ -297,7 +297,7 @@ fn start_match(game : Game) -> Unit {
 
 ///|
 fn reveal_all_mines(game : Game) -> Unit {
-  for i = 0; i < game.cells.length(); i = i + 1 {
+  for i in 0..<game.cells.length() {
     if game.cells[i].mine {
       game.cells[i].revealed = true
     }
@@ -423,8 +423,8 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
       continue
     }
 
-    for oy = -1; oy <= 1; oy = oy + 1 {
-      for ox = -1; ox <= 1; ox = ox + 1 {
+    for oy in -1..=1 {
+      for ox in -1..=1 {
         if ox == 0 && oy == 0 {
           continue
         }
@@ -563,8 +563,8 @@ fn safe_hint_target(game : Game) -> (Bool, Int, Int) {
     tries = tries + 1
   }
 
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let i : Int = idx(x, y)
       if not(game.cells[i].mine) &&
         not(game.cells[i].revealed) &&

@@ -152,7 +152,7 @@ fn obstacle_z(obs : Obstacle) -> Float {
 
 ///|
 fn clear_obstacles(obs : Array[Obstacle]) -> Unit {
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     obs[i].active = false
     obs[i].kind = 0
     obs[i].x = 0.0
@@ -165,7 +165,7 @@ fn clear_obstacles(obs : Array[Obstacle]) -> Unit {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     shots[i].active = false
     shots[i].from_player = false
     shots[i].x = 0.0
@@ -179,7 +179,7 @@ fn clear_shots(shots : Array[Shot]) -> Unit {
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     items[i].active = false
     items[i].kind = 0
     items[i].x = 0.0
@@ -190,7 +190,7 @@ fn clear_pickups(items : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -212,7 +212,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if done {
       continue
     }
@@ -241,7 +241,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(parts, x, y, speed, kind)
   }
@@ -259,7 +259,7 @@ fn spawn_shot(
   life : Float,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if slot < 0 && not(shots[i].active) {
       slot = i
     }
@@ -283,7 +283,7 @@ fn spawn_shot(
 ///|
 fn spawn_obstacle(obs : Array[Obstacle], level : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     if slot < 0 && not(obs[i].active) {
       slot = i
     }
@@ -323,7 +323,7 @@ fn spawn_obstacle(obs : Array[Obstacle], level : Int) -> Bool {
 ///|
 fn spawn_pickup(items : Array[Pickup]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     if slot < 0 && not(items[i].active) {
       slot = i
     }
@@ -348,7 +348,7 @@ fn spawn_pickup(items : Array[Pickup]) -> Bool {
 fn nearest_obstacle_dy(obs : Array[Obstacle], player_dist : Float) -> Int {
   ignore(player_dist)
   let mut closest : Int = 9999
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     if not(obs[i].active) {
       continue
     }
@@ -477,11 +477,11 @@ fn main {
     clear_pickups(pickups)
     clear_particles(particles)
 
-    for i = 0; i < 8; i = i + 1 {
+    for i in 0..<8 {
       ignore(i)
       ignore(spawn_obstacle(obstacles, level))
     }
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       ignore(i)
       ignore(spawn_pickup(pickups))
     }
@@ -745,7 +745,7 @@ fn main {
         pickup_cd = randf(2.0, 4.4)
       }
 
-      for i = 0; i < obstacles.length(); i = i + 1 {
+      for i in 0..<obstacles.length() {
         if not(obstacles[i].active) {
           continue
         }
@@ -844,7 +844,7 @@ fn main {
         }
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
@@ -862,7 +862,7 @@ fn main {
         }
 
         if shots[i].from_player {
-          for j = 0; j < obstacles.length(); j = j + 1 {
+          for j in 0..<obstacles.length() {
             if not(obstacles[j].active) {
               continue
             }
@@ -901,7 +901,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -940,7 +940,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -981,7 +981,7 @@ fn main {
     }
     @raylib.clear_background(bg_col)
 
-    for i = 0; i < 20; i = i + 1 {
+    for i in 0..<20 {
       let x = i * 68 + (player.distance * 0.8).to_int() % 68
       let h = 120 + i * 17 % 260
       @raylib.draw_rectangle(
@@ -1000,7 +1000,7 @@ fn main {
       )
     }
 
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       let ly = lane_y(lane)
       @raylib.draw_rectangle(
         0,
@@ -1010,7 +1010,7 @@ fn main {
         @raylib.Color::new(42, 48, 66, 255),
       )
       let shift = (player.distance * 20.0).to_int() % 72
-      for i = 0; i < 22; i = i + 1 {
+      for i in 0..<22 {
         @raylib.draw_rectangle(
           i * 72 - shift,
           (ly + 26.0).to_int(),
@@ -1021,7 +1021,7 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -1048,7 +1048,7 @@ fn main {
       )
     }
 
-    for i = 0; i < obstacles.length(); i = i + 1 {
+    for i in 0..<obstacles.length() {
       if not(obstacles[i].active) {
         continue
       }
@@ -1114,7 +1114,7 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if not(shots[i].active) {
         continue
       }
@@ -1128,7 +1128,7 @@ fn main {
       @raylib.draw_circle(shots[i].x.to_int(), sy.to_int(), 4.0, c)
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

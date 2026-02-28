@@ -84,7 +84,7 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -107,7 +107,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -126,7 +126,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-10.0, 10.0),
@@ -142,7 +142,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -165,8 +165,8 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 
 ///|
 fn build_map(game : Game) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       if x == 0 || x == grid_w - 1 || y == 0 || y == grid_h - 1 {
         set_tile(game, x, y, tile_wall)
       } else {
@@ -175,14 +175,14 @@ fn build_map(game : Game) -> Unit {
     }
   }
 
-  for lane = 0; lane < train_lane_n; lane = lane + 1 {
+  for lane in 0..<train_lane_n {
     let ry : Int = lane_to_y(lane)
-    for x = 1; x < grid_w - 1; x = x + 1 {
+    for x in 1..<(grid_w - 1) {
       set_tile(game, x, ry, tile_track)
     }
   }
 
-  for x = 1; x < grid_w - 1; x = x + 1 {
+  for x in 1..<(grid_w - 1) {
     if x == 5 || x == 9 || x == 13 || x == 17 || x == 21 {
       continue
     }
@@ -191,7 +191,7 @@ fn build_map(game : Game) -> Unit {
     set_tile(game, x, 9, tile_wall)
   }
 
-  for i = 0; i < junction_n; i = i + 1 {
+  for i in 0..<junction_n {
     let jx : Int = junction_x(i)
     set_tile(game, jx, signal_panel_top_y(), tile_floor)
     set_tile(game, jx, signal_panel_bottom_y(), tile_floor)
@@ -211,7 +211,7 @@ fn init_inspectors(game : Game) -> Unit {
     (20, signal_panel_top_y(), 2, 22, -1),
   ]
 
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     game.inspectors[i].active = i < plan.length()
     game.inspectors[i].mode = inspector_patrol
     game.inspectors[i].move_cd = randf(0.05, 0.30)
@@ -237,7 +237,7 @@ fn init_inspectors(game : Game) -> Unit {
 
 ///|
 fn clear_trains(game : Game) -> Unit {
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     game.trains[i].active = false
     game.trains[i].x = 0.0
     game.trains[i].prev_x = 0.0
@@ -258,7 +258,7 @@ fn start_run(game : Game) -> Unit {
 
   actor_place(game.player, start_x, start_y)
 
-  for i = 0; i < game.switch_state.length(); i = i + 1 {
+  for i in 0..<game.switch_state.length() {
     game.switch_state[i] = 0
   }
 
@@ -360,7 +360,7 @@ fn train_color_from_target(target_lane : Int) -> Int {
 ///|
 fn active_train_count(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     if game.trains[i].active {
       n = n + 1
     }
@@ -376,7 +376,7 @@ fn spawn_train(game : Game) -> Bool {
   }
 
   let mut slot : Int = -1
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     if not(game.trains[i].active) {
       slot = i
       break
@@ -425,7 +425,7 @@ fn try_toggle_switch(game : Game) -> Bool {
   let mut best_i : Int = -1
   let mut best_d : Int = 999
 
-  for i = 0; i < junction_n; i = i + 1 {
+  for i in 0..<junction_n {
     let d : Int = absi(px - junction_x(i))
     if d <= 1 && d < best_d {
       best_i = i
@@ -474,7 +474,7 @@ fn deploy_emp(game : Game) -> Bool {
   game.slow_t = 1.7
 
   let mut hits : Int = 0
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     if not(game.inspectors[i].active) ||
       game.inspectors[i].mode == inspector_stunned {
       continue
@@ -556,7 +556,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   if x0 == x1 {
     let y_min : Int = mini(y0, y1)
     let y_max : Int = maxi(y0, y1)
-    for y = y_min + 1; y < y_max; y = y + 1 {
+    for y in (y_min + 1)..<y_max {
       let t : Int = tile_at(game, x0, y)
       if t == tile_wall || t == tile_track {
         return false
@@ -568,7 +568,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   if y0 == y1 {
     let x_min : Int = mini(x0, x1)
     let x_max : Int = maxi(x0, x1)
-    for x = x_min + 1; x < x_max; x = x + 1 {
+    for x in (x_min + 1)..<x_max {
       let t : Int = tile_at(game, x, y0)
       if t == tile_wall || t == tile_track {
         return false
@@ -596,7 +596,7 @@ fn blocked_for_inspector(game : Game, x : Int, y : Int) -> Bool {
     return true
   }
 
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     if not(game.inspectors[i].active) {
       continue
     }
@@ -635,7 +635,7 @@ fn choose_inspector_step(game : Game, i : Int) -> (Int, Int) {
     let mut best_i : Int = -1
     let mut best_d : Int = 999999
 
-    for k = 0; k < 4; k = k + 1 {
+    for k in 0..<4 {
       let nx : Int = gx + dirs[k].0
       let ny : Int = gy + dirs[k].1
       if blocked_for_inspector(game, nx, ny) {
@@ -672,7 +672,7 @@ fn choose_inspector_step(game : Game, i : Int) -> (Int, Int) {
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
   let start : Int = g.seed % 4
 
-  for t = 0; t < 4; t = t + 1 {
+  for t in 0..<4 {
     let k : Int = (start + t) % 4
     let xx : Int = gx + dirs[k].0
     let yy : Int = gy + dirs[k].1
@@ -688,7 +688,7 @@ fn choose_inspector_step(game : Game, i : Int) -> (Int, Int) {
 
 ///|
 fn update_inspectors(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     if not(game.inspectors[i].active) {
       continue
     }
@@ -736,7 +736,7 @@ fn update_inspectors(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_trains(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     if not(game.trains[i].active) {
       continue
     }
@@ -804,12 +804,12 @@ fn update_trains(game : Game, dt : Float) -> Unit {
 
 ///|
 fn resolve_train_collisions(game : Game) -> Unit {
-  for i = 0; i < game.trains.length(); i = i + 1 {
+  for i in 0..<game.trains.length() {
     if not(game.trains[i].active) {
       continue
     }
 
-    for j = i + 1; j < game.trains.length(); j = j + 1 {
+    for j in (i + 1)..<game.trains.length() {
       if not(game.trains[j].active) {
         continue
       }
@@ -855,7 +855,7 @@ fn handle_player_spotted(game : Game) -> Unit {
     return
   }
 
-  for i = 0; i < game.inspectors.length(); i = i + 1 {
+  for i in 0..<game.inspectors.length() {
     if not(game.inspectors[i].active) ||
       game.inspectors[i].mode == inspector_stunned {
       continue

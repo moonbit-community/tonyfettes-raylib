@@ -107,7 +107,7 @@ fn inside_rect(
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -127,7 +127,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -154,7 +154,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -389,7 +389,7 @@ fn draw_hoop(x : Float, side : Int) -> Unit {
     @raylib.Color::new(248, 146, 92, 255),
   )
 
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let dx = -16 + i * 4
     @raylib.draw_line(
       (x + Float::from_int(dx)).to_int(),
@@ -516,7 +516,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -921,7 +921,7 @@ fn main {
       @raylib.Color::new(18, 30 + glow / 8, 62 + glow / 4, 255),
     )
 
-    for i = 0; i < 84; i = i + 1 {
+    for i in 0..<84 {
       let x = (i * 104 + (crowd_t * 68.0).to_int()) % (sw + 180) - 90
       let h = 120 + i * 47 % 300
       let w = 42 + i * 11 % 70
@@ -962,7 +962,7 @@ fn main {
     )
     @raylib.draw_rectangle(0, 606, sw, 50, @raylib.Color::new(94, 98, 110, 255))
 
-    for i = 0; i < 34; i = i + 1 {
+    for i in 0..<34 {
       let x = (i * 46 + (crowd_t * 120.0).to_int()) % (sw + 100) - 50
       @raylib.draw_line(
         x,
@@ -1165,7 +1165,7 @@ fn main {
       @raylib.Color::new(164, 88, 52, 255),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

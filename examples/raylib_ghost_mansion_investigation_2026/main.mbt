@@ -149,7 +149,7 @@ fn blocked(x : Float, y : Float, r : Float, level : Int) -> Bool {
 
 ///|
 fn clear_ghosts(gs : Array[Ghost]) -> Unit {
-  for i = 0; i < gs.length(); i = i + 1 {
+  for i in 0..<gs.length() {
     gs[i].x = 0.0
     gs[i].y = 0.0
     gs[i].vx = 0.0
@@ -166,7 +166,7 @@ fn clear_ghosts(gs : Array[Ghost]) -> Unit {
 
 ///|
 fn clear_clues(cs : Array[Clue]) -> Unit {
-  for i = 0; i < cs.length(); i = i + 1 {
+  for i in 0..<cs.length() {
     cs[i].x = 0.0
     cs[i].y = 0.0
     cs[i].kind = 0
@@ -176,7 +176,7 @@ fn clear_clues(cs : Array[Clue]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].x = 0.0
     ps[i].y = 0.0
     ps[i].vx = 0.0
@@ -196,7 +196,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -223,7 +223,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -306,7 +306,7 @@ fn init_clues(level : Int, cs : Array[Clue]) -> Int {
 ///|
 fn spawn_ghost(gs : Array[Ghost], level : Int) -> Unit {
   let mut done = false
-  for i = 0; i < gs.length(); i = i + 1 {
+  for i in 0..<gs.length() {
     if done {
       continue
     }
@@ -549,7 +549,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }
@@ -672,7 +672,7 @@ fn main {
         msg = "EM pulse"
         burst(particles, player.x, player.y, 24, 0.52, 2)
 
-        for i = 0; i < ghosts.length(); i = i + 1 {
+        for i in 0..<ghosts.length() {
           if not(ghosts[i].active) {
             continue
           }
@@ -698,7 +698,7 @@ fn main {
 
       let mut nearby_terror : Float = 0.0
 
-      for i = 0; i < ghosts.length(); i = i + 1 {
+      for i in 0..<ghosts.length() {
         if not(ghosts[i].active) {
           continue
         }
@@ -805,7 +805,7 @@ fn main {
         msg = "Sanity collapsed"
       }
 
-      for i = 0; i < clues.length(); i = i + 1 {
+      for i in 0..<clues.length() {
         if not(clues[i].active) {
           continue
         }
@@ -947,7 +947,7 @@ fn main {
       @raylib.Color::new(234, 246, 236, 255),
     )
 
-    for i = 0; i < clues.length(); i = i + 1 {
+    for i in 0..<clues.length() {
       if not(clues[i].active) {
         continue
       }
@@ -965,7 +965,7 @@ fn main {
       @raylib.draw_circle(cx, cy, 5.0, @raylib.Color::new(252, 248, 236, 255))
     }
 
-    for i = 0; i < ghosts.length(); i = i + 1 {
+    for i in 0..<ghosts.length() {
       if not(ghosts[i].active) {
         continue
       }
@@ -1093,7 +1093,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

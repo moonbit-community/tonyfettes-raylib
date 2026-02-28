@@ -63,7 +63,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Menu items
   let items : Array[String] = ["Quick Battle", "Battle Select"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 310 + i * 40
     let iw = @raylib.measure_text(items[i], 28)
     let ix = (@types.screen_width - iw) / 2
@@ -98,7 +98,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "WASD - Sail and Steer", "Q / Left Click - Fire Port Cannons", "E / Right Click - Fire Starboard Cannons",
     "Space - Fire Both Broadsides", "P / ESC - Pause", "Mouse Wheel - Rotate Camera",
   ]
-  for i = 0; i < controls.length(); i = i + 1 {
+  for i in 0..<controls.length() {
     let y = 430 + i * 24
     let cw = @raylib.measure_text(controls[i], 16)
     @raylib.draw_text(
@@ -509,13 +509,13 @@ fn draw_battle_select(game : @types.Game) -> Unit {
     @raylib.Color::new(220, 200, 140, 255),
   )
   // List battles
-  for i = 0; i < game.total_battles; i = i + 1 {
+  for i in 0..<game.total_battles {
     let y = 110 + i * 48
     let name = @levels.get_battle_name(i)
     let diff = @levels.get_battle_difficulty(i)
     // Build stars string
     let mut stars = ""
-    for s = 0; s < diff; s = s + 1 {
+    for s in 0..<diff {
       stars = stars + "*"
     }
     let label = "\{i + 1}. \{name}  [\{stars}]"

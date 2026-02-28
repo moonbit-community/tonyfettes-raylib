@@ -30,7 +30,7 @@ fn spawn_train(
   lane : Int,
   cargo : Int,
 ) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     if not(trains[i].alive) {
       trains[i].alive = true
       trains[i].x = if from_left { 80.0 } else { Float::from_int(sw - 80) }
@@ -103,7 +103,7 @@ fn target_lane(dir : Int, cargo : Int) -> Int {
 
 ///|
 fn reset_trains(trains : Array[Train]) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     trains[i].alive = false
   }
 }
@@ -192,7 +192,7 @@ fn main {
         spawn_train(trains, from_left, lane, cargo)
       }
 
-      for i = 0; i < trains.length(); i = i + 1 {
+      for i in 0..<trains.length() {
         if not(trains[i].alive) {
           continue
         }
@@ -241,11 +241,11 @@ fn main {
       }
 
       // Collision check
-      for i = 0; i < trains.length(); i = i + 1 {
+      for i in 0..<trains.length() {
         if not(trains[i].alive) {
           continue
         }
-        for j = i + 1; j < trains.length(); j = j + 1 {
+        for j in (i + 1)..<trains.length() {
           if not(trains[j].alive) {
             continue
           }
@@ -272,7 +272,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 22, 28, 255))
 
-    for l = 0; l < lanes; l = l + 1 {
+    for l in 0..<lanes {
       let y = lane_y(l)
       @raylib.draw_line(70, y.to_int(), sw - 70, y.to_int(), @raylib.lightgray)
       @raylib.draw_line(
@@ -390,7 +390,7 @@ fn main {
       },
     )
 
-    for i = 0; i < trains.length(); i = i + 1 {
+    for i in 0..<trains.length() {
       if trains[i].alive {
         let y = lane_y(trains[i].lane)
         let c = train_color(trains[i].cargo)

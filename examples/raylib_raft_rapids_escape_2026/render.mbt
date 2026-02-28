@@ -47,7 +47,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(34, 52, 90, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 70
     @raylib.draw_rectangle(
       0,
@@ -82,7 +82,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(168, 224, 238, 210),
   )
 
-  for i = 0; i < 23; i = i + 1 {
+  for i in 0..<23 {
     let y : Int = world_y0 + oy + i * 42
     let shift : Int = (ui_wave(game, 1.0 + Float::from_int(i) * 0.07) * 18.0).to_int()
 
@@ -115,10 +115,10 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_currents(game : Game, ox : Int, oy : Int) -> Unit {
-  for r = 0; r < 12; r = r + 1 {
+  for r in 0..<12 {
     let row_y : Float = world_top() + 38.0 + Float::from_int(r) * 76.0
 
-    for c = 0; c < 7; c = c + 1 {
+    for c in 0..<7 {
       let x : Float = world_left() + 90.0 + Float::from_int(c) * 150.0
       let cx : Float = water_current_x(game, row_y)
       let cy : Float = water_current_y(game, x)
@@ -188,7 +188,7 @@ fn draw_obstacle(ob : Obstacle, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(146, 112, 74, 240),
     )
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       let px : Int = x + 16 + i * (w - 32) / 3
       @raylib.draw_line(
         px,
@@ -211,7 +211,7 @@ fn draw_obstacle(ob : Obstacle, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(255, 208, 208, 180),
     )
 
-    for i = 0; i < 8; i = i + 1 {
+    for i in 0..<8 {
       let a : Float = ob.phase + Float::from_int(i) * 0.785
       let px0 : Int = (Float::from_int(cx) + cosf(a) * (r - 2.0)).to_int()
       let py0 : Int = (Float::from_int(cy) + sinf(a) * (r - 2.0)).to_int()
@@ -297,7 +297,7 @@ fn draw_pickup(pk : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -1010,11 +1010,11 @@ fn draw_frame(
   draw_world_back(game, ox, oy)
   draw_currents(game, ox, oy)
 
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     draw_obstacle(game.obstacles[i], ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     draw_pickup(game.pickups[i], ox, oy)
   }
 

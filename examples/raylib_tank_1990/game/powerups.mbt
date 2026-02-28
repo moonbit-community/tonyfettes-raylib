@@ -1,6 +1,6 @@
 ///|
 fn alloc_powerup(game : @types.Game) -> Int {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
       return i
     }
@@ -53,7 +53,7 @@ fn spawn_random_powerup(game : @types.Game, x : Float, y : Float) -> Unit {
 ///|
 fn clear_all_enemies_by_grenade(game : @types.Game, team : Int) -> Unit {
   let mut killed = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       let enemy = game.enemies[i]
       enemy.active = false
@@ -111,9 +111,9 @@ fn apply_powerup(game : @types.Game, player_index : Int, kind : Int) -> Unit {
 
 ///|
 fn update_powerups(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
-      continue i + 1
+      continue
     }
 
     let p = game.powerups[i]
@@ -122,13 +122,13 @@ fn update_powerups(game : @types.Game, dt : Float) -> Unit {
     p.pulse += dt * 3.0
     if p.ttl <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
 
-    for j = 0; j < @types.max_players; j = j + 1 {
+    for j in 0..<@types.max_players {
       let player = game.players[j]
       if not(player.active) {
-        continue j + 1
+        continue
       }
       let r = @types.tank_half + @types.powerup_radius(p.kind)
       if @types.distance_sq(player.x, player.y, p.x, p.y) <= r * r {

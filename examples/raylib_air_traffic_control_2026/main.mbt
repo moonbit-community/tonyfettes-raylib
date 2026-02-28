@@ -24,7 +24,7 @@ struct Plane {
 
 ///|
 fn spawn_plane(planes : Array[Plane]) -> Unit {
-  for i = 0; i < planes.length(); i = i + 1 {
+  for i in 0..<planes.length() {
     if not(planes[i].alive) {
       let r = @raylib.get_random_value(0, runway_count - 1)
       planes[i].alive = true
@@ -41,7 +41,7 @@ fn spawn_plane(planes : Array[Plane]) -> Unit {
 
 ///|
 fn reset_planes(planes : Array[Plane]) -> Unit {
-  for i = 0; i < planes.length(); i = i + 1 {
+  for i in 0..<planes.length() {
     planes[i].alive = false
   }
 }
@@ -98,7 +98,7 @@ fn main {
         runway_open[2] = not(runway_open[2])
       }
 
-      for r = 0; r < runway_count; r = r + 1 {
+      for r in 0..<runway_count {
         runway_busy[r] = runway_busy[r] - dt
         if runway_busy[r] < 0.0 {
           runway_busy[r] = 0.0
@@ -116,7 +116,7 @@ fn main {
         stress = 0.0
       }
 
-      for i = 0; i < planes.length(); i = i + 1 {
+      for i in 0..<planes.length() {
         if not(planes[i].alive) {
           continue
         }
@@ -154,11 +154,11 @@ fn main {
       }
 
       // Near-collision warning between planes on same runway
-      for i = 0; i < planes.length(); i = i + 1 {
+      for i in 0..<planes.length() {
         if not(planes[i].alive) {
           continue
         }
-        for j = i + 1; j < planes.length(); j = j + 1 {
+        for j in (i + 1)..<planes.length() {
           if not(planes[j].alive) {
             continue
           }
@@ -195,7 +195,7 @@ fn main {
       @raylib.Color::new(84, 130, 94, 255),
     )
 
-    for r = 0; r < runway_count; r = r + 1 {
+    for r in 0..<runway_count {
       let x = runway_x(r)
       let state_c = if runway_open[r] { @raylib.lime } else { @raylib.red }
 
@@ -227,7 +227,7 @@ fn main {
       }
     }
 
-    for i = 0; i < planes.length(); i = i + 1 {
+    for i in 0..<planes.length() {
       if planes[i].alive {
         let c = if planes[i].fuel < 6.0 { @raylib.red } else { @raylib.white }
         @raylib.draw_triangle(

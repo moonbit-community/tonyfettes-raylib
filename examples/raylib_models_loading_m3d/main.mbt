@@ -99,7 +99,7 @@ fn main {
       // Loop to (boneCount - 1) because the last one is a special "no bone" bone,
       // needed to workaround buggy models
       // without a -1, we would always draw a cube at the origin
-      for i = 0; i < bone_count - 1; i = i + 1 {
+      for i in 0..<(bone_count - 1) {
         if not(anim_playing) || anims_count == 0 {
           // Display the bind-pose skeleton
           let translation = @raylib.get_model_bind_pose_translation(model, i)

@@ -97,7 +97,7 @@ fn draw_background(game : Game) -> Unit {
   )
 
   // Decorative dungeon pillars.
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let px = world_left + 90.0 + Float::from_int(i % 4) * 320.0
     let py = world_top + 120.0 + Float::from_int(i / 4) * 380.0
     @raylib.draw_rectangle(
@@ -119,7 +119,7 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_exits(game : Game) -> Unit {
-  for i = 0; i < game.exits.length(); i = i + 1 {
+  for i in 0..<game.exits.length() {
     if not(game.exits[i].active) {
       continue
     }
@@ -159,7 +159,7 @@ fn draw_exits(game : Game) -> Unit {
 
 ///|
 fn draw_traps(game : Game) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     if not(game.traps[i].active) {
       continue
     }
@@ -193,7 +193,7 @@ fn draw_traps(game : Game) -> Unit {
 
 ///|
 fn draw_parcels(game : Game) -> Unit {
-  for i = 0; i < game.parcels.length(); i = i + 1 {
+  for i in 0..<game.parcels.length() {
     if not(game.parcels[i].active) || game.parcels[i].delivered {
       continue
     }
@@ -228,7 +228,7 @@ fn draw_parcels(game : Game) -> Unit {
 
 ///|
 fn draw_smokes(game : Game) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -303,7 +303,7 @@ fn draw_guard(g : Guard) -> Unit {
 
 ///|
 fn draw_guards(game : Game) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if game.guards[i].active {
       draw_guard(game.guards[i])
     }

@@ -44,7 +44,7 @@ fn draw_ocean(game : @types.Game) -> Unit {
   )
   // Simulated wave stripes using thin planes at slightly different heights
   let time = Float::from_int(game.frame_counter) * 0.03
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let offset = Float::from_int(i) * 10.0 - 95.0
     let wave_h = @math.sinf(time + Float::from_int(i) * 0.7) * 0.15
     let alpha : Int = 40 +
@@ -59,7 +59,7 @@ fn draw_ocean(game : @types.Game) -> Unit {
     )
   }
   // Cross waves
-  for i = 0; i < 15; i = i + 1 {
+  for i in 0..<15 {
     let offset = Float::from_int(i) * 13.0 - 91.0
     let wave_h = @math.sinf(time * 0.8 + Float::from_int(i) * 0.9) * 0.1
     @raylib.draw_cube(
@@ -74,10 +74,10 @@ fn draw_ocean(game : @types.Game) -> Unit {
 
 ///|
 fn draw_islands(game : @types.Game) -> Unit {
-  for i = 0; i < game.island_count; i = i + 1 {
+  for i in 0..<game.island_count {
     let island = game.islands[i]
     if not(island.active) {
-      continue i + 1
+      continue
     }
     // Base rock - draw as a cluster of cubes
     let base_color = @raylib.Color::new(100, 85, 60, 255)
@@ -92,7 +92,7 @@ fn draw_islands(game : @types.Game) -> Unit {
       base_color,
     )
     // Additional blocks
-    for b = 0; b < island.blocks; b = b + 1 {
+    for b in 0..<island.blocks {
       let angle = Float::from_int(b) * 6.28318 / Float::from_int(island.blocks)
       let bx = island.x + @math.sinf(angle) * island.radius * 0.5
       let bz = island.z + @math.cosf(angle) * island.radius * 0.5
@@ -246,10 +246,10 @@ fn draw_player_ship(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemy_ships(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let sin_h = @math.sinf(enemy.heading)
     let cos_h = @math.cosf(enemy.heading)
@@ -339,10 +339,10 @@ fn draw_enemy_ships(game : @types.Game) -> Unit {
 
 ///|
 fn draw_cannonballs(game : @types.Game) -> Unit {
-  for i = 0; i < game.cannonballs.length(); i = i + 1 {
+  for i in 0..<game.cannonballs.length() {
     let cb = game.cannonballs[i]
     if not(cb.active) {
-      continue i + 1
+      continue
     }
     let color = if cb.from_player {
       @raylib.Color::new(40, 40, 40, 255)
@@ -365,10 +365,10 @@ fn draw_cannonballs(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)

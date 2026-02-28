@@ -1,6 +1,6 @@
 ///|
 fn clear_entities(game : Game) -> Unit {
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     game.entities[i].active = false
     game.entities[i].kind = foe_bike
     game.entities[i].x = 0.0
@@ -19,7 +19,7 @@ fn clear_entities(game : Game) -> Unit {
 
 ///|
 fn clear_bullets(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     game.bullets[i].active = false
     game.bullets[i].from_player = true
     game.bullets[i].x = 0.0
@@ -34,7 +34,7 @@ fn clear_bullets(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -48,7 +48,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     game.rings[i].active = false
     game.rings[i].x = 0.0
     game.rings[i].y = 0.0
@@ -60,7 +60,7 @@ fn clear_rings(game : Game) -> Unit {
 
 ///|
 fn clear_images(game : Game) -> Unit {
-  for i = 0; i < game.images.length(); i = i + 1 {
+  for i in 0..<game.images.length() {
     game.images[i].active = false
     game.images[i].x = 0.0
     game.images[i].y = 0.0
@@ -89,7 +89,7 @@ fn reset_player(hero : Player) -> Unit {
 
 ///|
 fn alloc_entity(game : Game) -> Int {
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if not(game.entities[i].active) {
       return i
     }
@@ -97,7 +97,7 @@ fn alloc_entity(game : Game) -> Int {
 
   let mut best = 0
   let mut best_y = game.entities[0].y
-  for i = 1; i < game.entities.length(); i = i + 1 {
+  for i in 1..<game.entities.length() {
     if game.entities[i].y > best_y {
       best_y = game.entities[i].y
       best = i
@@ -108,7 +108,7 @@ fn alloc_entity(game : Game) -> Int {
 
 ///|
 fn alloc_bullet(game : Game) -> Int {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
     }
@@ -116,7 +116,7 @@ fn alloc_bullet(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.bullets[0].life
-  for i = 1; i < game.bullets.length(); i = i + 1 {
+  for i in 1..<game.bullets.length() {
     if game.bullets[i].life < best_life {
       best_life = game.bullets[i].life
       best = i
@@ -127,7 +127,7 @@ fn alloc_bullet(game : Game) -> Int {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -135,7 +135,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -146,7 +146,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_ring(game : Game) -> Int {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       return i
     }
@@ -154,7 +154,7 @@ fn alloc_ring(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.rings[0].life
-  for i = 1; i < game.rings.length(); i = i + 1 {
+  for i in 1..<game.rings.length() {
     if game.rings[i].life < best_life {
       best_life = game.rings[i].life
       best = i
@@ -165,7 +165,7 @@ fn alloc_ring(game : Game) -> Int {
 
 ///|
 fn alloc_image(game : Game) -> Int {
-  for i = 0; i < game.images.length(); i = i + 1 {
+  for i in 0..<game.images.length() {
     if not(game.images[i].active) {
       return i
     }
@@ -173,7 +173,7 @@ fn alloc_image(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.images[0].life
-  for i = 1; i < game.images.length(); i = i + 1 {
+  for i in 1..<game.images.length() {
     if game.images[i].life < best_life {
       best_life = game.images[i].life
       best = i
@@ -206,7 +206,7 @@ fn emit_spark(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, count : Int, kind : Int) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     emit_spark(
       game,
       x + randf(-22.0, 22.0),
@@ -478,7 +478,7 @@ fn spawn_enemy_pack(game : Game, y : Float) -> Unit {
   let center = road_center_at(depth, game.time_s)
 
   let pack = 1 + randi(0, 2)
-  for _i = 0; _i < pack; _i = _i + 1 {
+  for _i in 0..<pack {
     let roll = randi(0, 99)
 
     if roll < 34 {
@@ -625,7 +625,7 @@ fn apply_hack_pulse(game : Game) -> Unit {
   let rr2 = hack_radius * hack_radius
   let kill2 = hack_pulse_kill * hack_pulse_kill
 
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if not(game.entities[i].active) {
       continue
     }
@@ -655,7 +655,7 @@ fn apply_hack_pulse(game : Game) -> Unit {
     }
   }
 
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) || game.bullets[i].from_player {
       continue
     }
@@ -912,7 +912,7 @@ fn collect_pickup(game : Game, kind : Int) -> Unit {
 fn update_entities(game : Game, dt : Float) -> Unit {
   let ram_hit = game.boost_t > 0.0
 
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if not(game.entities[i].active) {
       continue
     }
@@ -997,7 +997,7 @@ fn update_entities(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }
@@ -1019,7 +1019,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
     if game.bullets[i].from_player {
       let mut hit = false
-      for j = 0; j < game.entities.length(); j = j + 1 {
+      for j in 0..<game.entities.length() {
         if not(game.entities[j].active) || is_pickup(game.entities[j].kind) {
           continue
         }
@@ -1076,7 +1076,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -1091,7 +1091,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -1104,7 +1104,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.images.length(); i = i + 1 {
+  for i in 0..<game.images.length() {
     if not(game.images[i].active) {
       continue
     }

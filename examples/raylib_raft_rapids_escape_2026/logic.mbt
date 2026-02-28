@@ -130,7 +130,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -144,7 +144,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     game.obstacles[i].active = false
     game.obstacles[i].x = 0.0
     game.obstacles[i].y = 0.0
@@ -156,7 +156,7 @@ fn clear_world(game : Game) -> Unit {
     game.obstacles[i].phase = 0.0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i].active = false
     game.pickups[i].x = 0.0
     game.pickups[i].y = 0.0
@@ -176,7 +176,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -195,7 +195,7 @@ fn emit_particle(
 
 ///|
 fn splash(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -211,7 +211,7 @@ fn splash(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -436,7 +436,7 @@ fn collect_pickup(game : Game, kind : Int, x : Float, y : Float) -> Unit {
 
 ///|
 fn spawn_obstacle(game : Game) -> Bool {
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     if game.obstacles[i].active {
       continue
     }
@@ -492,7 +492,7 @@ fn spawn_obstacle(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if game.pickups[i].active {
       continue
     }
@@ -584,7 +584,7 @@ fn update_raft(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_obstacles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     if not(game.obstacles[i].active) {
       continue
     }
@@ -653,7 +653,7 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }
@@ -718,14 +718,14 @@ fn use_hint(game : Game) -> Bool {
 
   let mut best_cost : Float = 1_000_000.0
 
-  for lane = 0; lane < 5; lane = lane + 1 {
+  for lane in 0..<5 {
     let lane_x : Float = world_left() +
       120.0 +
       Float::from_int(lane) * (Float::from_int(world_w) - 240.0) / 4.0
 
     let mut cost : Float = 0.0
 
-    for i = 0; i < game.obstacles.length(); i = i + 1 {
+    for i in 0..<game.obstacles.length() {
       if not(game.obstacles[i].active) {
         continue
       }
@@ -752,7 +752,7 @@ fn use_hint(game : Game) -> Bool {
   let mut pickup_found : Bool = false
   let mut pickup_dist : Float = 1_000_000.0
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }

@@ -436,7 +436,7 @@ pub fn Game::new() -> Game {
     lap_start_time: 0.0,
     waypoints: {
       let arr : Array[Waypoint] = []
-      for i = 0; i < max_waypoints; i = i + 1 {
+      for i in 0..<max_waypoints {
         arr.push({ x: 0.0, y: 0.0, z: 0.0 })
         ignore(i)
       }
@@ -445,7 +445,7 @@ pub fn Game::new() -> Game {
     waypoint_count: 0,
     segments: {
       let arr : Array[TrackSegment] = []
-      for i = 0; i < max_waypoints; i = i + 1 {
+      for i in 0..<max_waypoints {
         arr.push(TrackSegment::default())
         ignore(i)
       }
@@ -455,7 +455,7 @@ pub fn Game::new() -> Game {
     track_name: "",
     karts: {
       let arr : Array[Kart] = []
-      for i = 0; i < max_karts; i = i + 1 {
+      for i in 0..<max_karts {
         arr.push(Kart::inactive())
         ignore(i)
       }

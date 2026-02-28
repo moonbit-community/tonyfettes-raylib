@@ -31,7 +31,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -330,7 +330,7 @@ fn detect_board_tap(
   }
 
   if touch_count > 0 && game.touch_action_cd <= 0.0 {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       let r = map(p.x, p.y)
       if r.0 {

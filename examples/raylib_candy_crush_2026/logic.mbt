@@ -33,7 +33,7 @@ fn is_adjacent(x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
 
 ///|
 fn clear_marks(game : Game) -> Unit {
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     game.marks[i] = false
     game.spawn_special[i] = special_none
   }
@@ -41,7 +41,7 @@ fn clear_marks(game : Game) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     game.flash[i] = 0.0
   }
 }
@@ -63,7 +63,7 @@ fn merge_special(a : Int, b : Int) -> Int {
 
 ///|
 fn mark_horizontal_run(game : Game, y : Int, start_x : Int, len : Int) -> Unit {
-  for k = 0; k < len; k = k + 1 {
+  for k in 0..<len {
     game.marks[idx(start_x + k, y)] = true
   }
 
@@ -81,7 +81,7 @@ fn mark_horizontal_run(game : Game, y : Int, start_x : Int, len : Int) -> Unit {
 
 ///|
 fn mark_vertical_run(game : Game, x : Int, start_y : Int, len : Int) -> Unit {
-  for k = 0; k < len; k = k + 1 {
+  for k in 0..<len {
     game.marks[idx(x, start_y + k)] = true
   }
 
@@ -101,7 +101,7 @@ fn mark_vertical_run(game : Game, x : Int, start_y : Int, len : Int) -> Unit {
 fn scan_and_mark_matches(game : Game) -> Int {
   clear_marks(game)
 
-  for y = 0; y < board_rows; y = y + 1 {
+  for y in 0..<board_rows {
     let mut x = 0
     while x < board_cols {
       let t = game.kinds[idx(x, y)]
@@ -122,7 +122,7 @@ fn scan_and_mark_matches(game : Game) -> Int {
     }
   }
 
-  for x = 0; x < board_cols; x = x + 1 {
+  for x in 0..<board_cols {
     let mut y = 0
     while y < board_rows {
       let t = game.kinds[idx(x, y)]
@@ -144,7 +144,7 @@ fn scan_and_mark_matches(game : Game) -> Int {
   }
 
   let mut n = 0
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     if game.marks[i] {
       n = n + 1
     }
@@ -159,7 +159,7 @@ fn expand_special_marks(game : Game) -> Unit {
   while changed {
     changed = false
 
-    for i = 0; i < board_cells; i = i + 1 {
+    for i in 0..<board_cells {
       if not(game.marks[i]) {
         continue
       }
@@ -173,7 +173,7 @@ fn expand_special_marks(game : Game) -> Unit {
       let cy = i / board_cols
 
       if sp == special_row {
-        for x = 0; x < board_cols; x = x + 1 {
+        for x in 0..<board_cols {
           let j = idx(x, cy)
           if not(game.marks[j]) {
             game.marks[j] = true
@@ -181,7 +181,7 @@ fn expand_special_marks(game : Game) -> Unit {
           }
         }
       } else if sp == special_col {
-        for y = 0; y < board_rows; y = y + 1 {
+        for y in 0..<board_rows {
           let j = idx(cx, y)
           if not(game.marks[j]) {
             game.marks[j] = true
@@ -189,8 +189,8 @@ fn expand_special_marks(game : Game) -> Unit {
           }
         }
       } else if sp == special_bomb {
-        for dy = -1; dy <= 1; dy = dy + 1 {
-          for dx = -1; dx <= 1; dx = dx + 1 {
+        for dy in -1..=1 {
+          for dx in -1..=1 {
             let x = cx + dx
             let y = cy + dy
             if in_board(x, y) {
@@ -211,7 +211,7 @@ fn expand_special_marks(game : Game) -> Unit {
 fn remove_marked_cells(game : Game) -> Int {
   let mut removed = 0
 
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     if not(game.marks[i]) {
       continue
     }
@@ -248,8 +248,8 @@ fn collapse_and_refill(game : Game) -> Unit {
   let col_kind : Array[Int] = Array::make(board_rows, -1)
   let col_special : Array[Int] = Array::make(board_rows, special_none)
 
-  for x = 0; x < board_cols; x = x + 1 {
-    for y = 0; y < board_rows; y = y + 1 {
+  for x in 0..<board_cols {
+    for y in 0..<board_rows {
       col_kind[y] = -1
       col_special[y] = special_none
     }
@@ -270,7 +270,7 @@ fn collapse_and_refill(game : Game) -> Unit {
       write = write - 1
     }
 
-    for y = 0; y < board_rows; y = y + 1 {
+    for y in 0..<board_rows {
       let i = idx(x, y)
       game.kinds[i] = col_kind[y]
       game.specials[i] = col_special[y]
@@ -280,7 +280,7 @@ fn collapse_and_refill(game : Game) -> Unit {
 
 ///|
 fn has_any_match(kinds : Array[Int]) -> Bool {
-  for y = 0; y < board_rows; y = y + 1 {
+  for y in 0..<board_rows {
     let mut x = 0
     while x < board_cols {
       let t = kinds[idx(x, y)]
@@ -300,7 +300,7 @@ fn has_any_match(kinds : Array[Int]) -> Bool {
     }
   }
 
-  for x = 0; x < board_cols; x = x + 1 {
+  for x in 0..<board_cols {
     let mut y = 0
     while y < board_rows {
       let t = kinds[idx(x, y)]
@@ -341,8 +341,8 @@ fn would_swap_match(
 
 ///|
 fn has_possible_swap(kinds : Array[Int]) -> Bool {
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       if x + 1 < board_cols && would_swap_match(kinds, x, y, x + 1, y) {
         return true
       }
@@ -362,7 +362,7 @@ fn shuffle_board(game : Game) -> Bool {
   while tries < 160 {
     tries = tries + 1
 
-    for i = 0; i < board_cells; i = i + 1 {
+    for i in 0..<board_cells {
       bucket[i] = game.kinds[i]
     }
 
@@ -371,7 +371,7 @@ fn shuffle_board(game : Game) -> Bool {
       swapi(bucket, i, j)
     }
 
-    for i = 0; i < board_cells; i = i + 1 {
+    for i in 0..<board_cells {
       game.kinds[i] = bucket[i]
       game.specials[i] = special_none
     }
@@ -386,7 +386,7 @@ fn shuffle_board(game : Game) -> Bool {
 
 ///|
 fn assign_jelly_targets(game : Game) -> Unit {
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     game.jelly[i] = 0
   }
 
@@ -409,8 +409,8 @@ fn assign_jelly_targets(game : Game) -> Unit {
 
 ///|
 fn fill_board_without_initial_matches(game : Game) -> Unit {
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       let mut t = random_kind()
       let mut retries = 0
 
@@ -529,8 +529,8 @@ fn begin_game_over(game : Game) -> Unit {
 
 ///|
 fn find_hint(game : Game) -> Bool {
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       if x + 1 < board_cols && would_swap_match(game.kinds, x, y, x + 1, y) {
         game.hint_active = true
         game.hint_x0 = x
@@ -708,7 +708,7 @@ fn try_manual_shuffle(game : Game) -> Unit {
 
 ///|
 fn update_timers(game : Game, dt : Float) -> Unit {
-  for i = 0; i < board_cells; i = i + 1 {
+  for i in 0..<board_cells {
     game.flash[i] = maxf(0.0, game.flash[i] - dt * 1.4)
   }
 

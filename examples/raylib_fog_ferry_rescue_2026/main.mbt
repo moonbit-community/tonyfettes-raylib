@@ -156,7 +156,7 @@ fn inside_rect(
 
 ///|
 fn clear_docks(docks : Array[Dock]) -> Unit {
-  for i = 0; i < docks.length(); i = i + 1 {
+  for i in 0..<docks.length() {
     docks[i].active = false
     docks[i].x = 0.0
     docks[i].y = 0.0
@@ -168,7 +168,7 @@ fn clear_docks(docks : Array[Dock]) -> Unit {
 
 ///|
 fn clear_groups(groups : Array[Group]) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     groups[i].active = false
     groups[i].x = 0.0
     groups[i].y = 0.0
@@ -183,7 +183,7 @@ fn clear_groups(groups : Array[Group]) -> Unit {
 
 ///|
 fn clear_fogs(fogs : Array[FogCell]) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
+  for i in 0..<fogs.length() {
     fogs[i].active = false
     fogs[i].x = 0.0
     fogs[i].y = 0.0
@@ -198,7 +198,7 @@ fn clear_fogs(fogs : Array[FogCell]) -> Unit {
 
 ///|
 fn clear_debris(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     debris[i].active = false
     debris[i].x = 0.0
     debris[i].y = 0.0
@@ -212,7 +212,7 @@ fn clear_debris(debris : Array[Debris]) -> Unit {
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -231,7 +231,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -272,14 +272,14 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -399,7 +399,7 @@ fn init_debris(
     }
 
     let mut near_dock : Bool = false
-    for i = 0; i < docks.length(); i = i + 1 {
+    for i in 0..<docks.length() {
       if not(docks[i].active) {
         continue
       }
@@ -413,7 +413,7 @@ fn init_debris(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < debris.length(); i = i + 1 {
+    for i in 0..<debris.length() {
       if not(debris[i].active) {
         continue
       }
@@ -450,7 +450,7 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active {
       continue
     }
@@ -498,7 +498,7 @@ fn spawn_fog(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < fogs.length(); i = i + 1 {
+  for i in 0..<fogs.length() {
     if fogs[i].active {
       continue
     }
@@ -540,7 +540,7 @@ fn spawn_fog(
 ///|
 fn active_groups(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active {
       n = n + 1
     }
@@ -551,7 +551,7 @@ fn active_groups(groups : Array[Group]) -> Int {
 ///|
 fn active_fogs(fogs : Array[FogCell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < fogs.length(); i = i + 1 {
+  for i in 0..<fogs.length() {
     if fogs[i].active {
       n = n + 1
     }
@@ -562,7 +562,7 @@ fn active_fogs(fogs : Array[FogCell]) -> Int {
 ///|
 fn active_panic(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active && groups[i].panic >= 70.0 {
       n = n + 1
     }
@@ -573,7 +573,7 @@ fn active_panic(groups : Array[Group]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[Group]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active && groups[i].panic > best {
       best = groups[i].panic
     }
@@ -590,7 +590,7 @@ fn update_fogs(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
+  for i in 0..<fogs.length() {
     if not(fogs[i].active) {
       continue
     }
@@ -634,7 +634,7 @@ fn update_debris(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if not(debris[i].active) {
       continue
     }
@@ -680,7 +680,7 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) {
       continue
     }
@@ -709,7 +709,7 @@ fn update_groups(
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j = 0; j < fogs.length(); j = j + 1 {
+    for j in 0..<fogs.length() {
       if not(fogs[j].active) {
         continue
       }
@@ -747,7 +747,7 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut group_count : Int = 0
 
-    for i = 0; i < groups.length(); i = i + 1 {
+    for i in 0..<groups.length() {
       if not(groups[i].active) || groups[i].count <= 0 {
         continue
       }
@@ -799,7 +799,7 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) || groups[i].panic < 30.0 {
       continue
     }
@@ -896,7 +896,7 @@ fn draw_harbor(hx : Int, hy : Int, hw : Int, hh : Int) -> Unit {
 
 ///|
 fn draw_docks(docks : Array[Dock], t : Float) -> Unit {
-  for i = 0; i < docks.length(); i = i + 1 {
+  for i in 0..<docks.length() {
     if not(docks[i].active) {
       continue
     }
@@ -946,7 +946,7 @@ fn draw_docks(docks : Array[Dock], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[Group], t : Float) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) {
       continue
     }
@@ -999,7 +999,7 @@ fn draw_groups(groups : Array[Group], t : Float) -> Unit {
 
 ///|
 fn draw_fogs(fogs : Array[FogCell], t : Float) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
+  for i in 0..<fogs.length() {
     if not(fogs[i].active) {
       continue
     }
@@ -1029,7 +1029,7 @@ fn draw_fogs(fogs : Array[FogCell], t : Float) -> Unit {
 
 ///|
 fn draw_debris(debris : Array[Debris], t : Float) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if not(debris[i].active) {
       continue
     }
@@ -1104,7 +1104,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
   )
 
   let shown : Int = mini(player.passengers, 6)
-  for i = 0; i < shown; i = i + 1 {
+  for i in 0..<shown {
     let px : Int = (x - 10.0 + Float::from_int(i % 3) * 8.0).to_int()
     let py : Int = (y + 3.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(px, py, 6, 4, @raylib.Color::new(222, 176, 120, 236))
@@ -1123,7 +1123,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1663,7 +1663,7 @@ fn main {
       // Fog effects near player
       let mut fog_drag : Float = 0.0
       let mut fog_fuel_mul : Float = 1.0
-      for i = 0; i < fogs.length(); i = i + 1 {
+      for i in 0..<fogs.length() {
         if not(fogs[i].active) {
           continue
         }
@@ -1795,7 +1795,7 @@ fn main {
 
       // Debris collision damage
       let mut collision_dmg : Float = 0.0
-      for i = 0; i < debris.length(); i = i + 1 {
+      for i in 0..<debris.length() {
         if not(debris[i].active) {
           continue
         }
@@ -1819,13 +1819,13 @@ fn main {
       }
 
       // Dock queues rise over time, especially during fog
-      for i = 0; i < docks.length(); i = i + 1 {
+      for i in 0..<docks.length() {
         if not(docks[i].active) {
           continue
         }
 
         let mut fog_load : Float = 0.0
-        for j = 0; j < fogs.length(); j = j + 1 {
+        for j in 0..<fogs.length() {
           if not(fogs[j].active) {
             continue
           }

@@ -4,7 +4,7 @@ fn draw_enemy_counter(game : Game, x : Int, y : Int) -> Unit {
   let remaining = game.enemies_alive + (if pending > 0 { pending } else { 0 })
   draw_shadow_text("MONSTERS", x, y, 18, @raylib.raywhite)
 
-  for i = 0; i < enemy_icon_rows * enemy_icon_cols; i = i + 1 {
+  for i in 0..<(enemy_icon_rows * enemy_icon_cols) {
     let row = i / enemy_icon_cols
     let col = i % enemy_icon_cols
     let ix = x + col * 18
@@ -294,7 +294,7 @@ fn draw_menu_overlay(game : Game) -> Unit {
     "QUIT",
   ]
 
-  for i = 0; i < options.length(); i = i + 1 {
+  for i in 0..<options.length() {
     let selected = i == game.menu_cursor
     let phase = game.menu_blink + Float::from_int(i)
     let pulse = Float::from_double(@math.sin(phase.to_double())) * 0.5 + 0.5

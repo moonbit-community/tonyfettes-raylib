@@ -2,7 +2,7 @@
 fn file_path_list_to_array(files : @raylib.FilePathList) -> Array[String] {
   let count = @raylib.file_path_list_count(files)
   let arr : Array[String] = []
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     arr.push(@raylib.file_path_list_get(files, i))
   }
   arr

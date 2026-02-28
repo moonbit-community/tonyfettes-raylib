@@ -331,7 +331,7 @@ pub fn mirror_reflect(tile : Int, incoming_dir : Int) -> Int {
 
 ///|
 pub fn entity_at(game : Game, gx : Int, gy : Int) -> Int {
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if game.entities[i].active &&
       game.entities[i].gx == gx &&
       game.entities[i].gy == gy {
@@ -343,7 +343,7 @@ pub fn entity_at(game : Game, gx : Int, gy : Int) -> Int {
 
 ///|
 pub fn alloc_entity(game : Game) -> Int {
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if not(game.entities[i].active) {
       return i
     }
@@ -353,7 +353,7 @@ pub fn alloc_entity(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -455,7 +455,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -493,7 +493,7 @@ pub fn spawn_ambient_particles(
   spread : Float,
   speed : Float,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -521,8 +521,8 @@ pub fn spawn_ambient_particles(
 ///|
 pub fn count_active_plates(game : Game) -> Int {
   let mut count = 0
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       if get_tile(game, gx, gy) == tile_plate {
         let eidx = entity_at(game, gx, gy)
         if eidx >= 0 && game.entities[eidx].kind == entity_block {
@@ -539,8 +539,8 @@ pub fn count_active_plates(game : Game) -> Int {
 ///|
 pub fn count_plates(game : Game) -> Int {
   let mut count = 0
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       if get_tile(game, gx, gy) == tile_plate {
         count += 1
       }
@@ -554,7 +554,7 @@ pub fn count_plates(game : Game) -> Int {
 ///|
 pub fn count_diamonds(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     if game.entities[i].active && game.entities[i].kind == entity_diamond {
       count += 1
     }
@@ -567,8 +567,8 @@ pub fn count_diamonds(game : Game) -> Int {
 ///|
 pub fn count_laser_targets(game : Game) -> Int {
   let mut count = 0
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       if get_tile(game, gx, gy) == tile_laser_target {
         count += 1
       }
@@ -669,14 +669,14 @@ pub fn get_world_name(world : Int) -> String {
 ///|
 pub fn calculate_laser_paths(game : Game) -> Unit {
   // Clear old segments
-  for i = 0; i < max_laser_segments; i = i + 1 {
+  for i in 0..<max_laser_segments {
     game.laser_segments[i].active = false
   }
   game.laser_segment_count = 0
   game.laser_targets_hit = 0
   // Find all laser sources
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let tile = get_tile(game, gx, gy)
       if is_laser_source(tile) {
         let dir = laser_source_direction(tile)
@@ -797,10 +797,10 @@ fn add_laser_segment(
 ///|
 pub fn resolve_conveyors(game : Game) -> Unit {
   // Process each entity on a conveyor
-  for i = 0; i < game.entities.length(); i = i + 1 {
+  for i in 0..<game.entities.length() {
     let e = game.entities[i]
     if not(e.active) || e.falling {
-      continue i + 1
+      continue
     }
     let tile = get_tile(game, e.gx, e.gy)
     if is_conveyor(tile) {
@@ -878,8 +878,8 @@ pub fn ice_slide_entity(game : Game, entity_idx : Int, dir : Int) -> Unit {
 pub fn update_gates(game : Game) -> Unit {
   let plates_ok = game.plates_total == 0 ||
     game.plates_active >= game.plates_total
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let tile = get_tile(game, gx, gy)
       if tile == tile_gate_closed && plates_ok {
         set_tile(game, gx, gy, tile_gate_open)
@@ -908,8 +908,8 @@ pub fn update_gates(game : Game) -> Unit {
 
 ///|
 pub fn toggle_bridges(game : Game) -> Unit {
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let tile = get_tile(game, gx, gy)
       if tile == tile_bridge_off {
         set_tile(game, gx, gy, tile_bridge_on)
@@ -958,8 +958,8 @@ pub fn setup_decorations(game : Game) -> Unit {
   game.decoration_count = 0
   let world = game.current_world
   // Place decorations near walls
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let tile = get_tile(game, gx, gy)
       if tile == tile_floor {
         // Check if adjacent to wall for decoration placement
@@ -1001,7 +1001,7 @@ pub fn setup_decorations(game : Game) -> Unit {
 ///|
 pub fn count_total_stars(game : Game) -> Int {
   let mut total = 0
-  for i = 0; i < max_floors; i = i + 1 {
+  for i in 0..<max_floors {
     total += game.floor_info[i].stars
   }
   total
@@ -1017,7 +1017,7 @@ pub fn is_world_unlocked(game : Game, world : Int) -> Bool {
   // Need to complete at least 4 levels in previous world
   let prev_start = (world - 1) * floors_per_world
   let mut completed = 0
-  for i = prev_start; i < prev_start + floors_per_world; i = i + 1 {
+  for i in prev_start..<(prev_start + floors_per_world) {
     if i < max_floors && game.floor_info[i].completed {
       completed += 1
     }

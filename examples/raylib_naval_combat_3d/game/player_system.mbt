@@ -268,10 +268,10 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     // Find nearest enemy in boarding range
     let mut nearest_idx = -1
     let mut nearest_dist : Float = @types.boarding_range
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let e = game.enemies[i]
       if not(e.active) {
-        continue i + 1
+        continue
       }
       let d = @types.distance2d(ship.x, ship.z, e.x, e.z)
       if d < nearest_dist {
@@ -393,10 +393,10 @@ fn get_ammo_name(ammo_type : Int) -> String {
 
 ///|
 fn set_fleet_order(game : @types.Game, order : Int) -> Unit {
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
+  for i in 0..<game.fleet_ships.length() {
     let fs = game.fleet_ships[i]
     if not(fs.active) {
-      continue i + 1
+      continue
     }
     fs.order = order
     if order == @types.fleet_order_defend {
@@ -433,7 +433,7 @@ fn fire_player_broadside(
   let shots : Int = @types.mini(active_cannons / 2, 4)
   let cannon_spd = @types.get_cannon_speed(ship.cannon_type)
   let cannon_arc = @types.get_cannon_arc(ship.cannon_type)
-  for i = 0; i < shots; i = i + 1 {
+  for i in 0..<shots {
     let idx = @types.alloc_cannonball(game)
     if idx < 0 {
       break

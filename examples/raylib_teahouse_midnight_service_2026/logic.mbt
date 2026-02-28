@@ -1,6 +1,6 @@
 ///|
 fn clear_customers(game : Game) -> Unit {
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     game.customers[i].active = false
     game.customers[i].tea_type = tea_jasmine
     game.customers[i].slot = 0
@@ -18,7 +18,7 @@ fn clear_customers(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -32,7 +32,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     game.rings[i].active = false
     game.rings[i].x = 0.0
     game.rings[i].y = 0.0
@@ -44,7 +44,7 @@ fn clear_rings(game : Game) -> Unit {
 
 ///|
 fn clear_shadows(game : Game) -> Unit {
-  for i = 0; i < game.shadows.length(); i = i + 1 {
+  for i in 0..<game.shadows.length() {
     game.shadows[i].active = false
     game.shadows[i].x = 0.0
     game.shadows[i].y = 0.0
@@ -74,7 +74,7 @@ fn reset_player(game : Game) -> Unit {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -82,7 +82,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -93,7 +93,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_ring(game : Game) -> Int {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       return i
     }
@@ -101,7 +101,7 @@ fn alloc_ring(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.rings[0].life
-  for i = 1; i < game.rings.length(); i = i + 1 {
+  for i in 1..<game.rings.length() {
     if game.rings[i].life < best_life {
       best_life = game.rings[i].life
       best = i
@@ -112,7 +112,7 @@ fn alloc_ring(game : Game) -> Int {
 
 ///|
 fn alloc_shadow(game : Game) -> Int {
-  for i = 0; i < game.shadows.length(); i = i + 1 {
+  for i in 0..<game.shadows.length() {
     if not(game.shadows[i].active) {
       return i
     }
@@ -120,7 +120,7 @@ fn alloc_shadow(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.shadows[0].life
-  for i = 1; i < game.shadows.length(); i = i + 1 {
+  for i in 1..<game.shadows.length() {
     if game.shadows[i].life < best_life {
       best_life = game.shadows[i].life
       best = i
@@ -153,7 +153,7 @@ fn emit_spark(
 
 ///|
 fn burst_sparks(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_spark(
       game,
       x + randf(-14.0, 14.0),
@@ -234,7 +234,7 @@ fn clear_combo(game : Game) -> Unit {
 
 ///|
 fn slot_used(game : Game, slot : Int) -> Bool {
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     if game.customers[i].active && game.customers[i].slot == slot {
       return true
     }
@@ -244,7 +244,7 @@ fn slot_used(game : Game, slot : Int) -> Bool {
 
 ///|
 fn find_open_slot(game : Game) -> Int {
-  for s = 0; s < customer_slots; s = s + 1 {
+  for s in 0..<customer_slots {
     if not(slot_used(game, s)) {
       return s
     }
@@ -254,7 +254,7 @@ fn find_open_slot(game : Game) -> Int {
 
 ///|
 fn alloc_customer(game : Game) -> Int {
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     if not(game.customers[i].active) {
       return i
     }
@@ -262,7 +262,7 @@ fn alloc_customer(game : Game) -> Int {
 
   let mut best = 0
   let mut best_patience = game.customers[0].patience
-  for i = 1; i < game.customers.length(); i = i + 1 {
+  for i in 1..<game.customers.length() {
     if game.customers[i].patience < best_patience {
       best_patience = game.customers[i].patience
       best = i
@@ -353,7 +353,7 @@ fn nearest_leaf_station(px : Float, py : Float, reach : Float) -> Int {
   let mut best = -1
   let mut best_d2 = reach * reach
 
-  for tea = 0; tea < tea_count; tea = tea + 1 {
+  for tea in 0..<tea_count {
     let d2 = dist2(px, py, leaf_x(), leaf_y(tea))
     if d2 <= best_d2 {
       best_d2 = d2
@@ -369,7 +369,7 @@ fn nearest_customer(game : Game, x : Float, y : Float, reach : Float) -> Int {
   let mut best = -1
   let mut best_d2 = reach * reach
 
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     if not(game.customers[i].active) {
       continue
     }
@@ -579,7 +579,7 @@ fn customer_drain_rate(game : Game) -> Float {
 fn update_customers(game : Game, dt : Float) -> Unit {
   let drain = customer_drain_rate(game)
 
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     if not(game.customers[i].active) {
       continue
     }
@@ -658,7 +658,7 @@ fn update_focus(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_effects(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -676,7 +676,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -690,7 +690,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.shadows.length(); i = i + 1 {
+  for i in 0..<game.shadows.length() {
     if not(game.shadows[i].active) {
       continue
     }
@@ -706,7 +706,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
 fn emit_ambient(game : Game, dt : Float) -> Unit {
   let tries = clampi((dt * 220.0).to_int(), 1, 10)
 
-  for _i = 0; _i < tries; _i = _i + 1 {
+  for _i in 0..<tries {
     if chance(24) {
       emit_spark(
         game,

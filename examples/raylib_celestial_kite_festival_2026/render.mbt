@@ -71,7 +71,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(236, 246, 255, 132),
   )
 
-  for i = 0; i < 180; i = i + 1 {
+  for i in 0..<180 {
     let fi = Float::from_int(i)
     let x : Float = (fi * 83.0 + fi * fi * 0.11 + game.time_s * 6.0) %
       Float::from_int(screen_w)
@@ -89,7 +89,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for band = 0; band < 4; band = band + 1 {
+  for band in 0..<4 {
     let fb = Float::from_int(band)
     let base_y = Float::from_int(hud_h) + 62.0 + fb * 44.0
 
@@ -118,7 +118,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_far_clouds(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let fi = Float::from_int(i)
     let speed : Float = 14.0 + fi * 0.9
     let x : Float = (fi * 120.0 + game.time_s * speed + fi * fi * 0.6) %
@@ -159,7 +159,7 @@ fn draw_wind_lanes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   )
   let count = 26 + (intensity * 40.0).to_int()
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let fi = Float::from_int(i)
     let x = (fi * 76.0 + game.time_s * (140.0 + absf(game.wind_x) * 0.46)) %
       (Float::from_int(screen_w) + 180.0) -
@@ -236,7 +236,7 @@ fn draw_anchor_and_rope(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       continue
     }
@@ -541,7 +541,7 @@ fn draw_kite(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(56, 84, 132, 232),
   )
 
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let fi = Float::from_int(i)
     let sway = sinf(game.kite.anim_t * 8.0 + fi * 0.6) * 8.0
     let tx = x + sinf(game.kite.angle * 0.02) * fi * 1.8 + sway * 0.16
@@ -594,7 +594,7 @@ fn spark_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -624,7 +624,7 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.halos.length(); i = i + 1 {
+  for i in 0..<game.halos.length() {
     if not(game.halos[i].active) {
       continue
     }
@@ -1210,13 +1210,13 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_anchor_and_rope(game, cam_x, cam_y)
   draw_trails(game, cam_x, cam_y)
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if game.objs[i].active && is_collectible(game.objs[i].kind) {
       draw_obj(game.objs[i], cam_x, cam_y)
     }
   }
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if game.objs[i].active && is_hostile(game.objs[i].kind) {
       draw_obj(game.objs[i], cam_x, cam_y)
     }

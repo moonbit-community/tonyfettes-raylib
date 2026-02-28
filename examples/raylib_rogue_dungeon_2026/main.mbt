@@ -40,8 +40,8 @@ fn inside(x : Int, y : Int) -> Bool {
 ///|
 fn gen_level() -> Array[Int] {
   let arr : Array[Int] = Array::make(map_w * map_h, 0)
-  for y = 0; y < map_h; y = y + 1 {
-    for x = 0; x < map_w; x = x + 1 {
+  for y in 0..<map_h {
+    for x in 0..<map_w {
       let mut v = 0
       if x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1 {
         v = 1
@@ -55,7 +55,7 @@ fn gen_level() -> Array[Int] {
 
   // carve center corridor
   let cy = map_h / 2
-  for x = 1; x < map_w - 1; x = x + 1 {
+  for x in 1..<(map_w - 1) {
     arr[mindex(x, cy)] = 0
   }
 
@@ -68,7 +68,7 @@ fn gen_level() -> Array[Int] {
 
 ///|
 fn mob_at(mobs : Array[Mob], x : Int, y : Int) -> Int {
-  for i = 0; i < mobs.length(); i = i + 1 {
+  for i in 0..<mobs.length() {
     if mobs[i].alive && mobs[i].x == x && mobs[i].y == y {
       return i
     }
@@ -102,8 +102,8 @@ fn step_toward(ax : Int, ay : Int, bx : Int, by : Int) -> (Int, Int) {
 
 ///|
 fn draw_board(level : Array[Int]) -> Unit {
-  for y = 0; y < map_h; y = y + 1 {
-    for x = 0; x < map_w; x = x + 1 {
+  for y in 0..<map_h {
+    for x in 0..<map_w {
       let px = view_x + x * tile_sz
       let py = view_y + y * tile_sz
       if level[mindex(x, y)] == 0 {
@@ -145,7 +145,7 @@ fn draw_unit(x : Int, y : Int, color : @raylib.Color, glyph : String) -> Unit {
 ///|
 fn alive_mobs(mobs : Array[Mob]) -> Int {
   let mut n = 0
-  for i = 0; i < mobs.length(); i = i + 1 {
+  for i in 0..<mobs.length() {
     if mobs[i].alive {
       n = n + 1
     }
@@ -177,7 +177,7 @@ fn main {
   while not(@raylib.window_should_close()) {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       let fresh = gen_level()
-      for i = 0; i < level.length(); i = i + 1 {
+      for i in 0..<level.length() {
         level[i] = fresh[i]
       }
       hero_x = 1
@@ -232,7 +232,7 @@ fn main {
         }
 
         // Enemy turn
-        for i = 0; i < mobs.length(); i = i + 1 {
+        for i in 0..<mobs.length() {
           if not(mobs[i].alive) {
             continue
           }
@@ -250,7 +250,7 @@ fn main {
           } else {
             let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
             let start = @raylib.get_random_value(0, 3)
-            for t = 0; t < 4; t = t + 1 {
+            for t in 0..<4 {
               let (rx, ry) = dirs[(start + t) % 4]
               let wx = mobs[i].x + rx
               let wy = mobs[i].y + ry
@@ -284,7 +284,7 @@ fn main {
     draw_board(level)
     draw_unit(hero_x, hero_y, @raylib.skyblue, "@")
 
-    for i = 0; i < mobs.length(); i = i + 1 {
+    for i in 0..<mobs.length() {
       if mobs[i].alive {
         draw_unit(mobs[i].x, mobs[i].y, @raylib.red, "M")
       }

@@ -491,7 +491,7 @@ pub fn Game::new() -> Game {
     tiles: Array::make(map_total, tile_grass),
     path_nodes: {
       let arr : Array[PathNode] = []
-      for i = 0; i < max_path_nodes; i = i + 1 {
+      for i in 0..<max_path_nodes {
         arr.push({ x: 0.0, z: 0.0 })
         ignore(i)
       }

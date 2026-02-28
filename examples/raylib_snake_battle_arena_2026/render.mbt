@@ -23,7 +23,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(68, 38, 66, 34),
   )
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = i * 74
     @raylib.draw_rectangle(
       0,
@@ -78,12 +78,12 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = grid_w * tile
   let bh : Int = grid_h * tile
 
-  for x = 0; x <= grid_w; x = x + 1 {
+  for x in 0..=grid_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(px, by, px, by + bh, @raylib.Color::new(76, 106, 136, 98))
   }
 
-  for y = 0; y <= grid_h; y = y + 1 {
+  for y in 0..=grid_h {
     let py : Int = by + y * tile
     @raylib.draw_line(bx, py, bx + bw, py, @raylib.Color::new(76, 106, 136, 98))
   }
@@ -265,7 +265,7 @@ fn draw_hint(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -794,7 +794,7 @@ fn draw_frame(
   draw_food(game, bx, by, tile)
   draw_trap(game, bx, by, tile)
 
-  for rid = 0; rid < game.rivals.length(); rid = rid + 1 {
+  for rid in 0..<game.rivals.length() {
     draw_rival(game, rid, bx, by, tile)
   }
   draw_player(game, bx, by, tile)

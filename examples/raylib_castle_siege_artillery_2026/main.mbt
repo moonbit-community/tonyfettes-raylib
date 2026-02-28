@@ -570,7 +570,7 @@ fn main {
       let ax = wind * 0.20
       let ay = gravity
 
-      for i = 1; i <= 24; i = i + 1 {
+      for i in 1..=24 {
         let t = Float::from_int(i) * 0.11
         let tx = ox + ivx * t + 0.5 * ax * t * t
         let ty = oy + ivy * t + 0.5 * ay * t * t

@@ -443,7 +443,7 @@ fn clear_input_edges(fighter : Fighter) -> Unit {
 
 ///|
 fn update_inputs(game : Game, dt : Float) -> Unit {
-  for slot = 0; slot < max_players; slot = slot + 1 {
+  for slot in 0..<max_players {
     let fighter = game.fighters[slot]
     clear_input_edges(fighter)
 

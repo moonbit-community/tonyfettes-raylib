@@ -113,7 +113,7 @@ fn draw_background(game : Game, ox : Int, oy : Int) -> Unit {
 fn draw_lanes(game : Game, ox : Int, oy : Int) -> Unit {
   ignore(game)
 
-  for lane = 0; lane < lane_count; lane = lane + 1 {
+  for lane in 0..<lane_count {
     let cy = lane_y(lane).to_int() + oy
     let y0 = cy - lane_height / 2
 
@@ -750,7 +750,7 @@ fn draw_frame(game : Game) -> Unit {
   draw_background(game, ox, oy)
   draw_lanes(game, ox, oy)
 
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     draw_threat(game.threats[i], ox, oy)
   }
 

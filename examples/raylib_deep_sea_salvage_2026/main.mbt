@@ -27,7 +27,7 @@ struct Mine {
 
 ///|
 fn spawn_relic(rs : Array[Relic]) -> Unit {
-  for i = 0; i < rs.length(); i = i + 1 {
+  for i in 0..<rs.length() {
     if not(rs[i].alive) {
       rs[i].alive = true
       rs[i].x = Float::from_int(@raylib.get_random_value(110, sw - 110))
@@ -41,7 +41,7 @@ fn spawn_relic(rs : Array[Relic]) -> Unit {
 
 ///|
 fn spawn_mine(ms : Array[Mine]) -> Unit {
-  for i = 0; i < ms.length(); i = i + 1 {
+  for i in 0..<ms.length() {
     if not(ms[i].alive) {
       ms[i].alive = true
       ms[i].x = Float::from_int(@raylib.get_random_value(120, sw - 120))
@@ -55,14 +55,14 @@ fn spawn_mine(ms : Array[Mine]) -> Unit {
 
 ///|
 fn reset_relics(rs : Array[Relic]) -> Unit {
-  for i = 0; i < rs.length(); i = i + 1 {
+  for i in 0..<rs.length() {
     rs[i].alive = false
   }
 }
 
 ///|
 fn reset_mines(ms : Array[Mine]) -> Unit {
-  for i = 0; i < ms.length(); i = i + 1 {
+  for i in 0..<ms.length() {
     ms[i].alive = false
   }
 }
@@ -95,10 +95,10 @@ fn main {
   let mut over = false
   let mut msg = "WASD/Arrows move, surface to bank cargo and refill oxygen"
 
-  for _i = 0; _i < 8; _i = _i + 1 {
+  for _i in 0..<8 {
     spawn_relic(relics)
   }
-  for _i = 0; _i < 5; _i = _i + 1 {
+  for _i in 0..<5 {
     spawn_mine(mines)
   }
 
@@ -123,10 +123,10 @@ fn main {
       msg = "Dive restarted."
       reset_relics(relics)
       reset_mines(mines)
-      for _i = 0; _i < 8; _i = _i + 1 {
+      for _i in 0..<8 {
         spawn_relic(relics)
       }
-      for _i = 0; _i < 5; _i = _i + 1 {
+      for _i in 0..<5 {
         spawn_mine(mines)
       }
     }
@@ -212,7 +212,7 @@ fn main {
         spawn_mine(mines)
       }
 
-      for i = 0; i < mines.length(); i = i + 1 {
+      for i in 0..<mines.length() {
         if not(mines[i].alive) {
           continue
         }
@@ -238,7 +238,7 @@ fn main {
         }
       }
 
-      for i = 0; i < relics.length(); i = i + 1 {
+      for i in 0..<relics.length() {
         if not(relics[i].alive) {
           continue
         }
@@ -290,7 +290,7 @@ fn main {
       @raylib.draw_line(0, y, sw, y, @raylib.fade(@raylib.skyblue, 0.12))
     }
 
-    for i = 0; i < relics.length(); i = i + 1 {
+    for i in 0..<relics.length() {
       if relics[i].alive {
         @raylib.draw_circle(
           relics[i].x.to_int(),
@@ -307,7 +307,7 @@ fn main {
       }
     }
 
-    for i = 0; i < mines.length(); i = i + 1 {
+    for i in 0..<mines.length() {
       if mines[i].alive {
         @raylib.draw_circle(
           mines[i].x.to_int(),

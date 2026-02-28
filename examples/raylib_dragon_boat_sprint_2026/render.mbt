@@ -34,7 +34,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(84, 80, 62, 26),
   )
 
-  for i = 0; i < 15; i = i + 1 {
+  for i in 0..<15 {
     let y : Int = i * 72
     @raylib.draw_rectangle(
       0,
@@ -69,7 +69,7 @@ fn draw_river_surface(game : Game) -> Unit {
     @raylib.Color::new(184, 228, 244, 212),
   )
 
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let lane : Float = -1.0 + Float::from_int(i) * 0.5
     let x : Int = lane_to_x(lane).to_int()
     @raylib.draw_line(
@@ -81,7 +81,7 @@ fn draw_river_surface(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let y_wave : Int = river_y +
       14 +
       i * 40 +
@@ -99,7 +99,7 @@ fn draw_river_surface(game : Game) -> Unit {
 
 ///|
 fn draw_checkpoint_lines(game : Game) -> Unit {
-  for i = game.checkpoint_idx; i < checkpoint_count; i = i + 1 {
+  for i in game.checkpoint_idx..<checkpoint_count {
     let dist : Float = checkpoint_distance(i)
     let rel : Float = dist - game.distance
     if rel < -80.0 || rel > visible_distance {
@@ -134,7 +134,7 @@ fn draw_checkpoint_lines(game : Game) -> Unit {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if not(game.hazards[i].active) {
       continue
     }
@@ -229,7 +229,7 @@ fn draw_boat(
     ),
   )
 
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let t : Float = Float::from_int(i) / 7.0
     let px : Int = (Float::from_int(x) - scale * 44.0 + t * 88.0 * scale).to_int()
 
@@ -284,7 +284,7 @@ fn rival_hull_color(id : Int) -> @raylib.Color {
 
 ///|
 fn draw_rivals(game : Game) -> Unit {
-  for i = 0; i < game.rivals.length(); i = i + 1 {
+  for i in 0..<game.rivals.length() {
     if not(game.rivals[i].active) {
       continue
     }

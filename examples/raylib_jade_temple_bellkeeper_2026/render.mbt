@@ -71,7 +71,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(232, 246, 255, 130),
   )
 
-  for i = 0; i < 160; i = i + 1 {
+  for i in 0..<160 {
     let fi = Float::from_int(i)
     let x = (fi * 88.0 + fi * fi * 0.12 + game.time_s * 6.0) %
       Float::from_int(screen_w)
@@ -89,7 +89,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for layer = 0; layer < 4; layer = layer + 1 {
+  for layer in 0..<4 {
     let fl = Float::from_int(layer)
     let yy = Float::from_int(hud_h) + 64.0 + fl * 48.0
 
@@ -200,7 +200,7 @@ fn draw_shrine(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(236, 248, 255, 220),
   )
 
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     let bx = game.bells[i].x + cam_x
     let by = game.bells[i].y + cam_y
 
@@ -512,7 +512,7 @@ fn draw_hero(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bolts(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.bolts.length(); i = i + 1 {
+  for i in 0..<game.bolts.length() {
     if not(game.bolts[i].active) {
       continue
     }
@@ -560,7 +560,7 @@ fn spark_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -590,7 +590,7 @@ fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -612,7 +612,7 @@ fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < game.echoes.length(); i = i + 1 {
+  for i in 0..<game.echoes.length() {
     if not(game.echoes[i].active) {
       continue
     }
@@ -764,7 +764,7 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   let mut bx = 860
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     @raylib.draw_rectangle(bx, 76, 70, 18, @raylib.Color::new(12, 22, 38, 220))
     @raylib.draw_rectangle(
       bx,
@@ -1227,17 +1227,17 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_floor_grid(game, cam_x, cam_y)
   draw_shrine(game, cam_x, cam_y)
 
-  for i = 0; i < bell_count; i = i + 1 {
+  for i in 0..<bell_count {
     draw_bell(game.bells[i], i, cam_x, cam_y)
   }
 
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     if game.foes[i].active && is_relic(game.foes[i].kind) {
       draw_foe(game.foes[i], cam_x, cam_y)
     }
   }
 
-  for i = 0; i < game.foes.length(); i = i + 1 {
+  for i in 0..<game.foes.length() {
     if game.foes[i].active && is_hostile(game.foes[i].kind) {
       draw_foe(game.foes[i], cam_x, cam_y)
     }

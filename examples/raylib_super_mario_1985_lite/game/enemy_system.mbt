@@ -14,7 +14,7 @@ fn enemy_resolve_x(
     let top_ty = @types.world_to_tile_y(enemy.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(enemy.y + half_h - 2.0)
     let mut blocked = false
-    for ty = top_ty; ty <= bottom_ty; ty = ty + 1 {
+    for ty in top_ty..=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -33,7 +33,7 @@ fn enemy_resolve_x(
     let top_ty = @types.world_to_tile_y(enemy.y - half_h + 2.0)
     let bottom_ty = @types.world_to_tile_y(enemy.y + half_h - 2.0)
     let mut blocked = false
-    for ty = top_ty; ty <= bottom_ty; ty = ty + 1 {
+    for ty in top_ty..=bottom_ty {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -65,7 +65,7 @@ fn enemy_resolve_y(
     let left_tx = @types.world_to_tile_x(enemy.x - half_w + 2.0)
     let right_tx = @types.world_to_tile_x(enemy.x + half_w - 2.0)
     let mut blocked = false
-    for tx = left_tx; tx <= right_tx; tx = tx + 1 {
+    for tx in left_tx..=right_tx {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -83,7 +83,7 @@ fn enemy_resolve_y(
     let left_tx = @types.world_to_tile_x(enemy.x - half_w + 2.0)
     let right_tx = @types.world_to_tile_x(enemy.x + half_w - 2.0)
     let mut blocked = false
-    for tx = left_tx; tx <= right_tx; tx = tx + 1 {
+    for tx in left_tx..=right_tx {
       if @types.tile_is_solid(@types.get_tile(game, tx, ty)) {
         blocked = true
         break
@@ -126,10 +126,10 @@ fn stomp_enemy(game : @types.Game, enemy : @types.Enemy) -> Unit {
 
 ///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
 
     if enemy.squashed {
@@ -137,7 +137,7 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       if enemy.squash_t <= 0.0 {
         enemy.active = false
       }
-      continue i + 1
+      continue
     }
 
     enemy.vy = enemy.vy + @types.gravity * dt
@@ -155,11 +155,11 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
 
     if enemy.y > @types.world_height_px + 20.0 {
       enemy.active = false
-      continue i + 1
+      continue
     }
 
     if game.player.reached_flag {
-      continue i + 1
+      continue
     }
 
     let player = game.player

@@ -120,10 +120,10 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
       )
     }
     // Enemy wakes
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let e = game.enemies[i]
       if not(e.active) {
-        continue i + 1
+        continue
       }
       if e.speed > @types.wake_min_speed {
         let sin_h = @math.sinf(e.heading)
@@ -271,15 +271,15 @@ fn update_game_over(game : @types.Game) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -313,15 +313,15 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_wakes(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.wakes.length(); i = i + 1 {
+  for i in 0..<game.wakes.length() {
     let w = game.wakes[i]
     if not(w.active) {
-      continue i + 1
+      continue
     }
     w.age += dt
     if w.age >= w.max_age {
       w.active = false
-      continue i + 1
+      continue
     }
     // Width expands as it ages
     let age_ratio = w.age / w.max_age
@@ -331,15 +331,15 @@ fn update_wakes(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.debris_pool.length(); i = i + 1 {
+  for i in 0..<game.debris_pool.length() {
     let d = game.debris_pool[i]
     if not(d.active) {
-      continue i + 1
+      continue
     }
     d.life -= dt
     if d.life <= 0.0 {
       d.active = false
-      continue i + 1
+      continue
     }
     // Move with current/wind
     d.x += (d.vx + @math.sinf(game.wind_angle) * game.wind_speed * 0.1) * dt
@@ -361,10 +361,10 @@ fn update_debris(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.messages.length(); i = i + 1 {
+  for i in 0..<game.messages.length() {
     let msg = game.messages[i]
     if not(msg.active) {
-      continue i + 1
+      continue
     }
     msg.timer -= dt
     if msg.timer <= 0.0 {
@@ -426,10 +426,10 @@ fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
     }
   }
   // Enemy ship effects
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     e.bob_phase += dt * (1.8 + Float::from_int(i) * 0.1)
     // Enemy taking water
@@ -473,10 +473,10 @@ fn update_ship_effects(game : @types.Game, dt : Float) -> Unit {
 fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
   let px = game.player.x
   let pz = game.player.z
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
+  for i in 0..<game.fleet_ships.length() {
     let fs = game.fleet_ships[i]
     if not(fs.active) {
-      continue i + 1
+      continue
     }
     fs.bob_phase += dt * 2.0
     // Fleet AI based on order
@@ -507,10 +507,10 @@ fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
       // Find nearest enemy and engage
       let mut nearest_dist : Float = 999.0
       let mut nearest_idx = -1
-      for j = 0; j < game.enemies.length(); j = j + 1 {
+      for j in 0..<game.enemies.length() {
         let e = game.enemies[j]
         if not(e.active) {
-          continue j + 1
+          continue
         }
         let d = @types.distance2d(fs.x, fs.z, e.x, e.z)
         if d < nearest_dist {
@@ -565,10 +565,10 @@ fn update_fleet_ships(game : @types.Game, dt : Float) -> Unit {
       if fs.fire_timer <= 0.0 {
         let mut near_enemy = -1
         let mut near_dist : Float = 25.0
-        for j = 0; j < game.enemies.length(); j = j + 1 {
+        for j in 0..<game.enemies.length() {
           let e = game.enemies[j]
           if not(e.active) {
-            continue j + 1
+            continue
           }
           let d = @types.distance2d(fs.x, fs.z, e.x, e.z)
           if d < near_dist {
@@ -617,7 +617,7 @@ fn fire_fleet_broadside(
     fs.heading - @types.pi / 2.0
   }
   let shots : Int = @types.mini(fs.cannon_count / 2, 3)
-  for i = 0; i < shots; i = i + 1 {
+  for i in 0..<shots {
     let idx = @types.alloc_cannonball(game)
     if idx < 0 {
       break
@@ -655,13 +655,13 @@ fn fire_fleet_broadside(
 
 ///|
 fn update_convoy(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
+  for i in 0..<game.convoy_ships.length() {
     let cs = game.convoy_ships[i]
     if not(cs.active) {
-      continue i + 1
+      continue
     }
     if cs.arrived {
-      continue i + 1
+      continue
     }
     // Move toward target
     let desired = @types.bearing(
@@ -707,16 +707,16 @@ fn update_convoy(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_fortress_combat(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.island_count; i = i + 1 {
+  for i in 0..<game.island_count {
     let island = game.islands[i]
     if not(island.active) {
-      continue i + 1
+      continue
     }
     if not(island.has_fortress) {
-      continue i + 1
+      continue
     }
     if island.fortress_hp <= 0.0 {
-      continue i + 1
+      continue
     }
     // Fire at player if in range
     let dist_to_player = @types.distance2d(
@@ -732,7 +732,7 @@ fn update_fortress_combat(game : @types.Game, dt : Float) -> Unit {
       // Fire from fortress
       let cannon_count = island.fortress_cannons_active
       let shots : Int = @types.mini(cannon_count, 3)
-      for j = 0; j < shots; j = j + 1 {
+      for j in 0..<shots {
         let idx = @types.alloc_cannonball(game)
         if idx < 0 {
           break
@@ -797,7 +797,7 @@ fn check_objectives(game : @types.Game) -> Unit {
   }
   // Count enemies alive
   let mut alive = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       alive += 1
     }
@@ -806,7 +806,7 @@ fn check_objectives(game : @types.Game) -> Unit {
   if obj.objective_type == @types.objective_destroy_all {
     // Also check fortress
     let mut fortress_alive = false
-    for i = 0; i < game.island_count; i = i + 1 {
+    for i in 0..<game.island_count {
       let island = game.islands[i]
       if island.has_fortress && island.fortress_hp > 0.0 {
         fortress_alive = true
@@ -820,7 +820,7 @@ fn check_objectives(game : @types.Game) -> Unit {
     // Check if any convoy ships are still active and haven't arrived
     let convoy_alive = @types.count_convoy_alive(game)
     let mut all_arrived = true
-    for i = 0; i < game.convoy_ships.length(); i = i + 1 {
+    for i in 0..<game.convoy_ships.length() {
       let cs = game.convoy_ships[i]
       if cs.active && not(cs.arrived) {
         all_arrived = false
@@ -878,31 +878,31 @@ fn complete_battle(game : @types.Game) -> Unit {
 ///|
 fn start_battle(game : @types.Game, battle : Int) -> Unit {
   // Clear pools
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.EnemyShip::inactive()
   }
-  for i = 0; i < game.cannonballs.length(); i = i + 1 {
+  for i in 0..<game.cannonballs.length() {
     game.cannonballs[i] = @types.Cannonball::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.islands.length(); i = i + 1 {
+  for i in 0..<game.islands.length() {
     game.islands[i] = @types.Island::inactive()
   }
-  for i = 0; i < game.wakes.length(); i = i + 1 {
+  for i in 0..<game.wakes.length() {
     game.wakes[i] = @types.WaterWake::inactive()
   }
-  for i = 0; i < game.debris_pool.length(); i = i + 1 {
+  for i in 0..<game.debris_pool.length() {
     game.debris_pool[i] = @types.Debris::inactive()
   }
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
+  for i in 0..<game.fleet_ships.length() {
     game.fleet_ships[i] = @types.FleetShip::inactive()
   }
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
+  for i in 0..<game.convoy_ships.length() {
     game.convoy_ships[i] = @types.ConvoyShip::inactive()
   }
-  for i = 0; i < game.messages.length(); i = i + 1 {
+  for i in 0..<game.messages.length() {
     game.messages[i] = @types.BattleMessage::inactive()
   }
   // Reset timers
@@ -973,7 +973,7 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   let personalities = @levels.get_enemy_personalities(battle)
   let flagship_idx = @levels.get_flagship_index(battle)
   // Spawn enemies
-  for i = 0; i < enemy_count; i = i + 1 {
+  for i in 0..<enemy_count {
     let idx = @types.alloc_enemy(game)
     if idx < 0 {
       break
@@ -1050,7 +1050,7 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   let island_types = @levels.get_island_types(battle)
   let fortress_idx = @levels.get_fortress_island(battle)
   game.island_count = 0
-  for i = 0; i < island_data.length(); i = i + 1 {
+  for i in 0..<island_data.length() {
     if game.island_count >= @types.max_islands {
       break
     }
@@ -1088,7 +1088,7 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   }
   // Spawn fleet ships
   let fleet_classes = @levels.get_fleet_classes(battle)
-  for i = 0; i < fleet_classes.length(); i = i + 1 {
+  for i in 0..<fleet_classes.length() {
     if i >= @types.max_fleet_ships {
       break
     }
@@ -1117,7 +1117,7 @@ fn start_battle(game : @types.Game, battle : Int) -> Unit {
   }
   // Spawn convoy ships
   let convoy_count = @levels.get_convoy_count(battle)
-  for i = 0; i < convoy_count; i = i + 1 {
+  for i in 0..<convoy_count {
     if i >= @types.max_convoy_ships {
       break
     }
@@ -1166,28 +1166,28 @@ fn reset_game(game : @types.Game) -> Unit {
   game.player.on_fire = false
   game.player.taking_water = 0.0
   game.enemies_alive = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.EnemyShip::inactive()
   }
-  for i = 0; i < game.cannonballs.length(); i = i + 1 {
+  for i in 0..<game.cannonballs.length() {
     game.cannonballs[i] = @types.Cannonball::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.islands.length(); i = i + 1 {
+  for i in 0..<game.islands.length() {
     game.islands[i] = @types.Island::inactive()
   }
-  for i = 0; i < game.wakes.length(); i = i + 1 {
+  for i in 0..<game.wakes.length() {
     game.wakes[i] = @types.WaterWake::inactive()
   }
-  for i = 0; i < game.debris_pool.length(); i = i + 1 {
+  for i in 0..<game.debris_pool.length() {
     game.debris_pool[i] = @types.Debris::inactive()
   }
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
+  for i in 0..<game.fleet_ships.length() {
     game.fleet_ships[i] = @types.FleetShip::inactive()
   }
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
+  for i in 0..<game.convoy_ships.length() {
     game.convoy_ships[i] = @types.ConvoyShip::inactive()
   }
   game.battle_log_count = 0

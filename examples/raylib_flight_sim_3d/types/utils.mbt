@@ -517,7 +517,7 @@ pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -527,7 +527,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_turret(game : Game) -> Int {
-  for i = 0; i < game.turrets.length(); i = i + 1 {
+  for i in 0..<game.turrets.length() {
     if not(game.turrets[i].active) {
       return i
     }
@@ -537,7 +537,7 @@ pub fn alloc_turret(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -547,7 +547,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -557,7 +557,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_checkpoint(game : Game) -> Int {
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
+  for i in 0..<game.checkpoints.length() {
     if not(game.checkpoints[i].active) {
       return i
     }
@@ -567,7 +567,7 @@ pub fn alloc_checkpoint(game : Game) -> Int {
 
 ///|
 pub fn alloc_building(game : Game) -> Int {
-  for i = 0; i < game.buildings.length(); i = i + 1 {
+  for i in 0..<game.buildings.length() {
     if not(game.buildings[i].active) {
       return i
     }
@@ -577,7 +577,7 @@ pub fn alloc_building(game : Game) -> Int {
 
 ///|
 pub fn alloc_terrain(game : Game) -> Int {
-  for i = 0; i < game.terrain.length(); i = i + 1 {
+  for i in 0..<game.terrain.length() {
     if not(game.terrain[i].active) {
       return i
     }
@@ -587,7 +587,7 @@ pub fn alloc_terrain(game : Game) -> Int {
 
 ///|
 pub fn alloc_cloud(game : Game) -> Int {
-  for i = 0; i < game.clouds.length(); i = i + 1 {
+  for i in 0..<game.clouds.length() {
     if not(game.clouds[i].active) {
       return i
     }
@@ -608,7 +608,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -642,7 +642,7 @@ pub fn spawn_smoke(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -676,7 +676,7 @@ pub fn spawn_fire(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -710,7 +710,7 @@ pub fn spawn_debris(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -811,7 +811,7 @@ pub fn push_message(
   // Find empty slot or lowest priority
   let mut lowest_pri = 999
   let mut lowest_idx = 0
-  for i = 0; i < game.messages.length(); i = i + 1 {
+  for i in 0..<game.messages.length() {
     if game.messages[i].timer <= 0.0 {
       game.messages[i].text = text
       game.messages[i].timer = duration
@@ -836,7 +836,7 @@ pub fn push_message(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       count += 1
     }
@@ -849,7 +849,7 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_active_turrets(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.turrets.length(); i = i + 1 {
+  for i in 0..<game.turrets.length() {
     if game.turrets[i].active {
       count += 1
     }
@@ -862,7 +862,7 @@ pub fn count_active_turrets(game : Game) -> Int {
 ///|
 pub fn count_active_buildings(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.buildings.length(); i = i + 1 {
+  for i in 0..<game.buildings.length() {
     if game.buildings[i].active {
       count += 1
     }
@@ -875,7 +875,7 @@ pub fn count_active_buildings(game : Game) -> Int {
 ///|
 pub fn count_remaining_checkpoints(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
+  for i in 0..<game.checkpoints.length() {
     if game.checkpoints[i].active && not(game.checkpoints[i].collected) {
       count += 1
     }
@@ -911,9 +911,9 @@ pub fn get_right(yaw : Float, roll : Float) -> (Float, Float, Float) {
 pub fn find_nearest_enemy(game : Game, x : Float, y : Float, z : Float) -> Int {
   let mut best_idx = -1
   let mut best_dist : Float = 99999.0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
-      continue i + 1
+      continue
     }
     let d = distance3d(
       x,

@@ -15,7 +15,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     let mut y = 5
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       // MAX_GAMEPADS = 4
       if @raylib.is_gamepad_available(i) {
         @raylib.draw_text(
@@ -35,7 +35,7 @@ fn main {
           @raylib.black,
         )
         y += 11
-        for axis = 0; axis < axis_count; axis = axis + 1 {
+        for axis in 0..<axis_count {
           let axis_val = @raylib.get_gamepad_axis_movement(i, axis)
           @raylib.draw_text(
             "  Axis \{axis} = \{axis_val}",
@@ -46,7 +46,7 @@ fn main {
           )
           y += 11
         }
-        for button = 0; button < 32; button = button + 1 {
+        for button in 0..<32 {
           let button_down = if @raylib.is_gamepad_button_down(i, button) {
             1
           } else {

@@ -23,14 +23,14 @@ struct Obj {
 
 ///|
 fn reset_objs(objs : Array[Obj]) -> Unit {
-  for i = 0; i < objs.length(); i = i + 1 {
+  for i in 0..<objs.length() {
     objs[i].alive = false
   }
 }
 
 ///|
 fn spawn_obj(objs : Array[Obj], lane : Int, kind : Int) -> Unit {
-  for i = 0; i < objs.length(); i = i + 1 {
+  for i in 0..<objs.length() {
     if not(objs[i].alive) {
       objs[i].alive = true
       objs[i].lane = lane
@@ -128,7 +128,7 @@ fn main {
         }
       }
 
-      for i = 0; i < objs.length(); i = i + 1 {
+      for i in 0..<objs.length() {
         if not(objs[i].alive) {
           continue
         }
@@ -194,7 +194,7 @@ fn main {
       @raylib.Color::new(168, 188, 203, 255),
     )
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let x = lane_x(l)
       @raylib.draw_line(
         (x - 54.0).to_int(),
@@ -212,7 +212,7 @@ fn main {
       )
     }
 
-    for i = 0; i < objs.length(); i = i + 1 {
+    for i in 0..<objs.length() {
       if objs[i].alive {
         let x = objs[i].x
         let y = objs[i].y

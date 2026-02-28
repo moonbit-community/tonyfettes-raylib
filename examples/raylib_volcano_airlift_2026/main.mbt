@@ -82,7 +82,7 @@ fn ground_y(x : Float) -> Float {
 
 ///|
 fn clear_survivors(survivors : Array[Survivor]) -> Unit {
-  for i = 0; i < survivors.length(); i = i + 1 {
+  for i in 0..<survivors.length() {
     survivors[i] = { x: 0.0, y: 0.0, state: 3 }
   }
 }
@@ -99,7 +99,7 @@ fn set_survivor(
 
 ///|
 fn clear_clouds(clouds : Array[Cloud]) -> Unit {
-  for i = 0; i < clouds.length(); i = i + 1 {
+  for i in 0..<clouds.length() {
     clouds[i] = { x: 0.0, y: 0.0, vx: 0.0, r: 22.0, active: false }
   }
 }
@@ -120,7 +120,7 @@ fn spawn_cloud(clouds : Array[Cloud], level : Int) -> Unit {
   let r = Float::from_int(@raylib.get_random_value(20, 36))
 
   let mut done = false
-  for i = 0; i < clouds.length(); i = i + 1 {
+  for i in 0..<clouds.length() {
     if done {
       continue
     }
@@ -184,7 +184,7 @@ fn survivors_count(
   state : Int,
 ) -> Int {
   let mut c = 0
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     if survivors[i].state == state {
       c = c + 1
     }
@@ -495,7 +495,7 @@ fn main {
       }
 
       if action && not(carrying) {
-        for i = 0; i < total; i = i + 1 {
+        for i in 0..<total {
           if survivors[i].state != 0 {
             continue
           }
@@ -511,7 +511,7 @@ fn main {
         }
       }
 
-      for i = 0; i < total; i = i + 1 {
+      for i in 0..<total {
         if survivors[i].state == 0 && survivors[i].y + 10.0 >= lava_y {
           survivors[i].state = 3
           msg = "Lava reached a survivor."
@@ -528,7 +528,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < clouds.length(); i = i + 1 {
+      for i in 0..<clouds.length() {
         if not(clouds[i].active) {
           continue
         }
@@ -658,7 +658,7 @@ fn main {
     )
 
     // Survivors
-    for i = 0; i < total; i = i + 1 {
+    for i in 0..<total {
       if survivors[i].state == 0 {
         let sx = (survivors[i].x + shake_x).to_int()
         let sy = survivors[i].y.to_int()
@@ -689,7 +689,7 @@ fn main {
     }
 
     // Clouds
-    for i = 0; i < clouds.length(); i = i + 1 {
+    for i in 0..<clouds.length() {
       if not(clouds[i].active) {
         continue
       }

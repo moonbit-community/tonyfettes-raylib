@@ -86,11 +86,11 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i = 0; i < towers.length(); i = i + 1 {
+      for i in 0..<towers.length() {
         towers[i].built = false
         towers[i].cooldown = 0.0
       }
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         enemies[i].alive = false
       }
       lives = 20
@@ -135,7 +135,7 @@ fn main {
         if wave_spawn_timer <= 0.0 {
           wave_spawn_timer = 0.75
           let lane = @raylib.get_random_value(0, lanes - 1)
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].alive) {
               enemies[i].alive = true
               enemies[i].lane = lane
@@ -151,7 +151,7 @@ fn main {
 
       // Update enemies and count alive
       let mut active_enemies = 0
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].alive) {
           continue
         }
@@ -167,7 +167,7 @@ fn main {
       }
 
       // Towers attack nearest enemy ahead in same lane
-      for t = 0; t < towers.length(); t = t + 1 {
+      for t in 0..<towers.length() {
         if not(towers[t].built) {
           continue
         }
@@ -180,7 +180,7 @@ fn main {
         let tx = Float::from_int(grid_x + towers[t].slot * cell_w + cell_w / 2)
         let mut best = -1
         let mut best_x : Float = 1_000_000_000.0
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].alive) || enemies[i].lane != lane {
             continue
           }
@@ -206,7 +206,7 @@ fn main {
       // Next wave trigger
       if not(paused_between_wave) && wave_spawn_left == 0 {
         let mut any_alive = false
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if enemies[i].alive {
             any_alive = true
           }
@@ -223,7 +223,7 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(12, 15, 20, 255))
 
     // Lanes and slots
-    for l = 0; l < lanes; l = l + 1 {
+    for l in 0..<lanes {
       let y = grid_y + l * lane_h
       @raylib.draw_rectangle(
         grid_x - 10,
@@ -239,7 +239,7 @@ fn main {
         y + lane_h / 2,
         @raylib.darkgreen,
       )
-      for s = 0; s < slots; s = s + 1 {
+      for s in 0..<slots {
         let x = grid_x + s * cell_w
         @raylib.draw_rectangle_lines(
           x,
@@ -263,7 +263,7 @@ fn main {
     }
 
     // Enemies
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].alive {
         let lane = enemies[i].lane
         let y = grid_y + lane * lane_h + lane_h / 2

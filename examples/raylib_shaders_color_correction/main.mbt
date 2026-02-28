@@ -233,7 +233,7 @@ fn main {
   }
 
   // De-Initialization
-  for i = 0; i < max_textures; i = i + 1 {
+  for i in 0..<max_textures {
     @raylib.unload_texture(textures[i])
   }
   @raylib.unload_shader(shdr_color_correction)

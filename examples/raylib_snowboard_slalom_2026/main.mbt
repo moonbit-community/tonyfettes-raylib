@@ -131,7 +131,7 @@ fn randf(lo : Float, hi : Float) -> Float {
 
 ///|
 fn clear_gates(gates : Array[Gate]) -> Unit {
-  for i = 0; i < gates.length(); i = i + 1 {
+  for i in 0..<gates.length() {
     gates[i].active = false
     gates[i].x = 0.0
     gates[i].y = 0.0
@@ -143,7 +143,7 @@ fn clear_gates(gates : Array[Gate]) -> Unit {
 
 ///|
 fn clear_obstacles(obs : Array[Obstacle]) -> Unit {
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     obs[i].active = false
     obs[i].x = 0.0
     obs[i].y = 0.0
@@ -154,7 +154,7 @@ fn clear_obstacles(obs : Array[Obstacle]) -> Unit {
 
 ///|
 fn clear_pickups(ps : Array[Pickup]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -165,7 +165,7 @@ fn clear_pickups(ps : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -187,7 +187,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done : Bool = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -216,7 +216,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -229,7 +229,7 @@ fn nearest_gate_y(
   rider_y : Float,
 ) -> Float {
   let mut best : Float = 9999999.0
-  for i = 0; i < gate_count; i = i + 1 {
+  for i in 0..<gate_count {
     if gates[i].state == 0 {
       let dy = gates[i].y - rider_y
       if dy >= -50.0 && dy < best {
@@ -253,7 +253,7 @@ fn setup_course(
   let gate_count : Int = 66
   let mut y : Float = 460.0
 
-  for i = 0; i < gate_count; i = i + 1 {
+  for i in 0..<gate_count {
     gates[i].active = true
     gates[i].x = randf(180.0, 1100.0)
     gates[i].y = y + randf(-28.0, 34.0)
@@ -266,7 +266,7 @@ fn setup_course(
 
   let course_end : Float = gates[gate_count - 1].y + 500.0
 
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     obs[i].active = true
     obs[i].x = randf(70.0, world_w - 70.0)
     obs[i].y = randf(360.0, course_end + 120.0)
@@ -281,7 +281,7 @@ fn setup_course(
   }
 
   let mut p = 0
-  for i = 0; i < gate_count; i = i + 1 {
+  for i in 0..<gate_count {
     if i % 2 == 0 && p < pickups.length() {
       pickups[p].active = true
       pickups[p].x = gates[i].x + randf(-52.0, 52.0)
@@ -558,7 +558,7 @@ fn main {
         rider.trick_t = 0.0
       }
 
-      for i = 0; i < gate_count; i = i + 1 {
+      for i in 0..<gate_count {
         if not(gates[i].active) {
           continue
         }
@@ -596,7 +596,7 @@ fn main {
         }
       }
 
-      for i = 0; i < obstacles.length(); i = i + 1 {
+      for i in 0..<obstacles.length() {
         if not(obstacles[i].active) {
           continue
         }
@@ -625,7 +625,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -661,7 +661,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -707,7 +707,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(220, 236, 255, 170))
 
     let line_shift = (cam_y / 36.0).to_int() % 2
-    for i = -2; i < 28; i = i + 1 {
+    for i in -2..<28 {
       let sy = i * 36 - cam_y.to_int() % 36
       let stripe = if (i + line_shift) % 2 == 0 { 236 } else { 226 }
       @raylib.draw_rectangle(
@@ -719,7 +719,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let ridge_x = i * 62 + (cam_y * 0.25).to_int() % 62
       @raylib.draw_rectangle(
         ridge_x,
@@ -730,7 +730,7 @@ fn main {
       )
     }
 
-    for i = 0; i < gate_count; i = i + 1 {
+    for i in 0..<gate_count {
       if not(gates[i].active) {
         continue
       }
@@ -776,7 +776,7 @@ fn main {
       )
     }
 
-    for i = 0; i < obstacles.length(); i = i + 1 {
+    for i in 0..<obstacles.length() {
       if not(obstacles[i].active) {
         continue
       }
@@ -817,7 +817,7 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -844,7 +844,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

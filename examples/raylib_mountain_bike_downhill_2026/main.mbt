@@ -138,7 +138,7 @@ fn world_to_screen_y(obj_y : Float, rider_y : Float) -> Float {
 
 ///|
 fn clear_checkpoints(cps : Array[Checkpoint]) -> Unit {
-  for i = 0; i < cps.length(); i = i + 1 {
+  for i in 0..<cps.length() {
     cps[i].active = false
     cps[i].x = 0.0
     cps[i].y = 0.0
@@ -150,7 +150,7 @@ fn clear_checkpoints(cps : Array[Checkpoint]) -> Unit {
 
 ///|
 fn clear_hazards(hs : Array[Hazard]) -> Unit {
-  for i = 0; i < hs.length(); i = i + 1 {
+  for i in 0..<hs.length() {
     hs[i].active = false
     hs[i].x = 0.0
     hs[i].y = 0.0
@@ -161,7 +161,7 @@ fn clear_hazards(hs : Array[Hazard]) -> Unit {
 
 ///|
 fn clear_pickups(ps : Array[Pickup]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -172,7 +172,7 @@ fn clear_pickups(ps : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -194,7 +194,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -223,7 +223,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -236,7 +236,7 @@ fn nearest_checkpoint_dy(
   rider_y : Float,
 ) -> Float {
   let mut best : Float = 9999999.0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     if cps[i].state != 0 {
       continue
     }
@@ -262,7 +262,7 @@ fn generate_course(
   let cp_count : Int = 68
 
   let mut y : Float = 420.0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     cps[i].active = true
     cps[i].x = randf(180.0, 1100.0)
     cps[i].y = y + randf(-24.0, 24.0)
@@ -275,7 +275,7 @@ fn generate_course(
 
   let course_end : Float = cps[cp_count - 1].y + 520.0
 
-  for i = 0; i < hs.length(); i = i + 1 {
+  for i in 0..<hs.length() {
     hs[i].active = true
     hs[i].x = randf(70.0, world_w - 70.0)
     hs[i].y = randf(360.0, course_end + 160.0)
@@ -292,7 +292,7 @@ fn generate_course(
   }
 
   let mut p = 0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     if i % 2 == 0 && p < items.length() {
       items[p].active = true
       items[p].x = cps[i].x + randf(-52.0, 52.0)
@@ -593,7 +593,7 @@ fn main {
         rider.trick_t = 0.0
       }
 
-      for i = 0; i < checkpoint_count; i = i + 1 {
+      for i in 0..<checkpoint_count {
         if not(checkpoints[i].active) {
           continue
         }
@@ -631,7 +631,7 @@ fn main {
         }
       }
 
-      for i = 0; i < hazards.length(); i = i + 1 {
+      for i in 0..<hazards.length() {
         if not(hazards[i].active) {
           continue
         }
@@ -666,7 +666,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -703,7 +703,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -749,7 +749,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(222, 236, 255, 172))
 
     let line_shift : Int = (cam_y / 36.0).to_int() % 2
-    for idx = 0; idx < 30; idx = idx + 1 {
+    for idx in 0..<30 {
       let i = idx - 2
       let sy : Int = i * 36 - cam_y.to_int() % 36
       let stripe : Int = if (i + line_shift) % 2 == 0 { 236 } else { 226 }
@@ -762,7 +762,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let ridge_x = i * 62 + (cam_y * 0.25).to_int() % 62
       @raylib.draw_rectangle(
         ridge_x,
@@ -773,7 +773,7 @@ fn main {
       )
     }
 
-    for i = 0; i < checkpoint_count; i = i + 1 {
+    for i in 0..<checkpoint_count {
       if not(checkpoints[i].active) {
         continue
       }
@@ -819,7 +819,7 @@ fn main {
       )
     }
 
-    for i = 0; i < hazards.length(); i = i + 1 {
+    for i in 0..<hazards.length() {
       if not(hazards[i].active) {
         continue
       }
@@ -867,7 +867,7 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -898,7 +898,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

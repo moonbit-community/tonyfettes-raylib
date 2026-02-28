@@ -2,7 +2,7 @@
 fn draw_background(game : Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(13, 10, 8, 255))
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y = i * 70 - 24
     @raylib.draw_rectangle(
       0,
@@ -48,7 +48,7 @@ fn draw_world_bounds() -> Unit {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     let col = if game.hazards[i].kind == hazard_kind_lava {
       @raylib.Color::new(168, 50, 18, 222)
     } else {
@@ -73,7 +73,7 @@ fn draw_hazards(game : Game) -> Unit {
 
 ///|
 fn draw_traps(game : Game) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     let hot = trap_is_hot(game.traps[i])
     let base_col = if hot {
       @raylib.Color::new(242, 78, 52, 236)
@@ -116,7 +116,7 @@ fn draw_traps(game : Game) -> Unit {
 
 ///|
 fn draw_plates(game : Game) -> Unit {
-  for i = 0; i < game.plates.length(); i = i + 1 {
+  for i in 0..<game.plates.length() {
     @raylib.draw_rectangle(
       game.plates[i].x.to_int(),
       game.plates[i].y.to_int(),
@@ -147,7 +147,7 @@ fn draw_plates(game : Game) -> Unit {
 
 ///|
 fn draw_doors(game : Game) -> Unit {
-  for i = 0; i < game.doors.length(); i = i + 1 {
+  for i in 0..<game.doors.length() {
     let ratio : Float = if game.doors[i].hold_time > 0.0 {
       clampf(game.doors[i].timer / game.doors[i].hold_time, 0.0, 1.0)
     } else {
@@ -184,7 +184,7 @@ fn draw_doors(game : Game) -> Unit {
 
 ///|
 fn draw_relics(game : Game) -> Unit {
-  for i = 0; i < game.relics.length(); i = i + 1 {
+  for i in 0..<game.relics.length() {
     if not(game.relics[i].active) {
       continue
     }

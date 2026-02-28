@@ -40,19 +40,19 @@ fn main {
 
   // Search bones for sockets
   let bone_count = @raylib.get_model_bone_count(character_model)
-  for i = 0; i < bone_count; i = i + 1 {
+  for i in 0..<bone_count {
     let name = @raylib.get_model_bone_name(character_model, i)
     if name == "socket_hat" {
       bone_socket_index[0] = i
-      continue i + 1
+      continue
     }
     if name == "socket_hand_R" {
       bone_socket_index[1] = i
-      continue i + 1
+      continue
     }
     if name == "socket_hand_L" {
       bone_socket_index[2] = i
-      continue i + 1
+      continue
     }
   }
 
@@ -125,9 +125,9 @@ fn main {
     @raylib.draw_mesh(mesh, material, character_transform)
 
     // Draw equipments (hat, sword, shield)
-    for i = 0; i < 3; i = i + 1 {
+    for i in 0..<3 {
       if not(show_equip[i]) {
-        continue i + 1
+        continue
       }
 
       let socket_idx = bone_socket_index[i]
@@ -190,7 +190,7 @@ fn main {
   // De-Initialization
   @raylib.unload_model_animations(model_animations)
   @raylib.unload_model(character_model)
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     @raylib.unload_model(equip_model[i])
   }
   @raylib.close_window()

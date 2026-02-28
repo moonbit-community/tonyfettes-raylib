@@ -219,7 +219,7 @@ fn pointer_on_rect(
     hit = true
   }
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -244,7 +244,7 @@ fn pointer_on_circle(
     hit = true
   }
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if dist2(p.x, p.y, cx, cy) <= r * r {
         hit = true
@@ -332,7 +332,7 @@ fn pattern_target(
 
 ///|
 fn clear_requests(requests : Array[Request]) -> Unit {
-  for i = 0; i < requests.length(); i = i + 1 {
+  for i in 0..<requests.length() {
     requests[i].active = false
     requests[i].id = i + 1
     requests[i].pattern = 0
@@ -347,7 +347,7 @@ fn clear_requests(requests : Array[Request]) -> Unit {
 
 ///|
 fn clear_gusts(gusts : Array[Gust]) -> Unit {
-  for i = 0; i < gusts.length(); i = i + 1 {
+  for i in 0..<gusts.length() {
     gusts[i].active = false
     gusts[i].x = 0.0
     gusts[i].y = 0.0
@@ -362,7 +362,7 @@ fn clear_gusts(gusts : Array[Gust]) -> Unit {
 
 ///|
 fn clear_fireworks(fireworks : Array[Firework]) -> Unit {
-  for i = 0; i < fireworks.length(); i = i + 1 {
+  for i in 0..<fireworks.length() {
     fireworks[i].active = false
     fireworks[i].x = 0.0
     fireworks[i].y = 0.0
@@ -376,7 +376,7 @@ fn clear_fireworks(fireworks : Array[Firework]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -399,7 +399,7 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -423,7 +423,7 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(
       parts,
       x + randf(-6.0, 6.0),
@@ -439,7 +439,7 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -458,7 +458,7 @@ fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
 ///|
 fn spawn_request(requests : Array[Request], wave : Int, serial : Int) -> Bool {
   let mut placed : Bool = false
-  for i = 0; i < requests.length(); i = i + 1 {
+  for i in 0..<requests.length() {
     if requests[i].active {
       continue
     }
@@ -493,7 +493,7 @@ fn spawn_gust(
   pressure : Float,
 ) -> Bool {
   let mut placed : Bool = false
-  for i = 0; i < gusts.length(); i = i + 1 {
+  for i in 0..<gusts.length() {
     if gusts[i].active {
       continue
     }
@@ -540,7 +540,7 @@ fn spawn_firework(
   world_b : Float,
 ) -> Bool {
   let mut placed : Bool = false
-  for i = 0; i < fireworks.length(); i = i + 1 {
+  for i in 0..<fireworks.length() {
     if fireworks[i].active {
       continue
     }
@@ -569,7 +569,7 @@ fn formation_quality(
   let mut total : Float = 0.0
   let mut n : Int = 0
 
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     if not(drones[i].active) {
       continue
     }
@@ -609,7 +609,7 @@ fn nearest_station_kind(
 ) -> Int {
   let mut found : Int = -1
   let mut best : Float = radius * radius
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     let cx : Float = stations[i].x + stations[i].w * 0.5
     let cy : Float = stations[i].y + stations[i].h * 0.5
     let d2v : Float = dist2(x, y, cx, cy)
@@ -624,7 +624,7 @@ fn nearest_station_kind(
 ///|
 fn active_requests_count(requests : Array[Request]) -> Int {
   let mut c : Int = 0
-  for i = 0; i < requests.length(); i = i + 1 {
+  for i in 0..<requests.length() {
     if requests[i].active {
       c = c + 1
     }
@@ -649,7 +649,7 @@ fn draw_background(
     @raylib.Color::new(9, 14, 26, 255),
   )
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let y0 : Float = Float::from_int(world_y) +
       Float::from_int(i) * Float::from_int(world_h) / 22.0
     let wave : Float = sinf(scene_t * 1.4 + Float::from_int(i) * 0.7) * 0.5 +
@@ -679,7 +679,7 @@ fn draw_stage(cx : Float, cy : Float, radius : Float, scene_t : Float) -> Unit {
     @raylib.Color::new(148, 176, 214, 214),
   )
 
-  for i = 0; i < 6; i = i + 1 {
+  for i in 0..<6 {
     let p : Float = sinf(scene_t * 2.0 + Float::from_int(i) * 0.82) * 0.5 + 0.5
     let rr : Float = radius * (0.38 + Float::from_int(i) * 0.12)
     @raylib.draw_circle_lines(
@@ -701,7 +701,7 @@ fn draw_targets(
   scene_t : Float,
 ) -> Unit {
   let col = pattern_color(pattern)
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     let t : Vec2f = pattern_target(pattern, i, drones.length(), cx, cy, phase)
     let pulse : Float = sinf(scene_t * 6.0 + Float::from_int(i) * 0.18) * 0.5 +
       0.5
@@ -719,7 +719,7 @@ fn draw_stations(
   director : Director,
   scene_t : Float,
 ) -> Unit {
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     let s = stations[i]
     let near : Bool = inside_rectf(director.x, director.y, s.x, s.y, s.w, s.h)
 
@@ -777,7 +777,7 @@ fn draw_stations(
 
 ///|
 fn draw_gusts(gusts : Array[Gust], scene_t : Float) -> Unit {
-  for i = 0; i < gusts.length(); i = i + 1 {
+  for i in 0..<gusts.length() {
     if not(gusts[i].active) {
       continue
     }
@@ -800,7 +800,7 @@ fn draw_gusts(gusts : Array[Gust], scene_t : Float) -> Unit {
 
 ///|
 fn draw_drones(drones : Array[Drone], scene_t : Float) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     let d = drones[i]
     if not(d.active) {
       continue
@@ -847,7 +847,7 @@ fn draw_drones(drones : Array[Drone], scene_t : Float) -> Unit {
 
 ///|
 fn draw_fireworks(fireworks : Array[Firework]) -> Unit {
-  for i = 0; i < fireworks.length(); i = i + 1 {
+  for i in 0..<fireworks.length() {
     if not(fireworks[i].active) {
       continue
     }
@@ -867,7 +867,7 @@ fn draw_fireworks(fireworks : Array[Firework]) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -933,7 +933,7 @@ fn draw_requests_panel(
   )
 
   let mut y : Int = panel_y + 438
-  for i = 0; i < requests.length(); i = i + 1 {
+  for i in 0..<requests.length() {
     if not(requests[i].active) {
       continue
     }
@@ -1384,7 +1384,7 @@ fn draw_touch_controls(
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 16, 28, 255))
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let yy : Float = Float::from_int(i) / 24.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.0) * 0.5 + 0.5
     let alpha : Int = 18 + (wave * 44.0).to_int()
@@ -1658,7 +1658,7 @@ fn main {
     clear_fireworks(fireworks)
     clear_particles(parts)
 
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       drones[i].active = true
       drones[i].x = stage_cx + randf(-120.0, 120.0)
       drones[i].y = stage_cy + randf(-90.0, 90.0)
@@ -1931,7 +1931,7 @@ fn main {
         )
         if near == 0 {
           let mut revived : Bool = false
-          for i = 0; i < drones.length(); i = i + 1 {
+          for i in 0..<drones.length() {
             if not(drones[i].active) && not(revived) {
               drones[i].active = true
               drones[i].x = director.x + randf(-30.0, 30.0)
@@ -1963,7 +1963,7 @@ fn main {
             0,
           )
         } else if near == 1 {
-          for i = 0; i < drones.length(); i = i + 1 {
+          for i in 0..<drones.length() {
             if drones[i].active {
               drones[i].temp = maxf(0.0, drones[i].temp - 26.0)
             }
@@ -2021,7 +2021,7 @@ fn main {
       }
 
       // Update gusts
-      for i = 0; i < gusts.length(); i = i + 1 {
+      for i in 0..<gusts.length() {
         if not(gusts[i].active) {
           continue
         }
@@ -2040,7 +2040,7 @@ fn main {
       }
 
       // Update fireworks
-      for i = 0; i < fireworks.length(); i = i + 1 {
+      for i in 0..<fireworks.length() {
         if not(fireworks[i].active) {
           continue
         }
@@ -2052,7 +2052,7 @@ fn main {
 
         if fireworks[i].burst_t <= 0.0 {
           fireworks[i].active = false
-          for _j = 0; _j < 20; _j = _j + 1 {
+          for _j in 0..<20 {
             spawn_particle(
               parts,
               fireworks[i].x,
@@ -2073,7 +2073,7 @@ fn main {
 
       // Update drones
       let mut active_count : Int = 0
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if not(drones[i].active) {
           continue
         }
@@ -2102,7 +2102,7 @@ fn main {
         drones[i].vx = drones[i].vx + dx * dt * attract
         drones[i].vy = drones[i].vy + dy * dt * attract
 
-        for g = 0; g < gusts.length(); g = g + 1 {
+        for g in 0..<gusts.length() {
           if not(gusts[g].active) {
             continue
           }
@@ -2195,7 +2195,7 @@ fn main {
           active_requests_count(requests),
         ) *
         0.06
-      for i = 0; i < requests.length(); i = i + 1 {
+      for i in 0..<requests.length() {
         if not(requests[i].active) {
           continue
         }
@@ -2309,7 +2309,7 @@ fn main {
 
       let mut heat_sum_draw : Float = 0.0
       let mut active_count_draw : Int = 0
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if drones[i].active {
           active_count_draw = active_count_draw + 1
           heat_sum_draw = heat_sum_draw + drones[i].temp

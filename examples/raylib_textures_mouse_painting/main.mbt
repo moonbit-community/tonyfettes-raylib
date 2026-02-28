@@ -22,7 +22,7 @@ fn main {
     max_colors,
     @raylib.Rectangle::new(0.0, 0.0, 0.0, 0.0),
   )
-  for i = 0; i < max_colors; i = i + 1 {
+  for i in 0..<max_colors {
     colors_recs[i] = @raylib.Rectangle::new(
       10.0 + 30.0 * Float::from_int(i) + 2.0 * Float::from_int(i),
       10.0,
@@ -70,7 +70,7 @@ fn main {
 
     // Choose color with mouse
     color_mouse_hover = -1
-    for i = 0; i < max_colors; i = i + 1 {
+    for i in 0..<max_colors {
       if @raylib.check_collision_point_rec(mouse_pos, colors_recs[i]) {
         color_mouse_hover = i
         break
@@ -208,7 +208,7 @@ fn main {
     @raylib.draw_line(0, 50, @raylib.get_screen_width(), 50, @raylib.lightgray)
 
     // Color rectangles
-    for i = 0; i < max_colors; i = i + 1 {
+    for i in 0..<max_colors {
       @raylib.draw_rectangle_rec(colors_recs[i], colors[i])
     }
     @raylib.draw_rectangle_lines(10, 10, 30, 30, @raylib.lightgray)

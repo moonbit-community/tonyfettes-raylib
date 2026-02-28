@@ -102,7 +102,7 @@ fn main {
     @raylib.begin_mode_2d(camera)
 
     // Draw a grid of lines in the XY plane as a visual reference
-    for i = -50; i <= 50; i = i + 1 {
+    for i in -50..=50 {
       let fi = Float::from_int(i) * 50.0
       @raylib.draw_line_v(
         @raylib.Vector2::new(fi, -2500.0),

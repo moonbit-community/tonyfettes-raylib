@@ -39,7 +39,7 @@ fn draw_menu(game : @types.Game) -> Unit {
 
   // Starfield effect on menu
   let frame_f = Float::from_int(game.frame_counter)
-  for i = 0; i < 60; i = i + 1 {
+  for i in 0..<60 {
     let fi = Float::from_int(i)
     let sx = ((@math.sinf(fi * 3.7 + frame_f * 0.01) + 1.0) *
     0.5 *
@@ -81,7 +81,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   let items : Array[String] = [
     "New Game", "Mission Select", "Continue", "Quick Start",
   ]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 300 + i * 50
     let is_sel = game.menu_cursor == i
     let blink = @math.sinf(game.menu_blink * 2.0)
@@ -409,7 +409,7 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
 
   let items : Array[String] = ["Resume", "Restart Mission", "Quit to Menu"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = @types.screen_height / 2 + i * 40
     let is_sel = game.pause_cursor == i
     let color = if is_sel {
@@ -621,7 +621,7 @@ fn draw_mission_select(game : @types.Game) -> Unit {
     @raylib.Color::new(100, 180, 255, 255),
   )
 
-  for i = 0; i < @types.total_missions; i = i + 1 {
+  for i in 0..<@types.total_missions {
     let y = 110 + i * 42
     let is_sel = game.select_cursor == i
     let color = if is_sel {
@@ -695,7 +695,7 @@ fn draw_loadout(game : @types.Game) -> Unit {
   )
 
   // Ship class options (5 classes: 0-4)
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let y = 170 + i * 90
     let is_sel = game.loadout_cursor == i
     let color = if is_sel {

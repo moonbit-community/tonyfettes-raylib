@@ -249,7 +249,7 @@ fn main {
     }
 
     // Update light values in shader
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       update_light_values(shader, lights[i])
     }
 
@@ -276,7 +276,7 @@ fn main {
     @raylib.end_shader_mode()
 
     // Draw light source spheres (without shader)
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       if lights[i].enabled {
         @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
       } else {

@@ -274,7 +274,7 @@ fn has_port(kind : Int, rot : Int, dir : Int) -> Bool {
 
 ///|
 fn clear_pulses(ps : Array[Pulse]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -288,7 +288,7 @@ fn clear_pulses(ps : Array[Pulse]) -> Unit {
 
 ///|
 fn add_pulse(ps : Array[Pulse], x : Float, y : Float, kind : Int) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if not(ps[i].active) {
       ps[i].active = true
       ps[i].x = x
@@ -313,14 +313,14 @@ fn burst_pulses(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_pulse(ps, x, y, kind)
   }
 }
 
 ///|
 fn update_pulses(ps : Array[Pulse], dt : Float) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if not(ps[i].active) {
       continue
     }
@@ -340,7 +340,7 @@ fn update_pulses(ps : Array[Pulse], dt : Float) -> Unit {
 
 ///|
 fn draw_pulses(ps : Array[Pulse]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if not(ps[i].active) {
       continue
     }
@@ -366,7 +366,7 @@ fn draw_pulses(ps : Array[Pulse]) -> Unit {
 
 ///|
 fn clear_grid(cells : Array[Cell]) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     cells[i].kind = 0
     cells[i].rot = 0
     cells[i].health = 100.0
@@ -383,8 +383,8 @@ fn clear_grid(cells : Array[Cell]) -> Unit {
 fn setup_grid(cells : Array[Cell]) -> Unit {
   clear_grid(cells)
 
-  for y = 0; y < rows; y = y + 1 {
-    for x = 0; x < cols; x = x + 1 {
+  for y in 0..<rows {
+    for x in 0..<cols {
       let i : Int = idx(x, y)
       cells[i].kind = rand_wire_kind()
       cells[i].rot = @raylib.get_random_value(0, 3)
@@ -400,7 +400,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
   // sources on left edge
   let src_ys : Array[Int] = [1, 3, 5]
-  for i = 0; i < src_ys.length(); i = i + 1 {
+  for i in 0..<src_ys.length() {
     let y : Int = src_ys[i]
     let id : Int = idx(0, y)
     cells[id].kind = 5
@@ -412,7 +412,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
   // sinks on right edge
   let sink_ys : Array[Int] = [1, 3, 5]
-  for i = 0; i < sink_ys.length(); i = i + 1 {
+  for i in 0..<sink_ys.length() {
     let y : Int = sink_ys[i]
     let id : Int = idx(cols - 1, y)
     cells[id].kind = 6
@@ -433,7 +433,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
     (7, 2),
     (7, 4),
   ]
-  for i = 0; i < hub_xy.length(); i = i + 1 {
+  for i in 0..<hub_xy.length() {
     let (hx, hy) = hub_xy[i]
     let id : Int = idx(hx, hy)
     cells[id].kind = 4
@@ -450,7 +450,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
     (4, 6),
     (1, 6),
   ]
-  for i = 0; i < void_xy.length(); i = i + 1 {
+  for i in 0..<void_xy.length() {
     let (vx, vy) = void_xy[i]
     let id : Int = idx(vx, vy)
     cells[id].kind = 0
@@ -461,7 +461,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
 ///|
 fn reroll_row(cells : Array[Cell], y : Int) -> Unit {
-  for x = 1; x < cols - 1; x = x + 1 {
+  for x in 1..<(cols - 1) {
     let id : Int = idx(x, y)
     if cells[id].kind == 0 || cells[id].kind == 5 || cells[id].kind == 6 {
       continue
@@ -477,7 +477,7 @@ fn reroll_row(cells : Array[Cell], y : Int) -> Unit {
 ///|
 fn count_faults(cells : Array[Cell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].kind != 0 && cells[i].fault_t > 0.0 {
       n = n + 1
     }
@@ -488,7 +488,7 @@ fn count_faults(cells : Array[Cell]) -> Int {
 ///|
 fn patch_faults(cells : Array[Cell], amount : Float) -> Int {
   let mut patched : Int = 0
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].fault_t > 0.0 {
       cells[i].fault_t = cells[i].fault_t - amount
       if cells[i].fault_t < 0.0 {
@@ -530,7 +530,7 @@ fn induce_faults(cells : Array[Cell], count : Int, tier : Int) -> Int {
 
 ///|
 fn degrade_faults(cells : Array[Cell], dt : Float) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].kind == 0 {
       continue
     }
@@ -574,7 +574,7 @@ fn run_network_step(
 
   let src_boost : Float = if overclock_t > 0.0 { 1.55 } else { 1.0 }
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].kind == 5 && cells[i].fault_t <= 0.0 {
       seen[i] = seen_mark
       q[tail] = i
@@ -595,7 +595,7 @@ fn run_network_step(
     let cy : Int = cur / cols
     let cur_charge : Float = cells[cur].charge
 
-    for dir = 0; dir < 4; dir = dir + 1 {
+    for dir in 0..<4 {
       if not(has_port(cells[cur].kind, cells[cur].rot, dir)) {
         continue
       }
@@ -632,7 +632,7 @@ fn run_network_step(
   let mut miss : Int = 0
   let mut powered_sinks : Int = 0
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].kind != 6 {
       continue
     }
@@ -723,7 +723,7 @@ fn draw_cell_wires(
     @raylib.Color::new(166, 190, 232, 236)
   }
 
-  for dir = 0; dir < 4; dir = dir + 1 {
+  for dir in 0..<4 {
     if not(has_port(kind, rot, dir)) {
       continue
     }
@@ -763,8 +763,8 @@ fn draw_board(
     @raylib.Color::new(170, 194, 238, 238),
   )
 
-  for y = 0; y < rows; y = y + 1 {
-    for x = 0; x < cols; x = x + 1 {
+  for y in 0..<rows {
+    for x in 0..<cols {
       let i : Int = idx(x, y)
       let gx : Int = cell_px(x)
       let gy : Int = cell_py(y)
@@ -1389,7 +1389,7 @@ fn main {
         if made > 0 {
           msg = "Fault event: \{made} nodes"
           msg_t = 1.2
-          for i = 0; i < cells.length(); i = i + 1 {
+          for i in 0..<cells.length() {
             if cells[i].fault_t > 0.0 {
               let x : Int = i % cols
               let y : Int = i / cols
@@ -1410,7 +1410,7 @@ fn main {
         seen_mark = seen_mark + 1
         if seen_mark > 1000000 {
           seen_mark = 1
-          for i = 0; i < seen.length(); i = i + 1 {
+          for i in 0..<seen.length() {
             seen[i] = 0
           }
         }
@@ -1435,7 +1435,7 @@ fn main {
         }
 
         if gain > 0 {
-          for i = 0; i < cells.length(); i = i + 1 {
+          for i in 0..<cells.length() {
             if cells[i].kind == 6 && cells[i].charge > 0.2 {
               let x : Int = i % cols
               let y : Int = i / cols
@@ -1530,7 +1530,7 @@ fn main {
           reroll_row(cells, y)
           msg = "Rerouted row \{y + 1}"
           msg_t = 1.0
-          for x = 1; x < cols - 1; x = x + 1 {
+          for x in 1..<(cols - 1) {
             burst_pulses(pulses, cell_cx(x), cell_cy(y), 3, 0)
           }
         } else {
@@ -1547,7 +1547,7 @@ fn main {
           overclock_t = 8.0
           msg = "Overclock engaged"
           msg_t = 1.2
-          for y = 0; y < rows; y = y + 1 {
+          for y in 0..<rows {
             let i : Int = idx(0, y)
             if cells[i].kind == 5 {
               burst_pulses(pulses, cell_cx(0), cell_cy(y), 8, 0)
@@ -1656,7 +1656,7 @@ fn main {
       @raylib.Color::new(8, 12, 22, 255),
     )
 
-    for i = 0; i < 38; i = i + 1 {
+    for i in 0..<38 {
       let fi : Float = Float::from_int(i)
       let x : Int = (fi * 66.0 + scene_t * (14.0 + Float::from_int(i % 6) * 5.0)).to_int() %
         sw

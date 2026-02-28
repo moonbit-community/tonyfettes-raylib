@@ -9,7 +9,7 @@ pub fn get_wave_enemy_kind(wave : Int, spawn_idx : Int) -> Int {
   let kinds = get_wave_kinds(wave)
   let counts = get_wave_counts(wave)
   let mut total = 0
-  for i = 0; i < kinds.length(); i = i + 1 {
+  for i in 0..<kinds.length() {
     total += counts[i]
     if spawn_idx < total {
       return kinds[i]
@@ -23,7 +23,7 @@ pub fn get_wave_enemy_kind(wave : Int, spawn_idx : Int) -> Int {
 pub fn get_wave_total_enemies(wave : Int) -> Int {
   let counts = get_wave_counts(wave)
   let mut total = 0
-  for i = 0; i < counts.length(); i = i + 1 {
+  for i in 0..<counts.length() {
     total += counts[i]
   }
   total

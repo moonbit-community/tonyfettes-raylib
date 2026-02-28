@@ -3,30 +3,30 @@
 ///|
 fn update_towers(game : @types.Game, dt : Float) -> Unit {
   // First, reset buff bonuses on all towers
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     tower.buff_damage = 0.0
     tower.buff_range = 0.0
     tower.buff_rate = 0.0
   }
   // Apply buff tower bonuses
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     if tower.kind == @types.tower_buff {
       apply_buff_tower(game, i)
     }
   }
   // Update all towers
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     // Update reload timer
     tower.reload_timer -= dt
@@ -47,7 +47,7 @@ fn update_towers(game : @types.Game, dt : Float) -> Unit {
       if tower.level >= 3 {
         update_buff_pulse(game, i, dt)
       }
-      continue i + 1
+      continue
     }
     // Find target
     let tx = @types.grid_to_world_x(tower.gx)
@@ -100,16 +100,16 @@ fn apply_buff_tower(game : @types.Game, buff_idx : Int) -> Unit {
     (1.0 + Float::from_int(buff.level - 1) * 0.2)
   let rate_bonus : Float = @types.buff_rate_bonus *
     (1.0 + Float::from_int(buff.level - 1) * 0.15)
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if i == buff_idx {
-      continue i + 1
+      continue
     }
     let other = game.towers[i]
     if not(other.active) {
-      continue i + 1
+      continue
     }
     if other.kind == @types.tower_buff {
-      continue i + 1
+      continue
     }
     let ox = @types.grid_to_world_x(other.gx)
     let oz = @types.grid_to_world_z(other.gy)
@@ -133,10 +133,10 @@ fn update_buff_pulse(game : @types.Game, buff_idx : Int, dt : Float) -> Unit {
     let bx = @types.grid_to_world_x(buff.gx)
     let bz = @types.grid_to_world_z(buff.gy)
     let range = @types.tower_effective_range(buff)
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let enemy = game.enemies[i]
       if not(enemy.active) {
-        continue i + 1
+        continue
       }
       let dist = @types.distance2d(bx, bz, enemy.x, enemy.z)
       if dist <= range {
@@ -158,10 +158,10 @@ fn update_flame_aura(game : @types.Game, tower_idx : Int, dt : Float) -> Unit {
     let tx = @types.grid_to_world_x(tower.gx)
     let tz = @types.grid_to_world_z(tower.gy)
     let aura_range : Float = @types.tower_effective_range(tower) * 0.6
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let enemy = game.enemies[i]
       if not(enemy.active) {
-        continue i + 1
+        continue
       }
       let dist = @types.distance2d(tx, tz, enemy.x, enemy.z)
       if dist <= aura_range {

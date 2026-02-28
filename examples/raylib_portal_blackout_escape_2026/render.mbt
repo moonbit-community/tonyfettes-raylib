@@ -78,8 +78,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_tiles(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -204,7 +204,7 @@ fn draw_portals(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_cores(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.cores.length(); i = i + 1 {
+  for i in 0..<game.cores.length() {
     if not(game.cores[i].active) {
       continue
     }
@@ -232,7 +232,7 @@ fn draw_cores(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_flares(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.flares.length(); i = i + 1 {
+  for i in 0..<game.flares.length() {
     if not(game.flares[i].active) {
       continue
     }
@@ -248,7 +248,7 @@ fn draw_flares(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_drones(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.drones.length(); i = i + 1 {
+  for i in 0..<game.drones.length() {
     if not(game.drones[i].active) {
       continue
     }
@@ -314,7 +314,7 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -340,7 +340,7 @@ fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
 fn light_alpha(game : Game, x : Int, y : Int) -> Int {
   let mut best : Int = manhattan(x, y, game.player.x, game.player.y)
 
-  for i = 0; i < game.flares.length(); i = i + 1 {
+  for i in 0..<game.flares.length() {
     if not(game.flares[i].active) {
       continue
     }
@@ -366,8 +366,8 @@ fn light_alpha(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn draw_blackout(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 1; y < grid_h - 1; y = y + 1 {
-    for x = 1; x < grid_w - 1; x = x + 1 {
+  for y in 1..<(grid_h - 1) {
+    for x in 1..<(grid_w - 1) {
       let a : Int = light_alpha(game, x, y)
       @raylib.draw_rectangle(
         board_px(x) + ox,

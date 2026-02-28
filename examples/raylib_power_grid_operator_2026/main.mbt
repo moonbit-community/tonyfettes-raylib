@@ -27,7 +27,7 @@ fn clamp_int(v : Int, lo : Int, hi : Int) -> Int {
 ///|
 fn total_demand(sectors : Array[Sector]) -> Int {
   let mut t = 0
-  for i = 0; i < sectors.length(); i = i + 1 {
+  for i in 0..<sectors.length() {
     t = t + sectors[i].demand
   }
   t
@@ -36,7 +36,7 @@ fn total_demand(sectors : Array[Sector]) -> Int {
 ///|
 fn total_supply(plant_output : Array[Int], emergency_time : Float) -> Int {
   let mut t = 0
-  for i = 0; i < plant_output.length(); i = i + 1 {
+  for i in 0..<plant_output.length() {
     t = t + plant_output[i]
   }
   if emergency_time > 0.0 {
@@ -48,7 +48,7 @@ fn total_supply(plant_output : Array[Int], emergency_time : Float) -> Int {
 
 ///|
 fn reset_sector_values(sectors : Array[Sector]) -> Unit {
-  for i = 0; i < sectors.length(); i = i + 1 {
+  for i in 0..<sectors.length() {
     sectors[i].demand = @raylib.get_random_value(70, 130)
     sectors[i].trend = @raylib.get_random_value(-8, 8)
   }
@@ -128,7 +128,7 @@ fn main {
       if tick >= 1.0 {
         tick = tick - 1.0
 
-        for i = 0; i < sectors.length(); i = i + 1 {
+        for i in 0..<sectors.length() {
           let noise = @raylib.get_random_value(-5, 5)
           sectors[i].demand = clamp_int(
             sectors[i].demand + sectors[i].trend + noise,
@@ -241,7 +241,7 @@ fn main {
     )
 
     // Sector demand bars
-    for i = 0; i < sectors.length(); i = i + 1 {
+    for i in 0..<sectors.length() {
       let x = 60 + i * 120
       @raylib.draw_rectangle(
         x,
@@ -263,7 +263,7 @@ fn main {
     }
 
     // Plant output bars
-    for i = 0; i < plant_output.length(); i = i + 1 {
+    for i in 0..<plant_output.length() {
       let x = 620 + i * 140
       @raylib.draw_rectangle(
         x,

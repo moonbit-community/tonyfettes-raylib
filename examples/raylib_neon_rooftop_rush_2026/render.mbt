@@ -25,7 +25,7 @@ fn draw_skyline(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let top_b = @raylib.Color::new(24, 24, 52, 255)
   @raylib.draw_rectangle_gradient_v(0, 0, screen_w, screen_h, top_a, top_b)
 
-  for layer = 0; layer < skyline_layers; layer = layer + 1 {
+  for layer in 0..<skyline_layers {
     let p : Float = Float::from_int(layer) / Float::from_int(skyline_layers - 1)
     let speed : Float = 0.12 + p * 0.32
     let base_y : Float = 170.0 + p * 210.0
@@ -37,7 +37,7 @@ fn draw_skyline(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(42, 54, 94, 236)
     }
 
-    for i = -1; i < 18; i = i + 1 {
+    for i in -1..<18 {
       let bw = 90 + (i * 37 + layer * 23) % 140
       let bh = 120 + (i * 41 + layer * 17) % 240
       let x : Float = Float::from_int(i * 98) -
@@ -64,7 +64,7 @@ fn draw_skyline(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
   }
 
-  for i = 0; i < 44; i = i + 1 {
+  for i in 0..<44 {
     let sx = (i * 67 + 39) % screen_w
     let sy = (i * 41 + 73) % (screen_h / 2)
     let phase = game.time_s * 0.7 + Float::from_int(i) * 0.4
@@ -108,7 +108,7 @@ fn segment_color_glow(seg : Segment) -> @raylib.Color {
 
 ///|
 fn draw_segments(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if not(game.segments[i].active) {
       continue
     }
@@ -232,7 +232,7 @@ fn draw_obstacle(ob : Obstacle, cam_x : Float, cam_y : Float) -> Unit {
       ob.h.to_int(),
       @raylib.Color::new(20, 26, 34, 220),
     )
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       @raylib.draw_line(
         x.to_int() + 8,
         y.to_int() + 5 + i * 5,
@@ -328,7 +328,7 @@ fn draw_obstacle(ob : Obstacle, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_chips(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.chips.length(); i = i + 1 {
+  for i in 0..<game.chips.length() {
     if not(game.chips[i].active) {
       continue
     }
@@ -361,7 +361,7 @@ fn draw_chips(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -384,7 +384,7 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       continue
     }
@@ -908,13 +908,13 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 fn draw_game_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_skyline(game, cam_x, cam_y)
 
-  for i = 0; i < game.anchors.length(); i = i + 1 {
+  for i in 0..<game.anchors.length() {
     draw_anchor(game.anchors[i], cam_x, cam_y)
   }
 
   draw_segments(game, cam_x, cam_y)
 
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     draw_obstacle(game.obstacles[i], cam_x, cam_y)
   }
 

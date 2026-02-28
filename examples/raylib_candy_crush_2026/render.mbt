@@ -81,7 +81,7 @@ fn draw_button(
 fn draw_background() -> Unit {
   @raylib.clear_background(@raylib.Color::new(14, 20, 34, 255))
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let y = i * (screen_h / 18)
     let tone = 28 + i * 4
     @raylib.draw_rectangle(
@@ -171,8 +171,8 @@ fn draw_board_cells(game : Game) -> Unit {
   let bx = board_x()
   let by = board_y()
 
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       let left = bx + x * cell_px
       let top = by + y * cell_px
       let cell_bg = if (x + y) % 2 == 0 {

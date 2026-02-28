@@ -106,7 +106,7 @@ fn main {
     }
 
     if reset_button_clicked {
-      for i = 0; i < max_draw_lines; i = i + 1 {
+      for i in 0..<max_draw_lines {
         lines[i].start = @raylib.Vector2::new(0.0, 0.0)
         lines[i].end_ = @raylib.Vector2::new(0.0, 0.0)
       }
@@ -129,7 +129,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
     @raylib.begin_mode_2d(camera)
 
-    for s = 0; s < symmetry; s = s + 1 {
+    for s in 0..<symmetry {
       let _ = s
       for i = 0; i < current_line_counter; i = i + 2 {
         @raylib.draw_line_ex(

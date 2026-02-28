@@ -148,7 +148,7 @@ fn inside_rect(
 
 ///|
 fn clear_ice(ice : Array[IceChunk]) -> Unit {
-  for i = 0; i < ice.length(); i = i + 1 {
+  for i in 0..<ice.length() {
     ice[i].active = false
     ice[i].x = 0.0
     ice[i].y = 0.0
@@ -163,7 +163,7 @@ fn clear_ice(ice : Array[IceChunk]) -> Unit {
 
 ///|
 fn clear_convoys(convoys : Array[ConvoyShip]) -> Unit {
-  for i = 0; i < convoys.length(); i = i + 1 {
+  for i in 0..<convoys.length() {
     convoys[i].active = false
     convoys[i].x = 0.0
     convoys[i].y = 0.0
@@ -182,7 +182,7 @@ fn clear_convoys(convoys : Array[ConvoyShip]) -> Unit {
 
 ///|
 fn clear_storms(storms : Array[StormCell]) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     storms[i].active = false
     storms[i].x = 0.0
     storms[i].y = 0.0
@@ -197,7 +197,7 @@ fn clear_storms(storms : Array[StormCell]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -216,7 +216,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].x = x
@@ -253,14 +253,14 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -350,7 +350,7 @@ fn setup_ice_field(
 
     // keep start/end harbor and route lanes somewhat open
     let mut lane_penalty : Float = 99999.0
-    for i = 0; i < route.length(); i = i + 1 {
+    for i in 0..<route.length() {
       let d2v : Float = dist2(x, y, route[i].x, route[i].y)
       if d2v < lane_penalty {
         lane_penalty = d2v
@@ -362,7 +362,7 @@ fn setup_ice_field(
     }
 
     let mut overlap : Bool = false
-    for j = 0; j < ice.length(); j = j + 1 {
+    for j in 0..<ice.length() {
       if not(ice[j].active) {
         continue
       }
@@ -397,7 +397,7 @@ fn spawn_convoy(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < convoys.length(); i = i + 1 {
+  for i in 0..<convoys.length() {
     if convoys[i].active {
       continue
     }
@@ -430,7 +430,7 @@ fn spawn_storm(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if storms[i].active {
       continue
     }
@@ -471,7 +471,7 @@ fn spawn_storm(
 ///|
 fn active_ice_count(ice : Array[IceChunk]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < ice.length(); i = i + 1 {
+  for i in 0..<ice.length() {
     if ice[i].active {
       n = n + 1
     }
@@ -482,7 +482,7 @@ fn active_ice_count(ice : Array[IceChunk]) -> Int {
 ///|
 fn active_convoy_count(convoys : Array[ConvoyShip]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < convoys.length(); i = i + 1 {
+  for i in 0..<convoys.length() {
     if convoys[i].active {
       n = n + 1
     }
@@ -493,7 +493,7 @@ fn active_convoy_count(convoys : Array[ConvoyShip]) -> Int {
 ///|
 fn active_storm_count(storms : Array[StormCell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if storms[i].active {
       n = n + 1
     }
@@ -513,7 +513,7 @@ fn update_ice(
 ) -> Float {
   let mut hazard_sum : Float = 0.0
 
-  for i = 0; i < ice.length(); i = i + 1 {
+  for i in 0..<ice.length() {
     if not(ice[i].active) {
       continue
     }
@@ -569,7 +569,7 @@ fn update_storms(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -613,7 +613,7 @@ fn update_player_damage_from_hazards(
 ) -> Float {
   let mut damage : Float = 0.0
 
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -630,7 +630,7 @@ fn update_player_damage_from_hazards(
     }
   }
 
-  for i = 0; i < ice.length(); i = i + 1 {
+  for i in 0..<ice.length() {
     if not(ice[i].active) {
       continue
     }
@@ -671,7 +671,7 @@ fn carve_ice_with_cutter(
     let mut cleared : Int = 0
     let mut score_gain : Float = 0.0
 
-    for i = 0; i < ice.length(); i = i + 1 {
+    for i in 0..<ice.length() {
       if not(ice[i].active) {
         continue
       }
@@ -714,7 +714,7 @@ fn repair_nearby_convoys(
     0
   } else {
     let mut count : Int = 0
-    for i = 0; i < convoys.length(); i = i + 1 {
+    for i in 0..<convoys.length() {
       if not(convoys[i].active) {
         continue
       }
@@ -757,7 +757,7 @@ fn scan_hazards(
     let mut best_d2 : Float = 999999999.0
     let mut kind : Int = 0
 
-    for i = 0; i < ice.length(); i = i + 1 {
+    for i in 0..<ice.length() {
       if not(ice[i].active) || ice[i].hard < 24.0 {
         continue
       }
@@ -770,7 +770,7 @@ fn scan_hazards(
       }
     }
 
-    for i = 0; i < storms.length(); i = i + 1 {
+    for i in 0..<storms.length() {
       if not(storms[i].active) {
         continue
       }
@@ -810,7 +810,7 @@ fn update_convoys(
   let mut score_gain : Int = 0
   let mut wait_accum : Float = 0.0
 
-  for i = 0; i < convoys.length(); i = i + 1 {
+  for i in 0..<convoys.length() {
     if not(convoys[i].active) {
       continue
     }
@@ -838,7 +838,7 @@ fn update_convoys(
     let mut blocked : Bool = false
     let mut block_damage : Float = 0.0
 
-    for j = 0; j < ice.length(); j = j + 1 {
+    for j in 0..<ice.length() {
       if not(ice[j].active) {
         continue
       }
@@ -856,7 +856,7 @@ fn update_convoys(
     }
 
     let mut storm_slow : Float = 0.0
-    for j = 0; j < storms.length(); j = j + 1 {
+    for j in 0..<storms.length() {
       if not(storms[j].active) {
         continue
       }
@@ -970,7 +970,7 @@ fn draw_ocean(
 
 ///|
 fn draw_route(route : Array[Waypoint]) -> Unit {
-  for i = 0; i < route.length() - 1; i = i + 1 {
+  for i in 0..<(route.length() - 1) {
     let ax : Int = route[i].x.to_int()
     let ay : Int = route[i].y.to_int()
     let bx : Int = route[i + 1].x.to_int()
@@ -986,7 +986,7 @@ fn draw_route(route : Array[Waypoint]) -> Unit {
     )
   }
 
-  for i = 0; i < route.length(); i = i + 1 {
+  for i in 0..<route.length() {
     @raylib.draw_circle(
       route[i].x.to_int(),
       route[i].y.to_int(),
@@ -998,7 +998,7 @@ fn draw_route(route : Array[Waypoint]) -> Unit {
 
 ///|
 fn draw_ice(ice : Array[IceChunk], scene_t : Float) -> Unit {
-  for i = 0; i < ice.length(); i = i + 1 {
+  for i in 0..<ice.length() {
     if not(ice[i].active) {
       continue
     }
@@ -1047,7 +1047,7 @@ fn draw_ice(ice : Array[IceChunk], scene_t : Float) -> Unit {
 
 ///|
 fn draw_storms(storms : Array[StormCell], scene_t : Float) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -1104,7 +1104,7 @@ fn convoy_color(hp : Float, panic : Float) -> @raylib.Color {
 
 ///|
 fn draw_convoys(convoys : Array[ConvoyShip]) -> Unit {
-  for i = 0; i < convoys.length(); i = i + 1 {
+  for i in 0..<convoys.length() {
     if not(convoys[i].active) {
       continue
     }
@@ -1236,7 +1236,7 @@ fn draw_player(ship : PlayerShip, scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1995,7 +1995,7 @@ fn main {
           let x : Float = randf(world_l + 20.0, world_r - 20.0)
           let y : Float = randf(world_t + 20.0, world_b - 20.0)
           let mut ok : Bool = true
-          for k = 0; k < route.length(); k = k + 1 {
+          for k in 0..<route.length() {
             if dist2(x, y, route[k].x, route[k].y) < 42.0 * 42.0 {
               ok = false
               break
@@ -2006,7 +2006,7 @@ fn main {
             continue
           }
 
-          for k = 0; k < ice.length(); k = k + 1 {
+          for k in 0..<ice.length() {
             if not(ice[k].active) {
               ice[k].active = true
               ice[k].x = x

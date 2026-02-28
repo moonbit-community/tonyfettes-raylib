@@ -11,15 +11,15 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     }
   }
   // Update each enemy
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     // Stun timer
     if enemy.stun_timer > 0.0 {
       enemy.stun_timer -= dt
-      continue i + 1
+      continue
     }
     // Flash timer
     if enemy.flash_timer > 0.0 {
@@ -61,7 +61,7 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     enemy.x = clamped.0
     enemy.z = clamped.1
     // Pillar collision
-    for pi = 0; pi < game.pillars.length(); pi = pi + 1 {
+    for pi in 0..<game.pillars.length() {
       let pillar = game.pillars[pi]
       let result = @types.push_from_pillar(
         enemy.x,
@@ -75,10 +75,10 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
       enemy.z = result.1
     }
     // Barricade collision + barricade damage
-    for bi = 0; bi < game.barricades.length(); bi = bi + 1 {
+    for bi in 0..<game.barricades.length() {
       let barr = game.barricades[bi]
       if not(barr.active) {
-        continue bi + 1
+        continue
       }
       let bdist = @types.distance2d(enemy.x, enemy.z, barr.x, barr.z)
       if bdist < @types.barricade_size * 0.5 + enemy.size * 0.5 {
@@ -104,10 +104,10 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
       }
     }
     // Enemy-enemy collision (simple push apart)
-    for j = i + 1; j < game.enemies.length(); j = j + 1 {
+    for j in (i + 1)..<game.enemies.length() {
       let other = game.enemies[j]
       if not(other.active) {
-        continue j + 1
+        continue
       }
       let edx = other.x - enemy.x
       let edz = other.z - enemy.z
@@ -124,10 +124,10 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
       }
     }
     // Trap interaction
-    for ti = 0; ti < game.traps.length(); ti = ti + 1 {
+    for ti in 0..<game.traps.length() {
       let trap = game.traps[ti]
       if not(trap.active) {
-        continue ti + 1
+        continue
       }
       let tdist = @types.distance2d(enemy.x, enemy.z, trap.x, trap.z)
       if tdist < 2.0 && trap.cooldown_timer <= 0.0 {
@@ -480,7 +480,7 @@ fn update_necromancer_ai(
   if enemy.revive_timer <= 0.0 {
     // Try to find a dead enemy to revive (using can_revive flag)
     let mut revived = false
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       let target = game.enemies[j]
       if not(target.active) && target.can_revive {
         let revive_dist = @types.distance2d(
@@ -653,7 +653,7 @@ fn update_boss_ai(
     if enemy.boss_phase >= 2 && dist > 5.0 {
       // Ranged attack: burst of projectiles
       let proj_count = 3 + enemy.boss_phase
-      for pi = 0; pi < proj_count; pi = pi + 1 {
+      for pi in 0..<proj_count {
         let spread = @types.rand_rangef(game, -0.3, 0.3)
         let shoot_dx = dx / dist + spread
         let shoot_dz = dz / dist + spread * 0.5

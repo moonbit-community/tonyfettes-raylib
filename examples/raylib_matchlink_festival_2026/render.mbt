@@ -27,7 +27,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(62, 40, 28, 38),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 20
     @raylib.draw_rectangle(
       0,
@@ -46,7 +46,7 @@ fn draw_bg(game : Game) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -76,7 +76,7 @@ fn draw_link_path(game : Game) -> Unit {
     return
   }
 
-  for i = 0; i < game.path_points - 1; i = i + 1 {
+  for i in 0..<(game.path_points - 1) {
     let (ax, ay) = path_point_flash(game, i)
     let (bx, by) = path_point_flash(game, i + 1)
     let (sx, sy) = world_center_ext(game, ax, ay)
@@ -154,8 +154,8 @@ fn draw_board(game : Game) -> Unit {
 
   let text_size : Int = clampi(tile / 2, 16, 30)
 
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       let k : Int = cell_at(game, x, y)
       let px : Int = board_x + (x - 1) * tile
       let py : Int = board_y + (y - 1) * tile

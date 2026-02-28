@@ -38,7 +38,7 @@ fn fish_value(kind : Int) -> Int {
 
 ///|
 fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
-  for i = 0; i < fishes.length(); i = i + 1 {
+  for i in 0..<fishes.length() {
     if not(fishes[i].alive) {
       let roll = @raylib.get_random_value(0, 99)
       let kind = if roll < 62 - rare_bonus {
@@ -70,7 +70,7 @@ fn spawn_fish(fishes : Array[Fish], rare_bonus : Int) -> Unit {
 
 ///|
 fn reset_fishes(fishes : Array[Fish]) -> Unit {
-  for i = 0; i < fishes.length(); i = i + 1 {
+  for i in 0..<fishes.length() {
     fishes[i].alive = false
   }
 }
@@ -228,7 +228,7 @@ fn main {
         spawn_fish(fishes, rare_bonus)
       }
 
-      for i = 0; i < fishes.length(); i = i + 1 {
+      for i in 0..<fishes.length() {
         if not(fishes[i].alive) {
           continue
         }
@@ -298,7 +298,7 @@ fn main {
     )
     @raylib.draw_circle(hook_x.to_int(), hook_y.to_int(), 5.0, @raylib.white)
 
-    for i = 0; i < fishes.length(); i = i + 1 {
+    for i in 0..<fishes.length() {
       if fishes[i].alive {
         let c = fish_color(fishes[i].kind)
         @raylib.draw_ellipse(

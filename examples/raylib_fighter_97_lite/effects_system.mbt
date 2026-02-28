@@ -10,7 +10,7 @@ fn push_camera_shake(game : Game, amount : Float) -> Unit {
 
 ///|
 fn allocate_particle_slot(list : Array[Particle]) -> Int {
-  for i = 0; i < list.length(); i = i + 1 {
+  for i in 0..<list.length() {
     if not(list[i].active) {
       return i
     }
@@ -63,7 +63,7 @@ fn spawn_hit_spark(
     @raylib.Color::new(255, 138, 86, 255)
   }
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = allocate_particle_slot(game.hit_sparks)
     if idx < 0 {
       return
@@ -111,7 +111,7 @@ fn spawn_hit_spark(
 ///|
 fn spawn_ground_skid(game : Game, fighter : Fighter) -> Unit {
   let archetype = fighter_archetype(game, fighter)
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let jitter_x = rand_rangef(game, f(-18.0), f(18.0))
     let jitter_y = rand_rangef(game, f(-3.0), f(3.0))
     spawn_stage_dust(
@@ -127,16 +127,16 @@ fn spawn_ground_skid(game : Game, fighter : Fighter) -> Unit {
 
 ///|
 fn update_particle_list(list : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < list.length(); i = i + 1 {
+  for i in 0..<list.length() {
     let p = list[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
 
     p.life -= dt
     if p.life <= f(0.0) {
       p.active = false
-      continue i + 1
+      continue
     }
 
     p.vy += particle_gravity * dt
@@ -159,10 +159,10 @@ fn draw_particle_list(
   camera_x : Float,
   camera_y : Float,
 ) -> Unit {
-  for i = 0; i < list.length(); i = i + 1 {
+  for i in 0..<list.length() {
     let p = list[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
 
     let alpha = clampf(p.life / p.max_life, f(0.0), f(1.0))

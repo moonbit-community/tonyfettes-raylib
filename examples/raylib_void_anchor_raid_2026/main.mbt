@@ -213,7 +213,7 @@ fn circle_rect_hit(
 
 ///|
 fn any_wall_hit(x : Float, y : Float, r : Float, walls : Array[Wall]) -> Bool {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     if not(walls[i].active) {
       continue
     }
@@ -255,7 +255,7 @@ fn move_with_walls(
 
 ///|
 fn clear_anchors(anchors : Array[Anchor]) -> Unit {
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     anchors[i].active = false
     anchors[i].x = 0.0
     anchors[i].y = 0.0
@@ -269,7 +269,7 @@ fn clear_anchors(anchors : Array[Anchor]) -> Unit {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
     enemies[i].kind = 0
     enemies[i].x = 0.0
@@ -285,7 +285,7 @@ fn clear_enemies(enemies : Array[Enemy]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].team = 0
     bullets[i].kind = 0
@@ -301,7 +301,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_orbs(orbs : Array[Orb]) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     orbs[i].active = false
     orbs[i].kind = 0
     orbs[i].x = 0.0
@@ -316,7 +316,7 @@ fn clear_orbs(orbs : Array[Orb]) -> Unit {
 
 ///|
 fn clear_walls(walls : Array[Wall]) -> Unit {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     walls[i].active = false
     walls[i].x = 0.0
     walls[i].y = 0.0
@@ -327,7 +327,7 @@ fn clear_walls(walls : Array[Wall]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -342,7 +342,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 
 ///|
 fn add_anchor(anchors : Array[Anchor], x : Float, y : Float, r : Float) -> Bool {
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     if not(anchors[i].active) {
       anchors[i].active = true
       anchors[i].x = x
@@ -366,7 +366,7 @@ fn add_enemy(
   y : Float,
   wave : Int,
 ) -> Bool {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       enemies[i].active = true
       enemies[i].kind = kind
@@ -397,7 +397,7 @@ fn add_bullet(
   r : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       bullets[i].active = true
       bullets[i].team = team
@@ -426,7 +426,7 @@ fn add_orb(
   value : Int,
   life : Float,
 ) -> Bool {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     if not(orbs[i].active) {
       orbs[i].active = true
       orbs[i].kind = kind
@@ -451,7 +451,7 @@ fn add_wall(
   w : Float,
   h : Float,
 ) -> Bool {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     if not(walls[i].active) {
       walls[i].active = true
       walls[i].x = x
@@ -475,7 +475,7 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -501,7 +501,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(70.0, 340.0) * scale
     ignore(
@@ -522,7 +522,7 @@ fn burst(
 ///|
 fn count_active_enemies(enemies : Array[Enemy]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if enemies[i].active {
       n = n + 1
     }
@@ -533,7 +533,7 @@ fn count_active_enemies(enemies : Array[Enemy]) -> Int {
 ///|
 fn count_owned_anchors(anchors : Array[Anchor], owner : Int) -> Int {
   let mut n : Int = 0
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     if anchors[i].active && anchors[i].owner == owner {
       n = n + 1
     }
@@ -544,7 +544,7 @@ fn count_owned_anchors(anchors : Array[Anchor], owner : Int) -> Int {
 ///|
 fn count_total_anchors(anchors : Array[Anchor]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < anchors.length(); i = i + 1 {
+  for i in 0..<anchors.length() {
     if anchors[i].active {
       n = n + 1
     }
@@ -1189,7 +1189,7 @@ fn main {
 
         burst(particles, player.x, player.y, 76, 0.33, 3)
 
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -1202,7 +1202,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             bullets[i].team == 2 &&
             dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
@@ -1211,7 +1211,7 @@ fn main {
           }
         }
 
-        for i = 0; i < anchors.length(); i = i + 1 {
+        for i in 0..<anchors.length() {
           if not(anchors[i].active) {
             continue
           }
@@ -1308,7 +1308,7 @@ fn main {
       }
 
       // anchors capture and fire
-      for i = 0; i < anchors.length(); i = i + 1 {
+      for i in 0..<anchors.length() {
         if not(anchors[i].active) {
           continue
         }
@@ -1325,7 +1325,7 @@ fn main {
           (anchors[i].r + 18.0) * (anchors[i].r + 18.0)
 
         let mut enemy_near : Int = 0
-        for e = 0; e < enemies.length(); e = e + 1 {
+        for e in 0..<enemies.length() {
           if not(enemies[e].active) {
             continue
           }
@@ -1368,7 +1368,7 @@ fn main {
           if anchors[i].owner == 1 {
             let mut target_i : Int = -1
             let mut best_d2 : Float = 99999999.0
-            for e = 0; e < enemies.length(); e = e + 1 {
+            for e in 0..<enemies.length() {
               if not(enemies[e].active) {
                 continue
               }
@@ -1456,7 +1456,7 @@ fn main {
       }
 
       // enemies update
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1474,7 +1474,7 @@ fn main {
 
         let mut nearest_anchor : Int = -1
         let mut best_anchor_d2 : Float = 99999999.0
-        for a = 0; a < anchors.length(); a = a + 1 {
+        for a in 0..<anchors.length() {
           if not(anchors[a].active) {
             continue
           }
@@ -1660,7 +1660,7 @@ fn main {
           }
 
           let drops : Int = 1 + @raylib.get_random_value(0, 2)
-          for d = 0; d < drops; d = d + 1 {
+          for d in 0..<drops {
             let kind : Int = @raylib.get_random_value(0, 1)
             ignore(
               add_orb(
@@ -1682,7 +1682,7 @@ fn main {
       }
 
       // orbs
-      for i = 0; i < orbs.length(); i = i + 1 {
+      for i in 0..<orbs.length() {
         if not(orbs[i].active) {
           continue
         }
@@ -1718,7 +1718,7 @@ fn main {
       }
 
       // bullets
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1742,7 +1742,7 @@ fn main {
 
         // walls
         let mut blocked : Bool = false
-        for w = 0; w < walls.length(); w = w + 1 {
+        for w in 0..<walls.length() {
           if not(walls[w].active) {
             continue
           }
@@ -1767,7 +1767,7 @@ fn main {
         if bullets[i].team == 1 {
           let mut consumed : Bool = false
 
-          for e = 0; e < enemies.length(); e = e + 1 {
+          for e in 0..<enemies.length() {
             if consumed {
               continue
             }
@@ -1785,7 +1785,7 @@ fn main {
           }
 
           if bullets[i].active {
-            for a = 0; a < anchors.length(); a = a + 1 {
+            for a in 0..<anchors.length() {
               if not(anchors[a].active) || anchors[a].owner != -1 {
                 continue
               }
@@ -1809,7 +1809,7 @@ fn main {
             continue
           }
 
-          for a = 0; a < anchors.length(); a = a + 1 {
+          for a in 0..<anchors.length() {
             if not(anchors[a].active) || anchors[a].owner != 1 {
               continue
             }
@@ -1828,7 +1828,7 @@ fn main {
       }
 
       // particles
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1866,16 +1866,16 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(8, 12, 20, 255))
 
-    for gy = 0; gy < 15; gy = gy + 1 {
+    for gy in 0..<15 {
       let y : Int = 90 + gy * 44
       @raylib.draw_line(0, y, sw, y, @raylib.Color::new(22, 30, 46, 122))
     }
-    for gx = 0; gx < 26; gx = gx + 1 {
+    for gx in 0..<26 {
       let x : Int = gx * 50
       @raylib.draw_line(x, 90, x, sh, @raylib.Color::new(22, 30, 46, 102))
     }
 
-    for i = 0; i < 170; i = i + 1 {
+    for i in 0..<170 {
       let fi : Float = Float::from_int(i)
       let sx : Int = ((
         fi * 79.0 + stars_t * (0.2 + Float::from_int(i % 7) * 0.08)
@@ -1914,7 +1914,7 @@ fn main {
     )
 
     // walls
-    for i = 0; i < walls.length(); i = i + 1 {
+    for i in 0..<walls.length() {
       if not(walls[i].active) {
         continue
       }
@@ -1935,7 +1935,7 @@ fn main {
     }
 
     // anchors
-    for i = 0; i < anchors.length(); i = i + 1 {
+    for i in 0..<anchors.length() {
       if not(anchors[i].active) {
         continue
       }
@@ -1980,7 +1980,7 @@ fn main {
     }
 
     // orbs
-    for i = 0; i < orbs.length(); i = i + 1 {
+    for i in 0..<orbs.length() {
       if not(orbs[i].active) {
         continue
       }
@@ -1998,7 +1998,7 @@ fn main {
     }
 
     // enemies
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -2043,7 +2043,7 @@ fn main {
     }
 
     // bullets
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -2098,7 +2098,7 @@ fn main {
     }
 
     // particles
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

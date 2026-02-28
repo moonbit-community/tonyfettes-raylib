@@ -278,7 +278,7 @@ pub fn load_codepoints(text : String) -> Array[Int] {
   }
   let count = read_int(bytes, 0)
   let result = Array::make(count, 0)
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     result[i] = read_int(bytes, 4 + i * 4)
   }
   result

@@ -2,7 +2,7 @@
 
 ///|
 fn update_weapon_cooldowns(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.weapons.length(); i = i + 1 {
+  for i in 0..<game.weapons.length() {
     if game.weapons[i].reload_timer > 0.0 {
       game.weapons[i].reload_timer -= dt
     }
@@ -134,7 +134,7 @@ fn fire_weapon(game : @types.Game, weapon : Int) -> Unit {
   let right_z = -sin_yaw
   if weapon == @types.weapon_shotgun {
     // Fire multiple pellets with spread
-    for i = 0; i < @types.shotgun_pellets; i = i + 1 {
+    for i in 0..<@types.shotgun_pellets {
       let spread_h = @types.rand_rangef(
         game,
         -@types.shotgun_spread,
@@ -329,10 +329,10 @@ fn fire_projectile(
 
 ///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     // Move projectile
     proj.x += proj.dx * proj.speed * dt
@@ -346,7 +346,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
-      continue i + 1
+      continue
     }
     // Floor/ceiling collision
     if proj.y < 0.0 || proj.y > 10.0 {
@@ -361,7 +361,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
         )
       }
       proj.active = false
-      continue i + 1
+      continue
     }
     // Arena wall collision
     if not(@types.in_arena(proj.x, proj.z)) {
@@ -376,11 +376,11 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
         )
       }
       proj.active = false
-      continue i + 1
+      continue
     }
     // Pillar collision
     let mut hit_pillar = false
-    for pi = 0; pi < game.pillars.length(); pi = pi + 1 {
+    for pi in 0..<game.pillars.length() {
       let pillar = game.pillars[pi]
       let pdist = @types.distance2d(proj.x, proj.z, pillar.x, pillar.z)
       if pdist < pillar.radius + 0.2 && proj.y < pillar.height {
@@ -411,15 +411,15 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
         @types.particle_spark,
       )
       proj.active = false
-      continue i + 1
+      continue
     }
     // Barricade collision (enemy projectiles can hit barricades)
     if proj.is_enemy {
       let mut hit_barricade = false
-      for bi = 0; bi < game.barricades.length(); bi = bi + 1 {
+      for bi in 0..<game.barricades.length() {
         let barr = game.barricades[bi]
         if not(barr.active) {
-          continue bi + 1
+          continue
         }
         let bdist = @types.distance2d(proj.x, proj.z, barr.x, barr.z)
         if bdist < @types.barricade_size * 0.5 + 0.3 && proj.y < 2.0 {
@@ -434,7 +434,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       }
       if hit_barricade {
         proj.active = false
-        continue i + 1
+        continue
       }
     }
     if proj.is_enemy {
@@ -450,15 +450,15 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       if pdist < @types.player_radius + 0.3 {
         damage_player_from(game, proj.damage, proj.x, proj.z)
         proj.active = false
-        continue i + 1
+        continue
       }
     } else {
       // Player projectile: check against enemies
       let mut hit = false
-      for j = 0; j < game.enemies.length(); j = j + 1 {
+      for j in 0..<game.enemies.length() {
         let enemy = game.enemies[j]
         if not(enemy.active) {
-          continue j + 1
+          continue
         }
         let edist = @types.distance3d(
           proj.x,
@@ -510,7 +510,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
         }
       }
       if hit {
-        continue i + 1
+        continue
       }
     }
   }
@@ -526,10 +526,10 @@ fn apply_explosion(
   damage : Float,
 ) -> Unit {
   // Damage all enemies in radius
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(x, y, z, enemy.x, enemy.y, enemy.z)
     if dist < radius {
@@ -565,10 +565,10 @@ fn apply_explosion(
     damage_player(game, self_dmg)
   }
   // Damage barricades
-  for bi = 0; bi < game.barricades.length(); bi = bi + 1 {
+  for bi in 0..<game.barricades.length() {
     let barr = game.barricades[bi]
     if not(barr.active) {
-      continue bi + 1
+      continue
     }
     let bdist = @types.distance2d(x, z, barr.x, barr.z)
     if bdist < radius {

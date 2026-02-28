@@ -24,7 +24,7 @@ fn draw_texture_poly(
 
   @rl.color4ub(tint.r, tint.g, tint.b, tint.a)
 
-  for i = 0; i < point_count - 1; i = i + 1 {
+  for i in 0..<(point_count - 1) {
     @rl.tex_coord2f(0.5, 0.5)
     @rl.vertex2f(center.x, center.y)
 
@@ -73,7 +73,7 @@ fn main {
     MaxPoints,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < MaxPoints; i = i + 1 {
+  for i in 0..<MaxPoints {
     let x : Float = (texcoords[i].x - 0.5) * 256.0
     let y : Float = (texcoords[i].y - 0.5) * 256.0
     points[i] = @raylib.Vector2::new(x, y)
@@ -85,7 +85,7 @@ fn main {
     MaxPoints,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < MaxPoints; i = i + 1 {
+  for i in 0..<MaxPoints {
     positions[i] = points[i]
   }
 
@@ -102,7 +102,7 @@ fn main {
     // Update points rotation with an angle transform
     // NOTE: Base points position are not modified
     angle = angle + 1.0
-    for i = 0; i < MaxPoints; i = i + 1 {
+    for i in 0..<MaxPoints {
       positions[i] = @raylib.Vector2::rotate(points[i], angle * deg2rad)
     }
 

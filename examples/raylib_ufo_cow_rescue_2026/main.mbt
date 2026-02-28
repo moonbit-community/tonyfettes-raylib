@@ -153,7 +153,7 @@ fn randf(lo : Float, hi : Float) -> Float {
 
 ///|
 fn clear_cows(cows : Array[Cow]) -> Unit {
-  for i = 0; i < cows.length(); i = i + 1 {
+  for i in 0..<cows.length() {
     cows[i].active = false
     cows[i].x = 0.0
     cows[i].y = 0.0
@@ -166,7 +166,7 @@ fn clear_cows(cows : Array[Cow]) -> Unit {
 
 ///|
 fn clear_farmers(farmers : Array[Farmer]) -> Unit {
-  for i = 0; i < farmers.length(); i = i + 1 {
+  for i in 0..<farmers.length() {
     farmers[i].active = false
     farmers[i].x = 0.0
     farmers[i].y = 0.0
@@ -179,7 +179,7 @@ fn clear_farmers(farmers : Array[Farmer]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].x = 0.0
     bullets[i].y = 0.0
@@ -192,7 +192,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     items[i].active = false
     items[i].x = 0.0
     items[i].y = 0.0
@@ -203,7 +203,7 @@ fn clear_pickups(items : Array[Pickup]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -225,7 +225,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if done {
       continue
     }
@@ -253,7 +253,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(parts, x, y, speed, kind)
   }
@@ -262,7 +262,7 @@ fn burst(
 ///|
 fn spawn_cow(cows : Array[Cow]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < cows.length(); i = i + 1 {
+  for i in 0..<cows.length() {
     if slot < 0 && not(cows[i].active) {
       slot = i
     }
@@ -285,7 +285,7 @@ fn spawn_cow(cows : Array[Cow]) -> Bool {
 ///|
 fn spawn_farmer(farmers : Array[Farmer], level : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < farmers.length(); i = i + 1 {
+  for i in 0..<farmers.length() {
     if slot < 0 && not(farmers[i].active) {
       slot = i
     }
@@ -315,7 +315,7 @@ fn spawn_enemy_bullet(
   dmg : Float,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if slot < 0 && not(bullets[i].active) {
       slot = i
     }
@@ -343,7 +343,7 @@ fn spawn_enemy_bullet(
 ///|
 fn spawn_pickup(items : Array[Pickup]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     if slot < 0 && not(items[i].active) {
       slot = i
     }
@@ -481,15 +481,15 @@ fn main {
     clear_pickups(pickups)
     clear_particles(particles)
 
-    for i = 0; i < 18; i = i + 1 {
+    for i in 0..<18 {
       ignore(i)
       ignore(spawn_cow(cows))
     }
-    for i = 0; i < 7; i = i + 1 {
+    for i in 0..<7 {
       ignore(i)
       ignore(spawn_farmer(farmers, level))
     }
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       ignore(i)
       ignore(spawn_pickup(pickups))
     }
@@ -665,7 +665,7 @@ fn main {
         msg_t = 0.7
         burst(particles, ufo.x, ufo.y, 28, 0.30, 2)
 
-        for i = 0; i < farmers.length(); i = i + 1 {
+        for i in 0..<farmers.length() {
           if farmers[i].active &&
             dist2(ufo.x, ufo.y, farmers[i].x, farmers[i].y) <= 180.0 * 180.0 {
             farmers[i].hp = farmers[i].hp -
@@ -680,7 +680,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             dist2(ufo.x, ufo.y, bullets[i].x, bullets[i].y) <= 170.0 * 170.0 {
             bullets[i].active = false
@@ -732,7 +732,7 @@ fn main {
         spawn_pickup_cd = randf(4.0, 7.0)
       }
 
-      for i = 0; i < cows.length(); i = i + 1 {
+      for i in 0..<cows.length() {
         if not(cows[i].active) {
           continue
         }
@@ -796,7 +796,7 @@ fn main {
         }
       }
 
-      for i = 0; i < farmers.length(); i = i + 1 {
+      for i in 0..<farmers.length() {
         if not(farmers[i].active) {
           continue
         }
@@ -813,7 +813,7 @@ fn main {
 
         let mut tx = ufo.x
         let mut found_cow = false
-        for c = 0; c < cows.length(); c = c + 1 {
+        for c in 0..<cows.length() {
           if cows[c].active && cows[c].state == 0 {
             if absf(cows[c].x - farmers[i].x) < 180.0 {
               tx = cows[c].x
@@ -847,7 +847,7 @@ fn main {
         farmers[i].x = clampf(farmers[i].x, 30.0, world_w - 30.0)
 
         // Farmers can seize nearby ground cows; this counts as missed.
-        for c = 0; c < cows.length(); c = c + 1 {
+        for c in 0..<cows.length() {
           if cows[c].active &&
             cows[c].state == 0 &&
             absf(cows[c].x - farmers[i].x) < 18.0 {
@@ -878,7 +878,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -906,7 +906,7 @@ fn main {
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
+      for i in 0..<pickups.length() {
         if not(pickups[i].active) {
           continue
         }
@@ -936,7 +936,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -978,7 +978,7 @@ fn main {
     @raylib.clear_background(bg_col)
 
     @raylib.draw_rectangle(0, 0, sw, 188, @raylib.Color::new(20, 30, 52, 255))
-    for i = 0; i < 26; i = i + 1 {
+    for i in 0..<26 {
       let sx = i * 52 + (timer * 20.0).to_int() % 52
       @raylib.draw_circle(
         sx,
@@ -988,7 +988,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 18; i = i + 1 {
+    for i in 0..<18 {
       let x = i * 72 + (timer * 14.0).to_int() % 72
       let h = 120 + i * 17 % 210
       @raylib.draw_rectangle(
@@ -1037,7 +1037,7 @@ fn main {
       @raylib.Color::new(84, 136, 196, 255),
     )
 
-    for i = 0; i < pickups.length(); i = i + 1 {
+    for i in 0..<pickups.length() {
       if not(pickups[i].active) {
         continue
       }
@@ -1067,7 +1067,7 @@ fn main {
       )
     }
 
-    for i = 0; i < cows.length(); i = i + 1 {
+    for i in 0..<cows.length() {
       if not(cows[i].active) {
         continue
       }
@@ -1092,7 +1092,7 @@ fn main {
       )
     }
 
-    for i = 0; i < farmers.length(); i = i + 1 {
+    for i in 0..<farmers.length() {
       if not(farmers[i].active) {
         continue
       }
@@ -1116,7 +1116,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1128,7 +1128,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

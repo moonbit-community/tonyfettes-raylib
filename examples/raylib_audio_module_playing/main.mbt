@@ -29,7 +29,7 @@ fn main {
   let circle_speed : Array[Float] = []
   let circle_color : Array[@raylib.Color] = []
 
-  for _i = 0; _i < max_circles; _i = _i + 1 {
+  for _i in 0..<max_circles {
     circle_alpha.push(0.0)
     circle_radius.push(0.0)
     circle_pos_x.push(0.0)

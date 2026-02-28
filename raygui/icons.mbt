@@ -823,7 +823,7 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
   offset = offset + 2
   // Read icon names
   if load_names {
-    for i = 0; i < icon_count; i = i + 1 {
+    for i in 0..<icon_count {
       // Find the null terminator within the 32-byte name field
       let mut name_len = 0
       while name_len < raygui_icon_max_name_length &&
@@ -833,7 +833,7 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
       }
       // Build the name string from bytes
       let buf = StringBuilder::new()
-      for j = 0; j < name_len; j = j + 1 {
+      for j in 0..<name_len {
         buf.write_char(Int::unsafe_to_char(data[offset + j].to_int()))
       }
       icon_names.push(buf.to_string())
@@ -872,9 +872,9 @@ pub fn gui_draw_icon(
   }
   let offset = icon_id * 8
   let mut y = 0
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let word = gui_icons[offset + i]
-    for k = 0; k < 32; k = k + 1 {
+    for k in 0..<32 {
       if ((word >> k) & 1U) != 0U {
         let rec = @raylib.Rectangle::new(
           Float::from_int(pos_x + k % RayguiIconSize * pixel_size),

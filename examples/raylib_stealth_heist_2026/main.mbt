@@ -55,35 +55,35 @@ fn is_wall(map : Array[Int], x : Int, y : Int) -> Bool {
 
 ///|
 fn build_map(map : Array[Int]) -> Unit {
-  for i = 0; i < map.length(); i = i + 1 {
+  for i in 0..<map.length() {
     map[i] = 0
   }
 
-  for x = 0; x < map_w; x = x + 1 {
+  for x in 0..<map_w {
     set_wall(map, x, 0)
     set_wall(map, x, map_h - 1)
   }
-  for y = 0; y < map_h; y = y + 1 {
+  for y in 0..<map_h {
     set_wall(map, 0, y)
     set_wall(map, map_w - 1, y)
   }
 
-  for y = 2; y <= 9; y = y + 1 {
+  for y in 2..=9 {
     if y != 5 {
       set_wall(map, 4, y)
     }
   }
-  for y = 1; y <= 8; y = y + 1 {
+  for y in 1..=8 {
     if y != 3 && y != 7 {
       set_wall(map, 9, y)
     }
   }
-  for x = 6; x <= 15; x = x + 1 {
+  for x in 6..=15 {
     if x != 12 {
       set_wall(map, x, 6)
     }
   }
-  for x = 2; x <= 10; x = x + 1 {
+  for x in 2..=10 {
     if x != 7 {
       set_wall(map, x, 9)
     }
@@ -199,7 +199,7 @@ fn move_guard_toward_player(
 
 ///|
 fn all_cards_collected(cards : Array[Card]) -> Bool {
-  for i = 0; i < cards.length(); i = i + 1 {
+  for i in 0..<cards.length() {
     if not(cards[i].collected) {
       return false
     }
@@ -210,7 +210,7 @@ fn all_cards_collected(cards : Array[Card]) -> Bool {
 ///|
 fn collected_cards(cards : Array[Card]) -> Int {
   let mut count = 0
-  for i = 0; i < cards.length(); i = i + 1 {
+  for i in 0..<cards.length() {
     if cards[i].collected {
       count = count + 1
     }
@@ -297,7 +297,7 @@ fn main {
 
       if @raylib.is_key_pressed(@raylib.KeySpace) && smoke > 0 {
         smoke = smoke - 1
-        for i = 0; i < guards.length(); i = i + 1 {
+        for i in 0..<guards.length() {
           let dx = (guards[i].x - player_x).abs()
           let dy = (guards[i].y - player_y).abs()
           if dx + dy <= 4 {
@@ -308,7 +308,7 @@ fn main {
         msg = "Smoke popped. Nearby guards are stunned."
       }
 
-      for i = 0; i < cards.length(); i = i + 1 {
+      for i in 0..<cards.length() {
         if not(cards[i].collected) &&
           cards[i].x == player_x &&
           cards[i].y == player_y {
@@ -321,7 +321,7 @@ fn main {
         turns = turns + 1
 
         let mut seen = false
-        for i = 0; i < guards.length(); i = i + 1 {
+        for i in 0..<guards.length() {
           if guards[i].stunned > 0 {
             guards[i].stunned = guards[i].stunned - 1
             continue
@@ -338,7 +338,7 @@ fn main {
             move_guard_toward_player(map, guards[i], player_x, player_y)
           } else {
             let mut moved = false
-            for _k = 0; _k < 4; _k = _k + 1 {
+            for _k in 0..<4 {
               let (nx, ny, ok) = try_step(
                 map,
                 guards[i].x,
@@ -364,7 +364,7 @@ fn main {
           msg = "Guard sightline! Alert +1."
         }
 
-        for i = 0; i < guards.length(); i = i + 1 {
+        for i in 0..<guards.length() {
           let dx = (guards[i].x - player_x).abs()
           let dy = (guards[i].y - player_y).abs()
           if dx + dy <= 1 {
@@ -390,8 +390,8 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(16, 20, 26, 255))
 
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         let px = map_x + x * tile
         let py = map_y + y * tile
 
@@ -426,7 +426,7 @@ fn main {
       }
     }
 
-    for i = 0; i < cards.length(); i = i + 1 {
+    for i in 0..<cards.length() {
       if not(cards[i].collected) {
         let cx = map_x + cards[i].x * tile + tile / 2
         let cy = map_y + cards[i].y * tile + tile / 2
@@ -435,7 +435,7 @@ fn main {
       }
     }
 
-    for i = 0; i < guards.length(); i = i + 1 {
+    for i in 0..<guards.length() {
       let gx = map_x + guards[i].x * tile + tile / 2
       let gy = map_y + guards[i].y * tile + tile / 2
       @raylib.draw_circle(

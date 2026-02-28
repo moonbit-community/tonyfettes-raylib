@@ -25,7 +25,7 @@ fn main {
     max_colors_count,
     @raylib.Rectangle::new(0.0, 0.0, 0.0, 0.0),
   )
-  for i = 0; i < max_colors_count; i = i + 1 {
+  for i in 0..<max_colors_count {
     let fi = Float::from_int(i % 7)
     let row = Float::from_int(i / 7)
     colors_recs[i] = @raylib.Rectangle::new(
@@ -45,7 +45,7 @@ fn main {
   while not(@raylib.window_should_close()) {
     // Update
     let mouse_point = @raylib.get_mouse_position()
-    for i = 0; i < max_colors_count; i = i + 1 {
+    for i in 0..<max_colors_count {
       if @raylib.check_collision_point_rec(mouse_point, colors_recs[i]) {
         color_state[i] = 1
       } else {
@@ -64,7 +64,7 @@ fn main {
       10,
       @raylib.gray,
     )
-    for i = 0; i < max_colors_count; i = i + 1 {
+    for i in 0..<max_colors_count {
       // Draw color rectangle
       let alpha : Float = if color_state[i] == 1 { 0.6 } else { 1.0 }
       @raylib.draw_rectangle_rec(colors_recs[i], @raylib.fade(colors[i], alpha))

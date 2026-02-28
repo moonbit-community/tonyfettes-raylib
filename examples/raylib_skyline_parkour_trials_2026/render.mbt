@@ -79,11 +79,11 @@ fn draw_background(game : Game, cam_x : Float) -> Unit {
     cosf(game.run_time_s * 0.24) * 34.0
   @raylib.draw_circle(glow_x.to_int(), glow_y.to_int(), 132.0, col_sky_glow())
 
-  for layer = 0; layer < 3; layer = layer + 1 {
+  for layer in 0..<3 {
     let depth = Float::from_int(layer + 1)
     let parallax : Float = 0.14 + depth * 0.12
     let bw = 80 + layer * 34
-    for i = 0; i < 22; i = i + 1 {
+    for i in 0..<22 {
       let idx = Float::from_int(i + layer * 13)
       let track = Float::from_int(screen_w) + Float::from_int(bw * 2)
       let x : Float = (
@@ -121,7 +121,7 @@ fn draw_background(game : Game, cam_x : Float) -> Unit {
 
 ///|
 fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
-  for i = 0; i < game.tile_count; i = i + 1 {
+  for i in 0..<game.tile_count {
     let t = game.tiles[i]
     let sx = t.x - cam_x
     if sx > Float::from_int(screen_w) + 100.0 || sx + t.w < -100.0 {
@@ -180,7 +180,7 @@ fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
 
 ///|
 fn draw_checkpoints(game : Game, cam_x : Float) -> Unit {
-  for i = 0; i < game.checkpoint_count; i = i + 1 {
+  for i in 0..<game.checkpoint_count {
     let cp = game.checkpoints[i]
     let sx = cp.x - cam_x
     if sx > Float::from_int(screen_w) + 80.0 || sx + cp.w < -80.0 {

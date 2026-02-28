@@ -88,7 +88,7 @@ fn walkable_tile(tile : Int) -> Bool {
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.tiles.length(); i = i + 1 {
+  for i in 0..<game.tiles.length() {
     game.tiles[i] = tile_void
     game.boxes[i] = false
   }
@@ -97,14 +97,14 @@ fn clear_board(game : Game) -> Unit {
 ///|
 fn clear_undo(game : Game) -> Unit {
   game.undo_len = 0
-  for i = 0; i < game.undo.length(); i = i + 1 {
+  for i in 0..<game.undo.length() {
     game.undo[i].valid = false
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     game.sparks[i].active = false
     game.sparks[i].x = 0.0
     game.sparks[i].y = 0.0
@@ -144,7 +144,7 @@ fn apply_level_rows(
   game.grid_h = mini(rows.length(), board_rows)
   game.grid_w = 0
 
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     let row = rows[y]
     if row.length() > game.grid_w {
       game.grid_w = row.length()
@@ -152,9 +152,9 @@ fn apply_level_rows(
   }
   game.grid_w = mini(game.grid_w, board_cols)
 
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     let row = rows[y]
-    for x = 0; x < game.grid_w; x = x + 1 {
+    for x in 0..<game.grid_w {
       let code : Int = if x < row.length() { row[x] } else { 0 }
 
       let mut base : Int = tile_void
@@ -195,8 +195,8 @@ fn apply_level_rows(
 
   if not(found_player) {
     let mut placed : Bool = false
-    for y = 0; y < game.grid_h; y = y + 1 {
-      for x = 0; x < game.grid_w; x = x + 1 {
+    for y in 0..<game.grid_h {
+      for x in 0..<game.grid_w {
         let t = tile_at(game, x, y)
         if t == tile_floor || t == tile_goal {
           game.player_x = x
@@ -223,8 +223,8 @@ fn apply_level_rows(
 ///|
 fn goal_filled_count(game : Game) -> Int {
   let mut n : Int = 0
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if tile_at(game, x, y) == tile_goal && box_at(game, x, y) {
         n = n + 1
       }
@@ -267,7 +267,7 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if game.sparks[i].active {
       continue
     }
@@ -295,7 +295,7 @@ fn burst_cell(
   let cx : Float = Float::from_int(cell_x) + 0.5
   let cy : Float = Float::from_int(cell_y) + 0.5
 
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_spark(
       game,
       cx + randf(-0.18, 0.18),
@@ -311,7 +311,7 @@ fn burst_cell(
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -332,7 +332,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 ///|
 fn push_undo(game : Game, step : UndoStep) -> Unit {
   if game.undo_len >= game.undo.length() {
-    for i = 1; i < game.undo.length(); i = i + 1 {
+    for i in 1..<game.undo.length() {
       game.undo[i - 1] = game.undo[i]
     }
     game.undo_len = game.undo.length() - 1
@@ -493,8 +493,8 @@ fn complete_level(game : Game) -> Unit {
   game.message = "Level clear"
   game.message_t = 1.5
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       if tile_at(game, x, y) == tile_goal {
         burst_cell(game, x, y, 18, 0)
       }

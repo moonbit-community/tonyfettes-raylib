@@ -30,7 +30,7 @@ fn pointer_on_rect(
     return true
   }
 
-  for i = 0; i < touch_count; i = i + 1 {
+  for i in 0..<touch_count {
     let p = @raylib.get_touch_position(i)
     if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
       return true
@@ -104,7 +104,7 @@ fn best_auto_aim(game : Game) -> (Float, Float) {
 
   let mut best : Float = 1_000_000_000.0
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }

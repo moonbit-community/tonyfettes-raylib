@@ -184,7 +184,7 @@ fn cell_center_y(gy : Int) -> Float {
 
 ///|
 fn clear_crates(crates : Array[Crate]) -> Unit {
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     crates[i].active = false
     crates[i].gx = 0
     crates[i].gy = 0
@@ -193,7 +193,7 @@ fn clear_crates(crates : Array[Crate]) -> Unit {
 
 ///|
 fn clear_plates(plates : Array[Plate]) -> Unit {
-  for i = 0; i < plates.length(); i = i + 1 {
+  for i in 0..<plates.length() {
     plates[i].active = false
     plates[i].gx = 0
     plates[i].gy = 0
@@ -203,7 +203,7 @@ fn clear_plates(plates : Array[Plate]) -> Unit {
 
 ///|
 fn clear_relics(relics : Array[Relic]) -> Unit {
-  for i = 0; i < relics.length(); i = i + 1 {
+  for i in 0..<relics.length() {
     relics[i].active = false
     relics[i].gx = 0
     relics[i].gy = 0
@@ -213,7 +213,7 @@ fn clear_relics(relics : Array[Relic]) -> Unit {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
     enemies[i].kind = 0
     enemies[i].gx = 0
@@ -228,7 +228,7 @@ fn clear_enemies(enemies : Array[Enemy]) -> Unit {
 
 ///|
 fn clear_spikes(spikes : Array[Spike]) -> Unit {
-  for i = 0; i < spikes.length(); i = i + 1 {
+  for i in 0..<spikes.length() {
     spikes[i].active = false
     spikes[i].gx = 0
     spikes[i].gy = 0
@@ -238,7 +238,7 @@ fn clear_spikes(spikes : Array[Spike]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -254,7 +254,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 ///|
 fn crate_at(crates : Array[Crate], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < crates.length(); i = i + 1 {
+  for i in 0..<crates.length() {
     if crates[i].active && crates[i].gx == gx && crates[i].gy == gy {
       found = i
       break
@@ -266,7 +266,7 @@ fn crate_at(crates : Array[Crate], gx : Int, gy : Int) -> Int {
 ///|
 fn enemy_at(enemies : Array[Enemy], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if enemies[i].active && enemies[i].gx == gx && enemies[i].gy == gy {
       found = i
       break
@@ -278,7 +278,7 @@ fn enemy_at(enemies : Array[Enemy], gx : Int, gy : Int) -> Int {
 ///|
 fn relic_at(relics : Array[Relic], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < relics.length(); i = i + 1 {
+  for i in 0..<relics.length() {
     if relics[i].active &&
       not(relics[i].taken) &&
       relics[i].gx == gx &&
@@ -293,7 +293,7 @@ fn relic_at(relics : Array[Relic], gx : Int, gy : Int) -> Int {
 ///|
 fn spike_at(spikes : Array[Spike], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < spikes.length(); i = i + 1 {
+  for i in 0..<spikes.length() {
     if spikes[i].active && spikes[i].gx == gx && spikes[i].gy == gy {
       found = i
       break
@@ -312,7 +312,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -440,7 +440,7 @@ fn main {
       false
     } else {
       let mut has_plate = false
-      for i = 0; i < plates.length(); i = i + 1 {
+      for i in 0..<plates.length() {
         if plates[i].active && plates[i].gx == gx && plates[i].gy == gy {
           has_plate = true
           break
@@ -456,8 +456,8 @@ fn main {
   }
 
   let setup_stage = fn(stage_i : Int) {
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         if x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1 {
           tiles[idx(x, y)] = 1
         } else {
@@ -488,10 +488,10 @@ fn main {
 
     // Interior stone blocks.
     let stone_count : Int = 10 + stage_i * 6
-    for i = 0; i < stone_count; i = i + 1 {
+    for i in 0..<stone_count {
       ignore(i)
       let mut placed = false
-      for _a = 0; _a < 120; _a = _a + 1 {
+      for _a in 0..<120 {
         let gx = @raylib.get_random_value(2, map_w - 3)
         let gy = @raylib.get_random_value(2, map_h - 3)
 
@@ -514,14 +514,14 @@ fn main {
 
     plate_goal = clampi(2 + stage_i, 2, 6)
 
-    for i = 0; i < plate_goal; i = i + 1 {
+    for i in 0..<plate_goal {
       ignore(i)
-      for _a = 0; _a < 200; _a = _a + 1 {
+      for _a in 0..<200 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 4) {
           let mut slot : Int = -1
-          for k = 0; k < plates.length(); k = k + 1 {
+          for k in 0..<plates.length() {
             if not(plates[k].active) {
               slot = k
               break
@@ -539,14 +539,14 @@ fn main {
     }
 
     let crate_count : Int = clampi(plate_goal + 1, 3, 8)
-    for i = 0; i < crate_count; i = i + 1 {
+    for i in 0..<crate_count {
       ignore(i)
-      for _a = 0; _a < 220; _a = _a + 1 {
+      for _a in 0..<220 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 3) {
           let mut slot : Int = -1
-          for k = 0; k < crates.length(); k = k + 1 {
+          for k in 0..<crates.length() {
             if not(crates[k].active) {
               slot = k
               break
@@ -563,14 +563,14 @@ fn main {
     }
 
     relic_left = clampi(4 + stage_i * 2, 4, 14)
-    for i = 0; i < relic_left; i = i + 1 {
+    for i in 0..<relic_left {
       ignore(i)
-      for _a = 0; _a < 220; _a = _a + 1 {
+      for _a in 0..<220 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 5) {
           let mut slot : Int = -1
-          for k = 0; k < relics.length(); k = k + 1 {
+          for k in 0..<relics.length() {
             if not(relics[k].active) {
               slot = k
               break
@@ -588,14 +588,14 @@ fn main {
     }
 
     let enemy_count : Int = clampi(4 + stage_i * 3, 4, 28)
-    for i = 0; i < enemy_count; i = i + 1 {
+    for i in 0..<enemy_count {
       ignore(i)
-      for _a = 0; _a < 220; _a = _a + 1 {
+      for _a in 0..<220 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 6) {
           let mut slot : Int = -1
-          for k = 0; k < enemies.length(); k = k + 1 {
+          for k in 0..<enemies.length() {
             if not(enemies[k].active) {
               slot = k
               break
@@ -621,9 +621,9 @@ fn main {
     }
 
     let spike_count : Int = clampi(3 + stage_i * 2, 3, 18)
-    for i = 0; i < spike_count; i = i + 1 {
+    for i in 0..<spike_count {
       ignore(i)
-      for _a = 0; _a < 220; _a = _a + 1 {
+      for _a in 0..<220 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if can_walk(gx, gy) &&
@@ -633,7 +633,7 @@ fn main {
           if absi(gx - player.gx) + absi(gy - player.gy) >= 5 &&
             absi(gx - exit_x) + absi(gy - exit_y) >= 5 {
             let mut exists = false
-            for k = 0; k < spikes.length(); k = k + 1 {
+            for k in 0..<spikes.length() {
               if spikes[k].active && spikes[k].gx == gx && spikes[k].gy == gy {
                 exists = true
                 break
@@ -641,7 +641,7 @@ fn main {
             }
             if not(exists) {
               let mut slot : Int = -1
-              for k = 0; k < spikes.length(); k = k + 1 {
+              for k in 0..<spikes.length() {
                 if not(spikes[k].active) {
                   slot = k
                   break
@@ -685,7 +685,7 @@ fn main {
 
   let update_plate_state = fn() {
     plates_pressed = 0
-    for i = 0; i < plates.length(); i = i + 1 {
+    for i in 0..<plates.length() {
       if not(plates[i].active) {
         continue
       }
@@ -849,7 +849,7 @@ fn main {
         player.bomb_cd = 0.0
       }
 
-      for i = 0; i < spikes.length(); i = i + 1 {
+      for i in 0..<spikes.length() {
         if spikes[i].active {
           spikes[i].t = spikes[i].t + dt
         }
@@ -938,7 +938,7 @@ fn main {
         player.slash_cd = 0.32
         let mut hit_count : Int = 0
 
-        for step = 1; step <= 2; step = step + 1 {
+        for step in 1..=2 {
           let tx = player.gx + player.face_x * step
           let ty = player.gy + player.face_y * step
           let e = enemy_at(enemies, tx, ty)
@@ -1001,7 +1001,7 @@ fn main {
 
         let mut nx = player.gx
         let mut ny = player.gy
-        for step = 1; step <= 2; step = step + 1 {
+        for step in 1..=2 {
           let tx = player.gx + player.face_x * step
           let ty = player.gy + player.face_y * step
 
@@ -1037,7 +1037,7 @@ fn main {
         player.stamina = player.stamina - 40.0
 
         let mut bomb_hits : Int = 0
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if enemies[i].active {
             let dxi = absi(enemies[i].gx - player.gx)
             let dyi = absi(enemies[i].gy - player.gy)
@@ -1053,8 +1053,8 @@ fn main {
           }
         }
 
-        for y = player.gy - 1; y <= player.gy + 1; y = y + 1 {
-          for x = player.gx - 1; x <= player.gx + 1; x = x + 1 {
+        for y in (player.gy - 1)..=(player.gy + 1) {
+          for x in (player.gx - 1)..=(player.gx + 1) {
             if in_bounds(x, y) &&
               not(x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1) {
               if tiles[idx(x, y)] == 1 {
@@ -1082,7 +1082,7 @@ fn main {
         )
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1195,7 +1195,7 @@ fn main {
         )
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1251,8 +1251,8 @@ fn main {
       @raylib.Color::new(40, 30, 18, 255),
     )
 
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         let px = map_x + x * tile
         let py = map_y + y * tile
         if tiles[idx(x, y)] == 1 {
@@ -1282,7 +1282,7 @@ fn main {
       }
     }
 
-    for i = 0; i < spikes.length(); i = i + 1 {
+    for i in 0..<spikes.length() {
       if not(spikes[i].active) {
         continue
       }
@@ -1317,7 +1317,7 @@ fn main {
       }
     }
 
-    for i = 0; i < plates.length(); i = i + 1 {
+    for i in 0..<plates.length() {
       if not(plates[i].active) {
         continue
       }
@@ -1368,7 +1368,7 @@ fn main {
       )
     }
 
-    for i = 0; i < relics.length(); i = i + 1 {
+    for i in 0..<relics.length() {
       if relics[i].active && not(relics[i].taken) {
         let cx = cell_center_x(relics[i].gx)
         let cy = cell_center_y(relics[i].gy)
@@ -1387,7 +1387,7 @@ fn main {
       }
     }
 
-    for i = 0; i < crates.length(); i = i + 1 {
+    for i in 0..<crates.length() {
       if crates[i].active {
         let px = map_x + crates[i].gx * tile
         let py = map_y + crates[i].gy * tile
@@ -1408,7 +1408,7 @@ fn main {
       }
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].active {
         let cx = cell_center_x(enemies[i].gx)
         let cy = cell_center_y(enemies[i].gy)
@@ -1442,7 +1442,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

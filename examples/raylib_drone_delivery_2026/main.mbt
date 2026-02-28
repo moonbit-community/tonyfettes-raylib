@@ -15,7 +15,7 @@ struct Orb {
 
 ///|
 fn spawn_orb(orbs : Array[Orb], cx : Float, cy : Float) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     if not(orbs[i].alive) {
       orbs[i].alive = true
       orbs[i].x = cx
@@ -29,7 +29,7 @@ fn spawn_orb(orbs : Array[Orb], cx : Float, cy : Float) -> Unit {
 
 ///|
 fn reset_orbs(orbs : Array[Orb]) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     orbs[i].alive = false
   }
 }
@@ -186,7 +186,7 @@ fn main {
         spawn_orb(orbs, ox, oy)
       }
 
-      for i = 0; i < orbs.length(); i = i + 1 {
+      for i in 0..<orbs.length() {
         if not(orbs[i].alive) {
           continue
         }
@@ -248,8 +248,8 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(18, 21, 32, 255))
 
     // City blocks
-    for gx = 0; gx < 7; gx = gx + 1 {
-      for gy = 0; gy < 4; gy = gy + 1 {
+    for gx in 0..<7 {
+      for gy in 0..<4 {
         let bx = 42 + gx * 155
         let by = 90 + gy * 155
         @raylib.draw_rectangle(
@@ -294,7 +294,7 @@ fn main {
       )
     }
 
-    for i = 0; i < orbs.length(); i = i + 1 {
+    for i in 0..<orbs.length() {
       if orbs[i].alive {
         @raylib.draw_circle(
           orbs[i].x.to_int(),

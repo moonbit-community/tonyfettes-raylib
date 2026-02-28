@@ -71,7 +71,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(232, 246, 255, 130),
   )
 
-  for i = 0; i < 140; i = i + 1 {
+  for i in 0..<140 {
     let fi = Float::from_int(i)
     let x = (fi * 90.0 + fi * fi * 0.15 + game.time_s * 6.0) %
       Float::from_int(screen_w)
@@ -220,7 +220,7 @@ fn draw_kettle(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_leaf_racks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for tea = 0; tea < tea_count; tea = tea + 1 {
+  for tea in 0..<tea_count {
     let x = leaf_x() + cam_x
     let y = leaf_y(tea) + cam_y
     let hot = near_station(
@@ -586,7 +586,7 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -626,7 +626,7 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -648,7 +648,7 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < game.shadows.length(); i = i + 1 {
+  for i in 0..<game.shadows.length() {
     if not(game.shadows[i].active) {
       continue
     }
@@ -1262,7 +1262,7 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_brewer(game, cam_x, cam_y)
   draw_counter(game, cam_x, cam_y)
 
-  for i = 0; i < game.customers.length(); i = i + 1 {
+  for i in 0..<game.customers.length() {
     if game.customers[i].active {
       draw_customer(game.customers[i], cam_x, cam_y)
     }

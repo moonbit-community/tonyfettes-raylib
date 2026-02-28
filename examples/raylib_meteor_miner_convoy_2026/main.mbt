@@ -131,7 +131,7 @@ fn lane_y(lane : Int) -> Float {
 
 ///|
 fn reset_trucks(trucks : Array[Truck], level : Int) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     trucks[i].lane = i
     trucks[i].x = -Float::from_int(200 + i * 180)
     trucks[i].hp = 4 + level
@@ -143,7 +143,7 @@ fn reset_trucks(trucks : Array[Truck], level : Int) -> Unit {
 
 ///|
 fn clear_meteors(meteors : Array[Meteor]) -> Unit {
-  for i = 0; i < meteors.length(); i = i + 1 {
+  for i in 0..<meteors.length() {
     meteors[i].x = 0.0
     meteors[i].y = 0.0
     meteors[i].vx = 0.0
@@ -157,7 +157,7 @@ fn clear_meteors(meteors : Array[Meteor]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].x = 0.0
     bullets[i].y = 0.0
     bullets[i].vx = 0.0
@@ -169,7 +169,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_ores(ores : Array[Ore]) -> Unit {
-  for i = 0; i < ores.length(); i = i + 1 {
+  for i in 0..<ores.length() {
     ores[i].x = 0.0
     ores[i].y = 0.0
     ores[i].vx = 0.0
@@ -182,7 +182,7 @@ fn clear_ores(ores : Array[Ore]) -> Unit {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     sparks[i].x = 0.0
     sparks[i].y = 0.0
     sparks[i].vx = 0.0
@@ -202,7 +202,7 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     if done {
       continue
     }
@@ -231,7 +231,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(sparks, x, y, speed, kind)
   }
 }
@@ -252,7 +252,7 @@ fn spawn_bullet(
   let speed : Float = 720.0
 
   let mut done = false
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if done {
       continue
     }
@@ -271,7 +271,7 @@ fn spawn_bullet(
 ///|
 fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
   let mut done = false
-  for i = 0; i < meteors.length(); i = i + 1 {
+  for i in 0..<meteors.length() {
     if done {
       continue
     }
@@ -312,7 +312,7 @@ fn spawn_meteor(meteors : Array[Meteor], level : Int) -> Unit {
 ///|
 fn spawn_ore(ores : Array[Ore], x : Float, y : Float, amount : Int) -> Unit {
   let mut done = false
-  for i = 0; i < ores.length(); i = i + 1 {
+  for i in 0..<ores.length() {
     if done {
       continue
     }
@@ -356,7 +356,7 @@ fn setup_level(
 ///|
 fn alive_truck_count(trucks : Array[Truck]) -> Int {
   let mut c = 0
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if trucks[i].alive {
       c = c + 1
     }
@@ -373,7 +373,7 @@ fn nearest_truck_for_repair(
   let mut best = -1
   let mut best_d2 : Float = 130.0 * 130.0
 
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if trucks[i].alive && trucks[i].hp < 8 {
       let tx = trucks[i].x
       let ty = lane_y(trucks[i].lane) - 12.0
@@ -647,7 +647,7 @@ fn main {
       }
 
       let truck_speed = Float::from_int(66 + level * 7)
-      for i = 0; i < trucks.length(); i = i + 1 {
+      for i in 0..<trucks.length() {
         if trucks[i].alive {
           trucks[i].x = trucks[i].x +
             truck_speed *
@@ -674,7 +674,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if bullets[i].active {
           bullets[i].x = bullets[i].x + bullets[i].vx * dt
           bullets[i].y = bullets[i].y + bullets[i].vy * dt
@@ -690,7 +690,7 @@ fn main {
         }
       }
 
-      for i = 0; i < meteors.length(); i = i + 1 {
+      for i in 0..<meteors.length() {
         if not(meteors[i].active) {
           continue
         }
@@ -708,7 +708,7 @@ fn main {
 
         let mut killed = false
 
-        for b = 0; b < bullets.length(); b = b + 1 {
+        for b in 0..<bullets.length() {
           if not(bullets[b].active) {
             continue
           }
@@ -753,7 +753,7 @@ fn main {
         }
 
         let mut truck_hit = false
-        for t = 0; t < trucks.length(); t = t + 1 {
+        for t in 0..<trucks.length() {
           if not(trucks[t].alive) {
             continue
           }
@@ -792,7 +792,7 @@ fn main {
         }
       }
 
-      for i = 0; i < ores.length(); i = i + 1 {
+      for i in 0..<ores.length() {
         if not(ores[i].active) {
           continue
         }
@@ -824,7 +824,7 @@ fn main {
         }
 
         let mut loaded = false
-        for t = 0; t < trucks.length(); t = t + 1 {
+        for t in 0..<trucks.length() {
           if not(trucks[t].alive) {
             continue
           }
@@ -846,7 +846,7 @@ fn main {
         }
       }
 
-      for i = 0; i < sparks.length(); i = i + 1 {
+      for i in 0..<sparks.length() {
         if not(sparks[i].active) {
           continue
         }
@@ -905,7 +905,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, 260, @raylib.Color::new(18, 30, 58, 255))
 
     let twinkle = (wave_t * 4.0).to_int()
-    for i = 0; i < 190; i = i + 1 {
+    for i in 0..<190 {
       let x = (i * 173 + 37) % sw
       let y = (i * 97 + 83) % 320
       let v = (i * 11 + twinkle + level * 17) % 100
@@ -913,7 +913,7 @@ fn main {
       @raylib.draw_rectangle(x, y, 2, 2, @raylib.Color::new(c, c, c + 12, 255))
     }
 
-    for lane = 0; lane < lane_n; lane = lane + 1 {
+    for lane in 0..<lane_n {
       let y = lane_y(lane)
       @raylib.draw_rectangle(
         0,
@@ -936,7 +936,7 @@ fn main {
         (y + 8.0).to_int(),
         @raylib.Color::new(120, 126, 140, 255),
       )
-      for p = 0; p < 24; p = p + 1 {
+      for p in 0..<24 {
         let sleeper_x = (p * 62 + (wave_t * 80.0).to_int()) % (sw + 100) - 50
         @raylib.draw_rectangle(
           sleeper_x,
@@ -977,7 +977,7 @@ fn main {
       @raylib.Color::new(222, 236, 248, 255),
     )
 
-    for i = 0; i < trucks.length(); i = i + 1 {
+    for i in 0..<trucks.length() {
       if not(trucks[i].alive) {
         continue
       }
@@ -1035,7 +1035,7 @@ fn main {
       )
     }
 
-    for i = 0; i < meteors.length(); i = i + 1 {
+    for i in 0..<meteors.length() {
       if not(meteors[i].active) {
         continue
       }
@@ -1066,7 +1066,7 @@ fn main {
       )
     }
 
-    for i = 0; i < ores.length(); i = i + 1 {
+    for i in 0..<ores.length() {
       if not(ores[i].active) {
         continue
       }
@@ -1088,7 +1088,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1101,7 +1101,7 @@ fn main {
       )
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }

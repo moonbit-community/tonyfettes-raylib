@@ -104,7 +104,7 @@ fn main {
       // Check ray collision against model meshes
       let mesh_count = @raylib.get_model_mesh_count(tower)
       let transform = @raylib.get_model_transform(tower)
-      for m = 0; m < mesh_count; m = m + 1 {
+      for m in 0..<mesh_count {
         let mesh_i = @raylib.get_model_mesh(tower, m)
         let mesh_hit_info = @raylib.get_ray_collision_mesh(
           ray, mesh_i, transform,

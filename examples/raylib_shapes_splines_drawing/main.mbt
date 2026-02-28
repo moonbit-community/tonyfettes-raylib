@@ -30,7 +30,7 @@ fn main {
     31,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < point_count - 1; i = i + 1 {
+  for i in 0..<(point_count - 1) {
     control_start[i] = @raylib.Vector2::new(points[i].x + 50.0, points[i].y)
     control_end[i] = @raylib.Vector2::new(
       points[i + 1].x - 50.0,
@@ -68,7 +68,7 @@ fn main {
 
     // Spline point focus and selection logic
     focused_point = -1
-    for i = 0; i < point_count; i = i + 1 {
+    for i in 0..<point_count {
       if @raylib.check_collision_point_circle(mouse, points[i], 8.0) {
         focused_point = i
         if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
@@ -89,7 +89,7 @@ fn main {
     // Cubic Bezier spline control points logic
     if spline_type_active == 3 && focused_point == -1 {
       focused_control = -1
-      for i = 0; i < point_count - 1; i = i + 1 {
+      for i in 0..<(point_count - 1) {
         if @raylib.check_collision_point_circle(mouse, control_start[i], 6.0) {
           focused_control = i * 2
           if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
@@ -141,7 +141,7 @@ fn main {
 
     // Build the points array slice for drawing
     let draw_points : Array[@raylib.Vector2] = []
-    for i = 0; i < point_count; i = i + 1 {
+    for i in 0..<point_count {
       draw_points.push(points[i])
     }
 
@@ -159,7 +159,7 @@ fn main {
     } else if spline_type_active == 3 {
       // Build interleaved points for cubic bezier
       let interleaved : Array[@raylib.Vector2] = []
-      for i = 0; i < point_count - 1; i = i + 1 {
+      for i in 0..<(point_count - 1) {
         interleaved.push(points[i])
         interleaved.push(control_start[i])
         interleaved.push(control_end[i])
@@ -172,7 +172,7 @@ fn main {
       )
 
       // Draw spline control points
-      for i = 0; i < point_count - 1; i = i + 1 {
+      for i in 0..<(point_count - 1) {
         // Every cubic bezier point has two control points
         @raylib.draw_circle_v(control_start[i], 6.0, @raylib.gold)
         @raylib.draw_circle_v(control_end[i], 6.0, @raylib.gold)
@@ -201,7 +201,7 @@ fn main {
     }
 
     // Draw spline point helpers
-    for i = 0; i < point_count; i = i + 1 {
+    for i in 0..<point_count {
       let radius : Float = if focused_point == i { 12.0 } else { 8.0 }
       let color = if focused_point == i {
         @raylib.blue

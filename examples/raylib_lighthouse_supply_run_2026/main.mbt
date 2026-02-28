@@ -156,7 +156,7 @@ fn inside_rect(
 
 ///|
 fn clear_lights(lights : Array[Lighthouse]) -> Unit {
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     lights[i].active = false
     lights[i].x = 0.0
     lights[i].y = 0.0
@@ -170,7 +170,7 @@ fn clear_lights(lights : Array[Lighthouse]) -> Unit {
 
 ///|
 fn clear_reefs(reefs : Array[Reef]) -> Unit {
-  for i = 0; i < reefs.length(); i = i + 1 {
+  for i in 0..<reefs.length() {
     reefs[i].active = false
     reefs[i].x = 0.0
     reefs[i].y = 0.0
@@ -182,7 +182,7 @@ fn clear_reefs(reefs : Array[Reef]) -> Unit {
 
 ///|
 fn clear_storms(storms : Array[Storm]) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     storms[i].active = false
     storms[i].x = 0.0
     storms[i].y = 0.0
@@ -197,7 +197,7 @@ fn clear_storms(storms : Array[Storm]) -> Unit {
 
 ///|
 fn clear_pirates(pirates : Array[Pirate]) -> Unit {
-  for i = 0; i < pirates.length(); i = i + 1 {
+  for i in 0..<pirates.length() {
     pirates[i].active = false
     pirates[i].x = 0.0
     pirates[i].y = 0.0
@@ -213,7 +213,7 @@ fn clear_pirates(pirates : Array[Pirate]) -> Unit {
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -232,7 +232,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -271,14 +271,14 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -371,7 +371,7 @@ fn init_reefs(
     }
 
     let mut near_light : Bool = false
-    for i = 0; i < lights.length(); i = i + 1 {
+    for i in 0..<lights.length() {
       if not(lights[i].active) {
         continue
       }
@@ -385,7 +385,7 @@ fn init_reefs(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < reefs.length(); i = i + 1 {
+    for i in 0..<reefs.length() {
       if not(reefs[i].active) {
         continue
       }
@@ -414,7 +414,7 @@ fn init_reefs(
 ///|
 fn active_storms(storms : Array[Storm]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if storms[i].active {
       n = n + 1
     }
@@ -425,7 +425,7 @@ fn active_storms(storms : Array[Storm]) -> Int {
 ///|
 fn active_pirates(pirates : Array[Pirate]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < pirates.length(); i = i + 1 {
+  for i in 0..<pirates.length() {
     if pirates[i].active {
       n = n + 1
     }
@@ -436,7 +436,7 @@ fn active_pirates(pirates : Array[Pirate]) -> Int {
 ///|
 fn peak_demand(lights : Array[Lighthouse]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if not(lights[i].active) {
       continue
     }
@@ -450,7 +450,7 @@ fn peak_demand(lights : Array[Lighthouse]) -> Float {
 ///|
 fn total_demand(lights : Array[Lighthouse]) -> Float {
   let mut sum : Float = 0.0
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if lights[i].active {
       sum = sum + lights[i].demand
     }
@@ -467,7 +467,7 @@ fn spawn_storm(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if storms[i].active {
       continue
     }
@@ -515,7 +515,7 @@ fn spawn_pirate(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < pirates.length(); i = i + 1 {
+  for i in 0..<pirates.length() {
     if pirates[i].active {
       continue
     }
@@ -557,7 +557,7 @@ fn update_storms(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -596,7 +596,7 @@ fn update_storms(
 fn highest_demand_light(lights : Array[Lighthouse]) -> Int {
   let mut best_i : Int = -1
   let mut best : Float = -1.0
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if not(lights[i].active) {
       continue
     }
@@ -625,7 +625,7 @@ fn update_pirates(
 
   let best_light : Int = highest_demand_light(lights)
 
-  for i = 0; i < pirates.length(); i = i + 1 {
+  for i in 0..<pirates.length() {
     if not(pirates[i].active) {
       continue
     }
@@ -700,7 +700,7 @@ fn update_light_demands(
   let mut urgent_count : Int = 0
   let mut demand_sum : Float = 0.0
 
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if not(lights[i].active) {
       continue
     }
@@ -748,7 +748,7 @@ fn deliver_to_lights(
     let mut used : Int = 0
     let mut lights_served : Int = 0
 
-    for i = 0; i < lights.length(); i = i + 1 {
+    for i in 0..<lights.length() {
       if not(lights[i].active) || lights[i].demand <= 0.1 || player.cargo <= 0 {
         continue
       }
@@ -793,7 +793,7 @@ fn nearest_urgent_light(
   let mut best_y : Float = y
   let mut best_dem : Float = 0.0
 
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if not(lights[i].active) || lights[i].demand < 40.0 {
       continue
     }
@@ -900,7 +900,7 @@ fn draw_harbor(
 
 ///|
 fn draw_lights(lights : Array[Lighthouse], t : Float) -> Unit {
-  for i = 0; i < lights.length(); i = i + 1 {
+  for i in 0..<lights.length() {
     if not(lights[i].active) {
       continue
     }
@@ -959,7 +959,7 @@ fn draw_lights(lights : Array[Lighthouse], t : Float) -> Unit {
 
 ///|
 fn draw_reefs(reefs : Array[Reef], t : Float) -> Unit {
-  for i = 0; i < reefs.length(); i = i + 1 {
+  for i in 0..<reefs.length() {
     if not(reefs[i].active) {
       continue
     }
@@ -990,7 +990,7 @@ fn draw_reefs(reefs : Array[Reef], t : Float) -> Unit {
 
 ///|
 fn draw_storms(storms : Array[Storm], t : Float) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -1031,7 +1031,7 @@ fn draw_storms(storms : Array[Storm], t : Float) -> Unit {
 
 ///|
 fn draw_pirates(pirates : Array[Pirate], t : Float) -> Unit {
-  for i = 0; i < pirates.length(); i = i + 1 {
+  for i in 0..<pirates.length() {
     if not(pirates[i].active) {
       continue
     }
@@ -1127,7 +1127,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
   // cargo markers on deck
   let shown : Int = mini(player.cargo, 6)
-  for i = 0; i < shown; i = i + 1 {
+  for i in 0..<shown {
     let cx : Int = (x - 10.0 + Float::from_int(i % 3) * 8.0).to_int()
     let cy : Int = (y + 3.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(cx, cy, 6, 4, @raylib.Color::new(180, 132, 92, 234))
@@ -1146,7 +1146,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1803,7 +1803,7 @@ fn main {
 
       // Reef collisions
       let mut reef_damage : Float = 0.0
-      for i = 0; i < reefs.length(); i = i + 1 {
+      for i in 0..<reefs.length() {
         if not(reefs[i].active) {
           continue
         }
@@ -1832,7 +1832,7 @@ fn main {
       update_storms(storms, dt, world_l, world_t, world_r, world_b)
 
       let mut storm_damage : Float = 0.0
-      for i = 0; i < storms.length(); i = i + 1 {
+      for i in 0..<storms.length() {
         if not(storms[i].active) {
           continue
         }

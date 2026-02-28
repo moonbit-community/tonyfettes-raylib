@@ -64,7 +64,7 @@ fn terrain_color(t : Int) -> @raylib.Color {
 fn adjacent_roads(zone : Array[Int], x : Int, y : Int) -> Int {
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
   let mut count = 0
-  for i = 0; i < dirs.length(); i = i + 1 {
+  for i in 0..<dirs.length() {
     let (dx, dy) = dirs[i]
     let nx = x + dx
     let ny = y + dy
@@ -88,8 +88,8 @@ fn clampi(v : Int, lo : Int, hi : Int) -> Int {
 
 ///|
 fn regen_world(terrain : Array[Int], zone : Array[Int]) -> Unit {
-  for y = 0; y < gh; y = y + 1 {
-    for x = 0; x < gw; x = x + 1 {
+  for y in 0..<gh {
+    for x in 0..<gw {
       let i = gidx(x, y)
       terrain[i] = if @raylib.get_random_value(0, 99) < 10 { 1 } else { 0 }
       zone[i] = 0
@@ -183,8 +183,8 @@ fn main {
         let mut ind = 0
         let mut serviced = 0
 
-        for y = 0; y < gh; y = y + 1 {
-          for x = 0; x < gw; x = x + 1 {
+        for y in 0..<gh {
+          for x in 0..<gw {
             let z = zone[gidx(x, y)]
             if z == 1 {
               roads = roads + 1
@@ -233,8 +233,8 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 22, 28, 255))
 
-    for y = 0; y < gh; y = y + 1 {
-      for x = 0; x < gw; x = x + 1 {
+    for y in 0..<gh {
+      for x in 0..<gw {
         let i = gidx(x, y)
         let px = ox + x * cell
         let py = oy + y * cell

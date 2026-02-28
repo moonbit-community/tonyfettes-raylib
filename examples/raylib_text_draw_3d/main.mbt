@@ -145,7 +145,7 @@ fn draw_text_3d(
   let length = codepoints.length()
   let mut text_offset_y : Float = 0.0
   let mut text_offset_x : Float = 0.0
-  for i = 0; i < length; i = i + 1 {
+  for i in 0..<length {
     let codepoint = codepoints[i]
     if codepoint == 10 {
       // '\n'
@@ -198,7 +198,7 @@ fn measure_text_3d(
   let mut len_counter = 0
   let codepoints = @raylib.load_codepoints(text)
   let length = codepoints.length()
-  for i = 0; i < length; i = i + 1 {
+  for i in 0..<length {
     len_counter = len_counter + 1
     let letter = codepoints[i]
     let glyph = @raylib.get_glyph_info(font, letter)
@@ -525,7 +525,7 @@ fn main {
     } else if @raylib.is_key_pressed(@raylib.KeyTab) {
       multicolor = not(multicolor)
       if multicolor {
-        for i = 0; i < TextMaxLayers; i = i + 1 {
+        for i in 0..<TextMaxLayers {
           let c = generate_random_color(0.5, 0.8)
           let a = @raylib.get_random_value(0, 255)
           multi[i] = @raylib.Color::new(
@@ -544,7 +544,7 @@ fn main {
       let cps = @raylib.load_codepoints(text)
       if cps.length() > 0 {
         let buf = StringBuilder::new()
-        for j = 0; j < cps.length() - 1; j = j + 1 {
+        for j in 0..<(cps.length() - 1) {
           buf.write_char(cps[j].unsafe_to_char())
         }
         text = buf.to_string()
@@ -583,7 +583,7 @@ fn main {
     @rl.push_matrix()
     @rl.rotatef(90.0, 1.0, 0.0, 0.0)
     @rl.rotatef(90.0, 0.0, 0.0, -1.0)
-    for i = 0; i < layers; i = i + 1 {
+    for i in 0..<layers {
       let clr = if multicolor { multi[i] } else { light }
       draw_text_wave_3d(
         font,

@@ -68,7 +68,7 @@ fn vec4_to_bytes(v : @raylib.Vector4) -> Bytes {
 ///|
 fn color4_to_bytes(c : FixedArray[Float]) -> Bytes {
   let arr = FixedArray::make(16, b'\x00')
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let bits = c[i].reinterpret_as_int()
     arr[i * 4] = (bits & 0xFF).to_byte()
     arr[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()
@@ -508,7 +508,7 @@ fn main {
     }
 
     // Update light values on shader (actually, only enable/disable them)
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       update_pbr_light(shader, lights[i])
     }
 
@@ -572,7 +572,7 @@ fn main {
     )
 
     // Draw spheres to show the lights positions
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       let light_color = @raylib.Color::new(
         (lights[i].color[0] * 255.0).to_int(),
         (lights[i].color[1] * 255.0).to_int(),

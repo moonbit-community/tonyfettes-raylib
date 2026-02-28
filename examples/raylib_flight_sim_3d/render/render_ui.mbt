@@ -57,7 +57,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   let start_safe = @types.clampi(start, 0, @types.total_missions - 1)
   let end_val = @types.clampi(start_safe + visible, 0, @types.total_missions)
-  for i = start_safe; i < end_val; i = i + 1 {
+  for i in start_safe..<end_val {
     let row = i - start_safe
     let y = 170 + row * 55
     let is_sel = game.menu_cursor == i
@@ -731,7 +731,7 @@ fn draw_aircraft_select(game : @types.Game) -> Unit {
     "Easy handling, balanced stats", "All-around combat aircraft", "Heavy payload, tough armor",
     "Fast but fragile speedster",
   ]
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let cx = start_x + i * (card_w + card_spacing)
     let is_sel = game.selected_aircraft == i
     // Card background
@@ -882,7 +882,7 @@ fn draw_mission_briefing(game : @types.Game) -> Unit {
   )
   // Briefing text lines
   let lines = @levels.get_mission_briefing_lines(game.current_mission)
-  for i = 0; i < lines.length(); i = i + 1 {
+  for i in 0..<lines.length() {
     let line_y = panel_y + 20 + i * 28
     let line_color = if i == 0 {
       @raylib.Color::new(255, 220, 100, 255)
@@ -1021,16 +1021,16 @@ fn draw_radar(game : @types.Game) -> Unit {
   // Enemy blips
   let player = game.player
   let radar_scale = @types.radar_range / Float::from_int(radar_r)
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let dx = e.x - player.x
     let dz = e.z - player.z
     let dist = (dx * dx + dz * dz).sqrt()
     if dist > @types.radar_range {
-      continue i + 1
+      continue
     }
     // Rotate relative to player yaw
     let cos_yaw = @math.cosf(-player.yaw)
@@ -1050,16 +1050,16 @@ fn draw_radar(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(bx - 1, by - 1, 3, 3, blip_color)
   }
   // Turret blips
-  for i = 0; i < game.turrets.length(); i = i + 1 {
+  for i in 0..<game.turrets.length() {
     let t = game.turrets[i]
     if not(t.active) {
-      continue i + 1
+      continue
     }
     let dx = t.x - player.x
     let dz = t.z - player.z
     let dist = (dx * dx + dz * dz).sqrt()
     if dist > @types.radar_range {
-      continue i + 1
+      continue
     }
     let cos_yaw = @math.cosf(-player.yaw)
     let sin_yaw = @math.sinf(-player.yaw)

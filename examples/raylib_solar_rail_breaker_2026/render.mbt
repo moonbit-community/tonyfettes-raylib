@@ -61,7 +61,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     bg_bottom(),
   )
 
-  for i = 0; i < 90; i = i + 1 {
+  for i in 0..<90 {
     let px = (i * 71 + 53) % screen_w
     let py = (i * 43 + 91) % screen_h
     let phase = game.time_s * 0.4 + Float::from_int(i) * 0.21
@@ -102,7 +102,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for ring = 0; ring < ring_count; ring = ring + 1 {
+  for ring in 0..<ring_count {
     let r = ring_radius(ring)
     let col = ring_color(game, ring)
 
@@ -126,7 +126,7 @@ fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_flares(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.flares.length(); i = i + 1 {
+  for i in 0..<game.flares.length() {
     if not(game.flares[i].active) {
       continue
     }
@@ -135,7 +135,7 @@ fn draw_flares(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     let r = ring_radius(f0.ring)
     let segs = 16
 
-    for s = 0; s < segs; s = s + 1 {
+    for s in 0..<segs {
       let t0 = Float::from_int(s) / Float::from_int(segs)
       let t1 = Float::from_int(s + 1) / Float::from_int(segs)
       let a0 = f0.angle - f0.span + f0.span * 2.0 * t0
@@ -246,14 +246,14 @@ fn draw_enemy(game : Game, e : Enemy, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     draw_enemy(game, game.enemies[i], cam_x, cam_y)
   }
 }
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }
@@ -278,7 +278,7 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < game.enemy_bullets.length(); i = i + 1 {
+  for i in 0..<game.enemy_bullets.length() {
     if not(game.enemy_bullets[i].active) {
       continue
     }
@@ -299,7 +299,7 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -322,7 +322,7 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_shocks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.shocks.length(); i = i + 1 {
+  for i in 0..<game.shocks.length() {
     if not(game.shocks[i].active) {
       continue
     }
@@ -331,7 +331,7 @@ fn draw_shocks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     let r = ring_radius(s.ring)
     let segs = 24
 
-    for k = 0; k < segs; k = k + 1 {
+    for k in 0..<segs {
       let t0 = Float::from_int(k) / Float::from_int(segs)
       let t1 = Float::from_int(k + 1) / Float::from_int(segs)
       let a0 = wrap_angle(lerpf(s.a0, s.a1, t0))

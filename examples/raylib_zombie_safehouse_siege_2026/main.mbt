@@ -169,7 +169,7 @@ fn safe_len2(v2 : Float) -> Float {
 
 ///|
 fn clear_zombies(zs : Array[Zombie]) -> Unit {
-  for i = 0; i < zs.length(); i = i + 1 {
+  for i in 0..<zs.length() {
     zs[i].active = false
     zs[i].kind = 0
     zs[i].x = 0.0
@@ -187,7 +187,7 @@ fn clear_zombies(zs : Array[Zombie]) -> Unit {
 
 ///|
 fn clear_bullets(bs : Array[Bullet]) -> Unit {
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     bs[i].active = false
     bs[i].kind = 0
     bs[i].x = 0.0
@@ -201,7 +201,7 @@ fn clear_bullets(bs : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_scraps(ss : Array[Scrap]) -> Unit {
-  for i = 0; i < ss.length(); i = i + 1 {
+  for i in 0..<ss.length() {
     ss[i].active = false
     ss[i].x = 0.0
     ss[i].y = 0.0
@@ -213,7 +213,7 @@ fn clear_scraps(ss : Array[Scrap]) -> Unit {
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     ps[i].active = false
     ps[i].x = 0.0
     ps[i].y = 0.0
@@ -235,7 +235,7 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done : Bool = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for i in 0..<ps.length() {
     if done {
       continue
     }
@@ -264,7 +264,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -282,7 +282,7 @@ fn spawn_bullet(
   kind : Int,
 ) -> Unit {
   let mut done : Bool = false
-  for i = 0; i < bs.length(); i = i + 1 {
+  for i in 0..<bs.length() {
     if done {
       continue
     }
@@ -304,7 +304,7 @@ fn spawn_bullet(
 ///|
 fn spawn_zombie(zs : Array[Zombie], wave : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < zs.length(); i = i + 1 {
+  for i in 0..<zs.length() {
     if slot < 0 && not(zs[i].active) {
       slot = i
     }
@@ -374,7 +374,7 @@ fn spawn_zombie(zs : Array[Zombie], wave : Int) -> Bool {
 ///|
 fn spawn_scrap(ss : Array[Scrap], x : Float, y : Float, value : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < ss.length(); i = i + 1 {
+  for i in 0..<ss.length() {
     if slot < 0 && not(ss[i].active) {
       slot = i
     }
@@ -397,7 +397,7 @@ fn spawn_scrap(ss : Array[Scrap], x : Float, y : Float, value : Int) -> Bool {
 fn seed_day_scraps(ss : Array[Scrap], wave : Int) -> Unit {
   clear_scraps(ss)
   let total : Int = 42 + wave * 4
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     ignore(i)
     let x = randf(60.0, world_w - 60.0)
     let y = randf(94.0, world_h - 56.0)
@@ -875,7 +875,7 @@ fn main {
       }
 
       if phase == 0 {
-        for i = 0; i < scraps.length(); i = i + 1 {
+        for i in 0..<scraps.length() {
           if not(scraps[i].active) {
             continue
           }
@@ -915,7 +915,7 @@ fn main {
           if wave > 8 {
             n = 3
           }
-          for i = 0; i < n; i = i + 1 {
+          for i in 0..<n {
             ignore(i)
             if night_budget > 0.0 {
               if spawn_zombie(zombies, wave) {
@@ -933,7 +933,7 @@ fn main {
         }
       }
 
-      for i = 0; i < zombies.length(); i = i + 1 {
+      for i in 0..<zombies.length() {
         if not(zombies[i].active) {
           continue
         }
@@ -1080,7 +1080,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1102,7 +1102,7 @@ fn main {
           continue
         }
 
-        for j = 0; j < zombies.length(); j = j + 1 {
+        for j in 0..<zombies.length() {
           if not(zombies[j].active) {
             continue
           }
@@ -1142,7 +1142,7 @@ fn main {
         let mut target : Int = -1
         let mut best_d2 : Float = 99999999.0
 
-        for i = 0; i < zombies.length(); i = i + 1 {
+        for i in 0..<zombies.length() {
           if not(zombies[i].active) {
             continue
           }
@@ -1187,7 +1187,7 @@ fn main {
         }
       }
 
-      for i = 0; i < scraps.length(); i = i + 1 {
+      for i in 0..<scraps.length() {
         if not(scraps[i].active) {
           continue
         }
@@ -1198,7 +1198,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1215,7 +1215,7 @@ fn main {
       }
 
       let mut alive_zombies : Int = 0
-      for i = 0; i < zombies.length(); i = i + 1 {
+      for i in 0..<zombies.length() {
         if zombies[i].active {
           alive_zombies = alive_zombies + 1
         }
@@ -1280,7 +1280,7 @@ fn main {
 
     @raylib.clear_background(@raylib.Color::new(bg_r, bg_g, bg_b, 255))
 
-    for i = 0; i < 22; i = i + 1 {
+    for i in 0..<22 {
       let y = i * 36
       let c = 16 + i * 2 + (if phase == 0 { 12 } else { 0 })
       @raylib.draw_rectangle(
@@ -1292,7 +1292,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 28; i = i + 1 {
+    for i in 0..<28 {
       let x = i * 46
       let c = 12 + i * 3 % 28
       @raylib.draw_rectangle(
@@ -1357,7 +1357,7 @@ fn main {
       )
     }
 
-    for i = 0; i < scraps.length(); i = i + 1 {
+    for i in 0..<scraps.length() {
       if not(scraps[i].active) {
         continue
       }
@@ -1387,7 +1387,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }
@@ -1406,7 +1406,7 @@ fn main {
       )
     }
 
-    for i = 0; i < zombies.length(); i = i + 1 {
+    for i in 0..<zombies.length() {
       if not(zombies[i].active) {
         continue
       }
@@ -1476,7 +1476,7 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

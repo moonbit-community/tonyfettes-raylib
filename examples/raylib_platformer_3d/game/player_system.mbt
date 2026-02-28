@@ -322,13 +322,13 @@ fn check_wall_slide(game : @types.Game) -> Unit {
   let ph = @types.player_height
   let check_dist : Float = 0.15
   // Check left and right walls
-  for i = 0; i < game.platforms.length(); i = i + 1 {
+  for i in 0..<game.platforms.length() {
     let plat = game.platforms[i]
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     if plat.kind == @types.plat_bouncy || plat.kind == @types.plat_ice {
-      continue i + 1
+      continue
     }
     let b_min_x = plat.x - plat.w / 2.0
     let b_max_x = plat.x + plat.w / 2.0
@@ -340,11 +340,11 @@ fn check_wall_slide(game : @types.Game) -> Unit {
     let p_min_y = game.py - ph / 2.0
     let p_max_y = game.py + ph / 2.0
     if p_max_y <= b_min_y || p_min_y >= b_max_y {
-      continue i + 1
+      continue
     }
     // Check Z overlap
     if game.pz - pr >= b_max_z || game.pz + pr <= b_min_z {
-      continue i + 1
+      continue
     }
     // Check left wall
     if game.px + pr + check_dist > b_min_x && game.px + pr < b_min_x + 0.2 {
@@ -368,14 +368,14 @@ fn apply_conveyor_force(game : @types.Game, dt : Float) -> Unit {
   if not(game.grounded) {
     return
   }
-  for i = 0; i < game.platforms.length(); i = i + 1 {
+  for i in 0..<game.platforms.length() {
     let plat = game.platforms[i]
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     if plat.kind != @types.plat_conveyor_l &&
       plat.kind != @types.plat_conveyor_r {
-      continue i + 1
+      continue
     }
     // Check if player is on this platform
     let on_plat = game.px > plat.x - plat.w / 2.0 &&
@@ -399,10 +399,10 @@ fn apply_conveyor_force(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn pull_collectibles_magnet(game : @types.Game, dt : Float) -> Unit {
   let mag_range = @types.powerup_magnet_range
-  for i = 0; i < game.collectibles.length(); i = i + 1 {
+  for i in 0..<game.collectibles.length() {
     let c = game.collectibles[i]
     if not(c.active) || c.collected {
-      continue i + 1
+      continue
     }
     let dist = @types.dist3d(game.px, game.py, game.pz, c.x, c.y, c.z)
     if dist < mag_range && dist > 0.1 {
@@ -420,14 +420,14 @@ fn pull_collectibles_magnet(game : @types.Game, dt : Float) -> Unit {
 fn resolve_platform_collisions(game : @types.Game) -> Unit {
   let pr = @types.player_radius
   let ph = @types.player_height
-  for i = 0; i < game.platforms.length(); i = i + 1 {
+  for i in 0..<game.platforms.length() {
     let plat = game.platforms[i]
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     // Phasing platforms
     if plat.kind == @types.plat_phasing && not(plat.phase_visible) {
-      continue i + 1
+      continue
     }
     // AABB check: player as box centered at (px, py, pz) with size (pr*2, ph, pr*2)
     let p_min_x = game.px - pr
@@ -550,10 +550,10 @@ fn carry_player_on_platform(game : @types.Game, plat : @types.Platform) -> Unit 
 
 ///|
 fn update_platforms(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.platforms.length(); i = i + 1 {
+  for i in 0..<game.platforms.length() {
     let plat = game.platforms[i]
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     // Moving platforms
     if plat.kind == @types.plat_moving_x {
@@ -632,10 +632,10 @@ fn update_platforms(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_collectibles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.collectibles.length(); i = i + 1 {
+  for i in 0..<game.collectibles.length() {
     let c = game.collectibles[i]
     if not(c.active) || c.collected {
-      continue i + 1
+      continue
     }
     c.bob_timer += dt
     c.spin_timer += dt * 3.0

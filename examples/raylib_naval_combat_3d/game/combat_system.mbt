@@ -2,16 +2,16 @@
 
 ///|
 fn update_cannonballs(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.cannonballs.length(); i = i + 1 {
+  for i in 0..<game.cannonballs.length() {
     let cb = game.cannonballs[i]
     if not(cb.active) {
-      continue i + 1
+      continue
     }
     // Update lifetime
     cb.life -= dt
     if cb.life <= 0.0 {
       cb.active = false
-      continue i + 1
+      continue
     }
     // Apply gravity
     cb.vy -= @types.gravity * dt
@@ -38,7 +38,7 @@ fn update_cannonballs(game : @types.Game, dt : Float) -> Unit {
       }
       @types.spawn_water_splash(game, cb.x, cb.z, splash_count)
       cb.active = false
-      continue i + 1
+      continue
     }
     // Check hit against targets
     if cb.from_player {
@@ -73,10 +73,10 @@ fn check_cannonball_vs_enemies(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(cb.x, cb.y, cb.z, enemy.x, 1.0, enemy.z)
     let hit_radius : Float = enemy.ship_width * 0.8 + 0.5
@@ -248,10 +248,10 @@ fn check_cannonball_vs_fleet(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
+  for i in 0..<game.fleet_ships.length() {
     let fs = game.fleet_ships[i]
     if not(fs.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(cb.x, cb.y, cb.z, fs.x, 1.0, fs.z)
     if dist < fs.ship_width + 0.5 {
@@ -278,13 +278,13 @@ fn check_cannonball_vs_convoy(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
+  for i in 0..<game.convoy_ships.length() {
     let cs = game.convoy_ships[i]
     if not(cs.active) {
-      continue i + 1
+      continue
     }
     if cs.arrived {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(cb.x, cb.y, cb.z, cs.x, 1.0, cs.z)
     if dist < 2.0 {
@@ -308,16 +308,16 @@ fn check_cannonball_vs_fortress(game : @types.Game, cb_idx : Int) -> Unit {
   if not(cb.active) {
     return
   }
-  for i = 0; i < game.island_count; i = i + 1 {
+  for i in 0..<game.island_count {
     let island = game.islands[i]
     if not(island.active) {
-      continue i + 1
+      continue
     }
     if not(island.has_fortress) {
-      continue i + 1
+      continue
     }
     if island.fortress_hp <= 0.0 {
-      continue i + 1
+      continue
     }
     let dist = @types.distance2d(cb.x, cb.z, island.x, island.z)
     if dist < island.radius + 2.0 && cb.y > island.height * 0.3 {

@@ -28,7 +28,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 
   // Kill feed timer
-  for i = 0; i < @types.max_kill_feed; i = i + 1 {
+  for i in 0..<@types.max_kill_feed {
     if game.kill_feed[i].active {
       game.kill_feed[i].timer -= dt
       if game.kill_feed[i].timer <= 0.0 {
@@ -121,7 +121,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 
   // Enemy damage flash decay
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active && game.enemies[i].damage_flash > 0.0 {
       game.enemies[i].damage_flash -= dt * 4.0
       if game.enemies[i].damage_flash < 0.0 {
@@ -244,7 +244,7 @@ fn complete_mission(game : @types.Game) -> Unit {
 
 ///|
 fn check_station_alive(game : @types.Game, kind : Int) -> Bool {
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     if game.stations[i].active && game.stations[i].kind == kind {
       return true
     }
@@ -439,28 +439,28 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   p.shots_hit = 0
 
   // Clear pools
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i].active = false
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i].active = false
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
   }
-  for i = 0; i < game.asteroids.length(); i = i + 1 {
+  for i in 0..<game.asteroids.length() {
     game.asteroids[i].active = false
   }
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     game.powerups[i].active = false
   }
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     game.stations[i].active = false
   }
-  for i = 0; i < game.debris.length(); i = i + 1 {
+  for i in 0..<game.debris.length() {
     game.debris[i].active = false
   }
-  for i = 0; i < @types.max_kill_feed; i = i + 1 {
+  for i in 0..<@types.max_kill_feed {
     game.kill_feed[i].active = false
   }
 
@@ -476,7 +476,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
 
   // Calculate total enemies for remaining counter
   let mut total_enemies = 0
-  for w = 0; w < game.waves_total; w = w + 1 {
+  for w in 0..<game.waves_total {
     let wave_comp = @levels.wave_composition(mission, w)
     total_enemies = total_enemies +
       wave_comp.0 +
@@ -487,7 +487,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   game.enemies_remaining = total_enemies
 
   // Spawn asteroids
-  for i = 0; i < num_asteroids; i = i + 1 {
+  for i in 0..<num_asteroids {
     let idx = @types.alloc_asteroid(game)
     if idx < 0 {
       break
@@ -526,7 +526,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   // Spawn stations
   let num_friendly_stations = ext.3
   let num_enemy_stations = ext.4
-  for i = 0; i < num_friendly_stations; i = i + 1 {
+  for i in 0..<num_friendly_stations {
     let idx = @types.alloc_station(game)
     if idx < 0 {
       break
@@ -544,7 +544,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
     s.ring_angle = 0.0
     ignore(i)
   }
-  for i = 0; i < num_enemy_stations; i = i + 1 {
+  for i in 0..<num_enemy_stations {
     let idx = @types.alloc_station(game)
     if idx < 0 {
       break
@@ -565,7 +565,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
 
   // Spawn initial power-ups
   let num_powerups = ext.5
-  for i = 0; i < num_powerups; i = i + 1 {
+  for i in 0..<num_powerups {
     let idx = @types.alloc_powerup(game)
     if idx < 0 {
       break
@@ -620,7 +620,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   let formation = @levels.mission_formation(mission)
 
   // Spawn fighters
-  for i = 0; i < comp.0; i = i + 1 {
+  for i in 0..<comp.0 {
     spawn_enemy_of_type(
       game, @types.enemy_fighter, hp_mult, spd_mult, formation, i, wave,
     )
@@ -628,7 +628,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   }
 
   // Spawn interceptors
-  for i = 0; i < comp.1; i = i + 1 {
+  for i in 0..<comp.1 {
     spawn_enemy_of_type(
       game,
       @types.enemy_interceptor,
@@ -642,7 +642,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   }
 
   // Spawn bombers
-  for i = 0; i < comp.2; i = i + 1 {
+  for i in 0..<comp.2 {
     spawn_enemy_of_type(
       game,
       @types.enemy_bomber,
@@ -656,7 +656,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   }
 
   // Spawn cruisers
-  for i = 0; i < comp.3; i = i + 1 {
+  for i in 0..<comp.3 {
     spawn_enemy_of_type(
       game,
       @types.enemy_cruiser,
@@ -673,7 +673,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   if wave == 0 {
     let ext = @levels.get_mission_extended(mission)
     let num_capitals = ext.2
-    for i = 0; i < num_capitals; i = i + 1 {
+    for i in 0..<num_capitals {
       let idx = @types.alloc_enemy(game)
       if idx < 0 {
         break
@@ -818,10 +818,10 @@ fn spawn_enemy_of_type(
 ///|
 fn update_powerups(game : @types.Game, dt : Float) -> Unit {
   let p = game.player
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     let pu = game.powerups[i]
     if not(pu.active) {
-      continue i + 1
+      continue
     }
 
     // Animation
@@ -830,7 +830,7 @@ fn update_powerups(game : @types.Game, dt : Float) -> Unit {
     pu.life -= dt
     if pu.life <= 0.0 {
       pu.active = false
-      continue i + 1
+      continue
     }
 
     // Check collection by player
@@ -885,10 +885,10 @@ fn collect_powerup(game : @types.Game, idx : Int) -> Unit {
 
 ///|
 fn update_stations(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     let s = game.stations[i]
     if not(s.active) {
-      continue i + 1
+      continue
     }
     // Rotate the station
     s.rot_angle += 0.1 * dt
@@ -909,15 +909,15 @@ fn update_stations(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.debris.length(); i = i + 1 {
+  for i in 0..<game.debris.length() {
     let d = game.debris[i]
     if not(d.active) {
-      continue i + 1
+      continue
     }
     d.life -= dt
     if d.life <= 0.0 {
       d.active = false
-      continue i + 1
+      continue
     }
     d.x += d.vx * dt
     d.y += d.vy * dt

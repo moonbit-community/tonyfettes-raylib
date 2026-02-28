@@ -6,7 +6,7 @@ fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_raiders(game : Game) -> Unit {
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     game.raiders[i].active = false
     game.raiders[i].kind = raider_skirmisher
     game.raiders[i].x = 0.0
@@ -25,7 +25,7 @@ fn clear_raiders(game : Game) -> Unit {
 
 ///|
 fn clear_bullets(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     game.bullets[i].active = false
     game.bullets[i].x = 0.0
     game.bullets[i].y = 0.0
@@ -38,7 +38,7 @@ fn clear_bullets(game : Game) -> Unit {
 
 ///|
 fn clear_dust(game : Game) -> Unit {
-  for i = 0; i < game.dusts.length(); i = i + 1 {
+  for i in 0..<game.dusts.length() {
     game.dusts[i].active = false
     game.dusts[i].x = 0.0
     game.dusts[i].y = 0.0
@@ -52,7 +52,7 @@ fn clear_dust(game : Game) -> Unit {
 
 ///|
 fn reset_wagons(game : Game) -> Unit {
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     game.wagons[i].x = wagon_slot_x(i)
     game.wagons[i].y = wagon_slot_y(i)
     game.wagons[i].hp = game.wagons[i].max_hp
@@ -105,7 +105,7 @@ fn start_run(game : Game) -> Unit {
 
 ///|
 fn alloc_raider(game : Game) -> Int {
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     if not(game.raiders[i].active) {
       return i
     }
@@ -113,7 +113,7 @@ fn alloc_raider(game : Game) -> Int {
 
   let mut oldest = 0
   let mut best_x = game.raiders[0].x
-  for i = 1; i < game.raiders.length(); i = i + 1 {
+  for i in 1..<game.raiders.length() {
     if game.raiders[i].x < best_x {
       best_x = game.raiders[i].x
       oldest = i
@@ -124,7 +124,7 @@ fn alloc_raider(game : Game) -> Int {
 
 ///|
 fn alloc_bullet(game : Game) -> Int {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
     }
@@ -132,7 +132,7 @@ fn alloc_bullet(game : Game) -> Int {
 
   let mut oldest = 0
   let mut best_life = game.bullets[0].life
-  for i = 1; i < game.bullets.length(); i = i + 1 {
+  for i in 1..<game.bullets.length() {
     if game.bullets[i].life < best_life {
       best_life = game.bullets[i].life
       oldest = i
@@ -143,7 +143,7 @@ fn alloc_bullet(game : Game) -> Int {
 
 ///|
 fn alloc_dust(game : Game) -> Int {
-  for i = 0; i < game.dusts.length(); i = i + 1 {
+  for i in 0..<game.dusts.length() {
     if not(game.dusts[i].active) {
       return i
     }
@@ -181,7 +181,7 @@ fn burst_dust(
   count : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     emit_dust(
       game,
       x + randf(-16.0, 16.0),
@@ -212,7 +212,7 @@ fn lane_y(game : Game, index : Int) -> Float {
 ///|
 fn active_raider_count(game : Game) -> Int {
   let mut c = 0
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     if game.raiders[i].active {
       c = c + 1
     }
@@ -239,7 +239,7 @@ fn nearest_raider_index(
 ) -> Int {
   let mut best = -1
   let mut best_d2 = max_dist2
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     if not(game.raiders[i].active) {
       continue
     }
@@ -261,7 +261,7 @@ fn nearest_wagon_index(
 ) -> Int {
   let mut best = -1
   let mut best_d2 : Float = 99999999.0
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     if only_alive && game.wagons[i].hp <= 0.0 {
       continue
     }
@@ -277,7 +277,7 @@ fn nearest_wagon_index(
 
 ///|
 fn all_wagons_broken(game : Game) -> Bool {
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     if game.wagons[i].hp > 0.0 {
       return false
     }
@@ -287,7 +287,7 @@ fn all_wagons_broken(game : Game) -> Bool {
 
 ///|
 fn update_wagons(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     if game.wagons[i].repair_cd > 0.0 {
       game.wagons[i].repair_cd = maxf(0.0, game.wagons[i].repair_cd - dt)
     }
@@ -453,7 +453,7 @@ fn spawn_wave(game : Game) -> Unit {
     count = count + 1
   }
 
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let lane = randi(0, lane_count - 1)
     spawn_raider(game, lane, choose_raider_kind(game))
   }
@@ -567,7 +567,7 @@ fn try_repair(game : Game) -> Unit {
   let mut target = -1
   let mut best_d2 = repair_range * repair_range
 
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     if game.wagons[i].hp >= game.wagons[i].max_hp {
       continue
     }
@@ -695,7 +695,7 @@ fn update_hero(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }
@@ -717,7 +717,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    for j = 0; j < game.raiders.length(); j = j + 1 {
+    for j in 0..<game.raiders.length() {
       if not(game.bullets[i].active) {
         break
       }
@@ -759,7 +759,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_raiders(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.raiders.length(); i = i + 1 {
+  for i in 0..<game.raiders.length() {
     if not(game.raiders[i].active) {
       continue
     }
@@ -895,7 +895,7 @@ fn update_raiders(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_dust(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.dusts.length(); i = i + 1 {
+  for i in 0..<game.dusts.length() {
     if not(game.dusts[i].active) {
       continue
     }
@@ -945,7 +945,7 @@ fn award_checkpoint(game : Game) -> Unit {
   game.ammo = clampi(game.ammo + 10, 0, ammo_max)
   game.repair_kits = clampi(game.repair_kits + 1, 0, kit_max)
 
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     heal_wagon(game, i, 20.0)
   }
 
@@ -957,7 +957,7 @@ fn award_checkpoint(game : Game) -> Unit {
     1.4,
   )
 
-  for i = 0; i < game.wagons.length(); i = i + 1 {
+  for i in 0..<game.wagons.length() {
     burst_dust(game, game.wagons[i].x, game.wagons[i].y, 9, 3)
   }
 

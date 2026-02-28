@@ -129,7 +129,7 @@ fn reset_traffic(cars : Array[Car], logs : Array[Log]) -> Unit {
 
 ///|
 fn reset_homes(homes : Array[Bool]) -> Unit {
-  for i = 0; i < homes.length(); i = i + 1 {
+  for i in 0..<homes.length() {
     homes[i] = false
   }
 }
@@ -137,7 +137,7 @@ fn reset_homes(homes : Array[Bool]) -> Unit {
 ///|
 fn homes_done(homes : Array[Bool]) -> Bool {
   let mut ok = true
-  for i = 0; i < homes.length(); i = i + 1 {
+  for i in 0..<homes.length() {
     if not(homes[i]) {
       ok = false
     }
@@ -256,7 +256,7 @@ fn main {
         }
       }
 
-      for i = 0; i < cars.length(); i = i + 1 {
+      for i in 0..<cars.length() {
         cars[i].x = cars[i].x + cars[i].speed * speed_mul * dt
         let wpx = Float::from_int(cars[i].w * cell)
         if cars[i].speed > 0.0 &&
@@ -268,7 +268,7 @@ fn main {
         }
       }
 
-      for i = 0; i < logs.length(); i = i + 1 {
+      for i in 0..<logs.length() {
         logs[i].x = logs[i].x + logs[i].speed * speed_mul * dt
         let wpx = Float::from_int(logs[i].w * cell)
         if logs[i].speed > 0.0 &&
@@ -342,7 +342,7 @@ fn main {
       let mut dead = false
 
       if is_road_row(row) {
-        for i = 0; i < cars.length(); i = i + 1 {
+        for i in 0..<cars.length() {
           if cars[i].row != row {
             continue
           }
@@ -359,7 +359,7 @@ fn main {
       if not(dead) && is_river_row(row) {
         let mut on_log = false
         let mut drift : Float = 0.0
-        for i = 0; i < logs.length(); i = i + 1 {
+        for i in 0..<logs.length() {
           if logs[i].row != row {
             continue
           }
@@ -385,7 +385,7 @@ fn main {
 
       if not(dead) && row == 0 {
         let mut dock = -1
-        for i = 0; i < homes.length(); i = i + 1 {
+        for i in 0..<homes.length() {
           if absf(px - slot_center_x(i)) <= Float::from_int(cell) * 0.38 {
             dock = i
             break
@@ -449,7 +449,7 @@ fn main {
       @raylib.Color::new(236, 216, 120, 255),
     )
 
-    for row = 0; row < rows; row = row + 1 {
+    for row in 0..<rows {
       let y = oy + row * cell
       if row == 0 {
         @raylib.draw_rectangle(
@@ -486,7 +486,7 @@ fn main {
       }
     }
 
-    for i = 0; i < homes.length(); i = i + 1 {
+    for i in 0..<homes.length() {
       let sx = (slot_center_x(i) - Float::from_int(cell / 2 - 6)).to_int()
       let sy = oy + 8
       let c = if homes[i] {
@@ -504,7 +504,7 @@ fn main {
       )
     }
 
-    for i = 0; i <= cols; i = i + 1 {
+    for i in 0..=cols {
       let x = ox + i * cell
       @raylib.draw_line(
         x,
@@ -514,7 +514,7 @@ fn main {
         @raylib.Color::new(24, 30, 34, 180),
       )
     }
-    for i = 0; i <= rows; i = i + 1 {
+    for i in 0..=rows {
       let y = oy + i * cell
       @raylib.draw_line(
         ox,
@@ -525,7 +525,7 @@ fn main {
       )
     }
 
-    for i = 0; i < logs.length(); i = i + 1 {
+    for i in 0..<logs.length() {
       let x = logs[i].x.to_int()
       let y = oy + logs[i].row * cell + 10
       let w = logs[i].w * cell
@@ -552,7 +552,7 @@ fn main {
       )
     }
 
-    for i = 0; i < cars.length(); i = i + 1 {
+    for i in 0..<cars.length() {
       let x = cars[i].x.to_int()
       let y = oy + cars[i].row * cell + 8
       let w = cars[i].w * cell

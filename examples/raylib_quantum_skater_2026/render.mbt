@@ -44,7 +44,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     color_bg_bottom(),
   )
 
-  for i = 0; i < 64; i = i + 1 {
+  for i in 0..<64 {
     let x = (i * 71 + 29) % screen_w
     let y = (i * 37 + 61) % (screen_h / 2)
     let phase : Float = game.title_t * 0.7 + Float::from_int(i) * 0.33
@@ -65,7 +65,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < 11; i = i + 1 {
+  for i in 0..<11 {
     let bw = 130 + i * 43 % 220
     let bh = 120 + i * 67 % 220
     let x = Float::from_int(i * 132) - game.stage_progress * 0.04 + cam_x * 0.4
@@ -88,7 +88,7 @@ fn draw_track_grid(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(104, 230, 255, 170)
   }
 
-  for lane = 0; lane < lane_count; lane = lane + 1 {
+  for lane in 0..<lane_count {
     let lane_x = lane_world_x(lane)
     let p0 = world_to_screen(lane_x, 0.0, 0.0, cam_x, cam_y)
     let p1 = world_to_screen(lane_x, 0.0, 2500.0, cam_x, cam_y)
@@ -101,7 +101,7 @@ fn draw_track_grid(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for step = 0; step < 26; step = step + 1 {
+  for step in 0..<26 {
     let z = Float::from_int(step * 100)
     let left = world_to_screen(lane_world_x(0) - 82.0, 0.0, z, cam_x, cam_y)
     let right = world_to_screen(
@@ -275,7 +275,7 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       continue
     }
@@ -301,7 +301,7 @@ fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -805,7 +805,7 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_backdrop(game, cam_x, cam_y)
   draw_track_grid(game, cam_x, cam_y)
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     draw_obj(game, game.objs[i], cam_x, cam_y)
   }
 

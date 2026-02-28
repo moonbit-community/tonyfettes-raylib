@@ -212,22 +212,22 @@ fn perform_melee_attack(game : @types.Game) -> Unit {
   let attack_dir_z = @math.cosf(game.camera_yaw)
   let weapon_range = @types.get_weapon_range(game.player_weapon)
   let mut hit_any = false
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Check distance
     let dist = @types.dist2d(game.player_x, game.player_z, e.x, e.z)
     if dist > weapon_range {
-      continue i + 1
+      continue
     }
     // Check angle (within ~90 degree cone in front)
     let dx = e.x - game.player_x
     let dz = e.z - game.player_z
     let dot = dx * attack_dir_x + dz * attack_dir_z
     if dot < 0.0 {
-      continue i + 1
+      continue
     }
     // Hit!
     let raw_atk = @types.calc_player_attack(game)
@@ -466,14 +466,14 @@ fn cast_lightning(game : @types.Game) -> Unit {
   let damage = @types.lightning_damage + int_bonus
   let mut hit_idx = -1
   let mut best_dist : Float = 15.0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.dist2d(game.player_x, game.player_z, e.x, e.z)
     if dist > 12.0 {
-      continue i + 1
+      continue
     }
     let dx = e.x - game.player_x
     let dz = e.z - game.player_z
@@ -504,13 +504,13 @@ fn cast_lightning(game : @types.Game) -> Unit {
     // Chain to nearby enemies
     let chain_x = e.x
     let chain_z = e.z
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       if j == hit_idx {
-        continue j + 1
+        continue
       }
       let e2 = game.enemies[j]
       if not(e2.active) {
-        continue j + 1
+        continue
       }
       let chain_dist = @types.dist2d(chain_x, chain_z, e2.x, e2.z)
       if chain_dist < @types.lightning_chain_range {
@@ -665,10 +665,10 @@ pub fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
 
 ///|
 fn check_loot_pickup(game : @types.Game) -> Unit {
-  for i = 0; i < game.loot.length(); i = i + 1 {
+  for i in 0..<game.loot.length() {
     let l = game.loot[i]
     if not(l.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.dist2d(game.player_x, game.player_z, l.x, l.z)
     if dist < 1.2 {
@@ -789,7 +789,7 @@ fn check_chest_open(game : @types.Game) -> Unit {
   let gz = @types.world_to_grid_z(check_z)
   if @types.get_tile(game, gx, gz) == @types.tile_chest {
     // Check for mimic
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let e = game.enemies[i]
       if e.active && e.kind == @types.enemy_mimic {
         let egx = @types.world_to_grid_x(e.x)
@@ -938,10 +938,10 @@ fn check_shrine_interact(game : @types.Game) -> Unit {
 fn check_traps(game : @types.Game, dt : Float) -> Unit {
   let pgx = @types.world_to_grid_x(game.player_x)
   let pgz = @types.world_to_grid_z(game.player_z)
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     let trap = game.traps[i]
     if not(trap.active) {
-      continue i + 1
+      continue
     }
     // Update cooldown
     if trap.cooldown > 0.0 {
@@ -1002,13 +1002,13 @@ fn check_traps(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn add_spell_to_player(game : @types.Game, spell_type : Int) -> Bool {
   // Check if already have this spell
-  for i = 0; i < game.spells.length(); i = i + 1 {
+  for i in 0..<game.spells.length() {
     if game.spells[i].active && game.spells[i].spell_type == spell_type {
       return false
     }
   }
   // Find empty slot
-  for i = 0; i < game.spells.length(); i = i + 1 {
+  for i in 0..<game.spells.length() {
     if not(game.spells[i].active) {
       game.spells[i].active = true
       game.spells[i].spell_type = spell_type

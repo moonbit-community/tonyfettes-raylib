@@ -253,7 +253,7 @@ fn has_flag(mask : Int, flag : Int) -> Bool {
 
 ///|
 fn clear_ghosts(ghosts : Array[Ghost]) -> Unit {
-  for i = 0; i < ghosts.length(); i = i + 1 {
+  for i in 0..<ghosts.length() {
     ghosts[i].active = false
     ghosts[i].slot = 0
     ghosts[i].x = center_x
@@ -269,7 +269,7 @@ fn clear_ghosts(ghosts : Array[Ghost]) -> Unit {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].active = false
     enemies[i].kind = 0
     enemies[i].x = 0.0
@@ -285,7 +285,7 @@ fn clear_enemies(enemies : Array[Enemy]) -> Unit {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].active = false
     bullets[i].x = 0.0
     bullets[i].y = 0.0
@@ -299,7 +299,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_cores(cores : Array[Core]) -> Unit {
-  for i = 0; i < cores.length(); i = i + 1 {
+  for i in 0..<cores.length() {
     cores[i].active = false
     cores[i].x = 0.0
     cores[i].y = 0.0
@@ -311,7 +311,7 @@ fn clear_cores(cores : Array[Core]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -327,7 +327,7 @@ fn clear_particles(parts : Array[Particle]) -> Unit {
 ///|
 fn spawn_enemy(enemies : Array[Enemy], level : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       slot = i
       break
@@ -384,7 +384,7 @@ fn spawn_bullet(
   team : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].active) {
       slot = i
       break
@@ -409,7 +409,7 @@ fn spawn_bullet(
 ///|
 fn spawn_core(cores : Array[Core], x : Float, y : Float, value : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < cores.length(); i = i + 1 {
+  for i in 0..<cores.length() {
     if not(cores[i].active) {
       slot = i
       break
@@ -439,7 +439,7 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if left <= 0 {
       break
     }
@@ -483,7 +483,7 @@ fn rebuild_ghosts(
   }
   let mut gc : Int = 0
 
-  for slot = 0; slot < available; slot = slot + 1 {
+  for slot in 0..<available {
     if slot == current_slot {
       continue
     }
@@ -639,7 +639,7 @@ fn main {
     clear_cores(cores)
     clear_particles(particles)
 
-    for i = 0; i < loop_masks.length(); i = i + 1 {
+    for i in 0..<loop_masks.length() {
       loop_masks[i] = 0
     }
 
@@ -648,7 +648,7 @@ fn main {
     msg = "Loop 1 recording"
     msg_t = 1.4
 
-    for i = 0; i < 9; i = i + 1 {
+    for i in 0..<9 {
       ignore(i)
       ignore(spawn_enemy(enemies, 1))
     }
@@ -825,7 +825,7 @@ fn main {
         msg = "Chrono bomb"
         msg_t = 0.62
 
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if enemies[i].active &&
             dist2(pilot.x, pilot.y, enemies[i].x, enemies[i].y) <= 180.0 * 180.0 {
             enemies[i].hp = enemies[i].hp -
@@ -847,7 +847,7 @@ fn main {
           }
         }
 
-        for i = 0; i < bullets.length(); i = i + 1 {
+        for i in 0..<bullets.length() {
           if bullets[i].active &&
             bullets[i].team == 2 &&
             dist2(pilot.x, pilot.y, bullets[i].x, bullets[i].y) <= 190.0 * 190.0 {
@@ -921,7 +921,7 @@ fn main {
       }
 
       // Replay ghosts.
-      for g = 0; g < ghost_count; g = g + 1 {
+      for g in 0..<ghost_count {
         if not(ghosts[g].active) {
           continue
         }
@@ -1033,7 +1033,7 @@ fn main {
         spawn_cd = randf(lo, hi)
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -1053,7 +1053,7 @@ fn main {
         let mut ty = pilot.y
         let mut best_d2 = dist2(enemies[i].x, enemies[i].y, pilot.x, pilot.y)
 
-        for g = 0; g < ghost_count; g = g + 1 {
+        for g in 0..<ghost_count {
           if ghosts[g].active {
             let gd2 = dist2(
               enemies[i].x,
@@ -1132,7 +1132,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -1155,7 +1155,7 @@ fn main {
         }
 
         if bullets[i].team == 1 {
-          for e = 0; e < enemies.length(); e = e + 1 {
+          for e in 0..<enemies.length() {
             if enemies[e].active &&
               dist2(bullets[i].x, bullets[i].y, enemies[e].x, enemies[e].y) <=
               18.0 * 18.0 {
@@ -1188,7 +1188,7 @@ fn main {
         }
       }
 
-      for i = 0; i < cores.length(); i = i + 1 {
+      for i in 0..<cores.length() {
         if not(cores[i].active) {
           continue
         }
@@ -1213,7 +1213,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -1274,7 +1274,7 @@ fn main {
 
     @raylib.draw_rectangle(0, 0, sw, 180, @raylib.Color::new(18, 28, 54, 255))
 
-    for i = 0; i < 40; i = i + 1 {
+    for i in 0..<40 {
       let sx = i * 32 + (mission_time * 22.0).to_int() % 32
       let sy = 14 + i * 19 % 150
       @raylib.draw_circle(sx, sy, 1.8, @raylib.Color::new(168, 208, 252, 166))
@@ -1295,7 +1295,7 @@ fn main {
       @raylib.Color::new(118, 170, 236, 220),
     )
 
-    for i = 0; i < 22; i = i + 1 {
+    for i in 0..<22 {
       let x = arena_l.to_int() + i * 50
       @raylib.draw_line(
         x,
@@ -1305,7 +1305,7 @@ fn main {
         @raylib.Color::new(44, 60, 86, 88),
       )
     }
-    for i = 0; i < 12; i = i + 1 {
+    for i in 0..<12 {
       let y = arena_t.to_int() + i * 48
       @raylib.draw_line(
         arena_l.to_int(),
@@ -1316,7 +1316,7 @@ fn main {
       )
     }
 
-    for i = 0; i < cores.length(); i = i + 1 {
+    for i in 0..<cores.length() {
       if cores[i].active {
         let blink = (cores[i].t * 8.0).to_int() % 2 == 0
         let col = if blink {
@@ -1334,7 +1334,7 @@ fn main {
       }
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if bullets[i].active {
         if bullets[i].team == 1 {
           @raylib.draw_circle(
@@ -1354,7 +1354,7 @@ fn main {
       }
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].active {
         let body_col = if enemies[i].kind == 0 {
           @raylib.Color::new(202, 114, 110, 255)
@@ -1388,7 +1388,7 @@ fn main {
       }
     }
 
-    for g = 0; g < ghost_count; g = g + 1 {
+    for g in 0..<ghost_count {
       if ghosts[g].active {
         let gcol = if ghosts[g].flash_t > 0.0 {
           @raylib.Color::new(178, 250, 214, 255)
@@ -1439,7 +1439,7 @@ fn main {
       @raylib.Color::new(236, 248, 255, 224),
     )
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

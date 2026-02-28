@@ -102,7 +102,7 @@ fn Input::new() -> Input {
 fn Game::new() -> Game {
   let roster : Array[Student] = []
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     roster.push(Student::new(student_name(i), starting_skill(i)))
   }
 

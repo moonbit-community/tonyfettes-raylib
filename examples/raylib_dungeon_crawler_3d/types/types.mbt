@@ -475,47 +475,47 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   let floor_info : Array[FloorInfo] = []
-  for i = 0; i < max_floors; i = i + 1 {
+  for i in 0..<max_floors {
     floor_info.push(FloorInfo::new())
     ignore(i)
   }
   let rooms : Array[Room] = []
-  for i = 0; i < max_rooms; i = i + 1 {
+  for i in 0..<max_rooms {
     rooms.push(Room::new(0, 0, 0, 0))
     ignore(i)
   }
   let inventory : Array[InvItem] = []
-  for i = 0; i < max_inventory; i = i + 1 {
+  for i in 0..<max_inventory {
     inventory.push(InvItem::empty())
     ignore(i)
   }
   let spells : Array[SpellSlot] = []
-  for i = 0; i < max_spells; i = i + 1 {
+  for i in 0..<max_spells {
     spells.push(SpellSlot::empty())
     ignore(i)
   }
   let buffs : Array[Buff] = []
-  for i = 0; i < max_buffs; i = i + 1 {
+  for i in 0..<max_buffs {
     buffs.push(Buff::inactive())
     ignore(i)
   }
   let shop_items : Array[ShopItem] = []
-  for i = 0; i < max_shop_items; i = i + 1 {
+  for i in 0..<max_shop_items {
     shop_items.push(ShopItem::empty())
     ignore(i)
   }
   let messages : Array[MessageEntry] = []
-  for i = 0; i < max_messages; i = i + 1 {
+  for i in 0..<max_messages {
     messages.push(MessageEntry::empty())
     ignore(i)
   }
   let traps : Array[Trap] = []
-  for i = 0; i < max_traps; i = i + 1 {
+  for i in 0..<max_traps {
     traps.push(Trap::inactive())
     ignore(i)
   }
   let torches : Array[Torch] = []
-  for i = 0; i < max_torches; i = i + 1 {
+  for i in 0..<max_torches {
     torches.push(Torch::inactive())
     ignore(i)
   }
@@ -562,7 +562,7 @@ pub fn Game::new() -> Game {
     floor_theme: theme_crypt,
     enemies: {
       let arr : Array[Enemy] = []
-      for i = 0; i < max_enemies; i = i + 1 {
+      for i in 0..<max_enemies {
         arr.push(Enemy::inactive())
         ignore(i)
       }
@@ -570,7 +570,7 @@ pub fn Game::new() -> Game {
     },
     projectiles: {
       let arr : Array[Projectile] = []
-      for i = 0; i < max_projectiles; i = i + 1 {
+      for i in 0..<max_projectiles {
         arr.push(Projectile::inactive())
         ignore(i)
       }
@@ -579,7 +579,7 @@ pub fn Game::new() -> Game {
     particles: Array::make(max_particles, Particle::inactive()),
     loot: {
       let arr : Array[Loot] = []
-      for i = 0; i < max_loot; i = i + 1 {
+      for i in 0..<max_loot {
         arr.push(Loot::inactive())
         ignore(i)
       }

@@ -103,7 +103,7 @@ fn main {
     }
 
     let mut hit_obstacle = false
-    for i = 0; i < env_count; i = i + 1 {
+    for i in 0..<env_count {
       let rect = env_rects[i]
       if env_blocking[i] &&
         rect.x <= player_x &&
@@ -176,7 +176,7 @@ fn main {
     let mut min_y : Float = 1000.0
     let mut max_x : Float = -1000.0
     let mut max_y : Float = -1000.0
-    for i = 0; i < env_count; i = i + 1 {
+    for i in 0..<env_count {
       let rect = env_rects[i]
       if rect.x < min_x {
         min_x = rect.x
@@ -274,7 +274,7 @@ fn main {
     @raylib.begin_mode_2d(camera)
 
     // Draw environment elements
-    for i = 0; i < env_count; i = i + 1 {
+    for i in 0..<env_count {
       @raylib.draw_rectangle_rec(env_rects[i], env_colors[i])
     }
 

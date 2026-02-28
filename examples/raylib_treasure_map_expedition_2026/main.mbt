@@ -34,16 +34,16 @@ fn idx(x : Int, y : Int) -> Int {
 
 ///|
 fn reset_map(blocked : Array[Bool], seen : Array[Bool]) -> Unit {
-  for i = 0; i < blocked.length(); i = i + 1 {
+  for i in 0..<blocked.length() {
     blocked[i] = false
     seen[i] = false
   }
 
-  for x = 0; x < gw; x = x + 1 {
+  for x in 0..<gw {
     blocked[idx(x, 0)] = true
     blocked[idx(x, gh - 1)] = true
   }
-  for y = 0; y < gh; y = y + 1 {
+  for y in 0..<gh {
     blocked[idx(0, y)] = true
     blocked[idx(gw - 1, y)] = true
   }
@@ -74,8 +74,8 @@ fn reset_relics(relics : Array[Relic]) -> Unit {
 
 ///|
 fn reveal(seen : Array[Bool], cx : Int, cy : Int, rad : Int) -> Unit {
-  for y = cy - rad; y <= cy + rad; y = y + 1 {
-    for x = cx - rad; x <= cx + rad; x = x + 1 {
+  for y in (cy - rad)..=(cy + rad) {
+    for x in (cx - rad)..=(cx + rad) {
       if x >= 0 && x < gw && y >= 0 && y < gh {
         seen[idx(x, y)] = true
       }
@@ -189,7 +189,7 @@ fn main {
         }
       }
 
-      for i = 0; i < relics.length(); i = i + 1 {
+      for i in 0..<relics.length() {
         if not(relics[i].taken) && relics[i].x == px && relics[i].y == py {
           relics[i].taken = true
           bag_value = bag_value + relics[i].value
@@ -204,7 +204,7 @@ fn main {
       }
 
       let mut all_taken = true
-      for i = 0; i < relics.length(); i = i + 1 {
+      for i in 0..<relics.length() {
         if not(relics[i].taken) {
           all_taken = false
         }
@@ -220,8 +220,8 @@ fn main {
 
     @raylib.draw_rectangle(0, 0, sw, 96, @raylib.Color::new(34, 48, 34, 255))
 
-    for y = 0; y < gh; y = y + 1 {
-      for x = 0; x < gw; x = x + 1 {
+    for y in 0..<gh {
+      for x in 0..<gw {
         let rx = ox + x * cell
         let ry = oy + y * cell
 
@@ -256,7 +256,7 @@ fn main {
       }
     }
 
-    for i = 0; i < relics.length(); i = i + 1 {
+    for i in 0..<relics.length() {
       if not(relics[i].taken) && seen[idx(relics[i].x, relics[i].y)] {
         let rx = ox + relics[i].x * cell + cell / 2
         let ry = oy + relics[i].y * cell + cell / 2

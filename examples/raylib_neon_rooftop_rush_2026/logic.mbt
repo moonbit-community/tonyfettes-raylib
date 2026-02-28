@@ -1,6 +1,6 @@
 ///|
 fn clear_segments(game : Game) -> Unit {
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     game.segments[i].active = false
     game.segments[i].x = -2000.0
     game.segments[i].y = Float::from_int(screen_h) + 200.0
@@ -14,7 +14,7 @@ fn clear_segments(game : Game) -> Unit {
 
 ///|
 fn clear_obstacles(game : Game) -> Unit {
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     game.obstacles[i].active = false
     game.obstacles[i].kind = obstacle_vent
     game.obstacles[i].x = -2000.0
@@ -29,7 +29,7 @@ fn clear_obstacles(game : Game) -> Unit {
 
 ///|
 fn clear_chips(game : Game) -> Unit {
-  for i = 0; i < game.chips.length(); i = i + 1 {
+  for i in 0..<game.chips.length() {
     game.chips[i].active = false
     game.chips[i].x = -2000.0
     game.chips[i].y = 0.0
@@ -40,7 +40,7 @@ fn clear_chips(game : Game) -> Unit {
 
 ///|
 fn clear_anchors(game : Game) -> Unit {
-  for i = 0; i < game.anchors.length(); i = i + 1 {
+  for i in 0..<game.anchors.length() {
     game.anchors[i].active = false
     game.anchors[i].x = -2000.0
     game.anchors[i].y = 0.0
@@ -50,7 +50,7 @@ fn clear_anchors(game : Game) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -64,7 +64,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_ghosts(game : Game) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     game.ghosts[i].active = false
     game.ghosts[i].x = 0.0
     game.ghosts[i].y = 0.0
@@ -97,7 +97,7 @@ fn reset_player(hero : Player) -> Unit {
 
 ///|
 fn alloc_segment_slot(game : Game) -> Int {
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if not(game.segments[i].active) {
       return i
     }
@@ -105,7 +105,7 @@ fn alloc_segment_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_x = game.segments[0].x
-  for i = 1; i < game.segments.length(); i = i + 1 {
+  for i in 1..<game.segments.length() {
     if game.segments[i].x < best_x {
       best_x = game.segments[i].x
       best_i = i
@@ -117,7 +117,7 @@ fn alloc_segment_slot(game : Game) -> Int {
 
 ///|
 fn alloc_obstacle_slot(game : Game) -> Int {
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     if not(game.obstacles[i].active) {
       return i
     }
@@ -125,7 +125,7 @@ fn alloc_obstacle_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_x = game.obstacles[0].x
-  for i = 1; i < game.obstacles.length(); i = i + 1 {
+  for i in 1..<game.obstacles.length() {
     if game.obstacles[i].x < best_x {
       best_x = game.obstacles[i].x
       best_i = i
@@ -137,7 +137,7 @@ fn alloc_obstacle_slot(game : Game) -> Int {
 
 ///|
 fn alloc_chip_slot(game : Game) -> Int {
-  for i = 0; i < game.chips.length(); i = i + 1 {
+  for i in 0..<game.chips.length() {
     if not(game.chips[i].active) {
       return i
     }
@@ -145,7 +145,7 @@ fn alloc_chip_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_x = game.chips[0].x
-  for i = 1; i < game.chips.length(); i = i + 1 {
+  for i in 1..<game.chips.length() {
     if game.chips[i].x < best_x {
       best_x = game.chips[i].x
       best_i = i
@@ -157,7 +157,7 @@ fn alloc_chip_slot(game : Game) -> Int {
 
 ///|
 fn alloc_anchor_slot(game : Game) -> Int {
-  for i = 0; i < game.anchors.length(); i = i + 1 {
+  for i in 0..<game.anchors.length() {
     if not(game.anchors[i].active) {
       return i
     }
@@ -165,7 +165,7 @@ fn alloc_anchor_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_x = game.anchors[0].x
-  for i = 1; i < game.anchors.length(); i = i + 1 {
+  for i in 1..<game.anchors.length() {
     if game.anchors[i].x < best_x {
       best_x = game.anchors[i].x
       best_i = i
@@ -177,7 +177,7 @@ fn alloc_anchor_slot(game : Game) -> Int {
 
 ///|
 fn alloc_particle_slot(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -185,7 +185,7 @@ fn alloc_particle_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_life = game.particles[0].life
-  for i = 1; i < game.particles.length(); i = i + 1 {
+  for i in 1..<game.particles.length() {
     if game.particles[i].life < best_life {
       best_life = game.particles[i].life
       best_i = i
@@ -197,7 +197,7 @@ fn alloc_particle_slot(game : Game) -> Int {
 
 ///|
 fn alloc_ghost_slot(game : Game) -> Int {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       return i
     }
@@ -205,7 +205,7 @@ fn alloc_ghost_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_life = game.ghosts[0].life
-  for i = 1; i < game.ghosts.length(); i = i + 1 {
+  for i in 1..<game.ghosts.length() {
     if game.ghosts[i].life < best_life {
       best_life = game.ghosts[i].life
       best_i = i
@@ -308,7 +308,7 @@ fn burst_particles(
   amount : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_particle(
       game,
       x + randf(-18.0, 18.0),
@@ -338,7 +338,7 @@ fn spawn_ghost(game : Game, hero : Player, hue : Float) -> Unit {
 fn best_right_edge(game : Game) -> (Float, Float) {
   let mut right_x : Float = -10000.0
   let mut right_y : Float = 460.0
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if not(game.segments[i].active) {
       continue
     }
@@ -360,7 +360,7 @@ fn spawn_chip_arc(game : Game, x0 : Float, x1 : Float, roof_y : Float) -> Unit {
     return
   }
 
-  for i = 0; i < steps; i = i + 1 {
+  for i in 0..<steps {
     let t = Float::from_int(i) / Float::from_int(steps - 1)
     let px = lerpf(x0, x1, t)
     let py = roof_y - 54.0 - sinf(t * 3.14159) * 80.0
@@ -400,7 +400,7 @@ fn spawn_stage_chunk(game : Game) -> Unit {
       obstacles = obstacles + 1
     }
 
-    for _i = 0; _i < obstacles; _i = _i + 1 {
+    for _i in 0..<obstacles {
       let px = randf(x + 40.0, x + w - 60.0)
       let choice = randi(0, 99)
       if choice < 36 {
@@ -444,7 +444,7 @@ fn spawn_stage_chunk(game : Game) -> Unit {
 ///|
 fn ensure_world(game : Game) -> Unit {
   let mut right : Float = -10000.0
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if not(game.segments[i].active) {
       continue
     }
@@ -502,7 +502,7 @@ fn ensure_world(game : Game) -> Unit {
 
 ///|
 fn shift_world(game : Game, dx : Float) -> Unit {
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if game.segments[i].active {
       game.segments[i].x = game.segments[i].x - dx
       if game.segments[i].x + game.segments[i].w < -280.0 {
@@ -511,7 +511,7 @@ fn shift_world(game : Game, dx : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     if not(game.obstacles[i].active) {
       continue
     }
@@ -537,7 +537,7 @@ fn shift_world(game : Game, dx : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.chips.length(); i = i + 1 {
+  for i in 0..<game.chips.length() {
     if not(game.chips[i].active) {
       continue
     }
@@ -550,7 +550,7 @@ fn shift_world(game : Game, dx : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.anchors.length(); i = i + 1 {
+  for i in 0..<game.anchors.length() {
     if not(game.anchors[i].active) {
       continue
     }
@@ -568,7 +568,7 @@ fn find_floor(game : Game, center_x : Float) -> (Bool, Float) {
   let mut found = false
   let mut best_y = Float::from_int(screen_h) + 400.0
 
-  for i = 0; i < game.segments.length(); i = i + 1 {
+  for i in 0..<game.segments.length() {
     if not(game.segments[i].active) {
       continue
     }
@@ -634,7 +634,7 @@ fn try_grapple(game : Game) -> Bool {
   let mut best_dist : Float = 1000000000.0
   let mut best_y = hero_cy
 
-  for i = 0; i < game.anchors.length(); i = i + 1 {
+  for i in 0..<game.anchors.length() {
     if not(game.anchors[i].active) {
       continue
     }
@@ -838,7 +838,7 @@ fn gain_combo(game : Game, amount : Int) -> Unit {
 ///|
 fn update_obstacles(game : Game, dt : Float) -> Unit {
   let hb = hero_hitbox(game.hero)
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
+  for i in 0..<game.obstacles.length() {
     if not(game.obstacles[i].active) {
       continue
     }
@@ -929,7 +929,7 @@ fn update_chips(game : Game, _dt : Float) -> Unit {
   let cx = hero.x + hero.w * 0.5
   let cy = hero.y + hero.h * 0.45
 
-  for i = 0; i < game.chips.length(); i = i + 1 {
+  for i in 0..<game.chips.length() {
     if not(game.chips[i].active) {
       continue
     }
@@ -950,7 +950,7 @@ fn update_chips(game : Game, _dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -968,7 +968,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
       dt * (if game.particles[i].kind == 1 { 130.0 } else { 220.0 })
   }
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       continue
     }

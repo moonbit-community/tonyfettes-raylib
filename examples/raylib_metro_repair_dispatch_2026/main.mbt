@@ -187,7 +187,7 @@ fn inside_rect(
 
 ///|
 fn clear_stations(stations : Array[Station]) -> Unit {
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     stations[i].active = false
     stations[i].x = 0.0
     stations[i].y = 0.0
@@ -202,7 +202,7 @@ fn clear_stations(stations : Array[Station]) -> Unit {
 
 ///|
 fn clear_segments(segments : Array[Segment]) -> Unit {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     segments[i].active = false
     segments[i].a = -1
     segments[i].b = -1
@@ -217,7 +217,7 @@ fn clear_segments(segments : Array[Segment]) -> Unit {
 
 ///|
 fn clear_trains(trains : Array[Train]) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     trains[i].active = false
     trains[i].route_id = 0
     trains[i].route_pos = 0
@@ -234,7 +234,7 @@ fn clear_trains(trains : Array[Train]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].kind = 0
     parts[i].x = 0.0
@@ -256,7 +256,7 @@ fn add_station(
   crowd : Int,
   name : String,
 ) -> Int {
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     if not(stations[i].active) {
       stations[i].active = true
       stations[i].x = x
@@ -275,7 +275,7 @@ fn add_station(
 
 ///|
 fn add_segment(segments : Array[Segment], a : Int, b : Int, line : Int) -> Int {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       segments[i].active = true
       segments[i].a = a
@@ -302,7 +302,7 @@ fn add_train(
   capacity : Int,
   color_id : Int,
 ) -> Int {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     if not(trains[i].active) {
       trains[i].active = true
       trains[i].route_id = route_id
@@ -328,7 +328,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       parts[i].active = true
       parts[i].kind = kind
@@ -354,14 +354,14 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -382,7 +382,7 @@ fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -433,7 +433,7 @@ fn next_route_pos(route : Array[Int], pos : Int, dir : Int) -> (Int, Int) {
 
 ///|
 fn find_segment(segments : Array[Segment], a : Int, b : Int) -> Int {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -523,7 +523,7 @@ fn setup_network(
 ///|
 fn count_faults(segments : Array[Segment]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if segments[i].active && segments[i].fault_t > 0.0 {
       n = n + 1
     }
@@ -534,7 +534,7 @@ fn count_faults(segments : Array[Segment]) -> Int {
 ///|
 fn count_active_segments(segments : Array[Segment]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if segments[i].active {
       n = n + 1
     }
@@ -546,7 +546,7 @@ fn count_active_segments(segments : Array[Segment]) -> Int {
 fn update_stations(stations : Array[Station], dt : Float, tier : Int) -> Float {
   let mut total_strain : Float = 0.0
 
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     if not(stations[i].active) {
       continue
     }
@@ -589,7 +589,7 @@ fn update_segments(
   let mut new_faults : Int = 0
   let mut health_sum : Float = 0.0
 
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -662,7 +662,7 @@ fn update_trains(
   let mut delay_gain : Float = 0.0
   let mut boarded_gain : Int = 0
 
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     if not(trains[i].active) {
       continue
     }
@@ -762,7 +762,7 @@ fn nearest_faulty_segment(
   let mut best_x : Float = x
   let mut best_y : Float = y
 
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) || segments[i].fault_t <= 0.0 {
       continue
     }
@@ -796,7 +796,7 @@ fn apply_repair(
 
   let mut repaired : Int = 0
 
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -848,7 +848,7 @@ fn draw_world_bg(t : Float) -> Unit {
     @raylib.Color::new(14, 20, 34, 255),
   )
 
-  for i = 0; i < 36; i = i + 1 {
+  for i in 0..<36 {
     let fi : Float = Float::from_int(i)
     let x : Int = (fi * 70.0 + t * (16.0 + Float::from_int(i % 5) * 4.0)).to_int() %
       world_w +
@@ -863,7 +863,7 @@ fn draw_world_bg(t : Float) -> Unit {
   }
 
   // road grid hint
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = world_y + i * 52
     @raylib.draw_line(
       world_x,
@@ -873,7 +873,7 @@ fn draw_world_bg(t : Float) -> Unit {
       @raylib.Color::new(40, 52, 78, 56),
     )
   }
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let x : Int = world_x + i * 52
     @raylib.draw_line(
       x,
@@ -919,7 +919,7 @@ fn draw_segments(
   selected_fault : Int,
   t : Float,
 ) -> Unit {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -973,7 +973,7 @@ fn draw_segments(
 
 ///|
 fn draw_stations(stations : Array[Station]) -> Unit {
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     if not(stations[i].active) {
       continue
     }
@@ -1036,7 +1036,7 @@ fn draw_trains(
   route0 : Array[Int],
   route1 : Array[Int],
 ) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     if not(trains[i].active) {
       continue
     }
@@ -1362,10 +1362,10 @@ fn main {
     let (r0, r1) = setup_network(stations, segments, trains)
     route0.clear()
     route1.clear()
-    for i = 0; i < r0.length(); i = i + 1 {
+    for i in 0..<r0.length() {
       route0.push(r0[i])
     }
-    for i = 0; i < r1.length(); i = i + 1 {
+    for i in 0..<r1.length() {
       route1.push(r1[i])
     }
 
@@ -1625,7 +1625,7 @@ fn main {
         let shock_n : Int = 1 + @raylib.get_random_value(0, tier / 3)
         let mut affected : Int = 0
 
-        for _i = 0; _i < shock_n; _i = _i + 1 {
+        for _i in 0..<shock_n {
           let sid : Int = @raylib.get_random_value(0, segments.length() - 1)
           if not(segments[sid].active) {
             continue
@@ -1658,7 +1658,7 @@ fn main {
 
       // crowd peak
       let mut crowd_now : Int = 0
-      for i = 0; i < stations.length(); i = i + 1 {
+      for i in 0..<stations.length() {
         if stations[i].active {
           crowd_now = crowd_now + stations[i].crowd
         }

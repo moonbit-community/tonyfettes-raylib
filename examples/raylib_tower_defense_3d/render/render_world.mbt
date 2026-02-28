@@ -47,8 +47,8 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 
 ///|
 fn draw_map(game : @types.Game) -> Unit {
-  for gy = 0; gy < @types.map_h; gy = gy + 1 {
-    for gx = 0; gx < @types.map_w; gx = gx + 1 {
+  for gy in 0..<@types.map_h {
+    for gx in 0..<@types.map_w {
       let tile = @types.get_tile(game, gx, gy)
       let wx = @types.grid_to_world_x(gx)
       let wz = @types.grid_to_world_z(gy)
@@ -180,8 +180,8 @@ fn draw_grid_overlay(game : @types.Game) -> Unit {
   if game.state != @types.state_building {
     return
   }
-  for gy = 0; gy < @types.map_h; gy = gy + 1 {
-    for gx = 0; gx < @types.map_w; gx = gx + 1 {
+  for gy in 0..<@types.map_h {
+    for gx in 0..<@types.map_w {
       let tile = @types.get_tile(game, gx, gy)
       if tile == @types.tile_grass {
         let wx = @types.grid_to_world_x(gx)
@@ -201,7 +201,7 @@ fn draw_grid_overlay(game : @types.Game) -> Unit {
 ///|
 fn draw_path_markers(game : @types.Game) -> Unit {
   // Draw subtle path direction indicators
-  for i = 0; i < game.path_count - 1; i = i + 1 {
+  for i in 0..<(game.path_count - 1) {
     let p0 = game.path_nodes[i]
     let p1 = game.path_nodes[i + 1]
     let mx = (p0.x + p1.x) / 2.0
@@ -234,10 +234,10 @@ fn draw_path_markers(game : @types.Game) -> Unit {
 
 ///|
 fn draw_towers(game : @types.Game) -> Unit {
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     let wx = @types.grid_to_world_x(tower.gx)
     let wz = @types.grid_to_world_z(tower.gy)
@@ -405,7 +405,7 @@ fn draw_frost_tower(
   // Floating ice shards around crystal
   let shard_angle = Float::from_int(game.frame_counter) * 0.03
   let shard_r : Float = 0.5
-  for s = 0; s < level + 1; s = s + 1 {
+  for s in 0..<(level + 1) {
     let sa = shard_angle + Float::from_int(s) * 2.1
     let sx = wx + @math.cosf(sa) * shard_r
     let sz = wz + @math.sinf(sa) * shard_r
@@ -609,7 +609,7 @@ fn draw_splash_tower(
   )
   // Multiple barrels pointing outward
   let barrel_count : Int = 3 + level
-  for b = 0; b < barrel_count; b = b + 1 {
+  for b in 0..<barrel_count {
     let ba = Float::from_int(b) * 6.28 / Float::from_int(barrel_count)
     let bx = wx + @math.cosf(ba) * 0.5
     let bz = wz + @math.sinf(ba) * 0.5
@@ -686,7 +686,7 @@ fn draw_buff_tower(
   // Buff range indicator
   let range = @types.tower_effective_range(game.towers[0])
   // Find this tower to get actual range
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let t = game.towers[i]
     if t.active && t.kind == @types.tower_buff {
       let tx = @types.grid_to_world_x(t.gx)
@@ -743,10 +743,10 @@ fn draw_tower_range_indicators(game : @types.Game) -> Unit {
   if not(game.show_ranges) {
     return
   }
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     let tower = game.towers[i]
     if not(tower.active) {
-      continue i + 1
+      continue
     }
     let wx = @types.grid_to_world_x(tower.gx)
     let wz = @types.grid_to_world_z(tower.gy)
@@ -831,10 +831,10 @@ fn tower_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let color = enemy_color(enemy.kind)
     // Draw enemy based on type
@@ -1268,10 +1268,10 @@ fn draw_enemy_shield_bar(enemy : @types.Enemy) -> Unit {
 
 ///|
 fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let size : Float = if enemy.is_boss {
       1.2
@@ -1320,7 +1320,7 @@ fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
     // Stun indicator (stars)
     if enemy.stun_timer > 0.0 {
       let star_angle = Float::from_int(game.frame_counter) * 0.1
-      for s = 0; s < 3; s = s + 1 {
+      for s in 0..<3 {
         let sa = star_angle + Float::from_int(s) * 2.1
         let sx = enemy.x + @math.cosf(sa) * 0.4
         let sz = enemy.z + @math.sinf(sa) * 0.4
@@ -1376,10 +1376,10 @@ fn enemy_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     if proj.kind == @types.tower_arrow {
       // Small fast bullet
@@ -1471,16 +1471,16 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
-  for i = 0; i < game.chain_lines.length(); i = i + 1 {
+  for i in 0..<game.chain_lines.length() {
     let cl = game.chain_lines[i]
     if not(cl.active) {
-      continue i + 1
+      continue
     }
     let alpha = (cl.life / 0.3 * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)
     // Draw lightning line as series of small cubes
     let steps = 5
-    for s = 0; s < steps; s = s + 1 {
+    for s in 0..<steps {
       let t = Float::from_int(s) / Float::from_int(steps)
       let lx = @types.lerpf(cl.x1, cl.x2, t)
       let ly = @types.lerpf(cl.y1, cl.y2, t)
@@ -1499,10 +1499,10 @@ fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     let p = game.particles[i]
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)

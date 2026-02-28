@@ -95,7 +95,7 @@ fn set_ball(
 
 ///|
 fn clear_balls(balls : Array[Ball]) -> Unit {
-  for i = 0; i < balls.length(); i = i + 1 {
+  for i in 0..<balls.length() {
     set_ball(balls, i, 0.0, 0.0, false, i)
   }
 }
@@ -126,11 +126,11 @@ fn reset_level(level : Int, balls : Array[Ball]) -> Int {
 
   let rows = if level == 1 { 3 } else if level == 2 { 4 } else { 5 }
 
-  for row = 0; row < rows; row = row + 1 {
+  for row in 0..<rows {
     let n = row + 1
     let x = base_x + Float::from_int(row) * col_gap
     let mut y = base_y - Float::from_int(n - 1) * row_gap * 0.5
-    for _j = 0; _j < n; _j = _j + 1 {
+    for _j in 0..<n {
       if idx < balls.length() {
         set_ball(balls, idx, x, y, true, idx)
         idx = idx + 1
@@ -151,7 +151,7 @@ fn reset_level(level : Int, balls : Array[Ball]) -> Int {
 ///|
 fn all_targets_cleared(balls : Array[Ball]) -> Bool {
   let mut clear = true
-  for i = 1; i < balls.length(); i = i + 1 {
+  for i in 1..<balls.length() {
     if balls[i].active {
       clear = false
     }
@@ -162,7 +162,7 @@ fn all_targets_cleared(balls : Array[Ball]) -> Bool {
 ///|
 fn moving_any(balls : Array[Ball]) -> Bool {
   let mut moving = false
-  for i = 0; i < balls.length(); i = i + 1 {
+  for i in 0..<balls.length() {
     if balls[i].active {
       let s2 = balls[i].vx * balls[i].vx + balls[i].vy * balls[i].vy
       if s2 > 64.0 {
@@ -202,7 +202,7 @@ fn pocket_y(i : Int) -> Float {
 ///|
 fn ball_in_pocket(x : Float, y : Float) -> Bool {
   let mut p = false
-  for i = 0; i < 6; i = i + 1 {
+  for i in 0..<6 {
     let dx = x - pocket_x(i)
     let dy = y - pocket_y(i)
     if dx * dx + dy * dy <= 24.0 * 24.0 {
@@ -265,7 +265,7 @@ fn portal_pos(t : Float, idx : Int) -> (Float, Float) {
 ///|
 fn nearest_portal_idx(t : Float, x : Float, y : Float) -> Int {
   let mut result = -1
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let (px, py) = portal_pos(t, i)
     let dx = x - px
     let dy = y - py
@@ -398,7 +398,7 @@ fn main {
         }
       }
 
-      for i = 0; i < balls.length(); i = i + 1 {
+      for i in 0..<balls.length() {
         if not(balls[i].active) {
           continue
         }
@@ -496,11 +496,11 @@ fn main {
         }
       }
 
-      for i = 0; i < balls.length(); i = i + 1 {
+      for i in 0..<balls.length() {
         if not(balls[i].active) {
           continue
         }
-        for j = i + 1; j < balls.length(); j = j + 1 {
+        for j in (i + 1)..<balls.length() {
           if not(balls[j].active) {
             continue
           }
@@ -612,7 +612,7 @@ fn main {
       @raylib.Color::new(176, 144, 90, 255),
     )
 
-    for i = 0; i < 6; i = i + 1 {
+    for i in 0..<6 {
       @raylib.draw_circle(
         pocket_x(i).to_int(),
         pocket_y(i).to_int(),
@@ -621,7 +621,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       let (px, py) = portal_pos(portal_t, i)
       let c = if i < 2 {
         @raylib.Color::new(98, 208, 254, 170)
@@ -643,7 +643,7 @@ fn main {
       )
     }
 
-    for i = 0; i < balls.length(); i = i + 1 {
+    for i in 0..<balls.length() {
       if not(balls[i].active) {
         continue
       }

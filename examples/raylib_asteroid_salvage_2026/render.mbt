@@ -1,6 +1,6 @@
 ///|
 fn draw_starfield() -> Unit {
-  for i = 0; i < 70; i = i + 1 {
+  for i in 0..<70 {
     let x = (i * 97 + i * i * 7) % screen_width
     let y = (i * 53 + i * i * 11) % screen_height
     let c = if i % 3 == 0 { @raylib.darkgray } else { @raylib.gray }
@@ -58,7 +58,7 @@ fn draw_ship(game : Game) -> Unit {
 
 ///|
 fn draw_rocks(game : Game) -> Unit {
-  for i = 0; i < game.rocks.length(); i = i + 1 {
+  for i in 0..<game.rocks.length() {
     if not(game.rocks[i].active) {
       continue
     }
@@ -84,7 +84,7 @@ fn draw_rocks(game : Game) -> Unit {
 
 ///|
 fn draw_bullets(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
     }

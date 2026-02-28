@@ -41,8 +41,8 @@ struct Brick {
 ///|
 fn make_bricks() -> Array[Brick] {
   let arr : Array[Brick] = []
-  for r = 0; r < bricks_rows; r = r + 1 {
-    for c = 0; c < bricks_cols; c = c + 1 {
+  for r in 0..<bricks_rows {
+    for c in 0..<bricks_cols {
       let px = bricks_x0 + c * (brick_w + brick_gap)
       let py = bricks_y0 + r * (brick_h + brick_gap)
       let hp = if r < 2 { 3 } else if r < 5 { 2 } else { 1 }
@@ -99,7 +99,7 @@ fn main {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       let fresh = make_bricks()
       bricks.clear()
-      for i = 0; i < fresh.length(); i = i + 1 {
+      for i in 0..<fresh.length() {
         bricks.push(fresh[i])
       }
 
@@ -164,7 +164,7 @@ fn main {
       }
 
       let mut alive_count = 0
-      for i = 0; i < bricks.length(); i = i + 1 {
+      for i in 0..<bricks.length() {
         if not(bricks[i].alive) {
           continue
         }
@@ -231,7 +231,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(14, 16, 28, 255))
 
-    for i = 0; i < bricks.length(); i = i + 1 {
+    for i in 0..<bricks.length() {
       if bricks[i].alive {
         @raylib.draw_rectangle(
           bricks[i].x,

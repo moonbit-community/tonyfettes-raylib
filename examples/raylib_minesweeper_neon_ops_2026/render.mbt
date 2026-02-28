@@ -23,7 +23,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(64, 36, 64, 36),
   )
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = i * 74
     @raylib.draw_rectangle(
       0,
@@ -183,7 +183,7 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = board_w * tile
   let bh : Int = board_h * tile
 
-  for x = 0; x <= board_w; x = x + 1 {
+  for x in 0..=board_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(
       px,
@@ -194,7 +194,7 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
     )
   }
 
-  for y = 0; y <= board_h; y = y + 1 {
+  for y in 0..=board_h {
     let py : Int = by + y * tile
     @raylib.draw_line(
       bx,
@@ -208,8 +208,8 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_cells(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let i : Int = idx(x, y)
       let px : Int = bx + x * tile
       let py : Int = by + y * tile
@@ -281,7 +281,7 @@ fn draw_cursor(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }

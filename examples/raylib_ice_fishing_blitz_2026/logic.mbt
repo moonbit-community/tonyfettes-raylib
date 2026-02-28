@@ -134,7 +134,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -148,7 +148,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.fish.length(); i = i + 1 {
+  for i in 0..<game.fish.length() {
     game.fish[i].active = false
     game.fish[i].x = 0.0
     game.fish[i].y = 0.0
@@ -161,7 +161,7 @@ fn clear_world(game : Game) -> Unit {
     game.fish[i].hooked = false
   }
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     game.hazards[i].active = false
     game.hazards[i].x = 0.0
     game.hazards[i].y = 0.0
@@ -173,7 +173,7 @@ fn clear_world(game : Game) -> Unit {
     game.hazards[i].phase = 0.0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i].active = false
     game.pickups[i].x = 0.0
     game.pickups[i].y = 0.0
@@ -195,7 +195,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -214,7 +214,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -230,7 +230,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -337,7 +337,7 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_fish(game : Game) -> Bool {
-  for i = 0; i < game.fish.length(); i = i + 1 {
+  for i in 0..<game.fish.length() {
     if game.fish[i].active {
       continue
     }
@@ -387,7 +387,7 @@ fn spawn_fish(game : Game) -> Bool {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if game.hazards[i].active {
       continue
     }
@@ -437,7 +437,7 @@ fn spawn_hazard(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if game.pickups[i].active {
       continue
     }
@@ -650,7 +650,7 @@ fn update_hook(game : Game, dt : Float) -> Unit {
 fn update_fish(game : Game, dt : Float) -> Unit {
   let mut active_count : Int = 0
 
-  for i = 0; i < game.fish.length(); i = i + 1 {
+  for i in 0..<game.fish.length() {
     if not(game.fish[i].active) {
       continue
     }
@@ -729,7 +729,7 @@ fn update_fish(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for i in 0..<game.hazards.length() {
     if not(game.hazards[i].active) {
       continue
     }
@@ -826,7 +826,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }
@@ -884,7 +884,7 @@ fn use_hint(game : Game) -> Bool {
     text = "Hint: bring hooked fish up."
   } else if game.bait < 40.0 {
     let mut best_d2 : Float = 1000000000.0
-    for i = 0; i < game.pickups.length(); i = i + 1 {
+    for i in 0..<game.pickups.length() {
       if not(game.pickups[i].active) || game.pickups[i].kind != pickup_bait {
         continue
       }
@@ -907,7 +907,7 @@ fn use_hint(game : Game) -> Bool {
     let mut best_score : Int = -1
     let mut best_d2 : Float = 1000000000.0
 
-    for i = 0; i < game.fish.length(); i = i + 1 {
+    for i in 0..<game.fish.length() {
       if not(game.fish[i].active) || game.fish[i].hooked {
         continue
       }

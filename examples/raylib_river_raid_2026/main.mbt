@@ -44,7 +44,7 @@ fn right_bank(y : Int, center : Float, curve : Float) -> Float {
 
 ///|
 fn spawn_bullet(bullets : Array[Bullet], x : Float, y : Float) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if not(bullets[i].alive) {
       bullets[i].alive = true
       bullets[i].x = x
@@ -62,7 +62,7 @@ fn spawn_enemy(
   x : Float,
   y : Float,
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].alive) {
       enemies[i].alive = true
       enemies[i].kind = kind
@@ -88,14 +88,14 @@ fn spawn_enemy(
 
 ///|
 fn reset_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].alive = false
   }
 }
 
 ///|
 fn reset_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].alive = false
   }
 }
@@ -255,7 +255,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].alive) {
           continue
         }
@@ -265,7 +265,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].alive) {
           continue
         }
@@ -306,11 +306,11 @@ fn main {
         }
       }
 
-      for bi = 0; bi < bullets.length(); bi = bi + 1 {
+      for bi in 0..<bullets.length() {
         if not(bullets[bi].alive) {
           continue
         }
-        for ei = 0; ei < enemies.length(); ei = ei + 1 {
+        for ei in 0..<enemies.length() {
           if not(enemies[ei].alive) {
             continue
           }
@@ -338,7 +338,7 @@ fn main {
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].alive) {
           continue
         }
@@ -387,7 +387,7 @@ fn main {
       @raylib.draw_line(r.to_int(), y, r.to_int(), y + 3, @raylib.darkbrown)
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].alive {
         if enemies[i].kind == 0 {
           @raylib.draw_triangle(
@@ -430,7 +430,7 @@ fn main {
       }
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if bullets[i].alive {
         @raylib.draw_rectangle(
           (bullets[i].x - 2.0).to_int(),

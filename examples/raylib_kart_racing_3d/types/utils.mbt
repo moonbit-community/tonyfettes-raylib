@@ -110,7 +110,7 @@ pub fn distance2d_sq(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
 ///|
 pub fn normalize_angle(a : Float) -> Float {
   let mut result = a
-  for _i = 0; _i < 10; _i = _i + 1 {
+  for _i in 0..<10 {
     if result > pi {
       result = result - two_pi
     } else if result < -pi {
@@ -382,7 +382,7 @@ pub fn rand_bool(game : Game, chance : Float) -> Bool {
 
 ///|
 pub fn alloc_powerup(game : Game) -> Int {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
       return i
     }
@@ -392,7 +392,7 @@ pub fn alloc_powerup(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -402,7 +402,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -412,7 +412,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_dropped_item(game : Game) -> Int {
-  for i = 0; i < game.dropped_items.length(); i = i + 1 {
+  for i in 0..<game.dropped_items.length() {
     if not(game.dropped_items[i].active) {
       return i
     }
@@ -431,7 +431,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -471,7 +471,7 @@ pub fn spawn_typed_particles(
   size : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -567,7 +567,7 @@ pub fn detect_surface_type(game : Game, x : Float, z : Float) -> Int {
   // Find nearest segment
   let mut best_dist : Float = 99999.0
   let mut best_seg = 0
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp = game.waypoints[i]
     let d = distance2d(x, z, wp.x, wp.z)
     if d < best_dist {
@@ -615,16 +615,16 @@ pub fn find_target_ahead(game : Game, kart_idx : Int) -> Int {
   let kart = game.karts[kart_idx]
   let mut best_idx = -1
   let mut best_dist : Float = 99999.0
-  for i = 0; i < max_karts; i = i + 1 {
+  for i in 0..<max_karts {
     if i == kart_idx {
-      continue i + 1
+      continue
     }
     let other = game.karts[i]
     if not(other.active) || other.finished {
-      continue i + 1
+      continue
     }
     if other.total_progress <= kart.total_progress {
-      continue i + 1
+      continue
     }
     let d = distance2d(kart.x, kart.z, other.x, other.z)
     if d < best_dist {
@@ -634,13 +634,13 @@ pub fn find_target_ahead(game : Game, kart_idx : Int) -> Int {
   }
   // If nobody is ahead, target nearest behind
   if best_idx < 0 {
-    for i = 0; i < max_karts; i = i + 1 {
+    for i in 0..<max_karts {
       if i == kart_idx {
-        continue i + 1
+        continue
       }
       let other = game.karts[i]
       if not(other.active) || other.finished {
-        continue i + 1
+        continue
       }
       let d = distance2d(kart.x, kart.z, other.x, other.z)
       if d < best_dist {
@@ -659,16 +659,16 @@ pub fn find_target_behind(game : Game, kart_idx : Int) -> Int {
   let kart = game.karts[kart_idx]
   let mut best_idx = -1
   let mut best_dist : Float = 99999.0
-  for i = 0; i < max_karts; i = i + 1 {
+  for i in 0..<max_karts {
     if i == kart_idx {
-      continue i + 1
+      continue
     }
     let other = game.karts[i]
     if not(other.active) || other.finished {
-      continue i + 1
+      continue
     }
     if other.total_progress >= kart.total_progress {
-      continue i + 1
+      continue
     }
     let d = distance2d(kart.x, kart.z, other.x, other.z)
     if d < best_dist {
@@ -705,7 +705,7 @@ pub fn get_item_weights(place : Int) -> Array[Int] {
 pub fn pick_random_powerup(game : Game, place : Int) -> Int {
   let weights = get_item_weights(place)
   let mut total = 0
-  for i = 0; i < weights.length(); i = i + 1 {
+  for i in 0..<weights.length() {
     total = total + weights[i]
   }
   if total == 0 {
@@ -713,7 +713,7 @@ pub fn pick_random_powerup(game : Game, place : Int) -> Int {
   }
   let roll = rand_range(game, 0, total - 1)
   let mut accum = 0
-  for i = 0; i < weights.length(); i = i + 1 {
+  for i in 0..<weights.length() {
     accum = accum + weights[i]
     if roll < accum {
       // Map index to powerup type (1-indexed)

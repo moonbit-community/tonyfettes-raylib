@@ -10,7 +10,7 @@ fn draw_starfield(game : @types.Game) -> Unit {
     game.profile.sky_bottom,
   )
 
-  for i = 0; i < game.stars.length(); i = i + 1 {
+  for i in 0..<game.stars.length() {
     let star = game.stars[i]
     let phase = Float::from_double(@math.sin(star.twinkle.to_double())) * 0.5 +
       0.5
@@ -163,8 +163,8 @@ fn draw_terrain_layer(
   shake_x : Float,
   shake_y : Float,
 ) -> Unit {
-  for ty = 0; ty < @types.map_tiles_h; ty = ty + 1 {
-    for tx = 0; tx < @types.map_tiles_w; tx = tx + 1 {
+  for ty in 0..<@types.map_tiles_h {
+    for tx in 0..<@types.map_tiles_w {
       let tile = @types.get_tile(game, tx, ty)
       if tile == @types.tile_empty || tile == @types.tile_bush {
         continue
@@ -180,8 +180,8 @@ fn draw_bush_layer(
   shake_x : Float,
   shake_y : Float,
 ) -> Unit {
-  for ty = 0; ty < @types.map_tiles_h; ty = ty + 1 {
-    for tx = 0; tx < @types.map_tiles_w; tx = tx + 1 {
+  for ty in 0..<@types.map_tiles_h {
+    for tx in 0..<@types.map_tiles_w {
       if @types.get_tile(game, tx, ty) != @types.tile_bush {
         continue
       }
@@ -282,16 +282,16 @@ fn draw_tank(
 
 ///|
 fn draw_players(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < @types.max_players; i = i + 1 {
+  for i in 0..<@types.max_players {
     if not(game.players[i].active) {
-      continue i + 1
+      continue
     }
     let player = game.players[i]
 
     if player.invuln_timer > 0.0 {
       let blink = (player.blink_timer * 8.0).to_int() % 2
       if blink == 0 {
-        continue i + 1
+        continue
       }
     }
 
@@ -324,16 +324,16 @@ fn draw_players(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
-      continue i + 1
+      continue
     }
     let enemy = game.enemies[i]
 
     if enemy.invuln_timer > 0.0 {
       let blink = (enemy.invuln_timer * 14.0).to_int() % 2
       if blink == 0 {
-        continue i + 1
+        continue
       }
     }
 
@@ -342,7 +342,7 @@ fn draw_enemies(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
     draw_tank(enemy, body, trim, shake_x, shake_y)
 
     if enemy.enemy_kind == @types.enemy_heavy {
-      for hp_i = 0; hp_i < enemy.hp; hp_i = hp_i + 1 {
+      for hp_i in 0..<enemy.hp {
         @raylib.draw_rectangle(
           @types.world_to_screen_x(enemy.x, shake_x) - 9 + hp_i * 4,
           @types.world_to_screen_y(enemy.y, shake_y) - 13,
@@ -357,9 +357,9 @@ fn draw_enemies(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
-      continue i + 1
+      continue
     }
     let bullet = game.bullets[i]
     let color = if bullet.owner_team == @types.team_enemy {
@@ -380,9 +380,9 @@ fn draw_bullets(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
-      continue i + 1
+      continue
     }
     let p = game.particles[i]
     let alpha = @types.clampf(p.life / p.max_life, 0.0, 1.0)
@@ -398,14 +398,14 @@ fn draw_particles(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit 
 
 ///|
 fn draw_powerups(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
-      continue i + 1
+      continue
     }
     let p = game.powerups[i]
     let blink_visible = p.ttl > 3.0 || (p.blink * 8.0).to_int() % 2 == 0
     if not(blink_visible) {
-      continue i + 1
+      continue
     }
 
     let sx = @types.world_to_screen_x(p.x, shake_x)

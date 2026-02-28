@@ -89,7 +89,7 @@ fn cosf_deg(angle : Float) -> Float {
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     bullets[i].x = 0.0
     bullets[i].y = 0.0
     bullets[i].vx = 0.0
@@ -101,7 +101,7 @@ fn clear_bullets(bullets : Array[Bullet]) -> Unit {
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     drones[i].x = 0.0
     drones[i].y = 0.0
     drones[i].vx = 0.0
@@ -114,7 +114,7 @@ fn clear_drones(drones : Array[Drone]) -> Unit {
 
 ///|
 fn clear_bombs(bombs : Array[Bomb]) -> Unit {
-  for i = 0; i < bombs.length(); i = i + 1 {
+  for i in 0..<bombs.length() {
     bombs[i].x = 0.0
     bombs[i].y = 0.0
     bombs[i].vy = 0.0
@@ -132,7 +132,7 @@ fn spawn_bullet(
   let vx = cosf_deg(angle) * 660.0
   let vy = -sinf_deg(angle) * 660.0
   let mut done = false
-  for i = 0; i < bullets.length(); i = i + 1 {
+  for i in 0..<bullets.length() {
     if done {
       continue
     }
@@ -151,7 +151,7 @@ fn spawn_bullet(
 ///|
 fn spawn_bomb(bombs : Array[Bomb], x : Float, y : Float, sector : Int) -> Unit {
   let mut done = false
-  for i = 0; i < bombs.length(); i = i + 1 {
+  for i in 0..<bombs.length() {
     if done {
       continue
     }
@@ -168,7 +168,7 @@ fn spawn_bomb(bombs : Array[Bomb], x : Float, y : Float, sector : Int) -> Unit {
 ///|
 fn spawn_drone(drones : Array[Drone], sector : Int) -> Unit {
   let mut done = false
-  for i = 0; i < drones.length(); i = i + 1 {
+  for i in 0..<drones.length() {
     if done {
       continue
     }
@@ -392,7 +392,7 @@ fn main {
 
       let mut convoy_damage = 0
 
-      for i = 0; i < drones.length(); i = i + 1 {
+      for i in 0..<drones.length() {
         if not(drones[i].active) {
           continue
         }
@@ -458,7 +458,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bombs.length(); i = i + 1 {
+      for i in 0..<bombs.length() {
         if not(bombs[i].active) {
           continue
         }
@@ -483,7 +483,7 @@ fn main {
         }
       }
 
-      for i = 0; i < bullets.length(); i = i + 1 {
+      for i in 0..<bullets.length() {
         if not(bullets[i].active) {
           continue
         }
@@ -502,7 +502,7 @@ fn main {
         }
 
         let mut hit = false
-        for j = 0; j < drones.length(); j = j + 1 {
+        for j in 0..<drones.length() {
           if hit {
             continue
           }
@@ -637,7 +637,7 @@ fn main {
       @raylib.Color::new(84, 62, 50, 255),
     )
 
-    for i = 0; i < 26; i = i + 1 {
+    for i in 0..<26 {
       let x = i * 62 + 20
       @raylib.draw_rectangle(
         x,
@@ -648,7 +648,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 3; i = i + 1 {
+    for i in 0..<3 {
       let tx = (convoy_cx - 94.0 + Float::from_int(i * 74)).to_int()
       let ty = ground_y - 62
       @raylib.draw_rectangle(
@@ -718,7 +718,7 @@ fn main {
       @raylib.Color::new(228, 232, 238, 255),
     )
 
-    for i = 0; i < drones.length(); i = i + 1 {
+    for i in 0..<drones.length() {
       if not(drones[i].active) {
         continue
       }
@@ -786,7 +786,7 @@ fn main {
       }
     }
 
-    for i = 0; i < bombs.length(); i = i + 1 {
+    for i in 0..<bombs.length() {
       if not(bombs[i].active) {
         continue
       }
@@ -805,7 +805,7 @@ fn main {
       )
     }
 
-    for i = 0; i < bullets.length(); i = i + 1 {
+    for i in 0..<bullets.length() {
       if not(bullets[i].active) {
         continue
       }

@@ -136,7 +136,7 @@ fn lane_y(lane : Int) -> Float {
 
 ///|
 fn clear_obstacles(obstacles : Array[Obstacle]) -> Unit {
-  for i = 0; i < obstacles.length(); i = i + 1 {
+  for i in 0..<obstacles.length() {
     obstacles[i].x = 0.0
     obstacles[i].lane = 0
     obstacles[i].kind = 0
@@ -150,7 +150,7 @@ fn clear_obstacles(obstacles : Array[Obstacle]) -> Unit {
 
 ///|
 fn clear_coins(coins : Array[Coin]) -> Unit {
-  for i = 0; i < coins.length(); i = i + 1 {
+  for i in 0..<coins.length() {
     coins[i].x = 0.0
     coins[i].lane = 0
     coins[i].y_off = 0.0
@@ -161,7 +161,7 @@ fn clear_coins(coins : Array[Coin]) -> Unit {
 
 ///|
 fn clear_powerups(powerups : Array[Powerup]) -> Unit {
-  for i = 0; i < powerups.length(); i = i + 1 {
+  for i in 0..<powerups.length() {
     powerups[i].x = 0.0
     powerups[i].lane = 0
     powerups[i].kind = 0
@@ -172,7 +172,7 @@ fn clear_powerups(powerups : Array[Powerup]) -> Unit {
 
 ///|
 fn clear_particles(particles : Array[Particle]) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     particles[i].x = 0.0
     particles[i].y = 0.0
     particles[i].vx = 0.0
@@ -203,7 +203,7 @@ fn burst_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if done {
       continue
     }
@@ -232,7 +232,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     burst_particle(particles, x, y, speed, kind)
   }
 }
@@ -279,7 +279,7 @@ fn spawn_obstacle(
   let wobble = Float::from_int((wave_t * 100.0).to_int() % 120 - 60)
 
   let mut done = false
-  for i = 0; i < obstacles.length(); i = i + 1 {
+  for i in 0..<obstacles.length() {
     if done {
       continue
     }
@@ -312,7 +312,7 @@ fn spawn_coin(coins : Array[Coin], level : Int, wave_t : Float) -> Unit {
   let bob = Float::from_int((wave_t * 120.0).to_int() % 90 - 45) * 0.6
 
   let mut done = false
-  for i = 0; i < coins.length(); i = i + 1 {
+  for i in 0..<coins.length() {
     if done {
       continue
     }
@@ -340,7 +340,7 @@ fn spawn_powerup(powerups : Array[Powerup]) -> Unit {
   }
 
   let mut done = false
-  for i = 0; i < powerups.length(); i = i + 1 {
+  for i in 0..<powerups.length() {
     if done {
       continue
     }
@@ -720,7 +720,7 @@ fn main {
       let run_x = runner.x
       let run_y = runner.y - 28.0
 
-      for i = 0; i < obstacles.length(); i = i + 1 {
+      for i in 0..<obstacles.length() {
         if not(obstacles[i].active) {
           continue
         }
@@ -771,7 +771,7 @@ fn main {
         }
       }
 
-      for i = 0; i < coins.length(); i = i + 1 {
+      for i in 0..<coins.length() {
         if not(coins[i].active) {
           continue
         }
@@ -810,7 +810,7 @@ fn main {
         }
       }
 
-      for i = 0; i < powerups.length(); i = i + 1 {
+      for i in 0..<powerups.length() {
         if not(powerups[i].active) {
           continue
         }
@@ -887,7 +887,7 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
+      for i in 0..<particles.length() {
         if not(particles[i].active) {
           continue
         }
@@ -940,7 +940,7 @@ fn main {
       @raylib.Color::new(16, 26 + sky_boost / 3, 46 + sky_boost / 2, 255),
     )
 
-    for i = 0; i < 72; i = i + 1 {
+    for i in 0..<72 {
       let x = (
           i * 118 + (wave_t * (60.0 + Float::from_int(level) * 16.0)).to_int()
         ) %
@@ -967,7 +967,7 @@ fn main {
       }
     }
 
-    for lane = 0; lane < lane_n; lane = lane + 1 {
+    for lane in 0..<lane_n {
       let y = lane_y(lane)
       @raylib.draw_rectangle(
         0,
@@ -991,7 +991,7 @@ fn main {
         @raylib.Color::new(112, 122, 144, 255),
       )
 
-      for p = 0; p < 25; p = p + 1 {
+      for p in 0..<25 {
         let x = (p * 70 + (wave_t * speed / 9.0).to_int()) % (sw + 120) - 60
         @raylib.draw_rectangle(
           x,
@@ -1061,7 +1061,7 @@ fn main {
       }
     }
 
-    for i = 0; i < obstacles.length(); i = i + 1 {
+    for i in 0..<obstacles.length() {
       if not(obstacles[i].active) {
         continue
       }
@@ -1143,7 +1143,7 @@ fn main {
       }
     }
 
-    for i = 0; i < coins.length(); i = i + 1 {
+    for i in 0..<coins.length() {
       if not(coins[i].active) {
         continue
       }
@@ -1174,7 +1174,7 @@ fn main {
       }
     }
 
-    for i = 0; i < powerups.length(); i = i + 1 {
+    for i in 0..<powerups.length() {
       if not(powerups[i].active) {
         continue
       }
@@ -1229,7 +1229,7 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
+    for i in 0..<particles.length() {
       if not(particles[i].active) {
         continue
       }

@@ -133,7 +133,7 @@ fn enemy_hp(kind : Int) -> Int {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     shots[i].x = 0.0
     shots[i].y = 0.0
     shots[i].vx = 0.0
@@ -145,7 +145,7 @@ fn clear_shots(shots : Array[Shot]) -> Unit {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].x = 0.0
     enemies[i].y = 0.0
     enemies[i].vx = 0.0
@@ -158,7 +158,7 @@ fn clear_enemies(enemies : Array[Enemy]) -> Unit {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     sparks[i].x = 0.0
     sparks[i].y = 0.0
     sparks[i].vx = 0.0
@@ -178,7 +178,7 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     if done {
       continue
     }
@@ -207,7 +207,7 @@ fn spawn_burst(
   speed_scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(sparks, x, y, speed_scale, kind)
   }
 }
@@ -230,7 +230,7 @@ fn spawn_shot(
   let speed : Float = 700.0
 
   let mut done = false
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if done {
       continue
     }
@@ -287,7 +287,7 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   }
 
   let mut done = false
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if done {
       continue
     }
@@ -459,7 +459,7 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
@@ -479,7 +479,7 @@ fn main {
 
       let mut planet_hit = 0
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -566,13 +566,13 @@ fn main {
         msg = "Planet impact: -\{planet_hit} HP"
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
 
         let mut hit = false
-        for j = 0; j < enemies.length(); j = j + 1 {
+        for j in 0..<enemies.length() {
           if hit {
             continue
           }
@@ -607,7 +607,7 @@ fn main {
       }
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }
@@ -646,7 +646,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 18, 34, 255))
     @raylib.draw_rectangle(0, 0, sw, 260, @raylib.Color::new(18, 32, 58, 255))
 
-    for i = 0; i < 130; i = i + 1 {
+    for i in 0..<130 {
       let x = (i * 97 + sector * 53) % sw
       let y = (i * 61 + sector * 37) % sh
       let b = 138 + i * 19 % 108
@@ -693,7 +693,7 @@ fn main {
     let sdx = cosf_deg(shield_angle)
     let sdy = sinf_deg(shield_angle)
 
-    for i = -7; i <= 7; i = i + 1 {
+    for i in -7..=7 {
       let a = shield_angle + Float::from_int(i) * 3.2
       let dx = cosf_deg(a)
       let dy = sinf_deg(a)
@@ -718,7 +718,7 @@ fn main {
       @raylib.Color::new(224, 248, 252, 255),
     )
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -769,7 +769,7 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if not(shots[i].active) {
         continue
       }
@@ -789,7 +789,7 @@ fn main {
       )
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }

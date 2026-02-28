@@ -347,7 +347,7 @@ pub fn gui_tab_bar(
     tab_bar_item_width
   }
   // Draw all tabs
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let tab_x = bounds.x + (tab_width + 4.0) * Float::from_int(i)
     let tab_bounds = @raylib.Rectangle::new(
       tab_x,

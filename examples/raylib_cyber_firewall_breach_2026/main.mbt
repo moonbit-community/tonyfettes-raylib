@@ -143,7 +143,7 @@ fn enemy_r(kind : Int) -> Float {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     enemies[i].x = 0.0
     enemies[i].y = 0.0
     enemies[i].vx = 0.0
@@ -156,7 +156,7 @@ fn clear_enemies(enemies : Array[Enemy]) -> Unit {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     shots[i].x = 0.0
     shots[i].y = 0.0
     shots[i].vx = 0.0
@@ -167,7 +167,7 @@ fn clear_shots(shots : Array[Shot]) -> Unit {
 
 ///|
 fn clear_parts(parts : Array[Part]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].x = 0.0
     parts[i].y = 0.0
     parts[i].vx = 0.0
@@ -187,7 +187,7 @@ fn spawn_part(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if done {
       continue
     }
@@ -216,7 +216,7 @@ fn burst(
   speed_scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_part(parts, x, y, speed_scale, kind)
   }
 }
@@ -224,7 +224,7 @@ fn burst(
 ///|
 fn spawn_shot(shots : Array[Shot], x : Float, y : Float) -> Unit {
   let mut done = false
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if done {
       continue
     }
@@ -245,7 +245,7 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   let kind = if kind_roll < 56 { 0 } else if kind_roll < 86 { 1 } else { 2 }
 
   let mut done = false
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if done {
       continue
     }
@@ -281,9 +281,9 @@ fn spawn_split(
   y : Float,
   sector : Int,
 ) -> Unit {
-  for _k = 0; _k < 2; _k = _k + 1 {
+  for _k in 0..<2 {
     let mut done = false
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if done {
         continue
       }
@@ -501,7 +501,7 @@ fn main {
         let pr : Float = 162.0
         burst(parts, px, py, 42, 1.12, 0)
 
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].active) {
             continue
           }
@@ -526,7 +526,7 @@ fn main {
         spawn_cd = spawn_interval(sector)
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
@@ -539,7 +539,7 @@ fn main {
 
       let mut core_hit = 0
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -567,13 +567,13 @@ fn main {
         }
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         if not(shots[i].active) {
           continue
         }
 
         let mut hit = false
-        for j = 0; j < enemies.length(); j = j + 1 {
+        for j in 0..<enemies.length() {
           if hit {
             continue
           }
@@ -624,7 +624,7 @@ fn main {
       }
     }
 
-    for i = 0; i < parts.length(); i = i + 1 {
+    for i in 0..<parts.length() {
       if not(parts[i].active) {
         continue
       }
@@ -670,7 +670,7 @@ fn main {
       @raylib.Color::new(80, 122, 190, 255),
     )
 
-    for i = 0; i <= 16; i = i + 1 {
+    for i in 0..=16 {
       let gx = arena_x + i * (arena_w / 16)
       @raylib.draw_line(
         gx,
@@ -680,7 +680,7 @@ fn main {
         @raylib.Color::new(36, 56, 86, 130),
       )
     }
-    for i = 0; i <= 10; i = i + 1 {
+    for i in 0..=10 {
       let gy = arena_y + i * (arena_h / 10)
       @raylib.draw_line(
         arena_x,
@@ -727,7 +727,7 @@ fn main {
       @raylib.Color::new(196, 242, 252, 255),
     )
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if not(shots[i].active) {
         continue
       }
@@ -741,7 +741,7 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if not(enemies[i].active) {
         continue
       }
@@ -792,7 +792,7 @@ fn main {
       }
     }
 
-    for i = 0; i < parts.length(); i = i + 1 {
+    for i in 0..<parts.length() {
       if not(parts[i].active) {
         continue
       }

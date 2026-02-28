@@ -188,7 +188,7 @@ fn cargo_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn clear_nodes(nodes : Array[Node]) -> Unit {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     nodes[i].active = false
     nodes[i].kind = 0
     nodes[i].x = 0.0
@@ -207,7 +207,7 @@ fn clear_nodes(nodes : Array[Node]) -> Unit {
 
 ///|
 fn clear_routes(routes : Array[Route]) -> Unit {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     routes[i].active = false
     routes[i].a = -1
     routes[i].b = -1
@@ -220,7 +220,7 @@ fn clear_routes(routes : Array[Route]) -> Unit {
 
 ///|
 fn clear_trucks(trucks : Array[Truck]) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     trucks[i].active = false
     trucks[i].route = -1
     trucks[i].t = 0.0
@@ -235,7 +235,7 @@ fn clear_trucks(trucks : Array[Truck]) -> Unit {
 
 ///|
 fn clear_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     sp[i].active = false
     sp[i].x = 0.0
     sp[i].y = 0.0
@@ -256,7 +256,7 @@ fn add_node(
   r : Float,
   name : String,
 ) -> Int {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       nodes[i].active = true
       nodes[i].kind = kind
@@ -279,7 +279,7 @@ fn add_node(
 
 ///|
 fn find_route(routes : Array[Route], a : Int, b : Int) -> Int {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -294,7 +294,7 @@ fn find_route(routes : Array[Route], a : Int, b : Int) -> Int {
 
 ///|
 fn add_route(routes : Array[Route], a : Int, b : Int) -> Int {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       routes[i].active = true
       routes[i].a = a
@@ -312,7 +312,7 @@ fn add_route(routes : Array[Route], a : Int, b : Int) -> Int {
 ///|
 fn count_active_routes(routes : Array[Route]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if routes[i].active {
       n = n + 1
     }
@@ -323,7 +323,7 @@ fn count_active_routes(routes : Array[Route]) -> Int {
 ///|
 fn count_active_trucks(trucks : Array[Truck]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if trucks[i].active {
       n = n + 1
     }
@@ -338,7 +338,7 @@ fn add_truck(
   dir : Int,
   level : Int,
 ) -> Int {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if not(trucks[i].active) {
       trucks[i].active = true
       trucks[i].route = route_id
@@ -357,7 +357,7 @@ fn add_truck(
 
 ///|
 fn add_spark(sp : Array[Spark], x : Float, y : Float, kind : Int) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       sp[i].active = true
       sp[i].x = x
@@ -382,14 +382,14 @@ fn burst_sparks(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_spark(sp, x, y, kind)
   }
 }
 
 ///|
 fn update_sparks(sp : Array[Spark], dt : Float) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       continue
     }
@@ -407,7 +407,7 @@ fn update_sparks(sp : Array[Spark], dt : Float) -> Unit {
 
 ///|
 fn draw_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
+  for i in 0..<sp.length() {
     if not(sp[i].active) {
       continue
     }
@@ -455,7 +455,7 @@ fn point_seg_dist2(
 
 ///|
 fn pick_node(nodes : Array[Node], mx : Float, my : Float) -> Int {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       continue
     }
@@ -475,7 +475,7 @@ fn pick_route(
 ) -> Int {
   let mut best : Int = -1
   let mut best_d2 : Float = 99999999.0
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -643,7 +643,7 @@ fn update_nodes(nodes : Array[Node], dt : Float, cycle : Int) -> (Int, Int) {
   let mut delivery_gain : Int = 0
   let mut bonus_cash : Int = 0
 
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       continue
     }
@@ -710,7 +710,7 @@ fn update_nodes(nodes : Array[Node], dt : Float, cycle : Int) -> (Int, Int) {
 fn update_routes(routes : Array[Route], dt : Float, storm_t : Float) -> Int {
   let mut broken_n : Int = 0
 
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -754,7 +754,7 @@ fn update_trucks(
   storm_t : Float,
   sparks : Array[Spark],
 ) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if not(trucks[i].active) {
       continue
     }
@@ -826,7 +826,7 @@ fn update_trucks(
 
 ///|
 fn damage_random_route(routes : Array[Route], amount : Float) -> Int {
-  for _try_i = 0; _try_i < 48; _try_i = _try_i + 1 {
+  for _try_i in 0..<48 {
     let idx : Int = @raylib.get_random_value(0, routes.length() - 1)
     if not(routes[idx].active) {
       continue
@@ -908,7 +908,7 @@ fn draw_world_bg(t : Float) -> Unit {
     @raylib.Color::new(12, 24, 46, 255),
   )
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let fi : Float = Float::from_int(i)
     let x : Float = world_l +
       (fi * 86.0 + t * (22.0 + Float::from_int(i % 5) * 6.0)) %
@@ -925,7 +925,7 @@ fn draw_world_bg(t : Float) -> Unit {
     )
   }
 
-  for i = 0; i < 12; i = i + 1 {
+  for i in 0..<12 {
     let fi : Float = Float::from_int(i)
     let x0 : Float = world_l +
       (fi * 140.0 - t * (26.0 + Float::from_int(i % 4) * 8.0)) %
@@ -948,7 +948,7 @@ fn draw_routes(
   selected_route : Int,
   storm_t : Float,
 ) -> Unit {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -1011,7 +1011,7 @@ fn draw_routes(
 
 ///|
 fn draw_nodes(nodes : Array[Node], selected_node : Int) -> Unit {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       continue
     }
@@ -1164,7 +1164,7 @@ fn draw_trucks(
   routes : Array[Route],
   nodes : Array[Node],
 ) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if not(trucks[i].active) {
       continue
     }
@@ -1625,7 +1625,7 @@ fn main {
         msg_t = 1.5
       }
 
-      for i = 0; i < routes.length(); i = i + 1 {
+      for i in 0..<routes.length() {
         if not(routes[i].active) {
           continue
         }
@@ -1679,7 +1679,7 @@ fn main {
         storm_cd = next
 
         let strike_n : Int = 1 + @raylib.get_random_value(0, 2)
-        for _i = 0; _i < strike_n; _i = _i + 1 {
+        for _i in 0..<strike_n {
           let damaged : Int = damage_random_route(routes, randf(20.0, 36.0))
           if damaged >= 0 {
             let a : Int = routes[damaged].a
@@ -1696,7 +1696,7 @@ fn main {
           }
         }
 
-        for i = 0; i < nodes.length(); i = i + 1 {
+        for i in 0..<nodes.length() {
           if not(nodes[i].active) || nodes[i].kind == 0 {
             continue
           }
@@ -1806,7 +1806,7 @@ fn main {
         if trigger_repair {
           if budget >= repair_cost {
             let mut repaired : Int = 0
-            for i = 0; i < routes.length(); i = i + 1 {
+            for i in 0..<routes.length() {
               if not(routes[i].active) {
                 continue
               }
@@ -1831,7 +1831,7 @@ fn main {
         if trigger_surge {
           if budget >= surge_cost {
             budget = budget - surge_cost
-            for i = 0; i < nodes.length(); i = i + 1 {
+            for i in 0..<nodes.length() {
               if not(nodes[i].active) {
                 continue
               }
@@ -1845,7 +1845,7 @@ fn main {
               }
               burst_sparks(sparks, nodes[i].x, nodes[i].y, 4, 1)
             }
-            for i = 0; i < routes.length(); i = i + 1 {
+            for i in 0..<routes.length() {
               if routes[i].active {
                 routes[i].spawn_cd = routes[i].spawn_cd - 0.7
                 if routes[i].spawn_cd < 0.0 {

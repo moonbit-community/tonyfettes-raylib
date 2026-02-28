@@ -38,7 +38,7 @@ fn main {
     max_fonts,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < max_fonts; i = i + 1 {
+  for i in 0..<max_fonts {
     let font_size = base_sizes[i] * 2.0
     let text_size = @raylib.measure_text_ex(
       fonts[i],
@@ -71,7 +71,7 @@ fn main {
       "free fonts included with raylib", 250, 20, 20, @raylib.darkgray,
     )
     @raylib.draw_line(220, 50, 590, 50, @raylib.darkgray)
-    for i = 0; i < max_fonts; i = i + 1 {
+    for i in 0..<max_fonts {
       @raylib.draw_text_ex(
         fonts[i],
         messages[i],
@@ -85,7 +85,7 @@ fn main {
   }
 
   // De-Initialization
-  for i = 0; i < max_fonts; i = i + 1 {
+  for i in 0..<max_fonts {
     @raylib.unload_font(fonts[i])
   }
   @raylib.close_window()

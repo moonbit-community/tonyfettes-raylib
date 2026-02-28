@@ -126,7 +126,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -140,7 +140,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i].active = false
     game.enemies[i].x = 0.0
     game.enemies[i].y = 0.0
@@ -152,7 +152,7 @@ fn clear_world(game : Game) -> Unit {
     game.enemies[i].phase = 0.0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i].active = false
     game.pickups[i].x = 0.0
     game.pickups[i].y = 0.0
@@ -162,7 +162,7 @@ fn clear_world(game : Game) -> Unit {
     game.pickups[i].phase = 0.0
   }
 
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     game.bullets[i].active = false
     game.bullets[i].x = 0.0
     game.bullets[i].y = 0.0
@@ -185,7 +185,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -204,7 +204,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -220,7 +220,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -323,7 +323,7 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_enemy(game : Game) -> Bool {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if game.enemies[i].active {
       continue
     }
@@ -378,7 +378,7 @@ fn spawn_enemy(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if game.pickups[i].active {
       continue
     }
@@ -417,7 +417,7 @@ fn spawn_bullet(
   power : Float,
   kind : Int,
 ) -> Bool {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if game.bullets[i].active {
       continue
     }
@@ -682,7 +682,7 @@ fn bullet_hit_enemy(game : Game, bi : Int, ei : Int) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for bi = 0; bi < game.bullets.length(); bi = bi + 1 {
+  for bi in 0..<game.bullets.length() {
     if not(game.bullets[bi].active) {
       continue
     }
@@ -700,7 +700,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    for ei = 0; ei < game.enemies.length(); ei = ei + 1 {
+    for ei in 0..<game.enemies.length() {
       if not(game.enemies[ei].active) {
         continue
       }
@@ -738,7 +738,7 @@ fn enemy_speed(game : Game, kind : Int) -> Float {
 
 ///|
 fn update_enemies(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }
@@ -873,7 +873,7 @@ fn pickup_radius(kind : Int) -> Float {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }
@@ -922,7 +922,7 @@ fn use_hint(game : Game) -> Bool {
 
   if game.fuel < 42.0 || game.ammo < 40 {
     let mut best_d2 : Float = 1_000_000_000.0
-    for i = 0; i < game.pickups.length(); i = i + 1 {
+    for i in 0..<game.pickups.length() {
       if not(game.pickups[i].active) {
         continue
       }
@@ -956,14 +956,14 @@ fn use_hint(game : Game) -> Bool {
   if not(found_pickup) {
     let mut safest_score : Float = 1_000_000_000.0
 
-    for lane = 0; lane < 5; lane = lane + 1 {
+    for lane in 0..<5 {
       let lx : Float = world_left() +
         120.0 +
         Float::from_int(lane) * (Float::from_int(world_w) - 240.0) / 4.0
       let ly : Float = core_y() + 180.0
 
       let mut threat : Float = 0.0
-      for i = 0; i < game.enemies.length(); i = i + 1 {
+      for i in 0..<game.enemies.length() {
         if not(game.enemies[i].active) {
           continue
         }

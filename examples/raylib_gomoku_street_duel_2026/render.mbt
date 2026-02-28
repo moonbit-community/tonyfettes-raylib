@@ -19,7 +19,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(64, 40, 30, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 20
     @raylib.draw_rectangle(
       0,
@@ -55,7 +55,7 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
     @raylib.Color::new(214, 188, 146, 226),
   )
 
-  for i = 0; i < board_n; i = i + 1 {
+  for i in 0..<board_n {
     let px : Int = board_x + i * tile
     let py : Int = board_y + i * tile
 
@@ -88,7 +88,7 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
     (11, 11),
   ]
 
-  for i = 0; i < stars.length(); i = i + 1 {
+  for i in 0..<stars.length() {
     let (sx, sy) = stars[i]
     @raylib.draw_circle(
       board_x + sx * tile,
@@ -188,8 +188,8 @@ fn draw_board(game : Game) -> Unit {
 
   draw_board_grid(board_x, board_y, tile)
 
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       let p : Int = cell_at(game, x, y)
       if p != player_empty {
         draw_stone(x, y, p, board_x, board_y, tile)
@@ -590,7 +590,7 @@ fn draw_touch_overlay(
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }

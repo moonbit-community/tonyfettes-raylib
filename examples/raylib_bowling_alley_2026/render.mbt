@@ -19,7 +19,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(72, 40, 34, 36),
   )
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = i * 76
     @raylib.draw_rectangle(
       0,
@@ -82,7 +82,7 @@ fn draw_lane(game : Game) -> (Int, Int) {
     @raylib.Color::new(164, 124, 82, 252),
   )
 
-  for i = 0; i < 26; i = i + 1 {
+  for i in 0..<26 {
     let y : Int = lane_y + sy + i * 36
     @raylib.draw_rectangle(
       lane_x + sx + 6,
@@ -216,7 +216,7 @@ fn draw_pin(pin : Pin, sx : Int, sy : Int) -> Unit {
 
 ///|
 fn draw_pins(game : Game, sx : Int, sy : Int) -> Unit {
-  for i = 0; i < game.pins.length(); i = i + 1 {
+  for i in 0..<game.pins.length() {
     draw_pin(game.pins[i], sx, sy)
   }
 }
@@ -243,7 +243,7 @@ fn draw_ball(game : Game, sx : Int, sy : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, sx : Int, sy : Int) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -284,7 +284,7 @@ fn draw_score_grid(game : Game, px : Int, py : Int, pw : Int) -> Unit {
   )
 
   let mut x : Int = px + 16
-  for f = 0; f < 10; f = f + 1 {
+  for f in 0..<10 {
     let fw : Int = if f < 9 { 74 } else { 112 }
 
     @raylib.draw_rectangle(

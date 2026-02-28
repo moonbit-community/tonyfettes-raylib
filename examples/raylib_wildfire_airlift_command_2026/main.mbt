@@ -180,7 +180,7 @@ fn inside_rect(
 
 ///|
 fn clear_zones(zones : Array[EvacZone]) -> Unit {
-  for i = 0; i < zones.length(); i = i + 1 {
+  for i in 0..<zones.length() {
     zones[i].active = false
     zones[i].x = 0.0
     zones[i].y = 0.0
@@ -192,7 +192,7 @@ fn clear_zones(zones : Array[EvacZone]) -> Unit {
 
 ///|
 fn clear_groups(groups : Array[EvacGroup]) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     groups[i].active = false
     groups[i].x = 0.0
     groups[i].y = 0.0
@@ -207,7 +207,7 @@ fn clear_groups(groups : Array[EvacGroup]) -> Unit {
 
 ///|
 fn clear_fires(fires : Array[FireZone]) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     fires[i].active = false
     fires[i].x = 0.0
     fires[i].y = 0.0
@@ -222,7 +222,7 @@ fn clear_fires(fires : Array[FireZone]) -> Unit {
 
 ///|
 fn clear_smokes(smokes : Array[SmokePlume]) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
+  for i in 0..<smokes.length() {
     smokes[i].active = false
     smokes[i].x = 0.0
     smokes[i].y = 0.0
@@ -237,7 +237,7 @@ fn clear_smokes(smokes : Array[SmokePlume]) -> Unit {
 
 ///|
 fn clear_debris(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     debris[i].active = false
     debris[i].x = 0.0
     debris[i].y = 0.0
@@ -251,7 +251,7 @@ fn clear_debris(debris : Array[Debris]) -> Unit {
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -270,7 +270,7 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -315,14 +315,14 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -452,7 +452,7 @@ fn init_debris(
     }
 
     let mut near_zone : Bool = false
-    for i = 0; i < zones.length(); i = i + 1 {
+    for i in 0..<zones.length() {
       if not(zones[i].active) {
         continue
       }
@@ -466,7 +466,7 @@ fn init_debris(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < debris.length(); i = i + 1 {
+    for i in 0..<debris.length() {
       if not(debris[i].active) {
         continue
       }
@@ -503,7 +503,7 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active {
       continue
     }
@@ -551,7 +551,7 @@ fn spawn_fire(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if fires[i].active {
       continue
     }
@@ -597,7 +597,7 @@ fn spawn_smoke(
   y : Float,
   intensity : Float,
 ) -> Bool {
-  for i = 0; i < smokes.length(); i = i + 1 {
+  for i in 0..<smokes.length() {
     if smokes[i].active {
       continue
     }
@@ -620,7 +620,7 @@ fn spawn_smoke(
 ///|
 fn active_groups(groups : Array[EvacGroup]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active {
       n = n + 1
     }
@@ -631,7 +631,7 @@ fn active_groups(groups : Array[EvacGroup]) -> Int {
 ///|
 fn active_fires(fires : Array[FireZone]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if fires[i].active {
       n = n + 1
     }
@@ -642,7 +642,7 @@ fn active_fires(fires : Array[FireZone]) -> Int {
 ///|
 fn active_critical(groups : Array[EvacGroup]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active && groups[i].panic >= 70.0 {
       n = n + 1
     }
@@ -653,7 +653,7 @@ fn active_critical(groups : Array[EvacGroup]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[EvacGroup]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if groups[i].active && groups[i].panic > best {
       best = groups[i].panic
     }
@@ -664,7 +664,7 @@ fn peak_group_panic(groups : Array[EvacGroup]) -> Float {
 ///|
 fn peak_fire_intensity(fires : Array[FireZone]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if fires[i].active && fires[i].intensity > best {
       best = fires[i].intensity
     }
@@ -682,7 +682,7 @@ fn update_fires(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if not(fires[i].active) {
       continue
     }
@@ -733,7 +733,7 @@ fn update_smokes(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
+  for i in 0..<smokes.length() {
     if not(smokes[i].active) {
       continue
     }
@@ -764,7 +764,7 @@ fn update_debris(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if not(debris[i].active) {
       continue
     }
@@ -811,7 +811,7 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) {
       continue
     }
@@ -840,7 +840,7 @@ fn update_groups(
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j = 0; j < fires.length(); j = j + 1 {
+    for j in 0..<fires.length() {
       if not(fires[j].active) {
         continue
       }
@@ -853,7 +853,7 @@ fn update_groups(
       }
     }
 
-    for j = 0; j < smokes.length(); j = j + 1 {
+    for j in 0..<smokes.length() {
       if not(smokes[j].active) {
         continue
       }
@@ -896,7 +896,7 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut groups_hit : Int = 0
 
-    for i = 0; i < groups.length(); i = i + 1 {
+    for i in 0..<groups.length() {
       if not(groups[i].active) || groups[i].count <= 0 {
         continue
       }
@@ -949,7 +949,7 @@ fn suppress_fire(
     let mut hits : Int = 0
     let mut reduction : Float = 0.0
 
-    for i = 0; i < fires.length(); i = i + 1 {
+    for i in 0..<fires.length() {
       if not(fires[i].active) {
         continue
       }
@@ -1001,7 +1001,7 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) || groups[i].panic < 30.0 {
       continue
     }
@@ -1031,7 +1031,7 @@ fn nearest_hot_fire(
   let mut bi : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if not(fires[i].active) || fires[i].intensity < 0.8 {
       continue
     }
@@ -1158,7 +1158,7 @@ fn draw_base(base : Base) -> Unit {
 
 ///|
 fn draw_zones(zones : Array[EvacZone], t : Float) -> Unit {
-  for i = 0; i < zones.length(); i = i + 1 {
+  for i in 0..<zones.length() {
     if not(zones[i].active) {
       continue
     }
@@ -1217,7 +1217,7 @@ fn draw_zones(zones : Array[EvacZone], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[EvacGroup], t : Float) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     if not(groups[i].active) {
       continue
     }
@@ -1270,7 +1270,7 @@ fn draw_groups(groups : Array[EvacGroup], t : Float) -> Unit {
 
 ///|
 fn draw_fires(fires : Array[FireZone], t : Float) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
+  for i in 0..<fires.length() {
     if not(fires[i].active) {
       continue
     }
@@ -1311,7 +1311,7 @@ fn draw_fires(fires : Array[FireZone], t : Float) -> Unit {
 
 ///|
 fn draw_smokes(smokes : Array[SmokePlume], t : Float) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
+  for i in 0..<smokes.length() {
     if not(smokes[i].active) {
       continue
     }
@@ -1341,7 +1341,7 @@ fn draw_smokes(smokes : Array[SmokePlume], t : Float) -> Unit {
 
 ///|
 fn draw_debris(debris : Array[Debris], t : Float) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
+  for i in 0..<debris.length() {
     if not(debris[i].active) {
       continue
     }
@@ -1435,7 +1435,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
   )
 
   let shown_people : Int = mini(player.onboard, 6)
-  for i = 0; i < shown_people; i = i + 1 {
+  for i in 0..<shown_people {
     let px : Int = (x - 12.0 + Float::from_int(i % 3) * 8.0).to_int()
     let py : Int = (y + 2.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(px, py, 6, 4, @raylib.Color::new(222, 176, 120, 236))
@@ -1472,7 +1472,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -2047,7 +2047,7 @@ fn main {
       let mut fire_drag : Float = 0.0
       let mut fuel_mul : Float = 1.0
       let mut smoke_damage : Float = 0.0
-      for i = 0; i < fires.length(); i = i + 1 {
+      for i in 0..<fires.length() {
         if not(fires[i].active) {
           continue
         }
@@ -2063,7 +2063,7 @@ fn main {
         }
       }
 
-      for i = 0; i < smokes.length(); i = i + 1 {
+      for i in 0..<smokes.length() {
         if not(smokes[i].active) {
           continue
         }
@@ -2212,7 +2212,7 @@ fn main {
 
       // Debris collision damage
       let mut collision_dmg : Float = 0.0
-      for i = 0; i < debris.length(); i = i + 1 {
+      for i in 0..<debris.length() {
         if not(debris[i].active) {
           continue
         }
@@ -2236,7 +2236,7 @@ fn main {
       }
 
       // Zone queues rise over time, especially near fire/smoke
-      for i = 0; i < zones.length(); i = i + 1 {
+      for i in 0..<zones.length() {
         if not(zones[i].active) {
           continue
         }
@@ -2249,7 +2249,7 @@ fn main {
         }
 
         let mut fire_load : Float = 0.0
-        for j = 0; j < fires.length(); j = j + 1 {
+        for j in 0..<fires.length() {
           if not(fires[j].active) {
             continue
           }
@@ -2267,7 +2267,7 @@ fn main {
           }
         }
 
-        for j = 0; j < smokes.length(); j = j + 1 {
+        for j in 0..<smokes.length() {
           if not(smokes[j].active) {
             continue
           }

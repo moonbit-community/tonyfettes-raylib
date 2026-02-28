@@ -47,7 +47,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(36, 52, 86, 32),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66
     @raylib.draw_rectangle(
       0,
@@ -82,7 +82,7 @@ fn draw_world_back(_game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(174, 206, 226, 204),
   )
 
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let y : Int = world_y0 + oy + i * 48
     @raylib.draw_line(
       world_x0 + 12 + ox,
@@ -93,7 +93,7 @@ fn draw_world_back(_game : Game, ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let x : Int = world_x0 + ox + i * 52
     @raylib.draw_line(
       x,
@@ -125,7 +125,7 @@ fn draw_storm(game : Game, ox : Int, oy : Int) -> Unit {
   let swirl : Float = 0.7 + Float::from_int(game.wave) * 0.08
   let alpha : Int = 36 + game.wave * 7
 
-  for i = 0; i < 80; i = i + 1 {
+  for i in 0..<80 {
     let t : Float = Float::from_int(i)
     let sx : Float = world_left() +
       Float::from_int(i * 73 % world_w) +
@@ -181,7 +181,7 @@ fn draw_core(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(34, 62, 86, 242),
   )
 
-  for i = 0; i < 6; i = i + 1 {
+  for i in 0..<6 {
     let a : Float = game.ui_t * 0.8 + Float::from_int(i) * 1.047
     let px : Int = (core_x() + cosf(a) * (core_r + 20.0)).to_int() + ox
     let py : Int = (core_y() + sinf(a) * (core_r + 20.0)).to_int() + oy
@@ -249,7 +249,7 @@ fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
     )
   } else {
     let r : Float = enemy.r
-    for k = 0; k < 4; k = k + 1 {
+    for k in 0..<4 {
       let a0 : Float = enemy.phase + Float::from_int(k) * 1.57
       let a1 : Float = a0 + 0.7
       let a2 : Float = a0 - 0.7
@@ -367,7 +367,7 @@ fn draw_bullet(b : Bullet, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -1088,15 +1088,15 @@ fn draw_frame(
   draw_storm(game, ox, oy)
   draw_core(game, ox, oy)
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     draw_enemy(game.enemies[i], ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     draw_pickup(game.pickups[i], ox, oy)
   }
 
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     draw_bullet(game.bullets[i], ox, oy)
   }
 

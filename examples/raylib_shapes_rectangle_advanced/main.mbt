@@ -92,7 +92,7 @@ fn draw_rectangle_rounded_gradient_h(
   @rl.begin(@rl.Triangles)
 
   // Draw all of the 4 corners: [1] Upper Left Corner, [3] Upper Right Corner, [5] Lower Right Corner, [7] Lower Left Corner
-  for k = 0; k < 4; k = k + 1 {
+  for k in 0..<4 {
     let color : @raylib.Color = if k == 0 || k == 3 { left } else { right }
     let radius : Float = if k == 0 || k == 3 {
       radius_left
@@ -102,7 +102,7 @@ fn draw_rectangle_rounded_gradient_h(
     let center_x = centers_x[k]
     let center_y = centers_y[k]
     let mut angle : Float = angles[k]
-    for i = 0; i < segments; i = i + 1 {
+    for i in 0..<segments {
       @rl.color4ub(color.r, color.g, color.b, color.a)
       @rl.vertex2f(center_x, center_y)
       @rl.vertex2f(

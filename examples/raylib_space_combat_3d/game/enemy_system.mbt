@@ -6,10 +6,10 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let py = game.player.y
   let pz = game.player.z
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
 
     // Shield regen for enemies that have shields
@@ -711,10 +711,10 @@ pub fn damage_enemy(game : @types.Game, idx : Int, damage : Float) -> Unit {
 
 ///|
 pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.asteroids.length(); i = i + 1 {
+  for i in 0..<game.asteroids.length() {
     let a = game.asteroids[i]
     if not(a.active) {
-      continue i + 1
+      continue
     }
     // Move
     a.x += a.vx * dt
@@ -746,10 +746,10 @@ pub fn update_asteroids(game : @types.Game, dt : Float) -> Unit {
     }
 
     // Check collision with enemies
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       let e = game.enemies[j]
       if not(e.active) {
-        continue j + 1
+        continue
       }
       let edist = @types.distance3d(a.x, a.y, a.z, e.x, e.y, e.z)
       if edist < a.size + e.size * 0.5 {
@@ -792,7 +792,7 @@ fn destroy_asteroid(game : @types.Game, idx : Int) -> Unit {
       @types.asteroid_small_hp
     }
 
-    for c = 0; c < @types.asteroid_break_count; c = c + 1 {
+    for c in 0..<@types.asteroid_break_count {
       let cidx = @types.alloc_asteroid(game)
       if cidx < 0 {
         break

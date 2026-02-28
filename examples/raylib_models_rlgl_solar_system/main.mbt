@@ -16,8 +16,8 @@ fn draw_sphere_basic(color : @raylib.Color) -> Unit {
   @rl.begin(@rl.Triangles)
   @rl.color4ub(color.r, color.g, color.b, color.a)
 
-  for i = 0; i < rings + 2; i = i + 1 {
-    for j = 0; j < slices; j = j + 1 {
+  for i in 0..<(rings + 2) {
+    for j in 0..<slices {
       let fi = Float::from_int(i)
       let fj = Float::from_int(j)
       let fi1 = Float::from_int(i + 1)

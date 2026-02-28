@@ -91,7 +91,7 @@ fn clear_route(game : Game) -> Unit {
   game.route_len = 0
   game.route_running = false
   game.step_timer = 0.0
-  for i = 0; i < game.route.length(); i = i + 1 {
+  for i in 0..<game.route.length() {
     game.route[i] = dir_none
   }
 }
@@ -114,7 +114,7 @@ fn pop_route_step(game : Game) -> Int {
   }
 
   let dir : Int = game.route[0]
-  for i = 1; i < game.route_len; i = i + 1 {
+  for i in 1..<game.route_len {
     game.route[i - 1] = game.route[i]
   }
   game.route_len = game.route_len - 1
@@ -154,7 +154,7 @@ fn is_walkable(game : Game, x : Int, y : Int) -> Bool {
 ///|
 fn clear_sites(game : Game) -> Unit {
   game.site_count = 0
-  for i = 0; i < game.sites.length(); i = i + 1 {
+  for i in 0..<game.sites.length() {
     game.sites[i].active = false
     game.sites[i].x = 0
     game.sites[i].y = 0
@@ -179,7 +179,7 @@ fn add_site(game : Game, x : Int, y : Int, waiting : Int) -> Unit {
 ///|
 fn total_waiting(game : Game) -> Int {
   let mut total : Int = 0
-  for i = 0; i < game.site_count; i = i + 1 {
+  for i in 0..<game.site_count {
     if game.sites[i].active && game.sites[i].waiting > 0 {
       total = total + game.sites[i].waiting
     }
@@ -189,7 +189,7 @@ fn total_waiting(game : Game) -> Int {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < max_cells; i = i + 1 {
+  for i in 0..<max_cells {
     game.terrain[i] = tile_ground
     game.lava[i] = false
     game.lava_buf[i] = false
@@ -224,8 +224,8 @@ fn add_rock_line(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Unit {
 
 ///|
 fn add_rock_block(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
-  for yy = y; yy < y + h; yy = yy + 1 {
-    for xx = x; xx < x + w; xx = xx + 1 {
+  for yy in y..<(y + h) {
+    for xx in x..<(x + w) {
       set_tile(game, xx, yy, tile_rock)
     }
   }
@@ -551,7 +551,7 @@ fn plan_route_to(game : Game, tx : Int, ty : Int) -> Bool {
     let cx : Int = cur % grid_w
     let cy : Int = cur / grid_w
 
-    for k = 0; k < 4; k = k + 1 {
+    for k in 0..<4 {
       let dir : Int = if k == 0 {
         dir_up
       } else if k == 1 {
@@ -645,7 +645,7 @@ fn pickup_civilians(game : Game) -> Unit {
     return
   }
 
-  for i = 0; i < game.site_count; i = i + 1 {
+  for i in 0..<game.site_count {
     if not(game.sites[i].active) || game.sites[i].waiting <= 0 {
       continue
     }
@@ -759,8 +759,8 @@ fn update_route_run(game : Game, dt : Float) -> Unit {
 fn lava_pressure(game : Game) -> Int {
   let mut pressure : Int = 0
 
-  for oy = -1; oy <= 1; oy = oy + 1 {
-    for ox = -1; ox <= 1; ox = ox + 1 {
+  for oy in -1..=1 {
+    for ox in -1..=1 {
       let nx : Int = game.truck_x + ox
       let ny : Int = game.truck_y + oy
       if lava_at(game, nx, ny) {
@@ -804,7 +804,7 @@ fn update_passive_heat_and_supply(game : Game, dt : Float) -> Unit {
 fn burn_sites_from_lava(game : Game) -> Unit {
   let mut losses : Int = 0
 
-  for i = 0; i < game.site_count; i = i + 1 {
+  for i in 0..<game.site_count {
     if not(game.sites[i].active) || game.sites[i].waiting <= 0 {
       continue
     }
@@ -862,14 +862,14 @@ fn try_spread_to(game : Game, nx : Int, ny : Int, base : Int) -> Unit {
 
 ///|
 fn spread_lava_once(game : Game) -> Unit {
-  for i = 0; i < max_cells; i = i + 1 {
+  for i in 0..<max_cells {
     game.lava_buf[i] = game.lava[i]
   }
 
   let base : Int = 28 + game.level_index * 8
 
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       if not(lava_at(game, x, y)) {
         continue
       }
@@ -881,7 +881,7 @@ fn spread_lava_once(game : Game) -> Unit {
     }
   }
 
-  for i = 0; i < max_cells; i = i + 1 {
+  for i in 0..<max_cells {
     game.lava[i] = game.lava_buf[i]
   }
 

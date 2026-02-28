@@ -24,7 +24,7 @@ fn gen_point_cloud(
   let col_arr = FixedArray::make(num_points * 4, b'\x00')
   // Spherical coordinate point generation
   // REF: https://en.wikipedia.org/wiki/Spherical_coordinate_system
-  for i = 0; i < num_points; i = i + 1 {
+  for i in 0..<num_points {
     let rand_theta : Float = Float::from_int(
       @raylib.get_random_value(0, 1000000),
     )
@@ -142,7 +142,7 @@ fn main {
       @raylib.draw_model_points(model, position, (1.0 : Float), @raylib.white)
     } else {
       // The old method must continually draw the "points" (lines)
-      for i = 0; i < num_points; i = i + 1 {
+      for i in 0..<num_points {
         @raylib.draw_point_3d(positions[i], colors[i])
       }
     }

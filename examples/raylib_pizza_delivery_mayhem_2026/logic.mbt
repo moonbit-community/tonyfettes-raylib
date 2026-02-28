@@ -145,7 +145,7 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i].active = false
     game.particles[i].x = 0.0
     game.particles[i].y = 0.0
@@ -159,7 +159,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
+  for i in 0..<game.traffic.length() {
     game.traffic[i].active = false
     game.traffic[i].x = 0.0
     game.traffic[i].y = 0.0
@@ -171,7 +171,7 @@ fn clear_world(game : Game) -> Unit {
     game.traffic[i].phase = 0.0
   }
 
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     game.orders[i].active = false
     game.orders[i].picked = false
     game.orders[i].x_from = 0.0
@@ -183,7 +183,7 @@ fn clear_world(game : Game) -> Unit {
     game.orders[i].id = 0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i].active = false
     game.pickups[i].x = 0.0
     game.pickups[i].y = 0.0
@@ -205,7 +205,7 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if game.particles[i].active {
       continue
     }
@@ -224,7 +224,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-12.0, 12.0),
@@ -240,7 +240,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       continue
     }
@@ -347,7 +347,7 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 ///|
 fn active_orders(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if game.orders[i].active {
       n = n + 1
     }
@@ -357,7 +357,7 @@ fn active_orders(game : Game) -> Int {
 
 ///|
 fn spawn_order(game : Game) -> Bool {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if game.orders[i].active {
       continue
     }
@@ -396,7 +396,7 @@ fn spawn_order(game : Game) -> Bool {
 
 ///|
 fn spawn_traffic(game : Game) -> Bool {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
+  for i in 0..<game.traffic.length() {
     if game.traffic[i].active {
       continue
     }
@@ -488,7 +488,7 @@ fn spawn_traffic(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if game.pickups[i].active {
       continue
     }
@@ -674,7 +674,7 @@ fn update_rider(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_traffic(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
+  for i in 0..<game.traffic.length() {
     if not(game.traffic[i].active) {
       continue
     }
@@ -727,7 +727,7 @@ fn update_traffic(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       continue
     }
@@ -801,7 +801,7 @@ fn order_time_bonus(timer_left : Float) -> Int {
 
 ///|
 fn update_orders(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if not(game.orders[i].active) {
       continue
     }
@@ -875,7 +875,7 @@ fn use_hint(game : Game) -> Bool {
     let mut best_d2 : Float = 1000000000.0
 
     if game.fuel < 40.0 {
-      for i = 0; i < game.pickups.length(); i = i + 1 {
+      for i in 0..<game.pickups.length() {
         if not(game.pickups[i].active) || game.pickups[i].kind != pickup_fuel {
           continue
         }
@@ -896,7 +896,7 @@ fn use_hint(game : Game) -> Bool {
     }
 
     if best_d2 >= 900000000.0 {
-      for i = 0; i < game.orders.length(); i = i + 1 {
+      for i in 0..<game.orders.length() {
         if not(game.orders[i].active) || game.orders[i].picked {
           continue
         }

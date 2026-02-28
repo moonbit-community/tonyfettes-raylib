@@ -19,7 +19,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(54, 34, 26, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 20
     let alpha : Int = 16 + i * 9 % 30
     @raylib.draw_rectangle(
@@ -44,7 +44,7 @@ fn board_font_size(tile : Int) -> Int {
 
 ///|
 fn draw_spark_layer(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       continue
     }
@@ -119,11 +119,11 @@ fn draw_board(game : Game) -> Unit {
     @raylib.Color::new(110, 146, 178, 182),
   )
 
-  for y = 0; y < game.grid_h; y = y + 1 {
+  for y in 0..<game.grid_h {
     let solved : Bool = row_solved(game, y)
     let count : Int = game.row_clue_counts[y]
 
-    for k = 0; k < count; k = k + 1 {
+    for k in 0..<count {
       let val : Int = game.row_clues[y * max_board + (count - 1 - k)]
       let tx : Int = board_x - (k + 1) * tile + tile / 2
       let ty : Int = board_y + y * tile + tile / 2 - fs / 2
@@ -143,11 +143,11 @@ fn draw_board(game : Game) -> Unit {
     }
   }
 
-  for x = 0; x < game.grid_w; x = x + 1 {
+  for x in 0..<game.grid_w {
     let solved : Bool = col_solved(game, x)
     let count : Int = game.col_clue_counts[x]
 
-    for k = 0; k < count; k = k + 1 {
+    for k in 0..<count {
       let val : Int = game.col_clues[x * max_board + (count - 1 - k)]
       let tx : Int = board_x + x * tile + tile / 2
       let ty : Int = board_y - (k + 1) * tile + tile / 2 - fs / 2
@@ -167,8 +167,8 @@ fn draw_board(game : Game) -> Unit {
     }
   }
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       let px : Int = board_x + x * tile
       let py : Int = board_y + y * tile
 

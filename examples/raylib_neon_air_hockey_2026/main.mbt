@@ -105,7 +105,7 @@ fn goal_bottom() -> Float {
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     sparks[i].x = 0.0
     sparks[i].y = 0.0
     sparks[i].vx = 0.0
@@ -124,7 +124,7 @@ fn spawn_spark(
   color_bias : Int,
 ) -> Unit {
   let mut placed = false
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for i in 0..<sparks.length() {
     if placed {
       continue
     }
@@ -161,7 +161,7 @@ fn spawn_burst(
   speed_scale : Float,
   color_bias : Int,
 ) -> Unit {
-  for i = 0; i < n; i = i + 1 {
+  for i in 0..<n {
     spawn_spark(sparks, x, y, speed_scale, color_bias)
   }
 }
@@ -668,7 +668,7 @@ fn main {
       }
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }
@@ -818,7 +818,7 @@ fn main {
       @raylib.Color::new(84, 120, 174, 255),
     )
 
-    for i = 0; i < sparks.length(); i = i + 1 {
+    for i in 0..<sparks.length() {
       if not(sparks[i].active) {
         continue
       }

@@ -59,7 +59,7 @@ fn spawn_enemy(enemies : Array[Enemy], t : Float) -> Unit {
     }
   }
 
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].alive) {
       enemies[i].alive = true
       enemies[i].x = x
@@ -92,7 +92,7 @@ fn fire_shot(
   let d = dist2.sqrt()
   let vx = dx / d * speed
   let vy = dy / d * speed
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if not(shots[i].active) {
       shots[i].active = true
       shots[i].x = x
@@ -147,10 +147,10 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         enemies[i].alive = false
       }
-      for i = 0; i < shots.length(); i = i + 1 {
+      for i in 0..<shots.length() {
         shots[i].active = false
       }
       px = Float::from_int(sw) * 0.5
@@ -245,7 +245,7 @@ fn main {
         if fire_timer <= 0.0 {
           let mut best = -1
           let mut best_d2 : Float = 1_000_000_000_000.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].alive) {
               continue
             }
@@ -271,7 +271,7 @@ fn main {
           }
         }
 
-        for i = 0; i < shots.length(); i = i + 1 {
+        for i in 0..<shots.length() {
           if not(shots[i].active) {
             continue
           }
@@ -287,7 +287,7 @@ fn main {
             continue
           }
 
-          for e = 0; e < enemies.length(); e = e + 1 {
+          for e in 0..<enemies.length() {
             if not(enemies[e].alive) {
               continue
             }
@@ -305,7 +305,7 @@ fn main {
           }
         }
 
-        for i = 0; i < enemies.length(); i = i + 1 {
+        for i in 0..<enemies.length() {
           if not(enemies[i].alive) {
             continue
           }
@@ -344,7 +344,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 24, 18, 255))
 
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for i in 0..<enemies.length() {
       if enemies[i].alive {
         @raylib.draw_circle(
           enemies[i].x.to_int(),
@@ -355,7 +355,7 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
+    for i in 0..<shots.length() {
       if shots[i].active {
         @raylib.draw_circle(
           shots[i].x.to_int(),

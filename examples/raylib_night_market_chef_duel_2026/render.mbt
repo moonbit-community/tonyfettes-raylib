@@ -62,7 +62,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(42, 24, 26, 255),
   )
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let fi = Float::from_int(i)
     let x : Float = 90.0 +
       fi * 88.0 +
@@ -201,7 +201,7 @@ fn draw_orders_panel(game : Game) -> Unit {
     @raylib.Color::new(246, 233, 181, 245),
   )
 
-  for i = 0; i < max_orders; i = i + 1 {
+  for i in 0..<max_orders {
     draw_order_slot(game, i)
   }
 }
@@ -324,7 +324,7 @@ fn draw_grill_station(game : Game) -> Unit {
     },
   )
 
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let fi = Float::from_int(i)
     let pulse : Float = 0.5 + 0.5 * sinf(game.elapsed_t * 6.0 + fi)
     let flame_h : Float = 14.0 + pulse * 8.0

@@ -234,7 +234,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -262,7 +262,7 @@ fn pointer_on_circle(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if dist2(p.x, p.y, cx, cy) <= r * r {
         hit = true
@@ -275,7 +275,7 @@ fn pointer_on_circle(
 
 ///|
 fn clear_faults(faults : Array[Fault]) -> Unit {
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     faults[i].active = false
     faults[i].id = i + 1
     faults[i].tower_id = 0
@@ -291,7 +291,7 @@ fn clear_faults(faults : Array[Fault]) -> Unit {
 
 ///|
 fn clear_winds(winds : Array[WindTunnel]) -> Unit {
-  for i = 0; i < winds.length(); i = i + 1 {
+  for i in 0..<winds.length() {
     winds[i].active = false
     winds[i].x = 0.0
     winds[i].y = 0.0
@@ -306,7 +306,7 @@ fn clear_winds(winds : Array[WindTunnel]) -> Unit {
 
 ///|
 fn clear_storms(storms : Array[StormCell]) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     storms[i].active = false
     storms[i].x = 0.0
     storms[i].y = 0.0
@@ -321,7 +321,7 @@ fn clear_storms(storms : Array[StormCell]) -> Unit {
 
 ///|
 fn clear_drops(drops : Array[SupplyDrop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     drops[i].active = false
     drops[i].x = 0.0
     drops[i].y = 0.0
@@ -336,7 +336,7 @@ fn clear_drops(drops : Array[SupplyDrop]) -> Unit {
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     parts[i].active = false
     parts[i].x = 0.0
     parts[i].y = 0.0
@@ -359,7 +359,7 @@ fn spawn_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if parts[i].active {
       continue
     }
@@ -384,7 +384,7 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(
       parts,
       x + randf(-8.0, 8.0),
@@ -400,7 +400,7 @@ fn burst_particles(
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -451,7 +451,7 @@ fn init_towers(
   towers[9].x = world_l + 1310.0
   towers[9].y = world_t + world_h - 220.0
 
-  for i = 0; i < towers.length(); i = i + 1 {
+  for i in 0..<towers.length() {
     towers[i].stress = randf(0.0, 0.6)
     towers[i].alarm_t = 0.0
   }
@@ -545,7 +545,7 @@ fn init_winds(
 ///|
 fn tower_has_fault(faults : Array[Fault], tower_id : Int) -> Bool {
   let mut out : Bool = false
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     if faults[i].active && faults[i].tower_id == tower_id {
       out = true
     }
@@ -562,7 +562,7 @@ fn spawn_fault(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     if faults[i].active {
       continue
     }
@@ -635,7 +635,7 @@ fn spawn_storm_cell(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if storms[i].active {
       continue
     }
@@ -686,7 +686,7 @@ fn spawn_drop(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if drops[i].active {
       continue
     }
@@ -725,7 +725,7 @@ fn nearest_fault_index(
   let mut found : Int = -1
   let mut best : Float = radius * radius
 
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     if not(faults[i].active) {
       continue
     }
@@ -758,7 +758,7 @@ fn draw_sky_background(
     @raylib.Color::new(14, 24, 46, 255),
   )
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let y0 : Float = Float::from_int(world_y) +
       Float::from_int(i) * Float::from_int(world_h) / 24.0
     let wave : Float = sinf(scene_t * 1.5 + Float::from_int(i) * 0.42) * 0.5 +
@@ -782,7 +782,7 @@ fn draw_city_blocks(
   scene_t : Float,
 ) -> Unit {
   let base_y : Int = world_y + world_h - 36
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let bw : Int = 42 + i % 4 * 16
     let bh : Int = 62 + i * 9 % 7 * 20
     let bx : Int = world_x + i * 66 - 14
@@ -790,7 +790,7 @@ fn draw_city_blocks(
 
     @raylib.draw_rectangle(bx, by, bw, bh, @raylib.Color::new(24, 30, 44, 226))
 
-    for j = 0; j < 3; j = j + 1 {
+    for j in 0..<3 {
       let wx : Int = bx + 6 + j * 12
       let mut wy : Int = by + 8
       while wy < by + bh - 8 {
@@ -893,7 +893,7 @@ fn draw_power_lines(
 ) -> Unit {
   fn edge_fault_level(faults : Array[Fault], a : Int, b : Int) -> Float {
     let mut v : Float = 0.0
-    for i = 0; i < faults.length(); i = i + 1 {
+    for i in 0..<faults.length() {
       if not(faults[i].active) {
         continue
       }
@@ -950,11 +950,11 @@ fn draw_towers(
   faults : Array[Fault],
   scene_t : Float,
 ) -> Unit {
-  for i = 0; i < towers.length(); i = i + 1 {
+  for i in 0..<towers.length() {
     let mut has_fault : Bool = false
     let mut sev_sum : Int = 0
 
-    for j = 0; j < faults.length(); j = j + 1 {
+    for j in 0..<faults.length() {
       if faults[j].active && faults[j].tower_id == towers[i].id {
         has_fault = true
         sev_sum = sev_sum + faults[j].severity
@@ -1014,7 +1014,7 @@ fn draw_towers(
 
 ///|
 fn draw_winds(winds : Array[WindTunnel], scene_t : Float) -> Unit {
-  for i = 0; i < winds.length(); i = i + 1 {
+  for i in 0..<winds.length() {
     if not(winds[i].active) {
       continue
     }
@@ -1051,7 +1051,7 @@ fn draw_winds(winds : Array[WindTunnel], scene_t : Float) -> Unit {
 
 ///|
 fn draw_storms(storms : Array[StormCell], scene_t : Float) -> Unit {
-  for i = 0; i < storms.length(); i = i + 1 {
+  for i in 0..<storms.length() {
     if not(storms[i].active) {
       continue
     }
@@ -1080,7 +1080,7 @@ fn draw_storms(storms : Array[StormCell], scene_t : Float) -> Unit {
 
 ///|
 fn draw_drops(drops : Array[SupplyDrop], scene_t : Float) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
+  for i in 0..<drops.length() {
     if not(drops[i].active) {
       continue
     }
@@ -1127,7 +1127,7 @@ fn draw_drops(drops : Array[SupplyDrop], scene_t : Float) -> Unit {
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
+  for i in 0..<parts.length() {
     if not(parts[i].active) {
       continue
     }
@@ -1208,7 +1208,7 @@ fn draw_faults_panel(
   )
 
   let mut y : Int = panel_y + 426
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     if not(faults[i].active) {
       continue
     }
@@ -1632,7 +1632,7 @@ fn draw_touch_controls(
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 16, 28, 255))
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let yy : Float = Float::from_int(i) / 24.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.0) * 0.5 + 0.5
     let alpha : Int = 18 + (wave * 44.0).to_int()
@@ -2164,7 +2164,7 @@ fn main {
       craft.vy = craft.vy + input_y * accel * dt
 
       let mut wind_penalty : Float = 0.0
-      for i = 0; i < winds.length(); i = i + 1 {
+      for i in 0..<winds.length() {
         if not(winds[i].active) {
           continue
         }
@@ -2244,7 +2244,7 @@ fn main {
         msg_t = 1.2
         burst_particles(parts, craft.x, craft.y, 18, 2)
 
-        for i = 0; i < faults.length(); i = i + 1 {
+        for i in 0..<faults.length() {
           if not(faults[i].active) {
             continue
           }
@@ -2262,7 +2262,7 @@ fn main {
           }
         }
 
-        for i = 0; i < storms.length(); i = i + 1 {
+        for i in 0..<storms.length() {
           if not(storms[i].active) {
             continue
           }
@@ -2303,7 +2303,7 @@ fn main {
       }
 
       // update storms and interactions
-      for i = 0; i < storms.length(); i = i + 1 {
+      for i in 0..<storms.length() {
         if not(storms[i].active) {
           continue
         }
@@ -2333,7 +2333,7 @@ fn main {
           craft.hull = craft.hull - dt * storms[i].intensity * 2.3
         }
 
-        for t = 0; t < towers.length(); t = t + 1 {
+        for t in 0..<towers.length() {
           if dist2(towers[t].x, towers[t].y, storms[i].x, storms[i].y) <=
             (rr + 24.0) * (rr + 24.0) {
             towers[t].stress = clampf(
@@ -2347,7 +2347,7 @@ fn main {
       }
 
       // update drops and pickup
-      for i = 0; i < drops.length(); i = i + 1 {
+      for i in 0..<drops.length() {
         if not(drops[i].active) {
           continue
         }
@@ -2385,7 +2385,7 @@ fn main {
       // faults countdown
       let queue_penalty : Float = Float::from_int(active_faults_count(faults)) *
         0.03
-      for i = 0; i < faults.length(); i = i + 1 {
+      for i in 0..<faults.length() {
         if not(faults[i].active) {
           continue
         }
@@ -2415,7 +2415,7 @@ fn main {
       }
 
       // tower stress decay
-      for i = 0; i < towers.length(); i = i + 1 {
+      for i in 0..<towers.length() {
         towers[i].stress = clampf(towers[i].stress - dt * 0.3, 0.0, 4.0)
         if towers[i].alarm_t > 0.0 {
           towers[i].alarm_t = towers[i].alarm_t - dt
@@ -2649,7 +2649,7 @@ fn main {
 ///|
 fn active_faults_count(faults : Array[Fault]) -> Int {
   let mut c : Int = 0
-  for i = 0; i < faults.length(); i = i + 1 {
+  for i in 0..<faults.length() {
     if faults[i].active {
       c = c + 1
     }

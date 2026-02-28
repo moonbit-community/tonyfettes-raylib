@@ -15,7 +15,7 @@ fn main {
     if @raylib.is_file_dropped() {
       let dropped_files = @raylib.load_dropped_files()
       let count = @raylib.file_path_list_count(dropped_files)
-      for i = 0; i < count; i = i + 1 {
+      for i in 0..<count {
         file_paths.push(@raylib.file_path_list_get(dropped_files, i))
       }
       @raylib.unload_dropped_files(dropped_files)
@@ -30,7 +30,7 @@ fn main {
       )
     } else {
       @raylib.draw_text("Dropped files:", 100, 40, 20, @raylib.darkgray)
-      for i = 0; i < file_paths.length(); i = i + 1 {
+      for i in 0..<file_paths.length() {
         if i % 2 == 0 {
           @raylib.draw_rectangle(
             0,

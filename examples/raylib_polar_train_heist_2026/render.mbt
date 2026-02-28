@@ -82,7 +82,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(242, 248, 255, 132),
   )
 
-  for i = 0; i < 200; i = i + 1 {
+  for i in 0..<200 {
     let fi = Float::from_int(i)
     let x = (fi * 89.0 + fi * fi * 0.13 + game.time_s * 7.0) %
       Float::from_int(screen_w)
@@ -99,7 +99,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for band = 0; band < 4; band = band + 1 {
+  for band in 0..<4 {
     let fb = Float::from_int(band)
     let base_y = Float::from_int(hud_h) + 56.0 + fb * 42.0
     for x = -120; x < screen_w + 180; x = x + 26 {
@@ -139,13 +139,13 @@ fn mountain_col(depth : Int) -> @raylib.Color {
 fn draw_mountains(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let horizon = Float::from_int(hud_h) + 156.0
 
-  for layer = 0; layer < 3; layer = layer + 1 {
+  for layer in 0..<3 {
     let depth = Float::from_int(layer + 1)
     let speed : Float = 0.08 * depth
     let shift : Float = game.distance * speed % 260.0
     let col = mountain_col(layer)
 
-    for i = -2; i < 12; i = i + 1 {
+    for i in -2..<12 {
       let base_x = Float::from_int(i * 180) - shift
       let peak_x = base_x + 90.0 + sinf(Float::from_int(i) * 0.6 + depth) * 32.0
       let peak_y = horizon -
@@ -256,7 +256,7 @@ fn draw_train_body(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < lane_count; i = i + 1 {
+  for i in 0..<lane_count {
     let ly = lane_y(i)
     @raylib.draw_line(
       (cam_x * 0.18).to_int(),
@@ -308,7 +308,7 @@ fn draw_speed_lines(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let intensity = clampf((game.scroll - base_scroll) / 120.0, 0.0, 1.0)
   let count = 26 + (intensity * 44.0).to_int()
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let fi = Float::from_int(i)
     let x = (fi * 58.0 + game.time_s * (180.0 + game.scroll * 0.34)) %
       (Float::from_int(screen_w) + 160.0) -
@@ -346,7 +346,7 @@ fn ent_base_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_shadow_blobs(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.shadows.length(); i = i + 1 {
+  for i in 0..<game.shadows.length() {
     if not(game.shadows[i].active) {
       continue
     }
@@ -793,7 +793,7 @@ fn shot_col(s : Shot) -> @raylib.Color {
 
 ///|
 fn draw_shots(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     if not(game.shots[i].active) {
       continue
     }
@@ -848,7 +848,7 @@ fn fx_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.fxs.length(); i = i + 1 {
+  for i in 0..<game.fxs.length() {
     if not(game.fxs[i].active) {
       continue
     }
@@ -878,7 +878,7 @@ fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       continue
     }
@@ -1484,13 +1484,13 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
   draw_shadow_blobs(game, cam_x, cam_y)
 
-  for i = 0; i < game.ents.length(); i = i + 1 {
+  for i in 0..<game.ents.length() {
     if game.ents[i].active && is_pickup(game.ents[i].kind) {
       draw_ent(game.ents[i], cam_x, cam_y)
     }
   }
 
-  for i = 0; i < game.ents.length(); i = i + 1 {
+  for i in 0..<game.ents.length() {
     if game.ents[i].active && is_hostile(game.ents[i].kind) {
       draw_ent(game.ents[i], cam_x, cam_y)
     }
