@@ -188,8 +188,6 @@ fn update_camera_fps(game : @types.Game) -> Unit {
   let player = game.player
   let cos_yaw = @math.cosf(player.yaw)
   let sin_yaw = @math.sinf(player.yaw)
-  let cos_pitch = @math.cosf(player.pitch)
-  let sin_pitch = @math.sinf(player.pitch)
   // Camera position at player eye height with head bob and crouch
   let bob_offset = @math.sinf(player.bob_timer) * 0.06
   let height_diff = @types.player_height - @types.player_crouch_height

@@ -22,16 +22,6 @@ fn draw_right_text(
 }
 
 ///|
-fn a_col(c : @raylib.Color, alpha : Int) -> @raylib.Color {
-  @raylib.Color::new(
-    c.r.to_int(),
-    c.g.to_int(),
-    c.b.to_int(),
-    clampi(alpha, 0, 255),
-  )
-}
-
-///|
 fn cam_shake(game : Game) -> (Float, Float) {
   if game.state != state_play || game.shake_t <= 0.0 {
     (0.0, 0.0)
@@ -117,7 +107,7 @@ fn draw_dunes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_lanes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_lanes(game : Game, _cam_x : Float, cam_y : Float) -> Unit {
   for i in 0..<lane_count {
     let y = lane_y(game, i) + cam_y * 0.2
     let li = Float::from_int(i)

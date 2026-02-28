@@ -161,7 +161,7 @@ fn tick_input_timers(input : InputState, dt : Float) -> Unit {
 
 ///|
 fn set_button_state(
-  input : InputState,
+  _input : InputState,
   down : Bool,
   prev_down : Bool,
 ) -> (Bool, Bool) {
@@ -184,7 +184,6 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
   ) = control_keys(slot)
 
   input.prev_x = input.x
-  input.prev_y = input.y
 
   let left_down = @raylib.is_key_down(key_left)
   let right_down = @raylib.is_key_down(key_right)
@@ -234,38 +233,16 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
   input.hk_down = @raylib.is_key_down(key_hk)
   input.start_down = @raylib.is_key_down(key_start)
 
-  let (lp_pressed, lp_released) = set_button_state(
-    input,
-    input.lp_down,
-    prev_lp,
-  )
-  let (hp_pressed, hp_released) = set_button_state(
-    input,
-    input.hp_down,
-    prev_hp,
-  )
-  let (lk_pressed, lk_released) = set_button_state(
-    input,
-    input.lk_down,
-    prev_lk,
-  )
-  let (hk_pressed, hk_released) = set_button_state(
-    input,
-    input.hk_down,
-    prev_hk,
-  )
-  let (start_pressed, _) = set_button_state(input, input.start_down, prev_start)
+  let (lp_pressed, _) = set_button_state(input, input.lp_down, prev_lp)
+  let (hp_pressed, _) = set_button_state(input, input.hp_down, prev_hp)
+  let (lk_pressed, _) = set_button_state(input, input.lk_down, prev_lk)
+  let (hk_pressed, _) = set_button_state(input, input.hk_down, prev_hk)
+  let (_, _) = set_button_state(input, input.start_down, prev_start)
 
   input.lp_pressed = lp_pressed
   input.hp_pressed = hp_pressed
   input.lk_pressed = lk_pressed
   input.hk_pressed = hk_pressed
-  input.start_pressed = start_pressed
-  input.lp_released = lp_released
-  input.hp_released = hp_released
-  input.lk_released = lk_released
-  input.hk_released = hk_released
-
   input.any_attack_pressed = input.lp_pressed ||
     input.hp_pressed ||
     input.lk_pressed ||
@@ -292,7 +269,6 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
 fn reset_input_for_cpu(fighter : Fighter, dt : Float) -> Unit {
   let input = fighter.input
   input.prev_x = input.x
-  input.prev_y = input.y
   input.x = 0
   input.y = 0
   input.hold_forward = false
@@ -303,11 +279,6 @@ fn reset_input_for_cpu(fighter : Fighter, dt : Float) -> Unit {
   input.hp_pressed = false
   input.lk_pressed = false
   input.hk_pressed = false
-  input.start_pressed = false
-  input.lp_released = false
-  input.hp_released = false
-  input.lk_released = false
-  input.hk_released = false
   input.any_attack_pressed = false
   input.dash_forward_pressed = false
   input.dash_back_pressed = false
@@ -374,7 +345,6 @@ fn push_cpu_direction(
 ) -> Unit {
   let input = fighter.input
   input.prev_x = input.x
-  input.prev_y = input.y
   input.x = clampi(desired_x, -1, 1)
   input.y = clampi(desired_y, -1, 1)
 
@@ -433,11 +403,6 @@ fn clear_input_edges(fighter : Fighter) -> Unit {
   input.hp_pressed = false
   input.lk_pressed = false
   input.hk_pressed = false
-  input.start_pressed = false
-  input.lp_released = false
-  input.hp_released = false
-  input.lk_released = false
-  input.hk_released = false
   input.any_attack_pressed = false
 }
 

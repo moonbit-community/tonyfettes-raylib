@@ -776,7 +776,7 @@ fn draw_landing_zone(game : @types.Game) -> Unit {
   let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.15)
   let alpha = 180 + (pulse * 75.0).to_int()
   let a = @types.clampi(alpha, 0, 255)
-  for i in -4..=4 {
+  for i in -4..<=4 {
     let offset_z = Float::from_int(i) * 4.0
     @raylib.draw_cube(
       @raylib.Vector3::new(lx + 2.8, ly + 0.3, lz + offset_z),

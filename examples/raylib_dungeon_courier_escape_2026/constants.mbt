@@ -252,11 +252,6 @@ fn cosf(v : Float) -> Float {
 }
 
 ///|
-fn randi(lo : Int, hi : Int) -> Int {
-  @raylib.get_random_value(lo, hi)
-}
-
-///|
 fn randf(lo : Float, hi : Float) -> Float {
   let r = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
   lo + (hi - lo) * r
@@ -307,11 +302,6 @@ fn world_center_x() -> Float {
 }
 
 ///|
-fn world_center_y() -> Float {
-  (world_top + world_bottom) * 0.5
-}
-
-///|
 fn player_spawn_x() -> Float {
   world_center_x()
 }
@@ -330,16 +320,6 @@ fn default_exit_pos(i : Int) -> (Float, Float) {
   } else {
     (world_right - 104.0, world_bottom - 94.0)
   }
-}
-
-///|
-fn alpha_color(c : @raylib.Color, a : Int) -> @raylib.Color {
-  @raylib.Color::new(
-    c.r.to_int(),
-    c.g.to_int(),
-    c.b.to_int(),
-    clampi(a, 0, 255),
-  )
 }
 
 ///|
@@ -390,11 +370,6 @@ fn col_exit() -> @raylib.Color {
 ///|
 fn col_trap() -> @raylib.Color {
   @raylib.Color::new(242, 88, 142, 255)
-}
-
-///|
-fn col_smoke() -> @raylib.Color {
-  @raylib.Color::new(164, 168, 180, 210)
 }
 
 ///|

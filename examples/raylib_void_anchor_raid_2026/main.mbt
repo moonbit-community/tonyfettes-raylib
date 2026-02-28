@@ -1205,8 +1205,7 @@ fn main {
         for bullet in bullets {
           if bullet.active &&
             bullet.team == 2 &&
-            dist2(player.x, player.y, bullet.x, bullet.y) <=
-            280.0 * 280.0 {
+            dist2(player.x, player.y, bullet.x, bullet.y) <= 280.0 * 280.0 {
             bullet.active = false
           }
         }
@@ -1215,13 +1214,8 @@ fn main {
           if not(anchor.active) {
             continue
           }
-          if dist2(player.x, player.y, anchor.x, anchor.y) <=
-            220.0 * 220.0 {
-            anchor.progress = clampf(
-              anchor.progress + 22.0,
-              -100.0,
-              100.0,
-            )
+          if dist2(player.x, player.y, anchor.x, anchor.y) <= 220.0 * 220.0 {
+            anchor.progress = clampf(anchor.progress + 22.0, -100.0, 100.0)
           }
         }
       }
@@ -1481,24 +1475,14 @@ fn main {
           if anchors[a].owner == -1 {
             continue
           }
-          let d2 : Float = dist2(
-            enemy.x,
-            enemy.y,
-            anchors[a].x,
-            anchors[a].y,
-          )
+          let d2 : Float = dist2(enemy.x, enemy.y, anchors[a].x, anchors[a].y)
           if d2 < best_anchor_d2 {
             best_anchor_d2 = d2
             nearest_anchor = a
           }
         }
 
-        let player_d2 : Float = dist2(
-          enemy.x,
-          enemy.y,
-          player.x,
-          player.y,
-        )
+        let player_d2 : Float = dist2(enemy.x, enemy.y, player.x, player.y)
         if player_d2 <= 240.0 * 240.0 {
           target_x = player.x
           target_y = player.y
@@ -1618,8 +1602,7 @@ fn main {
         } else {
           230.0 + Float::from_int(wave) * 3.0
         }
-        let sp2 : Float = enemy.vx * enemy.vx +
-          enemy.vy * enemy.vy
+        let sp2 : Float = enemy.vx * enemy.vx + enemy.vy * enemy.vy
         if sp2 > max_spd * max_spd {
           let invs : Float = max_spd / sp2.sqrt()
           enemy.vx = enemy.vx * invs
@@ -1641,12 +1624,8 @@ fn main {
         enemy.vy = nvy
 
         if dist2(enemy.x, enemy.y, player.x, player.y) <=
-          (enemy_radius(enemy.kind) + 16.0) *
-          (enemy_radius(enemy.kind) + 16.0) {
-          on_player_hit(
-            7.0 + Float::from_int(enemy.kind) * 2.0,
-            "Enemy impact",
-          )
+          (enemy_radius(enemy.kind) + 16.0) * (enemy_radius(enemy.kind) + 16.0) {
+          on_player_hit(7.0 + Float::from_int(enemy.kind) * 2.0, "Enemy impact")
           enemy.vx = -enemy.vx
           enemy.vy = -enemy.vy
         }
@@ -1775,8 +1754,7 @@ fn main {
               continue
             }
             let rr : Float = bullet.r + enemy_radius(enemy.kind)
-            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-              rr * rr {
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= rr * rr {
               enemy.hp = enemy.hp - bullet.dmg
               bullet.active = false
               consumed = true
@@ -1948,12 +1926,7 @@ fn main {
         @raylib.Color::new(150, 176, 206, 236)
       }
 
-      @raylib.draw_circle(
-        anchor.x.to_int(),
-        anchor.y.to_int(),
-        anchor.r,
-        col,
-      )
+      @raylib.draw_circle(anchor.x.to_int(), anchor.y.to_int(), anchor.r, col)
       @raylib.draw_circle_lines(
         anchor.x.to_int(),
         anchor.y.to_int(),
@@ -2054,12 +2027,7 @@ fn main {
       } else {
         @raylib.Color::new(252, 132, 142, 242)
       }
-      @raylib.draw_circle(
-        bullet.x.to_int(),
-        bullet.y.to_int(),
-        bullet.r,
-        col,
-      )
+      @raylib.draw_circle(bullet.x.to_int(), bullet.y.to_int(), bullet.r, col)
     }
 
     // player

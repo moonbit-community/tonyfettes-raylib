@@ -164,19 +164,19 @@ fn main {
         spawn_package(packages)
       }
 
-      for package in packages {
-        if not(package.alive) {
+      for pkg in packages {
+        if not(pkg.alive) {
           continue
         }
 
-        package.x = package.x + package.speed * dt
+        pkg.x = pkg.x + pkg.speed * dt
 
-        if package.x >= sorter_x - sorter_width / 2.0 &&
-          package.x <= sorter_x + sorter_width / 2.0 {
-          if package.lane == sorter_lane {
+        if pkg.x >= sorter_x - sorter_width / 2.0 &&
+          pkg.x <= sorter_x + sorter_width / 2.0 {
+          if pkg.lane == sorter_lane {
             // Divert to selected lane mapping
             let out_code = chute_map[sorter_lane]
-            if out_code == package.code {
+            if out_code == pkg.code {
               score = score + 28
               correct = correct + 1
               msg = "Correct sort."
@@ -186,13 +186,13 @@ fn main {
               lives = lives - 1
               msg = "Wrong destination mapping."
             }
-            package.alive = false
+            pkg.alive = false
             continue
           }
         }
 
-        if package.x > Float::from_int(sw - 70) {
-          package.alive = false
+        if pkg.x > Float::from_int(sw - 70) {
+          pkg.alive = false
           missed = missed + 1
           score = score - 12
           lives = lives - 1
@@ -269,27 +269,27 @@ fn main {
       @raylib.white,
     )
 
-    for package in packages {
-      if package.alive {
-        let col = code_color(package.code)
+    for pkg in packages {
+      if pkg.alive {
+        let col = code_color(pkg.code)
         @raylib.draw_rectangle(
-          (package.x - 16.0).to_int(),
-          (package.y - 16.0).to_int(),
+          (pkg.x - 16.0).to_int(),
+          (pkg.y - 16.0).to_int(),
           32,
           24,
           col,
         )
         @raylib.draw_rectangle_lines(
-          (package.x - 16.0).to_int(),
-          (package.y - 16.0).to_int(),
+          (pkg.x - 16.0).to_int(),
+          (pkg.y - 16.0).to_int(),
           32,
           24,
           @raylib.black,
         )
         @raylib.draw_text(
-          code_label(package.code),
-          (package.x - 6.0).to_int(),
-          (package.y - 13.0).to_int(),
+          code_label(pkg.code),
+          (pkg.x - 6.0).to_int(),
+          (pkg.y - 13.0).to_int(),
           18,
           @raylib.black,
         )

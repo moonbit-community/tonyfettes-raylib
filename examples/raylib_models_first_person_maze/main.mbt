@@ -73,9 +73,9 @@ fn main {
     }
 
     // Check map collisions using image data and player position
-    for y in (player_cell_y - 1)..=(player_cell_y + 1) {
+    for y in (player_cell_y - 1)..<=(player_cell_y + 1) {
       if y >= 0 && y < map_height {
-        for x in (player_cell_x - 1)..=(player_cell_x + 1) {
+        for x in (player_cell_x - 1)..<=(player_cell_x + 1) {
           if x >= 0 && x < map_width {
             // Check R channel for white pixel (wall)
             let pixel = @raylib.get_image_color(im_map, x, y)

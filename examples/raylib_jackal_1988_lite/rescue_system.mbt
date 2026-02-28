@@ -49,7 +49,6 @@ fn try_spawn_hostage_at_tile(game : Game, tx : Int, ty : Int) -> Bool {
 
   let hostage = game.hostages[slot]
   hostage.active = true
-  hostage.rescued = false
   hostage.x = tile_center_x(tx)
   hostage.y = tile_center_y(ty)
   hostage.bob = rand_rangef(game, 0.0, 6.28)
@@ -121,7 +120,6 @@ fn update_hostages(game : Game, dt : Float) -> Unit {
 
       if distance_sq(hostage.x, hostage.y, player.x, player.y) <= pickup_r2 {
         hostage.active = false
-        hostage.rescued = true
         game.hostages_rescued += 1
 
         let team = team_of_player(p)

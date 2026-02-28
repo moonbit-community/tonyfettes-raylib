@@ -4,10 +4,8 @@ struct Chef {
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut heading : Float
   mut stamina : Float
   stamina_max : Float
-  mut heat_resist : Float
   mut action_cd : Float
   mut boost_t : Float
   mut step_t : Float
@@ -31,7 +29,6 @@ struct Order {
   mut max_deadline : Float
   mut reward : Int
   mut pulse : Float
-  mut mood : Float
 }
 
 ///|
@@ -111,15 +108,6 @@ fn maxi(a : Int, b : Int) -> Int {
     a
   } else {
     b
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
   }
 }
 
@@ -242,17 +230,6 @@ fn ingredient_name(kind : Int) -> String {
 }
 
 ///|
-fn recipe_name(kind : Int) -> String {
-  match kind {
-    0 => "Classic Burger"
-    1 => "Spicy Skewer"
-    2 => "Noodle Bowl"
-    3 => "Double Melt"
-    _ => "Green Wrap"
-  }
-}
-
-///|
 fn recipe_short(kind : Int) -> String {
   match kind {
     0 => "Burger"
@@ -371,7 +348,6 @@ fn clear_orders(orders : Array[Order]) -> Unit {
     orders[i].max_deadline = 0.0
     orders[i].reward = 0
     orders[i].pulse = 0.0
-    orders[i].mood = 0.0
   }
 }
 
@@ -518,7 +494,6 @@ fn spawn_order(orders : Array[Order], wave : Int, serial : Int) -> Bool {
     order.max_deadline = deadline
     order.reward = recipe_reward(kind) + wave * 4
     order.pulse = randf(0.0, 10.0)
-    order.mood = randf(0.0, 0.35)
 
     placed = true
     break
@@ -1579,7 +1554,6 @@ fn main {
       max_deadline: 0.0,
       reward: 0,
       pulse: 0.0,
-      mood: 0.0,
     }
   })
 
@@ -1620,10 +1594,8 @@ fn main {
     y: world_t + 340.0,
     vx: 0.0,
     vy: 0.0,
-    heading: 0.0,
     stamina: 100.0,
     stamina_max: 100.0,
-    heat_resist: 0.0,
     action_cd: 0.0,
     boost_t: 0.0,
     step_t: 0.0,
@@ -1665,9 +1637,7 @@ fn main {
     chef.y = world_t + 340.0
     chef.vx = 0.0
     chef.vy = 0.0
-    chef.heading = 0.0
     chef.stamina = 100.0
-    chef.heat_resist = 0.0
     chef.action_cd = 0.0
     chef.boost_t = 0.0
     chef.step_t = 0.0
@@ -2001,10 +1971,7 @@ fn main {
           box.active = false
         }
         if dist2(chef.x, chef.y, box.x, box.y) <= 34.0 * 34.0 {
-          ingredients[box.kind] = mini(
-            24,
-            ingredients[box.kind] + box.amount,
-          )
+          ingredients[box.kind] = mini(24, ingredients[box.kind] + box.amount)
           box.active = false
           msg = "Supply drop: +\{box.amount} \{ingredient_name(box.kind)}"
           msg_t = 1.2

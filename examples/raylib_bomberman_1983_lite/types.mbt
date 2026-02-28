@@ -1,23 +1,17 @@
 ///|
 struct Tank {
   mut active : Bool
-  mut is_player : Bool
-  mut player_index : Int
   enemy_kind : Int
   mut x : Float
   mut y : Float
-  mut spawn_x : Float
-  mut spawn_y : Float
   mut dir : Int
   mut move_speed : Float
   mut hp : Int
-  mut max_hp : Int
   mut reload_timer : Float
   mut reload_delay : Float
   mut ai_move_timer : Float
   mut ai_fire_timer : Float
   mut ai_stuck_timer : Float
-  mut freeze_timer : Float
   mut shield_timer : Float
   mut invuln_timer : Float
   mut respawn_timer : Float
@@ -32,23 +26,17 @@ struct Tank {
 fn Tank::inactive() -> Tank {
   {
     active: false,
-    is_player: false,
-    player_index: 0,
     enemy_kind: enemy_basic,
     x: 0.0,
     y: 0.0,
-    spawn_x: 0.0,
-    spawn_y: 0.0,
     dir: dir_up,
     move_speed: speed_enemy_basic,
     hp: 1,
-    max_hp: 1,
     reload_timer: 0.0,
     reload_delay: enemy_reload_base,
     ai_move_timer: 0.0,
     ai_fire_timer: 0.0,
     ai_stuck_timer: 0.0,
-    freeze_timer: 0.0,
     shield_timer: 0.0,
     invuln_timer: 0.0,
     respawn_timer: 0.0,
@@ -61,26 +49,20 @@ fn Tank::inactive() -> Tank {
 }
 
 ///|
-fn Tank::new_player(index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
+fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
   {
     active: true,
-    is_player: true,
-    player_index: index,
     enemy_kind: enemy_basic,
     x: spawn_x,
     y: spawn_y,
-    spawn_x,
-    spawn_y,
     dir: dir_up,
     move_speed: speed_player,
     hp: 1,
-    max_hp: 1,
     reload_timer: 0.0,
     reload_delay: player_reload_base,
     ai_move_timer: 0.0,
     ai_fire_timer: 0.0,
     ai_stuck_timer: 0.0,
-    freeze_timer: 0.0,
     shield_timer: 0.0,
     invuln_timer: player_invuln_spawn,
     respawn_timer: 0.0,
@@ -105,23 +87,17 @@ fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
   }
   {
     active: true,
-    is_player: false,
-    player_index: 0,
     enemy_kind: kind,
     x: spawn_x,
     y: spawn_y,
-    spawn_x,
-    spawn_y,
     dir: dir_down,
     move_speed: speed,
     hp,
-    max_hp: hp,
     reload_timer: 0.0,
     reload_delay: reload,
     ai_move_timer: 0.12,
     ai_fire_timer: 0.35,
     ai_stuck_timer: 0.0,
-    freeze_timer: 0.0,
     shield_timer: 0.0,
     invuln_timer: 1.0,
     respawn_timer: 0.0,
@@ -136,15 +112,15 @@ fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
 ///|
 struct Bullet {
   mut active : Bool
-  mut owner_team : Int
+  owner_team : Int
   mut x : Float
   mut y : Float
-  mut vx : Float
-  mut vy : Float
+  vx : Float
+  vy : Float
   mut ttl : Float
-  mut damage : Int
-  mut power : Int
-  mut radius : Float
+  damage : Int
+  power : Int
+  radius : Float
 }
 
 ///|
@@ -203,8 +179,6 @@ struct Particle {
   mut life : Float
   mut max_life : Float
   mut size : Float
-  mut spin : Float
-  mut rot : Float
   mut fade : Float
   mut color : @raylib.Color
 }
@@ -220,8 +194,6 @@ fn Particle::inactive() -> Particle {
     life: 0.0,
     max_life: 1.0,
     size: 1.0,
-    spin: 0.0,
-    rot: 0.0,
     fade: 0.0,
     color: @raylib.white,
   }

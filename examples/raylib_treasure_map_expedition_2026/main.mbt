@@ -74,8 +74,8 @@ fn reset_relics(relics : Array[Relic]) -> Unit {
 
 ///|
 fn reveal(seen : Array[Bool], cx : Int, cy : Int, rad : Int) -> Unit {
-  for y in (cy - rad)..=(cy + rad) {
-    for x in (cx - rad)..=(cx + rad) {
+  for y in (cy - rad)..<=(cy + rad) {
+    for x in (cx - rad)..<=(cx + rad) {
       if x >= 0 && x < gw && y >= 0 && y < gh {
         seen[idx(x, y)] = true
       }

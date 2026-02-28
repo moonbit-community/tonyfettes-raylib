@@ -227,7 +227,7 @@ fn draw_tiles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
   )
 
   for ty in 0..<@types.world_tiles_h {
-    for tx in start_tx..=end_tx {
+    for tx in start_tx..<=end_tx {
       draw_tile(game, tx, ty, @types.get_tile(game, tx, ty), cam_x, shake_y)
     }
   }

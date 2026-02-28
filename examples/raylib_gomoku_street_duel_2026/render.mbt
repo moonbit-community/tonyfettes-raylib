@@ -621,8 +621,7 @@ fn draw_sparks(game : Game) -> Unit {
       @raylib.Color::new(230, 220, 255, alpha - 44)
     }
 
-    let r : Float = 1.2 +
-      spark.size * (0.46 + spark.life * 0.84)
+    let r : Float = 1.2 + spark.size * (0.46 + spark.life * 0.84)
     let x : Int = spark.x.to_int()
     let y : Int = spark.y.to_int()
 

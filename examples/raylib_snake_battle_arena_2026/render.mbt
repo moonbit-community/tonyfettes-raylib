@@ -78,12 +78,12 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = grid_w * tile
   let bh : Int = grid_h * tile
 
-  for x in 0..=grid_w {
+  for x in 0..<=grid_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(px, by, px, by + bh, @raylib.Color::new(76, 106, 136, 98))
   }
 
-  for y in 0..=grid_h {
+  for y in 0..<=grid_h {
     let py : Int = by + y * tile
     @raylib.draw_line(bx, py, bx + bw, py, @raylib.Color::new(76, 106, 136, 98))
   }
@@ -286,12 +286,7 @@ fn draw_sparks(game : Game) -> Unit {
       @raylib.Color::new(140, 220, 174, a)
     }
 
-    @raylib.draw_circle(
-      spark.x.to_int(),
-      spark.y.to_int(),
-      1.0 + spark.size,
-      c,
-    )
+    @raylib.draw_circle(spark.x.to_int(), spark.y.to_int(), 1.0 + spark.size, c)
   }
 }
 

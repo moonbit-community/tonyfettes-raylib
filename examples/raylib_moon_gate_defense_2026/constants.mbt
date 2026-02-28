@@ -270,20 +270,6 @@ fn maxf(a : Float, b : Float) -> Float {
 }
 
 ///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn lerpf(a : Float, b : Float, t : Float) -> Float {
-  a + (b - a) * t
-}
-
-///|
 fn sinf(v : Float) -> Float {
   Float::from_double(@math.sin(v.to_double()))
 }
@@ -354,11 +340,6 @@ fn gate_x() -> Float {
 ///|
 fn gate_y() -> Float {
   cell_center_y(gate_gy)
-}
-
-///|
-fn is_inside_grid(gx : Int, gy : Int) -> Bool {
-  gx >= 0 && gx < grid_cols && gy >= 0 && gy < grid_rows
 }
 
 ///|

@@ -113,15 +113,6 @@ let bomb_range_base : Int = 2
 let bomb_chain_trigger_window : Float = 0.06
 
 ///|
-let bomb_contact_radius : Float = 8.0
-
-///|
-let bullet_speed_player : Float = 350.0
-
-///|
-let bullet_speed_enemy : Float = 290.0
-
-///|
 let speed_player : Float = 128.0
 
 ///|

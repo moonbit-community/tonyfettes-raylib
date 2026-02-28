@@ -53,28 +53,6 @@ fn maxf(a : Float, b : Float) -> Float {
 }
 
 ///|
-fn signf(v : Float) -> Float {
-  if v < 0.0 {
-    -1.0
-  } else if v > 0.0 {
-    1.0
-  } else {
-    0.0
-  }
-}
-
-///|
-fn signi(v : Int) -> Int {
-  if v < 0 {
-    -1
-  } else if v > 0 {
-    1
-  } else {
-    0
-  }
-}
-
-///|
 fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
@@ -127,11 +105,6 @@ fn fighter_archetype(game : Game, fighter : Fighter) -> CharacterArchetype {
 }
 
 ///|
-fn fighter_by_slot(game : Game, slot : Int) -> Fighter {
-  game.fighters[clampi(slot, 0, max_players - 1)]
-}
-
-///|
 fn other_slot(slot : Int) -> Int {
   if slot == 0 {
     1
@@ -157,11 +130,6 @@ fn stage_clamp_x(x : Float) -> Float {
 ///|
 fn fighter_distance_x(a : Fighter, b : Fighter) -> Float {
   absf(a.x - b.x)
-}
-
-///|
-fn fighter_distance_y(a : Fighter, b : Fighter) -> Float {
-  absf(a.y - b.y)
 }
 
 ///|
@@ -192,18 +160,6 @@ fn attack_hitbox_for(fighter : Fighter, mv : MoveSpec) -> @raylib.Rectangle {
     mv.hitbox_w,
     mv.hitbox_h,
   )
-}
-
-///|
-fn draw_center_text(
-  text : String,
-  x : Int,
-  y : Int,
-  size : Int,
-  color : @raylib.Color,
-) -> Unit {
-  let w = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, x - w / 2, y, size, color)
 }
 
 ///|
@@ -244,29 +200,6 @@ fn countdown_color(timer : Float) -> @raylib.Color {
 ///|
 fn fighter_total_guard(archetype : CharacterArchetype) -> Int {
   guard_max + archetype.max_guard_bonus
-}
-
-///|
-fn action_is_busy(action : Int) -> Bool {
-  action == action_attack ||
-  action == action_throw ||
-  action == action_hitstun ||
-  action == action_blockstun ||
-  action == action_knockdown ||
-  action == action_wakeup ||
-  action == action_intro ||
-  action == action_victory
-}
-
-///|
-fn action_can_move(action : Int) -> Bool {
-  action == action_idle ||
-  action == action_walk_forward ||
-  action == action_walk_back ||
-  action == action_crouch ||
-  action == action_jump ||
-  action == action_dash_forward ||
-  action == action_dash_back
 }
 
 ///|
@@ -333,13 +266,11 @@ fn reset_fighter_round_state(fighter : Fighter) -> Unit {
   fighter.vy = 0.0
   fighter.on_ground = true
   fighter.crouching = false
-  fighter.jumped = false
   fighter.action = action_intro
   fighter.action_frame = 0
   fighter.action_elapsed = 0.0
   fighter.current_move = MoveSpec::empty()
   fighter.move_connected = false
-  fighter.move_was_blocked = false
   fighter.move_cancel_enabled = false
   fighter.hitstop = 0
   fighter.hitstun = 0
@@ -348,11 +279,8 @@ fn reset_fighter_round_state(fighter : Fighter) -> Unit {
   fighter.invuln = 0
   fighter.throw_tech_timer = 0
   fighter.combo_counter = 0
-  fighter.combo_damage = 0
   fighter.combo_timer = 0
-  fighter.counter_hit_flag = false
   fighter.flash_timer = 0.0
-  fighter.trail_timer = 0.0
   fighter.shake_timer = 0.0
   fighter.hurt_shake_x = 0.0
   fighter.hurt_shake_y = 0.0

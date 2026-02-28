@@ -45,8 +45,8 @@ fn in_bounds(row : Int, col : Int) -> Bool {
 ///|
 fn count_adjacent(mines : Array[Int], row : Int, col : Int) -> Int {
   let mut count = 0
-  for dr in -1..=1 {
-    for dc in -1..=1 {
+  for dr in -1..<=1 {
+    for dc in -1..<=1 {
       if not(dr == 0 && dc == 0) {
         let nr = row + dr
         let nc = col + dc
@@ -131,8 +131,8 @@ fn flood_fill(
   }
   revealed[idx] = 1
   if adjacent[idx] == 0 {
-    for dr in -1..=1 {
-      for dc in -1..=1 {
+    for dr in -1..<=1 {
+      for dc in -1..<=1 {
         if not(dr == 0 && dc == 0) {
           flood_fill(mines, revealed, flagged, adjacent, row + dr, col + dc)
         }

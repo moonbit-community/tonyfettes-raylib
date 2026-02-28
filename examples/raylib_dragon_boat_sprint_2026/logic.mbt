@@ -187,8 +187,7 @@ fn spawn_hazard(game : Game) -> Bool {
 
     hazard.active = true
     hazard.kind = kind
-    hazard.lane = Float::from_int(@raylib.get_random_value(-95, 95)) /
-      100.0
+    hazard.lane = Float::from_int(@raylib.get_random_value(-95, 95)) / 100.0
     hazard.dist = game.distance + randf(420.0, 1380.0)
     hazard.size = if kind == hazard_debris {
       randf(18.0, 33.0)
@@ -355,11 +354,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
     }
 
     hazard.phase = hazard.phase + dt
-    hazard.lane = clampf(
-      hazard.lane + hazard.drift * dt * 0.4,
-      -1.08,
-      1.08,
-    )
+    hazard.lane = clampf(hazard.lane + hazard.drift * dt * 0.4, -1.08, 1.08)
 
     if hazard.dist < game.distance - 120.0 {
       hazard.active = false
@@ -413,15 +408,13 @@ fn update_rivals(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    rival.stroke_t = rival.stroke_t +
-      dt * (1.4 + rival.speed_bias * 0.01)
+    rival.stroke_t = rival.stroke_t + dt * (1.4 + rival.speed_bias * 0.01)
     if rival.stroke_t > 6.28 {
       rival.stroke_t = rival.stroke_t - 6.28
     }
 
     let tempo : Float = 0.5 +
-      0.5 *
-      sinf(rival.stroke_t + Float::from_int(rival.id) * 0.35)
+      0.5 * sinf(rival.stroke_t + Float::from_int(rival.id) * 0.35)
 
     let mut rival_speed : Float = base_speed +
       8.0 +
@@ -434,15 +427,10 @@ fn update_rivals(game : Game, dt : Float) -> Unit {
 
     rival.dist = rival.dist + rival_speed * dt
 
-    let path_t : Float = game.ui_t *
-      (0.62 + Float::from_int(rival.id) * 0.08) +
+    let path_t : Float = game.ui_t * (0.62 + Float::from_int(rival.id) * 0.08) +
       Float::from_int(rival.id) * 0.9
 
-    rival.lane = clampf(
-      rival.lane + sinf(path_t) * dt * 0.3,
-      -1.02,
-      1.02,
-    )
+    rival.lane = clampf(rival.lane + sinf(path_t) * dt * 0.3, -1.02, 1.02)
 
     let near_dist : Float = absf(rival.dist - game.distance)
     let near_lane : Float = absf(rival.lane - game.lane)

@@ -859,12 +859,7 @@ fn update_groups(
       }
 
       let rr : Float = smoke.radius
-      let d2v : Float = dist2(
-        group.x,
-        group.y,
-        smoke.x,
-        smoke.y,
-      )
+      let d2v : Float = dist2(group.x, group.y, smoke.x, smoke.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
         panic_gain = panic_gain + dt * smoke.density * (0.4 + ratio * 1.1)
@@ -1223,9 +1218,7 @@ fn draw_groups(groups : Array[EvacGroup], t : Float) -> Unit {
     }
 
     let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
-    let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(group.id) * 0.3,
-      ) *
+    let flare : Float = @math.sinf(t * 6.0 + Float::from_int(group.id) * 0.3) *
       0.5 +
       0.5
 
@@ -1487,12 +1480,7 @@ fn draw_parts(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(248, 236, 190, 214)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 
@@ -2074,8 +2062,7 @@ fn main {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
           fire_drag = fire_drag + smoke.density * (0.14 + ratio * 0.34)
           fuel_mul = fuel_mul + smoke.density * (0.12 + ratio * 0.3)
-          smoke_damage = smoke_damage +
-            dt * smoke.density * (0.3 + ratio * 0.7)
+          smoke_damage = smoke_damage + dt * smoke.density * (0.3 + ratio * 0.7)
         }
       }
 
@@ -2255,12 +2242,7 @@ fn main {
           }
 
           let rr : Float = fire.radius
-          let d2v : Float = dist2(
-            zone.x,
-            zone.y,
-            fire.x,
-            fire.y,
-          )
+          let d2v : Float = dist2(zone.x, zone.y, fire.x, fire.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
             fire_load = fire_load + fire.intensity * (0.4 + ratio * 1.0)
@@ -2273,23 +2255,14 @@ fn main {
           }
 
           let rr : Float = smoke.radius
-          let d2v : Float = dist2(
-            zone.x,
-            zone.y,
-            smoke.x,
-            smoke.y,
-          )
+          let d2v : Float = dist2(zone.x, zone.y, smoke.x, smoke.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
             fire_load = fire_load + smoke.density * (0.2 + ratio * 0.7)
           }
         }
 
-        zone.heat = clampf(
-          zone.heat + dt * (0.9 + fire_load * 2.2),
-          0.0,
-          100.0,
-        )
+        zone.heat = clampf(zone.heat + dt * (0.9 + fire_load * 2.2), 0.0, 100.0)
         zone.queue = zone.queue +
           dt * (1.6 + fire_load * 1.4 + Float::from_int(tier) * 0.2)
 

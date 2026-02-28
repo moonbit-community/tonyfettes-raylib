@@ -423,8 +423,7 @@ fn spawn_hazard(game : Game) -> Bool {
       hazard.x = randf(world_left() + 20.0, world_right() - 20.0)
       hazard.y = topf() + 10.0
       hazard.vx = randf(-18.0, 18.0)
-      hazard.vy = randf(180.0, 280.0) +
-        Float::from_int(game.wave) * 12.0
+      hazard.vy = randf(180.0, 280.0) + Float::from_int(game.wave) * 12.0
       hazard.r = randf(12.0, 18.0)
       hazard.dmg = randf(14.0, 24.0)
     }
@@ -738,10 +737,8 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
       dt * (1.1 + Float::from_int(hazard.kind) * 0.9)
 
     if hazard.kind == hazard_jelly {
-      hazard.vx = hazard.vx +
-        sinf(hazard.phase * 1.7) * dt * 72.0
-      hazard.vy = hazard.vy +
-        cosf(hazard.phase * 1.3) * dt * 24.0
+      hazard.vx = hazard.vx + sinf(hazard.phase * 1.7) * dt * 72.0
+      hazard.vy = hazard.vy + cosf(hazard.phase * 1.3) * dt * 24.0
     } else if hazard.kind == hazard_eel {
       let dx : Float = game.hook_x - hazard.x
       let dy : Float = game.hook_y - hazard.y
@@ -749,13 +746,10 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
       let nx : Float = if d <= 0.001 { 0.0 } else { dx / d }
       let ny : Float = if d <= 0.001 { 0.0 } else { dy / d }
 
-      hazard.vx = hazard.vx * (1.0 - dt * 2.2) +
-        nx * dt * 300.0
-      hazard.vy = hazard.vy * (1.0 - dt * 2.2) +
-        ny * dt * 300.0
+      hazard.vx = hazard.vx * (1.0 - dt * 2.2) + nx * dt * 300.0
+      hazard.vy = hazard.vy * (1.0 - dt * 2.2) + ny * dt * 300.0
     } else {
-      hazard.vx = hazard.vx +
-        sinf(hazard.phase * 2.5) * dt * 66.0
+      hazard.vx = hazard.vx + sinf(hazard.phase * 2.5) * dt * 66.0
       hazard.vy = hazard.vy + dt * 44.0
     }
 
@@ -765,8 +759,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
     hazard.x = hazard.x + hazard.vx * dt
     hazard.y = hazard.y + hazard.vy * dt
 
-    if hazard.kind == hazard_ice &&
-      hazard.y > bottomf() + 30.0 {
+    if hazard.kind == hazard_ice && hazard.y > bottomf() + 30.0 {
       hazard.active = false
       continue
     }
@@ -780,8 +773,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
     }
 
     let rr : Float = hazard.r + hook_r
-    if dist2(hazard.x, hazard.y, game.hook_x, game.hook_y) <=
-      rr * rr {
+    if dist2(hazard.x, hazard.y, game.hook_x, game.hook_y) <= rr * rr {
       game.line_hp = maxf(0.0, game.line_hp - hazard.dmg)
       game.shake_t = maxf(game.shake_t, 0.22)
 
@@ -809,12 +801,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
       let idx : Int = game.carrying_idx
       if game.fish[idx].active {
         let r2 : Float = hazard.r + game.fish[idx].r
-        if dist2(
-            hazard.x,
-            hazard.y,
-            game.fish[idx].x,
-            game.fish[idx].y,
-          ) <=
+        if dist2(hazard.x, hazard.y, game.fish[idx].x, game.fish[idx].y) <=
           r2 * r2 {
           hazard.active = false
           drop_carrying_fish(game)
@@ -833,10 +820,8 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
 
     pickup.phase = pickup.phase + dt * 2.3
 
-    pickup.x = pickup.x +
-      (pickup.vx + sinf(pickup.phase * 2.0) * 20.0) * dt
-    pickup.y = pickup.y +
-      (pickup.vy + cosf(pickup.phase * 1.3) * 18.0) * dt
+    pickup.x = pickup.x + (pickup.vx + sinf(pickup.phase * 2.0) * 20.0) * dt
+    pickup.y = pickup.y + (pickup.vy + cosf(pickup.phase * 1.3) * 18.0) * dt
 
     if pickup.x < world_left() + 16.0 {
       pickup.x = world_left() + 16.0
@@ -857,8 +842,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     let rr : Float = hook_r + 16.0
-    if dist2(game.hook_x, game.hook_y, pickup.x, pickup.y) <=
-      rr * rr {
+    if dist2(game.hook_x, game.hook_y, pickup.x, pickup.y) <= rr * rr {
       let kind : Int = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y
@@ -889,12 +873,7 @@ fn use_hint(game : Game) -> Bool {
         continue
       }
 
-      let d2 : Float = dist2(
-        game.hook_x,
-        game.hook_y,
-        pickup.x,
-        pickup.y,
-      )
+      let d2 : Float = dist2(game.hook_x, game.hook_y, pickup.x, pickup.y)
 
       if d2 < best_d2 {
         best_d2 = d2
@@ -912,12 +891,7 @@ fn use_hint(game : Game) -> Bool {
         continue
       }
 
-      let d2 : Float = dist2(
-        game.hook_x,
-        game.hook_y,
-        fish_elem.x,
-        fish_elem.y,
-      )
+      let d2 : Float = dist2(game.hook_x, game.hook_y, fish_elem.x, fish_elem.y)
 
       if fish_elem.value > best_score ||
         (fish_elem.value == best_score && d2 < best_d2) {

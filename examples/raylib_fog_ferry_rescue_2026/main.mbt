@@ -952,9 +952,7 @@ fn draw_groups(groups : Array[Group], t : Float) -> Unit {
     }
 
     let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
-    let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(group.id) * 0.3,
-      ) *
+    let flare : Float = @math.sinf(t * 6.0 + Float::from_int(group.id) * 0.3) *
       0.5 +
       0.5
 
@@ -1136,12 +1134,7 @@ fn draw_parts(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 

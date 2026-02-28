@@ -688,12 +688,7 @@ fn update_thieves(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    let target = nearest_active_lantern(
-      game,
-      thief.x,
-      thief.y,
-      100000000.0,
-    )
+    let target = nearest_active_lantern(game, thief.x, thief.y, 100000000.0)
     thief.target = target
 
     let mut vx : Float = 0.0
@@ -715,12 +710,7 @@ fn update_thieves(game : Game, dt : Float) -> Unit {
         let inv = Float::from_int(1) / maxf(d2.sqrt(), 0.001)
         let mut speed = thief.speed
         if game.patrol.calm_t > 0.0 &&
-          dist2(
-            thief.x,
-            thief.y,
-            game.patrol.x,
-            game.patrol.y,
-          ) <=
+          dist2(thief.x, thief.y, game.patrol.x, game.patrol.y) <=
           squaref(calm_radius) {
           speed = speed * 0.64
         }
@@ -824,12 +814,7 @@ fn update_lanterns(game : Game, dt : Float) -> Unit {
         continue
       }
 
-      let d2 = dist2(
-        game.lanterns[i].x,
-        game.lanterns[i].y,
-        gust.x,
-        gust.y,
-      )
+      let d2 = dist2(game.lanterns[i].x, game.lanterns[i].y, gust.x, gust.y)
       let r2 = squaref(gust.radius)
       if d2 > r2 {
         continue
@@ -849,12 +834,7 @@ fn update_lanterns(game : Game, dt : Float) -> Unit {
         continue
       }
 
-      let d2 = dist2(
-        game.lanterns[i].x,
-        game.lanterns[i].y,
-        spark.x,
-        spark.y,
-      )
+      let d2 = dist2(game.lanterns[i].x, game.lanterns[i].y, spark.x, spark.y)
 
       if d2 <= squaref(spark.size + lantern_radius + 4.0) {
         drain = drain + spark.power * dt

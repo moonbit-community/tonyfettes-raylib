@@ -21,8 +21,8 @@ pub fn tank_hits_world(game : @types.Game, x : Float, y : Float) -> Bool {
   let min_ty = @types.world_y_to_tile(y - half)
   let max_ty = @types.world_y_to_tile(y + half)
 
-  for ty in min_ty..=max_ty {
-    for tx in min_tx..=max_tx {
+  for ty in min_ty..<=max_ty {
+    for tx in min_tx..<=max_tx {
       let tile = @types.get_tile(game, tx, ty)
       if @types.is_tile_solid_for_tank(tile) {
         return true

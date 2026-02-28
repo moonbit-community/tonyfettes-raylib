@@ -676,11 +676,8 @@ fn main {
           if not(ghost.active) {
             continue
           }
-          if sqdist(player.x, player.y, ghost.x, ghost.y) <=
-            172.0 * 172.0 {
-            ghost.stun_t = Float::from_int(
-                @raylib.get_random_value(160, 250),
-              ) /
+          if sqdist(player.x, player.y, ghost.x, ghost.y) <= 172.0 * 172.0 {
+            ghost.stun_t = Float::from_int(@raylib.get_random_value(160, 250)) /
               Float::from_int(100)
             ghost.alert_t = 0.0
             burst(particles, ghost.x, ghost.y, 10, 0.30, 3)
@@ -815,8 +812,7 @@ fn main {
           collected = collected + 1
           score = score + 95 + clue.kind * 18
           stars = stars + 1 + clue.kind
-          player.battery = player.battery +
-            Float::from_int(8 + clue.kind * 4)
+          player.battery = player.battery + Float::from_int(8 + clue.kind * 4)
           if player.battery > 100.0 {
             player.battery = 100.0
           }

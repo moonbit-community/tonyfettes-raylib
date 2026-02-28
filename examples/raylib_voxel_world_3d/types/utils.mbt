@@ -116,11 +116,11 @@ pub fn smoothstep(edge0 : Float, edge1 : Float, x : Float) -> Float {
 ///|
 fn hash_int(x_in : Int) -> Int {
   let mut x = x_in
-  x = x ^ x.lsr(16)
+  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
   x = x * 73244475 // 0x45d9f3b
-  x = x ^ x.lsr(16)
+  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
   x = x * 73244475
-  x = x ^ x.lsr(16)
+  x = x ^ (x.reinterpret_as_uint() >> 16).reinterpret_as_int()
   if x < 0 {
     -x
   } else {
@@ -520,8 +520,8 @@ pub fn generate_chunk_terrain(chunk : Chunk, game : Game) -> Unit {
           for ly in 0..<3 {
             let radius = if ly == 2 { 1 } else { 2 }
             let neg_r = -radius
-            for dz in neg_r..=radius {
-              for dx in neg_r..=radius {
+            for dz in neg_r..<=radius {
+              for dx in neg_r..<=radius {
                 let dist = absf(Float::from_int(dx)) + absf(Float::from_int(dz))
                 if dist.to_int() <= radius + 1 {
                   let tx = lx + dx

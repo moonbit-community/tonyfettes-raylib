@@ -525,15 +525,11 @@ fn shift_world(game : Game, dx : Float) -> Unit {
     obstacle.phase = obstacle.phase + 1.7 * dx * 0.01
     if obstacle.kind == obstacle_drone {
       obstacle.x = obstacle.x + obstacle.vx * 0.04
-      obstacle.y = obstacle.y +
-        sinf(obstacle.phase) * 0.9
+      obstacle.y = obstacle.y + sinf(obstacle.phase) * 0.9
     }
 
     if obstacle.hit_lock > 0.0 {
-      obstacle.hit_lock = maxf(
-        0.0,
-        obstacle.hit_lock - 0.008 * dx,
-      )
+      obstacle.hit_lock = maxf(0.0, obstacle.hit_lock - 0.008 * dx)
     }
   }
 
@@ -845,8 +841,7 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
 
     if obstacle.kind == obstacle_drone {
       obstacle.phase = obstacle.phase + dt * 3.8
-      obstacle.y = obstacle.y +
-        sinf(obstacle.phase) * 26.0 * dt
+      obstacle.y = obstacle.y + sinf(obstacle.phase) * 26.0 * dt
     }
 
     if obstacle.kind == obstacle_laser {

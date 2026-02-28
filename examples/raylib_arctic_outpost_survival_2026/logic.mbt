@@ -743,17 +743,10 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    enemy.phase = enemy.phase +
-      dt * (1.2 + Float::from_int(enemy.kind))
+    enemy.phase = enemy.phase + dt * (1.2 + Float::from_int(enemy.kind))
 
     let target_x : Float = if enemy.kind == enemy_wolf {
-      if dist2(
-          enemy.x,
-          enemy.y,
-          game.player_x,
-          game.player_y,
-        ) <
-        280.0 * 280.0 {
+      if dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
         game.player_x
       } else {
         core_x()
@@ -763,13 +756,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     }
 
     let target_y : Float = if enemy.kind == enemy_wolf {
-      if dist2(
-          enemy.x,
-          enemy.y,
-          game.player_x,
-          game.player_y,
-        ) <
-        280.0 * 280.0 {
+      if dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
         game.player_y
       } else {
         core_y()
@@ -778,10 +765,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       core_y()
     }
 
-    let dir = normalize(
-      target_x - enemy.x,
-      target_y - enemy.y,
-    )
+    let dir = normalize(target_x - enemy.x, target_y - enemy.y)
     let speed : Float = enemy_speed(game, enemy.kind)
 
     let swirl_x : Float = if enemy.kind == enemy_shard {
@@ -819,11 +803,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       player_rr * player_rr {
       hurt_player(game, enemy_touch_damage(enemy.kind))
 
-      enemy.active = if enemy.kind == enemy_brute {
-        true
-      } else {
-        false
-      }
+      enemy.active = if enemy.kind == enemy_brute { true } else { false }
 
       enemy.vx = -enemy.vx * 0.5
       enemy.vy = -enemy.vy * 0.5
@@ -834,12 +814,8 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     }
 
     let core_rr : Float = enemy.r + core_r - 6.0
-    if dist2(enemy.x, enemy.y, core_x(), core_y()) <=
-      core_rr * core_rr {
-      game.core_heat = maxf(
-        0.0,
-        game.core_heat - enemy_core_damage(enemy.kind),
-      )
+    if dist2(enemy.x, enemy.y, core_x(), core_y()) <= core_rr * core_rr {
+      game.core_heat = maxf(0.0, game.core_heat - enemy_core_damage(enemy.kind))
       game.shake_t = maxf(game.shake_t, 0.30)
 
       set_msg(game, "Core under attack!", 0.8)
@@ -879,10 +855,8 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     pickup.phase = pickup.phase + dt * 2.2
-    pickup.x = pickup.x +
-      (pickup.vx + sinf(pickup.phase * 2.0) * 24.0) * dt
-    pickup.y = pickup.y +
-      (pickup.vy + Float::from_int(game.wave) * 3.0) * dt
+    pickup.x = pickup.x + (pickup.vx + sinf(pickup.phase * 2.0) * 24.0) * dt
+    pickup.y = pickup.y + (pickup.vy + Float::from_int(game.wave) * 3.0) * dt
 
     if pickup.x < world_left() + 16.0 {
       pickup.x = world_left() + 16.0
@@ -899,8 +873,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     let rr : Float = player_r + pickup_radius(pickup.kind)
-    if dist2(game.player_x, game.player_y, pickup.x, pickup.y) <=
-      rr * rr {
+    if dist2(game.player_x, game.player_y, pickup.x, pickup.y) <= rr * rr {
       let kind : Int = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y
@@ -937,12 +910,7 @@ fn use_hint(game : Game) -> Bool {
         continue
       }
 
-      let d2 : Float = dist2(
-        game.player_x,
-        game.player_y,
-        pickup.x,
-        pickup.y,
-      )
+      let d2 : Float = dist2(game.player_x, game.player_y, pickup.x, pickup.y)
 
       if d2 < best_d2 {
         best_d2 = d2
@@ -969,11 +937,7 @@ fn use_hint(game : Game) -> Bool {
         }
 
         let d2 : Float = dist2(lx, ly, enemy.x, enemy.y)
-        let w : Float = if enemy.kind == enemy_brute {
-          1.4
-        } else {
-          1.0
-        }
+        let w : Float = if enemy.kind == enemy_brute { 1.4 } else { 1.0 }
         threat = threat + w * 42000.0 / maxf(120.0, d2)
       }
 

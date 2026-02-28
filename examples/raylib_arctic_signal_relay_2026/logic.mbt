@@ -248,8 +248,7 @@ fn update_storms(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    storm.phase = storm.phase +
-      dt * (0.8 + storm.strength * 0.8)
+    storm.phase = storm.phase + dt * (0.8 + storm.strength * 0.8)
 
     let drift_x = cosf(storm.phase * 0.7) * 18.0
     let drift_y = sinf(storm.phase * 0.6) * 14.0

@@ -1363,7 +1363,7 @@ pub fn draw_standings_sidebar(game : @types.Game) -> Unit {
     @raylib.Color::new(180, 180, 200, 200),
   )
   // Collect and sort by place
-  for p in 1..=@types.max_karts {
+  for p in 1..<=@types.max_karts {
     for i in 0..<@types.max_karts {
       let kart = game.karts[i]
       if not(kart.active) {

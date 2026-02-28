@@ -396,7 +396,7 @@ fn draw_bombs(game : Game, shake_x : Float, shake_y : Float) -> Unit {
         } else {
           0
         }
-        for step in 0..=bomb.blast_range {
+        for step in 0..<=bomb.blast_range {
           let tx = bomb.tile_x + dx * step
           let ty = bomb.tile_y + dy * step
           if not(in_tile_bounds(tx, ty)) {

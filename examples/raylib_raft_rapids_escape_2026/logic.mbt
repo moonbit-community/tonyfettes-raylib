@@ -601,15 +601,9 @@ fn update_obstacles(game : Game, dt : Float) -> Unit {
     }
 
     obstacle.x = obstacle.x +
-      (
-        obstacle.vx +
-        sway +
-        water_current_x(game, obstacle.y) * 0.08
-      ) *
-      dt
+      (obstacle.vx + sway + water_current_x(game, obstacle.y) * 0.08) * dt
     obstacle.y = obstacle.y +
-      (obstacle.vy + water_current_y(game, obstacle.x) * 0.06) *
-      dt
+      (obstacle.vy + water_current_y(game, obstacle.x) * 0.06) * dt
 
     if obstacle.x < world_left() + 4.0 {
       obstacle.x = world_left() + 4.0
@@ -661,10 +655,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     pickup.phase = pickup.phase + dt * 2.4
 
     pickup.x = pickup.x +
-      (
-        sinf(pickup.phase * 2.3) * 22.0 +
-        water_current_x(game, pickup.y) * 0.10
-      ) *
+      (sinf(pickup.phase * 2.3) * 22.0 + water_current_x(game, pickup.y) * 0.10) *
       dt
     pickup.y = pickup.y +
       (
@@ -674,11 +665,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
       ) *
       dt
 
-    pickup.x = clampf(
-      pickup.x,
-      world_left() + 20.0,
-      world_right() - 20.0,
-    )
+    pickup.x = clampf(pickup.x, world_left() + 20.0, world_right() - 20.0)
 
     if pickup.y > world_bottom() + 90.0 {
       pickup.active = false
@@ -686,12 +673,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     let r : Float = raft_r + pickup_radius(pickup.kind)
-    let d2 : Float = point_dist2(
-      game.raft_x,
-      game.raft_y,
-      pickup.x,
-      pickup.y,
-    )
+    let d2 : Float = point_dist2(game.raft_x, game.raft_y, pickup.x, pickup.y)
 
     if d2 <= r * r {
       let kind : Int = pickup.kind
@@ -757,8 +739,7 @@ fn use_hint(game : Game) -> Bool {
       continue
     }
 
-    if pickup.kind != pickup_fuel &&
-      pickup.kind != pickup_shield {
+    if pickup.kind != pickup_fuel && pickup.kind != pickup_shield {
       continue
     }
 
@@ -766,12 +747,7 @@ fn use_hint(game : Game) -> Bool {
       continue
     }
 
-    let d2 : Float = point_dist2(
-      game.raft_x,
-      game.raft_y,
-      pickup.x,
-      pickup.y,
-    )
+    let d2 : Float = point_dist2(game.raft_x, game.raft_y, pickup.x, pickup.y)
 
     if d2 < pickup_dist {
       pickup_dist = d2

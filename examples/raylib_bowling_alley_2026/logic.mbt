@@ -162,7 +162,7 @@ fn reset_full_rack(game : Game) -> Unit {
     let y : Float = pin_deck_y + Float::from_int(row) * pin_row_gap
     let x0 : Float = cx - Float::from_int(row) * pin_col_gap * 0.5
 
-    for col in 0..=row {
+    for col in 0..<=row {
       if idx >= game.pins.length() {
         continue
       }
@@ -208,8 +208,7 @@ fn pins_are_quiet(game : Game) -> Bool {
       continue
     }
 
-    let speed2 : Float = pin.vx * pin.vx +
-      pin.vy * pin.vy
+    let speed2 : Float = pin.vx * pin.vx + pin.vy * pin.vy
     if speed2 > 324.0 {
       return false
     }

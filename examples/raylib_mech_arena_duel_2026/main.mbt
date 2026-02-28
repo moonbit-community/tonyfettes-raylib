@@ -56,10 +56,8 @@ fn spawn_bot(bots : Array[Bot], wave : Int) -> Unit {
       bot.y = Float::from_int(@raylib.get_random_value(140, sh - 120))
       bot.hp = 20 + wave * 2
       bot.fire_cd = Float::from_int(@raylib.get_random_value(1, 2))
-      bot.dir_x = Float::from_int(@raylib.get_random_value(-100, 100)) /
-        100.0
-      bot.dir_y = Float::from_int(@raylib.get_random_value(-100, 100)) /
-        100.0
+      bot.dir_x = Float::from_int(@raylib.get_random_value(-100, 100)) / 100.0
+      bot.dir_y = Float::from_int(@raylib.get_random_value(-100, 100)) / 100.0
       break
     }
   }
@@ -243,14 +241,7 @@ fn main {
           if d > 0.001 {
             dx = dx / d
             dy = dy / d
-            spawn_shot(
-              shots,
-              bot.x,
-              bot.y,
-              dx * 340.0,
-              dy * 340.0,
-              true,
-            )
+            spawn_shot(shots, bot.x, bot.y, dx * 340.0, dy * 340.0, true)
           }
         }
 
@@ -299,8 +290,7 @@ fn main {
             if not(bot.alive) {
               continue
             }
-            if (shot.x - bot.x).abs() < 18.0 &&
-              (shot.y - bot.y).abs() < 18.0 {
+            if (shot.x - bot.x).abs() < 18.0 && (shot.y - bot.y).abs() < 18.0 {
               shot.alive = false
               bot.hp = bot.hp - 12
               if bot.hp <= 0 {
@@ -361,11 +351,7 @@ fn main {
 
     for shot in shots {
       if shot.alive {
-        let c = if shot.from_enemy {
-          @raylib.orange
-        } else {
-          @raylib.skyblue
-        }
+        let c = if shot.from_enemy { @raylib.orange } else { @raylib.skyblue }
         @raylib.draw_circle(shot.x.to_int(), shot.y.to_int(), 4.0, c)
       }
     }

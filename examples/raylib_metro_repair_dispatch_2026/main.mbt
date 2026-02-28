@@ -599,8 +599,7 @@ fn update_segments(
       segment.traffic = 0.0
     }
 
-    segment.wear = segment.wear +
-      dt * (0.4 + Float::from_int(tier) * 0.04)
+    segment.wear = segment.wear + dt * (0.4 + Float::from_int(tier) * 0.04)
     segment.wear = clampf(segment.wear, 0.0, 1000.0)
 
     segment.health = segment.health -
@@ -634,10 +633,8 @@ fn update_segments(
         }
         new_faults = new_faults + 1
 
-        let mx : Float = (stations[segment.a].x + stations[segment.b].x) *
-          0.5
-        let my : Float = (stations[segment.a].y + stations[segment.b].y) *
-          0.5
+        let mx : Float = (stations[segment.a].x + stations[segment.b].x) * 0.5
+        let my : Float = (stations[segment.a].y + stations[segment.b].y) * 0.5
         burst_particles(parts, mx, my, 16, 3)
       }
     }
@@ -674,11 +671,7 @@ fn update_trains(
       }
     }
 
-    let route : Array[Int] = if train.route_id == 0 {
-      route0
-    } else {
-      route1
-    }
+    let route : Array[Int] = if train.route_id == 0 { route0 } else { route1 }
     let cur_pos : Int = clampi(train.route_pos, 0, route_len(route) - 1)
     let cur_sid : Int = route_station(route, cur_pos)
 
@@ -801,10 +794,8 @@ fn apply_repair(
       continue
     }
 
-    let mx : Float = (stations[segment.a].x + stations[segment.b].x) *
-      0.5
-    let my : Float = (stations[segment.a].y + stations[segment.b].y) *
-      0.5
+    let mx : Float = (stations[segment.a].x + stations[segment.b].x) * 0.5
+    let my : Float = (stations[segment.a].y + stations[segment.b].y) * 0.5
     let d2 : Float = dist2(drone.x, drone.y, mx, my)
 
     if d2 <= 64.0 * 64.0 {
@@ -1042,10 +1033,7 @@ fn draw_trains(
     }
 
     let (ax, ay, bx, by, _cur_sid, _next_sid) = train_segment_points(
-      train,
-      stations,
-      route0,
-      route1,
+      train, stations, route0, route1,
     )
     let x : Float = ax + (bx - ax) * train.t
     let y : Float = ay + (by - ay) * train.t

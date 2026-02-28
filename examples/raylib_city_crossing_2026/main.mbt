@@ -504,7 +504,7 @@ fn main {
       )
     }
 
-    for i in 0..=cols {
+    for i in 0..<=cols {
       let x = ox + i * cell
       @raylib.draw_line(
         x,
@@ -514,7 +514,7 @@ fn main {
         @raylib.Color::new(24, 30, 34, 180),
       )
     }
-    for i in 0..=rows {
+    for i in 0..<=rows {
       let y = oy + i * cell
       @raylib.draw_line(
         ox,

@@ -743,8 +743,7 @@ fn main {
           let nd2 = dx * dx + dy * dy
           let nd : Float = if nd2 < 1.0 { 1.0 } else { nd2.sqrt() }
 
-          let chase = patrol.speed *
-            (if patrol.kind == 2 { 1.24 } else { 1.0 })
+          let chase = patrol.speed * (if patrol.kind == 2 { 1.24 } else { 1.0 })
           patrol.vx = patrol.vx * (Float::from_int(1) - dt * 2.8) +
             dx / nd * chase * dt * 2.8
           patrol.vy = patrol.vy * (Float::from_int(1) - dt * 2.8) +

@@ -1,6 +1,6 @@
 ///|
 fn make_move(
-  name : String,
+  _name : String,
   attack_id : Int,
   move_kind : Int,
   total_frames : Int,
@@ -20,7 +20,6 @@ fn make_move(
   hitbox_h : Float,
 ) -> MoveSpec {
   let mv = MoveSpec::empty()
-  mv.name = name
   mv.attack_id = attack_id
   mv.move_kind = move_kind
   mv.total_frames = total_frames
@@ -103,7 +102,6 @@ fn roster_kai() -> CharacterArchetype {
     "sky shatter", attack_special_dp, move_kind_special, 58, 6, 6, 138, 10, 25, 15,
     45.0, 100.0, -290.0, 48.0, 56.0, -130.0, 44.0, 78.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 9
   dp.knockdown = true
 
@@ -111,13 +109,11 @@ fn roster_kai() -> CharacterArchetype {
     "solar annihilation", attack_super, move_kind_super, 88, 10, 10, 270, 22, 36,
     22, 78.0, 220.0, -180.0, 96.0, 86.0, -126.0, 80.0, 86.0,
   )
-  super_move.invuln_start = 1
   super_move.invuln_end = 15
   super_move.knockdown = true
   super_move.cancel_on_hit = false
 
   {
-    id: 0,
     name: "KAI",
     title: "Northern Fist",
     intro_quote: "Strength is not enough. Control the flame.",
@@ -176,7 +172,6 @@ fn roster_yun() -> CharacterArchetype {
     "azure spike", attack_special_dp, move_kind_special, 54, 5, 5, 126, 10, 24, 14,
     34.0, 86.0, -318.0, 52.0, 52.0, -138.0, 42.0, 86.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 8
   dp.knockdown = true
 
@@ -185,11 +180,9 @@ fn roster_yun() -> CharacterArchetype {
     70.0, 180.0, -110.0, 92.0, 90.0, -112.0, 88.0, 84.0,
   )
   super_move.knockdown = true
-  super_move.invuln_start = 1
   super_move.invuln_end = 12
 
   {
-    id: 1,
     name: "YUN",
     title: "Silent Crane",
     intro_quote: "Your stance leaks intent.",
@@ -250,7 +243,6 @@ fn roster_lei() -> CharacterArchetype {
     "earth pillar", attack_special_dp, move_kind_special, 60, 8, 6, 148, 10, 25,
     15, 40.0, 92.0, -300.0, 42.0, 62.0, -130.0, 48.0, 82.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 11
   dp.knockdown = true
 
@@ -258,12 +250,10 @@ fn roster_lei() -> CharacterArchetype {
     "volcanic judgement", attack_super, move_kind_super, 94, 12, 10, 294, 24, 38,
     22, 84.0, 240.0, -180.0, 90.0, 96.0, -124.0, 96.0, 88.0,
   )
-  super_move.invuln_start = 1
   super_move.invuln_end = 16
   super_move.knockdown = true
 
   {
-    id: 2,
     name: "LEI",
     title: "Iron Wall",
     intro_quote: "Stand your ground and take it.",
@@ -322,7 +312,6 @@ fn roster_qin() -> CharacterArchetype {
     "void rise", attack_special_dp, move_kind_special, 50, 5, 5, 118, 9, 24, 14,
     30.0, 76.0, -312.0, 54.0, 50.0, -136.0, 40.0, 84.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 7
   dp.knockdown = true
 
@@ -330,12 +319,10 @@ fn roster_qin() -> CharacterArchetype {
     "midnight requiem", attack_super, move_kind_super, 80, 8, 11, 238, 16, 32, 20,
     64.0, 172.0, -120.0, 98.0, 92.0, -116.0, 90.0, 82.0,
   )
-  super_move.invuln_start = 1
   super_move.invuln_end = 11
   super_move.knockdown = true
 
   {
-    id: 3,
     name: "QIN",
     title: "Night Blade",
     intro_quote: "Blink once. I only need that long.",
@@ -395,7 +382,6 @@ fn roster_tora() -> CharacterArchetype {
     "predator leap", attack_special_dp, move_kind_special, 52, 6, 6, 134, 10, 25,
     15, 36.0, 100.0, -304.0, 66.0, 54.0, -132.0, 42.0, 82.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 9
   dp.knockdown = true
 
@@ -403,12 +389,10 @@ fn roster_tora() -> CharacterArchetype {
     "king of beasts", attack_super, move_kind_super, 86, 10, 12, 272, 22, 36, 22,
     76.0, 220.0, -156.0, 104.0, 94.0, -118.0, 94.0, 84.0,
   )
-  super_move.invuln_start = 1
   super_move.invuln_end = 13
   super_move.knockdown = true
 
   {
-    id: 4,
     name: "TORA",
     title: "Wild Fang",
     intro_quote: "Fight me at full speed. No excuses.",
@@ -467,7 +451,6 @@ fn roster_mei() -> CharacterArchetype {
     "white crane rise", attack_special_dp, move_kind_special, 52, 5, 5, 122, 9, 24,
     14, 34.0, 82.0, -310.0, 50.0, 50.0, -134.0, 40.0, 84.0,
   )
-  dp.invuln_start = 1
   dp.invuln_end = 8
   dp.knockdown = true
 
@@ -475,12 +458,10 @@ fn roster_mei() -> CharacterArchetype {
     "moonlit finale", attack_super, move_kind_super, 82, 9, 11, 246, 18, 34, 21,
     66.0, 176.0, -118.0, 92.0, 90.0, -116.0, 90.0, 82.0,
   )
-  super_move.invuln_start = 1
   super_move.invuln_end = 12
   super_move.knockdown = true
 
   {
-    id: 5,
     name: "MEI",
     title: "Jade Dancer",
     intro_quote: "A true rhythm controls the whole arena.",

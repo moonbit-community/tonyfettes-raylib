@@ -96,7 +96,7 @@ fn main {
 
     if counter < stroke_count {
       // Draw Hilbert path animation, one stroke every frame
-      for i in 1..=counter {
+      for i in 1..<=counter {
         let hue : Float = Float::from_int(i) /
           Float::from_int(stroke_count) *
           360.0

@@ -142,8 +142,8 @@ fn draw_board(game : Game) -> Unit {
 
   let font_size : Int = clampi(tile / 3, 16, 28)
 
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       let px : Int = board_x + (x - 1) * tile
       let py : Int = board_y + (y - 1) * tile
 

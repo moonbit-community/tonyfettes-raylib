@@ -154,7 +154,7 @@ fn carve_corridor(
   let mut cy = y1
   // Go horizontal first, then vertical
   while cx != x2 {
-    for dw in 0..=@types.corridor_width {
+    for dw in 0..<=@types.corridor_width {
       @types.set_tile(game, cx, cy + dw, @types.tile_floor)
       if cy - dw >= 0 {
         @types.set_tile(game, cx, cy, @types.tile_floor)
@@ -167,7 +167,7 @@ fn carve_corridor(
     }
   }
   while cy != y2 {
-    for dw in 0..=@types.corridor_width {
+    for dw in 0..<=@types.corridor_width {
       @types.set_tile(game, cx + dw, cy, @types.tile_floor)
       if cx - dw >= 0 {
         @types.set_tile(game, cx, cy, @types.tile_floor)

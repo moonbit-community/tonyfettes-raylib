@@ -9,22 +9,12 @@ fn attack_is_active(fighter : Fighter) -> Bool {
 }
 
 ///|
-fn attack_is_recovery(fighter : Fighter) -> Bool {
-  if fighter.action != action_attack {
-    return false
-  }
-  let mv = fighter.current_move
-  fighter.action_frame >= mv.startup_frames + mv.active_frames
-}
-
-///|
 fn set_idle_state(fighter : Fighter) -> Unit {
   fighter.action = action_idle
   fighter.action_frame = 0
   fighter.action_elapsed = 0.0
   fighter.current_move = MoveSpec::empty()
   fighter.move_connected = false
-  fighter.move_was_blocked = false
   fighter.move_cancel_enabled = false
   if fighter.on_ground {
     fighter.crouching = false
@@ -42,7 +32,6 @@ fn start_attack(
   fighter.action_elapsed = 0.0
   fighter.current_move = mv
   fighter.move_connected = false
-  fighter.move_was_blocked = false
   fighter.move_cancel_enabled = false
 
   if mv.move_kind == move_kind_super {
@@ -61,7 +50,6 @@ fn start_attack(
   if mv.attack_id == attack_special_dp {
     if fighter.on_ground {
       fighter.on_ground = false
-      fighter.jumped = true
       fighter.vy = jump_initial_velocity * 0.74
     }
   }
@@ -212,7 +200,6 @@ fn update_fighter_recovery_state(fighter : Fighter) -> Unit {
     fighter.combo_timer -= 1
   } else {
     fighter.combo_counter = 0
-    fighter.combo_damage = 0
   }
 
   if fighter.hitstop > 0 {
@@ -388,7 +375,6 @@ fn update_jump_state(fighter : Fighter, archetype : CharacterArchetype) -> Unit 
   let input = fighter.input
   if fighter.on_ground && input.hold_up && not(input.hold_down) {
     fighter.on_ground = false
-    fighter.jumped = true
     fighter.action = action_jump
     fighter.action_elapsed = 0.0
     fighter.action_frame = 0
@@ -422,7 +408,6 @@ fn integrate_fighter_physics(
     if not(fighter.on_ground) {
       fighter.y = floor_y
       fighter.on_ground = true
-      fighter.jumped = false
       fighter.vy = 0.0
       if fighter.action == action_jump {
         set_idle_state(fighter)

@@ -63,9 +63,7 @@ fn update_starfield(game : @types.Game, dt : Float) -> Unit {
     star.twinkle += dt * 3.0
     if star.y > Float::from_int(@types.screen_height + 10) {
       star.y = -4.0
-      star.x = Float::from_int(
-        @types.rand_range(game, 0, @types.screen_width),
-      )
+      star.x = Float::from_int(@types.rand_range(game, 0, @types.screen_width))
       star.speed = Float::from_int(@types.rand_range(game, 12, 85))
       star.twinkle = @types.rand_rangef(game, 0.0, 6.2)
     }

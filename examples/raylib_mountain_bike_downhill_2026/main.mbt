@@ -643,8 +643,7 @@ fn main {
 
         let touch_x = absf(hazard.x - rider.x)
         let touch_y = absf(hazard.y - rider.y)
-        if touch_x <= hazard.size + 16.0 &&
-          touch_y <= hazard.size + 24.0 {
+        if touch_x <= hazard.size + 16.0 && touch_y <= hazard.size + 24.0 {
           let hit_dmg : Float = if hazard.kind == 1 {
             22.0
           } else if hazard.kind == 3 {
@@ -839,14 +838,8 @@ fn main {
       } else if hazard.kind == 1 {
         @raylib.draw_triangle(
           @raylib.Vector2::new(hazard.x, hsy - hazard.size),
-          @raylib.Vector2::new(
-            hazard.x - hazard.size,
-            hsy + hazard.size,
-          ),
-          @raylib.Vector2::new(
-            hazard.x + hazard.size,
-            hsy + hazard.size,
-          ),
+          @raylib.Vector2::new(hazard.x - hazard.size, hsy + hazard.size),
+          @raylib.Vector2::new(hazard.x + hazard.size, hsy + hazard.size),
           @raylib.Color::new(64, 130, 84, 255),
         )
       } else if hazard.kind == 2 {
@@ -914,12 +907,7 @@ fn main {
       } else if particle.kind == 3 {
         c = @raylib.Color::new(236, 96, 118, a)
       }
-      @raylib.draw_circle(
-        particle.x.to_int(),
-        psy.to_int(),
-        particle.size,
-        c,
-      )
+      @raylib.draw_circle(particle.x.to_int(), psy.to_int(), particle.size, c)
     }
 
     let rider_sy : Float = world_to_screen_y(rider.y, rider.y)

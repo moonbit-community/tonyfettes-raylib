@@ -57,7 +57,6 @@ struct CurrentCell {
   mut vx : Float
   mut vy : Float
   mut pulse : Float
-  id : Int
 }
 
 ///|
@@ -77,7 +76,6 @@ struct RaftGroup {
   mut survivors : Int
   mut panic : Float
   mut flare_t : Float
-  mut id : Int
 }
 
 ///|
@@ -324,7 +322,6 @@ fn clear_rafts(rafts : Array[RaftGroup]) -> Unit {
     rafts[i].survivors = 0
     rafts[i].panic = 0.0
     rafts[i].flare_t = 0.0
-    rafts[i].id = i + 1
   }
 }
 
@@ -494,11 +491,11 @@ fn find_flow(
 ///|
 fn spawn_raft(
   rafts : Array[RaftGroup],
-  world_l : Float,
+  _world_l : Float,
   world_t : Float,
   world_r : Float,
   world_b : Float,
-  serial : Int,
+  _serial : Int,
 ) -> Bool {
   let mut placed : Bool = false
 
@@ -527,7 +524,6 @@ fn spawn_raft(
     raft.survivors = randi(2, 9)
     raft.panic = randf(0.08, 0.32)
     raft.flare_t = randf(0.0, 4.0)
-    raft.id = serial
     placed = true
     break
   }
@@ -538,7 +534,7 @@ fn spawn_raft(
 ///|
 fn spawn_debris(
   debris : Array[Debris],
-  world_l : Float,
+  _world_l : Float,
   world_t : Float,
   world_r : Float,
   world_b : Float,
@@ -615,11 +611,7 @@ fn spawn_supply(
     supply.vx = randf(-20.0, 20.0)
     supply.vy = randf(-16.0, 16.0)
     supply.kind = if randi(0, 1) == 0 { 0 } else { 1 }
-    supply.amount = if supply.kind == 0 {
-      randi(1, 3)
-    } else {
-      randi(10, 24)
-    }
+    supply.amount = if supply.kind == 0 { randi(1, 3) } else { randi(10, 24) }
     supply.blink = randf(0.0, 8.0)
     placed = true
     break
@@ -881,8 +873,7 @@ fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
     if not(raft.active) {
       continue
     }
-    let panic_col : Int = 90 +
-      (clampf(raft.panic, 0.0, 1.0) * 130.0).to_int()
+    let panic_col : Int = 90 + (clampf(raft.panic, 0.0, 1.0) * 130.0).to_int()
     @raylib.draw_circle_v(
       @raylib.Vector2::new(raft.x, raft.y),
       17.0,
@@ -1703,11 +1694,11 @@ fn main {
     }
   })
 
-  let currents : Array[CurrentCell] = Array::makei(12, fn(i) {
-    { x: 0.0, y: 0.0, w: 0.0, h: 0.0, vx: 0.0, vy: 0.0, pulse: 0.0, id: i + 1 }
+  let currents : Array[CurrentCell] = Array::makei(12, fn(_i) {
+    { x: 0.0, y: 0.0, w: 0.0, h: 0.0, vx: 0.0, vy: 0.0, pulse: 0.0 }
   })
 
-  let rafts : Array[RaftGroup] = Array::makei(36, fn(i) {
+  let rafts : Array[RaftGroup] = Array::makei(36, fn(_i) {
     {
       active: false,
       x: 0.0,
@@ -1717,7 +1708,6 @@ fn main {
       survivors: 0,
       panic: 0.0,
       flare_t: 0.0,
-      id: i + 1,
     }
   })
 
@@ -2329,10 +2319,8 @@ fn main {
           for span in spans {
             let sx : Float = span.x + span.w * 0.5
             let sy : Float = span.y + span.h * 0.5
-            if dist2(sx, sy, strike.x, strike.y) <=
-              (rr + 60.0) * (rr + 60.0) {
-              span.integrity = span.integrity -
-                dt * strike.power * 4.2
+            if dist2(sx, sy, strike.x, strike.y) <= (rr + 60.0) * (rr + 60.0) {
+              span.integrity = span.integrity - dt * strike.power * 4.2
               span.stress = clampf(span.stress + dt * 1.8, 0.0, 4.0)
               span.alarm_t = 0.5
             }
@@ -2353,10 +2341,8 @@ fn main {
           supply.y,
           storm_level,
         )
-        supply.vx = supply.vx * (1.0 - dt * 0.8) +
-          sup_flow.vx * dt * 0.28
-        supply.vy = supply.vy * (1.0 - dt * 0.8) +
-          sup_flow.vy * dt * 0.28
+        supply.vx = supply.vx * (1.0 - dt * 0.8) + sup_flow.vx * dt * 0.28
+        supply.vy = supply.vy * (1.0 - dt * 0.8) + sup_flow.vy * dt * 0.28
         supply.x = supply.x + supply.vx * dt
         supply.y = supply.y + supply.vy * dt
         supply.blink = supply.blink + dt * 3.2

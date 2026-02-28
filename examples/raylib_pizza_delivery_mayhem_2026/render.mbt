@@ -66,7 +66,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(176, 206, 226, 206),
   )
 
-  for i in 0..=(world_w / road_step) {
+  for i in 0..<=(world_w / road_step) {
     let x : Int = world_x0 + ox + i * road_step
     @raylib.draw_rectangle(
       x - 22,
@@ -87,7 +87,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     }
   }
 
-  for i in 0..=(world_h / road_step) {
+  for i in 0..<=(world_h / road_step) {
     let y : Int = world_y0 + oy + i * road_step
     @raylib.draw_rectangle(
       world_x0 + ox,

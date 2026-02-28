@@ -197,8 +197,7 @@ fn main {
           continue
         }
 
-        train.x = train.x +
-          Float::from_int(train.dir) * train.speed * dt
+        train.x = train.x + Float::from_int(train.dir) * train.speed * dt
 
         if train.dir > 0 {
           if train.x >= gate_x0 {

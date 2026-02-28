@@ -582,13 +582,7 @@ fn update_bolts(game : Game, dt : Float) -> Unit {
 
       let hit_r = game.enemies[j].radius + bolt_hit_radius
       let hit_r2 = hit_r * hit_r
-      if dist2(
-          bolt.x,
-          bolt.y,
-          game.enemies[j].x,
-          game.enemies[j].y,
-        ) <=
-        hit_r2 {
+      if dist2(bolt.x, bolt.y, game.enemies[j].x, game.enemies[j].y) <= hit_r2 {
         game.enemies[j].hp = game.enemies[j].hp - bolt.dmg
         bolt.active = false
         emit_pulse(game, bolt.x, bolt.y, 7.0, 0.22, 0)

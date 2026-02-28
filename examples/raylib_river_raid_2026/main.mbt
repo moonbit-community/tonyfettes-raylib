@@ -73,13 +73,7 @@ fn spawn_enemy(
       } else {
         0.0
       }
-      enemy.vy = if kind == 0 {
-        90.0
-      } else if kind == 1 {
-        70.0
-      } else {
-        40.0
-      }
+      enemy.vy = if kind == 0 { 90.0 } else if kind == 1 { 70.0 } else { 40.0 }
       enemy.hp = if kind == 1 { 2 } else { 1 }
       break
     }

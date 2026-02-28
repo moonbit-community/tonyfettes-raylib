@@ -858,8 +858,7 @@ fn handle_player_hit(game : Game) -> Unit {
       continue
     }
 
-    if drone.body.x == game.player.x &&
-      drone.body.y == game.player.y {
+    if drone.body.x == game.player.x && drone.body.y == game.player.y {
       game.lives = game.lives - 1
       game.flash_t = 1.05
       game.shake_t = 0.28

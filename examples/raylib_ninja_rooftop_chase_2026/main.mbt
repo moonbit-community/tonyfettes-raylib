@@ -803,16 +803,8 @@ fn main {
           }
         } else if obstacle.kind == 2 {
           if player.slash_t > 0.0 && dx < 74.0 && player.z < 30.0 {
-            obstacle.hp = obstacle.hp -
-              (36.0 + Float::from_int(level) * 2.0)
-            burst(
-              particles,
-              obstacle.x,
-              lane_y(obstacle.lane),
-              7,
-              0.18,
-              2,
-            )
+            obstacle.hp = obstacle.hp - (36.0 + Float::from_int(level) * 2.0)
+            burst(particles, obstacle.x, lane_y(obstacle.lane), 7, 0.18, 2)
             if obstacle.hp <= 0.0 {
               on_kill(obstacle.x, obstacle.lane, 10)
               obstacle.active = false
@@ -824,16 +816,8 @@ fn main {
         } else if player.slash_t > 0.0 &&
           dx < 72.0 &&
           absf(player.z - oz) < 38.0 {
-          obstacle.hp = obstacle.hp -
-            (34.0 + Float::from_int(level) * 1.6)
-          burst(
-            particles,
-            obstacle.x,
-            lane_y(obstacle.lane) - oz,
-            8,
-            0.20,
-            2,
-          )
+          obstacle.hp = obstacle.hp - (34.0 + Float::from_int(level) * 1.6)
+          burst(particles, obstacle.x, lane_y(obstacle.lane) - oz, 8, 0.20, 2)
           if obstacle.hp <= 0.0 {
             on_kill(obstacle.x, obstacle.lane, 18)
             obstacle.active = false
@@ -874,8 +858,7 @@ fn main {
             }
 
             let oz = obstacle_z(obstacle)
-            if absf(shot.x - obstacle.x) < 26.0 &&
-              absf(shot.z - oz) < 36.0 {
+            if absf(shot.x - obstacle.x) < 26.0 && absf(shot.z - oz) < 36.0 {
               obstacle.hp = obstacle.hp - shot.dmg
               shot.active = false
               burst(

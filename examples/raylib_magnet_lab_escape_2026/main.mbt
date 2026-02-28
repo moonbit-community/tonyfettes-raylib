@@ -1542,16 +1542,14 @@ fn main {
         }
 
         // Core damage vs drones (if moving fast).
-        let speed2 : Float = core.vx * core.vx +
-          core.vy * core.vy
+        let speed2 : Float = core.vx * core.vx + core.vy * core.vy
         if speed2 >= 170.0 * 170.0 {
           for drone in drones {
             if not(drone.active) {
               continue
             }
             let rr : Float = core.r + drone_radius(drone.kind)
-            if dist2(core.x, core.y, drone.x, drone.y) <=
-              rr * rr {
+            if dist2(core.x, core.y, drone.x, drone.y) <= rr * rr {
               drone.hp = drone.hp - 18.0
               let mut dx : Float = drone.x - core.x
               let mut dy : Float = drone.y - core.y
@@ -1595,13 +1593,7 @@ fn main {
           box.vx = -absf(box.vx) * 0.44
         }
 
-        let (bx, bvx) = gate_block_circle(
-          gates,
-          box.x,
-          box.y,
-          box.r,
-          box.vx,
-        )
+        let (bx, bvx) = gate_block_circle(gates, box.x, box.y, box.r, box.vx)
         box.x = bx
         box.vx = bvx
 
@@ -1636,16 +1628,14 @@ fn main {
         }
 
         // Damage drones when thrown fast.
-        let speed2 : Float = box.vx * box.vx +
-          box.vy * box.vy
+        let speed2 : Float = box.vx * box.vx + box.vy * box.vy
         if speed2 >= 180.0 * 180.0 {
           for drone in drones {
             if not(drone.active) {
               continue
             }
             let rr : Float = box.r + drone_radius(drone.kind)
-            if dist2(box.x, box.y, drone.x, drone.y) <=
-              rr * rr {
+            if dist2(box.x, box.y, drone.x, drone.y) <= rr * rr {
               drone.hp = drone.hp - 26.0
               box.hp = box.hp - 20.0
               box.vx = -box.vx * 0.54
@@ -1717,8 +1707,7 @@ fn main {
         } else {
           230.0 + Float::from_int(level) * 4.0
         }
-        let sp2 : Float = drone.vx * drone.vx +
-          drone.vy * drone.vy
+        let sp2 : Float = drone.vx * drone.vx + drone.vy * drone.vy
         if sp2 > max_spd * max_spd {
           let invs : Float = max_spd / sp2.sqrt()
           drone.vx = drone.vx * invs
@@ -1934,8 +1923,7 @@ fn main {
               continue
             }
             let rr : Float = bolts[i].r + drone_radius(drone.kind)
-            if dist2(bolts[i].x, bolts[i].y, drone.x, drone.y) <=
-              rr * rr {
+            if dist2(bolts[i].x, bolts[i].y, drone.x, drone.y) <= rr * rr {
               drone.hp = drone.hp - bolts[i].dmg
               bolts[i].active = false
               hit_done = true
@@ -1949,8 +1937,7 @@ fn main {
                 continue
               }
               let rr : Float = bolts[i].r + box.r
-              if dist2(bolts[i].x, bolts[i].y, box.x, box.y) <=
-                rr * rr {
+              if dist2(bolts[i].x, bolts[i].y, box.x, box.y) <= rr * rr {
                 box.hp = box.hp - bolts[i].dmg * 0.8
                 bolts[i].active = false
                 break

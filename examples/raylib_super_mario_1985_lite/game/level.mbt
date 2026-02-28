@@ -57,7 +57,7 @@ fn add_coin_spawn(game : @types.Game, tx : Int, ty : Int) -> Unit {
 
 ///|
 fn carve_gap(game : @types.Game, tx0 : Int, tx1 : Int) -> Unit {
-  for x in tx0..=tx1 {
+  for x in tx0..<=tx1 {
     for y in @types.ground_row..<@types.world_tiles_h {
       @types.set_tile(game, x, y, @types.tile_empty)
     }

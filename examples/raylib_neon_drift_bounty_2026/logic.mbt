@@ -630,12 +630,7 @@ fn apply_hack_pulse(game : Game) -> Unit {
       continue
     }
 
-    let d2 = dist2(
-      game.hero.x,
-      game.hero.y,
-      entity.x,
-      entity.y,
-    )
+    let d2 = dist2(game.hero.x, game.hero.y, entity.x, entity.y)
     if d2 > rr2 {
       continue
     }
@@ -660,12 +655,7 @@ fn apply_hack_pulse(game : Game) -> Unit {
       continue
     }
 
-    let d2 = dist2(
-      game.hero.x,
-      game.hero.y,
-      bullet.x,
-      bullet.y,
-    )
+    let d2 = dist2(game.hero.x, game.hero.y, bullet.x, bullet.y)
     if d2 <= rr2 {
       bullet.active = false
       emit_spark(
@@ -1003,8 +993,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
     }
 
     bullet.x = bullet.x + bullet.vx * dt
-    bullet.y = bullet.y +
-      (bullet.vy + game.scroll_speed * 0.1) * dt
+    bullet.y = bullet.y + (bullet.vy + game.scroll_speed * 0.1) * dt
     bullet.life = bullet.life - dt
 
     let dead = bullet.life <= 0.0 ||
@@ -1058,12 +1047,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
         continue
       }
     } else {
-      let d2 = dist2(
-        bullet.x,
-        bullet.y,
-        game.hero.x,
-        game.hero.y,
-      )
+      let d2 = dist2(bullet.x, bullet.y, game.hero.x, game.hero.y)
       let rr = player_hit_radius(game.hero) + 8.0
       if d2 <= rr * rr {
         bullet.active = false
@@ -1082,8 +1066,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
 
     spark.x = spark.x + spark.vx * dt
-    spark.y = spark.y +
-      (spark.vy + game.scroll_speed * 0.16) * dt
+    spark.y = spark.y + (spark.vy + game.scroll_speed * 0.16) * dt
     spark.life = spark.life - dt
 
     if spark.life <= 0.0 {
@@ -1097,8 +1080,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
 
     ring.life = ring.life - dt
-    ring.r = ring.r +
-      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    ring.r = ring.r + (130.0 + Float::from_int(ring.kind) * 52.0) * dt
     if ring.life <= 0.0 {
       ring.active = false
     }

@@ -170,7 +170,7 @@ fn generate_cave(
   let mut top : Float = 150.0
   let mut gap : Float = 360.0
 
-  for i in 0..=seg_count {
+  for i in 0..<=seg_count {
     top = top + randf(-28.0, 28.0)
     top = clampf(top, 90.0, 300.0)
 
@@ -1026,11 +1026,7 @@ fn main {
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemy.kind == 0 {
-          176.0
-        } else {
-          130.0
-        }
+        let base_speed : Float = if enemy.kind == 0 { 176.0 } else { 130.0 }
         let level_gain : Float = if enemy.kind == 0 { 16.0 } else { 12.0 }
         let mut speed : Float = base_speed +
           Float::from_int(level - 1) * level_gain
@@ -1065,11 +1061,7 @@ fn main {
           dist2(enemy.x, enemy.y, player.x, player.y) <= 30.0 * 30.0 {
           enemy.bite_cd = 0.62
           if player.hit_cd <= 0.0 {
-            let bite_dmg : Float = if enemy.kind == 0 {
-              12.0
-            } else {
-              20.0
-            }
+            let bite_dmg : Float = if enemy.kind == 0 { 12.0 } else { 20.0 }
             player.hp = player.hp - bite_dmg
             player.hit_cd = 0.42
             player.flash_t = 0.18
@@ -1126,25 +1118,13 @@ fn main {
             if not(enemy.active) {
               continue
             }
-            if dist2(
-                projectile.x,
-                projectile.y,
-                enemy.x,
-                enemy.y,
-              ) <=
+            if dist2(projectile.x, projectile.y, enemy.x, enemy.y) <=
               22.0 * 22.0 {
               enemy.hp = enemy.hp - projectile.dmg
               if projectile.kind == 0 {
                 enemy.burn_t = enemy.burn_t + 1.8
               }
-              burst_particles(
-                particles,
-                projectile.x,
-                projectile.y,
-                6,
-                58.0,
-                0,
-              )
+              burst_particles(particles, projectile.x, projectile.y, 6, 58.0, 0)
               projectile.active = false
               break
             }
@@ -1157,14 +1137,7 @@ fn main {
             player.flash_t = 0.14
             player.shake_t = 0.2
           }
-          burst_particles(
-            particles,
-            projectile.x,
-            projectile.y,
-            10,
-            72.0,
-            2,
-          )
+          burst_particles(particles, projectile.x, projectile.y, 10, 72.0, 2)
           projectile.active = false
         }
       }
@@ -1204,8 +1177,7 @@ fn main {
         }
 
         crystal.spin_t = crystal.spin_t + dt
-        if dist2(player.x, player.y, crystal.x, crystal.y) <=
-          28.0 * 28.0 {
+        if dist2(player.x, player.y, crystal.x, crystal.y) <= 28.0 * 28.0 {
           crystal.active = false
           player.crystals = player.crystals + 1
           player.score = player.score + crystal.value + player.combo * 2
@@ -1274,7 +1246,7 @@ fn main {
       seg_count - 1,
     )
 
-    for i in start_seg..=end_seg {
+    for i in start_seg..<=end_seg {
       let x0 : Float = Float::from_int(i) * seg_w - cam_x + shake_x
       let top0 : Float = cave_top[i] + shake_y
       let top1 : Float = cave_top[i + 1] + shake_y
@@ -1502,12 +1474,7 @@ fn main {
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
       }
-      @raylib.draw_circle(
-        px.to_int(),
-        py.to_int(),
-        particle.size * life_r,
-        col,
-      )
+      @raylib.draw_circle(px.to_int(), py.to_int(), particle.size * life_r, col)
     }
 
     @raylib.draw_rectangle(

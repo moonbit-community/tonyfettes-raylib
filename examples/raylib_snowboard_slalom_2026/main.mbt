@@ -796,14 +796,8 @@ fn main {
       } else if obstacle.kind == 1 {
         @raylib.draw_triangle(
           @raylib.Vector2::new(obstacle.x, sy - obstacle.size),
-          @raylib.Vector2::new(
-            obstacle.x - obstacle.size,
-            sy + obstacle.size,
-          ),
-          @raylib.Vector2::new(
-            obstacle.x + obstacle.size,
-            sy + obstacle.size,
-          ),
+          @raylib.Vector2::new(obstacle.x - obstacle.size, sy + obstacle.size),
+          @raylib.Vector2::new(obstacle.x + obstacle.size, sy + obstacle.size),
           @raylib.Color::new(66, 132, 86, 255),
         )
       } else {
@@ -861,12 +855,7 @@ fn main {
         c = @raylib.Color::new(236, 96, 118, a)
       }
 
-      @raylib.draw_circle(
-        particle.x.to_int(),
-        sy.to_int(),
-        particle.size,
-        c,
-      )
+      @raylib.draw_circle(particle.x.to_int(), sy.to_int(), particle.size, c)
     }
 
     let rider_sy : Float = rider.y - cam_y

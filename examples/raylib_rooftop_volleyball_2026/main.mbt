@@ -44,7 +44,6 @@ struct Ball {
   r : Float
   mut spin : Float
   mut active : Bool
-  mut touch_owner : Int
   mut serve_owner : Int
 }
 
@@ -190,7 +189,6 @@ fn setup_rally(
 
   ball.active = false
   ball.serve_owner = serve_owner
-  ball.touch_owner = 0
   ball.spin = 0.0
   ball.vx = 0.0
   ball.vy = 0.0
@@ -377,8 +375,6 @@ fn attempt_hit_ball(
   ball.spin = ball.spin +
     (if owner == 1 { 1.0 } else { -1.0 }) *
     Float::from_int(@raylib.get_random_value(16, 44))
-  ball.touch_owner = owner
-
   a.hit_cd = 0.22
   a.energy = a.energy - 14.0
   if a.energy < 0.0 {
@@ -526,7 +522,6 @@ fn main {
     r: 16.0,
     spin: 0.0,
     active: false,
-    touch_owner: 0,
     serve_owner: 1,
   }
 
@@ -732,7 +727,6 @@ fn main {
         if ball.serve_owner == 1 {
           if p_hit || p_jump {
             ball.active = true
-            ball.touch_owner = 1
             ball.x = player.x + 32.0
             ball.y = player.y - 86.0
             ball.vx = Float::from_int(@raylib.get_random_value(420, 520))
@@ -743,7 +737,6 @@ fn main {
           }
         } else {
           ball.active = true
-          ball.touch_owner = 2
           ball.x = bot.x - 32.0
           ball.y = bot.y - 86.0
           ball.vx = -Float::from_int(@raylib.get_random_value(420, 520))

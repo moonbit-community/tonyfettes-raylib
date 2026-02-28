@@ -115,8 +115,8 @@ fn draw_chunks(game : @types.Game) -> Unit {
   let max_cx = @types.mini(@types.world_chunks_x - 1, pcx + rd)
   let min_cz = @types.maxi(0, pcz - rd)
   let max_cz = @types.mini(@types.world_chunks_z - 1, pcz + rd)
-  for cz in min_cz..=max_cz {
-    for cx in min_cx..=max_cx {
+  for cz in min_cz..<=max_cz {
+    for cx in min_cx..<=max_cx {
       draw_chunk_blocks(game, cx, cz)
     }
   }
@@ -146,7 +146,7 @@ fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
   if chunk_dist > @types.fog_end_distance + 16.0 {
     return
   }
-  for ly in min_y..=max_y {
+  for ly in min_y..<=max_y {
     for lz in 0..<@types.chunk_z {
       for lx in 0..<@types.chunk_x {
         let block = chunk.get_block(lx, ly, lz)
@@ -215,9 +215,9 @@ fn draw_block_with_lighting(
     let mut near_torch = false
     let check_range = 4
     let neg_range = -check_range
-    for dy in neg_range..=check_range {
-      for dz in neg_range..=check_range {
-        for dx in neg_range..=check_range {
+    for dy in neg_range..<=check_range {
+      for dz in neg_range..<=check_range {
+        for dx in neg_range..<=check_range {
           let check_block = @types.get_world_block(
             game,
             wx + dx,
@@ -299,8 +299,8 @@ fn draw_decorations(game : @types.Game) -> Unit {
   let max_cx = @types.mini(@types.world_chunks_x - 1, pcx + rd)
   let min_cz = @types.maxi(0, pcz - rd)
   let max_cz = @types.mini(@types.world_chunks_z - 1, pcz + rd)
-  for cz in min_cz..=max_cz {
-    for cx in min_cx..=max_cx {
+  for cz in min_cz..<=max_cz {
+    for cx in min_cx..<=max_cx {
       draw_chunk_decorations(game, cx, cz)
     }
   }
@@ -314,7 +314,7 @@ fn draw_chunk_decorations(game : @types.Game, cx : Int, cz : Int) -> Unit {
   let player_y = game.player.y.to_int()
   let min_y = @types.maxi(0, player_y - 15)
   let max_y = @types.mini(@types.chunk_y - 1, player_y + 15)
-  for ly in min_y..=max_y {
+  for ly in min_y..<=max_y {
     for lz in 0..<@types.chunk_z {
       for lx in 0..<@types.chunk_x {
         let block = chunk.get_block(lx, ly, lz)
@@ -1122,12 +1122,12 @@ fn draw_torch_glow_effects(game : @types.Game) -> Unit {
   let player_y = player.y.to_int()
   let min_y = @types.maxi(0, player_y - 12)
   let max_y = @types.mini(@types.chunk_y - 1, player_y + 12)
-  for cz in min_cz..=max_cz {
-    for cx in min_cx..=max_cx {
+  for cz in min_cz..<=max_cz {
+    for cx in min_cx..<=max_cx {
       let chunk = game.chunks[cz * @types.world_chunks_x + cx]
       let base_wx = cx * @types.chunk_x
       let base_wz = cz * @types.chunk_z
-      for ly in min_y..=max_y {
+      for ly in min_y..<=max_y {
         for lz in 0..<@types.chunk_z {
           for lx in 0..<@types.chunk_x {
             let block = chunk.get_block(lx, ly, lz)
@@ -1177,8 +1177,8 @@ fn draw_water_surface_effects(game : @types.Game) -> Unit {
   let min_cz = @types.maxi(0, pcz - rd)
   let max_cz = @types.mini(@types.world_chunks_z - 1, pcz + rd)
   let water_y = @types.water_level
-  for cz in min_cz..=max_cz {
-    for cx in min_cx..=max_cx {
+  for cz in min_cz..<=max_cz {
+    for cx in min_cx..<=max_cx {
       let chunk = game.chunks[cz * @types.world_chunks_x + cx]
       let base_wx = cx * @types.chunk_x
       let base_wz = cz * @types.chunk_z

@@ -1123,9 +1123,7 @@ fn main {
         drone.base_y = drone.base_y +
           clampf(pilot.y - 120.0 - drone.base_y, -120.0, 120.0) * dt * 0.07
         drone.y = drone.base_y +
-          @math.sinf(
-            drone.t * (1.3 + Float::from_int(drone.kind) * 0.3),
-          ) *
+          @math.sinf(drone.t * (1.3 + Float::from_int(drone.kind) * 0.3)) *
           (14.0 + Float::from_int(drone.kind) * 6.0)
 
         drone.x = clampf(drone.x, tower_l + 24.0, tower_r - 24.0)
@@ -1197,8 +1195,7 @@ fn main {
             bullet.active = false
             pilot.score = pilot.score + 2
             burst(particles, bullet.x, bullet.y, 4, 0.08, 2)
-          } else if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <=
-            16.0 * 16.0 {
+          } else if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <= 16.0 * 16.0 {
             bullet.active = false
             on_hit(bullet.dmg, "Laser hit")
           }
@@ -1255,8 +1252,7 @@ fn main {
 
       // Cleanup / generation.
       for anchor in anchors {
-        if anchor.active &&
-          anchor.y - cam_y > Float::from_int(sh) + 240.0 {
+        if anchor.active && anchor.y - cam_y > Float::from_int(sh) + 240.0 {
           anchor.active = false
         }
       }

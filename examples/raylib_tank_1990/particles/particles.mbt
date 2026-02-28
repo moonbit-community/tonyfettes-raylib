@@ -89,7 +89,7 @@ pub fn spawn_explosion(
   }
 
   // Smoke puffs.
-  for _i in 0..<(@types.clampi((strength * 10.0).to_int(), 4, 20)) {
+  for _i in 0..<@types.clampi((strength * 10.0).to_int(), 4, 20) {
     let angle = @types.rand_rangef(game, 0.0, 6.28318)
     let speed = @types.rand_rangef(game, 12.0, 58.0)
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed

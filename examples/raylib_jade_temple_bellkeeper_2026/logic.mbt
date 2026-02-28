@@ -422,12 +422,7 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
       continue
     }
 
-    let d2 = dist2(
-      game.bells[bell_i].x,
-      game.bells[bell_i].y,
-      foe.x,
-      foe.y,
-    )
+    let d2 = dist2(game.bells[bell_i].x, game.bells[bell_i].y, foe.x, foe.y)
     if d2 > rr2 {
       continue
     }
@@ -477,12 +472,7 @@ fn ring_bell(game : Game, bell_i : Int) -> Unit {
       continue
     }
 
-    let d2 = dist2(
-      game.bells[bell_i].x,
-      game.bells[bell_i].y,
-      bolt.x,
-      bolt.y,
-    )
+    let d2 = dist2(game.bells[bell_i].x, game.bells[bell_i].y, bolt.x, bolt.y)
     if d2 <= rr2 {
       bolt.active = false
       emit_spark(
@@ -990,8 +980,7 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
 
     ring.life = ring.life - dt
-    ring.r = ring.r +
-      (130.0 + Float::from_int(ring.kind) * 44.0) * dt
+    ring.r = ring.r + (130.0 + Float::from_int(ring.kind) * 44.0) * dt
 
     if ring.life <= 0.0 {
       ring.active = false

@@ -1,7 +1,7 @@
 ///|
 fn has_neighbor(game : Game, x : Int, y : Int, r : Int) -> Bool {
-  for yy in (y - r)..=(y + r) {
-    for xx in (x - r)..=(x + r) {
+  for yy in (y - r)..<=(y + r) {
+    for xx in (x - r)..<=(x + r) {
       if xx == x && yy == y {
         continue
       }

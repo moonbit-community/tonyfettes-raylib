@@ -345,7 +345,7 @@ fn update_animations(game : Game, dt : Float) -> Bool {
 fn update_game_logic(game : Game, dt : Float) -> Unit {
   let done = update_animations(game, dt)
   match game.state {
-    s if s == state_swap => {
+    s if s == state_swap =>
       if done {
         // Check if swap produced matches
         let m = find_matches(game)
@@ -366,7 +366,6 @@ fn update_game_logic(game : Game, dt : Float) -> Unit {
           game.msg_t = 0.8
         }
       }
-    }
     s if s == state_remove => {
       game.combo = game.combo + 1
       if game.combo > game.max_combo {
@@ -385,74 +384,71 @@ fn update_game_logic(game : Game, dt : Float) -> Unit {
       ignore(apply_gravity(game))
       game.state = state_fall
     }
-    s if s == state_fall => {
+    s if s == state_fall =>
       if done {
         let m = find_matches(game)
         if m > 0 {
           game.state = state_remove // cascade
-        } else {
           // Check win/lose
-          if game.score >= game.target_score {
-            game.state = state_clear
-          } else if game.moves_left <= 0 {
-            game.state = state_over
-          } else {
-            game.state = state_play
-            game.combo = 0
-            // Find hint
-            find_hint(game)
-            game.hint_t = 0.0
-            // Check if any valid swaps exist; shuffle until valid
-            if not(has_valid_swap(game)) {
-              let mut attempts = 0
-              while attempts < 100 {
-                fill_board(game)
-                // Remove any initial matches
-                let mut has_match = true
-                while has_match {
-                  has_match = false
-                  for r2 in 0..<grid_rows {
-                    for c2 in 0..<grid_cols {
-                      if c2 + 2 < grid_cols &&
-                        game.board[idx(r2, c2)].kind ==
-                          game.board[idx(r2, c2 + 1)].kind &&
-                        game.board[idx(r2, c2)].kind ==
-                          game.board[idx(r2, c2 + 2)].kind &&
-                        game.board[idx(r2, c2)].kind >= 0 {
-                        game.board[idx(r2, c2 + 2)].kind = @raylib.get_random_value(
-                          0,
-                          num_colors - 1,
-                        )
-                        has_match = true
-                      }
-                      if r2 + 2 < grid_rows &&
-                        game.board[idx(r2, c2)].kind ==
-                          game.board[idx(r2 + 1, c2)].kind &&
-                        game.board[idx(r2, c2)].kind ==
-                          game.board[idx(r2 + 2, c2)].kind &&
-                        game.board[idx(r2, c2)].kind >= 0 {
-                        game.board[idx(r2 + 2, c2)].kind = @raylib.get_random_value(
-                          0,
-                          num_colors - 1,
-                        )
-                        has_match = true
-                      }
+        } else if game.score >= game.target_score {
+          game.state = state_clear
+        } else if game.moves_left <= 0 {
+          game.state = state_over
+        } else {
+          game.state = state_play
+          game.combo = 0
+          // Find hint
+          find_hint(game)
+          game.hint_t = 0.0
+          // Check if any valid swaps exist; shuffle until valid
+          if not(has_valid_swap(game)) {
+            let mut attempts = 0
+            while attempts < 100 {
+              fill_board(game)
+              // Remove any initial matches
+              let mut has_match = true
+              while has_match {
+                has_match = false
+                for r2 in 0..<grid_rows {
+                  for c2 in 0..<grid_cols {
+                    if c2 + 2 < grid_cols &&
+                      game.board[idx(r2, c2)].kind ==
+                      game.board[idx(r2, c2 + 1)].kind &&
+                      game.board[idx(r2, c2)].kind ==
+                      game.board[idx(r2, c2 + 2)].kind &&
+                      game.board[idx(r2, c2)].kind >= 0 {
+                      game.board[idx(r2, c2 + 2)].kind = @raylib.get_random_value(
+                        0,
+                        num_colors - 1,
+                      )
+                      has_match = true
+                    }
+                    if r2 + 2 < grid_rows &&
+                      game.board[idx(r2, c2)].kind ==
+                      game.board[idx(r2 + 1, c2)].kind &&
+                      game.board[idx(r2, c2)].kind ==
+                      game.board[idx(r2 + 2, c2)].kind &&
+                      game.board[idx(r2, c2)].kind >= 0 {
+                      game.board[idx(r2 + 2, c2)].kind = @raylib.get_random_value(
+                        0,
+                        num_colors - 1,
+                      )
+                      has_match = true
                     }
                   }
                 }
-                if has_valid_swap(game) {
-                  break
-                }
-                attempts = attempts + 1
               }
-              snap_positions(game)
-              game.msg = "Shuffled!"
-              game.msg_t = 1.5
+              if has_valid_swap(game) {
+                break
+              }
+              attempts = attempts + 1
             }
+            snap_positions(game)
+            game.msg = "Shuffled!"
+            game.msg_t = 1.5
           }
         }
       }
-    }
     _ => ()
   }
 }

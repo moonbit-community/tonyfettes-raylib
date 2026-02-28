@@ -11,7 +11,6 @@ fn ai_set_mode_from_distance(fighter : Fighter, distance : Float) -> Unit {
 
 ///|
 fn ai_reset_flags(fighter : Fighter) -> Unit {
-  fighter.ai_wants_jump = false
   fighter.ai_wants_special = false
   fighter.ai_wants_super = false
   fighter.ai_wants_throw = false

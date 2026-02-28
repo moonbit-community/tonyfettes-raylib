@@ -819,8 +819,7 @@ fn main {
         let mut blast_kills : Int = 0
         for enemy in enemies {
           if enemy.active &&
-            dist2(cannon.x, cannon.y - 40.0, enemy.x, enemy.y) <=
-            220.0 * 220.0 {
+            dist2(cannon.x, cannon.y - 40.0, enemy.x, enemy.y) <= 220.0 * 220.0 {
             enemy.active = false
             blast_kills = blast_kills + 1
             cannon.kills = cannon.kills + 1
@@ -949,8 +948,7 @@ fn main {
 
         for enemy in enemies {
           if enemy.active &&
-            dist2(boats[i].x, boats[i].y - 8.0, enemy.x, enemy.y) <=
-            36.0 * 36.0 {
+            dist2(boats[i].x, boats[i].y - 8.0, enemy.x, enemy.y) <= 36.0 * 36.0 {
             enemy.active = false
             boats[i].hp = boats[i].hp - 36.0
             boats[i].panic_t = 1.2
@@ -992,20 +990,14 @@ fn main {
 
         if projectile.from_enemy {
           if cannon.shield_t > 0.0 &&
-            dist2(projectile.x, projectile.y, cannon.x, cannon.y) <=
-            58.0 * 58.0 {
+            dist2(projectile.x, projectile.y, cannon.x, cannon.y) <= 58.0 * 58.0 {
             projectile.active = false
             cannon.score = cannon.score + 2
             burst(particles, projectile.x, projectile.y, 5, 0.10, 2)
             continue
           }
 
-          if dist2(
-              projectile.x,
-              projectile.y,
-              cannon.x,
-              cannon.y - 22.0,
-            ) <=
+          if dist2(projectile.x, projectile.y, cannon.x, cannon.y - 22.0) <=
             30.0 * 30.0 {
             projectile.active = false
             on_harbor_hit(projectile.dmg, "Harbor battery hit")
@@ -1014,12 +1006,7 @@ fn main {
 
           for boat in boats {
             if boat.active &&
-              dist2(
-                projectile.x,
-                projectile.y,
-                boat.x,
-                boat.y - 8.0,
-              ) <=
+              dist2(projectile.x, projectile.y, boat.x, boat.y - 8.0) <=
               20.0 * 20.0 {
               projectile.active = false
               boat.hp = boat.hp - projectile.dmg * 0.9
@@ -1032,13 +1019,7 @@ fn main {
           let mut hit_enemy = false
           for enemy in enemies {
             if enemy.active &&
-              dist2(
-                projectile.x,
-                projectile.y,
-                enemy.x,
-                enemy.y,
-              ) <=
-              24.0 * 24.0 {
+              dist2(projectile.x, projectile.y, enemy.x, enemy.y) <= 24.0 * 24.0 {
               projectile.active = false
               enemy.hp = enemy.hp - projectile.dmg
               burst(particles, projectile.x, projectile.y, 6, 0.10, 0)
@@ -1066,12 +1047,7 @@ fn main {
 
           for boat in boats {
             if boat.active &&
-              dist2(
-                projectile.x,
-                projectile.y,
-                boat.x,
-                boat.y - 10.0,
-              ) <=
+              dist2(projectile.x, projectile.y, boat.x, boat.y - 10.0) <=
               20.0 * 20.0 {
               projectile.active = false
               boat.hp = boat.hp - projectile.dmg * 1.5
@@ -1104,8 +1080,7 @@ fn main {
           continue
         }
 
-        if dist2(pickup.x, pickup.y, cannon.x, cannon.y - 20.0) <=
-          34.0 * 34.0 {
+        if dist2(pickup.x, pickup.y, cannon.x, cannon.y - 20.0) <= 34.0 * 34.0 {
           if pickup.kind == 0 {
             cannon.hp = cannon.hp + 30.0
             if cannon.hp > 240.0 {

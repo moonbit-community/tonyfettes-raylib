@@ -1067,16 +1067,14 @@ fn main {
         for bullet in bullets {
           if bullet.active &&
             bullet.team == 2 &&
-            dist2(player.x, player.y, bullet.x, bullet.y) <=
-            280.0 * 280.0 {
+            dist2(player.x, player.y, bullet.x, bullet.y) <= 280.0 * 280.0 {
             bullet.active = false
           }
         }
 
         for enemy in enemies {
           if enemy.active &&
-            dist2(player.x, player.y, enemy.x, enemy.y) <=
-            290.0 * 290.0 {
+            dist2(player.x, player.y, enemy.x, enemy.y) <= 290.0 * 290.0 {
             enemy.hp = enemy.hp - 42.0
             enemy.vx = enemy.vx * 0.2
           }
@@ -1206,16 +1204,13 @@ fn main {
 
         if enemy.kind == 0 {
           enemy.vy = scroll_speed + 90.0
-          enemy.vx = @math.sinf(enemy.t * 2.2 + enemy.phase) *
-            96.0
+          enemy.vx = @math.sinf(enemy.t * 2.2 + enemy.phase) * 96.0
         } else if enemy.kind == 1 {
           enemy.vy = scroll_speed + 132.0
-          enemy.vx = @math.sinf(enemy.t * 3.0 + enemy.phase) *
-            148.0
+          enemy.vx = @math.sinf(enemy.t * 3.0 + enemy.phase) * 148.0
         } else {
           enemy.vy = scroll_speed + 78.0
-          enemy.vx = @math.sinf(enemy.t * 1.3 + enemy.phase) *
-            72.0
+          enemy.vx = @math.sinf(enemy.t * 1.3 + enemy.phase) * 72.0
         }
 
         enemy.x = enemy.x + enemy.vx * dt
@@ -1227,8 +1222,7 @@ fn main {
           continue
         }
 
-        if enemy.fire_cd <= 0.0 &&
-          enemy.y < Float::from_int(sh) - 20.0 {
+        if enemy.fire_cd <= 0.0 && enemy.y < Float::from_int(sh) - 20.0 {
           let tx = player.x - enemy.x
           let ty = player.y - enemy.y
           let mut inv : Float = 0.0
@@ -1309,8 +1303,7 @@ fn main {
         }
 
         if dist2(enemy.x, enemy.y, player.x, player.y) <=
-          (enemy_radius(enemy.kind) + 17.0) *
-          (enemy_radius(enemy.kind) + 17.0) {
+          (enemy_radius(enemy.kind) + 17.0) * (enemy_radius(enemy.kind) + 17.0) {
           on_player_hit(
             10.0 + Float::from_int(enemy.kind) * 2.6,
             "Hull collision",
@@ -1334,7 +1327,7 @@ fn main {
 
         if boss.fire_cd <= 0.0 {
           boss.fire_cd = randf(0.52, 0.9)
-          for k in -2..=2 {
+          for k in -2..<=2 {
             let tx = player.x - boss.x + Float::from_int(k) * 40.0
             let ty = player.y - boss.y
             let mut inv : Float = 0.0
@@ -1423,8 +1416,7 @@ fn main {
             }
 
             let rr = bullet.radius + enemy_radius(enemy.kind)
-            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-              rr * rr {
+            if dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= rr * rr {
               enemy.hp = enemy.hp - bullet.dmg
               bullet.active = false
               hit_done = true
@@ -1650,12 +1642,7 @@ fn main {
       } else {
         @raylib.Color::new(252, 208, 94, 246)
       }
-      @raylib.draw_circle(
-        pickup.x.to_int(),
-        pickup.y.to_int(),
-        10.0,
-        col,
-      )
+      @raylib.draw_circle(pickup.x.to_int(), pickup.y.to_int(), 10.0, col)
       @raylib.draw_circle_lines(
         pickup.x.to_int(),
         pickup.y.to_int(),

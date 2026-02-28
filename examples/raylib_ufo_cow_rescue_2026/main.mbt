@@ -37,7 +37,6 @@ struct Ufo {
   mut hp : Float
   mut energy : Float
   mut beam_t : Float
-  mut beam_heat : Float
   mut dash_t : Float
   mut dash_cd : Float
   mut emp_cd : Float
@@ -377,7 +376,6 @@ fn main {
     hp: 220.0,
     energy: 100.0,
     beam_t: 0.0,
-    beam_heat: 0.0,
     dash_t: 0.0,
     dash_cd: 0.0,
     emp_cd: 0.0,
@@ -450,7 +448,6 @@ fn main {
     ufo.hp = 220.0
     ufo.energy = 100.0
     ufo.beam_t = 0.0
-    ufo.beam_heat = 0.0
     ufo.dash_t = 0.0
     ufo.dash_cd = 0.0
     ufo.emp_cd = 0.0
@@ -668,8 +665,7 @@ fn main {
         for farmer in farmers {
           if farmer.active &&
             dist2(ufo.x, ufo.y, farmer.x, farmer.y) <= 180.0 * 180.0 {
-            farmer.hp = farmer.hp -
-              (36.0 + Float::from_int(level) * 2.0)
+            farmer.hp = farmer.hp - (36.0 + Float::from_int(level) * 2.0)
             farmer.panic_t = 1.1
             if farmer.hp <= 0.0 {
               farmer.active = false
@@ -836,11 +832,7 @@ fn main {
         }
         farmer.vx = clampf(farmer.vx, -96.0, 96.0)
 
-        let panic_drag : Float = if farmer.panic_t > 0.0 {
-          4.6
-        } else {
-          2.5
-        }
+        let panic_drag : Float = if farmer.panic_t > 0.0 { 4.6 } else { 2.5 }
         farmer.vx = farmer.vx * (Float::from_int(1) - dt * panic_drag)
 
         farmer.x = farmer.x + farmer.vx * dt
@@ -1053,12 +1045,7 @@ fn main {
       } else {
         @raylib.Color::new(240, 220, 126, blink)
       }
-      @raylib.draw_circle(
-        pickup.x.to_int(),
-        pickup.y.to_int(),
-        10.0,
-        col,
-      )
+      @raylib.draw_circle(pickup.x.to_int(), pickup.y.to_int(), 10.0, col)
       @raylib.draw_circle_lines(
         pickup.x.to_int(),
         pickup.y.to_int(),

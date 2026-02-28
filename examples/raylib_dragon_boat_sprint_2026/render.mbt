@@ -145,8 +145,7 @@ fn draw_hazards(game : Game) -> Unit {
     }
 
     let x : Int = lane_to_x(
-      hazard.lane +
-      sinf(game.ui_t * 0.9 + hazard.phase) * 0.03,
+      hazard.lane + sinf(game.ui_t * 0.9 + hazard.phase) * 0.03,
     ).to_int()
 
     let y : Int = world_y(game, hazard.dist).to_int()

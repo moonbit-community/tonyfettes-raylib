@@ -380,8 +380,7 @@ fn collect_artifacts(game : Game) -> Unit {
     if artifact.taken {
       continue
     }
-    if artifact.x == game.player_x &&
-      artifact.y == game.player_y {
+    if artifact.x == game.player_x && artifact.y == game.player_y {
       artifact.taken = true
       game.artifacts_collected = game.artifacts_collected + 1
     }

@@ -195,8 +195,8 @@ fn clear_board(game : Game) -> Unit {
 fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
   let mut n : Int = 0
 
-  for oy in -1..=1 {
-    for ox in -1..=1 {
+  for oy in -1..<=1 {
+    for ox in -1..<=1 {
       if ox == 0 && oy == 0 {
         continue
       }
@@ -423,8 +423,8 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
       continue
     }
 
-    for oy in -1..=1 {
-      for ox in -1..=1 {
+    for oy in -1..<=1 {
+      for ox in -1..<=1 {
         if ox == 0 && oy == 0 {
           continue
         }

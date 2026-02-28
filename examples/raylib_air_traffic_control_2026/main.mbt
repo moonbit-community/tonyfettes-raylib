@@ -29,8 +29,7 @@ fn spawn_plane(planes : Array[Plane]) -> Unit {
       let r = @raylib.get_random_value(0, runway_count - 1)
       plane.alive = true
       plane.runway = r
-      plane.x = runway_x(r) +
-        Float::from_int(@raylib.get_random_value(-24, 24))
+      plane.x = runway_x(r) + Float::from_int(@raylib.get_random_value(-24, 24))
       plane.y = -40.0
       plane.vy = Float::from_int(@raylib.get_random_value(65, 110))
       plane.fuel = Float::from_int(@raylib.get_random_value(16, 26))

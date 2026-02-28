@@ -723,8 +723,7 @@ fn update_routes(routes : Array[Route], dt : Float, storm_t : Float) -> Int {
     }
 
     if storm_t > 0.0 {
-      route.hp = route.hp -
-        dt * (1.4 + Float::from_int(route.level) * 0.24)
+      route.hp = route.hp - dt * (1.4 + Float::from_int(route.level) * 0.24)
     }
 
     if route.hp <= 0.0 {

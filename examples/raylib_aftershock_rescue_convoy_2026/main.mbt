@@ -770,8 +770,7 @@ fn update_obstacles(
 
     obstacle.spin = obstacle.spin + dt * 0.7
 
-    let drift : Float = 0.84 +
-      0.22 * (@math.sinf(obstacle.spin) * 0.5 + 0.5)
+    let drift : Float = 0.84 + 0.22 * (@math.sinf(obstacle.spin) * 0.5 + 0.5)
     obstacle.x = obstacle.x + obstacle.vx * dt * drift
     obstacle.y = obstacle.y + obstacle.vy * dt * drift
 
@@ -846,12 +845,7 @@ fn update_groups(
       }
 
       let rr : Float = crack.radius
-      let d2v : Float = dist2(
-        group.x,
-        group.y,
-        crack.x,
-        crack.y,
-      )
+      let d2v : Float = dist2(group.x, group.y, crack.x, crack.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
         panic_gain = panic_gain + dt * crack.intensity * (0.9 + ratio * 1.8)
@@ -1221,9 +1215,7 @@ fn draw_groups(groups : Array[SurvivorGroup], t : Float) -> Unit {
     }
 
     let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
-    let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(group.id) * 0.3,
-      ) *
+    let flare : Float = @math.sinf(t * 6.0 + Float::from_int(group.id) * 0.3) *
       0.5 +
       0.5
 
@@ -1467,12 +1459,7 @@ fn draw_parts(parts : Array[Particle]) -> Unit {
       @raylib.Color::new(248, 236, 190, 214)
     }
 
-    @raylib.draw_circle(
-      part.x.to_int(),
-      part.y.to_int(),
-      part.size,
-      col,
-    )
+    @raylib.draw_circle(part.x.to_int(), part.y.to_int(), part.size, col)
   }
 }
 
@@ -2037,8 +2024,7 @@ fn main {
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
           crack_drag = crack_drag + crack.intensity * (0.2 + ratio * 0.56)
-          battery_mul = battery_mul +
-            crack.intensity * (0.16 + ratio * 0.48)
+          battery_mul = battery_mul + crack.intensity * (0.16 + ratio * 0.48)
           dust_damage = dust_damage +
             dt * crack.intensity * (0.42 + ratio * 1.0)
         }
@@ -2055,8 +2041,7 @@ fn main {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
           crack_drag = crack_drag + dust.density * (0.14 + ratio * 0.34)
           battery_mul = battery_mul + dust.density * (0.12 + ratio * 0.3)
-          dust_damage = dust_damage +
-            dt * dust.density * (0.3 + ratio * 0.7)
+          dust_damage = dust_damage + dt * dust.density * (0.3 + ratio * 0.7)
         }
       }
 
@@ -2208,12 +2193,7 @@ fn main {
         }
 
         let rr : Float = obstacle.size + 11.0
-        let d2v : Float = dist2(
-          player.x,
-          player.y,
-          obstacle.x,
-          obstacle.y,
-        )
+        let d2v : Float = dist2(player.x, player.y, obstacle.x, obstacle.y)
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
           let nx : Float = (player.x - obstacle.x) / d
@@ -2224,8 +2204,7 @@ fn main {
           player.y = player.y + ny * push
 
           if sp2 > 70.0 {
-            collision_dmg = collision_dmg +
-              dt * (1.0 + obstacle.hard * 0.018)
+            collision_dmg = collision_dmg + dt * (1.0 + obstacle.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
@@ -2251,12 +2230,7 @@ fn main {
           }
 
           let rr : Float = crack.radius
-          let d2v : Float = dist2(
-            district.x,
-            district.y,
-            crack.x,
-            crack.y,
-          )
+          let d2v : Float = dist2(district.x, district.y, crack.x, crack.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
             crack_load = crack_load + crack.intensity * (0.4 + ratio * 1.0)
@@ -2269,12 +2243,7 @@ fn main {
           }
 
           let rr : Float = dust.radius
-          let d2v : Float = dist2(
-            district.x,
-            district.y,
-            dust.x,
-            dust.y,
-          )
+          let d2v : Float = dist2(district.x, district.y, dust.x, dust.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
             crack_load = crack_load + dust.density * (0.2 + ratio * 0.7)

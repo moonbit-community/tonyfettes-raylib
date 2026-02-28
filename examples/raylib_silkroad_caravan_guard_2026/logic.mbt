@@ -727,12 +727,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       }
 
       let rr = game.raiders[j].radius + 5.0
-      if dist2(
-          bullet.x,
-          bullet.y,
-          game.raiders[j].x,
-          game.raiders[j].y,
-        ) <=
+      if dist2(bullet.x, bullet.y, game.raiders[j].x, game.raiders[j].y) <=
         rr * rr {
         game.raiders[j].hp = game.raiders[j].hp - bullet.dmg
         game.raiders[j].flash_t = 0.12

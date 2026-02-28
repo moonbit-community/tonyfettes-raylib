@@ -189,8 +189,8 @@ fn expand_special_marks(game : Game) -> Unit {
           }
         }
       } else if sp == special_bomb {
-        for dy in -1..=1 {
-          for dx in -1..=1 {
+        for dy in -1..<=1 {
+          for dx in -1..<=1 {
             let x = cx + dx
             let y = cy + dy
             if in_board(x, y) {

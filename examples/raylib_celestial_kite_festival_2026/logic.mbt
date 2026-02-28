@@ -726,12 +726,9 @@ fn update_objs(game : Game, dt : Float) -> Unit {
     obj.flagged = obj.life < 1.2
 
     if obj.kind == obj_lantern {
-      obj.x = obj.x +
-        (obj.vx + game.wind_x * 0.4) * dt
-      obj.y = obj.y +
-        (obj.vy + game.wind_y * 0.5) * dt
-      obj.y = obj.y +
-        sinf(obj.phase * 4.2) * 10.0 * dt
+      obj.x = obj.x + (obj.vx + game.wind_x * 0.4) * dt
+      obj.y = obj.y + (obj.vy + game.wind_y * 0.5) * dt
+      obj.y = obj.y + sinf(obj.phase * 4.2) * 10.0 * dt
     } else if obj.kind == obj_bird {
       let tx = game.kite.x - obj.x
       let ty = game.kite.y - obj.y
@@ -741,23 +738,13 @@ fn update_objs(game : Game, dt : Float) -> Unit {
       obj.vy = obj.vy + ty * inv * 90.0 * dt
       obj.vx = clampf(obj.vx, -320.0, 320.0)
       obj.vy = clampf(obj.vy, -280.0, 280.0)
-      obj.x = obj.x +
-        (obj.vx + game.wind_x * 0.2) * dt
-      obj.y = obj.y +
-        (obj.vy + game.wind_y * 0.2) * dt
+      obj.x = obj.x + (obj.vx + game.wind_x * 0.2) * dt
+      obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
     } else if obj.kind == obj_storm {
-      obj.x = obj.x +
-        (obj.vx + game.wind_x * 0.6) * dt
-      obj.y = obj.y +
-        (obj.vy + game.wind_y * 0.4) * dt
-      obj.w = maxf(
-        52.0,
-        obj.w + sinf(obj.phase * 3.0) * 12.0 * dt,
-      )
-      obj.h = maxf(
-        36.0,
-        obj.h + cosf(obj.phase * 2.4) * 9.0 * dt,
-      )
+      obj.x = obj.x + (obj.vx + game.wind_x * 0.6) * dt
+      obj.y = obj.y + (obj.vy + game.wind_y * 0.4) * dt
+      obj.w = maxf(52.0, obj.w + sinf(obj.phase * 3.0) * 12.0 * dt)
+      obj.h = maxf(36.0, obj.h + cosf(obj.phase * 2.4) * 9.0 * dt)
 
       if chance(14) {
         emit_spark(
@@ -772,19 +759,13 @@ fn update_objs(game : Game, dt : Float) -> Unit {
         )
       }
     } else if obj.kind == obj_orb {
-      obj.x = obj.x +
-        (obj.vx + game.wind_x * 0.48) * dt
-      obj.y = obj.y +
-        (obj.vy + game.wind_y * 0.48) * dt
-      obj.x = obj.x +
-        sinf(obj.phase * 6.0) * 26.0 * dt
+      obj.x = obj.x + (obj.vx + game.wind_x * 0.48) * dt
+      obj.y = obj.y + (obj.vy + game.wind_y * 0.48) * dt
+      obj.x = obj.x + sinf(obj.phase * 6.0) * 26.0 * dt
     } else {
-      obj.x = obj.x +
-        (obj.vx + game.wind_x * 0.3) * dt
-      obj.y = obj.y +
-        (obj.vy + game.wind_y * 0.2) * dt
-      obj.y = obj.y +
-        sinf(obj.phase * 8.0) * 18.0 * dt
+      obj.x = obj.x + (obj.vx + game.wind_x * 0.3) * dt
+      obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
+      obj.y = obj.y + sinf(obj.phase * 8.0) * 18.0 * dt
     }
 
     if obj.life <= 0.0 ||
@@ -808,11 +789,7 @@ fn update_objs(game : Game, dt : Float) -> Unit {
         spawn_halo(game, game.kite.x, game.kite.y, 10.0, 0.36, 0)
         burst_sparks(game, game.kite.x, game.kite.y, 12, 0)
       } else {
-        let dmg : Float = if obj.kind == obj_storm {
-          18.0
-        } else {
-          12.0
-        }
+        let dmg : Float = if obj.kind == obj_storm { 18.0 } else { 12.0 }
         hurt_kite(game, dmg)
         obj.hp = obj.hp - 18.0
         if obj.hp <= 0.0 {
@@ -834,10 +811,8 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    spark.x = spark.x +
-      (spark.vx + game.wind_x * 0.14) * dt
-    spark.y = spark.y +
-      (spark.vy + game.wind_y * 0.14) * dt
+    spark.x = spark.x + (spark.vx + game.wind_x * 0.14) * dt
+    spark.y = spark.y + (spark.vy + game.wind_y * 0.14) * dt
     spark.life = spark.life - dt
 
     if spark.kind == 3 {
@@ -855,8 +830,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
     }
 
     halo.life = halo.life - dt
-    halo.r = halo.r +
-      (120.0 + Float::from_int(halo.kind) * 44.0) * dt
+    halo.r = halo.r + (120.0 + Float::from_int(halo.kind) * 44.0) * dt
     if halo.life <= 0.0 {
       halo.active = false
     }

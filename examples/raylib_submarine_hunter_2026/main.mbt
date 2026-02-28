@@ -256,12 +256,7 @@ fn main {
           if not(enemy.alive) {
             continue
           }
-          if dist_sq(
-              player_t_elem.x,
-              player_t_elem.y,
-              enemy.x,
-              enemy.y,
-            ) <
+          if dist_sq(player_t_elem.x, player_t_elem.y, enemy.x, enemy.y) <
             19.0 * 19.0 {
             player_t_elem.alive = false
             enemy.hp = enemy.hp - 1
@@ -324,19 +319,8 @@ fn main {
         } else {
           @raylib.fade(@raylib.darkblue, 0.35)
         }
-        @raylib.draw_ellipse(
-          enemy.x.to_int(),
-          enemy.y.to_int(),
-          26.0,
-          12.0,
-          c,
-        )
-        @raylib.draw_circle(
-          (enemy.x + 18.0).to_int(),
-          enemy.y.to_int(),
-          5.0,
-          c,
-        )
+        @raylib.draw_ellipse(enemy.x.to_int(), enemy.y.to_int(), 26.0, 12.0, c)
+        @raylib.draw_circle((enemy.x + 18.0).to_int(), enemy.y.to_int(), 5.0, c)
         if visible {
           @raylib.draw_rectangle(
             (enemy.x - 10.0).to_int(),

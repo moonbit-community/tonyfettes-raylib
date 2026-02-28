@@ -773,8 +773,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
     }
 
     particle.x = particle.x + particle.vx * dt
-    particle.y = particle.y +
-      (particle.vy + flow) * dt
+    particle.y = particle.y + (particle.vy + flow) * dt
     particle.life = particle.life - dt
 
     let expired = particle.life <= 0.0 ||
@@ -790,8 +789,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
     }
 
     ripple.life = ripple.life - dt
-    ripple.r = ripple.r +
-      (110.0 + Float::from_int(ripple.kind) * 46.0) * dt
+    ripple.r = ripple.r + (110.0 + Float::from_int(ripple.kind) * 46.0) * dt
 
     if ripple.life <= 0.0 {
       ripple.active = false

@@ -257,8 +257,8 @@ fn shuffle_ints(arr : Array[Int]) -> Unit {
 ///|
 fn active_count(game : Game) -> Int {
   let mut n : Int = 0
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       if active_at(game, x, y) {
         n = n + 1
       }
@@ -274,8 +274,8 @@ fn set_pattern_active(game : Game, pattern : Int) -> Unit {
   let cx : Float = (Float::from_int(game.board_w) + 1.0) * 0.5
   let cy : Float = (Float::from_int(game.board_h) + 1.0) * 0.5
 
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       let xf : Float = Float::from_int(x)
       let yf : Float = Float::from_int(y)
       let nx : Float = (xf - cx) /
@@ -355,8 +355,8 @@ fn set_pattern_active(game : Game, pattern : Int) -> Unit {
   }
 
   if n < 16 {
-    for y in 1..=game.board_h {
-      for x in 1..=game.board_w {
+    for y in 1..<=game.board_h {
+      for x in 1..<=game.board_w {
         game.active[idx(x, y)] = true
       }
     }
@@ -399,8 +399,8 @@ fn fill_board_with_pairs(game : Game) -> Unit {
   shuffle_ints(vals)
 
   let mut p : Int = 0
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       if active_at(game, x, y) {
         set_cell(game, x, y, vals[p])
         p = p + 1
@@ -413,8 +413,8 @@ fn fill_board_with_pairs(game : Game) -> Unit {
 
 ///|
 fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int) {
-  for y1 in 1..=game.board_h {
-    for x1 in 1..=game.board_w {
+  for y1 in 1..<=game.board_h {
+    for x1 in 1..<=game.board_w {
       let k1 : Int = cell_at(game, x1, y1)
       if k1 <= 0 || not(free_tile(game, x1, y1)) {
         continue
@@ -450,8 +450,8 @@ fn reshuffle(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let vals : Array[Int] = []
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       let k : Int = cell_at(game, x, y)
       if k > 0 {
         vals.push(k)
@@ -468,8 +468,8 @@ fn reshuffle(game : Game, consume_ticket : Bool) -> Bool {
     shuffle_ints(vals)
 
     let mut p : Int = 0
-    for y in 1..=game.board_h {
-      for x in 1..=game.board_w {
+    for y in 1..<=game.board_h {
+      for x in 1..<=game.board_w {
         if active_at(game, x, y) && cell_at(game, x, y) > 0 {
           set_cell(game, x, y, vals[p])
           p = p + 1
@@ -871,8 +871,8 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 ///|
 fn place_cursor_on_first_tile(game : Game) -> Unit {
   let mut found : Bool = false
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       if cell_at(game, x, y) > 0 {
         game.cursor_x = x
         game.cursor_y = y

@@ -302,12 +302,7 @@ fn main {
     for patient in patients {
       if patient.alive {
         let c = severity_color(patient.severity)
-        @raylib.draw_circle(
-          patient.x.to_int(),
-          patient.y.to_int(),
-          15.0,
-          c,
-        )
+        @raylib.draw_circle(patient.x.to_int(), patient.y.to_int(), 15.0, c)
         @raylib.draw_text(
           severity_name(patient.severity),
           (patient.x - 26.0).to_int(),

@@ -241,8 +241,8 @@ fn build_level_board(game : Game) -> Unit {
 
   clear_board(game)
   let mut p : Int = 0
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       set_cell(game, x, y, vals[p])
       p = p + 1
     }
@@ -449,7 +449,7 @@ fn find_link_path(
     return direct_or_corner
   }
 
-  for x in 0..=(game.board_w + 1) {
+  for x in 0..<=(game.board_w + 1) {
     if x == bx && ay == by {
       continue
     }
@@ -468,7 +468,7 @@ fn find_link_path(
     }
   }
 
-  for y in 0..=(game.board_h + 1) {
+  for y in 0..<=(game.board_h + 1) {
     if ax == bx && y == by {
       continue
     }
@@ -542,8 +542,8 @@ fn clear_selection(game : Game) -> Unit {
 
 ///|
 fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int, LinkPath) {
-  for y1 in 1..=game.board_h {
-    for x1 in 1..=game.board_w {
+  for y1 in 1..<=game.board_h {
+    for x1 in 1..<=game.board_w {
       let k1 : Int = cell_at(game, x1, y1)
       if k1 == 0 {
         continue
@@ -583,8 +583,8 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let vals : Array[Int] = []
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       let k : Int = cell_at(game, x, y)
       if k > 0 {
         vals.push(k)
@@ -601,8 +601,8 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
     shuffle_ints(vals)
 
     let mut p : Int = 0
-    for y in 1..=game.board_h {
-      for x in 1..=game.board_w {
+    for y in 1..<=game.board_h {
+      for x in 1..<=game.board_w {
         if cell_at(game, x, y) > 0 {
           set_cell(game, x, y, vals[p])
           p = p + 1

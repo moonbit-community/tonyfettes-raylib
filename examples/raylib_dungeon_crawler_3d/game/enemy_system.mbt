@@ -560,7 +560,7 @@ fn update_boss_enemy(
   if e.ability_cooldown <= 0.0 && dist < 8.0 {
     // Fire breath: multiple projectiles in a cone
     let base_angle = @math.atan2f(game.player_x - e.x, game.player_z - e.z)
-    for j in -2..=2 {
+    for j in -2..<=2 {
       let angle = base_angle + Float::from_int(j) * 0.2
       let pidx = @types.alloc_projectile(game)
       if pidx >= 0 {

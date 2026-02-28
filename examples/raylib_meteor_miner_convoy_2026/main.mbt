@@ -210,10 +210,8 @@ fn spawn_spark(
       spark.active = true
       spark.x = x
       spark.y = y
-      spark.vx = Float::from_int(@raylib.get_random_value(-240, 240)) *
-        speed
-      spark.vy = Float::from_int(@raylib.get_random_value(-240, 240)) *
-        speed
+      spark.vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
+      spark.vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
       spark.ttl = Float::from_int(@raylib.get_random_value(12, 48)) /
         Float::from_int(100)
       spark.kind = kind

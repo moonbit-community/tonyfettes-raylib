@@ -105,6 +105,5 @@ let panel_text_color : @raylib.Color = @raylib.Color::new(236, 240, 241, 255)
 ///|
 let panel_label_color : @raylib.Color = @raylib.Color::new(149, 165, 166, 255)
 
-
 ///|
 let select_color : @raylib.Color = @raylib.Color::new(255, 255, 255, 200)

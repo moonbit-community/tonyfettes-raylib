@@ -1,41 +1,4 @@
 ///|
-fn alloc_bullet(game : Game) -> Int {
-  for i in 0..<game.bullets.length() {
-    if not(game.bullets[i].active) {
-      return i
-    }
-  }
-  -1
-}
-
-///|
-fn spawn_bullet(
-  game : Game,
-  owner_team : Int,
-  x : Float,
-  y : Float,
-  dir : Int,
-  speed : Float,
-  power : Int,
-) -> Unit {
-  let idx = alloc_bullet(game)
-  if idx < 0 {
-    return
-  }
-
-  game.bullets[idx].active = true
-  game.bullets[idx].owner_team = owner_team
-  game.bullets[idx].x = x
-  game.bullets[idx].y = y
-  game.bullets[idx].vx = dir_vector_x(dir) * speed
-  game.bullets[idx].vy = dir_vector_y(dir) * speed
-  game.bullets[idx].ttl = 3.2
-  game.bullets[idx].damage = 1
-  game.bullets[idx].power = power
-  game.bullets[idx].radius = bullet_radius
-}
-
-///|
 fn bullet_hit_enemy(game : Game, bullet : Bullet) -> Bool {
   for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {

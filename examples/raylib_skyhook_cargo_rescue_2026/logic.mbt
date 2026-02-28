@@ -435,8 +435,7 @@ fn spawn_hazard(game : Game) -> Bool {
       hazard.r = randf(16.0, 22.0)
       hazard.hp = randf(12.0, 18.0)
       hazard.vx = randf(-34.0, 34.0)
-      hazard.vy = randf(160.0, 240.0) +
-        Float::from_int(game.wave) * 14.0
+      hazard.vy = randf(160.0, 240.0) + Float::from_int(game.wave) * 14.0
     }
 
     return true
@@ -774,10 +773,8 @@ fn update_survivors(game : Game, dt : Float) -> Unit {
     let drift_y : Float = cosf(survivor.phase * 1.9) *
       (6.0 + survivor.panic * 2.0)
 
-    survivor.vx = survivor.vx * (1.0 - dt * 2.0) +
-      drift_x * dt
-    survivor.vy = survivor.vy * (1.0 - dt * 2.0) +
-      drift_y * dt
+    survivor.vx = survivor.vx * (1.0 - dt * 2.0) + drift_x * dt
+    survivor.vy = survivor.vy * (1.0 - dt * 2.0) + drift_y * dt
 
     survivor.x = survivor.x + survivor.vx * dt
     survivor.y = survivor.y + survivor.vy * dt
@@ -796,8 +793,7 @@ fn update_survivors(game : Game, dt : Float) -> Unit {
     let near_hazard : Bool = false
     ignore(near_hazard)
 
-    if dist2(survivor.x, survivor.y, safe_cx(), safe_cy()) <
-      86.0 * 86.0 {
+    if dist2(survivor.x, survivor.y, safe_cx(), safe_cy()) < 86.0 * 86.0 {
       survivor.panic = maxf(0.0, survivor.panic - dt * 0.5)
     }
   }
@@ -828,8 +824,7 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
       dt * (1.0 + Float::from_int(hazard.kind) * 0.8)
 
     if hazard.kind == hazard_cloud {
-      hazard.vx = hazard.vx +
-        sinf(hazard.phase * 1.4) * dt * 80.0
+      hazard.vx = hazard.vx + sinf(hazard.phase * 1.4) * dt * 80.0
       hazard.vy = hazard.vy + dt * 24.0
     } else if hazard.kind == hazard_drone {
       let tx : Float = if game.carrying_idx >= 0 { tip_x } else { game.heli_x }
@@ -842,13 +837,10 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
       let nx : Float = if w <= 0.001 { 0.0 } else { dx / w }
       let ny : Float = if w <= 0.001 { 0.0 } else { dy / w }
 
-      hazard.vx = hazard.vx * (1.0 - dt * 2.4) +
-        nx * dt * 420.0
-      hazard.vy = hazard.vy * (1.0 - dt * 2.4) +
-        ny * dt * 420.0
+      hazard.vx = hazard.vx * (1.0 - dt * 2.4) + nx * dt * 420.0
+      hazard.vy = hazard.vy * (1.0 - dt * 2.4) + ny * dt * 420.0
     } else {
-      hazard.vx = hazard.vx +
-        sinf(hazard.phase * 3.0) * dt * 96.0
+      hazard.vx = hazard.vx + sinf(hazard.phase * 3.0) * dt * 96.0
       hazard.vy = hazard.vy + dt * 54.0
     }
 
@@ -867,8 +859,7 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
     }
 
     let rr_heli : Float = hazard.r + heli_r - 4.0
-    if dist2(hazard.x, hazard.y, game.heli_x, game.heli_y) <=
-      rr_heli * rr_heli {
+    if dist2(hazard.x, hazard.y, game.heli_x, game.heli_y) <= rr_heli * rr_heli {
       hurt_heli(game, hazard_damage(hazard.kind))
       hazard.active = false
       if game.state != state_play {
@@ -897,8 +888,7 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
 
     let rr_hook : Float = hazard.r + 12.0
     if hook_speed > 260.0 &&
-      dist2(hazard.x, hazard.y, tip_x, tip_y) <=
-      rr_hook * rr_hook {
+      dist2(hazard.x, hazard.y, tip_x, tip_y) <= rr_hook * rr_hook {
       let dmg : Float = if hook_speed > 460.0 { 34.0 } else { 18.0 }
       hazard.hp = hazard.hp - dmg
 
@@ -921,10 +911,8 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
 
     pickup.phase = pickup.phase + dt * 2.2
 
-    pickup.x = pickup.x +
-      (pickup.vx + sinf(pickup.phase * 2.3) * 20.0) * dt
-    pickup.y = pickup.y +
-      (pickup.vy + Float::from_int(game.wave) * 4.0) * dt
+    pickup.x = pickup.x + (pickup.vx + sinf(pickup.phase * 2.3) * 20.0) * dt
+    pickup.y = pickup.y + (pickup.vy + Float::from_int(game.wave) * 4.0) * dt
 
     if pickup.x < world_left() + 16.0 {
       pickup.x = world_left() + 16.0
@@ -941,8 +929,7 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
     }
 
     let rr : Float = heli_r + 16.0
-    if dist2(game.heli_x, game.heli_y, pickup.x, pickup.y) <=
-      rr * rr {
+    if dist2(game.heli_x, game.heli_y, pickup.x, pickup.y) <= rr * rr {
       let kind : Int = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y
@@ -975,12 +962,7 @@ fn use_hint(game : Game) -> Bool {
           continue
         }
 
-        let d2 : Float = dist2(
-          game.heli_x,
-          game.heli_y,
-          pickup.x,
-          pickup.y,
-        )
+        let d2 : Float = dist2(game.heli_x, game.heli_y, pickup.x, pickup.y)
 
         if d2 < best_d2 {
           best_d2 = d2
@@ -997,12 +979,7 @@ fn use_hint(game : Game) -> Bool {
           continue
         }
 
-        let d2 : Float = dist2(
-          game.heli_x,
-          game.heli_y,
-          survivor.x,
-          survivor.y,
-        )
+        let d2 : Float = dist2(game.heli_x, game.heli_y, survivor.x, survivor.y)
 
         if d2 < best_d2 {
           best_d2 = d2

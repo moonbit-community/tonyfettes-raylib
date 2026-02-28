@@ -692,7 +692,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
     )
   } else if wave_kind < 78 {
     let center = randf(-pi, pi)
-    for i in -2..=2 {
+    for i in -2..<=2 {
       let ring = clampi(1 + i % ring_count, 0, ring_count - 1)
       spawn_enemy(
         game,
@@ -1112,9 +1112,7 @@ fn update_title(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    enemy.angle = wrap_angle(
-      enemy.angle + enemy.ang_v * dt * 0.42,
-    )
+    enemy.angle = wrap_angle(enemy.angle + enemy.ang_v * dt * 0.42)
     enemy.spin = enemy.spin + dt * 1.3
   }
 

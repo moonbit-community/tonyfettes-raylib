@@ -154,8 +154,8 @@ fn draw_board(game : Game) -> Unit {
 
   let text_size : Int = clampi(tile / 2, 16, 30)
 
-  for y in 1..=game.board_h {
-    for x in 1..=game.board_w {
+  for y in 1..<=game.board_h {
+    for x in 1..<=game.board_w {
       let k : Int = cell_at(game, x, y)
       let px : Int = board_x + (x - 1) * tile
       let py : Int = board_y + (y - 1) * tile

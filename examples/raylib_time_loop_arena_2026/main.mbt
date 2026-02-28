@@ -828,8 +828,7 @@ fn main {
         for enemy in enemies {
           if enemy.active &&
             dist2(pilot.x, pilot.y, enemy.x, enemy.y) <= 180.0 * 180.0 {
-            enemy.hp = enemy.hp -
-              (30.0 + Float::from_int(level) * 1.4)
+            enemy.hp = enemy.hp - (30.0 + Float::from_int(level) * 1.4)
             enemy.stun_t = 1.1
             if enemy.hp <= 0.0 {
               let ex = enemy.x
@@ -1055,12 +1054,7 @@ fn main {
 
         for g in 0..<ghost_count {
           if ghosts[g].active {
-            let gd2 = dist2(
-              enemy.x,
-              enemy.y,
-              ghosts[g].x,
-              ghosts[g].y,
-            )
+            let gd2 = dist2(enemy.x, enemy.y, ghosts[g].x, ghosts[g].y)
             if gd2 < best_d2 {
               best_d2 = gd2
               tx = ghosts[g].x
@@ -1089,8 +1083,7 @@ fn main {
         enemy.vx = enemy.vx * (1.0 - dt * drag)
         enemy.vy = enemy.vy * (1.0 - dt * drag)
 
-        let espd2 : Float = enemy.vx * enemy.vx +
-          enemy.vy * enemy.vy
+        let espd2 : Float = enemy.vx * enemy.vx + enemy.vy * enemy.vy
         let max_spd : Float = 140.0 +
           Float::from_int(enemy.kind) * 38.0 +
           Float::from_int(level) * 3.0
@@ -1157,8 +1150,7 @@ fn main {
         if bullet.team == 1 {
           for enemy in enemies {
             if enemy.active &&
-              dist2(bullet.x, bullet.y, enemy.x, enemy.y) <=
-              18.0 * 18.0 {
+              dist2(bullet.x, bullet.y, enemy.x, enemy.y) <= 18.0 * 18.0 {
               bullet.active = false
               enemy.hp = enemy.hp - bullet.dmg
               enemy.stun_t = 0.16
@@ -1181,8 +1173,7 @@ fn main {
               break
             }
           }
-        } else if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <=
-          16.0 * 16.0 {
+        } else if dist2(bullet.x, bullet.y, pilot.x, pilot.y) <= 16.0 * 16.0 {
           bullet.active = false
           on_hit(bullet.dmg, "Pulse shot")
         }
@@ -1364,12 +1355,7 @@ fn main {
           @raylib.Color::new(162, 72, 148, 255)
         }
 
-        @raylib.draw_circle(
-          enemy.x.to_int(),
-          enemy.y.to_int(),
-          15.0,
-          body_col,
-        )
+        @raylib.draw_circle(enemy.x.to_int(), enemy.y.to_int(), 15.0, body_col)
         @raylib.draw_circle(
           enemy.x.to_int(),
           enemy.y.to_int(),

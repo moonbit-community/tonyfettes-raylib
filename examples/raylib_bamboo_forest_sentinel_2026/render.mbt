@@ -243,12 +243,7 @@ fn draw_enemies(game : Game) -> Unit {
       _ => @raylib.Color::new(174, 208, 102, 236)
     }
 
-    @raylib.draw_circle(
-      enemy.x.to_int(),
-      enemy.y.to_int(),
-      radius,
-      base_color,
-    )
+    @raylib.draw_circle(enemy.x.to_int(), enemy.y.to_int(), radius, base_color)
 
     if enemy.slow_t > 0.0 {
       @raylib.draw_circle_lines(
@@ -266,11 +261,7 @@ fn draw_enemies(game : Game) -> Unit {
       @raylib.Color::new(28, 32, 22, 240),
     )
 
-    let hp_ratio = clampf(
-      enemy.hp / maxf(enemy.max_hp, 1.0),
-      0.0,
-      1.0,
-    )
+    let hp_ratio = clampf(enemy.hp / maxf(enemy.max_hp, 1.0), 0.0, 1.0)
     let bar_x = enemy.x.to_int() - 18
     let bar_y = enemy.y.to_int() - radius.to_int() - 14
     @raylib.draw_rectangle(
