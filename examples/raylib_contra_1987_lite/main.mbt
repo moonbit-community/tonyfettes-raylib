@@ -2,11 +2,11 @@
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_width, screen_height, "raylib [game] contra 1987 lite",
+    @types.screen_width, @types.screen_height, "raylib [game] contra 1987 lite",
   )
   @raylib.set_target_fps(60)
 
-  let game = Game::new()
+  let game = @types.Game::new()
 
   while not(@raylib.window_should_close()) {
     let mut dt = @raylib.get_frame_time()
@@ -14,11 +14,11 @@ fn main {
       dt = 0.05
     }
 
-    update_game(game, dt)
+    @game.update_game(game, dt)
 
     @raylib.begin_drawing()
-    draw_world(game)
-    draw_ui(game)
+    @render.draw_world(game)
+    @render.draw_ui(game)
     @raylib.end_drawing()
   }
 

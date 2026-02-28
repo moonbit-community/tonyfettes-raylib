@@ -1,5 +1,5 @@
 ///|
-fn alloc_bullet(game : Game) -> Int {
+fn alloc_bullet(game : @types.Game) -> Int {
   for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
@@ -10,7 +10,7 @@ fn alloc_bullet(game : Game) -> Int {
 
 ///|
 fn spawn_bullet(
-  game : Game,
+  game : @types.Game,
   owner_team : Int,
   x : Float,
   y : Float,
@@ -27,16 +27,16 @@ fn spawn_bullet(
   game.bullets[idx].owner_team = owner_team
   game.bullets[idx].x = x
   game.bullets[idx].y = y
-  game.bullets[idx].vx = dir_vector_x(dir) * speed
-  game.bullets[idx].vy = dir_vector_y(dir) * speed
+  game.bullets[idx].vx = @types.dir_vector_x(dir) * speed
+  game.bullets[idx].vy = @types.dir_vector_y(dir) * speed
   game.bullets[idx].ttl = 3.2
   game.bullets[idx].damage = 1
   game.bullets[idx].power = power
-  game.bullets[idx].radius = bullet_radius
+  game.bullets[idx].radius = @types.bullet_radius
 }
 
 ///|
-fn bullet_hit_enemy(game : Game, bullet : Bullet) -> Bool {
+fn bullet_hit_enemy(game : @types.Game, bullet : @types.Bullet) -> Bool {
   for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
@@ -46,20 +46,20 @@ fn bullet_hit_enemy(game : Game, bullet : Bullet) -> Bool {
       continue
     }
 
-    let radius = tank_half + bullet.radius
-    if distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <= radius * radius {
+    let radius = @types.tank_half + bullet.radius
+    if @types.distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <= radius * radius {
       enemy.hp -= bullet.damage
-      spawn_spark_burst(game, bullet.x, bullet.y, 6)
+      @particles.spawn_spark_burst(game, bullet.x, bullet.y, 6)
       if enemy.hp <= 0 {
-        let team = if bullet.owner_team == team_player2 {
-          team_player2
+        let team = if bullet.owner_team == @types.team_player2 {
+          @types.team_player2
         } else {
-          team_player1
+          @types.team_player1
         }
         destroy_enemy(game, i, team)
       } else {
         enemy.blink_timer = 0.8
-        push_camera_shake(game, 0.8)
+        @types.push_camera_shake(game, 0.8)
       }
       return true
     }
@@ -68,14 +68,14 @@ fn bullet_hit_enemy(game : Game, bullet : Bullet) -> Bool {
 }
 
 ///|
-fn bullet_hit_player(game : Game, bullet : Bullet) -> Bool {
-  for i in 0..<max_players {
+fn bullet_hit_player(game : @types.Game, bullet : @types.Bullet) -> Bool {
+  for i in 0..<@types.max_players {
     let player = game.players[i]
     if not(player.active) {
       continue
     }
-    let radius = tank_half + bullet.radius
-    if distance_sq(bullet.x, bullet.y, player.x, player.y) <= radius * radius {
+    let radius = @types.tank_half + bullet.radius
+    if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <= radius * radius {
       on_player_destroyed(game, i)
       return true
     }
@@ -84,18 +84,18 @@ fn bullet_hit_player(game : Game, bullet : Bullet) -> Bool {
 }
 
 ///|
-fn bullet_hit_core(game : Game, bullet : Bullet) -> Bool {
+fn bullet_hit_core(game : @types.Game, bullet : @types.Bullet) -> Bool {
   for i in 0..<game.cores.length() {
     if not(game.cores[i].active) {
       continue
     }
     let core = game.cores[i]
-    let r = core_radius + bullet.radius
-    if distance_sq(bullet.x, bullet.y, core.x, core.y) <= r * r {
-      let team = if bullet.owner_team == team_player2 {
-        team_player2
+    let r = @types.core_radius + bullet.radius
+    if @types.distance_sq(bullet.x, bullet.y, core.x, core.y) <= r * r {
+      let team = if bullet.owner_team == @types.team_player2 {
+        @types.team_player2
       } else {
-        team_player1
+        @types.team_player1
       }
       ignore(damage_core(game, i, team, bullet.power))
       return true
@@ -105,7 +105,7 @@ fn bullet_hit_core(game : Game, bullet : Bullet) -> Bool {
 }
 
 ///|
-fn update_bullet_vs_bullet(game : Game) -> Unit {
+fn update_bullet_vs_bullet(game : @types.Game) -> Unit {
   for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       continue
@@ -118,7 +118,7 @@ fn update_bullet_vs_bullet(game : Game) -> Unit {
         continue
       }
       let r = game.bullets[i].radius + game.bullets[j].radius
-      if distance_sq(
+      if @types.distance_sq(
           game.bullets[i].x,
           game.bullets[i].y,
           game.bullets[j].x,
@@ -127,7 +127,7 @@ fn update_bullet_vs_bullet(game : Game) -> Unit {
         r * r {
         let mx = (game.bullets[i].x + game.bullets[j].x) * 0.5
         let my = (game.bullets[i].y + game.bullets[j].y) * 0.5
-        spawn_spark_burst(game, mx, my, 10)
+        @particles.spawn_spark_burst(game, mx, my, 10)
         game.bullets[i].active = false
         game.bullets[j].active = false
       }
@@ -136,7 +136,7 @@ fn update_bullet_vs_bullet(game : Game) -> Unit {
 }
 
 ///|
-fn update_bullets(game : Game, dt : Float) -> Unit {
+fn update_bullets(game : @types.Game, dt : Float) -> Unit {
   for bullet in game.bullets {
     if not(bullet.active) {
       continue
@@ -161,7 +161,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       bullet.x += bullet.vx * step_dt
       bullet.y += bullet.vy * step_dt
 
-      if not(point_in_world(bullet.x, bullet.y)) {
+      if not(@world.point_in_world(bullet.x, bullet.y)) {
         bullet.active = false
         hit_something = true
         break
@@ -173,7 +173,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
         break
       }
 
-      if bullet.owner_team == team_enemy {
+      if bullet.owner_team == @types.team_enemy {
         if bullet_hit_player(game, bullet) {
           bullet.active = false
           hit_something = true
