@@ -1,0 +1,11 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_platformer_3d/game",
+  "tonyfettes/raylib-examples/raylib_platformer_3d/levels",
+  "tonyfettes/raylib-examples/raylib_platformer_3d/render",
+  "tonyfettes/raylib-examples/raylib_platformer_3d/types",
+}
+
+options(
+  "is-main": true,
+)
