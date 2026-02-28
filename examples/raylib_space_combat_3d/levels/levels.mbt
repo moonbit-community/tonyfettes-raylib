@@ -1,8 +1,7 @@
 // Mission definitions
 // Returns (num_fighters, num_cruisers, num_asteroids, hp_mult, speed_mult)
-pub fn get_mission_def(
-  mission : Int
-) -> (Int, Int, Int, Float, Float) {
+///|
+pub fn get_mission_def(mission : Int) -> (Int, Int, Int, Float, Float) {
   if mission == 0 {
     (4, 0, 6, 1.0, 1.0)
   } else if mission == 1 {
@@ -32,8 +31,10 @@ pub fn get_mission_def(
 
 // Extended mission definition
 // Returns (interceptors, bombers, capitals, num_stations_friendly, num_stations_enemy, num_powerups, num_waves)
+
+///|
 pub fn get_mission_extended(
-  mission : Int
+  mission : Int,
 ) -> (Int, Int, Int, Int, Int, Int, Int) {
   if mission == 0 {
     // Patrol Sweep: basic fighters only, one wave
@@ -75,6 +76,8 @@ pub fn get_mission_extended(
 }
 
 // Mission names
+
+///|
 pub fn mission_name(mission : Int) -> String {
   if mission == 0 {
     "Patrol Sweep"
@@ -104,6 +107,8 @@ pub fn mission_name(mission : Int) -> String {
 }
 
 // Mission briefing text
+
+///|
 pub fn mission_briefing(mission : Int) -> String {
   if mission == 0 {
     "A routine patrol sweep of Sector 7. Clear out any hostiles you encounter. This should be straightforward - perfect for getting your bearings."
@@ -133,6 +138,8 @@ pub fn mission_briefing(mission : Int) -> String {
 }
 
 // Mission objective type for each mission
+
+///|
 pub fn mission_objective_type(mission : Int) -> Int {
   if mission == 0 {
     0 // destroy_all
@@ -162,6 +169,8 @@ pub fn mission_objective_type(mission : Int) -> Int {
 }
 
 // Objective target count (for destroy_count type)
+
+///|
 pub fn mission_objective_target(mission : Int) -> Int {
   if mission == 5 {
     15
@@ -173,11 +182,15 @@ pub fn mission_objective_target(mission : Int) -> Int {
 }
 
 // Mission reward score bonus
+
+///|
 pub fn mission_reward(mission : Int) -> Int {
   (mission + 1) * 500
 }
 
 // Enemy formation pattern for each mission
+
+///|
 pub fn mission_formation(mission : Int) -> Int {
   if mission == 0 {
     0 // formation_v
@@ -207,6 +220,8 @@ pub fn mission_formation(mission : Int) -> Int {
 }
 
 // Asteroid field density multiplier per mission
+
+///|
 pub fn mission_asteroid_density(mission : Int) -> Float {
   if mission == 1 {
     1.5
@@ -219,6 +234,8 @@ pub fn mission_asteroid_density(mission : Int) -> Float {
 
 // Station positions for missions that have them
 // Returns (station_x, station_y, station_z)
+
+///|
 pub fn mission_station_pos(mission : Int, index : Int) -> (Float, Float, Float) {
   if mission == 2 && index == 0 {
     (50.0, 0.0, 80.0)
@@ -249,6 +266,8 @@ pub fn mission_station_pos(mission : Int, index : Int) -> (Float, Float, Float) 
 
 // Boss configuration for boss missions
 // Returns (boss_x, boss_y, boss_z, boss_hp_mult)
+
+///|
 pub fn mission_boss_config(mission : Int) -> (Float, Float, Float, Float) {
   if mission == 7 {
     (0.0, 0.0, 200.0, 1.0)
@@ -262,6 +281,8 @@ pub fn mission_boss_config(mission : Int) -> (Float, Float, Float, Float) {
 }
 
 // Wave spawn delay in seconds
+
+///|
 pub fn wave_spawn_delay(mission : Int, wave : Int) -> Float {
   ignore(mission)
   if wave == 0 {
@@ -277,6 +298,8 @@ pub fn wave_spawn_delay(mission : Int, wave : Int) -> Float {
 
 // How many enemies to spawn in each wave
 // Returns (fighters, interceptors, bombers, cruisers)
+
+///|
 pub fn wave_composition(mission : Int, wave : Int) -> (Int, Int, Int, Int) {
   if wave == 0 {
     // First wave is the main mission def
@@ -306,9 +329,11 @@ pub fn wave_composition(mission : Int, wave : Int) -> (Int, Int, Int, Int) {
 }
 
 // Power-up spawn positions for a mission
+
+///|
 pub fn powerup_spawn_pos(
   mission : Int,
-  index : Int
+  index : Int,
 ) -> (Float, Float, Float, Int) {
   // Returns (x, y, z, type)
   ignore(mission)
@@ -328,6 +353,8 @@ pub fn powerup_spawn_pos(
 }
 
 // Difficulty description for mission select
+
+///|
 pub fn mission_difficulty_text(mission : Int) -> String {
   if mission < 3 {
     "Easy"
@@ -343,6 +370,8 @@ pub fn mission_difficulty_text(mission : Int) -> String {
 }
 
 // Recommended ship class for each mission
+
+///|
 pub fn mission_recommended_ship(mission : Int) -> String {
   if mission < 3 {
     "Fighter"

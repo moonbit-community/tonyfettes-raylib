@@ -1,5 +1,6 @@
 // Enemy spawning, AI and combat
 
+///|
 fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
   // Spawn enemies
   if game.wave_active && game.enemies_spawned < game.enemies_to_spawn {
@@ -12,7 +13,9 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
   // Update each enemy
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let enemy = game.enemies[i]
-    if not(enemy.active) { continue i + 1 }
+    if not(enemy.active) {
+      continue i + 1
+    }
     // Stun timer
     if enemy.stun_timer > 0.0 {
       enemy.stun_timer -= dt
@@ -61,7 +64,12 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     for pi = 0; pi < game.pillars.length(); pi = pi + 1 {
       let pillar = game.pillars[pi]
       let result = @types.push_from_pillar(
-        enemy.x, enemy.z, enemy.size * 0.5, pillar.x, pillar.z, pillar.radius,
+        enemy.x,
+        enemy.z,
+        enemy.size * 0.5,
+        pillar.x,
+        pillar.z,
+        pillar.radius,
       )
       enemy.x = result.0
       enemy.z = result.1
@@ -69,7 +77,9 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     // Barricade collision + barricade damage
     for bi = 0; bi < game.barricades.length(); bi = bi + 1 {
       let barr = game.barricades[bi]
-      if not(barr.active) { continue bi + 1 }
+      if not(barr.active) {
+        continue bi + 1
+      }
       let bdist = @types.distance2d(enemy.x, enemy.z, barr.x, barr.z)
       if bdist < @types.barricade_size * 0.5 + enemy.size * 0.5 {
         // Push enemy away
@@ -96,7 +106,9 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     // Enemy-enemy collision (simple push apart)
     for j = i + 1; j < game.enemies.length(); j = j + 1 {
       let other = game.enemies[j]
-      if not(other.active) { continue j + 1 }
+      if not(other.active) {
+        continue j + 1
+      }
       let edx = other.x - enemy.x
       let edz = other.z - enemy.z
       let edist = (edx * edx + edz * edz).sqrt()
@@ -114,7 +126,9 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
     // Trap interaction
     for ti = 0; ti < game.traps.length(); ti = ti + 1 {
       let trap = game.traps[ti]
-      if not(trap.active) { continue ti + 1 }
+      if not(trap.active) {
+        continue ti + 1
+      }
       let tdist = @types.distance2d(enemy.x, enemy.z, trap.x, trap.z)
       if tdist < 2.0 && trap.cooldown_timer <= 0.0 {
         // Trap triggers
@@ -127,13 +141,33 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
         } else if trap.kind == @types.trap_flame {
           enemy.hp -= trap.damage * dt * 3.0
           trap.active_timer = @types.trap_flame_duration
-          @types.spawn_particles_typed(game, enemy.x, 0.5, enemy.z, 2, 255, 150, 30, @types.particle_explosion)
+          @types.spawn_particles_typed(
+            game,
+            enemy.x,
+            0.5,
+            enemy.z,
+            2,
+            255,
+            150,
+            30,
+            @types.particle_explosion,
+          )
         } else if trap.kind == @types.trap_electric {
           enemy.hp -= trap.damage
           enemy.stun_timer = @types.trap_electric_stun
           trap.cooldown_timer = @types.trap_electric_cooldown
           trap.active_timer = 0.5
-          @types.spawn_particles_typed(game, enemy.x, 0.5, enemy.z, 4, 100, 150, 255, @types.particle_spark)
+          @types.spawn_particles_typed(
+            game,
+            enemy.x,
+            0.5,
+            enemy.z,
+            4,
+            100,
+            150,
+            255,
+            @types.particle_spark,
+          )
         }
         if enemy.hp <= 0.0 {
           kill_enemy(game, i)
@@ -143,13 +177,14 @@ fn update_enemies_ai(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_melee_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Move towards player
@@ -169,19 +204,26 @@ fn update_melee_ai(
     enemy.attack_timer = 1.0
     // Attack particles
     @types.spawn_particles(
-      game, game.player.x, @types.player_height * 0.5, game.player.z, 3,
-      200, 50, 50,
+      game,
+      game.player.x,
+      @types.player_height * 0.5,
+      game.player.z,
+      3,
+      200,
+      50,
+      50,
     )
   }
 }
 
+///|
 fn update_runner_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Runners zigzag toward player
@@ -191,7 +233,10 @@ fn update_runner_ai(
     // Add zigzag perpendicular component
     let zigzag_period : Float = 1.5
     let zigzag_amp : Float = 0.6
-    let zigzag = @math.sinf(Float::from_int(game.frame_counter) * 0.08 + Float::from_int(idx) * 3.0) * zigzag_amp
+    let zigzag = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.08 + Float::from_int(idx) * 3.0,
+      ) *
+      zigzag_amp
     let perp_x = -nz
     let perp_z = nx
     enemy.vx = (nx + perp_x * zigzag) * enemy.speed
@@ -207,19 +252,26 @@ fn update_runner_ai(
     damage_player_from(game, enemy.damage, enemy.x, enemy.z)
     enemy.attack_timer = 0.7
     @types.spawn_particles(
-      game, game.player.x, @types.player_height * 0.5, game.player.z, 2,
-      50, 200, 50,
+      game,
+      game.player.x,
+      @types.player_height * 0.5,
+      game.player.z,
+      2,
+      50,
+      200,
+      50,
     )
   }
 }
 
+///|
 fn update_brute_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Brutes charge when close
@@ -236,7 +288,16 @@ fn update_brute_ai(
       enemy.state = 1
       enemy.speed = enemy.speed / 2.0
       enemy.attack_timer = 2.0
-      @types.spawn_particles(game, game.player.x, 1.0, game.player.z, 6, 150, 50, 150)
+      @types.spawn_particles(
+        game,
+        game.player.x,
+        1.0,
+        game.player.z,
+        6,
+        150,
+        50,
+        150,
+      )
     }
   } else {
     // Normal approach
@@ -269,13 +330,14 @@ fn update_brute_ai(
   }
 }
 
+///|
 fn update_spitter_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Spitters try to keep distance
@@ -296,16 +358,18 @@ fn update_spitter_ai(
       enemy.vx = nx * enemy.speed
       enemy.vz = nz * enemy.speed
     }
-  } else {
     // Good range, strafe
-    if dist > 0.5 {
-      let nx = dx / dist
-      let nz = dz / dist
-      // Perpendicular movement (strafe)
-      let strafe_dir : Float = if game.frame_counter % 200 < 100 { 1.0 } else { -1.0 }
-      enemy.vx = -nz * enemy.speed * 0.5 * strafe_dir
-      enemy.vz = nx * enemy.speed * 0.5 * strafe_dir
+  } else if dist > 0.5 {
+    let nx = dx / dist
+    let nz = dz / dist
+    // Perpendicular movement (strafe)
+    let strafe_dir : Float = if game.frame_counter % 200 < 100 {
+      1.0
+    } else {
+      -1.0
     }
+    enemy.vx = -nz * enemy.speed * 0.5 * strafe_dir
+    enemy.vz = nx * enemy.speed * 0.5 * strafe_dir
   }
   // Spit attack
   enemy.spit_timer -= dt
@@ -315,13 +379,14 @@ fn update_spitter_ai(
   }
 }
 
+///|
 fn update_exploder_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   ignore(dt)
@@ -340,14 +405,31 @@ fn update_exploder_ai(
       enemy.vx = 0.0
       enemy.vz = 0.0
       // Warning particles
-      @types.spawn_particles_typed(game, enemy.x, enemy.y, enemy.z, 6, 255, 200, 50, @types.particle_explosion)
+      @types.spawn_particles_typed(
+        game,
+        enemy.x,
+        enemy.y,
+        enemy.z,
+        6,
+        255,
+        200,
+        50,
+        @types.particle_explosion,
+      )
     }
   } else {
     // Countdown to explosion
     enemy.explode_timer -= @raylib.get_frame_time()
     if enemy.explode_timer <= 0.0 {
       // EXPLODE
-      apply_explosion(game, enemy.x, enemy.y, enemy.z, @types.exploder_radius, @types.exploder_damage)
+      apply_explosion(
+        game,
+        enemy.x,
+        enemy.y,
+        enemy.z,
+        @types.exploder_radius,
+        @types.exploder_damage,
+      )
       enemy.active = false
       game.player.score += enemy.score_value
       game.player.money += enemy.gold_value
@@ -355,13 +437,14 @@ fn update_exploder_ai(
   }
 }
 
+///|
 fn update_necromancer_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Necromancers stay back and try to revive dead enemies
@@ -380,15 +463,17 @@ fn update_necromancer_ai(
       enemy.vx = nx * enemy.speed
       enemy.vz = nz * enemy.speed
     }
-  } else {
     // Strafe at range
-    if dist > 0.5 {
-      let nx = dx / dist
-      let nz = dz / dist
-      let strafe_dir : Float = if (game.frame_counter + idx * 50) % 300 < 150 { 1.0 } else { -1.0 }
-      enemy.vx = -nz * enemy.speed * 0.4 * strafe_dir
-      enemy.vz = nx * enemy.speed * 0.4 * strafe_dir
+  } else if dist > 0.5 {
+    let nx = dx / dist
+    let nz = dz / dist
+    let strafe_dir : Float = if (game.frame_counter + idx * 50) % 300 < 150 {
+      1.0
+    } else {
+      -1.0
     }
+    enemy.vx = -nz * enemy.speed * 0.4 * strafe_dir
+    enemy.vz = nx * enemy.speed * 0.4 * strafe_dir
   }
   // Revive ability
   enemy.revive_timer -= dt
@@ -398,7 +483,12 @@ fn update_necromancer_ai(
     for j = 0; j < game.enemies.length(); j = j + 1 {
       let target = game.enemies[j]
       if not(target.active) && target.can_revive {
-        let revive_dist = @types.distance2d(enemy.x, enemy.z, target.death_x, target.death_z)
+        let revive_dist = @types.distance2d(
+          enemy.x,
+          enemy.z,
+          target.death_x,
+          target.death_z,
+        )
         if revive_dist < @types.necro_revive_range {
           // Revive this enemy
           target.active = true
@@ -408,7 +498,17 @@ fn update_necromancer_ai(
           target.stun_timer = 0.5
           target.can_revive = false
           target.flash_timer = 0.3
-          @types.spawn_particles_typed(game, target.x, target.y, target.z, 8, 100, 50, 200, @types.particle_heal)
+          @types.spawn_particles_typed(
+            game,
+            target.x,
+            target.y,
+            target.z,
+            8,
+            100,
+            50,
+            200,
+            @types.particle_heal,
+          )
           revived = true
           break
         }
@@ -417,7 +517,17 @@ fn update_necromancer_ai(
     enemy.revive_timer = @types.necro_revive_cooldown
     if revived {
       // Visual feedback for necromancer
-      @types.spawn_particles_typed(game, enemy.x, enemy.y + 0.5, enemy.z, 5, 150, 50, 255, @types.particle_heal)
+      @types.spawn_particles_typed(
+        game,
+        enemy.x,
+        enemy.y + 0.5,
+        enemy.z,
+        5,
+        150,
+        50,
+        255,
+        @types.particle_heal,
+      )
     }
   }
   // Weak ranged attack
@@ -428,13 +538,14 @@ fn update_necromancer_ai(
   }
 }
 
+///|
 fn update_shielded_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Shielded enemies always face the player (shield in front)
@@ -454,19 +565,26 @@ fn update_shielded_ai(
     damage_player_from(game, enemy.damage, enemy.x, enemy.z)
     enemy.attack_timer = 1.2
     @types.spawn_particles(
-      game, game.player.x, @types.player_height * 0.5, game.player.z, 3,
-      150, 150, 200,
+      game,
+      game.player.x,
+      @types.player_height * 0.5,
+      game.player.z,
+      3,
+      150,
+      150,
+      200,
     )
   }
 }
 
+///|
 fn update_boss_ai(
   game : @types.Game,
   idx : Int,
   dx : Float,
   dz : Float,
   dist : Float,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let enemy = game.enemies[idx]
   // Update boss phase based on HP
@@ -474,14 +592,41 @@ fn update_boss_ai(
   if hp_pct < 0.25 && enemy.boss_phase < 3 {
     enemy.boss_phase = 3
     enemy.speed = enemy.speed * 1.2
-    @types.spawn_particles(game, enemy.x, enemy.y + 1.0, enemy.z, 15, 255, 50, 50)
+    @types.spawn_particles(
+      game,
+      enemy.x,
+      enemy.y + 1.0,
+      enemy.z,
+      15,
+      255,
+      50,
+      50,
+    )
   } else if hp_pct < 0.50 && enemy.boss_phase < 2 {
     enemy.boss_phase = 2
     enemy.speed = enemy.speed * 1.1
-    @types.spawn_particles(game, enemy.x, enemy.y + 1.0, enemy.z, 12, 255, 100, 50)
+    @types.spawn_particles(
+      game,
+      enemy.x,
+      enemy.y + 1.0,
+      enemy.z,
+      12,
+      255,
+      100,
+      50,
+    )
   } else if hp_pct < 0.75 && enemy.boss_phase < 1 {
     enemy.boss_phase = 1
-    @types.spawn_particles(game, enemy.x, enemy.y + 1.0, enemy.z, 10, 255, 150, 50)
+    @types.spawn_particles(
+      game,
+      enemy.x,
+      enemy.y + 1.0,
+      enemy.z,
+      10,
+      255,
+      150,
+      50,
+    )
   }
   // Boss ability cooldown
   enemy.boss_ability_timer -= dt
@@ -532,13 +677,27 @@ fn update_boss_ai(
         }
         ignore(pi)
       }
-      @types.spawn_particles(game, enemy.x, enemy.y + 0.5, enemy.z, 8, 200, 50, 200)
+      @types.spawn_particles(
+        game,
+        enemy.x,
+        enemy.y + 0.5,
+        enemy.z,
+        8,
+        200,
+        50,
+        200,
+      )
       enemy.boss_ability_timer = ability_cd
     } else if dist < 6.0 {
       // Ground slam: AoE damage around boss
       let slam_radius : Float = 6.0
       let slam_damage = enemy.damage * 1.5
-      let player_dist = @types.distance2d(enemy.x, enemy.z, game.player.x, game.player.z)
+      let player_dist = @types.distance2d(
+        enemy.x,
+        enemy.z,
+        game.player.x,
+        game.player.z,
+      )
       if player_dist < slam_radius {
         let dmg_factor : Float = 1.0 - player_dist / slam_radius
         damage_player_from(game, slam_damage * dmg_factor, enemy.x, enemy.z)
@@ -558,7 +717,14 @@ fn update_boss_ai(
     damage_player_from(game, enemy.damage, enemy.x, enemy.z)
     enemy.attack_timer = 1.0
     @types.spawn_particles(
-      game, game.player.x, 1.0, game.player.z, 5, 200, 50, 200,
+      game,
+      game.player.x,
+      1.0,
+      game.player.z,
+      5,
+      200,
+      50,
+      200,
     )
   }
   // State timer for charge
@@ -567,13 +733,16 @@ fn update_boss_ai(
   }
 }
 
+///|
 fn fire_spit(game : @types.Game, enemy_idx : Int) -> Unit {
   let enemy = game.enemies[enemy_idx]
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let proj = game.projectiles[idx]
   let dx = game.player.x - enemy.x
-  let dy = (@types.player_height * 0.7) - enemy.y
+  let dy = @types.player_height * 0.7 - enemy.y
   let dz = game.player.z - enemy.z
   let norm = @types.normalize3d(dx, dy, dz)
   proj.active = true
@@ -593,11 +762,17 @@ fn fire_spit(game : @types.Game, enemy_idx : Int) -> Unit {
   proj.is_headshot_capable = false
 }
 
+///|
 fn spawn_enemy(game : @types.Game) -> Unit {
   let idx = @types.alloc_enemy(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   // Determine enemy kind from wave composition
-  let kind = @levels.get_wave_enemy_kind(game.current_wave, game.enemies_spawned)
+  let kind = @levels.get_wave_enemy_kind(
+    game.current_wave,
+    game.enemies_spawned,
+  )
   let base_hp = @levels.enemy_base_hp(kind)
   let base_speed = @levels.enemy_base_speed(kind)
   let base_damage = @levels.enemy_base_damage(kind)
@@ -634,7 +809,9 @@ fn spawn_enemy(game : @types.Game) -> Unit {
   enemy.drops_pickup = @types.rand_bool(game, @levels.enemy_drop_chance(kind))
   // Spawn at random position on arena edges
   let angle = @types.rand_rangef(game, 0.0, 2.0 * @types.pi)
-  let dist = @types.rand_rangef(game, @types.spawn_min_dist, @types.spawn_max_dist)
+  let dist = @types.rand_rangef(
+    game, @types.spawn_min_dist, @types.spawn_max_dist,
+  )
   let sx = @math.cosf(angle) * dist
   let sz = @math.sinf(angle) * dist
   // Clamp to arena
@@ -645,22 +822,26 @@ fn spawn_enemy(game : @types.Game) -> Unit {
   game.enemies_spawned += 1
 }
 
+///|
 fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   let enemy = game.enemies[idx]
   enemy.active = false
   // Save death position for necromancer
   enemy.death_x = enemy.x
   enemy.death_z = enemy.z
-  enemy.can_revive = (enemy.kind != @types.enemy_boss && enemy.kind != @types.enemy_exploder)
+  enemy.can_revive = enemy.kind != @types.enemy_boss &&
+    enemy.kind != @types.enemy_exploder
   game.player.money += enemy.gold_value
   let combo_mult_score : Float = game.player.combo_mult
-  let score_add_f : Float = Float::from_int(enemy.score_value) * combo_mult_score
+  let score_add_f : Float = Float::from_int(enemy.score_value) *
+    combo_mult_score
   game.player.score += score_add_f.to_int()
   game.player.kills += 1
   // Combo system
   game.player.combo_count += 1
   game.player.combo_timer = @types.combo_timeout
-  let new_mult = @types.combo_base_mult + Float::from_int(game.player.combo_count) * @types.combo_increment
+  let new_mult = @types.combo_base_mult +
+    Float::from_int(game.player.combo_count) * @types.combo_increment
   game.player.combo_mult = @types.minf(new_mult, @types.combo_max_mult)
   // Multi-kill tracking
   game.player.recent_kill_count += 1
@@ -729,11 +910,25 @@ fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   }
   let particle_count = if enemy.kind == @types.enemy_boss { 25 } else { 10 }
   @types.spawn_particles(
-    game, enemy.x, enemy.y, enemy.z, particle_count, r, g, b,
+    game,
+    enemy.x,
+    enemy.y,
+    enemy.z,
+    particle_count,
+    r,
+    g,
+    b,
   )
   // Exploder death explosion
   if enemy.kind == @types.enemy_exploder && not(enemy.explode_triggered) {
-    apply_explosion(game, enemy.x, enemy.y, enemy.z, @types.exploder_radius * 0.7, @types.exploder_damage * 0.5)
+    apply_explosion(
+      game,
+      enemy.x,
+      enemy.y,
+      enemy.z,
+      @types.exploder_radius * 0.7,
+      @types.exploder_damage * 0.5,
+    )
   }
   // Pickup drop
   if enemy.drops_pickup {
@@ -741,6 +936,7 @@ fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   }
 }
 
+///|
 fn damage_enemy(game : @types.Game, idx : Int, damage : Float) -> Unit {
   let enemy = game.enemies[idx]
   enemy.hp -= damage
@@ -752,6 +948,7 @@ fn damage_enemy(game : @types.Game, idx : Int, damage : Float) -> Unit {
   }
 }
 
+///|
 fn damage_enemy_headshot(game : @types.Game, idx : Int, damage : Float) -> Unit {
   let final_damage = damage * @types.headshot_mult
   let enemy = game.enemies[idx]
@@ -764,25 +961,56 @@ fn damage_enemy_headshot(game : @types.Game, idx : Int, damage : Float) -> Unit 
   game.player.score += @types.bonus_headshot
   @types.add_kill_feed(game, "HEADSHOT!", 255, 100, 100)
   // Extra blood particles for headshot
-  @types.spawn_particles(game, enemy.x, enemy.y + enemy.size * 0.8, enemy.z, 8, 200, 30, 30)
+  @types.spawn_particles(
+    game,
+    enemy.x,
+    enemy.y + enemy.size * 0.8,
+    enemy.z,
+    8,
+    200,
+    30,
+    30,
+  )
   if enemy.hp <= 0.0 {
     kill_enemy(game, idx)
   }
 }
 
 // Damage shielded enemy (checks if hit from front)
-fn damage_shielded_enemy(game : @types.Game, idx : Int, damage : Float, proj_dx : Float, proj_dz : Float) -> Unit {
+
+///|
+fn damage_shielded_enemy(
+  game : @types.Game,
+  idx : Int,
+  damage : Float,
+  proj_dx : Float,
+  proj_dz : Float,
+) -> Unit {
   let enemy = game.enemies[idx]
   // Check if projectile is hitting the shield (front)
   let attack_angle = @math.atan2f(proj_dx, proj_dz)
-  let is_blocked = @types.angle_within(attack_angle, enemy.facing_angle + @types.pi, @types.shield_block_angle)
+  let is_blocked = @types.angle_within(
+    attack_angle,
+    enemy.facing_angle + @types.pi,
+    @types.shield_block_angle,
+  )
   if is_blocked {
     // Shield blocks - reduced damage and spark effect
     let blocked_damage = damage * 0.15
     enemy.hp -= blocked_damage
     enemy.flash_timer = 0.05
     game.hit_marker_timer = 0.05
-    @types.spawn_particles_typed(game, enemy.x, enemy.y + 0.3, enemy.z, 3, 200, 200, 255, @types.particle_spark)
+    @types.spawn_particles_typed(
+      game,
+      enemy.x,
+      enemy.y + 0.3,
+      enemy.z,
+      3,
+      200,
+      200,
+      255,
+      @types.particle_spark,
+    )
   } else {
     // Hit from behind/side - full damage
     damage_enemy(game, idx, damage)
@@ -792,9 +1020,12 @@ fn damage_shielded_enemy(game : @types.Game, idx : Int, damage : Float, proj_dx 
   }
 }
 
+///|
 fn spawn_pickup_at(game : @types.Game, x : Float, z : Float) -> Unit {
   let idx = @types.alloc_pickup(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let pickup = game.pickups[idx]
   pickup.active = true
   let roll = @types.rand_next(game)

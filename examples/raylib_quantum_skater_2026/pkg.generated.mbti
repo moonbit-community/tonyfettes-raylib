@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_quantum_skater_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Particle
+
+type Player
+
+type TrackObj
+
+type Trail
+
+// Type aliases
+
+// Traits
+

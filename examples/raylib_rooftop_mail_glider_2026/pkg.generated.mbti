@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_rooftop_mail_glider_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bird
+
+type Crate
+
+type Delivery
+
+type Depot
+
+type Glider
+
+type Pad
+
+type Particle
+
+type WindTunnel
+
+// Type aliases
+
+// Traits
+

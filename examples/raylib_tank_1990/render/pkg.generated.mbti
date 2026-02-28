@@ -1,0 +1,78 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tank_1990/render"
+
+import {
+  "tonyfettes/raylib-examples/raylib_tank_1990/types",
+}
+
+// Values
+pub fn bullet_texture(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn draw_text_centered(String, Int, Int, Int, @tonyfettes/raylib.Color) -> Unit
+
+pub fn draw_text_shadow(String, Int, Int, Int, @tonyfettes/raylib.Color) -> Unit
+
+pub fn draw_texture_box_opt(@tonyfettes/raylib/internal/raylib.Texture?, Int, Int, Int, Int, @tonyfettes/raylib.Color) -> Bool
+
+pub fn draw_texture_centered(@tonyfettes/raylib/internal/raylib.Texture, Float, Float, Float, Float, Float, @tonyfettes/raylib.Color) -> Unit
+
+pub fn draw_texture_centered_opt(@tonyfettes/raylib/internal/raylib.Texture?, Float, Float, Float, Float, Float, @tonyfettes/raylib.Color) -> Bool
+
+pub fn draw_ui(@types.Game) -> Unit
+
+pub fn draw_world(@types.Game) -> Unit
+
+pub fn enemy_body_texture(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn enemy_marker_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn enemy_turret_texture(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn explosion_frame(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn fx_muzzle_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn fx_smoke_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn fx_spark_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn fx_trace_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn init_assets() -> Unit
+
+pub fn player_body_texture(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn player_turret_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn smoke_frame(Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn tile_texture(Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn tracks_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_font() -> @tonyfettes/raylib/internal/raylib.Font?
+
+pub fn ui_icon_arrow_down_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_icon_arrow_up_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_icon_play_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_menu_button_focus_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_menu_button_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_panel_card_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn ui_panel_line_texture() -> @tonyfettes/raylib/internal/raylib.Texture?
+
+pub fn unload_assets() -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_lighthouse_supply_run_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Lighthouse
+
+type Particle
+
+type Pirate
+
+type Player
+
+type Reef
+
+type Storm
+
+// Type aliases
+
+// Traits
+

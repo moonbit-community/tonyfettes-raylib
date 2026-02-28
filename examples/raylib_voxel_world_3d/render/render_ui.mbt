@@ -1,5 +1,6 @@
 // UI rendering: HUD, menus, crosshair, inventory, crafting, game over
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
@@ -39,14 +40,20 @@ pub fn draw_ui(game : @types.Game) -> Unit {
     let alpha = (game.player.damage_flash * 120.0).to_int()
     let clamped = @types.clampi(alpha, 0, 120)
     @raylib.draw_rectangle(
-      0, 0, @types.screen_width, @types.screen_height,
+      0,
+      0,
+      @types.screen_width,
+      @types.screen_height,
       @raylib.Color::new(255, 0, 0, clamped),
     )
   }
   // Underwater overlay
   if game.player.underwater {
     @raylib.draw_rectangle(
-      0, 0, @types.screen_width, @types.screen_height,
+      0,
+      0,
+      @types.screen_width,
+      @types.screen_height,
       @raylib.Color::new(30, 80, 180, 80),
     )
   }
@@ -54,14 +61,21 @@ pub fn draw_ui(game : @types.Game) -> Unit {
 
 // ========== Main menu ==========
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   // Background gradient
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height / 2,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height / 2,
     @raylib.Color::new(30, 80, 50, 255),
   )
   @raylib.draw_rectangle(
-    0, @types.screen_height / 2, @types.screen_width, @types.screen_height / 2,
+    0,
+    @types.screen_height / 2,
+    @types.screen_width,
+    @types.screen_height / 2,
     @raylib.Color::new(20, 50, 30, 255),
   )
   // Title
@@ -69,40 +83,53 @@ fn draw_menu(game : @types.Game) -> Unit {
   let tw = @raylib.measure_text(title, 52)
   // Shadow (drawn first, behind the title)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2 + 2, 102, 52,
+    title,
+    (@types.screen_width - tw) / 2 + 2,
+    102,
+    52,
     @raylib.Color::new(20, 60, 20, 255),
   )
   // Main title text (drawn on top of shadow)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, 100, 52,
+    title,
+    (@types.screen_width - tw) / 2,
+    100,
+    52,
     @raylib.Color::new(100, 220, 100, 255),
   )
   // Subtitle
   let sub = "A Minecraft-lite Sandbox Adventure"
   let sw = @raylib.measure_text(sub, 22)
   @raylib.draw_text(
-    sub, (@types.screen_width - sw) / 2, 165, 22,
+    sub,
+    (@types.screen_width - sw) / 2,
+    165,
+    22,
     @raylib.Color::new(180, 220, 180, 255),
   )
   // Version
   let ver = "v2.0 - MoonBit Edition"
   let vw = @raylib.measure_text(ver, 16)
   @raylib.draw_text(
-    ver, (@types.screen_width - vw) / 2, 195, 16,
+    ver,
+    (@types.screen_width - vw) / 2,
+    195,
+    16,
     @raylib.Color::new(120, 160, 120, 255),
   )
   // Feature list
   let features : Array[String] = [
-    "6 Biomes: Plains, Forest, Desert, Mountains, Tundra, Swamp",
-    "24 Block Types | Caves & Ores | Day/Night Cycle",
-    "Mobs: Pigs, Cows, Chickens, Zombies, Skeletons, Spiders",
-    "Mining System | Inventory | Crafting | Health & Hunger",
+    "6 Biomes: Plains, Forest, Desert, Mountains, Tundra, Swamp", "24 Block Types | Caves & Ores | Day/Night Cycle",
+    "Mobs: Pigs, Cows, Chickens, Zombies, Skeletons, Spiders", "Mining System | Inventory | Crafting | Health & Hunger",
   ]
   for i = 0; i < features.length(); i = i + 1 {
     let fy = 240 + i * 24
     let fw = @raylib.measure_text(features[i], 16)
     @raylib.draw_text(
-      features[i], (@types.screen_width - fw) / 2, fy, 16,
+      features[i],
+      (@types.screen_width - fw) / 2,
+      fy,
+      16,
       @raylib.Color::new(140, 170, 140, 255),
     )
   }
@@ -112,21 +139,25 @@ fn draw_menu(game : @types.Game) -> Unit {
   let prompt = "Press ENTER or SPACE to Play"
   let pw = @raylib.measure_text(prompt, 28)
   @raylib.draw_text(
-    prompt, (@types.screen_width - pw) / 2, 370, 28,
+    prompt,
+    (@types.screen_width - pw) / 2,
+    370,
+    28,
     @raylib.Color::new(255, 255, 100, alpha),
   )
   // Controls info
   let controls : Array[String] = [
-    "WASD - Move   |   Mouse - Look   |   Space - Jump",
-    "LMB/Hold - Mine   |   RMB - Place   |   1-9 - Hotbar",
-    "E - Inventory   |   C - Craft   |   Shift - Sprint",
-    "Esc - Pause   |   F3 - Debug Info   |   Scroll - Cycle Items",
+    "WASD - Move   |   Mouse - Look   |   Space - Jump", "LMB/Hold - Mine   |   RMB - Place   |   1-9 - Hotbar",
+    "E - Inventory   |   C - Craft   |   Shift - Sprint", "Esc - Pause   |   F3 - Debug Info   |   Scroll - Cycle Items",
   ]
   for i = 0; i < controls.length(); i = i + 1 {
     let cy = 430 + i * 26
     let cw = @raylib.measure_text(controls[i], 17)
     @raylib.draw_text(
-      controls[i], (@types.screen_width - cw) / 2, cy, 17,
+      controls[i],
+      (@types.screen_width - cw) / 2,
+      cy,
+      17,
       @raylib.Color::new(160, 180, 160, 255),
     )
   }
@@ -134,17 +165,24 @@ fn draw_menu(game : @types.Game) -> Unit {
   let credits = "Built with MoonBit + raylib"
   let crw = @raylib.measure_text(credits, 14)
   @raylib.draw_text(
-    credits, (@types.screen_width - crw) / 2, @types.screen_height - 30, 14,
+    credits,
+    (@types.screen_width - crw) / 2,
+    @types.screen_height - 30,
+    14,
     @raylib.Color::new(100, 120, 100, 200),
   )
 }
 
 // ========== HUD ==========
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   // Top bar background
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, 32,
+    0,
+    0,
+    @types.screen_width,
+    32,
     @raylib.Color::new(0, 0, 0, 140),
   )
   // Selected block name
@@ -156,7 +194,10 @@ fn draw_hud(game : @types.Game) -> Unit {
     "Empty"
   }
   @raylib.draw_text(
-    block_text, 10, 6, 20,
+    block_text,
+    10,
+    6,
+    20,
     @raylib.Color::new(200, 220, 200, 255),
   )
   // FPS
@@ -164,7 +205,10 @@ fn draw_hud(game : @types.Game) -> Unit {
   let fps_text = "FPS: \{fps}"
   let fps_w = @raylib.measure_text(fps_text, 18)
   @raylib.draw_text(
-    fps_text, @types.screen_width - fps_w - 10, 6, 18,
+    fps_text,
+    @types.screen_width - fps_w - 10,
+    6,
+    18,
     @raylib.Color::new(200, 200, 200, 255),
   )
   // Day/night indicator
@@ -173,7 +217,10 @@ fn draw_hud(game : @types.Game) -> Unit {
   let day_text = "Day \{game.day_count} - \{time_text} (\{time_pct.to_int()}%)"
   let dw = @raylib.measure_text(day_text, 16)
   @raylib.draw_text(
-    day_text, (@types.screen_width - dw) / 2, 8, 16,
+    day_text,
+    (@types.screen_width - dw) / 2,
+    8,
+    16,
     @raylib.Color::new(180, 180, 200, 255),
   )
   // Hotbar at bottom
@@ -190,7 +237,8 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(
       (@types.screen_width - msg_w) / 2 - 8,
       @types.screen_height / 2 + 52,
-      msg_w + 16, 28,
+      msg_w + 16,
+      28,
       @raylib.Color::new(0, 0, 0, @types.clampi(msg_alpha / 2, 0, 140)),
     )
     @raylib.draw_text(
@@ -205,6 +253,7 @@ fn draw_hud(game : @types.Game) -> Unit {
 
 // ========== Hotbar ==========
 
+///|
 fn draw_hotbar(game : @types.Game) -> Unit {
   let slot_size = 48
   let slot_gap = 4
@@ -214,7 +263,10 @@ fn draw_hotbar(game : @types.Game) -> Unit {
   let start_y = @types.screen_height - slot_size - 10
   // Background
   @raylib.draw_rectangle(
-    start_x - 4, start_y - 4, total_width + 8, slot_size + 8,
+    start_x - 4,
+    start_y - 4,
+    total_width + 8,
+    slot_size + 8,
     @raylib.Color::new(0, 0, 0, 160),
   )
   for i = 0; i < total_slots; i = i + 1 {
@@ -234,12 +286,18 @@ fn draw_hotbar(game : @types.Game) -> Unit {
       let g = @levels.block_color_g(slot.item_id)
       let b = @levels.block_color_b(slot.item_id)
       @raylib.draw_rectangle(
-        sx + 8, start_y + 8, slot_size - 16, slot_size - 16,
+        sx + 8,
+        start_y + 8,
+        slot_size - 16,
+        slot_size - 16,
         @raylib.Color::new(r, g, b, 255),
       )
       // Darker border for 3D effect on icon
       @raylib.draw_rectangle(
-        sx + 8, start_y + slot_size - 12, slot_size - 16, 4,
+        sx + 8,
+        start_y + slot_size - 12,
+        slot_size - 16,
+        4,
         @raylib.Color::new(r * 2 / 3, g * 2 / 3, b * 2 / 3, 255),
       )
       // Count
@@ -247,7 +305,10 @@ fn draw_hotbar(game : @types.Game) -> Unit {
         let count_text = "\{slot.count}"
         let count_w = @raylib.measure_text(count_text, 12)
         @raylib.draw_text(
-          count_text, sx + slot_size - count_w - 4, start_y + slot_size - 16, 12,
+          count_text,
+          sx + slot_size - count_w - 4,
+          start_y + slot_size - 16,
+          12,
           @raylib.Color::new(255, 255, 255, 255),
         )
       }
@@ -255,17 +316,26 @@ fn draw_hotbar(game : @types.Game) -> Unit {
     // Slot number
     let num_text = "\{i + 1}"
     @raylib.draw_text(
-      num_text, sx + 2, start_y + 2, 12,
+      num_text,
+      sx + 2,
+      start_y + 2,
+      12,
       @raylib.Color::new(200, 200, 200, 200),
     )
     // Selection highlight border
     if is_selected {
       @raylib.draw_rectangle_lines(
-        sx - 1, start_y - 1, slot_size + 2, slot_size + 2,
+        sx - 1,
+        start_y - 1,
+        slot_size + 2,
+        slot_size + 2,
         @raylib.Color::new(255, 255, 0, 255),
       )
       @raylib.draw_rectangle_lines(
-        sx, start_y, slot_size, slot_size,
+        sx,
+        start_y,
+        slot_size,
+        slot_size,
         @raylib.Color::new(255, 255, 0, 255),
       )
     }
@@ -274,6 +344,7 @@ fn draw_hotbar(game : @types.Game) -> Unit {
 
 // ========== Crosshair ==========
 
+///|
 fn draw_crosshair() -> Unit {
   let cx = @types.screen_width / 2
   let cy = @types.screen_height / 2
@@ -281,15 +352,34 @@ fn draw_crosshair() -> Unit {
   let thickness = 2
   let color = @raylib.Color::new(255, 255, 255, 200)
   // Horizontal line
-  @raylib.draw_rectangle(cx - size, cy - thickness / 2, size * 2, thickness, color)
+  @raylib.draw_rectangle(
+    cx - size,
+    cy - thickness / 2,
+    size * 2,
+    thickness,
+    color,
+  )
   // Vertical line
-  @raylib.draw_rectangle(cx - thickness / 2, cy - size, thickness, size * 2, color)
+  @raylib.draw_rectangle(
+    cx - thickness / 2,
+    cy - size,
+    thickness,
+    size * 2,
+    color,
+  )
   // Center dot
-  @raylib.draw_rectangle(cx - 1, cy - 1, 2, 2, @raylib.Color::new(255, 255, 0, 255))
+  @raylib.draw_rectangle(
+    cx - 1,
+    cy - 1,
+    2,
+    2,
+    @raylib.Color::new(255, 255, 0, 255),
+  )
 }
 
 // ========== Health & Hunger bars ==========
 
+///|
 fn draw_health_hunger_bars(game : @types.Game) -> Unit {
   let player = game.player
   let bar_width = 200
@@ -300,53 +390,87 @@ fn draw_health_hunger_bars(game : @types.Game) -> Unit {
   let health_x = @types.screen_width / 2 - bar_width - 20
   // Background
   @raylib.draw_rectangle(
-    health_x - 1, start_y - 1, bar_width + 2, bar_height + 2,
+    health_x - 1,
+    start_y - 1,
+    bar_width + 2,
+    bar_height + 2,
     @raylib.Color::new(0, 0, 0, 180),
   )
   // Health amount
-  let health_pct = Float::from_int(player.health) / Float::from_int(@types.player_max_health)
+  let health_pct = Float::from_int(player.health) /
+    Float::from_int(@types.player_max_health)
   let health_fill = (Float::from_int(bar_width) * health_pct).to_int()
-  let hr : Int = if health_pct > 0.5 { @types.lerpi(255, 0, (health_pct - 0.5) * 2.0) } else { 255 }
-  let hg : Int = if health_pct > 0.5 { 200 } else { @types.lerpi(0, 200, health_pct * 2.0) }
+  let hr : Int = if health_pct > 0.5 {
+    @types.lerpi(255, 0, (health_pct - 0.5) * 2.0)
+  } else {
+    255
+  }
+  let hg : Int = if health_pct > 0.5 {
+    200
+  } else {
+    @types.lerpi(0, 200, health_pct * 2.0)
+  }
   @raylib.draw_rectangle(
-    health_x, start_y, health_fill, bar_height,
+    health_x,
+    start_y,
+    health_fill,
+    bar_height,
     @raylib.Color::new(hr, hg, 0, 255),
   )
   // Health text
   let health_text = "HP: \{player.health}/\{@types.player_max_health}"
   @raylib.draw_text(
-    health_text, health_x + 4, start_y + 1, 12,
+    health_text,
+    health_x + 4,
+    start_y + 1,
+    12,
     @raylib.Color::new(255, 255, 255, 255),
   )
   // Heart icon placeholder
   @raylib.draw_text(
-    "+", health_x - 16, start_y, 16,
+    "+",
+    health_x - 16,
+    start_y,
+    16,
     @raylib.Color::new(255, 50, 50, 255),
   )
 
   // Hunger bar
   let hunger_x = @types.screen_width / 2 + 20
   @raylib.draw_rectangle(
-    hunger_x - 1, start_y - 1, bar_width + 2, bar_height + 2,
+    hunger_x - 1,
+    start_y - 1,
+    bar_width + 2,
+    bar_height + 2,
     @raylib.Color::new(0, 0, 0, 180),
   )
-  let hunger_pct = Float::from_int(player.hunger) / Float::from_int(@types.player_max_hunger)
+  let hunger_pct = Float::from_int(player.hunger) /
+    Float::from_int(@types.player_max_hunger)
   let hunger_fill = (Float::from_int(bar_width) * hunger_pct).to_int()
   let hunger_r : Int = if hunger_pct < 0.3 { 200 } else { 180 }
   let hunger_g : Int = if hunger_pct < 0.3 { 100 } else { 130 }
   let hunger_b : Int = if hunger_pct < 0.3 { 30 } else { 50 }
   @raylib.draw_rectangle(
-    hunger_x, start_y, hunger_fill, bar_height,
+    hunger_x,
+    start_y,
+    hunger_fill,
+    bar_height,
     @raylib.Color::new(hunger_r, hunger_g, hunger_b, 255),
   )
   let hunger_text = "Food: \{player.hunger}/\{@types.player_max_hunger}"
   @raylib.draw_text(
-    hunger_text, hunger_x + 4, start_y + 1, 12,
+    hunger_text,
+    hunger_x + 4,
+    start_y + 1,
+    12,
     @raylib.Color::new(255, 255, 255, 255),
   )
   // Drumstick icon placeholder
   @raylib.draw_text(
-    "~", hunger_x + bar_width + 4, start_y, 16,
+    "~",
+    hunger_x + bar_width + 4,
+    start_y,
+    16,
     @raylib.Color::new(180, 130, 50, 255),
   )
 
@@ -357,12 +481,18 @@ fn draw_health_hunger_bars(game : @types.Game) -> Unit {
     let mine_x = @types.screen_width / 2 - mine_bar_w / 2
     let mine_y = @types.screen_height / 2 + 25
     @raylib.draw_rectangle(
-      mine_x - 1, mine_y - 1, mine_bar_w + 2, mine_bar_h + 2,
+      mine_x - 1,
+      mine_y - 1,
+      mine_bar_w + 2,
+      mine_bar_h + 2,
       @raylib.Color::new(0, 0, 0, 150),
     )
     let fill = (Float::from_int(mine_bar_w) * player.mining_progress).to_int()
     @raylib.draw_rectangle(
-      mine_x, mine_y, fill, mine_bar_h,
+      mine_x,
+      mine_y,
+      fill,
+      mine_bar_h,
       @raylib.Color::new(255, 200, 50, 255),
     )
   }
@@ -370,6 +500,7 @@ fn draw_health_hunger_bars(game : @types.Game) -> Unit {
 
 // ========== Air bar (when underwater) ==========
 
+///|
 fn draw_air_bar(game : @types.Game) -> Unit {
   if not(game.player.underwater) {
     return
@@ -379,24 +510,35 @@ fn draw_air_bar(game : @types.Game) -> Unit {
   let air_x = @types.screen_width / 2 - bar_width / 2
   let air_y = @types.screen_height / 2 + 40
   @raylib.draw_rectangle(
-    air_x - 1, air_y - 1, bar_width + 2, bar_height + 2,
+    air_x - 1,
+    air_y - 1,
+    bar_width + 2,
+    bar_height + 2,
     @raylib.Color::new(0, 0, 0, 150),
   )
-  let air_pct = Float::from_int(game.player.air) / Float::from_int(@types.player_max_air)
+  let air_pct = Float::from_int(game.player.air) /
+    Float::from_int(@types.player_max_air)
   let fill = (Float::from_int(bar_width) * air_pct).to_int()
   @raylib.draw_rectangle(
-    air_x, air_y, fill, bar_height,
+    air_x,
+    air_y,
+    fill,
+    bar_height,
     @raylib.Color::new(50, 150, 255, 255),
   )
   let air_text = "Air"
   @raylib.draw_text(
-    air_text, air_x + bar_width / 2 - 10, air_y - 1, 10,
+    air_text,
+    air_x + bar_width / 2 - 10,
+    air_y - 1,
+    10,
     @raylib.Color::new(255, 255, 255, 220),
   )
 }
 
 // ========== Debug info ==========
 
+///|
 fn draw_debug_info(game : @types.Game) -> Unit {
   let player = game.player
   let x = 10
@@ -405,7 +547,10 @@ fn draw_debug_info(game : @types.Game) -> Unit {
   let bg_w = 320
   let line_count = 12
   @raylib.draw_rectangle(
-    x - 4, y - 4, bg_w, line_count * line_h + 8,
+    x - 4,
+    y - 4,
+    bg_w,
+    line_count * line_h + 8,
     @raylib.Color::new(0, 0, 0, 160),
   )
   let color = @raylib.Color::new(200, 220, 200, 255)
@@ -428,7 +573,11 @@ fn draw_debug_info(game : @types.Game) -> Unit {
   let vel_text = "Vel: \{player.vx.to_int()}, \{player.vy.to_int()}, \{player.vz.to_int()}"
   @raylib.draw_text(vel_text, x, y, 15, color)
   y += line_h
-  let ground_text : String = if player.on_ground { "On Ground: Yes" } else { "On Ground: No" }
+  let ground_text : String = if player.on_ground {
+    "On Ground: Yes"
+  } else {
+    "On Ground: No"
+  }
   @raylib.draw_text(ground_text, x, y, 15, color)
   y += line_h
   let tool_text = "Tool: \{@types.tool_name(player.equipped_tool)}"
@@ -436,7 +585,12 @@ fn draw_debug_info(game : @types.Game) -> Unit {
   y += line_h
   // Target block info
   if game.target.hit {
-    let tblock = @types.get_world_block(game, game.target.bx, game.target.by, game.target.bz)
+    let tblock = @types.get_world_block(
+      game,
+      game.target.bx,
+      game.target.by,
+      game.target.bz,
+    )
     let target_text = "Target: \{@types.block_name(tblock)} at \{game.target.bx},\{game.target.by},\{game.target.bz}"
     @raylib.draw_text(target_text, x, y, 15, color)
   } else {
@@ -459,22 +613,33 @@ fn draw_debug_info(game : @types.Game) -> Unit {
   let dist_text = "Distance: \{game.distance_walked.to_int()}m"
   @raylib.draw_text(dist_text, x, y, 15, color)
   y += line_h
-  let night_text : String = if game.is_night { "Night time" } else { "Day time" }
+  let night_text : String = if game.is_night {
+    "Night time"
+  } else {
+    "Day time"
+  }
   let time_text = "\{night_text} | Day \{game.day_count}"
   @raylib.draw_text(time_text, x, y, 15, color)
 }
 
 // ========== Pause screen ==========
 
+///|
 fn draw_pause_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.Color::new(0, 0, 0, 150),
   )
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 60)
   @raylib.draw_text(
-    text, (@types.screen_width - tw) / 2, @types.screen_height / 2 - 80, 60,
+    text,
+    (@types.screen_width - tw) / 2,
+    @types.screen_height / 2 - 80,
+    60,
     @raylib.Color::new(255, 255, 255, 255),
   )
   // Stats summary
@@ -487,35 +652,51 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
     let sy = @types.screen_height / 2 - 10 + i * 22
     let sw = @raylib.measure_text(stats[i], 16)
     @raylib.draw_text(
-      stats[i], (@types.screen_width - sw) / 2, sy, 16,
+      stats[i],
+      (@types.screen_width - sw) / 2,
+      sy,
+      16,
       @raylib.Color::new(180, 200, 180, 255),
     )
   }
   let hint = "Esc/P: Resume  |  Q: Quit to Menu"
   let hw = @raylib.measure_text(hint, 20)
   @raylib.draw_text(
-    hint, (@types.screen_width - hw) / 2, @types.screen_height / 2 + 70, 20,
+    hint,
+    (@types.screen_width - hw) / 2,
+    @types.screen_height / 2 + 70,
+    20,
     @raylib.Color::new(200, 200, 220, 255),
   )
 }
 
 // ========== Inventory screen ==========
 
+///|
 fn draw_inventory_screen(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.Color::new(0, 0, 0, 190),
   )
   let title = "INVENTORY"
   let tw = @raylib.measure_text(title, 30)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, 50, 30,
+    title,
+    (@types.screen_width - tw) / 2,
+    50,
+    30,
     @raylib.Color::new(255, 255, 255, 255),
   )
   let hint = "1-9: Select Hotbar | E/Esc: Close"
   let hw = @raylib.measure_text(hint, 16)
   @raylib.draw_text(
-    hint, (@types.screen_width - hw) / 2, 85, 16,
+    hint,
+    (@types.screen_width - hw) / 2,
+    85,
+    16,
     @raylib.Color::new(180, 180, 180, 255),
   )
   // Draw inventory grid
@@ -528,13 +709,17 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
   let grid_start_y = 120
   // Background panel
   @raylib.draw_rectangle(
-    grid_start_x - 12, grid_start_y - 12,
-    grid_width + 24, rows * (slot_size + gap) + 24,
+    grid_start_x - 12,
+    grid_start_y - 12,
+    grid_width + 24,
+    rows * (slot_size + gap) + 24,
     @raylib.Color::new(40, 40, 40, 220),
   )
   @raylib.draw_rectangle_lines(
-    grid_start_x - 12, grid_start_y - 12,
-    grid_width + 24, rows * (slot_size + gap) + 24,
+    grid_start_x - 12,
+    grid_start_y - 12,
+    grid_width + 24,
+    rows * (slot_size + gap) + 24,
     @raylib.Color::new(100, 100, 100, 255),
   )
   for row = 0; row < rows; row = row + 1 {
@@ -563,25 +748,42 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
         let b = @levels.block_color_b(slot.item_id)
         // 3D-ish block icon
         @raylib.draw_rectangle(
-          sx + 10, sy + 8, slot_size - 20, slot_size - 20,
+          sx + 10,
+          sy + 8,
+          slot_size - 20,
+          slot_size - 20,
           @raylib.Color::new(r, g, b, 255),
         )
         // Dark bottom edge
         @raylib.draw_rectangle(
-          sx + 10, sy + slot_size - 16, slot_size - 20, 4,
+          sx + 10,
+          sy + slot_size - 16,
+          slot_size - 20,
+          4,
           @raylib.Color::new(r * 3 / 5, g * 3 / 5, b * 3 / 5, 255),
         )
         // Light top edge
         @raylib.draw_rectangle(
-          sx + 10, sy + 8, slot_size - 20, 3,
-          @raylib.Color::new(@types.mini(r + 30, 255), @types.mini(g + 30, 255), @types.mini(b + 30, 255), 200),
+          sx + 10,
+          sy + 8,
+          slot_size - 20,
+          3,
+          @raylib.Color::new(
+            @types.mini(r + 30, 255),
+            @types.mini(g + 30, 255),
+            @types.mini(b + 30, 255),
+            200,
+          ),
         )
         // Count
         if slot.count > 1 {
           let cnt_text = "\{slot.count}"
           let cnt_w = @raylib.measure_text(cnt_text, 12)
           @raylib.draw_text(
-            cnt_text, sx + slot_size - cnt_w - 3, sy + slot_size - 15, 12,
+            cnt_text,
+            sx + slot_size - cnt_w - 3,
+            sy + slot_size - 15,
+            12,
             @raylib.Color::new(255, 255, 255, 255),
           )
         }
@@ -590,12 +792,17 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
           let name = @types.block_name(slot.item_id)
           let nw = @raylib.measure_text(name, 14)
           @raylib.draw_rectangle(
-            sx + (slot_size - nw) / 2 - 4, sy - 18,
-            nw + 8, 18,
+            sx + (slot_size - nw) / 2 - 4,
+            sy - 18,
+            nw + 8,
+            18,
             @raylib.Color::new(0, 0, 0, 200),
           )
           @raylib.draw_text(
-            name, sx + (slot_size - nw) / 2, sy - 16, 14,
+            name,
+            sx + (slot_size - nw) / 2,
+            sy - 16,
+            14,
             @raylib.Color::new(255, 255, 200, 255),
           )
         }
@@ -603,7 +810,10 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
       // Selection border
       if is_selected {
         @raylib.draw_rectangle_lines(
-          sx - 1, sy - 1, slot_size + 2, slot_size + 2,
+          sx - 1,
+          sy - 1,
+          slot_size + 2,
+          slot_size + 2,
           @raylib.Color::new(255, 255, 0, 255),
         )
       }
@@ -611,7 +821,10 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
       if row == 0 {
         let key_text = "\{col + 1}"
         @raylib.draw_text(
-          key_text, sx + 2, sy + 2, 10,
+          key_text,
+          sx + 2,
+          sy + 2,
+          10,
           @raylib.Color::new(200, 200, 100, 180),
         )
       }
@@ -620,28 +833,41 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
   // Label for hotbar row
   let hotbar_label = "Hotbar"
   @raylib.draw_text(
-    hotbar_label, grid_start_x - 12, grid_start_y + slot_size / 2 - 6, 14,
+    hotbar_label,
+    grid_start_x - 12,
+    grid_start_y + slot_size / 2 - 6,
+    14,
     @raylib.Color::new(200, 200, 100, 200),
   )
 }
 
 // ========== Crafting screen ==========
 
+///|
 fn draw_crafting_screen(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.Color::new(0, 0, 0, 190),
   )
   let title = "CRAFTING"
   let tw = @raylib.measure_text(title, 30)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, 40, 30,
+    title,
+    (@types.screen_width - tw) / 2,
+    40,
+    30,
     @raylib.Color::new(255, 255, 255, 255),
   )
   let hint = "W/S: Navigate | Enter/Space: Craft | C/Esc: Close"
   let hw = @raylib.measure_text(hint, 16)
   @raylib.draw_text(
-    hint, (@types.screen_width - hw) / 2, 75, 16,
+    hint,
+    (@types.screen_width - hw) / 2,
+    75,
+    16,
     @raylib.Color::new(180, 180, 180, 255),
   )
   let recipes = @levels.get_crafting_recipes()
@@ -651,13 +877,17 @@ fn draw_crafting_screen(game : @types.Game) -> Unit {
   let panel_y = 110
   // Background panel
   @raylib.draw_rectangle(
-    panel_x - 10, panel_y - 10,
-    panel_width + 20, recipes.length() * recipe_height + 20,
+    panel_x - 10,
+    panel_y - 10,
+    panel_width + 20,
+    recipes.length() * recipe_height + 20,
     @raylib.Color::new(40, 40, 40, 220),
   )
   @raylib.draw_rectangle_lines(
-    panel_x - 10, panel_y - 10,
-    panel_width + 20, recipes.length() * recipe_height + 20,
+    panel_x - 10,
+    panel_y - 10,
+    panel_width + 20,
+    recipes.length() * recipe_height + 20,
     @raylib.Color::new(100, 100, 100, 255),
   )
   for i = 0; i < recipes.length(); i = i + 1 {
@@ -679,24 +909,27 @@ fn draw_crafting_screen(game : @types.Game) -> Unit {
       @raylib.Color::new(150, 100, 100, 200)
     }
     // Recipe name
-    @raylib.draw_text(
-      recipe.name, panel_x + 10, ry + 6, 18,
-      text_color,
-    )
+    @raylib.draw_text(recipe.name, panel_x + 10, ry + 6, 18, text_color)
     // Input display
     let mut input_text = "Needs: \{@types.block_name(recipe.input1_id)} x\{recipe.input1_count}"
     if recipe.input2_id > 0 {
       input_text = "\{input_text} + \{@types.block_name(recipe.input2_id)} x\{recipe.input2_count}"
     }
     @raylib.draw_text(
-      input_text, panel_x + 10, ry + 26, 13,
+      input_text,
+      panel_x + 10,
+      ry + 26,
+      13,
       @raylib.Color::new(160, 160, 160, 220),
     )
     // Output display
     let output_text = "=> \{@types.block_name(recipe.output_id)} x\{recipe.output_count}"
     let ow = @raylib.measure_text(output_text, 14)
     @raylib.draw_text(
-      output_text, panel_x + panel_width - ow - 10, ry + 14, 14,
+      output_text,
+      panel_x + panel_width - ow - 10,
+      ry + 14,
+      14,
       @raylib.Color::new(255, 255, 100, 255),
     )
     // Input color swatch
@@ -704,7 +937,10 @@ fn draw_crafting_screen(game : @types.Game) -> Unit {
     let ig = @levels.block_color_g(recipe.input1_id)
     let ib = @levels.block_color_b(recipe.input1_id)
     @raylib.draw_rectangle(
-      panel_x + panel_width - 60, ry + 6, 14, 14,
+      panel_x + panel_width - 60,
+      ry + 6,
+      14,
+      14,
       @raylib.Color::new(ir, ig, ib, 255),
     )
     // Output color swatch
@@ -712,31 +948,42 @@ fn draw_crafting_screen(game : @types.Game) -> Unit {
     let og = @levels.block_color_g(recipe.output_id)
     let ob = @levels.block_color_b(recipe.output_id)
     @raylib.draw_rectangle(
-      panel_x + panel_width - 40, ry + 6, 14, 14,
+      panel_x + panel_width - 40,
+      ry + 6,
+      14,
+      14,
       @raylib.Color::new(or_, og, ob, 255),
     )
     // Selection indicator
     if is_selected {
       @raylib.draw_rectangle_lines(
-        panel_x - 2, ry - 2, panel_width + 4, recipe_height,
+        panel_x - 2,
+        ry - 2,
+        panel_width + 4,
+        recipe_height,
         @raylib.Color::new(255, 255, 0, 255),
       )
       // Arrow indicator
       @raylib.draw_text(
-        ">", panel_x - 20, ry + 12, 24,
+        ">",
+        panel_x - 20,
+        ry + 12,
+        24,
         @raylib.Color::new(255, 255, 0, 255),
       )
     }
   }
 }
 
+///|
 fn check_can_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Bool {
   let inv = game.player.inventory
   let mut has1 = false
   let mut has2 = false
   if recipe.input1_id > 0 && recipe.input1_count > 0 {
     for i = 0; i < @types.inventory_slots; i = i + 1 {
-      if inv.slots[i].item_id == recipe.input1_id && inv.slots[i].count >= recipe.input1_count {
+      if inv.slots[i].item_id == recipe.input1_id &&
+        inv.slots[i].count >= recipe.input1_count {
         has1 = true
       }
     }
@@ -745,7 +992,8 @@ fn check_can_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Bool {
   }
   if recipe.input2_id > 0 && recipe.input2_count > 0 {
     for i = 0; i < @types.inventory_slots; i = i + 1 {
-      if inv.slots[i].item_id == recipe.input2_id && inv.slots[i].count >= recipe.input2_count {
+      if inv.slots[i].item_id == recipe.input2_id &&
+        inv.slots[i].count >= recipe.input2_count {
         has2 = true
       }
     }
@@ -757,10 +1005,14 @@ fn check_can_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Bool {
 
 // ========== Game over screen ==========
 
+///|
 fn draw_game_over_screen(game : @types.Game) -> Unit {
   // Dark overlay
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.Color::new(80, 0, 0, 200),
   )
   // Title
@@ -769,7 +1021,10 @@ fn draw_game_over_screen(game : @types.Game) -> Unit {
   // Fade in
   let alpha : Int = @types.mini((game.death_timer * 200.0).to_int(), 255)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, @types.screen_height / 2 - 100, 64,
+    title,
+    (@types.screen_width - tw) / 2,
+    @types.screen_height / 2 - 100,
+    64,
     @raylib.Color::new(255, 50, 50, @types.clampi(alpha, 0, 255)),
   )
   // Stats
@@ -785,7 +1040,10 @@ fn draw_game_over_screen(game : @types.Game) -> Unit {
       let sy = @types.screen_height / 2 - 20 + i * 24
       let sw = @raylib.measure_text(stats[i], 18)
       @raylib.draw_text(
-        stats[i], (@types.screen_width - sw) / 2, sy, 18,
+        stats[i],
+        (@types.screen_width - sw) / 2,
+        sy,
+        18,
         @raylib.Color::new(220, 180, 180, 255),
       )
     }
@@ -794,7 +1052,10 @@ fn draw_game_over_screen(game : @types.Game) -> Unit {
     let prompt = "Press ENTER to Respawn  |  Q to Quit"
     let pw = @raylib.measure_text(prompt, 22)
     @raylib.draw_text(
-      prompt, (@types.screen_width - pw) / 2, @types.screen_height / 2 + 120, 22,
+      prompt,
+      (@types.screen_width - pw) / 2,
+      @types.screen_height / 2 + 120,
+      22,
       @raylib.Color::new(255, 255, 200, 255),
     )
   }
@@ -802,6 +1063,7 @@ fn draw_game_over_screen(game : @types.Game) -> Unit {
 
 // ========== Biome name display ==========
 
+///|
 fn draw_biome_indicator(game : @types.Game) -> Unit {
   let player = game.player
   let biome = @types.get_biome_at(player.x.to_int(), player.z.to_int())
@@ -812,43 +1074,77 @@ fn draw_biome_indicator(game : @types.Game) -> Unit {
   // Background
   let text_w = @raylib.measure_text(bname, 16)
   @raylib.draw_rectangle(
-    text_x - 6, text_y - 2, text_w + 12, 22,
+    text_x - 6,
+    text_y - 2,
+    text_w + 12,
+    22,
     @raylib.Color::new(0, 0, 0, 120),
   )
   // Biome color indicator dot
-  let dot_r : Int = if biome == @types.biome_plains { 100 }
-    else if biome == @types.biome_forest { 30 }
-    else if biome == @types.biome_desert { 210 }
-    else if biome == @types.biome_mountains { 140 }
-    else if biome == @types.biome_tundra { 200 }
-    else if biome == @types.biome_swamp { 60 }
-    else { 150 }
-  let dot_g : Int = if biome == @types.biome_plains { 180 }
-    else if biome == @types.biome_forest { 120 }
-    else if biome == @types.biome_desert { 180 }
-    else if biome == @types.biome_mountains { 140 }
-    else if biome == @types.biome_tundra { 220 }
-    else if biome == @types.biome_swamp { 100 }
-    else { 150 }
-  let dot_b : Int = if biome == @types.biome_plains { 80 }
-    else if biome == @types.biome_forest { 50 }
-    else if biome == @types.biome_desert { 100 }
-    else if biome == @types.biome_mountains { 160 }
-    else if biome == @types.biome_tundra { 240 }
-    else if biome == @types.biome_swamp { 70 }
-    else { 150 }
+  let dot_r : Int = if biome == @types.biome_plains {
+    100
+  } else if biome == @types.biome_forest {
+    30
+  } else if biome == @types.biome_desert {
+    210
+  } else if biome == @types.biome_mountains {
+    140
+  } else if biome == @types.biome_tundra {
+    200
+  } else if biome == @types.biome_swamp {
+    60
+  } else {
+    150
+  }
+  let dot_g : Int = if biome == @types.biome_plains {
+    180
+  } else if biome == @types.biome_forest {
+    120
+  } else if biome == @types.biome_desert {
+    180
+  } else if biome == @types.biome_mountains {
+    140
+  } else if biome == @types.biome_tundra {
+    220
+  } else if biome == @types.biome_swamp {
+    100
+  } else {
+    150
+  }
+  let dot_b : Int = if biome == @types.biome_plains {
+    80
+  } else if biome == @types.biome_forest {
+    50
+  } else if biome == @types.biome_desert {
+    100
+  } else if biome == @types.biome_mountains {
+    160
+  } else if biome == @types.biome_tundra {
+    240
+  } else if biome == @types.biome_swamp {
+    70
+  } else {
+    150
+  }
   @raylib.draw_rectangle(
-    text_x - 14, text_y + 3, 8, 12,
+    text_x - 14,
+    text_y + 3,
+    8,
+    12,
     @raylib.Color::new(dot_r, dot_g, dot_b, 255),
   )
   @raylib.draw_text(
-    bname, text_x, text_y, 16,
+    bname,
+    text_x,
+    text_y,
+    16,
     @raylib.Color::new(200, 220, 200, 220),
   )
 }
 
 // ========== Compass / direction indicator ==========
 
+///|
 fn draw_compass(game : @types.Game) -> Unit {
   let player = game.player
   let cx = @types.screen_width / 2
@@ -856,7 +1152,10 @@ fn draw_compass(game : @types.Game) -> Unit {
   let radius = 8
   // Draw compass background
   @raylib.draw_rectangle(
-    cx - 50, cy - 10, 100, 20,
+    cx - 50,
+    cy - 10,
+    100,
+    20,
     @raylib.Color::new(0, 0, 0, 100),
   )
   // North indicator
@@ -864,54 +1163,53 @@ fn draw_compass(game : @types.Game) -> Unit {
   let n_offset = @math.sinf(yaw) * 40.0
   let n_x = cx + n_offset.to_int()
   // Draw N marker
-  let n_alpha : Int = if @types.absf(n_offset) < 30.0 {
-    255
-  } else {
-    100
-  }
+  let n_alpha : Int = if @types.absf(n_offset) < 30.0 { 255 } else { 100 }
   @raylib.draw_text(
-    "N", n_x - 4, cy - 8, 14,
+    "N",
+    n_x - 4,
+    cy - 8,
+    14,
     @raylib.Color::new(255, 80, 80, n_alpha),
   )
   // South indicator
   let s_offset = @math.sinf(yaw + @types.pi) * 40.0
   let s_x = cx + s_offset.to_int()
-  let s_alpha : Int = if @types.absf(s_offset) < 30.0 {
-    255
-  } else {
-    100
-  }
+  let s_alpha : Int = if @types.absf(s_offset) < 30.0 { 255 } else { 100 }
   @raylib.draw_text(
-    "S", s_x - 4, cy - 8, 14,
+    "S",
+    s_x - 4,
+    cy - 8,
+    14,
     @raylib.Color::new(200, 200, 200, s_alpha),
   )
   // East indicator
   let e_offset = @math.sinf(yaw + @types.pi * 0.5) * 40.0
   let e_x = cx + e_offset.to_int()
-  let e_alpha : Int = if @types.absf(e_offset) < 30.0 {
-    200
-  } else {
-    80
-  }
+  let e_alpha : Int = if @types.absf(e_offset) < 30.0 { 200 } else { 80 }
   @raylib.draw_text(
-    "E", e_x - 4, cy - 8, 14,
+    "E",
+    e_x - 4,
+    cy - 8,
+    14,
     @raylib.Color::new(200, 200, 100, e_alpha),
   )
   // West indicator
   let w_offset = @math.sinf(yaw - @types.pi * 0.5) * 40.0
   let w_x = cx + w_offset.to_int()
-  let w_alpha : Int = if @types.absf(w_offset) < 30.0 {
-    200
-  } else {
-    80
-  }
+  let w_alpha : Int = if @types.absf(w_offset) < 30.0 { 200 } else { 80 }
   @raylib.draw_text(
-    "W", w_x - 4, cy - 8, 14,
+    "W",
+    w_x - 4,
+    cy - 8,
+    14,
     @raylib.Color::new(200, 200, 100, w_alpha),
   )
   // Center tick mark
   @raylib.draw_rectangle(
-    cx - 1, cy - 12, 2, 4,
+    cx - 1,
+    cy - 12,
+    2,
+    4,
     @raylib.Color::new(255, 255, 255, 200),
   )
   ignore(radius)
@@ -919,6 +1217,7 @@ fn draw_compass(game : @types.Game) -> Unit {
 
 // ========== Tool durability display ==========
 
+///|
 fn draw_tool_durability(game : @types.Game) -> Unit {
   let player = game.player
   let tool = player.equipped_tool
@@ -934,32 +1233,47 @@ fn draw_tool_durability(game : @types.Game) -> Unit {
   // Tool name text
   let tw = @raylib.measure_text(tname, 14)
   @raylib.draw_text(
-    tname, @types.screen_width / 2 - tw / 2, bar_y - 16, 14,
+    tname,
+    @types.screen_width / 2 - tw / 2,
+    bar_y - 16,
+    14,
     @raylib.Color::new(220, 200, 150, 220),
   )
   // Durability bar background
   @raylib.draw_rectangle(
-    bar_x - 1, bar_y - 1, bar_width + 2, bar_height + 2,
+    bar_x - 1,
+    bar_y - 1,
+    bar_width + 2,
+    bar_height + 2,
     @raylib.Color::new(0, 0, 0, 150),
   )
   // Durability fill (simplified: always full since we don't track per-use yet)
-  let dur_pct : Float = 0.8  // Placeholder durability
+  let dur_pct : Float = 0.8 // Placeholder durability
   let fill = (Float::from_int(bar_width) * dur_pct).to_int()
   let dur_r : Int = if dur_pct > 0.5 { 50 } else { 220 }
   let dur_g : Int = if dur_pct > 0.5 { 200 } else { 80 }
   @raylib.draw_rectangle(
-    bar_x, bar_y, fill, bar_height,
+    bar_x,
+    bar_y,
+    fill,
+    bar_height,
     @raylib.Color::new(dur_r, dur_g, 50, 255),
   )
   // Tool tier indicator
-  let tier_text : String = if tool == @types.tool_wooden_pickaxe || tool == @types.tool_wooden_axe ||
-    tool == @types.tool_wooden_shovel || tool == @types.tool_wooden_sword {
+  let tier_text : String = if tool == @types.tool_wooden_pickaxe ||
+    tool == @types.tool_wooden_axe ||
+    tool == @types.tool_wooden_shovel ||
+    tool == @types.tool_wooden_sword {
     "[Wood]"
-  } else if tool == @types.tool_stone_pickaxe || tool == @types.tool_stone_axe ||
-    tool == @types.tool_stone_shovel || tool == @types.tool_stone_sword {
+  } else if tool == @types.tool_stone_pickaxe ||
+    tool == @types.tool_stone_axe ||
+    tool == @types.tool_stone_shovel ||
+    tool == @types.tool_stone_sword {
     "[Stone]"
-  } else if tool == @types.tool_iron_pickaxe || tool == @types.tool_iron_axe ||
-    tool == @types.tool_iron_shovel || tool == @types.tool_iron_sword {
+  } else if tool == @types.tool_iron_pickaxe ||
+    tool == @types.tool_iron_axe ||
+    tool == @types.tool_iron_shovel ||
+    tool == @types.tool_iron_sword {
     "[Iron]"
   } else {
     ""
@@ -967,7 +1281,10 @@ fn draw_tool_durability(game : @types.Game) -> Unit {
   if tier_text.length() > 0 {
     let tier_w = @raylib.measure_text(tier_text, 10)
     @raylib.draw_text(
-      tier_text, @types.screen_width / 2 - tier_w / 2, bar_y + bar_height + 2, 10,
+      tier_text,
+      @types.screen_width / 2 - tier_w / 2,
+      bar_y + bar_height + 2,
+      10,
       @raylib.Color::new(180, 180, 140, 180),
     )
   }
@@ -975,6 +1292,7 @@ fn draw_tool_durability(game : @types.Game) -> Unit {
 
 // ========== Event log area ==========
 
+///|
 fn draw_event_log(game : @types.Game) -> Unit {
   // Show recent stats in bottom-left corner
   let log_x = 10
@@ -982,7 +1300,10 @@ fn draw_event_log(game : @types.Game) -> Unit {
   let line_h = 16
   // Background
   @raylib.draw_rectangle(
-    log_x - 4, log_y - 4, 200, line_h * 4 + 8,
+    log_x - 4,
+    log_y - 4,
+    200,
+    line_h * 4 + 8,
     @raylib.Color::new(0, 0, 0, 80),
   )
   let log_color = @raylib.Color::new(160, 180, 160, 180)

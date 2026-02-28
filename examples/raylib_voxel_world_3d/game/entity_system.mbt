@@ -3,6 +3,7 @@
 // ========== Animal AI: random wandering ==========
 
 // Get a random wander target near the entity's current position
+///|
 pub fn pick_wander_target(game : @types.Game, ent : @types.Entity) -> Unit {
   let range : Float = 12.0
   let half_range = range * 0.5
@@ -11,8 +12,10 @@ pub fn pick_wander_target(game : @types.Game, ent : @types.Entity) -> Unit {
   ent.target_x = ent.x + offset_x
   ent.target_z = ent.z + offset_z
   // Clamp to world bounds
-  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) - 1.0
-  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) - 1.0
+  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) -
+    1.0
+  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) -
+    1.0
   ent.target_x = @types.clampf(ent.target_x, 1.0, world_max_x)
   ent.target_z = @types.clampf(ent.target_z, 1.0, world_max_z)
 }
@@ -20,10 +23,9 @@ pub fn pick_wander_target(game : @types.Game, ent : @types.Entity) -> Unit {
 // ========== Flee behavior ==========
 
 // Calculate flee direction away from player
-pub fn calculate_flee_target(
-  game : @types.Game,
-  ent : @types.Entity
-) -> Unit {
+
+///|
+pub fn calculate_flee_target(game : @types.Game, ent : @types.Entity) -> Unit {
   let player = game.player
   let dx = ent.x - player.x
   let dz = ent.z - player.z
@@ -40,8 +42,10 @@ pub fn calculate_flee_target(
     ent.target_z = ent.z + @math.sinf(angle) * flee_dist
   }
   // Clamp to world bounds
-  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) - 1.0
-  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) - 1.0
+  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) -
+    1.0
+  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) -
+    1.0
   ent.target_x = @types.clampf(ent.target_x, 1.0, world_max_x)
   ent.target_z = @types.clampf(ent.target_z, 1.0, world_max_z)
 }
@@ -49,11 +53,13 @@ pub fn calculate_flee_target(
 // ========== Hostile mob chase with simple pathfinding ==========
 
 // Simple pathfinding: try to move toward target, avoiding walls
+
+///|
 pub fn pathfind_toward_target(
   game : @types.Game,
   ent : @types.Entity,
   target_x : Float,
-  target_z : Float
+  target_z : Float,
 ) -> Unit {
   let dx = target_x - ent.x
   let dz = target_z - ent.z
@@ -75,7 +81,10 @@ pub fn pathfind_toward_target(
   let check_x = ent.x + dir_x * 1.0
   let check_z = ent.z + dir_z * 1.0
   let block_ahead = @types.get_world_block(
-    game, check_x.to_int(), ent.y.to_int(), check_z.to_int(),
+    game,
+    check_x.to_int(),
+    ent.y.to_int(),
+    check_z.to_int(),
   )
   if @types.is_solid(block_ahead) {
     // Try going around: check left and right
@@ -84,10 +93,16 @@ pub fn pathfind_toward_target(
     let right_x = ent.x - dir_z * 1.0
     let right_z = ent.z + dir_x * 1.0
     let block_left = @types.get_world_block(
-      game, left_x.to_int(), ent.y.to_int(), left_z.to_int(),
+      game,
+      left_x.to_int(),
+      ent.y.to_int(),
+      left_z.to_int(),
     )
     let block_right = @types.get_world_block(
-      game, right_x.to_int(), ent.y.to_int(), right_z.to_int(),
+      game,
+      right_x.to_int(),
+      ent.y.to_int(),
+      right_z.to_int(),
     )
     if not(@types.is_solid(block_left)) {
       ent.vx = dir_z * speed
@@ -119,16 +134,18 @@ pub fn pathfind_toward_target(
 // ========== Mob damage and death drops ==========
 
 // Get item drops when a mob dies
+
+///|
 pub fn get_mob_drop_id(kind : Int) -> Int {
   if kind == @types.entity_pig {
     // Pigs drop food (represented as special healing)
-    @types.block_brick  // cooked porkchop placeholder
+    @types.block_brick // cooked porkchop placeholder
   } else if kind == @types.entity_cow {
     // Cows drop leather (represented as block)
-    @types.block_dirt  // leather placeholder
+    @types.block_dirt // leather placeholder
   } else if kind == @types.entity_chicken {
     // Chickens drop feathers
-    @types.block_snow  // feather placeholder
+    @types.block_snow // feather placeholder
   } else if kind == @types.entity_zombie {
     // Zombies drop rotten flesh (not useful, but collectible)
     @types.block_clay
@@ -144,6 +161,8 @@ pub fn get_mob_drop_id(kind : Int) -> Int {
 }
 
 // Get number of items dropped
+
+///|
 pub fn get_mob_drop_count(kind : Int) -> Int {
   if kind == @types.entity_pig {
     2
@@ -163,6 +182,8 @@ pub fn get_mob_drop_count(kind : Int) -> Int {
 }
 
 // Process mob death: spawn particles, drop items, restore hunger
+
+///|
 pub fn handle_mob_death(game : @types.Game, ent : @types.Entity) -> Unit {
   // Spawn death particles
   let body_r : Int = if ent.kind == @types.entity_pig {
@@ -218,10 +239,18 @@ pub fn handle_mob_death(game : @types.Game, ent : @types.Entity) -> Unit {
     let pvy : Float = 3.0 + Float::from_int(p % 2) * 2.0
     let pvz = @math.sinf(angle) * speed
     @types.spawn_particle(
-      game, ent.x, ent.y + 0.5, ent.z,
-      pvx, pvy, pvz,
-      body_r, body_g, body_b,
-      0.15, 1.0,
+      game,
+      ent.x,
+      ent.y + 0.5,
+      ent.z,
+      pvx,
+      pvy,
+      pvz,
+      body_r,
+      body_g,
+      body_b,
+      0.15,
+      1.0,
     )
   }
   // Drop items into inventory
@@ -252,9 +281,11 @@ pub fn handle_mob_death(game : @types.Game, ent : @types.Entity) -> Unit {
 // ========== Mob-player collision ==========
 
 // Check if an entity is colliding with the player
+
+///|
 pub fn check_entity_player_collision(
   game : @types.Game,
-  ent : @types.Entity
+  ent : @types.Entity,
 ) -> Bool {
   let player = game.player
   let dx = @types.absf(ent.x - player.x)
@@ -266,9 +297,11 @@ pub fn check_entity_player_collision(
 }
 
 // Push entity away from player when colliding
+
+///|
 pub fn resolve_entity_player_collision(
   game : @types.Game,
-  ent : @types.Entity
+  ent : @types.Entity,
 ) -> Unit {
   let player = game.player
   let dx = ent.x - player.x
@@ -289,6 +322,8 @@ pub fn resolve_entity_player_collision(
 // ========== Mob spawning logic ==========
 
 // Get the maximum number of mobs that should be active based on time of day
+
+///|
 pub fn get_max_entity_count(is_night : Bool) -> Int {
   if is_night {
     24
@@ -298,45 +333,85 @@ pub fn get_max_entity_count(is_night : Bool) -> Int {
 }
 
 // Get spawn weight for a mob type in a given biome
+
+///|
 pub fn get_spawn_weight(kind : Int, biome : Int) -> Int {
   if kind == @types.entity_pig {
-    if biome == @types.biome_plains { 40 }
-    else if biome == @types.biome_forest { 30 }
-    else if biome == @types.biome_swamp { 20 }
-    else if biome == @types.biome_tundra { 15 }
-    else if biome == @types.biome_desert { 5 }
-    else if biome == @types.biome_mountains { 10 }
-    else { 20 }
+    if biome == @types.biome_plains {
+      40
+    } else if biome == @types.biome_forest {
+      30
+    } else if biome == @types.biome_swamp {
+      20
+    } else if biome == @types.biome_tundra {
+      15
+    } else if biome == @types.biome_desert {
+      5
+    } else if biome == @types.biome_mountains {
+      10
+    } else {
+      20
+    }
   } else if kind == @types.entity_cow {
-    if biome == @types.biome_plains { 35 }
-    else if biome == @types.biome_forest { 20 }
-    else if biome == @types.biome_mountains { 25 }
-    else if biome == @types.biome_tundra { 20 }
-    else if biome == @types.biome_desert { 0 }
-    else if biome == @types.biome_swamp { 10 }
-    else { 15 }
+    if biome == @types.biome_plains {
+      35
+    } else if biome == @types.biome_forest {
+      20
+    } else if biome == @types.biome_mountains {
+      25
+    } else if biome == @types.biome_tundra {
+      20
+    } else if biome == @types.biome_desert {
+      0
+    } else if biome == @types.biome_swamp {
+      10
+    } else {
+      15
+    }
   } else if kind == @types.entity_chicken {
-    if biome == @types.biome_plains { 30 }
-    else if biome == @types.biome_forest { 25 }
-    else if biome == @types.biome_swamp { 30 }
-    else if biome == @types.biome_desert { 10 }
-    else if biome == @types.biome_tundra { 5 }
-    else if biome == @types.biome_mountains { 5 }
-    else { 15 }
+    if biome == @types.biome_plains {
+      30
+    } else if biome == @types.biome_forest {
+      25
+    } else if biome == @types.biome_swamp {
+      30
+    } else if biome == @types.biome_desert {
+      10
+    } else if biome == @types.biome_tundra {
+      5
+    } else if biome == @types.biome_mountains {
+      5
+    } else {
+      15
+    }
   } else if kind == @types.entity_zombie {
-    if biome == @types.biome_swamp { 50 }
-    else if biome == @types.biome_forest { 40 }
-    else if biome == @types.biome_plains { 35 }
-    else { 30 }
+    if biome == @types.biome_swamp {
+      50
+    } else if biome == @types.biome_forest {
+      40
+    } else if biome == @types.biome_plains {
+      35
+    } else {
+      30
+    }
   } else if kind == @types.entity_skeleton {
-    if biome == @types.biome_tundra { 45 }
-    else if biome == @types.biome_mountains { 40 }
-    else if biome == @types.biome_desert { 50 }
-    else { 30 }
+    if biome == @types.biome_tundra {
+      45
+    } else if biome == @types.biome_mountains {
+      40
+    } else if biome == @types.biome_desert {
+      50
+    } else {
+      30
+    }
   } else if kind == @types.entity_spider {
-    if biome == @types.biome_swamp { 45 }
-    else if biome == @types.biome_forest { 40 }
-    else { 25 }
+    if biome == @types.biome_swamp {
+      45
+    } else if biome == @types.biome_forest {
+      40
+    } else {
+      25
+    }
   } else {
     0
   }
@@ -345,6 +420,8 @@ pub fn get_spawn_weight(kind : Int, biome : Int) -> Int {
 // ========== Entity-entity collision avoidance ==========
 
 // Check if two entities are colliding and push them apart
+
+///|
 pub fn resolve_entity_entity_collisions(game : @types.Game) -> Unit {
   for i = 0; i < @types.entity_max; i = i + 1 {
     let ent_a = game.entities[i]
@@ -376,7 +453,12 @@ pub fn resolve_entity_entity_collisions(game : @types.Game) -> Unit {
 // ========== Night aggression update ==========
 
 // Update hostile mob aggression based on time of day
-pub fn update_hostile_aggression(game : @types.Game, ent : @types.Entity) -> Unit {
+
+///|
+pub fn update_hostile_aggression(
+  game : @types.Game,
+  ent : @types.Entity,
+) -> Unit {
   if not(@types.is_hostile(ent.kind)) {
     return
   }
@@ -400,10 +482,12 @@ pub fn update_hostile_aggression(game : @types.Game, ent : @types.Entity) -> Uni
 // ========== Entity awareness system ==========
 
 // Check if entity can "see" the player (simple line of sight)
+
+///|
 pub fn entity_can_see_player(game : @types.Game, ent : @types.Entity) -> Bool {
   let player = game.player
   let dx = player.x - ent.x
-  let dy = (player.y + 0.5) - (ent.y + 0.5)
+  let dy = player.y + 0.5 - (ent.y + 0.5)
   let dz = player.z - ent.z
   let dist = (dx * dx + dy * dy + dz * dz).sqrt()
   if dist > 20.0 || dist < 0.1 {
@@ -418,7 +502,12 @@ pub fn entity_can_see_player(game : @types.Game, ent : @types.Entity) -> Bool {
     let cx = ent.x + step_x * Float::from_int(s)
     let cy = ent.y + 0.5 + step_y * Float::from_int(s)
     let cz = ent.z + step_z * Float::from_int(s)
-    let block = @types.get_world_block(game, cx.to_int(), cy.to_int(), cz.to_int())
+    let block = @types.get_world_block(
+      game,
+      cx.to_int(),
+      cy.to_int(),
+      cz.to_int(),
+    )
     if @types.is_solid(block) {
       return false
     }
@@ -429,6 +518,8 @@ pub fn entity_can_see_player(game : @types.Game, ent : @types.Entity) -> Bool {
 // ========== Entity group behavior ==========
 
 // Passive mobs stay near each other (simple herding)
+
+///|
 pub fn update_herd_behavior(game : @types.Game, ent : @types.Entity) -> Unit {
   if @types.is_hostile(ent.kind) {
     return
@@ -472,6 +563,8 @@ pub fn update_herd_behavior(game : @types.Game, ent : @types.Entity) -> Unit {
 // ========== Spider special abilities ==========
 
 // Spiders can climb walls (simplified: extra high jump near walls)
+
+///|
 pub fn update_spider_climb(game : @types.Game, ent : @types.Entity) -> Unit {
   if ent.kind != @types.entity_spider {
     return
@@ -483,10 +576,16 @@ pub fn update_spider_climb(game : @types.Game, ent : @types.Entity) -> Unit {
   let ahead_x = ent.x + @math.sinf(ent.yaw) * 0.8
   let ahead_z = ent.z + @math.cosf(ent.yaw) * 0.8
   let block_at = @types.get_world_block(
-    game, ahead_x.to_int(), ent.y.to_int(), ahead_z.to_int(),
+    game,
+    ahead_x.to_int(),
+    ent.y.to_int(),
+    ahead_z.to_int(),
   )
   let block_above = @types.get_world_block(
-    game, ahead_x.to_int(), ent.y.to_int() + 1, ahead_z.to_int(),
+    game,
+    ahead_x.to_int(),
+    ent.y.to_int() + 1,
+    ahead_z.to_int(),
   )
   // If wall ahead and space above, climb
   if @types.is_solid(block_at) && not(@types.is_solid(block_above)) {
@@ -498,7 +597,12 @@ pub fn update_spider_climb(game : @types.Game, ent : @types.Entity) -> Unit {
 // ========== Skeleton ranged behavior ==========
 
 // Skeletons try to maintain distance from the player
-pub fn update_skeleton_behavior(game : @types.Game, ent : @types.Entity) -> Unit {
+
+///|
+pub fn update_skeleton_behavior(
+  game : @types.Game,
+  ent : @types.Entity,
+) -> Unit {
   if ent.kind != @types.entity_skeleton {
     return
   }

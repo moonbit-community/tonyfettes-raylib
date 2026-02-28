@@ -1,0 +1,36 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_monsoon_bridge_rescue_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type BridgeSpan
+
+type CurrentCell
+
+type Debris
+
+type EvacCamp
+
+type FlowSample
+
+type LightningStrike
+
+type RaftGroup
+
+type RainDrop
+
+type RescueBoat
+
+type SupplyCrate
+
+type SupplyDock
+
+type WakeParticle
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_rooftop_volleyball_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Athlete
+
+type Ball
+
+type Particle
+
+type Wind
+
+// Type aliases
+
+// Traits
+

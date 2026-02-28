@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_puzzle_dungeon_3d/levels"
+
+import {
+  "tonyfettes/raylib-examples/raylib_puzzle_dungeon_3d/types",
+}
+
+// Values
+pub fn get_floor_data(Int) -> Array[String]
+
+pub fn get_floor_name(Int) -> String
+
+pub fn get_par_moves(Int) -> Int
+
+pub fn get_world_completion(@types.Game, Int) -> (Int, Int)
+
+pub fn get_world_description(Int) -> String
+
+pub fn get_world_stars(@types.Game, Int) -> (Int, Int)
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -21,6 +22,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   if @raylib.is_key_pressed(@raylib.KeyUp) {
@@ -35,14 +37,14 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
       game.menu_cursor = 0
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_mission = game.menu_cursor
     game.state = @types.state_aircraft_select
   }
 }
 
+///|
 fn update_aircraft_select(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.0
   if @raylib.is_key_pressed(@raylib.KeyLeft) {
@@ -57,9 +59,8 @@ fn update_aircraft_select(game : @types.Game, dt : Float) -> Unit {
       game.selected_aircraft = 0
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.state = @types.state_mission_briefing
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
@@ -67,10 +68,10 @@ fn update_aircraft_select(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_briefing(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     start_mission(game, game.current_mission)
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
@@ -78,10 +79,10 @@ fn update_briefing(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_paused
     return
   }
@@ -106,10 +107,10 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   update_weather_effects(game, dt)
 }
 
+///|
 fn update_paused(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_playing
   }
   if @raylib.is_key_pressed(@raylib.KeyQ) {
@@ -120,18 +121,18 @@ fn update_paused(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_mission_complete(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_game_over(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.state = @types.state_menu
   }
   if @raylib.is_key_pressed(@raylib.KeyR) {
@@ -139,10 +140,13 @@ fn update_game_over(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     p.x += p.vx * dt
     p.y += p.vy * dt
     p.z += p.vz * dt
@@ -174,6 +178,7 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.messages.length(); i = i + 1 {
     if game.messages[i].timer > 0.0 {
@@ -182,14 +187,21 @@ fn update_messages(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_camera(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   let (fx, fy, fz) = @types.get_forward(player.pitch, player.yaw)
   if game.camera_mode == @types.camera_mode_chase {
     // Chase camera: behind and above the aircraft
     let (tcx, tcy, tcz) = @types.chase_camera_pos(
-      player.x, player.y, player.z, fx, fy, fz,
-      @types.camera_distance, @types.camera_height,
+      player.x,
+      player.y,
+      player.z,
+      fx,
+      fy,
+      fz,
+      @types.camera_distance,
+      @types.camera_height,
     )
     let sm = @types.camera_smooth * dt
     let sm_clamped : Float = if sm > 1.0 { 1.0 } else { sm }
@@ -226,6 +238,7 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_terrain(game : @types.Game) -> Unit {
   let scale = @types.terrain_chunk_scale
   let cx = (game.player.x / scale).to_int()
@@ -298,6 +311,7 @@ fn update_terrain(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_clouds(game : @types.Game) -> Unit {
   // Generate clouds around player if needed
   let player = game.player
@@ -306,7 +320,12 @@ fn update_clouds(game : @types.Game) -> Unit {
     if game.clouds[i].active {
       active_count += 1
       // Remove clouds that are too far away
-      let d = @types.distance2d(player.x, player.z, game.clouds[i].x, game.clouds[i].z)
+      let d = @types.distance2d(
+        player.x,
+        player.z,
+        game.clouds[i].x,
+        game.clouds[i].z,
+      )
       if d > 200.0 {
         game.clouds[i].active = false
         active_count -= 1
@@ -316,7 +335,8 @@ fn update_clouds(game : @types.Game) -> Unit {
   // Spawn new clouds if below target count
   let target_clouds : Int = if game.weather_state.kind == @types.weather_clear {
     8
-  } else if game.weather_state.kind == @types.weather_cloudy || game.weather_state.kind == @types.weather_rain {
+  } else if game.weather_state.kind == @types.weather_cloudy ||
+    game.weather_state.kind == @types.weather_rain {
     25
   } else if game.weather_state.kind == @types.weather_storm {
     30
@@ -331,12 +351,14 @@ fn update_clouds(game : @types.Game) -> Unit {
         let c = game.clouds[idx]
         c.active = true
         c.x = player.x + @types.rand_rangef(game, -150.0, 150.0)
-        c.y = game.weather_state.cloud_height + @types.rand_rangef(game, -5.0, 10.0)
+        c.y = game.weather_state.cloud_height +
+          @types.rand_rangef(game, -5.0, 10.0)
         c.z = player.z + @types.rand_rangef(game, -150.0, 150.0)
         c.size_x = @types.rand_rangef(game, 6.0, 15.0)
         c.size_y = @types.rand_rangef(game, 2.0, 5.0)
         c.size_z = @types.rand_rangef(game, 5.0, 12.0)
-        let base_alpha : Int = if game.weather_state.kind == @types.weather_storm {
+        let base_alpha : Int = if game.weather_state.kind ==
+          @types.weather_storm {
           160
         } else {
           100
@@ -348,12 +370,17 @@ fn update_clouds(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_checkpoints(game : @types.Game) -> Unit {
   let player = game.player
   for i = 0; i < game.checkpoints.length(); i = i + 1 {
     let cp = game.checkpoints[i]
-    if not(cp.active) { continue i + 1 }
-    if cp.collected { continue i + 1 }
+    if not(cp.active) {
+      continue i + 1
+    }
+    if cp.collected {
+      continue i + 1
+    }
     let dist = @types.distance3d(player.x, player.y, player.z, cp.x, cp.y, cp.z)
     if dist < cp.radius {
       cp.collected = true
@@ -371,17 +398,22 @@ fn update_checkpoints(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_turrets(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   for i = 0; i < game.turrets.length(); i = i + 1 {
     let t = game.turrets[i]
-    if not(t.active) { continue i + 1 }
+    if not(t.active) {
+      continue i + 1
+    }
     // Flash timer
     if t.flash_timer > 0.0 {
       t.flash_timer -= dt
     }
     let dist = @types.distance3d(t.x, t.y, t.z, player.x, player.y, player.z)
-    if dist > t.range { continue i + 1 }
+    if dist > t.range {
+      continue i + 1
+    }
     // Rotate towards player
     let target_rot = @types.bearing_to(t.x, t.z, player.x, player.z)
     let rot_diff = @types.angle_diff(t.rotation, target_rot)
@@ -406,13 +438,16 @@ fn update_turrets(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn turret_fire(
   game : @types.Game,
   t : @types.Turret,
-  player : @types.Player
+  player : @types.Player,
 ) -> Unit {
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let dx = player.x - t.x
   let dy = player.y - t.y
   let dz = player.z - t.z
@@ -435,20 +470,35 @@ fn turret_fire(
   t.flash_timer = 0.15
 }
 
+///|
 fn update_buildings_projectile_check(game : @types.Game) -> Unit {
   // Check if any player projectiles hit buildings
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
-    if proj.is_enemy { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
+    if proj.is_enemy {
+      continue i + 1
+    }
     for j = 0; j < game.buildings.length(); j = j + 1 {
       let b = game.buildings[j]
-      if not(b.active) { continue j + 1 }
-      if not(b.destructible) { continue j + 1 }
+      if not(b.active) {
+        continue j + 1
+      }
+      if not(b.destructible) {
+        continue j + 1
+      }
       let hit = @types.point_in_aabb(
-        proj.x, proj.y, proj.z,
-        b.x, b.y + b.height / 2.0, b.z,
-        b.width / 2.0 + 1.0, b.height / 2.0 + 1.0, b.depth / 2.0 + 1.0,
+        proj.x,
+        proj.y,
+        proj.z,
+        b.x,
+        b.y + b.height / 2.0,
+        b.z,
+        b.width / 2.0 + 1.0,
+        b.height / 2.0 + 1.0,
+        b.depth / 2.0 + 1.0,
       )
       if hit {
         proj.active = false
@@ -463,7 +513,8 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
           @types.spawn_large_explosion(game, b.x, b.y + b.height / 2.0, b.z)
           // Check if it counts as mission target
           let mission = game.missions[game.current_mission]
-          if mission.kind == @types.mission_bombing_run || mission.kind == @types.mission_attack_base {
+          if mission.kind == @types.mission_bombing_run ||
+            mission.kind == @types.mission_attack_base {
             mission.targets_done += 1
             @types.show_message(
               game,
@@ -479,11 +530,17 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
   // Also check projectiles vs turrets
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
-    if proj.is_enemy { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
+    if proj.is_enemy {
+      continue i + 1
+    }
     for j = 0; j < game.turrets.length(); j = j + 1 {
       let t = game.turrets[j]
-      if not(t.active) { continue j + 1 }
+      if not(t.active) {
+        continue j + 1
+      }
       let dist = @types.distance3d(proj.x, proj.y, proj.z, t.x, t.y + 1.0, t.z)
       if dist < 2.5 {
         proj.active = false
@@ -497,7 +554,10 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
           game.mission_score += @types.score_turret_kill
           @types.spawn_explosion(game, t.x, t.y + 1.0, t.z)
           let mission = game.missions[game.current_mission]
-          if mission.kind == @types.mission_destroy || mission.kind == @types.mission_bombing_run || mission.kind == @types.mission_attack_base || mission.kind == @types.mission_boss {
+          if mission.kind == @types.mission_destroy ||
+            mission.kind == @types.mission_bombing_run ||
+            mission.kind == @types.mission_attack_base ||
+            mission.kind == @types.mission_boss {
             mission.targets_done += 1
             @types.show_message(
               game,
@@ -512,6 +572,7 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   game.warning_flash_timer += dt * 4.0
@@ -520,7 +581,8 @@ fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   game.fuel_warning = fuel_ratio < @types.fuel_warning_threshold
   // Stall warning
   let stats = @types.get_aircraft_stats(player.aircraft_type)
-  game.stall_warning = player.speed < stats.min_speed * @types.stall_warning_speed_ratio
+  game.stall_warning = player.speed <
+    stats.min_speed * @types.stall_warning_speed_ratio
   // Altitude warning
   let alt_agl = @types.altitude_above_terrain(player.x, player.y, player.z)
   game.altitude_warning = alt_agl < 5.0
@@ -530,8 +592,12 @@ fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   let mut incoming = false
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let p = game.projectiles[i]
-    if not(p.active) { continue i + 1 }
-    if not(p.is_enemy) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
+    if not(p.is_enemy) {
+      continue i + 1
+    }
     let d = @types.distance3d(p.x, p.y, p.z, player.x, player.y, player.z)
     if d < 30.0 {
       incoming = true
@@ -541,6 +607,7 @@ fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   game.incoming_warning = incoming
 }
 
+///|
 fn update_weather_effects(game : @types.Game, dt : Float) -> Unit {
   let ws = game.weather_state
   // Spawn rain particles in storm/rain weather
@@ -572,6 +639,7 @@ fn update_weather_effects(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
 }
 
+///|
 pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
   game.current_mission = mission_idx
   let mission = game.missions[mission_idx]
@@ -652,7 +720,9 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
   game.last_terrain_cx = -9999
   game.last_terrain_cz = -9999
   // Spawn checkpoints if checkpoint/canyon mission
-  if mission.kind == @types.mission_checkpoint || mission.kind == @types.mission_canyon_run || mission.kind == @types.mission_recon {
+  if mission.kind == @types.mission_checkpoint ||
+    mission.kind == @types.mission_canyon_run ||
+    mission.kind == @types.mission_recon {
     let cp_count : Int = if mission.kind == @types.mission_recon {
       mission.target_count
     } else {

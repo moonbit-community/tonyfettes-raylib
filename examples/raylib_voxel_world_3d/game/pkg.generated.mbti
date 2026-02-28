@@ -1,0 +1,122 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_voxel_world_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_voxel_world_3d/types",
+}
+
+// Values
+pub fn calculate_flee_target(@types.Game, @types.Entity) -> Unit
+
+pub fn can_craft_recipe(@types.Game, @types.CraftingRecipe) -> Bool
+
+pub fn can_mine_with_tool(Int, Int) -> Bool
+
+pub fn check_entity_player_collision(@types.Game, @types.Entity) -> Bool
+
+pub fn check_workbench_interaction(@types.Game) -> Bool
+
+pub fn count_craftable_recipes(@types.Game) -> Int
+
+pub fn count_item_in_inventory(@types.Game, Int) -> Int
+
+pub fn cycle_tool_backward(@types.Game) -> Unit
+
+pub fn cycle_tool_forward(@types.Game) -> Unit
+
+pub fn damage_player(@types.Game, Int) -> Unit
+
+pub fn entity_can_see_player(@types.Game, @types.Entity) -> Bool
+
+pub fn execute_craft(@types.Game, @types.CraftingRecipe) -> Bool
+
+pub fn find_first_craftable(@types.Game) -> Int
+
+pub fn get_best_tool_class_for_block(Int) -> Int
+
+pub fn get_bonus_drop_chance(Int, Int) -> Float
+
+pub fn get_max_entity_count(Bool) -> Int
+
+pub fn get_mob_drop_count(Int) -> Int
+
+pub fn get_mob_drop_id(Int) -> Int
+
+pub fn get_recipe_category(@types.CraftingRecipe) -> Int
+
+pub fn get_smelting_result(Int) -> Int
+
+pub fn get_smelting_time(Int) -> Float
+
+pub fn get_spawn_weight(Int, Int) -> Int
+
+pub fn get_tool_effectiveness(Int, Int) -> Float
+
+pub fn get_tool_max_durability(Int) -> Int
+
+pub fn get_tool_tier(Int) -> Int
+
+pub fn handle_block_interaction(@types.Game, Float) -> Unit
+
+pub fn handle_block_selection(@types.Game) -> Unit
+
+pub fn handle_mob_death(@types.Game, @types.Entity) -> Unit
+
+pub fn handle_tool_input(@types.Game) -> Unit
+
+pub fn is_axe(Int) -> Bool
+
+pub fn is_correct_tool_for_block(Int, Int) -> Bool
+
+pub fn is_pickaxe(Int) -> Bool
+
+pub fn is_shovel(Int) -> Bool
+
+pub fn is_smeltable(Int) -> Bool
+
+pub fn is_sword(Int) -> Bool
+
+pub fn pathfind_toward_target(@types.Game, @types.Entity, Float, Float) -> Unit
+
+pub fn pick_wander_target(@types.Game, @types.Entity) -> Unit
+
+pub fn recipe_category_name(Int) -> String
+
+pub fn remove_item_from_inventory(@types.Game, Int, Int) -> Bool
+
+pub fn resolve_entity_entity_collisions(@types.Game) -> Unit
+
+pub fn resolve_entity_player_collision(@types.Game, @types.Entity) -> Unit
+
+pub fn update_block_target(@types.Game) -> Unit
+
+pub fn update_camera_fps(@types.Game) -> Unit
+
+pub fn update_day_night(@types.Game, Float) -> Unit
+
+pub fn update_entities(@types.Game, Float) -> Unit
+
+pub fn update_entity_spawning(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+pub fn update_herd_behavior(@types.Game, @types.Entity) -> Unit
+
+pub fn update_hostile_aggression(@types.Game, @types.Entity) -> Unit
+
+pub fn update_message(@types.Game, Float) -> Unit
+
+pub fn update_player(@types.Game, Float) -> Unit
+
+pub fn update_skeleton_behavior(@types.Game, @types.Entity) -> Unit
+
+pub fn update_spider_climb(@types.Game, @types.Entity) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

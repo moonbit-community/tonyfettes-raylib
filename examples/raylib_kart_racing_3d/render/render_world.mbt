@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -19,11 +20,14 @@ pub fn draw_world(game : @types.Game) -> Unit {
   draw_effects(game)
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   @raylib.Camera3D::new(
     @raylib.Vector3::new(game.camera_x, game.camera_y, game.camera_z),
     @raylib.Vector3::new(
-      game.camera_look_x, game.camera_look_y, game.camera_look_z,
+      game.camera_look_x,
+      game.camera_look_y,
+      game.camera_look_z,
     ),
     @raylib.Vector3::new(0.0, 1.0, 0.0),
     @types.camera_fovy,
@@ -31,6 +35,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   )
 }
 
+///|
 fn draw_ground(game : @types.Game) -> Unit {
   let gc = @levels.get_track_ground_color(game.current_cup, game.current_race)
   // Draw a large ground plane
@@ -41,9 +46,12 @@ fn draw_ground(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_track(game : @types.Game) -> Unit {
   let wc = game.waypoint_count
-  if wc < 2 { return }
+  if wc < 2 {
+    return
+  }
   let rc = @levels.get_track_road_color(game.current_cup, game.current_race)
   let road_color = @raylib.Color::new(rc.0, rc.1, rc.2, 255)
   let edge_color = @raylib.Color::new(
@@ -60,7 +68,9 @@ fn draw_track(game : @types.Game) -> Unit {
     let dx = wp1.x - wp0.x
     let dz = wp1.z - wp0.z
     let dist = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
-    if dist < 0.01 { continue i + 1 }
+    if dist < 0.01 {
+      continue i + 1
+    }
     // Perpendicular for road width
     let px = -dz / dist * @types.road_half
     let pz = dx / dist * @types.road_half
@@ -99,20 +109,29 @@ fn draw_track(game : @types.Game) -> Unit {
     let mz = (wp0.z + wp1.z) / 2.0
     let my = (wp0.y + wp1.y) / 2.0
     @raylib.draw_cube(
-      @raylib.Vector3::new(mx, my + 0.06, mz), 0.2, 0.02, 0.8, stripe_color,
+      @raylib.Vector3::new(mx, my + 0.06, mz),
+      0.2,
+      0.02,
+      0.8,
+      stripe_color,
     )
   }
 }
 
+///|
 fn draw_start_finish_line(game : @types.Game) -> Unit {
   let wc = game.waypoint_count
-  if wc < 2 { return }
+  if wc < 2 {
+    return
+  }
   let wp0 = game.waypoints[0]
   let wp1 = game.waypoints[1]
   let dx = wp1.x - wp0.x
   let dz = wp1.z - wp0.z
   let dist = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
-  if dist < 0.01 { return }
+  if dist < 0.01 {
+    return
+  }
   let px = -dz / dist * @types.road_half
   let pz = dx / dist * @types.road_half
   // Draw checkered start/finish line
@@ -127,7 +146,11 @@ fn draw_start_finish_line(game : @types.Game) -> Unit {
       @raylib.Color::new(30, 30, 30, 255)
     }
     @raylib.draw_cube(
-      @raylib.Vector3::new(cx, wp0.y + 0.08, cz), 0.8, 0.05, 0.8, color,
+      @raylib.Vector3::new(cx, wp0.y + 0.08, cz),
+      0.8,
+      0.05,
+      0.8,
+      color,
     )
   }
   // Finish arch poles
@@ -155,9 +178,12 @@ fn draw_start_finish_line(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_trackside_objects(game : @types.Game) -> Unit {
   let wc = game.waypoint_count
-  if wc < 3 { return }
+  if wc < 3 {
+    return
+  }
   // Place trees/rocks along the track edges
   for i = 0; i < wc; i = i + 1 {
     let wp = game.waypoints[i]
@@ -165,7 +191,9 @@ fn draw_trackside_objects(game : @types.Game) -> Unit {
     let dx = next.x - wp.x
     let dz = next.z - wp.z
     let dist = @types.distance2d(wp.x, wp.z, next.x, next.z)
-    if dist < 0.01 { continue i + 1 }
+    if dist < 0.01 {
+      continue i + 1
+    }
     let px = -dz / dist
     let pz = dx / dist
     // Trees on the right side
@@ -202,10 +230,13 @@ fn draw_trackside_objects(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_karts(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) { continue i + 1 }
+    if not(kart.active) {
+      continue i + 1
+    }
     let colors = @types.kart_colors
     let ci = @types.clampi(i, 0, colors.length() - 1)
     let kc = colors[ci]
@@ -223,7 +254,11 @@ fn draw_karts(game : @types.Game) -> Unit {
     }
     // Main body - we draw at kart position with direction indicator
     @raylib.draw_cube(
-      @raylib.Vector3::new(kart.x, draw_y, kart.z), kw, kh, kl, body_color,
+      @raylib.Vector3::new(kart.x, draw_y, kart.z),
+      kw,
+      kh,
+      kl,
+      body_color,
     )
     // Cockpit (smaller darker cube on top)
     @raylib.draw_cube(
@@ -303,9 +338,8 @@ fn draw_karts(game : @types.Game) -> Unit {
     if kart.boost_timer > 0.0 {
       let tail_x = kart.x - @math.sinf(visual_angle) * kl * 0.7
       let tail_z = kart.z - @math.cosf(visual_angle) * kl * 0.7
-      let flame_size : Float = 0.3 + @math.sinf(
-          Float::from_int(game.frame_counter) * 0.5,
-        ) * 0.1
+      let flame_size : Float = 0.3 +
+        @math.sinf(Float::from_int(game.frame_counter) * 0.5) * 0.1
       @raylib.draw_sphere(
         @raylib.Vector3::new(tail_x, draw_y, tail_z),
         flame_size,
@@ -330,13 +364,16 @@ fn draw_karts(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_powerups(game : @types.Game) -> Unit {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     let pu = game.powerups[i]
-    if not(pu.active) || pu.collected { continue i + 1 }
-    let bob = @math.sinf(Float::from_int(game.frame_counter) * 0.08 + Float::from_int(
-        i,
-      )) *
+    if not(pu.active) || pu.collected {
+      continue i + 1
+    }
+    let bob = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.08 + Float::from_int(i),
+      ) *
       0.3
     let py = pu.y + bob
     let spin = Float::from_int(game.frame_counter) * 0.05
@@ -350,11 +387,18 @@ fn draw_powerups(game : @types.Game) -> Unit {
     }
     // Rotating cube for powerup
     @raylib.draw_cube(
-      @raylib.Vector3::new(pu.x, py, pu.z), size, size, size, color,
+      @raylib.Vector3::new(pu.x, py, pu.z),
+      size,
+      size,
+      size,
+      color,
     )
     @raylib.draw_cube_wires(
-      @raylib.Vector3::new(pu.x, py, pu.z), size + 0.05, size + 0.05,
-      size + 0.05, @raylib.Color::new(255, 255, 255, 150),
+      @raylib.Vector3::new(pu.x, py, pu.z),
+      size + 0.05,
+      size + 0.05,
+      size + 0.05,
+      @raylib.Color::new(255, 255, 255, 150),
     )
     // Question mark base
     @raylib.draw_cube(
@@ -368,10 +412,13 @@ fn draw_powerups(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_projectiles(game : @types.Game) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
     @raylib.draw_sphere(
       @raylib.Vector3::new(proj.x, proj.y, proj.z),
       0.25,
@@ -388,25 +435,36 @@ fn draw_projectiles(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)
     @raylib.draw_cube(
-      @raylib.Vector3::new(p.x, p.y, p.z), p.size, p.size, p.size,
+      @raylib.Vector3::new(p.x, p.y, p.z),
+      p.size,
+      p.size,
+      p.size,
       @raylib.Color::new(p.r, p.g, p.b, a),
     )
   }
 }
 
 // Draw theme-specific track decorations using decoration data from levels
+
+///|
 fn draw_themed_decorations(game : @types.Game) -> Unit {
   let wc = game.waypoint_count
-  if wc < 3 { return }
+  if wc < 3 {
+    return
+  }
   let deco_data = @levels.get_track_decoration_data(
-    game.current_cup, game.current_race,
+    game.current_cup,
+    game.current_race,
   )
   for di = 0; di < deco_data.length(); di = di + 1 {
     let deco = deco_data[di]
@@ -421,11 +479,15 @@ fn draw_themed_decorations(game : @types.Game) -> Unit {
       let dx = wp1.x - wp0.x
       let dz = wp1.z - wp0.z
       let dist = @types.distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
-      if dist < 0.01 { continue si + 1 }
+      if dist < 0.01 {
+        continue si + 1
+      }
       // Only place decorations at matching segment progress
       let seg_match_f : Float = Float::from_int(si) / Float::from_int(wc)
       let diff = @types.absf(seg_match_f - z_progress)
-      if diff > 0.15 && diff < 0.85 { continue si + 1 }
+      if diff > 0.15 && diff < 0.85 {
+        continue si + 1
+      }
       let px = -dz / dist
       let pz = dx / dist
       let deco_x = wp0.x + px * x_offset
@@ -437,18 +499,22 @@ fn draw_themed_decorations(game : @types.Game) -> Unit {
 }
 
 // Helper to scale a float value
+
+///|
 fn sf(v : Float, s : Float) -> Float {
   v * s
 }
 
 // Draw a single decoration object based on type
+
+///|
 fn draw_decoration_object(
   deco_type : Int,
   x : Float,
   y : Float,
   z : Float,
   scale : Float,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   if deco_type == @types.deco_tree_green {
@@ -459,7 +525,9 @@ fn draw_decoration_object(
     let canopy_y : Float = y + trunk_h + canopy_r * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + half_trunk, z),
-      trunk_w, trunk_h, trunk_w,
+      trunk_w,
+      trunk_h,
+      trunk_w,
       @raylib.Color::new(100, 70, 40, 255),
     )
     @raylib.draw_sphere(
@@ -473,14 +541,18 @@ fn draw_decoration_object(
     let half_trunk : Float = trunk_h * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + half_trunk, z),
-      trunk_w, trunk_h, trunk_w,
+      trunk_w,
+      trunk_h,
+      trunk_w,
       @raylib.Color::new(80, 55, 30, 255),
     )
     let c1w : Float = sf(1.2, scale)
     let c1h : Float = sf(0.8, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + half_trunk, z),
-      c1w, c1h, c1w,
+      c1w,
+      c1h,
+      c1w,
       @raylib.Color::new(30, 90, 40, 255),
     )
     let c2w : Float = sf(0.9, scale)
@@ -488,14 +560,18 @@ fn draw_decoration_object(
     let c2y : Float = y + trunk_h * 0.8
     @raylib.draw_cube(
       @raylib.Vector3::new(x, c2y, z),
-      c2w, c2h, c2w,
+      c2w,
+      c2h,
+      c2w,
       @raylib.Color::new(35, 100, 45, 255),
     )
     let c3w : Float = sf(0.6, scale)
     let c3y : Float = y + trunk_h * 1.1
     @raylib.draw_cube(
       @raylib.Vector3::new(x, c3y, z),
-      c3w, c3w, c3w,
+      c3w,
+      c3w,
+      c3w,
       @raylib.Color::new(40, 110, 50, 255),
     )
   } else if deco_type == @types.deco_tree_palm {
@@ -504,7 +580,9 @@ fn draw_decoration_object(
     let half_trunk : Float = trunk_h * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + half_trunk, z),
-      trunk_w, trunk_h, trunk_w,
+      trunk_w,
+      trunk_h,
+      trunk_w,
       @raylib.Color::new(130, 100, 50, 255),
     )
     let top_y : Float = y + trunk_h
@@ -514,61 +592,81 @@ fn draw_decoration_object(
     let frond_off : Float = sf(0.5, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x + frond_off, top_y, z),
-      frond_l, frond_h, frond_w,
+      frond_l,
+      frond_h,
+      frond_w,
       @raylib.Color::new(50, 150, 40, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x - frond_off, top_y, z),
-      frond_l, frond_h, frond_w,
+      frond_l,
+      frond_h,
+      frond_w,
       @raylib.Color::new(45, 140, 35, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, top_y, z + frond_off),
-      frond_w, frond_h, frond_l,
+      frond_w,
+      frond_h,
+      frond_l,
       @raylib.Color::new(55, 145, 42, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, top_y, z - frond_off),
-      frond_w, frond_h, frond_l,
+      frond_w,
+      frond_h,
+      frond_l,
       @raylib.Color::new(48, 135, 38, 255),
     )
   } else if deco_type == @types.deco_rock_small {
     let ry : Float = y + sf(0.25, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, ry, z),
-      sf(0.6, scale), sf(0.5, scale), sf(0.5, scale),
+      sf(0.6, scale),
+      sf(0.5, scale),
+      sf(0.5, scale),
       @raylib.Color::new(110, 105, 95, 255),
     )
   } else if deco_type == @types.deco_rock_large {
     let ry : Float = y + sf(0.5, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, ry, z),
-      sf(1.2, scale), sf(1.0, scale), sf(1.0, scale),
+      sf(1.2, scale),
+      sf(1.0, scale),
+      sf(1.0, scale),
       @raylib.Color::new(90, 85, 75, 255),
     )
     let ry2 : Float = y + sf(0.8, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x + sf(0.3, scale), ry2, z - sf(0.2, scale)),
-      sf(0.6, scale), sf(0.4, scale), sf(0.5, scale),
+      sf(0.6, scale),
+      sf(0.4, scale),
+      sf(0.5, scale),
       @raylib.Color::new(100, 95, 85, 255),
     )
   } else if deco_type == @types.deco_barrier_metal {
     let bh_half : Float = @types.barrier_height * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + bh_half, z),
-      @types.barrier_width * scale, @types.barrier_height * scale, sf(2.0, scale),
+      @types.barrier_width * scale,
+      @types.barrier_height * scale,
+      sf(2.0, scale),
       @raylib.Color::new(160, 160, 170, 255),
     )
   } else if deco_type == @types.deco_barrier_tire {
     let tw : Float = sf(0.4, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + 0.2, z),
-      tw, tw, tw,
+      tw,
+      tw,
+      tw,
       @raylib.Color::new(30, 30, 30, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + 0.6, z),
-      tw, tw, tw,
+      tw,
+      tw,
+      tw,
       @raylib.Color::new(35, 35, 35, 255),
     )
   } else if deco_type == @types.deco_grandstand {
@@ -578,26 +676,34 @@ fn draw_decoration_object(
     let gd : Float = sf(1.5, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + gh_half, z),
-      gw, gh, gd,
+      gw,
+      gh,
+      gd,
       @raylib.Color::new(180, 170, 150, 255),
     )
     let roof_y : Float = y + gh + sf(0.1, scale)
     let roof_w : Float = gw + sf(0.5, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, roof_y, z),
-      roof_w, sf(0.2, scale), sf(2.0, scale),
+      roof_w,
+      sf(0.2, scale),
+      sf(2.0, scale),
       @raylib.Color::new(140, 40, 40, 255),
     )
     let seat_w : Float = gw * 0.9
     let seat_z : Float = z + sf(0.4, scale)
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(0.3, scale), seat_z),
-      seat_w, sf(0.15, scale), sf(0.3, scale),
+      seat_w,
+      sf(0.15, scale),
+      sf(0.3, scale),
       @raylib.Color::new(200, 60, 60, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(0.7, scale), seat_z),
-      seat_w, sf(0.15, scale), sf(0.3, scale),
+      seat_w,
+      sf(0.15, scale),
+      sf(0.3, scale),
       @raylib.Color::new(60, 60, 200, 255),
     )
   } else if deco_type == @types.deco_building_small {
@@ -606,7 +712,9 @@ fn draw_decoration_object(
     let bh_half : Float = bh * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + bh_half, z),
-      bw, bh, bw,
+      bw,
+      bh,
+      bw,
       @raylib.Color::new(160, 150, 140, 255),
     )
     let win_w : Float = sf(0.3, scale)
@@ -618,22 +726,30 @@ fn draw_decoration_object(
     let win_y2 : Float = y + bh * 0.65
     @raylib.draw_cube(
       @raylib.Vector3::new(x - bw_off, win_y1, bw_front),
-      win_w, win_h, win_d,
+      win_w,
+      win_h,
+      win_d,
       @raylib.Color::new(100, 150, 200, 200),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x + bw_off, win_y1, bw_front),
-      win_w, win_h, win_d,
+      win_w,
+      win_h,
+      win_d,
       @raylib.Color::new(100, 150, 200, 200),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x - bw_off, win_y2, bw_front),
-      win_w, win_h, win_d,
+      win_w,
+      win_h,
+      win_d,
       @raylib.Color::new(100, 150, 200, 200),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x + bw_off, win_y2, bw_front),
-      win_w, win_h, win_d,
+      win_w,
+      win_h,
+      win_d,
       @raylib.Color::new(100, 150, 200, 200),
     )
   } else if deco_type == @types.deco_building_tall {
@@ -642,7 +758,9 @@ fn draw_decoration_object(
     let bh_half : Float = bh * 0.5
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + bh_half, z),
-      bw, bh, bw,
+      bw,
+      bh,
+      bw,
       @raylib.Color::new(140, 140, 150, 255),
     )
     let bw_off : Float = bw * 0.25
@@ -655,34 +773,46 @@ fn draw_decoration_object(
       let win_y : Float = y + sf(1.0, scale) + wy_f * sf(1.2, scale)
       @raylib.draw_cube(
         @raylib.Vector3::new(x - bw_off, win_y, bw_front),
-        win_w, win_h, win_d,
+        win_w,
+        win_h,
+        win_d,
         @raylib.Color::new(150, 200, 240, 200),
       )
       @raylib.draw_cube(
         @raylib.Vector3::new(x + bw_off, win_y, bw_front),
-        win_w, win_h, win_d,
+        win_w,
+        win_h,
+        win_d,
         @raylib.Color::new(150, 200, 240, 200),
       )
     }
   } else if deco_type == @types.deco_cactus {
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(0.8, scale), z),
-      sf(0.3, scale), sf(1.6, scale), sf(0.3, scale),
+      sf(0.3, scale),
+      sf(1.6, scale),
+      sf(0.3, scale),
       @raylib.Color::new(60, 120, 40, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x + sf(0.4, scale), y + sf(1.0, scale), z),
-      sf(0.5, scale), sf(0.2, scale), sf(0.2, scale),
+      sf(0.5, scale),
+      sf(0.2, scale),
+      sf(0.2, scale),
       @raylib.Color::new(55, 115, 35, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x + sf(0.6, scale), y + sf(1.3, scale), z),
-      sf(0.2, scale), sf(0.5, scale), sf(0.2, scale),
+      sf(0.2, scale),
+      sf(0.5, scale),
+      sf(0.2, scale),
       @raylib.Color::new(55, 115, 35, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x - sf(0.35, scale), y + sf(0.7, scale), z),
-      sf(0.4, scale), sf(0.2, scale), sf(0.2, scale),
+      sf(0.4, scale),
+      sf(0.2, scale),
+      sf(0.2, scale),
       @raylib.Color::new(50, 110, 30, 255),
     )
   } else if deco_type == @types.deco_snow_mound {
@@ -692,30 +822,42 @@ fn draw_decoration_object(
       @raylib.Color::new(230, 235, 240, 255),
     )
     @raylib.draw_sphere(
-      @raylib.Vector3::new(x + sf(0.3, scale), y + sf(0.2, scale), z + sf(0.2, scale)),
+      @raylib.Vector3::new(
+        x + sf(0.3, scale),
+        y + sf(0.2, scale),
+        z + sf(0.2, scale),
+      ),
       sf(0.5, scale),
       @raylib.Color::new(225, 230, 235, 255),
     )
   } else if deco_type == @types.deco_lava_rock {
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(0.4, scale), z),
-      sf(0.8, scale), sf(0.8, scale), sf(0.7, scale),
+      sf(0.8, scale),
+      sf(0.8, scale),
+      sf(0.7, scale),
       @raylib.Color::new(100, 40, 20, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + 0.1, z),
-      sf(0.9, scale), 0.05, sf(0.8, scale),
+      sf(0.9, scale),
+      0.05,
+      sf(0.8, scale),
       @raylib.Color::new(255, 100, 20, 150),
     )
   } else if deco_type == @types.deco_lamp_post {
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(1.5, scale), z),
-      sf(0.1, scale), sf(3.0, scale), sf(0.1, scale),
+      sf(0.1, scale),
+      sf(3.0, scale),
+      sf(0.1, scale),
       @raylib.Color::new(120, 120, 130, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + sf(3.0, scale), z),
-      sf(0.4, scale), sf(0.15, scale), sf(0.4, scale),
+      sf(0.4, scale),
+      sf(0.15, scale),
+      sf(0.4, scale),
       @raylib.Color::new(200, 200, 150, 255),
     )
     @raylib.draw_sphere(
@@ -726,21 +868,29 @@ fn draw_decoration_object(
   } else if deco_type == @types.deco_sign_board {
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + 0.8, z),
-      0.1, 1.6, 0.1,
+      0.1,
+      1.6,
+      0.1,
       @raylib.Color::new(100, 100, 110, 255),
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(x, y + 1.5, z),
-      sf(1.0, scale), sf(0.6, scale), 0.05,
+      sf(1.0, scale),
+      sf(0.6, scale),
+      0.05,
       @raylib.Color::new(180, 180, 40, 255),
     )
   }
 }
 
 // Draw track surface visual differences (boost pads, dirt patches, ice patches)
+
+///|
 fn draw_surface_indicators(game : @types.Game) -> Unit {
   let wc = game.waypoint_count
-  if wc < 2 { return }
+  if wc < 2 {
+    return
+  }
   for i = 0; i < wc; i = i + 1 {
     let seg = game.segments[i]
     let wp0 = game.waypoints[i]
@@ -793,9 +943,9 @@ fn draw_surface_indicators(game : @types.Game) -> Unit {
       )
     } else if seg.surface_type == @types.surface_ice {
       // Ice shimmer
-      let shimmer = @math.sinf(Float::from_int(game.frame_counter) * 0.1 + Float::from_int(
-          i,
-        ))
+      let shimmer = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.1 + Float::from_int(i),
+      )
       let ice_alpha_f : Float = 50.0 + shimmer * 20.0
       let ice_alpha = @types.clampi(ice_alpha_f.to_int(), 30, 80)
       @raylib.draw_cube(
@@ -810,10 +960,15 @@ fn draw_surface_indicators(game : @types.Game) -> Unit {
 }
 
 // Draw skybox elements based on theme
+
+///|
 fn draw_skybox_elements(game : @types.Game) -> Unit {
   let theme = @levels.get_track_theme(game.current_cup, game.current_race)
   let sky_c = @levels.get_track_sky_color(game.current_cup, game.current_race)
-  let grad_c = @levels.get_sky_gradient_color(game.current_cup, game.current_race)
+  let grad_c = @levels.get_sky_gradient_color(
+    game.current_cup,
+    game.current_race,
+  )
   // Horizon gradient band
   let player = game.karts[@types.player_kart]
   let horizon_y : Float = -5.0
@@ -835,14 +990,15 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
   if theme == @types.theme_night {
     // Stars in the sky
     for s = 0; s < 12; s = s + 1 {
-      let sa = Float::from_int(s) * @types.two_pi / 12.0 + game.preview_rotation * 0.1
+      let sa = Float::from_int(s) * @types.two_pi / 12.0 +
+        game.preview_rotation * 0.1
       let sr : Float = 50.0 + Float::from_int(s % 3) * 10.0
       let star_x = player.x + @math.sinf(sa) * sr
       let star_z = player.z + @math.cosf(sa) * sr
       let star_y : Float = 25.0 + Float::from_int(s % 4) * 5.0
-      let twinkle = @math.sinf(Float::from_int(game.frame_counter) * 0.1 + Float::from_int(
-          s,
-        ))
+      let twinkle = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.1 + Float::from_int(s),
+      )
       let star_alpha_f : Float = 150.0 + twinkle * 80.0
       let star_alpha = @types.clampi(star_alpha_f.to_int(), 80, 230)
       @raylib.draw_sphere(
@@ -870,19 +1026,25 @@ fn draw_skybox_elements(game : @types.Game) -> Unit {
 }
 
 // Draw kart detail: exhaust pipes, spoiler, engine details
+
+///|
 fn draw_kart_details(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) { continue i + 1 }
+    if not(kart.active) {
+      continue i + 1
+    }
     let ci = @types.clampi(i, 0, @types.kart_accent_colors.length() - 1)
     let ac = @types.kart_accent_colors[ci]
     let sin_a = @math.sinf(kart.angle)
     let cos_a = @math.cosf(kart.angle)
     let draw_y = kart.y + @types.kart_height * 0.5
     // Exhaust pipe (rear)
-    let ex_x = kart.x - sin_a * @types.kart_length * 0.55 +
+    let ex_x = kart.x -
+      sin_a * @types.kart_length * 0.55 +
       cos_a * @types.kart_width * 0.3
-    let ex_z = kart.z - cos_a * @types.kart_length * 0.55 -
+    let ex_z = kart.z -
+      cos_a * @types.kart_length * 0.55 -
       sin_a * @types.kart_width * 0.3
     @raylib.draw_cube(
       @raylib.Vector3::new(ex_x, draw_y - 0.1, ex_z),
@@ -905,7 +1067,11 @@ fn draw_kart_details(game : @types.Game) -> Unit {
     let sup_left_x = sp_x + cos_a * @types.kart_width * 0.3
     let sup_left_z = sp_z - sin_a * @types.kart_width * 0.3
     @raylib.draw_cube(
-      @raylib.Vector3::new(sup_left_x, draw_y + @types.kart_height * 0.25, sup_left_z),
+      @raylib.Vector3::new(
+        sup_left_x,
+        draw_y + @types.kart_height * 0.25,
+        sup_left_z,
+      ),
       0.05,
       @types.kart_height * 0.4,
       0.05,
@@ -914,7 +1080,11 @@ fn draw_kart_details(game : @types.Game) -> Unit {
     let sup_right_x = sp_x - cos_a * @types.kart_width * 0.3
     let sup_right_z = sp_z + sin_a * @types.kart_width * 0.3
     @raylib.draw_cube(
-      @raylib.Vector3::new(sup_right_x, draw_y + @types.kart_height * 0.25, sup_right_z),
+      @raylib.Vector3::new(
+        sup_right_x,
+        draw_y + @types.kart_height * 0.25,
+        sup_right_z,
+      ),
       0.05,
       @types.kart_height * 0.4,
       0.05,

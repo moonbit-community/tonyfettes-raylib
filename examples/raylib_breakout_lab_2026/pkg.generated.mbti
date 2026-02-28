@@ -1,0 +1,14 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_breakout_lab_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Brick
+
+// Type aliases
+
+// Traits
+

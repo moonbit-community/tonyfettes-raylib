@@ -1,0 +1,72 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dungeon_crawler_3d/levels"
+
+// Values
+pub fn floor_has_shop(Int) -> Bool
+
+pub fn floor_has_shrine(Int) -> Bool
+
+pub fn get_available_trap_type(Int, Int) -> Int
+
+pub fn get_boss_atk(Int) -> Int
+
+pub fn get_boss_def(Int) -> Int
+
+pub fn get_boss_hp(Int) -> Int
+
+pub fn get_boss_name(Int) -> String
+
+pub fn get_enemy_atk_scale(Int) -> Int
+
+pub fn get_enemy_def_scale(Int) -> Int
+
+pub fn get_enemy_hp_scale(Int) -> Int
+
+pub fn get_extended_enemy_config(Int) -> (Int, Int, Int, Int, Int)
+
+pub fn get_floor_config(Int) -> (Int, Int, Int, Int, Int, Bool, Int)
+
+pub fn get_floor_name(Int) -> String
+
+pub fn get_floor_theme(Int) -> Int
+
+pub fn get_floor_trap_count(Int) -> Int
+
+pub fn get_locked_door_count(Int) -> Int
+
+pub fn get_rarity_weight_common(Int) -> Int
+
+pub fn get_rarity_weight_epic(Int) -> Int
+
+pub fn get_rarity_weight_legendary(Int) -> Int
+
+pub fn get_rarity_weight_rare(Int) -> Int
+
+pub fn get_rarity_weight_uncommon(Int) -> Int
+
+pub fn get_shop_item_name(Int) -> String
+
+pub fn get_shop_item_price(Int) -> Int
+
+pub fn get_shop_item_type(Int) -> Int
+
+pub fn get_shrine_buff_name(Int) -> String
+
+pub fn get_theme_ceiling_color(Int) -> (Int, Int, Int)
+
+pub fn get_theme_floor_color(Int) -> (Int, Int, Int)
+
+pub fn get_theme_wall_color(Int) -> (Int, Int, Int)
+
+pub fn get_torches_per_room(Int) -> Int
+
+pub fn get_xp_for_level(Int) -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

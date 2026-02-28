@@ -1,0 +1,793 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_space_combat_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn add_kill_feed(Game, String, Int, Int, Int) -> Unit
+
+pub let ai_attack : Int
+
+pub let ai_chase : Int
+
+pub let ai_evade : Int
+
+pub let ai_flee : Int
+
+pub let ai_formation : Int
+
+pub let ai_idle : Int
+
+pub let ai_patrol : Int
+
+pub fn all_objectives_complete(Game) -> Bool
+
+pub fn alloc_asteroid(Game) -> Int
+
+pub fn alloc_debris(Game) -> Int
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_powerup(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_station(Game) -> Int
+
+pub fn angle_diff(Float, Float) -> Float
+
+pub let asteroid_break_count : Int
+
+pub let asteroid_hp : Float
+
+pub let asteroid_large : Int
+
+pub let asteroid_large_hp : Float
+
+pub let asteroid_large_size : Float
+
+pub let asteroid_medium : Int
+
+pub let asteroid_medium_hp : Float
+
+pub let asteroid_medium_size : Float
+
+pub let asteroid_score : Int
+
+pub let asteroid_small : Int
+
+pub let asteroid_small_hp : Float
+
+pub let asteroid_small_size : Float
+
+pub let bomber_class_boost : Float
+
+pub let bomber_class_hull : Float
+
+pub let bomber_class_shield : Float
+
+pub let bomber_class_speed : Float
+
+pub let bomber_class_turn : Float
+
+pub let bomber_damage : Float
+
+pub let bomber_fire_rate : Float
+
+pub let bomber_hp : Float
+
+pub let bomber_score : Int
+
+pub let bomber_speed : Float
+
+pub let boost_fuel_drain : Float
+
+pub let boost_fuel_regen : Float
+
+pub fn calc_accuracy(Int, Int) -> Int
+
+pub fn calc_damage(Float, Float, Float) -> (Float, Float)
+
+pub fn calc_rank(Int, Float, Int) -> String
+
+pub let camera_distance : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let capital_class_boost : Float
+
+pub let capital_class_hull : Float
+
+pub let capital_class_shield : Float
+
+pub let capital_class_speed : Float
+
+pub let capital_class_turn : Float
+
+pub let capital_damage : Float
+
+pub let capital_fire_rate : Float
+
+pub let capital_hp : Float
+
+pub let capital_score : Int
+
+pub let capital_speed : Float
+
+pub let capital_turret_count : Int
+
+pub let capital_weak_point_hp : Float
+
+pub fn check_objective_progress(Game, Int, Int) -> Unit
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_mult_2 : Float
+
+pub let combo_mult_3 : Float
+
+pub let combo_mult_5 : Float
+
+pub let combo_mult_8 : Float
+
+pub let combo_timeout : Float
+
+pub fn count_active_enemies(Game) -> Int
+
+pub fn count_enemies_of_type(Game, Int) -> Int
+
+pub fn cross3d(Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub let cruiser_class_boost : Float
+
+pub let cruiser_class_hull : Float
+
+pub let cruiser_class_shield : Float
+
+pub let cruiser_class_speed : Float
+
+pub let cruiser_class_turn : Float
+
+pub let cruiser_damage : Float
+
+pub let cruiser_fire_rate : Float
+
+pub let cruiser_hp : Float
+
+pub let cruiser_score : Int
+
+pub let cruiser_speed : Float
+
+pub let damage_flash_duration : Float
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn distance_squared_3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn dot3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let enemy_asteroid : Int
+
+pub let enemy_bomber : Int
+
+pub let enemy_capital : Int
+
+pub let enemy_cruiser : Int
+
+pub let enemy_fighter : Int
+
+pub let enemy_interceptor : Int
+
+pub fn enemy_score_value(Int) -> Int
+
+pub fn enemy_type_name(Int) -> String
+
+pub let fighter_attack_range : Float
+
+pub let fighter_class_boost : Float
+
+pub let fighter_class_hull : Float
+
+pub let fighter_class_shield : Float
+
+pub let fighter_class_speed : Float
+
+pub let fighter_class_turn : Float
+
+pub let fighter_damage : Float
+
+pub let fighter_detect_range : Float
+
+pub let fighter_evade_hp_pct : Float
+
+pub let fighter_fire_rate : Float
+
+pub let fighter_flee_hp_pct : Float
+
+pub let fighter_hp : Float
+
+pub let fighter_score : Int
+
+pub let fighter_speed : Float
+
+pub fn find_nearest_enemy(Game, Float, Float, Float) -> Int
+
+pub let formation_circle : Int
+
+pub let formation_line : Int
+
+pub fn formation_offset(Int, Int, Float) -> (Float, Float, Float)
+
+pub let formation_v : Int
+
+pub let formation_wedge : Int
+
+pub fn forward_dir(Float, Float) -> (Float, Float, Float)
+
+pub let interceptor_class_boost : Float
+
+pub let interceptor_class_hull : Float
+
+pub let interceptor_class_shield : Float
+
+pub let interceptor_class_speed : Float
+
+pub let interceptor_class_turn : Float
+
+pub let interceptor_damage : Float
+
+pub let interceptor_detect_range : Float
+
+pub let interceptor_fire_rate : Float
+
+pub let interceptor_hp : Float
+
+pub let interceptor_score : Int
+
+pub let interceptor_speed : Float
+
+pub let kill_feed_duration : Float
+
+pub let laser_cooldown : Float
+
+pub let laser_damage : Float
+
+pub let laser_energy_cost : Float
+
+pub let laser_range : Float
+
+pub let laser_speed : Float
+
+pub fn lead_target(Float, Float, Float, Float, Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub fn length3d(Float, Float, Float) -> Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_asteroids : Int
+
+pub let max_boost_fuel : Float
+
+pub let max_debris : Int
+
+pub let max_enemies : Int
+
+pub let max_kill_feed : Int
+
+pub let max_particles : Int
+
+pub let max_powerups : Int
+
+pub let max_projectiles : Int
+
+pub let max_stars : Int
+
+pub let max_stations : Int
+
+pub let max_weapon_energy : Float
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let missile_cooldown : Float
+
+pub let missile_damage : Float
+
+pub let missile_fuel : Float
+
+pub let missile_max_ammo : Int
+
+pub let missile_prox_radius : Float
+
+pub let missile_range : Float
+
+pub let missile_speed : Float
+
+pub let missile_turn_rate : Float
+
+pub fn mission_difficulty_damage_mult(Int) -> Float
+
+pub fn mission_difficulty_fire_rate_mult(Int) -> Float
+
+pub fn mission_difficulty_hp_mult(Int) -> Float
+
+pub fn mission_difficulty_speed_mult(Int) -> Float
+
+pub fn normalize3d(Float, Float, Float) -> (Float, Float, Float)
+
+pub let objective_ambush : Int
+
+pub let objective_boss_fight : Int
+
+pub let objective_defend_station : Int
+
+pub let objective_destroy_all : Int
+
+pub let objective_destroy_count : Int
+
+pub let objective_escort : Int
+
+pub let objective_patrol : Int
+
+pub let objective_survive : Int
+
+pub fn objective_type_name(Int) -> String
+
+pub let particle_debris_life : Float
+
+pub let particle_explosion_life : Float
+
+pub let particle_shield_hit_life : Float
+
+pub let particle_spark_life : Float
+
+pub let particle_thruster_life : Float
+
+pub let particle_weapon_trail_life : Float
+
+pub let pi : Float
+
+pub let plasma_aoe_radius : Float
+
+pub let plasma_cooldown : Float
+
+pub let plasma_damage : Float
+
+pub let plasma_energy_cost : Float
+
+pub let plasma_range : Float
+
+pub let plasma_speed : Float
+
+pub let player_boost_speed : Float
+
+pub let player_max_hull : Float
+
+pub let player_max_shield : Float
+
+pub let player_roll_speed : Float
+
+pub let player_speed : Float
+
+pub let player_turn_speed : Float
+
+pub let powerup_bob_amplitude : Float
+
+pub let powerup_collect_radius : Float
+
+pub let powerup_float_speed : Float
+
+pub let powerup_health : Int
+
+pub let powerup_health_amount : Float
+
+pub let powerup_shield : Int
+
+pub let powerup_shield_amount : Float
+
+pub let powerup_speed_boost : Int
+
+pub let powerup_speed_duration : Float
+
+pub let powerup_spin_speed : Float
+
+pub let powerup_weapon_boost : Int
+
+pub let powerup_weapon_duration : Float
+
+pub let radar_radius : Int
+
+pub let radar_range : Float
+
+pub let railgun_cooldown : Float
+
+pub let railgun_damage : Float
+
+pub let railgun_energy_cost : Float
+
+pub let railgun_range : Float
+
+pub let railgun_speed : Float
+
+pub fn rand_bool(Game, Float) -> Bool
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub fn register_kill_combo(Game) -> Unit
+
+pub fn right_dir(Float) -> (Float, Float, Float)
+
+pub fn rotate_vector_around_axis(Float, Float, Float, Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let shield_regen_delay : Float
+
+pub let shield_regen_rate : Float
+
+pub let ship_bomber : Int
+
+pub let ship_capital_ship : Int
+
+pub fn ship_class_boost(Int) -> Float
+
+pub fn ship_class_hull(Int) -> Float
+
+pub fn ship_class_name(Int) -> String
+
+pub fn ship_class_shield(Int) -> Float
+
+pub fn ship_class_speed(Int) -> Float
+
+pub fn ship_class_turn(Int) -> Float
+
+pub let ship_cruiser : Int
+
+pub let ship_fighter : Int
+
+pub let ship_interceptor : Int
+
+pub fn sign_f(Float) -> Float
+
+pub fn smooth_damp(Float, Float, Float, Float) -> Float
+
+pub fn spawn_debris(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_explosion(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_shield_hit(Game, Float, Float, Float, Int) -> Unit
+
+pub fn sphere_collision(Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let state_game_over : Int
+
+pub let state_loadout : Int
+
+pub let state_menu : Int
+
+pub let state_mission_briefing : Int
+
+pub let state_mission_complete : Int
+
+pub let state_mission_select : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let station_dock_range : Float
+
+pub let station_enemy : Int
+
+pub let station_friendly : Int
+
+pub let station_hp : Float
+
+pub let total_missions : Int
+
+pub let two_pi : Float
+
+pub fn up_dir(Float, Float) -> (Float, Float, Float)
+
+pub fn update_combo(Game, Float) -> Unit
+
+pub fn weapon_cooldown(Int) -> Float
+
+pub fn weapon_energy_cost(Int) -> Float
+
+pub let weapon_energy_regen : Float
+
+pub let weapon_laser : Int
+
+pub let weapon_missile : Int
+
+pub fn weapon_name(Int) -> String
+
+pub let weapon_plasma : Int
+
+pub fn weapon_proj_speed(Int) -> Float
+
+pub let weapon_railgun : Int
+
+pub fn within_render_distance(Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let world_size : Float
+
+pub fn wrap_coord(Float) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Asteroid {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut rot_x : Float
+  mut rot_y : Float
+  mut rot_z : Float
+  mut rot_speed : Float
+  mut hp : Float
+  mut size : Float
+  mut size_tier : Int
+  mut breakable : Bool
+}
+pub fn Asteroid::inactive() -> Self
+
+pub(all) struct Debris {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut rot_x : Float
+  mut rot_y : Float
+  mut rot_speed : Float
+  mut life : Float
+  mut size : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Debris::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut yaw : Float
+  mut pitch : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut shield_hp : Float
+  mut max_shield_hp : Float
+  mut fire_timer : Float
+  mut ai_timer : Float
+  mut ai_state : Int
+  mut score_value : Int
+  mut size : Float
+  mut squad_id : Int
+  mut formation_index : Int
+  mut aggression : Float
+  mut flee_threshold : Float
+  mut detect_range : Float
+  mut damage_flash : Float
+  mut patrol_x : Float
+  mut patrol_y : Float
+  mut patrol_z : Float
+  mut turret_timer_1 : Float
+  mut turret_timer_2 : Float
+  mut weak_point_hp : Float
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  player : Player
+  mut target_idx : Int
+  mut target_lock_timer : Float
+  mut score : Int
+  mut current_mission : Int
+  mut enemies_remaining : Int
+  mut mission_timer : Float
+  mut total_kills : Int
+  mut combo_count : Int
+  mut combo_timer : Float
+  mut combo_multiplier : Float
+  objectives : Array[MissionObjective]
+  mut objectives_count : Int
+  enemies : Array[Enemy]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  asteroids : Array[Asteroid]
+  powerups : Array[PowerUp]
+  stations : Array[SpaceStation]
+  debris : Array[Debris]
+  stars : Array[Star]
+  kill_feed : Array[KillFeedEntry]
+  mut camera_shake : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut message_text : String
+  mut message_timer : Float
+  mut briefing_scroll : Int
+  mut pause_cursor : Int
+  mut select_cursor : Int
+  mut loadout_cursor : Int
+  mut selected_ship_class : Int
+  mut wave_timer : Float
+  mut wave_number : Int
+  mut waves_total : Int
+  mut mission_time : Float
+  mut mission_kills : Int
+  mut screen_flash : Float
+  mut flash_r : Int
+  mut flash_g : Int
+  mut flash_b : Int
+  mut rng_state : Int
+  mut frame_counter : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct KillFeedEntry {
+  mut active : Bool
+  mut text : String
+  mut timer : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn KillFeedEntry::inactive() -> Self
+
+pub(all) struct MissionObjective {
+  mut obj_type : Int
+  mut target_count : Int
+  mut current_count : Int
+  mut complete : Bool
+  mut description : String
+}
+pub fn MissionObjective::new(Int, Int, String) -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut yaw : Float
+  mut pitch : Float
+  mut roll : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut hull : Float
+  mut max_hull : Float
+  mut shield : Float
+  mut max_shield : Float
+  mut shield_timer : Float
+  mut weapon : Int
+  mut fire_timer : Float
+  mut boosting : Bool
+  mut speed : Float
+  mut ship_class : Int
+  mut turn_rate : Float
+  mut weapon_level : Int
+  mut missile_ammo : Int
+  mut weapon_energy : Float
+  mut boost_fuel : Float
+  mut weapon_boost_timer : Float
+  mut speed_boost_timer : Float
+  mut damage_flash : Float
+  mut strafe_x : Float
+  mut strafe_y : Float
+  mut kills : Int
+  mut shots_fired : Int
+  mut shots_hit : Int
+}
+pub fn Player::new() -> Self
+
+pub(all) struct PowerUp {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut bob_timer : Float
+  mut spin_angle : Float
+  mut life : Float
+}
+pub fn PowerUp::inactive() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut damage : Float
+  mut life : Float
+  mut from_player : Bool
+  mut target_idx : Int
+  mut size : Float
+  mut fuel : Float
+  mut piercing : Bool
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct SpaceStation {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut rot_angle : Float
+  mut ring_angle : Float
+}
+pub fn SpaceStation::inactive() -> Self
+
+pub(all) struct Star {
+  x : Float
+  y : Float
+  z : Float
+  brightness : Int
+  r : Int
+  g : Int
+  b : Int
+}
+
+// Type aliases
+
+// Traits
+

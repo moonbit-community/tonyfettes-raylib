@@ -1,0 +1,959 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_naval_combat_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn add_battle_log(Game, String) -> Unit
+
+pub fn add_battle_message(Game, String, Int, Int, Int) -> Unit
+
+pub let ai_attack : Int
+
+pub let ai_broadside_run : Int
+
+pub let ai_chase : Int
+
+pub let ai_flank : Int
+
+pub let ai_patrol : Int
+
+pub let ai_personality_aggressive : Int
+
+pub let ai_personality_berserker : Int
+
+pub let ai_personality_defensive : Int
+
+pub let ai_personality_flanker : Int
+
+pub let ai_personality_retreater : Int
+
+pub let ai_retreat : Int
+
+pub fn alloc_cannonball(Game) -> Int
+
+pub fn alloc_debris(Game) -> Int
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_message(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_wake(Game) -> Int
+
+pub let ammo_chain_shot : Int
+
+pub let ammo_grapeshot : Int
+
+pub let ammo_round_shot : Int
+
+pub fn angle_diff(Float, Float) -> Float
+
+pub fn angle_within(Float, Float, Float) -> Bool
+
+pub let beam_reach_angle : Float
+
+pub fn bearing(Float, Float, Float, Float) -> Float
+
+pub let boarding_crew_power : Float
+
+pub let boarding_duration : Float
+
+pub let boarding_range : Float
+
+pub let brigantine_base_speed : Float
+
+pub let brigantine_cannon_count : Int
+
+pub let brigantine_length : Float
+
+pub let brigantine_max_crew : Int
+
+pub let brigantine_max_hull : Float
+
+pub let brigantine_max_mast : Float
+
+pub let brigantine_max_rudder : Float
+
+pub let brigantine_turn_rate : Float
+
+pub let brigantine_width : Float
+
+pub let broad_reach_angle : Float
+
+pub fn calc_cannon_launch(Float, Float, Float, Float) -> (Float, Float, Float)
+
+pub fn calc_sailing_speed(Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn calc_turn_rate(Float, Float, Float, Float) -> Float
+
+pub fn calc_wind_drift(Float, Float, Float, Float) -> (Float, Float)
+
+pub let camera_dist : Float
+
+pub let camera_dist_max : Float
+
+pub let camera_dist_min : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let cannon_chain_shot : Int
+
+pub let cannon_heavy : Int
+
+pub let cannon_light : Int
+
+pub let cannon_medium : Int
+
+pub let cannon_mortar : Int
+
+pub let cannonball_life : Float
+
+pub let cannonball_speed : Float
+
+pub let chain_shot_arc : Float
+
+pub let chain_shot_crew_mult : Float
+
+pub let chain_shot_damage : Float
+
+pub let chain_shot_hull_mult : Float
+
+pub let chain_shot_mast_mult : Float
+
+pub let chain_shot_range : Float
+
+pub let chain_shot_reload : Float
+
+pub let chain_shot_speed : Float
+
+pub fn check_boarding_range(Game, Int) -> Bool
+
+pub fn check_island_collision(Game, Float, Float, Float) -> Bool
+
+pub fn check_ship_collision(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let class_brigantine : Int
+
+pub let class_frigate : Int
+
+pub let class_galleon : Int
+
+pub let class_man_of_war : Int
+
+pub let class_sloop : Int
+
+pub let close_haul_angle : Float
+
+pub let convoy_spacing : Float
+
+pub let convoy_speed : Float
+
+pub fn count_convoy_alive(Game) -> Int
+
+pub fn count_fleet_alive(Game) -> Int
+
+pub let crew_action_boarding : Int
+
+pub let crew_action_cannons : Int
+
+pub let crew_action_repair_hull : Int
+
+pub let crew_action_repair_mast : Int
+
+pub let crew_action_repair_rudder : Int
+
+pub let crew_action_sailing : Int
+
+pub let debris_barrel : Int
+
+pub let debris_lifetime : Float
+
+pub let debris_mast_piece : Int
+
+pub let debris_plank : Int
+
+pub let debris_sail_scrap : Int
+
+pub let debris_sink_speed : Float
+
+pub fn distance2d(Float, Float, Float, Float) -> Float
+
+pub fn distance3d(Float, Float, Float, Float, Float, Float) -> Float
+
+pub let drift_factor : Float
+
+pub let fleet_attack_dist : Float
+
+pub let fleet_follow_dist : Float
+
+pub let fleet_order_attack : Int
+
+pub let fleet_order_defend : Int
+
+pub let fleet_order_follow : Int
+
+pub let fleet_order_hold : Int
+
+pub let fortress_base_hp : Float
+
+pub let fortress_cannon_count : Int
+
+pub let fortress_cannon_damage : Float
+
+pub let fortress_fire_rate : Float
+
+pub let fortress_range : Float
+
+pub let frigate_base_speed : Float
+
+pub let frigate_cannon_count : Int
+
+pub let frigate_length : Float
+
+pub let frigate_max_crew : Int
+
+pub let frigate_max_hull : Float
+
+pub let frigate_max_mast : Float
+
+pub let frigate_max_rudder : Float
+
+pub let frigate_turn_rate : Float
+
+pub let frigate_width : Float
+
+pub let galleon_base_speed : Float
+
+pub let galleon_cannon_count : Int
+
+pub let galleon_length : Float
+
+pub let galleon_max_crew : Int
+
+pub let galleon_max_hull : Float
+
+pub let galleon_max_mast : Float
+
+pub let galleon_max_rudder : Float
+
+pub let galleon_turn_rate : Float
+
+pub let galleon_width : Float
+
+pub fn get_ammo_crew_mult(Int) -> Float
+
+pub fn get_ammo_hull_mult(Int) -> Float
+
+pub fn get_ammo_mast_mult(Int) -> Float
+
+pub fn get_cannon_arc(Int) -> Float
+
+pub fn get_cannon_damage(Int) -> Float
+
+pub fn get_cannon_reload(Int) -> Float
+
+pub fn get_cannon_speed(Int) -> Float
+
+pub fn get_class_base_speed(Int) -> Float
+
+pub fn get_class_cannon_count(Int) -> Int
+
+pub fn get_class_length(Int) -> Float
+
+pub fn get_class_max_crew(Int) -> Int
+
+pub fn get_class_max_hull(Int) -> Float
+
+pub fn get_class_max_mast(Int) -> Float
+
+pub fn get_class_max_rudder(Int) -> Float
+
+pub fn get_class_name(Int) -> String
+
+pub fn get_class_score(Int) -> Int
+
+pub fn get_class_turn_rate(Int) -> Float
+
+pub fn get_class_width(Int) -> Float
+
+pub fn get_reputation_title(Int) -> String
+
+pub let grapeshot_crew_mult : Float
+
+pub let grapeshot_hull_mult : Float
+
+pub let grapeshot_mast_mult : Float
+
+pub let gravity : Float
+
+pub let heavy_cannon_arc : Float
+
+pub let heavy_cannon_damage : Float
+
+pub let heavy_cannon_range : Float
+
+pub let heavy_cannon_reload : Float
+
+pub let heavy_cannon_speed : Float
+
+pub let in_irons_angle : Float
+
+pub let island_fortress : Int
+
+pub let island_large : Int
+
+pub let island_medium : Int
+
+pub let island_small : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let light_cannon_arc : Float
+
+pub let light_cannon_damage : Float
+
+pub let light_cannon_range : Float
+
+pub let light_cannon_reload : Float
+
+pub let light_cannon_speed : Float
+
+pub let max_cannonballs : Int
+
+pub let max_convoy_ships : Int
+
+pub let max_debris : Int
+
+pub let max_enemies : Int
+
+pub let max_fleet_ships : Int
+
+pub let max_islands : Int
+
+pub let max_messages : Int
+
+pub let max_particles : Int
+
+pub let max_wakes : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let medium_cannon_arc : Float
+
+pub let medium_cannon_damage : Float
+
+pub let medium_cannon_range : Float
+
+pub let medium_cannon_reload : Float
+
+pub let medium_cannon_speed : Float
+
+pub let message_display_time : Float
+
+pub let message_fade_time : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let minimap_scale : Float
+
+pub let minimap_size : Int
+
+pub let minimap_x : Int
+
+pub let minimap_y : Int
+
+pub let mortar_arc : Float
+
+pub let mortar_damage : Float
+
+pub let mortar_range : Float
+
+pub let mortar_reload : Float
+
+pub let mortar_speed : Float
+
+pub let mow_base_speed : Float
+
+pub let mow_cannon_count : Int
+
+pub let mow_length : Float
+
+pub let mow_max_crew : Int
+
+pub let mow_max_hull : Float
+
+pub let mow_max_mast : Float
+
+pub let mow_max_rudder : Float
+
+pub let mow_turn_rate : Float
+
+pub let mow_width : Float
+
+pub fn normalize_angle(Float) -> Float
+
+pub let objective_blockade_run : Int
+
+pub let objective_capture_flagship : Int
+
+pub let objective_defend_port : Int
+
+pub let objective_destroy_all : Int
+
+pub let objective_escort_convoy : Int
+
+pub let objective_survive_time : Int
+
+pub let ocean_size : Float
+
+pub let particle_debris : Int
+
+pub let particle_fire : Int
+
+pub let particle_generic : Int
+
+pub let particle_smoke : Int
+
+pub let particle_spark : Int
+
+pub let particle_splash : Int
+
+pub let pi : Float
+
+pub let player_cannon_damage : Float
+
+pub let player_cannon_reload : Float
+
+pub fn player_hp_ratio(Game) -> Float
+
+pub let player_max_hp : Float
+
+pub let player_max_sail : Float
+
+pub let player_start_ammo : Int
+
+pub let player_start_crew : Int
+
+pub let player_turn_speed : Float
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub let rep_admiral : Int
+
+pub let rep_captain : Int
+
+pub let rep_commodore : Int
+
+pub let rep_legend : Int
+
+pub let rep_privateer : Int
+
+pub let repair_cannon_speed : Float
+
+pub let repair_hull_speed : Float
+
+pub let repair_mast_speed : Float
+
+pub let repair_rudder_speed : Float
+
+pub fn resolve_boarding(Int, Int, Game) -> Bool
+
+pub let round_shot_crew_mult : Float
+
+pub let round_shot_hull_mult : Float
+
+pub let round_shot_mast_mult : Float
+
+pub let sail_beam_reach : Float
+
+pub let sail_broad_reach : Float
+
+pub let sail_close_haul : Float
+
+pub let sail_full : Int
+
+pub let sail_full_mult : Float
+
+pub let sail_furled : Int
+
+pub let sail_furled_mult : Float
+
+pub let sail_half : Int
+
+pub let sail_half_mult : Float
+
+pub let sail_in_irons : Float
+
+pub let sail_running : Float
+
+pub let score_brigantine_kill : Int
+
+pub let score_fortress_kill : Int
+
+pub let score_frigate_kill : Int
+
+pub let score_galleon_kill : Int
+
+pub let score_mow_kill : Int
+
+pub let score_sloop_kill : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let sloop_base_speed : Float
+
+pub let sloop_cannon_count : Int
+
+pub let sloop_length : Float
+
+pub let sloop_max_crew : Int
+
+pub let sloop_max_hull : Float
+
+pub let sloop_max_mast : Float
+
+pub let sloop_max_rudder : Float
+
+pub let sloop_turn_rate : Float
+
+pub let sloop_width : Float
+
+pub fn spawn_debris_cluster(Game, Float, Float, Int) -> Unit
+
+pub fn spawn_fire(Game, Float, Float, Float, Int) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub fn spawn_smoke(Game, Float, Float, Float, Int) -> Unit
+
+pub fn spawn_wake(Game, Float, Float, Float, Float) -> Unit
+
+pub fn spawn_water_splash(Game, Float, Float, Int) -> Unit
+
+pub let state_battle_complete : Int
+
+pub let state_battle_select : Int
+
+pub let state_game_over : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_victory : Int
+
+pub let survive_time_default : Float
+
+pub fn sync_wind(Game) -> Unit
+
+pub let two_pi : Float
+
+pub let wake_lifetime : Float
+
+pub let wake_max_width : Float
+
+pub let wake_min_speed : Float
+
+pub let water_drag : Float
+
+pub fn water_height(Float, Float, Float) -> Float
+
+pub let wave_amplitude : Float
+
+pub let wave_frequency : Float
+
+pub let wave_speed : Float
+
+pub let wind_dir_e : Int
+
+pub let wind_dir_n : Int
+
+pub let wind_dir_ne : Int
+
+pub let wind_dir_nw : Int
+
+pub let wind_dir_s : Int
+
+pub let wind_dir_se : Int
+
+pub let wind_dir_sw : Int
+
+pub let wind_dir_w : Int
+
+pub let wind_gust_duration : Float
+
+pub let wind_gust_frequency : Float
+
+pub let wind_gust_strength : Float
+
+pub let wind_shift_speed : Float
+
+pub let wind_speed_calm : Float
+
+pub let wind_speed_gale : Float
+
+pub let wind_speed_light : Float
+
+pub let wind_speed_moderate : Float
+
+pub let wind_speed_strong : Float
+
+pub let wind_strength : Float
+
+pub let zone_cannon_deck : Int
+
+pub let zone_hull : Int
+
+pub let zone_mast : Int
+
+pub let zone_rudder : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct BattleMessage {
+  mut active : Bool
+  mut text : String
+  mut timer : Float
+  mut priority : Int
+  mut color_r : Int
+  mut color_g : Int
+  mut color_b : Int
+}
+pub fn BattleMessage::inactive() -> Self
+
+pub(all) struct BattleObjective {
+  mut objective_type : Int
+  mut target_count : Int
+  mut current_count : Int
+  mut time_limit : Float
+  mut time_elapsed : Float
+  mut completed : Bool
+  mut failed : Bool
+  mut description : String
+}
+pub fn BattleObjective::new() -> Self
+
+pub(all) struct BattleStats {
+  mut ships_sunk : Int
+  mut damage_dealt : Float
+  mut damage_taken : Float
+  mut crew_lost : Int
+  mut ammo_used : Int
+  mut time_elapsed : Float
+  mut accuracy_hits : Int
+  mut accuracy_shots : Int
+  mut boarding_wins : Int
+  mut fortresses_destroyed : Int
+}
+pub fn BattleStats::new() -> Self
+
+pub(all) struct Cannonball {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut damage : Float
+  mut from_player : Bool
+  mut ammo_type : Int
+  mut cannon_type : Int
+  mut wind_drift : Float
+  mut trail_timer : Float
+}
+pub fn Cannonball::inactive() -> Self
+
+pub(all) struct ConvoyShip {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut heading : Float
+  mut speed : Float
+  mut hull_hp : Float
+  mut max_hp : Float
+  mut arrived : Bool
+}
+pub fn ConvoyShip::inactive() -> Self
+
+pub(all) struct Debris {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vz : Float
+  mut rotation : Float
+  mut rot_speed : Float
+  mut life : Float
+  mut size : Float
+  mut debris_type : Int
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn Debris::inactive() -> Self
+
+pub(all) struct EnemyShip {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut heading : Float
+  mut speed : Float
+  mut drift_x : Float
+  mut drift_z : Float
+  mut hull_hp : Float
+  mut mast_hp : Float
+  mut rudder_hp : Float
+  mut max_hp : Float
+  mut max_mast_hp : Float
+  mut max_rudder_hp : Float
+  mut ai_state : Int
+  mut ai_personality : Int
+  mut patrol_angle : Float
+  mut patrol_cx : Float
+  mut patrol_cz : Float
+  mut patrol_radius : Float
+  mut fire_timer : Float
+  mut fire_rate : Float
+  mut cannon_damage : Float
+  mut cannon_type : Int
+  mut cannon_count : Int
+  mut detect_range : Float
+  mut attack_range : Float
+  mut score_value : Int
+  mut ship_class : Int
+  mut crew : Int
+  mut max_crew : Int
+  mut sail_amount : Float
+  mut turn_rate_base : Float
+  mut ship_length : Float
+  mut ship_width : Float
+  mut bob_phase : Float
+  mut roll_angle : Float
+  mut retreat_hp_pct : Float
+  mut is_flagship : Bool
+  mut taking_water : Float
+  mut on_fire : Bool
+  mut fire_timer_decay : Float
+  mut broadside_cooldown : Float
+  mut target_heading : Float
+  mut formation_offset_x : Float
+  mut formation_offset_z : Float
+}
+pub fn EnemyShip::inactive() -> Self
+
+pub(all) struct FleetShip {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut heading : Float
+  mut speed : Float
+  mut hull_hp : Float
+  mut max_hp : Float
+  mut mast_hp : Float
+  mut max_mast_hp : Float
+  mut ship_class : Int
+  mut cannon_count : Int
+  mut fire_timer : Float
+  mut fire_rate : Float
+  mut cannon_damage : Float
+  mut crew : Int
+  mut max_crew : Int
+  mut sail_amount : Float
+  mut turn_rate_base : Float
+  mut ship_length : Float
+  mut ship_width : Float
+  mut bob_phase : Float
+  mut order : Int
+  mut target_x : Float
+  mut target_z : Float
+}
+pub fn FleetShip::inactive() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  player : Ship
+  mut score : Int
+  mut reputation : Int
+  mut current_battle : Int
+  mut enemies_alive : Int
+  mut total_battles : Int
+  wind : Wind
+  mut wind_angle : Float
+  mut wind_speed : Float
+  objective : BattleObjective
+  battle_stats : BattleStats
+  enemies : Array[EnemyShip]
+  cannonballs : Array[Cannonball]
+  particles : Array[Particle]
+  islands : Array[Island]
+  wakes : Array[WaterWake]
+  debris_pool : Array[Debris]
+  fleet_ships : Array[FleetShip]
+  convoy_ships : Array[ConvoyShip]
+  mut island_count : Int
+  messages : Array[BattleMessage]
+  mut camera_offset_angle : Float
+  mut camera_dist : Float
+  mut camera_height_offset : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut message_timer : Float
+  mut message_text : String
+  mut show_minimap : Bool
+  mut show_battle_log : Bool
+  mut selected_fleet_ship : Int
+  mut battle_select_cursor : Int
+  mut fleet_command_mode : Bool
+  battle_log : Array[String]
+  mut battle_log_count : Int
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut battle_timer : Float
+  mut wave_time : Float
+  mut wake_spawn_timer : Float
+  mut convoy_target_x : Float
+  mut convoy_target_z : Float
+  mut convoy_arrived_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Island {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut radius : Float
+  mut height : Float
+  mut blocks : Int
+  mut island_type : Int
+  mut has_fortress : Bool
+  mut fortress_hp : Float
+  mut fortress_max_hp : Float
+  mut fortress_fire_timer : Float
+  mut fortress_cannons_active : Int
+  mut beach_color_r : Int
+  mut beach_color_g : Int
+  mut beach_color_b : Int
+  mut vegetation_density : Int
+}
+pub fn Island::inactive() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+  mut particle_type : Int
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Ship {
+  mut x : Float
+  mut z : Float
+  mut heading : Float
+  mut speed : Float
+  mut drift_x : Float
+  mut drift_z : Float
+  mut sail_amount : Float
+  mut sail_state : Int
+  mut hull_hp : Float
+  mut bow_hp : Float
+  mut mid_hp : Float
+  mut stern_hp : Float
+  mut mast_hp : Float
+  mut sail_hp : Float
+  mut rudder_hp : Float
+  mut cannon_deck_hp : Float
+  mut max_hp : Float
+  mut reload_left : Float
+  mut reload_right : Float
+  mut cannon_damage : Float
+  mut reload_time : Float
+  mut ship_class : Int
+  mut cannon_count : Int
+  mut cannon_type : Int
+  mut ammo_type : Int
+  mut ammo_round : Int
+  mut ammo_chain : Int
+  mut ammo_grape : Int
+  mut crew : Int
+  mut max_crew : Int
+  mut crew_action : Int
+  mut turn_rate_base : Float
+  mut ship_length : Float
+  mut ship_width : Float
+  mut bob_phase : Float
+  mut roll_angle : Float
+  mut taking_water : Float
+  mut on_fire : Bool
+  mut fire_timer : Float
+  mut boarding_target : Int
+  mut boarding_timer : Float
+  mut kills : Int
+  mut damage_dealt : Float
+  mut damage_taken : Float
+}
+pub fn Ship::new_player() -> Self
+
+pub(all) struct WaterWake {
+  mut active : Bool
+  mut x : Float
+  mut z : Float
+  mut age : Float
+  mut max_age : Float
+  mut width : Float
+  mut heading : Float
+  mut speed_at_spawn : Float
+}
+pub fn WaterWake::inactive() -> Self
+
+pub(all) struct Wind {
+  mut direction : Float
+  mut speed : Float
+  mut target_direction : Float
+  mut target_speed : Float
+  mut gust_timer : Float
+  mut gust_active : Bool
+  mut gust_strength : Float
+  mut shift_timer : Float
+  mut shift_interval : Float
+  mut turbulence : Float
+}
+pub fn Wind::new() -> Self
+
+// Type aliases
+
+// Traits
+

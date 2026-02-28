@@ -1,5 +1,6 @@
 // Main game update dispatcher (FSM)
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -43,6 +44,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * @types.menu_blink_speed
   if @raylib.is_key_pressed(@raylib.KeyUp) {
@@ -74,6 +76,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Update level timer
   game.level_timer += dt
@@ -84,7 +87,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
     return
   }
   // Undo
-  if @raylib.is_key_pressed(@raylib.KeyZ) || @raylib.is_key_pressed(@raylib.KeyU) {
+  if @raylib.is_key_pressed(@raylib.KeyZ) ||
+    @raylib.is_key_pressed(@raylib.KeyU) {
     undo_move(game)
     return
   }
@@ -123,7 +127,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Player input (only when not moving)
   if not(game.player_moving) {
     let mut dir = -1
-    if @raylib.is_key_pressed(@raylib.KeyUp) || @raylib.is_key_pressed(@raylib.KeyW) {
+    if @raylib.is_key_pressed(@raylib.KeyUp) ||
+      @raylib.is_key_pressed(@raylib.KeyW) {
       dir = @types.dir_up
     } else if @raylib.is_key_pressed(@raylib.KeyDown) ||
       @raylib.is_key_pressed(@raylib.KeyS) {
@@ -142,16 +147,13 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Update camera target towards player
   let target_x = Float::from_int(game.player_gx)
   let target_z = Float::from_int(game.player_gy)
-  game.camera_target_x += (target_x - game.camera_target_x) * @types.minf(
-    dt * 5.0,
-    1.0,
-  )
-  game.camera_target_z += (target_z - game.camera_target_z) * @types.minf(
-    dt * 5.0,
-    1.0,
-  )
+  game.camera_target_x += (target_x - game.camera_target_x) *
+    @types.minf(dt * 5.0, 1.0)
+  game.camera_target_z += (target_z - game.camera_target_z) *
+    @types.minf(dt * 5.0, 1.0)
 }
 
+///|
 fn update_timed_spikes(game : @types.Game, dt : Float) -> Unit {
   game.spike_timer += dt
   if game.spike_timer >= @types.spike_cycle_time {
@@ -162,6 +164,7 @@ fn update_timed_spikes(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_decoration_particles(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
   // Spawn particles near decorations periodically
@@ -228,6 +231,7 @@ fn update_decoration_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) ||
     @raylib.is_key_pressed(@raylib.KeyP) {
@@ -245,23 +249,18 @@ fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_level_complete(game : @types.Game, dt : Float) -> Unit {
   game.complete_timer += dt
   // Spawn celebration particles periodically
   if game.frame_counter % 10 == 0 && game.complete_timer < 3.0 {
-    let px = Float::from_int(game.player_gx) + @types.rand_rangef(game, -2.0, 2.0)
-    let pz = Float::from_int(game.player_gy) + @types.rand_rangef(game, -2.0, 2.0)
+    let px = Float::from_int(game.player_gx) +
+      @types.rand_rangef(game, -2.0, 2.0)
+    let pz = Float::from_int(game.player_gy) +
+      @types.rand_rangef(game, -2.0, 2.0)
     @types.spawn_ambient_particles(
-      game,
-      px,
-      0.5,
-      pz,
-      3,
-      @types.color_exit_r,
-      @types.color_exit_g,
-      @types.color_exit_b,
-      0.3,
-      2.0,
+      game, px, 0.5, pz, 3, @types.color_exit_r, @types.color_exit_g, @types.color_exit_b,
+      0.3, 2.0,
     )
   }
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
@@ -282,6 +281,7 @@ fn update_level_complete(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) {
@@ -293,6 +293,7 @@ fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_floor_select(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.state = @types.state_menu
@@ -331,6 +332,7 @@ fn update_floor_select(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_world_select(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.state = @types.state_menu
@@ -358,6 +360,7 @@ fn update_world_select(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_campaign_complete(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) ||

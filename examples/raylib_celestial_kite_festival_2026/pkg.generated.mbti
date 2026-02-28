@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_celestial_kite_festival_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Halo
+
+type Kite
+
+type SkyObj
+
+type Spark
+
+type Trail
+
+// Type aliases
+
+// Traits
+

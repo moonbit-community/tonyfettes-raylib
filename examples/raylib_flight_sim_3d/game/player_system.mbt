@@ -1,16 +1,23 @@
 // Player aircraft controls and physics
 
+///|
 pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  if not(player.alive) { return }
+  if not(player.alive) {
+    return
+  }
   // Throttle
   if @raylib.is_key_down(@raylib.KeyLeftShift) {
     player.throttle += 0.8 * dt
-    if player.throttle > 1.0 { player.throttle = 1.0 }
+    if player.throttle > 1.0 {
+      player.throttle = 1.0
+    }
   }
   if @raylib.is_key_down(@raylib.KeyLeftControl) {
     player.throttle -= 0.8 * dt
-    if player.throttle < 0.0 { player.throttle = 0.0 }
+    if player.throttle < 0.0 {
+      player.throttle = 0.0
+    }
   }
   // Pitch (W/S)
   if @raylib.is_key_down(@raylib.KeyW) {
@@ -40,15 +47,18 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let max_roll : Float = @types.pi * 0.8
   player.roll = @types.clampf(player.roll, -max_roll, max_roll)
   // Roll auto-center when no input
-  if not(@raylib.is_key_down(@raylib.KeyQ)) && not(
-    @raylib.is_key_down(@raylib.KeyE),
-  ) {
+  if not(@raylib.is_key_down(@raylib.KeyQ)) &&
+    not(@raylib.is_key_down(@raylib.KeyE)) {
     if player.roll > 0.01 {
       player.roll -= 0.8 * dt
-      if player.roll < 0.0 { player.roll = 0.0 }
+      if player.roll < 0.0 {
+        player.roll = 0.0
+      }
     } else if player.roll < -0.01 {
       player.roll += 0.8 * dt
-      if player.roll > 0.0 { player.roll = 0.0 }
+      if player.roll > 0.0 {
+        player.roll = 0.0
+      }
     }
   }
   // Roll affects yaw (banking turn)
@@ -127,10 +137,13 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn fire_player_weapon(game : @types.Game) -> Unit {
   let player = game.player
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let (fx, fy, fz) = @types.get_forward(player.pitch, player.yaw)
   let proj = game.projectiles[idx]
   proj.active = true
@@ -146,6 +159,7 @@ fn fire_player_weapon(game : @types.Game) -> Unit {
   proj.is_enemy = false
 }
 
+///|
 fn crash_player(game : @types.Game) -> Unit {
   let player = game.player
   player.alive = false
@@ -154,10 +168,15 @@ fn crash_player(game : @types.Game) -> Unit {
   game.state = @types.state_game_over
 }
 
+///|
 pub fn damage_player(game : @types.Game, amount : Float) -> Unit {
   let player = game.player
-  if not(player.alive) { return }
-  if player.damage_flash > 0.0 { return }
+  if not(player.alive) {
+    return
+  }
+  if player.damage_flash > 0.0 {
+    return
+  }
   player.hp -= amount
   player.damage_flash = 0.3
   if player.hp <= 0.0 {
@@ -169,9 +188,12 @@ pub fn damage_player(game : @types.Game, amount : Float) -> Unit {
   }
 }
 
+///|
 fn check_landing(game : @types.Game, dt : Float) -> Unit {
   let mission = game.missions[game.current_mission]
-  if not(mission.has_landing) { return }
+  if not(mission.has_landing) {
+    return
+  }
   let player = game.player
   let land_x = mission.landing_x
   let land_z = mission.landing_z
@@ -186,9 +208,10 @@ fn check_landing(game : @types.Game, dt : Float) -> Unit {
       @types.show_message(game, "Landing approach - slow down!", 2.0)
     }
     // Check successful landing conditions
-    if altitude_above_ground < 1.0 && player.speed < 25.0 && @types.absf(
-      player.pitch,
-    ) < 0.2 && @types.absf(player.roll) < 0.3 {
+    if altitude_above_ground < 1.0 &&
+      player.speed < 25.0 &&
+      @types.absf(player.pitch) < 0.2 &&
+      @types.absf(player.roll) < 0.3 {
       game.landing_timer += dt
       if game.landing_timer > 1.5 {
         mission.targets_done = mission.target_count

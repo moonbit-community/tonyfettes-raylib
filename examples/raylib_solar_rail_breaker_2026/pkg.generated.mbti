@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_solar_rail_breaker_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Enemy
+
+type EnemyBullet
+
+type Flare
+
+type Game
+
+type Particle
+
+type Player
+
+type Shock
+
+// Type aliases
+
+// Traits
+

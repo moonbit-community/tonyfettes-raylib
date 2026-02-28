@@ -1,0 +1,29 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/particles"
+
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/types",
+}
+
+// Values
+pub fn clear_particles(@types.Game) -> Unit
+
+pub fn spawn_block_burst(@types.Game, Float, Float, @raylib.Color) -> Unit
+
+pub fn spawn_coin_burst(@types.Game, Float, Float) -> Unit
+
+pub fn spawn_hurt_burst(@types.Game, Float, Float) -> Unit
+
+pub fn spawn_stomp_burst(@types.Game, Float, Float) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

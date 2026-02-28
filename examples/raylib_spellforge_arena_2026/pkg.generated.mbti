@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_spellforge_arena_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Enemy
+
+type Mage
+
+type Orb
+
+type Particle
+
+type Projectile
+
+// Type aliases
+
+// Traits
+

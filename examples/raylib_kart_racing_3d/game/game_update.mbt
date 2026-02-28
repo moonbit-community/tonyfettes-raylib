@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -22,19 +23,23 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.menu_cursor -= 1
-    if game.menu_cursor < 0 { game.menu_cursor = @types.cups_count - 1 }
+    if game.menu_cursor < 0 {
+      game.menu_cursor = @types.cups_count - 1
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.menu_cursor += 1
-    if game.menu_cursor >= @types.cups_count { game.menu_cursor = 0 }
+    if game.menu_cursor >= @types.cups_count {
+      game.menu_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_cup = game.menu_cursor
     game.current_race = 0
     game.state = @types.state_kart_select
@@ -44,6 +49,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_kart_select(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   // Navigate kart types
@@ -72,9 +78,8 @@ fn update_kart_select(game : @types.Game, dt : Float) -> Unit {
       game.selected_character = 0
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     // Move to track preview
     game.state = @types.state_track_preview
     game.preview_timer = 0.0
@@ -85,12 +90,13 @@ fn update_kart_select(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_track_preview(game : @types.Game, dt : Float) -> Unit {
   game.preview_timer += dt
   game.preview_rotation += dt * 0.5
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) || game.preview_timer > 5.0 {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) ||
+    game.preview_timer > 5.0 {
     reset_cup_points(game)
     start_race(game)
   }
@@ -99,12 +105,14 @@ fn update_track_preview(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn start_race(game : @types.Game) -> Unit {
   load_track(game, game.current_cup, game.current_race)
   game.state = @types.state_countdown
   game.countdown_timer = @types.countdown_total
 }
 
+///|
 fn update_countdown(game : @types.Game, dt : Float) -> Unit {
   game.countdown_timer -= dt
   update_camera_chase(game, dt)
@@ -115,10 +123,10 @@ fn update_countdown(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_racing(game : @types.Game, dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_paused
     return
   }
@@ -165,10 +173,10 @@ fn update_racing(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_racing
   }
   if @raylib.is_key_pressed(@raylib.KeyQ) {
@@ -176,12 +184,12 @@ fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_race_complete(game : @types.Game, dt : Float) -> Unit {
   game.results_scroll += dt
   update_camera_chase(game, dt)
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_race += 1
     if game.current_race >= @types.races_per_cup {
       game.state = @types.state_cup_complete
@@ -192,19 +200,22 @@ fn update_race_complete(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_cup_complete(game : @types.Game, dt : Float) -> Unit {
   game.results_scroll += dt
   ignore(dt)
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_camera_chase(game : @types.Game, dt : Float) -> Unit {
   let kart = game.karts[@types.player_kart]
-  if not(kart.active) { return }
+  if not(kart.active) {
+    return
+  }
   // Target camera position behind the kart
   let behind_x = kart.x - @math.sinf(kart.angle) * @types.camera_dist
   let behind_z = kart.z - @math.cosf(kart.angle) * @types.camera_dist
@@ -248,17 +259,29 @@ fn update_camera_chase(game : @types.Game, dt : Float) -> Unit {
     game.camera_shake = @types.lerpf(game.camera_shake, 0.0, 0.1)
   }
   if game.camera_shake > 0.01 {
-    let shake_x = @types.rand_rangef(game, -game.camera_shake, game.camera_shake)
-    let shake_y = @types.rand_rangef(game, -game.camera_shake, game.camera_shake)
+    let shake_x = @types.rand_rangef(
+      game,
+      -game.camera_shake,
+      game.camera_shake,
+    )
+    let shake_y = @types.rand_rangef(
+      game,
+      -game.camera_shake,
+      game.camera_shake,
+    )
     game.camera_x = game.camera_x + shake_x
     game.camera_y = game.camera_y + shake_y
   }
 }
 
 // Update kart surface detection
+
+///|
 fn update_kart_surface(game : @types.Game, kart_idx : Int) -> Unit {
   let kart = game.karts[kart_idx]
-  if not(kart.active) { return }
+  if not(kart.active) {
+    return
+  }
   kart.on_surface_type = @types.detect_surface_type(game, kart.x, kart.z)
   // Boost pad effect
   if kart.on_surface_type == @types.surface_boost_pad && kart.on_ground {
@@ -270,9 +293,17 @@ fn update_kart_surface(game : @types.Game, kart_idx : Int) -> Unit {
 }
 
 // Update wrong way detection
-fn update_kart_wrong_way(game : @types.Game, kart_idx : Int, dt : Float) -> Unit {
+
+///|
+fn update_kart_wrong_way(
+  game : @types.Game,
+  kart_idx : Int,
+  dt : Float,
+) -> Unit {
   let kart = game.karts[kart_idx]
-  if not(kart.active) || kart.finished { return }
+  if not(kart.active) || kart.finished {
+    return
+  }
   kart.wrong_way = @types.is_wrong_way(game, kart)
   if kart.wrong_way {
     kart.wrong_way_timer += dt
@@ -282,6 +313,8 @@ fn update_kart_wrong_way(game : @types.Game, kart_idx : Int, dt : Float) -> Unit
 }
 
 // Update global lightning effect
+
+///|
 fn update_lightning_effect(game : @types.Game, dt : Float) -> Unit {
   if game.lightning_active {
     game.lightning_timer -= dt
@@ -296,11 +329,15 @@ fn update_lightning_effect(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Update star effects
+
+///|
 fn update_star_effects(game : @types.Game, dt : Float) -> Unit {
   game.star_rainbow_timer += dt * 5.0
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) { continue i + 1 }
+    if not(kart.active) {
+      continue i + 1
+    }
     if kart.star_timer > 0.0 {
       kart.star_timer -= dt
       kart.invincible_timer = kart.star_timer
@@ -310,8 +347,17 @@ fn update_star_effects(game : @types.Game, dt : Float) -> Unit {
         let g = 150 + @types.rand_range(game, 0, 105)
         let b = 50 + @types.rand_range(game, 0, 205)
         @types.spawn_typed_particles(
-          game, @types.particle_star_sparkle, kart.x, kart.y + 0.5, kart.z,
-          2, r, g, b, 0.06, 0.3,
+          game,
+          @types.particle_star_sparkle,
+          kart.x,
+          kart.y + 0.5,
+          kart.z,
+          2,
+          r,
+          g,
+          b,
+          0.06,
+          0.3,
         )
       }
     }
@@ -319,22 +365,39 @@ fn update_star_effects(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Emit surface-based particles (dust on dirt, sparks on boost pads)
+
+///|
 fn emit_surface_particles(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) || not(kart.on_ground) { continue i + 1 }
-    if kart.speed < 3.0 { continue i + 1 }
+    if not(kart.active) || not(kart.on_ground) {
+      continue i + 1
+    }
+    if kart.speed < 3.0 {
+      continue i + 1
+    }
     // Dust on dirt/grass
-    if kart.on_surface_type == @types.surface_dirt || kart.on_surface_type == @types.surface_grass {
+    if kart.on_surface_type == @types.surface_dirt ||
+      kart.on_surface_type == @types.surface_grass {
       if game.frame_counter % 6 == i % 6 {
-        let dc : (Int, Int, Int) = if kart.on_surface_type == @types.surface_dirt {
+        let dc : (Int, Int, Int) = if kart.on_surface_type ==
+          @types.surface_dirt {
           (160, 130, 80)
         } else {
           (80, 140, 60)
         }
         @types.spawn_typed_particles(
-          game, @types.particle_dust, kart.x, kart.y + 0.1, kart.z,
-          1, dc.0, dc.1, dc.2, 0.08, 0.5,
+          game,
+          @types.particle_dust,
+          kart.x,
+          kart.y + 0.1,
+          kart.z,
+          1,
+          dc.0,
+          dc.1,
+          dc.2,
+          0.08,
+          0.5,
         )
       }
     }
@@ -342,8 +405,17 @@ fn emit_surface_particles(game : @types.Game) -> Unit {
     if kart.on_surface_type == @types.surface_boost_pad {
       if game.frame_counter % 3 == i % 3 {
         @types.spawn_typed_particles(
-          game, @types.particle_boost_flame, kart.x, kart.y + 0.05, kart.z,
-          1, 255, 220, 50, 0.05, 0.3,
+          game,
+          @types.particle_boost_flame,
+          kart.x,
+          kart.y + 0.05,
+          kart.z,
+          1,
+          255,
+          220,
+          50,
+          0.05,
+          0.3,
         )
       }
     }
@@ -351,8 +423,17 @@ fn emit_surface_particles(game : @types.Game) -> Unit {
     if kart.on_surface_type == @types.surface_ice {
       if game.frame_counter % 8 == i % 8 {
         @types.spawn_typed_particles(
-          game, @types.particle_splash, kart.x, kart.y + 0.05, kart.z,
-          1, 200, 220, 255, 0.04, 0.4,
+          game,
+          @types.particle_splash,
+          kart.x,
+          kart.y + 0.05,
+          kart.z,
+          1,
+          200,
+          220,
+          255,
+          0.04,
+          0.4,
         )
       }
     }

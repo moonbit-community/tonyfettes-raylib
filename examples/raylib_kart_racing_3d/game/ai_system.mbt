@@ -1,11 +1,14 @@
 // AI kart behavior
 
+///|
 pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
   let player = game.karts[@types.player_kart]
   let player_progress = player.total_progress
   for i = 1; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) || kart.finished { continue i + 1 }
+    if not(kart.active) || kart.finished {
+      continue i + 1
+    }
     // Update timers
     update_ai_timers(kart, dt)
     // Stun/spin handling
@@ -13,7 +16,9 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
       kart.spin_timer -= dt
       kart.angle = kart.angle + 8.0 * dt
       kart.speed = kart.speed * (1.0 - 2.0 * dt)
-      if kart.speed < 0.0 { kart.speed = 0.0 }
+      if kart.speed < 0.0 {
+        kart.speed = 0.0
+      }
       apply_kart_physics(game, i, dt)
       continue i + 1
     }
@@ -25,8 +30,14 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
     }
     // Determine target waypoint (look ahead based on difficulty)
     let wc = game.waypoint_count
-    if wc < 2 { continue i + 1 }
-    let diff_stats = @types.ai_difficulty_stats[@types.clampi(kart.ai_difficulty, 0, 3)]
+    if wc < 2 {
+      continue i + 1
+    }
+    let diff_stats = @types.ai_difficulty_stats[@types.clampi(
+        kart.ai_difficulty,
+        0,
+        3,
+      )]
     let look_ahead : Int = 2 + (diff_stats.2 * 2.0).to_int()
     let target_wp_idx = (kart.waypoint_idx + look_ahead) % wc
     let target_wp = @types.get_waypoint(game, target_wp_idx)
@@ -44,13 +55,16 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
     let steer_strength : Float = 3.0 * diff_stats.2
     let handling = @types.get_kart_handling(kart)
     let target_steer = @types.clampf(
-      angle_delta * steer_strength, -handling, handling,
+      angle_delta * steer_strength,
+      -handling,
+      handling,
     )
     // Reaction time - lerp towards target steer
     let reaction = @types.clampf(1.0 - diff_stats.3 * 0.3, 0.2, 1.0)
     kart.steer = @types.lerpf(kart.steer, target_steer, reaction)
     // AI drift logic - better AI drifts on sharp turns
-    let should_drift = @types.absf(angle_delta) > 0.8 && kart.speed > 12.0 &&
+    let should_drift = @types.absf(angle_delta) > 0.8 &&
+      kart.speed > 12.0 &&
       diff_stats.2 > 0.7
     if should_drift {
       if not(kart.drift_left) && not(kart.drift_right) {
@@ -68,7 +82,8 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
       // Release drift for boost
       if kart.drift_level > @types.drift_level_none {
         let drift_mult = @types.get_kart_drift_boost_mult(kart)
-        let boost_power = @types.get_drift_boost_power(kart.drift_level) * drift_mult
+        let boost_power = @types.get_drift_boost_power(kart.drift_level) *
+          drift_mult
         let boost_dur = @types.get_drift_boost_duration(kart.drift_level)
         kart.boost_timer = boost_dur
         kart.boost_power = boost_power
@@ -83,17 +98,22 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
     let next_wp = @types.get_waypoint(game, next_seg_idx)
     let next_next_wp = @types.get_waypoint(game, (next_seg_idx + 1) % wc)
     let next_angle = @math.atan2f(
-      next_next_wp.x - next_wp.x, next_next_wp.z - next_wp.z,
+      next_next_wp.x - next_wp.x,
+      next_next_wp.z - next_wp.z,
     )
     let cur_track_angle = @math.atan2f(
       next_wp.x - @types.get_waypoint(game, kart.waypoint_idx).x,
       next_wp.z - @types.get_waypoint(game, kart.waypoint_idx).z,
     )
-    let upcoming_turn = @types.absf(@types.angle_diff(cur_track_angle, next_angle))
+    let upcoming_turn = @types.absf(
+      @types.angle_diff(cur_track_angle, next_angle),
+    )
     // Rubber-banding: AI adjusts speed based on relative position to player
     let ai_progress = kart.total_progress
     let speed_mult = @types.calc_rubber_band_mult(
-      ai_progress, player_progress, kart.ai_difficulty,
+      ai_progress,
+      player_progress,
+      kart.ai_difficulty,
     )
     // Calculate target speed
     let kart_max = @types.get_kart_max_speed(kart)
@@ -137,6 +157,7 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_ai_timers(kart : @types.Kart, dt : Float) -> Unit {
   if kart.bounce_timer > 0.0 {
     kart.bounce_timer -= dt
@@ -159,14 +180,25 @@ fn update_ai_timers(kart : @types.Kart, dt : Float) -> Unit {
 }
 
 // AI item usage strategy
+
+///|
 fn ai_use_item(game : @types.Game, kart_idx : Int, dt : Float) -> Unit {
   let kart = game.karts[kart_idx]
-  if kart.held_powerup == @types.powerup_none { return }
+  if kart.held_powerup == @types.powerup_none {
+    return
+  }
   kart.ai_use_item_timer -= dt
-  if kart.ai_use_item_timer > 0.0 { return }
-  let diff_stats = @types.ai_difficulty_stats[@types.clampi(kart.ai_difficulty, 0, 3)]
+  if kart.ai_use_item_timer > 0.0 {
+    return
+  }
+  let diff_stats = @types.ai_difficulty_stats[@types.clampi(
+      kart.ai_difficulty,
+      0,
+      3,
+    )]
   let item = kart.held_powerup
-  let should_use : Bool = if item == @types.powerup_boost || item == @types.powerup_triple_mushroom {
+  let should_use : Bool = if item == @types.powerup_boost ||
+    item == @types.powerup_triple_mushroom {
     // Use boost anytime (not in sharp turn)
     let wc = game.waypoint_count
     let next_wp = @types.get_waypoint(game, (kart.waypoint_idx + 1) % wc)
@@ -181,7 +213,13 @@ fn ai_use_item(game : @types.Game, kart_idx : Int, dt : Float) -> Unit {
     // Fire when someone is ahead and fairly close
     let target = @types.find_target_ahead(game, kart_idx)
     if target >= 0 {
-      @types.distance2d(kart.x, kart.z, game.karts[target].x, game.karts[target].z) < 30.0
+      @types.distance2d(
+        kart.x,
+        kart.z,
+        game.karts[target].x,
+        game.karts[target].z,
+      ) <
+      30.0
     } else {
       false
     }
@@ -201,7 +239,9 @@ fn ai_use_item(game : @types.Game, kart_idx : Int, dt : Float) -> Unit {
     use_powerup(game, kart_idx)
     let reaction_base = diff_stats.3
     kart.ai_use_item_timer = @types.rand_rangef(
-      game, 2.0 + reaction_base, 5.0 + reaction_base * 2.0,
+      game,
+      2.0 + reaction_base,
+      5.0 + reaction_base * 2.0,
     )
   } else {
     kart.ai_use_item_timer = 1.0
@@ -209,12 +249,22 @@ fn ai_use_item(game : @types.Game, kart_idx : Int, dt : Float) -> Unit {
 }
 
 // Check if any opponent is nearby
-fn has_nearby_opponent(game : @types.Game, kart_idx : Int, range : Float) -> Bool {
+
+///|
+fn has_nearby_opponent(
+  game : @types.Game,
+  kart_idx : Int,
+  range : Float,
+) -> Bool {
   let kart = game.karts[kart_idx]
   for i = 0; i < @types.max_karts; i = i + 1 {
-    if i == kart_idx { continue i + 1 }
+    if i == kart_idx {
+      continue i + 1
+    }
     let other = game.karts[i]
-    if not(other.active) || other.finished { continue i + 1 }
+    if not(other.active) || other.finished {
+      continue i + 1
+    }
     if @types.distance2d(kart.x, kart.z, other.x, other.z) < range {
       return true
     }
@@ -223,13 +273,25 @@ fn has_nearby_opponent(game : @types.Game, kart_idx : Int, range : Float) -> Boo
 }
 
 // Check if any opponent is nearby behind
-fn has_nearby_opponent_behind(game : @types.Game, kart_idx : Int, range : Float) -> Bool {
+
+///|
+fn has_nearby_opponent_behind(
+  game : @types.Game,
+  kart_idx : Int,
+  range : Float,
+) -> Bool {
   let kart = game.karts[kart_idx]
   for i = 0; i < @types.max_karts; i = i + 1 {
-    if i == kart_idx { continue i + 1 }
+    if i == kart_idx {
+      continue i + 1
+    }
     let other = game.karts[i]
-    if not(other.active) || other.finished { continue i + 1 }
-    if other.total_progress >= kart.total_progress { continue i + 1 }
+    if not(other.active) || other.finished {
+      continue i + 1
+    }
+    if other.total_progress >= kart.total_progress {
+      continue i + 1
+    }
     if @types.distance2d(kart.x, kart.z, other.x, other.z) < range {
       return true
     }

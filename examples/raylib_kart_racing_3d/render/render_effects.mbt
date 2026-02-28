@@ -1,6 +1,7 @@
 // Visual effects rendering: drift sparks, boost flames, explosions, dust, speed lines, confetti
 
 // Draw all visual effects
+///|
 pub fn draw_effects(game : @types.Game) -> Unit {
   draw_drift_spark_trails(game)
   draw_boost_exhaust_flames(game)
@@ -15,25 +16,37 @@ pub fn draw_effects(game : @types.Game) -> Unit {
 }
 
 // Draw colored drift spark trails behind drifting karts
+
+///|
 fn draw_drift_spark_trails(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) { continue i + 1 }
-    if not(kart.drift_left) && not(kart.drift_right) { continue i + 1 }
-    if kart.drift_level <= @types.drift_level_none { continue i + 1 }
+    if not(kart.active) {
+      continue i + 1
+    }
+    if not(kart.drift_left) && not(kart.drift_right) {
+      continue i + 1
+    }
+    if kart.drift_level <= @types.drift_level_none {
+      continue i + 1
+    }
     let dc = @types.get_drift_spark_color(kart.drift_level)
     let sin_a = @math.sinf(kart.angle)
     let cos_a = @math.cosf(kart.angle)
     let spark_side : Float = if kart.drift_left { 1.0 } else { -1.0 }
     // Left rear wheel spark position
-    let sx1 : Float = kart.x - sin_a * @types.kart_length * 0.4 +
+    let sx1 : Float = kart.x -
+      sin_a * @types.kart_length * 0.4 +
       cos_a * spark_side * @types.kart_width * 0.6
-    let sz1 : Float = kart.z - cos_a * @types.kart_length * 0.4 -
+    let sz1 : Float = kart.z -
+      cos_a * @types.kart_length * 0.4 -
       sin_a * spark_side * @types.kart_width * 0.6
     // Right rear wheel spark position
-    let sx2 : Float = kart.x - sin_a * @types.kart_length * 0.4 -
+    let sx2 : Float = kart.x -
+      sin_a * @types.kart_length * 0.4 -
       cos_a * spark_side * @types.kart_width * 0.2
-    let sz2 : Float = kart.z - cos_a * @types.kart_length * 0.4 +
+    let sz2 : Float = kart.z -
+      cos_a * @types.kart_length * 0.4 +
       sin_a * spark_side * @types.kart_width * 0.2
     // Spark intensity based on drift level
     let intensity : Float = if kart.drift_level == @types.drift_level_mini {
@@ -44,7 +57,9 @@ fn draw_drift_spark_trails(game : @types.Game) -> Unit {
       1.0
     }
     let spark_size : Float = 0.12 * intensity
-    let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.6 + Float::from_int(i))
+    let pulse = @math.sinf(
+      Float::from_int(game.frame_counter) * 0.6 + Float::from_int(i),
+    )
     let pulse_size : Float = spark_size + pulse * 0.04
     // Main spark at rear wheel
     @raylib.draw_sphere(
@@ -82,11 +97,17 @@ fn draw_drift_spark_trails(game : @types.Game) -> Unit {
 }
 
 // Draw boost exhaust flame effect from kart rear
+
+///|
 fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) { continue i + 1 }
-    if kart.boost_timer <= 0.0 { continue i + 1 }
+    if not(kart.active) {
+      continue i + 1
+    }
+    if kart.boost_timer <= 0.0 {
+      continue i + 1
+    }
     let sin_a = @math.sinf(kart.angle)
     let cos_a = @math.cosf(kart.angle)
     // Exhaust position (rear of kart)
@@ -94,9 +115,9 @@ fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
     let ex_z : Float = kart.z - cos_a * @types.kart_length * 0.7
     let ex_y : Float = kart.y + @types.kart_height * 0.4
     // Flickering flame effect
-    let flicker = @math.sinf(Float::from_int(game.frame_counter) * 0.8 + Float::from_int(
-        i,
-      ) * 1.5)
+    let flicker = @math.sinf(
+      Float::from_int(game.frame_counter) * 0.8 + Float::from_int(i) * 1.5,
+    )
     let flame_size : Float = 0.25 + flicker * 0.08
     // Core flame (bright orange-yellow)
     @raylib.draw_sphere(
@@ -132,7 +153,8 @@ fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
     )
     // Star boost gets rainbow-tinted flames
     if kart.star_timer > 0.0 {
-      let rainbow_phase : Float = game.star_rainbow_timer + Float::from_int(i) * 0.5
+      let rainbow_phase : Float = game.star_rainbow_timer +
+        Float::from_int(i) * 0.5
       let rr_f : Float = 127.0 + @math.sinf(rainbow_phase) * 128.0
       let rg_f : Float = 127.0 + @math.sinf(rainbow_phase + 2.0) * 128.0
       let rb_f : Float = 127.0 + @math.sinf(rainbow_phase + 4.0) * 128.0
@@ -144,8 +166,10 @@ fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
         @raylib.Vector3::new(ex_x, ex_y + 0.15, ex_z),
         rainbow_size,
         @raylib.Color::new(
-          @types.clampi(rr, 0, 255), @types.clampi(rg, 0, 255),
-          @types.clampi(rb, 0, 255), 180,
+          @types.clampi(rr, 0, 255),
+          @types.clampi(rg, 0, 255),
+          @types.clampi(rb, 0, 255),
+          180,
         ),
       )
     }
@@ -153,36 +177,50 @@ fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
 }
 
 // Draw dropped items on the track (bananas, oil slicks)
+
+///|
 fn draw_dropped_items_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.dropped_items.length(); i = i + 1 {
     let item = game.dropped_items[i]
-    if not(item.active) { continue i + 1 }
+    if not(item.active) {
+      continue i + 1
+    }
     if item.item_type == @types.powerup_banana {
       let bob : Float = @math.sinf(item.rotation) * 0.05
       @raylib.draw_cube(
         @raylib.Vector3::new(item.x, item.y + bob, item.z),
-        0.5, 0.15, 0.3,
+        0.5,
+        0.15,
+        0.3,
         @raylib.Color::new(255, 230, 50, 255),
       )
       @raylib.draw_cube(
         @raylib.Vector3::new(item.x, item.y + 0.1 + bob, item.z),
-        0.15, 0.2, 0.15,
+        0.15,
+        0.2,
+        0.15,
         @raylib.Color::new(140, 100, 30, 255),
       )
     } else if item.item_type == @types.powerup_oil_slick {
-      let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1 + Float::from_int(i))
+      let pulse = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.1 + Float::from_int(i),
+      )
       let slick_size : Float = 1.2 + pulse * 0.1
       let slick_depth : Float = slick_size * 0.8
       @raylib.draw_cube(
         @raylib.Vector3::new(item.x, item.y + 0.02, item.z),
-        slick_size, 0.04, slick_depth,
+        slick_size,
+        0.04,
+        slick_depth,
         @raylib.Color::new(30, 30, 40, 200),
       )
       let sheen_w : Float = slick_size * 0.3
       let sheen_d : Float = slick_size * 0.2
       @raylib.draw_cube(
         @raylib.Vector3::new(item.x + 0.2, item.y + 0.03, item.z + 0.1),
-        sheen_w, 0.02, sheen_d,
+        sheen_w,
+        0.02,
+        sheen_d,
         @raylib.Color::new(60, 50, 80, 150),
       )
     }
@@ -203,11 +241,17 @@ fn draw_dropped_items_3d(game : @types.Game) -> Unit {
 }
 
 // Draw dust/dirt particles trailing behind off-road karts
+
+///|
 fn draw_dust_trails(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) || not(kart.on_ground) { continue i + 1 }
-    if kart.speed < 5.0 { continue i + 1 }
+    if not(kart.active) || not(kart.on_ground) {
+      continue i + 1
+    }
+    if kart.speed < 5.0 {
+      continue i + 1
+    }
     if kart.on_surface_type != @types.surface_dirt &&
       kart.on_surface_type != @types.surface_grass {
       continue i + 1
@@ -237,23 +281,34 @@ fn draw_dust_trails(game : @types.Game) -> Unit {
     @raylib.draw_sphere(
       @raylib.Vector3::new(offset_x, dust_y + 0.1, offset_z),
       sec_dust,
-      @raylib.Color::new(dc.0, dc.1, dc.2, @types.clampi(dust_alpha - 30, 0, 255)),
+      @raylib.Color::new(
+        dc.0,
+        dc.1,
+        dc.2,
+        @types.clampi(dust_alpha - 30, 0, 255),
+      ),
     )
   }
 }
 
 // Draw speed lines effect when player is boosting
+
+///|
 fn draw_speed_lines(game : @types.Game) -> Unit {
   let kart = game.karts[@types.player_kart]
-  if not(kart.active) { return }
-  if kart.boost_timer <= 0.0 && kart.star_timer <= 0.0 { return }
+  if not(kart.active) {
+    return
+  }
+  if kart.boost_timer <= 0.0 && kart.star_timer <= 0.0 {
+    return
+  }
   let line_count = 8
   let base_alpha : Float = if kart.star_timer > 0.0 { 180.0 } else { 120.0 }
   for li = 0; li < line_count; li = li + 1 {
     let seed = li * 137 + game.frame_counter * 3
     let x_base = seed % @types.screen_width
     let y_base = (seed * 7 + 31) % @types.screen_height
-    let line_len = 40 + (seed * 3) % 60
+    let line_len = 40 + seed * 3 % 60
     let alpha_f : Float = base_alpha - Float::from_int(li * 15)
     let alpha = @types.clampi(alpha_f.to_int(), 30, 200)
     let color = if kart.star_timer > 0.0 {
@@ -275,9 +330,15 @@ fn draw_speed_lines(game : @types.Game) -> Unit {
 }
 
 // Draw confetti effect at race start during countdown
+
+///|
 fn draw_start_confetti(game : @types.Game) -> Unit {
-  if game.state != @types.state_countdown { return }
-  if game.countdown_timer > 0.5 { return }
+  if game.state != @types.state_countdown {
+    return
+  }
+  if game.countdown_timer > 0.5 {
+    return
+  }
   let confetti_count = 20
   for ci = 0; ci < confetti_count; ci = ci + 1 {
     let seed = ci * 97 + game.frame_counter
@@ -285,71 +346,107 @@ fn draw_start_confetti(game : @types.Game) -> Unit {
     let y_offset = game.frame_counter * 3 + ci * 17
     let y = y_offset % @types.screen_height
     let size = 3 + seed % 5
-    let r = 100 + (seed * 7) % 156
-    let g = 100 + (seed * 11) % 156
-    let b = 100 + (seed * 13) % 156
+    let r = 100 + seed * 7 % 156
+    let g = 100 + seed * 11 % 156
+    let b = 100 + seed * 13 % 156
     @raylib.draw_rectangle(
-      x, y, size, size,
+      x,
+      y,
+      size,
+      size,
       @raylib.Color::new(
-        @types.clampi(r, 0, 255), @types.clampi(g, 0, 255),
-        @types.clampi(b, 0, 255), 200,
+        @types.clampi(r, 0, 255),
+        @types.clampi(g, 0, 255),
+        @types.clampi(b, 0, 255),
+        200,
       ),
     )
   }
 }
 
 // Draw wrong way indicator overlay
+
+///|
 fn draw_wrong_way_indicator(game : @types.Game) -> Unit {
   let kart = game.karts[@types.player_kart]
-  if not(kart.active) || not(kart.wrong_way) { return }
-  if kart.wrong_way_timer < 0.5 { return }
-  let flash = @math.sinf(Float::from_int(game.frame_counter) * @types.wrong_way_flash_speed * 0.05)
+  if not(kart.active) || not(kart.wrong_way) {
+    return
+  }
+  if kart.wrong_way_timer < 0.5 {
+    return
+  }
+  let flash = @math.sinf(
+    Float::from_int(game.frame_counter) * @types.wrong_way_flash_speed * 0.05,
+  )
   let alpha_f : Float = 80.0 + flash * 40.0
   let alpha = @types.clampi(alpha_f.to_int(), 30, 150)
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height,
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.Color::new(255, 0, 0, alpha),
   )
   let text = "WRONG WAY!"
   let tw = @raylib.measure_text(text, 48)
   @raylib.draw_text(
-    text, (@types.screen_width - tw) / 2, @types.screen_height / 2 - 80, 48,
+    text,
+    (@types.screen_width - tw) / 2,
+    @types.screen_height / 2 - 80,
+    48,
     @raylib.Color::new(255, 255, 255, 255),
   )
   let sub = "Turn Around!"
   let sw = @raylib.measure_text(sub, 24)
   @raylib.draw_text(
-    sub, (@types.screen_width - sw) / 2, @types.screen_height / 2 - 25, 24,
+    sub,
+    (@types.screen_width - sw) / 2,
+    @types.screen_height / 2 - 25,
+    24,
     @raylib.Color::new(255, 200, 200, 220),
   )
 }
 
 // Draw lightning flash overlay when lightning is active
+
+///|
 fn draw_lightning_flash(game : @types.Game) -> Unit {
-  if not(game.lightning_active) { return }
+  if not(game.lightning_active) {
+    return
+  }
   let remaining = game.lightning_timer
   if remaining > @types.lightning_duration - 0.3 {
     let flash_t : Float = (@types.lightning_duration - remaining) / 0.3
     let alpha_f : Float = (1.0 - flash_t) * 200.0
     let alpha = @types.clampi(alpha_f.to_int(), 0, 200)
     @raylib.draw_rectangle(
-      0, 0, @types.screen_width, @types.screen_height,
+      0,
+      0,
+      @types.screen_width,
+      @types.screen_height,
       @raylib.Color::new(255, 255, 220, alpha),
     )
   }
   if game.frame_counter % 15 < 3 {
     @raylib.draw_rectangle(
-      0, 0, @types.screen_width, @types.screen_height,
+      0,
+      0,
+      @types.screen_width,
+      @types.screen_height,
       @raylib.Color::new(255, 255, 200, 30),
     )
   }
 }
 
 // Draw star power glow around star-powered karts
+
+///|
 fn draw_star_glow(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) || kart.star_timer <= 0.0 { continue i + 1 }
+    if not(kart.active) || kart.star_timer <= 0.0 {
+      continue i + 1
+    }
     let phase : Float = game.star_rainbow_timer + Float::from_int(i) * 1.2
     let r_f : Float = 127.0 + @math.sinf(phase) * 128.0
     let g_f : Float = 127.0 + @math.sinf(phase + 2.094) * 128.0
@@ -375,11 +472,17 @@ fn draw_star_glow(game : @types.Game) -> Unit {
 }
 
 // Draw shield bubble effect around shielded karts
+
+///|
 fn draw_shield_bubbles(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
-    if not(kart.active) || kart.shield_timer <= 0.0 { continue i + 1 }
-    let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.15 + Float::from_int(i))
+    if not(kart.active) || kart.shield_timer <= 0.0 {
+      continue i + 1
+    }
+    let pulse = @math.sinf(
+      Float::from_int(game.frame_counter) * 0.15 + Float::from_int(i),
+    )
     let size : Float = 1.3 + pulse * 0.1
     let base_alpha : Float = if kart.shield_timer < 1.0 {
       let flicker = @math.sinf(Float::from_int(game.frame_counter) * 0.5)
@@ -398,7 +501,9 @@ fn draw_shield_bubbles(game : @types.Game) -> Unit {
     let wire_h : Float = size * 1.4
     @raylib.draw_cube_wires(
       @raylib.Vector3::new(kart.x, shield_y, kart.z),
-      wire_w, wire_h, wire_w,
+      wire_w,
+      wire_h,
+      wire_w,
       @raylib.Color::new(120, 200, 255, @types.clampi(alpha + 20, 0, 100)),
     )
   }

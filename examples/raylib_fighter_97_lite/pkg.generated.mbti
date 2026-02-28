@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_fighter_97_lite"
+
+// Values
+
+// Errors
+
+// Types and methods
+type CharacterArchetype
+
+type Fighter
+
+type Game
+
+type InputState
+
+type MoveSpec
+
+type Particle
+
+// Type aliases
+
+// Traits
+

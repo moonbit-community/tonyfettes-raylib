@@ -1,0 +1,30 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_heist_extraction_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type CameraUnit
+
+type Guard
+
+type Loot
+
+type Particle
+
+type Player
+
+type Terminal
+
+type Vault
+
+type Wall
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,862 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dungeon_crawler_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn absi(Int) -> Int
+
+pub fn add_buff(Game, Int, Float, Int) -> Unit
+
+pub fn add_message(Game, String, Int, Int, Int) -> Unit
+
+pub let ai_attack : Int
+
+pub let ai_chase : Int
+
+pub let ai_dead : Int
+
+pub let ai_flee : Int
+
+pub let ai_idle : Int
+
+pub let ai_patrol : Int
+
+pub let ai_special : Int
+
+pub fn alloc_enemy(Game) -> Int
+
+pub fn alloc_inventory(Game) -> Int
+
+pub fn alloc_loot(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub fn alloc_projectile(Game) -> Int
+
+pub fn alloc_torch(Game) -> Int
+
+pub fn alloc_trap(Game) -> Int
+
+pub let archer_range : Float
+
+pub let archer_shoot_cooldown : Float
+
+pub let armor_boost_amount : Int
+
+pub let armor_chain : Int
+
+pub let armor_leather : Int
+
+pub let armor_none : Int
+
+pub let armor_plate : Int
+
+pub let armor_robes : Int
+
+pub let arrow_trap_damage : Int
+
+pub let atk_per_level : Int
+
+pub let axe_cooldown : Float
+
+pub let axe_damage_mult : Float
+
+pub let axe_range : Float
+
+pub let bat_move_speed : Float
+
+pub let boss_intro_duration : Float
+
+pub let bow_cooldown : Float
+
+pub let bow_damage_mult : Float
+
+pub let bow_range : Float
+
+pub let buff_poison : Int
+
+pub let buff_shield : Int
+
+pub let buff_speed : Int
+
+pub let buff_strength : Int
+
+pub fn calc_player_attack(Game) -> Int
+
+pub fn calc_player_defense(Game) -> Int
+
+pub let camera_fovy : Float
+
+pub let cell_size : Float
+
+pub let chain_defense : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let class_mage : Int
+
+pub let class_rogue : Int
+
+pub let class_warrior : Int
+
+pub let corridor_width : Int
+
+pub fn count_active_enemies(Game) -> Int
+
+pub fn count_inventory_items(Game) -> Int
+
+pub let dagger_cooldown : Float
+
+pub let dagger_damage_mult : Float
+
+pub let dagger_range : Float
+
+pub let damage_boost_amount : Int
+
+pub let def_per_level : Int
+
+pub fn dist2d(Float, Float, Float, Float) -> Float
+
+pub fn dist2d_sq(Float, Float, Float, Float) -> Float
+
+pub let enemy_archer : Int
+
+pub let enemy_attack_cooldown : Float
+
+pub let enemy_bat : Int
+
+pub let enemy_dragon_boss : Int
+
+pub let enemy_golem : Int
+
+pub let enemy_lich : Int
+
+pub let enemy_melee_range : Float
+
+pub let enemy_mimic : Int
+
+pub let enemy_minotaur : Int
+
+pub let enemy_move_speed : Float
+
+pub let enemy_none : Int
+
+pub let enemy_sight_range : Float
+
+pub let enemy_skeleton : Int
+
+pub let enemy_slime : Int
+
+pub let enemy_spider : Int
+
+pub let enemy_wraith : Int
+
+pub fn find_walkable_in_room(Game, Room) -> (Int, Int)
+
+pub let fireball_damage : Int
+
+pub let fireball_mana_cost : Int
+
+pub let fireball_radius : Float
+
+pub let flame_damage : Int
+
+pub fn get_armor_defense(Int) -> Int
+
+pub fn get_armor_name(Int) -> String
+
+pub fn get_class_name(Int) -> String
+
+pub fn get_enemy_name(Int) -> String
+
+pub fn get_enemy_xp(Int) -> Int
+
+pub fn get_loot_name(Int) -> String
+
+pub fn get_rarity_name(Int) -> String
+
+pub fn get_spell_mana_cost(Int) -> Int
+
+pub fn get_spell_name(Int) -> String
+
+pub fn get_theme_name(Int) -> String
+
+pub fn get_tile(Game, Int, Int) -> Int
+
+pub fn get_trap_name(Int) -> String
+
+pub fn get_weapon_cooldown(Int) -> Float
+
+pub fn get_weapon_damage_mult(Int) -> Float
+
+pub fn get_weapon_name(Int) -> String
+
+pub fn get_weapon_range(Int) -> Float
+
+pub let gold_pile_max : Int
+
+pub let gold_pile_min : Int
+
+pub let golem_move_speed : Float
+
+pub let grid_h : Int
+
+pub fn grid_to_world_x(Int) -> Float
+
+pub fn grid_to_world_z(Int) -> Float
+
+pub let grid_total : Int
+
+pub let grid_w : Int
+
+pub fn has_buff(Game, Int) -> Bool
+
+pub fn has_line_of_sight(Game, Int, Int, Int, Int) -> Bool
+
+pub let heal_amount : Int
+
+pub let heal_mana_cost : Int
+
+pub let health_potion_heal : Int
+
+pub let hp_per_level : Int
+
+pub let ice_bolt_damage : Int
+
+pub let ice_bolt_mana_cost : Int
+
+pub let ice_bolt_slow_duration : Float
+
+pub fn in_bounds(Int, Int) -> Bool
+
+pub let inv_cols : Int
+
+pub let inv_rows : Int
+
+pub let inv_slot_size : Int
+
+pub let inv_start_x : Int
+
+pub let inv_start_y : Int
+
+pub fn is_blocked(Game, Float, Float, Float) -> Bool
+
+pub fn is_blocked_strict(Game, Float, Float, Float) -> Bool
+
+pub fn is_door_tile(Int) -> Bool
+
+pub fn is_walkable(Int) -> Bool
+
+pub let leather_defense : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let lightning_chain_range : Float
+
+pub let lightning_damage : Int
+
+pub let lightning_mana_cost : Int
+
+pub let loot_armor : Int
+
+pub let loot_boss_key : Int
+
+pub let loot_damage_boost : Int
+
+pub let loot_gold_pile : Int
+
+pub let loot_health_potion : Int
+
+pub let loot_key : Int
+
+pub let loot_mana_potion : Int
+
+pub let loot_none : Int
+
+pub let loot_speed_potion : Int
+
+pub let loot_strength_potion : Int
+
+pub let mace_cooldown : Float
+
+pub let mace_damage_mult : Float
+
+pub let mace_range : Float
+
+pub let mana_per_level : Int
+
+pub let mana_potion_restore : Int
+
+pub let mana_regen_rate : Float
+
+pub let max_buffs : Int
+
+pub let max_enemies : Int
+
+pub let max_floors : Int
+
+pub let max_inventory : Int
+
+pub let max_loot : Int
+
+pub let max_messages : Int
+
+pub let max_particles : Int
+
+pub let max_projectiles : Int
+
+pub let max_room_size : Int
+
+pub let max_rooms : Int
+
+pub let max_shop_items : Int
+
+pub let max_spells : Int
+
+pub let max_torches : Int
+
+pub let max_traps : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let menu_blink_speed : Float
+
+pub let min_room_size : Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let minimap_cell : Int
+
+pub let minimap_size : Int
+
+pub let minimap_x : Int
+
+pub let minimap_y : Int
+
+pub let minotaur_charge_speed : Float
+
+pub fn normalize_angle(Float) -> Float
+
+pub fn pathfind_step(Game, Float, Float, Float, Float) -> (Float, Float)
+
+pub let pi : Float
+
+pub let pitfall_damage : Int
+
+pub let plate_defense : Int
+
+pub let player_eye_height : Float
+
+pub let player_speed : Float
+
+pub let player_sprint_mult : Float
+
+pub let player_start_atk : Int
+
+pub let player_start_def : Int
+
+pub let player_start_dex : Int
+
+pub let player_start_hp : Int
+
+pub let player_start_int_stat : Int
+
+pub let player_start_mana : Int
+
+pub let player_start_str : Int
+
+pub let poison_damage_per_sec : Int
+
+pub let poison_duration : Float
+
+pub let price_armor_upgrade : Int
+
+pub let price_health_potion : Int
+
+pub let price_key : Int
+
+pub let price_mana_potion : Int
+
+pub let price_spell_scroll : Int
+
+pub let price_weapon_upgrade : Int
+
+pub let projectile_lifetime : Float
+
+pub let projectile_speed : Float
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub fn rand_weighted(Game, Array[Int]) -> Int
+
+pub let rarity_common : Int
+
+pub let rarity_epic : Int
+
+pub let rarity_legendary : Int
+
+pub let rarity_rare : Int
+
+pub let rarity_uncommon : Int
+
+pub let robes_defense : Int
+
+pub let room_boss : Int
+
+pub let room_normal : Int
+
+pub let room_shop : Int
+
+pub let room_shrine : Int
+
+pub let room_treasure : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn set_tile(Game, Int, Int, Int) -> Unit
+
+pub let shield_defense_bonus : Int
+
+pub let shield_duration : Float
+
+pub let shield_mana_cost : Int
+
+pub let shrine_atk_bonus : Int
+
+pub let shrine_def_bonus : Int
+
+pub let shrine_hp_bonus : Int
+
+pub let shrine_mana_bonus : Int
+
+pub let shrine_options : Int
+
+pub fn signf(Float) -> Float
+
+pub let slime_move_speed : Float
+
+pub fn spawn_directional_particles(Game, Float, Float, Float, Float, Float, Int, Int, Int, Int, Float) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub let speed_potion_duration : Float
+
+pub let spell_fireball : Int
+
+pub let spell_heal : Int
+
+pub let spell_ice_bolt : Int
+
+pub let spell_lightning : Int
+
+pub let spell_none : Int
+
+pub let spell_shield : Int
+
+pub let spell_teleport : Int
+
+pub let spider_move_speed : Float
+
+pub let spike_damage : Int
+
+pub let staff_cooldown : Float
+
+pub let staff_damage_mult : Float
+
+pub let staff_range : Float
+
+pub let state_boss_intro : Int
+
+pub let state_class_select : Int
+
+pub let state_floor_complete : Int
+
+pub let state_game_over : Int
+
+pub let state_inventory : Int
+
+pub let state_level_up : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_shop : Int
+
+pub let state_shrine : Int
+
+pub let state_spellbook : Int
+
+pub let strength_potion_bonus : Int
+
+pub let strength_potion_duration : Float
+
+pub let swing_duration : Float
+
+pub let sword_cooldown : Float
+
+pub let sword_damage_mult : Float
+
+pub let sword_range : Float
+
+pub let teleport_mana_cost : Int
+
+pub let theme_abyss : Int
+
+pub let theme_cavern : Int
+
+pub let theme_crypt : Int
+
+pub let theme_final_chamber : Int
+
+pub let theme_library : Int
+
+pub let theme_mine : Int
+
+pub let theme_prison : Int
+
+pub let theme_sewer : Int
+
+pub let theme_temple : Int
+
+pub let theme_throne_room : Int
+
+pub let tile_boss_door : Int
+
+pub let tile_chest : Int
+
+pub let tile_door : Int
+
+pub let tile_empty : Int
+
+pub let tile_floor : Int
+
+pub fn tile_index(Int, Int) -> Int
+
+pub let tile_locked_door : Int
+
+pub let tile_secret_door : Int
+
+pub let tile_shop : Int
+
+pub let tile_shrine : Int
+
+pub let tile_stairs : Int
+
+pub let tile_trap : Int
+
+pub let tile_wall : Int
+
+pub let trap_arrow : Int
+
+pub let trap_cooldown : Float
+
+pub let trap_flame : Int
+
+pub let trap_pitfall : Int
+
+pub let trap_poison : Int
+
+pub let trap_spike : Int
+
+pub let trap_teleporter : Int
+
+pub fn update_buffs(Game, Float) -> Unit
+
+pub fn update_explored(Game) -> Unit
+
+pub fn update_messages(Game, Float) -> Unit
+
+pub let wall_height : Float
+
+pub let weapon_axe : Int
+
+pub let weapon_bow : Int
+
+pub let weapon_dagger : Int
+
+pub let weapon_mace : Int
+
+pub let weapon_staff : Int
+
+pub let weapon_sword : Int
+
+pub fn world_to_grid_x(Float) -> Int
+
+pub fn world_to_grid_z(Float) -> Int
+
+pub let wraith_move_speed : Float
+
+pub let xp_per_archer : Int
+
+pub let xp_per_bat : Int
+
+pub let xp_per_dragon : Int
+
+pub let xp_per_golem : Int
+
+pub let xp_per_level : Int
+
+pub let xp_per_lich : Int
+
+pub let xp_per_mimic : Int
+
+pub let xp_per_minotaur : Int
+
+pub let xp_per_skeleton : Int
+
+pub let xp_per_slime : Int
+
+pub let xp_per_spider : Int
+
+pub let xp_per_wraith : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Buff {
+  mut kind : Int
+  mut timer : Float
+  mut value : Int
+  mut active : Bool
+}
+pub fn Buff::inactive() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut z : Float
+  mut hp : Int
+  mut max_hp : Int
+  mut atk : Int
+  mut def : Int
+  mut attack_timer : Float
+  mut move_timer : Float
+  mut alerted : Bool
+  mut hit_flash : Float
+  mut ai_state : Int
+  mut patrol_x : Float
+  mut patrol_z : Float
+  mut speed_mult : Float
+  mut ability_cooldown : Float
+  mut stun_timer : Float
+  mut slow_timer : Float
+  mut xp_value : Int
+  mut facing_angle : Float
+}
+pub fn Enemy::inactive() -> Self
+
+pub(all) struct FloorInfo {
+  mut cleared : Bool
+  mut enemies_killed : Int
+  mut enemies_total : Int
+}
+pub fn FloorInfo::new() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut prev_state : Int
+  mut player_x : Float
+  mut player_z : Float
+  mut player_yaw : Float
+  mut player_hp : Int
+  mut player_max_hp : Int
+  mut player_mana : Int
+  mut player_max_mana : Int
+  mut player_atk : Int
+  mut player_def : Int
+  mut player_str : Int
+  mut player_dex : Int
+  mut player_int_stat : Int
+  mut player_level : Int
+  mut player_xp : Int
+  mut player_xp_next : Int
+  mut player_hit_flash : Float
+  mut player_gold : Int
+  mut player_keys : Int
+  mut player_boss_keys : Int
+  mut player_weapon : Int
+  mut player_armor : Int
+  mut player_class : Int
+  mut player_kills : Int
+  mut player_total_gold : Int
+  mut swing_timer : Float
+  mut swing_active : Bool
+  mut attack_cooldown_timer : Float
+  mut camera_yaw : Float
+  mut camera_pitch : Float
+  mut current_floor : Int
+  tiles : Array[Int]
+  explored : Array[Bool]
+  rooms : Array[Room]
+  mut room_count : Int
+  mut stairs_x : Int
+  mut stairs_z : Int
+  mut floor_theme : Int
+  enemies : Array[Enemy]
+  projectiles : Array[Projectile]
+  particles : Array[Particle]
+  loot : Array[Loot]
+  traps : Array[Trap]
+  torches : Array[Torch]
+  floor_info : Array[FloorInfo]
+  inventory : Array[InvItem]
+  mut inv_cursor : Int
+  spells : Array[SpellSlot]
+  mut selected_spell : Int
+  mut spell_cooldown : Float
+  buffs : Array[Buff]
+  shop_items : Array[ShopItem]
+  mut shop_cursor : Int
+  mut shrine_cursor : Int
+  mut shrine_used : Bool
+  shrine_options : Array[Int]
+  messages : Array[MessageEntry]
+  mut boss_intro_timer : Float
+  mut boss_intro_name : String
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut message_timer : Float
+  mut message_text : String
+  mut damage_flash : Float
+  mut level_up_timer : Float
+  mut class_select_cursor : Int
+  mut floors_cleared : Int
+  mut total_enemies_killed : Int
+  mut sprinting : Bool
+  mut poison_timer : Float
+  mut poison_remaining : Float
+  mut rng_state : Int
+  mut frame_counter : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct InvItem {
+  mut kind : Int
+  mut active : Bool
+  mut rarity : Int
+  mut stat_bonus : Int
+  mut name_idx : Int
+}
+pub fn InvItem::empty() -> Self
+
+pub(all) struct Loot {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut z : Float
+  mut bob_phase : Float
+  mut rarity : Int
+  mut value : Int
+}
+pub fn Loot::inactive() -> Self
+
+pub(all) struct MessageEntry {
+  mut text : String
+  mut timer : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+}
+pub fn MessageEntry::empty() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Projectile {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut z : Float
+  mut vx : Float
+  mut vz : Float
+  mut damage : Int
+  mut lifetime : Float
+  mut from_enemy : Bool
+  mut aoe_radius : Float
+  mut slow_on_hit : Bool
+}
+pub fn Projectile::inactive() -> Self
+
+pub(all) struct Room {
+  mut x : Int
+  mut y : Int
+  mut w : Int
+  mut h : Int
+  mut kind : Int
+  mut explored : Bool
+  mut enemies_cleared : Bool
+}
+pub fn Room::center_x(Self) -> Int
+pub fn Room::center_y(Self) -> Int
+pub fn Room::new(Int, Int, Int, Int) -> Self
+
+pub(all) struct ShopItem {
+  mut active : Bool
+  mut kind : Int
+  mut price : Int
+  mut name_idx : Int
+  mut stat_bonus : Int
+}
+pub fn ShopItem::empty() -> Self
+
+pub(all) struct SpellSlot {
+  mut spell_type : Int
+  mut active : Bool
+}
+pub fn SpellSlot::empty() -> Self
+
+pub(all) struct Torch {
+  mut active : Bool
+  mut gx : Int
+  mut gz : Int
+  mut flicker_phase : Float
+}
+pub fn Torch::inactive() -> Self
+
+pub(all) struct Trap {
+  mut active : Bool
+  mut kind : Int
+  mut gx : Int
+  mut gz : Int
+  mut armed : Bool
+  mut cooldown : Float
+  mut triggered : Bool
+  mut visible : Bool
+}
+pub fn Trap::inactive() -> Self
+
+// Type aliases
+
+// Traits
+

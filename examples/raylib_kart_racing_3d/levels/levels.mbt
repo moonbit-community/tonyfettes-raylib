@@ -2,7 +2,11 @@
 // Returns array of (x, y, z) tuples forming a closed loop track
 // Cup 0-3, Race 0-3 within each cup (4 races per cup, 16 tracks total)
 
-pub fn get_track_waypoints(cup : Int, race : Int) -> Array[(Float, Float, Float)] {
+///|
+pub fn get_track_waypoints(
+  cup : Int,
+  race : Int,
+) -> Array[(Float, Float, Float)] {
   let track_id = cup * 4 + race
   if track_id == 0 {
     // Mushroom Cup Race 1: Green Meadow Oval - simple beginner track
@@ -237,138 +241,249 @@ pub fn get_track_waypoints(cup : Int, race : Int) -> Array[(Float, Float, Float)
 }
 
 // Get track segment metadata for each waypoint pair
-pub fn get_track_segments(cup : Int, race : Int) -> Array[(Int, Int, Float, Bool)] {
+
+///|
+pub fn get_track_segments(
+  cup : Int,
+  race : Int,
+) -> Array[(Int, Int, Float, Bool)] {
   // Returns array of (seg_type, surface_type, width_mult, is_ramp)
   let track_id = cup * 4 + race
   if track_id == 0 {
     // Green Meadow Oval - all normal road
     [
-      (0, 0, 1.0, false), (1, 0, 1.0, false), (1, 0, 1.0, false),
-      (1, 0, 1.0, false), (1, 0, 1.0, false), (0, 0, 1.0, false),
-      (1, 0, 1.0, false), (1, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
       (0, 0, 1.0, false),
     ]
   } else if track_id == 1 {
     // Figure-8
     [
-      (0, 0, 1.0, false), (1, 0, 1.0, false), (2, 0, 0.9, false),
-      (1, 0, 1.0, false), (2, 0, 0.9, false), (1, 0, 1.0, false),
-      (2, 0, 1.0, false), (1, 0, 1.0, false), (1, 0, 1.0, false),
-      (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (1, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (1, 0, 1.0, false),
+      (2, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
     ]
   } else if track_id == 2 {
     // Sunny Circuit - with one boost pad
     [
-      (0, 0, 1.1, false), (0, 3, 1.0, false), (1, 0, 1.0, false),
-      (1, 0, 1.0, false), (1, 0, 1.0, false), (0, 0, 1.1, false),
-      (1, 0, 1.0, false), (1, 0, 1.0, false), (0, 0, 1.0, false),
+      (0, 0, 1.1, false),
+      (0, 3, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.1, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
       (1, 0, 1.0, false),
     ]
   } else if track_id == 3 {
     // Beach Loop - some dirt/sand sections
     [
-      (0, 0, 1.0, false), (0, 1, 1.0, false), (1, 0, 1.0, false),
-      (1, 0, 1.0, false), (0, 1, 1.2, false), (1, 0, 1.0, false),
-      (1, 0, 1.0, false), (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (0, 1, 1.0, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 1, 1.2, false),
+      (1, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
       (0, 0, 1.0, false),
     ]
   } else if track_id == 4 {
     // Mountain Pass - narrow with ramps
     [
-      (0, 0, 0.9, false), (1, 0, 0.8, false), (0, 0, 0.9, true),
-      (1, 0, 0.8, false), (2, 0, 0.9, false), (0, 1, 1.0, false),
-      (1, 0, 0.9, false), (0, 0, 0.9, false), (1, 0, 1.0, false),
+      (0, 0, 0.9, false),
+      (1, 0, 0.8, false),
+      (0, 0, 0.9, true),
+      (1, 0, 0.8, false),
+      (2, 0, 0.9, false),
+      (0, 1, 1.0, false),
+      (1, 0, 0.9, false),
+      (0, 0, 0.9, false),
+      (1, 0, 1.0, false),
     ]
   } else if track_id == 5 {
     // Castle Circuit - sharp turns
     [
-      (0, 0, 1.0, false), (2, 0, 0.9, false), (0, 0, 0.8, false),
-      (2, 0, 0.9, false), (0, 0, 1.0, false), (2, 0, 0.9, false),
-      (0, 0, 1.0, false), (2, 0, 0.9, false), (0, 0, 0.8, false),
-      (2, 0, 0.9, false), (0, 0, 1.0, false), (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 0.8, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 0.8, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
     ]
   } else if track_id == 6 {
     // S-Curve Challenge - alternating curves
     [
-      (3, 0, 1.0, false), (3, 0, 0.9, false), (3, 0, 1.0, false),
-      (3, 0, 0.9, false), (3, 0, 1.0, false), (1, 0, 1.0, false),
-      (0, 3, 1.0, false), (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (3, 0, 1.0, false),
+      (3, 0, 0.9, false),
+      (3, 0, 1.0, false),
+      (3, 0, 0.9, false),
+      (3, 0, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 3, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
       (0, 0, 1.0, false),
     ]
   } else if track_id == 7 {
     // Bridge Run - elevated sections
     [
-      (0, 0, 1.0, false), (7, 0, 0.8, false), (1, 0, 1.0, false),
-      (7, 0, 0.8, false), (1, 0, 1.0, false), (7, 0, 0.8, false),
-      (1, 0, 1.0, false), (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (7, 0, 0.8, false),
+      (1, 0, 1.0, false),
+      (7, 0, 0.8, false),
+      (1, 0, 1.0, false),
+      (7, 0, 0.8, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
     ]
   } else if track_id == 8 {
     // Technical Circuit - chicanes
     [
-      (0, 0, 1.0, false), (4, 0, 0.9, false), (0, 0, 1.0, false),
-      (2, 0, 0.9, false), (4, 0, 0.9, false), (0, 3, 1.0, false),
-      (1, 0, 1.0, false), (0, 0, 1.1, false), (1, 0, 1.0, false),
-      (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (4, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (4, 0, 0.9, false),
+      (0, 3, 1.0, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.1, false),
+      (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
     ]
   } else if track_id == 9 {
     // Desert Storm - dirt and sand traps
     [
-      (0, 1, 1.2, false), (0, 0, 1.0, false), (1, 1, 1.1, false),
-      (0, 0, 1.0, false), (1, 1, 1.0, false), (0, 0, 1.0, false),
-      (1, 1, 1.1, false), (0, 0, 1.0, false), (0, 1, 1.2, false),
+      (0, 1, 1.2, false),
+      (0, 0, 1.0, false),
+      (1, 1, 1.1, false),
+      (0, 0, 1.0, false),
+      (1, 1, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 1, 1.1, false),
+      (0, 0, 1.0, false),
+      (0, 1, 1.2, false),
       (1, 0, 1.0, false),
     ]
   } else if track_id == 10 {
     // Ice Track - icy surfaces
     [
-      (0, 5, 1.0, false), (1, 5, 0.9, false), (0, 0, 1.0, false),
-      (1, 5, 0.9, false), (0, 0, 1.0, false), (1, 5, 1.0, false),
-      (0, 0, 0.9, false), (1, 5, 1.0, false), (0, 0, 1.0, false),
+      (0, 5, 1.0, false),
+      (1, 5, 0.9, false),
+      (0, 0, 1.0, false),
+      (1, 5, 0.9, false),
+      (0, 0, 1.0, false),
+      (1, 5, 1.0, false),
+      (0, 0, 0.9, false),
+      (1, 5, 1.0, false),
+      (0, 0, 1.0, false),
     ]
   } else if track_id == 11 {
     // Night City - urban sharp corners
     [
-      (0, 0, 1.0, false), (2, 0, 0.9, false), (0, 0, 1.0, false),
-      (2, 0, 0.9, false), (0, 0, 1.0, false), (2, 0, 0.9, false),
-      (0, 3, 1.1, false), (2, 0, 0.9, false), (0, 0, 1.0, false),
-      (2, 0, 0.9, false), (0, 0, 1.0, false), (1, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 3, 1.1, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (2, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (1, 0, 1.0, false),
     ]
   } else if track_id == 12 {
     // Rainbow Road - narrow, elevated
     [
-      (0, 0, 0.7, false), (1, 0, 0.7, false), (0, 0, 0.7, true),
-      (1, 0, 0.7, false), (2, 0, 0.7, false), (1, 3, 0.7, false),
-      (0, 0, 0.7, false), (2, 0, 0.7, false), (1, 0, 0.7, false),
+      (0, 0, 0.7, false),
+      (1, 0, 0.7, false),
+      (0, 0, 0.7, true),
+      (1, 0, 0.7, false),
+      (2, 0, 0.7, false),
+      (1, 3, 0.7, false),
+      (0, 0, 0.7, false),
+      (2, 0, 0.7, false),
+      (1, 0, 0.7, false),
       (0, 0, 0.7, false),
     ]
   } else if track_id == 13 {
     // Volcano - narrow with hazards
     [
-      (0, 0, 0.9, false), (1, 1, 0.8, false), (0, 0, 0.9, true),
-      (1, 0, 0.9, false), (2, 0, 0.8, false), (0, 1, 0.9, false),
-      (1, 0, 0.9, false), (0, 0, 1.0, false), (1, 0, 0.9, false),
+      (0, 0, 0.9, false),
+      (1, 1, 0.8, false),
+      (0, 0, 0.9, true),
+      (1, 0, 0.9, false),
+      (2, 0, 0.8, false),
+      (0, 1, 0.9, false),
+      (1, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (1, 0, 0.9, false),
       (0, 0, 0.9, false),
     ]
   } else if track_id == 14 {
     // Underwater Tunnel - enclosed sections
     [
-      (0, 0, 1.0, false), (6, 0, 0.9, false), (6, 0, 0.9, false),
-      (1, 0, 1.0, false), (6, 0, 0.9, false), (1, 0, 1.0, false),
-      (6, 0, 0.9, false), (6, 0, 0.9, false), (0, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (6, 0, 0.9, false),
+      (6, 0, 0.9, false),
+      (1, 0, 1.0, false),
+      (6, 0, 0.9, false),
+      (1, 0, 1.0, false),
+      (6, 0, 0.9, false),
+      (6, 0, 0.9, false),
+      (0, 0, 1.0, false),
       (1, 0, 1.0, false),
     ]
   } else {
     // Grand Prix - varied terrain
     [
-      (0, 0, 1.0, false), (1, 0, 0.9, false), (0, 3, 1.0, false),
-      (2, 0, 0.9, true), (0, 0, 1.0, false), (1, 1, 0.9, false),
-      (2, 0, 0.8, false), (0, 0, 1.0, true), (1, 0, 0.9, false),
-      (0, 0, 1.0, false), (1, 0, 0.9, false), (0, 0, 1.0, false),
+      (0, 0, 1.0, false),
+      (1, 0, 0.9, false),
+      (0, 3, 1.0, false),
+      (2, 0, 0.9, true),
+      (0, 0, 1.0, false),
+      (1, 1, 0.9, false),
+      (2, 0, 0.8, false),
+      (0, 0, 1.0, true),
+      (1, 0, 0.9, false),
+      (0, 0, 1.0, false),
+      (1, 0, 0.9, false),
+      (0, 0, 1.0, false),
     ]
   }
 }
 
 // Track names
+
+///|
 pub fn get_track_name(cup : Int, race : Int) -> String {
   let track_id = cup * 4 + race
   if track_id == 0 {
@@ -407,6 +522,8 @@ pub fn get_track_name(cup : Int, race : Int) -> String {
 }
 
 // Cup names
+
+///|
 pub fn get_cup_name(cup : Int) -> String {
   if cup == 0 {
     "Mushroom Cup"
@@ -420,40 +537,76 @@ pub fn get_cup_name(cup : Int) -> String {
 }
 
 // Cup difficulty levels (AI difficulty for each cup)
+
+///|
 pub fn get_cup_difficulty(cup : Int) -> Int {
   if cup == 0 {
-    0  // Easy
+    0 // Easy
   } else if cup == 1 {
-    1  // Medium
+    1 // Medium
   } else if cup == 2 {
-    2  // Hard
+    2 // Hard
   } else {
-    3  // Expert
+    3 // Expert
   }
 }
 
 // Track theme index
+
+///|
 pub fn get_track_theme(cup : Int, race : Int) -> Int {
   let track_id = cup * 4 + race
-  if track_id == 0 { return 0 } // Circuit
-  if track_id == 1 { return 0 } // Circuit
-  if track_id == 2 { return 0 } // Circuit
-  if track_id == 3 { return 1 } // Beach
-  if track_id == 4 { return 2 } // Mountain
-  if track_id == 5 { return 3 } // Castle
-  if track_id == 6 { return 0 } // Circuit
-  if track_id == 7 { return 2 } // Mountain
-  if track_id == 8 { return 0 } // Circuit
-  if track_id == 9 { return 4 } // Desert
-  if track_id == 10 { return 5 } // Ice
-  if track_id == 11 { return 6 } // Night
-  if track_id == 12 { return 0 } // Circuit (rainbow)
-  if track_id == 13 { return 7 } // Volcano
-  if track_id == 14 { return 0 } // Circuit (underwater)
+  if track_id == 0 {
+    return 0
+  } // Circuit
+  if track_id == 1 {
+    return 0
+  } // Circuit
+  if track_id == 2 {
+    return 0
+  } // Circuit
+  if track_id == 3 {
+    return 1
+  } // Beach
+  if track_id == 4 {
+    return 2
+  } // Mountain
+  if track_id == 5 {
+    return 3
+  } // Castle
+  if track_id == 6 {
+    return 0
+  } // Circuit
+  if track_id == 7 {
+    return 2
+  } // Mountain
+  if track_id == 8 {
+    return 0
+  } // Circuit
+  if track_id == 9 {
+    return 4
+  } // Desert
+  if track_id == 10 {
+    return 5
+  } // Ice
+  if track_id == 11 {
+    return 6
+  } // Night
+  if track_id == 12 {
+    return 0
+  } // Circuit (rainbow)
+  if track_id == 13 {
+    return 7
+  } // Volcano
+  if track_id == 14 {
+    return 0
+  } // Circuit (underwater)
   0 // Circuit (Grand Prix)
 }
 
 // Track ground colors for variety
+
+///|
 pub fn get_track_ground_color(cup : Int, race : Int) -> (Int, Int, Int) {
   let theme = get_track_theme(cup, race)
   if theme < @types.theme_ground_colors.length() {
@@ -464,6 +617,8 @@ pub fn get_track_ground_color(cup : Int, race : Int) -> (Int, Int, Int) {
 }
 
 // Track road colors
+
+///|
 pub fn get_track_road_color(cup : Int, race : Int) -> (Int, Int, Int) {
   let track_id = cup * 4 + race
   if track_id == 9 {
@@ -484,6 +639,8 @@ pub fn get_track_road_color(cup : Int, race : Int) -> (Int, Int, Int) {
 }
 
 // Track sky colors
+
+///|
 pub fn get_track_sky_color(cup : Int, race : Int) -> (Int, Int, Int) {
   let theme = get_track_theme(cup, race)
   if theme < @types.theme_sky_colors.length() {
@@ -494,16 +651,20 @@ pub fn get_track_sky_color(cup : Int, race : Int) -> (Int, Int, Int) {
 }
 
 // Lap count per track (most are 3, some special tracks differ)
+
+///|
 pub fn get_track_laps(cup : Int, race : Int) -> Int {
   let track_id = cup * 4 + race
   if track_id == 12 || track_id == 15 {
-    2  // Rainbow Road and Grand Prix have fewer laps (longer tracks)
+    2 // Rainbow Road and Grand Prix have fewer laps (longer tracks)
   } else {
     3
   }
 }
 
 // AI racing line offset per track (how far off center the ideal line is)
+
+///|
 pub fn get_ai_line_offset(cup : Int, race : Int, waypoint_idx : Int) -> Float {
   let track_id = cup * 4 + race
   // Alternate slightly left/right for more natural driving
@@ -518,13 +679,15 @@ pub fn get_ai_line_offset(cup : Int, race : Int, waypoint_idx : Int) -> Float {
   if track_id == 0 || track_id == 2 || track_id == 3 {
     base * 1.5
   } else if track_id == 12 || track_id == 13 {
-    base * 0.5  // Narrow tracks - stay centered
+    base * 0.5 // Narrow tracks - stay centered
   } else {
     base * 1.0
   }
 }
 
 // Cup race count descriptions
+
+///|
 pub fn get_cup_description(cup : Int) -> String {
   if cup == 0 {
     "4 beginner tracks"
@@ -538,6 +701,8 @@ pub fn get_cup_description(cup : Int) -> String {
 }
 
 // Track description for preview
+
+///|
 pub fn get_track_description(cup : Int, race : Int) -> String {
   let track_id = cup * 4 + race
   if track_id == 0 {
@@ -577,9 +742,11 @@ pub fn get_track_description(cup : Int, race : Int) -> String {
 
 // Track decoration data: returns array of (deco_type, x_offset, z_offset, scale)
 // x_offset is relative to track edge, z_offset is along segment
+
+///|
 pub fn get_track_decoration_data(
   cup : Int,
-  race : Int
+  race : Int,
 ) -> Array[(Int, Float, Float, Float)] {
   let track_id = cup * 4 + race
   if track_id == 0 {
@@ -741,6 +908,8 @@ pub fn get_track_decoration_data(
 
 // AI waypoint target offsets per track - lateral offset for each waypoint
 // Positive = right side, negative = left side of track centerline
+
+///|
 pub fn get_ai_waypoint_offsets(cup : Int, race : Int) -> Array[Float] {
   let track_id = cup * 4 + race
   if track_id == 0 {
@@ -795,6 +964,8 @@ pub fn get_ai_waypoint_offsets(cup : Int, race : Int) -> Array[Float] {
 }
 
 // Track record holder names (fictional)
+
+///|
 pub fn get_track_record_holder(cup : Int, race : Int) -> String {
   let track_id = cup * 4 + race
   if track_id == 0 {
@@ -833,6 +1004,8 @@ pub fn get_track_record_holder(cup : Int, race : Int) -> String {
 }
 
 // Get track record time for display
+
+///|
 pub fn get_track_record_time(cup : Int, race : Int) -> Float {
   let track_id = cup * 4 + race
   if track_id < @types.track_record_times.length() {
@@ -843,6 +1016,8 @@ pub fn get_track_record_time(cup : Int, race : Int) -> Float {
 }
 
 // Get track difficulty rating (1-5)
+
+///|
 pub fn get_track_difficulty(cup : Int, race : Int) -> Int {
   let track_id = cup * 4 + race
   if track_id < @types.track_difficulty_ratings.length() {
@@ -853,10 +1028,14 @@ pub fn get_track_difficulty(cup : Int, race : Int) -> Int {
 }
 
 // Get track length estimate (sum of waypoint segment distances)
+
+///|
 pub fn get_track_length_estimate(cup : Int, race : Int) -> Float {
   let wps = get_track_waypoints(cup, race)
   let count = wps.length()
-  if count < 2 { return 0.0 }
+  if count < 2 {
+    return 0.0
+  }
   let mut total : Float = 0.0
   for i = 0; i < count; i = i + 1 {
     let cur = wps[i]
@@ -871,6 +1050,8 @@ pub fn get_track_length_estimate(cup : Int, race : Int) -> Float {
 }
 
 // Get track surface variety description
+
+///|
 pub fn get_track_surface_info(cup : Int, race : Int) -> String {
   let track_id = cup * 4 + race
   if track_id == 0 || track_id == 2 {
@@ -905,6 +1086,8 @@ pub fn get_track_surface_info(cup : Int, race : Int) -> String {
 }
 
 // Get number of item boxes on track
+
+///|
 pub fn get_track_item_box_count(cup : Int, race : Int) -> Int {
   let track_id = cup * 4 + race
   if track_id == 0 || track_id == 2 || track_id == 3 {
@@ -925,10 +1108,16 @@ pub fn get_track_item_box_count(cup : Int, race : Int) -> Int {
 }
 
 // Get track elevation change description
+
+///|
 pub fn get_track_elevation_info(cup : Int, race : Int) -> String {
   let track_id = cup * 4 + race
-  if track_id == 0 || track_id == 1 || track_id == 2 || track_id == 5 ||
-    track_id == 8 || track_id == 11 {
+  if track_id == 0 ||
+    track_id == 1 ||
+    track_id == 2 ||
+    track_id == 5 ||
+    track_id == 8 ||
+    track_id == 11 {
     "Flat"
   } else if track_id == 3 || track_id == 6 || track_id == 9 {
     "Gentle hills"
@@ -946,6 +1135,8 @@ pub fn get_track_elevation_info(cup : Int, race : Int) -> String {
 }
 
 // Get theme-specific sky gradient secondary color for rendering
+
+///|
 pub fn get_sky_gradient_color(cup : Int, race : Int) -> (Int, Int, Int) {
   let theme = get_track_theme(cup, race)
   if theme == @types.theme_circuit {
@@ -970,6 +1161,8 @@ pub fn get_sky_gradient_color(cup : Int, race : Int) -> (Int, Int, Int) {
 }
 
 // Get horizon fog color per theme
+
+///|
 pub fn get_fog_color(cup : Int, race : Int) -> (Int, Int, Int) {
   let theme = get_track_theme(cup, race)
   if theme == @types.theme_circuit {

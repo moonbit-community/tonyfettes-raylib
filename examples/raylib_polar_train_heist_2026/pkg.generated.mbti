@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_polar_train_heist_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Ent
+
+type Fx
+
+type Game
+
+type Player
+
+type Ring
+
+type Shadow
+
+type Shot
+
+// Type aliases
+
+// Traits
+

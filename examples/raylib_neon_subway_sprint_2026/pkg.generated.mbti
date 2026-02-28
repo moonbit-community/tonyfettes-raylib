@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_subway_sprint_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Coin
+
+type Obstacle
+
+type Particle
+
+type Powerup
+
+type Runner
+
+type TrainEvent
+
+// Type aliases
+
+// Traits
+

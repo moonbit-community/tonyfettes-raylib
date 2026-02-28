@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_glacier_rescue_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Avalanche
+
+type Flare
+
+type Hazard
+
+type Helicopter
+
+type Particle
+
+type Storm
+
+type Survivor
+
+// Type aliases
+
+// Traits
+

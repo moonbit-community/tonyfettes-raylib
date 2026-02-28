@@ -1,0 +1,251 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_super_mario_1985_lite/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn active_enemy_count(Game) -> Int
+
+pub let block_hit_score : Int
+
+pub let camera_lead_px : Float
+
+pub let camera_lerp : Float
+
+pub let castle_walk_speed : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_tiles(Game) -> Unit
+
+pub let coin_collect_score : Int
+
+pub let coyote_time : Float
+
+pub let enemy_h : Float
+
+pub fn enemy_half_h() -> Float
+
+pub fn enemy_half_w() -> Float
+
+pub let enemy_speed : Float
+
+pub let enemy_w : Float
+
+pub fn fill_rect_tile(Game, Int, Int, Int, Int, Int) -> Unit
+
+pub let flag_slide_speed : Float
+
+pub fn get_tile(Game, Int, Int) -> Int
+
+pub let gravity : Float
+
+pub let ground_row : Int
+
+pub let hud_height : Int
+
+pub let jump_buffer_time : Float
+
+pub let jump_cut_multiplier : Float
+
+pub let jump_speed : Float
+
+pub let max_coins : Int
+
+pub let max_enemies : Int
+
+pub let max_fall_speed : Float
+
+pub let max_particles : Int
+
+pub let max_run_speed : Float
+
+pub let player_h : Float
+
+pub fn player_half_h() -> Float
+
+pub fn player_half_w() -> Float
+
+pub let player_invuln_time : Float
+
+pub let player_start_x : Float
+
+pub let player_w : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn rects_overlap(Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn remaining_coins(Game) -> Int
+
+pub let run_accel_air : Float
+
+pub let run_accel_ground : Float
+
+pub let run_friction : Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn set_tile(Game, Int, Int, Int) -> Unit
+
+pub fn signf(Float) -> Int
+
+pub let start_time_seconds : Int
+
+pub let state_game_over : Int
+
+pub let state_playing : Int
+
+pub let state_title : Int
+
+pub let state_win : Int
+
+pub let stomp_bounce_speed : Float
+
+pub let stomp_score : Int
+
+pub let tile_brick : Int
+
+pub let tile_castle : Int
+
+pub fn tile_center_x(Int) -> Float
+
+pub fn tile_center_y(Int) -> Float
+
+pub let tile_empty : Int
+
+pub let tile_flag_pole : Int
+
+pub let tile_ground : Int
+
+pub fn tile_index(Int, Int) -> Int
+
+pub fn tile_is_solid(Int) -> Bool
+
+pub fn tile_left(Int) -> Float
+
+pub let tile_pipe : Int
+
+pub let tile_question : Int
+
+pub let tile_size : Int
+
+pub let tile_size_f : Float
+
+pub fn tile_top(Int) -> Float
+
+pub let tile_used : Int
+
+pub let world_height_px : Float
+
+pub let world_tiles_h : Int
+
+pub let world_tiles_w : Int
+
+pub fn world_to_screen_x(Float, Float) -> Float
+
+pub fn world_to_tile_x(Float) -> Int
+
+pub fn world_to_tile_y(Float) -> Int
+
+pub let world_width_px : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Coin {
+  mut active : Bool
+  x : Float
+  mut y : Float
+  base_y : Float
+  mut phase : Float
+}
+pub fn Coin::inactive() -> Self
+pub fn Coin::spawn(Float, Float, Float) -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut squashed : Bool
+  mut squash_t : Float
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut dir : Int
+}
+pub fn Enemy::inactive() -> Self
+pub fn Enemy::spawn(Float, Float, Int) -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut elapsed : Float
+  mut time_accum : Float
+  mut time_left : Int
+  mut camera_x : Float
+  mut flag_x : Float
+  mut flag_top_y : Float
+  mut flag_bottom_y : Float
+  mut castle_x : Float
+  mut start_y : Float
+  mut shake_t : Float
+  tiles : Array[Int]
+  player : Player
+  enemies : Array[Enemy]
+  coins : Array[Coin]
+  particles : Array[Particle]
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Input {
+  move_left : Bool
+  move_right : Bool
+  jump_pressed : Bool
+  jump_held : Bool
+  accept : Bool
+  restart : Bool
+}
+pub fn Input::none() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut max_life : Float
+  mut size : Float
+  mut color : @raylib.Color
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut facing : Int
+  mut on_ground : Bool
+  mut coyote_t : Float
+  mut jump_buf_t : Float
+  mut invuln_t : Float
+  mut lives : Int
+  mut coins : Int
+  mut score : Int
+  mut reached_flag : Bool
+  mut flag_phase : Int
+}
+pub fn Player::new() -> Self
+
+// Type aliases
+
+// Traits
+

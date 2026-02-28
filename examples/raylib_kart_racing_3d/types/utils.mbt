@@ -1,53 +1,96 @@
+///|
 pub fn absf(v : Float) -> Float {
-  if v < 0.0 { -v } else { v }
+  if v < 0.0 {
+    -v
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampf(v : Float, low : Float, high : Float) -> Float {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn clampi(v : Int, low : Int, high : Int) -> Int {
-  if v < low { low } else if v > high { high } else { v }
+  if v < low {
+    low
+  } else if v > high {
+    high
+  } else {
+    v
+  }
 }
 
+///|
 pub fn minf(a : Float, b : Float) -> Float {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxf(a : Float, b : Float) -> Float {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn mini(a : Int, b : Int) -> Int {
-  if a < b { a } else { b }
+  if a < b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn maxi(a : Int, b : Int) -> Int {
-  if a > b { a } else { b }
+  if a > b {
+    a
+  } else {
+    b
+  }
 }
 
+///|
 pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
+///|
 pub fn smooth_step(edge0 : Float, edge1 : Float, x : Float) -> Float {
   let t = clampf((x - edge0) / (edge1 - edge0), 0.0, 1.0)
   t * t * (3.0 - 2.0 * t)
 }
 
+///|
 pub fn distance2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x1 - x2
   let dz = z1 - z2
   (dx * dx + dz * dz).sqrt()
 }
 
+///|
 pub fn distance3d(
   x1 : Float,
   y1 : Float,
   z1 : Float,
   x2 : Float,
   y2 : Float,
-  z2 : Float
+  z2 : Float,
 ) -> Float {
   let dx = x1 - x2
   let dy = y1 - y2
@@ -55,6 +98,7 @@ pub fn distance3d(
   (dx * dx + dy * dy + dz * dz).sqrt()
 }
 
+///|
 pub fn distance2d_sq(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   let dx = x1 - x2
   let dz = z1 - z2
@@ -62,6 +106,8 @@ pub fn distance2d_sq(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
 }
 
 // Normalize angle to [-PI, PI]
+
+///|
 pub fn normalize_angle(a : Float) -> Float {
   let mut result = a
   for _i = 0; _i < 10; _i = _i + 1 {
@@ -77,33 +123,43 @@ pub fn normalize_angle(a : Float) -> Float {
 }
 
 // Angle difference (shortest path)
+
+///|
 pub fn angle_diff(from : Float, to : Float) -> Float {
   normalize_angle(to - from)
 }
 
 // Get angle from point a to point b
+
+///|
 pub fn angle_to(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   @math.atan2f(x2 - x1, z2 - z1)
 }
 
 // Dot product of 2D vectors
+
+///|
 pub fn dot2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   x1 * x2 + z1 * z2
 }
 
 // Cross product magnitude of 2D vectors (useful for determining side)
+
+///|
 pub fn cross2d(x1 : Float, z1 : Float, x2 : Float, z2 : Float) -> Float {
   x1 * z2 - z1 * x2
 }
 
 // Project point onto line segment, return parameter t [0,1]
+
+///|
 pub fn project_point_on_segment(
   px : Float,
   pz : Float,
   ax : Float,
   az : Float,
   bx : Float,
-  bz : Float
+  bz : Float,
 ) -> Float {
   let dx = bx - ax
   let dz = bz - az
@@ -116,13 +172,15 @@ pub fn project_point_on_segment(
 }
 
 // Get distance from point to line segment
+
+///|
 pub fn point_to_segment_dist(
   px : Float,
   pz : Float,
   ax : Float,
   az : Float,
   bx : Float,
-  bz : Float
+  bz : Float,
 ) -> Float {
   let t = project_point_on_segment(px, pz, ax, az, bx, bz)
   let proj_x = ax + (bx - ax) * t
@@ -131,6 +189,8 @@ pub fn point_to_segment_dist(
 }
 
 // Get the surface grip multiplier
+
+///|
 pub fn get_surface_grip(surface : Int) -> Float {
   if surface == surface_road {
     grip_road
@@ -150,6 +210,8 @@ pub fn get_surface_grip(surface : Int) -> Float {
 }
 
 // Get the surface speed multiplier
+
+///|
 pub fn get_surface_speed_mult(surface : Int) -> Float {
   if surface == surface_road {
     speed_mult_road
@@ -169,6 +231,8 @@ pub fn get_surface_speed_mult(surface : Int) -> Float {
 }
 
 // Get the drift boost power for a level
+
+///|
 pub fn get_drift_boost_power(level : Int) -> Float {
   if level == drift_level_mini {
     drift_mini_boost
@@ -182,6 +246,8 @@ pub fn get_drift_boost_power(level : Int) -> Float {
 }
 
 // Get the drift boost duration for a level
+
+///|
 pub fn get_drift_boost_duration(level : Int) -> Float {
   if level == drift_level_mini {
     drift_mini_duration
@@ -195,6 +261,8 @@ pub fn get_drift_boost_duration(level : Int) -> Float {
 }
 
 // Calculate drift level based on time
+
+///|
 pub fn calc_drift_level(drift_time : Float) -> Int {
   if drift_time >= drift_ultra_threshold {
     drift_level_ultra
@@ -208,19 +276,23 @@ pub fn calc_drift_level(drift_time : Float) -> Int {
 }
 
 // Get drift spark color based on level (r, g, b)
+
+///|
 pub fn get_drift_spark_color(level : Int) -> (Int, Int, Int) {
   if level == drift_level_mini {
-    (80, 150, 255)   // Blue
+    (80, 150, 255) // Blue
   } else if level == drift_level_super {
-    (255, 180, 50)   // Orange
+    (255, 180, 50) // Orange
   } else if level == drift_level_ultra {
-    (255, 80, 200)   // Pink
+    (255, 80, 200) // Pink
   } else {
-    (200, 200, 200)  // Default gray
+    (200, 200, 200) // Default gray
   }
 }
 
 // Get kart max speed based on type and surface
+
+///|
 pub fn get_kart_max_speed(kart : Kart) -> Float {
   let stats = kart_stats[clampi(kart.kart_type, 0, kart_type_count - 1)]
   let base_speed = stats.0
@@ -239,12 +311,16 @@ pub fn get_kart_max_speed(kart : Kart) -> Float {
 }
 
 // Get kart acceleration based on type
+
+///|
 pub fn get_kart_accel(kart : Kart) -> Float {
   let stats = kart_stats[clampi(kart.kart_type, 0, kart_type_count - 1)]
   stats.1
 }
 
 // Get kart handling based on type
+
+///|
 pub fn get_kart_handling(kart : Kart) -> Float {
   let stats = kart_stats[clampi(kart.kart_type, 0, kart_type_count - 1)]
   let grip = get_surface_grip(kart.on_surface_type)
@@ -252,42 +328,59 @@ pub fn get_kart_handling(kart : Kart) -> Float {
 }
 
 // Get kart weight
+
+///|
 pub fn get_kart_weight(kart : Kart) -> Float {
   let stats = kart_stats[clampi(kart.kart_type, 0, kart_type_count - 1)]
   stats.3
 }
 
 // Get kart drift boost multiplier
+
+///|
 pub fn get_kart_drift_boost_mult(kart : Kart) -> Float {
   let stats = kart_stats[clampi(kart.kart_type, 0, kart_type_count - 1)]
   stats.4
 }
 
 // RNG
+
+///|
 pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
   x = x ^ (x >> 17)
   x = x ^ (x << 5)
-  if x < 0 { x = -x }
+  if x < 0 {
+    x = -x
+  }
   game.rng_state = x
   x
 }
 
+///|
 pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
-  if high <= low { low } else { low + rand_next(game) % (high - low + 1) }
+  if high <= low {
+    low
+  } else {
+    low + rand_next(game) % (high - low + 1)
+  }
 }
 
+///|
 pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let n = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * n
 }
 
+///|
 pub fn rand_bool(game : Game, chance : Float) -> Bool {
   rand_rangef(game, 0.0, 1.0) < chance
 }
 
 // Allocators
+
+///|
 pub fn alloc_powerup(game : Game) -> Int {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     if not(game.powerups[i].active) {
@@ -297,6 +390,7 @@ pub fn alloc_powerup(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_projectile(game : Game) -> Int {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     if not(game.projectiles[i].active) {
@@ -306,6 +400,7 @@ pub fn alloc_projectile(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_particle(game : Game) -> Int {
   for i = 0; i < game.particles.length(); i = i + 1 {
     if not(game.particles[i].active) {
@@ -315,6 +410,7 @@ pub fn alloc_particle(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn alloc_dropped_item(game : Game) -> Int {
   for i = 0; i < game.dropped_items.length(); i = i + 1 {
     if not(game.dropped_items[i].active) {
@@ -324,6 +420,7 @@ pub fn alloc_dropped_item(game : Game) -> Int {
   -1
 }
 
+///|
 pub fn spawn_particles(
   game : Game,
   wx : Float,
@@ -332,11 +429,13 @@ pub fn spawn_particles(
   count : Int,
   r : Int,
   g : Int,
-  b : Int
+  b : Int,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.particle_type = particle_explosion
@@ -357,6 +456,8 @@ pub fn spawn_particles(
 }
 
 // Spawn typed particles
+
+///|
 pub fn spawn_typed_particles(
   game : Game,
   ptype : Int,
@@ -368,11 +469,13 @@ pub fn spawn_typed_particles(
   g : Int,
   b : Int,
   size : Float,
-  life : Float
+  life : Float,
 ) -> Unit {
   for i = 0; i < count; i = i + 1 {
     let idx = alloc_particle(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     let p = game.particles[idx]
     p.active = true
     p.particle_type = ptype
@@ -393,34 +496,46 @@ pub fn spawn_typed_particles(
 }
 
 // Get waypoint with wrap-around
+
+///|
 pub fn get_waypoint(game : Game, idx : Int) -> Waypoint {
   let wc = game.waypoint_count
   if wc == 0 {
     return { x: 0.0, y: 0.0, z: 0.0 }
   }
   let mut i = idx % wc
-  if i < 0 { i = i + wc }
+  if i < 0 {
+    i = i + wc
+  }
   game.waypoints[i]
 }
 
 // Get track segment with wrap-around
+
+///|
 pub fn get_segment(game : Game, idx : Int) -> TrackSegment {
   let wc = game.waypoint_count
   if wc == 0 {
     return TrackSegment::default()
   }
   let mut i = idx % wc
-  if i < 0 { i = i + wc }
+  if i < 0 {
+    i = i + wc
+  }
   game.segments[i]
 }
 
 // Calculate kart's total progress for ranking
+
+///|
 pub fn calc_total_progress(kart : Kart, waypoint_count : Int) -> Float {
   Float::from_int(kart.lap * waypoint_count + kart.waypoint_idx) +
   kart.waypoint_progress
 }
 
 // Points for finishing position
+
+///|
 pub fn position_points(place : Int) -> Int {
   if place >= 1 && place <= cup_points_table.length() {
     cup_points_table[place - 1]
@@ -430,17 +545,25 @@ pub fn position_points(place : Int) -> Int {
 }
 
 // Check if kart is near a jump ramp segment
+
+///|
 pub fn is_on_ramp(game : Game, kart : Kart) -> Bool {
   let wc = game.waypoint_count
-  if wc < 2 { return false }
+  if wc < 2 {
+    return false
+  }
   let seg = get_segment(game, kart.waypoint_idx)
   seg.is_ramp
 }
 
 // Get surface type at kart position based on distance from track center
+
+///|
 pub fn detect_surface_type(game : Game, x : Float, z : Float) -> Int {
   let wc = game.waypoint_count
-  if wc < 2 { return surface_road }
+  if wc < 2 {
+    return surface_road
+  }
   // Find nearest segment
   let mut best_dist : Float = 99999.0
   let mut best_seg = 0
@@ -471,9 +594,13 @@ pub fn detect_surface_type(game : Game, x : Float, z : Float) -> Int {
 }
 
 // Detect wrong way: check if kart heading is opposite to track direction
+
+///|
 pub fn is_wrong_way(game : Game, kart : Kart) -> Bool {
   let wc = game.waypoint_count
-  if wc < 2 { return false }
+  if wc < 2 {
+    return false
+  }
   let cur = get_waypoint(game, kart.waypoint_idx)
   let nxt = get_waypoint(game, (kart.waypoint_idx + 1) % wc)
   let track_angle = @math.atan2f(nxt.x - cur.x, nxt.z - cur.z)
@@ -482,15 +609,23 @@ pub fn is_wrong_way(game : Game, kart : Kart) -> Bool {
 }
 
 // Find nearest opponent ahead of the given kart (for homing missiles)
+
+///|
 pub fn find_target_ahead(game : Game, kart_idx : Int) -> Int {
   let kart = game.karts[kart_idx]
   let mut best_idx = -1
   let mut best_dist : Float = 99999.0
   for i = 0; i < max_karts; i = i + 1 {
-    if i == kart_idx { continue i + 1 }
+    if i == kart_idx {
+      continue i + 1
+    }
     let other = game.karts[i]
-    if not(other.active) || other.finished { continue i + 1 }
-    if other.total_progress <= kart.total_progress { continue i + 1 }
+    if not(other.active) || other.finished {
+      continue i + 1
+    }
+    if other.total_progress <= kart.total_progress {
+      continue i + 1
+    }
     let d = distance2d(kart.x, kart.z, other.x, other.z)
     if d < best_dist {
       best_dist = d
@@ -500,9 +635,13 @@ pub fn find_target_ahead(game : Game, kart_idx : Int) -> Int {
   // If nobody is ahead, target nearest behind
   if best_idx < 0 {
     for i = 0; i < max_karts; i = i + 1 {
-      if i == kart_idx { continue i + 1 }
+      if i == kart_idx {
+        continue i + 1
+      }
       let other = game.karts[i]
-      if not(other.active) || other.finished { continue i + 1 }
+      if not(other.active) || other.finished {
+        continue i + 1
+      }
       let d = distance2d(kart.x, kart.z, other.x, other.z)
       if d < best_dist {
         best_dist = d
@@ -514,15 +653,23 @@ pub fn find_target_ahead(game : Game, kart_idx : Int) -> Int {
 }
 
 // Find nearest opponent behind the given kart
+
+///|
 pub fn find_target_behind(game : Game, kart_idx : Int) -> Int {
   let kart = game.karts[kart_idx]
   let mut best_idx = -1
   let mut best_dist : Float = 99999.0
   for i = 0; i < max_karts; i = i + 1 {
-    if i == kart_idx { continue i + 1 }
+    if i == kart_idx {
+      continue i + 1
+    }
     let other = game.karts[i]
-    if not(other.active) || other.finished { continue i + 1 }
-    if other.total_progress >= kart.total_progress { continue i + 1 }
+    if not(other.active) || other.finished {
+      continue i + 1
+    }
+    if other.total_progress >= kart.total_progress {
+      continue i + 1
+    }
     let d = distance2d(kart.x, kart.z, other.x, other.z)
     if d < best_dist {
       best_dist = d
@@ -533,6 +680,8 @@ pub fn find_target_behind(game : Game, kart_idx : Int) -> Int {
 }
 
 // Get item probability weights based on race position (better items when further behind)
+
+///|
 pub fn get_item_weights(place : Int) -> Array[Int] {
   // Returns weights for: boost, shield, missile, oil, lightning, star, banana, triple_mushroom
   if place <= 1 {
@@ -551,13 +700,17 @@ pub fn get_item_weights(place : Int) -> Array[Int] {
 }
 
 // Pick a random powerup based on position weights
+
+///|
 pub fn pick_random_powerup(game : Game, place : Int) -> Int {
   let weights = get_item_weights(place)
   let mut total = 0
   for i = 0; i < weights.length(); i = i + 1 {
     total = total + weights[i]
   }
-  if total == 0 { return powerup_boost }
+  if total == 0 {
+    return powerup_boost
+  }
   let roll = rand_range(game, 0, total - 1)
   let mut accum = 0
   for i = 0; i < weights.length(); i = i + 1 {
@@ -571,10 +724,12 @@ pub fn pick_random_powerup(game : Game, place : Int) -> Int {
 }
 
 // Calculate rubber-band speed multiplier for AI
+
+///|
 pub fn calc_rubber_band_mult(
   ai_progress : Float,
   player_progress : Float,
-  difficulty : Int
+  difficulty : Int,
 ) -> Float {
   let stats = ai_difficulty_stats[clampi(difficulty, 0, 3)]
   let base_mult = stats.0
@@ -597,6 +752,8 @@ pub fn calc_rubber_band_mult(
 }
 
 // Format time as string "MM:SS.ms"
+
+///|
 pub fn format_time(t : Float) -> String {
   let total_secs = t.to_int()
   let mins = total_secs / 60
@@ -611,6 +768,8 @@ pub fn format_time(t : Float) -> String {
 }
 
 // Get ordinal suffix for position (1st, 2nd, 3rd, etc.)
+
+///|
 pub fn ordinal_suffix(n : Int) -> String {
   if n == 1 {
     "1st"
@@ -624,13 +783,17 @@ pub fn ordinal_suffix(n : Int) -> String {
 }
 
 // Track spline interpolation: get position at progress along segment
+
+///|
 pub fn interpolate_track_position(
   game : Game,
   seg_idx : Int,
-  t : Float
+  t : Float,
 ) -> (Float, Float, Float) {
   let wc = game.waypoint_count
-  if wc < 2 { return (0.0, 0.0, 0.0) }
+  if wc < 2 {
+    return (0.0, 0.0, 0.0)
+  }
   let wp0 = get_waypoint(game, seg_idx)
   let wp1 = get_waypoint(game, (seg_idx + 1) % wc)
   let x = lerpf(wp0.x, wp1.x, t)
@@ -640,28 +803,40 @@ pub fn interpolate_track_position(
 }
 
 // Get track direction vector at a segment
+
+///|
 pub fn get_track_direction(game : Game, seg_idx : Int) -> (Float, Float) {
   let wc = game.waypoint_count
-  if wc < 2 { return (0.0, 1.0) }
+  if wc < 2 {
+    return (0.0, 1.0)
+  }
   let wp0 = get_waypoint(game, seg_idx)
   let wp1 = get_waypoint(game, (seg_idx + 1) % wc)
   let dx = wp1.x - wp0.x
   let dz = wp1.z - wp0.z
   let d = distance2d(wp0.x, wp0.z, wp1.x, wp1.z)
-  if d < 0.01 { return (0.0, 1.0) }
+  if d < 0.01 {
+    return (0.0, 1.0)
+  }
   (dx / d, dz / d)
 }
 
 // Get perpendicular direction to track at a segment
+
+///|
 pub fn get_track_perpendicular(game : Game, seg_idx : Int) -> (Float, Float) {
   let dir = get_track_direction(game, seg_idx)
   (-dir.1, dir.0)
 }
 
 // Calculate weight-based bump force between two karts
+
+///|
 pub fn calc_bump_force(weight_a : Float, weight_b : Float) -> (Float, Float) {
   let total = weight_a + weight_b
-  if total < 0.01 { return (0.5, 0.5) }
+  if total < 0.01 {
+    return (0.5, 0.5)
+  }
   // Lighter kart gets pushed more
   let force_a = weight_b / total
   let force_b = weight_a / total
@@ -669,15 +844,20 @@ pub fn calc_bump_force(weight_a : Float, weight_b : Float) -> (Float, Float) {
 }
 
 // Check if two karts should trigger a spin based on weight difference
-pub fn should_spin_from_bump(weight_a : Float, weight_b : Float) -> (Bool, Bool) {
+
+///|
+pub fn should_spin_from_bump(
+  weight_a : Float,
+  weight_b : Float,
+) -> (Bool, Bool) {
   let diff = absf(weight_a - weight_b)
   if diff >= weight_spin_diff {
     if weight_a < weight_b {
-      (true, false)  // a spins, b doesn't
+      (true, false) // a spins, b doesn't
     } else {
-      (false, true)  // b spins, a doesn't
+      (false, true) // b spins, a doesn't
     }
   } else {
-    (false, false)  // neither spins
+    (false, false) // neither spins
   }
 }

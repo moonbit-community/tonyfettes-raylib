@@ -1,5 +1,6 @@
 // Player movement and camera
 
+///|
 fn update_player(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   // Mouse look
@@ -8,18 +9,26 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   player.pitch -= mouse_delta.y * @types.player_mouse_sensitivity
   player.pitch = @types.clampf(player.pitch, -1.4, 1.4)
   // Sprint
-  player.sprint = @raylib.is_key_down(@raylib.KeyLeftShift) && not(player.crouching)
+  player.sprint = @raylib.is_key_down(@raylib.KeyLeftShift) &&
+    not(player.crouching)
   // Crouch toggle
-  if @raylib.is_key_pressed(@raylib.KeyLeftControl) || @raylib.is_key_pressed(@raylib.KeyC) {
+  if @raylib.is_key_pressed(@raylib.KeyLeftControl) ||
+    @raylib.is_key_pressed(@raylib.KeyC) {
     player.crouching = not(player.crouching)
   }
   // Smooth crouch lerp
   let crouch_target : Float = if player.crouching { 1.0 } else { 0.0 }
   let crouch_speed : Float = 6.0
   if player.crouch_lerp < crouch_target {
-    player.crouch_lerp = @types.minf(player.crouch_lerp + crouch_speed * dt, crouch_target)
+    player.crouch_lerp = @types.minf(
+      player.crouch_lerp + crouch_speed * dt,
+      crouch_target,
+    )
   } else if player.crouch_lerp > crouch_target {
-    player.crouch_lerp = @types.maxf(player.crouch_lerp - crouch_speed * dt, crouch_target)
+    player.crouch_lerp = @types.maxf(
+      player.crouch_lerp - crouch_speed * dt,
+      crouch_target,
+    )
   }
   // Movement direction based on yaw
   let cos_yaw = @math.cosf(player.yaw)
@@ -54,14 +63,36 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     move_x = move_x / move_len
     move_z = move_z / move_len
     // Head bob
-    let bob_speed : Float = if player.sprint { 14.0 } else if player.crouching { 6.0 } else { 10.0 }
+    let bob_speed : Float = if player.sprint {
+      14.0
+    } else if player.crouching {
+      6.0
+    } else {
+      10.0
+    }
     player.bob_timer += dt * bob_speed
   }
   // Apply speed with modifiers
-  let crouch_mult : Float = if player.crouching { @types.player_crouch_mult } else { 1.0 }
-  let sprint_mult : Float = if player.sprint { @types.player_sprint_mult } else { 1.0 }
-  let boost_mult : Float = if player.speed_boost_timer > 0.0 { 1.35 } else { 1.0 }
-  let speed = @types.player_speed * player.speed_mult * sprint_mult * crouch_mult * boost_mult
+  let crouch_mult : Float = if player.crouching {
+    @types.player_crouch_mult
+  } else {
+    1.0
+  }
+  let sprint_mult : Float = if player.sprint {
+    @types.player_sprint_mult
+  } else {
+    1.0
+  }
+  let boost_mult : Float = if player.speed_boost_timer > 0.0 {
+    1.35
+  } else {
+    1.0
+  }
+  let speed = @types.player_speed *
+    player.speed_mult *
+    sprint_mult *
+    crouch_mult *
+    boost_mult
   let new_x = player.x + move_x * speed * dt
   let new_z = player.z + move_z * speed * dt
   // Collision with arena walls
@@ -72,17 +103,26 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.pillars.length(); i = i + 1 {
     let pillar = game.pillars[i]
     let result = @types.push_from_pillar(
-      final_x, final_z, @types.player_radius, pillar.x, pillar.z, pillar.radius,
+      final_x,
+      final_z,
+      @types.player_radius,
+      pillar.x,
+      pillar.z,
+      pillar.radius,
     )
     final_x = result.0
     final_z = result.1
   }
   // Collision with barricades
-  let barr_result = @types.push_from_barricades(game, final_x, final_z, @types.player_radius)
+  let barr_result = @types.push_from_barricades(
+    game, final_x, final_z, @types.player_radius,
+  )
   final_x = barr_result.0
   final_z = barr_result.1
   // Collision with low walls
-  let wall_result = @types.push_from_low_walls(game, final_x, final_z, @types.player_radius)
+  let wall_result = @types.push_from_low_walls(
+    game, final_x, final_z, @types.player_radius,
+  )
   final_x = wall_result.0
   final_z = wall_result.1
   player.x = final_x
@@ -131,15 +171,20 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   // Recoil recovery
   if player.recoil_offset > 0.0 {
     player.recoil_offset -= dt * 8.0
-    if player.recoil_offset < 0.0 { player.recoil_offset = 0.0 }
+    if player.recoil_offset < 0.0 {
+      player.recoil_offset = 0.0
+    }
   }
   // Minigun spin decay when not firing
   if not(player.minigun_spinning) && player.minigun_spin > 0.0 {
     player.minigun_spin -= dt * 2.0
-    if player.minigun_spin < 0.0 { player.minigun_spin = 0.0 }
+    if player.minigun_spin < 0.0 {
+      player.minigun_spin = 0.0
+    }
   }
 }
 
+///|
 fn update_camera_fps(game : @types.Game) -> Unit {
   let player = game.player
   let cos_yaw = @math.cosf(player.yaw)
@@ -163,9 +208,12 @@ fn update_camera_fps(game : @types.Game) -> Unit {
   game.cam_target_z = player.z + look_z
 }
 
+///|
 fn damage_player(game : @types.Game, damage : Float) -> Unit {
   let player = game.player
-  if player.damage_timer > 0.0 { return }
+  if player.damage_timer > 0.0 {
+    return
+  }
   // Shield blocks all damage
   if player.shield_timer > 0.0 {
     @types.spawn_particles(game, player.x, player.y, player.z, 5, 50, 150, 255)
@@ -182,12 +230,20 @@ fn damage_player(game : @types.Game, damage : Float) -> Unit {
     remaining = remaining - armor_absorb
   }
   player.hp -= remaining
-  if player.hp < 0.0 { player.hp = 0.0 }
+  if player.hp < 0.0 {
+    player.hp = 0.0
+  }
   // Red flash particles around player
   @types.spawn_particles(game, player.x, player.y, player.z, 5, 255, 50, 50)
 }
 
-fn damage_player_from(game : @types.Game, damage : Float, from_x : Float, from_z : Float) -> Unit {
+///|
+fn damage_player_from(
+  game : @types.Game,
+  damage : Float,
+  from_x : Float,
+  from_z : Float,
+) -> Unit {
   damage_player(game, damage)
   @types.add_damage_indicator(game, from_x, from_z)
 }

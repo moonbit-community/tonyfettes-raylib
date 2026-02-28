@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tetris_meteor_fall_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Cell
+
+type Game
+
+// Type aliases
+
+// Traits
+

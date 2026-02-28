@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
@@ -8,7 +9,9 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Camera shake decay
   if game.camera_shake > 0.0 {
     game.camera_shake -= dt * 2.0
-    if game.camera_shake < 0.0 { game.camera_shake = 0.0 }
+    if game.camera_shake < 0.0 {
+      game.camera_shake = 0.0
+    }
   }
 
   // Message timer
@@ -19,7 +22,9 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Screen flash decay
   if game.screen_flash > 0.0 {
     game.screen_flash -= dt * 3.0
-    if game.screen_flash < 0.0 { game.screen_flash = 0.0 }
+    if game.screen_flash < 0.0 {
+      game.screen_flash = 0.0
+    }
   }
 
   // Kill feed timer
@@ -51,19 +56,23 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.menu_cursor -= 1
-    if game.menu_cursor < 0 { game.menu_cursor = 3 }
+    if game.menu_cursor < 0 {
+      game.menu_cursor = 3
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.menu_cursor += 1
-    if game.menu_cursor > 3 { game.menu_cursor = 0 }
+    if game.menu_cursor > 3 {
+      game.menu_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     if game.menu_cursor == 0 {
       // New game - go to loadout
       game.current_mission = 0
@@ -86,10 +95,10 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_paused
     game.pause_cursor = 0
     return
@@ -106,25 +115,33 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Player damage flash decay
   if game.player.damage_flash > 0.0 {
     game.player.damage_flash -= dt * 4.0
-    if game.player.damage_flash < 0.0 { game.player.damage_flash = 0.0 }
+    if game.player.damage_flash < 0.0 {
+      game.player.damage_flash = 0.0
+    }
   }
 
   // Enemy damage flash decay
   for i = 0; i < game.enemies.length(); i = i + 1 {
     if game.enemies[i].active && game.enemies[i].damage_flash > 0.0 {
       game.enemies[i].damage_flash -= dt * 4.0
-      if game.enemies[i].damage_flash < 0.0 { game.enemies[i].damage_flash = 0.0 }
+      if game.enemies[i].damage_flash < 0.0 {
+        game.enemies[i].damage_flash = 0.0
+      }
     }
   }
 
   // Player boost timer decay
   if game.player.weapon_boost_timer > 0.0 {
     game.player.weapon_boost_timer -= dt
-    if game.player.weapon_boost_timer < 0.0 { game.player.weapon_boost_timer = 0.0 }
+    if game.player.weapon_boost_timer < 0.0 {
+      game.player.weapon_boost_timer = 0.0
+    }
   }
   if game.player.speed_boost_timer > 0.0 {
     game.player.speed_boost_timer -= dt
-    if game.player.speed_boost_timer < 0.0 { game.player.speed_boost_timer = 0.0 }
+    if game.player.speed_boost_timer < 0.0 {
+      game.player.speed_boost_timer = 0.0
+    }
   }
 
   // Weapon energy regeneration
@@ -150,7 +167,10 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
       spawn_wave(game, game.current_mission, game.wave_number)
       game.wave_number += 1
       if game.wave_number < game.waves_total {
-        game.wave_timer = @levels.wave_spawn_delay(game.current_mission, game.wave_number)
+        game.wave_timer = @levels.wave_spawn_delay(
+          game.current_mission,
+          game.wave_number,
+        )
       }
       if game.wave_number > 1 {
         game.message_text = "WAVE \{game.wave_number}"
@@ -161,7 +181,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
 
   // Validate target
   if game.target_idx >= 0 {
-    if game.target_idx >= game.enemies.length() || not(game.enemies[game.target_idx].active) {
+    if game.target_idx >= game.enemies.length() ||
+      not(game.enemies[game.target_idx].active) {
       game.target_idx = -1
     }
   }
@@ -178,7 +199,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Check mission complete conditions
   let obj_type = @levels.mission_objective_type(game.current_mission)
   if obj_type == @types.objective_destroy_all {
-    if @types.count_active_enemies(game) == 0 && game.wave_number >= game.waves_total {
+    if @types.count_active_enemies(game) == 0 &&
+      game.wave_number >= game.waves_total {
       complete_mission(game)
     }
   } else if obj_type == @types.objective_destroy_count {
@@ -199,17 +221,18 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
       game.state = @types.state_game_over
       game.message_text = "STATION DESTROYED"
       game.message_timer = 3.0
-    } else if @types.count_active_enemies(game) == 0 && game.wave_number >= game.waves_total {
+    } else if @types.count_active_enemies(game) == 0 &&
+      game.wave_number >= game.waves_total {
       complete_mission(game)
     }
-  } else {
     // Default: destroy all
-    if @types.count_active_enemies(game) == 0 && game.wave_number >= game.waves_total {
-      complete_mission(game)
-    }
+  } else if @types.count_active_enemies(game) == 0 &&
+    game.wave_number >= game.waves_total {
+    complete_mission(game)
   }
 }
 
+///|
 fn complete_mission(game : @types.Game) -> Unit {
   game.state = @types.state_mission_complete
   game.message_text = "MISSION COMPLETE"
@@ -219,6 +242,7 @@ fn complete_mission(game : @types.Game) -> Unit {
   game.score += reward
 }
 
+///|
 fn check_station_alive(game : @types.Game, kind : Int) -> Bool {
   for i = 0; i < game.stations.length(); i = i + 1 {
     if game.stations[i].active && game.stations[i].kind == kind {
@@ -228,18 +252,22 @@ fn check_station_alive(game : @types.Game, kind : Int) -> Bool {
   false
 }
 
+///|
 fn update_paused(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.pause_cursor -= 1
-    if game.pause_cursor < 0 { game.pause_cursor = 2 }
+    if game.pause_cursor < 0 {
+      game.pause_cursor = 2
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.pause_cursor += 1
-    if game.pause_cursor > 2 { game.pause_cursor = 0 }
+    if game.pause_cursor > 2 {
+      game.pause_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_playing
   }
   if @raylib.is_key_pressed(@raylib.KeyEnter) {
@@ -257,10 +285,10 @@ fn update_paused(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_mission_complete(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     let next = game.current_mission + 1
     if next >= @types.total_missions {
       // Completed all missions
@@ -273,10 +301,10 @@ fn update_mission_complete(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_game_over(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     if @raylib.is_key_down(@raylib.KeyLeftShift) {
       // Hold shift+enter to restart the same mission
       start_mission(game, game.current_mission)
@@ -290,10 +318,10 @@ fn update_game_over(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_mission_briefing(game : @types.Game) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     start_mission(game, game.current_mission)
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
@@ -302,18 +330,22 @@ fn update_mission_briefing(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_mission_select(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.select_cursor -= 1
-    if game.select_cursor < 0 { game.select_cursor = @types.total_missions - 1 }
+    if game.select_cursor < 0 {
+      game.select_cursor = @types.total_missions - 1
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.select_cursor += 1
-    if game.select_cursor >= @types.total_missions { game.select_cursor = 0 }
+    if game.select_cursor >= @types.total_missions {
+      game.select_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_mission = game.select_cursor
     game.state = @types.state_loadout
     game.loadout_cursor = 0
@@ -324,24 +356,29 @@ fn update_mission_select(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_loadout(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.loadout_cursor -= 1
-    if game.loadout_cursor < 0 { game.loadout_cursor = 4 }
+    if game.loadout_cursor < 0 {
+      game.loadout_cursor = 4
+    }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.loadout_cursor += 1
-    if game.loadout_cursor > 4 { game.loadout_cursor = 0 }
+    if game.loadout_cursor > 4 {
+      game.loadout_cursor = 0
+    }
   }
-  if @raylib.is_key_pressed(@raylib.KeyLeft) || @raylib.is_key_pressed(@raylib.KeyRight) {
+  if @raylib.is_key_pressed(@raylib.KeyLeft) ||
+    @raylib.is_key_pressed(@raylib.KeyRight) {
     // Cycle selected ship class
     if game.loadout_cursor < 5 {
       game.selected_ship_class = game.loadout_cursor
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.selected_ship_class = game.loadout_cursor
     game.state = @types.state_mission_briefing
     game.briefing_scroll = 0
@@ -352,6 +389,7 @@ fn update_loadout(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn start_mission(game : @types.Game, mission : Int) -> Unit {
   game.current_mission = mission
   game.state = @types.state_playing
@@ -440,14 +478,20 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   let mut total_enemies = 0
   for w = 0; w < game.waves_total; w = w + 1 {
     let wave_comp = @levels.wave_composition(mission, w)
-    total_enemies = total_enemies + wave_comp.0 + wave_comp.1 + wave_comp.2 + wave_comp.3
+    total_enemies = total_enemies +
+      wave_comp.0 +
+      wave_comp.1 +
+      wave_comp.2 +
+      wave_comp.3
   }
   game.enemies_remaining = total_enemies
 
   // Spawn asteroids
   for i = 0; i < num_asteroids; i = i + 1 {
     let idx = @types.alloc_asteroid(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let a = game.asteroids[idx]
     a.active = true
     a.x = @types.rand_rangef(game, -250.0, 250.0)
@@ -484,7 +528,9 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   let num_enemy_stations = ext.4
   for i = 0; i < num_friendly_stations; i = i + 1 {
     let idx = @types.alloc_station(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let s = game.stations[idx]
     s.active = true
     s.kind = @types.station_friendly
@@ -500,7 +546,9 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   }
   for i = 0; i < num_enemy_stations; i = i + 1 {
     let idx = @types.alloc_station(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let s = game.stations[idx]
     s.active = true
     s.kind = @types.station_enemy
@@ -519,7 +567,9 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   let num_powerups = ext.5
   for i = 0; i < num_powerups; i = i + 1 {
     let idx = @types.alloc_powerup(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let pu = game.powerups[idx]
     let pos = @levels.powerup_spawn_pos(mission, i)
     pu.active = true
@@ -562,6 +612,7 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   game.camera_shake = 0.0
 }
 
+///|
 fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   let comp = @levels.wave_composition(mission, wave)
   let hp_mult = @types.mission_difficulty_hp_mult(mission)
@@ -570,25 +621,51 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
 
   // Spawn fighters
   for i = 0; i < comp.0; i = i + 1 {
-    spawn_enemy_of_type(game, @types.enemy_fighter, hp_mult, spd_mult, formation, i, wave)
+    spawn_enemy_of_type(
+      game, @types.enemy_fighter, hp_mult, spd_mult, formation, i, wave,
+    )
     ignore(i)
   }
 
   // Spawn interceptors
   for i = 0; i < comp.1; i = i + 1 {
-    spawn_enemy_of_type(game, @types.enemy_interceptor, hp_mult, spd_mult, formation, comp.0 + i, wave)
+    spawn_enemy_of_type(
+      game,
+      @types.enemy_interceptor,
+      hp_mult,
+      spd_mult,
+      formation,
+      comp.0 + i,
+      wave,
+    )
     ignore(i)
   }
 
   // Spawn bombers
   for i = 0; i < comp.2; i = i + 1 {
-    spawn_enemy_of_type(game, @types.enemy_bomber, hp_mult, spd_mult, formation, comp.0 + comp.1 + i, wave)
+    spawn_enemy_of_type(
+      game,
+      @types.enemy_bomber,
+      hp_mult,
+      spd_mult,
+      formation,
+      comp.0 + comp.1 + i,
+      wave,
+    )
     ignore(i)
   }
 
   // Spawn cruisers
   for i = 0; i < comp.3; i = i + 1 {
-    spawn_enemy_of_type(game, @types.enemy_cruiser, hp_mult, spd_mult, formation, comp.0 + comp.1 + comp.2 + i, wave)
+    spawn_enemy_of_type(
+      game,
+      @types.enemy_cruiser,
+      hp_mult,
+      spd_mult,
+      formation,
+      comp.0 + comp.1 + comp.2 + i,
+      wave,
+    )
     ignore(i)
   }
 
@@ -598,7 +675,9 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
     let num_capitals = ext.2
     for i = 0; i < num_capitals; i = i + 1 {
       let idx = @types.alloc_enemy(game)
-      if idx < 0 { break }
+      if idx < 0 {
+        break
+      }
       let e = game.enemies[idx]
       let boss_cfg = @levels.mission_boss_config(mission)
       e.active = true
@@ -634,6 +713,7 @@ fn spawn_wave(game : @types.Game, mission : Int, wave : Int) -> Unit {
   }
 }
 
+///|
 fn spawn_enemy_of_type(
   game : @types.Game,
   kind : Int,
@@ -641,10 +721,12 @@ fn spawn_enemy_of_type(
   spd_mult : Float,
   formation : Int,
   form_index : Int,
-  wave : Int
+  wave : Int,
 ) -> Unit {
   let idx = @types.alloc_enemy(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let e = game.enemies[idx]
   e.active = true
   e.kind = kind
@@ -733,11 +815,14 @@ fn spawn_enemy_of_type(
   ignore(spd_mult)
 }
 
+///|
 fn update_powerups(game : @types.Game, dt : Float) -> Unit {
   let p = game.player
   for i = 0; i < game.powerups.length(); i = i + 1 {
     let pu = game.powerups[i]
-    if not(pu.active) { continue i + 1 }
+    if not(pu.active) {
+      continue i + 1
+    }
 
     // Animation
     pu.bob_timer += @types.powerup_float_speed * dt
@@ -756,6 +841,7 @@ fn update_powerups(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn collect_powerup(game : @types.Game, idx : Int) -> Unit {
   let pu = game.powerups[idx]
   let p = game.player
@@ -763,13 +849,17 @@ fn collect_powerup(game : @types.Game, idx : Int) -> Unit {
 
   if pu.kind == @types.powerup_health {
     p.hull += @types.powerup_health_amount
-    if p.hull > p.max_hull { p.hull = p.max_hull }
+    if p.hull > p.max_hull {
+      p.hull = p.max_hull
+    }
     game.message_text = "HULL REPAIRED"
     game.message_timer = 1.5
     @types.add_kill_feed(game, "+HULL", 0, 255, 0)
   } else if pu.kind == @types.powerup_shield {
     p.shield += @types.powerup_shield_amount
-    if p.shield > p.max_shield { p.shield = p.max_shield }
+    if p.shield > p.max_shield {
+      p.shield = p.max_shield
+    }
     game.message_text = "SHIELD BOOST"
     game.message_timer = 1.5
     @types.add_kill_feed(game, "+SHIELD", 80, 160, 255)
@@ -793,10 +883,13 @@ fn collect_powerup(game : @types.Game, idx : Int) -> Unit {
   game.flash_b = 100
 }
 
+///|
 fn update_stations(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.stations.length(); i = i + 1 {
     let s = game.stations[i]
-    if not(s.active) { continue i + 1 }
+    if not(s.active) {
+      continue i + 1
+    }
     // Rotate the station
     s.rot_angle += 0.1 * dt
     s.ring_angle += 0.3 * dt
@@ -814,10 +907,13 @@ fn update_stations(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_debris(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.debris.length(); i = i + 1 {
     let d = game.debris[i]
-    if not(d.active) { continue i + 1 }
+    if not(d.active) {
+      continue i + 1
+    }
     d.life -= dt
     if d.life <= 0.0 {
       d.active = false

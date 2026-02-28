@@ -1,5 +1,6 @@
 // Player movement and combat
 
+///|
 pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   // Mouse look
   let mouse_delta = @raylib.get_mouse_delta()
@@ -109,7 +110,9 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
     @types.add_message(
       game,
       "Weapon: \{@types.get_weapon_name(game.player_weapon)}",
-      200, 200, 255,
+      200,
+      200,
+      255,
     )
   }
   // Cycle spells with 1-6 keys
@@ -163,7 +166,14 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
       game.poison_timer -= 1.0
       game.player_hp -= @types.poison_damage_per_sec
       @types.spawn_particles(
-        game, game.player_x, 1.0, game.player_z, 3, 100, 200, 50,
+        game,
+        game.player_x,
+        1.0,
+        game.player_z,
+        3,
+        100,
+        200,
+        50,
       )
     }
     if game.poison_remaining <= 0.0 {
@@ -196,6 +206,7 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn perform_melee_attack(game : @types.Game) -> Unit {
   let attack_dir_x = @math.sinf(game.camera_yaw)
   let attack_dir_z = @math.cosf(game.camera_yaw)
@@ -235,14 +246,18 @@ fn perform_melee_attack(game : @types.Game) -> Unit {
       @types.add_message(
         game,
         "CRITICAL HIT! \{final_damage} damage to \{@types.get_enemy_name(e.kind)}!",
-        255, 215, 0,
+        255,
+        215,
+        0,
       )
       @types.spawn_particles(game, e.x, 1.5, e.z, 6, 255, 215, 0)
     } else {
       @types.add_message(
         game,
         "Hit \{@types.get_enemy_name(e.kind)} for \{final_damage}!",
-        255, 200, 80,
+        255,
+        200,
+        80,
       )
     }
     if e.hp <= 0 {
@@ -256,6 +271,7 @@ fn perform_melee_attack(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn perform_bow_attack(game : @types.Game) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -277,11 +293,21 @@ fn perform_bow_attack(game : @types.Game) -> Unit {
   p.aoe_radius = 0.0
   p.slow_on_hit = false
   @types.spawn_directional_particles(
-    game, game.player_x, 1.2, game.player_z, dir_x, dir_z, 4,
-    200, 180, 100, 3.0,
+    game,
+    game.player_x,
+    1.2,
+    game.player_z,
+    dir_x,
+    dir_z,
+    4,
+    200,
+    180,
+    100,
+    3.0,
   )
 }
 
+///|
 fn cast_selected_spell(game : @types.Game) -> Unit {
   if game.selected_spell < 0 || game.selected_spell >= game.spells.length() {
     return
@@ -317,6 +343,7 @@ fn cast_selected_spell(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn cast_fireball(game : @types.Game) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -338,12 +365,22 @@ fn cast_fireball(game : @types.Game) -> Unit {
   p.aoe_radius = @types.fireball_radius
   p.slow_on_hit = false
   @types.spawn_directional_particles(
-    game, game.player_x, 1.2, game.player_z, dir_x, dir_z, 8,
-    255, 100, 30, 5.0,
+    game,
+    game.player_x,
+    1.2,
+    game.player_z,
+    dir_x,
+    dir_z,
+    8,
+    255,
+    100,
+    30,
+    5.0,
   )
   @types.add_message(game, "Fireball!", 255, 100, 30)
 }
 
+///|
 fn cast_ice_bolt(game : @types.Game) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -365,22 +402,40 @@ fn cast_ice_bolt(game : @types.Game) -> Unit {
   p.aoe_radius = 0.0
   p.slow_on_hit = true
   @types.spawn_directional_particles(
-    game, game.player_x, 1.2, game.player_z, dir_x, dir_z, 6,
-    100, 180, 255, 4.0,
+    game,
+    game.player_x,
+    1.2,
+    game.player_z,
+    dir_x,
+    dir_z,
+    6,
+    100,
+    180,
+    255,
+    4.0,
   )
   @types.add_message(game, "Ice Bolt!", 100, 180, 255)
 }
 
+///|
 fn cast_heal(game : @types.Game) -> Unit {
   let int_bonus = game.player_int_stat / 2
   let heal = @types.heal_amount + int_bonus
   game.player_hp = @types.mini(game.player_hp + heal, game.player_max_hp)
   @types.spawn_particles(
-    game, game.player_x, 1.0, game.player_z, 16, 50, 255, 80,
+    game,
+    game.player_x,
+    1.0,
+    game.player_z,
+    16,
+    50,
+    255,
+    80,
   )
   @types.add_message(game, "Healed for \{heal} HP!", 50, 255, 80)
 }
 
+///|
 fn cast_shield(game : @types.Game) -> Unit {
   let int_bonus = game.player_int_stat / 4
   @types.add_buff(
@@ -390,11 +445,19 @@ fn cast_shield(game : @types.Game) -> Unit {
     @types.shield_defense_bonus + int_bonus,
   )
   @types.spawn_particles(
-    game, game.player_x, 1.0, game.player_z, 12, 100, 150, 255,
+    game,
+    game.player_x,
+    1.0,
+    game.player_z,
+    12,
+    100,
+    150,
+    255,
   )
   @types.add_message(game, "Shield activated!", 100, 150, 255)
 }
 
+///|
 fn cast_lightning(game : @types.Game) -> Unit {
   // Hit nearest enemy in front of player
   let attack_dir_x = @math.sinf(game.camera_yaw)
@@ -431,7 +494,9 @@ fn cast_lightning(game : @types.Game) -> Unit {
     @types.add_message(
       game,
       "Lightning hits \{@types.get_enemy_name(e.kind)} for \{dmg}!",
-      255, 255, 100,
+      255,
+      255,
+      100,
     )
     if e.hp <= 0 {
       kill_enemy(game, hit_idx)
@@ -464,6 +529,7 @@ fn cast_lightning(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn cast_teleport(game : @types.Game) -> Unit {
   // Teleport forward in facing direction
   let dir_x = @math.sinf(game.camera_yaw)
@@ -487,12 +553,26 @@ fn cast_teleport(game : @types.Game) -> Unit {
   }
   if found {
     @types.spawn_particles(
-      game, game.player_x, 1.0, game.player_z, 12, 150, 100, 255,
+      game,
+      game.player_x,
+      1.0,
+      game.player_z,
+      12,
+      150,
+      100,
+      255,
     )
     game.player_x = dest_x
     game.player_z = dest_z
     @types.spawn_particles(
-      game, game.player_x, 1.0, game.player_z, 12, 150, 100, 255,
+      game,
+      game.player_x,
+      1.0,
+      game.player_z,
+      12,
+      150,
+      100,
+      255,
     )
     @types.add_message(game, "Teleported!", 150, 100, 255)
   } else {
@@ -505,6 +585,7 @@ fn cast_teleport(game : @types.Game) -> Unit {
   }
 }
 
+///|
 pub fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   let e = game.enemies[idx]
   // Award XP
@@ -516,7 +597,9 @@ pub fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   @types.add_message(
     game,
     "\{@types.get_enemy_name(e.kind)} defeated! +\{e.xp_value} XP",
-    80, 255, 80,
+    80,
+    255,
+    80,
   )
   // Drop loot (40% base + bonus for rarer enemies)
   let drop_chance = if e.kind == @types.enemy_dragon_boss {
@@ -580,6 +663,7 @@ pub fn kill_enemy(game : @types.Game, idx : Int) -> Unit {
   game.floor_info[game.current_floor].enemies_killed += 1
 }
 
+///|
 fn check_loot_pickup(game : @types.Game) -> Unit {
   for i = 0; i < game.loot.length(); i = i + 1 {
     let l = game.loot[i]
@@ -597,7 +681,9 @@ fn check_loot_pickup(game : @types.Game) -> Unit {
         @types.add_message(
           game,
           "+\{@types.health_potion_heal} HP",
-          50, 255, 50,
+          50,
+          255,
+          50,
         )
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 50, 255, 50)
       } else if l.kind == @types.loot_mana_potion {
@@ -608,7 +694,9 @@ fn check_loot_pickup(game : @types.Game) -> Unit {
         @types.add_message(
           game,
           "+\{@types.mana_potion_restore} Mana",
-          80, 100, 255,
+          80,
+          100,
+          255,
         )
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 80, 100, 255)
       } else if l.kind == @types.loot_damage_boost {
@@ -616,7 +704,9 @@ fn check_loot_pickup(game : @types.Game) -> Unit {
         @types.add_message(
           game,
           "+\{@types.damage_boost_amount} ATK",
-          255, 100, 50,
+          255,
+          100,
+          50,
         )
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 255, 100, 50)
       } else if l.kind == @types.loot_armor {
@@ -624,29 +714,29 @@ fn check_loot_pickup(game : @types.Game) -> Unit {
         @types.add_message(
           game,
           "+\{@types.armor_boost_amount} DEF",
-          100, 100, 255,
+          100,
+          100,
+          255,
         )
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 100, 100, 255)
       } else if l.kind == @types.loot_speed_potion {
         @types.add_buff(
-          game,
-          @types.buff_speed,
-          @types.speed_potion_duration,
-          1,
+          game, @types.buff_speed, @types.speed_potion_duration, 1,
         )
         @types.add_message(game, "Speed boost!", 255, 255, 80)
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 255, 255, 80)
       } else if l.kind == @types.loot_strength_potion {
         @types.add_buff(
-          game,
-          @types.buff_strength,
-          @types.strength_potion_duration,
-          @types.strength_potion_bonus,
+          game, @types.buff_strength, @types.strength_potion_duration, @types.strength_potion_bonus,
         )
         @types.add_message(game, "Strength boost!", 255, 80, 80)
         @types.spawn_particles(game, l.x, 0.5, l.z, 8, 255, 80, 80)
       } else if l.kind == @types.loot_gold_pile {
-        let amount = if l.value > 0 { l.value } else { @types.rand_range(game, 10, 30) }
+        let amount = if l.value > 0 {
+          l.value
+        } else {
+          @types.rand_range(game, 10, 30)
+        }
         game.player_gold += amount
         game.player_total_gold += amount
         @types.add_message(game, "+\{amount} Gold", 255, 215, 0)
@@ -667,6 +757,7 @@ fn check_loot_pickup(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_stairs(game : @types.Game) -> Unit {
   let stairs_wx = @types.grid_to_world_x(game.stairs_x)
   let stairs_wz = @types.grid_to_world_z(game.stairs_z)
@@ -690,6 +781,7 @@ fn check_stairs(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_chest_open(game : @types.Game) -> Unit {
   let check_x = game.player_x + @math.sinf(game.camera_yaw) * 1.5
   let check_z = game.player_z + @math.cosf(game.camera_yaw) * 1.5
@@ -755,7 +847,9 @@ fn check_chest_open(game : @types.Game) -> Unit {
         @types.add_message(
           game,
           "Learned \{@types.get_spell_name(spell_roll)}!",
-          200, 100, 255,
+          200,
+          100,
+          255,
         )
       } else {
         let gold = @types.rand_range(game, 30, 50)
@@ -772,6 +866,7 @@ fn check_chest_open(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_door_interact(game : @types.Game) -> Unit {
   let check_x = game.player_x + @math.sinf(game.camera_yaw) * 1.5
   let check_z = game.player_z + @math.cosf(game.camera_yaw) * 1.5
@@ -807,6 +902,7 @@ fn check_door_interact(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_shop_interact(game : @types.Game) -> Unit {
   let check_x = game.player_x + @math.sinf(game.camera_yaw) * 1.5
   let check_z = game.player_z + @math.cosf(game.camera_yaw) * 1.5
@@ -820,6 +916,7 @@ fn check_shop_interact(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_shrine_interact(game : @types.Game) -> Unit {
   let check_x = game.player_x + @math.sinf(game.camera_yaw) * 1.5
   let check_z = game.player_z + @math.cosf(game.camera_yaw) * 1.5
@@ -837,6 +934,7 @@ fn check_shrine_interact(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn check_traps(game : @types.Game, dt : Float) -> Unit {
   let pgx = @types.world_to_grid_x(game.player_x)
   let pgz = @types.world_to_grid_z(game.player_z)
@@ -901,6 +999,7 @@ fn check_traps(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn add_spell_to_player(game : @types.Game, spell_type : Int) -> Bool {
   // Check if already have this spell
   for i = 0; i < game.spells.length(); i = i + 1 {
@@ -919,6 +1018,7 @@ fn add_spell_to_player(game : @types.Game, spell_type : Int) -> Bool {
   false
 }
 
+///|
 fn level_up(game : @types.Game) -> Unit {
   game.player_xp -= game.player_xp_next
   game.player_level += 1
@@ -948,13 +1048,23 @@ fn level_up(game : @types.Game) -> Unit {
   @types.add_message(
     game,
     "Level Up! Lv.\{game.player_level} | HP:\{game.player_max_hp} ATK:\{game.player_atk} DEF:\{game.player_def}",
-    255, 215, 0,
+    255,
+    215,
+    0,
   )
   @types.spawn_particles(
-    game, game.player_x, 1.0, game.player_z, 24, 255, 255, 50,
+    game,
+    game.player_x,
+    1.0,
+    game.player_z,
+    24,
+    255,
+    255,
+    50,
   )
 }
 
+///|
 pub fn damage_player(game : @types.Game, raw_damage : Int) -> Unit {
   let total_def = @types.calc_player_defense(game)
   let damage = @types.maxi(1, raw_damage - total_def)

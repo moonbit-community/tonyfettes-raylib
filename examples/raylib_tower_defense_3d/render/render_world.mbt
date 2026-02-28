@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -24,6 +25,7 @@ pub fn draw_world(game : @types.Game) -> Unit {
   @raylib.end_mode_3d()
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   let angle_rad = game.camera_angle * @types.pi / 180.0
   let pitch_rad = game.camera_pitch * @types.pi / 180.0
@@ -43,6 +45,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   )
 }
 
+///|
 fn draw_map(game : @types.Game) -> Unit {
   for gy = 0; gy < @types.map_h; gy = gy + 1 {
     for gx = 0; gx < @types.map_w; gx = gx + 1 {
@@ -58,10 +61,16 @@ fn draw_map(game : @types.Game) -> Unit {
           cs,
           0.1,
           cs,
-          @raylib.Color::new(55 + shade_offset, 125 + shade_offset, 45 + shade_offset, 255),
+          @raylib.Color::new(
+            55 + shade_offset,
+            125 + shade_offset,
+            45 + shade_offset,
+            255,
+          ),
         )
-      } else if tile == @types.tile_path || tile == @types.tile_start || tile ==
-      @types.tile_end {
+      } else if tile == @types.tile_path ||
+        tile == @types.tile_start ||
+        tile == @types.tile_end {
         // Path tiles - darker worn earth color
         @raylib.draw_cube(
           @raylib.Vector3::new(wx, -0.1, wz),
@@ -80,9 +89,7 @@ fn draw_map(game : @types.Game) -> Unit {
         )
         if tile == @types.tile_start {
           // Start marker - green glowing cube
-          let pulse = @math.sinf(
-              Float::from_int(game.frame_counter) * 0.08,
-            ) *
+          let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.08) *
             0.1 +
             0.3
           @raylib.draw_cube(
@@ -102,9 +109,7 @@ fn draw_map(game : @types.Game) -> Unit {
         }
         if tile == @types.tile_end {
           // End marker - red glowing cube
-          let pulse = @math.sinf(
-              Float::from_int(game.frame_counter) * 0.08,
-            ) *
+          let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.08) *
             0.1 +
             0.3
           @raylib.draw_cube(
@@ -169,6 +174,7 @@ fn draw_map(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_grid_overlay(game : @types.Game) -> Unit {
   // Draw subtle grid lines when in building mode
   if game.state != @types.state_building {
@@ -192,6 +198,7 @@ fn draw_grid_overlay(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_path_markers(game : @types.Game) -> Unit {
   // Draw subtle path direction indicators
   for i = 0; i < game.path_count - 1; i = i + 1 {
@@ -225,6 +232,7 @@ fn draw_path_markers(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_towers(game : @types.Game) -> Unit {
   for i = 0; i < game.towers.length(); i = i + 1 {
     let tower = game.towers[i]
@@ -255,8 +263,11 @@ fn draw_towers(game : @types.Game) -> Unit {
     // Draw level indicators (rings around base)
     draw_level_indicators(wx, wz, tower.level, color)
     // Draw buff indicator if tower is buffed
-    if tower.buff_damage > 0.0 || tower.buff_range > 0.0 || tower.buff_rate > 0.0 {
-      let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.1 + 0.5
+    if tower.buff_damage > 0.0 ||
+      tower.buff_range > 0.0 ||
+      tower.buff_rate > 0.0 {
+      let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.1 +
+        0.5
       @raylib.draw_cube(
         @raylib.Vector3::new(wx, pulse, wz),
         1.4,
@@ -268,24 +279,31 @@ fn draw_towers(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_arrow_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   // Base platform
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.25, wz), 1.2, 0.5, 1.2, @raylib.Color::new(
-      80, 80, 90, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.25, wz),
+    1.2,
+    0.5,
+    1.2,
+    @raylib.Color::new(80, 80, 90, 255),
   )
   // Tall cylindrical tower body (approximated with narrow cube)
   let height : Float = 1.2 + Float::from_int(level - 1) * 0.2
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz), 0.5, height, 0.5, color,
+    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz),
+    0.5,
+    height,
+    0.5,
+    color,
   )
   // Pointed top (triangular cap - simulated with smaller cube rotated)
   @raylib.draw_cube(
@@ -310,25 +328,32 @@ fn draw_arrow_tower(
   )
 }
 
+///|
 fn draw_cannon_tower(
   wx : Float,
   wz : Float,
   level : Int,
   angle : Float,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   // Squat heavy base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.3, wz), 1.4, 0.6, 1.4, @raylib.Color::new(
-      70, 70, 80, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.3, wz),
+    1.4,
+    0.6,
+    1.4,
+    @raylib.Color::new(70, 70, 80, 255),
   )
   // Turret body (wider, shorter)
   let height : Float = 0.8 + Float::from_int(level - 1) * 0.15
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.6 + height / 2.0, wz), 0.8, height, 0.8, color,
+    @raylib.Vector3::new(wx, 0.6 + height / 2.0, wz),
+    0.8,
+    height,
+    0.8,
+    color,
   )
   // Barrel (extends from turret in direction of angle)
   let barrel_len : Float = 0.8 + Float::from_int(level - 1) * 0.1
@@ -344,23 +369,30 @@ fn draw_cannon_tower(
   )
 }
 
+///|
 fn draw_frost_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   // Blue crystal spire base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.2, wz), 1.0, 0.4, 1.0, @raylib.Color::new(
-      60, 80, 100, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.2, wz),
+    1.0,
+    0.4,
+    1.0,
+    @raylib.Color::new(60, 80, 100, 255),
   )
   // Crystal body - tall and narrow
   let height : Float = 1.5 + Float::from_int(level - 1) * 0.3
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz), 0.4, height, 0.4, color,
+    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz),
+    0.4,
+    height,
+    0.4,
+    color,
   )
   // Crystal tip
   @raylib.draw_cube(
@@ -390,23 +422,30 @@ fn draw_frost_tower(
   }
 }
 
+///|
 fn draw_lightning_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   // Metal base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.25, wz), 1.1, 0.5, 1.1, @raylib.Color::new(
-      90, 90, 100, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.25, wz),
+    1.1,
+    0.5,
+    1.1,
+    @raylib.Color::new(90, 90, 100, 255),
   )
   // Metal rod body
   let height : Float = 1.6 + Float::from_int(level - 1) * 0.25
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz), 0.3, height, 0.3, color,
+    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz),
+    0.3,
+    height,
+    0.3,
+    color,
   )
   // Sphere tip (approximated with small cube)
   let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.15) * 0.05 +
@@ -429,27 +468,30 @@ fn draw_lightning_tower(
   }
 }
 
+///|
 fn draw_flame_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   // Stone brazier base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.3, wz), 1.2, 0.6, 1.2, @raylib.Color::new(
-      80, 70, 60, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.3, wz),
+    1.2,
+    0.6,
+    1.2,
+    @raylib.Color::new(80, 70, 60, 255),
   )
   // Brazier bowl (wider top)
+  @raylib.draw_cube(@raylib.Vector3::new(wx, 0.7, wz), 0.9, 0.3, 0.9, color)
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.7, wz), 0.9, 0.3, 0.9, color,
-  )
-  @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.9, wz), 1.0, 0.1, 1.0, @raylib.Color::new(
-      100, 80, 60, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.9, wz),
+    1.0,
+    0.1,
+    1.0,
+    @raylib.Color::new(100, 80, 60, 255),
   )
   // Flame effect (animated cubes)
   let flame_height : Float = 0.5 + Float::from_int(level - 1) * 0.2
@@ -487,25 +529,32 @@ fn draw_flame_tower(
   }
 }
 
+///|
 fn draw_sniper_tower(
   wx : Float,
   wz : Float,
   level : Int,
   angle : Float,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   // Tall thin base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.2, wz), 0.9, 0.4, 0.9, @raylib.Color::new(
-      70, 70, 80, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.2, wz),
+    0.9,
+    0.4,
+    0.9,
+    @raylib.Color::new(70, 70, 80, 255),
   )
   // Very tall body
   let height : Float = 2.0 + Float::from_int(level - 1) * 0.3
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz), 0.35, height, 0.35, color,
+    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz),
+    0.35,
+    height,
+    0.35,
+    color,
   )
   // Scope / barrel on top
   let barrel_len : Float = 0.9
@@ -532,24 +581,31 @@ fn draw_sniper_tower(
   )
 }
 
+///|
 fn draw_splash_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   ignore(game)
   // Wide base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.25, wz), 1.4, 0.5, 1.4, @raylib.Color::new(
-      75, 75, 85, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.25, wz),
+    1.4,
+    0.5,
+    1.4,
+    @raylib.Color::new(75, 75, 85, 255),
   )
   // Central body
   let height : Float = 1.0 + Float::from_int(level - 1) * 0.2
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz), 0.7, height, 0.7, color,
+    @raylib.Vector3::new(wx, 0.5 + height / 2.0, wz),
+    0.7,
+    height,
+    0.7,
+    color,
   )
   // Multiple barrels pointing outward
   let barrel_count : Int = 3 + level
@@ -581,23 +637,30 @@ fn draw_splash_tower(
   )
 }
 
+///|
 fn draw_buff_tower(
   wx : Float,
   wz : Float,
   level : Int,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   // Glowing aura pillar base
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.2, wz), 1.0, 0.4, 1.0, @raylib.Color::new(
-      80, 60, 90, 255,
-    ),
+    @raylib.Vector3::new(wx, 0.2, wz),
+    1.0,
+    0.4,
+    1.0,
+    @raylib.Color::new(80, 60, 90, 255),
   )
   // Pillar
   let height : Float = 1.3 + Float::from_int(level - 1) * 0.25
   @raylib.draw_cube(
-    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz), 0.4, height, 0.4, color,
+    @raylib.Vector3::new(wx, 0.4 + height / 2.0, wz),
+    0.4,
+    height,
+    0.4,
+    color,
   )
   // Glowing orb on top
   let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.05 +
@@ -609,12 +672,10 @@ fn draw_buff_tower(
   )
   // Rotating aura rings
   let ring_angle = Float::from_int(game.frame_counter) * 0.5
-  let ring_alpha = ((@math.sinf(
-        Float::from_int(game.frame_counter) * 0.08,
-      ) *
-      0.3 +
-      0.5) *
-    80.0).to_int()
+  let ring_alpha = ((
+    @math.sinf(Float::from_int(game.frame_counter) * 0.08) * 0.3 + 0.5
+  ) *
+  80.0).to_int()
   @raylib.draw_circle_3d(
     @raylib.Vector3::new(wx, 0.4 + height * 0.5, wz),
     0.6,
@@ -623,9 +684,7 @@ fn draw_buff_tower(
     @raylib.Color::new(200, 150, 255, ring_alpha),
   )
   // Buff range indicator
-  let range = @types.tower_effective_range(
-    game.towers[0],
-  )
+  let range = @types.tower_effective_range(game.towers[0])
   // Find this tower to get actual range
   for i = 0; i < game.towers.length(); i = i + 1 {
     let t = game.towers[i]
@@ -649,11 +708,12 @@ fn draw_buff_tower(
   ignore(level)
 }
 
+///|
 fn draw_level_indicators(
   wx : Float,
   wz : Float,
   level : Int,
-  color : @raylib.Color
+  color : @raylib.Color,
 ) -> Unit {
   if level >= 2 {
     // Silver ring at base
@@ -678,6 +738,7 @@ fn draw_level_indicators(
   ignore(color)
 }
 
+///|
 fn draw_tower_range_indicators(game : @types.Game) -> Unit {
   if not(game.show_ranges) {
     return
@@ -697,11 +758,17 @@ fn draw_tower_range_indicators(game : @types.Game) -> Unit {
       range,
       @raylib.Vector3::new(1.0, 0.0, 0.0),
       90.0,
-      @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), alpha),
+      @raylib.Color::new(
+        color.r.to_int(),
+        color.g.to_int(),
+        color.b.to_int(),
+        alpha,
+      ),
     )
   }
 }
 
+///|
 fn draw_selected_tower_highlight(game : @types.Game) -> Unit {
   if game.selected_tower_idx < 0 {
     return
@@ -715,15 +782,19 @@ fn draw_selected_tower_highlight(game : @types.Game) -> Unit {
   let range = @types.tower_effective_range(tower)
   let color = tower_color(tower.kind)
   // Pulsing selection ring
-  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.3 +
-    0.7
+  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.3 + 0.7
   let alpha = (pulse * 120.0).to_int()
   @raylib.draw_circle_3d(
     @raylib.Vector3::new(wx, 0.1, wz),
     range,
     @raylib.Vector3::new(1.0, 0.0, 0.0),
     90.0,
-    @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), alpha),
+    @raylib.Color::new(
+      color.r.to_int(),
+      color.g.to_int(),
+      color.b.to_int(),
+      alpha,
+    ),
   )
   // Base highlight
   @raylib.draw_cube_wires(
@@ -735,6 +806,7 @@ fn draw_selected_tower_highlight(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn tower_color(kind : Int) -> @raylib.Color {
   if kind == @types.tower_arrow {
     @raylib.Color::new(150, 100, 50, 255)
@@ -757,6 +829,7 @@ fn tower_color(kind : Int) -> @raylib.Color {
   }
 }
 
+///|
 fn draw_enemies(game : @types.Game) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let enemy = game.enemies[i]
@@ -795,10 +868,15 @@ fn draw_enemies(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_basic_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   let size : Float = 0.6
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
   @raylib.draw_cube_wires(
     @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
@@ -814,10 +892,15 @@ fn draw_basic_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   )
 }
 
+///|
 fn draw_fast_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   // Small elongated shape
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), 0.3, 0.4, 0.7, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    0.3,
+    0.4,
+    0.7,
+    color,
   )
   // Speed trail
   @raylib.draw_cube(
@@ -825,15 +908,25 @@ fn draw_fast_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
     0.15,
     0.15,
     0.4,
-    @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), 120),
+    @raylib.Color::new(
+      color.r.to_int(),
+      color.g.to_int(),
+      color.b.to_int(),
+      120,
+    ),
   )
 }
 
+///|
 fn draw_tank_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   let size : Float = 0.9
   // Heavy body
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size * 0.8, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size * 0.8,
+    size,
+    color,
   )
   // Armor plates on top
   @raylib.draw_cube(
@@ -860,14 +953,17 @@ fn draw_tank_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   )
 }
 
+///|
 fn draw_flying_enemy(
   enemy : @types.Enemy,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   // Main body (sphere)
   @raylib.draw_sphere(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), 0.3, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    0.3,
+    color,
   )
   // Wings (flapping)
   let flap = @math.sinf(Float::from_int(game.frame_counter) * 0.3) * 0.2
@@ -877,7 +973,12 @@ fn draw_flying_enemy(
     0.5,
     0.05,
     0.3,
-    @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), 200),
+    @raylib.Color::new(
+      color.r.to_int(),
+      color.g.to_int(),
+      color.b.to_int(),
+      200,
+    ),
   )
   // Right wing
   @raylib.draw_cube(
@@ -885,7 +986,12 @@ fn draw_flying_enemy(
     0.5,
     0.05,
     0.3,
-    @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), 200),
+    @raylib.Color::new(
+      color.r.to_int(),
+      color.g.to_int(),
+      color.b.to_int(),
+      200,
+    ),
   )
   // Shadow on ground
   @raylib.draw_cube(
@@ -897,15 +1003,20 @@ fn draw_flying_enemy(
   )
 }
 
+///|
 fn draw_boss_enemy(
   enemy : @types.Enemy,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   let size : Float = 1.2
   // Large body
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
   @raylib.draw_cube_wires(
     @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
@@ -945,8 +1056,7 @@ fn draw_boss_enemy(
     @raylib.Color::new(255, 50, 50, 255),
   )
   // Menacing aura
-  let aura = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.1 +
-    0.3
+  let aura = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.1 + 0.3
   @raylib.draw_cube(
     @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
     size + aura,
@@ -956,14 +1066,19 @@ fn draw_boss_enemy(
   )
 }
 
+///|
 fn draw_healer_enemy(
   enemy : @types.Enemy,
   color : @raylib.Color,
-  game : @types.Game
+  game : @types.Game,
 ) -> Unit {
   let size : Float = 0.6
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
   // Cross symbol on top (green)
   @raylib.draw_cube(
@@ -981,8 +1096,7 @@ fn draw_healer_enemy(
     @raylib.Color::new(50, 255, 50, 255),
   )
   // Healing aura pulse
-  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.12) * 0.5 +
-    0.5
+  let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.12) * 0.5 + 0.5
   let aura_alpha = (pulse * 40.0).to_int()
   @raylib.draw_circle_3d(
     @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
@@ -993,19 +1107,29 @@ fn draw_healer_enemy(
   )
 }
 
+///|
 fn draw_swarm_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   // Very small cube
   let size : Float = 0.3
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
 }
 
+///|
 fn draw_shield_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   let size : Float = 0.7
   // Body
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
   // Shield bubble
   if enemy.shield_hp > 0.0 {
@@ -1019,6 +1143,7 @@ fn draw_shield_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   }
 }
 
+///|
 fn draw_camo_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   let size : Float = 0.5
   // Semi-transparent body
@@ -1027,7 +1152,12 @@ fn draw_camo_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
     size,
     size,
     size,
-    @raylib.Color::new(color.r.to_int(), color.g.to_int(), color.b.to_int(), 140),
+    @raylib.Color::new(
+      color.r.to_int(),
+      color.g.to_int(),
+      color.b.to_int(),
+      140,
+    ),
   )
   // Stealth shimmer
   @raylib.draw_cube_wires(
@@ -1039,11 +1169,16 @@ fn draw_camo_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   )
 }
 
+///|
 fn draw_splitter_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   let size : Float = 0.7
   // Cracked body
   @raylib.draw_cube(
-    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z), size, size, size, color,
+    @raylib.Vector3::new(enemy.x, enemy.y, enemy.z),
+    size,
+    size,
+    size,
+    color,
   )
   // Crack lines
   @raylib.draw_cube(
@@ -1062,6 +1197,7 @@ fn draw_splitter_enemy(enemy : @types.Enemy, color : @raylib.Color) -> Unit {
   )
 }
 
+///|
 fn draw_enemy_health_bar(enemy : @types.Enemy) -> Unit {
   let size : Float = if enemy.is_boss {
     1.2
@@ -1094,7 +1230,9 @@ fn draw_enemy_health_bar(enemy : @types.Enemy) -> Unit {
   if hp_pct > 0.0 {
     @raylib.draw_cube(
       @raylib.Vector3::new(
-        enemy.x - bar_w * (1.0 - hp_pct) / 2.0, bar_y, enemy.z,
+        enemy.x - bar_w * (1.0 - hp_pct) / 2.0,
+        bar_y,
+        enemy.z,
       ),
       bar_w * hp_pct,
       @types.health_bar_height + 0.02,
@@ -1104,6 +1242,7 @@ fn draw_enemy_health_bar(enemy : @types.Enemy) -> Unit {
   }
 }
 
+///|
 fn draw_enemy_shield_bar(enemy : @types.Enemy) -> Unit {
   if enemy.shield_max <= 0.0 {
     return
@@ -1115,7 +1254,9 @@ fn draw_enemy_shield_bar(enemy : @types.Enemy) -> Unit {
   if shield_pct > 0.0 {
     @raylib.draw_cube(
       @raylib.Vector3::new(
-        enemy.x - bar_w * (1.0 - shield_pct) / 2.0, bar_y, enemy.z,
+        enemy.x - bar_w * (1.0 - shield_pct) / 2.0,
+        bar_y,
+        enemy.z,
       ),
       bar_w * shield_pct,
       0.05,
@@ -1125,6 +1266,7 @@ fn draw_enemy_shield_bar(enemy : @types.Enemy) -> Unit {
   }
 }
 
+///|
 fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let enemy = game.enemies[i]
@@ -1150,7 +1292,9 @@ fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
       // Additional ice crystals
       @raylib.draw_cube(
         @raylib.Vector3::new(
-          enemy.x + size * 0.3, enemy.y + size * 0.2, enemy.z,
+          enemy.x + size * 0.3,
+          enemy.y + size * 0.2,
+          enemy.z,
         ),
         0.1,
         0.15,
@@ -1163,7 +1307,9 @@ fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
       let flicker = @math.sinf(Float::from_int(game.frame_counter) * 0.3)
       @raylib.draw_cube(
         @raylib.Vector3::new(
-          enemy.x, enemy.y + size * 0.3 + flicker * 0.1, enemy.z,
+          enemy.x,
+          enemy.y + size * 0.3 + flicker * 0.1,
+          enemy.z,
         ),
         size * 0.4,
         size * 0.4,
@@ -1201,6 +1347,7 @@ fn draw_enemy_status_visuals(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn enemy_color(kind : Int) -> @raylib.Color {
   if kind == @types.enemy_basic {
     @raylib.Color::new(180, 60, 60, 255)
@@ -1227,6 +1374,7 @@ fn enemy_color(kind : Int) -> @raylib.Color {
   }
 }
 
+///|
 fn draw_projectiles(game : @types.Game) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
@@ -1296,7 +1444,11 @@ fn draw_projectiles(game : @types.Game) -> Unit {
         @raylib.Color::new(200, 200, 50, 255)
       }
       @raylib.draw_cube(
-        @raylib.Vector3::new(proj.x, proj.y, proj.z), 0.05, 0.05, 0.25, color,
+        @raylib.Vector3::new(proj.x, proj.y, proj.z),
+        0.05,
+        0.05,
+        0.25,
+        color,
       )
     } else if proj.kind == @types.tower_splash {
       // Splash bomb
@@ -1309,12 +1461,15 @@ fn draw_projectiles(game : @types.Game) -> Unit {
       // Default
       let color = tower_color(proj.kind)
       @raylib.draw_sphere(
-        @raylib.Vector3::new(proj.x, proj.y, proj.z), 0.15, color,
+        @raylib.Vector3::new(proj.x, proj.y, proj.z),
+        0.15,
+        color,
       )
     }
   }
 }
 
+///|
 fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
   for i = 0; i < game.chain_lines.length(); i = i + 1 {
     let cl = game.chain_lines[i]
@@ -1342,6 +1497,7 @@ fn draw_chain_lightning_lines(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
@@ -1360,6 +1516,7 @@ fn draw_particles_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_build_cursor(game : @types.Game) -> Unit {
   let wx = @types.grid_to_world_x(game.hover_gx)
   let wz = @types.grid_to_world_z(game.hover_gy)

@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_zombie_safehouse_siege_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Particle
+
+type Safehouse
+
+type Scrap
+
+type Survivor
+
+type Zombie
+
+// Type aliases
+
+// Traits
+

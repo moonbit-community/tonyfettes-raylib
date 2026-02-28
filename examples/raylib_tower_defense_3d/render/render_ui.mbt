@@ -1,12 +1,15 @@
 // 2D UI overlay
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
   } else if game.state == @types.state_map_select {
     draw_map_select(game)
-  } else if game.state == @types.state_playing || game.state == @types.state_wave_prep ||
-  game.state == @types.state_building || game.state == @types.state_tower_info {
+  } else if game.state == @types.state_playing ||
+    game.state == @types.state_wave_prep ||
+    game.state == @types.state_building ||
+    game.state == @types.state_tower_info {
     draw_hud(game)
     draw_economy_panel(game)
     if game.show_minimap {
@@ -34,11 +37,14 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      20, 30, 20, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(20, 30, 20, 255),
   )
   // Title
   let title = "TOWER DEFENSE 3D"
@@ -62,13 +68,16 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Decorative line
   @raylib.draw_rectangle(
-    (@types.screen_width - 400) / 2, 190, 400, 2, @raylib.Color::new(
-      80, 130, 80, 255,
-    ),
+    (@types.screen_width - 400) / 2,
+    190,
+    400,
+    2,
+    @raylib.Color::new(80, 130, 80, 255),
   )
   // Menu items
   let items : Array[String] = [
-    "Start Game", "Difficulty: " + @types.difficulty_name(game.difficulty),
+    "Start Game",
+    "Difficulty: " + @types.difficulty_name(game.difficulty),
   ]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 240 + i * 55
@@ -114,11 +123,8 @@ fn draw_menu(game : @types.Game) -> Unit {
     @raylib.Color::new(150, 180, 150, 255),
   )
   let feature_items : Array[String] = [
-    "8 Tower Types with 3 Upgrade Levels",
-    "10 Enemy Types including Bosses",
-    "5 Unique Maps | 30 Waves Each",
-    "Status Effects: Slow, Burn, Stun, Chain",
-    "Economy: Interest, Sell, Wave Bonuses",
+    "8 Tower Types with 3 Upgrade Levels", "10 Enemy Types including Bosses", "5 Unique Maps | 30 Waves Each",
+    "Status Effects: Slow, Burn, Stun, Chain", "Economy: Interest, Sell, Wave Bonuses",
   ]
   for i = 0; i < feature_items.length(); i = i + 1 {
     let fy = features_y + 22 + i * 18
@@ -135,10 +141,12 @@ fn draw_menu(game : @types.Game) -> Unit {
   // Controls
   @raylib.draw_text(
     "Arrows: Select | Enter: Confirm | Left/Right: Difficulty",
-    (@types.screen_width - @raylib.measure_text(
-        "Arrows: Select | Enter: Confirm | Left/Right: Difficulty",
-        14,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text(
+        "Arrows: Select | Enter: Confirm | Left/Right: Difficulty", 14,
+      )
+    ) /
     2,
     @types.screen_height - 40,
     14,
@@ -146,11 +154,14 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_map_select(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      20, 25, 30, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(20, 25, 30, 255),
   )
   let title = "SELECT MAP"
   let tw = @raylib.measure_text(title, 40)
@@ -162,9 +173,11 @@ fn draw_map_select(game : @types.Game) -> Unit {
     @raylib.Color::new(100, 180, 220, 255),
   )
   @raylib.draw_rectangle(
-    (@types.screen_width - 350) / 2, 75, 350, 2, @raylib.Color::new(
-      60, 100, 150, 255,
-    ),
+    (@types.screen_width - 350) / 2,
+    75,
+    350,
+    2,
+    @raylib.Color::new(60, 100, 150, 255),
   )
   // Map entries
   for i = 0; i < @types.map_count; i = i + 1 {
@@ -179,9 +192,11 @@ fn draw_map_select(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(100, y, @types.screen_width - 200, 95, bg)
     if is_sel {
       @raylib.draw_rectangle_lines(
-        100, y, @types.screen_width - 200, 95, @raylib.Color::new(
-          100, 150, 200, 255,
-        ),
+        100,
+        y,
+        @types.screen_width - 200,
+        95,
+        @raylib.Color::new(100, 150, 200, 255),
       )
     }
     // Map name
@@ -202,7 +217,11 @@ fn draw_map_select(game : @types.Game) -> Unit {
     // Difficulty stars
     let diff_text = "Difficulty: " + difficulty_stars(info.difficulty)
     @raylib.draw_text(
-      diff_text, 120, y + 55, 14, @raylib.Color::new(180, 150, 50, 255),
+      diff_text,
+      120,
+      y + 55,
+      14,
+      @raylib.Color::new(180, 150, 50, 255),
     )
     // Gold bonus
     if info.starting_gold_bonus > 0 {
@@ -220,9 +239,10 @@ fn draw_map_select(game : @types.Game) -> Unit {
   }
   @raylib.draw_text(
     "Arrows: Select | Enter: Play | Esc: Back",
-    (@types.screen_width - @raylib.measure_text(
-        "Arrows: Select | Enter: Play | Esc: Back", 16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("Arrows: Select | Enter: Play | Esc: Back", 16)
+    ) /
     2,
     @types.screen_height - 40,
     16,
@@ -230,6 +250,7 @@ fn draw_map_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn difficulty_stars(diff : Int) -> String {
   if diff == 1 {
     "*"
@@ -242,18 +263,21 @@ fn difficulty_stars(diff : Int) -> String {
   }
 }
 
+///|
 fn draw_map_preview(
   info : @types.MapInfo,
   px : Int,
   py : Int,
   pw : Int,
-  ph : Int
+  ph : Int,
 ) -> Unit {
-  @raylib.draw_rectangle(
-    px, py, pw, ph, @raylib.Color::new(30, 35, 45, 255),
-  )
+  @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(30, 35, 45, 255))
   @raylib.draw_rectangle_lines(
-    px, py, pw, ph, @raylib.Color::new(60, 70, 90, 255),
+    px,
+    py,
+    pw,
+    ph,
+    @raylib.Color::new(60, 70, 90, 255),
   )
   let layout = info.layout
   let rows = layout.length()
@@ -273,33 +297,58 @@ fn draw_map_preview(
       let cy = py + gy * cell_h
       if ch == '#' {
         @raylib.draw_rectangle(
-          cx, cy, cell_w, cell_h, @raylib.Color::new(160, 140, 100, 255),
+          cx,
+          cy,
+          cell_w,
+          cell_h,
+          @raylib.Color::new(160, 140, 100, 255),
         )
       } else if ch == 'S' {
         @raylib.draw_rectangle(
-          cx, cy, cell_w, cell_h, @raylib.Color::new(50, 200, 50, 255),
+          cx,
+          cy,
+          cell_w,
+          cell_h,
+          @raylib.Color::new(50, 200, 50, 255),
         )
       } else if ch == 'E' {
         @raylib.draw_rectangle(
-          cx, cy, cell_w, cell_h, @raylib.Color::new(200, 50, 50, 255),
+          cx,
+          cy,
+          cell_w,
+          cell_h,
+          @raylib.Color::new(200, 50, 50, 255),
         )
       } else if ch == '~' {
         @raylib.draw_rectangle(
-          cx, cy, cell_w, cell_h, @raylib.Color::new(40, 80, 180, 200),
+          cx,
+          cy,
+          cell_w,
+          cell_h,
+          @raylib.Color::new(40, 80, 180, 200),
         )
       } else if ch == 'R' {
         @raylib.draw_rectangle(
-          cx, cy, cell_w, cell_h, @raylib.Color::new(80, 75, 70, 255),
+          cx,
+          cy,
+          cell_w,
+          cell_h,
+          @raylib.Color::new(80, 75, 70, 255),
         )
       }
     }
   }
 }
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   // Top bar background
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, 45, @raylib.Color::new(0, 0, 0, 180),
+    0,
+    0,
+    @types.screen_width,
+    45,
+    @raylib.Color::new(0, 0, 0, 180),
   )
   // Gold
   @raylib.draw_text(
@@ -356,9 +405,11 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
   // Bottom bar
   @raylib.draw_rectangle(
-    0, @types.screen_height - 30, @types.screen_width, 30, @raylib.Color::new(
-      0, 0, 0, 140,
-    ),
+    0,
+    @types.screen_height - 30,
+    @types.screen_width,
+    30,
+    @raylib.Color::new(0, 0, 0, 140),
   )
   @raylib.draw_text(
     "B:Build Q/E:Rotate W/A/S/D:Pan R:Ranges M:Map P:Pause Tab:Speed T:Tower Info Z/X:Pitch",
@@ -369,26 +420,43 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_economy_panel(game : @types.Game) -> Unit {
   // Small economy info in top-right
   let px = @types.screen_width - 160
   let py = 50
   @raylib.draw_rectangle(px, py, 155, 65, @raylib.Color::new(0, 0, 0, 140))
   @raylib.draw_rectangle_lines(
-    px, py, 155, 65, @raylib.Color::new(60, 60, 80, 200),
+    px,
+    py,
+    155,
+    65,
+    @raylib.Color::new(60, 60, 80, 200),
   )
   // Interest timer
   let interest_pct = game.interest_timer / @types.interest_interval
   let bar_wf : Float = 130.0 * interest_pct
   let bar_w = bar_wf.to_int()
   @raylib.draw_text(
-    "Interest:", px + 5, py + 5, 12, @raylib.Color::new(180, 180, 200, 255),
+    "Interest:",
+    px + 5,
+    py + 5,
+    12,
+    @raylib.Color::new(180, 180, 200, 255),
   )
   @raylib.draw_rectangle(
-    px + 5, py + 20, 130, 8, @raylib.Color::new(40, 40, 50, 255),
+    px + 5,
+    py + 20,
+    130,
+    8,
+    @raylib.Color::new(40, 40, 50, 255),
   )
   @raylib.draw_rectangle(
-    px + 5, py + 20, bar_w, 8, @raylib.Color::new(100, 180, 50, 200),
+    px + 5,
+    py + 20,
+    bar_w,
+    8,
+    @raylib.Color::new(100, 180, 50, 200),
   )
   // Kill count this wave
   @raylib.draw_text(
@@ -408,19 +476,22 @@ fn draw_economy_panel(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_minimap(game : @types.Game) -> Unit {
   let mx = @types.minimap_x
   let my = @types.minimap_y
   let ms = @types.minimap_size
   let mw = ms
-  let mh = (ms * @types.map_h) / @types.map_w
+  let mh = ms * @types.map_h / @types.map_w
   // Background
   @raylib.draw_rectangle(
-    mx - 2, my - 2, mw + 4, mh + 4, @raylib.Color::new(0, 0, 0, 200),
+    mx - 2,
+    my - 2,
+    mw + 4,
+    mh + 4,
+    @raylib.Color::new(0, 0, 0, 200),
   )
-  @raylib.draw_rectangle(
-    mx, my, mw, mh, @raylib.Color::new(30, 40, 30, 220),
-  )
+  @raylib.draw_rectangle(mx, my, mw, mh, @raylib.Color::new(30, 40, 30, 220))
   // Draw tiles
   let cw = mw / @types.map_w
   let ch = mh / @types.map_h
@@ -431,23 +502,43 @@ fn draw_minimap(game : @types.Game) -> Unit {
       let cy = my + gy * ch
       if tile == @types.tile_path {
         @raylib.draw_rectangle(
-          cx, cy, cw, ch, @raylib.Color::new(160, 140, 100, 200),
+          cx,
+          cy,
+          cw,
+          ch,
+          @raylib.Color::new(160, 140, 100, 200),
         )
       } else if tile == @types.tile_start {
         @raylib.draw_rectangle(
-          cx, cy, cw, ch, @raylib.Color::new(50, 200, 50, 255),
+          cx,
+          cy,
+          cw,
+          ch,
+          @raylib.Color::new(50, 200, 50, 255),
         )
       } else if tile == @types.tile_end {
         @raylib.draw_rectangle(
-          cx, cy, cw, ch, @raylib.Color::new(200, 50, 50, 255),
+          cx,
+          cy,
+          cw,
+          ch,
+          @raylib.Color::new(200, 50, 50, 255),
         )
       } else if tile == @types.tile_water {
         @raylib.draw_rectangle(
-          cx, cy, cw, ch, @raylib.Color::new(40, 80, 180, 200),
+          cx,
+          cy,
+          cw,
+          ch,
+          @raylib.Color::new(40, 80, 180, 200),
         )
       } else if tile == @types.tile_rock {
         @raylib.draw_rectangle(
-          cx, cy, cw, ch, @raylib.Color::new(80, 75, 70, 200),
+          cx,
+          cy,
+          cw,
+          ch,
+          @raylib.Color::new(80, 75, 70, 200),
         )
       }
     }
@@ -461,7 +552,11 @@ fn draw_minimap(game : @types.Game) -> Unit {
     let cx = mx + tower.gx * cw
     let cy = my + tower.gy * ch
     @raylib.draw_rectangle(
-      cx, cy, cw, ch, @raylib.Color::new(50, 150, 255, 255),
+      cx,
+      cy,
+      cw,
+      ch,
+      @raylib.Color::new(50, 150, 255, 255),
     )
   }
   // Draw enemies on minimap
@@ -479,18 +574,33 @@ fn draw_minimap(game : @types.Game) -> Unit {
     } else {
       @raylib.Color::new(255, 80, 80, 255)
     }
-    @raylib.draw_rectangle(cx, cy, @types.maxi(cw, 2), @types.maxi(ch, 2), enemy_mm_color)
+    @raylib.draw_rectangle(
+      cx,
+      cy,
+      @types.maxi(cw, 2),
+      @types.maxi(ch, 2),
+      enemy_mm_color,
+    )
   }
   // Border
   @raylib.draw_rectangle_lines(
-    mx, my, mw, mh, @raylib.Color::new(100, 120, 100, 200),
+    mx,
+    my,
+    mw,
+    mh,
+    @raylib.Color::new(100, 120, 100, 200),
   )
   // Label
   @raylib.draw_text(
-    "Map", mx, my - 14, 12, @raylib.Color::new(150, 170, 150, 255),
+    "Map",
+    mx,
+    my - 14,
+    12,
+    @raylib.Color::new(150, 170, 150, 255),
   )
 }
 
+///|
 fn draw_wave_prep_overlay(game : @types.Game) -> Unit {
   let timer_text = "Next wave in: \{game.wave_timer.to_int() + 1}"
   let tw = @raylib.measure_text(timer_text, 30)
@@ -548,9 +658,10 @@ fn draw_wave_prep_overlay(game : @types.Game) -> Unit {
   }
   @raylib.draw_text(
     "Space: Start Now | B: Build Towers",
-    (@types.screen_width - @raylib.measure_text(
-        "Space: Start Now | B: Build Towers", 16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("Space: Start Now | B: Build Towers", 16)
+    ) /
     2,
     160,
     16,
@@ -558,16 +669,25 @@ fn draw_wave_prep_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_build_ui(game : @types.Game) -> Unit {
   // Tower selection panel on right
   let panel_x = @types.screen_width - 230
   let panel_y = 50
   let panel_h = 500
   @raylib.draw_rectangle(
-    panel_x, panel_y, 225, panel_h, @raylib.Color::new(20, 25, 35, 230),
+    panel_x,
+    panel_y,
+    225,
+    panel_h,
+    @raylib.Color::new(20, 25, 35, 230),
   )
   @raylib.draw_rectangle_lines(
-    panel_x, panel_y, 225, panel_h, @raylib.Color::new(80, 100, 130, 255),
+    panel_x,
+    panel_y,
+    225,
+    panel_h,
+    @raylib.Color::new(80, 100, 130, 255),
   )
   @raylib.draw_text(
     "BUILD TOWER",
@@ -577,7 +697,11 @@ fn draw_build_ui(game : @types.Game) -> Unit {
     @raylib.Color::new(200, 220, 255, 255),
   )
   @raylib.draw_rectangle(
-    panel_x + 10, panel_y + 30, 205, 1, @raylib.Color::new(60, 80, 110, 255),
+    panel_x + 10,
+    panel_y + 30,
+    205,
+    1,
+    @raylib.Color::new(60, 80, 110, 255),
   )
   let tower_types : Array[(Int, String, Int, String)] = [
     (@types.tower_arrow, "1: Arrow", @types.cost_arrow, "Fast single"),
@@ -602,7 +726,11 @@ fn draw_build_ui(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(panel_x + 5, y, 215, 50, bg)
     if is_sel {
       @raylib.draw_rectangle_lines(
-        panel_x + 5, y, 215, 50, @raylib.Color::new(120, 150, 200, 255),
+        panel_x + 5,
+        y,
+        215,
+        50,
+        @raylib.Color::new(120, 150, 200, 255),
       )
     }
     let text_color = if can_afford {
@@ -660,11 +788,10 @@ fn draw_build_ui(game : @types.Game) -> Unit {
   } else {
     @raylib.Color::new(255, 80, 80, 255)
   }
-  @raylib.draw_text(
-    "Cost: \{cost}g", 10, 72, 16, cost_color,
-  )
+  @raylib.draw_text("Cost: \{cost}g", 10, 72, 16, cost_color)
 }
 
+///|
 fn draw_tower_info_panel(game : @types.Game) -> Unit {
   if game.selected_tower_idx < 0 {
     return
@@ -679,7 +806,11 @@ fn draw_tower_info_panel(game : @types.Game) -> Unit {
   let ph = 400
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(15, 20, 30, 240))
   @raylib.draw_rectangle_lines(
-    px, py, pw, ph, @raylib.Color::new(80, 100, 140, 255),
+    px,
+    py,
+    pw,
+    ph,
+    @raylib.Color::new(80, 100, 140, 255),
   )
   // Tower name and level
   let name = @types.tower_name(tower.kind)
@@ -706,7 +837,11 @@ fn draw_tower_info_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(255, 215, 0, 255),
   )
   @raylib.draw_rectangle(
-    px + 10, py + 35, pw - 20, 1, @raylib.Color::new(60, 80, 110, 255),
+    px + 10,
+    py + 35,
+    pw - 20,
+    1,
+    @raylib.Color::new(60, 80, 110, 255),
   )
   // Stats
   let stat_y = py + 45
@@ -753,7 +888,11 @@ fn draw_tower_info_panel(game : @types.Game) -> Unit {
   )
   // Kill stats
   @raylib.draw_rectangle(
-    px + 10, stat_y + 105, pw - 20, 1, @raylib.Color::new(50, 60, 80, 255),
+    px + 10,
+    stat_y + 105,
+    pw - 20,
+    1,
+    @raylib.Color::new(50, 60, 80, 255),
   )
   @raylib.draw_text(
     "Kills: \{tower.kills}",
@@ -781,7 +920,11 @@ fn draw_tower_info_panel(game : @types.Game) -> Unit {
   }
   // Upgrade section
   @raylib.draw_rectangle(
-    px + 10, stat_y + 170, pw - 20, 1, @raylib.Color::new(50, 60, 80, 255),
+    px + 10,
+    stat_y + 170,
+    pw - 20,
+    1,
+    @raylib.Color::new(50, 60, 80, 255),
   )
   if tower.level < 3 {
     let upgrade_info = @types.get_upgrade_info(tower.kind, tower.level)
@@ -858,6 +1001,7 @@ fn draw_tower_info_panel(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_wave_message(game : @types.Game) -> Unit {
   if game.wave_message_timer <= 0.0 {
     return
@@ -874,7 +1018,9 @@ fn draw_wave_message(game : @types.Game) -> Unit {
     44,
     @raylib.Color::new(0, 0, 0, alpha / 2),
   )
-  let is_boss = msg == "BOSS WAVE!" || msg == "Double BOSS!" || msg == "Triple BOSS!" ||
+  let is_boss = msg == "BOSS WAVE!" ||
+    msg == "Double BOSS!" ||
+    msg == "Triple BOSS!" ||
     msg == "Quad BOSS!" ||
     msg == "FINAL BOSS WAVE!"
   let color = if is_boss {
@@ -882,11 +1028,10 @@ fn draw_wave_message(game : @types.Game) -> Unit {
   } else {
     @raylib.Color::new(255, 255, 200, alpha)
   }
-  @raylib.draw_text(
-    msg, (@types.screen_width - mw) / 2, msg_y, 32, color,
-  )
+  @raylib.draw_text(msg, (@types.screen_width - mw) / 2, msg_y, 32, color)
 }
 
+///|
 fn draw_notification(game : @types.Game) -> Unit {
   if game.notification_timer <= 0.0 {
     return
@@ -912,6 +1057,7 @@ fn draw_notification(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_speed_indicator(game : @types.Game) -> Unit {
   let speed_text = @types.speed_name(game.speed_setting)
   let sx = @types.screen_width - 60
@@ -925,16 +1071,23 @@ fn draw_speed_indicator(game : @types.Game) -> Unit {
   }
   @raylib.draw_rectangle(sx - 5, sy - 3, 55, 22, bg_color)
   @raylib.draw_text(
-    speed_text, sx, sy, 16, @raylib.Color::new(255, 255, 200, 255),
+    speed_text,
+    sx,
+    sy,
+    16,
+    @raylib.Color::new(255, 255, 200, 255),
   )
 }
 
+///|
 fn draw_pause_overlay(game : @types.Game) -> Unit {
   ignore(game)
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 0, 0, 160,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 160),
   )
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 60)
@@ -947,9 +1100,10 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
   @raylib.draw_text(
     "P: Resume | Q: Quit to Menu",
-    (@types.screen_width - @raylib.measure_text(
-        "P: Resume | Q: Quit to Menu", 20,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("P: Resume | Q: Quit to Menu", 20)
+    ) /
     2,
     @types.screen_height / 2 + 10,
     20,
@@ -994,11 +1148,14 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_game_over(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      30, 0, 0, 230,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(30, 0, 0, 230),
   )
   let text = "GAME OVER"
   let tw = @raylib.measure_text(text, 60)
@@ -1071,11 +1228,14 @@ fn draw_game_over(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_victory(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 30, 0, 230,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 30, 0, 230),
   )
   let text = "VICTORY!"
   let tw = @raylib.measure_text(text, 60)

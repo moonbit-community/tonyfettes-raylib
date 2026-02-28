@@ -1,4 +1,5 @@
 // Entity on the grid (block, diamond, key, bomb)
+///|
 pub(all) struct Entity {
   mut active : Bool
   mut kind : Int
@@ -12,6 +13,7 @@ pub(all) struct Entity {
   mut on_plate : Bool
 }
 
+///|
 pub fn Entity::inactive() -> Entity {
   {
     active: false,
@@ -27,6 +29,7 @@ pub fn Entity::inactive() -> Entity {
   }
 }
 
+///|
 pub fn Entity::new_block(gx : Int, gy : Int) -> Entity {
   {
     active: true,
@@ -42,6 +45,7 @@ pub fn Entity::new_block(gx : Int, gy : Int) -> Entity {
   }
 }
 
+///|
 pub fn Entity::new_diamond(gx : Int, gy : Int) -> Entity {
   {
     active: true,
@@ -57,6 +61,7 @@ pub fn Entity::new_diamond(gx : Int, gy : Int) -> Entity {
   }
 }
 
+///|
 pub fn Entity::new_key(gx : Int, gy : Int) -> Entity {
   {
     active: true,
@@ -73,6 +78,8 @@ pub fn Entity::new_key(gx : Int, gy : Int) -> Entity {
 }
 
 // Particle effect
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -89,6 +96,7 @@ pub(all) struct Particle {
   mut size : Float
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -108,6 +116,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Laser beam segment for rendering
+
+///|
 pub(all) struct LaserSegment {
   mut active : Bool
   mut start_gx : Int
@@ -117,11 +127,14 @@ pub(all) struct LaserSegment {
   mut dir : Int
 }
 
+///|
 pub fn LaserSegment::inactive() -> LaserSegment {
   { active: false, start_gx: 0, start_gy: 0, end_gx: 0, end_gy: 0, dir: 0 }
 }
 
 // Decoration for world ambiance
+
+///|
 pub(all) struct Decoration {
   mut active : Bool
   mut kind : Int
@@ -132,11 +145,14 @@ pub(all) struct Decoration {
   mut phase : Float
 }
 
+///|
 pub fn Decoration::inactive() -> Decoration {
   { active: false, kind: 0, x: 0.0, y: 0.0, z: 0.0, scale: 1.0, phase: 0.0 }
 }
 
 // Undo snapshot
+
+///|
 pub(all) struct UndoState {
   mut player_gx : Int
   mut player_gy : Int
@@ -150,6 +166,7 @@ pub(all) struct UndoState {
   mut diamonds_collected : Int
 }
 
+///|
 pub fn UndoState::empty() -> UndoState {
   {
     player_gx: 0,
@@ -166,6 +183,8 @@ pub fn UndoState::empty() -> UndoState {
 }
 
 // Floor completion info
+
+///|
 pub(all) struct FloorInfo {
   mut unlocked : Bool
   mut completed : Bool
@@ -173,21 +192,27 @@ pub(all) struct FloorInfo {
   mut stars : Int
 }
 
+///|
 pub fn FloorInfo::new() -> FloorInfo {
   { unlocked: false, completed: false, best_moves: 999, stars: 0 }
 }
 
 // Achievement tracking
+
+///|
 pub(all) struct AchievementInfo {
   mut unlocked : Bool
   mut show_timer : Float
 }
 
+///|
 pub fn AchievementInfo::new() -> AchievementInfo {
   { unlocked: false, show_timer: 0.0 }
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   // State
   mut state : Int
@@ -287,6 +312,7 @@ pub(all) struct Game {
   mut levels_completed : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   let floor_info : Array[FloorInfo] = []
   for i = 0; i < max_floors; i = i + 1 {

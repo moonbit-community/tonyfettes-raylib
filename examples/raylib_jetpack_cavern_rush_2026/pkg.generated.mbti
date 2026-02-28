@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_jetpack_cavern_rush_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Crystal
+
+type Enemy
+
+type Particle
+
+type Player
+
+type Projectile
+
+// Type aliases
+
+// Traits
+

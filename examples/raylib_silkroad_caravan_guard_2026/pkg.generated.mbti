@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_silkroad_caravan_guard_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Dust
+
+type Game
+
+type Player
+
+type Raider
+
+type Wagon
+
+// Type aliases
+
+// Traits
+

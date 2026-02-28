@@ -1,16 +1,19 @@
 // Combat system: advanced enemy AI, turret tracking, damage calculation, scoring
 
 // Advanced patrol: enemies follow waypoint routes
+///|
 pub fn ai_patrol_advanced(
   game : @types.Game,
   e : @types.Enemy,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Calculate patrol waypoint based on patrol_index
   let num_waypoints = 4
   let waypoint_spacing : Float = 40.0
   let current_wp = e.patrol_index % num_waypoints
-  let angle_offset = @types.two_pi * Float::from_int(current_wp) / Float::from_int(num_waypoints)
+  let angle_offset = @types.two_pi *
+    Float::from_int(current_wp) /
+    Float::from_int(num_waypoints)
   let wp_x = e.patrol_cx + @math.cosf(angle_offset) * waypoint_spacing
   let wp_z = e.patrol_cz + @math.sinf(angle_offset) * waypoint_spacing
   let wp_y = e.target_y
@@ -43,11 +46,13 @@ pub fn ai_patrol_advanced(
 }
 
 // Engage behavior with lead pursuit and firing solutions
+
+///|
 pub fn ai_engage_advanced(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Calculate lead position for intercept
   let dx = player.x - e.x
@@ -61,7 +66,11 @@ pub fn ai_engage_advanced(
   let pvz = pfz * player.speed
   // Lead prediction
   let bullet_speed : Float = 60.0
-  let time_to_intercept : Float = if dist > 1.0 { dist / bullet_speed } else { 0.1 }
+  let time_to_intercept : Float = if dist > 1.0 {
+    dist / bullet_speed
+  } else {
+    0.1
+  }
   let lead_x = player.x + pvx * time_to_intercept * e.aggression
   let lead_y = player.y + pvy * time_to_intercept * e.aggression
   let lead_z = player.z + pvz * time_to_intercept * e.aggression
@@ -100,11 +109,13 @@ pub fn ai_engage_advanced(
 }
 
 // Evasive maneuvers: barrel roll, split-S, break turn
+
+///|
 pub fn ai_evasive_maneuver(
   game : @types.Game,
   e : @types.Enemy,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Choose maneuver based on maneuver_timer phase
   let phase = e.maneuver_timer * 2.0
@@ -156,6 +167,8 @@ pub fn ai_evasive_maneuver(
 }
 
 // Formation flying: enemies maintain spacing from leader
+
+///|
 pub fn ai_formation_fly(
   game : @types.Game,
   e : @types.Enemy,
@@ -164,7 +177,7 @@ pub fn ai_formation_fly(
   leader_z : Float,
   leader_heading : Float,
   formation_slot : Int,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   // Calculate formation offset based on slot
   let slot_f = Float::from_int(formation_slot)
@@ -172,12 +185,22 @@ pub fn ai_formation_fly(
   let row = Float::from_int((formation_slot + 1) / 2)
   let spacing = @types.ai_formation_spacing
   // V-formation offset
-  let offset_x = side * row * spacing * @math.cosf(leader_heading + @types.half_pi)
-  let offset_z = side * row * spacing * @math.sinf(leader_heading + @types.half_pi)
+  let offset_x = side *
+    row *
+    spacing *
+    @math.cosf(leader_heading + @types.half_pi)
+  let offset_z = side *
+    row *
+    spacing *
+    @math.sinf(leader_heading + @types.half_pi)
   let offset_behind = row * spacing * 0.5
   // Target position in formation
-  let target_x = leader_x - @math.sinf(leader_heading) * offset_behind + offset_x
-  let target_z = leader_z - @math.cosf(leader_heading) * offset_behind + offset_z
+  let target_x = leader_x -
+    @math.sinf(leader_heading) * offset_behind +
+    offset_x
+  let target_z = leader_z -
+    @math.cosf(leader_heading) * offset_behind +
+    offset_z
   let target_y = leader_y - row * 2.0
   // Steer towards formation position
   let dx = target_x - e.x
@@ -207,10 +230,12 @@ pub fn ai_formation_fly(
 }
 
 // Turret tracking: smooth tracking of player with prediction
+
+///|
 pub fn turret_track_player(
   t : @types.Turret,
   player : @types.Player,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let dx = player.x - t.x
   let dy = player.y - (t.y + 1.5)
@@ -261,15 +286,19 @@ pub fn turret_track_player(
 }
 
 // Turret burst fire: fires a short burst of shells
+
+///|
 pub fn turret_burst_fire(
   game : @types.Game,
   t : @types.Turret,
   player : @types.Player,
-  burst_count : Int
+  burst_count : Int,
 ) -> Unit {
   for b = 0; b < burst_count; b = b + 1 {
     let idx = @types.alloc_projectile(game)
-    if idx < 0 { return }
+    if idx < 0 {
+      return
+    }
     // Calculate firing direction from turret rotation and elevation
     let fire_dx = @math.sinf(t.rotation) * @math.cosf(t.elevation)
     let fire_dy = @math.sinf(t.elevation)
@@ -301,10 +330,12 @@ pub fn turret_burst_fire(
 }
 
 // Calculate damage falloff based on distance
+
+///|
 pub fn calculate_damage_falloff(
   base_damage : Float,
   distance : Float,
-  max_range : Float
+  max_range : Float,
 ) -> Float {
   if distance >= max_range {
     0.0
@@ -320,6 +351,8 @@ pub fn calculate_damage_falloff(
 }
 
 // Check if shooter has line of sight to target (simple terrain check)
+
+///|
 pub fn has_line_of_sight(
   sx : Float,
   sy : Float,
@@ -327,7 +360,7 @@ pub fn has_line_of_sight(
   tx : Float,
   ty : Float,
   tz : Float,
-  steps : Int
+  steps : Int,
 ) -> Bool {
   let step_count = if steps < 2 { 2 } else { steps }
   let inv_steps : Float = 1.0 / Float::from_int(step_count)
@@ -345,11 +378,13 @@ pub fn has_line_of_sight(
 }
 
 // Score calculation for a kill based on difficulty and conditions
+
+///|
 pub fn calculate_kill_score(
   base_score : Int,
   distance : Float,
   difficulty : Int,
-  weather : Int
+  weather : Int,
 ) -> Int {
   let mut multiplier : Float = 1.0
   // Distance bonus: longer shots get more points
@@ -376,10 +411,12 @@ pub fn calculate_kill_score(
 }
 
 // Check if enemy is behind player (for tail warning)
+
+///|
 pub fn is_enemy_behind_player(
   player : @types.Player,
   enemy_x : Float,
-  enemy_z : Float
+  enemy_z : Float,
 ) -> Bool {
   let (fx, _fy, fz) = @types.get_forward(player.pitch, player.yaw)
   let dx = enemy_x - player.x
@@ -389,13 +426,19 @@ pub fn is_enemy_behind_player(
 }
 
 // Count enemies in engagement range
+
+///|
 pub fn count_engaged_enemies(game : @types.Game) -> Int {
   let mut count = 0
   let player = game.player
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
-    if e.kind != @types.enemy_type_air { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
+    if e.kind != @types.enemy_type_air {
+      continue i + 1
+    }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < @types.ai_engage_range {
       count = count + 1
@@ -405,12 +448,16 @@ pub fn count_engaged_enemies(game : @types.Game) -> Int {
 }
 
 // Check if any enemy has missile lock on player
+
+///|
 pub fn check_enemy_threat_level(game : @types.Game) -> Int {
   let player = game.player
   let mut threat = 0
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < 20.0 && e.ai_state == @types.ai_engage {
       threat = threat + 3
@@ -423,7 +470,9 @@ pub fn check_enemy_threat_level(game : @types.Game) -> Int {
   // Add turret threats
   for i = 0; i < game.turrets.length(); i = i + 1 {
     let t = game.turrets[i]
-    if not(t.active) { continue i + 1 }
+    if not(t.active) {
+      continue i + 1
+    }
     let dist = @types.distance3d(t.x, t.y, t.z, player.x, player.y, player.z)
     if dist < t.range * 0.5 {
       threat = threat + 2
@@ -435,6 +484,8 @@ pub fn check_enemy_threat_level(game : @types.Game) -> Int {
 }
 
 // Calculate accuracy bonus score
+
+///|
 pub fn accuracy_bonus_score(shots_fired : Int, shots_hit : Int) -> Int {
   if shots_fired <= 0 {
     0
@@ -455,6 +506,8 @@ pub fn accuracy_bonus_score(shots_fired : Int, shots_hit : Int) -> Int {
 }
 
 // Calculate time bonus for mission completion
+
+///|
 pub fn time_bonus_score(time_taken : Float, par_time : Float) -> Int {
   if par_time <= 0.0 {
     0
@@ -470,6 +523,8 @@ pub fn time_bonus_score(time_taken : Float, par_time : Float) -> Int {
 }
 
 // Calculate no-damage bonus
+
+///|
 pub fn no_damage_bonus(current_hp : Float, max_hp : Float) -> Int {
   let ratio = current_hp / max_hp
   if ratio >= 1.0 {
@@ -484,20 +539,25 @@ pub fn no_damage_bonus(current_hp : Float, max_hp : Float) -> Int {
 }
 
 // Determine if enemy should attempt evasion based on incoming projectiles
-pub fn should_enemy_evade(
-  game : @types.Game,
-  e : @types.Enemy
-) -> Bool {
+
+///|
+pub fn should_enemy_evade(game : @types.Game, e : @types.Enemy) -> Bool {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
-    if proj.is_enemy { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
+    if proj.is_enemy {
+      continue i + 1
+    }
     // Check if projectile is heading towards this enemy
     let dx = e.x - proj.x
     let dy = e.y - proj.y
     let dz = e.z - proj.z
     let dist = (dx * dx + dy * dy + dz * dz).sqrt()
-    if dist > 40.0 { continue i + 1 }
+    if dist > 40.0 {
+      continue i + 1
+    }
     // Check if projectile direction is roughly towards enemy
     let dot = proj.dx * dx + proj.dy * dy + proj.dz * dz
     if dot > 0.0 && dist < 25.0 {
@@ -508,6 +568,8 @@ pub fn should_enemy_evade(
 }
 
 // Calculate lead angle for AI firing
+
+///|
 pub fn calculate_lead_angle(
   shooter_x : Float,
   shooter_z : Float,
@@ -515,7 +577,7 @@ pub fn calculate_lead_angle(
   target_z : Float,
   target_vx : Float,
   target_vz : Float,
-  bullet_speed : Float
+  bullet_speed : Float,
 ) -> Float {
   let dx = target_x - shooter_x
   let dz = target_z - shooter_z
@@ -531,11 +593,13 @@ pub fn calculate_lead_angle(
 }
 
 // Enemy collision avoidance: steer away from other enemies
+
+///|
 pub fn avoid_collision(
   game : @types.Game,
   e : @types.Enemy,
   enemy_index : Int,
-  dt : Float
+  dt : Float,
 ) -> Unit {
   let min_sep : Float = 6.0
   let mut avoid_x : Float = 0.0
@@ -543,9 +607,13 @@ pub fn avoid_collision(
   let mut avoid_y : Float = 0.0
   let mut need_avoid = false
   for i = 0; i < game.enemies.length(); i = i + 1 {
-    if i == enemy_index { continue i + 1 }
+    if i == enemy_index {
+      continue i + 1
+    }
     let other = game.enemies[i]
-    if not(other.active) { continue i + 1 }
+    if not(other.active) {
+      continue i + 1
+    }
     let dx = e.x - other.x
     let dy = e.y - other.y
     let dz = e.z - other.z
@@ -567,6 +635,8 @@ pub fn avoid_collision(
 }
 
 // Determine threat direction for HUD indicator
+
+///|
 pub fn get_threat_direction(game : @types.Game) -> Int {
   let player = game.player
   let (fx, _fy, fz) = @types.get_forward(player.pitch, player.yaw)
@@ -574,8 +644,12 @@ pub fn get_threat_direction(game : @types.Game) -> Int {
   let mut closest_dir = -1
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
-    if e.ai_state != @types.ai_engage { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
+    if e.ai_state != @types.ai_engage {
+      continue i + 1
+    }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < closest_dist && dist < @types.ai_engage_range {
       closest_dist = dist

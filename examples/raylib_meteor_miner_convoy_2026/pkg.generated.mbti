@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_meteor_miner_convoy_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Meteor
+
+type Ore
+
+type Spark
+
+type Truck
+
+// Type aliases
+
+// Traits
+

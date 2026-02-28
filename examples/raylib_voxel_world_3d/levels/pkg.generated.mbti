@@ -1,0 +1,98 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_voxel_world_3d/levels"
+
+import {
+  "tonyfettes/raylib-examples/raylib_voxel_world_3d/types",
+}
+
+// Values
+pub fn biome_grass_density(Int) -> Float
+
+pub fn biome_spawn_rate(Int) -> Float
+
+pub fn biome_tree_density(Int) -> Float
+
+pub fn block_alpha(Int) -> Int
+
+pub fn block_bottom_color_b(Int) -> Int
+
+pub fn block_bottom_color_g(Int) -> Int
+
+pub fn block_bottom_color_r(Int) -> Int
+
+pub fn block_color_b(Int) -> Int
+
+pub fn block_color_g(Int) -> Int
+
+pub fn block_color_r(Int) -> Int
+
+pub fn block_hardness(Int) -> Int
+
+pub fn block_light_level(Int) -> Int
+
+pub fn block_side_color_b(Int) -> Int
+
+pub fn block_side_color_g(Int) -> Int
+
+pub fn block_side_color_r(Int) -> Int
+
+pub fn fog_color_b(Bool) -> Int
+
+pub fn fog_color_g(Bool) -> Int
+
+pub fn fog_color_r(Bool) -> Int
+
+pub fn get_biome_params(Int) -> @types.BiomeParams
+
+pub fn get_crafting_recipes() -> Array[@types.CraftingRecipe]
+
+pub fn get_night_hostile_pool(Int, Int) -> Int
+
+pub fn get_spawn_type_for_biome(Int, Bool, Int) -> Int
+
+pub fn get_weapon_damage(Int) -> Int
+
+pub fn night_spawn_multiplier() -> Float
+
+pub fn ore_chance_at_depth(Int, Int) -> Float
+
+pub fn ore_vein_max_at_depth(Int, Int) -> Int
+
+pub fn ore_vein_size(Int) -> Int
+
+pub fn structure_house_block(Int, Int, Int) -> Int
+
+pub fn structure_house_depth() -> Int
+
+pub fn structure_house_height() -> Int
+
+pub fn structure_house_width() -> Int
+
+pub fn structure_large_tree_block(Int, Int, Int) -> Int
+
+pub fn structure_large_tree_canopy_radius() -> Int
+
+pub fn structure_large_tree_height() -> Int
+
+pub fn structure_ruin_block(Int, Int, Int) -> Int
+
+pub fn structure_ruin_depth() -> Int
+
+pub fn structure_ruin_height() -> Int
+
+pub fn structure_ruin_width() -> Int
+
+pub fn structure_tower_block(Int, Int, Int) -> Int
+
+pub fn structure_tower_height() -> Int
+
+pub fn structure_tower_width() -> Int
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

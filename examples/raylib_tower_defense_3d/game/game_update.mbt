@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   // Apply speed multiplier to dt for gameplay (not menu/UI)
@@ -33,6 +34,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   if @raylib.is_key_pressed(@raylib.KeyUp) {
@@ -60,9 +62,8 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
       game.difficulty = 0
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     if game.menu_cursor == 0 {
       // Start game -> map select
       game.state = @types.state_map_select
@@ -74,6 +75,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_map_select(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
   if @raylib.is_key_pressed(@raylib.KeyUp) {
@@ -93,9 +95,8 @@ fn update_map_select(game : @types.Game, dt : Float) -> Unit {
     game.menu_cursor = 0
     return
   }
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_map = game.menu_cursor
     load_map(game, game.current_map)
     game.state = @types.state_wave_prep
@@ -104,10 +105,10 @@ fn update_map_select(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_paused
     return
   }
@@ -181,10 +182,10 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_playing
   }
   // Allow quitting to menu
@@ -194,6 +195,7 @@ fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_wave_prep(game : @types.Game, dt : Float) -> Unit {
   update_camera(game, dt)
   // Allow building during prep
@@ -216,11 +218,11 @@ fn update_wave_prep(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_building(game : @types.Game, dt : Float) -> Unit {
   update_camera(game, dt)
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyB,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyB) {
     // Return to previous state
     if game.prev_state == @types.state_playing {
       game.state = @types.state_playing
@@ -257,18 +259,17 @@ fn update_building(game : @types.Game, dt : Float) -> Unit {
   }
   game.hover_valid = @types.can_place_tower(game, game.hover_gx, game.hover_gy)
   // Place tower
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     try_place_tower(game)
   }
 }
 
+///|
 fn update_tower_info(game : @types.Game, dt : Float) -> Unit {
   update_camera(game, dt)
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyT,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyT) {
     game.state = game.prev_state
     return
   }
@@ -287,10 +288,13 @@ fn update_tower_info(game : @types.Game, dt : Float) -> Unit {
     cycle_targeting_mode(game)
   }
   // Navigate between towers with Left/Right
-  if @raylib.is_key_pressed(@raylib.KeyLeft) || @raylib.is_key_pressed(
-    @raylib.KeyRight,
-  ) {
-    let dir : Int = if @raylib.is_key_pressed(@raylib.KeyRight) { 1 } else { -1 }
+  if @raylib.is_key_pressed(@raylib.KeyLeft) ||
+    @raylib.is_key_pressed(@raylib.KeyRight) {
+    let dir : Int = if @raylib.is_key_pressed(@raylib.KeyRight) {
+      1
+    } else {
+      -1
+    }
     let start = game.selected_tower_idx
     let mut next = start + dir
     for _iter = 0; _iter < game.towers.length(); _iter = _iter + 1 {
@@ -309,24 +313,25 @@ fn update_tower_info(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     reset_game(game)
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_victory(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     reset_game(game)
     game.state = @types.state_menu
   }
 }
 
+///|
 fn update_camera(game : @types.Game, dt : Float) -> Unit {
   // Camera rotation with Q/E
   if @raylib.is_key_down(@raylib.KeyQ) {
@@ -361,7 +366,9 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
   if wheel != 0.0 {
     game.camera_dist -= wheel * 2.0
     game.camera_dist = @types.clampf(
-      game.camera_dist, @types.camera_min_dist, @types.camera_max_dist,
+      game.camera_dist,
+      @types.camera_min_dist,
+      @types.camera_max_dist,
     )
   }
   // Camera pitch adjustment with Z/X
@@ -376,6 +383,7 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
 }
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
@@ -407,6 +415,7 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_chain_lines(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.chain_lines.length(); i = i + 1 {
     let cl = game.chain_lines[i]
@@ -420,23 +429,27 @@ fn update_chain_lines(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_notifications(game : @types.Game, dt : Float) -> Unit {
   if game.notification_timer > 0.0 {
     game.notification_timer -= dt
   }
 }
 
+///|
 fn update_wave_message(game : @types.Game, dt : Float) -> Unit {
   if game.wave_message_timer > 0.0 {
     game.wave_message_timer -= dt
   }
 }
 
+///|
 fn update_interest(game : @types.Game, dt : Float) -> Unit {
   game.interest_timer += dt
   if game.interest_timer >= @types.interest_interval {
     game.interest_timer = 0.0
-    let interest_amount : Float = Float::from_int(game.gold) * @types.interest_rate
+    let interest_amount : Float = Float::from_int(game.gold) *
+      @types.interest_rate
     let capped = @types.mini(interest_amount.to_int(), @types.interest_cap)
     if capped > 0 {
       game.gold += capped
@@ -445,6 +458,7 @@ fn update_interest(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn handle_tower_placement_keys(game : @types.Game) -> Unit {
   // Quick-place with number keys
   if @raylib.is_key_pressed(@raylib.KeyOne) {
@@ -466,6 +480,7 @@ fn handle_tower_placement_keys(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn handle_tower_selection(game : @types.Game) -> Unit {
   // Select towers by moving cursor over them and pressing T
   // For now, find nearest tower to cursor

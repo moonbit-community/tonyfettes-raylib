@@ -1,5 +1,6 @@
 // Player movement and interaction
 
+///|
 fn try_move_player(game : @types.Game, dir : Int) -> Unit {
   let dx = @types.dir_dx(dir)
   let dy = @types.dir_dy(dir)
@@ -152,6 +153,7 @@ fn try_move_player(game : @types.Game, dir : Int) -> Unit {
   }
 }
 
+///|
 fn move_player_to(game : @types.Game, nx : Int, ny : Int, _dir : Int) -> Unit {
   game.player_gx = nx
   game.player_gy = ny
@@ -161,12 +163,13 @@ fn move_player_to(game : @types.Game, nx : Int, ny : Int, _dir : Int) -> Unit {
   game.total_moves += 1
 }
 
+///|
 fn handle_block_land(
   game : @types.Game,
   entity : @types.Entity,
   tile : Int,
   bx : Int,
-  by : Int
+  by : Int,
 ) -> Unit {
   // Check if block falls into pit
   if tile == @types.tile_pit {
@@ -193,12 +196,13 @@ fn handle_block_land(
   }
 }
 
+///|
 fn handle_tile_effect(
   game : @types.Game,
   target_tile : Int,
   nx : Int,
   ny : Int,
-  dir : Int
+  dir : Int,
 ) -> Unit {
   if target_tile == @types.tile_switch_off {
     @types.set_tile(game, nx, ny, @types.tile_switch_on)
@@ -349,11 +353,12 @@ fn handle_tile_effect(
   }
 }
 
+///|
 fn handle_ice_sliding(
   game : @types.Game,
   start_x : Int,
   start_y : Int,
-  dir : Int
+  dir : Int,
 ) -> Unit {
   let dx = @types.dir_dx(dir)
   let dy = @types.dir_dy(dir)
@@ -388,6 +393,7 @@ fn handle_ice_sliding(
   }
 }
 
+///|
 fn rotate_adjacent_mirrors(game : @types.Game, gx : Int, gy : Int) -> Unit {
   // Check all 4 adjacent tiles for mirrors and rotate them
   let neighbors : Array[(Int, Int)] = [
@@ -409,6 +415,7 @@ fn rotate_adjacent_mirrors(game : @types.Game, gx : Int, gy : Int) -> Unit {
   }
 }
 
+///|
 fn rotate_mirror(tile : Int) -> Int {
   if tile == @types.tile_mirror_ne {
     @types.tile_mirror_nw
@@ -423,6 +430,7 @@ fn rotate_mirror(tile : Int) -> Int {
   }
 }
 
+///|
 fn after_move(game : @types.Game) -> Unit {
   // Check plate activation
   check_plates(game)
@@ -443,6 +451,7 @@ fn after_move(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn update_player_animation(game : @types.Game, dt : Float) -> Unit {
   if game.player_moving {
     game.player_anim_timer -= dt
@@ -482,6 +491,7 @@ fn update_player_animation(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_entity_animations(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.entities.length(); i = i + 1 {
     let e = game.entities[i]
@@ -525,13 +535,16 @@ fn update_entity_animations(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn check_plates(game : @types.Game) -> Unit {
   game.plates_active = @types.count_active_plates(game)
 }
 
+///|
 fn check_exit(game : @types.Game) -> Unit {
   // Exit opens when all plates have blocks AND all diamonds collected AND laser targets hit
-  let plates_ok = game.plates_total == 0 || game.plates_active >= game.plates_total
+  let plates_ok = game.plates_total == 0 ||
+    game.plates_active >= game.plates_total
   let diamonds_ok = game.diamonds_total == 0 ||
     game.diamonds_collected >= game.diamonds_total
   let lasers_ok = game.laser_targets_total == 0 ||
@@ -569,6 +582,7 @@ fn check_exit(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn complete_floor(game : @types.Game) -> Unit {
   // Calculate stars
   let par = @levels.get_par_moves(game.current_floor)
@@ -613,6 +627,7 @@ fn complete_floor(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn check_achievements(game : @types.Game) -> Unit {
   // First clear
   if not(game.achievements[@types.achievement_first_clear].unlocked) {
@@ -647,11 +662,13 @@ fn check_achievements(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn show_achievement(game : @types.Game, text : String) -> Unit {
   game.achievement_display_timer = 3.0
   game.achievement_display_text = text
 }
 
+///|
 fn find_tile(game : @types.Game, tile_type : Int) -> (Int, Int) {
   for gy = 0; gy < @types.grid_h; gy = gy + 1 {
     for gx = 0; gx < @types.grid_w; gx = gx + 1 {
@@ -663,6 +680,7 @@ fn find_tile(game : @types.Game, tile_type : Int) -> (Int, Int) {
   (-1, -1)
 }
 
+///|
 fn toggle_spikes(game : @types.Game) -> Unit {
   for gy = 0; gy < @types.grid_h; gy = gy + 1 {
     for gx = 0; gx < @types.grid_w; gx = gx + 1 {

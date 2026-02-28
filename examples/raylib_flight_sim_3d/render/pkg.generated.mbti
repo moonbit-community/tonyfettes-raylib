@@ -1,0 +1,36 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flight_sim_3d/render"
+
+import {
+  "tonyfettes/raylib-examples/raylib_flight_sim_3d/types",
+}
+
+// Values
+pub fn draw_celestial_body(@types.Game) -> Unit
+
+pub fn draw_clouds(@types.Game) -> Unit
+
+pub fn draw_damage_smoke(@types.Game) -> Unit
+
+pub fn draw_enemy_damage_trails(@types.Game) -> Unit
+
+pub fn draw_engine_trail(@types.Game) -> Unit
+
+pub fn draw_fog_overlay(@types.Game) -> Unit
+
+pub fn draw_rain_effect(@types.Game) -> Unit
+
+pub fn draw_tracer_trails(@types.Game) -> Unit
+
+pub fn draw_ui(@types.Game) -> Unit
+
+pub fn draw_world(@types.Game) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_jackal_1988_lite"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bullet
+
+type Game
+
+type Hostage
+
+type Particle
+
+type Powerup
+
+type StageProfile
+
+type Star
+
+type Tank
+
+// Type aliases
+
+// Traits
+

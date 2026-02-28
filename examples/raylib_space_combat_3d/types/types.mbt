@@ -1,4 +1,5 @@
 // Player ship
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float
@@ -34,6 +35,7 @@ pub(all) struct Player {
   mut shots_hit : Int
 }
 
+///|
 pub fn Player::new() -> Player {
   {
     x: 0.0,
@@ -72,6 +74,8 @@ pub fn Player::new() -> Player {
 }
 
 // Enemy entity
+
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -106,6 +110,7 @@ pub(all) struct Enemy {
   mut weak_point_hp : Float
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
     active: false,
@@ -143,6 +148,8 @@ pub fn Enemy::inactive() -> Enemy {
 }
 
 // Projectile
+
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -161,6 +168,7 @@ pub(all) struct Projectile {
   mut piercing : Bool
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
     active: false,
@@ -182,6 +190,8 @@ pub fn Projectile::inactive() -> Projectile {
 }
 
 // Particle effect
+
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -199,6 +209,7 @@ pub(all) struct Particle {
   mut kind : Int
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
     active: false,
@@ -219,6 +230,8 @@ pub fn Particle::inactive() -> Particle {
 }
 
 // Asteroid
+
+///|
 pub(all) struct Asteroid {
   mut active : Bool
   mut x : Float
@@ -237,6 +250,7 @@ pub(all) struct Asteroid {
   mut breakable : Bool
 }
 
+///|
 pub fn Asteroid::inactive() -> Asteroid {
   {
     active: false,
@@ -258,6 +272,8 @@ pub fn Asteroid::inactive() -> Asteroid {
 }
 
 // Power-up
+
+///|
 pub(all) struct PowerUp {
   mut active : Bool
   mut kind : Int
@@ -269,6 +285,7 @@ pub(all) struct PowerUp {
   mut life : Float
 }
 
+///|
 pub fn PowerUp::inactive() -> PowerUp {
   {
     active: false,
@@ -283,6 +300,8 @@ pub fn PowerUp::inactive() -> PowerUp {
 }
 
 // Space Station
+
+///|
 pub(all) struct SpaceStation {
   mut active : Bool
   mut kind : Int
@@ -295,6 +314,7 @@ pub(all) struct SpaceStation {
   mut ring_angle : Float
 }
 
+///|
 pub fn SpaceStation::inactive() -> SpaceStation {
   {
     active: false,
@@ -310,6 +330,8 @@ pub fn SpaceStation::inactive() -> SpaceStation {
 }
 
 // Debris piece from destroyed ships
+
+///|
 pub(all) struct Debris {
   mut active : Bool
   mut x : Float
@@ -328,6 +350,7 @@ pub(all) struct Debris {
   mut b : Int
 }
 
+///|
 pub fn Debris::inactive() -> Debris {
   {
     active: false,
@@ -349,6 +372,8 @@ pub fn Debris::inactive() -> Debris {
 }
 
 // Kill feed entry
+
+///|
 pub(all) struct KillFeedEntry {
   mut active : Bool
   mut text : String
@@ -358,18 +383,14 @@ pub(all) struct KillFeedEntry {
   mut b : Int
 }
 
+///|
 pub fn KillFeedEntry::inactive() -> KillFeedEntry {
-  {
-    active: false,
-    text: "",
-    timer: 0.0,
-    r: 255,
-    g: 255,
-    b: 255,
-  }
+  { active: false, text: "", timer: 0.0, r: 255, g: 255, b: 255 }
 }
 
 // Mission Objective
+
+///|
 pub(all) struct MissionObjective {
   mut obj_type : Int
   mut target_count : Int
@@ -378,17 +399,18 @@ pub(all) struct MissionObjective {
   mut description : String
 }
 
-pub fn MissionObjective::new(obj_type : Int, target_count : Int, description : String) -> MissionObjective {
-  {
-    obj_type,
-    target_count,
-    current_count: 0,
-    complete: false,
-    description,
-  }
+///|
+pub fn MissionObjective::new(
+  obj_type : Int,
+  target_count : Int,
+  description : String,
+) -> MissionObjective {
+  { obj_type, target_count, current_count: 0, complete: false, description }
 }
 
 // Background star
+
+///|
 pub(all) struct Star {
   x : Float
   y : Float
@@ -400,6 +422,8 @@ pub(all) struct Star {
 }
 
 // Main Game struct
+
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -479,6 +503,7 @@ pub(all) struct Game {
   mut frame_counter : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   let stars_arr : Array[Star] = []
   let mut rng = 54321
@@ -498,10 +523,18 @@ pub fn Game::new() -> Game {
       bright
     } else if color_type == 1 {
       let v : Int = bright + 30
-      if v > 255 { 255 } else { v }
+      if v > 255 {
+        255
+      } else {
+        v
+      }
     } else if color_type == 2 {
       let v : Int = bright - 20
-      if v < 80 { 80 } else { v }
+      if v < 80 {
+        80
+      } else {
+        v
+      }
     } else {
       bright
     }
@@ -509,10 +542,18 @@ pub fn Game::new() -> Game {
       bright
     } else if color_type == 1 {
       let v : Int = bright - 10
-      if v < 80 { 80 } else { v }
+      if v < 80 {
+        80
+      } else {
+        v
+      }
     } else if color_type == 2 {
       let v : Int = bright + 20
-      if v > 255 { 255 } else { v }
+      if v > 255 {
+        255
+      } else {
+        v
+      }
     } else {
       bright
     }
@@ -520,11 +561,23 @@ pub fn Game::new() -> Game {
       bright
     } else if color_type == 3 {
       let v : Int = bright + 40
-      if v > 255 { 255 } else { v }
+      if v > 255 {
+        255
+      } else {
+        v
+      }
     } else {
       bright
     }
-    stars_arr.push({ x: sx, y: sy, z: sz, brightness: bright, r: sr, g: sg, b: sb })
+    stars_arr.push({
+      x: sx,
+      y: sy,
+      z: sz,
+      brightness: bright,
+      r: sr,
+      g: sg,
+      b: sb,
+    })
     ignore(i)
   }
 
@@ -637,6 +690,7 @@ pub fn Game::new() -> Game {
   }
 }
 
+///|
 fn xor_rng(state : Int) -> Int {
   let mut x = state
   x = x ^ (x << 13)
@@ -645,11 +699,17 @@ fn xor_rng(state : Int) -> Int {
   x
 }
 
+///|
 fn xor_rng_abs(state : Int) -> Int {
   let x = xor_rng(state)
-  if x < 0 { -x } else { x }
+  if x < 0 {
+    -x
+  } else {
+    x
+  }
 }
 
+///|
 fn rand_float_from(state : Int, low : Float, high : Float) -> Float {
   let v = xor_rng_abs(state) % 10000
   let n = Float::from_int(v) / 10000.0

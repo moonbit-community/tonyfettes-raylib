@@ -2,9 +2,7 @@
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    @types.screen_width,
-    @types.screen_height,
-    "Puzzle Dungeon 3D",
+    @types.screen_width, @types.screen_height, "Puzzle Dungeon 3D",
   )
   @raylib.set_target_fps(60)
   let game = @types.Game::new()

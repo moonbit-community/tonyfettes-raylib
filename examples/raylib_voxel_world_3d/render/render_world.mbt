@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -17,11 +18,14 @@ pub fn draw_world(game : @types.Game) -> Unit {
   @raylib.end_mode_3d()
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   @raylib.Camera3D::new(
     @raylib.Vector3::new(game.cam_pos_x, game.cam_pos_y, game.cam_pos_z),
     @raylib.Vector3::new(
-      game.cam_target_x, game.cam_target_y, game.cam_target_z,
+      game.cam_target_x,
+      game.cam_target_y,
+      game.cam_target_z,
     ),
     @raylib.Vector3::new(0.0, 1.0, 0.0),
     @types.camera_fovy,
@@ -31,6 +35,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 
 // ========== Sky objects (sun, moon, stars) ==========
 
+///|
 fn draw_sky_objects(game : @types.Game) -> Unit {
   let t = game.day_timer / @types.day_length
   // Sun
@@ -72,6 +77,7 @@ fn draw_sky_objects(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_stars(game : @types.Game) -> Unit {
   // Draw some fixed "stars" as small bright spheres
   let star_count = 20
@@ -97,6 +103,8 @@ fn draw_stars(game : @types.Game) -> Unit {
 // ========== Chunk rendering ==========
 
 // Draw all visible blocks in chunks near the player
+
+///|
 fn draw_chunks(game : @types.Game) -> Unit {
   let player = game.player
   // Determine which chunk the player is in
@@ -115,6 +123,8 @@ fn draw_chunks(game : @types.Game) -> Unit {
 }
 
 // Draw visible blocks in a single chunk
+
+///|
 fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
   let chunk = game.chunks[cz * @types.world_chunks_x + cx]
   let base_wx = cx * @types.chunk_x
@@ -126,7 +136,12 @@ fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
   // Distance from player to chunk center for fog
   let chunk_center_x = Float::from_int(base_wx + @types.chunk_x / 2)
   let chunk_center_z = Float::from_int(base_wz + @types.chunk_z / 2)
-  let chunk_dist = @types.distance_xz(game.player.x, game.player.z, chunk_center_x, chunk_center_z)
+  let chunk_dist = @types.distance_xz(
+    game.player.x,
+    game.player.z,
+    chunk_center_x,
+    chunk_center_z,
+  )
   // Skip chunk if too far (beyond fog)
   if chunk_dist > @types.fog_end_distance + 16.0 {
     return
@@ -145,9 +160,7 @@ fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
         let wx = base_wx + lx
         let wz = base_wz + lz
         // Check if this block has at least one visible face
-        let has_visible_face = @types.is_face_visible(
-            game, wx - 1, ly, wz,
-          ) ||
+        let has_visible_face = @types.is_face_visible(game, wx - 1, ly, wz) ||
           @types.is_face_visible(game, wx + 1, ly, wz) ||
           @types.is_face_visible(game, wx, ly - 1, wz) ||
           @types.is_face_visible(game, wx, ly + 1, wz) ||
@@ -158,8 +171,10 @@ fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
         }
         // Draw the block with distance-based fog
         let block_dist = @types.distance_xz(
-          game.player.x, game.player.z,
-          Float::from_int(wx) + 0.5, Float::from_int(wz) + 0.5,
+          game.player.x,
+          game.player.z,
+          Float::from_int(wx) + 0.5,
+          Float::from_int(wz) + 0.5,
         )
         draw_block_with_lighting(game, block, wx, ly, wz, block_dist)
       }
@@ -168,13 +183,15 @@ fn draw_chunk_blocks(game : @types.Game, cx : Int, cz : Int) -> Unit {
 }
 
 // Draw a single block with lighting and fog
+
+///|
 fn draw_block_with_lighting(
   game : @types.Game,
   block : Int,
   wx : Int,
   wy : Int,
   wz : Int,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   let fx = Float::from_int(wx) + 0.5
   let fy = Float::from_int(wy) + 0.5
@@ -184,7 +201,11 @@ fn draw_block_with_lighting(
   let mut b = @levels.block_color_b(block)
   let a = @levels.block_alpha(block)
   // Height-based shading: blocks deep underground are darker
-  let height_factor : Float = @types.clampf(Float::from_int(wy) / Float::from_int(@types.chunk_y), 0.3, 1.0)
+  let height_factor : Float = @types.clampf(
+    Float::from_int(wy) / Float::from_int(@types.chunk_y),
+    0.3,
+    1.0,
+  )
   r = (Float::from_int(r) * height_factor).to_int()
   g = (Float::from_int(g) * height_factor).to_int()
   b = (Float::from_int(b) * height_factor).to_int()
@@ -197,9 +218,16 @@ fn draw_block_with_lighting(
     for dy = neg_range; dy <= check_range; dy = dy + 1 {
       for dz = neg_range; dz <= check_range; dz = dz + 1 {
         for dx = neg_range; dx <= check_range; dx = dx + 1 {
-          let check_block = @types.get_world_block(game, wx + dx, wy + dy, wz + dz)
+          let check_block = @types.get_world_block(
+            game,
+            wx + dx,
+            wy + dy,
+            wz + dz,
+          )
           if check_block == @types.block_torch {
-            let torch_dist = @types.absf(Float::from_int(dx)) + @types.absf(Float::from_int(dy)) + @types.absf(Float::from_int(dz))
+            let torch_dist = @types.absf(Float::from_int(dx)) +
+              @types.absf(Float::from_int(dy)) +
+              @types.absf(Float::from_int(dz))
             if torch_dist < 5.0 {
               near_torch = true
             }
@@ -228,8 +256,10 @@ fn draw_block_with_lighting(
   // Fog blending
   if dist > @types.fog_start_distance {
     let fog_t = @types.clampf(
-      (dist - @types.fog_start_distance) / (@types.fog_end_distance - @types.fog_start_distance),
-      0.0, 0.7,
+      (dist - @types.fog_start_distance) /
+      (@types.fog_end_distance - @types.fog_start_distance),
+      0.0,
+      0.7,
     )
     let fr = @levels.fog_color_r(game.is_night)
     let fg = @levels.fog_color_g(game.is_night)
@@ -242,13 +272,7 @@ fn draw_block_with_lighting(
   g = @types.clampi(g, 0, 255)
   b = @types.clampi(b, 0, 255)
   let color = @raylib.Color::new(r, g, b, a)
-  @raylib.draw_cube(
-    @raylib.Vector3::new(fx, fy, fz),
-    1.0,
-    1.0,
-    1.0,
-    color,
-  )
+  @raylib.draw_cube(@raylib.Vector3::new(fx, fy, fz), 1.0, 1.0, 1.0, color)
   // Draw slightly darker wireframe for block edges
   let wr = r * 2 / 3
   let wg = g * 2 / 3
@@ -265,6 +289,7 @@ fn draw_block_with_lighting(
 
 // ========== Decoration rendering (flowers, grass, torches) ==========
 
+///|
 fn draw_decorations(game : @types.Game) -> Unit {
   let player = game.player
   let pcx = player.x.to_int() / @types.chunk_x
@@ -281,6 +306,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_chunk_decorations(game : @types.Game, cx : Int, cz : Int) -> Unit {
   let chunk = game.chunks[cz * @types.world_chunks_x + cx]
   let base_wx = cx * @types.chunk_x
@@ -304,51 +330,68 @@ fn draw_chunk_decorations(game : @types.Game, cx : Int, cz : Int) -> Unit {
           // Draw red flower as small cube
           @raylib.draw_cube(
             @raylib.Vector3::new(fx, fy - 0.2, fz),
-            0.3, 0.6, 0.3,
+            0.3,
+            0.6,
+            0.3,
             @raylib.Color::new(220, 40, 50, 255),
           )
           // Stem
           @raylib.draw_cube(
             @raylib.Vector3::new(fx, fy - 0.4, fz),
-            0.08, 0.4, 0.08,
+            0.08,
+            0.4,
+            0.08,
             @raylib.Color::new(40, 120, 30, 255),
           )
         } else if block == @types.block_flower_yellow {
           @raylib.draw_cube(
             @raylib.Vector3::new(fx, fy - 0.2, fz),
-            0.3, 0.6, 0.3,
+            0.3,
+            0.6,
+            0.3,
             @raylib.Color::new(255, 220, 50, 255),
           )
           @raylib.draw_cube(
             @raylib.Vector3::new(fx, fy - 0.4, fz),
-            0.08, 0.4, 0.08,
+            0.08,
+            0.4,
+            0.08,
             @raylib.Color::new(40, 120, 30, 255),
           )
         } else if block == @types.block_tall_grass {
           // Cross-shaped grass
-          let sway = @math.sinf(game.day_timer * 2.0 + fx * 0.5 + fz * 0.3) * 0.05
+          let sway = @math.sinf(game.day_timer * 2.0 + fx * 0.5 + fz * 0.3) *
+            0.05
           @raylib.draw_cube(
             @raylib.Vector3::new(fx + sway, fy - 0.15, fz),
-            0.05, 0.7, 0.5,
+            0.05,
+            0.7,
+            0.5,
             @raylib.Color::new(60, 140, 30, 180),
           )
           @raylib.draw_cube(
             @raylib.Vector3::new(fx + sway, fy - 0.15, fz),
-            0.5, 0.7, 0.05,
+            0.5,
+            0.7,
+            0.05,
             @raylib.Color::new(50, 130, 25, 180),
           )
         } else if block == @types.block_torch {
           // Torch: yellow cube on a stick
           @raylib.draw_cube(
             @raylib.Vector3::new(fx, fy - 0.2, fz),
-            0.15, 0.5, 0.15,
+            0.15,
+            0.5,
+            0.15,
             @raylib.Color::new(139, 90, 43, 255),
           )
           // Flame
           let flicker = @math.sinf(game.day_timer * 8.0 + fx) * 0.03
           @raylib.draw_cube(
             @raylib.Vector3::new(fx + flicker, fy + 0.15, fz),
-            0.2, 0.2, 0.2,
+            0.2,
+            0.2,
+            0.2,
             @raylib.Color::new(255, 200, 50, 200),
           )
           // Light glow sphere
@@ -366,6 +409,8 @@ fn draw_chunk_decorations(game : @types.Game, cx : Int, cz : Int) -> Unit {
 // ========== Block highlight and mining progress ==========
 
 // Draw highlight around targeted block
+
+///|
 fn draw_block_highlight(game : @types.Game) -> Unit {
   let target = game.target
   if not(target.hit) {
@@ -392,6 +437,7 @@ fn draw_block_highlight(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_mining_progress(game : @types.Game) -> Unit {
   let player = game.player
   if not(player.mining_active) {
@@ -426,6 +472,7 @@ fn draw_mining_progress(game : @types.Game) -> Unit {
 
 // ========== Entity rendering ==========
 
+///|
 fn draw_entities(game : @types.Game) -> Unit {
   for i = 0; i < @types.entity_max; i = i + 1 {
     let ent = game.entities[i]
@@ -441,6 +488,7 @@ fn draw_entities(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_entity(game : @types.Game, ent : @types.Entity) -> Unit {
   let x = ent.x
   let y = ent.y
@@ -464,13 +512,16 @@ fn draw_entity(game : @types.Game, ent : @types.Entity) -> Unit {
   }
   // Health bar above entity
   if ent.health < ent.max_health {
-    let health_pct = Float::from_int(ent.health) / Float::from_int(ent.max_health)
+    let health_pct = Float::from_int(ent.health) /
+      Float::from_int(ent.max_health)
     let bar_width : Float = 0.6
     let bar_y = y + 1.5
     // Background
     @raylib.draw_cube(
       @raylib.Vector3::new(x, bar_y, z),
-      bar_width, 0.08, 0.08,
+      bar_width,
+      0.08,
+      0.08,
       @raylib.Color::new(60, 0, 0, 200),
     )
     // Health fill
@@ -480,22 +531,42 @@ fn draw_entity(game : @types.Game, ent : @types.Entity) -> Unit {
     let hg : Int = if health_pct > 0.5 { 200 } else { 0 }
     @raylib.draw_cube(
       @raylib.Vector3::new(x - offset, bar_y, z),
-      fill_w, 0.08, 0.08,
+      fill_w,
+      0.08,
+      0.08,
       @raylib.Color::new(hr, hg, 0, 200),
     )
   }
   ignore(game)
 }
 
-fn draw_pig(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let body_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(230, 170, 160, 255) }
-  let snout_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(210, 140, 130, 255) }
+///|
+fn draw_pig(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let body_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(230, 170, 160, 255)
+  }
+  let snout_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(210, 140, 130, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Body
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.4, z),
-    0.5, 0.4, 0.7,
+    0.5,
+    0.4,
+    0.7,
     body_color,
   )
   // Head
@@ -503,7 +574,9 @@ fn draw_pig(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, fla
   let head_z = z + cos_y * 0.4
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 0.5, head_z),
-    0.35, 0.35, 0.35,
+    0.35,
+    0.35,
+    0.35,
     body_color,
   )
   // Snout
@@ -511,7 +584,9 @@ fn draw_pig(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, fla
   let snout_z = z + cos_y * 0.6
   @raylib.draw_cube(
     @raylib.Vector3::new(snout_x, y + 0.45, snout_z),
-    0.2, 0.15, 0.15,
+    0.2,
+    0.15,
+    0.15,
     snout_color,
   )
   // Legs
@@ -522,21 +597,41 @@ fn draw_pig(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, fla
   draw_entity_leg(x + leg_offset, y, z + leg_offset, leg_swing, body_color)
 }
 
-fn draw_cow(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let body_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(120, 80, 50, 255) }
-  let spot_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(240, 230, 220, 255) }
+///|
+fn draw_cow(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let body_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(120, 80, 50, 255)
+  }
+  let spot_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(240, 230, 220, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Body
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.5, z),
-    0.6, 0.5, 0.9,
+    0.6,
+    0.5,
+    0.9,
     body_color,
   )
   // Spots on body
   @raylib.draw_cube(
     @raylib.Vector3::new(x + 0.1, y + 0.6, z - 0.1),
-    0.25, 0.2, 0.3,
+    0.25,
+    0.2,
+    0.3,
     spot_color,
   )
   // Head
@@ -544,18 +639,24 @@ fn draw_cow(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, fla
   let head_z = z + cos_y * 0.5
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 0.65, head_z),
-    0.4, 0.4, 0.35,
+    0.4,
+    0.4,
+    0.35,
     body_color,
   )
   // Horns
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x - 0.2, y + 0.9, head_z),
-    0.06, 0.15, 0.06,
+    0.06,
+    0.15,
+    0.06,
     @raylib.Color::new(200, 190, 170, 255),
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x + 0.2, y + 0.9, head_z),
-    0.06, 0.15, 0.06,
+    0.06,
+    0.15,
+    0.06,
     @raylib.Color::new(200, 190, 170, 255),
   )
   // Legs
@@ -566,15 +667,33 @@ fn draw_cow(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, fla
   draw_entity_leg(x + lo, y, z + lo * 1.5, leg_swing, body_color)
 }
 
-fn draw_chicken(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let body_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(240, 240, 235, 255) }
-  let beak_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(255, 160, 50, 255) }
+///|
+fn draw_chicken(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let body_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(240, 240, 235, 255)
+  }
+  let beak_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(255, 160, 50, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Body
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.25, z),
-    0.3, 0.25, 0.35,
+    0.3,
+    0.25,
+    0.35,
     body_color,
   )
   // Head
@@ -582,7 +701,9 @@ fn draw_chicken(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float,
   let head_z = z + cos_y * 0.25
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 0.45, head_z),
-    0.2, 0.2, 0.2,
+    0.2,
+    0.2,
+    0.2,
     body_color,
   )
   // Beak
@@ -590,37 +711,63 @@ fn draw_chicken(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float,
   let beak_z = z + cos_y * 0.38
   @raylib.draw_cube(
     @raylib.Vector3::new(beak_x, y + 0.42, beak_z),
-    0.08, 0.06, 0.1,
+    0.08,
+    0.06,
+    0.1,
     beak_color,
   )
   // Comb
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 0.58, head_z),
-    0.1, 0.08, 0.06,
+    0.1,
+    0.08,
+    0.06,
     @raylib.Color::new(220, 40, 30, 255),
   )
   // Legs (thin)
   @raylib.draw_cube(
     @raylib.Vector3::new(x - 0.06, y + 0.05 + leg_swing * 0.1, z),
-    0.04, 0.15, 0.04,
+    0.04,
+    0.15,
+    0.04,
     beak_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(x + 0.06, y + 0.05 - leg_swing * 0.1, z),
-    0.04, 0.15, 0.04,
+    0.04,
+    0.15,
+    0.04,
     beak_color,
   )
 }
 
-fn draw_zombie(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let body_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(80, 120, 70, 255) }
-  let shirt_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(70, 70, 140, 255) }
+///|
+fn draw_zombie(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let body_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(80, 120, 70, 255)
+  }
+  let shirt_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(70, 70, 140, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Body (shirt)
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.8, z),
-    0.45, 0.6, 0.25,
+    0.45,
+    0.6,
+    0.25,
     shirt_color,
   )
   // Head
@@ -628,7 +775,9 @@ fn draw_zombie(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, 
   let head_z = z + cos_y * 0.05
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 1.3, head_z),
-    0.35, 0.35, 0.35,
+    0.35,
+    0.35,
+    0.35,
     body_color,
   )
   // Eyes (red)
@@ -636,12 +785,16 @@ fn draw_zombie(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, 
   let eye_z = z + cos_y * 0.18
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x - 0.08, y + 1.35, eye_z),
-    0.06, 0.04, 0.04,
+    0.06,
+    0.04,
+    0.04,
     @raylib.Color::new(200, 30, 30, 255),
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x + 0.08, y + 1.35, eye_z),
-    0.06, 0.04, 0.04,
+    0.06,
+    0.04,
+    0.04,
     @raylib.Color::new(200, 30, 30, 255),
   )
   // Arms (extended forward)
@@ -649,43 +802,75 @@ fn draw_zombie(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, 
   let arm_z = z + cos_y * 0.5
   @raylib.draw_cube(
     @raylib.Vector3::new(arm_x - 0.3, y + 0.9, arm_z),
-    0.15, 0.5, 0.15,
+    0.15,
+    0.5,
+    0.15,
     body_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(arm_x + 0.3, y + 0.9, arm_z),
-    0.15, 0.5, 0.15,
+    0.15,
+    0.5,
+    0.15,
     body_color,
   )
   // Legs
-  let pants_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(60, 50, 90, 255) }
+  let pants_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(60, 50, 90, 255)
+  }
   @raylib.draw_cube(
     @raylib.Vector3::new(x - 0.12, y + 0.25 + leg_swing * 0.15, z),
-    0.18, 0.5, 0.18,
+    0.18,
+    0.5,
+    0.18,
     pants_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(x + 0.12, y + 0.25 - leg_swing * 0.15, z),
-    0.18, 0.5, 0.18,
+    0.18,
+    0.5,
+    0.18,
     pants_color,
   )
 }
 
-fn draw_skeleton(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let bone_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(220, 220, 210, 255) }
-  let dark_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(40, 40, 40, 255) }
+///|
+fn draw_skeleton(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let bone_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(220, 220, 210, 255)
+  }
+  let dark_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(40, 40, 40, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Ribcage
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.8, z),
-    0.35, 0.5, 0.2,
+    0.35,
+    0.5,
+    0.2,
     bone_color,
   )
   // Spine detail
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.8, z),
-    0.08, 0.5, 0.08,
+    0.08,
+    0.5,
+    0.08,
     dark_color,
   )
   // Skull
@@ -693,7 +878,9 @@ fn draw_skeleton(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float
   let head_z = z + cos_y * 0.05
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 1.3, head_z),
-    0.3, 0.3, 0.3,
+    0.3,
+    0.3,
+    0.3,
     bone_color,
   )
   // Eye sockets (dark)
@@ -701,48 +888,78 @@ fn draw_skeleton(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float
   let eye_z = z + cos_y * 0.16
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x - 0.07, y + 1.33, eye_z),
-    0.06, 0.06, 0.06,
+    0.06,
+    0.06,
+    0.06,
     dark_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x + 0.07, y + 1.33, eye_z),
-    0.06, 0.06, 0.06,
+    0.06,
+    0.06,
+    0.06,
     dark_color,
   )
   // Arms
   @raylib.draw_cube(
     @raylib.Vector3::new(x - 0.25, y + 0.8, z),
-    0.08, 0.5, 0.08,
+    0.08,
+    0.5,
+    0.08,
     bone_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(x + 0.25, y + 0.8, z),
-    0.08, 0.5, 0.08,
+    0.08,
+    0.5,
+    0.08,
     bone_color,
   )
   // Legs
   @raylib.draw_cube(
     @raylib.Vector3::new(x - 0.1, y + 0.25 + leg_swing * 0.15, z),
-    0.08, 0.5, 0.08,
+    0.08,
+    0.5,
+    0.08,
     bone_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(x + 0.1, y + 0.25 - leg_swing * 0.15, z),
-    0.08, 0.5, 0.08,
+    0.08,
+    0.5,
+    0.08,
     bone_color,
   )
   ignore(cos_y)
 }
 
-fn draw_spider(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, flash : Bool) -> Unit {
-  let body_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(50, 40, 40, 255) }
-  let eye_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(200, 20, 20, 255) }
+///|
+fn draw_spider(
+  x : Float,
+  y : Float,
+  z : Float,
+  yaw : Float,
+  leg_swing : Float,
+  flash : Bool,
+) -> Unit {
+  let body_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(50, 40, 40, 255)
+  }
+  let eye_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(200, 20, 20, 255)
+  }
   let cos_y = @math.cosf(yaw)
   let sin_y = @math.sinf(yaw)
   // Abdomen
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.3, z),
-    0.5, 0.3, 0.6,
+    0.5,
+    0.3,
+    0.6,
     body_color,
   )
   // Head
@@ -750,7 +967,9 @@ fn draw_spider(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, 
   let head_z = z + cos_y * 0.35
   @raylib.draw_cube(
     @raylib.Vector3::new(head_x, y + 0.3, head_z),
-    0.35, 0.25, 0.3,
+    0.35,
+    0.25,
+    0.3,
     body_color,
   )
   // Eyes (red, multiple)
@@ -758,45 +977,67 @@ fn draw_spider(x : Float, y : Float, z : Float, yaw : Float, leg_swing : Float, 
   let eye_z = z + cos_y * 0.5
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x - 0.08, y + 0.35, eye_z),
-    0.05, 0.05, 0.05,
+    0.05,
+    0.05,
+    0.05,
     eye_color,
   )
   @raylib.draw_cube(
     @raylib.Vector3::new(eye_x + 0.08, y + 0.35, eye_z),
-    0.05, 0.05, 0.05,
+    0.05,
+    0.05,
+    0.05,
     eye_color,
   )
   // Legs (4 pairs)
-  let leg_color = if flash { @raylib.Color::new(255, 255, 255, 255) } else { @raylib.Color::new(60, 50, 50, 255) }
+  let leg_color = if flash {
+    @raylib.Color::new(255, 255, 255, 255)
+  } else {
+    @raylib.Color::new(60, 50, 50, 255)
+  }
   for li = 0; li < 4; li = li + 1 {
     let offset_z = Float::from_int(li) * 0.15 - 0.22
     let swing : Float = if li % 2 == 0 { leg_swing } else { -leg_swing }
     // Left leg
     @raylib.draw_cube(
       @raylib.Vector3::new(x - 0.4 - swing * 0.1, y + 0.15, z + offset_z),
-      0.4, 0.06, 0.06,
+      0.4,
+      0.06,
+      0.06,
       leg_color,
     )
     // Right leg
     @raylib.draw_cube(
       @raylib.Vector3::new(x + 0.4 + swing * 0.1, y + 0.15, z + offset_z),
-      0.4, 0.06, 0.06,
+      0.4,
+      0.06,
+      0.06,
       leg_color,
     )
   }
   ignore(cos_y)
 }
 
-fn draw_entity_leg(x : Float, y : Float, z : Float, swing : Float, color : @raylib.Color) -> Unit {
+///|
+fn draw_entity_leg(
+  x : Float,
+  y : Float,
+  z : Float,
+  swing : Float,
+  color : @raylib.Color,
+) -> Unit {
   @raylib.draw_cube(
     @raylib.Vector3::new(x, y + 0.1 + swing * 0.08, z),
-    0.12, 0.22, 0.12,
+    0.12,
+    0.22,
+    0.12,
     color,
   )
 }
 
 // ========== Face-specific block highlight ==========
 
+///|
 fn draw_face_highlight(game : @types.Game) -> Unit {
   let target = game.target
   if not(target.hit) {
@@ -813,42 +1054,54 @@ fn draw_face_highlight(game : @types.Game) -> Unit {
     // Positive X face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx + offset, fy, fz),
-      0.01, 1.0, 1.0,
+      0.01,
+      1.0,
+      1.0,
       face_color,
     )
   } else if target.nx == -1 {
     // Negative X face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx - offset, fy, fz),
-      0.01, 1.0, 1.0,
+      0.01,
+      1.0,
+      1.0,
       face_color,
     )
   } else if target.ny == 1 {
     // Top face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx, fy + offset, fz),
-      1.0, 0.01, 1.0,
+      1.0,
+      0.01,
+      1.0,
       face_color,
     )
   } else if target.ny == -1 {
     // Bottom face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx, fy - offset, fz),
-      1.0, 0.01, 1.0,
+      1.0,
+      0.01,
+      1.0,
       face_color,
     )
   } else if target.nz == 1 {
     // Positive Z face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx, fy, fz + offset),
-      1.0, 1.0, 0.01,
+      1.0,
+      1.0,
+      0.01,
       face_color,
     )
   } else if target.nz == -1 {
     // Negative Z face
     @raylib.draw_cube(
       @raylib.Vector3::new(fx, fy, fz - offset),
-      1.0, 1.0, 0.01,
+      1.0,
+      1.0,
+      0.01,
       face_color,
     )
   }
@@ -856,6 +1109,7 @@ fn draw_face_highlight(game : @types.Game) -> Unit {
 
 // ========== Torch glow effects ==========
 
+///|
 fn draw_torch_glow_effects(game : @types.Game) -> Unit {
   let player = game.player
   let pcx = player.x.to_int() / @types.chunk_x
@@ -887,7 +1141,8 @@ fn draw_torch_glow_effects(game : @types.Game) -> Unit {
               let glow_dist = @types.distance_xz(player.x, player.z, gx, gz)
               if glow_dist < 20.0 {
                 // Pulsing glow sphere
-                let pulse = @math.sinf(game.day_timer * 4.0 + gx * 0.5) * 0.15 + 1.0
+                let pulse = @math.sinf(game.day_timer * 4.0 + gx * 0.5) * 0.15 +
+                  1.0
                 let glow_size : Float = 1.2 * pulse
                 @raylib.draw_sphere(
                   @raylib.Vector3::new(gx, gy, gz),
@@ -911,6 +1166,7 @@ fn draw_torch_glow_effects(game : @types.Game) -> Unit {
 
 // ========== Water surface transparency effect ==========
 
+///|
 fn draw_water_surface_effects(game : @types.Game) -> Unit {
   let player = game.player
   let pcx = player.x.to_int() / @types.chunk_x
@@ -939,11 +1195,14 @@ fn draw_water_surface_effects(game : @types.Game) -> Unit {
               let sy = Float::from_int(water_y) - 0.45
               let sz = Float::from_int(wz) + 2.0
               // Animated wave effect
-              let wave = @math.sinf(game.day_timer * 2.0 + sx * 0.3 + sz * 0.2) * 0.05
+              let wave = @math.sinf(game.day_timer * 2.0 + sx * 0.3 + sz * 0.2) *
+                0.05
               // Semi-transparent blue surface shimmer
               @raylib.draw_cube(
                 @raylib.Vector3::new(sx, sy + wave, sz),
-                4.0, 0.02, 4.0,
+                4.0,
+                0.02,
+                4.0,
                 @raylib.Color::new(80, 150, 220, 40),
               )
             }
@@ -956,6 +1215,7 @@ fn draw_water_surface_effects(game : @types.Game) -> Unit {
 
 // ========== Tool in hand rendering (first-person) ==========
 
+///|
 fn draw_tool_in_hand(game : @types.Game) -> Unit {
   if game.state != @types.state_playing {
     return
@@ -983,7 +1243,9 @@ fn draw_tool_in_hand(game : @types.Game) -> Unit {
     // Draw bare hand as a small cube
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y, hand_z),
-      0.12, 0.06, 0.18,
+      0.12,
+      0.06,
+      0.18,
       @raylib.Color::new(220, 180, 160, 230),
     )
   } else if is_pickaxe_tool(tool) {
@@ -992,13 +1254,17 @@ fn draw_tool_in_hand(game : @types.Game) -> Unit {
     // Handle
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y - 0.05, hand_z),
-      0.04, 0.25, 0.04,
+      0.04,
+      0.25,
+      0.04,
       @raylib.Color::new(139, 90, 43, 255),
     )
     // Head
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y + 0.1, hand_z),
-      0.18, 0.06, 0.06,
+      0.18,
+      0.06,
+      0.06,
       head_color,
     )
   } else if is_axe_tool(tool) {
@@ -1007,13 +1273,17 @@ fn draw_tool_in_hand(game : @types.Game) -> Unit {
     // Handle
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y - 0.05, hand_z),
-      0.04, 0.25, 0.04,
+      0.04,
+      0.25,
+      0.04,
       @raylib.Color::new(139, 90, 43, 255),
     )
     // Axe head (wider on one side)
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x + 0.06, tool_y + 0.08, hand_z),
-      0.12, 0.1, 0.04,
+      0.12,
+      0.1,
+      0.04,
       head_color,
     )
   } else if is_sword_tool(tool) {
@@ -1022,19 +1292,25 @@ fn draw_tool_in_hand(game : @types.Game) -> Unit {
     // Handle/grip
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y - 0.08, hand_z),
-      0.06, 0.08, 0.04,
+      0.06,
+      0.08,
+      0.04,
       @raylib.Color::new(100, 70, 40, 255),
     )
     // Guard
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y, hand_z),
-      0.12, 0.03, 0.03,
+      0.12,
+      0.03,
+      0.03,
       @raylib.Color::new(80, 80, 80, 255),
     )
     // Blade
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y + 0.12, hand_z),
-      0.04, 0.2, 0.02,
+      0.04,
+      0.2,
+      0.02,
       blade_color,
     )
   } else if is_shovel_tool(tool) {
@@ -1043,47 +1319,66 @@ fn draw_tool_in_hand(game : @types.Game) -> Unit {
     // Handle
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y - 0.05, hand_z),
-      0.04, 0.25, 0.04,
+      0.04,
+      0.25,
+      0.04,
       @raylib.Color::new(139, 90, 43, 255),
     )
     // Shovel head
     @raylib.draw_cube(
       @raylib.Vector3::new(hand_x, tool_y + 0.1, hand_z),
-      0.1, 0.12, 0.03,
+      0.1,
+      0.12,
+      0.03,
       head_color,
     )
   }
 }
 
+///|
 fn is_pickaxe_tool(tool : Int) -> Bool {
-  tool == @types.tool_wooden_pickaxe || tool == @types.tool_stone_pickaxe ||
+  tool == @types.tool_wooden_pickaxe ||
+  tool == @types.tool_stone_pickaxe ||
   tool == @types.tool_iron_pickaxe
 }
 
+///|
 fn is_axe_tool(tool : Int) -> Bool {
-  tool == @types.tool_wooden_axe || tool == @types.tool_stone_axe ||
+  tool == @types.tool_wooden_axe ||
+  tool == @types.tool_stone_axe ||
   tool == @types.tool_iron_axe
 }
 
+///|
 fn is_sword_tool(tool : Int) -> Bool {
-  tool == @types.tool_wooden_sword || tool == @types.tool_stone_sword ||
+  tool == @types.tool_wooden_sword ||
+  tool == @types.tool_stone_sword ||
   tool == @types.tool_iron_sword
 }
 
+///|
 fn is_shovel_tool(tool : Int) -> Bool {
-  tool == @types.tool_wooden_shovel || tool == @types.tool_stone_shovel ||
+  tool == @types.tool_wooden_shovel ||
+  tool == @types.tool_stone_shovel ||
   tool == @types.tool_iron_shovel
 }
 
+///|
 fn get_tool_head_color(tool : Int) -> @raylib.Color {
-  if tool == @types.tool_wooden_pickaxe || tool == @types.tool_wooden_axe ||
-    tool == @types.tool_wooden_shovel || tool == @types.tool_wooden_sword {
+  if tool == @types.tool_wooden_pickaxe ||
+    tool == @types.tool_wooden_axe ||
+    tool == @types.tool_wooden_shovel ||
+    tool == @types.tool_wooden_sword {
     @raylib.Color::new(160, 120, 60, 255)
-  } else if tool == @types.tool_stone_pickaxe || tool == @types.tool_stone_axe ||
-    tool == @types.tool_stone_shovel || tool == @types.tool_stone_sword {
+  } else if tool == @types.tool_stone_pickaxe ||
+    tool == @types.tool_stone_axe ||
+    tool == @types.tool_stone_shovel ||
+    tool == @types.tool_stone_sword {
     @raylib.Color::new(140, 140, 140, 255)
-  } else if tool == @types.tool_iron_pickaxe || tool == @types.tool_iron_axe ||
-    tool == @types.tool_iron_shovel || tool == @types.tool_iron_sword {
+  } else if tool == @types.tool_iron_pickaxe ||
+    tool == @types.tool_iron_axe ||
+    tool == @types.tool_iron_shovel ||
+    tool == @types.tool_iron_sword {
     @raylib.Color::new(200, 200, 210, 255)
   } else {
     @raylib.Color::new(180, 180, 180, 255)
@@ -1092,6 +1387,7 @@ fn get_tool_head_color(tool : Int) -> @raylib.Color {
 
 // ========== Particle rendering ==========
 
+///|
 fn draw_particles(game : @types.Game) -> Unit {
   for i = 0; i < @types.particle_max; i = i + 1 {
     let p = game.particles[i]
@@ -1101,7 +1397,9 @@ fn draw_particles(game : @types.Game) -> Unit {
       let clamped_alpha = @types.clampi(alpha, 0, 255)
       @raylib.draw_cube(
         @raylib.Vector3::new(p.x, p.y, p.z),
-        p.size, p.size, p.size,
+        p.size,
+        p.size,
+        p.size,
         @raylib.Color::new(p.color_r, p.color_g, p.color_b, clamped_alpha),
       )
     }

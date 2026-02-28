@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_fog_ferry_rescue_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Debris
+
+type Dock
+
+type FogCell
+
+type Group
+
+type Particle
+
+type Player
+
+// Type aliases
+
+// Traits
+

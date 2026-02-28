@@ -1,5 +1,6 @@
 // Player movement and controls
 
+///|
 pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let p = game.player
   let sc = p.ship_class
@@ -59,13 +60,19 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   p.boosting = @raylib.is_key_down(@raylib.KeyLeftShift) && can_boost
   if p.boosting {
     p.boost_fuel -= @types.boost_fuel_drain * dt
-    if p.boost_fuel < 0.0 { p.boost_fuel = 0.0 }
+    if p.boost_fuel < 0.0 {
+      p.boost_fuel = 0.0
+    }
   }
 
   // Calculate target speed
   let base_speed = @types.ship_class_speed(sc)
   let boost_speed = @types.ship_class_boost(sc)
-  let speed_boost_mult : Float = if p.speed_boost_timer > 0.0 { 1.3 } else { 1.0 }
+  let speed_boost_mult : Float = if p.speed_boost_timer > 0.0 {
+    1.3
+  } else {
+    1.0
+  }
 
   let cur_speed : Float = if p.boosting {
     boost_speed * speed_boost_mult
@@ -102,12 +109,10 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   // Shield regeneration
   if p.shield_timer > 0.0 {
     p.shield_timer -= dt
-  } else {
-    if p.shield < p.max_shield {
-      p.shield += @types.shield_regen_rate * dt
-      if p.shield > p.max_shield {
-        p.shield = p.max_shield
-      }
+  } else if p.shield < p.max_shield {
+    p.shield += @types.shield_regen_rate * dt
+    if p.shield > p.max_shield {
+      p.shield = p.max_shield
     }
   }
 
@@ -134,9 +139,13 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   let can_fire = p.fire_timer <= 0.0
   let has_energy = p.weapon_energy >= @types.weapon_energy_cost(p.weapon)
   let has_ammo = p.weapon != @types.weapon_missile || p.missile_ammo > 0
-  if (@raylib.is_key_down(@raylib.KeySpace) || @raylib.is_mouse_button_down(
-    @raylib.MouseButtonLeft,
-  )) && can_fire && has_energy && has_ammo {
+  if (
+      @raylib.is_key_down(@raylib.KeySpace) ||
+      @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
+    ) &&
+    can_fire &&
+    has_energy &&
+    has_ammo {
     fire_weapon(game)
     p.fire_timer = @types.weapon_cooldown(p.weapon)
     // Deduct energy
@@ -184,6 +193,7 @@ pub fn update_player(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn fire_weapon(game : @types.Game) -> Unit {
   let p = game.player
   let fwd = @types.forward_dir(p.yaw, p.pitch)
@@ -203,11 +213,12 @@ fn fire_weapon(game : @types.Game) -> Unit {
   game.camera_shake = @types.maxf(game.camera_shake, 0.3)
 }
 
+///|
 fn fire_laser(
   game : @types.Game,
   fwd : (Float, Float, Float),
   rgt : (Float, Float, Float),
-  damage_mult : Float
+  damage_mult : Float,
 ) -> Unit {
   let p = game.player
   // Fire two bolts (left and right of ship)
@@ -215,7 +226,9 @@ fn fire_laser(
   for o = 0; o < offsets.length(); o = o + 1 {
     let off = offsets[o]
     let idx = @types.alloc_projectile(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let proj = game.projectiles[idx]
     proj.active = true
     proj.kind = @types.weapon_laser
@@ -235,14 +248,17 @@ fn fire_laser(
   }
 }
 
+///|
 fn fire_missile(
   game : @types.Game,
   fwd : (Float, Float, Float),
-  damage_mult : Float
+  damage_mult : Float,
 ) -> Unit {
   let p = game.player
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let proj = game.projectiles[idx]
   proj.active = true
   proj.kind = @types.weapon_missile
@@ -261,14 +277,17 @@ fn fire_missile(
   proj.piercing = false
 }
 
+///|
 fn fire_plasma(
   game : @types.Game,
   fwd : (Float, Float, Float),
-  damage_mult : Float
+  damage_mult : Float,
 ) -> Unit {
   let p = game.player
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let proj = game.projectiles[idx]
   proj.active = true
   proj.kind = @types.weapon_plasma
@@ -287,14 +306,17 @@ fn fire_plasma(
   proj.piercing = false
 }
 
+///|
 fn fire_railgun(
   game : @types.Game,
   fwd : (Float, Float, Float),
-  damage_mult : Float
+  damage_mult : Float,
 ) -> Unit {
   let p = game.player
   let idx = @types.alloc_projectile(game)
-  if idx < 0 { return }
+  if idx < 0 {
+    return
+  }
   let proj = game.projectiles[idx]
   proj.active = true
   proj.kind = @types.weapon_railgun
@@ -315,6 +337,7 @@ fn fire_railgun(
   game.camera_shake = @types.maxf(game.camera_shake, 0.6)
 }
 
+///|
 fn cycle_target(game : @types.Game) -> Unit {
   let start = game.target_idx + 1
   // Search forward from current
@@ -336,6 +359,7 @@ fn cycle_target(game : @types.Game) -> Unit {
   game.target_idx = -1
 }
 
+///|
 fn target_nearest(game : @types.Game) -> Unit {
   let p = game.player
   let idx = @types.find_nearest_enemy(game, p.x, p.y, p.z)
@@ -345,6 +369,7 @@ fn target_nearest(game : @types.Game) -> Unit {
   }
 }
 
+///|
 pub fn damage_player(game : @types.Game, damage : Float) -> Unit {
   let p = game.player
   p.shield_timer = @types.shield_regen_delay
@@ -372,9 +397,7 @@ pub fn damage_player(game : @types.Game, damage : Float) -> Unit {
   if p.hull <= 0.0 {
     p.hull = 0.0
     game.state = @types.state_game_over
-    @types.spawn_explosion(
-      game, p.x, p.y, p.z, 40, 255, 150, 50,
-    )
+    @types.spawn_explosion(game, p.x, p.y, p.z, 40, 255, 150, 50)
     @types.spawn_debris(game, p.x, p.y, p.z, 10, 100, 150, 220)
     game.camera_shake = 2.0
     game.screen_flash = 1.0

@@ -1,3 +1,4 @@
+///|
 pub(all) struct Platform {
   mut active : Bool
   mut kind : Int
@@ -32,18 +33,38 @@ pub(all) struct Platform {
   mut b : Int
 }
 
+///|
 pub fn Platform::inactive() -> Platform {
   {
-    active: false, kind: plat_static, x: 0.0, y: 0.0, z: 0.0,
-    w: 2.0, h: 0.3, d: 2.0, move_speed: 2.0, move_range: 3.0,
-    move_timer: 0.0, base_x: 0.0, base_y: 0.0, base_z: 0.0,
-    fall_timer: 0.0, falling: false, touched: false,
-    crumble_timer: 0.0, crumbling: false,
-    phase_timer: 0.0, phase_visible: true, rot_angle: 0.0,
-    r: 100, g: 100, b: 120,
+    active: false,
+    kind: plat_static,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    w: 2.0,
+    h: 0.3,
+    d: 2.0,
+    move_speed: 2.0,
+    move_range: 3.0,
+    move_timer: 0.0,
+    base_x: 0.0,
+    base_y: 0.0,
+    base_z: 0.0,
+    fall_timer: 0.0,
+    falling: false,
+    touched: false,
+    crumble_timer: 0.0,
+    crumbling: false,
+    phase_timer: 0.0,
+    phase_visible: true,
+    rot_angle: 0.0,
+    r: 100,
+    g: 100,
+    b: 120,
   }
 }
 
+///|
 pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
@@ -69,17 +90,35 @@ pub(all) struct Enemy {
   mut b : Int
 }
 
+///|
 pub fn Enemy::inactive() -> Enemy {
   {
-    active: false, kind: enemy_patrol, x: 0.0, y: 0.0, z: 0.0,
-    vx: 0.0, vy: 0.0, vz: 0.0,
-    base_x: 0.0, base_y: 0.0, base_z: 0.0,
-    patrol_range: 3.0, patrol_dir: 1.0, timer: 0.0,
-    health: 1, stunned: false, stun_timer: 0.0, anim_timer: 0.0,
-    size: enemy_size, r: 200, g: 60, b: 60,
+    active: false,
+    kind: enemy_patrol,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    vz: 0.0,
+    base_x: 0.0,
+    base_y: 0.0,
+    base_z: 0.0,
+    patrol_range: 3.0,
+    patrol_dir: 1.0,
+    timer: 0.0,
+    health: 1,
+    stunned: false,
+    stun_timer: 0.0,
+    anim_timer: 0.0,
+    size: enemy_size,
+    r: 200,
+    g: 60,
+    b: 60,
   }
 }
 
+///|
 pub(all) struct Collectible {
   mut active : Bool
   mut kind : Int
@@ -92,13 +131,22 @@ pub(all) struct Collectible {
   mut magnet_target : Bool
 }
 
+///|
 pub fn Collectible::inactive() -> Collectible {
   {
-    active: false, kind: collect_gem, x: 0.0, y: 0.0, z: 0.0,
-    bob_timer: 0.0, spin_timer: 0.0, collected: false, magnet_target: false,
+    active: false,
+    kind: collect_gem,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    bob_timer: 0.0,
+    spin_timer: 0.0,
+    collected: false,
+    magnet_target: false,
   }
 }
 
+///|
 pub(all) struct PowerUp {
   mut active : Bool
   mut kind : Int
@@ -110,13 +158,21 @@ pub(all) struct PowerUp {
   mut collected : Bool
 }
 
+///|
 pub fn PowerUp::inactive() -> PowerUp {
   {
-    active: false, kind: powerup_double_jump, x: 0.0, y: 0.0, z: 0.0,
-    bob_timer: 0.0, spin_timer: 0.0, collected: false,
+    active: false,
+    kind: powerup_double_jump,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    bob_timer: 0.0,
+    spin_timer: 0.0,
+    collected: false,
   }
 }
 
+///|
 pub(all) struct Hazard {
   mut active : Bool
   mut kind : Int
@@ -135,14 +191,28 @@ pub(all) struct Hazard {
   mut move_speed : Float
 }
 
+///|
 pub fn Hazard::inactive() -> Hazard {
   {
-    active: false, kind: hazard_spike, x: 0.0, y: 0.0, z: 0.0,
-    w: 1.0, h: 1.0, d: 1.0, timer: 0.0, phase: 0.0, on: true,
-    base_x: 0.0, base_y: 0.0, move_range: 0.0, move_speed: 0.0,
+    active: false,
+    kind: hazard_spike,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    w: 1.0,
+    h: 1.0,
+    d: 1.0,
+    timer: 0.0,
+    phase: 0.0,
+    on: true,
+    base_x: 0.0,
+    base_y: 0.0,
+    move_range: 0.0,
+    move_speed: 0.0,
   }
 }
 
+///|
 pub(all) struct Checkpoint {
   mut active : Bool
   mut x : Float
@@ -152,10 +222,12 @@ pub(all) struct Checkpoint {
   mut anim_timer : Float
 }
 
+///|
 pub fn Checkpoint::inactive() -> Checkpoint {
   { active: false, x: 0.0, y: 0.0, z: 0.0, activated: false, anim_timer: 0.0 }
 }
 
+///|
 pub(all) struct Particle {
   mut active : Bool
   mut x : Float
@@ -173,14 +245,27 @@ pub(all) struct Particle {
   mut kind : Int
 }
 
+///|
 pub fn Particle::inactive() -> Particle {
   {
-    active: false, x: 0.0, y: 0.0, z: 0.0,
-    vx: 0.0, vy: 0.0, vz: 0.0, life: 0.0, max_life: 1.0,
-    r: 255, g: 255, b: 255, size: 0.05, kind: 0,
+    active: false,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    vz: 0.0,
+    life: 0.0,
+    max_life: 1.0,
+    r: 255,
+    g: 255,
+    b: 255,
+    size: 0.05,
+    kind: 0,
   }
 }
 
+///|
 pub(all) struct Decoration {
   mut active : Bool
   mut kind : Int
@@ -194,13 +279,23 @@ pub(all) struct Decoration {
   mut b : Int
 }
 
+///|
 pub fn Decoration::inactive() -> Decoration {
   {
-    active: false, kind: deco_tree, x: 0.0, y: 0.0, z: 0.0,
-    scale: 1.0, rot_y: 0.0, r: 100, g: 160, b: 60,
+    active: false,
+    kind: deco_tree,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    scale: 1.0,
+    rot_y: 0.0,
+    r: 100,
+    g: 160,
+    b: 60,
   }
 }
 
+///|
 pub(all) struct Projectile {
   mut active : Bool
   mut kind : Int
@@ -216,13 +311,25 @@ pub(all) struct Projectile {
   mut b : Int
 }
 
+///|
 pub fn Projectile::inactive() -> Projectile {
   {
-    active: false, kind: proj_enemy_shot, x: 0.0, y: 0.0, z: 0.0,
-    vx: 0.0, vy: 0.0, vz: 0.0, life: 0.0, r: 255, g: 100, b: 50,
+    active: false,
+    kind: proj_enemy_shot,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    vz: 0.0,
+    life: 0.0,
+    r: 255,
+    g: 100,
+    b: 50,
   }
 }
 
+///|
 pub(all) struct ScoreFly {
   mut active : Bool
   mut x : Float
@@ -232,10 +339,12 @@ pub(all) struct ScoreFly {
   mut max_time : Float
 }
 
+///|
 pub fn ScoreFly::inactive() -> ScoreFly {
   { active: false, x: 0.0, y: 0.0, value: 0, timer: 0.0, max_time: 1.0 }
 }
 
+///|
 pub(all) struct Game {
   mut state : Int
 
@@ -353,30 +462,66 @@ pub(all) struct Game {
   mut frame_counter : Int
 }
 
+///|
 pub fn Game::new() -> Game {
   {
     state: state_menu,
-    px: 0.0, py: 2.0, pz: 0.0,
-    vx: 0.0, vy: 0.0, vz: 0.0,
-    grounded: false, coyote_timer: 0.0, jump_buffer_timer: 0.0,
-    on_ice: false, lives: player_max_lives, score: 0, gems_collected: 0, gems_total: 0,
+    px: 0.0,
+    py: 2.0,
+    pz: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    vz: 0.0,
+    grounded: false,
+    coyote_timer: 0.0,
+    jump_buffer_timer: 0.0,
+    on_ice: false,
+    lives: player_max_lives,
+    score: 0,
+    gems_collected: 0,
+    gems_total: 0,
     stars_collected: 0,
-    facing_x: 0.0, facing_z: -1.0,
-    has_double_jump: false, double_jumped: false,
-    can_wall_jump: false, wall_dir: 0.0, wall_slide: false,
-    dash_timer: 0.0, dash_cooldown_timer: 0.0,
-    dash_dir_x: 0.0, dash_dir_z: 0.0, dashing: false,
+    facing_x: 0.0,
+    facing_z: -1.0,
+    has_double_jump: false,
+    double_jumped: false,
+    can_wall_jump: false,
+    wall_dir: 0.0,
+    wall_slide: false,
+    dash_timer: 0.0,
+    dash_cooldown_timer: 0.0,
+    dash_dir_x: 0.0,
+    dash_dir_z: 0.0,
+    dashing: false,
     invincible_timer: 0.0,
-    powerup_type: -1, powerup_timer: 0.0, has_shield: false,
-    combo_count: 0, combo_timer: 0.0, combo_mult: 1.0,
-    level_deaths: 0, level_time: 0.0,
-    coins_collected: 0, keys_collected: 0, total_coins: 0, total_keys: 0,
-    checkpoint_x: 0.0, checkpoint_y: 2.0, checkpoint_z: 0.0,
+    powerup_type: -1,
+    powerup_timer: 0.0,
+    has_shield: false,
+    combo_count: 0,
+    combo_timer: 0.0,
+    combo_mult: 1.0,
+    level_deaths: 0,
+    level_time: 0.0,
+    coins_collected: 0,
+    keys_collected: 0,
+    total_coins: 0,
+    total_keys: 0,
+    checkpoint_x: 0.0,
+    checkpoint_y: 2.0,
+    checkpoint_z: 0.0,
     checkpoint_active: false,
-    cam_x: 0.0, cam_y: 5.0, cam_z: 8.0, cam_angle: 0.0,
-    cam_dist: camera_dist, cam_shake: 0.0, cam_shake_timer: 0.0,
-    current_world: 0, current_level: 0,
-    goal_x: 0.0, goal_y: 0.0, goal_z: 0.0,
+    cam_x: 0.0,
+    cam_y: 5.0,
+    cam_z: 8.0,
+    cam_angle: 0.0,
+    cam_dist: camera_dist,
+    cam_shake: 0.0,
+    cam_shake_timer: 0.0,
+    current_world: 0,
+    current_level: 0,
+    goal_x: 0.0,
+    goal_y: 0.0,
+    goal_z: 0.0,
     platforms: Array::make(max_platforms, Platform::inactive()),
     collectibles: Array::make(max_collectibles, Collectible::inactive()),
     hazards: Array::make(max_hazards, Hazard::inactive()),
@@ -387,11 +532,20 @@ pub fn Game::new() -> Game {
     decorations: Array::make(max_decorations, Decoration::inactive()),
     projectiles: Array::make(max_projectiles, Projectile::inactive()),
     score_flies: Array::make(32, ScoreFly::inactive()),
-    menu_cursor: 0, menu_blink: 0.0, complete_timer: 0.0, death_timer: 0.0,
-    world_select_cursor: 0, level_select_cursor: 0,
-    pause_cursor: 0, ui_fade: 0.0, world_intro_timer: 0.0,
-    anim_walk_timer: 0.0, anim_land_squash: 0.0, anim_jump_stretch: 0.0,
+    menu_cursor: 0,
+    menu_blink: 0.0,
+    complete_timer: 0.0,
+    death_timer: 0.0,
+    world_select_cursor: 0,
+    level_select_cursor: 0,
+    pause_cursor: 0,
+    ui_fade: 0.0,
+    world_intro_timer: 0.0,
+    anim_walk_timer: 0.0,
+    anim_land_squash: 0.0,
+    anim_jump_stretch: 0.0,
     level_stars: Array::make(total_levels, 0),
-    rng_state: 54321, frame_counter: 0,
+    rng_state: 54321,
+    frame_counter: 0,
   }
 }

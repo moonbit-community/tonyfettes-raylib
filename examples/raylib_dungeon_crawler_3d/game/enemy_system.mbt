@@ -1,5 +1,6 @@
 // Enemy AI and projectile updates
 
+///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
@@ -88,6 +89,7 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_patrol(game : @types.Game, e : @types.Enemy, dt : Float) -> Unit {
   e.move_timer += dt
   if e.move_timer > 2.0 {
@@ -116,11 +118,12 @@ fn update_patrol(game : @types.Game, e : @types.Enemy, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_melee_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Choose move speed based on type
   let base_speed : Float = if e.kind == @types.enemy_wraith {
@@ -153,28 +156,36 @@ fn update_melee_enemy(
     if not(@types.is_blocked(game, e.x, new_z, radius)) {
       e.z = new_z
     }
-  } else {
     // In melee range - attack
-    if e.attack_timer <= 0.0 {
-      damage_player(game, e.atk)
-      e.attack_timer = @types.enemy_attack_cooldown
-      @types.spawn_particles(
-        game, game.player_x, 1.0, game.player_z, 6, 255, 80, 80,
-      )
-      @types.add_message(
-        game,
-        "\{@types.get_enemy_name(e.kind)} attacks for \{@types.maxi(1, e.atk - @types.calc_player_defense(game))} damage!",
-        255, 100, 80,
-      )
-    }
+  } else if e.attack_timer <= 0.0 {
+    damage_player(game, e.atk)
+    e.attack_timer = @types.enemy_attack_cooldown
+    @types.spawn_particles(
+      game,
+      game.player_x,
+      1.0,
+      game.player_z,
+      6,
+      255,
+      80,
+      80,
+    )
+    @types.add_message(
+      game,
+      "\{@types.get_enemy_name(e.kind)} attacks for \{@types.maxi(1, e.atk - @types.calc_player_defense(game))} damage!",
+      255,
+      100,
+      80,
+    )
   }
 }
 
+///|
 fn update_archer_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Archers try to maintain distance
   let preferred_dist : Float = 8.0
@@ -218,11 +229,12 @@ fn update_archer_enemy(
   ignore(dt)
 }
 
+///|
 fn update_slime_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Slimes are slow but bounce toward player
   let move_speed = @types.slime_move_speed * e.speed_mult
@@ -233,7 +245,11 @@ fn update_slime_enemy(
     if e.move_timer > 0.8 {
       e.move_timer = 0.0
       let dir = @types.pathfind_step(
-        game, e.x, e.z, game.player_x, game.player_z,
+        game,
+        e.x,
+        e.z,
+        game.player_x,
+        game.player_z,
       )
       let hop_dist = move_speed * 0.5
       let new_x = e.x + dir.0 * hop_dist
@@ -248,23 +264,29 @@ fn update_slime_enemy(
       // Spawn slime trail particles
       @types.spawn_particles(game, e.x, 0.2, e.z, 2, 50, 200, 50)
     }
-  } else {
     // Attack
-    if e.attack_timer <= 0.0 {
-      damage_player(game, e.atk)
-      e.attack_timer = @types.enemy_attack_cooldown
-      @types.spawn_particles(
-        game, game.player_x, 0.5, game.player_z, 4, 50, 200, 50,
-      )
-    }
+  } else if e.attack_timer <= 0.0 {
+    damage_player(game, e.atk)
+    e.attack_timer = @types.enemy_attack_cooldown
+    @types.spawn_particles(
+      game,
+      game.player_x,
+      0.5,
+      game.player_z,
+      4,
+      50,
+      200,
+      50,
+    )
   }
 }
 
+///|
 fn update_bat_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Bats have fast erratic movement
   let move_speed = @types.bat_move_speed * e.speed_mult
@@ -290,23 +312,29 @@ fn update_bat_enemy(
         e.z = new_z
       }
     }
-  } else {
     // Swooping attack
-    if e.attack_timer <= 0.0 {
-      damage_player(game, e.atk)
-      e.attack_timer = 0.8
-      @types.spawn_particles(
-        game, game.player_x, 1.5, game.player_z, 3, 80, 60, 40,
-      )
-    }
+  } else if e.attack_timer <= 0.0 {
+    damage_player(game, e.atk)
+    e.attack_timer = 0.8
+    @types.spawn_particles(
+      game,
+      game.player_x,
+      1.5,
+      game.player_z,
+      3,
+      80,
+      60,
+      40,
+    )
   }
 }
 
+///|
 fn update_spider_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Spiders are medium speed, can slow player with web
   let move_speed = @types.spider_move_speed * e.speed_mult
@@ -328,23 +356,29 @@ fn update_spider_enemy(
       shoot_web(game, e)
       e.ability_cooldown = 4.0
     }
-  } else {
     // Melee attack
-    if e.attack_timer <= 0.0 {
-      damage_player(game, e.atk)
-      e.attack_timer = @types.enemy_attack_cooldown
-      @types.spawn_particles(
-        game, game.player_x, 1.0, game.player_z, 5, 120, 100, 80,
-      )
-    }
+  } else if e.attack_timer <= 0.0 {
+    damage_player(game, e.atk)
+    e.attack_timer = @types.enemy_attack_cooldown
+    @types.spawn_particles(
+      game,
+      game.player_x,
+      1.0,
+      game.player_z,
+      5,
+      120,
+      100,
+      80,
+    )
   }
 }
 
+///|
 fn update_minotaur_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Minotaur: charges in straight line
   let melee_range : Float = 2.5
@@ -370,7 +404,14 @@ fn update_minotaur_enemy(
         damage_player(game, e.atk * 2)
         e.ai_state = @types.ai_chase
         @types.spawn_particles(
-          game, game.player_x, 1.0, game.player_z, 10, 255, 80, 40,
+          game,
+          game.player_x,
+          1.0,
+          game.player_z,
+          10,
+          255,
+          80,
+          40,
         )
         @types.add_message(game, "Minotaur charge hits!", 255, 80, 40)
       }
@@ -393,7 +434,11 @@ fn update_minotaur_enemy(
     let move_speed : Float = 2.5 * e.speed_mult
     if dist > melee_range {
       let dir = @types.pathfind_step(
-        game, e.x, e.z, game.player_x, game.player_z,
+        game,
+        e.x,
+        e.z,
+        game.player_x,
+        game.player_z,
       )
       let new_x = e.x + dir.0 * move_speed * dt
       let new_z = e.z + dir.1 * move_speed * dt
@@ -404,23 +449,29 @@ fn update_minotaur_enemy(
       if not(@types.is_blocked(game, e.x, new_z, radius)) {
         e.z = new_z
       }
-    } else {
-      if e.attack_timer <= 0.0 {
-        damage_player(game, e.atk)
-        e.attack_timer = 1.5
-        @types.spawn_particles(
-          game, game.player_x, 1.0, game.player_z, 8, 200, 100, 50,
-        )
-      }
+    } else if e.attack_timer <= 0.0 {
+      damage_player(game, e.atk)
+      e.attack_timer = 1.5
+      @types.spawn_particles(
+        game,
+        game.player_x,
+        1.0,
+        game.player_z,
+        8,
+        200,
+        100,
+        50,
+      )
     }
   }
 }
 
+///|
 fn update_lich_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Lich: ranged spell attacks, summons skeletons
   let move_speed : Float = 1.8 * e.speed_mult
@@ -470,11 +521,12 @@ fn update_lich_enemy(
   ignore(dt)
 }
 
+///|
 fn update_boss_enemy(
   game : @types.Game,
   e : @types.Enemy,
   dt : Float,
-  dist : Float
+  dist : Float,
 ) -> Unit {
   // Dragon boss: melee + fire breath + summon
   let base_speed = @types.golem_move_speed * e.speed_mult
@@ -490,23 +542,25 @@ fn update_boss_enemy(
     if not(@types.is_blocked(game, e.x, new_z, radius)) {
       e.z = new_z
     }
-  } else {
     // Melee attack
-    if e.attack_timer <= 0.0 {
-      damage_player(game, e.atk)
-      e.attack_timer = @types.enemy_attack_cooldown
-      @types.spawn_particles(
-        game, game.player_x, 1.0, game.player_z, 8, 255, 80, 80,
-      )
-    }
+  } else if e.attack_timer <= 0.0 {
+    damage_player(game, e.atk)
+    e.attack_timer = @types.enemy_attack_cooldown
+    @types.spawn_particles(
+      game,
+      game.player_x,
+      1.0,
+      game.player_z,
+      8,
+      255,
+      80,
+      80,
+    )
   }
   // Fire breath special attack
   if e.ability_cooldown <= 0.0 && dist < 8.0 {
     // Fire breath: multiple projectiles in a cone
-    let base_angle = @math.atan2f(
-      game.player_x - e.x,
-      game.player_z - e.z,
-    )
+    let base_angle = @math.atan2f(game.player_x - e.x, game.player_z - e.z)
     for j = -2; j <= 2; j = j + 1 {
       let angle = base_angle + Float::from_int(j) * 0.2
       let pidx = @types.alloc_projectile(game)
@@ -531,6 +585,7 @@ fn update_boss_enemy(
   }
 }
 
+///|
 fn shoot_projectile(game : @types.Game, e : @types.Enemy) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -559,6 +614,7 @@ fn shoot_projectile(game : @types.Game, e : @types.Enemy) -> Unit {
   p.slow_on_hit = false
 }
 
+///|
 fn shoot_web(game : @types.Game, e : @types.Enemy) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -586,6 +642,7 @@ fn shoot_web(game : @types.Game, e : @types.Enemy) -> Unit {
   p.slow_on_hit = true
 }
 
+///|
 fn shoot_lich_bolt(game : @types.Game, e : @types.Enemy) -> Unit {
   let idx = @types.alloc_projectile(game)
   if idx < 0 {
@@ -614,6 +671,7 @@ fn shoot_lich_bolt(game : @types.Game, e : @types.Enemy) -> Unit {
   @types.spawn_particles(game, e.x, 1.5, e.z, 6, 180, 50, 255)
 }
 
+///|
 fn summon_skeleton(game : @types.Game, e : @types.Enemy) -> Unit {
   let idx = @types.alloc_enemy(game)
   if idx < 0 {
@@ -649,6 +707,7 @@ fn summon_skeleton(game : @types.Game, e : @types.Enemy) -> Unit {
   game.floor_info[game.current_floor].enemies_total += 1
 }
 
+///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let p = game.projectiles[i]
@@ -685,7 +744,14 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
         }
         p.active = false
         @types.spawn_particles(
-          game, game.player_x, 1.0, game.player_z, 6, 255, 100, 50,
+          game,
+          game.player_x,
+          1.0,
+          game.player_z,
+          6,
+          255,
+          100,
+          50,
         )
       }
     } else {
@@ -712,7 +778,9 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
           @types.add_message(
             game,
             "Hit \{@types.get_enemy_name(enemy.kind)} for \{damage}!",
-            255, 200, 80,
+            255,
+            200,
+            80,
           )
           if enemy.hp <= 0 {
             kill_enemy(game, j)
@@ -724,6 +792,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
@@ -746,6 +815,7 @@ pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 pub fn update_loot_bob(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.loot.length(); i = i + 1 {
     let l = game.loot[i]

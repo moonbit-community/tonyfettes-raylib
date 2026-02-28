@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_moon_gate_defense_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Bolt
+
+type Enemy
+
+type Game
+
+type Node
+
+type PulseFx
+
+// Type aliases
+
+// Traits
+

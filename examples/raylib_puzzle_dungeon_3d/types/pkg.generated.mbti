@@ -1,0 +1,759 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_puzzle_dungeon_3d/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn absi(Int) -> Int
+
+pub let achievement_all_stars : Int
+
+pub let achievement_first_clear : Int
+
+pub let achievement_no_undo : Int
+
+pub let achievement_speed_run : Int
+
+pub let achievement_world_1 : Int
+
+pub let achievement_world_2 : Int
+
+pub let achievement_world_3 : Int
+
+pub let achievement_world_4 : Int
+
+pub let achievement_world_5 : Int
+
+pub fn alloc_entity(Game) -> Int
+
+pub fn alloc_particle(Game) -> Int
+
+pub let bridge_anim_duration : Float
+
+pub fn calculate_laser_paths(Game) -> Unit
+
+pub let camera_dist : Float
+
+pub let camera_fovy : Float
+
+pub let camera_height : Float
+
+pub let cell_size : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let collect_particle_count : Int
+
+pub let color_block_b : Int
+
+pub let color_block_g : Int
+
+pub let color_block_r : Int
+
+pub let color_bridge_b : Int
+
+pub let color_bridge_g : Int
+
+pub let color_bridge_r : Int
+
+pub let color_conveyor_b : Int
+
+pub let color_conveyor_g : Int
+
+pub let color_conveyor_r : Int
+
+pub let color_diamond_b : Int
+
+pub let color_diamond_g : Int
+
+pub let color_diamond_r : Int
+
+pub let color_exit_b : Int
+
+pub let color_exit_g : Int
+
+pub let color_exit_r : Int
+
+pub let color_floor_b : Int
+
+pub let color_floor_g : Int
+
+pub let color_floor_r : Int
+
+pub let color_gate_b : Int
+
+pub let color_gate_g : Int
+
+pub let color_gate_r : Int
+
+pub let color_ice_b : Int
+
+pub let color_ice_g : Int
+
+pub let color_ice_r : Int
+
+pub let color_key_b : Int
+
+pub let color_key_g : Int
+
+pub let color_key_r : Int
+
+pub let color_laser_b : Int
+
+pub let color_laser_g : Int
+
+pub let color_laser_r : Int
+
+pub let color_mirror_b : Int
+
+pub let color_mirror_g : Int
+
+pub let color_mirror_r : Int
+
+pub let color_plate_b : Int
+
+pub let color_plate_g : Int
+
+pub let color_plate_r : Int
+
+pub let color_rotate_b : Int
+
+pub let color_rotate_g : Int
+
+pub let color_rotate_r : Int
+
+pub let color_target_b : Int
+
+pub let color_target_g : Int
+
+pub let color_target_r : Int
+
+pub let color_wall_b : Int
+
+pub let color_wall_g : Int
+
+pub let color_wall_r : Int
+
+pub let complete_particle_count : Int
+
+pub let conveyor_anim_speed : Float
+
+pub fn conveyor_direction(Int) -> Int
+
+pub fn count_active_plates(Game) -> Int
+
+pub fn count_diamonds(Game) -> Int
+
+pub fn count_laser_targets(Game) -> Int
+
+pub fn count_plates(Game) -> Int
+
+pub fn count_total_stars(Game) -> Int
+
+pub let deco_crystal : Int
+
+pub let deco_floating_rock : Int
+
+pub let deco_flower : Int
+
+pub let deco_magma_pool : Int
+
+pub let deco_mushroom : Int
+
+pub let deco_pillar : Int
+
+pub let deco_torch : Int
+
+pub let deco_vine : Int
+
+pub let dir_down : Int
+
+pub fn dir_dx(Int) -> Int
+
+pub fn dir_dy(Int) -> Int
+
+pub let dir_left : Int
+
+pub let dir_right : Int
+
+pub let dir_up : Int
+
+pub let dungeon_accent_b : Int
+
+pub let dungeon_accent_g : Int
+
+pub let dungeon_accent_r : Int
+
+pub let dungeon_bg_b : Int
+
+pub let dungeon_bg_g : Int
+
+pub let dungeon_bg_r : Int
+
+pub let dungeon_floor_b : Int
+
+pub let dungeon_floor_g : Int
+
+pub let dungeon_floor_r : Int
+
+pub let dungeon_wall_b : Int
+
+pub let dungeon_wall_g : Int
+
+pub let dungeon_wall_r : Int
+
+pub fn ease_in_out_quad(Float) -> Float
+
+pub fn ease_out_bounce(Float) -> Float
+
+pub fn ease_out_cubic(Float) -> Float
+
+pub fn entity_at(Game, Int, Int) -> Int
+
+pub let entity_block : Int
+
+pub let entity_bomb : Int
+
+pub let entity_diamond : Int
+
+pub let entity_key : Int
+
+pub let entity_none : Int
+
+pub let fall_anim_duration : Float
+
+pub let floors_per_world : Int
+
+pub let garden_accent_b : Int
+
+pub let garden_accent_g : Int
+
+pub let garden_accent_r : Int
+
+pub let garden_bg_b : Int
+
+pub let garden_bg_g : Int
+
+pub let garden_bg_r : Int
+
+pub let garden_floor_b : Int
+
+pub let garden_floor_g : Int
+
+pub let garden_floor_r : Int
+
+pub let garden_wall_b : Int
+
+pub let garden_wall_g : Int
+
+pub let garden_wall_r : Int
+
+pub let gate_anim_duration : Float
+
+pub let gate_particle_count : Int
+
+pub fn get_tile(Game, Int, Int) -> Int
+
+pub fn get_tutorial_for_floor(Int) -> String
+
+pub fn get_world_accent_color(Int) -> (Int, Int, Int)
+
+pub fn get_world_bg_color(Int) -> (Int, Int, Int)
+
+pub fn get_world_floor_color(Int) -> (Int, Int, Int)
+
+pub fn get_world_for_floor(Int) -> Int
+
+pub fn get_world_name(Int) -> String
+
+pub fn get_world_wall_color(Int) -> (Int, Int, Int)
+
+pub let grid_h : Int
+
+pub let grid_total : Int
+
+pub let grid_w : Int
+
+pub let ice_accent_b : Int
+
+pub let ice_accent_g : Int
+
+pub let ice_accent_r : Int
+
+pub let ice_bg_b : Int
+
+pub let ice_bg_g : Int
+
+pub let ice_bg_r : Int
+
+pub let ice_floor_b : Int
+
+pub let ice_floor_g : Int
+
+pub let ice_floor_r : Int
+
+pub fn ice_slide_entity(Game, Int, Int) -> Unit
+
+pub let ice_wall_b : Int
+
+pub let ice_wall_g : Int
+
+pub let ice_wall_r : Int
+
+pub fn in_bounds(Int, Int) -> Bool
+
+pub fn is_conveyor(Int) -> Bool
+
+pub fn is_laser_source(Int) -> Bool
+
+pub fn is_mirror(Int) -> Bool
+
+pub fn is_pushable_onto(Int) -> Bool
+
+pub fn is_solid_tile(Int) -> Bool
+
+pub fn is_walkable(Int) -> Bool
+
+pub fn is_world_unlocked(Game, Int) -> Bool
+
+pub let laser_particle_count : Int
+
+pub let laser_pulse_speed : Float
+
+pub fn laser_source_direction(Int) -> Int
+
+pub let lava_accent_b : Int
+
+pub let lava_accent_g : Int
+
+pub let lava_accent_r : Int
+
+pub let lava_bg_b : Int
+
+pub let lava_bg_g : Int
+
+pub let lava_bg_r : Int
+
+pub let lava_floor_b : Int
+
+pub let lava_floor_g : Int
+
+pub let lava_floor_r : Int
+
+pub let lava_wall_b : Int
+
+pub let lava_wall_g : Int
+
+pub let lava_wall_r : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_achievements : Int
+
+pub let max_decorations : Int
+
+pub let max_entities : Int
+
+pub let max_floors : Int
+
+pub let max_laser_segments : Int
+
+pub let max_particles : Int
+
+pub let max_stars : Int
+
+pub let max_undo : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let menu_blink_speed : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn mirror_reflect(Int, Int) -> Int
+
+pub let move_anim_duration : Float
+
+pub let num_worlds : Int
+
+pub fn opposite_dir(Int) -> Int
+
+pub let particle_drag : Float
+
+pub let particle_gravity : Float
+
+pub let push_anim_duration : Float
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub fn resolve_conveyors(Game) -> Unit
+
+pub let rotate_anim_duration : Float
+
+pub fn rotate_dir_cw(Int) -> Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn set_tile(Game, Int, Int, Int) -> Unit
+
+pub fn setup_decorations(Game) -> Unit
+
+pub let slide_anim_duration : Float
+
+pub fn smooth_step(Float) -> Float
+
+pub fn spawn_ambient_particles(Game, Float, Float, Float, Int, Int, Int, Int, Float, Float) -> Unit
+
+pub fn spawn_particles(Game, Float, Float, Float, Int, Int, Int, Int) -> Unit
+
+pub let spike_cycle_time : Float
+
+pub let star_anim_delay : Float
+
+pub let star_threshold_2 : Int
+
+pub let star_threshold_3 : Int
+
+pub fn stars_to_unlock_world(Int) -> Int
+
+pub let state_campaign_complete : Int
+
+pub let state_floor_select : Int
+
+pub let state_game_over : Int
+
+pub let state_level_complete : Int
+
+pub let state_menu : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_tutorial : Int
+
+pub let state_world_select : Int
+
+pub let teleport_anim_duration : Float
+
+pub let teleport_particle_count : Int
+
+pub let tile_bridge_off : Int
+
+pub let tile_bridge_on : Int
+
+pub let tile_conveyor_down : Int
+
+pub let tile_conveyor_left : Int
+
+pub let tile_conveyor_right : Int
+
+pub let tile_conveyor_up : Int
+
+pub let tile_cracked : Int
+
+pub let tile_empty : Int
+
+pub let tile_exit_closed : Int
+
+pub let tile_exit_open : Int
+
+pub let tile_floor : Int
+
+pub let tile_gate_closed : Int
+
+pub let tile_gate_open : Int
+
+pub let tile_ice : Int
+
+pub fn tile_index(Int, Int) -> Int
+
+pub let tile_laser_source_down : Int
+
+pub let tile_laser_source_left : Int
+
+pub let tile_laser_source_right : Int
+
+pub let tile_laser_source_up : Int
+
+pub let tile_laser_target : Int
+
+pub let tile_mirror_ne : Int
+
+pub let tile_mirror_nw : Int
+
+pub let tile_mirror_se : Int
+
+pub let tile_mirror_sw : Int
+
+pub let tile_pit : Int
+
+pub let tile_plate : Int
+
+pub let tile_rotate_platform : Int
+
+pub let tile_spikes_off : Int
+
+pub let tile_spikes_on : Int
+
+pub let tile_switch_off : Int
+
+pub let tile_switch_on : Int
+
+pub let tile_teleport_a : Int
+
+pub let tile_teleport_b : Int
+
+pub let tile_wall : Int
+
+pub fn toggle_bridges(Game) -> Unit
+
+pub let transition_time : Float
+
+pub let tutorial_fade_speed : Float
+
+pub let tutorial_msg_bridge : String
+
+pub let tutorial_msg_complete : String
+
+pub let tutorial_msg_conveyor : String
+
+pub let tutorial_msg_cracked : String
+
+pub let tutorial_msg_diamond : String
+
+pub let tutorial_msg_gate : String
+
+pub let tutorial_msg_ice : String
+
+pub let tutorial_msg_mirror : String
+
+pub let tutorial_msg_move : String
+
+pub let tutorial_msg_plate : String
+
+pub let tutorial_msg_push : String
+
+pub let tutorial_msg_switch : String
+
+pub let tutorial_msg_teleport : String
+
+pub let tutorial_msg_undo : String
+
+pub fn update_gates(Game) -> Unit
+
+pub let void_accent_b : Int
+
+pub let void_accent_g : Int
+
+pub let void_accent_r : Int
+
+pub let void_bg_b : Int
+
+pub let void_bg_g : Int
+
+pub let void_bg_r : Int
+
+pub let void_floor_b : Int
+
+pub let void_floor_g : Int
+
+pub let void_floor_r : Int
+
+pub let void_wall_b : Int
+
+pub let void_wall_g : Int
+
+pub let void_wall_r : Int
+
+pub let world_dungeon : Int
+
+pub let world_garden : Int
+
+pub let world_ice : Int
+
+pub let world_lava : Int
+
+pub let world_name_0 : String
+
+pub let world_name_1 : String
+
+pub let world_name_2 : String
+
+pub let world_name_3 : String
+
+pub let world_name_4 : String
+
+pub let world_void : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct AchievementInfo {
+  mut unlocked : Bool
+  mut show_timer : Float
+}
+pub fn AchievementInfo::new() -> Self
+
+pub(all) struct Decoration {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut scale : Float
+  mut phase : Float
+}
+pub fn Decoration::inactive() -> Self
+
+pub(all) struct Entity {
+  mut active : Bool
+  mut kind : Int
+  mut gx : Int
+  mut gy : Int
+  mut anim_x : Float
+  mut anim_y : Float
+  mut anim_timer : Float
+  mut falling : Bool
+  mut fall_timer : Float
+  mut on_plate : Bool
+}
+pub fn Entity::inactive() -> Self
+pub fn Entity::new_block(Int, Int) -> Self
+pub fn Entity::new_diamond(Int, Int) -> Self
+pub fn Entity::new_key(Int, Int) -> Self
+
+pub(all) struct FloorInfo {
+  mut unlocked : Bool
+  mut completed : Bool
+  mut best_moves : Int
+  mut stars : Int
+}
+pub fn FloorInfo::new() -> Self
+
+pub(all) struct Game {
+  mut state : Int
+  mut prev_state : Int
+  mut player_gx : Int
+  mut player_gy : Int
+  mut player_anim_x : Float
+  mut player_anim_z : Float
+  mut player_anim_timer : Float
+  mut player_dir : Int
+  mut player_moving : Bool
+  mut player_walk_cycle : Float
+  mut player_push_anim : Float
+  mut current_floor : Int
+  mut current_world : Int
+  mut moves : Int
+  mut keys_held : Int
+  mut diamonds_collected : Int
+  mut diamonds_total : Int
+  mut plates_active : Int
+  mut plates_total : Int
+  mut exit_open : Bool
+  tiles : Array[Int]
+  entities : Array[Entity]
+  mut level_timer : Float
+  mut used_undo : Bool
+  laser_segments : Array[LaserSegment]
+  mut laser_segment_count : Int
+  mut laser_targets_hit : Int
+  mut laser_targets_total : Int
+  decorations : Array[Decoration]
+  mut decoration_count : Int
+  mut spike_timer : Float
+  mut spike_phase : Bool
+  mut conveyor_moved_this_turn : Bool
+  mut gate_anim_timer : Float
+  mut gate_opening : Bool
+  undo_stack : Array[UndoState]
+  mut undo_count : Int
+  particles : Array[Particle]
+  floor_info : Array[FloorInfo]
+  achievements : Array[AchievementInfo]
+  mut achievement_display_timer : Float
+  mut achievement_display_text : String
+  mut camera_angle : Float
+  mut camera_target_x : Float
+  mut camera_target_z : Float
+  mut menu_cursor : Int
+  mut menu_blink : Float
+  mut transition_timer : Float
+  mut transition_out : Bool
+  mut message_timer : Float
+  mut message_text : String
+  mut floor_select_cursor : Int
+  mut world_select_cursor : Int
+  mut tutorial_step : Int
+  mut tutorial_timer : Float
+  mut tutorial_active : Bool
+  mut tutorial_text : String
+  mut rng_state : Int
+  mut frame_counter : Int
+  mut complete_timer : Float
+  mut complete_stars : Int
+  mut total_stars : Int
+  mut total_moves : Int
+  mut total_undos : Int
+  mut levels_completed : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct LaserSegment {
+  mut active : Bool
+  mut start_gx : Int
+  mut start_gy : Int
+  mut end_gx : Int
+  mut end_gy : Int
+  mut dir : Int
+}
+pub fn LaserSegment::inactive() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut z : Float
+  mut vx : Float
+  mut vy : Float
+  mut vz : Float
+  mut life : Float
+  mut max_life : Float
+  mut r : Int
+  mut g : Int
+  mut b : Int
+  mut size : Float
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) struct UndoState {
+  mut player_gx : Int
+  mut player_gy : Int
+  tiles : FixedArray[Int]
+  entity_gx : FixedArray[Int]
+  entity_gy : FixedArray[Int]
+  entity_active : FixedArray[Bool]
+  entity_kind : FixedArray[Int]
+  mut moves : Int
+  mut keys_held : Int
+  mut diamonds_collected : Int
+}
+pub fn UndoState::empty() -> Self
+
+// Type aliases
+
+// Traits
+

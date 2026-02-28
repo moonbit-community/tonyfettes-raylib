@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_space_combat_3d/levels"
+
+// Values
+pub fn get_mission_def(Int) -> (Int, Int, Int, Float, Float)
+
+pub fn get_mission_extended(Int) -> (Int, Int, Int, Int, Int, Int, Int)
+
+pub fn mission_asteroid_density(Int) -> Float
+
+pub fn mission_boss_config(Int) -> (Float, Float, Float, Float)
+
+pub fn mission_briefing(Int) -> String
+
+pub fn mission_difficulty_text(Int) -> String
+
+pub fn mission_formation(Int) -> Int
+
+pub fn mission_name(Int) -> String
+
+pub fn mission_objective_target(Int) -> Int
+
+pub fn mission_objective_type(Int) -> Int
+
+pub fn mission_recommended_ship(Int) -> String
+
+pub fn mission_reward(Int) -> Int
+
+pub fn mission_station_pos(Int, Int) -> (Float, Float, Float)
+
+pub fn powerup_spawn_pos(Int, Int) -> (Float, Float, Float, Int)
+
+pub fn wave_composition(Int, Int) -> (Int, Int, Int, Int)
+
+pub fn wave_spawn_delay(Int, Int) -> Float
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

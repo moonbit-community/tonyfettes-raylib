@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_ghost_mansion_investigation_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Clue
+
+type Ghost
+
+type Investigator
+
+type Particle
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_rhythm_street_beats_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Note
+
+type Particle
+
+// Type aliases
+
+// Traits
+

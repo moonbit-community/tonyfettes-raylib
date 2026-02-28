@@ -1,0 +1,27 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tank_1990/particles"
+
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_tank_1990/types",
+}
+
+// Values
+pub fn spawn_explosion(@types.Game, Float, Float, Float) -> Unit
+
+pub fn spawn_particle(@types.Game, Float, Float, Float, Float, Float, Float, @raylib.Color) -> Unit
+
+pub fn spawn_respawn_burst(@types.Game, Float, Float) -> Unit
+
+pub fn spawn_spark_burst(@types.Game, Float, Float, Int) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

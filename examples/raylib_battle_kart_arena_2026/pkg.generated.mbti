@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_battle_kart_arena_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Kart
+
+type Pickup
+
+type Shot
+
+type Spark
+
+// Type aliases
+
+// Traits
+

@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -18,6 +19,7 @@ pub fn draw_world(game : @types.Game) -> Unit {
   @raylib.end_mode_3d()
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   let p = game.player
   let fwd = @types.forward_dir(p.yaw, p.pitch)
@@ -52,6 +54,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   )
 }
 
+///|
 fn draw_stars(game : @types.Game) -> Unit {
   for i = 0; i < game.stars.length(); i = i + 1 {
     let s = game.stars[i]
@@ -123,6 +126,7 @@ fn draw_stars(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_player_ship(game : @types.Game) -> Unit {
   let p = game.player
   let fwd = @types.forward_dir(p.yaw, p.pitch)
@@ -168,21 +172,33 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   let fr : Int = if flash > 0.0 {
     let fv : Float = 255.0 * flash
     let v : Int = body_r + fv.to_int()
-    if v > 255 { 255 } else { v }
+    if v > 255 {
+      255
+    } else {
+      v
+    }
   } else {
     body_r
   }
   let fg : Int = if flash > 0.0 {
     let fv : Float = 100.0 * flash
     let v : Int = body_g - fv.to_int()
-    if v < 0 { 0 } else { v }
+    if v < 0 {
+      0
+    } else {
+      v
+    }
   } else {
     body_g
   }
   let fb : Int = if flash > 0.0 {
     let fv : Float = 100.0 * flash
     let v : Int = body_b - fv.to_int()
-    if v < 0 { 0 } else { v }
+    if v < 0 {
+      0
+    } else {
+      v
+    }
   } else {
     body_b
   }
@@ -275,7 +291,8 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   )
 
   // Weapon pods (on wing tips for fighter/interceptor)
-  if p.ship_class == @types.ship_fighter || p.ship_class == @types.ship_interceptor {
+  if p.ship_class == @types.ship_fighter ||
+    p.ship_class == @types.ship_interceptor {
     let pod_off = wing_span * scale * 1.2
     @raylib.draw_cube(
       @raylib.Vector3::new(
@@ -327,7 +344,10 @@ fn draw_player_ship(game : @types.Game) -> Unit {
     let eng_y = p.y - fwd.1 * 1.3 * scale
     let eng_z = p.z - fwd.2 * 1.3 * scale + rgt.2 * eng_off * side
     let glow_size : Float = if p.boosting { 0.5 * scale } else { 0.25 * scale }
-    let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.3 + Float::from_int(eng)) * 0.08
+    let pulse = @math.sinf(
+        Float::from_int(game.frame_counter) * 0.3 + Float::from_int(eng),
+      ) *
+      0.08
     @raylib.draw_sphere(
       @raylib.Vector3::new(eng_x, eng_y, eng_z),
       glow_size + pulse,
@@ -351,7 +371,12 @@ fn draw_player_ship(game : @types.Game) -> Unit {
     @raylib.draw_sphere(
       @raylib.Vector3::new(p.x, p.y, p.z),
       2.5 * scale,
-      @raylib.Color::new(shield_r, shield_g, 255, @types.clampi(shield_alpha, 8, 50)),
+      @raylib.Color::new(
+        shield_r,
+        shield_g,
+        255,
+        @types.clampi(shield_alpha, 8, 50),
+      ),
     )
   }
 
@@ -366,10 +391,13 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_enemies(game : @types.Game) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let e = game.enemies[i]
-    if not(e.active) { continue i + 1 }
+    if not(e.active) {
+      continue i + 1
+    }
 
     // Damage flash tint
     let flash = e.damage_flash
@@ -400,7 +428,9 @@ fn draw_enemies(game : @types.Game) -> Unit {
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(
-        e.x - bar_w * (1.0 - hp_pct) / 2.0, bar_y + 0.02, e.z,
+        e.x - bar_w * (1.0 - hp_pct) / 2.0,
+        bar_y + 0.02,
+        e.z,
       ),
       bar_w * hp_pct,
       0.1,
@@ -421,7 +451,9 @@ fn draw_enemies(game : @types.Game) -> Unit {
       )
       @raylib.draw_cube(
         @raylib.Vector3::new(
-          e.x - bar_w * (1.0 - shield_pct) / 2.0, shield_bar_y + 0.02, e.z,
+          e.x - bar_w * (1.0 - shield_pct) / 2.0,
+          shield_bar_y + 0.02,
+          e.z,
         ),
         bar_w * shield_pct,
         0.08,
@@ -437,7 +469,12 @@ fn draw_enemies(game : @types.Game) -> Unit {
   }
 }
 
-fn draw_fighter_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Unit {
+///|
+fn draw_fighter_ship(
+  e : @types.Enemy,
+  flash_add : Int,
+  game : @types.Game,
+) -> Unit {
   ignore(game)
   let br : Int = @types.clampi(220 + flash_add, 0, 255)
   let bg : Int = @types.clampi(60, 0, 255)
@@ -461,14 +498,21 @@ fn draw_fighter_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> U
   let fwd = @types.forward_dir(e.yaw, e.pitch)
   @raylib.draw_sphere(
     @raylib.Vector3::new(
-      e.x - fwd.0 * 1.0, e.y - fwd.1 * 1.0, e.z - fwd.2 * 1.0,
+      e.x - fwd.0 * 1.0,
+      e.y - fwd.1 * 1.0,
+      e.z - fwd.2 * 1.0,
     ),
     0.2,
     @raylib.Color::new(255, 100, 50, 180),
   )
 }
 
-fn draw_interceptor_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Unit {
+///|
+fn draw_interceptor_ship(
+  e : @types.Enemy,
+  flash_add : Int,
+  game : @types.Game,
+) -> Unit {
   ignore(game)
   // Interceptor: sleek, narrow, fast-looking
   let br : Int = @types.clampi(200 + flash_add, 0, 255)
@@ -492,14 +536,21 @@ fn draw_interceptor_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) 
   let fwd = @types.forward_dir(e.yaw, e.pitch)
   @raylib.draw_sphere(
     @raylib.Vector3::new(
-      e.x - fwd.0 * 1.1, e.y - fwd.1 * 1.1, e.z - fwd.2 * 1.1,
+      e.x - fwd.0 * 1.1,
+      e.y - fwd.1 * 1.1,
+      e.z - fwd.2 * 1.1,
     ),
     0.25,
     @raylib.Color::new(200, 100, 255, 200),
   )
 }
 
-fn draw_bomber_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Unit {
+///|
+fn draw_bomber_ship(
+  e : @types.Enemy,
+  flash_add : Int,
+  game : @types.Game,
+) -> Unit {
   ignore(game)
   // Bomber: bulky, heavy-looking
   let br : Int = @types.clampi(180 + flash_add, 0, 255)
@@ -531,21 +582,30 @@ fn draw_bomber_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Un
   let fwd = @types.forward_dir(e.yaw, e.pitch)
   @raylib.draw_sphere(
     @raylib.Vector3::new(
-      e.x - fwd.0 * 1.3 + 0.5, e.y - fwd.1 * 1.3, e.z - fwd.2 * 1.3,
+      e.x - fwd.0 * 1.3 + 0.5,
+      e.y - fwd.1 * 1.3,
+      e.z - fwd.2 * 1.3,
     ),
     0.3,
     @raylib.Color::new(255, 200, 50, 180),
   )
   @raylib.draw_sphere(
     @raylib.Vector3::new(
-      e.x - fwd.0 * 1.3 - 0.5, e.y - fwd.1 * 1.3, e.z - fwd.2 * 1.3,
+      e.x - fwd.0 * 1.3 - 0.5,
+      e.y - fwd.1 * 1.3,
+      e.z - fwd.2 * 1.3,
     ),
     0.3,
     @raylib.Color::new(255, 200, 50, 180),
   )
 }
 
-fn draw_cruiser_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Unit {
+///|
+fn draw_cruiser_ship(
+  e : @types.Enemy,
+  flash_add : Int,
+  game : @types.Game,
+) -> Unit {
   ignore(game)
   // Cruiser: large blocky ship
   let br : Int = @types.clampi(150 + flash_add, 0, 255)
@@ -585,7 +645,12 @@ fn draw_cruiser_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> U
   )
 }
 
-fn draw_capital_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> Unit {
+///|
+fn draw_capital_ship(
+  e : @types.Enemy,
+  flash_add : Int,
+  game : @types.Game,
+) -> Unit {
   // Capital ship: massive, multi-section
   let br : Int = @types.clampi(120 + flash_add, 0, 255)
   // Main hull
@@ -660,10 +725,13 @@ fn draw_capital_ship(e : @types.Enemy, flash_add : Int, game : @types.Game) -> U
   }
 }
 
+///|
 fn draw_asteroids(game : @types.Game) -> Unit {
   for i = 0; i < game.asteroids.length(); i = i + 1 {
     let a = game.asteroids[i]
-    if not(a.active) { continue i + 1 }
+    if not(a.active) {
+      continue i + 1
+    }
 
     // Color varies by size tier
     let base_r : Int = if a.size_tier == @types.asteroid_large {
@@ -744,10 +812,13 @@ fn draw_asteroids(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_stations(game : @types.Game) -> Unit {
   for i = 0; i < game.stations.length(); i = i + 1 {
     let s = game.stations[i]
-    if not(s.active) { continue i + 1 }
+    if not(s.active) {
+      continue i + 1
+    }
 
     let is_friendly = s.kind == @types.station_friendly
 
@@ -814,8 +885,16 @@ fn draw_stations(game : @types.Game) -> Unit {
       @raylib.Vector3::new(s.x, s.y + 2.5, s.z),
       0.4 + pulse,
       @raylib.Color::new(
-        if is_friendly { 50 } else { 255 },
-        if is_friendly { 255 } else { 50 },
+        if is_friendly {
+          50
+        } else {
+          255
+        },
+        if is_friendly {
+          255
+        } else {
+          50
+        },
         50,
         light_alpha,
       ),
@@ -832,15 +911,21 @@ fn draw_stations(game : @types.Game) -> Unit {
       @raylib.Color::new(60, 0, 0, 180),
     )
     @raylib.draw_cube(
-      @raylib.Vector3::new(
-        s.x - 6.0 * (1.0 - hp_pct) / 2.0, sbar_y + 0.03, s.z,
-      ),
+      @raylib.Vector3::new(s.x - 6.0 * (1.0 - hp_pct) / 2.0, sbar_y + 0.03, s.z),
       6.0 * hp_pct,
       0.15,
       0.2,
       @raylib.Color::new(
-        if is_friendly { 0 } else { 200 },
-        if is_friendly { 200 } else { 80 },
+        if is_friendly {
+          0
+        } else {
+          200
+        },
+        if is_friendly {
+          200
+        } else {
+          80
+        },
         0,
         220,
       ),
@@ -848,10 +933,13 @@ fn draw_stations(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_powerups(game : @types.Game) -> Unit {
   for i = 0; i < game.powerups.length(); i = i + 1 {
     let pu = game.powerups[i]
-    if not(pu.active) { continue i + 1 }
+    if not(pu.active) {
+      continue i + 1
+    }
 
     // Bob animation
     let bob = @math.sinf(pu.bob_timer) * @types.powerup_bob_amplitude
@@ -935,10 +1023,13 @@ fn draw_powerups(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_projectiles(game : @types.Game) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
 
     if proj.from_player {
       if proj.kind == @types.weapon_laser {
@@ -1001,38 +1092,39 @@ fn draw_projectiles(game : @types.Game) -> Unit {
           @raylib.Color::new(100, 150, 255, 120),
         )
       }
-    } else {
       // Enemy projectiles
-      if proj.kind == @types.weapon_plasma {
-        // Enemy plasma (from bombers)
-        @raylib.draw_sphere(
-          @raylib.Vector3::new(proj.x, proj.y, proj.z),
-          0.25,
-          @raylib.Color::new(255, 100, 100, 220),
-        )
-        @raylib.draw_sphere(
-          @raylib.Vector3::new(proj.x, proj.y, proj.z),
-          0.4,
-          @raylib.Color::new(255, 50, 50, 60),
-        )
-      } else {
-        // Enemy laser
-        @raylib.draw_cube(
-          @raylib.Vector3::new(proj.x, proj.y, proj.z),
-          0.06,
-          0.06,
-          0.6,
-          @raylib.Color::new(255, 80, 80, 255),
-        )
-      }
+    } else if proj.kind == @types.weapon_plasma {
+      // Enemy plasma (from bombers)
+      @raylib.draw_sphere(
+        @raylib.Vector3::new(proj.x, proj.y, proj.z),
+        0.25,
+        @raylib.Color::new(255, 100, 100, 220),
+      )
+      @raylib.draw_sphere(
+        @raylib.Vector3::new(proj.x, proj.y, proj.z),
+        0.4,
+        @raylib.Color::new(255, 50, 50, 60),
+      )
+    } else {
+      // Enemy laser
+      @raylib.draw_cube(
+        @raylib.Vector3::new(proj.x, proj.y, proj.z),
+        0.06,
+        0.06,
+        0.6,
+        @raylib.Color::new(255, 80, 80, 255),
+      )
     }
   }
 }
 
+///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     let alpha_f : Float = p.life / p.max_life * 255.0
     let a = @types.clampi(alpha_f.to_int(), 0, 255)
 
@@ -1063,10 +1155,13 @@ fn draw_particles_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_debris_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.debris.length(); i = i + 1 {
     let d = game.debris[i]
-    if not(d.active) { continue i + 1 }
+    if not(d.active) {
+      continue i + 1
+    }
     let alpha_f : Float = @types.minf(d.life / 2.0, 1.0) * 255.0
     let a = @types.clampi(alpha_f.to_int(), 0, 255)
     @raylib.draw_cube(
@@ -1079,11 +1174,18 @@ fn draw_debris_3d(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_target_indicator(game : @types.Game) -> Unit {
-  if game.target_idx < 0 { return }
-  if game.target_idx >= game.enemies.length() { return }
+  if game.target_idx < 0 {
+    return
+  }
+  if game.target_idx >= game.enemies.length() {
+    return
+  }
   let e = game.enemies[game.target_idx]
-  if not(e.active) { return }
+  if not(e.active) {
+    return
+  }
 
   // Draw targeting brackets around selected enemy
   let s = e.size * 1.5
@@ -1103,24 +1205,40 @@ fn draw_target_indicator(game : @types.Game) -> Unit {
   // Top-right-front corner bracket
   @raylib.draw_line_3d(
     @raylib.Vector3::new(e.x + corner_pos, e.y + corner_pos, e.z + corner_pos),
-    @raylib.Vector3::new(e.x + corner_pos - cs, e.y + corner_pos, e.z + corner_pos),
+    @raylib.Vector3::new(
+      e.x + corner_pos - cs,
+      e.y + corner_pos,
+      e.z + corner_pos,
+    ),
     @raylib.Color::new(255, 255, 0, 255),
   )
   @raylib.draw_line_3d(
     @raylib.Vector3::new(e.x + corner_pos, e.y + corner_pos, e.z + corner_pos),
-    @raylib.Vector3::new(e.x + corner_pos, e.y + corner_pos - cs, e.z + corner_pos),
+    @raylib.Vector3::new(
+      e.x + corner_pos,
+      e.y + corner_pos - cs,
+      e.z + corner_pos,
+    ),
     @raylib.Color::new(255, 255, 0, 255),
   )
 
   // Bottom-left-back corner bracket
   @raylib.draw_line_3d(
     @raylib.Vector3::new(e.x - corner_pos, e.y - corner_pos, e.z - corner_pos),
-    @raylib.Vector3::new(e.x - corner_pos + cs, e.y - corner_pos, e.z - corner_pos),
+    @raylib.Vector3::new(
+      e.x - corner_pos + cs,
+      e.y - corner_pos,
+      e.z - corner_pos,
+    ),
     @raylib.Color::new(255, 255, 0, 255),
   )
   @raylib.draw_line_3d(
     @raylib.Vector3::new(e.x - corner_pos, e.y - corner_pos, e.z - corner_pos),
-    @raylib.Vector3::new(e.x - corner_pos, e.y - corner_pos + cs, e.z - corner_pos),
+    @raylib.Vector3::new(
+      e.x - corner_pos,
+      e.y - corner_pos + cs,
+      e.z - corner_pos,
+    ),
     @raylib.Color::new(255, 255, 0, 255),
   )
 
@@ -1132,20 +1250,33 @@ fn draw_target_indicator(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_lead_indicator(game : @types.Game) -> Unit {
-  if game.target_idx < 0 { return }
-  if game.target_idx >= game.enemies.length() { return }
+  if game.target_idx < 0 {
+    return
+  }
+  if game.target_idx >= game.enemies.length() {
+    return
+  }
   let e = game.enemies[game.target_idx]
-  if not(e.active) { return }
+  if not(e.active) {
+    return
+  }
 
   let p = game.player
   let proj_speed = @types.weapon_proj_speed(p.weapon)
 
   // Calculate lead point
   let lead = @types.lead_target(
-    p.x, p.y, p.z,
-    e.x, e.y, e.z,
-    e.vx, e.vy, e.vz,
+    p.x,
+    p.y,
+    p.z,
+    e.x,
+    e.y,
+    e.z,
+    e.vx,
+    e.vy,
+    e.vz,
     proj_speed,
   )
 
@@ -1170,11 +1301,14 @@ fn draw_lead_indicator(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_waypoint_markers(game : @types.Game) -> Unit {
   // Draw markers for stations
   for i = 0; i < game.stations.length(); i = i + 1 {
     let s = game.stations[i]
-    if not(s.active) { continue i + 1 }
+    if not(s.active) {
+      continue i + 1
+    }
     let marker_y = s.y + 8.0
     let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.08) * 0.5
     let marker_color = if s.kind == @types.station_friendly {

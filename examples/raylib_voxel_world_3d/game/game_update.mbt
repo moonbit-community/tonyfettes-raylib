@@ -1,5 +1,6 @@
 // Main game update dispatcher
 
+///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   if game.state == @types.state_menu {
@@ -17,22 +18,22 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_menu(game : @types.Game, dt : Float) -> Unit {
   game.menu_blink += dt * 3.5
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(
-    @raylib.KeySpace,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     start_new_game(game)
     game.state = @types.state_playing
     @raylib.disable_cursor()
     @types.show_message(
-      game,
-      "WASD: Move | Space: Jump | LMB: Break | RMB: Place | E: Inventory | C: Craft",
+      game, "WASD: Move | Space: Jump | LMB: Break | RMB: Place | E: Inventory | C: Craft",
       5.0,
     )
   }
 }
 
+///|
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.state = @types.state_paused
@@ -72,10 +73,10 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   update_distance_tracking(game)
 }
 
+///|
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyP,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyP) {
     game.state = @types.state_playing
     @raylib.disable_cursor()
   }
@@ -85,10 +86,10 @@ fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_inventory(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyE,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyE) {
     game.state = @types.state_playing
     @raylib.disable_cursor()
     return
@@ -128,10 +129,10 @@ fn update_inventory(game : @types.Game, _dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_crafting(game : @types.Game, _dt : Float) -> Unit {
-  if @raylib.is_key_pressed(@raylib.KeyEscape) || @raylib.is_key_pressed(
-    @raylib.KeyC,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) ||
+    @raylib.is_key_pressed(@raylib.KeyC) {
     game.state = @types.state_playing
     @raylib.disable_cursor()
     return
@@ -139,26 +140,30 @@ fn update_crafting(game : @types.Game, _dt : Float) -> Unit {
   let recipes = @levels.get_crafting_recipes()
   let num_recipes = recipes.length()
   // Navigate recipes with up/down or W/S
-  if @raylib.is_key_pressed(@raylib.KeyW) || @raylib.is_key_pressed(@raylib.KeyUp) {
+  if @raylib.is_key_pressed(@raylib.KeyW) ||
+    @raylib.is_key_pressed(@raylib.KeyUp) {
     game.crafting_selection -= 1
     if game.crafting_selection < 0 {
       game.crafting_selection = num_recipes - 1
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyS) || @raylib.is_key_pressed(@raylib.KeyDown) {
+  if @raylib.is_key_pressed(@raylib.KeyS) ||
+    @raylib.is_key_pressed(@raylib.KeyDown) {
     game.crafting_selection += 1
     if game.crafting_selection >= num_recipes {
       game.crafting_selection = 0
     }
   }
   // Craft with Enter or Space
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     if game.crafting_selection >= 0 && game.crafting_selection < num_recipes {
       try_craft(game, recipes[game.crafting_selection])
     }
   }
 }
 
+///|
 fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   let inv = game.player.inventory
   // Check if player has required materials
@@ -169,7 +174,8 @@ fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   // Find input1
   if recipe.input1_id > 0 && recipe.input1_count > 0 {
     for i = 0; i < @types.inventory_slots; i = i + 1 {
-      if inv.slots[i].item_id == recipe.input1_id && inv.slots[i].count >= recipe.input1_count {
+      if inv.slots[i].item_id == recipe.input1_id &&
+        inv.slots[i].count >= recipe.input1_count {
         has_input1 = true
         input1_slot = i
       }
@@ -180,7 +186,9 @@ fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   // Find input2
   if recipe.input2_id > 0 && recipe.input2_count > 0 {
     for i = 0; i < @types.inventory_slots; i = i + 1 {
-      if inv.slots[i].item_id == recipe.input2_id && inv.slots[i].count >= recipe.input2_count && i != input1_slot {
+      if inv.slots[i].item_id == recipe.input2_id &&
+        inv.slots[i].count >= recipe.input2_count &&
+        i != input1_slot {
         has_input2 = true
         input2_slot = i
       }
@@ -213,9 +221,11 @@ fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   }
 }
 
+///|
 fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   game.death_timer += dt
-  if @raylib.is_key_pressed(@raylib.KeyEnter) || @raylib.is_key_pressed(@raylib.KeySpace) {
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
     // Respawn
     respawn_player(game)
     game.state = @types.state_playing
@@ -227,6 +237,7 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn respawn_player(game : @types.Game) -> Unit {
   let spawn_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) / 2.0
   let spawn_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) / 2.0
@@ -248,6 +259,7 @@ fn respawn_player(game : @types.Game) -> Unit {
   @types.show_message(game, "Respawned!", 2.0)
 }
 
+///|
 fn start_new_game(game : @types.Game) -> Unit {
   // Reset player to spawn on terrain surface
   let spawn_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) / 2.0
@@ -319,6 +331,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.crafting_selection = 0
 }
 
+///|
 fn find_surface_height(game : @types.Game, wx : Int, wz : Int) -> Int {
   for y = @types.chunk_y - 1; y >= 0; y = y - 1 {
     let block = @types.get_world_block(game, wx, y, wz)
@@ -331,6 +344,7 @@ fn find_surface_height(game : @types.Game, wx : Int, wz : Int) -> Int {
 
 // ========== Hunger system ==========
 
+///|
 fn update_hunger(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   let drain_rate : Float = if player.sprint {
@@ -346,7 +360,8 @@ fn update_hunger(game : @types.Game, dt : Float) -> Unit {
     }
   }
   // Heal if hunger is high
-  if player.hunger >= @types.hunger_heal_threshold && player.health < @types.player_max_health {
+  if player.hunger >= @types.hunger_heal_threshold &&
+    player.health < @types.player_max_health {
     // Slow healing
     if game.frame_counter % 60 == 0 {
       player.health += 1
@@ -369,6 +384,7 @@ fn update_hunger(game : @types.Game, dt : Float) -> Unit {
 
 // ========== Player stat updates (invulnerability, damage flash, fall damage) ==========
 
+///|
 fn update_player_stats(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   // Update invulnerability
@@ -396,7 +412,8 @@ fn update_player_stats(game : @types.Game, dt : Float) -> Unit {
   if player.on_ground && not(player.was_on_ground) {
     let fall_dist = player.fall_start_y - player.y
     if fall_dist > @types.fall_damage_threshold {
-      let damage = ((fall_dist - @types.fall_damage_threshold) * @types.fall_damage_multiplier).to_int()
+      let damage = ((fall_dist - @types.fall_damage_threshold) *
+      @types.fall_damage_multiplier).to_int()
       if damage > 0 {
         damage_player(game, damage)
         @types.show_message(game, "Ouch! Fall damage!", 1.5)
@@ -409,7 +426,12 @@ fn update_player_stats(game : @types.Game, dt : Float) -> Unit {
   player.was_on_ground = player.on_ground
   // Underwater check
   let head_y = (player.y + @types.player_eye_height).to_int()
-  let head_block = @types.get_world_block(game, player.x.to_int(), head_y, player.z.to_int())
+  let head_block = @types.get_world_block(
+    game,
+    player.x.to_int(),
+    head_y,
+    player.z.to_int(),
+  )
   player.underwater = head_block == @types.block_water
   if player.underwater {
     player.air_timer += dt
@@ -427,6 +449,7 @@ fn update_player_stats(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 pub fn damage_player(game : @types.Game, amount : Int) -> Unit {
   let player = game.player
   if player.invulnerable_timer > 0.0 {
@@ -445,6 +468,7 @@ pub fn damage_player(game : @types.Game, amount : Int) -> Unit {
 
 // ========== Distance tracking ==========
 
+///|
 fn update_distance_tracking(game : @types.Game) -> Unit {
   let dx = game.player.x - game.prev_pos_x
   let dz = game.player.z - game.prev_pos_z
@@ -458,6 +482,7 @@ fn update_distance_tracking(game : @types.Game) -> Unit {
 
 // ========== Block physics (sand/gravel falling) ==========
 
+///|
 fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
   game.gravity_block_timer += dt
   if game.gravity_block_timer < @types.gravity_block_interval {
@@ -470,9 +495,15 @@ fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
   let pcy = game.player.y.to_int()
   let check_radius = 16
   let min_x = @types.maxi(0, pcx - check_radius)
-  let max_x = @types.mini(@types.world_chunks_x * @types.chunk_x - 1, pcx + check_radius)
+  let max_x = @types.mini(
+    @types.world_chunks_x * @types.chunk_x - 1,
+    pcx + check_radius,
+  )
   let min_z = @types.maxi(0, pcz - check_radius)
-  let max_z = @types.mini(@types.world_chunks_z * @types.chunk_z - 1, pcz + check_radius)
+  let max_z = @types.mini(
+    @types.world_chunks_z * @types.chunk_z - 1,
+    pcz + check_radius,
+  )
   let min_y = @types.maxi(1, pcy - 10)
   let max_y = @types.mini(@types.chunk_y - 1, pcy + 10)
   for wy = min_y; wy <= max_y; wy = wy + 1 {
@@ -494,6 +525,7 @@ fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
 
 // ========== Particle update ==========
 
+///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < @types.particle_max; i = i + 1 {
     let p = game.particles[i]
@@ -513,15 +545,25 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 // ========== Combat system ==========
 
+///|
 fn update_combat(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
   // Check for entity attacks on player
   let player = game.player
   for i = 0; i < @types.entity_max; i = i + 1 {
     let ent = game.entities[i]
-    if ent.active && @types.is_hostile(ent.kind) && ent.ai_state == @types.ai_attack {
+    if ent.active &&
+      @types.is_hostile(ent.kind) &&
+      ent.ai_state == @types.ai_attack {
       if ent.attack_cooldown <= 0.0 {
-        let dist = @types.distance3d(ent.x, ent.y, ent.z, player.x, player.y, player.z)
+        let dist = @types.distance3d(
+          ent.x,
+          ent.y,
+          ent.z,
+          player.x,
+          player.y,
+          player.z,
+        )
         if dist < @types.entity_attack_range {
           let dmg = if ent.kind == @types.entity_zombie {
             @types.zombie_damage
@@ -548,7 +590,8 @@ fn update_combat(game : @types.Game, dt : Float) -> Unit {
     }
   }
   // Player attack on entity with left click
-  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) && player.attack_cooldown <= 0.0 {
+  if @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
+    player.attack_cooldown <= 0.0 {
     let target = game.target
     // Check entities near crosshair
     let cos_yaw = @math.cosf(player.yaw)
@@ -613,7 +656,11 @@ fn update_combat(game : @types.Game, dt : Float) -> Unit {
       if ent.health <= 0 {
         ent.active = false
         game.mobs_killed += 1
-        @types.show_message(game, "Killed \{@types.entity_name(ent.kind)}!", 1.5)
+        @types.show_message(
+          game,
+          "Killed \{@types.entity_name(ent.kind)}!",
+          1.5,
+        )
         // Drop food items (add to inventory)
         if ent.kind == @types.entity_pig || ent.kind == @types.entity_cow {
           // Restore hunger

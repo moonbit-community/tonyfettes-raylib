@@ -1,5 +1,6 @@
 // Map loading, game reset, and stage management
 
+///|
 pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
   // Reset state
   let map_info = @levels.get_map_info(map_idx)
@@ -86,7 +87,9 @@ pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
   // Trace path from start using BFS-like walk
   trace_path(game, data, start_gx, start_gy, path_points)
   game.path_count = @types.clampi(
-    path_points.length(), 0, @types.max_path_nodes,
+    path_points.length(),
+    0,
+    @types.max_path_nodes,
   )
   for i = 0; i < game.path_count; i = i + 1 {
     game.path_nodes[i] = path_points[i]
@@ -105,24 +108,20 @@ pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
   )
 }
 
+///|
 fn trace_path(
   game : @types.Game,
   data : Array[String],
   start_gx : Int,
   start_gy : Int,
-  path : Array[@types.PathNode]
+  path : Array[@types.PathNode],
 ) -> Unit {
   let visited = Array::make(@types.map_total, false)
   let mut cx = start_gx
   let mut cy = start_gy
   let max_steps = @types.map_total
   for _step = 0; _step < max_steps; _step = _step + 1 {
-    path.push(
-      {
-        x: @types.grid_to_world_x(cx),
-        z: @types.grid_to_world_z(cy),
-      },
-    )
+    path.push({ x: @types.grid_to_world_x(cx), z: @types.grid_to_world_z(cy) })
     visited[@types.tile_index(cx, cy)] = true
     // Check if reached end
     let tile = @types.get_tile(game, cx, cy)
@@ -155,6 +154,7 @@ fn trace_path(
   ignore(data)
 }
 
+///|
 fn reset_game(game : @types.Game) -> Unit {
   game.gold = @types.starting_gold
   game.lives = @types.starting_lives

@@ -1,9 +1,12 @@
 // Projectile update and collision
 
+///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.projectiles.length(); i = i + 1 {
     let proj = game.projectiles[i]
-    if not(proj.active) { continue i + 1 }
+    if not(proj.active) {
+      continue i + 1
+    }
 
     // Lifetime
     proj.life -= dt
@@ -13,10 +16,13 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     }
 
     // Missile homing logic
-    if proj.kind == @types.weapon_missile && proj.from_player && proj.target_idx >= 0 {
+    if proj.kind == @types.weapon_missile &&
+      proj.from_player &&
+      proj.target_idx >= 0 {
       if proj.fuel > 0.0 {
         proj.fuel -= dt
-        if proj.target_idx < game.enemies.length() && game.enemies[proj.target_idx].active {
+        if proj.target_idx < game.enemies.length() &&
+          game.enemies[proj.target_idx].active {
           let target = game.enemies[proj.target_idx]
           let dx = target.x - proj.x
           let dy = target.y - proj.y
@@ -38,7 +44,10 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
           let nz = @types.lerpf(cur_norm.2, norm.2, turn)
           let new_norm = @types.normalize3d(nx, ny, nz)
           // Accelerate missile slightly over time
-          let accel_spd = @types.minf(spd + 10.0 * dt, @types.missile_speed * 1.5)
+          let accel_spd = @types.minf(
+            spd + 10.0 * dt,
+            @types.missile_speed * 1.5,
+          )
           proj.vx = new_norm.0 * accel_spd
           proj.vy = new_norm.1 * accel_spd
           proj.vz = new_norm.2 * accel_spd
@@ -87,7 +96,9 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       // Check against enemies
       for j = 0; j < game.enemies.length(); j = j + 1 {
         let e = game.enemies[j]
-        if not(e.active) { continue j + 1 }
+        if not(e.active) {
+          continue j + 1
+        }
         let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
         let hit_radius : Float = e.size * 0.8
         if dist < hit_radius {
@@ -123,7 +134,16 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
           } else {
             255
           }
-          @types.spawn_particles(game, proj.x, proj.y, proj.z, 5, spark_r, spark_g, spark_b)
+          @types.spawn_particles(
+            game,
+            proj.x,
+            proj.y,
+            proj.z,
+            5,
+            spark_r,
+            spark_g,
+            spark_b,
+          )
 
           if not(proj.piercing) {
             proj.active = false
@@ -139,11 +159,22 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       if proj.active && not(hit_something) {
         for j = 0; j < game.asteroids.length(); j = j + 1 {
           let a = game.asteroids[j]
-          if not(a.active) { continue j + 1 }
+          if not(a.active) {
+            continue j + 1
+          }
           let dist = @types.distance3d(proj.x, proj.y, proj.z, a.x, a.y, a.z)
           if dist < a.size {
             damage_asteroid(game, j, proj.damage)
-            @types.spawn_particles(game, proj.x, proj.y, proj.z, 4, 150, 130, 100)
+            @types.spawn_particles(
+              game,
+              proj.x,
+              proj.y,
+              proj.z,
+              4,
+              150,
+              130,
+              100,
+            )
             if not(proj.piercing) {
               proj.active = false
               break
@@ -157,12 +188,25 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       if proj.active {
         for j = 0; j < game.stations.length(); j = j + 1 {
           let s = game.stations[j]
-          if not(s.active) { continue j + 1 }
-          if s.kind != @types.station_enemy { continue j + 1 }
+          if not(s.active) {
+            continue j + 1
+          }
+          if s.kind != @types.station_enemy {
+            continue j + 1
+          }
           let dist = @types.distance3d(proj.x, proj.y, proj.z, s.x, s.y, s.z)
           if dist < 8.0 {
             s.hp -= proj.damage
-            @types.spawn_particles(game, proj.x, proj.y, proj.z, 5, 200, 100, 50)
+            @types.spawn_particles(
+              game,
+              proj.x,
+              proj.y,
+              proj.z,
+              5,
+              200,
+              100,
+              50,
+            )
             if not(proj.piercing) {
               proj.active = false
               break
@@ -173,7 +217,12 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     } else {
       // Enemy projectile: check against player
       let dist = @types.distance3d(
-        proj.x, proj.y, proj.z, game.player.x, game.player.y, game.player.z,
+        proj.x,
+        proj.y,
+        proj.z,
+        game.player.x,
+        game.player.y,
+        game.player.z,
       )
       if dist < 2.0 {
         damage_player(game, proj.damage)
@@ -185,12 +234,25 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       if proj.active {
         for j = 0; j < game.stations.length(); j = j + 1 {
           let s = game.stations[j]
-          if not(s.active) { continue j + 1 }
-          if s.kind != @types.station_friendly { continue j + 1 }
+          if not(s.active) {
+            continue j + 1
+          }
+          if s.kind != @types.station_friendly {
+            continue j + 1
+          }
           let sdist = @types.distance3d(proj.x, proj.y, proj.z, s.x, s.y, s.z)
           if sdist < 8.0 {
             s.hp -= proj.damage
-            @types.spawn_particles(game, proj.x, proj.y, proj.z, 3, 200, 150, 50)
+            @types.spawn_particles(
+              game,
+              proj.x,
+              proj.y,
+              proj.z,
+              3,
+              200,
+              150,
+              50,
+            )
             proj.active = false
             break
           }
@@ -200,6 +262,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   let proj = game.projectiles[proj_idx]
   proj.active = false
@@ -211,7 +274,9 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   // Area damage to nearby enemies
   for j = 0; j < game.enemies.length(); j = j + 1 {
     let e = game.enemies[j]
-    if not(e.active) { continue j + 1 }
+    if not(e.active) {
+      continue j + 1
+    }
     let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
     if dist < @types.missile_prox_radius * 2.0 {
       // Damage falls off with distance
@@ -225,7 +290,9 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   // Also damage nearby asteroids
   for j = 0; j < game.asteroids.length(); j = j + 1 {
     let a = game.asteroids[j]
-    if not(a.active) { continue j + 1 }
+    if not(a.active) {
+      continue j + 1
+    }
     let dist = @types.distance3d(proj.x, proj.y, proj.z, a.x, a.y, a.z)
     if dist < @types.missile_prox_radius * 2.0 {
       let falloff : Float = 1.0 - dist / (@types.missile_prox_radius * 2.0)
@@ -235,10 +302,13 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   }
 }
 
+///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false

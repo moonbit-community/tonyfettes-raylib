@@ -1,5 +1,6 @@
 // World systems: day/night cycle, entity spawning, entity AI
 
+///|
 pub fn update_day_night(game : @types.Game, dt : Float) -> Unit {
   game.day_timer += dt
   if game.day_timer > @types.day_length {
@@ -50,6 +51,7 @@ pub fn update_day_night(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 pub fn update_message(game : @types.Game, dt : Float) -> Unit {
   if game.message_timer > 0.0 {
     game.message_timer -= dt
@@ -61,6 +63,7 @@ pub fn update_message(game : @types.Game, dt : Float) -> Unit {
 
 // ========== Entity Spawning ==========
 
+///|
 pub fn update_entity_spawning(game : @types.Game, dt : Float) -> Unit {
   game.entity_spawn_timer -= dt
   if game.entity_spawn_timer > 0.0 {
@@ -80,13 +83,19 @@ pub fn update_entity_spawning(game : @types.Game, dt : Float) -> Unit {
   }
   // Find spawn position near player
   let angle = @types.rand_float(game) * @types.two_pi
-  let dist = @types.entity_spawn_radius * 0.5 + @types.rand_float(game) * @types.entity_spawn_radius * 0.5
+  let dist = @types.entity_spawn_radius * 0.5 +
+    @types.rand_float(game) * @types.entity_spawn_radius * 0.5
   let spawn_x = game.player.x + @math.cosf(angle) * dist
   let spawn_z = game.player.z + @math.sinf(angle) * dist
   // Check world bounds
-  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) - 1.0
-  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) - 1.0
-  if spawn_x < 1.0 || spawn_x > world_max_x || spawn_z < 1.0 || spawn_z > world_max_z {
+  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) -
+    1.0
+  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) -
+    1.0
+  if spawn_x < 1.0 ||
+    spawn_x > world_max_x ||
+    spawn_z < 1.0 ||
+    spawn_z > world_max_z {
     return
   }
   // Find surface height at spawn position
@@ -99,13 +108,19 @@ pub fn update_entity_spawning(game : @types.Game, dt : Float) -> Unit {
       surface_y = y + 1
       // break substitute: y = -1
       // Instead, just record and continue; first hit is fine since we go top-down
-      return spawn_entity_at(game, spawn_x, Float::from_int(surface_y) + 0.1, spawn_z)
+      return spawn_entity_at(
+        game,
+        spawn_x,
+        Float::from_int(surface_y) + 0.1,
+        spawn_z,
+      )
     }
   }
   // No surface found
   ignore(surface_y)
 }
 
+///|
 fn spawn_entity_at(game : @types.Game, x : Float, y : Float, z : Float) -> Unit {
   // Determine biome at spawn location
   let biome = @types.get_biome_at(x.to_int(), z.to_int())
@@ -144,6 +159,7 @@ fn spawn_entity_at(game : @types.Game, x : Float, y : Float, z : Float) -> Unit 
 
 // ========== Entity AI and physics ==========
 
+///|
 pub fn update_entities(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   for i = 0; i < @types.entity_max; i = i + 1 {
@@ -180,11 +196,12 @@ pub fn update_entities(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn update_entity_ai(
   game : @types.Game,
   ent : @types.Entity,
   dt : Float,
-  dist_to_player : Float
+  dist_to_player : Float,
 ) -> Unit {
   let player = game.player
   ent.ai_timer -= dt
@@ -200,49 +217,48 @@ fn update_entity_ai(
       if dist_to_player < @types.entity_attack_range {
         ent.ai_state = @types.ai_attack
       }
-    } else {
       // Wander
-      if ent.ai_timer <= 0.0 {
-        ent.ai_state = @types.ai_wander
-        ent.ai_timer = 3.0 + @types.rand_float(game) * 4.0
-        ent.target_x = ent.x + (@types.rand_float(game) - 0.5) * 16.0
-        ent.target_z = ent.z + (@types.rand_float(game) - 0.5) * 16.0
-      }
+    } else if ent.ai_timer <= 0.0 {
+      ent.ai_state = @types.ai_wander
+      ent.ai_timer = 3.0 + @types.rand_float(game) * 4.0
+      ent.target_x = ent.x + (@types.rand_float(game) - 0.5) * 16.0
+      ent.target_z = ent.z + (@types.rand_float(game) - 0.5) * 16.0
     }
-  } else {
     // Passive AI
-    if ent.ai_state == @types.ai_flee {
-      // Continue fleeing
-      if ent.ai_timer <= 0.0 {
-        ent.ai_state = @types.ai_idle
-        ent.ai_timer = 2.0 + @types.rand_float(game) * 3.0
-      }
-    } else if ent.ai_state == @types.ai_idle {
-      if ent.ai_timer <= 0.0 {
-        ent.ai_state = @types.ai_wander
-        ent.ai_timer = 3.0 + @types.rand_float(game) * 5.0
-        ent.target_x = ent.x + (@types.rand_float(game) - 0.5) * 10.0
-        ent.target_z = ent.z + (@types.rand_float(game) - 0.5) * 10.0
-      }
-    } else if ent.ai_state == @types.ai_wander {
-      let dx = ent.target_x - ent.x
-      let dz = ent.target_z - ent.z
-      let dist_to_target = (dx * dx + dz * dz).sqrt()
-      if dist_to_target < 1.0 || ent.ai_timer <= 0.0 {
-        ent.ai_state = @types.ai_idle
-        ent.ai_timer = 1.0 + @types.rand_float(game) * 4.0
-      }
+  } else if ent.ai_state == @types.ai_flee {
+    // Continue fleeing
+    if ent.ai_timer <= 0.0 {
+      ent.ai_state = @types.ai_idle
+      ent.ai_timer = 2.0 + @types.rand_float(game) * 3.0
+    }
+  } else if ent.ai_state == @types.ai_idle {
+    if ent.ai_timer <= 0.0 {
+      ent.ai_state = @types.ai_wander
+      ent.ai_timer = 3.0 + @types.rand_float(game) * 5.0
+      ent.target_x = ent.x + (@types.rand_float(game) - 0.5) * 10.0
+      ent.target_z = ent.z + (@types.rand_float(game) - 0.5) * 10.0
+    }
+  } else if ent.ai_state == @types.ai_wander {
+    let dx = ent.target_x - ent.x
+    let dz = ent.target_z - ent.z
+    let dist_to_target = (dx * dx + dz * dz).sqrt()
+    if dist_to_target < 1.0 || ent.ai_timer <= 0.0 {
+      ent.ai_state = @types.ai_idle
+      ent.ai_timer = 1.0 + @types.rand_float(game) * 4.0
     }
   }
 
   // Move toward target
-  if ent.ai_state == @types.ai_wander || ent.ai_state == @types.ai_chase ||
-    ent.ai_state == @types.ai_flee || ent.ai_state == @types.ai_attack {
+  if ent.ai_state == @types.ai_wander ||
+    ent.ai_state == @types.ai_chase ||
+    ent.ai_state == @types.ai_flee ||
+    ent.ai_state == @types.ai_attack {
     let dx = ent.target_x - ent.x
     let dz = ent.target_z - ent.z
     let dist = (dx * dx + dz * dz).sqrt()
     if dist > 0.5 {
-      let speed : Float = if is_hostile_mob && (ent.ai_state == @types.ai_chase || ent.ai_state == @types.ai_attack) {
+      let speed : Float = if is_hostile_mob &&
+        (ent.ai_state == @types.ai_chase || ent.ai_state == @types.ai_attack) {
         @types.entity_speed_hostile
       } else if ent.ai_state == @types.ai_flee {
         @types.entity_speed_hostile
@@ -263,11 +279,21 @@ fn update_entity_ai(
   }
 
   // Jump over obstacles
-  if (ent.ai_state == @types.ai_wander || ent.ai_state == @types.ai_chase || ent.ai_state == @types.ai_flee) && ent.on_ground {
+  if (
+      ent.ai_state == @types.ai_wander ||
+      ent.ai_state == @types.ai_chase ||
+      ent.ai_state == @types.ai_flee
+    ) &&
+    ent.on_ground {
     // Check if blocked ahead
     let ahead_x = ent.x + @math.sinf(ent.yaw) * 0.8
     let ahead_z = ent.z + @math.cosf(ent.yaw) * 0.8
-    let ahead_block = @types.get_world_block(game, ahead_x.to_int(), ent.y.to_int(), ahead_z.to_int())
+    let ahead_block = @types.get_world_block(
+      game,
+      ahead_x.to_int(),
+      ent.y.to_int(),
+      ahead_z.to_int(),
+    )
     if @types.is_solid(ahead_block) {
       ent.vy = 6.0
       ent.on_ground = false
@@ -276,7 +302,12 @@ fn update_entity_ai(
   ignore(game)
 }
 
-fn update_entity_physics(game : @types.Game, ent : @types.Entity, dt : Float) -> Unit {
+///|
+fn update_entity_physics(
+  game : @types.Game,
+  ent : @types.Entity,
+  dt : Float,
+) -> Unit {
   // Gravity
   ent.vy -= @types.gravity * dt
   if ent.vy < -@types.terminal_velocity {
@@ -305,7 +336,12 @@ fn update_entity_physics(game : @types.Game, ent : @types.Entity, dt : Float) ->
   // Move Y
   let new_y = ent.y + ent.vy * dt
   let by2 = new_y.to_int()
-  let block_at_new_y = @types.get_world_block(game, ent.x.to_int(), by2, ent.z.to_int())
+  let block_at_new_y = @types.get_world_block(
+    game,
+    ent.x.to_int(),
+    by2,
+    ent.z.to_int(),
+  )
   if not(@types.is_solid(block_at_new_y)) {
     ent.y = new_y
     ent.on_ground = false
@@ -318,8 +354,10 @@ fn update_entity_physics(game : @types.Game, ent : @types.Entity, dt : Float) ->
     ent.vy = 0.0
   }
   // World bounds
-  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) - 0.5
-  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) - 0.5
+  let world_max_x = Float::from_int(@types.world_chunks_x * @types.chunk_x) -
+    0.5
+  let world_max_z = Float::from_int(@types.world_chunks_z * @types.chunk_z) -
+    0.5
   ent.x = @types.clampf(ent.x, 0.5, world_max_x)
   ent.z = @types.clampf(ent.z, 0.5, world_max_z)
   if ent.y < 1.0 {

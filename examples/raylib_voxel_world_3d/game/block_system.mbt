@@ -1,6 +1,7 @@
 // Block interaction: targeting, breaking, placing, mining
 
 // DDA ray march to find the block the player is looking at
+///|
 pub fn update_block_target(game : @types.Game) -> Unit {
   let target = game.target
   target.hit = false
@@ -41,12 +42,24 @@ pub fn update_block_target(game : @types.Game) -> Unit {
       target.ny = prev_by - by
       target.nz = prev_bz - bz
       // Clamp normals to -1..1
-      if target.nx > 1 { target.nx = 1 }
-      if target.nx < -1 { target.nx = -1 }
-      if target.ny > 1 { target.ny = 1 }
-      if target.ny < -1 { target.ny = -1 }
-      if target.nz > 1 { target.nz = 1 }
-      if target.nz < -1 { target.nz = -1 }
+      if target.nx > 1 {
+        target.nx = 1
+      }
+      if target.nx < -1 {
+        target.nx = -1
+      }
+      if target.ny > 1 {
+        target.ny = 1
+      }
+      if target.ny < -1 {
+        target.ny = -1
+      }
+      if target.nz > 1 {
+        target.nz = 1
+      }
+      if target.nz < -1 {
+        target.nz = -1
+      }
       return
     }
     prev_bx = bx
@@ -57,25 +70,36 @@ pub fn update_block_target(game : @types.Game) -> Unit {
 }
 
 // Handle block breaking (with mining time) and placing
+
+///|
 pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
   let target = game.target
   let player = game.player
 
   // Mining system: hold left mouse button to mine
-  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) || @raylib.is_key_down(@raylib.KeyF) {
+  if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
+    @raylib.is_key_down(@raylib.KeyF) {
     if target.hit {
       let block = @types.get_world_block(game, target.bx, target.by, target.bz)
       if @types.is_solid(block) && block != @types.block_bedrock {
         // Check if same block we were mining
-        if player.mining_active && player.mining_block_x == target.bx &&
-          player.mining_block_y == target.by && player.mining_block_z == target.bz {
+        if player.mining_active &&
+          player.mining_block_x == target.bx &&
+          player.mining_block_y == target.by &&
+          player.mining_block_z == target.bz {
           // Continue mining
           let mine_time = @types.get_mining_time(block, player.equipped_tool)
           player.mining_progress += dt / mine_time
           if player.mining_progress >= 1.0 {
             // Block broken!
             let drop = @types.get_block_drop(block)
-            @types.set_world_block(game, target.bx, target.by, target.bz, @types.block_air)
+            @types.set_world_block(
+              game,
+              target.bx,
+              target.by,
+              target.bz,
+              @types.block_air,
+            )
             game.blocks_broken += 1
             player.mining_active = false
             player.mining_progress = 0.0
@@ -88,12 +112,16 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
             let cr = @levels.block_color_r(block)
             let cg = @levels.block_color_g(block)
             let cb = @levels.block_color_b(block)
-            @types.spawn_break_particles(game, target.bx, target.by, target.bz, cr, cg, cb)
-            @types.show_message(
+            @types.spawn_break_particles(
               game,
-              "Broke \{@types.block_name(block)}",
-              1.0,
+              target.bx,
+              target.by,
+              target.bz,
+              cr,
+              cg,
+              cb,
             )
+            @types.show_message(game, "Broke \{@types.block_name(block)}", 1.0)
           }
         } else {
           // Start mining new block
@@ -109,12 +137,10 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
       player.mining_active = false
       player.mining_progress = 0.0
     }
-  } else {
     // Released mouse button, cancel mining
-    if player.mining_active {
-      player.mining_active = false
-      player.mining_progress = 0.0
-    }
+  } else if player.mining_active {
+    player.mining_active = false
+    player.mining_progress = 0.0
   }
 
   // Place block: right mouse button or G key
@@ -126,7 +152,9 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
       let place_z = target.bz + target.nz
       // Make sure placement position is valid and not occupied
       let existing = @types.get_world_block(game, place_x, place_y, place_z)
-      if not(@types.is_solid(existing)) && place_y >= 0 && place_y < @types.chunk_y {
+      if not(@types.is_solid(existing)) &&
+        place_y >= 0 &&
+        place_y < @types.chunk_y {
         // Make sure we are not placing inside the player
         let pr = @types.player_radius + 0.1
         let fpx = Float::from_int(place_x) + 0.5
@@ -135,7 +163,8 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
         let ddx = @types.absf(game.player.x - fpx)
         let ddy = @types.absf(game.player.y + @types.player_height * 0.5 - fpy)
         let ddz = @types.absf(game.player.z - fpz)
-        let collides = ddx < pr + 0.5 && ddy < @types.player_height * 0.5 + 0.5 &&
+        let collides = ddx < pr + 0.5 &&
+          ddy < @types.player_height * 0.5 + 0.5 &&
           ddz < pr + 0.5
         if not(collides) {
           // Use item from inventory
@@ -148,7 +177,9 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
               slot.item_id = 0
               slot.count = 0
             }
-            @types.set_world_block(game, place_x, place_y, place_z, block_to_place)
+            @types.set_world_block(
+              game, place_x, place_y, place_z, block_to_place,
+            )
             game.blocks_placed += 1
             @types.show_message(
               game,
@@ -165,6 +196,8 @@ pub fn handle_block_interaction(game : @types.Game, dt : Float) -> Unit {
 }
 
 // Handle block selection via number keys and scroll wheel
+
+///|
 pub fn handle_block_selection(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyOne) {
     game.player.inventory.selected = 0
@@ -197,11 +230,15 @@ pub fn handle_block_selection(game : @types.Game) -> Unit {
   let wheel = @raylib.get_mouse_wheel_move()
   if wheel > 0.0 {
     let mut next = game.player.inventory.selected - 1
-    if next < 0 { next = @types.hotbar_slots - 1 }
+    if next < 0 {
+      next = @types.hotbar_slots - 1
+    }
     game.player.inventory.selected = next
   } else if wheel < 0.0 {
     let mut next = game.player.inventory.selected + 1
-    if next >= @types.hotbar_slots { next = 0 }
+    if next >= @types.hotbar_slots {
+      next = 0
+    }
     game.player.inventory.selected = next
   }
   // Update selected_block from inventory

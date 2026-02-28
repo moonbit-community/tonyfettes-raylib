@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_portal_blackout_escape_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Actor
+
+type Core
+
+type Drone
+
+type Flare
+
+type Game
+
+type Particle
+
+// Type aliases
+
+// Traits
+

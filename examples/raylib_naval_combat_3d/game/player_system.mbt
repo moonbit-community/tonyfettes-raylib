@@ -1,5 +1,6 @@
 // Player ship movement and controls
 
+///|
 fn update_player(game : @types.Game, dt : Float) -> Unit {
   let ship = game.player
   // Sail control: W/S to raise/lower sails
@@ -64,17 +65,19 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   // Lerp towards target speed
   ship.speed = @types.lerpf(ship.speed, final_target, dt * 2.0)
   // Rudder control: A/D to turn
-  let rudder_ratio : Float = if @types.get_class_max_rudder(ship.ship_class) > 0.0 {
+  let rudder_ratio : Float = if @types.get_class_max_rudder(ship.ship_class) >
+    0.0 {
     ship.rudder_hp / @types.get_class_max_rudder(ship.ship_class)
   } else {
     1.0
   }
   let turn = @types.calc_turn_rate(
-    ship.turn_rate_base,
-    rudder_ratio,
-    ship.speed,
-    base_speed,
-  ) * dt
+      ship.turn_rate_base,
+      rudder_ratio,
+      ship.speed,
+      base_speed,
+    ) *
+    dt
   if @raylib.is_key_down(@raylib.KeyA) {
     ship.heading -= turn
   }
@@ -87,7 +90,10 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   let dz = @math.cosf(ship.heading) * ship.speed * dt
   // Wind drift
   let drift = @types.calc_wind_drift(
-    ship.heading, game.wind_angle, game.wind_speed, ship.speed,
+    ship.heading,
+    game.wind_angle,
+    game.wind_speed,
+    ship.speed,
   )
   ship.drift_x = @types.lerpf(ship.drift_x, drift.0, dt * 2.0)
   ship.drift_z = @types.lerpf(ship.drift_z, drift.1, dt * 2.0)
@@ -104,7 +110,9 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     // Collision damage
     if ship.speed > 3.0 {
       ship.bow_hp -= ship.speed * 0.5
-      if ship.bow_hp < 0.0 { ship.bow_hp = 0.0 }
+      if ship.bow_hp < 0.0 {
+        ship.bow_hp = 0.0
+      }
       ship.hull_hp -= ship.speed * 0.3
     }
   }
@@ -122,17 +130,13 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
       } else if ship.ammo_round > 0 {
         ship.ammo_type = @types.ammo_round_shot
       }
-    } else {
-      if ship.ammo_round > 0 {
-        ship.ammo_type = @types.ammo_round_shot
-      } else if ship.ammo_chain > 0 {
-        ship.ammo_type = @types.ammo_chain_shot
-      }
+    } else if ship.ammo_round > 0 {
+      ship.ammo_type = @types.ammo_round_shot
+    } else if ship.ammo_chain > 0 {
+      ship.ammo_type = @types.ammo_chain_shot
     }
     let ammo_name = get_ammo_name(ship.ammo_type)
-    @types.add_battle_message(
-      game, "Ammo: \{ammo_name}", 200, 200, 255,
-    )
+    @types.add_battle_message(game, "Ammo: \{ammo_name}", 200, 200, 255)
   }
   // Cannon firing - modified for ammo system
   ship.reload_left -= dt
@@ -144,7 +148,8 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     ship.reload_right = 0.0
   }
   // Crew affects reload speed
-  let cannon_crew_ratio : Float = if ship.crew_action == @types.crew_action_cannons {
+  let cannon_crew_ratio : Float = if ship.crew_action ==
+    @types.crew_action_cannons {
     crew_ratio
   } else {
     crew_ratio * 0.5
@@ -164,9 +169,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   let active_cannons_f : Float = Float::from_int(ship.cannon_count) * cannon_eff
   let active_cannons = @types.maxi(active_cannons_f.to_int(), 1)
   // Q fires port (left) broadside, E fires starboard (right) broadside
-  if @raylib.is_key_pressed(@raylib.KeyQ) || @raylib.is_mouse_button_pressed(
-    0,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyQ) || @raylib.is_mouse_button_pressed(0) {
     if ship.reload_left <= 0.0 && has_ammo(ship) {
       fire_player_broadside(game, true, active_cannons)
       ship.reload_left = effective_reload
@@ -175,9 +178,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
       game.battle_stats.accuracy_shots += active_cannons / 2
     }
   }
-  if @raylib.is_key_pressed(@raylib.KeyE) || @raylib.is_mouse_button_pressed(
-    1,
-  ) {
+  if @raylib.is_key_pressed(@raylib.KeyE) || @raylib.is_mouse_button_pressed(1) {
     if ship.reload_right <= 0.0 && has_ammo(ship) {
       fire_player_broadside(game, false, active_cannons)
       ship.reload_right = effective_reload
@@ -213,34 +214,40 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
       @types.add_battle_message(game, "Crew: Repairing Mast", 100, 200, 255)
     } else if ship.crew_action == @types.crew_action_repair_mast {
       ship.crew_action = @types.crew_action_repair_rudder
-      @types.add_battle_message(
-        game, "Crew: Repairing Rudder", 100, 200, 255,
-      )
+      @types.add_battle_message(game, "Crew: Repairing Rudder", 100, 200, 255)
     } else {
       ship.crew_action = @types.crew_action_cannons
-      @types.add_battle_message(
-        game, "Crew: Manning Cannons", 255, 200, 100,
-      )
+      @types.add_battle_message(game, "Crew: Manning Cannons", 255, 200, 100)
     }
   }
   // Repair system
   if ship.crew_action == @types.crew_action_repair_hull {
     let repair_crew = ship.crew / 3
-    let repair_amount = Float::from_int(repair_crew) * @types.repair_hull_speed * dt
+    let repair_amount = Float::from_int(repair_crew) *
+      @types.repair_hull_speed *
+      dt
     ship.hull_hp = @types.minf(ship.hull_hp + repair_amount, ship.max_hp)
-    ship.bow_hp = @types.minf(ship.bow_hp + repair_amount * 0.3, ship.max_hp * 0.8)
+    ship.bow_hp = @types.minf(
+      ship.bow_hp + repair_amount * 0.3,
+      ship.max_hp * 0.8,
+    )
     ship.mid_hp = @types.minf(ship.mid_hp + repair_amount * 0.3, ship.max_hp)
     ship.stern_hp = @types.minf(
-      ship.stern_hp + repair_amount * 0.3, ship.max_hp * 0.8,
+      ship.stern_hp + repair_amount * 0.3,
+      ship.max_hp * 0.8,
     )
     // Reduce water intake
     if ship.taking_water > 0.0 {
       ship.taking_water -= dt * 0.5
-      if ship.taking_water < 0.0 { ship.taking_water = 0.0 }
+      if ship.taking_water < 0.0 {
+        ship.taking_water = 0.0
+      }
     }
   } else if ship.crew_action == @types.crew_action_repair_mast {
     let repair_crew = ship.crew / 3
-    let repair_amount = Float::from_int(repair_crew) * @types.repair_mast_speed * dt
+    let repair_amount = Float::from_int(repair_crew) *
+      @types.repair_mast_speed *
+      dt
     ship.mast_hp = @types.minf(
       ship.mast_hp + repair_amount,
       @types.get_class_max_mast(ship.ship_class),
@@ -248,7 +255,9 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     ship.sail_hp = @types.minf(ship.sail_hp + repair_amount * 0.5, ship.max_hp)
   } else if ship.crew_action == @types.crew_action_repair_rudder {
     let repair_crew = ship.crew / 3
-    let repair_amount = Float::from_int(repair_crew) * @types.repair_rudder_speed * dt
+    let repair_amount = Float::from_int(repair_crew) *
+      @types.repair_rudder_speed *
+      dt
     ship.rudder_hp = @types.minf(
       ship.rudder_hp + repair_amount,
       @types.get_class_max_rudder(ship.ship_class),
@@ -261,7 +270,9 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
     let mut nearest_dist : Float = @types.boarding_range
     for i = 0; i < game.enemies.length(); i = i + 1 {
       let e = game.enemies[i]
-      if not(e.active) { continue i + 1 }
+      if not(e.active) {
+        continue i + 1
+      }
       let d = @types.distance2d(ship.x, ship.z, e.x, e.z)
       if d < nearest_dist {
         nearest_dist = d
@@ -272,9 +283,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
       ship.boarding_target = nearest_idx
       ship.boarding_timer = @types.boarding_duration
       let cn = @types.get_class_name(game.enemies[nearest_idx].ship_class)
-      @types.add_battle_message(
-        game, "Boarding \{cn}!", 255, 255, 100,
-      )
+      @types.add_battle_message(game, "Boarding \{cn}!", 255, 255, 100)
       @types.add_battle_log(game, "Attempting to board \{cn}")
     } else {
       @types.add_battle_message(
@@ -292,9 +301,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
         game, "Fleet Command: Select order", 150, 200, 255,
       )
     } else {
-      @types.add_battle_message(
-        game, "Fleet Command: Off", 150, 150, 150,
-      )
+      @types.add_battle_message(game, "Fleet Command: Off", 150, 150, 150)
     }
   }
   if game.fleet_command_mode {
@@ -323,13 +330,14 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   // Camera follow with scroll wheel zoom
   let wheel = @raylib.get_mouse_wheel_move()
   if wheel != 0.0 {
-    if @raylib.is_key_down(@raylib.KeyLeftShift) || @raylib.is_key_down(
-      @raylib.KeyRightShift,
-    ) {
+    if @raylib.is_key_down(@raylib.KeyLeftShift) ||
+      @raylib.is_key_down(@raylib.KeyRightShift) {
       // Zoom
       game.camera_dist -= wheel * 2.0
       game.camera_dist = @types.clampf(
-        game.camera_dist, @types.camera_dist_min, @types.camera_dist_max,
+        game.camera_dist,
+        @types.camera_dist_min,
+        @types.camera_dist_max,
       )
     } else {
       game.camera_offset_angle += wheel * 0.3
@@ -337,6 +345,7 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
   }
 }
 
+///|
 fn has_ammo(ship : @types.Ship) -> Bool {
   if ship.ammo_type == @types.ammo_round_shot {
     ship.ammo_round > 0
@@ -349,19 +358,27 @@ fn has_ammo(ship : @types.Ship) -> Bool {
   }
 }
 
+///|
 fn consume_ammo(ship : @types.Ship) -> Unit {
   if ship.ammo_type == @types.ammo_round_shot {
     ship.ammo_round -= 1
-    if ship.ammo_round < 0 { ship.ammo_round = 0 }
+    if ship.ammo_round < 0 {
+      ship.ammo_round = 0
+    }
   } else if ship.ammo_type == @types.ammo_chain_shot {
     ship.ammo_chain -= 1
-    if ship.ammo_chain < 0 { ship.ammo_chain = 0 }
+    if ship.ammo_chain < 0 {
+      ship.ammo_chain = 0
+    }
   } else if ship.ammo_type == @types.ammo_grapeshot {
     ship.ammo_grape -= 1
-    if ship.ammo_grape < 0 { ship.ammo_grape = 0 }
+    if ship.ammo_grape < 0 {
+      ship.ammo_grape = 0
+    }
   }
 }
 
+///|
 fn get_ammo_name(ammo_type : Int) -> String {
   if ammo_type == @types.ammo_round_shot {
     "Round Shot"
@@ -374,10 +391,13 @@ fn get_ammo_name(ammo_type : Int) -> String {
   }
 }
 
+///|
 fn set_fleet_order(game : @types.Game, order : Int) -> Unit {
   for i = 0; i < game.fleet_ships.length(); i = i + 1 {
     let fs = game.fleet_ships[i]
-    if not(fs.active) { continue i + 1 }
+    if not(fs.active) {
+      continue i + 1
+    }
     fs.order = order
     if order == @types.fleet_order_defend {
       fs.target_x = game.player.x
@@ -393,15 +413,14 @@ fn set_fleet_order(game : @types.Game, order : Int) -> Unit {
   } else {
     "Hold"
   }
-  @types.add_battle_message(
-    game, "Fleet: \{order_name}", 150, 200, 255,
-  )
+  @types.add_battle_message(game, "Fleet: \{order_name}", 150, 200, 255)
 }
 
+///|
 fn fire_player_broadside(
   game : @types.Game,
   port : Bool,
-  active_cannons : Int
+  active_cannons : Int,
 ) -> Unit {
   let ship = game.player
   // Port is left side (heading - pi/2), starboard is right (heading + pi/2)
@@ -416,7 +435,9 @@ fn fire_player_broadside(
   let cannon_arc = @types.get_cannon_arc(ship.cannon_type)
   for i = 0; i < shots; i = i + 1 {
     let idx = @types.alloc_cannonball(game)
-    if idx < 0 { break }
+    if idx < 0 {
+      break
+    }
     let cb = game.cannonballs[idx]
     let spread_f : Float = Float::from_int(i) - Float::from_int(shots) / 2.0
     let spread = spread_f * 0.12

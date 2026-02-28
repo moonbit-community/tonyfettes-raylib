@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_port_logistics_empire_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Node
+
+type Route
+
+type Spark
+
+type Truck
+
+// Type aliases
+
+// Traits
+

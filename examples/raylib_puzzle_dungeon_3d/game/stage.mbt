@@ -1,5 +1,6 @@
 // Stage/floor loading and undo system
 
+///|
 pub fn load_floor(game : @types.Game, floor : Int) -> Unit {
   game.current_floor = floor
   game.current_world = @types.get_world_for_floor(floor)
@@ -105,11 +106,8 @@ pub fn load_floor(game : @types.Game, floor : Int) -> Unit {
   }
 }
 
-fn parse_tile_char(
-  ch : Byte,
-  _gx : Int,
-  _gy : Int
-) -> (Int, Int, Bool) {
+///|
+fn parse_tile_char(ch : Byte, _gx : Int, _gy : Int) -> (Int, Int, Bool) {
   // Returns (tile_type, entity_type (-1 for none), is_player_spawn)
   if ch == b'#' {
     (@types.tile_wall, -1, false)
@@ -180,6 +178,7 @@ fn parse_tile_char(
   }
 }
 
+///|
 fn save_undo(game : @types.Game) -> Unit {
   if game.undo_count >= @types.max_undo {
     // Shift everything down by 1
@@ -209,6 +208,7 @@ fn save_undo(game : @types.Game) -> Unit {
   game.undo_count += 1
 }
 
+///|
 fn undo_move(game : @types.Game) -> Unit {
   if game.undo_count <= 0 {
     return
@@ -251,6 +251,7 @@ fn undo_move(game : @types.Game) -> Unit {
   check_exit(game)
 }
 
+///|
 fn reset_progress(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_floors; i = i + 1 {
     game.floor_info[i].unlocked = false

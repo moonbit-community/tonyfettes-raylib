@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dragon_boat_sprint_2026"
+
+// Values
+
+// Errors
+
+// Types and methods
+type Game
+
+type Hazard
+
+type Input
+
+type Rival
+
+// Type aliases
+
+// Traits
+

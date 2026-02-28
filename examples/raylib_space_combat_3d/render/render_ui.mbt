@@ -1,5 +1,6 @@
 // 2D UI overlay
 
+///|
 pub fn draw_ui(game : @types.Game) -> Unit {
   if game.state == @types.state_menu {
     draw_menu(game)
@@ -26,26 +27,33 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_menu(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      2, 2, 8, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(2, 2, 8, 255),
   )
 
   // Starfield effect on menu
   let frame_f = Float::from_int(game.frame_counter)
   for i = 0; i < 60; i = i + 1 {
     let fi = Float::from_int(i)
-    let sx = ((@math.sinf(fi * 3.7 + frame_f * 0.01) + 1.0) * 0.5 * Float::from_int(
-        @types.screen_width,
-      )).to_int()
-    let sy = ((@math.cosf(fi * 2.1 + frame_f * 0.008) + 1.0) * 0.5 * Float::from_int(
-        @types.screen_height,
-      )).to_int()
+    let sx = ((@math.sinf(fi * 3.7 + frame_f * 0.01) + 1.0) *
+    0.5 *
+    Float::from_int(@types.screen_width)).to_int()
+    let sy = ((@math.cosf(fi * 2.1 + frame_f * 0.008) + 1.0) *
+    0.5 *
+    Float::from_int(@types.screen_height)).to_int()
     let bright = 80 + (fi * 2.5).to_int()
     @raylib.draw_rectangle(
-      sx, sy, 2, 2, @raylib.Color::new(bright, bright, bright, 200),
+      sx,
+      sy,
+      2,
+      2,
+      @raylib.Color::new(bright, bright, bright, 200),
     )
     ignore(i)
   }
@@ -53,20 +61,26 @@ fn draw_menu(game : @types.Game) -> Unit {
   let title = "SPACE COMBAT 3D"
   let tw = @raylib.measure_text(title, 52)
   @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, 120, 52, @raylib.Color::new(
-      100, 180, 255, 255,
-    ),
+    title,
+    (@types.screen_width - tw) / 2,
+    120,
+    52,
+    @raylib.Color::new(100, 180, 255, 255),
   )
 
   let sub = "Dogfighting in the void"
   let sw = @raylib.measure_text(sub, 20)
   @raylib.draw_text(
-    sub, (@types.screen_width - sw) / 2, 185, 20, @raylib.Color::new(
-      80, 130, 200, 255,
-    ),
+    sub,
+    (@types.screen_width - sw) / 2,
+    185,
+    20,
+    @raylib.Color::new(80, 130, 200, 255),
   )
 
-  let items : Array[String] = ["New Game", "Mission Select", "Continue", "Quick Start"]
+  let items : Array[String] = [
+    "New Game", "Mission Select", "Continue", "Quick Start",
+  ]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 300 + i * 50
     let is_sel = game.menu_cursor == i
@@ -88,9 +102,10 @@ fn draw_menu(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     "Arrows: Select | Enter: Play",
-    (@types.screen_width - @raylib.measure_text(
-        "Arrows: Select | Enter: Play", 16,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text("Arrows: Select | Enter: Play", 16)
+    ) /
     2,
     @types.screen_height - 60,
     16,
@@ -98,10 +113,12 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   @raylib.draw_text(
     "WASD: Fly | QE: Roll | Space: Fire | Tab: Target | 1-3: Weapons",
-    (@types.screen_width - @raylib.measure_text(
-        "WASD: Fly | QE: Roll | Space: Fire | Tab: Target | 1-3: Weapons",
-        14,
-      )) /
+    (
+      @types.screen_width -
+      @raylib.measure_text(
+        "WASD: Fly | QE: Roll | Space: Fire | Tab: Target | 1-3: Weapons", 14,
+      )
+    ) /
     2,
     @types.screen_height - 35,
     14,
@@ -109,13 +126,18 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_hud(game : @types.Game) -> Unit {
   let p = game.player
 
   // Top bar
-  @raylib.draw_rectangle(0, 0, @types.screen_width, 36, @raylib.Color::new(
-    0, 0, 0, 160,
-  ))
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    36,
+    @raylib.Color::new(0, 0, 0, 160),
+  )
   @raylib.draw_text(
     "Mission \{game.current_mission + 1}: \{@levels.mission_name(game.current_mission)}",
     10,
@@ -143,9 +165,13 @@ fn draw_hud(game : @types.Game) -> Unit {
   let bar_y = @types.screen_height - 60
   let bar_w = 200
   let bar_h = 16
-  @raylib.draw_rectangle(bar_x, bar_y, bar_w, bar_h, @raylib.Color::new(
-    40, 0, 0, 200,
-  ))
+  @raylib.draw_rectangle(
+    bar_x,
+    bar_y,
+    bar_w,
+    bar_h,
+    @raylib.Color::new(40, 0, 0, 200),
+  )
   let hull_w = (p.hull / game.player.max_hull * Float::from_int(bar_w)).to_int()
   let hull_color = if p.hull > 50.0 {
     @raylib.Color::new(0, 200, 0, 255)
@@ -155,9 +181,13 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(200, 0, 0, 255)
   }
   @raylib.draw_rectangle(bar_x, bar_y, hull_w, bar_h, hull_color)
-  @raylib.draw_rectangle_lines(bar_x, bar_y, bar_w, bar_h, @raylib.Color::new(
-    150, 150, 150, 200,
-  ))
+  @raylib.draw_rectangle_lines(
+    bar_x,
+    bar_y,
+    bar_w,
+    bar_h,
+    @raylib.Color::new(150, 150, 150, 200),
+  )
   @raylib.draw_text(
     "HULL",
     bar_x,
@@ -168,17 +198,27 @@ fn draw_hud(game : @types.Game) -> Unit {
 
   // Shield bar
   let shield_y = @types.screen_height - 35
-  @raylib.draw_rectangle(bar_x, shield_y, bar_w, bar_h, @raylib.Color::new(
-    0, 0, 40, 200,
-  ))
-  let shield_w = (p.shield / game.player.max_shield * Float::from_int(
-      bar_w,
-    )).to_int()
   @raylib.draw_rectangle(
-    bar_x, shield_y, shield_w, bar_h, @raylib.Color::new(80, 140, 255, 255),
+    bar_x,
+    shield_y,
+    bar_w,
+    bar_h,
+    @raylib.Color::new(0, 0, 40, 200),
+  )
+  let shield_w = (p.shield / game.player.max_shield * Float::from_int(bar_w)).to_int()
+  @raylib.draw_rectangle(
+    bar_x,
+    shield_y,
+    shield_w,
+    bar_h,
+    @raylib.Color::new(80, 140, 255, 255),
   )
   @raylib.draw_rectangle_lines(
-    bar_x, shield_y, bar_w, bar_h, @raylib.Color::new(100, 120, 180, 200),
+    bar_x,
+    shield_y,
+    bar_w,
+    bar_h,
+    @raylib.Color::new(100, 120, 180, 200),
   )
   @raylib.draw_text(
     "SHIELD",
@@ -191,9 +231,13 @@ fn draw_hud(game : @types.Game) -> Unit {
   // Weapon indicator (bottom right)
   let wpn_x = @types.screen_width - 180
   let wpn_y = @types.screen_height - 60
-  @raylib.draw_rectangle(wpn_x, wpn_y, 170, 50, @raylib.Color::new(
-    0, 0, 0, 160,
-  ))
+  @raylib.draw_rectangle(
+    wpn_x,
+    wpn_y,
+    170,
+    50,
+    @raylib.Color::new(0, 0, 0, 160),
+  )
   @raylib.draw_text(
     "WEAPON:",
     wpn_x + 5,
@@ -237,9 +281,13 @@ fn draw_hud(game : @types.Game) -> Unit {
     if e.active {
       let tgt_x = @types.screen_width / 2 - 80
       let tgt_y = @types.screen_height - 80
-      @raylib.draw_rectangle(tgt_x, tgt_y, 160, 40, @raylib.Color::new(
-        0, 0, 0, 140,
-      ))
+      @raylib.draw_rectangle(
+        tgt_x,
+        tgt_y,
+        160,
+        40,
+        @raylib.Color::new(0, 0, 0, 140),
+      )
       let tgt_name = if e.kind == @types.enemy_fighter {
         "FIGHTER"
       } else {
@@ -253,7 +301,12 @@ fn draw_hud(game : @types.Game) -> Unit {
         @raylib.Color::new(255, 255, 0, 255),
       )
       let dist = @types.distance3d(
-        game.player.x, game.player.y, game.player.z, e.x, e.y, e.z,
+        game.player.x,
+        game.player.y,
+        game.player.z,
+        e.x,
+        e.y,
+        e.z,
       )
       let dist_i = dist.to_int()
       @raylib.draw_text(
@@ -287,9 +340,11 @@ fn draw_hud(game : @types.Game) -> Unit {
 
   // Bottom bar - controls reminder
   @raylib.draw_rectangle(
-    0, @types.screen_height - 18, @types.screen_width, 18, @raylib.Color::new(
-      0, 0, 0, 100,
-    ),
+    0,
+    @types.screen_height - 18,
+    @types.screen_width,
+    18,
+    @raylib.Color::new(0, 0, 0, 100),
   )
   @raylib.draw_text(
     "WASD: Fly | QE: Roll | Shift: Boost | Space: Fire | Tab: Target | 1-3: Weapons | P: Pause",
@@ -300,6 +355,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_crosshair(game : @types.Game) -> Unit {
   let cx = @types.screen_width / 2
   let cy = @types.screen_height / 2
@@ -318,6 +374,7 @@ fn draw_crosshair(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(cx - 1, cy - 1, 2, 2, color)
 }
 
+///|
 fn draw_message(game : @types.Game) -> Unit {
   let text = game.message_text
   let tw = @raylib.measure_text(text, 32)
@@ -332,11 +389,14 @@ fn draw_message(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_pause_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 0, 0, 150,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 150),
   )
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 60)
@@ -370,11 +430,14 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_mission_complete(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      0, 10, 30, 200,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 10, 30, 200),
   )
   let text = "MISSION COMPLETE"
   let tw = @raylib.measure_text(text, 48)
@@ -409,11 +472,14 @@ fn draw_mission_complete(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_game_over(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      30, 0, 0, 220,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(30, 0, 0, 220),
   )
   let text = "DESTROYED"
   let tw = @raylib.measure_text(text, 60)
@@ -442,11 +508,14 @@ fn draw_game_over(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_mission_briefing(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      2, 2, 12, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(2, 2, 12, 255),
   )
 
   let title = "MISSION BRIEFING"
@@ -532,11 +601,14 @@ fn draw_mission_briefing(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_mission_select(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      2, 2, 12, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(2, 2, 12, 255),
   )
 
   let title = "MISSION SELECT"
@@ -592,11 +664,14 @@ fn draw_mission_select(game : @types.Game) -> Unit {
   )
 }
 
+///|
 fn draw_loadout(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
-      2, 2, 12, 255,
-    ),
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(2, 2, 12, 255),
   )
 
   let title = "SHIP LOADOUT"
@@ -643,34 +718,10 @@ fn draw_loadout(game : @types.Game) -> Unit {
     } else {
       @raylib.Color::new(120, 120, 140, 255)
     }
-    @raylib.draw_text(
-      "Hull: \{hull_val}",
-      500,
-      y,
-      16,
-      stats_color,
-    )
-    @raylib.draw_text(
-      "Shield: \{shield_val}",
-      620,
-      y,
-      16,
-      stats_color,
-    )
-    @raylib.draw_text(
-      "Speed: \{speed_val}",
-      500,
-      y + 20,
-      16,
-      stats_color,
-    )
-    @raylib.draw_text(
-      "Turn: \{turn_text}",
-      620,
-      y + 20,
-      16,
-      stats_color,
-    )
+    @raylib.draw_text("Hull: \{hull_val}", 500, y, 16, stats_color)
+    @raylib.draw_text("Shield: \{shield_val}", 620, y, 16, stats_color)
+    @raylib.draw_text("Speed: \{speed_val}", 500, y + 20, 16, stats_color)
+    @raylib.draw_text("Turn: \{turn_text}", 620, y + 20, 16, stats_color)
   }
 
   // Controls hint

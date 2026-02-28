@@ -1,5 +1,6 @@
 // 3D world rendering
 
+///|
 pub fn draw_world(game : @types.Game) -> Unit {
   let camera = build_camera(game)
   @raylib.begin_mode_3d(camera)
@@ -13,6 +14,7 @@ pub fn draw_world(game : @types.Game) -> Unit {
   @raylib.end_mode_3d()
 }
 
+///|
 fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   let ship = game.player
   // Camera behind and above the player ship
@@ -31,6 +33,7 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
   )
 }
 
+///|
 fn draw_ocean(game : @types.Game) -> Unit {
   // Main ocean plane
   let size = @types.ocean_size
@@ -44,10 +47,8 @@ fn draw_ocean(game : @types.Game) -> Unit {
   for i = 0; i < 20; i = i + 1 {
     let offset = Float::from_int(i) * 10.0 - 95.0
     let wave_h = @math.sinf(time + Float::from_int(i) * 0.7) * 0.15
-    let alpha : Int = 40 + ((@math.sinf(
-        time + Float::from_int(i) * 0.5,
-      ) *
-      20.0).to_int())
+    let alpha : Int = 40 +
+      (@math.sinf(time + Float::from_int(i) * 0.5) * 20.0).to_int()
     let a = @types.clampi(alpha, 20, 80)
     @raylib.draw_cube(
       @raylib.Vector3::new(0.0, wave_h, offset),
@@ -71,10 +72,13 @@ fn draw_ocean(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_islands(game : @types.Game) -> Unit {
   for i = 0; i < game.island_count; i = i + 1 {
     let island = game.islands[i]
-    if not(island.active) { continue i + 1 }
+    if not(island.active) {
+      continue i + 1
+    }
     // Base rock - draw as a cluster of cubes
     let base_color = @raylib.Color::new(100, 85, 60, 255)
     let green_color = @raylib.Color::new(50, 120, 40, 255)
@@ -95,7 +99,11 @@ fn draw_islands(game : @types.Game) -> Unit {
       let bh = island.height * 0.6
       let bw = island.radius * 0.6
       @raylib.draw_cube(
-        @raylib.Vector3::new(bx, bh * 0.5, bz), bw, bh, bw, dark_color,
+        @raylib.Vector3::new(bx, bh * 0.5, bz),
+        bw,
+        bh,
+        bw,
+        dark_color,
       )
     }
     // Top greenery
@@ -118,6 +126,7 @@ fn draw_islands(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_player_ship(game : @types.Game) -> Unit {
   let ship = game.player
   let sin_h = @math.sinf(ship.heading)
@@ -128,7 +137,11 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   // We approximate rotation by drawing at an angle
   // Main hull
   @raylib.draw_cube(
-    @raylib.Vector3::new(ship.x, 0.5, ship.z), 1.8, 1.0, 4.0, hull_color,
+    @raylib.Vector3::new(ship.x, 0.5, ship.z),
+    1.8,
+    1.0,
+    4.0,
+    hull_color,
   )
   // Bow (front)
   let bow_x = ship.x + sin_h * 2.5
@@ -152,9 +165,12 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   )
   // Mast
   @raylib.draw_cylinder(
-    @raylib.Vector3::new(ship.x, 1.0, ship.z), 0.1, 0.1, 4.0, 6, @raylib.Color::new(
-      80, 60, 30, 255,
-    ),
+    @raylib.Vector3::new(ship.x, 1.0, ship.z),
+    0.1,
+    0.1,
+    4.0,
+    6,
+    @raylib.Color::new(80, 60, 30, 255),
   )
   // Sails (if sail_hp > 0)
   if ship.sail_hp > 0.0 {
@@ -228,10 +244,13 @@ fn draw_player_ship(game : @types.Game) -> Unit {
   ignore(cos_h)
 }
 
+///|
 fn draw_enemy_ships(game : @types.Game) -> Unit {
   for i = 0; i < game.enemies.length(); i = i + 1 {
     let enemy = game.enemies[i]
-    if not(enemy.active) { continue i + 1 }
+    if not(enemy.active) {
+      continue i + 1
+    }
     let sin_h = @math.sinf(enemy.heading)
     let cos_h = @math.cosf(enemy.heading)
     // Hull
@@ -291,7 +310,9 @@ fn draw_enemy_ships(game : @types.Game) -> Unit {
     )
     @raylib.draw_cube(
       @raylib.Vector3::new(
-        enemy.x - bar_w * (1.0 - hp_pct) / 2.0, bar_y + 0.01, enemy.z,
+        enemy.x - bar_w * (1.0 - hp_pct) / 2.0,
+        bar_y + 0.01,
+        enemy.z,
       ),
       bar_w * hp_pct,
       0.12,
@@ -307,29 +328,34 @@ fn draw_enemy_ships(game : @types.Game) -> Unit {
       @raylib.Color::new(255, 100, 100, 150)
     }
     @raylib.draw_sphere(
-      @raylib.Vector3::new(enemy.x, 5.2, enemy.z), 0.15, indicator_color,
+      @raylib.Vector3::new(enemy.x, 5.2, enemy.z),
+      0.15,
+      indicator_color,
     )
     ignore(sin_h)
     ignore(cos_h)
   }
 }
 
+///|
 fn draw_cannonballs(game : @types.Game) -> Unit {
   for i = 0; i < game.cannonballs.length(); i = i + 1 {
     let cb = game.cannonballs[i]
-    if not(cb.active) { continue i + 1 }
+    if not(cb.active) {
+      continue i + 1
+    }
     let color = if cb.from_player {
       @raylib.Color::new(40, 40, 40, 255)
     } else {
       @raylib.Color::new(80, 20, 20, 255)
     }
-    @raylib.draw_sphere(
-      @raylib.Vector3::new(cb.x, cb.y, cb.z), 0.2, color,
-    )
+    @raylib.draw_sphere(@raylib.Vector3::new(cb.x, cb.y, cb.z), 0.2, color)
     // Trail
     @raylib.draw_sphere(
       @raylib.Vector3::new(
-        cb.x - cb.vx * 0.02, cb.y - cb.vy * 0.02, cb.z - cb.vz * 0.02,
+        cb.x - cb.vx * 0.02,
+        cb.y - cb.vy * 0.02,
+        cb.z - cb.vz * 0.02,
       ),
       0.1,
       @raylib.Color::new(100, 100, 100, 120),
@@ -337,19 +363,26 @@ fn draw_cannonballs(game : @types.Game) -> Unit {
   }
 }
 
+///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
   for i = 0; i < game.particles.length(); i = i + 1 {
     let p = game.particles[i]
-    if not(p.active) { continue i + 1 }
+    if not(p.active) {
+      continue i + 1
+    }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)
     @raylib.draw_cube(
-      @raylib.Vector3::new(p.x, p.y, p.z), p.size, p.size, p.size,
+      @raylib.Vector3::new(p.x, p.y, p.z),
+      p.size,
+      p.size,
+      p.size,
       @raylib.Color::new(p.r, p.g, p.b, a),
     )
   }
 }
 
+///|
 fn draw_wind_indicator(game : @types.Game) -> Unit {
   // Draw a wind direction arrow near the player
   let ship = game.player
@@ -361,14 +394,18 @@ fn draw_wind_indicator(game : @types.Game) -> Unit {
   @raylib.draw_line_3d(
     @raylib.Vector3::new(arrow_base_x, arrow_y, arrow_base_z),
     @raylib.Vector3::new(
-      arrow_base_x + wind_dx, arrow_y, arrow_base_z + wind_dz,
+      arrow_base_x + wind_dx,
+      arrow_y,
+      arrow_base_z + wind_dz,
     ),
     @raylib.Color::new(200, 200, 255, 200),
   )
   // Arrowhead
   @raylib.draw_sphere(
     @raylib.Vector3::new(
-      arrow_base_x + wind_dx, arrow_y, arrow_base_z + wind_dz,
+      arrow_base_x + wind_dx,
+      arrow_y,
+      arrow_base_z + wind_dz,
     ),
     0.3,
     @raylib.Color::new(200, 200, 255, 200),

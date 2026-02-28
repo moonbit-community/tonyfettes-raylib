@@ -1,0 +1,68 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flight_sim_3d/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_flight_sim_3d/types",
+}
+
+// Values
+pub fn accuracy_bonus_score(Int, Int) -> Int
+
+pub fn ai_engage_advanced(@types.Game, @types.Enemy, @types.Player, Float) -> Unit
+
+pub fn ai_evasive_maneuver(@types.Game, @types.Enemy, @types.Player, Float) -> Unit
+
+pub fn ai_formation_fly(@types.Game, @types.Enemy, Float, Float, Float, Float, Int, Float) -> Unit
+
+pub fn ai_patrol_advanced(@types.Game, @types.Enemy, Float) -> Unit
+
+pub fn avoid_collision(@types.Game, @types.Enemy, Int, Float) -> Unit
+
+pub fn calculate_damage_falloff(Float, Float, Float) -> Float
+
+pub fn calculate_kill_score(Int, Float, Int, Int) -> Int
+
+pub fn calculate_lead_angle(Float, Float, Float, Float, Float, Float, Float) -> Float
+
+pub fn check_enemy_threat_level(@types.Game) -> Int
+
+pub fn count_engaged_enemies(@types.Game) -> Int
+
+pub fn damage_player(@types.Game, Float) -> Unit
+
+pub fn get_threat_direction(@types.Game) -> Int
+
+pub fn has_line_of_sight(Float, Float, Float, Float, Float, Float, Int) -> Bool
+
+pub fn is_enemy_behind_player(@types.Player, Float, Float) -> Bool
+
+pub fn no_damage_bonus(Float, Float) -> Int
+
+pub fn should_enemy_evade(@types.Game, @types.Enemy) -> Bool
+
+pub fn start_mission(@types.Game, Int) -> Unit
+
+pub fn time_bonus_score(Float, Float) -> Int
+
+pub fn turret_burst_fire(@types.Game, @types.Turret, @types.Player, Int) -> Unit
+
+pub fn turret_track_player(@types.Turret, @types.Player, Float) -> Unit
+
+pub fn update_enemies(@types.Game, Float) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+pub fn update_mission_logic(@types.Game, Float) -> Unit
+
+pub fn update_player(@types.Game, Float) -> Unit
+
+pub fn update_projectiles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
