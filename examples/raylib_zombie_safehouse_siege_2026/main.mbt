@@ -933,33 +933,33 @@ fn main {
         }
       }
 
-      for zomby in zombies {
-        if not(zomby.active) {
+      for zombie in zombies {
+        if not(zombie.active) {
           continue
         }
 
-        zomby.atk_cd = zomby.atk_cd - dt
-        if zomby.atk_cd < 0.0 {
-          zomby.atk_cd = 0.0
+        zombie.atk_cd = zombie.atk_cd - dt
+        if zombie.atk_cd < 0.0 {
+          zombie.atk_cd = 0.0
         }
-        zomby.stun_t = zomby.stun_t - dt
-        if zomby.stun_t < 0.0 {
-          zomby.stun_t = 0.0
+        zombie.stun_t = zombie.stun_t - dt
+        if zombie.stun_t < 0.0 {
+          zombie.stun_t = 0.0
         }
-        zomby.burn_t = zomby.burn_t - dt
-        if zomby.burn_t < 0.0 {
-          zomby.burn_t = 0.0
+        zombie.burn_t = zombie.burn_t - dt
+        if zombie.burn_t < 0.0 {
+          zombie.burn_t = 0.0
         }
-        zomby.flash_t = zomby.flash_t - dt
-        if zomby.flash_t < 0.0 {
-          zomby.flash_t = 0.0
-        }
-
-        if zomby.burn_t > 0.0 {
-          zomby.hp = zomby.hp - dt * 7.2
+        zombie.flash_t = zombie.flash_t - dt
+        if zombie.flash_t < 0.0 {
+          zombie.flash_t = 0.0
         }
 
-        if zomby.hp <= 0.0 {
+        if zombie.burn_t > 0.0 {
+          zombie.hp = zombie.hp - dt * 7.2
+        }
+
+        if zombie.hp <= 0.0 {
           let drop_roll = @raylib.get_random_value(0, 99)
           let drop_val = if drop_roll > 88 {
             5
@@ -968,74 +968,74 @@ fn main {
           } else {
             1
           }
-          ignore(spawn_scrap(scraps, zomby.x, zomby.y, drop_val))
+          ignore(spawn_scrap(scraps, zombie.x, zombie.y, drop_val))
           score = score + 35 + combo
           combo = combo + 1
           rescued = rescued + 1
-          burst(particles, zomby.x, zomby.y, 14, 0.28, 2)
-          zomby.active = false
+          burst(particles, zombie.x, zombie.y, 14, 0.28, 2)
+          zombie.active = false
           continue
         }
 
-        if zomby.stun_t > 0.0 {
-          zomby.vx = zomby.vx * (Float::from_int(1) - dt * 8.0)
-          zomby.vy = zomby.vy * (Float::from_int(1) - dt * 8.0)
+        if zombie.stun_t > 0.0 {
+          zombie.vx = zombie.vx * (Float::from_int(1) - dt * 8.0)
+          zombie.vy = zombie.vy * (Float::from_int(1) - dt * 8.0)
         } else {
           let mut tx : Float = base_x
           let mut ty : Float = base_y
 
-          let d_player = dist2(zomby.x, zomby.y, player.x, player.y)
-          let d_base = dist2(zomby.x, zomby.y, base_x, base_y)
+          let d_player = dist2(zombie.x, zombie.y, player.x, player.y)
+          let d_base = dist2(zombie.x, zombie.y, base_x, base_y)
 
           if d_player < d_base * 0.72 {
             tx = player.x
             ty = player.y
           }
 
-          let dx = tx - zomby.x
-          let dy = ty - zomby.y
+          let dx = tx - zombie.x
+          let dy = ty - zombie.y
           let n2 = dx * dx + dy * dy
           let n = safe_len2(n2)
-          let chase = zomby.speed *
-            (if zomby.kind == 2 { 1.14 } else { 1.0 })
+          let chase = zombie.speed *
+            (if zombie.kind == 2 { 1.14 } else { 1.0 })
 
-          zomby.vx = zomby.vx * (Float::from_int(1) - dt * 2.6) +
+          zombie.vx = zombie.vx * (Float::from_int(1) - dt * 2.6) +
             dx / n * chase * dt * 2.6
-          zomby.vy = zomby.vy * (Float::from_int(1) - dt * 2.6) +
+          zombie.vy = zombie.vy * (Float::from_int(1) - dt * 2.6) +
             dy / n * chase * dt * 2.6
         }
 
-        zomby.x = zomby.x + zomby.vx * dt
-        zomby.y = zomby.y + zomby.vy * dt
+        zombie.x = zombie.x + zombie.vx * dt
+        zombie.y = zombie.y + zombie.vy * dt
 
-        if zomby.x < -46.0 {
-          zomby.x = -46.0
+        if zombie.x < -46.0 {
+          zombie.x = -46.0
         }
-        if zomby.x > world_w + 46.0 {
-          zomby.x = world_w + 46.0
+        if zombie.x > world_w + 46.0 {
+          zombie.x = world_w + 46.0
         }
-        if zomby.y < -46.0 {
-          zomby.y = -46.0
+        if zombie.y < -46.0 {
+          zombie.y = -46.0
         }
-        if zomby.y > world_h + 46.0 {
-          zomby.y = world_h + 46.0
+        if zombie.y > world_h + 46.0 {
+          zombie.y = world_h + 46.0
         }
 
-        let zrad : Float = if zomby.kind == 1 {
+        let zrad : Float = if zombie.kind == 1 {
           22.0
-        } else if zomby.kind == 2 {
+        } else if zombie.kind == 2 {
           14.0
         } else {
           18.0
         }
 
-        if dist2(zomby.x, zomby.y, player.x, player.y) <=
+        if dist2(zombie.x, zombie.y, player.x, player.y) <=
           (zrad + 14.0) * (zrad + 14.0) {
-          if zomby.atk_cd <= 0.0 {
-            zomby.atk_cd = if zomby.kind == 2 { 0.45 } else { 0.72 }
-            let bite_dmg : Float = if zomby.kind == 1 {
+          if zombie.atk_cd <= 0.0 {
+            zombie.atk_cd = if zombie.kind == 2 { 0.45 } else { 0.72 }
+            let bite_dmg : Float = if zombie.kind == 1 {
               18.0
-            } else if zomby.kind == 2 {
+            } else if zombie.kind == 2 {
               10.0
             } else {
               13.0
@@ -1047,13 +1047,13 @@ fn main {
           }
         }
 
-        if dist2(zomby.x, zomby.y, base_x, base_y) <=
+        if dist2(zombie.x, zombie.y, base_x, base_y) <=
           (zrad + 82.0) * (zrad + 82.0) {
-          if zomby.atk_cd <= 0.0 {
-            zomby.atk_cd = if zomby.kind == 2 { 0.56 } else { 0.78 }
-            let dmg : Float = if zomby.kind == 1 {
+          if zombie.atk_cd <= 0.0 {
+            zombie.atk_cd = if zombie.kind == 2 { 0.56 } else { 0.78 }
+            let dmg : Float = if zombie.kind == 1 {
               21.0
-            } else if zomby.kind == 2 {
+            } else if zombie.kind == 2 {
               10.0
             } else {
               14.0
@@ -1102,34 +1102,34 @@ fn main {
           continue
         }
 
-        for zomby in zombies {
-          if not(zomby.active) {
+        for zombie in zombies {
+          if not(zombie.active) {
             continue
           }
 
-          let zrad : Float = if zomby.kind == 1 {
+          let zrad : Float = if zombie.kind == 1 {
             22.0
-          } else if zomby.kind == 2 {
+          } else if zombie.kind == 2 {
             14.0
           } else {
             18.0
           }
-          if dist2(bullet.x, bullet.y, zomby.x, zomby.y) <=
+          if dist2(bullet.x, bullet.y, zombie.x, zombie.y) <=
             zrad * zrad {
-            zomby.hp = zomby.hp - bullet.dmg
-            zomby.flash_t = 0.14
+            zombie.hp = zombie.hp - bullet.dmg
+            zombie.flash_t = 0.14
 
             if bullet.kind == 2 {
-              zomby.burn_t = 1.8
+              zombie.burn_t = 1.8
             }
 
-            let dx = zomby.x - player.x
-            let dy = zomby.y - player.y
+            let dx = zombie.x - player.x
+            let dy = zombie.y - player.y
             let n2 = dx * dx + dy * dy
             let n = safe_len2(n2)
-            zomby.vx = zomby.vx + dx / n * 112.0
-            zomby.vy = zomby.vy + dy / n * 112.0
-            zomby.stun_t = 0.12
+            zombie.vx = zombie.vx + dx / n * 112.0
+            zombie.vy = zombie.vy + dy / n * 112.0
+            zombie.stun_t = 0.12
 
             burst(particles, bullet.x, bullet.y, 6, 0.18, 2)
             bullet.active = false
@@ -1215,8 +1215,8 @@ fn main {
       }
 
       let mut alive_zombies : Int = 0
-      for zomby in zombies {
-        if zomby.active {
+      for zombie in zombies {
+        if zombie.active {
           alive_zombies = alive_zombies + 1
         }
       }
@@ -1406,70 +1406,70 @@ fn main {
       )
     }
 
-    for zomby in zombies {
-      if not(zomby.active) {
+    for zombie in zombies {
+      if not(zombie.active) {
         continue
       }
 
-      let rad : Float = if zomby.kind == 1 {
+      let rad : Float = if zombie.kind == 1 {
         22.0
-      } else if zomby.kind == 2 {
+      } else if zombie.kind == 2 {
         14.0
       } else {
         18.0
       }
       let mut col = @raylib.Color::new(98, 182, 104, 255)
-      if zomby.kind == 1 {
+      if zombie.kind == 1 {
         col = @raylib.Color::new(124, 98, 78, 255)
-      } else if zomby.kind == 2 {
+      } else if zombie.kind == 2 {
         col = @raylib.Color::new(172, 220, 106, 255)
       }
 
-      if zomby.burn_t > 0.0 {
+      if zombie.burn_t > 0.0 {
         col = @raylib.Color::new(238, 124, 72, 255)
       }
-      if zomby.flash_t > 0.0 {
+      if zombie.flash_t > 0.0 {
         col = @raylib.Color::new(255, 235, 210, 255)
       }
 
       @raylib.draw_circle(
-        zomby.x.to_int(),
-        zomby.y.to_int(),
+        zombie.x.to_int(),
+        zombie.y.to_int(),
         rad,
         col,
       )
       @raylib.draw_circle(
-        (zomby.x - rad * 0.34).to_int(),
-        (zomby.y - rad * 0.2).to_int(),
+        (zombie.x - rad * 0.34).to_int(),
+        (zombie.y - rad * 0.2).to_int(),
         3.0,
         @raylib.Color::new(20, 28, 22, 255),
       )
       @raylib.draw_circle(
-        (zomby.x + rad * 0.34).to_int(),
-        (zomby.y - rad * 0.2).to_int(),
+        (zombie.x + rad * 0.34).to_int(),
+        (zombie.y - rad * 0.2).to_int(),
         3.0,
         @raylib.Color::new(20, 28, 22, 255),
       )
 
-      let hp_ratio = zomby.hp /
-        (if zomby.kind == 1 {
+      let hp_ratio = zombie.hp /
+        (if zombie.kind == 1 {
           70.0 + Float::from_int(wave) * 8.0
-        } else if zomby.kind == 2 {
+        } else if zombie.kind == 2 {
           36.0 + Float::from_int(wave) * 4.0
         } else {
           44.0 + Float::from_int(wave) * 6.0
         })
       let hpw = (clampf(hp_ratio, 0.0, 1.0) * rad * 2.0).to_int()
       @raylib.draw_rectangle(
-        (zomby.x - rad).to_int(),
-        (zomby.y - rad - 12.0).to_int(),
+        (zombie.x - rad).to_int(),
+        (zombie.y - rad - 12.0).to_int(),
         (rad * 2.0).to_int(),
         4,
         @raylib.Color::new(20, 24, 20, 180),
       )
       @raylib.draw_rectangle(
-        (zomby.x - rad).to_int(),
-        (zomby.y - rad - 12.0).to_int(),
+        (zombie.x - rad).to_int(),
+        (zombie.y - rad - 12.0).to_int(),
         hpw,
         4,
         @raylib.Color::new(234, 86, 94, 214),

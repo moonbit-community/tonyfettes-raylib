@@ -29,8 +29,8 @@ fn active_gust_count(game : Game) -> Int {
 ///|
 fn active_thief_count(game : Game) -> Int {
   let mut total = 0
-  for thieve in game.thieves {
-    if thieve.active {
+  for thief in game.thieves {
+    if thief.active {
       total = total + 1
     }
   }
@@ -95,16 +95,16 @@ fn reset_sparks(game : Game) -> Unit {
 
 ///|
 fn reset_thieves(game : Game) -> Unit {
-  for thieve in game.thieves {
-    thieve.active = false
-    thieve.x = 0.0
-    thieve.y = 0.0
-    thieve.vx = 0.0
-    thieve.vy = 0.0
-    thieve.speed = 0.0
-    thieve.target = -1
-    thieve.steal_cd = 0.0
-    thieve.life = 0.0
+  for thief in game.thieves {
+    thief.active = false
+    thief.x = 0.0
+    thief.y = 0.0
+    thief.vx = 0.0
+    thief.vy = 0.0
+    thief.speed = 0.0
+    thief.target = -1
+    thief.steal_cd = 0.0
+    thief.life = 0.0
   }
 }
 
@@ -675,49 +675,49 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_thieves(game : Game, dt : Float) -> Unit {
-  for thieve in game.thieves {
-    if not(thieve.active) {
+  for thief in game.thieves {
+    if not(thief.active) {
       continue
     }
 
-    thieve.steal_cd = maxf(thieve.steal_cd - dt, 0.0)
-    thieve.life = thieve.life - dt
+    thief.steal_cd = maxf(thief.steal_cd - dt, 0.0)
+    thief.life = thief.life - dt
 
-    if thieve.life <= 0.0 {
-      thieve.active = false
+    if thief.life <= 0.0 {
+      thief.active = false
       continue
     }
 
     let target = nearest_active_lantern(
       game,
-      thieve.x,
-      thieve.y,
+      thief.x,
+      thief.y,
       100000000.0,
     )
-    thieve.target = target
+    thief.target = target
 
     let mut vx : Float = 0.0
     let mut vy : Float = 0.0
 
     if target >= 0 {
-      let dx = game.lanterns[target].x - thieve.x
-      let dy = game.lanterns[target].y - thieve.y
+      let dx = game.lanterns[target].x - thief.x
+      let dy = game.lanterns[target].y - thief.y
       let d2 = dx * dx + dy * dy
 
       if d2 <= squaref(thief_contact_radius) {
-        if thieve.steal_cd <= 0.0 {
+        if thief.steal_cd <= 0.0 {
           game.lanterns[target].flame = game.lanterns[target].flame -
             thief_drain_burst
-          thieve.steal_cd = thief_steal_period
+          thief.steal_cd = thief_steal_period
           game.screen_flash_t = maxf(game.screen_flash_t, 0.12)
         }
       } else {
         let inv = Float::from_int(1) / maxf(d2.sqrt(), 0.001)
-        let mut speed = thieve.speed
+        let mut speed = thief.speed
         if game.patrol.calm_t > 0.0 &&
           dist2(
-            thieve.x,
-            thieve.y,
+            thief.x,
+            thief.y,
             game.patrol.x,
             game.patrol.y,
           ) <=
@@ -730,36 +730,36 @@ fn update_thieves(game : Game, dt : Float) -> Unit {
       }
     } else {
       let gate = gate_position()
-      let dx = gate.0 - thieve.x
-      let dy = gate.1 - thieve.y
+      let dx = gate.0 - thief.x
+      let dy = gate.1 - thief.y
       let inv = Float::from_int(1) / maxf((dx * dx + dy * dy).sqrt(), 0.001)
-      vx = dx * inv * (thieve.speed * 0.36)
-      vy = dy * inv * (thieve.speed * 0.36)
+      vx = dx * inv * (thief.speed * 0.36)
+      vy = dy * inv * (thief.speed * 0.36)
     }
 
-    thieve.vx = vx
-    thieve.vy = vy
-    thieve.x = thieve.x + thieve.vx * dt
-    thieve.y = thieve.y + thieve.vy * dt
+    thief.vx = vx
+    thief.vy = vy
+    thief.x = thief.x + thief.vx * dt
+    thief.y = thief.y + thief.vy * dt
 
     if game.patrol.guard_t > 0.0 {
-      let dx = thieve.x - game.patrol.x
-      let dy = thieve.y - game.patrol.y
+      let dx = thief.x - game.patrol.x
+      let dy = thief.y - game.patrol.y
       let d2 = dx * dx + dy * dy
       if d2 <= squaref(guard_radius) {
         let inv = Float::from_int(1) / maxf(d2.sqrt(), 0.001)
-        thieve.x = thieve.x + dx * inv * guard_push * dt
-        thieve.y = thieve.y + dy * inv * guard_push * dt
-        thieve.life = thieve.life - dt * 1.8
+        thief.x = thief.x + dx * inv * guard_push * dt
+        thief.y = thief.y + dy * inv * guard_push * dt
+        thief.life = thief.life - dt * 1.8
       }
     }
 
-    if thieve.x < play_left - 140.0 ||
-      thieve.x > play_right + 140.0 ||
-      thieve.y < play_top - 140.0 ||
-      thieve.y > play_bottom + 140.0 ||
-      thieve.life <= 0.0 {
-      thieve.active = false
+    if thief.x < play_left - 140.0 ||
+      thief.x > play_right + 140.0 ||
+      thief.y < play_top - 140.0 ||
+      thief.y > play_bottom + 140.0 ||
+      thief.life <= 0.0 {
+      thief.active = false
     }
   }
 }

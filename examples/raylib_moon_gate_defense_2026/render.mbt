@@ -313,21 +313,21 @@ fn pulse_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_pulses(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for puls in game.pulses {
-    if not(puls.active) {
+  for pulse in game.pulses {
+    if not(pulse.active) {
       continue
     }
 
     let ratio = clampf(
-      puls.life / maxf(puls.max_life, 0.0001),
+      pulse.life / maxf(pulse.max_life, 0.0001),
       0.0,
       1.0,
     )
     @raylib.draw_circle_lines(
-      (puls.x + cam_x).to_int(),
-      (puls.y + cam_y).to_int(),
-      puls.radius,
-      alpha_col(pulse_col(puls.kind), (ratio * 190.0).to_int()),
+      (pulse.x + cam_x).to_int(),
+      (pulse.y + cam_y).to_int(),
+      pulse.radius,
+      alpha_col(pulse_col(pulse.kind), (ratio * 190.0).to_int()),
     )
   }
 }

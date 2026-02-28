@@ -612,20 +612,20 @@ fn draw_fx(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for echoe in game.echoes {
-    if not(echoe.active) {
+  for echo_item in game.echoes {
+    if not(echo_item.active) {
       continue
     }
 
-    let life = clampf(echoe.life / 0.24, 0.0, 1.0)
+    let life = clampf(echo_item.life / 0.24, 0.0, 1.0)
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(echoe.rot * 0.06)) * 0.24
+      absf(sinf(echo_item.rot * 0.06)) * 0.24
 
     @raylib.draw_rectangle(
-      (echoe.x - echoe.w * 0.5 * stretch + cam_x * 0.2).to_int(),
-      (echoe.y - echoe.h * 0.5 + cam_y * 0.2).to_int(),
-      maxf(2.0, echoe.w * stretch).to_int(),
-      maxf(2.0, echoe.h).to_int(),
+      (echo_item.x - echo_item.w * 0.5 * stretch + cam_x * 0.2).to_int(),
+      (echo_item.y - echo_item.h * 0.5 + cam_y * 0.2).to_int(),
+      maxf(2.0, echo_item.w * stretch).to_int(),
+      maxf(2.0, echo_item.h).to_int(),
       @raylib.Color::new(110, 214, 255, (life * 120.0).to_int()),
     )
   }

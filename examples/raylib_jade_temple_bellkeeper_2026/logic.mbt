@@ -60,14 +60,14 @@ fn clear_rings(game : Game) -> Unit {
 
 ///|
 fn clear_echoes(game : Game) -> Unit {
-  for echoe in game.echoes {
-    echoe.active = false
-    echoe.x = 0.0
-    echoe.y = 0.0
-    echoe.w = 0.0
-    echoe.h = 0.0
-    echoe.life = 0.0
-    echoe.rot = 0.0
+  for echo_item in game.echoes {
+    echo_item.active = false
+    echo_item.x = 0.0
+    echo_item.y = 0.0
+    echo_item.w = 0.0
+    echo_item.h = 0.0
+    echo_item.life = 0.0
+    echo_item.rot = 0.0
   }
 }
 
@@ -998,14 +998,14 @@ fn update_effects(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for echoe in game.echoes {
-    if not(echoe.active) {
+  for echo_item in game.echoes {
+    if not(echo_item.active) {
       continue
     }
 
-    echoe.life = echoe.life - dt
-    if echoe.life <= 0.0 {
-      echoe.active = false
+    echo_item.life = echo_item.life - dt
+    if echo_item.life <= 0.0 {
+      echo_item.active = false
     }
   }
 }

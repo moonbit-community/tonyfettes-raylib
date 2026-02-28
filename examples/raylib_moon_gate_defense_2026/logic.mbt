@@ -707,25 +707,25 @@ fn trigger_barrier(game : Game) -> Unit {
 
 ///|
 fn update_pulses(game : Game, dt : Float) -> Unit {
-  for puls in game.pulses {
-    if not(puls.active) {
+  for pulse in game.pulses {
+    if not(pulse.active) {
       continue
     }
 
-    puls.life = puls.life - dt
-    if puls.life <= 0.0 {
-      puls.active = false
+    pulse.life = pulse.life - dt
+    if pulse.life <= 0.0 {
+      pulse.active = false
       continue
     }
 
-    let speed : Float = if puls.kind == 0 {
+    let speed : Float = if pulse.kind == 0 {
       66.0
-    } else if puls.kind == 1 {
+    } else if pulse.kind == 1 {
       92.0
     } else {
       120.0
     }
-    puls.radius = puls.radius + dt * speed
+    pulse.radius = pulse.radius + dt * speed
   }
 }
 

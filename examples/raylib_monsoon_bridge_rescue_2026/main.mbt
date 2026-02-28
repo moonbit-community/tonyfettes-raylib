@@ -546,18 +546,18 @@ fn spawn_debris(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for debri in debris {
-    if debri.active {
+  for debris in debris {
+    if debris.active {
       continue
     }
-    debri.active = true
-    debri.x = world_r + randf(20.0, 120.0)
-    debri.y = randf(world_t + 16.0, world_b - 16.0)
-    debri.vx = -randf(68.0, 152.0) - storm * randf(8.0, 38.0)
-    debri.vy = randf(-42.0, 42.0)
-    debri.size = randf(10.0, 30.0)
-    debri.hard = randf(0.6, 1.8)
-    debri.spin = randf(-6.0, 6.0)
+    debris.active = true
+    debris.x = world_r + randf(20.0, 120.0)
+    debris.y = randf(world_t + 16.0, world_b - 16.0)
+    debris.vx = -randf(68.0, 152.0) - storm * randf(8.0, 38.0)
+    debris.vy = randf(-42.0, 42.0)
+    debris.size = randf(10.0, 30.0)
+    debris.hard = randf(0.6, 1.8)
+    debris.spin = randf(-6.0, 6.0)
     placed = true
     break
   }
@@ -912,22 +912,22 @@ fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
 
 ///|
 fn draw_debris_field(debris : Array[Debris]) -> Unit {
-  for debri in debris {
-    if not(debri.active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
-    let w : Float = debri.size * 1.8
-    let h : Float = debri.size * 0.9
+    let w : Float = debris.size * 1.8
+    let h : Float = debris.size * 0.9
     @raylib.draw_rectangle(
-      (debri.x - w * 0.5).to_int(),
-      (debri.y - h * 0.5).to_int(),
+      (debris.x - w * 0.5).to_int(),
+      (debris.y - h * 0.5).to_int(),
       w.to_int(),
       h.to_int(),
       @raylib.Color::new(88, 62, 38, 226),
     )
     @raylib.draw_rectangle_lines(
-      (debri.x - w * 0.5).to_int(),
-      (debri.y - h * 0.5).to_int(),
+      (debris.x - w * 0.5).to_int(),
+      (debris.y - h * 0.5).to_int(),
       w.to_int(),
       h.to_int(),
       @raylib.Color::new(170, 144, 102, 210),
@@ -2260,37 +2260,37 @@ fn main {
       }
 
       // Debris updates + collisions
-      for debri in debris {
-        if not(debri.active) {
+      for debris in debris {
+        if not(debris.active) {
           continue
         }
         let debris_flow : FlowSample = find_flow(
           currents,
-          debri.x,
-          debri.y,
+          debris.x,
+          debris.y,
           storm_level,
         )
-        debri.vx = debri.vx + debris_flow.vx * dt * 0.46
-        debri.vy = debri.vy + debris_flow.vy * dt * 0.46
-        debri.x = debri.x + debri.vx * dt
-        debri.y = debri.y + debri.vy * dt
-        debri.spin = debri.spin + dt * randf(-3.2, 3.2)
+        debris.vx = debris.vx + debris_flow.vx * dt * 0.46
+        debris.vy = debris.vy + debris_flow.vy * dt * 0.46
+        debris.x = debris.x + debris.vx * dt
+        debris.y = debris.y + debris.vy * dt
+        debris.spin = debris.spin + dt * randf(-3.2, 3.2)
 
-        if debri.x < world_l - 120.0 ||
-          debri.x > world_r + 120.0 ||
-          debri.y < world_t - 120.0 ||
-          debri.y > world_b + 120.0 {
-          debri.active = false
+        if debris.x < world_l - 120.0 ||
+          debris.x > world_r + 120.0 ||
+          debris.y < world_t - 120.0 ||
+          debris.y > world_b + 120.0 {
+          debris.active = false
           continue
         }
 
-        let rr : Float = debri.size + 14.0
-        if dist2(boat.x, boat.y, debri.x, debri.y) <= rr * rr {
-          let hit_dmg : Float = debri.hard * (5.0 + storm_level * 2.4)
+        let rr : Float = debris.size + 14.0
+        if dist2(boat.x, boat.y, debris.x, debris.y) <= rr * rr {
+          let hit_dmg : Float = debris.hard * (5.0 + storm_level * 2.4)
           boat.hull = boat.hull - hit_dmg
-          boat.vx = boat.vx - debri.vx * 0.23
-          boat.vy = boat.vy - debri.vy * 0.23
-          debri.active = false
+          boat.vx = boat.vx - debris.vx * 0.23
+          boat.vy = boat.vy - debris.vy * 0.23
+          debris.active = false
           msg = "Debris hit! Hull damage."
           msg_t = 1.2
           for _j in 0..<10 {

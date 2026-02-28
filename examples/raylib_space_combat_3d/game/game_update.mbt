@@ -457,8 +457,8 @@ fn start_mission(game : @types.Game, mission : Int) -> Unit {
   for station in game.stations {
     station.active = false
   }
-  for debri in game.debris {
-    debri.active = false
+  for debris in game.debris {
+    debris.active = false
   }
   for i in 0..<@types.max_kill_feed {
     game.kill_feed[i].active = false

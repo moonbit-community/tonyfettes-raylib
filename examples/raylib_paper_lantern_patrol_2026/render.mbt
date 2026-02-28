@@ -292,32 +292,32 @@ fn draw_sparks(game : Game) -> Unit {
 
 ///|
 fn draw_thieves(game : Game) -> Unit {
-  for thieve in game.thieves {
-    if not(thieve.active) {
+  for thief in game.thieves {
+    if not(thief.active) {
       continue
     }
 
     @raylib.draw_circle(
-      thieve.x.to_int(),
-      thieve.y.to_int(),
+      thief.x.to_int(),
+      thief.y.to_int(),
       thief_radius,
       @raylib.Color::new(188, 84, 104, 236),
     )
     @raylib.draw_circle_lines(
-      thieve.x.to_int(),
-      thieve.y.to_int(),
+      thief.x.to_int(),
+      thief.y.to_int(),
       thief_radius + 2.0,
       @raylib.Color::new(250, 164, 176, 238),
     )
 
-    if thieve.target >= 0 &&
-      thieve.target < game.lanterns.length() &&
-      game.lanterns[thieve.target].active {
+    if thief.target >= 0 &&
+      thief.target < game.lanterns.length() &&
+      game.lanterns[thief.target].active {
       @raylib.draw_line(
-        thieve.x.to_int(),
-        thieve.y.to_int(),
-        game.lanterns[thieve.target].x.to_int(),
-        game.lanterns[thieve.target].y.to_int(),
+        thief.x.to_int(),
+        thief.y.to_int(),
+        game.lanterns[thief.target].x.to_int(),
+        game.lanterns[thief.target].y.to_int(),
         @raylib.Color::new(252, 136, 132, 96),
       )
     }

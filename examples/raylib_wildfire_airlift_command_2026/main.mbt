@@ -237,15 +237,15 @@ fn clear_smokes(smokes : Array[SmokePlume]) -> Unit {
 
 ///|
 fn clear_debris(debris : Array[Debris]) -> Unit {
-  for debri in debris {
-    debri.active = false
-    debri.x = 0.0
-    debri.y = 0.0
-    debri.vx = 0.0
-    debri.vy = 0.0
-    debri.size = 0.0
-    debri.hard = 0.0
-    debri.spin = 0.0
+  for debris in debris {
+    debris.active = false
+    debris.x = 0.0
+    debris.y = 0.0
+    debris.vx = 0.0
+    debris.vy = 0.0
+    debris.size = 0.0
+    debris.hard = 0.0
+    debris.spin = 0.0
   }
 }
 
@@ -466,12 +466,12 @@ fn init_debris(
     }
 
     let mut overlap : Bool = false
-    for debri in debris {
-      if not(debri.active) {
+    for debris in debris {
+      if not(debris.active) {
         continue
       }
-      let rr : Float = debri.size + 12.0
-      if dist2(x, y, debri.x, debri.y) < rr * rr {
+      let rr : Float = debris.size + 12.0
+      if dist2(x, y, debris.x, debris.y) < rr * rr {
         overlap = true
         break
       }
@@ -764,34 +764,34 @@ fn update_debris(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for debri in debris {
-    if not(debri.active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    debri.spin = debri.spin + dt * 0.7
+    debris.spin = debris.spin + dt * 0.7
 
-    let drift : Float = 0.84 + 0.22 * (@math.sinf(debri.spin) * 0.5 + 0.5)
-    debri.x = debri.x + debri.vx * dt * drift
-    debri.y = debri.y + debri.vy * dt * drift
+    let drift : Float = 0.84 + 0.22 * (@math.sinf(debris.spin) * 0.5 + 0.5)
+    debris.x = debris.x + debris.vx * dt * drift
+    debris.y = debris.y + debris.vy * dt * drift
 
-    if debri.x < world_l + debri.size {
-      debri.x = world_l + debri.size
-      debri.vx = absf(debri.vx) * randf(0.66, 1.1)
-    } else if debri.x > world_r - debri.size {
-      debri.x = world_r - debri.size
-      debri.vx = -absf(debri.vx) * randf(0.66, 1.1)
+    if debris.x < world_l + debris.size {
+      debris.x = world_l + debris.size
+      debris.vx = absf(debris.vx) * randf(0.66, 1.1)
+    } else if debris.x > world_r - debris.size {
+      debris.x = world_r - debris.size
+      debris.vx = -absf(debris.vx) * randf(0.66, 1.1)
     }
 
-    if debri.y < world_t + debri.size {
-      debri.y = world_t + debri.size
-      debri.vy = absf(debri.vy) * randf(0.66, 1.1)
-    } else if debri.y > world_b - debri.size {
-      debri.y = world_b - debri.size
-      debri.vy = -absf(debri.vy) * randf(0.66, 1.1)
+    if debris.y < world_t + debris.size {
+      debris.y = world_t + debris.size
+      debris.vy = absf(debris.vy) * randf(0.66, 1.1)
+    } else if debris.y > world_b - debris.size {
+      debris.y = world_b - debris.size
+      debris.vy = -absf(debris.vy) * randf(0.66, 1.1)
     }
 
-    debri.hard = maxf(8.0, debri.hard - dt * 0.02)
+    debris.hard = maxf(8.0, debris.hard - dt * 0.02)
   }
 }
 
@@ -1341,28 +1341,28 @@ fn draw_smokes(smokes : Array[SmokePlume], t : Float) -> Unit {
 
 ///|
 fn draw_debris(debris : Array[Debris], t : Float) -> Unit {
-  for debri in debris {
-    if not(debri.active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    let wob : Float = @math.sinf(t * 4.0 + debri.spin) * 0.5 + 0.5
-    let rr : Float = debri.size * (0.88 + wob * 0.2)
-    let h01 : Float = clampf(debri.hard / 100.0, 0.0, 1.0)
+    let wob : Float = @math.sinf(t * 4.0 + debris.spin) * 0.5 + 0.5
+    let rr : Float = debris.size * (0.88 + wob * 0.2)
+    let h01 : Float = clampf(debris.hard / 100.0, 0.0, 1.0)
 
     let r : Int = 92 + (h01 * 54.0).to_int()
     let g : Int = 88 + (h01 * 38.0).to_int()
     let b : Int = 74 + (h01 * 22.0).to_int()
 
     @raylib.draw_circle(
-      debri.x.to_int(),
-      debri.y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr + 1.8,
       @raylib.Color::new(46, 70, 92, 174),
     )
     @raylib.draw_circle(
-      debri.x.to_int(),
-      debri.y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -2212,24 +2212,24 @@ fn main {
 
       // Debris collision damage
       let mut collision_dmg : Float = 0.0
-      for debri in debris {
-        if not(debri.active) {
+      for debris in debris {
+        if not(debris.active) {
           continue
         }
 
-        let rr : Float = debri.size + 11.0
-        let d2v : Float = dist2(player.x, player.y, debri.x, debri.y)
+        let rr : Float = debris.size + 11.0
+        let d2v : Float = dist2(player.x, player.y, debris.x, debris.y)
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
-          let nx : Float = (player.x - debri.x) / d
-          let ny : Float = (player.y - debri.y) / d
+          let nx : Float = (player.x - debris.x) / d
+          let ny : Float = (player.y - debris.y) / d
           let push : Float = (rr - d) * dt * 24.0
 
           player.x = player.x + nx * push
           player.y = player.y + ny * push
 
           if sp2 > 70.0 {
-            collision_dmg = collision_dmg + dt * (1.0 + debri.hard * 0.018)
+            collision_dmg = collision_dmg + dt * (1.0 + debris.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }

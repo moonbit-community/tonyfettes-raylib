@@ -582,8 +582,8 @@ fn main {
     avalanche_cd = 5.0
     announce_t = 2.8
 
-    for avalanch in avalanches {
-      avalanch.active = false
+    for avalanche in avalanches {
+      avalanche.active = false
     }
     for flare in flares {
       flare.active = false
@@ -920,23 +920,23 @@ fn main {
         }
       }
 
-      for avalanch in avalanches {
-        if not(avalanch.active) {
+      for avalanche in avalanches {
+        if not(avalanche.active) {
           continue
         }
 
-        avalanch.x = avalanch.x + avalanch.speed * dt
-        avalanch.life = avalanch.life - dt
+        avalanche.x = avalanche.x + avalanche.speed * dt
+        avalanche.life = avalanche.life - dt
 
-        if avalanch.x > world_w + avalanch.w ||
-          avalanch.life <= 0.0 {
-          avalanch.active = false
+        if avalanche.x > world_w + avalanche.w ||
+          avalanche.life <= 0.0 {
+          avalanche.active = false
           continue
         }
 
-        let inside_x = heli.x >= avalanch.x &&
-          heli.x <= avalanch.x + avalanch.w
-        let inside_y = (heli.y - avalanch.y).abs() <= 34.0
+        let inside_x = heli.x >= avalanche.x &&
+          heli.x <= avalanche.x + avalanche.w
+        let inside_y = (heli.y - avalanche.y).abs() <= 34.0
         if inside_x && inside_y {
           impact = true
           heli.vx = heli.vx + 210.0 * dt
@@ -1178,23 +1178,23 @@ fn main {
       gy = gy + 140.0
     }
 
-    for avalanch in avalanches {
-      if not(avalanch.active) {
+    for avalanche in avalanches {
+      if not(avalanche.active) {
         continue
       }
-      let sx = (avalanch.x - cam_x + shake_x).to_int()
-      let sy = (avalanch.y - cam_y + shake_y).to_int()
+      let sx = (avalanche.x - cam_x + shake_x).to_int()
+      let sy = (avalanche.y - cam_y + shake_y).to_int()
       @raylib.draw_rectangle(
         sx,
         sy - 24,
-        avalanch.w.to_int(),
+        avalanche.w.to_int(),
         48,
         @raylib.Color::new(232, 244, 252, 88),
       )
       @raylib.draw_rectangle(
         sx,
         sy - 8,
-        avalanch.w.to_int(),
+        avalanche.w.to_int(),
         16,
         @raylib.Color::new(252, 252, 255, 142),
       )
