@@ -44,8 +44,14 @@ if(_RL_PLATFORM STREQUAL "ANDROID")
     target_link_libraries(raylib PUBLIC android log EGL GLESv2 OpenSLES atomic m)
 elseif(_RL_PLATFORM STREQUAL "WEB")
     target_compile_definitions(raylib PUBLIC PLATFORM_WEB GRAPHICS_API_OPENGL_ES2)
-    target_link_options(raylib PUBLIC
-        -sUSE_GLFW=3 -sASYNCIFY -sASYNCIFY_STACK_SIZE=10485760 -sALLOW_MEMORY_GROWTH=1)
+    # string.h force-include: raylib web sources and MoonBit generated C rely on
+    # string.h symbols without always including it explicitly.
+    target_compile_options(raylib PUBLIC -include string.h)
+    # Only -sUSE_GLFW=3 belongs at the library level (raylib's own cmake does the
+    # same). All other emcc flags (-sASYNCIFY, -sFORCE_FILESYSTEM, -sEXPORTED_*,
+    # -O2, --closure, etc.) are application-level concerns and belong in the
+    # consuming project's CMakeLists.txt.
+    target_link_options(raylib PUBLIC -sUSE_GLFW=3)
 else()
     target_compile_definitions(raylib PUBLIC PLATFORM_DESKTOP_GLFW)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
