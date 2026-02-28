@@ -1,5 +1,5 @@
 ///|
-struct Tank {
+pub(all) struct Tank {
   mut active : Bool
   enemy_kind : Int
   mut x : Float
@@ -23,7 +23,7 @@ struct Tank {
 }
 
 ///|
-fn Tank::inactive() -> Tank {
+pub fn Tank::inactive() -> Tank {
   {
     active: false,
     enemy_kind: enemy_basic,
@@ -49,7 +49,7 @@ fn Tank::inactive() -> Tank {
 }
 
 ///|
-fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
+pub fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
   {
     active: true,
     enemy_kind: enemy_basic,
@@ -75,7 +75,7 @@ fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
 }
 
 ///|
-fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
+pub fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
   let (speed, hp, reload) = if kind == enemy_fast {
     (speed_enemy_fast, 1, enemy_reload_base * 0.85)
   } else if kind == enemy_heavy {
@@ -110,7 +110,7 @@ fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
 }
 
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   owner_team : Int
   mut x : Float
@@ -124,7 +124,7 @@ struct Bullet {
 }
 
 ///|
-fn Bullet::inactive() -> Bullet {
+pub fn Bullet::inactive() -> Bullet {
   {
     active: false,
     owner_team: team_none,
@@ -140,7 +140,7 @@ fn Bullet::inactive() -> Bullet {
 }
 
 ///|
-struct Bomb {
+pub(all) struct Bomb {
   mut active : Bool
   mut owner_team : Int
   mut x : Float
@@ -154,7 +154,7 @@ struct Bomb {
 }
 
 ///|
-fn Bomb::inactive() -> Bomb {
+pub fn Bomb::inactive() -> Bomb {
   {
     active: false,
     owner_team: team_none,
@@ -170,7 +170,7 @@ fn Bomb::inactive() -> Bomb {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -184,7 +184,7 @@ struct Particle {
 }
 
 ///|
-fn Particle::inactive() -> Particle {
+pub fn Particle::inactive() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -200,7 +200,7 @@ fn Particle::inactive() -> Particle {
 }
 
 ///|
-struct Powerup {
+pub(all) struct Powerup {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -211,7 +211,7 @@ struct Powerup {
 }
 
 ///|
-fn Powerup::inactive() -> Powerup {
+pub fn Powerup::inactive() -> Powerup {
   {
     active: false,
     kind: powerup_shield,
@@ -224,7 +224,7 @@ fn Powerup::inactive() -> Powerup {
 }
 
 ///|
-struct Star {
+pub(all) struct Star {
   mut x : Float
   mut y : Float
   mut speed : Float
@@ -232,12 +232,12 @@ struct Star {
 }
 
 ///|
-fn Star::new(x : Float, y : Float, speed : Float, twinkle : Float) -> Star {
+pub fn Star::new(x : Float, y : Float, speed : Float, twinkle : Float) -> Star {
   { x, y, speed, twinkle }
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   mut state : Int
   mut coop_enabled : Bool
   mut demo_mode : Bool
@@ -281,7 +281,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let stars : Array[Star] = []
   for i in 0..<120 {
     let x = Float::from_int(@raylib.get_random_value(0, screen_width))
@@ -339,7 +339,7 @@ fn Game::new() -> Game {
 }
 
 ///|
-fn team_of_player(index : Int) -> Int {
+pub fn team_of_player(index : Int) -> Int {
   if index == 0 {
     team_player1
   } else {

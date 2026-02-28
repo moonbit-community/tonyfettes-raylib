@@ -1,54 +1,54 @@
 ///|
-fn update_starfield(game : Game, dt : Float) -> Unit {
+fn update_starfield(game : @types.Game, dt : Float) -> Unit {
   for star in game.stars {
     star.y += star.speed * dt
     star.twinkle += dt * 3.0
-    if star.y > Float::from_int(screen_height + 10) {
+    if star.y > Float::from_int(@types.screen_height + 10) {
       star.y = -4.0
-      star.x = Float::from_int(rand_range(game, 0, screen_width))
-      star.speed = Float::from_int(rand_range(game, 12, 85))
-      star.twinkle = rand_rangef(game, 0.0, 6.2)
+      star.x = Float::from_int(@types.rand_range(game, 0, @types.screen_width))
+      star.speed = Float::from_int(@types.rand_range(game, 12, 85))
+      star.twinkle = @types.rand_rangef(game, 0.0, 6.2)
     }
   }
 }
 
 ///|
-fn enter_game_over(game : Game) -> Unit {
-  if game.state == state_game_over {
+fn enter_game_over(game : @types.Game) -> Unit {
+  if game.state == @types.state_game_over {
     return
   }
-  game.state = state_game_over
-  game.game_over_timer = if game.demo_mode { 0.8 } else { game_over_delay }
+  game.state = @types.state_game_over
+  game.game_over_timer = if game.demo_mode { 0.8 } else { @types.game_over_delay }
 }
 
 ///|
-fn start_manual_campaign(game : Game) -> Unit {
+fn start_manual_campaign(game : @types.Game) -> Unit {
   game.demo_mode = false
   game.demo_elapsed = 0.0
   start_new_campaign(game)
 }
 
 ///|
-fn start_demo_campaign(game : Game) -> Unit {
+fn start_demo_campaign(game : @types.Game) -> Unit {
   game.demo_mode = true
   game.coop_enabled = true
   game.demo_runs += 1
   game.demo_elapsed = 0.0
   start_new_campaign(game)
 
-  for i in 0..<max_players {
+  for i in 0..<@types.max_players {
     if not(game.players[i].active) {
       continue
     }
     game.players[i].lives = 6
     game.players[i].weapon_level = 1
-    game.players[i].reload_delay = player_reload_base * 0.92
+    game.players[i].reload_delay = @types.player_reload_base * 0.92
   }
 }
 
 ///|
-fn update_menu(game : Game, dt : Float) -> Unit {
-  game.menu_blink += dt * menu_select_blink_speed
+fn update_menu(game : @types.Game, dt : Float) -> Unit {
+  game.menu_blink += dt * @types.menu_select_blink_speed
 
   if @raylib.is_key_pressed(@raylib.KeyUp) ||
     @raylib.is_key_pressed(@raylib.KeyW) {
@@ -88,28 +88,28 @@ fn update_menu(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_stage_intro(game : Game, dt : Float) -> Unit {
+fn update_stage_intro(game : @types.Game, dt : Float) -> Unit {
   game.stage_intro_timer -= dt
   if game.stage_intro_timer <= 0.0 {
     game.stage_intro_timer = 0.0
-    game.state = state_playing
+    game.state = @types.state_playing
   }
 }
 
 ///|
-fn update_stage_clear(game : Game, dt : Float) -> Unit {
+fn update_stage_clear(game : @types.Game, dt : Float) -> Unit {
   game.stage_clear_timer -= dt
   if game.stage_clear_timer > 0.0 {
     return
   }
 
   game.stage_index += 1
-  if game.stage_index >= level_count {
-    game.state = state_campaign_clear
+  if game.stage_index >= @types.level_count {
+    game.state = @types.state_campaign_clear
     game.campaign_clear_timer = if game.demo_mode {
       1.0
     } else {
-      campaign_clear_delay
+      @types.campaign_clear_delay
     }
   } else {
     load_stage(game, game.stage_index)
@@ -117,47 +117,47 @@ fn update_stage_clear(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_campaign_clear(game : Game, dt : Float) -> Unit {
+fn update_campaign_clear(game : @types.Game, dt : Float) -> Unit {
   game.campaign_clear_timer -= dt
   if game.campaign_clear_timer <= 0.0 {
     if game.demo_mode {
       start_demo_campaign(game)
     } else {
-      game.state = state_menu
+      game.state = @types.state_menu
       game.menu_cursor = 0
     }
   }
 }
 
 ///|
-fn update_game_over(game : Game, dt : Float) -> Unit {
+fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   game.game_over_timer -= dt
   if game.game_over_timer <= 0.0 {
     if game.demo_mode {
       start_demo_campaign(game)
     } else {
-      game.state = state_menu
+      game.state = @types.state_menu
       game.menu_cursor = 0
     }
   }
 }
 
 ///|
-fn update_playing(game : Game, dt : Float) -> Unit {
+fn update_playing(game : @types.Game, dt : Float) -> Unit {
   if game.demo_mode && @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.demo_mode = false
-    game.state = state_menu
+    game.state = @types.state_menu
     game.menu_cursor = 0
     return
   }
 
   if not(game.demo_mode) && @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = state_paused
+    game.state = @types.state_paused
     return
   }
 
-  update_camera_shake(game, dt)
-  update_combo(game, dt)
+  @types.update_camera_shake(game, dt)
+  @score.update_combo(game, dt)
   update_global_effects(game, dt)
   update_player_reload_timers(game, dt)
 
@@ -168,7 +168,7 @@ fn update_playing(game : Game, dt : Float) -> Unit {
   update_bullets(game, dt)
   update_powerups(game, dt)
   update_player_respawns(game, dt)
-  update_particles(game, dt)
+  @particles.update_particles(game, dt)
 
   if game.base_flash > 0.0 {
     game.base_flash -= dt * 2.0
@@ -188,55 +188,55 @@ fn update_playing(game : Game, dt : Float) -> Unit {
   }
 
   if stage_is_clear(game) {
-    game.state = state_stage_clear
+    game.state = @types.state_stage_clear
     game.stage_clear_timer = if game.demo_mode {
       0.65
     } else {
-      stage_clear_time
+      @types.stage_clear_time
     }
-    spawn_spark_burst(
+    @particles.spawn_spark_burst(
       game,
-      Float::from_int(map_pixel_w / 2),
-      Float::from_int(map_pixel_h / 2),
+      Float::from_int(@types.map_pixel_w / 2),
+      Float::from_int(@types.map_pixel_h / 2),
       50,
     )
   }
 }
 
 ///|
-fn update_paused(game : Game, dt : Float) -> Unit {
+fn update_paused(game : @types.Game, dt : Float) -> Unit {
   game.pause_blink += dt * 4.5
-  update_particles(game, dt)
+  @particles.update_particles(game, dt)
   if @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = state_playing
+    game.state = @types.state_playing
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = state_menu
+    game.state = @types.state_menu
     game.menu_cursor = 0
   }
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_starfield(game, dt)
-  if game.demo_mode && game.state != state_menu {
+  if game.demo_mode && game.state != @types.state_menu {
     game.demo_elapsed += dt
   }
 
-  if game.state == state_menu {
+  if game.state == @types.state_menu {
     update_menu(game, dt)
-  } else if game.state == state_stage_intro {
+  } else if game.state == @types.state_stage_intro {
     update_stage_intro(game, dt)
-  } else if game.state == state_playing {
+  } else if game.state == @types.state_playing {
     update_playing(game, dt)
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     update_paused(game, dt)
-  } else if game.state == state_stage_clear {
+  } else if game.state == @types.state_stage_clear {
     update_stage_clear(game, dt)
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     update_game_over(game, dt)
-  } else if game.state == state_campaign_clear {
+  } else if game.state == @types.state_campaign_clear {
     update_campaign_clear(game, dt)
   }
 }

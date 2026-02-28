@@ -1,0 +1,9 @@
+import {
+  "moonbitlang/core/encoding/utf8",
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/levels",
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/particles",
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/score",
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/types",
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/world",
+}
