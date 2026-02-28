@@ -125,14 +125,26 @@ moon check --target native   # type-check passes
 
 # 5. Publish (after PR is approved/merged, or from release branch)
 moon publish
+
+# 6. Post-publish smoke test — build a fresh project against the published package
+cd publish/smoke_test
+moon update                              # fetch the newly published version
+moon build --target native cmd/main/     # must compile and link successfully
+cd ../..
 ```
+
+### Post-publish smoke test
+
+A minimal project lives at `publish/smoke_test/` (gitignored). It imports `tonyfettes/raylib` from mooncakes.io and calls `init_window`/`close_window`. After every publish, run `moon update` and `moon build --target native cmd/main/` inside it to confirm the published package actually compiles and links. If this fails, the package is broken for consumers — bump a patch version and re-publish.
 
 ### Excluded from publishing
 
 Configured via `"exclude"` in `moon.mod.json` (gitignore syntax). Currently excludes:
-`examples`, `external`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`, `CMakeLists.txt`
+`/external` (anchored to repo root), `examples`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
 
-The vendored raylib C sources under `internal/raylib/` **must** be included — they are compiled via `native-stub` at build time.
+`CMakeLists.txt` is **included** in the published package — consumers need it for Android/emscripten builds by referencing it from `.mooncakes/`.
+
+**Important:** Use `/external` (leading slash) to anchor to the repo root. An unanchored `external` pattern would also strip `internal/raylib/external/` (vendored raylib headers) from the package, breaking builds for consumers.
 
 ## Conventions
 
