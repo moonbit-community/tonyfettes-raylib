@@ -4,7 +4,8 @@
   "deps": {
     "tonyfettes/raylib": {
       "path": ".."
-    }
+    },
+    "moonbitlang/async": "0.16.6"
   },
   "preferred-target": "native"
 }

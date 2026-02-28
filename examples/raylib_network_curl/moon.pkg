@@ -1,0 +1,9 @@
+import {
+  "tonyfettes/raylib",
+  "moonbitlang/async",
+  "moonbitlang/async/http",
+}
+
+options(
+  "is-main": true,
+)
