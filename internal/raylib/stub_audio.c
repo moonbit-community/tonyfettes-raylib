@@ -393,8 +393,6 @@ moonbit_raylib_audio_buffer_set_sample(void *buf, unsigned int index, float valu
 // Audio: Stream processor attach/detach
 // ============================================================================
 
-typedef void (*AudioCallback)(void *bufferData, unsigned int frames);
-
 void
 moonbit_raylib_attach_audio_stream_processor(AudioStreamWrapper *wrapper, AudioCallback processor) {
   AttachAudioStreamProcessor(wrapper->stream, processor);
