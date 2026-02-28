@@ -19,6 +19,14 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   } else if game.state == @types.state_floor_complete {
     draw_hud(game)
     draw_floor_complete_overlay(game)
+  } else if game.state == @types.state_class_select {
+    draw_class_select(game)
+  } else if game.state == @types.state_shop {
+    draw_hud(game)
+    draw_shop(game)
+  } else if game.state == @types.state_shrine {
+    draw_hud(game)
+    draw_shrine(game)
   }
   // Damage flash
   if game.damage_flash > 0.0 {
@@ -91,7 +99,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   draw_menu_torch(game, @types.screen_width / 2 - 200, 300)
   draw_menu_torch(game, @types.screen_width / 2 + 180, 300)
   // Menu items
-  let items : Array[String] = ["New Game", "Quit (Esc)"]
+  let items : Array[String] = ["New Game", "Continue"]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 330 + i * 55
     let is_selected = game.menu_cursor == i
@@ -630,5 +638,159 @@ fn draw_floor_complete_overlay(game : @types.Game) -> Unit {
     @types.screen_height / 2 + 40,
     18,
     @raylib.Color::new(180, 180, 200, 255),
+  )
+}
+
+fn draw_class_select(game : @types.Game) -> Unit {
+  // Full-screen dark background
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(5, 5, 15, 255),
+  )
+  // Title
+  let title = "CHOOSE YOUR CLASS"
+  let tw = @raylib.measure_text(title, 48)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    80,
+    48,
+    @raylib.Color::new(200, 180, 100, 255),
+  )
+  // Class names and descriptions
+  let names : Array[String] = ["Warrior", "Rogue", "Mage"]
+  let descs : Array[String] = [
+    "High HP and defense. Starts with a sword.",
+    "Fast and deadly. Starts with a dagger.",
+    "Wields magic. Starts with a staff and spells.",
+  ]
+  for i = 0; i < 3; i = i + 1 {
+    let y = 200 + i * 120
+    let is_selected = game.class_select_cursor == i
+    // Highlight box for selected class
+    if is_selected {
+      @raylib.draw_rectangle(
+        @types.screen_width / 2 - 260,
+        y - 10,
+        520,
+        100,
+        @raylib.Color::new(60, 50, 30, 255),
+      )
+      @raylib.draw_rectangle_lines(
+        @types.screen_width / 2 - 260,
+        y - 10,
+        520,
+        100,
+        @raylib.Color::new(255, 200, 80, 255),
+      )
+    }
+    // Class name
+    let blink_val = @math.sinf(game.menu_blink * 2.0)
+    let name_color = if is_selected {
+      if blink_val > 0.0 {
+        @raylib.Color::new(255, 220, 80, 255)
+      } else {
+        @raylib.Color::new(220, 180, 60, 255)
+      }
+    } else {
+      @raylib.Color::new(160, 150, 140, 255)
+    }
+    let prefix = if is_selected { "> " } else { "  " }
+    let name_text = prefix + names[i]
+    let nw = @raylib.measure_text(name_text, 36)
+    @raylib.draw_text(
+      name_text,
+      (@types.screen_width - nw) / 2,
+      y,
+      36,
+      name_color,
+    )
+    // Description
+    let desc_color = if is_selected {
+      @raylib.Color::new(200, 200, 200, 255)
+    } else {
+      @raylib.Color::new(120, 120, 120, 255)
+    }
+    let dw = @raylib.measure_text(descs[i], 18)
+    @raylib.draw_text(
+      descs[i],
+      (@types.screen_width - dw) / 2,
+      y + 45,
+      18,
+      desc_color,
+    )
+  }
+  // Controls hint
+  let hint = "Up/Down: Select | Enter: Confirm"
+  let hint_w = @raylib.measure_text(hint, 16)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hint_w) / 2,
+    @types.screen_height - 60,
+    16,
+    @raylib.Color::new(100, 100, 110, 255),
+  )
+}
+
+fn draw_shop(game : @types.Game) -> Unit {
+  ignore(game)
+  // Semi-transparent overlay
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 180),
+  )
+  let title = "SHOP"
+  let tw = @raylib.measure_text(title, 56)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    @types.screen_height / 2 - 60,
+    56,
+    @raylib.Color::new(255, 215, 80, 255),
+  )
+  let hint = "Press Escape to leave"
+  let hw = @raylib.measure_text(hint, 22)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hw) / 2,
+    @types.screen_height / 2 + 20,
+    22,
+    @raylib.Color::new(200, 200, 220, 255),
+  )
+}
+
+fn draw_shrine(game : @types.Game) -> Unit {
+  ignore(game)
+  // Semi-transparent overlay
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_width,
+    @types.screen_height,
+    @raylib.Color::new(0, 0, 0, 180),
+  )
+  let title = "SHRINE"
+  let tw = @raylib.measure_text(title, 56)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    @types.screen_height / 2 - 60,
+    56,
+    @raylib.Color::new(120, 200, 255, 255),
+  )
+  let hint = "Press Escape to leave"
+  let hw = @raylib.measure_text(hint, 22)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hw) / 2,
+    @types.screen_height / 2 + 20,
+    22,
+    @raylib.Color::new(200, 200, 220, 255),
   )
 }

@@ -575,7 +575,7 @@ fn update_hazards(game : @types.Game, dt : Float) -> Unit {
     }
     // Saw movement
     if h.kind == @types.hazard_saw {
-      h.timer += dt
+      h.x = h.base_x + @math.sinf(h.timer * h.move_speed) * h.move_range
     }
     // Crusher
     if h.kind == @types.hazard_crusher {

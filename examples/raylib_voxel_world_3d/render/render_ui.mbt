@@ -67,14 +67,15 @@ fn draw_menu(game : @types.Game) -> Unit {
   // Title
   let title = "VOXEL WORLD 3D"
   let tw = @raylib.measure_text(title, 52)
-  @raylib.draw_text(
-    title, (@types.screen_width - tw) / 2, 100, 52,
-    @raylib.Color::new(100, 220, 100, 255),
-  )
-  // Shadow
+  // Shadow (drawn first, behind the title)
   @raylib.draw_text(
     title, (@types.screen_width - tw) / 2 + 2, 102, 52,
     @raylib.Color::new(20, 60, 20, 255),
+  )
+  // Main title text (drawn on top of shadow)
+  @raylib.draw_text(
+    title, (@types.screen_width - tw) / 2, 100, 52,
+    @raylib.Color::new(100, 220, 100, 255),
   )
   // Subtitle
   let sub = "A Minecraft-lite Sandbox Adventure"

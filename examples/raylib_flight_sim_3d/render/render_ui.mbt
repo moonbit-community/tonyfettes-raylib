@@ -296,6 +296,28 @@ fn draw_objective(game : @types.Game) -> Unit {
   } else if mission.kind == @types.mission_survive {
     let remaining = mission.target_count - mission.targets_done
     "Survive: \{remaining}s"
+  } else if mission.kind == @types.mission_escort {
+    "Escort: Protect the convoy"
+  } else if mission.kind == @types.mission_patrol {
+    "Patrol: Visit checkpoints"
+  } else if mission.kind == @types.mission_intercept {
+    "Intercept: \{mission.targets_done}/\{mission.target_count} shot down"
+  } else if mission.kind == @types.mission_bombing_run {
+    "Bomb targets: \{mission.targets_done}/\{mission.target_count}"
+  } else if mission.kind == @types.mission_dogfight {
+    "Dogfight: \{mission.targets_done}/\{mission.target_count} shot down"
+  } else if mission.kind == @types.mission_recon {
+    "Recon: \{mission.targets_done}/\{mission.target_count} photographed"
+  } else if mission.kind == @types.mission_defense {
+    "Defend base: \{mission.targets_done}/\{mission.target_count} eliminated"
+  } else if mission.kind == @types.mission_attack_base {
+    "Attack base: \{mission.targets_done}/\{mission.target_count} destroyed"
+  } else if mission.kind == @types.mission_canyon_run {
+    "Canyon run: \{mission.targets_done}/\{mission.target_count} rings"
+  } else if mission.kind == @types.mission_night_mission {
+    "Night op: \{mission.targets_done}/\{mission.target_count} complete"
+  } else if mission.kind == @types.mission_boss {
+    "Boss fight: \{mission.targets_done}/\{mission.target_count} targets"
   } else {
     ""
   }
@@ -323,7 +345,7 @@ fn draw_pause_overlay() -> Unit {
     text, (@types.screen_width - tw) / 2, @types.screen_height / 2 - 50, 60,
     @raylib.Color::new(255, 255, 255, 255),
   )
-  let hint = "P: Resume | Q: Quit to Menu"
+  let hint = "P: Resume | R: Restart | Q: Quit to Menu"
   let hw = @raylib.measure_text(hint, 20)
   @raylib.draw_text(
     hint, (@types.screen_width - hw) / 2, @types.screen_height / 2 + 20, 20,

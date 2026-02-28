@@ -282,6 +282,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.player.was_on_ground = false
   game.player.underwater = false
   game.player.air_timer = 0.0
+  game.player.starve_timer = 0.0
   // Reset day timer to morning
   game.day_timer = 20.0
   game.day_count = 1
@@ -356,11 +357,13 @@ fn update_hunger(game : @types.Game, dt : Float) -> Unit {
   }
   // Starve if hunger is zero
   if player.hunger <= @types.hunger_starve_threshold {
-    player.air_timer += dt
-    if player.air_timer >= @types.starve_damage_interval {
-      player.air_timer -= @types.starve_damage_interval
+    player.starve_timer += dt
+    if player.starve_timer >= @types.starve_damage_interval {
+      player.starve_timer -= @types.starve_damage_interval
       damage_player(game, 1)
     }
+  } else {
+    player.starve_timer = 0.0
   }
 }
 
@@ -420,9 +423,7 @@ fn update_player_stats(game : @types.Game, dt : Float) -> Unit {
     }
   } else {
     player.air = @types.player_max_air
-    if not(player.hunger <= @types.hunger_starve_threshold) {
-      player.air_timer = 0.0
-    }
+    player.air_timer = 0.0
   }
 }
 

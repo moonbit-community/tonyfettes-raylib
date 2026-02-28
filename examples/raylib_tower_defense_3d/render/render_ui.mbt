@@ -68,7 +68,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Menu items
   let items : Array[String] = [
-    "Start Game", "Difficulty: " + @types.difficulty_name(game.difficulty), "Quit",
+    "Start Game", "Difficulty: " + @types.difficulty_name(game.difficulty),
   ]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 240 + i * 55

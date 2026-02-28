@@ -38,12 +38,12 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyUp) {
     game.menu_cursor -= 1
     if game.menu_cursor < 0 {
-      game.menu_cursor = 2
+      game.menu_cursor = 1
     }
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) {
     game.menu_cursor += 1
-    if game.menu_cursor > 2 {
+    if game.menu_cursor > 1 {
       game.menu_cursor = 0
     }
   }
@@ -70,9 +70,6 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
     } else if game.menu_cursor == 1 {
       // Cycle difficulty
       game.difficulty = (game.difficulty + 1) % 3
-    } else {
-      // Quit (just reset menu)
-      game.menu_cursor = 0
     }
   }
 }
@@ -233,31 +230,6 @@ fn update_building(game : @types.Game, dt : Float) -> Unit {
     return
   }
   handle_tower_placement_keys(game)
-  // Tower type selection
-  if @raylib.is_key_pressed(@raylib.KeyOne) {
-    game.selected_tower_type = @types.tower_arrow
-  }
-  if @raylib.is_key_pressed(@raylib.KeyTwo) {
-    game.selected_tower_type = @types.tower_cannon
-  }
-  if @raylib.is_key_pressed(@raylib.KeyThree) {
-    game.selected_tower_type = @types.tower_frost
-  }
-  if @raylib.is_key_pressed(@raylib.KeyFour) {
-    game.selected_tower_type = @types.tower_lightning
-  }
-  if @raylib.is_key_pressed(@raylib.KeyFive) {
-    game.selected_tower_type = @types.tower_flame
-  }
-  if @raylib.is_key_pressed(@raylib.KeySix) {
-    game.selected_tower_type = @types.tower_sniper
-  }
-  if @raylib.is_key_pressed(@raylib.KeySeven) {
-    game.selected_tower_type = @types.tower_splash
-  }
-  if @raylib.is_key_pressed(@raylib.KeyEight) {
-    game.selected_tower_type = @types.tower_buff
-  }
   // Hover position (arrow keys for grid cursor)
   if @raylib.is_key_pressed(@raylib.KeyLeft) {
     game.hover_gx -= 1

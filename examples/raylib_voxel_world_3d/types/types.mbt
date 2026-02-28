@@ -169,6 +169,8 @@ pub(all) struct Player {
   // Underwater
   mut underwater : Bool
   mut air_timer : Float
+  // Starvation
+  mut starve_timer : Float
 }
 
 pub fn Player::new() -> Player {
@@ -205,6 +207,7 @@ pub fn Player::new() -> Player {
     inventory: Inventory::new(),
     underwater: false,
     air_timer: 0.0,
+    starve_timer: 0.0,
   }
 }
 

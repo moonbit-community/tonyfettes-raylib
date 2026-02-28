@@ -13,6 +13,8 @@ pub fn draw_ui(game : @types.Game) -> Unit {
     draw_level_complete(game)
   } else if game.state == @types.state_game_over {
     draw_game_over(game)
+  } else if game.state == @types.state_world_select {
+    draw_world_select(game)
   } else if game.state == @types.state_floor_select {
     draw_floor_select(game)
   } else if game.state == @types.state_campaign_complete {
@@ -60,7 +62,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     @raylib.Color::new(150, 160, 180, 255),
   )
   // Menu items
-  let items : Array[String] = ["New Game", "Floor Select"]
+  let items : Array[String] = ["New Game", "World Select", "Floor Select"]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 320 + i * 50
     let is_selected = game.menu_cursor == i
@@ -369,6 +371,117 @@ fn draw_floor_select(game : @types.Game) -> Unit {
       )) /
     2,
     @types.screen_height - 35,
+    16,
+    @raylib.Color::new(120, 120, 140, 255),
+  )
+}
+
+fn draw_world_select(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
+      15, 20, 35, 255,
+    ),
+  )
+  let title = "SELECT WORLD"
+  let tw = @raylib.measure_text(title, 36)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    60,
+    36,
+    @raylib.Color::new(200, 220, 255, 255),
+  )
+  // Draw world cards
+  let card_w = 160
+  let card_h = 200
+  let gap = 20
+  let total_w = @types.num_worlds * card_w + (@types.num_worlds - 1) * gap
+  let start_x = (@types.screen_width - total_w) / 2
+  let start_y = 160
+  for i = 0; i < @types.num_worlds; i = i + 1 {
+    let x = start_x + i * (card_w + gap)
+    let y = start_y
+    let is_selected = game.world_select_cursor == i
+    let unlocked = @types.is_world_unlocked(game, i)
+    // Card background
+    let (ar, ag, ab) = @types.get_world_accent_color(i)
+    let bg = if is_selected {
+      @raylib.Color::new(ar, ag, ab, 180)
+    } else if unlocked {
+      @raylib.Color::new(ar / 3, ag / 3, ab / 3, 200)
+    } else {
+      @raylib.Color::new(20, 22, 30, 200)
+    }
+    @raylib.draw_rectangle(x, y, card_w, card_h, bg)
+    if is_selected {
+      @raylib.draw_rectangle_lines(
+        x, y, card_w, card_h, @raylib.Color::new(255, 255, 255, 255),
+      )
+    }
+    // World name
+    let name = @types.get_world_name(i)
+    let nw = @raylib.measure_text(name, 18)
+    let name_color = if unlocked {
+      @raylib.Color::new(240, 240, 255, 255)
+    } else {
+      @raylib.Color::new(80, 80, 90, 255)
+    }
+    @raylib.draw_text(name, x + (card_w - nw) / 2, y + 20, 18, name_color)
+    // Floor range
+    let first = i * @types.floors_per_world + 1
+    let last = (i + 1) * @types.floors_per_world
+    let range_text = "Floors \{first}-\{last}"
+    let rw = @raylib.measure_text(range_text, 14)
+    @raylib.draw_text(
+      range_text,
+      x + (card_w - rw) / 2,
+      y + 50,
+      14,
+      if unlocked {
+        @raylib.Color::new(180, 180, 200, 255)
+      } else {
+        @raylib.Color::new(60, 60, 70, 255)
+      },
+    )
+    // Completion progress
+    if unlocked {
+      let mut completed = 0
+      let floor_start = i * @types.floors_per_world
+      for f = floor_start; f < floor_start + @types.floors_per_world; f = f + 1 {
+        if game.floor_info[f].completed {
+          completed += 1
+        }
+      }
+      let prog_text = "\{completed}/\{@types.floors_per_world}"
+      let pw = @raylib.measure_text(prog_text, 16)
+      @raylib.draw_text(
+        prog_text,
+        x + (card_w - pw) / 2,
+        y + 120,
+        16,
+        @raylib.Color::new(200, 200, 220, 255),
+      )
+    } else {
+      let lock_text = "LOCKED"
+      let lw = @raylib.measure_text(lock_text, 18)
+      @raylib.draw_text(
+        lock_text,
+        x + (card_w - lw) / 2,
+        y + 100,
+        18,
+        @raylib.Color::new(100, 60, 60, 255),
+      )
+    }
+  }
+  // Hint
+  @raylib.draw_text(
+    "Left/Right: Navigate | Enter: Select | Esc: Back",
+    (@types.screen_width - @raylib.measure_text(
+        "Left/Right: Navigate | Enter: Select | Esc: Back",
+        16,
+      )) /
+    2,
+    @types.screen_height - 50,
     16,
     @raylib.Color::new(120, 120, 140, 255),
   )

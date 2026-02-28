@@ -358,15 +358,39 @@ fn draw_hud(game : @types.Game) -> Unit {
       "BOOST"
     } else if kart.held_powerup == @types.powerup_shield {
       "SHIELD"
-    } else {
+    } else if kart.held_powerup == @types.powerup_missile {
       "MISSILE"
+    } else if kart.held_powerup == @types.powerup_oil_slick {
+      "OIL"
+    } else if kart.held_powerup == @types.powerup_lightning {
+      "BOLT"
+    } else if kart.held_powerup == @types.powerup_star {
+      "STAR"
+    } else if kart.held_powerup == @types.powerup_banana {
+      "BANANA"
+    } else if kart.held_powerup == @types.powerup_triple_mushroom {
+      "x3 BOOST"
+    } else {
+      "ITEM"
     }
     let pu_color = if kart.held_powerup == @types.powerup_boost {
       @raylib.Color::new(255, 200, 0, 255)
     } else if kart.held_powerup == @types.powerup_shield {
       @raylib.Color::new(80, 180, 255, 255)
-    } else {
+    } else if kart.held_powerup == @types.powerup_missile {
       @raylib.Color::new(255, 80, 60, 255)
+    } else if kart.held_powerup == @types.powerup_oil_slick {
+      @raylib.Color::new(100, 100, 110, 255)
+    } else if kart.held_powerup == @types.powerup_lightning {
+      @raylib.Color::new(255, 255, 100, 255)
+    } else if kart.held_powerup == @types.powerup_star {
+      @raylib.Color::new(255, 255, 50, 255)
+    } else if kart.held_powerup == @types.powerup_banana {
+      @raylib.Color::new(255, 230, 50, 255)
+    } else if kart.held_powerup == @types.powerup_triple_mushroom {
+      @raylib.Color::new(255, 150, 200, 255)
+    } else {
+      @raylib.Color::new(200, 200, 200, 255)
     }
     @raylib.draw_rectangle(
       @types.screen_width - 120, @types.screen_height - 70, 110, 35,
@@ -513,7 +537,7 @@ fn draw_race_results(game : @types.Game) -> Unit {
   for i = 0; i < @types.max_karts; i = i + 1 {
     let kart = game.karts[i]
     if not(kart.active) { continue i + 1 }
-    let y = 200 + kart.place * 32
+    let y = 200 + (kart.place - 1) * 32
     let is_player = i == @types.player_kart
     let color = if is_player {
       @raylib.Color::new(255, 255, 100, 255)
@@ -570,23 +594,35 @@ fn draw_cup_results(game : @types.Game) -> Unit {
     header, (@types.screen_width - hw) / 2, 140, 24,
     @raylib.Color::new(200, 200, 220, 255),
   )
-  // Sort by cup points (simple display by kart index)
+  // Sort by cup points descending
+  let order : Array[Int] = Array::make(@types.max_karts, 0)
+  for i = 0; i < @types.max_karts; i = i + 1 { order[i] = i }
+  for i = 0; i < @types.max_karts - 1; i = i + 1 {
+    for j = 0; j < @types.max_karts - 1 - i; j = j + 1 {
+      if game.cup_points[order[j]] < game.cup_points[order[j + 1]] {
+        let tmp = order[j]
+        order[j] = order[j + 1]
+        order[j + 1] = tmp
+      }
+    }
+  }
   for i = 0; i < @types.max_karts; i = i + 1 {
+    let ki = order[i]
     let y = 190 + i * 35
-    let is_player = i == @types.player_kart
+    let is_player = ki == @types.player_kart
     let color = if is_player {
       @raylib.Color::new(255, 255, 100, 255)
     } else {
       @raylib.Color::new(200, 200, 200, 255)
     }
-    let ci = @types.clampi(i, 0, @types.kart_colors.length() - 1)
+    let ci = @types.clampi(ki, 0, @types.kart_colors.length() - 1)
     let kc = @types.kart_colors[ci]
     @raylib.draw_rectangle(
       240, y + 4, 14, 14, @raylib.Color::new(kc.0, kc.1, kc.2, 255),
     )
-    let name = if is_player { "YOU" } else { "AI \{i}" }
+    let name = if is_player { "YOU" } else { "AI \{ki}" }
     @raylib.draw_text(name, 270, y, 22, color)
-    let pts = game.cup_points[i]
+    let pts = game.cup_points[ki]
     let pts_text = "\{pts} pts"
     @raylib.draw_text(
       pts_text, 500, y, 22, @raylib.Color::new(150, 200, 255, 255),

@@ -200,7 +200,6 @@ fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
     @raylib.KeySpace,
   ) {
     game.state = @types.state_menu
-    ignore(game)
   }
 }
 

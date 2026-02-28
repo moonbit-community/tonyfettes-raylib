@@ -17,6 +17,12 @@ pub fn draw_ui(game : @types.Game) -> Unit {
     draw_mission_complete(game)
   } else if game.state == @types.state_game_over {
     draw_game_over(game)
+  } else if game.state == @types.state_mission_briefing {
+    draw_mission_briefing(game)
+  } else if game.state == @types.state_mission_select {
+    draw_mission_select(game)
+  } else if game.state == @types.state_loadout {
+    draw_loadout(game)
   }
 }
 
@@ -60,7 +66,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     ),
   )
 
-  let items : Array[String] = ["New Game", "Continue", "Start"]
+  let items : Array[String] = ["New Game", "Mission Select", "Continue", "Quick Start"]
   for i = 0; i < items.length(); i = i + 1 {
     let y = 300 + i * 50
     let is_sel = game.menu_cursor == i
@@ -140,7 +146,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(bar_x, bar_y, bar_w, bar_h, @raylib.Color::new(
     40, 0, 0, 200,
   ))
-  let hull_w = (p.hull / @types.player_max_hull * Float::from_int(bar_w)).to_int()
+  let hull_w = (p.hull / game.player.max_hull * Float::from_int(bar_w)).to_int()
   let hull_color = if p.hull > 50.0 {
     @raylib.Color::new(0, 200, 0, 255)
   } else if p.hull > 25.0 {
@@ -165,7 +171,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(bar_x, shield_y, bar_w, bar_h, @raylib.Color::new(
     0, 0, 40, 200,
   ))
-  let shield_w = (p.shield / @types.player_max_shield * Float::from_int(
+  let shield_w = (p.shield / game.player.max_shield * Float::from_int(
       bar_w,
     )).to_int()
   @raylib.draw_rectangle(
@@ -327,7 +333,6 @@ fn draw_message(game : @types.Game) -> Unit {
 }
 
 fn draw_pause_overlay(game : @types.Game) -> Unit {
-  ignore(game)
   @raylib.draw_rectangle(
     0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
       0, 0, 0, 150,
@@ -338,19 +343,31 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   @raylib.draw_text(
     text,
     (@types.screen_width - tw) / 2,
-    @types.screen_height / 2 - 30,
+    @types.screen_height / 2 - 80,
     60,
     @raylib.white,
   )
-  let sub = "Press P or ESC to resume"
-  let sw = @raylib.measure_text(sub, 20)
-  @raylib.draw_text(
-    sub,
-    (@types.screen_width - sw) / 2,
-    @types.screen_height / 2 + 40,
-    20,
-    @raylib.Color::new(180, 180, 200, 255),
-  )
+
+  let items : Array[String] = ["Resume", "Restart Mission", "Quit to Menu"]
+  for i = 0; i < items.length(); i = i + 1 {
+    let y = @types.screen_height / 2 + i * 40
+    let is_sel = game.pause_cursor == i
+    let color = if is_sel {
+      @raylib.Color::new(255, 255, 100, 255)
+    } else {
+      @raylib.Color::new(150, 150, 170, 255)
+    }
+    let prefix = if is_sel { "> " } else { "  " }
+    let item_text = prefix + items[i]
+    let item_w = @raylib.measure_text(item_text, 24)
+    @raylib.draw_text(
+      item_text,
+      (@types.screen_width - item_w) / 2,
+      y,
+      24,
+      color,
+    )
+  }
 }
 
 fn draw_mission_complete(game : @types.Game) -> Unit {
@@ -422,5 +439,248 @@ fn draw_game_over(game : @types.Game) -> Unit {
     @types.screen_height / 2 + 60,
     18,
     @raylib.Color::new(180, 180, 200, 255),
+  )
+}
+
+fn draw_mission_briefing(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
+      2, 2, 12, 255,
+    ),
+  )
+
+  let title = "MISSION BRIEFING"
+  let tw = @raylib.measure_text(title, 40)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    60,
+    40,
+    @raylib.Color::new(100, 180, 255, 255),
+  )
+
+  let mission_num = game.current_mission + 1
+  let header = "Mission \{mission_num}: \{@levels.mission_name(game.current_mission)}"
+  let hw = @raylib.measure_text(header, 28)
+  @raylib.draw_text(
+    header,
+    (@types.screen_width - hw) / 2,
+    130,
+    28,
+    @raylib.Color::new(255, 255, 200, 255),
+  )
+
+  // Briefing text
+  let briefing = @levels.mission_briefing(game.current_mission)
+  let bw = @raylib.measure_text(briefing, 18)
+  let bx = if bw < @types.screen_width - 100 {
+    (@types.screen_width - bw) / 2
+  } else {
+    50
+  }
+  @raylib.draw_text(
+    briefing,
+    bx,
+    200,
+    18,
+    @raylib.Color::new(180, 190, 210, 255),
+  )
+
+  // Objective
+  let obj_type = @levels.mission_objective_type(game.current_mission)
+  let obj_text = "Objective: \{@types.objective_type_name(obj_type)}"
+  let ow = @raylib.measure_text(obj_text, 20)
+  @raylib.draw_text(
+    obj_text,
+    (@types.screen_width - ow) / 2,
+    300,
+    20,
+    @raylib.Color::new(255, 200, 100, 255),
+  )
+
+  // Difficulty
+  let diff_text = "Difficulty: \{@levels.mission_difficulty_text(game.current_mission)}"
+  let dw = @raylib.measure_text(diff_text, 18)
+  @raylib.draw_text(
+    diff_text,
+    (@types.screen_width - dw) / 2,
+    340,
+    18,
+    @raylib.Color::new(200, 160, 120, 255),
+  )
+
+  // Ship class
+  let ship_text = "Ship: \{@types.ship_class_name(game.selected_ship_class)}"
+  let stw = @raylib.measure_text(ship_text, 18)
+  @raylib.draw_text(
+    ship_text,
+    (@types.screen_width - stw) / 2,
+    380,
+    18,
+    @raylib.Color::new(150, 200, 150, 255),
+  )
+
+  // Controls hint
+  let hint = "Enter: Launch Mission | Esc: Back to Menu"
+  let hint_w = @raylib.measure_text(hint, 18)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hint_w) / 2,
+    @types.screen_height - 60,
+    18,
+    @raylib.Color::new(100, 120, 140, 255),
+  )
+}
+
+fn draw_mission_select(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
+      2, 2, 12, 255,
+    ),
+  )
+
+  let title = "MISSION SELECT"
+  let tw = @raylib.measure_text(title, 40)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    40,
+    40,
+    @raylib.Color::new(100, 180, 255, 255),
+  )
+
+  for i = 0; i < @types.total_missions; i = i + 1 {
+    let y = 110 + i * 42
+    let is_sel = game.select_cursor == i
+    let color = if is_sel {
+      @raylib.Color::new(255, 255, 100, 255)
+    } else {
+      @raylib.Color::new(150, 150, 170, 255)
+    }
+    let prefix = if is_sel { "> " } else { "  " }
+    let mission_num = i + 1
+    let item_text = prefix + "\{mission_num}. \{@levels.mission_name(i)}"
+    let item_w = @raylib.measure_text(item_text, 20)
+    @raylib.draw_text(
+      item_text,
+      (@types.screen_width - item_w) / 2 - 100,
+      y,
+      20,
+      color,
+    )
+
+    // Difficulty on the right
+    let diff = @levels.mission_difficulty_text(i)
+    @raylib.draw_text(
+      diff,
+      @types.screen_width / 2 + 150,
+      y,
+      16,
+      @raylib.Color::new(180, 150, 100, 255),
+    )
+  }
+
+  // Controls hint
+  let hint = "Up/Down: Select | Enter: Choose | Esc: Back"
+  let hint_w = @raylib.measure_text(hint, 16)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hint_w) / 2,
+    @types.screen_height - 40,
+    16,
+    @raylib.Color::new(80, 100, 120, 255),
+  )
+}
+
+fn draw_loadout(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
+      2, 2, 12, 255,
+    ),
+  )
+
+  let title = "SHIP LOADOUT"
+  let tw = @raylib.measure_text(title, 40)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    50,
+    40,
+    @raylib.Color::new(100, 180, 255, 255),
+  )
+
+  let sub = "Choose your ship class"
+  let sub_w = @raylib.measure_text(sub, 20)
+  @raylib.draw_text(
+    sub,
+    (@types.screen_width - sub_w) / 2,
+    100,
+    20,
+    @raylib.Color::new(180, 180, 200, 255),
+  )
+
+  // Ship class options (5 classes: 0-4)
+  for i = 0; i < 5; i = i + 1 {
+    let y = 170 + i * 90
+    let is_sel = game.loadout_cursor == i
+    let color = if is_sel {
+      @raylib.Color::new(255, 255, 100, 255)
+    } else {
+      @raylib.Color::new(150, 150, 170, 255)
+    }
+    let prefix = if is_sel { "> " } else { "  " }
+    let name_text = prefix + @types.ship_class_name(i)
+    @raylib.draw_text(name_text, 200, y, 26, color)
+
+    // Stats
+    let hull_val = @types.ship_class_hull(i).to_int()
+    let shield_val = @types.ship_class_shield(i).to_int()
+    let speed_val = @types.ship_class_speed(i).to_int()
+    let turn_val = @types.ship_class_turn(i)
+    let turn_text = turn_val.to_string()
+    let stats_color = if is_sel {
+      @raylib.Color::new(200, 200, 150, 255)
+    } else {
+      @raylib.Color::new(120, 120, 140, 255)
+    }
+    @raylib.draw_text(
+      "Hull: \{hull_val}",
+      500,
+      y,
+      16,
+      stats_color,
+    )
+    @raylib.draw_text(
+      "Shield: \{shield_val}",
+      620,
+      y,
+      16,
+      stats_color,
+    )
+    @raylib.draw_text(
+      "Speed: \{speed_val}",
+      500,
+      y + 20,
+      16,
+      stats_color,
+    )
+    @raylib.draw_text(
+      "Turn: \{turn_text}",
+      620,
+      y + 20,
+      16,
+      stats_color,
+    )
+  }
+
+  // Controls hint
+  let hint = "Up/Down: Select | Enter: Confirm | Esc: Back"
+  let hint_w = @raylib.measure_text(hint, 16)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hint_w) / 2,
+    @types.screen_height - 40,
+    16,
+    @raylib.Color::new(80, 100, 120, 255),
   )
 }

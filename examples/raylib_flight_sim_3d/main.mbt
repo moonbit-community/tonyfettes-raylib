@@ -32,7 +32,7 @@ fn main {
     }
     @raylib.clear_background(@raylib.Color::new(sky_r, sky_g, sky_b, 255))
     if game.state == @types.state_playing || game.state == @types.state_paused ||
-    game.state == @types.state_mission_complete {
+    game.state == @types.state_mission_complete || game.state == @types.state_game_over {
       @render.draw_world(game)
     }
     @render.draw_ui(game)

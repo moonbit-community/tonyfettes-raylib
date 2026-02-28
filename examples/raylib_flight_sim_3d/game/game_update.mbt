@@ -104,10 +104,6 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   update_mission_logic(game, dt)
   update_warnings(game, dt)
   update_weather_effects(game, dt)
-  // Decrease message timer
-  if game.message_timer > 0.0 {
-    game.message_timer -= dt
-  }
 }
 
 fn update_paused(game : @types.Game) -> Unit {

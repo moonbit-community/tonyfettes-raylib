@@ -225,8 +225,12 @@ fn draw_hud(game : @types.Game) -> Unit {
       "SG"
     } else if i == 2 {
       "R"
-    } else {
+    } else if i == 3 {
+      "S"
+    } else if i == 4 {
       "RL"
+    } else {
+      "MG"
     }
     @raylib.draw_text(
       short_name,
@@ -347,6 +351,40 @@ fn draw_weapon_display(game : @types.Game) -> Unit {
     @raylib.draw_rectangle(
       gun_x - 3, gun_y - 40, 6, 8, @raylib.Color::new(60, 70, 60, 255),
     )
+  } else if weapon == @types.weapon_sniper {
+    // Sniper shape - very long barrel with scope
+    @raylib.draw_rectangle(
+      gun_x - 5, gun_y, 10, 32, @raylib.Color::new(60, 60, 70, 255),
+    )
+    @raylib.draw_rectangle(
+      gun_x - 3, gun_y - 45, 6, 48, @raylib.Color::new(90, 90, 100, 255),
+    )
+    // Scope
+    @raylib.draw_rectangle(
+      gun_x - 6, gun_y - 30, 12, 6, @raylib.Color::new(40, 40, 50, 255),
+    )
+    @raylib.draw_rectangle(
+      gun_x - 2, gun_y - 50, 4, 8, @raylib.Color::new(70, 70, 80, 255),
+    )
+  } else if weapon == @types.weapon_minigun {
+    // Minigun shape - wide with multiple barrels
+    @raylib.draw_rectangle(
+      gun_x - 10, gun_y, 20, 28, @raylib.Color::new(70, 70, 80, 255),
+    )
+    @raylib.draw_rectangle(
+      gun_x - 8, gun_y - 30, 16, 34, @raylib.Color::new(90, 90, 100, 255),
+    )
+    // Multiple barrels
+    @raylib.draw_rectangle(
+      gun_x - 6, gun_y - 38, 4, 12, @raylib.Color::new(100, 100, 110, 255),
+    )
+    @raylib.draw_rectangle(
+      gun_x + 2, gun_y - 38, 4, 12, @raylib.Color::new(100, 100, 110, 255),
+    )
+    // Ammo box
+    @raylib.draw_rectangle(
+      gun_x + 10, gun_y - 5, 12, 16, @raylib.Color::new(60, 80, 50, 255),
+    )
   } else {
     // Rocket launcher - chunky
     @raylib.draw_rectangle(
@@ -393,9 +431,9 @@ fn draw_shop_ui(game : @types.Game) -> Unit {
   let sw = @types.screen_width
   // Shop panel
   let panel_w = 320
-  let panel_h = 340
+  let panel_h = 620
   let panel_x = (sw - panel_w) / 2
-  let panel_y = 120
+  let panel_y = 40
   @raylib.draw_rectangle(
     panel_x, panel_y, panel_w, panel_h, @raylib.Color::new(15, 18, 28, 230),
   )
@@ -428,9 +466,16 @@ fn draw_shop_ui(game : @types.Game) -> Unit {
     ("Armor +30", @types.cost_armor),
     ("Shotgun Ammo +12", @types.cost_shotgun_ammo),
     ("Rifle Ammo +30", @types.cost_rifle_ammo),
+    ("Sniper Ammo +5", @types.cost_sniper_ammo),
     ("Rocket Ammo +3", @types.cost_rocket_ammo),
+    ("Minigun Ammo +100", @types.cost_minigun_ammo),
     ("Damage +15%", @types.cost_damage_up),
     ("Speed +10%", @types.cost_speed_up),
+    ("Buy Sniper Rifle", @types.cost_buy_sniper),
+    ("Buy Rocket Launcher", @types.cost_buy_rocket),
+    ("Buy Minigun", @types.cost_buy_minigun),
+    ("Place Barricade", @types.cost_barricade),
+    ("Place Spike Trap", @types.cost_trap_spike),
   ]
   for i = 0; i < items.length(); i = i + 1 {
     let item = items[i]

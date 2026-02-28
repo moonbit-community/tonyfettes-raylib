@@ -14,6 +14,12 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     update_level_up(game, dt)
   } else if game.state == @types.state_floor_complete {
     update_floor_complete(game, dt)
+  } else if game.state == @types.state_class_select {
+    update_class_select(game, dt)
+  } else if game.state == @types.state_shop {
+    update_shop(game, dt)
+  } else if game.state == @types.state_shrine {
+    update_shrine(game, dt)
   }
   // Update message
   if game.message_timer > 0.0 {
@@ -145,5 +151,40 @@ fn update_floor_complete(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyM) {
     game.state = @types.state_menu
     @raylib.enable_cursor()
+  }
+}
+
+fn update_class_select(game : @types.Game, dt : Float) -> Unit {
+  game.menu_blink += dt * @types.menu_blink_speed
+  if @raylib.is_key_pressed(@raylib.KeyUp) {
+    game.class_select_cursor -= 1
+    if game.class_select_cursor < 0 {
+      game.class_select_cursor = 2
+    }
+  }
+  if @raylib.is_key_pressed(@raylib.KeyDown) {
+    game.class_select_cursor += 1
+    if game.class_select_cursor > 2 {
+      game.class_select_cursor = 0
+    }
+  }
+  if @raylib.is_key_pressed(@raylib.KeyEnter) ||
+    @raylib.is_key_pressed(@raylib.KeySpace) {
+    game.player_class = game.class_select_cursor
+    start_new_game(game)
+  }
+}
+
+fn update_shop(game : @types.Game, _dt : Float) -> Unit {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) {
+    game.state = @types.state_playing
+    @raylib.disable_cursor()
+  }
+}
+
+fn update_shrine(game : @types.Game, _dt : Float) -> Unit {
+  if @raylib.is_key_pressed(@raylib.KeyEscape) {
+    game.state = @types.state_playing
+    @raylib.disable_cursor()
   }
 }

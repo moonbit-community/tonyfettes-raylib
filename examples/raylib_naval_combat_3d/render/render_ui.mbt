@@ -14,6 +14,8 @@ pub fn draw_ui(game : @types.Game) -> Unit {
   } else if game.state == @types.state_battle_complete {
     draw_hud(game)
     draw_battle_complete(game)
+  } else if game.state == @types.state_battle_select {
+    draw_battle_select(game)
   } else if game.state == @types.state_game_over {
     draw_game_over(game)
   }
@@ -55,18 +57,34 @@ fn draw_menu(game : @types.Game) -> Unit {
     24,
     @raylib.Color::new(100, 140, 200, 200),
   )
-  // Start prompt
-  let blink_val = @math.sinf(game.menu_blink * 2.0)
-  let prompt_alpha : Int = if blink_val > 0.0 { 255 } else { 150 }
-  let prompt = "Press ENTER or SPACE to begin"
-  let pw = @raylib.measure_text(prompt, 24)
-  @raylib.draw_text(
-    prompt,
-    (@types.screen_width - pw) / 2,
-    350,
-    24,
-    @raylib.Color::new(255, 220, 100, prompt_alpha),
-  )
+  // Menu items
+  let items : Array[String] = ["Quick Battle", "Battle Select"]
+  for i = 0; i < items.length(); i = i + 1 {
+    let y = 310 + i * 40
+    let iw = @raylib.measure_text(items[i], 28)
+    let ix = (@types.screen_width - iw) / 2
+    if game.menu_cursor == i {
+      // Highlighted item
+      @raylib.draw_rectangle(
+        ix - 20, y - 5, iw + 40, 36, @raylib.Color::new(60, 80, 120, 200),
+      )
+      @raylib.draw_text(
+        "> \{items[i]} <",
+        ix - 20,
+        y,
+        28,
+        @raylib.Color::new(255, 220, 100, 255),
+      )
+    } else {
+      @raylib.draw_text(
+        items[i],
+        ix,
+        y,
+        28,
+        @raylib.Color::new(160, 170, 200, 255),
+      )
+    }
+  }
   // Controls info
   let controls : Array[String] = [
     "WASD - Sail and Steer",
@@ -364,7 +382,7 @@ fn draw_battle_complete(game : @types.Game) -> Unit {
       0, 20, 40, 200,
     ),
   )
-  if game.current_battle >= game.total_battles {
+  if game.current_battle >= game.total_battles - 1 {
     // Victory screen
     let title = "VICTORY!"
     let tw = @raylib.measure_text(title, 60)
@@ -412,7 +430,7 @@ fn draw_battle_complete(game : @types.Game) -> Unit {
       24,
       @raylib.Color::new(200, 200, 200, 255),
     )
-    let next_text = "Next: Battle \{game.current_battle + 1}"
+    let next_text = "Next: Battle \{game.current_battle + 2}"
     let nw = @raylib.measure_text(next_text, 20)
     @raylib.draw_text(
       next_text,
@@ -430,6 +448,70 @@ fn draw_battle_complete(game : @types.Game) -> Unit {
     @types.screen_height / 2 + 80,
     18,
     @raylib.Color::new(180, 180, 200, 255),
+  )
+}
+
+fn draw_battle_select(game : @types.Game) -> Unit {
+  // Dark background
+  @raylib.draw_rectangle(
+    0, 0, @types.screen_width, @types.screen_height, @raylib.Color::new(
+      10, 20, 45, 255,
+    ),
+  )
+  // Title
+  let title = "SELECT BATTLE"
+  let tw = @raylib.measure_text(title, 44)
+  @raylib.draw_text(
+    title,
+    (@types.screen_width - tw) / 2,
+    40,
+    44,
+    @raylib.Color::new(220, 200, 140, 255),
+  )
+  // List battles
+  for i = 0; i < game.total_battles; i = i + 1 {
+    let y = 110 + i * 48
+    let name = @levels.get_battle_name(i)
+    let diff = @levels.get_battle_difficulty(i)
+    // Build stars string
+    let mut stars = ""
+    for s = 0; s < diff; s = s + 1 {
+      stars = stars + "*"
+    }
+    let label = "\{i + 1}. \{name}  [\{stars}]"
+    if game.battle_select_cursor == i {
+      // Highlighted row
+      @raylib.draw_rectangle(
+        60, y - 4, @types.screen_width - 120, 40, @raylib.Color::new(
+          50, 70, 110, 220,
+        ),
+      )
+      @raylib.draw_text(
+        "> \{label}",
+        80,
+        y,
+        24,
+        @raylib.Color::new(255, 220, 100, 255),
+      )
+    } else {
+      @raylib.draw_text(
+        "  \{label}",
+        80,
+        y,
+        24,
+        @raylib.Color::new(150, 160, 190, 255),
+      )
+    }
+  }
+  // Footer hint
+  let hint = "ENTER: Start | ESC: Back"
+  let hw = @raylib.measure_text(hint, 18)
+  @raylib.draw_text(
+    hint,
+    (@types.screen_width - hw) / 2,
+    @types.screen_height - 40,
+    18,
+    @raylib.Color::new(140, 150, 180, 255),
   )
 }
 
