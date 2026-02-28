@@ -1,0 +1,10 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_kart_racing_3d/game",
+  "tonyfettes/raylib-examples/raylib_kart_racing_3d/render",
+  "tonyfettes/raylib-examples/raylib_kart_racing_3d/types",
+}
+
+options(
+  "is-main": true,
+)

@@ -1,0 +1,10 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_space_combat_3d/game",
+  "tonyfettes/raylib-examples/raylib_space_combat_3d/render",
+  "tonyfettes/raylib-examples/raylib_space_combat_3d/types",
+}
+
+options(
+  "is-main": true,
+)

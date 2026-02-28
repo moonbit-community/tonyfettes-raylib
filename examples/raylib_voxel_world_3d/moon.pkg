@@ -1,0 +1,10 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_voxel_world_3d/game",
+  "tonyfettes/raylib-examples/raylib_voxel_world_3d/render",
+  "tonyfettes/raylib-examples/raylib_voxel_world_3d/types",
+}
+
+options(
+  "is-main": true,
+)
