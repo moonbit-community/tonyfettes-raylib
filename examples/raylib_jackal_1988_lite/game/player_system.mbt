@@ -1,5 +1,5 @@
 ///|
-fn is_player_enabled(game : Game, index : Int) -> Bool {
+fn is_player_enabled(game : @types.Game, index : Int) -> Bool {
   if index == 0 {
     true
   } else {
@@ -11,24 +11,24 @@ fn is_player_enabled(game : Game, index : Int) -> Bool {
 fn read_player_move_dir(index : Int) -> Int {
   if index == 0 {
     if @raylib.is_key_down(@raylib.KeyUp) {
-      dir_up
+      @types.dir_up
     } else if @raylib.is_key_down(@raylib.KeyDown) {
-      dir_down
+      @types.dir_down
     } else if @raylib.is_key_down(@raylib.KeyLeft) {
-      dir_left
+      @types.dir_left
     } else if @raylib.is_key_down(@raylib.KeyRight) {
-      dir_right
+      @types.dir_right
     } else {
       -1
     }
   } else if @raylib.is_key_down(@raylib.KeyW) {
-    dir_up
+    @types.dir_up
   } else if @raylib.is_key_down(@raylib.KeyS) {
-    dir_down
+    @types.dir_down
   } else if @raylib.is_key_down(@raylib.KeyA) {
-    dir_left
+    @types.dir_left
   } else if @raylib.is_key_down(@raylib.KeyD) {
-    dir_right
+    @types.dir_right
   } else {
     -1
   }
@@ -45,14 +45,14 @@ fn is_player_shoot_pressed(index : Int) -> Bool {
 }
 
 ///|
-fn player_is_on_ice(game : Game, player : Tank) -> Bool {
-  let tx = world_x_to_tile(player.x)
-  let ty = world_y_to_tile(player.y)
-  get_tile(game, tx, ty) == tile_ice
+fn player_is_on_ice(game : @types.Game, player : @types.Tank) -> Bool {
+  let tx = @types.world_x_to_tile(player.x)
+  let ty = @types.world_y_to_tile(player.y)
+  @types.get_tile(game, tx, ty) == @types.tile_ice
 }
 
 ///|
-fn can_player_fire(game : Game, index : Int) -> Bool {
+fn can_player_fire(game : @types.Game, index : Int) -> Bool {
   let player = game.players[index]
   if not(player.active) {
     return false
@@ -61,7 +61,7 @@ fn can_player_fire(game : Game, index : Int) -> Bool {
     return false
   }
 
-  let team = team_of_player(index)
+  let team = @types.team_of_player(index)
   let mut active_count = 0
   for bullet in game.bullets {
     if bullet.active && bullet.owner_team == team {
@@ -74,8 +74,8 @@ fn can_player_fire(game : Game, index : Int) -> Bool {
 }
 
 ///|
-fn update_player_reload_timers(game : Game, dt : Float) -> Unit {
-  for i in 0..<max_players {
+fn update_player_reload_timers(game : @types.Game, dt : Float) -> Unit {
+  for i in 0..<@types.max_players {
     let player = game.players[i]
     if player.reload_timer > 0.0 {
       player.reload_timer -= dt
@@ -106,25 +106,25 @@ fn update_player_reload_timers(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn try_move_player(game : Game, index : Int, dir : Int, dt : Float) -> Unit {
+fn try_move_player(game : @types.Game, index : Int, dir : Int, dt : Float) -> Unit {
   let player = game.players[index]
   if not(player.active) {
     return
   }
 
-  let vx = dir_vector_x(dir)
-  let vy = dir_vector_y(dir)
+  let vx = @types.dir_vector_x(dir)
+  let vy = @types.dir_vector_y(dir)
   let step = player.move_speed * dt
   let nx = player.x + vx * step
   let ny = player.y + vy * step
 
-  if tank_hits_world(game, nx, ny) {
+  if @world.tank_hits_world(game, nx, ny) {
     return
   }
-  if tank_hits_players(game, nx, ny, index) {
+  if @world.tank_hits_players(game, nx, ny, index) {
     return
   }
-  if tank_hits_enemies(game, nx, ny, -1) {
+  if @world.tank_hits_enemies(game, nx, ny, -1) {
     return
   }
 
@@ -133,8 +133,8 @@ fn try_move_player(game : Game, index : Int, dir : Int, dt : Float) -> Unit {
 }
 
 ///|
-fn update_player_input(game : Game, dt : Float) -> Unit {
-  for i in 0..<max_players {
+fn update_player_input(game : @types.Game, dt : Float) -> Unit {
+  for i in 0..<@types.max_players {
     if not(is_player_enabled(game, i)) {
       continue
     }
@@ -160,9 +160,9 @@ fn update_player_input(game : Game, dt : Float) -> Unit {
     }
 
     if shoot_pressed && can_player_fire(game, i) {
-      let muzzle_x = player.x + dir_vector_x(player.dir) * (tank_half + 3.0)
-      let muzzle_y = player.y + dir_vector_y(player.dir) * (tank_half + 3.0)
-      let speed = bullet_speed_player +
+      let muzzle_x = player.x + @types.dir_vector_x(player.dir) * (@types.tank_half + 3.0)
+      let muzzle_y = player.y + @types.dir_vector_y(player.dir) * (@types.tank_half + 3.0)
+      let speed = @types.bullet_speed_player +
         Float::from_int(player.weapon_level) * 38.0
       let power = if player.weapon_level >= 3 {
         3
@@ -173,7 +173,7 @@ fn update_player_input(game : Game, dt : Float) -> Unit {
       }
       spawn_bullet(
         game,
-        team_of_player(i),
+        @types.team_of_player(i),
         muzzle_x,
         muzzle_y,
         player.dir,
@@ -181,19 +181,19 @@ fn update_player_input(game : Game, dt : Float) -> Unit {
         power,
       )
       player.reload_timer = player.reload_delay
-      spawn_spark_burst(game, muzzle_x, muzzle_y, 5)
+      @particles.spawn_spark_burst(game, muzzle_x, muzzle_y, 5)
     }
   }
 }
 
 ///|
-fn on_player_destroyed(game : Game, index : Int) -> Unit {
+fn on_player_destroyed(game : @types.Game, index : Int) -> Unit {
   let player = game.players[index]
   if not(player.active) {
     return
   }
   if player.invuln_timer > 0.0 || player.shield_timer > 0.0 {
-    spawn_spark_burst(game, player.x, player.y, 7)
+    @particles.spawn_spark_burst(game, player.x, player.y, 7)
     return
   }
 
@@ -202,18 +202,18 @@ fn on_player_destroyed(game : Game, index : Int) -> Unit {
   if player.weapon_level > 0 {
     player.weapon_level -= 1
   }
-  player.reload_delay = player_reload_base *
+  player.reload_delay = @types.player_reload_base *
     (1.0 - Float::from_int(player.weapon_level) * 0.08)
   if player.reload_delay < 0.12 {
     player.reload_delay = 0.12
   }
-  player.respawn_timer = player_respawn_delay
-  spawn_explosion(game, player.x, player.y, 1.25)
+  player.respawn_timer = @types.player_respawn_delay
+  @particles.spawn_explosion(game, player.x, player.y, 1.25)
 }
 
 ///|
-fn update_player_respawns(game : Game, dt : Float) -> Unit {
-  for i in 0..<max_players {
+fn update_player_respawns(game : @types.Game, dt : Float) -> Unit {
+  for i in 0..<@types.max_players {
     if not(is_player_enabled(game, i)) {
       continue
     }
@@ -227,15 +227,15 @@ fn update_player_respawns(game : Game, dt : Float) -> Unit {
     player.respawn_timer -= dt
     if player.respawn_timer <= 0.0 {
       respawn_player_tank(game, i)
-      spawn_respawn_burst(game, player.x, player.y)
+      @particles.spawn_respawn_burst(game, player.x, player.y)
     }
   }
 }
 
 ///|
-fn all_players_out(game : Game) -> Bool {
+fn all_players_out(game : @types.Game) -> Bool {
   let mut living = 0
-  for i in 0..<max_players {
+  for i in 0..<@types.max_players {
     if not(is_player_enabled(game, i)) {
       continue
     }

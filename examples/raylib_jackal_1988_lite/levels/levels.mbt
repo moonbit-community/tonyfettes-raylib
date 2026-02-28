@@ -1,6 +1,6 @@
 ///|
-fn level_pattern(index : Int) -> Array[String] {
-  match index % map_pattern_count {
+pub fn level_pattern(index : Int) -> Array[String] {
+  match index % @types.map_pattern_count {
     0 =>
       [
         "#.......................##", "@......##^......^##.....=@", ".....#@^..........^@#.....",

@@ -1,7 +1,8 @@
 import {
-  "moonbitlang/core/encoding/utf8",
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_jackal_1988_lite/game",
+  "tonyfettes/raylib-examples/raylib_jackal_1988_lite/render",
+  "tonyfettes/raylib-examples/raylib_jackal_1988_lite/types",
 }
 
 options(

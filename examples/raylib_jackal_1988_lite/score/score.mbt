@@ -1,9 +1,9 @@
 ///|
-fn grant_score(game : Game, team : Int, points : Int) -> Unit {
+pub fn grant_score(game : @types.Game, team : Int, points : Int) -> Unit {
   game.score_total += points
-  if team == team_player1 {
+  if team == @types.team_player1 {
     game.players[0].score += points
-  } else if team == team_player2 {
+  } else if team == @types.team_player2 {
     game.players[1].score += points
   }
   if game.score_total > game.high_score {
@@ -12,7 +12,7 @@ fn grant_score(game : Game, team : Int, points : Int) -> Unit {
 }
 
 ///|
-fn bump_combo(game : Game) -> Unit {
+pub fn bump_combo(game : @types.Game) -> Unit {
   game.kill_combo += 1
   if game.kill_combo > 9 {
     game.kill_combo = 9
@@ -21,7 +21,7 @@ fn bump_combo(game : Game) -> Unit {
 }
 
 ///|
-fn combo_multiplier(game : Game) -> Int {
+pub fn combo_multiplier(game : @types.Game) -> Int {
   if game.kill_combo <= 1 {
     1
   } else if game.kill_combo <= 3 {
@@ -34,7 +34,7 @@ fn combo_multiplier(game : Game) -> Int {
 }
 
 ///|
-fn update_combo(game : Game, dt : Float) -> Unit {
+pub fn update_combo(game : @types.Game, dt : Float) -> Unit {
   if game.combo_timer > 0.0 {
     game.combo_timer -= dt
     if game.combo_timer <= 0.0 {
