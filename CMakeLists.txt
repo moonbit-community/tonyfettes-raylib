@@ -70,8 +70,9 @@ else()
     endif()
 endif()
 
+set_target_properties(raylib PROPERTIES C_STANDARD 99 C_STANDARD_REQUIRED ON)
 target_compile_options(raylib PRIVATE
-    -std=c99 -Wno-unused-value
+    -Wno-unused-value
     $<$<STREQUAL:${_RL_PLATFORM},ANDROID>:-ffunction-sections -fdata-sections>)
 
 # ---- MOON_HOME resolution (required for raylib_moonbit stubs) ----
@@ -121,7 +122,8 @@ target_include_directories(raylib_moonbit PUBLIC
     ${RAYLIB_SRC_DIR}
     ${MOON_HOME}/include
 )
+set_target_properties(raylib_moonbit PROPERTIES C_STANDARD 99 C_STANDARD_REQUIRED ON)
 target_compile_options(raylib_moonbit PRIVATE
-    -std=c99 -Wno-unused-value
+    -Wno-unused-value
     $<$<STREQUAL:${_RL_PLATFORM},ANDROID>:-ffunction-sections -fdata-sections>)
 target_link_libraries(raylib_moonbit PUBLIC raylib)
