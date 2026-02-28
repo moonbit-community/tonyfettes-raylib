@@ -9,7 +9,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [models] example - plane rotations (yaw, pitch, roll)",
   )
-  let _ = @raylib.change_directory("examples/raylib_models_yaw_pitch_roll")
+  let _ = @raylib.change_directory("raylib_models_yaw_pitch_roll")
   let camera = @raylib.Camera3D::new(
     @raylib.Vector3::new(0.0, 50.0, -120.0),
     @raylib.Vector3::new(0.0, 0.0, 0.0),

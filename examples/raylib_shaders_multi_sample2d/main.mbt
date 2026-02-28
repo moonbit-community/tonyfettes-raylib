@@ -15,7 +15,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   @raylib.init_window(screen_width, screen_height, "raylib - multiple sample2D")
-  let _ = @raylib.change_directory("examples/raylib_shaders_multi_sample2d")
+  let _ = @raylib.change_directory("raylib_shaders_multi_sample2d")
   let im_red = @raylib.gen_image_color(
     800,
     450,

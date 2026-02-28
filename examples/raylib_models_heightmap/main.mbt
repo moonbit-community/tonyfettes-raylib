@@ -19,7 +19,7 @@ fn main {
   // Load heightmap image (RAM)
   // NOTE: Requires resources/heightmap.png to be placed in the example directory.
   // You can use any grayscale PNG image as a heightmap.
-  let _ = @raylib.change_directory("examples/raylib_models_heightmap")
+  let _ = @raylib.change_directory("raylib_models_heightmap")
   let image = @raylib.load_image("resources/heightmap.png")
   let texture = @raylib.load_texture_from_image(image)
 

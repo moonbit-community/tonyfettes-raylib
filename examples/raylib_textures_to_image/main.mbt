@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  let _ = @raylib.change_directory("examples/raylib_textures_to_image")
+  let _ = @raylib.change_directory("raylib_textures_to_image")
 
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - texture to image",

@@ -149,7 +149,7 @@ fn main {
   let screen_height = 450
   let max_vox_files = 4
 
-  let _ = @raylib.change_directory("examples/raylib_models_loading_vox")
+  let _ = @raylib.change_directory("raylib_models_loading_vox")
 
   let vox_file_names = [
     "resources/models/vox/chr_knight.vox", "resources/models/vox/chr_sword.vox",

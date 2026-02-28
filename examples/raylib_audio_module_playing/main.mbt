@@ -7,7 +7,7 @@ fn main {
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint) // NOTE: Try to enable MSAA 4X
 
-  let _ = @raylib.change_directory("examples/raylib_audio_module_playing")
+  let _ = @raylib.change_directory("raylib_audio_module_playing")
 
   @raylib.init_window(
     screen_width, screen_height, "raylib [audio] example - module playing (streaming)",

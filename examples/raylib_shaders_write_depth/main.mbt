@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  let _ = @raylib.change_directory("examples/raylib_shaders_write_depth")
+  let _ = @raylib.change_directory("raylib_shaders_write_depth")
 
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - write depth buffer",

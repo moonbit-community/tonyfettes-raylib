@@ -15,7 +15,7 @@ fn main {
   let screen_height = 450
   let max_particles = 200
   let _ = @raylib.change_directory(
-    "examples/raylib_textures_particles_blending",
+    "raylib_textures_particles_blending",
   )
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - particles blending",

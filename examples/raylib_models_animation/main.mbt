@@ -19,7 +19,7 @@ fn main {
   // Load the animated model mesh and basic data
   // NOTE: Requires resources/models/iqm/guy.iqm, guytex.png, and guyanim.iqm
   // to be placed in the example directory.
-  let _ = @raylib.change_directory("examples/raylib_models_animation")
+  let _ = @raylib.change_directory("raylib_models_animation")
   let model = @raylib.load_model("resources/models/iqm/guy.iqm")
   let texture = @raylib.load_texture("resources/models/iqm/guytex.png")
   @raylib.set_model_material_texture(

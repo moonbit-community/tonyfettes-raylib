@@ -5,7 +5,7 @@ fn main {
   let screen_height = 450
   let max_frame_delay = 20
   let min_frame_delay = 1
-  let _ = @raylib.change_directory("examples/raylib_textures_gif_player")
+  let _ = @raylib.change_directory("raylib_textures_gif_player")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - gif playing",
   )

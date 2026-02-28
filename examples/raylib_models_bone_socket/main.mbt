@@ -17,7 +17,7 @@ fn main {
   )
 
   // Load gltf model
-  let _ = @raylib.change_directory("examples/raylib_models_bone_socket")
+  let _ = @raylib.change_directory("raylib_models_bone_socket")
   let character_model = @raylib.load_model("resources/models/gltf/greenman.glb")
   let equip_model : FixedArray[_] = [
     @raylib.load_model("resources/models/gltf/greenman_hat.glb"),

@@ -17,7 +17,7 @@ fn main {
   )
 
   // Load gltf model
-  let _ = @raylib.change_directory("examples/raylib_models_gpu_skinning")
+  let _ = @raylib.change_directory("raylib_models_gpu_skinning")
   let character_model = @raylib.load_model("resources/models/gltf/greenman.glb")
 
   // Load skinning shader

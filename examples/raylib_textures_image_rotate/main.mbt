@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
   let num_textures = 3
-  let _ = @raylib.change_directory("examples/raylib_textures_image_rotate")
+  let _ = @raylib.change_directory("raylib_textures_image_rotate")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - texture rotation",
   )

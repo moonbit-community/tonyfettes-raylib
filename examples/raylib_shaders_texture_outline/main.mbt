@@ -59,7 +59,7 @@ fn main {
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - Apply an outline to a texture",
   )
-  let _ = @raylib.change_directory("examples/raylib_shaders_texture_outline")
+  let _ = @raylib.change_directory("raylib_shaders_texture_outline")
   let texture = @raylib.load_texture("resources/fudesumi.png")
   let shdr_outline = @raylib.load_shader(
     "", "resources/shaders/glsl330/outline.fs",

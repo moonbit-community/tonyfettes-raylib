@@ -5,7 +5,7 @@ fn main {
   let screen_height = 450
   let max_frame_speed = 15
   let min_frame_speed = 1
-  let _ = @raylib.change_directory("examples/raylib_textures_sprite_anim")
+  let _ = @raylib.change_directory("raylib_textures_sprite_anim")
   @raylib.init_window(
     screen_width, screen_height, "raylib [texture] example - sprite anim",
   )

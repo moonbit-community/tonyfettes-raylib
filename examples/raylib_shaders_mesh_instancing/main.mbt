@@ -136,7 +136,7 @@ fn main {
   let screen_height = 450
   let max_instances = 10000
 
-  let _ = @raylib.change_directory("examples/raylib_shaders_mesh_instancing")
+  let _ = @raylib.change_directory("raylib_shaders_mesh_instancing")
 
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
