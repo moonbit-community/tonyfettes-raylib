@@ -55,11 +55,11 @@ pub fn gui_text_box(
         // Insert character at cursor position
         let ch = Int::unsafe_to_char(codepoint)
         let buf = StringBuilder::new()
-        for i = 0; i < gui_globals.text_box_cursor_index; i = i + 1 {
+        for i in 0..<gui_globals.text_box_cursor_index {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
         buf.write_char(ch)
-        for i = gui_globals.text_box_cursor_index; i < text_length; i = i + 1 {
+        for i in gui_globals.text_box_cursor_index..<text_length {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
         text.val = buf.to_string()
@@ -82,7 +82,7 @@ pub fn gui_text_box(
           (@raylib.is_key_down(KeyDelete) && auto_trigger)
         ) {
         let buf = StringBuilder::new()
-        for i = 0; i < gui_globals.text_box_cursor_index; i = i + 1 {
+        for i in 0..<gui_globals.text_box_cursor_index {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
         // Skip one character at cursor
@@ -100,10 +100,10 @@ pub fn gui_text_box(
           (@raylib.is_key_down(KeyBackspace) && auto_trigger)
         ) {
         let buf = StringBuilder::new()
-        for i = 0; i < gui_globals.text_box_cursor_index - 1; i = i + 1 {
+        for i in 0..<(gui_globals.text_box_cursor_index - 1) {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
-        for i = gui_globals.text_box_cursor_index; i < text_length; i = i + 1 {
+        for i in gui_globals.text_box_cursor_index..<text_length {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
         text.val = buf.to_string()
@@ -240,7 +240,7 @@ pub fn gui_value_box(
         let key = @raylib.get_char_pressed()
         if key >= 48 && key <= 57 {
           let buf = StringBuilder::new()
-          for i = 0; i < key_count; i = i + 1 {
+          for i in 0..<key_count {
             buf.write_char(Int::unsafe_to_char(text_value[i].to_int()))
           }
           buf.write_char(Int::unsafe_to_char(key))
@@ -428,7 +428,7 @@ fn parse_int(s : String) -> Int {
   } else if s[0] == '+' {
     start = 1
   }
-  for i = start; i < len; i = i + 1 {
+  for i in start..<len {
     let c = s[i].to_int()
     if c >= 48 && c <= 57 {
       result = result * 10 + (c - 48)
@@ -512,7 +512,7 @@ pub fn gui_value_box_float(
         if key >= 48 && key <= 57 {
           // Digits 0-9
           let buf = StringBuilder::new()
-          for i = 0; i < key_count; i = i + 1 {
+          for i in 0..<key_count {
             buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
           }
           buf.write_char(Int::unsafe_to_char(key))
@@ -521,14 +521,14 @@ pub fn gui_value_box_float(
         } else if key == 46 {
           // '.' - only if no dot already present
           let mut has_dot = false
-          for i = 0; i < key_count; i = i + 1 {
+          for i in 0..<key_count {
             if text_value.val[i] == '.' {
               has_dot = true
             }
           }
           if not(has_dot) {
             let buf = StringBuilder::new()
-            for i = 0; i < key_count; i = i + 1 {
+            for i in 0..<key_count {
               buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
             }
             buf.write_char('.')
@@ -550,7 +550,7 @@ pub fn gui_value_box_float(
             } else if text_value.val[0] == '+' {
               let buf = StringBuilder::new()
               buf.write_char('-')
-              for i = 1; i < key_count; i = i + 1 {
+              for i in 1..<key_count {
                 buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
               }
               text_value.val = buf.to_string()
@@ -566,7 +566,7 @@ pub fn gui_value_box_float(
             } else if text_value.val[0] == '-' {
               let buf = StringBuilder::new()
               buf.write_char('+')
-              for i = 1; i < key_count; i = i + 1 {
+              for i in 1..<key_count {
                 buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
               }
               text_value.val = buf.to_string()

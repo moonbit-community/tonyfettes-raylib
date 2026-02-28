@@ -34,7 +34,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(84, 80, 62, 26),
   )
 
-  for i = 0; i < 15; i = i + 1 {
+  for i in 0..<15 {
     let y : Int = i * 72
     @raylib.draw_rectangle(
       0,
@@ -69,7 +69,7 @@ fn draw_river_surface(game : Game) -> Unit {
     @raylib.Color::new(184, 228, 244, 212),
   )
 
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let lane : Float = -1.0 + Float::from_int(i) * 0.5
     let x : Int = lane_to_x(lane).to_int()
     @raylib.draw_line(
@@ -81,7 +81,7 @@ fn draw_river_surface(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let y_wave : Int = river_y +
       14 +
       i * 40 +
@@ -99,7 +99,7 @@ fn draw_river_surface(game : Game) -> Unit {
 
 ///|
 fn draw_checkpoint_lines(game : Game) -> Unit {
-  for i = game.checkpoint_idx; i < checkpoint_count; i = i + 1 {
+  for i in game.checkpoint_idx..<checkpoint_count {
     let dist : Float = checkpoint_distance(i)
     let rel : Float = dist - game.distance
     if rel < -80.0 || rel > visible_distance {
@@ -134,26 +134,26 @@ fn draw_checkpoint_lines(game : Game) -> Unit {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    if not(game.hazards[i].active) {
+  for hazard in game.hazards {
+    if not(hazard.active) {
       continue
     }
 
-    let rel : Float = game.hazards[i].dist - game.distance
+    let rel : Float = hazard.dist - game.distance
     if rel < -120.0 || rel > visible_distance {
       continue
     }
 
     let x : Int = lane_to_x(
-      game.hazards[i].lane +
-      sinf(game.ui_t * 0.9 + game.hazards[i].phase) * 0.03,
+      hazard.lane +
+      sinf(game.ui_t * 0.9 + hazard.phase) * 0.03,
     ).to_int()
 
-    let y : Int = world_y(game, game.hazards[i].dist).to_int()
+    let y : Int = world_y(game, hazard.dist).to_int()
 
-    if game.hazards[i].kind == hazard_debris {
-      let w : Int = (game.hazards[i].size * 1.7).to_int()
-      let h : Int = (game.hazards[i].size * 0.8).to_int()
+    if hazard.kind == hazard_debris {
+      let w : Int = (hazard.size * 1.7).to_int()
+      let h : Int = (hazard.size * 0.8).to_int()
 
       @raylib.draw_rectangle(
         x - w / 2,
@@ -182,7 +182,7 @@ fn draw_hazards(game : Game) -> Unit {
         @raylib.Color::new(128, 86, 58, 226),
       )
     } else {
-      let r : Float = game.hazards[i].size
+      let r : Float = hazard.size
       @raylib.draw_circle_lines(x, y, r, @raylib.Color::new(228, 248, 255, 184))
       @raylib.draw_circle_lines(
         x,
@@ -229,7 +229,7 @@ fn draw_boat(
     ),
   )
 
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let t : Float = Float::from_int(i) / 7.0
     let px : Int = (Float::from_int(x) - scale * 44.0 + t * 88.0 * scale).to_int()
 
@@ -284,26 +284,26 @@ fn rival_hull_color(id : Int) -> @raylib.Color {
 
 ///|
 fn draw_rivals(game : Game) -> Unit {
-  for i = 0; i < game.rivals.length(); i = i + 1 {
-    if not(game.rivals[i].active) {
+  for rival in game.rivals {
+    if not(rival.active) {
       continue
     }
 
-    let rel : Float = game.rivals[i].dist - game.distance
+    let rel : Float = rival.dist - game.distance
     if rel < -140.0 || rel > visible_distance {
       continue
     }
 
-    let y : Int = world_y(game, game.rivals[i].dist).to_int()
-    let x : Int = lane_to_x(game.rivals[i].lane).to_int()
+    let y : Int = world_y(game, rival.dist).to_int()
+    let x : Int = lane_to_x(rival.lane).to_int()
 
     let scale : Float = clampf(0.72 + rel / visible_distance * 0.42, 0.66, 1.05)
-    let hull : @raylib.Color = rival_hull_color(game.rivals[i].id)
+    let hull : @raylib.Color = rival_hull_color(rival.id)
 
     draw_boat(x, y, scale, hull, @raylib.Color::new(246, 250, 255, 220), false)
 
     @raylib.draw_text(
-      "R" + game.rivals[i].id.to_string(),
+      "R" + rival.id.to_string(),
       x - 16,
       y - (scale * 38.0).to_int(),
       20,

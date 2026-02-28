@@ -1,43 +1,43 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    game.objs[i].active = false
-    game.objs[i].kind = obj_wall
-    game.objs[i].lane = 0
-    game.objs[i].z = 0.0
-    game.objs[i].y_off = 0.0
-    game.objs[i].w = 0.0
-    game.objs[i].h = 0.0
-    game.objs[i].phase_only = 0
-    game.objs[i].spin = 0.0
-    game.objs[i].hit_lock = 0.0
+  for obj in game.objs {
+    obj.active = false
+    obj.kind = obj_wall
+    obj.lane = 0
+    obj.z = 0.0
+    obj.y_off = 0.0
+    obj.w = 0.0
+    obj.h = 0.0
+    obj.phase_only = 0
+    obj.spin = 0.0
+    obj.hit_lock = 0.0
   }
 }
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_trails(game : Game) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    game.trails[i].active = false
-    game.trails[i].x = 0.0
-    game.trails[i].y = 0.0
-    game.trails[i].w = 0.0
-    game.trails[i].h = 0.0
-    game.trails[i].life = 0.0
-    game.trails[i].beta = false
+  for trail in game.trails {
+    trail.active = false
+    trail.x = 0.0
+    trail.y = 0.0
+    trail.w = 0.0
+    trail.h = 0.0
+    trail.life = 0.0
+    trail.beta = false
   }
 }
 
@@ -56,7 +56,7 @@ fn reset_hero(hero : Player) -> Unit {
 
 ///|
 fn alloc_obj_slot(game : Game) -> Int {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
     }
@@ -64,7 +64,7 @@ fn alloc_obj_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_z = game.objs[0].z
-  for i = 1; i < game.objs.length(); i = i + 1 {
+  for i in 1..<game.objs.length() {
     if game.objs[i].z < best_z {
       best_z = game.objs[i].z
       best_i = i
@@ -75,7 +75,7 @@ fn alloc_obj_slot(game : Game) -> Int {
 
 ///|
 fn alloc_particle_slot(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -83,7 +83,7 @@ fn alloc_particle_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_life = game.particles[0].life
-  for i = 1; i < game.particles.length(); i = i + 1 {
+  for i in 1..<game.particles.length() {
     if game.particles[i].life < best_life {
       best_life = game.particles[i].life
       best_i = i
@@ -94,7 +94,7 @@ fn alloc_particle_slot(game : Game) -> Int {
 
 ///|
 fn alloc_trail_slot(game : Game) -> Int {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       return i
     }
@@ -102,7 +102,7 @@ fn alloc_trail_slot(game : Game) -> Int {
 
   let mut best_i = 0
   let mut best_life = game.trails[0].life
-  for i = 1; i < game.trails.length(); i = i + 1 {
+  for i in 1..<game.trails.length() {
     if game.trails[i].life < best_life {
       best_life = game.trails[i].life
       best_i = i
@@ -159,7 +159,7 @@ fn spawn_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, amount : Int, kind : Int) -> Unit {
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_particle(
       game,
       x + randf(-24.0, 24.0),
@@ -201,7 +201,7 @@ fn set_stage(game : Game, stage : Int) -> Unit {
 
 ///|
 fn spawn_orb_strip(game : Game, z0 : Float, len : Int, lane : Int) -> Unit {
-  for i = 0; i < len; i = i + 1 {
+  for i in 0..<len {
     spawn_obj(
       game,
       obj_orb,
@@ -221,7 +221,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
 
   if p < 20 {
     let safe = randi(0, lane_count - 1)
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       if lane == safe {
         spawn_orb_strip(game, z_base + 30.0, 4, lane)
       } else {
@@ -239,7 +239,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
     }
   } else if p < 36 {
     let mut lane = randi(0, lane_count - 1)
-    for i = 0; i < 6; i = i + 1 {
+    for i in 0..<6 {
       spawn_obj(
         game,
         obj_wall,
@@ -256,7 +256,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
       }
     }
   } else if p < 54 {
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       spawn_obj(
         game,
         obj_gate_alpha,
@@ -283,7 +283,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
     let lane = randi(0, lane_count - 1)
     spawn_obj(game, obj_boost, lane, z_base + 180.0, 0.0, 112.0, 48.0, 0)
     spawn_orb_strip(game, z_base + 20.0, 3, lane)
-    for i = 0; i < 5; i = i + 1 {
+    for i in 0..<5 {
       let l = (lane + i + 1) % lane_count
       spawn_obj(
         game,
@@ -298,7 +298,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
     }
   } else if p < 88 {
     let lane = randi(0, lane_count - 1)
-    for i = 0; i < 7; i = i + 1 {
+    for i in 0..<7 {
       spawn_obj(
         game,
         obj_jump_bar,
@@ -325,7 +325,7 @@ fn spawn_wave(game : Game, z_base : Float) -> Unit {
       }
     }
   } else {
-    for i = 0; i < 10; i = i + 1 {
+    for i in 0..<10 {
       let lane = randi(0, lane_count - 1)
       let kind = if chance(70) { obj_orb } else { obj_wall }
       let y_off : Float = if kind == obj_orb {
@@ -571,12 +571,11 @@ fn update_objects(game : Game, dt : Float) -> Unit {
   let dz = game.speed * game.speed_mul * dt
   game.stage_progress = game.stage_progress + dz
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if not(game.objs[i].active) {
+  for o in game.objs {
+    if not(o.active) {
       continue
     }
 
-    let o = game.objs[i]
     o.z = o.z - dz
     o.spin = o.spin + dt * 2.0
 
@@ -677,31 +676,31 @@ fn update_objects(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * 2.3)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * 1.8) - dt * 140.0
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
+    particle.vx = particle.vx * (1.0 - dt * 2.3)
+    particle.vy = particle.vy * (1.0 - dt * 1.8) - dt * 140.0
   }
 
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    if not(game.trails[i].active) {
+  for trail in game.trails {
+    if not(trail.active) {
       continue
     }
 
-    game.trails[i].life = game.trails[i].life - dt
-    if game.trails[i].life <= 0.0 {
-      game.trails[i].active = false
+    trail.life = trail.life - dt
+    if trail.life <= 0.0 {
+      trail.active = false
     }
   }
 }
@@ -798,15 +797,15 @@ fn update_title_scene(game : Game, dt : Float) -> Unit {
   game.title_t = game.title_t + dt
 
   let demo_dz = base_speed * 0.52 * dt
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if not(game.objs[i].active) {
+  for obj in game.objs {
+    if not(obj.active) {
       continue
     }
 
-    game.objs[i].z = game.objs[i].z - demo_dz
-    game.objs[i].spin = game.objs[i].spin + dt * 2.0
-    if game.objs[i].z < -180.0 {
-      game.objs[i].active = false
+    obj.z = obj.z - demo_dz
+    obj.spin = obj.spin + dt * 2.0
+    if obj.z < -180.0 {
+      obj.active = false
     }
   }
 

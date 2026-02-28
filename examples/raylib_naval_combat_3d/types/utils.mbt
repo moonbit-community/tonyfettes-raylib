@@ -95,7 +95,7 @@ pub fn distance3d(
 ///|
 pub fn normalize_angle(a : Float) -> Float {
   let mut angle = a
-  for _i = 0; _i < 10; _i = _i + 1 {
+  for _i in 0..<10 {
     if angle > pi {
       angle = angle - 2.0 * pi
     } else if angle < -pi {
@@ -606,7 +606,7 @@ pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -616,7 +616,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_cannonball(game : Game) -> Int {
-  for i = 0; i < game.cannonballs.length(); i = i + 1 {
+  for i in 0..<game.cannonballs.length() {
     if not(game.cannonballs[i].active) {
       return i
     }
@@ -626,7 +626,7 @@ pub fn alloc_cannonball(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -636,7 +636,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_wake(game : Game) -> Int {
-  for i = 0; i < game.wakes.length(); i = i + 1 {
+  for i in 0..<game.wakes.length() {
     if not(game.wakes[i].active) {
       return i
     }
@@ -646,7 +646,7 @@ pub fn alloc_wake(game : Game) -> Int {
 
 ///|
 pub fn alloc_debris(game : Game) -> Int {
-  for i = 0; i < game.debris_pool.length(); i = i + 1 {
+  for i in 0..<game.debris_pool.length() {
     if not(game.debris_pool[i].active) {
       return i
     }
@@ -656,7 +656,7 @@ pub fn alloc_debris(game : Game) -> Int {
 
 ///|
 pub fn alloc_message(game : Game) -> Int {
-  for i = 0; i < game.messages.length(); i = i + 1 {
+  for i in 0..<game.messages.length() {
     if not(game.messages[i].active) {
       return i
     }
@@ -664,7 +664,7 @@ pub fn alloc_message(game : Game) -> Int {
   // Overwrite oldest
   let mut oldest_idx = 0
   let mut oldest_timer : Float = 999.0
-  for i = 0; i < game.messages.length(); i = i + 1 {
+  for i in 0..<game.messages.length() {
     if game.messages[i].timer < oldest_timer {
       oldest_timer = game.messages[i].timer
       oldest_idx = i
@@ -699,7 +699,7 @@ pub fn add_battle_log(game : Game, text : String) -> Unit {
     game.battle_log_count += 1
   } else {
     // Shift entries
-    for i = 0; i < game.battle_log.length() - 1; i = i + 1 {
+    for i in 0..<(game.battle_log.length() - 1) {
       game.battle_log[i] = game.battle_log[i + 1]
     }
     game.battle_log[game.battle_log.length() - 1] = text
@@ -717,7 +717,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -749,7 +749,7 @@ pub fn spawn_smoke(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -781,7 +781,7 @@ pub fn spawn_fire(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -812,7 +812,7 @@ pub fn spawn_water_splash(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -843,7 +843,7 @@ pub fn spawn_debris_cluster(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_debris(game)
     if idx < 0 {
       return
@@ -920,10 +920,10 @@ pub fn check_island_collision(
   z : Float,
   ship_radius : Float,
 ) -> Bool {
-  for i = 0; i < game.island_count; i = i + 1 {
+  for i in 0..<game.island_count {
     let island = game.islands[i]
     if not(island.active) {
-      continue i + 1
+      continue
     }
     let dist = distance2d(x, z, island.x, island.z)
     if dist < island.radius + ship_radius {
@@ -996,8 +996,8 @@ pub fn resolve_boarding(
 ///|
 pub fn count_fleet_alive(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.fleet_ships.length(); i = i + 1 {
-    if game.fleet_ships[i].active {
+  for fleet_ship in game.fleet_ships {
+    if fleet_ship.active {
       count += 1
     }
   }
@@ -1009,8 +1009,8 @@ pub fn count_fleet_alive(game : Game) -> Int {
 ///|
 pub fn count_convoy_alive(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
-    if game.convoy_ships[i].active {
+  for convoy_ship in game.convoy_ships {
+    if convoy_ship.active {
       count += 1
     }
   }

@@ -79,7 +79,7 @@ fn main {
       20,
       @raylib.fade(@raylib.gray, 0.5),
     )
-    for i = 0; i < gesture_strings.length(); i = i + 1 {
+    for i in 0..<gesture_strings.length() {
       if i % 2 == 0 {
         @raylib.draw_rectangle(
           10,

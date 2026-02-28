@@ -51,7 +51,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
 
-    for i = 0; i < @raylib.get_screen_width() / 200; i = i + 1 {
+    for i in 0..<(@raylib.get_screen_width() / 200) {
       @raylib.draw_rectangle(
         200 * i,
         0,

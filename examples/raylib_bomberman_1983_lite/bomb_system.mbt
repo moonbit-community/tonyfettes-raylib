@@ -1,6 +1,6 @@
 ///|
 fn alloc_bomb(game : Game) -> Int {
-  for i = 0; i < game.bombs.length(); i = i + 1 {
+  for i in 0..<game.bombs.length() {
     if not(game.bombs[i].active) {
       return i
     }
@@ -11,8 +11,8 @@ fn alloc_bomb(game : Game) -> Int {
 ///|
 fn count_team_bombs(game : Game, team : Int) -> Int {
   let mut n = 0
-  for i = 0; i < game.bombs.length(); i = i + 1 {
-    if game.bombs[i].active && game.bombs[i].owner_team == team {
+  for bomb in game.bombs {
+    if bomb.active && bomb.owner_team == team {
       n += 1
     }
   }
@@ -42,10 +42,10 @@ fn can_player_place_bomb(game : Game, player_index : Int) -> Bool {
     return false
   }
 
-  for i = 0; i < game.bombs.length(); i = i + 1 {
-    if game.bombs[i].active &&
-      game.bombs[i].tile_x == tx &&
-      game.bombs[i].tile_y == ty {
+  for bomb in game.bombs {
+    if bomb.active &&
+      bomb.tile_x == tx &&
+      bomb.tile_y == ty {
       return false
     }
   }
@@ -92,10 +92,9 @@ fn is_blast_blocking_tile(tile : Int) -> Bool {
 
 ///|
 fn mark_chain_bombs(game : Game, tx : Int, ty : Int) -> Unit {
-  for i = 0; i < game.bombs.length(); i = i + 1 {
-    let b = game.bombs[i]
+  for b in game.bombs {
     if not(b.active) || b.exploding {
-      continue i + 1
+      continue
     }
     if b.tile_x == tx && b.tile_y == ty && b.fuse > bomb_chain_trigger_window {
       b.fuse = bomb_chain_trigger_window
@@ -105,20 +104,20 @@ fn mark_chain_bombs(game : Game, tx : Int, ty : Int) -> Unit {
 
 ///|
 fn hit_entities_on_tile(game : Game, team : Int, tx : Int, ty : Int) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     if world_x_to_tile(enemy.x) == tx && world_y_to_tile(enemy.y) == ty {
       destroy_enemy(game, i, team)
     }
   }
 
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     let player = game.players[i]
     if not(player.active) {
-      continue i + 1
+      continue
     }
     if world_x_to_tile(player.x) == tx && world_y_to_tile(player.y) == ty {
       on_player_destroyed(game, i)
@@ -179,7 +178,7 @@ fn trigger_bomb(game : Game, bomb_index : Int) -> Unit {
   let range = bomb.blast_range
 
   ignore(detonate_tile(game, team, tx, ty))
-  for dir = 0; dir < 4; dir = dir + 1 {
+  for dir in 0..<4 {
     let dx = if dir == 0 {
       0
     } else if dir == 1 {
@@ -198,7 +197,7 @@ fn trigger_bomb(game : Game, bomb_index : Int) -> Unit {
     } else {
       0
     }
-    for step = 1; step <= range; step = step + 1 {
+    for step in 1..=range {
       let nx = tx + dx * step
       let ny = ty + dy * step
       if not(in_tile_bounds(nx, ny)) {
@@ -216,10 +215,10 @@ fn trigger_bomb(game : Game, bomb_index : Int) -> Unit {
 
 ///|
 fn update_bombs(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bombs.length(); i = i + 1 {
+  for i in 0..<game.bombs.length() {
     let bomb = game.bombs[i]
     if not(bomb.active) {
-      continue i + 1
+      continue
     }
 
     if bomb.exploding {
@@ -227,7 +226,7 @@ fn update_bombs(game : Game, dt : Float) -> Unit {
       if bomb.blast_timer <= 0.0 {
         bomb.active = false
       }
-      continue i + 1
+      continue
     }
 
     bomb.fuse -= dt

@@ -233,7 +233,7 @@ pub fn handle_mob_death(game : @types.Game, ent : @types.Entity) -> Unit {
     200
   }
   // Spawn particles at entity position
-  for p = 0; p < 6; p = p + 1 {
+  for p in 0..<6 {
     let angle = Float::from_int(p) * 1.047
     let speed : Float = 2.0 + Float::from_int(p % 3)
     let pvx = @math.cosf(angle) * speed
@@ -424,15 +424,15 @@ pub fn get_spawn_weight(kind : Int, biome : Int) -> Int {
 
 ///|
 pub fn resolve_entity_entity_collisions(game : @types.Game) -> Unit {
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     let ent_a = game.entities[i]
     if not(ent_a.active) {
-      continue i + 1
+      continue
     }
-    for j = i + 1; j < @types.entity_max; j = j + 1 {
+    for j in (i + 1)..<@types.entity_max {
       let ent_b = game.entities[j]
       if not(ent_b.active) {
-        continue j + 1
+        continue
       }
       let dx = ent_b.x - ent_a.x
       let dz = ent_b.z - ent_a.z
@@ -499,7 +499,7 @@ pub fn entity_can_see_player(game : @types.Game, ent : @types.Entity) -> Bool {
   let step_x = dx / Float::from_int(steps)
   let step_y = dy / Float::from_int(steps)
   let step_z = dz / Float::from_int(steps)
-  for s = 1; s < steps; s = s + 1 {
+  for s in 1..<steps {
     let cx = ent.x + step_x * Float::from_int(s)
     let cy = ent.y + 0.5 + step_y * Float::from_int(s)
     let cz = ent.z + step_z * Float::from_int(s)
@@ -533,16 +533,16 @@ pub fn update_herd_behavior(game : @types.Game, ent : @types.Entity) -> Unit {
   let mut nearest_x : Float = ent.x
   let mut nearest_z : Float = ent.z
   let mut found = false
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     let other = game.entities[i]
     if not(other.active) || other.kind != ent.kind {
-      continue i + 1
+      continue
     }
     // Check if it's the same entity by position
     let same_x = @types.absf(other.x - ent.x) < 0.01
     let same_z = @types.absf(other.z - ent.z) < 0.01
     if same_x && same_z {
-      continue i + 1
+      continue
     }
     let d = @types.distance_xz(ent.x, ent.z, other.x, other.z)
     if d < nearest_dist && d > 1.0 {

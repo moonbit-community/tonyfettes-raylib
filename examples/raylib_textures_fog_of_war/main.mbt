@@ -17,7 +17,7 @@ fn main {
   let tile_fog : Array[Int] = Array::make(tiles_x * tiles_y, 0)
 
   // Generate random tile ids
-  for i = 0; i < tiles_x * tiles_y; i = i + 1 {
+  for i in 0..<(tiles_x * tiles_y) {
     tile_ids[i] = @raylib.get_random_value(0, 1)
   }
 
@@ -63,7 +63,7 @@ fn main {
     }
 
     // Set previously visible tiles to half-fog
-    for i = 0; i < tiles_x * tiles_y; i = i + 1 {
+    for i in 0..<(tiles_x * tiles_y) {
       if tile_fog[i] == 1 {
         tile_fog[i] = 2
       }
@@ -91,8 +91,8 @@ fn main {
     // Draw fog to render texture
     @raylib.begin_texture_mode(fog_of_war)
     @raylib.clear_background(@raylib.blank)
-    for y = 0; y < tiles_y; y = y + 1 {
-      for x = 0; x < tiles_x; x = x + 1 {
+    for y in 0..<tiles_y {
+      for x in 0..<tiles_x {
         if tile_fog[y * tiles_x + x] == 0 {
           @raylib.draw_rectangle(x, y, 1, 1, @raylib.black)
         } else if tile_fog[y * tiles_x + x] == 2 {
@@ -107,8 +107,8 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     // Draw tiles
-    for y = 0; y < tiles_y; y = y + 1 {
-      for x = 0; x < tiles_x; x = x + 1 {
+    for y in 0..<tiles_y {
+      for x in 0..<tiles_x {
         let color = if tile_ids[y * tiles_x + x] == 0 {
           @raylib.blue
         } else {

@@ -8,7 +8,7 @@ fn main {
   )
   let max_touch_points = 10
   let touch_positions : Array[@raylib.Vector2] = []
-  for i = 0; i < max_touch_points; i = i + 1 {
+  for i in 0..<max_touch_points {
     touch_positions.push(@raylib.Vector2::new(0.0, 0.0))
   }
   @raylib.set_target_fps(60)
@@ -20,14 +20,14 @@ fn main {
     if t_count > max_touch_points {
       t_count = max_touch_points
     }
-    for i = 0; i < t_count; i = i + 1 {
+    for i in 0..<t_count {
       touch_positions[i] = @raylib.get_touch_position(i)
     }
 
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
-    for i = 0; i < t_count; i = i + 1 {
+    for i in 0..<t_count {
       // Make sure point is not (0, 0) as this means there is no touch for it
       if touch_positions[i].x > 0.0 && touch_positions[i].y > 0.0 {
         // Draw circle and touch index number

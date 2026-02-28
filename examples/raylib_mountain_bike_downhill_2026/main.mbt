@@ -138,50 +138,50 @@ fn world_to_screen_y(obj_y : Float, rider_y : Float) -> Float {
 
 ///|
 fn clear_checkpoints(cps : Array[Checkpoint]) -> Unit {
-  for i = 0; i < cps.length(); i = i + 1 {
-    cps[i].active = false
-    cps[i].x = 0.0
-    cps[i].y = 0.0
-    cps[i].width = 0.0
-    cps[i].state = 0
-    cps[i].pulse_t = 0.0
+  for cp in cps {
+    cp.active = false
+    cp.x = 0.0
+    cp.y = 0.0
+    cp.width = 0.0
+    cp.state = 0
+    cp.pulse_t = 0.0
   }
 }
 
 ///|
 fn clear_hazards(hs : Array[Hazard]) -> Unit {
-  for i = 0; i < hs.length(); i = i + 1 {
-    hs[i].active = false
-    hs[i].x = 0.0
-    hs[i].y = 0.0
-    hs[i].kind = 0
-    hs[i].size = 0.0
+  for hs_elem in hs {
+    hs_elem.active = false
+    hs_elem.x = 0.0
+    hs_elem.y = 0.0
+    hs_elem.kind = 0
+    hs_elem.size = 0.0
   }
 }
 
 ///|
 fn clear_pickups(ps : Array[Pickup]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].kind = 0
-    ps[i].t = 0.0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.kind = 0
+    ps_elem.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].size = 0.0
-    ps[i].t = 0.0
-    ps[i].life = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.size = 0.0
+    ps_elem.t = 0.0
+    ps_elem.life = 0.0
+    ps_elem.kind = 0
   }
 }
 
@@ -194,21 +194,21 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      ps[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      ps[i].t = 0.0
-      ps[i].life = Float::from_int(@raylib.get_random_value(18, 72)) / 100.0
-      ps[i].kind = kind
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      ps_elem.size = Float::from_int(@raylib.get_random_value(2, 7))
+      ps_elem.t = 0.0
+      ps_elem.life = Float::from_int(@raylib.get_random_value(18, 72)) / 100.0
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -223,7 +223,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(ps, x, y, speed, kind)
   }
@@ -236,7 +236,7 @@ fn nearest_checkpoint_dy(
   rider_y : Float,
 ) -> Float {
   let mut best : Float = 9999999.0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     if cps[i].state != 0 {
       continue
     }
@@ -262,7 +262,7 @@ fn generate_course(
   let cp_count : Int = 68
 
   let mut y : Float = 420.0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     cps[i].active = true
     cps[i].x = randf(180.0, 1100.0)
     cps[i].y = y + randf(-24.0, 24.0)
@@ -275,16 +275,16 @@ fn generate_course(
 
   let course_end : Float = cps[cp_count - 1].y + 520.0
 
-  for i = 0; i < hs.length(); i = i + 1 {
-    hs[i].active = true
-    hs[i].x = randf(70.0, world_w - 70.0)
-    hs[i].y = randf(360.0, course_end + 160.0)
-    hs[i].kind = @raylib.get_random_value(0, 3)
-    hs[i].size = if hs[i].kind == 0 {
+  for hs_elem in hs {
+    hs_elem.active = true
+    hs_elem.x = randf(70.0, world_w - 70.0)
+    hs_elem.y = randf(360.0, course_end + 160.0)
+    hs_elem.kind = @raylib.get_random_value(0, 3)
+    hs_elem.size = if hs_elem.kind == 0 {
       randf(12.0, 20.0)
-    } else if hs[i].kind == 1 {
+    } else if hs_elem.kind == 1 {
       randf(18.0, 30.0)
-    } else if hs[i].kind == 2 {
+    } else if hs_elem.kind == 2 {
       randf(16.0, 24.0)
     } else {
       randf(14.0, 22.0)
@@ -292,7 +292,7 @@ fn generate_course(
   }
 
   let mut p = 0
-  for i = 0; i < cp_count; i = i + 1 {
+  for i in 0..<cp_count {
     if i % 2 == 0 && p < items.length() {
       items[p].active = true
       items[p].x = cps[i].x + randf(-52.0, 52.0)
@@ -593,7 +593,7 @@ fn main {
         rider.trick_t = 0.0
       }
 
-      for i = 0; i < checkpoint_count; i = i + 1 {
+      for i in 0..<checkpoint_count {
         if not(checkpoints[i].active) {
           continue
         }
@@ -631,23 +631,23 @@ fn main {
         }
       }
 
-      for i = 0; i < hazards.length(); i = i + 1 {
-        if not(hazards[i].active) {
+      for hazard in hazards {
+        if not(hazard.active) {
           continue
         }
 
-        if hazards[i].y < rider.y - 130.0 {
-          hazards[i].active = false
+        if hazard.y < rider.y - 130.0 {
+          hazard.active = false
           continue
         }
 
-        let touch_x = absf(hazards[i].x - rider.x)
-        let touch_y = absf(hazards[i].y - rider.y)
-        if touch_x <= hazards[i].size + 16.0 &&
-          touch_y <= hazards[i].size + 24.0 {
-          let hit_dmg : Float = if hazards[i].kind == 1 {
+        let touch_x = absf(hazard.x - rider.x)
+        let touch_y = absf(hazard.y - rider.y)
+        if touch_x <= hazard.size + 16.0 &&
+          touch_y <= hazard.size + 24.0 {
+          let hit_dmg : Float = if hazard.kind == 1 {
             22.0
-          } else if hazards[i].kind == 3 {
+          } else if hazard.kind == 3 {
             18.0
           } else {
             14.0
@@ -655,32 +655,32 @@ fn main {
           rider.hp = rider.hp - hit_dmg
           rider.flash_t = 0.18
 
-          let push : Float = if rider.x < hazards[i].x { -160.0 } else { 160.0 }
+          let push : Float = if rider.x < hazard.x { -160.0 } else { 160.0 }
           rider.vx = rider.vx + push
 
           rider.combo = 0
-          hazards[i].active = false
+          hazard.active = false
           msg = "Crash"
           msg_t = 0.7
           burst(particles, rider.x, rider.y, 14, 0.25, 3)
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
-        if not(pickups[i].active) {
+      for pickup in pickups {
+        if not(pickup.active) {
           continue
         }
 
-        pickups[i].t = pickups[i].t + dt
+        pickup.t = pickup.t + dt
 
-        if dist2(rider.x, rider.y, pickups[i].x, pickups[i].y) <= 28.0 * 28.0 {
-          if pickups[i].kind == 0 {
+        if dist2(rider.x, rider.y, pickup.x, pickup.y) <= 28.0 * 28.0 {
+          if pickup.kind == 0 {
             rider.hp = rider.hp + 28.0
             if rider.hp > 230.0 {
               rider.hp = 230.0
             }
             msg = "Repair kit"
-          } else if pickups[i].kind == 1 {
+          } else if pickup.kind == 1 {
             rider.stamina = rider.stamina + 30.0
             if rider.stamina > 100.0 {
               rider.stamina = 100.0
@@ -698,24 +698,24 @@ fn main {
 
           rider.score = rider.score + 24
           msg_t = 0.62
-          pickups[i].active = false
+          pickup.active = false
           burst(particles, rider.x, rider.y, 10, 0.22, 0)
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 2.0)
-          particles[i].vy = particles[i].vy + 280.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (Float::from_int(1) - dt * 2.0)
+          particle.vy = particle.vy + 280.0 * dt
         }
       }
 
@@ -749,7 +749,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(222, 236, 255, 172))
 
     let line_shift : Int = (cam_y / 36.0).to_int() % 2
-    for idx = 0; idx < 30; idx = idx + 1 {
+    for idx in 0..<30 {
       let i = idx - 2
       let sy : Int = i * 36 - cam_y.to_int() % 36
       let stripe : Int = if (i + line_shift) % 2 == 0 { 236 } else { 226 }
@@ -762,7 +762,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let ridge_x = i * 62 + (cam_y * 0.25).to_int() % 62
       @raylib.draw_rectangle(
         ridge_x,
@@ -773,7 +773,7 @@ fn main {
       )
     }
 
-    for i = 0; i < checkpoint_count; i = i + 1 {
+    for i in 0..<checkpoint_count {
       if not(checkpoints[i].active) {
         continue
       }
@@ -819,105 +819,105 @@ fn main {
       )
     }
 
-    for i = 0; i < hazards.length(); i = i + 1 {
-      if not(hazards[i].active) {
+    for hazard in hazards {
+      if not(hazard.active) {
         continue
       }
 
-      let hsy : Float = world_to_screen_y(hazards[i].y, rider.y)
+      let hsy : Float = world_to_screen_y(hazard.y, rider.y)
       if hsy < -80.0 || hsy > Float::from_int(sh + 80) {
         continue
       }
 
-      if hazards[i].kind == 0 {
+      if hazard.kind == 0 {
         @raylib.draw_circle(
-          hazards[i].x.to_int(),
+          hazard.x.to_int(),
           hsy.to_int(),
-          hazards[i].size,
+          hazard.size,
           @raylib.Color::new(114, 128, 152, 255),
         )
-      } else if hazards[i].kind == 1 {
+      } else if hazard.kind == 1 {
         @raylib.draw_triangle(
-          @raylib.Vector2::new(hazards[i].x, hsy - hazards[i].size),
+          @raylib.Vector2::new(hazard.x, hsy - hazard.size),
           @raylib.Vector2::new(
-            hazards[i].x - hazards[i].size,
-            hsy + hazards[i].size,
+            hazard.x - hazard.size,
+            hsy + hazard.size,
           ),
           @raylib.Vector2::new(
-            hazards[i].x + hazards[i].size,
-            hsy + hazards[i].size,
+            hazard.x + hazard.size,
+            hsy + hazard.size,
           ),
           @raylib.Color::new(64, 130, 84, 255),
         )
-      } else if hazards[i].kind == 2 {
+      } else if hazard.kind == 2 {
         @raylib.draw_rectangle(
-          (hazards[i].x - hazards[i].size).to_int(),
-          (hsy - hazards[i].size).to_int(),
-          (hazards[i].size * 2.0).to_int(),
-          (hazards[i].size * 2.0).to_int(),
+          (hazard.x - hazard.size).to_int(),
+          (hsy - hazard.size).to_int(),
+          (hazard.size * 2.0).to_int(),
+          (hazard.size * 2.0).to_int(),
           @raylib.Color::new(168, 138, 104, 255),
         )
       } else {
         @raylib.draw_circle(
-          hazards[i].x.to_int(),
+          hazard.x.to_int(),
           hsy.to_int(),
-          hazards[i].size,
+          hazard.size,
           @raylib.Color::new(86, 164, 196, 255),
         )
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
 
-      let psy : Float = world_to_screen_y(pickups[i].y, rider.y)
+      let psy : Float = world_to_screen_y(pickup.y, rider.y)
       if psy < -70.0 || psy > Float::from_int(sh + 70) {
         continue
       }
 
-      let blink : Int = if (pickups[i].t * 7.0).to_int() % 2 == 0 {
+      let blink : Int = if (pickup.t * 7.0).to_int() % 2 == 0 {
         255
       } else {
         180
       }
-      let pcol = if pickups[i].kind == 0 {
+      let pcol = if pickup.kind == 0 {
         @raylib.Color::new(228, 126, 134, blink)
-      } else if pickups[i].kind == 1 {
+      } else if pickup.kind == 1 {
         @raylib.Color::new(124, 228, 166, blink)
       } else {
         @raylib.Color::new(130, 208, 252, blink)
       }
-      @raylib.draw_circle(pickups[i].x.to_int(), psy.to_int(), 10.0, pcol)
+      @raylib.draw_circle(pickup.x.to_int(), psy.to_int(), 10.0, pcol)
       @raylib.draw_circle_lines(
-        pickups[i].x.to_int(),
+        pickup.x.to_int(),
         psy.to_int(),
         16.0,
         @raylib.Color::new(246, 250, 255, blink),
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let psy : Float = world_to_screen_y(particles[i].y, rider.y)
-      let k = particles[i].t / particles[i].life
+      let psy : Float = world_to_screen_y(particle.y, rider.y)
+      let k = particle.t / particle.life
       let a : Int = ((Float::from_int(1) - k) * 220.0).to_int()
       let mut c = @raylib.Color::new(118, 220, 252, a)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         c = @raylib.Color::new(142, 248, 188, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         c = @raylib.Color::new(252, 192, 106, a)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         c = @raylib.Color::new(236, 96, 118, a)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
+        particle.x.to_int(),
         psy.to_int(),
-        particles[i].size,
+        particle.size,
         c,
       )
     }

@@ -24,22 +24,22 @@ struct Package {
 
 ///|
 fn reset_packages(ps : Array[Package]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].alive = false
+  for ps_elem in ps {
+    ps_elem.alive = false
   }
 }
 
 ///|
 fn spawn_package(ps : Array[Package]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    if not(ps[i].alive) {
+  for ps_elem in ps {
+    if not(ps_elem.alive) {
       let lane = @raylib.get_random_value(0, lane_count - 1)
-      ps[i].alive = true
-      ps[i].x = 80.0
-      ps[i].lane = lane
-      ps[i].y = lane_y(lane)
-      ps[i].code = @raylib.get_random_value(0, 3)
-      ps[i].speed = Float::from_int(@raylib.get_random_value(140, 230))
+      ps_elem.alive = true
+      ps_elem.x = 80.0
+      ps_elem.lane = lane
+      ps_elem.y = lane_y(lane)
+      ps_elem.code = @raylib.get_random_value(0, 3)
+      ps_elem.speed = Float::from_int(@raylib.get_random_value(140, 230))
       break
     }
   }
@@ -164,19 +164,19 @@ fn main {
         spawn_package(packages)
       }
 
-      for i = 0; i < packages.length(); i = i + 1 {
-        if not(packages[i].alive) {
+      for package in packages {
+        if not(package.alive) {
           continue
         }
 
-        packages[i].x = packages[i].x + packages[i].speed * dt
+        package.x = package.x + package.speed * dt
 
-        if packages[i].x >= sorter_x - sorter_width / 2.0 &&
-          packages[i].x <= sorter_x + sorter_width / 2.0 {
-          if packages[i].lane == sorter_lane {
+        if package.x >= sorter_x - sorter_width / 2.0 &&
+          package.x <= sorter_x + sorter_width / 2.0 {
+          if package.lane == sorter_lane {
             // Divert to selected lane mapping
             let out_code = chute_map[sorter_lane]
-            if out_code == packages[i].code {
+            if out_code == package.code {
               score = score + 28
               correct = correct + 1
               msg = "Correct sort."
@@ -186,13 +186,13 @@ fn main {
               lives = lives - 1
               msg = "Wrong destination mapping."
             }
-            packages[i].alive = false
+            package.alive = false
             continue
           }
         }
 
-        if packages[i].x > Float::from_int(sw - 70) {
-          packages[i].alive = false
+        if package.x > Float::from_int(sw - 70) {
+          package.alive = false
           missed = missed + 1
           score = score - 12
           lives = lives - 1
@@ -219,7 +219,7 @@ fn main {
       @raylib.Color::new(220, 226, 232, 255),
     )
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let y = lane_y(l)
       @raylib.draw_line(60, y.to_int(), sw - 60, y.to_int(), @raylib.gray)
       @raylib.draw_line(
@@ -269,27 +269,27 @@ fn main {
       @raylib.white,
     )
 
-    for i = 0; i < packages.length(); i = i + 1 {
-      if packages[i].alive {
-        let col = code_color(packages[i].code)
+    for package in packages {
+      if package.alive {
+        let col = code_color(package.code)
         @raylib.draw_rectangle(
-          (packages[i].x - 16.0).to_int(),
-          (packages[i].y - 16.0).to_int(),
+          (package.x - 16.0).to_int(),
+          (package.y - 16.0).to_int(),
           32,
           24,
           col,
         )
         @raylib.draw_rectangle_lines(
-          (packages[i].x - 16.0).to_int(),
-          (packages[i].y - 16.0).to_int(),
+          (package.x - 16.0).to_int(),
+          (package.y - 16.0).to_int(),
           32,
           24,
           @raylib.black,
         )
         @raylib.draw_text(
-          code_label(packages[i].code),
-          (packages[i].x - 6.0).to_int(),
-          (packages[i].y - 13.0).to_int(),
+          code_label(package.code),
+          (package.x - 6.0).to_int(),
+          (package.y - 13.0).to_int(),
           18,
           @raylib.black,
         )

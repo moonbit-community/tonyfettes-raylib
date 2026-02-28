@@ -72,7 +72,7 @@ pub fn update_entity_spawning(game : @types.Game, dt : Float) -> Unit {
   game.entity_spawn_timer = 3.0 + @types.rand_float(game) * 5.0
   // Count active entities
   let mut active_count = 0
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     if game.entities[i].active {
       active_count += 1
     }
@@ -130,7 +130,7 @@ fn spawn_entity_at(game : @types.Game, x : Float, y : Float, z : Float) -> Unit 
     return
   }
   // Find free entity slot
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     if not(game.entities[i].active) {
       let ent = game.entities[i]
       ent.active = true
@@ -162,10 +162,10 @@ fn spawn_entity_at(game : @types.Game, x : Float, y : Float, z : Float) -> Unit 
 ///|
 pub fn update_entities(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     let ent = game.entities[i]
     if not(ent.active) {
-      continue i + 1
+      continue
     }
     // Animation timer
     ent.anim_timer += dt
@@ -187,7 +187,7 @@ pub fn update_entities(game : @types.Game, dt : Float) -> Unit {
     let dist_to_player = @types.distance_xz(ent.x, ent.z, player.x, player.z)
     if dist_to_player > @types.entity_despawn_radius {
       ent.active = false
-      continue i + 1
+      continue
     }
     // AI state machine
     update_entity_ai(game, ent, dt, dist_to_player)

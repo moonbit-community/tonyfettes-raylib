@@ -1,16 +1,16 @@
 ///|
 fn clear_dynamic_world(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.Enemy::inactive()
   }
-  for i = 0; i < game.coins.length(); i = i + 1 {
+  for i in 0..<game.coins.length() {
     game.coins[i] = @types.Coin::inactive()
   }
 }
 
 ///|
 fn alloc_enemy(game : @types.Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -20,7 +20,7 @@ fn alloc_enemy(game : @types.Game) -> Int {
 
 ///|
 fn alloc_coin(game : @types.Game) -> Int {
-  for i = 0; i < game.coins.length(); i = i + 1 {
+  for i in 0..<game.coins.length() {
     if not(game.coins[i].active) {
       return i
     }
@@ -57,8 +57,8 @@ fn add_coin_spawn(game : @types.Game, tx : Int, ty : Int) -> Unit {
 
 ///|
 fn carve_gap(game : @types.Game, tx0 : Int, tx1 : Int) -> Unit {
-  for x = tx0; x <= tx1; x = x + 1 {
-    for y = @types.ground_row; y < @types.world_tiles_h; y = y + 1 {
+  for x in tx0..=tx1 {
+    for y in @types.ground_row..<@types.world_tiles_h {
       @types.set_tile(game, x, y, @types.tile_empty)
     }
   }
@@ -72,7 +72,7 @@ fn add_pipe(game : @types.Game, tx : Int, height : Int) -> Unit {
 
 ///|
 fn add_brick_row(game : @types.Game, tx : Int, ty : Int, len : Int) -> Unit {
-  for x = tx; x < tx + len; x = x + 1 {
+  for x in tx..<(tx + len) {
     @types.set_tile(game, x, ty, @types.tile_brick)
   }
 }
@@ -186,7 +186,7 @@ fn build_level_geometry(game : @types.Game) -> Unit {
 
   // Flag pole and castle.
   let flag_tx = 214
-  for ty = 8; ty < @types.ground_row; ty = ty + 1 {
+  for ty in 8..<@types.ground_row {
     @types.set_tile(game, flag_tx, ty, @types.tile_flag_pole)
   }
 

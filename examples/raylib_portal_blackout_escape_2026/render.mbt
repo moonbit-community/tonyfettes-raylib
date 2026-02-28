@@ -78,8 +78,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_tiles(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -204,14 +204,14 @@ fn draw_portals(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_cores(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.cores.length(); i = i + 1 {
-    if not(game.cores[i].active) {
+  for core in game.cores {
+    if not(core.active) {
       continue
     }
 
-    let cx : Int = board_px(game.cores[i].x) + cell / 2 + ox
-    let cy : Int = board_py(game.cores[i].y) + cell / 2 + oy
-    let col = core_color(game.cores[i].kind)
+    let cx : Int = board_px(core.x) + cell / 2 + ox
+    let cy : Int = board_py(core.y) + cell / 2 + oy
+    let col = core_color(core.kind)
 
     @raylib.draw_circle(cx, cy, 12.0, col)
     @raylib.draw_circle_lines(
@@ -232,14 +232,14 @@ fn draw_cores(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_flares(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.flares.length(); i = i + 1 {
-    if not(game.flares[i].active) {
+  for flare in game.flares {
+    if not(flare.active) {
       continue
     }
 
-    let cx : Int = board_px(game.flares[i].x) + cell / 2 + ox
-    let cy : Int = board_py(game.flares[i].y) + cell / 2 + oy
-    let a : Int = clampi((game.flares[i].t * 46.0).to_int(), 50, 188)
+    let cx : Int = board_px(flare.x) + cell / 2 + ox
+    let cy : Int = board_py(flare.y) + cell / 2 + oy
+    let a : Int = clampi((flare.t * 46.0).to_int(), 50, 188)
 
     @raylib.draw_circle(cx, cy, 38.0, @raylib.Color::new(192, 174, 244, a / 2))
     @raylib.draw_circle(cx, cy, 20.0, @raylib.Color::new(242, 236, 186, a))
@@ -248,20 +248,20 @@ fn draw_flares(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_drones(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.drones.length(); i = i + 1 {
-    if not(game.drones[i].active) {
+  for drone in game.drones {
+    if not(drone.active) {
       continue
     }
 
-    let cx : Int = cell_center_x(game.drones[i].body.fx) + ox
-    let cy : Int = cell_center_y(game.drones[i].body.fy) + oy
+    let cx : Int = cell_center_x(drone.body.fx) + ox
+    let cy : Int = cell_center_y(drone.body.fy) + oy
 
-    let col = if game.drones[i].mode == drone_stunned {
+    let col = if drone.mode == drone_stunned {
       @raylib.Color::new(170, 150, 246, 230)
-    } else if game.drones[i].mode == drone_hunt {
+    } else if drone.mode == drone_hunt {
       @raylib.Color::new(252, 140, 164, 236)
     } else {
-      drone_color(game.drones[i].color_id)
+      drone_color(drone.color_id)
     }
 
     @raylib.draw_circle(cx, cy, 14.0, col)
@@ -314,23 +314,23 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let col = if game.particles[i].kind == 2 {
+    let col = if particle.kind == 2 {
       @raylib.Color::new(194, 170, 246, 188)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(250, 224, 154, 194)
     } else {
       @raylib.Color::new(170, 220, 252, 170)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       col,
     )
   }
@@ -340,12 +340,12 @@ fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
 fn light_alpha(game : Game, x : Int, y : Int) -> Int {
   let mut best : Int = manhattan(x, y, game.player.x, game.player.y)
 
-  for i = 0; i < game.flares.length(); i = i + 1 {
-    if not(game.flares[i].active) {
+  for flare in game.flares {
+    if not(flare.active) {
       continue
     }
 
-    let d : Int = manhattan(x, y, game.flares[i].x, game.flares[i].y)
+    let d : Int = manhattan(x, y, flare.x, flare.y)
     if d < best {
       best = d
     }
@@ -366,8 +366,8 @@ fn light_alpha(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn draw_blackout(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 1; y < grid_h - 1; y = y + 1 {
-    for x = 1; x < grid_w - 1; x = x + 1 {
+  for y in 1..<(grid_h - 1) {
+    for x in 1..<(grid_w - 1) {
       let a : Int = light_alpha(game, x, y)
       @raylib.draw_rectangle(
         board_px(x) + ox,

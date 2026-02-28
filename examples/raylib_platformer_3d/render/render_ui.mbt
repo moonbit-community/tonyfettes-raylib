@@ -40,7 +40,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Animated background elements
   let wave_y = @math.sinf(game.menu_blink * 0.5) * 10.0
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let bx = 50 + i * 220
     let by = 500 + (wave_y * Float::from_int(i + 1) * 0.3).to_int()
     @raylib.draw_rectangle(
@@ -90,7 +90,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Menu items
   let items : Array[String] = ["New Game", "World Select", "Level Select"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 280 + i * 50
     let is_sel = game.menu_cursor == i
     let blink = @math.sinf(game.menu_blink * 2.0)
@@ -369,10 +369,9 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let mut max_x : Float = game.px
   let mut min_z : Float = game.pz
   let mut max_z : Float = game.pz
-  for i = 0; i < game.platforms.length(); i = i + 1 {
-    let p = game.platforms[i]
+  for p in game.platforms {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     if p.x < min_x {
       min_x = p.x
@@ -394,10 +393,9 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let offset_x : Float = Float::from_int(mm_x + 5) - min_x * scale + 5.0
   let offset_z : Float = Float::from_int(mm_y + 5) - min_z * scale + 5.0
   // Draw platforms on minimap
-  for i = 0; i < game.platforms.length(); i = i + 1 {
-    let p = game.platforms[i]
+  for p in game.platforms {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let px = (p.x * scale + offset_x).to_int()
     let pz = (p.z * scale + offset_z).to_int()
@@ -432,10 +430,9 @@ fn draw_minimap(game : @types.Game) -> Unit {
     @raylib.Color::new(60, 140, 220, 255),
   )
   // Enemies on minimap
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let ex = (e.x * scale + offset_x).to_int()
     let ez = (e.z * scale + offset_z).to_int()
@@ -470,7 +467,7 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
   )
   // Menu items
   let items : Array[String] = ["Resume", "Restart", "Quit to Menu"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = @types.screen_height / 2 - 20 + i * 40
     let is_sel = game.pause_cursor == i
     let color = if is_sel {
@@ -618,7 +615,7 @@ fn draw_level_complete(game : @types.Game) -> Unit {
 
 ///|
 fn draw_star_rating(x : Int, y : Int, filled : Int, total : Int) -> Unit {
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     let sx = x + i * 30
     let color = if i < filled {
       @raylib.Color::new(255, 215, 0, 255)
@@ -746,7 +743,7 @@ fn draw_world_select(game : @types.Game) -> Unit {
     2,
     @raylib.Color::new(100, 120, 160, 150),
   )
-  for i = 0; i < @types.num_worlds; i = i + 1 {
+  for i in 0..<@types.num_worlds {
     let x = 70 + i * 230
     let y = 140
     let is_sel = game.world_select_cursor == i
@@ -806,7 +803,7 @@ fn draw_world_select(game : @types.Game) -> Unit {
     )
     // Stars collected in this world
     let mut world_stars = 0
-    for j = 0; j < @types.levels_per_world; j = j + 1 {
+    for j in 0..<@types.levels_per_world {
       let lvl_idx = i * @types.levels_per_world + j
       world_stars += game.level_stars[lvl_idx]
       ignore(j)
@@ -869,7 +866,7 @@ fn draw_level_select(game : @types.Game) -> Unit {
   let grid_w = cols * card_w + (cols - 1) * gap
   let start_x = (@types.screen_width - grid_w) / 2
   let start_y = 90
-  for i = 0; i < @types.total_levels; i = i + 1 {
+  for i in 0..<@types.total_levels {
     let col = i % cols
     let row = i / cols
     let x = start_x + col * (card_w + gap)
@@ -1027,7 +1024,7 @@ fn draw_campaign_complete(game : @types.Game) -> Unit {
   )
   // Stars background animation
   let star_y_offset = @math.sinf(Float::from_int(game.frame_counter) * 0.02)
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let sx = i * 53 % @types.screen_width
     let sy_base : Float = Float::from_int((i * 41 + 17) % @types.screen_height)
     let sy = sy_base + star_y_offset * Float::from_int(i % 5 + 1) * 3.0
@@ -1069,7 +1066,7 @@ fn draw_campaign_complete(game : @types.Game) -> Unit {
   )
   // Final stats
   let mut total_stars = 0
-  for i = 0; i < @types.total_levels; i = i + 1 {
+  for i in 0..<@types.total_levels {
     total_stars += game.level_stars[i]
   }
   let stars_text = "Total Stars: \{total_stars}/\{@types.total_levels * 3}"
@@ -1104,10 +1101,9 @@ fn draw_campaign_complete(game : @types.Game) -> Unit {
 
 ///|
 fn draw_score_flies(game : @types.Game) -> Unit {
-  for i = 0; i < game.score_flies.length(); i = i + 1 {
-    let sf = game.score_flies[i]
+  for sf in game.score_flies {
     if not(sf.active) {
-      continue i + 1
+      continue
     }
     let progress : Float = sf.timer / sf.max_time
     let alpha_f : Float = (1.0 - progress) * 255.0

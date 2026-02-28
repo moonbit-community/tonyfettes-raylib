@@ -142,10 +142,9 @@ fn update_game_over(game : @types.Game) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -180,9 +179,9 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_messages(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.messages.length(); i = i + 1 {
-    if game.messages[i].timer > 0.0 {
-      game.messages[i].timer -= dt
+  for message in game.messages {
+    if message.timer > 0.0 {
+      message.timer -= dt
     }
   }
 }
@@ -250,14 +249,14 @@ fn update_terrain(game : @types.Game) -> Unit {
   game.last_terrain_cx = cx
   game.last_terrain_cz = cz
   // Deactivate all terrain
-  for i = 0; i < game.terrain.length(); i = i + 1 {
-    game.terrain[i].active = false
+  for terrain_elem in game.terrain {
+    terrain_elem.active = false
   }
   // Generate terrain around player
   let view = @types.terrain_view_range
   let mut tidx = 0
-  for gx = cx - view; gx <= cx + view; gx = gx + 1 {
-    for gz = cz - view; gz <= cz + view; gz = gz + 1 {
+  for gx in (cx - view)..=(cx + view) {
+    for gz in (cz - view)..=(cz + view) {
       if tidx >= game.terrain.length() {
         break
       }
@@ -316,18 +315,18 @@ fn update_clouds(game : @types.Game) -> Unit {
   // Generate clouds around player if needed
   let player = game.player
   let mut active_count = 0
-  for i = 0; i < game.clouds.length(); i = i + 1 {
-    if game.clouds[i].active {
+  for cloud in game.clouds {
+    if cloud.active {
       active_count += 1
       // Remove clouds that are too far away
       let d = @types.distance2d(
         player.x,
         player.z,
-        game.clouds[i].x,
-        game.clouds[i].z,
+        cloud.x,
+        cloud.z,
       )
       if d > 200.0 {
-        game.clouds[i].active = false
+        cloud.active = false
         active_count -= 1
       }
     }
@@ -345,7 +344,7 @@ fn update_clouds(game : @types.Game) -> Unit {
   }
   if active_count < target_clouds {
     let count_to_spawn = target_clouds - active_count
-    for j = 0; j < count_to_spawn; j = j + 1 {
+    for j in 0..<count_to_spawn {
       let idx = @types.alloc_cloud(game)
       if idx >= 0 {
         let c = game.clouds[idx]
@@ -373,13 +372,12 @@ fn update_clouds(game : @types.Game) -> Unit {
 ///|
 fn update_checkpoints(game : @types.Game) -> Unit {
   let player = game.player
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) {
-      continue i + 1
+      continue
     }
     if cp.collected {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(player.x, player.y, player.z, cp.x, cp.y, cp.z)
     if dist < cp.radius {
@@ -401,10 +399,9 @@ fn update_checkpoints(game : @types.Game) -> Unit {
 ///|
 fn update_turrets(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i = 0; i < game.turrets.length(); i = i + 1 {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     // Flash timer
     if t.flash_timer > 0.0 {
@@ -412,7 +409,7 @@ fn update_turrets(game : @types.Game, dt : Float) -> Unit {
     }
     let dist = @types.distance3d(t.x, t.y, t.z, player.x, player.y, player.z)
     if dist > t.range {
-      continue i + 1
+      continue
     }
     // Rotate towards player
     let target_rot = @types.bearing_to(t.x, t.z, player.x, player.z)
@@ -473,21 +470,19 @@ fn turret_fire(
 ///|
 fn update_buildings_projectile_check(game : @types.Game) -> Unit {
   // Check if any player projectiles hit buildings
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     if proj.is_enemy {
-      continue i + 1
+      continue
     }
-    for j = 0; j < game.buildings.length(); j = j + 1 {
-      let b = game.buildings[j]
+    for b in game.buildings {
       if not(b.active) {
-        continue j + 1
+        continue
       }
       if not(b.destructible) {
-        continue j + 1
+        continue
       }
       let hit = @types.point_in_aabb(
         proj.x,
@@ -528,18 +523,16 @@ fn update_buildings_projectile_check(game : @types.Game) -> Unit {
     }
   }
   // Also check projectiles vs turrets
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     if proj.is_enemy {
-      continue i + 1
+      continue
     }
-    for j = 0; j < game.turrets.length(); j = j + 1 {
-      let t = game.turrets[j]
+    for t in game.turrets {
       if not(t.active) {
-        continue j + 1
+        continue
       }
       let dist = @types.distance3d(proj.x, proj.y, proj.z, t.x, t.y + 1.0, t.z)
       if dist < 2.5 {
@@ -590,13 +583,12 @@ fn update_warnings(game : @types.Game, dt : Float) -> Unit {
   game.damage_warning = player.hp < player.max_hp * 0.3
   // Incoming fire warning
   let mut incoming = false
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     if not(p.is_enemy) {
-      continue i + 1
+      continue
     }
     let d = @types.distance3d(p.x, p.y, p.z, player.x, player.y, player.z)
     if d < 30.0 {
@@ -614,7 +606,7 @@ fn update_weather_effects(game : @types.Game, dt : Float) -> Unit {
   if ws.rain_intensity > 0.0 {
     let rain_count : Float = ws.rain_intensity * 3.0
     let spawn_count = rain_count.to_int()
-    for i = 0; i < spawn_count; i = i + 1 {
+    for i in 0..<spawn_count {
       let idx = @types.alloc_particle(game)
       if idx >= 0 {
         let p = game.particles[idx]
@@ -689,33 +681,33 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
   game.damage_warning = false
   game.incoming_warning = false
   // Clear entities
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    game.enemies[i].active = false
+  for enemy in game.enemies {
+    enemy.active = false
   }
-  for i = 0; i < game.turrets.length(); i = i + 1 {
-    game.turrets[i].active = false
+  for turret in game.turrets {
+    turret.active = false
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    game.projectiles[i].active = false
+  for projectile in game.projectiles {
+    projectile.active = false
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
+  for particle in game.particles {
+    particle.active = false
   }
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
-    game.checkpoints[i].active = false
-    game.checkpoints[i].collected = false
+  for checkpoint in game.checkpoints {
+    checkpoint.active = false
+    checkpoint.collected = false
   }
-  for i = 0; i < game.buildings.length(); i = i + 1 {
-    game.buildings[i].active = false
+  for building in game.buildings {
+    building.active = false
   }
-  for i = 0; i < game.clouds.length(); i = i + 1 {
-    game.clouds[i].active = false
+  for cloud in game.clouds {
+    cloud.active = false
   }
-  for i = 0; i < game.terrain.length(); i = i + 1 {
-    game.terrain[i].active = false
+  for terrain_elem in game.terrain {
+    terrain_elem.active = false
   }
-  for i = 0; i < game.messages.length(); i = i + 1 {
-    game.messages[i].timer = 0.0
+  for message in game.messages {
+    message.timer = 0.0
   }
   game.last_terrain_cx = -9999
   game.last_terrain_cz = -9999
@@ -728,7 +720,7 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
     } else {
       mission.target_count
     }
-    for i = 0; i < cp_count; i = i + 1 {
+    for i in 0..<cp_count {
       let idx = @types.alloc_checkpoint(game)
       if idx >= 0 {
         let (cx, cy, cz) = @levels.get_checkpoint_pos(mission_idx, i)
@@ -744,7 +736,7 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
     }
   }
   // Spawn ground enemies
-  for i = 0; i < mission.enemy_count; i = i + 1 {
+  for i in 0..<mission.enemy_count {
     let idx = @types.alloc_enemy(game)
     if idx >= 0 {
       let (ex, _ey, ez) = @levels.get_ground_enemy_pos(mission_idx, i)
@@ -777,7 +769,7 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
     }
   }
   // Spawn air enemies
-  for i = 0; i < mission.enemy_air_count; i = i + 1 {
+  for i in 0..<mission.enemy_air_count {
     let idx = @types.alloc_enemy(game)
     if idx >= 0 {
       let (ex, ey, ez) = @levels.get_air_enemy_pos(mission_idx, i)
@@ -810,7 +802,7 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
     }
   }
   // Spawn turrets
-  for i = 0; i < mission.turret_count; i = i + 1 {
+  for i in 0..<mission.turret_count {
     let idx = @types.alloc_turret(game)
     if idx >= 0 {
       let (tx, _ty, tz) = @levels.get_turret_pos(mission_idx, i)
@@ -829,7 +821,7 @@ pub fn start_mission(game : @types.Game, mission_idx : Int) -> Unit {
     }
   }
   // Spawn buildings
-  for i = 0; i < mission.building_count; i = i + 1 {
+  for i in 0..<mission.building_count {
     let idx = @types.alloc_building(game)
     if idx >= 0 {
       let (bx, _by, bz, bkind) = @levels.get_building_info(mission_idx, i)

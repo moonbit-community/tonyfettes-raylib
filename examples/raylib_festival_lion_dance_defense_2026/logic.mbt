@@ -18,8 +18,8 @@ fn reset_threat(threat : Threat) -> Unit {
 
 ///|
 fn clear_threats(game : Game) -> Unit {
-  for i = 0; i < game.threats.length(); i = i + 1 {
-    reset_threat(game.threats[i])
+  for threat in game.threats {
+    reset_threat(threat)
   }
 }
 
@@ -85,7 +85,7 @@ fn start_run(game : Game) -> Unit {
 ///|
 fn spawn_threat(game : Game) -> Unit {
   let mut slot = -1
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       slot = i
       break
@@ -318,7 +318,7 @@ fn handle_strike(game : Game) -> Unit {
   game.strike_t = strike_fx_time
 
   let mut cleared_now = 0
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }
@@ -355,22 +355,22 @@ fn handle_guard(game : Game) -> Unit {
 
   let mut stunned_now = 0
 
-  for i = 0; i < game.threats.length(); i = i + 1 {
-    if not(game.threats[i].active) {
+  for threat in game.threats {
+    if not(threat.active) {
       continue
     }
-    if game.threats[i].kind != threat_incident {
+    if threat.kind != threat_incident {
       continue
     }
 
-    let reach = guard_radius + game.threats[i].radius
-    if dist2(game.troupe_x, game.troupe_y, game.threats[i].x, game.threats[i].y) >
+    let reach = guard_radius + threat.radius
+    if dist2(game.troupe_x, game.troupe_y, threat.x, threat.y) >
       squaref(reach) {
       continue
     }
 
-    let fresh = game.threats[i].stun_t <= 0.0
-    game.threats[i].stun_t = maxf(game.threats[i].stun_t, guard_stun_time)
+    let fresh = threat.stun_t <= 0.0
+    threat.stun_t = maxf(threat.stun_t, guard_stun_time)
 
     if fresh {
       stunned_now = stunned_now + 1
@@ -461,7 +461,7 @@ fn update_spawn(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_threats(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }
@@ -525,7 +525,7 @@ fn apply_burst_field(game : Game) -> Unit {
   }
 
   let mut cleared_now = 0
-  for i = 0; i < game.threats.length(); i = i + 1 {
+  for i in 0..<game.threats.length() {
     if not(game.threats[i].active) {
       continue
     }

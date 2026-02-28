@@ -76,14 +76,14 @@ fn inside_rect(
 
 ///|
 fn clear_walls(walls : Array[Bool]) -> Unit {
-  for i = 0; i < walls.length(); i = i + 1 {
+  for i in 0..<walls.length() {
     walls[i] = false
   }
 }
 
 ///|
 fn clear_orbs(orbs : Array[Orb]) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     orbs[i] = { x: 0, y: 0, active: false }
   }
 }
@@ -117,7 +117,7 @@ fn is_wall(walls : Array[Bool], x : Int, y : Int) -> Bool {
 ///|
 fn orb_at(orbs : Array[Orb], skip : Int, x : Int, y : Int) -> Bool {
   let mut found = false
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     if i == skip || not(orbs[i].active) {
       continue
     }
@@ -136,7 +136,7 @@ fn goal_at(
   y : Int,
 ) -> Bool {
   let mut found = false
-  for i = 0; i < goals_x.length(); i = i + 1 {
+  for i in 0..<goals_x.length() {
     if goals_x[i] == x && goals_y[i] == y {
       found = true
     }
@@ -151,8 +151,8 @@ fn goals_completed(
   goals_y : Array[Int],
 ) -> Int {
   let mut c = 0
-  for i = 0; i < orbs.length(); i = i + 1 {
-    if orbs[i].active && goal_at(goals_x, goals_y, orbs[i].x, orbs[i].y) {
+  for orb in orbs {
+    if orb.active && goal_at(goals_x, goals_y, orb.x, orb.y) {
       c = c + 1
     }
   }
@@ -179,11 +179,11 @@ fn setup_level(
   clear_walls(walls)
   clear_orbs(orbs)
 
-  for x = 0; x < gw; x = x + 1 {
+  for x in 0..<gw {
     walls[idx(x, 0)] = true
     walls[idx(x, gh - 1)] = true
   }
-  for y = 0; y < gh; y = y + 1 {
+  for y in 0..<gh {
     walls[idx(0, y)] = true
     walls[idx(gw - 1, y)] = true
   }
@@ -298,7 +298,7 @@ fn apply_pulse(
 ) -> Int {
   let mut moved = 0
 
-  for i = 0; i < orbs.length(); i = i + 1 {
+  for i in 0..<orbs.length() {
     if not(orbs[i].active) {
       continue
     }
@@ -593,8 +593,8 @@ fn main {
       @raylib.Color::new(44, 54, 68, 255),
     )
 
-    for y = 0; y < gh; y = y + 1 {
-      for x = 0; x < gw; x = x + 1 {
+    for y in 0..<gh {
+      for x in 0..<gw {
         let px0 = ox + x * cell
         let py0 = oy + y * cell
 
@@ -630,12 +630,12 @@ fn main {
       }
     }
 
-    for i = 0; i < orbs.length(); i = i + 1 {
-      if not(orbs[i].active) {
+    for orb in orbs {
+      if not(orb.active) {
         continue
       }
-      let x = ox + orbs[i].x * cell + cell / 2
-      let y = oy + orbs[i].y * cell + cell / 2
+      let x = ox + orb.x * cell + cell / 2
+      let y = oy + orb.y * cell + cell / 2
       @raylib.draw_circle(x, y, 18.0, @raylib.Color::new(198, 214, 234, 255))
       @raylib.draw_circle(
         x - 5,

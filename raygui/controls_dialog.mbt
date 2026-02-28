@@ -53,7 +53,7 @@ pub fn gui_message_box(
   gui_set_style(ControlButton, TextAlignment, TextAlignCenter)
   let mut btn_x : Float = bx + btn_pad
   let btn_y : Float = by + bh - btn_h - btn_pad
-  for i = 0; i < button_count; i = i + 1 {
+  for i in 0..<button_count {
     let btn_bounds = @raylib.Rectangle::new(btn_x, btn_y, btn_w, btn_h)
     if gui_button(btn_bounds, button_items[i]) {
       result = i + 1
@@ -166,7 +166,7 @@ pub fn gui_text_input_box(
       } else {
         // Not editing, not viewing: show stars
         let buf = StringBuilder::new()
-        for i = 0; i < text.val.length(); i = i + 1 {
+        for i in 0..<text.val.length() {
           buf.write_char('*')
         }
         let display_text : Ref[String] = { val: buf.to_string() }
@@ -205,7 +205,7 @@ pub fn gui_text_input_box(
   gui_set_style(ControlButton, TextAlignment, TextAlignCenter)
   let mut btn_x : Float = bx + btn_pad
   let btn_y : Float = by + bh - btn_h - btn_pad
-  for i = 0; i < button_count; i = i + 1 {
+  for i in 0..<button_count {
     let btn_bounds = @raylib.Rectangle::new(btn_x, btn_y, btn_w, btn_h)
     if gui_button(btn_bounds, button_items[i]) {
       result = i + 1
@@ -258,7 +258,7 @@ pub fn gui_grid(
   let grid_alpha : Float = 0.15
   if subdivs > 0 {
     // Draw vertical lines
-    for i = 0; i < lines_v; i = i + 1 {
+    for i in 0..<lines_v {
       let lx : Float = bx +
         spacing * Float::from_int(i) / Float::from_int(subdivs)
       let line_rec = @raylib.Rectangle::new(lx, by, 1.0, bh + 1.0)
@@ -270,7 +270,7 @@ pub fn gui_grid(
       gui_draw_rectangle(line_rec, 0, blank, gui_fade(get_color(color), alpha))
     }
     // Draw horizontal lines
-    for i = 0; i < lines_h; i = i + 1 {
+    for i in 0..<lines_h {
       let ly : Float = by +
         spacing * Float::from_int(i) / Float::from_int(subdivs)
       let line_rec = @raylib.Rectangle::new(bx, ly, bw + 1.0, 1.0)

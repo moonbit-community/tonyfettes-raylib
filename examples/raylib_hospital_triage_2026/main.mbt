@@ -24,24 +24,24 @@ struct Patient {
 
 ///|
 fn reset_patients(ps : Array[Patient]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].alive = false
+  for ps_elem in ps {
+    ps_elem.alive = false
   }
 }
 
 ///|
 fn spawn_patient(ps : Array[Patient]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    if not(ps[i].alive) {
+  for ps_elem in ps {
+    if not(ps_elem.alive) {
       let w = @raylib.get_random_value(0, ward_count - 1)
       let r = @raylib.get_random_value(0, 99)
       let sev = if r < 42 { 0 } else if r < 82 { 1 } else { 2 }
-      ps[i].alive = true
-      ps[i].ward = w
-      ps[i].x = ward_x(w)
-      ps[i].y = 150.0
-      ps[i].severity = sev
-      ps[i].wait = 0.0
+      ps_elem.alive = true
+      ps_elem.ward = w
+      ps_elem.x = ward_x(w)
+      ps_elem.y = 150.0
+      ps_elem.severity = sev
+      ps_elem.wait = 0.0
       break
     }
   }
@@ -183,41 +183,41 @@ fn main {
         }
       }
 
-      for i = 0; i < patients.length(); i = i + 1 {
-        if not(patients[i].alive) {
+      for patient in patients {
+        if not(patient.alive) {
           continue
         }
 
-        let spd : Float = if patients[i].severity == 2 {
+        let spd : Float = if patient.severity == 2 {
           (55.0 : Float)
-        } else if patients[i].severity == 1 {
+        } else if patient.severity == 1 {
           (42.0 : Float)
         } else {
           (32.0 : Float)
         }
-        patients[i].y = patients[i].y + spd * dt
-        patients[i].wait = patients[i].wait + dt
+        patient.y = patient.y + spd * dt
+        patient.wait = patient.wait + dt
 
-        let panic_time : Float = if patients[i].severity == 2 {
+        let panic_time : Float = if patient.severity == 2 {
           (7.0 : Float)
-        } else if patients[i].severity == 1 {
+        } else if patient.severity == 1 {
           (10.0 : Float)
         } else {
           (13.0 : Float)
         }
-        if patients[i].wait > panic_time {
-          patients[i].alive = false
+        if patient.wait > panic_time {
+          patient.alive = false
           failed = failed + 1
-          let life_loss = if patients[i].severity == 2 { 2 } else { 1 }
-          let score_loss = if patients[i].severity == 2 { 36 } else { 20 }
+          let life_loss = if patient.severity == 2 { 2 } else { 1 }
+          let score_loss = if patient.severity == 2 { 36 } else { 20 }
           lives = lives - life_loss
           score = score - score_loss
           msg = "Patient condition worsened untreated."
           continue
         }
 
-        if patients[i].y > Float::from_int(sh - 100) {
-          patients[i].alive = false
+        if patient.y > Float::from_int(sh - 100) {
+          patient.alive = false
           failed = failed + 1
           lives = lives - 1
           score = score - 14
@@ -232,7 +232,7 @@ fn main {
         ) {
         let mut pick = -1
         let mut best_y : Float = 1_000_000.0
-        for i = 0; i < patients.length(); i = i + 1 {
+        for i in 0..<patients.length() {
           if patients[i].alive && patients[i].ward == nurse_ward {
             if patients[i].y < best_y {
               best_y = patients[i].y
@@ -274,7 +274,7 @@ fn main {
       @raylib.Color::new(248, 248, 248, 255),
     )
 
-    for w = 0; w < ward_count; w = w + 1 {
+    for w in 0..<ward_count {
       let x = ward_x(w)
       @raylib.draw_rectangle(
         (x - 75.0).to_int(),
@@ -299,19 +299,19 @@ fn main {
       )
     }
 
-    for i = 0; i < patients.length(); i = i + 1 {
-      if patients[i].alive {
-        let c = severity_color(patients[i].severity)
+    for patient in patients {
+      if patient.alive {
+        let c = severity_color(patient.severity)
         @raylib.draw_circle(
-          patients[i].x.to_int(),
-          patients[i].y.to_int(),
+          patient.x.to_int(),
+          patient.y.to_int(),
           15.0,
           c,
         )
         @raylib.draw_text(
-          severity_name(patients[i].severity),
-          (patients[i].x - 26.0).to_int(),
-          (patients[i].y - 30.0).to_int(),
+          severity_name(patient.severity),
+          (patient.x - 26.0).to_int(),
+          (patient.y - 30.0).to_int(),
           16,
           @raylib.black,
         )

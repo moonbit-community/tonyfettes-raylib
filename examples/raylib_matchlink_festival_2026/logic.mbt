@@ -70,22 +70,22 @@ fn set_cell(game : Game, x : Int, y : Int, value : Int) -> Unit {
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.cells.length(); i = i + 1 {
+  for i in 0..<game.cells.length() {
     game.cells[i] = 0
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -157,19 +157,19 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
@@ -179,7 +179,7 @@ fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
   let (cx, cy, tile_f) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tile_f * 0.2)
 
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_spark(
       game,
       cx + randf(-spread, spread),
@@ -195,21 +195,21 @@ fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 1.9)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 1.9) + dt * 36.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 1.9)
+    spark.vy = spark.vy * (1.0 - dt * 1.9) + dt * 36.0
   }
 }
 
@@ -231,7 +231,7 @@ fn build_level_board(game : Game) -> Unit {
   let pair_count : Int = total / 2
 
   let vals : Array[Int] = []
-  for i = 0; i < pair_count; i = i + 1 {
+  for i in 0..<pair_count {
     let kind : Int = i % game.kind_count + 1
     vals.push(kind)
     vals.push(kind)
@@ -241,8 +241,8 @@ fn build_level_board(game : Game) -> Unit {
 
   clear_board(game)
   let mut p : Int = 0
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       set_cell(game, x, y, vals[p])
       p = p + 1
     }
@@ -416,7 +416,7 @@ fn compose_with_start(ax : Int, ay : Int, tail : LinkPath) -> LinkPath {
   let ys : Array[Int] = []
   push_point(xs, ys, ax, ay)
 
-  for i = 0; i < tail.points; i = i + 1 {
+  for i in 0..<tail.points {
     let (x, y) = path_point(tail, i)
     push_point(xs, ys, x, y)
   }
@@ -449,7 +449,7 @@ fn find_link_path(
     return direct_or_corner
   }
 
-  for x = 0; x <= game.board_w + 1; x = x + 1 {
+  for x in 0..=(game.board_w + 1) {
     if x == bx && ay == by {
       continue
     }
@@ -468,7 +468,7 @@ fn find_link_path(
     }
   }
 
-  for y = 0; y <= game.board_h + 1; y = y + 1 {
+  for y in 0..=(game.board_h + 1) {
     if ax == bx && y == by {
       continue
     }
@@ -542,8 +542,8 @@ fn clear_selection(game : Game) -> Unit {
 
 ///|
 fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int, LinkPath) {
-  for y1 = 1; y1 <= game.board_h; y1 = y1 + 1 {
-    for x1 = 1; x1 <= game.board_w; x1 = x1 + 1 {
+  for y1 in 1..=game.board_h {
+    for x1 in 1..=game.board_w {
       let k1 : Int = cell_at(game, x1, y1)
       if k1 == 0 {
         continue
@@ -583,8 +583,8 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let vals : Array[Int] = []
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       let k : Int = cell_at(game, x, y)
       if k > 0 {
         vals.push(k)
@@ -597,12 +597,12 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let mut made : Bool = false
-  for _t = 0; _t < 28; _t = _t + 1 {
+  for _t in 0..<28 {
     shuffle_ints(vals)
 
     let mut p : Int = 0
-    for y = 1; y <= game.board_h; y = y + 1 {
-      for x = 1; x <= game.board_w; x = x + 1 {
+    for y in 1..=game.board_h {
+      for x in 1..=game.board_w {
         if cell_at(game, x, y) > 0 {
           set_cell(game, x, y, vals[p])
           p = p + 1
@@ -964,7 +964,7 @@ fn load_level(game : Game, level_id : Int) -> Unit {
   build_level_board(game)
 
   let mut ok : Bool = false
-  for _k = 0; _k < 28; _k = _k + 1 {
+  for _k in 0..<28 {
     let m = find_any_move(game)
     if m.0 {
       ok = true

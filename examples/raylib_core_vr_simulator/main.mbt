@@ -1,7 +1,7 @@
 ///|
 fn float_array_to_bytes(arr : FixedArray[Float]) -> Bytes {
   let result = FixedArray::make(arr.length() * 4, b'\x00')
-  for i = 0; i < arr.length(); i = i + 1 {
+  for i in 0..<arr.length() {
     let bits = arr[i].reinterpret_as_int()
     result[i * 4] = (bits & 0xFF).to_byte()
     result[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()

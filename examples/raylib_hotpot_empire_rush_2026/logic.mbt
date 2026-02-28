@@ -37,7 +37,7 @@ fn clear_pot(game : Game) -> Unit {
 
 ///|
 fn clear_orders(game : Game) -> Unit {
-  for i = 0; i < max_orders; i = i + 1 {
+  for i in 0..<max_orders {
     game.orders[i].active = false
     game.orders[i].id = i + 1
     game.orders[i].broth = 0
@@ -102,7 +102,7 @@ fn spawn_patience(elapsed : Float) -> Float {
 ///|
 fn active_order_count(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < max_orders; i = i + 1 {
+  for i in 0..<max_orders {
     if game.orders[i].active {
       count = count + 1
     }
@@ -145,7 +145,7 @@ fn remove_order_at(game : Game, idx : Int) -> Unit {
 ///|
 fn spawn_order(game : Game) -> Bool {
   let mut slot = -1
-  for i = 0; i < max_orders; i = i + 1 {
+  for i in 0..<max_orders {
     if not(game.orders[i].active) {
       slot = i
       break

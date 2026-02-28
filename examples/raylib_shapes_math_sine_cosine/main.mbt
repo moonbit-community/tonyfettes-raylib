@@ -65,7 +65,7 @@ fn main {
   let pause : Ref[Bool] = { val: false }
 
   // Initialize wave points
-  for i = 0; i < wave_points; i = i + 1 {
+  for i in 0..<wave_points {
     let t : Float = Float::from_int(i) / Float::from_int(wave_points - 1)
     let current_angle : Float = t * 360.0 * deg2rad
     sine_points[i] = @raylib.Vector2::new(

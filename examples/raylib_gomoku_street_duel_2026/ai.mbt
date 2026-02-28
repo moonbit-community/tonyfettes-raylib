@@ -1,7 +1,7 @@
 ///|
 fn has_neighbor(game : Game, x : Int, y : Int, r : Int) -> Bool {
-  for yy = y - r; yy <= y + r; yy = yy + 1 {
-    for xx = x - r; xx <= x + r; xx = xx + 1 {
+  for yy in (y - r)..=(y + r) {
+    for xx in (x - r)..=(x + r) {
       if xx == x && yy == y {
         continue
       }
@@ -118,8 +118,8 @@ fn best_move_for(game : Game, p : Int, opp : Int) -> (Bool, Int, Int, Int) {
   let mut best_x : Int = board_n / 2
   let mut best_y : Int = board_n / 2
 
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       if cell_at(game, x, y) != player_empty {
         continue
       }
@@ -152,8 +152,8 @@ fn best_move_for(game : Game, p : Int, opp : Int) -> (Bool, Int, Int, Int) {
   }
 
   if not(found) {
-    for y = 0; y < board_n; y = y + 1 {
-      for x = 0; x < board_n; x = x + 1 {
+    for y in 0..<board_n {
+      for x in 0..<board_n {
         if cell_at(game, x, y) == player_empty {
           return (true, x, y, 1)
         }

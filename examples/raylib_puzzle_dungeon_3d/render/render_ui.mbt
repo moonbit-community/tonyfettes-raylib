@@ -67,7 +67,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   )
   // Menu items
   let items : Array[String] = ["New Game", "World Select", "Floor Select"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 320 + i * 50
     let is_selected = game.menu_cursor == i
     let blink_val = @math.sinf(game.menu_blink * 2.0)
@@ -238,7 +238,7 @@ fn draw_level_complete(game : @types.Game) -> Unit {
   )
   // Draw stars
   let star_y = @types.screen_height / 2 + 20
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let star_x = @types.screen_width / 2 - 60 + i * 50
     let show_time = Float::from_int(i) * 0.3
     if game.complete_timer > show_time {
@@ -316,7 +316,7 @@ fn draw_floor_select(game : @types.Game) -> Unit {
   let cell_h = 80
   let start_x = (@types.screen_width - cols * cell_w) / 2
   let start_y = 100
-  for i = 0; i < @types.max_floors; i = i + 1 {
+  for i in 0..<@types.max_floors {
     let col = i % cols
     let row = i / cols
     let x = start_x + col * cell_w
@@ -351,7 +351,7 @@ fn draw_floor_select(game : @types.Game) -> Unit {
     @raylib.draw_text(num_text, x + 10, y + 10, 24, text_color)
     // Stars
     if info.completed {
-      for s = 0; s < 3; s = s + 1 {
+      for s in 0..<3 {
         let star_color = if s < info.stars {
           @raylib.Color::new(255, 215, 0, 255)
         } else {
@@ -418,7 +418,7 @@ fn draw_world_select(game : @types.Game) -> Unit {
   let total_w = @types.num_worlds * card_w + (@types.num_worlds - 1) * gap
   let start_x = (@types.screen_width - total_w) / 2
   let start_y = 160
-  for i = 0; i < @types.num_worlds; i = i + 1 {
+  for i in 0..<@types.num_worlds {
     let x = start_x + i * (card_w + gap)
     let y = start_y
     let is_selected = game.world_select_cursor == i
@@ -471,7 +471,7 @@ fn draw_world_select(game : @types.Game) -> Unit {
     if unlocked {
       let mut completed = 0
       let floor_start = i * @types.floors_per_world
-      for f = floor_start; f < floor_start + @types.floors_per_world; f = f + 1 {
+      for f in floor_start..<(floor_start + @types.floors_per_world) {
         if game.floor_info[f].completed {
           completed += 1
         }

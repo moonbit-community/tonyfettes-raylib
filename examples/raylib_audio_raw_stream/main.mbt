@@ -58,7 +58,7 @@ fn main {
       }
 
       // Write sine wave (two cycles)
-      for i = 0; i < wave_length * 2; i = i + 1 {
+      for i in 0..<(wave_length * 2) {
         let sample = @math.sinf(
             2.0 * pi * Float::from_int(i) / Float::from_int(wave_length),
           ) *
@@ -66,7 +66,7 @@ fn main {
         data[i] = sample.to_int()
       }
       // Clear rest of buffer
-      for j = wave_length * 2; j < max_samples; j = j + 1 {
+      for j in (wave_length * 2)..<max_samples {
         data[j] = 0
       }
 
@@ -86,7 +86,7 @@ fn main {
         }
 
         // Write the slice (16-bit signed samples, little-endian)
-        for i = 0; i < write_length; i = i + 1 {
+        for i in 0..<write_length {
           let sample = data[read_cursor + i]
           write_buf[(write_cursor + i) * 2] = (sample & 0xFF).to_byte()
           write_buf[(write_cursor + i) * 2 + 1] = ((sample >> 8) & 0xFF).to_byte()
@@ -117,7 +117,7 @@ fn main {
     )
 
     // Draw the current buffer state proportionate to the screen
-    for i = 0; i < screen_width; i = i + 1 {
+    for i in 0..<screen_width {
       let pos_x = Float::from_int(i)
       let sample_index = i * max_samples / screen_width
       let pos_y : Float = 250.0 +

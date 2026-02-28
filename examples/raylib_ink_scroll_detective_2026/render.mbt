@@ -68,7 +68,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(18, 24, 42, 255),
   )
 
-  for i = 0; i < 12; i = i + 1 {
+  for i in 0..<12 {
     let fi = Float::from_int(i)
     let y : Float = 70.0 + fi * 62.0 + sinf(game.city_time * 0.9 + fi) * 24.0
     let shift = ((game.city_time * (34.0 + fi * 2.0)).to_int() + i * 19) % 220
@@ -92,8 +92,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_districts(game : Game) -> Unit {
-  for y = 0; y < city_rows; y = y + 1 {
-    for x = 0; x < city_cols; x = x + 1 {
+  for y in 0..<city_rows {
+    for x in 0..<city_cols {
       let idx = cell_index(x, y)
       let heat = game.pulses[idx].heat
 
@@ -146,8 +146,8 @@ fn draw_districts(game : Game) -> Unit {
 
 ///|
 fn draw_district_ids() -> Unit {
-  for y = 0; y < city_rows; y = y + 1 {
-    for x = 0; x < city_cols; x = x + 1 {
+  for y in 0..<city_rows {
+    for x in 0..<city_cols {
       let id = cell_index(x, y)
       @raylib.draw_text(
         id.to_string(),
@@ -162,7 +162,7 @@ fn draw_district_ids() -> Unit {
 
 ///|
 fn draw_clues(game : Game) -> Unit {
-  for i = 0; i < game.clues.length(); i = i + 1 {
+  for i in 0..<game.clues.length() {
     if game.clues[i].discovered {
       continue
     }
@@ -190,14 +190,14 @@ fn draw_clues(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < game.clues.length(); i = i + 1 {
-    if game.clues[i].glow_t <= 0.0 {
+  for clue in game.clues {
+    if clue.glow_t <= 0.0 {
       continue
     }
 
-    let x = cell_center_x(game.clues[i].x)
-    let y = cell_center_y(game.clues[i].y)
-    let glow = game.clues[i].glow_t
+    let x = cell_center_x(clue.x)
+    let y = cell_center_y(clue.y)
+    let glow = clue.glow_t
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
@@ -209,7 +209,7 @@ fn draw_clues(game : Game) -> Unit {
 
 ///|
 fn draw_suspects(game : Game) -> Unit {
-  for i = 0; i < game.suspects.length(); i = i + 1 {
+  for i in 0..<game.suspects.length() {
     let x = cell_center_x(game.suspects[i].home_x)
     let y = cell_center_y(game.suspects[i].home_y)
     let col = suspect_col(i)
@@ -254,21 +254,21 @@ fn draw_suspects(game : Game) -> Unit {
 
 ///|
 fn draw_incidents(game : Game) -> Unit {
-  for i = 0; i < game.incidents.length(); i = i + 1 {
-    if not(game.incidents[i].active) {
+  for incident in game.incidents {
+    if not(incident.active) {
       continue
     }
 
-    let x = cell_center_x(game.incidents[i].x)
-    let y = cell_center_y(game.incidents[i].y)
-    let sevf = Float::from_int(game.incidents[i].severity)
+    let x = cell_center_x(incident.x)
+    let y = cell_center_y(incident.y)
+    let sevf = Float::from_int(incident.severity)
 
     let pulse : Float = 0.45 +
-      0.55 * sinf(game.city_time * 8.0 + game.incidents[i].pulse_t * 2.0)
+      0.55 * sinf(game.city_time * 8.0 + incident.pulse_t * 2.0)
 
-    let core_col = if game.incidents[i].severity == 1 {
+    let core_col = if incident.severity == 1 {
       @raylib.Color::new(244, 188, 122, 230)
-    } else if game.incidents[i].severity == 2 {
+    } else if incident.severity == 2 {
       @raylib.Color::new(244, 136, 102, 230)
     } else {
       @raylib.Color::new(244, 90, 104, 230)
@@ -290,7 +290,7 @@ fn draw_incidents(game : Game) -> Unit {
     )
 
     @raylib.draw_text(
-      game.incidents[i].timer.to_int().to_string(),
+      incident.timer.to_int().to_string(),
       (x - 8.0).to_int(),
       (y - 8.0).to_int(),
       16,
@@ -520,7 +520,7 @@ fn draw_suspect_board(game : Game) -> Unit {
     @raylib.Color::new(230, 240, 255, 242),
   )
 
-  for i = 0; i < suspect_count; i = i + 1 {
+  for i in 0..<suspect_count {
     let y = city_origin_y_i + 50 + i * 136
     let col = suspect_col(i)
 

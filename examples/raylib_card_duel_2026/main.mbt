@@ -54,7 +54,7 @@ fn deal_damage(hp : Int, block : Int, dmg : Int) -> (Int, Int) {
 ///|
 fn roll_hand(hand : Array[Int]) -> Unit {
   hand.clear()
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     hand.push(@raylib.get_random_value(0, card_count - 1))
   }
 }
@@ -72,7 +72,7 @@ fn enemy_turn(
   let mut e_hp = e_hp
   let mut e_block = e_block
   let mut log = "Enemy turn: "
-  for act = 0; act < 2; act = act + 1 {
+  for act in 0..<2 {
     let roll = @raylib.get_random_value(0, 99)
     if roll < 55 {
       let dmg = 6 + turn_no / 4
@@ -131,7 +131,7 @@ fn main {
     }
 
     if not(won) && not(lost) {
-      for slot = 0; slot < hand.length(); slot = slot + 1 {
+      for slot in 0..<hand.length() {
         let key_hit = (slot == 0 && @raylib.is_key_pressed(@raylib.KeyOne)) ||
           (slot == 1 && @raylib.is_key_pressed(@raylib.KeyTwo)) ||
           (slot == 2 && @raylib.is_key_pressed(@raylib.KeyThree))
@@ -243,7 +243,7 @@ fn main {
     @raylib.draw_text("HP: \{enemy_hp}", 568, 178, 30, @raylib.red)
     @raylib.draw_text("Block: \{enemy_block}", 568, 218, 28, @raylib.gray)
 
-    for i = 0; i < hand.length(); i = i + 1 {
+    for i in 0..<hand.length() {
       let x = 120 + i * 260
       let y = 360
       let card = hand[i]

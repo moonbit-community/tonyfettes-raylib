@@ -114,8 +114,8 @@ pub fn fill_rect_tile(
   th : Int,
   tile : Int,
 ) -> Unit {
-  for y = ty0; y < ty0 + th; y = y + 1 {
-    for x = tx0; x < tx0 + tw; x = x + 1 {
+  for y in ty0..<(ty0 + th) {
+    for x in tx0..<(tx0 + tw) {
       set_tile(game, x, y, tile)
     }
   }
@@ -123,7 +123,7 @@ pub fn fill_rect_tile(
 
 ///|
 pub fn clear_tiles(game : Game) -> Unit {
-  for i = 0; i < game.tiles.length(); i = i + 1 {
+  for i in 0..<game.tiles.length() {
     game.tiles[i] = tile_empty
   }
 }
@@ -186,8 +186,8 @@ pub fn randf(minv : Float, maxv : Float) -> Float {
 ///|
 pub fn remaining_coins(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.coins.length(); i = i + 1 {
-    if game.coins[i].active {
+  for coin in game.coins {
+    if coin.active {
       count += 1
     }
   }
@@ -197,8 +197,8 @@ pub fn remaining_coins(game : Game) -> Int {
 ///|
 pub fn active_enemy_count(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }

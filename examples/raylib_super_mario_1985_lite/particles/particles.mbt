@@ -1,13 +1,13 @@
 ///|
 pub fn clear_particles(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
 }
 
 ///|
 fn alloc_particle(game : @types.Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -44,7 +44,7 @@ fn spawn_particle(
 
 ///|
 pub fn spawn_coin_burst(game : @types.Game, x : Float, y : Float) -> Unit {
-  for i = 0; i < 10; i = i + 1 {
+  for i in 0..<10 {
     let a = @types.randf(0.0, 6.28)
     let s = @types.randf(45.0, 160.0)
     spawn_particle(
@@ -67,7 +67,7 @@ pub fn spawn_block_burst(
   y : Float,
   color : @raylib.Color,
 ) -> Unit {
-  for i = 0; i < 12; i = i + 1 {
+  for i in 0..<12 {
     let a = @types.randf(0.0, 6.28)
     let s = @types.randf(60.0, 220.0)
     spawn_particle(
@@ -85,7 +85,7 @@ pub fn spawn_block_burst(
 
 ///|
 pub fn spawn_stomp_burst(game : @types.Game, x : Float, y : Float) -> Unit {
-  for i = 0; i < 15; i = i + 1 {
+  for i in 0..<15 {
     let a = @types.randf(0.0, 6.28)
     let s = @types.randf(55.0, 200.0)
     spawn_particle(
@@ -103,7 +103,7 @@ pub fn spawn_stomp_burst(game : @types.Game, x : Float, y : Float) -> Unit {
 
 ///|
 pub fn spawn_hurt_burst(game : @types.Game, x : Float, y : Float) -> Unit {
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let a = @types.randf(0.0, 6.28)
     let s = @types.randf(80.0, 260.0)
     spawn_particle(
@@ -121,15 +121,14 @@ pub fn spawn_hurt_burst(game : @types.Game, x : Float, y : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life = p.life - dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.vy = p.vy + 420.0 * dt
     p.x = p.x + p.vx * dt

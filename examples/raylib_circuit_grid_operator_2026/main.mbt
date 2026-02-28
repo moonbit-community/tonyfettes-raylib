@@ -274,32 +274,32 @@ fn has_port(kind : Int, rot : Int, dir : Int) -> Bool {
 
 ///|
 fn clear_pulses(ps : Array[Pulse]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].life = 0.0
-    ps[i].size = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.life = 0.0
+    ps_elem.size = 0.0
+    ps_elem.kind = 0
   }
 }
 
 ///|
 fn add_pulse(ps : Array[Pulse], x : Float, y : Float, kind : Int) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
+  for ps_elem in ps {
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(40.0, 210.0)
-      ps[i].vx = @math.cosf(a) * s
-      ps[i].vy = @math.sinf(a) * s
-      ps[i].life = randf(0.2, 0.8)
-      ps[i].size = randf(2.0, 8.0)
-      ps[i].kind = kind
+      ps_elem.vx = @math.cosf(a) * s
+      ps_elem.vy = @math.sinf(a) * s
+      ps_elem.life = randf(0.2, 0.8)
+      ps_elem.size = randf(2.0, 8.0)
+      ps_elem.kind = kind
       return
     }
   }
@@ -313,52 +313,52 @@ fn burst_pulses(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_pulse(ps, x, y, kind)
   }
 }
 
 ///|
 fn update_pulses(ps : Array[Pulse], dt : Float) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    if not(ps[i].active) {
+  for ps_elem in ps {
+    if not(ps_elem.active) {
       continue
     }
 
-    ps[i].life = ps[i].life - dt
-    if ps[i].life <= 0.0 {
-      ps[i].active = false
+    ps_elem.life = ps_elem.life - dt
+    if ps_elem.life <= 0.0 {
+      ps_elem.active = false
       continue
     }
 
-    ps[i].x = ps[i].x + ps[i].vx * dt
-    ps[i].y = ps[i].y + ps[i].vy * dt
-    ps[i].vx = ps[i].vx * (1.0 - dt * 2.2)
-    ps[i].vy = ps[i].vy * (1.0 - dt * 2.0) + 12.0 * dt
+    ps_elem.x = ps_elem.x + ps_elem.vx * dt
+    ps_elem.y = ps_elem.y + ps_elem.vy * dt
+    ps_elem.vx = ps_elem.vx * (1.0 - dt * 2.2)
+    ps_elem.vy = ps_elem.vy * (1.0 - dt * 2.0) + 12.0 * dt
   }
 }
 
 ///|
 fn draw_pulses(ps : Array[Pulse]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    if not(ps[i].active) {
+  for ps_elem in ps {
+    if not(ps_elem.active) {
       continue
     }
 
-    let c = if ps[i].kind == 0 {
+    let c = if ps_elem.kind == 0 {
       @raylib.Color::new(248, 238, 136, 240)
-    } else if ps[i].kind == 1 {
+    } else if ps_elem.kind == 1 {
       @raylib.Color::new(128, 210, 250, 240)
-    } else if ps[i].kind == 2 {
+    } else if ps_elem.kind == 2 {
       @raylib.Color::new(128, 240, 160, 240)
     } else {
       @raylib.Color::new(250, 130, 146, 240)
     }
 
     @raylib.draw_circle(
-      ps[i].x.to_int(),
-      ps[i].y.to_int(),
-      ps[i].size * ps[i].life * 2.0,
+      ps_elem.x.to_int(),
+      ps_elem.y.to_int(),
+      ps_elem.size * ps_elem.life * 2.0,
       c,
     )
   }
@@ -366,16 +366,16 @@ fn draw_pulses(ps : Array[Pulse]) -> Unit {
 
 ///|
 fn clear_grid(cells : Array[Cell]) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
-    cells[i].kind = 0
-    cells[i].rot = 0
-    cells[i].health = 100.0
-    cells[i].fault_t = 0.0
-    cells[i].charge = 0.0
-    cells[i].demand = 0
-    cells[i].stored = 0
-    cells[i].pulse = 0.0
-    cells[i].label = ""
+  for cell in cells {
+    cell.kind = 0
+    cell.rot = 0
+    cell.health = 100.0
+    cell.fault_t = 0.0
+    cell.charge = 0.0
+    cell.demand = 0
+    cell.stored = 0
+    cell.pulse = 0.0
+    cell.label = ""
   }
 }
 
@@ -383,8 +383,8 @@ fn clear_grid(cells : Array[Cell]) -> Unit {
 fn setup_grid(cells : Array[Cell]) -> Unit {
   clear_grid(cells)
 
-  for y = 0; y < rows; y = y + 1 {
-    for x = 0; x < cols; x = x + 1 {
+  for y in 0..<rows {
+    for x in 0..<cols {
       let i : Int = idx(x, y)
       cells[i].kind = rand_wire_kind()
       cells[i].rot = @raylib.get_random_value(0, 3)
@@ -400,7 +400,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
   // sources on left edge
   let src_ys : Array[Int] = [1, 3, 5]
-  for i = 0; i < src_ys.length(); i = i + 1 {
+  for i in 0..<src_ys.length() {
     let y : Int = src_ys[i]
     let id : Int = idx(0, y)
     cells[id].kind = 5
@@ -412,7 +412,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
   // sinks on right edge
   let sink_ys : Array[Int] = [1, 3, 5]
-  for i = 0; i < sink_ys.length(); i = i + 1 {
+  for i in 0..<sink_ys.length() {
     let y : Int = sink_ys[i]
     let id : Int = idx(cols - 1, y)
     cells[id].kind = 6
@@ -433,8 +433,8 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
     (7, 2),
     (7, 4),
   ]
-  for i = 0; i < hub_xy.length(); i = i + 1 {
-    let (hx, hy) = hub_xy[i]
+  for hub_xy_elem in hub_xy {
+    let (hx, hy) = hub_xy_elem
     let id : Int = idx(hx, hy)
     cells[id].kind = 4
     cells[id].rot = 0
@@ -450,8 +450,8 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
     (4, 6),
     (1, 6),
   ]
-  for i = 0; i < void_xy.length(); i = i + 1 {
-    let (vx, vy) = void_xy[i]
+  for void_xy_elem in void_xy {
+    let (vx, vy) = void_xy_elem
     let id : Int = idx(vx, vy)
     cells[id].kind = 0
     cells[id].rot = 0
@@ -461,7 +461,7 @@ fn setup_grid(cells : Array[Cell]) -> Unit {
 
 ///|
 fn reroll_row(cells : Array[Cell], y : Int) -> Unit {
-  for x = 1; x < cols - 1; x = x + 1 {
+  for x in 1..<(cols - 1) {
     let id : Int = idx(x, y)
     if cells[id].kind == 0 || cells[id].kind == 5 || cells[id].kind == 6 {
       continue
@@ -477,8 +477,8 @@ fn reroll_row(cells : Array[Cell], y : Int) -> Unit {
 ///|
 fn count_faults(cells : Array[Cell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < cells.length(); i = i + 1 {
-    if cells[i].kind != 0 && cells[i].fault_t > 0.0 {
+  for cell in cells {
+    if cell.kind != 0 && cell.fault_t > 0.0 {
       n = n + 1
     }
   }
@@ -488,13 +488,13 @@ fn count_faults(cells : Array[Cell]) -> Int {
 ///|
 fn patch_faults(cells : Array[Cell], amount : Float) -> Int {
   let mut patched : Int = 0
-  for i = 0; i < cells.length(); i = i + 1 {
-    if cells[i].fault_t > 0.0 {
-      cells[i].fault_t = cells[i].fault_t - amount
-      if cells[i].fault_t < 0.0 {
-        cells[i].fault_t = 0.0
+  for cell in cells {
+    if cell.fault_t > 0.0 {
+      cell.fault_t = cell.fault_t - amount
+      if cell.fault_t < 0.0 {
+        cell.fault_t = 0.0
       }
-      cells[i].health = clampf(cells[i].health + amount * 2.0, 0.0, 100.0)
+      cell.health = clampf(cell.health + amount * 2.0, 0.0, 100.0)
       patched = patched + 1
     }
   }
@@ -530,32 +530,32 @@ fn induce_faults(cells : Array[Cell], count : Int, tier : Int) -> Int {
 
 ///|
 fn degrade_faults(cells : Array[Cell], dt : Float) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
-    if cells[i].kind == 0 {
+  for cell in cells {
+    if cell.kind == 0 {
       continue
     }
 
-    cells[i].pulse = cells[i].pulse + dt
-    if cells[i].pulse > 1000.0 {
-      cells[i].pulse = cells[i].pulse - 1000.0
+    cell.pulse = cell.pulse + dt
+    if cell.pulse > 1000.0 {
+      cell.pulse = cell.pulse - 1000.0
     }
 
-    if cells[i].fault_t > 0.0 {
-      cells[i].fault_t = cells[i].fault_t - dt
-      if cells[i].fault_t < 0.0 {
-        cells[i].fault_t = 0.0
+    if cell.fault_t > 0.0 {
+      cell.fault_t = cell.fault_t - dt
+      if cell.fault_t < 0.0 {
+        cell.fault_t = 0.0
       }
-      cells[i].health = cells[i].health - dt * 0.45
-      if cells[i].health < 0.0 {
-        cells[i].health = 0.0
+      cell.health = cell.health - dt * 0.45
+      if cell.health < 0.0 {
+        cell.health = 0.0
       }
     } else {
-      cells[i].health = clampf(cells[i].health + dt * 0.09, 0.0, 100.0)
+      cell.health = clampf(cell.health + dt * 0.09, 0.0, 100.0)
     }
 
-    cells[i].charge = cells[i].charge * (1.0 - dt * 1.8)
-    if cells[i].charge < 0.0 {
-      cells[i].charge = 0.0
+    cell.charge = cell.charge * (1.0 - dt * 1.8)
+    if cell.charge < 0.0 {
+      cell.charge = 0.0
     }
   }
 }
@@ -574,7 +574,7 @@ fn run_network_step(
 
   let src_boost : Float = if overclock_t > 0.0 { 1.55 } else { 1.0 }
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     if cells[i].kind == 5 && cells[i].fault_t <= 0.0 {
       seen[i] = seen_mark
       q[tail] = i
@@ -595,7 +595,7 @@ fn run_network_step(
     let cy : Int = cur / cols
     let cur_charge : Float = cells[cur].charge
 
-    for dir = 0; dir < 4; dir = dir + 1 {
+    for dir in 0..<4 {
       if not(has_port(cells[cur].kind, cells[cur].rot, dir)) {
         continue
       }
@@ -632,34 +632,34 @@ fn run_network_step(
   let mut miss : Int = 0
   let mut powered_sinks : Int = 0
 
-  for i = 0; i < cells.length(); i = i + 1 {
-    if cells[i].kind != 6 {
+  for cell in cells {
+    if cell.kind != 6 {
       continue
     }
 
-    let need : Int = clampi(cells[i].demand + tier / 2, 1, 30)
+    let need : Int = clampi(cell.demand + tier / 2, 1, 30)
 
-    if cells[i].fault_t > 0.0 {
+    if cell.fault_t > 0.0 {
       miss = miss + need
       continue
     }
 
-    if cells[i].charge > 0.25 {
+    if cell.charge > 0.25 {
       powered_sinks = powered_sinks + 1
       let delivered : Int = clampi(
-        (cells[i].charge * Float::from_int(need)).to_int(),
+        (cell.charge * Float::from_int(need)).to_int(),
         1,
         need + 3,
       )
-      cells[i].stored = cells[i].stored + delivered
+      cell.stored = cell.stored + delivered
       gain = gain + delivered
 
       let threshold : Int = 60 + tier * 10
-      while cells[i].stored >= threshold {
-        cells[i].stored = cells[i].stored - threshold
-        cells[i].demand = cells[i].demand + 1
-        if cells[i].demand > 16 {
-          cells[i].demand = 16
+      while cell.stored >= threshold {
+        cell.stored = cell.stored - threshold
+        cell.demand = cell.demand + 1
+        if cell.demand > 16 {
+          cell.demand = 16
         }
       }
     } else {
@@ -723,7 +723,7 @@ fn draw_cell_wires(
     @raylib.Color::new(166, 190, 232, 236)
   }
 
-  for dir = 0; dir < 4; dir = dir + 1 {
+  for dir in 0..<4 {
     if not(has_port(kind, rot, dir)) {
       continue
     }
@@ -763,8 +763,8 @@ fn draw_board(
     @raylib.Color::new(170, 194, 238, 238),
   )
 
-  for y = 0; y < rows; y = y + 1 {
-    for x = 0; x < cols; x = x + 1 {
+  for y in 0..<rows {
+    for x in 0..<cols {
       let i : Int = idx(x, y)
       let gx : Int = cell_px(x)
       let gy : Int = cell_py(y)
@@ -1389,7 +1389,7 @@ fn main {
         if made > 0 {
           msg = "Fault event: \{made} nodes"
           msg_t = 1.2
-          for i = 0; i < cells.length(); i = i + 1 {
+          for i in 0..<cells.length() {
             if cells[i].fault_t > 0.0 {
               let x : Int = i % cols
               let y : Int = i / cols
@@ -1410,7 +1410,7 @@ fn main {
         seen_mark = seen_mark + 1
         if seen_mark > 1000000 {
           seen_mark = 1
-          for i = 0; i < seen.length(); i = i + 1 {
+          for i in 0..<seen.length() {
             seen[i] = 0
           }
         }
@@ -1435,7 +1435,7 @@ fn main {
         }
 
         if gain > 0 {
-          for i = 0; i < cells.length(); i = i + 1 {
+          for i in 0..<cells.length() {
             if cells[i].kind == 6 && cells[i].charge > 0.2 {
               let x : Int = i % cols
               let y : Int = i / cols
@@ -1530,7 +1530,7 @@ fn main {
           reroll_row(cells, y)
           msg = "Rerouted row \{y + 1}"
           msg_t = 1.0
-          for x = 1; x < cols - 1; x = x + 1 {
+          for x in 1..<(cols - 1) {
             burst_pulses(pulses, cell_cx(x), cell_cy(y), 3, 0)
           }
         } else {
@@ -1547,7 +1547,7 @@ fn main {
           overclock_t = 8.0
           msg = "Overclock engaged"
           msg_t = 1.2
-          for y = 0; y < rows; y = y + 1 {
+          for y in 0..<rows {
             let i : Int = idx(0, y)
             if cells[i].kind == 5 {
               burst_pulses(pulses, cell_cx(0), cell_cy(y), 8, 0)
@@ -1656,7 +1656,7 @@ fn main {
       @raylib.Color::new(8, 12, 22, 255),
     )
 
-    for i = 0; i < 38; i = i + 1 {
+    for i in 0..<38 {
       let fi : Float = Float::from_int(i)
       let x : Int = (fi * 66.0 + scene_t * (14.0 + Float::from_int(i % 6) * 5.0)).to_int() %
         sw

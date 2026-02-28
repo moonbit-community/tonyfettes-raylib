@@ -47,7 +47,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(36, 54, 86, 32),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 64
     @raylib.draw_rectangle(
       0,
@@ -90,7 +90,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(172, 206, 230, 206),
   )
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let y : Int = water_top + oy + i * 42
     let shift : Int = (bg_wave(game, 1.1 + Float::from_int(i) * 0.07) * 20.0).to_int()
 
@@ -103,7 +103,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let x : Int = world_x0 + ox + i * 48
     @raylib.draw_line(
       x,
@@ -116,7 +116,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
 
   let crack_wobble : Int = (bg_wave(game, 1.9) * 8.0).to_int()
 
-  for i = 0; i < 9; i = i + 1 {
+  for i in 0..<9 {
     let sx : Int = world_x0 + 120 + i * 108 + crack_wobble
     let sy : Int = water_top - 14 + oy + @raylib.get_random_value(-3, 3)
     @raylib.draw_line(
@@ -253,7 +253,7 @@ fn draw_hazard(h : Hazard, ox : Int, oy : Int) -> Unit {
   if h.kind == hazard_jelly {
     @raylib.draw_circle(x, y, h.r, c0)
 
-    for k = 0; k < 5; k = k + 1 {
+    for k in 0..<5 {
       let px : Int = x - h.r.to_int() + 8 + k * 8
       @raylib.draw_line(
         px,
@@ -368,31 +368,31 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       184
     } else {
       108
     }
 
-    let c0 : @raylib.Color = if game.particles[i].kind == 2 {
+    let c0 : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(206, 174, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 162, 162, a)
     } else {
       @raylib.Color::new(174, 234, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c0,
     )
   }
@@ -1119,16 +1119,16 @@ fn draw_frame(
 
   draw_world_back(game, ox, oy)
 
-  for i = 0; i < game.fish.length(); i = i + 1 {
-    draw_fish(game.fish[i], ox, oy)
+  for fish_elem in game.fish {
+    draw_fish(fish_elem, ox, oy)
   }
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    draw_hazard(game.hazards[i], ox, oy)
+  for hazard in game.hazards {
+    draw_hazard(hazard, ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
   draw_hint(game, ox, oy)

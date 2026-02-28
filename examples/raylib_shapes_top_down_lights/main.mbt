@@ -144,7 +144,7 @@ fn draw_light_mask(slot : Int) -> Unit {
   @rl.set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMax)
   @rl.set_blend_mode(@raylib.BlendCustom)
   // Draw the shadows to the alpha mask
-  for i = 0; i < lights[slot].shadow_count; i = i + 1 {
+  for i in 0..<lights[slot].shadow_count {
     let verts = lights[slot].shadows[i].vertices
     @raylib.draw_triangle_fan(
       [verts[0], verts[1], verts[2], verts[3]],
@@ -195,14 +195,14 @@ fn update_light(
   lights[slot].dirty = false
   lights[slot].shadow_count = 0
   lights[slot].valid = false
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     // Are we in a box? if so we are not valid
     if @raylib.check_collision_point_rec(lights[slot].position, boxes[i]) {
       return false
     }
     // If this box is outside our bounds, we can skip it
     if not(@raylib.check_collision_recs(lights[slot].bounds, boxes[i])) {
-      continue i + 1
+      continue
     }
     // Check the edges that are on the same side we are, and cast shadow volumes out from them
 
@@ -264,7 +264,7 @@ fn setup_boxes(boxes : Array[@raylib.Rectangle]) -> Int {
   boxes[2] = @raylib.Rectangle::new(200.0, 600.0, 40.0, 40.0)
   boxes[3] = @raylib.Rectangle::new(1000.0, 50.0, 40.0, 40.0)
   boxes[4] = @raylib.Rectangle::new(500.0, 350.0, 40.0, 40.0)
-  for i = 5; i < MaxBoxes; i = i + 1 {
+  for i in 5..<MaxBoxes {
     boxes[i] = @raylib.Rectangle::new(
       Float::from_int(@raylib.get_random_value(0, @raylib.get_screen_width())),
       Float::from_int(@raylib.get_random_value(0, @raylib.get_screen_height())),
@@ -334,7 +334,7 @@ fn main {
     }
     // Update the lights and keep track if any were dirty
     let mut dirty_lights = false
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       if update_light(i, boxes, box_count) {
         dirty_lights = true
       }
@@ -348,7 +348,7 @@ fn main {
       @rl.set_blend_factors(RlglSrcAlpha, RlglSrcAlpha, RlglMin)
       @rl.set_blend_mode(@raylib.BlendCustom)
       // Merge in all the light masks
-      for i = 0; i < MaxLights; i = i + 1 {
+      for i in 0..<MaxLights {
         if lights[i].active {
           match lights[i].mask {
             Some(mask) =>
@@ -401,7 +401,7 @@ fn main {
       @raylib.color_alpha(@raylib.white, if show_lines { 0.75 } else { 1.0 }),
     )
     // Draw the lights
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       if lights[i].active {
         @raylib.draw_circle(
           lights[i].position.x.to_int(),
@@ -416,14 +416,14 @@ fn main {
       }
     }
     if show_lines {
-      for s = 0; s < lights[0].shadow_count; s = s + 1 {
+      for s in 0..<lights[0].shadow_count {
         let verts = lights[0].shadows[s].vertices
         @raylib.draw_triangle_fan(
           [verts[0], verts[1], verts[2], verts[3]],
           @raylib.darkpurple,
         )
       }
-      for b = 0; b < box_count; b = b + 1 {
+      for b in 0..<box_count {
         if @raylib.check_collision_recs(boxes[b], lights[0].bounds) {
           @raylib.draw_rectangle_rec(boxes[b], @raylib.purple)
         }
@@ -450,7 +450,7 @@ fn main {
   // De-Initialization
   @raylib.unload_texture(background_texture)
   @raylib.unload_render_texture(light_mask)
-  for i = 0; i < MaxLights; i = i + 1 {
+  for i in 0..<MaxLights {
     if lights[i].active {
       match lights[i].mask {
         Some(mask) => @raylib.unload_render_texture(mask)

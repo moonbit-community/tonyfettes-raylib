@@ -99,7 +99,7 @@ fn draw_kart_select_ui(game : @types.Game) -> Unit {
   // Kart type selection (horizontal)
   let sel_type = game.selected_kart_type
   let type_y = 120
-  for t = 0; t < @types.kart_type_count; t = t + 1 {
+  for t in 0..<@types.kart_type_count {
     let tx = 60 + t * 115
     let is_sel = t == sel_type
     let bg_color = if is_sel {
@@ -191,7 +191,7 @@ fn draw_kart_select_ui(game : @types.Game) -> Unit {
     22,
     @raylib.Color::new(200, 200, 220, 255),
   )
-  for c = 0; c < @types.max_karts; c = c + 1 {
+  for c in 0..<@types.max_karts {
     let cy = char_y + 30 + c * 40
     let is_sel_c = c == sel_char
     let ci = @types.clampi(c, 0, @types.kart_colors.length() - 1)
@@ -334,7 +334,7 @@ fn draw_kart_select_ui(game : @types.Game) -> Unit {
     (255, 200, 100),
     (255, 100, 255),
   ]
-  for bi = 0; bi < 5; bi = bi + 1 {
+  for bi in 0..<5 {
     let by = bar_y + bi * 40
     @raylib.draw_text(
       labels[bi],
@@ -400,7 +400,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     22,
     @raylib.Color::new(200, 200, 220, 255),
   )
-  for i = 0; i < @types.cups_count; i = i + 1 {
+  for i in 0..<@types.cups_count {
     let y = 250 + i * 55
     let is_sel = game.menu_cursor == i
     let blink = @math.sinf(game.menu_blink * 2.0)
@@ -625,7 +625,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let mut max_x = game.waypoints[0].x
   let mut min_z = game.waypoints[0].z
   let mut max_z = game.waypoints[0].z
-  for i = 1; i < wc; i = i + 1 {
+  for i in 1..<wc {
     let wp = game.waypoints[i]
     if wp.x < min_x {
       min_x = wp.x
@@ -646,7 +646,7 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let scale_z = Float::from_int(map_size - 20) / range_z
   let scale = @types.minf(scale_x, scale_z)
   // Draw track outline
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp0 = game.waypoints[i]
     let wp1 = game.waypoints[(i + 1) % wc]
     let sx0 = map_x + 10 + ((wp0.x - min_x + 5.0) * scale).to_int()
@@ -662,10 +662,10 @@ fn draw_minimap(game : @types.Game) -> Unit {
     )
   }
   // Draw karts
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     let kx = map_x + 10 + ((kart.x - min_x + 5.0) * scale).to_int()
     let ky = map_y + 10 + ((kart.z - min_z + 5.0) * scale).to_int()
@@ -769,10 +769,10 @@ fn draw_race_results(game : @types.Game) -> Unit {
     @raylib.Color::new(200, 200, 220, 255),
   )
   // Results table
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     let y = 200 + (kart.place - 1) * 32
     let is_player = i == @types.player_kart
@@ -858,11 +858,11 @@ fn draw_cup_results(game : @types.Game) -> Unit {
   )
   // Sort by cup points descending
   let order : Array[Int] = Array::make(@types.max_karts, 0)
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     order[i] = i
   }
-  for i = 0; i < @types.max_karts - 1; i = i + 1 {
-    for j = 0; j < @types.max_karts - 1 - i; j = j + 1 {
+  for i in 0..<(@types.max_karts - 1) {
+    for j in 0..<(@types.max_karts - 1 - i) {
       if game.cup_points[order[j]] < game.cup_points[order[j + 1]] {
         let tmp = order[j]
         order[j] = order[j + 1]
@@ -870,7 +870,7 @@ fn draw_cup_results(game : @types.Game) -> Unit {
       }
     }
   }
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let ki = order[i]
     let y = 190 + i * 35
     let is_player = ki == @types.player_kart
@@ -970,7 +970,7 @@ pub fn draw_lap_times(game : @types.Game) -> Unit {
       @raylib.Color::new(150, 150, 170, 200),
     )
     let display_count = @types.mini(kart.lap_times.length(), 5)
-    for li = 0; li < display_count; li = li + 1 {
+    for li in 0..<display_count {
       let lap_time = kart.lap_times[li]
       let li_display = li + 1
       let lap_str = @types.format_time(lap_time)
@@ -1195,7 +1195,7 @@ pub fn draw_track_preview_panel(game : @types.Game) -> Unit {
   // Difficulty
   let diff = @levels.get_track_difficulty(game.current_cup, game.current_race)
   let mut star_str = "Difficulty: "
-  for s = 0; s < 5; s = s + 1 {
+  for s in 0..<5 {
     if s < diff {
       star_str = star_str + "*"
     } else {
@@ -1363,14 +1363,14 @@ pub fn draw_standings_sidebar(game : @types.Game) -> Unit {
     @raylib.Color::new(180, 180, 200, 200),
   )
   // Collect and sort by place
-  for p = 1; p <= @types.max_karts; p = p + 1 {
-    for i = 0; i < @types.max_karts; i = i + 1 {
+  for p in 1..=@types.max_karts {
+    for i in 0..<@types.max_karts {
       let kart = game.karts[i]
       if not(kart.active) {
-        continue i + 1
+        continue
       }
       if kart.place != p {
-        continue i + 1
+        continue
       }
       let y = side_y + 20 + (p - 1) * entry_h
       let is_player = i == @types.player_kart

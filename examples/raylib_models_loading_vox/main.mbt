@@ -172,7 +172,7 @@ fn main {
   // Load MagicaVoxel files
   let models : Array[@raylib.Model] = []
 
-  for i = 0; i < max_vox_files; i = i + 1 {
+  for i in 0..<max_vox_files {
     // Load VOX file and measure time
     let t0 = @raylib.get_time() * 1000.0
     let model = @raylib.load_model(vox_file_names[i])
@@ -219,9 +219,9 @@ fn main {
   )
 
   // Assign our lighting shader to model
-  for i = 0; i < max_vox_files; i = i + 1 {
+  for i in 0..<max_vox_files {
     let mat_count = @raylib.get_model_material_count(models[i])
-    for j = 0; j < mat_count; j = j + 1 {
+    for j in 0..<mat_count {
       @raylib.set_model_material_shader(models[i], j, shader)
     }
   }
@@ -328,7 +328,7 @@ fn main {
     )
 
     // Update light values (actually, only enable/disable them)
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       update_light_values(shader, lights[i])
     }
 
@@ -343,7 +343,7 @@ fn main {
     @raylib.draw_grid(10, 1.0)
 
     // Draw spheres to show where the lights are
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       if lights[i].enabled {
         @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
       } else {
@@ -394,7 +394,7 @@ fn main {
   }
 
   // De-Initialization
-  for i = 0; i < max_vox_files; i = i + 1 {
+  for i in 0..<max_vox_files {
     @raylib.unload_model(models[i])
   }
   @raylib.unload_shader(shader)

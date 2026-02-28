@@ -147,7 +147,7 @@ pub fn world_to_grid_y(wz : Float) -> Int {
 
 ///|
 pub fn tower_at(game : Game, gx : Int, gy : Int) -> Int {
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if game.towers[i].active &&
       game.towers[i].gx == gx &&
       game.towers[i].gy == gy {
@@ -159,7 +159,7 @@ pub fn tower_at(game : Game, gx : Int, gy : Int) -> Int {
 
 ///|
 pub fn alloc_tower(game : Game) -> Int {
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if not(game.towers[i].active) {
       return i
     }
@@ -169,7 +169,7 @@ pub fn alloc_tower(game : Game) -> Int {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -179,7 +179,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -189,7 +189,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -616,14 +616,14 @@ pub fn find_target(
 ) -> Int {
   let mut best_idx = -1
   let mut best_score : Float = -999999.0
-  for j = 0; j < game.enemies.length(); j = j + 1 {
+  for j in 0..<game.enemies.length() {
     let enemy = game.enemies[j]
     if not(enemy.active) {
-      continue j + 1
+      continue
     }
     // Skip camo enemies if tower cannot detect them
     if enemy.is_camo && not(can_see_camo) {
-      continue j + 1
+      continue
     }
     let dist = distance2d(wx, wz, enemy.x, enemy.z)
     if dist <= range {
@@ -654,8 +654,8 @@ pub fn find_target(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -667,8 +667,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_active_towers(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.towers.length(); i = i + 1 {
-    if game.towers[i].active {
+  for tower in game.towers {
+    if tower.active {
       count += 1
     }
   }
@@ -766,7 +766,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -802,7 +802,7 @@ pub fn spawn_particles_typed(
   b : Int,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -1022,9 +1022,8 @@ pub fn add_chain_line(
   y2 : Float,
   z2 : Float,
 ) -> Unit {
-  for i = 0; i < game.chain_lines.length(); i = i + 1 {
-    if not(game.chain_lines[i].active) {
-      let cl = game.chain_lines[i]
+  for cl in game.chain_lines {
+    if not(cl.active) {
       cl.active = true
       cl.x1 = x1
       cl.y1 = y1

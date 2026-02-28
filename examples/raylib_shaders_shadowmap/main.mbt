@@ -133,7 +133,7 @@ fn main {
 
   let robot = @raylib.load_model("resources/models/robot.glb")
   let robot_material_count = @raylib.get_model_material_count(robot)
-  for i = 0; i < robot_material_count; i = i + 1 {
+  for i in 0..<robot_material_count {
     @raylib.set_model_material_shader(robot, i, shadow_shader)
   }
 

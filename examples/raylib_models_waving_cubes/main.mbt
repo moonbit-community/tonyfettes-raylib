@@ -48,9 +48,9 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
     @raylib.begin_mode_3d(camera)
     @raylib.draw_grid(10, 5.0)
-    for x = 0; x < num_blocks; x = x + 1 {
-      for y = 0; y < num_blocks; y = y + 1 {
-        for z = 0; z < num_blocks; z = z + 1 {
+    for x in 0..<num_blocks {
+      for y in 0..<num_blocks {
+        for z in 0..<num_blocks {
           // Scale of the blocks depends on x/y/z positions
           let block_scale = Float::from_int(x + y + z) / 30.0
 

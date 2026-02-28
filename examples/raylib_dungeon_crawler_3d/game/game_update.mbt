@@ -79,7 +79,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.camera_yaw = 0.0
   game.camera_pitch = 0.0
   // Reset floor info
-  for i = 0; i < @types.max_floors; i = i + 1 {
+  for i in 0..<@types.max_floors {
     game.floor_info[i].cleared = false
     game.floor_info[i].enemies_killed = 0
     game.floor_info[i].enemies_total = 0

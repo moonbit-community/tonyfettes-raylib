@@ -23,7 +23,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(74, 34, 72, 34),
   )
 
-  for i = 0; i < 15; i = i + 1 {
+  for i in 0..<15 {
     let y : Int = i * 68
     @raylib.draw_rectangle(
       0,
@@ -202,8 +202,8 @@ fn draw_cell(
 
 ///|
 fn draw_grid(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       draw_cell(game, x, y, tile, bx, by)
     }
   }
@@ -211,7 +211,7 @@ fn draw_grid(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = board_n * tile
   let bh : Int = board_n * tile
 
-  for i = 0; i <= board_n; i = i + 1 {
+  for i in 0..=board_n {
     let px : Int = bx + i * tile
     @raylib.draw_line(
       px,
@@ -259,31 +259,31 @@ fn draw_cursor(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let alpha : Int = if game.sparks[i].life > 0.7 {
+    let alpha : Int = if spark.life > 0.7 {
       236
-    } else if game.sparks[i].life > 0.4 {
+    } else if spark.life > 0.4 {
       196
     } else {
       132
     }
 
-    let c : @raylib.Color = if game.sparks[i].kind == 2 {
+    let c : @raylib.Color = if spark.kind == 2 {
       @raylib.Color::new(255, 180, 126, alpha)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(142, 214, 255, alpha)
     } else {
       @raylib.Color::new(190, 234, 255, alpha)
     }
 
     @raylib.draw_circle(
-      game.sparks[i].x.to_int(),
-      game.sparks[i].y.to_int(),
-      1.0 + game.sparks[i].size,
+      spark.x.to_int(),
+      spark.y.to_int(),
+      1.0 + spark.size,
       c,
     )
   }

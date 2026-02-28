@@ -6,10 +6,9 @@ fn update_coins(game : @types.Game, dt : Float) -> Unit {
   let px1 = player.x + @types.player_half_w()
   let py1 = player.y + @types.player_half_h()
 
-  for i = 0; i < game.coins.length(); i = i + 1 {
-    let coin = game.coins[i]
+  for coin in game.coins {
     if not(coin.active) {
-      continue i + 1
+      continue
     }
 
     coin.phase += dt * 7.0

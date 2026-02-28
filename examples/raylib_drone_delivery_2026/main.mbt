@@ -15,13 +15,13 @@ struct Orb {
 
 ///|
 fn spawn_orb(orbs : Array[Orb], cx : Float, cy : Float) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
-    if not(orbs[i].alive) {
-      orbs[i].alive = true
-      orbs[i].x = cx
-      orbs[i].y = cy
-      orbs[i].vx = Float::from_int(@raylib.get_random_value(-180, 180))
-      orbs[i].vy = Float::from_int(@raylib.get_random_value(-180, 180))
+  for orb in orbs {
+    if not(orb.alive) {
+      orb.alive = true
+      orb.x = cx
+      orb.y = cy
+      orb.vx = Float::from_int(@raylib.get_random_value(-180, 180))
+      orb.vy = Float::from_int(@raylib.get_random_value(-180, 180))
       break
     }
   }
@@ -29,8 +29,8 @@ fn spawn_orb(orbs : Array[Orb], cx : Float, cy : Float) -> Unit {
 
 ///|
 fn reset_orbs(orbs : Array[Orb]) -> Unit {
-  for i = 0; i < orbs.length(); i = i + 1 {
-    orbs[i].alive = false
+  for orb in orbs {
+    orb.alive = false
   }
 }
 
@@ -186,23 +186,23 @@ fn main {
         spawn_orb(orbs, ox, oy)
       }
 
-      for i = 0; i < orbs.length(); i = i + 1 {
-        if not(orbs[i].alive) {
+      for orb in orbs {
+        if not(orb.alive) {
           continue
         }
 
-        orbs[i].x = orbs[i].x + orbs[i].vx * dt
-        orbs[i].y = orbs[i].y + orbs[i].vy * dt
+        orb.x = orb.x + orb.vx * dt
+        orb.y = orb.y + orb.vy * dt
 
-        if orbs[i].x < 20.0 || orbs[i].x > Float::from_int(sw - 20) {
-          orbs[i].vx = -orbs[i].vx
+        if orb.x < 20.0 || orb.x > Float::from_int(sw - 20) {
+          orb.vx = -orb.vx
         }
-        if orbs[i].y < 70.0 || orbs[i].y > Float::from_int(sh - 20) {
-          orbs[i].vy = -orbs[i].vy
+        if orb.y < 70.0 || orb.y > Float::from_int(sh - 20) {
+          orb.vy = -orb.vy
         }
 
-        if dist_sq(drone_x, drone_y, orbs[i].x, orbs[i].y) < 26.0 * 26.0 {
-          orbs[i].alive = false
+        if dist_sq(drone_x, drone_y, orb.x, orb.y) < 26.0 * 26.0 {
+          orb.alive = false
           combo = 0
           score = score - 40
           battery = battery - 9.0
@@ -248,8 +248,8 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(18, 21, 32, 255))
 
     // City blocks
-    for gx = 0; gx < 7; gx = gx + 1 {
-      for gy = 0; gy < 4; gy = gy + 1 {
+    for gx in 0..<7 {
+      for gy in 0..<4 {
         let bx = 42 + gx * 155
         let by = 90 + gy * 155
         @raylib.draw_rectangle(
@@ -294,17 +294,17 @@ fn main {
       )
     }
 
-    for i = 0; i < orbs.length(); i = i + 1 {
-      if orbs[i].alive {
+    for orb in orbs {
+      if orb.alive {
         @raylib.draw_circle(
-          orbs[i].x.to_int(),
-          orbs[i].y.to_int(),
+          orb.x.to_int(),
+          orb.y.to_int(),
           11.0,
           @raylib.skyblue,
         )
         @raylib.draw_circle_lines(
-          orbs[i].x.to_int(),
-          orbs[i].y.to_int(),
+          orb.x.to_int(),
+          orb.y.to_int(),
           11.0,
           @raylib.white,
         )

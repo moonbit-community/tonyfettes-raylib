@@ -35,7 +35,7 @@ fn draw_piece_blocks(
   offset_y : Int,
   shade : @raylib.Color,
 ) -> Unit {
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let c = piece_cell(kind, rot, i)
     let x = px + c.x
     let y = py + c.y
@@ -103,8 +103,8 @@ fn draw_game(game : Game) -> Unit {
     @raylib.Color::new(18, 18, 28, 255),
   )
 
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       let id = game.board[board_index(x, y)]
       if id == 0 {
         @raylib.draw_rectangle_lines(

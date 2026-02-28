@@ -371,7 +371,7 @@ fn main {
   // Generate random cube positions and rotations
   let cube_positions : Array[@raylib.Vector3] = []
   let cube_rotations : Array[Float] = []
-  for i = 0; i < MaxCubes; i = i + 1 {
+  for i in 0..<MaxCubes {
     let _ = i
     cube_positions.push(
       @raylib.Vector3::new(
@@ -432,7 +432,7 @@ fn main {
     }
 
     // Update light values in shader
-    for i = 0; i < MaxLights; i = i + 1 {
+    for i in 0..<MaxLights {
       update_light_values(deferred_shader, lights[i])
     }
 
@@ -467,7 +467,7 @@ fn main {
       @raylib.white,
     )
 
-    for i = 0; i < MaxCubes; i = i + 1 {
+    for i in 0..<MaxCubes {
       @raylib.draw_model_ex(
         cube,
         cube_positions[i],
@@ -520,7 +520,7 @@ fn main {
       // forward rendering
       @raylib.begin_mode_3d(camera)
       @rl.enable_shader(@rl.get_shader_id_default())
-      for i = 0; i < MaxLights; i = i + 1 {
+      for i in 0..<MaxLights {
         if lights[i].enabled {
           @raylib.draw_sphere_ex(lights[i].position, 0.2, 8, 8, lights[i].color)
         } else {

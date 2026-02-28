@@ -122,7 +122,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "6 Biomes: Plains, Forest, Desert, Mountains, Tundra, Swamp", "24 Block Types | Caves & Ores | Day/Night Cycle",
     "Mobs: Pigs, Cows, Chickens, Zombies, Skeletons, Spiders", "Mining System | Inventory | Crafting | Health & Hunger",
   ]
-  for i = 0; i < features.length(); i = i + 1 {
+  for i in 0..<features.length() {
     let fy = 240 + i * 24
     let fw = @raylib.measure_text(features[i], 16)
     @raylib.draw_text(
@@ -150,7 +150,7 @@ fn draw_menu(game : @types.Game) -> Unit {
     "WASD - Move   |   Mouse - Look   |   Space - Jump", "LMB/Hold - Mine   |   RMB - Place   |   1-9 - Hotbar",
     "E - Inventory   |   C - Craft   |   Shift - Sprint", "Esc - Pause   |   F3 - Debug Info   |   Scroll - Cycle Items",
   ]
-  for i = 0; i < controls.length(); i = i + 1 {
+  for i in 0..<controls.length() {
     let cy = 430 + i * 26
     let cw = @raylib.measure_text(controls[i], 17)
     @raylib.draw_text(
@@ -269,7 +269,7 @@ fn draw_hotbar(game : @types.Game) -> Unit {
     slot_size + 8,
     @raylib.Color::new(0, 0, 0, 160),
   )
-  for i = 0; i < total_slots; i = i + 1 {
+  for i in 0..<total_slots {
     let sx = start_x + i * (slot_size + slot_gap)
     let is_selected = game.player.inventory.selected == i
     let slot = game.player.inventory.slots[i]
@@ -599,7 +599,7 @@ fn draw_debug_info(game : @types.Game) -> Unit {
   y += line_h
   // Entity count
   let mut ent_count = 0
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     if game.entities[i].active {
       ent_count += 1
     }
@@ -648,7 +648,7 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
     "Mobs Killed: \{game.mobs_killed}  |  Distance: \{game.distance_walked.to_int()}m",
     "Health: \{game.player.health}/\{@types.player_max_health}  |  Hunger: \{game.player.hunger}/\{@types.player_max_hunger}",
   ]
-  for i = 0; i < stats.length(); i = i + 1 {
+  for i in 0..<stats.length() {
     let sy = @types.screen_height / 2 - 10 + i * 22
     let sw = @raylib.measure_text(stats[i], 16)
     @raylib.draw_text(
@@ -722,11 +722,11 @@ fn draw_inventory_screen(game : @types.Game) -> Unit {
     rows * (slot_size + gap) + 24,
     @raylib.Color::new(100, 100, 100, 255),
   )
-  for row = 0; row < rows; row = row + 1 {
-    for col = 0; col < cols; col = col + 1 {
+  for row in 0..<rows {
+    for col in 0..<cols {
       let idx = row * cols + col
       if idx >= @types.inventory_slots {
-        continue col + 1
+        continue
       }
       let sx = grid_start_x + col * (slot_size + gap)
       let sy = grid_start_y + row * (slot_size + gap)
@@ -890,7 +890,7 @@ fn draw_crafting_screen(game : @types.Game) -> Unit {
     recipes.length() * recipe_height + 20,
     @raylib.Color::new(100, 100, 100, 255),
   )
-  for i = 0; i < recipes.length(); i = i + 1 {
+  for i in 0..<recipes.length() {
     let recipe = recipes[i]
     let ry = panel_y + i * recipe_height
     let is_selected = game.crafting_selection == i
@@ -981,7 +981,7 @@ fn check_can_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Bool {
   let mut has1 = false
   let mut has2 = false
   if recipe.input1_id > 0 && recipe.input1_count > 0 {
-    for i = 0; i < @types.inventory_slots; i = i + 1 {
+    for i in 0..<@types.inventory_slots {
       if inv.slots[i].item_id == recipe.input1_id &&
         inv.slots[i].count >= recipe.input1_count {
         has1 = true
@@ -991,7 +991,7 @@ fn check_can_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Bool {
     has1 = true
   }
   if recipe.input2_id > 0 && recipe.input2_count > 0 {
-    for i = 0; i < @types.inventory_slots; i = i + 1 {
+    for i in 0..<@types.inventory_slots {
       if inv.slots[i].item_id == recipe.input2_id &&
         inv.slots[i].count >= recipe.input2_count {
         has2 = true
@@ -1036,7 +1036,7 @@ fn draw_game_over_screen(game : @types.Game) -> Unit {
       "Mobs Killed: \{game.mobs_killed}",
       "Distance: \{game.distance_walked.to_int()}m",
     ]
-    for i = 0; i < stats.length(); i = i + 1 {
+    for i in 0..<stats.length() {
       let sy = @types.screen_height / 2 - 20 + i * 24
       let sw = @raylib.measure_text(stats[i], 18)
       @raylib.draw_text(
@@ -1309,7 +1309,7 @@ fn draw_event_log(game : @types.Game) -> Unit {
   let log_color = @raylib.Color::new(160, 180, 160, 180)
   // Entity count
   let mut ent_count = 0
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     if game.entities[i].active {
       ent_count += 1
     }

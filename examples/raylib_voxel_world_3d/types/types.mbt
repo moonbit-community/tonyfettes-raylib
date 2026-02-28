@@ -73,7 +73,7 @@ pub(all) struct Inventory {
 ///|
 pub fn Inventory::new() -> Inventory {
   let slots : Array[ItemSlot] = []
-  for i = 0; i < inventory_slots; i = i + 1 {
+  for i in 0..<inventory_slots {
     slots.push(ItemSlot::empty())
     ignore(i)
   }
@@ -96,7 +96,7 @@ pub fn Inventory::new() -> Inventory {
 pub fn Inventory::add_item(self : Inventory, item_id : Int, count : Int) -> Int {
   let mut remaining = count
   // First try to stack with existing slots
-  for i = 0; i < inventory_slots; i = i + 1 {
+  for i in 0..<inventory_slots {
     if remaining <= 0 {
       return 0
     }
@@ -113,7 +113,7 @@ pub fn Inventory::add_item(self : Inventory, item_id : Int, count : Int) -> Int 
     }
   }
   // Then try empty slots
-  for i = 0; i < inventory_slots; i = i + 1 {
+  for i in 0..<inventory_slots {
     if remaining <= 0 {
       return 0
     }
@@ -476,20 +476,20 @@ pub fn Game::new() -> Game {
   // Create chunks
   let total_chunks = world_chunks_x * world_chunks_z
   let chunks : Array[Chunk] = []
-  for cz = 0; cz < world_chunks_z; cz = cz + 1 {
-    for cx = 0; cx < world_chunks_x; cx = cx + 1 {
+  for cz in 0..<world_chunks_z {
+    for cx in 0..<world_chunks_x {
       chunks.push(Chunk::new(cx, cz))
     }
   }
   // Create entity pool
   let entities : Array[Entity] = []
-  for i = 0; i < entity_max; i = i + 1 {
+  for i in 0..<entity_max {
     entities.push(Entity::inactive())
     ignore(i)
   }
   // Create particle pool
   let particles : Array[Particle] = []
-  for i = 0; i < particle_max; i = i + 1 {
+  for i in 0..<particle_max {
     particles.push(Particle::inactive())
     ignore(i)
   }
@@ -534,7 +534,7 @@ pub fn Game::new() -> Game {
     respawn_count: 0,
   }
   // Generate terrain for all chunks
-  for i = 0; i < total_chunks; i = i + 1 {
+  for i in 0..<total_chunks {
     generate_chunk_terrain(game.chunks[i], game)
   }
   game

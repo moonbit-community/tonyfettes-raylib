@@ -7,7 +7,7 @@ fn compute_hilbert_step(order : Int, index : Int) -> (Float, Float) {
   let mut vx : Float = hilbert_points_x[hilbert_index]
   let mut vy : Float = hilbert_points_y[hilbert_index]
   let mut idx = index
-  for j = 1; j < order; j = j + 1 {
+  for j in 1..<order {
     idx = (idx.reinterpret_as_uint() >> 2).reinterpret_as_int()
     let hi = idx & 3
     let len : Float = Float::from_int(1 << j)
@@ -43,7 +43,7 @@ fn load_hilbert_path(order : Int, size : Float) -> Array[@raylib.Vector2] {
     stroke_count,
     @raylib.Vector2::new(0.0, 0.0),
   )
-  for i = 0; i < stroke_count; i = i + 1 {
+  for i in 0..<stroke_count {
     let (vx, vy) = compute_hilbert_step(order, i)
     let half : Float = len / 2.0
     path[i] = @raylib.Vector2::new(vx * len + half, vy * len + half)
@@ -96,7 +96,7 @@ fn main {
 
     if counter < stroke_count {
       // Draw Hilbert path animation, one stroke every frame
-      for i = 1; i <= counter; i = i + 1 {
+      for i in 1..=counter {
         let hue : Float = Float::from_int(i) /
           Float::from_int(stroke_count) *
           360.0
@@ -110,7 +110,7 @@ fn main {
       counter += 1
     } else {
       // Draw full Hilbert path
-      for i = 1; i < stroke_count; i = i + 1 {
+      for i in 1..<stroke_count {
         let hue : Float = Float::from_int(i) /
           Float::from_int(stroke_count) *
           360.0

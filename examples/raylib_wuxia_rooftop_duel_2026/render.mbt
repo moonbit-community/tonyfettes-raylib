@@ -30,7 +30,7 @@ fn draw_background(game : Game) -> Unit {
   )
   @raylib.draw_circle(1240, 122, 72.0, @raylib.Color::new(232, 236, 255, 132))
 
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let h : Int = 140 + i * 17 % 120
     let w : Int = 28 + i * 29 % 54
     let x : Int = 24 + i * 76
@@ -45,7 +45,7 @@ fn draw_background(game : Game) -> Unit {
     )
   }
 
-  for i = 0; i < 36; i = i + 1 {
+  for i in 0..<36 {
     let x : Int = i * 43 + 10
     let y : Int = 32 + i * 37 % 140
     @raylib.draw_circle(
@@ -67,7 +67,7 @@ fn draw_rooftop(ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(30, 36, 56, 246),
   )
 
-  for i = 0; i < 21; i = i + 1 {
+  for i in 0..<21 {
     let y : Int = arena_y + oy + i * 36
     @raylib.draw_line(
       arena_x + 8 + ox,
@@ -78,7 +78,7 @@ fn draw_rooftop(ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for i = 0; i < 33; i = i + 1 {
+  for i in 0..<33 {
     let x : Int = arena_x + ox + i * 40
     @raylib.draw_line(
       x,
@@ -642,8 +642,8 @@ fn draw_frame(game : Game) -> Unit {
 
   draw_rooftop(ox, oy)
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    draw_enemy(game.enemies[i], game, ox, oy)
+  for enemy in game.enemies {
+    draw_enemy(enemy, game, ox, oy)
   }
 
   draw_player(game, ox, oy)

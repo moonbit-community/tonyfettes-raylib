@@ -51,8 +51,8 @@ fn random_tile() -> Int {
 
 ///|
 fn fill_board_no_matches(board : Array[Int]) -> Unit {
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let mut t = random_tile()
       let mut retry_count = 0
       while retry_count < 30 {
@@ -84,11 +84,11 @@ fn fill_board_no_matches(board : Array[Int]) -> Unit {
 
 ///|
 fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
-  for i = 0; i < marks.length(); i = i + 1 {
+  for i in 0..<marks.length() {
     marks[i] = false
   }
 
-  for y = 0; y < board_h; y = y + 1 {
+  for y in 0..<board_h {
     let mut x = 0
     while x < board_w {
       let t = board[idx(x, y)]
@@ -101,7 +101,7 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
         len = len + 1
       }
       if len >= 3 {
-        for k = 0; k < len; k = k + 1 {
+        for k in 0..<len {
           marks[idx(x + k, y)] = true
         }
       }
@@ -109,7 +109,7 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
     }
   }
 
-  for x = 0; x < board_w; x = x + 1 {
+  for x in 0..<board_w {
     let mut y = 0
     while y < board_h {
       let t = board[idx(x, y)]
@@ -122,7 +122,7 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
         len = len + 1
       }
       if len >= 3 {
-        for k = 0; k < len; k = k + 1 {
+        for k in 0..<len {
           marks[idx(x, y + k)] = true
         }
       }
@@ -131,8 +131,8 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
   }
 
   let mut count = 0
-  for i = 0; i < marks.length(); i = i + 1 {
-    if marks[i] {
+  for mark in marks {
+    if mark {
       count = count + 1
     }
   }
@@ -142,14 +142,14 @@ fn mark_matches(board : Array[Int], marks : Array[Bool]) -> Int {
 ///|
 fn apply_matches_and_refill(board : Array[Int], marks : Array[Bool]) -> Int {
   let mut removed = 0
-  for i = 0; i < board.length(); i = i + 1 {
+  for i in 0..<board.length() {
     if marks[i] {
       board[i] = -1
       removed = removed + 1
     }
   }
 
-  for x = 0; x < board_w; x = x + 1 {
+  for x in 0..<board_w {
     let mut write = board_h - 1
     for y = board_h - 1; y >= 0; y = y - 1 {
       let v = board[idx(x, y)]
@@ -298,8 +298,8 @@ fn main {
       @raylib.Color::new(34, 48, 52, 255),
     )
 
-    for y = 0; y < board_h; y = y + 1 {
-      for x = 0; x < board_w; x = x + 1 {
+    for y in 0..<board_h {
+      for x in 0..<board_w {
         let v = board[idx(x, y)]
         let px = board_px + x * cell
         let py = board_py + y * cell

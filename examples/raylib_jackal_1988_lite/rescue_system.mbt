@@ -1,6 +1,6 @@
 ///|
 fn clear_hostages(game : Game) -> Unit {
-  for i = 0; i < game.hostages.length(); i = i + 1 {
+  for i in 0..<game.hostages.length() {
     game.hostages[i] = Hostage::inactive()
   }
   game.hostages_rescued = 0
@@ -9,7 +9,7 @@ fn clear_hostages(game : Game) -> Unit {
 
 ///|
 fn alloc_hostage_slot(game : Game) -> Int {
-  for i = 0; i < game.hostages.length(); i = i + 1 {
+  for i in 0..<game.hostages.length() {
     if not(game.hostages[i].active) {
       return i
     }
@@ -105,19 +105,18 @@ fn rescue_objective_done(game : Game) -> Bool {
 fn update_hostages(game : Game, dt : Float) -> Unit {
   let pickup_r2 = rescue_pickup_radius * rescue_pickup_radius
 
-  for i = 0; i < game.hostages.length(); i = i + 1 {
-    let hostage = game.hostages[i]
+  for hostage in game.hostages {
     if not(hostage.active) {
-      continue i + 1
+      continue
     }
 
     hostage.bob += dt * 3.4
     hostage.blink += dt
 
-    for p = 0; p < max_players; p = p + 1 {
+    for p in 0..<max_players {
       let player = game.players[p]
       if not(player.active) {
-        continue p + 1
+        continue
       }
 
       if distance_sq(hostage.x, hostage.y, player.x, player.y) <= pickup_r2 {

@@ -115,10 +115,10 @@ fn main {
     // Draw a colored rectangle as a substitute for a texture
     @raylib.draw_rectangle(0, 0, screen_width, screen_height, @raylib.blue)
     // Draw grid-like pattern to make wave effect visible
-    for i = 0; i < screen_width / 20; i = i + 1 {
+    for i in 0..<(screen_width / 20) {
       @raylib.draw_line(i * 20, 0, i * 20, screen_height, @raylib.darkblue)
     }
-    for i = 0; i < screen_height / 20; i = i + 1 {
+    for i in 0..<(screen_height / 20) {
       @raylib.draw_line(0, i * 20, screen_width, i * 20, @raylib.darkblue)
     }
     @raylib.draw_rectangle(100, 100, 600, 250, @raylib.skyblue)

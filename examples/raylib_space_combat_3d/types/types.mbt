@@ -508,7 +508,7 @@ pub(all) struct Game {
 pub fn Game::new() -> Game {
   let stars_arr : Array[Star] = []
   let mut rng = 54321
-  for i = 0; i < max_stars; i = i + 1 {
+  for i in 0..<max_stars {
     rng = xor_rng(rng)
     let sx = rand_float_from(rng, -world_size, world_size)
     rng = xor_rng(rng)
@@ -583,13 +583,13 @@ pub fn Game::new() -> Game {
   }
 
   let objectives_arr : Array[MissionObjective] = []
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     objectives_arr.push(MissionObjective::new(objective_destroy_all, 0, ""))
     ignore(i)
   }
 
   let kill_feed_arr : Array[KillFeedEntry] = []
-  for i = 0; i < max_kill_feed; i = i + 1 {
+  for i in 0..<max_kill_feed {
     kill_feed_arr.push(KillFeedEntry::inactive())
     ignore(i)
   }
@@ -611,7 +611,7 @@ pub fn Game::new() -> Game {
     objectives_count: 0,
     enemies: {
       let arr : Array[Enemy] = []
-      for i = 0; i < max_enemies; i = i + 1 {
+      for i in 0..<max_enemies {
         arr.push(Enemy::inactive())
         ignore(i)
       }
@@ -619,7 +619,7 @@ pub fn Game::new() -> Game {
     },
     projectiles: {
       let arr : Array[Projectile] = []
-      for i = 0; i < max_projectiles; i = i + 1 {
+      for i in 0..<max_projectiles {
         arr.push(Projectile::inactive())
         ignore(i)
       }
@@ -627,7 +627,7 @@ pub fn Game::new() -> Game {
     },
     particles: {
       let arr : Array[Particle] = []
-      for i = 0; i < max_particles; i = i + 1 {
+      for i in 0..<max_particles {
         arr.push(Particle::inactive())
         ignore(i)
       }
@@ -635,7 +635,7 @@ pub fn Game::new() -> Game {
     },
     asteroids: {
       let arr : Array[Asteroid] = []
-      for i = 0; i < max_asteroids; i = i + 1 {
+      for i in 0..<max_asteroids {
         arr.push(Asteroid::inactive())
         ignore(i)
       }
@@ -643,7 +643,7 @@ pub fn Game::new() -> Game {
     },
     powerups: {
       let arr : Array[PowerUp] = []
-      for i = 0; i < max_powerups; i = i + 1 {
+      for i in 0..<max_powerups {
         arr.push(PowerUp::inactive())
         ignore(i)
       }
@@ -651,7 +651,7 @@ pub fn Game::new() -> Game {
     },
     stations: {
       let arr : Array[SpaceStation] = []
-      for i = 0; i < max_stations; i = i + 1 {
+      for i in 0..<max_stations {
         arr.push(SpaceStation::inactive())
         ignore(i)
       }
@@ -659,7 +659,7 @@ pub fn Game::new() -> Game {
     },
     debris: {
       let arr : Array[Debris] = []
-      for i = 0; i < max_debris; i = i + 1 {
+      for i in 0..<max_debris {
         arr.push(Debris::inactive())
         ignore(i)
       }

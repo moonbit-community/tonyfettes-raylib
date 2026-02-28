@@ -36,7 +36,7 @@ fn draw_background(game : Game) -> Unit {
 
   @raylib.clear_background(@raylib.Color::new(10, 12, 18, 255))
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let band_y = i * 56 - 10
     let alpha = 18 + i * 9 % 22
     @raylib.draw_rectangle(
@@ -84,8 +84,8 @@ fn draw_board_tiles(game : Game) -> Unit {
     @raylib.Color::new(108, 132, 154, 180),
   )
 
-  for y = 0; y < board_rows; y = y + 1 {
-    for x = 0; x < board_cols; x = x + 1 {
+  for y in 0..<board_rows {
+    for x in 0..<board_cols {
       let px = cell_px(x)
       let py = cell_py(y)
       let t = tile_at(game, x, y)
@@ -126,10 +126,9 @@ fn draw_board_tiles(game : Game) -> Unit {
 
 ///|
 fn draw_guard_fov(game : Game) -> Unit {
-  for gi = 0; gi < game.guards.length(); gi = gi + 1 {
-    let g = game.guards[gi]
-    for y = 0; y < board_rows; y = y + 1 {
-      for x = 0; x < board_cols; x = x + 1 {
+  for g in game.guards {
+    for y in 0..<board_rows {
+      for x in 0..<board_cols {
         if tile_at(game, x, y) == tile_wall {
           continue
         }
@@ -180,7 +179,7 @@ fn draw_exit(game : Game) -> Unit {
 
 ///|
 fn draw_artifacts(game : Game) -> Unit {
-  for i = 0; i < game.artifacts.length(); i = i + 1 {
+  for i in 0..<game.artifacts.length() {
     if game.artifacts[i].taken {
       continue
     }
@@ -219,9 +218,9 @@ fn draw_artifacts(game : Game) -> Unit {
 
 ///|
 fn draw_guards(game : Game) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
-    let cx = cell_px(game.guards[i].x) + tile_size / 2
-    let cy = cell_py(game.guards[i].y) + tile_size / 2
+  for guard_val in game.guards {
+    let cx = cell_px(guard_val.x) + tile_size / 2
+    let cy = cell_py(guard_val.y) + tile_size / 2
     @raylib.draw_circle(
       cx,
       cy,
@@ -229,16 +228,16 @@ fn draw_guards(game : Game) -> Unit {
       @raylib.Color::new(184, 62, 72, 255),
     )
     @raylib.draw_circle(
-      cx + game.guards[i].dir_x * tile_size / 5,
-      cy + game.guards[i].dir_y * tile_size / 5,
+      cx + guard_val.dir_x * tile_size / 5,
+      cy + guard_val.dir_y * tile_size / 5,
       Float::from_int(tile_size) * 0.09,
       @raylib.Color::new(255, 230, 214, 255),
     )
     @raylib.draw_line(
       cx,
       cy,
-      cx + game.guards[i].dir_x * tile_size / 2,
-      cy + game.guards[i].dir_y * tile_size / 2,
+      cx + guard_val.dir_x * tile_size / 2,
+      cy + guard_val.dir_y * tile_size / 2,
       @raylib.Color::new(255, 216, 190, 210),
     )
   }

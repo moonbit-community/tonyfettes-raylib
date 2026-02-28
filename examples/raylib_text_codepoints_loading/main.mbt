@@ -1,16 +1,16 @@
 ///|
 fn codepoint_remove_duplicates(codepoints : Array[Int]) -> Array[Int] {
   let result : Array[Int] = []
-  for i = 0; i < codepoints.length(); i = i + 1 {
+  for codepoint in codepoints {
     let mut found = false
-    for j = 0; j < result.length(); j = j + 1 {
-      if codepoints[i] == result[j] {
+    for result_elem in result {
+      if codepoint == result_elem {
         found = true
         break
       }
     }
     if not(found) {
-      result.push(codepoints[i])
+      result.push(codepoint)
     }
   }
   result

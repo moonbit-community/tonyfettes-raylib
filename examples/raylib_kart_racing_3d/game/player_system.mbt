@@ -302,7 +302,7 @@ fn clamp_kart_to_track_bounds(game : @types.Game, kart_idx : Int) -> Unit {
   // Find nearest waypoint segment
   let mut best_dist : Float = 99999.0
   let mut best_seg = 0
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp = game.waypoints[i]
     let d = @types.distance2d(kart.x, kart.z, wp.x, wp.z)
     if d < best_dist {
@@ -450,16 +450,16 @@ fn activate_lightning(game : @types.Game, source_kart : Int) -> Unit {
   game.lightning_timer = @types.lightning_duration
   game.lightning_source = source_kart
   // Hit all other karts
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     if i == source_kart {
-      continue i + 1
+      continue
     }
     let kart = game.karts[i]
     if not(kart.active) || kart.finished {
-      continue i + 1
+      continue
     }
     if kart.star_timer > 0.0 || kart.invincible_timer > 0.0 {
-      continue i + 1
+      continue
     }
     kart.lightning_timer = @types.lightning_duration
     kart.spin_timer = @types.lightning_spin_duration
@@ -498,15 +498,15 @@ fn activate_lightning(game : @types.Game, source_kart : Int) -> Unit {
 
 ///|
 pub fn check_kart_collisions(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let ka = game.karts[i]
     if not(ka.active) {
-      continue i + 1
+      continue
     }
-    for j = i + 1; j < @types.max_karts; j = j + 1 {
+    for j in (i + 1)..<@types.max_karts {
       let kb = game.karts[j]
       if not(kb.active) {
-        continue j + 1
+        continue
       }
       let dx = kb.x - ka.x
       let dz = kb.z - ka.z

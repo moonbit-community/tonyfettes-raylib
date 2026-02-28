@@ -20,7 +20,7 @@ fn random_incident_delay(week : Int) -> Float {
 fn mean_skill(game : Game) -> Float {
   let mut sum : Float = 0.0
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     sum = sum + game.students[i].skill
   }
 
@@ -31,7 +31,7 @@ fn mean_skill(game : Game) -> Float {
 fn mean_fatigue(game : Game) -> Float {
   let mut sum : Float = 0.0
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     sum = sum + game.students[i].fatigue
   }
 
@@ -42,7 +42,7 @@ fn mean_fatigue(game : Game) -> Float {
 fn defense_power(game : Game) -> Float {
   let mut power : Float = 0.0
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     if game.students[i].room != room_defense {
       continue
     }
@@ -56,7 +56,7 @@ fn defense_power(game : Game) -> Float {
 
 ///|
 fn reset_students(game : Game) -> Unit {
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     game.students[i].skill = starting_skill(i)
     game.students[i].fatigue = Float::from_int(@raylib.get_random_value(8, 20))
     game.students[i].room = room_rest
@@ -223,7 +223,7 @@ fn apply_room_simulation(game : Game, sim_dt : Float) -> Unit {
     (reputation_passive_drain_per_sec + Float::from_int(game.week - 1) * 0.006) *
     sim_dt
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     if game.students[i].room == room_rest {
       game.students[i].fatigue = maxf(
         0.0,
@@ -315,7 +315,7 @@ fn trigger_incident(game : Game) -> Unit {
   game.funds = game.funds - funds_loss
   game.reputation = game.reputation - reputation_loss
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     if game.students[i].room == room_rest {
       game.students[i].fatigue = minf(
         fatigue_max,
@@ -354,7 +354,7 @@ fn advance_week(game : Game) -> Unit {
   let mut spar_count = 0
   let mut defense_count = 0
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     if game.students[i].room == room_sparring {
       spar_count = spar_count + 1
     }
@@ -375,7 +375,7 @@ fn advance_week(game : Game) -> Unit {
 
   game.reputation = clampf(game.reputation + eval_score, 0.0, 100.0)
 
-  for i = 0; i < student_count; i = i + 1 {
+  for i in 0..<student_count {
     let recover = if game.students[i].room == room_rest {
       weekly_recovery_bonus + 4.0
     } else {

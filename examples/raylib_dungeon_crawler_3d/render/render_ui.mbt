@@ -102,7 +102,7 @@ fn draw_menu(game : @types.Game) -> Unit {
   draw_menu_torch(game, @types.screen_width / 2 + 180, 300)
   // Menu items
   let items : Array[String] = ["New Game", "Continue"]
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     let y = 330 + i * 55
     let is_selected = game.menu_cursor == i
     let blink_val = @math.sinf(game.menu_blink * 2.0)
@@ -340,15 +340,15 @@ fn draw_minimap(game : @types.Game) -> Unit {
   let half_view = ms / @types.minimap_cell / 2
   let start_gx = pgx - half_view
   let start_gz = pgz - half_view
-  for dy = 0; dy < ms / @types.minimap_cell; dy = dy + 1 {
-    for dx = 0; dx < ms / @types.minimap_cell; dx = dx + 1 {
+  for dy in 0..<(ms / @types.minimap_cell) {
+    for dx in 0..<(ms / @types.minimap_cell) {
       let gx = start_gx + dx
       let gz = start_gz + dy
       if not(@types.in_bounds(gx, gz)) {
-        continue dx + 1
+        continue
       }
       if not(game.explored[@types.tile_index(gx, gz)]) {
-        continue dx + 1
+        continue
       }
       let tile = @types.get_tile(game, gx, gz)
       let px = mx + dx * @types.minimap_cell
@@ -398,23 +398,22 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw enemies on minimap
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let egx = @types.world_to_grid_x(e.x)
     let egz = @types.world_to_grid_z(e.z)
     if not(@types.in_bounds(egx, egz)) {
-      continue i + 1
+      continue
     }
     if not(game.explored[@types.tile_index(egx, egz)]) {
-      continue i + 1
+      continue
     }
     // Only show if close enough
     let dist = @types.dist2d(game.player_x, game.player_z, e.x, e.z)
     if dist > 15.0 {
-      continue i + 1
+      continue
     }
     let ex = mx + (egx - start_gx) * @types.minimap_cell
     let ey = my + (egz - start_gz) * @types.minimap_cell
@@ -429,18 +428,17 @@ fn draw_minimap(game : @types.Game) -> Unit {
     }
   }
   // Draw loot on minimap
-  for i = 0; i < game.loot.length(); i = i + 1 {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
-      continue i + 1
+      continue
     }
     let lgx = @types.world_to_grid_x(l.x)
     let lgz = @types.world_to_grid_z(l.z)
     if not(@types.in_bounds(lgx, lgz)) {
-      continue i + 1
+      continue
     }
     if not(game.explored[@types.tile_index(lgx, lgz)]) {
-      continue i + 1
+      continue
     }
     let lx = mx + (lgx - start_gx) * @types.minimap_cell
     let ly = my + (lgz - start_gz) * @types.minimap_cell
@@ -669,7 +667,7 @@ fn draw_class_select(game : @types.Game) -> Unit {
     "High HP and defense. Starts with a sword.", "Fast and deadly. Starts with a dagger.",
     "Wields magic. Starts with a staff and spells.",
   ]
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let y = 200 + i * 120
     let is_selected = game.class_select_cursor == i
     // Highlight box for selected class

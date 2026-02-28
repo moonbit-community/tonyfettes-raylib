@@ -40,8 +40,8 @@ fn main {
     Float::from_int(recs_height),
   )
 
-  for y = 0; y < max_recs_y; y = y + 1 {
-    for x = 0; x < max_recs_x; x = x + 1 {
+  for y in 0..<max_recs_y {
+    for x in 0..<max_recs_x {
       recs_x[y * max_recs_x + x] = Float::from_int(recs_width) / 2.0 +
         Float::from_int(recs_width * x)
       recs_y[y * max_recs_x + x] = Float::from_int(recs_height) / 2.0 +
@@ -58,7 +58,7 @@ fn main {
   while not(@raylib.window_should_close()) {
     if state == 0 {
       frames_counter += 1
-      for i = 0; i < total_recs; i = i + 1 {
+      for i in 0..<total_recs {
         recs_h[i] = ease_circ_out(
           Float::from_int(frames_counter),
           Float::from_int(recs_height),
@@ -89,7 +89,7 @@ fn main {
       }
     } else if state == 1 && @raylib.is_key_pressed(@raylib.KeySpace) {
       frames_counter = 0
-      for i = 0; i < total_recs; i = i + 1 {
+      for i in 0..<total_recs {
         recs_h[i] = Float::from_int(recs_height)
         recs_w[i] = Float::from_int(recs_width)
       }
@@ -99,7 +99,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     if state == 0 {
-      for i = 0; i < total_recs; i = i + 1 {
+      for i in 0..<total_recs {
         @raylib.draw_rectangle_pro(
           @raylib.Rectangle::new(recs_x[i], recs_y[i], recs_w[i], recs_h[i]),
           @raylib.Vector2::new(recs_w[i] / 2.0, recs_h[i] / 2.0),

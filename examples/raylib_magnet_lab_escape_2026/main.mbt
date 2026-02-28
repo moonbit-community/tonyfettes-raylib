@@ -230,104 +230,104 @@ fn drone_hp(kind : Int, level : Int) -> Float {
 
 ///|
 fn clear_platforms(platforms : Array[Platform]) -> Unit {
-  for i = 0; i < platforms.length(); i = i + 1 {
-    platforms[i].active = false
-    platforms[i].x = 0.0
-    platforms[i].y = 0.0
-    platforms[i].w = 0.0
-    platforms[i].h = 0.0
-    platforms[i].moving = false
-    platforms[i].amp = 0.0
-    platforms[i].speed = 0.0
-    platforms[i].phase = 0.0
+  for platform in platforms {
+    platform.active = false
+    platform.x = 0.0
+    platform.y = 0.0
+    platform.w = 0.0
+    platform.h = 0.0
+    platform.moving = false
+    platform.amp = 0.0
+    platform.speed = 0.0
+    platform.phase = 0.0
   }
 }
 
 ///|
 fn clear_gates(gates : Array[Gate]) -> Unit {
-  for i = 0; i < gates.length(); i = i + 1 {
-    gates[i].active = false
-    gates[i].x = 0.0
-    gates[i].req = 0
-    gates[i].open = false
+  for gate in gates {
+    gate.active = false
+    gate.x = 0.0
+    gate.req = 0
+    gate.open = false
   }
 }
 
 ///|
 fn clear_cores(cores : Array[Core]) -> Unit {
-  for i = 0; i < cores.length(); i = i + 1 {
-    cores[i].active = false
-    cores[i].kind = 0
-    cores[i].x = 0.0
-    cores[i].y = 0.0
-    cores[i].vx = 0.0
-    cores[i].vy = 0.0
-    cores[i].r = 0.0
-    cores[i].value = 0
-    cores[i].magnetized = false
-    cores[i].t = 0.0
+  for core in cores {
+    core.active = false
+    core.kind = 0
+    core.x = 0.0
+    core.y = 0.0
+    core.vx = 0.0
+    core.vy = 0.0
+    core.r = 0.0
+    core.value = 0
+    core.magnetized = false
+    core.t = 0.0
   }
 }
 
 ///|
 fn clear_boxes(boxes : Array[Box]) -> Unit {
-  for i = 0; i < boxes.length(); i = i + 1 {
-    boxes[i].active = false
-    boxes[i].kind = 0
-    boxes[i].x = 0.0
-    boxes[i].y = 0.0
-    boxes[i].vx = 0.0
-    boxes[i].vy = 0.0
-    boxes[i].r = 0.0
-    boxes[i].hp = 0.0
-    boxes[i].magnetized = false
-    boxes[i].t = 0.0
+  for box in boxes {
+    box.active = false
+    box.kind = 0
+    box.x = 0.0
+    box.y = 0.0
+    box.vx = 0.0
+    box.vy = 0.0
+    box.r = 0.0
+    box.hp = 0.0
+    box.magnetized = false
+    box.t = 0.0
   }
 }
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
-    drones[i].active = false
-    drones[i].kind = 0
-    drones[i].x = 0.0
-    drones[i].y = 0.0
-    drones[i].vx = 0.0
-    drones[i].vy = 0.0
-    drones[i].hp = 0.0
-    drones[i].fire_cd = 0.0
-    drones[i].t = 0.0
+  for drone in drones {
+    drone.active = false
+    drone.kind = 0
+    drone.x = 0.0
+    drone.y = 0.0
+    drone.vx = 0.0
+    drone.vy = 0.0
+    drone.hp = 0.0
+    drone.fire_cd = 0.0
+    drone.t = 0.0
   }
 }
 
 ///|
 fn clear_bolts(bolts : Array[Bolt]) -> Unit {
-  for i = 0; i < bolts.length(); i = i + 1 {
-    bolts[i].active = false
-    bolts[i].team = 0
-    bolts[i].kind = 0
-    bolts[i].x = 0.0
-    bolts[i].y = 0.0
-    bolts[i].vx = 0.0
-    bolts[i].vy = 0.0
-    bolts[i].dmg = 0.0
-    bolts[i].r = 0.0
-    bolts[i].life = 0.0
+  for bolt in bolts {
+    bolt.active = false
+    bolt.team = 0
+    bolt.kind = 0
+    bolt.x = 0.0
+    bolt.y = 0.0
+    bolt.vx = 0.0
+    bolt.vy = 0.0
+    bolt.dmg = 0.0
+    bolt.r = 0.0
+    bolt.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].t = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.t = 0.0
   }
 }
 
@@ -342,17 +342,17 @@ fn add_platform(
   amp : Float,
   speed : Float,
 ) -> Bool {
-  for i = 0; i < platforms.length(); i = i + 1 {
-    if not(platforms[i].active) {
-      platforms[i].active = true
-      platforms[i].x = x
-      platforms[i].y = y
-      platforms[i].w = w
-      platforms[i].h = h
-      platforms[i].moving = moving
-      platforms[i].amp = amp
-      platforms[i].speed = speed
-      platforms[i].phase = randf(0.0, 100.0)
+  for platform in platforms {
+    if not(platform.active) {
+      platform.active = true
+      platform.x = x
+      platform.y = y
+      platform.w = w
+      platform.h = h
+      platform.moving = moving
+      platform.amp = amp
+      platform.speed = speed
+      platform.phase = randf(0.0, 100.0)
       return true
     }
   }
@@ -361,12 +361,12 @@ fn add_platform(
 
 ///|
 fn add_gate(gates : Array[Gate], x : Float, req : Int) -> Bool {
-  for i = 0; i < gates.length(); i = i + 1 {
-    if not(gates[i].active) {
-      gates[i].active = true
-      gates[i].x = x
-      gates[i].req = req
-      gates[i].open = false
+  for gate in gates {
+    if not(gate.active) {
+      gate.active = true
+      gate.x = x
+      gate.req = req
+      gate.open = false
       return true
     }
   }
@@ -383,24 +383,24 @@ fn add_core(
   vy : Float,
   value : Int,
 ) -> Bool {
-  for i = 0; i < cores.length(); i = i + 1 {
-    if not(cores[i].active) {
-      cores[i].active = true
-      cores[i].kind = kind
-      cores[i].x = x
-      cores[i].y = y
-      cores[i].vx = vx
-      cores[i].vy = vy
+  for core in cores {
+    if not(core.active) {
+      core.active = true
+      core.kind = kind
+      core.x = x
+      core.y = y
+      core.vx = vx
+      core.vy = vy
       if kind == 0 {
-        cores[i].r = 11.0
+        core.r = 11.0
       } else if kind == 1 {
-        cores[i].r = 13.0
+        core.r = 13.0
       } else {
-        cores[i].r = 15.0
+        core.r = 15.0
       }
-      cores[i].value = value
-      cores[i].magnetized = false
-      cores[i].t = randf(0.0, 24.0)
+      core.value = value
+      core.magnetized = false
+      core.t = randf(0.0, 24.0)
       return true
     }
   }
@@ -416,22 +416,22 @@ fn add_box(
   vx : Float,
   vy : Float,
 ) -> Bool {
-  for i = 0; i < boxes.length(); i = i + 1 {
-    if not(boxes[i].active) {
-      boxes[i].active = true
-      boxes[i].kind = kind
-      boxes[i].x = x
-      boxes[i].y = y
-      boxes[i].vx = vx
-      boxes[i].vy = vy
+  for box in boxes {
+    if not(box.active) {
+      box.active = true
+      box.kind = kind
+      box.x = x
+      box.y = y
+      box.vx = vx
+      box.vy = vy
       if kind == 0 {
-        boxes[i].r = 16.0
+        box.r = 16.0
       } else {
-        boxes[i].r = 20.0
+        box.r = 20.0
       }
-      boxes[i].hp = 120.0 + Float::from_int(kind) * 60.0
-      boxes[i].magnetized = false
-      boxes[i].t = randf(0.0, 22.0)
+      box.hp = 120.0 + Float::from_int(kind) * 60.0
+      box.magnetized = false
+      box.t = randf(0.0, 22.0)
       return true
     }
   }
@@ -446,23 +446,23 @@ fn add_drone(
   y : Float,
   level : Int,
 ) -> Bool {
-  for i = 0; i < drones.length(); i = i + 1 {
-    if not(drones[i].active) {
-      drones[i].active = true
-      drones[i].kind = kind
-      drones[i].x = x
-      drones[i].y = y
-      drones[i].vx = randf(-30.0, 30.0)
-      drones[i].vy = randf(-30.0, 30.0)
-      drones[i].hp = drone_hp(kind, level)
+  for drone in drones {
+    if not(drone.active) {
+      drone.active = true
+      drone.kind = kind
+      drone.x = x
+      drone.y = y
+      drone.vx = randf(-30.0, 30.0)
+      drone.vy = randf(-30.0, 30.0)
+      drone.hp = drone_hp(kind, level)
       if kind == 0 {
-        drones[i].fire_cd = randf(1.0, 1.6)
+        drone.fire_cd = randf(1.0, 1.6)
       } else if kind == 1 {
-        drones[i].fire_cd = randf(0.76, 1.3)
+        drone.fire_cd = randf(0.76, 1.3)
       } else {
-        drones[i].fire_cd = randf(1.4, 2.2)
+        drone.fire_cd = randf(1.4, 2.2)
       }
-      drones[i].t = randf(0.0, 100.0)
+      drone.t = randf(0.0, 100.0)
       return true
     }
   }
@@ -482,18 +482,18 @@ fn add_bolt(
   r : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bolts.length(); i = i + 1 {
-    if not(bolts[i].active) {
-      bolts[i].active = true
-      bolts[i].team = team
-      bolts[i].kind = kind
-      bolts[i].x = x
-      bolts[i].y = y
-      bolts[i].vx = vx
-      bolts[i].vy = vy
-      bolts[i].dmg = dmg
-      bolts[i].r = r
-      bolts[i].life = life
+  for bolt in bolts {
+    if not(bolt.active) {
+      bolt.active = true
+      bolt.team = team
+      bolt.kind = kind
+      bolt.x = x
+      bolt.y = y
+      bolt.vx = vx
+      bolt.vy = vy
+      bolt.dmg = dmg
+      bolt.r = r
+      bolt.life = life
       return true
     }
   }
@@ -511,17 +511,17 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = vx
-      parts[i].vy = vy
-      parts[i].size = size
-      parts[i].life = life
-      parts[i].t = 0.0
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
+      part.vx = vx
+      part.vy = vy
+      part.size = size
+      part.life = life
+      part.t = 0.0
       return true
     }
   }
@@ -537,7 +537,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(60.0, 340.0) * scale
     ignore(
@@ -565,8 +565,8 @@ fn gate_block_circle(
 ) -> (Float, Float) {
   let mut nx : Float = x
   let mut nvx : Float = vx
-  for i = 0; i < gates.length(); i = i + 1 {
-    if not(gates[i].active) || gates[i].open {
+  for gate in gates {
+    if not(gate.active) || gate.open {
       continue
     }
 
@@ -574,7 +574,7 @@ fn gate_block_circle(
       continue
     }
 
-    let gx : Float = gates[i].x
+    let gx : Float = gate.x
     if nx < gx && nx + r > gx - 6.0 && nvx > 0.0 {
       nx = gx - r - 6.0
       nvx = -absf(nvx) * 0.46
@@ -600,7 +600,7 @@ fn setup_world(
   clear_boxes(boxes)
 
   // Static platform layout: each sector has a small pattern.
-  for sec = 0; sec < 18; sec = sec + 1 {
+  for sec in 0..<18 {
     let base_x : Float = 220.0 + Float::from_int(sec) * 300.0
 
     ignore(
@@ -651,7 +651,7 @@ fn setup_world(
   ignore(add_gate(gates, 4040.0, 56))
   ignore(add_gate(gates, 4920.0, 82))
 
-  for i = 0; i < 95; i = i + 1 {
+  for i in 0..<95 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(220.0, 620.0)
     let value : Int = 1 + @raylib.get_random_value(0, 2)
@@ -668,7 +668,7 @@ fn setup_world(
     )
   }
 
-  for i = 0; i < 68; i = i + 1 {
+  for i in 0..<68 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(280.0, 640.0)
     ignore(
@@ -1063,17 +1063,17 @@ fn main {
       }
 
       // Gate progression.
-      for i = 0; i < gates.length(); i = i + 1 {
-        if not(gates[i].active) {
+      for gate in gates {
+        if not(gate.active) {
           continue
         }
 
-        let was_open : Bool = gates[i].open
-        gates[i].open = player.delivered >= gates[i].req
-        if not(was_open) && gates[i].open {
-          msg = "Gate unlocked: requirement \{gates[i].req} cores"
+        let was_open : Bool = gate.open
+        gate.open = player.delivered >= gate.req
+        if not(was_open) && gate.open {
+          msg = "Gate unlocked: requirement \{gate.req} cores"
           msg_t = 0.86
-          burst(particles, gates[i].x, floor_y - 140.0, 36, 0.26, 3)
+          burst(particles, gate.x, floor_y - 140.0, 36, 0.26, 3)
         }
       }
 
@@ -1211,15 +1211,15 @@ fn main {
       }
 
       // Update moving platforms.
-      for i = 0; i < platforms.length(); i = i + 1 {
-        if not(platforms[i].active) {
+      for platform in platforms {
+        if not(platform.active) {
           continue
         }
-        if platforms[i].moving {
-          platforms[i].phase = platforms[i].phase + dt * platforms[i].speed
-          platforms[i].x = platforms[i].x +
-            @math.sinf(platforms[i].phase) * platforms[i].amp * dt
-          platforms[i].x = clampf(platforms[i].x, 80.0, world_w - 320.0)
+        if platform.moving {
+          platform.phase = platform.phase + dt * platform.speed
+          platform.x = platform.x +
+            @math.sinf(platform.phase) * platform.amp * dt
+          platform.x = clampf(platform.x, 80.0, world_w - 320.0)
         }
       }
 
@@ -1268,14 +1268,14 @@ fn main {
         player.grounded = true
       }
 
-      for i = 0; i < platforms.length(); i = i + 1 {
-        if not(platforms[i].active) {
+      for platform in platforms {
+        if not(platform.active) {
           continue
         }
 
-        let left : Float = platforms[i].x - platforms[i].w * 0.5
-        let right : Float = platforms[i].x + platforms[i].w * 0.5
-        let top : Float = platforms[i].y - platforms[i].h * 0.5
+        let left : Float = platform.x - platform.w * 0.5
+        let right : Float = platform.x + platform.w * 0.5
+        let top : Float = platform.y - platform.h * 0.5
 
         if player.x + pw * 0.45 > left && player.x - pw * 0.45 < right {
           if player.vy >= 0.0 &&
@@ -1349,54 +1349,54 @@ fn main {
       if player.magnet_on {
         let sign : Float = Float::from_int(player.polarity)
 
-        for i = 0; i < cores.length(); i = i + 1 {
-          if not(cores[i].active) {
+        for core in cores {
+          if not(core.active) {
             continue
           }
-          let dx : Float = player.x - cores[i].x
-          let dy : Float = player.y - 8.0 - cores[i].y
+          let dx : Float = player.x - core.x
+          let dy : Float = player.y - 8.0 - core.y
           let d2 : Float = dx * dx + dy * dy
-          cores[i].magnetized = false
+          core.magnetized = false
           if d2 <= 310.0 * 310.0 {
-            cores[i].magnetized = true
+            core.magnetized = true
             let mut d : Float = d2.sqrt()
             if d < 1.0 {
               d = 1.0
             }
             let inv : Float = 1.0 / d
             let force : Float = clampf(320.0 - d * 0.7, 80.0, 320.0)
-            cores[i].vx = cores[i].vx + dx * inv * force * dt * sign
-            cores[i].vy = cores[i].vy + dy * inv * force * dt * sign
+            core.vx = core.vx + dx * inv * force * dt * sign
+            core.vy = core.vy + dy * inv * force * dt * sign
           }
         }
 
-        for i = 0; i < boxes.length(); i = i + 1 {
-          if not(boxes[i].active) {
+        for box in boxes {
+          if not(box.active) {
             continue
           }
-          let dx : Float = player.x - boxes[i].x
-          let dy : Float = player.y - 8.0 - boxes[i].y
+          let dx : Float = player.x - box.x
+          let dy : Float = player.y - 8.0 - box.y
           let d2 : Float = dx * dx + dy * dy
-          boxes[i].magnetized = false
+          box.magnetized = false
           if d2 <= 290.0 * 290.0 {
-            boxes[i].magnetized = true
+            box.magnetized = true
             let mut d : Float = d2.sqrt()
             if d < 1.0 {
               d = 1.0
             }
             let inv : Float = 1.0 / d
             let force : Float = clampf(220.0 - d * 0.58, 46.0, 220.0)
-            boxes[i].vx = boxes[i].vx + dx * inv * force * dt * sign
-            boxes[i].vy = boxes[i].vy + dy * inv * force * dt * sign
+            box.vx = box.vx + dx * inv * force * dt * sign
+            box.vy = box.vy + dy * inv * force * dt * sign
           }
         }
 
-        for i = 0; i < bolts.length(); i = i + 1 {
-          if not(bolts[i].active) || bolts[i].team != 2 {
+        for bolt in bolts {
+          if not(bolt.active) || bolt.team != 2 {
             continue
           }
-          let dx : Float = player.x - bolts[i].x
-          let dy : Float = player.y - bolts[i].y
+          let dx : Float = player.x - bolt.x
+          let dy : Float = player.y - bolt.y
           let d2 : Float = dx * dx + dy * dy
           if d2 <= 230.0 * 230.0 {
             let mut d : Float = d2.sqrt()
@@ -1405,8 +1405,8 @@ fn main {
             }
             let inv : Float = 1.0 / d
             let force : Float = clampf(210.0 - d * 0.66, 56.0, 210.0)
-            bolts[i].vx = bolts[i].vx + dx * inv * force * dt * sign
-            bolts[i].vy = bolts[i].vy + dy * inv * force * dt * sign
+            bolt.vx = bolt.vx + dx * inv * force * dt * sign
+            bolt.vy = bolt.vy + dy * inv * force * dt * sign
           }
         }
       }
@@ -1415,9 +1415,9 @@ fn main {
       drone_cd = drone_cd - dt
       if drone_cd <= 0.0 {
         let mut frontier : Float = world_w - 260.0
-        for i = 0; i < gates.length(); i = i + 1 {
-          if gates[i].active && not(gates[i].open) && gates[i].x < frontier {
-            frontier = gates[i].x - 80.0
+        for gate in gates {
+          if gate.active && not(gate.open) && gate.x < frontier {
+            frontier = gate.x - 80.0
           }
         }
 
@@ -1445,9 +1445,9 @@ fn main {
       if core_cd <= 0.0 {
         core_cd = randf(2.2, 4.6)
         let mut frontier : Float = world_w - 320.0
-        for i = 0; i < gates.length(); i = i + 1 {
-          if gates[i].active && not(gates[i].open) && gates[i].x < frontier {
-            frontier = gates[i].x - 180.0
+        for gate in gates {
+          if gate.active && not(gate.open) && gate.x < frontier {
+            frontier = gate.x - 180.0
           }
         }
         let sx : Float = randf(120.0, clampf(frontier, 140.0, world_w - 420.0))
@@ -1466,95 +1466,95 @@ fn main {
       }
 
       // Update cores.
-      for i = 0; i < cores.length(); i = i + 1 {
-        if not(cores[i].active) {
+      for core in cores {
+        if not(core.active) {
           continue
         }
 
-        cores[i].t = cores[i].t + dt
-        cores[i].vy = cores[i].vy + gravity * dt * 0.86
-        cores[i].vx = cores[i].vx * (1.0 - dt * 1.05)
+        core.t = core.t + dt
+        core.vy = core.vy + gravity * dt * 0.86
+        core.vx = core.vx * (1.0 - dt * 1.05)
 
-        let prev_y : Float = cores[i].y
-        cores[i].x = cores[i].x + cores[i].vx * dt
-        cores[i].y = cores[i].y + cores[i].vy * dt
+        let prev_y : Float = core.y
+        core.x = core.x + core.vx * dt
+        core.y = core.y + core.vy * dt
 
         // world bounds
-        if cores[i].x < cores[i].r {
-          cores[i].x = cores[i].r
-          cores[i].vx = absf(cores[i].vx) * 0.56
+        if core.x < core.r {
+          core.x = core.r
+          core.vx = absf(core.vx) * 0.56
         }
-        if cores[i].x > world_w - cores[i].r {
-          cores[i].x = world_w - cores[i].r
-          cores[i].vx = -absf(cores[i].vx) * 0.56
+        if core.x > world_w - core.r {
+          core.x = world_w - core.r
+          core.vx = -absf(core.vx) * 0.56
         }
 
         let (cx, cvx) = gate_block_circle(
           gates,
-          cores[i].x,
-          cores[i].y,
-          cores[i].r,
-          cores[i].vx,
+          core.x,
+          core.y,
+          core.r,
+          core.vx,
         )
-        cores[i].x = cx
-        cores[i].vx = cvx
+        core.x = cx
+        core.vx = cvx
 
-        if cores[i].y + cores[i].r >= floor_y {
-          cores[i].y = floor_y - cores[i].r
-          if cores[i].vy > 0.0 {
-            cores[i].vy = -cores[i].vy * 0.42
+        if core.y + core.r >= floor_y {
+          core.y = floor_y - core.r
+          if core.vy > 0.0 {
+            core.vy = -core.vy * 0.42
           }
-          if absf(cores[i].vy) < 24.0 {
-            cores[i].vy = 0.0
+          if absf(core.vy) < 24.0 {
+            core.vy = 0.0
           }
         }
 
-        for p = 0; p < platforms.length(); p = p + 1 {
-          if not(platforms[p].active) {
+        for platform in platforms {
+          if not(platform.active) {
             continue
           }
-          let left : Float = platforms[p].x - platforms[p].w * 0.5
-          let right : Float = platforms[p].x + platforms[p].w * 0.5
-          let top : Float = platforms[p].y - platforms[p].h * 0.5
-          if cores[i].x > left - cores[i].r && cores[i].x < right + cores[i].r {
-            if cores[i].vy >= 0.0 &&
-              prev_y + cores[i].r <= top + 4.0 &&
-              cores[i].y + cores[i].r >= top {
-              cores[i].y = top - cores[i].r
-              cores[i].vy = -cores[i].vy * 0.36
-              if absf(cores[i].vy) < 20.0 {
-                cores[i].vy = 0.0
+          let left : Float = platform.x - platform.w * 0.5
+          let right : Float = platform.x + platform.w * 0.5
+          let top : Float = platform.y - platform.h * 0.5
+          if core.x > left - core.r && core.x < right + core.r {
+            if core.vy >= 0.0 &&
+              prev_y + core.r <= top + 4.0 &&
+              core.y + core.r >= top {
+              core.y = top - core.r
+              core.vy = -core.vy * 0.36
+              if absf(core.vy) < 20.0 {
+                core.vy = 0.0
               }
             }
           }
         }
 
         // Core delivery.
-        if dist2(cores[i].x, cores[i].y, reactor_x, reactor_y) <= 80.0 * 80.0 {
-          if absf(cores[i].vx) + absf(cores[i].vy) < 210.0 {
-            player.delivered = player.delivered + cores[i].value
-            player.score = player.score + 28 + cores[i].value * 8 + player.combo
-            player.cargo = player.cargo + cores[i].value
-            cores[i].active = false
+        if dist2(core.x, core.y, reactor_x, reactor_y) <= 80.0 * 80.0 {
+          if absf(core.vx) + absf(core.vy) < 210.0 {
+            player.delivered = player.delivered + core.value
+            player.score = player.score + 28 + core.value * 8 + player.combo
+            player.cargo = player.cargo + core.value
+            core.active = false
             burst(particles, reactor_x, reactor_y, 10, 0.14, 0)
             continue
           }
         }
 
         // Core damage vs drones (if moving fast).
-        let speed2 : Float = cores[i].vx * cores[i].vx +
-          cores[i].vy * cores[i].vy
+        let speed2 : Float = core.vx * core.vx +
+          core.vy * core.vy
         if speed2 >= 170.0 * 170.0 {
-          for d = 0; d < drones.length(); d = d + 1 {
-            if not(drones[d].active) {
+          for drone in drones {
+            if not(drone.active) {
               continue
             }
-            let rr : Float = cores[i].r + drone_radius(drones[d].kind)
-            if dist2(cores[i].x, cores[i].y, drones[d].x, drones[d].y) <=
+            let rr : Float = core.r + drone_radius(drone.kind)
+            if dist2(core.x, core.y, drone.x, drone.y) <=
               rr * rr {
-              drones[d].hp = drones[d].hp - 18.0
-              let mut dx : Float = drones[d].x - cores[i].x
-              let mut dy : Float = drones[d].y - cores[i].y
+              drone.hp = drone.hp - 18.0
+              let mut dx : Float = drone.x - core.x
+              let mut dy : Float = drone.y - core.y
               let mut l2 : Float = dx * dx + dy * dy
               if l2 < 1.0 {
                 l2 = 1.0
@@ -1562,10 +1562,10 @@ fn main {
                 dy = 0.0
               }
               let inv : Float = 1.0 / l2.sqrt()
-              drones[d].vx = drones[d].vx + dx * inv * 160.0
-              drones[d].vy = drones[d].vy + dy * inv * 160.0
-              cores[i].vx = -cores[i].vx * 0.6
-              cores[i].vy = -cores[i].vy * 0.5
+              drone.vx = drone.vx + dx * inv * 160.0
+              drone.vy = drone.vy + dy * inv * 160.0
+              core.vx = -core.vx * 0.6
+              core.vy = -core.vy * 0.5
               break
             }
           }
@@ -1573,184 +1573,184 @@ fn main {
       }
 
       // Update boxes.
-      for i = 0; i < boxes.length(); i = i + 1 {
-        if not(boxes[i].active) {
+      for box in boxes {
+        if not(box.active) {
           continue
         }
 
-        boxes[i].t = boxes[i].t + dt
-        boxes[i].vy = boxes[i].vy + gravity * dt * 0.96
-        boxes[i].vx = boxes[i].vx * (1.0 - dt * 1.2)
+        box.t = box.t + dt
+        box.vy = box.vy + gravity * dt * 0.96
+        box.vx = box.vx * (1.0 - dt * 1.2)
 
-        let prev_y : Float = boxes[i].y
-        boxes[i].x = boxes[i].x + boxes[i].vx * dt
-        boxes[i].y = boxes[i].y + boxes[i].vy * dt
+        let prev_y : Float = box.y
+        box.x = box.x + box.vx * dt
+        box.y = box.y + box.vy * dt
 
-        if boxes[i].x < boxes[i].r {
-          boxes[i].x = boxes[i].r
-          boxes[i].vx = absf(boxes[i].vx) * 0.44
+        if box.x < box.r {
+          box.x = box.r
+          box.vx = absf(box.vx) * 0.44
         }
-        if boxes[i].x > world_w - boxes[i].r {
-          boxes[i].x = world_w - boxes[i].r
-          boxes[i].vx = -absf(boxes[i].vx) * 0.44
+        if box.x > world_w - box.r {
+          box.x = world_w - box.r
+          box.vx = -absf(box.vx) * 0.44
         }
 
         let (bx, bvx) = gate_block_circle(
           gates,
-          boxes[i].x,
-          boxes[i].y,
-          boxes[i].r,
-          boxes[i].vx,
+          box.x,
+          box.y,
+          box.r,
+          box.vx,
         )
-        boxes[i].x = bx
-        boxes[i].vx = bvx
+        box.x = bx
+        box.vx = bvx
 
-        if boxes[i].y + boxes[i].r >= floor_y {
-          boxes[i].y = floor_y - boxes[i].r
-          if boxes[i].vy > 0.0 {
-            boxes[i].vy = -boxes[i].vy * 0.28
+        if box.y + box.r >= floor_y {
+          box.y = floor_y - box.r
+          if box.vy > 0.0 {
+            box.vy = -box.vy * 0.28
           }
-          if absf(boxes[i].vy) < 16.0 {
-            boxes[i].vy = 0.0
+          if absf(box.vy) < 16.0 {
+            box.vy = 0.0
           }
         }
 
-        for p = 0; p < platforms.length(); p = p + 1 {
-          if not(platforms[p].active) {
+        for platform in platforms {
+          if not(platform.active) {
             continue
           }
-          let left : Float = platforms[p].x - platforms[p].w * 0.5
-          let right : Float = platforms[p].x + platforms[p].w * 0.5
-          let top : Float = platforms[p].y - platforms[p].h * 0.5
-          if boxes[i].x > left - boxes[i].r && boxes[i].x < right + boxes[i].r {
-            if boxes[i].vy >= 0.0 &&
-              prev_y + boxes[i].r <= top + 4.0 &&
-              boxes[i].y + boxes[i].r >= top {
-              boxes[i].y = top - boxes[i].r
-              boxes[i].vy = -boxes[i].vy * 0.22
-              if absf(boxes[i].vy) < 12.0 {
-                boxes[i].vy = 0.0
+          let left : Float = platform.x - platform.w * 0.5
+          let right : Float = platform.x + platform.w * 0.5
+          let top : Float = platform.y - platform.h * 0.5
+          if box.x > left - box.r && box.x < right + box.r {
+            if box.vy >= 0.0 &&
+              prev_y + box.r <= top + 4.0 &&
+              box.y + box.r >= top {
+              box.y = top - box.r
+              box.vy = -box.vy * 0.22
+              if absf(box.vy) < 12.0 {
+                box.vy = 0.0
               }
             }
           }
         }
 
         // Damage drones when thrown fast.
-        let speed2 : Float = boxes[i].vx * boxes[i].vx +
-          boxes[i].vy * boxes[i].vy
+        let speed2 : Float = box.vx * box.vx +
+          box.vy * box.vy
         if speed2 >= 180.0 * 180.0 {
-          for d = 0; d < drones.length(); d = d + 1 {
-            if not(drones[d].active) {
+          for drone in drones {
+            if not(drone.active) {
               continue
             }
-            let rr : Float = boxes[i].r + drone_radius(drones[d].kind)
-            if dist2(boxes[i].x, boxes[i].y, drones[d].x, drones[d].y) <=
+            let rr : Float = box.r + drone_radius(drone.kind)
+            if dist2(box.x, box.y, drone.x, drone.y) <=
               rr * rr {
-              drones[d].hp = drones[d].hp - 26.0
-              boxes[i].hp = boxes[i].hp - 20.0
-              boxes[i].vx = -boxes[i].vx * 0.54
-              boxes[i].vy = -boxes[i].vy * 0.4
+              drone.hp = drone.hp - 26.0
+              box.hp = box.hp - 20.0
+              box.vx = -box.vx * 0.54
+              box.vy = -box.vy * 0.4
               break
             }
           }
         }
 
-        if boxes[i].hp <= 0.0 {
-          boxes[i].active = false
+        if box.hp <= 0.0 {
+          box.active = false
           ignore(
             add_core(
               cores,
               @raylib.get_random_value(0, 2),
-              boxes[i].x,
-              boxes[i].y,
+              box.x,
+              box.y,
               randf(-120.0, 120.0),
               randf(-180.0, -40.0),
               2 + @raylib.get_random_value(0, 2),
             ),
           )
-          burst(particles, boxes[i].x, boxes[i].y, 18, 0.2, 2)
+          burst(particles, box.x, box.y, 18, 0.2, 2)
         }
       }
 
       // Update drones.
-      for i = 0; i < drones.length(); i = i + 1 {
-        if not(drones[i].active) {
+      for drone in drones {
+        if not(drone.active) {
           continue
         }
 
-        drones[i].t = drones[i].t + dt
-        drones[i].fire_cd = drones[i].fire_cd - dt
+        drone.t = drone.t + dt
+        drone.fire_cd = drone.fire_cd - dt
 
-        let tx : Float = player.x - drones[i].x
-        let ty : Float = player.y - 6.0 - drones[i].y
+        let tx : Float = player.x - drone.x
+        let ty : Float = player.y - 6.0 - drone.y
         let mut inv : Float = 0.0
         let l2 : Float = tx * tx + ty * ty
         if l2 > 0.01 {
           inv = 1.0 / l2.sqrt()
         }
 
-        if drones[i].kind == 0 {
+        if drone.kind == 0 {
           let acc : Float = 120.0 + Float::from_int(level) * 6.0
-          drones[i].vx = drones[i].vx + tx * inv * acc * dt
-          drones[i].vy = drones[i].vy + ty * inv * acc * dt
-        } else if drones[i].kind == 1 {
+          drone.vx = drone.vx + tx * inv * acc * dt
+          drone.vy = drone.vy + ty * inv * acc * dt
+        } else if drone.kind == 1 {
           let target : Float = 220.0
           let mut d : Float = 0.0
           if l2 > 0.01 {
             d = l2.sqrt()
           }
           let err : Float = d - target
-          drones[i].vx = drones[i].vx +
+          drone.vx = drone.vx +
             tx * inv * err * 0.6 * dt +
-            @math.sinf(drones[i].t * 2.2) * 24.0 * dt
-          drones[i].vy = drones[i].vy +
+            @math.sinf(drone.t * 2.2) * 24.0 * dt
+          drone.vy = drone.vy +
             ty * inv * err * 0.6 * dt +
-            @math.cosf(drones[i].t * 2.0) * 24.0 * dt
+            @math.cosf(drone.t * 2.0) * 24.0 * dt
         } else {
           let acc : Float = 78.0 + Float::from_int(level) * 3.2
-          drones[i].vx = drones[i].vx + tx * inv * acc * dt
-          drones[i].vy = drones[i].vy + ty * inv * acc * dt
+          drone.vx = drone.vx + tx * inv * acc * dt
+          drone.vy = drone.vy + ty * inv * acc * dt
         }
 
-        let max_spd : Float = if drones[i].kind == 2 {
+        let max_spd : Float = if drone.kind == 2 {
           180.0
         } else {
           230.0 + Float::from_int(level) * 4.0
         }
-        let sp2 : Float = drones[i].vx * drones[i].vx +
-          drones[i].vy * drones[i].vy
+        let sp2 : Float = drone.vx * drone.vx +
+          drone.vy * drone.vy
         if sp2 > max_spd * max_spd {
           let invs : Float = max_spd / sp2.sqrt()
-          drones[i].vx = drones[i].vx * invs
-          drones[i].vy = drones[i].vy * invs
+          drone.vx = drone.vx * invs
+          drone.vy = drone.vy * invs
         }
 
-        drones[i].x = drones[i].x + drones[i].vx * dt
-        drones[i].y = drones[i].y + drones[i].vy * dt
+        drone.x = drone.x + drone.vx * dt
+        drone.y = drone.y + drone.vy * dt
 
-        drones[i].x = clampf(drones[i].x, 20.0, world_w - 20.0)
-        drones[i].y = clampf(drones[i].y, 80.0, floor_y - 20.0)
+        drone.x = clampf(drone.x, 20.0, world_w - 20.0)
+        drone.y = clampf(drone.y, 80.0, floor_y - 20.0)
 
         let (dx, dvx) = gate_block_circle(
           gates,
-          drones[i].x,
-          drones[i].y,
-          drone_radius(drones[i].kind),
-          drones[i].vx,
+          drone.x,
+          drone.y,
+          drone_radius(drone.kind),
+          drone.vx,
         )
-        drones[i].x = dx
-        drones[i].vx = dvx
+        drone.x = dx
+        drone.vx = dvx
 
-        if drones[i].fire_cd <= 0.0 {
-          if drones[i].kind == 0 {
-            drones[i].fire_cd = randf(1.0, 1.7)
+        if drone.fire_cd <= 0.0 {
+          if drone.kind == 0 {
+            drone.fire_cd = randf(1.0, 1.7)
             ignore(
               add_bolt(
                 bolts,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 300.0,
                 ty * inv * 300.0,
                 8.0,
@@ -1758,8 +1758,8 @@ fn main {
                 3.0,
               ),
             )
-          } else if drones[i].kind == 1 {
-            drones[i].fire_cd = randf(0.72, 1.25)
+          } else if drone.kind == 1 {
+            drone.fire_cd = randf(0.72, 1.25)
             let sx : Float = -ty * inv
             let sy : Float = tx * inv
             ignore(
@@ -1767,8 +1767,8 @@ fn main {
                 bolts,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 284.0 + sx * 68.0,
                 ty * inv * 284.0 + sy * 68.0,
                 7.0,
@@ -1781,8 +1781,8 @@ fn main {
                 bolts,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 284.0 - sx * 68.0,
                 ty * inv * 284.0 - sy * 68.0,
                 7.0,
@@ -1791,14 +1791,14 @@ fn main {
               ),
             )
           } else {
-            drones[i].fire_cd = randf(1.4, 2.2)
+            drone.fire_cd = randf(1.4, 2.2)
             ignore(
               add_bolt(
                 bolts,
                 2,
                 1,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 250.0,
                 ty * inv * 250.0,
                 14.0,
@@ -1810,19 +1810,19 @@ fn main {
         }
 
         // Collision with player.
-        let rr : Float = drone_radius(drones[i].kind) + 17.0
-        if dist2(drones[i].x, drones[i].y, player.x, player.y) <= rr * rr {
+        let rr : Float = drone_radius(drone.kind) + 17.0
+        if dist2(drone.x, drone.y, player.x, player.y) <= rr * rr {
           on_player_hit(
-            8.0 + Float::from_int(drones[i].kind) * 2.4,
+            8.0 + Float::from_int(drone.kind) * 2.4,
             "Drone body hit",
           )
-          drones[i].vx = -drones[i].vx
-          drones[i].vy = -drones[i].vy
+          drone.vx = -drone.vx
+          drone.vy = -drone.vy
         }
 
         // Destroyed.
-        if drones[i].hp <= 0.0 {
-          let reward : Int = 60 + drones[i].kind * 34 + player.combo * 3
+        if drone.hp <= 0.0 {
+          let reward : Int = 60 + drone.kind * 34 + player.combo * 3
           player.score = player.score + reward
           player.combo = player.combo + 1
           if player.combo > player.best_combo {
@@ -1834,8 +1834,8 @@ fn main {
               add_core(
                 cores,
                 @raylib.get_random_value(0, 2),
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 randf(-110.0, 110.0),
                 randf(-180.0, -60.0),
                 2 + @raylib.get_random_value(0, 2),
@@ -1847,21 +1847,21 @@ fn main {
               add_box(
                 boxes,
                 @raylib.get_random_value(0, 1),
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 randf(-80.0, 80.0),
                 randf(-40.0, 40.0),
               ),
             )
           }
 
-          burst(particles, drones[i].x, drones[i].y, 22, 0.2, 0)
-          drones[i].active = false
+          burst(particles, drone.x, drone.y, 22, 0.2, 0)
+          drone.active = false
         }
       }
 
       // Update bolts.
-      for i = 0; i < bolts.length(); i = i + 1 {
+      for i in 0..<bolts.length() {
         if not(bolts[i].active) {
           continue
         }
@@ -1903,14 +1903,14 @@ fn main {
         bolts[i].x = bx
         bolts[i].vx = bvx
 
-        for p = 0; p < platforms.length(); p = p + 1 {
-          if not(platforms[p].active) {
+        for platform in platforms {
+          if not(platform.active) {
             continue
           }
-          let left : Float = platforms[p].x - platforms[p].w * 0.5
-          let right : Float = platforms[p].x + platforms[p].w * 0.5
-          let top : Float = platforms[p].y - platforms[p].h * 0.5
-          let bottom : Float = platforms[p].y + platforms[p].h * 0.5
+          let left : Float = platform.x - platform.w * 0.5
+          let right : Float = platform.x + platform.w * 0.5
+          let top : Float = platform.y - platform.h * 0.5
+          let bottom : Float = platform.y + platform.h * 0.5
           if bolts[i].x + bolts[i].r > left &&
             bolts[i].x - bolts[i].r < right &&
             bolts[i].y + bolts[i].r > top &&
@@ -1926,17 +1926,17 @@ fn main {
 
         if bolts[i].team == 1 {
           let mut hit_done : Bool = false
-          for d = 0; d < drones.length(); d = d + 1 {
+          for drone in drones {
             if hit_done {
               continue
             }
-            if not(drones[d].active) {
+            if not(drone.active) {
               continue
             }
-            let rr : Float = bolts[i].r + drone_radius(drones[d].kind)
-            if dist2(bolts[i].x, bolts[i].y, drones[d].x, drones[d].y) <=
+            let rr : Float = bolts[i].r + drone_radius(drone.kind)
+            if dist2(bolts[i].x, bolts[i].y, drone.x, drone.y) <=
               rr * rr {
-              drones[d].hp = drones[d].hp - bolts[i].dmg
+              drone.hp = drone.hp - bolts[i].dmg
               bolts[i].active = false
               hit_done = true
               burst(particles, bolts[i].x, bolts[i].y, 5, 0.1, 1)
@@ -1944,14 +1944,14 @@ fn main {
           }
 
           if bolts[i].active {
-            for b = 0; b < boxes.length(); b = b + 1 {
-              if not(boxes[b].active) {
+            for box in boxes {
+              if not(box.active) {
                 continue
               }
-              let rr : Float = bolts[i].r + boxes[b].r
-              if dist2(bolts[i].x, bolts[i].y, boxes[b].x, boxes[b].y) <=
+              let rr : Float = bolts[i].r + box.r
+              if dist2(bolts[i].x, bolts[i].y, box.x, box.y) <=
                 rr * rr {
-                boxes[b].hp = boxes[b].hp - bolts[i].dmg * 0.8
+                box.hp = box.hp - bolts[i].dmg * 0.8
                 bolts[i].active = false
                 break
               }
@@ -1965,22 +1965,22 @@ fn main {
       }
 
       // Particle update.
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].life = particles[i].life - dt
-        if particles[i].life <= 0.0 {
-          particles[i].active = false
+        particle.life = particle.life - dt
+        if particle.life <= 0.0 {
+          particle.active = false
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vy = particles[i].vy + dt * 80.0
-        particles[i].vx = particles[i].vx * (1.0 - dt * 1.8)
+        particle.t = particle.t + dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vy = particle.vy + dt * 80.0
+        particle.vx = particle.vx * (1.0 - dt * 1.8)
       }
 
       // Win/lose.
@@ -2018,7 +2018,7 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(6, 10, 18, 255))
 
     // Parallax backdrop.
-    for i = 0; i < 120; i = i + 1 {
+    for i in 0..<120 {
       let fi : Float = Float::from_int(i)
       let px : Int = ((
         fi * 73.0 +
@@ -2079,15 +2079,15 @@ fn main {
     )
 
     // Platforms.
-    for i = 0; i < platforms.length(); i = i + 1 {
-      if not(platforms[i].active) {
+    for platform in platforms {
+      if not(platform.active) {
         continue
       }
 
-      let x : Int = (platforms[i].x - platforms[i].w * 0.5 - cam_x).to_int()
-      let y : Int = (platforms[i].y - platforms[i].h * 0.5).to_int()
-      let w : Int = platforms[i].w.to_int()
-      let h : Int = platforms[i].h.to_int()
+      let x : Int = (platform.x - platform.w * 0.5 - cam_x).to_int()
+      let y : Int = (platform.y - platform.h * 0.5).to_int()
+      let w : Int = platform.w.to_int()
+      let h : Int = platform.h.to_int()
 
       @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(58, 68, 90, 236))
       @raylib.draw_rectangle_lines(
@@ -2098,7 +2098,7 @@ fn main {
         @raylib.Color::new(138, 164, 194, 180),
       )
 
-      for s = 0; s < 5; s = s + 1 {
+      for s in 0..<5 {
         let lx0 : Int = x + s * (w / 5)
         let lx1 : Int = lx0 + 10
         @raylib.draw_line(
@@ -2112,13 +2112,13 @@ fn main {
     }
 
     // Gates.
-    for i = 0; i < gates.length(); i = i + 1 {
-      if not(gates[i].active) {
+    for gate in gates {
+      if not(gate.active) {
         continue
       }
 
-      let gx : Int = (gates[i].x - cam_x).to_int()
-      if gates[i].open {
+      let gx : Int = (gate.x - cam_x).to_int()
+      if gate.open {
         @raylib.draw_line(
           gx,
           84,
@@ -2149,7 +2149,7 @@ fn main {
           @raylib.Color::new(236, 188, 196, 210),
         )
         @raylib.draw_text(
-          "\{gates[i].req}",
+          "\{gate.req}",
           gx - 16,
           58,
           18,
@@ -2159,39 +2159,39 @@ fn main {
     }
 
     // Cores.
-    for i = 0; i < cores.length(); i = i + 1 {
-      if not(cores[i].active) {
+    for core in cores {
+      if not(core.active) {
         continue
       }
-      let cx : Int = (cores[i].x - cam_x).to_int()
-      let cy : Int = cores[i].y.to_int()
-      let col = if cores[i].kind == 0 {
+      let cx : Int = (core.x - cam_x).to_int()
+      let cy : Int = core.y.to_int()
+      let col = if core.kind == 0 {
         @raylib.Color::new(112, 234, 194, 244)
-      } else if cores[i].kind == 1 {
+      } else if core.kind == 1 {
         @raylib.Color::new(114, 196, 252, 244)
       } else {
         @raylib.Color::new(252, 214, 114, 244)
       }
-      @raylib.draw_circle(cx, cy, cores[i].r, col)
-      if cores[i].magnetized {
+      @raylib.draw_circle(cx, cy, core.r, col)
+      if core.magnetized {
         @raylib.draw_circle_lines(
           cx,
           cy,
-          cores[i].r + 4.0,
+          core.r + 4.0,
           @raylib.Color::new(224, 250, 255, 220),
         )
       }
     }
 
     // Boxes.
-    for i = 0; i < boxes.length(); i = i + 1 {
-      if not(boxes[i].active) {
+    for box in boxes {
+      if not(box.active) {
         continue
       }
-      let bx : Int = (boxes[i].x - boxes[i].r - cam_x).to_int()
-      let by : Int = (boxes[i].y - boxes[i].r).to_int()
-      let bs : Int = (boxes[i].r * 2.0).to_int()
-      let col = if boxes[i].kind == 0 {
+      let bx : Int = (box.x - box.r - cam_x).to_int()
+      let by : Int = (box.y - box.r).to_int()
+      let bs : Int = (box.r * 2.0).to_int()
+      let col = if box.kind == 0 {
         @raylib.Color::new(96, 110, 138, 236)
       } else {
         @raylib.Color::new(126, 140, 166, 236)
@@ -2204,25 +2204,25 @@ fn main {
         bs,
         @raylib.Color::new(184, 206, 232, 170),
       )
-      if boxes[i].magnetized {
+      if box.magnetized {
         @raylib.draw_circle_lines(
-          (boxes[i].x - cam_x).to_int(),
-          boxes[i].y.to_int(),
-          boxes[i].r + 5.0,
+          (box.x - cam_x).to_int(),
+          box.y.to_int(),
+          box.r + 5.0,
           @raylib.Color::new(210, 242, 255, 176),
         )
       }
     }
 
     // Drones.
-    for i = 0; i < drones.length(); i = i + 1 {
-      if not(drones[i].active) {
+    for drone in drones {
+      if not(drone.active) {
         continue
       }
 
-      let dx : Int = (drones[i].x - cam_x).to_int()
-      let dy : Int = drones[i].y.to_int()
-      if drones[i].kind == 0 {
+      let dx : Int = (drone.x - cam_x).to_int()
+      let dy : Int = drone.y.to_int()
+      if drone.kind == 0 {
         @raylib.draw_circle(
           dx,
           dy,
@@ -2235,7 +2235,7 @@ fn main {
           20.0,
           @raylib.Color::new(252, 220, 224, 190),
         )
-      } else if drones[i].kind == 1 {
+      } else if drone.kind == 1 {
         @raylib.draw_rectangle(
           dx - 18,
           dy - 14,
@@ -2268,20 +2268,20 @@ fn main {
     }
 
     // Bolts.
-    for i = 0; i < bolts.length(); i = i + 1 {
-      if not(bolts[i].active) {
+    for bolt in bolts {
+      if not(bolt.active) {
         continue
       }
-      let bx : Int = (bolts[i].x - cam_x).to_int()
-      let by : Int = bolts[i].y.to_int()
-      let col = if bolts[i].team == 1 {
+      let bx : Int = (bolt.x - cam_x).to_int()
+      let by : Int = bolt.y.to_int()
+      let col = if bolt.team == 1 {
         @raylib.Color::new(248, 244, 152, 250)
-      } else if bolts[i].kind == 1 {
+      } else if bolt.kind == 1 {
         @raylib.Color::new(248, 124, 230, 246)
       } else {
         @raylib.Color::new(252, 130, 138, 242)
       }
-      @raylib.draw_circle(bx, by, bolts[i].r, col)
+      @raylib.draw_circle(bx, by, bolt.r, col)
     }
 
     // Player.
@@ -2325,51 +2325,51 @@ fn main {
         310.0,
         @raylib.Color::new(112, 224, 248, 110),
       )
-      for i = 0; i < cores.length(); i = i + 1 {
-        if not(cores[i].active) || not(cores[i].magnetized) {
+      for core in cores {
+        if not(core.active) || not(core.magnetized) {
           continue
         }
         @raylib.draw_line(
           px,
           py - 8,
-          (cores[i].x - cam_x).to_int(),
-          cores[i].y.to_int(),
+          (core.x - cam_x).to_int(),
+          core.y.to_int(),
           @raylib.Color::new(126, 232, 252, 116),
         )
       }
-      for i = 0; i < boxes.length(); i = i + 1 {
-        if not(boxes[i].active) || not(boxes[i].magnetized) {
+      for box in boxes {
+        if not(box.active) || not(box.magnetized) {
           continue
         }
         @raylib.draw_line(
           px,
           py - 8,
-          (boxes[i].x - cam_x).to_int(),
-          boxes[i].y.to_int(),
+          (box.x - cam_x).to_int(),
+          box.y.to_int(),
           @raylib.Color::new(126, 232, 252, 72),
         )
       }
     }
 
     // Particles.
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let alpha : Int = (clampf(particles[i].life / 0.82, 0.0, 1.0) * 255.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let alpha : Int = (clampf(particle.life / 0.82, 0.0, 1.0) * 255.0).to_int()
+      let col = if particle.kind == 0 {
         @raylib.Color::new(112, 224, 252, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 236, 144, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(252, 130, 130, alpha)
       } else {
         @raylib.Color::new(226, 160, 252, alpha)
       }
       @raylib.draw_circle(
-        (particles[i].x - cam_x).to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        (particle.x - cam_x).to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }
@@ -2542,13 +2542,13 @@ fn main {
       @raylib.Color::new(160, 246, 255, 246),
     )
 
-    for i = 0; i < gates.length(); i = i + 1 {
-      if not(gates[i].active) {
+    for gate in gates {
+      if not(gate.active) {
         continue
       }
       let gx : Int = nav_x +
-        (gates[i].x / world_w * Float::from_int(nav_w)).to_int()
-      let gc = if gates[i].open {
+        (gate.x / world_w * Float::from_int(nav_w)).to_int()
+      let gc = if gate.open {
         @raylib.Color::new(112, 224, 166, 236)
       } else {
         @raylib.Color::new(234, 124, 146, 236)

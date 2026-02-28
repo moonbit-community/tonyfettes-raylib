@@ -157,19 +157,19 @@ fn inside_rect(
 
 ///|
 fn clear_shelters(shelters : Array[Shelter]) -> Unit {
-  for i = 0; i < shelters.length(); i = i + 1 {
-    shelters[i].active = false
-    shelters[i].x = 0.0
-    shelters[i].y = 0.0
-    shelters[i].queue = 0.0
-    shelters[i].risk = 0.0
-    shelters[i].alarm_t = 0.0
+  for shelter in shelters {
+    shelter.active = false
+    shelter.x = 0.0
+    shelter.y = 0.0
+    shelter.queue = 0.0
+    shelter.risk = 0.0
+    shelter.alarm_t = 0.0
   }
 }
 
 ///|
 fn clear_groups(groups : Array[Group]) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     groups[i].active = false
     groups[i].x = 0.0
     groups[i].y = 0.0
@@ -184,44 +184,44 @@ fn clear_groups(groups : Array[Group]) -> Unit {
 
 ///|
 fn clear_floods(floods : Array[FloodCell]) -> Unit {
-  for i = 0; i < floods.length(); i = i + 1 {
-    floods[i].active = false
-    floods[i].x = 0.0
-    floods[i].y = 0.0
-    floods[i].vx = 0.0
-    floods[i].vy = 0.0
-    floods[i].radius = 0.0
-    floods[i].pressure = 0.0
-    floods[i].life = 0.0
-    floods[i].phase = 0.0
+  for flood in floods {
+    flood.active = false
+    flood.x = 0.0
+    flood.y = 0.0
+    flood.vx = 0.0
+    flood.vy = 0.0
+    flood.radius = 0.0
+    flood.pressure = 0.0
+    flood.life = 0.0
+    flood.phase = 0.0
   }
 }
 
 ///|
 fn clear_barriers(barriers : Array[Barrier]) -> Unit {
-  for i = 0; i < barriers.length(); i = i + 1 {
-    barriers[i].active = false
-    barriers[i].x = 0.0
-    barriers[i].y = 0.0
-    barriers[i].vx = 0.0
-    barriers[i].vy = 0.0
-    barriers[i].size = 0.0
-    barriers[i].hard = 0.0
-    barriers[i].spin = 0.0
+  for barrier in barriers {
+    barrier.active = false
+    barrier.x = 0.0
+    barrier.y = 0.0
+    barrier.vx = 0.0
+    barrier.vy = 0.0
+    barrier.size = 0.0
+    barrier.hard = 0.0
+    barrier.spin = 0.0
   }
 }
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -232,14 +232,14 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
+    part.active = true
+    part.x = x
+    part.y = y
 
     let a : Float = randf(0.0, 6.28318)
     let s : Float = if kind == 0 {
@@ -250,17 +250,17 @@ fn add_particle(
       randf(14.0, 90.0)
     }
 
-    parts[i].vx = @math.cosf(a) * s
-    parts[i].vy = @math.sinf(a) * s
-    parts[i].life = if kind == 0 {
+    part.vx = @math.cosf(a) * s
+    part.vy = @math.sinf(a) * s
+    part.life = if kind == 0 {
       randf(0.45, 1.0)
     } else if kind == 1 {
       randf(0.18, 0.52)
     } else {
       randf(0.24, 0.8)
     }
-    parts[i].size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.2) }
-    parts[i].kind = kind
+    part.size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.2) }
+    part.kind = kind
     return
   }
 }
@@ -273,36 +273,36 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-      parts[i].vy = parts[i].vy + dt * 10.0
-    } else if parts[i].kind == 1 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.1)
-      parts[i].vy = parts[i].vy + dt * 176.0
+    if part.kind == 0 {
+      part.vx = part.vx * (1.0 - dt * 0.8)
+      part.vy = part.vy + dt * 10.0
+    } else if part.kind == 1 {
+      part.vx = part.vx * (1.0 - dt * 4.1)
+      part.vy = part.vy + dt * 176.0
     } else {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.0)
-      parts[i].vy = parts[i].vy + dt * 42.0
+      part.vx = part.vx * (1.0 - dt * 2.0)
+      part.vy = part.vy + dt * 42.0
     }
   }
 }
@@ -407,11 +407,11 @@ fn init_barriers(
     }
 
     let mut near_shelter : Bool = false
-    for i = 0; i < shelters.length(); i = i + 1 {
-      if not(shelters[i].active) {
+    for shelter in shelters {
+      if not(shelter.active) {
         continue
       }
-      if dist2(x, y, shelters[i].x, shelters[i].y) < 120.0 * 120.0 {
+      if dist2(x, y, shelter.x, shelter.y) < 120.0 * 120.0 {
         near_shelter = true
         break
       }
@@ -421,12 +421,12 @@ fn init_barriers(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < barriers.length(); i = i + 1 {
-      if not(barriers[i].active) {
+    for barrier in barriers {
+      if not(barrier.active) {
         continue
       }
-      let rr : Float = barriers[i].size + 12.0
-      if dist2(x, y, barriers[i].x, barriers[i].y) < rr * rr {
+      let rr : Float = barrier.size + 12.0
+      if dist2(x, y, barrier.x, barrier.y) < rr * rr {
         overlap = true
         break
       }
@@ -458,39 +458,39 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      groups[i].x = world_l + randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(6.0, 18.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_l + randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(6.0, 18.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 1 {
-      groups[i].x = world_r - randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(-18.0, -6.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_r - randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(-18.0, -6.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 2 {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_t + randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(6.0, 18.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_t + randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(6.0, 18.0)
     } else {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_b - randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(-18.0, -6.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_b - randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(-18.0, -6.0)
     }
 
-    groups[i].active = true
-    groups[i].count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
-    groups[i].panic = randf(4.0, 24.0)
-    groups[i].flare_t = randf(0.5, 1.3)
-    groups[i].id = serial
+    group.active = true
+    group.count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
+    group.panic = randf(4.0, 24.0)
+    group.flare_t = randf(0.5, 1.3)
+    group.id = serial
     return true
   }
 
@@ -506,39 +506,39 @@ fn spawn_flood(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < floods.length(); i = i + 1 {
-    if floods[i].active {
+  for flood in floods {
+    if flood.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      floods[i].x = world_l - 84.0
-      floods[i].y = randf(world_t + 20.0, world_b - 20.0)
-      floods[i].vx = randf(12.0, 34.0)
-      floods[i].vy = randf(-9.0, 9.0)
+      flood.x = world_l - 84.0
+      flood.y = randf(world_t + 20.0, world_b - 20.0)
+      flood.vx = randf(12.0, 34.0)
+      flood.vy = randf(-9.0, 9.0)
     } else if side == 1 {
-      floods[i].x = world_r + 84.0
-      floods[i].y = randf(world_t + 20.0, world_b - 20.0)
-      floods[i].vx = randf(-34.0, -12.0)
-      floods[i].vy = randf(-9.0, 9.0)
+      flood.x = world_r + 84.0
+      flood.y = randf(world_t + 20.0, world_b - 20.0)
+      flood.vx = randf(-34.0, -12.0)
+      flood.vy = randf(-9.0, 9.0)
     } else if side == 2 {
-      floods[i].x = randf(world_l + 20.0, world_r - 20.0)
-      floods[i].y = world_t - 84.0
-      floods[i].vx = randf(-12.0, 12.0)
-      floods[i].vy = randf(14.0, 30.0)
+      flood.x = randf(world_l + 20.0, world_r - 20.0)
+      flood.y = world_t - 84.0
+      flood.vx = randf(-12.0, 12.0)
+      flood.vy = randf(14.0, 30.0)
     } else {
-      floods[i].x = randf(world_l + 20.0, world_r - 20.0)
-      floods[i].y = world_b + 84.0
-      floods[i].vx = randf(-12.0, 12.0)
-      floods[i].vy = randf(-30.0, -14.0)
+      flood.x = randf(world_l + 20.0, world_r - 20.0)
+      flood.y = world_b + 84.0
+      flood.vx = randf(-12.0, 12.0)
+      flood.vy = randf(-30.0, -14.0)
     }
 
-    floods[i].active = true
-    floods[i].radius = randf(70.0, 146.0)
-    floods[i].pressure = randf(0.48, 1.18) + Float::from_int(tier) * 0.04
-    floods[i].life = randf(20.0, 42.0)
-    floods[i].phase = randf(0.0, 20.0)
+    flood.active = true
+    flood.radius = randf(70.0, 146.0)
+    flood.pressure = randf(0.48, 1.18) + Float::from_int(tier) * 0.04
+    flood.life = randf(20.0, 42.0)
+    flood.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -548,8 +548,8 @@ fn spawn_flood(
 ///|
 fn active_groups(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       n = n + 1
     }
   }
@@ -559,8 +559,8 @@ fn active_groups(groups : Array[Group]) -> Int {
 ///|
 fn active_floods(floods : Array[FloodCell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < floods.length(); i = i + 1 {
-    if floods[i].active {
+  for flood in floods {
+    if flood.active {
       n = n + 1
     }
   }
@@ -570,8 +570,8 @@ fn active_floods(floods : Array[FloodCell]) -> Int {
 ///|
 fn active_critical(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic >= 70.0 {
+  for group in groups {
+    if group.active && group.panic >= 70.0 {
       n = n + 1
     }
   }
@@ -581,9 +581,9 @@ fn active_critical(groups : Array[Group]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[Group]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic > best {
-      best = groups[i].panic
+  for group in groups {
+    if group.active && group.panic > best {
+      best = group.panic
     }
   }
   best
@@ -598,37 +598,37 @@ fn update_floods(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < floods.length(); i = i + 1 {
-    if not(floods[i].active) {
+  for flood in floods {
+    if not(flood.active) {
       continue
     }
 
-    floods[i].life = floods[i].life - dt
-    if floods[i].life <= 0.0 {
-      floods[i].active = false
+    flood.life = flood.life - dt
+    if flood.life <= 0.0 {
+      flood.active = false
       continue
     }
 
-    floods[i].phase = floods[i].phase + dt * (0.8 + floods[i].pressure * 0.35)
-    let pulse : Float = 0.88 + 0.16 * (@math.sinf(floods[i].phase) * 0.5 + 0.5)
+    flood.phase = flood.phase + dt * (0.8 + flood.pressure * 0.35)
+    let pulse : Float = 0.88 + 0.16 * (@math.sinf(flood.phase) * 0.5 + 0.5)
 
-    floods[i].x = floods[i].x + floods[i].vx * dt * pulse
-    floods[i].y = floods[i].y + floods[i].vy * dt * pulse
+    flood.x = flood.x + flood.vx * dt * pulse
+    flood.y = flood.y + flood.vy * dt * pulse
 
-    if floods[i].x < world_l - 160.0 {
-      floods[i].x = world_l - 160.0
-      floods[i].vx = absf(floods[i].vx)
-    } else if floods[i].x > world_r + 160.0 {
-      floods[i].x = world_r + 160.0
-      floods[i].vx = -absf(floods[i].vx)
+    if flood.x < world_l - 160.0 {
+      flood.x = world_l - 160.0
+      flood.vx = absf(flood.vx)
+    } else if flood.x > world_r + 160.0 {
+      flood.x = world_r + 160.0
+      flood.vx = -absf(flood.vx)
     }
 
-    if floods[i].y < world_t - 160.0 {
-      floods[i].y = world_t - 160.0
-      floods[i].vy = absf(floods[i].vy)
-    } else if floods[i].y > world_b + 160.0 {
-      floods[i].y = world_b + 160.0
-      floods[i].vy = -absf(floods[i].vy)
+    if flood.y < world_t - 160.0 {
+      flood.y = world_t - 160.0
+      flood.vy = absf(flood.vy)
+    } else if flood.y > world_b + 160.0 {
+      flood.y = world_b + 160.0
+      flood.vy = -absf(flood.vy)
     }
   }
 }
@@ -642,34 +642,34 @@ fn update_barriers(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < barriers.length(); i = i + 1 {
-    if not(barriers[i].active) {
+  for barrier in barriers {
+    if not(barrier.active) {
       continue
     }
 
-    barriers[i].spin = barriers[i].spin + dt * 0.7
+    barrier.spin = barrier.spin + dt * 0.7
 
-    let drift : Float = 0.84 + 0.22 * (@math.sinf(barriers[i].spin) * 0.5 + 0.5)
-    barriers[i].x = barriers[i].x + barriers[i].vx * dt * drift
-    barriers[i].y = barriers[i].y + barriers[i].vy * dt * drift
+    let drift : Float = 0.84 + 0.22 * (@math.sinf(barrier.spin) * 0.5 + 0.5)
+    barrier.x = barrier.x + barrier.vx * dt * drift
+    barrier.y = barrier.y + barrier.vy * dt * drift
 
-    if barriers[i].x < world_l + barriers[i].size {
-      barriers[i].x = world_l + barriers[i].size
-      barriers[i].vx = absf(barriers[i].vx) * randf(0.66, 1.1)
-    } else if barriers[i].x > world_r - barriers[i].size {
-      barriers[i].x = world_r - barriers[i].size
-      barriers[i].vx = -absf(barriers[i].vx) * randf(0.66, 1.1)
+    if barrier.x < world_l + barrier.size {
+      barrier.x = world_l + barrier.size
+      barrier.vx = absf(barrier.vx) * randf(0.66, 1.1)
+    } else if barrier.x > world_r - barrier.size {
+      barrier.x = world_r - barrier.size
+      barrier.vx = -absf(barrier.vx) * randf(0.66, 1.1)
     }
 
-    if barriers[i].y < world_t + barriers[i].size {
-      barriers[i].y = world_t + barriers[i].size
-      barriers[i].vy = absf(barriers[i].vy) * randf(0.66, 1.1)
-    } else if barriers[i].y > world_b - barriers[i].size {
-      barriers[i].y = world_b - barriers[i].size
-      barriers[i].vy = -absf(barriers[i].vy) * randf(0.66, 1.1)
+    if barrier.y < world_t + barrier.size {
+      barrier.y = world_t + barrier.size
+      barrier.vy = absf(barrier.vy) * randf(0.66, 1.1)
+    } else if barrier.y > world_b - barrier.size {
+      barrier.y = world_b - barrier.size
+      barrier.vy = -absf(barrier.vy) * randf(0.66, 1.1)
     }
 
-    barriers[i].hard = maxf(8.0, barriers[i].hard - dt * 0.02)
+    barrier.hard = maxf(8.0, barrier.hard - dt * 0.02)
   }
 }
 
@@ -688,61 +688,61 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    groups[i].x = groups[i].x + groups[i].drift_x * dt
-    groups[i].y = groups[i].y + groups[i].drift_y * dt
+    group.x = group.x + group.drift_x * dt
+    group.y = group.y + group.drift_y * dt
 
-    if groups[i].x < world_l + 18.0 || groups[i].x > world_r - 18.0 {
-      groups[i].drift_x = -groups[i].drift_x
-      groups[i].x = clampf(groups[i].x, world_l + 18.0, world_r - 18.0)
+    if group.x < world_l + 18.0 || group.x > world_r - 18.0 {
+      group.drift_x = -group.drift_x
+      group.x = clampf(group.x, world_l + 18.0, world_r - 18.0)
     }
-    if groups[i].y < world_t + 18.0 || groups[i].y > world_b - 18.0 {
-      groups[i].drift_y = -groups[i].drift_y
-      groups[i].y = clampf(groups[i].y, world_t + 18.0, world_b - 18.0)
+    if group.y < world_t + 18.0 || group.y > world_b - 18.0 {
+      group.drift_y = -group.drift_y
+      group.y = clampf(group.y, world_t + 18.0, world_b - 18.0)
     }
 
-    groups[i].flare_t = groups[i].flare_t - dt
-    if groups[i].flare_t <= 0.0 {
-      groups[i].flare_t = randf(0.6, 1.4)
+    group.flare_t = group.flare_t - dt
+    if group.flare_t <= 0.0 {
+      group.flare_t = randf(0.6, 1.4)
     }
 
     let mut panic_gain : Float = dt * 2.2
 
-    let safe_d2 : Float = dist2(groups[i].x, groups[i].y, safe_x, safe_y)
+    let safe_d2 : Float = dist2(group.x, group.y, safe_x, safe_y)
     if safe_d2 > 380.0 * 380.0 {
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j = 0; j < floods.length(); j = j + 1 {
-      if not(floods[j].active) {
+    for flood in floods {
+      if not(flood.active) {
         continue
       }
 
-      let rr : Float = floods[j].radius
+      let rr : Float = flood.radius
       let d2v : Float = dist2(
-        groups[i].x,
-        groups[i].y,
-        floods[j].x,
-        floods[j].y,
+        group.x,
+        group.y,
+        flood.x,
+        flood.y,
       )
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * floods[j].pressure * (0.8 + ratio * 1.6)
+        panic_gain = panic_gain + dt * flood.pressure * (0.8 + ratio * 1.6)
       }
     }
 
-    groups[i].panic = groups[i].panic + panic_gain
-    if groups[i].panic > 100.0 {
-      lost = lost + groups[i].count
-      groups[i].active = false
+    group.panic = group.panic + panic_gain
+    if group.panic > 100.0 {
+      lost = lost + group.count
+      group.active = false
       continue
     }
 
-    panic_sum = panic_sum + groups[i].panic
+    panic_sum = panic_sum + group.panic
   }
 
   (lost, panic_sum)
@@ -760,12 +760,12 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut groups_hit : Int = 0
 
-    for i = 0; i < groups.length(); i = i + 1 {
-      if not(groups[i].active) || groups[i].count <= 0 {
+    for group in groups {
+      if not(group.active) || group.count <= 0 {
         continue
       }
 
-      let d2v : Float = dist2(player.x, player.y, groups[i].x, groups[i].y)
+      let d2v : Float = dist2(player.x, player.y, group.x, group.y)
       if d2v > 84.0 * 84.0 {
         continue
       }
@@ -775,21 +775,21 @@ fn rescue_groups(
         break
       }
 
-      let take : Int = mini(groups[i].count, mini(cap_left, 8))
+      let take : Int = mini(group.count, mini(cap_left, 8))
       if take <= 0 {
         continue
       }
 
       player.onboard = player.onboard + take
-      groups[i].count = groups[i].count - take
-      groups[i].panic = maxf(0.0, groups[i].panic - Float::from_int(take) * 2.8)
+      group.count = group.count - take
+      group.panic = maxf(0.0, group.panic - Float::from_int(take) * 2.8)
       rescued_people = rescued_people + take
       groups_hit = groups_hit + 1
 
-      burst(parts, groups[i].x, groups[i].y, 9 + take / 2, 2)
+      burst(parts, group.x, group.y, 9 + take / 2, 2)
 
-      if groups[i].count <= 0 {
-        groups[i].active = false
+      if group.count <= 0 {
+        group.active = false
       }
     }
 
@@ -813,17 +813,17 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) || groups[i].panic < 30.0 {
+  for group in groups {
+    if not(group.active) || group.panic < 30.0 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, groups[i].x, groups[i].y)
+    let d2v : Float = dist2(x, y, group.x, group.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = groups[i].x
-      by = groups[i].y
-      bp = groups[i].panic
+      bx = group.x
+      by = group.y
+      bp = group.panic
       found = true
     }
   }
@@ -934,7 +934,7 @@ fn draw_safe_zone(sx : Int, sy : Int, sw : Int, sh : Int) -> Unit {
 
 ///|
 fn draw_shelters(shelters : Array[Shelter], t : Float) -> Unit {
-  for i = 0; i < shelters.length(); i = i + 1 {
+  for i in 0..<shelters.length() {
     if not(shelters[i].active) {
       continue
     }
@@ -984,50 +984,50 @@ fn draw_shelters(shelters : Array[Shelter], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[Group], t : Float) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    let p01 : Float = clampf(groups[i].panic / 100.0, 0.0, 1.0)
+    let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
     let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(groups[i].id) * 0.3,
+        t * 6.0 + Float::from_int(group.id) * 0.3,
       ) *
       0.5 +
       0.5
 
-    let col : @raylib.Color = if groups[i].panic >= 72.0 {
+    let col : @raylib.Color = if group.panic >= 72.0 {
       @raylib.Color::new(248, 154, 132, 252)
     } else {
       @raylib.Color::new(246, 226, 194, 248)
     }
 
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       11.0 + flare * 3.0,
       col,
     )
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       4.0,
       @raylib.Color::new(252, 246, 236, 246),
     )
 
     @raylib.draw_text(
-      "G\{groups[i].id} N:\{groups[i].count} P:\{groups[i].panic.to_int()}",
-      (groups[i].x - 54.0).to_int(),
-      (groups[i].y + 14.0).to_int(),
+      "G\{group.id} N:\{group.count} P:\{group.panic.to_int()}",
+      (group.x - 54.0).to_int(),
+      (group.y + 14.0).to_int(),
       16,
       @raylib.Color::new(246, 234, 220, 236),
     )
 
-    if groups[i].flare_t < 0.18 {
+    if group.flare_t < 0.18 {
       let rr : Float = 18.0 + p01 * 42.0
       @raylib.draw_circle(
-        groups[i].x.to_int(),
-        groups[i].y.to_int(),
+        group.x.to_int(),
+        group.y.to_int(),
         rr,
         @raylib.Color::new(252, 204, 136, 66),
       )
@@ -1037,28 +1037,28 @@ fn draw_groups(groups : Array[Group], t : Float) -> Unit {
 
 ///|
 fn draw_floods(floods : Array[FloodCell], t : Float) -> Unit {
-  for i = 0; i < floods.length(); i = i + 1 {
-    if not(floods[i].active) {
+  for flood in floods {
+    if not(flood.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + floods[i].phase) * 0.5 + 0.5)
-    let r0 : Float = floods[i].radius * pulse
-    let r1 : Float = floods[i].radius * (0.58 + pulse * 0.18)
+      0.2 * (@math.sinf(t * 1.8 + flood.phase) * 0.5 + 0.5)
+    let r0 : Float = flood.radius * pulse
+    let r1 : Float = flood.radius * (0.58 + pulse * 0.18)
 
-    let a0 : Int = 24 + (floods[i].pressure * 42.0).to_int()
-    let a1 : Int = 12 + (floods[i].pressure * 24.0).to_int()
+    let a0 : Int = 24 + (flood.pressure * 42.0).to_int()
+    let a1 : Int = 12 + (flood.pressure * 24.0).to_int()
 
     @raylib.draw_circle(
-      floods[i].x.to_int(),
-      floods[i].y.to_int(),
+      flood.x.to_int(),
+      flood.y.to_int(),
       r0,
       @raylib.Color::new(146, 186, 226, a0),
     )
     @raylib.draw_circle(
-      floods[i].x.to_int(),
-      floods[i].y.to_int(),
+      flood.x.to_int(),
+      flood.y.to_int(),
       r1,
       @raylib.Color::new(214, 234, 248, a1),
     )
@@ -1067,28 +1067,28 @@ fn draw_floods(floods : Array[FloodCell], t : Float) -> Unit {
 
 ///|
 fn draw_barriers(barriers : Array[Barrier], t : Float) -> Unit {
-  for i = 0; i < barriers.length(); i = i + 1 {
-    if not(barriers[i].active) {
+  for barrier in barriers {
+    if not(barrier.active) {
       continue
     }
 
-    let wob : Float = @math.sinf(t * 4.0 + barriers[i].spin) * 0.5 + 0.5
-    let rr : Float = barriers[i].size * (0.88 + wob * 0.2)
-    let h01 : Float = clampf(barriers[i].hard / 100.0, 0.0, 1.0)
+    let wob : Float = @math.sinf(t * 4.0 + barrier.spin) * 0.5 + 0.5
+    let rr : Float = barrier.size * (0.88 + wob * 0.2)
+    let h01 : Float = clampf(barrier.hard / 100.0, 0.0, 1.0)
 
     let r : Int = 88 + (h01 * 58.0).to_int()
     let g : Int = 98 + (h01 * 44.0).to_int()
     let b : Int = 88 + (h01 * 24.0).to_int()
 
     @raylib.draw_circle(
-      barriers[i].x.to_int(),
-      barriers[i].y.to_int(),
+      barrier.x.to_int(),
+      barrier.y.to_int(),
       rr + 1.8,
       @raylib.Color::new(46, 70, 92, 174),
     )
     @raylib.draw_circle(
-      barriers[i].x.to_int(),
-      barriers[i].y.to_int(),
+      barrier.x.to_int(),
+      barrier.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -1142,7 +1142,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
   )
 
   let shown : Int = mini(player.onboard, 6)
-  for i = 0; i < shown; i = i + 1 {
+  for i in 0..<shown {
     let px : Int = (x - 10.0 + Float::from_int(i % 3) * 8.0).to_int()
     let py : Int = (y + 3.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(px, py, 6, 4, @raylib.Color::new(222, 176, 120, 236))
@@ -1161,23 +1161,23 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(194, 226, 252, 184)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(248, 194, 146, 220)
     } else {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -1709,17 +1709,17 @@ fn main {
       // Flood effects near player
       let mut flood_drag : Float = 0.0
       let mut fuel_mul : Float = 1.0
-      for i = 0; i < floods.length(); i = i + 1 {
-        if not(floods[i].active) {
+      for flood in floods {
+        if not(flood.active) {
           continue
         }
 
-        let rr : Float = floods[i].radius
-        let d2v : Float = dist2(player.x, player.y, floods[i].x, floods[i].y)
+        let rr : Float = flood.radius
+        let d2v : Float = dist2(player.x, player.y, flood.x, flood.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          flood_drag = flood_drag + floods[i].pressure * (0.22 + ratio * 0.56)
-          fuel_mul = fuel_mul + floods[i].pressure * (0.16 + ratio * 0.48)
+          flood_drag = flood_drag + flood.pressure * (0.22 + ratio * 0.56)
+          fuel_mul = fuel_mul + flood.pressure * (0.16 + ratio * 0.48)
         }
       }
 
@@ -1837,22 +1837,22 @@ fn main {
 
       // Barrier collision damage
       let mut collision_dmg : Float = 0.0
-      for i = 0; i < barriers.length(); i = i + 1 {
-        if not(barriers[i].active) {
+      for barrier in barriers {
+        if not(barrier.active) {
           continue
         }
 
-        let rr : Float = barriers[i].size + 11.0
+        let rr : Float = barrier.size + 11.0
         let d2v : Float = dist2(
           player.x,
           player.y,
-          barriers[i].x,
-          barriers[i].y,
+          barrier.x,
+          barrier.y,
         )
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
-          let nx : Float = (player.x - barriers[i].x) / d
-          let ny : Float = (player.y - barriers[i].y) / d
+          let nx : Float = (player.x - barrier.x) / d
+          let ny : Float = (player.y - barrier.y) / d
           let push : Float = (rr - d) * dt * 24.0
 
           player.x = player.x + nx * push
@@ -1860,55 +1860,55 @@ fn main {
 
           if sp2 > 70.0 {
             collision_dmg = collision_dmg +
-              dt * (1.1 + barriers[i].hard * 0.018)
+              dt * (1.1 + barrier.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
       }
 
       // Shelter queues rise over time, especially during floods
-      for i = 0; i < shelters.length(); i = i + 1 {
-        if not(shelters[i].active) {
+      for shelter in shelters {
+        if not(shelter.active) {
           continue
         }
 
-        if shelters[i].alarm_t > 0.0 {
-          shelters[i].alarm_t = shelters[i].alarm_t - dt
-          if shelters[i].alarm_t < 0.0 {
-            shelters[i].alarm_t = 0.0
+        if shelter.alarm_t > 0.0 {
+          shelter.alarm_t = shelter.alarm_t - dt
+          if shelter.alarm_t < 0.0 {
+            shelter.alarm_t = 0.0
           }
         }
 
         let mut flood_load : Float = 0.0
-        for j = 0; j < floods.length(); j = j + 1 {
-          if not(floods[j].active) {
+        for flood in floods {
+          if not(flood.active) {
             continue
           }
 
-          let rr : Float = floods[j].radius
+          let rr : Float = flood.radius
           let d2v : Float = dist2(
-            shelters[i].x,
-            shelters[i].y,
-            floods[j].x,
-            floods[j].y,
+            shelter.x,
+            shelter.y,
+            flood.x,
+            flood.y,
           )
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            flood_load = flood_load + floods[j].pressure * (0.3 + ratio * 0.9)
+            flood_load = flood_load + flood.pressure * (0.3 + ratio * 0.9)
           }
         }
 
-        shelters[i].queue = shelters[i].queue +
+        shelter.queue = shelter.queue +
           dt * (1.7 + flood_load * 1.4 + Float::from_int(tier) * 0.2)
-        shelters[i].risk = flood_load
+        shelter.risk = flood_load
 
-        if shelters[i].queue > 100.0 {
-          shelters[i].queue = 74.0 + randf(0.0, 10.0)
-          shelters[i].alarm_t = 1.2
+        if shelter.queue > 100.0 {
+          shelter.queue = 74.0 + randf(0.0, 10.0)
+          shelter.alarm_t = 1.2
           lost_people = lost_people + 3
-          msg = "Shelter S\{shelters[i].id} overflow"
+          msg = "Shelter S\{shelter.id} overflow"
           msg_t = 0.85
-          burst(parts, shelters[i].x, shelters[i].y, 14, 1)
+          burst(parts, shelter.x, shelter.y, 14, 1)
         }
       }
 

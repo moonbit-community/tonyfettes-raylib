@@ -408,10 +408,10 @@ fn init_title_scene(game : Game) -> Unit {
 
 ///|
 fn update_trap_timers(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    game.traps[i].timer = game.traps[i].timer + dt
-    while game.traps[i].timer >= game.traps[i].cycle {
-      game.traps[i].timer = game.traps[i].timer - game.traps[i].cycle
+  for trap in game.traps {
+    trap.timer = trap.timer + dt
+    while trap.timer >= trap.cycle {
+      trap.timer = trap.timer - trap.cycle
     }
   }
 }
@@ -427,21 +427,21 @@ fn trap_is_hot(trap : Trap) -> Bool {
 
 ///|
 fn refresh_plates(game : Game) -> Unit {
-  for i = 0; i < game.plates.length(); i = i + 1 {
-    game.plates[i].pressed = player_hits_rect(
+  for plate in game.plates {
+    plate.pressed = player_hits_rect(
       game,
-      game.plates[i].x,
-      game.plates[i].y,
-      game.plates[i].w,
-      game.plates[i].h,
+      plate.x,
+      plate.y,
+      plate.w,
+      plate.h,
     )
   }
 }
 
 ///|
 fn refresh_doors(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.doors.length(); i = i + 1 {
-    let plate_index = game.doors[i].plate_index
+  for door in game.doors {
+    let plate_index = door.plate_index
     let plate_pressed : Bool = if plate_index >= 0 &&
       plate_index < game.plates.length() {
       game.plates[plate_index].pressed
@@ -450,23 +450,23 @@ fn refresh_doors(game : Game, dt : Float) -> Unit {
     }
 
     if plate_pressed {
-      game.doors[i].timer = game.doors[i].hold_time
+      door.timer = door.hold_time
     } else {
-      game.doors[i].timer = maxf(0.0, game.doors[i].timer - dt)
+      door.timer = maxf(0.0, door.timer - dt)
     }
 
-    game.doors[i].open = game.doors[i].timer > 0.0
+    door.open = door.timer > 0.0
 
     // Prevent doors from sealing while the player is inside the doorway volume.
-    if not(game.doors[i].open) &&
+    if not(door.open) &&
       player_hits_rect(
         game,
-        game.doors[i].x,
-        game.doors[i].y,
-        game.doors[i].w,
-        game.doors[i].h,
+        door.x,
+        door.y,
+        door.w,
+        door.h,
       ) {
-      game.doors[i].open = true
+      door.open = true
     }
   }
 }
@@ -475,17 +475,17 @@ fn refresh_doors(game : Game, dt : Float) -> Unit {
 fn collides_closed_door(game : Game, x : Float, y : Float) -> Bool {
   let (px, py, pw, ph) = player_rect_at(game, x, y)
 
-  for i = 0; i < game.doors.length(); i = i + 1 {
-    if not(game.doors[i].open) &&
+  for door in game.doors {
+    if not(door.open) &&
       rects_overlap(
         px,
         py,
         pw,
         ph,
-        game.doors[i].x,
-        game.doors[i].y,
-        game.doors[i].w,
-        game.doors[i].h,
+        door.x,
+        door.y,
+        door.w,
+        door.h,
       ) {
       return true
     }
@@ -555,17 +555,17 @@ fn move_player(game : Game, dt : Float) -> Unit {
 
 ///|
 fn collect_relics(game : Game) -> Unit {
-  for i = 0; i < game.relics.length(); i = i + 1 {
-    if not(game.relics[i].active) {
+  for relic in game.relics {
+    if not(relic.active) {
       continue
     }
 
-    let dx = game.player.x - game.relics[i].x
-    let dy = game.player.y - game.relics[i].y
-    let reach = game.relics[i].r + game.player.w * 0.36
+    let dx = game.player.x - relic.x
+    let dy = game.player.y - relic.y
+    let reach = relic.r + game.player.w * 0.36
 
     if sq(dx) + sq(dy) <= sq(reach) {
-      game.relics[i].active = false
+      relic.active = false
       game.collected_relics = game.collected_relics + 1
       game.player.stamina = minf(
         stamina_max,
@@ -590,15 +590,15 @@ fn fail_stage(game : Game, reason : String) -> Unit {
 
 ///|
 fn check_hazards(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
+  for hazard in game.hazards {
     if player_hits_rect(
         game,
-        game.hazards[i].x,
-        game.hazards[i].y,
-        game.hazards[i].w,
-        game.hazards[i].h,
+        hazard.x,
+        hazard.y,
+        hazard.w,
+        hazard.h,
       ) {
-      fail_stage(game, game.hazards[i].label)
+      fail_stage(game, hazard.label)
       return true
     }
   }
@@ -608,16 +608,16 @@ fn check_hazards(game : Game) -> Bool {
 
 ///|
 fn check_traps(game : Game) -> Bool {
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    if trap_is_hot(game.traps[i]) &&
+  for trap in game.traps {
+    if trap_is_hot(trap) &&
       player_hits_rect(
         game,
-        game.traps[i].x,
-        game.traps[i].y,
-        game.traps[i].w,
-        game.traps[i].h,
+        trap.x,
+        trap.y,
+        trap.w,
+        trap.h,
       ) {
-      fail_stage(game, game.traps[i].label)
+      fail_stage(game, trap.label)
       return true
     }
   }

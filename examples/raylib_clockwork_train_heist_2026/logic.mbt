@@ -84,15 +84,15 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
@@ -107,26 +107,26 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-10.0, 10.0),
@@ -142,35 +142,35 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.6 } else { 2.1 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - drag * dt)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - (drag - 0.5) * dt) +
-      dt * (if game.particles[i].kind == 1 { 84.0 } else { 122.0 })
+    let drag : Float = if particle.kind == 2 { 2.6 } else { 2.1 }
+    particle.vx = particle.vx * (1.0 - drag * dt)
+    particle.vy = particle.vy * (1.0 - (drag - 0.5) * dt) +
+      dt * (if particle.kind == 1 { 84.0 } else { 122.0 })
   }
 }
 
 ///|
 fn smoke_cover_at(game : Game, x : Int, y : Int) -> Bool {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    let d : Int = manhattan(x, y, game.smokes[i].x, game.smokes[i].y)
+    let d : Int = manhattan(x, y, smoke.x, smoke.y)
     if d <= 1 {
       return true
     }
@@ -181,7 +181,7 @@ fn smoke_cover_at(game : Game, x : Int, y : Int) -> Bool {
 
 ///|
 fn guard_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if i == skip || not(game.guards[i].active) {
       continue
     }
@@ -196,7 +196,7 @@ fn guard_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
 
 ///|
 fn loot_index_at(game : Game, x : Int, y : Int) -> Int {
-  for i = 0; i < game.loots.length(); i = i + 1 {
+  for i in 0..<game.loots.length() {
     if not(game.loots[i].active) {
       continue
     }
@@ -235,24 +235,24 @@ fn blocked_for_guard(game : Game, gid : Int, x : Int, y : Int) -> Bool {
 
 ///|
 fn clear_map(game : Game) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       set_tile(game, x, y, tile_wall)
     }
   }
 
-  for car = 0; car < 5; car = car + 1 {
+  for car in 0..<5 {
     let x0 : Int = 1 + car * 5
     let x1 : Int = x0 + 3
 
-    for y = 2; y <= 10; y = y + 1 {
-      for x = x0; x <= x1; x = x + 1 {
+    for y in 2..=10 {
+      for x in x0..=x1 {
         set_tile(game, x, y, tile_floor)
       }
     }
   }
 
-  for car = 0; car < 4; car = car + 1 {
+  for car in 0..<4 {
     let door_x : Int = 5 + car * 5
     set_tile(game, door_x, 6, tile_door)
     set_tile(game, door_x, 5, tile_floor)
@@ -274,8 +274,8 @@ fn clear_map(game : Game) -> Unit {
     (16, 6),
   ]
 
-  for i = 0; i < crate_cells.length(); i = i + 1 {
-    set_tile(game, crate_cells[i].0, crate_cells[i].1, tile_wall)
+  for crate_cell in crate_cells {
+    set_tile(game, crate_cell.0, crate_cell.1, tile_wall)
   }
 
   set_tile(game, start_x, start_y, tile_floor)
@@ -306,7 +306,7 @@ fn load_loot(game : Game) -> Unit {
     (7, 6, loot_gold),
   ]
 
-  for i = 0; i < game.loots.length(); i = i + 1 {
+  for i in 0..<game.loots.length() {
     if i < loot_plan.length() {
       game.loots[i].active = true
       game.loots[i].x = loot_plan[i].0
@@ -334,7 +334,7 @@ fn load_guards(game : Game) -> Unit {
     (3, 8, 1, 0, 1, 4, 1),
   ]
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     game.guards[i].active = i < plan.length()
     game.guards[i].mode = guard_patrol
     game.guards[i].move_cd = randf(0.02, 0.25)
@@ -370,11 +370,11 @@ fn start_run(game : Game) -> Unit {
   load_guards(game)
   clear_particles(game)
 
-  for i = 0; i < game.smokes.length(); i = i + 1 {
-    game.smokes[i].active = false
-    game.smokes[i].x = 0
-    game.smokes[i].y = 0
-    game.smokes[i].t = 0.0
+  for smoke in game.smokes {
+    smoke.active = false
+    smoke.x = 0
+    smoke.y = 0
+    smoke.t = 0.0
   }
 
   actor_place(game.player, start_x, start_y)
@@ -474,7 +474,7 @@ fn deploy_smoke(game : Game) -> Bool {
   }
 
   let mut slot : Int = -1
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       slot = i
       break
@@ -494,22 +494,22 @@ fn deploy_smoke(game : Game) -> Bool {
   game.action_cd = 0.35
 
   let mut stunned : Int = 0
-  for i = 0; i < game.guards.length(); i = i + 1 {
-    if not(game.guards[i].active) || game.guards[i].mode == guard_stunned {
+  for guard_val in game.guards {
+    if not(guard_val.active) || guard_val.mode == guard_stunned {
       continue
     }
 
     let d : Int = manhattan(
-      game.guards[i].body.x,
-      game.guards[i].body.y,
+      guard_val.body.x,
+      guard_val.body.y,
       game.player.x,
       game.player.y,
     )
 
     if d <= 2 {
-      game.guards[i].mode = guard_stunned
-      game.guards[i].stun_t = 2.3
-      game.guards[i].move_cd = 0.18
+      guard_val.mode = guard_stunned
+      guard_val.stun_t = 2.3
+      guard_val.move_cd = 0.18
       stunned = stunned + 1
     }
   }
@@ -538,23 +538,23 @@ fn deploy_smoke(game : Game) -> Bool {
 
 ///|
 fn update_smokes(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
-    if not(game.smokes[i].active) {
+  for smoke in game.smokes {
+    if not(smoke.active) {
       continue
     }
 
-    game.smokes[i].t = game.smokes[i].t - dt
-    if game.smokes[i].t <= 0.0 {
-      game.smokes[i].active = false
+    smoke.t = smoke.t - dt
+    if smoke.t <= 0.0 {
+      smoke.active = false
       continue
     }
 
     if @raylib.get_random_value(0, 4) == 0 {
       emit_particle(
         game,
-        Float::from_int(cell_center_x(Float::from_int(game.smokes[i].x))) +
+        Float::from_int(cell_center_x(Float::from_int(smoke.x))) +
         randf(-14.0, 14.0),
-        Float::from_int(cell_center_y(Float::from_int(game.smokes[i].y))) +
+        Float::from_int(cell_center_y(Float::from_int(smoke.y))) +
         randf(-14.0, 14.0),
         randf(-18.0, 18.0),
         randf(-26.0, -8.0),
@@ -572,7 +572,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
     let y_min : Int = mini(y0, y1)
     let y_max : Int = maxi(y0, y1)
 
-    for y = y_min + 1; y < y_max; y = y + 1 {
+    for y in (y_min + 1)..<y_max {
       let t : Int = tile_at(game, x0, y)
       if t == tile_wall || smoke_cover_at(game, x0, y) {
         return false
@@ -586,7 +586,7 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
     let x_min : Int = mini(x0, x1)
     let x_max : Int = maxi(x0, x1)
 
-    for x = x_min + 1; x < x_max; x = x + 1 {
+    for x in (x_min + 1)..<x_max {
       let t : Int = tile_at(game, x, y0)
       if t == tile_wall || smoke_cover_at(game, x, y0) {
         return false
@@ -622,7 +622,7 @@ fn guard_choose_chase_step(game : Game, gid : Int) -> (Int, Int) {
   let mut best_i : Int = -1
   let mut best_d : Int = 999999
 
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let nx : Int = gx + dirs[i].0
     let ny : Int = gy + dirs[i].1
 
@@ -686,7 +686,7 @@ fn guard_choose_patrol_step(game : Game, gid : Int) -> (Int, Int) {
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
   let start : Int = g.seed % 4
 
-  for t = 0; t < 4; t = t + 1 {
+  for t in 0..<4 {
     let k : Int = (start + t) % 4
     let nx : Int = gx + dirs[k].0
     let ny : Int = gy + dirs[k].1
@@ -702,7 +702,7 @@ fn guard_choose_patrol_step(game : Game, gid : Int) -> (Int, Int) {
 
 ///|
 fn update_guards(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if not(game.guards[i].active) {
       continue
     }
@@ -875,7 +875,7 @@ fn handle_player_caught(game : Game) -> Unit {
     return
   }
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
+  for i in 0..<game.guards.length() {
     if not(game.guards[i].active) || game.guards[i].mode == guard_stunned {
       continue
     }
@@ -905,13 +905,13 @@ fn handle_player_caught(game : Game) -> Unit {
     actor_place(game.player, start_x, start_y)
     game.move_cd = 0.24
 
-    for g = 0; g < game.guards.length(); g = g + 1 {
-      if not(game.guards[g].active) {
+    for guard_val in game.guards {
+      if not(guard_val.active) {
         continue
       }
-      game.guards[g].mode = guard_stunned
-      game.guards[g].stun_t = 1.1
-      game.guards[g].move_cd = 0.18
+      guard_val.mode = guard_stunned
+      guard_val.stun_t = 1.1
+      guard_val.move_cd = 0.18
     }
 
     set_msg(game, "Spotted. You lost a life.", 1.8)

@@ -2,17 +2,17 @@
 
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
 
     // Lifetime
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
-      continue i + 1
+      continue
     }
 
     // Missile homing logic
@@ -32,7 +32,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
           // Proximity detonation
           if dist_to_target < @types.missile_prox_radius {
             missile_detonate(game, i)
-            continue i + 1
+            continue
           }
 
           let norm = @types.normalize3d(dx, dy, dz)
@@ -94,10 +94,10 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       let mut hit_something = false
 
       // Check against enemies
-      for j = 0; j < game.enemies.length(); j = j + 1 {
+      for j in 0..<game.enemies.length() {
         let e = game.enemies[j]
         if not(e.active) {
-          continue j + 1
+          continue
         }
         let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
         let hit_radius : Float = e.size * 0.8
@@ -157,10 +157,10 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
       // Check against asteroids
       if proj.active && not(hit_something) {
-        for j = 0; j < game.asteroids.length(); j = j + 1 {
+        for j in 0..<game.asteroids.length() {
           let a = game.asteroids[j]
           if not(a.active) {
-            continue j + 1
+            continue
           }
           let dist = @types.distance3d(proj.x, proj.y, proj.z, a.x, a.y, a.z)
           if dist < a.size {
@@ -186,13 +186,12 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
       // Check against enemy stations
       if proj.active {
-        for j = 0; j < game.stations.length(); j = j + 1 {
-          let s = game.stations[j]
+        for s in game.stations {
           if not(s.active) {
-            continue j + 1
+            continue
           }
           if s.kind != @types.station_enemy {
-            continue j + 1
+            continue
           }
           let dist = @types.distance3d(proj.x, proj.y, proj.z, s.x, s.y, s.z)
           if dist < 8.0 {
@@ -232,13 +231,12 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
       // Enemy projectiles also hit friendly stations
       if proj.active {
-        for j = 0; j < game.stations.length(); j = j + 1 {
-          let s = game.stations[j]
+        for s in game.stations {
           if not(s.active) {
-            continue j + 1
+            continue
           }
           if s.kind != @types.station_friendly {
-            continue j + 1
+            continue
           }
           let sdist = @types.distance3d(proj.x, proj.y, proj.z, s.x, s.y, s.z)
           if sdist < 8.0 {
@@ -272,10 +270,10 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   game.camera_shake = @types.maxf(game.camera_shake, 0.4)
 
   // Area damage to nearby enemies
-  for j = 0; j < game.enemies.length(); j = j + 1 {
+  for j in 0..<game.enemies.length() {
     let e = game.enemies[j]
     if not(e.active) {
-      continue j + 1
+      continue
     }
     let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
     if dist < @types.missile_prox_radius * 2.0 {
@@ -288,10 +286,10 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
   }
 
   // Also damage nearby asteroids
-  for j = 0; j < game.asteroids.length(); j = j + 1 {
+  for j in 0..<game.asteroids.length() {
     let a = game.asteroids[j]
     if not(a.active) {
-      continue j + 1
+      continue
     }
     let dist = @types.distance3d(proj.x, proj.y, proj.z, a.x, a.y, a.z)
     if dist < @types.missile_prox_radius * 2.0 {
@@ -304,15 +302,14 @@ fn missile_detonate(game : @types.Game, proj_idx : Int) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt

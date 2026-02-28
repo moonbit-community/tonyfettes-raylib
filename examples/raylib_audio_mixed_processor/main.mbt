@@ -32,7 +32,7 @@ fn process_audio_impl(buffer : @raylib.AudioBuffer, frames : UInt) -> Unit {
     average += new_right.abs() / frames_f
   }
   // Shift history left
-  for i = 0; i < 399; i = i + 1 {
+  for i in 0..<399 {
     average_volume[i] = average_volume[i + 1]
   }
   average_volume[399] = average
@@ -87,7 +87,7 @@ fn main {
       @raylib.lightgray,
     )
     @raylib.draw_rectangle(199, 199, 402, 34, @raylib.lightgray)
-    for i = 0; i < 400; i = i + 1 {
+    for i in 0..<400 {
       @raylib.draw_line(
         201 + i,
         232 - (average_volume[i] * 32.0).to_int(),

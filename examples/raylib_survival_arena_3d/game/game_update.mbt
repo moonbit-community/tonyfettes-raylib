@@ -103,7 +103,7 @@ fn switch_weapon(game : @types.Game, weapon : Int) -> Unit {
 fn cycle_weapon(game : @types.Game, direction : Int) -> Unit {
   let mut next = game.player.current_weapon + direction
   // Wrap around and find next owned weapon
-  for _attempts = 0; _attempts < @types.weapon_count; _attempts = _attempts + 1 {
+  for _attempts in 0..<@types.weapon_count {
     if next >= @types.weapon_count {
       next = 0
     }
@@ -213,15 +213,14 @@ fn update_game_over(game : @types.Game, _dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -265,10 +264,9 @@ fn update_message(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    let pickup = game.pickups[i]
+  for pickup in game.pickups {
     if not(pickup.active) {
-      continue i + 1
+      continue
     }
     // Update float animation
     pickup.float_timer += dt * 3.0
@@ -277,7 +275,7 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
     pickup.life -= dt
     if pickup.life <= 0.0 {
       pickup.active = false
-      continue i + 1
+      continue
     }
     // Check player pickup
     let dist = @types.distance2d(
@@ -338,7 +336,7 @@ fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
     // Kill all active enemies
     @types.show_message(game, "NUKE!!!", 2.0)
     @types.add_kill_feed(game, "NUKE ACTIVATED!", 255, 50, 50)
-    for ei = 0; ei < game.enemies.length(); ei = ei + 1 {
+    for ei in 0..<game.enemies.length() {
       let enemy = game.enemies[ei]
       if enemy.active {
         @types.spawn_particles(game, enemy.x, enemy.y, enemy.z, 8, 255, 200, 50)
@@ -350,10 +348,9 @@ fn apply_pickup(game : @types.Game, kind : Int) -> Unit {
 
 ///|
 fn update_traps(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    let trap = game.traps[i]
+  for trap in game.traps {
     if not(trap.active) {
-      continue i + 1
+      continue
     }
     if trap.cooldown_timer > 0.0 {
       trap.cooldown_timer -= dt
@@ -421,7 +418,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.player.ammo[4] = @types.ammo_rocket
   game.player.ammo[5] = @types.ammo_minigun
   // Reset magazines
-  for mi = 0; mi < @types.weapon_count; mi = mi + 1 {
+  for mi in 0..<@types.weapon_count {
     game.player.magazine[mi] = @types.weapon_mag_size(mi)
     game.player.mag_size[mi] = @types.weapon_mag_size(mi)
   }
@@ -455,7 +452,7 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.player.minigun_spinning = false
   game.player.recoil_offset = 0.0
   game.player.recoil_recover = 0.0
-  for wi = 0; wi < @types.weapon_count; wi = wi + 1 {
+  for wi in 0..<@types.weapon_count {
     game.player.weapon_damage_level[wi] = 0
     game.player.weapon_rate_level[wi] = 0
     game.player.weapon_mag_level[wi] = 0
@@ -480,40 +477,40 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.total_damage_dealt = 0.0
   game.total_damage_taken = 0.0
   // Clear pools
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.Enemy::inactive()
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i] = @types.Projectile::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     game.pickups[i] = @types.Pickup::inactive()
   }
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     game.traps[i] = @types.ArenaTrap::inactive()
   }
-  for i = 0; i < game.barricades.length(); i = i + 1 {
+  for i in 0..<game.barricades.length() {
     game.barricades[i] = @types.Barricade::inactive()
   }
-  for i = 0; i < game.kill_feed.length(); i = i + 1 {
+  for i in 0..<game.kill_feed.length() {
     game.kill_feed[i] = @types.KillFeedEntry::inactive()
   }
-  for i = 0; i < game.damage_indicators.length(); i = i + 1 {
+  for i in 0..<game.damage_indicators.length() {
     game.damage_indicators[i] = @types.DamageIndicator::inactive()
   }
   // Reset weapon cooldowns
-  for i = 0; i < game.weapons.length(); i = i + 1 {
-    game.weapons[i].reload_timer = 0.0
-    game.weapons[i].reloading = false
-    game.weapons[i].reload_time = 0.0
+  for weapon in game.weapons {
+    weapon.reload_timer = 0.0
+    weapon.reloading = false
+    weapon.reload_time = 0.0
   }
   // Reset crates
-  for i = 0; i < game.crates.length(); i = i + 1 {
-    game.crates[i].active = true
-    game.crates[i].respawn_timer = 0.0
+  for crate in game.crates {
+    crate.active = true
+    crate.respawn_timer = 0.0
   }
 }
 
@@ -678,14 +675,13 @@ fn buy_shop_item(game : @types.Game, item_idx : Int) -> Unit {
 
 ///|
 fn update_crates(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.crates.length(); i = i + 1 {
-    let crate = game.crates[i]
+  for crate in game.crates {
     if not(crate.active) {
       crate.respawn_timer -= dt
       if crate.respawn_timer <= 0.0 {
         crate.active = true
       }
-      continue i + 1
+      continue
     }
     // Check if player is close enough to pick up
     let dist = @types.distance2d(game.player.x, game.player.z, crate.x, crate.z)

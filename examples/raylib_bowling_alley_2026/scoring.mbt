@@ -30,10 +30,10 @@ fn show_roll(v : Int) -> String {
 ///|
 fn clear_rolls(game : Game) -> Unit {
   game.roll_count = 0
-  for i = 0; i < game.rolls.length(); i = i + 1 {
+  for i in 0..<game.rolls.length() {
     game.rolls[i] = 0
   }
-  for i = 0; i < game.frame_totals.length(); i = i + 1 {
+  for i in 0..<game.frame_totals.length() {
     game.frame_totals[i] = -1
   }
   game.score = 0
@@ -50,14 +50,14 @@ fn push_roll(game : Game, knocked : Int) -> Unit {
 
 ///|
 fn recompute_score(game : Game) -> Unit {
-  for i = 0; i < 10; i = i + 1 {
+  for i in 0..<10 {
     game.frame_totals[i] = -1
   }
 
   let mut idx : Int = 0
   let mut total : Int = 0
 
-  for frame = 0; frame < 10; frame = frame + 1 {
+  for frame in 0..<10 {
     if idx >= game.roll_count {
       break
     }
@@ -125,7 +125,7 @@ fn recompute_score(game : Game) -> Unit {
 fn frame_start_roll_idx(game : Game, target : Int) -> Int {
   let mut idx : Int = 0
 
-  for frame = 0; frame < target; frame = frame + 1 {
+  for frame in 0..<target {
     if frame >= 9 {
       break
     }

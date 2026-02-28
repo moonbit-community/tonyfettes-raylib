@@ -307,7 +307,7 @@ fn update_intro(game : Game, dt : Float) -> Unit {
 
 ///|
 fn recover_fighter_resources(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     let fighter = game.fighters[i]
     let archetype = fighter_archetype(game, fighter)
 
@@ -319,7 +319,7 @@ fn recover_fighter_resources(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_training_resources(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     let fighter = game.fighters[i]
     let archetype = fighter_archetype(game, fighter)
 
@@ -341,7 +341,7 @@ fn update_training_resources(game : Game, dt : Float) -> Unit {
 ///|
 fn reset_training_fight(game : Game) -> Unit {
   reset_round_fighters(game)
-  for slot = 0; slot < max_players; slot = slot + 1 {
+  for slot in 0..<max_players {
     let fighter = game.fighters[slot]
     let archetype = fighter_archetype(game, fighter)
     fighter.health = health_max
@@ -391,7 +391,7 @@ fn update_fight(game : Game, dt : Float) -> Unit {
 
   update_facing(game)
 
-  for slot = 0; slot < max_players; slot = slot + 1 {
+  for slot in 0..<max_players {
     update_fighter_core(game, slot, dt)
   }
 
@@ -433,7 +433,7 @@ fn update_round_over(game : Game, dt : Float) -> Unit {
   update_particles(game, dt)
   update_camera(game, dt)
 
-  for slot = 0; slot < max_players; slot = slot + 1 {
+  for slot in 0..<max_players {
     let fighter = game.fighters[slot]
     update_fighter_recovery_state(fighter)
     update_stun_and_knockdown(fighter)

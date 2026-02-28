@@ -129,16 +129,16 @@ fn main {
         arrows_left = arrows_left - 1
       }
 
-      for i = 0; i < targets.length(); i = i + 1 {
-        if targets[i].alive {
-          targets[i].x = targets[i].x + targets[i].vx * dt
-          if targets[i].x < 760.0 {
-            targets[i].x = 760.0
-            targets[i].vx = targets[i].vx.abs()
+      for target in targets {
+        if target.alive {
+          target.x = target.x + target.vx * dt
+          if target.x < 760.0 {
+            target.x = 760.0
+            target.vx = target.vx.abs()
           }
-          if targets[i].x > Float::from_int(sw - 80) {
-            targets[i].x = Float::from_int(sw - 80)
-            targets[i].vx = -targets[i].vx.abs()
+          if target.x > Float::from_int(sw - 80) {
+            target.x = Float::from_int(sw - 80)
+            target.vx = -target.vx.abs()
           }
         }
       }
@@ -149,20 +149,20 @@ fn main {
         arrow.x = arrow.x + arrow.vx * dt
         arrow.y = arrow.y + arrow.vy * dt
 
-        for i = 0; i < targets.length(); i = i + 1 {
-          if not(targets[i].alive) {
+        for target in targets {
+          if not(target.alive) {
             continue
           }
-          let dx = targets[i].x - arrow.x
-          let dy = targets[i].y - arrow.y
-          if dx * dx + dy * dy <= targets[i].r * targets[i].r {
-            let gain = targets[i].points + combo * 6
+          let dx = target.x - arrow.x
+          let dy = target.y - arrow.y
+          if dx * dx + dy * dy <= target.r * target.r {
+            let gain = target.points + combo * 6
             score = score + gain
             combo = combo + 1
             if gain > best_hit {
               best_hit = gain
             }
-            targets[i].alive = false
+            target.alive = false
             arrow.alive = false
             msg = "Bullseye +\{gain}!"
             break
@@ -181,8 +181,8 @@ fn main {
       }
 
       let mut alive_count = 0
-      for i = 0; i < targets.length(); i = i + 1 {
-        if targets[i].alive {
+      for target in targets {
+        if target.alive {
           alive_count = alive_count + 1
         }
       }
@@ -237,30 +237,30 @@ fn main {
       @raylib.darkbrown,
     )
 
-    for i = 0; i < targets.length(); i = i + 1 {
-      if targets[i].alive {
+    for target in targets {
+      if target.alive {
         @raylib.draw_circle(
-          targets[i].x.to_int(),
-          targets[i].y.to_int(),
-          targets[i].r,
+          target.x.to_int(),
+          target.y.to_int(),
+          target.r,
           @raylib.red,
         )
         @raylib.draw_circle(
-          targets[i].x.to_int(),
-          targets[i].y.to_int(),
-          targets[i].r * 0.68,
+          target.x.to_int(),
+          target.y.to_int(),
+          target.r * 0.68,
           @raylib.white,
         )
         @raylib.draw_circle(
-          targets[i].x.to_int(),
-          targets[i].y.to_int(),
-          targets[i].r * 0.36,
+          target.x.to_int(),
+          target.y.to_int(),
+          target.r * 0.36,
           @raylib.blue,
         )
         @raylib.draw_text(
-          "\{targets[i].points}",
-          (targets[i].x - 14.0).to_int(),
-          (targets[i].y - 10.0).to_int(),
+          "\{target.points}",
+          (target.x - 14.0).to_int(),
+          (target.y - 10.0).to_int(),
           18,
           @raylib.black,
         )

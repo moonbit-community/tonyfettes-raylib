@@ -44,8 +44,8 @@ fn draw_dungeon(game : @types.Game) -> Unit {
   let max_gx = @types.mini(@types.grid_w - 1, pgx + draw_radius)
   let min_gz = @types.maxi(0, pgz - draw_radius)
   let max_gz = @types.mini(@types.grid_h - 1, pgz + draw_radius)
-  for gz = min_gz; gz <= max_gz; gz = gz + 1 {
-    for gx = min_gx; gx <= max_gx; gx = gx + 1 {
+  for gz in min_gz..=max_gz {
+    for gx in min_gx..=max_gx {
       let tile = @types.get_tile(game, gx, gz)
       let wx = @types.grid_to_world_x(gx)
       let wz = @types.grid_to_world_z(gz)
@@ -215,15 +215,14 @@ fn draw_chest(wx : Float, wz : Float, game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Distance check - don't draw far enemies
     let dist = @types.dist2d(game.player_x, game.player_z, e.x, e.z)
     if dist > 30.0 {
-      continue i + 1
+      continue
     }
     let flash = e.hit_flash > 0.0
     if e.kind == @types.enemy_skeleton {
@@ -509,10 +508,9 @@ fn draw_enemy_health_bar(e : @types.Enemy, game : @types.Game) -> Unit {
 
 ///|
 fn draw_loot_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.loot.length(); i = i + 1 {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
-      continue i + 1
+      continue
     }
     let bob = @math.sinf(l.bob_phase) * 0.1
     let pos = @raylib.Vector3::new(l.x, 0.4 + bob, l.z)
@@ -564,10 +562,9 @@ fn draw_loot_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     @raylib.draw_sphere(
       @raylib.Vector3::new(p.x, 1.0, p.z),
@@ -585,10 +582,9 @@ fn draw_projectiles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha_f = p.life / p.max_life
     let alpha = (alpha_f * 255.0).to_int()

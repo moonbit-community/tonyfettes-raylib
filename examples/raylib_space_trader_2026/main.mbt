@@ -21,7 +21,7 @@ let planet_names : FixedArray[String] = [
 ///|
 fn wealth(cash : Int, cargo : Array[Int], prices : Array[Int], at : Int) -> Int {
   let mut v = cash
-  for g = 0; g < goods_count; g = g + 1 {
+  for g in 0..<goods_count {
     v = v + cargo[g] * prices[at * goods_count + g]
   }
   v
@@ -29,8 +29,8 @@ fn wealth(cash : Int, cargo : Array[Int], prices : Array[Int], at : Int) -> Int 
 
 ///|
 fn roll_prices(prices : Array[Int], day : Int) -> Unit {
-  for p = 0; p < planet_count; p = p + 1 {
-    for g = 0; g < goods_count; g = g + 1 {
+  for p in 0..<planet_count {
+    for g in 0..<goods_count {
       let base = match g {
         0 => 52
         1 => 36
@@ -99,7 +99,7 @@ fn main {
       at = 0
       target = 1
       selected_good = 0
-      for i = 0; i < cargo.length(); i = i + 1 {
+      for i in 0..<cargo.length() {
         cargo[i] = 0
       }
       won = false
@@ -126,7 +126,7 @@ fn main {
 
       if @raylib.is_key_pressed(@raylib.KeyB) {
         let mut used = 0
-        for g = 0; g < goods_count; g = g + 1 {
+        for g in 0..<goods_count {
           used = used + cargo[g]
         }
         if used >= cargo_cap {
@@ -255,7 +255,7 @@ fn main {
     @raylib.draw_text(
       "Commodities @ current dock", 36, 114, 24, @raylib.lightgray,
     )
-    for g = 0; g < goods_count; g = g + 1 {
+    for g in 0..<goods_count {
       let y = 160 + g * 72
       if g == selected_good {
         @raylib.draw_rectangle(
@@ -280,7 +280,7 @@ fn main {
       @raylib.Color::new(22, 26, 38, 255),
     )
     @raylib.draw_text("Navigation", 494, 114, 24, @raylib.lightgray)
-    for p = 0; p < planet_count; p = p + 1 {
+    for p in 0..<planet_count {
       let y = 152 + p * 30
       let color = if p == at {
         @raylib.lime

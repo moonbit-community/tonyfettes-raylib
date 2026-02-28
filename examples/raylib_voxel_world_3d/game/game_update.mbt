@@ -173,7 +173,7 @@ fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   let mut input2_slot = -1
   // Find input1
   if recipe.input1_id > 0 && recipe.input1_count > 0 {
-    for i = 0; i < @types.inventory_slots; i = i + 1 {
+    for i in 0..<@types.inventory_slots {
       if inv.slots[i].item_id == recipe.input1_id &&
         inv.slots[i].count >= recipe.input1_count {
         has_input1 = true
@@ -185,7 +185,7 @@ fn try_craft(game : @types.Game, recipe : @types.CraftingRecipe) -> Unit {
   }
   // Find input2
   if recipe.input2_id > 0 && recipe.input2_count > 0 {
-    for i = 0; i < @types.inventory_slots; i = i + 1 {
+    for i in 0..<@types.inventory_slots {
       if inv.slots[i].item_id == recipe.input2_id &&
         inv.slots[i].count >= recipe.input2_count &&
         i != input1_slot {
@@ -309,11 +309,11 @@ fn start_new_game(game : @types.Game) -> Unit {
   game.show_debug = false
   game.frame_counter = 0
   // Reset entities
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     game.entities[i].active = false
   }
   // Reset particles
-  for i = 0; i < @types.particle_max; i = i + 1 {
+  for i in 0..<@types.particle_max {
     game.particles[i].active = false
   }
   // Reset stats
@@ -506,9 +506,9 @@ fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
   )
   let min_y = @types.maxi(1, pcy - 10)
   let max_y = @types.mini(@types.chunk_y - 1, pcy + 10)
-  for wy = min_y; wy <= max_y; wy = wy + 1 {
-    for wz = min_z; wz <= max_z; wz = wz + 1 {
-      for wx = min_x; wx <= max_x; wx = wx + 1 {
+  for wy in min_y..=max_y {
+    for wz in min_z..=max_z {
+      for wx in min_x..=max_x {
         let block = @types.get_world_block(game, wx, wy, wz)
         if @types.is_gravity_block(block) {
           let below = @types.get_world_block(game, wx, wy - 1, wz)
@@ -527,7 +527,7 @@ fn update_block_physics(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < @types.particle_max; i = i + 1 {
+  for i in 0..<@types.particle_max {
     let p = game.particles[i]
     if p.active {
       p.x += p.vx * dt
@@ -550,7 +550,7 @@ fn update_combat(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
   // Check for entity attacks on player
   let player = game.player
-  for i = 0; i < @types.entity_max; i = i + 1 {
+  for i in 0..<@types.entity_max {
     let ent = game.entities[i]
     if ent.active &&
       @types.is_hostile(ent.kind) &&
@@ -603,7 +603,7 @@ fn update_combat(game : @types.Game, dt : Float) -> Unit {
     let look_z = cos_yaw * cos_pitch
     let mut closest_ent = -1
     let mut closest_dist : Float = @types.reach_distance + 1.0
-    for i = 0; i < @types.entity_max; i = i + 1 {
+    for i in 0..<@types.entity_max {
       let ent = game.entities[i]
       if ent.active {
         // Simple dot product test to see if entity is near look direction

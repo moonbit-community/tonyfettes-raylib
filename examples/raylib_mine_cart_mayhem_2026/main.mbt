@@ -22,19 +22,19 @@ struct Hazard {
 
 ///|
 fn reset_hazards(hazards : Array[Hazard]) -> Unit {
-  for i = 0; i < hazards.length(); i = i + 1 {
-    hazards[i].alive = false
+  for hazard in hazards {
+    hazard.alive = false
   }
 }
 
 ///|
 fn spawn_hazard(hazards : Array[Hazard], lane : Int, kind : Int) -> Unit {
-  for i = 0; i < hazards.length(); i = i + 1 {
-    if not(hazards[i].alive) {
-      hazards[i].alive = true
-      hazards[i].x = Float::from_int(sw + 60)
-      hazards[i].lane = lane
-      hazards[i].kind = kind
+  for hazard in hazards {
+    if not(hazard.alive) {
+      hazard.alive = true
+      hazard.x = Float::from_int(sw + 60)
+      hazard.lane = lane
+      hazard.kind = kind
       break
     }
   }
@@ -135,38 +135,38 @@ fn main {
         }
       }
 
-      for i = 0; i < hazards.length(); i = i + 1 {
-        if not(hazards[i].alive) {
+      for hazard in hazards {
+        if not(hazard.alive) {
           continue
         }
 
-        hazards[i].x = hazards[i].x - speed * dt
+        hazard.x = hazard.x - speed * dt
 
-        if hazards[i].x < -80.0 {
-          hazards[i].alive = false
+        if hazard.x < -80.0 {
+          hazard.alive = false
           continue
         }
 
-        if hazards[i].lane != cart_lane {
+        if hazard.lane != cart_lane {
           continue
         }
 
-        let dx = (hazards[i].x - cart_x).abs()
+        let dx = (hazard.x - cart_x).abs()
         if dx < 34.0 {
-          if hazards[i].kind == 2 {
-            hazards[i].alive = false
+          if hazard.kind == 2 {
+            hazard.alive = false
             coins = coins + 1
             score = score + 35
             msg = "Coin collected."
-          } else if hazards[i].kind == 0 {
+          } else if hazard.kind == 0 {
             if jump_y < 24.0 {
-              hazards[i].alive = false
+              hazard.alive = false
               lives = lives - 1
               score = score - 18
               msg = "Hit by rock."
             }
           } else if jump_y < 72.0 {
-            hazards[i].alive = false
+            hazard.alive = false
             lives = lives - 1
             score = score - 28
             msg = "Slammed into wall."
@@ -183,7 +183,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(21, 18, 16, 255))
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let y = lane_y(l)
       @raylib.draw_line(30, y.to_int(), sw - 20, y.to_int(), @raylib.darkgray)
       @raylib.draw_line(
@@ -202,34 +202,34 @@ fn main {
       )
     }
 
-    for i = 0; i < hazards.length(); i = i + 1 {
-      if hazards[i].alive {
-        let y = lane_y(hazards[i].lane)
-        if hazards[i].kind == 0 {
+    for hazard in hazards {
+      if hazard.alive {
+        let y = lane_y(hazard.lane)
+        if hazard.kind == 0 {
           @raylib.draw_rectangle(
-            (hazards[i].x - 18.0).to_int(),
+            (hazard.x - 18.0).to_int(),
             (y - 16.0).to_int(),
             36,
             20,
             @raylib.brown,
           )
           @raylib.draw_rectangle_lines(
-            (hazards[i].x - 18.0).to_int(),
+            (hazard.x - 18.0).to_int(),
             (y - 16.0).to_int(),
             36,
             20,
             @raylib.black,
           )
-        } else if hazards[i].kind == 1 {
+        } else if hazard.kind == 1 {
           @raylib.draw_rectangle(
-            (hazards[i].x - 16.0).to_int(),
+            (hazard.x - 16.0).to_int(),
             (y - 56.0).to_int(),
             32,
             56,
             @raylib.maroon,
           )
           @raylib.draw_rectangle_lines(
-            (hazards[i].x - 16.0).to_int(),
+            (hazard.x - 16.0).to_int(),
             (y - 56.0).to_int(),
             32,
             56,
@@ -237,13 +237,13 @@ fn main {
           )
         } else {
           @raylib.draw_circle(
-            hazards[i].x.to_int(),
+            hazard.x.to_int(),
             (y - 36.0).to_int(),
             10.0,
             @raylib.gold,
           )
           @raylib.draw_circle_lines(
-            hazards[i].x.to_int(),
+            hazard.x.to_int(),
             (y - 36.0).to_int(),
             10.0,
             @raylib.yellow,

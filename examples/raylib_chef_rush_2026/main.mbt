@@ -54,8 +54,8 @@ fn ingredient_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn reset_drops(drops : Array[Drop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
-    drops[i].alive = false
+  for drop in drops {
+    drop.alive = false
   }
 }
 
@@ -66,14 +66,14 @@ fn spawn_drop(
   kind : Int,
   speed : Float,
 ) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
-    if not(drops[i].alive) {
-      drops[i].alive = true
-      drops[i].lane = lane
-      drops[i].x = lane_x(lane)
-      drops[i].y = -30.0
-      drops[i].kind = kind
-      drops[i].vy = speed
+  for drop in drops {
+    if not(drop.alive) {
+      drop.alive = true
+      drop.lane = lane
+      drop.x = lane_x(lane)
+      drop.y = -30.0
+      drop.kind = kind
+      drop.vy = speed
       break
     }
   }
@@ -185,34 +185,34 @@ fn main {
         spawn_drop(drops, lane, kind, speed)
       }
 
-      for i = 0; i < drops.length(); i = i + 1 {
-        if not(drops[i].alive) {
+      for drop in drops {
+        if not(drop.alive) {
           continue
         }
 
-        drops[i].y = drops[i].y + drops[i].vy * dt
+        drop.y = drop.y + drop.vy * dt
 
-        if drops[i].y > Float::from_int(sh + 40) {
-          drops[i].alive = false
-          if drops[i].kind == order_kind {
+        if drop.y > Float::from_int(sh + 40) {
+          drop.alive = false
+          if drop.kind == order_kind {
             score = score - 8
             msg = "Needed ingredient missed."
           }
           continue
         }
 
-        if drops[i].lane != player_lane {
+        if drop.lane != player_lane {
           continue
         }
 
-        if (drops[i].y - py).abs() < 34.0 {
-          if drops[i].kind == 4 {
-            drops[i].alive = false
+        if (drop.y - py).abs() < 34.0 {
+          if drop.kind == 4 {
+            drop.alive = false
             lives = lives - 1
             score = score - 30
             msg = "Caught trash!"
-          } else if drops[i].kind == order_kind {
-            drops[i].alive = false
+          } else if drop.kind == order_kind {
+            drop.alive = false
             if order_have < order_need {
               order_have = order_have + 1
               score = score + 18
@@ -221,7 +221,7 @@ fn main {
               score = score + 4
             }
           } else {
-            drops[i].alive = false
+            drop.alive = false
             score = score - 6
             timer = timer - 1.8
             if timer < 0.0 {
@@ -251,7 +251,7 @@ fn main {
       @raylib.Color::new(232, 220, 196, 255),
     )
 
-    for l = 0; l < lane_count; l = l + 1 {
+    for l in 0..<lane_count {
       let x = lane_x(l)
       @raylib.draw_line(
         x.to_int(),
@@ -264,15 +264,15 @@ fn main {
       @raylib.draw_circle(x.to_int(), 116, 6.0, @raylib.black)
     }
 
-    for i = 0; i < drops.length(); i = i + 1 {
-      if drops[i].alive {
-        let c = ingredient_color(drops[i].kind)
-        @raylib.draw_circle(drops[i].x.to_int(), drops[i].y.to_int(), 16.0, c)
-        if drops[i].kind == 4 {
+    for drop in drops {
+      if drop.alive {
+        let c = ingredient_color(drop.kind)
+        @raylib.draw_circle(drop.x.to_int(), drop.y.to_int(), 16.0, c)
+        if drop.kind == 4 {
           @raylib.draw_text(
             "X",
-            (drops[i].x - 6.0).to_int(),
-            (drops[i].y - 10.0).to_int(),
+            (drop.x - 6.0).to_int(),
+            (drop.y - 10.0).to_int(),
             22,
             @raylib.white,
           )

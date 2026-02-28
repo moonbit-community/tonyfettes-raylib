@@ -15,13 +15,13 @@ fn get_text_icon(text : String) -> (Int, String) {
   if pos < text.length() && text[pos] == '#' {
     // Parse the icon id number
     let mut icon_id = 0
-    for i = 1; i < pos; i = i + 1 {
+    for i in 1..<pos {
       icon_id = icon_id * 10 + (text[i].to_int() - '0'.to_int())
     }
     // Build remaining text after "#NNN#"
     let rest_start = pos + 1
     let buf = StringBuilder::new()
-    for i = rest_start; i < text.length(); i = i + 1 {
+    for i in rest_start..<text.length() {
       buf.write_char(Int::unsafe_to_char(text[i].to_int()))
     }
     (icon_id, buf.to_string())
@@ -72,7 +72,7 @@ pub fn gui_get_text_width(text : String) -> Int {
 ///|
 fn string_sub(s : String, start : Int, end : Int) -> String {
   let buf = StringBuilder::new()
-  for i = start; i < end; i = i + 1 {
+  for i in start..<end {
     buf.write_char(Int::unsafe_to_char(s[i].to_int()))
   }
   buf.to_string()
@@ -94,7 +94,7 @@ pub fn gui_text_split(text : String) -> (Array[String], Array[Int]) {
   let rows : Array[Int] = []
   let mut current_row = 0
   let mut start = 0
-  for i = 0; i < text.length(); i = i + 1 {
+  for i in 0..<text.length() {
     if text[i] == ';' || text[i] == '\n' {
       results.push(string_sub(text, start, i))
       rows.push(current_row)
@@ -116,7 +116,7 @@ pub fn gui_text_split(text : String) -> (Array[String], Array[Int]) {
 fn get_text_lines(text : String) -> Array[String] {
   let lines : Array[String] = []
   let mut start = 0
-  for i = 0; i < text.length(); i = i + 1 {
+  for i in 0..<text.length() {
     if text[i] == '\n' {
       lines.push(string_sub(text, start, i))
       start = i + 1

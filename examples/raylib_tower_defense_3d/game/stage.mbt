@@ -37,19 +37,19 @@ pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
   game.upgrade_preview = false
   game.prev_state = @types.state_wave_prep
   // Clear pools
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     game.towers[i] = @types.Tower::inactive()
   }
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.Enemy::inactive()
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i] = @types.Projectile::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.chain_lines.length(); i = i + 1 {
+  for i in 0..<game.chain_lines.length() {
     game.chain_lines[i] = @types.ChainLine::inactive()
   }
   // Load map data
@@ -58,12 +58,12 @@ pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
   let path_points : Array[@types.PathNode] = []
   let mut start_gx = 0
   let mut start_gy = 0
-  for gy = 0; gy < @types.map_h; gy = gy + 1 {
+  for gy in 0..<@types.map_h {
     if gy >= data.length() {
-      continue gy + 1
+      continue
     }
     let row = data[gy]
-    for gx = 0; gx < @types.map_w; gx = gx + 1 {
+    for gx in 0..<@types.map_w {
       let ch = if gx < row.length() { row[gx] } else { '.' }
       if ch == '#' || ch == 'S' || ch == 'E' {
         @types.set_tile(game, gx, gy, @types.tile_path)
@@ -91,7 +91,7 @@ pub fn load_map(game : @types.Game, map_idx : Int) -> Unit {
     0,
     @types.max_path_nodes,
   )
-  for i = 0; i < game.path_count; i = i + 1 {
+  for i in 0..<game.path_count {
     game.path_nodes[i] = path_points[i]
   }
   // Camera centered on map
@@ -120,7 +120,7 @@ fn trace_path(
   let mut cx = start_gx
   let mut cy = start_gy
   let max_steps = @types.map_total
-  for _step = 0; _step < max_steps; _step = _step + 1 {
+  for _step in 0..<max_steps {
     path.push({ x: @types.grid_to_world_x(cx), z: @types.grid_to_world_z(cy) })
     visited[@types.tile_index(cx, cy)] = true
     // Check if reached end
@@ -131,7 +131,7 @@ fn trace_path(
     // Find unvisited path neighbor
     let dirs : Array[(Int, Int)] = [(1, 0), (0, 1), (-1, 0), (0, -1)]
     let mut found = false
-    for d = 0; d < 4; d = d + 1 {
+    for d in 0..<4 {
       let nx = cx + dirs[d].0
       let ny = cy + dirs[d].1
       if @types.in_bounds(nx, ny) {
@@ -183,19 +183,19 @@ fn reset_game(game : @types.Game) -> Unit {
   game.show_ranges = false
   game.show_minimap = true
   game.prev_state = @types.state_menu
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     game.towers[i] = @types.Tower::inactive()
   }
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = @types.Enemy::inactive()
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i] = @types.Projectile::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
-  for i = 0; i < game.chain_lines.length(); i = i + 1 {
+  for i in 0..<game.chain_lines.length() {
     game.chain_lines[i] = @types.ChainLine::inactive()
   }
 }

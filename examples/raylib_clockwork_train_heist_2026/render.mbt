@@ -69,8 +69,8 @@ fn draw_background(game : Game) -> Unit {
 
 ///|
 fn draw_tile_map(game : Game, ox : Int, oy : Int) -> Unit {
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       let rx : Int = board_px(x) + ox
       let ry : Int = board_py(y) + oy
       let t : Int = tile_at(game, x, y)
@@ -153,7 +153,7 @@ fn draw_tile_map(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_train_shell(ox : Int, oy : Int) -> Unit {
-  for car = 0; car < 5; car = car + 1 {
+  for car in 0..<5 {
     let x0 : Int = board_px(1 + car * 5) + ox
     let y0 : Int = board_py(2) + oy
     let cw : Int = cell * 4
@@ -176,7 +176,7 @@ fn draw_train_shell(ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for c = 0; c < 4; c = c + 1 {
+  for c in 0..<4 {
     let cx : Int = board_px(5 + c * 5) + cell / 2 + ox
     let cy : Int = board_py(6) + cell / 2 + oy
     @raylib.draw_circle(cx, cy, 13.0, @raylib.Color::new(174, 210, 244, 84))
@@ -185,15 +185,15 @@ fn draw_train_shell(ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_loot(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.loots.length(); i = i + 1 {
-    if not(game.loots[i].active) {
+  for loot in game.loots {
+    if not(loot.active) {
       continue
     }
 
-    let cx : Int = board_px(game.loots[i].x) + cell / 2 + ox
-    let cy : Int = board_py(game.loots[i].y) + cell / 2 + oy
+    let cx : Int = board_px(loot.x) + cell / 2 + ox
+    let cy : Int = board_py(loot.y) + cell / 2 + oy
 
-    let kind : Int = game.loots[i].kind
+    let kind : Int = loot.kind
     if kind == loot_blueprint {
       @raylib.draw_rectangle(
         cx - 15,
@@ -260,7 +260,7 @@ fn draw_loot(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_smokes(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.smokes.length(); i = i + 1 {
+  for i in 0..<game.smokes.length() {
     if not(game.smokes[i].active) {
       continue
     }
@@ -362,23 +362,23 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let col = if game.particles[i].kind == 2 {
+    let col = if particle.kind == 2 {
       @raylib.Color::new(194, 170, 246, 188)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(250, 226, 152, 194)
     } else {
       @raylib.Color::new(170, 220, 252, 166)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       col,
     )
   }
@@ -391,8 +391,8 @@ fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
   draw_loot(game, ox, oy)
   draw_smokes(game, ox, oy)
 
-  for i = 0; i < game.guards.length(); i = i + 1 {
-    draw_guard(game.guards[i], game, ox, oy)
+  for guard_val in game.guards {
+    draw_guard(guard_val, game, ox, oy)
   }
 
   draw_player(game, ox, oy)

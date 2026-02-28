@@ -1,83 +1,83 @@
 ///|
 fn clear_enemies(game : Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    game.enemies[i].active = false
-    game.enemies[i].kind = 0
-    game.enemies[i].ring = 0
-    game.enemies[i].angle = 0.0
-    game.enemies[i].ang_v = 0.0
-    game.enemies[i].hp = 0.0
-    game.enemies[i].fire_cd = 0.0
-    game.enemies[i].phase_mask = 0
-    game.enemies[i].size = 0.0
-    game.enemies[i].spin = 0.0
+  for enemy in game.enemies {
+    enemy.active = false
+    enemy.kind = 0
+    enemy.ring = 0
+    enemy.angle = 0.0
+    enemy.ang_v = 0.0
+    enemy.hp = 0.0
+    enemy.fire_cd = 0.0
+    enemy.phase_mask = 0
+    enemy.size = 0.0
+    enemy.spin = 0.0
   }
 }
 
 ///|
 fn clear_bullets(game : Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
-    game.bullets[i].active = false
-    game.bullets[i].ring_f = 0.0
-    game.bullets[i].angle = 0.0
-    game.bullets[i].vr = 0.0
-    game.bullets[i].va = 0.0
-    game.bullets[i].life = 0.0
-    game.bullets[i].dmg = 0.0
-    game.bullets[i].kind = 0
+  for bullet in game.bullets {
+    bullet.active = false
+    bullet.ring_f = 0.0
+    bullet.angle = 0.0
+    bullet.vr = 0.0
+    bullet.va = 0.0
+    bullet.life = 0.0
+    bullet.dmg = 0.0
+    bullet.kind = 0
   }
 }
 
 ///|
 fn clear_enemy_bullets(game : Game) -> Unit {
-  for i = 0; i < game.enemy_bullets.length(); i = i + 1 {
-    game.enemy_bullets[i].active = false
-    game.enemy_bullets[i].x = 0.0
-    game.enemy_bullets[i].y = 0.0
-    game.enemy_bullets[i].vx = 0.0
-    game.enemy_bullets[i].vy = 0.0
-    game.enemy_bullets[i].life = 0.0
-    game.enemy_bullets[i].dmg = 0.0
-    game.enemy_bullets[i].kind = 0
+  for enemy_bullet in game.enemy_bullets {
+    enemy_bullet.active = false
+    enemy_bullet.x = 0.0
+    enemy_bullet.y = 0.0
+    enemy_bullet.vx = 0.0
+    enemy_bullet.vy = 0.0
+    enemy_bullet.life = 0.0
+    enemy_bullet.dmg = 0.0
+    enemy_bullet.kind = 0
   }
 }
 
 ///|
 fn clear_flares(game : Game) -> Unit {
-  for i = 0; i < game.flares.length(); i = i + 1 {
-    game.flares[i].active = false
-    game.flares[i].ring = 0
-    game.flares[i].angle = 0.0
-    game.flares[i].span = 0.0
-    game.flares[i].spin_v = 0.0
-    game.flares[i].t = 0.0
-    game.flares[i].danger = 0.0
+  for flare in game.flares {
+    flare.active = false
+    flare.ring = 0
+    flare.angle = 0.0
+    flare.span = 0.0
+    flare.spin_v = 0.0
+    flare.t = 0.0
+    flare.danger = 0.0
   }
 }
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_shocks(game : Game) -> Unit {
-  for i = 0; i < game.shocks.length(); i = i + 1 {
-    game.shocks[i].active = false
-    game.shocks[i].ring = 0
-    game.shocks[i].a0 = 0.0
-    game.shocks[i].a1 = 0.0
-    game.shocks[i].life = 0.0
-    game.shocks[i].beta = false
+  for shock in game.shocks {
+    shock.active = false
+    shock.ring = 0
+    shock.a0 = 0.0
+    shock.a1 = 0.0
+    shock.life = 0.0
+    shock.beta = false
   }
 }
 
@@ -97,14 +97,14 @@ fn reset_player(player : Player) -> Unit {
 
 ///|
 fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_hp = game.enemies[0].hp
-  for i = 1; i < game.enemies.length(); i = i + 1 {
+  for i in 1..<game.enemies.length() {
     if game.enemies[i].hp < best_hp {
       best_hp = game.enemies[i].hp
       best = i
@@ -115,14 +115,14 @@ fn alloc_enemy(game : Game) -> Int {
 
 ///|
 fn alloc_bullet(game : Game) -> Int {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_life = game.bullets[0].life
-  for i = 1; i < game.bullets.length(); i = i + 1 {
+  for i in 1..<game.bullets.length() {
     if game.bullets[i].life < best_life {
       best_life = game.bullets[i].life
       best = i
@@ -133,14 +133,14 @@ fn alloc_bullet(game : Game) -> Int {
 
 ///|
 fn alloc_enemy_bullet(game : Game) -> Int {
-  for i = 0; i < game.enemy_bullets.length(); i = i + 1 {
+  for i in 0..<game.enemy_bullets.length() {
     if not(game.enemy_bullets[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_life = game.enemy_bullets[0].life
-  for i = 1; i < game.enemy_bullets.length(); i = i + 1 {
+  for i in 1..<game.enemy_bullets.length() {
     if game.enemy_bullets[i].life < best_life {
       best_life = game.enemy_bullets[i].life
       best = i
@@ -151,14 +151,14 @@ fn alloc_enemy_bullet(game : Game) -> Int {
 
 ///|
 fn alloc_flare(game : Game) -> Int {
-  for i = 0; i < game.flares.length(); i = i + 1 {
+  for i in 0..<game.flares.length() {
     if not(game.flares[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_t = game.flares[0].t
-  for i = 1; i < game.flares.length(); i = i + 1 {
+  for i in 1..<game.flares.length() {
     if game.flares[i].t < best_t {
       best_t = game.flares[i].t
       best = i
@@ -169,14 +169,14 @@ fn alloc_flare(game : Game) -> Int {
 
 ///|
 fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_life = game.particles[0].life
-  for i = 1; i < game.particles.length(); i = i + 1 {
+  for i in 1..<game.particles.length() {
     if game.particles[i].life < best_life {
       best_life = game.particles[i].life
       best = i
@@ -187,14 +187,14 @@ fn alloc_particle(game : Game) -> Int {
 
 ///|
 fn alloc_shock(game : Game) -> Int {
-  for i = 0; i < game.shocks.length(); i = i + 1 {
+  for i in 0..<game.shocks.length() {
     if not(game.shocks[i].active) {
       return i
     }
   }
   let mut best = 0
   let mut best_life = game.shocks[0].life
-  for i = 1; i < game.shocks.length(); i = i + 1 {
+  for i in 1..<game.shocks.length() {
     if game.shocks[i].life < best_life {
       best_life = game.shocks[i].life
       best = i
@@ -319,7 +319,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-16.0, 16.0),
@@ -560,7 +560,7 @@ fn try_beam(game : Game) -> Unit {
   let a1 = game.player.angle + 0.36
   spawn_shock(game, ring, a0, a1, 0.34, game.phase_beta)
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }
@@ -656,7 +656,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
 
   if wave_kind < 28 {
     let ring = randi(0, ring_count - 1)
-    for i = 0; i < 5; i = i + 1 {
+    for i in 0..<5 {
       let a = randf(-pi, pi)
       spawn_enemy(
         game,
@@ -669,7 +669,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
       )
     }
   } else if wave_kind < 56 {
-    for ring = 0; ring < ring_count; ring = ring + 1 {
+    for ring in 0..<ring_count {
       spawn_enemy(
         game,
         0,
@@ -692,7 +692,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
     )
   } else if wave_kind < 78 {
     let center = randf(-pi, pi)
-    for i = -2; i <= 2; i = i + 1 {
+    for i in -2..=2 {
       let ring = clampi(1 + i % ring_count, 0, ring_count - 1)
       spawn_enemy(
         game,
@@ -705,7 +705,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
       )
     }
   } else {
-    for _i = 0; _i < 8; _i = _i + 1 {
+    for _i in 0..<8 {
       let ring = randi(0, ring_count - 1)
       let kind_pick = randi(0, 99)
       let kind = if kind_pick < 65 { 0 } else if kind_pick < 86 { 2 } else { 1 }
@@ -731,7 +731,7 @@ fn spawn_flare_event(game : Game) -> Unit {
   } else {
     3
   }
-  for _i = 0; _i < flare_n; _i = _i + 1 {
+  for _i in 0..<flare_n {
     spawn_flare(
       game,
       randi(0, ring_count - 1),
@@ -747,7 +747,7 @@ fn spawn_flare_event(game : Game) -> Unit {
 fn update_enemies(game : Game, dt : Float) -> Unit {
   let player_xy = player_world_xy(game.player)
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
     }
@@ -825,12 +825,11 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_bullets(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
-    if not(game.bullets[i].active) {
+  for b in game.bullets {
+    if not(b.active) {
       continue
     }
 
-    let b = game.bullets[i]
     b.life = b.life - dt
     if b.life <= 0.0 {
       b.active = false
@@ -845,7 +844,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       if not(game.enemies[j].active) {
         continue
       }
@@ -883,12 +882,11 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 fn update_enemy_bullets(game : Game, dt : Float) -> Unit {
   let player_xy = player_world_xy(game.player)
 
-  for i = 0; i < game.enemy_bullets.length(); i = i + 1 {
-    if not(game.enemy_bullets[i].active) {
+  for b in game.enemy_bullets {
+    if not(b.active) {
       continue
     }
 
-    let b = game.enemy_bullets[i]
     b.life = b.life - dt
     if b.life <= 0.0 {
       b.active = false
@@ -912,12 +910,11 @@ fn update_enemy_bullets(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_flares(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.flares.length(); i = i + 1 {
-    if not(game.flares[i].active) {
+  for f0 in game.flares {
+    if not(f0.active) {
       continue
     }
 
-    let f0 = game.flares[i]
     f0.t = f0.t - dt
     if f0.t <= 0.0 {
       f0.active = false
@@ -946,12 +943,11 @@ fn update_flares(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for p in game.particles {
+    if not(p.active) {
       continue
     }
 
-    let p = game.particles[i]
     p.life = p.life - dt
     if p.life <= 0.0 {
       p.active = false
@@ -964,14 +960,14 @@ fn update_particles(game : Game, dt : Float) -> Unit {
     p.vy = p.vy * (1.0 - dt * 2.2)
   }
 
-  for i = 0; i < game.shocks.length(); i = i + 1 {
-    if not(game.shocks[i].active) {
+  for shock in game.shocks {
+    if not(shock.active) {
       continue
     }
 
-    game.shocks[i].life = game.shocks[i].life - dt
-    if game.shocks[i].life <= 0.0 {
-      game.shocks[i].active = false
+    shock.life = shock.life - dt
+    if shock.life <= 0.0 {
+      shock.active = false
     }
   }
 }
@@ -1111,15 +1107,15 @@ fn update_title(game : Game, dt : Float) -> Unit {
     game.wave_timer = 2.8 + randf(0.0, 1.0)
   }
 
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
 
-    game.enemies[i].angle = wrap_angle(
-      game.enemies[i].angle + game.enemies[i].ang_v * dt * 0.42,
+    enemy.angle = wrap_angle(
+      enemy.angle + enemy.ang_v * dt * 0.42,
     )
-    game.enemies[i].spin = game.enemies[i].spin + dt * 1.3
+    enemy.spin = enemy.spin + dt * 1.3
   }
 
   if game.flare_timer > 0.0 {

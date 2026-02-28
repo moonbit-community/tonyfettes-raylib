@@ -21,8 +21,8 @@ pub fn tank_hits_world(game : @types.Game, x : Float, y : Float) -> Bool {
   let min_ty = @types.world_y_to_tile(y - half)
   let max_ty = @types.world_y_to_tile(y + half)
 
-  for ty = min_ty; ty <= max_ty; ty = ty + 1 {
-    for tx = min_tx; tx <= max_tx; tx = tx + 1 {
+  for ty in min_ty..=max_ty {
+    for tx in min_tx..=max_tx {
       let tile = @types.get_tile(game, tx, ty)
       if @types.is_tile_solid_for_tank(tile) {
         return true
@@ -40,9 +40,9 @@ pub fn tank_hits_players(
   ignore_player : Int,
 ) -> Bool {
   let hitbox = @types.tank_rect_at(x, y)
-  for i = 0; i < game.players.length(); i = i + 1 {
+  for i in 0..<game.players.length() {
     if i == ignore_player {
-      continue i + 1
+      continue
     }
     if game.players[i].active {
       if @types.rects_overlap(hitbox, @types.tank_rect(game.players[i])) {
@@ -61,9 +61,9 @@ pub fn tank_hits_enemies(
   ignore_enemy_index : Int,
 ) -> Bool {
   let hitbox = @types.tank_rect_at(x, y)
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if i == ignore_enemy_index {
-      continue i + 1
+      continue
     }
     if game.enemies[i].active {
       if @types.rects_overlap(hitbox, @types.tank_rect(game.enemies[i])) {
@@ -90,7 +90,7 @@ pub fn sight_blocked(
   }
   let step = Float::from_int(@types.tile_size / 2)
   let n = @types.clampi((distance / step).to_int(), 1, 80)
-  for i = 1; i < n; i = i + 1 {
+  for i in 1..<n {
     let t = Float::from_int(i) / Float::from_int(n)
     let px = ax + dx * t
     let py = ay + dy * t

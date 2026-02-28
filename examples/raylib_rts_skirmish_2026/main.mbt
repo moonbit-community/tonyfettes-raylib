@@ -29,7 +29,7 @@ struct Unit {
 ///|
 fn spawn_unit(units : Array[Unit], team : Int, kind : Int, lane : Int) -> Bool {
   let mut slot = -1
-  for i = 0; i < units.length(); i = i + 1 {
+  for i in 0..<units.length() {
     if slot < 0 && not(units[i].alive) {
       slot = i
     }
@@ -62,7 +62,7 @@ fn spawn_unit(units : Array[Unit], team : Int, kind : Int, lane : Int) -> Bool {
 fn closest_enemy(units : Array[Unit], me : Int) -> Int {
   let mut best = -1
   let mut best_d : Float = 1_000_000.0
-  for i = 0; i < units.length(); i = i + 1 {
+  for i in 0..<units.length() {
     if i == me || not(units[i].alive) {
       continue
     }
@@ -119,8 +119,8 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i = 0; i < units.length(); i = i + 1 {
-        units[i].alive = false
+      for unit in units {
+        unit.alive = false
       }
       player_base_hp = 320
       enemy_base_hp = 320
@@ -195,7 +195,7 @@ fn main {
         }
       }
 
-      for i = 0; i < units.length(); i = i + 1 {
+      for i in 0..<units.length() {
         if not(units[i].alive) {
           continue
         }
@@ -255,7 +255,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(22, 24, 30, 255))
 
-    for l = 0; l < lanes; l = l + 1 {
+    for l in 0..<lanes {
       let y = lane_y(l)
       @raylib.draw_rectangle(
         40,
@@ -274,24 +274,24 @@ fn main {
     @raylib.draw_rectangle(20, 250, 60, 200, @raylib.blue)
     @raylib.draw_rectangle(sw - 80, 250, 60, 200, @raylib.red)
 
-    for i = 0; i < units.length(); i = i + 1 {
-      if units[i].alive {
-        let y = lane_y(units[i].lane)
-        let color = if units[i].team == 0 {
-          if units[i].kind == 0 {
+    for unit in units {
+      if unit.alive {
+        let y = lane_y(unit.lane)
+        let color = if unit.team == 0 {
+          if unit.kind == 0 {
             @raylib.skyblue
           } else {
             @raylib.lime
           }
-        } else if units[i].kind == 0 {
+        } else if unit.kind == 0 {
           @raylib.maroon
         } else {
           @raylib.orange
         }
-        @raylib.draw_circle(units[i].x.to_int(), y, 12.0, color)
+        @raylib.draw_circle(unit.x.to_int(), y, 12.0, color)
         @raylib.draw_text(
-          "\{units[i].hp}",
-          units[i].x.to_int() - 10,
+          "\{unit.hp}",
+          unit.x.to_int() - 10,
           y - 26,
           18,
           @raylib.white,

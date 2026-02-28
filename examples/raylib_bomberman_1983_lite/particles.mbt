@@ -1,6 +1,6 @@
 ///|
 fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -39,7 +39,7 @@ fn spawn_particle(
 
 ///|
 fn spawn_spark_burst(game : Game, x : Float, y : Float, count : Int) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let angle = rand_rangef(game, 0.0, 6.28318)
     let speed = rand_rangef(game, 65.0, 210.0)
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed
@@ -61,7 +61,7 @@ fn spawn_spark_burst(game : Game, x : Float, y : Float, count : Int) -> Unit {
 ///|
 fn spawn_explosion(game : Game, x : Float, y : Float, strength : Float) -> Unit {
   let sparks = clampi((strength * 20.0).to_int(), 10, 70)
-  for i = 0; i < sparks; i = i + 1 {
+  for i in 0..<sparks {
     let angle = rand_rangef(game, 0.0, 6.28318)
     let speed = rand_rangef(game, 40.0, 160.0) * strength
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed
@@ -79,7 +79,7 @@ fn spawn_explosion(game : Game, x : Float, y : Float, strength : Float) -> Unit 
   }
 
   // Smoke puffs.
-  for _i = 0; _i < clampi((strength * 10.0).to_int(), 4, 20); _i = _i + 1 {
+  for _i in 0..<(clampi((strength * 10.0).to_int(), 4, 20)) {
     let angle = rand_rangef(game, 0.0, 6.28318)
     let speed = rand_rangef(game, 12.0, 58.0)
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed
@@ -102,7 +102,7 @@ fn spawn_explosion(game : Game, x : Float, y : Float, strength : Float) -> Unit 
 
 ///|
 fn spawn_respawn_burst(game : Game, x : Float, y : Float) -> Unit {
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let angle = Float::from_int(i) / Float::from_int(24) * 6.28318
     let speed = Float::from_int(35 + i % 3 * 15)
     let vx = Float::from_double(@math.cos(angle.to_double())) * speed
@@ -122,15 +122,14 @@ fn spawn_respawn_burst(game : Game, x : Float, y : Float) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
-      continue i + 1
+  for p in game.particles {
+    if not(p.active) {
+      continue
     }
-    let p = game.particles[i]
     p.life -= dt * p.fade
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt

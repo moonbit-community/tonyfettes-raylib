@@ -27,8 +27,8 @@ fn clamp_int(v : Int, lo : Int, hi : Int) -> Int {
 ///|
 fn total_demand(sectors : Array[Sector]) -> Int {
   let mut t = 0
-  for i = 0; i < sectors.length(); i = i + 1 {
-    t = t + sectors[i].demand
+  for sector in sectors {
+    t = t + sector.demand
   }
   t
 }
@@ -36,8 +36,8 @@ fn total_demand(sectors : Array[Sector]) -> Int {
 ///|
 fn total_supply(plant_output : Array[Int], emergency_time : Float) -> Int {
   let mut t = 0
-  for i = 0; i < plant_output.length(); i = i + 1 {
-    t = t + plant_output[i]
+  for plant_output_elem in plant_output {
+    t = t + plant_output_elem
   }
   if emergency_time > 0.0 {
     t + 90
@@ -48,9 +48,9 @@ fn total_supply(plant_output : Array[Int], emergency_time : Float) -> Int {
 
 ///|
 fn reset_sector_values(sectors : Array[Sector]) -> Unit {
-  for i = 0; i < sectors.length(); i = i + 1 {
-    sectors[i].demand = @raylib.get_random_value(70, 130)
-    sectors[i].trend = @raylib.get_random_value(-8, 8)
+  for sector in sectors {
+    sector.demand = @raylib.get_random_value(70, 130)
+    sector.trend = @raylib.get_random_value(-8, 8)
   }
 }
 
@@ -128,16 +128,16 @@ fn main {
       if tick >= 1.0 {
         tick = tick - 1.0
 
-        for i = 0; i < sectors.length(); i = i + 1 {
+        for sector in sectors {
           let noise = @raylib.get_random_value(-5, 5)
-          sectors[i].demand = clamp_int(
-            sectors[i].demand + sectors[i].trend + noise,
+          sector.demand = clamp_int(
+            sector.demand + sector.trend + noise,
             40,
             190,
           )
           if @raylib.get_random_value(0, 99) < 24 {
-            sectors[i].trend = clamp_int(
-              sectors[i].trend + @raylib.get_random_value(-3, 3),
+            sector.trend = clamp_int(
+              sector.trend + @raylib.get_random_value(-3, 3),
               -12,
               12,
             )
@@ -241,7 +241,7 @@ fn main {
     )
 
     // Sector demand bars
-    for i = 0; i < sectors.length(); i = i + 1 {
+    for i in 0..<sectors.length() {
       let x = 60 + i * 120
       @raylib.draw_rectangle(
         x,
@@ -263,7 +263,7 @@ fn main {
     }
 
     // Plant output bars
-    for i = 0; i < plant_output.length(); i = i + 1 {
+    for i in 0..<plant_output.length() {
       let x = 620 + i * 140
       @raylib.draw_rectangle(
         x,

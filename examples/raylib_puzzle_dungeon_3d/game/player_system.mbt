@@ -402,9 +402,9 @@ fn rotate_adjacent_mirrors(game : @types.Game, gx : Int, gy : Int) -> Unit {
     (gx, gy - 1),
     (gx, gy + 1),
   ]
-  for i = 0; i < neighbors.length(); i = i + 1 {
-    let nx = neighbors[i].0
-    let ny = neighbors[i].1
+  for neighbor in neighbors {
+    let nx = neighbor.0
+    let ny = neighbor.1
     if @types.in_bounds(nx, ny) {
       let tile = @types.get_tile(game, nx, ny)
       if @types.is_mirror(tile) {
@@ -493,10 +493,9 @@ fn update_player_animation(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_entity_animations(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.entities.length(); i = i + 1 {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     if e.falling {
       e.fall_timer -= dt
@@ -513,7 +512,7 @@ fn update_entity_animations(game : @types.Game, dt : Float) -> Unit {
           @types.color_block_b,
         )
       }
-      continue i + 1
+      continue
     }
     if e.anim_timer > 0.0 {
       e.anim_timer -= dt
@@ -553,8 +552,8 @@ fn check_exit(game : @types.Game) -> Unit {
   if should_open && not(game.exit_open) {
     game.exit_open = true
     // Set exit tiles to open
-    for gy = 0; gy < @types.grid_h; gy = gy + 1 {
-      for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+    for gy in 0..<@types.grid_h {
+      for gx in 0..<@types.grid_w {
         if @types.get_tile(game, gx, gy) == @types.tile_exit_closed {
           @types.set_tile(game, gx, gy, @types.tile_exit_open)
           @types.spawn_particles(
@@ -572,8 +571,8 @@ fn check_exit(game : @types.Game) -> Unit {
     }
   } else if not(should_open) && game.exit_open {
     game.exit_open = false
-    for gy = 0; gy < @types.grid_h; gy = gy + 1 {
-      for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+    for gy in 0..<@types.grid_h {
+      for gx in 0..<@types.grid_w {
         if @types.get_tile(game, gx, gy) == @types.tile_exit_open {
           @types.set_tile(game, gx, gy, @types.tile_exit_closed)
         }
@@ -638,7 +637,7 @@ fn check_achievements(game : @types.Game) -> Unit {
   let world = game.current_world
   let world_start = world * @types.floors_per_world
   let mut world_done = true
-  for i = world_start; i < world_start + @types.floors_per_world; i = i + 1 {
+  for i in world_start..<(world_start + @types.floors_per_world) {
     if i < @types.max_floors && not(game.floor_info[i].completed) {
       world_done = false
     }
@@ -670,8 +669,8 @@ fn show_achievement(game : @types.Game, text : String) -> Unit {
 
 ///|
 fn find_tile(game : @types.Game, tile_type : Int) -> (Int, Int) {
-  for gy = 0; gy < @types.grid_h; gy = gy + 1 {
-    for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+  for gy in 0..<@types.grid_h {
+    for gx in 0..<@types.grid_w {
       if @types.get_tile(game, gx, gy) == tile_type {
         return (gx, gy)
       }
@@ -682,8 +681,8 @@ fn find_tile(game : @types.Game, tile_type : Int) -> (Int, Int) {
 
 ///|
 fn toggle_spikes(game : @types.Game) -> Unit {
-  for gy = 0; gy < @types.grid_h; gy = gy + 1 {
-    for gx = 0; gx < @types.grid_w; gx = gx + 1 {
+  for gy in 0..<@types.grid_h {
+    for gx in 0..<@types.grid_w {
       let tile = @types.get_tile(game, gx, gy)
       if tile == @types.tile_spikes_off {
         @types.set_tile(game, gx, gy, @types.tile_spikes_on)

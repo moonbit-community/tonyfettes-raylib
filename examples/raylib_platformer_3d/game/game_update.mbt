@@ -356,15 +356,14 @@ fn update_world_intro(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -378,10 +377,9 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_score_flies(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.score_flies.length(); i = i + 1 {
-    let sf = game.score_flies[i]
+  for sf in game.score_flies {
     if not(sf.active) {
-      continue i + 1
+      continue
     }
     sf.timer += dt
     sf.y -= 40.0 * dt
@@ -431,10 +429,9 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     e.anim_timer += dt
     // Handle stun
@@ -443,7 +440,7 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       if e.stun_timer <= 0.0 {
         e.stunned = false
       }
-      continue i + 1
+      continue
     }
     if e.kind == @types.enemy_patrol {
       update_enemy_patrol(e, dt)
@@ -551,10 +548,9 @@ fn update_enemy_turret(
 
 ///|
 fn update_powerups(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) || pu.collected {
-      continue i + 1
+      continue
     }
     pu.bob_timer += dt
     pu.spin_timer += dt * @types.powerup_spin_speed
@@ -638,15 +634,14 @@ fn expire_powerup(game : @types.Game) -> Unit {
 
 ///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
-      continue i + 1
+      continue
     }
     proj.x += proj.vx * dt
     proj.y += proj.vy * dt
@@ -681,10 +676,9 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_hazards(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
-      continue i + 1
+      continue
     }
     h.timer += dt
     // Fire jets toggle on/off
@@ -734,14 +728,13 @@ fn check_hazard_collision(game : @types.Game) -> Unit {
   if game.invincible_timer > 0.0 {
     return
   }
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
-      continue i + 1
+      continue
     }
     // Fire jets only hit when on
     if h.kind == @types.hazard_fire_jet && not(h.on) {
-      continue i + 1
+      continue
     }
     if @types.sphere_aabb(
         game.px,
@@ -783,10 +776,9 @@ fn check_enemy_collision(game : @types.Game) -> Unit {
   if game.invincible_timer > 0.0 {
     return
   }
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) || e.stunned {
-      continue i + 1
+      continue
     }
     let dist = @types.dist3d(game.px, game.py, game.pz, e.x, e.y, e.z)
     if dist < @types.player_radius + e.size {
@@ -854,10 +846,9 @@ fn check_enemy_collision(game : @types.Game) -> Unit {
 
 ///|
 fn check_checkpoint_collision(game : @types.Game) -> Unit {
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) || cp.activated {
-      continue i + 1
+      continue
     }
     let dist = @types.dist3d(game.px, game.py, game.pz, cp.x, cp.y, cp.z)
     if dist < @types.checkpoint_activate_range {

@@ -8,21 +8,21 @@ fn reset_controls(game : Game) -> Unit {
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.mines.length(); i = i + 1 {
-    game.mines[i].active = false
-    game.mines[i].x = 0.0
-    game.mines[i].y = 0.0
-    game.mines[i].r = 0.0
-    game.mines[i].reveal_t = 0.0
-    game.mines[i].armed = true
+  for mine in game.mines {
+    mine.active = false
+    mine.x = 0.0
+    mine.y = 0.0
+    mine.r = 0.0
+    mine.reveal_t = 0.0
+    mine.armed = true
   }
 
-  for i = 0; i < game.targets.length(); i = i + 1 {
-    game.targets[i].active = false
-    game.targets[i].x = 0.0
-    game.targets[i].y = 0.0
-    game.targets[i].detected = false
-    game.targets[i].pulse_t = 0.0
+  for target in game.targets {
+    target.active = false
+    target.x = 0.0
+    target.y = 0.0
+    target.detected = false
+    target.pulse_t = 0.0
   }
 }
 
@@ -59,12 +59,12 @@ fn random_arena_point(margin : Float) -> (Float, Float) {
 
 ///|
 fn spawn_targets(game : Game) -> Unit {
-  for i = 0; i < game.target_goal; i = i + 1 {
+  for i in 0..<game.target_goal {
     let mut px = sub_start_x + 320.0
     let mut py = sub_start_y
     let mut placed = false
 
-    for _try = 0; _try < 90; _try = _try + 1 {
+    for _try in 0..<90 {
       if placed {
         continue
       }
@@ -77,7 +77,7 @@ fn spawn_targets(game : Game) -> Unit {
         dist2(cx, cy, sub_start_x, sub_start_y) > 220.0 * 220.0
 
       if ok {
-        for j = 0; j < i; j = j + 1 {
+        for j in 0..<i {
           if game.targets[j].active &&
             dist2(cx, cy, game.targets[j].x, game.targets[j].y) < 136.0 * 136.0 {
             ok = false
@@ -102,13 +102,13 @@ fn spawn_targets(game : Game) -> Unit {
 
 ///|
 fn spawn_mines(game : Game) -> Unit {
-  for i = 0; i < game.mine_count; i = i + 1 {
+  for i in 0..<game.mine_count {
     let mut px = sub_start_x + 200.0
     let mut py = sub_start_y
     let mut pr = randf(12.0, 17.0)
     let mut placed = false
 
-    for _try = 0; _try < 120; _try = _try + 1 {
+    for _try in 0..<120 {
       if placed {
         continue
       }
@@ -141,7 +141,7 @@ fn spawn_mines(game : Game) -> Unit {
         140.0 * 140.0
 
       if ok {
-        for j = 0; j < game.target_goal; j = j + 1 {
+        for j in 0..<game.target_goal {
           if game.targets[j].active &&
             dist2(cand_x, cand_y, game.targets[j].x, game.targets[j].y) <
             72.0 * 72.0 {
@@ -151,7 +151,7 @@ fn spawn_mines(game : Game) -> Unit {
       }
 
       if ok {
-        for j = 0; j < i; j = j + 1 {
+        for j in 0..<i {
           if game.mines[j].active {
             let sep = cand_r + game.mines[j].r + 20.0
             if dist2(cand_x, cand_y, game.mines[j].x, game.mines[j].y) <
@@ -252,7 +252,7 @@ fn fire_sonar(game : Game) -> Unit {
   game.last_pulse_range = pulse_range
 
   let mut found_this_pulse = 0
-  for i = 0; i < game.target_goal; i = i + 1 {
+  for i in 0..<game.target_goal {
     if not(game.targets[i].active) || game.targets[i].detected {
       continue
     }
@@ -267,7 +267,7 @@ fn fire_sonar(game : Game) -> Unit {
   }
 
   let mine_reveal_range = pulse_range * 1.08
-  for i = 0; i < game.mine_count; i = i + 1 {
+  for i in 0..<game.mine_count {
     if not(game.mines[i].active) || not(game.mines[i].armed) {
       continue
     }
@@ -392,7 +392,7 @@ fn update_resources(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_contacts(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.target_goal; i = i + 1 {
+  for i in 0..<game.target_goal {
     if not(game.targets[i].active) {
       continue
     }
@@ -402,7 +402,7 @@ fn update_contacts(game : Game, dt : Float) -> Unit {
     }
   }
 
-  for i = 0; i < game.mine_count; i = i + 1 {
+  for i in 0..<game.mine_count {
     if not(game.mines[i].active) {
       continue
     }
@@ -509,7 +509,7 @@ fn nearest_undetected_target(game : Game) -> (Float, Float, Bool) {
   let mut found = false
   let mut best_d : Float = 1_000_000_000.0
 
-  for i = 0; i < game.target_goal; i = i + 1 {
+  for i in 0..<game.target_goal {
     if not(game.targets[i].active) || game.targets[i].detected {
       continue
     }

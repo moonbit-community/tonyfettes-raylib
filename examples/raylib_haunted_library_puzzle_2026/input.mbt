@@ -29,7 +29,7 @@ fn pointer_on_rect(
     return true
   }
 
-  for i = 0; i < touch_count; i = i + 1 {
+  for i in 0..<touch_count {
     let p = @raylib.get_touch_position(i)
     if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
       return true

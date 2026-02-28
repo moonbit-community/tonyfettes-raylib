@@ -33,15 +33,15 @@ fn idx(c : Int, r : Int) -> Int {
 
 ///|
 fn reset_zones(zones : Array[Zone]) -> Unit {
-  for r = 0; r < rows; r = r + 1 {
-    for c = 0; c < cols; c = c + 1 {
+  for r in 0..<rows {
+    for c in 0..<cols {
       let i = idx(c, r)
       zones[i].fire = 0.0
       zones[i].has_house = true
     }
   }
 
-  for _k = 0; _k < 2; _k = _k + 1 {
+  for _k in 0..<2 {
     let c = @raylib.get_random_value(0, cols - 1)
     let r = @raylib.get_random_value(0, rows - 1)
     zones[idx(c, r)].fire = Float::from_int(@raylib.get_random_value(28, 46))
@@ -51,8 +51,8 @@ fn reset_zones(zones : Array[Zone]) -> Unit {
 ///|
 fn active_fire_count(zones : Array[Zone]) -> Int {
   let mut n = 0
-  for i = 0; i < zones.length(); i = i + 1 {
-    if zones[i].fire > 0.0 {
+  for zone in zones {
+    if zone.fire > 0.0 {
       n = n + 1
     }
   }
@@ -164,8 +164,8 @@ fn main {
       if spread_tick >= 1.0 {
         spread_tick = spread_tick - 1.0
 
-        for r = 0; r < rows; r = r + 1 {
-          for c = 0; c < cols; c = c + 1 {
+        for r in 0..<rows {
+          for c in 0..<cols {
             let i = idx(c, r)
             if zones[i].fire > 0.0 {
               zones[i].fire = zones[i].fire + 7.0
@@ -236,8 +236,8 @@ fn main {
 
     @raylib.draw_rectangle(0, 0, sw, 130, @raylib.Color::new(42, 52, 66, 255))
 
-    for r = 0; r < rows; r = r + 1 {
-      for c = 0; c < cols; c = c + 1 {
+    for r in 0..<rows {
+      for c in 0..<cols {
         let i = idx(c, r)
         let x = cell_x(c)
         let y = cell_y(r)

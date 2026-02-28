@@ -186,50 +186,50 @@ fn building_center_y(b : Building) -> Float {
 
 ///|
 fn clear_buildings(buildings : Array[Building]) -> Unit {
-  for i = 0; i < buildings.length(); i = i + 1 {
-    buildings[i].active = false
-    buildings[i].x = 0.0
-    buildings[i].y = 0.0
-    buildings[i].w = 0.0
-    buildings[i].h = 0.0
-    buildings[i].fire = 0.0
-    buildings[i].integrity = 100.0
-    buildings[i].people = 0
-    buildings[i].casualties = 0
-    buildings[i].spread_cd = 0.0
-    buildings[i].emergency_cd = 0.0
-    buildings[i].collapsed = false
-    buildings[i].pulse = 0.0
-    buildings[i].name = ""
+  for building in buildings {
+    building.active = false
+    building.x = 0.0
+    building.y = 0.0
+    building.w = 0.0
+    building.h = 0.0
+    building.fire = 0.0
+    building.integrity = 100.0
+    building.people = 0
+    building.casualties = 0
+    building.spread_cd = 0.0
+    building.emergency_cd = 0.0
+    building.collapsed = false
+    building.pulse = 0.0
+    building.name = ""
   }
 }
 
 ///|
 fn clear_drops(drops : Array[WaterDrop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
-    drops[i].active = false
-    drops[i].x = 0.0
-    drops[i].y = 0.0
-    drops[i].vx = 0.0
-    drops[i].vy = 0.0
-    drops[i].power = 0.0
-    drops[i].life = 0.0
-    drops[i].kind = 0
+  for drop in drops {
+    drop.active = false
+    drop.x = 0.0
+    drop.y = 0.0
+    drop.vx = 0.0
+    drop.vy = 0.0
+    drop.power = 0.0
+    drop.life = 0.0
+    drop.kind = 0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].pulse = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.pulse = 0.0
   }
 }
 
@@ -244,22 +244,22 @@ fn add_building(
   fire : Float,
   name : String,
 ) -> Bool {
-  for i = 0; i < buildings.length(); i = i + 1 {
-    if not(buildings[i].active) {
-      buildings[i].active = true
-      buildings[i].x = x
-      buildings[i].y = y
-      buildings[i].w = w
-      buildings[i].h = h
-      buildings[i].fire = fire
-      buildings[i].integrity = randf(78.0, 100.0)
-      buildings[i].people = people
-      buildings[i].casualties = 0
-      buildings[i].spread_cd = randf(2.0, 5.2)
-      buildings[i].emergency_cd = randf(5.0, 13.0)
-      buildings[i].collapsed = false
-      buildings[i].pulse = randf(0.0, 20.0)
-      buildings[i].name = name
+  for building in buildings {
+    if not(building.active) {
+      building.active = true
+      building.x = x
+      building.y = y
+      building.w = w
+      building.h = h
+      building.fire = fire
+      building.integrity = randf(78.0, 100.0)
+      building.people = people
+      building.casualties = 0
+      building.spread_cd = randf(2.0, 5.2)
+      building.emergency_cd = randf(5.0, 13.0)
+      building.collapsed = false
+      building.pulse = randf(0.0, 20.0)
+      building.name = name
       return true
     }
   }
@@ -322,12 +322,12 @@ fn setup_city(buildings : Array[Building]) -> Unit {
     ),
   )
 
-  for i = 0; i < buildings.length(); i = i + 1 {
-    if not(buildings[i].active) {
+  for building in buildings {
+    if not(building.active) {
       continue
     }
-    if buildings[i].fire < 1.0 {
-      buildings[i].fire = randf(2.0, 8.0)
+    if building.fire < 1.0 {
+      building.fire = randf(2.0, 8.0)
     }
   }
 }
@@ -343,16 +343,16 @@ fn add_drop(
   life : Float,
   kind : Int,
 ) -> Bool {
-  for i = 0; i < drops.length(); i = i + 1 {
-    if not(drops[i].active) {
-      drops[i].active = true
-      drops[i].x = x
-      drops[i].y = y
-      drops[i].vx = vx
-      drops[i].vy = vy
-      drops[i].power = power
-      drops[i].life = life
-      drops[i].kind = kind
+  for drop in drops {
+    if not(drop.active) {
+      drop.active = true
+      drop.x = x
+      drop.y = y
+      drop.vx = vx
+      drop.vy = vy
+      drop.power = power
+      drop.life = life
+      drop.kind = kind
       return true
     }
   }
@@ -366,19 +366,19 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(18.0, 220.0)
-      parts[i].vx = @math.cosf(a) * s
-      parts[i].vy = @math.sinf(a) * s
-      parts[i].size = randf(2.0, 8.0)
-      parts[i].life = randf(0.2, 0.9)
-      parts[i].pulse = randf(0.0, 20.0)
+      part.vx = @math.cosf(a) * s
+      part.vy = @math.sinf(a) * s
+      part.size = randf(2.0, 8.0)
+      part.life = randf(0.2, 0.9)
+      part.pulse = randf(0.0, 20.0)
       return
     }
   }
@@ -392,53 +392,53 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].pulse = parts[i].pulse + dt
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 2.4)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 2.2) + 10.0 * dt
+    part.pulse = part.pulse + dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 2.4)
+    part.vy = part.vy * (1.0 - dt * 2.2) + 10.0 * dt
   }
 }
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let c = if parts[i].kind == 0 {
+    let c = if part.kind == 0 {
       @raylib.Color::new(248, 226, 120, 238)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(126, 210, 252, 238)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(126, 236, 154, 238)
     } else {
       @raylib.Color::new(244, 126, 142, 238)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size * parts[i].life * 2.0,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size * part.life * 2.0,
       c,
     )
   }
@@ -453,53 +453,53 @@ fn update_drops(
 ) -> Float {
   let mut hit_power : Float = 0.0
 
-  for i = 0; i < drops.length(); i = i + 1 {
-    if not(drops[i].active) {
+  for drop in drops {
+    if not(drop.active) {
       continue
     }
 
-    drops[i].life = drops[i].life - dt
-    if drops[i].life <= 0.0 {
-      drops[i].active = false
+    drop.life = drop.life - dt
+    if drop.life <= 0.0 {
+      drop.active = false
       continue
     }
 
-    drops[i].x = drops[i].x + drops[i].vx * dt
-    drops[i].y = drops[i].y + drops[i].vy * dt
-    drops[i].vy = drops[i].vy + 240.0 * dt
+    drop.x = drop.x + drop.vx * dt
+    drop.y = drop.y + drop.vy * dt
+    drop.vy = drop.vy + 240.0 * dt
 
-    if drops[i].x < world_l - 40.0 ||
-      drops[i].x > world_r + 40.0 ||
-      drops[i].y > world_b + 40.0 {
-      drops[i].active = false
+    if drop.x < world_l - 40.0 ||
+      drop.x > world_r + 40.0 ||
+      drop.y > world_b + 40.0 {
+      drop.active = false
       continue
     }
 
-    let r : Float = if drops[i].kind == 0 { 4.0 } else { 6.0 }
+    let r : Float = if drop.kind == 0 { 4.0 } else { 6.0 }
 
-    for b = 0; b < buildings.length(); b = b + 1 {
-      if not(buildings[b].active) || buildings[b].collapsed {
+    for building in buildings {
+      if not(building.active) || building.collapsed {
         continue
       }
 
       if circle_rect_hit(
-          drops[i].x,
-          drops[i].y,
+          drop.x,
+          drop.y,
           r,
-          buildings[b].x,
-          buildings[b].y,
-          buildings[b].w,
-          buildings[b].h,
+          building.x,
+          building.y,
+          building.w,
+          building.h,
         ) {
-        let cool : Float = drops[i].power
-        buildings[b].fire = buildings[b].fire - cool
-        if buildings[b].fire < 0.0 {
-          buildings[b].fire = 0.0
+        let cool : Float = drop.power
+        building.fire = building.fire - cool
+        if building.fire < 0.0 {
+          building.fire = 0.0
         }
         hit_power = hit_power + cool
 
-        burst_particles(parts, drops[i].x, drops[i].y, 3, 1)
-        drops[i].active = false
+        burst_particles(parts, drop.x, drop.y, 3, 1)
+        drop.active = false
         break
       }
     }
@@ -517,7 +517,7 @@ fn nearest_viable_building(
   let mut best : Int = -1
   let mut best_d2 : Float = 99999999.0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) || buildings[i].collapsed {
       continue
     }
@@ -545,7 +545,7 @@ fn update_fire_system(
   let mut new_casualties : Int = 0
   let mut collapsed_n : Int = 0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       continue
     }
@@ -673,22 +673,22 @@ fn try_rescue(
 
   let mut loaded : Int = 0
 
-  for i = 0; i < buildings.length(); i = i + 1 {
-    if not(buildings[i].active) || buildings[i].collapsed {
+  for building in buildings {
+    if not(building.active) || building.collapsed {
       continue
     }
-    if buildings[i].people <= 0 {
+    if building.people <= 0 {
       continue
     }
-    if buildings[i].fire > 68.0 {
+    if building.fire > 68.0 {
       continue
     }
 
-    let bx : Float = building_center_x(buildings[i])
-    let by : Float = building_center_y(buildings[i])
+    let bx : Float = building_center_x(building)
+    let by : Float = building_center_y(building)
     let d2 : Float = dist2(heli.x, heli.y, bx, by)
     if d2 <= 72.0 * 72.0 {
-      buildings[i].people = buildings[i].people - 1
+      building.people = building.people - 1
       loaded = loaded + 1
       heli.passengers = heli.passengers + 1
       burst_particles(parts, bx, by, 5, 2)
@@ -715,7 +715,7 @@ fn draw_city_bg(t : Float) -> Unit {
 
   // roads
   let road_x : Int = world_l.to_int()
-  for i = 0; i < 4; i = i + 1 {
+  for i in 0..<4 {
     let y : Int = 94 + i * 168
     @raylib.draw_rectangle(
       road_x,
@@ -724,7 +724,7 @@ fn draw_city_bg(t : Float) -> Unit {
       22,
       @raylib.Color::new(40, 46, 62, 236),
     )
-    for k = 0; k < 28; k = k + 1 {
+    for k in 0..<28 {
       let x : Int = road_x + k * 38
       @raylib.draw_rectangle(
         x + (t * 120.0).to_int() % 38,
@@ -736,7 +736,7 @@ fn draw_city_bg(t : Float) -> Unit {
     }
   }
 
-  for i = 0; i < 5; i = i + 1 {
+  for i in 0..<5 {
     let x : Int = 130 + i * 178
     @raylib.draw_rectangle(
       x,
@@ -748,7 +748,7 @@ fn draw_city_bg(t : Float) -> Unit {
   }
 
   // skyline lights
-  for i = 0; i < 44; i = i + 1 {
+  for i in 0..<44 {
     let fi : Float = Float::from_int(i)
     let x : Int = (fi * 71.0 + t * (20.0 + Float::from_int(i % 6) * 7.0)).to_int() %
       (world_r - world_l).to_int() +
@@ -828,7 +828,7 @@ fn draw_special_zones() -> Unit {
 
 ///|
 fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
-  for i = 0; i < buildings.length(); i = i + 1 {
+  for i in 0..<buildings.length() {
     if not(buildings[i].active) {
       continue
     }
@@ -853,8 +853,8 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
     )
 
     // windows
-    for wy = 0; wy < 4; wy = wy + 1 {
-      for wx = 0; wx < 5; wx = wx + 1 {
+    for wy in 0..<4 {
+      for wx in 0..<5 {
         let px : Int = bx + 12 + wx * ((bw - 24) / 5)
         let py : Int = by + 12 + wy * ((bh - 24) / 4)
 
@@ -871,7 +871,7 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
 
     if not(buildings[i].collapsed) {
       let fire_n : Int = clampi((buildings[i].fire / 18.0).to_int(), 0, 7)
-      for f = 0; f < fire_n; f = f + 1 {
+      for f in 0..<fire_n {
         let fx : Float = buildings[i].x + randf(10.0, buildings[i].w - 10.0)
         let fy : Float = buildings[i].y + randf(8.0, buildings[i].h - 8.0)
         let rr : Float = 6.0 +
@@ -892,7 +892,7 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
       }
 
       if buildings[i].fire > 0.0 {
-        for s = 0; s < 3; s = s + 1 {
+        for s in 0..<3 {
           let sx : Int = (buildings[i].x + randf(8.0, buildings[i].w - 8.0)).to_int()
           let sy : Int = (buildings[i].y -
           randf(8.0, 24.0) -
@@ -948,21 +948,21 @@ fn draw_buildings(buildings : Array[Building], t : Float) -> Unit {
 
 ///|
 fn draw_drops(drops : Array[WaterDrop]) -> Unit {
-  for i = 0; i < drops.length(); i = i + 1 {
-    if not(drops[i].active) {
+  for drop in drops {
+    if not(drop.active) {
       continue
     }
 
-    let c = if drops[i].kind == 0 {
+    let c = if drop.kind == 0 {
       @raylib.Color::new(118, 212, 252, 238)
     } else {
       @raylib.Color::new(146, 228, 255, 248)
     }
 
     @raylib.draw_circle(
-      drops[i].x.to_int(),
-      drops[i].y.to_int(),
-      3.0 + drops[i].power * 0.2,
+      drop.x.to_int(),
+      drop.y.to_int(),
+      3.0 + drop.power * 0.2,
       c,
     )
   }
@@ -1421,7 +1421,7 @@ fn main {
       // fire water action
       if fire_action && heli.fire_cd <= 0.0 && heli.water >= 2.0 {
         let n : Int = 6 + @raylib.get_random_value(0, 3)
-        for i = 0; i < n; i = i + 1 {
+        for i in 0..<n {
           let ax : Float = randf(-0.6, 0.6)
           let vx : Float = ax * 80.0 + heli.vx * 0.3
           let vy : Float = randf(120.0, 210.0)

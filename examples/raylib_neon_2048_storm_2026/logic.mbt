@@ -104,15 +104,15 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -127,26 +127,26 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(
       game,
       x + randf(-14.0, 14.0),
@@ -162,34 +162,34 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 2.5)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 2.2) + dt * 180.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 2.5)
+    spark.vy = spark.vy * (1.0 - dt * 2.2) + dt * 180.0
   }
 }
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.board.length(); i = i + 1 {
+  for i in 0..<game.board.length() {
     game.board[i] = 0
   }
 }
 
 ///|
 fn copy_board(dst : Array[Int], src : Array[Int]) -> Unit {
-  for i = 0; i < dst.length(); i = i + 1 {
+  for i in 0..<dst.length() {
     dst[i] = src[i]
   }
 }
@@ -251,8 +251,8 @@ fn line_index(line : Int, pos : Int, dir : Int) -> Int {
 fn spawn_tile(game : Game, kind : Int) -> Bool {
   let mut empty_count : Int = 0
 
-  for i = 0; i < game.board.length(); i = i + 1 {
-    if game.board[i] == 0 {
+  for board_elem in game.board {
+    if board_elem == 0 {
       empty_count = empty_count + 1
     }
   }
@@ -264,8 +264,8 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
   let pick : Int = @raylib.get_random_value(0, empty_count - 1)
   let mut seen : Int = 0
 
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       let i : Int = idx(x, y)
       if game.board[i] != 0 {
         continue
@@ -304,8 +304,8 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
 fn spawn_blocker(game : Game) -> Bool {
   let mut empty_count : Int = 0
 
-  for i = 0; i < game.board.length(); i = i + 1 {
-    if game.board[i] == 0 {
+  for board_elem in game.board {
+    if board_elem == 0 {
       empty_count = empty_count + 1
     }
   }
@@ -317,8 +317,8 @@ fn spawn_blocker(game : Game) -> Bool {
   let pick : Int = @raylib.get_random_value(0, empty_count - 1)
   let mut seen : Int = 0
 
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       let i : Int = idx(x, y)
       if game.board[i] != 0 {
         continue
@@ -380,8 +380,8 @@ fn start_match(game : Game) -> Unit {
 
 ///|
 fn board_has_move(game : Game) -> Bool {
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       let i : Int = idx(x, y)
       let v : Int = game.board[i]
 
@@ -455,7 +455,7 @@ fn process_line(
   dir : Int,
 ) -> (Bool, Int, Int, Int, Int) {
   // returns: changed, score_add, max_seen, charge_add, merges
-  for p = 0; p < board_n; p = p + 1 {
+  for p in 0..<board_n {
     game.line_vals[p] = game.board[line_index(line, p, dir)]
     game.line_out[p] = game.line_vals[p]
   }
@@ -481,7 +481,7 @@ fn process_line(
     let pack : Array[Int] = Array::make(board_n, 0)
     let mut len : Int = 0
 
-    for p = seg_start; p < seg_end; p = p + 1 {
+    for p in seg_start..<seg_end {
       let v : Int = game.line_vals[p]
       if v > 0 {
         pack[len] = v
@@ -527,7 +527,7 @@ fn process_line(
 
   let mut changed : Bool = false
 
-  for p = 0; p < board_n; p = p + 1 {
+  for p in 0..<board_n {
     if game.line_vals[p] != game.line_out[p] {
       changed = true
     }
@@ -551,7 +551,7 @@ fn try_move(game : Game, dir : Int) -> Bool {
   let mut max_seen : Int = game.max_tile
   let mut merge_count : Int = 0
 
-  for line = 0; line < board_n; line = line + 1 {
+  for line in 0..<board_n {
     let r = process_line(game, line, dir)
     if r.0 {
       changed_any = true

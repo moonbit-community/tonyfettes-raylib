@@ -2,7 +2,7 @@
 fn draw_background(game : Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(13, 10, 8, 255))
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y = i * 70 - 24
     @raylib.draw_rectangle(
       0,
@@ -48,24 +48,24 @@ fn draw_world_bounds() -> Unit {
 
 ///|
 fn draw_hazards(game : Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    let col = if game.hazards[i].kind == hazard_kind_lava {
+  for hazard in game.hazards {
+    let col = if hazard.kind == hazard_kind_lava {
       @raylib.Color::new(168, 50, 18, 222)
     } else {
       @raylib.Color::new(120, 30, 24, 222)
     }
     @raylib.draw_rectangle(
-      game.hazards[i].x.to_int(),
-      game.hazards[i].y.to_int(),
-      game.hazards[i].w.to_int(),
-      game.hazards[i].h.to_int(),
+      hazard.x.to_int(),
+      hazard.y.to_int(),
+      hazard.w.to_int(),
+      hazard.h.to_int(),
       col,
     )
     @raylib.draw_rectangle_lines(
-      game.hazards[i].x.to_int(),
-      game.hazards[i].y.to_int(),
-      game.hazards[i].w.to_int(),
-      game.hazards[i].h.to_int(),
+      hazard.x.to_int(),
+      hazard.y.to_int(),
+      hazard.w.to_int(),
+      hazard.h.to_int(),
       @raylib.Color::new(255, 162, 108, 220),
     )
   }
@@ -73,28 +73,28 @@ fn draw_hazards(game : Game) -> Unit {
 
 ///|
 fn draw_traps(game : Game) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    let hot = trap_is_hot(game.traps[i])
+  for trap in game.traps {
+    let hot = trap_is_hot(trap)
     let base_col = if hot {
       @raylib.Color::new(242, 78, 52, 236)
-    } else if game.traps[i].kind == trap_kind_spike {
+    } else if trap.kind == trap_kind_spike {
       @raylib.Color::new(86, 72, 70, 226)
     } else {
       @raylib.Color::new(64, 84, 96, 226)
     }
 
     @raylib.draw_rectangle(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
-      game.traps[i].w.to_int(),
-      game.traps[i].h.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
+      trap.w.to_int(),
+      trap.h.to_int(),
       base_col,
     )
     @raylib.draw_rectangle_lines(
-      game.traps[i].x.to_int(),
-      game.traps[i].y.to_int(),
-      game.traps[i].w.to_int(),
-      game.traps[i].h.to_int(),
+      trap.x.to_int(),
+      trap.y.to_int(),
+      trap.w.to_int(),
+      trap.h.to_int(),
       if hot {
         @raylib.Color::new(255, 206, 186, 250)
       } else {
@@ -105,8 +105,8 @@ fn draw_traps(game : Game) -> Unit {
     if hot {
       @raylib.draw_text(
         "HOT",
-        game.traps[i].x.to_int() + 8,
-        game.traps[i].y.to_int() + 6,
+        trap.x.to_int() + 8,
+        trap.y.to_int() + 6,
         16,
         @raylib.Color::new(255, 236, 232, 248),
       )
@@ -116,29 +116,29 @@ fn draw_traps(game : Game) -> Unit {
 
 ///|
 fn draw_plates(game : Game) -> Unit {
-  for i = 0; i < game.plates.length(); i = i + 1 {
+  for plate in game.plates {
     @raylib.draw_rectangle(
-      game.plates[i].x.to_int(),
-      game.plates[i].y.to_int(),
-      game.plates[i].w.to_int(),
-      game.plates[i].h.to_int(),
-      if game.plates[i].pressed {
+      plate.x.to_int(),
+      plate.y.to_int(),
+      plate.w.to_int(),
+      plate.h.to_int(),
+      if plate.pressed {
         @raylib.Color::new(40, 122, 96, 232)
       } else {
         @raylib.Color::new(58, 82, 62, 220)
       },
     )
     @raylib.draw_rectangle_lines(
-      game.plates[i].x.to_int(),
-      game.plates[i].y.to_int(),
-      game.plates[i].w.to_int(),
-      game.plates[i].h.to_int(),
+      plate.x.to_int(),
+      plate.y.to_int(),
+      plate.w.to_int(),
+      plate.h.to_int(),
       @raylib.Color::new(186, 234, 210, 220),
     )
     @raylib.draw_text(
       "PLATE",
-      game.plates[i].x.to_int() + 18,
-      game.plates[i].y.to_int() + 32,
+      plate.x.to_int() + 18,
+      plate.y.to_int() + 32,
       16,
       @raylib.Color::new(232, 250, 236, 246),
     )
@@ -147,33 +147,33 @@ fn draw_plates(game : Game) -> Unit {
 
 ///|
 fn draw_doors(game : Game) -> Unit {
-  for i = 0; i < game.doors.length(); i = i + 1 {
-    let ratio : Float = if game.doors[i].hold_time > 0.0 {
-      clampf(game.doors[i].timer / game.doors[i].hold_time, 0.0, 1.0)
+  for door in game.doors {
+    let ratio : Float = if door.hold_time > 0.0 {
+      clampf(door.timer / door.hold_time, 0.0, 1.0)
     } else {
       0.0
     }
 
     let open_alpha : Int = 96 + (ratio * Float::from_int(90)).to_int()
-    let door_col = if game.doors[i].open {
+    let door_col = if door.open {
       @raylib.Color::new(62, 174, 140, open_alpha)
     } else {
       @raylib.Color::new(118, 68, 34, 248)
     }
 
     @raylib.draw_rectangle(
-      game.doors[i].x.to_int(),
-      game.doors[i].y.to_int(),
-      game.doors[i].w.to_int(),
-      game.doors[i].h.to_int(),
+      door.x.to_int(),
+      door.y.to_int(),
+      door.w.to_int(),
+      door.h.to_int(),
       door_col,
     )
     @raylib.draw_rectangle_lines(
-      game.doors[i].x.to_int(),
-      game.doors[i].y.to_int(),
-      game.doors[i].w.to_int(),
-      game.doors[i].h.to_int(),
-      if game.doors[i].open {
+      door.x.to_int(),
+      door.y.to_int(),
+      door.w.to_int(),
+      door.h.to_int(),
+      if door.open {
         @raylib.Color::new(206, 248, 220, 232)
       } else {
         @raylib.Color::new(236, 184, 124, 232)
@@ -184,7 +184,7 @@ fn draw_doors(game : Game) -> Unit {
 
 ///|
 fn draw_relics(game : Game) -> Unit {
-  for i = 0; i < game.relics.length(); i = i + 1 {
+  for i in 0..<game.relics.length() {
     if not(game.relics[i].active) {
       continue
     }

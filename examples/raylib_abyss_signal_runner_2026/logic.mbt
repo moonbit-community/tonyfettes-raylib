@@ -1,55 +1,55 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    game.objs[i].active = false
-    game.objs[i].kind = obj_rock
-    game.objs[i].x = 0.0
-    game.objs[i].y = 0.0
-    game.objs[i].vx = 0.0
-    game.objs[i].vy = 0.0
-    game.objs[i].r = 0.0
-    game.objs[i].cloak = false
-    game.objs[i].spin = 0.0
-    game.objs[i].life = 0.0
+  for obj in game.objs {
+    obj.active = false
+    obj.kind = obj_rock
+    obj.x = 0.0
+    obj.y = 0.0
+    obj.vx = 0.0
+    obj.vy = 0.0
+    obj.r = 0.0
+    obj.cloak = false
+    obj.spin = 0.0
+    obj.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_ripples(game : Game) -> Unit {
-  for i = 0; i < game.ripples.length(); i = i + 1 {
-    game.ripples[i].active = false
-    game.ripples[i].x = 0.0
-    game.ripples[i].y = 0.0
-    game.ripples[i].r = 0.0
-    game.ripples[i].life = 0.0
-    game.ripples[i].kind = 0
+  for ripple in game.ripples {
+    ripple.active = false
+    ripple.x = 0.0
+    ripple.y = 0.0
+    ripple.r = 0.0
+    ripple.life = 0.0
+    ripple.kind = 0
   }
 }
 
 ///|
 fn clear_trails(game : Game) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    game.trails[i].active = false
-    game.trails[i].x = 0.0
-    game.trails[i].y = 0.0
-    game.trails[i].w = 0.0
-    game.trails[i].h = 0.0
-    game.trails[i].life = 0.0
-    game.trails[i].kind = 0
+  for trail in game.trails {
+    trail.active = false
+    trail.x = 0.0
+    trail.y = 0.0
+    trail.w = 0.0
+    trail.h = 0.0
+    trail.life = 0.0
+    trail.kind = 0
   }
 }
 
@@ -67,7 +67,7 @@ fn reset_hero(hero : Player) -> Unit {
 
 ///|
 fn alloc_obj(game : Game) -> Int {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
     }
@@ -75,7 +75,7 @@ fn alloc_obj(game : Game) -> Int {
 
   let mut best = 0
   let mut best_y = game.objs[0].y
-  for i = 1; i < game.objs.length(); i = i + 1 {
+  for i in 1..<game.objs.length() {
     if game.objs[i].y > best_y {
       best_y = game.objs[i].y
       best = i
@@ -86,7 +86,7 @@ fn alloc_obj(game : Game) -> Int {
 
 ///|
 fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -94,7 +94,7 @@ fn alloc_particle(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.particles[0].life
-  for i = 1; i < game.particles.length(); i = i + 1 {
+  for i in 1..<game.particles.length() {
     if game.particles[i].life < best_life {
       best_life = game.particles[i].life
       best = i
@@ -105,7 +105,7 @@ fn alloc_particle(game : Game) -> Int {
 
 ///|
 fn alloc_ripple(game : Game) -> Int {
-  for i = 0; i < game.ripples.length(); i = i + 1 {
+  for i in 0..<game.ripples.length() {
     if not(game.ripples[i].active) {
       return i
     }
@@ -113,7 +113,7 @@ fn alloc_ripple(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.ripples[0].life
-  for i = 1; i < game.ripples.length(); i = i + 1 {
+  for i in 1..<game.ripples.length() {
     if game.ripples[i].life < best_life {
       best_life = game.ripples[i].life
       best = i
@@ -124,7 +124,7 @@ fn alloc_ripple(game : Game) -> Int {
 
 ///|
 fn alloc_trail(game : Game) -> Int {
-  for i = 0; i < game.trails.length(); i = i + 1 {
+  for i in 0..<game.trails.length() {
     if not(game.trails[i].active) {
       return i
     }
@@ -132,7 +132,7 @@ fn alloc_trail(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.trails[0].life
-  for i = 1; i < game.trails.length(); i = i + 1 {
+  for i in 1..<game.trails.length() {
     if game.trails[i].life < best_life {
       best_life = game.trails[i].life
       best = i
@@ -165,7 +165,7 @@ fn emit_particle(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -396,7 +396,7 @@ fn spawn_wave(game : Game, y : Float) -> Unit {
     count = count + randi(0, 1)
   }
 
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let mut roll = randi(0, 99)
 
     if game.oxygen < 36.0 && chance(40) {
@@ -510,21 +510,21 @@ fn trigger_sonar(game : Game) -> Unit {
   let reveal2 = sonar_reveal_r * sonar_reveal_r
   let destroy2 = sonar_destroy_r * sonar_destroy_r
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if not(game.objs[i].active) {
+  for obj in game.objs {
+    if not(obj.active) {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.objs[i].x, game.objs[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, obj.x, obj.y)
 
     if d2 <= reveal2 {
-      game.objs[i].cloak = false
+      obj.cloak = false
     }
 
-    if game.objs[i].kind == obj_mine && d2 <= destroy2 {
-      let ox = game.objs[i].x
-      let oy = game.objs[i].y
-      game.objs[i].active = false
+    if obj.kind == obj_mine && d2 <= destroy2 {
+      let ox = obj.x
+      let oy = obj.y
+      obj.active = false
       add_score(game, 120)
       push_combo(game)
       burst(game, ox, oy, 16, 1)
@@ -643,7 +643,7 @@ fn hit_obj(game : Game, i : Int, base_score : Int, burst_kind : Int) -> Unit {
 fn update_objects(game : Game, dt : Float) -> Unit {
   let hero_dash_hit = game.dash_t > 0.0
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -767,47 +767,47 @@ fn update_objects(game : Game, dt : Float) -> Unit {
 fn update_particles(game : Game, dt : Float) -> Unit {
   let flow = game.scroll_speed * 0.22
 
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y +
-      (game.particles[i].vy + flow) * dt
-    game.particles[i].life = game.particles[i].life - dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y +
+      (particle.vy + flow) * dt
+    particle.life = particle.life - dt
 
-    let expired = game.particles[i].life <= 0.0 ||
-      game.particles[i].y > Float::from_int(screen_h) + 48.0
+    let expired = particle.life <= 0.0 ||
+      particle.y > Float::from_int(screen_h) + 48.0
     if expired {
-      game.particles[i].active = false
+      particle.active = false
     }
   }
 
-  for i = 0; i < game.ripples.length(); i = i + 1 {
-    if not(game.ripples[i].active) {
+  for ripple in game.ripples {
+    if not(ripple.active) {
       continue
     }
 
-    game.ripples[i].life = game.ripples[i].life - dt
-    game.ripples[i].r = game.ripples[i].r +
-      (110.0 + Float::from_int(game.ripples[i].kind) * 46.0) * dt
+    ripple.life = ripple.life - dt
+    ripple.r = ripple.r +
+      (110.0 + Float::from_int(ripple.kind) * 46.0) * dt
 
-    if game.ripples[i].life <= 0.0 {
-      game.ripples[i].active = false
+    if ripple.life <= 0.0 {
+      ripple.active = false
     }
   }
 
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    if not(game.trails[i].active) {
+  for trail in game.trails {
+    if not(trail.active) {
       continue
     }
 
-    game.trails[i].y = game.trails[i].y + game.scroll_speed * 0.18 * dt
-    game.trails[i].life = game.trails[i].life - dt
+    trail.y = trail.y + game.scroll_speed * 0.18 * dt
+    trail.life = trail.life - dt
 
-    if game.trails[i].life <= 0.0 {
-      game.trails[i].active = false
+    if trail.life <= 0.0 {
+      trail.active = false
     }
   }
 }

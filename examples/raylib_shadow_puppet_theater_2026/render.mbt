@@ -27,7 +27,7 @@ fn draw_thick_line(
 fn draw_backdrop(game : Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 8, 14, 255))
 
-  for i = 0; i < 13; i = i + 1 {
+  for i in 0..<13 {
     let wave : Float = sinf(game.scene_t * 0.42 + Float::from_int(i) * 0.57) *
       10.0
     let y = i * 82 + wave.to_int()
@@ -114,7 +114,7 @@ fn draw_stage_screen(game : Game) -> Unit {
     @raylib.Color::new(warmth, warmth - 22, warmth - 64, alpha),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y = stage_screen_y + 14 + i * 42
     @raylib.draw_line(
       stage_screen_x + 12,
@@ -280,7 +280,7 @@ fn draw_audience(game : Game) -> Unit {
   let base_y = screen_h - 34
   let cheer_amp : Float = 2.0 + game.excitement * 0.12
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let x = 42 + i * 74
     let bounce_f : Float = sinf(game.scene_t * 2.6 + Float::from_int(i) * 0.44) *
       cheer_amp
@@ -318,7 +318,7 @@ fn draw_sequence_strip(game : Game) -> Unit {
   let start_x = stage_screen_x + stage_screen_w / 2 - full_w / 2
   let y = 28
 
-  for i = 0; i < total; i = i + 1 {
+  for i in 0..<total {
     let x = start_x + i * (card_w + gap)
 
     let frame = if i < game.target_idx {

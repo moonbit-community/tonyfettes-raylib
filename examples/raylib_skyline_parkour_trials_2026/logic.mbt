@@ -250,7 +250,7 @@ fn add_bonus_time(game : Game, amount_s : Int) -> Unit {
 ///|
 fn hero_hits_hazard(game : Game) -> Bool {
   let hero = game.hero
-  for i = 0; i < game.tile_count; i = i + 1 {
+  for i in 0..<game.tile_count {
     let t = game.tiles[i]
     if t.kind != tile_hazard {
       continue
@@ -266,7 +266,7 @@ fn hero_hits_hazard(game : Game) -> Bool {
 ///|
 fn collect_checkpoints(game : Game) -> Unit {
   let hero = game.hero
-  for i = 0; i < game.checkpoint_count; i = i + 1 {
+  for i in 0..<game.checkpoint_count {
     if game.checkpoints[i].taken {
       continue
     }
@@ -316,7 +316,7 @@ fn move_hero_x(game : Game, dt : Float) -> Unit {
     hero.wall_window_t = wall_jump_window
   }
 
-  for i = 0; i < game.tile_count; i = i + 1 {
+  for i in 0..<game.tile_count {
     let t = game.tiles[i]
     if t.kind != tile_solid {
       continue
@@ -344,7 +344,7 @@ fn move_hero_y(game : Game, dt : Float) -> Unit {
   hero.on_ground = false
   hero.y = hero.y + hero.vy * dt
 
-  for i = 0; i < game.tile_count; i = i + 1 {
+  for i in 0..<game.tile_count {
     let t = game.tiles[i]
     if t.kind != tile_solid {
       continue

@@ -175,16 +175,16 @@ fn draw_gate(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.nodes.length() {
-    if not(game.nodes[i].active) {
+  for node in game.nodes {
+    if not(node.active) {
       continue
     }
 
-    let x = cell_center_x(game.nodes[i].gx) + cam_x
-    let y = cell_center_y(game.nodes[i].gy) + cam_y
-    let level_f = Float::from_int(game.nodes[i].level)
-    let radius : Float = 13.0 + level_f * 3.8 + game.nodes[i].pulse * 2.4
-    let node_col = col_node(game.nodes[i].level)
+    let x = cell_center_x(node.gx) + cam_x
+    let y = cell_center_y(node.gy) + cam_y
+    let level_f = Float::from_int(node.level)
+    let radius : Float = 13.0 + level_f * 3.8 + node.pulse * 2.4
+    let node_col = col_node(node.level)
 
     @raylib.draw_circle(
       x.to_int(),
@@ -202,12 +202,12 @@ fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
-      node_range(game.nodes[i].level),
+      node_range(node.level),
       alpha_col(node_col, 36),
     )
 
-    let dx = dir_vec_x(game.nodes[i].facing)
-    let dy = dir_vec_y(game.nodes[i].facing)
+    let dx = dir_vec_x(node.facing)
+    let dy = dir_vec_y(node.facing)
     let tip_x = x + dx * (20.0 + level_f * 4.0)
     let tip_y = y + dy * (20.0 + level_f * 4.0)
 
@@ -229,26 +229,26 @@ fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.enemies.length() {
-    if not(game.enemies[i].active) {
+  for enemy in game.enemies {
+    if not(enemy.active) {
       continue
     }
 
-    let x = game.enemies[i].x + cam_x
-    let y = game.enemies[i].y + cam_y
-    let col = col_enemy(game.enemies[i].kind)
+    let x = enemy.x + cam_x
+    let y = enemy.y + cam_y
+    let col = col_enemy(enemy.kind)
 
     @raylib.draw_circle(
       x.to_int(),
       y.to_int(),
-      game.enemies[i].radius,
+      enemy.radius,
       alpha_col(col, 220),
     )
 
-    if game.enemies[i].kind == enemy_kind_wraith {
-      let aura = game.enemies[i].radius +
+    if enemy.kind == enemy_kind_wraith {
+      let aura = enemy.radius +
         4.0 +
-        sinf(game.time_s * 8.0 + game.enemies[i].phase) * 2.0
+        sinf(game.time_s * 8.0 + enemy.phase) * 2.0
       @raylib.draw_circle_lines(
         x.to_int(),
         y.to_int(),
@@ -258,13 +258,13 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
 
     let hp_ratio = clampf(
-      game.enemies[i].hp / maxf(game.enemies[i].max_hp, 1.0),
+      enemy.hp / maxf(enemy.max_hp, 1.0),
       0.0,
       1.0,
     )
-    let bw = (game.enemies[i].radius * 2.2).to_int()
+    let bw = (enemy.radius * 2.2).to_int()
     let bx = x.to_int() - bw / 2
-    let by = y.to_int() - game.enemies[i].radius.to_int() - 9
+    let by = y.to_int() - enemy.radius.to_int() - 9
 
     @raylib.draw_rectangle(bx, by, bw, 4, @raylib.Color::new(26, 30, 44, 220))
     @raylib.draw_rectangle(
@@ -279,15 +279,15 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bolts(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.bolts.length() {
-    if not(game.bolts[i].active) {
+  for bolt in game.bolts {
+    if not(bolt.active) {
       continue
     }
 
-    let x = game.bolts[i].x + cam_x
-    let y = game.bolts[i].y + cam_y
-    let tail_x = x - game.bolts[i].vx * 0.018
-    let tail_y = y - game.bolts[i].vy * 0.018
+    let x = bolt.x + cam_x
+    let y = bolt.y + cam_y
+    let tail_x = x - bolt.vx * 0.018
+    let tail_y = y - bolt.vy * 0.018
 
     @raylib.draw_line(
       tail_x.to_int(),
@@ -313,21 +313,21 @@ fn pulse_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_pulses(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i in 0..<game.pulses.length() {
-    if not(game.pulses[i].active) {
+  for pulse in game.pulses {
+    if not(pulse.active) {
       continue
     }
 
     let ratio = clampf(
-      game.pulses[i].life / maxf(game.pulses[i].max_life, 0.0001),
+      pulse.life / maxf(pulse.max_life, 0.0001),
       0.0,
       1.0,
     )
     @raylib.draw_circle_lines(
-      (game.pulses[i].x + cam_x).to_int(),
-      (game.pulses[i].y + cam_y).to_int(),
-      game.pulses[i].radius,
-      alpha_col(pulse_col(game.pulses[i].kind), (ratio * 190.0).to_int()),
+      (pulse.x + cam_x).to_int(),
+      (pulse.y + cam_y).to_int(),
+      pulse.radius,
+      alpha_col(pulse_col(pulse.kind), (ratio * 190.0).to_int()),
     )
   }
 }

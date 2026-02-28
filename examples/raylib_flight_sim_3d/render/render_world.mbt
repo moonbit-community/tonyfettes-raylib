@@ -43,10 +43,9 @@ fn build_camera(game : @types.Game) -> @raylib.Camera3D {
 ///|
 fn draw_terrain(game : @types.Game) -> Unit {
   let scale = @types.terrain_chunk_scale
-  for i = 0; i < game.terrain.length(); i = i + 1 {
-    let t = game.terrain[i]
+  for t in game.terrain {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     let wx = Float::from_int(t.grid_x) * scale
     let wz = Float::from_int(t.grid_z) * scale
@@ -75,15 +74,14 @@ fn draw_terrain(game : @types.Game) -> Unit {
 
 ///|
 fn draw_checkpoints(game : @types.Game) -> Unit {
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) || cp.collected {
-      continue i + 1
+      continue
     }
     // Draw checkpoint ring using cubes arranged in a circle
     let segments = 12
     let radius = cp.radius * 0.5
-    for s = 0; s < segments; s = s + 1 {
+    for s in 0..<segments {
       let angle = Float::from_int(s) *
         @types.pi *
         2.0 /
@@ -101,7 +99,7 @@ fn draw_checkpoints(game : @types.Game) -> Unit {
       )
     }
     // Also draw ring in XZ plane
-    for s = 0; s < segments; s = s + 1 {
+    for s in 0..<segments {
       let angle = Float::from_int(s) *
         @types.pi *
         2.0 /
@@ -121,10 +119,9 @@ fn draw_checkpoints(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Check distance to player for culling
     let dist = @types.distance3d(
@@ -136,7 +133,7 @@ fn draw_enemies(game : @types.Game) -> Unit {
       e.z,
     )
     if dist > game.draw_distance {
-      continue i + 1
+      continue
     }
     if e.kind == @types.enemy_type_ground {
       // Ground turret: box base + cylinder barrel
@@ -221,10 +218,9 @@ fn draw_enemies(game : @types.Game) -> Unit {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let color = if p.is_enemy {
       @raylib.Color::new(255, 80, 30, 255)
@@ -251,10 +247,9 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)
@@ -349,10 +344,9 @@ fn draw_player_aircraft(game : @types.Game) -> Unit {
 
 ///|
 fn draw_buildings(game : @types.Game) -> Unit {
-  for i = 0; i < game.buildings.length(); i = i + 1 {
-    let b = game.buildings[i]
+  for b in game.buildings {
     if not(b.active) {
-      continue i + 1
+      continue
     }
     // Distance culling
     let dist = @types.distance3d(
@@ -364,7 +358,7 @@ fn draw_buildings(game : @types.Game) -> Unit {
       b.z,
     )
     if dist > game.draw_distance {
-      continue i + 1
+      continue
     }
     let flash = b.flash_timer > 0.0
     if b.kind == @types.building_hangar {
@@ -452,7 +446,7 @@ fn draw_buildings(game : @types.Game) -> Unit {
       )
       // Center line markings
       let num_marks = 5
-      for m = 0; m < num_marks; m = m + 1 {
+      for m in 0..<num_marks {
         let mark_z = b.z - b.depth * 0.4 + Float::from_int(m) * b.depth * 0.2
         @raylib.draw_cube(
           @raylib.Vector3::new(b.x, b.y + 0.12, mark_z),
@@ -583,10 +577,9 @@ fn draw_buildings(game : @types.Game) -> Unit {
 
 ///|
 fn draw_turrets_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.turrets.length(); i = i + 1 {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     // Distance culling
     let dist = @types.distance3d(
@@ -598,7 +591,7 @@ fn draw_turrets_3d(game : @types.Game) -> Unit {
       t.z,
     )
     if dist > game.draw_distance {
-      continue i + 1
+      continue
     }
     let flash = t.flash_timer > 0.0
     // Base platform
@@ -679,17 +672,16 @@ fn draw_turrets_3d(game : @types.Game) -> Unit {
 fn draw_terrain_details(game : @types.Game) -> Unit {
   let scale = @types.terrain_chunk_scale
   let detail_range : Float = 50.0
-  for i = 0; i < game.terrain.length(); i = i + 1 {
-    let t = game.terrain[i]
+  for t in game.terrain {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     let wx = Float::from_int(t.grid_x) * scale
     let wz = Float::from_int(t.grid_z) * scale
     // Only draw details for nearby terrain
     let dist = @types.distance2d(game.player.x, game.player.z, wx, wz)
     if dist > detail_range {
-      continue i + 1
+      continue
     }
     let h = t.height
     // Trees on forest-height terrain
@@ -784,7 +776,7 @@ fn draw_landing_zone(game : @types.Game) -> Unit {
   let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.15)
   let alpha = 180 + (pulse * 75.0).to_int()
   let a = @types.clampi(alpha, 0, 255)
-  for i = -4; i <= 4; i = i + 1 {
+  for i in -4..=4 {
     let offset_z = Float::from_int(i) * 4.0
     @raylib.draw_cube(
       @raylib.Vector3::new(lx + 2.8, ly + 0.3, lz + offset_z),

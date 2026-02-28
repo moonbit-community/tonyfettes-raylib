@@ -136,50 +136,50 @@ fn lane_y(lane : Int) -> Float {
 
 ///|
 fn clear_obstacles(obstacles : Array[Obstacle]) -> Unit {
-  for i = 0; i < obstacles.length(); i = i + 1 {
-    obstacles[i].x = 0.0
-    obstacles[i].lane = 0
-    obstacles[i].kind = 0
-    obstacles[i].w = 0.0
-    obstacles[i].h = 0.0
-    obstacles[i].y_off = 0.0
-    obstacles[i].hp = 0
-    obstacles[i].active = false
+  for obstacle in obstacles {
+    obstacle.x = 0.0
+    obstacle.lane = 0
+    obstacle.kind = 0
+    obstacle.w = 0.0
+    obstacle.h = 0.0
+    obstacle.y_off = 0.0
+    obstacle.hp = 0
+    obstacle.active = false
   }
 }
 
 ///|
 fn clear_coins(coins : Array[Coin]) -> Unit {
-  for i = 0; i < coins.length(); i = i + 1 {
-    coins[i].x = 0.0
-    coins[i].lane = 0
-    coins[i].y_off = 0.0
-    coins[i].value = 0
-    coins[i].active = false
+  for coin in coins {
+    coin.x = 0.0
+    coin.lane = 0
+    coin.y_off = 0.0
+    coin.value = 0
+    coin.active = false
   }
 }
 
 ///|
 fn clear_powerups(powerups : Array[Powerup]) -> Unit {
-  for i = 0; i < powerups.length(); i = i + 1 {
-    powerups[i].x = 0.0
-    powerups[i].lane = 0
-    powerups[i].kind = 0
-    powerups[i].y_off = 0.0
-    powerups[i].active = false
+  for powerup in powerups {
+    powerup.x = 0.0
+    powerup.lane = 0
+    powerup.kind = 0
+    powerup.y_off = 0.0
+    powerup.active = false
   }
 }
 
 ///|
 fn clear_particles(particles : Array[Particle]) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
-    particles[i].x = 0.0
-    particles[i].y = 0.0
-    particles[i].vx = 0.0
-    particles[i].vy = 0.0
-    particles[i].ttl = 0.0
-    particles[i].kind = 0
-    particles[i].active = false
+  for particle in particles {
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.ttl = 0.0
+    particle.kind = 0
+    particle.active = false
   }
 }
 
@@ -203,21 +203,21 @@ fn burst_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < particles.length(); i = i + 1 {
+  for particle in particles {
     if done {
       continue
     }
-    if not(particles[i].active) {
-      particles[i].active = true
-      particles[i].x = x
-      particles[i].y = y
-      particles[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) *
+    if not(particle.active) {
+      particle.active = true
+      particle.x = x
+      particle.y = y
+      particle.vx = Float::from_int(@raylib.get_random_value(-260, 260)) *
         speed
-      particles[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+      particle.vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed
-      particles[i].ttl = Float::from_int(@raylib.get_random_value(12, 54)) /
+      particle.ttl = Float::from_int(@raylib.get_random_value(12, 54)) /
         Float::from_int(100)
-      particles[i].kind = kind
+      particle.kind = kind
       done = true
     }
   }
@@ -232,7 +232,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     burst_particle(particles, x, y, speed, kind)
   }
 }
@@ -279,15 +279,15 @@ fn spawn_obstacle(
   let wobble = Float::from_int((wave_t * 100.0).to_int() % 120 - 60)
 
   let mut done = false
-  for i = 0; i < obstacles.length(); i = i + 1 {
+  for obstacle in obstacles {
     if done {
       continue
     }
-    if not(obstacles[i].active) {
-      obstacles[i].active = true
-      obstacles[i].lane = lane
-      obstacles[i].x = Float::from_int(sw + 140) + wobble
-      set_obstacle_shape(obstacles[i], kind)
+    if not(obstacle.active) {
+      obstacle.active = true
+      obstacle.lane = lane
+      obstacle.x = Float::from_int(sw + 140) + wobble
+      set_obstacle_shape(obstacle, kind)
       done = true
     }
   }
@@ -312,16 +312,16 @@ fn spawn_coin(coins : Array[Coin], level : Int, wave_t : Float) -> Unit {
   let bob = Float::from_int((wave_t * 120.0).to_int() % 90 - 45) * 0.6
 
   let mut done = false
-  for i = 0; i < coins.length(); i = i + 1 {
+  for coin in coins {
     if done {
       continue
     }
-    if not(coins[i].active) {
-      coins[i].active = true
-      coins[i].lane = lane
-      coins[i].x = Float::from_int(sw + @raylib.get_random_value(40, 220))
-      coins[i].y_off = y_off + bob
-      coins[i].value = value
+    if not(coin.active) {
+      coin.active = true
+      coin.lane = lane
+      coin.x = Float::from_int(sw + @raylib.get_random_value(40, 220))
+      coin.y_off = y_off + bob
+      coin.value = value
       done = true
     }
   }
@@ -340,16 +340,16 @@ fn spawn_powerup(powerups : Array[Powerup]) -> Unit {
   }
 
   let mut done = false
-  for i = 0; i < powerups.length(); i = i + 1 {
+  for powerup in powerups {
     if done {
       continue
     }
-    if not(powerups[i].active) {
-      powerups[i].active = true
-      powerups[i].lane = lane
-      powerups[i].kind = kind
-      powerups[i].x = Float::from_int(sw + @raylib.get_random_value(80, 320))
-      powerups[i].y_off = y_off
+    if not(powerup.active) {
+      powerup.active = true
+      powerup.lane = lane
+      powerup.kind = kind
+      powerup.x = Float::from_int(sw + @raylib.get_random_value(80, 320))
+      powerup.y_off = y_off
       done = true
     }
   }
@@ -720,35 +720,35 @@ fn main {
       let run_x = runner.x
       let run_y = runner.y - 28.0
 
-      for i = 0; i < obstacles.length(); i = i + 1 {
-        if not(obstacles[i].active) {
+      for obstacle in obstacles {
+        if not(obstacle.active) {
           continue
         }
 
-        let obstacle_speed = if obstacles[i].kind == 2 {
+        let obstacle_speed = if obstacle.kind == 2 {
           speed + 90.0
         } else {
           speed
         }
-        obstacles[i].x = obstacles[i].x - obstacle_speed * dt
+        obstacle.x = obstacle.x - obstacle_speed * dt
 
-        if obstacles[i].x < -160.0 {
-          obstacles[i].active = false
+        if obstacle.x < -160.0 {
+          obstacle.active = false
           continue
         }
 
-        let ox = obstacles[i].x
-        let oy = obstacle_hit_center_y(obstacles[i])
+        let ox = obstacle.x
+        let oy = obstacle_hit_center_y(obstacle)
 
-        let hit_x = absf(run_x - ox) <= obstacles[i].w * 0.5 + 20.0
-        let hit_y = absf(run_y - oy) <= obstacles[i].h * 0.5 + 24.0
+        let hit_x = absf(run_x - ox) <= obstacle.w * 0.5 + 20.0
+        let hit_y = absf(run_y - oy) <= obstacle.h * 0.5 + 24.0
 
         if hit_x && hit_y {
           if runner.dash_t > 0.0 {
-            obstacles[i].hp = obstacles[i].hp - 1
+            obstacle.hp = obstacle.hp - 1
             burst(particles, ox, oy, 12, 0.30, 1)
-            if obstacles[i].hp <= 0 {
-              obstacles[i].active = false
+            if obstacle.hp <= 0 {
+              obstacle.active = false
               stage_score = stage_score + 55
               total_score = total_score + 55
               msg = "Smash bonus +55"
@@ -771,66 +771,66 @@ fn main {
         }
       }
 
-      for i = 0; i < coins.length(); i = i + 1 {
-        if not(coins[i].active) {
+      for coin in coins {
+        if not(coin.active) {
           continue
         }
 
-        coins[i].x = coins[i].x - speed * dt
+        coin.x = coin.x - speed * dt
 
         if magnet_t > 0.0 {
-          let cy = lane_y(coins[i].lane) + coins[i].y_off
-          let dx = run_x - coins[i].x
+          let cy = lane_y(coin.lane) + coin.y_off
+          let dx = run_x - coin.x
           let dy = run_y - cy
           let d2 = dx * dx + dy * dy
           if d2 < 210.0 * 210.0 {
             let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
-            coins[i].x = coins[i].x + dx / d * 360.0 * dt
-            coins[i].y_off = coins[i].y_off + dy / d * 360.0 * dt
+            coin.x = coin.x + dx / d * 360.0 * dt
+            coin.y_off = coin.y_off + dy / d * 360.0 * dt
           }
         }
 
-        if coins[i].x < -80.0 {
-          coins[i].active = false
+        if coin.x < -80.0 {
+          coin.active = false
           continue
         }
 
-        let cy = lane_y(coins[i].lane) + coins[i].y_off
-        if sqdist(run_x, run_y, coins[i].x, cy) <= 30.0 * 30.0 {
-          let gain = coins[i].value * 14
+        let cy = lane_y(coin.lane) + coin.y_off
+        if sqdist(run_x, run_y, coin.x, cy) <= 30.0 * 30.0 {
+          let gain = coin.value * 14
           stage_score = stage_score + gain
           total_score = total_score + gain
-          stars = stars + coins[i].value
-          boost = boost + Float::from_int(4 + coins[i].value * 2)
+          stars = stars + coin.value
+          boost = boost + Float::from_int(4 + coin.value * 2)
           if boost > 100.0 {
             boost = 100.0
           }
-          coins[i].active = false
-          burst(particles, coins[i].x, cy, 8, 0.24, 3)
+          coin.active = false
+          burst(particles, coin.x, cy, 8, 0.24, 3)
         }
       }
 
-      for i = 0; i < powerups.length(); i = i + 1 {
-        if not(powerups[i].active) {
+      for powerup in powerups {
+        if not(powerup.active) {
           continue
         }
 
-        powerups[i].x = powerups[i].x - speed * dt
-        if powerups[i].x < -80.0 {
-          powerups[i].active = false
+        powerup.x = powerup.x - speed * dt
+        if powerup.x < -80.0 {
+          powerup.active = false
           continue
         }
 
-        let py = lane_y(powerups[i].lane) + powerups[i].y_off
-        if sqdist(run_x, run_y, powerups[i].x, py) <= 34.0 * 34.0 {
-          if powerups[i].kind == 0 {
+        let py = lane_y(powerup.lane) + powerup.y_off
+        if sqdist(run_x, run_y, powerup.x, py) <= 34.0 * 34.0 {
+          if powerup.kind == 0 {
             if runner.hp < 6 {
               runner.hp = runner.hp + 1
             }
             stage_score = stage_score + 60
             total_score = total_score + 60
             msg = "Med pack +1 HP"
-          } else if powerups[i].kind == 1 {
+          } else if powerup.kind == 1 {
             boost = boost + 42.0
             if boost > 100.0 {
               boost = 100.0
@@ -845,8 +845,8 @@ fn main {
             msg = "Magnet online"
           }
 
-          powerups[i].active = false
-          burst(particles, powerups[i].x, py, 15, 0.36, 2)
+          powerup.active = false
+          burst(particles, powerup.x, py, 15, 0.36, 2)
         }
       }
 
@@ -887,18 +887,18 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vy = particles[i].vy + 260.0 * dt
-        particles[i].ttl = particles[i].ttl - dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vy = particle.vy + 260.0 * dt
+        particle.ttl = particle.ttl - dt
 
-        if particles[i].ttl <= 0.0 {
-          particles[i].active = false
+        if particle.ttl <= 0.0 {
+          particle.active = false
         }
       }
 
@@ -940,7 +940,7 @@ fn main {
       @raylib.Color::new(16, 26 + sky_boost / 3, 46 + sky_boost / 2, 255),
     )
 
-    for i = 0; i < 72; i = i + 1 {
+    for i in 0..<72 {
       let x = (
           i * 118 + (wave_t * (60.0 + Float::from_int(level) * 16.0)).to_int()
         ) %
@@ -967,7 +967,7 @@ fn main {
       }
     }
 
-    for lane = 0; lane < lane_n; lane = lane + 1 {
+    for lane in 0..<lane_n {
       let y = lane_y(lane)
       @raylib.draw_rectangle(
         0,
@@ -991,7 +991,7 @@ fn main {
         @raylib.Color::new(112, 122, 144, 255),
       )
 
-      for p = 0; p < 25; p = p + 1 {
+      for p in 0..<25 {
         let x = (p * 70 + (wave_t * speed / 9.0).to_int()) % (sw + 120) - 60
         @raylib.draw_rectangle(
           x,
@@ -1061,21 +1061,21 @@ fn main {
       }
     }
 
-    for i = 0; i < obstacles.length(); i = i + 1 {
-      if not(obstacles[i].active) {
+    for obstacle in obstacles {
+      if not(obstacle.active) {
         continue
       }
 
-      let ox = (obstacles[i].x + shake_x).to_int()
-      let base_y = lane_y(obstacles[i].lane)
-      let top = (base_y + obstacles[i].y_off - obstacles[i].h).to_int()
+      let ox = (obstacle.x + shake_x).to_int()
+      let base_y = lane_y(obstacle.lane)
+      let top = (base_y + obstacle.y_off - obstacle.h).to_int()
 
-      if obstacles[i].kind == 0 {
+      if obstacle.kind == 0 {
         @raylib.draw_rectangle(
           ox - 26,
           top,
           52,
-          obstacles[i].h.to_int(),
+          obstacle.h.to_int(),
           @raylib.Color::new(222, 122, 82, 255),
         )
         @raylib.draw_rectangle(
@@ -1085,12 +1085,12 @@ fn main {
           10,
           @raylib.Color::new(246, 188, 72, 255),
         )
-      } else if obstacles[i].kind == 1 {
+      } else if obstacle.kind == 1 {
         @raylib.draw_rectangle(
           ox - 32,
           top,
           64,
-          obstacles[i].h.to_int(),
+          obstacle.h.to_int(),
           @raylib.Color::new(122, 84, 184, 255),
         )
         @raylib.draw_rectangle(
@@ -1107,7 +1107,7 @@ fn main {
           28,
           @raylib.Color::new(248, 236, 172, 255),
         )
-      } else if obstacles[i].kind == 2 {
+      } else if obstacle.kind == 2 {
         @raylib.draw_circle(
           ox,
           top + 20,
@@ -1143,15 +1143,15 @@ fn main {
       }
     }
 
-    for i = 0; i < coins.length(); i = i + 1 {
-      if not(coins[i].active) {
+    for coin in coins {
+      if not(coin.active) {
         continue
       }
-      let cx = (coins[i].x + shake_x).to_int()
-      let cy = (lane_y(coins[i].lane) + coins[i].y_off).to_int()
-      let r : Float = if coins[i].value == 3 {
+      let cx = (coin.x + shake_x).to_int()
+      let cy = (lane_y(coin.lane) + coin.y_off).to_int()
+      let r : Float = if coin.value == 3 {
         11.0
-      } else if coins[i].value == 2 {
+      } else if coin.value == 2 {
         9.0
       } else {
         8.0
@@ -1163,9 +1163,9 @@ fn main {
         r * 0.55,
         @raylib.Color::new(252, 240, 180, 255),
       )
-      if coins[i].value > 1 {
+      if coin.value > 1 {
         @raylib.draw_text(
-          "\{coins[i].value}",
+          "\{coin.value}",
           cx - 6,
           cy - 10,
           18,
@@ -1174,14 +1174,14 @@ fn main {
       }
     }
 
-    for i = 0; i < powerups.length(); i = i + 1 {
-      if not(powerups[i].active) {
+    for powerup in powerups {
+      if not(powerup.active) {
         continue
       }
-      let px = (powerups[i].x + shake_x).to_int()
-      let py = (lane_y(powerups[i].lane) + powerups[i].y_off).to_int()
+      let px = (powerup.x + shake_x).to_int()
+      let py = (lane_y(powerup.lane) + powerup.y_off).to_int()
 
-      if powerups[i].kind == 0 {
+      if powerup.kind == 0 {
         @raylib.draw_rectangle(
           px - 14,
           py - 12,
@@ -1203,7 +1203,7 @@ fn main {
           8,
           @raylib.Color::new(224, 250, 236, 255),
         )
-      } else if powerups[i].kind == 1 {
+      } else if powerup.kind == 1 {
         @raylib.draw_rectangle(
           px - 13,
           py - 18,
@@ -1229,24 +1229,24 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let c = if particles[i].kind == 0 {
+      let c = if particle.kind == 0 {
         @raylib.Color::new(255, 124, 124, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(250, 212, 118, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(214, 152, 255, 255)
       } else {
         @raylib.Color::new(110, 226, 246, 255)
       }
 
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         c,
       )

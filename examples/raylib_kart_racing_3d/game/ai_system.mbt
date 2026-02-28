@@ -4,10 +4,10 @@
 pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
   let player = game.karts[@types.player_kart]
   let player_progress = player.total_progress
-  for i = 1; i < @types.max_karts; i = i + 1 {
+  for i in 1..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) || kart.finished {
-      continue i + 1
+      continue
     }
     // Update timers
     update_ai_timers(kart, dt)
@@ -20,18 +20,18 @@ pub fn update_ai_karts(game : @types.Game, dt : Float) -> Unit {
         kart.speed = 0.0
       }
       apply_kart_physics(game, i, dt)
-      continue i + 1
+      continue
     }
     if kart.stunned_timer > 0.0 {
       kart.stunned_timer -= dt
       kart.speed = kart.speed * (1.0 - 3.0 * dt)
       apply_kart_physics(game, i, dt)
-      continue i + 1
+      continue
     }
     // Determine target waypoint (look ahead based on difficulty)
     let wc = game.waypoint_count
     if wc < 2 {
-      continue i + 1
+      continue
     }
     let diff_stats = @types.ai_difficulty_stats[@types.clampi(
         kart.ai_difficulty,
@@ -257,13 +257,13 @@ fn has_nearby_opponent(
   range : Float,
 ) -> Bool {
   let kart = game.karts[kart_idx]
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     if i == kart_idx {
-      continue i + 1
+      continue
     }
     let other = game.karts[i]
     if not(other.active) || other.finished {
-      continue i + 1
+      continue
     }
     if @types.distance2d(kart.x, kart.z, other.x, other.z) < range {
       return true
@@ -281,16 +281,16 @@ fn has_nearby_opponent_behind(
   range : Float,
 ) -> Bool {
   let kart = game.karts[kart_idx]
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     if i == kart_idx {
-      continue i + 1
+      continue
     }
     let other = game.karts[i]
     if not(other.active) || other.finished {
-      continue i + 1
+      continue
     }
     if other.total_progress >= kart.total_progress {
-      continue i + 1
+      continue
     }
     if @types.distance2d(kart.x, kart.z, other.x, other.z) < range {
       return true

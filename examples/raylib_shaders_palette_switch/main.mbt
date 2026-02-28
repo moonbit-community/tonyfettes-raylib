@@ -2,7 +2,7 @@
 fn ivec3_array_to_bytes(data : Array[Int]) -> Bytes {
   let count = data.length()
   let arr = FixedArray::make(count * 4, b'\x00')
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let v = data[i]
     arr[i * 4] = (v & 0xFF).to_byte()
     arr[i * 4 + 1] = ((v >> 8) & 0xFF).to_byte()
@@ -86,7 +86,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     @raylib.begin_shader_mode(shader)
-    for i = 0; i < colors_per_palette; i = i + 1 {
+    for i in 0..<colors_per_palette {
       // Draw horizontal screen-wide rectangles with increasing "palette index"
       // The used palette index is encoded in the RGB components of the pixel
       @raylib.draw_rectangle(

@@ -68,7 +68,7 @@ fn draw_arena_floor() -> Unit {
   // Center circle marking
   let center_color = @raylib.Color::new(60, 65, 70, 255)
   let segments = 32
-  for i = 0; i < segments; i = i + 1 {
+  for i in 0..<segments {
     let a1 = Float::from_int(i) * 2.0 * @types.pi / Float::from_int(segments)
     let a2 = Float::from_int(i + 1) *
       2.0 *
@@ -187,8 +187,7 @@ fn draw_arena_walls() -> Unit {
 
 ///|
 fn draw_pillars(game : @types.Game) -> Unit {
-  for i = 0; i < game.pillars.length(); i = i + 1 {
-    let pillar = game.pillars[i]
+  for pillar in game.pillars {
     let base_color = @raylib.Color::new(100, 95, 90, 255)
     let top_color = @raylib.Color::new(120, 115, 108, 255)
     let mid_band = @raylib.Color::new(80, 80, 75, 255)
@@ -235,8 +234,7 @@ fn draw_pillars(game : @types.Game) -> Unit {
 fn draw_low_walls(game : @types.Game) -> Unit {
   let wall_color = @raylib.Color::new(85, 80, 75, 255)
   let wall_top = @raylib.Color::new(100, 95, 88, 255)
-  for i = 0; i < game.low_walls.length(); i = i + 1 {
-    let w = game.low_walls[i]
+  for w in game.low_walls {
     // Main wall body
     @raylib.draw_cube(
       @raylib.Vector3::new(w.x, w.height / 2.0, w.z),
@@ -268,11 +266,10 @@ fn draw_low_walls(game : @types.Game) -> Unit {
 fn draw_ramps(game : @types.Game) -> Unit {
   let ramp_color = @raylib.Color::new(75, 80, 70, 255)
   let ramp_top = @raylib.Color::new(90, 95, 85, 255)
-  for i = 0; i < game.ramps.length(); i = i + 1 {
-    let r = game.ramps[i]
+  for r in game.ramps {
     // Draw ramp as a series of steps (approximation)
     let steps = 4
-    for s = 0; s < steps; s = s + 1 {
+    for s in 0..<steps {
       let step_frac = Float::from_int(s) / Float::from_int(steps)
       let next_frac = Float::from_int(s + 1) / Float::from_int(steps)
       let step_h = r.height * next_frac
@@ -297,10 +294,10 @@ fn draw_ramps(game : @types.Game) -> Unit {
 
 ///|
 fn draw_crates(game : @types.Game) -> Unit {
-  for i = 0; i < game.crates.length(); i = i + 1 {
+  for i in 0..<game.crates.length() {
     let crate = game.crates[i]
     if not(crate.active) {
-      continue i + 1
+      continue
     }
     let cs = @types.crate_size
     // Crate body
@@ -351,10 +348,9 @@ fn draw_crates(game : @types.Game) -> Unit {
 
 ///|
 fn draw_barricades(game : @types.Game) -> Unit {
-  for i = 0; i < game.barricades.length(); i = i + 1 {
-    let b = game.barricades[i]
+  for b in game.barricades {
     if not(b.active) {
-      continue i + 1
+      continue
     }
     let bs = @types.barricade_size
     let hp_pct = b.hp / b.max_hp
@@ -424,10 +420,9 @@ fn draw_barricades(game : @types.Game) -> Unit {
 
 ///|
 fn draw_traps(game : @types.Game) -> Unit {
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    let trap = game.traps[i]
+  for trap in game.traps {
     if not(trap.active) {
-      continue i + 1
+      continue
     }
     let trap_active = trap.active_timer > 0.0
     if trap.kind == @types.trap_spike {
@@ -447,8 +442,8 @@ fn draw_traps(game : @types.Game) -> Unit {
       } else {
         @raylib.Color::new(150, 150, 150, 255)
       }
-      for sx = -1; sx <= 1; sx = sx + 1 {
-        for sz = -1; sz <= 1; sz = sz + 1 {
+      for sx in -1..=1 {
+        for sz in -1..=1 {
           let spike_x = trap.x + Float::from_int(sx) * 0.5
           let spike_z = trap.z + Float::from_int(sz) * 0.5
           @raylib.draw_cube(
@@ -527,10 +522,10 @@ fn draw_traps(game : @types.Game) -> Unit {
 
 ///|
 fn draw_pickups_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     let pickup = game.pickups[i]
     if not(pickup.active) {
-      continue i + 1
+      continue
     }
     let rot_angle = Float::from_int(game.frame_counter) * 0.03 +
       Float::from_int(i) * 1.5
@@ -617,7 +612,7 @@ fn draw_pickups_3d(game : @types.Game) -> Unit {
     if pickup.life < 5.0 {
       let blink = @math.sinf(Float::from_int(game.frame_counter) * 0.2) > 0.0
       if not(blink) {
-        continue i + 1
+        continue
       }
     }
     ignore(rot_angle)
@@ -626,10 +621,9 @@ fn draw_pickups_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let enemy = game.enemies[i]
+  for enemy in game.enemies {
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let color = enemy_color(enemy.kind, enemy.flash_timer > 0.0)
     let size = enemy.size
@@ -1277,10 +1271,9 @@ fn enemy_color(kind : Int, is_flashing : Bool) -> @raylib.Color {
 
 ///|
 fn draw_projectiles(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     if proj.is_enemy {
       if proj.kind == @types.enemy_boss {
@@ -1383,10 +1376,9 @@ fn draw_projectiles(game : @types.Game) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = (p.life / p.max_life * 255.0).to_int()
     let a = @types.clampi(alpha, 0, 255)

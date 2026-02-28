@@ -47,7 +47,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(36, 54, 88, 32),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 64
     @raylib.draw_rectangle(
       0,
@@ -82,7 +82,7 @@ fn draw_world_back(_game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(174, 208, 230, 204),
   )
 
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let y : Int = world_y0 + oy + i * 48
     @raylib.draw_line(
       world_x0 + ox + 12,
@@ -93,7 +93,7 @@ fn draw_world_back(_game : Game, ox : Int, oy : Int) -> Unit {
     )
   }
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let x : Int = world_x0 + ox + i * 52
     @raylib.draw_line(
       x,
@@ -159,7 +159,7 @@ fn draw_safe_zone(game : Game, ox : Int, oy : Int) -> Unit {
 fn draw_storm(game : Game, ox : Int, oy : Int) -> Unit {
   let alpha : Int = 36 + game.wave * 7
 
-  for i = 0; i < 84; i = i + 1 {
+  for i in 0..<84 {
     let t : Float = Float::from_int(i)
 
     let sx : Float = world_left() +
@@ -382,31 +382,31 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       184
     } else {
       108
     }
 
-    let c0 : @raylib.Color = if game.particles[i].kind == 2 {
+    let c0 : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(206, 174, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 162, 164, a)
     } else {
       @raylib.Color::new(174, 234, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c0,
     )
   }
@@ -1141,16 +1141,16 @@ fn draw_frame(
   draw_storm(game, ox, oy)
   draw_safe_zone(game, ox, oy)
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    draw_hazard(game.hazards[i], ox, oy)
+  for hazard in game.hazards {
+    draw_hazard(hazard, ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
-  for i = 0; i < game.survivors.length(); i = i + 1 {
-    draw_survivor(game.survivors[i], ox, oy)
+  for survivor in game.survivors {
+    draw_survivor(survivor, ox, oy)
   }
 
   draw_hint(game, ox, oy)

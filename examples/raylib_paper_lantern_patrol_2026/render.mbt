@@ -46,8 +46,8 @@ fn draw_meter(
 ///|
 fn shrine_queue_count(game : Game, shrine : Int) -> Int {
   let mut total = 0
-  for i in 0..<game.lanterns.length() {
-    if game.lanterns[i].active && game.lanterns[i].target_shrine == shrine {
+  for lantern in game.lanterns {
+    if lantern.active && lantern.target_shrine == shrine {
       total = total + 1
     }
   }
@@ -242,27 +242,27 @@ fn draw_gate() -> Unit {
 
 ///|
 fn draw_gusts(game : Game) -> Unit {
-  for i in 0..<game.gusts.length() {
-    if not(game.gusts[i].active) {
+  for gust in game.gusts {
+    if not(gust.active) {
       continue
     }
 
-    let life = clampf(game.gusts[i].life / 9.2, 0.0, 1.0)
+    let life = clampf(gust.life / 9.2, 0.0, 1.0)
     let alpha = (life * 130.0 + 28.0).to_int()
     let col = @raylib.Color::new(124, 196, 240, alpha)
 
     @raylib.draw_circle_lines(
-      game.gusts[i].x.to_int(),
-      game.gusts[i].y.to_int(),
-      game.gusts[i].radius,
+      gust.x.to_int(),
+      gust.y.to_int(),
+      gust.radius,
       col,
     )
 
     @raylib.draw_line(
-      game.gusts[i].x.to_int(),
-      game.gusts[i].y.to_int(),
-      (game.gusts[i].x + game.gusts[i].vx * 0.22).to_int(),
-      (game.gusts[i].y + game.gusts[i].vy * 0.22).to_int(),
+      gust.x.to_int(),
+      gust.y.to_int(),
+      (gust.x + gust.vx * 0.22).to_int(),
+      (gust.y + gust.vy * 0.22).to_int(),
       col,
     )
   }
@@ -270,16 +270,16 @@ fn draw_gusts(game : Game) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i in 0..<game.sparks.length() {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let life = clampf(game.sparks[i].life / 2.8, 0.0, 1.0)
+    let life = clampf(spark.life / 2.8, 0.0, 1.0)
     @raylib.draw_circle(
-      game.sparks[i].x.to_int(),
-      game.sparks[i].y.to_int(),
-      game.sparks[i].size,
+      spark.x.to_int(),
+      spark.y.to_int(),
+      spark.size,
       @raylib.Color::new(
         255,
         164 + (life * 70.0).to_int(),
@@ -292,32 +292,32 @@ fn draw_sparks(game : Game) -> Unit {
 
 ///|
 fn draw_thieves(game : Game) -> Unit {
-  for i in 0..<game.thieves.length() {
-    if not(game.thieves[i].active) {
+  for thief in game.thieves {
+    if not(thief.active) {
       continue
     }
 
     @raylib.draw_circle(
-      game.thieves[i].x.to_int(),
-      game.thieves[i].y.to_int(),
+      thief.x.to_int(),
+      thief.y.to_int(),
       thief_radius,
       @raylib.Color::new(188, 84, 104, 236),
     )
     @raylib.draw_circle_lines(
-      game.thieves[i].x.to_int(),
-      game.thieves[i].y.to_int(),
+      thief.x.to_int(),
+      thief.y.to_int(),
       thief_radius + 2.0,
       @raylib.Color::new(250, 164, 176, 238),
     )
 
-    if game.thieves[i].target >= 0 &&
-      game.thieves[i].target < game.lanterns.length() &&
-      game.lanterns[game.thieves[i].target].active {
+    if thief.target >= 0 &&
+      thief.target < game.lanterns.length() &&
+      game.lanterns[thief.target].active {
       @raylib.draw_line(
-        game.thieves[i].x.to_int(),
-        game.thieves[i].y.to_int(),
-        game.lanterns[game.thieves[i].target].x.to_int(),
-        game.lanterns[game.thieves[i].target].y.to_int(),
+        thief.x.to_int(),
+        thief.y.to_int(),
+        game.lanterns[thief.target].x.to_int(),
+        game.lanterns[thief.target].y.to_int(),
         @raylib.Color::new(252, 136, 132, 96),
       )
     }

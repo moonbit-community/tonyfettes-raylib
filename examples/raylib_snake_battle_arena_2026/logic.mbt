@@ -150,15 +150,15 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -173,26 +173,26 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(
       game,
       x + randf(-8.0, 8.0),
@@ -208,21 +208,21 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 2.3)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 2.1) + dt * 160.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 2.3)
+    spark.vy = spark.vy * (1.0 - dt * 2.1) + dt * 160.0
   }
 }
 
@@ -233,7 +233,7 @@ fn player_segment_at(game : Game, x : Int, y : Int, ignore_tail : Bool) -> Bool 
     end = maxi(0, end - 1)
   }
 
-  for i = 0; i < end; i = i + 1 {
+  for i in 0..<end {
     if game.p_seg_x[i] == x && game.p_seg_y[i] == y {
       return true
     }
@@ -250,7 +250,7 @@ fn rival_segment_at(
   ignore_rid : Int,
   ignore_tail : Bool,
 ) -> Bool {
-  for rid = 0; rid < game.rivals.length(); rid = rid + 1 {
+  for rid in 0..<game.rivals.length() {
     if not(game.rivals[rid].alive) {
       continue
     }
@@ -263,7 +263,7 @@ fn rival_segment_at(
           game.rivals[rid].len
         }
 
-        for i = 0; i < end; i = i + 1 {
+        for i in 0..<end {
           if game.rivals[rid].seg_x[i] == x && game.rivals[rid].seg_y[i] == y {
             return true
           }
@@ -272,7 +272,7 @@ fn rival_segment_at(
       continue
     }
 
-    for i = 0; i < game.rivals[rid].len; i = i + 1 {
+    for i in 0..<game.rivals[rid].len {
       if game.rivals[rid].seg_x[i] == x && game.rivals[rid].seg_y[i] == y {
         return true
       }
@@ -308,8 +308,8 @@ fn is_cell_empty(game : Game, x : Int, y : Int) -> Bool {
 fn random_empty_cell(game : Game) -> (Bool, Int, Int) {
   let mut empty_count : Int = 0
 
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       if is_cell_empty(game, x, y) {
         empty_count = empty_count + 1
       }
@@ -323,8 +323,8 @@ fn random_empty_cell(game : Game) -> (Bool, Int, Int) {
   let pick : Int = @raylib.get_random_value(0, empty_count - 1)
   let mut seen : Int = 0
 
-  for y = 0; y < grid_h; y = y + 1 {
-    for x = 0; x < grid_w; x = x + 1 {
+  for y in 0..<grid_h {
+    for x in 0..<grid_w {
       if not(is_cell_empty(game, x, y)) {
         continue
       }
@@ -388,12 +388,12 @@ fn reset_player(game : Game, cx : Int, cy : Int) -> Unit {
   game.p_next_dir = dir_right
   game.p_grow = 0
 
-  for i = 0; i < game.p_seg_x.length(); i = i + 1 {
+  for i in 0..<game.p_seg_x.length() {
     game.p_seg_x[i] = -100
     game.p_seg_y[i] = -100
   }
 
-  for i = 0; i < game.p_len; i = i + 1 {
+  for i in 0..<game.p_len {
     game.p_seg_x[i] = wrap_x(cx - i)
     game.p_seg_y[i] = cy
   }
@@ -408,12 +408,12 @@ fn reset_rival(game : Game, rid : Int, cx : Int, cy : Int, dir : Int) -> Unit {
   rival.next_dir = dir
   rival.grow = 0
 
-  for i = 0; i < rival.seg_x.length(); i = i + 1 {
+  for i in 0..<rival.seg_x.length() {
     rival.seg_x[i] = -100
     rival.seg_y[i] = -100
   }
 
-  for i = 0; i < rival.len; i = i + 1 {
+  for i in 0..<rival.len {
     let offset : Int = if dir == dir_left { i } else { -i }
     rival.seg_x[i] = wrap_x(cx + offset)
     rival.seg_y[i] = cy
@@ -685,8 +685,8 @@ fn rival_step(game : Game, rid : Int) -> Unit {
 ///|
 fn rival_total_score(game : Game) -> Int {
   let mut s : Int = 0
-  for i = 0; i < game.rivals.length(); i = i + 1 {
-    s = s + game.rivals[i].score
+  for rival in game.rivals {
+    s = s + rival.score
   }
   s
 }
@@ -761,7 +761,7 @@ fn step_once(game : Game) -> Unit {
     return
   }
 
-  for rid = 0; rid < game.rivals.length(); rid = rid + 1 {
+  for rid in 0..<game.rivals.length() {
     rival_step(game, rid)
     if game.state != state_play {
       return

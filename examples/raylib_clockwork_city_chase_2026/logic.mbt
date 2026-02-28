@@ -1,74 +1,74 @@
 ///|
 fn clear_objs(game : Game) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    game.objs[i].active = false
-    game.objs[i].kind = obj_scout
-    game.objs[i].x = 0.0
-    game.objs[i].y = 0.0
-    game.objs[i].vx = 0.0
-    game.objs[i].vy = 0.0
-    game.objs[i].w = 0.0
-    game.objs[i].h = 0.0
-    game.objs[i].hp = 0.0
-    game.objs[i].shot_cd = 0.0
-    game.objs[i].spin = 0.0
-    game.objs[i].cloak = false
-    game.objs[i].reward = 0
+  for obj in game.objs {
+    obj.active = false
+    obj.kind = obj_scout
+    obj.x = 0.0
+    obj.y = 0.0
+    obj.vx = 0.0
+    obj.vy = 0.0
+    obj.w = 0.0
+    obj.h = 0.0
+    obj.hp = 0.0
+    obj.shot_cd = 0.0
+    obj.spin = 0.0
+    obj.cloak = false
+    obj.reward = 0
   }
 }
 
 ///|
 fn clear_shots(game : Game) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
-    game.shots[i].active = false
-    game.shots[i].from_player = true
-    game.shots[i].x = 0.0
-    game.shots[i].y = 0.0
-    game.shots[i].vx = 0.0
-    game.shots[i].vy = 0.0
-    game.shots[i].life = 0.0
-    game.shots[i].dmg = 0.0
-    game.shots[i].kind = 0
+  for shot in game.shots {
+    shot.active = false
+    shot.from_player = true
+    shot.x = 0.0
+    shot.y = 0.0
+    shot.vx = 0.0
+    shot.vy = 0.0
+    shot.life = 0.0
+    shot.dmg = 0.0
+    shot.kind = 0
   }
 }
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
 ///|
 fn clear_rings(game : Game) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
-    game.rings[i].active = false
-    game.rings[i].x = 0.0
-    game.rings[i].y = 0.0
-    game.rings[i].r = 0.0
-    game.rings[i].life = 0.0
-    game.rings[i].kind = 0
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
   }
 }
 
 ///|
 fn clear_ghosts(game : Game) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
-    game.ghosts[i].active = false
-    game.ghosts[i].x = 0.0
-    game.ghosts[i].y = 0.0
-    game.ghosts[i].w = 0.0
-    game.ghosts[i].h = 0.0
-    game.ghosts[i].rot = 0.0
-    game.ghosts[i].life = 0.0
-    game.ghosts[i].kind = 0
+  for ghost in game.ghosts {
+    ghost.active = false
+    ghost.x = 0.0
+    ghost.y = 0.0
+    ghost.w = 0.0
+    ghost.h = 0.0
+    ghost.rot = 0.0
+    ghost.life = 0.0
+    ghost.kind = 0
   }
 }
 
@@ -89,7 +89,7 @@ fn reset_player(hero : Player) -> Unit {
 
 ///|
 fn alloc_obj(game : Game) -> Int {
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
     }
@@ -97,7 +97,7 @@ fn alloc_obj(game : Game) -> Int {
 
   let mut best = 0
   let mut best_y = game.objs[0].y
-  for i = 1; i < game.objs.length(); i = i + 1 {
+  for i in 1..<game.objs.length() {
     if game.objs[i].y > best_y {
       best_y = game.objs[i].y
       best = i
@@ -108,7 +108,7 @@ fn alloc_obj(game : Game) -> Int {
 
 ///|
 fn alloc_shot(game : Game) -> Int {
-  for i = 0; i < game.shots.length(); i = i + 1 {
+  for i in 0..<game.shots.length() {
     if not(game.shots[i].active) {
       return i
     }
@@ -116,7 +116,7 @@ fn alloc_shot(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.shots[0].life
-  for i = 1; i < game.shots.length(); i = i + 1 {
+  for i in 1..<game.shots.length() {
     if game.shots[i].life < best_life {
       best_life = game.shots[i].life
       best = i
@@ -127,7 +127,7 @@ fn alloc_shot(game : Game) -> Int {
 
 ///|
 fn alloc_spark(game : Game) -> Int {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
+  for i in 0..<game.sparks.length() {
     if not(game.sparks[i].active) {
       return i
     }
@@ -135,7 +135,7 @@ fn alloc_spark(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.sparks[0].life
-  for i = 1; i < game.sparks.length(); i = i + 1 {
+  for i in 1..<game.sparks.length() {
     if game.sparks[i].life < best_life {
       best_life = game.sparks[i].life
       best = i
@@ -146,7 +146,7 @@ fn alloc_spark(game : Game) -> Int {
 
 ///|
 fn alloc_ring(game : Game) -> Int {
-  for i = 0; i < game.rings.length(); i = i + 1 {
+  for i in 0..<game.rings.length() {
     if not(game.rings[i].active) {
       return i
     }
@@ -154,7 +154,7 @@ fn alloc_ring(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.rings[0].life
-  for i = 1; i < game.rings.length(); i = i + 1 {
+  for i in 1..<game.rings.length() {
     if game.rings[i].life < best_life {
       best_life = game.rings[i].life
       best = i
@@ -165,7 +165,7 @@ fn alloc_ring(game : Game) -> Int {
 
 ///|
 fn alloc_ghost(game : Game) -> Int {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
+  for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       return i
     }
@@ -173,7 +173,7 @@ fn alloc_ghost(game : Game) -> Int {
 
   let mut best = 0
   let mut best_life = game.ghosts[0].life
-  for i = 1; i < game.ghosts.length(); i = i + 1 {
+  for i in 1..<game.ghosts.length() {
     if game.ghosts[i].life < best_life {
       best_life = game.ghosts[i].life
       best = i
@@ -206,7 +206,7 @@ fn emit_spark(
 
 ///|
 fn burst(game : Game, x : Float, y : Float, count : Int, kind : Int) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     emit_spark(
       game,
       x + randf(-20.0, 20.0),
@@ -476,7 +476,7 @@ fn spawn_wave(game : Game, y : Float) -> Unit {
   let center = track_center(depth, game.time_s)
 
   let c = 1 + randi(0, 2)
-  for _i = 0; _i < c; _i = _i + 1 {
+  for _i in 0..<c {
     let roll = randi(0, 99)
 
     if roll < 34 {
@@ -622,23 +622,23 @@ fn apply_emp(game : Game) -> Unit {
   let rr2 = emp_radius * emp_radius
   let kill2 = emp_kill_radius * emp_kill_radius
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if not(game.objs[i].active) {
+  for obj in game.objs {
+    if not(obj.active) {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.objs[i].x, game.objs[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, obj.x, obj.y)
     if d2 > rr2 {
       continue
     }
 
-    game.objs[i].cloak = false
+    obj.cloak = false
 
-    if is_hostile(game.objs[i].kind) && d2 <= kill2 {
-      let kind = game.objs[i].kind
-      let x = game.objs[i].x
-      let y = game.objs[i].y
-      game.objs[i].active = false
+    if is_hostile(obj.kind) && d2 <= kill2 {
+      let kind = obj.kind
+      let x = obj.x
+      let y = obj.y
+      obj.active = false
       add_score(game, if kind == obj_tank { 140 } else { 88 })
       push_combo(game)
       burst(game, x, y, 18, 1)
@@ -647,18 +647,18 @@ fn apply_emp(game : Game) -> Unit {
     }
   }
 
-  for i = 0; i < game.shots.length(); i = i + 1 {
-    if not(game.shots[i].active) || game.shots[i].from_player {
+  for shot in game.shots {
+    if not(shot.active) || shot.from_player {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.shots[i].x, game.shots[i].y)
+    let d2 = dist2(game.hero.x, game.hero.y, shot.x, shot.y)
     if d2 <= rr2 {
-      game.shots[i].active = false
+      shot.active = false
       emit_spark(
         game,
-        game.shots[i].x,
-        game.shots[i].y,
+        shot.x,
+        shot.y,
         randf(-86.0, 86.0),
         randf(-86.0, 86.0),
         randf(0.2, 0.45),
@@ -899,7 +899,7 @@ fn collect_item(game : Game, kind : Int) -> Unit {
 fn update_objs(game : Game, dt : Float) -> Unit {
   let ram = game.dash_t > 0.0
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
+  for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       continue
     }
@@ -977,43 +977,43 @@ fn update_objs(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_shots(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.shots.length(); i = i + 1 {
-    if not(game.shots[i].active) {
+  for shot in game.shots {
+    if not(shot.active) {
       continue
     }
 
-    game.shots[i].x = game.shots[i].x + game.shots[i].vx * dt
-    game.shots[i].y = game.shots[i].y +
-      (game.shots[i].vy + game.scroll * 0.1) * dt
-    game.shots[i].life = game.shots[i].life - dt
+    shot.x = shot.x + shot.vx * dt
+    shot.y = shot.y +
+      (shot.vy + game.scroll * 0.1) * dt
+    shot.life = shot.life - dt
 
-    let dead = game.shots[i].life <= 0.0 ||
-      game.shots[i].y < -120.0 ||
-      game.shots[i].y > Float::from_int(screen_h) + 120.0 ||
-      game.shots[i].x < -120.0 ||
-      game.shots[i].x > Float::from_int(screen_w) + 120.0
+    let dead = shot.life <= 0.0 ||
+      shot.y < -120.0 ||
+      shot.y > Float::from_int(screen_h) + 120.0 ||
+      shot.x < -120.0 ||
+      shot.x > Float::from_int(screen_w) + 120.0
     if dead {
-      game.shots[i].active = false
+      shot.active = false
       continue
     }
 
-    if game.shots[i].from_player {
+    if shot.from_player {
       let mut hit = false
-      for j = 0; j < game.objs.length(); j = j + 1 {
+      for j in 0..<game.objs.length() {
         if not(game.objs[j].active) || is_pickup(game.objs[j].kind) {
           continue
         }
 
         let d2 = dist2(
-          game.shots[i].x,
-          game.shots[i].y,
+          shot.x,
+          shot.y,
           game.objs[j].x,
           game.objs[j].y,
         )
         let rr = obj_hit_r(game.objs[j]) + 8.0
         if d2 <= rr * rr {
-          game.objs[j].hp = game.objs[j].hp - game.shots[i].dmg
-          game.shots[i].active = false
+          game.objs[j].hp = game.objs[j].hp - shot.dmg
+          shot.active = false
           hit = true
 
           emit_spark(
@@ -1038,11 +1038,11 @@ fn update_shots(game : Game, dt : Float) -> Unit {
         continue
       }
     } else {
-      let d2 = dist2(game.shots[i].x, game.shots[i].y, game.hero.x, game.hero.y)
+      let d2 = dist2(shot.x, shot.y, game.hero.x, game.hero.y)
       let rr = player_hit_r(game.hero) + 8.0
       if d2 <= rr * rr {
-        game.shots[i].active = false
-        hurt_player(game, game.shots[i].dmg)
+        shot.active = false
+        hurt_player(game, shot.dmg)
         continue
       }
     }
@@ -1051,43 +1051,43 @@ fn update_shots(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_fx(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y +
-      (game.sparks[i].vy + game.scroll * 0.16) * dt
-    game.sparks[i].life = game.sparks[i].life - dt
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y +
+      (spark.vy + game.scroll * 0.16) * dt
+    spark.life = spark.life - dt
 
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    if spark.life <= 0.0 {
+      spark.active = false
     }
   }
 
-  for i = 0; i < game.rings.length(); i = i + 1 {
-    if not(game.rings[i].active) {
+  for ring in game.rings {
+    if not(ring.active) {
       continue
     }
 
-    game.rings[i].life = game.rings[i].life - dt
-    game.rings[i].r = game.rings[i].r +
-      (130.0 + Float::from_int(game.rings[i].kind) * 52.0) * dt
-    if game.rings[i].life <= 0.0 {
-      game.rings[i].active = false
+    ring.life = ring.life - dt
+    ring.r = ring.r +
+      (130.0 + Float::from_int(ring.kind) * 52.0) * dt
+    if ring.life <= 0.0 {
+      ring.active = false
     }
   }
 
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
-    if not(game.ghosts[i].active) {
+  for ghost in game.ghosts {
+    if not(ghost.active) {
       continue
     }
 
-    game.ghosts[i].y = game.ghosts[i].y + game.scroll * 0.26 * dt
-    game.ghosts[i].life = game.ghosts[i].life - dt
-    if game.ghosts[i].life <= 0.0 {
-      game.ghosts[i].active = false
+    ghost.y = ghost.y + game.scroll * 0.26 * dt
+    ghost.life = ghost.life - dt
+    if ghost.life <= 0.0 {
+      ghost.active = false
     }
   }
 }

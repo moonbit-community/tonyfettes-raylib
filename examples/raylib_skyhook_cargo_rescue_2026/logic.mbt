@@ -160,51 +160,51 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
-    game.survivors[i].active = false
-    game.survivors[i].x = 0.0
-    game.survivors[i].y = 0.0
-    game.survivors[i].vx = 0.0
-    game.survivors[i].vy = 0.0
-    game.survivors[i].carried = false
-    game.survivors[i].panic = 0.0
-    game.survivors[i].phase = 0.0
+  for survivor in game.survivors {
+    survivor.active = false
+    survivor.x = 0.0
+    survivor.y = 0.0
+    survivor.vx = 0.0
+    survivor.vy = 0.0
+    survivor.carried = false
+    survivor.panic = 0.0
+    survivor.phase = 0.0
   }
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    game.hazards[i].active = false
-    game.hazards[i].x = 0.0
-    game.hazards[i].y = 0.0
-    game.hazards[i].vx = 0.0
-    game.hazards[i].vy = 0.0
-    game.hazards[i].r = 0.0
-    game.hazards[i].hp = 0.0
-    game.hazards[i].kind = hazard_cloud
-    game.hazards[i].phase = 0.0
+  for hazard in game.hazards {
+    hazard.active = false
+    hazard.x = 0.0
+    hazard.y = 0.0
+    hazard.vx = 0.0
+    hazard.vy = 0.0
+    hazard.r = 0.0
+    hazard.hp = 0.0
+    hazard.kind = hazard_cloud
+    hazard.phase = 0.0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].vx = 0.0
-    game.pickups[i].vy = 0.0
-    game.pickups[i].kind = pickup_fuel
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vx = 0.0
+    pickup.vy = 0.0
+    pickup.kind = pickup_fuel
+    pickup.phase = 0.0
   }
 }
 
@@ -219,26 +219,26 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-14.0, 14.0),
@@ -254,24 +254,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let damp : Float = if game.particles[i].kind == 2 { 2.8 } else { 1.9 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * damp)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * (damp - 0.4)) +
-      dt * (if game.particles[i].kind == 1 { 180.0 } else { 110.0 })
+    let damp : Float = if particle.kind == 2 { 2.8 } else { 1.9 }
+    particle.vx = particle.vx * (1.0 - dt * damp)
+    particle.vy = particle.vy * (1.0 - dt * (damp - 0.4)) +
+      dt * (if particle.kind == 1 { 180.0 } else { 110.0 })
   }
 }
 
@@ -363,25 +363,25 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 
 ///|
 fn spawn_survivor(game : Game) -> Bool {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
-    if game.survivors[i].active {
+  for survivor in game.survivors {
+    if survivor.active {
       continue
     }
 
-    game.survivors[i].active = true
-    game.survivors[i].carried = false
+    survivor.active = true
+    survivor.carried = false
 
     let lane : Int = @raylib.get_random_value(0, 4)
-    game.survivors[i].x = world_left() +
+    survivor.x = world_left() +
       110.0 +
       Float::from_int(lane) * (Float::from_int(world_w) - 220.0) / 4.0 +
       randf(-40.0, 40.0)
-    game.survivors[i].y = world_bottom() - randf(70.0, 130.0)
+    survivor.y = world_bottom() - randf(70.0, 130.0)
 
-    game.survivors[i].vx = randf(-18.0, 18.0)
-    game.survivors[i].vy = randf(-8.0, 8.0)
-    game.survivors[i].panic = randf(0.0, 1.0)
-    game.survivors[i].phase = randf(0.0, 6.28)
+    survivor.vx = randf(-18.0, 18.0)
+    survivor.vy = randf(-8.0, 8.0)
+    survivor.panic = randf(0.0, 1.0)
+    survivor.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -391,8 +391,8 @@ fn spawn_survivor(game : Game) -> Bool {
 
 ///|
 fn spawn_hazard(game : Game) -> Bool {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    if game.hazards[i].active {
+  for hazard in game.hazards {
+    if hazard.active {
       continue
     }
 
@@ -407,35 +407,35 @@ fn spawn_hazard(game : Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 2)
     if side == 0 {
-      game.hazards[i].x = randf(world_left() + 30.0, world_right() - 30.0)
-      game.hazards[i].y = world_top() - 60.0
+      hazard.x = randf(world_left() + 30.0, world_right() - 30.0)
+      hazard.y = world_top() - 60.0
     } else if side == 1 {
-      game.hazards[i].x = world_left() - 60.0
-      game.hazards[i].y = randf(world_top() + 30.0, world_bottom() - 30.0)
+      hazard.x = world_left() - 60.0
+      hazard.y = randf(world_top() + 30.0, world_bottom() - 30.0)
     } else {
-      game.hazards[i].x = world_right() + 60.0
-      game.hazards[i].y = randf(world_top() + 30.0, world_bottom() - 30.0)
+      hazard.x = world_right() + 60.0
+      hazard.y = randf(world_top() + 30.0, world_bottom() - 30.0)
     }
 
-    game.hazards[i].active = true
-    game.hazards[i].kind = kind
-    game.hazards[i].phase = randf(0.0, 6.28)
+    hazard.active = true
+    hazard.kind = kind
+    hazard.phase = randf(0.0, 6.28)
 
     if kind == hazard_cloud {
-      game.hazards[i].r = randf(32.0, 46.0)
-      game.hazards[i].hp = randf(20.0, 28.0)
-      game.hazards[i].vx = randf(-58.0, 58.0)
-      game.hazards[i].vy = randf(48.0, 96.0) + Float::from_int(game.wave) * 6.0
+      hazard.r = randf(32.0, 46.0)
+      hazard.hp = randf(20.0, 28.0)
+      hazard.vx = randf(-58.0, 58.0)
+      hazard.vy = randf(48.0, 96.0) + Float::from_int(game.wave) * 6.0
     } else if kind == hazard_drone {
-      game.hazards[i].r = randf(20.0, 28.0)
-      game.hazards[i].hp = randf(34.0, 44.0)
-      game.hazards[i].vx = randf(-24.0, 24.0)
-      game.hazards[i].vy = randf(-24.0, 24.0)
+      hazard.r = randf(20.0, 28.0)
+      hazard.hp = randf(34.0, 44.0)
+      hazard.vx = randf(-24.0, 24.0)
+      hazard.vy = randf(-24.0, 24.0)
     } else {
-      game.hazards[i].r = randf(16.0, 22.0)
-      game.hazards[i].hp = randf(12.0, 18.0)
-      game.hazards[i].vx = randf(-34.0, 34.0)
-      game.hazards[i].vy = randf(160.0, 240.0) +
+      hazard.r = randf(16.0, 22.0)
+      hazard.hp = randf(12.0, 18.0)
+      hazard.vx = randf(-34.0, 34.0)
+      hazard.vy = randf(160.0, 240.0) +
         Float::from_int(game.wave) * 14.0
     }
 
@@ -447,20 +447,20 @@ fn spawn_hazard(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = randf(world_left() + 26.0, world_right() - 26.0)
-    game.pickups[i].y = world_top() - randf(40.0, 240.0)
-    game.pickups[i].vx = randf(-40.0, 40.0)
-    game.pickups[i].vy = randf(100.0, 160.0)
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.active = true
+    pickup.x = randf(world_left() + 26.0, world_right() - 26.0)
+    pickup.y = world_top() - randf(40.0, 240.0)
+    pickup.vx = randf(-40.0, 40.0)
+    pickup.vy = randf(100.0, 160.0)
+    pickup.phase = randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 52 {
+    pickup.kind = if roll < 52 {
       pickup_fuel
     } else if roll < 82 {
       pickup_medkit
@@ -477,8 +477,8 @@ fn spawn_pickup(game : Game) -> Bool {
 ///|
 fn count_active_survivors(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < game.survivors.length(); i = i + 1 {
-    if game.survivors[i].active {
+  for survivor in game.survivors {
+    if survivor.active {
       n = n + 1
     }
   }
@@ -712,7 +712,7 @@ fn update_hook(game : Game, dt : Float) -> Float {
   let tip_y : Float = hook_tip_y(game)
 
   if game.carrying_idx < 0 && game.hook_len > 82.0 {
-    for i = 0; i < game.survivors.length(); i = i + 1 {
+    for i in 0..<game.survivors.length() {
       if not(game.survivors[i].active) || game.survivors[i].carried {
         continue
       }
@@ -757,38 +757,38 @@ fn update_hook(game : Game, dt : Float) -> Float {
 
 ///|
 fn update_survivors(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.survivors.length(); i = i + 1 {
-    if not(game.survivors[i].active) {
+  for survivor in game.survivors {
+    if not(survivor.active) {
       continue
     }
 
-    if game.survivors[i].carried {
+    if survivor.carried {
       continue
     }
 
-    game.survivors[i].phase = game.survivors[i].phase + dt * 1.7
-    game.survivors[i].panic = minf(4.0, game.survivors[i].panic + dt * 0.18)
+    survivor.phase = survivor.phase + dt * 1.7
+    survivor.panic = minf(4.0, survivor.panic + dt * 0.18)
 
-    let drift_x : Float = sinf(game.survivors[i].phase * 2.2) *
-      (10.0 + game.survivors[i].panic * 3.0)
-    let drift_y : Float = cosf(game.survivors[i].phase * 1.9) *
-      (6.0 + game.survivors[i].panic * 2.0)
+    let drift_x : Float = sinf(survivor.phase * 2.2) *
+      (10.0 + survivor.panic * 3.0)
+    let drift_y : Float = cosf(survivor.phase * 1.9) *
+      (6.0 + survivor.panic * 2.0)
 
-    game.survivors[i].vx = game.survivors[i].vx * (1.0 - dt * 2.0) +
+    survivor.vx = survivor.vx * (1.0 - dt * 2.0) +
       drift_x * dt
-    game.survivors[i].vy = game.survivors[i].vy * (1.0 - dt * 2.0) +
+    survivor.vy = survivor.vy * (1.0 - dt * 2.0) +
       drift_y * dt
 
-    game.survivors[i].x = game.survivors[i].x + game.survivors[i].vx * dt
-    game.survivors[i].y = game.survivors[i].y + game.survivors[i].vy * dt
+    survivor.x = survivor.x + survivor.vx * dt
+    survivor.y = survivor.y + survivor.vy * dt
 
-    game.survivors[i].x = clampf(
-      game.survivors[i].x,
+    survivor.x = clampf(
+      survivor.x,
       world_left() + survivor_r + 10.0,
       world_right() - survivor_r - 10.0,
     )
-    game.survivors[i].y = clampf(
-      game.survivors[i].y,
+    survivor.y = clampf(
+      survivor.y,
       world_top() + survivor_r + 14.0,
       world_bottom() - survivor_r - 12.0,
     )
@@ -796,9 +796,9 @@ fn update_survivors(game : Game, dt : Float) -> Unit {
     let near_hazard : Bool = false
     ignore(near_hazard)
 
-    if dist2(game.survivors[i].x, game.survivors[i].y, safe_cx(), safe_cy()) <
+    if dist2(survivor.x, survivor.y, safe_cx(), safe_cy()) <
       86.0 * 86.0 {
-      game.survivors[i].panic = maxf(0.0, game.survivors[i].panic - dt * 0.5)
+      survivor.panic = maxf(0.0, survivor.panic - dt * 0.5)
     }
   }
 }
@@ -819,58 +819,58 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
   let tip_x : Float = hook_tip_x(game)
   let tip_y : Float = hook_tip_y(game)
 
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    if not(game.hazards[i].active) {
+  for hazard in game.hazards {
+    if not(hazard.active) {
       continue
     }
 
-    game.hazards[i].phase = game.hazards[i].phase +
-      dt * (1.0 + Float::from_int(game.hazards[i].kind) * 0.8)
+    hazard.phase = hazard.phase +
+      dt * (1.0 + Float::from_int(hazard.kind) * 0.8)
 
-    if game.hazards[i].kind == hazard_cloud {
-      game.hazards[i].vx = game.hazards[i].vx +
-        sinf(game.hazards[i].phase * 1.4) * dt * 80.0
-      game.hazards[i].vy = game.hazards[i].vy + dt * 24.0
-    } else if game.hazards[i].kind == hazard_drone {
+    if hazard.kind == hazard_cloud {
+      hazard.vx = hazard.vx +
+        sinf(hazard.phase * 1.4) * dt * 80.0
+      hazard.vy = hazard.vy + dt * 24.0
+    } else if hazard.kind == hazard_drone {
       let tx : Float = if game.carrying_idx >= 0 { tip_x } else { game.heli_x }
       let ty : Float = if game.carrying_idx >= 0 { tip_y } else { game.heli_y }
 
-      let dx : Float = tx - game.hazards[i].x
-      let dy : Float = ty - game.hazards[i].y
+      let dx : Float = tx - hazard.x
+      let dy : Float = ty - hazard.y
 
       let w : Float = absf(dx) + absf(dy)
       let nx : Float = if w <= 0.001 { 0.0 } else { dx / w }
       let ny : Float = if w <= 0.001 { 0.0 } else { dy / w }
 
-      game.hazards[i].vx = game.hazards[i].vx * (1.0 - dt * 2.4) +
+      hazard.vx = hazard.vx * (1.0 - dt * 2.4) +
         nx * dt * 420.0
-      game.hazards[i].vy = game.hazards[i].vy * (1.0 - dt * 2.4) +
+      hazard.vy = hazard.vy * (1.0 - dt * 2.4) +
         ny * dt * 420.0
     } else {
-      game.hazards[i].vx = game.hazards[i].vx +
-        sinf(game.hazards[i].phase * 3.0) * dt * 96.0
-      game.hazards[i].vy = game.hazards[i].vy + dt * 54.0
+      hazard.vx = hazard.vx +
+        sinf(hazard.phase * 3.0) * dt * 96.0
+      hazard.vy = hazard.vy + dt * 54.0
     }
 
-    game.hazards[i].vx = clampf(game.hazards[i].vx, -260.0, 260.0)
-    game.hazards[i].vy = clampf(game.hazards[i].vy, -220.0, 300.0)
+    hazard.vx = clampf(hazard.vx, -260.0, 260.0)
+    hazard.vy = clampf(hazard.vy, -220.0, 300.0)
 
-    game.hazards[i].x = game.hazards[i].x + game.hazards[i].vx * dt
-    game.hazards[i].y = game.hazards[i].y + game.hazards[i].vy * dt
+    hazard.x = hazard.x + hazard.vx * dt
+    hazard.y = hazard.y + hazard.vy * dt
 
-    if game.hazards[i].x < world_left() - 120.0 ||
-      game.hazards[i].x > world_right() + 120.0 ||
-      game.hazards[i].y < world_top() - 120.0 ||
-      game.hazards[i].y > world_bottom() + 120.0 {
-      game.hazards[i].active = false
+    if hazard.x < world_left() - 120.0 ||
+      hazard.x > world_right() + 120.0 ||
+      hazard.y < world_top() - 120.0 ||
+      hazard.y > world_bottom() + 120.0 {
+      hazard.active = false
       continue
     }
 
-    let rr_heli : Float = game.hazards[i].r + heli_r - 4.0
-    if dist2(game.hazards[i].x, game.hazards[i].y, game.heli_x, game.heli_y) <=
+    let rr_heli : Float = hazard.r + heli_r - 4.0
+    if dist2(hazard.x, hazard.y, game.heli_x, game.heli_y) <=
       rr_heli * rr_heli {
-      hurt_heli(game, hazard_damage(game.hazards[i].kind))
-      game.hazards[i].active = false
+      hurt_heli(game, hazard_damage(hazard.kind))
+      hazard.active = false
       if game.state != state_play {
         return
       }
@@ -880,32 +880,32 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
     if game.carrying_idx >= 0 && game.carrying_idx < game.survivors.length() {
       let idx : Int = game.carrying_idx
       if game.survivors[idx].active {
-        let rr_car : Float = game.hazards[i].r + survivor_r
+        let rr_car : Float = hazard.r + survivor_r
         if dist2(
-            game.hazards[i].x,
-            game.hazards[i].y,
+            hazard.x,
+            hazard.y,
             game.survivors[idx].x,
             game.survivors[idx].y,
           ) <=
           rr_car * rr_car {
-          game.hazards[i].active = false
+          hazard.active = false
           drop_carried_survivor(game)
           continue
         }
       }
     }
 
-    let rr_hook : Float = game.hazards[i].r + 12.0
+    let rr_hook : Float = hazard.r + 12.0
     if hook_speed > 260.0 &&
-      dist2(game.hazards[i].x, game.hazards[i].y, tip_x, tip_y) <=
+      dist2(hazard.x, hazard.y, tip_x, tip_y) <=
       rr_hook * rr_hook {
       let dmg : Float = if hook_speed > 460.0 { 34.0 } else { 18.0 }
-      game.hazards[i].hp = game.hazards[i].hp - dmg
+      hazard.hp = hazard.hp - dmg
 
-      burst(game, game.hazards[i].x, game.hazards[i].y, 14, 0)
+      burst(game, hazard.x, hazard.y, 14, 0)
 
-      if game.hazards[i].hp <= 0.0 {
-        game.hazards[i].active = false
+      if hazard.hp <= 0.0 {
+        hazard.active = false
         game.score = game.score + 8 + game.wave
       }
     }
@@ -914,39 +914,39 @@ fn update_hazards(game : Game, dt : Float, hook_speed : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    game.pickups[i].phase = game.pickups[i].phase + dt * 2.2
+    pickup.phase = pickup.phase + dt * 2.2
 
-    game.pickups[i].x = game.pickups[i].x +
-      (game.pickups[i].vx + sinf(game.pickups[i].phase * 2.3) * 20.0) * dt
-    game.pickups[i].y = game.pickups[i].y +
-      (game.pickups[i].vy + Float::from_int(game.wave) * 4.0) * dt
+    pickup.x = pickup.x +
+      (pickup.vx + sinf(pickup.phase * 2.3) * 20.0) * dt
+    pickup.y = pickup.y +
+      (pickup.vy + Float::from_int(game.wave) * 4.0) * dt
 
-    if game.pickups[i].x < world_left() + 16.0 {
-      game.pickups[i].x = world_left() + 16.0
-      game.pickups[i].vx = absf(game.pickups[i].vx) * 0.6
+    if pickup.x < world_left() + 16.0 {
+      pickup.x = world_left() + 16.0
+      pickup.vx = absf(pickup.vx) * 0.6
     }
-    if game.pickups[i].x > world_right() - 16.0 {
-      game.pickups[i].x = world_right() - 16.0
-      game.pickups[i].vx = -absf(game.pickups[i].vx) * 0.6
+    if pickup.x > world_right() - 16.0 {
+      pickup.x = world_right() - 16.0
+      pickup.vx = -absf(pickup.vx) * 0.6
     }
 
-    if game.pickups[i].y > world_bottom() + 80.0 {
-      game.pickups[i].active = false
+    if pickup.y > world_bottom() + 80.0 {
+      pickup.active = false
       continue
     }
 
     let rr : Float = heli_r + 16.0
-    if dist2(game.heli_x, game.heli_y, game.pickups[i].x, game.pickups[i].y) <=
+    if dist2(game.heli_x, game.heli_y, pickup.x, pickup.y) <=
       rr * rr {
-      let kind : Int = game.pickups[i].kind
-      let px : Float = game.pickups[i].x
-      let py : Float = game.pickups[i].y
-      game.pickups[i].active = false
+      let kind : Int = pickup.kind
+      let px : Float = pickup.x
+      let py : Float = pickup.y
+      pickup.active = false
       collect_pickup(game, kind, px, py)
     }
   }
@@ -970,44 +970,44 @@ fn use_hint(game : Game) -> Bool {
     let mut best_d2 : Float = 1000000000.0
 
     if game.fuel < 40.0 {
-      for i = 0; i < game.pickups.length(); i = i + 1 {
-        if not(game.pickups[i].active) || game.pickups[i].kind != pickup_fuel {
+      for pickup in game.pickups {
+        if not(pickup.active) || pickup.kind != pickup_fuel {
           continue
         }
 
         let d2 : Float = dist2(
           game.heli_x,
           game.heli_y,
-          game.pickups[i].x,
-          game.pickups[i].y,
+          pickup.x,
+          pickup.y,
         )
 
         if d2 < best_d2 {
           best_d2 = d2
-          hx = game.pickups[i].x
-          hy = game.pickups[i].y
+          hx = pickup.x
+          hy = pickup.y
           msg = "Hint: fuel canister marked."
         }
       }
     }
 
     if best_d2 >= 900000000.0 {
-      for i = 0; i < game.survivors.length(); i = i + 1 {
-        if not(game.survivors[i].active) || game.survivors[i].carried {
+      for survivor in game.survivors {
+        if not(survivor.active) || survivor.carried {
           continue
         }
 
         let d2 : Float = dist2(
           game.heli_x,
           game.heli_y,
-          game.survivors[i].x,
-          game.survivors[i].y,
+          survivor.x,
+          survivor.y,
         )
 
         if d2 < best_d2 {
           best_d2 = d2
-          hx = game.survivors[i].x
-          hy = game.survivors[i].y
+          hx = survivor.x
+          hy = survivor.y
           msg = "Hint: nearest civilian marked."
         }
       }

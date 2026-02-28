@@ -58,7 +58,7 @@ fn can_player_fire(game : Game, index : Int) -> Bool {
 
 ///|
 fn update_player_reload_timers(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     let player = game.players[i]
     if player.reload_timer > 0.0 {
       player.reload_timer -= dt
@@ -117,14 +117,14 @@ fn try_move_player(game : Game, index : Int, dir : Int, dt : Float) -> Unit {
 
 ///|
 fn update_player_input(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     if not(is_player_enabled(game, i)) {
-      continue i + 1
+      continue
     }
 
     let player = game.players[i]
     if not(player.active) {
-      continue i + 1
+      continue
     }
 
     let (move_dir, shoot_pressed) = if game.demo_mode {
@@ -175,16 +175,16 @@ fn on_player_destroyed(game : Game, index : Int) -> Unit {
 
 ///|
 fn update_player_respawns(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     if not(is_player_enabled(game, i)) {
-      continue i + 1
+      continue
     }
     let player = game.players[i]
     if player.active {
-      continue i + 1
+      continue
     }
     if player.lives <= 0 {
-      continue i + 1
+      continue
     }
     player.respawn_timer -= dt
     if player.respawn_timer <= 0.0 {
@@ -197,9 +197,9 @@ fn update_player_respawns(game : Game, dt : Float) -> Unit {
 ///|
 fn all_players_out(game : Game) -> Bool {
   let mut living = 0
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     if not(is_player_enabled(game, i)) {
-      continue i + 1
+      continue
     }
     let player = game.players[i]
     if player.active || player.lives > 0 {

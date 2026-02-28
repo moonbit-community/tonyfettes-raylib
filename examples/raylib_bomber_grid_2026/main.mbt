@@ -49,8 +49,8 @@ fn in_grid(x : Int, y : Int) -> Bool {
 ///|
 fn init_map() -> Array[Int] {
   let map : Array[Int] = Array::make(cols * rows, 0)
-  for y = 0; y < rows; y = y + 1 {
-    for x = 0; x < cols; x = x + 1 {
+  for y in 0..<rows {
+    for x in 0..<cols {
       let mut v = 0
       if x == 0 || y == 0 || x == cols - 1 || y == rows - 1 {
         v = 1
@@ -74,8 +74,8 @@ fn init_map() -> Array[Int] {
     (cols - 3, rows - 2),
     (cols - 2, rows - 3),
   ]
-  for i = 0; i < clear_cells.length(); i = i + 1 {
-    let (x, y) = clear_cells[i]
+  for clear_cell in clear_cells {
+    let (x, y) = clear_cell
     map[idx(x, y)] = 0
   }
 
@@ -106,11 +106,11 @@ fn fire_hits(map : Array[Int], bomb : Bomb, tx : Int, ty : Int) -> Bool {
   }
 
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-  for i = 0; i < dirs.length(); i = i + 1 {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     let mut x = bomb.x
     let mut y = bomb.y
-    for _step = 0; _step < 3; _step = _step + 1 {
+    for _step in 0..<3 {
       x = x + dx
       y = y + dy
       if not(in_grid(x, y)) {
@@ -139,11 +139,11 @@ fn apply_explosion(map : Array[Int], bomb : Bomb) -> Int {
 
   let mut destroyed = 0
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-  for i = 0; i < dirs.length(); i = i + 1 {
-    let (dx, dy) = dirs[i]
+  for dir in dirs {
+    let (dx, dy) = dir
     let mut x = bomb.x
     let mut y = bomb.y
-    for _step = 0; _step < 3; _step = _step + 1 {
+    for _step in 0..<3 {
       x = x + dx
       y = y + dy
       if not(in_grid(x, y)) {
@@ -173,7 +173,7 @@ fn draw_fire_arm(
 ) -> Unit {
   let mut x = bomb.x
   let mut y = bomb.y
-  for _step = 0; _step < 3; _step = _step + 1 {
+  for _step in 0..<3 {
     x = x + dx
     y = y + dy
     if not(in_grid(x, y)) {
@@ -221,14 +221,14 @@ fn main {
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
       let fresh = init_map()
-      for i = 0; i < map.length(); i = i + 1 {
+      for i in 0..<map.length() {
         map[i] = fresh[i]
       }
       player_x = 1
       player_y = 1
       move_cd = 0.0
       bomb.active = false
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         enemies[i].alive = true
         enemies[i].x = cols - 2 - i
         enemies[i].y = rows - 2
@@ -301,43 +301,43 @@ fn main {
         lose = true
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if not(enemies[i].alive) {
+      for enemy in enemies {
+        if not(enemy.alive) {
           continue
         }
 
-        if fire_hits(map, bomb, enemies[i].x, enemies[i].y) {
-          enemies[i].alive = false
+        if fire_hits(map, bomb, enemy.x, enemy.y) {
+          enemy.alive = false
           score = score + 120
           continue
         }
 
-        enemies[i].step_timer = enemies[i].step_timer + dt
-        if enemies[i].step_timer >= 0.32 {
-          enemies[i].step_timer = enemies[i].step_timer - 0.32
+        enemy.step_timer = enemy.step_timer + dt
+        if enemy.step_timer >= 0.32 {
+          enemy.step_timer = enemy.step_timer - 0.32
           let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
           let start = @raylib.get_random_value(0, 3)
-          for try_i = 0; try_i < dirs.length(); try_i = try_i + 1 {
+          for try_i in 0..<dirs.length() {
             let j = (start + try_i) % dirs.length()
             let (ddx, ddy) = dirs[j]
-            let nx = enemies[i].x + ddx
-            let ny = enemies[i].y + ddy
+            let nx = enemy.x + ddx
+            let ny = enemy.y + ddy
             if is_walkable(map, nx, ny, bomb) {
-              enemies[i].x = nx
-              enemies[i].y = ny
+              enemy.x = nx
+              enemy.y = ny
               break
             }
           }
         }
 
-        if enemies[i].x == player_x && enemies[i].y == player_y {
+        if enemy.x == player_x && enemy.y == player_y {
           lose = true
         }
       }
 
       let mut alive_enemy = 0
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if enemies[i].alive {
+      for enemy in enemies {
+        if enemy.alive {
           alive_enemy = alive_enemy + 1
         }
       }
@@ -349,8 +349,8 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(16, 16, 24, 255))
 
-    for y = 0; y < rows; y = y + 1 {
-      for x = 0; x < cols; x = x + 1 {
+    for y in 0..<rows {
+      for x in 0..<cols {
         let px = off_x + x * tile
         let py = off_y + y * tile
         match map[idx(x, y)] {
@@ -400,10 +400,10 @@ fn main {
       @raylib.skyblue,
     )
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if enemies[i].alive {
-        let ex = off_x + enemies[i].x * tile
-        let ey = off_y + enemies[i].y * tile
+    for enemy in enemies {
+      if enemy.alive {
+        let ex = off_x + enemy.x * tile
+        let ey = off_y + enemy.y * tile
         @raylib.draw_rectangle(
           ex + 8,
           ey + 8,

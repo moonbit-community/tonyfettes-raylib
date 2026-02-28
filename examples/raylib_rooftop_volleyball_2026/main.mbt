@@ -111,14 +111,14 @@ fn inside_rect(
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].ttl = 0.0
-    ps[i].kind = 0
-    ps[i].active = false
+  for ps_elem in ps {
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.ttl = 0.0
+    ps_elem.kind = 0
+    ps_elem.active = false
   }
 }
 
@@ -131,20 +131,20 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for ps_elem in ps {
     if done {
       continue
     }
 
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      ps[i].ttl = Float::from_int(@raylib.get_random_value(12, 60)) /
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
+      ps_elem.ttl = Float::from_int(@raylib.get_random_value(12, 60)) /
         Float::from_int(100)
-      ps[i].kind = kind
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -159,7 +159,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -592,18 +592,18 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      particles[i].x = particles[i].x + particles[i].vx * dt
-      particles[i].y = particles[i].y + particles[i].vy * dt
-      particles[i].vy = particles[i].vy + 280.0 * dt
-      particles[i].ttl = particles[i].ttl - dt
+      particle.x = particle.x + particle.vx * dt
+      particle.y = particle.y + particle.vy * dt
+      particle.vy = particle.vy + 280.0 * dt
+      particle.ttl = particle.ttl - dt
 
-      if particles[i].ttl <= 0.0 {
-        particles[i].active = false
+      if particle.ttl <= 0.0 {
+        particle.active = false
       }
     }
 
@@ -868,7 +868,7 @@ fn main {
       @raylib.Color::new(20, 30 + glow / 6, 62 + glow / 3, 255),
     )
 
-    for i = 0; i < 90; i = i + 1 {
+    for i in 0..<90 {
       let x = (i * 86 + (crowd_t * 48.0).to_int()) % (sw + 180) - 90
       let h = 130 + i * 43 % 280
       let w = 44 + i * 17 % 76
@@ -916,7 +916,7 @@ fn main {
       @raylib.Color::new(74, 74, 82, 255),
     )
 
-    for i = 0; i < 36; i = i + 1 {
+    for i in 0..<36 {
       let x = (i * 40 + (crowd_t * 100.0).to_int()) % (sw + 80) - 40
       @raylib.draw_line(
         x,
@@ -942,7 +942,7 @@ fn main {
       @raylib.Color::new(214, 220, 232, 255),
     )
 
-    for y = 0; y < net_h / 12; y = y + 1 {
+    for y in 0..<(net_h / 12) {
       let yy = (court_top - Float::from_int(net_h) + Float::from_int(y * 12)).to_int()
       @raylib.draw_line(
         net_x - 22,
@@ -1107,23 +1107,23 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let c = if particles[i].kind == 0 {
+      let c = if particle.kind == 0 {
         @raylib.Color::new(255, 116, 122, 255)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 228, 120, 255)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(226, 156, 252, 255)
       } else {
         @raylib.Color::new(118, 230, 246, 255)
       }
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        particles[i].y.to_int(),
+        (particle.x + shake_x).to_int(),
+        particle.y.to_int(),
         2.0,
         c,
       )

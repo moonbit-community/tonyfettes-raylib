@@ -138,7 +138,7 @@ fn gui_draw_text(
     // No wrapping: single line per newline
     let mut start = 0
     let mut w : Float = 0.0
-    for i = 0; i < cp_count; i = i + 1 {
+    for i in 0..<cp_count {
       let cp = codepoints[i]
       if cp == 10 {
         // Newline
@@ -166,7 +166,7 @@ fn gui_draw_text(
     let effective_w = tb_w - icon_offset_x
     let mut start = 0
     let mut w : Float = 0.0
-    for i = 0; i < cp_count; i = i + 1 {
+    for i in 0..<cp_count {
       let cp = codepoints[i]
       if cp == 10 {
         line_starts.push(start)
@@ -203,7 +203,7 @@ fn gui_draw_text(
     let mut w : Float = 0.0
     let mut last_space = -1
     let mut w_at_last_space : Float = 0.0
-    for i = 0; i < cp_count; i = i + 1 {
+    for i in 0..<cp_count {
       let cp = codepoints[i]
       if cp == 10 {
         line_starts.push(start)
@@ -234,7 +234,7 @@ fn gui_draw_text(
             start = last_space + 1
             // Recalculate width from new start to current position
             let mut new_w : Float = 0.0
-            for j = start; j < i; j = j + 1 {
+            for j in start..<i {
               let cp_j = codepoints[j]
               let gi_j = @raylib.get_glyph_info(font, cp_j)
               let ar_j = @raylib.get_glyph_atlas_rec(font, cp_j)
@@ -271,7 +271,7 @@ fn gui_draw_text(
   let total_height = Float::from_int(gui_get_style(ControlDefault, TextSize)) +
     Float::from_int(line_count - 1) * line_height
   // Second pass: render each line
-  for line_idx = 0; line_idx < line_count; line_idx = line_idx + 1 {
+  for line_idx in 0..<line_count {
     let l_start = line_starts[line_idx]
     let l_end = line_ends[line_idx]
     let l_width = line_widths[line_idx]
@@ -346,7 +346,7 @@ fn gui_draw_text(
             Float::from_int(dot_info.advance_x) * scale_factor + spacing
           }
           let ellipsis_w = dot_width * 3.0
-          for i = l_start; i < l_end; i = i + 1 {
+          for i in l_start..<l_end {
             let cp = codepoints[i]
             let glyph_info = @raylib.get_glyph_info(font, cp)
             let atlas_rec = @raylib.get_glyph_atlas_rec(font, cp)
@@ -363,7 +363,7 @@ fn gui_draw_text(
           }
           // Draw the codepoints that fit
           let mut cx = bx
-          for i = l_start; i < l_start + fit_count; i = i + 1 {
+          for i in l_start..<(l_start + fit_count) {
             let cp = codepoints[i]
             let glyph_info = @raylib.get_glyph_info(font, cp)
             let atlas_rec = @raylib.get_glyph_atlas_rec(font, cp)
@@ -385,7 +385,7 @@ fn gui_draw_text(
             cx = cx + glyph_width
           }
           // Draw "..."
-          for dot_i = 0; dot_i < 3; dot_i = dot_i + 1 {
+          for dot_i in 0..<3 {
             let pos = @raylib.Vector2::new(cx, by)
             @raylib.draw_text_codepoint(
               font,
@@ -399,7 +399,7 @@ fn gui_draw_text(
         } else {
           // Text fits, draw normally
           let mut cx = bx
-          for i = l_start; i < l_end; i = i + 1 {
+          for i in l_start..<l_end {
             let cp = codepoints[i]
             let glyph_info = @raylib.get_glyph_info(font, cp)
             let atlas_rec = @raylib.get_glyph_atlas_rec(font, cp)
@@ -424,7 +424,7 @@ fn gui_draw_text(
       } else {
         // Wrapping modes: draw all codepoints in the line range
         let mut cx = bx
-        for i = l_start; i < l_end; i = i + 1 {
+        for i in l_start..<l_end {
           let cp = codepoints[i]
           let glyph_info = @raylib.get_glyph_info(font, cp)
           let atlas_rec = @raylib.get_glyph_atlas_rec(font, cp)

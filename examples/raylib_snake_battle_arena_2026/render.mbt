@@ -23,7 +23,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(68, 38, 66, 34),
   )
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = i * 74
     @raylib.draw_rectangle(
       0,
@@ -78,12 +78,12 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = grid_w * tile
   let bh : Int = grid_h * tile
 
-  for x = 0; x <= grid_w; x = x + 1 {
+  for x in 0..=grid_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(px, by, px, by + bh, @raylib.Color::new(76, 106, 136, 98))
   }
 
-  for y = 0; y <= grid_h; y = y + 1 {
+  for y in 0..=grid_h {
     let py : Int = by + y * tile
     @raylib.draw_line(bx, py, bx + bw, py, @raylib.Color::new(76, 106, 136, 98))
   }
@@ -265,31 +265,31 @@ fn draw_hint(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let a : Int = if game.sparks[i].life > 0.7 {
+    let a : Int = if spark.life > 0.7 {
       236
-    } else if game.sparks[i].life > 0.4 {
+    } else if spark.life > 0.4 {
       190
     } else {
       128
     }
 
-    let c : @raylib.Color = if game.sparks[i].kind == 2 {
+    let c : @raylib.Color = if spark.kind == 2 {
       @raylib.Color::new(255, 164, 122, a)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(255, 228, 140, a)
     } else {
       @raylib.Color::new(140, 220, 174, a)
     }
 
     @raylib.draw_circle(
-      game.sparks[i].x.to_int(),
-      game.sparks[i].y.to_int(),
-      1.0 + game.sparks[i].size,
+      spark.x.to_int(),
+      spark.y.to_int(),
+      1.0 + spark.size,
       c,
     )
   }
@@ -794,7 +794,7 @@ fn draw_frame(
   draw_food(game, bx, by, tile)
   draw_trap(game, bx, by, tile)
 
-  for rid = 0; rid < game.rivals.length(); rid = rid + 1 {
+  for rid in 0..<game.rivals.length() {
     draw_rival(game, rid, bx, by, tile)
   }
   draw_player(game, bx, by, tile)

@@ -25,12 +25,12 @@ struct Enemy {
 
 ///|
 fn spawn_torpedo(ts : Array[Torpedo], x : Float, y : Float, vx : Float) -> Unit {
-  for i = 0; i < ts.length(); i = i + 1 {
-    if not(ts[i].alive) {
-      ts[i].alive = true
-      ts[i].x = x
-      ts[i].y = y
-      ts[i].vx = vx
+  for ts_elem in ts {
+    if not(ts_elem.alive) {
+      ts_elem.alive = true
+      ts_elem.x = x
+      ts_elem.y = y
+      ts_elem.vx = vx
       break
     }
   }
@@ -38,15 +38,15 @@ fn spawn_torpedo(ts : Array[Torpedo], x : Float, y : Float, vx : Float) -> Unit 
 
 ///|
 fn spawn_enemy(es : Array[Enemy]) -> Unit {
-  for i = 0; i < es.length(); i = i + 1 {
-    if not(es[i].alive) {
-      es[i].alive = true
-      es[i].x = Float::from_int(sw + 80)
-      es[i].y = Float::from_int(@raylib.get_random_value(190, sh - 70))
-      es[i].vx = Float::from_int(@raylib.get_random_value(-150, -90))
-      es[i].hp = if @raylib.get_random_value(0, 99) < 25 { 2 } else { 1 }
-      es[i].shoot_cd = Float::from_int(@raylib.get_random_value(1, 3))
-      es[i].stealth = @raylib.get_random_value(0, 99) < 45
+  for es_elem in es {
+    if not(es_elem.alive) {
+      es_elem.alive = true
+      es_elem.x = Float::from_int(sw + 80)
+      es_elem.y = Float::from_int(@raylib.get_random_value(190, sh - 70))
+      es_elem.vx = Float::from_int(@raylib.get_random_value(-150, -90))
+      es_elem.hp = if @raylib.get_random_value(0, 99) < 25 { 2 } else { 1 }
+      es_elem.shoot_cd = Float::from_int(@raylib.get_random_value(1, 3))
+      es_elem.stealth = @raylib.get_random_value(0, 99) < 45
       break
     }
   }
@@ -54,15 +54,15 @@ fn spawn_enemy(es : Array[Enemy]) -> Unit {
 
 ///|
 fn reset_torpedoes(ts : Array[Torpedo]) -> Unit {
-  for i = 0; i < ts.length(); i = i + 1 {
-    ts[i].alive = false
+  for ts_elem in ts {
+    ts_elem.alive = false
   }
 }
 
 ///|
 fn reset_enemies(es : Array[Enemy]) -> Unit {
-  for i = 0; i < es.length(); i = i + 1 {
-    es[i].alive = false
+  for es_elem in es {
+    es_elem.alive = false
   }
 }
 
@@ -192,83 +192,83 @@ fn main {
         spawn_enemy(enemies)
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if not(enemies[i].alive) {
+      for enemy in enemies {
+        if not(enemy.alive) {
           continue
         }
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
+        enemy.x = enemy.x + enemy.vx * dt
 
         // Simple drifting depth movement
         let drift = Float::from_int(@raylib.get_random_value(-20, 20)) * dt
-        enemies[i].y = enemies[i].y + drift
-        if enemies[i].y < 150.0 {
-          enemies[i].y = 150.0
+        enemy.y = enemy.y + drift
+        if enemy.y < 150.0 {
+          enemy.y = 150.0
         }
-        if enemies[i].y > Float::from_int(sh - 40) {
-          enemies[i].y = Float::from_int(sh - 40)
-        }
-
-        enemies[i].shoot_cd = enemies[i].shoot_cd - dt
-        if enemies[i].shoot_cd <= 0.0 {
-          enemies[i].shoot_cd = Float::from_int(@raylib.get_random_value(2, 4))
-          spawn_torpedo(enemy_t, enemies[i].x - 18.0, enemies[i].y, -300.0)
+        if enemy.y > Float::from_int(sh - 40) {
+          enemy.y = Float::from_int(sh - 40)
         }
 
-        if enemies[i].x < -60.0 {
-          enemies[i].alive = false
+        enemy.shoot_cd = enemy.shoot_cd - dt
+        if enemy.shoot_cd <= 0.0 {
+          enemy.shoot_cd = Float::from_int(@raylib.get_random_value(2, 4))
+          spawn_torpedo(enemy_t, enemy.x - 18.0, enemy.y, -300.0)
+        }
+
+        if enemy.x < -60.0 {
+          enemy.alive = false
           hp = hp - 6
           msg = "Enemy slipped past defense line."
         }
       }
 
-      for i = 0; i < player_t.length(); i = i + 1 {
-        if not(player_t[i].alive) {
+      for player_t_elem in player_t {
+        if not(player_t_elem.alive) {
           continue
         }
-        player_t[i].x = player_t[i].x + player_t[i].vx * dt
-        if player_t[i].x > Float::from_int(sw + 20) {
-          player_t[i].alive = false
+        player_t_elem.x = player_t_elem.x + player_t_elem.vx * dt
+        if player_t_elem.x > Float::from_int(sw + 20) {
+          player_t_elem.alive = false
         }
       }
 
-      for i = 0; i < enemy_t.length(); i = i + 1 {
-        if not(enemy_t[i].alive) {
+      for enemy_t_elem in enemy_t {
+        if not(enemy_t_elem.alive) {
           continue
         }
-        enemy_t[i].x = enemy_t[i].x + enemy_t[i].vx * dt
-        if enemy_t[i].x < -20.0 {
-          enemy_t[i].alive = false
+        enemy_t_elem.x = enemy_t_elem.x + enemy_t_elem.vx * dt
+        if enemy_t_elem.x < -20.0 {
+          enemy_t_elem.alive = false
         }
 
-        if dist_sq(enemy_t[i].x, enemy_t[i].y, px, py) < 20.0 * 20.0 {
-          enemy_t[i].alive = false
+        if dist_sq(enemy_t_elem.x, enemy_t_elem.y, px, py) < 20.0 * 20.0 {
+          enemy_t_elem.alive = false
           hp = hp - 11
           msg = "Direct hit by enemy torpedo."
         }
       }
 
-      for ti = 0; ti < player_t.length(); ti = ti + 1 {
-        if not(player_t[ti].alive) {
+      for player_t_elem in player_t {
+        if not(player_t_elem.alive) {
           continue
         }
-        for ei = 0; ei < enemies.length(); ei = ei + 1 {
-          if not(enemies[ei].alive) {
+        for enemy in enemies {
+          if not(enemy.alive) {
             continue
           }
           if dist_sq(
-              player_t[ti].x,
-              player_t[ti].y,
-              enemies[ei].x,
-              enemies[ei].y,
+              player_t_elem.x,
+              player_t_elem.y,
+              enemy.x,
+              enemy.y,
             ) <
             19.0 * 19.0 {
-            player_t[ti].alive = false
-            enemies[ei].hp = enemies[ei].hp - 1
-            if enemies[ei].hp <= 0 {
-              enemies[ei].alive = false
+            player_t_elem.alive = false
+            enemy.hp = enemy.hp - 1
+            if enemy.hp <= 0 {
+              enemy.alive = false
               kills = kills + 1
-              let bonus = if enemies[ei].stealth { 70 } else { 45 }
+              let bonus = if enemy.stealth { 70 } else { 45 }
               score = score + bonus
               msg = "Enemy submarine destroyed."
             }
@@ -316,31 +316,31 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if enemies[i].alive {
-        let visible = not(enemies[i].stealth) || sonar_active > 0.0
+    for enemy in enemies {
+      if enemy.alive {
+        let visible = not(enemy.stealth) || sonar_active > 0.0
         let c = if visible {
           @raylib.red
         } else {
           @raylib.fade(@raylib.darkblue, 0.35)
         }
         @raylib.draw_ellipse(
-          enemies[i].x.to_int(),
-          enemies[i].y.to_int(),
+          enemy.x.to_int(),
+          enemy.y.to_int(),
           26.0,
           12.0,
           c,
         )
         @raylib.draw_circle(
-          (enemies[i].x + 18.0).to_int(),
-          enemies[i].y.to_int(),
+          (enemy.x + 18.0).to_int(),
+          enemy.y.to_int(),
           5.0,
           c,
         )
         if visible {
           @raylib.draw_rectangle(
-            (enemies[i].x - 10.0).to_int(),
-            (enemies[i].y - 20.0).to_int(),
+            (enemy.x - 10.0).to_int(),
+            (enemy.y - 20.0).to_int(),
             20,
             5,
             @raylib.maroon,
@@ -349,22 +349,22 @@ fn main {
       }
     }
 
-    for i = 0; i < player_t.length(); i = i + 1 {
-      if player_t[i].alive {
+    for player_t_elem in player_t {
+      if player_t_elem.alive {
         @raylib.draw_rectangle(
-          (player_t[i].x - 8.0).to_int(),
-          (player_t[i].y - 2.0).to_int(),
+          (player_t_elem.x - 8.0).to_int(),
+          (player_t_elem.y - 2.0).to_int(),
           14,
           4,
           @raylib.yellow,
         )
       }
     }
-    for i = 0; i < enemy_t.length(); i = i + 1 {
-      if enemy_t[i].alive {
+    for enemy_t_elem in enemy_t {
+      if enemy_t_elem.alive {
         @raylib.draw_rectangle(
-          (enemy_t[i].x - 8.0).to_int(),
-          (enemy_t[i].y - 2.0).to_int(),
+          (enemy_t_elem.x - 8.0).to_int(),
+          (enemy_t_elem.y - 2.0).to_int(),
           14,
           4,
           @raylib.orange,

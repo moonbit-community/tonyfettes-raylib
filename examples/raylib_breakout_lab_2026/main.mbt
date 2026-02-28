@@ -41,8 +41,8 @@ struct Brick {
 ///|
 fn make_bricks() -> Array[Brick] {
   let arr : Array[Brick] = []
-  for r = 0; r < bricks_rows; r = r + 1 {
-    for c = 0; c < bricks_cols; c = c + 1 {
+  for r in 0..<bricks_rows {
+    for c in 0..<bricks_cols {
       let px = bricks_x0 + c * (brick_w + brick_gap)
       let py = bricks_y0 + r * (brick_h + brick_gap)
       let hp = if r < 2 { 3 } else if r < 5 { 2 } else { 1 }
@@ -99,8 +99,8 @@ fn main {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       let fresh = make_bricks()
       bricks.clear()
-      for i = 0; i < fresh.length(); i = i + 1 {
-        bricks.push(fresh[i])
+      for fresh_elem in fresh {
+        bricks.push(fresh_elem)
       }
 
       let (nx, ny, nvx, nvy) = reset_ball()
@@ -164,14 +164,14 @@ fn main {
       }
 
       let mut alive_count = 0
-      for i = 0; i < bricks.length(); i = i + 1 {
-        if not(bricks[i].alive) {
+      for brick in bricks {
+        if not(brick.alive) {
           continue
         }
         alive_count = alive_count + 1
 
-        let bx = fi(bricks[i].x)
-        let by = fi(bricks[i].y)
+        let bx = fi(brick.x)
+        let by = fi(brick.y)
         if ball_x + ball_r < bx ||
           ball_x - ball_r > bx + fi(brick_w) ||
           ball_y + ball_r < by ||
@@ -192,10 +192,10 @@ fn main {
           ball_vy = -ball_vy
         }
 
-        bricks[i].hp = bricks[i].hp - 1
+        brick.hp = brick.hp - 1
         score = score + 10
-        if bricks[i].hp <= 0 {
-          bricks[i].alive = false
+        if brick.hp <= 0 {
+          brick.alive = false
           score = score + 40
           if not(wide_paddle) && @raylib.get_random_value(0, 11) == 0 {
             wide_paddle = true
@@ -231,18 +231,18 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(14, 16, 28, 255))
 
-    for i = 0; i < bricks.length(); i = i + 1 {
-      if bricks[i].alive {
+    for brick in bricks {
+      if brick.alive {
         @raylib.draw_rectangle(
-          bricks[i].x,
-          bricks[i].y,
+          brick.x,
+          brick.y,
           brick_w,
           brick_h,
-          brick_color(bricks[i].hp),
+          brick_color(brick.hp),
         )
         @raylib.draw_rectangle_lines(
-          bricks[i].x,
-          bricks[i].y,
+          brick.x,
+          brick.y,
           brick_w,
           brick_h,
           @raylib.black,

@@ -127,30 +127,30 @@ fn note_y(note_t : Float, song_t : Float) -> Float {
 
 ///|
 fn clear_notes(notes : Array[Note]) -> Unit {
-  for i = 0; i < notes.length(); i = i + 1 {
-    notes[i].active = false
-    notes[i].lane = 0
-    notes[i].time = 0.0
-    notes[i].kind = 0
-    notes[i].end_time = 0.0
-    notes[i].state = 0
-    notes[i].hold_ratio = 0.0
-    notes[i].pop_t = 0.0
+  for note in notes {
+    note.active = false
+    note.lane = 0
+    note.time = 0.0
+    note.kind = 0
+    note.end_time = 0.0
+    note.state = 0
+    note.hold_ratio = 0.0
+    note.pop_t = 0.0
   }
 }
 
 ///|
 fn clear_particles(ps : Array[Particle]) -> Unit {
-  for i = 0; i < ps.length(); i = i + 1 {
-    ps[i].active = false
-    ps[i].x = 0.0
-    ps[i].y = 0.0
-    ps[i].vx = 0.0
-    ps[i].vy = 0.0
-    ps[i].size = 0.0
-    ps[i].t = 0.0
-    ps[i].life = 0.0
-    ps[i].kind = 0
+  for ps_elem in ps {
+    ps_elem.active = false
+    ps_elem.x = 0.0
+    ps_elem.y = 0.0
+    ps_elem.vx = 0.0
+    ps_elem.vy = 0.0
+    ps_elem.size = 0.0
+    ps_elem.t = 0.0
+    ps_elem.life = 0.0
+    ps_elem.kind = 0
   }
 }
 
@@ -163,20 +163,20 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < ps.length(); i = i + 1 {
+  for ps_elem in ps {
     if done {
       continue
     }
-    if not(ps[i].active) {
-      ps[i].active = true
-      ps[i].x = x
-      ps[i].y = y
-      ps[i].vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
-      ps[i].vy = Float::from_int(@raylib.get_random_value(-260, 90)) * speed
-      ps[i].size = Float::from_int(@raylib.get_random_value(3, 7))
-      ps[i].t = 0.0
-      ps[i].life = Float::from_int(@raylib.get_random_value(20, 56)) / 100.0
-      ps[i].kind = kind
+    if not(ps_elem.active) {
+      ps_elem.active = true
+      ps_elem.x = x
+      ps_elem.y = y
+      ps_elem.vx = Float::from_int(@raylib.get_random_value(-240, 240)) * speed
+      ps_elem.vy = Float::from_int(@raylib.get_random_value(-260, 90)) * speed
+      ps_elem.size = Float::from_int(@raylib.get_random_value(3, 7))
+      ps_elem.t = 0.0
+      ps_elem.life = Float::from_int(@raylib.get_random_value(20, 56)) / 100.0
+      ps_elem.kind = kind
       done = true
     }
   }
@@ -191,7 +191,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     spawn_particle(ps, x, y, speed, kind)
   }
 }
@@ -203,7 +203,7 @@ fn build_chart(notes : Array[Note]) -> (Int, Float) {
   let mut n : Int = 0
   let mut t : Float = 1.45
 
-  for i = 0; i < 430; i = i + 1 {
+  for i in 0..<430 {
     let lane : Int = (i * 7 + i / 5 * 3 + i / 23 * 2) % lane_count
     let mut kind : Int = 0
     let mut hold_len : Float = 0.0
@@ -349,7 +349,7 @@ fn main {
 
     clear_particles(particles)
 
-    for i = 0; i < lane_touch_prev.length(); i = i + 1 {
+    for i in 0..<lane_touch_prev.length() {
       lane_touch_prev[i] = false
       lane_down[i] = false
       lane_press[i] = false
@@ -496,7 +496,7 @@ fn main {
         burst(particles, Float::from_int(sw / 2), hit_y, 60, 0.48, 0)
       }
 
-      for lane = 0; lane < lane_count; lane = lane + 1 {
+      for lane in 0..<lane_count {
         let x = lane_x(lane)
         let touch_area_y : Int = sh - 170
         let touch_area_h : Int = 165
@@ -536,14 +536,14 @@ fn main {
       }
 
       if song_t >= -0.25 {
-        for lane = 0; lane < lane_count; lane = lane + 1 {
+        for lane in 0..<lane_count {
           if not(lane_press[lane]) {
             continue
           }
 
           let mut best : Int = -1
           let mut best_dist : Float = 99.0
-          for i = 0; i < note_count; i = i + 1 {
+          for i in 0..<note_count {
             if not(notes[i].active) {
               continue
             }
@@ -591,7 +591,7 @@ fn main {
           }
         }
 
-        for i = 0; i < note_count; i = i + 1 {
+        for i in 0..<note_count {
           if not(notes[i].active) {
             continue
           }
@@ -662,18 +662,18 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      particles[i].t = particles[i].t + dt
-      if particles[i].t >= particles[i].life {
-        particles[i].active = false
+      particle.t = particle.t + dt
+      if particle.t >= particle.life {
+        particle.active = false
       } else {
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 1.8)
-        particles[i].vy = particles[i].vy + 560.0 * dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (Float::from_int(1) - dt * 1.8)
+        particle.vy = particle.vy + 560.0 * dt
       }
     }
 
@@ -702,7 +702,7 @@ fn main {
 
     @raylib.clear_background(@raylib.Color::new(b0, b1, b2, 255))
 
-    for i = 0; i < 24; i = i + 1 {
+    for i in 0..<24 {
       let y = i * 36 + (song_t * 60.0).to_int() % 36
       let c = 16 + i * 3 % 26 + glow / 12
       @raylib.draw_rectangle(
@@ -714,7 +714,7 @@ fn main {
       )
     }
 
-    for i = 0; i < 18; i = i + 1 {
+    for i in 0..<18 {
       let x = i * 74 + (song_t * 40.0).to_int() % 74
       let c = 14 + i * 5 % 28 + glow / 16
       @raylib.draw_rectangle(
@@ -734,7 +734,7 @@ fn main {
       @raylib.Color::new(8, 12, 22, 224),
     )
 
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       let lx = lane_x(lane) + shake_x.to_int()
       let mut band = 44 + lane * 22
       if lane_down[lane] && state == 1 {
@@ -782,7 +782,7 @@ fn main {
       @raylib.Color::new(255, 255, 255, 224),
     )
 
-    for i = 0; i < note_count; i = i + 1 {
+    for i in 0..<note_count {
       if not(notes[i].active) {
         continue
       }
@@ -874,26 +874,26 @@ fn main {
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let life_k = particles[i].t / particles[i].life
+      let life_k = particle.t / particle.life
       let alpha : Int = ((Float::from_int(1) - life_k) * 230.0).to_int()
       let mut col = @raylib.Color::new(116, 220, 252, alpha)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         col = @raylib.Color::new(136, 246, 176, alpha)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         col = @raylib.Color::new(250, 188, 98, alpha)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         col = @raylib.Color::new(232, 82, 104, alpha)
       }
 
       @raylib.draw_circle(
-        (particles[i].x + shake_x).to_int(),
-        (particles[i].y + shake_y).to_int(),
-        particles[i].size,
+        (particle.x + shake_x).to_int(),
+        (particle.y + shake_y).to_int(),
+        particle.size,
         col,
       )
     }
@@ -1033,7 +1033,7 @@ fn main {
       @raylib.Color::new(16, 20, 28, 255),
     )
 
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       let x = lane_x(lane)
       let y = sh - 164
       let mut c = @raylib.Color::new(58, 76, 108, 228)

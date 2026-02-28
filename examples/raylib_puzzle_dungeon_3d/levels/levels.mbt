@@ -384,7 +384,7 @@ pub fn get_world_completion(game : @types.Game, world : Int) -> (Int, Int) {
   let start = world * @types.floors_per_world
   let mut completed = 0
   let total = @types.floors_per_world
-  for i = start; i < start + total; i = i + 1 {
+  for i in start..<(start + total) {
     if i < @types.max_floors && game.floor_info[i].completed {
       completed += 1
     }
@@ -399,7 +399,7 @@ pub fn get_world_stars(game : @types.Game, world : Int) -> (Int, Int) {
   let start = world * @types.floors_per_world
   let mut earned = 0
   let total = @types.floors_per_world * @types.max_stars
-  for i = start; i < start + @types.floors_per_world; i = i + 1 {
+  for i in start..<(start + @types.floors_per_world) {
     if i < @types.max_floors {
       earned += game.floor_info[i].stars
     }

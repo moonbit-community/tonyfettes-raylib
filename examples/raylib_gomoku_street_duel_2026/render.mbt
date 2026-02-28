@@ -19,7 +19,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(64, 40, 30, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 20
     @raylib.draw_rectangle(
       0,
@@ -55,7 +55,7 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
     @raylib.Color::new(214, 188, 146, 226),
   )
 
-  for i = 0; i < board_n; i = i + 1 {
+  for i in 0..<board_n {
     let px : Int = board_x + i * tile
     let py : Int = board_y + i * tile
 
@@ -88,8 +88,8 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
     (11, 11),
   ]
 
-  for i = 0; i < stars.length(); i = i + 1 {
-    let (sx, sy) = stars[i]
+  for star in stars {
+    let (sx, sy) = star
     @raylib.draw_circle(
       board_x + sx * tile,
       board_y + sy * tile,
@@ -188,8 +188,8 @@ fn draw_board(game : Game) -> Unit {
 
   draw_board_grid(board_x, board_y, tile)
 
-  for y = 0; y < board_n; y = y + 1 {
-    for x = 0; x < board_n; x = x + 1 {
+  for y in 0..<board_n {
+    for x in 0..<board_n {
       let p : Int = cell_at(game, x, y)
       if p != player_empty {
         draw_stone(x, y, p, board_x, board_y, tile)
@@ -590,41 +590,41 @@ fn draw_touch_overlay(
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let alpha : Int = if game.sparks[i].life > 0.72 {
+    let alpha : Int = if spark.life > 0.72 {
       244
-    } else if game.sparks[i].life > 0.44 {
+    } else if spark.life > 0.44 {
       206
-    } else if game.sparks[i].life > 0.22 {
+    } else if spark.life > 0.22 {
       170
     } else {
       126
     }
 
-    let core : @raylib.Color = if game.sparks[i].kind == 1 {
+    let core : @raylib.Color = if spark.kind == 1 {
       @raylib.Color::new(255, 214, 108, alpha)
-    } else if game.sparks[i].kind == 0 {
+    } else if spark.kind == 0 {
       @raylib.Color::new(130, 208, 255, alpha)
     } else {
       @raylib.Color::new(210, 196, 255, alpha)
     }
 
-    let edge : @raylib.Color = if game.sparks[i].kind == 1 {
+    let edge : @raylib.Color = if spark.kind == 1 {
       @raylib.Color::new(255, 242, 196, alpha - 44)
-    } else if game.sparks[i].kind == 0 {
+    } else if spark.kind == 0 {
       @raylib.Color::new(206, 236, 255, alpha - 44)
     } else {
       @raylib.Color::new(230, 220, 255, alpha - 44)
     }
 
     let r : Float = 1.2 +
-      game.sparks[i].size * (0.46 + game.sparks[i].life * 0.84)
-    let x : Int = game.sparks[i].x.to_int()
-    let y : Int = game.sparks[i].y.to_int()
+      spark.size * (0.46 + spark.life * 0.84)
+    let x : Int = spark.x.to_int()
+    let y : Int = spark.y.to_int()
 
     @raylib.draw_circle(x, y, r, core)
     @raylib.draw_circle_lines(x, y, r + 1.0, edge)

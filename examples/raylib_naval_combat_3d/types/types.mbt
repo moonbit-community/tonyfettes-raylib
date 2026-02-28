@@ -741,7 +741,7 @@ pub fn Game::new() -> Game {
     battle_stats: BattleStats::new(),
     enemies: {
       let arr : Array[EnemyShip] = []
-      for i = 0; i < max_enemies; i = i + 1 {
+      for i in 0..<max_enemies {
         arr.push(EnemyShip::inactive())
         ignore(i)
       }
@@ -749,7 +749,7 @@ pub fn Game::new() -> Game {
     },
     cannonballs: {
       let arr : Array[Cannonball] = []
-      for i = 0; i < max_cannonballs; i = i + 1 {
+      for i in 0..<max_cannonballs {
         arr.push(Cannonball::inactive())
         ignore(i)
       }
@@ -757,7 +757,7 @@ pub fn Game::new() -> Game {
     },
     particles: {
       let arr : Array[Particle] = []
-      for i = 0; i < max_particles; i = i + 1 {
+      for i in 0..<max_particles {
         arr.push(Particle::inactive())
         ignore(i)
       }
@@ -765,7 +765,7 @@ pub fn Game::new() -> Game {
     },
     islands: {
       let arr : Array[Island] = []
-      for i = 0; i < max_islands; i = i + 1 {
+      for i in 0..<max_islands {
         arr.push(Island::inactive())
         ignore(i)
       }
@@ -773,7 +773,7 @@ pub fn Game::new() -> Game {
     },
     wakes: {
       let arr : Array[WaterWake] = []
-      for i = 0; i < max_wakes; i = i + 1 {
+      for i in 0..<max_wakes {
         arr.push(WaterWake::inactive())
         ignore(i)
       }
@@ -781,7 +781,7 @@ pub fn Game::new() -> Game {
     },
     debris_pool: {
       let arr : Array[Debris] = []
-      for i = 0; i < max_debris; i = i + 1 {
+      for i in 0..<max_debris {
         arr.push(Debris::inactive())
         ignore(i)
       }
@@ -789,7 +789,7 @@ pub fn Game::new() -> Game {
     },
     fleet_ships: {
       let arr : Array[FleetShip] = []
-      for i = 0; i < max_fleet_ships; i = i + 1 {
+      for i in 0..<max_fleet_ships {
         arr.push(FleetShip::inactive())
         ignore(i)
       }
@@ -797,7 +797,7 @@ pub fn Game::new() -> Game {
     },
     convoy_ships: {
       let arr : Array[ConvoyShip] = []
-      for i = 0; i < max_convoy_ships; i = i + 1 {
+      for i in 0..<max_convoy_ships {
         arr.push(ConvoyShip::inactive())
         ignore(i)
       }
@@ -806,7 +806,7 @@ pub fn Game::new() -> Game {
     island_count: 0,
     messages: {
       let arr : Array[BattleMessage] = []
-      for i = 0; i < max_messages; i = i + 1 {
+      for i in 0..<max_messages {
         arr.push(BattleMessage::inactive())
         ignore(i)
       }
@@ -826,7 +826,7 @@ pub fn Game::new() -> Game {
     fleet_command_mode: false,
     battle_log: {
       let arr : Array[String] = []
-      for i = 0; i < 20; i = i + 1 {
+      for i in 0..<20 {
         arr.push("")
         ignore(i)
       }

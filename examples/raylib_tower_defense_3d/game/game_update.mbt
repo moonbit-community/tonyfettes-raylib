@@ -151,8 +151,8 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   // Check wave complete
   if game.enemies_spawned >= game.enemies_to_spawn {
     let mut alive = false
-    for i = 0; i < game.enemies.length(); i = i + 1 {
-      if game.enemies[i].active {
+    for enemy in game.enemies {
+      if enemy.active {
         alive = true
         break
       }
@@ -297,7 +297,7 @@ fn update_tower_info(game : @types.Game, dt : Float) -> Unit {
     }
     let start = game.selected_tower_idx
     let mut next = start + dir
-    for _iter = 0; _iter < game.towers.length(); _iter = _iter + 1 {
+    for _iter in 0..<game.towers.length() {
       if next < 0 {
         next = game.towers.length() - 1
       }
@@ -385,15 +385,14 @@ fn update_camera(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -417,10 +416,9 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_chain_lines(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.chain_lines.length(); i = i + 1 {
-    let cl = game.chain_lines[i]
+  for cl in game.chain_lines {
     if not(cl.active) {
-      continue i + 1
+      continue
     }
     cl.life -= dt
     if cl.life <= 0.0 {
@@ -490,10 +488,10 @@ fn handle_tower_selection(game : @types.Game) -> Unit {
     let mut best_dist : Float = 999.0
     let cam_x = game.camera_target_x
     let cam_z = game.camera_target_z
-    for i = 0; i < game.towers.length(); i = i + 1 {
+    for i in 0..<game.towers.length() {
       let tower = game.towers[i]
       if not(tower.active) {
-        continue i + 1
+        continue
       }
       let tx = @types.grid_to_world_x(tower.gx)
       let tz = @types.grid_to_world_z(tower.gy)

@@ -134,7 +134,7 @@ fn main {
 
     // Draw full scene with first camera
     let player_size_int = player_size.to_int()
-    for i = 0; i < screen_width / player_size_int + 1; i = i + 1 {
+    for i in 0..<(screen_width / player_size_int + 1) {
       @raylib.draw_line_v(
         @raylib.Vector2::new(Float::from_int(player_size_int * i), 0.0),
         @raylib.Vector2::new(
@@ -144,7 +144,7 @@ fn main {
         @raylib.lightgray,
       )
     }
-    for i = 0; i < screen_height / player_size_int + 1; i = i + 1 {
+    for i in 0..<(screen_height / player_size_int + 1) {
       @raylib.draw_line_v(
         @raylib.Vector2::new(0.0, Float::from_int(player_size_int * i)),
         @raylib.Vector2::new(
@@ -154,8 +154,8 @@ fn main {
         @raylib.lightgray,
       )
     }
-    for i = 0; i < screen_width / player_size_int; i = i + 1 {
-      for j = 0; j < screen_height / player_size_int; j = j + 1 {
+    for i in 0..<(screen_width / player_size_int) {
+      for j in 0..<(screen_height / player_size_int) {
         @raylib.draw_text(
           "[\{i},\{j}]",
           10 + player_size_int * i,
@@ -184,7 +184,7 @@ fn main {
     @raylib.begin_mode_2d(camera2)
 
     // Draw full scene with second camera
-    for i = 0; i < screen_width / player_size_int + 1; i = i + 1 {
+    for i in 0..<(screen_width / player_size_int + 1) {
       @raylib.draw_line_v(
         @raylib.Vector2::new(Float::from_int(player_size_int * i), 0.0),
         @raylib.Vector2::new(
@@ -194,7 +194,7 @@ fn main {
         @raylib.lightgray,
       )
     }
-    for i = 0; i < screen_height / player_size_int + 1; i = i + 1 {
+    for i in 0..<(screen_height / player_size_int + 1) {
       @raylib.draw_line_v(
         @raylib.Vector2::new(0.0, Float::from_int(player_size_int * i)),
         @raylib.Vector2::new(
@@ -204,8 +204,8 @@ fn main {
         @raylib.lightgray,
       )
     }
-    for i = 0; i < screen_width / player_size_int; i = i + 1 {
-      for j = 0; j < screen_height / player_size_int; j = j + 1 {
+    for i in 0..<(screen_width / player_size_int) {
+      for j in 0..<(screen_height / player_size_int) {
         @raylib.draw_text(
           "[\{i},\{j}]",
           10 + player_size_int * i,

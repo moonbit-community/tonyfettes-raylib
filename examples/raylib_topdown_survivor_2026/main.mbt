@@ -59,13 +59,13 @@ fn spawn_enemy(enemies : Array[Enemy], t : Float) -> Unit {
     }
   }
 
-  for i = 0; i < enemies.length(); i = i + 1 {
-    if not(enemies[i].alive) {
-      enemies[i].alive = true
-      enemies[i].x = x
-      enemies[i].y = y
-      enemies[i].hp = 8 + @raylib.get_random_value(0, 8)
-      enemies[i].speed = 52.0 +
+  for enemy in enemies {
+    if not(enemy.alive) {
+      enemy.alive = true
+      enemy.x = x
+      enemy.y = y
+      enemy.hp = 8 + @raylib.get_random_value(0, 8)
+      enemy.speed = 52.0 +
         t * 1.5 +
         Float::from_int(@raylib.get_random_value(0, 12))
       return
@@ -92,15 +92,15 @@ fn fire_shot(
   let d = dist2.sqrt()
   let vx = dx / d * speed
   let vy = dy / d * speed
-  for i = 0; i < shots.length(); i = i + 1 {
-    if not(shots[i].active) {
-      shots[i].active = true
-      shots[i].x = x
-      shots[i].y = y
-      shots[i].vx = vx
-      shots[i].vy = vy
-      shots[i].dmg = dmg
-      shots[i].ttl = 1.2
+  for shot in shots {
+    if not(shot.active) {
+      shot.active = true
+      shot.x = x
+      shot.y = y
+      shot.vx = vx
+      shot.vy = vy
+      shot.dmg = dmg
+      shot.ttl = 1.2
       return
     }
   }
@@ -147,11 +147,11 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      for i = 0; i < enemies.length(); i = i + 1 {
-        enemies[i].alive = false
+      for enemy in enemies {
+        enemy.alive = false
       }
-      for i = 0; i < shots.length(); i = i + 1 {
-        shots[i].active = false
+      for shot in shots {
+        shot.active = false
       }
       px = Float::from_int(sw) * 0.5
       py = Float::from_int(sh) * 0.5
@@ -245,7 +245,7 @@ fn main {
         if fire_timer <= 0.0 {
           let mut best = -1
           let mut best_d2 : Float = 1_000_000_000_000.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].alive) {
               continue
             }
@@ -271,33 +271,33 @@ fn main {
           }
         }
 
-        for i = 0; i < shots.length(); i = i + 1 {
-          if not(shots[i].active) {
+        for shot in shots {
+          if not(shot.active) {
             continue
           }
-          shots[i].x = shots[i].x + shots[i].vx * dt
-          shots[i].y = shots[i].y + shots[i].vy * dt
-          shots[i].ttl = shots[i].ttl - dt
-          if shots[i].ttl <= 0.0 ||
-            shots[i].x < 0.0 ||
-            shots[i].x > Float::from_int(sw) ||
-            shots[i].y < 0.0 ||
-            shots[i].y > Float::from_int(sh) {
-            shots[i].active = false
+          shot.x = shot.x + shot.vx * dt
+          shot.y = shot.y + shot.vy * dt
+          shot.ttl = shot.ttl - dt
+          if shot.ttl <= 0.0 ||
+            shot.x < 0.0 ||
+            shot.x > Float::from_int(sw) ||
+            shot.y < 0.0 ||
+            shot.y > Float::from_int(sh) {
+            shot.active = false
             continue
           }
 
-          for e = 0; e < enemies.length(); e = e + 1 {
-            if not(enemies[e].alive) {
+          for enemy in enemies {
+            if not(enemy.alive) {
               continue
             }
-            let dx = shots[i].x - enemies[e].x
-            let dy = shots[i].y - enemies[e].y
+            let dx = shot.x - enemy.x
+            let dy = shot.y - enemy.y
             if dx * dx + dy * dy <= 14.0 * 14.0 {
-              enemies[e].hp = enemies[e].hp - shots[i].dmg
-              shots[i].active = false
-              if enemies[e].hp <= 0 {
-                enemies[e].alive = false
+              enemy.hp = enemy.hp - shot.dmg
+              shot.active = false
+              if enemy.hp <= 0 {
+                enemy.alive = false
                 xp = xp + 1
               }
               break
@@ -305,17 +305,17 @@ fn main {
           }
         }
 
-        for i = 0; i < enemies.length(); i = i + 1 {
-          if not(enemies[i].alive) {
+        for enemy in enemies {
+          if not(enemy.alive) {
             continue
           }
-          let dx = px - enemies[i].x
-          let dy = py - enemies[i].y
+          let dx = px - enemy.x
+          let dy = py - enemy.y
           let d2 = dx * dx + dy * dy
           if d2 > 0.1 {
             let d = d2.sqrt()
-            enemies[i].x = enemies[i].x + dx / d * enemies[i].speed * dt
-            enemies[i].y = enemies[i].y + dy / d * enemies[i].speed * dt
+            enemy.x = enemy.x + dx / d * enemy.speed * dt
+            enemy.y = enemy.y + dy / d * enemy.speed * dt
           }
           if d2 <= 20.0 * 20.0 {
             hp = hp - 1
@@ -344,22 +344,22 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 24, 18, 255))
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if enemies[i].alive {
+    for enemy in enemies {
+      if enemy.alive {
         @raylib.draw_circle(
-          enemies[i].x.to_int(),
-          enemies[i].y.to_int(),
+          enemy.x.to_int(),
+          enemy.y.to_int(),
           10.0,
           @raylib.red,
         )
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
-      if shots[i].active {
+    for shot in shots {
+      if shot.active {
         @raylib.draw_circle(
-          shots[i].x.to_int(),
-          shots[i].y.to_int(),
+          shot.x.to_int(),
+          shot.y.to_int(),
           3.0,
           @raylib.yellow,
         )

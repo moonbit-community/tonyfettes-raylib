@@ -98,7 +98,7 @@ fn spawn_enemy(game : @types.Game) -> Unit {
 ///|
 fn spawn_splitter_children(game : @types.Game, parent : @types.Enemy) -> Unit {
   let child_count = @types.splitter_children
-  for i = 0; i < child_count; i = i + 1 {
+  for i in 0..<child_count {
     let idx = @types.alloc_enemy(game)
     if idx < 0 {
       return
@@ -143,10 +143,10 @@ fn spawn_splitter_children(game : @types.Game, parent : @types.Enemy) -> Unit {
 ///|
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   // Update all enemies
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     // Update status effects
     update_enemy_status_effects(game, enemy, dt)
@@ -160,7 +160,7 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     }
     // Stun check - stunned enemies don't move
     if enemy.stun_timer > 0.0 {
-      continue i + 1
+      continue
     }
     // Move along path
     let effective_speed : Float = enemy.speed * enemy.slow_factor
@@ -240,13 +240,13 @@ fn update_healer(game : @types.Game, healer_idx : Int, dt : Float) -> Unit {
   }
   healer.heal_timer = 0.0
   // Heal nearby allies
-  for j = 0; j < game.enemies.length(); j = j + 1 {
+  for j in 0..<game.enemies.length() {
     if j == healer_idx {
-      continue j + 1
+      continue
     }
     let other = game.enemies[j]
     if not(other.active) {
-      continue j + 1
+      continue
     }
     let dist = @types.distance2d(healer.x, healer.z, other.x, other.z)
     if dist <= @types.healer_range {
@@ -327,19 +327,19 @@ fn move_enemy_along_path(game : @types.Game, idx : Int, speed : Float) -> Unit {
 
 ///|
 fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     let proj = game.projectiles[i]
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     // Check if target still valid
     if proj.target_idx < 0 || not(game.enemies[proj.target_idx].active) {
       // Find nearest enemy as fallback
       let mut best = -1
       let mut best_dist : Float = 999.0
-      for j = 0; j < game.enemies.length(); j = j + 1 {
+      for j in 0..<game.enemies.length() {
         if not(game.enemies[j].active) {
-          continue j + 1
+          continue
         }
         let d = @types.distance3d(
           proj.x,
@@ -356,7 +356,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       }
       if best < 0 {
         proj.active = false
-        continue i + 1
+        continue
       }
       proj.target_idx = best
     }
@@ -376,7 +376,7 @@ fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       // Hit!
       apply_projectile_hit(game, i)
       proj.active = false
-      continue i + 1
+      continue
     }
     // Move towards target
     let move_dist = proj.speed * dt
@@ -396,10 +396,10 @@ fn apply_projectile_hit(game : @types.Game, proj_idx : Int) -> Unit {
   let tower_kind = proj.kind
   if proj.splash_radius > 0.0 {
     // Splash damage
-    for i = 0; i < game.enemies.length(); i = i + 1 {
+    for i in 0..<game.enemies.length() {
       let enemy = game.enemies[i]
       if not(enemy.active) {
-        continue i + 1
+        continue
       }
       let dist = @types.distance2d(proj.x, proj.z, enemy.x, enemy.z)
       if dist <= proj.splash_radius {
@@ -522,17 +522,17 @@ fn apply_chain_lightning(game : @types.Game, proj : @types.Projectile) -> Unit {
   if current_target >= 0 {
     visited[current_target] = true
   }
-  for c = 0; c < chains; c = c + 1 {
+  for c in 0..<chains {
     current_damage = current_damage * @types.chain_damage_decay
     // Find nearest unvisited enemy within chain range
     let mut best = -1
     let mut best_dist : Float = @types.chain_range + 1.0
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       if not(game.enemies[j].active) {
-        continue j + 1
+        continue
       }
       if visited[j] {
-        continue j + 1
+        continue
       }
       let dist = @types.distance2d(
         prev_x,

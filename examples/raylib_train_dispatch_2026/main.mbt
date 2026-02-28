@@ -30,15 +30,15 @@ fn spawn_train(
   lane : Int,
   cargo : Int,
 ) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
-    if not(trains[i].alive) {
-      trains[i].alive = true
-      trains[i].x = if from_left { 80.0 } else { Float::from_int(sw - 80) }
-      trains[i].lane = lane
-      trains[i].dir = if from_left { 1 } else { -1 }
-      trains[i].speed = Float::from_int(@raylib.get_random_value(130, 210))
-      trains[i].cargo = cargo
-      trains[i].gate_mask = 0
+  for train in trains {
+    if not(train.alive) {
+      train.alive = true
+      train.x = if from_left { 80.0 } else { Float::from_int(sw - 80) }
+      train.lane = lane
+      train.dir = if from_left { 1 } else { -1 }
+      train.speed = Float::from_int(@raylib.get_random_value(130, 210))
+      train.cargo = cargo
+      train.gate_mask = 0
       break
     }
   }
@@ -103,8 +103,8 @@ fn target_lane(dir : Int, cargo : Int) -> Int {
 
 ///|
 fn reset_trains(trains : Array[Train]) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
-    trains[i].alive = false
+  for train in trains {
+    train.alive = false
   }
 }
 
@@ -192,39 +192,39 @@ fn main {
         spawn_train(trains, from_left, lane, cargo)
       }
 
-      for i = 0; i < trains.length(); i = i + 1 {
-        if not(trains[i].alive) {
+      for train in trains {
+        if not(train.alive) {
           continue
         }
 
-        trains[i].x = trains[i].x +
-          Float::from_int(trains[i].dir) * trains[i].speed * dt
+        train.x = train.x +
+          Float::from_int(train.dir) * train.speed * dt
 
-        if trains[i].dir > 0 {
-          if trains[i].x >= gate_x0 {
-            apply_gate(trains[i], 0, gate0)
+        if train.dir > 0 {
+          if train.x >= gate_x0 {
+            apply_gate(train, 0, gate0)
           }
-          if trains[i].x >= gate_x1 {
-            apply_gate(trains[i], 1, gate1)
+          if train.x >= gate_x1 {
+            apply_gate(train, 1, gate1)
           }
-          if trains[i].x >= gate_x2 {
-            apply_gate(trains[i], 2, gate2)
+          if train.x >= gate_x2 {
+            apply_gate(train, 2, gate2)
           }
         } else {
-          if trains[i].x <= gate_x2 {
-            apply_gate(trains[i], 2, gate2)
+          if train.x <= gate_x2 {
+            apply_gate(train, 2, gate2)
           }
-          if trains[i].x <= gate_x1 {
-            apply_gate(trains[i], 1, gate1)
+          if train.x <= gate_x1 {
+            apply_gate(train, 1, gate1)
           }
-          if trains[i].x <= gate_x0 {
-            apply_gate(trains[i], 0, gate0)
+          if train.x <= gate_x0 {
+            apply_gate(train, 0, gate0)
           }
         }
 
-        if trains[i].x < 40.0 || trains[i].x > Float::from_int(sw - 40) {
-          let target = target_lane(trains[i].dir, trains[i].cargo)
-          if trains[i].lane == target {
+        if train.x < 40.0 || train.x > Float::from_int(sw - 40) {
+          let target = target_lane(train.dir, train.cargo)
+          if train.lane == target {
             delivered = delivered + 1
             combo = combo + 1
             score = score + 12 + combo * 3
@@ -236,16 +236,16 @@ fn main {
             score = score - 8
             msg = "Wrong station lane."
           }
-          trains[i].alive = false
+          train.alive = false
         }
       }
 
       // Collision check
-      for i = 0; i < trains.length(); i = i + 1 {
+      for i in 0..<trains.length() {
         if not(trains[i].alive) {
           continue
         }
-        for j = i + 1; j < trains.length(); j = j + 1 {
+        for j in (i + 1)..<trains.length() {
           if not(trains[j].alive) {
             continue
           }
@@ -272,7 +272,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(18, 22, 28, 255))
 
-    for l = 0; l < lanes; l = l + 1 {
+    for l in 0..<lanes {
       let y = lane_y(l)
       @raylib.draw_line(70, y.to_int(), sw - 70, y.to_int(), @raylib.lightgray)
       @raylib.draw_line(
@@ -390,32 +390,32 @@ fn main {
       },
     )
 
-    for i = 0; i < trains.length(); i = i + 1 {
-      if trains[i].alive {
-        let y = lane_y(trains[i].lane)
-        let c = train_color(trains[i].cargo)
+    for train in trains {
+      if train.alive {
+        let y = lane_y(train.lane)
+        let c = train_color(train.cargo)
         @raylib.draw_rectangle(
-          (trains[i].x - 20.0).to_int(),
+          (train.x - 20.0).to_int(),
           (y - 16.0).to_int(),
           40,
           24,
           c,
         )
         @raylib.draw_rectangle_lines(
-          (trains[i].x - 20.0).to_int(),
+          (train.x - 20.0).to_int(),
           (y - 16.0).to_int(),
           40,
           24,
           @raylib.white,
         )
         @raylib.draw_circle(
-          (trains[i].x - 10.0).to_int(),
+          (train.x - 10.0).to_int(),
           (y + 10.0).to_int(),
           4.0,
           @raylib.black,
         )
         @raylib.draw_circle(
-          (trains[i].x + 10.0).to_int(),
+          (train.x + 10.0).to_int(),
           (y + 10.0).to_int(),
           4.0,
           @raylib.black,

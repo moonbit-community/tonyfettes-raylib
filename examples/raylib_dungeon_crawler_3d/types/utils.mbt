@@ -285,14 +285,14 @@ pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
 ///|
 pub fn rand_weighted(game : Game, weights : Array[Int]) -> Int {
   let mut total = 0
-  for i = 0; i < weights.length(); i = i + 1 {
-    total += weights[i]
+  for weight in weights {
+    total += weight
   }
   if total <= 0 {
     return 0
   }
   let mut roll = rand_range(game, 0, total - 1)
-  for i = 0; i < weights.length(); i = i + 1 {
+  for i in 0..<weights.length() {
     roll -= weights[i]
     if roll < 0 {
       return i
@@ -305,7 +305,7 @@ pub fn rand_weighted(game : Game, weights : Array[Int]) -> Int {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -315,7 +315,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -325,7 +325,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -335,7 +335,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_loot(game : Game) -> Int {
-  for i = 0; i < game.loot.length(); i = i + 1 {
+  for i in 0..<game.loot.length() {
     if not(game.loot[i].active) {
       return i
     }
@@ -345,7 +345,7 @@ pub fn alloc_loot(game : Game) -> Int {
 
 ///|
 pub fn alloc_trap(game : Game) -> Int {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     if not(game.traps[i].active) {
       return i
     }
@@ -355,7 +355,7 @@ pub fn alloc_trap(game : Game) -> Int {
 
 ///|
 pub fn alloc_torch(game : Game) -> Int {
-  for i = 0; i < game.torches.length(); i = i + 1 {
+  for i in 0..<game.torches.length() {
     if not(game.torches[i].active) {
       return i
     }
@@ -376,7 +376,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -415,7 +415,7 @@ pub fn spawn_directional_particles(
   b : Int,
   speed : Float,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -445,8 +445,8 @@ pub fn update_explored(game : Game) -> Unit {
   let gx = world_to_grid_x(game.player_x)
   let gz = world_to_grid_z(game.player_z)
   let radius = 4
-  for dy = -radius; dy <= radius; dy = dy + 1 {
-    for dx = -radius; dx <= radius; dx = dx + 1 {
+  for dy in -radius..=radius {
+    for dx in -radius..=radius {
       let nx = gx + dx
       let nz = gz + dy
       if in_bounds(nx, nz) {
@@ -461,8 +461,8 @@ pub fn update_explored(game : Game) -> Unit {
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -515,7 +515,7 @@ pub fn add_message(
 
 ///|
 pub fn alloc_inventory(game : Game) -> Int {
-  for i = 0; i < game.inventory.length(); i = i + 1 {
+  for i in 0..<game.inventory.length() {
     if not(game.inventory[i].active) {
       return i
     }
@@ -526,8 +526,8 @@ pub fn alloc_inventory(game : Game) -> Int {
 ///|
 pub fn count_inventory_items(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.inventory.length(); i = i + 1 {
-    if game.inventory[i].active {
+  for inventory_elem in game.inventory {
+    if inventory_elem.active {
       count += 1
     }
   }
@@ -687,9 +687,9 @@ pub fn get_spell_mana_cost(spell_type : Int) -> Int {
 ///|
 pub fn calc_player_defense(game : Game) -> Int {
   let mut total = game.player_def + get_armor_defense(game.player_armor)
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if game.buffs[i].active && game.buffs[i].kind == buff_shield {
-      total += game.buffs[i].value
+  for buff in game.buffs {
+    if buff.active && buff.kind == buff_shield {
+      total += buff.value
     }
   }
   total
@@ -703,9 +703,9 @@ pub fn calc_player_attack(game : Game) -> Int {
   let mult = get_weapon_damage_mult(game.player_weapon)
   let base_f = Float::from_int(base) * mult
   let mut total = base_f.to_int()
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if game.buffs[i].active && game.buffs[i].kind == buff_strength {
-      total += game.buffs[i].value
+  for buff in game.buffs {
+    if buff.active && buff.kind == buff_strength {
+      total += buff.value
     }
   }
   total
@@ -824,7 +824,7 @@ pub fn has_line_of_sight(
   let mut err = dx - dy
   let mut cx = x1
   let mut cy = y1
-  for _step = 0; _step < 100; _step = _step + 1 {
+  for _step in 0..<100 {
     if cx == x2 && cy == y2 {
       return true
     }
@@ -889,7 +889,7 @@ pub fn pathfind_step(
 
 ///|
 pub fn find_walkable_in_room(game : Game, room : Room) -> (Int, Int) {
-  for _attempt = 0; _attempt < 20; _attempt = _attempt + 1 {
+  for _attempt in 0..<20 {
     let gx = rand_range(game, room.x + 1, room.x + room.w - 2)
     let gy = rand_range(game, room.y + 1, room.y + room.h - 2)
     if is_walkable(get_tile(game, gx, gy)) {
@@ -903,8 +903,8 @@ pub fn find_walkable_in_room(game : Game, room : Room) -> (Int, Int) {
 
 ///|
 pub fn has_buff(game : Game, kind : Int) -> Bool {
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if game.buffs[i].active && game.buffs[i].kind == kind {
+  for buff in game.buffs {
+    if buff.active && buff.kind == kind {
       return true
     }
   }
@@ -916,20 +916,20 @@ pub fn has_buff(game : Game, kind : Int) -> Bool {
 ///|
 pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit {
   // Check if already have this buff, refresh it
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if game.buffs[i].active && game.buffs[i].kind == kind {
-      game.buffs[i].timer = duration
-      game.buffs[i].value = value
+  for buff in game.buffs {
+    if buff.active && buff.kind == kind {
+      buff.timer = duration
+      buff.value = value
       return
     }
   }
   // Find empty slot
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if not(game.buffs[i].active) {
-      game.buffs[i].active = true
-      game.buffs[i].kind = kind
-      game.buffs[i].timer = duration
-      game.buffs[i].value = value
+  for buff in game.buffs {
+    if not(buff.active) {
+      buff.active = true
+      buff.kind = kind
+      buff.timer = duration
+      buff.value = value
       return
     }
   }
@@ -939,11 +939,11 @@ pub fn add_buff(game : Game, kind : Int, duration : Float, value : Int) -> Unit 
 
 ///|
 pub fn update_buffs(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.buffs.length(); i = i + 1 {
-    if game.buffs[i].active {
-      game.buffs[i].timer -= dt
-      if game.buffs[i].timer <= 0.0 {
-        game.buffs[i].active = false
+  for buff in game.buffs {
+    if buff.active {
+      buff.timer -= dt
+      if buff.timer <= 0.0 {
+        buff.active = false
       }
     }
   }
@@ -953,11 +953,11 @@ pub fn update_buffs(game : Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_messages(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.messages.length(); i = i + 1 {
-    if game.messages[i].timer > 0.0 {
-      game.messages[i].timer -= dt
-      if game.messages[i].timer < 0.0 {
-        game.messages[i].timer = 0.0
+  for message in game.messages {
+    if message.timer > 0.0 {
+      message.timer -= dt
+      if message.timer < 0.0 {
+        message.timer = 0.0
       }
     }
   }

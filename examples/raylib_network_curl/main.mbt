@@ -41,8 +41,8 @@ fn split_lines(content : String, max_chars : Int) -> Array[String] {
   let lines : Array[String] = []
   let line : StringBuilder = StringBuilder::new()
   let mut n = 0
-  for i = 0; i < content.length(); i = i + 1 {
-    let ch = content[i].to_int().unsafe_to_char()
+  for content_elem in content {
+    let ch = content_elem.to_int().unsafe_to_char()
     if ch == '\n' {
       lines.push(line.to_string())
       line.reset()
@@ -163,7 +163,7 @@ async fn main {
         } else {
           total
         }
-        for idx = state.scroll; idx < end_line; idx = idx + 1 {
+        for idx in state.scroll..<end_line {
           let y = HEADER_H + (idx - state.scroll) * LINE_HEIGHT
           @raylib.draw_text(
             state.lines[idx],

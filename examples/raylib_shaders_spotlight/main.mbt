@@ -108,15 +108,15 @@ fn main {
     speed_x: 0.0,
     speed_y: 0.0,
   })
-  for n = 0; n < max_stars; n = n + 1 {
+  for n in 0..<max_stars {
     stars[n] = { pos_x: 0.0, pos_y: 0.0, speed_x: 0.0, speed_y: 0.0 }
     reset_star(stars[n])
   }
 
   // Progress all the stars on, so they don't all start in the centre
   let half_width = screen_width / 2
-  for m = 0; m < half_width; m = m + 1 {
-    for n = 0; n < max_stars; n = n + 1 {
+  for m in 0..<half_width {
+    for n in 0..<max_stars {
       update_star(stars[n])
     }
   }
@@ -130,7 +130,7 @@ fn main {
 
   // Get the locations of spots in the shader
   let spots : Array[Spot] = []
-  for i = 0; i < max_spots; i = i + 1 {
+  for i in 0..<max_spots {
     let idx = i.to_string()
     let pos_name = "spots[" + idx + "].pos"
     let inner_name = "spots[" + idx + "].inner"
@@ -162,7 +162,7 @@ fn main {
   )
 
   // Randomize the locations and velocities of the spotlights
-  for i = 0; i < max_spots; i = i + 1 {
+  for i in 0..<max_spots {
     spots[i].pos_x = Float::from_int(
       @raylib.get_random_value(64, screen_width - 64),
     )
@@ -210,12 +210,12 @@ fn main {
     frame_counter += 1
 
     // Move the stars, resetting them if they go offscreen
-    for n = 0; n < max_stars; n = n + 1 {
+    for n in 0..<max_stars {
       update_star(stars[n])
     }
 
     // Update the spots, send them to the shader
-    for i = 0; i < max_spots; i = i + 1 {
+    for i in 0..<max_spots {
       if i == 0 {
         let mp = @raylib.get_mouse_position()
         spots[i].pos_x = mp.x
@@ -249,7 +249,7 @@ fn main {
     @raylib.clear_background(@raylib.darkblue)
 
     // Draw stars and bobs
-    for n = 0; n < max_stars; n = n + 1 {
+    for n in 0..<max_stars {
       @raylib.draw_rectangle(
         stars[n].pos_x.to_int(),
         stars[n].pos_y.to_int(),
@@ -260,7 +260,7 @@ fn main {
     }
     let sw_f = Float::from_int(screen_width)
     let sh_f = Float::from_int(screen_height)
-    for i = 0; i < 16; i = i + 1 {
+    for i in 0..<16 {
       let fi = Float::from_int(frame_counter + i * 8)
       let cos_val = Float::from_double(@math.cos(fi.to_double() / 51.45))
       let sin_val = Float::from_double(@math.sin(fi.to_double() / 17.87))

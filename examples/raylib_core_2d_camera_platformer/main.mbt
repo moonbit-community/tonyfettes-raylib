@@ -38,8 +38,7 @@ fn update_player(
     cj = false
   }
   let mut hit_obstacle = false
-  for i = 0; i < env_items.length(); i = i + 1 {
-    let ei = env_items[i]
+  for ei in env_items {
     if ei.blocking &&
       ei.rect.x <= px &&
       ei.rect.x + ei.rect.width >= px &&
@@ -101,8 +100,7 @@ fn update_camera_center_inside_map(
   let mut min_y : Float = 1000.0
   let mut max_x : Float = -1000.0
   let mut max_y : Float = -1000.0
-  for i = 0; i < env_items.length(); i = i + 1 {
-    let ei = env_items[i]
+  for ei in env_items {
     if ei.rect.x < min_x {
       min_x = ei.rect.x
     }
@@ -416,8 +414,8 @@ fn main {
 
     @raylib.begin_mode_2d(camera)
 
-    for i = 0; i < env_items.length(); i = i + 1 {
-      @raylib.draw_rectangle_rec(env_items[i].rect, env_items[i].color)
+    for env_item in env_items {
+      @raylib.draw_rectangle_rec(env_item.rect, env_item.color)
     }
 
     // Draw player

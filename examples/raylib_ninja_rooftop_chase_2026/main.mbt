@@ -152,54 +152,54 @@ fn obstacle_z(obs : Obstacle) -> Float {
 
 ///|
 fn clear_obstacles(obs : Array[Obstacle]) -> Unit {
-  for i = 0; i < obs.length(); i = i + 1 {
-    obs[i].active = false
-    obs[i].kind = 0
-    obs[i].x = 0.0
-    obs[i].lane = 0
-    obs[i].hp = 0.0
-    obs[i].atk_cd = 0.0
-    obs[i].pulse_t = 0.0
+  for ob in obs {
+    ob.active = false
+    ob.kind = 0
+    ob.x = 0.0
+    ob.lane = 0
+    ob.hp = 0.0
+    ob.atk_cd = 0.0
+    ob.pulse_t = 0.0
   }
 }
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
-    shots[i].active = false
-    shots[i].from_player = false
-    shots[i].x = 0.0
-    shots[i].lane = 0
-    shots[i].z = 0.0
-    shots[i].vx = 0.0
-    shots[i].dmg = 0.0
-    shots[i].life = 0.0
+  for shot in shots {
+    shot.active = false
+    shot.from_player = false
+    shot.x = 0.0
+    shot.lane = 0
+    shot.z = 0.0
+    shot.vx = 0.0
+    shot.dmg = 0.0
+    shot.life = 0.0
   }
 }
 
 ///|
 fn clear_pickups(items : Array[Pickup]) -> Unit {
-  for i = 0; i < items.length(); i = i + 1 {
-    items[i].active = false
-    items[i].kind = 0
-    items[i].x = 0.0
-    items[i].lane = 0
-    items[i].t = 0.0
+  for item in items {
+    item.active = false
+    item.kind = 0
+    item.x = 0.0
+    item.lane = 0
+    item.t = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
@@ -212,21 +212,21 @@ fn spawn_particle(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < parts.length(); i = i + 1 {
+  for part in parts {
     if done {
       continue
     }
 
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(18, 72)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(18, 72)) / 100.0
+      part.kind = kind
       done = true
     }
   }
@@ -241,7 +241,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     ignore(i)
     spawn_particle(parts, x, y, speed, kind)
   }
@@ -259,7 +259,7 @@ fn spawn_shot(
   life : Float,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < shots.length(); i = i + 1 {
+  for i in 0..<shots.length() {
     if slot < 0 && not(shots[i].active) {
       slot = i
     }
@@ -283,7 +283,7 @@ fn spawn_shot(
 ///|
 fn spawn_obstacle(obs : Array[Obstacle], level : Int) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < obs.length(); i = i + 1 {
+  for i in 0..<obs.length() {
     if slot < 0 && not(obs[i].active) {
       slot = i
     }
@@ -323,7 +323,7 @@ fn spawn_obstacle(obs : Array[Obstacle], level : Int) -> Bool {
 ///|
 fn spawn_pickup(items : Array[Pickup]) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < items.length(); i = i + 1 {
+  for i in 0..<items.length() {
     if slot < 0 && not(items[i].active) {
       slot = i
     }
@@ -348,11 +348,11 @@ fn spawn_pickup(items : Array[Pickup]) -> Bool {
 fn nearest_obstacle_dy(obs : Array[Obstacle], player_dist : Float) -> Int {
   ignore(player_dist)
   let mut closest : Int = 9999
-  for i = 0; i < obs.length(); i = i + 1 {
-    if not(obs[i].active) {
+  for ob in obs {
+    if not(ob.active) {
       continue
     }
-    let dx = (obs[i].x - player_x).to_int()
+    let dx = (ob.x - player_x).to_int()
     if dx >= 0 && dx < closest {
       closest = dx
     }
@@ -477,11 +477,11 @@ fn main {
     clear_pickups(pickups)
     clear_particles(particles)
 
-    for i = 0; i < 8; i = i + 1 {
+    for i in 0..<8 {
       ignore(i)
       ignore(spawn_obstacle(obstacles, level))
     }
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       ignore(i)
       ignore(spawn_pickup(pickups))
     }
@@ -745,36 +745,36 @@ fn main {
         pickup_cd = randf(2.0, 4.4)
       }
 
-      for i = 0; i < obstacles.length(); i = i + 1 {
-        if not(obstacles[i].active) {
+      for obstacle in obstacles {
+        if not(obstacle.active) {
           continue
         }
 
-        obstacles[i].pulse_t = obstacles[i].pulse_t + dt
+        obstacle.pulse_t = obstacle.pulse_t + dt
 
-        let move_speed = if obstacles[i].kind == 2 {
+        let move_speed = if obstacle.kind == 2 {
           run_speed * 0.94
         } else {
           run_speed
         }
-        obstacles[i].x = obstacles[i].x - move_speed * dt
+        obstacle.x = obstacle.x - move_speed * dt
 
-        if obstacles[i].x < -120.0 {
-          obstacles[i].active = false
+        if obstacle.x < -120.0 {
+          obstacle.active = false
           missed = missed + 1
           continue
         }
 
-        if obstacles[i].kind == 2 && obstacles[i].x < 900.0 {
-          obstacles[i].atk_cd = obstacles[i].atk_cd - dt
-          if obstacles[i].atk_cd <= 0.0 {
-            obstacles[i].atk_cd = randf(0.85, 1.45)
+        if obstacle.kind == 2 && obstacle.x < 900.0 {
+          obstacle.atk_cd = obstacle.atk_cd - dt
+          if obstacle.atk_cd <= 0.0 {
+            obstacle.atk_cd = randf(0.85, 1.45)
             ignore(
               spawn_shot(
                 shots,
                 false,
-                obstacles[i].x - 8.0,
-                obstacles[i].lane,
+                obstacle.x - 8.0,
+                obstacle.lane,
                 0.0,
                 -420.0 - Float::from_int(level) * 16.0,
                 12.0 + Float::from_int(level) * 1.6,
@@ -784,144 +784,144 @@ fn main {
           }
         }
 
-        if obstacles[i].lane != player.lane {
+        if obstacle.lane != player.lane {
           continue
         }
 
-        let dx = absf(obstacles[i].x - player_x)
-        let oz = obstacle_z(obstacles[i])
+        let dx = absf(obstacle.x - player_x)
+        let oz = obstacle_z(obstacle)
 
-        if obstacles[i].kind == 0 {
+        if obstacle.kind == 0 {
           if dx < 30.0 && player.z < 36.0 {
             on_hit(14.0, "Crate hit")
-            obstacles[i].active = false
+            obstacle.active = false
           }
-        } else if obstacles[i].kind == 1 {
+        } else if obstacle.kind == 1 {
           if dx < 30.0 && player.slide_t <= 0.0 && player.z < 24.0 {
             on_hit(12.0, "Sign smash")
-            obstacles[i].active = false
+            obstacle.active = false
           }
-        } else if obstacles[i].kind == 2 {
+        } else if obstacle.kind == 2 {
           if player.slash_t > 0.0 && dx < 74.0 && player.z < 30.0 {
-            obstacles[i].hp = obstacles[i].hp -
+            obstacle.hp = obstacle.hp -
               (36.0 + Float::from_int(level) * 2.0)
             burst(
               particles,
-              obstacles[i].x,
-              lane_y(obstacles[i].lane),
+              obstacle.x,
+              lane_y(obstacle.lane),
               7,
               0.18,
               2,
             )
-            if obstacles[i].hp <= 0.0 {
-              on_kill(obstacles[i].x, obstacles[i].lane, 10)
-              obstacles[i].active = false
+            if obstacle.hp <= 0.0 {
+              on_kill(obstacle.x, obstacle.lane, 10)
+              obstacle.active = false
             }
           } else if dx < 28.0 && player.z < 24.0 {
             on_hit(18.0, "Guard tackled")
-            obstacles[i].active = false
+            obstacle.active = false
           }
         } else if player.slash_t > 0.0 &&
           dx < 72.0 &&
           absf(player.z - oz) < 38.0 {
-          obstacles[i].hp = obstacles[i].hp -
+          obstacle.hp = obstacle.hp -
             (34.0 + Float::from_int(level) * 1.6)
           burst(
             particles,
-            obstacles[i].x,
-            lane_y(obstacles[i].lane) - oz,
+            obstacle.x,
+            lane_y(obstacle.lane) - oz,
             8,
             0.20,
             2,
           )
-          if obstacles[i].hp <= 0.0 {
-            on_kill(obstacles[i].x, obstacles[i].lane, 18)
-            obstacles[i].active = false
+          if obstacle.hp <= 0.0 {
+            on_kill(obstacle.x, obstacle.lane, 18)
+            obstacle.active = false
           }
         } else if dx < 28.0 && absf(player.z - oz) < 24.0 {
           on_hit(16.0, "Drone crash")
-          obstacles[i].active = false
+          obstacle.active = false
         }
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
 
-        shots[i].life = shots[i].life - dt
-        if shots[i].life <= 0.0 {
-          shots[i].active = false
+        shot.life = shot.life - dt
+        if shot.life <= 0.0 {
+          shot.active = false
           continue
         }
 
-        shots[i].x = shots[i].x + shots[i].vx * dt
-        if shots[i].x < -120.0 || shots[i].x > world_w + 120.0 {
-          shots[i].active = false
+        shot.x = shot.x + shot.vx * dt
+        if shot.x < -120.0 || shot.x > world_w + 120.0 {
+          shot.active = false
           continue
         }
 
-        if shots[i].from_player {
-          for j = 0; j < obstacles.length(); j = j + 1 {
-            if not(obstacles[j].active) {
+        if shot.from_player {
+          for obstacle in obstacles {
+            if not(obstacle.active) {
               continue
             }
-            if obstacles[j].kind != 2 && obstacles[j].kind != 3 {
+            if obstacle.kind != 2 && obstacle.kind != 3 {
               continue
             }
-            if obstacles[j].lane != shots[i].lane {
+            if obstacle.lane != shot.lane {
               continue
             }
 
-            let oz = obstacle_z(obstacles[j])
-            if absf(shots[i].x - obstacles[j].x) < 26.0 &&
-              absf(shots[i].z - oz) < 36.0 {
-              obstacles[j].hp = obstacles[j].hp - shots[i].dmg
-              shots[i].active = false
+            let oz = obstacle_z(obstacle)
+            if absf(shot.x - obstacle.x) < 26.0 &&
+              absf(shot.z - oz) < 36.0 {
+              obstacle.hp = obstacle.hp - shot.dmg
+              shot.active = false
               burst(
                 particles,
-                obstacles[j].x,
-                lane_y(obstacles[j].lane) - oz,
+                obstacle.x,
+                lane_y(obstacle.lane) - oz,
                 6,
                 0.16,
                 2,
               )
-              if obstacles[j].hp <= 0.0 {
-                on_kill(obstacles[j].x, obstacles[j].lane, 14)
-                obstacles[j].active = false
+              if obstacle.hp <= 0.0 {
+                on_kill(obstacle.x, obstacle.lane, 14)
+                obstacle.active = false
               }
               break
             }
           }
-        } else if shots[i].lane == player.lane &&
-          absf(shots[i].x - player_x) < 20.0 &&
-          absf(shots[i].z - player.z) < 24.0 {
-          shots[i].active = false
-          on_hit(shots[i].dmg, "Shot hit")
+        } else if shot.lane == player.lane &&
+          absf(shot.x - player_x) < 20.0 &&
+          absf(shot.z - player.z) < 24.0 {
+          shot.active = false
+          on_hit(shot.dmg, "Shot hit")
         }
       }
 
-      for i = 0; i < pickups.length(); i = i + 1 {
-        if not(pickups[i].active) {
+      for pickup in pickups {
+        if not(pickup.active) {
           continue
         }
 
-        pickups[i].t = pickups[i].t + dt
-        pickups[i].x = pickups[i].x - run_speed * dt
+        pickup.t = pickup.t + dt
+        pickup.x = pickup.x - run_speed * dt
 
-        if pickups[i].x < -90.0 {
-          pickups[i].active = false
+        if pickup.x < -90.0 {
+          pickup.active = false
           continue
         }
 
-        if pickups[i].lane == player.lane &&
-          absf(pickups[i].x - player_x) < 24.0 &&
+        if pickup.lane == player.lane &&
+          absf(pickup.x - player_x) < 24.0 &&
           player.z < 26.0 {
-          if pickups[i].kind == 0 {
+          if pickup.kind == 0 {
             player.coins = player.coins + 1
             player.score = player.score + 34 + player.combo * 2
             msg = "Coin"
-          } else if pickups[i].kind == 1 {
+          } else if pickup.kind == 1 {
             player.hp = player.hp + 24.0
             if player.hp > 220.0 {
               player.hp = 220.0
@@ -935,24 +935,24 @@ fn main {
             msg = "Energy"
           }
           msg_t = 0.58
-          pickups[i].active = false
+          pickup.active = false
           burst(particles, player_x, lane_y(player.lane) - player.z, 8, 0.18, 0)
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (Float::from_int(1) - dt * 2.0)
-          particles[i].vy = particles[i].vy + 280.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (Float::from_int(1) - dt * 2.0)
+          particle.vy = particle.vy + 280.0 * dt
         }
       }
 
@@ -981,7 +981,7 @@ fn main {
     }
     @raylib.clear_background(bg_col)
 
-    for i = 0; i < 20; i = i + 1 {
+    for i in 0..<20 {
       let x = i * 68 + (player.distance * 0.8).to_int() % 68
       let h = 120 + i * 17 % 260
       @raylib.draw_rectangle(
@@ -1000,7 +1000,7 @@ fn main {
       )
     }
 
-    for lane = 0; lane < lane_count; lane = lane + 1 {
+    for lane in 0..<lane_count {
       let ly = lane_y(lane)
       @raylib.draw_rectangle(
         0,
@@ -1010,7 +1010,7 @@ fn main {
         @raylib.Color::new(42, 48, 66, 255),
       )
       let shift = (player.distance * 20.0).to_int() % 72
-      for i = 0; i < 22; i = i + 1 {
+      for i in 0..<22 {
         @raylib.draw_rectangle(
           i * 72 - shift,
           (ly + 26.0).to_int(),
@@ -1021,72 +1021,72 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
-      if not(pickups[i].active) {
+    for pickup in pickups {
+      if not(pickup.active) {
         continue
       }
 
-      let py = lane_y(pickups[i].lane)
-      let blink : Int = if (pickups[i].t * 7.0).to_int() % 2 == 0 {
+      let py = lane_y(pickup.lane)
+      let blink : Int = if (pickup.t * 7.0).to_int() % 2 == 0 {
         255
       } else {
         180
       }
-      let col = if pickups[i].kind == 0 {
+      let col = if pickup.kind == 0 {
         @raylib.Color::new(246, 214, 120, blink)
-      } else if pickups[i].kind == 1 {
+      } else if pickup.kind == 1 {
         @raylib.Color::new(236, 132, 148, blink)
       } else {
         @raylib.Color::new(132, 214, 246, blink)
       }
-      @raylib.draw_circle(pickups[i].x.to_int(), py.to_int(), 10.0, col)
+      @raylib.draw_circle(pickup.x.to_int(), py.to_int(), 10.0, col)
       @raylib.draw_circle_lines(
-        pickups[i].x.to_int(),
+        pickup.x.to_int(),
         py.to_int(),
         16.0,
         @raylib.Color::new(248, 252, 255, blink),
       )
     }
 
-    for i = 0; i < obstacles.length(); i = i + 1 {
-      if not(obstacles[i].active) {
+    for obstacle in obstacles {
+      if not(obstacle.active) {
         continue
       }
 
-      let oy = lane_y(obstacles[i].lane) - obstacle_z(obstacles[i])
-      if obstacles[i].kind == 0 {
+      let oy = lane_y(obstacle.lane) - obstacle_z(obstacle)
+      if obstacle.kind == 0 {
         @raylib.draw_rectangle(
-          (obstacles[i].x - 18.0).to_int(),
+          (obstacle.x - 18.0).to_int(),
           (oy - 20.0).to_int(),
           36,
           40,
           @raylib.Color::new(144, 120, 94, 255),
         )
-      } else if obstacles[i].kind == 1 {
+      } else if obstacle.kind == 1 {
         @raylib.draw_rectangle(
-          (obstacles[i].x - 20.0).to_int(),
+          (obstacle.x - 20.0).to_int(),
           (oy - 44.0).to_int(),
           40,
           14,
           @raylib.Color::new(210, 102, 142, 255),
         )
         @raylib.draw_rectangle(
-          (obstacles[i].x - 20.0).to_int(),
+          (obstacle.x - 20.0).to_int(),
           (oy - 30.0).to_int(),
           40,
           8,
           @raylib.Color::new(246, 164, 196, 255),
         )
-      } else if obstacles[i].kind == 2 {
+      } else if obstacle.kind == 2 {
         @raylib.draw_rectangle(
-          (obstacles[i].x - 16.0).to_int(),
+          (obstacle.x - 16.0).to_int(),
           (oy - 26.0).to_int(),
           32,
           34,
           @raylib.Color::new(168, 82, 92, 255),
         )
         @raylib.draw_rectangle(
-          (obstacles[i].x - 8.0).to_int(),
+          (obstacle.x - 8.0).to_int(),
           (oy - 18.0).to_int(),
           16,
           20,
@@ -1094,19 +1094,19 @@ fn main {
         )
       } else {
         @raylib.draw_circle(
-          obstacles[i].x.to_int(),
+          obstacle.x.to_int(),
           oy.to_int(),
           16.0,
           @raylib.Color::new(110, 204, 246, 255),
         )
         @raylib.draw_circle(
-          (obstacles[i].x - 8.0).to_int(),
+          (obstacle.x - 8.0).to_int(),
           oy.to_int(),
           3.0,
           @raylib.Color::new(34, 48, 70, 255),
         )
         @raylib.draw_circle(
-          (obstacles[i].x + 8.0).to_int(),
+          (obstacle.x + 8.0).to_int(),
           oy.to_int(),
           3.0,
           @raylib.Color::new(34, 48, 70, 255),
@@ -1114,38 +1114,38 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
-      if not(shots[i].active) {
+    for shot in shots {
+      if not(shot.active) {
         continue
       }
 
-      let sy = lane_y(shots[i].lane) - shots[i].z
-      let c = if shots[i].from_player {
+      let sy = lane_y(shot.lane) - shot.z
+      let c = if shot.from_player {
         @raylib.Color::new(132, 226, 248, 255)
       } else {
         @raylib.Color::new(246, 134, 156, 255)
       }
-      @raylib.draw_circle(shots[i].x.to_int(), sy.to_int(), 4.0, c)
+      @raylib.draw_circle(shot.x.to_int(), sy.to_int(), 4.0, c)
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let k = particles[i].t / particles[i].life
+      let k = particle.t / particle.life
       let a : Int = ((Float::from_int(1) - k) * 220.0).to_int()
       let mut c = @raylib.Color::new(122, 224, 252, a)
-      if particles[i].kind == 1 {
+      if particle.kind == 1 {
         c = @raylib.Color::new(142, 246, 182, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         c = @raylib.Color::new(252, 190, 104, a)
-      } else if particles[i].kind == 3 {
+      } else if particle.kind == 3 {
         c = @raylib.Color::new(236, 96, 118, a)
       }
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         c,
       )
     }

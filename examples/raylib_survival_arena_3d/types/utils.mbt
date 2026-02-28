@@ -169,7 +169,7 @@ pub fn rand_bool(game : Game, chance : Float) -> Bool {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -179,7 +179,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -189,7 +189,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -199,7 +199,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_pickup(game : Game) -> Int {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
+  for i in 0..<game.pickups.length() {
     if not(game.pickups[i].active) {
       return i
     }
@@ -209,7 +209,7 @@ pub fn alloc_pickup(game : Game) -> Int {
 
 ///|
 pub fn alloc_barricade(game : Game) -> Int {
-  for i = 0; i < game.barricades.length(); i = i + 1 {
+  for i in 0..<game.barricades.length() {
     if not(game.barricades[i].active) {
       return i
     }
@@ -219,7 +219,7 @@ pub fn alloc_barricade(game : Game) -> Int {
 
 ///|
 pub fn alloc_trap(game : Game) -> Int {
-  for i = 0; i < game.traps.length(); i = i + 1 {
+  for i in 0..<game.traps.length() {
     if not(game.traps[i].active) {
       return i
     }
@@ -240,7 +240,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -278,7 +278,7 @@ pub fn spawn_particles_typed(
   b : Int,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -318,7 +318,7 @@ pub fn spawn_particles_dir(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -693,8 +693,8 @@ pub fn pickup_name(kind : Int) -> String {
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -741,7 +741,7 @@ pub fn add_kill_feed(
 
 ///|
 pub fn update_kill_feed(game : Game, dt : Float) -> Unit {
-  for i = 0; i < max_kill_feed; i = i + 1 {
+  for i in 0..<max_kill_feed {
     if game.kill_feed[i].active {
       game.kill_feed[i].timer -= dt
       if game.kill_feed[i].timer <= 0.0 {
@@ -755,11 +755,11 @@ pub fn update_kill_feed(game : Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_damage_indicators(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.damage_indicators.length(); i = i + 1 {
-    if game.damage_indicators[i].active {
-      game.damage_indicators[i].timer -= dt
-      if game.damage_indicators[i].timer <= 0.0 {
-        game.damage_indicators[i].active = false
+  for damage_indicator in game.damage_indicators {
+    if damage_indicator.active {
+      damage_indicator.timer -= dt
+      if damage_indicator.timer <= 0.0 {
+        damage_indicator.active = false
       }
     }
   }
@@ -775,11 +775,11 @@ pub fn add_damage_indicator(
 ) -> Unit {
   let angle = @math.atan2f(from_z - game.player.z, from_x - game.player.x)
   // Find inactive slot
-  for i = 0; i < game.damage_indicators.length(); i = i + 1 {
-    if not(game.damage_indicators[i].active) {
-      game.damage_indicators[i].active = true
-      game.damage_indicators[i].angle = angle - game.player.yaw
-      game.damage_indicators[i].timer = 1.0
+  for damage_indicator in game.damage_indicators {
+    if not(damage_indicator.active) {
+      damage_indicator.active = true
+      damage_indicator.angle = angle - game.player.yaw
+      damage_indicator.timer = 1.0
       return
     }
   }
@@ -829,10 +829,9 @@ pub fn push_from_barricades(
 ) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
-  for i = 0; i < game.barricades.length(); i = i + 1 {
-    let b = game.barricades[i]
+  for b in game.barricades {
     if not(b.active) {
-      continue i + 1
+      continue
     }
     let result = push_from_box(
       rx,
@@ -860,8 +859,7 @@ pub fn push_from_low_walls(
 ) -> (Float, Float) {
   let mut rx = x
   let mut rz = z
-  for i = 0; i < game.low_walls.length(); i = i + 1 {
-    let w = game.low_walls[i]
+  for w in game.low_walls {
     let result = push_from_box(rx, rz, radius, w.x, w.z, w.width, w.depth)
     rx = result.0
     rz = result.1

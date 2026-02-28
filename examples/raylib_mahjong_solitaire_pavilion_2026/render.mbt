@@ -42,7 +42,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(64, 40, 30, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 66 - 20
     @raylib.draw_rectangle(
       0,
@@ -61,25 +61,25 @@ fn draw_bg(game : Game) -> Unit {
 
 ///|
 fn draw_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let c : @raylib.Color = if game.sparks[i].kind == 0 {
+    let c : @raylib.Color = if spark.kind == 0 {
       @raylib.Color::new(255, 218, 110, 236)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(126, 220, 255, 236)
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       @raylib.Color::new(246, 110, 96, 228)
     } else {
       @raylib.Color::new(220, 232, 255, 226)
     }
 
     @raylib.draw_circle(
-      game.sparks[i].x.to_int(),
-      game.sparks[i].y.to_int(),
-      maxf(1.0, game.sparks[i].size),
+      spark.x.to_int(),
+      spark.y.to_int(),
+      maxf(1.0, spark.size),
       c,
     )
   }
@@ -142,8 +142,8 @@ fn draw_board(game : Game) -> Unit {
 
   let font_size : Int = clampi(tile / 3, 16, 28)
 
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       let px : Int = board_x + (x - 1) * tile
       let py : Int = board_y + (y - 1) * tile
 

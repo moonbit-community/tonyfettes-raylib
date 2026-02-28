@@ -163,7 +163,7 @@ fn main {
 
   // Translate and rotate cubes randomly
   let deg2rad : Float = 0.017453292519943295
-  for i = 0; i < max_instances; i = i + 1 {
+  for i in 0..<max_instances {
     let translation = @raylib.Matrix::translate(
       Float::from_int(@raylib.get_random_value(-50, 50)),
       Float::from_int(@raylib.get_random_value(-50, 50)),

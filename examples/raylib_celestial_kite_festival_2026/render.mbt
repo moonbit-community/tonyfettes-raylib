@@ -71,7 +71,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(236, 246, 255, 132),
   )
 
-  for i = 0; i < 180; i = i + 1 {
+  for i in 0..<180 {
     let fi = Float::from_int(i)
     let x : Float = (fi * 83.0 + fi * fi * 0.11 + game.time_s * 6.0) %
       Float::from_int(screen_w)
@@ -89,7 +89,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  for band = 0; band < 4; band = band + 1 {
+  for band in 0..<4 {
     let fb = Float::from_int(band)
     let base_y = Float::from_int(hud_h) + 62.0 + fb * 44.0
 
@@ -118,7 +118,7 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_far_clouds(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < 24; i = i + 1 {
+  for i in 0..<24 {
     let fi = Float::from_int(i)
     let speed : Float = 14.0 + fi * 0.9
     let x : Float = (fi * 120.0 + game.time_s * speed + fi * fi * 0.6) %
@@ -159,7 +159,7 @@ fn draw_wind_lanes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   )
   let count = 26 + (intensity * 40.0).to_int()
 
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let fi = Float::from_int(i)
     let x = (fi * 76.0 + game.time_s * (140.0 + absf(game.wind_x) * 0.46)) %
       (Float::from_int(screen_w) + 180.0) -
@@ -236,21 +236,21 @@ fn draw_anchor_and_rope(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    if not(game.trails[i].active) {
+  for trail in game.trails {
+    if not(trail.active) {
       continue
     }
 
-    let life = clampf(game.trails[i].life / 0.36, 0.0, 1.0)
+    let life = clampf(trail.life / 0.36, 0.0, 1.0)
     let col = @raylib.Color::new(122, 224, 255, (life * 132.0).to_int())
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(game.trails[i].rot * 0.05)) * 0.28
+      absf(sinf(trail.rot * 0.05)) * 0.28
 
     @raylib.draw_rectangle(
-      (game.trails[i].x - game.trails[i].w * 0.5 * stretch + cam_x * 0.2).to_int(),
-      (game.trails[i].y - game.trails[i].h * 0.5 + cam_y * 0.2).to_int(),
-      maxf(2.0, game.trails[i].w * stretch).to_int(),
-      maxf(2.0, game.trails[i].h).to_int(),
+      (trail.x - trail.w * 0.5 * stretch + cam_x * 0.2).to_int(),
+      (trail.y - trail.h * 0.5 + cam_y * 0.2).to_int(),
+      maxf(2.0, trail.w * stretch).to_int(),
+      maxf(2.0, trail.h).to_int(),
       col,
     )
   }
@@ -541,7 +541,7 @@ fn draw_kite(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(56, 84, 132, 232),
   )
 
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let fi = Float::from_int(i)
     let sway = sinf(game.kite.anim_t * 8.0 + fi * 0.6) * 8.0
     let tx = x + sinf(game.kite.angle * 0.02) * fi * 1.8 + sway * 0.16
@@ -594,54 +594,54 @@ fn spark_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let life = if game.sparks[i].kind == 3 {
-      clampf(game.sparks[i].life / 1.6, 0.0, 1.0)
+    let life = if spark.kind == 3 {
+      clampf(spark.life / 1.6, 0.0, 1.0)
     } else {
-      clampf(game.sparks[i].life / 1.1, 0.0, 1.0)
+      clampf(spark.life / 1.1, 0.0, 1.0)
     }
 
-    let col = a_col(spark_col(game.sparks[i].kind), (life * 220.0).to_int())
+    let col = a_col(spark_col(spark.kind), (life * 220.0).to_int())
 
-    if game.sparks[i].kind == 3 {
+    if spark.kind == 3 {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x * 0.2).to_int(),
-        (game.sparks[i].y + cam_y * 0.2).to_int(),
-        maxf(0.6, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x * 0.2).to_int(),
+        (spark.y + cam_y * 0.2).to_int(),
+        maxf(0.6, spark.size * (0.4 + life)),
         col,
       )
     } else {
       @raylib.draw_circle(
-        (game.sparks[i].x + cam_x).to_int(),
-        (game.sparks[i].y + cam_y).to_int(),
-        maxf(0.8, game.sparks[i].size * (0.4 + life)),
+        (spark.x + cam_x).to_int(),
+        (spark.y + cam_y).to_int(),
+        maxf(0.8, spark.size * (0.4 + life)),
         col,
       )
     }
   }
 
-  for i = 0; i < game.halos.length(); i = i + 1 {
-    if not(game.halos[i].active) {
+  for halo in game.halos {
+    if not(halo.active) {
       continue
     }
 
-    let life = clampf(game.halos[i].life / 1.0, 0.0, 1.0)
-    let col = if game.halos[i].kind == 0 {
+    let life = clampf(halo.life / 1.0, 0.0, 1.0)
+    let col = if halo.kind == 0 {
       a_col(amber(), (life * 190.0).to_int())
-    } else if game.halos[i].kind == 1 {
+    } else if halo.kind == 1 {
       a_col(pink(), (life * 190.0).to_int())
     } else {
       a_col(cyan(), (life * 190.0).to_int())
     }
 
     @raylib.draw_circle_lines(
-      (game.halos[i].x + cam_x).to_int(),
-      (game.halos[i].y + cam_y).to_int(),
-      game.halos[i].r,
+      (halo.x + cam_x).to_int(),
+      (halo.y + cam_y).to_int(),
+      halo.r,
       col,
     )
   }
@@ -1210,15 +1210,15 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_anchor_and_rope(game, cam_x, cam_y)
   draw_trails(game, cam_x, cam_y)
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if game.objs[i].active && is_collectible(game.objs[i].kind) {
-      draw_obj(game.objs[i], cam_x, cam_y)
+  for obj in game.objs {
+    if obj.active && is_collectible(obj.kind) {
+      draw_obj(obj, cam_x, cam_y)
     }
   }
 
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    if game.objs[i].active && is_hostile(game.objs[i].kind) {
-      draw_obj(game.objs[i], cam_x, cam_y)
+  for obj in game.objs {
+    if obj.active && is_hostile(obj.kind) {
+      draw_obj(obj, cam_x, cam_y)
     }
   }
 

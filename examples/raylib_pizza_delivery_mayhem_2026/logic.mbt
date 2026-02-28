@@ -145,52 +145,52 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_particles(game : Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
-    game.particles[i].x = 0.0
-    game.particles[i].y = 0.0
-    game.particles[i].vx = 0.0
-    game.particles[i].vy = 0.0
-    game.particles[i].life = 0.0
-    game.particles[i].size = 0.0
-    game.particles[i].kind = 0
+  for particle in game.particles {
+    particle.active = false
+    particle.x = 0.0
+    particle.y = 0.0
+    particle.vx = 0.0
+    particle.vy = 0.0
+    particle.life = 0.0
+    particle.size = 0.0
+    particle.kind = 0
   }
 }
 
 ///|
 fn clear_world(game : Game) -> Unit {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
-    game.traffic[i].active = false
-    game.traffic[i].x = 0.0
-    game.traffic[i].y = 0.0
-    game.traffic[i].vx = 0.0
-    game.traffic[i].vy = 0.0
-    game.traffic[i].w = 0.0
-    game.traffic[i].h = 0.0
-    game.traffic[i].kind = traffic_sedan
-    game.traffic[i].phase = 0.0
+  for traffic_elem in game.traffic {
+    traffic_elem.active = false
+    traffic_elem.x = 0.0
+    traffic_elem.y = 0.0
+    traffic_elem.vx = 0.0
+    traffic_elem.vy = 0.0
+    traffic_elem.w = 0.0
+    traffic_elem.h = 0.0
+    traffic_elem.kind = traffic_sedan
+    traffic_elem.phase = 0.0
   }
 
-  for i = 0; i < game.orders.length(); i = i + 1 {
-    game.orders[i].active = false
-    game.orders[i].picked = false
-    game.orders[i].x_from = 0.0
-    game.orders[i].y_from = 0.0
-    game.orders[i].x_to = 0.0
-    game.orders[i].y_to = 0.0
-    game.orders[i].timer = 0.0
-    game.orders[i].value = 0
-    game.orders[i].id = 0
+  for order in game.orders {
+    order.active = false
+    order.picked = false
+    order.x_from = 0.0
+    order.y_from = 0.0
+    order.x_to = 0.0
+    order.y_to = 0.0
+    order.timer = 0.0
+    order.value = 0
+    order.id = 0
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    game.pickups[i].active = false
-    game.pickups[i].x = 0.0
-    game.pickups[i].y = 0.0
-    game.pickups[i].vx = 0.0
-    game.pickups[i].vy = 0.0
-    game.pickups[i].kind = pickup_fuel
-    game.pickups[i].phase = 0.0
+  for pickup in game.pickups {
+    pickup.active = false
+    pickup.x = 0.0
+    pickup.y = 0.0
+    pickup.vx = 0.0
+    pickup.vy = 0.0
+    pickup.kind = pickup_fuel
+    pickup.phase = 0.0
   }
 }
 
@@ -205,26 +205,26 @@ fn emit_particle(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if game.particles[i].active {
+  for particle in game.particles {
+    if particle.active {
       continue
     }
 
-    game.particles[i].active = true
-    game.particles[i].x = x
-    game.particles[i].y = y
-    game.particles[i].vx = vx
-    game.particles[i].vy = vy
-    game.particles[i].life = life
-    game.particles[i].size = size
-    game.particles[i].kind = kind
+    particle.active = true
+    particle.x = x
+    particle.y = y
+    particle.vx = vx
+    particle.vy = vy
+    particle.life = life
+    particle.size = size
+    particle.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     emit_particle(
       game,
       x + randf(-12.0, 12.0),
@@ -240,24 +240,24 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_particles(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    game.particles[i].life = game.particles[i].life - dt
-    if game.particles[i].life <= 0.0 {
-      game.particles[i].active = false
+    particle.life = particle.life - dt
+    if particle.life <= 0.0 {
+      particle.active = false
       continue
     }
 
-    game.particles[i].x = game.particles[i].x + game.particles[i].vx * dt
-    game.particles[i].y = game.particles[i].y + game.particles[i].vy * dt
+    particle.x = particle.x + particle.vx * dt
+    particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if game.particles[i].kind == 2 { 2.7 } else { 1.9 }
-    game.particles[i].vx = game.particles[i].vx * (1.0 - dt * drag)
-    game.particles[i].vy = game.particles[i].vy * (1.0 - dt * (drag - 0.4)) +
-      dt * (if game.particles[i].kind == 1 { 180.0 } else { 120.0 })
+    let drag : Float = if particle.kind == 2 { 2.7 } else { 1.9 }
+    particle.vx = particle.vx * (1.0 - dt * drag)
+    particle.vy = particle.vy * (1.0 - dt * (drag - 0.4)) +
+      dt * (if particle.kind == 1 { 180.0 } else { 120.0 })
   }
 }
 
@@ -347,8 +347,8 @@ fn finish_run(game : Game, win : Bool) -> Unit {
 ///|
 fn active_orders(game : Game) -> Int {
   let mut n : Int = 0
-  for i = 0; i < game.orders.length(); i = i + 1 {
-    if game.orders[i].active {
+  for order in game.orders {
+    if order.active {
       n = n + 1
     }
   }
@@ -357,8 +357,8 @@ fn active_orders(game : Game) -> Int {
 
 ///|
 fn spawn_order(game : Game) -> Bool {
-  for i = 0; i < game.orders.length(); i = i + 1 {
-    if game.orders[i].active {
+  for order in game.orders {
+    if order.active {
       continue
     }
 
@@ -377,16 +377,16 @@ fn spawn_order(game : Game) -> Bool {
         (ty - world_top()).to_int() / road_step * road_step + road_step / 2,
       )
 
-    game.orders[i].active = true
-    game.orders[i].picked = false
-    game.orders[i].x_from = restaurant_x(src)
-    game.orders[i].y_from = restaurant_y(src)
-    game.orders[i].x_to = tx
-    game.orders[i].y_to = ty
-    game.orders[i].timer = randf(24.0, 42.0) - Float::from_int(game.wave) * 0.6
-    game.orders[i].timer = maxf(16.0, game.orders[i].timer)
-    game.orders[i].value = @raylib.get_random_value(70, 130)
-    game.orders[i].id = @raylib.get_random_value(1000, 9999)
+    order.active = true
+    order.picked = false
+    order.x_from = restaurant_x(src)
+    order.y_from = restaurant_y(src)
+    order.x_to = tx
+    order.y_to = ty
+    order.timer = randf(24.0, 42.0) - Float::from_int(game.wave) * 0.6
+    order.timer = maxf(16.0, order.timer)
+    order.value = @raylib.get_random_value(70, 130)
+    order.id = @raylib.get_random_value(1000, 9999)
 
     return true
   }
@@ -396,8 +396,8 @@ fn spawn_order(game : Game) -> Bool {
 
 ///|
 fn spawn_traffic(game : Game) -> Bool {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
-    if game.traffic[i].active {
+  for traffic_elem in game.traffic {
+    if traffic_elem.active {
       continue
     }
 
@@ -420,28 +420,28 @@ fn spawn_traffic(game : Game) -> Bool {
         )
 
       let from_left : Bool = @raylib.get_random_value(0, 1) == 0
-      game.traffic[i].x = if from_left {
+      traffic_elem.x = if from_left {
         world_left() - 80.0
       } else {
         world_right() + 80.0
       }
-      game.traffic[i].y = y_lane
-      game.traffic[i].vx = if from_left {
+      traffic_elem.y = y_lane
+      traffic_elem.vx = if from_left {
         randf(180.0, 280.0)
       } else {
         randf(-280.0, -180.0)
       }
-      game.traffic[i].vy = randf(-16.0, 16.0)
+      traffic_elem.vy = randf(-16.0, 16.0)
 
       if kind == traffic_sedan {
-        game.traffic[i].w = 48.0
-        game.traffic[i].h = 30.0
+        traffic_elem.w = 48.0
+        traffic_elem.h = 30.0
       } else if kind == traffic_van {
-        game.traffic[i].w = 60.0
-        game.traffic[i].h = 34.0
+        traffic_elem.w = 60.0
+        traffic_elem.h = 34.0
       } else {
-        game.traffic[i].w = 88.0
-        game.traffic[i].h = 40.0
+        traffic_elem.w = 88.0
+        traffic_elem.h = 40.0
       }
     } else {
       let x_lane : Float = world_left() +
@@ -451,34 +451,34 @@ fn spawn_traffic(game : Game) -> Bool {
         )
 
       let from_top : Bool = @raylib.get_random_value(0, 1) == 0
-      game.traffic[i].x = x_lane
-      game.traffic[i].y = if from_top {
+      traffic_elem.x = x_lane
+      traffic_elem.y = if from_top {
         world_top() - 80.0
       } else {
         world_bottom() + 80.0
       }
-      game.traffic[i].vx = randf(-16.0, 16.0)
-      game.traffic[i].vy = if from_top {
+      traffic_elem.vx = randf(-16.0, 16.0)
+      traffic_elem.vy = if from_top {
         randf(180.0, 280.0)
       } else {
         randf(-280.0, -180.0)
       }
 
       if kind == traffic_sedan {
-        game.traffic[i].w = 30.0
-        game.traffic[i].h = 48.0
+        traffic_elem.w = 30.0
+        traffic_elem.h = 48.0
       } else if kind == traffic_van {
-        game.traffic[i].w = 34.0
-        game.traffic[i].h = 60.0
+        traffic_elem.w = 34.0
+        traffic_elem.h = 60.0
       } else {
-        game.traffic[i].w = 40.0
-        game.traffic[i].h = 88.0
+        traffic_elem.w = 40.0
+        traffic_elem.h = 88.0
       }
     }
 
-    game.traffic[i].active = true
-    game.traffic[i].kind = kind
-    game.traffic[i].phase = randf(0.0, 6.28)
+    traffic_elem.active = true
+    traffic_elem.kind = kind
+    traffic_elem.phase = randf(0.0, 6.28)
 
     return true
   }
@@ -488,20 +488,20 @@ fn spawn_traffic(game : Game) -> Bool {
 
 ///|
 fn spawn_pickup(game : Game) -> Bool {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    if game.pickups[i].active {
+  for pickup in game.pickups {
+    if pickup.active {
       continue
     }
 
-    game.pickups[i].active = true
-    game.pickups[i].x = randf(world_left() + 40.0, world_right() - 40.0)
-    game.pickups[i].y = randf(world_top() + 40.0, world_bottom() - 40.0)
-    game.pickups[i].vx = randf(-32.0, 32.0)
-    game.pickups[i].vy = randf(-32.0, 32.0)
-    game.pickups[i].phase = randf(0.0, 6.28)
+    pickup.active = true
+    pickup.x = randf(world_left() + 40.0, world_right() - 40.0)
+    pickup.y = randf(world_top() + 40.0, world_bottom() - 40.0)
+    pickup.vx = randf(-32.0, 32.0)
+    pickup.vy = randf(-32.0, 32.0)
+    pickup.phase = randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
-    game.pickups[i].kind = if roll < 46 {
+    pickup.kind = if roll < 46 {
       pickup_fuel
     } else if roll < 78 {
       pickup_repair
@@ -674,25 +674,25 @@ fn update_rider(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_traffic(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.traffic.length(); i = i + 1 {
-    if not(game.traffic[i].active) {
+  for traffic_elem in game.traffic {
+    if not(traffic_elem.active) {
       continue
     }
 
-    game.traffic[i].phase = game.traffic[i].phase +
-      dt * (1.4 + Float::from_int(game.traffic[i].kind) * 0.6)
+    traffic_elem.phase = traffic_elem.phase +
+      dt * (1.4 + Float::from_int(traffic_elem.kind) * 0.6)
 
-    let sway_x : Float = sinf(game.traffic[i].phase * 2.0) * 10.0
-    let sway_y : Float = cosf(game.traffic[i].phase * 1.7) * 10.0
+    let sway_x : Float = sinf(traffic_elem.phase * 2.0) * 10.0
+    let sway_y : Float = cosf(traffic_elem.phase * 1.7) * 10.0
 
-    game.traffic[i].x = game.traffic[i].x + (game.traffic[i].vx + sway_x) * dt
-    game.traffic[i].y = game.traffic[i].y + (game.traffic[i].vy + sway_y) * dt
+    traffic_elem.x = traffic_elem.x + (traffic_elem.vx + sway_x) * dt
+    traffic_elem.y = traffic_elem.y + (traffic_elem.vy + sway_y) * dt
 
-    if game.traffic[i].x < world_left() - 130.0 ||
-      game.traffic[i].x > world_right() + 130.0 ||
-      game.traffic[i].y < world_top() - 130.0 ||
-      game.traffic[i].y > world_bottom() + 130.0 {
-      game.traffic[i].active = false
+    if traffic_elem.x < world_left() - 130.0 ||
+      traffic_elem.x > world_right() + 130.0 ||
+      traffic_elem.y < world_top() - 130.0 ||
+      traffic_elem.y > world_bottom() + 130.0 {
+      traffic_elem.active = false
       continue
     }
 
@@ -700,23 +700,23 @@ fn update_traffic(game : Game, dt : Float) -> Unit {
       game.rider_x,
       game.rider_y,
       rider_r,
-      game.traffic[i].x - game.traffic[i].w * 0.5,
-      game.traffic[i].y - game.traffic[i].h * 0.5,
-      game.traffic[i].w,
-      game.traffic[i].h,
+      traffic_elem.x - traffic_elem.w * 0.5,
+      traffic_elem.y - traffic_elem.h * 0.5,
+      traffic_elem.w,
+      traffic_elem.h,
     )
 
     if hit {
-      let dmg : Float = if game.traffic[i].kind == traffic_bus {
+      let dmg : Float = if traffic_elem.kind == traffic_bus {
         32.0
-      } else if game.traffic[i].kind == traffic_van {
+      } else if traffic_elem.kind == traffic_van {
         22.0
       } else {
         16.0
       }
 
       hurt_rider(game, dmg)
-      game.traffic[i].active = false
+      traffic_elem.active = false
 
       if game.state != state_play {
         return
@@ -727,43 +727,43 @@ fn update_traffic(game : Game, dt : Float) -> Unit {
 
 ///|
 fn update_pickups(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    if not(game.pickups[i].active) {
+  for pickup in game.pickups {
+    if not(pickup.active) {
       continue
     }
 
-    game.pickups[i].phase = game.pickups[i].phase + dt * 2.4
+    pickup.phase = pickup.phase + dt * 2.4
 
-    game.pickups[i].x = game.pickups[i].x +
-      (game.pickups[i].vx + sinf(game.pickups[i].phase * 2.0) * 22.0) * dt
-    game.pickups[i].y = game.pickups[i].y +
-      (game.pickups[i].vy + cosf(game.pickups[i].phase * 2.1) * 22.0) * dt
+    pickup.x = pickup.x +
+      (pickup.vx + sinf(pickup.phase * 2.0) * 22.0) * dt
+    pickup.y = pickup.y +
+      (pickup.vy + cosf(pickup.phase * 2.1) * 22.0) * dt
 
-    if game.pickups[i].x < world_left() + 16.0 {
-      game.pickups[i].x = world_left() + 16.0
-      game.pickups[i].vx = absf(game.pickups[i].vx) * 0.6
+    if pickup.x < world_left() + 16.0 {
+      pickup.x = world_left() + 16.0
+      pickup.vx = absf(pickup.vx) * 0.6
     }
-    if game.pickups[i].x > world_right() - 16.0 {
-      game.pickups[i].x = world_right() - 16.0
-      game.pickups[i].vx = -absf(game.pickups[i].vx) * 0.6
-    }
-
-    if game.pickups[i].y < world_top() + 16.0 {
-      game.pickups[i].y = world_top() + 16.0
-      game.pickups[i].vy = absf(game.pickups[i].vy) * 0.6
-    }
-    if game.pickups[i].y > world_bottom() - 16.0 {
-      game.pickups[i].y = world_bottom() - 16.0
-      game.pickups[i].vy = -absf(game.pickups[i].vy) * 0.6
+    if pickup.x > world_right() - 16.0 {
+      pickup.x = world_right() - 16.0
+      pickup.vx = -absf(pickup.vx) * 0.6
     }
 
-    let rr : Float = rider_r + pickup_distance(game.pickups[i].kind)
-    if dist2(game.rider_x, game.rider_y, game.pickups[i].x, game.pickups[i].y) <=
+    if pickup.y < world_top() + 16.0 {
+      pickup.y = world_top() + 16.0
+      pickup.vy = absf(pickup.vy) * 0.6
+    }
+    if pickup.y > world_bottom() - 16.0 {
+      pickup.y = world_bottom() - 16.0
+      pickup.vy = -absf(pickup.vy) * 0.6
+    }
+
+    let rr : Float = rider_r + pickup_distance(pickup.kind)
+    if dist2(game.rider_x, game.rider_y, pickup.x, pickup.y) <=
       rr * rr {
-      let kind : Int = game.pickups[i].kind
-      let px : Float = game.pickups[i].x
-      let py : Float = game.pickups[i].y
-      game.pickups[i].active = false
+      let kind : Int = pickup.kind
+      let px : Float = pickup.x
+      let py : Float = pickup.y
+      pickup.active = false
       collect_pickup(game, kind, px, py)
     }
   }
@@ -801,7 +801,7 @@ fn order_time_bonus(timer_left : Float) -> Int {
 
 ///|
 fn update_orders(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.orders.length(); i = i + 1 {
+  for i in 0..<game.orders.length() {
     if not(game.orders[i].active) {
       continue
     }
@@ -875,7 +875,7 @@ fn use_hint(game : Game) -> Bool {
     let mut best_d2 : Float = 1000000000.0
 
     if game.fuel < 40.0 {
-      for i = 0; i < game.pickups.length(); i = i + 1 {
+      for i in 0..<game.pickups.length() {
         if not(game.pickups[i].active) || game.pickups[i].kind != pickup_fuel {
           continue
         }
@@ -896,21 +896,21 @@ fn use_hint(game : Game) -> Bool {
     }
 
     if best_d2 >= 900000000.0 {
-      for i = 0; i < game.orders.length(); i = i + 1 {
-        if not(game.orders[i].active) || game.orders[i].picked {
+      for order in game.orders {
+        if not(order.active) || order.picked {
           continue
         }
 
         let d2 : Float = dist2(
           game.rider_x,
           game.rider_y,
-          game.orders[i].x_from,
-          game.orders[i].y_from,
+          order.x_from,
+          order.y_from,
         )
         if d2 < best_d2 {
           best_d2 = d2
-          hx = game.orders[i].x_from
-          hy = game.orders[i].y_from
+          hx = order.x_from
+          hy = order.y_from
           text = "Hint: nearest pickup restaurant marked."
         }
       }

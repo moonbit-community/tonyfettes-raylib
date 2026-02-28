@@ -24,16 +24,16 @@ struct Plane {
 
 ///|
 fn spawn_plane(planes : Array[Plane]) -> Unit {
-  for i = 0; i < planes.length(); i = i + 1 {
-    if not(planes[i].alive) {
+  for plane in planes {
+    if not(plane.alive) {
       let r = @raylib.get_random_value(0, runway_count - 1)
-      planes[i].alive = true
-      planes[i].runway = r
-      planes[i].x = runway_x(r) +
+      plane.alive = true
+      plane.runway = r
+      plane.x = runway_x(r) +
         Float::from_int(@raylib.get_random_value(-24, 24))
-      planes[i].y = -40.0
-      planes[i].vy = Float::from_int(@raylib.get_random_value(65, 110))
-      planes[i].fuel = Float::from_int(@raylib.get_random_value(16, 26))
+      plane.y = -40.0
+      plane.vy = Float::from_int(@raylib.get_random_value(65, 110))
+      plane.fuel = Float::from_int(@raylib.get_random_value(16, 26))
       break
     }
   }
@@ -41,8 +41,8 @@ fn spawn_plane(planes : Array[Plane]) -> Unit {
 
 ///|
 fn reset_planes(planes : Array[Plane]) -> Unit {
-  for i = 0; i < planes.length(); i = i + 1 {
-    planes[i].alive = false
+  for plane in planes {
+    plane.alive = false
   }
 }
 
@@ -98,7 +98,7 @@ fn main {
         runway_open[2] = not(runway_open[2])
       }
 
-      for r = 0; r < runway_count; r = r + 1 {
+      for r in 0..<runway_count {
         runway_busy[r] = runway_busy[r] - dt
         if runway_busy[r] < 0.0 {
           runway_busy[r] = 0.0
@@ -116,16 +116,16 @@ fn main {
         stress = 0.0
       }
 
-      for i = 0; i < planes.length(); i = i + 1 {
-        if not(planes[i].alive) {
+      for plane in planes {
+        if not(plane.alive) {
           continue
         }
 
-        planes[i].y = planes[i].y + planes[i].vy * dt
-        planes[i].fuel = planes[i].fuel - dt
+        plane.y = plane.y + plane.vy * dt
+        plane.fuel = plane.fuel - dt
 
-        if planes[i].fuel <= 0.0 {
-          planes[i].alive = false
+        if plane.fuel <= 0.0 {
+          plane.alive = false
           lives = lives - 1
           missed = missed + 1
           stress = stress + 22.0
@@ -133,17 +133,17 @@ fn main {
           continue
         }
 
-        let r = planes[i].runway
-        if planes[i].y >= 560.0 {
+        let r = plane.runway
+        if plane.y >= 560.0 {
           if runway_open[r] && runway_busy[r] <= 0.0 {
-            planes[i].alive = false
+            plane.alive = false
             runway_busy[r] = 2.0
             landed = landed + 1
-            score = score + 70 + planes[i].fuel.to_int()
+            score = score + 70 + plane.fuel.to_int()
             stress = stress + 4.0
             msg = "Runway \{r + 1}: safe landing."
-          } else if planes[i].y >= 650.0 {
-            planes[i].alive = false
+          } else if plane.y >= 650.0 {
+            plane.alive = false
             lives = lives - 1
             missed = missed + 1
             score = score - 45
@@ -154,11 +154,11 @@ fn main {
       }
 
       // Near-collision warning between planes on same runway
-      for i = 0; i < planes.length(); i = i + 1 {
+      for i in 0..<planes.length() {
         if not(planes[i].alive) {
           continue
         }
-        for j = i + 1; j < planes.length(); j = j + 1 {
+        for j in (i + 1)..<planes.length() {
           if not(planes[j].alive) {
             continue
           }
@@ -195,7 +195,7 @@ fn main {
       @raylib.Color::new(84, 130, 94, 255),
     )
 
-    for r = 0; r < runway_count; r = r + 1 {
+    for r in 0..<runway_count {
       let x = runway_x(r)
       let state_c = if runway_open[r] { @raylib.lime } else { @raylib.red }
 
@@ -227,19 +227,19 @@ fn main {
       }
     }
 
-    for i = 0; i < planes.length(); i = i + 1 {
-      if planes[i].alive {
-        let c = if planes[i].fuel < 6.0 { @raylib.red } else { @raylib.white }
+    for plane in planes {
+      if plane.alive {
+        let c = if plane.fuel < 6.0 { @raylib.red } else { @raylib.white }
         @raylib.draw_triangle(
-          @raylib.Vector2::new(planes[i].x, planes[i].y - 12.0),
-          @raylib.Vector2::new(planes[i].x - 12.0, planes[i].y + 10.0),
-          @raylib.Vector2::new(planes[i].x + 12.0, planes[i].y + 10.0),
+          @raylib.Vector2::new(plane.x, plane.y - 12.0),
+          @raylib.Vector2::new(plane.x - 12.0, plane.y + 10.0),
+          @raylib.Vector2::new(plane.x + 12.0, plane.y + 10.0),
           c,
         )
         @raylib.draw_text(
-          "\{planes[i].fuel.to_int()}",
-          (planes[i].x + 14.0).to_int(),
-          (planes[i].y - 12.0).to_int(),
+          "\{plane.fuel.to_int()}",
+          (plane.x + 14.0).to_int(),
+          (plane.y - 12.0).to_int(),
           18,
           @raylib.black,
         )

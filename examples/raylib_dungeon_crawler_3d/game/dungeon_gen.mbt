@@ -3,28 +3,28 @@
 ///|
 pub fn generate_dungeon(game : @types.Game) -> Unit {
   // Clear all tiles to wall
-  for i = 0; i < @types.grid_total; i = i + 1 {
+  for i in 0..<@types.grid_total {
     game.tiles[i] = @types.tile_wall
     game.explored[i] = false
   }
   // Clear entities
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    game.enemies[i].active = false
+  for enemy in game.enemies {
+    enemy.active = false
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    game.projectiles[i].active = false
+  for projectile in game.projectiles {
+    projectile.active = false
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    game.particles[i].active = false
+  for particle in game.particles {
+    particle.active = false
   }
-  for i = 0; i < game.loot.length(); i = i + 1 {
-    game.loot[i].active = false
+  for loot_elem in game.loot {
+    loot_elem.active = false
   }
-  for i = 0; i < game.traps.length(); i = i + 1 {
-    game.traps[i].active = false
+  for trap in game.traps {
+    trap.active = false
   }
-  for i = 0; i < game.torches.length(); i = i + 1 {
-    game.torches[i].active = false
+  for torch in game.torches {
+    torch.active = false
   }
   // Set floor theme
   game.floor_theme = @levels.get_floor_theme(game.current_floor)
@@ -35,7 +35,7 @@ pub fn generate_dungeon(game : @types.Game) -> Unit {
   let num_rooms = config.0
   // Generate rooms
   game.room_count = 0
-  for i = 0; i < num_rooms; i = i + 1 {
+  for i in 0..<num_rooms {
     try_place_room(game)
     ignore(i)
   }
@@ -51,7 +51,7 @@ pub fn generate_dungeon(game : @types.Game) -> Unit {
     game.room_count = 2
   }
   // Connect rooms with corridors
-  for i = 1; i < game.room_count; i = i + 1 {
+  for i in 1..<game.room_count {
     let r0 = game.rooms[i - 1]
     let r1 = game.rooms[i]
     carve_corridor(
@@ -106,14 +106,14 @@ fn try_place_room(game : @types.Game) -> Unit {
     return
   }
   // Try multiple times to find a non-overlapping room
-  for attempt = 0; attempt < 20; attempt = attempt + 1 {
+  for attempt in 0..<20 {
     let w = @types.rand_range(game, @types.min_room_size, @types.max_room_size)
     let h = @types.rand_range(game, @types.min_room_size, @types.max_room_size)
     let x = @types.rand_range(game, 1, @types.grid_w - w - 1)
     let y = @types.rand_range(game, 1, @types.grid_h - h - 1)
     // Check for overlap with existing rooms (with margin)
     let mut overlap = false
-    for i = 0; i < game.room_count; i = i + 1 {
+    for i in 0..<game.room_count {
       let r = game.rooms[i]
       if x < r.x + r.w + 2 &&
         x + w + 2 > r.x &&
@@ -135,8 +135,8 @@ fn try_place_room(game : @types.Game) -> Unit {
 
 ///|
 fn carve_room(game : @types.Game, room : @types.Room) -> Unit {
-  for gy = room.y; gy < room.y + room.h; gy = gy + 1 {
-    for gx = room.x; gx < room.x + room.w; gx = gx + 1 {
+  for gy in room.y..<(room.y + room.h) {
+    for gx in room.x..<(room.x + room.w) {
       @types.set_tile(game, gx, gy, @types.tile_floor)
     }
   }
@@ -154,7 +154,7 @@ fn carve_corridor(
   let mut cy = y1
   // Go horizontal first, then vertical
   while cx != x2 {
-    for dw = 0; dw <= @types.corridor_width; dw = dw + 1 {
+    for dw in 0..=@types.corridor_width {
       @types.set_tile(game, cx, cy + dw, @types.tile_floor)
       if cy - dw >= 0 {
         @types.set_tile(game, cx, cy, @types.tile_floor)
@@ -167,7 +167,7 @@ fn carve_corridor(
     }
   }
   while cy != y2 {
-    for dw = 0; dw <= @types.corridor_width; dw = dw + 1 {
+    for dw in 0..=@types.corridor_width {
       @types.set_tile(game, cx + dw, cy, @types.tile_floor)
       if cx - dw >= 0 {
         @types.set_tile(game, cx, cy, @types.tile_floor)
@@ -211,7 +211,7 @@ fn place_enemies(game : @types.Game) -> Unit {
   let def_scale = @levels.get_enemy_def_scale(game.current_floor)
   let mut total_spawned = 0
   // Place skeletons
-  for i = 0; i < num_skeletons; i = i + 1 {
+  for i in 0..<num_skeletons {
     spawn_enemy_in_room(
       game,
       @types.enemy_skeleton,
@@ -224,7 +224,7 @@ fn place_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place archers
-  for i = 0; i < num_archers; i = i + 1 {
+  for i in 0..<num_archers {
     spawn_enemy_in_room(
       game,
       @types.enemy_archer,
@@ -237,7 +237,7 @@ fn place_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place golems
-  for i = 0; i < num_golems; i = i + 1 {
+  for i in 0..<num_golems {
     spawn_enemy_in_room(
       game,
       @types.enemy_golem,
@@ -250,7 +250,7 @@ fn place_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place wraiths
-  for i = 0; i < num_wraiths; i = i + 1 {
+  for i in 0..<num_wraiths {
     spawn_enemy_in_room(
       game,
       @types.enemy_wraith,
@@ -306,7 +306,7 @@ fn place_extended_enemies(game : @types.Game) -> Unit {
   let def_scale = @levels.get_enemy_def_scale(game.current_floor)
   let mut extra = 0
   // Place slimes
-  for i = 0; i < num_slimes; i = i + 1 {
+  for i in 0..<num_slimes {
     spawn_enemy_in_room(
       game,
       @types.enemy_slime,
@@ -319,7 +319,7 @@ fn place_extended_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place bats
-  for i = 0; i < num_bats; i = i + 1 {
+  for i in 0..<num_bats {
     spawn_enemy_in_room(
       game,
       @types.enemy_bat,
@@ -332,7 +332,7 @@ fn place_extended_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place spiders
-  for i = 0; i < num_spiders; i = i + 1 {
+  for i in 0..<num_spiders {
     spawn_enemy_in_room(
       game,
       @types.enemy_spider,
@@ -345,7 +345,7 @@ fn place_extended_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place minotaurs
-  for i = 0; i < num_minotaurs; i = i + 1 {
+  for i in 0..<num_minotaurs {
     spawn_enemy_in_room(
       game,
       @types.enemy_minotaur,
@@ -358,7 +358,7 @@ fn place_extended_enemies(game : @types.Game) -> Unit {
     ignore(i)
   }
   // Place lichs
-  for i = 0; i < num_lichs; i = i + 1 {
+  for i in 0..<num_lichs {
     spawn_enemy_in_room(
       game,
       @types.enemy_lich,
@@ -423,7 +423,7 @@ fn spawn_enemy_in_room(
 fn place_loot(game : @types.Game) -> Unit {
   let config = @levels.get_floor_config(game.current_floor)
   let num_loot = config.6
-  for i = 0; i < num_loot; i = i + 1 {
+  for i in 0..<num_loot {
     let idx = @types.alloc_loot(game)
     if idx < 0 {
       return
@@ -481,10 +481,10 @@ fn place_loot(game : @types.Game) -> Unit {
 ///|
 fn place_doors(game : @types.Game) -> Unit {
   // Scan for corridor-like passages and place occasional doors
-  for gy = 2; gy < @types.grid_h - 2; gy = gy + 1 {
-    for gx = 2; gx < @types.grid_w - 2; gx = gx + 1 {
+  for gy in 2..<(@types.grid_h - 2) {
+    for gx in 2..<(@types.grid_w - 2) {
       if @types.get_tile(game, gx, gy) != @types.tile_floor {
-        continue gx + 1
+        continue
       }
       // Horizontal doorway: walls above and below, floor left and right
       let is_h_door = @types.get_tile(game, gx, gy - 1) == @types.tile_wall &&
@@ -514,13 +514,13 @@ fn place_locked_doors(game : @types.Game) -> Unit {
   }
   let mut placed = 0
   // Try to place locked doors at corridor entrances between rooms
-  for gy = 2; gy < @types.grid_h - 2; gy = gy + 1 {
-    for gx = 2; gx < @types.grid_w - 2; gx = gx + 1 {
+  for gy in 2..<(@types.grid_h - 2) {
+    for gx in 2..<(@types.grid_w - 2) {
       if placed >= num_locked {
         return
       }
       if @types.get_tile(game, gx, gy) != @types.tile_door {
-        continue gx + 1
+        continue
       }
       // Convert some regular doors to locked doors (50% chance)
       if @types.rand_range(game, 0, 99) < 50 {
@@ -551,7 +551,7 @@ fn place_locked_doors(game : @types.Game) -> Unit {
 fn place_chests(game : @types.Game) -> Unit {
   // Place 1-3 chests in random rooms
   let num_chests = @types.rand_range(game, 1, 3)
-  for i = 0; i < num_chests; i = i + 1 {
+  for i in 0..<num_chests {
     let room_idx = @types.rand_range(game, 0, game.room_count - 1)
     let room = game.rooms[room_idx]
     // Place chest near a wall in the room
@@ -564,7 +564,7 @@ fn place_chests(game : @types.Game) -> Unit {
   }
   // Maybe place a mimic (10% chance per chest, only after floor 3)
   if game.current_floor >= 3 {
-    for _try = 0; _try < 1; _try = _try + 1 {
+    for _try in 0..<1 {
       if @types.rand_range(game, 0, 99) < 15 {
         // Find a chest tile and put a mimic near it
         let room_idx = @types.rand_range(game, 1, game.room_count - 1)
@@ -606,7 +606,7 @@ fn place_chests(game : @types.Game) -> Unit {
 ///|
 fn place_traps(game : @types.Game) -> Unit {
   let num_traps = @levels.get_floor_trap_count(game.current_floor)
-  for i = 0; i < num_traps; i = i + 1 {
+  for i in 0..<num_traps {
     let idx = @types.alloc_trap(game)
     if idx < 0 {
       return
@@ -642,9 +642,9 @@ fn place_traps(game : @types.Game) -> Unit {
 ///|
 fn place_torches(game : @types.Game) -> Unit {
   let torches_per_room = @levels.get_torches_per_room(game.floor_theme)
-  for r = 0; r < game.room_count; r = r + 1 {
+  for r in 0..<game.room_count {
     let room = game.rooms[r]
-    for t = 0; t < torches_per_room; t = t + 1 {
+    for t in 0..<torches_per_room {
       let idx = @types.alloc_torch(game)
       if idx < 0 {
         return
@@ -697,7 +697,7 @@ fn place_shop(game : @types.Game) -> Unit {
   let sy = room.center_y()
   @types.set_tile(game, sx, sy, @types.tile_shop)
   // Generate shop items
-  for i = 0; i < @types.max_shop_items; i = i + 1 {
+  for i in 0..<@types.max_shop_items {
     game.shop_items[i].active = true
     game.shop_items[i].kind = @levels.get_shop_item_type(i)
     game.shop_items[i].price = @levels.get_shop_item_price(i)

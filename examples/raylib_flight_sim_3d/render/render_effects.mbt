@@ -4,15 +4,15 @@
 
 ///|
 pub fn draw_clouds(game : @types.Game) -> Unit {
-  for i = 0; i < game.clouds.length(); i = i + 1 {
+  for i in 0..<game.clouds.length() {
     let c = game.clouds[i]
     if not(c.active) {
-      continue i + 1
+      continue
     }
     // Distance culling
     let dist = @types.distance2d(game.player.x, game.player.z, c.x, c.z)
     if dist > game.draw_distance * 0.8 {
-      continue i + 1
+      continue
     }
     // Determine cloud color based on weather and time of day
     let tod = game.weather_state.time_of_day
@@ -51,7 +51,7 @@ pub fn draw_clouds(game : @types.Game) -> Unit {
     let alpha = @types.clampi(alpha_f.to_int(), 10, 200)
     // Draw cloud as cluster of overlapping cubes for volume
     let num_puffs = 5
-    for p = 0; p < num_puffs; p = p + 1 {
+    for p in 0..<num_puffs {
       let pf = Float::from_int(p)
       let offset_x = @math.sinf(pf * 1.7 + Float::from_int(i) * 0.3) *
         c.size_x *
@@ -88,7 +88,7 @@ pub fn draw_rain_effect(game : @types.Game) -> Unit {
   let player = game.player
   let rain_count_f = ws.rain_intensity * 30.0
   let rain_count = rain_count_f.to_int()
-  for i = 0; i < rain_count; i = i + 1 {
+  for i in 0..<rain_count {
     // Pseudo-random positions around player using frame and index
     let seed_val = Float::from_int(i * 7 + game.frame_counter * 3)
     let rx = player.x + @math.sinf(seed_val * 0.17) * 30.0
@@ -123,7 +123,7 @@ pub fn draw_fog_overlay(game : @types.Game) -> Unit {
   if ws.kind == @types.weather_fog || ws.kind == @types.weather_storm {
     let player = game.player
     let fog_count = 8
-    for i = 0; i < fog_count; i = i + 1 {
+    for i in 0..<fog_count {
       let seed_f = Float::from_int(i)
       let fog_x = player.x + @math.sinf(seed_f * 2.1) * 40.0
       let fog_z = player.z + @math.cosf(seed_f * 1.7) * 40.0
@@ -160,7 +160,7 @@ pub fn draw_engine_trail(game : @types.Game) -> Unit {
   // Draw multiple trail segments behind aircraft
   let trail_segments = 6
   let intensity = player.throttle
-  for i = 0; i < trail_segments; i = i + 1 {
+  for i in 0..<trail_segments {
     let t_val = Float::from_int(i + 1) * 0.5
     let trail_x = player.x - fx * (2.0 + t_val)
     let trail_y = player.y - fy * (2.0 + t_val)
@@ -206,7 +206,7 @@ pub fn draw_damage_smoke(game : @types.Game) -> Unit {
   let trail_segments = 8
   let hp_x2 = hp_ratio * 2.0
   let smoke_intensity : Float = 1.0 - hp_x2
-  for i = 0; i < trail_segments; i = i + 1 {
+  for i in 0..<trail_segments {
     let t_val = Float::from_int(i + 1) * 0.8
     let jitter_x = @math.sinf(Float::from_int(game.frame_counter + i * 7) * 0.3) *
       0.3
@@ -256,10 +256,9 @@ pub fn draw_damage_smoke(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_tracer_trails(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     // Draw extended trail behind projectile
     let trail_len : Float = 1.5
@@ -358,17 +357,16 @@ pub fn draw_celestial_body(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_enemy_damage_trails(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     if e.kind != @types.enemy_type_air {
-      continue i + 1
+      continue
     }
     let hp_ratio = e.hp / e.max_hp
     if hp_ratio > 0.6 {
-      continue i + 1
+      continue
     }
     // Distance culling
     let dist = @types.distance3d(
@@ -380,13 +378,13 @@ pub fn draw_enemy_damage_trails(game : @types.Game) -> Unit {
       e.z,
     )
     if dist > game.draw_distance {
-      continue i + 1
+      continue
     }
     let smoke_segments = 4
     let vel_len = (e.vx * e.vx + e.vz * e.vz).sqrt()
     let dir_x : Float = if vel_len > 0.5 { e.vx / vel_len } else { 0.0 }
     let dir_z : Float = if vel_len > 0.5 { e.vz / vel_len } else { 0.0 }
-    for s = 0; s < smoke_segments; s = s + 1 {
+    for s in 0..<smoke_segments {
       let t_val = Float::from_int(s + 1) * 0.6
       let smoke_x = e.x - dir_x * t_val
       let smoke_y = e.y + Float::from_int(s) * 0.2

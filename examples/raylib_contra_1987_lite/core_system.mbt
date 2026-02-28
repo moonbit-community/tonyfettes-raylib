@@ -1,6 +1,6 @@
 ///|
 fn clear_cores(game : Game) -> Unit {
-  for i = 0; i < game.cores.length(); i = i + 1 {
+  for i in 0..<game.cores.length() {
     game.cores[i] = BioCore::inactive()
   }
   game.cores_goal = 0
@@ -9,7 +9,7 @@ fn clear_cores(game : Game) -> Unit {
 
 ///|
 fn alloc_core_slot(game : Game) -> Int {
-  for i = 0; i < game.cores.length(); i = i + 1 {
+  for i in 0..<game.cores.length() {
     if not(game.cores[i].active) {
       return i
     }
@@ -64,11 +64,11 @@ fn try_spawn_core_at_tile(game : Game, tx : Int, ty : Int, hp : Int) -> Bool {
   let x = tile_center_x(tx)
   let y = tile_center_y(ty)
 
-  for i = 0; i < game.cores.length(); i = i + 1 {
-    if not(game.cores[i].active) {
-      continue i + 1
+  for core in game.cores {
+    if not(core.active) {
+      continue
     }
-    if distance_sq(x, y, game.cores[i].x, game.cores[i].y) <= 3000.0 {
+    if distance_sq(x, y, core.x, core.y) <= 3000.0 {
       return false
     }
   }
@@ -148,11 +148,10 @@ fn damage_core(game : Game, index : Int, team : Int, power : Int) -> Bool {
 
 ///|
 fn update_cores(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.cores.length(); i = i + 1 {
-    if not(game.cores[i].active) {
-      continue i + 1
+  for core in game.cores {
+    if not(core.active) {
+      continue
     }
-    let core = game.cores[i]
     core.pulse += dt * 3.8
     core.flash -= dt
     if core.flash < 0.0 {

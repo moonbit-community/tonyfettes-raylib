@@ -47,7 +47,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(34, 52, 90, 34),
   )
 
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y : Int = i * 70
     @raylib.draw_rectangle(
       0,
@@ -82,7 +82,7 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(168, 224, 238, 210),
   )
 
-  for i = 0; i < 23; i = i + 1 {
+  for i in 0..<23 {
     let y : Int = world_y0 + oy + i * 42
     let shift : Int = (ui_wave(game, 1.0 + Float::from_int(i) * 0.07) * 18.0).to_int()
 
@@ -115,10 +115,10 @@ fn draw_world_back(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_currents(game : Game, ox : Int, oy : Int) -> Unit {
-  for r = 0; r < 12; r = r + 1 {
+  for r in 0..<12 {
     let row_y : Float = world_top() + 38.0 + Float::from_int(r) * 76.0
 
-    for c = 0; c < 7; c = c + 1 {
+    for c in 0..<7 {
       let x : Float = world_left() + 90.0 + Float::from_int(c) * 150.0
       let cx : Float = water_current_x(game, row_y)
       let cy : Float = water_current_y(game, x)
@@ -188,7 +188,7 @@ fn draw_obstacle(ob : Obstacle, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(146, 112, 74, 240),
     )
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       let px : Int = x + 16 + i * (w - 32) / 3
       @raylib.draw_line(
         px,
@@ -211,7 +211,7 @@ fn draw_obstacle(ob : Obstacle, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(255, 208, 208, 180),
     )
 
-    for i = 0; i < 8; i = i + 1 {
+    for i in 0..<8 {
       let a : Float = ob.phase + Float::from_int(i) * 0.785
       let px0 : Int = (Float::from_int(cx) + cosf(a) * (r - 2.0)).to_int()
       let py0 : Int = (Float::from_int(cy) + sinf(a) * (r - 2.0)).to_int()
@@ -297,31 +297,31 @@ fn draw_pickup(pk : Pickup, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    if not(game.particles[i].active) {
+  for particle in game.particles {
+    if not(particle.active) {
       continue
     }
 
-    let a : Int = if game.particles[i].life > 0.7 {
+    let a : Int = if particle.life > 0.7 {
       236
-    } else if game.particles[i].life > 0.4 {
+    } else if particle.life > 0.4 {
       186
     } else {
       112
     }
 
-    let c : @raylib.Color = if game.particles[i].kind == 2 {
+    let c : @raylib.Color = if particle.kind == 2 {
       @raylib.Color::new(194, 236, 255, a)
-    } else if game.particles[i].kind == 1 {
+    } else if particle.kind == 1 {
       @raylib.Color::new(255, 156, 138, a)
     } else {
       @raylib.Color::new(144, 224, 255, a)
     }
 
     @raylib.draw_circle(
-      game.particles[i].x.to_int() + ox,
-      game.particles[i].y.to_int() + oy,
-      game.particles[i].size,
+      particle.x.to_int() + ox,
+      particle.y.to_int() + oy,
+      particle.size,
       c,
     )
   }
@@ -1010,12 +1010,12 @@ fn draw_frame(
   draw_world_back(game, ox, oy)
   draw_currents(game, ox, oy)
 
-  for i = 0; i < game.obstacles.length(); i = i + 1 {
-    draw_obstacle(game.obstacles[i], ox, oy)
+  for obstacle in game.obstacles {
+    draw_obstacle(obstacle, ox, oy)
   }
 
-  for i = 0; i < game.pickups.length(); i = i + 1 {
-    draw_pickup(game.pickups[i], ox, oy)
+  for pickup in game.pickups {
+    draw_pickup(pickup, ox, oy)
   }
 
   draw_hint(game, ox, oy)

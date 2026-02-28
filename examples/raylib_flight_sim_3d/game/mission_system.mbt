@@ -119,10 +119,9 @@ fn complete_mission(game : @types.Game) -> Unit {
 ///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Flash timer
     if e.flash_timer > 0.0 {
@@ -364,10 +363,9 @@ fn enemy_fire(
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     proj.x += proj.dx * proj.speed * dt
     proj.y += proj.dy * proj.speed * dt
@@ -385,7 +383,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
-      continue i + 1
+      continue
     }
     // Check terrain collision
     let ground = @types.terrain_height_at(proj.x, proj.z)
@@ -406,7 +404,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       } else {
         @types.spawn_particles(game, proj.x, proj.y, proj.z, 3, 200, 180, 100)
       }
-      continue i + 1
+      continue
     }
     if proj.is_enemy {
       // Check hit player
@@ -427,10 +425,9 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       }
     } else {
       // Check hit enemies
-      for j = 0; j < game.enemies.length(); j = j + 1 {
-        let e = game.enemies[j]
+      for e in game.enemies {
         if not(e.active) {
-          continue j + 1
+          continue
         }
         let dist = @types.distance3d(proj.x, proj.y, proj.z, e.x, e.y, e.z)
         if dist < e.size + 1.0 {
@@ -486,10 +483,9 @@ fn bomb_area_damage(
   damage : Float,
 ) -> Unit {
   // Damage enemies in blast radius
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(x, y, z, e.x, e.y, e.z)
     if dist < radius {
@@ -514,13 +510,12 @@ fn bomb_area_damage(
     }
   }
   // Damage buildings in blast radius
-  for i = 0; i < game.buildings.length(); i = i + 1 {
-    let b = game.buildings[i]
+  for b in game.buildings {
     if not(b.active) {
-      continue i + 1
+      continue
     }
     if not(b.destructible) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(x, y, z, b.x, b.y + b.height / 2.0, b.z)
     if dist < radius + 3.0 {
@@ -544,10 +539,9 @@ fn bomb_area_damage(
     }
   }
   // Damage turrets in blast radius
-  for i = 0; i < game.turrets.length(); i = i + 1 {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(x, y, z, t.x, t.y, t.z)
     if dist < radius {

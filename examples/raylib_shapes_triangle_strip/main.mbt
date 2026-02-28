@@ -31,7 +31,7 @@ fn main {
       point_count * 2 + 2,
       @raylib.Vector2::new(0.0, 0.0),
     )
-    for i = 0; i < point_count; i = i + 1 {
+    for i in 0..<point_count {
       let angle1 = Float::from_int(i) * angle_step
       points[i * 2] = @raylib.Vector2::new(
         center.x + @math.cosf(angle1) * inside_radius,
@@ -50,7 +50,7 @@ fn main {
     @raylib.clear_background(@raylib.raywhite)
 
     let rad2deg : Float = 180.0 / pi
-    for i = 0; i < point_count; i = i + 1 {
+    for i in 0..<point_count {
       let a = points[i * 2]
       let b = points[i * 2 + 1]
       let c = points[i * 2 + 2]

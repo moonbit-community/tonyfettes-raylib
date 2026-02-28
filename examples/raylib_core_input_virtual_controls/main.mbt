@@ -48,7 +48,7 @@ fn main {
       Float::from_int(@raylib.get_mouse_y())
     }
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       // Test distance: Manhattan distance < radius
       let dx = dpad_collider_x[i] - input_x
       let dy = dpad_collider_y[i] - input_y
@@ -74,7 +74,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
 
-    for i = 0; i < 4; i = i + 1 {
+    for i in 0..<4 {
       // Draw all pads
       @raylib.draw_circle_v(
         @raylib.Vector2::new(dpad_collider_x[i], dpad_collider_y[i]),

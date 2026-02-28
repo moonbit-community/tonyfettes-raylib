@@ -169,10 +169,10 @@ fn update_decoration_particles(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
   // Spawn particles near decorations periodically
   if game.frame_counter % 30 == 0 {
-    for i = 0; i < game.decoration_count; i = i + 1 {
+    for i in 0..<game.decoration_count {
       let d = game.decorations[i]
       if not(d.active) {
-        continue i + 1
+        continue
       }
       if d.kind == @types.deco_torch {
         @types.spawn_ambient_particles(

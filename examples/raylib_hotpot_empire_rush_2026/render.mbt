@@ -98,7 +98,7 @@ fn draw_background(game : Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(14, 16, 24, 255))
 
   let wave = @math.sinf(game.elapsed * 0.28)
-  for i = 0; i < 16; i = i + 1 {
+  for i in 0..<16 {
     let y = i * (screen_h / 16)
     let tone = 20 + i * 5
     @raylib.draw_rectangle(
@@ -354,8 +354,8 @@ fn draw_kitchen(game : Game) -> Unit {
     @raylib.Color::new(234, 240, 250, 246),
   )
 
-  for y = 0; y < station_rows; y = y + 1 {
-    for x = 0; x < station_cols; x = x + 1 {
+  for y in 0..<station_rows {
+    for x in 0..<station_cols {
       let sx = station_x(x)
       let sy = station_y(y)
       let station = station_at(x, y)
@@ -614,7 +614,7 @@ fn draw_side_panel(game : Game) -> Unit {
     @raylib.Color::new(238, 246, 255, 244),
   )
 
-  for i = 0; i < max_orders; i = i + 1 {
+  for i in 0..<max_orders {
     draw_order_card(game, i, x + 18, 430 + i * 80, w - 36, 72)
   }
 }

@@ -32,7 +32,7 @@ fn draw_stage_sky(game : Game) -> Unit {
     @raylib.Color::new(244, 252, 255, 180),
   )
 
-  for i = 0; i < 90; i = i + 1 {
+  for i in 0..<90 {
     let tx = (i * 133 + game.frame_count * 3) % (screen_width + 200)
     let ty = (i * 67 + 45) % 260
     let twinkle = Float::from_double(
@@ -60,7 +60,7 @@ fn draw_city_layer(
   let block_w = 36 + layer * 12
   let max_blocks = screen_width / block_w + 6
 
-  for i = 0; i < max_blocks; i = i + 1 {
+  for i in 0..<max_blocks {
     let x = i * block_w - scroll % block_w - block_w
     let wave = Float::from_double(
       @math.sin(
@@ -72,7 +72,7 @@ fn draw_city_layer(
     @raylib.draw_rectangle(x, y_base - h, block_w - 3, h, color)
 
     if layer >= 2 {
-      for w = 0; w < 5; w = w + 1 {
+      for w in 0..<5 {
         let wx = x + 4 + w * 6
         let wy = y_base - h + 7 + (w * 13 + i * 5) % (h - 14)
         let lit = (w + i + game.frame_count / 27) % 5
@@ -109,7 +109,7 @@ fn draw_stage_crowd(game : Game) -> Unit {
     @raylib.Color::new(18, 20, 26, 220),
   )
 
-  for i = 0; i < 190; i = i + 1 {
+  for i in 0..<190 {
     let x = (i * 19 + (game.bg_scroll * f(9.0)).to_int()) % (screen_width + 32) -
       16
     let phase = Float::from_double(
@@ -161,7 +161,7 @@ fn draw_stage_floor(game : Game) -> Unit {
     @raylib.Color::new(42, 38, 36, 255),
   )
 
-  for i = 0; i <= 40; i = i + 1 {
+  for i in 0..=40 {
     let t = Float::from_int(i) / f(40.0)
     let y = floor_top + (t * t * f(210.0)).to_int()
     let alpha = f(0.16) - t * f(0.14)
@@ -174,7 +174,7 @@ fn draw_stage_floor(game : Game) -> Unit {
     )
   }
 
-  for i = -14; i <= 14; i = i + 1 {
+  for i in -14..=14 {
     let x = screen_width / 2 + i * 48 + (game.bg_scroll * f(0.8)).to_int() % 48
     let alpha = f(0.2) -
       Float::from_int(absf(Float::from_int(i)).to_int()) * f(0.008)
@@ -189,7 +189,7 @@ fn draw_stage_floor(game : Game) -> Unit {
 
   let left_rope = camera_project_x(game, stage_left_x - 40.0).to_int()
   let right_rope = camera_project_x(game, stage_right_x + 40.0).to_int()
-  for i = 0; i < 3; i = i + 1 {
+  for i in 0..<3 {
     let y = camera_project_y(game, f(430.0) + Float::from_int(i * 38)).to_int()
     @raylib.draw_line_ex(
       @raylib.Vector2::new(Float::from_int(left_rope), Float::from_int(y)),

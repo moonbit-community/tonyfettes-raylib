@@ -22,13 +22,13 @@ fn main {
   values[4] = Ref::new(600.0)
   values[5] = Ref::new(380.0)
   values[6] = Ref::new(750.0)
-  for i = 7; i < max_pie_slices; i = i + 1 {
+  for i in 7..<max_pie_slices {
     values[i] = Ref::new(0.0)
   }
 
   let labels : Array[Ref[String]] = Array::make(max_pie_slices, Ref::new(""))
   let editing_label : Array[Bool] = Array::make(max_pie_slices, false)
-  for i = 0; i < max_pie_slices; i = i + 1 {
+  for i in 0..<max_pie_slices {
     let num = i + 1
     let padded = if num < 10 { "0" } else { "" }
     labels[i] = Ref::new("Slice " + padded + num.to_string())
@@ -72,7 +72,7 @@ fn main {
     // Update
     // Calculate total value for percentage calculations
     let mut total_value : Float = 0.0
-    for i = 0; i < slice_count.val; i = i + 1 {
+    for i in 0..<slice_count.val {
       total_value = total_value + values[i].val
     }
 
@@ -91,7 +91,7 @@ fn main {
         }
 
         let mut current_angle : Float = 0.0
-        for i = 0; i < slice_count.val; i = i + 1 {
+        for i in 0..<slice_count.val {
           let sweep = if total_value > 0.0 {
             values[i].val / total_value * 360.0
           } else {
@@ -112,7 +112,7 @@ fn main {
 
     // Draw the pie chart on the canvas
     let mut start_angle : Float = 0.0
-    for i = 0; i < slice_count.val; i = i + 1 {
+    for i in 0..<slice_count.val {
       let sweep_angle = if total_value > 0.0 {
         values[i].val / total_value * 360.0
       } else {
@@ -321,7 +321,7 @@ fn main {
       view_h.to_int(),
     )
 
-    for i = 0; i < slice_count.val; i = i + 1 {
+    for i in 0..<slice_count.val {
       let row_y = (content_y + 5.0 + Float::from_int(i * 35)).to_int()
 
       // Color indicator

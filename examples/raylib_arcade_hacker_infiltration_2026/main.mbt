@@ -179,71 +179,71 @@ fn cell_center_y(gy : Int) -> Float {
 
 ///|
 fn clear_terminals(terminals : Array[Terminal]) -> Unit {
-  for i = 0; i < terminals.length(); i = i + 1 {
-    terminals[i].active = false
-    terminals[i].gx = 0
-    terminals[i].gy = 0
-    terminals[i].hacked = false
+  for terminal in terminals {
+    terminal.active = false
+    terminal.gx = 0
+    terminal.gy = 0
+    terminal.hacked = false
   }
 }
 
 ///|
 fn clear_guards(guards : Array[Guard]) -> Unit {
-  for i = 0; i < guards.length(); i = i + 1 {
-    guards[i].active = false
-    guards[i].kind = 0
-    guards[i].gx = 0
-    guards[i].gy = 0
-    guards[i].hp = 0.0
-    guards[i].move_cd = 0.0
-    guards[i].atk_cd = 0.0
-    guards[i].stun_t = 0.0
-    guards[i].alert_t = 0.0
-    guards[i].patrol_dir = 0
+  for guard_val in guards {
+    guard_val.active = false
+    guard_val.kind = 0
+    guard_val.gx = 0
+    guard_val.gy = 0
+    guard_val.hp = 0.0
+    guard_val.move_cd = 0.0
+    guard_val.atk_cd = 0.0
+    guard_val.stun_t = 0.0
+    guard_val.alert_t = 0.0
+    guard_val.patrol_dir = 0
   }
 }
 
 ///|
 fn clear_cameras(cameras : Array[Camera]) -> Unit {
-  for i = 0; i < cameras.length(); i = i + 1 {
-    cameras[i].active = false
-    cameras[i].gx = 0
-    cameras[i].gy = 0
-    cameras[i].dir = 0
-    cameras[i].rot_t = 0.0
-    cameras[i].disable_t = 0.0
+  for camera in cameras {
+    camera.active = false
+    camera.gx = 0
+    camera.gy = 0
+    camera.dir = 0
+    camera.rot_t = 0.0
+    camera.disable_t = 0.0
   }
 }
 
 ///|
 fn clear_pickups(pickups : Array[Pickup]) -> Unit {
-  for i = 0; i < pickups.length(); i = i + 1 {
-    pickups[i].active = false
-    pickups[i].gx = 0
-    pickups[i].gy = 0
-    pickups[i].kind = 0
+  for pickup in pickups {
+    pickup.active = false
+    pickup.gx = 0
+    pickup.gy = 0
+    pickup.kind = 0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].t = 0.0
-    parts[i].life = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.t = 0.0
+    part.life = 0.0
+    part.kind = 0
   }
 }
 
 ///|
 fn guard_at(guards : Array[Guard], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if guards[i].active && guards[i].gx == gx && guards[i].gy == gy {
       found = i
       break
@@ -255,7 +255,7 @@ fn guard_at(guards : Array[Guard], gx : Int, gy : Int) -> Int {
 ///|
 fn terminal_at(terminals : Array[Terminal], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < terminals.length(); i = i + 1 {
+  for i in 0..<terminals.length() {
     if terminals[i].active &&
       terminals[i].gx == gx &&
       terminals[i].gy == gy &&
@@ -270,7 +270,7 @@ fn terminal_at(terminals : Array[Terminal], gx : Int, gy : Int) -> Int {
 ///|
 fn pickup_at(pickups : Array[Pickup], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     if pickups[i].active && pickups[i].gx == gx && pickups[i].gy == gy {
       found = i
       break
@@ -282,7 +282,7 @@ fn pickup_at(pickups : Array[Pickup], gx : Int, gy : Int) -> Int {
 ///|
 fn camera_at(cameras : Array[Camera], gx : Int, gy : Int) -> Int {
   let mut found : Int = -1
-  for i = 0; i < cameras.length(); i = i + 1 {
+  for i in 0..<cameras.length() {
     if cameras[i].active && cameras[i].gx == gx && cameras[i].gy == gy {
       found = i
       break
@@ -375,7 +375,7 @@ fn spawn_guard(
   stage : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < guards.length(); i = i + 1 {
+  for i in 0..<guards.length() {
     if not(guards[i].active) {
       slot = i
       break
@@ -409,7 +409,7 @@ fn spawn_pickup(
   kind : Int,
 ) -> Bool {
   let mut slot : Int = -1
-  for i = 0; i < pickups.length(); i = i + 1 {
+  for i in 0..<pickups.length() {
     if not(pickups[i].active) {
       slot = i
       break
@@ -437,21 +437,21 @@ fn burst(
   kind : Int,
 ) -> Unit {
   let mut left = n
-  for i = 0; i < parts.length(); i = i + 1 {
+  for part in parts {
     if left <= 0 {
       break
     }
 
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
-      parts[i].size = Float::from_int(@raylib.get_random_value(2, 7))
-      parts[i].t = 0.0
-      parts[i].life = Float::from_int(@raylib.get_random_value(14, 76)) / 100.0
-      parts[i].kind = kind
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.vy = Float::from_int(@raylib.get_random_value(-260, 260)) * speed
+      part.size = Float::from_int(@raylib.get_random_value(2, 7))
+      part.t = 0.0
+      part.life = Float::from_int(@raylib.get_random_value(14, 76)) / 100.0
+      part.kind = kind
       left = left - 1
     }
   }
@@ -661,8 +661,8 @@ fn main {
 
   let count_hacked = fn() {
     let mut done = 0
-    for i = 0; i < terminals.length(); i = i + 1 {
-      if terminals[i].active && terminals[i].hacked {
+    for terminal in terminals {
+      if terminal.active && terminal.hacked {
         done = done + 1
       }
     }
@@ -670,8 +670,8 @@ fn main {
   }
 
   let setup_stage = fn(stage_i : Int) {
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         if x == 0 || y == 0 || x == map_w - 1 || y == map_h - 1 {
           tiles[idx(x, y)] = 1
         } else {
@@ -701,7 +701,7 @@ fn main {
     exit_open = false
 
     // Partition walls with several random gates.
-    for wi = 0; wi < 3; wi = wi + 1 {
+    for wi in 0..<3 {
       let wall_x = 5 + wi * 5
       let g1 = @raylib.get_random_value(1, map_h - 2)
       let mut g2 = @raylib.get_random_value(1, map_h - 2)
@@ -709,7 +709,7 @@ fn main {
         g2 = clampi(g2 + 2, 1, map_h - 2)
       }
       let g3 = map_h / 2
-      for y = 1; y < map_h - 1; y = y + 1 {
+      for y in 1..<(map_h - 1) {
         if y == g1 || y == g2 || y == g3 {
           ignore(())
         } else {
@@ -718,7 +718,7 @@ fn main {
       }
     }
 
-    for hi = 0; hi < 2; hi = hi + 1 {
+    for hi in 0..<2 {
       let wall_y = 4 + hi * 4
       let g1 = @raylib.get_random_value(1, map_w - 2)
       let mut g2 = @raylib.get_random_value(1, map_w - 2)
@@ -730,7 +730,7 @@ fn main {
         g3 = clampi(g3 + 3, 1, map_w - 2)
       }
 
-      for x = 1; x < map_w - 1; x = x + 1 {
+      for x in 1..<(map_w - 1) {
         if x == g1 || x == g2 || x == g3 {
           ignore(())
         } else {
@@ -750,14 +750,14 @@ fn main {
     terminal_total = clampi(3 + stage_i, 3, 8)
     terminal_done = 0
 
-    for i = 0; i < terminal_total; i = i + 1 {
+    for i in 0..<terminal_total {
       ignore(i)
-      for _a = 0; _a < 240; _a = _a + 1 {
+      for _a in 0..<240 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 6) {
           let mut slot : Int = -1
-          for k = 0; k < terminals.length(); k = k + 1 {
+          for k in 0..<terminals.length() {
             if not(terminals[k].active) {
               slot = k
               break
@@ -775,14 +775,14 @@ fn main {
     }
 
     let camera_count = clampi(3 + stage_i * 2, 3, 16)
-    for i = 0; i < camera_count; i = i + 1 {
+    for i in 0..<camera_count {
       ignore(i)
-      for _a = 0; _a < 240; _a = _a + 1 {
+      for _a in 0..<240 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 5) {
           let mut slot : Int = -1
-          for k = 0; k < cameras.length(); k = k + 1 {
+          for k in 0..<cameras.length() {
             if not(cameras[k].active) {
               slot = k
               break
@@ -802,9 +802,9 @@ fn main {
     }
 
     let guard_count = clampi(5 + stage_i * 3, 5, 30)
-    for i = 0; i < guard_count; i = i + 1 {
+    for i in 0..<guard_count {
       ignore(i)
-      for _a = 0; _a < 260; _a = _a + 1 {
+      for _a in 0..<260 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 7) {
@@ -816,9 +816,9 @@ fn main {
     }
 
     let pickup_count = clampi(4 + stage_i, 4, 10)
-    for i = 0; i < pickup_count; i = i + 1 {
+    for i in 0..<pickup_count {
       ignore(i)
-      for _a = 0; _a < 200; _a = _a + 1 {
+      for _a in 0..<200 {
         let gx = @raylib.get_random_value(1, map_w - 2)
         let gy = @raylib.get_random_value(1, map_h - 2)
         if cell_free_for_spawn(gx, gy, 4) {
@@ -1069,7 +1069,7 @@ fn main {
 
       if hack_press && player.hack_cd <= 0.0 {
         let mut target : Int = -1
-        for i = 0; i < terminals.length(); i = i + 1 {
+        for i in 0..<terminals.length() {
           if terminals[i].active && not(terminals[i].hacked) {
             let d = absi(terminals[i].gx - player.gx) +
               absi(terminals[i].gy - player.gy)
@@ -1121,18 +1121,18 @@ fn main {
 
           let mut disabled = 0
           let mut shocked = 0
-          for i = 0; i < cameras.length(); i = i + 1 {
-            if cameras[i].active {
-              let d = absi(cameras[i].gx - player.gx) +
-                absi(cameras[i].gy - player.gy)
+          for camera in cameras {
+            if camera.active {
+              let d = absi(camera.gx - player.gx) +
+                absi(camera.gy - player.gy)
               if d <= 6 {
-                cameras[i].disable_t = 4.2
+                camera.disable_t = 4.2
                 disabled = disabled + 1
               }
             }
           }
 
-          for i = 0; i < guards.length(); i = i + 1 {
+          for i in 0..<guards.length() {
             if guards[i].active {
               let d = absi(guards[i].gx - player.gx) +
                 absi(guards[i].gy - player.gy)
@@ -1184,31 +1184,31 @@ fn main {
         }
       }
 
-      for i = 0; i < cameras.length(); i = i + 1 {
-        if not(cameras[i].active) {
+      for camera in cameras {
+        if not(camera.active) {
           continue
         }
 
-        cameras[i].disable_t = cameras[i].disable_t - dt
-        if cameras[i].disable_t < 0.0 {
-          cameras[i].disable_t = 0.0
+        camera.disable_t = camera.disable_t - dt
+        if camera.disable_t < 0.0 {
+          camera.disable_t = 0.0
         }
 
-        cameras[i].rot_t = cameras[i].rot_t - dt
-        if cameras[i].rot_t <= 0.0 {
-          cameras[i].rot_t = 1.5 - Float::from_int(stage) * 0.12
-          if cameras[i].rot_t < 0.62 {
-            cameras[i].rot_t = 0.62
+        camera.rot_t = camera.rot_t - dt
+        if camera.rot_t <= 0.0 {
+          camera.rot_t = 1.5 - Float::from_int(stage) * 0.12
+          if camera.rot_t < 0.62 {
+            camera.rot_t = 0.62
           }
-          cameras[i].dir = (cameras[i].dir + 1) % 4
+          camera.dir = (camera.dir + 1) % 4
         }
 
-        if cameras[i].disable_t <= 0.0 && player.cloak_t <= 0.0 {
-          if camera_facing(cameras[i], player.gx, player.gy) &&
+        if camera.disable_t <= 0.0 && player.cloak_t <= 0.0 {
+          if camera_facing(camera, player.gx, player.gy) &&
             visible_line(
               tiles,
-              cameras[i].gx,
-              cameras[i].gy,
+              camera.gx,
+              camera.gy,
               player.gx,
               player.gy,
               8,
@@ -1218,85 +1218,85 @@ fn main {
         }
       }
 
-      for i = 0; i < guards.length(); i = i + 1 {
-        if not(guards[i].active) {
+      for guard_val in guards {
+        if not(guard_val.active) {
           continue
         }
 
-        guards[i].move_cd = guards[i].move_cd - dt
-        guards[i].atk_cd = guards[i].atk_cd - dt
-        guards[i].stun_t = guards[i].stun_t - dt
-        guards[i].alert_t = guards[i].alert_t - dt
+        guard_val.move_cd = guard_val.move_cd - dt
+        guard_val.atk_cd = guard_val.atk_cd - dt
+        guard_val.stun_t = guard_val.stun_t - dt
+        guard_val.alert_t = guard_val.alert_t - dt
 
-        if guards[i].atk_cd < 0.0 {
-          guards[i].atk_cd = 0.0
+        if guard_val.atk_cd < 0.0 {
+          guard_val.atk_cd = 0.0
         }
-        if guards[i].stun_t < 0.0 {
-          guards[i].stun_t = 0.0
+        if guard_val.stun_t < 0.0 {
+          guard_val.stun_t = 0.0
         }
-        if guards[i].alert_t < 0.0 {
-          guards[i].alert_t = 0.0
+        if guard_val.alert_t < 0.0 {
+          guard_val.alert_t = 0.0
         }
 
-        if guards[i].stun_t > 0.0 {
+        if guard_val.stun_t > 0.0 {
           continue
         }
 
         let sees = player.cloak_t <= 0.0 &&
           visible_line(
             tiles,
-            guards[i].gx,
-            guards[i].gy,
+            guard_val.gx,
+            guard_val.gy,
             player.gx,
             player.gy,
             7,
           )
         if sees {
-          guards[i].alert_t = 2.2
-          alarm = alarm + dt * (16.0 + Float::from_int(guards[i].kind) * 6.0)
+          guard_val.alert_t = 2.2
+          alarm = alarm + dt * (16.0 + Float::from_int(guard_val.kind) * 6.0)
 
-          let dist = if guards[i].gx == player.gx {
-            absi(guards[i].gy - player.gy)
-          } else if guards[i].gy == player.gy {
-            absi(guards[i].gx - player.gx)
+          let dist = if guard_val.gx == player.gx {
+            absi(guard_val.gy - player.gy)
+          } else if guard_val.gy == player.gy {
+            absi(guard_val.gx - player.gx)
           } else {
             99
           }
 
-          if dist <= 5 && guards[i].atk_cd <= 0.0 {
-            guards[i].atk_cd = 1.1 - Float::from_int(guards[i].kind) * 0.14
-            if guards[i].atk_cd < 0.48 {
-              guards[i].atk_cd = 0.48
+          if dist <= 5 && guard_val.atk_cd <= 0.0 {
+            guard_val.atk_cd = 1.1 - Float::from_int(guard_val.kind) * 0.14
+            if guard_val.atk_cd < 0.48 {
+              guard_val.atk_cd = 0.48
             }
             damage_player(
-              8.0 + Float::from_int(guards[i].kind) * 2.8,
+              8.0 + Float::from_int(guard_val.kind) * 2.8,
               "Guard laser hit",
             )
           }
         }
 
-        let adj = absi(guards[i].gx - player.gx) +
-          absi(guards[i].gy - player.gy)
-        if adj <= 1 && guards[i].atk_cd <= 0.0 {
-          guards[i].atk_cd = 0.78
+        let adj = absi(guard_val.gx - player.gx) +
+          absi(guard_val.gy - player.gy)
+        if adj <= 1 && guard_val.atk_cd <= 0.0 {
+          guard_val.atk_cd = 0.78
           damage_player(
-            10.0 + Float::from_int(guards[i].kind) * 3.0,
+            10.0 + Float::from_int(guard_val.kind) * 3.0,
             "Guard melee",
           )
         }
 
-        if guards[i].move_cd <= 0.0 {
-          guards[i].move_cd = 0.34 - Float::from_int(guards[i].kind) * 0.05
-          if guards[i].move_cd < 0.14 {
-            guards[i].move_cd = 0.14
+        if guard_val.move_cd <= 0.0 {
+          guard_val.move_cd = 0.34 - Float::from_int(guard_val.kind) * 0.05
+          if guard_val.move_cd < 0.14 {
+            guard_val.move_cd = 0.14
           }
 
           let mut dx = 0
           let mut dy = 0
 
-          if sees || guards[i].alert_t > 0.0 || alarm > 42.0 {
-            let tx = player.gx - guards[i].gx
-            let ty = player.gy - guards[i].gy
+          if sees || guard_val.alert_t > 0.0 || alarm > 42.0 {
+            let tx = player.gx - guard_val.gx
+            let ty = player.gy - guard_val.gy
 
             if absi(tx) > absi(ty) {
               dx = if tx < 0 { -1 } else if tx > 0 { 1 } else { 0 }
@@ -1305,22 +1305,22 @@ fn main {
             }
           } else {
             if @raylib.get_random_value(0, 99) < 20 {
-              guards[i].patrol_dir = @raylib.get_random_value(0, 3)
+              guard_val.patrol_dir = @raylib.get_random_value(0, 3)
             }
 
-            if guards[i].patrol_dir == 0 {
+            if guard_val.patrol_dir == 0 {
               dy = -1
-            } else if guards[i].patrol_dir == 1 {
+            } else if guard_val.patrol_dir == 1 {
               dx = 1
-            } else if guards[i].patrol_dir == 2 {
+            } else if guard_val.patrol_dir == 2 {
               dy = 1
             } else {
               dx = -1
             }
           }
 
-          let mut nx = guards[i].gx + dx
-          let mut ny = guards[i].gy + dy
+          let mut nx = guard_val.gx + dx
+          let mut ny = guard_val.gy + dy
 
           let bad_step = not(can_walk(tiles, nx, ny)) ||
             guard_at(guards, nx, ny) >= 0 ||
@@ -1329,25 +1329,25 @@ fn main {
           if bad_step {
             if dx != 0 {
               dx = 0
-              let py = player.gy - guards[i].gy
+              let py = player.gy - guard_val.gy
               dy = if py < 0 { -1 } else if py > 0 { 1 } else { 0 }
             } else if dy != 0 {
               dy = 0
-              let px = player.gx - guards[i].gx
+              let px = player.gx - guard_val.gx
               dx = if px < 0 { -1 } else if px > 0 { 1 } else { 0 }
             }
 
-            nx = guards[i].gx + dx
-            ny = guards[i].gy + dy
+            nx = guard_val.gx + dx
+            ny = guard_val.gy + dy
           }
 
           if can_walk(tiles, nx, ny) &&
             guard_at(guards, nx, ny) < 0 &&
             not(nx == player.gx && ny == player.gy) {
-            guards[i].gx = nx
-            guards[i].gy = ny
+            guard_val.gx = nx
+            guard_val.gy = ny
           } else {
-            guards[i].patrol_dir = @raylib.get_random_value(0, 3)
+            guard_val.patrol_dir = @raylib.get_random_value(0, 3)
           }
         }
       }
@@ -1360,8 +1360,8 @@ fn main {
         msg = "Security strike \{strikes}/3"
         msg_t = 0.72
 
-        for _r = 0; _r < 2; _r = _r + 1 {
-          for _a = 0; _a < 220; _a = _a + 1 {
+        for _r in 0..<2 {
+          for _a in 0..<220 {
             let gx = @raylib.get_random_value(1, map_w - 2)
             let gy = @raylib.get_random_value(1, map_h - 2)
             if can_walk(tiles, gx, gy) &&
@@ -1386,7 +1386,7 @@ fn main {
       if guard_spawn_cd <= 0.0 {
         guard_spawn_cd = randf(7.0, 11.0)
 
-        for _a = 0; _a < 240; _a = _a + 1 {
+        for _a in 0..<240 {
           let gx = @raylib.get_random_value(1, map_w - 2)
           let gy = @raylib.get_random_value(1, map_h - 2)
           if can_walk(tiles, gx, gy) &&
@@ -1403,7 +1403,7 @@ fn main {
       pickup_spawn_cd = pickup_spawn_cd - dt
       if pickup_spawn_cd <= 0.0 {
         pickup_spawn_cd = randf(4.8, 7.4)
-        for _a = 0; _a < 220; _a = _a + 1 {
+        for _a in 0..<220 {
           let gx = @raylib.get_random_value(1, map_w - 2)
           let gy = @raylib.get_random_value(1, map_h - 2)
           if can_walk(tiles, gx, gy) && pickup_at(pickups, gx, gy) < 0 {
@@ -1469,19 +1469,19 @@ fn main {
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
         } else {
-          particles[i].x = particles[i].x + particles[i].vx * dt
-          particles[i].y = particles[i].y + particles[i].vy * dt
-          particles[i].vx = particles[i].vx * (1.0 - dt * 2.0)
-          particles[i].vy = particles[i].vy + 220.0 * dt
+          particle.x = particle.x + particle.vx * dt
+          particle.y = particle.y + particle.vy * dt
+          particle.vx = particle.vx * (1.0 - dt * 2.0)
+          particle.vy = particle.vy + 220.0 * dt
         }
       }
 
@@ -1518,8 +1518,8 @@ fn main {
       @raylib.Color::new(18, 24, 40, 255),
     )
 
-    for y = 0; y < map_h; y = y + 1 {
-      for x = 0; x < map_w; x = x + 1 {
+    for y in 0..<map_h {
+      for x in 0..<map_w {
         let px = map_x + x * tile
         let py = map_y + y * tile
         if tiles[idx(x, y)] == 1 {
@@ -1550,25 +1550,25 @@ fn main {
     }
 
     // Camera cone projection.
-    for i = 0; i < cameras.length(); i = i + 1 {
-      if not(cameras[i].active) || cameras[i].disable_t > 0.0 {
+    for camera in cameras {
+      if not(camera.active) || camera.disable_t > 0.0 {
         continue
       }
 
-      for step = 1; step <= 8; step = step + 1 {
-        let gx = if cameras[i].dir == 1 {
-          cameras[i].gx + step
-        } else if cameras[i].dir == 3 {
-          cameras[i].gx - step
+      for step in 1..=8 {
+        let gx = if camera.dir == 1 {
+          camera.gx + step
+        } else if camera.dir == 3 {
+          camera.gx - step
         } else {
-          cameras[i].gx
+          camera.gx
         }
-        let gy = if cameras[i].dir == 2 {
-          cameras[i].gy + step
-        } else if cameras[i].dir == 0 {
-          cameras[i].gy - step
+        let gy = if camera.dir == 2 {
+          camera.gy + step
+        } else if camera.dir == 0 {
+          camera.gy - step
         } else {
-          cameras[i].gy
+          camera.gy
         }
         if not(in_bounds(gx, gy)) || tiles[idx(gx, gy)] == 1 {
           break
@@ -1617,11 +1617,11 @@ fn main {
       )
     }
 
-    for i = 0; i < terminals.length(); i = i + 1 {
-      if terminals[i].active {
-        let cx = cell_center_x(terminals[i].gx)
-        let cy = cell_center_y(terminals[i].gy)
-        let col = if terminals[i].hacked {
+    for terminal in terminals {
+      if terminal.active {
+        let cx = cell_center_x(terminal.gx)
+        let cy = cell_center_y(terminal.gy)
+        let col = if terminal.hacked {
           @raylib.Color::new(112, 240, 186, 255)
         } else {
           @raylib.Color::new(108, 184, 250, 255)
@@ -1643,15 +1643,15 @@ fn main {
       }
     }
 
-    for i = 0; i < pickups.length(); i = i + 1 {
-      if pickups[i].active {
-        let cx = cell_center_x(pickups[i].gx)
-        let cy = cell_center_y(pickups[i].gy)
-        let col = if pickups[i].kind == 0 {
+    for pickup in pickups {
+      if pickup.active {
+        let cx = cell_center_x(pickup.gx)
+        let cy = cell_center_y(pickup.gy)
+        let col = if pickup.kind == 0 {
           @raylib.Color::new(128, 236, 162, 255)
-        } else if pickups[i].kind == 1 {
+        } else if pickup.kind == 1 {
           @raylib.Color::new(128, 214, 250, 255)
-        } else if pickups[i].kind == 2 {
+        } else if pickup.kind == 2 {
           @raylib.Color::new(246, 208, 118, 255)
         } else {
           @raylib.Color::new(232, 148, 250, 255)
@@ -1660,43 +1660,43 @@ fn main {
       }
     }
 
-    for i = 0; i < cameras.length(); i = i + 1 {
-      if cameras[i].active {
-        draw_camera(cameras[i])
+    for camera in cameras {
+      if camera.active {
+        draw_camera(camera)
       }
     }
 
-    for i = 0; i < guards.length(); i = i + 1 {
-      if guards[i].active {
-        draw_guard(guards[i])
+    for guard_val in guards {
+      if guard_val.active {
+        draw_guard(guard_val)
       }
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let ratio : Float = 1.0 - particles[i].t / particles[i].life
+      let ratio : Float = 1.0 - particle.t / particle.life
       let a = (ratio * 255.0).to_int()
       if a <= 0 {
         continue
       }
 
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(142, 226, 252, a)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(252, 160, 138, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(142, 244, 198, a)
       } else {
         @raylib.Color::new(252, 124, 142, a)
       }
 
       @raylib.draw_circle(
-        particles[i].x.to_int(),
-        particles[i].y.to_int(),
-        particles[i].size,
+        particle.x.to_int(),
+        particle.y.to_int(),
+        particle.size,
         col,
       )
     }

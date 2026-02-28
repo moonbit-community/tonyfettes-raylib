@@ -4,21 +4,21 @@
 pub fn load_track(game : @types.Game, cup : Int, race : Int) -> Unit {
   let wp_data = @levels.get_track_waypoints(cup, race)
   game.waypoint_count = @types.clampi(wp_data.length(), 0, @types.max_waypoints)
-  for i = 0; i < game.waypoint_count; i = i + 1 {
+  for i in 0..<game.waypoint_count {
     let d = wp_data[i]
     game.waypoints[i] = { x: d.0, y: d.1, z: d.2 }
   }
   // Clear entity pools
-  for i = 0; i < game.karts.length(); i = i + 1 {
+  for i in 0..<game.karts.length() {
     game.karts[i] = @types.Kart::inactive()
   }
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     game.powerups[i] = @types.Powerup::inactive()
   }
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     game.projectiles[i] = @types.Projectile::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = @types.Particle::inactive()
   }
   // Spawn karts at start positions
@@ -50,7 +50,7 @@ fn spawn_karts(game : @types.Game) -> Unit {
   // Perpendicular direction for side-by-side placement
   let perp_x = -dir_z
   let perp_z = dir_x
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     kart.active = true
     kart.is_player = i == @types.player_kart
@@ -95,9 +95,9 @@ fn spawn_track_powerups(game : @types.Game) -> Unit {
   // Place powerups at intervals around the track
   let spacing = 3 // Every 3rd waypoint segment gets a powerup cluster
   let mut pu_idx = 0
-  for i = 0; i < game.waypoint_count; i = i + 1 {
+  for i in 0..<game.waypoint_count {
     if i % spacing != 1 {
-      continue i + 1
+      continue
     }
     if pu_idx >= @types.max_powerups - 1 {
       break
@@ -192,12 +192,12 @@ pub fn update_kart_waypoint(game : @types.Game, kart_idx : Int) -> Unit {
 pub fn update_positions(game : @types.Game) -> Unit {
   // Simple bubble sort by total_progress (descending = better position)
   let positions : Array[Int] = []
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     positions.push(i)
   }
   // Sort: finished karts first (by finish_time), then by total_progress descending
-  for i = 0; i < @types.max_karts - 1; i = i + 1 {
-    for j = 0; j < @types.max_karts - 1 - i; j = j + 1 {
+  for i in 0..<(@types.max_karts - 1) {
+    for j in 0..<(@types.max_karts - 1 - i) {
       let a = positions[j]
       let b = positions[j + 1]
       let ka = game.karts[a]
@@ -222,7 +222,7 @@ pub fn update_positions(game : @types.Game) -> Unit {
     }
   }
   // Assign places
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     game.karts[positions[i]].place = i + 1
   }
 }
@@ -231,7 +231,7 @@ pub fn update_positions(game : @types.Game) -> Unit {
 
 ///|
 pub fn all_karts_finished(game : @types.Game) -> Bool {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     if game.karts[i].active && not(game.karts[i].finished) {
       return false
     }
@@ -256,7 +256,7 @@ pub fn get_ground_height(game : @types.Game, x : Float, z : Float) -> Float {
   }
   let mut best_dist : Float = 99999.0
   let mut best_idx = 0
-  for i = 0; i < wc; i = i + 1 {
+  for i in 0..<wc {
     let wp = game.waypoints[i]
     let d = @types.distance2d(x, z, wp.x, wp.z)
     if d < best_dist {
@@ -284,7 +284,7 @@ pub fn get_ground_height(game : @types.Game, x : Float, z : Float) -> Float {
 
 ///|
 pub fn apply_race_results(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     game.cup_points[i] = game.cup_points[i] + @types.position_points(kart.place)
   }
@@ -294,7 +294,7 @@ pub fn apply_race_results(game : @types.Game) -> Unit {
 
 ///|
 pub fn reset_cup_points(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     game.cup_points[i] = 0
   }
 }
@@ -303,10 +303,9 @@ pub fn reset_cup_points(game : @types.Game) -> Unit {
 
 ///|
 pub fn update_powerup_respawns(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) {
-      continue i + 1
+      continue
     }
     if pu.collected {
       pu.respawn_timer -= dt
@@ -322,18 +321,17 @@ pub fn update_powerup_respawns(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn check_powerup_collisions(game : @types.Game) -> Unit {
-  for ki = 0; ki < @types.max_karts; ki = ki + 1 {
+  for ki in 0..<@types.max_karts {
     let kart = game.karts[ki]
     if not(kart.active) || kart.finished {
-      continue ki + 1
+      continue
     }
     if kart.held_powerup != @types.powerup_none {
-      continue ki + 1
+      continue
     }
-    for pi = 0; pi < game.powerups.length(); pi = pi + 1 {
-      let pu = game.powerups[pi]
+    for pu in game.powerups {
       if not(pu.active) || pu.collected {
-        continue pi + 1
+        continue
       }
       let d = @types.distance2d(kart.x, kart.z, pu.x, pu.z)
       if d < 2.0 {
@@ -351,15 +349,14 @@ pub fn check_powerup_collisions(game : @types.Game) -> Unit {
 
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     proj.life -= dt
     if proj.life <= 0.0 {
       proj.active = false
-      continue i + 1
+      continue
     }
     // Move forward
     let dx = @math.sinf(proj.angle) * proj.speed * dt
@@ -367,16 +364,16 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
     proj.x = proj.x + dx
     proj.z = proj.z + dz
     // Check collision with karts
-    for ki = 0; ki < @types.max_karts; ki = ki + 1 {
+    for ki in 0..<@types.max_karts {
       if ki == proj.owner {
-        continue ki + 1
+        continue
       }
       let kart = game.karts[ki]
       if not(kart.active) || kart.finished {
-        continue ki + 1
+        continue
       }
       if kart.spin_timer > 0.0 {
-        continue ki + 1
+        continue
       }
       let d = @types.distance2d(proj.x, proj.z, kart.x, kart.z)
       if d < 1.5 {
@@ -417,15 +414,14 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x = p.x + p.vx * dt
     p.y = p.y + p.vy * dt

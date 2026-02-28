@@ -46,7 +46,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(7, 14, 28, 255),
   )
 
-  for i = 0; i < 120; i = i + 1 {
+  for i in 0..<120 {
     let fi = Float::from_int(i)
     let x = (fi * 91.0 + fi * fi * 0.19 + game.ui_t * 11.0) %
       Float::from_int(screen_w)
@@ -78,7 +78,7 @@ fn draw_world_back(game : Game) -> Unit {
     @raylib.Color::new(14, 30, 44, 236),
   )
 
-  for row = 0; row < 22; row = row + 1 {
+  for row in 0..<22 {
     let y = world_y0 + row * 40
     @raylib.draw_line(
       world_x0 + 8,
@@ -89,7 +89,7 @@ fn draw_world_back(game : Game) -> Unit {
     )
   }
 
-  for col = 0; col < 25; col = col + 1 {
+  for col in 0..<25 {
     let x = world_x0 + col * 40
     @raylib.draw_line(
       x,
@@ -119,16 +119,16 @@ fn draw_world_back(game : Game) -> Unit {
 
 ///|
 fn draw_signal_links(game : Game) -> Unit {
-  for i = 0; i < game.towers.length(); i = i + 1 {
-    if not(game.towers[i].active) {
+  for tower in game.towers {
+    if not(tower.active) {
       continue
     }
 
-    let progress : Float = if game.towers[i].need <= 0 {
+    let progress : Float = if tower.need <= 0 {
       0.0
     } else {
-      Float::from_int(game.towers[i].delivered) /
-      Float::from_int(game.towers[i].need)
+      Float::from_int(tower.delivered) /
+      Float::from_int(tower.need)
     }
 
     let alpha = 32 + (progress * 124.0).to_int()
@@ -136,8 +136,8 @@ fn draw_signal_links(game : Game) -> Unit {
     @raylib.draw_line(
       depot_x().to_int(),
       depot_y().to_int(),
-      game.towers[i].x.to_int(),
-      game.towers[i].y.to_int(),
+      tower.x.to_int(),
+      tower.y.to_int(),
       @raylib.Color::new(118, 206, 255, alpha),
     )
   }
@@ -154,7 +154,7 @@ fn tower_col(active : Bool) -> @raylib.Color {
 
 ///|
 fn draw_towers(game : Game) -> Unit {
-  for i = 0; i < game.towers.length(); i = i + 1 {
+  for i in 0..<game.towers.length() {
     if not(game.towers[i].active) {
       continue
     }
@@ -190,7 +190,7 @@ fn draw_towers(game : Game) -> Unit {
     }
 
     let slots = clampi(game.towers[i].need, 1, 6)
-    for k = 0; k < slots; k = k + 1 {
+    for k in 0..<slots {
       let a = Float::from_int(k) / Float::from_int(slots) * 6.283
       let px = game.towers[i].x + cosf(a) * (tower_hit_r() + 17.0)
       let py = game.towers[i].y + sinf(a) * (tower_hit_r() + 17.0)
@@ -255,33 +255,33 @@ fn draw_depot(game : Game) -> Unit {
 
 ///|
 fn draw_storms(game : Game) -> Unit {
-  for i = 0; i < game.storms.length(); i = i + 1 {
-    if not(game.storms[i].active) {
+  for storm in game.storms {
+    if not(storm.active) {
       continue
     }
 
-    let base_alpha = 28 + (game.storms[i].strength * 28.0).to_int()
+    let base_alpha = 28 + (storm.strength * 28.0).to_int()
 
     @raylib.draw_circle(
-      game.storms[i].x.to_int(),
-      game.storms[i].y.to_int(),
-      game.storms[i].r,
+      storm.x.to_int(),
+      storm.y.to_int(),
+      storm.r,
       @raylib.Color::new(202, 228, 255, base_alpha),
     )
 
     @raylib.draw_circle_lines(
-      game.storms[i].x.to_int(),
-      game.storms[i].y.to_int(),
-      game.storms[i].r,
+      storm.x.to_int(),
+      storm.y.to_int(),
+      storm.r,
       @raylib.Color::new(224, 240, 255, 70),
     )
 
-    for k = 0; k < 12; k = k + 1 {
-      let a = game.storms[i].phase + Float::from_int(k) * 0.52
-      let sx = game.storms[i].x + cosf(a) * (game.storms[i].r - 12.0)
-      let sy = game.storms[i].y + sinf(a) * (game.storms[i].r - 12.0)
-      let ex = sx + game.storms[i].vx * 0.06 + cosf(a * 2.0) * 8.0
-      let ey = sy + game.storms[i].vy * 0.06 + sinf(a * 2.0) * 8.0
+    for k in 0..<12 {
+      let a = storm.phase + Float::from_int(k) * 0.52
+      let sx = storm.x + cosf(a) * (storm.r - 12.0)
+      let sy = storm.y + sinf(a) * (storm.r - 12.0)
+      let ex = sx + storm.vx * 0.06 + cosf(a * 2.0) * 8.0
+      let ey = sy + storm.vy * 0.06 + sinf(a * 2.0) * 8.0
 
       @raylib.draw_line(
         sx.to_int(),
@@ -327,7 +327,7 @@ fn draw_rover(game : Game) -> Unit {
     @raylib.Color::new(232, 246, 255, 240),
   )
 
-  for i = 0; i < game.cargo_cells; i = i + 1 {
+  for i in 0..<game.cargo_cells {
     let off_x = -16 + i * 16
     @raylib.draw_rectangle(
       x + off_x - 5,
@@ -356,7 +356,7 @@ fn draw_whiteout(game : Game) -> Unit {
     @raylib.Color::new(216, 234, 250, fog_alpha),
   )
 
-  for i = 0; i < 52; i = i + 1 {
+  for i in 0..<52 {
     let fi = Float::from_int(i)
     let x0 = world_left() +
       (fi * 76.0 + game.ui_t * (220.0 + fog * 120.0)) % Float::from_int(world_w)

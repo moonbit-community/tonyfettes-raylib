@@ -1,15 +1,15 @@
 ///|
 fn clear_entities_for_stage(game : Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     game.enemies[i] = Tank::inactive()
   }
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     game.bullets[i] = Bullet::inactive()
   }
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     game.particles[i] = Particle::inactive()
   }
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     game.powerups[i] = Powerup::inactive()
   }
   clear_hostages(game)
@@ -92,7 +92,7 @@ fn parse_level_char(ch : Byte) -> (Int, Int) {
 
 ///|
 fn cache_base_ring(game : Game) -> Unit {
-  for i = 0; i < base_ring_count; i = i + 1 {
+  for i in 0..<base_ring_count {
     let tx = base_ring_x[i]
     let ty = base_ring_y[i]
     game.base_tiles_cached[i] = get_tile(game, tx, ty)
@@ -101,7 +101,7 @@ fn cache_base_ring(game : Game) -> Unit {
 
 ///|
 fn apply_shovel_fortress(game : Game) -> Unit {
-  for i = 0; i < base_ring_count; i = i + 1 {
+  for i in 0..<base_ring_count {
     let tx = base_ring_x[i]
     let ty = base_ring_y[i]
     let tile = get_tile(game, tx, ty)
@@ -113,7 +113,7 @@ fn apply_shovel_fortress(game : Game) -> Unit {
 
 ///|
 fn restore_base_ring(game : Game) -> Unit {
-  for i = 0; i < base_ring_count; i = i + 1 {
+  for i in 0..<base_ring_count {
     let tx = base_ring_x[i]
     let ty = base_ring_y[i]
     let cached = game.base_tiles_cached[i]
@@ -160,12 +160,12 @@ fn respawn_player_tank(game : Game, index : Int) -> Unit {
 
 ///|
 fn prepare_players_for_stage(game : Game) -> Unit {
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     if i == 1 && not(game.coop_enabled) {
       game.players[i].active = false
       game.players[i].lives = 0
       game.players[i].respawn_timer = 0.0
-      continue i + 1
+      continue
     }
     if game.players[i].lives < 0 {
       game.players[i].lives = 0
@@ -182,10 +182,10 @@ fn prepare_players_for_stage(game : Game) -> Unit {
 ///|
 fn load_stage_map(game : Game, stage : Int) -> Unit {
   let rows = level_pattern(stage)
-  for y = 0; y < map_tiles_h; y = y + 1 {
+  for y in 0..<map_tiles_h {
     let row = rows[y]
     let bytes = @utf8.encode(row)
-    for x = 0; x < map_tiles_w; x = x + 1 {
+    for x in 0..<map_tiles_w {
       let ch = bytes[x]
       let (tile, hp) = parse_level_char(ch)
       set_tile(game, x, y, tile, hp)
@@ -193,7 +193,7 @@ fn load_stage_map(game : Game, stage : Int) -> Unit {
   }
 
   // Guarantee a fortified base shell in case the pattern is too open.
-  for i = 0; i < base_ring_count; i = i + 1 {
+  for i in 0..<base_ring_count {
     let tx = base_ring_x[i]
     let ty = base_ring_y[i]
     if get_tile(game, tx, ty) == tile_empty {
@@ -212,7 +212,7 @@ fn load_stage_map(game : Game, stage : Int) -> Unit {
 fn reset_campaign(game : Game) -> Unit {
   game.score_total = 0
   game.stage_index = 0
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     game.players[i] = if i == 0 {
       Tank::new_player(0, player1_spawn_x, player1_spawn_y)
     } else {

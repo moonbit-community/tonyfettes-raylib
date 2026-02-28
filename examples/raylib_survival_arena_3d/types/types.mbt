@@ -535,12 +535,12 @@ pub(all) struct Game {
 pub fn Game::new() -> Game {
   // Create weapons array
   let weapons : Array[WeaponState] = []
-  for _i = 0; _i < weapon_count; _i = _i + 1 {
+  for _i in 0..<weapon_count {
     weapons.push(WeaponState::new())
   }
   // Create pillars in a circle pattern
   let pillars : Array[Pillar] = []
-  for i = 0; i < pillar_count; i = i + 1 {
+  for i in 0..<pillar_count {
     let angle = Float::from_int(i) * 2.0 * pi / Float::from_int(pillar_count)
     let dist : Float = 18.0
     let px = @math.cosf(angle) * dist

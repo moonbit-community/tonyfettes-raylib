@@ -133,39 +133,39 @@ fn enemy_hp(kind : Int) -> Int {
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
-    shots[i].x = 0.0
-    shots[i].y = 0.0
-    shots[i].vx = 0.0
-    shots[i].vy = 0.0
-    shots[i].ttl = 0.0
-    shots[i].active = false
+  for shot in shots {
+    shot.x = 0.0
+    shot.y = 0.0
+    shot.vx = 0.0
+    shot.vy = 0.0
+    shot.ttl = 0.0
+    shot.active = false
   }
 }
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
-    enemies[i].x = 0.0
-    enemies[i].y = 0.0
-    enemies[i].vx = 0.0
-    enemies[i].vy = 0.0
-    enemies[i].hp = 0
-    enemies[i].kind = 0
-    enemies[i].active = false
+  for enemy in enemies {
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0
+    enemy.kind = 0
+    enemy.active = false
   }
 }
 
 ///|
 fn clear_sparks(sparks : Array[Spark]) -> Unit {
-  for i = 0; i < sparks.length(); i = i + 1 {
-    sparks[i].x = 0.0
-    sparks[i].y = 0.0
-    sparks[i].vx = 0.0
-    sparks[i].vy = 0.0
-    sparks[i].ttl = 0.0
-    sparks[i].active = false
-    sparks[i].kind = 0
+  for spark in sparks {
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.ttl = 0.0
+    spark.active = false
+    spark.kind = 0
   }
 }
 
@@ -178,21 +178,21 @@ fn spawn_spark(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < sparks.length(); i = i + 1 {
+  for spark in sparks {
     if done {
       continue
     }
-    if not(sparks[i].active) {
-      sparks[i].active = true
-      sparks[i].x = x
-      sparks[i].y = y
-      sparks[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
+    if not(spark.active) {
+      spark.active = true
+      spark.x = x
+      spark.y = y
+      spark.vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed_scale
-      sparks[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+      spark.vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed_scale
-      sparks[i].ttl = Float::from_int(@raylib.get_random_value(16, 55)) /
+      spark.ttl = Float::from_int(@raylib.get_random_value(16, 55)) /
         Float::from_int(100)
-      sparks[i].kind = kind
+      spark.kind = kind
       done = true
     }
   }
@@ -207,7 +207,7 @@ fn spawn_burst(
   speed_scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(sparks, x, y, speed_scale, kind)
   }
 }
@@ -230,17 +230,17 @@ fn spawn_shot(
   let speed : Float = 700.0
 
   let mut done = false
-  for i = 0; i < shots.length(); i = i + 1 {
+  for shot in shots {
     if done {
       continue
     }
-    if not(shots[i].active) {
-      shots[i].active = true
-      shots[i].x = x
-      shots[i].y = y
-      shots[i].vx = dx / d * speed
-      shots[i].vy = dy / d * speed
-      shots[i].ttl = 1.7
+    if not(shot.active) {
+      shot.active = true
+      shot.x = x
+      shot.y = y
+      shot.vx = dx / d * speed
+      shot.vy = dy / d * speed
+      shot.ttl = 1.7
       done = true
     }
   }
@@ -287,18 +287,18 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   }
 
   let mut done = false
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for enemy in enemies {
     if done {
       continue
     }
-    if not(enemies[i].active) {
-      enemies[i].active = true
-      enemies[i].x = ex
-      enemies[i].y = ey
-      enemies[i].vx = dx / d * base_speed
-      enemies[i].vy = dy / d * base_speed
-      enemies[i].kind = kind
-      enemies[i].hp = enemy_hp(kind)
+    if not(enemy.active) {
+      enemy.active = true
+      enemy.x = ex
+      enemy.y = ey
+      enemy.vx = dx / d * base_speed
+      enemy.vy = dy / d * base_speed
+      enemy.kind = kind
+      enemy.hp = enemy_hp(kind)
       done = true
     }
   }
@@ -459,27 +459,27 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
 
-        shots[i].x = shots[i].x + shots[i].vx * dt
-        shots[i].y = shots[i].y + shots[i].vy * dt
-        shots[i].ttl = shots[i].ttl - dt
+        shot.x = shot.x + shot.vx * dt
+        shot.y = shot.y + shot.vy * dt
+        shot.ttl = shot.ttl - dt
 
-        if shots[i].ttl <= 0.0 ||
-          shots[i].x < -32.0 ||
-          shots[i].x > Float::from_int(sw + 32) ||
-          shots[i].y < -32.0 ||
-          shots[i].y > Float::from_int(sh + 32) {
-          shots[i].active = false
+        if shot.ttl <= 0.0 ||
+          shot.x < -32.0 ||
+          shot.x > Float::from_int(sw + 32) ||
+          shot.y < -32.0 ||
+          shot.y > Float::from_int(sh + 32) {
+          shot.active = false
         }
       }
 
       let mut planet_hit = 0
 
-      for i = 0; i < enemies.length(); i = i + 1 {
+      for i in 0..<enemies.length() {
         if not(enemies[i].active) {
           continue
         }
@@ -566,35 +566,35 @@ fn main {
         msg = "Planet impact: -\{planet_hit} HP"
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
 
         let mut hit = false
-        for j = 0; j < enemies.length(); j = j + 1 {
+        for enemy in enemies {
           if hit {
             continue
           }
-          if not(enemies[j].active) {
+          if not(enemy.active) {
             continue
           }
 
-          let dx = shots[i].x - enemies[j].x
-          let dy = shots[i].y - enemies[j].y
-          let rr = (enemy_radius(enemies[j].kind) + 5.0) *
-            (enemy_radius(enemies[j].kind) + 5.0)
+          let dx = shot.x - enemy.x
+          let dy = shot.y - enemy.y
+          let rr = (enemy_radius(enemy.kind) + 5.0) *
+            (enemy_radius(enemy.kind) + 5.0)
           if dx * dx + dy * dy <= rr {
-            shots[i].active = false
-            enemies[j].hp = enemies[j].hp - 1
+            shot.active = false
+            enemy.hp = enemy.hp - 1
             hit = true
 
-            if enemies[j].hp <= 0 {
-              enemies[j].active = false
-              score = score + enemy_score(enemies[j].kind)
-              spawn_burst(sparks, enemies[j].x, enemies[j].y, 14, 1.0, 1)
+            if enemy.hp <= 0 {
+              enemy.active = false
+              score = score + enemy_score(enemy.kind)
+              spawn_burst(sparks, enemy.x, enemy.y, 14, 1.0, 1)
             } else {
-              spawn_burst(sparks, enemies[j].x, enemies[j].y, 8, 0.7, 0)
+              spawn_burst(sparks, enemy.x, enemy.y, 8, 0.7, 0)
             }
           }
         }
@@ -607,17 +607,17 @@ fn main {
       }
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      sparks[i].x = sparks[i].x + sparks[i].vx * dt
-      sparks[i].y = sparks[i].y + sparks[i].vy * dt
-      sparks[i].vx = sparks[i].vx * (Float::from_int(1) - dt * 2.4)
-      sparks[i].vy = sparks[i].vy * (Float::from_int(1) - dt * 2.4)
-      sparks[i].ttl = sparks[i].ttl - dt
-      if sparks[i].ttl <= 0.0 {
-        sparks[i].active = false
+      spark.x = spark.x + spark.vx * dt
+      spark.y = spark.y + spark.vy * dt
+      spark.vx = spark.vx * (Float::from_int(1) - dt * 2.4)
+      spark.vy = spark.vy * (Float::from_int(1) - dt * 2.4)
+      spark.ttl = spark.ttl - dt
+      if spark.ttl <= 0.0 {
+        spark.active = false
       }
     }
 
@@ -646,7 +646,7 @@ fn main {
     @raylib.draw_rectangle(0, 0, sw, sh, @raylib.Color::new(10, 18, 34, 255))
     @raylib.draw_rectangle(0, 0, sw, 260, @raylib.Color::new(18, 32, 58, 255))
 
-    for i = 0; i < 130; i = i + 1 {
+    for i in 0..<130 {
       let x = (i * 97 + sector * 53) % sw
       let y = (i * 61 + sector * 37) % sh
       let b = 138 + i * 19 % 108
@@ -693,7 +693,7 @@ fn main {
     let sdx = cosf_deg(shield_angle)
     let sdy = sinf_deg(shield_angle)
 
-    for i = -7; i <= 7; i = i + 1 {
+    for i in -7..=7 {
       let a = shield_angle + Float::from_int(i) * 3.2
       let dx = cosf_deg(a)
       let dy = sinf_deg(a)
@@ -718,20 +718,20 @@ fn main {
       @raylib.Color::new(224, 248, 252, 255),
     )
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      let ex = enemies[i].x + shake_x
-      let ey = enemies[i].y + shake_y
-      if enemies[i].kind == 0 {
+      let ex = enemy.x + shake_x
+      let ey = enemy.y + shake_y
+      if enemy.kind == 0 {
         @raylib.draw_circle(
           ex.to_int(),
           ey.to_int(),
           12.0,
           @raylib.Color::new(248, 204, 92, 255),
         )
-      } else if enemies[i].kind == 1 {
+      } else if enemy.kind == 1 {
         @raylib.draw_rectangle(
           (ex - 15.0).to_int(),
           (ey - 12.0).to_int(),
@@ -769,12 +769,12 @@ fn main {
       }
     }
 
-    for i = 0; i < shots.length(); i = i + 1 {
-      if not(shots[i].active) {
+    for shot in shots {
+      if not(shot.active) {
         continue
       }
-      let sx = shots[i].x + shake_x
-      let sy = shots[i].y + shake_y
+      let sx = shot.x + shake_x
+      let sy = shot.y + shake_y
       @raylib.draw_circle(
         sx.to_int(),
         sy.to_int(),
@@ -789,24 +789,24 @@ fn main {
       )
     }
 
-    for i = 0; i < sparks.length(); i = i + 1 {
-      if not(sparks[i].active) {
+    for spark in sparks {
+      if not(spark.active) {
         continue
       }
-      let a = (sparks[i].ttl * 255.0).to_int()
+      let a = (spark.ttl * 255.0).to_int()
       if a <= 0 {
         continue
       }
-      let c = if sparks[i].kind == 0 {
+      let c = if spark.kind == 0 {
         @raylib.Color::new(126, 236, 250, a)
-      } else if sparks[i].kind == 1 {
+      } else if spark.kind == 1 {
         @raylib.Color::new(250, 216, 132, a)
       } else {
         @raylib.Color::new(252, 124, 124, a)
       }
       @raylib.draw_circle(
-        (sparks[i].x + shake_x).to_int(),
-        (sparks[i].y + shake_y).to_int(),
+        (spark.x + shake_x).to_int(),
+        (spark.y + shake_y).to_int(),
         2.5,
         c,
       )

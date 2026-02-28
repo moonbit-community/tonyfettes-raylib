@@ -104,8 +104,7 @@ fn main {
       }
 
       let mut grounded = false
-      for i = 0; i < platforms.length(); i = i + 1 {
-        let p = platforms[i]
+      for p in platforms {
         if px + pw > p.x + 2 &&
           px < p.x + p.w - 2 &&
           py + ph <= p.y + 4 &&
@@ -131,8 +130,7 @@ fn main {
       let mut nx = px + vx
       let mut ny = py + vy
 
-      for i = 0; i < platforms.length(); i = i + 1 {
-        let p = platforms[i]
+      for p in platforms {
         if hit(nx, py, pw, ph, p.x, p.y, p.w, p.h) {
           if vx > 0 {
             nx = p.x - pw - 1
@@ -142,8 +140,7 @@ fn main {
         }
       }
 
-      for i = 0; i < platforms.length(); i = i + 1 {
-        let p = platforms[i]
+      for p in platforms {
         if hit(nx, ny, pw, ph, p.x, p.y, p.w, p.h) {
           if vy > 0 && py + ph <= p.y + 12 {
             ny = p.y - ph - 1
@@ -158,7 +155,7 @@ fn main {
       px = nx
       py = ny
 
-      for i = 0; i < checkpoints.length(); i = i + 1 {
+      for i in 0..<checkpoints.length() {
         if i > cp && px >= checkpoints[i] {
           cp = i
           spawn_x = checkpoints[i]
@@ -166,8 +163,7 @@ fn main {
       }
 
       let mut dead = py > 700
-      for i = 0; i < spikes.length(); i = i + 1 {
-        let s = spikes[i]
+      for s in spikes {
         if hit(px, py, pw, ph, s.x, s.y, s.w, s.h) {
           dead = true
         }
@@ -197,8 +193,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.Color::new(144, 194, 234, 255))
 
-    for i = 0; i < platforms.length(); i = i + 1 {
-      let p = platforms[i]
+    for p in platforms {
       @raylib.draw_rectangle(
         p.x - cam_x,
         p.y,
@@ -208,8 +203,7 @@ fn main {
       )
     }
 
-    for i = 0; i < spikes.length(); i = i + 1 {
-      let s = spikes[i]
+    for s in spikes {
       @raylib.draw_rectangle(s.x - cam_x, s.y, s.w, s.h, @raylib.red)
     }
 

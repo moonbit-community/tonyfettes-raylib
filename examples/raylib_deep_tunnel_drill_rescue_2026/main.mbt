@@ -222,16 +222,16 @@ fn inside_rect(
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].pulse = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.pulse = 0.0
   }
 }
 
@@ -242,19 +242,19 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(20.0, 220.0)
-      parts[i].vx = @math.cosf(a) * s
-      parts[i].vy = @math.sinf(a) * s
-      parts[i].size = randf(2.0, 8.0)
-      parts[i].life = randf(0.2, 1.0)
-      parts[i].pulse = randf(0.0, 12.0)
+      part.vx = @math.cosf(a) * s
+      part.vy = @math.sinf(a) * s
+      part.size = randf(2.0, 8.0)
+      part.life = randf(0.2, 1.0)
+      part.pulse = randf(0.0, 12.0)
       return
     }
   }
@@ -268,55 +268,55 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].pulse = parts[i].pulse + dt
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 2.3)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 2.1) + 6.0 * dt
+    part.pulse = part.pulse + dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 2.3)
+    part.vy = part.vy * (1.0 - dt * 2.1) + 6.0 * dt
   }
 }
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let c = if parts[i].kind == 0 {
+    let c = if part.kind == 0 {
       @raylib.Color::new(184, 126, 92, 230)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(140, 214, 252, 236)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(132, 238, 156, 236)
-    } else if parts[i].kind == 3 {
+    } else if part.kind == 3 {
       @raylib.Color::new(246, 232, 134, 236)
     } else {
       @raylib.Color::new(244, 132, 144, 236)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size * parts[i].life * 2.0,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size * part.life * 2.0,
       c,
     )
   }
@@ -324,8 +324,8 @@ fn draw_particles(parts : Array[Particle]) -> Unit {
 
 ///|
 fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let i : Int = idx(gx, gy)
 
       if gx == 0 || gx == grid_w - 1 || gy == grid_h - 1 {
@@ -355,8 +355,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
 
   // base platform near top center
   let base_cx : Int = grid_w / 2
-  for gy = 0; gy <= 2; gy = gy + 1 {
-    for gx = base_cx - 2; gx <= base_cx + 2; gx = gx + 1 {
+  for gy in 0..=2 {
+    for gx in (base_cx - 2)..=(base_cx + 2) {
       if in_bounds(gx, gy) {
         set_tile(tiles, gx, gy, tile_base)
       }
@@ -364,8 +364,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
   }
 
   // ensure tunnels around base
-  for gx = base_cx - 1; gx <= base_cx + 1; gx = gx + 1 {
-    for gy = 2; gy <= 4; gy = gy + 1 {
+  for gx in (base_cx - 1)..=(base_cx + 1) {
+    for gy in 2..=4 {
       if in_bounds(gx, gy) {
         set_tile(tiles, gx, gy, tile_empty)
       }
@@ -386,7 +386,7 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
   }
 
   // extra crystals deeper
-  for _i = 0; _i < 34; _i = _i + 1 {
+  for _i in 0..<34 {
     let gx : Int = @raylib.get_random_value(2, grid_w - 3)
     let gy : Int = @raylib.get_random_value(6, grid_h - 3)
     if get_tile(tiles, gx, gy) == tile_empty {
@@ -400,8 +400,8 @@ fn setup_map(tiles : Array[Int], target_miners : Int) -> Int {
 ///|
 fn count_tiles(tiles : Array[Int], kind : Int) -> Int {
   let mut n : Int = 0
-  for i = 0; i < tiles.length(); i = i + 1 {
-    if tiles[i] == kind {
+  for tile in tiles {
+    if tile == kind {
       n = n + 1
     }
   }
@@ -430,8 +430,8 @@ fn gas_near_count(tiles : Array[Int], px : Float, py : Float) -> Int {
   let gy : Int = world_to_gy(py)
 
   let mut c : Int = 0
-  for oy = -1; oy <= 1; oy = oy + 1 {
-    for ox = -1; ox <= 1; ox = ox + 1 {
+  for oy in -1..=1 {
+    for ox in -1..=1 {
       let tx : Int = gx + ox
       let ty : Int = gy + oy
       if get_tile(tiles, tx, ty) == tile_gas {
@@ -492,8 +492,8 @@ fn drop_bomb(
   let mut casualties : Int = casualties_ref
   let mut crystals : Int = crystals_ref
 
-  for oy = -2; oy <= 2; oy = oy + 1 {
-    for ox = -2; ox <= 2; ox = ox + 1 {
+  for oy in -2..=2 {
+    for ox in -2..=2 {
       let tx : Int = gx + ox
       let ty : Int = gy + oy
       if not(in_bounds(tx, ty)) {
@@ -534,8 +534,8 @@ fn nearest_miner(
   let mut best_y : Int = -1
   let mut best_d2 : Float = 99999999.0
 
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       if get_tile(tiles, gx, gy) != tile_miner {
         continue
       }
@@ -564,7 +564,7 @@ fn apply_hazard_events(
   let mut gas_pockets : Int = 0
 
   let event_n : Int = 1 + @raylib.get_random_value(0, tier / 2)
-  for _e = 0; _e < event_n; _e = _e + 1 {
+  for _e in 0..<event_n {
     let gx : Int = @raylib.get_random_value(2, grid_w - 3)
     let gy : Int = @raylib.get_random_value(5, grid_h - 3)
 
@@ -576,7 +576,7 @@ fn apply_hazard_events(
   }
 
   let gas_n : Int = @raylib.get_random_value(1, 2 + tier / 3)
-  for _g = 0; _g < gas_n; _g = _g + 1 {
+  for _g in 0..<gas_n {
     let gx : Int = @raylib.get_random_value(2, grid_w - 3)
     let gy : Int = @raylib.get_random_value(5, grid_h - 3)
     let t : Int = get_tile(tiles, gx, gy)
@@ -601,7 +601,7 @@ fn draw_world_bg(t : Float) -> Unit {
     @raylib.Color::new(16, 22, 36, 255),
   )
 
-  for i = 0; i < 28; i = i + 1 {
+  for i in 0..<28 {
     let fi : Float = Float::from_int(i)
     let x : Int = (fi * 72.0 + t * (14.0 + Float::from_int(i % 5) * 4.0)).to_int() %
       world_w +
@@ -618,8 +618,8 @@ fn draw_world_bg(t : Float) -> Unit {
 
 ///|
 fn draw_tiles(tiles : Array[Int], t : Float) -> Unit {
-  for gy = 0; gy < grid_h; gy = gy + 1 {
-    for gx = 0; gx < grid_w; gx = gx + 1 {
+  for gy in 0..<grid_h {
+    for gx in 0..<grid_w {
       let tx : Int = world_x + gx * tile_sz
       let ty : Int = world_y + gy * tile_sz
       let tile : Int = get_tile(tiles, gx, gy)
@@ -670,7 +670,7 @@ fn draw_tiles(tiles : Array[Int], t : Float) -> Unit {
           @raylib.Color::new(124, 128, 148, 222),
         )
       } else if tile == tile_gas {
-        for i = 0; i < 3; i = i + 1 {
+        for i in 0..<3 {
           let fx : Int = tx + 6 + i * 6
           let fy : Int = ty +
             8 +
@@ -1446,8 +1446,8 @@ fn main {
           (tile_here == tile_miner && player.carried < player.carry_max)
         ) {
         let mut rescued_now : Int = 0
-        for oy = -1; oy <= 1; oy = oy + 1 {
-          for ox = -1; ox <= 1; ox = ox + 1 {
+        for oy in -1..=1 {
+          for ox in -1..=1 {
             let gx : Int = cgx + ox
             let gy : Int = cgy + oy
             if get_tile(tiles, gx, gy) == tile_miner {

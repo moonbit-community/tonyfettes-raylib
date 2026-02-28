@@ -24,7 +24,7 @@ pub fn update_block_target(game : @types.Game) -> Unit {
   let mut prev_bx = @types.floorf(rx)
   let mut prev_by = @types.floorf(ry)
   let mut prev_bz = @types.floorf(rz)
-  for i = 0; i < max_steps; i = i + 1 {
+  for i in 0..<max_steps {
     rx += dx * step
     ry += dy * step
     rz += dz * step

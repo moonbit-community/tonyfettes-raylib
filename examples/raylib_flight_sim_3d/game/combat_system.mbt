@@ -295,7 +295,7 @@ pub fn turret_burst_fire(
   player : @types.Player,
   burst_count : Int,
 ) -> Unit {
-  for b = 0; b < burst_count; b = b + 1 {
+  for b in 0..<burst_count {
     let idx = @types.alloc_projectile(game)
     if idx < 0 {
       return
@@ -365,7 +365,7 @@ pub fn has_line_of_sight(
 ) -> Bool {
   let step_count = if steps < 2 { 2 } else { steps }
   let inv_steps : Float = 1.0 / Float::from_int(step_count)
-  for i = 1; i < step_count; i = i + 1 {
+  for i in 1..<step_count {
     let t_val = Float::from_int(i) * inv_steps
     let check_x = @types.lerpf(sx, tx, t_val)
     let check_y = @types.lerpf(sy, ty, t_val)
@@ -432,13 +432,12 @@ pub fn is_enemy_behind_player(
 pub fn count_engaged_enemies(game : @types.Game) -> Int {
   let mut count = 0
   let player = game.player
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     if e.kind != @types.enemy_type_air {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < @types.ai_engage_range {
@@ -454,10 +453,9 @@ pub fn count_engaged_enemies(game : @types.Game) -> Int {
 pub fn check_enemy_threat_level(game : @types.Game) -> Int {
   let player = game.player
   let mut threat = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < 20.0 && e.ai_state == @types.ai_engage {
@@ -469,10 +467,9 @@ pub fn check_enemy_threat_level(game : @types.Game) -> Int {
     }
   }
   // Add turret threats
-  for i = 0; i < game.turrets.length(); i = i + 1 {
-    let t = game.turrets[i]
+  for t in game.turrets {
     if not(t.active) {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(t.x, t.y, t.z, player.x, player.y, player.z)
     if dist < t.range * 0.5 {
@@ -543,13 +540,12 @@ pub fn no_damage_bonus(current_hp : Float, max_hp : Float) -> Int {
 
 ///|
 pub fn should_enemy_evade(game : @types.Game, e : @types.Enemy) -> Bool {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     if proj.is_enemy {
-      continue i + 1
+      continue
     }
     // Check if projectile is heading towards this enemy
     let dx = e.x - proj.x
@@ -557,7 +553,7 @@ pub fn should_enemy_evade(game : @types.Game, e : @types.Enemy) -> Bool {
     let dz = e.z - proj.z
     let dist = (dx * dx + dy * dy + dz * dz).sqrt()
     if dist > 40.0 {
-      continue i + 1
+      continue
     }
     // Check if projectile direction is roughly towards enemy
     let dot = proj.dx * dx + proj.dy * dy + proj.dz * dz
@@ -607,13 +603,13 @@ pub fn avoid_collision(
   let mut avoid_z : Float = 0.0
   let mut avoid_y : Float = 0.0
   let mut need_avoid = false
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if i == enemy_index {
-      continue i + 1
+      continue
     }
     let other = game.enemies[i]
     if not(other.active) {
-      continue i + 1
+      continue
     }
     let dx = e.x - other.x
     let dy = e.y - other.y
@@ -643,13 +639,12 @@ pub fn get_threat_direction(game : @types.Game) -> Int {
   let (fx, _fy, fz) = @types.get_forward(player.pitch, player.yaw)
   let mut closest_dist : Float = 99999.0
   let mut closest_dir = -1
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     if e.ai_state != @types.ai_engage {
-      continue i + 1
+      continue
     }
     let dist = @types.distance3d(e.x, e.y, e.z, player.x, player.y, player.z)
     if dist < closest_dist && dist < @types.ai_engage_range {

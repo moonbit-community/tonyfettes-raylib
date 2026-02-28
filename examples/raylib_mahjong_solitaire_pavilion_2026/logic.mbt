@@ -88,7 +88,7 @@ fn set_cell(game : Game, x : Int, y : Int, value : Int) -> Unit {
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.active.length(); i = i + 1 {
+  for i in 0..<game.active.length() {
     game.active[i] = false
     game.cells[i] = 0
   }
@@ -97,7 +97,7 @@ fn clear_board(game : Game) -> Unit {
 ///|
 fn clear_undo(game : Game) -> Unit {
   game.undo_len = 0
-  for i = 0; i < game.undo.length(); i = i + 1 {
+  for i in 0..<game.undo.length() {
     game.undo[i] = {
       valid: false,
       x1: 0,
@@ -116,15 +116,15 @@ fn clear_undo(game : Game) -> Unit {
 
 ///|
 fn clear_sparks(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -186,19 +186,19 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
@@ -208,7 +208,7 @@ fn burst_tile(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
   let (cx, cy, tilef) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tilef * 0.22)
 
-  for _i = 0; _i < amount; _i = _i + 1 {
+  for _i in 0..<amount {
     spawn_spark(
       game,
       cx + randf(-spread, spread),
@@ -224,21 +224,21 @@ fn burst_tile(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 1.9)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 1.9) + dt * 36.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 1.9)
+    spark.vy = spark.vy * (1.0 - dt * 1.9) + dt * 36.0
   }
 }
 
@@ -257,8 +257,8 @@ fn shuffle_ints(arr : Array[Int]) -> Unit {
 ///|
 fn active_count(game : Game) -> Int {
   let mut n : Int = 0
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       if active_at(game, x, y) {
         n = n + 1
       }
@@ -274,8 +274,8 @@ fn set_pattern_active(game : Game, pattern : Int) -> Unit {
   let cx : Float = (Float::from_int(game.board_w) + 1.0) * 0.5
   let cy : Float = (Float::from_int(game.board_h) + 1.0) * 0.5
 
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       let xf : Float = Float::from_int(x)
       let yf : Float = Float::from_int(y)
       let nx : Float = (xf - cx) /
@@ -355,8 +355,8 @@ fn set_pattern_active(game : Game, pattern : Int) -> Unit {
   }
 
   if n < 16 {
-    for y = 1; y <= game.board_h; y = y + 1 {
-      for x = 1; x <= game.board_w; x = x + 1 {
+    for y in 1..=game.board_h {
+      for x in 1..=game.board_w {
         game.active[idx(x, y)] = true
       }
     }
@@ -390,7 +390,7 @@ fn fill_board_with_pairs(game : Game) -> Unit {
   let pair_n : Int = active_n / 2
 
   let vals : Array[Int] = []
-  for i = 0; i < pair_n; i = i + 1 {
+  for i in 0..<pair_n {
     let kind : Int = i % maxi(2, game.kind_count) + 1
     vals.push(kind)
     vals.push(kind)
@@ -399,8 +399,8 @@ fn fill_board_with_pairs(game : Game) -> Unit {
   shuffle_ints(vals)
 
   let mut p : Int = 0
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       if active_at(game, x, y) {
         set_cell(game, x, y, vals[p])
         p = p + 1
@@ -413,8 +413,8 @@ fn fill_board_with_pairs(game : Game) -> Unit {
 
 ///|
 fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int) {
-  for y1 = 1; y1 <= game.board_h; y1 = y1 + 1 {
-    for x1 = 1; x1 <= game.board_w; x1 = x1 + 1 {
+  for y1 in 1..=game.board_h {
+    for x1 in 1..=game.board_w {
       let k1 : Int = cell_at(game, x1, y1)
       if k1 <= 0 || not(free_tile(game, x1, y1)) {
         continue
@@ -450,8 +450,8 @@ fn reshuffle(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let vals : Array[Int] = []
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       let k : Int = cell_at(game, x, y)
       if k > 0 {
         vals.push(k)
@@ -464,12 +464,12 @@ fn reshuffle(game : Game, consume_ticket : Bool) -> Bool {
   }
 
   let mut good : Bool = false
-  for _t = 0; _t < 32; _t = _t + 1 {
+  for _t in 0..<32 {
     shuffle_ints(vals)
 
     let mut p : Int = 0
-    for y = 1; y <= game.board_h; y = y + 1 {
-      for x = 1; x <= game.board_w; x = x + 1 {
+    for y in 1..=game.board_h {
+      for x in 1..=game.board_w {
         if active_at(game, x, y) && cell_at(game, x, y) > 0 {
           set_cell(game, x, y, vals[p])
           p = p + 1
@@ -533,7 +533,7 @@ fn ensure_moves(game : Game) -> Unit {
 ///|
 fn push_undo_pair(game : Game, step : UndoPair) -> Unit {
   if game.undo_len >= game.undo.length() {
-    for i = 1; i < game.undo.length(); i = i + 1 {
+    for i in 1..<game.undo.length() {
       game.undo[i - 1] = game.undo[i]
     }
     game.undo_len = game.undo.length() - 1
@@ -871,8 +871,8 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 ///|
 fn place_cursor_on_first_tile(game : Game) -> Unit {
   let mut found : Bool = false
-  for y = 1; y <= game.board_h; y = y + 1 {
-    for x = 1; x <= game.board_w; x = x + 1 {
+  for y in 1..=game.board_h {
+    for x in 1..=game.board_w {
       if cell_at(game, x, y) > 0 {
         game.cursor_x = x
         game.cursor_y = y
@@ -927,7 +927,7 @@ fn load_level(game : Game, level_id : Int) -> Unit {
   set_pattern_active(game, pattern)
   fill_board_with_pairs(game)
 
-  for _t = 0; _t < 24; _t = _t + 1 {
+  for _t in 0..<24 {
     if find_any_move(game).0 {
       break
     }

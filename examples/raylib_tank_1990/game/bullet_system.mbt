@@ -1,6 +1,6 @@
 ///|
 fn alloc_bullet(game : @types.Game) -> Int {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
     }
@@ -37,13 +37,13 @@ fn spawn_bullet(
 
 ///|
 fn bullet_hit_enemy(game : @types.Game, bullet : @types.Bullet) -> Bool {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
-      continue i + 1
+      continue
     }
     let enemy = game.enemies[i]
     if enemy.invuln_timer > 0.0 {
-      continue i + 1
+      continue
     }
 
     let radius = @types.tank_half + bullet.radius
@@ -70,10 +70,10 @@ fn bullet_hit_enemy(game : @types.Game, bullet : @types.Bullet) -> Bool {
 
 ///|
 fn bullet_hit_player(game : @types.Game, bullet : @types.Bullet) -> Bool {
-  for i = 0; i < @types.max_players; i = i + 1 {
+  for i in 0..<@types.max_players {
     let player = game.players[i]
     if not(player.active) {
-      continue i + 1
+      continue
     }
     let radius = @types.tank_half + bullet.radius
     if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <=
@@ -87,16 +87,16 @@ fn bullet_hit_player(game : @types.Game, bullet : @types.Bullet) -> Bool {
 
 ///|
 fn update_bullet_vs_bullet(game : @types.Game) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
+  for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
-      continue i + 1
+      continue
     }
-    for j = i + 1; j < game.bullets.length(); j = j + 1 {
+    for j in (i + 1)..<game.bullets.length() {
       if not(game.bullets[j].active) {
-        continue j + 1
+        continue
       }
       if game.bullets[i].owner_team == game.bullets[j].owner_team {
-        continue j + 1
+        continue
       }
       let r = game.bullets[i].radius + game.bullets[j].radius
       if @types.distance_sq(
@@ -118,16 +118,15 @@ fn update_bullet_vs_bullet(game : @types.Game) -> Unit {
 
 ///|
 fn update_bullets(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
-    if not(game.bullets[i].active) {
-      continue i + 1
+  for bullet in game.bullets {
+    if not(bullet.active) {
+      continue
     }
 
-    let bullet = game.bullets[i]
     bullet.ttl -= dt
     if bullet.ttl <= 0.0 {
       bullet.active = false
-      continue i + 1
+      continue
     }
 
     // Sub-steps for robust collision with narrow walls.
@@ -135,7 +134,7 @@ fn update_bullets(game : @types.Game, dt : Float) -> Unit {
     let step_dt = dt / Float::from_int(steps)
     let mut hit_something = false
 
-    for _s = 0; _s < steps; _s = _s + 1 {
+    for _s in 0..<steps {
       if not(bullet.active) {
         break
       }
@@ -169,7 +168,7 @@ fn update_bullets(game : @types.Game, dt : Float) -> Unit {
     }
 
     if hit_something {
-      continue i + 1
+      continue
     }
   }
 

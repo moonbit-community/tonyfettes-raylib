@@ -170,7 +170,7 @@ fn generate_cave(
   let mut top : Float = 150.0
   let mut gap : Float = 360.0
 
-  for i = 0; i <= seg_count; i = i + 1 {
+  for i in 0..=seg_count {
     top = top + randf(-28.0, 28.0)
     top = clampf(top, 90.0, 300.0)
 
@@ -202,7 +202,7 @@ fn emit_particle(
   life : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < particles.length(); i = i + 1 {
+  for i in 0..<particles.length() {
     if not(particles[i].active) {
       particles[i] = { active: true, x, y, vx, vy, size, t: 0.0, life, kind }
       break
@@ -219,7 +219,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -257,7 +257,7 @@ fn spawn_projectile(
   dmg : Float,
   life : Float,
 ) -> Unit {
-  for i = 0; i < projectiles.length(); i = i + 1 {
+  for i in 0..<projectiles.length() {
     if not(projectiles[i].active) {
       projectiles[i] = {
         active: true,
@@ -282,7 +282,7 @@ fn init_crystals(
   cave_bottom : FixedArray[Float],
   target : Int,
 ) -> Unit {
-  for i = 0; i < crystals.length(); i = i + 1 {
+  for i in 0..<crystals.length() {
     let frac : Float = Float::from_int(i) / Float::from_int(crystals.length())
     let x : Float = 180.0 + frac * (world_w - 360.0) + randf(-42.0, 42.0)
     let top : Float = sample_line(cave_top, x)
@@ -307,7 +307,7 @@ fn spawn_enemy(
   cave_top : FixedArray[Float],
   cave_bottom : FixedArray[Float],
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for i in 0..<enemies.length() {
     if not(enemies[i].active) {
       let kind : Int = if @raylib.get_random_value(0, 100) < 22 + level * 6 {
         1
@@ -354,11 +354,11 @@ fn init_wave(
   cave_top : FixedArray[Float],
   cave_bottom : FixedArray[Float],
 ) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
-    enemies[i].active = false
+  for enemy in enemies {
+    enemy.active = false
   }
   let initial : Int = 12 + level * 4
-  for i = 0; i < initial; i = i + 1 {
+  for i in 0..<initial {
     spawn_enemy(enemies, level, player_x, cave_top, cave_bottom)
   }
 }
@@ -629,11 +629,11 @@ fn main {
     player.score = 0
     player.combo = 0
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
-      projectiles[i].active = false
+    for projectile in projectiles {
+      projectile.active = false
     }
-    for i = 0; i < particles.length(); i = i + 1 {
-      particles[i].active = false
+    for particle in particles {
+      particle.active = false
     }
 
     init_wave(enemies, level, player.x, cave_top, cave_bottom)
@@ -885,14 +885,14 @@ fn main {
         player.fuel = player.fuel - 40.0
         player.pulse_cd = 5.8
         burst_particles(particles, player.x, player.y, 58, 160.0, 1)
-        for i = 0; i < enemies.length(); i = i + 1 {
-          if not(enemies[i].active) {
+        for enemy in enemies {
+          if not(enemy.active) {
             continue
           }
-          let d2 : Float = dist2(player.x, player.y, enemies[i].x, enemies[i].y)
+          let d2 : Float = dist2(player.x, player.y, enemy.x, enemy.y)
           if d2 <= 240.0 * 240.0 {
-            enemies[i].hp = enemies[i].hp - 28.0
-            enemies[i].slow_t = enemies[i].slow_t + 2.4
+            enemy.hp = enemy.hp - 28.0
+            enemy.slow_t = enemy.slow_t + 2.4
           }
         }
       }
@@ -900,10 +900,10 @@ fn main {
       if storm_press && player.storm_cd <= 0.0 && player.fuel >= 56.0 {
         player.fuel = player.fuel - 56.0
         player.storm_cd = 7.6
-        for k = 0; k < 7; k = k + 1 {
+        for k in 0..<7 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
-          for i = 0; i < enemies.length(); i = i + 1 {
+          for i in 0..<enemies.length() {
             if not(enemies[i].active) {
               continue
             }
@@ -984,88 +984,88 @@ fn main {
         spawn_cd = next
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        if enemies[i].burn_t > 0.0 {
-          enemies[i].burn_t = enemies[i].burn_t - dt
-          if enemies[i].burn_t < 0.0 {
-            enemies[i].burn_t = 0.0
+        if enemy.burn_t > 0.0 {
+          enemy.burn_t = enemy.burn_t - dt
+          if enemy.burn_t < 0.0 {
+            enemy.burn_t = 0.0
           }
-          enemies[i].hp = enemies[i].hp - dt * 12.0
+          enemy.hp = enemy.hp - dt * 12.0
         }
-        if enemies[i].slow_t > 0.0 {
-          enemies[i].slow_t = enemies[i].slow_t - dt
-          if enemies[i].slow_t < 0.0 {
-            enemies[i].slow_t = 0.0
-          }
-        }
-        if enemies[i].shock_t > 0.0 {
-          enemies[i].shock_t = enemies[i].shock_t - dt
-          if enemies[i].shock_t < 0.0 {
-            enemies[i].shock_t = 0.0
+        if enemy.slow_t > 0.0 {
+          enemy.slow_t = enemy.slow_t - dt
+          if enemy.slow_t < 0.0 {
+            enemy.slow_t = 0.0
           }
         }
-        if enemies[i].fire_cd > 0.0 {
-          enemies[i].fire_cd = enemies[i].fire_cd - dt
-          if enemies[i].fire_cd < 0.0 {
-            enemies[i].fire_cd = 0.0
+        if enemy.shock_t > 0.0 {
+          enemy.shock_t = enemy.shock_t - dt
+          if enemy.shock_t < 0.0 {
+            enemy.shock_t = 0.0
           }
         }
-        if enemies[i].bite_cd > 0.0 {
-          enemies[i].bite_cd = enemies[i].bite_cd - dt
-          if enemies[i].bite_cd < 0.0 {
-            enemies[i].bite_cd = 0.0
+        if enemy.fire_cd > 0.0 {
+          enemy.fire_cd = enemy.fire_cd - dt
+          if enemy.fire_cd < 0.0 {
+            enemy.fire_cd = 0.0
+          }
+        }
+        if enemy.bite_cd > 0.0 {
+          enemy.bite_cd = enemy.bite_cd - dt
+          if enemy.bite_cd < 0.0 {
+            enemy.bite_cd = 0.0
           }
         }
 
-        let dx : Float = player.x - enemies[i].x
-        let dy : Float = player.y - enemies[i].y
+        let dx : Float = player.x - enemy.x
+        let dy : Float = player.y - enemy.y
         let d2 : Float = dx * dx + dy * dy
         let d : Float = if d2 < 1.0 { 1.0 } else { d2.sqrt() }
 
-        let base_speed : Float = if enemies[i].kind == 0 {
+        let base_speed : Float = if enemy.kind == 0 {
           176.0
         } else {
           130.0
         }
-        let level_gain : Float = if enemies[i].kind == 0 { 16.0 } else { 12.0 }
+        let level_gain : Float = if enemy.kind == 0 { 16.0 } else { 12.0 }
         let mut speed : Float = base_speed +
           Float::from_int(level - 1) * level_gain
-        if enemies[i].slow_t > 0.0 {
+        if enemy.slow_t > 0.0 {
           speed = speed * 0.56
         }
-        if enemies[i].shock_t > 0.0 {
+        if enemy.shock_t > 0.0 {
           speed = speed * 0.34
         }
 
         let tx : Float = dx / d * speed
         let ty : Float = dy / d * speed
 
-        enemies[i].vx = enemies[i].vx + (tx - enemies[i].vx * 2.0) * dt
-        enemies[i].vy = enemies[i].vy + (ty - enemies[i].vy * 2.0) * dt
+        enemy.vx = enemy.vx + (tx - enemy.vx * 2.0) * dt
+        enemy.vy = enemy.vy + (ty - enemy.vy * 2.0) * dt
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
+        enemy.x = enemy.x + enemy.vx * dt
+        enemy.y = enemy.y + enemy.vy * dt
 
-        let etop : Float = sample_line(cave_top, enemies[i].x)
-        let ebottom : Float = sample_line(cave_bottom, enemies[i].x)
-        if enemies[i].y < etop + 18.0 {
-          enemies[i].y = etop + 18.0
-          enemies[i].vy = enemies[i].vy.abs() * 0.2
+        let etop : Float = sample_line(cave_top, enemy.x)
+        let ebottom : Float = sample_line(cave_bottom, enemy.x)
+        if enemy.y < etop + 18.0 {
+          enemy.y = etop + 18.0
+          enemy.vy = enemy.vy.abs() * 0.2
         }
-        if enemies[i].y > ebottom - 18.0 {
-          enemies[i].y = ebottom - 18.0
-          enemies[i].vy = -enemies[i].vy.abs() * 0.2
+        if enemy.y > ebottom - 18.0 {
+          enemy.y = ebottom - 18.0
+          enemy.vy = -enemy.vy.abs() * 0.2
         }
 
-        if enemies[i].bite_cd <= 0.0 &&
-          dist2(enemies[i].x, enemies[i].y, player.x, player.y) <= 30.0 * 30.0 {
-          enemies[i].bite_cd = 0.62
+        if enemy.bite_cd <= 0.0 &&
+          dist2(enemy.x, enemy.y, player.x, player.y) <= 30.0 * 30.0 {
+          enemy.bite_cd = 0.62
           if player.hit_cd <= 0.0 {
-            let bite_dmg : Float = if enemies[i].kind == 0 {
+            let bite_dmg : Float = if enemy.kind == 0 {
               12.0
             } else {
               20.0
@@ -1079,18 +1079,18 @@ fn main {
           }
         }
 
-        if enemies[i].kind == 1 &&
-          enemies[i].fire_cd <= 0.0 &&
+        if enemy.kind == 1 &&
+          enemy.fire_cd <= 0.0 &&
           d <= 460.0 &&
-          enemies[i].shock_t <= 0.0 {
-          enemies[i].fire_cd = 1.2
+          enemy.shock_t <= 0.0 {
+          enemy.fire_cd = 1.2
           let inv : Float = if d2 < 1.0 { 0.0 } else { 1.0 / d2.sqrt() }
           spawn_projectile(
             projectiles,
             2,
             false,
-            enemies[i].x,
-            enemies[i].y,
+            enemy.x,
+            enemy.y,
             dx * inv * 360.0,
             dy * inv * 360.0,
             16.0,
@@ -1099,84 +1099,84 @@ fn main {
         }
       }
 
-      for i = 0; i < projectiles.length(); i = i + 1 {
-        if not(projectiles[i].active) {
+      for projectile in projectiles {
+        if not(projectile.active) {
           continue
         }
 
-        projectiles[i].life = projectiles[i].life - dt
-        if projectiles[i].life <= 0.0 {
-          projectiles[i].active = false
+        projectile.life = projectile.life - dt
+        if projectile.life <= 0.0 {
+          projectile.active = false
           continue
         }
 
-        projectiles[i].x = projectiles[i].x + projectiles[i].vx * dt
-        projectiles[i].y = projectiles[i].y + projectiles[i].vy * dt
+        projectile.x = projectile.x + projectile.vx * dt
+        projectile.y = projectile.y + projectile.vy * dt
 
-        if projectiles[i].x < 0.0 ||
-          projectiles[i].y < 0.0 ||
-          projectiles[i].x > world_w ||
-          projectiles[i].y > world_h {
-          projectiles[i].active = false
+        if projectile.x < 0.0 ||
+          projectile.y < 0.0 ||
+          projectile.x > world_w ||
+          projectile.y > world_h {
+          projectile.active = false
           continue
         }
 
-        if projectiles[i].from_player {
-          for j = 0; j < enemies.length(); j = j + 1 {
-            if not(enemies[j].active) {
+        if projectile.from_player {
+          for enemy in enemies {
+            if not(enemy.active) {
               continue
             }
             if dist2(
-                projectiles[i].x,
-                projectiles[i].y,
-                enemies[j].x,
-                enemies[j].y,
+                projectile.x,
+                projectile.y,
+                enemy.x,
+                enemy.y,
               ) <=
               22.0 * 22.0 {
-              enemies[j].hp = enemies[j].hp - projectiles[i].dmg
-              if projectiles[i].kind == 0 {
-                enemies[j].burn_t = enemies[j].burn_t + 1.8
+              enemy.hp = enemy.hp - projectile.dmg
+              if projectile.kind == 0 {
+                enemy.burn_t = enemy.burn_t + 1.8
               }
               burst_particles(
                 particles,
-                projectiles[i].x,
-                projectiles[i].y,
+                projectile.x,
+                projectile.y,
                 6,
                 58.0,
                 0,
               )
-              projectiles[i].active = false
+              projectile.active = false
               break
             }
           }
-        } else if dist2(projectiles[i].x, projectiles[i].y, player.x, player.y) <=
+        } else if dist2(projectile.x, projectile.y, player.x, player.y) <=
           24.0 * 24.0 {
           if player.hit_cd <= 0.0 {
-            player.hp = player.hp - projectiles[i].dmg
+            player.hp = player.hp - projectile.dmg
             player.hit_cd = 0.34
             player.flash_t = 0.14
             player.shake_t = 0.2
           }
           burst_particles(
             particles,
-            projectiles[i].x,
-            projectiles[i].y,
+            projectile.x,
+            projectile.y,
             10,
             72.0,
             2,
           )
-          projectiles[i].active = false
+          projectile.active = false
         }
       }
 
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        if enemies[i].hp <= 0.0 {
-          enemies[i].active = false
-          let kill_score : Int = if enemies[i].kind == 0 { 22 } else { 54 }
+        if enemy.hp <= 0.0 {
+          enemy.active = false
+          let kill_score : Int = if enemy.kind == 0 { 22 } else { 54 }
           player.score = player.score + kill_score + player.combo
           player.combo = player.combo + 1
           if player.combo > 60 {
@@ -1185,11 +1185,11 @@ fn main {
 
           burst_particles(
             particles,
-            enemies[i].x,
-            enemies[i].y,
+            enemy.x,
+            enemy.y,
             22,
             96.0,
-            if enemies[i].kind == 0 {
+            if enemy.kind == 0 {
               0
             } else {
               2
@@ -1198,38 +1198,38 @@ fn main {
         }
       }
 
-      for i = 0; i < crystals.length(); i = i + 1 {
-        if not(crystals[i].active) {
+      for crystal in crystals {
+        if not(crystal.active) {
           continue
         }
 
-        crystals[i].spin_t = crystals[i].spin_t + dt
-        if dist2(player.x, player.y, crystals[i].x, crystals[i].y) <=
+        crystal.spin_t = crystal.spin_t + dt
+        if dist2(player.x, player.y, crystal.x, crystal.y) <=
           28.0 * 28.0 {
-          crystals[i].active = false
+          crystal.active = false
           player.crystals = player.crystals + 1
-          player.score = player.score + crystals[i].value + player.combo * 2
+          player.score = player.score + crystal.value + player.combo * 2
           player.fuel = player.fuel + 18.0
           if player.fuel > 220.0 {
             player.fuel = 220.0
           }
-          burst_particles(particles, crystals[i].x, crystals[i].y, 16, 70.0, 1)
+          burst_particles(particles, crystal.x, crystal.y, 16, 70.0, 1)
         }
       }
 
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
-        particles[i].t = particles[i].t + dt
-        if particles[i].t >= particles[i].life {
-          particles[i].active = false
+        particle.t = particle.t + dt
+        if particle.t >= particle.life {
+          particle.active = false
           continue
         }
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
-        particles[i].vx = particles[i].vx * (1.0 - dt * 0.75)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 0.75)
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
+        particle.vx = particle.vx * (1.0 - dt * 0.75)
+        particle.vy = particle.vy * (1.0 - dt * 0.75)
       }
 
       if player.hp <= 0.0 {
@@ -1274,7 +1274,7 @@ fn main {
       seg_count - 1,
     )
 
-    for i = start_seg; i <= end_seg; i = i + 1 {
+    for i in start_seg..=end_seg {
       let x0 : Float = Float::from_int(i) * seg_w - cam_x + shake_x
       let top0 : Float = cave_top[i] + shake_y
       let top1 : Float = cave_top[i + 1] + shake_y
@@ -1333,12 +1333,12 @@ fn main {
       @raylib.Color::new(222, 248, 255, 220),
     )
 
-    for i = 0; i < crystals.length(); i = i + 1 {
-      if not(crystals[i].active) {
+    for crystal in crystals {
+      if not(crystal.active) {
         continue
       }
-      let cx : Float = crystals[i].x - cam_x + shake_x
-      let cy : Float = crystals[i].y + shake_y
+      let cx : Float = crystal.x - cam_x + shake_x
+      let cy : Float = crystal.y + shake_y
       if cx < -24.0 ||
         cy < -24.0 ||
         cx > Float::from_int(sw + 24) ||
@@ -1346,7 +1346,7 @@ fn main {
         continue
       }
 
-      let pulse : Float = 1.0 + @math.sinf(crystals[i].spin_t * 4.0) * 0.12
+      let pulse : Float = 1.0 + @math.sinf(crystal.spin_t * 4.0) * 0.12
       @raylib.draw_circle(
         cx.to_int(),
         cy.to_int(),
@@ -1362,12 +1362,12 @@ fn main {
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      let ex : Float = enemies[i].x - cam_x + shake_x
-      let ey : Float = enemies[i].y + shake_y
+      let ex : Float = enemy.x - cam_x + shake_x
+      let ey : Float = enemy.y + shake_y
       if ex < -80.0 ||
         ey < -80.0 ||
         ex > Float::from_int(sw + 80) ||
@@ -1375,17 +1375,17 @@ fn main {
         continue
       }
 
-      let col = if enemies[i].shock_t > 0.0 {
+      let col = if enemy.shock_t > 0.0 {
         @raylib.Color::new(154, 216, 252, 255)
-      } else if enemies[i].slow_t > 0.0 {
+      } else if enemy.slow_t > 0.0 {
         @raylib.Color::new(170, 186, 252, 255)
-      } else if enemies[i].kind == 0 {
+      } else if enemy.kind == 0 {
         @raylib.Color::new(234, 108, 94, 255)
       } else {
         @raylib.Color::new(248, 160, 96, 255)
       }
 
-      let r : Float = if enemies[i].kind == 0 { 14.0 } else { 18.0 }
+      let r : Float = if enemy.kind == 0 { 14.0 } else { 18.0 }
       @raylib.draw_circle(ex.to_int(), ey.to_int(), r, col)
       @raylib.draw_circle(
         (ex - 4.0).to_int(),
@@ -1400,7 +1400,7 @@ fn main {
         @raylib.Color::new(22, 24, 30, 255),
       )
 
-      if enemies[i].burn_t > 0.0 {
+      if enemy.burn_t > 0.0 {
         @raylib.draw_circle_lines(
           ex.to_int(),
           ey.to_int(),
@@ -1410,12 +1410,12 @@ fn main {
       }
     }
 
-    for i = 0; i < projectiles.length(); i = i + 1 {
-      if not(projectiles[i].active) {
+    for projectile in projectiles {
+      if not(projectile.active) {
         continue
       }
-      let px : Float = projectiles[i].x - cam_x + shake_x
-      let py : Float = projectiles[i].y + shake_y
+      let px : Float = projectile.x - cam_x + shake_x
+      let py : Float = projectile.y + shake_y
       if px < -8.0 ||
         py < -8.0 ||
         px > Float::from_int(sw + 8) ||
@@ -1423,7 +1423,7 @@ fn main {
         continue
       }
 
-      let col = if projectiles[i].from_player {
+      let col = if projectile.from_player {
         @raylib.Color::new(252, 220, 132, 255)
       } else {
         @raylib.Color::new(242, 146, 146, 255)
@@ -1431,7 +1431,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        if projectiles[i].from_player {
+        if projectile.from_player {
           4.0
         } else {
           3.0
@@ -1480,12 +1480,12 @@ fn main {
       )
     }
 
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
-      let px : Float = particles[i].x - cam_x + shake_x
-      let py : Float = particles[i].y + shake_y
+      let px : Float = particle.x - cam_x + shake_x
+      let py : Float = particle.y + shake_y
       if px < -20.0 ||
         py < -20.0 ||
         px > Float::from_int(sw + 20) ||
@@ -1493,11 +1493,11 @@ fn main {
         continue
       }
 
-      let life_r : Float = 1.0 - particles[i].t / particles[i].life
+      let life_r : Float = 1.0 - particle.t / particle.life
       let alpha : Int = clampf(life_r * 220.0, 0.0, 220.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let col = if particle.kind == 0 {
         @raylib.Color::new(252, 186, 122, alpha)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(132, 216, 252, alpha)
       } else {
         @raylib.Color::new(194, 164, 252, alpha)
@@ -1505,7 +1505,7 @@ fn main {
       @raylib.draw_circle(
         px.to_int(),
         py.to_int(),
-        particles[i].size * life_r,
+        particle.size * life_r,
         col,
       )
     }

@@ -358,10 +358,9 @@ pub fn point_above_platform(
 ///|
 pub fn find_shadow_y(game : Game, px : Float, py : Float, pz : Float) -> Float {
   let mut best_y : Float = -25.0
-  for i = 0; i < game.platforms.length(); i = i + 1 {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     if point_above_platform(px, pz, plat.x, plat.z, plat.w, plat.d) {
       let top = plat.y + plat.h / 2.0
@@ -406,7 +405,7 @@ pub fn shadow_scale(py : Float, shadow_y : Float) -> Float {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -425,7 +424,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -466,7 +465,7 @@ pub fn spawn_particles_dir(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -505,7 +504,7 @@ pub fn spawn_particle_ring(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -534,7 +533,7 @@ pub fn spawn_particle_ring(
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -546,7 +545,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -558,7 +557,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_score_fly(game : Game) -> Int {
-  for i = 0; i < game.score_flies.length(); i = i + 1 {
+  for i in 0..<game.score_flies.length() {
     if not(game.score_flies[i].active) {
       return i
     }

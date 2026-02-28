@@ -6,7 +6,7 @@ fn draw_bg(game : Game) -> Unit {
 
   @raylib.clear_background(@raylib.Color::new(10, 13, 20, 255))
 
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let y : Int = i * 60 - 18
     let alpha : Int = 18 + i * 13 % 32
     @raylib.draw_rectangle(
@@ -199,8 +199,8 @@ fn draw_board(game : Game) -> Unit {
     @raylib.Color::new(96, 132, 166, 120),
   )
 
-  for y = 0; y < game.grid_h; y = y + 1 {
-    for x = 0; x < game.grid_w; x = x + 1 {
+  for y in 0..<game.grid_h {
+    for x in 0..<game.grid_w {
       let t : Int = tile_at(game, x, y)
       let px : Int = left + x * tile
       let py : Int = top + y * tile
@@ -232,20 +232,20 @@ fn draw_board(game : Game) -> Unit {
   let ppy : Int = top + game.player_y * tile
   draw_player(ppx, ppy, tile, game.pulse_t)
 
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    let sx : Int = left + (game.sparks[i].x * Float::from_int(tile)).to_int()
-    let sy : Int = top + (game.sparks[i].y * Float::from_int(tile)).to_int()
-    let sr : Float = maxf(1.0, Float::from_int(tile) * game.sparks[i].size)
+    let sx : Int = left + (spark.x * Float::from_int(tile)).to_int()
+    let sy : Int = top + (spark.y * Float::from_int(tile)).to_int()
+    let sr : Float = maxf(1.0, Float::from_int(tile) * spark.size)
 
-    let c = if game.sparks[i].kind == 0 {
+    let c = if spark.kind == 0 {
       @raylib.Color::new(255, 218, 102, 235)
-    } else if game.sparks[i].kind == 1 {
+    } else if spark.kind == 1 {
       @raylib.Color::new(248, 164, 78, 225)
-    } else if game.sparks[i].kind == 2 {
+    } else if spark.kind == 2 {
       @raylib.Color::new(236, 100, 86, 214)
     } else {
       @raylib.Color::new(118, 222, 254, 228)

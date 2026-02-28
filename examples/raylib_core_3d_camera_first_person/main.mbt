@@ -24,7 +24,7 @@ fn main {
   let positions : Array[@raylib.Vector3] = []
   let colors : Array[@raylib.Color] = []
 
-  for i = 0; i < max_columns; i = i + 1 {
+  for i in 0..<max_columns {
     let h = Float::from_int(@raylib.get_random_value(1, 12))
     heights.push(h)
     positions.push(
@@ -157,7 +157,7 @@ fn main {
     )
 
     // Draw some cubes around
-    for i = 0; i < max_columns; i = i + 1 {
+    for i in 0..<max_columns {
       @raylib.draw_cube(positions[i], 2.0, heights[i], 2.0, colors[i])
       @raylib.draw_cube_wires(
         positions[i],

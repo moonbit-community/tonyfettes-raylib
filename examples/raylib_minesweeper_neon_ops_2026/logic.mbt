@@ -104,15 +104,15 @@ fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
 
 ///|
 fn clear_effects(game : Game) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    game.sparks[i].active = false
-    game.sparks[i].x = 0.0
-    game.sparks[i].y = 0.0
-    game.sparks[i].vx = 0.0
-    game.sparks[i].vy = 0.0
-    game.sparks[i].life = 0.0
-    game.sparks[i].size = 0.0
-    game.sparks[i].kind = 0
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
   }
 }
 
@@ -127,26 +127,26 @@ fn spawn_spark(
   size : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if game.sparks[i].active {
+  for spark in game.sparks {
+    if spark.active {
       continue
     }
 
-    game.sparks[i].active = true
-    game.sparks[i].x = x
-    game.sparks[i].y = y
-    game.sparks[i].vx = vx
-    game.sparks[i].vy = vy
-    game.sparks[i].life = life
-    game.sparks[i].size = size
-    game.sparks[i].kind = kind
+    spark.active = true
+    spark.x = x
+    spark.y = y
+    spark.vx = vx
+    spark.vy = vy
+    spark.life = life
+    spark.size = size
+    spark.kind = kind
     break
   }
 }
 
 ///|
 fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_spark(
       game,
       x + randf(-8.0, 8.0),
@@ -162,32 +162,32 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn update_sparks(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    if not(game.sparks[i].active) {
+  for spark in game.sparks {
+    if not(spark.active) {
       continue
     }
 
-    game.sparks[i].life = game.sparks[i].life - dt
-    if game.sparks[i].life <= 0.0 {
-      game.sparks[i].active = false
+    spark.life = spark.life - dt
+    if spark.life <= 0.0 {
+      spark.active = false
       continue
     }
 
-    game.sparks[i].x = game.sparks[i].x + game.sparks[i].vx * dt
-    game.sparks[i].y = game.sparks[i].y + game.sparks[i].vy * dt
-    game.sparks[i].vx = game.sparks[i].vx * (1.0 - dt * 2.3)
-    game.sparks[i].vy = game.sparks[i].vy * (1.0 - dt * 2.1) + dt * 170.0
+    spark.x = spark.x + spark.vx * dt
+    spark.y = spark.y + spark.vy * dt
+    spark.vx = spark.vx * (1.0 - dt * 2.3)
+    spark.vy = spark.vy * (1.0 - dt * 2.1) + dt * 170.0
   }
 }
 
 ///|
 fn clear_board(game : Game) -> Unit {
-  for i = 0; i < game.cells.length(); i = i + 1 {
-    game.cells[i].mine = false
-    game.cells[i].revealed = false
-    game.cells[i].flagged = false
-    game.cells[i].exploded = false
-    game.cells[i].around = 0
+  for cell in game.cells {
+    cell.mine = false
+    cell.revealed = false
+    cell.flagged = false
+    cell.exploded = false
+    cell.around = 0
   }
 }
 
@@ -195,8 +195,8 @@ fn clear_board(game : Game) -> Unit {
 fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
   let mut n : Int = 0
 
-  for oy = -1; oy <= 1; oy = oy + 1 {
-    for ox = -1; ox <= 1; ox = ox + 1 {
+  for oy in -1..=1 {
+    for ox in -1..=1 {
       if ox == 0 && oy == 0 {
         continue
       }
@@ -216,8 +216,8 @@ fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
 
 ///|
 fn recompute_around(game : Game) -> Unit {
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let i : Int = idx(x, y)
       if game.cells[i].mine {
         game.cells[i].around = -1
@@ -297,9 +297,9 @@ fn start_match(game : Game) -> Unit {
 
 ///|
 fn reveal_all_mines(game : Game) -> Unit {
-  for i = 0; i < game.cells.length(); i = i + 1 {
-    if game.cells[i].mine {
-      game.cells[i].revealed = true
+  for cell in game.cells {
+    if cell.mine {
+      cell.revealed = true
     }
   }
 }
@@ -423,8 +423,8 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
       continue
     }
 
-    for oy = -1; oy <= 1; oy = oy + 1 {
-      for ox = -1; ox <= 1; ox = ox + 1 {
+    for oy in -1..=1 {
+      for ox in -1..=1 {
         if ox == 0 && oy == 0 {
           continue
         }
@@ -563,8 +563,8 @@ fn safe_hint_target(game : Game) -> (Bool, Int, Int) {
     tries = tries + 1
   }
 
-  for y = 0; y < board_h; y = y + 1 {
-    for x = 0; x < board_w; x = x + 1 {
+  for y in 0..<board_h {
+    for x in 0..<board_w {
       let i : Int = idx(x, y)
       if not(game.cells[i].mine) &&
         not(game.cells[i].revealed) &&

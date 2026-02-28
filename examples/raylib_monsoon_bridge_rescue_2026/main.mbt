@@ -274,7 +274,7 @@ fn pointer_on_rect(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if inside_rect(p.x, p.y, x, y, w, h) {
         hit = true
@@ -302,7 +302,7 @@ fn pointer_on_circle(
   }
 
   if not(hit) {
-    for i = 0; i < touch_count; i = i + 1 {
+    for i in 0..<touch_count {
       let p = @raylib.get_touch_position(i)
       if point_in_circle(p.x, p.y, cx, cy, r) {
         hit = true
@@ -315,7 +315,7 @@ fn pointer_on_circle(
 
 ///|
 fn clear_rafts(rafts : Array[RaftGroup]) -> Unit {
-  for i = 0; i < rafts.length(); i = i + 1 {
+  for i in 0..<rafts.length() {
     rafts[i].active = false
     rafts[i].x = 0.0
     rafts[i].y = 0.0
@@ -330,70 +330,70 @@ fn clear_rafts(rafts : Array[RaftGroup]) -> Unit {
 
 ///|
 fn clear_debris(obstacles : Array[Debris]) -> Unit {
-  for i = 0; i < obstacles.length(); i = i + 1 {
-    obstacles[i].active = false
-    obstacles[i].x = 0.0
-    obstacles[i].y = 0.0
-    obstacles[i].vx = 0.0
-    obstacles[i].vy = 0.0
-    obstacles[i].size = 0.0
-    obstacles[i].hard = 0.0
-    obstacles[i].spin = 0.0
+  for obstacle in obstacles {
+    obstacle.active = false
+    obstacle.x = 0.0
+    obstacle.y = 0.0
+    obstacle.vx = 0.0
+    obstacle.vy = 0.0
+    obstacle.size = 0.0
+    obstacle.hard = 0.0
+    obstacle.spin = 0.0
   }
 }
 
 ///|
 fn clear_lightning(strikes : Array[LightningStrike]) -> Unit {
-  for i = 0; i < strikes.length(); i = i + 1 {
-    strikes[i].active = false
-    strikes[i].x = 0.0
-    strikes[i].y = 0.0
-    strikes[i].radius = 0.0
-    strikes[i].telegraph = 0.0
-    strikes[i].life = 0.0
-    strikes[i].power = 0.0
-    strikes[i].pulse = 0.0
+  for strike in strikes {
+    strike.active = false
+    strike.x = 0.0
+    strike.y = 0.0
+    strike.radius = 0.0
+    strike.telegraph = 0.0
+    strike.life = 0.0
+    strike.power = 0.0
+    strike.pulse = 0.0
   }
 }
 
 ///|
 fn clear_supplies(supplies : Array[SupplyCrate]) -> Unit {
-  for i = 0; i < supplies.length(); i = i + 1 {
-    supplies[i].active = false
-    supplies[i].x = 0.0
-    supplies[i].y = 0.0
-    supplies[i].vx = 0.0
-    supplies[i].vy = 0.0
-    supplies[i].kind = 0
-    supplies[i].amount = 0
-    supplies[i].blink = 0.0
+  for supply in supplies {
+    supply.active = false
+    supply.x = 0.0
+    supply.y = 0.0
+    supply.vx = 0.0
+    supply.vy = 0.0
+    supply.kind = 0
+    supply.amount = 0
+    supply.blink = 0.0
   }
 }
 
 ///|
 fn clear_rain(rain : Array[RainDrop]) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
-    rain[i].active = false
-    rain[i].x = 0.0
-    rain[i].y = 0.0
-    rain[i].vy = 0.0
-    rain[i].len = 0.0
-    rain[i].life = 0.0
-    rain[i].alpha = 0
+  for rain_elem in rain {
+    rain_elem.active = false
+    rain_elem.x = 0.0
+    rain_elem.y = 0.0
+    rain_elem.vy = 0.0
+    rain_elem.len = 0.0
+    rain_elem.life = 0.0
+    rain_elem.alpha = 0
   }
 }
 
 ///|
 fn clear_wakes(wakes : Array[WakeParticle]) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
-    wakes[i].active = false
-    wakes[i].x = 0.0
-    wakes[i].y = 0.0
-    wakes[i].vx = 0.0
-    wakes[i].vy = 0.0
-    wakes[i].life = 0.0
-    wakes[i].size = 0.0
-    wakes[i].kind = 0
+  for wake in wakes {
+    wake.active = false
+    wake.x = 0.0
+    wake.y = 0.0
+    wake.vx = 0.0
+    wake.vy = 0.0
+    wake.life = 0.0
+    wake.size = 0.0
+    wake.kind = 0
   }
 }
 
@@ -410,7 +410,7 @@ fn init_currents(
   let cw : Float = Float::from_int(world_w) / Float::from_int(cols)
   let ch : Float = Float::from_int(world_h) / Float::from_int(rows)
 
-  for i = 0; i < cells.length(); i = i + 1 {
+  for i in 0..<cells.length() {
     let c : Int = i % cols
     let r : Int = i / cols
     cells[i].x = Float::from_int(world_x) + Float::from_int(c) * cw
@@ -438,7 +438,7 @@ fn init_bridge(
   let cx : Float = Float::from_int(world_x + world_w / 2)
   let step : Float = Float::from_int(world_h - 170) /
     Float::from_int(spans.length())
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     spans[i].x = cx - 54.0 + randf(-10.0, 10.0)
     spans[i].y = Float::from_int(world_y) + 84.0 + Float::from_int(i) * step
     spans[i].w = 108.0
@@ -457,14 +457,14 @@ fn refill_rain(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
-    rain[i].active = true
-    rain[i].x = randf(world_l, world_r)
-    rain[i].y = randf(world_t, world_b)
-    rain[i].vy = randf(420.0, 760.0)
-    rain[i].len = randf(8.0, 26.0)
-    rain[i].life = randf(0.4, 2.2)
-    rain[i].alpha = randi(32, 104)
+  for rain_elem in rain {
+    rain_elem.active = true
+    rain_elem.x = randf(world_l, world_r)
+    rain_elem.y = randf(world_t, world_b)
+    rain_elem.vy = randf(420.0, 760.0)
+    rain_elem.len = randf(8.0, 26.0)
+    rain_elem.life = randf(0.4, 2.2)
+    rain_elem.alpha = randi(32, 104)
   }
 }
 
@@ -479,11 +479,11 @@ fn find_flow(
   let mut out_vy : Float = 0.0
   let mut out_t : Float = 0.0
 
-  for i = 0; i < cells.length(); i = i + 1 {
-    if inside_rectf(x, y, cells[i].x, cells[i].y, cells[i].w, cells[i].h) {
-      let wave : Float = sinf(cells[i].pulse + x * 0.0017 + y * 0.0023)
-      out_vx = cells[i].vx + wave * (6.0 + storm * 7.0)
-      out_vy = cells[i].vy + wave * (4.0 + storm * 5.0)
+  for cell in cells {
+    if inside_rectf(x, y, cell.x, cell.y, cell.w, cell.h) {
+      let wave : Float = sinf(cell.pulse + x * 0.0017 + y * 0.0023)
+      out_vx = cell.vx + wave * (6.0 + storm * 7.0)
+      out_vy = cell.vy + wave * (4.0 + storm * 5.0)
       out_t = absf(wave) * (0.2 + storm * 0.5)
     }
   }
@@ -502,8 +502,8 @@ fn spawn_raft(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < rafts.length(); i = i + 1 {
-    if rafts[i].active {
+  for raft in rafts {
+    if raft.active {
       continue
     }
 
@@ -519,15 +519,15 @@ fn spawn_raft(
       randf(world_t + (world_b - world_t) * 0.7, world_b - 24.0)
     }
 
-    rafts[i].active = true
-    rafts[i].x = randf(world_r - 110.0, world_r - 22.0)
-    rafts[i].y = py
-    rafts[i].vx = randf(-28.0, -15.0)
-    rafts[i].vy = randf(-12.0, 12.0)
-    rafts[i].survivors = randi(2, 9)
-    rafts[i].panic = randf(0.08, 0.32)
-    rafts[i].flare_t = randf(0.0, 4.0)
-    rafts[i].id = serial
+    raft.active = true
+    raft.x = randf(world_r - 110.0, world_r - 22.0)
+    raft.y = py
+    raft.vx = randf(-28.0, -15.0)
+    raft.vy = randf(-12.0, 12.0)
+    raft.survivors = randi(2, 9)
+    raft.panic = randf(0.08, 0.32)
+    raft.flare_t = randf(0.0, 4.0)
+    raft.id = serial
     placed = true
     break
   }
@@ -546,18 +546,18 @@ fn spawn_debris(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < debris.length(); i = i + 1 {
-    if debris[i].active {
+  for debris in debris {
+    if debris.active {
       continue
     }
-    debris[i].active = true
-    debris[i].x = world_r + randf(20.0, 120.0)
-    debris[i].y = randf(world_t + 16.0, world_b - 16.0)
-    debris[i].vx = -randf(68.0, 152.0) - storm * randf(8.0, 38.0)
-    debris[i].vy = randf(-42.0, 42.0)
-    debris[i].size = randf(10.0, 30.0)
-    debris[i].hard = randf(0.6, 1.8)
-    debris[i].spin = randf(-6.0, 6.0)
+    debris.active = true
+    debris.x = world_r + randf(20.0, 120.0)
+    debris.y = randf(world_t + 16.0, world_b - 16.0)
+    debris.vx = -randf(68.0, 152.0) - storm * randf(8.0, 38.0)
+    debris.vy = randf(-42.0, 42.0)
+    debris.size = randf(10.0, 30.0)
+    debris.hard = randf(0.6, 1.8)
+    debris.spin = randf(-6.0, 6.0)
     placed = true
     break
   }
@@ -576,18 +576,18 @@ fn spawn_lightning(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < strikes.length(); i = i + 1 {
-    if strikes[i].active {
+  for strike in strikes {
+    if strike.active {
       continue
     }
-    strikes[i].active = true
-    strikes[i].x = randf(world_l + 80.0, world_r - 80.0)
-    strikes[i].y = randf(world_t + 80.0, world_b - 80.0)
-    strikes[i].radius = randf(52.0, 88.0) + storm * randf(4.0, 24.0)
-    strikes[i].telegraph = randf(0.9, 1.75)
-    strikes[i].life = randf(0.16, 0.44)
-    strikes[i].power = randf(7.0, 14.0) + storm * randf(2.0, 8.0)
-    strikes[i].pulse = randf(0.0, 15.0)
+    strike.active = true
+    strike.x = randf(world_l + 80.0, world_r - 80.0)
+    strike.y = randf(world_t + 80.0, world_b - 80.0)
+    strike.radius = randf(52.0, 88.0) + storm * randf(4.0, 24.0)
+    strike.telegraph = randf(0.9, 1.75)
+    strike.life = randf(0.16, 0.44)
+    strike.power = randf(7.0, 14.0) + storm * randf(2.0, 8.0)
+    strike.pulse = randf(0.0, 15.0)
     placed = true
     break
   }
@@ -605,22 +605,22 @@ fn spawn_supply(
 ) -> Bool {
   let mut placed : Bool = false
 
-  for i = 0; i < supplies.length(); i = i + 1 {
-    if supplies[i].active {
+  for supply in supplies {
+    if supply.active {
       continue
     }
-    supplies[i].active = true
-    supplies[i].x = randf(world_l + 120.0, world_r - 120.0)
-    supplies[i].y = randf(world_t + 90.0, world_b - 90.0)
-    supplies[i].vx = randf(-20.0, 20.0)
-    supplies[i].vy = randf(-16.0, 16.0)
-    supplies[i].kind = if randi(0, 1) == 0 { 0 } else { 1 }
-    supplies[i].amount = if supplies[i].kind == 0 {
+    supply.active = true
+    supply.x = randf(world_l + 120.0, world_r - 120.0)
+    supply.y = randf(world_t + 90.0, world_b - 90.0)
+    supply.vx = randf(-20.0, 20.0)
+    supply.vy = randf(-16.0, 16.0)
+    supply.kind = if randi(0, 1) == 0 { 0 } else { 1 }
+    supply.amount = if supply.kind == 0 {
       randi(1, 3)
     } else {
       randi(10, 24)
     }
-    supplies[i].blink = randf(0.0, 8.0)
+    supply.blink = randf(0.0, 8.0)
     placed = true
     break
   }
@@ -638,37 +638,37 @@ fn spawn_wake(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
-    if wakes[i].active {
+  for wake in wakes {
+    if wake.active {
       continue
     }
-    wakes[i].active = true
-    wakes[i].x = x + randf(-5.0, 5.0)
-    wakes[i].y = y + randf(-5.0, 5.0)
-    wakes[i].vx = -vx * 0.12 + randf(-22.0, 22.0)
-    wakes[i].vy = -vy * 0.12 + randf(-20.0, 20.0)
-    wakes[i].life = randf(0.28, 0.76) + speed * 0.003
-    wakes[i].size = randf(2.0, 5.6) + speed * 0.01
-    wakes[i].kind = kind
+    wake.active = true
+    wake.x = x + randf(-5.0, 5.0)
+    wake.y = y + randf(-5.0, 5.0)
+    wake.vx = -vx * 0.12 + randf(-22.0, 22.0)
+    wake.vy = -vy * 0.12 + randf(-20.0, 20.0)
+    wake.life = randf(0.28, 0.76) + speed * 0.003
+    wake.size = randf(2.0, 5.6) + speed * 0.01
+    wake.kind = kind
     break
   }
 }
 
 ///|
 fn update_wakes(wakes : Array[WakeParticle], dt : Float) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
-    if not(wakes[i].active) {
+  for wake in wakes {
+    if not(wake.active) {
       continue
     }
-    wakes[i].life = wakes[i].life - dt
-    if wakes[i].life <= 0.0 {
-      wakes[i].active = false
+    wake.life = wake.life - dt
+    if wake.life <= 0.0 {
+      wake.active = false
       continue
     }
-    wakes[i].x = wakes[i].x + wakes[i].vx * dt
-    wakes[i].y = wakes[i].y + wakes[i].vy * dt
-    wakes[i].vx = wakes[i].vx * (1.0 - dt * 2.1)
-    wakes[i].vy = wakes[i].vy * (1.0 - dt * 2.1)
+    wake.x = wake.x + wake.vx * dt
+    wake.y = wake.y + wake.vy * dt
+    wake.vx = wake.vx * (1.0 - dt * 2.1)
+    wake.vy = wake.vy * (1.0 - dt * 2.1)
   }
 }
 
@@ -682,25 +682,25 @@ fn update_rain(
   world_b : Float,
   wind_x : Float,
 ) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
-    if not(rain[i].active) {
+  for rain_elem in rain {
+    if not(rain_elem.active) {
       continue
     }
-    rain[i].life = rain[i].life - dt
-    rain[i].x = rain[i].x + wind_x * dt * 0.22
-    rain[i].y = rain[i].y + rain[i].vy * dt
+    rain_elem.life = rain_elem.life - dt
+    rain_elem.x = rain_elem.x + wind_x * dt * 0.22
+    rain_elem.y = rain_elem.y + rain_elem.vy * dt
 
-    let offscreen : Bool = rain[i].y > world_b + 30.0 ||
-      rain[i].x < world_l - 30.0 ||
-      rain[i].x > world_r + 30.0
+    let offscreen : Bool = rain_elem.y > world_b + 30.0 ||
+      rain_elem.x < world_l - 30.0 ||
+      rain_elem.x > world_r + 30.0
 
-    if rain[i].life <= 0.0 || offscreen {
-      rain[i].x = randf(world_l, world_r)
-      rain[i].y = randf(world_t - 120.0, world_t - 20.0)
-      rain[i].vy = randf(430.0, 780.0)
-      rain[i].len = randf(8.0, 28.0)
-      rain[i].life = randf(0.7, 2.2)
-      rain[i].alpha = randi(28, 116)
+    if rain_elem.life <= 0.0 || offscreen {
+      rain_elem.x = randf(world_l, world_r)
+      rain_elem.y = randf(world_t - 120.0, world_t - 20.0)
+      rain_elem.vy = randf(430.0, 780.0)
+      rain_elem.len = randf(8.0, 28.0)
+      rain_elem.life = randf(0.7, 2.2)
+      rain_elem.alpha = randi(28, 116)
     }
   }
 }
@@ -714,16 +714,16 @@ fn calm_rafts(
   dt : Float,
 ) -> Unit {
   let r2 : Float = radius * radius
-  for i = 0; i < rafts.length(); i = i + 1 {
-    if not(rafts[i].active) {
+  for raft in rafts {
+    if not(raft.active) {
       continue
     }
-    let d2 : Float = dist2(x, y, rafts[i].x, rafts[i].y)
+    let d2 : Float = dist2(x, y, raft.x, raft.y)
     if d2 <= r2 {
       let falloff : Float = 1.0 - d2.sqrt() / radius
-      rafts[i].panic = rafts[i].panic - dt * (0.26 + falloff * 0.54)
-      if rafts[i].panic < 0.0 {
-        rafts[i].panic = 0.0
+      raft.panic = raft.panic - dt * (0.26 + falloff * 0.54)
+      if raft.panic < 0.0 {
+        raft.panic = 0.0
       }
     }
   }
@@ -738,7 +738,7 @@ fn nearest_span_index(
 ) -> Int {
   let mut found : Int = -1
   let mut best : Float = radius * radius
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     let cx : Float = spans[i].x + spans[i].w * 0.5
     let cy : Float = spans[i].y + spans[i].h * 0.5
     let d2 : Float = dist2(x, y, cx, cy)
@@ -753,8 +753,8 @@ fn nearest_span_index(
 ///|
 fn min_bridge_integrity(spans : Array[BridgeSpan]) -> Float {
   let mut out : Float = 100.0
-  for i = 0; i < spans.length(); i = i + 1 {
-    out = minf(out, spans[i].integrity)
+  for span in spans {
+    out = minf(out, span.integrity)
   }
   out
 }
@@ -774,7 +774,7 @@ fn draw_river(
 
   let stripe_count : Int = 46
   let seg_h : Float = Float::from_int(h) / Float::from_int(stripe_count)
-  for i = 0; i < stripe_count; i = i + 1 {
+  for i in 0..<stripe_count {
     let py : Float = Float::from_int(y) + Float::from_int(i) * seg_h
     let wave : Float = sinf(scene_t * 2.4 + Float::from_int(i) * 0.42)
     let shift : Int = (wave * 18.0).to_int()
@@ -793,23 +793,23 @@ fn draw_river(
 
 ///|
 fn draw_current_grid(cells : Array[CurrentCell], storm : Float) -> Unit {
-  for i = 0; i < cells.length(); i = i + 1 {
-    let wave : Float = sinf(cells[i].pulse)
+  for cell in cells {
+    let wave : Float = sinf(cell.pulse)
     let tone : Int = 34 +
       ((wave + 1.0) * 28.0).to_int() +
       (storm * 34.0).to_int()
     @raylib.draw_rectangle_lines(
-      cells[i].x.to_int(),
-      cells[i].y.to_int(),
-      cells[i].w.to_int(),
-      cells[i].h.to_int(),
+      cell.x.to_int(),
+      cell.y.to_int(),
+      cell.w.to_int(),
+      cell.h.to_int(),
       @raylib.Color::new(72, 126, 168, tone),
     )
 
-    let cx : Float = cells[i].x + cells[i].w * 0.5
-    let cy : Float = cells[i].y + cells[i].h * 0.5
-    let tip_x : Float = cx + cells[i].vx * 0.3
-    let tip_y : Float = cy + cells[i].vy * 0.3
+    let cx : Float = cell.x + cell.w * 0.5
+    let cy : Float = cell.y + cell.h * 0.5
+    let tip_x : Float = cx + cell.vx * 0.3
+    let tip_y : Float = cy + cell.vy * 0.3
     @raylib.draw_line_ex(
       @raylib.Vector2::new(cx, cy),
       @raylib.Vector2::new(tip_x, tip_y),
@@ -826,7 +826,7 @@ fn draw_current_grid(cells : Array[CurrentCell], storm : Float) -> Unit {
 
 ///|
 fn draw_spans(spans : Array[BridgeSpan], scene_t : Float) -> Unit {
-  for i = 0; i < spans.length(); i = i + 1 {
+  for i in 0..<spans.length() {
     let p : Float = clampf(spans[i].integrity / 100.0, 0.0, 1.0)
     let red : Int = 210 - (p * 100.0).to_int()
     let green : Int = 34 + (p * 180.0).to_int()
@@ -877,33 +877,33 @@ fn draw_spans(spans : Array[BridgeSpan], scene_t : Float) -> Unit {
 
 ///|
 fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
-  for i = 0; i < rafts.length(); i = i + 1 {
-    if not(rafts[i].active) {
+  for raft in rafts {
+    if not(raft.active) {
       continue
     }
     let panic_col : Int = 90 +
-      (clampf(rafts[i].panic, 0.0, 1.0) * 130.0).to_int()
+      (clampf(raft.panic, 0.0, 1.0) * 130.0).to_int()
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(rafts[i].x, rafts[i].y),
+      @raylib.Vector2::new(raft.x, raft.y),
       17.0,
       @raylib.Color::new(138, 108, 70, 242),
     )
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(rafts[i].x, rafts[i].y),
+      @raylib.Vector2::new(raft.x, raft.y),
       10.0,
       @raylib.Color::new(208, panic_col, 98, 238),
     )
 
-    let blink : Float = sinf(scene_t * 7.0 + rafts[i].flare_t) * 0.5 + 0.5
+    let blink : Float = sinf(scene_t * 7.0 + raft.flare_t) * 0.5 + 0.5
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(rafts[i].x, rafts[i].y - 22.0),
+      @raylib.Vector2::new(raft.x, raft.y - 22.0),
       5.0 + blink * 3.0,
       @raylib.Color::new(255, 110, 72, 180),
     )
     @raylib.draw_text(
-      "\{rafts[i].survivors}",
-      (rafts[i].x - 8.0).to_int(),
-      (rafts[i].y - 7.0).to_int(),
+      "\{raft.survivors}",
+      (raft.x - 8.0).to_int(),
+      (raft.y - 7.0).to_int(),
       18,
       @raylib.white,
     )
@@ -912,22 +912,22 @@ fn draw_rafts(rafts : Array[RaftGroup], scene_t : Float) -> Unit {
 
 ///|
 fn draw_debris_field(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    if not(debris[i].active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
-    let w : Float = debris[i].size * 1.8
-    let h : Float = debris[i].size * 0.9
+    let w : Float = debris.size * 1.8
+    let h : Float = debris.size * 0.9
     @raylib.draw_rectangle(
-      (debris[i].x - w * 0.5).to_int(),
-      (debris[i].y - h * 0.5).to_int(),
+      (debris.x - w * 0.5).to_int(),
+      (debris.y - h * 0.5).to_int(),
       w.to_int(),
       h.to_int(),
       @raylib.Color::new(88, 62, 38, 226),
     )
     @raylib.draw_rectangle_lines(
-      (debris[i].x - w * 0.5).to_int(),
-      (debris[i].y - h * 0.5).to_int(),
+      (debris.x - w * 0.5).to_int(),
+      (debris.y - h * 0.5).to_int(),
       w.to_int(),
       h.to_int(),
       @raylib.Color::new(170, 144, 102, 210),
@@ -937,41 +937,41 @@ fn draw_debris_field(debris : Array[Debris]) -> Unit {
 
 ///|
 fn draw_strikes(strikes : Array[LightningStrike], scene_t : Float) -> Unit {
-  for i = 0; i < strikes.length(); i = i + 1 {
-    if not(strikes[i].active) {
+  for strike in strikes {
+    if not(strike.active) {
       continue
     }
 
-    if strikes[i].telegraph > 0.0 {
-      let blink : Float = sinf(scene_t * 8.0 + strikes[i].pulse) * 0.5 + 0.5
+    if strike.telegraph > 0.0 {
+      let blink : Float = sinf(scene_t * 8.0 + strike.pulse) * 0.5 + 0.5
       @raylib.draw_circle_lines(
-        strikes[i].x.to_int(),
-        strikes[i].y.to_int(),
-        strikes[i].radius * (0.88 + blink * 0.2),
+        strike.x.to_int(),
+        strike.y.to_int(),
+        strike.radius * (0.88 + blink * 0.2),
         @raylib.Color::new(255, 238, 126, 200),
       )
       @raylib.draw_circle_v(
-        @raylib.Vector2::new(strikes[i].x, strikes[i].y),
+        @raylib.Vector2::new(strike.x, strike.y),
         5.0 + blink * 6.0,
         @raylib.Color::new(255, 244, 186, 170),
       )
     } else {
-      let flash : Float = clampf(strikes[i].life * 5.0, 0.0, 1.0)
-      let rr : Float = strikes[i].radius * (1.0 + flash * 0.25)
+      let flash : Float = clampf(strike.life * 5.0, 0.0, 1.0)
+      let rr : Float = strike.radius * (1.0 + flash * 0.25)
       @raylib.draw_circle_v(
-        @raylib.Vector2::new(strikes[i].x, strikes[i].y),
+        @raylib.Vector2::new(strike.x, strike.y),
         rr,
         @raylib.Color::new(255, 245, 220, (flash * 160.0).to_int()),
       )
       @raylib.draw_line_ex(
-        @raylib.Vector2::new(strikes[i].x, strikes[i].y - rr),
-        @raylib.Vector2::new(strikes[i].x, strikes[i].y + rr),
+        @raylib.Vector2::new(strike.x, strike.y - rr),
+        @raylib.Vector2::new(strike.x, strike.y + rr),
         4.0 + flash * 3.5,
         @raylib.Color::new(255, 250, 236, 200),
       )
       @raylib.draw_line_ex(
-        @raylib.Vector2::new(strikes[i].x - rr * 0.55, strikes[i].y),
-        @raylib.Vector2::new(strikes[i].x + rr * 0.55, strikes[i].y),
+        @raylib.Vector2::new(strike.x - rr * 0.55, strike.y),
+        @raylib.Vector2::new(strike.x + rr * 0.55, strike.y),
         3.2 + flash * 2.8,
         @raylib.Color::new(255, 236, 192, 180),
       )
@@ -981,43 +981,43 @@ fn draw_strikes(strikes : Array[LightningStrike], scene_t : Float) -> Unit {
 
 ///|
 fn draw_supplies(supplies : Array[SupplyCrate], scene_t : Float) -> Unit {
-  for i = 0; i < supplies.length(); i = i + 1 {
-    if not(supplies[i].active) {
+  for supply in supplies {
+    if not(supply.active) {
       continue
     }
-    let blink : Float = sinf(scene_t * 6.2 + supplies[i].blink) * 0.5 + 0.5
-    let col = if supplies[i].kind == 0 {
+    let blink : Float = sinf(scene_t * 6.2 + supply.blink) * 0.5 + 0.5
+    let col = if supply.kind == 0 {
       @raylib.Color::new(104, 222, 132, 212)
     } else {
       @raylib.Color::new(112, 190, 248, 212)
     }
     @raylib.draw_rectangle(
-      (supplies[i].x - 12.0).to_int(),
-      (supplies[i].y - 12.0).to_int(),
+      (supply.x - 12.0).to_int(),
+      (supply.y - 12.0).to_int(),
       24,
       24,
       col,
     )
     @raylib.draw_rectangle_lines(
-      (supplies[i].x - 12.0).to_int(),
-      (supplies[i].y - 12.0).to_int(),
+      (supply.x - 12.0).to_int(),
+      (supply.y - 12.0).to_int(),
       24,
       24,
       @raylib.Color::new(248, 252, 255, 230),
     )
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(supplies[i].x, supplies[i].y),
+      @raylib.Vector2::new(supply.x, supply.y),
       18.0 + blink * 8.0,
       @raylib.Color::new(236, 248, 255, (blink * 70.0).to_int()),
     )
     @raylib.draw_text(
-      if supplies[i].kind == 0 {
+      if supply.kind == 0 {
         "K"
       } else {
         "F"
       },
-      (supplies[i].x - 5.0).to_int(),
-      (supplies[i].y - 8.0).to_int(),
+      (supply.x - 5.0).to_int(),
+      (supply.y - 8.0).to_int(),
       16,
       @raylib.Color::new(20, 28, 40, 255),
     )
@@ -1026,38 +1026,38 @@ fn draw_supplies(supplies : Array[SupplyCrate], scene_t : Float) -> Unit {
 
 ///|
 fn draw_rain(rain : Array[RainDrop], wind_x : Float) -> Unit {
-  for i = 0; i < rain.length(); i = i + 1 {
-    if not(rain[i].active) {
+  for rain_elem in rain {
+    if not(rain_elem.active) {
       continue
     }
-    let x0 : Float = rain[i].x
-    let y0 : Float = rain[i].y
-    let x1 : Float = rain[i].x + wind_x * 0.012
-    let y1 : Float = rain[i].y + rain[i].len
+    let x0 : Float = rain_elem.x
+    let y0 : Float = rain_elem.y
+    let x1 : Float = rain_elem.x + wind_x * 0.012
+    let y1 : Float = rain_elem.y + rain_elem.len
     @raylib.draw_line_ex(
       @raylib.Vector2::new(x0, y0),
       @raylib.Vector2::new(x1, y1),
       1.0,
-      @raylib.Color::new(210, 232, 248, rain[i].alpha),
+      @raylib.Color::new(210, 232, 248, rain_elem.alpha),
     )
   }
 }
 
 ///|
 fn draw_wakes(wakes : Array[WakeParticle]) -> Unit {
-  for i = 0; i < wakes.length(); i = i + 1 {
-    if not(wakes[i].active) {
+  for wake in wakes {
+    if not(wake.active) {
       continue
     }
-    let alpha : Int = clampf(wakes[i].life * 255.0, 0.0, 255.0).to_int()
-    let color = if wakes[i].kind == 0 {
+    let alpha : Int = clampf(wake.life * 255.0, 0.0, 255.0).to_int()
+    let color = if wake.kind == 0 {
       @raylib.Color::new(188, 226, 244, alpha)
     } else {
       @raylib.Color::new(248, 252, 255, alpha)
     }
     @raylib.draw_circle_v(
-      @raylib.Vector2::new(wakes[i].x, wakes[i].y),
-      wakes[i].size,
+      @raylib.Vector2::new(wake.x, wake.y),
+      wake.size,
       color,
     )
   }
@@ -1508,7 +1508,7 @@ fn draw_panel(
 ///|
 fn draw_menu(sw : Int, sh : Int, scene_t : Float) -> Unit {
   @raylib.clear_background(@raylib.Color::new(9, 16, 26, 255))
-  for i = 0; i < 26; i = i + 1 {
+  for i in 0..<26 {
     let yy : Float = Float::from_int(i) / 26.0
     let wave : Float = sinf(scene_t * 1.2 + yy * 6.0) * 0.5 + 0.5
     let alpha : Int = 20 + (wave * 54.0).to_int()
@@ -1914,7 +1914,7 @@ fn main {
       }
     }
 
-    for i = 0; i < currents.length(); i = i + 1 {
+    for i in 0..<currents.length() {
       currents[i].pulse = currents[i].pulse +
         dt * (0.9 + Float::from_int(i % 3) * 0.35)
     }
@@ -2158,7 +2158,7 @@ fn main {
         boat.fuel = boat.fuel - 6.0
         msg = "Siren pulse active: nearby rafts panic slower."
         msg_t = 2.2
-        for _i = 0; _i < 24; _i = _i + 1 {
+        for _i in 0..<24 {
           spawn_wake(
             wakes,
             boat.x,
@@ -2212,88 +2212,88 @@ fn main {
       }
 
       // Bridge erosion
-      for i = 0; i < spans.length(); i = i + 1 {
+      for span in spans {
         let decay : Float = dt *
-          (0.78 + storm_level * 1.62 + spans[i].stress * 0.26)
-        spans[i].integrity = spans[i].integrity - decay
-        spans[i].stress = clampf(spans[i].stress - dt * 0.44, 0.0, 4.0)
-        if spans[i].alarm_t > 0.0 {
-          spans[i].alarm_t = spans[i].alarm_t - dt
-          if spans[i].alarm_t < 0.0 {
-            spans[i].alarm_t = 0.0
+          (0.78 + storm_level * 1.62 + span.stress * 0.26)
+        span.integrity = span.integrity - decay
+        span.stress = clampf(span.stress - dt * 0.44, 0.0, 4.0)
+        if span.alarm_t > 0.0 {
+          span.alarm_t = span.alarm_t - dt
+          if span.alarm_t < 0.0 {
+            span.alarm_t = 0.0
           }
         }
       }
 
       // Raft updates
-      for i = 0; i < rafts.length(); i = i + 1 {
-        if not(rafts[i].active) {
+      for raft in rafts {
+        if not(raft.active) {
           continue
         }
         let raft_flow : FlowSample = find_flow(
           currents,
-          rafts[i].x,
-          rafts[i].y,
+          raft.x,
+          raft.y,
           storm_level,
         )
-        rafts[i].vx = rafts[i].vx * (1.0 - dt * 0.9) + raft_flow.vx * dt * 0.64
-        rafts[i].vy = rafts[i].vy * (1.0 - dt * 0.9) + raft_flow.vy * dt * 0.64
-        rafts[i].x = rafts[i].x + rafts[i].vx * dt
-        rafts[i].y = rafts[i].y + rafts[i].vy * dt
-        rafts[i].flare_t = rafts[i].flare_t + dt * (2.0 + storm_level * 1.2)
-        rafts[i].panic = rafts[i].panic + dt * (0.034 + storm_level * 0.056)
+        raft.vx = raft.vx * (1.0 - dt * 0.9) + raft_flow.vx * dt * 0.64
+        raft.vy = raft.vy * (1.0 - dt * 0.9) + raft_flow.vy * dt * 0.64
+        raft.x = raft.x + raft.vx * dt
+        raft.y = raft.y + raft.vy * dt
+        raft.flare_t = raft.flare_t + dt * (2.0 + storm_level * 1.2)
+        raft.panic = raft.panic + dt * (0.034 + storm_level * 0.056)
 
-        if dist2(boat.x, boat.y, rafts[i].x, rafts[i].y) <= 92.0 * 92.0 {
+        if dist2(boat.x, boat.y, raft.x, raft.y) <= 92.0 * 92.0 {
           let calm_bonus : Float = if boat.siren_t > 0.0 { 0.3 } else { 0.0 }
-          rafts[i].panic = rafts[i].panic - dt * (0.13 + calm_bonus)
+          raft.panic = raft.panic - dt * (0.13 + calm_bonus)
         }
-        rafts[i].panic = clampf(rafts[i].panic, 0.0, 1.6)
+        raft.panic = clampf(raft.panic, 0.0, 1.6)
 
-        let out_of_world : Bool = rafts[i].x < world_l - 40.0 ||
-          rafts[i].x > world_r + 40.0 ||
-          rafts[i].y < world_t - 40.0 ||
-          rafts[i].y > world_b + 40.0
-        if out_of_world || rafts[i].panic >= 1.36 {
-          lost_total = lost_total + rafts[i].survivors
-          rafts[i].active = false
+        let out_of_world : Bool = raft.x < world_l - 40.0 ||
+          raft.x > world_r + 40.0 ||
+          raft.y < world_t - 40.0 ||
+          raft.y > world_b + 40.0
+        if out_of_world || raft.panic >= 1.36 {
+          lost_total = lost_total + raft.survivors
+          raft.active = false
         }
       }
 
       // Debris updates + collisions
-      for i = 0; i < debris.length(); i = i + 1 {
-        if not(debris[i].active) {
+      for debris in debris {
+        if not(debris.active) {
           continue
         }
         let debris_flow : FlowSample = find_flow(
           currents,
-          debris[i].x,
-          debris[i].y,
+          debris.x,
+          debris.y,
           storm_level,
         )
-        debris[i].vx = debris[i].vx + debris_flow.vx * dt * 0.46
-        debris[i].vy = debris[i].vy + debris_flow.vy * dt * 0.46
-        debris[i].x = debris[i].x + debris[i].vx * dt
-        debris[i].y = debris[i].y + debris[i].vy * dt
-        debris[i].spin = debris[i].spin + dt * randf(-3.2, 3.2)
+        debris.vx = debris.vx + debris_flow.vx * dt * 0.46
+        debris.vy = debris.vy + debris_flow.vy * dt * 0.46
+        debris.x = debris.x + debris.vx * dt
+        debris.y = debris.y + debris.vy * dt
+        debris.spin = debris.spin + dt * randf(-3.2, 3.2)
 
-        if debris[i].x < world_l - 120.0 ||
-          debris[i].x > world_r + 120.0 ||
-          debris[i].y < world_t - 120.0 ||
-          debris[i].y > world_b + 120.0 {
-          debris[i].active = false
+        if debris.x < world_l - 120.0 ||
+          debris.x > world_r + 120.0 ||
+          debris.y < world_t - 120.0 ||
+          debris.y > world_b + 120.0 {
+          debris.active = false
           continue
         }
 
-        let rr : Float = debris[i].size + 14.0
-        if dist2(boat.x, boat.y, debris[i].x, debris[i].y) <= rr * rr {
-          let hit_dmg : Float = debris[i].hard * (5.0 + storm_level * 2.4)
+        let rr : Float = debris.size + 14.0
+        if dist2(boat.x, boat.y, debris.x, debris.y) <= rr * rr {
+          let hit_dmg : Float = debris.hard * (5.0 + storm_level * 2.4)
           boat.hull = boat.hull - hit_dmg
-          boat.vx = boat.vx - debris[i].vx * 0.23
-          boat.vy = boat.vy - debris[i].vy * 0.23
-          debris[i].active = false
+          boat.vx = boat.vx - debris.vx * 0.23
+          boat.vy = boat.vy - debris.vy * 0.23
+          debris.active = false
           msg = "Debris hit! Hull damage."
           msg_t = 1.2
-          for _j = 0; _j < 10; _j = _j + 1 {
+          for _j in 0..<10 {
             spawn_wake(
               wakes,
               boat.x + randf(-4.0, 4.0),
@@ -2308,72 +2308,72 @@ fn main {
       }
 
       // Lightning updates + effects
-      for i = 0; i < strikes.length(); i = i + 1 {
-        if not(strikes[i].active) {
+      for strike in strikes {
+        if not(strike.active) {
           continue
         }
-        strikes[i].pulse = strikes[i].pulse + dt * 7.2
-        if strikes[i].telegraph > 0.0 {
-          strikes[i].telegraph = strikes[i].telegraph - dt
-        } else if strikes[i].life > 0.0 {
-          strikes[i].life = strikes[i].life - dt
-          let rr : Float = strikes[i].radius *
-            (0.72 + clampf(strikes[i].life * 2.8, 0.0, 1.0) * 0.38)
+        strike.pulse = strike.pulse + dt * 7.2
+        if strike.telegraph > 0.0 {
+          strike.telegraph = strike.telegraph - dt
+        } else if strike.life > 0.0 {
+          strike.life = strike.life - dt
+          let rr : Float = strike.radius *
+            (0.72 + clampf(strike.life * 2.8, 0.0, 1.0) * 0.38)
 
-          if dist2(boat.x, boat.y, strikes[i].x, strikes[i].y) <= rr * rr {
-            boat.hull = boat.hull - dt * strikes[i].power * 9.0
+          if dist2(boat.x, boat.y, strike.x, strike.y) <= rr * rr {
+            boat.hull = boat.hull - dt * strike.power * 9.0
             boat.vx = boat.vx + randf(-40.0, 40.0) * dt
             boat.vy = boat.vy + randf(-40.0, 40.0) * dt
           }
 
-          for s = 0; s < spans.length(); s = s + 1 {
-            let sx : Float = spans[s].x + spans[s].w * 0.5
-            let sy : Float = spans[s].y + spans[s].h * 0.5
-            if dist2(sx, sy, strikes[i].x, strikes[i].y) <=
+          for span in spans {
+            let sx : Float = span.x + span.w * 0.5
+            let sy : Float = span.y + span.h * 0.5
+            if dist2(sx, sy, strike.x, strike.y) <=
               (rr + 60.0) * (rr + 60.0) {
-              spans[s].integrity = spans[s].integrity -
-                dt * strikes[i].power * 4.2
-              spans[s].stress = clampf(spans[s].stress + dt * 1.8, 0.0, 4.0)
-              spans[s].alarm_t = 0.5
+              span.integrity = span.integrity -
+                dt * strike.power * 4.2
+              span.stress = clampf(span.stress + dt * 1.8, 0.0, 4.0)
+              span.alarm_t = 0.5
             }
           }
         } else {
-          strikes[i].active = false
+          strike.active = false
         }
       }
 
       // Supplies
-      for i = 0; i < supplies.length(); i = i + 1 {
-        if not(supplies[i].active) {
+      for supply in supplies {
+        if not(supply.active) {
           continue
         }
         let sup_flow : FlowSample = find_flow(
           currents,
-          supplies[i].x,
-          supplies[i].y,
+          supply.x,
+          supply.y,
           storm_level,
         )
-        supplies[i].vx = supplies[i].vx * (1.0 - dt * 0.8) +
+        supply.vx = supply.vx * (1.0 - dt * 0.8) +
           sup_flow.vx * dt * 0.28
-        supplies[i].vy = supplies[i].vy * (1.0 - dt * 0.8) +
+        supply.vy = supply.vy * (1.0 - dt * 0.8) +
           sup_flow.vy * dt * 0.28
-        supplies[i].x = supplies[i].x + supplies[i].vx * dt
-        supplies[i].y = supplies[i].y + supplies[i].vy * dt
-        supplies[i].blink = supplies[i].blink + dt * 3.2
+        supply.x = supply.x + supply.vx * dt
+        supply.y = supply.y + supply.vy * dt
+        supply.blink = supply.blink + dt * 3.2
 
-        if dist2(boat.x, boat.y, supplies[i].x, supplies[i].y) <= 29.0 * 29.0 {
-          if supplies[i].kind == 0 {
-            boat.kits = mini(boat.kit_max, boat.kits + supplies[i].amount)
-            msg = "Collected repair kits +\{supplies[i].amount}"
+        if dist2(boat.x, boat.y, supply.x, supply.y) <= 29.0 * 29.0 {
+          if supply.kind == 0 {
+            boat.kits = mini(boat.kit_max, boat.kits + supply.amount)
+            msg = "Collected repair kits +\{supply.amount}"
           } else {
             boat.fuel = minf(
               boat.fuel_max,
-              boat.fuel + Float::from_int(supplies[i].amount),
+              boat.fuel + Float::from_int(supply.amount),
             )
-            msg = "Collected fuel +\{supplies[i].amount}"
+            msg = "Collected fuel +\{supply.amount}"
           }
           msg_t = 1.3
-          supplies[i].active = false
+          supply.active = false
         }
       }
 
@@ -2423,7 +2423,7 @@ fn main {
         // Pick up from nearest raft
         let mut nearest_raft : Int = -1
         let mut best_d2 : Float = 54.0 * 54.0
-        for i = 0; i < rafts.length(); i = i + 1 {
+        for i in 0..<rafts.length() {
           if not(rafts[i].active) {
             continue
           }

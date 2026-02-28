@@ -20,16 +20,16 @@ pub fn draw_effects(game : @types.Game) -> Unit {
 
 ///|
 fn draw_drift_spark_trails(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     if not(kart.drift_left) && not(kart.drift_right) {
-      continue i + 1
+      continue
     }
     if kart.drift_level <= @types.drift_level_none {
-      continue i + 1
+      continue
     }
     let dc = @types.get_drift_spark_color(kart.drift_level)
     let sin_a = @math.sinf(kart.angle)
@@ -101,13 +101,13 @@ fn draw_drift_spark_trails(game : @types.Game) -> Unit {
 
 ///|
 fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) {
-      continue i + 1
+      continue
     }
     if kart.boost_timer <= 0.0 {
-      continue i + 1
+      continue
     }
     let sin_a = @math.sinf(kart.angle)
     let cos_a = @math.cosf(kart.angle)
@@ -181,10 +181,10 @@ fn draw_boost_exhaust_flames(game : @types.Game) -> Unit {
 
 ///|
 fn draw_dropped_items_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.dropped_items.length(); i = i + 1 {
+  for i in 0..<game.dropped_items.length() {
     let item = game.dropped_items[i]
     if not(item.active) {
-      continue i + 1
+      continue
     }
     if item.item_type == @types.powerup_banana {
       let bob : Float = @math.sinf(item.rotation) * 0.05
@@ -245,17 +245,17 @@ fn draw_dropped_items_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_dust_trails(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) || not(kart.on_ground) {
-      continue i + 1
+      continue
     }
     if kart.speed < 5.0 {
-      continue i + 1
+      continue
     }
     if kart.on_surface_type != @types.surface_dirt &&
       kart.on_surface_type != @types.surface_grass {
-      continue i + 1
+      continue
     }
     let sin_a = @math.sinf(kart.angle)
     let cos_a = @math.cosf(kart.angle)
@@ -305,7 +305,7 @@ fn draw_speed_lines(game : @types.Game) -> Unit {
   }
   let line_count = 8
   let base_alpha : Float = if kart.star_timer > 0.0 { 180.0 } else { 120.0 }
-  for li = 0; li < line_count; li = li + 1 {
+  for li in 0..<line_count {
     let seed = li * 137 + game.frame_counter * 3
     let x_base = seed % @types.screen_width
     let y_base = (seed * 7 + 31) % @types.screen_height
@@ -341,7 +341,7 @@ fn draw_start_confetti(game : @types.Game) -> Unit {
     return
   }
   let confetti_count = 20
-  for ci = 0; ci < confetti_count; ci = ci + 1 {
+  for ci in 0..<confetti_count {
     let seed = ci * 97 + game.frame_counter
     let x = (seed * 13 + 41) % @types.screen_width
     let y_offset = game.frame_counter * 3 + ci * 17
@@ -443,10 +443,10 @@ fn draw_lightning_flash(game : @types.Game) -> Unit {
 
 ///|
 fn draw_star_glow(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) || kart.star_timer <= 0.0 {
-      continue i + 1
+      continue
     }
     let phase : Float = game.star_rainbow_timer + Float::from_int(i) * 1.2
     let r_f : Float = 127.0 + @math.sinf(phase) * 128.0
@@ -476,10 +476,10 @@ fn draw_star_glow(game : @types.Game) -> Unit {
 
 ///|
 fn draw_shield_bubbles(game : @types.Game) -> Unit {
-  for i = 0; i < @types.max_karts; i = i + 1 {
+  for i in 0..<@types.max_karts {
     let kart = game.karts[i]
     if not(kart.active) || kart.shield_timer <= 0.0 {
-      continue i + 1
+      continue
     }
     let pulse = @math.sinf(
       Float::from_int(game.frame_counter) * 0.15 + Float::from_int(i),

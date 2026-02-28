@@ -364,7 +364,7 @@ pub fn rand_bool(game : Game, chance : Float) -> Bool {
 
 ///|
 pub fn alloc_enemy(game : Game) -> Int {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
     }
@@ -374,7 +374,7 @@ pub fn alloc_enemy(game : Game) -> Int {
 
 ///|
 pub fn alloc_projectile(game : Game) -> Int {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
+  for i in 0..<game.projectiles.length() {
     if not(game.projectiles[i].active) {
       return i
     }
@@ -384,7 +384,7 @@ pub fn alloc_projectile(game : Game) -> Int {
 
 ///|
 pub fn alloc_particle(game : Game) -> Int {
-  for i = 0; i < game.particles.length(); i = i + 1 {
+  for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
     }
@@ -394,7 +394,7 @@ pub fn alloc_particle(game : Game) -> Int {
 
 ///|
 pub fn alloc_asteroid(game : Game) -> Int {
-  for i = 0; i < game.asteroids.length(); i = i + 1 {
+  for i in 0..<game.asteroids.length() {
     if not(game.asteroids[i].active) {
       return i
     }
@@ -404,7 +404,7 @@ pub fn alloc_asteroid(game : Game) -> Int {
 
 ///|
 pub fn alloc_powerup(game : Game) -> Int {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
+  for i in 0..<game.powerups.length() {
     if not(game.powerups[i].active) {
       return i
     }
@@ -414,7 +414,7 @@ pub fn alloc_powerup(game : Game) -> Int {
 
 ///|
 pub fn alloc_station(game : Game) -> Int {
-  for i = 0; i < game.stations.length(); i = i + 1 {
+  for i in 0..<game.stations.length() {
     if not(game.stations[i].active) {
       return i
     }
@@ -424,7 +424,7 @@ pub fn alloc_station(game : Game) -> Int {
 
 ///|
 pub fn alloc_debris(game : Game) -> Int {
-  for i = 0; i < game.debris.length(); i = i + 1 {
+  for i in 0..<game.debris.length() {
     if not(game.debris[i].active) {
       return i
     }
@@ -443,7 +443,7 @@ pub fn spawn_particles(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -478,7 +478,7 @@ pub fn spawn_explosion(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -512,7 +512,7 @@ pub fn spawn_shield_hit(
   wz : Float,
   count : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_particle(game)
     if idx < 0 {
       return
@@ -549,7 +549,7 @@ pub fn spawn_debris(
   g : Int,
   b : Int,
 ) -> Unit {
-  for i = 0; i < count; i = i + 1 {
+  for i in 0..<count {
     let idx = alloc_debris(game)
     if idx < 0 {
       return
@@ -579,8 +579,8 @@ pub fn spawn_debris(
 ///|
 pub fn count_active_enemies(game : Game) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active {
+  for enemy in game.enemies {
+    if enemy.active {
       count += 1
     }
   }
@@ -592,8 +592,8 @@ pub fn count_active_enemies(game : Game) -> Int {
 ///|
 pub fn count_enemies_of_type(game : Game, kind : Int) -> Int {
   let mut count = 0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    if game.enemies[i].active && game.enemies[i].kind == kind {
+  for enemy in game.enemies {
+    if enemy.active && enemy.kind == kind {
       count += 1
     }
   }
@@ -606,10 +606,10 @@ pub fn count_enemies_of_type(game : Game, kind : Int) -> Int {
 pub fn find_nearest_enemy(game : Game, x : Float, y : Float, z : Float) -> Int {
   let mut best_idx = -1
   let mut best_dist : Float = 999999.0
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let e = game.enemies[i]
     if not(e.active) {
-      continue i + 1
+      continue
     }
     let dist = distance3d(x, y, z, e.x, e.y, e.z)
     if dist < best_dist {
@@ -819,7 +819,7 @@ pub fn check_objective_progress(
   obj_type : Int,
   increment : Int,
 ) -> Unit {
-  for i = 0; i < game.objectives_count; i = i + 1 {
+  for i in 0..<game.objectives_count {
     let obj = game.objectives[i]
     if obj.obj_type == obj_type && not(obj.complete) {
       obj.current_count = obj.current_count + increment
@@ -838,7 +838,7 @@ pub fn all_objectives_complete(game : Game) -> Bool {
   if game.objectives_count == 0 {
     return false
   }
-  for i = 0; i < game.objectives_count; i = i + 1 {
+  for i in 0..<game.objectives_count {
     if not(game.objectives[i].complete) {
       return false
     }

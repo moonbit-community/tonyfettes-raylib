@@ -115,7 +115,7 @@ fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(164, 52, 178, 42),
   )
 
-  for i = 0; i < 140; i = i + 1 {
+  for i in 0..<140 {
     let p = Float::from_int(i)
     let x = (p * 77.0 + sinf(game.time_s * 0.15 + p * 0.37) * 80.0) %
       Float::from_int(screen_w)
@@ -142,7 +142,7 @@ fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 fn draw_city_horizon(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let base_y = Float::from_int(ui_panel_h) + 20.0
 
-  for i = 0; i < 44; i = i + 1 {
+  for i in 0..<44 {
     let p = Float::from_int(i)
     let w = 18 + i * 17 % 52
     let h = 46 + i * 31 % 180
@@ -249,7 +249,7 @@ fn draw_road_surface(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(255, 112, 216, 120 + (line_pulse * 90.0).to_int()),
     )
 
-    for lane = 1; lane < lanes_count; lane = lane + 1 {
+    for lane in 1..<lanes_count {
       let t = Float::from_int(lane) / Float::from_int(lanes_count)
       let x0 = lerpf(e0.0, e0.1, t) + cam_x
       let x1 = lerpf(e1.0, e1.1, t) + cam_x
@@ -466,8 +466,7 @@ fn draw_entity_pickup(
 
 ///|
 fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.entities.length(); i = i + 1 {
-    let e = game.entities[i]
+  for e in game.entities {
     if not(e.active) {
       continue
     }
@@ -517,8 +516,7 @@ fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.bullets.length(); i = i + 1 {
-    let b = game.bullets[i]
+  for b in game.bullets {
     if not(b.active) {
       continue
     }
@@ -556,8 +554,7 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.sparks.length(); i = i + 1 {
-    let s = game.sparks[i]
+  for s in game.sparks {
     if not(s.active) {
       continue
     }
@@ -582,8 +579,7 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.rings.length(); i = i + 1 {
-    let r = game.rings[i]
+  for r in game.rings {
     if not(r.active) {
       continue
     }
@@ -608,8 +604,7 @@ fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_afterimages(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.images.length(); i = i + 1 {
-    let it = game.images[i]
+  for it in game.images {
     if not(it.active) {
       continue
     }

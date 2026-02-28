@@ -1,13 +1,13 @@
 ///|
 fn update_starfield(game : Game, dt : Float) -> Unit {
-  for i = 0; i < game.stars.length(); i = i + 1 {
-    game.stars[i].y += game.stars[i].speed * dt
-    game.stars[i].twinkle += dt * 3.0
-    if game.stars[i].y > Float::from_int(screen_height + 10) {
-      game.stars[i].y = -4.0
-      game.stars[i].x = Float::from_int(rand_range(game, 0, screen_width))
-      game.stars[i].speed = Float::from_int(rand_range(game, 12, 85))
-      game.stars[i].twinkle = rand_rangef(game, 0.0, 6.2)
+  for star in game.stars {
+    star.y += star.speed * dt
+    star.twinkle += dt * 3.0
+    if star.y > Float::from_int(screen_height + 10) {
+      star.y = -4.0
+      star.x = Float::from_int(rand_range(game, 0, screen_width))
+      star.speed = Float::from_int(rand_range(game, 12, 85))
+      star.twinkle = rand_rangef(game, 0.0, 6.2)
     }
   }
 }
@@ -36,9 +36,9 @@ fn start_demo_campaign(game : Game) -> Unit {
   game.demo_elapsed = 0.0
   start_new_campaign(game)
 
-  for i = 0; i < max_players; i = i + 1 {
+  for i in 0..<max_players {
     if not(game.players[i].active) {
-      continue i + 1
+      continue
     }
     game.players[i].lives = 6
     game.players[i].weapon_level = 1

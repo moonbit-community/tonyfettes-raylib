@@ -156,7 +156,7 @@ fn inside_rect(
 
 ///|
 fn clear_docks(docks : Array[Dock]) -> Unit {
-  for i = 0; i < docks.length(); i = i + 1 {
+  for i in 0..<docks.length() {
     docks[i].active = false
     docks[i].x = 0.0
     docks[i].y = 0.0
@@ -168,7 +168,7 @@ fn clear_docks(docks : Array[Dock]) -> Unit {
 
 ///|
 fn clear_groups(groups : Array[Group]) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     groups[i].active = false
     groups[i].x = 0.0
     groups[i].y = 0.0
@@ -183,44 +183,44 @@ fn clear_groups(groups : Array[Group]) -> Unit {
 
 ///|
 fn clear_fogs(fogs : Array[FogCell]) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
-    fogs[i].active = false
-    fogs[i].x = 0.0
-    fogs[i].y = 0.0
-    fogs[i].vx = 0.0
-    fogs[i].vy = 0.0
-    fogs[i].radius = 0.0
-    fogs[i].density = 0.0
-    fogs[i].life = 0.0
-    fogs[i].phase = 0.0
+  for fog in fogs {
+    fog.active = false
+    fog.x = 0.0
+    fog.y = 0.0
+    fog.vx = 0.0
+    fog.vy = 0.0
+    fog.radius = 0.0
+    fog.density = 0.0
+    fog.life = 0.0
+    fog.phase = 0.0
   }
 }
 
 ///|
 fn clear_debris(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    debris[i].active = false
-    debris[i].x = 0.0
-    debris[i].y = 0.0
-    debris[i].vx = 0.0
-    debris[i].vy = 0.0
-    debris[i].size = 0.0
-    debris[i].hard = 0.0
-    debris[i].spin = 0.0
+  for debris in debris {
+    debris.active = false
+    debris.x = 0.0
+    debris.y = 0.0
+    debris.vx = 0.0
+    debris.vy = 0.0
+    debris.size = 0.0
+    debris.hard = 0.0
+    debris.spin = 0.0
   }
 }
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -231,14 +231,14 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
+    part.active = true
+    part.x = x
+    part.y = y
 
     let a : Float = randf(0.0, 6.28318)
     let s : Float = if kind == 0 {
@@ -249,17 +249,17 @@ fn add_particle(
       randf(14.0, 92.0)
     }
 
-    parts[i].vx = @math.cosf(a) * s
-    parts[i].vy = @math.sinf(a) * s
-    parts[i].life = if kind == 0 {
+    part.vx = @math.cosf(a) * s
+    part.vy = @math.sinf(a) * s
+    part.life = if kind == 0 {
       randf(0.45, 1.05)
     } else if kind == 1 {
       randf(0.2, 0.55)
     } else {
       randf(0.24, 0.8)
     }
-    parts[i].size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.6) }
-    parts[i].kind = kind
+    part.size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.6) }
+    part.kind = kind
     return
   }
 }
@@ -272,36 +272,36 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-      parts[i].vy = parts[i].vy + dt * 10.0
-    } else if parts[i].kind == 1 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.0)
-      parts[i].vy = parts[i].vy + dt * 180.0
+    if part.kind == 0 {
+      part.vx = part.vx * (1.0 - dt * 0.8)
+      part.vy = part.vy + dt * 10.0
+    } else if part.kind == 1 {
+      part.vx = part.vx * (1.0 - dt * 4.0)
+      part.vy = part.vy + dt * 180.0
     } else {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.0)
-      parts[i].vy = parts[i].vy + dt * 44.0
+      part.vx = part.vx * (1.0 - dt * 2.0)
+      part.vy = part.vy + dt * 44.0
     }
   }
 }
@@ -399,11 +399,11 @@ fn init_debris(
     }
 
     let mut near_dock : Bool = false
-    for i = 0; i < docks.length(); i = i + 1 {
-      if not(docks[i].active) {
+    for dock in docks {
+      if not(dock.active) {
         continue
       }
-      if dist2(x, y, docks[i].x, docks[i].y) < 120.0 * 120.0 {
+      if dist2(x, y, dock.x, dock.y) < 120.0 * 120.0 {
         near_dock = true
         break
       }
@@ -413,12 +413,12 @@ fn init_debris(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < debris.length(); i = i + 1 {
-      if not(debris[i].active) {
+    for debris in debris {
+      if not(debris.active) {
         continue
       }
-      let rr : Float = debris[i].size + 12.0
-      if dist2(x, y, debris[i].x, debris[i].y) < rr * rr {
+      let rr : Float = debris.size + 12.0
+      if dist2(x, y, debris.x, debris.y) < rr * rr {
         overlap = true
         break
       }
@@ -450,39 +450,39 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      groups[i].x = world_l + randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(6.0, 18.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_l + randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(6.0, 18.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 1 {
-      groups[i].x = world_r - randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(-18.0, -6.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_r - randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(-18.0, -6.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 2 {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_t + randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(6.0, 18.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_t + randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(6.0, 18.0)
     } else {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_b - randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(-18.0, -6.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_b - randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(-18.0, -6.0)
     }
 
-    groups[i].active = true
-    groups[i].count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
-    groups[i].panic = randf(4.0, 26.0)
-    groups[i].flare_t = randf(0.3, 1.2)
-    groups[i].id = serial
+    group.active = true
+    group.count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
+    group.panic = randf(4.0, 26.0)
+    group.flare_t = randf(0.3, 1.2)
+    group.id = serial
     return true
   }
 
@@ -498,39 +498,39 @@ fn spawn_fog(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < fogs.length(); i = i + 1 {
-    if fogs[i].active {
+  for fog in fogs {
+    if fog.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      fogs[i].x = world_l - 80.0
-      fogs[i].y = randf(world_t + 20.0, world_b - 20.0)
-      fogs[i].vx = randf(12.0, 34.0)
-      fogs[i].vy = randf(-9.0, 9.0)
+      fog.x = world_l - 80.0
+      fog.y = randf(world_t + 20.0, world_b - 20.0)
+      fog.vx = randf(12.0, 34.0)
+      fog.vy = randf(-9.0, 9.0)
     } else if side == 1 {
-      fogs[i].x = world_r + 80.0
-      fogs[i].y = randf(world_t + 20.0, world_b - 20.0)
-      fogs[i].vx = randf(-34.0, -12.0)
-      fogs[i].vy = randf(-9.0, 9.0)
+      fog.x = world_r + 80.0
+      fog.y = randf(world_t + 20.0, world_b - 20.0)
+      fog.vx = randf(-34.0, -12.0)
+      fog.vy = randf(-9.0, 9.0)
     } else if side == 2 {
-      fogs[i].x = randf(world_l + 20.0, world_r - 20.0)
-      fogs[i].y = world_t - 80.0
-      fogs[i].vx = randf(-12.0, 12.0)
-      fogs[i].vy = randf(14.0, 28.0)
+      fog.x = randf(world_l + 20.0, world_r - 20.0)
+      fog.y = world_t - 80.0
+      fog.vx = randf(-12.0, 12.0)
+      fog.vy = randf(14.0, 28.0)
     } else {
-      fogs[i].x = randf(world_l + 20.0, world_r - 20.0)
-      fogs[i].y = world_b + 80.0
-      fogs[i].vx = randf(-12.0, 12.0)
-      fogs[i].vy = randf(-28.0, -14.0)
+      fog.x = randf(world_l + 20.0, world_r - 20.0)
+      fog.y = world_b + 80.0
+      fog.vx = randf(-12.0, 12.0)
+      fog.vy = randf(-28.0, -14.0)
     }
 
-    fogs[i].active = true
-    fogs[i].radius = randf(74.0, 148.0)
-    fogs[i].density = randf(0.45, 1.15) + Float::from_int(tier) * 0.04
-    fogs[i].life = randf(20.0, 42.0)
-    fogs[i].phase = randf(0.0, 20.0)
+    fog.active = true
+    fog.radius = randf(74.0, 148.0)
+    fog.density = randf(0.45, 1.15) + Float::from_int(tier) * 0.04
+    fog.life = randf(20.0, 42.0)
+    fog.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -540,8 +540,8 @@ fn spawn_fog(
 ///|
 fn active_groups(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       n = n + 1
     }
   }
@@ -551,8 +551,8 @@ fn active_groups(groups : Array[Group]) -> Int {
 ///|
 fn active_fogs(fogs : Array[FogCell]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < fogs.length(); i = i + 1 {
-    if fogs[i].active {
+  for fog in fogs {
+    if fog.active {
       n = n + 1
     }
   }
@@ -562,8 +562,8 @@ fn active_fogs(fogs : Array[FogCell]) -> Int {
 ///|
 fn active_panic(groups : Array[Group]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic >= 70.0 {
+  for group in groups {
+    if group.active && group.panic >= 70.0 {
       n = n + 1
     }
   }
@@ -573,9 +573,9 @@ fn active_panic(groups : Array[Group]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[Group]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic > best {
-      best = groups[i].panic
+  for group in groups {
+    if group.active && group.panic > best {
+      best = group.panic
     }
   }
   best
@@ -590,37 +590,37 @@ fn update_fogs(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
-    if not(fogs[i].active) {
+  for fog in fogs {
+    if not(fog.active) {
       continue
     }
 
-    fogs[i].life = fogs[i].life - dt
-    if fogs[i].life <= 0.0 {
-      fogs[i].active = false
+    fog.life = fog.life - dt
+    if fog.life <= 0.0 {
+      fog.active = false
       continue
     }
 
-    fogs[i].phase = fogs[i].phase + dt * (0.8 + fogs[i].density * 0.35)
-    let pulse : Float = 0.88 + 0.16 * (@math.sinf(fogs[i].phase) * 0.5 + 0.5)
+    fog.phase = fog.phase + dt * (0.8 + fog.density * 0.35)
+    let pulse : Float = 0.88 + 0.16 * (@math.sinf(fog.phase) * 0.5 + 0.5)
 
-    fogs[i].x = fogs[i].x + fogs[i].vx * dt * pulse
-    fogs[i].y = fogs[i].y + fogs[i].vy * dt * pulse
+    fog.x = fog.x + fog.vx * dt * pulse
+    fog.y = fog.y + fog.vy * dt * pulse
 
-    if fogs[i].x < world_l - 160.0 {
-      fogs[i].x = world_l - 160.0
-      fogs[i].vx = absf(fogs[i].vx)
-    } else if fogs[i].x > world_r + 160.0 {
-      fogs[i].x = world_r + 160.0
-      fogs[i].vx = -absf(fogs[i].vx)
+    if fog.x < world_l - 160.0 {
+      fog.x = world_l - 160.0
+      fog.vx = absf(fog.vx)
+    } else if fog.x > world_r + 160.0 {
+      fog.x = world_r + 160.0
+      fog.vx = -absf(fog.vx)
     }
 
-    if fogs[i].y < world_t - 160.0 {
-      fogs[i].y = world_t - 160.0
-      fogs[i].vy = absf(fogs[i].vy)
-    } else if fogs[i].y > world_b + 160.0 {
-      fogs[i].y = world_b + 160.0
-      fogs[i].vy = -absf(fogs[i].vy)
+    if fog.y < world_t - 160.0 {
+      fog.y = world_t - 160.0
+      fog.vy = absf(fog.vy)
+    } else if fog.y > world_b + 160.0 {
+      fog.y = world_b + 160.0
+      fog.vy = -absf(fog.vy)
     }
   }
 }
@@ -634,34 +634,34 @@ fn update_debris(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    if not(debris[i].active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    debris[i].spin = debris[i].spin + dt * 0.7
+    debris.spin = debris.spin + dt * 0.7
 
-    let drift : Float = 0.84 + 0.24 * (@math.sinf(debris[i].spin) * 0.5 + 0.5)
-    debris[i].x = debris[i].x + debris[i].vx * dt * drift
-    debris[i].y = debris[i].y + debris[i].vy * dt * drift
+    let drift : Float = 0.84 + 0.24 * (@math.sinf(debris.spin) * 0.5 + 0.5)
+    debris.x = debris.x + debris.vx * dt * drift
+    debris.y = debris.y + debris.vy * dt * drift
 
-    if debris[i].x < world_l + debris[i].size {
-      debris[i].x = world_l + debris[i].size
-      debris[i].vx = absf(debris[i].vx) * randf(0.65, 1.1)
-    } else if debris[i].x > world_r - debris[i].size {
-      debris[i].x = world_r - debris[i].size
-      debris[i].vx = -absf(debris[i].vx) * randf(0.65, 1.1)
+    if debris.x < world_l + debris.size {
+      debris.x = world_l + debris.size
+      debris.vx = absf(debris.vx) * randf(0.65, 1.1)
+    } else if debris.x > world_r - debris.size {
+      debris.x = world_r - debris.size
+      debris.vx = -absf(debris.vx) * randf(0.65, 1.1)
     }
 
-    if debris[i].y < world_t + debris[i].size {
-      debris[i].y = world_t + debris[i].size
-      debris[i].vy = absf(debris[i].vy) * randf(0.65, 1.1)
-    } else if debris[i].y > world_b - debris[i].size {
-      debris[i].y = world_b - debris[i].size
-      debris[i].vy = -absf(debris[i].vy) * randf(0.65, 1.1)
+    if debris.y < world_t + debris.size {
+      debris.y = world_t + debris.size
+      debris.vy = absf(debris.vy) * randf(0.65, 1.1)
+    } else if debris.y > world_b - debris.size {
+      debris.y = world_b - debris.size
+      debris.vy = -absf(debris.vy) * randf(0.65, 1.1)
     }
 
-    debris[i].hard = maxf(8.0, debris[i].hard - dt * 0.02)
+    debris.hard = maxf(8.0, debris.hard - dt * 0.02)
   }
 }
 
@@ -680,56 +680,56 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    groups[i].x = groups[i].x + groups[i].drift_x * dt
-    groups[i].y = groups[i].y + groups[i].drift_y * dt
+    group.x = group.x + group.drift_x * dt
+    group.y = group.y + group.drift_y * dt
 
-    if groups[i].x < world_l + 18.0 || groups[i].x > world_r - 18.0 {
-      groups[i].drift_x = -groups[i].drift_x
-      groups[i].x = clampf(groups[i].x, world_l + 18.0, world_r - 18.0)
+    if group.x < world_l + 18.0 || group.x > world_r - 18.0 {
+      group.drift_x = -group.drift_x
+      group.x = clampf(group.x, world_l + 18.0, world_r - 18.0)
     }
-    if groups[i].y < world_t + 18.0 || groups[i].y > world_b - 18.0 {
-      groups[i].drift_y = -groups[i].drift_y
-      groups[i].y = clampf(groups[i].y, world_t + 18.0, world_b - 18.0)
+    if group.y < world_t + 18.0 || group.y > world_b - 18.0 {
+      group.drift_y = -group.drift_y
+      group.y = clampf(group.y, world_t + 18.0, world_b - 18.0)
     }
 
-    groups[i].flare_t = groups[i].flare_t - dt
-    if groups[i].flare_t <= 0.0 {
-      groups[i].flare_t = randf(0.6, 1.4)
+    group.flare_t = group.flare_t - dt
+    if group.flare_t <= 0.0 {
+      group.flare_t = randf(0.6, 1.4)
     }
 
     let mut panic_gain : Float = dt * 2.2
 
-    let harbor_d2 : Float = dist2(groups[i].x, groups[i].y, harbor_x, harbor_y)
+    let harbor_d2 : Float = dist2(group.x, group.y, harbor_x, harbor_y)
     if harbor_d2 > 380.0 * 380.0 {
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j = 0; j < fogs.length(); j = j + 1 {
-      if not(fogs[j].active) {
+    for fog in fogs {
+      if not(fog.active) {
         continue
       }
 
-      let rr : Float = fogs[j].radius
-      let d2v : Float = dist2(groups[i].x, groups[i].y, fogs[j].x, fogs[j].y)
+      let rr : Float = fog.radius
+      let d2v : Float = dist2(group.x, group.y, fog.x, fog.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * fogs[j].density * (0.8 + ratio * 1.6)
+        panic_gain = panic_gain + dt * fog.density * (0.8 + ratio * 1.6)
       }
     }
 
-    groups[i].panic = groups[i].panic + panic_gain
-    if groups[i].panic > 100.0 {
-      lost = lost + groups[i].count
-      groups[i].active = false
+    group.panic = group.panic + panic_gain
+    if group.panic > 100.0 {
+      lost = lost + group.count
+      group.active = false
       continue
     }
 
-    panic_sum = panic_sum + groups[i].panic
+    panic_sum = panic_sum + group.panic
   }
 
   (lost, panic_sum)
@@ -747,12 +747,12 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut group_count : Int = 0
 
-    for i = 0; i < groups.length(); i = i + 1 {
-      if not(groups[i].active) || groups[i].count <= 0 {
+    for group in groups {
+      if not(group.active) || group.count <= 0 {
         continue
       }
 
-      let d2v : Float = dist2(player.x, player.y, groups[i].x, groups[i].y)
+      let d2v : Float = dist2(player.x, player.y, group.x, group.y)
       if d2v > 82.0 * 82.0 {
         continue
       }
@@ -762,20 +762,20 @@ fn rescue_groups(
         break
       }
 
-      let take : Int = mini(groups[i].count, mini(cap_left, 8))
+      let take : Int = mini(group.count, mini(cap_left, 8))
       if take <= 0 {
         continue
       }
 
       player.passengers = player.passengers + take
-      groups[i].count = groups[i].count - take
-      groups[i].panic = maxf(0.0, groups[i].panic - Float::from_int(take) * 2.8)
+      group.count = group.count - take
+      group.panic = maxf(0.0, group.panic - Float::from_int(take) * 2.8)
       rescued_people = rescued_people + take
       group_count = group_count + 1
-      burst(parts, groups[i].x, groups[i].y, 9 + take / 2, 2)
+      burst(parts, group.x, group.y, 9 + take / 2, 2)
 
-      if groups[i].count <= 0 {
-        groups[i].active = false
+      if group.count <= 0 {
+        group.active = false
       }
     }
 
@@ -799,17 +799,17 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) || groups[i].panic < 30.0 {
+  for group in groups {
+    if not(group.active) || group.panic < 30.0 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, groups[i].x, groups[i].y)
+    let d2v : Float = dist2(x, y, group.x, group.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = groups[i].x
-      by = groups[i].y
-      bp = groups[i].panic
+      bx = group.x
+      by = group.y
+      bp = group.panic
       found = true
     }
   }
@@ -896,7 +896,7 @@ fn draw_harbor(hx : Int, hy : Int, hw : Int, hh : Int) -> Unit {
 
 ///|
 fn draw_docks(docks : Array[Dock], t : Float) -> Unit {
-  for i = 0; i < docks.length(); i = i + 1 {
+  for i in 0..<docks.length() {
     if not(docks[i].active) {
       continue
     }
@@ -946,50 +946,50 @@ fn draw_docks(docks : Array[Dock], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[Group], t : Float) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    let p01 : Float = clampf(groups[i].panic / 100.0, 0.0, 1.0)
+    let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
     let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(groups[i].id) * 0.3,
+        t * 6.0 + Float::from_int(group.id) * 0.3,
       ) *
       0.5 +
       0.5
 
-    let col : @raylib.Color = if groups[i].panic >= 72.0 {
+    let col : @raylib.Color = if group.panic >= 72.0 {
       @raylib.Color::new(248, 154, 132, 252)
     } else {
       @raylib.Color::new(246, 226, 194, 248)
     }
 
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       11.0 + flare * 3.0,
       col,
     )
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       4.0,
       @raylib.Color::new(252, 246, 236, 246),
     )
 
     @raylib.draw_text(
-      "G\{groups[i].id} N:\{groups[i].count} P:\{groups[i].panic.to_int()}",
-      (groups[i].x - 54.0).to_int(),
-      (groups[i].y + 14.0).to_int(),
+      "G\{group.id} N:\{group.count} P:\{group.panic.to_int()}",
+      (group.x - 54.0).to_int(),
+      (group.y + 14.0).to_int(),
       16,
       @raylib.Color::new(246, 234, 220, 236),
     )
 
-    if groups[i].flare_t < 0.18 {
+    if group.flare_t < 0.18 {
       let rr : Float = 18.0 + p01 * 42.0
       @raylib.draw_circle(
-        groups[i].x.to_int(),
-        groups[i].y.to_int(),
+        group.x.to_int(),
+        group.y.to_int(),
         rr,
         @raylib.Color::new(252, 204, 136, 66),
       )
@@ -999,28 +999,28 @@ fn draw_groups(groups : Array[Group], t : Float) -> Unit {
 
 ///|
 fn draw_fogs(fogs : Array[FogCell], t : Float) -> Unit {
-  for i = 0; i < fogs.length(); i = i + 1 {
-    if not(fogs[i].active) {
+  for fog in fogs {
+    if not(fog.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + fogs[i].phase) * 0.5 + 0.5)
-    let r0 : Float = fogs[i].radius * pulse
-    let r1 : Float = fogs[i].radius * (0.58 + pulse * 0.18)
+      0.2 * (@math.sinf(t * 1.8 + fog.phase) * 0.5 + 0.5)
+    let r0 : Float = fog.radius * pulse
+    let r1 : Float = fog.radius * (0.58 + pulse * 0.18)
 
-    let a0 : Int = 22 + (fogs[i].density * 42.0).to_int()
-    let a1 : Int = 12 + (fogs[i].density * 24.0).to_int()
+    let a0 : Int = 22 + (fog.density * 42.0).to_int()
+    let a1 : Int = 12 + (fog.density * 24.0).to_int()
 
     @raylib.draw_circle(
-      fogs[i].x.to_int(),
-      fogs[i].y.to_int(),
+      fog.x.to_int(),
+      fog.y.to_int(),
       r0,
       @raylib.Color::new(210, 226, 238, a0),
     )
     @raylib.draw_circle(
-      fogs[i].x.to_int(),
-      fogs[i].y.to_int(),
+      fog.x.to_int(),
+      fog.y.to_int(),
       r1,
       @raylib.Color::new(238, 246, 252, a1),
     )
@@ -1029,28 +1029,28 @@ fn draw_fogs(fogs : Array[FogCell], t : Float) -> Unit {
 
 ///|
 fn draw_debris(debris : Array[Debris], t : Float) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    if not(debris[i].active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    let wob : Float = @math.sinf(t * 4.0 + debris[i].spin) * 0.5 + 0.5
-    let rr : Float = debris[i].size * (0.88 + wob * 0.2)
-    let h01 : Float = clampf(debris[i].hard / 100.0, 0.0, 1.0)
+    let wob : Float = @math.sinf(t * 4.0 + debris.spin) * 0.5 + 0.5
+    let rr : Float = debris.size * (0.88 + wob * 0.2)
+    let h01 : Float = clampf(debris.hard / 100.0, 0.0, 1.0)
 
     let r : Int = 88 + (h01 * 58.0).to_int()
     let g : Int = 98 + (h01 * 44.0).to_int()
     let b : Int = 88 + (h01 * 24.0).to_int()
 
     @raylib.draw_circle(
-      debris[i].x.to_int(),
-      debris[i].y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr + 1.8,
       @raylib.Color::new(46, 70, 92, 174),
     )
     @raylib.draw_circle(
-      debris[i].x.to_int(),
-      debris[i].y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -1104,7 +1104,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
   )
 
   let shown : Int = mini(player.passengers, 6)
-  for i = 0; i < shown; i = i + 1 {
+  for i in 0..<shown {
     let px : Int = (x - 10.0 + Float::from_int(i % 3) * 8.0).to_int()
     let py : Int = (y + 3.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(px, py, 6, 4, @raylib.Color::new(222, 176, 120, 236))
@@ -1123,23 +1123,23 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(194, 226, 252, 184)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(248, 194, 146, 220)
     } else {
       @raylib.Color::new(170, 242, 206, 214)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -1663,17 +1663,17 @@ fn main {
       // Fog effects near player
       let mut fog_drag : Float = 0.0
       let mut fog_fuel_mul : Float = 1.0
-      for i = 0; i < fogs.length(); i = i + 1 {
-        if not(fogs[i].active) {
+      for fog in fogs {
+        if not(fog.active) {
           continue
         }
 
-        let rr : Float = fogs[i].radius
-        let d2v : Float = dist2(player.x, player.y, fogs[i].x, fogs[i].y)
+        let rr : Float = fog.radius
+        let d2v : Float = dist2(player.x, player.y, fog.x, fog.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          fog_drag = fog_drag + fogs[i].density * (0.2 + ratio * 0.55)
-          fog_fuel_mul = fog_fuel_mul + fogs[i].density * (0.16 + ratio * 0.5)
+          fog_drag = fog_drag + fog.density * (0.2 + ratio * 0.55)
+          fog_fuel_mul = fog_fuel_mul + fog.density * (0.16 + ratio * 0.5)
         }
       }
 
@@ -1795,61 +1795,61 @@ fn main {
 
       // Debris collision damage
       let mut collision_dmg : Float = 0.0
-      for i = 0; i < debris.length(); i = i + 1 {
-        if not(debris[i].active) {
+      for debris in debris {
+        if not(debris.active) {
           continue
         }
 
-        let rr : Float = debris[i].size + 11.0
-        let d2v : Float = dist2(player.x, player.y, debris[i].x, debris[i].y)
+        let rr : Float = debris.size + 11.0
+        let d2v : Float = dist2(player.x, player.y, debris.x, debris.y)
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
-          let nx : Float = (player.x - debris[i].x) / d
-          let ny : Float = (player.y - debris[i].y) / d
+          let nx : Float = (player.x - debris.x) / d
+          let ny : Float = (player.y - debris.y) / d
           let push : Float = (rr - d) * dt * 24.0
 
           player.x = player.x + nx * push
           player.y = player.y + ny * push
 
           if sp2 > 70.0 {
-            collision_dmg = collision_dmg + dt * (1.1 + debris[i].hard * 0.018)
+            collision_dmg = collision_dmg + dt * (1.1 + debris.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
       }
 
       // Dock queues rise over time, especially during fog
-      for i = 0; i < docks.length(); i = i + 1 {
-        if not(docks[i].active) {
+      for dock in docks {
+        if not(dock.active) {
           continue
         }
 
         let mut fog_load : Float = 0.0
-        for j = 0; j < fogs.length(); j = j + 1 {
-          if not(fogs[j].active) {
+        for fog in fogs {
+          if not(fog.active) {
             continue
           }
 
-          let rr : Float = fogs[j].radius
-          let d2v : Float = dist2(docks[i].x, docks[i].y, fogs[j].x, fogs[j].y)
+          let rr : Float = fog.radius
+          let d2v : Float = dist2(dock.x, dock.y, fog.x, fog.y)
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            fog_load = fog_load + fogs[j].density * (0.3 + ratio * 0.9)
+            fog_load = fog_load + fog.density * (0.3 + ratio * 0.9)
           }
         }
 
-        docks[i].queue = docks[i].queue +
+        dock.queue = dock.queue +
           dt * (1.7 + fog_load * 1.4 + Float::from_int(tier) * 0.2)
 
-        if docks[i].queue > 100.0 {
-          docks[i].queue = 74.0 + randf(0.0, 10.0)
+        if dock.queue > 100.0 {
+          dock.queue = 74.0 + randf(0.0, 10.0)
           lost_people = lost_people + 3
-          msg = "Dock D\{docks[i].id} overflow"
+          msg = "Dock D\{dock.id} overflow"
           msg_t = 0.85
-          burst(parts, docks[i].x, docks[i].y, 14, 1)
+          burst(parts, dock.x, dock.y, 14, 1)
         }
 
-        docks[i].decay = docks[i].decay + dt
+        dock.decay = dock.decay + dt
       }
 
       let (lost_now, _panic_sum) = update_groups(

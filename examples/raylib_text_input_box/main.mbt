@@ -3,7 +3,7 @@ fn string_take(s : String, n : Int) -> String {
   let len = s.length()
   let end = if n < len { n } else { len }
   let buf = StringBuilder::new()
-  for i = 0; i < end; i = i + 1 {
+  for i in 0..<end {
     buf.write_char(s[i].to_int().unsafe_to_char())
   }
   buf.to_string()

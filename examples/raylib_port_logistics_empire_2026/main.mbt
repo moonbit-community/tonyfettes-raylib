@@ -188,62 +188,62 @@ fn cargo_color(kind : Int) -> @raylib.Color {
 
 ///|
 fn clear_nodes(nodes : Array[Node]) -> Unit {
-  for i = 0; i < nodes.length(); i = i + 1 {
-    nodes[i].active = false
-    nodes[i].kind = 0
-    nodes[i].x = 0.0
-    nodes[i].y = 0.0
-    nodes[i].r = 0.0
-    nodes[i].raw = 0
-    nodes[i].goods = 0
-    nodes[i].demand = 0
-    nodes[i].delivered = 0
-    nodes[i].prod_cd = 0.0
-    nodes[i].pulse = 0.0
-    nodes[i].outage_t = 0.0
-    nodes[i].name = ""
+  for node in nodes {
+    node.active = false
+    node.kind = 0
+    node.x = 0.0
+    node.y = 0.0
+    node.r = 0.0
+    node.raw = 0
+    node.goods = 0
+    node.demand = 0
+    node.delivered = 0
+    node.prod_cd = 0.0
+    node.pulse = 0.0
+    node.outage_t = 0.0
+    node.name = ""
   }
 }
 
 ///|
 fn clear_routes(routes : Array[Route]) -> Unit {
-  for i = 0; i < routes.length(); i = i + 1 {
-    routes[i].active = false
-    routes[i].a = -1
-    routes[i].b = -1
-    routes[i].level = 1
-    routes[i].hp = 0.0
-    routes[i].spawn_cd = 0.0
-    routes[i].blink = 0.0
+  for route in routes {
+    route.active = false
+    route.a = -1
+    route.b = -1
+    route.level = 1
+    route.hp = 0.0
+    route.spawn_cd = 0.0
+    route.blink = 0.0
   }
 }
 
 ///|
 fn clear_trucks(trucks : Array[Truck]) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
-    trucks[i].active = false
-    trucks[i].route = -1
-    trucks[i].t = 0.0
-    trucks[i].dir = 1
-    trucks[i].speed = 1.0
-    trucks[i].cargo_kind = 0
-    trucks[i].cargo = 0
-    trucks[i].blink = 0.0
-    trucks[i].stuck_t = 0.0
+  for truck in trucks {
+    truck.active = false
+    truck.route = -1
+    truck.t = 0.0
+    truck.dir = 1
+    truck.speed = 1.0
+    truck.cargo_kind = 0
+    truck.cargo = 0
+    truck.blink = 0.0
+    truck.stuck_t = 0.0
   }
 }
 
 ///|
 fn clear_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
-    sp[i].active = false
-    sp[i].x = 0.0
-    sp[i].y = 0.0
-    sp[i].vx = 0.0
-    sp[i].vy = 0.0
-    sp[i].life = 0.0
-    sp[i].size = 0.0
-    sp[i].kind = 0
+  for sp_elem in sp {
+    sp_elem.active = false
+    sp_elem.x = 0.0
+    sp_elem.y = 0.0
+    sp_elem.vx = 0.0
+    sp_elem.vy = 0.0
+    sp_elem.life = 0.0
+    sp_elem.size = 0.0
+    sp_elem.kind = 0
   }
 }
 
@@ -256,7 +256,7 @@ fn add_node(
   r : Float,
   name : String,
 ) -> Int {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       nodes[i].active = true
       nodes[i].kind = kind
@@ -279,7 +279,7 @@ fn add_node(
 
 ///|
 fn find_route(routes : Array[Route], a : Int, b : Int) -> Int {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -294,7 +294,7 @@ fn find_route(routes : Array[Route], a : Int, b : Int) -> Int {
 
 ///|
 fn add_route(routes : Array[Route], a : Int, b : Int) -> Int {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       routes[i].active = true
       routes[i].a = a
@@ -312,8 +312,8 @@ fn add_route(routes : Array[Route], a : Int, b : Int) -> Int {
 ///|
 fn count_active_routes(routes : Array[Route]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < routes.length(); i = i + 1 {
-    if routes[i].active {
+  for route in routes {
+    if route.active {
       n = n + 1
     }
   }
@@ -323,8 +323,8 @@ fn count_active_routes(routes : Array[Route]) -> Int {
 ///|
 fn count_active_trucks(trucks : Array[Truck]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < trucks.length(); i = i + 1 {
-    if trucks[i].active {
+  for truck in trucks {
+    if truck.active {
       n = n + 1
     }
   }
@@ -338,7 +338,7 @@ fn add_truck(
   dir : Int,
   level : Int,
 ) -> Int {
-  for i = 0; i < trucks.length(); i = i + 1 {
+  for i in 0..<trucks.length() {
     if not(trucks[i].active) {
       trucks[i].active = true
       trucks[i].route = route_id
@@ -357,18 +357,18 @@ fn add_truck(
 
 ///|
 fn add_spark(sp : Array[Spark], x : Float, y : Float, kind : Int) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
-    if not(sp[i].active) {
-      sp[i].active = true
-      sp[i].x = x
-      sp[i].y = y
+  for sp_elem in sp {
+    if not(sp_elem.active) {
+      sp_elem.active = true
+      sp_elem.x = x
+      sp_elem.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(24.0, 220.0)
-      sp[i].vx = @math.cosf(a) * s
-      sp[i].vy = @math.sinf(a) * s
-      sp[i].life = randf(0.2, 0.9)
-      sp[i].size = randf(2.5, 8.0)
-      sp[i].kind = kind
+      sp_elem.vx = @math.cosf(a) * s
+      sp_elem.vy = @math.sinf(a) * s
+      sp_elem.life = randf(0.2, 0.9)
+      sp_elem.size = randf(2.5, 8.0)
+      sp_elem.kind = kind
       return
     }
   }
@@ -382,48 +382,48 @@ fn burst_sparks(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_spark(sp, x, y, kind)
   }
 }
 
 ///|
 fn update_sparks(sp : Array[Spark], dt : Float) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
-    if not(sp[i].active) {
+  for sp_elem in sp {
+    if not(sp_elem.active) {
       continue
     }
-    sp[i].life = sp[i].life - dt
-    if sp[i].life <= 0.0 {
-      sp[i].active = false
+    sp_elem.life = sp_elem.life - dt
+    if sp_elem.life <= 0.0 {
+      sp_elem.active = false
       continue
     }
-    sp[i].x = sp[i].x + sp[i].vx * dt
-    sp[i].y = sp[i].y + sp[i].vy * dt
-    sp[i].vx = sp[i].vx * (1.0 - dt * 2.3)
-    sp[i].vy = sp[i].vy * (1.0 - dt * 2.2) + 20.0 * dt
+    sp_elem.x = sp_elem.x + sp_elem.vx * dt
+    sp_elem.y = sp_elem.y + sp_elem.vy * dt
+    sp_elem.vx = sp_elem.vx * (1.0 - dt * 2.3)
+    sp_elem.vy = sp_elem.vy * (1.0 - dt * 2.2) + 20.0 * dt
   }
 }
 
 ///|
 fn draw_sparks(sp : Array[Spark]) -> Unit {
-  for i = 0; i < sp.length(); i = i + 1 {
-    if not(sp[i].active) {
+  for sp_elem in sp {
+    if not(sp_elem.active) {
       continue
     }
-    let c = if sp[i].kind == 0 {
+    let c = if sp_elem.kind == 0 {
       @raylib.Color::new(246, 220, 126, 238)
-    } else if sp[i].kind == 1 {
+    } else if sp_elem.kind == 1 {
       @raylib.Color::new(126, 214, 250, 238)
-    } else if sp[i].kind == 2 {
+    } else if sp_elem.kind == 2 {
       @raylib.Color::new(130, 236, 160, 238)
     } else {
       @raylib.Color::new(248, 122, 140, 238)
     }
     @raylib.draw_circle(
-      sp[i].x.to_int(),
-      sp[i].y.to_int(),
-      sp[i].size * sp[i].life * 2.0,
+      sp_elem.x.to_int(),
+      sp_elem.y.to_int(),
+      sp_elem.size * sp_elem.life * 2.0,
       c,
     )
   }
@@ -455,7 +455,7 @@ fn point_seg_dist2(
 
 ///|
 fn pick_node(nodes : Array[Node], mx : Float, my : Float) -> Int {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       continue
     }
@@ -475,7 +475,7 @@ fn pick_route(
 ) -> Int {
   let mut best : Int = -1
   let mut best_d2 : Float = 99999999.0
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -643,63 +643,63 @@ fn update_nodes(nodes : Array[Node], dt : Float, cycle : Int) -> (Int, Int) {
   let mut delivery_gain : Int = 0
   let mut bonus_cash : Int = 0
 
-  for i = 0; i < nodes.length(); i = i + 1 {
-    if not(nodes[i].active) {
+  for node in nodes {
+    if not(node.active) {
       continue
     }
 
-    nodes[i].pulse = nodes[i].pulse + dt
-    if nodes[i].pulse > 1000.0 {
-      nodes[i].pulse = nodes[i].pulse - 1000.0
+    node.pulse = node.pulse + dt
+    if node.pulse > 1000.0 {
+      node.pulse = node.pulse - 1000.0
     }
 
-    if nodes[i].outage_t > 0.0 {
-      nodes[i].outage_t = nodes[i].outage_t - dt
-      if nodes[i].outage_t < 0.0 {
-        nodes[i].outage_t = 0.0
+    if node.outage_t > 0.0 {
+      node.outage_t = node.outage_t - dt
+      if node.outage_t < 0.0 {
+        node.outage_t = 0.0
       }
       continue
     }
 
-    nodes[i].prod_cd = nodes[i].prod_cd - dt
+    node.prod_cd = node.prod_cd - dt
 
-    if nodes[i].kind == 0 {
-      if nodes[i].prod_cd <= 0.0 {
-        nodes[i].raw = nodes[i].raw + 2 + cycle / 3
-        nodes[i].raw = clampi(nodes[i].raw, 0, 120)
-        nodes[i].prod_cd = 0.66
+    if node.kind == 0 {
+      if node.prod_cd <= 0.0 {
+        node.raw = node.raw + 2 + cycle / 3
+        node.raw = clampi(node.raw, 0, 120)
+        node.prod_cd = 0.66
       }
-    } else if nodes[i].kind == 1 {
-      if nodes[i].prod_cd <= 0.0 {
-        if nodes[i].raw >= 2 {
-          nodes[i].raw = nodes[i].raw - 2
-          nodes[i].goods = nodes[i].goods + 1 + cycle / 6
-          nodes[i].goods = clampi(nodes[i].goods, 0, 120)
+    } else if node.kind == 1 {
+      if node.prod_cd <= 0.0 {
+        if node.raw >= 2 {
+          node.raw = node.raw - 2
+          node.goods = node.goods + 1 + cycle / 6
+          node.goods = clampi(node.goods, 0, 120)
         }
         let cd : Float = 1.04 - Float::from_int(cycle) * 0.02
-        nodes[i].prod_cd = maxf(0.55, cd)
+        node.prod_cd = maxf(0.55, cd)
       }
-    } else if nodes[i].kind == 2 {
-      if nodes[i].prod_cd <= 0.0 {
-        if nodes[i].goods > 0 && nodes[i].demand > 0 {
-          nodes[i].goods = nodes[i].goods - 1
-          nodes[i].demand = nodes[i].demand - 1
-          nodes[i].delivered = nodes[i].delivered + 1
+    } else if node.kind == 2 {
+      if node.prod_cd <= 0.0 {
+        if node.goods > 0 && node.demand > 0 {
+          node.goods = node.goods - 1
+          node.demand = node.demand - 1
+          node.delivered = node.delivered + 1
           delivery_gain = delivery_gain + 1
 
-          if nodes[i].demand <= 0 {
-            nodes[i].demand = 22 + @raylib.get_random_value(0, 20) + cycle * 2
+          if node.demand <= 0 {
+            node.demand = 22 + @raylib.get_random_value(0, 20) + cycle * 2
             bonus_cash = bonus_cash + 16 + cycle * 2
           }
         }
-        nodes[i].prod_cd = 0.54
+        node.prod_cd = 0.54
       }
-    } else if nodes[i].prod_cd <= 0.0 {
-      if nodes[i].raw > 0 && nodes[i].goods < 120 {
-        nodes[i].raw = nodes[i].raw - 1
-        nodes[i].goods = nodes[i].goods + 1
+    } else if node.prod_cd <= 0.0 {
+      if node.raw > 0 && node.goods < 120 {
+        node.raw = node.raw - 1
+        node.goods = node.goods + 1
       }
-      nodes[i].prod_cd = 1.42
+      node.prod_cd = 1.42
     }
   }
 
@@ -710,36 +710,36 @@ fn update_nodes(nodes : Array[Node], dt : Float, cycle : Int) -> (Int, Int) {
 fn update_routes(routes : Array[Route], dt : Float, storm_t : Float) -> Int {
   let mut broken_n : Int = 0
 
-  for i = 0; i < routes.length(); i = i + 1 {
-    if not(routes[i].active) {
+  for route in routes {
+    if not(route.active) {
       continue
     }
 
-    if routes[i].blink > 0.0 {
-      routes[i].blink = routes[i].blink - dt
-      if routes[i].blink < 0.0 {
-        routes[i].blink = 0.0
+    if route.blink > 0.0 {
+      route.blink = route.blink - dt
+      if route.blink < 0.0 {
+        route.blink = 0.0
       }
     }
 
     if storm_t > 0.0 {
-      routes[i].hp = routes[i].hp -
-        dt * (1.4 + Float::from_int(routes[i].level) * 0.24)
+      route.hp = route.hp -
+        dt * (1.4 + Float::from_int(route.level) * 0.24)
     }
 
-    if routes[i].hp <= 0.0 {
-      routes[i].active = false
-      routes[i].hp = 0.0
+    if route.hp <= 0.0 {
+      route.active = false
+      route.hp = 0.0
       broken_n = broken_n + 1
       continue
     }
 
-    let mut mult : Float = 1.0 + Float::from_int(routes[i].level) * 0.16
+    let mut mult : Float = 1.0 + Float::from_int(route.level) * 0.16
     if storm_t > 0.0 {
       mult = mult * 0.56
     }
 
-    routes[i].spawn_cd = routes[i].spawn_cd - dt * mult
+    route.spawn_cd = route.spawn_cd - dt * mult
   }
 
   broken_n
@@ -754,79 +754,79 @@ fn update_trucks(
   storm_t : Float,
   sparks : Array[Spark],
 ) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
-    if not(trucks[i].active) {
+  for truck in trucks {
+    if not(truck.active) {
       continue
     }
 
-    let rid : Int = trucks[i].route
+    let rid : Int = truck.route
     if rid < 0 || rid >= routes.length() || not(routes[rid].active) {
-      trucks[i].active = false
+      truck.active = false
       continue
     }
 
-    if trucks[i].blink > 0.0 {
-      trucks[i].blink = trucks[i].blink - dt
-      if trucks[i].blink < 0.0 {
-        trucks[i].blink = 0.0
+    if truck.blink > 0.0 {
+      truck.blink = truck.blink - dt
+      if truck.blink < 0.0 {
+        truck.blink = 0.0
       }
     }
 
-    if trucks[i].stuck_t > 0.0 {
-      trucks[i].stuck_t = trucks[i].stuck_t - dt
-      if trucks[i].stuck_t < 0.0 {
-        trucks[i].stuck_t = 0.0
+    if truck.stuck_t > 0.0 {
+      truck.stuck_t = truck.stuck_t - dt
+      if truck.stuck_t < 0.0 {
+        truck.stuck_t = 0.0
       }
       continue
     }
 
     if storm_t > 0.0 && @raylib.get_random_value(0, 999) < 2 {
-      trucks[i].stuck_t = randf(0.4, 0.9)
+      truck.stuck_t = randf(0.4, 0.9)
       continue
     }
 
-    let dirf : Float = Float::from_int(trucks[i].dir)
+    let dirf : Float = Float::from_int(truck.dir)
     let step : Float = (0.13 + Float::from_int(routes[rid].level) * 0.028) *
-      trucks[i].speed
-    trucks[i].t = trucks[i].t + dt * step * dirf
+      truck.speed
+    truck.t = truck.t + dt * step * dirf
 
-    if trucks[i].t > 1.0 || trucks[i].t < 0.0 {
+    if truck.t > 1.0 || truck.t < 0.0 {
       let mut arrive : Int = routes[rid].a
       let mut depart : Int = routes[rid].b
-      if trucks[i].t >= 1.0 {
-        trucks[i].t = 1.0
+      if truck.t >= 1.0 {
+        truck.t = 1.0
         arrive = routes[rid].b
         depart = routes[rid].a
       } else {
-        trucks[i].t = 0.0
+        truck.t = 0.0
         arrive = routes[rid].a
         depart = routes[rid].b
       }
 
-      if trucks[i].cargo_kind == 1 && trucks[i].cargo > 0 {
-        nodes[arrive].raw = nodes[arrive].raw + trucks[i].cargo
+      if truck.cargo_kind == 1 && truck.cargo > 0 {
+        nodes[arrive].raw = nodes[arrive].raw + truck.cargo
         nodes[arrive].raw = clampi(nodes[arrive].raw, 0, 120)
         burst_sparks(sparks, nodes[arrive].x, nodes[arrive].y, 4, 1)
-      } else if trucks[i].cargo_kind == 2 && trucks[i].cargo > 0 {
-        nodes[arrive].goods = nodes[arrive].goods + trucks[i].cargo
+      } else if truck.cargo_kind == 2 && truck.cargo > 0 {
+        nodes[arrive].goods = nodes[arrive].goods + truck.cargo
         nodes[arrive].goods = clampi(nodes[arrive].goods, 0, 120)
         burst_sparks(sparks, nodes[arrive].x, nodes[arrive].y, 4, 0)
       }
 
-      trucks[i].dir = -trucks[i].dir
-      trucks[i].cargo = 0
-      trucks[i].cargo_kind = 0
+      truck.dir = -truck.dir
+      truck.cargo = 0
+      truck.cargo_kind = 0
 
       let capacity : Int = 2 + routes[rid].level
-      load_from_node_to_target(nodes, trucks[i], arrive, depart, capacity)
-      trucks[i].blink = 0.18
+      load_from_node_to_target(nodes, truck, arrive, depart, capacity)
+      truck.blink = 0.18
     }
   }
 }
 
 ///|
 fn damage_random_route(routes : Array[Route], amount : Float) -> Int {
-  for _try_i = 0; _try_i < 48; _try_i = _try_i + 1 {
+  for _try_i in 0..<48 {
     let idx : Int = @raylib.get_random_value(0, routes.length() - 1)
     if not(routes[idx].active) {
       continue
@@ -908,7 +908,7 @@ fn draw_world_bg(t : Float) -> Unit {
     @raylib.Color::new(12, 24, 46, 255),
   )
 
-  for i = 0; i < 22; i = i + 1 {
+  for i in 0..<22 {
     let fi : Float = Float::from_int(i)
     let x : Float = world_l +
       (fi * 86.0 + t * (22.0 + Float::from_int(i % 5) * 6.0)) %
@@ -925,7 +925,7 @@ fn draw_world_bg(t : Float) -> Unit {
     )
   }
 
-  for i = 0; i < 12; i = i + 1 {
+  for i in 0..<12 {
     let fi : Float = Float::from_int(i)
     let x0 : Float = world_l +
       (fi * 140.0 - t * (26.0 + Float::from_int(i % 4) * 8.0)) %
@@ -948,7 +948,7 @@ fn draw_routes(
   selected_route : Int,
   storm_t : Float,
 ) -> Unit {
-  for i = 0; i < routes.length(); i = i + 1 {
+  for i in 0..<routes.length() {
     if not(routes[i].active) {
       continue
     }
@@ -1011,7 +1011,7 @@ fn draw_routes(
 
 ///|
 fn draw_nodes(nodes : Array[Node], selected_node : Int) -> Unit {
-  for i = 0; i < nodes.length(); i = i + 1 {
+  for i in 0..<nodes.length() {
     if not(nodes[i].active) {
       continue
     }
@@ -1164,18 +1164,18 @@ fn draw_trucks(
   routes : Array[Route],
   nodes : Array[Node],
 ) -> Unit {
-  for i = 0; i < trucks.length(); i = i + 1 {
-    if not(trucks[i].active) {
+  for truck in trucks {
+    if not(truck.active) {
       continue
     }
 
-    let rid : Int = trucks[i].route
+    let rid : Int = truck.route
     if rid < 0 || rid >= routes.length() || not(routes[rid].active) {
       continue
     }
 
-    let (x, y) = truck_pos(trucks[i], routes[rid], nodes)
-    let body = if trucks[i].stuck_t > 0.0 {
+    let (x, y) = truck_pos(truck, routes[rid], nodes)
+    let body = if truck.stuck_t > 0.0 {
       @raylib.Color::new(146, 150, 166, 246)
     } else {
       @raylib.Color::new(236, 244, 254, 250)
@@ -1190,21 +1190,21 @@ fn draw_trucks(
       @raylib.Color::new(18, 28, 46, 250),
     )
 
-    let ccol = cargo_color(trucks[i].cargo_kind)
-    if trucks[i].cargo > 0 {
+    let ccol = cargo_color(truck.cargo_kind)
+    if truck.cargo > 0 {
       @raylib.draw_circle(
         (x + 10.0).to_int(),
         y.to_int(),
-        4.0 + Float::from_int(trucks[i].cargo),
+        4.0 + Float::from_int(truck.cargo),
         ccol,
       )
     }
 
-    if trucks[i].blink > 0.0 {
+    if truck.blink > 0.0 {
       @raylib.draw_circle(
         x.to_int(),
         y.to_int(),
-        12.0 * trucks[i].blink + 4.0,
+        12.0 * truck.blink + 4.0,
         @raylib.Color::new(248, 244, 190, 228),
       )
     }
@@ -1625,7 +1625,7 @@ fn main {
         msg_t = 1.5
       }
 
-      for i = 0; i < routes.length(); i = i + 1 {
+      for i in 0..<routes.length() {
         if not(routes[i].active) {
           continue
         }
@@ -1679,7 +1679,7 @@ fn main {
         storm_cd = next
 
         let strike_n : Int = 1 + @raylib.get_random_value(0, 2)
-        for _i = 0; _i < strike_n; _i = _i + 1 {
+        for _i in 0..<strike_n {
           let damaged : Int = damage_random_route(routes, randf(20.0, 36.0))
           if damaged >= 0 {
             let a : Int = routes[damaged].a
@@ -1696,13 +1696,13 @@ fn main {
           }
         }
 
-        for i = 0; i < nodes.length(); i = i + 1 {
-          if not(nodes[i].active) || nodes[i].kind == 0 {
+        for node in nodes {
+          if not(node.active) || node.kind == 0 {
             continue
           }
           if @raylib.get_random_value(0, 99) < 15 {
-            nodes[i].outage_t = randf(1.0, 2.6)
-            burst_sparks(sparks, nodes[i].x, nodes[i].y, 8, 3)
+            node.outage_t = randf(1.0, 2.6)
+            burst_sparks(sparks, node.x, node.y, 8, 3)
           }
         }
 
@@ -1806,13 +1806,13 @@ fn main {
         if trigger_repair {
           if budget >= repair_cost {
             let mut repaired : Int = 0
-            for i = 0; i < routes.length(); i = i + 1 {
-              if not(routes[i].active) {
+            for route in routes {
+              if not(route.active) {
                 continue
               }
-              if routes[i].hp < 100.0 {
-                routes[i].hp = 100.0
-                routes[i].blink = 0.25
+              if route.hp < 100.0 {
+                route.hp = 100.0
+                route.blink = 0.25
                 repaired = repaired + 1
               }
             }
@@ -1831,25 +1831,25 @@ fn main {
         if trigger_surge {
           if budget >= surge_cost {
             budget = budget - surge_cost
-            for i = 0; i < nodes.length(); i = i + 1 {
-              if not(nodes[i].active) {
+            for node in nodes {
+              if not(node.active) {
                 continue
               }
-              if nodes[i].kind == 0 {
-                nodes[i].raw = clampi(nodes[i].raw + 8, 0, 120)
-              } else if nodes[i].kind == 1 {
-                nodes[i].goods = clampi(nodes[i].goods + 4, 0, 120)
-              } else if nodes[i].kind == 2 {
-                let nd : Int = nodes[i].demand - 3
-                nodes[i].demand = if nd < 0 { 0 } else { nd }
+              if node.kind == 0 {
+                node.raw = clampi(node.raw + 8, 0, 120)
+              } else if node.kind == 1 {
+                node.goods = clampi(node.goods + 4, 0, 120)
+              } else if node.kind == 2 {
+                let nd : Int = node.demand - 3
+                node.demand = if nd < 0 { 0 } else { nd }
               }
-              burst_sparks(sparks, nodes[i].x, nodes[i].y, 4, 1)
+              burst_sparks(sparks, node.x, node.y, 4, 1)
             }
-            for i = 0; i < routes.length(); i = i + 1 {
-              if routes[i].active {
-                routes[i].spawn_cd = routes[i].spawn_cd - 0.7
-                if routes[i].spawn_cd < 0.0 {
-                  routes[i].spawn_cd = 0.0
+            for route in routes {
+              if route.active {
+                route.spawn_cd = route.spawn_cd - 0.7
+                if route.spawn_cd < 0.0 {
+                  route.spawn_cd = 0.0
                 }
               }
             }

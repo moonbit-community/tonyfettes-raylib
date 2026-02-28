@@ -69,14 +69,13 @@ fn draw_world_floor(game : @types.Game) -> Unit {
 
 ///|
 fn draw_platforms(game : @types.Game) -> Unit {
-  for i = 0; i < game.platforms.length(); i = i + 1 {
-    let plat = game.platforms[i]
+  for plat in game.platforms {
     if not(plat.active) {
-      continue i + 1
+      continue
     }
     // Phasing platforms: skip if invisible
     if plat.kind == @types.plat_phasing && not(plat.phase_visible) {
-      continue i + 1
+      continue
     }
     let alpha : Int = if plat.crumbling {
       let t : Float = plat.crumble_timer / @types.crumble_time
@@ -211,7 +210,7 @@ fn draw_platform_special(game : @types.Game, plat : @types.Platform) -> Unit {
     }
     let top = plat.y + plat.h / 2.0 + 0.02
     // Draw arrow indicators
-    for j = 0; j < 3; j = j + 1 {
+    for j in 0..<3 {
       let offset : Float = (Float::from_int(j) - 1.0) * plat.d * 0.3
       @raylib.draw_cube(
         @raylib.Vector3::new(plat.x + dir_sign * 0.3, top, plat.z + offset),
@@ -269,10 +268,9 @@ fn draw_platform_rails(plat : @types.Platform) -> Unit {
 
 ///|
 fn draw_collectibles(game : @types.Game) -> Unit {
-  for i = 0; i < game.collectibles.length(); i = i + 1 {
-    let c = game.collectibles[i]
+  for c in game.collectibles {
     if not(c.active) || c.collected {
-      continue i + 1
+      continue
     }
     let bob = @math.sinf(c.bob_timer * 2.5) * 0.2
     let y = c.y + bob
@@ -471,10 +469,9 @@ fn draw_key(x : Float, y : Float, z : Float, spin : Float) -> Unit {
 
 ///|
 fn draw_powerups_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.powerups.length(); i = i + 1 {
-    let pu = game.powerups[i]
+  for pu in game.powerups {
     if not(pu.active) || pu.collected {
-      continue i + 1
+      continue
     }
     let bob = @math.sinf(pu.bob_timer * @types.powerup_bob_speed) * 0.3
     let y = pu.y + bob
@@ -560,10 +557,9 @@ fn draw_powerups_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_hazards(game : @types.Game) -> Unit {
-  for i = 0; i < game.hazards.length(); i = i + 1 {
-    let h = game.hazards[i]
+  for h in game.hazards {
     if not(h.active) {
-      continue i + 1
+      continue
     }
     if h.kind == @types.hazard_spike {
       draw_spike(h)
@@ -775,14 +771,13 @@ fn draw_crusher(h : @types.Hazard) -> Unit {
 
 ///|
 fn draw_enemies_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Stunned enemies flash
     if e.stunned && game.frame_counter % 6 < 3 {
-      continue i + 1
+      continue
     }
     if e.kind == @types.enemy_patrol {
       draw_enemy_patrol(e)
@@ -988,10 +983,9 @@ fn draw_enemy_turret(e : @types.Enemy) -> Unit {
 
 ///|
 fn draw_projectiles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let proj = game.projectiles[i]
+  for proj in game.projectiles {
     if not(proj.active) {
-      continue i + 1
+      continue
     }
     @raylib.draw_sphere(
       @raylib.Vector3::new(proj.x, proj.y, proj.z),
@@ -1009,10 +1003,9 @@ fn draw_projectiles_3d(game : @types.Game) -> Unit {
 
 ///|
 fn draw_checkpoints(game : @types.Game) -> Unit {
-  for i = 0; i < game.checkpoints.length(); i = i + 1 {
-    let cp = game.checkpoints[i]
+  for cp in game.checkpoints {
     if not(cp.active) {
-      continue i + 1
+      continue
     }
     let color = if cp.activated {
       @raylib.Color::new(0, 255, 100, 200)
@@ -1277,10 +1270,9 @@ fn draw_player_shadow(game : @types.Game) -> Unit {
 
 ///|
 fn draw_decorations(game : @types.Game) -> Unit {
-  for i = 0; i < game.decorations.length(); i = i + 1 {
-    let d = game.decorations[i]
+  for d in game.decorations {
     if not(d.active) {
-      continue i + 1
+      continue
     }
     if d.kind == @types.deco_tree {
       draw_tree(d)
@@ -1527,10 +1519,9 @@ fn draw_lamp(d : @types.Decoration) -> Unit {
 
 ///|
 fn draw_particles_3d(game : @types.Game) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let life_ratio : Float = p.life / p.max_life
     let alpha = (life_ratio * 255.0).to_int()

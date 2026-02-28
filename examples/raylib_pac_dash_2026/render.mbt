@@ -18,8 +18,8 @@ fn draw_maze(game : Game) -> Unit {
     @raylib.Color::new(12, 12, 34, 255),
   )
 
-  for y = 0; y < maze_rows; y = y + 1 {
-    for x = 0; x < maze_cols; x = x + 1 {
+  for y in 0..<maze_rows {
+    for x in 0..<maze_cols {
       let i = map_index(x, y)
       let px = maze_x + x * tile_size
       let py = maze_y + y * tile_size
@@ -71,8 +71,7 @@ fn draw_player(game : Game) -> Unit {
 
 ///|
 fn draw_ghosts(game : Game) -> Unit {
-  for i = 0; i < game.ghosts.length(); i = i + 1 {
-    let ghost = game.ghosts[i]
+  for ghost in game.ghosts {
     let cx = tile_center_x(ghost.x)
     let cy = tile_center_y(ghost.y)
     let color = if game.frightened_timer > 0.0 {

@@ -94,7 +94,7 @@ fn generate_sequence(game : Game) -> Unit {
   let mut prev_ax = 99
   let mut prev_ay = 99
 
-  for i = 0; i < len; i = i + 1 {
+  for i in 0..<len {
     let mut ax = @raylib.get_random_value(pose_axis_min, pose_axis_max)
     let ay = @raylib.get_random_value(pose_axis_min, pose_axis_max)
 

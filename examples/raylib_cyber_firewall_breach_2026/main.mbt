@@ -143,38 +143,38 @@ fn enemy_r(kind : Int) -> Float {
 
 ///|
 fn clear_enemies(enemies : Array[Enemy]) -> Unit {
-  for i = 0; i < enemies.length(); i = i + 1 {
-    enemies[i].x = 0.0
-    enemies[i].y = 0.0
-    enemies[i].vx = 0.0
-    enemies[i].vy = 0.0
-    enemies[i].hp = 0
-    enemies[i].kind = 0
-    enemies[i].active = false
+  for enemy in enemies {
+    enemy.x = 0.0
+    enemy.y = 0.0
+    enemy.vx = 0.0
+    enemy.vy = 0.0
+    enemy.hp = 0
+    enemy.kind = 0
+    enemy.active = false
   }
 }
 
 ///|
 fn clear_shots(shots : Array[Shot]) -> Unit {
-  for i = 0; i < shots.length(); i = i + 1 {
-    shots[i].x = 0.0
-    shots[i].y = 0.0
-    shots[i].vx = 0.0
-    shots[i].ttl = 0.0
-    shots[i].active = false
+  for shot in shots {
+    shot.x = 0.0
+    shot.y = 0.0
+    shot.vx = 0.0
+    shot.ttl = 0.0
+    shot.active = false
   }
 }
 
 ///|
 fn clear_parts(parts : Array[Part]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].ttl = 0.0
-    parts[i].kind = 0
-    parts[i].active = false
+  for part in parts {
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.ttl = 0.0
+    part.kind = 0
+    part.active = false
   }
 }
 
@@ -187,21 +187,21 @@ fn spawn_part(
   kind : Int,
 ) -> Unit {
   let mut done = false
-  for i = 0; i < parts.length(); i = i + 1 {
+  for part in parts {
     if done {
       continue
     }
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
+    if not(part.active) {
+      part.active = true
+      part.x = x
+      part.y = y
+      part.vx = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed_scale
-      parts[i].vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
+      part.vy = Float::from_int(@raylib.get_random_value(-220, 220)) *
         speed_scale
-      parts[i].ttl = Float::from_int(@raylib.get_random_value(18, 56)) /
+      part.ttl = Float::from_int(@raylib.get_random_value(18, 56)) /
         Float::from_int(100)
-      parts[i].kind = kind
+      part.kind = kind
       done = true
     }
   }
@@ -216,7 +216,7 @@ fn burst(
   speed_scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     spawn_part(parts, x, y, speed_scale, kind)
   }
 }
@@ -224,16 +224,16 @@ fn burst(
 ///|
 fn spawn_shot(shots : Array[Shot], x : Float, y : Float) -> Unit {
   let mut done = false
-  for i = 0; i < shots.length(); i = i + 1 {
+  for shot in shots {
     if done {
       continue
     }
-    if not(shots[i].active) {
-      shots[i].active = true
-      shots[i].x = x
-      shots[i].y = y
-      shots[i].vx = 700.0
-      shots[i].ttl = 1.7
+    if not(shot.active) {
+      shot.active = true
+      shot.x = x
+      shot.y = y
+      shot.vx = 700.0
+      shot.ttl = 1.7
       done = true
     }
   }
@@ -245,14 +245,14 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
   let kind = if kind_roll < 56 { 0 } else if kind_roll < 86 { 1 } else { 2 }
 
   let mut done = false
-  for i = 0; i < enemies.length(); i = i + 1 {
+  for enemy in enemies {
     if done {
       continue
     }
-    if not(enemies[i].active) {
-      enemies[i].active = true
-      enemies[i].x = Float::from_int(sw + 40 + @raylib.get_random_value(0, 120))
-      enemies[i].y = Float::from_int(
+    if not(enemy.active) {
+      enemy.active = true
+      enemy.x = Float::from_int(sw + 40 + @raylib.get_random_value(0, 120))
+      enemy.y = Float::from_int(
         @raylib.get_random_value(arena_y + 24, arena_y + arena_h - 24),
       )
 
@@ -265,10 +265,10 @@ fn spawn_enemy(enemies : Array[Enemy], sector : Int) -> Unit {
         spd = Float::from_int(92 + sector * 16)
       }
 
-      enemies[i].vx = -spd
-      enemies[i].vy = Float::from_int(@raylib.get_random_value(-68, 68))
-      enemies[i].kind = kind
-      enemies[i].hp = enemy_hp(kind)
+      enemy.vx = -spd
+      enemy.vy = Float::from_int(@raylib.get_random_value(-68, 68))
+      enemy.kind = kind
+      enemy.hp = enemy_hp(kind)
       done = true
     }
   }
@@ -281,22 +281,22 @@ fn spawn_split(
   y : Float,
   sector : Int,
 ) -> Unit {
-  for _k = 0; _k < 2; _k = _k + 1 {
+  for _k in 0..<2 {
     let mut done = false
-    for i = 0; i < enemies.length(); i = i + 1 {
+    for enemy in enemies {
       if done {
         continue
       }
-      if not(enemies[i].active) {
-        enemies[i].active = true
-        enemies[i].x = x + Float::from_int(@raylib.get_random_value(-10, 10))
-        enemies[i].y = y + Float::from_int(@raylib.get_random_value(-10, 10))
-        enemies[i].vx = -Float::from_int(
+      if not(enemy.active) {
+        enemy.active = true
+        enemy.x = x + Float::from_int(@raylib.get_random_value(-10, 10))
+        enemy.y = y + Float::from_int(@raylib.get_random_value(-10, 10))
+        enemy.vx = -Float::from_int(
           190 + sector * 24 + @raylib.get_random_value(0, 30),
         )
-        enemies[i].vy = Float::from_int(@raylib.get_random_value(-100, 100))
-        enemies[i].kind = 0
-        enemies[i].hp = 1
+        enemy.vy = Float::from_int(@raylib.get_random_value(-100, 100))
+        enemy.kind = 0
+        enemy.hp = 1
         done = true
       }
     }
@@ -501,19 +501,19 @@ fn main {
         let pr : Float = 162.0
         burst(parts, px, py, 42, 1.12, 0)
 
-        for i = 0; i < enemies.length(); i = i + 1 {
-          if not(enemies[i].active) {
+        for enemy in enemies {
+          if not(enemy.active) {
             continue
           }
-          let dx = enemies[i].x - px
-          let dy = enemies[i].y - py
+          let dx = enemy.x - px
+          let dy = enemy.y - py
           if dx * dx + dy * dy <= pr * pr {
-            enemies[i].hp = enemies[i].hp - 2
-            if enemies[i].hp <= 0 {
-              let k = enemies[i].kind
-              enemies[i].active = false
+            enemy.hp = enemy.hp - 2
+            if enemy.hp <= 0 {
+              let k = enemy.kind
+              enemy.active = false
               score = score + enemy_score(k)
-              burst(parts, enemies[i].x, enemies[i].y, 12, 1.0, 1)
+              burst(parts, enemy.x, enemy.y, 12, 1.0, 1)
             }
           }
         }
@@ -526,74 +526,74 @@ fn main {
         spawn_cd = spawn_interval(sector)
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
-        shots[i].x = shots[i].x + shots[i].vx * dt
-        shots[i].ttl = shots[i].ttl - dt
-        if shots[i].ttl <= 0.0 || shots[i].x > Float::from_int(sw + 24) {
-          shots[i].active = false
+        shot.x = shot.x + shot.vx * dt
+        shot.ttl = shot.ttl - dt
+        if shot.ttl <= 0.0 || shot.x > Float::from_int(sw + 24) {
+          shot.active = false
         }
       }
 
       let mut core_hit = 0
 
-      for i = 0; i < enemies.length(); i = i + 1 {
-        if not(enemies[i].active) {
+      for enemy in enemies {
+        if not(enemy.active) {
           continue
         }
 
-        enemies[i].x = enemies[i].x + enemies[i].vx * dt
-        enemies[i].y = enemies[i].y + enemies[i].vy * dt
+        enemy.x = enemy.x + enemy.vx * dt
+        enemy.y = enemy.y + enemy.vy * dt
 
-        if enemies[i].y < Float::from_int(arena_y + 16) {
-          enemies[i].y = Float::from_int(arena_y + 16)
-          enemies[i].vy = absf(enemies[i].vy)
+        if enemy.y < Float::from_int(arena_y + 16) {
+          enemy.y = Float::from_int(arena_y + 16)
+          enemy.vy = absf(enemy.vy)
         }
-        if enemies[i].y > Float::from_int(arena_y + arena_h - 16) {
-          enemies[i].y = Float::from_int(arena_y + arena_h - 16)
-          enemies[i].vy = -absf(enemies[i].vy)
-        }
-
-        if enemies[i].x <= core_x + enemy_r(enemies[i].kind) {
-          core_hit = core_hit + enemy_damage(enemies[i].kind)
-          burst(parts, core_x + 8.0, enemies[i].y, 16, 1.0, 2)
-          enemies[i].active = false
+        if enemy.y > Float::from_int(arena_y + arena_h - 16) {
+          enemy.y = Float::from_int(arena_y + arena_h - 16)
+          enemy.vy = -absf(enemy.vy)
         }
 
-        if enemies[i].x < -60.0 {
-          enemies[i].active = false
+        if enemy.x <= core_x + enemy_r(enemy.kind) {
+          core_hit = core_hit + enemy_damage(enemy.kind)
+          burst(parts, core_x + 8.0, enemy.y, 16, 1.0, 2)
+          enemy.active = false
+        }
+
+        if enemy.x < -60.0 {
+          enemy.active = false
         }
       }
 
-      for i = 0; i < shots.length(); i = i + 1 {
-        if not(shots[i].active) {
+      for shot in shots {
+        if not(shot.active) {
           continue
         }
 
         let mut hit = false
-        for j = 0; j < enemies.length(); j = j + 1 {
+        for enemy in enemies {
           if hit {
             continue
           }
-          if not(enemies[j].active) {
+          if not(enemy.active) {
             continue
           }
 
-          let dx = shots[i].x - enemies[j].x
-          let dy = shots[i].y - enemies[j].y
-          let rr = enemy_r(enemies[j].kind) + 5.0
+          let dx = shot.x - enemy.x
+          let dy = shot.y - enemy.y
+          let rr = enemy_r(enemy.kind) + 5.0
           if dx * dx + dy * dy <= rr * rr {
-            shots[i].active = false
-            enemies[j].hp = enemies[j].hp - 1
+            shot.active = false
+            enemy.hp = enemy.hp - 1
             hit = true
 
-            if enemies[j].hp <= 0 {
-              let k = enemies[j].kind
-              let ex = enemies[j].x
-              let ey = enemies[j].y
-              enemies[j].active = false
+            if enemy.hp <= 0 {
+              let k = enemy.kind
+              let ex = enemy.x
+              let ey = enemy.y
+              enemy.active = false
               score = score + enemy_score(k)
               burst(parts, ex, ey, 12, 0.9, 1)
 
@@ -601,7 +601,7 @@ fn main {
                 spawn_split(enemies, ex, ey, sector)
               }
             } else {
-              burst(parts, enemies[j].x, enemies[j].y, 6, 0.7, 0)
+              burst(parts, enemy.x, enemy.y, 6, 0.7, 0)
             }
           }
         }
@@ -624,17 +624,17 @@ fn main {
       }
     }
 
-    for i = 0; i < parts.length(); i = i + 1 {
-      if not(parts[i].active) {
+    for part in parts {
+      if not(part.active) {
         continue
       }
-      parts[i].x = parts[i].x + parts[i].vx * dt
-      parts[i].y = parts[i].y + parts[i].vy * dt
-      parts[i].vx = parts[i].vx * (Float::from_int(1) - dt * 2.3)
-      parts[i].vy = parts[i].vy * (Float::from_int(1) - dt * 2.3)
-      parts[i].ttl = parts[i].ttl - dt
-      if parts[i].ttl <= 0.0 {
-        parts[i].active = false
+      part.x = part.x + part.vx * dt
+      part.y = part.y + part.vy * dt
+      part.vx = part.vx * (Float::from_int(1) - dt * 2.3)
+      part.vy = part.vy * (Float::from_int(1) - dt * 2.3)
+      part.ttl = part.ttl - dt
+      if part.ttl <= 0.0 {
+        part.active = false
       }
     }
 
@@ -670,7 +670,7 @@ fn main {
       @raylib.Color::new(80, 122, 190, 255),
     )
 
-    for i = 0; i <= 16; i = i + 1 {
+    for i in 0..=16 {
       let gx = arena_x + i * (arena_w / 16)
       @raylib.draw_line(
         gx,
@@ -680,7 +680,7 @@ fn main {
         @raylib.Color::new(36, 56, 86, 130),
       )
     }
-    for i = 0; i <= 10; i = i + 1 {
+    for i in 0..=10 {
       let gy = arena_y + i * (arena_h / 10)
       @raylib.draw_line(
         arena_x,
@@ -727,34 +727,34 @@ fn main {
       @raylib.Color::new(196, 242, 252, 255),
     )
 
-    for i = 0; i < shots.length(); i = i + 1 {
-      if not(shots[i].active) {
+    for shot in shots {
+      if not(shot.active) {
         continue
       }
-      let sx = shots[i].x + shake_x
+      let sx = shot.x + shake_x
       @raylib.draw_rectangle(
         sx.to_int(),
-        (shots[i].y - 3.0).to_int(),
+        (shot.y - 3.0).to_int(),
         14,
         6,
         @raylib.Color::new(244, 250, 255, 255),
       )
     }
 
-    for i = 0; i < enemies.length(); i = i + 1 {
-      if not(enemies[i].active) {
+    for enemy in enemies {
+      if not(enemy.active) {
         continue
       }
-      let ex = enemies[i].x + shake_x
-      let ey = enemies[i].y
-      if enemies[i].kind == 0 {
+      let ex = enemy.x + shake_x
+      let ey = enemy.y
+      if enemy.kind == 0 {
         @raylib.draw_circle(
           ex.to_int(),
           ey.to_int(),
           11.0,
           @raylib.Color::new(244, 186, 94, 255),
         )
-      } else if enemies[i].kind == 1 {
+      } else if enemy.kind == 1 {
         @raylib.draw_rectangle(
           (ex - 14.0).to_int(),
           (ey - 11.0).to_int(),
@@ -792,24 +792,24 @@ fn main {
       }
     }
 
-    for i = 0; i < parts.length(); i = i + 1 {
-      if not(parts[i].active) {
+    for part in parts {
+      if not(part.active) {
         continue
       }
-      let a = (parts[i].ttl * 255.0).to_int()
+      let a = (part.ttl * 255.0).to_int()
       if a <= 0 {
         continue
       }
-      let c = if parts[i].kind == 0 {
+      let c = if part.kind == 0 {
         @raylib.Color::new(122, 236, 248, a)
-      } else if parts[i].kind == 1 {
+      } else if part.kind == 1 {
         @raylib.Color::new(250, 220, 138, a)
       } else {
         @raylib.Color::new(248, 124, 124, a)
       }
       @raylib.draw_circle(
-        (parts[i].x + shake_x).to_int(),
-        parts[i].y.to_int(),
+        (part.x + shake_x).to_int(),
+        part.y.to_int(),
         2.2,
         c,
       )

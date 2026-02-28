@@ -4,10 +4,10 @@
 fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   let px = game.player.x
   let pz = game.player.z
-  for i = 0; i < game.enemies.length(); i = i + 1 {
+  for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
-      continue i + 1
+      continue
     }
     let dist_to_player = @types.distance2d(enemy.x, enemy.z, px, pz)
     // AI state transitions based on personality
@@ -68,13 +68,13 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       enemy.heading = @types.normalize_angle(enemy.heading + @types.pi * 0.5)
     }
     // Ship-to-ship collision avoidance with other enemies
-    for j = 0; j < game.enemies.length(); j = j + 1 {
+    for j in 0..<game.enemies.length() {
       if i == j {
-        continue j + 1
+        continue
       }
       let other = game.enemies[j]
       if not(other.active) {
-        continue j + 1
+        continue
       }
       let d = @types.distance2d(enemy.x, enemy.z, other.x, other.z)
       let min_dist = enemy.ship_width + other.ship_width
@@ -491,13 +491,12 @@ fn maybe_target_convoy(game : @types.Game, enemy_idx : Int, dt : Float) -> Unit 
     game.player.x,
     game.player.z,
   )
-  for i = 0; i < game.convoy_ships.length(); i = i + 1 {
-    let cs = game.convoy_ships[i]
+  for cs in game.convoy_ships {
     if not(cs.active) {
-      continue i + 1
+      continue
     }
     if cs.arrived {
-      continue i + 1
+      continue
     }
     let dist_to_convoy = @types.distance2d(enemy.x, enemy.z, cs.x, cs.z)
     // Prefer attacking convoy if it's significantly closer
@@ -525,7 +524,7 @@ fn fire_enemy_broadside(game : @types.Game, enemy_idx : Int) -> Unit {
   }
   // Number of cannonballs based on cannon count
   let shots : Int = @types.mini(enemy.cannon_count / 2, 4)
-  for i = 0; i < shots; i = i + 1 {
+  for i in 0..<shots {
     let idx = @types.alloc_cannonball(game)
     if idx < 0 {
       break

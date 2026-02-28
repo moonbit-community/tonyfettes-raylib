@@ -30,7 +30,7 @@ fn draw_meter_gauge(
   @raylib.draw_rectangle(x + 1, y + 1, fill, h - 2, base_color)
 
   let step_w = (w - 2) / 5
-  for i = 1; i < 5; i = i + 1 {
+  for i in 1..<5 {
     let sx = x + 1 + i * step_w
     @raylib.draw_line(
       sx,
@@ -49,7 +49,7 @@ fn draw_round_win_markers(
   wins : Int,
   tint : @raylib.Color,
 ) -> Unit {
-  for i = 0; i < max_round_wins; i = i + 1 {
+  for i in 0..<max_round_wins {
     let cx = x + i * 24
     let color = if i < wins {
       tint
@@ -570,7 +570,7 @@ fn draw_select_screen(game : Game) -> Unit {
   let start_x = (screen_width - (card_w * 3 + gap_x * 2)) / 2
   let start_y = 132
 
-  for i = 0; i < roster_count; i = i + 1 {
+  for i in 0..<roster_count {
     let row = i / select_grid_columns
     let col = i % select_grid_columns
     let x = start_x + col * (card_w + gap_x)

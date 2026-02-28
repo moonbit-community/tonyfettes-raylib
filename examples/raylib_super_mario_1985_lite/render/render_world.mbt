@@ -19,7 +19,7 @@ fn draw_background(game : @types.Game, shake_y : Float) -> Unit {
   }
 
   let base_y = @types.hud_height + 360 + shake_y.to_int()
-  for i = 0; i < 20; i = i + 1 {
+  for i in 0..<20 {
     let x = (Float::from_int(i) * 340.0 - game.camera_x * 0.35).to_int()
     let h = 90 + i % 3 * 22
     @raylib.draw_rectangle(
@@ -31,7 +31,7 @@ fn draw_background(game : @types.Game, shake_y : Float) -> Unit {
     )
   }
 
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let x = (Float::from_int(i) * 430.0 - game.camera_x * 0.2).to_int()
     let y = @types.hud_height + 80 + i % 4 * 16
     @raylib.draw_circle(x, y, 24.0, @raylib.white)
@@ -226,8 +226,8 @@ fn draw_tiles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
     @types.world_tiles_w - 1,
   )
 
-  for ty = 0; ty < @types.world_tiles_h; ty = ty + 1 {
-    for tx = start_tx; tx <= end_tx; tx = tx + 1 {
+  for ty in 0..<@types.world_tiles_h {
+    for tx in start_tx..=end_tx {
       draw_tile(game, tx, ty, @types.get_tile(game, tx, ty), cam_x, shake_y)
     }
   }
@@ -271,10 +271,9 @@ fn draw_flag(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_coins(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.coins.length(); i = i + 1 {
-    let c = game.coins[i]
+  for c in game.coins {
     if not(c.active) {
-      continue i + 1
+      continue
     }
     let sx = @types.world_to_screen_x(c.x, cam_x).to_int()
     let sy = world_to_screen_y(c.y, shake_y).to_int()
@@ -332,8 +331,7 @@ fn draw_enemy(enemy : @types.Enemy, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_enemies(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if e.active {
       draw_enemy(e, cam_x, shake_y)
     }
@@ -422,10 +420,9 @@ fn draw_player(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : @types.Game, cam_x : Float, shake_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     let alpha = @types.clampf(p.life / p.max_life, 0.0, 1.0)
     let col = @raylib.fade(p.color, alpha)

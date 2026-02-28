@@ -129,7 +129,7 @@ fn reset_traffic(cars : Array[Car], logs : Array[Log]) -> Unit {
 
 ///|
 fn reset_homes(homes : Array[Bool]) -> Unit {
-  for i = 0; i < homes.length(); i = i + 1 {
+  for i in 0..<homes.length() {
     homes[i] = false
   }
 }
@@ -137,8 +137,8 @@ fn reset_homes(homes : Array[Bool]) -> Unit {
 ///|
 fn homes_done(homes : Array[Bool]) -> Bool {
   let mut ok = true
-  for i = 0; i < homes.length(); i = i + 1 {
-    if not(homes[i]) {
+  for home in homes {
+    if not(home) {
       ok = false
     }
   }
@@ -256,27 +256,27 @@ fn main {
         }
       }
 
-      for i = 0; i < cars.length(); i = i + 1 {
-        cars[i].x = cars[i].x + cars[i].speed * speed_mul * dt
-        let wpx = Float::from_int(cars[i].w * cell)
-        if cars[i].speed > 0.0 &&
-          cars[i].x > Float::from_int(ox + cols * cell) + wpx + 30.0 {
-          cars[i].x = Float::from_int(ox) - wpx - 30.0
+      for car in cars {
+        car.x = car.x + car.speed * speed_mul * dt
+        let wpx = Float::from_int(car.w * cell)
+        if car.speed > 0.0 &&
+          car.x > Float::from_int(ox + cols * cell) + wpx + 30.0 {
+          car.x = Float::from_int(ox) - wpx - 30.0
         }
-        if cars[i].speed < 0.0 && cars[i].x < Float::from_int(ox) - wpx - 30.0 {
-          cars[i].x = Float::from_int(ox + cols * cell) + 30.0
+        if car.speed < 0.0 && car.x < Float::from_int(ox) - wpx - 30.0 {
+          car.x = Float::from_int(ox + cols * cell) + 30.0
         }
       }
 
-      for i = 0; i < logs.length(); i = i + 1 {
-        logs[i].x = logs[i].x + logs[i].speed * speed_mul * dt
-        let wpx = Float::from_int(logs[i].w * cell)
-        if logs[i].speed > 0.0 &&
-          logs[i].x > Float::from_int(ox + cols * cell) + wpx + 34.0 {
-          logs[i].x = Float::from_int(ox) - wpx - 34.0
+      for log in logs {
+        log.x = log.x + log.speed * speed_mul * dt
+        let wpx = Float::from_int(log.w * cell)
+        if log.speed > 0.0 &&
+          log.x > Float::from_int(ox + cols * cell) + wpx + 34.0 {
+          log.x = Float::from_int(ox) - wpx - 34.0
         }
-        if logs[i].speed < 0.0 && logs[i].x < Float::from_int(ox) - wpx - 34.0 {
-          logs[i].x = Float::from_int(ox + cols * cell) + 34.0
+        if log.speed < 0.0 && log.x < Float::from_int(ox) - wpx - 34.0 {
+          log.x = Float::from_int(ox + cols * cell) + 34.0
         }
       }
 
@@ -342,12 +342,12 @@ fn main {
       let mut dead = false
 
       if is_road_row(row) {
-        for i = 0; i < cars.length(); i = i + 1 {
-          if cars[i].row != row {
+        for car in cars {
+          if car.row != row {
             continue
           }
-          let left = cars[i].x
-          let right = cars[i].x + Float::from_int(cars[i].w * cell)
+          let left = car.x
+          let right = car.x + Float::from_int(car.w * cell)
           if px > left + 5.0 && px < right - 5.0 {
             dead = true
             msg = "Hit by traffic."
@@ -359,15 +359,15 @@ fn main {
       if not(dead) && is_river_row(row) {
         let mut on_log = false
         let mut drift : Float = 0.0
-        for i = 0; i < logs.length(); i = i + 1 {
-          if logs[i].row != row {
+        for log in logs {
+          if log.row != row {
             continue
           }
-          let left = logs[i].x
-          let right = logs[i].x + Float::from_int(logs[i].w * cell)
+          let left = log.x
+          let right = log.x + Float::from_int(log.w * cell)
           if px > left + 6.0 && px < right - 6.0 {
             on_log = true
-            drift = logs[i].speed * speed_mul * dt
+            drift = log.speed * speed_mul * dt
             break
           }
         }
@@ -385,7 +385,7 @@ fn main {
 
       if not(dead) && row == 0 {
         let mut dock = -1
-        for i = 0; i < homes.length(); i = i + 1 {
+        for i in 0..<homes.length() {
           if absf(px - slot_center_x(i)) <= Float::from_int(cell) * 0.38 {
             dock = i
             break
@@ -449,7 +449,7 @@ fn main {
       @raylib.Color::new(236, 216, 120, 255),
     )
 
-    for row = 0; row < rows; row = row + 1 {
+    for row in 0..<rows {
       let y = oy + row * cell
       if row == 0 {
         @raylib.draw_rectangle(
@@ -486,7 +486,7 @@ fn main {
       }
     }
 
-    for i = 0; i < homes.length(); i = i + 1 {
+    for i in 0..<homes.length() {
       let sx = (slot_center_x(i) - Float::from_int(cell / 2 - 6)).to_int()
       let sy = oy + 8
       let c = if homes[i] {
@@ -504,7 +504,7 @@ fn main {
       )
     }
 
-    for i = 0; i <= cols; i = i + 1 {
+    for i in 0..=cols {
       let x = ox + i * cell
       @raylib.draw_line(
         x,
@@ -514,7 +514,7 @@ fn main {
         @raylib.Color::new(24, 30, 34, 180),
       )
     }
-    for i = 0; i <= rows; i = i + 1 {
+    for i in 0..=rows {
       let y = oy + i * cell
       @raylib.draw_line(
         ox,
@@ -525,10 +525,10 @@ fn main {
       )
     }
 
-    for i = 0; i < logs.length(); i = i + 1 {
-      let x = logs[i].x.to_int()
-      let y = oy + logs[i].row * cell + 10
-      let w = logs[i].w * cell
+    for log in logs {
+      let x = log.x.to_int()
+      let y = oy + log.row * cell + 10
+      let w = log.w * cell
       @raylib.draw_rectangle(
         x,
         y,
@@ -552,13 +552,13 @@ fn main {
       )
     }
 
-    for i = 0; i < cars.length(); i = i + 1 {
-      let x = cars[i].x.to_int()
-      let y = oy + cars[i].row * cell + 8
-      let w = cars[i].w * cell
-      let car_c = if cars[i].color == 0 {
+    for car in cars {
+      let x = car.x.to_int()
+      let y = oy + car.row * cell + 8
+      let w = car.w * cell
+      let car_c = if car.color == 0 {
         @raylib.Color::new(236, 92, 84, 255)
-      } else if cars[i].color == 1 {
+      } else if car.color == 1 {
         @raylib.Color::new(76, 180, 246, 255)
       } else {
         @raylib.Color::new(250, 192, 72, 255)

@@ -180,19 +180,19 @@ fn inside_rect(
 
 ///|
 fn clear_zones(zones : Array[EvacZone]) -> Unit {
-  for i = 0; i < zones.length(); i = i + 1 {
-    zones[i].active = false
-    zones[i].x = 0.0
-    zones[i].y = 0.0
-    zones[i].queue = 0.0
-    zones[i].heat = 0.0
-    zones[i].alarm_t = 0.0
+  for zone in zones {
+    zone.active = false
+    zone.x = 0.0
+    zone.y = 0.0
+    zone.queue = 0.0
+    zone.heat = 0.0
+    zone.alarm_t = 0.0
   }
 }
 
 ///|
 fn clear_groups(groups : Array[EvacGroup]) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
+  for i in 0..<groups.length() {
     groups[i].active = false
     groups[i].x = 0.0
     groups[i].y = 0.0
@@ -207,59 +207,59 @@ fn clear_groups(groups : Array[EvacGroup]) -> Unit {
 
 ///|
 fn clear_fires(fires : Array[FireZone]) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
-    fires[i].active = false
-    fires[i].x = 0.0
-    fires[i].y = 0.0
-    fires[i].vx = 0.0
-    fires[i].vy = 0.0
-    fires[i].radius = 0.0
-    fires[i].intensity = 0.0
-    fires[i].life = 0.0
-    fires[i].phase = 0.0
+  for fire in fires {
+    fire.active = false
+    fire.x = 0.0
+    fire.y = 0.0
+    fire.vx = 0.0
+    fire.vy = 0.0
+    fire.radius = 0.0
+    fire.intensity = 0.0
+    fire.life = 0.0
+    fire.phase = 0.0
   }
 }
 
 ///|
 fn clear_smokes(smokes : Array[SmokePlume]) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
-    smokes[i].active = false
-    smokes[i].x = 0.0
-    smokes[i].y = 0.0
-    smokes[i].vx = 0.0
-    smokes[i].vy = 0.0
-    smokes[i].radius = 0.0
-    smokes[i].density = 0.0
-    smokes[i].life = 0.0
-    smokes[i].phase = 0.0
+  for smoke in smokes {
+    smoke.active = false
+    smoke.x = 0.0
+    smoke.y = 0.0
+    smoke.vx = 0.0
+    smoke.vy = 0.0
+    smoke.radius = 0.0
+    smoke.density = 0.0
+    smoke.life = 0.0
+    smoke.phase = 0.0
   }
 }
 
 ///|
 fn clear_debris(debris : Array[Debris]) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    debris[i].active = false
-    debris[i].x = 0.0
-    debris[i].y = 0.0
-    debris[i].vx = 0.0
-    debris[i].vy = 0.0
-    debris[i].size = 0.0
-    debris[i].hard = 0.0
-    debris[i].spin = 0.0
+  for debris in debris {
+    debris.active = false
+    debris.x = 0.0
+    debris.y = 0.0
+    debris.vx = 0.0
+    debris.vy = 0.0
+    debris.size = 0.0
+    debris.hard = 0.0
+    debris.spin = 0.0
   }
 }
 
 ///|
 fn clear_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].life = 0.0
-    parts[i].size = 0.0
-    parts[i].kind = 0
+  for part in parts {
+    part.active = false
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.life = 0.0
+    part.size = 0.0
+    part.kind = 0
   }
 }
 
@@ -270,14 +270,14 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if parts[i].active {
+  for part in parts {
+    if part.active {
       continue
     }
 
-    parts[i].active = true
-    parts[i].x = x
-    parts[i].y = y
+    part.active = true
+    part.x = x
+    part.y = y
 
     let a : Float = randf(0.0, 6.28318)
     let s : Float = if kind == 0 {
@@ -290,9 +290,9 @@ fn add_particle(
       randf(14.0, 90.0)
     }
 
-    parts[i].vx = @math.cosf(a) * s
-    parts[i].vy = @math.sinf(a) * s
-    parts[i].life = if kind == 0 {
+    part.vx = @math.cosf(a) * s
+    part.vy = @math.sinf(a) * s
+    part.life = if kind == 0 {
       randf(0.45, 1.0)
     } else if kind == 1 {
       randf(0.18, 0.52)
@@ -301,8 +301,8 @@ fn add_particle(
     } else {
       randf(0.24, 0.8)
     }
-    parts[i].size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.4) }
-    parts[i].kind = kind
+    part.size = if kind == 1 { randf(2.4, 8.0) } else { randf(1.8, 5.4) }
+    part.kind = kind
     return
   }
 }
@@ -315,39 +315,39 @@ fn burst(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_parts(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
 
-    if parts[i].kind == 0 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 0.8)
-      parts[i].vy = parts[i].vy + dt * 10.0
-    } else if parts[i].kind == 1 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 4.0)
-      parts[i].vy = parts[i].vy + dt * 172.0
-    } else if parts[i].kind == 2 {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.6)
-      parts[i].vy = parts[i].vy - dt * 18.0
+    if part.kind == 0 {
+      part.vx = part.vx * (1.0 - dt * 0.8)
+      part.vy = part.vy + dt * 10.0
+    } else if part.kind == 1 {
+      part.vx = part.vx * (1.0 - dt * 4.0)
+      part.vy = part.vy + dt * 172.0
+    } else if part.kind == 2 {
+      part.vx = part.vx * (1.0 - dt * 2.6)
+      part.vy = part.vy - dt * 18.0
     } else {
-      parts[i].vx = parts[i].vx * (1.0 - dt * 2.0)
-      parts[i].vy = parts[i].vy + dt * 42.0
+      part.vx = part.vx * (1.0 - dt * 2.0)
+      part.vy = part.vy + dt * 42.0
     }
   }
 }
@@ -452,11 +452,11 @@ fn init_debris(
     }
 
     let mut near_zone : Bool = false
-    for i = 0; i < zones.length(); i = i + 1 {
-      if not(zones[i].active) {
+    for zone in zones {
+      if not(zone.active) {
         continue
       }
-      if dist2(x, y, zones[i].x, zones[i].y) < 120.0 * 120.0 {
+      if dist2(x, y, zone.x, zone.y) < 120.0 * 120.0 {
         near_zone = true
         break
       }
@@ -466,12 +466,12 @@ fn init_debris(
     }
 
     let mut overlap : Bool = false
-    for i = 0; i < debris.length(); i = i + 1 {
-      if not(debris[i].active) {
+    for debris in debris {
+      if not(debris.active) {
         continue
       }
-      let rr : Float = debris[i].size + 12.0
-      if dist2(x, y, debris[i].x, debris[i].y) < rr * rr {
+      let rr : Float = debris.size + 12.0
+      if dist2(x, y, debris.x, debris.y) < rr * rr {
         overlap = true
         break
       }
@@ -503,39 +503,39 @@ fn spawn_group(
   tier : Int,
   serial : Int,
 ) -> Bool {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      groups[i].x = world_l + randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(6.0, 18.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_l + randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(6.0, 18.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 1 {
-      groups[i].x = world_r - randf(26.0, 60.0)
-      groups[i].y = randf(world_t + 30.0, world_b - 30.0)
-      groups[i].drift_x = randf(-18.0, -6.0)
-      groups[i].drift_y = randf(-7.0, 7.0)
+      group.x = world_r - randf(26.0, 60.0)
+      group.y = randf(world_t + 30.0, world_b - 30.0)
+      group.drift_x = randf(-18.0, -6.0)
+      group.drift_y = randf(-7.0, 7.0)
     } else if side == 2 {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_t + randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(6.0, 18.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_t + randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(6.0, 18.0)
     } else {
-      groups[i].x = randf(world_l + 30.0, world_r - 30.0)
-      groups[i].y = world_b - randf(26.0, 60.0)
-      groups[i].drift_x = randf(-8.0, 8.0)
-      groups[i].drift_y = randf(-18.0, -6.0)
+      group.x = randf(world_l + 30.0, world_r - 30.0)
+      group.y = world_b - randf(26.0, 60.0)
+      group.drift_x = randf(-8.0, 8.0)
+      group.drift_y = randf(-18.0, -6.0)
     }
 
-    groups[i].active = true
-    groups[i].count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
-    groups[i].panic = randf(4.0, 24.0)
-    groups[i].flare_t = randf(0.5, 1.3)
-    groups[i].id = serial
+    group.active = true
+    group.count = 4 + @raylib.get_random_value(0, 8 + tier * 2)
+    group.panic = randf(4.0, 24.0)
+    group.flare_t = randf(0.5, 1.3)
+    group.id = serial
     return true
   }
 
@@ -551,39 +551,39 @@ fn spawn_fire(
   world_b : Float,
   tier : Int,
 ) -> Bool {
-  for i = 0; i < fires.length(); i = i + 1 {
-    if fires[i].active {
+  for fire in fires {
+    if fire.active {
       continue
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      fires[i].x = world_l - 84.0
-      fires[i].y = randf(world_t + 20.0, world_b - 20.0)
-      fires[i].vx = randf(12.0, 34.0)
-      fires[i].vy = randf(-9.0, 9.0)
+      fire.x = world_l - 84.0
+      fire.y = randf(world_t + 20.0, world_b - 20.0)
+      fire.vx = randf(12.0, 34.0)
+      fire.vy = randf(-9.0, 9.0)
     } else if side == 1 {
-      fires[i].x = world_r + 84.0
-      fires[i].y = randf(world_t + 20.0, world_b - 20.0)
-      fires[i].vx = randf(-34.0, -12.0)
-      fires[i].vy = randf(-9.0, 9.0)
+      fire.x = world_r + 84.0
+      fire.y = randf(world_t + 20.0, world_b - 20.0)
+      fire.vx = randf(-34.0, -12.0)
+      fire.vy = randf(-9.0, 9.0)
     } else if side == 2 {
-      fires[i].x = randf(world_l + 20.0, world_r - 20.0)
-      fires[i].y = world_t - 84.0
-      fires[i].vx = randf(-12.0, 12.0)
-      fires[i].vy = randf(14.0, 30.0)
+      fire.x = randf(world_l + 20.0, world_r - 20.0)
+      fire.y = world_t - 84.0
+      fire.vx = randf(-12.0, 12.0)
+      fire.vy = randf(14.0, 30.0)
     } else {
-      fires[i].x = randf(world_l + 20.0, world_r - 20.0)
-      fires[i].y = world_b + 84.0
-      fires[i].vx = randf(-12.0, 12.0)
-      fires[i].vy = randf(-30.0, -14.0)
+      fire.x = randf(world_l + 20.0, world_r - 20.0)
+      fire.y = world_b + 84.0
+      fire.vx = randf(-12.0, 12.0)
+      fire.vy = randf(-30.0, -14.0)
     }
 
-    fires[i].active = true
-    fires[i].radius = randf(70.0, 146.0)
-    fires[i].intensity = randf(0.46, 1.14) + Float::from_int(tier) * 0.04
-    fires[i].life = randf(20.0, 42.0)
-    fires[i].phase = randf(0.0, 20.0)
+    fire.active = true
+    fire.radius = randf(70.0, 146.0)
+    fire.intensity = randf(0.46, 1.14) + Float::from_int(tier) * 0.04
+    fire.life = randf(20.0, 42.0)
+    fire.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -597,20 +597,20 @@ fn spawn_smoke(
   y : Float,
   intensity : Float,
 ) -> Bool {
-  for i = 0; i < smokes.length(); i = i + 1 {
-    if smokes[i].active {
+  for smoke in smokes {
+    if smoke.active {
       continue
     }
 
-    smokes[i].active = true
-    smokes[i].x = x + randf(-22.0, 22.0)
-    smokes[i].y = y + randf(-22.0, 22.0)
-    smokes[i].vx = randf(-16.0, 16.0)
-    smokes[i].vy = randf(-32.0, -8.0)
-    smokes[i].radius = randf(28.0, 74.0)
-    smokes[i].density = randf(0.4, 1.0) + intensity * 0.2
-    smokes[i].life = randf(4.0, 10.0)
-    smokes[i].phase = randf(0.0, 20.0)
+    smoke.active = true
+    smoke.x = x + randf(-22.0, 22.0)
+    smoke.y = y + randf(-22.0, 22.0)
+    smoke.vx = randf(-16.0, 16.0)
+    smoke.vy = randf(-32.0, -8.0)
+    smoke.radius = randf(28.0, 74.0)
+    smoke.density = randf(0.4, 1.0) + intensity * 0.2
+    smoke.life = randf(4.0, 10.0)
+    smoke.phase = randf(0.0, 20.0)
     return true
   }
 
@@ -620,8 +620,8 @@ fn spawn_smoke(
 ///|
 fn active_groups(groups : Array[EvacGroup]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active {
+  for group in groups {
+    if group.active {
       n = n + 1
     }
   }
@@ -631,8 +631,8 @@ fn active_groups(groups : Array[EvacGroup]) -> Int {
 ///|
 fn active_fires(fires : Array[FireZone]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < fires.length(); i = i + 1 {
-    if fires[i].active {
+  for fire in fires {
+    if fire.active {
       n = n + 1
     }
   }
@@ -642,8 +642,8 @@ fn active_fires(fires : Array[FireZone]) -> Int {
 ///|
 fn active_critical(groups : Array[EvacGroup]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic >= 70.0 {
+  for group in groups {
+    if group.active && group.panic >= 70.0 {
       n = n + 1
     }
   }
@@ -653,9 +653,9 @@ fn active_critical(groups : Array[EvacGroup]) -> Int {
 ///|
 fn peak_group_panic(groups : Array[EvacGroup]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < groups.length(); i = i + 1 {
-    if groups[i].active && groups[i].panic > best {
-      best = groups[i].panic
+  for group in groups {
+    if group.active && group.panic > best {
+      best = group.panic
     }
   }
   best
@@ -664,9 +664,9 @@ fn peak_group_panic(groups : Array[EvacGroup]) -> Float {
 ///|
 fn peak_fire_intensity(fires : Array[FireZone]) -> Float {
   let mut best : Float = 0.0
-  for i = 0; i < fires.length(); i = i + 1 {
-    if fires[i].active && fires[i].intensity > best {
-      best = fires[i].intensity
+  for fire in fires {
+    if fire.active && fire.intensity > best {
+      best = fire.intensity
     }
   }
   best
@@ -682,44 +682,44 @@ fn update_fires(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
-    if not(fires[i].active) {
+  for fire in fires {
+    if not(fire.active) {
       continue
     }
 
-    fires[i].life = fires[i].life - dt
-    if fires[i].life <= 0.0 {
-      fires[i].active = false
+    fire.life = fire.life - dt
+    if fire.life <= 0.0 {
+      fire.active = false
       continue
     }
 
-    fires[i].phase = fires[i].phase + dt * (0.8 + fires[i].intensity * 0.35)
-    let pulse : Float = 0.88 + 0.16 * (@math.sinf(fires[i].phase) * 0.5 + 0.5)
+    fire.phase = fire.phase + dt * (0.8 + fire.intensity * 0.35)
+    let pulse : Float = 0.88 + 0.16 * (@math.sinf(fire.phase) * 0.5 + 0.5)
 
-    fires[i].x = fires[i].x + fires[i].vx * dt * pulse
-    fires[i].y = fires[i].y + fires[i].vy * dt * pulse
+    fire.x = fire.x + fire.vx * dt * pulse
+    fire.y = fire.y + fire.vy * dt * pulse
 
-    if fires[i].x < world_l - 160.0 {
-      fires[i].x = world_l - 160.0
-      fires[i].vx = absf(fires[i].vx)
-    } else if fires[i].x > world_r + 160.0 {
-      fires[i].x = world_r + 160.0
-      fires[i].vx = -absf(fires[i].vx)
+    if fire.x < world_l - 160.0 {
+      fire.x = world_l - 160.0
+      fire.vx = absf(fire.vx)
+    } else if fire.x > world_r + 160.0 {
+      fire.x = world_r + 160.0
+      fire.vx = -absf(fire.vx)
     }
 
-    if fires[i].y < world_t - 160.0 {
-      fires[i].y = world_t - 160.0
-      fires[i].vy = absf(fires[i].vy)
-    } else if fires[i].y > world_b + 160.0 {
-      fires[i].y = world_b + 160.0
-      fires[i].vy = -absf(fires[i].vy)
+    if fire.y < world_t - 160.0 {
+      fire.y = world_t - 160.0
+      fire.vy = absf(fire.vy)
+    } else if fire.y > world_b + 160.0 {
+      fire.y = world_b + 160.0
+      fire.vy = -absf(fire.vy)
     }
 
     // natural growth
-    fires[i].intensity = clampf(fires[i].intensity + dt * 0.06, 0.2, 2.2)
+    fire.intensity = clampf(fire.intensity + dt * 0.06, 0.2, 2.2)
 
     if @raylib.get_random_value(0, 100) < 14 {
-      ignore(spawn_smoke(smokes, fires[i].x, fires[i].y, fires[i].intensity))
+      ignore(spawn_smoke(smokes, fire.x, fire.y, fire.intensity))
     }
   }
 }
@@ -733,25 +733,25 @@ fn update_smokes(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
-    if not(smokes[i].active) {
+  for smoke in smokes {
+    if not(smoke.active) {
       continue
     }
 
-    smokes[i].life = smokes[i].life - dt
-    if smokes[i].life <= 0.0 {
-      smokes[i].active = false
+    smoke.life = smoke.life - dt
+    if smoke.life <= 0.0 {
+      smoke.active = false
       continue
     }
 
-    smokes[i].phase = smokes[i].phase + dt * (0.7 + smokes[i].density * 0.3)
-    let pulse : Float = 0.82 + 0.22 * (@math.sinf(smokes[i].phase) * 0.5 + 0.5)
+    smoke.phase = smoke.phase + dt * (0.7 + smoke.density * 0.3)
+    let pulse : Float = 0.82 + 0.22 * (@math.sinf(smoke.phase) * 0.5 + 0.5)
 
-    smokes[i].x = smokes[i].x + smokes[i].vx * dt * pulse
-    smokes[i].y = smokes[i].y + smokes[i].vy * dt * pulse
+    smoke.x = smoke.x + smoke.vx * dt * pulse
+    smoke.y = smoke.y + smoke.vy * dt * pulse
 
-    smokes[i].x = clampf(smokes[i].x, world_l - 120.0, world_r + 120.0)
-    smokes[i].y = clampf(smokes[i].y, world_t - 140.0, world_b + 60.0)
+    smoke.x = clampf(smoke.x, world_l - 120.0, world_r + 120.0)
+    smoke.y = clampf(smoke.y, world_t - 140.0, world_b + 60.0)
   }
 }
 
@@ -764,34 +764,34 @@ fn update_debris(
   world_r : Float,
   world_b : Float,
 ) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    if not(debris[i].active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    debris[i].spin = debris[i].spin + dt * 0.7
+    debris.spin = debris.spin + dt * 0.7
 
-    let drift : Float = 0.84 + 0.22 * (@math.sinf(debris[i].spin) * 0.5 + 0.5)
-    debris[i].x = debris[i].x + debris[i].vx * dt * drift
-    debris[i].y = debris[i].y + debris[i].vy * dt * drift
+    let drift : Float = 0.84 + 0.22 * (@math.sinf(debris.spin) * 0.5 + 0.5)
+    debris.x = debris.x + debris.vx * dt * drift
+    debris.y = debris.y + debris.vy * dt * drift
 
-    if debris[i].x < world_l + debris[i].size {
-      debris[i].x = world_l + debris[i].size
-      debris[i].vx = absf(debris[i].vx) * randf(0.66, 1.1)
-    } else if debris[i].x > world_r - debris[i].size {
-      debris[i].x = world_r - debris[i].size
-      debris[i].vx = -absf(debris[i].vx) * randf(0.66, 1.1)
+    if debris.x < world_l + debris.size {
+      debris.x = world_l + debris.size
+      debris.vx = absf(debris.vx) * randf(0.66, 1.1)
+    } else if debris.x > world_r - debris.size {
+      debris.x = world_r - debris.size
+      debris.vx = -absf(debris.vx) * randf(0.66, 1.1)
     }
 
-    if debris[i].y < world_t + debris[i].size {
-      debris[i].y = world_t + debris[i].size
-      debris[i].vy = absf(debris[i].vy) * randf(0.66, 1.1)
-    } else if debris[i].y > world_b - debris[i].size {
-      debris[i].y = world_b - debris[i].size
-      debris[i].vy = -absf(debris[i].vy) * randf(0.66, 1.1)
+    if debris.y < world_t + debris.size {
+      debris.y = world_t + debris.size
+      debris.vy = absf(debris.vy) * randf(0.66, 1.1)
+    } else if debris.y > world_b - debris.size {
+      debris.y = world_b - debris.size
+      debris.vy = -absf(debris.vy) * randf(0.66, 1.1)
     }
 
-    debris[i].hard = maxf(8.0, debris[i].hard - dt * 0.02)
+    debris.hard = maxf(8.0, debris.hard - dt * 0.02)
   }
 }
 
@@ -811,74 +811,74 @@ fn update_groups(
   let mut lost : Int = 0
   let mut panic_sum : Float = 0.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    groups[i].x = groups[i].x + groups[i].drift_x * dt
-    groups[i].y = groups[i].y + groups[i].drift_y * dt
+    group.x = group.x + group.drift_x * dt
+    group.y = group.y + group.drift_y * dt
 
-    if groups[i].x < world_l + 18.0 || groups[i].x > world_r - 18.0 {
-      groups[i].drift_x = -groups[i].drift_x
-      groups[i].x = clampf(groups[i].x, world_l + 18.0, world_r - 18.0)
+    if group.x < world_l + 18.0 || group.x > world_r - 18.0 {
+      group.drift_x = -group.drift_x
+      group.x = clampf(group.x, world_l + 18.0, world_r - 18.0)
     }
-    if groups[i].y < world_t + 18.0 || groups[i].y > world_b - 18.0 {
-      groups[i].drift_y = -groups[i].drift_y
-      groups[i].y = clampf(groups[i].y, world_t + 18.0, world_b - 18.0)
+    if group.y < world_t + 18.0 || group.y > world_b - 18.0 {
+      group.drift_y = -group.drift_y
+      group.y = clampf(group.y, world_t + 18.0, world_b - 18.0)
     }
 
-    groups[i].flare_t = groups[i].flare_t - dt
-    if groups[i].flare_t <= 0.0 {
-      groups[i].flare_t = randf(0.6, 1.4)
+    group.flare_t = group.flare_t - dt
+    if group.flare_t <= 0.0 {
+      group.flare_t = randf(0.6, 1.4)
     }
 
     let mut panic_gain : Float = dt * 2.1
 
-    let safe_d2 : Float = dist2(groups[i].x, groups[i].y, safe_x, safe_y)
+    let safe_d2 : Float = dist2(group.x, group.y, safe_x, safe_y)
     if safe_d2 > 390.0 * 390.0 {
       panic_gain = panic_gain + dt * 0.8
     }
 
-    for j = 0; j < fires.length(); j = j + 1 {
-      if not(fires[j].active) {
+    for fire in fires {
+      if not(fire.active) {
         continue
       }
 
-      let rr : Float = fires[j].radius
-      let d2v : Float = dist2(groups[i].x, groups[i].y, fires[j].x, fires[j].y)
+      let rr : Float = fire.radius
+      let d2v : Float = dist2(group.x, group.y, fire.x, fire.y)
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * fires[j].intensity * (0.9 + ratio * 1.8)
+        panic_gain = panic_gain + dt * fire.intensity * (0.9 + ratio * 1.8)
       }
     }
 
-    for j = 0; j < smokes.length(); j = j + 1 {
-      if not(smokes[j].active) {
+    for smoke in smokes {
+      if not(smoke.active) {
         continue
       }
 
-      let rr : Float = smokes[j].radius
+      let rr : Float = smoke.radius
       let d2v : Float = dist2(
-        groups[i].x,
-        groups[i].y,
-        smokes[j].x,
-        smokes[j].y,
+        group.x,
+        group.y,
+        smoke.x,
+        smoke.y,
       )
       if d2v < rr * rr {
         let ratio : Float = 1.0 - d2v.sqrt() / rr
-        panic_gain = panic_gain + dt * smokes[j].density * (0.4 + ratio * 1.1)
+        panic_gain = panic_gain + dt * smoke.density * (0.4 + ratio * 1.1)
       }
     }
 
-    groups[i].panic = groups[i].panic + panic_gain
-    if groups[i].panic > 100.0 {
-      lost = lost + groups[i].count
-      groups[i].active = false
+    group.panic = group.panic + panic_gain
+    if group.panic > 100.0 {
+      lost = lost + group.count
+      group.active = false
       continue
     }
 
-    panic_sum = panic_sum + groups[i].panic
+    panic_sum = panic_sum + group.panic
   }
 
   (lost, panic_sum)
@@ -896,12 +896,12 @@ fn rescue_groups(
     let mut rescued_people : Int = 0
     let mut groups_hit : Int = 0
 
-    for i = 0; i < groups.length(); i = i + 1 {
-      if not(groups[i].active) || groups[i].count <= 0 {
+    for group in groups {
+      if not(group.active) || group.count <= 0 {
         continue
       }
 
-      let d2v : Float = dist2(player.x, player.y, groups[i].x, groups[i].y)
+      let d2v : Float = dist2(player.x, player.y, group.x, group.y)
       if d2v > 84.0 * 84.0 {
         continue
       }
@@ -911,21 +911,21 @@ fn rescue_groups(
         break
       }
 
-      let take : Int = mini(groups[i].count, mini(cap_left, 8))
+      let take : Int = mini(group.count, mini(cap_left, 8))
       if take <= 0 {
         continue
       }
 
       player.onboard = player.onboard + take
-      groups[i].count = groups[i].count - take
-      groups[i].panic = maxf(0.0, groups[i].panic - Float::from_int(take) * 2.8)
+      group.count = group.count - take
+      group.panic = maxf(0.0, group.panic - Float::from_int(take) * 2.8)
       rescued_people = rescued_people + take
       groups_hit = groups_hit + 1
 
-      burst(parts, groups[i].x, groups[i].y, 9 + take / 2, 2)
+      burst(parts, group.x, group.y, 9 + take / 2, 2)
 
-      if groups[i].count <= 0 {
-        groups[i].active = false
+      if group.count <= 0 {
+        group.active = false
       }
     }
 
@@ -949,13 +949,13 @@ fn suppress_fire(
     let mut hits : Int = 0
     let mut reduction : Float = 0.0
 
-    for i = 0; i < fires.length(); i = i + 1 {
-      if not(fires[i].active) {
+    for fire in fires {
+      if not(fire.active) {
         continue
       }
 
-      let rr : Float = fires[i].radius + 84.0
-      let d2v : Float = dist2(player.x, player.y, fires[i].x, fires[i].y)
+      let rr : Float = fire.radius + 84.0
+      let d2v : Float = dist2(player.x, player.y, fire.x, fire.y)
       if d2v > rr * rr {
         continue
       }
@@ -963,17 +963,17 @@ fn suppress_fire(
       let spray : Float = minf(player.water, 16.0)
       let cut : Float = spray * 0.03 + 0.16
 
-      fires[i].intensity = maxf(0.12, fires[i].intensity - cut)
-      fires[i].radius = maxf(28.0, fires[i].radius - spray * 0.45)
+      fire.intensity = maxf(0.12, fire.intensity - cut)
+      fire.radius = maxf(28.0, fire.radius - spray * 0.45)
       player.water = maxf(0.0, player.water - spray)
       hits = hits + 1
       reduction = reduction + cut
 
-      burst(parts, fires[i].x, fires[i].y, 12, 3)
+      burst(parts, fire.x, fire.y, 12, 3)
 
-      if fires[i].intensity <= 0.14 {
-        fires[i].active = false
-        burst(parts, fires[i].x, fires[i].y, 16, 2)
+      if fire.intensity <= 0.14 {
+        fire.active = false
+        burst(parts, fire.x, fire.y, 16, 2)
       }
 
       if player.water <= 0.1 {
@@ -1001,17 +1001,17 @@ fn nearest_urgent_group(
   let mut bp : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) || groups[i].panic < 30.0 {
+  for group in groups {
+    if not(group.active) || group.panic < 30.0 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, groups[i].x, groups[i].y)
+    let d2v : Float = dist2(x, y, group.x, group.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = groups[i].x
-      by = groups[i].y
-      bp = groups[i].panic
+      bx = group.x
+      by = group.y
+      bp = group.panic
       found = true
     }
   }
@@ -1031,17 +1031,17 @@ fn nearest_hot_fire(
   let mut bi : Float = 0.0
   let mut bd2 : Float = 999999999.0
 
-  for i = 0; i < fires.length(); i = i + 1 {
-    if not(fires[i].active) || fires[i].intensity < 0.8 {
+  for fire in fires {
+    if not(fire.active) || fire.intensity < 0.8 {
       continue
     }
 
-    let d2v : Float = dist2(x, y, fires[i].x, fires[i].y)
+    let d2v : Float = dist2(x, y, fire.x, fire.y)
     if d2v < bd2 {
       bd2 = d2v
-      bx = fires[i].x
-      by = fires[i].y
-      bi = fires[i].intensity
+      bx = fire.x
+      by = fire.y
+      bi = fire.intensity
       found = true
     }
   }
@@ -1158,7 +1158,7 @@ fn draw_base(base : Base) -> Unit {
 
 ///|
 fn draw_zones(zones : Array[EvacZone], t : Float) -> Unit {
-  for i = 0; i < zones.length(); i = i + 1 {
+  for i in 0..<zones.length() {
     if not(zones[i].active) {
       continue
     }
@@ -1217,50 +1217,50 @@ fn draw_zones(zones : Array[EvacZone], t : Float) -> Unit {
 
 ///|
 fn draw_groups(groups : Array[EvacGroup], t : Float) -> Unit {
-  for i = 0; i < groups.length(); i = i + 1 {
-    if not(groups[i].active) {
+  for group in groups {
+    if not(group.active) {
       continue
     }
 
-    let p01 : Float = clampf(groups[i].panic / 100.0, 0.0, 1.0)
+    let p01 : Float = clampf(group.panic / 100.0, 0.0, 1.0)
     let flare : Float = @math.sinf(
-        t * 6.0 + Float::from_int(groups[i].id) * 0.3,
+        t * 6.0 + Float::from_int(group.id) * 0.3,
       ) *
       0.5 +
       0.5
 
-    let col : @raylib.Color = if groups[i].panic >= 72.0 {
+    let col : @raylib.Color = if group.panic >= 72.0 {
       @raylib.Color::new(248, 154, 132, 252)
     } else {
       @raylib.Color::new(246, 226, 194, 248)
     }
 
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       11.0 + flare * 3.0,
       col,
     )
     @raylib.draw_circle(
-      groups[i].x.to_int(),
-      groups[i].y.to_int(),
+      group.x.to_int(),
+      group.y.to_int(),
       4.0,
       @raylib.Color::new(252, 246, 236, 246),
     )
 
     @raylib.draw_text(
-      "G\{groups[i].id} N:\{groups[i].count} P:\{groups[i].panic.to_int()}",
-      (groups[i].x - 54.0).to_int(),
-      (groups[i].y + 14.0).to_int(),
+      "G\{group.id} N:\{group.count} P:\{group.panic.to_int()}",
+      (group.x - 54.0).to_int(),
+      (group.y + 14.0).to_int(),
       16,
       @raylib.Color::new(246, 234, 220, 236),
     )
 
-    if groups[i].flare_t < 0.18 {
+    if group.flare_t < 0.18 {
       let rr : Float = 18.0 + p01 * 42.0
       @raylib.draw_circle(
-        groups[i].x.to_int(),
-        groups[i].y.to_int(),
+        group.x.to_int(),
+        group.y.to_int(),
         rr,
         @raylib.Color::new(252, 204, 136, 66),
       )
@@ -1270,40 +1270,40 @@ fn draw_groups(groups : Array[EvacGroup], t : Float) -> Unit {
 
 ///|
 fn draw_fires(fires : Array[FireZone], t : Float) -> Unit {
-  for i = 0; i < fires.length(); i = i + 1 {
-    if not(fires[i].active) {
+  for fire in fires {
+    if not(fire.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + fires[i].phase) * 0.5 + 0.5)
-    let r0 : Float = fires[i].radius * pulse
-    let r1 : Float = fires[i].radius * (0.58 + pulse * 0.18)
+      0.2 * (@math.sinf(t * 1.8 + fire.phase) * 0.5 + 0.5)
+    let r0 : Float = fire.radius * pulse
+    let r1 : Float = fire.radius * (0.58 + pulse * 0.18)
 
-    let a0 : Int = 24 + (fires[i].intensity * 42.0).to_int()
-    let a1 : Int = 12 + (fires[i].intensity * 24.0).to_int()
+    let a0 : Int = 24 + (fire.intensity * 42.0).to_int()
+    let a1 : Int = 12 + (fire.intensity * 24.0).to_int()
 
     @raylib.draw_circle(
-      fires[i].x.to_int(),
-      fires[i].y.to_int(),
+      fire.x.to_int(),
+      fire.y.to_int(),
       r0,
       @raylib.Color::new(232, 120, 68, a0),
     )
     @raylib.draw_circle(
-      fires[i].x.to_int(),
-      fires[i].y.to_int(),
+      fire.x.to_int(),
+      fire.y.to_int(),
       r1,
       @raylib.Color::new(252, 198, 120, a1),
     )
 
-    let spark_x : Float = fires[i].x +
-      @math.sinf(t * 5.0 + fires[i].phase) * fires[i].radius * 0.24
-    let spark_y : Float = fires[i].y +
-      @math.cosf(t * 4.6 + fires[i].phase * 0.8) * fires[i].radius * 0.24
+    let spark_x : Float = fire.x +
+      @math.sinf(t * 5.0 + fire.phase) * fire.radius * 0.24
+    let spark_y : Float = fire.y +
+      @math.cosf(t * 4.6 + fire.phase * 0.8) * fire.radius * 0.24
     @raylib.draw_circle(
       spark_x.to_int(),
       spark_y.to_int(),
-      3.0 + fires[i].intensity * 2.0,
+      3.0 + fire.intensity * 2.0,
       @raylib.Color::new(255, 238, 180, 208),
     )
   }
@@ -1311,28 +1311,28 @@ fn draw_fires(fires : Array[FireZone], t : Float) -> Unit {
 
 ///|
 fn draw_smokes(smokes : Array[SmokePlume], t : Float) -> Unit {
-  for i = 0; i < smokes.length(); i = i + 1 {
-    if not(smokes[i].active) {
+  for smoke in smokes {
+    if not(smoke.active) {
       continue
     }
 
     let pulse : Float = 0.84 +
-      0.2 * (@math.sinf(t * 1.8 + smokes[i].phase) * 0.5 + 0.5)
-    let r0 : Float = smokes[i].radius * pulse
-    let r1 : Float = smokes[i].radius * (0.62 + pulse * 0.14)
+      0.2 * (@math.sinf(t * 1.8 + smoke.phase) * 0.5 + 0.5)
+    let r0 : Float = smoke.radius * pulse
+    let r1 : Float = smoke.radius * (0.62 + pulse * 0.14)
 
-    let a0 : Int = 20 + (smokes[i].density * 56.0).to_int()
-    let a1 : Int = 10 + (smokes[i].density * 30.0).to_int()
+    let a0 : Int = 20 + (smoke.density * 56.0).to_int()
+    let a1 : Int = 10 + (smoke.density * 30.0).to_int()
 
     @raylib.draw_circle(
-      smokes[i].x.to_int(),
-      smokes[i].y.to_int(),
+      smoke.x.to_int(),
+      smoke.y.to_int(),
       r0,
       @raylib.Color::new(80, 80, 86, a0),
     )
     @raylib.draw_circle(
-      smokes[i].x.to_int(),
-      smokes[i].y.to_int(),
+      smoke.x.to_int(),
+      smoke.y.to_int(),
       r1,
       @raylib.Color::new(120, 116, 112, a1),
     )
@@ -1341,28 +1341,28 @@ fn draw_smokes(smokes : Array[SmokePlume], t : Float) -> Unit {
 
 ///|
 fn draw_debris(debris : Array[Debris], t : Float) -> Unit {
-  for i = 0; i < debris.length(); i = i + 1 {
-    if not(debris[i].active) {
+  for debris in debris {
+    if not(debris.active) {
       continue
     }
 
-    let wob : Float = @math.sinf(t * 4.0 + debris[i].spin) * 0.5 + 0.5
-    let rr : Float = debris[i].size * (0.88 + wob * 0.2)
-    let h01 : Float = clampf(debris[i].hard / 100.0, 0.0, 1.0)
+    let wob : Float = @math.sinf(t * 4.0 + debris.spin) * 0.5 + 0.5
+    let rr : Float = debris.size * (0.88 + wob * 0.2)
+    let h01 : Float = clampf(debris.hard / 100.0, 0.0, 1.0)
 
     let r : Int = 92 + (h01 * 54.0).to_int()
     let g : Int = 88 + (h01 * 38.0).to_int()
     let b : Int = 74 + (h01 * 22.0).to_int()
 
     @raylib.draw_circle(
-      debris[i].x.to_int(),
-      debris[i].y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr + 1.8,
       @raylib.Color::new(46, 70, 92, 174),
     )
     @raylib.draw_circle(
-      debris[i].x.to_int(),
-      debris[i].y.to_int(),
+      debris.x.to_int(),
+      debris.y.to_int(),
       rr,
       @raylib.Color::new(r, g, b, 238),
     )
@@ -1435,7 +1435,7 @@ fn draw_player(player : Player, t : Float) -> Unit {
   )
 
   let shown_people : Int = mini(player.onboard, 6)
-  for i = 0; i < shown_people; i = i + 1 {
+  for i in 0..<shown_people {
     let px : Int = (x - 12.0 + Float::from_int(i % 3) * 8.0).to_int()
     let py : Int = (y + 2.0 + Float::from_int(i / 3) * 5.0).to_int()
     @raylib.draw_rectangle(px, py, 6, 4, @raylib.Color::new(222, 176, 120, 236))
@@ -1472,25 +1472,25 @@ fn draw_player(player : Player, t : Float) -> Unit {
 
 ///|
 fn draw_parts(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let col : @raylib.Color = if parts[i].kind == 0 {
+    let col : @raylib.Color = if part.kind == 0 {
       @raylib.Color::new(194, 226, 252, 184)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(248, 194, 146, 220)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(160, 210, 250, 214)
     } else {
       @raylib.Color::new(248, 236, 190, 214)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size,
       col,
     )
   }
@@ -2047,35 +2047,35 @@ fn main {
       let mut fire_drag : Float = 0.0
       let mut fuel_mul : Float = 1.0
       let mut smoke_damage : Float = 0.0
-      for i = 0; i < fires.length(); i = i + 1 {
-        if not(fires[i].active) {
+      for fire in fires {
+        if not(fire.active) {
           continue
         }
 
-        let rr : Float = fires[i].radius
-        let d2v : Float = dist2(player.x, player.y, fires[i].x, fires[i].y)
+        let rr : Float = fire.radius
+        let d2v : Float = dist2(player.x, player.y, fire.x, fire.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          fire_drag = fire_drag + fires[i].intensity * (0.2 + ratio * 0.56)
-          fuel_mul = fuel_mul + fires[i].intensity * (0.16 + ratio * 0.48)
+          fire_drag = fire_drag + fire.intensity * (0.2 + ratio * 0.56)
+          fuel_mul = fuel_mul + fire.intensity * (0.16 + ratio * 0.48)
           smoke_damage = smoke_damage +
-            dt * fires[i].intensity * (0.42 + ratio * 1.0)
+            dt * fire.intensity * (0.42 + ratio * 1.0)
         }
       }
 
-      for i = 0; i < smokes.length(); i = i + 1 {
-        if not(smokes[i].active) {
+      for smoke in smokes {
+        if not(smoke.active) {
           continue
         }
 
-        let rr : Float = smokes[i].radius
-        let d2v : Float = dist2(player.x, player.y, smokes[i].x, smokes[i].y)
+        let rr : Float = smoke.radius
+        let d2v : Float = dist2(player.x, player.y, smoke.x, smoke.y)
         if d2v < rr * rr {
           let ratio : Float = 1.0 - d2v.sqrt() / rr
-          fire_drag = fire_drag + smokes[i].density * (0.14 + ratio * 0.34)
-          fuel_mul = fuel_mul + smokes[i].density * (0.12 + ratio * 0.3)
+          fire_drag = fire_drag + smoke.density * (0.14 + ratio * 0.34)
+          fuel_mul = fuel_mul + smoke.density * (0.12 + ratio * 0.3)
           smoke_damage = smoke_damage +
-            dt * smokes[i].density * (0.3 + ratio * 0.7)
+            dt * smoke.density * (0.3 + ratio * 0.7)
         }
       }
 
@@ -2212,94 +2212,94 @@ fn main {
 
       // Debris collision damage
       let mut collision_dmg : Float = 0.0
-      for i = 0; i < debris.length(); i = i + 1 {
-        if not(debris[i].active) {
+      for debris in debris {
+        if not(debris.active) {
           continue
         }
 
-        let rr : Float = debris[i].size + 11.0
-        let d2v : Float = dist2(player.x, player.y, debris[i].x, debris[i].y)
+        let rr : Float = debris.size + 11.0
+        let d2v : Float = dist2(player.x, player.y, debris.x, debris.y)
         if d2v < rr * rr {
           let d : Float = maxf(0.0001, d2v.sqrt())
-          let nx : Float = (player.x - debris[i].x) / d
-          let ny : Float = (player.y - debris[i].y) / d
+          let nx : Float = (player.x - debris.x) / d
+          let ny : Float = (player.y - debris.y) / d
           let push : Float = (rr - d) * dt * 24.0
 
           player.x = player.x + nx * push
           player.y = player.y + ny * push
 
           if sp2 > 70.0 {
-            collision_dmg = collision_dmg + dt * (1.0 + debris[i].hard * 0.018)
+            collision_dmg = collision_dmg + dt * (1.0 + debris.hard * 0.018)
             burst(parts, player.x, player.y, 2, 1)
           }
         }
       }
 
       // Zone queues rise over time, especially near fire/smoke
-      for i = 0; i < zones.length(); i = i + 1 {
-        if not(zones[i].active) {
+      for zone in zones {
+        if not(zone.active) {
           continue
         }
 
-        if zones[i].alarm_t > 0.0 {
-          zones[i].alarm_t = zones[i].alarm_t - dt
-          if zones[i].alarm_t < 0.0 {
-            zones[i].alarm_t = 0.0
+        if zone.alarm_t > 0.0 {
+          zone.alarm_t = zone.alarm_t - dt
+          if zone.alarm_t < 0.0 {
+            zone.alarm_t = 0.0
           }
         }
 
         let mut fire_load : Float = 0.0
-        for j = 0; j < fires.length(); j = j + 1 {
-          if not(fires[j].active) {
+        for fire in fires {
+          if not(fire.active) {
             continue
           }
 
-          let rr : Float = fires[j].radius
+          let rr : Float = fire.radius
           let d2v : Float = dist2(
-            zones[i].x,
-            zones[i].y,
-            fires[j].x,
-            fires[j].y,
+            zone.x,
+            zone.y,
+            fire.x,
+            fire.y,
           )
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            fire_load = fire_load + fires[j].intensity * (0.4 + ratio * 1.0)
+            fire_load = fire_load + fire.intensity * (0.4 + ratio * 1.0)
           }
         }
 
-        for j = 0; j < smokes.length(); j = j + 1 {
-          if not(smokes[j].active) {
+        for smoke in smokes {
+          if not(smoke.active) {
             continue
           }
 
-          let rr : Float = smokes[j].radius
+          let rr : Float = smoke.radius
           let d2v : Float = dist2(
-            zones[i].x,
-            zones[i].y,
-            smokes[j].x,
-            smokes[j].y,
+            zone.x,
+            zone.y,
+            smoke.x,
+            smoke.y,
           )
           if d2v < rr * rr {
             let ratio : Float = 1.0 - d2v.sqrt() / rr
-            fire_load = fire_load + smokes[j].density * (0.2 + ratio * 0.7)
+            fire_load = fire_load + smoke.density * (0.2 + ratio * 0.7)
           }
         }
 
-        zones[i].heat = clampf(
-          zones[i].heat + dt * (0.9 + fire_load * 2.2),
+        zone.heat = clampf(
+          zone.heat + dt * (0.9 + fire_load * 2.2),
           0.0,
           100.0,
         )
-        zones[i].queue = zones[i].queue +
+        zone.queue = zone.queue +
           dt * (1.6 + fire_load * 1.4 + Float::from_int(tier) * 0.2)
 
-        if zones[i].queue > 100.0 {
-          zones[i].queue = 74.0 + randf(0.0, 10.0)
-          zones[i].alarm_t = 1.2
+        if zone.queue > 100.0 {
+          zone.queue = 74.0 + randf(0.0, 10.0)
+          zone.alarm_t = 1.2
           lost_people = lost_people + 3
-          msg = "Zone Z\{zones[i].id} overwhelmed"
+          msg = "Zone Z\{zone.id} overwhelmed"
           msg_t = 0.85
-          burst(parts, zones[i].x, zones[i].y, 14, 1)
+          burst(parts, zone.x, zone.y, 14, 1)
         }
       }
 

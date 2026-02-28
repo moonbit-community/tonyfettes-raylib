@@ -223,86 +223,86 @@ fn drone_hp(kind : Int, level : Int) -> Float {
 
 ///|
 fn clear_drones(drones : Array[Drone]) -> Unit {
-  for i = 0; i < drones.length(); i = i + 1 {
-    drones[i].active = false
-    drones[i].kind = 0
-    drones[i].x = 0.0
-    drones[i].y = 0.0
-    drones[i].vx = 0.0
-    drones[i].vy = 0.0
-    drones[i].hp = 0.0
-    drones[i].fire_cd = 0.0
-    drones[i].t = 0.0
+  for drone in drones {
+    drone.active = false
+    drone.kind = 0
+    drone.x = 0.0
+    drone.y = 0.0
+    drone.vx = 0.0
+    drone.vy = 0.0
+    drone.hp = 0.0
+    drone.fire_cd = 0.0
+    drone.t = 0.0
   }
 }
 
 ///|
 fn clear_bullets(bullets : Array[Bullet]) -> Unit {
-  for i = 0; i < bullets.length(); i = i + 1 {
-    bullets[i].active = false
-    bullets[i].team = 0
-    bullets[i].kind = 0
-    bullets[i].x = 0.0
-    bullets[i].y = 0.0
-    bullets[i].vx = 0.0
-    bullets[i].vy = 0.0
-    bullets[i].dmg = 0.0
-    bullets[i].radius = 0.0
-    bullets[i].life = 0.0
+  for bullet in bullets {
+    bullet.active = false
+    bullet.team = 0
+    bullet.kind = 0
+    bullet.x = 0.0
+    bullet.y = 0.0
+    bullet.vx = 0.0
+    bullet.vy = 0.0
+    bullet.dmg = 0.0
+    bullet.radius = 0.0
+    bullet.life = 0.0
   }
 }
 
 ///|
 fn clear_scrap(scraps : Array[Scrap]) -> Unit {
-  for i = 0; i < scraps.length(); i = i + 1 {
-    scraps[i].active = false
-    scraps[i].kind = 0
-    scraps[i].x = 0.0
-    scraps[i].y = 0.0
-    scraps[i].vx = 0.0
-    scraps[i].vy = 0.0
-    scraps[i].value = 0
-    scraps[i].t = 0.0
-    scraps[i].magnet = false
+  for scrap in scraps {
+    scrap.active = false
+    scrap.kind = 0
+    scrap.x = 0.0
+    scrap.y = 0.0
+    scrap.vx = 0.0
+    scrap.vy = 0.0
+    scrap.value = 0
+    scrap.t = 0.0
+    scrap.magnet = false
   }
 }
 
 ///|
 fn clear_mines(mines : Array[Mine]) -> Unit {
-  for i = 0; i < mines.length(); i = i + 1 {
-    mines[i].active = false
-    mines[i].x = 0.0
-    mines[i].y = 0.0
-    mines[i].vx = 0.0
-    mines[i].vy = 0.0
-    mines[i].radius = 0.0
-    mines[i].arm_t = 0.0
-    mines[i].life = 0.0
+  for mine in mines {
+    mine.active = false
+    mine.x = 0.0
+    mine.y = 0.0
+    mine.vx = 0.0
+    mine.vy = 0.0
+    mine.radius = 0.0
+    mine.arm_t = 0.0
+    mine.life = 0.0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].t = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.t = 0.0
   }
 }
 
 ///|
 fn clear_wrecks(wrecks : Array[Wreck]) -> Unit {
-  for i = 0; i < wrecks.length(); i = i + 1 {
-    wrecks[i].active = false
-    wrecks[i].x = 0.0
-    wrecks[i].y = 0.0
-    wrecks[i].radius = 0.0
+  for wreck in wrecks {
+    wreck.active = false
+    wreck.x = 0.0
+    wreck.y = 0.0
+    wreck.radius = 0.0
   }
 }
 
@@ -314,22 +314,22 @@ fn add_drone(
   y : Float,
   level : Int,
 ) -> Bool {
-  for i = 0; i < drones.length(); i = i + 1 {
-    if not(drones[i].active) {
-      drones[i].active = true
-      drones[i].kind = kind
-      drones[i].x = x
-      drones[i].y = y
-      drones[i].vx = randf(-40.0, 40.0)
-      drones[i].vy = randf(-40.0, 40.0)
-      drones[i].hp = drone_hp(kind, level)
-      drones[i].t = randf(0.0, 999.0)
+  for drone in drones {
+    if not(drone.active) {
+      drone.active = true
+      drone.kind = kind
+      drone.x = x
+      drone.y = y
+      drone.vx = randf(-40.0, 40.0)
+      drone.vy = randf(-40.0, 40.0)
+      drone.hp = drone_hp(kind, level)
+      drone.t = randf(0.0, 999.0)
       if kind == 0 {
-        drones[i].fire_cd = randf(1.0, 1.8)
+        drone.fire_cd = randf(1.0, 1.8)
       } else if kind == 1 {
-        drones[i].fire_cd = randf(0.76, 1.3)
+        drone.fire_cd = randf(0.76, 1.3)
       } else {
-        drones[i].fire_cd = randf(1.2, 2.1)
+        drone.fire_cd = randf(1.2, 2.1)
       }
       return true
     }
@@ -350,18 +350,18 @@ fn add_bullet(
   radius : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < bullets.length(); i = i + 1 {
-    if not(bullets[i].active) {
-      bullets[i].active = true
-      bullets[i].team = team
-      bullets[i].kind = kind
-      bullets[i].x = x
-      bullets[i].y = y
-      bullets[i].vx = vx
-      bullets[i].vy = vy
-      bullets[i].dmg = dmg
-      bullets[i].radius = radius
-      bullets[i].life = life
+  for bullet in bullets {
+    if not(bullet.active) {
+      bullet.active = true
+      bullet.team = team
+      bullet.kind = kind
+      bullet.x = x
+      bullet.y = y
+      bullet.vx = vx
+      bullet.vy = vy
+      bullet.dmg = dmg
+      bullet.radius = radius
+      bullet.life = life
       return true
     }
   }
@@ -378,17 +378,17 @@ fn add_scrap(
   vy : Float,
   value : Int,
 ) -> Bool {
-  for i = 0; i < scraps.length(); i = i + 1 {
-    if not(scraps[i].active) {
-      scraps[i].active = true
-      scraps[i].kind = kind
-      scraps[i].x = x
-      scraps[i].y = y
-      scraps[i].vx = vx
-      scraps[i].vy = vy
-      scraps[i].value = value
-      scraps[i].t = randf(0.0, 10.0)
-      scraps[i].magnet = false
+  for scrap in scraps {
+    if not(scrap.active) {
+      scrap.active = true
+      scrap.kind = kind
+      scrap.x = x
+      scrap.y = y
+      scrap.vx = vx
+      scrap.vy = vy
+      scrap.value = value
+      scrap.t = randf(0.0, 10.0)
+      scrap.magnet = false
       return true
     }
   }
@@ -404,16 +404,16 @@ fn add_mine(
   vy : Float,
   r : Float,
 ) -> Bool {
-  for i = 0; i < mines.length(); i = i + 1 {
-    if not(mines[i].active) {
-      mines[i].active = true
-      mines[i].x = x
-      mines[i].y = y
-      mines[i].vx = vx
-      mines[i].vy = vy
-      mines[i].radius = r
-      mines[i].arm_t = randf(0.7, 1.7)
-      mines[i].life = randf(16.0, 26.0)
+  for mine in mines {
+    if not(mine.active) {
+      mine.active = true
+      mine.x = x
+      mine.y = y
+      mine.vx = vx
+      mine.vy = vy
+      mine.radius = r
+      mine.arm_t = randf(0.7, 1.7)
+      mine.life = randf(16.0, 26.0)
       return true
     }
   }
@@ -431,17 +431,17 @@ fn add_particle(
   size : Float,
   life : Float,
 ) -> Bool {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
-      parts[i].vx = vx
-      parts[i].vy = vy
-      parts[i].size = size
-      parts[i].life = life
-      parts[i].t = 0.0
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
+      part.vx = vx
+      part.vy = vy
+      part.size = size
+      part.life = life
+      part.t = 0.0
       return true
     }
   }
@@ -457,7 +457,7 @@ fn burst(
   scale : Float,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < count; _i = _i + 1 {
+  for _i in 0..<count {
     let ang : Float = randf(0.0, 6.283)
     let spd : Float = randf(60.0, 320.0) * scale
     ignore(
@@ -496,7 +496,7 @@ fn push_from_center(
 ///|
 fn spawn_map_wrecks(wrecks : Array[Wreck]) -> Unit {
   clear_wrecks(wrecks)
-  for i = 0; i < wrecks.length(); i = i + 1 {
+  for wreck in wrecks {
     let mut px : Float = randf(120.0, world_w - 120.0)
     let mut py : Float = randf(120.0, world_h - 120.0)
     let mut rr : Float = randf(24.0, 72.0)
@@ -511,10 +511,10 @@ fn spawn_map_wrecks(wrecks : Array[Wreck]) -> Unit {
       rr = randf(22.0, 54.0)
     }
 
-    wrecks[i].active = true
-    wrecks[i].x = px
-    wrecks[i].y = py
-    wrecks[i].radius = rr
+    wreck.active = true
+    wreck.x = px
+    wreck.y = py
+    wreck.radius = rr
   }
 }
 
@@ -861,7 +861,7 @@ fn main {
     clear_particles(particles)
     spawn_map_wrecks(wrecks)
 
-    for i = 0; i < 44; i = i + 1 {
+    for i in 0..<44 {
       let sx = randf(100.0, world_w - 100.0)
       let sy = randf(100.0, world_h - 100.0)
       if dist2(sx, sy, player.x, player.y) > 220.0 * 220.0 &&
@@ -919,41 +919,41 @@ fn main {
       m.active = false
       burst(particles, m.x, m.y, 26, 0.28, 2)
 
-      for bi = 0; bi < bullets.length(); bi = bi + 1 {
-        if not(bullets[bi].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
-        if dist2(bullets[bi].x, bullets[bi].y, m.x, m.y) <=
+        if dist2(bullet.x, bullet.y, m.x, m.y) <=
           (m.radius + 52.0) * (m.radius + 52.0) {
-          bullets[bi].active = false
+          bullet.active = false
         }
       }
 
-      for di = 0; di < drones.length(); di = di + 1 {
-        if not(drones[di].active) {
+      for drone in drones {
+        if not(drone.active) {
           continue
         }
-        if dist2(drones[di].x, drones[di].y, m.x, m.y) <=
-          (m.radius + drone_radius(drones[di].kind) + 40.0) *
-          (m.radius + drone_radius(drones[di].kind) + 40.0) {
-          drones[di].hp = drones[di].hp - 50.0
+        if dist2(drone.x, drone.y, m.x, m.y) <=
+          (m.radius + drone_radius(drone.kind) + 40.0) *
+          (m.radius + drone_radius(drone.kind) + 40.0) {
+          drone.hp = drone.hp - 50.0
           let (knx, kny) = push_from_center(
-            drones[di].x,
-            drones[di].y,
+            drone.x,
+            drone.y,
             m.x,
             m.y,
             280.0,
           )
-          drones[di].vx = drones[di].vx + knx
-          drones[di].vy = drones[di].vy + kny
-          if drones[di].hp <= 0.0 {
-            drones[di].active = false
+          drone.vx = drone.vx + knx
+          drone.vy = drone.vy + kny
+          if drone.hp <= 0.0 {
+            drone.active = false
             ignore(
               add_scrap(
                 scraps,
                 @raylib.get_random_value(0, 2),
-                drones[di].x,
-                drones[di].y,
+                drone.x,
+                drone.y,
                 randf(-80.0, 80.0),
                 randf(-80.0, 80.0),
                 2 + @raylib.get_random_value(0, 2),
@@ -1168,20 +1168,20 @@ fn main {
       player.y = clampf(player.y, 30.0, world_h - 30.0)
 
       // Wreck collisions
-      for i = 0; i < wrecks.length(); i = i + 1 {
-        if not(wrecks[i].active) {
+      for wreck in wrecks {
+        if not(wreck.active) {
           continue
         }
 
-        let rr : Float = wrecks[i].radius + player_radius
-        let d2 : Float = dist2(player.x, player.y, wrecks[i].x, wrecks[i].y)
+        let rr : Float = wreck.radius + player_radius
+        let d2 : Float = dist2(player.x, player.y, wreck.x, wreck.y)
         if d2 < rr * rr {
           let mut d : Float = d2.sqrt()
           let mut nx : Float = 0.0
           let mut ny : Float = -1.0
           if d > 0.001 {
-            nx = (player.x - wrecks[i].x) / d
-            ny = (player.y - wrecks[i].y) / d
+            nx = (player.x - wreck.x) / d
+            ny = (player.y - wreck.y) / d
           } else {
             d = 0.001
           }
@@ -1212,26 +1212,26 @@ fn main {
       }
 
       if player.tractor_on {
-        for i = 0; i < scraps.length(); i = i + 1 {
-          if not(scraps[i].active) {
+        for scrap in scraps {
+          if not(scrap.active) {
             continue
           }
 
-          let dx : Float = player.x - scraps[i].x
-          let dy : Float = player.y - scraps[i].y
+          let dx : Float = player.x - scrap.x
+          let dy : Float = player.y - scrap.y
           let d2 : Float = dx * dx + dy * dy
 
-          scraps[i].magnet = false
+          scrap.magnet = false
           if d2 <= 320.0 * 320.0 {
-            scraps[i].magnet = true
+            scrap.magnet = true
             let mut d : Float = d2.sqrt()
             if d < 1.0 {
               d = 1.0
             }
             let inv : Float = 1.0 / d
             let pull : Float = clampf(340.0 - d * 0.7, 60.0, 340.0)
-            scraps[i].vx = scraps[i].vx + dx * inv * pull * dt
-            scraps[i].vy = scraps[i].vy + dy * inv * pull * dt
+            scrap.vx = scrap.vx + dx * inv * pull * dt
+            scrap.vy = scrap.vy + dy * inv * pull * dt
           }
         }
       }
@@ -1244,40 +1244,40 @@ fn main {
 
         burst(particles, player.x, player.y, 84, 0.36, 3)
 
-        for i = 0; i < bullets.length(); i = i + 1 {
-          if bullets[i].active &&
-            bullets[i].team == 2 &&
-            dist2(player.x, player.y, bullets[i].x, bullets[i].y) <=
+        for bullet in bullets {
+          if bullet.active &&
+            bullet.team == 2 &&
+            dist2(player.x, player.y, bullet.x, bullet.y) <=
             300.0 * 300.0 {
-            bullets[i].active = false
+            bullet.active = false
           }
         }
 
-        for i = 0; i < drones.length(); i = i + 1 {
-          if not(drones[i].active) {
+        for drone in drones {
+          if not(drone.active) {
             continue
           }
-          if dist2(player.x, player.y, drones[i].x, drones[i].y) <=
+          if dist2(player.x, player.y, drone.x, drone.y) <=
             340.0 * 340.0 {
-            drones[i].hp = drones[i].hp - 42.0
+            drone.hp = drone.hp - 42.0
             let (kx, ky) = push_from_center(
-              drones[i].x,
-              drones[i].y,
+              drone.x,
+              drone.y,
               player.x,
               player.y,
               420.0,
             )
-            drones[i].vx = drones[i].vx + kx
-            drones[i].vy = drones[i].vy + ky
+            drone.vx = drone.vx + kx
+            drone.vy = drone.vy + ky
           }
         }
 
-        for i = 0; i < mines.length(); i = i + 1 {
-          if not(mines[i].active) {
+        for mine in mines {
+          if not(mine.active) {
             continue
           }
-          if dist2(player.x, player.y, mines[i].x, mines[i].y) <= 280.0 * 280.0 {
-            pop_mine(mines[i], 1)
+          if dist2(player.x, player.y, mine.x, mine.y) <= 280.0 * 280.0 {
+            pop_mine(mine, 1)
           }
         }
 
@@ -1292,15 +1292,15 @@ fn main {
         let mut aim_y : Float = player.face_y
 
         let mut best_d2 : Float = 999999999.0
-        for i = 0; i < drones.length(); i = i + 1 {
-          if not(drones[i].active) {
+        for drone in drones {
+          if not(drone.active) {
             continue
           }
-          let d2 : Float = dist2(player.x, player.y, drones[i].x, drones[i].y)
+          let d2 : Float = dist2(player.x, player.y, drone.x, drone.y)
           if d2 < best_d2 {
             best_d2 = d2
-            let dx : Float = drones[i].x - player.x
-            let dy : Float = drones[i].y - player.y
+            let dx : Float = drone.x - player.x
+            let dy : Float = drone.y - player.y
             let mut l2 : Float = dx * dx + dy * dy
             if l2 < 1.0 {
               l2 = 1.0
@@ -1506,57 +1506,57 @@ fn main {
       }
 
       // Update mines.
-      for i = 0; i < mines.length(); i = i + 1 {
-        if not(mines[i].active) {
+      for mine in mines {
+        if not(mine.active) {
           continue
         }
 
-        mines[i].life = mines[i].life - dt
-        mines[i].arm_t = mines[i].arm_t - dt
+        mine.life = mine.life - dt
+        mine.arm_t = mine.arm_t - dt
 
-        mines[i].x = mines[i].x + mines[i].vx * dt
-        mines[i].y = mines[i].y + mines[i].vy * dt
-        mines[i].vx = mines[i].vx * (1.0 - dt * 0.8)
-        mines[i].vy = mines[i].vy * (1.0 - dt * 0.8)
+        mine.x = mine.x + mine.vx * dt
+        mine.y = mine.y + mine.vy * dt
+        mine.vx = mine.vx * (1.0 - dt * 0.8)
+        mine.vy = mine.vy * (1.0 - dt * 0.8)
 
-        if mines[i].x < mines[i].radius {
-          mines[i].x = mines[i].radius
-          mines[i].vx = absf(mines[i].vx)
+        if mine.x < mine.radius {
+          mine.x = mine.radius
+          mine.vx = absf(mine.vx)
         }
-        if mines[i].x > world_w - mines[i].radius {
-          mines[i].x = world_w - mines[i].radius
-          mines[i].vx = -absf(mines[i].vx)
+        if mine.x > world_w - mine.radius {
+          mine.x = world_w - mine.radius
+          mine.vx = -absf(mine.vx)
         }
-        if mines[i].y < mines[i].radius {
-          mines[i].y = mines[i].radius
-          mines[i].vy = absf(mines[i].vy)
+        if mine.y < mine.radius {
+          mine.y = mine.radius
+          mine.vy = absf(mine.vy)
         }
-        if mines[i].y > world_h - mines[i].radius {
-          mines[i].y = world_h - mines[i].radius
-          mines[i].vy = -absf(mines[i].vy)
+        if mine.y > world_h - mine.radius {
+          mine.y = world_h - mine.radius
+          mine.vy = -absf(mine.vy)
         }
 
-        if mines[i].life <= 0.0 {
-          mines[i].active = false
+        if mine.life <= 0.0 {
+          mine.active = false
           continue
         }
 
-        if mines[i].arm_t <= 0.0 {
-          if dist2(mines[i].x, mines[i].y, player.x, player.y) <=
-            (mines[i].radius + 26.0) * (mines[i].radius + 26.0) {
-            pop_mine(mines[i], 2)
+        if mine.arm_t <= 0.0 {
+          if dist2(mine.x, mine.y, player.x, player.y) <=
+            (mine.radius + 26.0) * (mine.radius + 26.0) {
+            pop_mine(mine, 2)
             continue
           }
 
           let mut detonated : Bool = false
-          for di = 0; di < drones.length(); di = di + 1 {
-            if not(drones[di].active) {
+          for drone in drones {
+            if not(drone.active) {
               continue
             }
-            if dist2(mines[i].x, mines[i].y, drones[di].x, drones[di].y) <=
-              (mines[i].radius + drone_radius(drones[di].kind)) *
-              (mines[i].radius + drone_radius(drones[di].kind)) {
-              pop_mine(mines[i], 0)
+            if dist2(mine.x, mine.y, drone.x, drone.y) <=
+              (mine.radius + drone_radius(drone.kind)) *
+              (mine.radius + drone_radius(drone.kind)) {
+              pop_mine(mine, 0)
               detonated = true
               break
             }
@@ -1566,36 +1566,36 @@ fn main {
           }
 
           if boss.active &&
-            dist2(mines[i].x, mines[i].y, boss.x, boss.y) <=
-            (mines[i].radius + 54.0) * (mines[i].radius + 54.0) {
-            pop_mine(mines[i], 0)
+            dist2(mine.x, mine.y, boss.x, boss.y) <=
+            (mine.radius + 54.0) * (mine.radius + 54.0) {
+            pop_mine(mine, 0)
             continue
           }
         }
       }
 
       // Update drones.
-      for i = 0; i < drones.length(); i = i + 1 {
-        if not(drones[i].active) {
+      for drone in drones {
+        if not(drone.active) {
           continue
         }
 
-        drones[i].t = drones[i].t + dt
-        drones[i].fire_cd = drones[i].fire_cd - dt
+        drone.t = drone.t + dt
+        drone.fire_cd = drone.fire_cd - dt
 
-        let tx : Float = player.x - drones[i].x
-        let ty : Float = player.y - drones[i].y
+        let tx : Float = player.x - drone.x
+        let ty : Float = player.y - drone.y
         let mut inv : Float = 0.0
         let l2 : Float = tx * tx + ty * ty
         if l2 > 0.01 {
           inv = 1.0 / l2.sqrt()
         }
 
-        if drones[i].kind == 0 {
+        if drone.kind == 0 {
           let acc : Float = 160.0 + Float::from_int(level) * 8.0
-          drones[i].vx = drones[i].vx + tx * inv * acc * dt
-          drones[i].vy = drones[i].vy + ty * inv * acc * dt
-        } else if drones[i].kind == 1 {
+          drone.vx = drone.vx + tx * inv * acc * dt
+          drone.vy = drone.vy + ty * inv * acc * dt
+        } else if drone.kind == 1 {
           let ideal : Float = 280.0
           let mut dist : Float = 0.0
           if l2 > 0.01 {
@@ -1603,71 +1603,71 @@ fn main {
           }
           let acc : Float = 140.0 + Float::from_int(level) * 7.0
           let err : Float = dist - ideal
-          drones[i].vx = drones[i].vx +
+          drone.vx = drone.vx +
             tx * inv * err * 0.7 * dt +
-            @math.sinf(drones[i].t * 2.4) * 18.0 * dt
-          drones[i].vy = drones[i].vy +
+            @math.sinf(drone.t * 2.4) * 18.0 * dt
+          drone.vy = drone.vy +
             ty * inv * err * 0.7 * dt +
-            @math.cosf(drones[i].t * 2.1) * 18.0 * dt
+            @math.cosf(drone.t * 2.1) * 18.0 * dt
           ignore(acc)
         } else {
           let acc : Float = 90.0 + Float::from_int(level) * 4.0
-          drones[i].vx = drones[i].vx +
+          drone.vx = drone.vx +
             tx * inv * acc * dt +
-            @math.sinf(drones[i].t) * 14.0 * dt
-          drones[i].vy = drones[i].vy +
+            @math.sinf(drone.t) * 14.0 * dt
+          drone.vy = drone.vy +
             ty * inv * acc * dt +
-            @math.cosf(drones[i].t * 1.2) * 14.0 * dt
+            @math.cosf(drone.t * 1.2) * 14.0 * dt
         }
 
         // Simple avoidance from nearest wreck.
-        for wi = 0; wi < wrecks.length(); wi = wi + 1 {
-          if not(wrecks[wi].active) {
+        for wreck in wrecks {
+          if not(wreck.active) {
             continue
           }
-          let rr = drone_radius(drones[i].kind) + wrecks[wi].radius + 20.0
-          let d2 = dist2(drones[i].x, drones[i].y, wrecks[wi].x, wrecks[wi].y)
+          let rr = drone_radius(drone.kind) + wreck.radius + 20.0
+          let d2 = dist2(drone.x, drone.y, wreck.x, wreck.y)
           if d2 < rr * rr {
             let mut d : Float = d2.sqrt()
             if d < 1.0 {
               d = 1.0
             }
-            let nx : Float = (drones[i].x - wrecks[wi].x) / d
-            let ny : Float = (drones[i].y - wrecks[wi].y) / d
-            drones[i].vx = drones[i].vx + nx * 120.0 * dt
-            drones[i].vy = drones[i].vy + ny * 120.0 * dt
+            let nx : Float = (drone.x - wreck.x) / d
+            let ny : Float = (drone.y - wreck.y) / d
+            drone.vx = drone.vx + nx * 120.0 * dt
+            drone.vy = drone.vy + ny * 120.0 * dt
           }
         }
 
-        let maxv : Float = if drones[i].kind == 2 {
+        let maxv : Float = if drone.kind == 2 {
           180.0
         } else {
           240.0 + Float::from_int(level) * 5.0
         }
-        let v2 : Float = drones[i].vx * drones[i].vx +
-          drones[i].vy * drones[i].vy
+        let v2 : Float = drone.vx * drone.vx +
+          drone.vy * drone.vy
         if v2 > maxv * maxv {
           let invs : Float = maxv / v2.sqrt()
-          drones[i].vx = drones[i].vx * invs
-          drones[i].vy = drones[i].vy * invs
+          drone.vx = drone.vx * invs
+          drone.vy = drone.vy * invs
         }
 
-        drones[i].x = drones[i].x + drones[i].vx * dt
-        drones[i].y = drones[i].y + drones[i].vy * dt
+        drone.x = drone.x + drone.vx * dt
+        drone.y = drone.y + drone.vy * dt
 
-        drones[i].x = clampf(drones[i].x, 10.0, world_w - 10.0)
-        drones[i].y = clampf(drones[i].y, 10.0, world_h - 10.0)
+        drone.x = clampf(drone.x, 10.0, world_w - 10.0)
+        drone.y = clampf(drone.y, 10.0, world_h - 10.0)
 
-        if drones[i].fire_cd <= 0.0 {
-          if drones[i].kind == 0 {
-            drones[i].fire_cd = randf(1.2, 1.9)
+        if drone.fire_cd <= 0.0 {
+          if drone.kind == 0 {
+            drone.fire_cd = randf(1.2, 1.9)
             ignore(
               add_bullet(
                 bullets,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 280.0,
                 ty * inv * 280.0,
                 9.0,
@@ -1675,8 +1675,8 @@ fn main {
                 3.2,
               ),
             )
-          } else if drones[i].kind == 1 {
-            drones[i].fire_cd = randf(0.92, 1.4)
+          } else if drone.kind == 1 {
+            drone.fire_cd = randf(0.92, 1.4)
             let sx : Float = -ty * inv
             let sy : Float = tx * inv
             ignore(
@@ -1684,8 +1684,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 280.0 + sx * 70.0,
                 ty * inv * 280.0 + sy * 70.0,
                 8.0,
@@ -1698,8 +1698,8 @@ fn main {
                 bullets,
                 2,
                 0,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 280.0 - sx * 70.0,
                 ty * inv * 280.0 - sy * 70.0,
                 8.0,
@@ -1708,14 +1708,14 @@ fn main {
               ),
             )
           } else {
-            drones[i].fire_cd = randf(1.4, 2.2)
+            drone.fire_cd = randf(1.4, 2.2)
             ignore(
               add_bullet(
                 bullets,
                 2,
                 1,
-                drones[i].x,
-                drones[i].y,
+                drone.x,
+                drone.y,
                 tx * inv * 230.0,
                 ty * inv * 230.0,
                 14.0,
@@ -1726,24 +1726,24 @@ fn main {
           }
         }
 
-        if dist2(drones[i].x, drones[i].y, player.x, player.y) <=
-          (drone_radius(drones[i].kind) + player_radius) *
-          (drone_radius(drones[i].kind) + player_radius) {
+        if dist2(drone.x, drone.y, player.x, player.y) <=
+          (drone_radius(drone.kind) + player_radius) *
+          (drone_radius(drone.kind) + player_radius) {
           on_player_hit(
-            8.0 + Float::from_int(drones[i].kind) * 2.6,
+            8.0 + Float::from_int(drone.kind) * 2.6,
             "Drone collision",
           )
           let (kx, ky) = push_from_center(
             player.x,
             player.y,
-            drones[i].x,
-            drones[i].y,
+            drone.x,
+            drone.y,
             280.0,
           )
           player.vx = player.vx + kx
           player.vy = player.vy + ky
-          drones[i].vx = drones[i].vx - kx
-          drones[i].vy = drones[i].vy - ky
+          drone.vx = drone.vx - kx
+          drone.vy = drone.vy - ky
         }
       }
 
@@ -1775,7 +1775,7 @@ fn main {
           let sx : Float = -ty * inv
           let sy : Float = tx * inv
 
-          for k = -2; k <= 2; k = k + 1 {
+          for k in -2..=2 {
             let drift : Float = Float::from_int(k) * 70.0
             ignore(
               add_bullet(
@@ -1832,38 +1832,38 @@ fn main {
       }
 
       // Update bullets and resolve collisions.
-      for i = 0; i < bullets.length(); i = i + 1 {
-        if not(bullets[i].active) {
+      for bullet in bullets {
+        if not(bullet.active) {
           continue
         }
 
-        bullets[i].life = bullets[i].life - dt
-        if bullets[i].life <= 0.0 {
-          bullets[i].active = false
+        bullet.life = bullet.life - dt
+        if bullet.life <= 0.0 {
+          bullet.active = false
           continue
         }
 
-        bullets[i].x = bullets[i].x + bullets[i].vx * dt
-        bullets[i].y = bullets[i].y + bullets[i].vy * dt
+        bullet.x = bullet.x + bullet.vx * dt
+        bullet.y = bullet.y + bullet.vy * dt
 
-        if bullets[i].x < -80.0 ||
-          bullets[i].x > world_w + 80.0 ||
-          bullets[i].y < -80.0 ||
-          bullets[i].y > world_h + 80.0 {
-          bullets[i].active = false
+        if bullet.x < -80.0 ||
+          bullet.x > world_w + 80.0 ||
+          bullet.y < -80.0 ||
+          bullet.y > world_h + 80.0 {
+          bullet.active = false
           continue
         }
 
         // Wreck block.
         let mut blocked : Bool = false
-        for wi = 0; wi < wrecks.length(); wi = wi + 1 {
-          if not(wrecks[wi].active) {
+        for wreck in wrecks {
+          if not(wreck.active) {
             continue
           }
-          let rr : Float = bullets[i].radius + wrecks[wi].radius
-          if dist2(bullets[i].x, bullets[i].y, wrecks[wi].x, wrecks[wi].y) <=
+          let rr : Float = bullet.radius + wreck.radius
+          if dist2(bullet.x, bullet.y, wreck.x, wreck.y) <=
             rr * rr {
-            bullets[i].active = false
+            bullet.active = false
             blocked = true
             break
           }
@@ -1872,28 +1872,28 @@ fn main {
           continue
         }
 
-        if bullets[i].team == 1 {
+        if bullet.team == 1 {
           let mut hit_done : Bool = false
 
-          for di = 0; di < drones.length(); di = di + 1 {
+          for drone in drones {
             if hit_done {
               continue
             }
-            if not(drones[di].active) {
+            if not(drone.active) {
               continue
             }
 
-            let rr : Float = bullets[i].radius + drone_radius(drones[di].kind)
-            if dist2(bullets[i].x, bullets[i].y, drones[di].x, drones[di].y) <=
+            let rr : Float = bullet.radius + drone_radius(drone.kind)
+            if dist2(bullet.x, bullet.y, drone.x, drone.y) <=
               rr * rr {
-              drones[di].hp = drones[di].hp - bullets[i].dmg
-              bullets[i].active = false
+              drone.hp = drone.hp - bullet.dmg
+              bullet.active = false
               hit_done = true
 
-              burst(particles, drones[di].x, drones[di].y, 8, 0.12, 1)
+              burst(particles, drone.x, drone.y, 8, 0.12, 1)
 
-              if drones[di].hp <= 0.0 {
-                let reward = 72 + drones[di].kind * 28 + player.combo * 3
+              if drone.hp <= 0.0 {
+                let reward = 72 + drone.kind * 28 + player.combo * 3
                 player.score = player.score + reward
                 player.combo = player.combo + 1
                 if player.combo > player.best_combo {
@@ -1905,8 +1905,8 @@ fn main {
                     add_scrap(
                       scraps,
                       @raylib.get_random_value(0, 2),
-                      drones[di].x,
-                      drones[di].y,
+                      drone.x,
+                      drone.y,
                       randf(-96.0, 96.0),
                       randf(-96.0, 96.0),
                       2 + @raylib.get_random_value(0, 3),
@@ -1914,102 +1914,102 @@ fn main {
                   )
                 }
 
-                drones[di].active = false
-                burst(particles, drones[di].x, drones[di].y, 24, 0.22, 0)
+                drone.active = false
+                burst(particles, drone.x, drone.y, 24, 0.22, 0)
               }
             }
           }
 
-          if bullets[i].active && boss.active {
-            let rr : Float = bullets[i].radius + 58.0
-            if dist2(bullets[i].x, bullets[i].y, boss.x, boss.y) <= rr * rr {
-              bullets[i].active = false
-              boss.hp = boss.hp - bullets[i].dmg
+          if bullet.active && boss.active {
+            let rr : Float = bullet.radius + 58.0
+            if dist2(bullet.x, bullet.y, boss.x, boss.y) <= rr * rr {
+              bullet.active = false
+              boss.hp = boss.hp - bullet.dmg
               player.score = player.score + 12
-              burst(particles, bullets[i].x, bullets[i].y, 6, 0.11, 3)
+              burst(particles, bullet.x, bullet.y, 6, 0.11, 3)
             }
           }
 
-          if bullets[i].active {
-            for mi = 0; mi < mines.length(); mi = mi + 1 {
-              if not(mines[mi].active) {
+          if bullet.active {
+            for mine in mines {
+              if not(mine.active) {
                 continue
               }
-              let rr : Float = bullets[i].radius + mines[mi].radius
-              if dist2(bullets[i].x, bullets[i].y, mines[mi].x, mines[mi].y) <=
+              let rr : Float = bullet.radius + mine.radius
+              if dist2(bullet.x, bullet.y, mine.x, mine.y) <=
                 rr * rr {
-                bullets[i].active = false
-                pop_mine(mines[mi], 1)
+                bullet.active = false
+                pop_mine(mine, 1)
                 break
               }
             }
           }
         } else {
-          let rr : Float = bullets[i].radius + player_radius
-          if dist2(bullets[i].x, bullets[i].y, player.x, player.y) <= rr * rr {
-            on_player_hit(bullets[i].dmg, "Hit by enemy fire")
-            bullets[i].active = false
+          let rr : Float = bullet.radius + player_radius
+          if dist2(bullet.x, bullet.y, player.x, player.y) <= rr * rr {
+            on_player_hit(bullet.dmg, "Hit by enemy fire")
+            bullet.active = false
           }
         }
       }
 
       // Update scrap.
-      for i = 0; i < scraps.length(); i = i + 1 {
-        if not(scraps[i].active) {
+      for scrap in scraps {
+        if not(scrap.active) {
           continue
         }
 
-        scraps[i].t = scraps[i].t + dt
+        scrap.t = scrap.t + dt
 
-        scraps[i].x = scraps[i].x + scraps[i].vx * dt
-        scraps[i].y = scraps[i].y + scraps[i].vy * dt
-        scraps[i].vx = scraps[i].vx * (1.0 - dt * 1.5)
-        scraps[i].vy = scraps[i].vy * (1.0 - dt * 1.5)
+        scrap.x = scrap.x + scrap.vx * dt
+        scrap.y = scrap.y + scrap.vy * dt
+        scrap.vx = scrap.vx * (1.0 - dt * 1.5)
+        scrap.vy = scrap.vy * (1.0 - dt * 1.5)
 
-        if scraps[i].x < 20.0 {
-          scraps[i].x = 20.0
-          scraps[i].vx = absf(scraps[i].vx)
+        if scrap.x < 20.0 {
+          scrap.x = 20.0
+          scrap.vx = absf(scrap.vx)
         }
-        if scraps[i].x > world_w - 20.0 {
-          scraps[i].x = world_w - 20.0
-          scraps[i].vx = -absf(scraps[i].vx)
+        if scrap.x > world_w - 20.0 {
+          scrap.x = world_w - 20.0
+          scrap.vx = -absf(scrap.vx)
         }
-        if scraps[i].y < 20.0 {
-          scraps[i].y = 20.0
-          scraps[i].vy = absf(scraps[i].vy)
+        if scrap.y < 20.0 {
+          scrap.y = 20.0
+          scrap.vy = absf(scrap.vy)
         }
-        if scraps[i].y > world_h - 20.0 {
-          scraps[i].y = world_h - 20.0
-          scraps[i].vy = -absf(scraps[i].vy)
+        if scrap.y > world_h - 20.0 {
+          scrap.y = world_h - 20.0
+          scrap.vy = -absf(scrap.vy)
         }
 
-        if dist2(player.x, player.y, scraps[i].x, scraps[i].y) <=
+        if dist2(player.x, player.y, scrap.x, scrap.y) <=
           (player_radius + 12.0) * (player_radius + 12.0) {
-          player.cargo = player.cargo + scraps[i].value
-          player.score = player.score + scraps[i].value * 10
-          scraps[i].active = false
+          player.cargo = player.cargo + scrap.value
+          player.score = player.score + scrap.value * 10
+          scrap.active = false
           burst(particles, player.x, player.y, 10, 0.14, 0)
         }
       }
 
       // Update particles.
-      for i = 0; i < particles.length(); i = i + 1 {
-        if not(particles[i].active) {
+      for particle in particles {
+        if not(particle.active) {
           continue
         }
 
-        particles[i].life = particles[i].life - dt
-        if particles[i].life <= 0.0 {
-          particles[i].active = false
+        particle.life = particle.life - dt
+        if particle.life <= 0.0 {
+          particle.active = false
           continue
         }
 
-        particles[i].t = particles[i].t + dt
-        particles[i].x = particles[i].x + particles[i].vx * dt
-        particles[i].y = particles[i].y + particles[i].vy * dt
+        particle.t = particle.t + dt
+        particle.x = particle.x + particle.vx * dt
+        particle.y = particle.y + particle.vy * dt
 
-        particles[i].vx = particles[i].vx * (1.0 - dt * 2.0)
-        particles[i].vy = particles[i].vy * (1.0 - dt * 2.0)
+        particle.vx = particle.vx * (1.0 - dt * 2.0)
+        particle.vy = particle.vy * (1.0 - dt * 2.0)
       }
 
       // Win/lose checks.
@@ -2063,7 +2063,7 @@ fn main {
     @raylib.clear_background(@raylib.Color::new(4, 8, 16, 255))
 
     // Space starfield.
-    for i = 0; i < 240; i = i + 1 {
+    for i in 0..<240 {
       let fi : Float = Float::from_int(i)
       let sx = ((fi * 193.0 + stars_t * (0.2 + Float::from_int(i % 5) * 0.12)) %
       Float::from_int(sw)).to_int()
@@ -2120,56 +2120,56 @@ fn main {
     )
 
     // Wrecks.
-    for i = 0; i < wrecks.length(); i = i + 1 {
-      if not(wrecks[i].active) {
+    for wreck in wrecks {
+      if not(wreck.active) {
         continue
       }
-      let wx = (wrecks[i].x - cam_x).to_int()
-      let wy = (wrecks[i].y - cam_y).to_int()
+      let wx = (wreck.x - cam_x).to_int()
+      let wy = (wreck.y - cam_y).to_int()
       @raylib.draw_circle(
         wx,
         wy,
-        wrecks[i].radius,
+        wreck.radius,
         @raylib.Color::new(44, 52, 66, 230),
       )
       @raylib.draw_circle_lines(
         wx,
         wy,
-        wrecks[i].radius,
+        wreck.radius,
         @raylib.Color::new(112, 132, 160, 190),
       )
       @raylib.draw_circle(
         wx,
         wy,
-        wrecks[i].radius * 0.35,
+        wreck.radius * 0.35,
         @raylib.Color::new(30, 36, 48, 210),
       )
     }
 
     // Mines.
-    for i = 0; i < mines.length(); i = i + 1 {
-      if not(mines[i].active) {
+    for mine in mines {
+      if not(mine.active) {
         continue
       }
-      let mx = (mines[i].x - cam_x).to_int()
-      let my = (mines[i].y - cam_y).to_int()
+      let mx = (mine.x - cam_x).to_int()
+      let my = (mine.y - cam_y).to_int()
 
-      let armed : Bool = mines[i].arm_t <= 0.0
+      let armed : Bool = mine.arm_t <= 0.0
       let col = if armed {
         @raylib.Color::new(214, 88, 94, 232)
       } else {
         @raylib.Color::new(132, 132, 154, 216)
       }
-      let mine_top : Int = (mines[i].y - cam_y - mines[i].radius - 7.0).to_int()
-      let mine_bottom : Int = (mines[i].y - cam_y + mines[i].radius + 7.0).to_int()
-      let mine_left : Int = (mines[i].x - cam_x - mines[i].radius - 7.0).to_int()
-      let mine_right : Int = (mines[i].x - cam_x + mines[i].radius + 7.0).to_int()
+      let mine_top : Int = (mine.y - cam_y - mine.radius - 7.0).to_int()
+      let mine_bottom : Int = (mine.y - cam_y + mine.radius + 7.0).to_int()
+      let mine_left : Int = (mine.x - cam_x - mine.radius - 7.0).to_int()
+      let mine_right : Int = (mine.x - cam_x + mine.radius + 7.0).to_int()
 
-      @raylib.draw_circle(mx, my, mines[i].radius, col)
+      @raylib.draw_circle(mx, my, mine.radius, col)
       @raylib.draw_circle_lines(
         mx,
         my,
-        mines[i].radius + 5.0,
+        mine.radius + 5.0,
         @raylib.Color::new(242, 198, 198, 170),
       )
       @raylib.draw_line(
@@ -2189,23 +2189,23 @@ fn main {
     }
 
     // Scrap.
-    for i = 0; i < scraps.length(); i = i + 1 {
-      if not(scraps[i].active) {
+    for scrap in scraps {
+      if not(scrap.active) {
         continue
       }
-      let sx = (scraps[i].x - cam_x).to_int()
-      let sy = (scraps[i].y - cam_y).to_int()
+      let sx = (scrap.x - cam_x).to_int()
+      let sy = (scrap.y - cam_y).to_int()
 
-      let col = if scraps[i].kind == 0 {
+      let col = if scrap.kind == 0 {
         @raylib.Color::new(112, 234, 194, 236)
-      } else if scraps[i].kind == 1 {
+      } else if scrap.kind == 1 {
         @raylib.Color::new(118, 192, 252, 236)
       } else {
         @raylib.Color::new(252, 212, 116, 236)
       }
 
-      @raylib.draw_circle(sx, sy, 9.0 + Float::from_int(scraps[i].value), col)
-      if scraps[i].magnet {
+      @raylib.draw_circle(sx, sy, 9.0 + Float::from_int(scrap.value), col)
+      if scrap.magnet {
         @raylib.draw_circle_lines(
           sx,
           sy,
@@ -2216,15 +2216,15 @@ fn main {
     }
 
     // Drones.
-    for i = 0; i < drones.length(); i = i + 1 {
-      if not(drones[i].active) {
+    for drone in drones {
+      if not(drone.active) {
         continue
       }
 
-      let dx = (drones[i].x - cam_x).to_int()
-      let dy = (drones[i].y - cam_y).to_int()
+      let dx = (drone.x - cam_x).to_int()
+      let dy = (drone.y - cam_y).to_int()
 
-      if drones[i].kind == 0 {
+      if drone.kind == 0 {
         @raylib.draw_circle(dx, dy, 16.0, @raylib.Color::new(220, 96, 102, 244))
         @raylib.draw_circle_lines(
           dx,
@@ -2232,7 +2232,7 @@ fn main {
           20.0,
           @raylib.Color::new(248, 212, 214, 186),
         )
-      } else if drones[i].kind == 1 {
+      } else if drone.kind == 1 {
         @raylib.draw_rectangle(
           dx - 18,
           dy - 14,
@@ -2295,26 +2295,26 @@ fn main {
     }
 
     // Bullets.
-    for i = 0; i < bullets.length(); i = i + 1 {
-      if not(bullets[i].active) {
+    for bullet in bullets {
+      if not(bullet.active) {
         continue
       }
-      let bx = (bullets[i].x - cam_x).to_int()
-      let by = (bullets[i].y - cam_y).to_int()
+      let bx = (bullet.x - cam_x).to_int()
+      let by = (bullet.y - cam_y).to_int()
 
-      let col = if bullets[i].team == 1 {
-        if bullets[i].kind == 1 {
+      let col = if bullet.team == 1 {
+        if bullet.kind == 1 {
           @raylib.Color::new(106, 236, 255, 250)
         } else {
           @raylib.Color::new(246, 244, 140, 250)
         }
-      } else if bullets[i].kind == 1 {
+      } else if bullet.kind == 1 {
         @raylib.Color::new(250, 122, 232, 246)
       } else {
         @raylib.Color::new(252, 132, 136, 242)
       }
 
-      @raylib.draw_circle(bx, by, bullets[i].radius, col)
+      @raylib.draw_circle(bx, by, bullet.radius, col)
     }
 
     // Player and tractor visual.
@@ -2350,15 +2350,15 @@ fn main {
         320.0,
         @raylib.Color::new(102, 222, 248, 116),
       )
-      for i = 0; i < scraps.length(); i = i + 1 {
-        if not(scraps[i].active) || not(scraps[i].magnet) {
+      for scrap in scraps {
+        if not(scrap.active) || not(scrap.magnet) {
           continue
         }
         @raylib.draw_line(
           px,
           py,
-          (scraps[i].x - cam_x).to_int(),
-          (scraps[i].y - cam_y).to_int(),
+          (scrap.x - cam_x).to_int(),
+          (scrap.y - cam_y).to_int(),
           @raylib.Color::new(122, 234, 252, 104),
         )
       }
@@ -2374,25 +2374,25 @@ fn main {
     }
 
     // Particles.
-    for i = 0; i < particles.length(); i = i + 1 {
-      if not(particles[i].active) {
+    for particle in particles {
+      if not(particle.active) {
         continue
       }
 
-      let a : Int = (clampf(particles[i].life / 0.8, 0.0, 1.0) * 255.0).to_int()
-      let col = if particles[i].kind == 0 {
+      let a : Int = (clampf(particle.life / 0.8, 0.0, 1.0) * 255.0).to_int()
+      let col = if particle.kind == 0 {
         @raylib.Color::new(112, 224, 250, a)
-      } else if particles[i].kind == 1 {
+      } else if particle.kind == 1 {
         @raylib.Color::new(254, 238, 150, a)
-      } else if particles[i].kind == 2 {
+      } else if particle.kind == 2 {
         @raylib.Color::new(252, 128, 128, a)
       } else {
         @raylib.Color::new(226, 150, 252, a)
       }
       @raylib.draw_circle(
-        (particles[i].x - cam_x).to_int(),
-        (particles[i].y - cam_y).to_int(),
-        particles[i].size,
+        (particle.x - cam_x).to_int(),
+        (particle.y - cam_y).to_int(),
+        particle.size,
         col,
       )
     }
@@ -2551,12 +2551,12 @@ fn main {
     let bmy : Int = map_y + (beacon_y * map_fy).to_int()
     @raylib.draw_circle(bmx, bmy, 4.0, @raylib.Color::new(130, 230, 252, 250))
 
-    for i = 0; i < drones.length(); i = i + 1 {
-      if not(drones[i].active) {
+    for drone in drones {
+      if not(drone.active) {
         continue
       }
-      let ex : Int = map_x + (drones[i].x * map_fx).to_int()
-      let ey : Int = map_y + (drones[i].y * map_fy).to_int()
+      let ex : Int = map_x + (drone.x * map_fx).to_int()
+      let ey : Int = map_y + (drone.y * map_fy).to_int()
       @raylib.draw_circle(ex, ey, 2.0, @raylib.Color::new(252, 122, 132, 226))
     }
 

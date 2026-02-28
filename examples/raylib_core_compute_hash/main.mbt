@@ -1,8 +1,8 @@
 ///|
 fn string_to_bytes(s : String) -> Bytes {
   let arr : Array[Byte] = []
-  for i in 0..<s.length() {
-    let c = s[i].to_int()
+  for s_elem in s {
+    let c = s_elem.to_int()
     // Simple ASCII-to-byte conversion (sufficient for this example)
     arr.push((c & 0xFF).to_byte())
   }
@@ -26,8 +26,8 @@ fn int_to_hex(n : Int) -> String {
 fn bytes_to_hex(data : Bytes) -> String {
   let hex = "0123456789ABCDEF"
   let mut result = ""
-  for i in 0..<data.length() {
-    let b = data[i].to_int().reinterpret_as_uint()
+  for data_elem in data {
+    let b = data_elem.to_int().reinterpret_as_uint()
     let hi = ((b >> 4) & 0xFU).reinterpret_as_int()
     let lo = (b & 0xFU).reinterpret_as_int()
     result = result + hex[hi].to_string() + hex[lo].to_string()

@@ -2,10 +2,9 @@
 
 ///|
 pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.enemies.length(); i = i + 1 {
-    let e = game.enemies[i]
+  for e in game.enemies {
     if not(e.active) {
-      continue i + 1
+      continue
     }
     // Hit flash timer
     if e.hit_flash > 0.0 {
@@ -20,7 +19,7 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       if e.stun_timer < 0.0 {
         e.stun_timer = 0.0
       }
-      continue i + 1
+      continue
     }
     // Slow timer
     if e.slow_timer > 0.0 {
@@ -39,7 +38,7 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     }
     // Mimic special: don't move until alerted
     if e.kind == @types.enemy_mimic && not(e.alerted) {
-      continue i + 1
+      continue
     }
     // Check if player is in sight range
     let dist = @types.dist2d(e.x, e.z, game.player_x, game.player_z)
@@ -49,7 +48,7 @@ pub fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     if not(e.alerted) {
       // Patrol behavior for non-alerted enemies
       update_patrol(game, e, dt)
-      continue i + 1
+      continue
     }
     // Attack cooldown
     if e.attack_timer > 0.0 {
@@ -561,7 +560,7 @@ fn update_boss_enemy(
   if e.ability_cooldown <= 0.0 && dist < 8.0 {
     // Fire breath: multiple projectiles in a cone
     let base_angle = @math.atan2f(game.player_x - e.x, game.player_z - e.z)
-    for j = -2; j <= 2; j = j + 1 {
+    for j in -2..=2 {
       let angle = base_angle + Float::from_int(j) * 0.2
       let pidx = @types.alloc_projectile(game)
       if pidx >= 0 {
@@ -709,15 +708,14 @@ fn summon_skeleton(game : @types.Game, e : @types.Enemy) -> Unit {
 
 ///|
 pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.projectiles.length(); i = i + 1 {
-    let p = game.projectiles[i]
+  for p in game.projectiles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.lifetime -= dt
     if p.lifetime <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     // Move
     let new_x = p.x + p.vx * dt
@@ -729,7 +727,7 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       p.active = false
       // Hit wall particles
       @types.spawn_particles(game, new_x, 1.0, new_z, 4, 200, 200, 50)
-      continue i + 1
+      continue
     }
     p.x = new_x
     p.z = new_z
@@ -756,10 +754,10 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
       }
     } else {
       // Player projectile: check hit enemies
-      for j = 0; j < game.enemies.length(); j = j + 1 {
+      for j in 0..<game.enemies.length() {
         let enemy = game.enemies[j]
         if not(enemy.active) {
-          continue j + 1
+          continue
         }
         let edist = @types.dist2d(p.x, p.z, enemy.x, enemy.z)
         if edist < 0.8 {
@@ -794,15 +792,14 @@ pub fn update_projectiles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
-      continue i + 1
+      continue
     }
     p.life -= dt
     if p.life <= 0.0 {
       p.active = false
-      continue i + 1
+      continue
     }
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -817,10 +814,9 @@ pub fn update_particles(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_loot_bob(game : @types.Game, dt : Float) -> Unit {
-  for i = 0; i < game.loot.length(); i = i + 1 {
-    let l = game.loot[i]
+  for l in game.loot {
     if not(l.active) {
-      continue i + 1
+      continue
     }
     l.bob_phase += dt * 3.0
   }

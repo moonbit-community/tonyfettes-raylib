@@ -91,7 +91,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(122, 82, 170, 40),
   )
 
-  for i = 0; i < 120; i = i + 1 {
+  for i in 0..<120 {
     let p = Float::from_int(i)
     let x = (p * 73.0 + sinf(game.time_s * 0.14 + p * 0.2) * 90.0) %
       Float::from_int(screen_w)
@@ -266,7 +266,7 @@ fn draw_obj_mine(
     @raylib.Color::new(col.r.to_int(), col.g.to_int(), col.b.to_int(), 210),
   )
 
-  for k = 0; k < 8; k = k + 1 {
+  for k in 0..<8 {
     let a = Float::from_int(k) * 0.785 + o.spin
     let nx = cosf(a)
     let ny = sinf(a)
@@ -368,8 +368,7 @@ fn draw_obj_scrap(
 
 ///|
 fn draw_objects(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.objs.length(); i = i + 1 {
-    let o = game.objs[i]
+  for o in game.objs {
     if not(o.active) {
       continue
     }
@@ -416,8 +415,7 @@ fn draw_objects(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.trails.length(); i = i + 1 {
-    let t = game.trails[i]
+  for t in game.trails {
     if not(t.active) {
       continue
     }
@@ -441,8 +439,7 @@ fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.particles.length(); i = i + 1 {
-    let p = game.particles[i]
+  for p in game.particles {
     if not(p.active) {
       continue
     }
@@ -467,8 +464,7 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_ripples(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for i = 0; i < game.ripples.length(); i = i + 1 {
-    let r = game.ripples[i]
+  for r in game.ripples {
     if not(r.active) {
       continue
     }

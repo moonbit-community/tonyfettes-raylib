@@ -15,8 +15,8 @@ fn make_kernel_bytes(kernel : FixedArray[Float]) -> Bytes {
 ///|
 fn normalize_kernel(kernel : FixedArray[Float]) -> Unit {
   let mut sum : Float = 0.0
-  for i in 0..<kernel.length() {
-    sum += kernel[i]
+  for kernel_elem in kernel {
+    sum += kernel_elem
   }
   if sum != 0.0 {
     for i in 0..<kernel.length() {

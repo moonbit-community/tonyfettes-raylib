@@ -187,63 +187,63 @@ fn inside_rect(
 
 ///|
 fn clear_stations(stations : Array[Station]) -> Unit {
-  for i = 0; i < stations.length(); i = i + 1 {
-    stations[i].active = false
-    stations[i].x = 0.0
-    stations[i].y = 0.0
-    stations[i].line_mask = 0
-    stations[i].crowd = 0
-    stations[i].spawn_cd = 0.0
-    stations[i].wait_t = 0.0
-    stations[i].strain = 0.0
-    stations[i].name = ""
+  for station in stations {
+    station.active = false
+    station.x = 0.0
+    station.y = 0.0
+    station.line_mask = 0
+    station.crowd = 0
+    station.spawn_cd = 0.0
+    station.wait_t = 0.0
+    station.strain = 0.0
+    station.name = ""
   }
 }
 
 ///|
 fn clear_segments(segments : Array[Segment]) -> Unit {
-  for i = 0; i < segments.length(); i = i + 1 {
-    segments[i].active = false
-    segments[i].a = -1
-    segments[i].b = -1
-    segments[i].line = 0
-    segments[i].health = 0.0
-    segments[i].fault_t = 0.0
-    segments[i].wear = 0.0
-    segments[i].traffic = 0.0
-    segments[i].spark_cd = 0.0
+  for segment in segments {
+    segment.active = false
+    segment.a = -1
+    segment.b = -1
+    segment.line = 0
+    segment.health = 0.0
+    segment.fault_t = 0.0
+    segment.wear = 0.0
+    segment.traffic = 0.0
+    segment.spark_cd = 0.0
   }
 }
 
 ///|
 fn clear_trains(trains : Array[Train]) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
-    trains[i].active = false
-    trains[i].route_id = 0
-    trains[i].route_pos = 0
-    trains[i].dir = 1
-    trains[i].t = 0.0
-    trains[i].speed = 0.0
-    trains[i].passengers = 0
-    trains[i].capacity = 0
-    trains[i].delay_t = 0.0
-    trains[i].blink_t = 0.0
-    trains[i].color_id = 0
+  for train in trains {
+    train.active = false
+    train.route_id = 0
+    train.route_pos = 0
+    train.dir = 1
+    train.t = 0.0
+    train.speed = 0.0
+    train.passengers = 0
+    train.capacity = 0
+    train.delay_t = 0.0
+    train.blink_t = 0.0
+    train.color_id = 0
   }
 }
 
 ///|
 fn clear_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    parts[i].active = false
-    parts[i].kind = 0
-    parts[i].x = 0.0
-    parts[i].y = 0.0
-    parts[i].vx = 0.0
-    parts[i].vy = 0.0
-    parts[i].size = 0.0
-    parts[i].life = 0.0
-    parts[i].pulse = 0.0
+  for part in parts {
+    part.active = false
+    part.kind = 0
+    part.x = 0.0
+    part.y = 0.0
+    part.vx = 0.0
+    part.vy = 0.0
+    part.size = 0.0
+    part.life = 0.0
+    part.pulse = 0.0
   }
 }
 
@@ -256,7 +256,7 @@ fn add_station(
   crowd : Int,
   name : String,
 ) -> Int {
-  for i = 0; i < stations.length(); i = i + 1 {
+  for i in 0..<stations.length() {
     if not(stations[i].active) {
       stations[i].active = true
       stations[i].x = x
@@ -275,7 +275,7 @@ fn add_station(
 
 ///|
 fn add_segment(segments : Array[Segment], a : Int, b : Int, line : Int) -> Int {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       segments[i].active = true
       segments[i].a = a
@@ -302,7 +302,7 @@ fn add_train(
   capacity : Int,
   color_id : Int,
 ) -> Int {
-  for i = 0; i < trains.length(); i = i + 1 {
+  for i in 0..<trains.length() {
     if not(trains[i].active) {
       trains[i].active = true
       trains[i].route_id = route_id
@@ -328,19 +328,19 @@ fn add_particle(
   y : Float,
   kind : Int,
 ) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
-      parts[i].active = true
-      parts[i].kind = kind
-      parts[i].x = x
-      parts[i].y = y
+  for part in parts {
+    if not(part.active) {
+      part.active = true
+      part.kind = kind
+      part.x = x
+      part.y = y
       let a : Float = randf(0.0, 6.28318)
       let s : Float = randf(22.0, 230.0)
-      parts[i].vx = @math.cosf(a) * s
-      parts[i].vy = @math.sinf(a) * s
-      parts[i].size = randf(2.0, 8.0)
-      parts[i].life = randf(0.2, 0.9)
-      parts[i].pulse = randf(0.0, 20.0)
+      part.vx = @math.cosf(a) * s
+      part.vy = @math.sinf(a) * s
+      part.size = randf(2.0, 8.0)
+      part.life = randf(0.2, 0.9)
+      part.pulse = randf(0.0, 20.0)
       return
     }
   }
@@ -354,55 +354,55 @@ fn burst_particles(
   n : Int,
   kind : Int,
 ) -> Unit {
-  for _i = 0; _i < n; _i = _i + 1 {
+  for _i in 0..<n {
     add_particle(parts, x, y, kind)
   }
 }
 
 ///|
 fn update_particles(parts : Array[Particle], dt : Float) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    parts[i].life = parts[i].life - dt
-    if parts[i].life <= 0.0 {
-      parts[i].active = false
+    part.life = part.life - dt
+    if part.life <= 0.0 {
+      part.active = false
       continue
     }
 
-    parts[i].pulse = parts[i].pulse + dt
-    parts[i].x = parts[i].x + parts[i].vx * dt
-    parts[i].y = parts[i].y + parts[i].vy * dt
-    parts[i].vx = parts[i].vx * (1.0 - dt * 2.2)
-    parts[i].vy = parts[i].vy * (1.0 - dt * 2.1) + 8.0 * dt
+    part.pulse = part.pulse + dt
+    part.x = part.x + part.vx * dt
+    part.y = part.y + part.vy * dt
+    part.vx = part.vx * (1.0 - dt * 2.2)
+    part.vy = part.vy * (1.0 - dt * 2.1) + 8.0 * dt
   }
 }
 
 ///|
 fn draw_particles(parts : Array[Particle]) -> Unit {
-  for i = 0; i < parts.length(); i = i + 1 {
-    if not(parts[i].active) {
+  for part in parts {
+    if not(part.active) {
       continue
     }
 
-    let c = if parts[i].kind == 0 {
+    let c = if part.kind == 0 {
       @raylib.Color::new(246, 214, 124, 236)
-    } else if parts[i].kind == 1 {
+    } else if part.kind == 1 {
       @raylib.Color::new(130, 210, 252, 236)
-    } else if parts[i].kind == 2 {
+    } else if part.kind == 2 {
       @raylib.Color::new(130, 236, 156, 236)
-    } else if parts[i].kind == 3 {
+    } else if part.kind == 3 {
       @raylib.Color::new(250, 130, 146, 236)
     } else {
       @raylib.Color::new(198, 198, 216, 226)
     }
 
     @raylib.draw_circle(
-      parts[i].x.to_int(),
-      parts[i].y.to_int(),
-      parts[i].size * parts[i].life * 2.0,
+      part.x.to_int(),
+      part.y.to_int(),
+      part.size * part.life * 2.0,
       c,
     )
   }
@@ -433,7 +433,7 @@ fn next_route_pos(route : Array[Int], pos : Int, dir : Int) -> (Int, Int) {
 
 ///|
 fn find_segment(segments : Array[Segment], a : Int, b : Int) -> Int {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -523,8 +523,8 @@ fn setup_network(
 ///|
 fn count_faults(segments : Array[Segment]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < segments.length(); i = i + 1 {
-    if segments[i].active && segments[i].fault_t > 0.0 {
+  for segment in segments {
+    if segment.active && segment.fault_t > 0.0 {
       n = n + 1
     }
   }
@@ -534,8 +534,8 @@ fn count_faults(segments : Array[Segment]) -> Int {
 ///|
 fn count_active_segments(segments : Array[Segment]) -> Int {
   let mut n : Int = 0
-  for i = 0; i < segments.length(); i = i + 1 {
-    if segments[i].active {
+  for segment in segments {
+    if segment.active {
       n = n + 1
     }
   }
@@ -546,33 +546,33 @@ fn count_active_segments(segments : Array[Segment]) -> Int {
 fn update_stations(stations : Array[Station], dt : Float, tier : Int) -> Float {
   let mut total_strain : Float = 0.0
 
-  for i = 0; i < stations.length(); i = i + 1 {
-    if not(stations[i].active) {
+  for station in stations {
+    if not(station.active) {
       continue
     }
 
-    stations[i].spawn_cd = stations[i].spawn_cd - dt
-    if stations[i].spawn_cd <= 0.0 {
+    station.spawn_cd = station.spawn_cd - dt
+    if station.spawn_cd <= 0.0 {
       let add_n : Int = @raylib.get_random_value(0, 2 + tier / 2)
-      stations[i].crowd = stations[i].crowd + add_n
-      stations[i].crowd = clampi(stations[i].crowd, 0, 180)
+      station.crowd = station.crowd + add_n
+      station.crowd = clampi(station.crowd, 0, 180)
 
       let mut next_cd : Float = randf(1.0, 2.4) - Float::from_int(tier) * 0.03
       if next_cd < 0.42 {
         next_cd = 0.42
       }
-      stations[i].spawn_cd = next_cd
+      station.spawn_cd = next_cd
     }
 
-    stations[i].wait_t = stations[i].wait_t +
-      dt * Float::from_int(stations[i].crowd) * 0.015
-    if stations[i].wait_t > 1000.0 {
-      stations[i].wait_t = 1000.0
+    station.wait_t = station.wait_t +
+      dt * Float::from_int(station.crowd) * 0.015
+    if station.wait_t > 1000.0 {
+      station.wait_t = 1000.0
     }
 
-    stations[i].strain = Float::from_int(stations[i].crowd) * 0.75 +
-      stations[i].wait_t * 0.03
-    total_strain = total_strain + stations[i].strain
+    station.strain = Float::from_int(station.crowd) * 0.75 +
+      station.wait_t * 0.03
+    total_strain = total_strain + station.strain
   }
 
   total_strain
@@ -589,60 +589,60 @@ fn update_segments(
   let mut new_faults : Int = 0
   let mut health_sum : Float = 0.0
 
-  for i = 0; i < segments.length(); i = i + 1 {
-    if not(segments[i].active) {
+  for segment in segments {
+    if not(segment.active) {
       continue
     }
 
-    segments[i].traffic = segments[i].traffic * (1.0 - dt * 0.6)
-    if segments[i].traffic < 0.0 {
-      segments[i].traffic = 0.0
+    segment.traffic = segment.traffic * (1.0 - dt * 0.6)
+    if segment.traffic < 0.0 {
+      segment.traffic = 0.0
     }
 
-    segments[i].wear = segments[i].wear +
+    segment.wear = segment.wear +
       dt * (0.4 + Float::from_int(tier) * 0.04)
-    segments[i].wear = clampf(segments[i].wear, 0.0, 1000.0)
+    segment.wear = clampf(segment.wear, 0.0, 1000.0)
 
-    segments[i].health = segments[i].health -
-      dt * (0.06 + segments[i].traffic * 0.002 + segments[i].wear * 0.0002)
-    segments[i].health = clampf(segments[i].health, 0.0, 100.0)
+    segment.health = segment.health -
+      dt * (0.06 + segment.traffic * 0.002 + segment.wear * 0.0002)
+    segment.health = clampf(segment.health, 0.0, 100.0)
 
-    if segments[i].fault_t > 0.0 {
-      segments[i].fault_t = segments[i].fault_t - dt
-      if segments[i].fault_t < 0.0 {
-        segments[i].fault_t = 0.0
+    if segment.fault_t > 0.0 {
+      segment.fault_t = segment.fault_t - dt
+      if segment.fault_t < 0.0 {
+        segment.fault_t = 0.0
       }
 
-      segments[i].spark_cd = segments[i].spark_cd - dt
-      if segments[i].spark_cd <= 0.0 {
-        segments[i].spark_cd = randf(0.3, 0.9)
-        let ax : Float = stations[segments[i].a].x
-        let ay : Float = stations[segments[i].a].y
-        let bx : Float = stations[segments[i].b].x
-        let by : Float = stations[segments[i].b].y
+      segment.spark_cd = segment.spark_cd - dt
+      if segment.spark_cd <= 0.0 {
+        segment.spark_cd = randf(0.3, 0.9)
+        let ax : Float = stations[segment.a].x
+        let ay : Float = stations[segment.a].y
+        let bx : Float = stations[segment.b].x
+        let by : Float = stations[segment.b].y
         let t : Float = randf(0.1, 0.9)
         burst_particles(parts, ax + (bx - ax) * t, ay + (by - ay) * t, 4, 3)
       }
     } else {
-      let risk : Float = (100.0 - segments[i].health) * 0.008 +
+      let risk : Float = (100.0 - segment.health) * 0.008 +
         Float::from_int(tier) * 0.002
       if @raylib.get_random_value(0, 9999) < (risk * 10000.0 * dt).to_int() {
-        segments[i].fault_t = randf(6.0, 14.0)
-        segments[i].health = segments[i].health - randf(8.0, 18.0)
-        if segments[i].health < 0.0 {
-          segments[i].health = 0.0
+        segment.fault_t = randf(6.0, 14.0)
+        segment.health = segment.health - randf(8.0, 18.0)
+        if segment.health < 0.0 {
+          segment.health = 0.0
         }
         new_faults = new_faults + 1
 
-        let mx : Float = (stations[segments[i].a].x + stations[segments[i].b].x) *
+        let mx : Float = (stations[segment.a].x + stations[segment.b].x) *
           0.5
-        let my : Float = (stations[segments[i].a].y + stations[segments[i].b].y) *
+        let my : Float = (stations[segment.a].y + stations[segment.b].y) *
           0.5
         burst_particles(parts, mx, my, 16, 3)
       }
     }
 
-    health_sum = health_sum + segments[i].health
+    health_sum = health_sum + segment.health
   }
 
   (new_faults, health_sum)
@@ -662,39 +662,39 @@ fn update_trains(
   let mut delay_gain : Float = 0.0
   let mut boarded_gain : Int = 0
 
-  for i = 0; i < trains.length(); i = i + 1 {
-    if not(trains[i].active) {
+  for train in trains {
+    if not(train.active) {
       continue
     }
 
-    if trains[i].blink_t > 0.0 {
-      trains[i].blink_t = trains[i].blink_t - dt
-      if trains[i].blink_t < 0.0 {
-        trains[i].blink_t = 0.0
+    if train.blink_t > 0.0 {
+      train.blink_t = train.blink_t - dt
+      if train.blink_t < 0.0 {
+        train.blink_t = 0.0
       }
     }
 
-    let route : Array[Int] = if trains[i].route_id == 0 {
+    let route : Array[Int] = if train.route_id == 0 {
       route0
     } else {
       route1
     }
-    let cur_pos : Int = clampi(trains[i].route_pos, 0, route_len(route) - 1)
+    let cur_pos : Int = clampi(train.route_pos, 0, route_len(route) - 1)
     let cur_sid : Int = route_station(route, cur_pos)
 
-    let (next_pos, ndir) = next_route_pos(route, cur_pos, trains[i].dir)
+    let (next_pos, ndir) = next_route_pos(route, cur_pos, train.dir)
     let next_sid : Int = route_station(route, next_pos)
 
     let seg_id : Int = find_segment(segments, cur_sid, next_sid)
     if seg_id < 0 {
-      trains[i].delay_t = trains[i].delay_t + dt
+      train.delay_t = train.delay_t + dt
       delay_gain = delay_gain + dt
       continue
     }
 
     if segments[seg_id].fault_t > 0.0 {
-      trains[i].delay_t = trains[i].delay_t + dt
-      trains[i].blink_t = 0.1
+      train.delay_t = train.delay_t + dt
+      train.blink_t = 0.1
       delay_gain = delay_gain + dt
 
       stations[cur_sid].wait_t = stations[cur_sid].wait_t + dt * 0.8
@@ -709,33 +709,33 @@ fn update_trains(
 
     let traffic_slow : Float = 1.0 -
       clampf(segments[seg_id].traffic * 0.02, 0.0, 0.45)
-    let step : Float = dt * trains[i].speed * traffic_slow * (130.0 / dist)
+    let step : Float = dt * train.speed * traffic_slow * (130.0 / dist)
 
-    trains[i].t = trains[i].t + step
+    train.t = train.t + step
     segments[seg_id].traffic = segments[seg_id].traffic + 1.8 * dt
     segments[seg_id].wear = segments[seg_id].wear +
-      dt * (0.8 + Float::from_int(trains[i].passengers) * 0.02)
+      dt * (0.8 + Float::from_int(train.passengers) * 0.02)
 
-    if trains[i].t >= 1.0 {
-      trains[i].t = trains[i].t - 1.0
-      trains[i].route_pos = next_pos
-      trains[i].dir = ndir
+    if train.t >= 1.0 {
+      train.t = train.t - 1.0
+      train.route_pos = next_pos
+      train.dir = ndir
 
       // arrival at next station
-      delivered_gain = delivered_gain + trains[i].passengers
-      trains[i].passengers = 0
+      delivered_gain = delivered_gain + train.passengers
+      train.passengers = 0
 
-      let board : Int = if stations[next_sid].crowd < trains[i].capacity {
+      let board : Int = if stations[next_sid].crowd < train.capacity {
         stations[next_sid].crowd
       } else {
-        trains[i].capacity
+        train.capacity
       }
       stations[next_sid].crowd = stations[next_sid].crowd - board
       boarded_gain = boarded_gain + board
-      trains[i].passengers = board
+      train.passengers = board
 
       stations[next_sid].wait_t = stations[next_sid].wait_t * 0.65
-      trains[i].delay_t = trains[i].delay_t * 0.7
+      train.delay_t = train.delay_t * 0.7
 
       burst_particles(
         parts,
@@ -762,7 +762,7 @@ fn nearest_faulty_segment(
   let mut best_x : Float = x
   let mut best_y : Float = y
 
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) || segments[i].fault_t <= 0.0 {
       continue
     }
@@ -796,30 +796,30 @@ fn apply_repair(
 
   let mut repaired : Int = 0
 
-  for i = 0; i < segments.length(); i = i + 1 {
-    if not(segments[i].active) {
+  for segment in segments {
+    if not(segment.active) {
       continue
     }
 
-    let mx : Float = (stations[segments[i].a].x + stations[segments[i].b].x) *
+    let mx : Float = (stations[segment.a].x + stations[segment.b].x) *
       0.5
-    let my : Float = (stations[segments[i].a].y + stations[segments[i].b].y) *
+    let my : Float = (stations[segment.a].y + stations[segment.b].y) *
       0.5
     let d2 : Float = dist2(drone.x, drone.y, mx, my)
 
     if d2 <= 64.0 * 64.0 {
-      if segments[i].fault_t > 0.0 {
-        segments[i].fault_t = segments[i].fault_t - 4.0
-        if segments[i].fault_t < 0.0 {
-          segments[i].fault_t = 0.0
+      if segment.fault_t > 0.0 {
+        segment.fault_t = segment.fault_t - 4.0
+        if segment.fault_t < 0.0 {
+          segment.fault_t = 0.0
         }
-        segments[i].health = minf(100.0, segments[i].health + 12.0)
-        segments[i].wear = maxf(0.0, segments[i].wear - 8.0)
+        segment.health = minf(100.0, segment.health + 12.0)
+        segment.wear = maxf(0.0, segment.wear - 8.0)
         repaired = repaired + 1
         burst_particles(parts, mx, my, 14, 2)
-      } else if segments[i].health < 98.0 {
-        segments[i].health = minf(100.0, segments[i].health + 8.0)
-        segments[i].wear = maxf(0.0, segments[i].wear - 4.0)
+      } else if segment.health < 98.0 {
+        segment.health = minf(100.0, segment.health + 8.0)
+        segment.wear = maxf(0.0, segment.wear - 4.0)
         repaired = repaired + 1
         burst_particles(parts, mx, my, 8, 2)
       }
@@ -848,7 +848,7 @@ fn draw_world_bg(t : Float) -> Unit {
     @raylib.Color::new(14, 20, 34, 255),
   )
 
-  for i = 0; i < 36; i = i + 1 {
+  for i in 0..<36 {
     let fi : Float = Float::from_int(i)
     let x : Int = (fi * 70.0 + t * (16.0 + Float::from_int(i % 5) * 4.0)).to_int() %
       world_w +
@@ -863,7 +863,7 @@ fn draw_world_bg(t : Float) -> Unit {
   }
 
   // road grid hint
-  for i = 0; i < 14; i = i + 1 {
+  for i in 0..<14 {
     let y : Int = world_y + i * 52
     @raylib.draw_line(
       world_x,
@@ -873,7 +873,7 @@ fn draw_world_bg(t : Float) -> Unit {
       @raylib.Color::new(40, 52, 78, 56),
     )
   }
-  for i = 0; i < 18; i = i + 1 {
+  for i in 0..<18 {
     let x : Int = world_x + i * 52
     @raylib.draw_line(
       x,
@@ -919,7 +919,7 @@ fn draw_segments(
   selected_fault : Int,
   t : Float,
 ) -> Unit {
-  for i = 0; i < segments.length(); i = i + 1 {
+  for i in 0..<segments.length() {
     if not(segments[i].active) {
       continue
     }
@@ -973,41 +973,41 @@ fn draw_segments(
 
 ///|
 fn draw_stations(stations : Array[Station]) -> Unit {
-  for i = 0; i < stations.length(); i = i + 1 {
-    if not(stations[i].active) {
+  for station in stations {
+    if not(station.active) {
       continue
     }
 
-    let col = if stations[i].line_mask == 1 {
+    let col = if station.line_mask == 1 {
       @raylib.Color::new(110, 196, 252, 246)
-    } else if stations[i].line_mask == 2 {
+    } else if station.line_mask == 2 {
       @raylib.Color::new(140, 228, 146, 246)
     } else {
       @raylib.Color::new(222, 184, 252, 246)
     }
 
     let r : Float = 16.0 +
-      clampf(Float::from_int(stations[i].crowd) * 0.03, 0.0, 16.0)
-    @raylib.draw_circle(stations[i].x.to_int(), stations[i].y.to_int(), r, col)
+      clampf(Float::from_int(station.crowd) * 0.03, 0.0, 16.0)
+    @raylib.draw_circle(station.x.to_int(), station.y.to_int(), r, col)
     @raylib.draw_circle(
-      stations[i].x.to_int(),
-      stations[i].y.to_int(),
+      station.x.to_int(),
+      station.y.to_int(),
       8.0,
       @raylib.Color::new(24, 34, 52, 248),
     )
 
     @raylib.draw_text(
-      stations[i].name,
-      (stations[i].x - 54.0).to_int(),
-      (stations[i].y - r - 22.0).to_int(),
+      station.name,
+      (station.x - 54.0).to_int(),
+      (station.y - r - 22.0).to_int(),
       18,
       @raylib.Color::new(232, 242, 255, 242),
     )
 
     @raylib.draw_text(
-      "\{stations[i].crowd}",
-      (stations[i].x - 8.0).to_int(),
-      (stations[i].y - 8.0).to_int(),
+      "\{station.crowd}",
+      (station.x - 8.0).to_int(),
+      (station.y - 8.0).to_int(),
       20,
       @raylib.Color::new(246, 250, 252, 248),
     )
@@ -1036,24 +1036,24 @@ fn draw_trains(
   route0 : Array[Int],
   route1 : Array[Int],
 ) -> Unit {
-  for i = 0; i < trains.length(); i = i + 1 {
-    if not(trains[i].active) {
+  for train in trains {
+    if not(train.active) {
       continue
     }
 
     let (ax, ay, bx, by, _cur_sid, _next_sid) = train_segment_points(
-      trains[i],
+      train,
       stations,
       route0,
       route1,
     )
-    let x : Float = ax + (bx - ax) * trains[i].t
-    let y : Float = ay + (by - ay) * trains[i].t
+    let x : Float = ax + (bx - ax) * train.t
+    let y : Float = ay + (by - ay) * train.t
 
-    let col = if trains[i].delay_t > 1.0 {
+    let col = if train.delay_t > 1.0 {
       @raylib.Color::new(244, 138, 146, 252)
     } else {
-      train_color(trains[i].color_id)
+      train_color(train.color_id)
     }
 
     @raylib.draw_rectangle((x - 12.0).to_int(), (y - 8.0).to_int(), 24, 16, col)
@@ -1066,15 +1066,15 @@ fn draw_trains(
     )
 
     @raylib.draw_text(
-      "\{trains[i].passengers}",
+      "\{train.passengers}",
       (x - 7.0).to_int(),
       (y - 26.0).to_int(),
       18,
       @raylib.Color::new(242, 246, 254, 246),
     )
 
-    if trains[i].blink_t > 0.0 {
-      let a : Int = clampi((trains[i].blink_t * 400.0).to_int(), 0, 255)
+    if train.blink_t > 0.0 {
+      let a : Int = clampi((train.blink_t * 400.0).to_int(), 0, 255)
       @raylib.draw_circle(
         x.to_int(),
         y.to_int(),
@@ -1362,11 +1362,11 @@ fn main {
     let (r0, r1) = setup_network(stations, segments, trains)
     route0.clear()
     route1.clear()
-    for i = 0; i < r0.length(); i = i + 1 {
-      route0.push(r0[i])
+    for r0_elem in r0 {
+      route0.push(r0_elem)
     }
-    for i = 0; i < r1.length(); i = i + 1 {
-      route1.push(r1[i])
+    for r1_elem in r1 {
+      route1.push(r1_elem)
     }
 
     clear_particles(parts)
@@ -1625,7 +1625,7 @@ fn main {
         let shock_n : Int = 1 + @raylib.get_random_value(0, tier / 3)
         let mut affected : Int = 0
 
-        for _i = 0; _i < shock_n; _i = _i + 1 {
+        for _i in 0..<shock_n {
           let sid : Int = @raylib.get_random_value(0, segments.length() - 1)
           if not(segments[sid].active) {
             continue
@@ -1658,9 +1658,9 @@ fn main {
 
       // crowd peak
       let mut crowd_now : Int = 0
-      for i = 0; i < stations.length(); i = i + 1 {
-        if stations[i].active {
-          crowd_now = crowd_now + stations[i].crowd
+      for station in stations {
+        if station.active {
+          crowd_now = crowd_now + station.crowd
         }
       }
       if crowd_now > crowd_peak {

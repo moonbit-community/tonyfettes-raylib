@@ -175,7 +175,7 @@ pub fn fractal_noise_2d(x : Float, z : Float, octaves : Int) -> Float {
   let mut frequency : Float = 1.0
   let mut value : Float = 0.0
   let mut max_val : Float = 0.0
-  for i = 0; i < octaves; i = i + 1 {
+  for i in 0..<octaves {
     value += value_noise_2d(x * frequency, z * frequency) * amplitude
     max_val += amplitude
     amplitude *= 0.5
@@ -412,14 +412,14 @@ pub fn generate_chunk_terrain(chunk : Chunk, game : Game) -> Unit {
   let biome = get_biome_at(center_wx, center_wz)
   chunk.biome = biome
 
-  for lz = 0; lz < chunk_z; lz = lz + 1 {
-    for lx = 0; lx < chunk_x; lx = lx + 1 {
+  for lz in 0..<chunk_z {
+    for lx in 0..<chunk_x {
       let wx = base_wx + lx
       let wz = base_wz + lz
       let local_biome = get_biome_at(wx, wz)
       let height = get_biome_terrain_height(wx, wz, local_biome)
       // Fill blocks from bottom to height
-      for y = 0; y < chunk_y; y = y + 1 {
+      for y in 0..<chunk_y {
         if y == 0 {
           chunk.set_block(lx, y, lz, block_bedrock)
         } else if y < height - 4 {
@@ -493,8 +493,8 @@ pub fn generate_chunk_terrain(chunk : Chunk, game : Game) -> Unit {
   }
 
   // Place trees (second pass so we can check surface)
-  for lz = 2; lz < chunk_z - 2; lz = lz + 1 {
-    for lx = 2; lx < chunk_x - 2; lx = lx + 1 {
+  for lz in 2..<(chunk_z - 2) {
+    for lx in 2..<(chunk_x - 2) {
       let wx = base_wx + lx
       let wz = base_wz + lz
       let local_biome = get_biome_at(wx, wz)
@@ -512,16 +512,16 @@ pub fn generate_chunk_terrain(chunk : Chunk, game : Game) -> Unit {
           } else {
             4
           }
-          for ty = 0; ty < trunk_height; ty = ty + 1 {
+          for ty in 0..<trunk_height {
             chunk.set_block(lx, height + ty, lz, block_wood)
           }
           // Place leaves (sphere-ish)
           let leaf_base = height + trunk_height - 1
-          for ly = 0; ly < 3; ly = ly + 1 {
+          for ly in 0..<3 {
             let radius = if ly == 2 { 1 } else { 2 }
             let neg_r = -radius
-            for dz = neg_r; dz <= radius; dz = dz + 1 {
-              for dx = neg_r; dx <= radius; dx = dx + 1 {
+            for dz in neg_r..=radius {
+              for dx in neg_r..=radius {
                 let dist = absf(Float::from_int(dx)) + absf(Float::from_int(dz))
                 if dist.to_int() <= radius + 1 {
                   let tx = lx + dx
@@ -550,7 +550,7 @@ pub fn generate_chunk_terrain(chunk : Chunk, game : Game) -> Unit {
         if cactus_check > 0.75 {
           // Place a cactus (2-3 blocks tall)
           let cactus_h = if cactus_check > 0.85 { 3 } else { 2 }
-          for cy = 0; cy < cactus_h; cy = cy + 1 {
+          for cy in 0..<cactus_h {
             if height + cy < chunk_y {
               chunk.set_block(lx, height + cy, lz, block_cactus)
             }
@@ -976,7 +976,7 @@ pub fn spawn_particle(
   size : Float,
   lifetime : Float,
 ) -> Unit {
-  for i = 0; i < particle_max; i = i + 1 {
+  for i in 0..<particle_max {
     if not(game.particles[i].active) {
       let p = game.particles[i]
       p.active = true
@@ -1012,7 +1012,7 @@ pub fn spawn_break_particles(
   let cx = Float::from_int(wx) + 0.5
   let cy = Float::from_int(wy) + 0.5
   let cz = Float::from_int(wz) + 0.5
-  for i = 0; i < 8; i = i + 1 {
+  for i in 0..<8 {
     let angle = Float::from_int(i) * 0.785
     let speed : Float = 2.0 + Float::from_int(i % 3)
     let pvx = @math.cosf(angle) * speed
