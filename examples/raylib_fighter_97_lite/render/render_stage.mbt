@@ -1,8 +1,8 @@
 ///|
-fn draw_stage_sky(game : Game) -> Unit {
+fn draw_stage_sky(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 10, 16, 255))
 
-  let top_color = if game.state == state_match_over {
+  let top_color = if game.state == @types.state_match_over {
     @raylib.Color::new(18, 26, 42, 255)
   } else {
     @raylib.Color::new(14, 26, 44, 255)
@@ -10,15 +10,15 @@ fn draw_stage_sky(game : Game) -> Unit {
   let bottom_color = @raylib.Color::new(28, 46, 68, 255)
 
   @raylib.draw_rectangle_gradient_v(
-    0, 0, screen_width, screen_height, top_color, bottom_color,
+    0, 0, @types.screen_width, @types.screen_height, top_color, bottom_color,
   )
 
-  let moon_x = f(1060.0) +
-    Float::from_double(@math.sin((game.bg_scroll * f(0.02)).to_double())) *
-    f(80.0)
-  let moon_y = f(132.0) +
-    Float::from_double(@math.cos((game.bg_scroll * f(0.03)).to_double())) *
-    f(16.0)
+  let moon_x = @types.f(1060.0) +
+    Float::from_double(@math.sin((game.bg_scroll * @types.f(0.02)).to_double())) *
+    @types.f(80.0)
+  let moon_y = @types.f(132.0) +
+    Float::from_double(@math.cos((game.bg_scroll * @types.f(0.03)).to_double())) *
+    @types.f(16.0)
   @raylib.draw_circle(
     moon_x.to_int(),
     moon_y.to_int(),
@@ -33,42 +33,42 @@ fn draw_stage_sky(game : Game) -> Unit {
   )
 
   for i in 0..<90 {
-    let tx = (i * 133 + game.frame_count * 3) % (screen_width + 200)
+    let tx = (i * 133 + game.frame_count * 3) % (@types.screen_width + 200)
     let ty = (i * 67 + 45) % 260
     let twinkle = Float::from_double(
       @math.sin(
-        (Float::from_int(i) * f(0.7) + game.bg_scroll * f(0.1)).to_double(),
+        (Float::from_int(i) * @types.f(0.7) + game.bg_scroll * @types.f(0.1)).to_double(),
       ),
     )
-    let alpha = f(0.25) + (twinkle * f(0.5) + f(0.5)) * f(0.75)
+    let alpha = @types.f(0.25) + (twinkle * @types.f(0.5) + @types.f(0.5)) * @types.f(0.75)
     let color = @raylib.color_alpha(@raylib.raywhite, alpha)
-    @raylib.draw_circle(tx - 80, ty, f(1.0) + twinkle * f(0.5), color)
+    @raylib.draw_circle(tx - 80, ty, @types.f(1.0) + twinkle * @types.f(0.5), color)
   }
 }
 
 ///|
 fn draw_city_layer(
-  game : Game,
+  game : @types.Game,
   layer : Int,
   y_base : Int,
   height_min : Int,
   height_max : Int,
   color : @raylib.Color,
 ) -> Unit {
-  let parallax = f(0.1) + Float::from_int(layer) * f(0.1)
+  let parallax = @types.f(0.1) + Float::from_int(layer) * @types.f(0.1)
   let scroll = (game.bg_scroll * parallax).to_int()
   let block_w = 36 + layer * 12
-  let max_blocks = screen_width / block_w + 6
+  let max_blocks = @types.screen_width / block_w + 6
 
   for i in 0..<max_blocks {
     let x = i * block_w - scroll % block_w - block_w
     let wave = Float::from_double(
       @math.sin(
-        (Float::from_int(i * 11 + layer * 17) + game.bg_scroll * f(0.08)).to_double(),
+        (Float::from_int(i * 11 + layer * 17) + game.bg_scroll * @types.f(0.08)).to_double(),
       ),
     )
     let h = height_min +
-      (Float::from_int(height_max - height_min) * (wave * f(0.5) + f(0.5))).to_int()
+      (Float::from_int(height_max - height_min) * (wave * @types.f(0.5) + @types.f(0.5))).to_int()
     @raylib.draw_rectangle(x, y_base - h, block_w - 3, h, color)
 
     if layer >= 2 {
@@ -91,7 +91,7 @@ fn draw_city_layer(
 }
 
 ///|
-fn draw_stage_city(game : Game) -> Unit {
+fn draw_stage_city(game : @types.Game) -> Unit {
   draw_city_layer(game, 0, 430, 90, 160, @raylib.Color::new(18, 30, 46, 255))
   draw_city_layer(game, 1, 448, 100, 185, @raylib.Color::new(24, 36, 56, 255))
   draw_city_layer(game, 2, 468, 120, 220, @raylib.Color::new(29, 44, 66, 255))
@@ -99,25 +99,25 @@ fn draw_stage_city(game : Game) -> Unit {
 }
 
 ///|
-fn draw_stage_crowd(game : Game) -> Unit {
+fn draw_stage_crowd(game : @types.Game) -> Unit {
   let crowd_y = 548
   @raylib.draw_rectangle(
     0,
     crowd_y - 36,
-    screen_width,
+    @types.screen_width,
     50,
     @raylib.Color::new(18, 20, 26, 220),
   )
 
   for i in 0..<190 {
-    let x = (i * 19 + (game.bg_scroll * f(9.0)).to_int()) % (screen_width + 32) -
+    let x = (i * 19 + (game.bg_scroll * @types.f(9.0)).to_int()) % (@types.screen_width + 32) -
       16
     let phase = Float::from_double(
       @math.sin(
-        (Float::from_int(i) * f(0.4) + game.bg_scroll * f(0.3)).to_double(),
+        (Float::from_int(i) * @types.f(0.4) + game.bg_scroll * @types.f(0.3)).to_double(),
       ),
     )
-    let bob = (phase * f(4.0)).to_int()
+    let bob = (phase * @types.f(4.0)).to_int()
 
     let hue = i % 4
     let shirt = if hue == 0 {
@@ -151,46 +151,46 @@ fn draw_stage_crowd(game : Game) -> Unit {
 }
 
 ///|
-fn draw_stage_floor(game : Game) -> Unit {
+fn draw_stage_floor(game : @types.Game) -> Unit {
   let floor_top = 560
   @raylib.draw_rectangle(
     0,
     floor_top,
-    screen_width,
-    screen_height - floor_top,
+    @types.screen_width,
+    @types.screen_height - floor_top,
     @raylib.Color::new(42, 38, 36, 255),
   )
 
   for i in 0..<=40 {
-    let t = Float::from_int(i) / f(40.0)
-    let y = floor_top + (t * t * f(210.0)).to_int()
-    let alpha = f(0.16) - t * f(0.14)
+    let t = Float::from_int(i) / @types.f(40.0)
+    let y = floor_top + (t * t * @types.f(210.0)).to_int()
+    let alpha = @types.f(0.16) - t * @types.f(0.14)
     @raylib.draw_line(
       0,
       y,
-      screen_width,
+      @types.screen_width,
       y,
       @raylib.color_alpha(@raylib.Color::new(255, 228, 184, 255), alpha),
     )
   }
 
   for i in -14..<=14 {
-    let x = screen_width / 2 + i * 48 + (game.bg_scroll * f(0.8)).to_int() % 48
-    let alpha = f(0.2) -
-      Float::from_int(absf(Float::from_int(i)).to_int()) * f(0.008)
+    let x = @types.screen_width / 2 + i * 48 + (game.bg_scroll * @types.f(0.8)).to_int() % 48
+    let alpha = @types.f(0.2) -
+      Float::from_int(@types.absf(Float::from_int(i)).to_int()) * @types.f(0.008)
     @raylib.draw_line(
       x,
       floor_top,
       x + i * 15,
-      screen_height,
+      @types.screen_height,
       @raylib.color_alpha(@raylib.Color::new(240, 200, 130, 255), alpha),
     )
   }
 
-  let left_rope = camera_project_x(game, stage_left_x - 40.0).to_int()
-  let right_rope = camera_project_x(game, stage_right_x + 40.0).to_int()
+  let left_rope = @types.camera_project_x(game, @types.stage_left_x - 40.0).to_int()
+  let right_rope = @types.camera_project_x(game, @types.stage_right_x + 40.0).to_int()
   for i in 0..<3 {
-    let y = camera_project_y(game, f(430.0) + Float::from_int(i * 38)).to_int()
+    let y = @types.camera_project_y(game, @types.f(430.0) + Float::from_int(i * 38)).to_int()
     @raylib.draw_line_ex(
       @raylib.Vector2::new(Float::from_int(left_rope), Float::from_int(y)),
       @raylib.Vector2::new(Float::from_int(right_rope), Float::from_int(y)),
@@ -201,26 +201,26 @@ fn draw_stage_floor(game : Game) -> Unit {
 }
 
 ///|
-fn draw_stage_flash(game : Game) -> Unit {
+fn draw_stage_flash(game : @types.Game) -> Unit {
   if game.stage_flash <= 0.0 {
     return
   }
-  let alpha = clampf(game.stage_flash * f(1.8), f(0.0), f(0.48))
+  let alpha = @types.clampf(game.stage_flash * @types.f(1.8), @types.f(0.0), @types.f(0.48))
   @raylib.draw_rectangle(
     0,
     0,
-    screen_width,
-    screen_height,
+    @types.screen_width,
+    @types.screen_height,
     @raylib.color_alpha(@raylib.white, alpha),
   )
 }
 
 ///|
-fn draw_stage(game : Game) -> Unit {
+fn draw_stage(game : @types.Game) -> Unit {
   draw_stage_sky(game)
   draw_stage_city(game)
   draw_stage_crowd(game)
   draw_stage_floor(game)
-  draw_particles(game)
+  @effects.draw_particles(game)
   draw_stage_flash(game)
 }

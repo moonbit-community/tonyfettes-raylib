@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut x : Int
   mut y : Int
   mut prev_x : Int
@@ -29,7 +29,7 @@ struct InputState {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     x: 0,
     y: 0,
@@ -61,7 +61,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-struct MoveSpec {
+pub(all) struct MoveSpec {
   mut attack_id : Int
   mut move_kind : Int
   mut total_frames : Int
@@ -96,7 +96,7 @@ struct MoveSpec {
 }
 
 ///|
-fn MoveSpec::empty() -> MoveSpec {
+pub fn MoveSpec::empty() -> MoveSpec {
   {
     attack_id: attack_none,
     move_kind: move_kind_normal,
@@ -133,7 +133,7 @@ fn MoveSpec::empty() -> MoveSpec {
 }
 
 ///|
-struct CharacterArchetype {
+pub(all) struct CharacterArchetype {
   name : String
   title : String
   intro_quote : String
@@ -158,7 +158,7 @@ struct CharacterArchetype {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -172,7 +172,7 @@ struct Particle {
 }
 
 ///|
-fn Particle::inactive() -> Particle {
+pub fn Particle::inactive() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -188,7 +188,7 @@ fn Particle::inactive() -> Particle {
 }
 
 ///|
-struct Fighter {
+pub(all) struct Fighter {
   slot : Int
   mut is_cpu : Bool
   mut archetype_index : Int
@@ -231,7 +231,7 @@ struct Fighter {
 }
 
 ///|
-fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
+pub fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
   {
     slot,
     is_cpu,
@@ -284,7 +284,7 @@ fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   mut state : Int
   mut frame_count : Int
   mut rng_state : Int
@@ -324,7 +324,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     state: state_title,
     frame_count: 0,

@@ -1,5 +1,5 @@
 ///|
-fn absf(v : Float) -> Float {
+pub fn absf(v : Float) -> Float {
   if v < 0.0 {
     -v
   } else {
@@ -8,7 +8,7 @@ fn absf(v : Float) -> Float {
 }
 
 ///|
-fn clampf(v : Float, low : Float, high : Float) -> Float {
+pub fn clampf(v : Float, low : Float, high : Float) -> Float {
   if v < low {
     low
   } else if v > high {
@@ -19,7 +19,7 @@ fn clampf(v : Float, low : Float, high : Float) -> Float {
 }
 
 ///|
-fn clampi(v : Int, low : Int, high : Int) -> Int {
+pub fn clampi(v : Int, low : Int, high : Int) -> Int {
   if v < low {
     low
   } else if v > high {
@@ -30,12 +30,12 @@ fn clampi(v : Int, low : Int, high : Int) -> Int {
 }
 
 ///|
-fn f(v : Double) -> Float {
+pub fn f(v : Double) -> Float {
   Float::from_double(v)
 }
 
 ///|
-fn minf(a : Float, b : Float) -> Float {
+pub fn minf(a : Float, b : Float) -> Float {
   if a < b {
     a
   } else {
@@ -44,7 +44,7 @@ fn minf(a : Float, b : Float) -> Float {
 }
 
 ///|
-fn maxf(a : Float, b : Float) -> Float {
+pub fn maxf(a : Float, b : Float) -> Float {
   if a > b {
     a
   } else {
@@ -53,12 +53,12 @@ fn maxf(a : Float, b : Float) -> Float {
 }
 
 ///|
-fn lerpf(a : Float, b : Float, t : Float) -> Float {
+pub fn lerpf(a : Float, b : Float, t : Float) -> Float {
   a + (b - a) * t
 }
 
 ///|
-fn approachf(current : Float, target : Float, delta : Float) -> Float {
+pub fn approachf(current : Float, target : Float, delta : Float) -> Float {
   if current < target {
     minf(current + delta, target)
   } else {
@@ -67,7 +67,7 @@ fn approachf(current : Float, target : Float, delta : Float) -> Float {
 }
 
 ///|
-fn rand_next(game : Game) -> Int {
+pub fn rand_next(game : Game) -> Int {
   let mut x = game.rng_state
   x = x ^ (x << 13)
   x = x ^ (x >> 17)
@@ -80,7 +80,7 @@ fn rand_next(game : Game) -> Int {
 }
 
 ///|
-fn rand_range(game : Game, low : Int, high : Int) -> Int {
+pub fn rand_range(game : Game, low : Int, high : Int) -> Int {
   if high <= low {
     low
   } else {
@@ -89,23 +89,23 @@ fn rand_range(game : Game, low : Int, high : Int) -> Int {
 }
 
 ///|
-fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
+pub fn rand_rangef(game : Game, low : Float, high : Float) -> Float {
   let t = Float::from_int(rand_next(game) % 10000) / 10000.0
   low + (high - low) * t
 }
 
 ///|
-fn rand_chance(game : Game, p : Float) -> Bool {
+pub fn rand_chance(game : Game, p : Float) -> Bool {
   rand_rangef(game, 0.0, 1.0) < p
 }
 
 ///|
-fn fighter_archetype(game : Game, fighter : Fighter) -> CharacterArchetype {
+pub fn fighter_archetype(game : Game, fighter : Fighter) -> CharacterArchetype {
   game.roster[clampi(fighter.archetype_index, 0, game.roster.length() - 1)]
 }
 
 ///|
-fn other_slot(slot : Int) -> Int {
+pub fn other_slot(slot : Int) -> Int {
   if slot == 0 {
     1
   } else {
@@ -114,7 +114,7 @@ fn other_slot(slot : Int) -> Int {
 }
 
 ///|
-fn facing_sign(facing : Int) -> Float {
+pub fn facing_sign(facing : Int) -> Float {
   if facing < 0 {
     -1.0
   } else {
@@ -123,17 +123,17 @@ fn facing_sign(facing : Int) -> Float {
 }
 
 ///|
-fn stage_clamp_x(x : Float) -> Float {
+pub fn stage_clamp_x(x : Float) -> Float {
   clampf(x, stage_left_x + 24.0, stage_right_x - 24.0)
 }
 
 ///|
-fn fighter_distance_x(a : Fighter, b : Fighter) -> Float {
+pub fn fighter_distance_x(a : Fighter, b : Fighter) -> Float {
   absf(a.x - b.x)
 }
 
 ///|
-fn hurtbox_for(fighter : Fighter) -> @raylib.Rectangle {
+pub fn hurtbox_for(fighter : Fighter) -> @raylib.Rectangle {
   if fighter.crouching && fighter.on_ground {
     @raylib.Rectangle::new(
       fighter.x - fighter_crouch_hurtbox_w * 0.5,
@@ -152,7 +152,7 @@ fn hurtbox_for(fighter : Fighter) -> @raylib.Rectangle {
 }
 
 ///|
-fn attack_hitbox_for(fighter : Fighter, mv : MoveSpec) -> @raylib.Rectangle {
+pub fn attack_hitbox_for(fighter : Fighter, mv : MoveSpec) -> @raylib.Rectangle {
   let fx = facing_sign(fighter.facing)
   @raylib.Rectangle::new(
     fighter.x + mv.hitbox_x * fx - mv.hitbox_w * 0.5,
@@ -163,7 +163,7 @@ fn attack_hitbox_for(fighter : Fighter, mv : MoveSpec) -> @raylib.Rectangle {
 }
 
 ///|
-fn draw_shadow_text(
+pub fn draw_shadow_text(
   text : String,
   x : Int,
   y : Int,
@@ -175,7 +175,7 @@ fn draw_shadow_text(
 }
 
 ///|
-fn draw_center_shadow_text(
+pub fn draw_center_shadow_text(
   text : String,
   x : Int,
   y : Int,
@@ -187,7 +187,7 @@ fn draw_center_shadow_text(
 }
 
 ///|
-fn countdown_color(timer : Float) -> @raylib.Color {
+pub fn countdown_color(timer : Float) -> @raylib.Color {
   if timer > 20.0 {
     @raylib.raywhite
   } else if timer > 10.0 {
@@ -198,12 +198,12 @@ fn countdown_color(timer : Float) -> @raylib.Color {
 }
 
 ///|
-fn fighter_total_guard(archetype : CharacterArchetype) -> Int {
+pub fn fighter_total_guard(archetype : CharacterArchetype) -> Int {
   guard_max + archetype.max_guard_bonus
 }
 
 ///|
-fn action_name(action : Int) -> String {
+pub fn action_name(action : Int) -> String {
   if action == action_idle {
     "idle"
   } else if action == action_walk_forward {
@@ -240,7 +240,7 @@ fn action_name(action : Int) -> String {
 }
 
 ///|
-fn add_meter(
+pub fn add_meter(
   fighter : Fighter,
   value : Int,
   archetype : CharacterArchetype,
@@ -251,7 +251,7 @@ fn add_meter(
 }
 
 ///|
-fn add_guard(
+pub fn add_guard(
   fighter : Fighter,
   value : Float,
   archetype : CharacterArchetype,
@@ -261,7 +261,7 @@ fn add_guard(
 }
 
 ///|
-fn reset_fighter_round_state(fighter : Fighter) -> Unit {
+pub fn reset_fighter_round_state(fighter : Fighter) -> Unit {
   fighter.vx = 0.0
   fighter.vy = 0.0
   fighter.on_ground = true
@@ -288,19 +288,19 @@ fn reset_fighter_round_state(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn health_ratio(fighter : Fighter) -> Float {
+pub fn health_ratio(fighter : Fighter) -> Float {
   Float::from_int(clampi(fighter.health, 0, health_max)) /
   Float::from_int(health_max)
 }
 
 ///|
-fn meter_ratio(fighter : Fighter) -> Float {
+pub fn meter_ratio(fighter : Fighter) -> Float {
   Float::from_int(clampi(fighter.super_meter, 0, super_max)) /
   Float::from_int(super_max)
 }
 
 ///|
-fn guard_ratio(fighter : Fighter, archetype : CharacterArchetype) -> Float {
+pub fn guard_ratio(fighter : Fighter, archetype : CharacterArchetype) -> Float {
   let total = fighter_total_guard(archetype)
   if total <= 0 {
     0.0
@@ -311,12 +311,12 @@ fn guard_ratio(fighter : Fighter, archetype : CharacterArchetype) -> Float {
 }
 
 ///|
-fn throw_input_pressed(input : InputState) -> Bool {
+pub fn throw_input_pressed(input : InputState) -> Bool {
   (input.lp_pressed && input.lk_down) || (input.lk_pressed && input.lp_down)
 }
 
 ///|
-fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
+pub fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
   fighter.on_ground &&
   fighter.invuln <= 0 &&
   fighter.action != action_hitstun &&
@@ -329,7 +329,7 @@ fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
 }
 
 ///|
-fn signed_frames_text(frames : Int) -> String {
+pub fn signed_frames_text(frames : Int) -> String {
   if frames > 0 {
     "+\{frames}"
   } else {
@@ -338,7 +338,7 @@ fn signed_frames_text(frames : Int) -> String {
 }
 
 ///|
-fn set_training_note(game : Game, text : String) -> Unit {
+pub fn set_training_note(game : Game, text : String) -> Unit {
   if not(game.mode_training) {
     return
   }
@@ -347,7 +347,7 @@ fn set_training_note(game : Game, text : String) -> Unit {
 }
 
 ///|
-fn set_training_frame_adv(
+pub fn set_training_frame_adv(
   game : Game,
   attacker_slot : Int,
   label : String,
@@ -360,28 +360,28 @@ fn set_training_frame_adv(
 }
 
 ///|
-fn screen_center_xf() -> Float {
+pub fn screen_center_xf() -> Float {
   Float::from_int(screen_width) * 0.5
 }
 
 ///|
-fn screen_center_yf() -> Float {
+pub fn screen_center_yf() -> Float {
   Float::from_int(screen_height) * 0.5
 }
 
 ///|
-fn camera_project_x(game : Game, x : Float) -> Float {
+pub fn camera_project_x(game : Game, x : Float) -> Float {
   let cx = screen_center_xf()
   (x - cx) * game.camera_zoom + cx + game.camera_x
 }
 
 ///|
-fn camera_project_y(game : Game, y : Float) -> Float {
+pub fn camera_project_y(game : Game, y : Float) -> Float {
   let cy = screen_center_yf()
   (y - cy) * game.camera_zoom + cy + game.camera_y
 }
 
 ///|
-fn camera_project_size(game : Game, size : Float) -> Float {
+pub fn camera_project_size(game : Game, size : Float) -> Float {
   size * game.camera_zoom
 }

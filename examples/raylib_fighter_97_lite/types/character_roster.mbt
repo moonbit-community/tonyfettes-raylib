@@ -1,5 +1,5 @@
 ///|
-fn make_move(
+pub fn make_move(
   _name : String,
   attack_id : Int,
   move_kind : Int,
@@ -66,7 +66,7 @@ fn make_move(
 }
 
 ///|
-fn roster_kai() -> CharacterArchetype {
+pub fn roster_kai() -> CharacterArchetype {
   let lp = make_move(
     "flash jab", attack_lp, move_kind_normal, 22, 4, 3, 34, 0, 10, 7, 20.0, 90.0,
     -18.0, 0.0, 48.0, -98.0, 38.0, 22.0,
@@ -139,7 +139,7 @@ fn roster_kai() -> CharacterArchetype {
 }
 
 ///|
-fn roster_yun() -> CharacterArchetype {
+pub fn roster_yun() -> CharacterArchetype {
   let lp = make_move(
     "needle jab", attack_lp, move_kind_normal, 20, 3, 3, 32, 0, 9, 7, 18.0, 80.0,
     -12.0, 0.0, 50.0, -96.0, 34.0, 20.0,
@@ -208,7 +208,7 @@ fn roster_yun() -> CharacterArchetype {
 }
 
 ///|
-fn roster_lei() -> CharacterArchetype {
+pub fn roster_lei() -> CharacterArchetype {
   let lp = make_move(
     "iron jab", attack_lp, move_kind_normal, 24, 4, 3, 38, 0, 11, 8, 24.0, 96.0,
     -18.0, 0.0, 52.0, -92.0, 36.0, 24.0,
@@ -279,7 +279,7 @@ fn roster_lei() -> CharacterArchetype {
 }
 
 ///|
-fn roster_qin() -> CharacterArchetype {
+pub fn roster_qin() -> CharacterArchetype {
   let lp = make_move(
     "shadow needle", attack_lp, move_kind_normal, 19, 3, 3, 30, 0, 8, 6, 16.0, 78.0,
     -10.0, 0.0, 50.0, -100.0, 34.0, 20.0,
@@ -348,7 +348,7 @@ fn roster_qin() -> CharacterArchetype {
 }
 
 ///|
-fn roster_tora() -> CharacterArchetype {
+pub fn roster_tora() -> CharacterArchetype {
   let lp = make_move(
     "claw jab", attack_lp, move_kind_normal, 21, 4, 3, 36, 0, 10, 7, 20.0, 94.0,
     -14.0, 0.0, 52.0, -98.0, 36.0, 22.0,
@@ -418,7 +418,7 @@ fn roster_tora() -> CharacterArchetype {
 }
 
 ///|
-fn roster_mei() -> CharacterArchetype {
+pub fn roster_mei() -> CharacterArchetype {
   let lp = make_move(
     "lotus jab", attack_lp, move_kind_normal, 20, 3, 3, 30, 0, 9, 7, 18.0, 80.0,
     -12.0, 0.0, 48.0, -98.0, 34.0, 20.0,
@@ -487,7 +487,7 @@ fn roster_mei() -> CharacterArchetype {
 }
 
 ///|
-fn build_roster() -> Array[CharacterArchetype] {
+pub fn build_roster() -> Array[CharacterArchetype] {
   [
     roster_kai(),
     roster_yun(),

@@ -38,28 +38,28 @@ fn control_keys(slot : Int) -> (Int, Int, Int, Int, Int, Int, Int, Int, Int) {
 
 ///|
 fn encode_relative_direction(x : Int, y : Int, facing : Int) -> Int {
-  let rx = if facing == facing_right { x } else { -x }
+  let rx = if facing == @types.facing_right { x } else { -x }
   if y > 0 {
     if rx < 0 {
-      dir_down_back
+      @types.dir_down_back
     } else if rx > 0 {
-      dir_down_forward
+      @types.dir_down_forward
     } else {
-      dir_down
+      @types.dir_down
     }
   } else if y < 0 {
-    dir_up
+    @types.dir_up
   } else if rx < 0 {
-    dir_back
+    @types.dir_back
   } else if rx > 0 {
-    dir_forward
+    @types.dir_forward
   } else {
-    dir_neutral
+    @types.dir_neutral
   }
 }
 
 ///|
-fn push_direction_history(input : InputState, dir : Int) -> Unit {
+fn push_direction_history(input : @types.InputState, dir : Int) -> Unit {
   input.dir_history[input.dir_head] = dir
   input.dir_head += 1
   if input.dir_head >= input.dir_history.length() {
@@ -68,7 +68,7 @@ fn push_direction_history(input : InputState, dir : Int) -> Unit {
 }
 
 ///|
-fn recent_direction(input : InputState, age : Int) -> Int {
+fn recent_direction(input : @types.InputState, age : Int) -> Int {
   let len = input.dir_history.length()
   let mut idx = input.dir_head - 1 - age
   while idx < 0 {
@@ -79,16 +79,16 @@ fn recent_direction(input : InputState, age : Int) -> Int {
 
 ///|
 fn dir_is_forward(dir : Int) -> Bool {
-  dir == dir_forward || dir == dir_down_forward
+  dir == @types.dir_forward || dir == @types.dir_down_forward
 }
 
 ///|
 fn dir_is_down(dir : Int) -> Bool {
-  dir == dir_down || dir == dir_down_back || dir == dir_down_forward
+  dir == @types.dir_down || dir == @types.dir_down_back || dir == @types.dir_down_forward
 }
 
 ///|
-fn detect_motion_qcf(input : InputState) -> Bool {
+fn detect_motion_qcf(input : @types.InputState) -> Bool {
   let mut seen_down = false
   let mut seen_diag = false
   for i = 20; i >= 0; i = i - 1 {
@@ -98,7 +98,7 @@ fn detect_motion_qcf(input : InputState) -> Bool {
         seen_down = true
       }
     } else if not(seen_diag) {
-      if d == dir_down_forward {
+      if d == @types.dir_down_forward {
         seen_diag = true
       } else if dir_is_forward(d) {
         return true
@@ -111,7 +111,7 @@ fn detect_motion_qcf(input : InputState) -> Bool {
 }
 
 ///|
-fn detect_motion_dp(input : InputState) -> Bool {
+fn detect_motion_dp(input : @types.InputState) -> Bool {
   let mut stage = 0
   for i = 20; i >= 0; i = i - 1 {
     let d = recent_direction(input, i)
@@ -123,7 +123,7 @@ fn detect_motion_dp(input : InputState) -> Bool {
       if dir_is_down(d) {
         stage = 2
       }
-    } else if d == dir_down_forward {
+    } else if d == @types.dir_down_forward {
       return true
     }
   }
@@ -131,7 +131,7 @@ fn detect_motion_dp(input : InputState) -> Bool {
 }
 
 ///|
-fn tick_input_timers(input : InputState, dt : Float) -> Unit {
+fn tick_input_timers(input : @types.InputState, dt : Float) -> Unit {
   if input.tap_forward_timer > 0.0 {
     input.tap_forward_timer -= dt
     if input.tap_forward_timer < 0.0 {
@@ -148,7 +148,7 @@ fn tick_input_timers(input : InputState, dt : Float) -> Unit {
     input.motion_timer -= dt
     if input.motion_timer <= 0.0 {
       input.motion_timer = 0.0
-      input.buffered_motion = motion_none
+      input.buffered_motion = @types.motion_none
     }
   }
   if input.attack_buffer_timer > 0.0 {
@@ -161,7 +161,7 @@ fn tick_input_timers(input : InputState, dt : Float) -> Unit {
 
 ///|
 fn set_button_state(
-  _input : InputState,
+  _input : @types.InputState,
   down : Bool,
   prev_down : Bool,
 ) -> (Bool, Bool) {
@@ -169,7 +169,7 @@ fn set_button_state(
 }
 
 ///|
-fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
+fn sample_human_input(fighter : @types.Fighter, slot : Int, dt : Float) -> Unit {
   let input = fighter.input
   let (
     key_left,
@@ -196,12 +196,12 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
   input.dash_forward_pressed = false
   input.dash_back_pressed = false
 
-  let prev_rel_x = if fighter.facing == facing_right {
+  let prev_rel_x = if fighter.facing == @types.facing_right {
     input.prev_x
   } else {
     -input.prev_x
   }
-  let rel_x = if fighter.facing == facing_right { input.x } else { -input.x }
+  let rel_x = if fighter.facing == @types.facing_right { input.x } else { -input.x }
 
   input.hold_forward = rel_x > 0
   input.hold_back = rel_x < 0
@@ -212,13 +212,13 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
     if input.tap_forward_timer > 0.0 {
       input.dash_forward_pressed = true
     }
-    input.tap_forward_timer = tap_window
+    input.tap_forward_timer = @types.tap_window
   }
   if rel_x < 0 && prev_rel_x >= 0 {
     if input.tap_back_timer > 0.0 {
       input.dash_back_pressed = true
     }
-    input.tap_back_timer = tap_window
+    input.tap_back_timer = @types.tap_window
   }
 
   let prev_lp = input.lp_down
@@ -256,17 +256,17 @@ fn sample_human_input(fighter : Fighter, slot : Int, dt : Float) -> Unit {
   if input.any_attack_pressed {
     input.attack_buffer_timer = 0.16
     if detect_motion_dp(input) {
-      input.buffered_motion = motion_dp
+      input.buffered_motion = @types.motion_dp
       input.motion_timer = 0.24
     } else if detect_motion_qcf(input) {
-      input.buffered_motion = motion_qcf
+      input.buffered_motion = @types.motion_qcf
       input.motion_timer = 0.24
     }
   }
 }
 
 ///|
-fn reset_input_for_cpu(fighter : Fighter, dt : Float) -> Unit {
+fn reset_input_for_cpu(fighter : @types.Fighter, dt : Float) -> Unit {
   let input = fighter.input
   input.prev_x = input.x
   input.x = 0
@@ -289,7 +289,7 @@ fn reset_input_for_cpu(fighter : Fighter, dt : Float) -> Unit {
 }
 
 ///|
-fn input_press_lp(fighter : Fighter) -> Unit {
+fn input_press_lp(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.lp_pressed = true
   input.lp_down = true
@@ -298,7 +298,7 @@ fn input_press_lp(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn input_press_hp(fighter : Fighter) -> Unit {
+fn input_press_hp(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.hp_pressed = true
   input.hp_down = true
@@ -307,7 +307,7 @@ fn input_press_hp(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn input_press_lk(fighter : Fighter) -> Unit {
+fn input_press_lk(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.lk_pressed = true
   input.lk_down = true
@@ -316,7 +316,7 @@ fn input_press_lk(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn input_press_hk(fighter : Fighter) -> Unit {
+fn input_press_hk(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.hk_pressed = true
   input.hk_down = true
@@ -325,7 +325,7 @@ fn input_press_hk(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn input_press_super(fighter : Fighter) -> Unit {
+fn input_press_super(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.hp_pressed = true
   input.hk_pressed = true
@@ -333,27 +333,27 @@ fn input_press_super(fighter : Fighter) -> Unit {
   input.hk_down = true
   input.any_attack_pressed = true
   input.attack_buffer_timer = 0.16
-  input.buffered_motion = motion_qcf
+  input.buffered_motion = @types.motion_qcf
   input.motion_timer = 0.24
 }
 
 ///|
 fn push_cpu_direction(
-  fighter : Fighter,
+  fighter : @types.Fighter,
   desired_x : Int,
   desired_y : Int,
 ) -> Unit {
   let input = fighter.input
   input.prev_x = input.x
-  input.x = clampi(desired_x, -1, 1)
-  input.y = clampi(desired_y, -1, 1)
+  input.x = @types.clampi(desired_x, -1, 1)
+  input.y = @types.clampi(desired_y, -1, 1)
 
-  let prev_rel_x = if fighter.facing == facing_right {
+  let prev_rel_x = if fighter.facing == @types.facing_right {
     input.prev_x
   } else {
     -input.prev_x
   }
-  let rel_x = if fighter.facing == facing_right { input.x } else { -input.x }
+  let rel_x = if fighter.facing == @types.facing_right { input.x } else { -input.x }
 
   input.hold_forward = rel_x > 0
   input.hold_back = rel_x < 0
@@ -366,13 +366,13 @@ fn push_cpu_direction(
     if input.tap_forward_timer > 0.0 {
       input.dash_forward_pressed = true
     }
-    input.tap_forward_timer = tap_window
+    input.tap_forward_timer = @types.tap_window
   }
   if rel_x < 0 && prev_rel_x >= 0 {
     if input.tap_back_timer > 0.0 {
       input.dash_back_pressed = true
     }
-    input.tap_back_timer = tap_window
+    input.tap_back_timer = @types.tap_window
   }
 
   let dir_code = encode_relative_direction(input.x, input.y, fighter.facing)
@@ -380,15 +380,15 @@ fn push_cpu_direction(
 }
 
 ///|
-fn finalize_cpu_input(fighter : Fighter, dt : Float) -> Unit {
+fn finalize_cpu_input(fighter : @types.Fighter, dt : Float) -> Unit {
   let input = fighter.input
   if input.any_attack_pressed {
-    if input.buffered_motion == motion_none {
+    if input.buffered_motion == @types.motion_none {
       if detect_motion_dp(input) {
-        input.buffered_motion = motion_dp
+        input.buffered_motion = @types.motion_dp
         input.motion_timer = 0.24
       } else if detect_motion_qcf(input) {
-        input.buffered_motion = motion_qcf
+        input.buffered_motion = @types.motion_qcf
         input.motion_timer = 0.24
       }
     }
@@ -397,7 +397,7 @@ fn finalize_cpu_input(fighter : Fighter, dt : Float) -> Unit {
 }
 
 ///|
-fn clear_input_edges(fighter : Fighter) -> Unit {
+fn clear_input_edges(fighter : @types.Fighter) -> Unit {
   let input = fighter.input
   input.lp_pressed = false
   input.hp_pressed = false
@@ -407,12 +407,12 @@ fn clear_input_edges(fighter : Fighter) -> Unit {
 }
 
 ///|
-fn update_inputs(game : Game, dt : Float) -> Unit {
-  for slot in 0..<max_players {
+fn update_inputs(game : @types.Game, dt : Float) -> Unit {
+  for slot in 0..< @types.max_players {
     let fighter = game.fighters[slot]
     clear_input_edges(fighter)
 
-    if fighter.is_cpu && game.state == state_fight {
+    if fighter.is_cpu && game.state == @types.state_fight {
       reset_input_for_cpu(fighter, dt)
       update_cpu_input(game, slot, dt)
       finalize_cpu_input(fighter, dt)
