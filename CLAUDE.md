@@ -91,6 +91,61 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 - **String passing**: encode with `@utf8.encode(str)` → `Bytes`, C side casts `moonbit_bytes_t` to `const char*`
 - **Method syntax**: use `pub fn Type::method_name(...)` not `pub fn method_name(...)`
 
+## Publishing to mooncakes.io
+
+### Pre-publish checklist
+
+1. **Decide version bump** — Under pre-1.0 semver (`0.x.y`):
+   - **Minor** (`0.x.0`): new features, breaking changes (renamed constants, changed API surface, new sub-packages)
+   - **Patch** (`0.x.y`): bug fixes only, no API changes
+2. **Update `moon.mod.json`** — bump `"version"` field
+3. **Verify package contents** — run `moon package --list` and confirm only library sources are included (no `examples/`, `docs/`, `tools/`, `scripts/`, dev config files)
+4. **Dry-run publish** — run `moon publish --dry-run` and confirm server returns `202 Accepted`
+5. **Type-check** — run `moon check --target native`
+
+### Publish workflow
+
+```bash
+# 1. Create release branch and commit version bump
+git checkout -b release/vX.Y.Z
+git add moon.mod.json
+git commit -m "chore: bump version to X.Y.Z and configure publish excludes"
+
+# 2. Tag the commit
+git tag vX.Y.Z
+
+# 3. Push branch + tag and create PR
+git push -u origin release/vX.Y.Z --tags
+gh pr create --title "chore: release vX.Y.Z" --base main
+
+# 4. Run checks
+moon package --list          # verify no dev files included
+moon publish --dry-run       # server should return 202
+moon check --target native   # type-check passes
+
+# 5. Publish (after PR is approved/merged, or from release branch)
+moon publish
+
+# 6. Post-publish smoke test — build a fresh project against the published package
+cd publish/smoke_test
+moon update                              # fetch the newly published version
+moon build --target native cmd/main/     # must compile and link successfully
+cd ../..
+```
+
+### Post-publish smoke test
+
+A minimal project lives at `publish/smoke_test/` (gitignored). It imports `tonyfettes/raylib` from mooncakes.io and calls `init_window`/`close_window`. After every publish, run `moon update` and `moon build --target native cmd/main/` inside it to confirm the published package actually compiles and links. If this fails, the package is broken for consumers — bump a patch version and re-publish.
+
+### Excluded from publishing
+
+Configured via `"exclude"` in `moon.mod.json` (gitignore syntax). Currently excludes:
+`/external` (anchored to repo root), `examples`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
+
+`CMakeLists.txt` is **included** in the published package — consumers need it for Android/emscripten builds by referencing it from `.mooncakes/`.
+
+**Important:** Use `/external` (leading slash) to anchor to the repo root. An unanchored `external` pattern would also strip `internal/raylib/external/` (vendored raylib headers) from the package, breaking builds for consumers.
+
 ## Conventions
 
 - Use conventional commits (e.g., `feat:`, `fix:`, `refactor:`)
