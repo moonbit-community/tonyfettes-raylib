@@ -64,24 +64,32 @@ async fn main {
 
   @async.with_task_group(group => {
     // ── HTTP fetch task ────────────────────────────────────────────────────
-    group.spawn_bg(() => {
-      let (_resp, body) = @http.get_stream(TARGET_URL)
-      defer body.close()
-      let text = try {
-        body.read_all().text()
+    // allow_failure=true: errors are shown in the status bar instead of
+    // crashing the whole task group (which would close the window).
+    group.spawn_bg(allow_failure=true, () => {
+      try {
+        let (_resp, body) = @http.get_stream(TARGET_URL)
+        defer body.close()
+        let text = try {
+          body.read_all().text()
+        } catch {
+          _ => "(could not decode response body as UTF-8)"
+        }
+        state.lines = split_lines(text, MAX_LINE_CHARS)
+        state.status = "\{state.lines.length()} lines from \{TARGET_URL}"
       } catch {
-        _ => "(failed to decode response as UTF-8)"
+        e => state.status = "Fetch error: \{e}"
       }
-      state.lines = split_lines(text, MAX_LINE_CHARS)
-      state.status = "\{state.lines.length()} lines from \{TARGET_URL}"
       state.loading = false
     })
 
     // ── Render loop ────────────────────────────────────────────────────────
     let visible = (SCREEN_HEIGHT - HEADER_H - FOOTER_H) / LINE_HEIGHT
     while not(@raylib.window_should_close()) {
-      // Yield once per frame so the event loop can poll for I/O
-      @async.pause()
+      // sleep(1) suspends the render loop on a timer, so the event loop uses
+      // a non-zero poll timeout and can actually wait for socket I/O.
+      // @async.pause() only queues a 0ms re-schedule, which starves socket I/O.
+      @async.sleep(1)
 
       let total = state.lines.length()
       let max_scroll = if total > visible { total - visible } else { 0 }
