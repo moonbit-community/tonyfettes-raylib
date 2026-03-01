@@ -1,0 +1,165 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_sokoban_warehouse_master_2026/types"
+
+// Values
+pub fn action_panel_h() -> Int
+
+pub fn action_panel_w() -> Int
+
+pub fn action_panel_x() -> Int
+
+pub fn action_panel_y() -> Int
+
+pub let board_cells : Int
+
+pub let board_cols : Int
+
+pub fn board_index(Int, Int) -> Int
+
+pub let board_rows : Int
+
+pub fn box_at(Game, Int, Int) -> Bool
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_size() -> Int
+
+pub fn goal_filled_count(Game) -> Int
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn next_button_rect() -> (Int, Int, Int, Int)
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_box(Game, Int, Int, Bool) -> Unit
+
+pub fn set_tile(Game, Int, Int, Tile) -> Unit
+
+pub let target_fps : Int
+
+pub fn tile_at(Game, Int, Int) -> Tile
+
+pub fn title_start_rect() -> (Int, Int, Int, Int)
+
+pub fn walkable_tile(Tile) -> Bool
+
+// Errors
+
+// Types and methods
+pub(all) enum Direction {
+  None
+  Left
+  Right
+  Up
+  Down
+}
+pub impl Eq for Direction
+
+pub(all) struct Game {
+  tiles : Array[Tile]
+  boxes : Array[Bool]
+  undo : Array[UndoStep]
+  sparks : Array[Spark]
+  mut state : GameState
+  mut level_index : Int
+  mut level_name : String
+  mut level_par : Int
+  level_count : Int
+  mut grid_w : Int
+  mut grid_h : Int
+  mut player_x : Int
+  mut player_y : Int
+  mut moves : Int
+  mut pushes : Int
+  mut elapsed : Float
+  mut goals_total : Int
+  mut total_moves : Int
+  mut total_pushes : Int
+  mut total_elapsed : Float
+  mut last_level_stars : Int
+  mut campaign_stars : Int
+  mut undo_len : Int
+  mut message : String
+  mut message_t : Float
+  mut shake_t : Float
+  mut pulse_t : Float
+  mut hold_dir : Direction
+  mut repeat_t : Float
+  mut touch_action_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+}
+pub impl Eq for GameState
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : SparkKind
+}
+
+pub(all) enum SparkKind {
+  Gold
+  Orange
+  Red
+  Blue
+}
+pub impl Eq for SparkKind
+
+pub(all) enum Tile {
+  Void
+  Floor
+  Wall
+  Goal
+}
+pub impl Eq for Tile
+
+pub(all) struct UndoStep {
+  mut valid : Bool
+  player_x : Int
+  player_y : Int
+  moves_before : Int
+  pushes_before : Int
+  mut pushed_box : Bool
+  mut box_from_x : Int
+  mut box_from_y : Int
+  mut box_to_x : Int
+  mut box_to_y : Int
+}
+
+// Type aliases
+
+// Traits
+

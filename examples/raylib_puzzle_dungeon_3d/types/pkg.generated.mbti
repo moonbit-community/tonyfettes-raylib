@@ -140,7 +140,7 @@ pub let complete_particle_count : Int
 
 pub let conveyor_anim_speed : Float
 
-pub fn conveyor_direction(Int) -> Int
+pub fn conveyor_direction(Tile) -> Dir
 
 pub fn count_active_plates(Game) -> Int
 
@@ -152,33 +152,9 @@ pub fn count_plates(Game) -> Int
 
 pub fn count_total_stars(Game) -> Int
 
-pub let deco_crystal : Int
+pub fn dir_dx(Dir) -> Int
 
-pub let deco_floating_rock : Int
-
-pub let deco_flower : Int
-
-pub let deco_magma_pool : Int
-
-pub let deco_mushroom : Int
-
-pub let deco_pillar : Int
-
-pub let deco_torch : Int
-
-pub let deco_vine : Int
-
-pub let dir_down : Int
-
-pub fn dir_dx(Int) -> Int
-
-pub fn dir_dy(Int) -> Int
-
-pub let dir_left : Int
-
-pub let dir_right : Int
-
-pub let dir_up : Int
+pub fn dir_dy(Dir) -> Int
 
 pub let dungeon_accent_b : Int
 
@@ -212,16 +188,6 @@ pub fn ease_out_cubic(Float) -> Float
 
 pub fn entity_at(Game, Int, Int) -> Int
 
-pub let entity_block : Int
-
-pub let entity_bomb : Int
-
-pub let entity_diamond : Int
-
-pub let entity_key : Int
-
-pub let entity_none : Int
-
 pub let fall_anim_duration : Float
 
 pub let floors_per_world : Int
@@ -254,21 +220,21 @@ pub let gate_anim_duration : Float
 
 pub let gate_particle_count : Int
 
-pub fn get_tile(Game, Int, Int) -> Int
+pub fn get_tile(Game, Int, Int) -> Tile
 
 pub fn get_tutorial_for_floor(Int) -> String
 
-pub fn get_world_accent_color(Int) -> (Int, Int, Int)
+pub fn get_world_accent_color(World) -> (Int, Int, Int)
 
-pub fn get_world_bg_color(Int) -> (Int, Int, Int)
+pub fn get_world_bg_color(World) -> (Int, Int, Int)
 
-pub fn get_world_floor_color(Int) -> (Int, Int, Int)
+pub fn get_world_floor_color(World) -> (Int, Int, Int)
 
-pub fn get_world_for_floor(Int) -> Int
+pub fn get_world_for_floor(Int) -> World
 
-pub fn get_world_name(Int) -> String
+pub fn get_world_name(World) -> String
 
-pub fn get_world_wall_color(Int) -> (Int, Int, Int)
+pub fn get_world_wall_color(World) -> (Int, Int, Int)
 
 pub let grid_h : Int
 
@@ -294,7 +260,7 @@ pub let ice_floor_g : Int
 
 pub let ice_floor_r : Int
 
-pub fn ice_slide_entity(Game, Int, Int) -> Unit
+pub fn ice_slide_entity(Game, Int, Dir) -> Unit
 
 pub let ice_wall_b : Int
 
@@ -304,17 +270,19 @@ pub let ice_wall_r : Int
 
 pub fn in_bounds(Int, Int) -> Bool
 
-pub fn is_conveyor(Int) -> Bool
+pub fn int_to_world(Int) -> World
 
-pub fn is_laser_source(Int) -> Bool
+pub fn is_conveyor(Tile) -> Bool
 
-pub fn is_mirror(Int) -> Bool
+pub fn is_laser_source(Tile) -> Bool
 
-pub fn is_pushable_onto(Int) -> Bool
+pub fn is_mirror(Tile) -> Bool
 
-pub fn is_solid_tile(Int) -> Bool
+pub fn is_pushable_onto(Tile) -> Bool
 
-pub fn is_walkable(Int) -> Bool
+pub fn is_solid_tile(Tile) -> Bool
+
+pub fn is_walkable(Tile) -> Bool
 
 pub fn is_world_unlocked(Game, Int) -> Bool
 
@@ -322,7 +290,7 @@ pub let laser_particle_count : Int
 
 pub let laser_pulse_speed : Float
 
-pub fn laser_source_direction(Int) -> Int
+pub fn laser_source_direction(Tile) -> Dir
 
 pub let lava_accent_b : Int
 
@@ -376,13 +344,13 @@ pub fn minf(Float, Float) -> Float
 
 pub fn mini(Int, Int) -> Int
 
-pub fn mirror_reflect(Int, Int) -> Int
+pub fn mirror_reflect(Tile, Dir) -> Dir
 
 pub let move_anim_duration : Float
 
 pub let num_worlds : Int
 
-pub fn opposite_dir(Int) -> Int
+pub fn opposite_dir(Dir) -> Dir
 
 pub let particle_drag : Float
 
@@ -400,13 +368,13 @@ pub fn resolve_conveyors(Game) -> Unit
 
 pub let rotate_anim_duration : Float
 
-pub fn rotate_dir_cw(Int) -> Int
+pub fn rotate_dir_cw(Dir) -> Dir
 
 pub let screen_height : Int
 
 pub let screen_width : Int
 
-pub fn set_tile(Game, Int, Int, Int) -> Unit
+pub fn set_tile(Game, Int, Int, Tile) -> Unit
 
 pub fn setup_decorations(Game) -> Unit
 
@@ -428,95 +396,11 @@ pub let star_threshold_3 : Int
 
 pub fn stars_to_unlock_world(Int) -> Int
 
-pub let state_campaign_complete : Int
-
-pub let state_floor_select : Int
-
-pub let state_game_over : Int
-
-pub let state_level_complete : Int
-
-pub let state_menu : Int
-
-pub let state_paused : Int
-
-pub let state_playing : Int
-
-pub let state_tutorial : Int
-
-pub let state_world_select : Int
-
 pub let teleport_anim_duration : Float
 
 pub let teleport_particle_count : Int
 
-pub let tile_bridge_off : Int
-
-pub let tile_bridge_on : Int
-
-pub let tile_conveyor_down : Int
-
-pub let tile_conveyor_left : Int
-
-pub let tile_conveyor_right : Int
-
-pub let tile_conveyor_up : Int
-
-pub let tile_cracked : Int
-
-pub let tile_empty : Int
-
-pub let tile_exit_closed : Int
-
-pub let tile_exit_open : Int
-
-pub let tile_floor : Int
-
-pub let tile_gate_closed : Int
-
-pub let tile_gate_open : Int
-
-pub let tile_ice : Int
-
 pub fn tile_index(Int, Int) -> Int
-
-pub let tile_laser_source_down : Int
-
-pub let tile_laser_source_left : Int
-
-pub let tile_laser_source_right : Int
-
-pub let tile_laser_source_up : Int
-
-pub let tile_laser_target : Int
-
-pub let tile_mirror_ne : Int
-
-pub let tile_mirror_nw : Int
-
-pub let tile_mirror_se : Int
-
-pub let tile_mirror_sw : Int
-
-pub let tile_pit : Int
-
-pub let tile_plate : Int
-
-pub let tile_rotate_platform : Int
-
-pub let tile_spikes_off : Int
-
-pub let tile_spikes_on : Int
-
-pub let tile_switch_off : Int
-
-pub let tile_switch_on : Int
-
-pub let tile_teleport_a : Int
-
-pub let tile_teleport_b : Int
-
-pub let tile_wall : Int
 
 pub fn toggle_bridges(Game) -> Unit
 
@@ -578,14 +462,6 @@ pub let void_wall_g : Int
 
 pub let void_wall_r : Int
 
-pub let world_dungeon : Int
-
-pub let world_garden : Int
-
-pub let world_ice : Int
-
-pub let world_lava : Int
-
 pub let world_name_0 : String
 
 pub let world_name_1 : String
@@ -596,7 +472,7 @@ pub let world_name_3 : String
 
 pub let world_name_4 : String
 
-pub let world_void : Int
+pub fn world_to_int(World) -> Int
 
 // Errors
 
@@ -607,9 +483,21 @@ pub(all) struct AchievementInfo {
 }
 pub fn AchievementInfo::new() -> Self
 
+pub(all) enum DecoKind {
+  DecoTorch
+  DecoCrystal
+  DecoMagmaPool
+  DecoFlower
+  DecoFloatingRock
+  DecoPillar
+  DecoMushroom
+  DecoVine
+}
+pub impl Eq for DecoKind
+
 pub(all) struct Decoration {
   mut active : Bool
-  mut kind : Int
+  mut kind : DecoKind
   mut x : Float
   mut y : Float
   mut z : Float
@@ -618,9 +506,18 @@ pub(all) struct Decoration {
 }
 pub fn Decoration::inactive() -> Self
 
+pub(all) enum Dir {
+  DirNone
+  DirUp
+  DirRight
+  DirDown
+  DirLeft
+}
+pub impl Eq for Dir
+
 pub(all) struct Entity {
   mut active : Bool
-  mut kind : Int
+  mut kind : EntityKind
   mut gx : Int
   mut gy : Int
   mut anim_x : Float
@@ -635,6 +532,15 @@ pub fn Entity::new_block(Int, Int) -> Self
 pub fn Entity::new_diamond(Int, Int) -> Self
 pub fn Entity::new_key(Int, Int) -> Self
 
+pub(all) enum EntityKind {
+  EntityNone
+  EntityBlock
+  EntityDiamond
+  EntityKey
+  EntityBomb
+}
+pub impl Eq for EntityKind
+
 pub(all) struct FloorInfo {
   mut unlocked : Bool
   mut completed : Bool
@@ -644,19 +550,19 @@ pub(all) struct FloorInfo {
 pub fn FloorInfo::new() -> Self
 
 pub(all) struct Game {
-  mut state : Int
-  mut prev_state : Int
+  mut state : GameState
+  mut prev_state : GameState
   mut player_gx : Int
   mut player_gy : Int
   mut player_anim_x : Float
   mut player_anim_z : Float
   mut player_anim_timer : Float
-  mut player_dir : Int
+  mut player_dir : Dir
   mut player_moving : Bool
   mut player_walk_cycle : Float
   mut player_push_anim : Float
   mut current_floor : Int
-  mut current_world : Int
+  mut current_world : World
   mut moves : Int
   mut keys_held : Int
   mut diamonds_collected : Int
@@ -664,7 +570,7 @@ pub(all) struct Game {
   mut plates_active : Int
   mut plates_total : Int
   mut exit_open : Bool
-  tiles : Array[Int]
+  tiles : Array[Tile]
   entities : Array[Entity]
   mut level_timer : Float
   mut used_undo : Bool
@@ -712,13 +618,26 @@ pub(all) struct Game {
 }
 pub fn Game::new() -> Self
 
+pub(all) enum GameState {
+  StateMenu
+  StatePlaying
+  StatePaused
+  StateLevelComplete
+  StateGameOver
+  StateFloorSelect
+  StateCampaignComplete
+  StateWorldSelect
+  StateTutorial
+}
+pub impl Eq for GameState
+
 pub(all) struct LaserSegment {
   mut active : Bool
   mut start_gx : Int
   mut start_gy : Int
   mut end_gx : Int
   mut end_gy : Int
-  mut dir : Int
+  mut dir : Dir
 }
 pub fn LaserSegment::inactive() -> Self
 
@@ -739,19 +658,65 @@ pub(all) struct Particle {
 }
 pub fn Particle::inactive() -> Self
 
+pub(all) enum Tile {
+  TileEmpty
+  TileWall
+  TileFloor
+  TilePlate
+  TileSwitchOff
+  TileSwitchOn
+  TileExitClosed
+  TileExitOpen
+  TilePit
+  TileIce
+  TileTeleportA
+  TileTeleportB
+  TileCracked
+  TileSpikesOff
+  TileSpikesOn
+  TileConveyorUp
+  TileConveyorRight
+  TileConveyorDown
+  TileConveyorLeft
+  TileBridgeOff
+  TileBridgeOn
+  TileGateClosed
+  TileGateOpen
+  TileMirrorNe
+  TileMirrorNw
+  TileMirrorSe
+  TileMirrorSw
+  TileLaserSourceRight
+  TileLaserSourceDown
+  TileLaserSourceLeft
+  TileLaserSourceUp
+  TileLaserTarget
+  TileRotatePlatform
+}
+pub impl Eq for Tile
+
 pub(all) struct UndoState {
   mut player_gx : Int
   mut player_gy : Int
-  tiles : FixedArray[Int]
+  tiles : FixedArray[Tile]
   entity_gx : FixedArray[Int]
   entity_gy : FixedArray[Int]
   entity_active : FixedArray[Bool]
-  entity_kind : FixedArray[Int]
+  entity_kind : FixedArray[EntityKind]
   mut moves : Int
   mut keys_held : Int
   mut diamonds_collected : Int
 }
 pub fn UndoState::empty() -> Self
+
+pub(all) enum World {
+  WorldDungeon
+  WorldIce
+  WorldLava
+  WorldGarden
+  WorldVoid
+}
+pub impl Eq for World
 
 // Type aliases
 

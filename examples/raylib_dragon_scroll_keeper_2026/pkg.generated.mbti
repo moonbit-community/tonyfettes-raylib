@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_dragon_scroll_keeper_2026"
 // Errors
 
 // Types and methods
-type Breach
-
-type Flame
-
-type Game
-
-type Keeper
-
-type Raider
 
 // Type aliases
 

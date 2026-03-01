@@ -6,21 +6,6 @@ package "tonyfettes/raylib-examples/raylib_contra_1987_lite"
 // Errors
 
 // Types and methods
-type BioCore
-
-type Bullet
-
-type Game
-
-type Particle
-
-type Powerup
-
-type StageProfile
-
-type Star
-
-type Tank
 
 // Type aliases
 

@@ -1,0 +1,335 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_drift_bounty_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let base_scroll_speed : Float
+
+pub fn bg_bottom() -> @raylib.Color
+
+pub fn bg_top() -> @raylib.Color
+
+pub let boost_cd_time : Float
+
+pub let boost_speed_bonus : Float
+
+pub let boost_time : Float
+
+pub fn btn_boost_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_down_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_fire_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_hack_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_left_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_right_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_size() -> Float
+
+pub fn btn_up_rect() -> (Float, Float, Float, Float)
+
+pub let bullet_life : Float
+
+pub let bullet_speed : Float
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_out_cubic(Float) -> Float
+
+pub let enemy_bullet_speed : Float
+
+pub fn energy_col() -> @raylib.Color
+
+pub let energy_drain_base : Float
+
+pub let energy_drain_boost : Float
+
+pub let energy_pickup : Float
+
+pub fn entity_hit_radius(Entity) -> Float
+
+pub fn entity_is_hostile(EntityKind) -> Bool
+
+pub let fire_cooldown_base : Float
+
+pub let hack_cd_time : Float
+
+pub let hack_pulse_kill : Float
+
+pub let hack_radius : Float
+
+pub let hack_time : Float
+
+pub let invuln_after_hit : Float
+
+pub fn is_pickup(EntityKind) -> Bool
+
+pub let lane_gap : Float
+
+pub fn lane_to_offset(Int) -> Float
+
+pub fn lane_x(Int, Float) -> Float
+
+pub let lanes_count : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_afterimages : Int
+
+pub let max_bullets : Int
+
+pub let max_entities : Int
+
+pub let max_glow_rings : Int
+
+pub let max_sparks : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn neon_yellow() -> @raylib.Color
+
+pub let player_accel_x : Float
+
+pub let player_accel_y : Float
+
+pub let player_drag : Float
+
+pub let player_energy_max : Float
+
+pub let player_h : Float
+
+pub fn player_hit_radius(Player) -> Float
+
+pub let player_max_speed_x : Float
+
+pub let player_max_speed_y : Float
+
+pub let player_shield_max : Float
+
+pub let player_w : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn result_retry_rect() -> (Float, Float, Float, Float)
+
+pub fn road_center_at(Float, Float) -> Float
+
+pub fn road_dark() -> @raylib.Color
+
+pub fn road_edges(Int, Float, Float) -> (Float, Float)
+
+pub fn road_half_width(Int, Float, Float) -> Float
+
+pub fn road_mid() -> @raylib.Color
+
+pub fn road_spawn_x(Float, Float, Int, Float) -> Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn shield_col() -> @raylib.Color
+
+pub let shield_damage_decay : Float
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_spacing_max : Float
+
+pub let spawn_spacing_min : Float
+
+pub let spawn_start_y : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_clear_delay : Float
+
+pub let stage_distance_base : Float
+
+pub let stage_distance_gain : Float
+
+pub let stage_scroll_gain : Float
+
+pub let target_fps : Int
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+pub let ui_panel_h : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Afterimage {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut rot : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Afterimage::new() -> Self
+
+pub(all) struct Bullet {
+  mut active : Bool
+  mut from_player : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut dmg : Float
+  mut kind : Int
+}
+pub fn Bullet::new() -> Self
+
+pub(all) struct Entity {
+  mut active : Bool
+  mut kind : EntityKind
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut hp : Float
+  mut shot_cd : Float
+  mut spin : Float
+  mut cloak : Bool
+  mut reward : Int
+}
+pub fn Entity::new() -> Self
+
+pub(all) enum EntityKind {
+  FoeBike
+  FoeDrone
+  FoeTruck
+  FoeLaser
+  ItemCredit
+  ItemBattery
+  ItemHackcell
+}
+pub impl Eq for EntityKind
+
+pub(all) struct Game {
+  entities : Array[Entity]
+  bullets : Array[Bullet]
+  sparks : Array[Spark]
+  rings : Array[GlowRing]
+  images : Array[Afterimage]
+  hero : Player
+  mut state : GameState
+  mut stage : Int
+  mut distance : Float
+  mut stage_goal : Float
+  mut score : Int
+  mut best_score : Int
+  mut credits : Int
+  mut kills : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut shield : Float
+  mut energy : Float
+  mut fire_cd : Float
+  mut boost_cd : Float
+  mut boost_t : Float
+  mut hack_cd : Float
+  mut hack_t : Float
+  mut time_s : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut scroll_speed : Float
+  mut next_spawn_y : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_fire_hold : Bool
+  mut input_boost_press : Bool
+  mut input_hack_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_boost_prev : Bool
+  mut touch_hack_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct GlowRing {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn GlowRing::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut heading : Float
+  mut invuln : Float
+  mut hurt_t : Float
+  mut muzzle_t : Float
+  mut engine_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+// Type aliases
+
+// Traits
+

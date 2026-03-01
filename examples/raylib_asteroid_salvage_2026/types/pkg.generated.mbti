@@ -1,0 +1,80 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_asteroid_salvage_2026/types"
+
+// Values
+pub let bullet_max : Int
+
+pub fn clear_entities(Game) -> Unit
+
+pub fn length_sq(Float, Float) -> Float
+
+pub let pi : Float
+
+pub fn random01() -> Float
+
+pub fn random_range(Float, Float) -> Float
+
+pub fn reset_game(Game) -> Unit
+
+pub let rock_max : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn ship_reset(Game) -> Unit
+
+pub fn spawn_rock(Game, Int, Float, Float, Float, Float) -> Unit
+
+pub fn spawn_wave(Game) -> Unit
+
+pub fn wrap_x(Float) -> Float
+
+pub fn wrap_y(Float) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Bullet {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut ttl : Float
+}
+pub fn Bullet::new() -> Self
+
+pub(all) struct Game {
+  mut ship_x : Float
+  mut ship_y : Float
+  mut ship_vx : Float
+  mut ship_vy : Float
+  mut ship_angle : Float
+  mut fire_cooldown : Float
+  mut ship_invuln : Float
+  mut thrusting : Bool
+  bullets : Array[Bullet]
+  rocks : Array[Rock]
+  mut score : Int
+  mut lives : Int
+  mut wave : Int
+  mut game_over : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Rock {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut radius : Float
+  mut size : Int
+}
+pub fn Rock::new() -> Self
+
+// Type aliases
+
+// Traits
+

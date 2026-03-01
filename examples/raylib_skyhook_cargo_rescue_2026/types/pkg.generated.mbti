@@ -1,0 +1,238 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_skyhook_cargo_rescue_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn btn_boost() -> (Int, Int, Int, Int)
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_hook() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_repair() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let hazard_cloud : Int
+
+pub let hazard_drone : Int
+
+pub let hazard_ice : Int
+
+pub let heli_r : Float
+
+pub fn hook_tip_x(Game) -> Float
+
+pub fn hook_tip_y(Game) -> Float
+
+pub fn inside_safe_zone(Float, Float) -> Bool
+
+pub let max_hazards : Int
+
+pub let max_particles : Int
+
+pub let max_pickups : Int
+
+pub let max_survivors : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let pickup_fuel : Int
+
+pub let pickup_medkit : Int
+
+pub let pickup_turbo : Int
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn point_in_rectf(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub let rescue_target : Int
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let run_time_goal : Float
+
+pub fn safe_cx() -> Float
+
+pub fn safe_cy() -> Float
+
+pub fn safe_zone_h() -> Int
+
+pub fn safe_zone_w() -> Int
+
+pub fn safe_zone_x() -> Int
+
+pub fn safe_zone_y() -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let state_play : Int
+
+pub let state_result : Int
+
+pub let state_title : Int
+
+pub let survivor_r : Float
+
+pub let target_fps : Int
+
+pub fn world_bottom() -> Float
+
+pub let world_h : Int
+
+pub fn world_left() -> Float
+
+pub fn world_right() -> Float
+
+pub fn world_top() -> Float
+
+pub let world_w : Int
+
+pub let world_x0 : Int
+
+pub let world_y0 : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  survivors : Array[Survivor]
+  hazards : Array[Hazard]
+  pickups : Array[Pickup]
+  particles : Array[Particle]
+  mut state : Int
+  mut heli_x : Float
+  mut heli_y : Float
+  mut heli_vx : Float
+  mut heli_vy : Float
+  mut move_x : Float
+  mut move_y : Float
+  mut boost_on : Bool
+  mut hook_len : Float
+  mut hook_target : Float
+  mut hook_extending : Bool
+  mut carrying_idx : Int
+  mut lives : Int
+  mut hull : Float
+  mut fuel : Float
+  mut turbo_t : Float
+  mut repair_cd : Float
+  mut score : Int
+  mut best_score : Int
+  mut rescued : Int
+  mut lost : Int
+  mut wave : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut survivor_spawn_t : Float
+  mut hazard_spawn_t : Float
+  mut pickup_spawn_t : Float
+  mut storm_t : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut hint_left : Int
+  mut hint_t : Float
+  mut hint_x : Float
+  mut hint_y : Float
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut touch_cd : Float
+  mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Hazard {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut hp : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Hazard::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Pickup {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Pickup::new() -> Self
+
+pub(all) struct Survivor {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut carried : Bool
+  mut panic : Float
+  mut phase : Float
+}
+pub fn Survivor::new() -> Self
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,290 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_solar_rail_breaker_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn angle_dist(Float, Float) -> Float
+
+pub let base_radius : Float
+
+pub fn bg_bottom() -> @raylib.Color
+
+pub fn bg_top() -> @raylib.Color
+
+pub fn button_fire_rect() -> (Float, Float, Float, Float)
+
+pub fn button_in_rect() -> (Float, Float, Float, Float)
+
+pub fn button_left_rect() -> (Float, Float, Float, Float)
+
+pub fn button_out_rect() -> (Float, Float, Float, Float)
+
+pub fn button_right_rect() -> (Float, Float, Float, Float)
+
+pub fn button_size() -> Float
+
+pub fn center_x() -> Float
+
+pub fn center_y() -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_in_out(Float) -> Float
+
+pub let enemy_base_speed : Float
+
+pub let enemy_fire_base : Float
+
+pub let enemy_speed_stage : Float
+
+pub fn enemy_world_xy(Enemy) -> (Float, Float)
+
+pub fn f(Int) -> Float
+
+pub fn hp_bar_col() -> @raylib.Color
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_bullets : Int
+
+pub let max_enemies : Int
+
+pub let max_enemy_bullets : Int
+
+pub let max_flares : Int
+
+pub let max_particles : Int
+
+pub let max_shocks : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn phase_bar_col() -> @raylib.Color
+
+pub let phase_drain : Float
+
+pub fn phase_mask_active(Int, Bool) -> Bool
+
+pub let phase_recover : Float
+
+pub let pi : Float
+
+pub let player_beam_cd : Float
+
+pub let player_hit_r : Float
+
+pub let player_invuln_t : Float
+
+pub let player_phase_max : Float
+
+pub let player_shot_cd : Float
+
+pub let player_switch_cd : Float
+
+pub let player_turn_speed : Float
+
+pub fn player_world_xy(Player) -> (Float, Float)
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn ring_alpha() -> @raylib.Color
+
+pub fn ring_beta() -> @raylib.Color
+
+pub let ring_count : Int
+
+pub let ring_gap : Float
+
+pub fn ring_radius(Int) -> Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn shortest_angle(Float, Float) -> Float
+
+pub fn sinf(Float) -> Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_clear_delay : Float
+
+pub let stage_time : Float
+
+pub let state_game_over : Int
+
+pub let state_play : Int
+
+pub let state_stage_clear : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let tau : Float
+
+pub fn world_x(Float, Float) -> Float
+
+pub fn world_y(Float, Float) -> Float
+
+pub fn wrap_angle(Float) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Bullet {
+  mut active : Bool
+  mut ring_f : Float
+  mut angle : Float
+  mut vr : Float
+  mut va : Float
+  mut life : Float
+  mut dmg : Float
+  mut kind : Int
+}
+pub fn Bullet::new() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut kind : Int
+  mut ring : Int
+  mut angle : Float
+  mut ang_v : Float
+  mut hp : Float
+  mut fire_cd : Float
+  mut phase_mask : Int
+  mut size : Float
+  mut spin : Float
+}
+pub fn Enemy::new() -> Self
+
+pub(all) struct EnemyBullet {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut dmg : Float
+  mut kind : Int
+}
+pub fn EnemyBullet::new() -> Self
+
+pub(all) struct Flare {
+  mut active : Bool
+  mut ring : Int
+  mut angle : Float
+  mut span : Float
+  mut spin_v : Float
+  mut t : Float
+  mut danger : Float
+}
+pub fn Flare::new() -> Self
+
+pub(all) struct Game {
+  enemies : Array[Enemy]
+  bullets : Array[Bullet]
+  enemy_bullets : Array[EnemyBullet]
+  flares : Array[Flare]
+  particles : Array[Particle]
+  shocks : Array[Shock]
+  player : Player
+  mut state : Int
+  mut stage : Int
+  mut stage_time_left : Float
+  mut stage_goal : Int
+  mut stage_kills : Int
+  mut stage_bonus : Int
+  mut score : Int
+  mut best_score : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut hp : Float
+  mut phase : Float
+  mut phase_beta : Bool
+  mut flash_t : Float
+  mut shake_t : Float
+  mut time_s : Float
+  mut hint_t : Float
+  mut result_t : Float
+  mut wave_timer : Float
+  mut flare_timer : Float
+  mut input_turn : Float
+  mut input_ring_move : Int
+  mut input_fire_hold : Bool
+  mut input_beam_press : Bool
+  mut input_restart_press : Bool
+  mut input_pause_press : Bool
+  mut touch_mode : Bool
+  mut touch_count : Int
+  mut pointer_x : Float
+  mut pointer_y : Float
+  mut touch_in_prev : Bool
+  mut touch_out_prev : Bool
+  mut touch_beam_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Player {
+  mut ring : Int
+  mut ring_f : Float
+  mut angle : Float
+  mut ang_v : Float
+  mut switch_cd : Float
+  mut shot_cd : Float
+  mut beam_cd : Float
+  mut invuln : Float
+  mut hurt_t : Float
+  mut anim_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Shock {
+  mut active : Bool
+  mut ring : Int
+  mut a0 : Float
+  mut a1 : Float
+  mut life : Float
+  mut beta : Bool
+}
+pub fn Shock::new() -> Self
+
+// Type aliases
+
+// Traits
+

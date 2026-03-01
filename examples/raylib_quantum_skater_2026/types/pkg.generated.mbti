@@ -1,0 +1,222 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_quantum_skater_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn approachf(Float, Float, Float) -> Float
+
+pub let base_speed : Float
+
+pub fn button_jump_rect() -> (Float, Float, Float, Float)
+
+pub fn button_left_rect() -> (Float, Float, Float, Float)
+
+pub fn button_phase_rect() -> (Float, Float, Float, Float)
+
+pub fn button_right_rect() -> (Float, Float, Float, Float)
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn color_bg_bottom() -> @raylib.Color
+
+pub fn color_bg_top() -> @raylib.Color
+
+pub fn color_hp_bar() -> @raylib.Color
+
+pub fn color_lane_alpha() -> @raylib.Color
+
+pub fn color_lane_beta() -> @raylib.Color
+
+pub fn color_phase_bar() -> @raylib.Color
+
+pub let combo_decay_time : Float
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let invuln_time : Float
+
+pub let lane_count : Int
+
+pub fn lane_screen_x(Float, Float) -> Float
+
+pub fn lane_world_x(Int) -> Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_objs : Int
+
+pub let max_particles : Int
+
+pub let max_trails : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let obj_boost : Int
+
+pub let obj_gate_alpha : Int
+
+pub let obj_gate_beta : Int
+
+pub let obj_jump_bar : Int
+
+pub let obj_orb : Int
+
+pub let obj_wall : Int
+
+pub let phase_drain_per_sec : Float
+
+pub let phase_recover_per_sec : Float
+
+pub let phase_switch_cd : Float
+
+pub let player_gravity : Float
+
+pub let player_jump_speed : Float
+
+pub fn proj_scale(Float) -> Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let speed_stage_gain : Float
+
+pub let stage_base_distance : Float
+
+pub let stage_distance_growth : Float
+
+pub let state_game_over : Int
+
+pub let state_play : Int
+
+pub let state_stage_clear : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub fn track_y(Float) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  objs : Array[TrackObj]
+  particles : Array[Particle]
+  trails : Array[Trail]
+  hero : Player
+  mut state : Int
+  mut stage : Int
+  mut stage_goal : Float
+  mut stage_progress : Float
+  mut speed : Float
+  mut speed_mul : Float
+  mut boost_t : Float
+  mut score : Int
+  mut best_score : Int
+  mut stage_bonus : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut orbs : Int
+  mut health : Float
+  mut phase_energy : Float
+  mut phase_beta : Bool
+  mut phase_cd : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut title_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut next_spawn_z : Float
+  mut input_move : Int
+  mut input_jump_press : Bool
+  mut input_jump_hold : Bool
+  mut input_phase_press : Bool
+  mut input_restart_press : Bool
+  mut input_pause_press : Bool
+  mut touch_mode : Bool
+  mut touch_count : Int
+  mut pointer_x : Float
+  mut pointer_y : Float
+  mut touch_left_prev : Bool
+  mut touch_right_prev : Bool
+  mut touch_jump_prev : Bool
+  mut touch_phase_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Player {
+  mut lane : Int
+  mut lane_f : Float
+  mut y : Float
+  mut vy : Float
+  mut jump_buf : Float
+  mut grounded : Bool
+  mut invuln_t : Float
+  mut hurt_t : Float
+  mut anim_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct TrackObj {
+  mut active : Bool
+  mut kind : Int
+  mut lane : Int
+  mut z : Float
+  mut y_off : Float
+  mut w : Float
+  mut h : Float
+  mut phase_only : Int
+  mut spin : Float
+  mut hit_lock : Float
+}
+pub fn TrackObj::new() -> Self
+
+pub(all) struct Trail {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut life : Float
+  mut beta : Bool
+}
+pub fn Trail::new() -> Self
+
+// Type aliases
+
+// Traits
+

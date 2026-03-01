@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_contra_1987_lite/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_contra_1987_lite/types",
+}
+
+// Values
+pub fn load_stage(@types.Game, Int) -> Unit
+
+pub fn start_new_campaign(@types.Game) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

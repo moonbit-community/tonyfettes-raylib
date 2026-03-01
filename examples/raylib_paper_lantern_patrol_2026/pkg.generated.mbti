@@ -6,19 +6,6 @@ package "tonyfettes/raylib-examples/raylib_paper_lantern_patrol_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Gust
-
-type InputState
-
-type Lantern
-
-type Patrol
-
-type Spark
-
-type Thief
 
 // Type aliases
 

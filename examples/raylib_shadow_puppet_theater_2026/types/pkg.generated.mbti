@@ -1,0 +1,150 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_shadow_puppet_theater_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn active_slow_factor(Game) -> Float
+
+pub fn add_score(Game, Int) -> Unit
+
+pub let burst_cooldown : Float
+
+pub let burst_duration : Float
+
+pub let burst_slow_factor : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_hold_time : Float
+
+pub let correct_excitement_gain : Float
+
+pub let correct_spotlight_gain : Float
+
+pub let cue_base_time : Float
+
+pub let cue_drop_per_stage : Float
+
+pub let cue_min_time : Float
+
+pub fn cue_time_for_stage(Int) -> Float
+
+pub let excitement_drain : Float
+
+pub let excitement_max : Float
+
+pub let max_sequence_len : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub let mistake_excitement_loss : Float
+
+pub let mistake_spotlight_loss : Float
+
+pub let pose_axis_max : Int
+
+pub let pose_axis_min : Int
+
+pub fn reset_current_pose(Game) -> Unit
+
+pub fn same_pose(Pose, Pose) -> Bool
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sequence_len_for_stage(Int) -> Int
+
+pub fn set_message(Game, String, Float) -> Unit
+
+pub fn sinf(Float) -> Float
+
+pub let spotlight_drain : Float
+
+pub let spotlight_max : Float
+
+pub let spotlight_start : Float
+
+pub let stage_screen_h : Int
+
+pub let stage_screen_w : Int
+
+pub let stage_screen_x : Int
+
+pub let stage_screen_y : Int
+
+pub let target_fps : Int
+
+pub fn target_pose(Game) -> Pose
+
+pub let timeout_spotlight_loss : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : Input
+  sequence : Array[Pose]
+  history : Array[Pose]
+  mut state : GameState
+  mut stage : Int
+  mut score : Int
+  mut best_score : Int
+  mut combo : Int
+  mut best_combo : Int
+  mut excitement : Float
+  mut spotlight : Float
+  mut cue_time_left : Float
+  mut cue_time_limit : Float
+  mut target_idx : Int
+  current_pose : Pose
+  mut burst_t : Float
+  mut burst_cd : Float
+  mut combo_t : Float
+  mut beat_t : Float
+  mut scene_t : Float
+  mut result_t : Float
+  mut hit_count : Int
+  mut miss_count : Int
+  mut message : String
+  mut message_t : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Input {
+  mut axis_dx : Int
+  mut axis_dy : Int
+  mut lock_pressed : Bool
+  mut undo_pressed : Bool
+  mut burst_pressed : Bool
+  mut pause_pressed : Bool
+  mut restart_pressed : Bool
+  mut start_pressed : Bool
+}
+pub fn Input::new() -> Self
+
+pub(all) struct Pose {
+  mut ax : Int
+  mut ay : Int
+}
+pub fn Pose::new(Int, Int) -> Self
+
+// Type aliases
+
+// Traits
+

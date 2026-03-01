@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_bowling_alley_2026/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_bowling_alley_2026/types",
+}
+
+// Values
+pub fn frame_marks(@types.Game, Int) -> (String, String, String)
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

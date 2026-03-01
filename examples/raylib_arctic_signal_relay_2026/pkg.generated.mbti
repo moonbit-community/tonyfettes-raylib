@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_arctic_signal_relay_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Storm
-
-type Tower
 
 // Type aliases
 

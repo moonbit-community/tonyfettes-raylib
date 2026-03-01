@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_abyss_signal_runner_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Obj
-
-type Particle
-
-type Player
-
-type Ripple
-
-type Trail
 
 // Type aliases
 

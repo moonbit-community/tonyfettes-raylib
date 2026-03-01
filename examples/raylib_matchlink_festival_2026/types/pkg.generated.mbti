@@ -1,0 +1,195 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_matchlink_festival_2026/types"
+
+// Values
+pub fn board_metrics(Game) -> (Int, Int, Int)
+
+pub fn burst_cell(Game, Int, Int, Int, Int) -> Unit
+
+pub fn cell_at(Game, Int, Int) -> Int
+
+pub fn cell_index(Int, Int) -> Int
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_board(Game) -> Unit
+
+pub fn clear_button_rect() -> (Int, Int, Int, Int)
+
+pub fn clear_hint_flash(Game) -> Unit
+
+pub fn clear_path_flash(Game) -> Unit
+
+pub fn clear_selection(Game) -> Unit
+
+pub fn clear_sparks(Game) -> Unit
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_size() -> Int
+
+pub fn empty_path() -> LinkPath
+
+pub fn hint_button_rect() -> (Int, Int, Int, Int)
+
+pub fn in_board(Game, Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub let max_cells : Int
+
+pub let max_cols : Int
+
+pub let max_rows : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn next_button_rect() -> (Int, Int, Int, Int)
+
+pub fn panel_x() -> Int
+
+pub fn path_point(LinkPath, Int) -> (Int, Int)
+
+pub fn path_point_flash(Game, Int) -> (Int, Int)
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn reset_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn select_button_rect() -> (Int, Int, Int, Int)
+
+pub fn set_cell(Game, Int, Int, Int) -> Unit
+
+pub fn shuffle_button_rect() -> (Int, Int, Int, Int)
+
+pub fn shuffle_ints(Array[Int]) -> Unit
+
+pub fn spawn_spark(Game, Float, Float, Float, Float, Float, Float, Int) -> Unit
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let target_fps : Int
+
+pub fn update_sparks(Game, Float) -> Unit
+
+pub fn world_center(Game, Int, Int) -> (Float, Float, Float)
+
+pub fn world_center_ext(Game, Int, Int) -> (Float, Float)
+
+// Errors
+
+// Types and methods
+pub(all) enum Direction {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+}
+pub impl Eq for Direction
+
+pub(all) struct Game {
+  cells : Array[Int]
+  sparks : Array[Spark]
+  mut state : GameState
+  mut level_index : Int
+  level_count : Int
+  mut level_name : String
+  mut board_w : Int
+  mut board_h : Int
+  mut kind_count : Int
+  mut score : Int
+  mut combo : Int
+  mut timer : Float
+  mut time_limit : Float
+  mut remaining : Int
+  mut hints_left : Int
+  mut shuffles_left : Int
+  mut total_levels : Int
+  mut total_time : Float
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut select_active : Bool
+  mut select_x : Int
+  mut select_y : Int
+  mut path_active : Bool
+  mut path_ttl : Float
+  mut path_points : Int
+  mut path_x0 : Int
+  mut path_y0 : Int
+  mut path_x1 : Int
+  mut path_y1 : Int
+  mut path_x2 : Int
+  mut path_y2 : Int
+  mut path_x3 : Int
+  mut path_y3 : Int
+  mut hint_active : Bool
+  mut hint_ttl : Float
+  mut hint_x0 : Int
+  mut hint_y0 : Int
+  mut hint_x1 : Int
+  mut hint_y1 : Int
+  mut hold_dir : Direction
+  mut repeat_t : Float
+  mut touch_action_cd : Float
+  mut message : String
+  mut message_t : Float
+  mut shake_t : Float
+  mut ui_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+  Fail
+}
+pub impl Eq for GameState
+
+pub(all) struct LinkPath {
+  found : Bool
+  points : Int
+  x0 : Int
+  y0 : Int
+  x1 : Int
+  y1 : Int
+  x2 : Int
+  y2 : Int
+  x3 : Int
+  y3 : Int
+}
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+
+// Type aliases
+
+// Traits
+

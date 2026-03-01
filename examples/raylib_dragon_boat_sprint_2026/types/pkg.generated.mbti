@@ -1,0 +1,152 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dragon_boat_sprint_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let base_speed : Float
+
+pub let beat_good_window : Float
+
+pub let beat_perfect_window : Float
+
+pub let beat_period : Float
+
+pub let boat_y : Int
+
+pub let checkpoint_count : Int
+
+pub fn checkpoint_distance(Int) -> Float
+
+pub let checkpoint_gap : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let distance_to_px : Float
+
+pub let finish_distance : Float
+
+pub let hazard_debris : Int
+
+pub let hazard_wave : Int
+
+pub let hud_w : Int
+
+pub let hud_x : Int
+
+pub let lane_span_px : Float
+
+pub let max_hazards : Int
+
+pub let max_rivals : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn randf(Float, Float) -> Float
+
+pub let river_h : Int
+
+pub let river_w : Int
+
+pub let river_x : Int
+
+pub let river_y : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let target_fps : Int
+
+pub let visible_distance : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : Input
+  hazards : Array[Hazard]
+  rivals : Array[Rival]
+  mut state : GameState
+  mut distance : Float
+  mut speed : Float
+  mut lane : Float
+  mut rhythm_t : Float
+  mut stroke_cd : Float
+  mut since_paddle_t : Float
+  mut streak : Int
+  mut best_streak : Int
+  mut rhythm_meter : Float
+  mut burst_t : Float
+  mut wave_t : Float
+  mut wobble : Float
+  mut checkpoint_idx : Int
+  mut score : Int
+  mut hit_count : Int
+  mut best_rank : Int
+  mut finish_rank : Int
+  mut finish_time : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut hazard_spawn_t : Float
+  mut msg : String
+  mut msg_t : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Hazard {
+  mut active : Bool
+  mut kind : Int
+  mut lane : Float
+  mut dist : Float
+  mut size : Float
+  mut drift : Float
+  mut phase : Float
+}
+pub fn Hazard::new() -> Self
+
+pub(all) struct Input {
+  mut steer : Float
+  mut paddle_pressed : Bool
+  mut stabilize_down : Bool
+  mut burst_pressed : Bool
+  mut pause_pressed : Bool
+  mut restart_pressed : Bool
+  mut start_pressed : Bool
+}
+pub fn Input::new() -> Self
+
+pub(all) struct Rival {
+  mut active : Bool
+  mut id : Int
+  mut lane : Float
+  mut dist : Float
+  mut speed_bias : Float
+  mut stroke_t : Float
+}
+pub fn Rival::new() -> Self
+
+// Type aliases
+
+// Traits
+

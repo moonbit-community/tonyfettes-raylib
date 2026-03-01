@@ -1,0 +1,202 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_arctic_signal_relay_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let cargo_capacity : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn depot_r() -> Float
+
+pub fn depot_x() -> Float
+
+pub fn depot_y() -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let energy_idle_drain : Float
+
+pub let energy_max : Float
+
+pub let energy_move_drain : Float
+
+pub let energy_recharge_rate : Float
+
+pub let energy_storm_drain : Float
+
+pub let heat_idle_drain : Float
+
+pub let heat_max : Float
+
+pub let heat_recharge_rate : Float
+
+pub let heat_storm_drain : Float
+
+pub let max_storms : Int
+
+pub let max_towers : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn result_primary_rect() -> (Int, Int, Int, Int)
+
+pub fn result_secondary_rect() -> (Int, Int, Int, Int)
+
+pub let rover_accel : Float
+
+pub let rover_drag : Float
+
+pub let rover_max_speed : Float
+
+pub let rover_r : Float
+
+pub let rover_wind_force : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let storm_control_penalty : Float
+
+pub let target_fps : Int
+
+pub let timer_base : Float
+
+pub let timer_floor : Float
+
+pub let timer_step : Float
+
+pub fn title_start_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_action_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_down_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_left_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_right_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_up_rect() -> (Int, Int, Int, Int)
+
+pub fn tower_hit_r() -> Float
+
+pub fn tower_interact_r() -> Float
+
+pub let tower_online_bonus_base : Float
+
+pub let tower_online_bonus_step : Float
+
+pub fn world_bottom() -> Float
+
+pub let world_h : Int
+
+pub fn world_left() -> Float
+
+pub fn world_right() -> Float
+
+pub fn world_top() -> Float
+
+pub let world_w : Int
+
+pub let world_x0 : Int
+
+pub let world_y0 : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  towers : Array[Tower]
+  storms : Array[Storm]
+  mut state : GameState
+  mut stage : Int
+  mut best_stage : Int
+  mut mission_limit_s : Float
+  mut timer_s : Float
+  mut objective_total : Int
+  mut objective_done : Int
+  mut rover_x : Float
+  mut rover_y : Float
+  mut rover_vx : Float
+  mut rover_vy : Float
+  mut rover_energy : Float
+  mut rover_heat : Float
+  mut cargo_cells : Int
+  mut storm_intensity : Float
+  mut in_depot : Bool
+  mut nearby_tower : Int
+  mut result_win : Bool
+  mut result_note : String
+  mut ui_t : Float
+  mut flash_t : Float
+  mut hint_t : Float
+  mut hint_text : String
+  mut input_x : Float
+  mut input_y : Float
+  mut input_action_press : Bool
+  mut input_start_press : Bool
+  mut input_next_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_start_prev : Bool
+  mut touch_action_prev : Bool
+  mut touch_next_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Storm {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut vx : Float
+  mut vy : Float
+  mut phase : Float
+  mut strength : Float
+}
+pub fn Storm::new() -> Self
+
+pub(all) struct Tower {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut need : Int
+  mut delivered : Int
+  mut pulse_t : Float
+}
+pub fn Tower::new() -> Self
+
+// Type aliases
+
+// Traits
+

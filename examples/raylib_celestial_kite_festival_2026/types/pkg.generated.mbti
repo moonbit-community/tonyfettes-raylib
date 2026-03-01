@@ -1,0 +1,302 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_celestial_kite_festival_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn a_col(@raylib.Color, Int) -> @raylib.Color
+
+pub fn absf(Float) -> Float
+
+pub fn amber() -> @raylib.Color
+
+pub fn btn_burst_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_down_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_left_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_reel_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_right_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_up_rect() -> (Float, Float, Float, Float)
+
+pub let burst_cd_time : Float
+
+pub let burst_cost : Float
+
+pub let burst_radius : Float
+
+pub fn calm_col() -> @raylib.Color
+
+pub let calm_decay : Float
+
+pub let calm_max : Float
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn cyan() -> @raylib.Color
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_out_cubic(Float) -> Float
+
+pub fn energy_col() -> @raylib.Color
+
+pub let energy_max : Float
+
+pub let energy_regen : Float
+
+pub let hud_h : Int
+
+pub fn is_collectible(ObjKind) -> Bool
+
+pub fn is_hostile(ObjKind) -> Bool
+
+pub let kite_accel : Float
+
+pub fn kite_anchor_x(Game) -> Float
+
+pub fn kite_anchor_y() -> Float
+
+pub let kite_drag : Float
+
+pub let kite_h : Float
+
+pub fn kite_hit_r(Kite) -> Float
+
+pub let kite_max_speed : Float
+
+pub let kite_rope_damp : Float
+
+pub let kite_rope_len_max : Float
+
+pub let kite_rope_len_min : Float
+
+pub let kite_rope_spring : Float
+
+pub let kite_w : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_halos : Int
+
+pub let max_objs : Int
+
+pub let max_sparks : Int
+
+pub let max_trails : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn obj_hit_r(SkyObj) -> Float
+
+pub fn pink() -> @raylib.Color
+
+pub let play_bottom : Float
+
+pub let play_left : Float
+
+pub let play_right : Float
+
+pub let play_top : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let reel_energy_cost : Float
+
+pub let reel_rate : Float
+
+pub fn retry_rect() -> (Float, Float, Float, Float)
+
+pub let rope_recover_rate : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub fn sky_bottom() -> @raylib.Color
+
+pub fn sky_top() -> @raylib.Color
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_clear_wait : Float
+
+pub let stage_goal_base : Int
+
+pub let stage_goal_bonus : Int
+
+pub let stage_time_base : Float
+
+pub let stage_time_bonus : Float
+
+pub let target_fps : Int
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_btn_size() -> Float
+
+pub let wind_base : Float
+
+pub fn wind_col() -> @raylib.Color
+
+pub let wind_stage_bonus : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  objs : Array[SkyObj]
+  sparks : Array[Spark]
+  halos : Array[Halo]
+  trails : Array[Trail]
+  kite : Kite
+  mut state : GameState
+  mut stage : Int
+  mut stage_goal : Int
+  mut score : Int
+  mut best_score : Int
+  mut rescued : Int
+  mut hits : Int
+  mut time_left : Float
+  mut calm : Float
+  mut energy : Float
+  mut wind_x : Float
+  mut wind_y : Float
+  mut wind_power : Float
+  mut gust_t : Float
+  mut gust_phase : Float
+  mut rope_len : Float
+  mut burst_cd : Float
+  mut burst_t : Float
+  mut spawn_t : Float
+  mut wave_t : Float
+  mut combo : Int
+  mut combo_t : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut time_s : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_burst_press : Bool
+  mut input_reel_hold : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_burst_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Halo {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Halo::new() -> Self
+
+pub(all) struct Kite {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut angle : Float
+  mut invuln : Float
+  mut hurt_t : Float
+  mut burst_glow : Float
+  mut reel_glow : Float
+  mut anim_t : Float
+}
+pub fn Kite::new() -> Self
+
+pub(all) enum ObjKind {
+  Lantern
+  Bird
+  Storm
+  Orb
+  Koi
+}
+pub impl Eq for ObjKind
+
+pub(all) struct SkyObj {
+  mut active : Bool
+  mut kind : ObjKind
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut hp : Float
+  mut life : Float
+  mut phase : Float
+  mut value : Int
+  mut flagged : Bool
+}
+pub fn SkyObj::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+pub(all) struct Trail {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut life : Float
+  mut w : Float
+  mut h : Float
+  mut rot : Float
+}
+pub fn Trail::new() -> Self
+
+// Type aliases
+
+// Traits
+

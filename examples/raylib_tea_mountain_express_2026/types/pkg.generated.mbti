@@ -1,0 +1,215 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_tea_mountain_express_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let boost_accel : Float
+
+pub let boost_cooldown : Float
+
+pub let boost_duration : Float
+
+pub let boost_heat_cool_idle : Float
+
+pub let boost_heat_cool_stabilize : Float
+
+pub let boost_heat_critical : Float
+
+pub let boost_heat_gain : Float
+
+pub let boost_heat_start_limit : Float
+
+pub let brake_force : Float
+
+pub let cart_y : Float
+
+pub let checkpoint_distance_base : Float
+
+pub let checkpoint_distance_step : Float
+
+pub fn checkpoint_segment_distance(Int) -> Float
+
+pub fn checkpoint_time_limit(Int) -> Float
+
+pub let checkpoint_timer_base : Float
+
+pub let checkpoint_timer_decay : Float
+
+pub let checkpoint_timer_min : Float
+
+pub fn clamp01(Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let cruise_accel : Float
+
+pub let delivery_durability_floor : Float
+
+pub let delivery_multiplier_max : Int
+
+pub let delivery_quality_floor : Float
+
+pub let delivery_reputation_gain : Float
+
+pub let delivery_reputation_loss_base : Float
+
+pub let delivery_reputation_loss_durability : Float
+
+pub let delivery_reputation_loss_late : Float
+
+pub let delivery_reputation_loss_quality : Float
+
+pub let delivery_score_base : Int
+
+pub fn hazard_cargo_hit(HazardKind) -> Float
+
+pub let hazard_collision_window : Float
+
+pub fn hazard_durability_hit(HazardKind) -> Float
+
+pub fn hazard_name(HazardKind) -> String
+
+pub let hazard_pass_window : Float
+
+pub let hazard_spawn_base : Float
+
+pub let hazard_spawn_difficulty_step : Float
+
+pub let hazard_spawn_floor : Float
+
+pub fn hazard_tilt_bias(HazardKind) -> Float
+
+pub fn lane_center_x(Float, Int, Float) -> Float
+
+pub let lane_count : Int
+
+pub let lane_follow_speed : Float
+
+pub let max_hazards : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let natural_drag : Float
+
+pub let overheat_cargo_dps : Float
+
+pub let overheat_durability_dps : Float
+
+pub let overheat_reputation_dps : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn road_center_x(Float, Float) -> Float
+
+pub fn road_depth(Float) -> Float
+
+pub fn road_half_width(Float) -> Float
+
+pub let road_top_y_i : Int
+
+pub let route_wear_cargo_dps : Float
+
+pub let route_wear_durability_dps : Float
+
+pub let route_wobble_strength : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let speed_base : Float
+
+pub let speed_max : Float
+
+pub let speed_min : Float
+
+pub let stabilize_speed_penalty : Float
+
+pub let stabilize_wobble_damp : Float
+
+pub let target_fps : Int
+
+pub let tilt_follow_speed : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  hazards : Array[Hazard]
+  mut state : GameState
+  mut lane : Int
+  mut lane_x : Float
+  mut tilt : Float
+  mut speed : Float
+  mut distance : Float
+  mut next_checkpoint_distance : Float
+  mut checkpoint_index : Int
+  mut schedule_s : Float
+  mut cargo_quality : Float
+  mut durability : Float
+  mut reputation : Float
+  mut multiplier : Int
+  mut score : Int
+  mut best_score : Int
+  mut successful_deliveries : Int
+  mut failed_deliveries : Int
+  mut boost_cd : Float
+  mut boost_heat : Float
+  mut boost_timer : Float
+  mut hazard_spawn_t : Float
+  mut world_t : Float
+  mut message : String
+  mut message_t : Float
+  mut near_miss_combo : Int
+  mut input_steer : Int
+  mut input_tilt : Int
+  mut input_brake_press : Bool
+  mut input_stabilize_hold : Bool
+  mut input_boost_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+  mut input_confirm_press : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Hazard {
+  mut active : Bool
+  mut lane : Int
+  mut y : Float
+  mut speed : Float
+  mut size : Float
+  mut kind : HazardKind
+  mut near_miss_awarded : Bool
+}
+pub fn Hazard::new() -> Self
+
+pub(all) enum HazardKind {
+  Rock
+  Landslide
+  Crosswind
+}
+pub impl Eq for HazardKind
+
+// Type aliases
+
+// Traits
+

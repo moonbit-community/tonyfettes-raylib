@@ -1,0 +1,220 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_festival_lion_dance_defense_2026/types"
+
+// Values
+pub let breach_morale_loss_firecracker : Float
+
+pub let breach_morale_loss_incident : Float
+
+pub let breach_order_loss_firecracker : Float
+
+pub let breach_order_loss_incident : Float
+
+pub let burst_cd_time : Float
+
+pub let burst_cost : Float
+
+pub let burst_duration : Float
+
+pub let burst_radius : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let collision_morale_loss_firecracker : Float
+
+pub let collision_morale_loss_incident : Float
+
+pub let combo_keep_time : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let firecracker_speed_base : Float
+
+pub let guard_cd_time : Float
+
+pub let guard_hold_time : Float
+
+pub let guard_radius : Float
+
+pub let guard_stun_time : Float
+
+pub let hype_gain_combo_step : Float
+
+pub let hype_gain_firecracker : Float
+
+pub let hype_gain_guard_stun : Float
+
+pub let hype_gain_incident : Float
+
+pub let hype_max : Float
+
+pub let incident_speed_base : Float
+
+pub let lane_count : Int
+
+pub fn lane_from_y(Float) -> Int
+
+pub let lane_gap : Int
+
+pub let lane_height : Int
+
+pub let lane_top : Int
+
+pub fn lane_y(Int) -> Float
+
+pub let max_threats : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let morale_max : Float
+
+pub let morale_start : Float
+
+pub let msg_ttl : Float
+
+pub let order_gain_on_clear : Float
+
+pub let order_max : Float
+
+pub let order_pressure_drain_rate : Float
+
+pub let order_pressure_threshold : Float
+
+pub let order_recover_rate : Float
+
+pub let order_start : Float
+
+pub fn pulse(Game, Float) -> Float
+
+pub fn randf(Float, Float) -> Float
+
+pub let score_firecracker : Int
+
+pub let score_guard_stun : Int
+
+pub let score_incident : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub let spawn_difficulty_ramp : Float
+
+pub let spawn_time_floor : Float
+
+pub let spawn_time_start : Float
+
+pub let speed_scale_max_bonus : Float
+
+pub fn squaref(Float) -> Float
+
+pub fn street_h() -> Int
+
+pub let street_left : Int
+
+pub let street_right : Int
+
+pub fn street_w() -> Int
+
+pub let strike_cd_time : Float
+
+pub let strike_fx_time : Float
+
+pub let strike_radius : Float
+
+pub let target_fps : Int
+
+pub let threat_firecracker : Int
+
+pub let threat_incident : Int
+
+pub let troupe_move_speed : Float
+
+pub let troupe_start_lane : Int
+
+pub let troupe_w : Float
+
+// Errors
+
+// Types and methods
+pub(all) enum Action {
+  Strike
+  Guard
+  Burst
+}
+pub impl Eq for Action
+
+pub(all) struct Game {
+  input : InputState
+  threats : Array[Threat]
+  mut state : GameState
+  mut troupe_x : Float
+  mut troupe_y : Float
+  mut troupe_lane : Int
+  mut score : Int
+  mut best_score : Int
+  mut cleared : Int
+  mut leaked : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut hype : Float
+  mut morale : Float
+  mut crowd_order : Float
+  mut strike_cd : Float
+  mut strike_t : Float
+  mut guard_cd : Float
+  mut guard_t : Float
+  mut burst_cd : Float
+  mut burst_t : Float
+  mut spawn_t : Float
+  mut elapsed : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut msg : String
+  mut msg_t : Float
+  mut time_s : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct InputState {
+  mut move_x : Int
+  mut move_y : Int
+  mut press_strike : Bool
+  mut press_guard : Bool
+  mut press_burst : Bool
+  mut press_pause : Bool
+  mut press_restart : Bool
+  mut press_start : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Threat {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut speed : Float
+  mut radius : Float
+  mut stun_t : Float
+  mut spin : Float
+}
+pub fn Threat::new() -> Self
+
+// Type aliases
+
+// Traits
+

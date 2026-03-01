@@ -1,0 +1,291 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_bamboo_forest_sentinel_2026/types"
+
+// Values
+pub fn active_enemy_count(Game) -> Int
+
+pub let attack_flash_time : Float
+
+pub let basic_attack_arc_dot : Float
+
+pub let basic_attack_cooldown : Float
+
+pub let basic_attack_damage : Float
+
+pub let basic_attack_energy_cost : Float
+
+pub let basic_attack_range : Float
+
+pub let beacon_count : Int
+
+pub let beacon_integrity_max : Float
+
+pub fn beacon_position(Int) -> (Float, Float)
+
+pub let beacon_radius : Float
+
+pub fn beacon_total_integrity(Game) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let corridor_lanes : Int
+
+pub let dash_cooldown : Float
+
+pub let dash_energy_cost : Float
+
+pub let dash_speed : Float
+
+pub let dash_time : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let enemy_damage_base : Float
+
+pub let enemy_damage_step : Float
+
+pub fn enemy_hit_radius(Int) -> Float
+
+pub let enemy_hp_base : Float
+
+pub let enemy_hp_step : Float
+
+pub let enemy_radius : Float
+
+pub let enemy_speed_base : Float
+
+pub let enemy_speed_step : Float
+
+pub let energy_max : Float
+
+pub let energy_regen : Float
+
+pub let hud_h : Int
+
+pub let hud_w : Int
+
+pub let hud_x : Int
+
+pub let hud_y : Int
+
+pub let lane_bottom_y : Int
+
+pub let lane_mid_y : Int
+
+pub let lane_top_y : Int
+
+pub fn lane_y(Int) -> Float
+
+pub fn living_beacon_count(Game) -> Int
+
+pub let max_enemies : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let night_banner_time : Float
+
+pub let night_clear_charge_bonus : Float
+
+pub let night_clear_energy_bonus : Float
+
+pub let night_spawn_base : Int
+
+pub let night_spawn_step : Int
+
+pub fn normalize2(Float, Float) -> (Float, Float)
+
+pub let player_radius : Float
+
+pub let player_speed : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub let score_kill_base : Int
+
+pub let score_night_clear_bonus : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let shake_hit_time : Float
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_interval_decay : Float
+
+pub let spawn_interval_floor : Float
+
+pub fn spawn_interval_for_night(Int) -> Float
+
+pub let spawn_interval_start : Float
+
+pub fn spawn_route_count(Int) -> Int
+
+pub fn spawn_route_position(Int) -> (Float, Float)
+
+pub fn spawn_route_target(Int) -> Int
+
+pub fn squaref(Float) -> Float
+
+pub let status_default_t : Float
+
+pub let sweep_charge_hit : Float
+
+pub let sweep_charge_kill : Float
+
+pub let sweep_charge_max : Float
+
+pub let sweep_charge_passive : Float
+
+pub let sweep_damage : Float
+
+pub let sweep_fx_time : Float
+
+pub let sweep_radius : Float
+
+pub let target_fps : Int
+
+pub let trap_damage : Float
+
+pub let trap_flash_time : Float
+
+pub let trap_place_cooldown : Float
+
+pub let trap_place_energy_cost : Float
+
+pub let trap_place_range : Float
+
+pub let trap_rearm_time : Float
+
+pub let trap_remove_range : Float
+
+pub let trap_remove_refund : Float
+
+pub let trap_slot_cols : Int
+
+pub let trap_slot_count : Int
+
+pub fn trap_slot_position(Int) -> (Float, Float)
+
+pub let trap_slot_rows : Int
+
+pub let trap_slow_factor : Float
+
+pub let trap_slow_time : Float
+
+pub let trap_trigger_radius : Float
+
+pub let world_h : Int
+
+pub let world_w : Int
+
+pub let world_x : Int
+
+pub let world_y : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Beacon {
+  x : Float
+  y : Float
+  mut integrity : Float
+  mut pulse_t : Float
+}
+pub fn Beacon::new(Int) -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut speed : Float
+  mut damage : Float
+  mut target : Int
+  mut slow_t : Float
+  mut kind : Int
+  mut anim_t : Float
+}
+pub fn Enemy::new() -> Self
+
+pub(all) struct Game {
+  input : InputState
+  player : Player
+  beacons : Array[Beacon]
+  traps : Array[Trap]
+  enemies : Array[Enemy]
+  mut state : GameState
+  mut night : Int
+  mut score : Int
+  mut best_score : Int
+  mut kills : Int
+  mut elapsed : Float
+  mut energy : Float
+  mut sweep_charge : Float
+  mut trap_place_cd : Float
+  mut spawn_pool : Int
+  mut spawn_cd : Float
+  mut sweep_t : Float
+  mut night_banner_t : Float
+  mut status_text : String
+  mut status_t : Float
+  mut shake_t : Float
+  mut game_over_reason : String
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct InputState {
+  mut move_x : Int
+  mut move_y : Int
+  mut press_j : Bool
+  mut press_k : Bool
+  mut press_space : Bool
+  mut press_pause : Bool
+  mut press_restart : Bool
+  mut press_start : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut facing_x : Float
+  mut facing_y : Float
+  mut dash_vx : Float
+  mut dash_vy : Float
+  mut dash_t : Float
+  mut dash_cd : Float
+  mut attack_cd : Float
+  mut attack_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Trap {
+  mut active : Bool
+  x : Float
+  y : Float
+  mut trigger_cd : Float
+  mut flash_t : Float
+}
+pub fn Trap::new(Int) -> Self
+
+// Type aliases
+
+// Traits
+

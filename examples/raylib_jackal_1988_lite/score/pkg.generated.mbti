@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_jackal_1988_lite/score"
+
+import {
+  "tonyfettes/raylib-examples/raylib_jackal_1988_lite/types",
+}
+
+// Values
+pub fn bump_combo(@types.Game) -> Unit
+
+pub fn combo_multiplier(@types.Game) -> Int
+
+pub fn grant_score(@types.Game, Int, Int) -> Unit
+
+pub fn update_combo(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

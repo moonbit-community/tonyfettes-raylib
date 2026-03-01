@@ -1,0 +1,178 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_martial_arts_school_manager_2026/types"
+
+// Values
+pub let burnout_threshold : Float
+
+pub let burst_cooldown : Float
+
+pub let burst_duration : Float
+
+pub let burst_time_multiplier : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let defense_fatigue_gain_per_sec : Float
+
+pub let defense_stipend_per_sec : Float
+
+pub let defense_stipend_week_scale : Float
+
+pub let fatigue_max : Float
+
+pub let fatigue_penalty_start : Float
+
+pub let fatigue_rep_penalty_per_sec : Float
+
+pub let incident_gap_base : Float
+
+pub let incident_gap_drop : Float
+
+pub fn incident_gap_for(Int) -> Float
+
+pub let incident_gap_jitter : Float
+
+pub let incident_gap_min : Float
+
+pub let incident_severity_base : Float
+
+pub fn incident_severity_for(Int) -> Float
+
+pub let incident_severity_growth : Float
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let operation_cost_per_sec : Float
+
+pub let operation_cost_week_scale : Float
+
+pub let reputation_passive_drain_per_sec : Float
+
+pub let rest_fatigue_recover_per_sec : Float
+
+pub let room_count : Int
+
+pub let room_defense : Int
+
+pub fn room_name(Int) -> String
+
+pub let room_rest : Int
+
+pub let room_sparring : Int
+
+pub let room_train : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let spar_fatigue_gain_per_sec : Float
+
+pub let spar_income_per_sec : Float
+
+pub let spar_rep_gain_per_sec : Float
+
+pub let start_funds : Float
+
+pub let start_reputation : Float
+
+pub fn starting_skill(Int) -> Float
+
+pub let student_count : Int
+
+pub fn student_name(Int) -> String
+
+pub let student_salary_weekly : Float
+
+pub let target_fps : Int
+
+pub let train_cost_per_sec : Float
+
+pub let train_fatigue_gain_per_sec : Float
+
+pub let train_skill_gain_per_sec : Float
+
+pub fn upkeep_for(Int) -> Float
+
+pub let week_duration_base : Float
+
+pub let week_duration_drop : Float
+
+pub fn week_duration_for(Int) -> Float
+
+pub let week_duration_min : Float
+
+pub let week_upkeep_base : Float
+
+pub let week_upkeep_growth : Float
+
+pub let weekly_recovery_bonus : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : Input
+  students : Array[Student]
+  mut state : GameState
+  mut week : Int
+  mut funds : Float
+  mut reputation : Float
+  mut week_duration : Float
+  mut week_time_left : Float
+  mut cursor_row : Int
+  mut cursor_col : Int
+  mut speed_burst_t : Float
+  mut speed_burst_cd : Float
+  mut incident_timer : Float
+  mut incident_count_week : Int
+  mut total_incidents : Int
+  mut incident_flash_t : Float
+  mut message : String
+  mut message_t : Float
+  mut scene_t : Float
+  mut week_banner_t : Float
+  mut weeks_survived : Int
+  mut best_week : Int
+  mut defeat_reason : String
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Input {
+  mut move_x : Int
+  mut move_y : Int
+  mut confirm_pressed : Bool
+  mut cancel_pressed : Bool
+  mut burst_pressed : Bool
+  mut pause_pressed : Bool
+  mut restart_pressed : Bool
+  mut start_pressed : Bool
+}
+pub fn Input::new() -> Self
+
+pub(all) struct Student {
+  name : String
+  mut skill : Float
+  mut fatigue : Float
+  mut room : Int
+}
+pub fn Student::new(String, Float) -> Self
+
+// Type aliases
+
+// Traits
+

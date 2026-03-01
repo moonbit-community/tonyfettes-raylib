@@ -1,0 +1,134 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_xiaoxiaole/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let base_moves : Int
+
+pub let base_target : Int
+
+pub let bg_color : @raylib.Color
+
+pub let board_bg_color : @raylib.Color
+
+pub let board_left : Int
+
+pub let board_top : Int
+
+pub let cell_count : Int
+
+pub let cell_gap : Int
+
+pub let cell_px : Int
+
+pub fn cell_x(Int) -> Float
+
+pub fn cell_y(Int) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub let fall_speed : Float
+
+pub let flash_duration : Float
+
+pub fn gem_color(GemKind) -> @raylib.Color
+
+pub fn gem_highlight(GemKind) -> @raylib.Color
+
+pub let grid_cols : Int
+
+pub let grid_rows : Int
+
+pub fn idx(Int, Int) -> Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let num_colors : Int
+
+pub let panel_label_color : @raylib.Color
+
+pub let panel_text_color : @raylib.Color
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let select_color : @raylib.Color
+
+pub let swap_speed : Float
+
+pub let target_fps : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  board : Array[Gem]
+  mut state : GameState
+  mut score : Int
+  mut best_score : Int
+  mut moves_left : Int
+  mut target_score : Int
+  mut level : Int
+  mut combo : Int
+  mut max_combo : Int
+  mut sel_r : Int
+  mut sel_c : Int
+  mut swap_r1 : Int
+  mut swap_c1 : Int
+  mut swap_r2 : Int
+  mut swap_c2 : Int
+  mut hint_r1 : Int
+  mut hint_c1 : Int
+  mut hint_r2 : Int
+  mut hint_c2 : Int
+  mut hint_t : Float
+  mut msg : String
+  mut msg_t : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Swap
+  Remove
+  Fall
+  Over
+  Clear
+}
+pub impl Eq for GameState
+
+pub(all) struct Gem {
+  mut kind : GemKind
+  mut anim_x : Float
+  mut anim_y : Float
+  mut target_x : Float
+  mut target_y : Float
+  mut matched : Bool
+  mut flash_t : Float
+}
+pub fn Gem::empty() -> Self
+
+pub(all) enum GemKind {
+  Empty
+  Red
+  Green
+  Blue
+  Yellow
+  Purple
+  Orange
+}
+pub fn GemKind::from_int(Int) -> Self
+pub fn GemKind::is_empty(Self) -> Bool
+pub impl Eq for GemKind
+
+// Type aliases
+
+// Traits
+

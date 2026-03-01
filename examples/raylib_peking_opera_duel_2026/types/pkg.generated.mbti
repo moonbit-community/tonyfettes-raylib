@@ -1,0 +1,189 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_peking_opera_duel_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let beat_accel_per_sec : Float
+
+pub let beat_min_interval : Float
+
+pub let beat_start_interval : Float
+
+pub let burst_cooldown : Float
+
+pub let burst_duration : Float
+
+pub let burst_slow_factor : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn col(Int, Int, Int, Int) -> @raylib.Color
+
+pub let combo_acclaim_step : Int
+
+pub let deflect_acclaim_gain : Int
+
+pub let deflect_harmony_penalty : Float
+
+pub fn draw_center_text(String, Int, Int, @raylib.Color) -> Unit
+
+pub let duel_duration : Float
+
+pub let good_acclaim_gain : Int
+
+pub fn grade_for_acclaim(Int) -> String
+
+pub let harmony_drain_per_sec : Float
+
+pub let harmony_max : Float
+
+pub let health_drain_per_sec : Float
+
+pub let health_max : Float
+
+pub let hit_harmony_recover : Float
+
+pub let hit_health_recover : Float
+
+pub let lane_axis_max : Int
+
+pub let lane_axis_min : Int
+
+pub let lane_step_x : Int
+
+pub let lane_step_y : Int
+
+pub fn lane_to_x(Int) -> Int
+
+pub fn lane_to_y(Int) -> Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub let mismatch_harmony_extra : Float
+
+pub let miss_harmony_penalty : Float
+
+pub let miss_health_penalty : Float
+
+pub let offbeat_harmony_penalty : Float
+
+pub let perfect_acclaim_gain : Int
+
+pub let prompt_lead_time : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_message(Game, String, Float) -> Unit
+
+pub fn sinf(Float) -> Float
+
+pub let stage_h : Int
+
+pub let stage_left : Int
+
+pub let stage_top : Int
+
+pub let stage_w : Int
+
+pub fn stance_color(Int, Int) -> @raylib.Color
+
+pub let stance_count : Int
+
+pub let stance_fan : Int
+
+pub let stance_guard : Int
+
+pub fn stance_name(Int) -> String
+
+pub let stance_sleeve : Int
+
+pub let stance_spear : Int
+
+pub let target_fps : Int
+
+pub let timing_deflect : Float
+
+pub let timing_good : Float
+
+pub let timing_miss : Float
+
+pub let timing_perfect : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : InputState
+  mut state : GameState
+  mut lane_x : Int
+  mut lane_y : Int
+  mut stance : Int
+  mut health : Float
+  mut harmony : Float
+  mut acclaim : Int
+  mut combo : Int
+  mut best_combo : Int
+  mut hits : Int
+  mut misses : Int
+  mut duel_time_left : Float
+  mut elapsed : Float
+  mut beat_interval : Float
+  mut next_prompt_t : Float
+  mut prompt_active : Bool
+  mut prompt : Prompt
+  mut prompt_serial : Int
+  mut burst_t : Float
+  mut burst_cd : Float
+  mut guard_flash_t : Float
+  mut crowd_wave_t : Float
+  mut message : String
+  mut message_t : Float
+  mut game_over_reason : String
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct InputState {
+  mut axis_x : Int
+  mut axis_y : Int
+  mut hit_pressed : Bool
+  mut defend_pressed : Bool
+  mut burst_pressed : Bool
+  mut pause_pressed : Bool
+  mut restart_pressed : Bool
+  mut confirm_pressed : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Prompt {
+  lane_x : Int
+  lane_y : Int
+  stance : Int
+  mut time_left : Float
+}
+pub fn Prompt::new(Int, Int, Int, Float) -> Self
+
+// Type aliases
+
+// Traits
+

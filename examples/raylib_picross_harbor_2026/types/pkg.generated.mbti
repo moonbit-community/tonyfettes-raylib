@@ -1,0 +1,189 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_picross_harbor_2026/types"
+
+// Values
+pub fn action_h() -> Int
+
+pub fn action_w() -> Int
+
+pub fn board_index(Int, Int) -> Int
+
+pub fn board_metrics(Game) -> (Int, Int, Int, Int, Int, Int, Int)
+
+pub fn cell_at(Game, Int, Int) -> Int
+
+pub let cell_cross : Int
+
+pub let cell_fill : Int
+
+pub let cell_unknown : Int
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn col_solved(Game, Int) -> Bool
+
+pub fn cross_button_rect() -> (Int, Int, Int, Int)
+
+pub let dir_down : Int
+
+pub let dir_left : Int
+
+pub let dir_none : Int
+
+pub let dir_right : Int
+
+pub let dir_up : Int
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_size() -> Int
+
+pub fn fill_button_rect() -> (Int, Int, Int, Int)
+
+pub fn hint_button_rect() -> (Int, Int, Int, Int)
+
+pub fn in_grid(Game, Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub let max_board : Int
+
+pub let max_cells : Int
+
+pub fn max_col_clues(Game) -> Int
+
+pub fn max_row_clues(Game) -> Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn next_button_rect() -> (Int, Int, Int, Int)
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn puzzle_solved(Game) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn reset_button_rect() -> (Int, Int, Int, Int)
+
+pub fn right_panel_x() -> Int
+
+pub fn row_solved(Game, Int) -> Bool
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_cell(Game, Int, Int, Int) -> Unit
+
+pub fn set_solution(Game, Int, Int, Bool) -> Unit
+
+pub fn solution_at(Game, Int, Int) -> Bool
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let state_campaign_clear : Int
+
+pub let state_level_clear : Int
+
+pub let state_level_fail : Int
+
+pub let state_play : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let tool_cross : Int
+
+pub let tool_fill : Int
+
+pub fn undo_button_rect() -> (Int, Int, Int, Int)
+
+pub fn world_for_cell(Game, Int, Int) -> (Float, Float, Float)
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  solution : Array[Bool]
+  cells : Array[Int]
+  row_clues : Array[Int]
+  row_clue_counts : Array[Int]
+  col_clues : Array[Int]
+  col_clue_counts : Array[Int]
+  undo : Array[UndoStep]
+  sparks : Array[Spark]
+  mut state : Int
+  mut level_index : Int
+  level_count : Int
+  mut level_name : String
+  mut level_par_time : Int
+  mut level_mistake_limit : Int
+  mut grid_w : Int
+  mut grid_h : Int
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut tool_mode : Int
+  mut level_time : Float
+  mut mistakes : Int
+  mut hints_left : Int
+  mut hints_used : Int
+  mut filled_correct : Int
+  mut filled_wrong : Int
+  mut solution_total : Int
+  mut total_time : Float
+  mut total_mistakes : Int
+  mut total_hints : Int
+  mut total_stars : Int
+  mut total_completed : Int
+  mut last_level_stars : Int
+  mut undo_len : Int
+  mut message : String
+  mut message_t : Float
+  mut shake_t : Float
+  mut ui_t : Float
+  mut hold_dir : Int
+  mut move_repeat_t : Float
+  mut touch_action_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+
+pub(all) struct UndoStep {
+  valid : Bool
+  x : Int
+  y : Int
+  prev_state : Int
+  prev_mistakes : Int
+  prev_filled_correct : Int
+  prev_filled_wrong : Int
+  prev_hints_left : Int
+  prev_hints_used : Int
+}
+
+// Type aliases
+
+// Traits
+

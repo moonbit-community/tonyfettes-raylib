@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_clockwork_train_heist_2026"
 // Errors
 
 // Types and methods
-type Actor
-
-type Game
-
-type Guard
-
-type Loot
-
-type Particle
-
-type Smoke
 
 // Type aliases
 

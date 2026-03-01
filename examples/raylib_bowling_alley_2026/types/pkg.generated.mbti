@@ -1,0 +1,175 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_bowling_alley_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let aim_max : Float
+
+pub let aim_min : Float
+
+pub let ball_radius : Float
+
+pub let ball_start_x : Float
+
+pub let ball_start_y : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn deg_to_rad(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let foul_line_y : Float
+
+pub let lane_bottom : Float
+
+pub let lane_h : Int
+
+pub let lane_left : Float
+
+pub let lane_right : Float
+
+pub let lane_top : Float
+
+pub let lane_w : Int
+
+pub let lane_x : Int
+
+pub let lane_y : Int
+
+pub let max_rolls : Int
+
+pub let max_sparks : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn panel_rect() -> (Int, Int, Int, Int)
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let pin_col_gap : Float
+
+pub let pin_deck_y : Float
+
+pub let pin_radius : Float
+
+pub let pin_row_gap : Float
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn result_retry_hover(Float, Float, Bool, Int) -> Bool
+
+pub fn retry_button() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let spin_max : Float
+
+pub let spin_min : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let target_fps : Int
+
+pub fn title_start_button() -> (Int, Int, Int, Int)
+
+pub fn title_start_hover(Float, Float, Bool, Int) -> Bool
+
+pub fn touch_aim_left_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_aim_right_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_power_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_spin_left_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_spin_right_rect() -> (Int, Int, Int, Int)
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  pins : Array[Pin]
+  sparks : Array[Spark]
+  rolls : Array[Int]
+  frame_totals : Array[Int]
+  mut roll_count : Int
+  mut state : GameState
+  mut frame : Int
+  mut roll_in_frame : Int
+  mut first_roll : Int
+  mut pins_before_roll : Int
+  mut pins_left : Int
+  mut ball_x : Float
+  mut ball_y : Float
+  mut ball_vx : Float
+  mut ball_vy : Float
+  mut ball_spin : Float
+  mut ball_live : Bool
+  mut can_throw : Bool
+  mut charging : Bool
+  mut power : Float
+  mut power_dir : Float
+  mut aim : Float
+  mut spin : Float
+  mut resolve_t : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut shake_t : Float
+  mut message : String
+  mut message_t : Float
+  mut strikes : Int
+  mut spares : Int
+  mut opens : Int
+  mut score : Int
+  mut best_score : Int
+  mut last_knock : Int
+  mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Pin {
+  mut standing : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut ang : Float
+  mut ang_v : Float
+}
+pub fn Pin::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+// Type aliases
+
+// Traits
+

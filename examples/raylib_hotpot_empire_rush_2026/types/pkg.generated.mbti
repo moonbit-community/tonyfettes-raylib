@@ -1,0 +1,235 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_hotpot_empire_rush_2026/types"
+
+// Values
+pub let boost_charge_per_s : Float
+
+pub let boost_cost : Float
+
+pub let boost_duration : Float
+
+pub let boost_meter_max : Float
+
+pub let boost_speed_mult : Float
+
+pub let broth_count : Int
+
+pub fn broth_name(Int) -> String
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_keep_time : Float
+
+pub let cook_target_base : Float
+
+pub let ingredient_none : Int
+
+pub let ingredient_protein : Int
+
+pub let ingredient_veg : Int
+
+pub fn kitchen_h() -> Int
+
+pub let kitchen_left : Int
+
+pub let kitchen_top : Int
+
+pub fn kitchen_w() -> Int
+
+pub let max_orders : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let msg_ttl : Float
+
+pub fn panel_w() -> Int
+
+pub fn panel_x() -> Int
+
+pub let prep_target_base : Float
+
+pub let protein_count : Int
+
+pub fn protein_name(Int) -> String
+
+pub let rep_gain_served : Float
+
+pub let rep_loss_discard_pot : Float
+
+pub let rep_loss_timeout : Float
+
+pub let rep_loss_wrong_serve : Float
+
+pub let reputation_max : Float
+
+pub let reputation_start : Float
+
+pub let rush_cooldown : Float
+
+pub let score_base_serve : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_message(Game, String) -> Unit
+
+pub let spice_levels : Int
+
+pub fn spice_name(Int) -> String
+
+pub let state_game_over : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_title : Int
+
+pub fn station_at(Int, Int) -> Int
+
+pub let station_broth : Int
+
+pub let station_cols : Int
+
+pub let station_gap : Int
+
+pub fn station_name(Int) -> String
+
+pub let station_none : Int
+
+pub let station_pot : Int
+
+pub let station_prep : Int
+
+pub let station_protein : Int
+
+pub let station_queue : Int
+
+pub let station_reputation : Int
+
+pub let station_rows : Int
+
+pub let station_rush : Int
+
+pub let station_serve : Int
+
+pub let station_spice : Int
+
+pub let station_storage : Int
+
+pub let station_tile_h : Int
+
+pub let station_tile_w : Int
+
+pub let station_trash : Int
+
+pub let station_veg : Int
+
+pub fn station_x(Int) -> Int
+
+pub fn station_y(Int) -> Int
+
+pub let target_fps : Int
+
+pub let veg_count : Int
+
+pub fn veg_name(Int) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : InputState
+  orders : Array[Order]
+  prep : PrepState
+  pot : PotState
+  hand : Item
+  mut state : Int
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut score : Int
+  mut best_score : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut reputation : Float
+  mut boost_meter : Float
+  mut boost_t : Float
+  mut rush_cd : Float
+  mut spawn_cd : Float
+  mut order_serial : Int
+  mut elapsed : Float
+  mut served : Int
+  mut failed : Int
+  mut next_protein_pick : Int
+  mut next_veg_pick : Int
+  mut msg : String
+  mut msg_t : Float
+  mut flash_t : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) struct InputState {
+  mut move_x : Int
+  mut move_y : Int
+  mut press_interact : Bool
+  mut press_serve_cancel : Bool
+  mut press_boost : Bool
+  mut press_pause : Bool
+  mut press_restart : Bool
+  mut press_start : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Item {
+  mut kind : Int
+  mut flavor : Int
+  mut prepped : Bool
+}
+pub fn Item::empty() -> Self
+
+pub(all) struct Order {
+  mut active : Bool
+  mut id : Int
+  mut broth : Int
+  mut protein : Int
+  mut veg : Int
+  mut spice : Int
+  mut patience : Float
+  mut max_patience : Float
+  mut pulse : Float
+}
+pub fn Order::new(Int) -> Self
+
+pub(all) struct PotState {
+  mut broth : Int
+  mut protein : Int
+  mut veg : Int
+  mut spice : Int
+  mut cooking : Bool
+  mut progress : Float
+  mut target : Float
+  mut ready : Bool
+}
+pub fn PotState::new() -> Self
+
+pub(all) struct PrepState {
+  mut active : Bool
+  mut kind : Int
+  mut flavor : Int
+  mut progress : Float
+  mut target : Float
+  mut output_ready : Bool
+  mut out_kind : Int
+  mut out_flavor : Int
+}
+pub fn PrepState::new() -> Self
+
+// Type aliases
+
+// Traits
+

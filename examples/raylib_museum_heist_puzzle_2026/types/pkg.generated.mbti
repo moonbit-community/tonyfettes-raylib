@@ -1,0 +1,204 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_museum_heist_puzzle_2026/types"
+
+// Values
+pub fn absi(Int) -> Int
+
+pub fn add_border_walls(Game) -> Unit
+
+pub fn add_wall_rect(Game, Int, Int, Int, Int) -> Unit
+
+pub let alarm_flash_time : Float
+
+pub fn any_guard_on_cell(Game, Int, Int) -> Bool
+
+pub fn board_bottom() -> Int
+
+pub let board_cells : Int
+
+pub let board_cols : Int
+
+pub let board_origin_x : Int
+
+pub let board_origin_y : Int
+
+pub fn board_right() -> Int
+
+pub let board_rows : Int
+
+pub fn carve_floor_rect(Game, Int, Int, Int, Int) -> Unit
+
+pub fn cell_index(Int, Int) -> Int
+
+pub fn cell_px(Int) -> Int
+
+pub fn cell_py(Int) -> Int
+
+pub fn cell_x(Int) -> Int
+
+pub fn cell_y(Int) -> Int
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_entities(Game) -> Unit
+
+pub fn dir_delta(Direction) -> (Int, Int)
+
+pub fn dpad_button_size() -> Int
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_down_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_left_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_right_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_up_rect() -> (Int, Int, Int, Int)
+
+pub fn exit_unlocked(Game) -> Bool
+
+pub fn fill_board_floor(Game) -> Unit
+
+pub fn guard_sees_cell(Game, Guard, Int, Int) -> Bool
+
+pub let guard_step_interval : Float
+
+pub fn has_line_of_sight(Game, Int, Int, Int, Int) -> Bool
+
+pub fn in_bounds(Int, Int) -> Bool
+
+pub fn in_guard_front(Guard, Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn maxi(Int, Int) -> Int
+
+pub let menu_action_delay : Float
+
+pub fn next_button_rect() -> (Int, Int, Int, Int)
+
+pub let panel_h : Int
+
+pub let panel_w : Int
+
+pub let panel_x : Int
+
+pub let panel_y : Int
+
+pub fn pc(Int, Int) -> Int
+
+pub fn player_spotted(Game) -> Bool
+
+pub let player_step_interval : Float
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn restart_button_rect() -> (Int, Int, Int, Int)
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_tile(Game, Int, Int, TileKind) -> Unit
+
+pub fn spawn_artifact(Game, Int, Int) -> Unit
+
+pub fn spawn_guard(Game, Array[Int], Int, Float) -> Unit
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let target_fps : Int
+
+pub fn tile_at(Game, Int, Int) -> TileKind
+
+pub let tile_size : Int
+
+pub fn walkable(Game, Int, Int) -> Bool
+
+// Errors
+
+// Types and methods
+pub(all) struct Artifact {
+  x : Int
+  y : Int
+  mut taken : Bool
+}
+
+pub(all) enum Direction {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+}
+pub impl Eq for Direction
+
+pub(all) struct FrameInput {
+  move_dir : Direction
+  start_pressed : Bool
+  next_pressed : Bool
+  retry_pressed : Bool
+  restart_pressed : Bool
+}
+
+pub(all) struct Game {
+  tiles : Array[TileKind]
+  mut artifacts : Array[Artifact]
+  mut guards : Array[Guard]
+  mut state : GameState
+  mut level_index : Int
+  level_count : Int
+  mut level_name : String
+  mut player_x : Int
+  mut player_y : Int
+  mut exit_x : Int
+  mut exit_y : Int
+  mut artifacts_total : Int
+  mut artifacts_collected : Int
+  mut player_step_t : Float
+  mut state_t : Float
+  mut pulse_t : Float
+  mut alarm_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Win
+  Lose
+  CampaignClear
+}
+pub impl Eq for GameState
+
+pub(all) struct Guard {
+  mut x : Int
+  mut y : Int
+  mut dir_x : Int
+  mut dir_y : Int
+  view_range : Int
+  path : Array[Int]
+  mut path_index : Int
+  mut step_timer : Float
+}
+
+pub(all) enum TileKind {
+  Floor
+  Wall
+}
+pub impl Eq for TileKind
+
+// Type aliases
+
+// Traits
+

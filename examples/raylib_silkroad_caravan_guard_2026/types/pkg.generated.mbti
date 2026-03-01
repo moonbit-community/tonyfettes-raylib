@@ -1,0 +1,265 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_silkroad_caravan_guard_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let ammo_max : Int
+
+pub let ammo_regen_base : Float
+
+pub let bullet_dmg : Float
+
+pub let bullet_life : Float
+
+pub let bullet_speed : Float
+
+pub let caravan_center_x : Float
+
+pub let caravan_center_y : Float
+
+pub fn caravan_speed(Int) -> Float
+
+pub let caravan_speed_base : Float
+
+pub let caravan_speed_step : Float
+
+pub fn chance(Int) -> Bool
+
+pub let checkpoint_base_span : Float
+
+pub fn checkpoint_span(Int) -> Float
+
+pub let checkpoint_span_step : Float
+
+pub let checkpoint_total : Int
+
+pub fn clamp01(Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let desert_lane_gap : Float
+
+pub let desert_lane_top : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ellipse_norm(Float, Float, Float, Float) -> Float
+
+pub let kit_max : Int
+
+pub fn lane_base_y(Int) -> Float
+
+pub let lane_count : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_bullets : Int
+
+pub let max_dust : Int
+
+pub let max_raiders : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let morale_decay : Float
+
+pub let morale_kill_gain : Float
+
+pub let morale_max : Float
+
+pub let perimeter_inner_rx : Float
+
+pub let perimeter_inner_ry : Float
+
+pub let perimeter_outer_rx : Float
+
+pub let perimeter_outer_ry : Float
+
+pub let player_drag : Float
+
+pub let player_invuln_time : Float
+
+pub let player_radius : Float
+
+pub let player_roll_cd : Float
+
+pub let player_roll_speed : Float
+
+pub let player_roll_time : Float
+
+pub let player_speed : Float
+
+pub let raider_brute : Int
+
+pub let raider_rider : Int
+
+pub let raider_skirmisher : Int
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let repair_cd : Float
+
+pub let repair_heal : Float
+
+pub let repair_range : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let shoot_cd : Float
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_interval_base : Float
+
+pub let spawn_interval_min : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let state_game_over : Int
+
+pub let state_pause : Int
+
+pub let state_play : Int
+
+pub let state_title : Int
+
+pub let state_victory : Int
+
+pub let target_fps : Int
+
+pub let tau : Float
+
+pub let wagon_count : Int
+
+pub let wagon_gap : Float
+
+pub let wagon_hp_max : Float
+
+pub fn wagon_slot_x(Int) -> Float
+
+pub fn wagon_slot_y(Int) -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Bullet {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut dmg : Float
+}
+pub fn Bullet::new() -> Self
+
+pub(all) struct Dust {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Dust::new() -> Self
+
+pub(all) struct Game {
+  wagons : Array[Wagon]
+  raiders : Array[Raider]
+  bullets : Array[Bullet]
+  dusts : Array[Dust]
+  hero : Player
+  mut state : Int
+  mut score : Int
+  mut best_score : Int
+  mut kills : Int
+  mut checkpoint : Int
+  mut distance : Float
+  mut checkpoint_start : Float
+  mut next_checkpoint : Float
+  mut morale : Float
+  mut ammo : Int
+  mut ammo_regen_t : Float
+  mut repair_kits : Int
+  mut spawn_t : Float
+  mut time_s : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut message : String
+  mut message_t : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_shoot_hold : Bool
+  mut input_shoot_press : Bool
+  mut input_repair_press : Bool
+  mut input_roll_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+  mut input_confirm_press : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut facing_x : Float
+  mut facing_y : Float
+  mut roll_t : Float
+  mut roll_cd : Float
+  mut roll_dx : Float
+  mut roll_dy : Float
+  mut shoot_cd : Float
+  mut invuln_t : Float
+  mut repair_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Raider {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut speed : Float
+  mut hp : Float
+  mut target_wagon : Int
+  mut lane : Int
+  mut attack_cd : Float
+  mut flash_t : Float
+  mut radius : Float
+}
+pub fn Raider::new() -> Self
+
+pub(all) struct Wagon {
+  mut x : Float
+  mut y : Float
+  mut hp : Float
+  max_hp : Float
+  mut repair_cd : Float
+}
+pub fn Wagon::new(Int) -> Self
+
+// Type aliases
+
+// Traits
+

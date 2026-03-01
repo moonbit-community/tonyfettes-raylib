@@ -1,0 +1,167 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_2048_storm_2026/types"
+
+// Values
+pub let blocker_value : Int
+
+pub fn board_area_h() -> Int
+
+pub fn board_area_w() -> Int
+
+pub fn board_area_x() -> Int
+
+pub fn board_area_y() -> Int
+
+pub fn board_metrics(Game) -> (Int, Int, Int)
+
+pub let board_n : Int
+
+pub fn bonus_for_chain(Int) -> Int
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_undo() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub fn btn_zap() -> (Int, Int, Int, Int)
+
+pub fn cell_world_center(Game, Int, Int) -> (Float, Float)
+
+pub fn charge_for_merge(Int) -> Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn final_grade(Game) -> String
+
+pub fn idx(Int, Int) -> Int
+
+pub fn in_board(Int, Int) -> Bool
+
+pub let max_cells : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub fn pointer_cell(Game, Float, Float) -> (Bool, Int, Int)
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn rank_name(Int) -> String
+
+pub fn retry_button() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub let target_fps : Int
+
+pub let target_tile : Int
+
+pub fn tile_rank(Int) -> Int
+
+pub fn title_start_button() -> (Int, Int, Int, Int)
+
+// Errors
+
+// Types and methods
+pub(all) enum Direction {
+  DirLeft
+  DirRight
+  DirUp
+  DirDown
+}
+pub impl Eq for Direction
+
+pub(all) struct Game {
+  board : Array[Int]
+  prev_board : Array[Int]
+  sparks : Array[Spark]
+  line_vals : Array[Int]
+  line_out : Array[Int]
+  mut state : GameState
+  mut score : Int
+  mut best_score : Int
+  mut moves : Int
+  mut max_tile : Int
+  mut target_reached : Bool
+  mut win : Bool
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut zap_charge : Int
+  mut zap_ready : Bool
+  mut blockers_spawned : Int
+  mut turns_to_storm : Int
+  mut can_undo : Bool
+  mut prev_score : Int
+  mut prev_moves : Int
+  mut prev_max_tile : Int
+  mut prev_zap_charge : Int
+  mut prev_zap_ready : Bool
+  mut prev_turns_to_storm : Int
+  mut prev_blockers_spawned : Int
+  mut prev_target_reached : Bool
+  mut game_t : Float
+  mut ui_t : Float
+  mut combo_t : Float
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : SparkKind
+}
+pub fn Spark::new() -> Self
+
+pub(all) enum SparkKind {
+  SparkDefault
+  SparkMerge
+  SparkExplosion
+}
+pub impl Eq for SparkKind
+
+// Type aliases
+
+// Traits
+

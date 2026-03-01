@@ -1,0 +1,183 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_snake_battle_arena_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let board_area_h : Int
+
+pub let board_area_w : Int
+
+pub let board_area_x : Int
+
+pub let board_area_y : Int
+
+pub fn board_metrics(Float) -> (Int, Int, Int)
+
+pub fn btn_boost() -> (Int, Int, Int, Int)
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub fn cell_world_center(Game, Int, Int) -> (Float, Float)
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let dir_down : Int
+
+pub fn dir_dx(Int) -> Int
+
+pub fn dir_dy(Int) -> Int
+
+pub let dir_left : Int
+
+pub let dir_right : Int
+
+pub let dir_up : Int
+
+pub let food_gold : Int
+
+pub let food_normal : Int
+
+pub let grid_h : Int
+
+pub let grid_w : Int
+
+pub let lives_default : Int
+
+pub let match_time_limit : Float
+
+pub let max_cells : Int
+
+pub let max_rivals : Int
+
+pub let max_segments : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn opposite_dir(Int, Int) -> Bool
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let state_play : Int
+
+pub let state_result : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub fn wrap_x(Int) -> Int
+
+pub fn wrap_y(Int) -> Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  p_seg_x : Array[Int]
+  p_seg_y : Array[Int]
+  sparks : Array[Spark]
+  mut p_alive : Bool
+  mut p_len : Int
+  mut p_dir : Int
+  mut p_next_dir : Int
+  mut p_grow : Int
+  rivals : Array[Rival]
+  mut food_x : Int
+  mut food_y : Int
+  mut food_kind : Int
+  mut trap_x : Int
+  mut trap_y : Int
+  mut trap_active : Bool
+  mut trap_ttl : Float
+  mut trap_flash : Float
+  mut state : Int
+  mut score : Int
+  mut best_score : Int
+  mut lives : Int
+  mut total_kills : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut step_acc : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut boost_meter : Float
+  mut boost_on : Bool
+  mut hint_left : Int
+  mut hint_t : Float
+  mut hint_x : Int
+  mut hint_y : Int
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut touch_cd : Float
+  mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Rival {
+  mut alive : Bool
+  mut len : Int
+  mut dir : Int
+  mut next_dir : Int
+  mut grow : Int
+  mut score : Int
+  mut deaths : Int
+  color_kind : Int
+  seg_x : Array[Int]
+  seg_y : Array[Int]
+}
+pub fn Rival::new(Int) -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+// Type aliases
+
+// Traits
+

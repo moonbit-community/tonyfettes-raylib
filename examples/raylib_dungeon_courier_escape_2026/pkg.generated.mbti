@@ -6,21 +6,6 @@ package "tonyfettes/raylib-examples/raylib_dungeon_courier_escape_2026"
 // Errors
 
 // Types and methods
-type ExitMarker
-
-type Game
-
-type Guard
-
-type InputState
-
-type Parcel
-
-type Player
-
-type Smoke
-
-type Trap
 
 // Type aliases
 

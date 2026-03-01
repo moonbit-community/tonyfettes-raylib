@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_minesweeper_neon_ops_2026"
 // Errors
 
 // Types and methods
-type Cell
-
-type Game
-
-type Spark
 
 // Type aliases
 

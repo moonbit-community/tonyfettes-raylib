@@ -1,0 +1,270 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dragon_scroll_keeper_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let attack_damage : Float
+
+pub let attack_damage_wave_bonus : Float
+
+pub let attack_range : Float
+
+pub fn breach_anchor_x(Int) -> Float
+
+pub fn breach_anchor_y(Int) -> Float
+
+pub let breach_event_cd_base : Float
+
+pub let breach_event_cd_floor : Float
+
+pub let breach_integrity_drain : Float
+
+pub let breach_seal_power : Float
+
+pub let breach_seal_wave_bonus : Float
+
+pub let breach_severity_max : Float
+
+pub let breach_wave_growth : Float
+
+pub fn chamber_bottom() -> Float
+
+pub fn chamber_center_x() -> Float
+
+pub fn chamber_center_y() -> Float
+
+pub let chamber_count : Int
+
+pub let chamber_h : Float
+
+pub let chamber_left : Float
+
+pub fn chamber_right() -> Float
+
+pub let chamber_top : Float
+
+pub let chamber_w : Float
+
+pub fn clamp01(Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let door_center_y : Float
+
+pub let door_half_h : Float
+
+pub let extinguisher_power : Float
+
+pub let extinguisher_range : Float
+
+pub let flame_breach_feed : Float
+
+pub let flame_decay : Float
+
+pub let flame_integrity_side_mul : Float
+
+pub let flame_integrity_vault_mul : Float
+
+pub let flame_spawn_cd_base : Float
+
+pub let flame_spawn_cd_floor : Float
+
+pub let flame_spread_cd_base : Float
+
+pub let flame_spread_cd_floor : Float
+
+pub let ink_shield_cooldown : Float
+
+pub let ink_shield_damage : Float
+
+pub let ink_shield_duration : Float
+
+pub let ink_shield_fire_quench : Float
+
+pub let ink_shield_integrity_block : Float
+
+pub let ink_shield_radius : Float
+
+pub let ink_shield_stock_max : Float
+
+pub let ink_shield_stock_start : Float
+
+pub let keeper_action_cd : Float
+
+pub let keeper_mode_speed_scale : Float
+
+pub let keeper_radius : Float
+
+pub let keeper_speed : Float
+
+pub let keeper_stamina_max : Float
+
+pub let keeper_stamina_regen : Float
+
+pub let keeper_stamina_regen_mode : Float
+
+pub let max_flames : Int
+
+pub let max_raiders : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn raider_goal_x(Int) -> Float
+
+pub fn raider_goal_y(Int) -> Float
+
+pub let raider_hp_base : Float
+
+pub let raider_hp_wave_bonus : Float
+
+pub let raider_keeper_stamina_hit : Float
+
+pub let raider_radius : Float
+
+pub let raider_spawn_cd_base : Float
+
+pub let raider_spawn_cd_floor : Float
+
+pub let raider_speed_base : Float
+
+pub let raider_speed_wave_bonus : Float
+
+pub let raider_vault_strike : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn room_name(Int) -> String
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let scroll_integrity_max : Float
+
+pub let seal_charges_max : Int
+
+pub let seal_charges_start : Int
+
+pub let seal_charges_wave_gain : Int
+
+pub fn sqrtf(Float) -> Float
+
+pub let stamina_attack_cost : Float
+
+pub let stamina_extinguish_cost : Float
+
+pub let stamina_seal_cost : Float
+
+pub let target_fps : Int
+
+pub fn vault_core_x() -> Float
+
+pub fn vault_core_y() -> Float
+
+pub let vault_room : Int
+
+pub fn wave_duration(Int) -> Float
+
+pub let wave_duration_base : Float
+
+pub let wave_duration_step : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Breach {
+  room : Int
+  mut severity : Float
+  mut raider_cd : Float
+  mut ember_cd : Float
+}
+pub fn Breach::new(Int) -> Self
+
+pub(all) struct Flame {
+  active : Bool
+  room : Int
+  x : Float
+  y : Float
+  mut intensity : Float
+  mut spread_cd : Float
+}
+pub fn Flame::new() -> Self
+
+pub(all) struct Game {
+  breaches : Array[Breach]
+  raiders : Array[Raider]
+  flames : Array[Flame]
+  keeper : Keeper
+  mut state : GameState
+  mut wave : Int
+  mut wave_t : Float
+  mut wave_goal_t : Float
+  mut breach_event_cd : Float
+  mut scroll_integrity : Float
+  mut seal_charges : Int
+  mut score : Int
+  mut best_score : Int
+  mut raiders_defeated : Int
+  mut flames_cleared : Int
+  mut seals_done : Int
+  mut time_s : Float
+  mut message : String
+  mut message_t : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_action_press : Bool
+  mut input_cancel_press : Bool
+  mut input_shield_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Keeper {
+  mut room : Int
+  mut x : Float
+  mut y : Float
+  mut facing_x : Float
+  mut facing_y : Float
+  mut stamina : Float
+  mut extinguisher_mode : Bool
+  mut action_cd : Float
+  mut shield_cd : Float
+  mut shield_t : Float
+  mut ink_shields : Float
+}
+pub fn Keeper::new() -> Self
+
+pub(all) struct Raider {
+  active : Bool
+  mut room : Int
+  mut x : Float
+  mut y : Float
+  mut hp : Float
+  max_hp : Float
+  mut panic_t : Float
+  mut attack_cd : Float
+}
+pub fn Raider::new() -> Self
+
+// Type aliases
+
+// Traits
+

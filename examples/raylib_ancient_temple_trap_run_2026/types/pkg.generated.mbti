@@ -1,0 +1,229 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_ancient_temple_trap_run_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub let dash_min_stamina : Float
+
+pub fn exit_unlocked(Game) -> Bool
+
+pub let hazard_kind_lava : Int
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn make_door(Float, Float, Float, Float, Int, Float) -> Door
+
+pub fn make_hazard(Float, Float, Float, Float, Int, String) -> Hazard
+
+pub fn make_plate(Float, Float, Float, Float) -> Plate
+
+pub fn make_relic(Float, Float) -> Relic
+
+pub fn make_trap(Float, Float, Float, Float, Float, Float, Float, Int, String) -> Trap
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mouse_click_on_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn panel_next_rect() -> (Int, Int, Int, Int)
+
+pub fn panel_rect() -> (Int, Int, Int, Int)
+
+pub fn panel_restart_rect() -> (Int, Int, Int, Int)
+
+pub fn play_restart_rect() -> (Int, Int, Int, Int)
+
+pub let player_h : Float
+
+pub fn player_hits_rect(Game, Float, Float, Float, Float) -> Bool
+
+pub fn player_rect_at(Game, Float, Float) -> (Float, Float, Float, Float)
+
+pub let player_speed_dash : Float
+
+pub let player_speed_walk : Float
+
+pub let player_w : Float
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn rects_overlap(Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let relic_stamina_bonus : Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_banner(Game, String, Float) -> Unit
+
+pub fn sq(Float) -> Float
+
+pub fn stage_name(Int) -> String
+
+pub let stage_total : Int
+
+pub let stamina_drain_per_s : Float
+
+pub let stamina_max : Float
+
+pub let stamina_recover_per_s : Float
+
+pub let target_fps : Int
+
+pub fn title_start_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_dash_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_down_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_left_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_right_rect() -> (Int, Int, Int, Int)
+
+pub fn touch_up_rect() -> (Int, Int, Int, Int)
+
+pub fn trap_is_hot(Trap) -> Bool
+
+pub let trap_kind_dart : Int
+
+pub let trap_kind_spike : Int
+
+pub let world_h : Float
+
+pub let world_w : Float
+
+pub let world_x : Float
+
+pub let world_y : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Door {
+  x : Float
+  y : Float
+  w : Float
+  h : Float
+  plate_index : Int
+  hold_time : Float
+  mut timer : Float
+  mut open : Bool
+}
+
+pub(all) struct Game {
+  player : Player
+  mut relics : Array[Relic]
+  mut traps : Array[Trap]
+  mut hazards : Array[Hazard]
+  mut plates : Array[Plate]
+  mut doors : Array[Door]
+  mut state : GameState
+  mut stage_index : Int
+  stage_count : Int
+  mut required_relics : Int
+  mut collected_relics : Int
+  mut exit_x : Float
+  mut exit_y : Float
+  mut exit_w : Float
+  mut exit_h : Float
+  mut stage_time : Float
+  mut fail_reason : String
+  mut banner_text : String
+  mut banner_t : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_dash_hold : Bool
+  mut input_start_press : Bool
+  mut input_restart_press : Bool
+  mut input_next_press : Bool
+  mut touch_mode : Bool
+  mut touch_start_prev : Bool
+  mut touch_restart_prev : Bool
+  mut touch_next_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  Failed
+  Victory
+}
+pub impl Eq for GameState
+
+pub(all) struct Hazard {
+  x : Float
+  y : Float
+  w : Float
+  h : Float
+  kind : Int
+  label : String
+}
+
+pub(all) struct Plate {
+  x : Float
+  y : Float
+  w : Float
+  h : Float
+  mut pressed : Bool
+}
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  w : Float
+  h : Float
+  mut stamina : Float
+  mut dash_on : Bool
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Relic {
+  mut active : Bool
+  x : Float
+  y : Float
+  r : Float
+}
+
+pub(all) struct StageLayout {
+  start_x : Float
+  start_y : Float
+  exit_x : Float
+  exit_y : Float
+  exit_w : Float
+  exit_h : Float
+  relics : Array[Relic]
+  traps : Array[Trap]
+  hazards : Array[Hazard]
+  plates : Array[Plate]
+  doors : Array[Door]
+}
+
+pub(all) struct Trap {
+  x : Float
+  y : Float
+  w : Float
+  h : Float
+  cycle : Float
+  hot_window : Float
+  phase : Float
+  kind : Int
+  label : String
+  mut timer : Float
+}
+
+// Type aliases
+
+// Traits
+

@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_quantum_skater_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Particle
-
-type Player
-
-type TrackObj
-
-type Trail
 
 // Type aliases
 

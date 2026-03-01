@@ -1,0 +1,81 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_pac_dash_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub let hud_x : Int
+
+pub fn in_map(Int, Int) -> Bool
+
+pub fn is_walkable(Game, Int, Int) -> Bool
+
+pub fn manhattan_distance(Int, Int, Int, Int) -> Int
+
+pub fn map_index(Int, Int) -> Int
+
+pub let maze_cols : Int
+
+pub let maze_rows : Int
+
+pub let maze_x : Int
+
+pub let maze_y : Int
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub fn tile_center_x(Int) -> Int
+
+pub fn tile_center_y(Int) -> Int
+
+pub let tile_size : Int
+
+pub fn tunnel_wrap_x(Int) -> Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  walls : Array[Int]
+  pellets : Array[Int]
+  mut player_x : Int
+  mut player_y : Int
+  mut dir_x : Int
+  mut dir_y : Int
+  mut want_x : Int
+  mut want_y : Int
+  ghosts : Array[Ghost]
+  mut score : Int
+  mut lives : Int
+  mut pellets_left : Int
+  mut frightened_timer : Float
+  mut phase_timer : Float
+  mut chase_mode : Bool
+  mut step_timer_player : Float
+  mut step_timer_ghost : Float
+  mut game_over : Bool
+  mut win : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Ghost {
+  mut x : Int
+  mut y : Int
+  mut dir_x : Int
+  mut dir_y : Int
+  start_x : Int
+  start_y : Int
+  scatter_x : Int
+  scatter_y : Int
+  color : @raylib.Color
+}
+pub fn Ghost::new(Int, Int, Int, Int, @raylib.Color) -> Self
+
+// Type aliases
+
+// Traits
+

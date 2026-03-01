@@ -1,0 +1,252 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_ice_fishing_blitz_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn bottomf() -> Float
+
+pub fn btn_boost() -> (Int, Int, Int, Int)
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_hook() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_repair() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub fn catch_zone_h() -> Int
+
+pub fn catch_zone_w() -> Int
+
+pub fn catch_zone_x() -> Int
+
+pub fn catch_zone_y() -> Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let fish_gold : Int
+
+pub let fish_salmon : Int
+
+pub let fish_trout : Int
+
+pub let hazard_eel : Int
+
+pub let hazard_ice : Int
+
+pub let hazard_jelly : Int
+
+pub let hole_x : Int
+
+pub fn hole_xf() -> Float
+
+pub let hole_y : Int
+
+pub fn hole_yf() -> Float
+
+pub let hook_r : Float
+
+pub fn in_catch_zone(Float, Float) -> Bool
+
+pub let max_fish : Int
+
+pub let max_hazards : Int
+
+pub let max_line_len : Float
+
+pub let max_particles : Int
+
+pub let max_pickups : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let min_line_len : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let run_time_goal : Float
+
+pub let score_goal : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub fn sinf(Float) -> Float
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let target_fps : Int
+
+pub fn topf() -> Float
+
+pub let water_bottom : Int
+
+pub let water_top : Int
+
+pub let world_h : Int
+
+pub fn world_left() -> Float
+
+pub fn world_right() -> Float
+
+pub let world_w : Int
+
+pub let world_x0 : Int
+
+pub let world_y0 : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Fish {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut value : Int
+  mut kind : Int
+  mut phase : Float
+  mut hooked : Bool
+}
+pub fn Fish::new() -> Self
+
+pub(all) struct Game {
+  fish : Array[Fish]
+  hazards : Array[Hazard]
+  pickups : Array[Pickup]
+  particles : Array[Particle]
+  mut state : GameState
+  mut hook_x : Float
+  mut hook_y : Float
+  mut hook_vx : Float
+  mut hook_vy : Float
+  mut line_len : Float
+  mut move_x : Float
+  mut move_y : Float
+  mut grab_on : Bool
+  mut boost_on : Bool
+  mut carrying_idx : Int
+  mut lives : Int
+  mut line_hp : Float
+  mut bait : Float
+  mut turbo_t : Float
+  mut repair_cd : Float
+  mut score : Int
+  mut best_score : Int
+  mut caught : Int
+  mut escaped : Int
+  mut wave : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut fish_spawn_t : Float
+  mut hazard_spawn_t : Float
+  mut pickup_spawn_t : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut hint_left : Int
+  mut hint_t : Float
+  mut hint_x : Float
+  mut hint_y : Float
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut touch_cd : Float
+  mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Hazard {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut dmg : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Hazard::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Pickup {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut kind : PickupKind
+  mut phase : Float
+}
+pub fn Pickup::new() -> Self
+
+pub(all) enum PickupKind {
+  Bait
+  Repair
+  Thermos
+}
+pub impl Eq for PickupKind
+
+// Type aliases
+
+// Traits
+

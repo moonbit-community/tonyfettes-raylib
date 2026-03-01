@@ -1,0 +1,278 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_abyss_signal_runner_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn alloc_trail(Game) -> Int
+
+pub let base_scroll : Float
+
+pub fn bg_bottom() -> @raylib.Color
+
+pub fn bg_top() -> @raylib.Color
+
+pub fn btn_dash_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_down_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_left_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_right_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_size() -> Float
+
+pub fn btn_sonar_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_up_rect() -> (Float, Float, Float, Float)
+
+pub fn cave_center(Float, Float) -> Float
+
+pub fn cave_edges(Game, Float) -> (Float, Float)
+
+pub fn cave_glow() -> @raylib.Color
+
+pub fn cave_half_width(Float, Float, Int) -> Float
+
+pub let cave_max_half : Float
+
+pub let cave_min_half : Float
+
+pub let cave_x_margin : Float
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let dash_cd_time : Float
+
+pub let dash_speed : Float
+
+pub let dash_time : Float
+
+pub fn data_col() -> @raylib.Color
+
+pub fn depth_at_screen(Game, Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_out_quad(Float) -> Float
+
+pub fn emit_trail(Game, Float, Float, Float, Float, Float, Int) -> Unit
+
+pub fn hazard_col() -> @raylib.Color
+
+pub fn hp_col() -> @raylib.Color
+
+pub let invuln_time : Float
+
+pub let max_objs : Int
+
+pub let max_particles : Int
+
+pub let max_ripples : Int
+
+pub let max_trails : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn oxygen_col() -> @raylib.Color
+
+pub let oxygen_data_bonus : Float
+
+pub let oxygen_drain : Float
+
+pub let oxygen_pickup : Float
+
+pub fn phase_col() -> @raylib.Color
+
+pub let player_accel : Float
+
+pub let player_drag : Float
+
+pub let player_max_speed : Float
+
+pub let player_r : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn restart_rect() -> (Float, Float, Float, Float)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let sonar_cd_time : Float
+
+pub let sonar_destroy_r : Float
+
+pub let sonar_reveal_r : Float
+
+pub let sonar_time : Float
+
+pub let spawn_spacing_max : Float
+
+pub let spawn_spacing_min : Float
+
+pub let spawn_start_y : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_base_goal : Float
+
+pub let stage_clear_delay : Float
+
+pub let stage_goal_gain : Float
+
+pub let stage_scroll_gain : Float
+
+pub let target_fps : Int
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  objs : Array[Obj]
+  particles : Array[Particle]
+  ripples : Array[Ripple]
+  trails : Array[Trail]
+  hero : Player
+  mut state : GameState
+  mut stage : Int
+  mut distance : Float
+  mut stage_goal : Float
+  mut score : Int
+  mut best_score : Int
+  mut data_collected : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut hull : Float
+  mut oxygen : Float
+  mut sonar_cd : Float
+  mut sonar_t : Float
+  mut dash_cd : Float
+  mut dash_t : Float
+  mut time_s : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut scroll_speed : Float
+  mut next_spawn_y : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_dash_press : Bool
+  mut input_sonar_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_dash_prev : Bool
+  mut touch_sonar_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mx : Float
+  mut my : Float
+  mut hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Obj {
+  mut active : Bool
+  mut kind : ObjKind
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut cloak : Bool
+  mut spin : Float
+  mut life : Float
+}
+pub fn Obj::new() -> Self
+
+pub(all) enum ObjKind {
+  Rock
+  Mine
+  Data
+  Oxygen
+  Current
+  Scrap
+}
+pub impl Eq for ObjKind
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut invuln : Float
+  mut hurt_t : Float
+  mut anim_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Ripple {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Ripple::new() -> Self
+
+pub(all) struct Trail {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Trail::new() -> Self
+
+// Type aliases
+
+// Traits
+
