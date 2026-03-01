@@ -105,7 +105,8 @@ fn reset_full_rack(game : @types.Game) -> Unit {
   let mut idx : Int = 0
 
   for row in 0..<4 {
-    let y : Float = @types.pin_deck_y + Float::from_int(row) * @types.pin_row_gap
+    let y : Float = @types.pin_deck_y +
+      Float::from_int(row) * @types.pin_row_gap
     let x0 : Float = cx - Float::from_int(row) * @types.pin_col_gap * 0.5
 
     for col in 0..<=row {
@@ -178,9 +179,7 @@ fn prepare_roll(game : @types.Game, reset_rack : Bool) -> Unit {
   game.power = 0.22
   game.power_dir = 1.0
   game.ball_spin = 0.0
-  game.spin = @types.clampf(
-    game.spin * 0.65, @types.spin_min, @types.spin_max,
-  )
+  game.spin = @types.clampf(game.spin * 0.65, @types.spin_min, @types.spin_max)
 }
 
 ///|
@@ -203,7 +202,7 @@ fn reset_match_stats(game : @types.Game) -> Unit {
 ///|
 fn start_match(game : @types.Game) -> Unit {
   reset_match_stats(game)
-  game.state = @types.state_play
+  game.state = Play
   game.aim = 0.0
   game.spin = 0.0
   clear_sparks(game)
@@ -215,7 +214,7 @@ fn start_match(game : @types.Game) -> Unit {
 ///|
 fn finalize_match(game : @types.Game) -> Unit {
   recompute_score(game)
-  game.state = @types.state_result
+  game.state = Result
   game.can_throw = false
   game.charging = false
 
@@ -256,18 +255,16 @@ fn knock_pin(
 
 ///|
 fn throw_ball(game : @types.Game) -> Bool {
-  if game.state != @types.state_play || not(game.can_throw) {
+  if game.state != Play || not(game.can_throw) {
     return false
   }
 
   let power_speed : Float = 520.0 + game.power * 780.0
   let angle : Float = @types.deg_to_rad(game.aim)
 
-  game.ball_vx = Float::from_double(@math.sin(angle.to_double())) *
-    power_speed +
+  game.ball_vx = Float::from_double(@math.sin(angle.to_double())) * power_speed +
     game.spin * 96.0
-  game.ball_vy = -Float::from_double(@math.cos(angle.to_double())) *
-    power_speed
+  game.ball_vy = -Float::from_double(@math.cos(angle.to_double())) * power_speed
   game.ball_spin = game.spin
   game.ball_live = true
   game.can_throw = false
@@ -463,9 +460,7 @@ fn collide_ball_pins(game : @types.Game) -> Unit {
     let ny : Float = dy / d
     let impulse : Float = @types.maxf(
       150.0,
-      @types.sqrtf(
-        game.ball_vx * game.ball_vx + game.ball_vy * game.ball_vy,
-      ),
+      @types.sqrtf(game.ball_vx * game.ball_vx + game.ball_vy * game.ball_vy),
     )
 
     knock_pin(
@@ -609,12 +604,12 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game, dt)
-    update_play(game, dt)
-  } else {
-    update_result_input(game)
+  match game.state {
+    Title => update_title_input(game)
+    Play => {
+      update_play_input(game, dt)
+      update_play(game, dt)
+    }
+    Result => update_result_input(game)
   }
 }

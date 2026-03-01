@@ -227,7 +227,10 @@ fn draw_ball(game : @types.Game, sx : Int, sy : Int) -> Unit {
   let by : Int = game.ball_y.to_int() + sy
 
   @raylib.draw_circle(
-    bx, by, @types.ball_radius, @raylib.Color::new(48, 58, 76, 255),
+    bx,
+    by,
+    @types.ball_radius,
+    @raylib.Color::new(48, 58, 76, 255),
   )
   @raylib.draw_circle(
     bx - 5,
@@ -294,7 +297,7 @@ fn draw_score_grid(game : @types.Game, px : Int, py : Int, pw : Int) -> Unit {
       py + 52,
       fw,
       118,
-      if game.frame == f && game.state == @types.state_play {
+      if game.frame == f && game.state == Play {
         @raylib.Color::new(72, 104, 142, 202)
       } else {
         @raylib.Color::new(36, 48, 66, 202)
@@ -597,23 +600,53 @@ fn draw_touch_overlay(game : @types.Game) -> Unit {
   let (px, py, pw, ph) = @types.touch_power_rect()
 
   let l_on : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, alx, aly,
-    alw, alh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    alx,
+    aly,
+    alw,
+    alh,
   )
   let r_on : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, arx, ary,
-    arw, arh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    arx,
+    ary,
+    arw,
+    arh,
   )
   let sl_on : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, slx, sly,
-    slw, slh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    slx,
+    sly,
+    slw,
+    slh,
   )
   let sr_on : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, srx, sry,
-    srw, srh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    srx,
+    sry,
+    srw,
+    srh,
   )
   let p_on : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, px, py, pw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    px,
+    py,
+    pw,
     ph,
   )
 
@@ -701,7 +734,10 @@ fn draw_title(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.title_start_button()
   let hover : Bool = @types.title_start_hover(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
   )
 
   draw_touch_button(
@@ -717,9 +753,7 @@ fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Keyboard: A/D aim, Q/E spin, hold+release Space",
     @types.screen_w / 2 -
-    @raylib.measure_text(
-      "Keyboard: A/D aim, Q/E spin, hold+release Space", 30,
-    ) /
+    @raylib.measure_text("Keyboard: A/D aim, Q/E spin, hold+release Space", 30) /
     2,
     760,
     30,
@@ -793,7 +827,10 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.retry_button()
   let hover : Bool = @types.result_retry_hover(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
   )
 
   draw_touch_button(
@@ -810,21 +847,19 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 ///|
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
-
-  if game.state == @types.state_title {
-    draw_title(game)
-    return
-  }
-
-  let (sx, sy) = draw_lane(game)
-  draw_aim_guide(game, sx, sy)
-  draw_pins(game, sx, sy)
-  draw_ball(game, sx, sy)
-  draw_sparks(game, sx, sy)
-  draw_side_panel(game)
-  draw_touch_overlay(game)
-
-  if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    Title => draw_title(game)
+    Play | Result => {
+      let (sx, sy) = draw_lane(game)
+      draw_aim_guide(game, sx, sy)
+      draw_pins(game, sx, sy)
+      draw_ball(game, sx, sy)
+      draw_sparks(game, sx, sy)
+      draw_side_panel(game)
+      draw_touch_overlay(game)
+      if game.state == Result {
+        draw_result_overlay(game)
+      }
+    }
   }
 }

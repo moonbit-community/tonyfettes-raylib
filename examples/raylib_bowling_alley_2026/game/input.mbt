@@ -9,7 +9,10 @@ fn update_title_input(game : @types.Game) -> Unit {
 
   let tap_start : Bool = game.touch_cd <= 0.0 &&
     @types.title_start_hover(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
     )
 
   if key_start || click_start || tap_start {
@@ -30,7 +33,10 @@ fn update_result_input(game : @types.Game) -> Unit {
 
   let tap_retry : Bool = game.touch_cd <= 0.0 &&
     @types.result_retry_hover(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
     )
 
   if key_retry || click_retry || tap_retry {
@@ -47,7 +53,7 @@ fn update_play_input(game : @types.Game, dt : Float) -> Unit {
   }
 
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_title
+    game.state = Title
     game.can_throw = false
     game.charging = false
     set_message(game, "", 0.0)
@@ -82,23 +88,53 @@ fn update_play_input(game : @types.Game, dt : Float) -> Unit {
   let (px, py, pw, ph) = @types.touch_power_rect()
 
   let touch_left : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, alx, aly,
-    alw, alh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    alx,
+    aly,
+    alw,
+    alh,
   )
   let touch_right : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, arx, ary,
-    arw, arh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    arx,
+    ary,
+    arw,
+    arh,
   )
   let touch_spin_left : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, slx, sly,
-    slw, slh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    slx,
+    sly,
+    slw,
+    slh,
   )
   let touch_spin_right : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, srx, sry,
-    srw, srh,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    srx,
+    sry,
+    srw,
+    srh,
   )
   let touch_power : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, px, py, pw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    px,
+    py,
+    pw,
     ph,
   )
 
@@ -116,10 +152,14 @@ fn update_play_input(game : @types.Game, dt : Float) -> Unit {
   }
 
   game.aim = @types.clampf(
-    game.aim + aim_delta * dt * 58.0, @types.aim_min, @types.aim_max,
+    game.aim + aim_delta * dt * 58.0,
+    @types.aim_min,
+    @types.aim_max,
   )
   game.spin = @types.clampf(
-    game.spin + spin_delta * dt * 1.28, @types.spin_min, @types.spin_max,
+    game.spin + spin_delta * dt * 1.28,
+    @types.spin_min,
+    @types.spin_max,
   )
 
   let hold_key : Bool = @raylib.is_key_down(@raylib.KeySpace) ||

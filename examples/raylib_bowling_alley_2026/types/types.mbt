@@ -1,4 +1,11 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Pin {
   mut standing : Bool
   mut x : Float
@@ -28,7 +35,7 @@ pub(all) struct Game {
   rolls : Array[Int]
   frame_totals : Array[Int]
   mut roll_count : Int
-  mut state : Int
+  mut state : GameState
   mut frame : Int
   mut roll_in_frame : Int
   mut first_roll : Int
@@ -95,7 +102,7 @@ pub fn Game::new() -> Game {
     rolls: Array::make(max_rolls, 0),
     frame_totals: Array::make(10, -1),
     roll_count: 0,
-    state: state_title,
+    state: Title,
     frame: 0,
     roll_in_frame: 0,
     first_roll: 0,
