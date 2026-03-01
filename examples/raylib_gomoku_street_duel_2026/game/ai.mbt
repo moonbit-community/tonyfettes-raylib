@@ -1,12 +1,13 @@
 ///|
-fn has_neighbor(game : Game, x : Int, y : Int, r : Int) -> Bool {
+fn has_neighbor(game : @types.Game, x : Int, y : Int, r : Int) -> Bool {
   for yy in (y - r)..<=(y + r) {
     for xx in (x - r)..<=(x + r) {
       if xx == x && yy == y {
         continue
       }
 
-      if in_board(xx, yy) && cell_at(game, xx, yy) != player_empty {
+      if @types.in_board(xx, yy) &&
+        @types.cell_at(game, xx, yy) != @types.player_empty {
         return true
       }
     }
@@ -17,7 +18,7 @@ fn has_neighbor(game : Game, x : Int, y : Int, r : Int) -> Bool {
 
 ///|
 fn count_chain_and_open(
-  game : Game,
+  game : @types.Game,
   x : Int,
   y : Int,
   p : Int,
@@ -28,13 +29,14 @@ fn count_chain_and_open(
   let mut cy : Int = y + dy
   let mut c : Int = 0
 
-  while in_board(cx, cy) && cell_at(game, cx, cy) == p {
+  while @types.in_board(cx, cy) && @types.cell_at(game, cx, cy) == p {
     c = c + 1
     cx = cx + dx
     cy = cy + dy
   }
 
-  let open : Int = if in_board(cx, cy) && cell_at(game, cx, cy) == player_empty {
+  let open : Int = if @types.in_board(cx, cy) &&
+    @types.cell_at(game, cx, cy) == @types.player_empty {
     1
   } else {
     0
@@ -65,7 +67,14 @@ fn line_pattern_score(total : Int, open : Int) -> Int {
 }
 
 ///|
-fn score_dir(game : Game, x : Int, y : Int, p : Int, dx : Int, dy : Int) -> Int {
+fn score_dir(
+  game : @types.Game,
+  x : Int,
+  y : Int,
+  p : Int,
+  dx : Int,
+  dy : Int,
+) -> Int {
   let left = count_chain_and_open(game, x, y, p, -dx, -dy)
   let right = count_chain_and_open(game, x, y, p, dx, dy)
 
@@ -76,8 +85,8 @@ fn score_dir(game : Game, x : Int, y : Int, p : Int, dx : Int, dy : Int) -> Int 
 }
 
 ///|
-fn score_cell_for(game : Game, x : Int, y : Int, p : Int) -> Int {
-  if cell_at(game, x, y) != player_empty {
+fn score_cell_for(game : @types.Game, x : Int, y : Int, p : Int) -> Int {
+  if @types.cell_at(game, x, y) != @types.player_empty {
     return -1
   }
 
@@ -87,40 +96,44 @@ fn score_cell_for(game : Game, x : Int, y : Int, p : Int) -> Int {
   score = score + score_dir(game, x, y, p, 1, 1)
   score = score + score_dir(game, x, y, p, 1, -1)
 
-  let cx : Int = board_n / 2
-  let dist : Int = absf(Float::from_int(x - cx)).to_int() +
-    absf(Float::from_int(y - cx)).to_int()
-  score = score + maxi(0, 50 - dist * 3)
+  let cx : Int = @types.board_n / 2
+  let dist : Int = @types.absf(Float::from_int(x - cx)).to_int() +
+    @types.absf(Float::from_int(y - cx)).to_int()
+  score = score + @types.maxi(0, 50 - dist * 3)
 
   score
 }
 
 ///|
-fn would_win_if_place(game : Game, x : Int, y : Int, p : Int) -> Bool {
-  if cell_at(game, x, y) != player_empty {
+fn would_win_if_place(game : @types.Game, x : Int, y : Int, p : Int) -> Bool {
+  if @types.cell_at(game, x, y) != @types.player_empty {
     return false
   }
 
-  set_cell(game, x, y, p)
+  @types.set_cell(game, x, y, p)
   let win : Bool = check_five_from(game, x, y, p)
-  set_cell(game, x, y, player_empty)
+  @types.set_cell(game, x, y, @types.player_empty)
   win
 }
 
 ///|
-fn best_move_for(game : Game, p : Int, opp : Int) -> (Bool, Int, Int, Int) {
+fn best_move_for(
+  game : @types.Game,
+  p : Int,
+  opp : Int,
+) -> (Bool, Int, Int, Int) {
   if game.move_count == 0 {
-    return (true, board_n / 2, board_n / 2, 100)
+    return (true, @types.board_n / 2, @types.board_n / 2, 100)
   }
 
   let mut found : Bool = false
   let mut best_score : Int = -1
-  let mut best_x : Int = board_n / 2
-  let mut best_y : Int = board_n / 2
+  let mut best_x : Int = @types.board_n / 2
+  let mut best_y : Int = @types.board_n / 2
 
-  for y in 0..<board_n {
-    for x in 0..<board_n {
-      if cell_at(game, x, y) != player_empty {
+  for y in 0..<@types.board_n {
+    for x in 0..<@types.board_n {
+      if @types.cell_at(game, x, y) != @types.player_empty {
         continue
       }
 
@@ -152,9 +165,9 @@ fn best_move_for(game : Game, p : Int, opp : Int) -> (Bool, Int, Int, Int) {
   }
 
   if not(found) {
-    for y in 0..<board_n {
-      for x in 0..<board_n {
-        if cell_at(game, x, y) == player_empty {
+    for y in 0..<@types.board_n {
+      for x in 0..<@types.board_n {
+        if @types.cell_at(game, x, y) == @types.player_empty {
           return (true, x, y, 1)
         }
       }
@@ -166,43 +179,46 @@ fn best_move_for(game : Game, p : Int, opp : Int) -> (Bool, Int, Int, Int) {
 }
 
 ///|
-fn ai_step(game : Game) -> Unit {
-  if game.state != state_play || game.turn != player_ai || game.ai_delay > 0.0 {
+fn ai_step(game : @types.Game) -> Unit {
+  if game.state != @types.state_play ||
+    game.turn != @types.player_ai ||
+    game.ai_delay > 0.0 {
     return
   }
 
-  let mv = best_move_for(game, player_ai, player_human)
+  let mv = best_move_for(game, @types.player_ai, @types.player_human)
   if not(mv.0) {
-    game.state = state_result
-    game.winner = player_empty
+    game.state = @types.state_result
+    game.winner = @types.player_empty
     game.draws = game.draws + 1
-    set_message(game, "No move, draw", 1.4)
+    @types.set_message(game, "No move, draw", 1.4)
     return
   }
 
   let x : Int = mv.1
   let y : Int = mv.2
-  ignore(place_stone(game, x, y, player_ai))
+  ignore(place_stone(game, x, y, @types.player_ai))
 
-  if game.state == state_play {
-    set_message(game, "AI moved", 0.45)
+  if game.state == @types.state_play {
+    @types.set_message(game, "AI moved", 0.45)
   }
 }
 
 ///|
-fn use_hint(game : Game) -> Bool {
-  if game.state != state_play || game.turn != player_human {
+fn use_hint(game : @types.Game) -> Bool {
+  if game.state != @types.state_play ||
+    game.turn != @types.player_human {
     return false
   }
 
   if game.hints_left <= 0 {
-    set_message(game, "No hints left", 0.8)
+    @types.set_message(game, "No hints left", 0.8)
     return false
   }
 
-  let mv = best_move_for(game, player_human, player_ai)
+  let mv = best_move_for(game, @types.player_human, @types.player_ai)
   if not(mv.0) {
-    set_message(game, "No suggestion", 0.8)
+    @types.set_message(game, "No suggestion", 0.8)
     return false
   }
 
@@ -215,8 +231,8 @@ fn use_hint(game : Game) -> Bool {
   game.cursor_x = mv.1
   game.cursor_y = mv.2
 
-  set_message(game, "Hint suggested", 0.9)
-  burst_move(game, mv.1, mv.2, 10, 3)
+  @types.set_message(game, "Hint suggested", 0.9)
+  @types.burst_move(game, mv.1, mv.2, 10, 3)
 
   true
 }
