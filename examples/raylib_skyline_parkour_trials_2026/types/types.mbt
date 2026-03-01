@@ -1,5 +1,5 @@
 ///|
-struct Tile {
+pub(all) struct Tile {
   mut kind : Int
   mut x : Float
   mut y : Float
@@ -8,7 +8,7 @@ struct Tile {
 }
 
 ///|
-struct Checkpoint {
+pub(all) struct Checkpoint {
   mut x : Float
   mut y : Float
   mut w : Float
@@ -18,7 +18,7 @@ struct Checkpoint {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -33,7 +33,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   tiles : Array[Tile]
   checkpoints : Array[Checkpoint]
   hero : Player
@@ -67,20 +67,24 @@ struct Game {
   mut touch_jump_prev : Bool
   mut touch_next_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Tile::new() -> Tile {
+pub fn Tile::new() -> Tile {
   { kind: tile_solid, x: 0.0, y: 0.0, w: 0.0, h: 0.0 }
 }
 
 ///|
-fn Checkpoint::new() -> Checkpoint {
+pub fn Checkpoint::new() -> Checkpoint {
   { x: 0.0, y: 0.0, w: 0.0, h: 0.0, bonus_s: 0, taken: false }
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: 0.0,
     y: 0.0,
@@ -97,7 +101,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     tiles: Array::makei(max_tiles, fn(_i) { Tile::new() }),
     checkpoints: Array::makei(max_checkpoints, fn(_i) { Checkpoint::new() }),
@@ -132,5 +136,9 @@ fn Game::new() -> Game {
     touch_jump_prev: false,
     touch_next_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

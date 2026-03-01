@@ -1,42 +1,5 @@
 ///|
-fn point_in_rect(
-  x : Float,
-  y : Float,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  x >= rx && x <= rx + rw && y >= ry && y <= ry + rh
-}
-
-///|
-fn pointer_on_rect(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  if hold && point_in_rect(mx, my, rx, ry, rw, rh) {
-    return true
-  }
-
-  for i in 0..<touch_count {
-    let p = @raylib.get_touch_position(i)
-    if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
-      return true
-    }
-  }
-
-  false
-}
-
-///|
-fn clear_frame_input(game : Game) -> Unit {
+fn clear_frame_input(game : @types.Game) -> Unit {
   game.input_x = 0.0
   game.input_jump_press = false
   game.input_jump_hold = false
@@ -46,38 +9,23 @@ fn clear_frame_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_touch_mode(game : Game, touch_count : Int) -> Unit {
+fn update_touch_mode(game : @types.Game, touch_count : Int) -> Unit {
   if touch_count > 0 {
     game.touch_mode = true
   }
 }
 
 ///|
-fn mouse_click_on_rect(
-  mx : Float,
-  my : Float,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
-  point_in_rect(mx, my, rx, ry, rw, rh)
-}
-
-///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_frame_input(game)
   update_touch_mode(game, touch_count)
 
-  let start = title_start_rect()
-  let start_touch = pointer_on_rect(
+  let start = @types.title_start_rect()
+  let start_touch = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -90,7 +38,7 @@ fn update_title_input(
 
   let key_start = @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyEnter)
-  let mouse_start = mouse_click_on_rect(
+  let mouse_start = @types.mouse_click_on_rect(
     mx,
     my,
     start.0,
@@ -105,23 +53,21 @@ fn update_title_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_frame_input(game)
   update_touch_mode(game, touch_count)
 
-  let left_rect = touch_left_rect()
-  let right_rect = touch_right_rect()
-  let jump_rect = touch_jump_rect()
-  let climb_rect = touch_climb_rect()
-  let restart_rect = touch_play_restart_rect()
+  let left_rect = @types.touch_left_rect()
+  let right_rect = @types.touch_right_rect()
+  let jump_rect = @types.touch_jump_rect()
+  let climb_rect = @types.touch_climb_rect()
+  let restart_rect = @types.touch_play_restart_rect()
 
-  let touch_left = pointer_on_rect(
+  let touch_left = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -131,7 +77,7 @@ fn update_play_input(
     left_rect.2,
     left_rect.3,
   )
-  let touch_right = pointer_on_rect(
+  let touch_right = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -141,7 +87,7 @@ fn update_play_input(
     right_rect.2,
     right_rect.3,
   )
-  let touch_jump = pointer_on_rect(
+  let touch_jump = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -151,7 +97,7 @@ fn update_play_input(
     jump_rect.2,
     jump_rect.3,
   )
-  let touch_climb = pointer_on_rect(
+  let touch_climb = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -161,7 +107,7 @@ fn update_play_input(
     climb_rect.2,
     climb_rect.3,
   )
-  let touch_restart = pointer_on_rect(
+  let touch_restart = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -185,7 +131,7 @@ fn update_play_input(
     move_x = move_x + 1.0
   }
 
-  game.input_x = clampf(move_x, -1.0, 1.0)
+  game.input_x = @types.clampf(move_x, -1.0, 1.0)
 
   let key_jump_press = @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyW) ||
@@ -210,20 +156,18 @@ fn update_play_input(
 }
 
 ///|
-fn update_stage_clear_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_stage_clear_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_frame_input(game)
   update_touch_mode(game, touch_count)
 
-  let next_rect = panel_next_rect()
-  let restart_rect = panel_restart_rect()
+  let next_rect = @types.panel_next_rect()
+  let restart_rect = @types.panel_restart_rect()
 
-  let touch_next = pointer_on_rect(
+  let touch_next = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -233,7 +177,7 @@ fn update_stage_clear_input(
     next_rect.2,
     next_rect.3,
   )
-  let touch_restart = pointer_on_rect(
+  let touch_restart = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -248,7 +192,7 @@ fn update_stage_clear_input(
     @raylib.is_key_pressed(@raylib.KeySpace)
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
 
-  let mouse_next = mouse_click_on_rect(
+  let mouse_next = @types.mouse_click_on_rect(
     mx,
     my,
     next_rect.0,
@@ -256,7 +200,7 @@ fn update_stage_clear_input(
     next_rect.2,
     next_rect.3,
   )
-  let mouse_restart = mouse_click_on_rect(
+  let mouse_restart = @types.mouse_click_on_rect(
     mx,
     my,
     restart_rect.0,
@@ -277,20 +221,18 @@ fn update_stage_clear_input(
 }
 
 ///|
-fn update_game_over_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_game_over_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_frame_input(game)
   update_touch_mode(game, touch_count)
 
-  let retry_rect = panel_next_rect()
-  let reset_rect = panel_restart_rect()
+  let retry_rect = @types.panel_next_rect()
+  let reset_rect = @types.panel_restart_rect()
 
-  let touch_retry = pointer_on_rect(
+  let touch_retry = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -300,7 +242,7 @@ fn update_game_over_input(
     retry_rect.2,
     retry_rect.3,
   )
-  let touch_reset = pointer_on_rect(
+  let touch_reset = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -315,7 +257,7 @@ fn update_game_over_input(
     @raylib.is_key_pressed(@raylib.KeyEnter)
   let key_reset = @raylib.is_key_pressed(@raylib.KeyR)
 
-  let mouse_retry = mouse_click_on_rect(
+  let mouse_retry = @types.mouse_click_on_rect(
     mx,
     my,
     retry_rect.0,
@@ -323,7 +265,7 @@ fn update_game_over_input(
     retry_rect.2,
     retry_rect.3,
   )
-  let mouse_reset = mouse_click_on_rect(
+  let mouse_reset = @types.mouse_click_on_rect(
     mx,
     my,
     reset_rect.0,
@@ -344,20 +286,18 @@ fn update_game_over_input(
 }
 
 ///|
-fn update_victory_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_victory_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_frame_input(game)
   update_touch_mode(game, touch_count)
 
-  let next_rect = panel_next_rect()
-  let restart_rect = panel_restart_rect()
+  let next_rect = @types.panel_next_rect()
+  let restart_rect = @types.panel_restart_rect()
 
-  let touch_next = pointer_on_rect(
+  let touch_next = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -367,7 +307,7 @@ fn update_victory_input(
     next_rect.2,
     next_rect.3,
   )
-  let touch_restart = pointer_on_rect(
+  let touch_restart = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -382,7 +322,7 @@ fn update_victory_input(
     @raylib.is_key_pressed(@raylib.KeyEnter)
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
 
-  let mouse_next = mouse_click_on_rect(
+  let mouse_next = @types.mouse_click_on_rect(
     mx,
     my,
     next_rect.0,
@@ -390,7 +330,7 @@ fn update_victory_input(
     next_rect.2,
     next_rect.3,
   )
-  let mouse_restart = mouse_click_on_rect(
+  let mouse_restart = @types.mouse_click_on_rect(
     mx,
     my,
     restart_rect.0,

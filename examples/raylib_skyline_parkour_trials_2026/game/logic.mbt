@@ -1,33 +1,19 @@
 ///|
-fn overlap_rect(
-  ax : Float,
-  ay : Float,
-  aw : Float,
-  ah : Float,
-  bx : Float,
-  by : Float,
-  bw : Float,
-  bh : Float,
-) -> Bool {
-  ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by
-}
-
-///|
-fn clear_stage_data(game : Game) -> Unit {
+fn clear_stage_data(game : @types.Game) -> Unit {
   game.tile_count = 0
   game.checkpoint_count = 0
 }
 
 ///|
 fn push_tile(
-  game : Game,
+  game : @types.Game,
   kind : Int,
   x : Float,
   y : Float,
   w : Float,
   h : Float,
 ) -> Unit {
-  if game.tile_count >= max_tiles {
+  if game.tile_count >= @types.max_tiles {
     return
   }
 
@@ -41,25 +27,25 @@ fn push_tile(
 }
 
 ///|
-fn push_solid(game : Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
-  push_tile(game, tile_solid, x, y, w, h)
+fn push_solid(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
+  push_tile(game, @types.tile_solid, x, y, w, h)
 }
 
 ///|
-fn push_hazard(game : Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
-  push_tile(game, tile_hazard, x, y, w, h)
+fn push_hazard(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
+  push_tile(game, @types.tile_hazard, x, y, w, h)
 }
 
 ///|
 fn push_checkpoint(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   w : Float,
   h : Float,
   bonus_s : Int,
 ) -> Unit {
-  if game.checkpoint_count >= max_checkpoints {
+  if game.checkpoint_count >= @types.max_checkpoints {
     return
   }
 
@@ -74,7 +60,7 @@ fn push_checkpoint(
 }
 
 ///|
-fn set_goal(game : Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
+fn set_goal(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
   game.goal_x = x
   game.goal_y = y
   game.goal_w = w
@@ -82,7 +68,7 @@ fn set_goal(game : Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
 }
 
 ///|
-fn reset_hero_to_start(game : Game) -> Unit {
+fn reset_hero_to_start(game : @types.Game) -> Unit {
   let hero = game.hero
   hero.x = game.start_x
   hero.y = game.start_y
@@ -91,16 +77,16 @@ fn reset_hero_to_start(game : Game) -> Unit {
   hero.on_ground = false
   hero.wall_side = 0
   hero.wall_window_t = 0.0
-  hero.wall_climb_t = wall_climb_time_max
+  hero.wall_climb_t = @types.wall_climb_time_max
   hero.coyote_t = 0.0
   hero.jump_buffer_t = 0.0
   hero.facing = 1
 }
 
 ///|
-fn setup_stage_1(game : Game) -> Unit {
+fn setup_stage_1(game : @types.Game) -> Unit {
   game.stage_width = 2800.0
-  game.stage_fail_y = Float::from_int(screen_h) + stage_fail_y_pad
+  game.stage_fail_y = Float::from_int(@types.screen_h) + @types.stage_fail_y_pad
   game.start_x = 96.0
   game.start_y = 568.0
 
@@ -124,9 +110,9 @@ fn setup_stage_1(game : Game) -> Unit {
 }
 
 ///|
-fn setup_stage_2(game : Game) -> Unit {
+fn setup_stage_2(game : @types.Game) -> Unit {
   game.stage_width = 3200.0
-  game.stage_fail_y = Float::from_int(screen_h) + stage_fail_y_pad
+  game.stage_fail_y = Float::from_int(@types.screen_h) + @types.stage_fail_y_pad
   game.start_x = 94.0
   game.start_y = 588.0
 
@@ -157,9 +143,9 @@ fn setup_stage_2(game : Game) -> Unit {
 }
 
 ///|
-fn setup_stage_3(game : Game) -> Unit {
+fn setup_stage_3(game : @types.Game) -> Unit {
   game.stage_width = 3600.0
-  game.stage_fail_y = Float::from_int(screen_h) + stage_fail_y_pad
+  game.stage_fail_y = Float::from_int(@types.screen_h) + @types.stage_fail_y_pad
   game.start_x = 92.0
   game.start_y = 598.0
 
@@ -195,14 +181,14 @@ fn setup_stage_3(game : Game) -> Unit {
 }
 
 ///|
-fn load_stage(game : Game, stage : Int) -> Unit {
+fn load_stage(game : @types.Game, stage : Int) -> Unit {
   clear_stage_data(game)
-  game.stage = clampi(stage, 1, stage_count)
+  game.stage = @types.clampi(stage, 1, @types.stage_count)
   game.pending_next_stage = 0
   game.stage_time_s = 0.0
   game.bonus_popup_t = 0.0
   game.bonus_popup_value = 0
-  game.lose_reason = lose_none
+  game.lose_reason = @types.lose_none
 
   if game.stage == 1 {
     setup_stage_1(game)
@@ -216,47 +202,59 @@ fn load_stage(game : Game, stage : Int) -> Unit {
 }
 
 ///|
-fn init_title_scene(game : Game) -> Unit {
+pub fn init_title_scene(game : @types.Game) -> Unit {
   load_stage(game, 1)
-  game.state = state_title
-  game.timer_s = stage_initial_time(1)
+  game.state = @types.state_title
+  game.timer_s = @types.stage_initial_time(1)
   game.run_time_s = 0.0
   game.checkpoints_hit = 0
 }
 
 ///|
-fn begin_new_run(game : Game) -> Unit {
-  game.timer_s = stage_initial_time(1)
+fn begin_new_run(game : @types.Game) -> Unit {
+  game.timer_s = @types.stage_initial_time(1)
   game.run_time_s = 0.0
   game.checkpoints_hit = 0
   load_stage(game, 1)
-  game.state = state_play
+  game.state = @types.state_play
 }
 
 ///|
-fn fail_run(game : Game, reason : Int) -> Unit {
+fn fail_run(game : @types.Game, reason : Int) -> Unit {
   game.lose_reason = reason
-  game.state = state_game_over
+  game.state = @types.state_game_over
   game.pending_next_stage = 0
 }
 
 ///|
-fn add_bonus_time(game : Game, amount_s : Int) -> Unit {
-  game.timer_s = minf(timer_cap, game.timer_s + Float::from_int(amount_s))
+fn add_bonus_time(game : @types.Game, amount_s : Int) -> Unit {
+  game.timer_s = @types.minf(
+    @types.timer_cap,
+    game.timer_s + Float::from_int(amount_s),
+  )
   game.bonus_popup_value = amount_s
   game.bonus_popup_t = 1.1
 }
 
 ///|
-fn hero_hits_hazard(game : Game) -> Bool {
+fn hero_hits_hazard(game : @types.Game) -> Bool {
   let hero = game.hero
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != tile_hazard {
+    if t.kind != @types.tile_hazard {
       continue
     }
 
-    if overlap_rect(hero.x, hero.y, player_w, player_h, t.x, t.y, t.w, t.h) {
+    if @types.overlap_rect(
+      hero.x,
+      hero.y,
+      @types.player_w,
+      @types.player_h,
+      t.x,
+      t.y,
+      t.w,
+      t.h,
+    ) {
       return true
     }
   }
@@ -264,7 +262,7 @@ fn hero_hits_hazard(game : Game) -> Bool {
 }
 
 ///|
-fn collect_checkpoints(game : Game) -> Unit {
+fn collect_checkpoints(game : @types.Game) -> Unit {
   let hero = game.hero
   for i in 0..<game.checkpoint_count {
     if game.checkpoints[i].taken {
@@ -272,7 +270,16 @@ fn collect_checkpoints(game : Game) -> Unit {
     }
 
     let cp = game.checkpoints[i]
-    if overlap_rect(hero.x, hero.y, player_w, player_h, cp.x, cp.y, cp.w, cp.h) {
+    if @types.overlap_rect(
+      hero.x,
+      hero.y,
+      @types.player_w,
+      @types.player_h,
+      cp.x,
+      cp.y,
+      cp.w,
+      cp.h,
+    ) {
       game.checkpoints[i].taken = true
       game.checkpoints_hit = game.checkpoints_hit + 1
       add_bonus_time(game, cp.bonus_s)
@@ -281,13 +288,13 @@ fn collect_checkpoints(game : Game) -> Unit {
 }
 
 ///|
-fn hero_reached_goal(game : Game) -> Bool {
+fn hero_reached_goal(game : @types.Game) -> Bool {
   let hero = game.hero
-  overlap_rect(
+  @types.overlap_rect(
     hero.x,
     hero.y,
-    player_w,
-    player_h,
+    @types.player_w,
+    @types.player_h,
     game.goal_x,
     game.goal_y,
     game.goal_w,
@@ -296,7 +303,7 @@ fn hero_reached_goal(game : Game) -> Bool {
 }
 
 ///|
-fn move_hero_x(game : Game, dt : Float) -> Unit {
+fn move_hero_x(game : @types.Game, dt : Float) -> Unit {
   let hero = game.hero
   hero.wall_side = 0
 
@@ -306,57 +313,75 @@ fn move_hero_x(game : Game, dt : Float) -> Unit {
     hero.x = 0.0
     hero.vx = 0.0
     hero.wall_side = -1
-    hero.wall_window_t = wall_jump_window
+    hero.wall_window_t = @types.wall_jump_window
   }
 
-  if hero.x + player_w > game.stage_width {
-    hero.x = game.stage_width - player_w
+  if hero.x + @types.player_w > game.stage_width {
+    hero.x = game.stage_width - @types.player_w
     hero.vx = 0.0
     hero.wall_side = 1
-    hero.wall_window_t = wall_jump_window
+    hero.wall_window_t = @types.wall_jump_window
   }
 
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != tile_solid {
+    if t.kind != @types.tile_solid {
       continue
     }
 
-    if overlap_rect(hero.x, hero.y, player_w, player_h, t.x, t.y, t.w, t.h) {
+    if @types.overlap_rect(
+      hero.x,
+      hero.y,
+      @types.player_w,
+      @types.player_h,
+      t.x,
+      t.y,
+      t.w,
+      t.h,
+    ) {
       if hero.vx > 0.0 {
-        hero.x = t.x - player_w
+        hero.x = t.x - @types.player_w
         hero.vx = 0.0
         hero.wall_side = 1
-        hero.wall_window_t = wall_jump_window
+        hero.wall_window_t = @types.wall_jump_window
       } else if hero.vx < 0.0 {
         hero.x = t.x + t.w
         hero.vx = 0.0
         hero.wall_side = -1
-        hero.wall_window_t = wall_jump_window
+        hero.wall_window_t = @types.wall_jump_window
       }
     }
   }
 }
 
 ///|
-fn move_hero_y(game : Game, dt : Float) -> Unit {
+fn move_hero_y(game : @types.Game, dt : Float) -> Unit {
   let hero = game.hero
   hero.on_ground = false
   hero.y = hero.y + hero.vy * dt
 
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != tile_solid {
+    if t.kind != @types.tile_solid {
       continue
     }
 
-    if overlap_rect(hero.x, hero.y, player_w, player_h, t.x, t.y, t.w, t.h) {
+    if @types.overlap_rect(
+      hero.x,
+      hero.y,
+      @types.player_w,
+      @types.player_h,
+      t.x,
+      t.y,
+      t.w,
+      t.h,
+    ) {
       if hero.vy > 0.0 {
-        hero.y = t.y - player_h
+        hero.y = t.y - @types.player_h
         hero.vy = 0.0
         hero.on_ground = true
-        hero.coyote_t = coyote_time
-        hero.wall_climb_t = wall_climb_time_max
+        hero.coyote_t = @types.coyote_time
+        hero.wall_climb_t = @types.wall_climb_time_max
       } else if hero.vy < 0.0 {
         hero.y = t.y + t.h
         hero.vy = 0.0
@@ -366,116 +391,130 @@ fn move_hero_y(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn apply_jump_buffer(hero : Player, jump_pressed : Bool, dt : Float) -> Unit {
-  hero.jump_buffer_t = maxf(0.0, hero.jump_buffer_t - dt)
+fn apply_jump_buffer(hero : @types.Player, jump_pressed : Bool, dt : Float) -> Unit {
+  hero.jump_buffer_t = @types.maxf(0.0, hero.jump_buffer_t - dt)
   if jump_pressed {
-    hero.jump_buffer_t = jump_buffer_time
+    hero.jump_buffer_t = @types.jump_buffer_time
   }
 }
 
 ///|
-fn update_hero_movement(game : Game, dt : Float) -> Unit {
+fn update_hero_movement(game : @types.Game, dt : Float) -> Unit {
   let hero = game.hero
 
-  hero.coyote_t = maxf(0.0, hero.coyote_t - dt)
-  hero.wall_window_t = maxf(0.0, hero.wall_window_t - dt)
+  hero.coyote_t = @types.maxf(0.0, hero.coyote_t - dt)
+  hero.wall_window_t = @types.maxf(0.0, hero.wall_window_t - dt)
 
   if hero.on_ground {
-    hero.coyote_t = coyote_time
-    hero.wall_climb_t = wall_climb_time_max
+    hero.coyote_t = @types.coyote_time
+    hero.wall_climb_t = @types.wall_climb_time_max
   } else if hero.wall_side != 0 {
-    hero.wall_window_t = wall_jump_window
+    hero.wall_window_t = @types.wall_jump_window
   }
 
   apply_jump_buffer(hero, game.input_jump_press, dt)
 
-  let accel = if hero.on_ground { run_accel_ground } else { run_accel_air }
+  let accel = if hero.on_ground {
+    @types.run_accel_ground
+  } else {
+    @types.run_accel_air
+  }
   hero.vx = hero.vx + game.input_x * accel * dt
 
-  if absf(game.input_x) < 0.01 {
-    let drag = if hero.on_ground { run_drag_ground } else { run_drag_air }
-    hero.vx = approachf(hero.vx, 0.0, drag * dt)
+  if @types.absf(game.input_x) < 0.01 {
+    let drag = if hero.on_ground {
+      @types.run_drag_ground
+    } else {
+      @types.run_drag_air
+    }
+    hero.vx = @types.approachf(hero.vx, 0.0, drag * dt)
   } else if game.input_x > 0.0 {
     hero.facing = 1
   } else {
     hero.facing = -1
   }
 
-  hero.vx = clampf(hero.vx, -run_max_speed, run_max_speed)
+  hero.vx = @types.clampf(hero.vx, -@types.run_max_speed, @types.run_max_speed)
 
   if not(hero.on_ground) && hero.wall_window_t > 0.0 {
-    hero.vy = minf(hero.vy, wall_slide_speed)
+    hero.vy = @types.minf(hero.vy, @types.wall_slide_speed)
     if game.input_climb_hold && hero.wall_climb_t > 0.0 {
-      hero.vy = maxf(hero.vy - wall_climb_up_accel * dt, -wall_climb_up_speed)
-      hero.wall_climb_t = maxf(0.0, hero.wall_climb_t - dt)
+      hero.vy = @types.maxf(
+        hero.vy - @types.wall_climb_up_accel * dt,
+        -@types.wall_climb_up_speed,
+      )
+      hero.wall_climb_t = @types.maxf(0.0, hero.wall_climb_t - dt)
     }
   }
 
   if hero.jump_buffer_t > 0.0 {
     if hero.coyote_t > 0.0 {
-      hero.vy = -jump_speed
+      hero.vy = -@types.jump_speed
       hero.on_ground = false
       hero.coyote_t = 0.0
       hero.jump_buffer_t = 0.0
     } else if hero.wall_window_t > 0.0 && hero.wall_side != 0 {
-      hero.vy = -wall_jump_speed
-      hero.vx = Float::from_int(-hero.wall_side) * wall_jump_push
+      hero.vy = -@types.wall_jump_speed
+      hero.vx = Float::from_int(-hero.wall_side) * @types.wall_jump_push
       hero.jump_buffer_t = 0.0
       hero.wall_window_t = 0.0
     }
   }
 
   if not(game.input_jump_hold) && hero.vy < 0.0 {
-    hero.vy = hero.vy + jump_cut_gravity * dt
+    hero.vy = hero.vy + @types.jump_cut_gravity * dt
   }
 
-  hero.vy = minf(max_fall_speed, hero.vy + gravity * dt)
+  hero.vy = @types.minf(
+    @types.max_fall_speed,
+    hero.vy + @types.gravity * dt,
+  )
 
   move_hero_x(game, dt)
   move_hero_y(game, dt)
 }
 
 ///|
-fn finish_stage(game : Game) -> Unit {
-  if game.stage < stage_count {
-    let bonus = stage_clear_bonus(game.stage)
+fn finish_stage(game : @types.Game) -> Unit {
+  if game.stage < @types.stage_count {
+    let bonus = @types.stage_clear_bonus(game.stage)
     if bonus > 0 {
       add_bonus_time(game, bonus)
     }
     game.pending_next_stage = game.stage + 1
-    game.state = state_stage_clear
+    game.state = @types.state_stage_clear
   } else {
     game.pending_next_stage = 0
-    game.state = state_victory
+    game.state = @types.state_victory
   }
 }
 
 ///|
-fn update_play_state(game : Game, dt : Float) -> Unit {
+fn update_play_state(game : @types.Game, dt : Float) -> Unit {
   if game.input_restart_press {
     begin_new_run(game)
     return
   }
 
-  game.timer_s = maxf(0.0, game.timer_s - dt)
+  game.timer_s = @types.maxf(0.0, game.timer_s - dt)
   game.run_time_s = game.run_time_s + dt
   game.stage_time_s = game.stage_time_s + dt
-  game.bonus_popup_t = maxf(0.0, game.bonus_popup_t - dt)
+  game.bonus_popup_t = @types.maxf(0.0, game.bonus_popup_t - dt)
 
   if game.timer_s <= 0.0 {
-    fail_run(game, lose_time)
+    fail_run(game, @types.lose_time)
     return
   }
 
   update_hero_movement(game, dt)
 
   if game.hero.y > game.stage_fail_y {
-    fail_run(game, lose_fall)
+    fail_run(game, @types.lose_fall)
     return
   }
 
   if hero_hits_hazard(game) {
-    fail_run(game, lose_hazard)
+    fail_run(game, @types.lose_hazard)
     return
   }
 
@@ -487,56 +526,71 @@ fn update_play_state(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_stage_clear_state(game : Game) -> Unit {
+fn update_stage_clear_state(game : @types.Game) -> Unit {
   if game.input_restart_press {
     begin_new_run(game)
     return
   }
 
   if game.input_next_press {
-    if game.pending_next_stage > 0 && game.pending_next_stage <= stage_count {
+    if game.pending_next_stage > 0 &&
+      game.pending_next_stage <= @types.stage_count {
       let next_stage = game.pending_next_stage
       load_stage(game, next_stage)
-      game.state = state_play
+      game.state = @types.state_play
     } else {
-      game.state = state_victory
+      game.state = @types.state_victory
     }
   }
 }
 
 ///|
-fn update_game_over_state(game : Game) -> Unit {
+fn update_game_over_state(game : @types.Game) -> Unit {
   if game.input_restart_press || game.input_next_press {
     begin_new_run(game)
   }
 }
 
 ///|
-fn update_victory_state(game : Game) -> Unit {
+fn update_victory_state(game : @types.Game) -> Unit {
   if game.input_next_press || game.input_restart_press {
     init_title_scene(game)
   }
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
-  if game.state == state_title {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  // Gather input first
+  if game.state == @types.state_title {
+    update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game)
+  } else if game.state == @types.state_stage_clear {
+    update_stage_clear_input(game)
+  } else if game.state == @types.state_game_over {
+    update_game_over_input(game)
+  } else {
+    update_victory_input(game)
+  }
+
+  // Then update game state
+  if game.state == @types.state_title {
     if game.input_next_press {
       begin_new_run(game)
     }
     return
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     update_play_state(game, dt)
     return
   }
 
-  game.bonus_popup_t = maxf(0.0, game.bonus_popup_t - dt)
+  game.bonus_popup_t = @types.maxf(0.0, game.bonus_popup_t - dt)
 
-  if game.state == state_stage_clear {
+  if game.state == @types.state_stage_clear {
     update_stage_clear_state(game)
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     update_game_over_state(game)
   } else {
     update_victory_state(game)

@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -18,9 +18,9 @@ fn draw_button(
 ) -> Unit {
   let fill = if active {
     @raylib.Color::new(
-      clampi(base.r.to_int() + 36, 0, 255),
-      clampi(base.g.to_int() + 36, 0, 255),
-      clampi(base.b.to_int() + 36, 0, 255),
+      @types.clampi(base.r.to_int() + 36, 0, 255),
+      @types.clampi(base.g.to_int() + 36, 0, 255),
+      @types.clampi(base.b.to_int() + 36, 0, 255),
       240,
     )
   } else {
@@ -53,31 +53,36 @@ fn draw_button(
 }
 
 ///|
-fn camera_x(game : Game) -> Float {
-  clampf(
-    game.hero.x - Float::from_int(screen_w) * 0.34,
+fn camera_x(game : @types.Game) -> Float {
+  @types.clampf(
+    game.hero.x - Float::from_int(@types.screen_w) * 0.34,
     0.0,
-    maxf(0.0, game.stage_width - Float::from_int(screen_w)),
+    @types.maxf(0.0, game.stage_width - Float::from_int(@types.screen_w)),
   )
 }
 
 ///|
-fn draw_background(game : Game, cam_x : Float) -> Unit {
+fn draw_background(game : @types.Game, cam_x : Float) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
-    col_bg_top(),
-    col_bg_bottom(),
+    @types.screen_w,
+    @types.screen_h,
+    @types.col_bg_top(),
+    @types.col_bg_bottom(),
   )
 
-  let glow_x = Float::from_int(screen_w) * 0.72 -
+  let glow_x = Float::from_int(@types.screen_w) * 0.72 -
     cam_x * 0.06 +
-    sinf(game.run_time_s * 0.3) * 56.0
-  let glow_y = Float::from_int(screen_h) * 0.24 +
-    cosf(game.run_time_s * 0.24) * 34.0
-  @raylib.draw_circle(glow_x.to_int(), glow_y.to_int(), 132.0, col_sky_glow())
+    @types.sinf(game.run_time_s * 0.3) * 56.0
+  let glow_y = Float::from_int(@types.screen_h) * 0.24 +
+    @types.cosf(game.run_time_s * 0.24) * 34.0
+  @raylib.draw_circle(
+    glow_x.to_int(),
+    glow_y.to_int(),
+    132.0,
+    @types.col_sky_glow(),
+  )
 
   for layer in 0..<3 {
     let depth = Float::from_int(layer + 1)
@@ -85,18 +90,18 @@ fn draw_background(game : Game, cam_x : Float) -> Unit {
     let bw = 80 + layer * 34
     for i in 0..<22 {
       let idx = Float::from_int(i + layer * 13)
-      let track = Float::from_int(screen_w) + Float::from_int(bw * 2)
+      let track = Float::from_int(@types.screen_w) + Float::from_int(bw * 2)
       let x : Float = (
           idx * Float::from_int(bw) * 1.45 -
           cam_x * parallax +
-          sinf(idx * 0.51 + Float::from_int(layer)) * 20.0
+          @types.sinf(idx * 0.51 + Float::from_int(layer)) * 20.0
         ) %
         track -
         Float::from_int(bw)
       let h = 140 +
         (i * 31 + layer * 67) % 190 +
-        (sinf(game.run_time_s * 0.35 + idx * 0.4) * 12.0).to_int()
-      let y = screen_h - h - 70 + layer * 26
+        (@types.sinf(game.run_time_s * 0.35 + idx * 0.4) * 12.0).to_int()
+      let y = @types.screen_h - h - 70 + layer * 26
       let col = if layer == 0 {
         @raylib.Color::new(22, 30, 52, 240)
       } else if layer == 1 {
@@ -120,28 +125,28 @@ fn draw_background(game : Game, cam_x : Float) -> Unit {
 }
 
 ///|
-fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
+fn draw_world_tiles(game : @types.Game, cam_x : Float) -> Unit {
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
     let sx = t.x - cam_x
-    if sx > Float::from_int(screen_w) + 100.0 || sx + t.w < -100.0 {
+    if sx > Float::from_int(@types.screen_w) + 100.0 || sx + t.w < -100.0 {
       continue
     }
 
-    if t.kind == tile_solid {
+    if t.kind == @types.tile_solid {
       @raylib.draw_rectangle(
         sx.to_int(),
         t.y.to_int(),
         t.w.to_int(),
         t.h.to_int(),
-        col_roof(),
+        @types.col_roof(),
       )
       @raylib.draw_rectangle(
         sx.to_int(),
         t.y.to_int(),
         t.w.to_int(),
         8,
-        col_roof_edge(),
+        @types.col_roof_edge(),
       )
       @raylib.draw_rectangle_lines(
         sx.to_int(),
@@ -151,7 +156,8 @@ fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
         @raylib.Color::new(22, 26, 34, 210),
       )
     } else {
-      let pulse : Float = 0.5 + 0.5 * sinf(game.run_time_s * 7.2 + t.x * 0.02)
+      let pulse : Float = 0.5 +
+        0.5 * @types.sinf(game.run_time_s * 7.2 + t.x * 0.02)
       let glow = 120 + (pulse * 96.0).to_int()
       @raylib.draw_rectangle(
         sx.to_int(),
@@ -164,8 +170,8 @@ fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
         sx.to_int(),
         (t.y + 2.0).to_int(),
         t.w.to_int(),
-        clampi((t.h - 4.0).to_int(), 1, 2000),
-        @raylib.Color::new(255, 120, 70, clampi(glow, 40, 250)),
+        @types.clampi((t.h - 4.0).to_int(), 1, 2000),
+        @raylib.Color::new(255, 120, 70, @types.clampi(glow, 40, 250)),
       )
       @raylib.draw_rectangle_lines(
         sx.to_int(),
@@ -179,11 +185,11 @@ fn draw_world_tiles(game : Game, cam_x : Float) -> Unit {
 }
 
 ///|
-fn draw_checkpoints(game : Game, cam_x : Float) -> Unit {
+fn draw_checkpoints(game : @types.Game, cam_x : Float) -> Unit {
   for i in 0..<game.checkpoint_count {
     let cp = game.checkpoints[i]
     let sx = cp.x - cam_x
-    if sx > Float::from_int(screen_w) + 80.0 || sx + cp.w < -80.0 {
+    if sx > Float::from_int(@types.screen_w) + 80.0 || sx + cp.w < -80.0 {
       continue
     }
 
@@ -199,7 +205,7 @@ fn draw_checkpoints(game : Game, cam_x : Float) -> Unit {
     }
 
     let pulse : Float = 0.5 +
-      0.5 * sinf(game.run_time_s * 5.0 + Float::from_int(i))
+      0.5 * @types.sinf(game.run_time_s * 5.0 + Float::from_int(i))
     @raylib.draw_rectangle(
       sx.to_int(),
       cp.y.to_int(),
@@ -212,7 +218,7 @@ fn draw_checkpoints(game : Game, cam_x : Float) -> Unit {
       cp.y.to_int(),
       cp.w.to_int(),
       cp.h.to_int(),
-      col_checkpoint(),
+      @types.col_checkpoint(),
     )
     let cap_r : Float = 9.0 + pulse * 3.0
     @raylib.draw_circle(
@@ -225,9 +231,9 @@ fn draw_checkpoints(game : Game, cam_x : Float) -> Unit {
 }
 
 ///|
-fn draw_goal(game : Game, cam_x : Float) -> Unit {
+fn draw_goal(game : @types.Game, cam_x : Float) -> Unit {
   let sx = game.goal_x - cam_x
-  let pulse : Float = 0.5 + 0.5 * sinf(game.run_time_s * 4.0)
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(game.run_time_s * 4.0)
 
   @raylib.draw_rectangle(
     sx.to_int(),
@@ -241,7 +247,7 @@ fn draw_goal(game : Game, cam_x : Float) -> Unit {
     game.goal_y.to_int(),
     game.goal_w.to_int(),
     game.goal_h.to_int(),
-    col_goal(),
+    @types.col_goal(),
   )
   let orb_r : Float = 12.0 + pulse * 5.0
   @raylib.draw_circle(
@@ -253,39 +259,43 @@ fn draw_goal(game : Game, cam_x : Float) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, cam_x : Float) -> Unit {
+fn draw_player(game : @types.Game, cam_x : Float) -> Unit {
   let hero = game.hero
   let sx = hero.x - cam_x
 
   let body_col = if not(hero.on_ground) && hero.wall_window_t > 0.0 {
-    col_player_wall()
+    @types.col_player_wall()
   } else {
-    col_player_run()
+    @types.col_player_run()
   }
 
   @raylib.draw_rectangle(
     sx.to_int(),
     hero.y.to_int(),
-    player_w.to_int(),
-    player_h.to_int(),
+    @types.player_w.to_int(),
+    @types.player_h.to_int(),
     body_col,
   )
   @raylib.draw_rectangle_lines(
     sx.to_int(),
     hero.y.to_int(),
-    player_w.to_int(),
-    player_h.to_int(),
+    @types.player_w.to_int(),
+    @types.player_h.to_int(),
     @raylib.Color::new(28, 22, 18, 220),
   )
   @raylib.draw_rectangle(
     (sx + 5.0).to_int(),
     (hero.y + 8.0).to_int(),
-    (player_w - 10.0).to_int(),
+    (@types.player_w - 10.0).to_int(),
     10,
     @raylib.Color::new(255, 244, 210, 200),
   )
 
-  let eye_x = if hero.facing > 0 { sx + player_w - 9.0 } else { sx + 9.0 }
+  let eye_x = if hero.facing > 0 {
+    sx + @types.player_w - 9.0
+  } else {
+    sx + 9.0
+  }
   @raylib.draw_circle(
     eye_x.to_int(),
     (hero.y + 21.0).to_int(),
@@ -293,12 +303,16 @@ fn draw_player(game : Game, cam_x : Float) -> Unit {
     @raylib.Color::new(20, 20, 26, 240),
   )
 
-  if absf(hero.vx) > 190.0 {
-    let trail_w = clampi((absf(hero.vx) * 0.045).to_int(), 8, 24)
+  if @types.absf(hero.vx) > 190.0 {
+    let trail_w = @types.clampi(
+      (@types.absf(hero.vx) * 0.045).to_int(),
+      8,
+      24,
+    )
     let tx = if hero.facing > 0 {
       sx - Float::from_int(trail_w) - 3.0
     } else {
-      sx + player_w + 3.0
+      sx + @types.player_w + 3.0
     }
     @raylib.draw_rectangle(
       tx.to_int(),
@@ -311,23 +325,7 @@ fn draw_player(game : Game, cam_x : Float) -> Unit {
 }
 
 ///|
-fn timer_string(v : Float) -> String {
-  let ds = clampi((maxf(0.0, v) * 10.0).to_int(), 0, 9999)
-  let sec = ds / 10
-  let dec = ds % 10
-  "\{sec}.\{dec}"
-}
-
-///|
-fn run_string(v : Float) -> String {
-  let ds = clampi((maxf(0.0, v) * 10.0).to_int(), 0, 99999)
-  let sec = ds / 10
-  let dec = ds % 10
-  "\{sec}.\{dec}"
-}
-
-///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(14, 12, 340, 116, @raylib.Color::new(8, 12, 18, 148))
   @raylib.draw_rectangle_lines(
     14,
@@ -338,18 +336,18 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   @raylib.draw_text(
-    "TIME \{timer_string(game.timer_s)}",
+    "TIME \{@types.timer_string(game.timer_s)}",
     26,
     26,
     38,
-    col_text_main(),
+    @types.col_text_main(),
   )
   @raylib.draw_text(
-    "STAGE \{game.stage}/\{stage_count}",
+    "STAGE \{game.stage}/\{@types.stage_count}",
     28,
     74,
     24,
-    col_text_dim(),
+    @types.col_text_dim(),
   )
   @raylib.draw_text(
     "CHECKPOINTS \{game.checkpoints_hit}",
@@ -360,40 +358,46 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   @raylib.draw_rectangle(
-    screen_w - 252,
+    @types.screen_w - 252,
     12,
     238,
     74,
     @raylib.Color::new(8, 12, 18, 136),
   )
   @raylib.draw_rectangle_lines(
-    screen_w - 252,
+    @types.screen_w - 252,
     12,
     238,
     74,
     @raylib.Color::new(160, 188, 232, 170),
   )
   @raylib.draw_text(
-    "RUN \{run_string(game.run_time_s)} s",
-    screen_w - 238,
+    "RUN \{@types.run_string(game.run_time_s)} s",
+    @types.screen_w - 238,
     26,
     26,
-    col_text_main(),
+    @types.col_text_main(),
   )
-  @raylib.draw_text("R: restart run", screen_w - 236, 56, 20, col_text_dim())
+  @raylib.draw_text(
+    "R: restart run",
+    @types.screen_w - 236,
+    56,
+    20,
+    @types.col_text_dim(),
+  )
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     @raylib.draw_text(
       "A/D or Arrow: move   SPACE: jump   SHIFT: wall climb",
       22,
-      screen_h - 30,
+      @types.screen_h - 30,
       20,
       @raylib.Color::new(198, 214, 238, 200),
     )
   }
 
   if game.bonus_popup_t > 0.0 {
-    let alpha = clampi((game.bonus_popup_t * 255.0).to_int(), 0, 255)
+    let alpha = @types.clampi((game.bonus_popup_t * 255.0).to_int(), 0, 255)
     @raylib.draw_text(
       "+\{game.bonus_popup_value}s",
       28,
@@ -405,19 +409,18 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_play_touch_controls(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  let left = touch_left_rect()
-  let right = touch_right_rect()
-  let jump = touch_jump_rect()
-  let climb = touch_climb_rect()
-  let restart = touch_play_restart_rect()
+fn draw_play_touch_controls(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  let left = @types.touch_left_rect()
+  let right = @types.touch_right_rect()
+  let jump = @types.touch_jump_rect()
+  let climb = @types.touch_climb_rect()
+  let restart = @types.touch_play_restart_rect()
 
-  let left_on = pointer_on_rect(
+  let left_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -427,7 +430,7 @@ fn draw_play_touch_controls(
     left.2,
     left.3,
   )
-  let right_on = pointer_on_rect(
+  let right_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -437,7 +440,7 @@ fn draw_play_touch_controls(
     right.2,
     right.3,
   )
-  let jump_on = pointer_on_rect(
+  let jump_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -447,7 +450,7 @@ fn draw_play_touch_controls(
     jump.2,
     jump.3,
   )
-  let climb_on = pointer_on_rect(
+  let climb_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -457,7 +460,7 @@ fn draw_play_touch_controls(
     climb.2,
     climb.3,
   )
-  let restart_on = pointer_on_rect(
+  let restart_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -481,29 +484,28 @@ fn draw_play_touch_controls(
 }
 
 ///|
-fn draw_title_overlay(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(4, 8, 16, 132),
   )
-  draw_center_text("SKYLINE PARKOUR TRIALS", 110, 62, col_text_main())
+  draw_center_text("SKYLINE PARKOUR TRIALS", 110, 62, @types.col_text_main())
   draw_center_text(
     "Momentum rooftops. Wall windows. Beat the clock.",
     188,
     28,
-    col_text_dim(),
+    @types.col_text_dim(),
   )
 
-  let start = title_start_rect()
-  let start_on = pointer_on_rect(
+  let start = @types.title_start_rect()
+  let start_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -520,19 +522,19 @@ fn draw_title_overlay(
     @raylib.Color::new(42, 106, 88, 220),
   )
 
-  draw_center_text("Desktop", 560, 26, col_text_main())
+  draw_center_text("Desktop", 560, 26, @types.col_text_main())
   draw_center_text(
     "A / D move   SPACE jump   SHIFT climb",
     596,
     24,
-    col_text_dim(),
+    @types.col_text_dim(),
   )
-  draw_center_text("Mobile", 634, 26, col_text_main())
+  draw_center_text("Mobile", 634, 26, @types.col_text_main())
   draw_center_text(
     "Left/Right + Jump/Climb touch buttons",
     668,
     24,
-    col_text_dim(),
+    @types.col_text_dim(),
   )
 }
 
@@ -540,8 +542,8 @@ fn draw_title_overlay(
 fn draw_panel(title : String, subtitle : String) -> Unit {
   let pw = 760
   let ph = 340
-  let px = screen_w / 2 - pw / 2
-  let py = screen_h / 2 - ph / 2
+  let px = @types.screen_w / 2 - pw / 2
+  let py = @types.screen_h / 2 - ph / 2
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(10, 14, 24, 228))
   @raylib.draw_rectangle_lines(
@@ -551,17 +553,17 @@ fn draw_panel(title : String, subtitle : String) -> Unit {
     ph,
     @raylib.Color::new(156, 188, 244, 210),
   )
-  draw_center_text(title, py + 34, 54, col_text_main())
-  draw_center_text(subtitle, py + 108, 28, col_text_dim())
+  draw_center_text(title, py + 34, 54, @types.col_text_main())
+  draw_center_text(subtitle, py + 108, 28, @types.col_text_dim())
 }
 
 ///|
 fn lose_reason_text(reason : Int) -> String {
-  if reason == lose_time {
+  if reason == @types.lose_time {
     "Out of time"
-  } else if reason == lose_fall {
+  } else if reason == @types.lose_fall {
     "Missed the skyline"
-  } else if reason == lose_hazard {
+  } else if reason == @types.lose_hazard {
     "Hit a hazard"
   } else {
     "Run failed"
@@ -569,28 +571,26 @@ fn lose_reason_text(reason : Int) -> String {
 }
 
 ///|
-fn draw_stage_clear_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   draw_panel(
     "STAGE \{game.stage} CLEAR",
     "Carry momentum into Stage \{game.pending_next_stage}",
   )
 
   draw_center_text(
-    "Time left: \{timer_string(game.timer_s)} s",
-    screen_h / 2 - 8,
+    "Time left: \{@types.timer_string(game.timer_s)} s",
+    @types.screen_h / 2 - 8,
     32,
     @raylib.Color::new(146, 255, 172, 255),
   )
 
-  let next_rect = panel_next_rect()
-  let restart_rect = panel_restart_rect()
-  let next_on = pointer_on_rect(
+  let next_rect = @types.panel_next_rect()
+  let restart_rect = @types.panel_restart_rect()
+  let next_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -600,7 +600,7 @@ fn draw_stage_clear_overlay(
     next_rect.2,
     next_rect.3,
   )
-  let restart_on = pointer_on_rect(
+  let restart_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -621,24 +621,22 @@ fn draw_stage_clear_overlay(
 }
 
 ///|
-fn draw_game_over_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   draw_panel("RUN FAILED", lose_reason_text(game.lose_reason))
   draw_center_text(
-    "Reached stage \{game.stage}  |  Run \{run_string(game.run_time_s)} s",
-    screen_h / 2 - 8,
+    "Reached stage \{game.stage}  |  Run \{@types.run_string(game.run_time_s)} s",
+    @types.screen_h / 2 - 8,
     30,
     @raylib.Color::new(255, 186, 166, 255),
   )
 
-  let retry_rect = panel_next_rect()
-  let restart_rect = panel_restart_rect()
-  let retry_on = pointer_on_rect(
+  let retry_rect = @types.panel_next_rect()
+  let restart_rect = @types.panel_restart_rect()
+  let retry_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -648,7 +646,7 @@ fn draw_game_over_overlay(
     retry_rect.2,
     retry_rect.3,
   )
-  let restart_on = pointer_on_rect(
+  let restart_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -674,30 +672,28 @@ fn draw_game_over_overlay(
 }
 
 ///|
-fn draw_victory_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_victory_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   draw_panel("TRIALS COMPLETE", "Skyline route mastered")
   draw_center_text(
-    "Final run: \{run_string(game.run_time_s)} s   |   Time left: \{timer_string(game.timer_s)} s",
-    screen_h / 2 - 12,
+    "Final run: \{@types.run_string(game.run_time_s)} s   |   Time left: \{@types.timer_string(game.timer_s)} s",
+    @types.screen_h / 2 - 12,
     30,
     @raylib.Color::new(150, 255, 182, 255),
   )
   draw_center_text(
     "Checkpoints hit: \{game.checkpoints_hit}",
-    screen_h / 2 + 28,
+    @types.screen_h / 2 + 28,
     28,
     @raylib.Color::new(190, 232, 255, 255),
   )
 
-  let next_rect = panel_next_rect()
-  let restart_rect = panel_restart_rect()
-  let next_on = pointer_on_rect(
+  let next_rect = @types.panel_next_rect()
+  let restart_rect = @types.panel_restart_rect()
+  let next_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -707,7 +703,7 @@ fn draw_victory_overlay(
     next_rect.2,
     next_rect.3,
   )
-  let restart_on = pointer_on_rect(
+  let restart_on = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -733,13 +729,7 @@ fn draw_victory_overlay(
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   let cam_x = camera_x(game)
 
   draw_background(game, cam_x)
@@ -749,17 +739,17 @@ fn draw_frame(
   draw_player(game, cam_x)
   draw_hud(game)
 
-  if game.state == state_title {
-    draw_title_overlay(mx, my, hold, touch_count)
-  } else if game.state == state_stage_clear {
-    draw_stage_clear_overlay(game, mx, my, hold, touch_count)
-  } else if game.state == state_game_over {
-    draw_game_over_overlay(game, mx, my, hold, touch_count)
-  } else if game.state == state_victory {
-    draw_victory_overlay(game, mx, my, hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_stage_clear {
+    draw_stage_clear_overlay(game)
+  } else if game.state == @types.state_game_over {
+    draw_game_over_overlay(game)
+  } else if game.state == @types.state_victory {
+    draw_victory_overlay(game)
   }
 
-  if game.touch_mode && game.state == state_play {
-    draw_play_touch_controls(mx, my, hold, touch_count)
+  if game.touch_mode && game.state == @types.state_play {
+    draw_play_touch_controls(game)
   }
 }
