@@ -1,5 +1,5 @@
 ///|
-struct Node {
+pub(all) struct Node {
   active : Bool
   gx : Int
   gy : Int
@@ -10,7 +10,7 @@ struct Node {
 }
 
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   kind : Int
   mut x : Float
@@ -27,7 +27,7 @@ struct Enemy {
 }
 
 ///|
-struct Bolt {
+pub(all) struct Bolt {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -38,7 +38,7 @@ struct Bolt {
 }
 
 ///|
-struct PulseFx {
+pub(all) struct PulseFx {
   mut active : Bool
   x : Float
   y : Float
@@ -49,7 +49,7 @@ struct PulseFx {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   nodes : Array[Node]
   enemies : Array[Enemy]
   bolts : Array[Bolt]
@@ -85,7 +85,7 @@ struct Game {
 }
 
 ///|
-fn Node::new() -> Node {
+pub fn Node::new() -> Node {
   {
     active: false,
     gx: 0,
@@ -98,7 +98,7 @@ fn Node::new() -> Node {
 }
 
 ///|
-fn Enemy::new() -> Enemy {
+pub fn Enemy::new() -> Enemy {
   {
     active: false,
     kind: enemy_kind_skitter,
@@ -117,12 +117,12 @@ fn Enemy::new() -> Enemy {
 }
 
 ///|
-fn Bolt::new() -> Bolt {
+pub fn Bolt::new() -> Bolt {
   { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, life: 0.0, dmg: 0.0 }
 }
 
 ///|
-fn PulseFx::new() -> PulseFx {
+pub fn PulseFx::new() -> PulseFx {
   {
     active: false,
     x: 0.0,
@@ -135,7 +135,7 @@ fn PulseFx::new() -> PulseFx {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let nodes = Array::makei(max_nodes, fn(_i) { Node::new() })
   let enemies = Array::makei(max_enemies, fn(_i) { Enemy::new() })
   let bolts = Array::makei(max_bolts, fn(_i) { Bolt::new() })

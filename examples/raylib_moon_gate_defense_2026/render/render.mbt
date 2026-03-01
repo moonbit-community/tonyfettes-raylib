@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -15,40 +15,40 @@ fn alpha_col(c : @raylib.Color, alpha : Int) -> @raylib.Color {
     c.r.to_int(),
     c.g.to_int(),
     c.b.to_int(),
-    clampi(alpha, 0, 255),
+    @types.clampi(alpha, 0, 255),
   )
 }
 
 ///|
 fn meter_col(base : @raylib.Color, ratio : Float) -> @raylib.Color {
-  let r = clampf(ratio, 0.0, 1.0)
+  let r = @types.clampf(ratio, 0.0, 1.0)
   alpha_col(base, 100 + (r * 155.0).to_int())
 }
 
 ///|
-fn camera_offset(game : Game) -> (Float, Float) {
+fn camera_offset(game : @types.Game) -> (Float, Float) {
   if game.shake_t <= 0.0 {
     (0.0, 0.0)
   } else {
-    let amp = minf(16.0, game.shake_t * 58.0)
-    (randf(-amp, amp), randf(-amp, amp))
+    let amp = @types.minf(16.0, game.shake_t * 58.0)
+    (@types.randf(-amp, amp), @types.randf(-amp, amp))
   }
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
-    col_bg_top(),
-    col_bg_bottom(),
+    @types.screen_w,
+    @types.screen_h,
+    @types.col_bg_top(),
+    @types.col_bg_bottom(),
   )
 
-  let moon_x = Float::from_int(screen_w) * 0.82 +
-    sinf(game.time_s * 0.24) * 24.0
-  let moon_y : Float = 106.0 + cosf(game.time_s * 0.18) * 14.0
+  let moon_x = Float::from_int(@types.screen_w) * 0.82 +
+    @types.sinf(game.time_s * 0.24) * 24.0
+  let moon_y : Float = 106.0 + @types.cosf(game.time_s * 0.18) * 14.0
   @raylib.draw_circle(
     moon_x.to_int(),
     moon_y.to_int(),
@@ -64,11 +64,14 @@ fn draw_background(game : Game) -> Unit {
 
   for i in 0..<160 {
     let fi = Float::from_int(i)
-    let base_x = (i * 119 + i * i * 71) % screen_w
-    let base_y = (i * 73 + i * 29) % screen_h
-    let x = Float::from_int(base_x) + sinf(game.time_s * 0.3 + fi) * 2.0
-    let y = Float::from_int(base_y) + cosf(game.time_s * 0.2 + fi * 1.1) * 2.0
-    let tw : Float = 0.5 + 0.5 * sinf(game.time_s * 1.4 + fi * 0.9)
+    let base_x = (i * 119 + i * i * 71) % @types.screen_w
+    let base_y = (i * 73 + i * 29) % @types.screen_h
+    let x = Float::from_int(base_x) +
+      @types.sinf(game.time_s * 0.3 + fi) * 2.0
+    let y = Float::from_int(base_y) +
+      @types.cosf(game.time_s * 0.2 + fi * 1.1) * 2.0
+    let tw : Float = 0.5 +
+      0.5 * @types.sinf(game.time_s * 1.4 + fi * 0.9)
     let alpha = 45 + (tw * 120.0).to_int()
 
     @raylib.draw_circle(
@@ -83,57 +86,63 @@ fn draw_background(game : Game) -> Unit {
 ///|
 fn draw_grid_and_gate_cell(cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle(
-    (board_left() + cam_x).to_int(),
-    (board_top() + cam_y).to_int(),
-    board_w,
-    board_h,
+    (@types.board_left() + cam_x).to_int(),
+    (@types.board_top() + cam_y).to_int(),
+    @types.board_w,
+    @types.board_h,
     @raylib.Color::new(22, 40, 70, 164),
   )
 
   @raylib.draw_rectangle(
-    (Float::from_int(board_x + gate_gx * cell_size) + cam_x).to_int(),
-    (Float::from_int(board_y + gate_gy * cell_size) + cam_y).to_int(),
-    cell_size,
-    cell_size,
+    (Float::from_int(@types.board_x + @types.gate_gx * @types.cell_size) +
+    cam_x).to_int(),
+    (Float::from_int(@types.board_y + @types.gate_gy * @types.cell_size) +
+    cam_y).to_int(),
+    @types.cell_size,
+    @types.cell_size,
     @raylib.Color::new(40, 70, 108, 150),
   )
 
-  for gx in 0..<(grid_cols + 1) {
-    let x = board_x + gx * cell_size
+  for gx in 0..<(@types.grid_cols + 1) {
+    let x = @types.board_x + gx * @types.cell_size
     @raylib.draw_line(
       (Float::from_int(x) + cam_x).to_int(),
-      (board_top() + cam_y).to_int(),
+      (@types.board_top() + cam_y).to_int(),
       (Float::from_int(x) + cam_x).to_int(),
-      (board_bottom() + cam_y).to_int(),
-      col_grid(),
+      (@types.board_bottom() + cam_y).to_int(),
+      @types.col_grid(),
     )
   }
 
-  for gy in 0..<(grid_rows + 1) {
-    let y = board_y + gy * cell_size
+  for gy in 0..<(@types.grid_rows + 1) {
+    let y = @types.board_y + gy * @types.cell_size
     @raylib.draw_line(
-      (board_left() + cam_x).to_int(),
+      (@types.board_left() + cam_x).to_int(),
       (Float::from_int(y) + cam_y).to_int(),
-      (board_right() + cam_x).to_int(),
+      (@types.board_right() + cam_x).to_int(),
       (Float::from_int(y) + cam_y).to_int(),
-      col_grid(),
+      @types.col_grid(),
     )
   }
 
   @raylib.draw_rectangle_lines(
-    (board_left() + cam_x).to_int(),
-    (board_top() + cam_y).to_int(),
-    board_w,
-    board_h,
+    (@types.board_left() + cam_x).to_int(),
+    (@types.board_top() + cam_y).to_int(),
+    @types.board_w,
+    @types.board_h,
     @raylib.Color::new(150, 206, 232, 180),
   )
 }
 
 ///|
-fn draw_gate(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let gx = gate_x() + cam_x
-  let gy = gate_y() + cam_y
-  let gate_ratio = clampf(game.gate_hp / gate_hp_max, 0.0, 1.0)
+fn draw_gate(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let gx = @types.gate_x() + cam_x
+  let gy = @types.gate_y() + cam_y
+  let gate_ratio = @types.clampf(
+    game.gate_hp / @types.gate_hp_max,
+    0.0,
+    1.0,
+  )
 
   let ring_col = @raylib.Color::new(
     90 + (gate_ratio * 120.0).to_int(),
@@ -142,49 +151,49 @@ fn draw_gate(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     255,
   )
 
-  let pulse : Float = 3.0 * sinf(game.time_s * 4.0)
+  let pulse : Float = 3.0 * @types.sinf(game.time_s * 4.0)
   @raylib.draw_circle(
     gx.to_int(),
     gy.to_int(),
-    gate_radius + 16.0 + pulse,
-    alpha_col(col_gate(), 56),
+    @types.gate_radius + 16.0 + pulse,
+    alpha_col(@types.col_gate(), 56),
   )
   @raylib.draw_circle(
     gx.to_int(),
     gy.to_int(),
-    gate_radius + pulse,
-    alpha_col(col_gate(), 128),
+    @types.gate_radius + pulse,
+    alpha_col(@types.col_gate(), 128),
   )
   @raylib.draw_circle_lines(
     gx.to_int(),
     gy.to_int(),
-    gate_radius + 24.0 + pulse,
+    @types.gate_radius + 24.0 + pulse,
     ring_col,
   )
 
   if game.barrier_flash > 0.0 {
-    let flash_ratio = game.barrier_flash / barrier_flash_time
+    let flash_ratio = game.barrier_flash / @types.barrier_flash_time
     @raylib.draw_circle_lines(
       gx.to_int(),
       gy.to_int(),
-      barrier_radius * (1.0 - flash_ratio * 0.25),
-      alpha_col(col_barrier(), (flash_ratio * 220.0).to_int()),
+      @types.barrier_radius * (1.0 - flash_ratio * 0.25),
+      alpha_col(@types.col_barrier(), (flash_ratio * 220.0).to_int()),
     )
   }
 }
 
 ///|
-fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_nodes(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for node in game.nodes {
     if not(node.active) {
       continue
     }
 
-    let x = cell_center_x(node.gx) + cam_x
-    let y = cell_center_y(node.gy) + cam_y
+    let x = @types.cell_center_x(node.gx) + cam_x
+    let y = @types.cell_center_y(node.gy) + cam_y
     let level_f = Float::from_int(node.level)
     let radius : Float = 13.0 + level_f * 3.8 + node.pulse * 2.4
-    let node_col = col_node(node.level)
+    let node_col = @types.col_node(node.level)
 
     @raylib.draw_circle(
       x.to_int(),
@@ -202,12 +211,12 @@ fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
-      node_range(node.level),
+      @types.node_range(node.level),
       alpha_col(node_col, 36),
     )
 
-    let dx = dir_vec_x(node.facing)
-    let dy = dir_vec_y(node.facing)
+    let dx = @types.dir_vec_x(node.facing)
+    let dy = @types.dir_vec_y(node.facing)
     let tip_x = x + dx * (20.0 + level_f * 4.0)
     let tip_y = y + dy * (20.0 + level_f * 4.0)
 
@@ -228,7 +237,7 @@ fn draw_nodes(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_enemies(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for enemy in game.enemies {
     if not(enemy.active) {
       continue
@@ -236,7 +245,7 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
     let x = enemy.x + cam_x
     let y = enemy.y + cam_y
-    let col = col_enemy(enemy.kind)
+    let col = @types.col_enemy(enemy.kind)
 
     @raylib.draw_circle(
       x.to_int(),
@@ -245,10 +254,10 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       alpha_col(col, 220),
     )
 
-    if enemy.kind == enemy_kind_wraith {
+    if enemy.kind == @types.enemy_kind_wraith {
       let aura = enemy.radius +
         4.0 +
-        sinf(game.time_s * 8.0 + enemy.phase) * 2.0
+        @types.sinf(game.time_s * 8.0 + enemy.phase) * 2.0
       @raylib.draw_circle_lines(
         x.to_int(),
         y.to_int(),
@@ -257,7 +266,11 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       )
     }
 
-    let hp_ratio = clampf(enemy.hp / maxf(enemy.max_hp, 1.0), 0.0, 1.0)
+    let hp_ratio = @types.clampf(
+      enemy.hp / @types.maxf(enemy.max_hp, 1.0),
+      0.0,
+      1.0,
+    )
     let bw = (enemy.radius * 2.2).to_int()
     let bx = x.to_int() - bw / 2
     let by = y.to_int() - enemy.radius.to_int() - 9
@@ -274,7 +287,7 @@ fn draw_enemies(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_bolts(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_bolts(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for bolt in game.bolts {
     if not(bolt.active) {
       continue
@@ -290,31 +303,40 @@ fn draw_bolts(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       tail_y.to_int(),
       x.to_int(),
       y.to_int(),
-      alpha_col(col_gate(), 230),
+      alpha_col(@types.col_gate(), 230),
     )
-    @raylib.draw_circle(x.to_int(), y.to_int(), 3.2, alpha_col(col_gate(), 250))
+    @raylib.draw_circle(
+      x.to_int(),
+      y.to_int(),
+      3.2,
+      alpha_col(@types.col_gate(), 250),
+    )
   }
 }
 
 ///|
 fn pulse_col(kind : Int) -> @raylib.Color {
   if kind == 0 {
-    col_gate()
+    @types.col_gate()
   } else if kind == 1 {
-    col_energy()
+    @types.col_energy()
   } else {
-    col_barrier()
+    @types.col_barrier()
   }
 }
 
 ///|
-fn draw_pulses(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_pulses(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for pulse in game.pulses {
     if not(pulse.active) {
       continue
     }
 
-    let ratio = clampf(pulse.life / maxf(pulse.max_life, 0.0001), 0.0, 1.0)
+    let ratio = @types.clampf(
+      pulse.life / @types.maxf(pulse.max_life, 0.0001),
+      0.0,
+      1.0,
+    )
     @raylib.draw_circle_lines(
       (pulse.x + cam_x).to_int(),
       (pulse.y + cam_y).to_int(),
@@ -325,11 +347,11 @@ fn draw_pulses(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_cursor(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let x = board_x + game.cursor_x * cell_size
-  let y = board_y + game.cursor_y * cell_size
+fn draw_cursor(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let x = @types.board_x + game.cursor_x * @types.cell_size
+  let y = @types.board_y + game.cursor_y * @types.cell_size
 
-  let col = if is_gate_cell(game.cursor_x, game.cursor_y) {
+  let col = if @types.is_gate_cell(game.cursor_x, game.cursor_y) {
     @raylib.Color::new(255, 126, 126, 255)
   } else {
     @raylib.Color::new(222, 246, 255, 255)
@@ -338,22 +360,22 @@ fn draw_cursor(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle_lines(
     (Float::from_int(x) + cam_x).to_int(),
     (Float::from_int(y) + cam_y).to_int(),
-    cell_size,
-    cell_size,
+    @types.cell_size,
+    @types.cell_size,
     alpha_col(col, 255),
   )
   @raylib.draw_rectangle_lines(
     (Float::from_int(x + 3) + cam_x).to_int(),
     (Float::from_int(y + 3) + cam_y).to_int(),
-    cell_size - 6,
-    cell_size - 6,
+    @types.cell_size - 6,
+    @types.cell_size - 6,
     alpha_col(col, 180),
   )
 
-  let cx = cell_center_x(game.cursor_x) + cam_x
-  let cy = cell_center_y(game.cursor_y) + cam_y
-  let dx = dir_vec_x(game.cursor_dir)
-  let dy = dir_vec_y(game.cursor_dir)
+  let cx = @types.cell_center_x(game.cursor_x) + cam_x
+  let cy = @types.cell_center_y(game.cursor_y) + cam_y
+  let dx = @types.dir_vec_x(game.cursor_dir)
+  let dy = @types.dir_vec_y(game.cursor_dir)
 
   @raylib.draw_line(
     cx.to_int(),
@@ -385,7 +407,7 @@ fn draw_meter(
   @raylib.draw_rectangle(
     x,
     y,
-    (Float::from_int(w) * clampf(ratio, 0.0, 1.0)).to_int(),
+    (Float::from_int(w) * @types.clampf(ratio, 0.0, 1.0)).to_int(),
     16,
     meter_col(col, ratio),
   )
@@ -406,33 +428,43 @@ fn draw_meter(
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
+    @types.screen_w,
     146,
     @raylib.Color::new(8, 14, 24, 208),
   )
   @raylib.draw_line(
     0,
     146,
-    screen_w,
+    @types.screen_w,
     146,
     @raylib.Color::new(112, 162, 200, 160),
   )
 
-  let gate_ratio = clampf(game.gate_hp / gate_hp_max, 0.0, 1.0)
-  let energy_ratio = clampf(game.energy / energy_max, 0.0, 1.0)
-  let barrier_ratio = clampf(
-    game.barrier_charge / barrier_charge_goal,
+  let gate_ratio = @types.clampf(
+    game.gate_hp / @types.gate_hp_max,
+    0.0,
+    1.0,
+  )
+  let energy_ratio = @types.clampf(
+    game.energy / @types.energy_max,
+    0.0,
+    1.0,
+  )
+  let barrier_ratio = @types.clampf(
+    game.barrier_charge / @types.barrier_charge_goal,
     0.0,
     1.0,
   )
 
   draw_meter(
     "Gate HP",
-    game.gate_hp.to_int().to_string() + "/" + gate_hp_max.to_int().to_string(),
+    game.gate_hp.to_int().to_string() +
+    "/" +
+    @types.gate_hp_max.to_int().to_string(),
     24,
     30,
     320,
@@ -441,23 +473,25 @@ fn draw_hud(game : Game) -> Unit {
   )
   draw_meter(
     "Energy",
-    game.energy.to_int().to_string() + "/" + energy_max.to_int().to_string(),
+    game.energy.to_int().to_string() +
+    "/" +
+    @types.energy_max.to_int().to_string(),
     24,
     76,
     320,
     energy_ratio,
-    col_energy(),
+    @types.col_energy(),
   )
   draw_meter(
     "Barrier",
     game.barrier_charge.to_int().to_string() +
     "/" +
-    barrier_charge_goal.to_int().to_string(),
+    @types.barrier_charge_goal.to_int().to_string(),
     24,
     122,
     320,
     barrier_ratio,
-    col_barrier(),
+    @types.col_barrier(),
   )
 
   @raylib.draw_text(
@@ -524,7 +558,7 @@ fn draw_hud(game : Game) -> Unit {
   if game.status_t > 0.0 {
     draw_center_text(
       game.status_text,
-      screen_h - 42,
+      @types.screen_h - 42,
       26,
       alpha_col(
         @raylib.Color::new(240, 246, 255, 255),
@@ -535,12 +569,12 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title_overlay(game : Game) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(4, 8, 14, 148),
   )
 
@@ -569,12 +603,12 @@ fn draw_title_overlay(game : Game) -> Unit {
     @raylib.Color::new(190, 218, 246, 230),
   )
 
-  let pulse = 170 + (sinf(game.time_s * 5.0) * 70.0).to_int()
+  let pulse = 170 + (@types.sinf(game.time_s * 5.0) * 70.0).to_int()
   draw_center_text(
     "Press J to Start",
     560,
     44,
-    @raylib.Color::new(252, 220, 128, clampi(pulse, 80, 255)),
+    @raylib.Color::new(252, 220, 128, @types.clampi(pulse, 80, 255)),
   )
   draw_center_text(
     "R also restarts instantly",
@@ -589,11 +623,16 @@ fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 16, 150),
   )
-  draw_center_text("PAUSED", 310, 72, @raylib.Color::new(238, 246, 255, 245))
+  draw_center_text(
+    "PAUSED",
+    310,
+    72,
+    @raylib.Color::new(238, 246, 255, 245),
+  )
   draw_center_text(
     "Press P or K to resume",
     404,
@@ -609,15 +648,20 @@ fn draw_paused_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(28, 10, 14, 165),
   )
-  draw_center_text("GATE LOST", 278, 74, @raylib.Color::new(255, 184, 184, 248))
+  draw_center_text(
+    "GATE LOST",
+    278,
+    74,
+    @raylib.Color::new(255, 184, 184, 248),
+  )
   draw_center_text(
     "Final Score " + game.score.to_string(),
     376,
@@ -654,18 +698,18 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_state_overlay(game : Game) -> Unit {
-  if game.state == state_title {
+fn draw_state_overlay(game : @types.Game) -> Unit {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_paused_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
   let (cam_x, cam_y) = camera_offset(game)
