@@ -185,7 +185,7 @@ fn draw_towers(game : @types.Game) -> Unit {
       @raylib.Color::new(20, 40, 62, 242),
     )
 
-    if game.state == @types.state_play && i == game.nearby_tower {
+    if game.state == Play && i == game.nearby_tower {
       @raylib.draw_circle_lines(
         x,
         y,
@@ -255,7 +255,7 @@ fn draw_depot(game : @types.Game) -> Unit {
     @raylib.Color::new(232, 246, 255, 250),
   )
 
-  if game.state == @types.state_play && game.in_depot {
+  if game.state == Play && game.in_depot {
     @raylib.draw_circle_lines(
       x,
       y,
@@ -362,7 +362,7 @@ fn draw_rover(game : @types.Game) -> Unit {
 
 ///|
 fn draw_whiteout(game : @types.Game) -> Unit {
-  if game.state != @types.state_play || game.storm_intensity <= 0.02 {
+  if game.state != Play || game.storm_intensity <= 0.02 {
     return
   }
 
@@ -646,7 +646,7 @@ fn draw_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(184, 216, 236, 226),
   )
 
-  if game.state == @types.state_play && game.hint_t > 0.0 {
+  if game.state == Play && game.hint_t > 0.0 {
     let a = (@types.clampf(game.hint_t / 1.4, 0.0, 1.0) * 230.0).to_int()
     @raylib.draw_rectangle(
       @types.world_x0 + 14,
@@ -698,7 +698,7 @@ fn draw_touch_btn(
 
 ///|
 fn draw_touch_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != Play {
     return
   }
 
@@ -940,9 +940,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_panel(game)
   draw_touch_controls(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    Play => ()
+    Result => draw_result_overlay(game)
   }
 }

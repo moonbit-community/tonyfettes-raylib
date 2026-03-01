@@ -8,15 +8,6 @@ pub let screen_h : Int = 900
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
 pub let world_x0 : Int = 24
 
 ///|

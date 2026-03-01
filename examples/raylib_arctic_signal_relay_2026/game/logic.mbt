@@ -76,7 +76,7 @@ fn setup_stage(game : @types.Game, stage : Int) -> Unit {
   clear_towers(game)
   clear_storms(game)
 
-  game.state = @types.state_play
+  game.state = Play
   game.stage = if stage < 1 { 1 } else { stage }
   game.result_win = false
   game.result_note = ""
@@ -190,7 +190,7 @@ pub fn init_title_scene(game : @types.Game) -> Unit {
   clear_towers(game)
   clear_storms(game)
 
-  game.state = @types.state_title
+  game.state = Title
   game.stage = 1
   game.mission_limit_s = stage_timer_limit(1)
   game.timer_s = game.mission_limit_s
@@ -492,7 +492,7 @@ fn apply_action(game : @types.Game) -> Unit {
 
 ///|
 fn set_result(game : @types.Game, win : Bool, note : String) -> Unit {
-  game.state = @types.state_result
+  game.state = Result
   game.result_win = win
   game.result_note = note
   game.flash_t = 0.8
@@ -559,26 +559,30 @@ pub fn update_game(game : @types.Game, dt0 : Float) -> Unit {
   game.flash_t = @types.maxf(0.0, game.flash_t - dt)
   game.hint_t = @types.maxf(0.0, game.hint_t - dt)
 
-  if game.state == @types.state_title {
-    update_title_input(game)
-    update_storms(game, dt)
-    if game.input_start_press {
-      setup_stage(game, 1)
+  match game.state {
+    Title => {
+      update_title_input(game)
+      update_storms(game, dt)
+      if game.input_start_press {
+        setup_stage(game, 1)
+      }
     }
-    return
-  }
-
-  if game.state == @types.state_play {
-    update_play_input(game)
-    update_play_state(game, dt)
-    return
-  }
-
-  update_result_input(game)
-  if game.input_next_press {
-    let next_stage = if game.result_win { game.stage + 1 } else { game.stage }
-    setup_stage(game, next_stage)
-  } else if game.input_restart_press {
-    setup_stage(game, 1)
+    Play => {
+      update_play_input(game)
+      update_play_state(game, dt)
+    }
+    Result => {
+      update_result_input(game)
+      if game.input_next_press {
+        let next_stage = if game.result_win {
+          game.stage + 1
+        } else {
+          game.stage
+        }
+        setup_stage(game, next_stage)
+      } else if game.input_restart_press {
+        setup_stage(game, 1)
+      }
+    }
   }
 }

@@ -21,10 +21,17 @@ pub(all) struct Storm {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   towers : Array[Tower]
   storms : Array[Storm]
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut best_stage : Int
   mut mission_limit_s : Float
@@ -88,7 +95,7 @@ pub fn Game::new() -> Game {
   {
     towers: Array::makei(max_towers, fn(_i) { Tower::new() }),
     storms: Array::makei(max_storms, fn(_i) { Storm::new() }),
-    state: state_title,
+    state: Title,
     stage: 1,
     best_stage: 0,
     mission_limit_s: timer_base,
