@@ -111,7 +111,7 @@ fn start_match(game : @types.Game) -> Unit {
   clear_world(game)
   clear_particles(game)
 
-  game.state = @types.state_play
+  game.state = Play
 
   init_player(game)
 
@@ -147,7 +147,7 @@ fn start_match(game : @types.Game) -> Unit {
 
 ///|
 fn flap(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != Play {
     return
   }
 
@@ -319,7 +319,7 @@ fn damage_player(game : @types.Game, msg : String) -> Unit {
   game.shake_t = @types.maxf(game.shake_t, 0.18)
 
   if game.lives <= 0 {
-    game.state = @types.state_result
+    game.state = Result
     game.win = false
     if game.score > game.best_score {
       game.best_score = game.score
@@ -365,7 +365,7 @@ fn collect_pickup(game : @types.Game, i : Int) -> Unit {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != Play {
     return false
   }
 
@@ -513,7 +513,7 @@ fn check_win(game : @types.Game) -> Unit {
     return
   }
 
-  game.state = @types.state_result
+  game.state = Result
   game.win = true
   if game.score > game.best_score {
     game.best_score = game.score
@@ -560,7 +560,7 @@ pub fn update_play(game : @types.Game, dt : Float) -> Unit {
 
   update_particles(game, dt)
 
-  if game.state != @types.state_play {
+  if game.state != Play {
     return
   }
 

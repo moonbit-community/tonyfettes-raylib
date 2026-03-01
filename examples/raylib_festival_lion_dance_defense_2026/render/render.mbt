@@ -108,7 +108,7 @@ fn draw_background(game : @types.Game, ox : Int, oy : Int) -> Unit {
 fn draw_lanes(game : @types.Game, ox : Int, oy : Int) -> Unit {
   ignore(game)
 
-  for lane in 0..< @types.lane_count {
+  for lane in 0..<@types.lane_count {
     let cy = @types.lane_y(lane).to_int() + oy
     let y0 = cy - @types.lane_height / 2
 
@@ -759,11 +759,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_controls_legend()
   draw_message(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_paused {
-    draw_pause_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    Paused => draw_pause_overlay()
+    GameOver => draw_game_over_overlay(game)
+    Playing => ()
   }
 }

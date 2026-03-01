@@ -418,7 +418,7 @@ fn draw_side_panel(game : @types.Game) -> Unit {
       hint_rect.2,
       hint_rect.3,
     ),
-    game.state == @types.state_play,
+    game.state == Play,
   )
 
   draw_button(
@@ -435,7 +435,7 @@ fn draw_side_panel(game : @types.Game) -> Unit {
       shuffle_rect.2,
       shuffle_rect.3,
     ),
-    game.state == @types.state_play,
+    game.state == Play,
   )
 
   draw_button(
@@ -571,20 +571,18 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(12, 16, 28, 172),
   )
 
-  let title = if game.state == @types.state_level_clear {
-    "LEVEL CLEARED"
-  } else {
-    "OUT OF MOVES"
+  let title = match game.state {
+    LevelClear => "LEVEL CLEARED"
+    _ => "OUT OF MOVES"
   }
   @raylib.draw_text(
     title,
     @types.screen_w / 2 - 250,
     164,
     66,
-    if game.state == @types.state_level_clear {
-      @raylib.Color::new(170, 255, 210, 244)
-    } else {
-      @raylib.Color::new(255, 182, 182, 244)
+    match game.state {
+      LevelClear => @raylib.Color::new(170, 255, 210, 244)
+      _ => @raylib.Color::new(255, 182, 182, 244)
     },
   )
 
@@ -618,10 +616,10 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     action.3,
   )
 
-  if game.state == @types.state_level_clear {
-    draw_button("Next Level", "Enter / Space / Tap", action, hover, true)
-  } else {
-    draw_button("Play Again", "Enter / Space / Tap", action, hover, true)
+  match game.state {
+    LevelClear =>
+      draw_button("Next Level", "Enter / Space / Tap", action, hover, true)
+    _ => draw_button("Play Again", "Enter / Space / Tap", action, hover, true)
   }
 
   @raylib.draw_text(
@@ -641,15 +639,12 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_selection(game)
   draw_side_panel(game)
   draw_message(game)
-
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_level_clear ||
-            game.state == @types.state_game_over {
-    draw_result_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    LevelClear | GameOver => draw_result_overlay(game)
+    Play => ()
   }
-
-  if game.state == @types.state_play && game.touch_mode {
+  if game.state == Play && game.touch_mode {
     @raylib.draw_text(
       "Touch ready: tap two adjacent candies",
       @types.board_x(),

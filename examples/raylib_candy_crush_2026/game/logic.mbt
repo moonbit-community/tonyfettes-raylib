@@ -473,7 +473,7 @@ fn restart_run(game : @types.Game) -> Unit {
   game.hint_active = false
   game.swap_flash_t = 0.0
   prepare_level_board(game)
-  game.state = @types.state_play
+  game.state = Play
   set_message(game, "Crush all jelly tiles before moves run out.")
 }
 
@@ -488,7 +488,7 @@ fn start_next_level(game : @types.Game) -> Unit {
   game.hint_active = false
   game.swap_flash_t = 0.0
   prepare_level_board(game)
-  game.state = @types.state_play
+  game.state = Play
   set_message(game, "Level " + game.level.to_string() + " begins.")
 }
 
@@ -502,13 +502,13 @@ fn restart_level(game : @types.Game) -> Unit {
   game.hint_active = false
   game.swap_flash_t = 0.0
   prepare_level_board(game)
-  game.state = @types.state_play
+  game.state = Play
   set_message(game, "Level reset.")
 }
 
 ///|
 fn begin_level_clear(game : @types.Game) -> Unit {
-  game.state = @types.state_level_clear
+  game.state = LevelClear
   if game.score > game.best_score {
     game.best_score = game.score
   }
@@ -517,7 +517,7 @@ fn begin_level_clear(game : @types.Game) -> Unit {
 
 ///|
 fn begin_game_over(game : @types.Game) -> Unit {
-  game.state = @types.state_game_over
+  game.state = GameOver
   if game.score > game.best_score {
     game.best_score = game.score
   }
@@ -754,12 +754,9 @@ fn update_timers(game : @types.Game, dt : Float) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   update_timers(game, dt)
-
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    Title => update_title_input(game)
+    Play => update_play_input(game)
+    LevelClear | GameOver => update_result_input(game)
   }
 }

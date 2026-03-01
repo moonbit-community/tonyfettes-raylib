@@ -86,9 +86,7 @@ fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
     for x = -120; x < @types.screen_w + 180; x = x + 30 {
       let fx = Float::from_int(x)
-      let wave = @types.sinf(
-        fx * 0.011 + game.time_s * (0.74 + fb * 0.14) + fb,
-      )
+      let wave = @types.sinf(fx * 0.011 + game.time_s * (0.74 + fb * 0.14) + fb)
       let wave2 = @types.cosf(
         fx * 0.018 + game.time_s * (0.54 + fb * 0.13) + fb * 1.2,
       )
@@ -113,11 +111,7 @@ fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_far_clouds(
-  game : @types.Game,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_far_clouds(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for i in 0..<24 {
     let fi = Float::from_int(i)
     let speed : Float = 14.0 + fi * 0.9
@@ -150,11 +144,7 @@ fn draw_far_clouds(
 }
 
 ///|
-fn draw_wind_lanes(
-  game : @types.Game,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_wind_lanes(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let intensity = @types.clampf(
     @types.absf(game.wind_x) /
     (@types.wind_base + Float::from_int(game.stage) * @types.wind_stage_bonus),
@@ -165,13 +155,13 @@ fn draw_wind_lanes(
 
   for i in 0..<count {
     let fi = Float::from_int(i)
-    let x = (fi * 76.0 +
-      game.time_s * (140.0 + @types.absf(game.wind_x) * 0.46)) %
+    let x = (
+        fi * 76.0 + game.time_s * (140.0 + @types.absf(game.wind_x) * 0.46)
+      ) %
       (Float::from_int(@types.screen_w) + 180.0) -
       90.0
     let y = @types.play_top +
-      (fi * 47.0 + fi * fi * 0.9) %
-      (@types.play_bottom - @types.play_top)
+      (fi * 47.0 + fi * fi * 0.9) % (@types.play_bottom - @types.play_top)
     let len : Float = 20.0 + intensity * 40.0
     let dy = game.wind_y * 0.06
 
@@ -219,8 +209,7 @@ fn draw_anchor_and_rope(
   let ey = ky + cam_y
 
   let stretch = @types.clampf(
-    @types.sqrtf(@types.dist2(ax, ay, kx, ky)) /
-    @types.maxf(game.rope_len, 1.0),
+    @types.sqrtf(@types.dist2(ax, ay, kx, ky)) / @types.maxf(game.rope_len, 1.0),
     0.0,
     1.4,
   )
@@ -284,11 +273,7 @@ fn obj_col(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_lantern(
-  o : @types.SkyObj,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_lantern(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
   let x = o.x + cam_x
   let y = o.y + cam_y
   let glow : Float = 0.5 + 0.5 * @types.sinf(o.phase * 4.0)
@@ -357,11 +342,7 @@ fn draw_bird(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_storm(
-  o : @types.SkyObj,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_storm(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
   let x = o.x + cam_x
   let y = o.y + cam_y
   let pulse : Float = 0.5 + 0.5 * @types.sinf(o.phase * 3.2)
@@ -443,11 +424,7 @@ fn draw_koi(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_obj(
-  o : @types.SkyObj,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_obj(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
   if not(o.active) {
     return
   }
@@ -568,9 +545,7 @@ fn draw_kite(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for i in 0..<8 {
     let fi = Float::from_int(i)
     let sway = @types.sinf(game.kite.anim_t * 8.0 + fi * 0.6) * 8.0
-    let tx = x +
-      @types.sinf(game.kite.angle * 0.02) * fi * 1.8 +
-      sway * 0.16
+    let tx = x + @types.sinf(game.kite.angle * 0.02) * fi * 1.8 + sway * 0.16
     let ty = y + fi * 14.0 + sway
 
     @raylib.draw_circle(
@@ -759,9 +734,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     320,
     24,
     Float::from_int(game.score),
-    Float::from_int(
-      @types.maxf(Float::from_int(game.stage_goal), 1.0).to_int(),
-    ),
+    Float::from_int(@types.maxf(Float::from_int(game.stage_goal), 1.0).to_int()),
     "GOAL",
     @types.wind_col(),
   )
@@ -841,14 +814,16 @@ fn draw_hud(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state == @types.state_play {
-    @raylib.draw_text(
-      "WASD move  SPACE burst  J/SHIFT reel",
-      20,
-      @types.hud_h + 6,
-      20,
-      @raylib.Color::new(186, 220, 244, 204),
-    )
+  match game.state {
+    @types.Play =>
+      @raylib.draw_text(
+        "WASD move  SPACE burst  J/SHIFT reel",
+        20,
+        @types.hud_h + 6,
+        20,
+        @raylib.Color::new(186, 220, 244, 204),
+      )
+    _ => ()
   }
 }
 
@@ -914,27 +889,29 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     return
   }
 
-  if game.state == @types.state_play {
-    draw_button_visual("<", @types.btn_left_rect(), game.input_x < -0.2, game)
-    draw_button_visual(">", @types.btn_right_rect(), game.input_x > 0.2, game)
-    draw_button_visual("^", @types.btn_up_rect(), game.input_y < -0.2, game)
-    draw_button_visual("v", @types.btn_down_rect(), game.input_y > 0.2, game)
-    draw_button_visual(
-      "BURST",
-      @types.btn_burst_rect(),
-      game.input_burst_press,
-      game,
-    )
-    draw_button_visual(
-      "REEL",
-      @types.btn_reel_rect(),
-      game.input_reel_hold,
-      game,
-    )
-  } else if game.state == @types.state_title {
-    draw_button_visual("START", @types.title_start_rect(), false, game)
-  } else {
-    draw_button_visual("RETRY", @types.retry_rect(), false, game)
+  match game.state {
+    @types.Play => {
+      draw_button_visual("<", @types.btn_left_rect(), game.input_x < -0.2, game)
+      draw_button_visual(">", @types.btn_right_rect(), game.input_x > 0.2, game)
+      draw_button_visual("^", @types.btn_up_rect(), game.input_y < -0.2, game)
+      draw_button_visual("v", @types.btn_down_rect(), game.input_y > 0.2, game)
+      draw_button_visual(
+        "BURST",
+        @types.btn_burst_rect(),
+        game.input_burst_press,
+        game,
+      )
+      draw_button_visual(
+        "REEL",
+        @types.btn_reel_rect(),
+        game.input_reel_hold,
+        game,
+      )
+    }
+    @types.Title =>
+      draw_button_visual("START", @types.title_start_rect(), false, game)
+    @types.StageClear | @types.GameOver =>
+      draw_button_visual("RETRY", @types.retry_rect(), false, game)
   }
 }
 
@@ -980,12 +957,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(148, 206, 244, 214),
   )
 
-  draw_center_text(
-    "CONTROLS",
-    264,
-    32,
-    @raylib.Color::new(242, 248, 255, 240),
-  )
+  draw_center_text("CONTROLS", 264, 32, @raylib.Color::new(242, 248, 255, 240))
   draw_center_text(
     "WASD / arrows: steer kite in all directions",
     310,
@@ -1069,12 +1041,7 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(6, 20, 30, 122),
   )
 
-  draw_center_text(
-    "STAGE CLEAR",
-    y,
-    68,
-    @raylib.Color::new(156, 255, 228, 246),
-  )
+  draw_center_text("STAGE CLEAR", y, 68, @raylib.Color::new(156, 255, 228, 246))
   draw_center_text(
     "Bonus +" + (220 + game.stage * 90).to_string(),
     y + 78,
@@ -1103,12 +1070,7 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(12, 8, 18, 172),
   )
 
-  draw_center_text(
-    "FESTIVAL LOST",
-    150,
-    66,
-    @types.a_col(@types.pink(), 248),
-  )
+  draw_center_text("FESTIVAL LOST", 150, 66, @types.a_col(@types.pink(), 248))
   draw_center_text(
     "The storm swallowed your signal kite",
     226,
@@ -1244,18 +1206,17 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_world(game, shake.0, shake.1)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.StageClear => draw_stage_clear_overlay(game)
+    @types.GameOver => draw_game_over_overlay(game)
+    @types.Play => ()
   }
 
   draw_touch_controls(game)
   draw_flash(game)
 
-  if game.state == @types.state_play && game.touch_mode {
+  if game.state == @types.Play && game.touch_mode {
     draw_center_text(
       "Mobile: tap directional and action pads",
       @types.screen_h - 24,

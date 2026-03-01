@@ -576,8 +576,7 @@ fn draw_panel(game : @types.Game) -> Unit {
 fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Flappy Sky Ruins 2026",
-    @types.screen_w / 2 -
-    @raylib.measure_text("Flappy Sky Ruins 2026", 86) / 2,
+    @types.screen_w / 2 - @raylib.measure_text("Flappy Sky Ruins 2026", 86) / 2,
     110,
     86,
     @raylib.Color::new(238, 248, 255, 248),

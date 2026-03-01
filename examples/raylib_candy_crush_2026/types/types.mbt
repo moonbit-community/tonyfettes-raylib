@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   kinds : Array[Int]
   specials : Array[Int]
@@ -6,7 +14,7 @@ pub(all) struct Game {
   flash : Array[Float]
   marks : Array[Bool]
   spawn_special : Array[Int]
-  mut state : Int
+  mut state : GameState
   mut level : Int
   mut score : Int
   mut best_score : Int
@@ -48,7 +56,7 @@ pub fn Game::new() -> Game {
     flash: Array::make(board_cells, 0.0),
     marks: Array::make(board_cells, false),
     spawn_special: Array::make(board_cells, special_none),
-    state: state_title,
+    state: Title,
     level: 1,
     score: 0,
     best_score: 0,

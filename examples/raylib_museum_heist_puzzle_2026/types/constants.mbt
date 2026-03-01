@@ -38,42 +38,6 @@ pub let panel_w : Int = screen_w - panel_x - 22
 pub let panel_h : Int = screen_h - 44
 
 ///|
-pub let tile_floor : Int = 0
-
-///|
-pub let tile_wall : Int = 1
-
-///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_win : Int = 2
-
-///|
-pub let state_lose : Int = 3
-
-///|
-pub let state_campaign_clear : Int = 4
-
-///|
-pub let dir_none : Int = 0
-
-///|
-pub let dir_left : Int = 1
-
-///|
-pub let dir_right : Int = 2
-
-///|
-pub let dir_up : Int = 3
-
-///|
-pub let dir_down : Int = 4
-
-///|
 pub let player_step_interval : Float = 0.14
 
 ///|

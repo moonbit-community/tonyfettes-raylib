@@ -163,8 +163,7 @@ fn draw_towers(game : @types.Game) -> Unit {
     let x = game.towers[i].x.to_int()
     let y = game.towers[i].y.to_int()
 
-    let pulse : Float = 0.8 +
-      0.2 * @types.sinf(game.towers[i].pulse_t * 2.2)
+    let pulse : Float = 0.8 + 0.2 * @types.sinf(game.towers[i].pulse_t * 2.2)
 
     @raylib.draw_circle(
       x,
@@ -172,12 +171,7 @@ fn draw_towers(game : @types.Game) -> Unit {
       @types.tower_hit_r() + 14.0 + pulse * 4.0,
       col_a(base_col, 56),
     )
-    @raylib.draw_circle(
-      x,
-      y,
-      @types.tower_hit_r() + 3.0,
-      col_a(base_col, 204),
-    )
+    @raylib.draw_circle(x, y, @types.tower_hit_r() + 3.0, col_a(base_col, 204))
     @raylib.draw_circle(
       x,
       y,
@@ -197,10 +191,8 @@ fn draw_towers(game : @types.Game) -> Unit {
     let slots = @types.clampi(game.towers[i].need, 1, 6)
     for k in 0..<slots {
       let a = Float::from_int(k) / Float::from_int(slots) * 6.283
-      let px = game.towers[i].x +
-        @types.cosf(a) * (@types.tower_hit_r() + 17.0)
-      let py = game.towers[i].y +
-        @types.sinf(a) * (@types.tower_hit_r() + 17.0)
+      let px = game.towers[i].x + @types.cosf(a) * (@types.tower_hit_r() + 17.0)
+      let py = game.towers[i].y + @types.sinf(a) * (@types.tower_hit_r() + 17.0)
       let col = if k < game.towers[i].delivered {
         @raylib.Color::new(232, 255, 208, 236)
       } else {
@@ -381,10 +373,10 @@ fn draw_whiteout(game : @types.Game) -> Unit {
     let fi = Float::from_int(i)
     let x0 = @types.world_left() +
       (fi * 76.0 + game.ui_t * (220.0 + fog * 120.0)) %
-        Float::from_int(@types.world_w)
+      Float::from_int(@types.world_w)
     let y0 = @types.world_top() +
       (fi * 47.0 + fi * fi * 0.33 + game.ui_t * 40.0) %
-        Float::from_int(@types.world_h)
+      Float::from_int(@types.world_h)
 
     let len : Float = 18.0 + fog * 34.0
 
@@ -419,12 +411,7 @@ fn draw_whiteout(game : @types.Game) -> Unit {
     @types.world_y0 + @types.world_h,
   )
 
-  let shadow = @raylib.Color::new(
-    10,
-    18,
-    28,
-    42 + (fog * 58.0).to_int(),
-  )
+  let shadow = @raylib.Color::new(10, 18, 28, 42 + (fog * 58.0).to_int())
   let wx1 = @types.world_x0 + @types.world_w
   let wy1 = @types.world_y0 + @types.world_h
 
@@ -435,20 +422,8 @@ fn draw_whiteout(game : @types.Game) -> Unit {
     vy0 - @types.world_y0,
     shadow,
   )
-  draw_mask_rect(
-    @types.world_x0,
-    vy1,
-    @types.world_w,
-    wy1 - vy1,
-    shadow,
-  )
-  draw_mask_rect(
-    @types.world_x0,
-    vy0,
-    vx0 - @types.world_x0,
-    vy1 - vy0,
-    shadow,
-  )
+  draw_mask_rect(@types.world_x0, vy1, @types.world_w, wy1 - vy1, shadow)
+  draw_mask_rect(@types.world_x0, vy0, vx0 - @types.world_x0, vy1 - vy0, shadow)
   draw_mask_rect(vx1, vy0, wx1 - vx1, vy1 - vy0, shadow)
 
   @raylib.draw_circle_lines(
@@ -714,7 +689,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
   let action_btn = @types.touch_action_rect()
 
   let left_held = @types.pointer_on_rect(
-    mx, my, hold, touch_count, left_btn.0, left_btn.1, left_btn.2, left_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    left_btn.0,
+    left_btn.1,
+    left_btn.2,
+    left_btn.3,
   )
   let right_held = @types.pointer_on_rect(
     mx,
@@ -727,10 +709,24 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     right_btn.3,
   )
   let up_held = @types.pointer_on_rect(
-    mx, my, hold, touch_count, up_btn.0, up_btn.1, up_btn.2, up_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    up_btn.0,
+    up_btn.1,
+    up_btn.2,
+    up_btn.3,
   )
   let down_held = @types.pointer_on_rect(
-    mx, my, hold, touch_count, down_btn.0, down_btn.1, down_btn.2, down_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    down_btn.0,
+    down_btn.1,
+    down_btn.2,
+    down_btn.3,
   )
   let action_held = @types.pointer_on_rect(
     mx,

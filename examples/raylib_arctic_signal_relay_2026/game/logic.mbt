@@ -53,7 +53,12 @@ fn set_hint(game : @types.Game, text : String, ttl : Float) -> Unit {
 }
 
 ///|
-fn tower_spot_ok(game : @types.Game, placed : Int, x : Float, y : Float) -> Bool {
+fn tower_spot_ok(
+  game : @types.Game,
+  placed : Int,
+  x : Float,
+  y : Float,
+) -> Bool {
   if @types.dist2(x, y, @types.depot_x(), @types.depot_y()) < 250.0 * 250.0 {
     return false
   }
@@ -224,12 +229,8 @@ pub fn init_title_scene(game : @types.Game) -> Unit {
 
   for i in 0..<2 {
     game.storms[i].active = true
-    game.storms[i].x = @types.world_left() +
-      500.0 +
-      Float::from_int(i) * 200.0
-    game.storms[i].y = @types.world_top() +
-      260.0 +
-      Float::from_int(i) * 180.0
+    game.storms[i].x = @types.world_left() + 500.0 + Float::from_int(i) * 200.0
+    game.storms[i].y = @types.world_top() + 260.0 + Float::from_int(i) * 180.0
     game.storms[i].r = 120.0
     game.storms[i].vx = 42.0 - Float::from_int(i) * 18.0
     game.storms[i].vy = 34.0 + Float::from_int(i) * 20.0
@@ -239,11 +240,7 @@ pub fn init_title_scene(game : @types.Game) -> Unit {
 }
 
 ///|
-fn closest_pending_tower(
-  game : @types.Game,
-  x : Float,
-  y : Float,
-) -> Int {
+fn closest_pending_tower(game : @types.Game, x : Float, y : Float) -> Int {
   let mut best_idx = -1
   let mut best_d2 = @types.tower_interact_r() * @types.tower_interact_r()
 
@@ -268,7 +265,10 @@ fn closest_pending_tower(
 ///|
 fn update_proximity(game : @types.Game) -> Unit {
   game.in_depot = @types.dist2(
-      game.rover_x, game.rover_y, @types.depot_x(), @types.depot_y(),
+      game.rover_x,
+      game.rover_y,
+      @types.depot_x(),
+      @types.depot_y(),
     ) <=
     @types.depot_r() * @types.depot_r()
   game.nearby_tower = closest_pending_tower(game, game.rover_x, game.rover_y)
@@ -421,17 +421,12 @@ fn update_rover(
 }
 
 ///|
-fn update_resources(
-  game : @types.Game,
-  dt : Float,
-  intensity : Float,
-) -> Unit {
+fn update_resources(game : @types.Game, dt : Float, intensity : Float) -> Unit {
   let speed = @types.absf(game.rover_vx) + @types.absf(game.rover_vy)
   let energy_drain = @types.energy_idle_drain +
     speed * @types.energy_move_drain +
     intensity * @types.energy_storm_drain
-  let heat_drain = @types.heat_idle_drain +
-    intensity * @types.heat_storm_drain
+  let heat_drain = @types.heat_idle_drain + intensity * @types.heat_storm_drain
 
   let mut next_energy = game.rover_energy - energy_drain * dt
   let mut next_heat = game.rover_heat - heat_drain * dt
@@ -560,18 +555,18 @@ pub fn update_game(game : @types.Game, dt0 : Float) -> Unit {
   game.hint_t = @types.maxf(0.0, game.hint_t - dt)
 
   match game.state {
-    Title => {
+    @types.Title => {
       update_title_input(game)
       update_storms(game, dt)
       if game.input_start_press {
         setup_stage(game, 1)
       }
     }
-    Play => {
+    @types.Play => {
       update_play_input(game)
       update_play_state(game, dt)
     }
-    Result => {
+    @types.Result => {
       update_result_input(game)
       if game.input_next_press {
         let next_stage = if game.result_win {

@@ -48,16 +48,16 @@ pub fn in_bounds(x : Int, y : Int) -> Bool {
 }
 
 ///|
-pub fn tile_at(game : Game, x : Int, y : Int) -> Int {
+pub fn tile_at(game : Game, x : Int, y : Int) -> TileKind {
   if in_bounds(x, y) {
     game.tiles[cell_index(x, y)]
   } else {
-    tile_wall
+    Wall
   }
 }
 
 ///|
-pub fn set_tile(game : Game, x : Int, y : Int, tile : Int) -> Unit {
+pub fn set_tile(game : Game, x : Int, y : Int, tile : TileKind) -> Unit {
   if in_bounds(x, y) {
     game.tiles[cell_index(x, y)] = tile
   }
@@ -65,13 +65,13 @@ pub fn set_tile(game : Game, x : Int, y : Int, tile : Int) -> Unit {
 
 ///|
 pub fn walkable(game : Game, x : Int, y : Int) -> Bool {
-  tile_at(game, x, y) == tile_floor
+  tile_at(game, x, y) == Floor
 }
 
 ///|
 pub fn fill_board_floor(game : Game) -> Unit {
   for i in 0..<game.tiles.length() {
-    game.tiles[i] = tile_floor
+    game.tiles[i] = Floor
   }
 }
 
@@ -79,16 +79,22 @@ pub fn fill_board_floor(game : Game) -> Unit {
 pub fn add_wall_rect(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
   for yy in y..<(y + h) {
     for xx in x..<(x + w) {
-      set_tile(game, xx, yy, tile_wall)
+      set_tile(game, xx, yy, Wall)
     }
   }
 }
 
 ///|
-pub fn carve_floor_rect(game : Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
+pub fn carve_floor_rect(
+  game : Game,
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+) -> Unit {
   for yy in y..<(y + h) {
     for xx in x..<(x + w) {
-      set_tile(game, xx, yy, tile_floor)
+      set_tile(game, xx, yy, Floor)
     }
   }
 }
@@ -111,7 +117,7 @@ pub fn clear_entities(game : Game) -> Unit {
 
 ///|
 pub fn spawn_artifact(game : Game, x : Int, y : Int) -> Unit {
-  if tile_at(game, x, y) != tile_floor {
+  if tile_at(game, x, y) != Floor {
     return
   }
 
@@ -175,17 +181,13 @@ pub fn pc(x : Int, y : Int) -> Int {
 }
 
 ///|
-pub fn dir_delta(dir : Int) -> (Int, Int) {
-  if dir == dir_left {
-    (-1, 0)
-  } else if dir == dir_right {
-    (1, 0)
-  } else if dir == dir_up {
-    (0, -1)
-  } else if dir == dir_down {
-    (0, 1)
-  } else {
-    (0, 0)
+pub fn dir_delta(dir : Direction) -> (Int, Int) {
+  match dir {
+    DirNone => (0, 0)
+    Left => (-1, 0)
+    Right => (1, 0)
+    Up => (0, -1)
+    Down => (0, 1)
   }
 }
 
@@ -223,7 +225,7 @@ pub fn has_line_of_sight(
     if x == to_x && y == to_y {
       break
     }
-    if tile_at(game, x, y) == tile_wall {
+    if tile_at(game, x, y) == Wall {
       return false
     }
   }
@@ -254,7 +256,7 @@ pub fn guard_sees_cell(game : Game, g : Guard, cx : Int, cy : Int) -> Bool {
   if not(in_bounds(cx, cy)) {
     return false
   }
-  if tile_at(game, cx, cy) == tile_wall {
+  if tile_at(game, cx, cy) == Wall {
     return false
   }
   if cx == g.x && cy == g.y {

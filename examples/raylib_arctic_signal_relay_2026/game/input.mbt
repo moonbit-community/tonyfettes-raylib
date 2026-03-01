@@ -34,7 +34,12 @@ fn update_title_input(game : @types.Game) -> Unit {
 
   let mouse_start = @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
     @types.point_in_rect(
-      mx, my, start_btn.0, start_btn.1, start_btn.2, start_btn.3,
+      mx,
+      my,
+      start_btn.0,
+      start_btn.1,
+      start_btn.2,
+      start_btn.3,
     )
 
   let touch_start = hover && not(game.touch_start_prev)
@@ -75,7 +80,14 @@ fn update_play_input(game : @types.Game) -> Unit {
     @raylib.is_key_down(@raylib.KeyDown)
 
   let t_left = @types.pointer_on_rect(
-    mx, my, hold, touch_count, left_btn.0, left_btn.1, left_btn.2, left_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    left_btn.0,
+    left_btn.1,
+    left_btn.2,
+    left_btn.3,
   )
   let t_right = @types.pointer_on_rect(
     mx,
@@ -88,10 +100,24 @@ fn update_play_input(game : @types.Game) -> Unit {
     right_btn.3,
   )
   let t_up = @types.pointer_on_rect(
-    mx, my, hold, touch_count, up_btn.0, up_btn.1, up_btn.2, up_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    up_btn.0,
+    up_btn.1,
+    up_btn.2,
+    up_btn.3,
   )
   let t_down = @types.pointer_on_rect(
-    mx, my, hold, touch_count, down_btn.0, down_btn.1, down_btn.2, down_btn.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    down_btn.0,
+    down_btn.1,
+    down_btn.2,
+    down_btn.3,
   )
 
   if key_left || t_left {
@@ -183,7 +209,12 @@ fn update_result_input(game : @types.Game) -> Unit {
 
   let mouse_restart = @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
     @types.point_in_rect(
-      mx, my, secondary.0, secondary.1, secondary.2, secondary.3,
+      mx,
+      my,
+      secondary.0,
+      secondary.1,
+      secondary.2,
+      secondary.3,
     )
 
   let touch_next = primary_hover && not(game.touch_next_prev)

@@ -306,7 +306,7 @@ fn hurt_kite(game : @types.Game, dmg : Float) -> Unit {
   spawn_halo(game, game.kite.x, game.kite.y, 12.0, 0.52, 1)
 
   if game.calm <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 }
@@ -319,7 +319,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
   clear_trails(game)
   reset_kite(game)
 
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.stage_goal = @types.stage_goal_base
   game.score = 0
@@ -358,9 +358,10 @@ fn start_stage(game : @types.Game, stage : Int) -> Unit {
   clear_trails(game)
   reset_kite(game)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = stage
-  game.stage_goal = @types.stage_goal_base + (stage - 1) * @types.stage_goal_bonus
+  game.stage_goal = @types.stage_goal_base +
+    (stage - 1) * @types.stage_goal_bonus
 
   game.time_left = @types.stage_time_base +
     Float::from_int(stage - 1) * @types.stage_time_bonus
@@ -538,10 +539,7 @@ fn spawn_step(game : @types.Game, dt : Float) -> Unit {
 
   if game.spawn_t <= 0.0 {
     spawn_wave(game)
-    let base = @types.maxf(
-      0.26,
-      1.06 - Float::from_int(game.stage - 1) * 0.08,
-    )
+    let base = @types.maxf(0.26, 1.06 - Float::from_int(game.stage - 1) * 0.08)
     game.spawn_t = base + @types.randf(0.0, 0.52)
   }
 }
@@ -563,8 +561,7 @@ fn update_wind(game : @types.Game, dt : Float) -> Unit {
 
   let wave = @types.sinf(game.gust_phase * 3.2)
   game.wind_x = game.wind_x + wave * 8.0 * dt
-  game.wind_y = game.wind_y +
-    @types.cosf(game.gust_phase * 2.6) * 6.0 * dt
+  game.wind_y = game.wind_y + @types.cosf(game.gust_phase * 2.6) * 6.0 * dt
 }
 
 ///|
@@ -652,10 +649,7 @@ fn update_kite(game : @types.Game, dt : Float) -> Unit {
       @types.kite_rope_len_min,
       game.rope_len - @types.reel_rate * dt,
     )
-    game.energy = @types.maxf(
-      0.0,
-      game.energy - @types.reel_energy_cost * dt,
-    )
+    game.energy = @types.maxf(0.0, game.energy - @types.reel_energy_cost * dt)
     game.kite.reel_glow = @types.maxf(game.kite.reel_glow, 0.24)
   } else {
     game.rope_len = @types.minf(
@@ -674,10 +668,8 @@ fn update_kite(game : @types.Game, dt : Float) -> Unit {
     let ny = dy / d
     let over = d - game.rope_len
 
-    game.kite.vx = game.kite.vx -
-      nx * over * @types.kite_rope_spring * dt
-    game.kite.vy = game.kite.vy -
-      ny * over * @types.kite_rope_spring * dt
+    game.kite.vx = game.kite.vx - nx * over * @types.kite_rope_spring * dt
+    game.kite.vy = game.kite.vy - ny * over * @types.kite_rope_spring * dt
 
     game.kite.x = anchor_x + nx * game.rope_len
     game.kite.y = anchor_y + ny * game.rope_len
@@ -767,10 +759,7 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
         52.0,
         obj.w + @types.sinf(obj.phase * 3.0) * 12.0 * dt,
       )
-      obj.h = @types.maxf(
-        36.0,
-        obj.h + @types.cosf(obj.phase * 2.4) * 9.0 * dt,
-      )
+      obj.h = @types.maxf(36.0, obj.h + @types.cosf(obj.phase * 2.4) * 9.0 * dt)
 
       if @types.chance(14) {
         emit_spark(
@@ -939,12 +928,12 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.calm <= 0.0 || game.time_left <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 
-  if game.state == @types.state_play && game.score >= game.stage_goal {
-    game.state = @types.state_stage_clear
+  if game.state == @types.Play && game.score >= game.stage_goal {
+    game.state = @types.StageClear
     game.result_t = 0.0
     add_score(game, 220 + game.stage * 90)
     game.energy = @types.minf(@types.energy_max, game.energy + 22.0)
@@ -985,8 +974,7 @@ fn update_stage_clear(game : @types.Game, dt : Float) -> Unit {
     )
   }
 
-  if game.input_restart_press ||
-    game.result_t >= @types.stage_clear_wait {
+  if game.input_restart_press || game.result_t >= @types.stage_clear_wait {
     start_stage(game, game.stage + 1)
   }
 }
@@ -1005,24 +993,19 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Handle input based on current state
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    @types.Title => update_title_input(game)
+    @types.Play => update_play_input(game)
+    @types.StageClear | @types.GameOver => update_result_input(game)
   }
 
   update_timers(game, dt)
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else {
-    update_game_over(game, dt)
+  match game.state {
+    @types.Title => update_title(game, dt)
+    @types.Play => update_play(game, dt)
+    @types.StageClear => update_stage_clear(game, dt)
+    @types.GameOver => update_game_over(game, dt)
   }
 
   if game.score > game.best_score {

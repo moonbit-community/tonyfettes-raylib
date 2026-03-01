@@ -154,23 +154,25 @@ fn update_result_input(game : @types.Game) -> Unit {
     action = true
   }
 
-  if game.state == @types.state_level_clear {
-    if action {
-      start_next_level(game)
-      return
+  match game.state {
+    LevelClear => {
+      if action {
+        start_next_level(game)
+        return
+      }
+      if @raylib.is_key_pressed(@raylib.KeyR) {
+        restart_level(game)
+        return
+      }
     }
-
-    if @raylib.is_key_pressed(@raylib.KeyR) {
-      restart_level(game)
-      return
-    }
-  } else if action {
-    restart_run(game)
-    return
+    _ =>
+      if action {
+        restart_run(game)
+        return
+      }
   }
-
   if @raylib.is_key_pressed(@raylib.KeyT) {
-    game.state = @types.state_title
+    game.state = Title
     clear_selection(game)
   }
 }

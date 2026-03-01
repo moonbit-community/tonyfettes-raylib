@@ -67,11 +67,11 @@ fn reset_students(game : @types.Game) -> Unit {
 
 ///|
 fn set_game_over(game : @types.Game, reason : String) -> Unit {
-  if game.state == @types.state_game_over {
+  if game.state == GameOver {
     return
   }
 
-  game.state = @types.state_game_over
+  game.state = GameOver
   game.speed_burst_t = 0.0
   game.speed_burst_cd = 0.0
   game.defeat_reason = reason
@@ -109,7 +109,7 @@ fn check_failure(game : @types.Game) -> Bool {
 fn init_title_scene(game : @types.Game) -> Unit {
   reset_students(game)
 
-  game.state = @types.state_title
+  game.state = Title
   game.week = 1
   game.funds = @types.start_funds
   game.reputation = @types.start_reputation
@@ -138,7 +138,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
 fn start_new_run(game : @types.Game) -> Unit {
   reset_students(game)
 
-  game.state = @types.state_playing
+  game.state = Playing
   game.week = 1
   game.funds = @types.start_funds
   game.reputation = @types.start_reputation
@@ -471,7 +471,7 @@ fn update_title_state(game : @types.Game) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input.pause_pressed {
-    game.state = @types.state_paused
+    game.state = Paused
     set_message(game, "Paused. Press P to continue.", 99.0)
     return
   }
@@ -495,7 +495,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   apply_room_simulation(game, sim_dt)
   apply_fatigue_pressure(game, sim_dt)
 
-  if game.state == @types.state_game_over || check_failure(game) {
+  if game.state == GameOver || check_failure(game) {
     return
   }
 
@@ -503,7 +503,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.incident_timer <= 0.0 {
     trigger_incident(game)
 
-    if game.state == @types.state_game_over || check_failure(game) {
+    if game.state == GameOver || check_failure(game) {
       return
     }
 
@@ -519,7 +519,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn update_paused_state(game : @types.Game) -> Unit {
   if game.input.pause_pressed {
-    game.state = @types.state_playing
+    game.state = Playing
     set_message(game, "Dojo resumed.", 1.1)
   }
 }
@@ -550,14 +550,11 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     return
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_game_over_state(game)
+  match game.state {
+    Title => update_title_state(game)
+    Playing => update_playing_state(game, dt)
+    Paused => update_paused_state(game)
+    GameOver => update_game_over_state(game)
   }
 }
 

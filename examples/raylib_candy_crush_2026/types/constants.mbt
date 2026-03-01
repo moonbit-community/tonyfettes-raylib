@@ -41,18 +41,6 @@ pub let base_jelly : Int = 16
 pub let jelly_level_bonus : Int = 3
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_level_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
 pub let special_none : Int = 0
 
 ///|

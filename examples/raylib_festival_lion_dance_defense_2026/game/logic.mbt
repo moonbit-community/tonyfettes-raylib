@@ -33,7 +33,7 @@ fn speed_bonus(elapsed : Float) -> Float {
 
 ///|
 fn start_run(game : @types.Game) -> Unit {
-  game.state = @types.state_playing
+  game.state = Playing
 
   game.troupe_x = Float::from_int(@types.street_left + 220)
   game.troupe_lane = @types.troupe_start_lane
@@ -124,7 +124,7 @@ fn spawn_threat(game : @types.Game) -> Unit {
 fn score_for_clear(
   kind : Int,
   combo : Int,
-  action : Int,
+  action : @types.Action,
   stunned : Bool,
 ) -> Int {
   let mut score = if kind == @types.threat_firecracker {
@@ -133,10 +133,10 @@ fn score_for_clear(
     @types.score_incident
   }
 
-  if action == @types.action_guard {
-    score = score - 14
-  } else if action == @types.action_burst {
-    score = score - 24
+  match action {
+    Guard => score = score - 14
+    Burst => score = score - 24
+    Strike => ()
   }
 
   if stunned {
@@ -156,7 +156,7 @@ fn score_for_clear(
 fn hype_for_clear(
   kind : Int,
   combo : Int,
-  action : Int,
+  action : @types.Action,
   stunned : Bool,
 ) -> Float {
   let mut gain = if kind == @types.threat_firecracker {
@@ -165,8 +165,9 @@ fn hype_for_clear(
     @types.hype_gain_incident
   }
 
-  if action == @types.action_burst {
-    gain = gain * 0.85
+  match action {
+    Burst => gain = gain * 0.85
+    Strike | Guard => ()
   }
 
   if stunned {
@@ -180,7 +181,7 @@ fn hype_for_clear(
 fn register_clear(
   game : @types.Game,
   kind : Int,
-  action : Int,
+  action : @types.Action,
   stunned : Bool,
 ) -> Unit {
   if game.combo_t <= 0.0 {
@@ -212,7 +213,7 @@ fn register_clear(
 }
 
 ///|
-fn clear_threat_at(game : @types.Game, i : Int, action : Int) -> Unit {
+fn clear_threat_at(game : @types.Game, i : Int, action : @types.Action) -> Unit {
   if i < 0 || i >= game.threats.length() {
     return
   }
@@ -345,7 +346,7 @@ fn handle_strike(game : @types.Game) -> Unit {
         game.threats[i].y,
       ) <=
       @types.squaref(reach) {
-      clear_threat_at(game, i, @types.action_strike)
+      clear_threat_at(game, i, Strike)
       cleared_now = cleared_now + 1
     }
   }
@@ -527,7 +528,7 @@ fn update_threats(game : @types.Game, dt : Float) -> Unit {
       @types.squaref(contact_r) {
       if game.guard_t > 0.0 {
         if game.threats[i].kind == @types.threat_firecracker {
-          clear_threat_at(game, i, @types.action_guard)
+          clear_threat_at(game, i, Guard)
         } else {
           let fresh = game.threats[i].stun_t <= 0.0
           game.threats[i].stun_t = @types.maxf(
@@ -583,7 +584,7 @@ fn apply_burst_field(game : @types.Game) -> Unit {
         game.threats[i].y,
       ) <=
       @types.squaref(reach) {
-      clear_threat_at(game, i, @types.action_burst)
+      clear_threat_at(game, i, Burst)
       cleared_now = cleared_now + 1
     }
   }
@@ -625,7 +626,7 @@ fn finish_if_needed(game : @types.Game) -> Unit {
   }
 
   game.morale = 0.0
-  game.state = @types.state_game_over
+  game.state = GameOver
   game.combo = 0
   game.combo_t = 0.0
   game.guard_t = 0.0
@@ -653,7 +654,7 @@ fn update_paused_state(game : @types.Game) -> Unit {
   }
 
   if game.input.press_pause || game.input.press_start {
-    game.state = @types.state_playing
+    game.state = Playing
     @types.set_msg(game, "Back in formation.", @types.msg_ttl)
   }
 }
@@ -673,7 +674,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.input.press_pause {
-    game.state = @types.state_paused
+    game.state = Paused
     @types.set_msg(game, "Paused. P to resume, R to restart.", 2.0)
     return
   }
@@ -706,26 +707,20 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
 
   game.time_s = game.time_s + dt
 
-  if game.state == @types.state_title {
-    if game.msg_t > 0.0 {
-      game.msg_t = @types.maxf(0.0, game.msg_t - dt)
+  match game.state {
+    Title => {
+      if game.msg_t > 0.0 {
+        game.msg_t = @types.maxf(0.0, game.msg_t - dt)
+      }
+      update_title_state(game)
     }
-    update_title_state(game)
-    return
+    Playing => update_playing_state(game, dt)
+    Paused => update_paused_state(game)
+    GameOver => {
+      if game.msg_t > 0.0 {
+        game.msg_t = @types.maxf(0.0, game.msg_t - dt)
+      }
+      update_game_over_state(game)
+    }
   }
-
-  if game.state == @types.state_playing {
-    update_playing_state(game, dt)
-    return
-  }
-
-  if game.state == @types.state_paused {
-    update_paused_state(game)
-    return
-  }
-
-  if game.msg_t > 0.0 {
-    game.msg_t = @types.maxf(0.0, game.msg_t - dt)
-  }
-  update_game_over_state(game)
 }

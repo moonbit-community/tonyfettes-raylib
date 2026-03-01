@@ -115,121 +115,36 @@ fn draw_background(game : @types.Game) -> Unit {
 
 ///|
 fn draw_hud(game : @types.Game) -> Unit {
-  @raylib.draw_rectangle(
-    28,
-    22,
-    @types.screen_w - 56,
-    120,
-    @raylib.Color::new(14, 24, 38, 224),
-  )
-  @raylib.draw_rectangle_lines(
-    28,
-    22,
-    @types.screen_w - 56,
-    120,
-    @raylib.Color::new(118, 148, 182, 230),
-  )
+  @raylib.draw_rectangle(28, 22, @types.screen_w - 56, 120, @raylib.Color::new(14, 24, 38, 224))
+  @raylib.draw_rectangle_lines(28, 22, @types.screen_w - 56, 120, @raylib.Color::new(118, 148, 182, 230))
 
   let title = "Martial Arts School Manager 2026"
   @raylib.draw_text(title, 48, 34, 38, @raylib.Color::new(238, 228, 198, 245))
 
   let week_text = "Week " + game.week.to_string()
-  @raylib.draw_text(
-    week_text,
-    52,
-    84,
-    30,
-    @raylib.Color::new(240, 244, 252, 236),
-  )
+  @raylib.draw_text(week_text, 52, 84, 30, @raylib.Color::new(240, 244, 252, 236))
 
   let funds_text = "Funds " + game.funds.to_int().to_string()
-  @raylib.draw_text(
-    funds_text,
-    240,
-    84,
-    30,
-    if game.funds < 280.0 {
-      @raylib.Color::new(246, 118, 112, 242)
-    } else {
-      @raylib.Color::new(144, 220, 154, 242)
-    },
-  )
+  @raylib.draw_text(funds_text, 240, 84, 30, if game.funds < 280.0 { @raylib.Color::new(246, 118, 112, 242) } else { @raylib.Color::new(144, 220, 154, 242) })
 
   let rep_text = "Reputation " + game.reputation.to_int().to_string()
-  @raylib.draw_text(
-    rep_text,
-    470,
-    84,
-    30,
-    if game.reputation < 25.0 {
-      @raylib.Color::new(248, 124, 112, 242)
-    } else {
-      @raylib.Color::new(236, 226, 170, 242)
-    },
-  )
+  @raylib.draw_text(rep_text, 470, 84, 30, if game.reputation < 25.0 { @raylib.Color::new(248, 124, 112, 242) } else { @raylib.Color::new(236, 226, 170, 242) })
 
   let avg_fatigue = mean_fatigue(game)
   let fatigue_text = "Avg Fatigue " + avg_fatigue.to_int().to_string()
   @raylib.draw_text(fatigue_text, 790, 84, 30, fatigue_color(avg_fatigue))
 
-  let week_ratio : Float = if game.week_duration <= 0.0 {
-    0.0
-  } else {
-    @types.clampf(
-      1.0 - game.week_time_left / game.week_duration,
-      0.0,
-      1.0,
-    )
-  }
+  let week_ratio : Float = if game.week_duration <= 0.0 { 0.0 } else { @types.clampf(1.0 - game.week_time_left / game.week_duration, 0.0, 1.0) }
 
-  @raylib.draw_text(
-    "Week Progress",
-    1090,
-    38,
-    23,
-    @raylib.Color::new(224, 232, 244, 220),
-  )
-  draw_meter(
-    1088,
-    70,
-    300,
-    28,
-    week_ratio,
-    @raylib.Color::new(102, 164, 236, 235),
-  )
+  @raylib.draw_text("Week Progress", 1090, 38, 23, @raylib.Color::new(224, 232, 244, 220))
+  draw_meter(1088, 70, 300, 28, week_ratio, @raylib.Color::new(102, 164, 236, 235))
 
-  let timer_text = "Time left " +
-    @types.maxf(0.0, game.week_time_left).to_int().to_string() +
-    "s"
-  @raylib.draw_text(
-    timer_text,
-    1090,
-    104,
-    22,
-    @raylib.Color::new(216, 228, 240, 228),
-  )
+  let timer_text = "Time left " + @types.maxf(0.0, game.week_time_left).to_int().to_string() + "s"
+  @raylib.draw_text(timer_text, 1090, 104, 22, @raylib.Color::new(216, 228, 240, 228))
 
-  let burst_text = if game.speed_burst_t > 0.0 {
-    "Burst ACTIVE"
-  } else if game.speed_burst_cd > 0.0 {
-    "Burst CD " + (game.speed_burst_cd + 0.99).to_int().to_string() + "s"
-  } else {
-    "Burst READY"
-  }
+  let burst_text = if game.speed_burst_t > 0.0 { "Burst ACTIVE" } else if game.speed_burst_cd > 0.0 { "Burst CD " + (game.speed_burst_cd + 0.99).to_int().to_string() + "s" } else { "Burst READY" }
 
-  @raylib.draw_text(
-    burst_text,
-    1320,
-    104,
-    22,
-    if game.speed_burst_t > 0.0 {
-      @raylib.Color::new(132, 242, 214, 236)
-    } else if game.speed_burst_cd > 0.0 {
-      @raylib.Color::new(236, 190, 106, 236)
-    } else {
-      @raylib.Color::new(144, 228, 172, 236)
-    },
-  )
+  @raylib.draw_text(burst_text, 1320, 104, 22, if game.speed_burst_t > 0.0 { @raylib.Color::new(132, 242, 214, 236) } else if game.speed_burst_cd > 0.0 { @raylib.Color::new(236, 190, 106, 236) } else { @raylib.Color::new(144, 228, 172, 236) })
 }
 
 ///|
@@ -245,307 +160,90 @@ fn draw_student_table(game : @types.Game) -> Unit {
   let cell_w = 238
   let cell_gap = 8
 
-  @raylib.draw_rectangle(
-    panel_x,
-    panel_y,
-    panel_w,
-    panel_h,
-    @raylib.Color::new(10, 18, 32, 218),
-  )
-  @raylib.draw_rectangle_lines(
-    panel_x,
-    panel_y,
-    panel_w,
-    panel_h,
-    @raylib.Color::new(106, 130, 166, 220),
-  )
+  @raylib.draw_rectangle(panel_x, panel_y, panel_w, panel_h, @raylib.Color::new(10, 18, 32, 218))
+  @raylib.draw_rectangle_lines(panel_x, panel_y, panel_w, panel_h, @raylib.Color::new(106, 130, 166, 220))
 
-  @raylib.draw_text(
-    "Students",
-    info_x,
-    panel_y + 22,
-    30,
-    @raylib.Color::new(228, 236, 248, 236),
-  )
-  @raylib.draw_text(
-    "Assign each student to Rest / Train / Spar / Defense",
-    info_x,
-    panel_y + 56,
-    22,
-    @raylib.Color::new(170, 194, 222, 220),
-  )
+  @raylib.draw_text("Students", info_x, panel_y + 22, 30, @raylib.Color::new(228, 236, 248, 236))
+  @raylib.draw_text("Assign each student to Rest / Train / Spar / Defense", info_x, panel_y + 56, 22, @raylib.Color::new(170, 194, 222, 220))
 
   for col in 0..<@types.room_count {
     let x = grid_x + col * (cell_w + cell_gap)
     let title = @types.room_name(col)
     let tw = @raylib.measure_text(title, 24)
-
-    @raylib.draw_rectangle(
-      x,
-      panel_y + 20,
-      cell_w,
-      52,
-      with_alpha(room_color(col), 88),
-    )
-    @raylib.draw_rectangle_lines(
-      x,
-      panel_y + 20,
-      cell_w,
-      52,
-      with_alpha(room_color(col), 200),
-    )
-    @raylib.draw_text(
-      title,
-      x + cell_w / 2 - tw / 2,
-      panel_y + 34,
-      24,
-      @raylib.Color::new(236, 240, 250, 236),
-    )
+    @raylib.draw_rectangle(x, panel_y + 20, cell_w, 52, with_alpha(room_color(col), 88))
+    @raylib.draw_rectangle_lines(x, panel_y + 20, cell_w, 52, with_alpha(room_color(col), 200))
+    @raylib.draw_text(title, x + cell_w / 2 - tw / 2, panel_y + 34, 24, @raylib.Color::new(236, 240, 250, 236))
   }
 
   for i in 0..<@types.student_count {
     let y = row_start_y + i * row_h
-
-    @raylib.draw_rectangle(
-      info_x - 10,
-      y,
-      panel_w - 40,
-      row_h - 8,
-      if i % 2 == 0 {
-        @raylib.Color::new(18, 28, 42, 186)
-      } else {
-        @raylib.Color::new(22, 34, 50, 186)
-      },
-    )
-
-    @raylib.draw_text(
-      game.students[i].name,
-      info_x,
-      y + 10,
-      30,
-      @raylib.Color::new(240, 240, 232, 240),
-    )
-
-    @raylib.draw_text(
-      "Skill " + game.students[i].skill.to_int().to_string(),
-      info_x,
-      y + 45,
-      18,
-      @raylib.Color::new(218, 228, 242, 220),
-    )
-    draw_meter(
-      info_x + 108,
-      y + 46,
-      200,
-      16,
-      game.students[i].skill / 130.0,
-      @raylib.Color::new(108, 196, 252, 236),
-    )
-
-    @raylib.draw_text(
-      "Fatigue " + game.students[i].fatigue.to_int().to_string(),
-      info_x,
-      y + 64,
-      18,
-      fatigue_color(game.students[i].fatigue),
-    )
-    draw_meter(
-      info_x + 108,
-      y + 65,
-      200,
-      16,
-      game.students[i].fatigue / @types.fatigue_max,
-      fatigue_color(game.students[i].fatigue),
-    )
+    @raylib.draw_rectangle(info_x - 10, y, panel_w - 40, row_h - 8, if i % 2 == 0 { @raylib.Color::new(18, 28, 42, 186) } else { @raylib.Color::new(22, 34, 50, 186) })
+    @raylib.draw_text(game.students[i].name, info_x, y + 10, 30, @raylib.Color::new(240, 240, 232, 240))
+    @raylib.draw_text("Skill " + game.students[i].skill.to_int().to_string(), info_x, y + 45, 18, @raylib.Color::new(218, 228, 242, 220))
+    draw_meter(info_x + 108, y + 46, 200, 16, game.students[i].skill / 130.0, @raylib.Color::new(108, 196, 252, 236))
+    @raylib.draw_text("Fatigue " + game.students[i].fatigue.to_int().to_string(), info_x, y + 64, 18, fatigue_color(game.students[i].fatigue))
+    draw_meter(info_x + 108, y + 65, 200, 16, game.students[i].fatigue / @types.fatigue_max, fatigue_color(game.students[i].fatigue))
 
     for col in 0..<@types.room_count {
       let x = grid_x + col * (cell_w + cell_gap)
       let assigned = game.students[i].room == col
-      let selected = (game.state == @types.state_playing ||
-        game.state == @types.state_paused) &&
-        game.cursor_row == i &&
-        game.cursor_col == col
-
-      @raylib.draw_rectangle(
-        x,
-        y + 8,
-        cell_w,
-        row_h - 24,
-        if assigned {
-          with_alpha(room_color(col), 176)
-        } else {
-          with_alpha(room_color(col), 54)
-        },
-      )
-      @raylib.draw_rectangle_lines(
-        x,
-        y + 8,
-        cell_w,
-        row_h - 24,
-        if selected {
-          @raylib.Color::new(252, 246, 214, 242)
-        } else if assigned {
-          with_alpha(room_color(col), 226)
-        } else {
-          @raylib.Color::new(84, 106, 136, 170)
-        },
-      )
-
+      let selected = (game.state == Playing || game.state == Paused) && game.cursor_row == i && game.cursor_col == col
+      @raylib.draw_rectangle(x, y + 8, cell_w, row_h - 24, if assigned { with_alpha(room_color(col), 176) } else { with_alpha(room_color(col), 54) })
+      @raylib.draw_rectangle_lines(x, y + 8, cell_w, row_h - 24, if selected { @raylib.Color::new(252, 246, 214, 242) } else if assigned { with_alpha(room_color(col), 226) } else { @raylib.Color::new(84, 106, 136, 170) })
       let label = if assigned { "Assigned" } else { "Press J" }
       let lw = @raylib.measure_text(label, 20)
-      @raylib.draw_text(
-        label,
-        x + cell_w / 2 - lw / 2,
-        y + 30,
-        20,
-        if assigned {
-          @raylib.Color::new(255, 246, 214, 242)
-        } else {
-          @raylib.Color::new(192, 206, 224, 204)
-        },
-      )
+      @raylib.draw_text(label, x + cell_w / 2 - lw / 2, y + 30, 20, if assigned { @raylib.Color::new(255, 246, 214, 242) } else { @raylib.Color::new(192, 206, 224, 204) })
     }
   }
 
-  let incidents_text = "Incidents this week " +
-    game.incident_count_week.to_string() +
-    "   Total " +
-    game.total_incidents.to_string() +
-    "   Next in " +
-    @types.maxf(0.0, game.incident_timer).to_int().to_string() +
-    "s"
-  @raylib.draw_text(
-    incidents_text,
-    panel_x + 22,
-    panel_y + panel_h - 44,
-    24,
-    @raylib.Color::new(236, 192, 168, 230),
-  )
+  let incidents_text = "Incidents this week " + game.incident_count_week.to_string() + "   Total " + game.total_incidents.to_string() + "   Next in " + @types.maxf(0.0, game.incident_timer).to_int().to_string() + "s"
+  @raylib.draw_text(incidents_text, panel_x + 22, panel_y + panel_h - 44, 24, @raylib.Color::new(236, 192, 168, 230))
 }
 
 ///|
 fn draw_footer_help() -> Unit {
   let footer = "WASD/Arrows: move cursor   J: assign/train   K: cancel to rest   SPACE: burst   P: pause   R: restart"
-  @raylib.draw_rectangle(
-    0,
-    @types.screen_h - 42,
-    @types.screen_w,
-    42,
-    @raylib.Color::new(10, 14, 24, 236),
-  )
-  @raylib.draw_text(
-    footer,
-    24,
-    @types.screen_h - 33,
-    21,
-    @raylib.Color::new(206, 222, 242, 230),
-  )
+  @raylib.draw_rectangle(0, @types.screen_h - 42, @types.screen_w, 42, @raylib.Color::new(10, 14, 24, 236))
+  @raylib.draw_text(footer, 24, @types.screen_h - 33, 21, @raylib.Color::new(206, 222, 242, 230))
 }
 
 ///|
 fn draw_message(game : @types.Game) -> Unit {
-  if game.message_t <= 0.0 {
-    return
-  }
-
-  let alpha = @types.clampi(
-    (@types.clampf(game.message_t / 3.0, 0.0, 1.0) * 226.0).to_int(),
-    90,
-    226,
-  )
-  @raylib.draw_rectangle(
-    320,
-    812,
-    960,
-    64,
-    @raylib.Color::new(24, 34, 52, alpha),
-  )
-  @raylib.draw_rectangle_lines(
-    320,
-    812,
-    960,
-    64,
-    @raylib.Color::new(154, 180, 214, alpha),
-  )
-
+  if game.message_t <= 0.0 { return }
+  let alpha = @types.clampi((@types.clampf(game.message_t / 3.0, 0.0, 1.0) * 226.0).to_int(), 90, 226)
+  @raylib.draw_rectangle(320, 812, 960, 64, @raylib.Color::new(24, 34, 52, alpha))
+  @raylib.draw_rectangle_lines(320, 812, 960, 64, @raylib.Color::new(154, 180, 214, alpha))
   let tw = @raylib.measure_text(game.message, 28)
-  @raylib.draw_text(
-    game.message,
-    @types.screen_w / 2 - tw / 2,
-    831,
-    28,
-    @raylib.Color::new(244, 246, 252, alpha),
-  )
+  @raylib.draw_text(game.message, @types.screen_w / 2 - tw / 2, 831, 28, @raylib.Color::new(244, 246, 252, alpha))
 }
 
 ///|
 fn draw_week_banner(game : @types.Game) -> Unit {
-  if game.week_banner_t <= 0.0 || game.state != @types.state_playing {
-    return
-  }
-
+  if game.week_banner_t <= 0.0 || game.state != Playing { return }
   let pulse : Float = 0.5 + 0.5 * @types.sinf(game.scene_t * 6.2)
-  let alpha = @types.clampi(
-    (game.week_banner_t / 2.6 * (150.0 + pulse * 80.0)).to_int(),
-    0,
-    230,
-  )
+  let alpha = @types.clampi((game.week_banner_t / 2.6 * (150.0 + pulse * 80.0)).to_int(), 0, 230)
   let text = "WEEK " + game.week.to_string()
   let tw = @raylib.measure_text(text, 56)
-
-  @raylib.draw_text(
-    text,
-    @types.screen_w / 2 - tw / 2,
-    142,
-    56,
-    @raylib.Color::new(250, 240, 198, alpha),
-  )
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, 142, 56, @raylib.Color::new(250, 240, 198, alpha))
 }
 
 ///|
-fn draw_overlay_card(
-  title : String,
-  lines : Array[String],
-  y : Int,
-  border : @raylib.Color,
-) -> Unit {
+fn draw_overlay_card(title : String, lines : Array[String], y : Int, border : @raylib.Color) -> Unit {
   let x = @types.screen_w / 2 - 520
   let w = 1040
   let h = 460
-
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(6, 10, 18, 232))
   @raylib.draw_rectangle_lines(x, y, w, h, border)
-
   let title_w = @raylib.measure_text(title, 52)
-  @raylib.draw_text(
-    title,
-    x + w / 2 - title_w / 2,
-    y + 34,
-    52,
-    @raylib.Color::new(248, 238, 208, 244),
-  )
-
+  @raylib.draw_text(title, x + w / 2 - title_w / 2, y + 34, 52, @raylib.Color::new(248, 238, 208, 244))
   for i in 0..<lines.length() {
-    @raylib.draw_text(
-      lines[i],
-      x + 60,
-      y + 132 + i * 44,
-      30,
-      @raylib.Color::new(216, 228, 244, 234),
-    )
+    @raylib.draw_text(lines[i], x + 60, y + 132 + i * 44, 30, @raylib.Color::new(216, 228, 244, 234))
   }
 }
 
 ///|
 fn draw_title_overlay(game : @types.Game) -> Unit {
-  @raylib.draw_rectangle(
-    0,
-    0,
-    @types.screen_w,
-    @types.screen_h,
-    @raylib.Color::new(4, 8, 16, 172),
-  )
-
+  @raylib.draw_rectangle(0, 0, @types.screen_w, @types.screen_h, @raylib.Color::new(4, 8, 16, 172))
   let lines : Array[String] = [
     "Balance funds, reputation, and fatigue while weekly pressure rises.",
     "Use cursor + J to assign each student to Rest, Train, Spar, or Defense.",
@@ -554,56 +252,23 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     "Press J or ENTER to begin. Press R anytime for a hard restart.",
     "Best survived weeks: " + game.best_week.to_string(),
   ]
-
-  draw_overlay_card(
-    "MARTIAL ARTS SCHOOL MANAGER",
-    lines,
-    210,
-    @raylib.Color::new(204, 178, 126, 236),
-  )
+  draw_overlay_card("MARTIAL ARTS SCHOOL MANAGER", lines, 210, @raylib.Color::new(204, 178, 126, 236))
 }
 
 ///|
 fn draw_paused_overlay() -> Unit {
-  @raylib.draw_rectangle(
-    0,
-    0,
-    @types.screen_w,
-    @types.screen_h,
-    @raylib.Color::new(0, 0, 0, 120),
-  )
-
+  @raylib.draw_rectangle(0, 0, @types.screen_w, @types.screen_h, @raylib.Color::new(0, 0, 0, 120))
   let text = "PAUSED"
   let tw = @raylib.measure_text(text, 78)
-  @raylib.draw_text(
-    text,
-    @types.screen_w / 2 - tw / 2,
-    @types.screen_h / 2 - 84,
-    78,
-    @raylib.Color::new(248, 236, 204, 240),
-  )
-
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, @types.screen_h / 2 - 84, 78, @raylib.Color::new(248, 236, 204, 240))
   let sub = "Press P to resume"
   let sw = @raylib.measure_text(sub, 36)
-  @raylib.draw_text(
-    sub,
-    @types.screen_w / 2 - sw / 2,
-    @types.screen_h / 2 + 6,
-    36,
-    @raylib.Color::new(220, 230, 246, 236),
-  )
+  @raylib.draw_text(sub, @types.screen_w / 2 - sw / 2, @types.screen_h / 2 + 6, 36, @raylib.Color::new(220, 230, 246, 236))
 }
 
 ///|
 fn draw_game_over_overlay(game : @types.Game) -> Unit {
-  @raylib.draw_rectangle(
-    0,
-    0,
-    @types.screen_w,
-    @types.screen_h,
-    @raylib.Color::new(10, 0, 0, 162),
-  )
-
+  @raylib.draw_rectangle(0, 0, @types.screen_w, @types.screen_h, @raylib.Color::new(10, 0, 0, 162))
   let lines : Array[String] = [
     game.defeat_reason,
     "Weeks survived: " + game.weeks_survived.to_string(),
@@ -612,13 +277,7 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     "Incidents handled: " + game.total_incidents.to_string(),
     "Press J or ENTER to run again.",
   ]
-
-  draw_overlay_card(
-    "DOJO CLOSED",
-    lines,
-    220,
-    @raylib.Color::new(226, 120, 102, 236),
-  )
+  draw_overlay_card("DOJO CLOSED", lines, 220, @raylib.Color::new(226, 120, 102, 236))
 }
 
 ///|
@@ -630,11 +289,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_week_banner(game)
   draw_message(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    Paused => draw_paused_overlay()
+    GameOver => draw_game_over_overlay(game)
+    Playing => ()
   }
 }

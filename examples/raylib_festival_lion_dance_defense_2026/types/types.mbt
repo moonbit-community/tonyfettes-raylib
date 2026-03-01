@@ -1,4 +1,19 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
+pub(all) enum Action {
+  Strike
+  Guard
+  Burst
+} derive(Eq)
+
+///|
 pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
@@ -54,7 +69,7 @@ pub fn Threat::new() -> Threat {
 pub(all) struct Game {
   input : InputState
   threats : Array[Threat]
-  mut state : Int
+  mut state : GameState
   mut troupe_x : Float
   mut troupe_y : Float
   mut troupe_lane : Int
@@ -87,7 +102,7 @@ pub fn Game::new() -> Game {
   {
     input: InputState::new(),
     threats: Array::makei(max_threats, fn(_i) { Threat::new() }),
-    state: state_title,
+    state: Title,
     troupe_x: Float::from_int(street_left + 220),
     troupe_y: lane_y(troupe_start_lane),
     troupe_lane: troupe_start_lane,

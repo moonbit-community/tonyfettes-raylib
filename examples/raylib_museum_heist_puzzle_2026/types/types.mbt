@@ -1,4 +1,28 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Win
+  Lose
+  CampaignClear
+} derive(Eq)
+
+///|
+pub(all) enum Direction {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+} derive(Eq)
+
+///|
+pub(all) enum TileKind {
+  Floor
+  Wall
+} derive(Eq)
+
+///|
 pub(all) struct Artifact {
   x : Int
   y : Int
@@ -19,7 +43,7 @@ pub(all) struct Guard {
 
 ///|
 pub(all) struct FrameInput {
-  move_dir : Int
+  move_dir : Direction
   start_pressed : Bool
   next_pressed : Bool
   retry_pressed : Bool
@@ -28,10 +52,10 @@ pub(all) struct FrameInput {
 
 ///|
 pub(all) struct Game {
-  tiles : Array[Int]
+  tiles : Array[TileKind]
   mut artifacts : Array[Artifact]
   mut guards : Array[Guard]
-  mut state : Int
+  mut state : GameState
   mut level_index : Int
   level_count : Int
   mut level_name : String
@@ -55,10 +79,10 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   {
-    tiles: Array::make(board_cells, tile_floor),
+    tiles: Array::make(board_cells, Floor),
     artifacts: [],
     guards: [],
-    state: state_title,
+    state: Title,
     level_index: 0,
     level_count: 3,
     level_name: "",

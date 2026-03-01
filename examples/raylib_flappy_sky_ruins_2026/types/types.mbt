@@ -33,11 +33,18 @@ pub(all) struct Particle {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   obstacles : Array[Obstacle]
   pickups : Array[Pickup]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   mut px : Float
   mut py : Float
   mut vy : Float
@@ -110,7 +117,7 @@ pub fn Game::new() -> Game {
     obstacles: Array::makei(max_obs, fn(_i) { Obstacle::new() }),
     pickups: Array::makei(max_pickups, fn(_i) { Pickup::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     px: Float::from_int(world_x0 + world_w / 4),
     py: Float::from_int(world_y0 + world_h / 2),
     vy: 0.0,

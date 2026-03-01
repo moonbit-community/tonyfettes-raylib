@@ -23,18 +23,6 @@ pub let play_left : Float = 42.0
 pub let play_right : Float = Float::from_int(screen_w) - 42.0
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
 pub let obj_lantern : Int = 0
 
 ///|

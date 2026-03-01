@@ -49,6 +49,14 @@ pub(all) struct Trail {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Kite {
   mut x : Float
   mut y : Float
@@ -71,7 +79,7 @@ pub(all) struct Game {
   halos : Array[Halo]
   trails : Array[Trail]
   kite : Kite
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut stage_goal : Int
   mut score : Int
@@ -181,7 +189,7 @@ pub fn Game::new() -> Game {
     halos: Array::makei(max_halos, fn(_i) { Halo::new() }),
     trails: Array::makei(max_trails, fn(_i) { Trail::new() }),
     kite: Kite::new(),
-    state: state_title,
+    state: Title,
     stage: 1,
     stage_goal: stage_goal_base,
     score: 0,
