@@ -145,23 +145,22 @@ fn detonate_tile(
   mark_chain_bombs(game, tx, ty)
 
   let tile = @types.get_tile(game, tx, ty)
-  if tile == @types.Brick {
-    @types.set_tile(game, tx, ty, @types.Empty, 0)
-    @particles.spawn_explosion(game, cx, cy, 0.72)
-    return false
+  match tile {
+    Brick => {
+      @types.set_tile(game, tx, ty, @types.Empty, 0)
+      @particles.spawn_explosion(game, cx, cy, 0.72)
+      return false
+    }
+    Steel | Water => return false
+    Base => {
+      game.base_alive = false
+      game.base_flash = 1.0
+      @particles.spawn_explosion(game, cx, cy, 1.65)
+      @types.push_camera_shake(game, 2.2)
+      return false
+    }
+    _ => not(is_blast_blocking_tile(tile))
   }
-  if tile == @types.Steel || tile == @types.Water {
-    return false
-  }
-  if tile == @types.Base {
-    game.base_alive = false
-    game.base_flash = 1.0
-    @particles.spawn_explosion(game, cx, cy, 1.65)
-    @types.push_camera_shake(game, 2.2)
-    return false
-  }
-
-  not(is_blast_blocking_tile(tile))
 }
 
 ///|
