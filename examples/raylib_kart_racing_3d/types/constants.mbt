@@ -6,32 +6,6 @@ pub let screen_width : Int = 1024
 ///|
 pub let screen_height : Int = 768
 
-// Game states
-
-///|
-pub let state_menu : Int = 0
-
-///|
-pub let state_countdown : Int = 1
-
-///|
-pub let state_racing : Int = 2
-
-///|
-pub let state_paused : Int = 3
-
-///|
-pub let state_race_complete : Int = 4
-
-///|
-pub let state_cup_complete : Int = 5
-
-///|
-pub let state_kart_select : Int = 6
-
-///|
-pub let state_track_preview : Int = 7
-
 // Kart constants
 
 ///|

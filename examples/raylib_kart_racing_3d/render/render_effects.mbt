@@ -334,7 +334,7 @@ fn draw_speed_lines(game : @types.Game) -> Unit {
 
 ///|
 fn draw_start_confetti(game : @types.Game) -> Unit {
-  if game.state != @types.state_countdown {
+  if game.state != @types.Countdown {
     return
   }
   if game.countdown_timer > 0.5 {

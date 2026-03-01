@@ -4,22 +4,15 @@
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_particles(game, dt)
-  if game.state == @types.state_menu {
-    update_menu(game, dt)
-  } else if game.state == @types.state_kart_select {
-    update_kart_select(game, dt)
-  } else if game.state == @types.state_track_preview {
-    update_track_preview(game, dt)
-  } else if game.state == @types.state_countdown {
-    update_countdown(game, dt)
-  } else if game.state == @types.state_racing {
-    update_racing(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused(game, dt)
-  } else if game.state == @types.state_race_complete {
-    update_race_complete(game, dt)
-  } else if game.state == @types.state_cup_complete {
-    update_cup_complete(game, dt)
+  match game.state {
+    @types.Menu => update_menu(game, dt)
+    @types.KartSelect => update_kart_select(game, dt)
+    @types.TrackPreview => update_track_preview(game, dt)
+    @types.Countdown => update_countdown(game, dt)
+    @types.Racing => update_racing(game, dt)
+    @types.Paused => update_paused(game, dt)
+    @types.RaceComplete => update_race_complete(game, dt)
+    @types.CupComplete => update_cup_complete(game, dt)
   }
 }
 
@@ -42,7 +35,7 @@ fn update_menu(game : @types.Game, dt : Float) -> Unit {
     @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_cup = game.menu_cursor
     game.current_race = 0
-    game.state = @types.state_kart_select
+    game.state = @types.KartSelect
     game.kart_select_cursor = 0
     game.selected_kart_type = 0
     game.selected_character = 0
@@ -81,12 +74,12 @@ fn update_kart_select(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) {
     // Move to track preview
-    game.state = @types.state_track_preview
+    game.state = @types.TrackPreview
     game.preview_timer = 0.0
     game.preview_rotation = 0.0
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_menu
+    game.state = @types.Menu
   }
 }
 
@@ -101,14 +94,14 @@ fn update_track_preview(game : @types.Game, dt : Float) -> Unit {
     start_race(game)
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_kart_select
+    game.state = @types.KartSelect
   }
 }
 
 ///|
 fn start_race(game : @types.Game) -> Unit {
   load_track(game, game.current_cup, game.current_race)
-  game.state = @types.state_countdown
+  game.state = @types.Countdown
   game.countdown_timer = @types.countdown_total
 }
 
@@ -117,7 +110,7 @@ fn update_countdown(game : @types.Game, dt : Float) -> Unit {
   game.countdown_timer -= dt
   update_camera_chase(game, dt)
   if game.countdown_timer <= 0.0 {
-    game.state = @types.state_racing
+    game.state = @types.Racing
     game.race_time = 0.0
     game.lap_start_time = 0.0
   }
@@ -127,7 +120,7 @@ fn update_countdown(game : @types.Game, dt : Float) -> Unit {
 fn update_racing(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) ||
     @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     return
   }
   game.race_time += dt
@@ -168,7 +161,7 @@ fn update_racing(game : @types.Game, dt : Float) -> Unit {
     }
     update_positions(game)
     apply_race_results(game)
-    game.state = @types.state_race_complete
+    game.state = @types.RaceComplete
     game.results_scroll = 0.0
   }
 }
@@ -177,10 +170,10 @@ fn update_racing(game : @types.Game, dt : Float) -> Unit {
 fn update_paused(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) ||
     @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = @types.state_racing
+    game.state = @types.Racing
   }
   if @raylib.is_key_pressed(@raylib.KeyQ) {
-    game.state = @types.state_menu
+    game.state = @types.Menu
   }
 }
 
@@ -192,7 +185,7 @@ fn update_race_complete(game : @types.Game, dt : Float) -> Unit {
     @raylib.is_key_pressed(@raylib.KeySpace) {
     game.current_race += 1
     if game.current_race >= @types.races_per_cup {
-      game.state = @types.state_cup_complete
+      game.state = @types.CupComplete
       game.results_scroll = 0.0
     } else {
       start_race(game)
@@ -206,7 +199,7 @@ fn update_cup_complete(game : @types.Game, dt : Float) -> Unit {
   ignore(dt)
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) {
-    game.state = @types.state_menu
+    game.state = @types.Menu
   }
 }
 
