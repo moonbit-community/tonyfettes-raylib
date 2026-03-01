@@ -203,36 +203,36 @@ pub fn fighter_total_guard(archetype : CharacterArchetype) -> Int {
 }
 
 ///|
-pub fn action_name(action : Int) -> String {
-  if action == action_idle {
+pub fn action_name(action : Action) -> String {
+  if action == ActionIdle {
     "idle"
-  } else if action == action_walk_forward {
+  } else if action == ActionWalkForward {
     "walk_fwd"
-  } else if action == action_walk_back {
+  } else if action == ActionWalkBack {
     "walk_back"
-  } else if action == action_crouch {
+  } else if action == ActionCrouch {
     "crouch"
-  } else if action == action_jump {
+  } else if action == ActionJump {
     "jump"
-  } else if action == action_dash_forward {
+  } else if action == ActionDashForward {
     "dash_fwd"
-  } else if action == action_dash_back {
+  } else if action == ActionDashBack {
     "dash_back"
-  } else if action == action_attack {
+  } else if action == ActionAttack {
     "attack"
-  } else if action == action_throw {
+  } else if action == ActionThrow {
     "throw"
-  } else if action == action_hitstun {
+  } else if action == ActionHitstun {
     "hit"
-  } else if action == action_blockstun {
+  } else if action == ActionBlockstun {
     "block"
-  } else if action == action_knockdown {
+  } else if action == ActionKnockdown {
     "down"
-  } else if action == action_wakeup {
+  } else if action == ActionWakeup {
     "wake"
-  } else if action == action_victory {
+  } else if action == ActionVictory {
     "victory"
-  } else if action == action_intro {
+  } else if action == ActionIntro {
     "intro"
   } else {
     "unknown"
@@ -266,7 +266,7 @@ pub fn reset_fighter_round_state(fighter : Fighter) -> Unit {
   fighter.vy = 0.0
   fighter.on_ground = true
   fighter.crouching = false
-  fighter.action = action_intro
+  fighter.action = ActionIntro
   fighter.action_frame = 0
   fighter.action_elapsed = 0.0
   fighter.current_move = MoveSpec::empty()
@@ -319,13 +319,13 @@ pub fn throw_input_pressed(input : InputState) -> Bool {
 pub fn fighter_is_throw_vulnerable(fighter : Fighter) -> Bool {
   fighter.on_ground &&
   fighter.invuln <= 0 &&
-  fighter.action != action_hitstun &&
-  fighter.action != action_blockstun &&
-  fighter.action != action_knockdown &&
-  fighter.action != action_wakeup &&
-  fighter.action != action_intro &&
-  fighter.action != action_victory &&
-  fighter.action != action_throw
+  fighter.action != ActionHitstun &&
+  fighter.action != ActionBlockstun &&
+  fighter.action != ActionKnockdown &&
+  fighter.action != ActionWakeup &&
+  fighter.action != ActionIntro &&
+  fighter.action != ActionVictory &&
+  fighter.action != ActionThrow
 }
 
 ///|

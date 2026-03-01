@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_submarine_sonar_hunt_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Mine
-
-type Target
 
 // Type aliases
 

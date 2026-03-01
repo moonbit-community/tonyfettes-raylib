@@ -2,39 +2,36 @@
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    screen_w, screen_h, "raylib [game] haunted_library_puzzle_2026",
+    @types.screen_w, @types.screen_h, "raylib [game] haunted_library_puzzle_2026",
   )
   defer @raylib.close_window()
 
   @raylib.init_audio_device()
   defer @raylib.close_audio_device()
 
-  @raylib.set_target_fps(target_fps)
+  @raylib.set_target_fps(@types.target_fps)
 
-  let game : Game = Game::new()
+  let game : @types.Game = @types.Game::new()
 
   while not(@raylib.window_should_close()) {
-    let dt : Float = clampf(@raylib.get_frame_time(), 0.0, 0.04)
+    let dt : Float = @types.clampf(@raylib.get_frame_time(), 0.0, 0.04)
 
-    let mx : Float = @raylib.get_mouse_x() |> Float::from_int
-    let my : Float = @raylib.get_mouse_y() |> Float::from_int
-    let touch_count : Int = @raylib.get_touch_point_count()
+    game.mouse_x = @raylib.get_mouse_x() |> Float::from_int
+    game.mouse_y = @raylib.get_mouse_y() |> Float::from_int
+    game.touch_count = @raylib.get_touch_point_count()
+    game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
+      game.touch_count > 0
 
-    let hold : Bool = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
-      touch_count > 0
-
-    if game.state == state_title {
-      update_title_input(game, mx, my, hold, touch_count)
-    } else if game.state == state_play {
-      update_play_input(game, mx, my, hold, touch_count)
-    } else {
-      update_result_input(game, mx, my, hold, touch_count)
+    match game.state {
+      @types.Title => @game.update_title_input(game)
+      @types.Play => @game.update_play_input(game)
+      @types.Result => @game.update_result_input(game)
     }
 
-    update_game(game, dt)
+    @game.update_game(game, dt)
 
     @raylib.begin_drawing()
-    draw_frame(game, mx, my, hold, touch_count)
+    @render.draw_frame(game)
     @raylib.end_drawing()
   }
 }

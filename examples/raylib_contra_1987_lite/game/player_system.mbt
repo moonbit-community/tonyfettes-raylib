@@ -8,29 +8,29 @@ fn is_player_enabled(game : @types.Game, index : Int) -> Bool {
 }
 
 ///|
-fn read_player_move_dir(index : Int) -> Int {
+fn read_player_move_dir(index : Int) -> @types.Dir? {
   if index == 0 {
     if @raylib.is_key_down(@raylib.KeyUp) {
-      @types.dir_up
+      Some(@types.Up)
     } else if @raylib.is_key_down(@raylib.KeyDown) {
-      @types.dir_down
+      Some(@types.Down)
     } else if @raylib.is_key_down(@raylib.KeyLeft) {
-      @types.dir_left
+      Some(@types.Left)
     } else if @raylib.is_key_down(@raylib.KeyRight) {
-      @types.dir_right
+      Some(@types.Right)
     } else {
-      -1
+      None
     }
   } else if @raylib.is_key_down(@raylib.KeyW) {
-    @types.dir_up
+    Some(@types.Up)
   } else if @raylib.is_key_down(@raylib.KeyS) {
-    @types.dir_down
+    Some(@types.Down)
   } else if @raylib.is_key_down(@raylib.KeyA) {
-    @types.dir_left
+    Some(@types.Left)
   } else if @raylib.is_key_down(@raylib.KeyD) {
-    @types.dir_right
+    Some(@types.Right)
   } else {
-    -1
+    None
   }
 }
 
@@ -48,7 +48,7 @@ fn is_player_shoot_pressed(index : Int) -> Bool {
 fn player_is_on_ice(game : @types.Game, player : @types.Tank) -> Bool {
   let tx = @types.world_x_to_tile(player.x)
   let ty = @types.world_y_to_tile(player.y)
-  @types.get_tile(game, tx, ty) == @types.tile_ice
+  @types.get_tile(game, tx, ty) == @types.Ice
 }
 
 ///|
@@ -106,7 +106,12 @@ fn update_player_reload_timers(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn try_move_player(game : @types.Game, index : Int, dir : Int, dt : Float) -> Unit {
+fn try_move_player(
+  game : @types.Game,
+  index : Int,
+  dir : @types.Dir,
+  dt : Float,
+) -> Unit {
   let player = game.players[index]
   if not(player.active) {
     return
@@ -149,19 +154,25 @@ fn update_player_input(game : @types.Game, dt : Float) -> Unit {
     } else {
       (read_player_move_dir(i), is_player_shoot_pressed(i))
     }
-    if move_dir >= 0 {
-      player.dir = move_dir
-      try_move_player(game, i, move_dir, dt)
-      if player_is_on_ice(game, player) {
-        player.skid_timer = 0.12
+    match move_dir {
+      Some(dir) => {
+        player.dir = dir
+        try_move_player(game, i, dir, dt)
+        if player_is_on_ice(game, player) {
+          player.skid_timer = 0.12
+        }
       }
-    } else if player.skid_timer > 0.0 && player_is_on_ice(game, player) {
-      try_move_player(game, i, player.dir, dt * 0.55)
+      None =>
+        if player.skid_timer > 0.0 && player_is_on_ice(game, player) {
+          try_move_player(game, i, player.dir, dt * 0.55)
+        }
     }
 
     if shoot_pressed && can_player_fire(game, i) {
-      let muzzle_x = player.x + @types.dir_vector_x(player.dir) * (@types.tank_half + 3.0)
-      let muzzle_y = player.y + @types.dir_vector_y(player.dir) * (@types.tank_half + 3.0)
+      let muzzle_x = player.x +
+        @types.dir_vector_x(player.dir) * (@types.tank_half + 3.0)
+      let muzzle_y = player.y +
+        @types.dir_vector_y(player.dir) * (@types.tank_half + 3.0)
       let speed = @types.bullet_speed_player +
         Float::from_int(player.weapon_level) * 38.0
       let power = if player.weapon_level >= 3 {

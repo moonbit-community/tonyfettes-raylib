@@ -48,7 +48,7 @@ fn is_player_shoot_pressed(index : Int) -> Bool {
 fn player_is_on_ice(game : @types.Game, player : @types.Tank) -> Bool {
   let tx = @types.world_x_to_tile(player.x)
   let ty = @types.world_y_to_tile(player.y)
-  @types.get_tile(game, tx, ty) == @types.tile_ice
+  @types.get_tile(game, tx, ty) == @types.Ice
 }
 
 ///|
@@ -89,7 +89,12 @@ fn update_player_reload_timers(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn try_move_player(game : @types.Game, index : Int, dir : Int, dt : Float) -> Unit {
+fn try_move_player(
+  game : @types.Game,
+  index : Int,
+  dir : Int,
+  dt : Float,
+) -> Unit {
   let player = game.players[index]
   if not(player.active) {
     return

@@ -109,6 +109,35 @@ pub let camera_zoom_speed : Float = 3.0
 ///|
 pub let camera_shake_decay : Float = 5.0
 
+// ========== Pool sizes ==========
+
+///|
+pub let max_platforms : Int = 128
+
+///|
+pub let max_collectibles : Int = 64
+
+///|
+pub let max_hazards : Int = 32
+
+///|
+pub let max_particles : Int = 512
+
+///|
+pub let max_checkpoints : Int = 8
+
+///|
+pub let max_enemies : Int = 32
+
+///|
+pub let max_powerups : Int = 16
+
+///|
+pub let max_decorations : Int = 64
+
+///|
+pub let max_projectiles : Int = 32
+
 // ========== Game states ==========
 
 ///|
@@ -267,35 +296,6 @@ pub let powerup_magnet : Int = 3
 
 ///|
 pub let powerup_slow_fall : Int = 4
-
-// ========== Pool sizes ==========
-
-///|
-pub let max_platforms : Int = 128
-
-///|
-pub let max_collectibles : Int = 64
-
-///|
-pub let max_hazards : Int = 32
-
-///|
-pub let max_particles : Int = 512
-
-///|
-pub let max_checkpoints : Int = 8
-
-///|
-pub let max_enemies : Int = 32
-
-///|
-pub let max_powerups : Int = 16
-
-///|
-pub let max_decorations : Int = 64
-
-///|
-pub let max_projectiles : Int = 32
 
 // ========== Worlds ==========
 

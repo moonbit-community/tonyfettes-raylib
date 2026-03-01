@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_teahouse_midnight_service_2026"
 // Errors
 
 // Types and methods
-type Customer
-
-type Game
-
-type Player
-
-type Ring
-
-type Shadow
-
-type Spark
 
 // Type aliases
 

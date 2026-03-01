@@ -1,0 +1,215 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_wuxia_rooftop_duel_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn arena_bottom() -> Float
+
+pub fn arena_center_x() -> Float
+
+pub fn arena_center_y() -> Float
+
+pub let arena_h : Int
+
+pub fn arena_left() -> Float
+
+pub fn arena_right() -> Float
+
+pub fn arena_top() -> Float
+
+pub let arena_w : Int
+
+pub let arena_x : Int
+
+pub let arena_y : Int
+
+pub let attack_heavy : Int
+
+pub let attack_light : Int
+
+pub let attack_none : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub let combo_timeout : Float
+
+pub let dash_speed : Float
+
+pub let dash_t : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let enemy_contact_damage : Float
+
+pub let enemy_parry_window : Float
+
+pub let enemy_recover_t : Float
+
+pub let enemy_state_recover : Int
+
+pub let enemy_state_seek : Int
+
+pub let enemy_state_strike : Int
+
+pub let enemy_state_stunned : Int
+
+pub let enemy_state_telegraph : Int
+
+pub let enemy_strike_t : Float
+
+pub let enemy_stunned_t : Float
+
+pub let enemy_telegraph_max : Float
+
+pub let enemy_telegraph_min : Float
+
+pub let heavy_attack_anim_t : Float
+
+pub let heavy_attack_arc_dot : Float
+
+pub let heavy_attack_cooldown : Float
+
+pub let heavy_attack_cost : Float
+
+pub let heavy_attack_damage : Float
+
+pub let heavy_attack_range : Float
+
+pub let light_attack_anim_t : Float
+
+pub let light_attack_arc_dot : Float
+
+pub let light_attack_cooldown : Float
+
+pub let light_attack_cost : Float
+
+pub let light_attack_damage : Float
+
+pub let light_attack_range : Float
+
+pub let max_enemy_slots : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn normalize(Float, Float) -> (Float, Float)
+
+pub let parry_active_t : Float
+
+pub let parry_counter_damage : Float
+
+pub let parry_dash_cost : Float
+
+pub let parry_range : Float
+
+pub let player_friction : Float
+
+pub let player_hit_invuln : Float
+
+pub let player_max_health : Float
+
+pub let player_max_stamina : Float
+
+pub let player_move_accel : Float
+
+pub let player_radius : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_message(Game, String, Float) -> Unit
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_interval_base : Float
+
+pub let spawn_interval_min : Float
+
+pub let stamina_regen_fast : Float
+
+pub let stamina_regen_slow : Float
+
+pub let state_game_over : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let wave_gap_duration : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Enemy {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut hp : Float
+  mut max_hp : Float
+  mut radius : Float
+  mut speed : Float
+  mut state : Int
+  mut state_t : Float
+  mut telegraph_total_t : Float
+  mut visual_phase : Float
+}
+pub fn Enemy::new() -> Self
+
+pub(all) struct Game {
+  enemies : Array[Enemy]
+  mut state : Int
+  mut player_x : Float
+  mut player_y : Float
+  mut player_vx : Float
+  mut player_vy : Float
+  mut facing_x : Float
+  mut facing_y : Float
+  mut move_x : Float
+  mut move_y : Float
+  mut health : Float
+  mut stamina : Float
+  mut invuln_t : Float
+  mut parry_t : Float
+  mut dash_t_left : Float
+  mut dash_dir_x : Float
+  mut dash_dir_y : Float
+  mut attack_cd : Float
+  mut attack_anim_t : Float
+  mut attack_kind : Int
+  mut wave : Int
+  mut wave_enemies_total : Int
+  mut wave_spawned : Int
+  mut wave_defeated : Int
+  mut spawn_cd : Float
+  mut wave_gap_t : Float
+  mut stage_score : Int
+  mut last_stage_bonus : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut score : Int
+  mut best_score : Int
+  mut game_t : Float
+  mut ui_t : Float
+  mut shake_t : Float
+  mut message : String
+  mut message_t : Float
+}
+pub fn Game::new() -> Self
+
+// Type aliases
+
+// Traits
+

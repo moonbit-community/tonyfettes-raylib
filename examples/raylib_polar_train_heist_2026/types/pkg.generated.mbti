@@ -1,0 +1,339 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_polar_train_heist_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn amber() -> @raylib.Color
+
+pub fn armor_col() -> @raylib.Color
+
+pub let armor_max : Float
+
+pub let armor_passive : Float
+
+pub let base_scroll : Float
+
+pub fn bg_bottom() -> @raylib.Color
+
+pub fn bg_top() -> @raylib.Color
+
+pub fn btn_dash_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_fire_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_hook_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_jump_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_left_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_right_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_size() -> Float
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub fn cyan() -> @raylib.Color
+
+pub let dash_cd_time : Float
+
+pub let dash_speed : Float
+
+pub let dash_time : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_out_cubic(Float) -> Float
+
+pub let enemy_shot_speed : Float
+
+pub let ent_battery : Int
+
+pub let ent_crate : Int
+
+pub let ent_drone : Int
+
+pub let ent_guard : Int
+
+pub fn ent_hit_r(Ent) -> Float
+
+pub let ent_medkit : Int
+
+pub let ent_signal : Int
+
+pub let ent_turret : Int
+
+pub let fall_max : Float
+
+pub let fire_cd_base : Float
+
+pub let gravity : Float
+
+pub fn heat_col() -> @raylib.Color
+
+pub let heat_drain_base : Float
+
+pub let heat_drain_dash : Float
+
+pub let heat_max : Float
+
+pub let heat_pickup : Float
+
+pub let hook_cd_time : Float
+
+pub let hook_kill_radius : Float
+
+pub let hook_radius : Float
+
+pub let hook_time : Float
+
+pub let hud_h : Int
+
+pub let invuln_time : Float
+
+pub fn is_hostile(Int) -> Bool
+
+pub fn is_pickup(Int) -> Bool
+
+pub let jump_speed : Float
+
+pub let lane_count : Int
+
+pub let lane_gap : Float
+
+pub let lane_top : Float
+
+pub fn lane_y(Int) -> Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_ents : Int
+
+pub let max_fx : Int
+
+pub let max_rings : Int
+
+pub let max_shadows : Int
+
+pub let max_shots : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn pink() -> @raylib.Color
+
+pub let player_accel_x : Float
+
+pub let player_drag_x : Float
+
+pub let player_h : Float
+
+pub fn player_hit_r(Player) -> Float
+
+pub let player_max_vx : Float
+
+pub let player_w : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn retry_rect() -> (Float, Float, Float, Float)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let shot_life : Float
+
+pub let shot_speed : Float
+
+pub fn sinf(Float) -> Float
+
+pub fn snow_col() -> @raylib.Color
+
+pub let spawn_gap_max : Float
+
+pub let spawn_gap_min : Float
+
+pub let spawn_start_x : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_clear_wait : Float
+
+pub let stage_goal_base : Float
+
+pub let stage_goal_bonus : Float
+
+pub let stage_scroll_bonus : Float
+
+pub let state_game_over : Int
+
+pub let state_play : Int
+
+pub let state_stage_clear : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+// Errors
+
+// Types and methods
+pub(all) struct Ent {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut hp : Float
+  mut lane : Int
+  mut shot_cd : Float
+  mut spin : Float
+  mut cloak : Bool
+  mut reward : Int
+}
+pub fn Ent::new() -> Self
+
+pub(all) struct Fx {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Fx::new() -> Self
+
+pub(all) struct Game {
+  ents : Array[Ent]
+  shots : Array[Shot]
+  fxs : Array[Fx]
+  rings : Array[Ring]
+  shadows : Array[Shadow]
+  hero : Player
+  mut state : Int
+  mut stage : Int
+  mut distance : Float
+  mut stage_goal : Float
+  mut score : Int
+  mut best_score : Int
+  mut loot : Int
+  mut kills : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut armor : Float
+  mut heat : Float
+  mut fire_cd : Float
+  mut dash_cd : Float
+  mut dash_t : Float
+  mut hook_cd : Float
+  mut hook_t : Float
+  mut time_s : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut scroll : Float
+  mut next_spawn_x : Float
+  mut input_x : Float
+  mut input_jump_press : Bool
+  mut input_fire_hold : Bool
+  mut input_dash_press : Bool
+  mut input_hook_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_jump_prev : Bool
+  mut touch_dash_prev : Bool
+  mut touch_hook_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut lane : Int
+  mut ground_y : Float
+  mut grounded : Bool
+  mut coyote_t : Float
+  mut jump_buf_t : Float
+  mut heading : Float
+  mut invuln : Float
+  mut hurt_t : Float
+  mut muzzle_t : Float
+  mut anim_t : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Ring {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Ring::new() -> Self
+
+pub(all) struct Shadow {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut rot : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Shadow::new() -> Self
+
+pub(all) struct Shot {
+  mut active : Bool
+  mut from_player : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut dmg : Float
+  mut kind : Int
+}
+pub fn Shot::new() -> Self
+
+// Type aliases
+
+// Traits
+

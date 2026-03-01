@@ -1,0 +1,4 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_shadow_puppet_theater_2026/types",
+}

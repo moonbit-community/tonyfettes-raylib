@@ -1,0 +1,203 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_volcano_rescue_ops_2026/types"
+
+// Values
+pub fn cell_index(Int, Int) -> Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_route_button_rect() -> (Int, Int, Int, Int)
+
+pub fn coolant_button_rect() -> (Int, Int, Int, Int)
+
+pub fn current_goal_progress(Game) -> String
+
+pub let dir_down : Int
+
+pub let dir_left : Int
+
+pub let dir_none : Int
+
+pub let dir_right : Int
+
+pub let dir_up : Int
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_down_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_left_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_right_rect() -> (Int, Int, Int, Int)
+
+pub fn dpad_size() -> Int
+
+pub fn dpad_up_rect() -> (Int, Int, Int, Int)
+
+pub fn execute_button_rect() -> (Int, Int, Int, Int)
+
+pub let grid_h : Int
+
+pub let grid_w : Int
+
+pub fn has_next_level(Game) -> Bool
+
+pub fn in_bounds(Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn lava_at(Game, Int, Int) -> Bool
+
+pub let level_count : Int
+
+pub fn level_title(Int) -> String
+
+pub fn map_rect() -> (Int, Int, Int, Int)
+
+pub let map_x : Int
+
+pub let map_y : Int
+
+pub let max_cells : Int
+
+pub let max_coolant : Float
+
+pub let max_fuel : Float
+
+pub let max_heat : Float
+
+pub let max_route_steps : Int
+
+pub let max_sites : Int
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn mission_result_label(Game) -> String
+
+pub let move_fuel_cost : Float
+
+pub let move_heat_gain : Float
+
+pub let panel_w : Int
+
+pub let panel_x : Int
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn restart_button_rect() -> (Int, Int, Int, Int)
+
+pub let result_lose : Int
+
+pub fn result_next_button_rect() -> (Int, Int, Int, Int)
+
+pub let result_none : Int
+
+pub fn result_restart_button_rect() -> (Int, Int, Int, Int)
+
+pub let result_win : Int
+
+pub fn route_dx(Int) -> Int
+
+pub fn route_dy(Int) -> Int
+
+pub fn sample_pointer(Float, Float, Bool, Int) -> (Bool, Float, Float)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let state_play : Int
+
+pub let state_result : Int
+
+pub let state_title : Int
+
+pub let step_interval : Float
+
+pub let target_fps : Int
+
+pub fn tile_at(Game, Int, Int) -> Int
+
+pub let tile_depot : Int
+
+pub let tile_ground : Int
+
+pub let tile_rock : Int
+
+pub let tile_shelter : Int
+
+pub let tile_size : Int
+
+pub fn title_start_button_rect() -> (Int, Int, Int, Int)
+
+pub fn total_waiting(Game) -> Int
+
+pub let vehicle_capacity : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct CivilianSite {
+  mut active : Bool
+  mut x : Int
+  mut y : Int
+  mut waiting : Int
+}
+pub fn CivilianSite::new() -> Self
+
+pub(all) struct Game {
+  terrain : Array[Int]
+  lava : Array[Bool]
+  lava_buf : Array[Bool]
+  route : Array[Int]
+  sites : Array[CivilianSite]
+  mut route_len : Int
+  mut route_running : Bool
+  mut step_timer : Float
+  mut lava_timer : Float
+  mut lava_interval : Float
+  mut site_count : Int
+  mut truck_x : Int
+  mut truck_y : Int
+  mut start_x : Int
+  mut start_y : Int
+  mut shelter_x : Int
+  mut shelter_y : Int
+  mut carrying : Int
+  mut rescued : Int
+  mut lost : Int
+  mut goal_rescue : Int
+  mut total_civilians : Int
+  mut heat : Float
+  mut fuel : Float
+  mut coolant : Float
+  mut mission_time : Float
+  mut mission_limit : Float
+  mut level_index : Int
+  mut state : Int
+  mut result : Int
+  mut ui_t : Float
+  mut msg : String
+  mut msg_t : Float
+  mut touch_cd : Float
+  mut last_plan_ok : Bool
+  mut selected_tx : Int
+  mut selected_ty : Int
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+// Type aliases
+
+// Traits
+

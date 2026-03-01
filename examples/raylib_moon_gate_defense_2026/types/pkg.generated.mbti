@@ -1,0 +1,325 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_moon_gate_defense_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub let barrier_charge_combo : Float
+
+pub let barrier_charge_combo_cap : Int
+
+pub let barrier_charge_goal : Float
+
+pub let barrier_charge_kill : Float
+
+pub let barrier_damage : Float
+
+pub let barrier_flash_time : Float
+
+pub let barrier_push : Float
+
+pub let barrier_radius : Float
+
+pub fn board_bottom() -> Float
+
+pub let board_h : Int
+
+pub fn board_left() -> Float
+
+pub fn board_right() -> Float
+
+pub fn board_top() -> Float
+
+pub let board_w : Int
+
+pub let board_x : Int
+
+pub let board_y : Int
+
+pub let bolt_hit_radius : Float
+
+pub let bolt_life : Float
+
+pub fn cell_center_x(Int) -> Float
+
+pub fn cell_center_y(Int) -> Float
+
+pub let cell_size : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn col_barrier() -> @raylib.Color
+
+pub fn col_bg_bottom() -> @raylib.Color
+
+pub fn col_bg_top() -> @raylib.Color
+
+pub fn col_enemy(Int) -> @raylib.Color
+
+pub fn col_energy() -> @raylib.Color
+
+pub fn col_gate() -> @raylib.Color
+
+pub fn col_grid() -> @raylib.Color
+
+pub fn col_node(Int) -> @raylib.Color
+
+pub let combo_score_step : Int
+
+pub let combo_window : Float
+
+pub fn cosf(Float) -> Float
+
+pub let dir_down : Int
+
+pub let dir_left : Int
+
+pub let dir_right : Int
+
+pub let dir_up : Int
+
+pub fn dir_vec_x(Int) -> Float
+
+pub fn dir_vec_y(Int) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let enemy_base_hp : Float
+
+pub let enemy_base_speed : Float
+
+pub let enemy_contact_damage_base : Float
+
+pub let enemy_contact_damage_wave : Float
+
+pub let enemy_hp_per_wave : Float
+
+pub let enemy_kind_carapace : Int
+
+pub let enemy_kind_skitter : Int
+
+pub let enemy_kind_wraith : Int
+
+pub let enemy_speed_per_wave : Float
+
+pub let energy_max : Float
+
+pub let energy_regen : Float
+
+pub let energy_start : Float
+
+pub let gate_gx : Int
+
+pub let gate_gy : Int
+
+pub let gate_hit_radius : Float
+
+pub let gate_hp_max : Float
+
+pub let gate_radius : Float
+
+pub fn gate_x() -> Float
+
+pub fn gate_y() -> Float
+
+pub let grid_cols : Int
+
+pub let grid_rows : Int
+
+pub fn is_gate_cell(Int, Int) -> Bool
+
+pub let max_bolts : Int
+
+pub let max_enemies : Int
+
+pub let max_nodes : Int
+
+pub let max_pulses : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub let node_build_cost : Float
+
+pub let node_cone_dot_sq : Float
+
+pub fn node_damage(Int) -> Float
+
+pub let node_damage_l1 : Float
+
+pub let node_damage_l2 : Float
+
+pub let node_damage_l3 : Float
+
+pub fn node_fire_cd(Int) -> Float
+
+pub let node_fire_cd_l1 : Float
+
+pub let node_fire_cd_l2 : Float
+
+pub let node_fire_cd_l3 : Float
+
+pub let node_max_level : Int
+
+pub let node_projectile_speed : Float
+
+pub fn node_range(Int) -> Float
+
+pub let node_range_l1 : Float
+
+pub let node_range_l2 : Float
+
+pub let node_range_l3 : Float
+
+pub let node_sell_ratio : Float
+
+pub fn node_sell_refund(Int) -> Float
+
+pub fn node_total_cost(Int) -> Float
+
+pub fn node_upgrade_cost(Int) -> Float
+
+pub let node_upgrade_cost_l2 : Float
+
+pub let node_upgrade_cost_l3 : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let shake_time_hit : Float
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_cd_base : Float
+
+pub let spawn_cd_min : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let state_game_over : Int
+
+pub let state_paused : Int
+
+pub let state_playing : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let wave_energy_bonus : Float
+
+pub let wave_intro_delay : Float
+
+pub fn wave_spawn_cd(Int) -> Float
+
+pub fn wave_spawn_count(Int) -> Int
+
+pub let wave_spawn_count_base : Int
+
+pub let wave_spawn_count_step : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Bolt {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  vx : Float
+  vy : Float
+  mut life : Float
+  dmg : Float
+}
+pub fn Bolt::new() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  kind : Int
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut hp : Float
+  max_hp : Float
+  speed : Float
+  radius : Float
+  reward : Int
+  gate_damage : Float
+  mut phase : Float
+}
+pub fn Enemy::new() -> Self
+
+pub(all) struct Game {
+  nodes : Array[Node]
+  enemies : Array[Enemy]
+  bolts : Array[Bolt]
+  pulses : Array[PulseFx]
+  mut state : Int
+  mut score : Int
+  mut best_score : Int
+  mut kills : Int
+  mut wave : Int
+  mut pending_spawns : Int
+  mut spawn_cd : Float
+  mut wave_delay : Float
+  mut gate_hp : Float
+  mut energy : Float
+  mut barrier_charge : Float
+  mut barrier_flash : Float
+  mut combo : Int
+  mut combo_timer : Float
+  mut time_s : Float
+  mut shake_t : Float
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut cursor_dir : Int
+  mut status_text : String
+  mut status_t : Float
+  mut input_move_x : Int
+  mut input_move_y : Int
+  mut input_place_press : Bool
+  mut input_cancel_press : Bool
+  mut input_barrier_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Node {
+  active : Bool
+  gx : Int
+  gy : Int
+  mut level : Int
+  mut facing : Int
+  mut cooldown : Float
+  mut pulse : Float
+}
+pub fn Node::new() -> Self
+
+pub(all) struct PulseFx {
+  mut active : Bool
+  x : Float
+  y : Float
+  mut radius : Float
+  mut life : Float
+  max_life : Float
+  kind : Int
+}
+pub fn PulseFx::new() -> Self
+
+// Type aliases
+
+// Traits
+

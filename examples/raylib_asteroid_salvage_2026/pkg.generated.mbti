@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_asteroid_salvage_2026"
 // Errors
 
 // Types and methods
-type Bullet
-
-type Game
-
-type Rock
 
 // Type aliases
 

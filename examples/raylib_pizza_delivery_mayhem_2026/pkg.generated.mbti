@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_pizza_delivery_mayhem_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Order
-
-type Particle
-
-type Pickup
-
-type Traffic
 
 // Type aliases
 

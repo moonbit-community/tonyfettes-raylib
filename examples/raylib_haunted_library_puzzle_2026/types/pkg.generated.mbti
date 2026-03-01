@@ -1,0 +1,227 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_haunted_library_puzzle_2026/types"
+
+// Values
+pub fn absi(Int) -> Int
+
+pub let board_h : Int
+
+pub fn board_px(Int) -> Int
+
+pub fn board_py(Int) -> Int
+
+pub let board_w : Int
+
+pub let board_x0 : Int
+
+pub let board_y0 : Int
+
+pub fn btn_action() -> (Int, Int, Int, Int)
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_menu() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub let cell : Int
+
+pub fn cell_center_x(Float) -> Int
+
+pub fn cell_center_y(Float) -> Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let escape_score : Int
+
+pub let exit_x : Int
+
+pub let exit_y : Int
+
+pub let ghost_move_time : Float
+
+pub let grid_h : Int
+
+pub let grid_w : Int
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub fn manhattan(Int, Int, Int, Int) -> Int
+
+pub let max_ghosts : Int
+
+pub let max_pages : Int
+
+pub let max_particles : Int
+
+pub let max_shelves : Int
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub let page_score : Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let player_move_time : Float
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub fn retry_hover(Float, Float, Bool, Int) -> Bool
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn seal_hint(Int) -> String
+
+pub let seal_need : Int
+
+pub fn seal_pos(Int) -> (Int, Int)
+
+pub let seal_score : Int
+
+pub fn sinf(Float) -> Float
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let start_x : Int
+
+pub let start_y : Int
+
+pub let target_fps : Int
+
+pub fn title_hover(Float, Float, Bool, Int) -> Bool
+
+// Errors
+
+// Types and methods
+pub(all) struct Actor {
+  mut x : Int
+  mut y : Int
+  mut from_x : Int
+  mut from_y : Int
+  mut to_x : Int
+  mut to_y : Int
+  mut fx : Float
+  mut fy : Float
+  mut t : Float
+  mut moving : Bool
+}
+pub fn Actor::new() -> Self
+
+pub(all) struct Game {
+  map : Array[Tile]
+  shelf_x : Array[Int]
+  shelf_y : Array[Int]
+  mut shelf_n : Int
+  page_x : Array[Int]
+  page_y : Array[Int]
+  page_taken : Array[Bool]
+  ghosts : Array[Ghost]
+  particles : Array[Particle]
+  mut state : GameState
+  player : Actor
+  mut lives : Int
+  mut pages : Int
+  mut seals_on : Int
+  mut gate_open : Bool
+  mut score : Int
+  mut steps : Int
+  mut time_s : Float
+  mut req_dx : Int
+  mut req_dy : Int
+  mut action_down : Bool
+  mut action_pressed : Bool
+  mut move_cd : Float
+  mut action_cd : Float
+  mut stun_energy : Float
+  mut touch_cd : Float
+  mut msg : String
+  mut msg_t : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut hint_i : Int
+  mut win : Bool
+  mut loss_reason : String
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Ghost {
+  mut active : Bool
+  body : Actor
+  mut mode : GhostMode
+  mut stun_t : Float
+  mut move_cd : Float
+  mut seed : Int
+  mut alert_t : Float
+}
+pub fn Ghost::new() -> Self
+
+pub(all) enum GhostMode {
+  Patrol
+  Hunt
+  Stunned
+}
+pub impl Eq for GhostMode
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : ParticleKind
+}
+pub fn Particle::new() -> Self
+
+pub(all) enum ParticleKind {
+  Dust
+  Gold
+  Purple
+}
+pub impl Eq for ParticleKind
+
+pub(all) enum Tile {
+  Floor
+  Wall
+  Exit
+}
+pub impl Eq for Tile
+
+// Type aliases
+
+// Traits
+

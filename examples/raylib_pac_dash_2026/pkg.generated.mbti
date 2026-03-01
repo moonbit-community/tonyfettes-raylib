@@ -6,9 +6,6 @@ package "tonyfettes/raylib-examples/raylib_pac_dash_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Ghost
 
 // Type aliases
 

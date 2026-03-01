@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_snake_battle_arena_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Rival
-
-type Spark
 
 // Type aliases
 

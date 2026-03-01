@@ -6,9 +6,6 @@ package "tonyfettes/raylib-examples/raylib_volcano_rescue_ops_2026"
 // Errors
 
 // Types and methods
-type CivilianSite
-
-type Game
 
 // Type aliases
 

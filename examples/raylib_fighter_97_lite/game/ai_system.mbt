@@ -1,11 +1,14 @@
 ///|
-fn ai_set_mode_from_distance(fighter : @types.Fighter, distance : Float) -> Unit {
+fn ai_set_mode_from_distance(
+  fighter : @types.Fighter,
+  distance : Float,
+) -> Unit {
   if distance > 330.0 {
-    fighter.ai_mode = @types.ai_mode_rush
+    fighter.ai_mode = @types.AiModeRush
   } else if distance < 120.0 {
-    fighter.ai_mode = @types.ai_mode_evade
+    fighter.ai_mode = @types.AiModeEvade
   } else {
-    fighter.ai_mode = @types.ai_mode_zone
+    fighter.ai_mode = @types.AiModeZone
   }
 }
 
@@ -23,13 +26,13 @@ fn ai_should_block(
   opponent : @types.Fighter,
   distance : Float,
 ) -> Bool {
-  if opponent.action != @types.action_attack {
+  if opponent.action != @types.ActionAttack {
     return false
   }
   if distance > 170.0 {
     return false
   }
-  let pressure = if opponent.current_move.move_kind == @types.move_kind_super {
+  let pressure = if opponent.current_move.move_kind == @types.MoveKindSuper {
     @types.cpu_block_chance + 0.18
   } else {
     @types.cpu_block_chance
@@ -51,13 +54,13 @@ fn ai_pick_desired_axis(
     return (-toward, if @types.rand_chance(game, 0.35) { 1 } else { 0 })
   }
 
-  if fighter.ai_mode == @types.ai_mode_rush {
+  if fighter.ai_mode == @types.AiModeRush {
     if distance > 120.0 {
       (toward, 0)
     } else {
       (if @types.rand_chance(game, 0.3) { toward } else { 0 }, 0)
     }
-  } else if fighter.ai_mode == @types.ai_mode_evade {
+  } else if fighter.ai_mode == @types.AiModeEvade {
     if distance < 200.0 {
       (-toward, 0)
     } else {
@@ -73,7 +76,11 @@ fn ai_pick_desired_axis(
 }
 
 ///|
-fn ai_try_jump(game : @types.Game, fighter : @types.Fighter, distance : Float) -> Bool {
+fn ai_try_jump(
+  game : @types.Game,
+  fighter : @types.Fighter,
+  distance : Float,
+) -> Bool {
   if not(fighter.on_ground) {
     return false
   }
@@ -90,11 +97,11 @@ fn ai_try_attack(
   opponent : @types.Fighter,
   distance : Float,
 ) -> Unit {
-  if fighter.action == @types.action_attack ||
-    fighter.action == @types.action_hitstun ||
-    fighter.action == @types.action_blockstun ||
-    fighter.action == @types.action_knockdown ||
-    fighter.action == @types.action_wakeup {
+  if fighter.action == @types.ActionAttack ||
+    fighter.action == @types.ActionHitstun ||
+    fighter.action == @types.ActionBlockstun ||
+    fighter.action == @types.ActionKnockdown ||
+    fighter.action == @types.ActionWakeup {
     return
   }
 
@@ -113,7 +120,8 @@ fn ai_try_attack(
     distance <= @types.throw_distance * 0.9 &&
     @types.rand_chance(game, 0.18) {
     fighter.ai_wants_throw = true
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.04, 0.1)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.04, 0.1)
     return
   }
 
@@ -122,13 +130,14 @@ fn ai_try_attack(
     distance < 240.0 &&
     @types.rand_chance(game, @types.cpu_super_chance) {
     fighter.ai_wants_super = true
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.08, 0.18)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.08, 0.18)
     return
   }
 
   if opp_air && distance < 140.0 && @types.rand_chance(game, 0.42) {
     fighter.ai_wants_special = true
-    fighter.input.buffered_motion = @types.motion_dp
+    fighter.input.buffered_motion = @types.MotionDp
     fighter.input.motion_timer = 0.24
     fighter.ai_cooldown = @types.cpu_reaction_base
     return
@@ -138,9 +147,10 @@ fn ai_try_attack(
     distance < 250.0 &&
     @types.rand_chance(game, @types.cpu_special_chance) {
     fighter.ai_wants_special = true
-    fighter.input.buffered_motion = @types.motion_qcf
+    fighter.input.buffered_motion = @types.MotionQcf
     fighter.input.motion_timer = 0.24
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.06, 0.16)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.06, 0.16)
     return
   }
 
@@ -171,11 +181,11 @@ fn ai_apply_attack_flags(fighter : @types.Fighter) -> Unit {
   } else if fighter.ai_wants_special {
     let choice = rand_rangef_by_seedless(fighter)
     if choice < 0.5 {
-      fighter.input.buffered_motion = @types.motion_qcf
+      fighter.input.buffered_motion = @types.MotionQcf
       fighter.input.motion_timer = 0.24
       input_press_hp(fighter)
     } else {
-      fighter.input.buffered_motion = @types.motion_dp
+      fighter.input.buffered_motion = @types.MotionDp
       fighter.input.motion_timer = 0.24
       input_press_hk(fighter)
     }
@@ -205,7 +215,8 @@ fn update_cpu_input(game : @types.Game, slot : Int, dt : Float) -> Unit {
 
   fighter.ai_timer -= dt
   if fighter.ai_timer <= 0.0 {
-    fighter.ai_timer = @types.cpu_think_period + @types.rand_rangef(game, 0.02, 0.07)
+    fighter.ai_timer = @types.cpu_think_period +
+      @types.rand_rangef(game, 0.02, 0.07)
     ai_reset_flags(fighter)
   }
 

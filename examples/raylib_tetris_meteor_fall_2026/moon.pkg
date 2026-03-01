@@ -1,5 +1,8 @@
 import {
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_tetris_meteor_fall_2026/types",
+  "tonyfettes/raylib-examples/raylib_tetris_meteor_fall_2026/game",
+  "tonyfettes/raylib-examples/raylib_tetris_meteor_fall_2026/render",
 }
 
 options(

@@ -1,0 +1,116 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_2048/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let anim_pop_scale : Float
+
+pub let anim_pop_speed : Float
+
+pub let anim_slide_speed : Float
+
+pub let bg_color : @raylib.Color
+
+pub let board_bg_color : @raylib.Color
+
+pub let board_left : Int
+
+pub let board_padding : Int
+
+pub let board_size : Int
+
+pub let board_top : Int
+
+pub let btn_color : @raylib.Color
+
+pub let btn_text_color : @raylib.Color
+
+pub let cell_count : Int
+
+pub let cell_empty_color : @raylib.Color
+
+pub let cell_gap : Int
+
+pub fn cell_screen_x(Int) -> Float
+
+pub fn cell_screen_y(Int) -> Float
+
+pub let cell_size : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub let grid_size : Int
+
+pub let header_text_color : @raylib.Color
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub fn rect(Int, Int, Int, Int) -> @raylib.Rectangle
+
+pub fn rectf(Float, Float, Float, Float) -> @raylib.Rectangle
+
+pub let score_bg_color : @raylib.Color
+
+pub let score_label_color : @raylib.Color
+
+pub let score_value_color : @raylib.Color
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let target_fps : Int
+
+pub fn tile_color(Int) -> @raylib.Color
+
+pub fn tile_font_size(Int) -> Int
+
+pub fn tile_text_color(Int) -> @raylib.Color
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  tiles : Array[Tile]
+  prev_values : Array[Int]
+  mut state : GameState
+  mut score : Int
+  mut best_score : Int
+  mut prev_score : Int
+  mut can_undo : Bool
+  mut animating : Bool
+  mut msg : String
+  mut msg_t : Float
+  mut keep_playing : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Won
+  Over
+}
+pub impl Eq for GameState
+
+pub(all) struct Tile {
+  mut value : Int
+  mut anim_x : Float
+  mut anim_y : Float
+  mut target_x : Float
+  mut target_y : Float
+  mut scale : Float
+  mut is_new : Bool
+  mut is_merged : Bool
+}
+pub fn Tile::empty() -> Self
+
+// Type aliases
+
+// Traits
+

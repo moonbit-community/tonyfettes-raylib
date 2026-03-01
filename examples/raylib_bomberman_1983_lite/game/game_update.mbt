@@ -14,11 +14,15 @@ fn update_starfield(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn enter_game_over(game : @types.Game) -> Unit {
-  if game.state == @types.state_game_over {
+  if game.state == @types.GameOver {
     return
   }
-  game.state = @types.state_game_over
-  game.game_over_timer = if game.demo_mode { 0.8 } else { @types.game_over_delay }
+  game.state = @types.GameOver
+  game.game_over_timer = if game.demo_mode {
+    0.8
+  } else {
+    @types.game_over_delay
+  }
 }
 
 ///|
@@ -92,7 +96,7 @@ fn update_stage_intro(game : @types.Game, dt : Float) -> Unit {
   game.stage_intro_timer -= dt
   if game.stage_intro_timer <= 0.0 {
     game.stage_intro_timer = 0.0
-    game.state = @types.state_playing
+    game.state = @types.Playing
   }
 }
 
@@ -105,7 +109,7 @@ fn update_stage_clear(game : @types.Game, dt : Float) -> Unit {
 
   game.stage_index += 1
   if game.stage_index >= @types.level_count {
-    game.state = @types.state_campaign_clear
+    game.state = @types.CampaignClear
     game.campaign_clear_timer = if game.demo_mode {
       1.0
     } else {
@@ -123,7 +127,7 @@ fn update_campaign_clear(game : @types.Game, dt : Float) -> Unit {
     if game.demo_mode {
       start_demo_campaign(game)
     } else {
-      game.state = @types.state_menu
+      game.state = @types.Menu
       game.menu_cursor = 0
     }
   }
@@ -136,7 +140,7 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
     if game.demo_mode {
       start_demo_campaign(game)
     } else {
-      game.state = @types.state_menu
+      game.state = @types.Menu
       game.menu_cursor = 0
     }
   }
@@ -146,13 +150,13 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
 fn update_playing(game : @types.Game, dt : Float) -> Unit {
   if game.demo_mode && @raylib.is_key_pressed(@raylib.KeyEscape) {
     game.demo_mode = false
-    game.state = @types.state_menu
+    game.state = @types.Menu
     game.menu_cursor = 0
     return
   }
 
   if not(game.demo_mode) && @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     return
   }
 
@@ -188,7 +192,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 
   if stage_is_clear(game) {
-    game.state = @types.state_stage_clear
+    game.state = @types.StageClear
     game.stage_clear_timer = if game.demo_mode {
       0.65
     } else {
@@ -208,10 +212,10 @@ fn update_paused(game : @types.Game, dt : Float) -> Unit {
   game.pause_blink += dt * 4.5
   @particles.update_particles(game, dt)
   if @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = @types.state_playing
+    game.state = @types.Playing
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_menu
+    game.state = @types.Menu
     game.menu_cursor = 0
   }
 }
@@ -220,23 +224,17 @@ fn update_paused(game : @types.Game, dt : Float) -> Unit {
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.frame_counter += 1
   update_starfield(game, dt)
-  if game.demo_mode && game.state != @types.state_menu {
+  if game.demo_mode && game.state != @types.Menu {
     game.demo_elapsed += dt
   }
 
-  if game.state == @types.state_menu {
-    update_menu(game, dt)
-  } else if game.state == @types.state_stage_intro {
-    update_stage_intro(game, dt)
-  } else if game.state == @types.state_playing {
-    update_playing(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else if game.state == @types.state_game_over {
-    update_game_over(game, dt)
-  } else if game.state == @types.state_campaign_clear {
-    update_campaign_clear(game, dt)
+  match game.state {
+    @types.Menu => update_menu(game, dt)
+    @types.StageIntro => update_stage_intro(game, dt)
+    @types.Playing => update_playing(game, dt)
+    @types.Paused => update_paused(game, dt)
+    @types.StageClear => update_stage_clear(game, dt)
+    @types.GameOver => update_game_over(game, dt)
+    @types.CampaignClear => update_campaign_clear(game, dt)
   }
 }

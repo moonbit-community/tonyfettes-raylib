@@ -36,7 +36,12 @@ pub fn spawn_particle(
 }
 
 ///|
-pub fn spawn_spark_burst(game : @types.Game, x : Float, y : Float, count : Int) -> Unit {
+pub fn spawn_spark_burst(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  count : Int,
+) -> Unit {
   for _i in 0..<count {
     let angle = @types.rand_rangef(game, 0.0, 6.28318)
     let speed = @types.rand_rangef(game, 65.0, 210.0)
@@ -57,7 +62,12 @@ pub fn spawn_spark_burst(game : @types.Game, x : Float, y : Float, count : Int) 
 }
 
 ///|
-pub fn spawn_explosion(game : @types.Game, x : Float, y : Float, strength : Float) -> Unit {
+pub fn spawn_explosion(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  strength : Float,
+) -> Unit {
   let sparks = @types.clampi((strength * 20.0).to_int(), 10, 70)
   for i in 0..<sparks {
     let angle = @types.rand_rangef(game, 0.0, 6.28318)

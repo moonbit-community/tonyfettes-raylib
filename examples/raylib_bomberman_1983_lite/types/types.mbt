@@ -1,7 +1,55 @@
 ///|
+pub(all) enum GameState {
+  Menu
+  StageIntro
+  Playing
+  Paused
+  StageClear
+  GameOver
+  CampaignClear
+} derive(Eq)
+
+///|
+pub(all) enum Team {
+  None
+  Player1
+  Player2
+  Enemy
+} derive(Eq)
+
+///|
+pub(all) enum TileKind {
+  Empty
+  Brick
+  Steel
+  Water
+  Bush
+  Ice
+  Base
+} derive(Eq)
+
+///|
+pub(all) enum EnemyKind {
+  Basic
+  Fast
+  Heavy
+  Sniper
+} derive(Eq)
+
+///|
+pub(all) enum PowerupKind {
+  Shield
+  Star
+  Grenade
+  Clock
+  Shovel
+  ExtraLife
+} derive(Eq)
+
+///|
 pub(all) struct Tank {
   mut active : Bool
-  enemy_kind : Int
+  enemy_kind : EnemyKind
   mut x : Float
   mut y : Float
   mut dir : Int
@@ -26,7 +74,7 @@ pub(all) struct Tank {
 pub fn Tank::inactive() -> Tank {
   {
     active: false,
-    enemy_kind: enemy_basic,
+    enemy_kind: Basic,
     x: 0.0,
     y: 0.0,
     dir: dir_up,
@@ -52,7 +100,7 @@ pub fn Tank::inactive() -> Tank {
 pub fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank {
   {
     active: true,
-    enemy_kind: enemy_basic,
+    enemy_kind: Basic,
     x: spawn_x,
     y: spawn_y,
     dir: dir_up,
@@ -75,15 +123,16 @@ pub fn Tank::new_player(_index : Int, spawn_x : Float, spawn_y : Float) -> Tank 
 }
 
 ///|
-pub fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
-  let (speed, hp, reload) = if kind == enemy_fast {
-    (speed_enemy_fast, 1, enemy_reload_base * 0.85)
-  } else if kind == enemy_heavy {
-    (speed_enemy_heavy, 4, enemy_reload_base * 1.35)
-  } else if kind == enemy_sniper {
-    (speed_enemy_sniper, 2, enemy_reload_base * 0.72)
-  } else {
-    (speed_enemy_basic, 1, enemy_reload_base)
+pub fn Tank::new_enemy(
+  kind : EnemyKind,
+  spawn_x : Float,
+  spawn_y : Float,
+) -> Tank {
+  let (speed, hp, reload) = match kind {
+    Fast => (speed_enemy_fast, 1, enemy_reload_base * 0.85)
+    Heavy => (speed_enemy_heavy, 4, enemy_reload_base * 1.35)
+    Sniper => (speed_enemy_sniper, 2, enemy_reload_base * 0.72)
+    Basic => (speed_enemy_basic, 1, enemy_reload_base)
   }
   {
     active: true,
@@ -112,7 +161,7 @@ pub fn Tank::new_enemy(kind : Int, spawn_x : Float, spawn_y : Float) -> Tank {
 ///|
 pub(all) struct Bullet {
   mut active : Bool
-  owner_team : Int
+  owner_team : Team
   mut x : Float
   mut y : Float
   vx : Float
@@ -127,7 +176,7 @@ pub(all) struct Bullet {
 pub fn Bullet::inactive() -> Bullet {
   {
     active: false,
-    owner_team: team_none,
+    owner_team: None,
     x: 0.0,
     y: 0.0,
     vx: 0.0,
@@ -142,7 +191,7 @@ pub fn Bullet::inactive() -> Bullet {
 ///|
 pub(all) struct Bomb {
   mut active : Bool
-  mut owner_team : Int
+  mut owner_team : Team
   mut x : Float
   mut y : Float
   mut tile_x : Int
@@ -157,7 +206,7 @@ pub(all) struct Bomb {
 pub fn Bomb::inactive() -> Bomb {
   {
     active: false,
-    owner_team: team_none,
+    owner_team: None,
     x: 0.0,
     y: 0.0,
     tile_x: 0,
@@ -202,7 +251,7 @@ pub fn Particle::inactive() -> Particle {
 ///|
 pub(all) struct Powerup {
   mut active : Bool
-  mut kind : Int
+  mut kind : PowerupKind
   mut x : Float
   mut y : Float
   mut ttl : Float
@@ -214,7 +263,7 @@ pub(all) struct Powerup {
 pub fn Powerup::inactive() -> Powerup {
   {
     active: false,
-    kind: powerup_shield,
+    kind: Shield,
     x: 0.0,
     y: 0.0,
     ttl: 0.0,
@@ -238,7 +287,7 @@ pub fn Star::new(x : Float, y : Float, speed : Float, twinkle : Float) -> Star {
 
 ///|
 pub(all) struct Game {
-  mut state : Int
+  mut state : GameState
   mut coop_enabled : Bool
   mut demo_mode : Bool
   mut demo_runs : Int
@@ -259,7 +308,7 @@ pub(all) struct Game {
   mut camera_shake_phase : Float
   mut base_alive : Bool
   mut base_flash : Float
-  base_tiles_cached : Array[Int]
+  base_tiles_cached : Array[TileKind]
   mut score_total : Int
   mut high_score : Int
   mut enemies_to_spawn : Int
@@ -269,7 +318,7 @@ pub(all) struct Game {
   mut kill_combo : Int
   mut combo_timer : Float
   mut rng_state : Int
-  map_tiles : Array[Int]
+  map_tiles : Array[TileKind]
   map_hp : Array[Int]
   players : Array[Tank]
   enemies : Array[Tank]
@@ -292,7 +341,7 @@ pub fn Game::new() -> Game {
   }
 
   {
-    state: state_menu,
+    state: Menu,
     coop_enabled: false,
     demo_mode: false,
     demo_runs: 0,
@@ -313,7 +362,7 @@ pub fn Game::new() -> Game {
     camera_shake_phase: 0.0,
     base_alive: true,
     base_flash: 0.0,
-    base_tiles_cached: Array::make(base_ring_count, tile_brick),
+    base_tiles_cached: Array::make(base_ring_count, Brick),
     score_total: 0,
     high_score: 0,
     enemies_to_spawn: 20,
@@ -323,7 +372,7 @@ pub fn Game::new() -> Game {
     kill_combo: 0,
     combo_timer: 0.0,
     rng_state: 0x13572468,
-    map_tiles: Array::make(max_tiles, tile_empty),
+    map_tiles: Array::make(max_tiles, Empty),
     map_hp: Array::make(max_tiles, 0),
     players: [
       Tank::new_player(0, player1_spawn_x, player1_spawn_y),
@@ -339,10 +388,10 @@ pub fn Game::new() -> Game {
 }
 
 ///|
-pub fn team_of_player(index : Int) -> Int {
+pub fn team_of_player(index : Int) -> Team {
   if index == 0 {
-    team_player1
+    Player1
   } else {
-    team_player2
+    Player2
   }
 }

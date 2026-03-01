@@ -25,7 +25,9 @@ fn hostage_goal_for_stage(stage : Int) -> Int {
 
 ///|
 fn tile_is_hostage_spawnable(tile : Int) -> Bool {
-  tile == @types.tile_empty || tile == @types.tile_bush || tile == @types.tile_ice
+  tile == @types.tile_empty ||
+  tile == @types.tile_bush ||
+  tile == @types.tile_ice
 }
 
 ///|
@@ -77,7 +79,9 @@ fn seed_stage_hostages(game : @types.Game, stage : Int) -> Unit {
   }
 
   if placed < game.hostages_goal {
-    for ty = 3; ty < @types.map_tiles_h - 3 && placed < game.hostages_goal; ty = ty + 1 {
+    for ty = 3
+        ty < @types.map_tiles_h - 3 && placed < game.hostages_goal
+        ty = ty + 1 {
       for tx = 2
           tx < @types.map_tiles_w - 2 && placed < game.hostages_goal
           tx = tx + 1 {
@@ -118,7 +122,8 @@ fn update_hostages(game : @types.Game, dt : Float) -> Unit {
         continue
       }
 
-      if @types.distance_sq(hostage.x, hostage.y, player.x, player.y) <= pickup_r2 {
+      if @types.distance_sq(hostage.x, hostage.y, player.x, player.y) <=
+        pickup_r2 {
         hostage.active = false
         game.hostages_rescued += 1
 

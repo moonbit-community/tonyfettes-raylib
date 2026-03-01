@@ -31,8 +31,14 @@ fn sight_blocked(
     let t = Float::from_int(i) / Float::from_int(n)
     let px = ax + dx * t
     let py = ay + dy * t
-    let tile = @types.get_tile(game, @types.world_x_to_tile(px), @types.world_y_to_tile(py))
-    if tile == @types.tile_brick || tile == @types.tile_steel || tile == @types.tile_base {
+    let tile = @types.get_tile(
+      game,
+      @types.world_x_to_tile(px),
+      @types.world_y_to_tile(py),
+    )
+    if tile == @types.tile_brick ||
+      tile == @types.tile_steel ||
+      tile == @types.tile_base {
       return true
     }
   }
@@ -57,7 +63,11 @@ fn demo_nearest_enemy(game : @types.Game, x : Float, y : Float) -> (Int, Float) 
 }
 
 ///|
-fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float) {
+fn demo_nearest_powerup(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+) -> (Int, Float) {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
   for i in 0..<game.powerups.length() {
@@ -74,7 +84,12 @@ fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float
 }
 
 ///|
-fn demo_can_step(game : @types.Game, index : Int, dir : Int, dt : Float) -> Bool {
+fn demo_can_step(
+  game : @types.Game,
+  index : Int,
+  dir : Int,
+  dt : Float,
+) -> Bool {
   let player = game.players[index]
   if not(player.active) {
     return false
@@ -200,7 +215,11 @@ fn demo_target_position(
   } else if nearest_enemy >= 0 {
     (game.enemies[nearest_enemy].x, game.enemies[nearest_enemy].y)
   } else {
-    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) { 0 } else { 1 }
+    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) {
+      0
+    } else {
+      1
+    }
     let guard_x = @types.tile_center_x(@types.base_tile_x + guard_tile_x)
     let guard_y = @types.tile_center_y(@types.base_tile_y - 1)
     (guard_x, guard_y)
@@ -208,7 +227,11 @@ fn demo_target_position(
 }
 
 ///|
-fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Bool) {
+fn demo_player_command(
+  game : @types.Game,
+  index : Int,
+  dt : Float,
+) -> (Int, Bool) {
   let player = game.players[index]
   if not(player.active) {
     return (-1, false)

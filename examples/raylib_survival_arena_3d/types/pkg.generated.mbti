@@ -400,16 +400,6 @@ pub let speed_shotgun : Float
 
 pub let speed_sniper : Float
 
-pub let state_game_over : Int
-
-pub let state_menu : Int
-
-pub let state_paused : Int
-
-pub let state_playing : Int
-
-pub let state_wave_complete : Int
-
 pub let trap_electric : Int
 
 pub let trap_electric_cooldown : Float
@@ -545,7 +535,7 @@ pub(all) struct Enemy {
 pub fn Enemy::inactive() -> Self
 
 pub(all) struct Game {
-  mut state : Int
+  mut state : GameState
   player : Player
   weapons : Array[WeaponState]
   mut current_wave : Int
@@ -597,6 +587,15 @@ pub(all) struct Game {
   mut total_damage_taken : Float
 }
 pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Menu
+  Playing
+  WaveComplete
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
 
 pub(all) struct KillFeedEntry {
   mut active : Bool

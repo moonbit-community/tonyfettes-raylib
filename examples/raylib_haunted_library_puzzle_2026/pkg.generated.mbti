@@ -6,13 +6,6 @@ package "tonyfettes/raylib-examples/raylib_haunted_library_puzzle_2026"
 // Errors
 
 // Types and methods
-type Actor
-
-type Game
-
-type Ghost
-
-type Particle
 
 // Type aliases
 

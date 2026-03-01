@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flappy_sky_ruins_2026/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_flappy_sky_ruins_2026/types",
+}
+
+// Values
+pub fn update_play(@types.Game, Float) -> Unit
+
+pub fn update_play_input(@types.Game, Float) -> Unit
+
+pub fn update_result_input(@types.Game) -> Unit
+
+pub fn update_title_input(@types.Game) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,652 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_fighter_97_lite/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let action_attack : Int
+
+pub let action_blockstun : Int
+
+pub let action_crouch : Int
+
+pub let action_dash_back : Int
+
+pub let action_dash_forward : Int
+
+pub let action_hitstun : Int
+
+pub let action_idle : Int
+
+pub let action_intro : Int
+
+pub let action_jump : Int
+
+pub let action_knockdown : Int
+
+pub fn action_name(Action) -> String
+
+pub let action_throw : Int
+
+pub let action_victory : Int
+
+pub let action_wakeup : Int
+
+pub let action_walk_back : Int
+
+pub let action_walk_forward : Int
+
+pub fn add_guard(Fighter, Float, CharacterArchetype) -> Unit
+
+pub fn add_meter(Fighter, Int, CharacterArchetype) -> Unit
+
+pub let ai_mode_evade : Int
+
+pub let ai_mode_idle : Int
+
+pub let ai_mode_rush : Int
+
+pub let ai_mode_zone : Int
+
+pub fn approachf(Float, Float, Float) -> Float
+
+pub fn attack_hitbox_for(Fighter, MoveSpec) -> @raylib.Rectangle
+
+pub let attack_hk : Int
+
+pub let attack_hp : Int
+
+pub let attack_lk : Int
+
+pub let attack_lp : Int
+
+pub let attack_none : Int
+
+pub let attack_special_dp : Int
+
+pub let attack_special_qcf : Int
+
+pub let attack_super : Int
+
+pub fn build_roster() -> Array[CharacterArchetype]
+
+pub fn camera_project_size(Game, Float) -> Float
+
+pub fn camera_project_x(Game, Float) -> Float
+
+pub fn camera_project_y(Game, Float) -> Float
+
+pub let camera_shake_decay : Float
+
+pub let camera_shake_max : Float
+
+pub let camera_zoom_base : Float
+
+pub let camera_zoom_close : Float
+
+pub let camera_zoom_far : Float
+
+pub let center_line_x : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_decay_step : Float
+
+pub let combo_timeout_frames : Int
+
+pub fn countdown_color(Float) -> @raylib.Color
+
+pub let counter_hit_bonus : Float
+
+pub let cpu_block_chance : Float
+
+pub let cpu_jump_chance : Float
+
+pub let cpu_reaction_base : Float
+
+pub let cpu_special_chance : Float
+
+pub let cpu_super_chance : Float
+
+pub let cpu_think_period : Float
+
+pub let crouch_slide_speed : Float
+
+pub let dash_back_speed : Float
+
+pub let dash_duration_frames : Int
+
+pub let dash_forward_speed : Float
+
+pub let dir_back : Int
+
+pub let dir_down : Int
+
+pub let dir_down_back : Int
+
+pub let dir_down_forward : Int
+
+pub let dir_forward : Int
+
+pub let dir_neutral : Int
+
+pub let dir_up : Int
+
+pub let direction_buffer_size : Int
+
+pub fn draw_center_shadow_text(String, Int, Int, Int, @raylib.Color) -> Unit
+
+pub fn draw_shadow_text(String, Int, Int, Int, @raylib.Color) -> Unit
+
+pub fn f(Double) -> Float
+
+pub let facing_left : Int
+
+pub let facing_right : Int
+
+pub fn facing_sign(Int) -> Float
+
+pub let fight_fps : Float
+
+pub fn fighter_archetype(Game, Fighter) -> CharacterArchetype
+
+pub let fighter_body_height : Float
+
+pub let fighter_body_width : Float
+
+pub let fighter_crouch_hurtbox_h : Float
+
+pub let fighter_crouch_hurtbox_w : Float
+
+pub fn fighter_distance_x(Fighter, Fighter) -> Float
+
+pub fn fighter_is_throw_vulnerable(Fighter) -> Bool
+
+pub let fighter_push_radius : Float
+
+pub let fighter_stand_hurtbox_h : Float
+
+pub let fighter_stand_hurtbox_w : Float
+
+pub fn fighter_total_guard(CharacterArchetype) -> Int
+
+pub let floor_y : Float
+
+pub let font_subtitle : Int
+
+pub let font_title : Int
+
+pub let frame_dt : Float
+
+pub let game_title : String
+
+pub let gravity_force : Float
+
+pub let guard_max : Int
+
+pub fn guard_ratio(Fighter, CharacterArchetype) -> Float
+
+pub let guard_recover_per_sec : Float
+
+pub let health_max : Int
+
+pub fn health_ratio(Fighter) -> Float
+
+pub let hitstop_default : Int
+
+pub let hitstop_super : Int
+
+pub fn hurtbox_for(Fighter) -> @raylib.Rectangle
+
+pub let intro_duration : Float
+
+pub let jump_initial_velocity : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub fn make_move(String, AttackId, MoveKind, Int, Int, Int, Int, Int, Int, Int, Float, Float, Float, Float, Float, Float, Float, Float) -> MoveSpec
+
+pub let match_over_duration : Float
+
+pub let max_frame_dt : Float
+
+pub let max_hit_sparks : Int
+
+pub let max_particles : Int
+
+pub let max_players : Int
+
+pub let max_round_wins : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub let meter_gain_blocked : Int
+
+pub let meter_gain_hit_taken : Int
+
+pub fn meter_ratio(Fighter) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let motion_dp : Int
+
+pub let motion_none : Int
+
+pub let motion_qcf : Int
+
+pub let move_kind_normal : Int
+
+pub let move_kind_special : Int
+
+pub let move_kind_super : Int
+
+pub let move_speed_back : Float
+
+pub let move_speed_forward : Float
+
+pub fn other_slot(Int) -> Int
+
+pub let particle_friction : Float
+
+pub let particle_gravity : Float
+
+pub let quote_box_h : Int
+
+pub let quote_box_w : Int
+
+pub fn rand_chance(Game, Float) -> Bool
+
+pub fn rand_next(Game) -> Int
+
+pub fn rand_range(Game, Int, Int) -> Int
+
+pub fn rand_rangef(Game, Float, Float) -> Float
+
+pub fn reset_fighter_round_state(Fighter) -> Unit
+
+pub let roster_count : Int
+
+pub fn roster_kai() -> CharacterArchetype
+
+pub fn roster_lei() -> CharacterArchetype
+
+pub fn roster_mei() -> CharacterArchetype
+
+pub fn roster_qin() -> CharacterArchetype
+
+pub fn roster_tora() -> CharacterArchetype
+
+pub fn roster_yun() -> CharacterArchetype
+
+pub let round_over_duration : Float
+
+pub let round_time_start : Float
+
+pub fn screen_center_xf() -> Float
+
+pub fn screen_center_yf() -> Float
+
+pub let screen_height : Int
+
+pub let screen_width : Int
+
+pub let select_blink_speed : Float
+
+pub let select_grid_columns : Int
+
+pub fn set_training_frame_adv(Game, Int, String, Int) -> Unit
+
+pub fn set_training_note(Game, String) -> Unit
+
+pub fn signed_frames_text(Int) -> String
+
+pub let spark_kind_block : Int
+
+pub let spark_kind_hit : Int
+
+pub let spark_kind_super : Int
+
+pub fn stage_clamp_x(Float) -> Float
+
+pub let stage_left_x : Float
+
+pub let stage_right_x : Float
+
+pub let state_fight : Int
+
+pub let state_intro : Int
+
+pub let state_match_over : Int
+
+pub let state_pause : Int
+
+pub let state_round_over : Int
+
+pub let state_select : Int
+
+pub let state_title : Int
+
+pub let super_cost : Int
+
+pub let super_max : Int
+
+pub let tap_window : Float
+
+pub let throw_corner_escape_ratio : Float
+
+pub let throw_corner_space_min : Float
+
+pub let throw_damage : Int
+
+pub let throw_distance : Float
+
+pub fn throw_input_pressed(InputState) -> Bool
+
+pub let throw_knockdown_frames : Int
+
+pub let throw_launch_y : Float
+
+pub let throw_push_x : Float
+
+pub let throw_tech_invuln_frames : Int
+
+pub let throw_tech_push_x : Float
+
+pub let throw_tech_window_frames : Int
+
+pub let throw_vertical_tolerance : Float
+
+pub let title_blink_speed : Float
+
+pub let training_health_regen_per_sec : Float
+
+pub let training_info_duration : Float
+
+pub let wakeup_invuln_frames : Int
+
+pub let winner_draw : Int
+
+pub let winner_none : Int
+
+// Errors
+
+// Types and methods
+pub(all) enum Action {
+  ActionIdle
+  ActionWalkForward
+  ActionWalkBack
+  ActionCrouch
+  ActionJump
+  ActionDashForward
+  ActionDashBack
+  ActionAttack
+  ActionHitstun
+  ActionBlockstun
+  ActionKnockdown
+  ActionWakeup
+  ActionVictory
+  ActionIntro
+  ActionThrow
+}
+pub impl Eq for Action
+
+pub(all) enum AiMode {
+  AiModeIdle
+  AiModeRush
+  AiModeZone
+  AiModeEvade
+}
+pub impl Eq for AiMode
+
+pub(all) enum AttackId {
+  AttackNone
+  AttackLp
+  AttackHp
+  AttackLk
+  AttackHk
+  AttackSpecialQcf
+  AttackSpecialDp
+  AttackSuper
+}
+pub impl Eq for AttackId
+
+pub(all) struct CharacterArchetype {
+  name : String
+  title : String
+  intro_quote : String
+  victory_quote : String
+  body_main : @raylib.Color
+  body_trim : @raylib.Color
+  aura_color : @raylib.Color
+  ui_color : @raylib.Color
+  speed_mul : Float
+  jump_mul : Float
+  offense_mul : Float
+  defense_mul : Float
+  meter_mul : Float
+  max_guard_bonus : Int
+  normal_lp : MoveSpec
+  normal_hp : MoveSpec
+  normal_lk : MoveSpec
+  normal_hk : MoveSpec
+  special_qcf : MoveSpec
+  special_dp : MoveSpec
+  super_move : MoveSpec
+}
+
+pub(all) enum Direction {
+  DirNeutral
+  DirUp
+  DirDown
+  DirBack
+  DirForward
+  DirDownBack
+  DirDownForward
+}
+pub impl Eq for Direction
+
+pub(all) struct Fighter {
+  slot : Int
+  mut is_cpu : Bool
+  mut archetype_index : Int
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut facing : Int
+  mut on_ground : Bool
+  mut crouching : Bool
+  mut health : Int
+  mut guard_meter : Int
+  mut super_meter : Int
+  mut round_wins : Int
+  mut action : Action
+  mut action_frame : Int
+  mut action_elapsed : Float
+  mut current_move : MoveSpec
+  mut move_connected : Bool
+  mut move_cancel_enabled : Bool
+  mut hitstop : Int
+  mut hitstun : Int
+  mut blockstun : Int
+  mut knockdown : Int
+  mut invuln : Int
+  mut throw_tech_timer : Int
+  mut combo_counter : Int
+  mut combo_timer : Int
+  mut flash_timer : Float
+  mut shake_timer : Float
+  mut hurt_shake_x : Float
+  mut hurt_shake_y : Float
+  mut ai_timer : Float
+  mut ai_mode : AiMode
+  mut ai_cooldown : Float
+  mut ai_wants_special : Bool
+  mut ai_wants_super : Bool
+  mut ai_wants_throw : Bool
+  mut input : InputState
+}
+pub fn Fighter::new(Int, Bool) -> Self
+
+pub(all) struct Game {
+  mut state : GameState
+  mut frame_count : Int
+  mut rng_state : Int
+  roster : Array[CharacterArchetype]
+  fighters : Array[Fighter]
+  mut mode_vs_cpu : Bool
+  mut mode_training : Bool
+  mut select_cursor_p1 : Int
+  mut select_cursor_p2 : Int
+  mut p1_confirmed : Bool
+  mut p2_confirmed : Bool
+  mut round_index : Int
+  mut round_timer : Float
+  mut intro_timer : Float
+  mut round_over_timer : Float
+  mut match_over_timer : Float
+  mut winner_slot : Int
+  mut pause_blink : Float
+  mut dramatic_freeze : Int
+  mut hud_flash : Float
+  mut announcer_text : String
+  mut announcer_timer : Float
+  mut training_adv_text : String
+  mut training_adv_timer : Float
+  mut title_blink : Float
+  mut select_blink : Float
+  mut bg_scroll : Float
+  mut stage_flash : Float
+  mut camera_x : Float
+  mut camera_y : Float
+  mut camera_zoom : Float
+  mut camera_shake : Float
+  mut camera_phase : Float
+  particles : Array[Particle]
+  hit_sparks : Array[Particle]
+  mut debug_overlay : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  StateTitle
+  StateSelect
+  StateIntro
+  StateFight
+  StateRoundOver
+  StateMatchOver
+  StatePause
+}
+pub impl Eq for GameState
+pub impl Show for GameState
+
+pub(all) struct InputState {
+  mut x : Int
+  mut y : Int
+  mut prev_x : Int
+  mut hold_forward : Bool
+  mut hold_back : Bool
+  mut hold_up : Bool
+  mut hold_down : Bool
+  mut lp_down : Bool
+  mut hp_down : Bool
+  mut lk_down : Bool
+  mut hk_down : Bool
+  mut start_down : Bool
+  mut lp_pressed : Bool
+  mut hp_pressed : Bool
+  mut lk_pressed : Bool
+  mut hk_pressed : Bool
+  mut any_attack_pressed : Bool
+  mut dash_forward_pressed : Bool
+  mut dash_back_pressed : Bool
+  dir_history : Array[Direction]
+  mut dir_head : Int
+  mut tap_forward_timer : Float
+  mut tap_back_timer : Float
+  mut buffered_motion : Motion
+  mut motion_timer : Float
+  mut attack_buffer_timer : Float
+}
+pub fn InputState::new() -> Self
+
+pub(all) enum Motion {
+  MotionNone
+  MotionQcf
+  MotionDp
+}
+pub impl Eq for Motion
+
+pub(all) enum MoveKind {
+  MoveKindNormal
+  MoveKindSpecial
+  MoveKindSuper
+}
+pub impl Eq for MoveKind
+
+pub(all) struct MoveSpec {
+  mut attack_id : AttackId
+  mut move_kind : MoveKind
+  mut total_frames : Int
+  mut startup_frames : Int
+  mut active_frames : Int
+  mut recovery_frames : Int
+  mut damage : Int
+  mut chip_damage : Int
+  mut hitstun_frames : Int
+  mut blockstun_frames : Int
+  mut hitstop_frames : Int
+  mut pushback : Float
+  mut launch_x : Float
+  mut launch_y : Float
+  mut drift_speed : Float
+  mut meter_gain_on_use : Int
+  mut meter_gain_on_hit : Int
+  mut hitbox_x : Float
+  mut hitbox_y : Float
+  mut hitbox_w : Float
+  mut hitbox_h : Float
+  mut knockdown : Bool
+  mut low_attack : Bool
+  mut overhead_attack : Bool
+  airborne_only : Bool
+  crouch_only : Bool
+  mut invuln_end : Int
+  mut cancel_window_start : Int
+  mut cancel_window_end : Int
+  mut cancel_on_hit : Bool
+  mut auto_dash : Bool
+}
+pub fn MoveSpec::empty() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut max_life : Float
+  mut size : Float
+  mut growth : Float
+  mut color : @raylib.Color
+}
+pub fn Particle::inactive() -> Self
+
+pub(all) enum SparkKind {
+  SparkKindHit
+  SparkKindBlock
+  SparkKindSuper
+}
+pub impl Eq for SparkKind
+
+// Type aliases
+
+// Traits
+

@@ -1,6 +1,8 @@
 import {
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_skyline_parkour_trials_2026/game",
+  "tonyfettes/raylib-examples/raylib_skyline_parkour_trials_2026/render",
+  "tonyfettes/raylib-examples/raylib_skyline_parkour_trials_2026/types",
 }
 
 options(

@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_ice_fishing_blitz_2026"
 // Errors
 
 // Types and methods
-type Fish
-
-type Game
-
-type Hazard
-
-type Particle
-
-type Pickup
 
 // Type aliases
 

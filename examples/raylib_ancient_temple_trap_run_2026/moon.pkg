@@ -1,5 +1,8 @@
 import {
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_ancient_temple_trap_run_2026/types",
+  "tonyfettes/raylib-examples/raylib_ancient_temple_trap_run_2026/game",
+  "tonyfettes/raylib-examples/raylib_ancient_temple_trap_run_2026/render",
 }
 
 options(

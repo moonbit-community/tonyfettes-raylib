@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_matchlink_festival_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type LinkPath
-
-type Spark
 
 // Type aliases
 

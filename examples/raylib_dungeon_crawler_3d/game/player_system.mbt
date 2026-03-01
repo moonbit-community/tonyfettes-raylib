@@ -279,7 +279,7 @@ fn perform_bow_attack(game : @types.Game) -> Unit {
   }
   let p = game.projectiles[idx]
   p.active = true
-  p.kind = 0
+  p.kind = @types.spell_none
   p.x = game.player_x
   p.z = game.player_z
   let dir_x = @math.sinf(game.camera_yaw)
@@ -839,12 +839,13 @@ fn check_chest_open(game : @types.Game) -> Unit {
     } else {
       // Spell scroll
       let spell_roll = @types.rand_range(game, 1, 6)
-      let added = add_spell_to_player(game, spell_roll)
+      let spell = spell_roll
+      let added = add_spell_to_player(game, spell)
       if added {
-        game.message_text = "Chest: \{@types.get_spell_name(spell_roll)} spell!"
+        game.message_text = "Chest: \{@types.get_spell_name(spell)} spell!"
         @types.add_message(
           game,
-          "Learned \{@types.get_spell_name(spell_roll)}!",
+          "Learned \{@types.get_spell_name(spell)}!",
           200,
           100,
           255,

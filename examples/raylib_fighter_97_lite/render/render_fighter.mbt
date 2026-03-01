@@ -1,5 +1,8 @@
 ///|
-fn fighter_draw_pos(game : @types.Game, fighter : @types.Fighter) -> (Float, Float) {
+fn fighter_draw_pos(
+  game : @types.Game,
+  fighter : @types.Fighter,
+) -> (Float, Float) {
   (
     @types.camera_project_x(game, fighter.x) + fighter.hurt_shake_x,
     @types.camera_project_y(game, fighter.y) + fighter.hurt_shake_y,
@@ -19,10 +22,15 @@ fn fighter_flash_color(
 }
 
 ///|
-fn draw_fighter_shadow(game : @types.Game, fighter : @types.Fighter, sx : Float) -> Unit {
+fn draw_fighter_shadow(
+  game : @types.Game,
+  fighter : @types.Fighter,
+  sx : Float,
+) -> Unit {
   let width = @types.camera_project_size(
     game,
-    @types.fighter_body_width * (if fighter.crouching { @types.f(0.92) } else { @types.f(1.08) }),
+    @types.fighter_body_width *
+    (if fighter.crouching { @types.f(0.92) } else { @types.f(1.08) }),
   )
   let height = @types.camera_project_size(game, @types.f(20.0))
 
@@ -49,8 +57,8 @@ fn draw_fighter_body(
   }
 
   let body_w = @types.fighter_body_width
-  let bob_amp = if fighter.action == @types.action_walk_forward ||
-    fighter.action == @types.action_walk_back {
+  let bob_amp = if fighter.action == @types.ActionWalkForward ||
+    fighter.action == @types.ActionWalkBack {
     @types.f(3.5)
   } else {
     @types.f(1.4)
@@ -63,7 +71,9 @@ fn draw_fighter_body(
     bob_amp
 
   let draw_x = @types.camera_project_x(game, fighter.x) + fighter.hurt_shake_x
-  let draw_y = @types.camera_project_y(game, fighter.y) + fighter.hurt_shake_y + bob
+  let draw_y = @types.camera_project_y(game, fighter.y) +
+    fighter.hurt_shake_y +
+    bob
 
   let body_color = fighter_flash_color(archetype.body_main, fighter)
   let trim_color = fighter_flash_color(archetype.body_trim, fighter)
@@ -109,7 +119,7 @@ fn draw_fighter_body(
   let arm_y = by + bh * 3 / 7
 
   let mut punch_ext = @types.f(0.0)
-  if fighter.action == @types.action_attack {
+  if fighter.action == @types.ActionAttack {
     let mv = fighter.current_move
     if fighter.action_frame >= mv.startup_frames &&
       fighter.action_frame <= mv.startup_frames + mv.active_frames {
@@ -120,7 +130,8 @@ fn draw_fighter_body(
   }
 
   let hand_x0 = draw_x + @types.camera_project_size(game, @types.f(22.0)) * fx
-  let hand_x1 = draw_x + @types.camera_project_size(game, @types.f(22.0) + punch_ext) * fx
+  let hand_x1 = draw_x +
+    @types.camera_project_size(game, @types.f(22.0) + punch_ext) * fx
 
   @raylib.draw_line_ex(
     @raylib.Vector2::new(draw_x, Float::from_int(arm_y)),
@@ -145,8 +156,8 @@ fn draw_fighter_body(
     },
   ).to_int()
 
-  let stride = if fighter.action == @types.action_walk_forward ||
-    fighter.action == @types.action_walk_back {
+  let stride = if fighter.action == @types.ActionWalkForward ||
+    fighter.action == @types.ActionWalkBack {
     Float::from_double(
       @math.sin((fighter.action_elapsed * @types.f(12.0)).to_double()),
     ) *
@@ -170,7 +181,7 @@ fn draw_fighter_body(
     @raylib.color_alpha(trim_color, @types.f(0.95)),
   )
 
-  if fighter.action == @types.action_attack {
+  if fighter.action == @types.ActionAttack {
     let mv = fighter.current_move
     if fighter.action_frame >= mv.startup_frames &&
       fighter.action_frame < mv.startup_frames + mv.active_frames {
@@ -182,7 +193,7 @@ fn draw_fighter_body(
 
       let aura = @raylib.color_alpha(
         archetype.aura_color,
-        if mv.move_kind == @types.move_kind_super {
+        if mv.move_kind == @types.MoveKindSuper {
           @types.f(0.55)
         } else {
           @types.f(0.35)
@@ -205,7 +216,7 @@ fn draw_fighter_body(
     }
   }
 
-  if fighter.action == @types.action_victory {
+  if fighter.action == @types.ActionVictory {
     let glow = Float::from_double(
         @math.sin((fighter.action_elapsed * @types.f(6.0)).to_double()),
       ) *
@@ -228,7 +239,9 @@ fn draw_fighter_nameplate(
   sx : Float,
   sy : Float,
 ) -> Unit {
-  let y = (sy - @types.camera_project_size(game, @types.fighter_body_height) - @types.f(56.0)).to_int()
+  let y = (sy -
+  @types.camera_project_size(game, @types.fighter_body_height) -
+  @types.f(56.0)).to_int()
   @types.draw_center_shadow_text(
     archetype.name,
     sx.to_int(),

@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_museum_heist_puzzle_2026/game"
+
+import {
+  "tonyfettes/raylib-examples/raylib_museum_heist_puzzle_2026/types",
+}
+
+// Values
+pub fn reset_to_title(@types.Game) -> Unit
+
+pub fn update_game(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

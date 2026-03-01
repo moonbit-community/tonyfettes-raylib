@@ -1,0 +1,156 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_candy_crush_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absi(Int) -> Int
+
+pub let base_jelly : Int
+
+pub let board_cells : Int
+
+pub let board_cols : Int
+
+pub let board_pad : Int
+
+pub fn board_pixel_h() -> Int
+
+pub fn board_pixel_w() -> Int
+
+pub let board_rows : Int
+
+pub fn board_x() -> Int
+
+pub fn board_y() -> Int
+
+pub fn candy_color(Int) -> @raylib.Color
+
+pub let candy_kinds : Int
+
+pub let cell_px : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn hint_button_rect() -> (Int, Int, Int, Int)
+
+pub let hint_ttl_max : Float
+
+pub fn idx(Int, Int) -> Int
+
+pub fn in_board(Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn is_adjacent(Int, Int, Int, Int) -> Bool
+
+pub let jelly_level_bonus : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub let message_ttl_max : Float
+
+pub let moves_base : Int
+
+pub let moves_level_bonus : Int
+
+pub fn panel_x() -> Int
+
+pub fn panel_y() -> Int
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_to_cell(Float, Float, Bool, Int) -> (Bool, Int, Int)
+
+pub fn restart_button_rect() -> (Int, Int, Int, Int)
+
+pub fn result_button_rect() -> (Int, Int, Int, Int)
+
+pub fn score_for_removed(Int, Int) -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn shuffle_button_rect() -> (Int, Int, Int, Int)
+
+pub let special_bomb : Int
+
+pub let special_col : Int
+
+pub let special_none : Int
+
+pub let special_row : Int
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub fn swapi(Array[Int], Int, Int) -> Unit
+
+pub let target_fps : Int
+
+pub fn tint(@raylib.Color, Int) -> @raylib.Color
+
+pub let touch_action_cooldown : Float
+
+pub let ui_panel_w : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  kinds : Array[Int]
+  specials : Array[Int]
+  jelly : Array[Int]
+  flash : Array[Float]
+  marks : Array[Bool]
+  spawn_special : Array[Int]
+  mut state : GameState
+  mut level : Int
+  mut score : Int
+  mut best_score : Int
+  mut chain_best : Int
+  mut moves_left : Int
+  mut jelly_left : Int
+  mut selected : Bool
+  mut sel_x : Int
+  mut sel_y : Int
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut hint_active : Bool
+  mut hint_x0 : Int
+  mut hint_y0 : Int
+  mut hint_x1 : Int
+  mut hint_y1 : Int
+  mut hint_t : Float
+  mut message : String
+  mut message_t : Float
+  mut touch_mode : Bool
+  mut touch_cd : Float
+  mut swap_flash_t : Float
+  mut swap_x0 : Int
+  mut swap_y0 : Int
+  mut swap_x1 : Int
+  mut swap_y1 : Int
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  GameOver
+}
+pub impl Eq for GameState
+
+// Type aliases
+
+// Traits
+

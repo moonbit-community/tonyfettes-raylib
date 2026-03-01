@@ -6,19 +6,6 @@ package "tonyfettes/raylib-examples/raylib_neon_drift_bounty_2026"
 // Errors
 
 // Types and methods
-type Afterimage
-
-type Bullet
-
-type Entity
-
-type Game
-
-type GlowRing
-
-type Player
-
-type Spark
 
 // Type aliases
 

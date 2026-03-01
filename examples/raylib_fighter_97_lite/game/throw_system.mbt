@@ -1,14 +1,14 @@
 ///|
 fn fighter_can_attempt_throw(fighter : @types.Fighter) -> Bool {
   fighter.on_ground &&
-  fighter.action != @types.action_attack &&
-  fighter.action != @types.action_throw &&
-  fighter.action != @types.action_hitstun &&
-  fighter.action != @types.action_blockstun &&
-  fighter.action != @types.action_knockdown &&
-  fighter.action != @types.action_wakeup &&
-  fighter.action != @types.action_intro &&
-  fighter.action != @types.action_victory
+  fighter.action != @types.ActionAttack &&
+  fighter.action != @types.ActionThrow &&
+  fighter.action != @types.ActionHitstun &&
+  fighter.action != @types.ActionBlockstun &&
+  fighter.action != @types.ActionKnockdown &&
+  fighter.action != @types.ActionWakeup &&
+  fighter.action != @types.ActionIntro &&
+  fighter.action != @types.ActionVictory
 }
 
 ///|
@@ -18,14 +18,20 @@ fn throw_in_range(attacker : @types.Fighter, defender : @types.Fighter) -> Bool 
 }
 
 ///|
-fn fighter_throw_intent(attacker : @types.Fighter, defender : @types.Fighter) -> Bool {
+fn fighter_throw_intent(
+  attacker : @types.Fighter,
+  defender : @types.Fighter,
+) -> Bool {
   fighter_can_attempt_throw(attacker) &&
   @types.throw_input_pressed(attacker.input) &&
   throw_in_range(attacker, defender)
 }
 
 ///|
-fn throw_horizontal_velocity(attacker : @types.Fighter, defender : @types.Fighter) -> Float {
+fn throw_horizontal_velocity(
+  attacker : @types.Fighter,
+  defender : @types.Fighter,
+) -> Float {
   let toward = @types.throw_push_x * 0.06 * @types.facing_sign(attacker.facing)
   let toward_corner_space = if toward > 0.0 {
     @types.stage_right_x - defender.x
@@ -41,7 +47,11 @@ fn throw_horizontal_velocity(attacker : @types.Fighter, defender : @types.Fighte
 }
 
 ///|
-fn apply_throw_tech(game : @types.Game, first_slot : Int, second_slot : Int) -> Unit {
+fn apply_throw_tech(
+  game : @types.Game,
+  first_slot : Int,
+  second_slot : Int,
+) -> Unit {
   let first = game.fighters[first_slot]
   let second = game.fighters[second_slot]
   let first_archetype = @types.fighter_archetype(game, first)
@@ -65,7 +75,7 @@ fn apply_throw_tech(game : @types.Game, first_slot : Int, second_slot : Int) -> 
 
   let hit_x = (first.x + second.x) * 0.5
   let hit_y = (first.y + second.y) * 0.5 - 70.0
-  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.spark_kind_block, 24)
+  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.SparkKindBlock, 24)
 
   @types.add_meter(first, 5, first_archetype)
   @types.add_meter(second, 5, second_archetype)
@@ -89,7 +99,7 @@ fn apply_throw_hit(
   let attacker_archetype = @types.fighter_archetype(game, attacker)
   let defender_archetype = @types.fighter_archetype(game, defender)
 
-  attacker.action = @types.action_throw
+  attacker.action = @types.ActionThrow
   attacker.action_elapsed = 0.0
   attacker.action_frame = 0
   attacker.current_move = @types.MoveSpec::empty()
@@ -99,8 +109,12 @@ fn apply_throw_hit(
   attacker.move_cancel_enabled = false
   attacker.throw_tech_timer = 0
 
-  defender.health = @types.clampi(defender.health - @types.throw_damage, 0, @types.health_max)
-  defender.action = @types.action_knockdown
+  defender.health = @types.clampi(
+    defender.health - @types.throw_damage,
+    0,
+    @types.health_max,
+  )
+  defender.action = @types.ActionKnockdown
   defender.hitstun = 0
   defender.blockstun = 0
   defender.knockdown = @types.throw_knockdown_frames
@@ -117,7 +131,7 @@ fn apply_throw_hit(
 
   let hit_x = (attacker.x + defender.x) * 0.5
   let hit_y = defender.y - 70.0
-  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.spark_kind_hit, 24)
+  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.SparkKindHit, 24)
   @effects.spawn_ground_skid(game, defender)
 
   @types.add_meter(attacker, 10, attacker_archetype)

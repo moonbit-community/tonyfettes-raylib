@@ -160,7 +160,7 @@ fn update_ai_state(
         enemy.ai_state = @types.ai_flank
       } else if enemy.ai_personality == @types.ai_personality_defensive {
         enemy.ai_state = @types.ai_attack
-      } else {
+      } else if enemy.ai_personality == @types.ai_personality_retreater {
         enemy.ai_state = @types.ai_chase
       }
     }

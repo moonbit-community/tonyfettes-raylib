@@ -1,0 +1,249 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_portal_blackout_escape_2026/types"
+
+// Values
+pub fn absi(Int) -> Int
+
+pub let board_h : Int
+
+pub fn board_px(Int) -> Int
+
+pub fn board_py(Int) -> Int
+
+pub let board_w : Int
+
+pub let board_x0 : Int
+
+pub let board_y0 : Int
+
+pub fn btn_action() -> (Int, Int, Int, Int)
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_menu() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub let cell : Int
+
+pub fn cell_center_x(Float) -> Int
+
+pub fn cell_center_y(Float) -> Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let core_need : Int
+
+pub let drone_hunt : Int
+
+pub let drone_move_t : Float
+
+pub let drone_patrol : Int
+
+pub let drone_stunned : Int
+
+pub let exit_x : Int
+
+pub let exit_y : Int
+
+pub let flare_cost : Float
+
+pub let flare_stun_t : Float
+
+pub let flare_ttl : Float
+
+pub let grid_h : Int
+
+pub let grid_w : Int
+
+pub fn hint_text(Int) -> String
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub fn manhattan(Int, Int, Int, Int) -> Int
+
+pub let max_cores : Int
+
+pub let max_drones : Int
+
+pub let max_flares : Int
+
+pub let max_lives : Int
+
+pub let max_particles : Int
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let player_move_t : Float
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub let portal_ax : Int
+
+pub let portal_ay : Int
+
+pub let portal_bx : Int
+
+pub let portal_by : Int
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let round_time_limit : Float
+
+pub let score_core : Int
+
+pub let score_stun : Int
+
+pub let score_teleport : Int
+
+pub let score_win : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let start_x : Int
+
+pub let start_y : Int
+
+pub let state_play : Int
+
+pub let state_result : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let tile_exit : Int
+
+pub let tile_floor : Int
+
+pub let tile_wall : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Actor {
+  mut x : Int
+  mut y : Int
+  mut from_x : Int
+  mut from_y : Int
+  mut to_x : Int
+  mut to_y : Int
+  mut fx : Float
+  mut fy : Float
+  mut t : Float
+  mut moving : Bool
+}
+pub fn Actor::new() -> Self
+
+pub(all) struct Core {
+  mut active : Bool
+  mut x : Int
+  mut y : Int
+  mut kind : Int
+}
+pub fn Core::new() -> Self
+
+pub(all) struct Drone {
+  mut active : Bool
+  body : Actor
+  mut mode : Int
+  mut move_cd : Float
+  mut stun_t : Float
+  mut dir_x : Int
+  mut dir_y : Int
+  mut patrol_min : Int
+  mut patrol_max : Int
+  mut seed : Int
+  mut alert_t : Float
+  mut color_id : Int
+}
+pub fn Drone::new() -> Self
+
+pub(all) struct Flare {
+  mut active : Bool
+  mut x : Int
+  mut y : Int
+  mut t : Float
+}
+pub fn Flare::new() -> Self
+
+pub(all) struct Game {
+  map : Array[Int]
+  drones : Array[Drone]
+  cores : Array[Core]
+  flares : Array[Flare]
+  particles : Array[Particle]
+  mut state : Int
+  player : Actor
+  mut lives : Int
+  mut score : Int
+  mut best_score : Int
+  mut cores_taken : Int
+  mut portal_on : Bool
+  mut time_left : Float
+  mut req_dx : Int
+  mut req_dy : Int
+  mut action_down : Bool
+  mut action_pressed : Bool
+  mut move_cd : Float
+  mut action_cd : Float
+  mut flare_energy : Float
+  mut teleport_cd : Float
+  mut touch_cd : Float
+  mut msg : String
+  mut msg_t : Float
+  mut flash_t : Float
+  mut shake_t : Float
+  mut time_s : Float
+  mut hint_i : Int
+  mut win : Bool
+  mut loss_reason : String
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+// Type aliases
+
+// Traits
+

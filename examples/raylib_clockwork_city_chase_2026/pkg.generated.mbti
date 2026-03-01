@@ -6,19 +6,6 @@ package "tonyfettes/raylib-examples/raylib_clockwork_city_chase_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Ghost
-
-type Obj
-
-type Player
-
-type ShockRing
-
-type Shot
-
-type Spark
 
 // Type aliases
 

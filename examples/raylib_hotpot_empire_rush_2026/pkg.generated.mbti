@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_hotpot_empire_rush_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type InputState
-
-type Item
-
-type Order
-
-type PotState
-
-type PrepState
 
 // Type aliases
 

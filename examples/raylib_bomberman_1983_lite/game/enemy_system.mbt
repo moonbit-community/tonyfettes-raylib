@@ -205,7 +205,8 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
         continue
       }
       let hit_r = @types.tank_half + @types.tank_half - 2.0
-      if @types.distance_sq(enemy.x, enemy.y, player.x, player.y) <= hit_r * hit_r {
+      if @types.distance_sq(enemy.x, enemy.y, player.x, player.y) <=
+        hit_r * hit_r {
         on_player_destroyed(game, p)
       }
     }
@@ -213,7 +214,11 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn destroy_enemy(game : @types.Game, enemy_index : Int, killer_team : Int) -> Unit {
+fn destroy_enemy(
+  game : @types.Game,
+  enemy_index : Int,
+  killer_team : @types.Team,
+) -> Unit {
   if not(game.enemies[enemy_index].active) {
     return
   }
@@ -231,7 +236,7 @@ fn destroy_enemy(game : @types.Game, enemy_index : Int, killer_team : Int) -> Un
 
   // Chance to drop a powerup.
   let drop_roll = @types.rand_range(game, 0, 99)
-  let base_bias = if enemy.enemy_kind == @types.enemy_heavy { 22 } else { 14 }
+  let base_bias = if enemy.enemy_kind == @types.Heavy { 22 } else { 14 }
   let drop_bias = @types.clampi(base_bias + game.profile.drop_bonus, 4, 55)
   if drop_roll < drop_bias {
     spawn_random_powerup(game, enemy.x, enemy.y)

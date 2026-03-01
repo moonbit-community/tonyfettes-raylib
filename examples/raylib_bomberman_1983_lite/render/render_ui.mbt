@@ -54,13 +54,7 @@ fn draw_player_card(
   @types.draw_shadow_text("\{player.score}", x + 12, y + 56, 20, @raylib.white)
 
   @types.draw_shadow_text("LIVES", x + 120, y + 36, 16, @raylib.lightgray)
-  @types.draw_shadow_text(
-    "\{player.lives}",
-    x + 120,
-    y + 56,
-    20,
-    @raylib.white,
-  )
+  @types.draw_shadow_text("\{player.lives}", x + 120, y + 56, 20, @raylib.white)
 
   @types.draw_shadow_text("UPG", x + 200, y + 36, 16, @raylib.lightgray)
   @types.draw_shadow_text(
@@ -90,13 +84,7 @@ fn draw_player_card(
     @types.draw_shadow_text("SHIELD", x + 158, y + 82, 14, @raylib.skyblue)
   }
   if player.invuln_timer > 0.0 {
-    @types.draw_shadow_text(
-      "SPAWN SAFE",
-      x + 214,
-      y + 82,
-      14,
-      @raylib.gold,
-    )
+    @types.draw_shadow_text("SPAWN SAFE", x + 214, y + 82, 14, @raylib.gold)
   }
 }
 
@@ -239,11 +227,7 @@ fn draw_panel(game : @types.Game) -> Unit {
   let fx = @types.panel_x + 18
   let fy = @types.map_offset_y + @types.map_pixel_h - 118
   @types.draw_shadow_text(
-    "P1: Arrows + Shift (bomb)",
-    fx,
-    fy,
-    14,
-    @raylib.lightgray,
+    "P1: Arrows + Shift (bomb)", fx, fy, 14, @raylib.lightgray,
   )
   @types.draw_shadow_text(
     "P2: WASD + Space (bomb)",
@@ -437,19 +421,11 @@ fn draw_pause_overlay(game : @types.Game) -> Unit {
     @types.screen_height,
     @raylib.Color::new(5, 8, 14, 160),
   )
-  let pulse = Float::from_double(
-      @math.sin(game.pause_blink.to_double() * 3.0),
-    ) *
+  let pulse = Float::from_double(@math.sin(game.pause_blink.to_double() * 3.0)) *
     0.5 +
     0.5
   let color = @raylib.color_lerp(@raylib.yellow, @raylib.white, pulse)
-  @types.draw_centered_text(
-    "PAUSED",
-    @types.screen_width / 2,
-    300,
-    62,
-    color,
-  )
+  @types.draw_centered_text("PAUSED", @types.screen_width / 2, 300, 62, color)
   @types.draw_centered_text(
     "P to resume",
     @types.screen_width / 2,
@@ -565,17 +541,13 @@ fn draw_campaign_clear_overlay(game : @types.Game) -> Unit {
 pub fn draw_ui(game : @types.Game) -> Unit {
   draw_panel(game)
 
-  if game.state == @types.state_menu {
-    draw_menu_overlay(game)
-  } else if game.state == @types.state_stage_intro {
-    draw_stage_intro_overlay(game)
-  } else if game.state == @types.state_paused {
-    draw_pause_overlay(game)
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
-  } else if game.state == @types.state_campaign_clear {
-    draw_campaign_clear_overlay(game)
+  match game.state {
+    Menu => draw_menu_overlay(game)
+    StageIntro => draw_stage_intro_overlay(game)
+    Paused => draw_pause_overlay(game)
+    StageClear => draw_stage_clear_overlay(game)
+    GameOver => draw_game_over_overlay(game)
+    CampaignClear => draw_campaign_clear_overlay(game)
+    Playing => ()
   }
 }

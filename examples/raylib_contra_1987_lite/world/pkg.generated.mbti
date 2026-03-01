@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_contra_1987_lite/world"
+
+import {
+  "tonyfettes/raylib-examples/raylib_contra_1987_lite/types",
+}
+
+// Values
+pub fn point_in_world(Float, Float) -> Bool
+
+pub fn tank_hits_enemies(@types.Game, Float, Float, Int) -> Bool
+
+pub fn tank_hits_players(@types.Game, Float, Float, Int) -> Bool
+
+pub fn tank_hits_world(@types.Game, Float, Float) -> Bool
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

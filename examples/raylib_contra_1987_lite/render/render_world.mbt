@@ -42,14 +42,14 @@ fn draw_single_tile(
   game : @types.Game,
   tx : Int,
   ty : Int,
-  tile : Int,
+  tile : @types.Tile,
   shake_x : Float,
   shake_y : Float,
 ) -> Unit {
   let sx = @types.tile_to_screen_x(tx, shake_x)
   let sy = @types.tile_to_screen_y(ty, shake_y)
 
-  if tile == @types.tile_brick {
+  if tile == @types.Brick {
     @raylib.draw_rectangle(
       sx,
       sy,
@@ -71,7 +71,7 @@ fn draw_single_tile(
       sy + @types.tile_size / 2,
       @raylib.Color::new(110, 55, 37, 255),
     )
-  } else if tile == @types.tile_steel {
+  } else if tile == @types.Steel {
     @raylib.draw_rectangle(
       sx,
       sy,
@@ -93,7 +93,7 @@ fn draw_single_tile(
       sy + @types.tile_size,
       @raylib.Color::new(84, 94, 108, 255),
     )
-  } else if tile == @types.tile_water {
+  } else if tile == @types.Water {
     @raylib.draw_rectangle(
       sx,
       sy,
@@ -111,7 +111,7 @@ fn draw_single_tile(
       sy + 3 + wave,
       @raylib.Color::new(70, 130, 220, 255),
     )
-  } else if tile == @types.tile_ice {
+  } else if tile == @types.Ice {
     @raylib.draw_rectangle(
       sx,
       sy,
@@ -126,13 +126,15 @@ fn draw_single_tile(
       sy + @types.tile_size - 5,
       @raylib.Color::new(210, 248, 255, 255),
     )
-  } else if tile == @types.tile_base {
+  } else if tile == @types.Base {
     let base_color = if game.base_alive {
       @raylib.Color::new(201, 167, 86, 255)
     } else {
       @raylib.Color::new(110, 32, 32, 255)
     }
-    @raylib.draw_rectangle(sx, sy, @types.tile_size, @types.tile_size, base_color)
+    @raylib.draw_rectangle(
+      sx, sy, @types.tile_size, @types.tile_size, base_color,
+    )
     @raylib.draw_rectangle_lines(
       sx, sy, @types.tile_size, @types.tile_size, @raylib.darkbrown,
     )
@@ -155,11 +157,15 @@ fn draw_single_tile(
 }
 
 ///|
-fn draw_terrain_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
+fn draw_terrain_layer(
+  game : @types.Game,
+  shake_x : Float,
+  shake_y : Float,
+) -> Unit {
   for ty in 0..<@types.map_tiles_h {
     for tx in 0..<@types.map_tiles_w {
       let tile = @types.get_tile(game, tx, ty)
-      if tile == @types.tile_empty || tile == @types.tile_bush {
+      if tile == @types.Empty || tile == @types.Bush {
         continue
       }
       draw_single_tile(game, tx, ty, tile, shake_x, shake_y)
@@ -168,10 +174,14 @@ fn draw_terrain_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> U
 }
 
 ///|
-fn draw_bush_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
+fn draw_bush_layer(
+  game : @types.Game,
+  shake_x : Float,
+  shake_y : Float,
+) -> Unit {
   for ty in 0..<@types.map_tiles_h {
     for tx in 0..<@types.map_tiles_w {
-      if @types.get_tile(game, tx, ty) != @types.tile_bush {
+      if @types.get_tile(game, tx, ty) != @types.Bush {
         continue
       }
       let sx = @types.tile_to_screen_x(tx, shake_x)
@@ -232,7 +242,7 @@ fn draw_tank(
 
   let turret_len = 11
   let turret_w = 4
-  if tank.dir == @types.dir_up {
+  if tank.dir == @types.Up {
     @raylib.draw_rectangle(
       sx - turret_w / 2,
       sy - turret_len,
@@ -240,7 +250,7 @@ fn draw_tank(
       turret_len,
       trim_color,
     )
-  } else if tank.dir == @types.dir_down {
+  } else if tank.dir == @types.Down {
     @raylib.draw_rectangle(
       sx - turret_w / 2,
       sy,
@@ -248,7 +258,7 @@ fn draw_tank(
       turret_len,
       trim_color,
     )
-  } else if tank.dir == @types.dir_left {
+  } else if tank.dir == @types.Left {
     @raylib.draw_rectangle(
       sx - turret_len,
       sy - turret_w / 2,
@@ -299,7 +309,11 @@ fn draw_cores(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
     let hp_ratio = Float::from_int(@types.clampi(core.hp, 0, core.max_hp)) /
       Float::from_int(core.max_hp)
     let hp_w = 22
-    let fill = @types.clampi((Float::from_int(hp_w) * hp_ratio).to_int(), 0, hp_w)
+    let fill = @types.clampi(
+      (Float::from_int(hp_w) * hp_ratio).to_int(),
+      0,
+      hp_w,
+    )
     @raylib.draw_rectangle(sx - hp_w / 2, sy - 21, hp_w, 4, @raylib.black)
     @raylib.draw_rectangle(
       sx - hp_w / 2,
@@ -370,7 +384,7 @@ fn draw_enemies(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
     let trim = @raylib.Color::new(70, 30, 30, 255)
     draw_tank(enemy, body, trim, shake_x, shake_y)
 
-    if enemy.enemy_kind == @types.enemy_heavy {
+    if enemy.enemy_kind == @types.Heavy {
       for hp_i in 0..<enemy.hp {
         @raylib.draw_rectangle(
           @types.world_to_screen_x(enemy.x, shake_x) - 9 + hp_i * 4,
@@ -390,9 +404,9 @@ fn draw_bullets(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
     if not(bullet.active) {
       continue
     }
-    let color = if bullet.owner_team == @types.team_enemy {
+    let color = if bullet.owner_team == @types.Enemy {
       @raylib.Color::new(255, 94, 94, 255)
-    } else if bullet.owner_team == @types.team_player2 {
+    } else if bullet.owner_team == @types.Player2 {
       @raylib.Color::new(255, 222, 120, 255)
     } else {
       @raylib.Color::new(122, 222, 255, 255)
@@ -424,18 +438,18 @@ fn draw_particles(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit 
 }
 
 ///|
-fn powerup_color(kind : Int) -> @raylib.Color {
-  if kind == @types.powerup_shield {
+fn powerup_color(kind : @types.PowerupKind) -> @raylib.Color {
+  if kind == @types.Shield {
     @raylib.skyblue
-  } else if kind == @types.powerup_star {
+  } else if kind == @types.Star {
     @raylib.gold
-  } else if kind == @types.powerup_grenade {
+  } else if kind == @types.Grenade {
     @raylib.red
-  } else if kind == @types.powerup_clock {
+  } else if kind == @types.Clock {
     @raylib.lime
-  } else if kind == @types.powerup_shovel {
+  } else if kind == @types.Shovel {
     @raylib.brown
-  } else if kind == @types.powerup_tank {
+  } else if kind == @types.ExtraLife {
     @raylib.orange
   } else {
     @raylib.white
@@ -443,18 +457,18 @@ fn powerup_color(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn powerup_text(kind : Int) -> String {
-  if kind == @types.powerup_shield {
+fn powerup_text(kind : @types.PowerupKind) -> String {
+  if kind == @types.Shield {
     "S"
-  } else if kind == @types.powerup_star {
+  } else if kind == @types.Star {
     "*"
-  } else if kind == @types.powerup_grenade {
+  } else if kind == @types.Grenade {
     "G"
-  } else if kind == @types.powerup_clock {
+  } else if kind == @types.Clock {
     "C"
-  } else if kind == @types.powerup_shovel {
+  } else if kind == @types.Shovel {
     "H"
-  } else if kind == @types.powerup_tank {
+  } else if kind == @types.ExtraLife {
     "+"
   } else {
     "?"
@@ -462,18 +476,18 @@ fn powerup_text(kind : Int) -> String {
 }
 
 ///|
-fn powerup_radius(kind : Int) -> Float {
-  if kind == @types.powerup_shield {
+fn powerup_radius(kind : @types.PowerupKind) -> Float {
+  if kind == @types.Shield {
     11.0
-  } else if kind == @types.powerup_star {
+  } else if kind == @types.Star {
     10.0
-  } else if kind == @types.powerup_grenade {
+  } else if kind == @types.Grenade {
     12.0
-  } else if kind == @types.powerup_clock {
+  } else if kind == @types.Clock {
     11.0
-  } else if kind == @types.powerup_shovel {
+  } else if kind == @types.Shovel {
     11.0
-  } else if kind == @types.powerup_tank {
+  } else if kind == @types.ExtraLife {
     12.0
   } else {
     10.0

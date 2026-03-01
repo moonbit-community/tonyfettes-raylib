@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_contra_1987_lite/render"
+
+import {
+  "tonyfettes/raylib-examples/raylib_contra_1987_lite/types",
+}
+
+// Values
+pub fn draw_ui(@types.Game) -> Unit
+
+pub fn draw_world(@types.Game) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

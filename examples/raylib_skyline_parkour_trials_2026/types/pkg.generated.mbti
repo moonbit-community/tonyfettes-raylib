@@ -1,0 +1,239 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_skyline_parkour_trials_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn approachf(Float, Float, Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn col_bg_bottom() -> @raylib.Color
+
+pub fn col_bg_top() -> @raylib.Color
+
+pub fn col_checkpoint() -> @raylib.Color
+
+pub fn col_goal() -> @raylib.Color
+
+pub fn col_player_run() -> @raylib.Color
+
+pub fn col_player_wall() -> @raylib.Color
+
+pub fn col_roof() -> @raylib.Color
+
+pub fn col_roof_edge() -> @raylib.Color
+
+pub fn col_sky_glow() -> @raylib.Color
+
+pub fn col_text_dim() -> @raylib.Color
+
+pub fn col_text_main() -> @raylib.Color
+
+pub fn cosf(Float) -> Float
+
+pub let coyote_time : Float
+
+pub let gravity : Float
+
+pub let jump_buffer_time : Float
+
+pub let jump_cut_gravity : Float
+
+pub let jump_speed : Float
+
+pub let max_checkpoints : Int
+
+pub let max_fall_speed : Float
+
+pub let max_tiles : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mouse_click_on_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn overlap_rect(Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn panel_next_rect() -> (Float, Float, Float, Float)
+
+pub fn panel_restart_rect() -> (Float, Float, Float, Float)
+
+pub let player_h : Float
+
+pub let player_w : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub let run_accel_air : Float
+
+pub let run_accel_ground : Float
+
+pub let run_drag_air : Float
+
+pub let run_drag_ground : Float
+
+pub let run_max_speed : Float
+
+pub fn run_string(Float) -> String
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub fn stage_clear_bonus(Int) -> Int
+
+pub let stage_count : Int
+
+pub let stage_fail_y_pad : Float
+
+pub fn stage_initial_time(Int) -> Float
+
+pub let target_fps : Int
+
+pub let timer_cap : Float
+
+pub fn timer_string(Float) -> String
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_climb_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_jump_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_left_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_play_restart_rect() -> (Float, Float, Float, Float)
+
+pub fn touch_right_rect() -> (Float, Float, Float, Float)
+
+pub let wall_climb_time_max : Float
+
+pub let wall_climb_up_accel : Float
+
+pub let wall_climb_up_speed : Float
+
+pub let wall_jump_push : Float
+
+pub let wall_jump_speed : Float
+
+pub let wall_jump_window : Float
+
+pub let wall_slide_speed : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Checkpoint {
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut bonus_s : Int
+  mut taken : Bool
+}
+pub fn Checkpoint::new() -> Self
+
+pub(all) struct Game {
+  tiles : Array[Tile]
+  checkpoints : Array[Checkpoint]
+  hero : Player
+  mut tile_count : Int
+  mut checkpoint_count : Int
+  mut state : GameState
+  mut stage : Int
+  mut pending_next_stage : Int
+  mut stage_width : Float
+  mut stage_fail_y : Float
+  mut start_x : Float
+  mut start_y : Float
+  mut goal_x : Float
+  mut goal_y : Float
+  mut goal_w : Float
+  mut goal_h : Float
+  mut timer_s : Float
+  mut run_time_s : Float
+  mut stage_time_s : Float
+  mut bonus_popup_t : Float
+  mut bonus_popup_value : Int
+  mut checkpoints_hit : Int
+  mut lose_reason : LoseReason
+  mut input_x : Float
+  mut input_jump_press : Bool
+  mut input_jump_hold : Bool
+  mut input_climb_hold : Bool
+  mut input_next_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_jump_prev : Bool
+  mut touch_next_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+  Victory
+}
+pub impl Eq for GameState
+
+pub(all) enum LoseReason {
+  None
+  Time
+  Fall
+  HitHazard
+}
+pub impl Eq for LoseReason
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut on_ground : Bool
+  mut wall_side : Int
+  mut wall_window_t : Float
+  mut wall_climb_t : Float
+  mut coyote_t : Float
+  mut jump_buffer_t : Float
+  mut facing : Int
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Tile {
+  mut kind : TileKind
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+}
+pub fn Tile::new() -> Self
+
+pub(all) enum TileKind {
+  Solid
+  Hazard
+}
+pub impl Eq for TileKind
+
+// Type aliases
+
+// Traits
+

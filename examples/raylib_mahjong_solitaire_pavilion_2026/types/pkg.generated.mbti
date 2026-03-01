@@ -1,0 +1,195 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_mahjong_solitaire_pavilion_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn active_at(Game, Int, Int) -> Bool
+
+pub fn active_count(Game) -> Int
+
+pub fn board_metrics(Game) -> (Int, Int, Int)
+
+pub fn burst_tile(Game, Int, Int, Int, Int) -> Unit
+
+pub fn cell_at(Game, Int, Int) -> Int
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_board(Game) -> Unit
+
+pub fn clear_button_rect() -> (Int, Int, Int, Int)
+
+pub fn clear_hint(Game) -> Unit
+
+pub fn clear_selection(Game) -> Unit
+
+pub fn clear_sparks(Game) -> Unit
+
+pub fn clear_undo(Game) -> Unit
+
+pub fn configure_level(Int) -> (Int, Int, Int, Float, Int, Int, Int, Int, String)
+
+pub fn dpad_center_x() -> Int
+
+pub fn dpad_center_y() -> Int
+
+pub fn dpad_size() -> Int
+
+pub fn free_tile(Game, Int, Int) -> Bool
+
+pub fn hint_button_rect() -> (Int, Int, Int, Int)
+
+pub fn idx(Int, Int) -> Int
+
+pub fn in_board(Game, Int, Int) -> Bool
+
+pub fn inside_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub let max_cells : Int
+
+pub let max_cols : Int
+
+pub let max_rows : Int
+
+pub let max_undos : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn next_button_rect() -> (Int, Int, Int, Int)
+
+pub fn panel_x() -> Int
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn reset_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn select_button_rect() -> (Int, Int, Int, Int)
+
+pub fn set_cell(Game, Int, Int, Int) -> Unit
+
+pub fn shuffle_button_rect() -> (Int, Int, Int, Int)
+
+pub fn shuffle_ints(Array[Int]) -> Unit
+
+pub fn spawn_spark(Game, Float, Float, Float, Float, Float, Float, Int) -> Unit
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let target_fps : Int
+
+pub fn undo_button_rect() -> (Int, Int, Int, Int)
+
+pub fn update_sparks(Game, Float) -> Unit
+
+pub fn world_center(Game, Int, Int) -> (Float, Float, Float)
+
+// Errors
+
+// Types and methods
+pub(all) enum Dir {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+}
+pub impl Eq for Dir
+
+pub(all) struct Game {
+  active : Array[Bool]
+  cells : Array[Int]
+  undo : Array[UndoPair]
+  mut undo_len : Int
+  sparks : Array[Spark]
+  mut state : GameState
+  mut level_index : Int
+  level_count : Int
+  mut level_name : String
+  mut board_w : Int
+  mut board_h : Int
+  mut kind_count : Int
+  mut score : Int
+  mut combo : Int
+  mut timer : Float
+  mut time_limit : Float
+  mut remaining : Int
+  mut hints_left : Int
+  mut shuffles_left : Int
+  mut undos_left : Int
+  mut total_time : Float
+  mut total_levels : Int
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut select_active : Bool
+  mut select_x : Int
+  mut select_y : Int
+  mut hint_active : Bool
+  mut hint_ttl : Float
+  mut hint_x1 : Int
+  mut hint_y1 : Int
+  mut hint_x2 : Int
+  mut hint_y2 : Int
+  mut hold_dir : Dir
+  mut repeat_t : Float
+  mut touch_action_cd : Float
+  mut message : String
+  mut message_t : Float
+  mut shake_t : Float
+  mut ui_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+  Fail
+}
+pub impl Eq for GameState
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+
+pub(all) struct UndoPair {
+  valid : Bool
+  x1 : Int
+  y1 : Int
+  kind1 : Int
+  x2 : Int
+  y2 : Int
+  kind2 : Int
+  prev_score : Int
+  prev_combo : Int
+  prev_timer : Float
+  prev_remaining : Int
+}
+
+// Type aliases
+
+// Traits
+

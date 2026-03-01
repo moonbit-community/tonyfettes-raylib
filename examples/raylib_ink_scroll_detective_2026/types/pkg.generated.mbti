@@ -1,0 +1,206 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_ink_scroll_detective_2026/types"
+
+// Values
+pub fn cell_center_x(Int) -> Float
+
+pub fn cell_center_y(Int) -> Float
+
+pub let cell_h_i : Int
+
+pub fn cell_index(Int, Int) -> Int
+
+pub fn cell_left_i(Int) -> Int
+
+pub fn cell_top_i(Int) -> Int
+
+pub let cell_w_i : Int
+
+pub fn chain_slot(Int, Int) -> Int
+
+pub let chains_per_suspect : Int
+
+pub let city_cols : Int
+
+pub fn city_h_i() -> Int
+
+pub let city_origin_x_i : Int
+
+pub let city_origin_y_i : Int
+
+pub let city_rows : Int
+
+pub fn city_w_i() -> Int
+
+pub fn clamp01(Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let clue_count : Int
+
+pub let clue_steps_per_chain : Int
+
+pub let deduction_chains_to_unlock : Int
+
+pub let district_count : Int
+
+pub let evidence_focus_bonus : Int
+
+pub let evidence_per_clue : Int
+
+pub let focus_cooldown : Float
+
+pub let focus_duration : Float
+
+pub fn incident_need_score(Int) -> Int
+
+pub let incident_spawn_base : Float
+
+pub let incident_spawn_floor : Float
+
+pub let incident_timer_base : Float
+
+pub let incident_timer_drop : Float
+
+pub fn incident_timer_for_severity(Int) -> Float
+
+pub let max_incidents : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let score_chain_complete : Int
+
+pub let score_clue : Int
+
+pub let score_deduction_unlock : Int
+
+pub let score_incident_resolve : Int
+
+pub let score_wrong_accuse_penalty : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let suspect_count : Int
+
+pub let target_fps : Int
+
+pub let tau : Float
+
+pub let time_limit_s : Float
+
+pub let trust_decay_base : Float
+
+pub let trust_gain_chain : Float
+
+pub let trust_gain_clue : Float
+
+pub let trust_gain_deduction : Float
+
+pub let trust_gain_resolve : Float
+
+pub let trust_max : Float
+
+pub let trust_penalty_missed_incident : Float
+
+pub let trust_penalty_wrong_accuse : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Clue {
+  x : Int
+  y : Int
+  suspect : Int
+  chain : Int
+  mut discovered : Bool
+  mut glow_t : Float
+}
+pub fn Clue::new(Int) -> Self
+
+pub(all) struct DistrictPulse {
+  mut heat : Float
+  drift : Float
+}
+pub fn DistrictPulse::new(Int) -> Self
+
+pub(all) struct Game {
+  clues : Array[Clue]
+  suspects : Array[Suspect]
+  incidents : Array[Incident]
+  pulses : Array[DistrictPulse]
+  chain_progress : Array[Int]
+  evidence_score : Array[Int]
+  mut state : GameState
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut marked_suspect : Int
+  mut trust : Float
+  mut score : Int
+  mut best_score : Int
+  mut case_time : Float
+  mut spawn_t : Float
+  mut focus_t : Float
+  mut focus_cd : Float
+  mut city_time : Float
+  mut solved_incidents : Int
+  mut failed_incidents : Int
+  mut wrong_accusations : Int
+  mut clue_found : Int
+  mut message : String
+  mut message_t : Float
+  mut input_dx : Int
+  mut input_dy : Int
+  mut input_inspect_press : Bool
+  mut input_cancel_press : Bool
+  mut input_focus_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Incident {
+  mut active : Bool
+  mut x : Int
+  mut y : Int
+  mut culprit : Int
+  mut timer : Float
+  mut severity : Int
+  mut pulse_t : Float
+}
+pub fn Incident::new() -> Self
+
+pub(all) struct Suspect {
+  name : String
+  home_x : Int
+  home_y : Int
+  mut deduction_unlocked : Bool
+  mut suspicion : Float
+}
+pub fn Suspect::new(Int) -> Self
+
+// Type aliases
+
+// Traits
+

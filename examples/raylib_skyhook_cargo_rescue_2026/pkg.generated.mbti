@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_skyhook_cargo_rescue_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Hazard
-
-type Particle
-
-type Pickup
-
-type Survivor
 
 // Type aliases
 

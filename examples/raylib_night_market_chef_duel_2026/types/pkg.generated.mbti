@@ -1,0 +1,197 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_night_market_chef_duel_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub let boost_cooldown : Float
+
+pub let boost_heat_rate : Float
+
+pub let boost_prep_rate : Float
+
+pub let boost_time : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_window : Float
+
+pub fn cosf(Float) -> Float
+
+pub fn dish_base_reward(Dish) -> Int
+
+pub fn dish_cook_need(Dish) -> Float
+
+pub fn dish_lane(Dish) -> Lane
+
+pub fn dish_name(Dish) -> String
+
+pub fn dish_prep_need(Dish) -> Float
+
+pub let fail_limit : Int
+
+pub let grill_x : Float
+
+pub let grill_y : Float
+
+pub let heat_press_gain : Float
+
+pub let hud_h : Int
+
+pub let max_orders : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let node_count : Int
+
+pub let node_grill : Int
+
+pub fn node_name(Int) -> String
+
+pub let node_pass : Int
+
+pub fn node_pos(Int) -> (Float, Float)
+
+pub let node_prep : Int
+
+pub let node_wok : Int
+
+pub fn order_node_y(Int) -> Float
+
+pub let orders_gap : Float
+
+pub let orders_x : Float
+
+pub let orders_y0 : Float
+
+pub let pass_x : Float
+
+pub let pass_y : Float
+
+pub let patience_base : Float
+
+pub let patience_floor : Float
+
+pub let prep_press_gain : Float
+
+pub let prep_x : Float
+
+pub let prep_y : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_interval_min : Float
+
+pub let spawn_interval_start : Float
+
+pub let target_fps : Int
+
+pub let wok_x : Float
+
+pub let wok_y : Float
+
+// Errors
+
+// Types and methods
+pub(all) enum CookStage {
+  Prep
+  Heat
+}
+pub impl Eq for CookStage
+
+pub(all) struct CookingState {
+  mut active : Bool
+  mut dish : Dish
+  mut lane : Lane
+  mut stage : CookStage
+  mut prep_progress : Float
+  mut cook_progress : Float
+}
+pub fn CookingState::new() -> Self
+
+pub(all) enum Dish {
+  DishNone
+  Skewers
+  Noodles
+  Squid
+  FriedRice
+}
+pub impl Eq for Dish
+
+pub(all) struct Game {
+  orders : Array[Order]
+  input : InputState
+  cooking : CookingState
+  mut state : GameState
+  mut cursor : Int
+  mut selected_order : Int
+  mut ready_dish : Dish
+  mut ready_quality : Float
+  mut score : Int
+  mut best_score : Int
+  mut combo : Int
+  mut combo_timer : Float
+  mut served_orders : Int
+  mut failed_orders : Int
+  mut next_order_id : Int
+  mut spawn_t : Float
+  mut elapsed_t : Float
+  mut boost_t : Float
+  mut boost_cd : Float
+  mut flash_t : Float
+  mut shake_t : Float
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct InputState {
+  mut move_x : Int
+  mut move_y : Int
+  mut press_j : Bool
+  mut press_k : Bool
+  mut press_space : Bool
+  mut press_pause : Bool
+  mut press_restart : Bool
+  mut press_start : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) enum Lane {
+  Grill
+  Wok
+}
+pub impl Eq for Lane
+
+pub(all) struct Order {
+  mut active : Bool
+  mut dish : Dish
+  mut patience : Float
+  mut patience_max : Float
+  mut reward : Int
+  mut ticket_no : Int
+}
+pub fn Order::new() -> Self
+
+// Type aliases
+
+// Traits
+

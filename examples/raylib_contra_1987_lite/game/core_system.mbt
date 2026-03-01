@@ -18,7 +18,12 @@ fn alloc_core_slot(game : @types.Game) -> Int {
 }
 
 ///|
-fn spawn_core_entity(game : @types.Game, x : Float, y : Float, hp : Int) -> Bool {
+fn spawn_core_entity(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  hp : Int,
+) -> Bool {
   let slot = alloc_core_slot(game)
   if slot < 0 {
     return false
@@ -42,12 +47,20 @@ fn core_goal_for_stage(stage : Int) -> Int {
 }
 
 ///|
-fn tile_is_core_spawnable(tile : Int) -> Bool {
-  tile == @types.tile_empty || tile == @types.tile_bush || tile == @types.tile_ice
+fn tile_is_core_spawnable(tile : @types.Tile) -> Bool {
+  match tile {
+    Empty | Bush | Ice => true
+    Brick | Steel | Water | Base => false
+  }
 }
 
 ///|
-fn try_spawn_core_at_tile(game : @types.Game, tx : Int, ty : Int, hp : Int) -> Bool {
+fn try_spawn_core_at_tile(
+  game : @types.Game,
+  tx : Int,
+  ty : Int,
+  hp : Int,
+) -> Bool {
   if not(@types.in_tile_bounds(tx, ty)) {
     return false
   }
@@ -95,8 +108,12 @@ fn seed_stage_cores(game : @types.Game, stage : Int) -> Unit {
   }
 
   if placed < game.cores_goal {
-    for ty = 2; ty < @types.map_tiles_h - 2 && placed < game.cores_goal; ty = ty + 1 {
-      for tx = 2; tx < @types.map_tiles_w - 2 && placed < game.cores_goal; tx = tx + 1 {
+    for ty = 2
+        ty < @types.map_tiles_h - 2 && placed < game.cores_goal
+        ty = ty + 1 {
+      for tx = 2
+          tx < @types.map_tiles_w - 2 && placed < game.cores_goal
+          tx = tx + 1 {
         if try_spawn_core_at_tile(game, tx, ty, hp) {
           placed += 1
         }
@@ -117,7 +134,12 @@ fn core_objective_done(game : @types.Game) -> Bool {
 }
 
 ///|
-fn damage_core(game : @types.Game, index : Int, team : Int, power : Int) -> Bool {
+fn damage_core(
+  game : @types.Game,
+  index : Int,
+  team : @types.Team,
+  power : Int,
+) -> Bool {
   if index < 0 || index >= game.cores.length() {
     return false
   }
@@ -135,7 +157,8 @@ fn damage_core(game : @types.Game, index : Int, team : Int, power : Int) -> Bool
     core.active = false
     game.cores_destroyed += 1
 
-    let bonus = @types.core_score_base + @types.clampi(game.stage_index * 18, 0, 480)
+    let bonus = @types.core_score_base +
+      @types.clampi(game.stage_index * 18, 0, 480)
     @score.grant_score(game, team, bonus)
     @particles.spawn_explosion(game, core.x, core.y, 1.8)
     @types.push_camera_shake(game, 2.2)

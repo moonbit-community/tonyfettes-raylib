@@ -1,0 +1,323 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_teahouse_midnight_service_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn a_col(@raylib.Color, Int) -> @raylib.Color
+
+pub fn absf(Float) -> Float
+
+pub fn amber() -> @raylib.Color
+
+pub fn bg_bottom() -> @raylib.Color
+
+pub fn bg_top() -> @raylib.Color
+
+pub let brew_time_base : Float
+
+pub let brew_time_min : Float
+
+pub let brew_x : Float
+
+pub let brew_y : Float
+
+pub fn btn_dash_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_down_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_focus_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_interact_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_left_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_right_rect() -> (Float, Float, Float, Float)
+
+pub fn btn_size() -> Float
+
+pub fn btn_up_rect() -> (Float, Float, Float, Float)
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let counter_x : Float
+
+pub let counter_y : Float
+
+pub fn customer_slot_pos(Int) -> (Float, Float)
+
+pub let customer_slots : Int
+
+pub fn cyan() -> @raylib.Color
+
+pub let dash_cd_time : Float
+
+pub let dash_focus_cost : Float
+
+pub let dash_speed : Float
+
+pub let dash_time : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub fn ease_out_cubic(Float) -> Float
+
+pub fn focus_col() -> @raylib.Color
+
+pub let focus_drain : Float
+
+pub let focus_max : Float
+
+pub let focus_regen : Float
+
+pub let hud_h : Int
+
+pub fn init_title_scene(Game) -> Unit
+
+pub let interact_reach : Float
+
+pub fn jade() -> @raylib.Color
+
+pub let kettle_x : Float
+
+pub let kettle_y : Float
+
+pub fn leaf_x() -> Float
+
+pub fn leaf_y(Int) -> Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_customers : Int
+
+pub let max_rings : Int
+
+pub let max_shadows : Int
+
+pub let max_sparks : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let miss_penalty : Float
+
+pub fn near_station(Float, Float, Float, Float, Float) -> Bool
+
+pub fn pink() -> @raylib.Color
+
+pub let play_bottom : Float
+
+pub let play_left : Float
+
+pub let play_right : Float
+
+pub let play_top : Float
+
+pub let player_accel : Float
+
+pub let player_drag : Float
+
+pub let player_h : Float
+
+pub let player_max_speed : Float
+
+pub let player_w : Float
+
+pub fn point_in_rect(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Float, Float, Float, Float) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn reputation_col() -> @raylib.Color
+
+pub let reputation_max : Float
+
+pub fn retry_rect() -> (Float, Float, Float, Float)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub let serve_reach : Float
+
+pub fn sinf(Float) -> Float
+
+pub let spawn_cd_max : Float
+
+pub let spawn_cd_min : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stage_clear_bonus : Int
+
+pub let stage_clear_wait : Float
+
+pub let stage_goal_base : Int
+
+pub let stage_goal_bonus : Int
+
+pub let stage_time_base : Float
+
+pub let stage_time_bonus : Float
+
+pub let state_game_over : Int
+
+pub let state_play : Int
+
+pub let state_stage_clear : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let tea_berry : Int
+
+pub fn tea_color(Int) -> @raylib.Color
+
+pub let tea_count : Int
+
+pub let tea_jasmine : Int
+
+pub let tea_matcha : Int
+
+pub fn tea_name(Int) -> String
+
+pub let tea_oolong : Int
+
+pub let tea_puer : Int
+
+pub fn title_start_rect() -> (Float, Float, Float, Float)
+
+pub let wrong_serve_penalty : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Customer {
+  mut active : Bool
+  mut tea_type : Int
+  mut slot : Int
+  mut x : Float
+  mut y : Float
+  mut patience : Float
+  mut patience_max : Float
+  mut life : Float
+  mut reward : Int
+  mut mood : Float
+  mut served_t : Float
+  mut angry : Bool
+}
+pub fn Customer::new() -> Self
+
+pub(all) struct Game {
+  customers : Array[Customer]
+  sparks : Array[Spark]
+  rings : Array[Ring]
+  shadows : Array[Shadow]
+  player : Player
+  mut state : Int
+  mut stage : Int
+  mut stage_goal : Int
+  mut score : Int
+  mut best_score : Int
+  mut served : Int
+  mut missed : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut reputation : Float
+  mut focus : Float
+  mut time_left : Float
+  mut spawn_cd : Float
+  mut brew_active : Bool
+  mut brew_t : Float
+  mut brew_type : Int
+  mut ready_cup : Int
+  mut focus_mode : Bool
+  mut flash_t : Float
+  mut shake_t : Float
+  mut result_t : Float
+  mut hint_t : Float
+  mut time_s : Float
+  mut input_x : Float
+  mut input_y : Float
+  mut input_interact_press : Bool
+  mut input_focus_hold : Bool
+  mut input_dash_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_interact_prev : Bool
+  mut touch_dash_prev : Bool
+  mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut w : Float
+  mut h : Float
+  mut angle : Float
+  mut dash_cd : Float
+  mut dash_t : Float
+  mut interact_t : Float
+  mut anim_t : Float
+  mut carry_water : Bool
+  mut carry_leaf : Int
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Ring {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut life : Float
+  mut kind : Int
+}
+pub fn Ring::new() -> Self
+
+pub(all) struct Shadow {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut life : Float
+  mut rot : Float
+}
+pub fn Shadow::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+// Type aliases
+
+// Traits
+

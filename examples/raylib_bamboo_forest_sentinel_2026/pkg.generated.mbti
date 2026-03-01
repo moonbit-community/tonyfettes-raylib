@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_bamboo_forest_sentinel_2026"
 // Errors
 
 // Types and methods
-type Beacon
-
-type Enemy
-
-type Game
-
-type InputState
-
-type Player
-
-type Trap
 
 // Type aliases
 

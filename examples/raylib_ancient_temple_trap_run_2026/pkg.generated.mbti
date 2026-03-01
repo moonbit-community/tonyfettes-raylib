@@ -6,21 +6,6 @@ package "tonyfettes/raylib-examples/raylib_ancient_temple_trap_run_2026"
 // Errors
 
 // Types and methods
-type Door
-
-type Game
-
-type Hazard
-
-type Plate
-
-type Player
-
-type Relic
-
-type StageLayout
-
-type Trap
 
 // Type aliases
 

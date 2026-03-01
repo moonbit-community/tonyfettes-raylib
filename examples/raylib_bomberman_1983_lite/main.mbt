@@ -2,9 +2,7 @@
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    @types.screen_width,
-    @types.screen_height,
-    "raylib [game] bomberman 1983 lite",
+    @types.screen_width, @types.screen_height, "raylib [game] bomberman 1983 lite",
   )
   @raylib.set_target_fps(60)
 

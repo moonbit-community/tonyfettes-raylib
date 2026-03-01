@@ -1,0 +1,1218 @@
+///|
+fn draw_center_text(
+  text : String,
+  y : Int,
+  size : Int,
+  col : @raylib.Color,
+) -> Unit {
+  let tw = @raylib.measure_text(text, size)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
+}
+
+///|
+fn draw_right_text(
+  text : String,
+  x : Int,
+  y : Int,
+  size : Int,
+  col : @raylib.Color,
+) -> Unit {
+  let tw = @raylib.measure_text(text, size)
+  @raylib.draw_text(text, x - tw, y, size, col)
+}
+
+///|
+fn cam_shake(game : @types.Game) -> (Float, Float) {
+  if game.shake_t <= 0.0 {
+    (0.0, 0.0)
+  } else {
+    let amp : Float = @types.minf(24.0, game.shake_t * 42.0)
+    (@types.randf(-amp, amp), @types.randf(-amp, amp))
+  }
+}
+
+///|
+fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  @raylib.draw_rectangle_gradient_v(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @types.sky_top(),
+    @types.sky_bottom(),
+  )
+
+  let moon_x : Float = Float::from_int(@types.screen_w) * 0.78 +
+    @types.sinf(game.time_s * 0.2) * 44.0
+  let moon_y : Float = Float::from_int(@types.hud_h) +
+    86.0 +
+    @types.cosf(game.time_s * 0.24) * 14.0
+
+  @raylib.draw_circle(
+    (moon_x + cam_x * 0.2).to_int(),
+    (moon_y + cam_y * 0.2).to_int(),
+    88.0,
+    @raylib.Color::new(220, 236, 255, 52),
+  )
+  @raylib.draw_circle(
+    (moon_x + cam_x * 0.2).to_int(),
+    (moon_y + cam_y * 0.2).to_int(),
+    48.0,
+    @raylib.Color::new(236, 246, 255, 132),
+  )
+
+  for i in 0..<180 {
+    let fi = Float::from_int(i)
+    let x : Float = (fi * 83.0 + fi * fi * 0.11 + game.time_s * 6.0) %
+      Float::from_int(@types.screen_w)
+    let y : Float = Float::from_int(@types.hud_h) +
+      (fi * 38.0 + fi * fi * 0.27) %
+      Float::from_int(@types.screen_h - @types.hud_h)
+
+    let tw : Float = 0.5 + 0.5 * @types.sinf(fi * 0.66 + game.time_s * 1.4)
+    let alpha = 70 + (tw * 120.0).to_int()
+
+    @raylib.draw_circle(
+      (x + cam_x * 0.12).to_int(),
+      (y + cam_y * 0.12).to_int(),
+      0.8 + tw * 1.4,
+      @raylib.Color::new(170 + (tw * 70.0).to_int(), 214, 255, alpha),
+    )
+  }
+
+  for band in 0..<4 {
+    let fb = Float::from_int(band)
+    let base_y = Float::from_int(@types.hud_h) + 62.0 + fb * 44.0
+
+    for x = -120; x < @types.screen_w + 180; x = x + 30 {
+      let fx = Float::from_int(x)
+      let wave = @types.sinf(fx * 0.011 + game.time_s * (0.74 + fb * 0.14) + fb)
+      let wave2 = @types.cosf(
+        fx * 0.018 + game.time_s * (0.54 + fb * 0.13) + fb * 1.2,
+      )
+      let y = base_y + wave * (22.0 + fb * 6.0) + wave2 * (12.0 + fb * 3.0)
+      let glow : Float = 0.45 +
+        0.55 * @types.sinf(fx * 0.009 + game.time_s * 1.1 + fb)
+
+      let col = if band % 2 == 0 {
+        @raylib.Color::new(96, 222 + (glow * 24.0).to_int(), 188, 42)
+      } else {
+        @raylib.Color::new(120, 178 + (glow * 28.0).to_int(), 255, 36)
+      }
+
+      @raylib.draw_circle(
+        (fx + cam_x * 0.1).to_int(),
+        (y + cam_y * 0.1).to_int(),
+        18.0 + glow * 6.0,
+        col,
+      )
+    }
+  }
+}
+
+///|
+fn draw_far_clouds(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  for i in 0..<24 {
+    let fi = Float::from_int(i)
+    let speed : Float = 14.0 + fi * 0.9
+    let x : Float = (fi * 120.0 + game.time_s * speed + fi * fi * 0.6) %
+      (Float::from_int(@types.screen_w) + 260.0) -
+      130.0
+    let y : Float = Float::from_int(@types.hud_h) + 30.0 + fi * 29.0 % 220.0
+    let w : Float = 80.0 + fi % 4.0 * 34.0
+    let h : Float = 30.0 + fi % 3.0 * 12.0
+
+    @raylib.draw_circle(
+      (x + cam_x * 0.16).to_int(),
+      (y + cam_y * 0.16).to_int(),
+      w * 0.32,
+      @raylib.Color::new(160, 188, 224, 30),
+    )
+    @raylib.draw_circle(
+      (x + w * 0.24 + cam_x * 0.16).to_int(),
+      (y + h * 0.1 + cam_y * 0.16).to_int(),
+      w * 0.38,
+      @raylib.Color::new(170, 198, 230, 30),
+    )
+    @raylib.draw_circle(
+      (x - w * 0.22 + cam_x * 0.16).to_int(),
+      (y + h * 0.08 + cam_y * 0.16).to_int(),
+      w * 0.26,
+      @raylib.Color::new(150, 180, 218, 28),
+    )
+  }
+}
+
+///|
+fn draw_wind_lanes(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let intensity = @types.clampf(
+    @types.absf(game.wind_x) /
+    (@types.wind_base + Float::from_int(game.stage) * @types.wind_stage_bonus),
+    0.0,
+    1.0,
+  )
+  let count = 26 + (intensity * 40.0).to_int()
+
+  for i in 0..<count {
+    let fi = Float::from_int(i)
+    let x = (
+        fi * 76.0 + game.time_s * (140.0 + @types.absf(game.wind_x) * 0.46)
+      ) %
+      (Float::from_int(@types.screen_w) + 180.0) -
+      90.0
+    let y = @types.play_top +
+      (fi * 47.0 + fi * fi * 0.9) % (@types.play_bottom - @types.play_top)
+    let len : Float = 20.0 + intensity * 40.0
+    let dy = game.wind_y * 0.06
+
+    @raylib.draw_line_ex(
+      @raylib.Vector2::new(x + cam_x * 0.14, y + cam_y * 0.14),
+      @raylib.Vector2::new(x - len + cam_x * 0.14, y + dy + cam_y * 0.14),
+      1.0 + intensity * 2.0,
+      @raylib.Color::new(188, 224, 255, 36 + (intensity * 66.0).to_int()),
+    )
+  }
+}
+
+///|
+fn draw_play_bounds(cam_x : Float, cam_y : Float) -> Unit {
+  @raylib.draw_rectangle(
+    @types.play_left.to_int(),
+    @types.play_top.to_int(),
+    (@types.play_right - @types.play_left).to_int(),
+    (@types.play_bottom - @types.play_top).to_int(),
+    @raylib.Color::new(10, 20, 38, 36),
+  )
+  @raylib.draw_rectangle_lines(
+    (@types.play_left + cam_x * 0.1).to_int(),
+    (@types.play_top + cam_y * 0.1).to_int(),
+    (@types.play_right - @types.play_left).to_int(),
+    (@types.play_bottom - @types.play_top).to_int(),
+    @raylib.Color::new(120, 188, 242, 90),
+  )
+}
+
+///|
+fn draw_anchor_and_rope(
+  game : @types.Game,
+  cam_x : Float,
+  cam_y : Float,
+) -> Unit {
+  let ax = @types.kite_anchor_x(game)
+  let ay = @types.kite_anchor_y()
+  let kx = game.kite.x
+  let ky = game.kite.y
+
+  let sx = ax + cam_x
+  let sy = ay + cam_y
+  let ex = kx + cam_x
+  let ey = ky + cam_y
+
+  let stretch = @types.clampf(
+    @types.sqrtf(@types.dist2(ax, ay, kx, ky)) / @types.maxf(game.rope_len, 1.0),
+    0.0,
+    1.4,
+  )
+
+  @raylib.draw_line_ex(
+    @raylib.Vector2::new(sx, sy),
+    @raylib.Vector2::new(ex, ey),
+    2.0 + stretch * 2.0,
+    @raylib.Color::new(222, 232, 246, 184),
+  )
+
+  @raylib.draw_circle(
+    sx.to_int(),
+    sy.to_int(),
+    10.0,
+    @raylib.Color::new(210, 224, 244, 220),
+  )
+  @raylib.draw_circle(
+    sx.to_int(),
+    sy.to_int(),
+    4.0,
+    @raylib.Color::new(58, 84, 120, 220),
+  )
+}
+
+///|
+fn draw_trails(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  for trail in game.trails {
+    if not(trail.active) {
+      continue
+    }
+
+    let life = @types.clampf(trail.life / 0.36, 0.0, 1.0)
+    let col = @raylib.Color::new(122, 224, 255, (life * 132.0).to_int())
+    let stretch : Float = Float::from_int(1) +
+      @types.absf(@types.sinf(trail.rot * 0.05)) * 0.28
+
+    @raylib.draw_rectangle(
+      (trail.x - trail.w * 0.5 * stretch + cam_x * 0.2).to_int(),
+      (trail.y - trail.h * 0.5 + cam_y * 0.2).to_int(),
+      @types.maxf(2.0, trail.w * stretch).to_int(),
+      @types.maxf(2.0, trail.h).to_int(),
+      col,
+    )
+  }
+}
+
+///|
+fn obj_col(kind : @types.ObjKind) -> @raylib.Color {
+  match kind {
+    @types.Lantern => @types.amber()
+    @types.Bird => @types.pink()
+    @types.Storm => @raylib.Color::new(116, 186, 255, 255)
+    @types.Orb => @types.energy_col()
+    @types.Koi => @raylib.Color::new(255, 200, 146, 255)
+  }
+}
+
+///|
+fn draw_lantern(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  let x = o.x + cam_x
+  let y = o.y + cam_y
+  let glow : Float = 0.5 + 0.5 * @types.sinf(o.phase * 4.0)
+
+  @raylib.draw_circle(
+    x.to_int(),
+    y.to_int(),
+    o.w * 0.45 + glow * 3.0,
+    @raylib.Color::new(255, 214, 120, 100),
+  )
+  @raylib.draw_rectangle(
+    (x - o.w * 0.36).to_int(),
+    (y - o.h * 0.44).to_int(),
+    (o.w * 0.72).to_int(),
+    (o.h * 0.86).to_int(),
+    @types.amber(),
+  )
+  @raylib.draw_rectangle(
+    (x - o.w * 0.2).to_int(),
+    (y - o.h * 0.64).to_int(),
+    (o.w * 0.4).to_int(),
+    4,
+    @raylib.Color::new(240, 236, 220, 210),
+  )
+  @raylib.draw_line(
+    x.to_int(),
+    (y + o.h * 0.44).to_int(),
+    x.to_int(),
+    (y + o.h * 0.8).to_int(),
+    @raylib.Color::new(214, 214, 228, 210),
+  )
+}
+
+///|
+fn draw_bird(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  let x = o.x + cam_x
+  let y = o.y + cam_y
+  let wing : Float = @types.sinf(o.phase * 16.0) * 16.0
+
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(x, y - o.h * 0.46),
+    @raylib.Vector2::new(x - o.w * 0.42, y + o.h * 0.38),
+    @raylib.Vector2::new(x + o.w * 0.42, y + o.h * 0.38),
+    @types.pink(),
+  )
+
+  @raylib.draw_line_ex(
+    @raylib.Vector2::new(x, y - 2.0),
+    @raylib.Vector2::new(x - o.w * 0.72, y - wing),
+    4.0,
+    @raylib.Color::new(255, 146, 196, 220),
+  )
+  @raylib.draw_line_ex(
+    @raylib.Vector2::new(x, y - 2.0),
+    @raylib.Vector2::new(x + o.w * 0.72, y - wing),
+    4.0,
+    @raylib.Color::new(255, 146, 196, 220),
+  )
+
+  @raylib.draw_circle(
+    x.to_int(),
+    (y - o.h * 0.08).to_int(),
+    6.0,
+    @raylib.Color::new(36, 26, 48, 220),
+  )
+}
+
+///|
+fn draw_storm(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  let x = o.x + cam_x
+  let y = o.y + cam_y
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(o.phase * 3.2)
+
+  @raylib.draw_circle(
+    (x - o.w * 0.24).to_int(),
+    y.to_int(),
+    o.h * 0.4,
+    @raylib.Color::new(86, 136, 206, 210),
+  )
+  @raylib.draw_circle(
+    (x + o.w * 0.22).to_int(),
+    (y - o.h * 0.04).to_int(),
+    o.h * 0.48,
+    @raylib.Color::new(96, 148, 218, 218),
+  )
+  @raylib.draw_circle(
+    x.to_int(),
+    (y - o.h * 0.24).to_int(),
+    o.h * 0.44,
+    @raylib.Color::new(106, 160, 228, 226),
+  )
+
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(x - 8.0, y + o.h * 0.2),
+    @raylib.Vector2::new(x + 4.0, y + o.h * 0.2),
+    @raylib.Vector2::new(x - 12.0, y + o.h * 0.72 + pulse * 6.0),
+    @raylib.Color::new(218, 236, 255, 220),
+  )
+}
+
+///|
+fn draw_orb(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  let x = o.x + cam_x
+  let y = o.y + cam_y
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(o.phase * 5.8)
+
+  @raylib.draw_circle(
+    x.to_int(),
+    y.to_int(),
+    o.w * 0.45 + pulse * 3.0,
+    @raylib.Color::new(126, 246, 206, 104),
+  )
+  @raylib.draw_circle(x.to_int(), y.to_int(), o.w * 0.32, @types.energy_col())
+  @raylib.draw_circle(
+    x.to_int(),
+    y.to_int(),
+    o.w * 0.14,
+    @raylib.Color::new(18, 58, 50, 220),
+  )
+}
+
+///|
+fn draw_koi(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  let x = o.x + cam_x
+  let y = o.y + cam_y
+  let sway : Float = @types.sinf(o.phase * 9.0) * 9.0
+
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(x + o.w * 0.5, y),
+    @raylib.Vector2::new(x - o.w * 0.36, y - o.h * 0.42),
+    @raylib.Vector2::new(x - o.w * 0.36, y + o.h * 0.42),
+    @raylib.Color::new(255, 186, 130, 244),
+  )
+
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(x - o.w * 0.42, y),
+    @raylib.Vector2::new(x - o.w * 0.72, y - o.h * 0.34 + sway),
+    @raylib.Vector2::new(x - o.w * 0.72, y + o.h * 0.34 + sway),
+    @raylib.Color::new(255, 214, 168, 228),
+  )
+
+  @raylib.draw_circle(
+    (x + o.w * 0.16).to_int(),
+    (y - o.h * 0.1).to_int(),
+    4.0,
+    @raylib.Color::new(34, 28, 24, 220),
+  )
+}
+
+///|
+fn draw_obj(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
+  if not(o.active) {
+    return
+  }
+
+  let base = obj_col(o.kind)
+
+  match o.kind {
+    @types.Lantern => draw_lantern(o, cam_x, cam_y)
+    @types.Bird => draw_bird(o, cam_x, cam_y)
+    @types.Storm => draw_storm(o, cam_x, cam_y)
+    @types.Orb => draw_orb(o, cam_x, cam_y)
+    @types.Koi => draw_koi(o, cam_x, cam_y)
+  }
+
+  if @types.is_hostile(o.kind) {
+    let hpw = @types.maxf(12.0, o.w)
+    let hpx = o.x - hpw * 0.5 + cam_x
+    let hpy = o.y - o.h * 0.8 + cam_y
+
+    let hp_ratio = @types.clampf(
+      o.hp /
+      @types.maxf(
+        1.0,
+        match o.kind {
+          @types.Storm => 30.0 + Float::from_int(6 * 1)
+          _ => 20.0 + Float::from_int(4 * 1)
+        },
+      ),
+      0.0,
+      1.0,
+    )
+
+    @raylib.draw_rectangle(
+      hpx.to_int(),
+      hpy.to_int(),
+      hpw.to_int(),
+      4,
+      @raylib.Color::new(10, 18, 32, 220),
+    )
+    @raylib.draw_rectangle(
+      hpx.to_int(),
+      hpy.to_int(),
+      (hpw * hp_ratio).to_int(),
+      4,
+      @raylib.Color::new(255, 126, 170, 220),
+    )
+  }
+
+  if o.flagged {
+    @raylib.draw_circle_lines(
+      (o.x + cam_x).to_int(),
+      (o.y + cam_y).to_int(),
+      @types.maxf(o.w, o.h) * 0.56,
+      @types.a_col(base, 168),
+    )
+  }
+}
+
+///|
+fn draw_kite(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let x = game.kite.x + cam_x
+  let y = game.kite.y + cam_y
+
+  let body_col = if game.kite.invuln > 0.0 {
+    @raylib.Color::new(176, 252, 255, 226)
+  } else {
+    @raylib.Color::new(242, 244, 252, 244)
+  }
+
+  let burst_col = @raylib.Color::new(
+    140,
+    222,
+    255,
+    (game.kite.burst_glow * 220.0).to_int(),
+  )
+  @raylib.draw_circle(
+    x.to_int(),
+    y.to_int(),
+    20.0 + game.kite.burst_glow * 22.0,
+    burst_col,
+  )
+
+  let tilt = game.kite.angle
+  let kx0 = x + @types.sinf(tilt * 0.017) * 6.0
+
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(kx0, y - game.kite.h * 0.52),
+    @raylib.Vector2::new(x - game.kite.w * 0.5, y),
+    @raylib.Vector2::new(x + game.kite.w * 0.5, y),
+    body_col,
+  )
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(kx0, y + game.kite.h * 0.52),
+    @raylib.Vector2::new(x - game.kite.w * 0.5, y),
+    @raylib.Vector2::new(x + game.kite.w * 0.5, y),
+    @types.a_col(@types.cyan(), 210),
+  )
+
+  @raylib.draw_line_ex(
+    @raylib.Vector2::new(x - game.kite.w * 0.5, y),
+    @raylib.Vector2::new(x + game.kite.w * 0.5, y),
+    3.0,
+    @raylib.Color::new(72, 106, 146, 220),
+  )
+
+  @raylib.draw_circle(
+    x.to_int(),
+    y.to_int(),
+    5.0,
+    @raylib.Color::new(56, 84, 132, 232),
+  )
+
+  for i in 0..<8 {
+    let fi = Float::from_int(i)
+    let sway = @types.sinf(game.kite.anim_t * 8.0 + fi * 0.6) * 8.0
+    let tx = x + @types.sinf(game.kite.angle * 0.02) * fi * 1.8 + sway * 0.16
+    let ty = y + fi * 14.0 + sway
+
+    @raylib.draw_circle(
+      tx.to_int(),
+      ty.to_int(),
+      @types.maxf(1.0, 4.0 - fi * 0.36),
+      if i % 2 == 0 {
+        @types.a_col(@types.pink(), 210)
+      } else {
+        @types.a_col(@types.amber(), 210)
+      },
+    )
+  }
+
+  if game.kite.reel_glow > 0.0 {
+    @raylib.draw_circle_lines(
+      x.to_int(),
+      y.to_int(),
+      24.0 + game.kite.reel_glow * 14.0,
+      @raylib.Color::new(122, 250, 206, 180),
+    )
+  }
+
+  if game.kite.hurt_t > 0.0 {
+    let t = @types.clampf(game.kite.hurt_t / 0.62, 0.0, 1.0)
+    @raylib.draw_circle(
+      x.to_int(),
+      y.to_int(),
+      16.0 + t * 16.0,
+      @raylib.Color::new(255, 108, 156, (t * 160.0).to_int()),
+    )
+  }
+}
+
+///|
+fn spark_col(kind : Int) -> @raylib.Color {
+  if kind == 0 {
+    @types.amber()
+  } else if kind == 1 {
+    @types.pink()
+  } else if kind == 2 {
+    @types.cyan()
+  } else {
+    @raylib.Color::new(236, 244, 255, 255)
+  }
+}
+
+///|
+fn draw_sparks(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  for spark in game.sparks {
+    if not(spark.active) {
+      continue
+    }
+
+    let life = if spark.kind == 3 {
+      @types.clampf(spark.life / 1.6, 0.0, 1.0)
+    } else {
+      @types.clampf(spark.life / 1.1, 0.0, 1.0)
+    }
+
+    let col = @types.a_col(spark_col(spark.kind), (life * 220.0).to_int())
+
+    if spark.kind == 3 {
+      @raylib.draw_circle(
+        (spark.x + cam_x * 0.2).to_int(),
+        (spark.y + cam_y * 0.2).to_int(),
+        @types.maxf(0.6, spark.size * (0.4 + life)),
+        col,
+      )
+    } else {
+      @raylib.draw_circle(
+        (spark.x + cam_x).to_int(),
+        (spark.y + cam_y).to_int(),
+        @types.maxf(0.8, spark.size * (0.4 + life)),
+        col,
+      )
+    }
+  }
+
+  for halo in game.halos {
+    if not(halo.active) {
+      continue
+    }
+
+    let life = @types.clampf(halo.life / 1.0, 0.0, 1.0)
+    let col = if halo.kind == 0 {
+      @types.a_col(@types.amber(), (life * 190.0).to_int())
+    } else if halo.kind == 1 {
+      @types.a_col(@types.pink(), (life * 190.0).to_int())
+    } else {
+      @types.a_col(@types.cyan(), (life * 190.0).to_int())
+    }
+
+    @raylib.draw_circle_lines(
+      (halo.x + cam_x).to_int(),
+      (halo.y + cam_y).to_int(),
+      halo.r,
+      col,
+    )
+  }
+}
+
+///|
+fn draw_hud_bar(
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+  value : Float,
+  maxv : Float,
+  label : String,
+  col : @raylib.Color,
+) -> Unit {
+  let ratio : Float = if maxv <= 0.0 {
+    0.0
+  } else {
+    @types.clampf(value / maxv, 0.0, 1.0)
+  }
+
+  @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(8, 20, 34, 214))
+  @raylib.draw_rectangle(
+    x,
+    y,
+    (Float::from_int(w) * ratio).to_int(),
+    h,
+    @types.a_col(col, 228),
+  )
+  @raylib.draw_rectangle_lines(
+    x,
+    y,
+    w,
+    h,
+    @raylib.Color::new(148, 206, 244, 170),
+  )
+
+  @raylib.draw_text(
+    label,
+    x + 8,
+    y + h / 2 - 8,
+    16,
+    @raylib.Color::new(226, 242, 255, 238),
+  )
+}
+
+///|
+fn draw_hud(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    @types.hud_h,
+    @raylib.Color::new(6, 16, 30, 238),
+  )
+  @raylib.draw_line(
+    0,
+    @types.hud_h,
+    @types.screen_w,
+    @types.hud_h,
+    @raylib.Color::new(92, 166, 228, 160),
+  )
+
+  draw_hud_bar(
+    20,
+    18,
+    300,
+    24,
+    game.calm,
+    @types.calm_max,
+    "CALM",
+    @types.calm_col(),
+  )
+  draw_hud_bar(
+    20,
+    52,
+    300,
+    24,
+    game.energy,
+    @types.energy_max,
+    "ENERGY",
+    @types.energy_col(),
+  )
+
+  draw_hud_bar(
+    338,
+    18,
+    320,
+    24,
+    Float::from_int(game.score),
+    Float::from_int(@types.maxf(Float::from_int(game.stage_goal), 1.0).to_int()),
+    "GOAL",
+    @types.wind_col(),
+  )
+
+  draw_hud_bar(
+    338,
+    52,
+    320,
+    24,
+    game.time_left,
+    @types.stage_time_base +
+    Float::from_int(game.stage) * @types.stage_time_bonus,
+    "TIME",
+    @types.amber(),
+  )
+
+  @raylib.draw_text(
+    "STAGE " + game.stage.to_string(),
+    684,
+    14,
+    24,
+    @raylib.Color::new(214, 240, 255, 242),
+  )
+  @raylib.draw_text(
+    "SCORE " + game.score.to_string(),
+    684,
+    42,
+    22,
+    @types.a_col(@types.amber(), 240),
+  )
+  @raylib.draw_text(
+    "GOAL " + game.stage_goal.to_string(),
+    684,
+    68,
+    20,
+    @raylib.Color::new(184, 222, 248, 236),
+  )
+
+  draw_right_text(
+    "BEST " + game.best_score.to_string(),
+    @types.screen_w - 20,
+    14,
+    22,
+    @raylib.Color::new(188, 224, 248, 236),
+  )
+  draw_right_text(
+    "RESCUED " + game.rescued.to_string() + "  HITS " + game.hits.to_string(),
+    @types.screen_w - 20,
+    44,
+    20,
+    @raylib.Color::new(170, 214, 236, 228),
+  )
+
+  let wind_mag = @types.sqrtf(
+    game.wind_x * game.wind_x + game.wind_y * game.wind_y,
+  )
+  draw_right_text(
+    "WIND " + wind_mag.to_int().to_string(),
+    @types.screen_w - 20,
+    70,
+    18,
+    @types.a_col(@types.wind_col(), 220),
+  )
+
+  if game.combo > 1 && game.combo_t > 0.0 {
+    let t = @types.clampf(game.combo_t / 4.0, 0.0, 1.0)
+    draw_center_text(
+      "COMBO x" + game.combo.to_string(),
+      @types.hud_h + 6,
+      30,
+      @raylib.Color::new(
+        255,
+        200,
+        132,
+        (Float::from_int(120) + t * 120.0).to_int(),
+      ),
+    )
+  }
+
+  match game.state {
+    @types.Play =>
+      @raylib.draw_text(
+        "WASD move  SPACE burst  J/SHIFT reel",
+        20,
+        @types.hud_h + 6,
+        20,
+        @raylib.Color::new(186, 220, 244, 204),
+      )
+    _ => ()
+  }
+}
+
+///|
+fn draw_button_visual(
+  label : String,
+  rect : (Float, Float, Float, Float),
+  pressed : Bool,
+  game : @types.Game,
+) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  let hot = @types.pointer_on_rect(
+    mx,
+    my,
+    hold,
+    touch_count,
+    rect.0,
+    rect.1,
+    rect.2,
+    rect.3,
+  )
+
+  let base = if pressed {
+    @raylib.Color::new(84, 196, 255, 194)
+  } else if hot {
+    @raylib.Color::new(62, 126, 184, 176)
+  } else {
+    @raylib.Color::new(22, 54, 92, 152)
+  }
+
+  @raylib.draw_rectangle(
+    rect.0.to_int(),
+    rect.1.to_int(),
+    rect.2.to_int(),
+    rect.3.to_int(),
+    base,
+  )
+  @raylib.draw_rectangle_lines(
+    rect.0.to_int(),
+    rect.1.to_int(),
+    rect.2.to_int(),
+    rect.3.to_int(),
+    @raylib.Color::new(166, 224, 255, 214),
+  )
+
+  let ts = 28
+  let tw = @raylib.measure_text(label, ts)
+  @raylib.draw_text(
+    label,
+    (rect.0 + rect.2 * 0.5 - Float::from_int(tw) * 0.5).to_int(),
+    (rect.1 + rect.3 * 0.5 - Float::from_int(ts) * 0.5).to_int(),
+    ts,
+    @raylib.Color::new(238, 248, 255, 244),
+  )
+}
+
+///|
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  if not(game.touch_mode) {
+    return
+  }
+
+  match game.state {
+    @types.Play => {
+      draw_button_visual("<", @types.btn_left_rect(), game.input_x < -0.2, game)
+      draw_button_visual(">", @types.btn_right_rect(), game.input_x > 0.2, game)
+      draw_button_visual("^", @types.btn_up_rect(), game.input_y < -0.2, game)
+      draw_button_visual("v", @types.btn_down_rect(), game.input_y > 0.2, game)
+      draw_button_visual(
+        "BURST",
+        @types.btn_burst_rect(),
+        game.input_burst_press,
+        game,
+      )
+      draw_button_visual(
+        "REEL",
+        @types.btn_reel_rect(),
+        game.input_reel_hold,
+        game,
+      )
+    }
+    @types.Title =>
+      draw_button_visual("START", @types.title_start_rect(), false, game)
+    @types.StageClear | @types.GameOver =>
+      draw_button_visual("RETRY", @types.retry_rect(), false, game)
+  }
+}
+
+///|
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @raylib.Color::new(8, 14, 24, 132),
+  )
+
+  draw_center_text(
+    "CELESTIAL KITE FESTIVAL 2026",
+    120,
+    60,
+    @raylib.Color::new(230, 246, 255, 250),
+  )
+  draw_center_text(
+    "Ride the wind, rescue lanterns, survive storm flocks",
+    194,
+    30,
+    @raylib.Color::new(184, 220, 244, 238),
+  )
+
+  @raylib.draw_rectangle(
+    @types.screen_w / 2 - 360,
+    246,
+    720,
+    236,
+    @raylib.Color::new(10, 20, 38, 184),
+  )
+  @raylib.draw_rectangle_lines(
+    @types.screen_w / 2 - 360,
+    246,
+    720,
+    236,
+    @raylib.Color::new(148, 206, 244, 214),
+  )
+
+  draw_center_text("CONTROLS", 264, 32, @raylib.Color::new(242, 248, 255, 240))
+  draw_center_text(
+    "WASD / arrows: steer kite in all directions",
+    310,
+    24,
+    @raylib.Color::new(194, 222, 244, 236),
+  )
+  draw_center_text(
+    "SPACE / BURST: shockwave to break nearby threats",
+    342,
+    24,
+    @raylib.Color::new(194, 222, 244, 236),
+  )
+  draw_center_text(
+    "J / SHIFT / REEL: shorten rope and resist gusts",
+    374,
+    24,
+    @raylib.Color::new(194, 222, 244, 236),
+  )
+  draw_center_text(
+    "Collect lanterns to beat goal before time and calm run out",
+    406,
+    24,
+    @raylib.Color::new(194, 222, 244, 236),
+  )
+  draw_center_text(
+    "Mobile: tap pads directly (no drag joystick needed)",
+    438,
+    24,
+    @raylib.Color::new(194, 222, 244, 236),
+  )
+
+  let btn = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
+    mx,
+    my,
+    hold,
+    touch_count,
+    btn.0,
+    btn.1,
+    btn.2,
+    btn.3,
+  )
+
+  @raylib.draw_rectangle(
+    btn.0.to_int(),
+    btn.1.to_int(),
+    btn.2.to_int(),
+    btn.3.to_int(),
+    if hover {
+      @raylib.Color::new(88, 190, 244, 220)
+    } else {
+      @raylib.Color::new(46, 126, 196, 192)
+    },
+  )
+  @raylib.draw_rectangle_lines(
+    btn.0.to_int(),
+    btn.1.to_int(),
+    btn.2.to_int(),
+    btn.3.to_int(),
+    @raylib.Color::new(206, 244, 255, 232),
+  )
+
+  draw_center_text(
+    "PRESS SPACE / ENTER TO START",
+    btn.1.to_int() + 28,
+    30,
+    @raylib.Color::new(242, 250, 255, 246),
+  )
+}
+
+///|
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
+  let t = @types.clampf(game.result_t / @types.stage_clear_wait, 0.0, 1.0)
+  let y = @types.lerpf(230.0, 166.0, @types.ease_out_cubic(t)).to_int()
+
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @raylib.Color::new(6, 20, 30, 122),
+  )
+
+  draw_center_text("STAGE CLEAR", y, 68, @raylib.Color::new(156, 255, 228, 246))
+  draw_center_text(
+    "Bonus +" + (220 + game.stage * 90).to_string(),
+    y + 78,
+    30,
+    @types.a_col(@types.amber(), 242),
+  )
+  draw_center_text(
+    "Preparing stronger winds...",
+    y + 118,
+    26,
+    @raylib.Color::new(206, 238, 255, 234),
+  )
+}
+
+///|
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @raylib.Color::new(12, 8, 18, 172),
+  )
+
+  draw_center_text("FESTIVAL LOST", 150, 66, @types.a_col(@types.pink(), 248))
+  draw_center_text(
+    "The storm swallowed your signal kite",
+    226,
+    30,
+    @raylib.Color::new(232, 204, 220, 236),
+  )
+
+  @raylib.draw_rectangle(
+    @types.screen_w / 2 - 274,
+    278,
+    548,
+    194,
+    @raylib.Color::new(16, 16, 34, 192),
+  )
+  @raylib.draw_rectangle_lines(
+    @types.screen_w / 2 - 274,
+    278,
+    548,
+    194,
+    @raylib.Color::new(160, 196, 244, 220),
+  )
+
+  draw_center_text(
+    "STAGE " + game.stage.to_string(),
+    302,
+    30,
+    @raylib.Color::new(214, 232, 255, 242),
+  )
+  draw_center_text(
+    "SCORE " + game.score.to_string(),
+    338,
+    36,
+    @types.a_col(@types.amber(), 246),
+  )
+  draw_center_text(
+    "RESCUED " + game.rescued.to_string() + "    HITS " + game.hits.to_string(),
+    386,
+    28,
+    @raylib.Color::new(190, 216, 238, 238),
+  )
+  draw_center_text(
+    "BEST " + game.best_score.to_string(),
+    424,
+    28,
+    @raylib.Color::new(182, 220, 250, 236),
+  )
+
+  let retry = @types.retry_rect()
+  let hover = @types.pointer_on_rect(
+    mx,
+    my,
+    hold,
+    touch_count,
+    retry.0,
+    retry.1,
+    retry.2,
+    retry.3,
+  )
+
+  @raylib.draw_rectangle(
+    retry.0.to_int(),
+    retry.1.to_int(),
+    retry.2.to_int(),
+    retry.3.to_int(),
+    if hover {
+      @raylib.Color::new(110, 194, 255, 220)
+    } else {
+      @raylib.Color::new(62, 124, 196, 192)
+    },
+  )
+  @raylib.draw_rectangle_lines(
+    retry.0.to_int(),
+    retry.1.to_int(),
+    retry.2.to_int(),
+    retry.3.to_int(),
+    @raylib.Color::new(210, 240, 255, 230),
+  )
+
+  draw_center_text(
+    "SPACE / ENTER / TAP TO RETRY",
+    retry.1.to_int() + 18,
+    26,
+    @raylib.Color::new(242, 250, 255, 246),
+  )
+}
+
+///|
+fn draw_flash(game : @types.Game) -> Unit {
+  if game.flash_t <= 0.0 {
+    return
+  }
+
+  let t = @types.clampf(game.flash_t / 0.36, 0.0, 1.0)
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @raylib.Color::new(255, 126, 174, (t * 120.0).to_int()),
+  )
+}
+
+///|
+fn draw_world(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  draw_sky(game, cam_x, cam_y)
+  draw_far_clouds(game, cam_x, cam_y)
+  draw_wind_lanes(game, cam_x, cam_y)
+  draw_play_bounds(cam_x, cam_y)
+  draw_anchor_and_rope(game, cam_x, cam_y)
+  draw_trails(game, cam_x, cam_y)
+
+  for obj in game.objs {
+    if obj.active && @types.is_collectible(obj.kind) {
+      draw_obj(obj, cam_x, cam_y)
+    }
+  }
+
+  for obj in game.objs {
+    if obj.active && @types.is_hostile(obj.kind) {
+      draw_obj(obj, cam_x, cam_y)
+    }
+  }
+
+  draw_kite(game, cam_x, cam_y)
+  draw_sparks(game, cam_x, cam_y)
+}
+
+///|
+pub fn draw_frame(game : @types.Game) -> Unit {
+  @raylib.clear_background(@raylib.Color::new(6, 12, 24, 255))
+
+  let shake = cam_shake(game)
+  draw_world(game, shake.0, shake.1)
+  draw_hud(game)
+
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.StageClear => draw_stage_clear_overlay(game)
+    @types.GameOver => draw_game_over_overlay(game)
+    @types.Play => ()
+  }
+
+  draw_touch_controls(game)
+  draw_flash(game)
+
+  if game.state == @types.Play && game.touch_mode {
+    draw_center_text(
+      "Mobile: tap directional and action pads",
+      @types.screen_h - 24,
+      20,
+      @raylib.Color::new(210, 236, 255, 220),
+    )
+  }
+}

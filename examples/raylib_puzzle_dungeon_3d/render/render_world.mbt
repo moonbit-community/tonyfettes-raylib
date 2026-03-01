@@ -38,49 +38,49 @@ fn draw_floor_tiles(game : @types.Game) -> Unit {
       let tile = @types.get_tile(game, gx, gy)
       let wx = Float::from_int(gx)
       let wz = Float::from_int(gy)
-      if tile == @types.tile_wall {
+      if tile == @types.TileWall {
         draw_wall(game, wx, wz, world)
-      } else if tile == @types.tile_floor {
+      } else if tile == @types.TileFloor {
         draw_floor(wx, wz, world)
-      } else if tile == @types.tile_plate {
+      } else if tile == @types.TilePlate {
         draw_plate(game, wx, wz, gx, gy, world)
-      } else if tile == @types.tile_switch_off {
+      } else if tile == @types.TileSwitchOff {
         draw_switch(wx, wz, false, world)
-      } else if tile == @types.tile_switch_on {
+      } else if tile == @types.TileSwitchOn {
         draw_switch(wx, wz, true, world)
-      } else if tile == @types.tile_exit_closed {
+      } else if tile == @types.TileExitClosed {
         draw_exit(game, wx, wz, false, world)
-      } else if tile == @types.tile_exit_open {
+      } else if tile == @types.TileExitOpen {
         draw_exit(game, wx, wz, true, world)
-      } else if tile == @types.tile_pit {
+      } else if tile == @types.TilePit {
         draw_pit(wx, wz, world)
-      } else if tile == @types.tile_ice {
+      } else if tile == @types.TileIce {
         draw_ice(wx, wz)
-      } else if tile == @types.tile_teleport_a || tile == @types.tile_teleport_b {
+      } else if tile == @types.TileTeleportA || tile == @types.TileTeleportB {
         draw_teleport(game, wx, wz, world)
-      } else if tile == @types.tile_cracked {
+      } else if tile == @types.TileCracked {
         draw_cracked(wx, wz, world)
-      } else if tile == @types.tile_spikes_off {
+      } else if tile == @types.TileSpikesOff {
         draw_spikes(wx, wz, false, world)
-      } else if tile == @types.tile_spikes_on {
+      } else if tile == @types.TileSpikesOn {
         draw_spikes(wx, wz, true, world)
       } else if @types.is_conveyor(tile) {
         draw_conveyor(game, wx, wz, tile, world)
-      } else if tile == @types.tile_bridge_off {
+      } else if tile == @types.TileBridgeOff {
         draw_bridge(wx, wz, false)
-      } else if tile == @types.tile_bridge_on {
+      } else if tile == @types.TileBridgeOn {
         draw_bridge(wx, wz, true)
-      } else if tile == @types.tile_gate_closed {
+      } else if tile == @types.TileGateClosed {
         draw_gate(wx, wz, false, world)
-      } else if tile == @types.tile_gate_open {
+      } else if tile == @types.TileGateOpen {
         draw_gate(wx, wz, true, world)
       } else if @types.is_mirror(tile) {
         draw_mirror(game, wx, wz, tile, world)
       } else if @types.is_laser_source(tile) {
         draw_laser_source(wx, wz, tile, world)
-      } else if tile == @types.tile_laser_target {
+      } else if tile == @types.TileLaserTarget {
         draw_laser_target(game, wx, wz, world)
-      } else if tile == @types.tile_rotate_platform {
+      } else if tile == @types.TileRotatePlatform {
         draw_rotate_platform(game, wx, wz, world)
       }
     }
@@ -88,7 +88,12 @@ fn draw_floor_tiles(game : @types.Game) -> Unit {
 }
 
 ///|
-fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
+fn draw_wall(
+  game : @types.Game,
+  wx : Float,
+  wz : Float,
+  world : @types.World,
+) -> Unit {
   ignore(game)
   let wc = @types.get_world_wall_color(world)
   let pos = @raylib.Vector3::new(wx, 0.5, wz)
@@ -99,7 +104,6 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
     1.0,
     @raylib.Color::new(wc.0, wc.1, wc.2, 255),
   )
-  // Edge lines slightly darker
   let edge_r = @types.clampi(wc.0 - 15, 0, 255)
   let edge_g = @types.clampi(wc.1 - 15, 0, 255)
   let edge_b = @types.clampi(wc.2 - 15, 0, 255)
@@ -110,9 +114,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
     1.0,
     @raylib.Color::new(edge_r, edge_g, edge_b, 255),
   )
-  // Top trim per world
-  if world == @types.world_dungeon {
-    // Stone trim on top
+  if world == @types.WorldDungeon {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 1.02, wz),
       0.9,
@@ -120,8 +122,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
       0.9,
       @raylib.Color::new(55, 60, 75, 255),
     )
-  } else if world == @types.world_ice {
-    // Icy sparkle on top
+  } else if world == @types.WorldIce {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 1.02, wz),
       0.85,
@@ -129,8 +130,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
       0.85,
       @raylib.Color::new(200, 230, 255, 150),
     )
-  } else if world == @types.world_lava {
-    // Glowing edges
+  } else if world == @types.WorldLava {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 1.0, wz),
       1.02,
@@ -138,8 +138,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
       1.02,
       @raylib.Color::new(255, 100, 20, 100),
     )
-  } else if world == @types.world_garden {
-    // Moss on top
+  } else if world == @types.WorldGarden {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 1.02, wz),
       0.9,
@@ -147,8 +146,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
       0.9,
       @raylib.Color::new(40, 100, 35, 200),
     )
-  } else if world == @types.world_void {
-    // Purple glow
+  } else if world == @types.WorldVoid {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 1.0, wz),
       1.02,
@@ -160,7 +158,7 @@ fn draw_wall(game : @types.Game, wx : Float, wz : Float, world : Int) -> Unit {
 }
 
 ///|
-fn draw_floor(wx : Float, wz : Float, world : Int) -> Unit {
+fn draw_floor(wx : Float, wz : Float, world : @types.World) -> Unit {
   let fc = @types.get_world_floor_color(world)
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, -0.05, wz),
@@ -169,7 +167,6 @@ fn draw_floor(wx : Float, wz : Float, world : Int) -> Unit {
     0.95,
     @raylib.Color::new(fc.0, fc.1, fc.2, 255),
   )
-  // Grid lines
   let line_r = @types.clampi(fc.0 - 10, 0, 255)
   let line_g = @types.clampi(fc.1 - 10, 0, 255)
   let line_b = @types.clampi(fc.2 - 10, 0, 255)
@@ -196,11 +193,9 @@ fn draw_plate(
   wz : Float,
   gx : Int,
   gy : Int,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
-  // Floor base
   draw_floor(wx, wz, world)
-  // Plate indicator
   let has_block = @types.entity_at(game, gx, gy) >= 0
   let height : Float = if has_block { -0.02 } else { 0.02 }
   let color = if has_block {
@@ -211,7 +206,6 @@ fn draw_plate(
     )
   }
   @raylib.draw_cube(@raylib.Vector3::new(wx, height, wz), 0.7, 0.04, 0.7, color)
-  // Glow ring when active
   if has_block {
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.01, wz),
@@ -221,7 +215,6 @@ fn draw_plate(
       @raylib.Color::new(100, 255, 80, 100),
     )
   }
-  // Corner marks
   let mark_color = if has_block {
     @raylib.Color::new(80, 180, 60, 255)
   } else {
@@ -258,9 +251,8 @@ fn draw_plate(
 }
 
 ///|
-fn draw_switch(wx : Float, wz : Float, on : Bool, world : Int) -> Unit {
+fn draw_switch(wx : Float, wz : Float, on : Bool, world : @types.World) -> Unit {
   draw_floor(wx, wz, world)
-  // Base platform
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.03, wz),
     0.5,
@@ -273,7 +265,6 @@ fn draw_switch(wx : Float, wz : Float, on : Bool, world : Int) -> Unit {
   } else {
     @raylib.Color::new(200, 50, 50, 255)
   }
-  // Lever
   let lever_height : Float = if on { 0.05 } else { 0.2 }
   let lever_tilt : Float = if on { 0.15 } else { -0.15 }
   @raylib.draw_cube(
@@ -283,7 +274,6 @@ fn draw_switch(wx : Float, wz : Float, on : Bool, world : Int) -> Unit {
     0.08,
     @raylib.Color::new(180, 180, 190, 255),
   )
-  // Lever knob
   @raylib.draw_sphere(
     @raylib.Vector3::new(wx + lever_tilt, lever_height + 0.15, wz),
     0.08,
@@ -297,11 +287,10 @@ fn draw_exit(
   wx : Float,
   wz : Float,
   open : Bool,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
   if open {
-    // Glowing green portal with pulsing
     let pulse = @math.sinf(Float::from_int(game.frame_counter) * 0.06) * 0.05 +
       0.3
     @raylib.draw_cube(
@@ -318,7 +307,6 @@ fn draw_exit(
       0.7,
       @raylib.Color::new(80, 255, 130, 255),
     )
-    // Inner glow
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, pulse, wz),
       0.3,
@@ -326,7 +314,6 @@ fn draw_exit(
       0.3,
       @raylib.Color::new(100, 255, 150, 120),
     )
-    // Ground glow ring
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.01, wz),
       0.9,
@@ -335,7 +322,6 @@ fn draw_exit(
       @raylib.Color::new(50, 200, 100, 80),
     )
   } else {
-    // Closed door - bars
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.3, wz),
       0.6,
@@ -350,7 +336,6 @@ fn draw_exit(
       0.7,
       @raylib.Color::new(150, 50, 50, 255),
     )
-    // Cross bars
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.3, wz),
       0.7,
@@ -369,7 +354,7 @@ fn draw_exit(
 }
 
 ///|
-fn draw_pit(wx : Float, wz : Float, world : Int) -> Unit {
+fn draw_pit(wx : Float, wz : Float, world : @types.World) -> Unit {
   ignore(world)
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, -0.4, wz),
@@ -378,7 +363,6 @@ fn draw_pit(wx : Float, wz : Float, world : Int) -> Unit {
     0.9,
     @raylib.Color::new(20, 20, 30, 255),
   )
-  // Pit edge
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, -0.1, wz),
     0.95,
@@ -406,7 +390,6 @@ fn draw_ice(wx : Float, wz : Float) -> Unit {
       @types.color_ice_r, @types.color_ice_g, @types.color_ice_b, 200,
     ),
   )
-  // Reflective highlights
   @raylib.draw_cube(
     @raylib.Vector3::new(wx - 0.15, 0.01, wz + 0.1),
     0.3,
@@ -428,12 +411,11 @@ fn draw_teleport(
   game : @types.Game,
   wx : Float,
   wz : Float,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
   let fc = Float::from_int(game.frame_counter)
   let pulse = @math.sinf(fc * 0.08) * 0.1 + 0.3
-  // Portal base ring
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.02, wz),
     0.7,
@@ -441,7 +423,6 @@ fn draw_teleport(
     0.7,
     @raylib.Color::new(120, 60, 200, 200),
   )
-  // Swirling portal cube
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, pulse, wz),
     0.5,
@@ -449,7 +430,6 @@ fn draw_teleport(
     0.5,
     @raylib.Color::new(150, 80, 255, 180),
   )
-  // Inner ring (rotated feel)
   let ring_size : Float = 0.3 + @math.sinf(fc * 0.12) * 0.05
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, pulse + 0.1, wz),
@@ -458,7 +438,6 @@ fn draw_teleport(
     ring_size,
     @raylib.Color::new(200, 150, 255, 150),
   )
-  // Wires
   @raylib.draw_cube_wires(
     @raylib.Vector3::new(wx, pulse, wz),
     0.55,
@@ -469,7 +448,7 @@ fn draw_teleport(
 }
 
 ///|
-fn draw_cracked(wx : Float, wz : Float, world : Int) -> Unit {
+fn draw_cracked(wx : Float, wz : Float, world : @types.World) -> Unit {
   let fc = @types.get_world_floor_color(world)
   let cr = @types.clampi(fc.0 + 20, 0, 255)
   let cg = @types.clampi(fc.1 + 10, 0, 255)
@@ -481,7 +460,6 @@ fn draw_cracked(wx : Float, wz : Float, world : Int) -> Unit {
     0.95,
     @raylib.Color::new(cr, cg, cb, 255),
   )
-  // Crack lines as small dark cubes
   @raylib.draw_cube(
     @raylib.Vector3::new(wx - 0.15, 0.01, wz + 0.1),
     0.5,
@@ -506,10 +484,14 @@ fn draw_cracked(wx : Float, wz : Float, world : Int) -> Unit {
 }
 
 ///|
-fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
+fn draw_spikes(
+  wx : Float,
+  wz : Float,
+  active : Bool,
+  world : @types.World,
+) -> Unit {
   draw_floor(wx, wz, world)
   if active {
-    // Four spike cones
     let offsets : Array[(Float, Float)] = [
       (-0.2, -0.2),
       (0.2, -0.2),
@@ -517,10 +499,8 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (0.2, 0.2),
     ]
     for offset in offsets {
-      let ox = offset.0
-      let oz = offset.1
       @raylib.draw_cylinder(
-        @raylib.Vector3::new(wx + ox, 0.0, wz + oz),
+        @raylib.Vector3::new(wx + offset.0, 0.0, wz + offset.1),
         0.0,
         0.08,
         0.3,
@@ -528,7 +508,6 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
         @raylib.Color::new(200, 200, 200, 255),
       )
     }
-    // Warning glow on floor
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.01, wz),
       0.8,
@@ -537,7 +516,6 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       @raylib.Color::new(255, 50, 50, 60),
     )
   } else {
-    // Holes where spikes retract
     let offsets : Array[(Float, Float)] = [
       (-0.2, -0.2),
       (0.2, -0.2),
@@ -545,10 +523,8 @@ fn draw_spikes(wx : Float, wz : Float, active : Bool, world : Int) -> Unit {
       (0.2, 0.2),
     ]
     for offset in offsets {
-      let ox = offset.0
-      let oz = offset.1
       @raylib.draw_cube(
-        @raylib.Vector3::new(wx + ox, -0.02, wz + oz),
+        @raylib.Vector3::new(wx + offset.0, -0.02, wz + offset.1),
         0.12,
         0.04,
         0.12,
@@ -563,11 +539,10 @@ fn draw_conveyor(
   game : @types.Game,
   wx : Float,
   wz : Float,
-  tile : Int,
-  world : Int,
+  tile : @types.Tile,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
-  // Conveyor surface
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.01, wz),
     0.9,
@@ -578,19 +553,16 @@ fn draw_conveyor(
       200,
     ),
   )
-  // Arrow indicators - animated
   let dir = @types.conveyor_direction(tile)
   let anim_offset = @math.sinf(Float::from_int(game.frame_counter) * 0.1) * 0.15
   let arrow_dx = Float::from_int(@types.dir_dx(dir))
   let arrow_dz = Float::from_int(@types.dir_dy(dir))
-  // Three arrows along conveyor direction
   for i in 0..<3 {
     let fi = Float::from_int(i)
     let offset : Float = (fi - 1.0) * 0.25 + anim_offset
     let ax = wx + arrow_dx * offset
     let az = wz + arrow_dz * offset
-    // Arrow body
-    if dir == @types.dir_up || dir == @types.dir_down {
+    if dir == @types.DirUp || dir == @types.DirDown {
       @raylib.draw_cube(
         @raylib.Vector3::new(ax, 0.03, az),
         0.08,
@@ -607,7 +579,6 @@ fn draw_conveyor(
         @raylib.Color::new(200, 200, 220, 255),
       )
     }
-    // Arrowhead
     let tip_x = ax + arrow_dx * 0.1
     let tip_z = az + arrow_dz * 0.1
     @raylib.draw_cube(
@@ -623,7 +594,6 @@ fn draw_conveyor(
 ///|
 fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
   if active {
-    // Extended bridge - walkable planks
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, -0.02, wz),
       0.9,
@@ -633,7 +603,6 @@ fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
         @types.color_bridge_r, @types.color_bridge_g, @types.color_bridge_b, 255,
       ),
     )
-    // Plank lines
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.03, wz - 0.2),
       0.85,
@@ -648,7 +617,6 @@ fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
       0.03,
       @raylib.Color::new(110, 80, 45, 255),
     )
-    // Side rails
     @raylib.draw_cube(
       @raylib.Vector3::new(wx - 0.42, 0.08, wz),
       0.04,
@@ -664,7 +632,6 @@ fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
       @raylib.Color::new(120, 90, 50, 255),
     )
   } else {
-    // Retracted bridge - gap
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, -0.35, wz),
       0.9,
@@ -672,7 +639,6 @@ fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
       0.9,
       @raylib.Color::new(30, 25, 40, 255),
     )
-    // Side brackets
     @raylib.draw_cube(
       @raylib.Vector3::new(wx - 0.42, -0.1, wz),
       0.06,
@@ -691,29 +657,26 @@ fn draw_bridge(wx : Float, wz : Float, active : Bool) -> Unit {
 }
 
 ///|
-fn draw_gate(wx : Float, wz : Float, open : Bool, world : Int) -> Unit {
+fn draw_gate(wx : Float, wz : Float, open : Bool, world : @types.World) -> Unit {
   draw_floor(wx, wz, world)
+  let gate_color = @raylib.Color::new(
+    @types.color_gate_r, @types.color_gate_g, @types.color_gate_b, 255,
+  )
+  @raylib.draw_cube(
+    @raylib.Vector3::new(wx - 0.4, 0.3, wz),
+    0.08,
+    0.6,
+    0.08,
+    gate_color,
+  )
+  @raylib.draw_cube(
+    @raylib.Vector3::new(wx + 0.4, 0.3, wz),
+    0.08,
+    0.6,
+    0.08,
+    gate_color,
+  )
   if open {
-    // Gate posts remain, bars raised
-    @raylib.draw_cube(
-      @raylib.Vector3::new(wx - 0.4, 0.3, wz),
-      0.08,
-      0.6,
-      0.08,
-      @raylib.Color::new(
-        @types.color_gate_r, @types.color_gate_g, @types.color_gate_b, 255,
-      ),
-    )
-    @raylib.draw_cube(
-      @raylib.Vector3::new(wx + 0.4, 0.3, wz),
-      0.08,
-      0.6,
-      0.08,
-      @raylib.Color::new(
-        @types.color_gate_r, @types.color_gate_g, @types.color_gate_b, 255,
-      ),
-    )
-    // Raised bars (above player height)
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.9, wz),
       0.7,
@@ -722,26 +685,6 @@ fn draw_gate(wx : Float, wz : Float, open : Bool, world : Int) -> Unit {
       @raylib.Color::new(140, 140, 160, 200),
     )
   } else {
-    // Closed gate - bars blocking
-    @raylib.draw_cube(
-      @raylib.Vector3::new(wx - 0.4, 0.3, wz),
-      0.08,
-      0.6,
-      0.08,
-      @raylib.Color::new(
-        @types.color_gate_r, @types.color_gate_g, @types.color_gate_b, 255,
-      ),
-    )
-    @raylib.draw_cube(
-      @raylib.Vector3::new(wx + 0.4, 0.3, wz),
-      0.08,
-      0.6,
-      0.08,
-      @raylib.Color::new(
-        @types.color_gate_r, @types.color_gate_g, @types.color_gate_b, 255,
-      ),
-    )
-    // Horizontal bars
     for i in 0..<3 {
       let bar_y : Float = 0.15 + Float::from_int(i) * 0.2
       @raylib.draw_cube(
@@ -752,7 +695,6 @@ fn draw_gate(wx : Float, wz : Float, open : Bool, world : Int) -> Unit {
         @raylib.Color::new(140, 140, 160, 255),
       )
     }
-    // Warning indicator
     @raylib.draw_cube(
       @raylib.Vector3::new(wx, 0.01, wz),
       0.8,
@@ -768,12 +710,11 @@ fn draw_mirror(
   game : @types.Game,
   wx : Float,
   wz : Float,
-  tile : Int,
-  world : Int,
+  tile : @types.Tile,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
   ignore(game)
-  // Mirror base
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.02, wz),
     0.4,
@@ -781,14 +722,10 @@ fn draw_mirror(
     0.4,
     @raylib.Color::new(100, 100, 110, 255),
   )
-  // Mirror panel - angled based on type
-  // NE mirror: / shape, NW mirror: \ shape
-  // For simplicity, render as a thin reflective panel
   let color = @raylib.Color::new(
     @types.color_mirror_r, @types.color_mirror_g, @types.color_mirror_b, 220,
   )
-  if tile == @types.tile_mirror_ne || tile == @types.tile_mirror_sw {
-    // / diagonal - thin along NE-SW
+  if tile == @types.TileMirrorNe || tile == @types.TileMirrorSw {
     @raylib.draw_cube(@raylib.Vector3::new(wx, 0.3, wz), 0.6, 0.5, 0.06, color)
     @raylib.draw_cube_wires(
       @raylib.Vector3::new(wx, 0.3, wz),
@@ -798,7 +735,6 @@ fn draw_mirror(
       @raylib.Color::new(180, 200, 240, 255),
     )
   } else {
-    // \ diagonal - thin along NW-SE
     @raylib.draw_cube(@raylib.Vector3::new(wx, 0.3, wz), 0.06, 0.5, 0.6, color)
     @raylib.draw_cube_wires(
       @raylib.Vector3::new(wx, 0.3, wz),
@@ -811,9 +747,13 @@ fn draw_mirror(
 }
 
 ///|
-fn draw_laser_source(wx : Float, wz : Float, tile : Int, world : Int) -> Unit {
+fn draw_laser_source(
+  wx : Float,
+  wz : Float,
+  tile : @types.Tile,
+  world : @types.World,
+) -> Unit {
   ignore(world)
-  // Laser emitter as a wall-like block with a lens
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.4, wz),
     0.9,
@@ -821,7 +761,6 @@ fn draw_laser_source(wx : Float, wz : Float, tile : Int, world : Int) -> Unit {
     0.9,
     @raylib.Color::new(60, 60, 70, 255),
   )
-  // Lens on the emitting side
   let dir = @types.laser_source_direction(tile)
   let ldx = Float::from_int(@types.dir_dx(dir)) * 0.45
   let ldz = Float::from_int(@types.dir_dy(dir)) * 0.45
@@ -832,7 +771,6 @@ fn draw_laser_source(wx : Float, wz : Float, tile : Int, world : Int) -> Unit {
       @types.color_laser_r, @types.color_laser_g, @types.color_laser_b, 255,
     ),
   )
-  // Glow around lens
   @raylib.draw_sphere(
     @raylib.Vector3::new(wx + ldx, 0.4, wz + ldz),
     0.18,
@@ -847,10 +785,9 @@ fn draw_laser_target(
   game : @types.Game,
   wx : Float,
   wz : Float,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
-  // Check if this target is hit by a laser
   let mut is_hit = false
   for i in 0..<game.laser_segment_count {
     let seg = game.laser_segments[i]
@@ -865,7 +802,6 @@ fn draw_laser_target(
       @types.color_target_r, @types.color_target_g, @types.color_target_b, 255,
     )
   }
-  // Target circle
   @raylib.draw_cylinder(
     @raylib.Vector3::new(wx, 0.01, wz),
     0.35,
@@ -874,7 +810,6 @@ fn draw_laser_target(
     12,
     target_color,
   )
-  // Inner circle
   let inner_color = if is_hit {
     @raylib.Color::new(200, 255, 200, 255)
   } else {
@@ -888,7 +823,6 @@ fn draw_laser_target(
     12,
     inner_color,
   )
-  // Glow when hit
   if is_hit {
     @raylib.draw_cylinder(
       @raylib.Vector3::new(wx, 0.0, wz),
@@ -906,10 +840,9 @@ fn draw_rotate_platform(
   game : @types.Game,
   wx : Float,
   wz : Float,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
   draw_floor(wx, wz, world)
-  // Rotating platform disc
   let fc = Float::from_int(game.frame_counter)
   let rot_offset = @math.sinf(fc * 0.02) * 0.02
   @raylib.draw_cylinder(
@@ -922,7 +855,6 @@ fn draw_rotate_platform(
       @types.color_rotate_r, @types.color_rotate_g, @types.color_rotate_b, 255,
     ),
   )
-  // Arrow marks showing rotation
   @raylib.draw_cube(
     @raylib.Vector3::new(wx + 0.2, 0.06, wz),
     0.15,
@@ -955,9 +887,7 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
     let ex = Float::from_int(seg.end_gx)
     let ey = Float::from_int(seg.end_gy)
     let beam_height : Float = 0.4
-    // Draw beam as a thin cube stretching between start and end
-    if seg.dir == @types.dir_right || seg.dir == @types.dir_left {
-      // Horizontal beam
+    if seg.dir == @types.DirRight || seg.dir == @types.DirLeft {
       let min_x = @types.minf(sx, ex)
       let max_x = @types.maxf(sx, ex)
       let length = max_x - min_x + 1.0
@@ -971,7 +901,6 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
           @types.color_laser_r, @types.color_laser_g, @types.color_laser_b, a,
         ),
       )
-      // Inner bright core
       @raylib.draw_cube(
         @raylib.Vector3::new(center_x, beam_height, sy),
         length,
@@ -980,7 +909,6 @@ fn draw_laser_beams(game : @types.Game) -> Unit {
         @raylib.Color::new(255, 200, 200, a),
       )
     } else {
-      // Vertical beam
       let min_z = @types.minf(sy, ey)
       let max_z = @types.maxf(sy, ey)
       let length = max_z - min_z + 1.0
@@ -1020,11 +948,11 @@ fn draw_entities(game : @types.Game) -> Unit {
     } else {
       0.0
     }
-    if e.kind == @types.entity_block {
+    if e.kind == @types.EntityBlock {
       draw_block(game, wx, wz, fall_offset, world)
-    } else if e.kind == @types.entity_diamond {
+    } else if e.kind == @types.EntityDiamond {
       draw_diamond(game, wx, wz)
-    } else if e.kind == @types.entity_key {
+    } else if e.kind == @types.EntityKey {
       draw_key(game, wx, wz)
     }
   }
@@ -1036,7 +964,7 @@ fn draw_block(
   wx : Float,
   wz : Float,
   fall_offset : Float,
-  world : Int,
+  world : @types.World,
 ) -> Unit {
   ignore(game)
   let ac = @types.get_world_accent_color(world)
@@ -1063,7 +991,6 @@ fn draw_block(
       255,
     ),
   )
-  // Top cross mark
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.71 + fall_offset, wz),
     0.5,
@@ -1094,7 +1021,6 @@ fn draw_block(
 fn draw_diamond(game : @types.Game, wx : Float, wz : Float) -> Unit {
   let bob = @math.sinf(Float::from_int(game.frame_counter) * 0.06) * 0.08
   let pos = @raylib.Vector3::new(wx, 0.4 + bob, wz)
-  // Diamond as rotated cube
   @raylib.draw_cube(
     pos,
     0.3,
@@ -1111,7 +1037,6 @@ fn draw_diamond(game : @types.Game, wx : Float, wz : Float) -> Unit {
     0.35,
     @raylib.Color::new(150, 230, 255, 255),
   )
-  // Inner sparkle
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.4 + bob, wz),
     0.15,
@@ -1119,7 +1044,6 @@ fn draw_diamond(game : @types.Game, wx : Float, wz : Float) -> Unit {
     0.15,
     @raylib.Color::new(200, 240, 255, 180),
   )
-  // Ground glow
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.01, wz),
     0.4,
@@ -1135,7 +1059,6 @@ fn draw_diamond(game : @types.Game, wx : Float, wz : Float) -> Unit {
 fn draw_key(game : @types.Game, wx : Float, wz : Float) -> Unit {
   let bob = @math.sinf(Float::from_int(game.frame_counter) * 0.05) * 0.06
   let pos = @raylib.Vector3::new(wx, 0.35 + bob, wz)
-  // Key body
   @raylib.draw_cube(
     pos,
     0.25,
@@ -1145,7 +1068,6 @@ fn draw_key(game : @types.Game, wx : Float, wz : Float) -> Unit {
       @types.color_key_r, @types.color_key_g, @types.color_key_b, 255,
     ),
   )
-  // Key handle
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.5 + bob, wz),
     0.15,
@@ -1155,7 +1077,6 @@ fn draw_key(game : @types.Game, wx : Float, wz : Float) -> Unit {
       @types.color_key_r, @types.color_key_g, @types.color_key_b, 255,
     ),
   )
-  // Key teeth
   @raylib.draw_cube(
     @raylib.Vector3::new(wx - 0.08, 0.22 + bob, wz),
     0.06,
@@ -1163,7 +1084,6 @@ fn draw_key(game : @types.Game, wx : Float, wz : Float) -> Unit {
     0.06,
     @raylib.Color::new(220, 190, 0, 255),
   )
-  // Ground glow
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.01, wz),
     0.35,
@@ -1180,13 +1100,11 @@ fn draw_player(game : @types.Game) -> Unit {
   let wx = game.player_anim_x
   let wz = game.player_anim_z
   let world = game.current_world
-  // Walk animation bob
   let walk_bob : Float = if game.player_moving {
     @types.absf(@math.sinf(game.player_walk_cycle)) * 0.05
   } else {
     0.0
   }
-  // Push lean
   let push_lean : Float = if game.player_push_anim > 0.0 {
     game.player_push_anim / @types.push_anim_duration * 0.05
   } else {
@@ -1194,19 +1112,17 @@ fn draw_player(game : @types.Game) -> Unit {
   }
   let lean_dx = Float::from_int(@types.dir_dx(game.player_dir)) * push_lean
   let lean_dz = Float::from_int(@types.dir_dy(game.player_dir)) * push_lean
-  // Body color based on world
-  let body_color = if world == @types.world_ice {
+  let body_color = if world == @types.WorldIce {
     @raylib.Color::new(80, 160, 240, 255)
-  } else if world == @types.world_lava {
+  } else if world == @types.WorldLava {
     @raylib.Color::new(200, 120, 60, 255)
-  } else if world == @types.world_garden {
+  } else if world == @types.WorldGarden {
     @raylib.Color::new(60, 180, 80, 255)
-  } else if world == @types.world_void {
+  } else if world == @types.WorldVoid {
     @raylib.Color::new(140, 80, 200, 255)
   } else {
     @raylib.Color::new(60, 140, 220, 255)
   }
-  // Shadow blob under player
   @raylib.draw_cube(
     @raylib.Vector3::new(wx, 0.005, wz),
     0.5,
@@ -1214,7 +1130,6 @@ fn draw_player(game : @types.Game) -> Unit {
     0.5,
     @raylib.Color::new(0, 0, 0, 60),
   )
-  // Body
   @raylib.draw_cube(
     @raylib.Vector3::new(wx + lean_dx, 0.35 + walk_bob, wz + lean_dz),
     0.5,
@@ -1222,7 +1137,6 @@ fn draw_player(game : @types.Game) -> Unit {
     0.5,
     body_color,
   )
-  // Body trim
   @raylib.draw_cube(
     @raylib.Vector3::new(wx + lean_dx, 0.15 + walk_bob, wz + lean_dz),
     0.52,
@@ -1230,8 +1144,7 @@ fn draw_player(game : @types.Game) -> Unit {
     0.52,
     @raylib.Color::new(40, 100, 180, 255),
   )
-  // Head
-  let head_color = if world == @types.world_void {
+  let head_color = if world == @types.WorldVoid {
     @raylib.Color::new(170, 120, 230, 255)
   } else {
     @raylib.Color::new(80, 170, 250, 255)
@@ -1241,13 +1154,11 @@ fn draw_player(game : @types.Game) -> Unit {
     0.2,
     head_color,
   )
-  // Arms (left and right)
   let arm_swing : Float = if game.player_moving {
     @math.sinf(game.player_walk_cycle) * 0.1
   } else {
     0.0
   }
-  // Left arm
   @raylib.draw_cube(
     @raylib.Vector3::new(
       wx + lean_dx - 0.35,
@@ -1259,7 +1170,6 @@ fn draw_player(game : @types.Game) -> Unit {
     0.12,
     body_color,
   )
-  // Right arm
   @raylib.draw_cube(
     @raylib.Vector3::new(
       wx + lean_dx + 0.35,
@@ -1271,10 +1181,8 @@ fn draw_player(game : @types.Game) -> Unit {
     0.12,
     body_color,
   )
-  // Direction indicator (small cube in front / eyes)
   let dx = Float::from_int(@types.dir_dx(game.player_dir)) * 0.2
   let dz = Float::from_int(@types.dir_dy(game.player_dir)) * 0.2
-  // Eye left
   @raylib.draw_cube(
     @raylib.Vector3::new(
       wx + lean_dx + dx - 0.06,
@@ -1286,7 +1194,6 @@ fn draw_player(game : @types.Game) -> Unit {
     0.05,
     @raylib.Color::new(255, 255, 255, 255),
   )
-  // Eye right
   @raylib.draw_cube(
     @raylib.Vector3::new(
       wx + lean_dx + dx + 0.06,
@@ -1298,7 +1205,6 @@ fn draw_player(game : @types.Game) -> Unit {
     0.05,
     @raylib.Color::new(255, 255, 255, 255),
   )
-  // Pupils
   @raylib.draw_cube(
     @raylib.Vector3::new(
       wx + lean_dx + dx * 1.3 - 0.06,
@@ -1331,8 +1237,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
     if not(d.active) {
       continue
     }
-    if d.kind == @types.deco_torch {
-      // Wall torch: bracket + flame
+    if d.kind == @types.DecoTorch {
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x, 0.3, d.z),
         0.08,
@@ -1351,8 +1256,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.04,
         @raylib.Color::new(255, 220, 100, 150),
       )
-    } else if d.kind == @types.deco_crystal {
-      // Ice crystal
+    } else if d.kind == @types.DecoCrystal {
       let sparkle = @math.sinf(fc * 0.08 + d.phase) * 0.02
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x, 0.15 + sparkle, d.z),
@@ -1368,8 +1272,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.05 * d.scale,
         @raylib.Color::new(120, 190, 240, 180),
       )
-    } else if d.kind == @types.deco_magma_pool {
-      // Lava pool glow
+    } else if d.kind == @types.DecoMagmaPool {
       let glow = @math.sinf(fc * 0.04 + d.phase) * 0.02
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x, 0.01 + glow, d.z),
@@ -1385,10 +1288,8 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.15 * d.scale,
         @raylib.Color::new(255, 180, 50, 120),
       )
-    } else if d.kind == @types.deco_flower {
-      // Garden flower
+    } else if d.kind == @types.DecoFlower {
       let sway = @math.sinf(fc * 0.03 + d.phase) * 0.02
-      // Stem
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x + sway, 0.1, d.z),
         0.03,
@@ -1396,7 +1297,6 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.03,
         @raylib.Color::new(50, 130, 40, 255),
       )
-      // Petals
       @raylib.draw_sphere(
         @raylib.Vector3::new(d.x + sway, 0.22 * d.scale, d.z),
         0.06 * d.scale,
@@ -1407,8 +1307,7 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.03 * d.scale,
         @raylib.Color::new(255, 220, 100, 255),
       )
-    } else if d.kind == @types.deco_floating_rock {
-      // Void floating rock
+    } else if d.kind == @types.DecoFloatingRock {
       let float_y = @math.sinf(fc * 0.02 + d.phase) * 0.1 + 0.3
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x, float_y, d.z),
@@ -1417,7 +1316,6 @@ fn draw_decorations(game : @types.Game) -> Unit {
         0.12 * d.scale,
         @raylib.Color::new(60, 50, 90, 200),
       )
-      // Glow underneath
       @raylib.draw_cube(
         @raylib.Vector3::new(d.x, float_y - 0.05, d.z),
         0.08 * d.scale,
@@ -1431,7 +1329,6 @@ fn draw_decorations(game : @types.Game) -> Unit {
 
 ///|
 fn draw_shadows(game : @types.Game) -> Unit {
-  // Shadow blobs under entities
   for e in game.entities {
     if not(e.active) || e.falling {
       continue

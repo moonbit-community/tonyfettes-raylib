@@ -6,17 +6,6 @@ package "tonyfettes/raylib-examples/raylib_fighter_97_lite"
 // Errors
 
 // Types and methods
-type CharacterArchetype
-
-type Fighter
-
-type Game
-
-type InputState
-
-type MoveSpec
-
-type Particle
 
 // Type aliases
 

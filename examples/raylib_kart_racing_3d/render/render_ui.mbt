@@ -50,29 +50,30 @@ fn get_item_display_color(item_type : Int) -> (Int, Int, Int) {
 
 ///|
 pub fn draw_ui(game : @types.Game) -> Unit {
-  if game.state == @types.state_menu {
-    draw_menu(game)
-  } else if game.state == @types.state_kart_select {
-    draw_kart_select_ui(game)
-  } else if game.state == @types.state_track_preview {
-    draw_track_preview_panel(game)
-  } else if game.state == @types.state_countdown {
-    draw_hud(game)
-    draw_countdown(game)
-  } else if game.state == @types.state_racing {
-    draw_hud(game)
-    draw_lap_times(game)
-    draw_item_indicator(game)
-    draw_standings_sidebar(game)
-  } else if game.state == @types.state_paused {
-    draw_hud(game)
-    draw_pause_overlay()
-  } else if game.state == @types.state_race_complete {
-    draw_hud(game)
-    draw_race_results(game)
-    draw_detailed_race_results(game)
-  } else if game.state == @types.state_cup_complete {
-    draw_cup_results(game)
+  match game.state {
+    @types.Menu => draw_menu(game)
+    @types.KartSelect => draw_kart_select_ui(game)
+    @types.TrackPreview => draw_track_preview_panel(game)
+    @types.Countdown => {
+      draw_hud(game)
+      draw_countdown(game)
+    }
+    @types.Racing => {
+      draw_hud(game)
+      draw_lap_times(game)
+      draw_item_indicator(game)
+      draw_standings_sidebar(game)
+    }
+    @types.Paused => {
+      draw_hud(game)
+      draw_pause_overlay()
+    }
+    @types.RaceComplete => {
+      draw_hud(game)
+      draw_race_results(game)
+      draw_detailed_race_results(game)
+    }
+    @types.CupComplete => draw_cup_results(game)
   }
 }
 
@@ -915,7 +916,7 @@ fn draw_cup_results(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_lap_times(game : @types.Game) -> Unit {
-  if game.state != @types.state_racing {
+  if game.state != @types.Racing {
     return
   }
   let kart = game.karts[@types.player_kart]
@@ -1049,7 +1050,7 @@ pub fn draw_item_indicator(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_detailed_race_results(game : @types.Game) -> Unit {
-  if game.state != @types.state_race_complete {
+  if game.state != @types.RaceComplete {
     return
   }
   let player = game.karts[@types.player_kart]
@@ -1145,7 +1146,7 @@ pub fn draw_detailed_race_results(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_track_preview_panel(game : @types.Game) -> Unit {
-  if game.state != @types.state_track_preview {
+  if game.state != @types.TrackPreview {
     return
   }
   @raylib.draw_rectangle(
@@ -1341,7 +1342,7 @@ pub fn draw_track_preview_panel(game : @types.Game) -> Unit {
 
 ///|
 pub fn draw_standings_sidebar(game : @types.Game) -> Unit {
-  if game.state != @types.state_racing {
+  if game.state != @types.Racing {
     return
   }
   let side_x = @types.screen_width - 155

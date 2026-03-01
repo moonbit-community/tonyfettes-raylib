@@ -1,4 +1,86 @@
 ///|
+pub(all) enum GameState {
+  StateTitle
+  StateSelect
+  StateIntro
+  StateFight
+  StateRoundOver
+  StateMatchOver
+  StatePause
+} derive(Eq, Show)
+
+///|
+pub(all) enum Action {
+  ActionIdle
+  ActionWalkForward
+  ActionWalkBack
+  ActionCrouch
+  ActionJump
+  ActionDashForward
+  ActionDashBack
+  ActionAttack
+  ActionHitstun
+  ActionBlockstun
+  ActionKnockdown
+  ActionWakeup
+  ActionVictory
+  ActionIntro
+  ActionThrow
+} derive(Eq)
+
+///|
+pub(all) enum AttackId {
+  AttackNone
+  AttackLp
+  AttackHp
+  AttackLk
+  AttackHk
+  AttackSpecialQcf
+  AttackSpecialDp
+  AttackSuper
+} derive(Eq)
+
+///|
+pub(all) enum MoveKind {
+  MoveKindNormal
+  MoveKindSpecial
+  MoveKindSuper
+} derive(Eq)
+
+///|
+pub(all) enum AiMode {
+  AiModeIdle
+  AiModeRush
+  AiModeZone
+  AiModeEvade
+} derive(Eq)
+
+///|
+pub(all) enum Motion {
+  MotionNone
+  MotionQcf
+  MotionDp
+} derive(Eq)
+
+///|
+pub(all) enum Direction {
+  DirNeutral
+  DirUp
+  DirDown
+  DirBack
+  DirForward
+  DirDownBack
+  DirDownForward
+} derive(Eq)
+
+///|
+pub(all) enum SparkKind {
+  SparkKindHit
+  SparkKindBlock
+  SparkKindSuper
+} derive(Eq)
+
+///|
 pub(all) struct InputState {
   mut x : Int
   mut y : Int
@@ -19,11 +101,11 @@ pub(all) struct InputState {
   mut any_attack_pressed : Bool
   mut dash_forward_pressed : Bool
   mut dash_back_pressed : Bool
-  dir_history : Array[Int]
+  dir_history : Array[Direction]
   mut dir_head : Int
   mut tap_forward_timer : Float
   mut tap_back_timer : Float
-  mut buffered_motion : Int
+  mut buffered_motion : Motion
   mut motion_timer : Float
   mut attack_buffer_timer : Float
 }
@@ -50,11 +132,11 @@ pub fn InputState::new() -> InputState {
     any_attack_pressed: false,
     dash_forward_pressed: false,
     dash_back_pressed: false,
-    dir_history: Array::make(direction_buffer_size, dir_neutral),
+    dir_history: Array::make(direction_buffer_size, DirNeutral),
     dir_head: 0,
     tap_forward_timer: 0.0,
     tap_back_timer: 0.0,
-    buffered_motion: motion_none,
+    buffered_motion: MotionNone,
     motion_timer: 0.0,
     attack_buffer_timer: 0.0,
   }
@@ -62,8 +144,8 @@ pub fn InputState::new() -> InputState {
 
 ///|
 pub(all) struct MoveSpec {
-  mut attack_id : Int
-  mut move_kind : Int
+  mut attack_id : AttackId
+  mut move_kind : MoveKind
   mut total_frames : Int
   mut startup_frames : Int
   mut active_frames : Int
@@ -98,8 +180,8 @@ pub(all) struct MoveSpec {
 ///|
 pub fn MoveSpec::empty() -> MoveSpec {
   {
-    attack_id: attack_none,
-    move_kind: move_kind_normal,
+    attack_id: AttackNone,
+    move_kind: MoveKindNormal,
     total_frames: 1,
     startup_frames: 0,
     active_frames: 0,
@@ -203,7 +285,7 @@ pub(all) struct Fighter {
   mut guard_meter : Int
   mut super_meter : Int
   mut round_wins : Int
-  mut action : Int
+  mut action : Action
   mut action_frame : Int
   mut action_elapsed : Float
   mut current_move : MoveSpec
@@ -222,7 +304,7 @@ pub(all) struct Fighter {
   mut hurt_shake_x : Float
   mut hurt_shake_y : Float
   mut ai_timer : Float
-  mut ai_mode : Int
+  mut ai_mode : AiMode
   mut ai_cooldown : Float
   mut ai_wants_special : Bool
   mut ai_wants_super : Bool
@@ -255,7 +337,7 @@ pub fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     guard_meter: guard_max,
     super_meter: 0,
     round_wins: 0,
-    action: action_idle,
+    action: ActionIdle,
     action_frame: 0,
     action_elapsed: 0.0,
     current_move: MoveSpec::empty(),
@@ -274,7 +356,7 @@ pub fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
     hurt_shake_x: 0.0,
     hurt_shake_y: 0.0,
     ai_timer: 0.0,
-    ai_mode: ai_mode_idle,
+    ai_mode: AiModeIdle,
     ai_cooldown: 0.0,
     ai_wants_special: false,
     ai_wants_super: false,
@@ -285,7 +367,7 @@ pub fn Fighter::new(slot : Int, is_cpu : Bool) -> Fighter {
 
 ///|
 pub(all) struct Game {
-  mut state : Int
+  mut state : GameState
   mut frame_count : Int
   mut rng_state : Int
   roster : Array[CharacterArchetype]
@@ -326,7 +408,7 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   {
-    state: state_title,
+    state: StateTitle,
     frame_count: 0,
     rng_state: 0x4A71C39F,
     roster: build_roster(),

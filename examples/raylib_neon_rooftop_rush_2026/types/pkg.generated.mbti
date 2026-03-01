@@ -1,0 +1,285 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_neon_rooftop_rush_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn approachf(Float, Float, Float) -> Float
+
+pub let base_scroll_speed : Float
+
+pub fn bg_haze() -> @raylib.Color
+
+pub fn bg_night() -> @raylib.Color
+
+pub fn button_grapple_rect() -> (Float, Float, Float, Float)
+
+pub fn button_jump_rect() -> (Float, Float, Float, Float)
+
+pub fn button_slide_rect() -> (Float, Float, Float, Float)
+
+pub fn chance(Int) -> Bool
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn color_mix(@raylib.Color, @raylib.Color, Float) -> @raylib.Color
+
+pub fn cosf(Float) -> Float
+
+pub let coyote_time : Float
+
+pub fn dist_sq(Float, Float, Float, Float) -> Float
+
+pub let double_jump_speed : Float
+
+pub fn ease_in_out(Float) -> Float
+
+pub fn ease_out_quad(Float) -> Float
+
+pub let grapple_duration : Float
+
+pub let hurt_flash_time : Float
+
+pub let invuln_time : Float
+
+pub let jump_buffer_time : Float
+
+pub let jump_speed : Float
+
+pub fn lerpf(Float, Float, Float) -> Float
+
+pub let max_anchors : Int
+
+pub let max_chips : Int
+
+pub let max_obstacles : Int
+
+pub let max_particles : Int
+
+pub let max_segments : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn neon_blue() -> @raylib.Color
+
+pub fn neon_lime() -> @raylib.Color
+
+pub fn neon_orange() -> @raylib.Color
+
+pub fn neon_pink() -> @raylib.Color
+
+pub let obstacle_drone : Int
+
+pub let obstacle_laser : Int
+
+pub let obstacle_sign : Int
+
+pub let obstacle_vent : Int
+
+pub let particle_glow : Int
+
+pub let particle_hurt : Int
+
+pub let particle_spark : Int
+
+pub let player_spawn_x : Float
+
+pub let player_spawn_y : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub fn rect_contains(Float, Float, Float, Float, Float, Float) -> Bool
+
+pub fn rect_overlap(Float, Float, Float, Float, Float, Float, Float, Float) -> Bool
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let skyline_layers : Int
+
+pub let slide_duration : Float
+
+pub let speed_per_stage : Float
+
+pub let speed_ramp_per_second : Float
+
+pub let stage_base_goal : Float
+
+pub let stage_goal_growth : Float
+
+pub let stage_intro_time : Float
+
+pub let state_game_over : Int
+
+pub let state_play : Int
+
+pub let state_stage_clear : Int
+
+pub let state_title : Int
+
+pub let target_fps : Int
+
+pub let ui_button_gap : Float
+
+pub let ui_button_size : Float
+
+pub fn ui_dark() -> @raylib.Color
+
+pub fn ui_light() -> @raylib.Color
+
+pub let world_gravity : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Anchor {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut glow_t : Float
+}
+pub fn Anchor::new() -> Self
+
+pub(all) struct Chip {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut bob_t : Float
+  mut spin_t : Float
+}
+pub fn Chip::new() -> Self
+
+pub(all) struct Game {
+  segments : Array[Segment]
+  obstacles : Array[Obstacle]
+  chips : Array[Chip]
+  anchors : Array[Anchor]
+  particles : Array[Particle]
+  ghosts : Array[Ghost]
+  hero : Player
+  mut state : Int
+  mut title_t : Float
+  mut stage_intro_t : Float
+  mut time_s : Float
+  mut speed : Float
+  mut distance : Float
+  mut score : Int
+  mut best_score : Int
+  mut chips_collected : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut stage : Int
+  mut stage_goal : Float
+  mut stage_progress : Float
+  mut health : Float
+  mut stamina : Float
+  mut shake_t : Float
+  mut flash_t : Float
+  mut last_segment_end : Float
+  mut hint_t : Float
+  mut result_t : Float
+  mut stage_clear_bonus : Int
+  mut input_jump_press : Bool
+  mut input_jump_hold : Bool
+  mut input_slide_hold : Bool
+  mut input_grapple_press : Bool
+  mut input_pause_press : Bool
+  mut input_restart_press : Bool
+  mut touch_mode : Bool
+  mut touch_count : Int
+  mut touch_jump_prev : Bool
+  mut touch_grapple_prev : Bool
+  mut touch_restart_prev : Bool
+  mut pointer_x : Float
+  mut pointer_y : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+}
+pub fn Game::new() -> Self
+
+pub(all) struct Ghost {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut life : Float
+  mut hue : Float
+}
+pub fn Ghost::new() -> Self
+
+pub(all) struct Obstacle {
+  mut active : Bool
+  mut kind : Int
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut vx : Float
+  mut phase : Float
+  mut hit_lock : Float
+}
+pub fn Obstacle::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut vy : Float
+  mut grounded : Bool
+  mut coyote_t : Float
+  mut jump_buf_t : Float
+  mut air_jumps : Int
+  mut slide_t : Float
+  mut grapple_t : Float
+  mut grapple_target_y : Float
+  mut invuln_t : Float
+  mut hurt_t : Float
+  mut anim_t : Float
+  mut floor_y : Float
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Segment {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut w : Float
+  mut h : Float
+  mut skin : Int
+  mut neon : Int
+  mut window_seed : Int
+}
+pub fn Segment::new() -> Self
+
+// Type aliases
+
+// Traits
+

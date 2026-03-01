@@ -6,13 +6,6 @@ package "tonyfettes/raylib-examples/raylib_skyline_parkour_trials_2026"
 // Errors
 
 // Types and methods
-type Checkpoint
-
-type Game
-
-type Player
-
-type Tile
 
 // Type aliases
 

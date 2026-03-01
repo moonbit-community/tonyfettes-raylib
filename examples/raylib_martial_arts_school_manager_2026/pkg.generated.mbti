@@ -6,11 +6,6 @@ package "tonyfettes/raylib-examples/raylib_martial_arts_school_manager_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Input
-
-type Student
 
 // Type aliases
 

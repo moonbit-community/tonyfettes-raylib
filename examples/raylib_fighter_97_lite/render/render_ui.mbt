@@ -49,7 +49,7 @@ fn draw_round_win_markers(
   wins : Int,
   tint : @raylib.Color,
 ) -> Unit {
-  for i in 0..< @types.max_round_wins {
+  for i in 0..<@types.max_round_wins {
     let cx = x + i * 24
     let color = if i < wins {
       tint
@@ -213,7 +213,13 @@ fn draw_fight_hud(game : @types.Game) -> Unit {
   )
 
   @types.draw_shadow_text(a1.name, 46, 18, 22, a1.ui_color)
-  @types.draw_shadow_text(a2.name, @types.screen_width - 46 - 90, 18, 22, a2.ui_color)
+  @types.draw_shadow_text(
+    a2.name,
+    @types.screen_width - 46 - 90,
+    18,
+    22,
+    a2.ui_color,
+  )
 
   draw_health_gauge(42, 48, 470, 24, @types.health_ratio(p1), a1.ui_color)
   draw_health_gauge(
@@ -303,13 +309,25 @@ fn draw_fight_hud(game : @types.Game) -> Unit {
     66,
     @raylib.Color::new(92, 102, 124, 255),
   )
-  @types.draw_center_shadow_text(timer_str, @types.screen_width / 2, 36, 42, timer_color)
+  @types.draw_center_shadow_text(
+    timer_str,
+    @types.screen_width / 2,
+    36,
+    42,
+    timer_color,
+  )
 
   if p1.super_meter >= @types.super_cost {
     @types.draw_shadow_text("MAX", 46, 94, 14, @raylib.gold)
   }
   if p2.super_meter >= @types.super_cost {
-    @types.draw_shadow_text("MAX", @types.screen_width - 88, 94, 14, @raylib.gold)
+    @types.draw_shadow_text(
+      "MAX",
+      @types.screen_width - 88,
+      94,
+      14,
+      @raylib.gold,
+    )
   }
 
   if game.mode_training {
@@ -495,8 +513,20 @@ fn draw_select_card(
   @raylib.draw_rectangle(x + 10, y + 10, 100, 162, archetype.body_main)
   @raylib.draw_rectangle_lines(x + 10, y + 10, 100, 162, archetype.body_trim)
 
-  @types.draw_shadow_text(archetype.name, x + 124, y + 14, 34, archetype.ui_color)
-  @types.draw_shadow_text(archetype.title, x + 124, y + 52, 21, @raylib.raywhite)
+  @types.draw_shadow_text(
+    archetype.name,
+    x + 124,
+    y + 14,
+    34,
+    archetype.ui_color,
+  )
+  @types.draw_shadow_text(
+    archetype.title,
+    x + 124,
+    y + 52,
+    21,
+    @raylib.raywhite,
+  )
 
   @types.draw_shadow_text(
     "SPD \{(archetype.speed_mul * 100.0).to_int()}",
@@ -570,7 +600,7 @@ fn draw_select_screen(game : @types.Game) -> Unit {
   let start_x = (@types.screen_width - (card_w * 3 + gap_x * 2)) / 2
   let start_y = 132
 
-  for i in 0..< @types.roster_count {
+  for i in 0..<@types.roster_count {
     let row = i / @types.select_grid_columns
     let col = i % @types.select_grid_columns
     let x = start_x + col * (card_w + gap_x)
@@ -685,7 +715,13 @@ fn draw_intro_overlay(game : @types.Game) -> Unit {
     @types.quote_box_h,
     a1.ui_color,
   )
-  @types.draw_shadow_text(a1.intro_quote, 34, @types.screen_height - 74, 20, @raylib.raywhite)
+  @types.draw_shadow_text(
+    a1.intro_quote,
+    34,
+    @types.screen_height - 74,
+    20,
+    @raylib.raywhite,
+  )
 
   @raylib.draw_rectangle(
     @types.screen_width - @types.quote_box_w - 20,
@@ -865,25 +901,25 @@ fn draw_debug_overlay(game : @types.Game) -> Unit {
 pub fn draw_game(game : @types.Game) -> Unit {
   draw_stage(game)
 
-  if game.state == @types.state_title {
+  if game.state == @types.StateTitle {
     draw_title_screen(game)
-  } else if game.state == @types.state_select {
+  } else if game.state == @types.StateSelect {
     draw_select_screen(game)
   } else {
     draw_fighters(game)
     draw_fight_hud(game)
 
-    if game.state == @types.state_intro {
+    if game.state == @types.StateIntro {
       draw_intro_overlay(game)
-    } else if game.state == @types.state_round_over {
+    } else if game.state == @types.StateRoundOver {
       draw_round_over_overlay(game)
-    } else if game.state == @types.state_match_over {
+    } else if game.state == @types.StateMatchOver {
       draw_match_over_overlay(game)
     } else {
       draw_announcer(game)
     }
 
-    if game.state == @types.state_pause {
+    if game.state == @types.StatePause {
       draw_pause_overlay(game)
     }
   }

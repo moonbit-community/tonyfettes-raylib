@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_subway_signal_saboteur_2026"
 // Errors
 
 // Types and methods
-type Actor
-
-type Game
-
-type Inspector
-
-type Particle
-
-type Train
 
 // Type aliases
 

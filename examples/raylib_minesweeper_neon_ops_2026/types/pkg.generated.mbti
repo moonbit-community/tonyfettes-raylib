@@ -1,0 +1,171 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_minesweeper_neon_ops_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn board_area_h() -> Int
+
+pub fn board_area_w() -> Int
+
+pub fn board_area_x() -> Int
+
+pub fn board_area_y() -> Int
+
+pub let board_h : Int
+
+pub fn board_metrics(Game) -> (Int, Int, Int)
+
+pub let board_w : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn clear_ratio_pct(Game) -> Int
+
+pub fn compute_grade(Int, Int, Int, Int) -> Grade
+
+pub fn flags_left(Game) -> Int
+
+pub fn grade_name(Grade) -> String
+
+pub fn grade_title(Grade) -> String
+
+pub let hints_default : Int
+
+pub fn idx(Int, Int) -> Int
+
+pub fn in_board(Int, Int) -> Bool
+
+pub let lives_default : Int
+
+pub let max_cells : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub let mine_count_default : Int
+
+pub fn mini(Int, Int) -> Int
+
+pub fn panel_x() -> Int
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn result_retry_button() -> (Int, Int, Int, Int)
+
+pub fn safe_cells_total(Game) -> Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub let target_fps : Int
+
+pub fn title_start_button() -> (Int, Int, Int, Int)
+
+pub fn touch_hint_button() -> (Int, Int, Int, Int)
+
+pub fn touch_mode_button() -> (Int, Int, Int, Int)
+
+pub fn touch_reset_button() -> (Int, Int, Int, Int)
+
+pub fn touch_reveal_button() -> (Int, Int, Int, Int)
+
+pub fn unrevealed_safe_cells(Game) -> Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Cell {
+  mut mine : Bool
+  mut revealed : Bool
+  mut flagged : Bool
+  mut exploded : Bool
+  mut around : Int
+}
+pub fn Cell::new() -> Self
+
+pub(all) struct Game {
+  cells : Array[Cell]
+  sparks : Array[Spark]
+  queue_x : Array[Int]
+  queue_y : Array[Int]
+  mut state : GameState
+  mut mode : PlayMode
+  mut first_move : Bool
+  mut frame_seed : Int
+  mut mine_count : Int
+  mut revealed_safe : Int
+  mut flagged_count : Int
+  mut cursor_x : Int
+  mut cursor_y : Int
+  mut last_reveal_x : Int
+  mut last_reveal_y : Int
+  mut lives : Int
+  mut hints : Int
+  mut mistakes : Int
+  mut combo : Int
+  mut combo_best : Int
+  mut score : Int
+  mut best_score : Int
+  mut game_t : Float
+  mut ui_t : Float
+  mut combo_t : Float
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut grade : Grade
+  mut win : Bool
+  mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) enum Grade {
+  GradeS
+  GradeA
+  GradeB
+  GradeC
+  GradeD
+}
+pub impl Eq for Grade
+
+pub(all) enum PlayMode {
+  Reveal
+  Flag
+}
+pub impl Eq for PlayMode
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Spark::new() -> Self
+
+// Type aliases
+
+// Traits
+

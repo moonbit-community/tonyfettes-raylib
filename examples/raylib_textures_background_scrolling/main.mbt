@@ -3,9 +3,7 @@ fn main {
   // Initialization
   let screen_width = 800
   let screen_height = 450
-  let _ = @raylib.change_directory(
-    "raylib_textures_background_scrolling",
-  )
+  let _ = @raylib.change_directory("raylib_textures_background_scrolling")
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] example - background scrolling",
   )

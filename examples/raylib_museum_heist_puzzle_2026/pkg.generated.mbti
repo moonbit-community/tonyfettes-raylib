@@ -6,13 +6,6 @@ package "tonyfettes/raylib-examples/raylib_museum_heist_puzzle_2026"
 // Errors
 
 // Types and methods
-type Artifact
-
-type FrameInput
-
-type Game
-
-type Guard
 
 // Type aliases
 

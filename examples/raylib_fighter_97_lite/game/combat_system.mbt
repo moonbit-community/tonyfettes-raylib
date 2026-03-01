@@ -1,5 +1,8 @@
 ///|
-fn defender_holding_away(attacker : @types.Fighter, defender : @types.Fighter) -> Bool {
+fn defender_holding_away(
+  attacker : @types.Fighter,
+  defender : @types.Fighter,
+) -> Bool {
   let dx = attacker.x - defender.x
   if @types.absf(dx) <= 1.0 {
     defender.input.hold_back
@@ -20,13 +23,13 @@ fn can_defender_block(
     return false
   }
 
-  if defender.action == @types.action_hitstun ||
-    defender.action == @types.action_blockstun ||
-    defender.action == @types.action_throw ||
-    defender.action == @types.action_knockdown ||
-    defender.action == @types.action_wakeup ||
-    defender.action == @types.action_intro ||
-    defender.action == @types.action_victory {
+  if defender.action == @types.ActionHitstun ||
+    defender.action == @types.ActionBlockstun ||
+    defender.action == @types.ActionThrow ||
+    defender.action == @types.ActionKnockdown ||
+    defender.action == @types.ActionWakeup ||
+    defender.action == @types.ActionIntro ||
+    defender.action == @types.ActionVictory {
     return false
   }
 
@@ -44,7 +47,10 @@ fn can_defender_block(
 }
 
 ///|
-fn attacker_remaining_recovery(attacker : @types.Fighter, mv : @types.MoveSpec) -> Int {
+fn attacker_remaining_recovery(
+  attacker : @types.Fighter,
+  mv : @types.MoveSpec,
+) -> Int {
   @types.clampi(mv.total_frames - attacker.action_frame, 0, 999)
 }
 
@@ -56,7 +62,7 @@ fn compute_damage(
   defender_archetype : @types.CharacterArchetype,
   mv : @types.MoveSpec,
 ) -> (Int, Bool) {
-  let counter_hit = defender.action == @types.action_attack &&
+  let counter_hit = defender.action == @types.ActionAttack &&
     defender.action_frame < defender.current_move.startup_frames
 
   let mut scale = @types.f(1.0) -
@@ -94,15 +100,19 @@ fn apply_successful_hit(
     attacker, defender, attacker_archetype, defender_archetype, mv,
   )
 
-  defender.health = @types.clampi(defender.health - damage, 0, @types.health_max)
+  defender.health = @types.clampi(
+    defender.health - damage,
+    0,
+    @types.health_max,
+  )
 
   if mv.knockdown {
-    defender.action = @types.action_knockdown
+    defender.action = @types.ActionKnockdown
     defender.knockdown = mv.hitstun_frames + 26
     defender.hitstun = 0
     defender.blockstun = 0
   } else {
-    defender.action = @types.action_hitstun
+    defender.action = @types.ActionHitstun
     let bonus = if counter_hit { 4 } else { 0 }
     defender.hitstun = mv.hitstun_frames + bonus
     defender.blockstun = 0
@@ -135,10 +145,10 @@ fn apply_successful_hit(
   @types.add_meter(attacker, mv.meter_gain_on_hit, attacker_archetype)
   @types.add_meter(defender, @types.meter_gain_hit_taken, defender_archetype)
 
-  let spark_kind = if mv.move_kind == @types.move_kind_super {
-    @types.spark_kind_super
+  let spark_kind = if mv.move_kind == @types.MoveKindSuper {
+    @types.SparkKindSuper
   } else {
-    @types.spark_kind_hit
+    @types.SparkKindHit
   }
 
   @effects.spawn_hit_spark(
@@ -146,14 +156,14 @@ fn apply_successful_hit(
     hitbox_center_x,
     hitbox_center_y,
     spark_kind,
-    if mv.move_kind == @types.move_kind_super {
+    if mv.move_kind == @types.MoveKindSuper {
       44
     } else {
       22
     },
   )
 
-  if mv.move_kind == @types.move_kind_super {
+  if mv.move_kind == @types.MoveKindSuper {
     @effects.push_camera_shake(game, 6.4)
     game.announcer_text = if counter_hit {
       "SUPER COUNTER!"
@@ -169,12 +179,15 @@ fn apply_successful_hit(
     }
   }
 
-  if mv.move_kind != @types.move_kind_super {
+  if mv.move_kind != @types.MoveKindSuper {
     @effects.spawn_ground_skid(game, defender)
   }
 
   if mv.knockdown {
-    @types.set_training_note(game, "P\{attacker_slot + 1} on hit: hard knockdown")
+    @types.set_training_note(
+      game,
+      "P\{attacker_slot + 1} on hit: hard knockdown",
+    )
   } else {
     let advantage = defender.hitstun - attacker_remaining_recovery(attacker, mv)
     @types.set_training_frame_adv(game, attacker_slot, "on hit", advantage)
@@ -198,12 +211,16 @@ fn apply_blocked_hit(
   let defender_archetype = @types.fighter_archetype(game, defender)
 
   let mut chip = mv.chip_damage
-  if mv.move_kind == @types.move_kind_super {
+  if mv.move_kind == @types.MoveKindSuper {
     chip = chip + 3
   }
 
   if chip > 0 && defender.health > 1 {
-    defender.health = @types.clampi(defender.health - chip, 1, @types.health_max)
+    defender.health = @types.clampi(
+      defender.health - chip,
+      1,
+      @types.health_max,
+    )
   }
 
   let guard_damage = @types.clampi(mv.damage / 12 + 2, 2, 16)
@@ -211,7 +228,7 @@ fn apply_blocked_hit(
 
   if defender.guard_meter <= 0 {
     defender.guard_meter = @types.fighter_total_guard(defender_archetype) / 2
-    defender.action = @types.action_hitstun
+    defender.action = @types.ActionHitstun
     defender.hitstun = mv.hitstun_frames + 12
     defender.blockstun = 0
     defender.knockdown = 0
@@ -219,18 +236,26 @@ fn apply_blocked_hit(
     game.announcer_text = "GUARD BREAK"
     game.announcer_timer = 0.55
     @effects.spawn_hit_spark(
-      game, hitbox_center_x, hitbox_center_y, @types.spark_kind_super, 30,
+      game,
+      hitbox_center_x,
+      hitbox_center_y,
+      @types.SparkKindSuper,
+      30,
     )
     @effects.push_camera_shake(game, 5.2)
     @types.set_training_note(game, "P\{attacker_slot + 1} guard break")
   } else {
-    defender.action = @types.action_blockstun
+    defender.action = @types.ActionBlockstun
     defender.blockstun = mv.blockstun_frames
     defender.hitstun = 0
     defender.knockdown = 0
     defender.vx = mv.pushback * 0.04 * @types.facing_sign(attacker.facing)
     @effects.spawn_hit_spark(
-      game, hitbox_center_x, hitbox_center_y, @types.spark_kind_block, 18,
+      game,
+      hitbox_center_x,
+      hitbox_center_y,
+      @types.SparkKindBlock,
+      18,
     )
     @effects.push_camera_shake(game, 2.2)
     let advantage = defender.blockstun -

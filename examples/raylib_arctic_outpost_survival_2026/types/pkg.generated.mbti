@@ -1,0 +1,228 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_arctic_outpost_survival_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn btn_down() -> (Int, Int, Int, Int)
+
+pub fn btn_fire() -> (Int, Int, Int, Int)
+
+pub fn btn_hint() -> (Int, Int, Int, Int)
+
+pub fn btn_left() -> (Int, Int, Int, Int)
+
+pub fn btn_repair() -> (Int, Int, Int, Int)
+
+pub fn btn_restart() -> (Int, Int, Int, Int)
+
+pub fn btn_right() -> (Int, Int, Int, Int)
+
+pub fn btn_up() -> (Int, Int, Int, Int)
+
+pub let bullet_normal : Int
+
+pub let bullet_pierce : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let core_r : Float
+
+pub fn core_x() -> Float
+
+pub fn core_y() -> Float
+
+pub fn cosf(Float) -> Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let enemy_brute : Int
+
+pub let enemy_shard : Int
+
+pub let enemy_wolf : Int
+
+pub let max_bullets : Int
+
+pub let max_enemies : Int
+
+pub let max_particles : Int
+
+pub let max_pickups : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn maxi(Int, Int) -> Int
+
+pub fn minf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn normalize(Float, Float) -> (Float, Float)
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let pickup_ammo : Int
+
+pub let pickup_fuel : Int
+
+pub let pickup_medkit : Int
+
+pub let pickup_overdrive : Int
+
+pub fn pickup_radius(Int) -> Float
+
+pub let player_r : Float
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub fn sinf(Float) -> Float
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let survival_time_goal : Float
+
+pub let target_fps : Int
+
+pub fn world_bottom() -> Float
+
+pub let world_h : Int
+
+pub fn world_left() -> Float
+
+pub fn world_right() -> Float
+
+pub fn world_top() -> Float
+
+pub let world_w : Int
+
+pub let world_x0 : Int
+
+pub let world_y0 : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Bullet {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut power : Float
+  mut kind : Int
+}
+pub fn Bullet::new() -> Self
+
+pub(all) struct Enemy {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut r : Float
+  mut hp : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Enemy::new() -> Self
+
+pub(all) struct Game {
+  enemies : Array[Enemy]
+  pickups : Array[Pickup]
+  bullets : Array[Bullet]
+  particles : Array[Particle]
+  mut state : GameState
+  mut player_x : Float
+  mut player_y : Float
+  mut player_vx : Float
+  mut player_vy : Float
+  mut aim_x : Float
+  mut aim_y : Float
+  mut move_x : Float
+  mut move_y : Float
+  mut lives : Int
+  mut suit_hp : Float
+  mut core_heat : Float
+  mut fuel : Float
+  mut ammo : Int
+  mut overdrive_t : Float
+  mut fire_cd : Float
+  mut repair_cd : Float
+  mut score : Int
+  mut best_score : Int
+  mut wave : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut spawn_t : Float
+  mut pickup_t : Float
+  mut storm_t : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut hint_left : Int
+  mut hint_t : Float
+  mut hint_x : Float
+  mut hint_y : Float
+  mut msg : String
+  mut msg_t : Float
+  mut shake_t : Float
+  mut touch_cd : Float
+  mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Pickup {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Pickup::new() -> Self
+
+// Type aliases
+
+// Traits
+

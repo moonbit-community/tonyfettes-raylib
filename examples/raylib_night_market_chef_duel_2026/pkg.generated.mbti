@@ -6,13 +6,6 @@ package "tonyfettes/raylib-examples/raylib_night_market_chef_duel_2026"
 // Errors
 
 // Types and methods
-type CookingState
-
-type Game
-
-type InputState
-
-type Order
 
 // Type aliases
 

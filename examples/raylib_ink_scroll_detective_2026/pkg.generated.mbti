@@ -6,15 +6,6 @@ package "tonyfettes/raylib-examples/raylib_ink_scroll_detective_2026"
 // Errors
 
 // Types and methods
-type Clue
-
-type DistrictPulse
-
-type Game
-
-type Incident
-
-type Suspect
 
 // Type aliases
 

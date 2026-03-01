@@ -149,18 +149,6 @@ pub let level_count : Int = 96
 pub let map_pattern_count : Int = 48
 
 ///|
-pub let team_none : Int = 0
-
-///|
-pub let team_player1 : Int = 1
-
-///|
-pub let team_player2 : Int = 2
-
-///|
-pub let team_enemy : Int = 3
-
-///|
 pub let dir_up : Int = 0
 
 ///|
@@ -171,78 +159,6 @@ pub let dir_down : Int = 2
 
 ///|
 pub let dir_left : Int = 3
-
-///|
-pub let tile_empty : Int = 0
-
-///|
-pub let tile_brick : Int = 1
-
-///|
-pub let tile_steel : Int = 2
-
-///|
-pub let tile_water : Int = 3
-
-///|
-pub let tile_bush : Int = 4
-
-///|
-pub let tile_ice : Int = 5
-
-///|
-pub let tile_base : Int = 6
-
-///|
-pub let state_menu : Int = 0
-
-///|
-pub let state_stage_intro : Int = 1
-
-///|
-pub let state_playing : Int = 2
-
-///|
-pub let state_paused : Int = 3
-
-///|
-pub let state_stage_clear : Int = 4
-
-///|
-pub let state_game_over : Int = 5
-
-///|
-pub let state_campaign_clear : Int = 6
-
-///|
-pub let enemy_basic : Int = 0
-
-///|
-pub let enemy_fast : Int = 1
-
-///|
-pub let enemy_heavy : Int = 2
-
-///|
-pub let enemy_sniper : Int = 3
-
-///|
-pub let powerup_shield : Int = 0
-
-///|
-pub let powerup_star : Int = 1
-
-///|
-pub let powerup_grenade : Int = 2
-
-///|
-pub let powerup_clock : Int = 3
-
-///|
-pub let powerup_shovel : Int = 4
-
-///|
-pub let powerup_tank : Int = 5
 
 ///|
 pub let enemy_spawn_x0 : Float = 2.0 * Float::from_int(tile_size) + tank_half

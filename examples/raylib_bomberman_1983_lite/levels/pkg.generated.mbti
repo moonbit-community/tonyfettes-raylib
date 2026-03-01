@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/levels"
+
+import {
+  "tonyfettes/raylib-examples/raylib_bomberman_1983_lite/types",
+}
+
+// Values
+pub fn get_stage_profile(Int) -> @types.StageProfile
+
+pub fn level_pattern(Int) -> Array[String]
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,310 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_dungeon_courier_escape_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn angle_delta_deg(Float, Float) -> Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn col_bg_bottom() -> @raylib.Color
+
+pub fn col_bg_top() -> @raylib.Color
+
+pub fn col_exit() -> @raylib.Color
+
+pub fn col_floor() -> @raylib.Color
+
+pub fn col_floor_grid() -> @raylib.Color
+
+pub fn col_guard() -> @raylib.Color
+
+pub fn col_health() -> @raylib.Color
+
+pub fn col_parcel() -> @raylib.Color
+
+pub fn col_player() -> @raylib.Color
+
+pub fn col_stealth() -> @raylib.Color
+
+pub fn col_trap() -> @raylib.Color
+
+pub fn col_wall() -> @raylib.Color
+
+pub fn cosf(Float) -> Float
+
+pub fn default_exit_pos(Int) -> (Float, Float)
+
+pub let deg_to_rad : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let exit_radius : Float
+
+pub let guard_alert_hold : Float
+
+pub let guard_alert_speed_mult : Float
+
+pub let guard_cone_half_angle_base : Float
+
+pub let guard_cone_range_base : Float
+
+pub let guard_cone_range_wave_gain : Float
+
+pub let guard_detection_base : Float
+
+pub let guard_detection_peak : Float
+
+pub let guard_investigate_hold : Float
+
+pub let guard_smoke_lure_range : Float
+
+pub let guard_spawn_margin : Float
+
+pub let guard_speed_base : Float
+
+pub let guard_speed_wave_gain : Float
+
+pub fn heading_deg(Float, Float) -> Float
+
+pub let hud_h : Float
+
+pub let interaction_range : Float
+
+pub let max_delivery_target : Int
+
+pub let max_exits : Int
+
+pub let max_guards : Int
+
+pub let max_parcels : Int
+
+pub let max_smokes : Int
+
+pub let max_traps : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn normalize_deg(Float) -> Float
+
+pub let parcel_spawn_margin : Float
+
+pub let pi : Float
+
+pub let player_base_speed : Float
+
+pub let player_carry_speed_mult : Float
+
+pub let player_health_max : Float
+
+pub let player_radius : Float
+
+pub fn player_spawn_x() -> Float
+
+pub fn player_spawn_y() -> Float
+
+pub let player_sprint_mult : Float
+
+pub let player_stealth_max : Float
+
+pub let rad_to_deg : Float
+
+pub fn randf(Float, Float) -> Float
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let smoke_cover_factor : Float
+
+pub let smoke_life_secs : Float
+
+pub let smoke_radius_base : Float
+
+pub let smoke_stock_base : Int
+
+pub let sprint_noise_pressure : Float
+
+pub let sprint_stealth_burn : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let stealth_break_damage_per_sec : Float
+
+pub let stealth_recovery_per_sec : Float
+
+pub let target_fps : Int
+
+pub let trap_damage_base : Float
+
+pub let trap_damage_wave_gain : Float
+
+pub let trap_pressure : Float
+
+pub let trap_radius_base : Float
+
+pub let trap_spawn_margin : Float
+
+pub let trap_trigger_cooldown : Float
+
+pub let wave_clear_health_recover : Float
+
+pub let wave_clear_score_base : Int
+
+pub let wave_clear_score_wave_bonus : Int
+
+pub let wave_clear_time_score_mult : Float
+
+pub let wave_min_time : Float
+
+pub let wave_target_base : Int
+
+pub let wave_time_base : Float
+
+pub let wave_time_decay : Float
+
+pub let world_bottom : Float
+
+pub fn world_center_x() -> Float
+
+pub fn world_h() -> Float
+
+pub let world_left : Float
+
+pub let world_right : Float
+
+pub let world_top : Float
+
+pub fn world_w() -> Float
+
+// Errors
+
+// Types and methods
+pub(all) struct ExitMarker {
+  active : Bool
+  x : Float
+  y : Float
+  radius : Float
+}
+pub fn ExitMarker::new(Float, Float) -> Self
+
+pub(all) struct Game {
+  player : Player
+  parcels : Array[Parcel]
+  exits : Array[ExitMarker]
+  guards : Array[Guard]
+  traps : Array[Trap]
+  smokes : Array[Smoke]
+  input : InputState
+  mut state : GameState
+  mut wave : Int
+  mut score : Int
+  mut delivered_total : Int
+  mut delivered_wave : Int
+  mut target_deliveries : Int
+  mut smoke_stock : Int
+  mut time_left : Float
+  mut wave_clock : Float
+  mut alarm_flash : Float
+  mut info_t : Float
+  mut hint : String
+  mut fail_reason : String
+  mut best_wave : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Retry
+}
+pub impl Eq for GameState
+
+pub(all) struct Guard {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut dir_deg : Float
+  mut patrol_a_x : Float
+  mut patrol_a_y : Float
+  mut patrol_b_x : Float
+  mut patrol_b_y : Float
+  mut to_b : Bool
+  mut speed : Float
+  mut cone_range : Float
+  mut cone_half_angle : Float
+  mut alert_t : Float
+  mut investigate_t : Float
+  mut target_x : Float
+  mut target_y : Float
+}
+pub fn Guard::new() -> Self
+
+pub(all) struct InputState {
+  mut move_x : Float
+  mut move_y : Float
+  mut interact_press : Bool
+  mut smoke_press : Bool
+  mut sprint_hold : Bool
+  mut start_press : Bool
+  mut retry_press : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Parcel {
+  mut active : Bool
+  mut delivered : Bool
+  mut x : Float
+  mut y : Float
+  mut pulse : Float
+}
+pub fn Parcel::new() -> Self
+
+pub(all) struct Player {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut facing_deg : Float
+  mut health : Float
+  mut stealth : Float
+  mut carrying_parcel : Int
+}
+pub fn Player::new() -> Self
+
+pub(all) struct Smoke {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut radius : Float
+  mut life : Float
+}
+pub fn Smoke::new() -> Self
+
+pub(all) struct Trap {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut radius : Float
+  mut blink_t : Float
+  mut cooldown : Float
+}
+pub fn Trap::new() -> Self
+
+// Type aliases
+
+// Traits
+

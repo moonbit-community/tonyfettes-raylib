@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_fighter_97_lite/effects"
+
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_fighter_97_lite/types",
+}
+
+// Values
+pub fn allocate_particle_slot(Array[@types.Particle]) -> Int
+
+pub fn draw_particle_list(Array[@types.Particle], Float, Float) -> Unit
+
+pub fn draw_particles(@types.Game) -> Unit
+
+pub fn push_camera_shake(@types.Game, Float) -> Unit
+
+pub fn spawn_ground_skid(@types.Game, @types.Fighter) -> Unit
+
+pub fn spawn_hit_spark(@types.Game, Float, Float, @types.SparkKind, Int) -> Unit
+
+pub fn spawn_stage_dust(@types.Game, Float, Float, Float, Float, @raylib.Color) -> Unit
+
+pub fn update_camera(@types.Game, Float) -> Unit
+
+pub fn update_particle_list(Array[@types.Particle], Float) -> Unit
+
+pub fn update_particles(@types.Game, Float) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,243 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_submarine_sonar_hunt_2026/types"
+
+// Values
+pub fn absf(Float) -> Float
+
+pub fn arena_bottom() -> Float
+
+pub let arena_h : Int
+
+pub fn arena_left() -> Float
+
+pub fn arena_right() -> Float
+
+pub fn arena_top() -> Float
+
+pub let arena_w : Int
+
+pub let arena_x0 : Int
+
+pub let arena_x1 : Int
+
+pub let arena_y0 : Int
+
+pub let arena_y1 : Int
+
+pub let base_mine_count : Int
+
+pub let base_target_goal : Int
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub fn cosf(Float) -> Float
+
+pub let detect_fuel_reward : Float
+
+pub let detect_oxygen_reward : Float
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let fuel_boost_drain : Float
+
+pub let fuel_idle_drain : Float
+
+pub let fuel_max : Float
+
+pub let fuel_move_drain : Float
+
+pub let hot_zone_r : Float
+
+pub let hot_zone_x : Float
+
+pub let hot_zone_y : Float
+
+pub let hull_max : Float
+
+pub fn in_hot_zone_xy(Float, Float) -> Bool
+
+pub fn lose_reason_text(Game) -> String
+
+pub let max_mines : Int
+
+pub let max_targets : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub let mine_damage_fuel : Float
+
+pub let mine_damage_hull : Float
+
+pub let mine_damage_oxygen : Float
+
+pub let mine_reveal_time : Float
+
+pub fn minf(Float, Float) -> Float
+
+pub let mission_max : Int
+
+pub let mission_min : Int
+
+pub fn mobile_boost_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_down_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_left_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_restart_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_right_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_sonar_btn() -> (Int, Int, Int, Int)
+
+pub fn mobile_up_btn() -> (Int, Int, Int, Int)
+
+pub fn nearest_undetected_target(Game) -> (Float, Float, Bool)
+
+pub let oxygen_base_drain : Float
+
+pub let oxygen_boost_drain : Float
+
+pub let oxygen_hot_drain : Float
+
+pub let oxygen_max : Float
+
+pub let oxygen_surface_recover : Float
+
+pub fn point_in_rect(Float, Float, Int, Int, Int, Int) -> Bool
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn result_next_button_rect() -> (Int, Int, Int, Int)
+
+pub fn result_restart_button_rect() -> (Int, Int, Int, Int)
+
+pub fn result_title_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn sinf(Float) -> Float
+
+pub let sonar_base_range : Float
+
+pub let sonar_cd_time : Float
+
+pub let sonar_fuel_cost : Float
+
+pub let sonar_hot_bonus : Float
+
+pub let sonar_oxygen_cost : Float
+
+pub let sonar_pulse_time : Float
+
+pub fn sqrtf(Float) -> Float
+
+pub let sub_accel : Float
+
+pub let sub_boost_accel : Float
+
+pub let sub_boost_max_speed : Float
+
+pub let sub_drag : Float
+
+pub let sub_max_speed : Float
+
+pub let sub_r : Float
+
+pub let sub_start_x : Float
+
+pub let sub_start_y : Float
+
+pub let surface_band_h : Int
+
+pub let surface_band_y : Float
+
+pub let target_fps : Int
+
+pub let target_goal_cap : Int
+
+pub fn title_start_button_rect() -> (Int, Int, Int, Int)
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  mines : Array[Mine]
+  targets : Array[Target]
+  mut state : GameState
+  mut mission : Int
+  mut best_mission : Int
+  mut mine_count : Int
+  mut target_goal : Int
+  mut targets_found : Int
+  mut sub_x : Float
+  mut sub_y : Float
+  mut sub_vx : Float
+  mut sub_vy : Float
+  mut move_x : Float
+  mut move_y : Float
+  mut boost_hold : Bool
+  mut sonar_trigger : Bool
+  mut sonar_cd : Float
+  mut sonar_wave_t : Float
+  mut sonar_wave_r : Float
+  mut last_pulse_range : Float
+  mut oxygen : Float
+  mut fuel : Float
+  mut hull : Float
+  mut lose_reason : LoseReason
+  mut time_s : Float
+  mut touch_cd : Float
+  mut shake_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Win
+  Lose
+}
+pub impl Eq for GameState
+
+pub(all) enum LoseReason {
+  None
+  Oxygen
+  Fuel
+  Hull
+}
+pub impl Eq for LoseReason
+
+pub(all) struct Mine {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut r : Float
+  mut reveal_t : Float
+  mut armed : Bool
+}
+pub fn Mine::new() -> Self
+
+pub(all) struct Target {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut detected : Bool
+  mut pulse_t : Float
+}
+pub fn Target::new() -> Self
+
+// Type aliases
+
+// Traits
+

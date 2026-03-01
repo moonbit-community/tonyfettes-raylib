@@ -1,0 +1,293 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_paper_lantern_patrol_2026/types"
+
+import {
+  "tonyfettes/raylib",
+}
+
+// Values
+pub fn a_col(@raylib.Color, Int) -> @raylib.Color
+
+pub fn absf(Float) -> Float
+
+pub fn active_gust_count(Game) -> Int
+
+pub fn active_lantern_count(Game) -> Int
+
+pub fn active_thief_count(Game) -> Int
+
+pub fn calm_col() -> @raylib.Color
+
+pub let calm_cooldown : Float
+
+pub let calm_duration : Float
+
+pub let calm_radius : Float
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let combo_bonus_step : Int
+
+pub let combo_window : Float
+
+pub fn cosf(Float) -> Float
+
+pub fn danger_col() -> @raylib.Color
+
+pub let delivery_radius : Float
+
+pub let delivery_score_base : Int
+
+pub fn dist2(Float, Float, Float, Float) -> Float
+
+pub let escort_pickup_range : Float
+
+pub let escort_pull : Float
+
+pub let extinguish_limit : Int
+
+pub fn gate_position() -> (Float, Float)
+
+pub let guard_push : Float
+
+pub let guard_radius : Float
+
+pub let guard_time : Float
+
+pub let gust_drain_power : Float
+
+pub let gust_spawn_floor : Float
+
+pub let gust_spawn_interval : Float
+
+pub let hud_h : Int
+
+pub let hud_w : Int
+
+pub let hud_x : Int
+
+pub let hud_y : Int
+
+pub let interact_stabilize_boost : Float
+
+pub let lantern_base_drain : Float
+
+pub let lantern_drag : Float
+
+pub let lantern_escort_regen : Float
+
+pub fn lantern_flame_col(Float) -> @raylib.Color
+
+pub fn lantern_frame_col() -> @raylib.Color
+
+pub let lantern_radius : Float
+
+pub let lantern_spawn_floor : Float
+
+pub let lantern_spawn_interval : Float
+
+pub let max_gusts : Int
+
+pub let max_lanterns : Int
+
+pub let max_sparks : Int
+
+pub let max_thieves : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn minf(Float, Float) -> Float
+
+pub fn night_bottom() -> @raylib.Color
+
+pub fn night_top() -> @raylib.Color
+
+pub let patrol_accel : Float
+
+pub let patrol_drag : Float
+
+pub let patrol_max_speed : Float
+
+pub let patrol_radius : Float
+
+pub let play_bottom : Float
+
+pub let play_h : Int
+
+pub let play_left : Float
+
+pub let play_right : Float
+
+pub let play_top : Float
+
+pub let play_w : Int
+
+pub let play_x : Int
+
+pub let play_y : Int
+
+pub fn randf(Float, Float) -> Float
+
+pub fn randi(Int, Int) -> Int
+
+pub let score_per_flame : Int
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn shrine_col() -> @raylib.Color
+
+pub let shrine_count : Int
+
+pub fn shrine_position(Int) -> (Float, Float)
+
+pub fn sinf(Float) -> Float
+
+pub let spark_drain_power : Float
+
+pub let spark_spawn_floor : Float
+
+pub let spark_spawn_interval : Float
+
+pub fn squaref(Float) -> Float
+
+pub let status_default_t : Float
+
+pub fn street_dark() -> @raylib.Color
+
+pub fn street_mid() -> @raylib.Color
+
+pub let target_fps : Int
+
+pub let thief_contact_radius : Float
+
+pub let thief_drain_burst : Float
+
+pub let thief_radius : Float
+
+pub let thief_spawn_floor : Float
+
+pub let thief_spawn_interval : Float
+
+pub let thief_speed : Float
+
+pub let thief_steal_period : Float
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  input : InputState
+  patrol : Patrol
+  lanterns : Array[Lantern]
+  gusts : Array[Gust]
+  sparks : Array[Spark]
+  thieves : Array[Thief]
+  mut state : GameState
+  mut score : Int
+  mut best_score : Int
+  mut deliveries : Int
+  mut extinguished : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut run_time : Float
+  mut lantern_spawn_cd : Float
+  mut gust_spawn_cd : Float
+  mut spark_spawn_cd : Float
+  mut thief_spawn_cd : Float
+  mut status_text : String
+  mut status_t : Float
+  mut screen_flash_t : Float
+  mut game_over_reason : String
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+}
+pub impl Eq for GameState
+
+pub(all) struct Gust {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut radius : Float
+  mut power : Float
+  mut life : Float
+}
+pub fn Gust::new() -> Self
+
+pub(all) struct InputState {
+  mut move_x : Int
+  mut move_y : Int
+  mut press_interact : Bool
+  mut press_cancel : Bool
+  mut press_calm : Bool
+  mut press_pause : Bool
+  mut press_restart : Bool
+  mut press_start : Bool
+}
+pub fn InputState::new() -> Self
+
+pub(all) struct Lantern {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut flame : Float
+  mut target_shrine : Int
+  mut escorting : Bool
+  mut wobble : Float
+}
+pub fn Lantern::new() -> Self
+
+pub(all) struct Patrol {
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut escort : Int
+  mut guard_t : Float
+  mut calm_t : Float
+  mut calm_cd : Float
+}
+pub fn Patrol::new() -> Self
+
+pub(all) struct Spark {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut power : Float
+  mut size : Float
+}
+pub fn Spark::new() -> Self
+
+pub(all) struct Thief {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut speed : Float
+  mut target : Int
+  mut steal_cd : Float
+  mut life : Float
+}
+pub fn Thief::new() -> Self
+
+// Type aliases
+
+// Traits
+

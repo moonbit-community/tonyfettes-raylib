@@ -6,9 +6,6 @@ package "tonyfettes/raylib-examples/raylib_neon_2048_storm_2026"
 // Errors
 
 // Types and methods
-type Game
-
-type Spark
 
 // Type aliases
 

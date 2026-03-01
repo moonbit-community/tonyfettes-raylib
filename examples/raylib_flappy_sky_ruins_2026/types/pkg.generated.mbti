@@ -1,0 +1,170 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tonyfettes/raylib-examples/raylib_flappy_sky_ruins_2026/types"
+
+// Values
+pub fn btn_boost_rect() -> (Int, Int, Int, Int)
+
+pub fn btn_flap_rect() -> (Int, Int, Int, Int)
+
+pub fn btn_hint_rect() -> (Int, Int, Int, Int)
+
+pub fn btn_restart_rect() -> (Int, Int, Int, Int)
+
+pub fn clampf(Float, Float, Float) -> Float
+
+pub fn clampi(Int, Int, Int) -> Int
+
+pub let flap_impulse : Float
+
+pub let gravity : Float
+
+pub let max_obs : Int
+
+pub let max_particles : Int
+
+pub let max_pickups : Int
+
+pub fn maxf(Float, Float) -> Float
+
+pub fn mini(Int, Int) -> Int
+
+pub fn obstacle_gap_mid(Obstacle) -> Float
+
+pub let obstacle_kind_beam : Int
+
+pub let obstacle_kind_gate : Int
+
+pub let obstacle_kind_spinner : Int
+
+pub let panel_w : Int
+
+pub let panel_x0 : Int
+
+pub let pickup_boost : Int
+
+pub let pickup_heart : Int
+
+pub let pickup_score : Int
+
+pub let pickup_shield : Int
+
+pub let player_r : Float
+
+pub fn pointer_on_rect(Float, Float, Bool, Int, Int, Int, Int, Int) -> Bool
+
+pub fn randf(Float, Float) -> Float
+
+pub fn retry_button_rect() -> (Int, Int, Int, Int)
+
+pub let screen_h : Int
+
+pub let screen_w : Int
+
+pub fn set_msg(Game, String, Float) -> Unit
+
+pub fn start_button_rect() -> (Int, Int, Int, Int)
+
+pub let target_fps : Int
+
+pub fn world_bottom() -> Float
+
+pub let world_h : Int
+
+pub fn world_left() -> Float
+
+pub fn world_right() -> Float
+
+pub fn world_top() -> Float
+
+pub let world_w : Int
+
+pub let world_x0 : Int
+
+pub let world_y0 : Int
+
+// Errors
+
+// Types and methods
+pub(all) struct Game {
+  obstacles : Array[Obstacle]
+  pickups : Array[Pickup]
+  particles : Array[Particle]
+  mut state : GameState
+  mut px : Float
+  mut py : Float
+  mut vy : Float
+  mut lives : Int
+  mut shield_t : Float
+  mut boost_meter : Float
+  mut boost_on : Bool
+  mut boost_t : Float
+  mut score : Int
+  mut best_score : Int
+  mut distance : Int
+  mut combo : Int
+  mut combo_t : Float
+  mut level : Int
+  mut spawn_t : Float
+  mut pickup_t : Float
+  mut game_t : Float
+  mut ui_t : Float
+  mut msg : String
+  mut msg_t : Float
+  mut hint_left : Int
+  mut hint_t : Float
+  mut hint_y : Float
+  mut shake_t : Float
+  mut win : Bool
+  mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
+}
+pub fn Game::new() -> Self
+
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+}
+pub impl Eq for GameState
+
+pub(all) struct Obstacle {
+  mut active : Bool
+  mut x : Float
+  mut gap_y : Float
+  mut gap_h : Float
+  mut w : Float
+  mut speed : Float
+  mut kind : Int
+  mut phase : Float
+  mut scored : Bool
+}
+pub fn Obstacle::new() -> Self
+
+pub(all) struct Particle {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut vx : Float
+  mut vy : Float
+  mut life : Float
+  mut size : Float
+  mut kind : Int
+}
+pub fn Particle::new() -> Self
+
+pub(all) struct Pickup {
+  mut active : Bool
+  mut x : Float
+  mut y : Float
+  mut kind : Int
+  mut phase : Float
+}
+pub fn Pickup::new() -> Self
+
+// Type aliases
+
+// Traits
+

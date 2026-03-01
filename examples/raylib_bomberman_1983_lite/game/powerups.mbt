@@ -9,7 +9,12 @@ fn alloc_powerup(game : @types.Game) -> Int {
 }
 
 ///|
-fn spawn_powerup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
+fn spawn_powerup(
+  game : @types.Game,
+  kind : @types.PowerupKind,
+  x : Float,
+  y : Float,
+) -> Unit {
   let idx = alloc_powerup(game)
   if idx < 0 {
     return
@@ -34,24 +39,24 @@ fn spawn_powerup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
 ///|
 fn spawn_random_powerup(game : @types.Game, x : Float, y : Float) -> Unit {
   let roll = @types.rand_range(game, 0, 99)
-  let kind = if roll < 18 {
-    @types.powerup_shield
+  let kind : @types.PowerupKind = if roll < 18 {
+    @types.Shield
   } else if roll < 36 {
-    @types.powerup_star
+    @types.Star
   } else if roll < 54 {
-    @types.powerup_grenade
+    @types.Grenade
   } else if roll < 71 {
-    @types.powerup_clock
+    @types.Clock
   } else if roll < 85 {
-    @types.powerup_shovel
+    @types.Shovel
   } else {
-    @types.powerup_tank
+    @types.ExtraLife
   }
   spawn_powerup(game, kind, x, y)
 }
 
 ///|
-fn clear_all_enemies_by_grenade(game : @types.Game, team : Int) -> Unit {
+fn clear_all_enemies_by_grenade(game : @types.Game, team : @types.Team) -> Unit {
   let mut killed = 0
   for enemy in game.enemies {
     if enemy.active {
@@ -70,60 +75,64 @@ fn clear_all_enemies_by_grenade(game : @types.Game, team : Int) -> Unit {
 }
 
 ///|
-fn apply_powerup(game : @types.Game, player_index : Int, kind : Int) -> Unit {
+fn apply_powerup(
+  game : @types.Game,
+  player_index : Int,
+  kind : @types.PowerupKind,
+) -> Unit {
   let player = game.players[player_index]
   let team = @types.team_of_player(player_index)
-  if kind == @types.powerup_shield {
-    player.shield_timer = 8.0
-    player.invuln_timer = 2.0
-    @particles.spawn_respawn_burst(game, player.x, player.y)
-  } else if kind == @types.powerup_star {
-    player.weapon_level = @types.clampi(player.weapon_level + 1, 0, 3)
-    player.reload_delay = @types.player_reload_base *
-      (1.0 - Float::from_int(player.weapon_level) * 0.08)
-    if player.reload_delay < 0.12 {
-      player.reload_delay = 0.12
+  match kind {
+    @types.Shield => {
+      player.shield_timer = 8.0
+      player.invuln_timer = 2.0
+      @particles.spawn_respawn_burst(game, player.x, player.y)
     }
-    @particles.spawn_spark_burst(game, player.x, player.y, 20)
-  } else if kind == @types.powerup_grenade {
-    clear_all_enemies_by_grenade(game, team)
-    @types.push_camera_shake(game, 2.2)
-  } else if kind == @types.powerup_clock {
-    game.freeze_all_timer = @types.freeze_duration
-    @particles.spawn_spark_burst(game, player.x, player.y, 26)
-  } else if kind == @types.powerup_shovel {
-    cache_base_ring(game)
-    apply_shovel_fortress(game)
-    game.shovel_timer = @types.shovel_duration
-    @particles.spawn_spark_burst(
-      game,
-      @types.tile_center_x(@types.base_tile_x),
-      @types.tile_center_y(@types.base_tile_y),
-      24,
-    )
-  } else if kind == @types.powerup_tank {
-    player.lives += 1
-    @particles.spawn_respawn_burst(game, player.x, player.y)
+    @types.Star => {
+      player.weapon_level = @types.clampi(player.weapon_level + 1, 0, 3)
+      player.reload_delay = @types.player_reload_base *
+        (1.0 - Float::from_int(player.weapon_level) * 0.08)
+      if player.reload_delay < 0.12 {
+        player.reload_delay = 0.12
+      }
+      @particles.spawn_spark_burst(game, player.x, player.y, 20)
+    }
+    @types.Grenade => {
+      clear_all_enemies_by_grenade(game, team)
+      @types.push_camera_shake(game, 2.2)
+    }
+    @types.Clock => {
+      game.freeze_all_timer = @types.freeze_duration
+      @particles.spawn_spark_burst(game, player.x, player.y, 26)
+    }
+    @types.Shovel => {
+      cache_base_ring(game)
+      apply_shovel_fortress(game)
+      game.shovel_timer = @types.shovel_duration
+      @particles.spawn_spark_burst(
+        game,
+        @types.tile_center_x(@types.base_tile_x),
+        @types.tile_center_y(@types.base_tile_y),
+        24,
+      )
+    }
+    @types.ExtraLife => {
+      player.lives += 1
+      @particles.spawn_respawn_burst(game, player.x, player.y)
+    }
   }
   @score.grant_score(game, team, 120)
 }
 
 ///|
-fn powerup_radius(kind : Int) -> Float {
-  if kind == @types.powerup_shield {
-    11.0
-  } else if kind == @types.powerup_star {
-    10.0
-  } else if kind == @types.powerup_grenade {
-    12.0
-  } else if kind == @types.powerup_clock {
-    11.0
-  } else if kind == @types.powerup_shovel {
-    11.0
-  } else if kind == @types.powerup_tank {
-    12.0
-  } else {
-    10.0
+fn powerup_radius(kind : @types.PowerupKind) -> Float {
+  match kind {
+    @types.Shield => 11.0
+    @types.Star => 10.0
+    @types.Grenade => 12.0
+    @types.Clock => 11.0
+    @types.Shovel => 11.0
+    @types.ExtraLife => 12.0
   }
 }
 

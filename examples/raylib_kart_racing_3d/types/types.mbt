@@ -1,3 +1,17 @@
+// Game states
+
+///|
+pub(all) enum GameState {
+  Menu
+  Countdown
+  Racing
+  Paused
+  RaceComplete
+  CupComplete
+  KartSelect
+  TrackPreview
+} derive(Eq)
+
 // Waypoint for track definition
 
 ///|
@@ -352,7 +366,7 @@ pub fn RaceResult::default() -> RaceResult {
 
 ///|
 pub(all) struct Game {
-  mut state : Int
+  mut state : GameState
 
   // Race info
   mut current_cup : Int
@@ -426,7 +440,7 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   {
-    state: state_menu,
+    state: Menu,
     current_cup: 0,
     current_race: 0,
     race_time: 0.0,

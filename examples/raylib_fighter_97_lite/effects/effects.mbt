@@ -49,12 +49,12 @@ pub fn spawn_hit_spark(
   game : @types.Game,
   x : Float,
   y : Float,
-  kind : Int,
+  kind : @types.SparkKind,
   count : Int,
 ) -> Unit {
-  let color = if kind == @types.spark_kind_block {
+  let color = if kind == @types.SparkKindBlock {
     @raylib.Color::new(135, 186, 255, 255)
-  } else if kind == @types.spark_kind_super {
+  } else if kind == @types.SparkKindSuper {
     @raylib.Color::new(255, 216, 120, 255)
   } else {
     @raylib.Color::new(255, 138, 86, 255)
@@ -69,12 +69,12 @@ pub fn spawn_hit_spark(
     let angle = @types.rand_rangef(game, @types.f(0.0), @types.f(6.28))
     let speed = @types.rand_rangef(
       game,
-      if kind == @types.spark_kind_super {
+      if kind == @types.SparkKindSuper {
         @types.f(200.0)
       } else {
         @types.f(120.0)
       },
-      if kind == @types.spark_kind_super {
+      if kind == @types.SparkKindSuper {
         @types.f(520.0)
       } else {
         @types.f(360.0)
@@ -92,7 +92,7 @@ pub fn spawn_hit_spark(
     p.vy = vy
     p.life = @types.rand_rangef(game, @types.f(0.18), @types.f(0.48))
     p.max_life = p.life
-    p.size = if kind == @types.spark_kind_super {
+    p.size = if kind == @types.SparkKindSuper {
       @types.rand_rangef(game, @types.f(5.0), @types.f(12.0))
     } else {
       @types.rand_rangef(game, @types.f(3.0), @types.f(8.0))
@@ -112,7 +112,8 @@ pub fn spawn_ground_skid(game : @types.Game, fighter : @types.Fighter) -> Unit {
       game,
       fighter.x + jitter_x,
       @types.floor_y + jitter_y,
-      -fighter.vx * @types.f(0.2) + @types.rand_rangef(game, @types.f(-30.0), @types.f(30.0)),
+      -fighter.vx * @types.f(0.2) +
+      @types.rand_rangef(game, @types.f(-30.0), @types.f(30.0)),
       @types.rand_rangef(game, @types.f(-80.0), @types.f(-20.0)),
       @raylib.color_alpha(archetype.aura_color, @types.f(0.45)),
     )
@@ -133,8 +134,10 @@ pub fn update_particle_list(list : Array[@types.Particle], dt : Float) -> Unit {
     }
 
     p.vy += @types.particle_gravity * dt
-    p.vx *= @types.f(1.0) - (@types.f(1.0) - @types.particle_friction) * dt * @types.f(60.0)
-    p.vy *= @types.f(1.0) - (@types.f(1.0) - @types.particle_friction) * dt * @types.f(30.0)
+    p.vx *= @types.f(1.0) -
+      (@types.f(1.0) - @types.particle_friction) * dt * @types.f(60.0)
+    p.vy *= @types.f(1.0) -
+      (@types.f(1.0) - @types.particle_friction) * dt * @types.f(30.0)
 
     p.x += p.vx * dt
     p.y += p.vy * dt
@@ -184,12 +187,22 @@ pub fn update_camera(game : @types.Game, dt : Float) -> Unit {
   let p1 = game.fighters[0]
   let p2 = game.fighters[1]
   let center_x = (p1.x + p2.x) * @types.f(0.5)
-  let target_camera_x = Float::from_int(@types.screen_width) * @types.f(0.5) - center_x
-  game.camera_x = @types.lerpf(game.camera_x, target_camera_x, dt * @types.f(5.5))
+  let target_camera_x = Float::from_int(@types.screen_width) * @types.f(0.5) -
+    center_x
+  game.camera_x = @types.lerpf(
+    game.camera_x,
+    target_camera_x,
+    dt * @types.f(5.5),
+  )
 
   let center_y = @types.minf(p1.y, p2.y) - @types.f(250.0)
-  let target_camera_y = Float::from_int(@types.screen_height) * @types.f(0.5) - center_y
-  game.camera_y = @types.lerpf(game.camera_y, target_camera_y, dt * @types.f(4.2))
+  let target_camera_y = Float::from_int(@types.screen_height) * @types.f(0.5) -
+    center_y
+  game.camera_y = @types.lerpf(
+    game.camera_y,
+    target_camera_y,
+    dt * @types.f(4.2),
+  )
 
   let distance = @types.fighter_distance_x(p1, p2)
   let target_zoom = if distance < @types.f(190.0) {
@@ -199,7 +212,11 @@ pub fn update_camera(game : @types.Game, dt : Float) -> Unit {
   } else {
     @types.camera_zoom_base
   }
-  game.camera_zoom = @types.lerpf(game.camera_zoom, target_zoom, dt * @types.f(1.8))
+  game.camera_zoom = @types.lerpf(
+    game.camera_zoom,
+    target_zoom,
+    dt * @types.f(1.8),
+  )
 
   if game.camera_shake > @types.f(0.0) {
     game.camera_phase += dt * @types.f(44.0)

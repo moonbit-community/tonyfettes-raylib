@@ -1,16 +1,17 @@
 ///|
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
-  @raylib.init_window(screen_w, screen_h, "Xiao Xiao Le - Match 3")
+  @raylib.init_window(
+    @types.screen_w, @types.screen_h, "Xiao Xiao Le - Match 3",
+  )
   defer @raylib.close_window()
-  @raylib.set_target_fps(target_fps)
-  let game : Game = Game::new()
+  @raylib.set_target_fps(@types.target_fps)
+  let game : @types.Game = @types.Game::new()
   while not(@raylib.window_should_close()) {
-    let dt : Float = clampf(@raylib.get_frame_time(), 0.0, 0.05)
-    handle_input(game)
-    update_game_logic(game, dt)
+    let dt : Float = @types.clampf(@raylib.get_frame_time(), 0.0, 0.05)
+    @game.update_game(game, dt)
     @raylib.begin_drawing()
-    draw_frame(game)
+    @render.draw_frame(game)
     @raylib.end_drawing()
   }
 }

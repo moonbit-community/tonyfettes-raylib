@@ -11,10 +11,10 @@ fn alloc_bullet(game : @types.Game) -> Int {
 ///|
 fn spawn_bullet(
   game : @types.Game,
-  owner_team : Int,
+  owner_team : @types.Team,
   x : Float,
   y : Float,
-  dir : Int,
+  dir : @types.Dir,
   speed : Float,
   power : Int,
 ) -> Unit {
@@ -47,14 +47,14 @@ fn bullet_hit_enemy(game : @types.Game, bullet : @types.Bullet) -> Bool {
     }
 
     let radius = @types.tank_half + bullet.radius
-    if @types.distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <= radius * radius {
+    if @types.distance_sq(bullet.x, bullet.y, enemy.x, enemy.y) <=
+      radius * radius {
       enemy.hp -= bullet.damage
       @particles.spawn_spark_burst(game, bullet.x, bullet.y, 6)
       if enemy.hp <= 0 {
-        let team = if bullet.owner_team == @types.team_player2 {
-          @types.team_player2
-        } else {
-          @types.team_player1
+        let team : @types.Team = match bullet.owner_team {
+          Player2 => Player2
+          _ => Player1
         }
         destroy_enemy(game, i, team)
       } else {
@@ -75,7 +75,8 @@ fn bullet_hit_player(game : @types.Game, bullet : @types.Bullet) -> Bool {
       continue
     }
     let radius = @types.tank_half + bullet.radius
-    if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <= radius * radius {
+    if @types.distance_sq(bullet.x, bullet.y, player.x, player.y) <=
+      radius * radius {
       on_player_destroyed(game, i)
       return true
     }
@@ -92,10 +93,9 @@ fn bullet_hit_core(game : @types.Game, bullet : @types.Bullet) -> Bool {
     let core = game.cores[i]
     let r = @types.core_radius + bullet.radius
     if @types.distance_sq(bullet.x, bullet.y, core.x, core.y) <= r * r {
-      let team = if bullet.owner_team == @types.team_player2 {
-        @types.team_player2
-      } else {
-        @types.team_player1
+      let team : @types.Team = match bullet.owner_team {
+        Player2 => Player2
+        _ => Player1
       }
       ignore(damage_core(game, i, team, bullet.power))
       return true
@@ -173,7 +173,7 @@ fn update_bullets(game : @types.Game, dt : Float) -> Unit {
         break
       }
 
-      if bullet.owner_team == @types.team_enemy {
+      if bullet.owner_team == @types.Enemy {
         if bullet_hit_player(game, bullet) {
           bullet.active = false
           hit_something = true

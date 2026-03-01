@@ -1,6 +1,8 @@
 import {
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_xiaoxiaole/types",
+  "tonyfettes/raylib-examples/raylib_xiaoxiaole/game",
+  "tonyfettes/raylib-examples/raylib_xiaoxiaole/render",
 }
 
 options(

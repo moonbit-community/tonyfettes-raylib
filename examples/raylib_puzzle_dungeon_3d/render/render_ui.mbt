@@ -2,23 +2,23 @@
 
 ///|
 pub fn draw_ui(game : @types.Game) -> Unit {
-  if game.state == @types.state_menu {
+  if game.state == @types.StateMenu {
     draw_menu(game)
-  } else if game.state == @types.state_playing {
+  } else if game.state == @types.StatePlaying {
     draw_hud(game)
-  } else if game.state == @types.state_paused {
+  } else if game.state == @types.StatePaused {
     draw_hud(game)
     draw_pause_overlay(game)
-  } else if game.state == @types.state_level_complete {
+  } else if game.state == @types.StateLevelComplete {
     draw_hud(game)
     draw_level_complete(game)
-  } else if game.state == @types.state_game_over {
+  } else if game.state == @types.StateGameOver {
     draw_game_over(game)
-  } else if game.state == @types.state_world_select {
+  } else if game.state == @types.StateWorldSelect {
     draw_world_select(game)
-  } else if game.state == @types.state_floor_select {
+  } else if game.state == @types.StateFloorSelect {
     draw_floor_select(game)
-  } else if game.state == @types.state_campaign_complete {
+  } else if game.state == @types.StateCampaignComplete {
     draw_campaign_complete(game)
   }
   // Message overlay
@@ -424,7 +424,8 @@ fn draw_world_select(game : @types.Game) -> Unit {
     let is_selected = game.world_select_cursor == i
     let unlocked = @types.is_world_unlocked(game, i)
     // Card background
-    let (ar, ag, ab) = @types.get_world_accent_color(i)
+    let world = @types.int_to_world(i)
+    let (ar, ag, ab) = @types.get_world_accent_color(world)
     let bg = if is_selected {
       @raylib.Color::new(ar, ag, ab, 180)
     } else if unlocked {
@@ -443,7 +444,7 @@ fn draw_world_select(game : @types.Game) -> Unit {
       )
     }
     // World name
-    let name = @types.get_world_name(i)
+    let name = @types.get_world_name(world)
     let nw = @raylib.measure_text(name, 18)
     let name_color = if unlocked {
       @raylib.Color::new(240, 240, 255, 255)
