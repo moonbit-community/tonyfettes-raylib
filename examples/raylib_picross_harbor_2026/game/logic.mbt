@@ -47,8 +47,8 @@ fn clear_sparks(game : @types.Game) -> Unit {
 
 ///|
 fn contribution_correct(cell_state : Int, sol : Bool) -> Int {
-  if cell_state == @types.cell_fill && sol {
-    1
+  if cell_state == @types.cell_fill {
+    if sol { 1 } else { 0 }
   } else {
     0
   }
@@ -56,8 +56,8 @@ fn contribution_correct(cell_state : Int, sol : Bool) -> Int {
 
 ///|
 fn contribution_wrong(cell_state : Int, sol : Bool) -> Int {
-  if cell_state == @types.cell_fill && not(sol) {
-    1
+  if cell_state == @types.cell_fill {
+    if not(sol) { 1 } else { 0 }
   } else {
     0
   }
@@ -421,12 +421,16 @@ fn apply_cell_state(
   game.filled_wrong = game.filled_wrong + contribution_wrong(new_state, sol)
 
   if count_mistake {
-    if new_state == @types.cell_fill && not(sol) && prev_state != @types.cell_fill {
+    if new_state == @types.cell_fill &&
+      not(sol) &&
+      prev_state != @types.cell_fill {
       game.mistakes = game.mistakes + 1
       game.message = "Wrong fill"
       game.message_t = 0.8
       game.shake_t = 0.1
-    } else if new_state == @types.cell_cross && sol && prev_state != @types.cell_cross {
+    } else if new_state == @types.cell_cross &&
+      sol &&
+      prev_state != @types.cell_cross {
       game.mistakes = game.mistakes + 1
       game.message = "Marked a required cell"
       game.message_t = 0.9
@@ -465,15 +469,14 @@ fn apply_tool_on_cell(
 
   let prev : Int = @types.cell_at(game, x, y)
 
-  let mut next_state : Int = @types.cell_unknown
-  if tool == @types.tool_fill {
-    next_state = if prev == @types.cell_fill {
+  let next_state : Int = if tool == @types.tool_fill {
+    if prev == @types.cell_fill {
       @types.cell_unknown
     } else {
       @types.cell_fill
     }
   } else {
-    next_state = if prev == @types.cell_cross {
+    if prev == @types.cell_cross {
       @types.cell_unknown
     } else {
       @types.cell_cross
@@ -500,7 +503,10 @@ fn apply_tool_at_cursor(game : @types.Game, tool : Int) -> Bool {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play || game.hints_left <= 0 {
+  if game.state != @types.state_play {
+    return false
+  }
+  if game.hints_left <= 0 {
     return false
   }
 
@@ -510,7 +516,9 @@ fn use_hint(game : @types.Game) -> Bool {
         @types.cell_at(game, x, y) != @types.cell_fill {
         game.cursor_x = x
         game.cursor_y = y
-        return apply_cell_state(game, x, y, @types.cell_fill, false, true, 0)
+        return apply_cell_state(
+          game, x, y, @types.cell_fill, false, true, 0,
+        )
       }
     }
   }
@@ -521,7 +529,9 @@ fn use_hint(game : @types.Game) -> Bool {
         @types.cell_at(game, x, y) == @types.cell_fill {
         game.cursor_x = x
         game.cursor_y = y
-        return apply_cell_state(game, x, y, @types.cell_cross, false, true, 0)
+        return apply_cell_state(
+          game, x, y, @types.cell_cross, false, true, 0,
+        )
       }
     }
   }
@@ -532,7 +542,9 @@ fn use_hint(game : @types.Game) -> Bool {
         @types.cell_at(game, x, y) == @types.cell_unknown {
         game.cursor_x = x
         game.cursor_y = y
-        return apply_cell_state(game, x, y, @types.cell_cross, false, true, 0)
+        return apply_cell_state(
+          game, x, y, @types.cell_cross, false, true, 0,
+        )
       }
     }
   }
@@ -623,7 +635,11 @@ fn move_cursor_once(game : @types.Game, dir : Int) -> Unit {
 }
 
 ///|
-fn update_cursor_hold(game : @types.Game, dt : Float, held_dir : Int) -> Unit {
+fn update_cursor_hold(
+  game : @types.Game,
+  dt : Float,
+  held_dir : Int,
+) -> Unit {
   if game.state != @types.state_play {
     game.hold_dir = @types.dir_none
     game.move_repeat_t = 0.0
@@ -672,178 +688,40 @@ fn load_level(game : @types.Game, level_id : Int) -> Unit {
   }
 
   if id == 0 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 1, 1, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,1,1,0,0,0,0],[0,1,1,1,1,0,0,0],[0,0,1,1,0,0,0,0],[0,0,1,1,0,0,0,0],[0,0,1,1,0,0,0,0],[0,1,1,1,1,0,0,0],[1,1,1,1,1,1,0,0],[0,1,1,1,1,0,0,0]]
     apply_level_rows(game, rows, "Lighthouse Watch", 70, 7, 3)
   } else if id == 1 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 0, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 0, 0, 0, 1, 1, 0],
-      [1, 1, 0, 0, 0, 0, 0, 1, 1],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,0,1,0,0,0,0],[0,0,0,1,1,1,0,0,0],[0,0,1,1,1,1,1,0,0],[0,1,1,1,1,1,1,1,0],[0,0,0,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1],[0,0,1,1,1,1,1,0,0],[0,1,1,0,0,0,1,1,0],[1,1,0,0,0,0,0,1,1]]
     apply_level_rows(game, rows, "Tugboat Shift", 82, 8, 3)
   } else if id == 2 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
-      [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,1,1,1,1,0,0,0],[0,0,1,1,1,1,1,1,0,0],[0,1,1,0,0,1,1,0,0,0],[0,0,1,1,1,1,1,1,0,0],[0,0,0,1,1,1,1,0,0,0],[0,0,0,0,1,1,0,0,0,0],[0,0,0,0,1,1,0,0,0,0],[0,0,1,1,1,1,1,1,0,0],[0,1,1,0,1,1,0,1,1,0],[1,1,0,0,1,1,0,0,1,1]]
     apply_level_rows(game, rows, "Anchor Draft", 96, 9, 3)
   } else if id == 3 {
-    let rows : Array[Array[Int]] = [
-      [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[1,1,1,1,1,0,0,0,0,0],[0,0,0,1,1,0,0,0,0,0],[0,0,0,1,1,0,0,0,0,0],[0,0,0,1,1,0,0,0,0,0],[0,0,0,1,1,0,0,0,0,0],[0,0,0,1,1,1,1,0,0,0],[0,0,0,0,0,1,1,0,0,0],[0,0,0,0,0,1,1,0,0,0],[0,0,0,1,1,1,1,0,0,0],[0,0,0,0,1,0,0,0,0,0]]
     apply_level_rows(game, rows, "Crane Hook", 96, 8, 3)
   } else if id == 4 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
-      [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-      [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
-      [1, 1, 0, 1, 0, 0, 1, 0, 1, 1],
-      [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
-      [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-      [0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,1,1,1,1,1,1,0,0],[0,1,1,0,0,0,0,1,1,0],[1,1,0,0,0,0,0,0,1,1],[1,1,0,1,1,1,1,0,1,1],[1,1,0,1,0,0,1,0,1,1],[1,1,0,1,1,1,1,0,1,1],[1,1,0,0,0,0,0,0,1,1],[0,1,1,0,0,0,0,1,1,0],[0,0,1,1,1,1,1,1,0,0],[0,0,0,1,1,0,0,0,0,0]]
     apply_level_rows(game, rows, "Cargo Crate", 104, 9, 3)
   } else if id == 5 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0],
-      [1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1],
-      [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-      [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
-      [0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-      [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,1,1,1,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0],[0,0,1,1,1,1,1,1,1,0,0],[0,1,1,0,0,0,0,0,1,1,0],[1,1,0,0,1,1,1,0,0,1,1],[0,0,0,1,1,0,0,1,1,0,0],[0,0,1,1,0,0,0,0,1,1,0],[0,1,1,0,0,0,0,0,0,1,1],[1,1,0,0,0,0,0,0,0,0,1]]
     apply_level_rows(game, rows, "Wave Beacon", 118, 10, 3)
   } else if id == 6 {
-    let rows : Array[Array[Int]] = [
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,1,1,0,0,0,0],[0,0,0,0,0,1,1,1,1,0,0,0],[0,0,0,0,1,1,0,0,1,1,0,0],[1,1,1,1,1,1,1,1,1,1,1,1],[1,1,0,0,0,0,0,0,0,0,1,1],[1,1,1,1,1,1,1,1,1,1,1,1],[0,0,1,1,0,0,0,0,0,0,1,1],[0,0,0,1,1,1,1,1,1,1,0,0],[0,0,0,0,0,1,1,0,0,0,0,0]]
     apply_level_rows(game, rows, "Harbor Bridge", 126, 10, 3)
   } else if id == 7 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      [0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0],
-      [1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,0,1,1,0,0,0,1,1,0],[0,0,0,1,1,1,1,0,1,1,1,1],[0,0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,0,0,1,1,1,0,0,0],[1,1,1,0,0,0,1,1,0,0,0,0],[0,1,1,0,0,0,1,1,0,0,0,0],[0,0,1,1,0,0,1,1,1,0,0,0],[0,0,0,1,1,1,1,1,1,1,0,0],[0,0,0,0,1,1,0,1,1,0,0,0],[0,0,0,0,0,1,0,0,1,0,0,0]]
     apply_level_rows(game, rows, "Seagull Pass", 132, 11, 3)
   } else if id == 8 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,0,0,0,1,1,0,0,0,0],[0,0,0,0,1,1,1,1,1,1,0,0],[0,0,1,1,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,0,0,1,1,1,1,0,0,1],[1,1,1,1,1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1,1,1,1,1],[0,0,1,1,1,1,1,1,1,1,1,0],[0,0,0,0,1,1,1,1,1,1,0,0],[0,0,0,0,0,0,1,1,0,0,0,0],[0,0,0,1,1,1,1,1,1,0,0,0]]
     apply_level_rows(game, rows, "Submarine Echo", 142, 12, 2)
   } else if id == 9 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-      [1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
-      [0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
-      [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,1,1,0,0,1,1,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,0,0],[1,1,0,0,1,1,0,0,1,1,0,0],[1,1,0,0,1,1,0,0,1,1,0,0],[1,1,1,1,1,1,1,1,1,1,0,0],[0,0,1,1,0,0,1,1,0,0,1,1],[0,0,0,0,1,1,0,0,1,1,1,1],[0,0,1,1,1,1,1,1,1,1,1,1],[0,0,1,1,0,0,1,1,0,0,1,1],[0,0,1,1,0,0,1,1,0,0,1,1],[0,0,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,1,1,0,0,1,1,0,0]]
     apply_level_rows(game, rows, "Shipyard Gear", 152, 12, 2)
   } else if id == 10 {
-    let rows : Array[Array[Int]] = [
-      [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[0,0,0,0,0,1,1,0,0,0,0,0],[0,0,0,0,1,1,1,1,0,0,0,0],[0,0,0,1,1,1,1,1,1,0,0,0],[0,0,1,1,1,1,1,1,1,1,0,0],[0,1,1,1,1,1,1,1,1,1,1,0],[1,1,1,1,1,1,1,1,1,1,1,1],[0,0,1,0,0,1,1,0,0,1,0,0],[0,0,1,0,0,1,1,0,0,1,0,0],[0,0,1,0,0,1,1,0,0,1,0,0],[0,0,1,1,1,1,1,1,1,1,0,0],[0,0,0,1,1,1,1,1,1,0,0,0],[0,0,0,0,1,1,1,1,0,0,0,0]]
     apply_level_rows(game, rows, "Fleet Signal", 160, 13, 2)
   } else {
-    let rows : Array[Array[Int]] = [
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-      [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-      [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-    ]
+    let rows : Array[Array[Int]] = [[1,1,1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,1,1,1,0,1],[1,0,1,0,0,0,0,0,0,1,0,1],[1,0,1,0,1,1,1,1,0,1,0,1],[1,0,1,0,1,0,0,1,0,1,0,1],[1,0,1,0,1,1,1,1,0,1,0,1],[1,0,1,0,0,0,0,0,0,1,0,1],[1,0,1,1,1,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,1,1,1,1,1,1,0,0,0]]
     apply_level_rows(game, rows, "Storm Port", 176, 14, 2)
   }
 
@@ -879,7 +757,6 @@ fn advance_level(game : @types.Game) -> Unit {
 
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
-  // Read input state into Game struct
   let mouse = @raylib.get_mouse_position()
   game.mouse_x = mouse.x
   game.mouse_y = mouse.y
@@ -948,7 +825,9 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     if next_press {
       restart_campaign(game)
     }
-  } else if reset_press || next_press {
-    reload_level(game)
+  } else if game.state == @types.state_level_fail {
+    if reset_press || next_press {
+      reload_level(game)
+    }
   }
 }
