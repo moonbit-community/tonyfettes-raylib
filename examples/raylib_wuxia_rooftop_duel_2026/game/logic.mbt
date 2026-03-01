@@ -215,11 +215,11 @@ fn defeat_enemy(game : @types.Game, idx : Int, parry_kill : Bool) -> Unit {
   add_score_event(game, base, stage)
 
   let stamina_gain : Float = if parry_kill { 16.0 } else { 8.0 }
-  game.stamina = @types.minf(@types.player_max_stamina, game.stamina + stamina_gain)
-  game.shake_t = @types.maxf(
-    game.shake_t,
-    if parry_kill { 0.22 } else { 0.14 },
+  game.stamina = @types.minf(
+    @types.player_max_stamina,
+    game.stamina + stamina_gain,
   )
+  game.shake_t = @types.maxf(game.shake_t, if parry_kill { 0.22 } else { 0.14 })
 }
 
 ///|
@@ -465,8 +465,7 @@ fn trigger_parry_dash(game : @types.Game) -> Bool {
     return false
   }
 
-  let dash_dir = if @types.absf(game.move_x) + @types.absf(game.move_y) >
-    0.01 {
+  let dash_dir = if @types.absf(game.move_x) + @types.absf(game.move_y) > 0.01 {
     @types.normalize(game.move_x, game.move_y)
   } else {
     @types.normalize(game.facing_x, game.facing_y)
@@ -482,11 +481,7 @@ fn trigger_parry_dash(game : @types.Game) -> Bool {
 
   let parry_now : Int = resolve_parry_window(game)
   if parry_now > 0 {
-    @types.set_message(
-      game,
-      "Perfect parry x" + parry_now.to_string(),
-      0.70,
-    )
+    @types.set_message(game, "Perfect parry x" + parry_now.to_string(), 0.70)
     game.shake_t = @types.maxf(game.shake_t, 0.20)
   }
 
@@ -495,16 +490,12 @@ fn trigger_parry_dash(game : @types.Game) -> Bool {
 
 ///|
 fn update_player(game : @types.Game, dt : Float) -> Unit {
-  game.player_vx = game.player_vx +
-    game.move_x * @types.player_move_accel * dt
-  game.player_vy = game.player_vy +
-    game.move_y * @types.player_move_accel * dt
+  game.player_vx = game.player_vx + game.move_x * @types.player_move_accel * dt
+  game.player_vy = game.player_vy + game.move_y * @types.player_move_accel * dt
 
   if game.dash_t_left > 0.0 {
-    game.player_vx = game.player_vx +
-      game.dash_dir_x * @types.dash_speed * dt
-    game.player_vy = game.player_vy +
-      game.dash_dir_y * @types.dash_speed * dt
+    game.player_vx = game.player_vx + game.dash_dir_x * @types.dash_speed * dt
+    game.player_vy = game.player_vy + game.dash_dir_y * @types.dash_speed * dt
   }
 
   let damp : Float = @types.maxf(0.0, 1.0 - dt * @types.player_friction)
@@ -553,17 +544,13 @@ fn update_enemy_seek(game : @types.Game, idx : Int, dt : Float) -> Unit {
   let tx : Float = dir.0 * game.enemies[idx].speed + side_x * sidestep
   let ty : Float = dir.1 * game.enemies[idx].speed + side_y * sidestep
 
-  game.enemies[idx].vx = game.enemies[idx].vx * (1.0 - dt * 3.2) +
-    tx * dt * 3.2
-  game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 3.2) +
-    ty * dt * 3.2
+  game.enemies[idx].vx = game.enemies[idx].vx * (1.0 - dt * 3.2) + tx * dt * 3.2
+  game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 3.2) + ty * dt * 3.2
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
 
-  let engage_rr : Float = 90.0 +
-    @types.player_radius +
-    game.enemies[idx].radius
+  let engage_rr : Float = 90.0 + @types.player_radius + game.enemies[idx].radius
   if @types.dist2(
       game.player_x,
       game.player_y,
@@ -572,8 +559,7 @@ fn update_enemy_seek(game : @types.Game, idx : Int, dt : Float) -> Unit {
     ) <=
     engage_rr * engage_rr {
     let telegraph_t : Float = @types.randf(
-      @types.enemy_telegraph_min,
-      @types.enemy_telegraph_max,
+      @types.enemy_telegraph_min, @types.enemy_telegraph_max,
     )
     game.enemies[idx].state = @types.enemy_state_telegraph
     game.enemies[idx].state_t = telegraph_t
@@ -585,10 +571,7 @@ fn update_enemy_seek(game : @types.Game, idx : Int, dt : Float) -> Unit {
 
 ///|
 fn update_enemy_telegraph(game : @types.Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = @types.maxf(
-    0.0,
-    game.enemies[idx].state_t - dt,
-  )
+  game.enemies[idx].state_t = @types.maxf(0.0, game.enemies[idx].state_t - dt)
 
   let dir = @types.normalize(
     game.player_x - game.enemies[idx].x,
@@ -620,10 +603,7 @@ fn update_enemy_telegraph(game : @types.Game, idx : Int, dt : Float) -> Unit {
 
 ///|
 fn update_enemy_strike(game : @types.Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = @types.maxf(
-    0.0,
-    game.enemies[idx].state_t - dt,
-  )
+  game.enemies[idx].state_t = @types.maxf(0.0, game.enemies[idx].state_t - dt)
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
@@ -662,10 +642,7 @@ fn update_enemy_strike(game : @types.Game, idx : Int, dt : Float) -> Unit {
 
 ///|
 fn update_enemy_recover(game : @types.Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = @types.maxf(
-    0.0,
-    game.enemies[idx].state_t - dt,
-  )
+  game.enemies[idx].state_t = @types.maxf(0.0, game.enemies[idx].state_t - dt)
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
@@ -681,10 +658,7 @@ fn update_enemy_recover(game : @types.Game, idx : Int, dt : Float) -> Unit {
 
 ///|
 fn update_enemy_stunned(game : @types.Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = @types.maxf(
-    0.0,
-    game.enemies[idx].state_t - dt,
-  )
+  game.enemies[idx].state_t = @types.maxf(0.0, game.enemies[idx].state_t - dt)
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
@@ -754,11 +728,7 @@ fn update_wave_flow(game : @types.Game, dt : Float) -> Unit {
   game.wave_gap_t = @types.maxf(0.0, game.wave_gap_t - dt)
 
   if before_gap > 0.0 && game.wave_gap_t <= 0.0 {
-    @types.set_message(
-      game,
-      "Wave " + game.wave.to_string() + " begins.",
-      1.1,
-    )
+    @types.set_message(game, "Wave " + game.wave.to_string() + " begins.", 1.1)
   }
 
   if game.wave_gap_t > 0.0 {
@@ -876,11 +846,7 @@ fn update_logic(game : @types.Game, dt : Float) -> Unit {
   if game.parry_t > 0.0 {
     let parried : Int = resolve_parry_window(game)
     if parried > 0 {
-      @types.set_message(
-        game,
-        "Perfect parry x" + parried.to_string(),
-        0.65,
-      )
+      @types.set_message(game, "Perfect parry x" + parried.to_string(), 0.65)
     }
   }
 

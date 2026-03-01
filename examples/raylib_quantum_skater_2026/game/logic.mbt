@@ -158,7 +158,13 @@ fn spawn_particle(
 }
 
 ///|
-fn burst(game : @types.Game, x : Float, y : Float, amount : Int, kind : Int) -> Unit {
+fn burst(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  amount : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<amount {
     spawn_particle(
       game,
@@ -201,7 +207,12 @@ fn set_stage(game : @types.Game, stage : Int) -> Unit {
 }
 
 ///|
-fn spawn_orb_strip(game : @types.Game, z0 : Float, len : Int, lane : Int) -> Unit {
+fn spawn_orb_strip(
+  game : @types.Game,
+  z0 : Float,
+  len : Int,
+  lane : Int,
+) -> Unit {
   for i in 0..<len {
     spawn_obj(
       game,
@@ -337,7 +348,11 @@ fn spawn_wave(game : @types.Game, z_base : Float) -> Unit {
   } else {
     for i in 0..<10 {
       let lane = @types.randi(0, @types.lane_count - 1)
-      let kind = if @types.chance(70) { @types.obj_orb } else { @types.obj_wall }
+      let kind = if @types.chance(70) {
+        @types.obj_orb
+      } else {
+        @types.obj_wall
+      }
       let y_off : Float = if kind == @types.obj_orb {
         Float::from_int(46) +
         @types.sinf(Float::from_int(i)) * Float::from_int(22)
@@ -772,9 +787,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   if game.stage_progress >= game.stage_goal {
     game.state = @types.state_stage_clear
     game.result_t = 1.7
-    game.stage_bonus = 520 +
-      game.combo * 14 +
-      (game.health * 5.0).to_int()
+    game.stage_bonus = 520 + game.combo * 14 + (game.health * 5.0).to_int()
     game.score = game.score + game.stage_bonus
     if game.score > game.best_score {
       game.best_score = game.score
@@ -812,8 +825,7 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   game.result_t = game.result_t + dt
   update_particles(game, dt)
 
-  if game.input_restart_press ||
-    (game.result_t > 0.35 && game.input_jump_press) {
+  if game.input_restart_press || (game.result_t > 0.35 && game.input_jump_press) {
     start_run(game)
   }
 }

@@ -211,7 +211,9 @@ fn update_result_input(game : @types.Game) -> Unit {
     @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace)
 
-  let touch_retry = touch_count > 0 && game.mouse_hold && not(game.touch_restart_prev)
+  let touch_retry = touch_count > 0 &&
+    game.mouse_hold &&
+    not(game.touch_restart_prev)
   let click_retry = @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft)
 
   game.input_restart_press = key_retry || click_retry || touch_retry

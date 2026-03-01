@@ -268,8 +268,7 @@ fn draw_obj(
 
   if o.kind == @types.obj_gate_alpha || o.kind == @types.obj_gate_beta {
     let alpha = 110 +
-      (Float::from_int(1) * 0.5 +
-        0.5 * @types.sinf(o.spin * 2.0) * 100.0).to_int()
+      (Float::from_int(1) * 0.5 + 0.5 * @types.sinf(o.spin * 2.0) * 100.0).to_int()
     @raylib.draw_rectangle(
       (s.0 - w * 0.34).to_int(),
       (s.1 - h).to_int(),
@@ -568,13 +567,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(132, 188, 234, 190),
   )
 
-  @raylib.draw_text(
-    "QUANTUM SKATER",
-    30,
-    28,
-    30,
-    @types.color_lane_alpha(),
-  )
+  @raylib.draw_text("QUANTUM SKATER", 30, 28, 30, @types.color_lane_alpha())
   @raylib.draw_text(
     "Score: \{game.score}   Best: \{game.best_score}",
     30,
@@ -611,13 +604,7 @@ fn draw_hud(game : @types.Game) -> Unit {
 
   let ph_w = 280
   let ph_fill = (Float::from_int(ph_w) * game.phase_energy / 100.0).to_int()
-  @raylib.draw_rectangle(
-    590,
-    72,
-    ph_w,
-    16,
-    @raylib.Color::new(22, 26, 46, 210),
-  )
+  @raylib.draw_rectangle(590, 72, ph_w, 16, @raylib.Color::new(22, 26, 46, 210))
   @raylib.draw_rectangle(590, 72, ph_fill, 16, @types.color_phase_bar())
   @raylib.draw_rectangle_lines(
     590,
@@ -678,13 +665,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(226, 236, 248, 255),
   )
 
-  @raylib.draw_rectangle(
-    1220,
-    14,
-    130,
-    44,
-    @raylib.Color::new(20, 24, 34, 206),
-  )
+  @raylib.draw_rectangle(1220, 14, 130, 44, @raylib.Color::new(20, 24, 34, 206))
   @raylib.draw_rectangle_lines(
     1220,
     14,
@@ -722,12 +703,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(8, 10, 20, 130),
   )
 
-  draw_center_text(
-    "QUANTUM SKATER 2026",
-    132,
-    74,
-    @types.color_lane_alpha(),
-  )
+  draw_center_text("QUANTUM SKATER 2026", 132, 74, @types.color_lane_alpha())
   draw_center_text(
     "Shift phase lanes. Jump barriers. Keep your combo alive.",
     226,

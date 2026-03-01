@@ -100,15 +100,15 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
     move_x = move_x - 1.0
   }
   if @types.pointer_on_rect(
-    mx,
-    my,
-    hold,
-    tc,
-    right.0,
-    right.1,
-    right.2,
-    right.3,
-  ) {
+      mx,
+      my,
+      hold,
+      tc,
+      right.0,
+      right.1,
+      right.2,
+      right.3,
+    ) {
     move_x = move_x + 1.0
   }
   if @types.pointer_on_rect(mx, my, hold, tc, up.0, up.1, up.2, up.3) {

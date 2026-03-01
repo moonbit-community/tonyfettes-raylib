@@ -213,7 +213,9 @@ fn spawn_order(game : @types.Game) -> Bool {
     )
     tx = @types.world_left() +
       Float::from_int(
-        (tx - @types.world_left()).to_int() / @types.road_step * @types.road_step +
+        (tx - @types.world_left()).to_int() /
+        @types.road_step *
+        @types.road_step +
         @types.road_step / 2,
       )
     ty = @types.world_top() +
@@ -326,8 +328,14 @@ fn spawn_pickup(game : @types.Game) -> Bool {
       continue
     }
     pickup.active = true
-    pickup.x = @types.randf(@types.world_left() + 40.0, @types.world_right() - 40.0)
-    pickup.y = @types.randf(@types.world_top() + 40.0, @types.world_bottom() - 40.0)
+    pickup.x = @types.randf(
+      @types.world_left() + 40.0,
+      @types.world_right() - 40.0,
+    )
+    pickup.y = @types.randf(
+      @types.world_top() + 40.0,
+      @types.world_bottom() - 40.0,
+    )
     pickup.vx = @types.randf(-32.0, 32.0)
     pickup.vy = @types.randf(-32.0, 32.0)
     pickup.phase = @types.randf(0.0, 6.28)
@@ -389,12 +397,7 @@ fn pickup_distance(kind : Int) -> Float {
 }
 
 ///|
-fn collect_pickup(
-  game : @types.Game,
-  kind : Int,
-  x : Float,
-  y : Float,
-) -> Unit {
+fn collect_pickup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
   if kind == @types.pickup_fuel {
     game.fuel = @types.minf(100.0, game.fuel + 30.0)
     game.score = game.score + 10

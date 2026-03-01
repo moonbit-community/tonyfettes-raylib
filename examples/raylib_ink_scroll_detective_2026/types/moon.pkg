@@ -1,1 +1,4 @@
-import { "moonbitlang/core/math", "tonyfettes/raylib" }
+import {
+  "moonbitlang/core/math",
+  "tonyfettes/raylib",
+}

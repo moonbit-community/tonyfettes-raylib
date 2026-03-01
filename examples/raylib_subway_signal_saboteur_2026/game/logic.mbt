@@ -895,8 +895,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     finish_run(game, true, "")
   }
 
-  if game.state == @types.Play &&
-    (game.lives <= 0 || game.time_left <= 0.0) {
+  if game.state == @types.Play && (game.lives <= 0 || game.time_left <= 0.0) {
     let why : String = if game.lives <= 0 {
       "No lives remaining"
     } else {

@@ -137,7 +137,11 @@ pub fn dist_sq(x0 : Float, y0 : Float, x1 : Float, y1 : Float) -> Float {
 }
 
 ///|
-pub fn color_mix(a : @raylib.Color, b : @raylib.Color, t : Float) -> @raylib.Color {
+pub fn color_mix(
+  a : @raylib.Color,
+  b : @raylib.Color,
+  t : Float,
+) -> @raylib.Color {
   let x = clampf(t, 0.0, 1.0)
   let r = (Float::from_int(a.r.to_int()) +
   Float::from_int(b.r.to_int() - a.r.to_int()) * x).to_int()

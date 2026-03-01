@@ -3,7 +3,13 @@ fn draw_board_cell(x : Int, y : Int, color_id : Int) -> Unit {
   let px = @types.board_x + x * @types.board_cell
   let py = @types.board_y + y * @types.board_cell
   let color = @types.piece_color(color_id)
-  @raylib.draw_rectangle(px + 1, py + 1, @types.board_cell - 2, @types.board_cell - 2, color)
+  @raylib.draw_rectangle(
+    px + 1,
+    py + 1,
+    @types.board_cell - 2,
+    @types.board_cell - 2,
+    color,
+  )
   @raylib.draw_rectangle_lines(
     px,
     py,
@@ -17,7 +23,13 @@ fn draw_board_cell(x : Int, y : Int, color_id : Int) -> Unit {
 fn ghost_y(game : @types.Game) -> Int {
   let mut y = game.piece_y
   while not(
-          @types.collides(game, game.piece_kind, game.piece_rot, game.piece_x, y + 1),
+          @types.collides(
+            game,
+            game.piece_kind,
+            game.piece_rot,
+            game.piece_x,
+            y + 1,
+          ),
         ) {
     y = y + 1
   }
@@ -72,13 +84,31 @@ fn draw_hud(game : @types.Game) -> Unit {
   draw_preview(game.hold_kind, @types.side_panel_x, 240, "HOLD")
 
   @raylib.draw_text("SCORE", @types.side_panel_x, 410, 22, @raylib.lightgray)
-  @raylib.draw_text("\{game.score}", @types.side_panel_x, 438, 30, @raylib.orange)
+  @raylib.draw_text(
+    "\{game.score}",
+    @types.side_panel_x,
+    438,
+    30,
+    @raylib.orange,
+  )
 
   @raylib.draw_text("LINES", @types.side_panel_x, 488, 22, @raylib.lightgray)
-  @raylib.draw_text("\{game.lines}", @types.side_panel_x, 516, 28, @raylib.raywhite)
+  @raylib.draw_text(
+    "\{game.lines}",
+    @types.side_panel_x,
+    516,
+    28,
+    @raylib.raywhite,
+  )
 
   @raylib.draw_text("LEVEL", @types.side_panel_x, 560, 22, @raylib.lightgray)
-  @raylib.draw_text("\{game.level}", @types.side_panel_x, 588, 28, @raylib.raywhite)
+  @raylib.draw_text(
+    "\{game.level}",
+    @types.side_panel_x,
+    588,
+    28,
+    @raylib.raywhite,
+  )
 
   let controls_y = 620
   @raylib.draw_text("L/R Move", 20, controls_y, 18, @raylib.gray)
@@ -146,7 +176,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     )
   }
 
-  @raylib.draw_text("TETRIS: METEOR FALL", @types.board_x, 2, 22, @raylib.raywhite)
+  @raylib.draw_text(
+    "TETRIS: METEOR FALL", @types.board_x, 2, 22, @raylib.raywhite,
+  )
   draw_hud(game)
 
   if game.over {
@@ -157,7 +189,13 @@ pub fn draw_frame(game : @types.Game) -> Unit {
       130,
       @raylib.fade(@raylib.black, 0.75),
     )
-    @raylib.draw_text("GAME OVER", @types.board_x + 56, @types.board_y + 248, 38, @raylib.red)
+    @raylib.draw_text(
+      "GAME OVER",
+      @types.board_x + 56,
+      @types.board_y + 248,
+      38,
+      @raylib.red,
+    )
     @raylib.draw_text(
       "Press R to restart",
       @types.board_x + 65,

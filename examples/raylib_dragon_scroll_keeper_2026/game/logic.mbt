@@ -190,8 +190,16 @@ fn spawn_flame(
   game.flames[slot] = {
     active: true,
     room: clamped_room,
-    x: @types.clampf(x, @types.chamber_left + 18.0, @types.chamber_right() - 18.0),
-    y: @types.clampf(y, @types.chamber_top + 18.0, @types.chamber_bottom() - 18.0),
+    x: @types.clampf(
+      x,
+      @types.chamber_left + 18.0,
+      @types.chamber_right() - 18.0,
+    ),
+    y: @types.clampf(
+      y,
+      @types.chamber_top + 18.0,
+      @types.chamber_bottom() - 18.0,
+    ),
     intensity: @types.clampf(intensity, 10.0, 120.0),
     spread_cd: @types.randf(0.8, 1.6),
   }
@@ -496,7 +504,8 @@ fn perform_extinguish_action(game : @types.Game) -> Unit {
     game.keeper.stamina - @types.stamina_extinguish_cost,
   )
   game.keeper.action_cd = @types.keeper_action_cd
-  game.flames[idx].intensity = game.flames[idx].intensity - @types.extinguisher_power
+  game.flames[idx].intensity = game.flames[idx].intensity -
+    @types.extinguisher_power
   game.score = game.score + 16
 
   if game.flames[idx].intensity <= 0.0 {
@@ -691,8 +700,7 @@ fn update_breach_system(game : @types.Game, dt : Float) -> Float {
 
     game.breach_event_cd = @types.maxf(
         @types.breach_event_cd_floor,
-        @types.breach_event_cd_base -
-        Float::from_int(game.wave - 1) * 0.22,
+        @types.breach_event_cd_base - Float::from_int(game.wave - 1) * 0.22,
       ) +
       @types.randf(-0.25, 0.35)
   }
@@ -710,8 +718,7 @@ fn update_breach_system(game : @types.Game, dt : Float) -> Float {
       pressure * @types.breach_integrity_drain * dt
 
     breach.severity = @types.clampf(
-      severity +
-      Float::from_int(game.wave - 1) * @types.breach_wave_growth * dt,
+      severity + Float::from_int(game.wave - 1) * @types.breach_wave_growth * dt,
       0.0,
       @types.breach_severity_max,
     )
@@ -756,7 +763,8 @@ fn update_breach_system(game : @types.Game, dt : Float) -> Float {
 fn update_raiders(game : @types.Game, dt : Float) -> Float {
   let mut integrity_loss : Float = 0.0
   let wavef = Float::from_int(game.wave - 1)
-  let speed_base = @types.raider_speed_base + wavef * @types.raider_speed_wave_bonus
+  let speed_base = @types.raider_speed_base +
+    wavef * @types.raider_speed_wave_bonus
 
   for raider in game.raiders {
     if not(raider.active) {

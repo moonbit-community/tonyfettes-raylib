@@ -23,8 +23,8 @@ fn reset(game : @types.Game) -> Unit {
   let mut has_match = true
   while has_match {
     has_match = false
-    for r in 0..< @types.grid_rows {
-      for c in 0..< @types.grid_cols {
+    for r in 0..<@types.grid_rows {
+      for c in 0..<@types.grid_cols {
         if c + 2 < @types.grid_cols &&
           game.board[@types.idx(r, c)].kind ==
           game.board[@types.idx(r, c + 1)].kind &&
@@ -61,7 +61,7 @@ fn reset(game : @types.Game) -> Unit {
 
 ///|
 fn fill_board(game : @types.Game) -> Unit {
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     game.board[i].kind = @types.GemKind::from_int(
       @raylib.get_random_value(0, @types.num_colors - 1),
     )
@@ -72,8 +72,8 @@ fn fill_board(game : @types.Game) -> Unit {
 
 ///|
 fn snap_positions(game : @types.Game) -> Unit {
-  for r in 0..< @types.grid_rows {
-    for c in 0..< @types.grid_cols {
+  for r in 0..<@types.grid_rows {
+    for c in 0..<@types.grid_cols {
       let g = game.board[@types.idx(r, c)]
       let x = @types.cell_x(c)
       let y = @types.cell_y(r)
@@ -86,13 +86,7 @@ fn snap_positions(game : @types.Game) -> Unit {
 }
 
 ///|
-fn try_swap(
-  game : @types.Game,
-  r1 : Int,
-  c1 : Int,
-  r2 : Int,
-  c2 : Int
-) -> Unit {
+fn try_swap(game : @types.Game, r1 : Int, c1 : Int, r2 : Int, c2 : Int) -> Unit {
   // Check adjacency
   let dr = if r2 > r1 { r2 - r1 } else { r1 - r2 }
   let dc = if c2 > c1 { c2 - c1 } else { c1 - c2 }
@@ -144,19 +138,18 @@ fn undo_swap(game : @types.Game) -> Unit {
 fn find_matches(game : @types.Game) -> Int {
   let mut count = 0
   // Clear matched flags
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     game.board[i].matched = false
   }
   // Horizontal matches
-  for r in 0..< @types.grid_rows {
+  for r in 0..<@types.grid_rows {
     for c = 0; c < @types.grid_cols; {
       let k = game.board[@types.idx(r, c)].kind
       if k.is_empty() {
         continue c + 1
       }
       let mut end = c + 1
-      while end < @types.grid_cols &&
-        game.board[@types.idx(r, end)].kind == k {
+      while end < @types.grid_cols && game.board[@types.idx(r, end)].kind == k {
         end = end + 1
       }
       if end - c >= 3 {
@@ -169,15 +162,14 @@ fn find_matches(game : @types.Game) -> Int {
     }
   }
   // Vertical matches
-  for c in 0..< @types.grid_cols {
+  for c in 0..<@types.grid_cols {
     for r = 0; r < @types.grid_rows; {
       let k = game.board[@types.idx(r, c)].kind
       if k.is_empty() {
         continue r + 1
       }
       let mut end = r + 1
-      while end < @types.grid_rows &&
-        game.board[@types.idx(end, c)].kind == k {
+      while end < @types.grid_rows && game.board[@types.idx(end, c)].kind == k {
         end = end + 1
       }
       if end - r >= 3 {
@@ -195,7 +187,7 @@ fn find_matches(game : @types.Game) -> Int {
 ///|
 fn remove_matched(game : @types.Game) -> Int {
   let mut removed = 0
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     if game.board[i].matched {
       game.board[i].kind = @types.GemKind::Empty
       game.board[i].matched = false
@@ -209,7 +201,7 @@ fn remove_matched(game : @types.Game) -> Int {
 ///|
 fn apply_gravity(game : @types.Game) -> Bool {
   let mut fell = false
-  for c in 0..< @types.grid_cols {
+  for c in 0..<@types.grid_cols {
     // Compact column downward
     let mut write_r = @types.grid_rows - 1
     for r = @types.grid_rows - 1; r >= 0; r = r - 1 {
@@ -250,8 +242,8 @@ fn apply_gravity(game : @types.Game) -> Bool {
 
 ///|
 fn has_valid_swap(game : @types.Game) -> Bool {
-  for r in 0..< @types.grid_rows {
-    for c in 0..< @types.grid_cols {
+  for r in 0..<@types.grid_rows {
+    for c in 0..<@types.grid_cols {
       // Try swap right
       if c + 1 < @types.grid_cols {
         swap_kinds(game, r, c, r, c + 1)
@@ -280,8 +272,8 @@ fn has_valid_swap(game : @types.Game) -> Bool {
 ///|
 fn find_hint(game : @types.Game) -> Unit {
   game.hint_r1 = -1
-  for r in 0..< @types.grid_rows {
-    for c in 0..< @types.grid_cols {
+  for r in 0..<@types.grid_rows {
+    for c in 0..<@types.grid_cols {
       if c + 1 < @types.grid_cols {
         swap_kinds(game, r, c, r, c + 1)
         let m = find_matches(game)
@@ -318,7 +310,7 @@ fn swap_kinds(
   r1 : Int,
   c1 : Int,
   r2 : Int,
-  c2 : Int
+  c2 : Int,
 ) -> Unit {
   let i1 = @types.idx(r1, c1)
   let i2 = @types.idx(r2, c2)
@@ -329,7 +321,7 @@ fn swap_kinds(
 
 ///|
 fn clear_match_flags(game : @types.Game) -> Unit {
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     game.board[i].matched = false
   }
 }
@@ -337,7 +329,7 @@ fn clear_match_flags(game : @types.Game) -> Unit {
 ///|
 fn update_animations(game : @types.Game, dt : Float) -> Bool {
   let mut all_done = true
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     let g = game.board[i]
     let dx = g.target_x - g.anim_x
     let dy = g.target_y - g.anim_y
@@ -447,8 +439,8 @@ fn update_game_logic(game : @types.Game, dt : Float) -> Unit {
               let mut has_match = true
               while has_match {
                 has_match = false
-                for r2 in 0..< @types.grid_rows {
-                  for c2 in 0..< @types.grid_cols {
+                for r2 in 0..<@types.grid_rows {
+                  for c2 in 0..<@types.grid_cols {
                     if c2 + 2 < @types.grid_cols &&
                       game.board[@types.idx(r2, c2)].kind ==
                       game.board[@types.idx(r2, c2 + 1)].kind &&

@@ -545,7 +545,9 @@ fn try_beam(game : @types.Game) -> Unit {
       continue
     }
 
-    if not(@types.phase_mask_active(game.enemies[i].phase_mask, game.phase_beta)) {
+    if not(
+        @types.phase_mask_active(game.enemies[i].phase_mask, game.phase_beta),
+      ) {
       continue
     }
 
@@ -840,8 +842,8 @@ fn update_bullets(game : @types.Game, dt : Float) -> Unit {
       }
 
       if not(
-        @types.phase_mask_active(game.enemies[j].phase_mask, game.phase_beta),
-      ) {
+          @types.phase_mask_active(game.enemies[j].phase_mask, game.phase_beta),
+        ) {
         continue
       }
 

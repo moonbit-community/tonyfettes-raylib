@@ -74,7 +74,9 @@ fn clear_sites(game : @types.Game) -> Unit {
 
 ///|
 fn add_site(game : @types.Game, x : Int, y : Int, waiting : Int) -> Unit {
-  if game.site_count >= @types.max_sites || waiting <= 0 || not(@types.in_bounds(x, y)) {
+  if game.site_count >= @types.max_sites ||
+    waiting <= 0 ||
+    not(@types.in_bounds(x, y)) {
     return
   }
 
@@ -88,7 +90,7 @@ fn add_site(game : @types.Game, x : Int, y : Int, waiting : Int) -> Unit {
 
 ///|
 fn clear_world(game : @types.Game) -> Unit {
-  for i in 0..< @types.max_cells {
+  for i in 0..<@types.max_cells {
     game.terrain[i] = @types.tile_ground
     game.lava[i] = false
     game.lava_buf[i] = false
@@ -103,7 +105,13 @@ fn clear_world(game : @types.Game) -> Unit {
 }
 
 ///|
-fn add_rock_line(game : @types.Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Unit {
+fn add_rock_line(
+  game : @types.Game,
+  x0 : Int,
+  y0 : Int,
+  x1 : Int,
+  y1 : Int,
+) -> Unit {
   if x0 == x1 {
     let mut a : Int = @types.mini(y0, y1)
     let b : Int = @types.maxi(y0, y1)
@@ -122,7 +130,13 @@ fn add_rock_line(game : @types.Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> 
 }
 
 ///|
-fn add_rock_block(game : @types.Game, x : Int, y : Int, w : Int, h : Int) -> Unit {
+fn add_rock_block(
+  game : @types.Game,
+  x : Int,
+  y : Int,
+  w : Int,
+  h : Int,
+) -> Unit {
   for yy in y..<(y + h) {
     for xx in x..<(x + w) {
       set_tile(game, xx, yy, @types.tile_rock)
@@ -594,8 +608,16 @@ fn move_step(game : @types.Game, dir : Int) -> Bool {
 
   game.truck_x = nx
   game.truck_y = ny
-  game.fuel = @types.clampf(game.fuel - @types.move_fuel_cost, 0.0, @types.max_fuel)
-  game.heat = @types.clampf(game.heat + @types.move_heat_gain, 0.0, @types.max_heat)
+  game.fuel = @types.clampf(
+    game.fuel - @types.move_fuel_cost,
+    0.0,
+    @types.max_fuel,
+  )
+  game.heat = @types.clampf(
+    game.heat + @types.move_heat_gain,
+    0.0,
+    @types.max_heat,
+  )
 
   process_arrival(game)
   true
@@ -662,7 +684,11 @@ fn update_passive_heat_and_supply(game : @types.Game, dt : Float) -> Unit {
   if tile_is_depot(game, game.truck_x, game.truck_y) {
     cooling = cooling + 5.6
     game.fuel = @types.clampf(game.fuel + dt * 23.0, 0.0, @types.max_fuel)
-    game.coolant = @types.clampf(game.coolant + dt * 16.0, 0.0, @types.max_coolant)
+    game.coolant = @types.clampf(
+      game.coolant + dt * 16.0,
+      0.0,
+      @types.max_coolant,
+    )
   }
 
   game.fuel = @types.clampf(
@@ -671,7 +697,11 @@ fn update_passive_heat_and_supply(game : @types.Game, dt : Float) -> Unit {
     @types.max_fuel,
   )
 
-  game.heat = @types.clampf(game.heat + (heat_gain - cooling) * dt, 0.0, @types.max_heat)
+  game.heat = @types.clampf(
+    game.heat + (heat_gain - cooling) * dt,
+    0.0,
+    @types.max_heat,
+  )
 }
 
 ///|
@@ -736,14 +766,14 @@ fn try_spread_to(game : @types.Game, nx : Int, ny : Int, base : Int) -> Unit {
 
 ///|
 fn spread_lava_once(game : @types.Game) -> Unit {
-  for i in 0..< @types.max_cells {
+  for i in 0..<@types.max_cells {
     game.lava_buf[i] = game.lava[i]
   }
 
   let base : Int = 28 + game.level_index * 8
 
-  for y in 0..< @types.grid_h {
-    for x in 0..< @types.grid_w {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
       if not(@types.lava_at(game, x, y)) {
         continue
       }
@@ -755,7 +785,7 @@ fn spread_lava_once(game : @types.Game) -> Unit {
     }
   }
 
-  for i in 0..< @types.max_cells {
+  for i in 0..<@types.max_cells {
     game.lava[i] = game.lava_buf[i]
   }
 
@@ -868,12 +898,20 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   update_timers(game, dt)
 
   if game.state == @types.state_title {
-    if detect_start_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) {
+    if detect_start_press(
+        game.mouse_x,
+        game.mouse_y,
+        game.mouse_press,
+        game.touch_count,
+      ) {
       start_campaign(game)
     }
   } else if game.state == @types.state_play {
     let restart_press : Bool = detect_restart_press(
-      game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
     )
 
     if restart_press && game.touch_cd <= 0.0 {
@@ -881,32 +919,55 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
       restart_level(game)
     } else {
       let dir : Int = detect_dir_press(
-        game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count,
+        game.mouse_x,
+        game.mouse_y,
+        game.mouse_press,
+        game.touch_count,
       )
       if dir != @types.dir_none && game.touch_cd <= 0.0 {
         game.touch_cd = 0.08
         ignore(append_manual_step(game, dir))
       }
 
-      let tap = detect_map_target(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count)
+      let tap = detect_map_target(
+        game.mouse_x,
+        game.mouse_y,
+        game.mouse_press,
+        game.touch_count,
+      )
       if tap.0 && game.touch_cd <= 0.0 {
         game.touch_cd = 0.12
         ignore(plan_route_to(game, tap.1, tap.2))
       }
 
-      if detect_execute_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) &&
+      if detect_execute_press(
+          game.mouse_x,
+          game.mouse_y,
+          game.mouse_press,
+          game.touch_count,
+        ) &&
         game.touch_cd <= 0.0 {
         game.touch_cd = 0.14
         begin_route(game)
       }
 
-      if detect_clear_route_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) &&
+      if detect_clear_route_press(
+          game.mouse_x,
+          game.mouse_y,
+          game.mouse_press,
+          game.touch_count,
+        ) &&
         game.touch_cd <= 0.0 {
         game.touch_cd = 0.14
         clear_planned_route(game)
       }
 
-      if detect_coolant_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) &&
+      if detect_coolant_press(
+          game.mouse_x,
+          game.mouse_y,
+          game.mouse_press,
+          game.touch_count,
+        ) &&
         game.touch_cd <= 0.0 {
         game.touch_cd = 0.18
         use_coolant(game)
@@ -914,11 +975,21 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     }
 
     update_play(game, dt)
-  } else if detect_restart_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) &&
+  } else if detect_restart_press(
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+    ) &&
     game.touch_cd <= 0.0 {
     game.touch_cd = 0.2
     restart_level(game)
-  } else if detect_next_press(game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count) &&
+  } else if detect_next_press(
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+    ) &&
     game.touch_cd <= 0.0 &&
     game.result == @types.result_win {
     game.touch_cd = 0.2

@@ -423,10 +423,7 @@ fn serve_customer(game : @types.Game, ci : Int) -> Unit {
     game.customers[ci].active = false
     game.served = game.served + 1
     add_score(game, game.customers[ci].reward)
-    game.reputation = @types.minf(
-      @types.reputation_max,
-      game.reputation + 6.0,
-    )
+    game.reputation = @types.minf(@types.reputation_max, game.reputation + 6.0)
     game.focus = @types.minf(@types.focus_max, game.focus + 10.0)
     push_combo(game)
 
@@ -434,10 +431,7 @@ fn serve_customer(game : @types.Game, ci : Int) -> Unit {
     burst_sparks(game, c.x, c.y, 18, 2)
   } else {
     game.customers[ci].angry = true
-    game.customers[ci].mood = @types.maxf(
-      0.0,
-      game.customers[ci].mood - 0.4,
-    )
+    game.customers[ci].mood = @types.maxf(0.0, game.customers[ci].mood - 0.4)
     game.reputation = @types.maxf(
       0.0,
       game.reputation - @types.wrong_serve_penalty,
@@ -461,12 +455,8 @@ fn apply_interact(game : @types.Game) -> Unit {
   let py = game.player.y
 
   if @types.near_station(
-    px,
-    py,
-    @types.kettle_x,
-    @types.kettle_y,
-    @types.interact_reach,
-  ) {
+      px, py, @types.kettle_x, @types.kettle_y, @types.interact_reach,
+    ) {
     game.player.carry_water = true
     game.player.interact_t = 0.22
     spawn_ring(game, @types.kettle_x, @types.kettle_y, 10.0, 0.4, 0)
@@ -478,20 +468,14 @@ fn apply_interact(game : @types.Game) -> Unit {
   if leaf >= 0 {
     game.player.carry_leaf = leaf
     game.player.interact_t = 0.22
-    spawn_ring(
-      game, @types.leaf_x(), @types.leaf_y(leaf), 8.0, 0.36, 0,
-    )
+    spawn_ring(game, @types.leaf_x(), @types.leaf_y(leaf), 8.0, 0.36, 0)
     burst_sparks(game, @types.leaf_x(), @types.leaf_y(leaf), 8, 0)
     return
   }
 
   if @types.near_station(
-    px,
-    py,
-    @types.brew_x,
-    @types.brew_y,
-    @types.interact_reach,
-  ) {
+      px, py, @types.brew_x, @types.brew_y, @types.interact_reach,
+    ) {
     if not(game.brew_active) &&
       game.ready_cup < 0 &&
       game.player.carry_water &&
@@ -643,10 +627,7 @@ fn update_customers(game : @types.Game, dt : Float) -> Unit {
 
       customer.active = false
       game.missed = game.missed + 1
-      game.reputation = @types.maxf(
-        0.0,
-        game.reputation - @types.miss_penalty,
-      )
+      game.reputation = @types.maxf(0.0, game.reputation - @types.miss_penalty)
       game.focus = @types.maxf(0.0, game.focus - 10.0)
       clear_combo(game)
 
@@ -823,10 +804,7 @@ fn start_stage(game : @types.Game, stage : Int) -> Unit {
 
   game.time_left = @types.stage_time_base +
     Float::from_int(stage - 1) * @types.stage_time_bonus
-  game.reputation = @types.minf(
-    @types.reputation_max,
-    game.reputation + 18.0,
-  )
+  game.reputation = @types.minf(@types.reputation_max, game.reputation + 18.0)
   game.focus = @types.minf(@types.focus_max, game.focus + 26.0)
 
   game.spawn_cd = 0.6
@@ -878,10 +856,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     game.state = @types.state_stage_clear
     game.result_t = 0.0
     add_score(game, @types.stage_clear_bonus + game.stage * 120)
-    game.reputation = @types.minf(
-      @types.reputation_max,
-      game.reputation + 12.0,
-    )
+    game.reputation = @types.minf(@types.reputation_max, game.reputation + 12.0)
     game.focus = @types.minf(@types.focus_max, game.focus + 18.0)
 
     spawn_ring(game, @types.counter_x, @types.counter_y, 20.0, 0.84, 2)

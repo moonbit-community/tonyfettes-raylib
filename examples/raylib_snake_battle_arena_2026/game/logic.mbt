@@ -335,7 +335,9 @@ fn damage_player(game : @types.Game, msg : String) -> Unit {
   game.shake_t = @types.maxf(game.shake_t, 0.2)
 
   let (wx, wy) = @types.cell_world_center(
-    game, game.p_seg_x[0], game.p_seg_y[0],
+    game,
+    game.p_seg_x[0],
+    game.p_seg_y[0],
   )
   burst(game, wx, wy, 22, 2)
 
@@ -425,12 +427,8 @@ fn player_step(game : @types.Game) -> Unit {
     game.p_dir = game.p_next_dir
   }
 
-  let nx : Int = @types.wrap_x(
-    game.p_seg_x[0] + @types.dir_dx(game.p_dir),
-  )
-  let ny : Int = @types.wrap_y(
-    game.p_seg_y[0] + @types.dir_dy(game.p_dir),
-  )
+  let nx : Int = @types.wrap_x(game.p_seg_x[0] + @types.dir_dx(game.p_dir))
+  let ny : Int = @types.wrap_y(game.p_seg_y[0] + @types.dir_dy(game.p_dir))
 
   let self_hit : Bool = player_segment_at(game, nx, ny, true)
   let rival_hit : Bool = rival_segment_at(game, nx, ny, -1, false)
@@ -449,7 +447,11 @@ fn player_step(game : @types.Game) -> Unit {
       game,
       wx,
       wy,
-      if game.food_kind == @types.food_gold { 16 } else { 10 },
+      if game.food_kind == @types.food_gold {
+        16
+      } else {
+        10
+      },
       1,
     )
     grow_player_after_food(game)
@@ -514,12 +516,8 @@ fn rival_step(game : @types.Game, rid : Int) -> Unit {
     rival.dir = rival.next_dir
   }
 
-  let nx : Int = @types.wrap_x(
-    rival.seg_x[0] + @types.dir_dx(rival.dir),
-  )
-  let ny : Int = @types.wrap_y(
-    rival.seg_y[0] + @types.dir_dy(rival.dir),
-  )
+  let nx : Int = @types.wrap_x(rival.seg_x[0] + @types.dir_dx(rival.dir))
+  let ny : Int = @types.wrap_y(rival.seg_y[0] + @types.dir_dy(rival.dir))
 
   let hits_player : Bool = cell_hits_player(game, nx, ny)
   let hits_rival : Bool = rival_segment_at(game, nx, ny, rid, true)
@@ -614,12 +612,8 @@ fn use_hint(game : @types.Game) -> Bool {
   game.hint_left = game.hint_left - 1
   game.p_next_dir = best
 
-  let nx : Int = @types.wrap_x(
-    game.p_seg_x[0] + @types.dir_dx(best),
-  )
-  let ny : Int = @types.wrap_y(
-    game.p_seg_y[0] + @types.dir_dy(best),
-  )
+  let nx : Int = @types.wrap_x(game.p_seg_x[0] + @types.dir_dx(best))
+  let ny : Int = @types.wrap_y(game.p_seg_y[0] + @types.dir_dy(best))
   game.hint_x = nx
   game.hint_y = ny
   game.hint_t = 1.4

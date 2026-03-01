@@ -56,7 +56,10 @@ fn clear_lines(game : @types.Game) -> Int {
       let mut yy = y
       while yy > 0 {
         for x in 0..<@types.board_cols {
-          game.board[@types.board_index(x, yy)] = game.board[@types.board_index(x, yy - 1)]
+          game.board[@types.board_index(x, yy)] = game.board[@types.board_index(
+              x,
+              yy - 1,
+            )]
         }
         yy = yy - 1
       }
@@ -103,7 +106,13 @@ fn spawn_piece(game : @types.Game) -> Unit {
   game.piece_x = @types.board_cols / 2
   game.piece_y = 0
   game.hold_used = false
-  if @types.collides(game, game.piece_kind, game.piece_rot, game.piece_x, game.piece_y) {
+  if @types.collides(
+      game,
+      game.piece_kind,
+      game.piece_rot,
+      game.piece_x,
+      game.piece_y,
+    ) {
     game.over = true
   }
 }
@@ -176,7 +185,13 @@ fn use_hold(game : @types.Game) -> Unit {
   game.piece_x = @types.board_cols / 2
   game.piece_y = 0
   game.hold_used = true
-  if @types.collides(game, game.piece_kind, game.piece_rot, game.piece_x, game.piece_y) {
+  if @types.collides(
+      game,
+      game.piece_kind,
+      game.piece_rot,
+      game.piece_x,
+      game.piece_y,
+    ) {
     game.over = true
   }
 }

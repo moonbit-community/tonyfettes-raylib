@@ -1,6 +1,8 @@
 ///|
 fn main {
-  @raylib.init_window(@types.screen_w, @types.screen_h, "raylib [game] volcano rescue operations 2026")
+  @raylib.init_window(
+    @types.screen_w, @types.screen_h, "raylib [game] volcano rescue operations 2026",
+  )
   defer @raylib.close_window()
   @raylib.set_target_fps(@types.target_fps)
   let game : @types.Game = @types.Game::new()

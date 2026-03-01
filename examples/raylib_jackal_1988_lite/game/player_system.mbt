@@ -106,7 +106,12 @@ fn update_player_reload_timers(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn try_move_player(game : @types.Game, index : Int, dir : Int, dt : Float) -> Unit {
+fn try_move_player(
+  game : @types.Game,
+  index : Int,
+  dir : Int,
+  dt : Float,
+) -> Unit {
   let player = game.players[index]
   if not(player.active) {
     return
@@ -160,8 +165,10 @@ fn update_player_input(game : @types.Game, dt : Float) -> Unit {
     }
 
     if shoot_pressed && can_player_fire(game, i) {
-      let muzzle_x = player.x + @types.dir_vector_x(player.dir) * (@types.tank_half + 3.0)
-      let muzzle_y = player.y + @types.dir_vector_y(player.dir) * (@types.tank_half + 3.0)
+      let muzzle_x = player.x +
+        @types.dir_vector_x(player.dir) * (@types.tank_half + 3.0)
+      let muzzle_y = player.y +
+        @types.dir_vector_y(player.dir) * (@types.tank_half + 3.0)
       let speed = @types.bullet_speed_player +
         Float::from_int(player.weapon_level) * 38.0
       let power = if player.weapon_level >= 3 {

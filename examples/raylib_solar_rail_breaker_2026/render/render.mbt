@@ -488,8 +488,9 @@ fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_text("HULL", 570, 2, 16, @raylib.Color::new(236, 242, 250, 255))
 
   let phase_w = 280
-  let phase_fill = (Float::from_int(phase_w) * game.phase /
-    @types.player_phase_max).to_int()
+  let phase_fill = (Float::from_int(phase_w) *
+  game.phase /
+  @types.player_phase_max).to_int()
   @raylib.draw_rectangle(
     570,
     72,
@@ -523,7 +524,7 @@ fn draw_hud(game : @types.Game) -> Unit {
 
   let t = @types.clampf(
     game.stage_time_left /
-      (@types.stage_time + Float::from_int(game.stage - 1) * 2.0),
+    (@types.stage_time + Float::from_int(game.stage - 1) * 2.0),
     0.0,
     1.0,
   )
@@ -843,11 +844,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
 ///|
 fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
   let p = @types.ease_in_out(1.0 - game.result_t / @types.stage_clear_delay)
-  let alpha = @types.clampi(
-    (Float::from_int(90) + p * 90.0).to_int(),
-    0,
-    190,
-  )
+  let alpha = @types.clampi((Float::from_int(90) + p * 90.0).to_int(), 0, 190)
   @raylib.draw_rectangle(
     0,
     0,

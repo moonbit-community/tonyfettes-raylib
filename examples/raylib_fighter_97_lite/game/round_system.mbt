@@ -60,7 +60,11 @@ fn assign_selected_characters(game : @types.Game) -> Unit {
 fn start_round_intro(game : @types.Game) -> Unit {
   game.state = @types.StateIntro
   game.intro_timer = @types.intro_duration
-  game.round_timer = if game.mode_training { -1.0 } else { @types.round_time_start }
+  game.round_timer = if game.mode_training {
+    -1.0
+  } else {
+    @types.round_time_start
+  }
   game.winner_slot = @types.winner_none
   game.announcer_text = if game.mode_training {
     "TRAINING"
@@ -224,22 +228,34 @@ fn update_select(game : @types.Game, dt : Float) -> Unit {
   }
 
   if @raylib.is_key_pressed(@raylib.KeyA) {
-    game.select_cursor_p1 = wrap_index(game.select_cursor_p1 - 1, @types.roster_count)
+    game.select_cursor_p1 = wrap_index(
+      game.select_cursor_p1 - 1,
+      @types.roster_count,
+    )
     game.p1_confirmed = false
   }
   if @raylib.is_key_pressed(@raylib.KeyD) {
-    game.select_cursor_p1 = wrap_index(game.select_cursor_p1 + 1, @types.roster_count)
+    game.select_cursor_p1 = wrap_index(
+      game.select_cursor_p1 + 1,
+      @types.roster_count,
+    )
     game.p1_confirmed = false
   }
 
   if @raylib.is_key_pressed(@raylib.KeyLeft) {
-    game.select_cursor_p2 = wrap_index(game.select_cursor_p2 - 1, @types.roster_count)
+    game.select_cursor_p2 = wrap_index(
+      game.select_cursor_p2 - 1,
+      @types.roster_count,
+    )
     if not(game.mode_vs_cpu) {
       game.p2_confirmed = false
     }
   }
   if @raylib.is_key_pressed(@raylib.KeyRight) {
-    game.select_cursor_p2 = wrap_index(game.select_cursor_p2 + 1, @types.roster_count)
+    game.select_cursor_p2 = wrap_index(
+      game.select_cursor_p2 + 1,
+      @types.roster_count,
+    )
     if not(game.mode_vs_cpu) {
       game.p2_confirmed = false
     }
@@ -307,11 +323,12 @@ fn update_intro(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn recover_fighter_resources(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..< @types.max_players {
+  for i in 0..<@types.max_players {
     let fighter = game.fighters[i]
     let archetype = @types.fighter_archetype(game, fighter)
 
-    if fighter.action != @types.ActionBlockstun && fighter.action != @types.ActionHitstun {
+    if fighter.action != @types.ActionBlockstun &&
+      fighter.action != @types.ActionHitstun {
       @types.add_guard(fighter, @types.guard_recover_per_sec * dt, archetype)
     }
   }
@@ -319,7 +336,7 @@ fn recover_fighter_resources(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_training_resources(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..< @types.max_players {
+  for i in 0..<@types.max_players {
     let fighter = game.fighters[i]
     let archetype = @types.fighter_archetype(game, fighter)
 
@@ -334,14 +351,18 @@ fn update_training_resources(game : @types.Game, dt : Float) -> Unit {
     }
 
     fighter.super_meter = @types.super_max
-    @types.add_guard(fighter, @types.guard_recover_per_sec * dt * 2.8, archetype)
+    @types.add_guard(
+      fighter,
+      @types.guard_recover_per_sec * dt * 2.8,
+      archetype,
+    )
   }
 }
 
 ///|
 fn reset_training_fight(game : @types.Game) -> Unit {
   reset_round_fighters(game)
-  for slot in 0..< @types.max_players {
+  for slot in 0..<@types.max_players {
     let fighter = game.fighters[slot]
     let archetype = @types.fighter_archetype(game, fighter)
     fighter.health = @types.health_max
@@ -391,7 +412,7 @@ fn update_fight(game : @types.Game, dt : Float) -> Unit {
 
   update_facing(game)
 
-  for slot in 0..< @types.max_players {
+  for slot in 0..<@types.max_players {
     update_fighter_core(game, slot, dt)
   }
 
@@ -433,7 +454,7 @@ fn update_round_over(game : @types.Game, dt : Float) -> Unit {
   @effects.update_particles(game, dt)
   @effects.update_camera(game, dt)
 
-  for slot in 0..< @types.max_players {
+  for slot in 0..<@types.max_players {
     let fighter = game.fighters[slot]
     update_fighter_recovery_state(fighter)
     update_stun_and_knockdown(fighter)

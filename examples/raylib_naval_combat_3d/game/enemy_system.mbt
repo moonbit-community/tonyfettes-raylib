@@ -93,7 +93,10 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       enemy.broadside_cooldown = 0.0
     }
     if enemy.fire_timer <= 0.0 &&
-      (enemy.ai_state == @types.ai_attack || enemy.ai_state == @types.ai_broadside_run) {
+      (
+        enemy.ai_state == @types.ai_attack ||
+        enemy.ai_state == @types.ai_broadside_run
+      ) {
       let can_fire = enemy.crew > 0 && enemy.broadside_cooldown <= 0.0
       if can_fire {
         // Check if player is within firing arc (broadside)

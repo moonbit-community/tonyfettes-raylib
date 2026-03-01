@@ -146,8 +146,8 @@ fn draw_board_cells(game : @types.Game) -> Unit {
   let bx = @types.board_x()
   let by = @types.board_y()
 
-  for y in 0..< @types.board_rows {
-    for x in 0..< @types.board_cols {
+  for y in 0..<@types.board_rows {
+    for x in 0..<@types.board_cols {
       let left = bx + x * @types.cell_px
       let top = by + y * @types.cell_px
       let cell_bg = if (x + y) % 2 == 0 {
@@ -477,12 +477,8 @@ fn draw_message(game : @types.Game) -> Unit {
     return
   }
 
-  let alpha = (@types.clampf(
-      game.message_t / @types.message_ttl_max,
-      0.0,
-      1.0,
-    ) *
-    220.0).to_int()
+  let alpha = (@types.clampf(game.message_t / @types.message_ttl_max, 0.0, 1.0) *
+  220.0).to_int()
   @raylib.draw_rectangle(
     @types.board_x(),
     @types.board_y() - 52,

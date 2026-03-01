@@ -496,7 +496,10 @@ fn kill_enemy(game : @types.Game, enemy_index : Int, by_barrier : Bool) -> Unit 
     game.energy + Float::from_int(reward) * 0.85,
   )
 
-  let combo_for_charge = @types.mini(game.combo, @types.barrier_charge_combo_cap)
+  let combo_for_charge = @types.mini(
+    game.combo,
+    @types.barrier_charge_combo_cap,
+  )
   game.barrier_charge = @types.minf(
     @types.barrier_charge_goal,
     game.barrier_charge +
@@ -649,14 +652,10 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     }
 
     let tx = gx +
-      @types.sinf(
-        game.enemies[i].phase * 1.6 + Float::from_int(i) * 0.13,
-      ) *
+      @types.sinf(game.enemies[i].phase * 1.6 + Float::from_int(i) * 0.13) *
       wobble
     let ty = gy +
-      @types.cosf(
-        game.enemies[i].phase * 1.3 + Float::from_int(i) * 0.11,
-      ) *
+      @types.cosf(game.enemies[i].phase * 1.3 + Float::from_int(i) * 0.11) *
       wobble
 
     let dx = tx - game.enemies[i].x
@@ -808,8 +807,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
 
   game.energy = @types.minf(
     @types.energy_max,
-    game.energy +
-    (@types.energy_regen + Float::from_int(game.wave) * 0.22) * dt,
+    game.energy + (@types.energy_regen + Float::from_int(game.wave) * 0.22) * dt,
   )
 
   if game.combo_timer > 0.0 {

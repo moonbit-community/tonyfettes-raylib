@@ -579,8 +579,7 @@ fn draw_touch_overlay(game : @types.Game) -> Unit {
 fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Warehouse Master 2026",
-    @types.screen_w / 2 -
-    @raylib.measure_text("Warehouse Master 2026", 76) / 2,
+    @types.screen_w / 2 - @raylib.measure_text("Warehouse Master 2026", 76) / 2,
     120,
     76,
     @raylib.Color::new(236, 245, 255, 248),
@@ -608,7 +607,13 @@ fn draw_title(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.title_start_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
 
@@ -730,7 +735,13 @@ fn draw_level_clear_panel(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
 
@@ -831,7 +842,13 @@ fn draw_campaign_clear(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
 

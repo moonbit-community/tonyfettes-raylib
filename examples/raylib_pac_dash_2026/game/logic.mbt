@@ -3,7 +3,10 @@ fn build_walls(game : @types.Game) -> Unit {
   for y in 0..<@types.maze_rows {
     for x in 0..<@types.maze_cols {
       let mut wall = false
-      if x == 0 || x == @types.maze_cols - 1 || y == 0 || y == @types.maze_rows - 1 {
+      if x == 0 ||
+        x == @types.maze_cols - 1 ||
+        y == 0 ||
+        y == @types.maze_rows - 1 {
         wall = true
       }
       if y == @types.maze_rows / 2 && (x == 0 || x == @types.maze_cols - 1) {
@@ -105,10 +108,22 @@ fn reset_positions(game : @types.Game) -> Unit {
 pub fn init_game(game : @types.Game) -> Unit {
   game.ghosts.clear()
   game.ghosts.push(
-    @types.Ghost::new(@types.maze_cols / 2, @types.maze_rows / 2 - 1, @types.maze_cols - 2, 1, @raylib.red),
+    @types.Ghost::new(
+      @types.maze_cols / 2,
+      @types.maze_rows / 2 - 1,
+      @types.maze_cols - 2,
+      1,
+      @raylib.red,
+    ),
   )
   game.ghosts.push(
-    @types.Ghost::new(@types.maze_cols / 2 - 1, @types.maze_rows / 2, 1, 1, @raylib.pink),
+    @types.Ghost::new(
+      @types.maze_cols / 2 - 1,
+      @types.maze_rows / 2,
+      1,
+      1,
+      @raylib.pink,
+    ),
   )
   game.ghosts.push(
     @types.Ghost::new(

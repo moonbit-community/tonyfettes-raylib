@@ -107,7 +107,11 @@ pub fn load_floor(game : @types.Game, floor : Int) -> Unit {
 }
 
 ///|
-fn parse_tile_char(ch : Byte, _gx : Int, _gy : Int) -> (@types.Tile, @types.EntityKind, Bool) {
+fn parse_tile_char(
+  ch : Byte,
+  _gx : Int,
+  _gy : Int,
+) -> (@types.Tile, @types.EntityKind, Bool) {
   // Returns (tile_type, entity_type (EntityNone for none), is_player_spawn)
   if ch == b'#' {
     (@types.TileWall, @types.EntityNone, false)

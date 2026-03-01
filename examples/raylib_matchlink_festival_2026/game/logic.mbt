@@ -796,10 +796,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   let reset_press : Bool = detect_reset_press(game)
 
   match game.state {
-    Title =>
-      if start_press {
-        restart_campaign(game)
-      }
+    Title => if start_press { restart_campaign(game) }
     Play => {
       let held_dir : @types.Direction = detect_held_dir(game)
       update_cursor_hold(game, dt, held_dir)
@@ -832,17 +829,8 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
         pick_cursor_cell(game)
       }
     }
-    LevelClear =>
-      if next_press {
-        next_level(game)
-      }
-    CampaignClear =>
-      if next_press {
-        restart_campaign(game)
-      }
-    Fail =>
-      if reset_press || next_press {
-        reload_level(game)
-      }
+    LevelClear => if next_press { next_level(game) }
+    CampaignClear => if next_press { restart_campaign(game) }
+    Fail => if reset_press || next_press { reload_level(game) }
   }
 }

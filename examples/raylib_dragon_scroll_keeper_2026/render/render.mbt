@@ -38,12 +38,7 @@ fn draw_background(game : @types.Game) -> Unit {
   let bottom = @raylib.Color::new(30, 14, 18, 255)
 
   @raylib.draw_rectangle_gradient_v(
-    0,
-    0,
-    @types.screen_w,
-    @types.screen_h,
-    top,
-    bottom,
+    0, 0, @types.screen_w, @types.screen_h, top, bottom,
   )
 
   for i in 0..<120 {
@@ -364,7 +359,7 @@ fn draw_room_minimap(game : @types.Game) -> Unit {
     @raylib.Color::new(116, 144, 172, 185),
   )
 
-  for room in 0..< @types.chamber_count {
+  for room in 0..<@types.chamber_count {
     let x = panel_x + 16 + room * 132
     let y = panel_y + 16
     let w = 120

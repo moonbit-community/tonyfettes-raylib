@@ -5,4 +5,6 @@ import {
   "tonyfettes/raylib-examples/raylib_volcano_rescue_ops_2026/render",
 }
 
-options("is-main": true)
+options(
+  "is-main": true,
+)

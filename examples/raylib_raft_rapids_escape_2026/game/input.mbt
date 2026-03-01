@@ -105,16 +105,44 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   let hint = @types.btn_hint()
 
   let left_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, touch_count, left.0, left.1, left.2, left.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    left.0,
+    left.1,
+    left.2,
+    left.3,
   )
   let right_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, touch_count, right.0, right.1, right.2, right.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    right.0,
+    right.1,
+    right.2,
+    right.3,
   )
   let up_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, touch_count, up.0, up.1, up.2, up.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    up.0,
+    up.1,
+    up.2,
+    up.3,
   )
   let down_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, touch_count, down.0, down.1, down.2, down.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    down.0,
+    down.1,
+    down.2,
+    down.3,
   )
 
   if left_touch {
@@ -137,14 +165,28 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
     @raylib.is_key_down(@raylib.KeyRightShift) ||
     @raylib.is_key_down(@raylib.KeyJ)
   let boost_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, touch_count, boost.0, boost.1, boost.2, boost.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    boost.0,
+    boost.1,
+    boost.2,
+    boost.3,
   )
 
   game.boost_on = (boost_key || boost_touch) && game.fuel > 0.6
 
   if game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
-      mx, my, hold, touch_count, restart.0, restart.1, restart.2, restart.3,
+      mx,
+      my,
+      hold,
+      touch_count,
+      restart.0,
+      restart.1,
+      restart.2,
+      restart.3,
     ) {
     start_run(game)
     game.touch_cd = 0.18
@@ -153,7 +195,14 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
 
   if game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
-      mx, my, hold, touch_count, hint.0, hint.1, hint.2, hint.3,
+      mx,
+      my,
+      hold,
+      touch_count,
+      hint.0,
+      hint.1,
+      hint.2,
+      hint.3,
     ) {
     ignore(use_hint(game))
     game.touch_cd = 0.18

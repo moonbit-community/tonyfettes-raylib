@@ -84,7 +84,13 @@ fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_text("Lives", @types.hud_x, 170, 24, @raylib.lightgray)
   @raylib.draw_text("\{game.lives}", @types.hud_x, 198, 30, @raylib.orange)
   @raylib.draw_text("Pellets", @types.hud_x, 246, 24, @raylib.lightgray)
-  @raylib.draw_text("\{game.pellets_left}", @types.hud_x, 274, 30, @raylib.raywhite)
+  @raylib.draw_text(
+    "\{game.pellets_left}",
+    @types.hud_x,
+    274,
+    30,
+    @raylib.raywhite,
+  )
 
   let mode = if game.frightened_timer > 0.0 {
     "Frightened"

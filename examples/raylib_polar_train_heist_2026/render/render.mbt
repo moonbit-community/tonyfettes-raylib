@@ -78,7 +78,8 @@ fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   let moon_x = Float::from_int(@types.screen_w) * 0.78 +
     @types.sinf(game.time_s * 0.12) * 34.0
-  let moon_y = Float::from_int(@types.hud_h) + 86.0 +
+  let moon_y = Float::from_int(@types.hud_h) +
+    86.0 +
     @types.cosf(game.time_s * 0.18) * 18.0
   @raylib.draw_circle(
     (moon_x + cam_x * 0.24).to_int(),
@@ -116,9 +117,7 @@ fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     let base_y = Float::from_int(@types.hud_h) + 56.0 + fb * 42.0
     for x = -120; x < @types.screen_w + 180; x = x + 26 {
       let fx = Float::from_int(x)
-      let wave = @types.sinf(
-        fx * 0.012 + game.time_s * (0.8 + fb * 0.2) + fb,
-      )
+      let wave = @types.sinf(fx * 0.012 + game.time_s * (0.8 + fb * 0.2) + fb)
       let wave2 = @types.cosf(
         fx * 0.018 + game.time_s * (0.46 + fb * 0.16) + fb * 1.2,
       )
@@ -163,14 +162,13 @@ fn draw_mountains(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
     for i in -2..<12 {
       let base_x = Float::from_int(i * 180) - shift
-      let peak_x = base_x + 90.0 +
+      let peak_x = base_x +
+        90.0 +
         @types.sinf(Float::from_int(i) * 0.6 + depth) * 32.0
       let peak_y = horizon -
         120.0 -
         depth * 42.0 -
-        @types.absf(
-          @types.sinf(Float::from_int(i) * 0.7 + game.time_s * 0.06),
-        ) *
+        @types.absf(@types.sinf(Float::from_int(i) * 0.7 + game.time_s * 0.06)) *
         30.0
       let right_x = base_x + 180.0
 
@@ -300,10 +298,7 @@ fn draw_train_body(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for x = -stripe_step; x < @types.screen_w + stripe_step; x = x + stripe_step {
     let xx = x - stripe_shift
     @raylib.draw_line_ex(
-      @raylib.Vector2::new(
-        Float::from_int(xx) + cam_x * 0.22,
-        y + 8.0 + cam_y,
-      ),
+      @raylib.Vector2::new(Float::from_int(xx) + cam_x * 0.22, y + 8.0 + cam_y),
       @raylib.Vector2::new(
         Float::from_int(xx + 24) + cam_x * 0.22,
         y + 34.0 + cam_y,
@@ -373,11 +368,7 @@ fn ent_base_col(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_shadow_blobs(
-  game : @types.Game,
-  cam_x : Float,
-  cam_y : Float,
-) -> Unit {
+fn draw_shadow_blobs(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for shadow in game.shadows {
     if not(shadow.active) {
       continue
@@ -668,10 +659,8 @@ fn draw_ent(e : @types.Ent, cam_x : Float, cam_y : Float) -> Unit {
     let hpx = e.x - hpw * 0.5 + cam_x
     let hpy = e.y - e.h * 0.72 + cam_y
     let pct = @types.clampf(
-      e.hp / @types.maxf(
-        1.0,
-        if e.kind == @types.ent_crate { 35.0 } else { 24.0 },
-      ),
+      e.hp /
+      @types.maxf(1.0, if e.kind == @types.ent_crate { 35.0 } else { 24.0 }),
       0.0,
       1.0,
     )
@@ -720,7 +709,8 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   let lean = h.heading * 0.24
   let bob = if h.grounded {
-    @types.sinf(h.anim_t * 14.0) * 2.5 *
+    @types.sinf(h.anim_t * 14.0) *
+    2.5 *
     (0.4 + @types.absf(h.vx) / @types.player_max_vx)
   } else {
     0.0
@@ -747,7 +737,8 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     coat_col,
   )
 
-  let leg_swing = @types.sinf(h.anim_t * 12.0) * 6.0 *
+  let leg_swing = @types.sinf(h.anim_t * 12.0) *
+    6.0 *
     (@types.absf(h.vx) / @types.player_max_vx)
   @raylib.draw_line_ex(
     @raylib.Vector2::new(x - 8.0 + lean, y - 4.0 + bob),
@@ -1268,12 +1259,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(142, 202, 248, 210),
   )
 
-  draw_center_text(
-    "CONTROLS",
-    270,
-    32,
-    @raylib.Color::new(242, 246, 255, 240),
-  )
+  draw_center_text("CONTROLS", 270, 32, @raylib.Color::new(242, 246, 255, 240))
   draw_center_text(
     "A/D or touch arrows: Move lane space",
     314,
@@ -1348,11 +1334,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
-  let t = @types.clampf(
-    game.result_t / @types.stage_clear_wait,
-    0.0,
-    1.0,
-  )
+  let t = @types.clampf(game.result_t / @types.stage_clear_wait, 0.0, 1.0)
   let y = @types.lerpf(234.0, 170.0, @types.ease_out_cubic(t)).to_int()
 
   @raylib.draw_rectangle(
@@ -1363,12 +1345,7 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(6, 20, 26, 120),
   )
 
-  draw_center_text(
-    "STAGE CLEAR",
-    y,
-    68,
-    @raylib.Color::new(164, 255, 226, 246),
-  )
+  draw_center_text("STAGE CLEAR", y, 68, @raylib.Color::new(164, 255, 226, 246))
   draw_center_text(
     "Score +" + (320 + game.stage * 120).to_string(),
     y + 78,

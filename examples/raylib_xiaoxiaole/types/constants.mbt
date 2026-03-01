@@ -79,10 +79,14 @@ pub let bg_color : @raylib.Color = @raylib.Color::new(44, 62, 80, 255)
 pub let board_bg_color : @raylib.Color = @raylib.Color::new(34, 49, 63, 255)
 
 ///|
-pub let panel_text_color : @raylib.Color = @raylib.Color::new(236, 240, 241, 255)
+pub let panel_text_color : @raylib.Color = @raylib.Color::new(
+  236, 240, 241, 255,
+)
 
 ///|
-pub let panel_label_color : @raylib.Color = @raylib.Color::new(149, 165, 166, 255)
+pub let panel_label_color : @raylib.Color = @raylib.Color::new(
+  149, 165, 166, 255,
+)
 
 ///|
 pub let select_color : @raylib.Color = @raylib.Color::new(255, 255, 255, 200)

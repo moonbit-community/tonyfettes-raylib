@@ -347,7 +347,13 @@ fn undo_move(game : @types.Game) -> Bool {
   if step.pushed_box {
     @types.set_box(game, step.box_to_x, step.box_to_y, false)
     @types.set_box(game, step.box_from_x, step.box_from_y, true)
-    burst_cell(game, step.box_from_x, step.box_from_y, 12, @types.SparkKind::Red)
+    burst_cell(
+      game,
+      step.box_from_x,
+      step.box_from_y,
+      12,
+      @types.SparkKind::Red,
+    )
   }
 
   game.shake_t = 0.08

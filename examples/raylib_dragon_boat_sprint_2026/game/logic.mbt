@@ -500,19 +500,13 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   }
 
   match game.state {
-    Title =>
-      if game.input.start_pressed {
-        reset_run(game)
-      }
+    Title => if game.input.start_pressed { reset_run(game) }
     Paused =>
       if game.input.pause_pressed {
         game.state = Play
         set_message(game, "Race resumed", 0.8)
       }
-    Result =>
-      if game.input.start_pressed {
-        reset_run(game)
-      }
+    Result => if game.input.start_pressed { reset_run(game) }
     Play =>
       if game.input.pause_pressed {
         game.state = Paused

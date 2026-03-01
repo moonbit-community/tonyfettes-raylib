@@ -62,7 +62,7 @@ fn draw_world_back(game : @types.Game, ox : Int, oy : Int) -> Unit {
     @types.world_h,
     @raylib.Color::new(176, 206, 226, 206),
   )
-  for i in 0..=(@types.world_w / @types.road_step) {
+  for i in 0..<=(@types.world_w / @types.road_step) {
     let x : Int = @types.world_x0 + ox + i * @types.road_step
     @raylib.draw_rectangle(
       x - 22,
@@ -81,7 +81,7 @@ fn draw_world_back(game : @types.Game, ox : Int, oy : Int) -> Unit {
       )
     }
   }
-  for i in 0..=(@types.world_h / @types.road_step) {
+  for i in 0..<=(@types.world_h / @types.road_step) {
     let y : Int = @types.world_y0 + oy + i * @types.road_step
     @raylib.draw_rectangle(
       @types.world_x0 + ox,
@@ -103,13 +103,7 @@ fn draw_world_back(game : @types.Game, ox : Int, oy : Int) -> Unit {
   for i in 0..<3 {
     let rx : Int = @types.restaurant_x(i).to_int() - 42 + ox
     let ry : Int = @types.restaurant_y(i).to_int() - 36 + oy
-    @raylib.draw_rectangle(
-      rx,
-      ry,
-      84,
-      72,
-      @raylib.Color::new(168, 86, 64, 236),
-    )
+    @raylib.draw_rectangle(rx, ry, 84, 72, @raylib.Color::new(168, 86, 64, 236))
     @raylib.draw_rectangle_lines(
       rx,
       ry,
@@ -635,7 +629,11 @@ fn draw_touch_button(
     rect.1,
     rect.2,
     rect.3,
-    if on { c_on } else { c_idle },
+    if on {
+      c_on
+    } else {
+      c_idle
+    },
   )
   @raylib.draw_rectangle_lines(
     rect.0,

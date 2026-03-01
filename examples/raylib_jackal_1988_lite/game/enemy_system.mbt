@@ -176,15 +176,25 @@ fn enemy_shoot_if_ready(game : @types.Game, enemy_index : Int) -> Unit {
   }
 
   if should_fire {
-    let muzzle_x = enemy.x + @types.dir_vector_x(enemy.dir) * (@types.tank_half + 3.0)
-    let muzzle_y = enemy.y + @types.dir_vector_y(enemy.dir) * (@types.tank_half + 3.0)
+    let muzzle_x = enemy.x +
+      @types.dir_vector_x(enemy.dir) * (@types.tank_half + 3.0)
+    let muzzle_y = enemy.y +
+      @types.dir_vector_y(enemy.dir) * (@types.tank_half + 3.0)
     let speed = if enemy.enemy_kind == @types.enemy_sniper {
       @types.bullet_speed_enemy + 40.0
     } else {
       @types.bullet_speed_enemy
     }
     let power = if enemy.enemy_kind == @types.enemy_heavy { 2 } else { 1 }
-    spawn_bullet(game, @types.team_enemy, muzzle_x, muzzle_y, enemy.dir, speed, power)
+    spawn_bullet(
+      game,
+      @types.team_enemy,
+      muzzle_x,
+      muzzle_y,
+      enemy.dir,
+      speed,
+      power,
+    )
     enemy.reload_timer = enemy.reload_delay
     @particles.spawn_spark_burst(game, muzzle_x, muzzle_y, 4)
   }
@@ -258,7 +268,11 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn destroy_enemy(game : @types.Game, enemy_index : Int, killer_team : Int) -> Unit {
+fn destroy_enemy(
+  game : @types.Game,
+  enemy_index : Int,
+  killer_team : Int,
+) -> Unit {
   if not(game.enemies[enemy_index].active) {
     return
   }

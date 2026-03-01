@@ -84,11 +84,7 @@ fn spawn_threat(game : @types.Game) -> Unit {
     return
   }
 
-  let incident_rate = @types.clampf(
-    0.24 + game.elapsed * 0.0038,
-    0.24,
-    0.62,
-  )
+  let incident_rate = @types.clampf(0.24 + game.elapsed * 0.0038, 0.24, 0.62)
   let kind = if @types.randf(0.0, 1.0) < incident_rate {
     @types.threat_incident
   } else {
@@ -242,11 +238,7 @@ fn lose_order(
     0.0,
     @types.order_max,
   )
-  game.morale = @types.clampf(
-    game.morale - morale_loss,
-    0.0,
-    @types.morale_max,
-  )
+  game.morale = @types.clampf(game.morale - morale_loss, 0.0, @types.morale_max)
 
   game.combo = 0
   game.combo_t = 0.0
@@ -261,16 +253,12 @@ fn lose_order(
 fn breach_penalty(game : @types.Game, kind : Int) -> Unit {
   if kind == @types.threat_firecracker {
     lose_order(
-      game,
-      @types.breach_order_loss_firecracker,
-      @types.breach_morale_loss_firecracker,
+      game, @types.breach_order_loss_firecracker, @types.breach_morale_loss_firecracker,
       "Firecracker slipped through the line!",
     )
   } else {
     lose_order(
-      game,
-      @types.breach_order_loss_incident,
-      @types.breach_morale_loss_incident,
+      game, @types.breach_order_loss_incident, @types.breach_morale_loss_incident,
       "Crowd incident reached the parade core!",
     )
   }
@@ -280,17 +268,11 @@ fn breach_penalty(game : @types.Game, kind : Int) -> Unit {
 fn contact_penalty(game : @types.Game, kind : Int) -> Unit {
   if kind == @types.threat_firecracker {
     lose_order(
-      game,
-      6.0,
-      @types.collision_morale_loss_firecracker,
-      "Blast near the troupe!",
+      game, 6.0, @types.collision_morale_loss_firecracker, "Blast near the troupe!",
     )
   } else {
     lose_order(
-      game,
-      9.0,
-      @types.collision_morale_loss_incident,
-      "Formation broken by a crowd surge!",
+      game, 9.0, @types.collision_morale_loss_incident, "Formation broken by a crowd surge!",
     )
   }
 }
@@ -516,7 +498,11 @@ fn update_threats(game : @types.Game, dt : Float) -> Unit {
       game.threats[i].speed * move_scale * dt
     game.threats[i].spin = game.threats[i].spin +
       dt *
-      (if game.threats[i].kind == @types.threat_firecracker { 5.8 } else { 3.4 })
+      (if game.threats[i].kind == @types.threat_firecracker {
+        5.8
+      } else {
+        3.4
+      })
 
     let contact_r = game.threats[i].radius + @types.troupe_w * 0.32
     if @types.dist2(

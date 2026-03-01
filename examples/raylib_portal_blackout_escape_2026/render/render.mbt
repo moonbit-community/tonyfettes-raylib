@@ -553,10 +553,7 @@ fn draw_panel(game : @types.Game) -> Unit {
   )
 
   @raylib.draw_text(
-    "Cores " +
-    game.cores_taken.to_string() +
-    "/" +
-    @types.core_need.to_string(),
+    "Cores " + game.cores_taken.to_string() + "/" + @types.core_need.to_string(),
     @types.panel_x0 + 20,
     @types.board_y0 + 112,
     28,
@@ -741,9 +738,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
   let t0 : String = "PORTAL BLACKOUT ESCAPE"
   @raylib.draw_text(
     t0,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(t0, 56) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(t0, 56) / 2,
     @types.board_y0 + 156,
     56,
     @raylib.Color::new(236, 244, 255, 246),
@@ -834,9 +829,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     title,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(title, 62) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(title, 62) / 2,
     @types.board_y0 + 190,
     62,
     if game.win {
@@ -854,9 +847,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     reason,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(reason, 28) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(reason, 28) / 2,
     @types.board_y0 + 286,
     28,
     @raylib.Color::new(196, 220, 246, 236),

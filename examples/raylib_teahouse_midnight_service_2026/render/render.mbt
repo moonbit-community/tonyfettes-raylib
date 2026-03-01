@@ -66,11 +66,9 @@ fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     let x = (fi * 90.0 + fi * fi * 0.15 + game.time_s * 6.0) %
       Float::from_int(@types.screen_w)
     let y = Float::from_int(@types.hud_h) +
-      (fi * 41.0 + fi * 18.0) %
-      Float::from_int(@types.screen_h - @types.hud_h)
+      (fi * 41.0 + fi * 18.0) % Float::from_int(@types.screen_h - @types.hud_h)
 
-    let tw : Float = 0.5 +
-      0.5 * @types.sinf(fi * 0.72 + game.time_s * 1.34)
+    let tw : Float = 0.5 + 0.5 * @types.sinf(fi * 0.72 + game.time_s * 1.34)
     @raylib.draw_circle(
       (x + cam_x * 0.12).to_int(),
       (y + cam_y * 0.12).to_int(),
@@ -496,11 +494,7 @@ fn draw_customer(c : @types.Customer, cam_x : Float, cam_y : Float) -> Unit {
     @types.tea_color(c.tea_type),
   )
 
-  let p = @types.clampf(
-    c.patience / @types.maxf(1.0, c.patience_max),
-    0.0,
-    1.0,
-  )
+  let p = @types.clampf(c.patience / @types.maxf(1.0, c.patience_max), 0.0, 1.0)
   @raylib.draw_rectangle(
     (x - 36.0).to_int(),
     (y - 48.0).to_int(),
@@ -528,11 +522,7 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     0.0,
     1.0,
   )
-  let focus_ratio = @types.clampf(
-    game.focus / @types.focus_max,
-    0.0,
-    1.0,
-  )
+  let focus_ratio = @types.clampf(game.focus / @types.focus_max, 0.0, 1.0)
 
   @raylib.draw_circle(
     x.to_int(),
@@ -557,19 +547,13 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   @raylib.draw_line_ex(
     @raylib.Vector2::new(x - 8.0, y + 2.0),
-    @raylib.Vector2::new(
-      x - 10.0 - @types.sinf(p.anim_t * 8.0) * 5.0,
-      y + 24.0,
-    ),
+    @raylib.Vector2::new(x - 10.0 - @types.sinf(p.anim_t * 8.0) * 5.0, y + 24.0),
     5.0,
     @raylib.Color::new(176, 206, 236, 232),
   )
   @raylib.draw_line_ex(
     @raylib.Vector2::new(x + 8.0, y + 2.0),
-    @raylib.Vector2::new(
-      x + 10.0 + @types.sinf(p.anim_t * 8.0) * 5.0,
-      y + 24.0,
-    ),
+    @raylib.Vector2::new(x + 10.0 + @types.sinf(p.anim_t * 8.0) * 5.0, y + 24.0),
     5.0,
     @raylib.Color::new(176, 206, 236, 232),
   )
@@ -772,9 +756,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     320,
     24,
     Float::from_int(game.score),
-    Float::from_int(
-      @types.maxf(Float::from_int(game.stage_goal), 1.0).to_int(),
-    ),
+    Float::from_int(@types.maxf(Float::from_int(game.stage_goal), 1.0).to_int()),
     "GOAL",
     @types.amber(),
   )
@@ -820,10 +802,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(186, 224, 248, 236),
   )
   draw_right_text(
-    "SERVED " +
-    game.served.to_string() +
-    "  MISSED " +
-    game.missed.to_string(),
+    "SERVED " + game.served.to_string() + "  MISSED " + game.missed.to_string(),
     @types.screen_w - 20,
     44,
     20,
@@ -1067,12 +1046,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(148, 206, 246, 214),
   )
 
-  draw_center_text(
-    "FLOW",
-    268,
-    32,
-    @raylib.Color::new(242, 248, 255, 240),
-  )
+  draw_center_text("FLOW", 268, 32, @raylib.Color::new(242, 248, 255, 240))
   draw_center_text(
     "1) Kettle for water",
     312,
@@ -1145,11 +1119,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
 
 ///|
 fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
-  let t = @types.clampf(
-    game.result_t / @types.stage_clear_wait,
-    0.0,
-    1.0,
-  )
+  let t = @types.clampf(game.result_t / @types.stage_clear_wait, 0.0, 1.0)
   let y = @types.lerpf(232.0, 166.0, @types.ease_out_cubic(t)).to_int()
 
   @raylib.draw_rectangle(
@@ -1167,8 +1137,7 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(166, 255, 228, 246),
   )
   draw_center_text(
-    "Bonus +" +
-    (@types.stage_clear_bonus + game.stage * 120).to_string(),
+    "Bonus +" + (@types.stage_clear_bonus + game.stage * 120).to_string(),
     y + 78,
     30,
     @types.a_col(@types.amber(), 240),

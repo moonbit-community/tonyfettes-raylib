@@ -2,8 +2,7 @@
 fn main {
   @raylib.set_config_flags(@raylib.FlagMsaa4xHint)
   @raylib.init_window(
-    @types.screen_w, @types.screen_h,
-    "raylib [game] snake_battle_arena_2026",
+    @types.screen_w, @types.screen_h, "raylib [game] snake_battle_arena_2026",
   )
   defer @raylib.close_window()
 

@@ -744,7 +744,13 @@ fn draw_title_screen(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.start_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
 
@@ -830,7 +836,13 @@ fn draw_level_clear_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -892,7 +904,13 @@ fn draw_level_fail_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -983,7 +1001,13 @@ fn draw_campaign_clear_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(

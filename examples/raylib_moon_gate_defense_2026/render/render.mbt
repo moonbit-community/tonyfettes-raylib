@@ -66,12 +66,10 @@ fn draw_background(game : @types.Game) -> Unit {
     let fi = Float::from_int(i)
     let base_x = (i * 119 + i * i * 71) % @types.screen_w
     let base_y = (i * 73 + i * 29) % @types.screen_h
-    let x = Float::from_int(base_x) +
-      @types.sinf(game.time_s * 0.3 + fi) * 2.0
+    let x = Float::from_int(base_x) + @types.sinf(game.time_s * 0.3 + fi) * 2.0
     let y = Float::from_int(base_y) +
       @types.cosf(game.time_s * 0.2 + fi * 1.1) * 2.0
-    let tw : Float = 0.5 +
-      0.5 * @types.sinf(game.time_s * 1.4 + fi * 0.9)
+    let tw : Float = 0.5 + 0.5 * @types.sinf(game.time_s * 1.4 + fi * 0.9)
     let alpha = 45 + (tw * 120.0).to_int()
 
     @raylib.draw_circle(
@@ -94,10 +92,8 @@ fn draw_grid_and_gate_cell(cam_x : Float, cam_y : Float) -> Unit {
   )
 
   @raylib.draw_rectangle(
-    (Float::from_int(@types.board_x + @types.gate_gx * @types.cell_size) +
-    cam_x).to_int(),
-    (Float::from_int(@types.board_y + @types.gate_gy * @types.cell_size) +
-    cam_y).to_int(),
+    (Float::from_int(@types.board_x + @types.gate_gx * @types.cell_size) + cam_x).to_int(),
+    (Float::from_int(@types.board_y + @types.gate_gy * @types.cell_size) + cam_y).to_int(),
     @types.cell_size,
     @types.cell_size,
     @raylib.Color::new(40, 70, 108, 150),
@@ -138,11 +134,7 @@ fn draw_grid_and_gate_cell(cam_x : Float, cam_y : Float) -> Unit {
 fn draw_gate(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let gx = @types.gate_x() + cam_x
   let gy = @types.gate_y() + cam_y
-  let gate_ratio = @types.clampf(
-    game.gate_hp / @types.gate_hp_max,
-    0.0,
-    1.0,
-  )
+  let gate_ratio = @types.clampf(game.gate_hp / @types.gate_hp_max, 0.0, 1.0)
 
   let ring_col = @raylib.Color::new(
     90 + (gate_ratio * 120.0).to_int(),
@@ -444,16 +436,8 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(112, 162, 200, 160),
   )
 
-  let gate_ratio = @types.clampf(
-    game.gate_hp / @types.gate_hp_max,
-    0.0,
-    1.0,
-  )
-  let energy_ratio = @types.clampf(
-    game.energy / @types.energy_max,
-    0.0,
-    1.0,
-  )
+  let gate_ratio = @types.clampf(game.gate_hp / @types.gate_hp_max, 0.0, 1.0)
+  let energy_ratio = @types.clampf(game.energy / @types.energy_max, 0.0, 1.0)
   let barrier_ratio = @types.clampf(
     game.barrier_charge / @types.barrier_charge_goal,
     0.0,
@@ -627,12 +611,7 @@ fn draw_paused_overlay() -> Unit {
     @types.screen_h,
     @raylib.Color::new(8, 10, 16, 150),
   )
-  draw_center_text(
-    "PAUSED",
-    310,
-    72,
-    @raylib.Color::new(238, 246, 255, 245),
-  )
+  draw_center_text("PAUSED", 310, 72, @raylib.Color::new(238, 246, 255, 245))
   draw_center_text(
     "Press P or K to resume",
     404,
@@ -656,12 +635,7 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     @types.screen_h,
     @raylib.Color::new(28, 10, 14, 165),
   )
-  draw_center_text(
-    "GATE LOST",
-    278,
-    74,
-    @raylib.Color::new(255, 184, 184, 248),
-  )
+  draw_center_text("GATE LOST", 278, 74, @raylib.Color::new(255, 184, 184, 248))
   draw_center_text(
     "Final Score " + game.score.to_string(),
     376,

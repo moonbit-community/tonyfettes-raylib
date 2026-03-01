@@ -89,13 +89,7 @@ fn draw_panel(game : @types.Game) -> Unit {
   if game.msg_t > 0.0 {
     let alpha = @types.clampf(game.msg_t * 3.0, 0.0, 1.0)
     let a = (alpha * 255.0).to_int()
-    @raylib.draw_text(
-      game.msg,
-      36,
-      90,
-      24,
-      @raylib.Color::new(241, 196, 15, a),
-    )
+    @raylib.draw_text(game.msg, 36, 90, 24, @raylib.Color::new(241, 196, 15, a))
   }
   // Progress bar
   let bar_x = 36
@@ -142,7 +136,7 @@ fn draw_board(game : @types.Game) -> Unit {
   )
   // Gems
   let cp = Float::from_int(@types.cell_px)
-  for i in 0..< @types.cell_count {
+  for i in 0..<@types.cell_count {
     let g = game.board[i]
     if g.kind.is_empty() {
       continue

@@ -409,13 +409,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @raylib.Color::new(64, 52, 26, 220),
   )
 
-  @raylib.draw_text(
-    "HP",
-    20,
-    40,
-    16,
-    @raylib.Color::new(242, 210, 220, 228),
-  )
+  @raylib.draw_text("HP", 20, 40, 16, @raylib.Color::new(242, 210, 220, 228))
   @raylib.draw_text(
     "STAMINA",
     320,

@@ -35,7 +35,11 @@ fn start_attack(
   fighter.move_cancel_enabled = false
 
   if mv.move_kind == @types.MoveKindSuper {
-    fighter.super_meter = @types.clampi(fighter.super_meter - @types.super_cost, 0, @types.super_max)
+    fighter.super_meter = @types.clampi(
+      fighter.super_meter - @types.super_cost,
+      0,
+      @types.super_max,
+    )
   }
 
   @types.add_meter(fighter, mv.meter_gain_on_use, archetype)
@@ -163,7 +167,8 @@ fn try_start_attack(game : @types.Game, slot : Int) -> Unit {
     return
   }
 
-  if fighter.action == @types.ActionAttack && not(can_cancel_current_move(fighter)) {
+  if fighter.action == @types.ActionAttack &&
+    not(can_cancel_current_move(fighter)) {
     return
   }
 
@@ -299,7 +304,8 @@ fn update_walk_and_crouch_state(
     return
   }
 
-  if fighter.action == @types.ActionAttack || fighter.action == @types.ActionThrow {
+  if fighter.action == @types.ActionAttack ||
+    fighter.action == @types.ActionThrow {
     return
   }
 
@@ -361,7 +367,10 @@ fn update_walk_and_crouch_state(
 }
 
 ///|
-fn update_jump_state(fighter : @types.Fighter, archetype : @types.CharacterArchetype) -> Unit {
+fn update_jump_state(
+  fighter : @types.Fighter,
+  archetype : @types.CharacterArchetype,
+) -> Unit {
   if fighter.action == @types.ActionHitstun ||
     fighter.action == @types.ActionBlockstun ||
     fighter.action == @types.ActionKnockdown ||
@@ -380,9 +389,13 @@ fn update_jump_state(fighter : @types.Fighter, archetype : @types.CharacterArche
     fighter.action_frame = 0
     fighter.vy = @types.jump_initial_velocity * archetype.jump_mul
     if input.hold_forward {
-      fighter.vx += @types.move_speed_forward * 0.45 * @types.facing_sign(fighter.facing)
+      fighter.vx += @types.move_speed_forward *
+        0.45 *
+        @types.facing_sign(fighter.facing)
     } else if input.hold_back {
-      fighter.vx -= @types.move_speed_back * 0.4 * @types.facing_sign(fighter.facing)
+      fighter.vx -= @types.move_speed_back *
+        0.4 *
+        @types.facing_sign(fighter.facing)
     }
   }
 }
@@ -423,8 +436,9 @@ fn integrate_fighter_physics(
     }
   } else if fighter.action == @types.ActionDashForward ||
     fighter.action == @types.ActionDashBack {
-    // Dash keeps velocity while action is active.
+
   } else {
+    // Dash keeps velocity while action is active.
     fighter.vx = @types.approachf(fighter.vx, 0.0, 22.0)
   }
 }
@@ -503,7 +517,8 @@ fn update_fighter_core(game : @types.Game, slot : Int, dt : Float) -> Unit {
 
   update_jump_state(fighter, archetype)
 
-  if fighter.action != @types.ActionAttack && fighter.action != @types.ActionThrow {
+  if fighter.action != @types.ActionAttack &&
+    fighter.action != @types.ActionThrow {
     update_walk_and_crouch_state(fighter, archetype)
   }
 

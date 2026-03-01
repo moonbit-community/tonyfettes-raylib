@@ -132,7 +132,9 @@ fn draw_single_tile(
     } else {
       @raylib.Color::new(110, 32, 32, 255)
     }
-    @raylib.draw_rectangle(sx, sy, @types.tile_size, @types.tile_size, base_color)
+    @raylib.draw_rectangle(
+      sx, sy, @types.tile_size, @types.tile_size, base_color,
+    )
     @raylib.draw_rectangle_lines(
       sx, sy, @types.tile_size, @types.tile_size, @raylib.darkbrown,
     )
@@ -176,7 +178,11 @@ fn draw_single_tile(
 }
 
 ///|
-fn draw_terrain_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
+fn draw_terrain_layer(
+  game : @types.Game,
+  shake_x : Float,
+  shake_y : Float,
+) -> Unit {
   for ty in 0..<@types.map_tiles_h {
     for tx in 0..<@types.map_tiles_w {
       let tile = @types.get_tile(game, tx, ty)
@@ -189,7 +195,11 @@ fn draw_terrain_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> U
 }
 
 ///|
-fn draw_bush_layer(game : @types.Game, shake_x : Float, shake_y : Float) -> Unit {
+fn draw_bush_layer(
+  game : @types.Game,
+  shake_x : Float,
+  shake_y : Float,
+) -> Unit {
   for ty in 0..<@types.map_tiles_h {
     for tx in 0..<@types.map_tiles_w {
       if @types.get_tile(game, tx, ty) != @types.tile_bush {

@@ -40,9 +40,15 @@ fn draw_stage_sky(game : @types.Game) -> Unit {
         (Float::from_int(i) * @types.f(0.7) + game.bg_scroll * @types.f(0.1)).to_double(),
       ),
     )
-    let alpha = @types.f(0.25) + (twinkle * @types.f(0.5) + @types.f(0.5)) * @types.f(0.75)
+    let alpha = @types.f(0.25) +
+      (twinkle * @types.f(0.5) + @types.f(0.5)) * @types.f(0.75)
     let color = @raylib.color_alpha(@raylib.raywhite, alpha)
-    @raylib.draw_circle(tx - 80, ty, @types.f(1.0) + twinkle * @types.f(0.5), color)
+    @raylib.draw_circle(
+      tx - 80,
+      ty,
+      @types.f(1.0) + twinkle * @types.f(0.5),
+      color,
+    )
   }
 }
 
@@ -68,7 +74,8 @@ fn draw_city_layer(
       ),
     )
     let h = height_min +
-      (Float::from_int(height_max - height_min) * (wave * @types.f(0.5) + @types.f(0.5))).to_int()
+      (Float::from_int(height_max - height_min) *
+      (wave * @types.f(0.5) + @types.f(0.5))).to_int()
     @raylib.draw_rectangle(x, y_base - h, block_w - 3, h, color)
 
     if layer >= 2 {
@@ -110,7 +117,8 @@ fn draw_stage_crowd(game : @types.Game) -> Unit {
   )
 
   for i in 0..<190 {
-    let x = (i * 19 + (game.bg_scroll * @types.f(9.0)).to_int()) % (@types.screen_width + 32) -
+    let x = (i * 19 + (game.bg_scroll * @types.f(9.0)).to_int()) %
+      (@types.screen_width + 32) -
       16
     let phase = Float::from_double(
       @math.sin(
@@ -175,9 +183,12 @@ fn draw_stage_floor(game : @types.Game) -> Unit {
   }
 
   for i in -14..<=14 {
-    let x = @types.screen_width / 2 + i * 48 + (game.bg_scroll * @types.f(0.8)).to_int() % 48
+    let x = @types.screen_width / 2 +
+      i * 48 +
+      (game.bg_scroll * @types.f(0.8)).to_int() % 48
     let alpha = @types.f(0.2) -
-      Float::from_int(@types.absf(Float::from_int(i)).to_int()) * @types.f(0.008)
+      Float::from_int(@types.absf(Float::from_int(i)).to_int()) *
+      @types.f(0.008)
     @raylib.draw_line(
       x,
       floor_top,
@@ -190,7 +201,10 @@ fn draw_stage_floor(game : @types.Game) -> Unit {
   let left_rope = @types.camera_project_x(game, @types.stage_left_x - 40.0).to_int()
   let right_rope = @types.camera_project_x(game, @types.stage_right_x + 40.0).to_int()
   for i in 0..<3 {
-    let y = @types.camera_project_y(game, @types.f(430.0) + Float::from_int(i * 38)).to_int()
+    let y = @types.camera_project_y(
+      game,
+      @types.f(430.0) + Float::from_int(i * 38),
+    ).to_int()
     @raylib.draw_line_ex(
       @raylib.Vector2::new(Float::from_int(left_rope), Float::from_int(y)),
       @raylib.Vector2::new(Float::from_int(right_rope), Float::from_int(y)),
@@ -205,7 +219,11 @@ fn draw_stage_flash(game : @types.Game) -> Unit {
   if game.stage_flash <= 0.0 {
     return
   }
-  let alpha = @types.clampf(game.stage_flash * @types.f(1.8), @types.f(0.0), @types.f(0.48))
+  let alpha = @types.clampf(
+    game.stage_flash * @types.f(1.8),
+    @types.f(0.0),
+    @types.f(0.48),
+  )
   @raylib.draw_rectangle(
     0,
     0,

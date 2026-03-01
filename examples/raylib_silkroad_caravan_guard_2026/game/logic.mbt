@@ -407,11 +407,7 @@ fn choose_target_wagon(game : @types.Game, x : Float, y : Float) -> Int {
 }
 
 ///|
-fn spawn_raider(
-  game : @types.Game,
-  lane : Int,
-  kind : Int,
-) -> Unit {
+fn spawn_raider(game : @types.Game, lane : Int, kind : Int) -> Unit {
   let i = alloc_raider(game)
   let x = Float::from_int(@types.screen_w) + @types.randf(60.0, 160.0)
   let y = lane_y(game, lane) + @types.randf(-20.0, 20.0)
@@ -610,13 +606,7 @@ fn try_repair(game : @types.Game) -> Unit {
   game.morale = @types.clampf(game.morale + 7.5, 0.0, @types.morale_max)
   game.score = game.score + 22
   set_message(game, "Wagon repaired", 0.8)
-  burst_dust(
-    game,
-    game.wagons[target].x,
-    game.wagons[target].y,
-    16,
-    3,
-  )
+  burst_dust(game, game.wagons[target].x, game.wagons[target].y, 16, 3)
 }
 
 ///|
@@ -856,7 +846,8 @@ fn update_raiders(game : @types.Game, dt : Float) -> Unit {
         }
 
         damage_wagon(game, target_wagon, dmg)
-        game.raiders[i].attack_cd = if game.raiders[i].kind == @types.raider_brute {
+        game.raiders[i].attack_cd = if game.raiders[i].kind ==
+          @types.raider_brute {
           @types.randf(0.72, 1.0)
         } else {
           @types.randf(0.92, 1.24)

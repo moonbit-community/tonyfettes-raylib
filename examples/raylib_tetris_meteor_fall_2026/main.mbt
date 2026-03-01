@@ -1,6 +1,8 @@
 ///|
 fn main {
-  @raylib.init_window(@types.screen_width, @types.screen_height, "Tetris Meteor Fall 2026")
+  @raylib.init_window(
+    @types.screen_width, @types.screen_height, "Tetris Meteor Fall 2026",
+  )
   @raylib.set_target_fps(60)
   let game = @types.Game::new()
   @game.reset_game(game)

@@ -78,12 +78,12 @@ fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = @types.grid_w * tile
   let bh : Int = @types.grid_h * tile
 
-  for x in 0..=@types.grid_w {
+  for x in 0..<=@types.grid_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(px, by, px, by + bh, @raylib.Color::new(76, 106, 136, 98))
   }
 
-  for y in 0..=@types.grid_h {
+  for y in 0..<=@types.grid_h {
     let py : Int = by + y * tile
     @raylib.draw_line(bx, py, bx + bw, py, @raylib.Color::new(76, 106, 136, 98))
   }
@@ -246,12 +246,8 @@ fn draw_rival(
       let ex0 : Int = x + tile / 2 - 7
       let ex1 : Int = x + tile / 2 + 3
       let ey : Int = y + tile / 2 - 3
-      @raylib.draw_rectangle(
-        ex0, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220),
-      )
-      @raylib.draw_rectangle(
-        ex1, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220),
-      )
+      @raylib.draw_rectangle(ex0, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220))
+      @raylib.draw_rectangle(ex1, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220))
     }
   }
 }
@@ -355,25 +351,74 @@ fn draw_controls(game : @types.Game) -> Unit {
   let hint = @types.btn_hint()
 
   let l_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, left.0, left.1, left.2, left.3,
+    mx,
+    my,
+    hold,
+    tc,
+    left.0,
+    left.1,
+    left.2,
+    left.3,
   )
   let r_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, right.0, right.1, right.2, right.3,
+    mx,
+    my,
+    hold,
+    tc,
+    right.0,
+    right.1,
+    right.2,
+    right.3,
   )
   let u_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, up.0, up.1, up.2, up.3,
+    mx,
+    my,
+    hold,
+    tc,
+    up.0,
+    up.1,
+    up.2,
+    up.3,
   )
   let d_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, down.0, down.1, down.2, down.3,
+    mx,
+    my,
+    hold,
+    tc,
+    down.0,
+    down.1,
+    down.2,
+    down.3,
   )
   let b_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, boost.0, boost.1, boost.2, boost.3,
+    mx,
+    my,
+    hold,
+    tc,
+    boost.0,
+    boost.1,
+    boost.2,
+    boost.3,
   )
   let rs_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, restart.0, restart.1, restart.2, restart.3,
+    mx,
+    my,
+    hold,
+    tc,
+    restart.0,
+    restart.1,
+    restart.2,
+    restart.3,
   )
   let h_on : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, hint.0, hint.1, hint.2, hint.3,
+    mx,
+    my,
+    hold,
+    tc,
+    hint.0,
+    hint.1,
+    hint.2,
+    hint.3,
   )
 
   draw_touch_button("L", left, l_on, @raylib.Color::new(86, 138, 194, 228))
@@ -617,8 +662,7 @@ fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Snake Battle Arena 2026",
     @types.screen_w / 2 -
-    @raylib.measure_text("Snake Battle Arena 2026", 86) /
-    2,
+    @raylib.measure_text("Snake Battle Arena 2026", 86) / 2,
     110,
     86,
     @raylib.Color::new(238, 248, 255, 248),
@@ -649,9 +693,7 @@ fn draw_title(game : @types.Game) -> Unit {
   )
 
   let b = @types.start_button_rect()
-  let hov : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, b.0, b.1, b.2, b.3,
-  )
+  let hov : Bool = @types.pointer_on_rect(mx, my, hold, tc, b.0, b.1, b.2, b.3)
 
   draw_touch_button(
     "Start Arena",
@@ -730,13 +772,9 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
   )
 
   let b = @types.retry_button_rect()
-  let hov : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, b.0, b.1, b.2, b.3,
-  )
+  let hov : Bool = @types.pointer_on_rect(mx, my, hold, tc, b.0, b.1, b.2, b.3)
 
-  draw_touch_button(
-    "Play Again", b, hov, @raylib.Color::new(96, 154, 210, 230),
-  )
+  draw_touch_button("Play Again", b, hov, @raylib.Color::new(96, 154, 210, 230))
 }
 
 ///|

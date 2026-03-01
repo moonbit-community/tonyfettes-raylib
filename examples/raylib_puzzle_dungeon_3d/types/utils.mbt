@@ -732,9 +732,7 @@ fn trace_laser(game : Game, start_gx : Int, start_gy : Int, dir : Dir) -> Unit {
         )
         return
       }
-      if tile == TileWall ||
-        tile == TileGateClosed ||
-        tile == TileExitClosed {
+      if tile == TileWall || tile == TileGateClosed || tile == TileExitClosed {
         // Blocked by wall
         add_laser_segment(
           game,

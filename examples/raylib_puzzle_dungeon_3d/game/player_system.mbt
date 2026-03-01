@@ -154,7 +154,12 @@ fn try_move_player(game : @types.Game, dir : @types.Dir) -> Unit {
 }
 
 ///|
-fn move_player_to(game : @types.Game, nx : Int, ny : Int, _dir : @types.Dir) -> Unit {
+fn move_player_to(
+  game : @types.Game,
+  nx : Int,
+  ny : Int,
+  _dir : @types.Dir,
+) -> Unit {
   game.player_gx = nx
   game.player_gy = ny
   game.player_moving = true

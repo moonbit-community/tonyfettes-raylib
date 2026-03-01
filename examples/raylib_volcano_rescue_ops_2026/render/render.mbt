@@ -135,8 +135,8 @@ fn draw_map(game : @types.Game) -> Unit {
     @raylib.Color::new(188, 154, 116, 210),
   )
 
-  for y in 0..< @types.grid_h {
-    for x in 0..< @types.grid_w {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
       draw_cell_base(game, x, y)
     }
   }
@@ -422,7 +422,10 @@ fn draw_side_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(196, 212, 226, 230),
   )
 
-  let remain : Int = @types.maxi(0, (game.mission_limit - game.mission_time).to_int())
+  let remain : Int = @types.maxi(
+    0,
+    (game.mission_limit - game.mission_time).to_int(),
+  )
   @raylib.draw_text(
     "Time " + remain.to_string() + "s",
     @types.panel_x + 18,

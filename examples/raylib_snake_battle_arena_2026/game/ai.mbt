@@ -15,12 +15,8 @@ fn direction_score_player(game : @types.Game, dir : Int) -> Int {
     return -100000
   }
 
-  let nx : Int = @types.wrap_x(
-    game.p_seg_x[0] + @types.dir_dx(dir),
-  )
-  let ny : Int = @types.wrap_y(
-    game.p_seg_y[0] + @types.dir_dy(dir),
-  )
+  let nx : Int = @types.wrap_x(game.p_seg_x[0] + @types.dir_dx(dir))
+  let ny : Int = @types.wrap_y(game.p_seg_y[0] + @types.dir_dy(dir))
 
   if player_segment_at(game, nx, ny, true) {
     return -90000
@@ -73,12 +69,8 @@ fn direction_score_rival(game : @types.Game, rid : Int, dir : Int) -> Int {
     return -100000
   }
 
-  let nx : Int = @types.wrap_x(
-    rival.seg_x[0] + @types.dir_dx(dir),
-  )
-  let ny : Int = @types.wrap_y(
-    rival.seg_y[0] + @types.dir_dy(dir),
-  )
+  let nx : Int = @types.wrap_x(rival.seg_x[0] + @types.dir_dx(dir))
+  let ny : Int = @types.wrap_y(rival.seg_y[0] + @types.dir_dy(dir))
 
   if rival_would_collide(game, rid, nx, ny) {
     return -90000

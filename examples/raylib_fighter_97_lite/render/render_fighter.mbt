@@ -1,5 +1,8 @@
 ///|
-fn fighter_draw_pos(game : @types.Game, fighter : @types.Fighter) -> (Float, Float) {
+fn fighter_draw_pos(
+  game : @types.Game,
+  fighter : @types.Fighter,
+) -> (Float, Float) {
   (
     @types.camera_project_x(game, fighter.x) + fighter.hurt_shake_x,
     @types.camera_project_y(game, fighter.y) + fighter.hurt_shake_y,
@@ -19,10 +22,15 @@ fn fighter_flash_color(
 }
 
 ///|
-fn draw_fighter_shadow(game : @types.Game, fighter : @types.Fighter, sx : Float) -> Unit {
+fn draw_fighter_shadow(
+  game : @types.Game,
+  fighter : @types.Fighter,
+  sx : Float,
+) -> Unit {
   let width = @types.camera_project_size(
     game,
-    @types.fighter_body_width * (if fighter.crouching { @types.f(0.92) } else { @types.f(1.08) }),
+    @types.fighter_body_width *
+    (if fighter.crouching { @types.f(0.92) } else { @types.f(1.08) }),
   )
   let height = @types.camera_project_size(game, @types.f(20.0))
 
@@ -63,7 +71,9 @@ fn draw_fighter_body(
     bob_amp
 
   let draw_x = @types.camera_project_x(game, fighter.x) + fighter.hurt_shake_x
-  let draw_y = @types.camera_project_y(game, fighter.y) + fighter.hurt_shake_y + bob
+  let draw_y = @types.camera_project_y(game, fighter.y) +
+    fighter.hurt_shake_y +
+    bob
 
   let body_color = fighter_flash_color(archetype.body_main, fighter)
   let trim_color = fighter_flash_color(archetype.body_trim, fighter)
@@ -120,7 +130,8 @@ fn draw_fighter_body(
   }
 
   let hand_x0 = draw_x + @types.camera_project_size(game, @types.f(22.0)) * fx
-  let hand_x1 = draw_x + @types.camera_project_size(game, @types.f(22.0) + punch_ext) * fx
+  let hand_x1 = draw_x +
+    @types.camera_project_size(game, @types.f(22.0) + punch_ext) * fx
 
   @raylib.draw_line_ex(
     @raylib.Vector2::new(draw_x, Float::from_int(arm_y)),
@@ -228,7 +239,9 @@ fn draw_fighter_nameplate(
   sx : Float,
   sy : Float,
 ) -> Unit {
-  let y = (sy - @types.camera_project_size(game, @types.fighter_body_height) - @types.f(56.0)).to_int()
+  let y = (sy -
+  @types.camera_project_size(game, @types.fighter_body_height) -
+  @types.f(56.0)).to_int()
   @types.draw_center_shadow_text(
     archetype.name,
     sx.to_int(),

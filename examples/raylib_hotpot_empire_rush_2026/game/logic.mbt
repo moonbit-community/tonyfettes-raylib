@@ -366,8 +366,7 @@ fn interact_pot(game : @types.Game) -> Unit {
 
   if not(pot_has_core(game)) {
     @types.set_message(
-      game,
-      "Pot requires broth + protein + veg before cooking.",
+      game, "Pot requires broth + protein + veg before cooking.",
     )
     return
   }
@@ -424,10 +423,7 @@ fn interact_queue(game : @types.Game) -> Unit {
 
 ///|
 fn interact_storage(game : @types.Game) -> Unit {
-  game.next_protein_pick = @raylib.get_random_value(
-    0,
-    @types.protein_count - 1,
-  )
+  game.next_protein_pick = @raylib.get_random_value(0, @types.protein_count - 1)
   game.next_veg_pick = @raylib.get_random_value(0, @types.veg_count - 1)
   @types.set_message(game, "Storage shuffled upcoming ingredients.")
 }
@@ -456,8 +452,7 @@ fn handle_interact(game : @types.Game) -> Unit {
     interact_queue(game)
   } else if station == @types.station_reputation {
     @types.set_message(
-      game,
-      "Reputation controls game over. Keep orders flowing.",
+      game, "Reputation controls game over. Keep orders flowing.",
     )
   } else if station == @types.station_storage {
     interact_storage(game)
@@ -502,8 +497,7 @@ fn serve_head_order(game : @types.Game) -> Unit {
 
   if serve_matches_head(game) {
     let patience_ratio = @types.clampf(
-      game.orders[0].patience /
-      @types.maxf(game.orders[0].max_patience, 0.01),
+      game.orders[0].patience / @types.maxf(game.orders[0].max_patience, 0.01),
       0.0,
       1.0,
     )

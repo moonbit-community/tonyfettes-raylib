@@ -30,7 +30,11 @@ fn stage_enemy_total(stage : Int) -> Int {
 }
 
 ///|
-fn stage_enemy_kind(game : @types.Game, stage : Int, spawned_index : Int) -> Int {
+fn stage_enemy_kind(
+  game : @types.Game,
+  stage : Int,
+  spawned_index : Int,
+) -> Int {
   let wave = stage + 1
   let roll = @types.rand_range(game, 0, 99)
   if wave < 4 {
@@ -133,8 +137,16 @@ fn restore_base_ring(game : @types.Game) -> Unit {
 
 ///|
 fn respawn_player_tank(game : @types.Game, index : Int) -> Unit {
-  let spawn_x = if index == 0 { @types.player1_spawn_x } else { @types.player2_spawn_x }
-  let spawn_y = if index == 0 { @types.player1_spawn_y } else { @types.player2_spawn_y }
+  let spawn_x = if index == 0 {
+    @types.player1_spawn_x
+  } else {
+    @types.player2_spawn_x
+  }
+  let spawn_y = if index == 0 {
+    @types.player1_spawn_y
+  } else {
+    @types.player2_spawn_y
+  }
   let player = game.players[index]
   player.active = true
   player.x = spawn_x
@@ -198,8 +210,16 @@ fn load_stage_map(game : @types.Game, stage : Int) -> Unit {
     }
   }
 
-  @types.set_tile(game, @types.base_tile_x, @types.base_tile_y, @types.tile_base, 1)
-  @types.set_tile(game, @types.base_tile_x + 1, @types.base_tile_y, @types.tile_base, 1)
+  @types.set_tile(
+    game, @types.base_tile_x, @types.base_tile_y, @types.tile_base, 1,
+  )
+  @types.set_tile(
+    game,
+    @types.base_tile_x + 1,
+    @types.base_tile_y,
+    @types.tile_base,
+    1,
+  )
 
   game.base_alive = true
   cache_base_ring(game)
@@ -230,8 +250,16 @@ pub fn load_stage(game : @types.Game, stage : Int) -> Unit {
   seed_stage_hostages(game, stage)
   prepare_players_for_stage(game)
   let base_total = stage_enemy_total(stage)
-  game.enemies_to_spawn = @types.clampi(base_total + game.profile.enemy_bonus, 18, 60)
-  game.stage_intro_timer = if game.demo_mode { 0.45 } else { @types.stage_intro_time }
+  game.enemies_to_spawn = @types.clampi(
+    base_total + game.profile.enemy_bonus,
+    18,
+    60,
+  )
+  game.stage_intro_timer = if game.demo_mode {
+    0.45
+  } else {
+    @types.stage_intro_time
+  }
   game.stage_clear_timer = 0.0
   game.game_over_timer = 0.0
   game.campaign_clear_timer = 0.0

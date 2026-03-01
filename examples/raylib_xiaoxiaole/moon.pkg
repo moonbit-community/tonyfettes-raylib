@@ -5,4 +5,6 @@ import {
   "tonyfettes/raylib-examples/raylib_xiaoxiaole/render",
 }
 
-options("is-main": true)
+options(
+  "is-main": true,
+)

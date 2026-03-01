@@ -1,5 +1,8 @@
 ///|
-fn ai_set_mode_from_distance(fighter : @types.Fighter, distance : Float) -> Unit {
+fn ai_set_mode_from_distance(
+  fighter : @types.Fighter,
+  distance : Float,
+) -> Unit {
   if distance > 330.0 {
     fighter.ai_mode = @types.AiModeRush
   } else if distance < 120.0 {
@@ -73,7 +76,11 @@ fn ai_pick_desired_axis(
 }
 
 ///|
-fn ai_try_jump(game : @types.Game, fighter : @types.Fighter, distance : Float) -> Bool {
+fn ai_try_jump(
+  game : @types.Game,
+  fighter : @types.Fighter,
+  distance : Float,
+) -> Bool {
   if not(fighter.on_ground) {
     return false
   }
@@ -113,7 +120,8 @@ fn ai_try_attack(
     distance <= @types.throw_distance * 0.9 &&
     @types.rand_chance(game, 0.18) {
     fighter.ai_wants_throw = true
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.04, 0.1)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.04, 0.1)
     return
   }
 
@@ -122,7 +130,8 @@ fn ai_try_attack(
     distance < 240.0 &&
     @types.rand_chance(game, @types.cpu_super_chance) {
     fighter.ai_wants_super = true
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.08, 0.18)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.08, 0.18)
     return
   }
 
@@ -140,7 +149,8 @@ fn ai_try_attack(
     fighter.ai_wants_special = true
     fighter.input.buffered_motion = @types.MotionQcf
     fighter.input.motion_timer = 0.24
-    fighter.ai_cooldown = @types.cpu_reaction_base + @types.rand_rangef(game, 0.06, 0.16)
+    fighter.ai_cooldown = @types.cpu_reaction_base +
+      @types.rand_rangef(game, 0.06, 0.16)
     return
   }
 
@@ -205,7 +215,8 @@ fn update_cpu_input(game : @types.Game, slot : Int, dt : Float) -> Unit {
 
   fighter.ai_timer -= dt
   if fighter.ai_timer <= 0.0 {
-    fighter.ai_timer = @types.cpu_think_period + @types.rand_rangef(game, 0.02, 0.07)
+    fighter.ai_timer = @types.cpu_think_period +
+      @types.rand_rangef(game, 0.02, 0.07)
     ai_reset_flags(fighter)
   }
 

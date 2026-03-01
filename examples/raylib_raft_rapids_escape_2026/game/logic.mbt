@@ -64,7 +64,13 @@ fn emit_particle(
 }
 
 ///|
-fn splash(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn splash(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  n : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
@@ -263,12 +269,7 @@ fn pickup_radius(kind : Int) -> Float {
 }
 
 ///|
-fn collect_pickup(
-  game : @types.Game,
-  kind : Int,
-  x : Float,
-  y : Float,
-) -> Unit {
+fn collect_pickup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
   if kind == @types.pickup_coin {
     game.combo = @types.mini(15, game.combo + 1)
     game.combo_t = 2.2
@@ -376,7 +377,10 @@ fn spawn_pickup(game : @types.Game) -> Bool {
     }
 
     pickup.active = true
-    pickup.x = @types.randf(@types.world_left() + 36.0, @types.world_right() - 36.0)
+    pickup.x = @types.randf(
+      @types.world_left() + 36.0,
+      @types.world_right() - 36.0,
+    )
     pickup.y = @types.world_top() - @types.randf(50.0, 260.0)
     pickup.phase = @types.randf(0.0, 6.28)
 
@@ -534,8 +538,10 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
     pickup.phase = pickup.phase + dt * 2.4
 
     pickup.x = pickup.x +
-      (@types.sinf(pickup.phase * 2.3) * 22.0 +
-      @types.water_current_x(game, pickup.y) * 0.10) *
+      (
+        @types.sinf(pickup.phase * 2.3) * 22.0 +
+        @types.water_current_x(game, pickup.y) * 0.10
+      ) *
       dt
     pickup.y = pickup.y +
       (
@@ -592,9 +598,7 @@ fn use_hint(game : @types.Game) -> Bool {
   for lane in 0..<5 {
     let lane_x : Float = @types.world_left() +
       120.0 +
-      Float::from_int(lane) *
-      (Float::from_int(@types.world_w) - 240.0) /
-      4.0
+      Float::from_int(lane) * (Float::from_int(@types.world_w) - 240.0) / 4.0
 
     let mut cost : Float = 0.0
 

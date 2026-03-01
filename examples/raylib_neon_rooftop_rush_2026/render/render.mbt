@@ -24,12 +24,7 @@ fn draw_skyline(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let top_a = @types.bg_night()
   let top_b = @raylib.Color::new(24, 24, 52, 255)
   @raylib.draw_rectangle_gradient_v(
-    0,
-    0,
-    @types.screen_w,
-    @types.screen_h,
-    top_a,
-    top_b,
+    0, 0, @types.screen_w, @types.screen_h, top_a, top_b,
   )
 
   for layer in 0..<@types.skyline_layers {
@@ -865,13 +860,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_text("Controls", 348, 326, 34, @types.neon_lime())
   @raylib.draw_text("Jump: Space / W / Up", 356, 374, 26, @types.ui_light())
   @raylib.draw_text("Slide: S / Down / Shift", 356, 408, 26, @types.ui_light())
-  @raylib.draw_text(
-    "Grapple Hook: J / K / L",
-    356,
-    442,
-    26,
-    @types.ui_light(),
-  )
+  @raylib.draw_text("Grapple Hook: J / K / L", 356, 442, 26, @types.ui_light())
   @raylib.draw_text(
     "Mobile: tap on-screen Jump / Slide / Hook",
     356,
@@ -915,12 +904,7 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
     44,
     @types.neon_orange(),
   )
-  draw_center_text(
-    "Preparing next rooftop zone...",
-    356,
-    28,
-    @types.ui_light(),
-  )
+  draw_center_text("Preparing next rooftop zone...", 356, 28, @types.ui_light())
 }
 
 ///|

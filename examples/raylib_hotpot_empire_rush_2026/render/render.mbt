@@ -297,8 +297,7 @@ fn draw_station_info(
         y + 136,
         @types.station_tile_w - 28,
         18,
-        game.orders[0].patience /
-        @types.maxf(game.orders[0].max_patience, 0.01),
+        game.orders[0].patience / @types.maxf(game.orders[0].max_patience, 0.01),
         @raylib.Color::new(24, 52, 58, 220),
         @raylib.Color::new(132, 234, 208, 236),
       )
@@ -328,13 +327,7 @@ fn draw_station_info(
     @raylib.draw_text("J: repeat demand", x + 14, y + 98, 22, text_color)
   } else if station == @types.station_reputation {
     @raylib.draw_text("Reputation is your HP", x + 14, y + 66, 24, text_color)
-    @raylib.draw_text(
-      "Drops to 0 => game over",
-      x + 14,
-      y + 98,
-      22,
-      text_color,
-    )
+    @raylib.draw_text("Drops to 0 => game over", x + 14, y + 98, 22, text_color)
   } else {
     @raylib.draw_text("Shuffle next pickup", x + 14, y + 66, 24, text_color)
     @raylib.draw_text("J: randomize crates", x + 14, y + 98, 22, text_color)
@@ -374,11 +367,7 @@ fn draw_kitchen(game : @types.Game) -> Unit {
 
       let base = station_color(station)
       @raylib.draw_rectangle(
-        sx,
-        sy,
-        @types.station_tile_w,
-        @types.station_tile_h,
-        base,
+        sx, sy, @types.station_tile_w, @types.station_tile_h, base,
       )
       @raylib.draw_rectangle_lines(
         sx,
@@ -501,8 +490,7 @@ fn draw_order_card(
     y + h - 26,
     w - 28,
     14,
-    game.orders[i].patience /
-    @types.maxf(game.orders[i].max_patience, 0.01),
+    game.orders[i].patience / @types.maxf(game.orders[i].max_patience, 0.01),
     @raylib.Color::new(26, 32, 40, 220),
     if is_head {
       @raylib.Color::new(255, 196, 110, 240)

@@ -165,8 +165,7 @@ fn draw_lanes(game : @types.Game, _cam_x : Float, cam_y : Float) -> Unit {
     let shift = ((game.distance * (0.7 + li * 0.1)).to_int() + i * 33) % step
     for x = -step; x < @types.screen_w + step; x = x + step {
       let mut alpha = 68 +
-        (@types.sinf(Float::from_int(x) * 0.02 + game.time_s * 1.2 + li) *
-        24.0).to_int()
+        (@types.sinf(Float::from_int(x) * 0.02 + game.time_s * 1.2 + li) * 24.0).to_int()
       alpha = @types.clampi(alpha, 24, 116)
       @raylib.draw_rectangle(
         x - shift,
@@ -184,13 +183,17 @@ fn draw_perimeter(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let mut t : Float = 0.0
   while t < @types.tau {
     let x0 = @types.caravan_center_x +
-      @types.cosf(t) * @types.perimeter_outer_rx + cam_x * 0.4
+      @types.cosf(t) * @types.perimeter_outer_rx +
+      cam_x * 0.4
     let y0 = @types.caravan_center_y +
-      @types.sinf(t) * @types.perimeter_outer_ry + cam_y * 0.4
+      @types.sinf(t) * @types.perimeter_outer_ry +
+      cam_y * 0.4
     let x1 = @types.caravan_center_x +
-      @types.cosf(t) * @types.perimeter_inner_rx + cam_x * 0.4
+      @types.cosf(t) * @types.perimeter_inner_rx +
+      cam_x * 0.4
     let y1 = @types.caravan_center_y +
-      @types.sinf(t) * @types.perimeter_inner_ry + cam_y * 0.4
+      @types.sinf(t) * @types.perimeter_inner_ry +
+      cam_y * 0.4
 
     @raylib.draw_circle(
       x0.to_int(),
@@ -210,12 +213,12 @@ fn draw_perimeter(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   if game.state == @types.state_play {
     let prog = checkpoint_progress(game)
-    let ring_r = @types.perimeter_outer_rx + 10.0 +
+    let ring_r = @types.perimeter_outer_rx +
+      10.0 +
       @types.sinf(game.time_s * 4.5) * 2.0
     let mut s : Float = 0.0
     while s < @types.tau * prog {
-      let x = @types.caravan_center_x +
-        @types.cosf(s) * ring_r + cam_x * 0.2
+      let x = @types.caravan_center_x + @types.cosf(s) * ring_r + cam_x * 0.2
       let y = @types.caravan_center_y +
         @types.sinf(s) * (@types.perimeter_outer_ry + 8.0) +
         cam_y * 0.2
@@ -477,12 +480,7 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     col = @raylib.Color::new(148, 236, 252, 210)
   }
 
-  @raylib.draw_circle(
-    px.to_int(),
-    py.to_int(),
-    @types.player_radius,
-    col,
-  )
+  @raylib.draw_circle(px.to_int(), py.to_int(), @types.player_radius, col)
   @raylib.draw_circle(
     px.to_int(),
     py.to_int(),

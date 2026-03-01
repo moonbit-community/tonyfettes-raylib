@@ -78,8 +78,15 @@ fn detect_fill_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.fill_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -93,8 +100,15 @@ fn detect_cross_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.cross_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -108,8 +122,15 @@ fn detect_undo_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.undo_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -122,8 +143,15 @@ fn detect_hint_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.hint_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -136,8 +164,15 @@ fn detect_reset_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.reset_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -157,8 +192,15 @@ fn detect_next_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.next_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -172,8 +214,15 @@ fn detect_start_press(game : @types.Game) -> Bool {
 
   let (x, y, w, h) = @types.start_button_rect()
   if @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_press, game.touch_count, x, y, w, h,
-  ) {
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_press,
+      game.touch_count,
+      x,
+      y,
+      w,
+      h,
+    ) {
     press = true
   }
 
@@ -193,10 +242,14 @@ fn detect_board_tap(game : @types.Game) -> (Bool, Int, Int) {
     }
 
     let cx : Int = @types.clampi(
-      (px.to_int() - board_x) / tile, 0, game.grid_w - 1,
+      (px.to_int() - board_x) / tile,
+      0,
+      game.grid_w - 1,
     )
     let cy : Int = @types.clampi(
-      (py.to_int() - board_y) / tile, 0, game.grid_h - 1,
+      (py.to_int() - board_y) / tile,
+      0,
+      game.grid_h - 1,
     )
     (true, cx, cy)
   }

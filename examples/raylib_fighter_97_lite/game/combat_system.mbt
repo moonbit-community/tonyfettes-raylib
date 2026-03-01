@@ -1,5 +1,8 @@
 ///|
-fn defender_holding_away(attacker : @types.Fighter, defender : @types.Fighter) -> Bool {
+fn defender_holding_away(
+  attacker : @types.Fighter,
+  defender : @types.Fighter,
+) -> Bool {
   let dx = attacker.x - defender.x
   if @types.absf(dx) <= 1.0 {
     defender.input.hold_back
@@ -44,7 +47,10 @@ fn can_defender_block(
 }
 
 ///|
-fn attacker_remaining_recovery(attacker : @types.Fighter, mv : @types.MoveSpec) -> Int {
+fn attacker_remaining_recovery(
+  attacker : @types.Fighter,
+  mv : @types.MoveSpec,
+) -> Int {
   @types.clampi(mv.total_frames - attacker.action_frame, 0, 999)
 }
 
@@ -94,7 +100,11 @@ fn apply_successful_hit(
     attacker, defender, attacker_archetype, defender_archetype, mv,
   )
 
-  defender.health = @types.clampi(defender.health - damage, 0, @types.health_max)
+  defender.health = @types.clampi(
+    defender.health - damage,
+    0,
+    @types.health_max,
+  )
 
   if mv.knockdown {
     defender.action = @types.ActionKnockdown
@@ -174,7 +184,10 @@ fn apply_successful_hit(
   }
 
   if mv.knockdown {
-    @types.set_training_note(game, "P\{attacker_slot + 1} on hit: hard knockdown")
+    @types.set_training_note(
+      game,
+      "P\{attacker_slot + 1} on hit: hard knockdown",
+    )
   } else {
     let advantage = defender.hitstun - attacker_remaining_recovery(attacker, mv)
     @types.set_training_frame_adv(game, attacker_slot, "on hit", advantage)
@@ -203,7 +216,11 @@ fn apply_blocked_hit(
   }
 
   if chip > 0 && defender.health > 1 {
-    defender.health = @types.clampi(defender.health - chip, 1, @types.health_max)
+    defender.health = @types.clampi(
+      defender.health - chip,
+      1,
+      @types.health_max,
+    )
   }
 
   let guard_damage = @types.clampi(mv.damage / 12 + 2, 2, 16)
@@ -219,7 +236,11 @@ fn apply_blocked_hit(
     game.announcer_text = "GUARD BREAK"
     game.announcer_timer = 0.55
     @effects.spawn_hit_spark(
-      game, hitbox_center_x, hitbox_center_y, @types.SparkKindSuper, 30,
+      game,
+      hitbox_center_x,
+      hitbox_center_y,
+      @types.SparkKindSuper,
+      30,
     )
     @effects.push_camera_shake(game, 5.2)
     @types.set_training_note(game, "P\{attacker_slot + 1} guard break")
@@ -230,7 +251,11 @@ fn apply_blocked_hit(
     defender.knockdown = 0
     defender.vx = mv.pushback * 0.04 * @types.facing_sign(attacker.facing)
     @effects.spawn_hit_spark(
-      game, hitbox_center_x, hitbox_center_y, @types.SparkKindBlock, 18,
+      game,
+      hitbox_center_x,
+      hitbox_center_y,
+      @types.SparkKindBlock,
+      18,
     )
     @effects.push_camera_shake(game, 2.2)
     let advantage = defender.blockstun -

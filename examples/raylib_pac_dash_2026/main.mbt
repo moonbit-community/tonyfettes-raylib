@@ -1,9 +1,7 @@
 ///|
 fn main {
   @raylib.init_window(
-    @types.screen_width,
-    @types.screen_height,
-    "Pac Dash 2026",
+    @types.screen_width, @types.screen_height, "Pac Dash 2026",
   )
   @raylib.set_target_fps(60)
 

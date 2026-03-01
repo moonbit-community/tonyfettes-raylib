@@ -16,7 +16,7 @@ fn set_message(game : @types.Game, text : String) -> Unit {
 
 ///|
 fn clear_marks(game : @types.Game) -> Unit {
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     game.marks[i] = false
     game.spawn_special[i] = @types.special_none
   }
@@ -24,7 +24,7 @@ fn clear_marks(game : @types.Game) -> Unit {
 
 ///|
 fn clear_effects(game : @types.Game) -> Unit {
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     game.flash[i] = 0.0
   }
 }
@@ -94,7 +94,7 @@ fn mark_vertical_run(
 fn scan_and_mark_matches(game : @types.Game) -> Int {
   clear_marks(game)
 
-  for y in 0..< @types.board_rows {
+  for y in 0..<@types.board_rows {
     let mut x = 0
     while x < @types.board_cols {
       let t = game.kinds[@types.idx(x, y)]
@@ -116,7 +116,7 @@ fn scan_and_mark_matches(game : @types.Game) -> Int {
     }
   }
 
-  for x in 0..< @types.board_cols {
+  for x in 0..<@types.board_cols {
     let mut y = 0
     while y < @types.board_rows {
       let t = game.kinds[@types.idx(x, y)]
@@ -139,7 +139,7 @@ fn scan_and_mark_matches(game : @types.Game) -> Int {
   }
 
   let mut n = 0
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     if game.marks[i] {
       n = n + 1
     }
@@ -154,7 +154,7 @@ fn expand_special_marks(game : @types.Game) -> Unit {
   while changed {
     changed = false
 
-    for i in 0..< @types.board_cells {
+    for i in 0..<@types.board_cells {
       if not(game.marks[i]) {
         continue
       }
@@ -168,7 +168,7 @@ fn expand_special_marks(game : @types.Game) -> Unit {
       let cy = i / @types.board_cols
 
       if sp == @types.special_row {
-        for x in 0..< @types.board_cols {
+        for x in 0..<@types.board_cols {
           let j = @types.idx(x, cy)
           if not(game.marks[j]) {
             game.marks[j] = true
@@ -176,7 +176,7 @@ fn expand_special_marks(game : @types.Game) -> Unit {
           }
         }
       } else if sp == @types.special_col {
-        for y in 0..< @types.board_rows {
+        for y in 0..<@types.board_rows {
           let j = @types.idx(cx, y)
           if not(game.marks[j]) {
             game.marks[j] = true
@@ -206,7 +206,7 @@ fn expand_special_marks(game : @types.Game) -> Unit {
 fn remove_marked_cells(game : @types.Game) -> Int {
   let mut removed = 0
 
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     if not(game.marks[i]) {
       continue
     }
@@ -241,10 +241,12 @@ fn remove_marked_cells(game : @types.Game) -> Int {
 ///|
 fn collapse_and_refill(game : @types.Game) -> Unit {
   let col_kind : Array[Int] = Array::make(@types.board_rows, -1)
-  let col_special : Array[Int] = Array::make(@types.board_rows, @types.special_none)
+  let col_special : Array[Int] = Array::make(
+    @types.board_rows, @types.special_none,
+  )
 
-  for x in 0..< @types.board_cols {
-    for y in 0..< @types.board_rows {
+  for x in 0..<@types.board_cols {
+    for y in 0..<@types.board_rows {
       col_kind[y] = -1
       col_special[y] = @types.special_none
     }
@@ -265,7 +267,7 @@ fn collapse_and_refill(game : @types.Game) -> Unit {
       write = write - 1
     }
 
-    for y in 0..< @types.board_rows {
+    for y in 0..<@types.board_rows {
       let i = @types.idx(x, y)
       game.kinds[i] = col_kind[y]
       game.specials[i] = col_special[y]
@@ -275,7 +277,7 @@ fn collapse_and_refill(game : @types.Game) -> Unit {
 
 ///|
 fn has_any_match(kinds : Array[Int]) -> Bool {
-  for y in 0..< @types.board_rows {
+  for y in 0..<@types.board_rows {
     let mut x = 0
     while x < @types.board_cols {
       let t = kinds[@types.idx(x, y)]
@@ -295,7 +297,7 @@ fn has_any_match(kinds : Array[Int]) -> Bool {
     }
   }
 
-  for x in 0..< @types.board_cols {
+  for x in 0..<@types.board_cols {
     let mut y = 0
     while y < @types.board_rows {
       let t = kinds[@types.idx(x, y)]
@@ -336,8 +338,8 @@ fn would_swap_match(
 
 ///|
 fn has_possible_swap(kinds : Array[Int]) -> Bool {
-  for y in 0..< @types.board_rows {
-    for x in 0..< @types.board_cols {
+  for y in 0..<@types.board_rows {
+    for x in 0..<@types.board_cols {
       if x + 1 < @types.board_cols && would_swap_match(kinds, x, y, x + 1, y) {
         return true
       }
@@ -357,7 +359,7 @@ fn shuffle_board(game : @types.Game) -> Bool {
   while tries < 160 {
     tries = tries + 1
 
-    for i in 0..< @types.board_cells {
+    for i in 0..<@types.board_cells {
       bucket[i] = game.kinds[i]
     }
 
@@ -366,7 +368,7 @@ fn shuffle_board(game : @types.Game) -> Bool {
       @types.swapi(bucket, i, j)
     }
 
-    for i in 0..< @types.board_cells {
+    for i in 0..<@types.board_cells {
       game.kinds[i] = bucket[i]
       game.specials[i] = @types.special_none
     }
@@ -381,11 +383,12 @@ fn shuffle_board(game : @types.Game) -> Bool {
 
 ///|
 fn assign_jelly_targets(game : @types.Game) -> Unit {
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     game.jelly[i] = 0
   }
 
-  let mut target = @types.base_jelly + (game.level - 1) * @types.jelly_level_bonus
+  let mut target = @types.base_jelly +
+    (game.level - 1) * @types.jelly_level_bonus
   if target > @types.board_cells {
     target = @types.board_cells
   }
@@ -404,8 +407,8 @@ fn assign_jelly_targets(game : @types.Game) -> Unit {
 
 ///|
 fn fill_board_without_initial_matches(game : @types.Game) -> Unit {
-  for y in 0..< @types.board_rows {
-    for x in 0..< @types.board_cols {
+  for y in 0..<@types.board_rows {
+    for x in 0..<@types.board_cols {
       let mut t = random_kind()
       let mut retries = 0
 
@@ -526,10 +529,10 @@ fn begin_game_over(game : @types.Game) -> Unit {
 
 ///|
 fn find_hint(game : @types.Game) -> Bool {
-  for y in 0..< @types.board_rows {
-    for x in 0..< @types.board_cols {
+  for y in 0..<@types.board_rows {
+    for x in 0..<@types.board_cols {
       if x + 1 < @types.board_cols &&
-         would_swap_match(game.kinds, x, y, x + 1, y) {
+        would_swap_match(game.kinds, x, y, x + 1, y) {
         game.hint_active = true
         game.hint_x0 = x
         game.hint_y0 = y
@@ -539,7 +542,7 @@ fn find_hint(game : @types.Game) -> Bool {
         return true
       }
       if y + 1 < @types.board_rows &&
-         would_swap_match(game.kinds, x, y, x, y + 1) {
+        would_swap_match(game.kinds, x, y, x, y + 1) {
         game.hint_active = true
         game.hint_x0 = x
         game.hint_y0 = y
@@ -690,16 +693,8 @@ fn select_or_swap(game : @types.Game, x : Int, y : Int) -> Unit {
 
 ///|
 fn move_cursor(game : @types.Game, dx : Int, dy : Int) -> Unit {
-  game.cursor_x = @types.clampi(
-    game.cursor_x + dx,
-    0,
-    @types.board_cols - 1,
-  )
-  game.cursor_y = @types.clampi(
-    game.cursor_y + dy,
-    0,
-    @types.board_rows - 1,
-  )
+  game.cursor_x = @types.clampi(game.cursor_x + dx, 0, @types.board_cols - 1)
+  game.cursor_y = @types.clampi(game.cursor_y + dy, 0, @types.board_rows - 1)
 }
 
 ///|
@@ -727,7 +722,7 @@ fn try_manual_shuffle(game : @types.Game) -> Unit {
 
 ///|
 fn update_timers(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..< @types.board_cells {
+  for i in 0..<@types.board_cells {
     game.flash[i] = @types.maxf(0.0, game.flash[i] - dt * 1.4)
   }
 

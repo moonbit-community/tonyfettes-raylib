@@ -760,8 +760,16 @@ fn apply_player_input(game : @types.Game, dt : Float) -> Unit {
   game.hero.vx = game.hero.vx * drag
   game.hero.vy = game.hero.vy * drag
 
-  game.hero.vx = @types.clampf(game.hero.vx, -@types.max_speed_x, @types.max_speed_x)
-  game.hero.vy = @types.clampf(game.hero.vy, -@types.max_speed_y, @types.max_speed_y)
+  game.hero.vx = @types.clampf(
+    game.hero.vx,
+    -@types.max_speed_x,
+    @types.max_speed_x,
+  )
+  game.hero.vy = @types.clampf(
+    game.hero.vy,
+    -@types.max_speed_y,
+    @types.max_speed_y,
+  )
 
   game.hero.x = game.hero.x + game.hero.vx * dt
   game.hero.y = game.hero.y + game.hero.vy * dt
@@ -856,12 +864,7 @@ fn enemy_fire(game : @types.Game, o : @types.Obj) -> Unit {
 }
 
 ///|
-fn kill_obj(
-  game : @types.Game,
-  i : Int,
-  base : Int,
-  burst_kind : Int,
-) -> Unit {
+fn kill_obj(game : @types.Game, i : Int, base : Int, burst_kind : Int) -> Unit {
   let x = game.objs[i].x
   let y = game.objs[i].y
   game.objs[i].active = false
@@ -946,7 +949,10 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
     }
 
     let d2 = @types.dist2(
-      game.hero.x, game.hero.y, game.objs[i].x, game.objs[i].y,
+      game.hero.x,
+      game.hero.y,
+      game.objs[i].x,
+      game.objs[i].y,
     )
     let rr = @types.player_hit_r(game.hero) + @types.obj_hit_r(game.objs[i])
 
@@ -1174,10 +1180,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     game.heat = @types.maxf(0.0, game.heat - @types.heat_drain_dash * dt)
   }
 
-  game.armor = @types.maxf(
-    0.0,
-    game.armor - @types.armor_drain_passive * dt,
-  )
+  game.armor = @types.maxf(0.0, game.armor - @types.armor_drain_passive * dt)
 
   emit_ambient(game, dt)
 

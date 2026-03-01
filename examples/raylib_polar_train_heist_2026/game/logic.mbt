@@ -211,7 +211,13 @@ fn emit_fx(
 }
 
 ///|
-fn burst(game : @types.Game, x : Float, y : Float, count : Int, kind : Int) -> Unit {
+fn burst(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  count : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<count {
     emit_fx(
       game,
@@ -945,8 +951,7 @@ fn update_ents(game : @types.Game, dt : Float) -> Unit {
       game.ents[i].x,
       game.ents[i].y,
     )
-    let rr = @types.player_hit_r(game.hero) +
-      @types.ent_hit_r(game.ents[i])
+    let rr = @types.player_hit_r(game.hero) + @types.ent_hit_r(game.ents[i])
 
     if d2 <= rr * rr {
       let kind = game.ents[i].kind

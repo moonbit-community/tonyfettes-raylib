@@ -37,7 +37,11 @@ fn control_keys(slot : Int) -> (Int, Int, Int, Int, Int, Int, Int, Int, Int) {
 }
 
 ///|
-fn encode_relative_direction(x : Int, y : Int, facing : Int) -> @types.Direction {
+fn encode_relative_direction(
+  x : Int,
+  y : Int,
+  facing : Int,
+) -> @types.Direction {
   let rx = if facing == @types.facing_right { x } else { -x }
   if y > 0 {
     if rx < 0 {
@@ -59,7 +63,10 @@ fn encode_relative_direction(x : Int, y : Int, facing : Int) -> @types.Direction
 }
 
 ///|
-fn push_direction_history(input : @types.InputState, dir : @types.Direction) -> Unit {
+fn push_direction_history(
+  input : @types.InputState,
+  dir : @types.Direction,
+) -> Unit {
   input.dir_history[input.dir_head] = dir
   input.dir_head += 1
   if input.dir_head >= input.dir_history.length() {
@@ -84,7 +91,9 @@ fn dir_is_forward(dir : @types.Direction) -> Bool {
 
 ///|
 fn dir_is_down(dir : @types.Direction) -> Bool {
-  dir == @types.DirDown || dir == @types.DirDownBack || dir == @types.DirDownForward
+  dir == @types.DirDown ||
+  dir == @types.DirDownBack ||
+  dir == @types.DirDownForward
 }
 
 ///|
@@ -201,7 +210,11 @@ fn sample_human_input(fighter : @types.Fighter, slot : Int, dt : Float) -> Unit 
   } else {
     -input.prev_x
   }
-  let rel_x = if fighter.facing == @types.facing_right { input.x } else { -input.x }
+  let rel_x = if fighter.facing == @types.facing_right {
+    input.x
+  } else {
+    -input.x
+  }
 
   input.hold_forward = rel_x > 0
   input.hold_back = rel_x < 0
@@ -353,7 +366,11 @@ fn push_cpu_direction(
   } else {
     -input.prev_x
   }
-  let rel_x = if fighter.facing == @types.facing_right { input.x } else { -input.x }
+  let rel_x = if fighter.facing == @types.facing_right {
+    input.x
+  } else {
+    -input.x
+  }
 
   input.hold_forward = rel_x > 0
   input.hold_back = rel_x < 0
@@ -408,7 +425,7 @@ fn clear_input_edges(fighter : @types.Fighter) -> Unit {
 
 ///|
 fn update_inputs(game : @types.Game, dt : Float) -> Unit {
-  for slot in 0..< @types.max_players {
+  for slot in 0..<@types.max_players {
     let fighter = game.fighters[slot]
     clear_input_edges(fighter)
 

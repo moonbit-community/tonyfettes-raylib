@@ -290,8 +290,7 @@ fn spawn_hazard(game : @types.Game) -> Bool {
       hazard.r = @types.randf(16.0, 22.0)
       hazard.hp = @types.randf(12.0, 18.0)
       hazard.vx = @types.randf(-34.0, 34.0)
-      hazard.vy = @types.randf(160.0, 240.0) +
-        Float::from_int(game.wave) * 14.0
+      hazard.vy = @types.randf(160.0, 240.0) + Float::from_int(game.wave) * 14.0
     }
 
     return true
@@ -480,12 +479,7 @@ fn rescue_carried_survivor(game : @types.Game) -> Unit {
 }
 
 ///|
-fn collect_pickup(
-  game : @types.Game,
-  kind : Int,
-  x : Float,
-  y : Float,
-) -> Unit {
+fn collect_pickup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
   if kind == @types.pickup_fuel {
     game.fuel = @types.minf(100.0, game.fuel + 30.0)
     game.score = game.score + 10
@@ -506,13 +500,9 @@ fn collect_pickup(
 
 ///|
 fn update_heli(game : @types.Game, dt : Float) -> Unit {
-  let wind_x : Float = @types.sinf(
-      game.storm_t * 0.82 + game.heli_y * 0.010,
-    ) *
+  let wind_x : Float = @types.sinf(game.storm_t * 0.82 + game.heli_y * 0.010) *
     (52.0 + Float::from_int(game.wave) * 6.0)
-  let wind_y : Float = @types.cosf(
-      game.storm_t * 0.64 + game.heli_x * 0.008,
-    ) *
+  let wind_y : Float = @types.cosf(game.storm_t * 0.64 + game.heli_x * 0.008) *
     26.0
 
   let boost_mul : Float = if game.boost_on || game.turbo_t > 0.0 {
@@ -576,15 +566,9 @@ fn update_hook(game : @types.Game, dt : Float) -> Float {
   }
 
   if game.hook_len < game.hook_target {
-    game.hook_len = @types.minf(
-      game.hook_target,
-      game.hook_len + dt * 520.0,
-    )
+    game.hook_len = @types.minf(game.hook_target, game.hook_len + dt * 520.0)
   } else {
-    game.hook_len = @types.maxf(
-      game.hook_target,
-      game.hook_len - dt * 580.0,
-    )
+    game.hook_len = @types.maxf(game.hook_target, game.hook_len - dt * 580.0)
   }
 
   let tip_x : Float = @types.hook_tip_x(game)
@@ -623,10 +607,7 @@ fn update_hook(game : @types.Game, dt : Float) -> Float {
       game.survivors[idx].phase = game.survivors[idx].phase + dt * 6.0
 
       if game.hook_len <= 64.0 &&
-        @types.inside_safe_zone(
-          game.survivors[idx].x,
-          game.survivors[idx].y,
-        ) {
+        @types.inside_safe_zone(game.survivors[idx].x, game.survivors[idx].y) {
         rescue_carried_survivor(game)
       }
     } else {
@@ -695,11 +676,7 @@ fn hazard_damage(kind : Int) -> Float {
 }
 
 ///|
-fn update_hazards(
-  game : @types.Game,
-  dt : Float,
-  hook_speed : Float,
-) -> Unit {
+fn update_hazards(game : @types.Game, dt : Float, hook_speed : Float) -> Unit {
   let tip_x : Float = @types.hook_tip_x(game)
   let tip_y : Float = @types.hook_tip_y(game)
 
@@ -712,8 +689,7 @@ fn update_hazards(
       dt * (1.0 + Float::from_int(hazard.kind) * 0.8)
 
     if hazard.kind == @types.hazard_cloud {
-      hazard.vx = hazard.vx +
-        @types.sinf(hazard.phase * 1.4) * dt * 80.0
+      hazard.vx = hazard.vx + @types.sinf(hazard.phase * 1.4) * dt * 80.0
       hazard.vy = hazard.vy + dt * 24.0
     } else if hazard.kind == @types.hazard_drone {
       let tx : Float = if game.carrying_idx >= 0 { tip_x } else { game.heli_x }
@@ -729,8 +705,7 @@ fn update_hazards(
       hazard.vx = hazard.vx * (1.0 - dt * 2.4) + nx * dt * 420.0
       hazard.vy = hazard.vy * (1.0 - dt * 2.4) + ny * dt * 420.0
     } else {
-      hazard.vx = hazard.vx +
-        @types.sinf(hazard.phase * 3.0) * dt * 96.0
+      hazard.vx = hazard.vx + @types.sinf(hazard.phase * 3.0) * dt * 96.0
       hazard.vy = hazard.vy + dt * 54.0
     }
 
@@ -804,8 +779,7 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
 
     pickup.x = pickup.x +
       (pickup.vx + @types.sinf(pickup.phase * 2.3) * 20.0) * dt
-    pickup.y = pickup.y +
-      (pickup.vy + Float::from_int(game.wave) * 4.0) * dt
+    pickup.y = pickup.y + (pickup.vy + Float::from_int(game.wave) * 4.0) * dt
 
     if pickup.x < @types.world_left() + 16.0 {
       pickup.x = @types.world_left() + 16.0

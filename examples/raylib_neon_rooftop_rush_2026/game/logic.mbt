@@ -466,12 +466,7 @@ fn spawn_stage_chunk(game : @types.Game) -> Unit {
     let anchor_x = prev_end + gap * 0.52
     spawn_anchor(game, anchor_x, anchor_y)
     if @types.chance(58) {
-      spawn_chip_arc(
-        game,
-        prev_end + 36.0,
-        x - 20.0,
-        @types.minf(prev_y, y),
-      )
+      spawn_chip_arc(game, prev_end + 36.0, x - 20.0, @types.minf(prev_y, y))
     }
   }
 
@@ -772,7 +767,13 @@ fn update_player(game : @types.Game, dt : Float) -> Unit {
       hero.grounded = false
       hero.coyote_t = 0.0
       hero.air_jumps = 1
-      burst_particles(game, hero.x + hero.w * 0.38, hero.y + hero.h, 8, @types.particle_spark)
+      burst_particles(
+        game,
+        hero.x + hero.w * 0.38,
+        hero.y + hero.h,
+        8,
+        @types.particle_spark,
+      )
     } else if hero.air_jumps > 0 {
       hero.air_jumps = hero.air_jumps - 1
       hero.vy = @types.double_jump_speed
@@ -1137,7 +1138,11 @@ fn update_title_scene(game : @types.Game, dt : Float) -> Unit {
       @types.randf(-36.0, -10.0),
       @types.randf(0.5, 1.1),
       @types.randf(1.0, 2.4),
-      if @types.chance(50) { @types.particle_spark } else { @types.particle_glow },
+      if @types.chance(50) {
+        @types.particle_spark
+      } else {
+        @types.particle_glow
+      },
     )
   }
 
@@ -1247,8 +1252,7 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
     game.flash_t = @types.maxf(0.0, game.flash_t - dt)
   }
 
-  if game.input_restart_press ||
-    (game.result_t > 0.45 && game.input_jump_press) {
+  if game.input_restart_press || (game.result_t > 0.45 && game.input_jump_press) {
     start_run(game)
   }
 }
