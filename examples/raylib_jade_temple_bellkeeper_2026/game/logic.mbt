@@ -73,7 +73,7 @@ fn clear_echoes(game : @types.Game) -> Unit {
 
 ///|
 fn reset_bells(game : @types.Game) -> Unit {
-  for i in 0..< @types.bell_count {
+  for i in 0..<@types.bell_count {
     let p = @types.bell_pos(i)
     game.bells[i].x = p.0
     game.bells[i].y = p.1
@@ -218,7 +218,13 @@ fn emit_spark(
 }
 
 ///|
-fn burst_sparks(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst_sparks(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  n : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<n {
     emit_spark(
       game,
@@ -370,7 +376,7 @@ fn hurt_hero(game : @types.Game, dmg : Float) -> Unit {
   clear_combo(game)
 
   if game.shrine_hp <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 }
@@ -402,7 +408,12 @@ fn ring_bell(game : @types.Game, bell_i : Int) -> Unit {
       continue
     }
 
-    let d2 = @types.dist2(game.bells[bell_i].x, game.bells[bell_i].y, foe.x, foe.y)
+    let d2 = @types.dist2(
+      game.bells[bell_i].x,
+      game.bells[bell_i].y,
+      foe.x,
+      foe.y,
+    )
     if d2 > rr2 {
       continue
     }
@@ -452,7 +463,12 @@ fn ring_bell(game : @types.Game, bell_i : Int) -> Unit {
       continue
     }
 
-    let d2 = @types.dist2(game.bells[bell_i].x, game.bells[bell_i].y, bolt.x, bolt.y)
+    let d2 = @types.dist2(
+      game.bells[bell_i].x,
+      game.bells[bell_i].y,
+      bolt.x,
+      bolt.y,
+    )
     if d2 <= rr2 {
       bolt.active = false
       emit_spark(
@@ -474,8 +490,13 @@ fn find_nearest_bell(game : @types.Game) -> Int {
   let mut best = -1
   let mut best_d2 = @types.bell_ring_reach * @types.bell_ring_reach
 
-  for i in 0..< @types.bell_count {
-    let d2 = @types.dist2(game.hero.x, game.hero.y, game.bells[i].x, game.bells[i].y)
+  for i in 0..<@types.bell_count {
+    let d2 = @types.dist2(
+      game.hero.x,
+      game.hero.y,
+      game.bells[i].x,
+      game.bells[i].y,
+    )
     if d2 <= best_d2 {
       best_d2 = d2
       best = i
@@ -490,13 +511,25 @@ fn edge_spawn() -> (Float, Float) {
   let side = @types.randi(0, 3)
 
   if side == 0 {
-    (@types.play_left - 120.0, @types.randf(@types.play_top - 20.0, @types.play_bottom + 20.0))
+    (
+      @types.play_left - 120.0,
+      @types.randf(@types.play_top - 20.0, @types.play_bottom + 20.0),
+    )
   } else if side == 1 {
-    (@types.play_right + 120.0, @types.randf(@types.play_top - 20.0, @types.play_bottom + 20.0))
+    (
+      @types.play_right + 120.0,
+      @types.randf(@types.play_top - 20.0, @types.play_bottom + 20.0),
+    )
   } else if side == 2 {
-    (@types.randf(@types.play_left - 20.0, @types.play_right + 20.0), @types.play_top - 120.0)
+    (
+      @types.randf(@types.play_left - 20.0, @types.play_right + 20.0),
+      @types.play_top - 120.0,
+    )
   } else {
-    (@types.randf(@types.play_left - 20.0, @types.play_right + 20.0), @types.play_bottom + 120.0)
+    (
+      @types.randf(@types.play_left - 20.0, @types.play_right + 20.0),
+      @types.play_bottom + 120.0,
+    )
   }
 }
 
@@ -694,7 +727,11 @@ fn update_hero(game : @types.Game, dt : Float) -> Unit {
     )
   }
 
-  game.hero.angle = @types.clampf(game.hero.vx / @types.hero_max_speed * 30.0, -30.0, 30.0)
+  game.hero.angle = @types.clampf(
+    game.hero.vx / @types.hero_max_speed * 30.0,
+    -30.0,
+    30.0,
+  )
 }
 
 ///|
@@ -829,14 +866,22 @@ fn update_foes(game : @types.Game, dt : Float) -> Unit {
     }
 
     if @types.is_relic(game.foes[i].kind) {
-      let d2h = @types.dist2(game.hero.x, game.hero.y, game.foes[i].x, game.foes[i].y)
+      let d2h = @types.dist2(
+        game.hero.x,
+        game.hero.y,
+        game.foes[i].x,
+        game.foes[i].y,
+      )
       let rrh = @types.hero_hit_r(game.hero) + @types.foe_hit_r(game.foes[i])
       if d2h <= rrh * rrh {
         game.foes[i].active = false
         game.rescued = game.rescued + 1
         add_score(game, 160)
         game.spirit = @types.minf(@types.spirit_max, game.spirit + 22.0)
-        game.shrine_hp = @types.minf(@types.shrine_max_hp, game.shrine_hp + 14.0)
+        game.shrine_hp = @types.minf(
+          @types.shrine_max_hp,
+          game.shrine_hp + 14.0,
+        )
         spawn_ring(game, game.hero.x, game.hero.y, 10.0, 0.44, 2)
         burst_sparks(game, game.hero.x, game.hero.y, 14, 2)
       }
@@ -866,13 +911,18 @@ fn update_foes(game : @types.Game, dt : Float) -> Unit {
       clear_combo(game)
 
       if game.shrine_hp <= 0.0 {
-        game.state = @types.state_game_over
+        game.state = @types.GameOver
         game.result_t = 0.0
       }
       continue
     }
 
-    let d2h = @types.dist2(game.hero.x, game.hero.y, game.foes[i].x, game.foes[i].y)
+    let d2h = @types.dist2(
+      game.hero.x,
+      game.hero.y,
+      game.foes[i].x,
+      game.foes[i].y,
+    )
     let rrh = @types.hero_hit_r(game.hero) + @types.foe_hit_r(game.foes[i])
     if d2h <= rrh * rrh {
       if dash_hit {
@@ -981,7 +1031,7 @@ fn update_effects(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_bells(game : @types.Game, dt : Float) -> Unit {
-  for i in 0..< @types.bell_count {
+  for i in 0..<@types.bell_count {
     game.bells[i].cooldown = @types.maxf(0.0, game.bells[i].cooldown - dt)
     game.bells[i].glow = @types.maxf(0.0, game.bells[i].glow - dt)
 
@@ -1051,7 +1101,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
   reset_bells(game)
   reset_hero(game)
 
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.stage_goal = @types.stage_goal_base
   game.score = 0
@@ -1084,9 +1134,10 @@ fn start_stage(game : @types.Game, stage : Int) -> Unit {
   reset_bells(game)
   reset_hero(game)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = stage
-  game.stage_goal = @types.stage_goal_base + (stage - 1) * @types.stage_goal_bonus
+  game.stage_goal = @types.stage_goal_base +
+    (stage - 1) * @types.stage_goal_bonus
 
   game.time_left = @types.stage_time_base +
     Float::from_int(stage - 1) * @types.stage_time_bonus
@@ -1130,20 +1181,23 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   emit_ambient(game, dt)
   update_effects(game, dt)
 
-  game.spirit = @types.minf(@types.spirit_max, game.spirit + @types.spirit_regen * dt)
+  game.spirit = @types.minf(
+    @types.spirit_max,
+    game.spirit + @types.spirit_regen * dt,
+  )
 
   if game.time_left <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 
   if game.shrine_hp <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 
-  if game.state == @types.state_play && game.score >= game.stage_goal {
-    game.state = @types.state_stage_clear
+  if game.state == @types.Play && game.score >= game.stage_goal {
+    game.state = @types.StageClear
     game.result_t = 0.0
     add_score(game, 280 + game.stage * 120)
     game.shrine_hp = @types.minf(@types.shrine_max_hp, game.shrine_hp + 14.0)
@@ -1214,24 +1268,19 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
     game.touch_count > 0
 
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    Title => update_title_input(game)
+    Play => update_play_input(game)
+    StageClear | GameOver => update_result_input(game)
   }
 
   update_timers(game, dt)
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else {
-    update_game_over(game, dt)
+  match game.state {
+    Title => update_title(game, dt)
+    Play => update_play(game, dt)
+    StageClear => update_stage_clear(game, dt)
+    GameOver => update_game_over(game, dt)
   }
 
   if game.score > game.best_score {

@@ -88,6 +88,14 @@ pub(all) struct Hero {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   bells : Array[Bell]
   foes : Array[Foe]
@@ -96,7 +104,7 @@ pub(all) struct Game {
   rings : Array[Ring]
   echoes : Array[Echo]
   hero : Hero
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut stage_goal : Int
   mut score : Int
@@ -222,7 +230,7 @@ pub fn Game::new() -> Game {
     rings: Array::makei(max_rings, fn(_i) { Ring::new() }),
     echoes: Array::makei(max_echoes, fn(_i) { Echo::new() }),
     hero: Hero::new(),
-    state: state_title,
+    state: Title,
     stage: 1,
     stage_goal: stage_goal_base,
     score: 0,

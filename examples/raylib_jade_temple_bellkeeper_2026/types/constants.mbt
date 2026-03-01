@@ -56,18 +56,6 @@ pub fn bell_pos(i : Int) -> (Float, Float) {
 }
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
 pub let foe_wisp : Int = 0
 
 ///|
