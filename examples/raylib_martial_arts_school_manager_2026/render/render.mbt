@@ -4,17 +4,17 @@ fn with_alpha(color : @raylib.Color, alpha : Int) -> @raylib.Color {
     color.r.to_int(),
     color.g.to_int(),
     color.b.to_int(),
-    clampi(alpha, 0, 255),
+    @types.clampi(alpha, 0, 255),
   )
 }
 
 ///|
 fn room_color(room : Int) -> @raylib.Color {
-  if room == room_rest {
+  if room == @types.room_rest {
     @raylib.Color::new(96, 182, 128, 255)
-  } else if room == room_train {
+  } else if room == @types.room_train {
     @raylib.Color::new(222, 166, 74, 255)
-  } else if room == room_sparring {
+  } else if room == @types.room_sparring {
     @raylib.Color::new(224, 96, 94, 255)
   } else {
     @raylib.Color::new(92, 148, 236, 255)
@@ -41,7 +41,7 @@ fn draw_meter(
   ratio : Float,
   fill_color : @raylib.Color,
 ) -> Unit {
-  let clamped = clampf(ratio, 0.0, 1.0)
+  let clamped = @types.clampf(ratio, 0.0, 1.0)
   let fill_w = (Float::from_int(w - 4) * clamped).to_int()
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(26, 32, 44, 235))
@@ -58,18 +58,32 @@ fn draw_meter(
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn mean_fatigue(game : @types.Game) -> Float {
+  let mut sum : Float = 0.0
+
+  for i in 0..<@types.student_count {
+    sum = sum + game.students[i].fatigue
+  }
+
+  sum / Float::from_int(@types.student_count)
+}
+
+///|
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(16, 20, 30, 255))
 
   for i in 0..<14 {
-    let wave = (sinf(game.scene_t * 0.6 + Float::from_int(i) * 0.38) * 18.0).to_int()
+    let wave = (@types.sinf(
+        game.scene_t * 0.6 + Float::from_int(i) * 0.38,
+      ) *
+      18.0).to_int()
     let y = i * 72 + wave
     let tone = 28 + i * 2
 
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       56,
       @raylib.Color::new(tone, tone + 10, tone + 24, 84),
     )
@@ -77,37 +91,41 @@ fn draw_background(game : Game) -> Unit {
 
   @raylib.draw_circle(220, 120, 180.0, @raylib.Color::new(76, 114, 188, 88))
   @raylib.draw_circle(
-    screen_w - 220,
+    @types.screen_w - 220,
     136,
     220.0,
     @raylib.Color::new(198, 108, 92, 64),
   )
 
   if game.incident_flash_t > 0.0 {
-    let alpha = clampi((game.incident_flash_t * 130.0).to_int(), 0, 130)
+    let alpha = @types.clampi(
+      (game.incident_flash_t * 130.0).to_int(),
+      0,
+      130,
+    )
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(255, 88, 72, alpha),
     )
   }
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     28,
     22,
-    screen_w - 56,
+    @types.screen_w - 56,
     120,
     @raylib.Color::new(14, 24, 38, 224),
   )
   @raylib.draw_rectangle_lines(
     28,
     22,
-    screen_w - 56,
+    @types.screen_w - 56,
     120,
     @raylib.Color::new(118, 148, 182, 230),
   )
@@ -157,7 +175,11 @@ fn draw_hud(game : Game) -> Unit {
   let week_ratio : Float = if game.week_duration <= 0.0 {
     0.0
   } else {
-    clampf(1.0 - game.week_time_left / game.week_duration, 0.0, 1.0)
+    @types.clampf(
+      1.0 - game.week_time_left / game.week_duration,
+      0.0,
+      1.0,
+    )
   }
 
   @raylib.draw_text(
@@ -177,7 +199,7 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   let timer_text = "Time left " +
-    maxf(0.0, game.week_time_left).to_int().to_string() +
+    @types.maxf(0.0, game.week_time_left).to_int().to_string() +
     "s"
   @raylib.draw_text(
     timer_text,
@@ -211,12 +233,11 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_student_table(game : Game) -> Unit {
+fn draw_student_table(game : @types.Game) -> Unit {
   let panel_x = 40
   let panel_y = 164
-  let panel_w = screen_w - 80
+  let panel_w = @types.screen_w - 80
   let panel_h = 636
-
   let info_x = panel_x + 20
   let grid_x = panel_x + 422
   let row_start_y = panel_y + 98
@@ -254,9 +275,9 @@ fn draw_student_table(game : Game) -> Unit {
     @raylib.Color::new(170, 194, 222, 220),
   )
 
-  for col in 0..<room_count {
+  for col in 0..<@types.room_count {
     let x = grid_x + col * (cell_w + cell_gap)
-    let title = room_name(col)
+    let title = @types.room_name(col)
     let tw = @raylib.measure_text(title, 24)
 
     @raylib.draw_rectangle(
@@ -282,7 +303,7 @@ fn draw_student_table(game : Game) -> Unit {
     )
   }
 
-  for i in 0..<student_count {
+  for i in 0..<@types.student_count {
     let y = row_start_y + i * row_h
 
     @raylib.draw_rectangle(
@@ -333,14 +354,15 @@ fn draw_student_table(game : Game) -> Unit {
       y + 65,
       200,
       16,
-      game.students[i].fatigue / fatigue_max,
+      game.students[i].fatigue / @types.fatigue_max,
       fatigue_color(game.students[i].fatigue),
     )
 
-    for col in 0..<room_count {
+    for col in 0..<@types.room_count {
       let x = grid_x + col * (cell_w + cell_gap)
       let assigned = game.students[i].room == col
-      let selected = (game.state == state_playing || game.state == state_paused) &&
+      let selected = (game.state == @types.state_playing ||
+        game.state == @types.state_paused) &&
         game.cursor_row == i &&
         game.cursor_col == col
 
@@ -390,7 +412,7 @@ fn draw_student_table(game : Game) -> Unit {
     "   Total " +
     game.total_incidents.to_string() +
     "   Next in " +
-    maxf(0.0, game.incident_timer).to_int().to_string() +
+    @types.maxf(0.0, game.incident_timer).to_int().to_string() +
     "s"
   @raylib.draw_text(
     incidents_text,
@@ -406,28 +428,28 @@ fn draw_footer_help() -> Unit {
   let footer = "WASD/Arrows: move cursor   J: assign/train   K: cancel to rest   SPACE: burst   P: pause   R: restart"
   @raylib.draw_rectangle(
     0,
-    screen_h - 42,
-    screen_w,
+    @types.screen_h - 42,
+    @types.screen_w,
     42,
     @raylib.Color::new(10, 14, 24, 236),
   )
   @raylib.draw_text(
     footer,
     24,
-    screen_h - 33,
+    @types.screen_h - 33,
     21,
     @raylib.Color::new(206, 222, 242, 230),
   )
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.message_t <= 0.0 {
     return
   }
 
-  let alpha = clampi(
-    (clampf(game.message_t / 3.0, 0.0, 1.0) * 226.0).to_int(),
+  let alpha = @types.clampi(
+    (@types.clampf(game.message_t / 3.0, 0.0, 1.0) * 226.0).to_int(),
     90,
     226,
   )
@@ -449,7 +471,7 @@ fn draw_message(game : Game) -> Unit {
   let tw = @raylib.measure_text(game.message, 28)
   @raylib.draw_text(
     game.message,
-    screen_w / 2 - tw / 2,
+    @types.screen_w / 2 - tw / 2,
     831,
     28,
     @raylib.Color::new(244, 246, 252, alpha),
@@ -457,13 +479,13 @@ fn draw_message(game : Game) -> Unit {
 }
 
 ///|
-fn draw_week_banner(game : Game) -> Unit {
-  if game.week_banner_t <= 0.0 || game.state != state_playing {
+fn draw_week_banner(game : @types.Game) -> Unit {
+  if game.week_banner_t <= 0.0 || game.state != @types.state_playing {
     return
   }
 
-  let pulse : Float = 0.5 + 0.5 * sinf(game.scene_t * 6.2)
-  let alpha = clampi(
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(game.scene_t * 6.2)
+  let alpha = @types.clampi(
     (game.week_banner_t / 2.6 * (150.0 + pulse * 80.0)).to_int(),
     0,
     230,
@@ -473,7 +495,7 @@ fn draw_week_banner(game : Game) -> Unit {
 
   @raylib.draw_text(
     text,
-    screen_w / 2 - tw / 2,
+    @types.screen_w / 2 - tw / 2,
     142,
     56,
     @raylib.Color::new(250, 240, 198, alpha),
@@ -487,7 +509,7 @@ fn draw_overlay_card(
   y : Int,
   border : @raylib.Color,
 ) -> Unit {
-  let x = screen_w / 2 - 520
+  let x = @types.screen_w / 2 - 520
   let w = 1040
   let h = 460
 
@@ -515,12 +537,12 @@ fn draw_overlay_card(
 }
 
 ///|
-fn draw_title_overlay(game : Game) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(4, 8, 16, 172),
   )
 
@@ -546,8 +568,8 @@ fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(0, 0, 0, 120),
   )
 
@@ -555,8 +577,8 @@ fn draw_paused_overlay() -> Unit {
   let tw = @raylib.measure_text(text, 78)
   @raylib.draw_text(
     text,
-    screen_w / 2 - tw / 2,
-    screen_h / 2 - 84,
+    @types.screen_w / 2 - tw / 2,
+    @types.screen_h / 2 - 84,
     78,
     @raylib.Color::new(248, 236, 204, 240),
   )
@@ -565,20 +587,20 @@ fn draw_paused_overlay() -> Unit {
   let sw = @raylib.measure_text(sub, 36)
   @raylib.draw_text(
     sub,
-    screen_w / 2 - sw / 2,
-    screen_h / 2 + 6,
+    @types.screen_w / 2 - sw / 2,
+    @types.screen_h / 2 + 6,
     36,
     @raylib.Color::new(220, 230, 246, 236),
   )
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(10, 0, 0, 162),
   )
 
@@ -600,7 +622,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_hud(game)
   draw_student_table(game)
@@ -608,11 +630,11 @@ fn draw_frame(game : Game) -> Unit {
   draw_week_banner(game)
   draw_message(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_paused_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

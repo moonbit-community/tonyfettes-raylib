@@ -1,5 +1,5 @@
 ///|
-struct Student {
+pub(all) struct Student {
   name : String
   mut skill : Float
   mut fatigue : Float
@@ -7,7 +7,7 @@ struct Student {
 }
 
 ///|
-struct Input {
+pub(all) struct Input {
   mut move_x : Int
   mut move_y : Int
   mut confirm_pressed : Bool
@@ -19,7 +19,7 @@ struct Input {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : Input
   students : Array[Student]
   mut state : Int
@@ -46,7 +46,7 @@ struct Game {
 }
 
 ///|
-fn student_name(slot : Int) -> String {
+pub fn student_name(slot : Int) -> String {
   if slot == 0 {
     "Aiko"
   } else if slot == 1 {
@@ -63,7 +63,7 @@ fn student_name(slot : Int) -> String {
 }
 
 ///|
-fn starting_skill(slot : Int) -> Float {
+pub fn starting_skill(slot : Int) -> Float {
   if slot == 0 {
     34.0
   } else if slot == 1 {
@@ -80,12 +80,12 @@ fn starting_skill(slot : Int) -> Float {
 }
 
 ///|
-fn Student::new(name : String, skill : Float) -> Student {
+pub fn Student::new(name : String, skill : Float) -> Student {
   { name, skill, fatigue: 12.0, room: room_rest }
 }
 
 ///|
-fn Input::new() -> Input {
+pub fn Input::new() -> Input {
   {
     move_x: 0,
     move_y: 0,
@@ -99,7 +99,7 @@ fn Input::new() -> Input {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let roster : Array[Student] = []
 
   for i in 0..<student_count {
