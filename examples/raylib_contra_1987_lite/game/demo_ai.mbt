@@ -1,13 +1,10 @@
 ///|
-fn opposite_dir(dir : Int) -> Int {
-  if dir == @types.dir_up {
-    @types.dir_down
-  } else if dir == @types.dir_down {
-    @types.dir_up
-  } else if dir == @types.dir_left {
-    @types.dir_right
-  } else {
-    @types.dir_left
+fn opposite_dir(dir : @types.Dir) -> @types.Dir {
+  match dir {
+    Up => @types.Down
+    Down => @types.Up
+    Left => @types.Right
+    Right => @types.Left
   }
 }
 
@@ -29,7 +26,11 @@ fn demo_nearest_enemy(game : @types.Game, x : Float, y : Float) -> (Int, Float) 
 }
 
 ///|
-fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float) {
+fn demo_nearest_powerup(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+) -> (Int, Float) {
   let mut best_idx = -1
   let mut best_dist : Float = Float::from_int(1000000000)
   for i in 0..<game.powerups.length() {
@@ -46,7 +47,12 @@ fn demo_nearest_powerup(game : @types.Game, x : Float, y : Float) -> (Int, Float
 }
 
 ///|
-fn demo_can_step(game : @types.Game, index : Int, dir : Int, dt : Float) -> Bool {
+fn demo_can_step(
+  game : @types.Game,
+  index : Int,
+  dir : @types.Dir,
+  dt : Float,
+) -> Bool {
   let player = game.players[index]
   if not(player.active) {
     return false
@@ -73,21 +79,21 @@ fn demo_priority_dir(
   game : @types.Game,
   index : Int,
   dt : Float,
-  a : Int,
-  b : Int,
-  c : Int,
-  d : Int,
-) -> Int {
+  a : @types.Dir,
+  b : @types.Dir,
+  c : @types.Dir,
+  d : @types.Dir,
+) -> @types.Dir? {
   if demo_can_step(game, index, a, dt) {
-    a
+    Some(a)
   } else if demo_can_step(game, index, b, dt) {
-    b
+    Some(b)
   } else if demo_can_step(game, index, c, dt) {
-    c
+    Some(c)
   } else if demo_can_step(game, index, d, dt) {
-    d
+    Some(d)
   } else {
-    -1
+    None
   }
 }
 
@@ -98,15 +104,15 @@ fn demo_choose_move_dir(
   dt : Float,
   target_x : Float,
   target_y : Float,
-) -> Int {
+) -> @types.Dir? {
   let player = game.players[index]
   let dx = target_x - player.x
   let dy = target_y - player.y
 
-  let horiz = if dx < 0.0 { @types.dir_left } else { @types.dir_right }
-  let vert = if dy < 0.0 { @types.dir_up } else { @types.dir_down }
+  let horiz : @types.Dir = if dx < 0.0 { @types.Left } else { @types.Right }
+  let vert : @types.Dir = if dy < 0.0 { @types.Up } else { @types.Down }
 
-  let mut move_dir = if @types.absf(dx) > @types.absf(dy) {
+  let mut move_dir : @types.Dir? = if @types.absf(dx) > @types.absf(dy) {
     demo_priority_dir(
       game,
       index,
@@ -128,11 +134,14 @@ fn demo_choose_move_dir(
     )
   }
 
-  if move_dir < 0 {
-    let random_dir = @types.rand_range(game, 0, 3)
-    if demo_can_step(game, index, random_dir, dt) {
-      move_dir = random_dir
+  match move_dir {
+    None => {
+      let random_dir = @types.rand_dir(game)
+      if demo_can_step(game, index, random_dir, dt) {
+        move_dir = Some(random_dir)
+      }
     }
+    _ => ()
   }
 
   move_dir
@@ -144,16 +153,16 @@ fn demo_line_shot_dir(
   player_y : Float,
   target_x : Float,
   target_y : Float,
-) -> (Int, Bool) {
+) -> (@types.Dir, Bool) {
   let epsilon = Float::from_int(@types.tile_size) * 0.42
   let dx = target_x - player_x
   let dy = target_y - player_y
   if @types.absf(dx) <= epsilon {
-    (if dy < 0.0 { @types.dir_up } else { @types.dir_down }, true)
+    (if dy < 0.0 { @types.Up } else { @types.Down }, true)
   } else if @types.absf(dy) <= epsilon {
-    (if dx < 0.0 { @types.dir_left } else { @types.dir_right }, true)
+    (if dx < 0.0 { @types.Left } else { @types.Right }, true)
   } else {
-    (@types.dir_up, false)
+    (@types.Up, false)
   }
 }
 
@@ -172,7 +181,11 @@ fn demo_target_position(
   } else if nearest_enemy >= 0 {
     (game.enemies[nearest_enemy].x, game.enemies[nearest_enemy].y)
   } else {
-    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) { 0 } else { 1 }
+    let guard_tile_x = if player.x < @types.tile_center_x(@types.base_tile_x) {
+      0
+    } else {
+      1
+    }
     let guard_x = @types.tile_center_x(@types.base_tile_x + guard_tile_x)
     let guard_y = @types.tile_center_y(@types.base_tile_y - 1)
     (guard_x, guard_y)
@@ -180,10 +193,14 @@ fn demo_target_position(
 }
 
 ///|
-fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Bool) {
+fn demo_player_command(
+  game : @types.Game,
+  index : Int,
+  dt : Float,
+) -> (@types.Dir?, Bool) {
   let player = game.players[index]
   if not(player.active) {
-    return (-1, false)
+    return (None, false)
   }
 
   let (nearest_enemy, enemy_dist) = demo_nearest_enemy(game, player.x, player.y)
@@ -196,7 +213,9 @@ fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Boo
     game, player, nearest_enemy, enemy_dist, nearest_powerup, powerup_dist,
   )
 
-  let mut move_dir = demo_choose_move_dir(game, index, dt, target_x, target_y)
+  let mut move_dir : @types.Dir? = demo_choose_move_dir(
+    game, index, dt, target_x, target_y,
+  )
   let mut shoot = false
 
   if nearest_enemy >= 0 {
@@ -208,7 +227,7 @@ fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Boo
       enemy.y,
     )
     if aligned && not(sight_blocked(game, player.x, player.y, enemy.x, enemy.y)) {
-      move_dir = line_dir
+      move_dir = Some(line_dir)
       shoot = true
     }
   }
@@ -223,7 +242,7 @@ fn demo_player_command(game : @types.Game, index : Int, dt : Float) -> (Int, Boo
       base_y,
     )
     if aligned && @types.rand_range(game, 0, 99) < 8 {
-      move_dir = line_dir
+      move_dir = Some(line_dir)
       shoot = true
     }
   }
@@ -255,8 +274,12 @@ fn sight_blocked(
     let t = Float::from_int(i) / Float::from_int(n)
     let px = ax + dx * t
     let py = ay + dy * t
-    let tile = @types.get_tile(game, @types.world_x_to_tile(px), @types.world_y_to_tile(py))
-    if tile == @types.tile_brick || tile == @types.tile_steel || tile == @types.tile_base {
+    let tile = @types.get_tile(
+      game,
+      @types.world_x_to_tile(px),
+      @types.world_y_to_tile(py),
+    )
+    if tile == @types.Brick || tile == @types.Steel || tile == @types.Base {
       return true
     }
   }
