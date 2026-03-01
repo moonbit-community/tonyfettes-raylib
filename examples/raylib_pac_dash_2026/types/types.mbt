@@ -1,5 +1,5 @@
 ///|
-struct Ghost {
+pub(all) struct Ghost {
   mut x : Int
   mut y : Int
   mut dir_x : Int
@@ -12,7 +12,7 @@ struct Ghost {
 }
 
 ///|
-fn Ghost::new(
+pub fn Ghost::new(
   x : Int,
   y : Int,
   scatter_x : Int,
@@ -33,7 +33,7 @@ fn Ghost::new(
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   walls : Array[Int]
   pellets : Array[Int]
   mut player_x : Int
@@ -56,7 +56,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     walls: Array::make(maze_cols * maze_rows, 0),
     pellets: Array::make(maze_cols * maze_rows, 0),
