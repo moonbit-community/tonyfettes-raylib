@@ -66,7 +66,7 @@ fn start_new_run(game : @types.Game) -> Unit {
   clear_flames(game)
   reset_keeper(game)
 
-  game.state = @types.state_playing
+  game.state = Playing
   game.wave = 1
   game.wave_t = 0.0
   game.wave_goal_t = @types.wave_duration(1)
@@ -92,7 +92,7 @@ fn return_to_title(game : @types.Game) -> Unit {
   clear_flames(game)
   reset_keeper(game)
 
-  game.state = @types.state_title
+  game.state = Title
   game.wave = 1
   game.wave_t = 0.0
   game.wave_goal_t = @types.wave_duration(1)
@@ -104,11 +104,11 @@ fn return_to_title(game : @types.Game) -> Unit {
 
 ///|
 fn enter_game_over(game : @types.Game, reason : String) -> Unit {
-  if game.state == @types.state_game_over {
+  if game.state == GameOver {
     return
   }
 
-  game.state = @types.state_game_over
+  game.state = GameOver
   if game.score > game.best_score {
     game.best_score = game.score
   }
@@ -918,7 +918,7 @@ fn update_title_state(game : @types.Game) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input_pause_press {
-    game.state = @types.state_paused
+    game.state = Paused
     set_message(game, "Paused. P to resume, K for title.", 99.0)
     return
   }
@@ -957,7 +957,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn update_paused_state(game : @types.Game) -> Unit {
   if game.input_pause_press {
-    game.state = @types.state_playing
+    game.state = Playing
     set_message(game, "Defense resumed.", 0.8)
     return
   }
@@ -995,13 +995,10 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
 
   update_input(game)
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, step)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_game_over_state(game)
+  match game.state {
+    Title => update_title_state(game)
+    Playing => update_playing_state(game, step)
+    Paused => update_paused_state(game)
+    GameOver => update_game_over_state(game)
   }
 }

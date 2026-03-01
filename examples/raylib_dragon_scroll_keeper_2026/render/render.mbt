@@ -739,11 +739,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_hud(game)
   draw_message(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    Title => draw_title_overlay()
+    Playing => ()
+    Paused => draw_paused_overlay()
+    GameOver => draw_game_over_overlay(game)
   }
 }

@@ -29,6 +29,14 @@ pub(all) struct Flame {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Keeper {
   mut room : Int
   mut x : Float
@@ -49,7 +57,7 @@ pub(all) struct Game {
   raiders : Array[Raider]
   flames : Array[Flame]
   keeper : Keeper
-  mut state : Int
+  mut state : GameState
   mut wave : Int
   mut wave_t : Float
   mut wave_goal_t : Float
@@ -121,7 +129,7 @@ pub fn Game::new() -> Game {
     raiders: Array::makei(max_raiders, fn(_i) { Raider::new() }),
     flames: Array::makei(max_flames, fn(_i) { Flame::new() }),
     keeper: Keeper::new(),
-    state: state_title,
+    state: Title,
     wave: 1,
     wave_t: 0.0,
     wave_goal_t: wave_duration(1),
