@@ -174,7 +174,7 @@ fn draw_playfield(game : @types.Game) -> Unit {
 
 ///|
 fn draw_shrines(game : @types.Game) -> Unit {
-  for i in 0..< @types.shrine_count {
+  for i in 0..<@types.shrine_count {
     let p = @types.shrine_position(i)
     let queue = shrine_queue_count(game, i)
     let half = Float::from_int(1) / Float::from_int(2)
@@ -409,18 +409,13 @@ fn draw_patrol(game : @types.Game) -> Unit {
     @raylib.draw_circle_lines(
       game.patrol.x.to_int(),
       game.patrol.y.to_int(),
-      @types.calm_radius *
-      (0.92 + 0.08 * @types.sinf(game.run_time * 7.0)),
+      @types.calm_radius * (0.92 + 0.08 * @types.sinf(game.run_time * 7.0)),
       @types.a_col(@types.calm_col(), (ratio * 220.0).to_int()),
     )
   }
 
   if game.patrol.guard_t > 0.0 {
-    let ratio = @types.clampf(
-      game.patrol.guard_t / @types.guard_time,
-      0.0,
-      1.0,
-    )
+    let ratio = @types.clampf(game.patrol.guard_t / @types.guard_time, 0.0, 1.0)
     @raylib.draw_circle_lines(
       game.patrol.x.to_int(),
       game.patrol.y.to_int(),
@@ -468,12 +463,8 @@ fn draw_status_strip(game : @types.Game) -> Unit {
     return
   }
 
-  let alpha = (@types.clampf(
-      game.status_t / @types.status_default_t,
-      0.0,
-      1.0,
-    ) *
-    210.0).to_int()
+  let alpha = (@types.clampf(game.status_t / @types.status_default_t, 0.0, 1.0) *
+  210.0).to_int()
 
   @raylib.draw_rectangle(
     @types.play_x + 18,
@@ -729,12 +720,7 @@ fn draw_paused_overlay() -> Unit {
     @types.screen_h,
     @raylib.Color::new(8, 10, 20, 172),
   )
-  draw_centered(
-    "PAUSED",
-    290,
-    78,
-    @raylib.Color::new(242, 248, 255, 250),
-  )
+  draw_centered("PAUSED", 290, 78, @raylib.Color::new(242, 248, 255, 250))
   draw_centered(
     "Press P to continue patrol, R to restart run",
     388,
@@ -752,12 +738,7 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     @types.screen_h,
     @raylib.Color::new(26, 8, 16, 186),
   )
-  draw_centered(
-    "RUN OVER",
-    238,
-    78,
-    @raylib.Color::new(252, 186, 186, 252),
-  )
+  draw_centered("RUN OVER", 238, 78, @raylib.Color::new(252, 186, 186, 252))
   draw_centered(
     game.game_over_reason,
     332,
@@ -816,12 +797,11 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_status_strip(game)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay()
+    @types.Paused => draw_paused_overlay()
+    @types.GameOver => draw_game_over_overlay(game)
+    @types.Playing => ()
   }
 
   draw_flash(game)

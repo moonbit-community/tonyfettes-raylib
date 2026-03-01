@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
@@ -167,7 +175,7 @@ pub(all) struct Game {
   gusts : Array[Gust]
   sparks : Array[Spark]
   thieves : Array[Thief]
-  mut state : Int
+  mut state : GameState
   mut score : Int
   mut best_score : Int
   mut deliveries : Int
@@ -194,7 +202,7 @@ pub fn Game::new() -> Game {
     gusts: Array::makei(max_gusts, fn(_i) { Gust::new() }),
     sparks: Array::makei(max_sparks, fn(_i) { Spark::new() }),
     thieves: Array::makei(max_thieves, fn(_i) { Thief::new() }),
-    state: state_title,
+    state: Title,
     score: 0,
     best_score: 0,
     deliveries: 0,

@@ -77,7 +77,7 @@ fn reset_thieves(game : @types.Game) -> Unit {
 
 ///|
 fn start_new_run(game : @types.Game) -> Unit {
-  game.state = @types.state_playing
+  game.state = @types.Playing
   game.score = 0
   game.deliveries = 0
   game.extinguished = 0
@@ -105,7 +105,7 @@ fn start_new_run(game : @types.Game) -> Unit {
 
 ///|
 fn end_run_game_over(game : @types.Game, reason : String) -> Unit {
-  game.state = @types.state_game_over
+  game.state = @types.GameOver
   game.game_over_reason = reason
   set_status(game, "Run ended. Press R to patrol again.", 2.0)
 }
@@ -511,8 +511,7 @@ fn update_patrol(game : @types.Game, dt : Float) -> Unit {
   game.patrol.vx = game.patrol.vx * drag
   game.patrol.vy = game.patrol.vy * drag
 
-  let speed2 = game.patrol.vx * game.patrol.vx +
-    game.patrol.vy * game.patrol.vy
+  let speed2 = game.patrol.vx * game.patrol.vx + game.patrol.vy * game.patrol.vy
   let cap2 = @types.patrol_max_speed * @types.patrol_max_speed
   if speed2 > cap2 {
     let factor = @types.patrol_max_speed / @types.maxf(speed2.sqrt(), 0.001)
@@ -586,9 +585,7 @@ fn update_spawning(game : @types.Game, dt : Float) -> Unit {
   game.spark_spawn_cd = game.spark_spawn_cd - dt
   if game.spark_spawn_cd <= 0.0 {
     ignore(spawn_spark(game))
-    let lantern_pressure = Float::from_int(
-        @types.active_lantern_count(game),
-      ) *
+    let lantern_pressure = Float::from_int(@types.active_lantern_count(game)) *
       0.005
     let next = @types.maxf(
       @types.spark_spawn_floor,
@@ -881,7 +878,7 @@ fn update_lanterns(game : @types.Game, dt : Float) -> Unit {
 
     if game.lanterns[i].flame <= 0.0 {
       extinguish_lantern(game, i)
-      if game.state == @types.state_game_over {
+      if game.state == @types.GameOver {
         return
       }
       continue
@@ -914,7 +911,7 @@ fn update_paused_state(game : @types.Game) -> Unit {
   }
 
   if game.input.press_pause {
-    game.state = @types.state_playing
+    game.state = @types.Playing
     set_status(game, "Patrol resumed.", 0.7)
   }
 }
@@ -929,7 +926,7 @@ fn update_game_over_state(game : @types.Game) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input.press_pause {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     set_status(game, "Patrol paused.", 0.7)
     return
   }
@@ -968,13 +965,10 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     game.screen_flash_t = @types.maxf(game.screen_flash_t - dt, 0.0)
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_game_over_state(game)
+  match game.state {
+    @types.Title => update_title_state(game)
+    @types.Playing => update_playing_state(game, dt)
+    @types.Paused => update_paused_state(game)
+    @types.GameOver => update_game_over_state(game)
   }
 }
