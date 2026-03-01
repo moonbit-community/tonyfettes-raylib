@@ -1,5 +1,5 @@
 ///|
-fn clear_frame_input(game : Game) -> Unit {
+fn clear_frame_input(game : @types.Game) -> Unit {
   game.input.move_x = 0
   game.input.move_y = 0
   game.input.press_j = false
@@ -11,7 +11,7 @@ fn clear_frame_input(game : Game) -> Unit {
 }
 
 ///|
-fn capture_input(game : Game) -> Unit {
+fn capture_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
 
   let left = @raylib.is_key_pressed(@raylib.KeyLeft) ||

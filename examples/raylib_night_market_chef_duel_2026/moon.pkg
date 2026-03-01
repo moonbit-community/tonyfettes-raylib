@@ -1,6 +1,8 @@
 import {
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_night_market_chef_duel_2026/types",
+  "tonyfettes/raylib-examples/raylib_night_market_chef_duel_2026/game",
+  "tonyfettes/raylib-examples/raylib_night_market_chef_duel_2026/render",
 }
 
 options(

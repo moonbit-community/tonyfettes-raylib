@@ -1,5 +1,5 @@
 ///|
-struct Order {
+pub(all) struct Order {
   mut active : Bool
   mut dish : Int
   mut patience : Float
@@ -9,7 +9,7 @@ struct Order {
 }
 
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
   mut press_j : Bool
@@ -21,7 +21,7 @@ struct InputState {
 }
 
 ///|
-struct CookingState {
+pub(all) struct CookingState {
   mut active : Bool
   mut dish : Int
   mut lane : Int
@@ -31,7 +31,7 @@ struct CookingState {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   orders : Array[Order]
   input : InputState
   cooking : CookingState
@@ -56,7 +56,7 @@ struct Game {
 }
 
 ///|
-fn Order::new() -> Order {
+pub fn Order::new() -> Order {
   {
     active: false,
     dish: dish_skewers,
@@ -68,7 +68,7 @@ fn Order::new() -> Order {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0,
     move_y: 0,
@@ -82,7 +82,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-fn CookingState::new() -> CookingState {
+pub fn CookingState::new() -> CookingState {
   {
     active: false,
     dish: dish_none,
@@ -94,7 +94,7 @@ fn CookingState::new() -> CookingState {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     orders: Array::makei(max_orders, fn(_i) { Order::new() }),
     input: InputState::new(),
