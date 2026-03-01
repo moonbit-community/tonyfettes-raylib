@@ -1,4 +1,20 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Win
+  Lose
+} derive(Eq)
+
+///|
+pub(all) enum LoseReason {
+  None
+  Oxygen
+  Fuel
+  Hull
+} derive(Eq)
+
+///|
 pub(all) struct Mine {
   mut active : Bool
   mut x : Float
@@ -21,7 +37,7 @@ pub(all) struct Target {
 pub(all) struct Game {
   mines : Array[Mine]
   targets : Array[Target]
-  mut state : Int
+  mut state : GameState
   mut mission : Int
   mut best_mission : Int
   mut mine_count : Int
@@ -42,7 +58,7 @@ pub(all) struct Game {
   mut oxygen : Float
   mut fuel : Float
   mut hull : Float
-  mut lose_reason : Int
+  mut lose_reason : LoseReason
   mut time_s : Float
   mut touch_cd : Float
   mut shake_t : Float
@@ -67,7 +83,7 @@ pub fn Game::new() -> Game {
   {
     mines: Array::makei(max_mines, fn(_i) { Mine::new() }),
     targets: Array::makei(max_targets, fn(_i) { Target::new() }),
-    state: state_title,
+    state: Title,
     mission: mission_min,
     best_mission: mission_min,
     mine_count: base_mine_count,
@@ -88,7 +104,7 @@ pub fn Game::new() -> Game {
     oxygen: oxygen_max,
     fuel: fuel_max,
     hull: hull_max,
-    lose_reason: lose_none,
+    lose_reason: None,
     time_s: 0.0,
     touch_cd: 0.0,
     shake_t: 0.0,

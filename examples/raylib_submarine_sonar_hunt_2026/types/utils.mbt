@@ -217,13 +217,10 @@ pub fn nearest_undetected_target(game : Game) -> (Float, Float, Bool) {
 
 ///|
 pub fn lose_reason_text(game : Game) -> String {
-  if game.lose_reason == lose_hull {
-    "Hull failure after mine impact"
-  } else if game.lose_reason == lose_oxygen {
-    "Crew oxygen depleted"
-  } else if game.lose_reason == lose_fuel {
-    "Fuel reserves exhausted"
-  } else {
-    "Mission failed"
+  match game.lose_reason {
+    Hull => "Hull failure after mine impact"
+    Oxygen => "Crew oxygen depleted"
+    Fuel => "Fuel reserves exhausted"
+    None => "Mission failed"
   }
 }

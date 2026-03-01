@@ -4,7 +4,13 @@ fn draw_ocean_background(game : @types.Game) -> Unit {
     let r = @types.clampi(7 + y * 20 / @types.screen_h, 0, 255)
     let g = @types.clampi(20 + y * 42 / @types.screen_h, 0, 255)
     let b = @types.clampi(34 + y * 58 / @types.screen_h, 0, 255)
-    @raylib.draw_rectangle(0, y, @types.screen_w, 4, @raylib.Color::new(r, g, b, 255))
+    @raylib.draw_rectangle(
+      0,
+      y,
+      @types.screen_w,
+      4,
+      @raylib.Color::new(r, g, b, 255),
+    )
   }
   for i in 0..<18 {
     let y = 34 + i * 26
@@ -48,13 +54,7 @@ fn draw_arena() -> Unit {
     let y = @types.arena_y0 +
       20 +
       (@types.sinf(Float::from_int(i) * 0.8) * 7.0).to_int()
-    @raylib.draw_line(
-      px,
-      y,
-      px + 34,
-      y,
-      @raylib.Color::new(182, 228, 252, 98),
-    )
+    @raylib.draw_line(px, y, px + 34, y, @raylib.Color::new(182, 228, 252, 98))
   }
 }
 
@@ -109,12 +109,7 @@ fn draw_targets(game : @types.Game) -> Unit {
         ),
       )
       if @types.absf(d - game.sonar_wave_r) < 12.0 {
-        @raylib.draw_circle(
-          tx,
-          ty,
-          5.0,
-          @raylib.Color::new(148, 250, 204, 128),
-        )
+        @raylib.draw_circle(tx, ty, 5.0, @raylib.Color::new(148, 250, 204, 128))
       }
     }
   }
@@ -151,12 +146,7 @@ fn draw_mines(game : @types.Game) -> Unit {
         game.mines[i].r,
         @raylib.Color::new(255, 116, 138, alpha),
       )
-      @raylib.draw_circle(
-        mx,
-        my,
-        2.8,
-        @raylib.Color::new(255, 200, 210, alpha),
-      )
+      @raylib.draw_circle(mx, my, 2.8, @raylib.Color::new(255, 200, 210, alpha))
     } else {
       @raylib.draw_circle(mx, my, 2.0, @raylib.Color::new(44, 60, 76, 110))
     }
@@ -238,7 +228,7 @@ fn draw_sonar_wave(game : @types.Game) -> Unit {
 
 ///|
 fn draw_bearing_indicator(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
   let target = @types.nearest_undetected_target(game)
@@ -436,7 +426,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_touch_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
   let mx = game.mouse_x
@@ -720,7 +710,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     442,
     @raylib.Color::new(134, 208, 242, 194),
   )
-  if game.state == @types.state_win {
+  if game.state == @types.Win {
     draw_center_text(
       "MISSION CLEARED",
       176,
@@ -776,7 +766,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     restart_btn.3,
   )
   draw_menu_button(restart_btn, "RESTART", restart_hover, (126, 212, 242))
-  if game.state == @types.state_win {
+  if game.state == @types.Win {
     let next_hover = @types.pointer_on_rect(
       mx,
       my,
@@ -878,7 +868,7 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 22, 36, 255))
   draw_ocean_background(game)
   draw_arena()
-  if game.state == @types.state_title {
+  if game.state == @types.Title {
     draw_hot_zone(game)
     draw_title_preview(game)
     draw_title_overlay(game)
@@ -892,7 +882,7 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bearing_indicator(game)
   draw_hud(game)
   draw_touch_controls(game)
-  if game.state == @types.state_win || game.state == @types.state_lose {
+  if game.state == @types.Win || game.state == @types.Lose {
     draw_result_overlay(game)
   }
 }

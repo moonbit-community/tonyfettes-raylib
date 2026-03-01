@@ -8,30 +8,6 @@ pub let screen_h : Int = 720
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_win : Int = 2
-
-///|
-pub let state_lose : Int = 3
-
-///|
-pub let lose_none : Int = 0
-
-///|
-pub let lose_oxygen : Int = 1
-
-///|
-pub let lose_fuel : Int = 2
-
-///|
-pub let lose_hull : Int = 3
-
-///|
 pub let arena_x0 : Int = 78
 
 ///|

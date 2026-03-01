@@ -9,7 +9,12 @@ fn update_title_input(game : @types.Game) -> Unit {
     @raylib.is_key_pressed(@raylib.KeySpace)
   let click_start = @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) &&
     @types.point_in_rect(
-      mx, my, start_btn.0, start_btn.1, start_btn.2, start_btn.3,
+      mx,
+      my,
+      start_btn.0,
+      start_btn.1,
+      start_btn.2,
+      start_btn.3,
     )
   let tap_start = game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
@@ -170,7 +175,7 @@ fn update_result_input(game : @types.Game) -> Unit {
   let key_restart = @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyR)
-  let key_next = game.state == @types.state_win &&
+  let key_next = game.state == @types.Win &&
     @raylib.is_key_pressed(@raylib.KeyN)
   let key_title = @raylib.is_key_pressed(@raylib.KeyT) ||
     @raylib.is_key_pressed(@raylib.KeyEscape)
@@ -185,7 +190,7 @@ fn update_result_input(game : @types.Game) -> Unit {
       restart_btn.2,
       restart_btn.3,
     )
-  let tap_next = game.state == @types.state_win &&
+  let tap_next = game.state == @types.Win &&
     game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
       mx,
