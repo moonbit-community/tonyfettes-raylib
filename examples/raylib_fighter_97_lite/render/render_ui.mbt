@@ -865,25 +865,25 @@ fn draw_debug_overlay(game : @types.Game) -> Unit {
 pub fn draw_game(game : @types.Game) -> Unit {
   draw_stage(game)
 
-  if game.state == @types.state_title {
+  if game.state == @types.StateTitle {
     draw_title_screen(game)
-  } else if game.state == @types.state_select {
+  } else if game.state == @types.StateSelect {
     draw_select_screen(game)
   } else {
     draw_fighters(game)
     draw_fight_hud(game)
 
-    if game.state == @types.state_intro {
+    if game.state == @types.StateIntro {
       draw_intro_overlay(game)
-    } else if game.state == @types.state_round_over {
+    } else if game.state == @types.StateRoundOver {
       draw_round_over_overlay(game)
-    } else if game.state == @types.state_match_over {
+    } else if game.state == @types.StateMatchOver {
       draw_match_over_overlay(game)
     } else {
       draw_announcer(game)
     }
 
-    if game.state == @types.state_pause {
+    if game.state == @types.StatePause {
       draw_pause_overlay(game)
     }
   }

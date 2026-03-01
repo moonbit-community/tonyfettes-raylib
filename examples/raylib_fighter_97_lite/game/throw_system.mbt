@@ -1,14 +1,14 @@
 ///|
 fn fighter_can_attempt_throw(fighter : @types.Fighter) -> Bool {
   fighter.on_ground &&
-  fighter.action != @types.action_attack &&
-  fighter.action != @types.action_throw &&
-  fighter.action != @types.action_hitstun &&
-  fighter.action != @types.action_blockstun &&
-  fighter.action != @types.action_knockdown &&
-  fighter.action != @types.action_wakeup &&
-  fighter.action != @types.action_intro &&
-  fighter.action != @types.action_victory
+  fighter.action != @types.ActionAttack &&
+  fighter.action != @types.ActionThrow &&
+  fighter.action != @types.ActionHitstun &&
+  fighter.action != @types.ActionBlockstun &&
+  fighter.action != @types.ActionKnockdown &&
+  fighter.action != @types.ActionWakeup &&
+  fighter.action != @types.ActionIntro &&
+  fighter.action != @types.ActionVictory
 }
 
 ///|
@@ -89,7 +89,7 @@ fn apply_throw_hit(
   let attacker_archetype = @types.fighter_archetype(game, attacker)
   let defender_archetype = @types.fighter_archetype(game, defender)
 
-  attacker.action = @types.action_throw
+  attacker.action = @types.ActionThrow
   attacker.action_elapsed = 0.0
   attacker.action_frame = 0
   attacker.current_move = @types.MoveSpec::empty()
@@ -100,7 +100,7 @@ fn apply_throw_hit(
   attacker.throw_tech_timer = 0
 
   defender.health = @types.clampi(defender.health - @types.throw_damage, 0, @types.health_max)
-  defender.action = @types.action_knockdown
+  defender.action = @types.ActionKnockdown
   defender.hitstun = 0
   defender.blockstun = 0
   defender.knockdown = @types.throw_knockdown_frames

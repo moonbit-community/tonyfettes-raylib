@@ -1,8 +1,8 @@
 ///|
 pub fn make_move(
   _name : String,
-  attack_id : Int,
-  move_kind : Int,
+  attack_id : AttackId,
+  move_kind : MoveKind,
   total_frames : Int,
   startup_frames : Int,
   active_frames : Int,
@@ -41,21 +41,21 @@ pub fn make_move(
   mv.hitbox_y = hitbox_y
   mv.hitbox_w = hitbox_w
   mv.hitbox_h = hitbox_h
-  mv.meter_gain_on_use = if move_kind == move_kind_normal {
+  mv.meter_gain_on_use = if move_kind == MoveKindNormal {
     4
-  } else if move_kind == move_kind_special {
+  } else if move_kind == MoveKindSpecial {
     3
   } else {
     0
   }
-  mv.meter_gain_on_hit = if move_kind == move_kind_normal {
+  mv.meter_gain_on_hit = if move_kind == MoveKindNormal {
     8
-  } else if move_kind == move_kind_special {
+  } else if move_kind == MoveKindSpecial {
     12
   } else {
     0
   }
-  mv.hitstop_frames = if move_kind == move_kind_super {
+  mv.hitstop_frames = if move_kind == MoveKindSuper {
     hitstop_super
   } else {
     hitstop_default
@@ -68,30 +68,30 @@ pub fn make_move(
 ///|
 pub fn roster_kai() -> CharacterArchetype {
   let lp = make_move(
-    "flash jab", attack_lp, move_kind_normal, 22, 4, 3, 34, 0, 10, 7, 20.0, 90.0,
+    "flash jab", AttackLp, MoveKindNormal, 22, 4, 3, 34, 0, 10, 7, 20.0, 90.0,
     -18.0, 0.0, 48.0, -98.0, 38.0, 22.0,
   )
 
   let hp = make_move(
-    "meteor straight", attack_hp, move_kind_normal, 34, 8, 4, 76, 0, 17, 12, 30.0,
+    "meteor straight", AttackHp, MoveKindNormal, 34, 8, 4, 76, 0, 17, 12, 30.0,
     150.0, -30.0, 24.0, 58.0, -106.0, 44.0, 30.0,
   )
 
   let lk = make_move(
-    "step low", attack_lk, move_kind_normal, 24, 5, 3, 40, 0, 11, 8, 23.0, 94.0,
+    "step low", AttackLk, MoveKindNormal, 24, 5, 3, 40, 0, 11, 8, 23.0, 94.0,
     0.0, 10.0, 46.0, -58.0, 42.0, 24.0,
   )
   lk.low_attack = true
 
   let hk = make_move(
-    "crescent heel", attack_hk, move_kind_normal, 36, 10, 4, 90, 0, 18, 12, 34.0,
+    "crescent heel", AttackHk, MoveKindNormal, 36, 10, 4, 90, 0, 18, 12, 34.0,
     160.0, -120.0, 20.0, 66.0, -120.0, 48.0, 34.0,
   )
   hk.overhead_attack = true
   hk.knockdown = true
 
   let qcf = make_move(
-    "dragon burst", attack_special_qcf, move_kind_special, 54, 13, 5, 122, 8, 22,
+    "dragon burst", AttackSpecialQcf, MoveKindSpecial, 54, 13, 5, 122, 8, 22,
     16, 58.0, 220.0, -55.0, 70.0, 86.0, -98.0, 56.0, 34.0,
   )
   qcf.cancel_on_hit = true
@@ -99,14 +99,14 @@ pub fn roster_kai() -> CharacterArchetype {
   qcf.cancel_window_end = 33
 
   let dp = make_move(
-    "sky shatter", attack_special_dp, move_kind_special, 58, 6, 6, 138, 10, 25, 15,
+    "sky shatter", AttackSpecialDp, MoveKindSpecial, 58, 6, 6, 138, 10, 25, 15,
     45.0, 100.0, -290.0, 48.0, 56.0, -130.0, 44.0, 78.0,
   )
   dp.invuln_end = 9
   dp.knockdown = true
 
   let super_move = make_move(
-    "solar annihilation", attack_super, move_kind_super, 88, 10, 10, 270, 22, 36,
+    "solar annihilation", AttackSuper, MoveKindSuper, 88, 10, 10, 270, 22, 36,
     22, 78.0, 220.0, -180.0, 96.0, 86.0, -126.0, 80.0, 86.0,
   )
   super_move.invuln_end = 15
@@ -141,42 +141,42 @@ pub fn roster_kai() -> CharacterArchetype {
 ///|
 pub fn roster_yun() -> CharacterArchetype {
   let lp = make_move(
-    "needle jab", attack_lp, move_kind_normal, 20, 3, 3, 32, 0, 9, 7, 18.0, 80.0,
+    "needle jab", AttackLp, MoveKindNormal, 20, 3, 3, 32, 0, 9, 7, 18.0, 80.0,
     -12.0, 0.0, 50.0, -96.0, 34.0, 20.0,
   )
 
   let hp = make_move(
-    "wind palm", attack_hp, move_kind_normal, 30, 7, 4, 64, 0, 15, 11, 28.0, 130.0,
+    "wind palm", AttackHp, MoveKindNormal, 30, 7, 4, 64, 0, 15, 11, 28.0, 130.0,
     -16.0, 14.0, 62.0, -108.0, 46.0, 28.0,
   )
 
   let lk = make_move(
-    "ankle cut", attack_lk, move_kind_normal, 22, 4, 3, 36, 0, 10, 8, 22.0, 80.0,
+    "ankle cut", AttackLk, MoveKindNormal, 22, 4, 3, 36, 0, 10, 8, 22.0, 80.0,
     0.0, 6.0, 42.0, -55.0, 44.0, 22.0,
   )
   lk.low_attack = true
 
   let hk = make_move(
-    "arc kick", attack_hk, move_kind_normal, 34, 9, 4, 80, 0, 16, 11, 30.0, 144.0,
+    "arc kick", AttackHk, MoveKindNormal, 34, 9, 4, 80, 0, 16, 11, 30.0, 144.0,
     -90.0, 22.0, 72.0, -126.0, 48.0, 32.0,
   )
   hk.overhead_attack = true
 
   let qcf = make_move(
-    "tempest wheel", attack_special_qcf, move_kind_special, 52, 12, 6, 110, 8, 20,
+    "tempest wheel", AttackSpecialQcf, MoveKindSpecial, 52, 12, 6, 110, 8, 20,
     15, 44.0, 188.0, -40.0, 76.0, 92.0, -86.0, 52.0, 34.0,
   )
   qcf.cancel_on_hit = true
 
   let dp = make_move(
-    "azure spike", attack_special_dp, move_kind_special, 54, 5, 5, 126, 10, 24, 14,
+    "azure spike", AttackSpecialDp, MoveKindSpecial, 54, 5, 5, 126, 10, 24, 14,
     34.0, 86.0, -318.0, 52.0, 52.0, -138.0, 42.0, 86.0,
   )
   dp.invuln_end = 8
   dp.knockdown = true
 
   let super_move = make_move(
-    "thousand leaves", attack_super, move_kind_super, 82, 9, 12, 248, 18, 34, 21,
+    "thousand leaves", AttackSuper, MoveKindSuper, 82, 9, 12, 248, 18, 34, 21,
     70.0, 180.0, -110.0, 92.0, 90.0, -112.0, 88.0, 84.0,
   )
   super_move.knockdown = true
@@ -210,44 +210,44 @@ pub fn roster_yun() -> CharacterArchetype {
 ///|
 pub fn roster_lei() -> CharacterArchetype {
   let lp = make_move(
-    "iron jab", attack_lp, move_kind_normal, 24, 4, 3, 38, 0, 11, 8, 24.0, 96.0,
+    "iron jab", AttackLp, MoveKindNormal, 24, 4, 3, 38, 0, 11, 8, 24.0, 96.0,
     -18.0, 0.0, 52.0, -92.0, 36.0, 24.0,
   )
 
   let hp = make_move(
-    "stone elbow", attack_hp, move_kind_normal, 36, 9, 4, 84, 0, 18, 12, 32.0, 168.0,
+    "stone elbow", AttackHp, MoveKindNormal, 36, 9, 4, 84, 0, 18, 12, 32.0, 168.0,
     -26.0, 18.0, 56.0, -96.0, 48.0, 32.0,
   )
 
   let lk = make_move(
-    "deep sweep", attack_lk, move_kind_normal, 28, 7, 3, 46, 0, 14, 9, 28.0, 120.0,
+    "deep sweep", AttackLk, MoveKindNormal, 28, 7, 3, 46, 0, 14, 9, 28.0, 120.0,
     0.0, 8.0, 52.0, -42.0, 52.0, 20.0,
   )
   lk.low_attack = true
   lk.knockdown = true
 
   let hk = make_move(
-    "iron mountain", attack_hk, move_kind_normal, 40, 11, 4, 102, 0, 20, 13, 36.0,
+    "iron mountain", AttackHk, MoveKindNormal, 40, 11, 4, 102, 0, 20, 13, 36.0,
     170.0, -84.0, 24.0, 70.0, -116.0, 54.0, 32.0,
   )
   hk.knockdown = true
 
   let qcf = make_move(
-    "titan break", attack_special_qcf, move_kind_special, 56, 14, 5, 140, 10, 24,
+    "titan break", AttackSpecialQcf, MoveKindSpecial, 56, 14, 5, 140, 10, 24,
     16, 62.0, 240.0, -62.0, 74.0, 94.0, -84.0, 62.0, 36.0,
   )
   qcf.auto_dash = true
   qcf.cancel_on_hit = true
 
   let dp = make_move(
-    "earth pillar", attack_special_dp, move_kind_special, 60, 8, 6, 148, 10, 25,
+    "earth pillar", AttackSpecialDp, MoveKindSpecial, 60, 8, 6, 148, 10, 25,
     15, 40.0, 92.0, -300.0, 42.0, 62.0, -130.0, 48.0, 82.0,
   )
   dp.invuln_end = 11
   dp.knockdown = true
 
   let super_move = make_move(
-    "volcanic judgement", attack_super, move_kind_super, 94, 12, 10, 294, 24, 38,
+    "volcanic judgement", AttackSuper, MoveKindSuper, 94, 12, 10, 294, 24, 38,
     22, 84.0, 240.0, -180.0, 90.0, 96.0, -124.0, 96.0, 88.0,
   )
   super_move.invuln_end = 16
@@ -281,42 +281,42 @@ pub fn roster_lei() -> CharacterArchetype {
 ///|
 pub fn roster_qin() -> CharacterArchetype {
   let lp = make_move(
-    "shadow needle", attack_lp, move_kind_normal, 19, 3, 3, 30, 0, 8, 6, 16.0, 78.0,
+    "shadow needle", AttackLp, MoveKindNormal, 19, 3, 3, 30, 0, 8, 6, 16.0, 78.0,
     -10.0, 0.0, 50.0, -100.0, 34.0, 20.0,
   )
 
   let hp = make_move(
-    "night slash", attack_hp, move_kind_normal, 28, 6, 4, 62, 0, 15, 11, 24.0, 118.0,
+    "night slash", AttackHp, MoveKindNormal, 28, 6, 4, 62, 0, 15, 11, 24.0, 118.0,
     -24.0, 20.0, 66.0, -108.0, 46.0, 30.0,
   )
 
   let lk = make_move(
-    "ghost low", attack_lk, move_kind_normal, 21, 4, 3, 34, 0, 10, 7, 20.0, 84.0,
+    "ghost low", AttackLk, MoveKindNormal, 21, 4, 3, 34, 0, 10, 7, 20.0, 84.0,
     0.0, 12.0, 44.0, -58.0, 44.0, 22.0,
   )
   lk.low_attack = true
 
   let hk = make_move(
-    "moon arc", attack_hk, move_kind_normal, 32, 8, 4, 78, 0, 17, 11, 26.0, 130.0,
+    "moon arc", AttackHk, MoveKindNormal, 32, 8, 4, 78, 0, 17, 11, 26.0, 130.0,
     -130.0, 18.0, 70.0, -128.0, 46.0, 34.0,
   )
   hk.overhead_attack = true
 
   let qcf = make_move(
-    "phantom spiral", attack_special_qcf, move_kind_special, 48, 10, 6, 108, 8, 20,
+    "phantom spiral", AttackSpecialQcf, MoveKindSpecial, 48, 10, 6, 108, 8, 20,
     15, 40.0, 180.0, -30.0, 86.0, 92.0, -98.0, 48.0, 34.0,
   )
   qcf.cancel_on_hit = true
 
   let dp = make_move(
-    "void rise", attack_special_dp, move_kind_special, 50, 5, 5, 118, 9, 24, 14,
+    "void rise", AttackSpecialDp, MoveKindSpecial, 50, 5, 5, 118, 9, 24, 14,
     30.0, 76.0, -312.0, 54.0, 50.0, -136.0, 40.0, 84.0,
   )
   dp.invuln_end = 7
   dp.knockdown = true
 
   let super_move = make_move(
-    "midnight requiem", attack_super, move_kind_super, 80, 8, 11, 238, 16, 32, 20,
+    "midnight requiem", AttackSuper, MoveKindSuper, 80, 8, 11, 238, 16, 32, 20,
     64.0, 172.0, -120.0, 98.0, 92.0, -116.0, 90.0, 82.0,
   )
   super_move.invuln_end = 11
@@ -350,43 +350,43 @@ pub fn roster_qin() -> CharacterArchetype {
 ///|
 pub fn roster_tora() -> CharacterArchetype {
   let lp = make_move(
-    "claw jab", attack_lp, move_kind_normal, 21, 4, 3, 36, 0, 10, 7, 20.0, 94.0,
+    "claw jab", AttackLp, MoveKindNormal, 21, 4, 3, 36, 0, 10, 7, 20.0, 94.0,
     -14.0, 0.0, 52.0, -98.0, 36.0, 22.0,
   )
 
   let hp = make_move(
-    "tiger smash", attack_hp, move_kind_normal, 32, 8, 4, 80, 0, 18, 12, 30.0, 150.0,
+    "tiger smash", AttackHp, MoveKindNormal, 32, 8, 4, 80, 0, 18, 12, 30.0, 150.0,
     -40.0, 26.0, 58.0, -108.0, 48.0, 30.0,
   )
 
   let lk = make_move(
-    "fang sweep", attack_lk, move_kind_normal, 23, 5, 3, 40, 0, 11, 8, 24.0, 96.0,
+    "fang sweep", AttackLk, MoveKindNormal, 23, 5, 3, 40, 0, 11, 8, 24.0, 96.0,
     0.0, 16.0, 48.0, -54.0, 46.0, 22.0,
   )
   lk.low_attack = true
 
   let hk = make_move(
-    "axe claw", attack_hk, move_kind_normal, 35, 9, 4, 92, 0, 19, 12, 34.0, 170.0,
+    "axe claw", AttackHk, MoveKindNormal, 35, 9, 4, 92, 0, 19, 12, 34.0, 170.0,
     -118.0, 20.0, 70.0, -124.0, 50.0, 34.0,
   )
   hk.knockdown = true
 
   let qcf = make_move(
-    "rending rush", attack_special_qcf, move_kind_special, 50, 11, 6, 132, 9, 24,
+    "rending rush", AttackSpecialQcf, MoveKindSpecial, 50, 11, 6, 132, 9, 24,
     16, 52.0, 220.0, -56.0, 94.0, 94.0, -90.0, 56.0, 34.0,
   )
   qcf.auto_dash = true
   qcf.cancel_on_hit = true
 
   let dp = make_move(
-    "predator leap", attack_special_dp, move_kind_special, 52, 6, 6, 134, 10, 25,
+    "predator leap", AttackSpecialDp, MoveKindSpecial, 52, 6, 6, 134, 10, 25,
     15, 36.0, 100.0, -304.0, 66.0, 54.0, -132.0, 42.0, 82.0,
   )
   dp.invuln_end = 9
   dp.knockdown = true
 
   let super_move = make_move(
-    "king of beasts", attack_super, move_kind_super, 86, 10, 12, 272, 22, 36, 22,
+    "king of beasts", AttackSuper, MoveKindSuper, 86, 10, 12, 272, 22, 36, 22,
     76.0, 220.0, -156.0, 104.0, 94.0, -118.0, 94.0, 84.0,
   )
   super_move.invuln_end = 13
@@ -420,42 +420,42 @@ pub fn roster_tora() -> CharacterArchetype {
 ///|
 pub fn roster_mei() -> CharacterArchetype {
   let lp = make_move(
-    "lotus jab", attack_lp, move_kind_normal, 20, 3, 3, 30, 0, 9, 7, 18.0, 80.0,
+    "lotus jab", AttackLp, MoveKindNormal, 20, 3, 3, 30, 0, 9, 7, 18.0, 80.0,
     -12.0, 0.0, 48.0, -98.0, 34.0, 20.0,
   )
 
   let hp = make_move(
-    "petal palm", attack_hp, move_kind_normal, 31, 7, 4, 68, 0, 16, 11, 26.0, 136.0,
+    "petal palm", AttackHp, MoveKindNormal, 31, 7, 4, 68, 0, 16, 11, 26.0, 136.0,
     -20.0, 12.0, 62.0, -108.0, 44.0, 30.0,
   )
 
   let lk = make_move(
-    "river sweep", attack_lk, move_kind_normal, 24, 5, 3, 40, 0, 12, 8, 24.0, 94.0,
+    "river sweep", AttackLk, MoveKindNormal, 24, 5, 3, 40, 0, 12, 8, 24.0, 94.0,
     0.0, 8.0, 44.0, -56.0, 44.0, 22.0,
   )
   lk.low_attack = true
 
   let hk = make_move(
-    "spring fan", attack_hk, move_kind_normal, 34, 9, 4, 84, 0, 17, 12, 30.0, 152.0,
+    "spring fan", AttackHk, MoveKindNormal, 34, 9, 4, 84, 0, 17, 12, 30.0, 152.0,
     -112.0, 16.0, 68.0, -126.0, 48.0, 34.0,
   )
   hk.overhead_attack = true
 
   let qcf = make_move(
-    "jade storm", attack_special_qcf, move_kind_special, 50, 11, 5, 114, 8, 22, 16,
+    "jade storm", AttackSpecialQcf, MoveKindSpecial, 50, 11, 5, 114, 8, 22, 16,
     40.0, 178.0, -28.0, 72.0, 90.0, -94.0, 52.0, 34.0,
   )
   qcf.cancel_on_hit = true
 
   let dp = make_move(
-    "white crane rise", attack_special_dp, move_kind_special, 52, 5, 5, 122, 9, 24,
+    "white crane rise", AttackSpecialDp, MoveKindSpecial, 52, 5, 5, 122, 9, 24,
     14, 34.0, 82.0, -310.0, 50.0, 50.0, -134.0, 40.0, 84.0,
   )
   dp.invuln_end = 8
   dp.knockdown = true
 
   let super_move = make_move(
-    "moonlit finale", attack_super, move_kind_super, 82, 9, 11, 246, 18, 34, 21,
+    "moonlit finale", AttackSuper, MoveKindSuper, 82, 9, 11, 246, 18, 34, 21,
     66.0, 176.0, -118.0, 92.0, 90.0, -116.0, 90.0, 82.0,
   )
   super_move.invuln_end = 12

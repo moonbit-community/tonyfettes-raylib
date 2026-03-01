@@ -49,12 +49,12 @@ pub fn spawn_hit_spark(
   game : @types.Game,
   x : Float,
   y : Float,
-  kind : Int,
+  kind : @types.SparkKind,
   count : Int,
 ) -> Unit {
-  let color = if kind == @types.spark_kind_block {
+  let color = if kind == @types.SparkKindBlock {
     @raylib.Color::new(135, 186, 255, 255)
-  } else if kind == @types.spark_kind_super {
+  } else if kind == @types.SparkKindSuper {
     @raylib.Color::new(255, 216, 120, 255)
   } else {
     @raylib.Color::new(255, 138, 86, 255)
@@ -69,12 +69,12 @@ pub fn spawn_hit_spark(
     let angle = @types.rand_rangef(game, @types.f(0.0), @types.f(6.28))
     let speed = @types.rand_rangef(
       game,
-      if kind == @types.spark_kind_super {
+      if kind == @types.SparkKindSuper {
         @types.f(200.0)
       } else {
         @types.f(120.0)
       },
-      if kind == @types.spark_kind_super {
+      if kind == @types.SparkKindSuper {
         @types.f(520.0)
       } else {
         @types.f(360.0)
@@ -92,7 +92,7 @@ pub fn spawn_hit_spark(
     p.vy = vy
     p.life = @types.rand_rangef(game, @types.f(0.18), @types.f(0.48))
     p.max_life = p.life
-    p.size = if kind == @types.spark_kind_super {
+    p.size = if kind == @types.SparkKindSuper {
       @types.rand_rangef(game, @types.f(5.0), @types.f(12.0))
     } else {
       @types.rand_rangef(game, @types.f(3.0), @types.f(8.0))

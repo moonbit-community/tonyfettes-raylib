@@ -2,7 +2,7 @@
 fn draw_stage_sky(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 10, 16, 255))
 
-  let top_color = if game.state == @types.state_match_over {
+  let top_color = if game.state == @types.StateMatchOver {
     @raylib.Color::new(18, 26, 42, 255)
   } else {
     @raylib.Color::new(14, 26, 44, 255)
