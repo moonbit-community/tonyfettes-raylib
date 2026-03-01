@@ -1,5 +1,5 @@
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -9,12 +9,12 @@ struct Bullet {
 }
 
 ///|
-fn Bullet::new() -> Bullet {
+pub fn Bullet::new() -> Bullet {
   { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ttl: 0.0 }
 }
 
 ///|
-struct Rock {
+pub(all) struct Rock {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -25,12 +25,12 @@ struct Rock {
 }
 
 ///|
-fn Rock::new() -> Rock {
+pub fn Rock::new() -> Rock {
   { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, radius: 0.0, size: 0 }
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   mut ship_x : Float
   mut ship_y : Float
   mut ship_vx : Float
@@ -38,6 +38,7 @@ struct Game {
   mut ship_angle : Float
   mut fire_cooldown : Float
   mut ship_invuln : Float
+  mut thrusting : Bool
   bullets : Array[Bullet]
   rocks : Array[Rock]
   mut score : Int
@@ -47,7 +48,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     ship_x: Float::from_int(screen_width) * 0.5,
     ship_y: Float::from_int(screen_height) * 0.5,
@@ -56,6 +57,7 @@ fn Game::new() -> Game {
     ship_angle: -pi * 0.5,
     fire_cooldown: 0.0,
     ship_invuln: 0.0,
+    thrusting: false,
     bullets: Array::make(bullet_max, Bullet::new()),
     rocks: Array::make(rock_max, Rock::new()),
     score: 0,

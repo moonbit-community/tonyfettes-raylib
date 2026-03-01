@@ -1,15 +1,15 @@
 ///|
-fn random01() -> Float {
+pub fn random01() -> Float {
   Float::from_int(@raylib.get_random_value(0, 10_000)) / (10_000.0 : Float)
 }
 
 ///|
-fn random_range(min : Float, max : Float) -> Float {
+pub fn random_range(min : Float, max : Float) -> Float {
   min + (max - min) * random01()
 }
 
 ///|
-fn wrap_x(x : Float) -> Float {
+pub fn wrap_x(x : Float) -> Float {
   let w = Float::from_int(screen_width)
   if x < (0.0 : Float) {
     x + w
@@ -21,7 +21,7 @@ fn wrap_x(x : Float) -> Float {
 }
 
 ///|
-fn wrap_y(y : Float) -> Float {
+pub fn wrap_y(y : Float) -> Float {
   let h = Float::from_int(screen_height)
   if y < (0.0 : Float) {
     y + h
@@ -33,7 +33,12 @@ fn wrap_y(y : Float) -> Float {
 }
 
 ///|
-fn ship_reset(game : Game) -> Unit {
+pub fn length_sq(dx : Float, dy : Float) -> Float {
+  dx * dx + dy * dy
+}
+
+///|
+pub fn ship_reset(game : Game) -> Unit {
   game.ship_x = Float::from_int(screen_width) * (0.5 : Float)
   game.ship_y = Float::from_int(screen_height) * (0.5 : Float)
   game.ship_vx = 0.0
@@ -43,7 +48,7 @@ fn ship_reset(game : Game) -> Unit {
 }
 
 ///|
-fn clear_entities(game : Game) -> Unit {
+pub fn clear_entities(game : Game) -> Unit {
   for bullet in game.bullets {
     bullet.active = false
   }
@@ -53,7 +58,7 @@ fn clear_entities(game : Game) -> Unit {
 }
 
 ///|
-fn spawn_rock(
+pub fn spawn_rock(
   game : Game,
   size : Int,
   x : Float,
@@ -80,7 +85,7 @@ fn spawn_rock(
 }
 
 ///|
-fn spawn_wave(game : Game) -> Unit {
+pub fn spawn_wave(game : Game) -> Unit {
   let count = 4 + game.wave
   for i in 0..<count {
     let edge = @raylib.get_random_value(0, 3)
@@ -117,7 +122,7 @@ fn spawn_wave(game : Game) -> Unit {
 }
 
 ///|
-fn reset_game(game : Game) -> Unit {
+pub fn reset_game(game : Game) -> Unit {
   game.score = 0
   game.lives = 3
   game.wave = 1

@@ -1,15 +1,15 @@
 ///|
 fn draw_starfield() -> Unit {
   for i in 0..<70 {
-    let x = (i * 97 + i * i * 7) % screen_width
-    let y = (i * 53 + i * i * 11) % screen_height
+    let x = (i * 97 + i * i * 7) % @types.screen_width
+    let y = (i * 53 + i * i * 11) % @types.screen_height
     let c = if i % 3 == 0 { @raylib.darkgray } else { @raylib.gray }
     @raylib.draw_pixel(x, y, c)
   }
 }
 
 ///|
-fn draw_ship(game : Game) -> Unit {
+fn draw_ship(game : @types.Game) -> Unit {
   if game.ship_invuln > 0.0 {
     let blink = @raylib.get_time().to_int() % 2
     if blink == 0 {
@@ -20,16 +20,16 @@ fn draw_ship(game : Game) -> Unit {
   let dir_x = Float::from_double(@math.cos(game.ship_angle.to_double()))
   let dir_y = Float::from_double(@math.sin(game.ship_angle.to_double()))
   let side_x = Float::from_double(
-    @math.cos((game.ship_angle + pi * 0.75).to_double()),
+    @math.cos((game.ship_angle + @types.pi * 0.75).to_double()),
   )
   let side_y = Float::from_double(
-    @math.sin((game.ship_angle + pi * 0.75).to_double()),
+    @math.sin((game.ship_angle + @types.pi * 0.75).to_double()),
   )
   let side2_x = Float::from_double(
-    @math.cos((game.ship_angle - pi * 0.75).to_double()),
+    @math.cos((game.ship_angle - @types.pi * 0.75).to_double()),
   )
   let side2_y = Float::from_double(
-    @math.sin((game.ship_angle - pi * 0.75).to_double()),
+    @math.sin((game.ship_angle - @types.pi * 0.75).to_double()),
   )
 
   let nose = @raylib.Vector2::new(
@@ -47,7 +47,7 @@ fn draw_ship(game : Game) -> Unit {
 
   @raylib.draw_triangle_lines(nose, left, right, @raylib.raywhite)
 
-  if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
+  if game.thrusting {
     let back = @raylib.Vector2::new(
       game.ship_x - dir_x * 8.0,
       game.ship_y - dir_y * 8.0,
@@ -57,7 +57,7 @@ fn draw_ship(game : Game) -> Unit {
 }
 
 ///|
-fn draw_rocks(game : Game) -> Unit {
+fn draw_rocks(game : @types.Game) -> Unit {
   for rock in game.rocks {
     if not(rock.active) {
       continue
@@ -83,7 +83,7 @@ fn draw_rocks(game : Game) -> Unit {
 }
 
 ///|
-fn draw_bullets(game : Game) -> Unit {
+fn draw_bullets(game : @types.Game) -> Unit {
   for bullet in game.bullets {
     if not(bullet.active) {
       continue
@@ -98,7 +98,7 @@ fn draw_bullets(game : Game) -> Unit {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_text("ASTEROID SALVAGE 2026", 18, 14, 30, @raylib.skyblue)
   @raylib.draw_text("Score: \{game.score}", 18, 52, 24, @raylib.raywhite)
   @raylib.draw_text("Wave: \{game.wave}", 18, 80, 22, @raylib.raywhite)
@@ -117,7 +117,7 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_game(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.begin_drawing()
   @raylib.clear_background(@raylib.Color::new(7, 9, 18, 255))
   draw_starfield()
