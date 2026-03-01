@@ -311,8 +311,9 @@ fn draw_touch_button(
 
 ///|
 fn draw_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
-    return
+  match game.state {
+    @types.Play => ()
+    @types.Title | @types.Result => return
   }
 
   let flap = @types.btn_flap_rect()
@@ -714,18 +715,20 @@ fn draw_world(game : @types.Game) -> Unit {
 ///|
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
-
-  if game.state == @types.state_title {
-    draw_title(game)
-    return
-  }
-
-  draw_world(game)
-  draw_particles(game)
-  draw_panel(game)
-  draw_controls(game)
-
-  if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    @types.Title => draw_title(game)
+    @types.Play => {
+      draw_world(game)
+      draw_particles(game)
+      draw_panel(game)
+      draw_controls(game)
+    }
+    @types.Result => {
+      draw_world(game)
+      draw_particles(game)
+      draw_panel(game)
+      draw_controls(game)
+      draw_result_overlay(game)
+    }
   }
 }

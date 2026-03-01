@@ -22,15 +22,19 @@ fn main {
     game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
       game.touch_count > 0
 
-    if game.state == @types.state_title {
-      @game.update_title_input(game)
-      @game.update_play(game, dt)
-    } else if game.state == @types.state_play {
-      @game.update_play_input(game, dt)
-      @game.update_play(game, dt)
-    } else {
-      @game.update_result_input(game)
-      @game.update_play(game, dt)
+    match game.state {
+      @types.Title => {
+        @game.update_title_input(game)
+        @game.update_play(game, dt)
+      }
+      @types.Play => {
+        @game.update_play_input(game, dt)
+        @game.update_play(game, dt)
+      }
+      @types.Result => {
+        @game.update_result_input(game)
+        @game.update_play(game, dt)
+      }
     }
 
     @raylib.begin_drawing()
