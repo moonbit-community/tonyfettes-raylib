@@ -44,37 +44,33 @@ pub let anim_pop_speed : Float = 6.0
 pub let anim_pop_scale : Float = 1.15
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_won : Int = 2
-
-///|
-pub let state_over : Int = 3
-
-///|
 pub let bg_color : @raylib.Color = @raylib.Color::new(250, 248, 239, 255)
 
 ///|
 pub let board_bg_color : @raylib.Color = @raylib.Color::new(187, 173, 160, 255)
 
 ///|
-pub let cell_empty_color : @raylib.Color = @raylib.Color::new(205, 193, 180, 255)
+pub let cell_empty_color : @raylib.Color = @raylib.Color::new(
+  205, 193, 180, 255,
+)
 
 ///|
-pub let header_text_color : @raylib.Color = @raylib.Color::new(119, 110, 101, 255)
+pub let header_text_color : @raylib.Color = @raylib.Color::new(
+  119, 110, 101, 255,
+)
 
 ///|
 pub let score_bg_color : @raylib.Color = @raylib.Color::new(187, 173, 160, 255)
 
 ///|
-pub let score_label_color : @raylib.Color = @raylib.Color::new(238, 228, 218, 255)
+pub let score_label_color : @raylib.Color = @raylib.Color::new(
+  238, 228, 218, 255,
+)
 
 ///|
-pub let score_value_color : @raylib.Color = @raylib.Color::new(255, 255, 255, 255)
+pub let score_value_color : @raylib.Color = @raylib.Color::new(
+  255, 255, 255, 255,
+)
 
 ///|
 pub let btn_color : @raylib.Color = @raylib.Color::new(143, 122, 102, 255)

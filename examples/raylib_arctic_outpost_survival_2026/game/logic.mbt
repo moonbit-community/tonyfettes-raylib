@@ -132,7 +132,7 @@ fn start_run(game : @types.Game) -> Unit {
   clear_world(game)
   clear_particles(game)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   reset_player(game)
 
   game.lives = 3
@@ -173,11 +173,11 @@ fn start_run(game : @types.Game) -> Unit {
 
 ///|
 fn finish_run(game : @types.Game, win : Bool) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
-  game.state = @types.state_result
+  game.state = @types.Result
   game.win = win
   game.move_x = 0.0
   game.move_y = 0.0
@@ -213,17 +213,29 @@ fn spawn_enemy(game : @types.Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      enemy.x = @types.randf(@types.world_left() + 20.0, @types.world_right() - 20.0)
+      enemy.x = @types.randf(
+        @types.world_left() + 20.0,
+        @types.world_right() - 20.0,
+      )
       enemy.y = @types.world_top() - 40.0
     } else if side == 1 {
-      enemy.x = @types.randf(@types.world_left() + 20.0, @types.world_right() - 20.0)
+      enemy.x = @types.randf(
+        @types.world_left() + 20.0,
+        @types.world_right() - 20.0,
+      )
       enemy.y = @types.world_bottom() + 40.0
     } else if side == 2 {
       enemy.x = @types.world_left() - 40.0
-      enemy.y = @types.randf(@types.world_top() + 20.0, @types.world_bottom() - 20.0)
+      enemy.y = @types.randf(
+        @types.world_top() + 20.0,
+        @types.world_bottom() - 20.0,
+      )
     } else {
       enemy.x = @types.world_right() + 40.0
-      enemy.y = @types.randf(@types.world_top() + 20.0, @types.world_bottom() - 20.0)
+      enemy.y = @types.randf(
+        @types.world_top() + 20.0,
+        @types.world_bottom() - 20.0,
+      )
     }
 
     enemy.active = true
@@ -258,7 +270,10 @@ fn spawn_pickup(game : @types.Game) -> Bool {
     }
 
     pickup.active = true
-    pickup.x = @types.randf(@types.world_left() + 26.0, @types.world_right() - 26.0)
+    pickup.x = @types.randf(
+      @types.world_left() + 26.0,
+      @types.world_right() - 26.0,
+    )
     pickup.y = @types.world_top() - @types.randf(60.0, 260.0)
     pickup.vx = @types.randf(-36.0, 36.0)
     pickup.vy = @types.randf(112.0, 170.0)
@@ -316,7 +331,7 @@ fn spawn_bullet(
 
 ///|
 fn try_fire(game : @types.Game, tx : Float, ty : Float) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
   if game.fire_cd > 0.0 {
@@ -329,7 +344,11 @@ fn try_fire(game : @types.Game, tx : Float, ty : Float) -> Bool {
   }
 
   let overdrive : Bool = game.overdrive_t > 0.0
-  let kind : Int = if overdrive { @types.bullet_pierce } else { @types.bullet_normal }
+  let kind : Int = if overdrive {
+    @types.bullet_pierce
+  } else {
+    @types.bullet_normal
+  }
   let power : Float = if overdrive { 38.0 } else { 24.0 }
 
   if not(spawn_bullet(game, game.player_x, game.player_y, tx, ty, power, kind)) {
@@ -350,14 +369,19 @@ fn try_fire(game : @types.Game, tx : Float, ty : Float) -> Bool {
 
 ///|
 fn try_repair(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
   if game.repair_cd > 0.0 {
     return false
   }
 
-  let near_core : Bool = @types.dist2(game.player_x, game.player_y, @types.core_x(), @types.core_y()) <=
+  let near_core : Bool = @types.dist2(
+      game.player_x,
+      game.player_y,
+      @types.core_x(),
+      @types.core_y(),
+    ) <=
     (@types.core_r + 130.0) * (@types.core_r + 130.0)
 
   if not(near_core) {
@@ -620,7 +644,8 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     enemy.phase = enemy.phase + dt * (1.2 + Float::from_int(enemy.kind))
 
     let target_x : Float = if enemy.kind == @types.enemy_wolf {
-      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
+      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) <
+        280.0 * 280.0 {
         game.player_x
       } else {
         @types.core_x()
@@ -630,7 +655,8 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
     }
 
     let target_y : Float = if enemy.kind == @types.enemy_wolf {
-      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
+      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) <
+        280.0 * 280.0 {
         game.player_y
       } else {
         @types.core_y()
@@ -682,14 +708,18 @@ fn update_enemies(game : @types.Game, dt : Float) -> Unit {
       enemy.vx = -enemy.vx * 0.5
       enemy.vy = -enemy.vy * 0.5
 
-      if game.state != @types.state_play {
+      if game.state != @types.Play {
         return
       }
     }
 
     let core_rr : Float = enemy.r + @types.core_r - 6.0
-    if @types.dist2(enemy.x, enemy.y, @types.core_x(), @types.core_y()) <= core_rr * core_rr {
-      game.core_heat = @types.maxf(0.0, game.core_heat - enemy_core_damage(enemy.kind))
+    if @types.dist2(enemy.x, enemy.y, @types.core_x(), @types.core_y()) <=
+      core_rr * core_rr {
+      game.core_heat = @types.maxf(
+        0.0,
+        game.core_heat - enemy_core_damage(enemy.kind),
+      )
       game.shake_t = @types.maxf(game.shake_t, 0.30)
 
       @types.set_msg(game, "Core under attack!", 0.8)
@@ -718,7 +748,8 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
     }
 
     pickup.phase = pickup.phase + dt * 2.2
-    pickup.x = pickup.x + (pickup.vx + @types.sinf(pickup.phase * 2.0) * 24.0) * dt
+    pickup.x = pickup.x +
+      (pickup.vx + @types.sinf(pickup.phase * 2.0) * 24.0) * dt
     pickup.y = pickup.y + (pickup.vy + Float::from_int(game.wave) * 3.0) * dt
 
     if pickup.x < @types.world_left() + 16.0 {
@@ -748,7 +779,7 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play || game.hint_left <= 0 {
+  if game.state != @types.Play || game.hint_left <= 0 {
     return false
   }
 
@@ -773,7 +804,12 @@ fn use_hint(game : @types.Game) -> Bool {
         continue
       }
 
-      let d2 : Float = @types.dist2(game.player_x, game.player_y, pickup.x, pickup.y)
+      let d2 : Float = @types.dist2(
+        game.player_x,
+        game.player_y,
+        pickup.x,
+        pickup.y,
+      )
 
       if d2 < best_d2 {
         best_d2 = d2
@@ -859,7 +895,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
   update_particles(game, step)
 
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -885,7 +921,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
   if game.suit_hp <= 0.0 {
     hurt_player(game, 100.0)
-    if game.state != @types.state_play {
+    if game.state != @types.Play {
       return
     }
   }
@@ -909,7 +945,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   update_player(game, step)
   update_bullets(game, step)
   update_enemies(game, step)
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
   update_pickups(game, step)
@@ -931,14 +967,18 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
-  if game.state == @types.state_title {
-    update_title_input(game)
-    update_play(game, dt)
-  } else if game.state == @types.state_play {
-    update_play_input(game, dt)
-    update_play(game, dt)
-  } else {
-    update_result_input(game)
-    update_play(game, dt)
+  match game.state {
+    Title => {
+      update_title_input(game)
+      update_play(game, dt)
+    }
+    Play => {
+      update_play_input(game, dt)
+      update_play(game, dt)
+    }
+    Result => {
+      update_result_input(game)
+      update_play(game, dt)
+    }
   }
 }

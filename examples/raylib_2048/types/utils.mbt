@@ -84,11 +84,6 @@ pub fn rect(x : Int, y : Int, w : Int, h : Int) -> @raylib.Rectangle {
 }
 
 ///|
-pub fn rectf(
-  x : Float,
-  y : Float,
-  w : Float,
-  h : Float,
-) -> @raylib.Rectangle {
+pub fn rectf(x : Float, y : Float, w : Float, h : Float) -> @raylib.Rectangle {
   @raylib.Rectangle::new(x, y, w, h)
 }

@@ -2,18 +2,21 @@
 pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.clear_background(@types.bg_color)
   match game.state {
-    s if s == @types.state_title => draw_title(game)
-    s if s == @types.state_play || s == @types.state_won || s == @types.state_over => {
+    @types.Title => draw_title(game)
+    @types.Play => {
       draw_header(game)
       draw_board(game)
-      if game.state == @types.state_won {
-        draw_overlay_won(game)
-      }
-      if game.state == @types.state_over {
-        draw_overlay_over()
-      }
     }
-    _ => ()
+    @types.Won => {
+      draw_header(game)
+      draw_board(game)
+      draw_overlay_won(game)
+    }
+    @types.Over => {
+      draw_header(game)
+      draw_board(game)
+      draw_overlay_over()
+    }
   }
 }
 
@@ -81,22 +84,8 @@ fn draw_header(game : @types.Game) -> Unit {
     56,
     @raylib.Color::new(119, 110, 101, 255),
   )
-  draw_score_box(
-    @types.screen_w - 240,
-    24,
-    108,
-    54,
-    "SCORE",
-    game.score,
-  )
-  draw_score_box(
-    @types.screen_w - 124,
-    24,
-    108,
-    54,
-    "BEST",
-    game.best_score,
-  )
+  draw_score_box(@types.screen_w - 240, 24, 108, 54, "SCORE", game.score)
+  draw_score_box(@types.screen_w - 124, 24, 108, 54, "BEST", game.best_score)
   let btn_y = 100
   let btn_h = 40
   let btn_w = 110
@@ -225,12 +214,7 @@ fn draw_board(game : @types.Game) -> Unit {
     let x = tile.anim_x + (cs - w) / 2.0
     let y = tile.anim_y + (cs - h) / 2.0
     let color = @types.tile_color(tile.value)
-    @raylib.draw_rectangle_rounded(
-      @types.rectf(x, y, w, h),
-      0.08,
-      6,
-      color,
-    )
+    @raylib.draw_rectangle_rounded(@types.rectf(x, y, w, h), 0.08, 6, color)
     let txt = tile.value.to_string()
     let font_size = @types.tile_font_size(tile.value)
     let tw = @raylib.measure_text(txt, font_size)

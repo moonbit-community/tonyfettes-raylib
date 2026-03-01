@@ -183,8 +183,10 @@ fn draw_core(game : @types.Game, ox : Int, oy : Int) -> Unit {
 
   for i in 0..<6 {
     let a : Float = game.ui_t * 0.8 + Float::from_int(i) * 1.047
-    let px : Int = (@types.core_x() + @types.cosf(a) * (@types.core_r + 20.0)).to_int() + ox
-    let py : Int = (@types.core_y() + @types.sinf(a) * (@types.core_r + 20.0)).to_int() + oy
+    let px : Int = (@types.core_x() + @types.cosf(a) * (@types.core_r + 20.0)).to_int() +
+      ox
+    let py : Int = (@types.core_y() + @types.sinf(a) * (@types.core_r + 20.0)).to_int() +
+      oy
     @raylib.draw_circle(px, py, 6.0, @raylib.Color::new(212, 236, 255, 186))
   }
 
@@ -741,7 +743,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_touch_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -1099,9 +1101,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_touch_controls(game)
   draw_message(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    Result => draw_result_overlay(game)
+    Play => ()
   }
 }

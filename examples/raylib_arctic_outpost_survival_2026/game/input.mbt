@@ -71,7 +71,12 @@ fn best_auto_aim(game : @types.Game) -> (Float, Float) {
       continue
     }
 
-    let d2 : Float = @types.dist2(game.player_x, game.player_y, enemy.x, enemy.y)
+    let d2 : Float = @types.dist2(
+      game.player_x,
+      game.player_y,
+      enemy.x,
+      enemy.y,
+    )
 
     if d2 < best {
       best = d2
@@ -85,14 +90,22 @@ fn best_auto_aim(game : @types.Game) -> (Float, Float) {
 
 ///|
 fn clamp_aim_inside_world(game : @types.Game) -> Unit {
-  game.aim_x = @types.clampf(game.aim_x, @types.world_left(), @types.world_right())
-  game.aim_y = @types.clampf(game.aim_y, @types.world_top(), @types.world_bottom())
+  game.aim_x = @types.clampf(
+    game.aim_x,
+    @types.world_left(),
+    @types.world_right(),
+  )
+  game.aim_y = @types.clampf(
+    game.aim_y,
+    @types.world_top(),
+    @types.world_bottom(),
+  )
 }
 
 ///|
 fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_title
+    game.state = @types.Title
     return
   }
 
@@ -131,7 +144,16 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   let hint_btn = @types.btn_hint()
   let restart_btn = @types.btn_restart()
 
-  if @types.pointer_on_rect(mx, my, hold, touch_count, left.0, left.1, left.2, left.3) {
+  if @types.pointer_on_rect(
+      mx,
+      my,
+      hold,
+      touch_count,
+      left.0,
+      left.1,
+      left.2,
+      left.3,
+    ) {
     move_x = move_x - 1.0
   }
   if @types.pointer_on_rect(
@@ -149,7 +171,16 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   if @types.pointer_on_rect(mx, my, hold, touch_count, up.0, up.1, up.2, up.3) {
     move_y = move_y - 1.0
   }
-  if @types.pointer_on_rect(mx, my, hold, touch_count, down.0, down.1, down.2, down.3) {
+  if @types.pointer_on_rect(
+      mx,
+      my,
+      hold,
+      touch_count,
+      down.0,
+      down.1,
+      down.2,
+      down.3,
+    ) {
     move_y = move_y + 1.0
   }
 

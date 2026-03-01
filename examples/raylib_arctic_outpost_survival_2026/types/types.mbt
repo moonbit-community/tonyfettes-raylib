@@ -47,12 +47,19 @@ pub(all) struct Particle {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   enemies : Array[Enemy]
   pickups : Array[Pickup]
   bullets : Array[Bullet]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   mut player_x : Float
   mut player_y : Float
   mut player_vx : Float
@@ -157,7 +164,7 @@ pub fn Game::new() -> Game {
     pickups: Array::makei(max_pickups, fn(_i) { Pickup::new() }),
     bullets: Array::makei(max_bullets, fn(_i) { Bullet::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     player_x: Float::from_int(world_x0 + world_w / 2),
     player_y: Float::from_int(world_y0 + world_h - 180),
     player_vx: 0.0,

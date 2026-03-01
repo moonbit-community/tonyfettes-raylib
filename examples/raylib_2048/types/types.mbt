@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Won
+  Over
+} derive(Eq)
+
+///|
 pub(all) struct Tile {
   mut value : Int
   mut anim_x : Float
@@ -28,7 +36,7 @@ pub fn Tile::empty() -> Tile {
 pub(all) struct Game {
   tiles : Array[Tile]
   prev_values : Array[Int]
-  mut state : Int
+  mut state : GameState
   mut score : Int
   mut best_score : Int
   mut prev_score : Int
@@ -44,7 +52,7 @@ pub fn Game::new() -> Game {
   let g : Game = {
     tiles: Array::makei(cell_count, fn(_i) { Tile::empty() }),
     prev_values: Array::make(cell_count, 0),
-    state: state_title,
+    state: Title,
     score: 0,
     best_score: 0,
     prev_score: 0,
