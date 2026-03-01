@@ -6,13 +6,7 @@ fn draw_centered(
   color : @raylib.Color,
 ) -> Unit {
   let width = @raylib.measure_text(text, size)
-  @raylib.draw_text(
-    text,
-    @types.screen_w / 2 - width / 2,
-    y,
-    size,
-    color,
-  )
+  @raylib.draw_text(text, @types.screen_w / 2 - width / 2, y, size, color)
 }
 
 ///|
@@ -49,10 +43,7 @@ fn draw_forest_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(9, 24, 14, 255))
 
   for i in 0..<34 {
-    let sway = @types.sinf(
-        game.elapsed * 1.7 + Float::from_int(i) * 0.62,
-      ) *
-      8.0
+    let sway = @types.sinf(game.elapsed * 1.7 + Float::from_int(i) * 0.62) * 8.0
     let x = @types.world_x - 70 + i * 34 + sway.to_int()
     let w = 16 + i * 5 % 11
     @raylib.draw_rectangle(
@@ -60,12 +51,7 @@ fn draw_forest_background(game : @types.Game) -> Unit {
       @types.world_y - 40,
       w,
       @types.world_h + 120,
-      @raylib.Color::new(
-        22 + i * 3 % 18,
-        58 + i * 7 % 38,
-        28 + i * 2 % 16,
-        120,
-      ),
+      @raylib.Color::new(22 + i * 3 % 18, 58 + i * 7 % 38, 28 + i * 2 % 16, 120),
     )
   }
 
@@ -518,13 +504,9 @@ fn draw_status_strip(game : @types.Game) -> Unit {
     return
   }
 
-  let alpha = (@types.clampf(
-      game.status_t / @types.status_default_t,
-      0.0,
-      1.0,
-    ) *
-    200.0 +
-    40.0).to_int()
+  let alpha = (@types.clampf(game.status_t / @types.status_default_t, 0.0, 1.0) *
+  200.0 +
+  40.0).to_int()
   let text_alpha = @types.clampi(alpha + 20, 0, 255)
   @raylib.draw_rectangle(
     @types.world_x + 20,
@@ -550,16 +532,16 @@ fn draw_status_strip(game : @types.Game) -> Unit {
 
 ///|
 fn draw_night_banner(game : @types.Game) -> Unit {
-  if game.state != @types.state_playing || game.night_banner_t <= 0.0 {
+  if game.state != @types.GameState::Playing || game.night_banner_t <= 0.0 {
     return
   }
 
   let alpha = (@types.clampf(
-      game.night_banner_t / @types.night_banner_time,
-      0.0,
-      1.0,
-    ) *
-    230.0).to_int()
+    game.night_banner_t / @types.night_banner_time,
+    0.0,
+    1.0,
+  ) *
+  230.0).to_int()
   draw_centered(
     "Night \{game.night}",
     @types.world_y + 84,
@@ -630,12 +612,7 @@ fn draw_game_over_overlay(game : @types.Game) -> Unit {
     @types.screen_h,
     @raylib.Color::new(22, 8, 8, 186),
   )
-  draw_centered(
-    "GAME OVER",
-    264,
-    74,
-    @raylib.Color::new(252, 188, 174, 252),
-  )
+  draw_centered("GAME OVER", 264, 74, @raylib.Color::new(252, 188, 174, 252))
   draw_centered(
     game.game_over_reason,
     348,
@@ -675,12 +652,8 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_status_strip(game)
 
   if game.shake_t > 0.0 {
-    let alpha = (@types.clampf(
-        game.shake_t / @types.shake_hit_time,
-        0.0,
-        1.0,
-      ) *
-      100.0).to_int()
+    let alpha = (@types.clampf(game.shake_t / @types.shake_hit_time, 0.0, 1.0) *
+    100.0).to_int()
     @raylib.draw_rectangle(
       0,
       0,
@@ -690,11 +663,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    @types.GameState::Title => draw_title_overlay()
+    @types.GameState::Paused => draw_paused_overlay()
+    @types.GameState::GameOver => draw_game_over_overlay(game)
+    @types.GameState::Playing => ()
   }
 }

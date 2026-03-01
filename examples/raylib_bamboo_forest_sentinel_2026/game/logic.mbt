@@ -72,14 +72,15 @@ fn reset_enemies(game : @types.Game) -> Unit {
 ///|
 fn begin_night(game : @types.Game, night : Int) -> Unit {
   game.night = night
-  game.spawn_pool = @types.night_spawn_base + (night - 1) * @types.night_spawn_step
+  game.spawn_pool = @types.night_spawn_base +
+    (night - 1) * @types.night_spawn_step
   game.spawn_cd = 0.84
   game.night_banner_t = @types.night_banner_time
 }
 
 ///|
 fn start_new_run(game : @types.Game) -> Unit {
-  game.state = @types.state_playing
+  game.state = @types.GameState::Playing
   game.score = 0
   game.kills = 0
   game.elapsed = 0.0
@@ -101,7 +102,7 @@ fn start_new_run(game : @types.Game) -> Unit {
 
 ///|
 fn end_run_game_over(game : @types.Game, reason : String) -> Unit {
-  game.state = @types.state_game_over
+  game.state = @types.GameState::GameOver
   game.game_over_reason = reason
   set_status(game, "Sanctum fallen. Press R to restart.", 2.2)
 }
@@ -220,7 +221,9 @@ fn try_remove_trap(game : @types.Game) -> Bool {
 fn register_kill(game : @types.Game, enemy_kind : Int) -> Unit {
   game.kills = game.kills + 1
 
-  let gain_score = @types.score_kill_base + (game.night - 1) * 6 + enemy_kind * 9
+  let gain_score = @types.score_kill_base +
+    (game.night - 1) * 6 +
+    enemy_kind * 9
   game.score = game.score + gain_score
 
   if game.score > game.best_score {
@@ -552,7 +555,12 @@ fn update_traps(game : @types.Game, dt : Float) -> Unit {
         continue
       }
 
-      let d2 = @types.dist2(trap.x, trap.y, game.enemies[j].x, game.enemies[j].y)
+      let d2 = @types.dist2(
+        trap.x,
+        trap.y,
+        game.enemies[j].x,
+        game.enemies[j].y,
+      )
       if d2 <= best_d2 {
         hit_index = j
         best_d2 = d2
@@ -648,9 +656,7 @@ fn evaluate_wave_and_loss(game : @types.Game) -> Unit {
   }
 
   let cleared_night = game.night
-  game.score = game.score +
-    @types.score_night_clear_bonus +
-    cleared_night * 34
+  game.score = game.score + @types.score_night_clear_bonus + cleared_night * 34
   if game.score > game.best_score {
     game.best_score = game.score
   }
@@ -718,7 +724,7 @@ fn update_paused_state(game : @types.Game) -> Unit {
   }
 
   if game.input.press_pause {
-    game.state = @types.state_playing
+    game.state = @types.GameState::Playing
     set_status(game, "Resumed.", 0.7)
   }
 }
@@ -733,7 +739,7 @@ fn update_game_over_state(game : @types.Game) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input.press_pause {
-    game.state = @types.state_paused
+    game.state = @types.GameState::Paused
     set_status(game, "Paused.", 0.7)
     return
   }
@@ -760,13 +766,10 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     game.status_t = @types.maxf(game.status_t - dt, 0.0)
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_game_over_state(game)
+  match game.state {
+    @types.GameState::Title => update_title_state(game)
+    @types.GameState::Playing => update_playing_state(game, dt)
+    @types.GameState::Paused => update_paused_state(game)
+    @types.GameState::GameOver => update_game_over_state(game)
   }
 }

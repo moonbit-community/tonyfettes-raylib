@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
@@ -126,7 +134,7 @@ pub(all) struct Game {
   beacons : Array[Beacon]
   traps : Array[Trap]
   enemies : Array[Enemy]
-  mut state : Int
+  mut state : GameState
   mut night : Int
   mut score : Int
   mut best_score : Int
@@ -157,7 +165,7 @@ pub fn Game::new() -> Game {
     beacons,
     traps,
     enemies,
-    state: state_title,
+    state: GameState::Title,
     night: 1,
     score: 0,
     best_score: 0,
