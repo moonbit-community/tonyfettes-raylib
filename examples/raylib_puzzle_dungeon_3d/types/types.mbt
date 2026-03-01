@@ -1,9 +1,130 @@
+// Enum types for categorical constants
+
+///|
+pub(all) enum Tile {
+  TileEmpty
+  TileWall
+  TileFloor
+  TilePlate
+  TileSwitchOff
+  TileSwitchOn
+  TileExitClosed
+  TileExitOpen
+  TilePit
+  TileIce
+  TileTeleportA
+  TileTeleportB
+  TileCracked
+  TileSpikesOff
+  TileSpikesOn
+  TileConveyorUp
+  TileConveyorRight
+  TileConveyorDown
+  TileConveyorLeft
+  TileBridgeOff
+  TileBridgeOn
+  TileGateClosed
+  TileGateOpen
+  TileMirrorNe
+  TileMirrorNw
+  TileMirrorSe
+  TileMirrorSw
+  TileLaserSourceRight
+  TileLaserSourceDown
+  TileLaserSourceLeft
+  TileLaserSourceUp
+  TileLaserTarget
+  TileRotatePlatform
+} derive(Eq)
+
+///|
+pub(all) enum EntityKind {
+  EntityNone
+  EntityBlock
+  EntityDiamond
+  EntityKey
+  EntityBomb
+} derive(Eq)
+
+///|
+pub(all) enum Dir {
+  DirNone
+  DirUp
+  DirRight
+  DirDown
+  DirLeft
+} derive(Eq)
+
+///|
+pub(all) enum GameState {
+  StateMenu
+  StatePlaying
+  StatePaused
+  StateLevelComplete
+  StateGameOver
+  StateFloorSelect
+  StateCampaignComplete
+  StateWorldSelect
+  StateTutorial
+} derive(Eq)
+
+///|
+pub(all) enum World {
+  WorldDungeon
+  WorldIce
+  WorldLava
+  WorldGarden
+  WorldVoid
+} derive(Eq)
+
+///|
+pub fn int_to_world(i : Int) -> World {
+  if i == 0 {
+    WorldDungeon
+  } else if i == 1 {
+    WorldIce
+  } else if i == 2 {
+    WorldLava
+  } else if i == 3 {
+    WorldGarden
+  } else {
+    WorldVoid
+  }
+}
+
+///|
+pub fn world_to_int(w : World) -> Int {
+  if w == WorldDungeon {
+    0
+  } else if w == WorldIce {
+    1
+  } else if w == WorldLava {
+    2
+  } else if w == WorldGarden {
+    3
+  } else {
+    4
+  }
+}
+
+///|
+pub(all) enum DecoKind {
+  DecoTorch
+  DecoCrystal
+  DecoMagmaPool
+  DecoFlower
+  DecoFloatingRock
+  DecoPillar
+  DecoMushroom
+  DecoVine
+} derive(Eq)
+
 // Entity on the grid (block, diamond, key, bomb)
 
 ///|
 pub(all) struct Entity {
   mut active : Bool
-  mut kind : Int
+  mut kind : EntityKind
   mut gx : Int // grid x
   mut gy : Int // grid y
   mut anim_x : Float // animated world x
@@ -18,7 +139,7 @@ pub(all) struct Entity {
 pub fn Entity::inactive() -> Entity {
   {
     active: false,
-    kind: entity_none,
+    kind: EntityNone,
     gx: 0,
     gy: 0,
     anim_x: 0.0,
@@ -34,7 +155,7 @@ pub fn Entity::inactive() -> Entity {
 pub fn Entity::new_block(gx : Int, gy : Int) -> Entity {
   {
     active: true,
-    kind: entity_block,
+    kind: EntityBlock,
     gx,
     gy,
     anim_x: Float::from_int(gx),
@@ -50,7 +171,7 @@ pub fn Entity::new_block(gx : Int, gy : Int) -> Entity {
 pub fn Entity::new_diamond(gx : Int, gy : Int) -> Entity {
   {
     active: true,
-    kind: entity_diamond,
+    kind: EntityDiamond,
     gx,
     gy,
     anim_x: Float::from_int(gx),
@@ -66,7 +187,7 @@ pub fn Entity::new_diamond(gx : Int, gy : Int) -> Entity {
 pub fn Entity::new_key(gx : Int, gy : Int) -> Entity {
   {
     active: true,
-    kind: entity_key,
+    kind: EntityKey,
     gx,
     gy,
     anim_x: Float::from_int(gx),
@@ -125,12 +246,19 @@ pub(all) struct LaserSegment {
   mut start_gy : Int
   mut end_gx : Int
   mut end_gy : Int
-  mut dir : Int
+  mut dir : Dir
 }
 
 ///|
 pub fn LaserSegment::inactive() -> LaserSegment {
-  { active: false, start_gx: 0, start_gy: 0, end_gx: 0, end_gy: 0, dir: 0 }
+  {
+    active: false,
+    start_gx: 0,
+    start_gy: 0,
+    end_gx: 0,
+    end_gy: 0,
+    dir: DirNone,
+  }
 }
 
 // Decoration for world ambiance
@@ -138,7 +266,7 @@ pub fn LaserSegment::inactive() -> LaserSegment {
 ///|
 pub(all) struct Decoration {
   mut active : Bool
-  mut kind : Int
+  mut kind : DecoKind
   mut x : Float
   mut y : Float
   mut z : Float
@@ -148,7 +276,15 @@ pub(all) struct Decoration {
 
 ///|
 pub fn Decoration::inactive() -> Decoration {
-  { active: false, kind: 0, x: 0.0, y: 0.0, z: 0.0, scale: 1.0, phase: 0.0 }
+  {
+    active: false,
+    kind: DecoTorch,
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+    scale: 1.0,
+    phase: 0.0,
+  }
 }
 
 // Undo snapshot
@@ -157,11 +293,11 @@ pub fn Decoration::inactive() -> Decoration {
 pub(all) struct UndoState {
   mut player_gx : Int
   mut player_gy : Int
-  tiles : FixedArray[Int]
+  tiles : FixedArray[Tile]
   entity_gx : FixedArray[Int]
   entity_gy : FixedArray[Int]
   entity_active : FixedArray[Bool]
-  entity_kind : FixedArray[Int]
+  entity_kind : FixedArray[EntityKind]
   mut moves : Int
   mut keys_held : Int
   mut diamonds_collected : Int
@@ -172,11 +308,11 @@ pub fn UndoState::empty() -> UndoState {
   {
     player_gx: 0,
     player_gy: 0,
-    tiles: FixedArray::make(grid_total, 0),
+    tiles: FixedArray::make(grid_total, TileEmpty),
     entity_gx: FixedArray::make(max_entities, 0),
     entity_gy: FixedArray::make(max_entities, 0),
     entity_active: FixedArray::make(max_entities, false),
-    entity_kind: FixedArray::make(max_entities, 0),
+    entity_kind: FixedArray::make(max_entities, EntityNone),
     moves: 0,
     keys_held: 0,
     diamonds_collected: 0,
@@ -216,8 +352,8 @@ pub fn AchievementInfo::new() -> AchievementInfo {
 ///|
 pub(all) struct Game {
   // State
-  mut state : Int
-  mut prev_state : Int
+  mut state : GameState
+  mut prev_state : GameState
 
   // Player
   mut player_gx : Int
@@ -225,14 +361,14 @@ pub(all) struct Game {
   mut player_anim_x : Float
   mut player_anim_z : Float
   mut player_anim_timer : Float
-  mut player_dir : Int
+  mut player_dir : Dir
   mut player_moving : Bool
   mut player_walk_cycle : Float
   mut player_push_anim : Float
 
   // Level
   mut current_floor : Int
-  mut current_world : Int
+  mut current_world : World
   mut moves : Int
   mut keys_held : Int
   mut diamonds_collected : Int
@@ -240,7 +376,7 @@ pub(all) struct Game {
   mut plates_active : Int
   mut plates_total : Int
   mut exit_open : Bool
-  tiles : Array[Int]
+  tiles : Array[Tile]
   entities : Array[Entity]
   mut level_timer : Float
   mut used_undo : Bool
@@ -327,19 +463,19 @@ pub fn Game::new() -> Game {
     ignore(i)
   }
   {
-    state: state_menu,
-    prev_state: state_menu,
+    state: StateMenu,
+    prev_state: StateMenu,
     player_gx: 1,
     player_gy: 1,
     player_anim_x: 1.0,
     player_anim_z: 1.0,
     player_anim_timer: 0.0,
-    player_dir: dir_down,
+    player_dir: DirDown,
     player_moving: false,
     player_walk_cycle: 0.0,
     player_push_anim: 0.0,
     current_floor: 0,
-    current_world: 0,
+    current_world: WorldDungeon,
     moves: 0,
     keys_held: 0,
     diamonds_collected: 0,
@@ -347,7 +483,7 @@ pub fn Game::new() -> Game {
     plates_active: 0,
     plates_total: 0,
     exit_open: false,
-    tiles: Array::make(grid_total, tile_empty),
+    tiles: Array::make(grid_total, TileEmpty),
     entities: Array::make(max_entities, Entity::inactive()),
     level_timer: 0.0,
     used_undo: false,
