@@ -1,109 +1,5 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn in_board(x : Int, y : Int) -> Bool {
-  x >= 0 && x < board_w && y >= 0 && y < board_h
-}
-
-///|
-fn idx(x : Int, y : Int) -> Int {
-  y * board_w + x
-}
-
-///|
-fn board_metrics(game : Game) -> (Int, Int, Int) {
-  let area_x : Int = board_area_x()
-  let area_y : Int = board_area_y()
-  let area_w : Int = board_area_w()
-  let area_h : Int = board_area_h()
-
-  let tile_x : Int = area_w / board_w
-  let tile_y : Int = area_h / board_h
-
-  let mut tile : Int = mini(tile_x, tile_y)
-  tile = clampi(tile, 36, 56)
-
-  let mut x0 : Int = area_x + (area_w - board_w * tile) / 2
-  let mut y0 : Int = area_y + (area_h - board_h * tile) / 2
-
-  if game.shake_t > 0.0 {
-    x0 = x0 + @raylib.get_random_value(-3, 3)
-    y0 = y0 + @raylib.get_random_value(-3, 3)
-  }
-
-  (x0, y0, tile)
-}
-
-///|
-fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
-  game.msg = msg
-  game.msg_t = ttl
-}
-
-///|
-fn clear_effects(game : Game) -> Unit {
+fn clear_effects(game : @types.Game) -> Unit {
   for spark in game.sparks {
     spark.active = false
     spark.x = 0.0
@@ -118,7 +14,7 @@ fn clear_effects(game : Game) -> Unit {
 
 ///|
 fn spawn_spark(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -145,23 +41,23 @@ fn spawn_spark(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     spawn_spark(
       game,
-      x + randf(-8.0, 8.0),
-      y + randf(-8.0, 8.0),
-      randf(-200.0, 200.0),
-      randf(-230.0, 120.0),
-      randf(0.2, 1.0),
-      randf(1.4, 4.8),
+      x + @types.randf(-8.0, 8.0),
+      y + @types.randf(-8.0, 8.0),
+      @types.randf(-200.0, 200.0),
+      @types.randf(-230.0, 120.0),
+      @types.randf(0.2, 1.0),
+      @types.randf(1.4, 4.8),
       kind,
     )
   }
 }
 
 ///|
-fn update_sparks(game : Game, dt : Float) -> Unit {
+fn update_sparks(game : @types.Game, dt : Float) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
@@ -181,7 +77,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn clear_board(game : Game) -> Unit {
+fn clear_board(game : @types.Game) -> Unit {
   for cell in game.cells {
     cell.mine = false
     cell.revealed = false
@@ -192,7 +88,7 @@ fn clear_board(game : Game) -> Unit {
 }
 
 ///|
-fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
+fn adjacent_mines(game : @types.Game, x : Int, y : Int) -> Int {
   let mut n : Int = 0
 
   for oy in -1..<=1 {
@@ -202,10 +98,10 @@ fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
       }
       let nx : Int = x + ox
       let ny : Int = y + oy
-      if not(in_board(nx, ny)) {
+      if not(@types.in_board(nx, ny)) {
         continue
       }
-      if game.cells[idx(nx, ny)].mine {
+      if game.cells[@types.idx(nx, ny)].mine {
         n = n + 1
       }
     }
@@ -215,10 +111,10 @@ fn adjacent_mines(game : Game, x : Int, y : Int) -> Int {
 }
 
 ///|
-fn recompute_around(game : Game) -> Unit {
-  for y in 0..<board_h {
-    for x in 0..<board_w {
-      let i : Int = idx(x, y)
+fn recompute_around(game : @types.Game) -> Unit {
+  for y in 0..<@types.board_h {
+    for x in 0..<@types.board_w {
+      let i : Int = @types.idx(x, y)
       if game.cells[i].mine {
         game.cells[i].around = -1
       } else {
@@ -230,23 +126,23 @@ fn recompute_around(game : Game) -> Unit {
 
 ///|
 fn is_safe_seed_cell(seed_x : Int, seed_y : Int, x : Int, y : Int) -> Bool {
-  absf(Float::from_int(seed_x - x)) <= 1.0 &&
-  absf(Float::from_int(seed_y - y)) <= 1.0
+  @types.absf(Float::from_int(seed_x - x)) <= 1.0 &&
+  @types.absf(Float::from_int(seed_y - y)) <= 1.0
 }
 
 ///|
-fn place_mines(game : Game, safe_x : Int, safe_y : Int) -> Unit {
+fn place_mines(game : @types.Game, safe_x : Int, safe_y : Int) -> Unit {
   let mut placed : Int = 0
 
   while placed < game.mine_count {
-    let x : Int = @raylib.get_random_value(0, board_w - 1)
-    let y : Int = @raylib.get_random_value(0, board_h - 1)
+    let x : Int = @raylib.get_random_value(0, @types.board_w - 1)
+    let y : Int = @raylib.get_random_value(0, @types.board_h - 1)
 
     if is_safe_seed_cell(safe_x, safe_y, x, y) {
       continue
     }
 
-    let i : Int = idx(x, y)
+    let i : Int = @types.idx(x, y)
     if game.cells[i].mine {
       continue
     }
@@ -259,26 +155,26 @@ fn place_mines(game : Game, safe_x : Int, safe_y : Int) -> Unit {
 }
 
 ///|
-fn start_match(game : Game) -> Unit {
+fn start_match(game : @types.Game) -> Unit {
   clear_board(game)
   clear_effects(game)
 
-  game.state = state_play
-  game.mode = mode_reveal
+  game.state = @types.state_play
+  game.mode = @types.mode_reveal
   game.first_move = true
   game.frame_seed = game.frame_seed + 1
 
-  game.mine_count = mine_count_default
+  game.mine_count = @types.mine_count_default
   game.revealed_safe = 0
   game.flagged_count = 0
 
-  game.cursor_x = board_w / 2
-  game.cursor_y = board_h / 2
+  game.cursor_x = @types.board_w / 2
+  game.cursor_y = @types.board_h / 2
   game.last_reveal_x = -1
   game.last_reveal_y = -1
 
-  game.lives = lives_default
-  game.hints = hints_default
+  game.lives = @types.lives_default
+  game.hints = @types.hints_default
   game.mistakes = 0
   game.combo = 0
   game.combo_best = 0
@@ -288,15 +184,15 @@ fn start_match(game : Game) -> Unit {
   game.combo_t = 0.0
   game.shake_t = 0.0
 
-  game.grade = grade_d
+  game.grade = @types.grade_d
   game.win = false
   game.touch_cd = 0.0
 
-  set_msg(game, "Sweep the grid. First reveal is always safe.", 2.4)
+  @types.set_msg(game, "Sweep the grid. First reveal is always safe.", 2.4)
 }
 
 ///|
-fn reveal_all_mines(game : Game) -> Unit {
+fn reveal_all_mines(game : @types.Game) -> Unit {
   for cell in game.cells {
     if cell.mine {
       cell.revealed = true
@@ -311,7 +207,7 @@ fn score_for_reveal(around : Int, combo : Int) -> Int {
 }
 
 ///|
-fn award_combo(game : Game) -> Unit {
+fn award_combo(game : @types.Game) -> Unit {
   game.combo = game.combo + 1
   if game.combo > game.combo_best {
     game.combo_best = game.combo
@@ -320,14 +216,18 @@ fn award_combo(game : Game) -> Unit {
 }
 
 ///|
-fn reset_combo(game : Game) -> Unit {
+fn reset_combo(game : @types.Game) -> Unit {
   game.combo = 0
   game.combo_t = 0.0
 }
 
 ///|
-fn cell_world_center(game : Game, x : Int, y : Int) -> (Float, Float) {
-  let (bx, by, tile) = board_metrics(game)
+fn cell_world_center(
+  game : @types.Game,
+  x : Int,
+  y : Int,
+) -> (Float, Float) {
+  let (bx, by, tile) = @types.board_metrics(game)
   (
     Float::from_int(bx + x * tile + tile / 2),
     Float::from_int(by + y * tile + tile / 2),
@@ -335,12 +235,12 @@ fn cell_world_center(game : Game, x : Int, y : Int) -> (Float, Float) {
 }
 
 ///|
-fn reveal_single(game : Game, x : Int, y : Int) -> Bool {
-  if not(in_board(x, y)) {
+fn reveal_single(game : @types.Game, x : Int, y : Int) -> Bool {
+  if not(@types.in_board(x, y)) {
     return false
   }
 
-  let i : Int = idx(x, y)
+  let i : Int = @types.idx(x, y)
   if game.cells[i].revealed || game.cells[i].flagged {
     return false
   }
@@ -358,21 +258,21 @@ fn reveal_single(game : Game, x : Int, y : Int) -> Bool {
     reset_combo(game)
 
     burst(game, wx, wy, 28, 2)
-    game.shake_t = maxf(game.shake_t, 0.18)
+    game.shake_t = @types.maxf(game.shake_t, 0.18)
 
-    set_msg(game, "Mine hit!", 1.0)
+    @types.set_msg(game, "Mine hit!", 1.0)
 
     if game.lives <= 0 {
       game.win = false
-      game.grade = compute_grade(
+      game.grade = @types.compute_grade(
         game.score,
         game.game_t.to_int(),
         game.mistakes,
         game.lives,
       )
       reveal_all_mines(game)
-      game.state = state_result
-      set_msg(game, "Mission failed.", 2.0)
+      game.state = @types.state_result
+      @types.set_msg(game, "Mission failed.", 2.0)
     }
 
     return true
@@ -389,7 +289,7 @@ fn reveal_single(game : Game, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
+fn flood_reveal(game : @types.Game, sx : Int, sy : Int) -> Unit {
   let mut qh : Int = 0
   let mut qt : Int = 0
 
@@ -402,11 +302,11 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
     let y : Int = game.queue_y[qh]
     qh = qh + 1
 
-    if not(in_board(x, y)) {
+    if not(@types.in_board(x, y)) {
       continue
     }
 
-    let i : Int = idx(x, y)
+    let i : Int = @types.idx(x, y)
     if game.cells[i].revealed || game.cells[i].flagged {
       continue
     }
@@ -415,7 +315,7 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
       continue
     }
 
-    if game.state != state_play {
+    if game.state != @types.state_play {
       return
     }
 
@@ -431,7 +331,7 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
 
         let nx : Int = x + ox
         let ny : Int = y + oy
-        if not(in_board(nx, ny)) {
+        if not(@types.in_board(nx, ny)) {
           continue
         }
 
@@ -446,14 +346,14 @@ fn flood_reveal(game : Game, sx : Int, sy : Int) -> Unit {
 }
 
 ///|
-fn check_clear(game : Game) -> Bool {
-  if game.revealed_safe >= safe_cells_total(game) {
+fn check_clear(game : @types.Game) -> Bool {
+  if game.revealed_safe >= @types.safe_cells_total(game) {
     game.win = true
-    game.state = state_result
+    game.state = @types.state_result
 
     // Bonus for remaining resources.
     game.score = game.score + game.lives * 180 + game.hints * 120
-    game.grade = compute_grade(
+    game.grade = @types.compute_grade(
       game.score,
       game.game_t.to_int(),
       game.mistakes,
@@ -464,7 +364,7 @@ fn check_clear(game : Game) -> Bool {
       game.best_score = game.score
     }
 
-    set_msg(game, "Sector cleared!", 2.2)
+    @types.set_msg(game, "Sector cleared!", 2.2)
     return true
   }
 
@@ -472,18 +372,18 @@ fn check_clear(game : Game) -> Bool {
 }
 
 ///|
-fn reveal_cell(game : Game, x : Int, y : Int) -> Bool {
-  if game.state != state_play {
+fn reveal_cell(game : @types.Game, x : Int, y : Int) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
 
-  if not(in_board(x, y)) {
+  if not(@types.in_board(x, y)) {
     return false
   }
 
-  let i0 : Int = idx(x, y)
+  let i0 : Int = @types.idx(x, y)
   if game.cells[i0].flagged {
-    set_msg(game, "Flag removed first", 0.8)
+    @types.set_msg(game, "Flag removed first", 0.8)
     return false
   }
 
@@ -502,7 +402,7 @@ fn reveal_cell(game : Game, x : Int, y : Int) -> Bool {
     ignore(reveal_single(game, x, y))
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     ignore(check_clear(game))
   }
 
@@ -510,28 +410,28 @@ fn reveal_cell(game : Game, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn toggle_flag(game : Game, x : Int, y : Int) -> Bool {
-  if game.state != state_play {
+fn toggle_flag(game : @types.Game, x : Int, y : Int) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
-  if not(in_board(x, y)) {
+  if not(@types.in_board(x, y)) {
     return false
   }
 
-  let i : Int = idx(x, y)
+  let i : Int = @types.idx(x, y)
   if game.cells[i].revealed {
     return false
   }
 
   if game.cells[i].flagged {
     game.cells[i].flagged = false
-    game.flagged_count = maxi(0, game.flagged_count - 1)
-    set_msg(game, "Flag removed", 0.6)
+    game.flagged_count = @types.maxi(0, game.flagged_count - 1)
+    @types.set_msg(game, "Flag removed", 0.6)
     return true
   }
 
   if game.flagged_count >= game.mine_count {
-    set_msg(game, "No flags left", 0.8)
+    @types.set_msg(game, "No flags left", 0.8)
     return false
   }
 
@@ -541,18 +441,18 @@ fn toggle_flag(game : Game, x : Int, y : Int) -> Bool {
   let (wx, wy) = cell_world_center(game, x, y)
   burst(game, wx, wy, 6, 1)
 
-  set_msg(game, "Flag set", 0.6)
+  @types.set_msg(game, "Flag set", 0.6)
   true
 }
 
 ///|
-fn safe_hint_target(game : Game) -> (Bool, Int, Int) {
+fn safe_hint_target(game : @types.Game) -> (Bool, Int, Int) {
   let mut tries : Int = 0
 
   while tries < 900 {
-    let x : Int = @raylib.get_random_value(0, board_w - 1)
-    let y : Int = @raylib.get_random_value(0, board_h - 1)
-    let i : Int = idx(x, y)
+    let x : Int = @raylib.get_random_value(0, @types.board_w - 1)
+    let y : Int = @raylib.get_random_value(0, @types.board_h - 1)
+    let i : Int = @types.idx(x, y)
 
     if not(game.cells[i].mine) &&
       not(game.cells[i].revealed) &&
@@ -563,9 +463,9 @@ fn safe_hint_target(game : Game) -> (Bool, Int, Int) {
     tries = tries + 1
   }
 
-  for y in 0..<board_h {
-    for x in 0..<board_w {
-      let i : Int = idx(x, y)
+  for y in 0..<@types.board_h {
+    for x in 0..<@types.board_w {
+      let i : Int = @types.idx(x, y)
       if not(game.cells[i].mine) &&
         not(game.cells[i].revealed) &&
         not(game.cells[i].flagged) {
@@ -578,13 +478,13 @@ fn safe_hint_target(game : Game) -> (Bool, Int, Int) {
 }
 
 ///|
-fn use_hint(game : Game) -> Bool {
-  if game.state != state_play {
+fn use_hint(game : @types.Game) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
 
   if game.hints <= 0 {
-    set_msg(game, "No hints", 0.8)
+    @types.set_msg(game, "No hints", 0.8)
     return false
   }
 
@@ -599,7 +499,7 @@ fn use_hint(game : Game) -> Bool {
   }
 
   game.hints = game.hints - 1
-  game.score = maxi(0, game.score - 60)
+  game.score = @types.maxi(0, game.score - 60)
 
   let x : Int = pick.1
   let y : Int = pick.2
@@ -608,19 +508,23 @@ fn use_hint(game : Game) -> Bool {
   game.cursor_y = y
 
   ignore(reveal_cell(game, x, y))
-  set_msg(game, "Hint used", 1.0)
+  @types.set_msg(game, "Hint used", 1.0)
 
   true
 }
 
 ///|
-fn click_to_cell(game : Game, mx : Float, my : Float) -> (Bool, Int, Int) {
-  let (bx, by, tile) = board_metrics(game)
+fn click_to_cell(
+  game : @types.Game,
+  mx : Float,
+  my : Float,
+) -> (Bool, Int, Int) {
+  let (bx, by, tile) = @types.board_metrics(game)
 
   let x : Int = (mx.to_int() - bx) / tile
   let y : Int = (my.to_int() - by) / tile
 
-  if in_board(x, y) {
+  if @types.in_board(x, y) {
     (true, x, y)
   } else {
     (false, 0, 0)
@@ -628,7 +532,7 @@ fn click_to_cell(game : Game, mx : Float, my : Float) -> (Bool, Int, Int) {
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   game.game_t = game.game_t + dt
   game.ui_t = game.ui_t + dt
 
@@ -646,7 +550,7 @@ fn update_play(game : Game, dt : Float) -> Unit {
   }
 
   if game.combo_t <= 0.0 {
-    game.combo = maxi(0, game.combo - 1)
+    game.combo = @types.maxi(0, game.combo - 1)
     game.combo_t = if game.combo > 0 { 0.55 } else { 0.0 }
   }
 

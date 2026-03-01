@@ -1,5 +1,5 @@
 ///|
-struct Cell {
+pub(all) struct Cell {
   mut mine : Bool
   mut revealed : Bool
   mut flagged : Bool
@@ -8,7 +8,7 @@ struct Cell {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -20,7 +20,7 @@ struct Spark {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   cells : Array[Cell]
   sparks : Array[Spark]
   queue_x : Array[Int]
@@ -52,15 +52,19 @@ struct Game {
   mut grade : Int
   mut win : Bool
   mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Cell::new() -> Cell {
+pub fn Cell::new() -> Cell {
   { mine: false, revealed: false, flagged: false, exploded: false, around: 0 }
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -74,7 +78,7 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     cells: Array::makei(max_cells, fn(_i) { Cell::new() }),
     sparks: Array::makei(1400, fn(_i) { Spark::new() }),
@@ -107,5 +111,9 @@ fn Game::new() -> Game {
     grade: grade_d,
     win: false,
     touch_cd: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
