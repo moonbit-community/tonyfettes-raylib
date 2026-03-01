@@ -34,71 +34,54 @@ pub fn node_name(node : Int) -> String {
 }
 
 ///|
-pub fn dish_name(dish : Int) -> String {
-  if dish == dish_skewers {
-    "Skewers"
-  } else if dish == dish_noodles {
-    "Noodles"
-  } else if dish == dish_squid {
-    "Char Squid"
-  } else if dish == dish_fried_rice {
-    "Fried Rice"
-  } else {
-    "None"
+pub fn dish_name(dish : Dish) -> String {
+  match dish {
+    Skewers => "Skewers"
+    Noodles => "Noodles"
+    Squid => "Char Squid"
+    FriedRice => "Fried Rice"
+    DishNone => "None"
   }
 }
 
 ///|
-pub fn dish_lane(dish : Int) -> Int {
-  if dish == dish_skewers || dish == dish_squid {
-    lane_grill
-  } else {
-    lane_wok
+pub fn dish_lane(dish : Dish) -> Lane {
+  match dish {
+    Skewers | Squid => Grill
+    Noodles | FriedRice | DishNone => Wok
   }
 }
 
 ///|
-pub fn dish_base_reward(dish : Int) -> Int {
-  if dish == dish_skewers {
-    120
-  } else if dish == dish_noodles {
-    140
-  } else if dish == dish_squid {
-    170
-  } else if dish == dish_fried_rice {
-    160
-  } else {
-    90
+pub fn dish_base_reward(dish : Dish) -> Int {
+  match dish {
+    Skewers => 120
+    Noodles => 140
+    Squid => 170
+    FriedRice => 160
+    DishNone => 90
   }
 }
 
 ///|
-pub fn dish_prep_need(dish : Int) -> Float {
-  if dish == dish_skewers {
-    3.2
-  } else if dish == dish_noodles {
-    3.8
-  } else if dish == dish_squid {
-    4.2
-  } else if dish == dish_fried_rice {
-    3.5
-  } else {
-    3.0
+pub fn dish_prep_need(dish : Dish) -> Float {
+  match dish {
+    Skewers => 3.2
+    Noodles => 3.8
+    Squid => 4.2
+    FriedRice => 3.5
+    DishNone => 3.0
   }
 }
 
 ///|
-pub fn dish_cook_need(dish : Int) -> Float {
-  if dish == dish_skewers {
-    3.6
-  } else if dish == dish_noodles {
-    3.2
-  } else if dish == dish_squid {
-    4.0
-  } else if dish == dish_fried_rice {
-    3.7
-  } else {
-    3.0
+pub fn dish_cook_need(dish : Dish) -> Float {
+  match dish {
+    Skewers => 3.6
+    Noodles => 3.2
+    Squid => 4.0
+    FriedRice => 3.7
+    DishNone => 3.0
   }
 }
 

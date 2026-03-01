@@ -1,7 +1,36 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
+pub(all) enum Dish {
+  DishNone
+  Skewers
+  Noodles
+  Squid
+  FriedRice
+} derive(Eq)
+
+///|
+pub(all) enum Lane {
+  Grill
+  Wok
+} derive(Eq)
+
+///|
+pub(all) enum CookStage {
+  Prep
+  Heat
+} derive(Eq)
+
+///|
 pub(all) struct Order {
   mut active : Bool
-  mut dish : Int
+  mut dish : Dish
   mut patience : Float
   mut patience_max : Float
   mut reward : Int
@@ -23,9 +52,9 @@ pub(all) struct InputState {
 ///|
 pub(all) struct CookingState {
   mut active : Bool
-  mut dish : Int
-  mut lane : Int
-  mut stage : Int
+  mut dish : Dish
+  mut lane : Lane
+  mut stage : CookStage
   mut prep_progress : Float
   mut cook_progress : Float
 }
@@ -35,10 +64,10 @@ pub(all) struct Game {
   orders : Array[Order]
   input : InputState
   cooking : CookingState
-  mut state : Int
+  mut state : GameState
   mut cursor : Int
   mut selected_order : Int
-  mut ready_dish : Int
+  mut ready_dish : Dish
   mut ready_quality : Float
   mut score : Int
   mut best_score : Int
@@ -59,7 +88,7 @@ pub(all) struct Game {
 pub fn Order::new() -> Order {
   {
     active: false,
-    dish: dish_skewers,
+    dish: Skewers,
     patience: 0.0,
     patience_max: 0.0,
     reward: 0,
@@ -85,9 +114,9 @@ pub fn InputState::new() -> InputState {
 pub fn CookingState::new() -> CookingState {
   {
     active: false,
-    dish: dish_none,
-    lane: lane_grill,
-    stage: cook_stage_prep,
+    dish: DishNone,
+    lane: Grill,
+    stage: Prep,
     prep_progress: 0.0,
     cook_progress: 0.0,
   }
@@ -99,10 +128,10 @@ pub fn Game::new() -> Game {
     orders: Array::makei(max_orders, fn(_i) { Order::new() }),
     input: InputState::new(),
     cooking: CookingState::new(),
-    state: state_title,
+    state: Title,
     cursor: node_prep,
     selected_order: -1,
-    ready_dish: dish_none,
+    ready_dish: DishNone,
     ready_quality: 0.0,
     score: 0,
     best_score: 0,

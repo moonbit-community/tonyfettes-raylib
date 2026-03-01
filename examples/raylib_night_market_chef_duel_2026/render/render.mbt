@@ -10,17 +10,13 @@ fn draw_center_text(
 }
 
 ///|
-fn dish_color(dish : Int) -> @raylib.Color {
-  if dish == @types.dish_skewers {
-    @raylib.Color::new(243, 139, 78, 255)
-  } else if dish == @types.dish_noodles {
-    @raylib.Color::new(247, 208, 82, 255)
-  } else if dish == @types.dish_squid {
-    @raylib.Color::new(232, 104, 115, 255)
-  } else if dish == @types.dish_fried_rice {
-    @raylib.Color::new(115, 205, 124, 255)
-  } else {
-    @raylib.Color::new(210, 210, 210, 255)
+fn dish_color(dish : @types.Dish) -> @raylib.Color {
+  match dish {
+    @types.Skewers => @raylib.Color::new(243, 139, 78, 255)
+    @types.Noodles => @raylib.Color::new(247, 208, 82, 255)
+    @types.Squid => @raylib.Color::new(232, 104, 115, 255)
+    @types.FriedRice => @raylib.Color::new(115, 205, 124, 255)
+    @types.DishNone => @raylib.Color::new(210, 210, 210, 255)
   }
 }
 
@@ -47,20 +43,8 @@ fn progress_bar(
 ) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, base)
   let rw = (Float::from_int(w) * @types.clampf(ratio, 0.0, 1.0)).to_int()
-  @raylib.draw_rectangle(
-    x + 2,
-    y + 2,
-    @types.maxi(0, rw - 4),
-    h - 4,
-    fill,
-  )
-  @raylib.draw_rectangle_lines(
-    x,
-    y,
-    w,
-    h,
-    @raylib.Color::new(26, 28, 32, 240),
-  )
+  @raylib.draw_rectangle(x + 2, y + 2, @types.maxi(0, rw - 4), h - 4, fill)
+  @raylib.draw_rectangle_lines(x, y, w, h, @raylib.Color::new(26, 28, 32, 240))
 }
 
 ///|
@@ -79,8 +63,7 @@ fn draw_background(game : @types.Game) -> Unit {
     let x : Float = 90.0 +
       fi * 88.0 +
       @types.sinf(game.elapsed_t * 0.6 + fi * 0.9) * 18.0
-    let y : Float = 62.0 +
-      @types.cosf(game.elapsed_t * 0.9 + fi * 0.6) * 6.0
+    let y : Float = 62.0 + @types.cosf(game.elapsed_t * 0.9 + fi * 0.6) * 6.0
 
     @raylib.draw_circle(
       x.to_int(),
@@ -214,7 +197,7 @@ fn draw_orders_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(246, 233, 181, 245),
   )
 
-  for i in 0..< @types.max_orders {
+  for i in 0..<@types.max_orders {
     draw_order_slot(game, i)
   }
 }
@@ -248,8 +231,7 @@ fn draw_station_base(
 ///|
 fn draw_prep_station(game : @types.Game) -> Unit {
   let hot = game.cursor == @types.node_prep
-  let working = game.cooking.active &&
-    game.cooking.stage == @types.cook_stage_prep
+  let working = game.cooking.active && game.cooking.stage == @types.Prep
 
   draw_station_base(
     "Prep",
@@ -317,8 +299,8 @@ fn draw_prep_station(game : @types.Game) -> Unit {
 fn draw_grill_station(game : @types.Game) -> Unit {
   let hot = game.cursor == @types.node_grill
   let working = game.cooking.active &&
-    game.cooking.stage == @types.cook_stage_heat &&
-    game.cooking.lane == @types.lane_grill
+    game.cooking.stage == @types.Heat &&
+    game.cooking.lane == @types.Grill
 
   draw_station_base(
     "Grill",
@@ -340,8 +322,7 @@ fn draw_grill_station(game : @types.Game) -> Unit {
 
   for i in 0..<5 {
     let fi = Float::from_int(i)
-    let pulse : Float = 0.5 +
-      0.5 * @types.sinf(game.elapsed_t * 6.0 + fi)
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(game.elapsed_t * 6.0 + fi)
     let flame_h : Float = 14.0 + pulse * 8.0
     @raylib.draw_rectangle(
       (@types.grill_x - 78.0 + fi * 34.0).to_int(),
@@ -375,8 +356,8 @@ fn draw_grill_station(game : @types.Game) -> Unit {
 fn draw_wok_station(game : @types.Game) -> Unit {
   let hot = game.cursor == @types.node_wok
   let working = game.cooking.active &&
-    game.cooking.stage == @types.cook_stage_heat &&
-    game.cooking.lane == @types.lane_wok
+    game.cooking.stage == @types.Heat &&
+    game.cooking.lane == @types.Wok
 
   draw_station_base(
     "Wok",
@@ -438,7 +419,7 @@ fn draw_pass_station(game : @types.Game) -> Unit {
     @types.pass_y,
     236,
     140,
-    if game.ready_dish != @types.dish_none {
+    if game.ready_dish != @types.DishNone {
       @raylib.Color::new(86, 84, 58, 232)
     } else {
       @raylib.Color::new(63, 61, 48, 220)
@@ -450,7 +431,7 @@ fn draw_pass_station(game : @types.Game) -> Unit {
     },
   )
 
-  if game.ready_dish != @types.dish_none {
+  if game.ready_dish != @types.DishNone {
     @raylib.draw_circle(
       (@types.pass_x - 78.0).to_int(),
       (@types.pass_y + 8.0).to_int(),
@@ -489,8 +470,7 @@ fn draw_pass_station(game : @types.Game) -> Unit {
 ///|
 fn draw_cursor(game : @types.Game) -> Unit {
   let p = @types.node_pos(game.cursor)
-  let r : Float = 28.0 +
-    6.0 * (0.5 + 0.5 * @types.sinf(game.elapsed_t * 8.0))
+  let r : Float = 28.0 + 6.0 * (0.5 + 0.5 * @types.sinf(game.elapsed_t * 8.0))
 
   @raylib.draw_circle_lines(
     p.0.to_int(),
@@ -624,28 +604,24 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 
   if game.cooking.active {
-    let stage = if game.cooking.stage == @types.cook_stage_prep {
-      "PREP"
-    } else if game.cooking.lane == @types.lane_grill {
-      "GRILL"
-    } else {
-      "WOK"
+    let stage = match game.cooking.stage {
+      @types.Prep => "PREP"
+      @types.Heat =>
+        match game.cooking.lane {
+          @types.Grill => "GRILL"
+          @types.Wok => "WOK"
+        }
     }
     @raylib.draw_text(
-      "Cooking: " +
-      @types.dish_name(game.cooking.dish) +
-      " @ " +
-      stage,
+      "Cooking: " + @types.dish_name(game.cooking.dish) + " @ " + stage,
       558,
       86,
       20,
       @raylib.Color::new(255, 232, 176, 236),
     )
-  } else if game.ready_dish != @types.dish_none {
+  } else if game.ready_dish != @types.DishNone {
     @raylib.draw_text(
-      "Dish Ready: " +
-      @types.dish_name(game.ready_dish) +
-      " (Serve at pass)",
+      "Dish Ready: " + @types.dish_name(game.ready_dish) + " (Serve at pass)",
       558,
       86,
       20,
@@ -724,12 +700,7 @@ fn draw_pause_overlay(_game : @types.Game) -> Unit {
     @types.screen_h,
     @raylib.Color::new(6, 8, 12, 168),
   )
-  draw_center_text(
-    "PAUSED",
-    248,
-    68,
-    @raylib.Color::new(242, 246, 252, 250),
-  )
+  draw_center_text("PAUSED", 248, 68, @raylib.Color::new(242, 246, 252, 250))
   draw_center_text(
     "Press P or J to resume",
     344,
@@ -798,11 +769,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_hud(game)
   draw_hint_line()
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_paused {
-    draw_pause_overlay(game)
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Paused => draw_pause_overlay(game)
+    @types.GameOver => draw_game_over_overlay(game)
+    @types.Play => ()
   }
 }

@@ -11,45 +11,6 @@ pub let target_fps : Int = 120
 pub let hud_h : Int = 112
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_paused : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
-pub let dish_none : Int = -1
-
-///|
-pub let dish_skewers : Int = 0
-
-///|
-pub let dish_noodles : Int = 1
-
-///|
-pub let dish_squid : Int = 2
-
-///|
-pub let dish_fried_rice : Int = 3
-
-///|
-pub let lane_grill : Int = 0
-
-///|
-pub let lane_wok : Int = 1
-
-///|
-pub let cook_stage_prep : Int = 0
-
-///|
-pub let cook_stage_heat : Int = 1
-
-///|
 pub let max_orders : Int = 6
 
 ///|

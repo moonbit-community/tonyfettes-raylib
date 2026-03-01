@@ -1,7 +1,7 @@
 ///|
 fn clear_order(order : @types.Order) -> Unit {
   order.active = false
-  order.dish = @types.dish_skewers
+  order.dish = @types.Skewers
   order.patience = 0.0
   order.patience_max = 0.0
   order.reward = 0
@@ -11,9 +11,9 @@ fn clear_order(order : @types.Order) -> Unit {
 ///|
 fn clear_cooking(game : @types.Game) -> Unit {
   game.cooking.active = false
-  game.cooking.dish = @types.dish_none
-  game.cooking.lane = @types.lane_grill
-  game.cooking.stage = @types.cook_stage_prep
+  game.cooking.dish = @types.DishNone
+  game.cooking.lane = @types.Grill
+  game.cooking.stage = @types.Prep
   game.cooking.prep_progress = 0.0
   game.cooking.cook_progress = 0.0
 }
@@ -24,7 +24,7 @@ fn clear_round_entities(game : @types.Game) -> Unit {
     clear_order(order)
   }
   clear_cooking(game)
-  game.ready_dish = @types.dish_none
+  game.ready_dish = @types.DishNone
   game.ready_quality = 0.0
   game.selected_order = -1
   game.cursor = @types.node_prep
@@ -32,7 +32,7 @@ fn clear_round_entities(game : @types.Game) -> Unit {
 
 ///|
 fn init_game(game : @types.Game) -> Unit {
-  game.state = @types.state_title
+  game.state = @types.Title
   game.score = 0
   game.combo = 0
   game.combo_timer = 0.0
@@ -53,13 +53,13 @@ fn start_round(game : @types.Game) -> Unit {
   let keep_best = game.best_score
   init_game(game)
   game.best_score = keep_best
-  game.state = @types.state_play
+  game.state = @types.Play
   spawn_order(game)
   spawn_order(game)
 }
 
 ///|
-fn choose_dish_for_wave(elapsed_t : Float) -> Int {
+fn choose_dish_for_wave(elapsed_t : Float) -> @types.Dish {
   let r = @types.randi(0, 999)
   let late = @types.clampf(elapsed_t / 95.0, 0.0, 1.0)
   let easy_band = 350 - (late * 120.0).to_int()
@@ -67,25 +67,23 @@ fn choose_dish_for_wave(elapsed_t : Float) -> Int {
   let hard_band = mid_band + 220
 
   if r < easy_band {
-    @types.dish_skewers
+    @types.Skewers
   } else if r < mid_band {
-    @types.dish_noodles
+    @types.Noodles
   } else if r < hard_band {
-    @types.dish_fried_rice
+    @types.FriedRice
   } else {
-    @types.dish_squid
+    @types.Squid
   }
 }
 
 ///|
-fn base_patience(game : @types.Game, dish : Int) -> Float {
+fn base_patience(game : @types.Game, dish : @types.Dish) -> Float {
   let rush = Float::from_int(game.served_orders + game.failed_orders) * 0.1
-  let lane_bias : Float = if dish == @types.dish_squid {
-    -0.8
-  } else if dish == @types.dish_noodles {
-    0.5
-  } else {
-    0.0
+  let lane_bias : Float = match dish {
+    @types.Squid => -0.8
+    @types.Noodles => 0.5
+    _ => 0.0
   }
 
   @types.maxf(
@@ -107,7 +105,10 @@ fn find_free_order_slot(game : @types.Game) -> Int {
 ///|
 fn next_spawn_interval(game : @types.Game) -> Float {
   let pressure = Float::from_int(game.served_orders + game.failed_orders) * 0.07
-  let base = @types.maxf(@types.spawn_interval_min, @types.spawn_interval_start - pressure)
+  let base = @types.maxf(
+    @types.spawn_interval_min,
+    @types.spawn_interval_start - pressure,
+  )
   @types.clampf(
     base + @types.randf(-0.22, 0.35),
     @types.spawn_interval_min,
@@ -178,7 +179,7 @@ fn register_failure(game : @types.Game) -> Unit {
   game.shake_t = @types.maxf(game.shake_t, 0.32)
 
   if game.failed_orders >= @types.fail_limit {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.best_score = @types.maxi(game.best_score, game.score)
   }
 }
@@ -193,7 +194,7 @@ fn update_orders(game : @types.Game, dt : Float) -> Unit {
         if game.selected_order == i {
           game.selected_order = -1
         }
-        if game.state == @types.state_play {
+        if game.state == @types.Play {
           register_failure(game)
         }
       }
@@ -202,7 +203,7 @@ fn update_orders(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn find_matching_order(game : @types.Game, dish : Int) -> Int {
+fn find_matching_order(game : @types.Game, dish : @types.Dish) -> Int {
   ensure_selected_order(game)
 
   if game.selected_order >= 0 {
@@ -236,12 +237,12 @@ fn boost_multiplier(game : @types.Game) -> Float {
 
 ///|
 fn finish_cooking_if_ready(game : @types.Game) -> Unit {
-  if not(game.cooking.active) || game.cooking.stage != @types.cook_stage_heat {
+  if not(game.cooking.active) || game.cooking.stage != @types.Heat {
     return
   }
 
   let need = @types.dish_cook_need(game.cooking.dish)
-  if game.cooking.cook_progress >= need && game.ready_dish == @types.dish_none {
+  if game.cooking.cook_progress >= need && game.ready_dish == @types.DishNone {
     let overflow = game.cooking.cook_progress - need
     game.ready_dish = game.cooking.dish
     game.ready_quality = @types.clampf(1.0 - overflow * 0.18, 0.58, 1.15)
@@ -253,19 +254,19 @@ fn finish_cooking_if_ready(game : @types.Game) -> Unit {
 ///|
 fn apply_press_j_at_prep(game : @types.Game) -> Unit {
   if game.cooking.active {
-    if game.cooking.stage == @types.cook_stage_prep {
+    if game.cooking.stage == @types.Prep {
       game.cooking.prep_progress = game.cooking.prep_progress +
         @types.prep_press_gain * boost_multiplier(game)
       let need = @types.dish_prep_need(game.cooking.dish)
       if game.cooking.prep_progress >= need {
         game.cooking.prep_progress = need
-        game.cooking.stage = @types.cook_stage_heat
+        game.cooking.stage = @types.Heat
       }
     }
     return
   }
 
-  if game.ready_dish != @types.dish_none {
+  if game.ready_dish != @types.DishNone {
     return
   }
 
@@ -278,7 +279,7 @@ fn apply_press_j_at_prep(game : @types.Game) -> Unit {
   game.cooking.active = true
   game.cooking.dish = dish
   game.cooking.lane = @types.dish_lane(dish)
-  game.cooking.stage = @types.cook_stage_prep
+  game.cooking.stage = @types.Prep
   game.cooking.prep_progress = 0.0
   game.cooking.cook_progress = 0.0
   game.selected_order = target
@@ -286,8 +287,8 @@ fn apply_press_j_at_prep(game : @types.Game) -> Unit {
 }
 
 ///|
-fn apply_press_j_at_heat(game : @types.Game, lane : Int) -> Unit {
-  if not(game.cooking.active) || game.cooking.stage != @types.cook_stage_heat {
+fn apply_press_j_at_heat(game : @types.Game, lane : @types.Lane) -> Unit {
+  if not(game.cooking.active) || game.cooking.stage != @types.Heat {
     return
   }
 
@@ -305,13 +306,13 @@ fn apply_press_j_at_heat(game : @types.Game, lane : Int) -> Unit {
 
 ///|
 fn try_serve_ready_dish(game : @types.Game) -> Unit {
-  if game.ready_dish == @types.dish_none {
+  if game.ready_dish == @types.DishNone {
     return
   }
 
   let matched_order = find_matching_order(game, game.ready_dish)
   if matched_order < 0 {
-    game.ready_dish = @types.dish_none
+    game.ready_dish = @types.DishNone
     game.ready_quality = 0.0
     register_failure(game)
     return
@@ -350,7 +351,7 @@ fn try_serve_ready_dish(game : @types.Game) -> Unit {
     game.selected_order = -1
   }
 
-  game.ready_dish = @types.dish_none
+  game.ready_dish = @types.DishNone
   game.ready_quality = 0.0
   game.flash_t = @types.maxf(game.flash_t, 0.22)
 }
@@ -367,9 +368,9 @@ fn apply_press_j(game : @types.Game) -> Unit {
   if game.cursor == @types.node_prep {
     apply_press_j_at_prep(game)
   } else if game.cursor == @types.node_grill {
-    apply_press_j_at_heat(game, @types.lane_grill)
+    apply_press_j_at_heat(game, @types.Grill)
   } else if game.cursor == @types.node_wok {
-    apply_press_j_at_heat(game, @types.lane_wok)
+    apply_press_j_at_heat(game, @types.Wok)
   }
 }
 
@@ -432,8 +433,16 @@ fn move_cursor(game : @types.Game, dir_x : Int, dir_y : Int) -> Unit {
       }
 
       if accepted {
-        let forward : Float = if dir_x != 0 { @types.absf(vx) } else { @types.absf(vy) }
-        let side : Float = if dir_x != 0 { @types.absf(vy) } else { @types.absf(vx) }
+        let forward : Float = if dir_x != 0 {
+          @types.absf(vx)
+        } else {
+          @types.absf(vy)
+        }
+        let side : Float = if dir_x != 0 {
+          @types.absf(vy)
+        } else {
+          @types.absf(vx)
+        }
         let score : Float = forward + side * 1.9
         if score < best_score {
           best_score = score
@@ -468,23 +477,19 @@ fn update_cooking_passive(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.boost_t > 0.0 {
-    if game.cooking.stage == @types.cook_stage_prep {
+    if game.cooking.stage == @types.Prep {
       game.cooking.prep_progress = game.cooking.prep_progress +
         dt * @types.boost_prep_rate
       let need = @types.dish_prep_need(game.cooking.dish)
       if game.cooking.prep_progress >= need {
         game.cooking.prep_progress = need
-        game.cooking.stage = @types.cook_stage_heat
+        game.cooking.stage = @types.Heat
       }
-    } else if game.cooking.stage == @types.cook_stage_heat {
+    } else if game.cooking.stage == @types.Heat {
       let on_lane = (
-          game.cursor == @types.node_grill &&
-          game.cooking.lane == @types.lane_grill
+          game.cursor == @types.node_grill && game.cooking.lane == @types.Grill
         ) ||
-        (
-          game.cursor == @types.node_wok &&
-          game.cooking.lane == @types.lane_wok
-        )
+        (game.cursor == @types.node_wok && game.cooking.lane == @types.Wok)
       if on_lane {
         game.cooking.cook_progress = game.cooking.cook_progress +
           dt * @types.boost_heat_rate
@@ -497,7 +502,7 @@ fn update_cooking_passive(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_ready_dish(game : @types.Game, dt : Float) -> Unit {
-  if game.ready_dish != @types.dish_none {
+  if game.ready_dish != @types.DishNone {
     game.ready_quality = @types.maxf(0.55, game.ready_quality - dt * 0.045)
   }
 }
@@ -541,7 +546,7 @@ fn update_paused(game : @types.Game) -> Unit {
   if game.input.press_restart {
     start_round(game)
   } else if game.input.press_pause || game.input.press_start {
-    game.state = @types.state_play
+    game.state = @types.Play
   }
 }
 
@@ -560,7 +565,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.input.press_pause {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     return
   }
 
@@ -584,7 +589,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   update_cooking_passive(game, dt)
   update_orders(game, dt)
 
-  if game.state == @types.state_play {
+  if game.state == @types.Play {
     update_ready_dish(game, dt)
     update_spawn(game, dt)
     update_combo_timer(game, dt)
@@ -598,14 +603,11 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   capture_input(game)
   let frame_dt = @types.clampf(dt, 0.0, 0.05)
 
-  if game.state == @types.state_title {
-    update_title(game)
-  } else if game.state == @types.state_play {
-    update_play(game, frame_dt)
-  } else if game.state == @types.state_paused {
-    update_paused(game)
-  } else {
-    update_game_over(game)
+  match game.state {
+    @types.Title => update_title(game)
+    @types.Play => update_play(game, frame_dt)
+    @types.Paused => update_paused(game)
+    @types.GameOver => update_game_over(game)
   }
 
   update_effects(game, frame_dt)
