@@ -1,5 +1,5 @@
 ///|
-struct Mine {
+pub(all) struct Mine {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -9,7 +9,7 @@ struct Mine {
 }
 
 ///|
-struct Target {
+pub(all) struct Target {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -18,7 +18,7 @@ struct Target {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   mines : Array[Mine]
   targets : Array[Target]
   mut state : Int
@@ -46,20 +46,24 @@ struct Game {
   mut time_s : Float
   mut touch_cd : Float
   mut shake_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Mine::new() -> Mine {
+pub fn Mine::new() -> Mine {
   { active: false, x: 0.0, y: 0.0, r: 0.0, reveal_t: 0.0, armed: true }
 }
 
 ///|
-fn Target::new() -> Target {
+pub fn Target::new() -> Target {
   { active: false, x: 0.0, y: 0.0, detected: false, pulse_t: 0.0 }
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     mines: Array::makei(max_mines, fn(_i) { Mine::new() }),
     targets: Array::makei(max_targets, fn(_i) { Target::new() }),
@@ -88,5 +92,9 @@ fn Game::new() -> Game {
     time_s: 0.0,
     touch_cd: 0.0,
     shake_t: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
