@@ -1,71 +1,11 @@
 ///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn dist2(ax : Float, ay : Float, bx : Float, by : Float) -> Float {
-  let dx = ax - bx
-  let dy = ay - by
-  dx * dx + dy * dy
-}
-
-///|
-fn deg_to_rad(d : Float) -> Float {
-  d * 0.01745329252
-}
-
-///|
-fn sqrtf(v : Float) -> Float {
-  if v <= 0.0 {
-    return 0.0
-  }
-
-  let mut x : Float = if v < 1.0 { 1.0 } else { v }
-  for _i in 0..<6 {
-    x = (x + v / x) * 0.5
-  }
-  x
-}
-
-///|
-fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
+fn set_message(game : @types.Game, msg : String, ttl : Float) -> Unit {
   game.message = msg
   game.message_t = ttl
 }
 
 ///|
-fn clear_sparks(game : Game) -> Unit {
+fn clear_sparks(game : @types.Game) -> Unit {
   for spark in game.sparks {
     spark.active = false
     spark.x = 0.0
@@ -80,7 +20,7 @@ fn clear_sparks(game : Game) -> Unit {
 
 ///|
 fn spawn_spark(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -107,23 +47,29 @@ fn spawn_spark(
 }
 
 ///|
-fn burst_sparks(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst_sparks(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  n : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<n {
     spawn_spark(
       game,
-      x + randf(-12.0, 12.0),
-      y + randf(-12.0, 12.0),
-      randf(-220.0, 220.0),
-      randf(-260.0, 120.0),
-      randf(0.25, 1.0),
-      randf(1.4, 5.2),
+      x + @types.randf(-12.0, 12.0),
+      y + @types.randf(-12.0, 12.0),
+      @types.randf(-220.0, 220.0),
+      @types.randf(-260.0, 120.0),
+      @types.randf(0.25, 1.0),
+      @types.randf(1.4, 5.2),
       kind,
     )
   }
 }
 
 ///|
-fn update_sparks(game : Game, dt : Float) -> Unit {
+fn update_sparks(game : @types.Game, dt : Float) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
@@ -143,9 +89,9 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn reset_ball(game : Game) -> Unit {
-  game.ball_x = ball_start_x
-  game.ball_y = ball_start_y
+fn reset_ball(game : @types.Game) -> Unit {
+  game.ball_x = @types.ball_start_x
+  game.ball_y = @types.ball_start_y
   game.ball_vx = 0.0
   game.ball_vy = 0.0
   game.ball_spin = 0.0
@@ -154,13 +100,13 @@ fn reset_ball(game : Game) -> Unit {
 }
 
 ///|
-fn reset_full_rack(game : Game) -> Unit {
-  let cx : Float = ball_start_x
+fn reset_full_rack(game : @types.Game) -> Unit {
+  let cx : Float = @types.ball_start_x
   let mut idx : Int = 0
 
   for row in 0..<4 {
-    let y : Float = pin_deck_y + Float::from_int(row) * pin_row_gap
-    let x0 : Float = cx - Float::from_int(row) * pin_col_gap * 0.5
+    let y : Float = @types.pin_deck_y + Float::from_int(row) * @types.pin_row_gap
+    let x0 : Float = cx - Float::from_int(row) * @types.pin_col_gap * 0.5
 
     for col in 0..<=row {
       if idx >= game.pins.length() {
@@ -168,7 +114,7 @@ fn reset_full_rack(game : Game) -> Unit {
       }
 
       game.pins[idx].standing = true
-      game.pins[idx].x = x0 + Float::from_int(col) * pin_col_gap
+      game.pins[idx].x = x0 + Float::from_int(col) * @types.pin_col_gap
       game.pins[idx].y = y
       game.pins[idx].vx = 0.0
       game.pins[idx].vy = 0.0
@@ -191,7 +137,7 @@ fn reset_full_rack(game : Game) -> Unit {
 }
 
 ///|
-fn count_standing(game : Game) -> Int {
+fn count_standing(game : @types.Game) -> Int {
   let mut n : Int = 0
   for pin in game.pins {
     if pin.standing {
@@ -202,7 +148,7 @@ fn count_standing(game : Game) -> Int {
 }
 
 ///|
-fn pins_are_quiet(game : Game) -> Bool {
+fn pins_are_quiet(game : @types.Game) -> Bool {
   for pin in game.pins {
     if pin.standing {
       continue
@@ -218,7 +164,7 @@ fn pins_are_quiet(game : Game) -> Bool {
 }
 
 ///|
-fn prepare_roll(game : Game, reset_rack : Bool) -> Unit {
+fn prepare_roll(game : @types.Game, reset_rack : Bool) -> Unit {
   if reset_rack {
     reset_full_rack(game)
   }
@@ -232,11 +178,13 @@ fn prepare_roll(game : Game, reset_rack : Bool) -> Unit {
   game.power = 0.22
   game.power_dir = 1.0
   game.ball_spin = 0.0
-  game.spin = clampf(game.spin * 0.65, spin_min, spin_max)
+  game.spin = @types.clampf(
+    game.spin * 0.65, @types.spin_min, @types.spin_max,
+  )
 }
 
 ///|
-fn reset_match_stats(game : Game) -> Unit {
+fn reset_match_stats(game : @types.Game) -> Unit {
   game.frame = 0
   game.roll_in_frame = 0
   game.first_roll = 0
@@ -253,9 +201,9 @@ fn reset_match_stats(game : Game) -> Unit {
 }
 
 ///|
-fn start_match(game : Game) -> Unit {
+fn start_match(game : @types.Game) -> Unit {
   reset_match_stats(game)
-  game.state = state_play
+  game.state = @types.state_play
   game.aim = 0.0
   game.spin = 0.0
   clear_sparks(game)
@@ -265,9 +213,9 @@ fn start_match(game : Game) -> Unit {
 }
 
 ///|
-fn finalize_match(game : Game) -> Unit {
+fn finalize_match(game : @types.Game) -> Unit {
   recompute_score(game)
-  game.state = state_result
+  game.state = @types.state_result
   game.can_throw = false
   game.charging = false
 
@@ -282,7 +230,7 @@ fn finalize_match(game : Game) -> Unit {
 
 ///|
 fn knock_pin(
-  game : Game,
+  game : @types.Game,
   i : Int,
   vx : Float,
   vy : Float,
@@ -299,25 +247,27 @@ fn knock_pin(
   game.pins[i].standing = false
   game.pins[i].vx = vx
   game.pins[i].vy = vy
-  game.pins[i].ang_v = randf(-7.0, 7.0)
+  game.pins[i].ang_v = @types.randf(-7.0, 7.0)
   game.pins_left = count_standing(game)
 
   burst_sparks(game, game.pins[i].x, game.pins[i].y, 12, impact_kind)
-  game.shake_t = maxf(game.shake_t, 0.08)
+  game.shake_t = @types.maxf(game.shake_t, 0.08)
 }
 
 ///|
-fn throw_ball(game : Game) -> Bool {
-  if game.state != state_play || not(game.can_throw) {
+fn throw_ball(game : @types.Game) -> Bool {
+  if game.state != @types.state_play || not(game.can_throw) {
     return false
   }
 
   let power_speed : Float = 520.0 + game.power * 780.0
-  let angle : Float = deg_to_rad(game.aim)
+  let angle : Float = @types.deg_to_rad(game.aim)
 
-  game.ball_vx = Float::from_double(@math.sin(angle.to_double())) * power_speed +
+  game.ball_vx = Float::from_double(@math.sin(angle.to_double())) *
+    power_speed +
     game.spin * 96.0
-  game.ball_vy = -Float::from_double(@math.cos(angle.to_double())) * power_speed
+  game.ball_vy = -Float::from_double(@math.cos(angle.to_double())) *
+    power_speed
   game.ball_spin = game.spin
   game.ball_live = true
   game.can_throw = false
@@ -331,7 +281,7 @@ fn throw_ball(game : Game) -> Bool {
 }
 
 ///|
-fn on_roll_scored(game : Game, knocked : Int) -> Unit {
+fn on_roll_scored(game : @types.Game, knocked : Int) -> Unit {
   let k : Int = if knocked < 0 {
     0
   } else if knocked > game.pins_before_roll {
@@ -444,7 +394,7 @@ fn on_roll_scored(game : Game, knocked : Int) -> Unit {
 }
 
 ///|
-fn update_ball(game : Game, dt : Float) -> Unit {
+fn update_ball(game : @types.Game, dt : Float) -> Unit {
   if not(game.ball_live) {
     return
   }
@@ -456,38 +406,38 @@ fn update_ball(game : Game, dt : Float) -> Unit {
   game.ball_vx = game.ball_vx * (1.0 - dt * 0.56)
   game.ball_vy = game.ball_vy * (1.0 - dt * 0.42)
 
-  let min_x : Float = lane_left + 28.0
-  let max_x : Float = lane_right - 28.0
+  let min_x : Float = @types.lane_left + 28.0
+  let max_x : Float = @types.lane_right - 28.0
 
   if game.ball_x < min_x {
     game.ball_x = min_x
-    game.ball_vx = absf(game.ball_vx) * 0.76
+    game.ball_vx = @types.absf(game.ball_vx) * 0.76
     burst_sparks(game, game.ball_x, game.ball_y, 8, 2)
   } else if game.ball_x > max_x {
     game.ball_x = max_x
-    game.ball_vx = -absf(game.ball_vx) * 0.76
+    game.ball_vx = -@types.absf(game.ball_vx) * 0.76
     burst_sparks(game, game.ball_x, game.ball_y, 8, 2)
   }
 
-  if game.ball_y < lane_top + 40.0 {
+  if game.ball_y < @types.lane_top + 40.0 {
     game.ball_live = false
     game.resolve_t = 0.42
   }
 
   let speed2 : Float = game.ball_vx * game.ball_vx + game.ball_vy * game.ball_vy
-  if speed2 < 6400.0 && game.ball_y < foul_line_y - 30.0 {
+  if speed2 < 6400.0 && game.ball_y < @types.foul_line_y - 30.0 {
     game.ball_live = false
     game.resolve_t = 0.48
   }
 }
 
 ///|
-fn collide_ball_pins(game : Game) -> Unit {
+fn collide_ball_pins(game : @types.Game) -> Unit {
   if not(game.ball_live) {
     return
   }
 
-  let hit_r : Float = pin_radius + ball_radius
+  let hit_r : Float = @types.pin_radius + @types.ball_radius
   let hit_r2 : Float = hit_r * hit_r
 
   for i in 0..<game.pins.length() {
@@ -495,7 +445,7 @@ fn collide_ball_pins(game : Game) -> Unit {
       continue
     }
 
-    let d2 : Float = dist2(
+    let d2 : Float = @types.dist2(
       game.ball_x,
       game.ball_y,
       game.pins[i].x,
@@ -507,20 +457,22 @@ fn collide_ball_pins(game : Game) -> Unit {
 
     let dx : Float = game.pins[i].x - game.ball_x
     let dy : Float = game.pins[i].y - game.ball_y
-    let d : Float = sqrtf(d2) + 0.0001
+    let d : Float = @types.sqrtf(d2) + 0.0001
 
     let nx : Float = dx / d
     let ny : Float = dy / d
-    let impulse : Float = maxf(
+    let impulse : Float = @types.maxf(
       150.0,
-      sqrtf(game.ball_vx * game.ball_vx + game.ball_vy * game.ball_vy),
+      @types.sqrtf(
+        game.ball_vx * game.ball_vx + game.ball_vy * game.ball_vy,
+      ),
     )
 
     knock_pin(
       game,
       i,
-      nx * impulse * 1.04 + randf(-50.0, 50.0),
-      ny * impulse * 1.04 + randf(-40.0, 30.0),
+      nx * impulse * 1.04 + @types.randf(-50.0, 50.0),
+      ny * impulse * 1.04 + @types.randf(-40.0, 30.0),
       1,
     )
 
@@ -532,7 +484,7 @@ fn collide_ball_pins(game : Game) -> Unit {
 }
 
 ///|
-fn update_pin_motion(game : Game, dt : Float) -> Unit {
+fn update_pin_motion(game : @types.Game, dt : Float) -> Unit {
   for pin in game.pins {
     if pin.standing {
       continue
@@ -546,31 +498,31 @@ fn update_pin_motion(game : Game, dt : Float) -> Unit {
     pin.ang = pin.ang + pin.ang_v * dt
     pin.ang_v = pin.ang_v * (1.0 - dt * 2.1)
 
-    let min_x : Float = lane_left + 20.0
-    let max_x : Float = lane_right - 20.0
+    let min_x : Float = @types.lane_left + 20.0
+    let max_x : Float = @types.lane_right - 20.0
 
     if pin.x < min_x {
       pin.x = min_x
-      pin.vx = absf(pin.vx) * 0.48
+      pin.vx = @types.absf(pin.vx) * 0.48
     } else if pin.x > max_x {
       pin.x = max_x
-      pin.vx = -absf(pin.vx) * 0.48
+      pin.vx = -@types.absf(pin.vx) * 0.48
     }
 
-    if pin.y < lane_top + 12.0 {
-      pin.y = lane_top + 12.0
-      pin.vy = absf(pin.vy) * 0.38
+    if pin.y < @types.lane_top + 12.0 {
+      pin.y = @types.lane_top + 12.0
+      pin.vy = @types.absf(pin.vy) * 0.38
     }
-    if pin.y > lane_bottom - 6.0 {
-      pin.y = lane_bottom - 6.0
-      pin.vy = -absf(pin.vy) * 0.28
+    if pin.y > @types.lane_bottom - 6.0 {
+      pin.y = @types.lane_bottom - 6.0
+      pin.vy = -@types.absf(pin.vy) * 0.28
     }
   }
 }
 
 ///|
-fn chain_pin_hits(game : Game) -> Unit {
-  let hit : Float = pin_radius * 2.0
+fn chain_pin_hits(game : @types.Game) -> Unit {
+  let hit : Float = @types.pin_radius * 2.0
   let hit2 : Float = hit * hit
 
   for i in 0..<game.pins.length() {
@@ -589,7 +541,7 @@ fn chain_pin_hits(game : Game) -> Unit {
         continue
       }
 
-      let d2 : Float = dist2(
+      let d2 : Float = @types.dist2(
         game.pins[i].x,
         game.pins[i].y,
         game.pins[j].x,
@@ -602,8 +554,8 @@ fn chain_pin_hits(game : Game) -> Unit {
       knock_pin(
         game,
         j,
-        game.pins[i].vx * 0.62 + randf(-32.0, 32.0),
-        game.pins[i].vy * 0.62 + randf(-28.0, 28.0),
+        game.pins[i].vx * 0.62 + @types.randf(-32.0, 32.0),
+        game.pins[i].vy * 0.62 + @types.randf(-28.0, 28.0),
         1,
       )
       game.pins[i].vx = game.pins[i].vx * 0.72
@@ -613,7 +565,7 @@ fn chain_pin_hits(game : Game) -> Unit {
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   game.game_t = game.game_t + dt
   game.ui_t = game.ui_t + dt
 
@@ -653,4 +605,16 @@ fn update_play(game : Game, dt : Float) -> Unit {
   let standing : Int = count_standing(game)
   let knocked : Int = game.pins_before_roll - standing
   on_roll_scored(game, knocked)
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  if game.state == @types.state_title {
+    update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game, dt)
+    update_play(game, dt)
+  } else {
+    update_result_input(game)
+  }
 }

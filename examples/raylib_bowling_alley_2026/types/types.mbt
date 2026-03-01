@@ -1,5 +1,5 @@
 ///|
-struct Pin {
+pub(all) struct Pin {
   mut standing : Bool
   mut x : Float
   mut y : Float
@@ -10,7 +10,7 @@ struct Pin {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -22,7 +22,7 @@ struct Spark {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   pins : Array[Pin]
   sparks : Array[Spark]
   rolls : Array[Int]
@@ -59,15 +59,19 @@ struct Game {
   mut best_score : Int
   mut last_knock : Int
   mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Pin::new() -> Pin {
+pub fn Pin::new() -> Pin {
   { standing: true, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, ang: 0.0, ang_v: 0.0 }
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -81,7 +85,7 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let pins : Array[Pin] = Array::makei(10, fn(_i) { Pin::new() })
   let sparks : Array[Spark] = Array::makei(max_sparks, fn(_i) { Spark::new() })
 
@@ -122,5 +126,9 @@ fn Game::new() -> Game {
     best_score: 0,
     last_knock: 0,
     touch_cd: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

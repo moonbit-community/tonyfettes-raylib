@@ -28,7 +28,7 @@ fn show_roll(v : Int) -> String {
 }
 
 ///|
-fn clear_rolls(game : Game) -> Unit {
+fn clear_rolls(game : @types.Game) -> Unit {
   game.roll_count = 0
   for i in 0..<game.rolls.length() {
     game.rolls[i] = 0
@@ -40,7 +40,7 @@ fn clear_rolls(game : Game) -> Unit {
 }
 
 ///|
-fn push_roll(game : Game, knocked : Int) -> Unit {
+fn push_roll(game : @types.Game, knocked : Int) -> Unit {
   if game.roll_count >= game.rolls.length() {
     return
   }
@@ -49,7 +49,7 @@ fn push_roll(game : Game, knocked : Int) -> Unit {
 }
 
 ///|
-fn recompute_score(game : Game) -> Unit {
+fn recompute_score(game : @types.Game) -> Unit {
   for i in 0..<10 {
     game.frame_totals[i] = -1
   }
@@ -122,7 +122,7 @@ fn recompute_score(game : Game) -> Unit {
 }
 
 ///|
-fn frame_start_roll_idx(game : Game, target : Int) -> Int {
+fn frame_start_roll_idx(game : @types.Game, target : Int) -> Int {
   let mut idx : Int = 0
 
   for frame in 0..<target {
@@ -145,7 +145,7 @@ fn frame_start_roll_idx(game : Game, target : Int) -> Int {
 }
 
 ///|
-fn frame_marks(game : Game, frame : Int) -> (String, String, String) {
+pub fn frame_marks(game : @types.Game, frame : Int) -> (String, String, String) {
   let idx : Int = frame_start_roll_idx(game, frame)
   let a : Int = maybe_roll(game.rolls, game.roll_count, idx)
   let b : Int = maybe_roll(game.rolls, game.roll_count, idx + 1)
