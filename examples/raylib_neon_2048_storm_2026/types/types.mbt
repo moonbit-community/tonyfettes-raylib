@@ -1,4 +1,26 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum Direction {
+  DirLeft
+  DirRight
+  DirUp
+  DirDown
+} derive(Eq)
+
+///|
+pub(all) enum SparkKind {
+  SparkDefault
+  SparkMerge
+  SparkExplosion
+} derive(Eq)
+
+///|
 pub(all) struct Spark {
   mut active : Bool
   mut x : Float
@@ -7,7 +29,7 @@ pub(all) struct Spark {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : SparkKind
 }
 
 ///|
@@ -17,7 +39,7 @@ pub(all) struct Game {
   sparks : Array[Spark]
   line_vals : Array[Int]
   line_out : Array[Int]
-  mut state : Int
+  mut state : GameState
   mut score : Int
   mut best_score : Int
   mut moves : Int
@@ -62,7 +84,7 @@ pub fn Spark::new() -> Spark {
     vy: 0.0,
     life: 0.0,
     size: 0.0,
-    kind: 0,
+    kind: SparkDefault,
   }
 }
 
@@ -74,7 +96,7 @@ pub fn Game::new() -> Game {
     sparks: Array::makei(1200, fn(_i) { Spark::new() }),
     line_vals: Array::make(board_n, 0),
     line_out: Array::make(board_n, 0),
-    state: state_title,
+    state: Title,
     score: 0,
     best_score: 0,
     moves: 0,

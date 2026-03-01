@@ -202,8 +202,8 @@ fn draw_cell(
 
 ///|
 fn draw_grid(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
-  for y in 0..< @types.board_n {
-    for x in 0..< @types.board_n {
+  for y in 0..<@types.board_n {
+    for x in 0..<@types.board_n {
       draw_cell(game, x, y, tile, bx, by)
     }
   }
@@ -211,7 +211,7 @@ fn draw_grid(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   let bw : Int = @types.board_n * tile
   let bh : Int = @types.board_n * tile
 
-  for i in 0..= @types.board_n {
+  for i in 0..<=@types.board_n {
     let px : Int = bx + i * tile
     @raylib.draw_line(
       px,
@@ -234,7 +234,7 @@ fn draw_grid(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_cursor(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -272,12 +272,10 @@ fn draw_sparks(game : @types.Game) -> Unit {
       132
     }
 
-    let c : @raylib.Color = if spark.kind == 2 {
-      @raylib.Color::new(255, 180, 126, alpha)
-    } else if spark.kind == 1 {
-      @raylib.Color::new(142, 214, 255, alpha)
-    } else {
-      @raylib.Color::new(190, 234, 255, alpha)
+    let c : @raylib.Color = match spark.kind {
+      @types.SparkExplosion => @raylib.Color::new(255, 180, 126, alpha)
+      @types.SparkMerge => @raylib.Color::new(142, 214, 255, alpha)
+      @types.SparkDefault => @raylib.Color::new(190, 234, 255, alpha)
     }
 
     @raylib.draw_circle(spark.x.to_int(), spark.y.to_int(), 1.0 + spark.size, c)
@@ -326,7 +324,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -662,8 +660,7 @@ fn draw_title(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     "Neon 2048 Storm 2026",
-    @types.screen_w / 2 -
-    @raylib.measure_text("Neon 2048 Storm 2026", 88) / 2,
+    @types.screen_w / 2 - @raylib.measure_text("Neon 2048 Storm 2026", 88) / 2,
     114,
     88,
     @raylib.Color::new(236, 246, 255, 248),
@@ -705,9 +702,7 @@ fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Tip: save Zap for blockers or dead-board rescue.",
     @types.screen_w / 2 -
-    @raylib.measure_text(
-      "Tip: save Zap for blockers or dead-board rescue.", 30,
-    ) /
+    @raylib.measure_text("Tip: save Zap for blockers or dead-board rescue.", 30) /
     2,
     784,
     30,
@@ -810,7 +805,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
+  if game.state == @types.Title {
     draw_title(game)
     return
   }
@@ -824,7 +819,7 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_panel(game)
   draw_controls(game)
 
-  if game.state == @types.state_result {
+  if game.state == @types.Result {
     draw_result_overlay(game)
   }
 }

@@ -60,10 +60,7 @@ fn update_result_input(game : @types.Game) -> Unit {
 }
 
 ///|
-fn btn_pressed(
-  game : @types.Game,
-  rect : (Int, Int, Int, Int),
-) -> Bool {
+fn btn_pressed(game : @types.Game, rect : (Int, Int, Int, Int)) -> Bool {
   if game.touch_cd > 0.0 {
     return false
   }
@@ -83,22 +80,22 @@ fn btn_pressed(
 ///|
 fn handle_buttons(game : @types.Game) -> Bool {
   if btn_pressed(game, @types.btn_left()) {
-    ignore(try_move(game, @types.dir_left))
+    ignore(try_move(game, @types.DirLeft))
     game.touch_cd = 0.14
     return true
   }
   if btn_pressed(game, @types.btn_right()) {
-    ignore(try_move(game, @types.dir_right))
+    ignore(try_move(game, @types.DirRight))
     game.touch_cd = 0.14
     return true
   }
   if btn_pressed(game, @types.btn_up()) {
-    ignore(try_move(game, @types.dir_up))
+    ignore(try_move(game, @types.DirUp))
     game.touch_cd = 0.14
     return true
   }
   if btn_pressed(game, @types.btn_down()) {
-    ignore(try_move(game, @types.dir_down))
+    ignore(try_move(game, @types.DirDown))
     game.touch_cd = 0.14
     return true
   }
@@ -124,7 +121,7 @@ fn handle_buttons(game : @types.Game) -> Bool {
 ///|
 fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_title
+    game.state = @types.Title
     return
   }
 
@@ -141,19 +138,19 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
 
   if @raylib.is_key_pressed(@raylib.KeyLeft) ||
     @raylib.is_key_pressed(@raylib.KeyA) {
-    ignore(try_move(game, @types.dir_left))
+    ignore(try_move(game, @types.DirLeft))
   }
   if @raylib.is_key_pressed(@raylib.KeyRight) ||
     @raylib.is_key_pressed(@raylib.KeyD) {
-    ignore(try_move(game, @types.dir_right))
+    ignore(try_move(game, @types.DirRight))
   }
   if @raylib.is_key_pressed(@raylib.KeyUp) ||
     @raylib.is_key_pressed(@raylib.KeyW) {
-    ignore(try_move(game, @types.dir_up))
+    ignore(try_move(game, @types.DirUp))
   }
   if @raylib.is_key_pressed(@raylib.KeyDown) ||
     @raylib.is_key_pressed(@raylib.KeyS) {
-    ignore(try_move(game, @types.dir_down))
+    ignore(try_move(game, @types.DirDown))
   }
 
   if @raylib.is_key_pressed(@raylib.KeyZ) ||
