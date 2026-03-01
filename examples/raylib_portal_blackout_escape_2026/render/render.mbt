@@ -23,23 +23,23 @@ fn pulse(game : @types.Game, f : Float) -> Float {
 
 ///|
 fn core_color(kind : Int) -> @raylib.Color {
-  if kind == 0 {
-    @raylib.Color::new(244, 182, 120, 242)
-  } else if kind == 1 {
+  if kind == 1 {
     @raylib.Color::new(130, 214, 252, 242)
-  } else {
+  } else if kind == 2 {
     @raylib.Color::new(176, 236, 166, 242)
+  } else {
+    @raylib.Color::new(244, 182, 120, 242)
   }
 }
 
 ///|
 fn drone_color(id : Int) -> @raylib.Color {
-  if id == 0 {
-    @raylib.Color::new(244, 152, 166, 232)
-  } else if id == 1 {
+  if id == 1 {
     @raylib.Color::new(164, 194, 252, 232)
-  } else {
+  } else if id == 2 {
     @raylib.Color::new(232, 206, 148, 232)
+  } else {
+    @raylib.Color::new(244, 152, 166, 232)
   }
 }
 
@@ -319,12 +319,12 @@ fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
       continue
     }
 
-    let col = if particle.kind == 2 {
-      @raylib.Color::new(194, 170, 246, 188)
-    } else if particle.kind == 1 {
+    let col = if particle.kind == 1 {
       @raylib.Color::new(250, 224, 154, 194)
-    } else {
+    } else if particle.kind == 2 {
       @raylib.Color::new(170, 220, 252, 170)
+    } else {
+      @raylib.Color::new(194, 170, 246, 188)
     }
 
     @raylib.draw_circle(
