@@ -1,10 +1,9 @@
 ///|
 fn handle_input(game : @types.Game) -> Unit {
   match game.state {
-    s if s == @types.state_title => handle_title_input(game)
-    s if s == @types.state_play => handle_play_input(game)
-    s if s == @types.state_over || s == @types.state_clear =>
-      handle_end_input(game)
+    Title => handle_title_input(game)
+    Play => handle_play_input(game)
+    Over | Clear => handle_end_input(game)
     _ => ()
   }
 }
@@ -81,7 +80,7 @@ fn handle_play_input(game : @types.Game) -> Unit {
 fn handle_end_input(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) {
-    if game.state == @types.state_clear {
+    if game.state == @types.GameState::Clear {
       game.level = game.level + 1
     }
     reset(game)
@@ -93,6 +92,6 @@ fn handle_end_input(game : @types.Game) -> Unit {
     return
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_title
+    game.state = @types.GameState::Title
   }
 }

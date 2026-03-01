@@ -2,14 +2,14 @@
 pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.clear_background(@types.bg_color)
   match game.state {
-    s if s == @types.state_title => draw_title()
+    Title => draw_title()
     _ => {
       draw_panel(game)
       draw_board(game)
-      if game.state == @types.state_over {
+      if game.state == @types.GameState::Over {
         draw_overlay_over(game)
       }
-      if game.state == @types.state_clear {
+      if game.state == @types.GameState::Clear {
         draw_overlay_clear(game)
       }
     }
@@ -144,7 +144,7 @@ fn draw_board(game : @types.Game) -> Unit {
   let cp = Float::from_int(@types.cell_px)
   for i in 0..< @types.cell_count {
     let g = game.board[i]
-    if g.kind < 0 {
+    if g.kind.is_empty() {
       continue
     }
     let r = i / @types.grid_cols
@@ -192,7 +192,7 @@ fn draw_board(game : @types.Game) -> Unit {
     ignore(c)
   }
   // Hint animation
-  if game.state == @types.state_play &&
+  if game.state == @types.GameState::Play &&
     game.hint_r1 >= 0 &&
     game.hint_t > 2.0 {
     let pulse = Float::from_double(

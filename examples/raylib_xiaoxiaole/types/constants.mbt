@@ -32,27 +32,6 @@ pub let board_left : Int = 36
 pub let board_top : Int = 160
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_swap : Int = 2
-
-///|
-pub let state_remove : Int = 3
-
-///|
-pub let state_fall : Int = 4
-
-///|
-pub let state_over : Int = 5
-
-///|
-pub let state_clear : Int = 6
-
-///|
 pub let swap_speed : Float = 10.0
 
 ///|
@@ -68,28 +47,28 @@ pub let base_moves : Int = 30
 pub let base_target : Int = 1000
 
 ///|
-pub fn gem_color(kind : Int) -> @raylib.Color {
+pub fn gem_color(kind : GemKind) -> @raylib.Color {
   match kind {
-    0 => @raylib.Color::new(231, 76, 60, 255) // Red
-    1 => @raylib.Color::new(46, 204, 113, 255) // Green
-    2 => @raylib.Color::new(52, 152, 219, 255) // Blue
-    3 => @raylib.Color::new(241, 196, 15, 255) // Yellow
-    4 => @raylib.Color::new(155, 89, 182, 255) // Purple
-    5 => @raylib.Color::new(230, 126, 34, 255) // Orange
-    _ => @raylib.Color::new(200, 200, 200, 255)
+    Red => @raylib.Color::new(231, 76, 60, 255)
+    Green => @raylib.Color::new(46, 204, 113, 255)
+    Blue => @raylib.Color::new(52, 152, 219, 255)
+    Yellow => @raylib.Color::new(241, 196, 15, 255)
+    Purple => @raylib.Color::new(155, 89, 182, 255)
+    Orange => @raylib.Color::new(230, 126, 34, 255)
+    Empty => @raylib.Color::new(200, 200, 200, 255)
   }
 }
 
 ///|
-pub fn gem_highlight(kind : Int) -> @raylib.Color {
+pub fn gem_highlight(kind : GemKind) -> @raylib.Color {
   match kind {
-    0 => @raylib.Color::new(255, 120, 100, 255)
-    1 => @raylib.Color::new(100, 230, 150, 255)
-    2 => @raylib.Color::new(100, 180, 240, 255)
-    3 => @raylib.Color::new(255, 220, 80, 255)
-    4 => @raylib.Color::new(190, 130, 210, 255)
-    5 => @raylib.Color::new(250, 160, 80, 255)
-    _ => @raylib.Color::new(230, 230, 230, 255)
+    Red => @raylib.Color::new(255, 120, 100, 255)
+    Green => @raylib.Color::new(100, 230, 150, 255)
+    Blue => @raylib.Color::new(100, 180, 240, 255)
+    Yellow => @raylib.Color::new(255, 220, 80, 255)
+    Purple => @raylib.Color::new(190, 130, 210, 255)
+    Orange => @raylib.Color::new(250, 160, 80, 255)
+    Empty => @raylib.Color::new(230, 230, 230, 255)
   }
 }
 

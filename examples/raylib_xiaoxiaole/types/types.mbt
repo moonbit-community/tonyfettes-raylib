@@ -1,6 +1,45 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Swap
+  Remove
+  Fall
+  Over
+  Clear
+} derive(Eq)
+
+///|
+pub(all) enum GemKind {
+  Empty
+  Red
+  Green
+  Blue
+  Yellow
+  Purple
+  Orange
+} derive(Eq)
+
+///|
+pub fn GemKind::from_int(i : Int) -> GemKind {
+  match i {
+    0 => Red
+    1 => Green
+    2 => Blue
+    3 => Yellow
+    4 => Purple
+    _ => Orange
+  }
+}
+
+///|
+pub fn GemKind::is_empty(self : GemKind) -> Bool {
+  self == Empty
+}
+
+///|
 pub(all) struct Gem {
-  mut kind : Int // 0..5 color, -1 = empty
+  mut kind : GemKind
   mut anim_x : Float
   mut anim_y : Float
   mut target_x : Float
@@ -12,7 +51,7 @@ pub(all) struct Gem {
 ///|
 pub fn Gem::empty() -> Gem {
   {
-    kind: -1,
+    kind: Empty,
     anim_x: 0.0,
     anim_y: 0.0,
     target_x: 0.0,
@@ -25,7 +64,7 @@ pub fn Gem::empty() -> Gem {
 ///|
 pub(all) struct Game {
   board : Array[Gem]
-  mut state : Int
+  mut state : GameState
   mut score : Int
   mut best_score : Int
   mut moves_left : Int
@@ -52,7 +91,7 @@ pub(all) struct Game {
 pub fn Game::new() -> Game {
   {
     board: Array::makei(cell_count, fn(_i) { Gem::empty() }),
-    state: state_title,
+    state: Title,
     score: 0,
     best_score: 0,
     moves_left: base_moves,

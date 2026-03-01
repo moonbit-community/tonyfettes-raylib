@@ -30,10 +30,9 @@ fn reset(game : @types.Game) -> Unit {
           game.board[@types.idx(r, c + 1)].kind &&
           game.board[@types.idx(r, c)].kind ==
           game.board[@types.idx(r, c + 2)].kind &&
-          game.board[@types.idx(r, c)].kind >= 0 {
-          game.board[@types.idx(r, c + 2)].kind = @raylib.get_random_value(
-            0,
-            @types.num_colors - 1,
+          not(game.board[@types.idx(r, c)].kind.is_empty()) {
+          game.board[@types.idx(r, c + 2)].kind = @types.GemKind::from_int(
+            @raylib.get_random_value(0, @types.num_colors - 1),
           )
           has_match = true
         }
@@ -42,10 +41,9 @@ fn reset(game : @types.Game) -> Unit {
           game.board[@types.idx(r + 1, c)].kind &&
           game.board[@types.idx(r, c)].kind ==
           game.board[@types.idx(r + 2, c)].kind &&
-          game.board[@types.idx(r, c)].kind >= 0 {
-          game.board[@types.idx(r + 2, c)].kind = @raylib.get_random_value(
-            0,
-            @types.num_colors - 1,
+          not(game.board[@types.idx(r, c)].kind.is_empty()) {
+          game.board[@types.idx(r + 2, c)].kind = @types.GemKind::from_int(
+            @raylib.get_random_value(0, @types.num_colors - 1),
           )
           has_match = true
         }
@@ -58,13 +56,15 @@ fn reset(game : @types.Game) -> Unit {
     return
   }
   snap_positions(game)
-  game.state = @types.state_play
+  game.state = @types.GameState::Play
 }
 
 ///|
 fn fill_board(game : @types.Game) -> Unit {
   for i in 0..< @types.cell_count {
-    game.board[i].kind = @raylib.get_random_value(0, @types.num_colors - 1)
+    game.board[i].kind = @types.GemKind::from_int(
+      @raylib.get_random_value(0, @types.num_colors - 1),
+    )
     game.board[i].matched = false
     game.board[i].flash_t = 0.0
   }
@@ -119,7 +119,7 @@ fn try_swap(
   game.board[i2].target_x = @types.cell_x(c2)
   game.board[i2].target_y = @types.cell_y(r2)
   game.combo = 0
-  game.state = @types.state_swap
+  game.state = @types.GameState::Swap
 }
 
 ///|
@@ -151,7 +151,7 @@ fn find_matches(game : @types.Game) -> Int {
   for r in 0..< @types.grid_rows {
     for c = 0; c < @types.grid_cols; {
       let k = game.board[@types.idx(r, c)].kind
-      if k < 0 {
+      if k.is_empty() {
         continue c + 1
       }
       let mut end = c + 1
@@ -172,7 +172,7 @@ fn find_matches(game : @types.Game) -> Int {
   for c in 0..< @types.grid_cols {
     for r = 0; r < @types.grid_rows; {
       let k = game.board[@types.idx(r, c)].kind
-      if k < 0 {
+      if k.is_empty() {
         continue r + 1
       }
       let mut end = r + 1
@@ -197,7 +197,7 @@ fn remove_matched(game : @types.Game) -> Int {
   let mut removed = 0
   for i in 0..< @types.cell_count {
     if game.board[i].matched {
-      game.board[i].kind = -1
+      game.board[i].kind = @types.GemKind::Empty
       game.board[i].matched = false
       game.board[i].flash_t = @types.flash_duration
       removed = removed + 1
@@ -213,12 +213,12 @@ fn apply_gravity(game : @types.Game) -> Bool {
     // Compact column downward
     let mut write_r = @types.grid_rows - 1
     for r = @types.grid_rows - 1; r >= 0; r = r - 1 {
-      if game.board[@types.idx(r, c)].kind >= 0 {
+      if not(game.board[@types.idx(r, c)].kind.is_empty()) {
         if write_r != r {
           let wi = @types.idx(write_r, c)
           let ri = @types.idx(r, c)
           game.board[wi].kind = game.board[ri].kind
-          game.board[ri].kind = -1
+          game.board[ri].kind = @types.GemKind::Empty
           // Animate from old position
           game.board[wi].anim_x = @types.cell_x(c)
           game.board[wi].anim_y = @types.cell_y(r)
@@ -232,7 +232,9 @@ fn apply_gravity(game : @types.Game) -> Bool {
     // Fill empty cells at the top
     for r = write_r; r >= 0; r = r - 1 {
       let i = @types.idx(r, c)
-      game.board[i].kind = @raylib.get_random_value(0, @types.num_colors - 1)
+      game.board[i].kind = @types.GemKind::from_int(
+        @raylib.get_random_value(0, @types.num_colors - 1),
+      )
       game.board[i].matched = false
       game.board[i].flash_t = 0.0
       // Animate falling from above
@@ -339,7 +341,7 @@ fn update_animations(game : @types.Game, dt : Float) -> Bool {
     let g = game.board[i]
     let dx = g.target_x - g.anim_x
     let dy = g.target_y - g.anim_y
-    let speed = if game.state == @types.state_swap {
+    let speed = if game.state == @types.GameState::Swap {
       @types.swap_speed
     } else {
       @types.fall_speed
@@ -381,28 +383,28 @@ fn update_animations(game : @types.Game, dt : Float) -> Bool {
 fn update_game_logic(game : @types.Game, dt : Float) -> Unit {
   let done = update_animations(game, dt)
   match game.state {
-    s if s == @types.state_swap =>
+    Swap =>
       if done {
         // Check if swap produced matches
         let m = find_matches(game)
         if m > 0 {
           game.moves_left = game.moves_left - 1
-          game.state = @types.state_remove
+          game.state = @types.GameState::Remove
         } else {
           // Invalid swap: undo
           undo_swap(game)
-          game.state = @types.state_swap // animate the undo
+          game.state = @types.GameState::Swap // animate the undo
           // After undo animation finishes, go back to play
           // We detect this next frame when done=true and no matches
           // Actually we need a flag to know we're in undo mode
           // Simpler: just snap and return to play
           snap_positions(game)
-          game.state = @types.state_play
+          game.state = @types.GameState::Play
           game.msg = "No match!"
           game.msg_t = 0.8
         }
       }
-    s if s == @types.state_remove => {
+    Remove => {
       game.combo = game.combo + 1
       if game.combo > game.max_combo {
         game.max_combo = game.combo
@@ -418,20 +420,20 @@ fn update_game_logic(game : @types.Game, dt : Float) -> Unit {
         game.msg_t = 1.2
       }
       ignore(apply_gravity(game))
-      game.state = @types.state_fall
+      game.state = @types.GameState::Fall
     }
-    s if s == @types.state_fall =>
+    Fall =>
       if done {
         let m = find_matches(game)
         if m > 0 {
-          game.state = @types.state_remove // cascade
+          game.state = @types.GameState::Remove // cascade
           // Check win/lose
         } else if game.score >= game.target_score {
-          game.state = @types.state_clear
+          game.state = @types.GameState::Clear
         } else if game.moves_left <= 0 {
-          game.state = @types.state_over
+          game.state = @types.GameState::Over
         } else {
-          game.state = @types.state_play
+          game.state = @types.GameState::Play
           game.combo = 0
           // Find hint
           find_hint(game)
@@ -452,10 +454,9 @@ fn update_game_logic(game : @types.Game, dt : Float) -> Unit {
                       game.board[@types.idx(r2, c2 + 1)].kind &&
                       game.board[@types.idx(r2, c2)].kind ==
                       game.board[@types.idx(r2, c2 + 2)].kind &&
-                      game.board[@types.idx(r2, c2)].kind >= 0 {
-                      game.board[@types.idx(r2, c2 + 2)].kind = @raylib.get_random_value(
-                        0,
-                        @types.num_colors - 1,
+                      not(game.board[@types.idx(r2, c2)].kind.is_empty()) {
+                      game.board[@types.idx(r2, c2 + 2)].kind = @types.GemKind::from_int(
+                        @raylib.get_random_value(0, @types.num_colors - 1),
                       )
                       has_match = true
                     }
@@ -464,10 +465,9 @@ fn update_game_logic(game : @types.Game, dt : Float) -> Unit {
                       game.board[@types.idx(r2 + 1, c2)].kind &&
                       game.board[@types.idx(r2, c2)].kind ==
                       game.board[@types.idx(r2 + 2, c2)].kind &&
-                      game.board[@types.idx(r2, c2)].kind >= 0 {
-                      game.board[@types.idx(r2 + 2, c2)].kind = @raylib.get_random_value(
-                        0,
-                        @types.num_colors - 1,
+                      not(game.board[@types.idx(r2, c2)].kind.is_empty()) {
+                      game.board[@types.idx(r2 + 2, c2)].kind = @types.GemKind::from_int(
+                        @raylib.get_random_value(0, @types.num_colors - 1),
                       )
                       has_match = true
                     }
