@@ -1,11 +1,11 @@
 ///|
-struct Cell {
+pub(all) struct Cell {
   x : Int
   y : Int
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   board : Array[Int]
   mut piece_kind : Int
   mut piece_rot : Int
@@ -25,7 +25,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     board: Array::make(board_cols * board_rows, 0),
     piece_kind: 0,

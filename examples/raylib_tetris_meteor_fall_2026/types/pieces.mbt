@@ -1,5 +1,5 @@
 ///|
-fn normalize_rot(rot : Int) -> Int {
+pub fn normalize_rot(rot : Int) -> Int {
   let mut r = rot % 4
   if r < 0 {
     r = r + 4
@@ -8,12 +8,12 @@ fn normalize_rot(rot : Int) -> Int {
 }
 
 ///|
-fn make_cell(x : Int, y : Int) -> Cell {
+pub fn make_cell(x : Int, y : Int) -> Cell {
   { x, y }
 }
 
 ///|
-fn piece_cell(kind : Int, rot : Int, block : Int) -> Cell {
+pub fn piece_cell(kind : Int, rot : Int, block : Int) -> Cell {
   let r = normalize_rot(rot)
   match kind {
     // I
@@ -178,7 +178,7 @@ fn piece_cell(kind : Int, rot : Int, block : Int) -> Cell {
 }
 
 ///|
-fn piece_color(id : Int) -> @raylib.Color {
+pub fn piece_color(id : Int) -> @raylib.Color {
   match id {
     1 => @raylib.skyblue
     2 => @raylib.yellow
