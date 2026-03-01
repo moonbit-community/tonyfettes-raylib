@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
   mut press_interact : Bool
@@ -11,7 +11,7 @@ struct InputState {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0,
     move_y: 0,
@@ -25,7 +25,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-struct Patrol {
+pub(all) struct Patrol {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -37,7 +37,7 @@ struct Patrol {
 }
 
 ///|
-fn Patrol::new() -> Patrol {
+pub fn Patrol::new() -> Patrol {
   let gate = gate_position()
   {
     x: gate.0 + 30.0,
@@ -52,7 +52,7 @@ fn Patrol::new() -> Patrol {
 }
 
 ///|
-struct Lantern {
+pub(all) struct Lantern {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -65,7 +65,7 @@ struct Lantern {
 }
 
 ///|
-fn Lantern::new() -> Lantern {
+pub fn Lantern::new() -> Lantern {
   {
     active: false,
     x: 0.0,
@@ -80,7 +80,7 @@ fn Lantern::new() -> Lantern {
 }
 
 ///|
-struct Gust {
+pub(all) struct Gust {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -92,7 +92,7 @@ struct Gust {
 }
 
 ///|
-fn Gust::new() -> Gust {
+pub fn Gust::new() -> Gust {
   {
     active: false,
     x: 0.0,
@@ -106,7 +106,7 @@ fn Gust::new() -> Gust {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -118,7 +118,7 @@ struct Spark {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -132,7 +132,7 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-struct Thief {
+pub(all) struct Thief {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -145,7 +145,7 @@ struct Thief {
 }
 
 ///|
-fn Thief::new() -> Thief {
+pub fn Thief::new() -> Thief {
   {
     active: false,
     x: 0.0,
@@ -160,7 +160,7 @@ fn Thief::new() -> Thief {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : InputState
   patrol : Patrol
   lanterns : Array[Lantern]
@@ -186,7 +186,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: InputState::new(),
     patrol: Patrol::new(),
@@ -211,4 +211,37 @@ fn Game::new() -> Game {
     screen_flash_t: 0.0,
     game_over_reason: "",
   }
+}
+
+///|
+pub fn active_lantern_count(game : Game) -> Int {
+  let mut total = 0
+  for lantern in game.lanterns {
+    if lantern.active {
+      total = total + 1
+    }
+  }
+  total
+}
+
+///|
+pub fn active_gust_count(game : Game) -> Int {
+  let mut total = 0
+  for gust in game.gusts {
+    if gust.active {
+      total = total + 1
+    }
+  }
+  total
+}
+
+///|
+pub fn active_thief_count(game : Game) -> Int {
+  let mut total = 0
+  for thief in game.thieves {
+    if thief.active {
+      total = total + 1
+    }
+  }
+  total
 }
