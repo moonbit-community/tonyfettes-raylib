@@ -53,23 +53,65 @@ fn update_play_input(game : @types.Game) -> Unit {
   let tc = game.touch_count
 
   let t_left = @types.pointer_on_rect(
-    mx, my, hold, tc, left.0, left.1, left.2, left.3,
+    mx,
+    my,
+    hold,
+    tc,
+    left.0,
+    left.1,
+    left.2,
+    left.3,
   )
   let t_right = @types.pointer_on_rect(
-    mx, my, hold, tc, right.0, right.1, right.2, right.3,
+    mx,
+    my,
+    hold,
+    tc,
+    right.0,
+    right.1,
+    right.2,
+    right.3,
   )
   let t_up = @types.pointer_on_rect(mx, my, hold, tc, up.0, up.1, up.2, up.3)
   let t_down = @types.pointer_on_rect(
-    mx, my, hold, tc, down.0, down.1, down.2, down.3,
+    mx,
+    my,
+    hold,
+    tc,
+    down.0,
+    down.1,
+    down.2,
+    down.3,
   )
   let t_fire = @types.pointer_on_rect(
-    mx, my, hold, tc, fire.0, fire.1, fire.2, fire.3,
+    mx,
+    my,
+    hold,
+    tc,
+    fire.0,
+    fire.1,
+    fire.2,
+    fire.3,
   )
   let t_dash = @types.pointer_on_rect(
-    mx, my, hold, tc, dash.0, dash.1, dash.2, dash.3,
+    mx,
+    my,
+    hold,
+    tc,
+    dash.0,
+    dash.1,
+    dash.2,
+    dash.3,
   )
   let t_emp = @types.pointer_on_rect(
-    mx, my, hold, tc, emp.0, emp.1, emp.2, emp.3,
+    mx,
+    my,
+    hold,
+    tc,
+    emp.0,
+    emp.1,
+    emp.2,
+    emp.3,
   )
 
   let key_left = @raylib.is_key_down(@raylib.KeyA) ||

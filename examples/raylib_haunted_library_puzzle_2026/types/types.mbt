@@ -1,4 +1,32 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum Tile {
+  Floor
+  Wall
+  Exit
+} derive(Eq)
+
+///|
+pub(all) enum GhostMode {
+  Patrol
+  Hunt
+  Stunned
+} derive(Eq)
+
+///|
+pub(all) enum ParticleKind {
+  Dust
+  Gold
+  Purple
+} derive(Eq)
+
+///|
 pub(all) struct Actor {
   mut x : Int
   mut y : Int
@@ -16,7 +44,7 @@ pub(all) struct Actor {
 pub(all) struct Ghost {
   mut active : Bool
   body : Actor
-  mut mode : Int
+  mut mode : GhostMode
   mut stun_t : Float
   mut move_cd : Float
   mut seed : Int
@@ -32,12 +60,12 @@ pub(all) struct Particle {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : ParticleKind
 }
 
 ///|
 pub(all) struct Game {
-  map : Array[Int]
+  map : Array[Tile]
   shelf_x : Array[Int]
   shelf_y : Array[Int]
   mut shelf_n : Int
@@ -46,7 +74,7 @@ pub(all) struct Game {
   page_taken : Array[Bool]
   ghosts : Array[Ghost]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   player : Actor
   mut lives : Int
   mut pages : Int
@@ -97,7 +125,7 @@ pub fn Ghost::new() -> Ghost {
   {
     active: false,
     body: Actor::new(),
-    mode: ghost_patrol,
+    mode: Patrol,
     stun_t: 0.0,
     move_cd: 0.0,
     seed: 1,
@@ -115,14 +143,14 @@ pub fn Particle::new() -> Particle {
     vy: 0.0,
     life: 0.0,
     size: 0.0,
-    kind: 0,
+    kind: Dust,
   }
 }
 
 ///|
 pub fn Game::new() -> Game {
   {
-    map: Array::make(grid_w * grid_h, tile_floor),
+    map: Array::make(grid_w * grid_h, Floor),
     shelf_x: Array::make(max_shelves, 0),
     shelf_y: Array::make(max_shelves, 0),
     shelf_n: 0,
@@ -131,7 +159,7 @@ pub fn Game::new() -> Game {
     page_taken: Array::make(max_pages, false),
     ghosts: Array::makei(max_ghosts, fn(_i) { Ghost::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     player: Actor::new(),
     lives: 3,
     pages: 0,

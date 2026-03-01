@@ -35,33 +35,6 @@ pub let panel_x0 : Int = board_x0 + board_w + 24
 pub let panel_w : Int = screen_w - panel_x0 - 24
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
-pub let tile_floor : Int = 0
-
-///|
-pub let tile_wall : Int = 1
-
-///|
-pub let tile_exit : Int = 2
-
-///|
-pub let ghost_patrol : Int = 0
-
-///|
-pub let ghost_hunt : Int = 1
-
-///|
-pub let ghost_stunned : Int = 2
-
-///|
 pub let max_shelves : Int = 32
 
 ///|

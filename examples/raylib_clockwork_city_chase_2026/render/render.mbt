@@ -137,8 +137,7 @@ fn draw_horizon(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     let p = Float::from_int(i)
     let w = 18 + i * 17 % 52
     let h = 46 + i * 31 % 180
-    let x = (i * 33 + (game.distance * 0.02).to_int()) %
-      (@types.screen_w + 120) -
+    let x = (i * 33 + (game.distance * 0.02).to_int()) % (@types.screen_w + 120) -
       60
     let y = (base_y - Float::from_int(h) + cam_y * 0.3).to_int()
 
@@ -199,7 +198,11 @@ fn draw_track(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     )
 
     let pulse : Float = 0.5 + 0.5 * @types.sinf(d0 * 0.02 + game.time_s * 3.8)
-    let road = if yi % 24 == 0 { @types.track_mid() } else { @types.track_dark() }
+    let road = if yi % 24 == 0 {
+      @types.track_mid()
+    } else {
+      @types.track_dark()
+    }
 
     if left > 0 {
       @raylib.draw_rectangle(
@@ -242,7 +245,7 @@ fn draw_track(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(255, 112, 216, 120 + (pulse * 90.0).to_int()),
     )
 
-    for lane in 1..< @types.lane_count {
+    for lane in 1..<@types.lane_count {
       let t = Float::from_int(lane) / Float::from_int(@types.lane_count)
       let x0 = @types.lerpf(e0.0, e0.1, t) + cam_x
       let x1 = @types.lerpf(e1.0, e1.1, t) + cam_x
@@ -260,21 +263,15 @@ fn draw_track(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn obj_col(kind : Int) -> @raylib.Color {
-  if kind == @types.obj_scout {
-    @raylib.Color::new(255, 138, 198, 255)
-  } else if kind == @types.obj_spinner {
-    @raylib.Color::new(132, 246, 255, 255)
-  } else if kind == @types.obj_tank {
-    @raylib.Color::new(255, 178, 110, 255)
-  } else if kind == @types.obj_gear_wall {
-    @raylib.Color::new(255, 106, 154, 255)
-  } else if kind == @types.obj_coin {
-    @types.amber()
-  } else if kind == @types.obj_coolant {
-    @types.heat_col()
-  } else {
-    @raylib.Color::new(170, 140, 255, 255)
+fn obj_col(kind : @types.ObjKind) -> @raylib.Color {
+  match kind {
+    @types.Scout => @raylib.Color::new(255, 138, 198, 255)
+    @types.Spinner => @raylib.Color::new(132, 246, 255, 255)
+    @types.Tank => @raylib.Color::new(255, 178, 110, 255)
+    @types.GearWall => @raylib.Color::new(255, 106, 154, 255)
+    @types.Coin => @types.amber()
+    @types.Coolant => @types.heat_col()
+    @types.EmpCell => @raylib.Color::new(170, 140, 255, 255)
   }
 }
 
@@ -320,12 +317,7 @@ fn draw_spinner(
   let r = o.w * 0.42
   let pulse : Float = 0.5 + 0.5 * @types.sinf(o.spin * 4.0)
 
-  @raylib.draw_circle(
-    x.to_int(),
-    y.to_int(),
-    r,
-    @types.alpha_color(col, 200),
-  )
+  @raylib.draw_circle(x.to_int(), y.to_int(), r, @types.alpha_color(col, 200))
   @raylib.draw_circle_lines(
     x.to_int(),
     y.to_int(),
@@ -426,37 +418,39 @@ fn draw_pickup(
     @types.alpha_color(col, 180),
   )
 
-  if o.kind == @types.obj_coin {
-    @raylib.draw_text(
-      "$",
-      (x - 8.0).to_int(),
-      (y - 12.0).to_int(),
-      24,
-      @raylib.Color::new(255, 242, 162, 230),
-    )
-  } else if o.kind == @types.obj_coolant {
-    @raylib.draw_rectangle(
-      (x - 10.0).to_int(),
-      (y - 14.0).to_int(),
-      20,
-      28,
-      @raylib.Color::new(220, 255, 240, 220),
-    )
-    @raylib.draw_rectangle(
-      (x - 4.0).to_int(),
-      (y - 19.0).to_int(),
-      8,
-      4,
-      @raylib.Color::new(220, 255, 240, 220),
-    )
-  } else {
-    @raylib.draw_text(
-      "E",
-      (x - 9.0).to_int(),
-      (y - 12.0).to_int(),
-      24,
-      @raylib.Color::new(236, 214, 255, 230),
-    )
+  match o.kind {
+    @types.Coin =>
+      @raylib.draw_text(
+        "$",
+        (x - 8.0).to_int(),
+        (y - 12.0).to_int(),
+        24,
+        @raylib.Color::new(255, 242, 162, 230),
+      )
+    @types.Coolant => {
+      @raylib.draw_rectangle(
+        (x - 10.0).to_int(),
+        (y - 14.0).to_int(),
+        20,
+        28,
+        @raylib.Color::new(220, 255, 240, 220),
+      )
+      @raylib.draw_rectangle(
+        (x - 4.0).to_int(),
+        (y - 19.0).to_int(),
+        8,
+        4,
+        @raylib.Color::new(220, 255, 240, 220),
+      )
+    }
+    _ =>
+      @raylib.draw_text(
+        "E",
+        (x - 9.0).to_int(),
+        (y - 12.0).to_int(),
+        24,
+        @raylib.Color::new(236, 214, 255, 230),
+      )
   }
 }
 
@@ -474,21 +468,17 @@ fn draw_objs(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       col0
     }
 
-    if o.kind == @types.obj_scout {
-      draw_scout(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_spinner {
-      draw_spinner(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_tank {
-      draw_tank(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_gear_wall {
-      draw_gear_wall(o, col, cam_x, cam_y)
-    } else {
-      draw_pickup(o, col, cam_x, cam_y)
+    match o.kind {
+      @types.Scout => draw_scout(o, col, cam_x, cam_y)
+      @types.Spinner => draw_spinner(o, col, cam_x, cam_y)
+      @types.Tank => draw_tank(o, col, cam_x, cam_y)
+      @types.GearWall => draw_gear_wall(o, col, cam_x, cam_y)
+      _ => draw_pickup(o, col, cam_x, cam_y)
     }
 
     if @types.is_hostile(o.kind) && o.hp > 0.0 {
       let hp_ratio = @types.clampf(
-        o.hp / (if o.kind == @types.obj_tank { 50.0 } else { 20.0 }),
+        o.hp / (if o.kind == @types.Tank { 50.0 } else { 20.0 }),
         0.0,
         1.0,
       )
@@ -721,11 +711,7 @@ fn draw_emp_wave(game : @types.Game) -> Unit {
 
   let t : Float = Float::from_int(1) - game.emp_t / @types.emp_time
   let rr = @types.emp_radius * t
-  let aa = @types.clampi(
-    ((Float::from_int(1) - t) * 200.0).to_int(),
-    0,
-    200,
-  )
+  let aa = @types.clampi(((Float::from_int(1) - t) * 200.0).to_int(), 0, 200)
 
   @raylib.draw_circle_lines(
     game.hero.x.to_int(),
@@ -790,13 +776,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     56,
     @raylib.Color::new(134, 208, 242, 170),
   )
-  @raylib.draw_text(
-    "DASH",
-    338,
-    24,
-    18,
-    @raylib.Color::new(206, 230, 248, 230),
-  )
+  @raylib.draw_text("DASH", 338, 24, 18, @raylib.Color::new(206, 230, 248, 230))
   @raylib.draw_text(
     cooldown_text(game.dash_cd, @types.dash_cd_time),
     338,
@@ -817,13 +797,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     56,
     @raylib.Color::new(152, 192, 244, 170),
   )
-  @raylib.draw_text(
-    "EMP",
-    498,
-    24,
-    18,
-    @raylib.Color::new(212, 224, 255, 230),
-  )
+  @raylib.draw_text("EMP", 498, 24, 18, @raylib.Color::new(212, 224, 255, 230))
   @raylib.draw_text(
     cooldown_text(game.emp_cd, @types.emp_cd_time),
     498,
@@ -1279,20 +1253,20 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state != @types.state_title {
-    draw_hud(game)
+  match game.state {
+    @types.Title => ()
+    _ => draw_hud(game)
   }
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_play {
-    draw_play_hint(game)
-    if game.touch_mode {
-      draw_touch(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Play => {
+      draw_play_hint(game)
+      if game.touch_mode {
+        draw_touch(game)
+      }
     }
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear(game)
-  } else {
-    draw_game_over(game)
+    @types.StageClear => draw_stage_clear(game)
+    @types.GameOver => draw_game_over(game)
   }
 }

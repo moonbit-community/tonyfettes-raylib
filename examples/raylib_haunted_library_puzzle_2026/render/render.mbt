@@ -60,47 +60,50 @@ fn draw_grid_base(game : @types.Game, ox : Int, oy : Int) -> Unit {
     for x in 0..<@types.grid_w {
       let rx : Int = @types.board_px(x) + ox
       let ry : Int = @types.board_py(y) + oy
-      let t : Int = game.map[y * @types.grid_w + x]
+      let t : @types.Tile = game.map[y * @types.grid_w + x]
 
-      if t == @types.tile_wall {
-        let shade : Int = if (x + y) % 2 == 0 { 62 } else { 72 }
-        @raylib.draw_rectangle(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(shade, 56, 64, 255),
-        )
-        @raylib.draw_rectangle(
-          rx + 6,
-          ry + 8,
-          @types.cell - 12,
-          @types.cell - 14,
-          @raylib.Color::new(98, 74, 66, 220),
-        )
-        @raylib.draw_rectangle_lines(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(34, 28, 36, 180),
-        )
-      } else {
-        let floor_tint : Int = if (x + y) % 2 == 0 { 34 } else { 38 }
-        @raylib.draw_rectangle(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(26, floor_tint, 50, 220),
-        )
-        @raylib.draw_rectangle_lines(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(30, 46, 66, 100),
-        )
+      match t {
+        @types.Wall => {
+          let shade : Int = if (x + y) % 2 == 0 { 62 } else { 72 }
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(shade, 56, 64, 255),
+          )
+          @raylib.draw_rectangle(
+            rx + 6,
+            ry + 8,
+            @types.cell - 12,
+            @types.cell - 14,
+            @raylib.Color::new(98, 74, 66, 220),
+          )
+          @raylib.draw_rectangle_lines(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(34, 28, 36, 180),
+          )
+        }
+        @types.Floor | @types.Exit => {
+          let floor_tint : Int = if (x + y) % 2 == 0 { 34 } else { 38 }
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(26, floor_tint, 50, 220),
+          )
+          @raylib.draw_rectangle_lines(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(30, 46, 66, 100),
+          )
+        }
       }
     }
   }
@@ -280,13 +283,7 @@ fn draw_gate(game : @types.Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(78, 84, 124, 236)
   }
 
-  @raylib.draw_rectangle(
-    rx,
-    ry,
-    @types.cell - 8,
-    @types.cell - 8,
-    gate_col,
-  )
+  @raylib.draw_rectangle(rx, ry, @types.cell - 8, @types.cell - 8, gate_col)
   @raylib.draw_rectangle_lines(
     rx,
     ry,
@@ -334,18 +331,8 @@ fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_circle(cx, cy, 18.0, @raylib.Color::new(110, 200, 248, 244))
   @raylib.draw_circle(cx, cy - 3, 11.0, @raylib.Color::new(224, 244, 255, 236))
 
-  @raylib.draw_circle(
-    cx - 4,
-    cy - 4,
-    2.0,
-    @raylib.Color::new(28, 52, 72, 255),
-  )
-  @raylib.draw_circle(
-    cx + 4,
-    cy - 4,
-    2.0,
-    @raylib.Color::new(28, 52, 72, 255),
-  )
+  @raylib.draw_circle(cx - 4, cy - 4, 2.0, @raylib.Color::new(28, 52, 72, 255))
+  @raylib.draw_circle(cx + 4, cy - 4, 2.0, @raylib.Color::new(28, 52, 72, 255))
 
   @raylib.draw_rectangle(
     cx - 12,
@@ -373,12 +360,10 @@ fn draw_ghost(
 
   let bob : Int = (pulse(game, 4.6 + Float::from_int(i)) * 5.0).to_int()
 
-  let body_col = if g.mode == @types.ghost_stunned {
-    @raylib.Color::new(146, 132, 248, 214)
-  } else if g.mode == @types.ghost_hunt {
-    @raylib.Color::new(250, 152, 164, 230)
-  } else {
-    @raylib.Color::new(226, 232, 248, 222)
+  let body_col = match g.mode {
+    @types.Stunned => @raylib.Color::new(146, 132, 248, 214)
+    @types.Hunt => @raylib.Color::new(250, 152, 164, 230)
+    @types.Patrol => @raylib.Color::new(226, 232, 248, 222)
   }
 
   @raylib.draw_circle(cx, cy - 8 + bob, 16.0, body_col)
@@ -397,7 +382,7 @@ fn draw_ghost(
     @raylib.Color::new(34, 44, 66, 255),
   )
 
-  if g.mode == @types.ghost_stunned {
+  if g.mode == @types.Stunned {
     @raylib.draw_circle_lines(
       cx,
       cy - 3 + bob,
@@ -414,12 +399,10 @@ fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
       continue
     }
 
-    let c = if particle.kind == 2 {
-      @raylib.Color::new(206, 154, 248, 196)
-    } else if particle.kind == 1 {
-      @raylib.Color::new(255, 224, 146, 192)
-    } else {
-      @raylib.Color::new(156, 212, 255, 170)
+    let c = match particle.kind {
+      @types.Purple => @raylib.Color::new(206, 154, 248, 196)
+      @types.Gold => @raylib.Color::new(255, 224, 146, 192)
+      @types.Dust => @raylib.Color::new(156, 212, 255, 170)
     }
 
     @raylib.draw_circle(
@@ -510,7 +493,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_touch_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -901,9 +884,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     title,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(title, 62) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(title, 62) / 2,
     @types.board_y0 + 196,
     62,
     if game.win {
@@ -921,9 +902,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     reason,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(reason, 28) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(reason, 28) / 2,
     @types.board_y0 + 288,
     28,
     @raylib.Color::new(196, 220, 246, 236),
@@ -988,9 +967,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_panel(game)
   draw_touch_controls(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Result => draw_result_overlay(game)
+    @types.Play => ()
   }
 }

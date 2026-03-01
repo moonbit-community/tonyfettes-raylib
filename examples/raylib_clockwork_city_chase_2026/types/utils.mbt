@@ -329,16 +329,19 @@ pub fn pointer_on_rect(
 }
 
 ///|
-pub fn is_hostile(kind : Int) -> Bool {
-  kind == obj_scout ||
-  kind == obj_spinner ||
-  kind == obj_tank ||
-  kind == obj_gear_wall
+pub fn is_hostile(kind : ObjKind) -> Bool {
+  match kind {
+    Scout | Spinner | Tank | GearWall => true
+    Coin | Coolant | EmpCell => false
+  }
 }
 
 ///|
-pub fn is_pickup(kind : Int) -> Bool {
-  kind == obj_coin || kind == obj_coolant || kind == obj_emp_cell
+pub fn is_pickup(kind : ObjKind) -> Bool {
+  match kind {
+    Coin | Coolant | EmpCell => true
+    Scout | Spinner | Tank | GearWall => false
+  }
 }
 
 ///|

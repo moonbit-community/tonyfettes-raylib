@@ -8,39 +8,6 @@ pub let screen_h : Int = 720
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
-pub let obj_scout : Int = 0
-
-///|
-pub let obj_spinner : Int = 1
-
-///|
-pub let obj_tank : Int = 2
-
-///|
-pub let obj_gear_wall : Int = 3
-
-///|
-pub let obj_coin : Int = 4
-
-///|
-pub let obj_coolant : Int = 5
-
-///|
-pub let obj_emp_cell : Int = 6
-
-///|
 pub let max_objs : Int = 420
 
 ///|

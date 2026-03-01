@@ -81,51 +81,51 @@ pub fn update_play_input(game : @types.Game) -> Unit {
   let b_d = @types.btn_down()
 
   if @types.pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    b_l.0,
-    b_l.1,
-    b_l.2,
-    b_l.3,
-  ) {
+      mx,
+      my,
+      hold,
+      touch_count,
+      b_l.0,
+      b_l.1,
+      b_l.2,
+      b_l.3,
+    ) {
     dx = dx - 1
   }
   if @types.pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    b_r.0,
-    b_r.1,
-    b_r.2,
-    b_r.3,
-  ) {
+      mx,
+      my,
+      hold,
+      touch_count,
+      b_r.0,
+      b_r.1,
+      b_r.2,
+      b_r.3,
+    ) {
     dx = dx + 1
   }
   if @types.pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    b_u.0,
-    b_u.1,
-    b_u.2,
-    b_u.3,
-  ) {
+      mx,
+      my,
+      hold,
+      touch_count,
+      b_u.0,
+      b_u.1,
+      b_u.2,
+      b_u.3,
+    ) {
     dy = dy - 1
   }
   if @types.pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    b_d.0,
-    b_d.1,
-    b_d.2,
-    b_d.3,
-  ) {
+      mx,
+      my,
+      hold,
+      touch_count,
+      b_d.0,
+      b_d.1,
+      b_d.2,
+      b_d.3,
+    ) {
     dy = dy + 1
   }
 

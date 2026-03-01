@@ -2,7 +2,7 @@
 fn clear_objs(game : @types.Game) -> Unit {
   for obj in game.objs {
     obj.active = false
-    obj.kind = @types.obj_scout
+    obj.kind = @types.Scout
     obj.x = 0.0
     obj.y = 0.0
     obj.vx = 0.0
@@ -293,7 +293,7 @@ fn spawn_shot(
 ///|
 fn spawn_obj(
   game : @types.Game,
-  kind : Int,
+  kind : @types.ObjKind,
   x : Float,
   y : Float,
   vx : Float,
@@ -364,7 +364,7 @@ fn hurt_player(game : @types.Game, dmg : Float) -> Unit {
   clear_combo(game)
 
   if game.armor <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 }
@@ -378,7 +378,7 @@ fn start_stage(game : @types.Game, stage : Int) -> Unit {
   clear_ghosts(game)
   reset_player(game.hero)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = stage
   game.distance = 0.0
   game.stage_goal = @types.stage_goal_base +
@@ -421,7 +421,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
   clear_ghosts(game)
   reset_player(game.hero)
 
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.distance = 0.0
   game.stage_goal = @types.stage_goal_base
@@ -468,7 +468,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_pos(lane, center) + @types.randf(-12.0, 12.0)
       spawn_obj(
         game,
-        @types.obj_scout,
+        @types.Scout,
         x,
         y + @types.randf(-28.0, 22.0),
         @types.randf(-42.0, 42.0),
@@ -485,7 +485,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_pos(lane, center) + @types.randf(-14.0, 14.0)
       spawn_obj(
         game,
-        @types.obj_spinner,
+        @types.Spinner,
         x,
         y + @types.randf(-26.0, 22.0),
         @types.randf(-62.0, 62.0),
@@ -502,7 +502,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_pos(lane, center)
       spawn_obj(
         game,
-        @types.obj_tank,
+        @types.Tank,
         x,
         y + @types.randf(-32.0, 24.0),
         @types.randf(-18.0, 18.0),
@@ -519,7 +519,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_pos(lane, center)
       spawn_obj(
         game,
-        @types.obj_gear_wall,
+        @types.GearWall,
         x,
         y + @types.randf(-16.0, 12.0),
         0.0,
@@ -535,7 +535,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_obj(
         game,
-        @types.obj_coin,
+        @types.Coin,
         x,
         y + @types.randf(-18.0, 18.0),
         @types.randf(-34.0, 34.0),
@@ -551,7 +551,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_obj(
         game,
-        @types.obj_coolant,
+        @types.Coolant,
         x,
         y + @types.randf(-18.0, 18.0),
         @types.randf(-28.0, 28.0),
@@ -567,7 +567,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let x = @types.spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_obj(
         game,
-        @types.obj_emp_cell,
+        @types.EmpCell,
         x,
         y + @types.randf(-14.0, 14.0),
         @types.randf(-20.0, 20.0),
@@ -624,7 +624,7 @@ fn apply_emp(game : @types.Game) -> Unit {
       let x = obj.x
       let y = obj.y
       obj.active = false
-      add_score(game, if kind == @types.obj_tank { 140 } else { 88 })
+      add_score(game, if kind == @types.Tank { 140 } else { 88 })
       push_combo(game)
       burst(game, x, y, 18, 1)
       spawn_ring(game, x, y, 10.0, 0.5, 1)
@@ -760,8 +760,16 @@ fn apply_player_input(game : @types.Game, dt : Float) -> Unit {
   game.hero.vx = game.hero.vx * drag
   game.hero.vy = game.hero.vy * drag
 
-  game.hero.vx = @types.clampf(game.hero.vx, -@types.max_speed_x, @types.max_speed_x)
-  game.hero.vy = @types.clampf(game.hero.vy, -@types.max_speed_y, @types.max_speed_y)
+  game.hero.vx = @types.clampf(
+    game.hero.vx,
+    -@types.max_speed_x,
+    @types.max_speed_x,
+  )
+  game.hero.vy = @types.clampf(
+    game.hero.vy,
+    -@types.max_speed_y,
+    @types.max_speed_y,
+  )
 
   game.hero.x = game.hero.x + game.hero.vx * dt
   game.hero.y = game.hero.y + game.hero.vy * dt
@@ -797,67 +805,66 @@ fn constrain_to_track(game : @types.Game) -> Unit {
 
 ///|
 fn enemy_fire(game : @types.Game, o : @types.Obj) -> Unit {
-  if o.kind == @types.obj_scout {
-    spawn_shot(
-      game,
-      false,
-      o.x,
-      o.y + o.h * 0.4,
-      @types.randf(-120.0, 120.0),
-      @types.enemy_shot_speed,
-      2.2,
-      9.0,
-      0,
-    )
-  } else if o.kind == @types.obj_spinner {
-    let dx = game.hero.x - o.x
-    let dy = game.hero.y - o.y
-    let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
-    let inv : Float = Float::from_int(1) / @types.sqrtf(n2)
-    spawn_shot(
-      game,
-      false,
-      o.x,
-      o.y,
-      dx * inv * @types.enemy_shot_speed,
-      dy * inv * @types.enemy_shot_speed,
-      2.5,
-      11.0,
-      1,
-    )
-  } else if o.kind == @types.obj_tank {
-    spawn_shot(
-      game,
-      false,
-      o.x - 18.0,
-      o.y + o.h * 0.32,
-      -60.0,
-      @types.enemy_shot_speed * 0.86,
-      2.6,
-      12.0,
-      2,
-    )
-    spawn_shot(
-      game,
-      false,
-      o.x + 18.0,
-      o.y + o.h * 0.32,
-      60.0,
-      @types.enemy_shot_speed * 0.86,
-      2.6,
-      12.0,
-      2,
-    )
+  match o.kind {
+    @types.Scout =>
+      spawn_shot(
+        game,
+        false,
+        o.x,
+        o.y + o.h * 0.4,
+        @types.randf(-120.0, 120.0),
+        @types.enemy_shot_speed,
+        2.2,
+        9.0,
+        0,
+      )
+    @types.Spinner => {
+      let dx = game.hero.x - o.x
+      let dy = game.hero.y - o.y
+      let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
+      let inv : Float = Float::from_int(1) / @types.sqrtf(n2)
+      spawn_shot(
+        game,
+        false,
+        o.x,
+        o.y,
+        dx * inv * @types.enemy_shot_speed,
+        dy * inv * @types.enemy_shot_speed,
+        2.5,
+        11.0,
+        1,
+      )
+    }
+    @types.Tank => {
+      spawn_shot(
+        game,
+        false,
+        o.x - 18.0,
+        o.y + o.h * 0.32,
+        -60.0,
+        @types.enemy_shot_speed * 0.86,
+        2.6,
+        12.0,
+        2,
+      )
+      spawn_shot(
+        game,
+        false,
+        o.x + 18.0,
+        o.y + o.h * 0.32,
+        60.0,
+        @types.enemy_shot_speed * 0.86,
+        2.6,
+        12.0,
+        2,
+      )
+    }
+    _ => ()
   }
 }
 
 ///|
-fn kill_obj(
-  game : @types.Game,
-  i : Int,
-  base : Int,
-  burst_kind : Int,
-) -> Unit {
+fn kill_obj(game : @types.Game, i : Int, base : Int, burst_kind : Int) -> Unit {
   let x = game.objs[i].x
   let y = game.objs[i].y
   game.objs[i].active = false
@@ -869,19 +876,23 @@ fn kill_obj(
 }
 
 ///|
-fn collect_item(game : @types.Game, kind : Int) -> Unit {
-  if kind == @types.obj_coin {
-    game.coins = game.coins + 1
-    add_score(game, 60)
-    push_combo(game)
-  } else if kind == @types.obj_coolant {
-    game.heat = @types.minf(@types.heat_max, game.heat + @types.heat_pickup)
-    add_score(game, 40)
-  } else {
-    game.emp_cd = @types.maxf(0.0, game.emp_cd - 1.1)
-    game.heat = @types.minf(@types.heat_max, game.heat + 12.0)
-    add_score(game, 78)
-    push_combo(game)
+fn collect_item(game : @types.Game, kind : @types.ObjKind) -> Unit {
+  match kind {
+    @types.Coin => {
+      game.coins = game.coins + 1
+      add_score(game, 60)
+      push_combo(game)
+    }
+    @types.Coolant => {
+      game.heat = @types.minf(@types.heat_max, game.heat + @types.heat_pickup)
+      add_score(game, 40)
+    }
+    _ => {
+      game.emp_cd = @types.maxf(0.0, game.emp_cd - 1.1)
+      game.heat = @types.minf(@types.heat_max, game.heat + 12.0)
+      add_score(game, 78)
+      push_combo(game)
+    }
   }
 }
 
@@ -899,21 +910,23 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
     game.objs[i].spin = game.objs[i].spin + dt * 1.9
     game.objs[i].shot_cd = game.objs[i].shot_cd - dt
 
-    if game.objs[i].kind == @types.obj_scout {
-      game.objs[i].x = game.objs[i].x +
-        @types.sinf(game.objs[i].spin * 2.2) * 34.0 * dt
-    } else if game.objs[i].kind == @types.obj_spinner {
-      game.objs[i].y = game.objs[i].y +
-        @types.cosf(game.objs[i].spin * 2.8) * 26.0 * dt
-    } else if game.objs[i].kind == @types.obj_tank {
-      game.objs[i].x = game.objs[i].x +
-        @types.sinf(game.objs[i].spin * 1.4) * 18.0 * dt
-    } else if game.objs[i].kind == @types.obj_gear_wall {
-      game.objs[i].w = 118.0 + @types.sinf(game.objs[i].spin * 3.4) * 26.0
-      game.objs[i].h = 18.0 + @types.sinf(game.objs[i].spin * 4.2) * 4.0
-    } else {
-      game.objs[i].x = game.objs[i].x +
-        @types.sinf(game.objs[i].spin * 2.6) * 16.0 * dt
+    match game.objs[i].kind {
+      @types.Scout =>
+        game.objs[i].x = game.objs[i].x +
+          @types.sinf(game.objs[i].spin * 2.2) * 34.0 * dt
+      @types.Spinner =>
+        game.objs[i].y = game.objs[i].y +
+          @types.cosf(game.objs[i].spin * 2.8) * 26.0 * dt
+      @types.Tank =>
+        game.objs[i].x = game.objs[i].x +
+          @types.sinf(game.objs[i].spin * 1.4) * 18.0 * dt
+      @types.GearWall => {
+        game.objs[i].w = 118.0 + @types.sinf(game.objs[i].spin * 3.4) * 26.0
+        game.objs[i].h = 18.0 + @types.sinf(game.objs[i].spin * 4.2) * 4.0
+      }
+      _ =>
+        game.objs[i].x = game.objs[i].x +
+          @types.sinf(game.objs[i].spin * 2.6) * 16.0 * dt
     }
 
     let out = game.objs[i].y > Float::from_int(@types.screen_h) + 220.0 ||
@@ -926,19 +939,19 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
 
     if @types.is_hostile(game.objs[i].kind) && game.objs[i].shot_cd <= 0.0 {
       enemy_fire(game, game.objs[i])
-      game.objs[i].shot_cd = if game.objs[i].kind == @types.obj_scout {
-        @types.randf(0.74, 1.44)
-      } else if game.objs[i].kind == @types.obj_spinner {
-        @types.randf(0.48, 1.02)
-      } else if game.objs[i].kind == @types.obj_tank {
-        @types.randf(1.18, 2.1)
-      } else {
-        @types.randf(1.0, 1.8)
+      game.objs[i].shot_cd = match game.objs[i].kind {
+        @types.Scout => @types.randf(0.74, 1.44)
+        @types.Spinner => @types.randf(0.48, 1.02)
+        @types.Tank => @types.randf(1.18, 2.1)
+        _ => @types.randf(1.0, 1.8)
       }
     }
 
     let d2 = @types.dist2(
-      game.hero.x, game.hero.y, game.objs[i].x, game.objs[i].y,
+      game.hero.x,
+      game.hero.y,
+      game.objs[i].x,
+      game.objs[i].y,
     )
     let rr = @types.player_hit_r(game.hero) + @types.obj_hit_r(game.objs[i])
 
@@ -951,15 +964,13 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
       } else if ram {
         kill_obj(game, i, game.objs[i].reward, 0)
       } else {
-        let dmg : Float = if kind == @types.obj_tank {
-          24.0
-        } else if kind == @types.obj_gear_wall {
-          16.0
-        } else {
-          14.0
+        let dmg : Float = match kind {
+          @types.Tank => 24.0
+          @types.GearWall => 16.0
+          _ => 14.0
         }
         hurt_player(game, dmg)
-        if kind != @types.obj_gear_wall {
+        if kind != @types.GearWall {
           game.objs[i].active = false
         }
       }
@@ -1168,10 +1179,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     game.heat = @types.maxf(0.0, game.heat - @types.heat_drain_dash * dt)
   }
 
-  game.armor = @types.maxf(
-    0.0,
-    game.armor - @types.armor_drain_passive * dt,
-  )
+  game.armor = @types.maxf(0.0, game.armor - @types.armor_drain_passive * dt)
 
   emit_ambient(game, dt)
 
@@ -1179,8 +1187,8 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     hurt_player(game, 100.0)
   }
 
-  if game.state == @types.state_play && game.distance >= game.stage_goal {
-    game.state = @types.state_stage_clear
+  if game.state == @types.Play && game.distance >= game.stage_goal {
+    game.state = @types.StageClear
     game.result_t = 0.0
     add_score(game, 320 + game.stage * 120)
     game.armor = @types.minf(@types.armor_max, game.armor + 14.0)
@@ -1245,12 +1253,10 @@ fn update_game_over(game : @types.Game, dt : Float) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Read input first
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    @types.Title => update_title_input(game)
+    @types.Play => update_play_input(game)
+    @types.StageClear | @types.GameOver => update_result_input(game)
   }
 
   game.time_s = game.time_s + dt
@@ -1258,14 +1264,11 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
 
   update_timers(game, dt)
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else {
-    update_game_over(game, dt)
+  match game.state {
+    @types.Title => update_title(game, dt)
+    @types.Play => update_play(game, dt)
+    @types.StageClear => update_stage_clear(game, dt)
+    @types.GameOver => update_game_over(game, dt)
   }
 
   if game.score > game.best_score {

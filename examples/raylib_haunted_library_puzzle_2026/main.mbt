@@ -22,12 +22,10 @@ fn main {
     game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
       game.touch_count > 0
 
-    if game.state == @types.state_title {
-      @game.update_title_input(game)
-    } else if game.state == @types.state_play {
-      @game.update_play_input(game)
-    } else {
-      @game.update_result_input(game)
+    match game.state {
+      @types.Title => @game.update_title_input(game)
+      @types.Play => @game.update_play_input(game)
+      @types.Result => @game.update_result_input(game)
     }
 
     @game.update_game(game, dt)
