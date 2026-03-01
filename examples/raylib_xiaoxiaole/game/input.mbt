@@ -1,33 +1,34 @@
 ///|
-fn handle_input(game : Game) -> Unit {
+fn handle_input(game : @types.Game) -> Unit {
   match game.state {
-    s if s == state_title => handle_title_input(game)
-    s if s == state_play => handle_play_input(game)
-    s if s == state_over || s == state_clear => handle_end_input(game)
+    s if s == @types.state_title => handle_title_input(game)
+    s if s == @types.state_play => handle_play_input(game)
+    s if s == @types.state_over || s == @types.state_clear =>
+      handle_end_input(game)
     _ => ()
   }
 }
 
 ///|
-fn handle_title_input(game : Game) -> Unit {
+fn handle_title_input(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft) {
     game.level = 1
     game.best_score = 0
-    game.reset()
+    reset(game)
   }
 }
 
 ///|
-fn handle_play_input(game : Game) -> Unit {
+fn handle_play_input(game : @types.Game) -> Unit {
   // Keyboard cursor
   if @raylib.is_key_pressed(@raylib.KeyH) {
     find_hint(game)
     game.hint_t = 2.5 // show immediately (hint renders when hint_t > 2.0)
   }
   if @raylib.is_key_pressed(@raylib.KeyR) {
-    game.reset()
+    reset(game)
     return
   }
   // Mouse/touch click
@@ -35,13 +36,16 @@ fn handle_play_input(game : Game) -> Unit {
     let mx = @raylib.get_mouse_x()
     let my = @raylib.get_mouse_y()
     // Check if click is on board
-    let col = (mx - board_left) / (cell_px + cell_gap)
-    let row = (my - board_top) / (cell_px + cell_gap)
-    if col >= 0 && col < grid_cols && row >= 0 && row < grid_rows {
+    let col = (mx - @types.board_left) / (@types.cell_px + @types.cell_gap)
+    let row = (my - @types.board_top) / (@types.cell_px + @types.cell_gap)
+    if col >= 0 && col < @types.grid_cols && row >= 0 && row < @types.grid_rows {
       // Check bounds more precisely
-      let cx = board_left + col * (cell_px + cell_gap)
-      let cy = board_top + row * (cell_px + cell_gap)
-      if mx >= cx && mx < cx + cell_px && my >= cy && my < cy + cell_px {
+      let cx = @types.board_left + col * (@types.cell_px + @types.cell_gap)
+      let cy = @types.board_top + row * (@types.cell_px + @types.cell_gap)
+      if mx >= cx &&
+        mx < cx + @types.cell_px &&
+        my >= cy &&
+        my < cy + @types.cell_px {
         if game.sel_r < 0 {
           // First selection
           game.sel_r = row
@@ -74,21 +78,21 @@ fn handle_play_input(game : Game) -> Unit {
 }
 
 ///|
-fn handle_end_input(game : Game) -> Unit {
+fn handle_end_input(game : @types.Game) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) {
-    if game.state == state_clear {
+    if game.state == @types.state_clear {
       game.level = game.level + 1
     }
-    game.reset()
+    reset(game)
     return
   }
   if @raylib.is_key_pressed(@raylib.KeyR) {
     game.level = 1
-    game.reset()
+    reset(game)
     return
   }
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = state_title
+    game.state = @types.state_title
   }
 }

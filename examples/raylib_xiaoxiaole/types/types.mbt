@@ -1,5 +1,5 @@
 ///|
-struct Gem {
+pub(all) struct Gem {
   mut kind : Int // 0..5 color, -1 = empty
   mut anim_x : Float
   mut anim_y : Float
@@ -10,7 +10,7 @@ struct Gem {
 }
 
 ///|
-fn Gem::empty() -> Gem {
+pub fn Gem::empty() -> Gem {
   {
     kind: -1,
     anim_x: 0.0,
@@ -23,7 +23,7 @@ fn Gem::empty() -> Gem {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   board : Array[Gem]
   mut state : Int
   mut score : Int
@@ -49,7 +49,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     board: Array::makei(cell_count, fn(_i) { Gem::empty() }),
     state: state_title,
@@ -74,44 +74,4 @@ fn Game::new() -> Game {
     msg: "",
     msg_t: 0.0,
   }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn lerpf(a : Float, b : Float, t : Float) -> Float {
-  a + (b - a) * t
-}
-
-///|
-fn cell_x(col : Int) -> Float {
-  Float::from_int(board_left + col * (cell_px + cell_gap))
-}
-
-///|
-fn cell_y(row : Int) -> Float {
-  Float::from_int(board_top + row * (cell_px + cell_gap))
-}
-
-///|
-fn idx(r : Int, c : Int) -> Int {
-  r * grid_cols + c
 }
