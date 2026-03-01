@@ -1,53 +1,41 @@
 ///|
-fn pointer_on_rect(
-  x : Float,
-  y : Float,
-  hold : Bool,
-  touch_count : Int,
-  rx : Int,
-  ry : Int,
-  rw : Int,
-  rh : Int,
-) -> Bool {
-  if not(hold) && touch_count <= 0 {
-    return false
-  }
-
-  let x0 : Float = Float::from_int(rx)
-  let y0 : Float = Float::from_int(ry)
-  let x1 : Float = Float::from_int(rx + rw)
-  let y1 : Float = Float::from_int(ry + rh)
-
-  x >= x0 && x <= x1 && y >= y0 && y <= y1
+fn title_hover(game : @types.Game) -> Bool {
+  let r = @types.start_button_rect()
+  @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    r.0,
+    r.1,
+    r.2,
+    r.3,
+  )
 }
 
 ///|
-fn title_hover(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Bool {
-  let r = start_button_rect()
-  pointer_on_rect(mx, my, hold, touch_count, r.0, r.1, r.2, r.3)
+fn result_hover(game : @types.Game) -> Bool {
+  let r = @types.retry_button_rect()
+  @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    r.0,
+    r.1,
+    r.2,
+    r.3,
+  )
 }
 
 ///|
-fn result_hover(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Bool {
-  let r = retry_button_rect()
-  pointer_on_rect(mx, my, hold, touch_count, r.0, r.1, r.2, r.3)
-}
-
-///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn update_title_input(game : @types.Game) -> Unit {
   let key_start : Bool = @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace)
   let click_start : Bool = @raylib.is_mouse_button_pressed(
     @raylib.MouseButtonLeft,
   )
-  let tap_start : Bool = game.touch_cd <= 0.0 &&
-    title_hover(mx, my, hold, touch_count)
+  let tap_start : Bool = game.touch_cd <= 0.0 && title_hover(game)
 
   if key_start || click_start || tap_start {
     start_match(game)
@@ -56,21 +44,14 @@ fn update_title_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn update_result_input(game : @types.Game) -> Unit {
   let key_retry : Bool = @raylib.is_key_pressed(@raylib.KeyEnter) ||
     @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyR)
   let click_retry : Bool = @raylib.is_mouse_button_pressed(
     @raylib.MouseButtonLeft,
   )
-  let tap_retry : Bool = game.touch_cd <= 0.0 &&
-    result_hover(mx, my, hold, touch_count)
+  let tap_retry : Bool = game.touch_cd <= 0.0 && result_hover(game)
 
   if key_retry || click_retry || tap_retry {
     start_match(game)
@@ -79,16 +60,9 @@ fn update_result_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  _dt : Float,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = state_title
+    game.state = @types.state_title
     return
   }
 
@@ -115,16 +89,16 @@ fn update_play_input(
 
   game.boost_on = boost_down && game.boost_meter > 0.08
 
-  let flap_rect = btn_flap_rect()
-  let boost_rect = btn_boost_rect()
-  let restart_rect = btn_restart_rect()
-  let hint_rect = btn_hint_rect()
+  let flap_rect = @types.btn_flap_rect()
+  let boost_rect = @types.btn_boost_rect()
+  let restart_rect = @types.btn_restart_rect()
+  let hint_rect = @types.btn_hint_rect()
 
-  let flap_touch : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let flap_touch : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     flap_rect.0,
     flap_rect.1,
     flap_rect.2,
@@ -134,11 +108,11 @@ fn update_play_input(
     flap(game)
   }
 
-  let boost_touch : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let boost_touch : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     boost_rect.0,
     boost_rect.1,
     boost_rect.2,
@@ -147,11 +121,11 @@ fn update_play_input(
   game.boost_on = (game.boost_on || boost_touch) && game.boost_meter > 0.08
 
   if game.touch_cd <= 0.0 &&
-    pointer_on_rect(
-      mx,
-      my,
-      hold,
-      touch_count,
+    @types.pointer_on_rect(
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
       restart_rect.0,
       restart_rect.1,
       restart_rect.2,
@@ -162,11 +136,11 @@ fn update_play_input(
   }
 
   if game.touch_cd <= 0.0 &&
-    pointer_on_rect(
-      mx,
-      my,
-      hold,
-      touch_count,
+    @types.pointer_on_rect(
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
       hint_rect.0,
       hint_rect.1,
       hint_rect.2,
