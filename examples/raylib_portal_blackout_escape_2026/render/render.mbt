@@ -319,12 +319,12 @@ fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
       continue
     }
 
-    let col = if particle.kind == 1 {
-      @raylib.Color::new(250, 224, 154, 194)
-    } else if particle.kind == 2 {
-      @raylib.Color::new(170, 220, 252, 170)
-    } else {
+    let col = if particle.kind == 2 {
       @raylib.Color::new(194, 170, 246, 188)
+    } else if particle.kind == 1 {
+      @raylib.Color::new(250, 224, 154, 194)
+    } else {
+      @raylib.Color::new(170, 220, 252, 170)
     }
 
     @raylib.draw_circle(
