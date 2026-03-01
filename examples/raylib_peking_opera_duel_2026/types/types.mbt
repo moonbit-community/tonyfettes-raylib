@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut axis_x : Int
   mut axis_y : Int
   mut hit_pressed : Bool
@@ -11,7 +11,7 @@ struct InputState {
 }
 
 ///|
-struct Prompt {
+pub(all) struct Prompt {
   lane_x : Int
   lane_y : Int
   stance : Int
@@ -19,7 +19,7 @@ struct Prompt {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : InputState
   mut state : Int
   mut lane_x : Int
@@ -49,7 +49,7 @@ struct Game {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     axis_x: 0,
     axis_y: 0,
@@ -63,7 +63,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-fn Prompt::new(
+pub fn Prompt::new(
   lane_x : Int,
   lane_y : Int,
   stance : Int,
@@ -73,7 +73,7 @@ fn Prompt::new(
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: InputState::new(),
     state: state_title,
