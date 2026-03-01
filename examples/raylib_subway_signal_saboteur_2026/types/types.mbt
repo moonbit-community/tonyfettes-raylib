@@ -1,5 +1,5 @@
 ///|
-struct Actor {
+pub(all) struct Actor {
   mut x : Int
   mut y : Int
   mut from_x : Int
@@ -13,7 +13,7 @@ struct Actor {
 }
 
 ///|
-struct Train {
+pub(all) struct Train {
   mut active : Bool
   mut x : Float
   mut prev_x : Float
@@ -25,7 +25,7 @@ struct Train {
 }
 
 ///|
-struct Inspector {
+pub(all) struct Inspector {
   mut active : Bool
   body : Actor
   mut mode : Int
@@ -40,7 +40,7 @@ struct Inspector {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -52,7 +52,7 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   map : Array[Int]
   switch_state : Array[Int]
   trains : Array[Train]
@@ -85,10 +85,14 @@ struct Game {
   mut hint_i : Int
   mut win : Bool
   mut loss_reason : String
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Actor::new() -> Actor {
+pub fn Actor::new() -> Actor {
   {
     x: start_x,
     y: start_y,
@@ -104,7 +108,7 @@ fn Actor::new() -> Actor {
 }
 
 ///|
-fn Train::new() -> Train {
+pub fn Train::new() -> Train {
   {
     active: false,
     x: 0.0,
@@ -118,7 +122,7 @@ fn Train::new() -> Train {
 }
 
 ///|
-fn Inspector::new() -> Inspector {
+pub fn Inspector::new() -> Inspector {
   {
     active: false,
     body: Actor::new(),
@@ -135,7 +139,7 @@ fn Inspector::new() -> Inspector {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -149,7 +153,7 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     map: Array::make(grid_w * grid_h, tile_void),
     switch_state: Array::make(junction_n, 0),
@@ -183,5 +187,9 @@ fn Game::new() -> Game {
     hint_i: 0,
     win: false,
     loss_reason: "",
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
