@@ -1,4 +1,11 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Retry
+} derive(Eq)
+
+///|
 pub(all) struct Player {
   mut x : Float
   mut y : Float
@@ -88,7 +95,7 @@ pub(all) struct Game {
   traps : Array[Trap]
   smokes : Array[Smoke]
   input : InputState
-  mut state : Int
+  mut state : GameState
   mut wave : Int
   mut score : Int
   mut delivered_total : Int
@@ -190,7 +197,7 @@ pub fn Game::new() -> Game {
     traps: Array::makei(max_traps, fn(_i) { Trap::new() }),
     smokes: Array::makei(max_smokes, fn(_i) { Smoke::new() }),
     input: InputState::new(),
-    state: state_title,
+    state: Title,
     wave: 1,
     score: 0,
     delivered_total: 0,

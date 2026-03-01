@@ -92,7 +92,7 @@ fn far_from_exits(
 ///|
 fn far_from_spawn(x : Float, y : Float, min_dist : Float) -> Bool {
   @types.dist2(x, y, @types.player_spawn_x(), @types.player_spawn_y()) >=
-    min_dist * min_dist
+  min_dist * min_dist
 }
 
 ///|
@@ -258,7 +258,7 @@ fn setup_traps(game : @types.Game, _wave : Int, count : Int) -> Unit {
 
 ///|
 fn setup_wave(game : @types.Game, wave : Int) -> Unit {
-  game.state = @types.state_play
+  game.state = Play
   game.wave = wave
   game.delivered_wave = 0
   game.wave_clock = 0.0
@@ -322,7 +322,8 @@ fn start_new_run(game : @types.Game) -> Unit {
 
 ///|
 fn advance_wave(game : @types.Game) -> Unit {
-  let time_bonus = (@types.maxf(0.0, game.time_left) * @types.wave_clear_time_score_mult).to_int()
+  let time_bonus = (@types.maxf(0.0, game.time_left) *
+  @types.wave_clear_time_score_mult).to_int()
   game.score = game.score +
     @types.wave_clear_score_base +
     game.wave * @types.wave_clear_score_wave_bonus +
@@ -346,7 +347,7 @@ fn fail_mission(game : @types.Game, reason : String) -> Unit {
   if game.wave > game.best_wave {
     game.best_wave = game.wave
   }
-  game.state = @types.state_retry
+  game.state = Retry
   game.fail_reason = reason
   game.player.carrying_parcel = -1
   game.alarm_flash = 0.0
@@ -448,7 +449,7 @@ fn try_interact(game : @types.Game) -> Unit {
     let exit_idx = nearest_exit(
       game,
       (@types.interaction_range + @types.exit_radius) *
-        (@types.interaction_range + @types.exit_radius),
+      (@types.interaction_range + @types.exit_radius),
     )
 
     if exit_idx >= 0 {
@@ -479,13 +480,13 @@ fn try_interact(game : @types.Game) -> Unit {
     if pidx >= 0 {
       let drop_x = @types.clampf(
         game.player.x +
-          @types.cosf(game.player.facing_deg * @types.deg_to_rad) * 24.0,
+        @types.cosf(game.player.facing_deg * @types.deg_to_rad) * 24.0,
         @types.world_left + 60.0,
         @types.world_right - 60.0,
       )
       let drop_y = @types.clampf(
         game.player.y +
-          @types.sinf(game.player.facing_deg * @types.deg_to_rad) * 24.0,
+        @types.sinf(game.player.facing_deg * @types.deg_to_rad) * 24.0,
         @types.world_top + 60.0,
         @types.world_bottom - 60.0,
       )
@@ -670,8 +671,7 @@ fn update_guards(game : @types.Game, dt : Float) -> Float {
     let mut move_speed = guard_val.speed
 
     if smoke.0 &&
-      smoke.3 <=
-        @types.guard_smoke_lure_range * @types.guard_smoke_lure_range {
+      smoke.3 <= @types.guard_smoke_lure_range * @types.guard_smoke_lure_range {
       tx = smoke.1
       ty = smoke.2
       move_speed = guard_val.speed * 1.2
@@ -743,15 +743,16 @@ fn update_guards(game : @types.Game, dt : Float) -> Float {
       let delta = @types.angle_delta_deg(ang_to_player, guard_val.dir_deg)
 
       if delta <= guard_val.cone_half_angle {
-        let dist_factor : Float = (1.0 : Float) -
-          p_dist / guard_val.cone_range
+        let dist_factor : Float = (1.0 : Float) - p_dist / guard_val.cone_range
         let ang_factor : Float = (1.0 : Float) -
           delta / guard_val.cone_half_angle
         let intensity = @types.clampf(dist_factor * ang_factor, 0.0, 1.0)
 
         pressure = pressure +
-          (@types.guard_detection_base +
-            @types.guard_detection_peak * intensity) *
+          (
+            @types.guard_detection_base +
+            @types.guard_detection_peak * intensity
+          ) *
           wave_scale
 
         guard_val.alert_t = @types.maxf(
@@ -776,8 +777,7 @@ fn update_traps(game : @types.Game, dt : Float) -> Float {
       continue
     }
 
-    trap.blink_t = trap.blink_t +
-      dt * (2.0 + Float::from_int(game.wave) * 0.18)
+    trap.blink_t = trap.blink_t + dt * (2.0 + Float::from_int(game.wave) * 0.18)
     trap.cooldown = @types.maxf(0.0, trap.cooldown - dt)
 
     let rr = trap.radius + @types.player_radius
@@ -883,20 +883,9 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   update_input(game)
-
-  if game.state == @types.state_title {
-    if game.input.start_press {
-      start_new_run(game)
-    }
-    return
-  }
-
-  if game.state == @types.state_play {
-    update_play(game, dt)
-    return
-  }
-
-  if game.state == @types.state_retry && game.input.retry_press {
-    start_new_run(game)
+  match game.state {
+    Title => if game.input.start_press { start_new_run(game) }
+    Play => update_play(game, dt)
+    Retry => if game.input.retry_press { start_new_run(game) }
   }
 }

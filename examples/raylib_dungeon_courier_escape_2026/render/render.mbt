@@ -243,34 +243,20 @@ fn draw_smokes(game : @types.Game) -> Unit {
       smoke.x.to_int(),
       smoke.y.to_int(),
       smoke.radius,
-      @raylib.Color::new(
-        154,
-        162,
-        176,
-        ((56.0 : Float) * life_ratio).to_int(),
-      ),
+      @raylib.Color::new(154, 162, 176, ((56.0 : Float) * life_ratio).to_int()),
     )
     @raylib.draw_circle_lines(
       smoke.x.to_int(),
       smoke.y.to_int(),
       smoke.radius,
-      @raylib.Color::new(
-        212,
-        220,
-        236,
-        ((136.0 : Float) * life_ratio).to_int(),
-      ),
+      @raylib.Color::new(212, 220, 236, ((136.0 : Float) * life_ratio).to_int()),
     )
   }
 }
 
 ///|
 fn draw_guard(g : @types.Guard) -> Unit {
-  let alert_boost = @types.clampf(
-    g.alert_t / @types.guard_alert_hold,
-    0.0,
-    1.0,
-  )
+  let alert_boost = @types.clampf(g.alert_t / @types.guard_alert_hold, 0.0, 1.0)
   let cone_alpha = 44 + (alert_boost * 98.0).to_int()
 
   @raylib.draw_circle_sector(
@@ -736,9 +722,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_alarm_overlay(game)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_retry {
-    draw_retry_overlay(game)
+  match game.state {
+    Title => draw_title_overlay()
+    Retry => draw_retry_overlay(game)
+    Play => ()
   }
 }
