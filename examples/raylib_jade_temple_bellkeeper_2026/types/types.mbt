@@ -1,5 +1,5 @@
 ///|
-struct Bell {
+pub(all) struct Bell {
   mut x : Float
   mut y : Float
   mut cooldown : Float
@@ -8,7 +8,7 @@ struct Bell {
 }
 
 ///|
-struct Foe {
+pub(all) struct Foe {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -26,7 +26,7 @@ struct Foe {
 }
 
 ///|
-struct Bolt {
+pub(all) struct Bolt {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -38,7 +38,7 @@ struct Bolt {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -50,7 +50,7 @@ struct Spark {
 }
 
 ///|
-struct Ring {
+pub(all) struct Ring {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -60,7 +60,7 @@ struct Ring {
 }
 
 ///|
-struct Echo {
+pub(all) struct Echo {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -71,7 +71,7 @@ struct Echo {
 }
 
 ///|
-struct Hero {
+pub(all) struct Hero {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -88,7 +88,7 @@ struct Hero {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   bells : Array[Bell]
   foes : Array[Foe]
   bolts : Array[Bolt]
@@ -124,10 +124,14 @@ struct Game {
   mut touch_ring_prev : Bool
   mut touch_dash_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Foe::new() -> Foe {
+pub fn Foe::new() -> Foe {
   {
     active: false,
     kind: foe_wisp,
@@ -147,7 +151,7 @@ fn Foe::new() -> Foe {
 }
 
 ///|
-fn Bolt::new() -> Bolt {
+pub fn Bolt::new() -> Bolt {
   {
     active: false,
     x: 0.0,
@@ -161,7 +165,7 @@ fn Bolt::new() -> Bolt {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -175,17 +179,17 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Ring::new() -> Ring {
+pub fn Ring::new() -> Ring {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Echo::new() -> Echo {
+pub fn Echo::new() -> Echo {
   { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, rot: 0.0 }
 }
 
 ///|
-fn Hero::new() -> Hero {
+pub fn Hero::new() -> Hero {
   {
     x: shrine_x(),
     y: shrine_y() + 130.0,
@@ -204,7 +208,7 @@ fn Hero::new() -> Hero {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let bells = Array::makei(bell_count, fn(i) {
     let p = bell_pos(i)
     { x: p.0, y: p.1, cooldown: 0.0, glow: 0.0, charge: 1.0 }
@@ -246,5 +250,9 @@ fn Game::new() -> Game {
     touch_ring_prev: false,
     touch_dash_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input_x = 0.0
   game.input_y = 0.0
   game.input_ring_press = false
@@ -8,22 +8,16 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
   clear_input(game)
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let btn = title_start_rect()
-  let hover = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let btn = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     btn.0,
     btn.1,
     btn.2,
@@ -43,73 +37,39 @@ fn update_title_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
   clear_input(game)
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let left = btn_left_rect()
-  let right = btn_right_rect()
-  let up = btn_up_rect()
-  let down = btn_down_rect()
-  let ring = btn_ring_rect()
-  let dash = btn_dash_rect()
+  let left = @types.btn_left_rect()
+  let right = @types.btn_right_rect()
+  let up = @types.btn_up_rect()
+  let down = @types.btn_down_rect()
+  let ring = @types.btn_ring_rect()
+  let dash = @types.btn_dash_rect()
 
-  let t_left = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    left.0,
-    left.1,
-    left.2,
-    left.3,
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let tc = game.touch_count
+
+  let t_left = @types.pointer_on_rect(
+    mx, my, hold, tc, left.0, left.1, left.2, left.3,
   )
-  let t_right = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    right.0,
-    right.1,
-    right.2,
-    right.3,
+  let t_right = @types.pointer_on_rect(
+    mx, my, hold, tc, right.0, right.1, right.2, right.3,
   )
-  let t_up = pointer_on_rect(mx, my, hold, touch_count, up.0, up.1, up.2, up.3)
-  let t_down = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    down.0,
-    down.1,
-    down.2,
-    down.3,
+  let t_up = @types.pointer_on_rect(
+    mx, my, hold, tc, up.0, up.1, up.2, up.3,
   )
-  let t_ring = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    ring.0,
-    ring.1,
-    ring.2,
-    ring.3,
+  let t_down = @types.pointer_on_rect(
+    mx, my, hold, tc, down.0, down.1, down.2, down.3,
   )
-  let t_dash = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    dash.0,
-    dash.1,
-    dash.2,
-    dash.3,
+  let t_ring = @types.pointer_on_rect(
+    mx, my, hold, tc, ring.0, ring.1, ring.2, ring.3,
+  )
+  let t_dash = @types.pointer_on_rect(
+    mx, my, hold, tc, dash.0, dash.1, dash.2, dash.3,
   )
 
   let key_left = @raylib.is_key_down(@raylib.KeyA) ||
@@ -134,8 +94,8 @@ fn update_play_input(
     game.input_y = game.input_y + 1.0
   }
 
-  game.input_x = clampf(game.input_x, -1.0, 1.0)
-  game.input_y = clampf(game.input_y, -1.0, 1.0)
+  game.input_x = @types.clampf(game.input_x, -1.0, 1.0)
+  game.input_y = @types.clampf(game.input_y, -1.0, 1.0)
 
   let key_ring = @raylib.is_key_pressed(@raylib.KeyJ) ||
     @raylib.is_key_pressed(@raylib.KeySpace) ||
@@ -155,22 +115,16 @@ fn update_play_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_result_input(game : @types.Game) -> Unit {
   clear_input(game)
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let retry = retry_rect()
-  let hover = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let retry = @types.retry_rect()
+  let hover = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     retry.0,
     retry.1,
     retry.2,
