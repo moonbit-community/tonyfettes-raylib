@@ -1,5 +1,5 @@
 ///|
-fn draw_bg(game : Game) -> Unit {
+fn draw_bg(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(9, 12, 18, 255))
 
   let wave : Float = Float::from_double(
@@ -13,7 +13,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(24, 44, 64, 46),
   )
   @raylib.draw_circle(
-    screen_w - 220,
+    @types.screen_w - 220,
     180,
     190.0 - wave * 12.0,
     @raylib.Color::new(54, 34, 26, 34),
@@ -25,7 +25,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       52,
       @raylib.Color::new(
         14 + i * 6 % 24,
@@ -39,11 +39,11 @@ fn draw_bg(game : Game) -> Unit {
 
 ///|
 fn board_font_size(tile : Int) -> Int {
-  clampi(tile / 2, 14, 24)
+  @types.clampi(tile / 2, 14, 24)
 }
 
 ///|
-fn draw_spark_layer(game : Game) -> Unit {
+fn draw_spark_layer(game : @types.Game) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
@@ -62,15 +62,15 @@ fn draw_spark_layer(game : Game) -> Unit {
     @raylib.draw_circle(
       spark.x.to_int(),
       spark.y.to_int(),
-      maxf(1.0, spark.size),
+      @types.maxf(1.0, spark.size),
       c,
     )
   }
 }
 
 ///|
-fn draw_board(game : Game) -> Unit {
-  let (board_x, board_y, tile, clue_l, clue_t, origin_x, origin_y) = board_metrics(
+fn draw_board(game : @types.Game) -> Unit {
+  let (board_x, board_y, tile, clue_l, clue_t, origin_x, origin_y) = @types.board_metrics(
     game,
   )
 
@@ -120,11 +120,11 @@ fn draw_board(game : Game) -> Unit {
   )
 
   for y in 0..<game.grid_h {
-    let solved : Bool = row_solved(game, y)
+    let solved : Bool = @types.row_solved(game, y)
     let count : Int = game.row_clue_counts[y]
 
     for k in 0..<count {
-      let val : Int = game.row_clues[y * max_board + (count - 1 - k)]
+      let val : Int = game.row_clues[y * @types.max_board + (count - 1 - k)]
       let tx : Int = board_x - (k + 1) * tile + tile / 2
       let ty : Int = board_y + y * tile + tile / 2 - fs / 2
       let text : String = if val == 0 { "-" } else { "\{val}" }
@@ -144,11 +144,11 @@ fn draw_board(game : Game) -> Unit {
   }
 
   for x in 0..<game.grid_w {
-    let solved : Bool = col_solved(game, x)
+    let solved : Bool = @types.col_solved(game, x)
     let count : Int = game.col_clue_counts[x]
 
     for k in 0..<count {
-      let val : Int = game.col_clues[x * max_board + (count - 1 - k)]
+      let val : Int = game.col_clues[x * @types.max_board + (count - 1 - k)]
       let tx : Int = board_x + x * tile + tile / 2
       let ty : Int = board_y - (k + 1) * tile + tile / 2 - fs / 2
       let text : String = if val == 0 { "-" } else { "\{val}" }
@@ -172,8 +172,8 @@ fn draw_board(game : Game) -> Unit {
       let px : Int = board_x + x * tile
       let py : Int = board_y + y * tile
 
-      let sol : Bool = solution_at(game, x, y)
-      let state : Int = cell_at(game, x, y)
+      let sol : Bool = @types.solution_at(game, x, y)
+      let state : Int = @types.cell_at(game, x, y)
 
       let mut bg : @raylib.Color = @raylib.Color::new(28, 34, 45, 255)
       if (x + y) % 2 == 0 {
@@ -182,7 +182,7 @@ fn draw_board(game : Game) -> Unit {
 
       @raylib.draw_rectangle(px, py, tile, tile, bg)
 
-      if state == cell_fill {
+      if state == @types.cell_fill {
         @raylib.draw_rectangle(
           px + 3,
           py + 3,
@@ -205,7 +205,7 @@ fn draw_board(game : Game) -> Unit {
             @raylib.Color::new(255, 190, 182, 240)
           },
         )
-      } else if state == cell_cross {
+      } else if state == @types.cell_cross {
         let cc : @raylib.Color = if sol {
           @raylib.Color::new(244, 122, 108, 242)
         } else {
@@ -244,7 +244,7 @@ fn draw_board(game : Game) -> Unit {
     }
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     let cx : Int = board_x + game.cursor_x * tile
     let cy : Int = board_y + game.cursor_y * tile
     @raylib.draw_rectangle_lines_ex(
@@ -298,11 +298,11 @@ fn draw_button(
 }
 
 ///|
-fn draw_side_panel(game : Game) -> Unit {
-  let px : Int = right_panel_x()
+fn draw_side_panel(game : @types.Game) -> Unit {
+  let px : Int = @types.right_panel_x()
   let py : Int = 20
   let pw : Int = 396
-  let ph : Int = screen_h - 40
+  let ph : Int = @types.screen_h - 40
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(12, 18, 28, 242))
   @raylib.draw_rectangle_lines(
@@ -484,11 +484,11 @@ fn draw_side_panel(game : Game) -> Unit {
     @raylib.Color::new(186, 210, 232, 232),
   )
 
-  let (fx, fy, fw, fh) = fill_button_rect()
-  let (cx, cy, cw, ch) = cross_button_rect()
-  let (ux, uy, uw, uh) = undo_button_rect()
-  let (hx, hy, hw, hh) = hint_button_rect()
-  let (rx, ry, rw, rh) = reset_button_rect()
+  let (fx, fy, fw, fh) = @types.fill_button_rect()
+  let (cx, cy, cw, ch) = @types.cross_button_rect()
+  let (ux, uy, uw, uh) = @types.undo_button_rect()
+  let (hx, hy, hw, hh) = @types.hint_button_rect()
+  let (rx, ry, rw, rh) = @types.reset_button_rect()
 
   draw_button(
     "FILL",
@@ -496,7 +496,7 @@ fn draw_side_panel(game : Game) -> Unit {
     fy,
     fw,
     fh,
-    game.tool_mode == tool_fill,
+    game.tool_mode == @types.tool_fill,
     @raylib.Color::new(66, 154, 202, 236),
   )
   draw_button(
@@ -505,7 +505,7 @@ fn draw_side_panel(game : Game) -> Unit {
     cy,
     cw,
     ch,
-    game.tool_mode == tool_cross,
+    game.tool_mode == @types.tool_cross,
     @raylib.Color::new(158, 116, 76, 236),
   )
   draw_button(
@@ -562,54 +562,46 @@ fn draw_side_panel(game : Game) -> Unit {
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  ignore(game)
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  let cx : Int = @types.dpad_center_x()
+  let cy : Int = @types.dpad_center_y()
+  let s : Int = @types.dpad_size()
 
-  let cx : Int = dpad_center_x()
-  let cy : Int = dpad_center_y()
-  let s : Int = dpad_size()
-
-  let left_on : Bool = pointer_on_rect(
-    mouse_x,
-    mouse_y,
-    mouse_hold,
-    touch_count,
+  let left_on : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     cx - s - 18,
     cy - s / 2,
     s,
     s,
   )
-  let right_on : Bool = pointer_on_rect(
-    mouse_x,
-    mouse_y,
-    mouse_hold,
-    touch_count,
+  let right_on : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     cx + 18,
     cy - s / 2,
     s,
     s,
   )
-  let up_on : Bool = pointer_on_rect(
-    mouse_x,
-    mouse_y,
-    mouse_hold,
-    touch_count,
+  let up_on : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     cx - s / 2,
     cy - s - 18,
     s,
     s,
   )
-  let down_on : Bool = pointer_on_rect(
-    mouse_x,
-    mouse_y,
-    mouse_hold,
-    touch_count,
+  let down_on : Bool = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
     cx - s / 2,
     cy + 18,
     s,
@@ -701,25 +693,17 @@ fn draw_touch_controls(
 }
 
 ///|
-fn draw_title_screen(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  ignore(game)
-
+fn draw_title_screen(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Picross Harbor 2026",
-    screen_w / 2 - @raylib.measure_text("Picross Harbor 2026", 92) / 2,
+    @types.screen_w / 2 - @raylib.measure_text("Picross Harbor 2026", 92) / 2,
     108,
     92,
     @raylib.Color::new(238, 248, 255, 248),
   )
   @raylib.draw_text(
     "Decode harbor blueprints, one nonogram at a time.",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text(
       "Decode harbor blueprints, one nonogram at a time.", 36,
     ) /
@@ -730,7 +714,7 @@ fn draw_title_screen(
   )
   @raylib.draw_text(
     "12 handcrafted puzzles | keyboard + touch",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text("12 handcrafted puzzles | keyboard + touch", 34) / 2,
     292,
     34,
@@ -739,7 +723,7 @@ fn draw_title_screen(
 
   @raylib.draw_text(
     "Fill cells to match row/column clues. Avoid wrong fills and wrong crosses.",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text(
       "Fill cells to match row/column clues. Avoid wrong fills and wrong crosses.",
       30,
@@ -751,16 +735,17 @@ fn draw_title_screen(
   )
   @raylib.draw_text(
     "Hints are limited but can save a run.",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text("Hints are limited but can save a run.", 30) / 2,
     442,
     30,
     @raylib.Color::new(218, 234, 248, 236),
   )
 
-  let (bx, by, bw, bh) = start_button_rect()
-  let hover : Bool = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, bx, by, bw, bh,
+  let (bx, by, bw, bh) = @types.start_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    bh,
   )
 
   draw_button(
@@ -775,25 +760,19 @@ fn draw_title_screen(
 }
 
 ///|
-fn draw_level_clear_overlay(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_level_clear_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 18, 166),
   )
 
   let pw : Int = 760
   let ph : Int = 420
-  let px : Int = screen_w / 2 - pw / 2
-  let py : Int = screen_h / 2 - ph / 2
+  let px : Int = @types.screen_w / 2 - pw / 2
+  let py : Int = @types.screen_h / 2 - ph / 2
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(18, 26, 36, 244))
   @raylib.draw_rectangle_lines(
@@ -849,9 +828,10 @@ fn draw_level_clear_overlay(
     @raylib.Color::new(255, 220, 126, 248),
   )
 
-  let (bx, by, bw, bh) = next_button_rect()
-  let hover : Bool = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, bx, by, bw, bh,
+  let (bx, by, bw, bh) = @types.next_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    bh,
   )
   draw_button(
     "Next Puzzle",
@@ -865,25 +845,19 @@ fn draw_level_clear_overlay(
 }
 
 ///|
-fn draw_level_fail_overlay(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_level_fail_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(10, 4, 4, 168),
   )
 
   let pw : Int = 760
   let ph : Int = 400
-  let px : Int = screen_w / 2 - pw / 2
-  let py : Int = screen_h / 2 - ph / 2
+  let px : Int = @types.screen_w / 2 - pw / 2
+  let py : Int = @types.screen_h / 2 - ph / 2
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(40, 20, 20, 244))
   @raylib.draw_rectangle_lines(
@@ -916,9 +890,10 @@ fn draw_level_fail_overlay(
     @raylib.Color::new(244, 208, 198, 236),
   )
 
-  let (bx, by, bw, bh) = next_button_rect()
-  let hover : Bool = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, bx, by, bw, bh,
+  let (bx, by, bw, bh) = @types.next_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    bh,
   )
   draw_button(
     "Retry",
@@ -932,25 +907,19 @@ fn draw_level_fail_overlay(
 }
 
 ///|
-fn draw_campaign_clear_overlay(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_campaign_clear_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 16, 176),
   )
 
   let pw : Int = 920
   let ph : Int = 540
-  let px : Int = screen_w / 2 - pw / 2
-  let py : Int = screen_h / 2 - ph / 2
+  let px : Int = @types.screen_w / 2 - pw / 2
+  let py : Int = @types.screen_h / 2 - ph / 2
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(18, 25, 35, 246))
   @raylib.draw_rectangle_lines(
@@ -1012,9 +981,10 @@ fn draw_campaign_clear_overlay(
     @raylib.Color::new(194, 220, 240, 232),
   )
 
-  let (bx, by, bw, bh) = next_button_rect()
-  let hover : Bool = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, bx, by, bw, bh,
+  let (bx, by, bw, bh) = @types.next_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    bh,
   )
   draw_button(
     "Restart Campaign",
@@ -1028,29 +998,23 @@ fn draw_campaign_clear_overlay(
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == state_title {
-    draw_title_screen(game, mouse_x, mouse_y, mouse_hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_screen(game)
     return
   }
 
   draw_board(game)
   draw_side_panel(game)
-  draw_touch_controls(game, mouse_x, mouse_y, mouse_hold, touch_count)
+  draw_touch_controls(game)
 
-  if game.state == state_level_clear {
-    draw_level_clear_overlay(game, mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_campaign_clear {
-    draw_campaign_clear_overlay(game, mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_level_fail {
-    draw_level_fail_overlay(game, mouse_x, mouse_y, mouse_hold, touch_count)
+  if game.state == @types.state_level_clear {
+    draw_level_clear_overlay(game)
+  } else if game.state == @types.state_campaign_clear {
+    draw_campaign_clear_overlay(game)
+  } else if game.state == @types.state_level_fail {
+    draw_level_fail_overlay(game)
   }
 }
