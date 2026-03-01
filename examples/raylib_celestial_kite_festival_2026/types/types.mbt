@@ -1,5 +1,5 @@
 ///|
-struct SkyObj {
+pub(all) struct SkyObj {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -16,7 +16,7 @@ struct SkyObj {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -28,7 +28,7 @@ struct Spark {
 }
 
 ///|
-struct Halo {
+pub(all) struct Halo {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -38,7 +38,7 @@ struct Halo {
 }
 
 ///|
-struct Trail {
+pub(all) struct Trail {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -49,7 +49,7 @@ struct Trail {
 }
 
 ///|
-struct Kite {
+pub(all) struct Kite {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -65,7 +65,7 @@ struct Kite {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   objs : Array[SkyObj]
   sparks : Array[Spark]
   halos : Array[Halo]
@@ -106,10 +106,14 @@ struct Game {
   mut touch_mode : Bool
   mut touch_burst_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn SkyObj::new() -> SkyObj {
+pub fn SkyObj::new() -> SkyObj {
   {
     active: false,
     kind: obj_lantern,
@@ -128,7 +132,7 @@ fn SkyObj::new() -> SkyObj {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -142,17 +146,17 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Halo::new() -> Halo {
+pub fn Halo::new() -> Halo {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Trail::new() -> Trail {
+pub fn Trail::new() -> Trail {
   { active: false, x: 0.0, y: 0.0, life: 0.0, w: 0.0, h: 0.0, rot: 0.0 }
 }
 
 ///|
-fn Kite::new() -> Kite {
+pub fn Kite::new() -> Kite {
   {
     x: Float::from_int(screen_w) * 0.5,
     y: Float::from_int(screen_h) * 0.5,
@@ -170,7 +174,7 @@ fn Kite::new() -> Kite {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     objs: Array::makei(max_objs, fn(_i) { SkyObj::new() }),
     sparks: Array::makei(max_sparks, fn(_i) { Spark::new() }),
@@ -212,5 +216,9 @@ fn Game::new() -> Game {
     touch_mode: false,
     touch_burst_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
