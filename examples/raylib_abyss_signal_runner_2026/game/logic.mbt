@@ -2,7 +2,7 @@
 fn clear_objs(game : @types.Game) -> Unit {
   for obj in game.objs {
     obj.active = false
-    obj.kind = @types.obj_rock
+    obj.kind = @types.Rock
     obj.x = 0.0
     obj.y = 0.0
     obj.vx = 0.0
@@ -181,7 +181,7 @@ fn spawn_ripple(
 ///|
 fn spawn_obj(
   game : @types.Game,
-  kind : Int,
+  kind : @types.ObjKind,
   x : Float,
   y : Float,
   r : Float,
@@ -256,7 +256,7 @@ fn hurt_hero(game : @types.Game, dmg : Float) -> Unit {
   burst(game, game.hero.x, game.hero.y, 22, 1)
 
   if game.hull <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 }
@@ -270,7 +270,7 @@ fn start_new_stage(game : @types.Game, stage : Int) -> Unit {
 
   reset_hero(game.hero)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = stage
   game.distance = 0.0
   game.stage_goal = @types.stage_base_goal +
@@ -310,7 +310,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
   clear_trails(game)
   reset_hero(game.hero)
 
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.distance = 0.0
   game.stage_goal = @types.stage_base_goal
@@ -355,7 +355,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let r = @types.randf(18.0, 36.0)
       spawn_obj(
         game,
-        @types.obj_rock,
+        @types.Rock,
         object_spawn_x(game, y, r),
         y + @types.randf(-24.0, 24.0),
         r,
@@ -368,7 +368,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let r = @types.randf(15.0, 24.0)
       spawn_obj(
         game,
-        @types.obj_mine,
+        @types.Mine,
         object_spawn_x(game, y, r),
         y + @types.randf(-30.0, 22.0),
         r,
@@ -381,7 +381,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let r = @types.randf(12.0, 16.0)
       spawn_obj(
         game,
-        @types.obj_data,
+        @types.Data,
         object_spawn_x(game, y, r),
         y + @types.randf(-20.0, 20.0),
         r,
@@ -396,7 +396,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let p = @types.randf(110.0, 190.0)
       spawn_obj(
         game,
-        @types.obj_current,
+        @types.Current,
         object_spawn_x(game, y, r),
         y + @types.randf(-28.0, 28.0),
         r,
@@ -409,7 +409,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let r = @types.randf(12.0, 18.0)
       spawn_obj(
         game,
-        @types.obj_scrap,
+        @types.Scrap,
         object_spawn_x(game, y, r),
         y + @types.randf(-18.0, 18.0),
         r,
@@ -422,7 +422,7 @@ fn spawn_wave(game : @types.Game, y : Float) -> Unit {
       let r = @types.randf(16.0, 22.0)
       spawn_obj(
         game,
-        @types.obj_oxygen,
+        @types.Oxygen,
         object_spawn_x(game, y, r),
         y + @types.randf(-14.0, 14.0),
         r,
@@ -469,7 +469,7 @@ fn trigger_sonar(game : @types.Game) -> Unit {
       obj.cloak = false
     }
 
-    if obj.kind == @types.obj_mine && d2 <= destroy2 {
+    if obj.kind is @types.Mine && d2 <= destroy2 {
       let ox = obj.x
       let oy = obj.y
       obj.active = false
@@ -602,28 +602,27 @@ fn update_objects(game : @types.Game, dt : Float) -> Unit {
     }
 
     game.objs[i].x = game.objs[i].x + game.objs[i].vx * dt
-    game.objs[i].y = game.objs[i].y +
-      (game.scroll_speed + game.objs[i].vy) * dt
+    game.objs[i].y = game.objs[i].y + (game.scroll_speed + game.objs[i].vy) * dt
     game.objs[i].spin = game.objs[i].spin + dt * 1.6
     game.objs[i].life = game.objs[i].life - dt
 
-    if game.objs[i].kind == @types.obj_mine {
-      game.objs[i].x = game.objs[i].x +
-        @types.sinf(game.objs[i].spin * 2.3) * 18.0 * dt
-    }
-
-    if game.objs[i].kind == @types.obj_data {
-      game.objs[i].x = game.objs[i].x +
-        @types.sinf(game.objs[i].spin * 3.2) * 12.0 * dt
-      game.objs[i].y = game.objs[i].y +
-        @types.cosf(game.objs[i].spin * 2.4) * 9.0 * dt
-    }
-
-    if game.objs[i].kind == @types.obj_current {
-      game.objs[i].spin = game.objs[i].spin + dt * 1.3
-      game.objs[i].r = game.objs[i].r +
-        @types.sinf(game.objs[i].spin * 1.8) * 9.0 * dt
-      game.objs[i].r = @types.clampf(game.objs[i].r, 40.0, 72.0)
+    match game.objs[i].kind {
+      Mine =>
+        game.objs[i].x = game.objs[i].x +
+          @types.sinf(game.objs[i].spin * 2.3) * 18.0 * dt
+      Data => {
+        game.objs[i].x = game.objs[i].x +
+          @types.sinf(game.objs[i].spin * 3.2) * 12.0 * dt
+        game.objs[i].y = game.objs[i].y +
+          @types.cosf(game.objs[i].spin * 2.4) * 9.0 * dt
+      }
+      Current => {
+        game.objs[i].spin = game.objs[i].spin + dt * 1.3
+        game.objs[i].r = game.objs[i].r +
+          @types.sinf(game.objs[i].spin * 1.8) * 9.0 * dt
+        game.objs[i].r = @types.clampf(game.objs[i].r, 40.0, 72.0)
+      }
+      Rock | Oxygen | Scrap => ()
     }
 
     let offscreen = game.objs[i].y > Float::from_int(@types.screen_h) + 180.0 ||
@@ -649,7 +648,7 @@ fn update_objects(game : @types.Game, dt : Float) -> Unit {
     )
     let rr = (game.hero.r + game.objs[i].r) * (game.hero.r + game.objs[i].r)
 
-    if game.objs[i].kind == @types.obj_current {
+    if game.objs[i].kind is @types.Current {
       let area = (game.objs[i].r + 80.0) * (game.objs[i].r + 80.0)
       if d2 <= area {
         let push_scale = @types.clampf(1.0 - d2 / area, 0.0, 1.0)
@@ -660,10 +659,8 @@ fn update_objects(game : @types.Game, dt : Float) -> Unit {
           let inv : Float = Float::from_int(1) / @types.sqrtf(p2)
           px = px * inv
           py = py * inv
-          game.hero.vx = game.hero.vx +
-            px * (220.0 + 120.0 * push_scale) * dt
-          game.hero.vy = game.hero.vy +
-            py * (220.0 + 120.0 * push_scale) * dt
+          game.hero.vx = game.hero.vx + px * (220.0 + 120.0 * push_scale) * dt
+          game.hero.vy = game.hero.vy + py * (220.0 + 120.0 * push_scale) * dt
 
           if @types.chance(20) {
             emit_particle(
@@ -685,43 +682,48 @@ fn update_objects(game : @types.Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.objs[i].kind == @types.obj_rock {
-      if hero_dash_hit {
-        hit_obj(game, i, 60, 2)
-      } else {
-        hurt_hero(game, 16.0)
-        let dx = game.hero.x - game.objs[i].x
-        let dy = game.hero.y - game.objs[i].y
-        let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
-        let inv : Float = Float::from_int(1) / @types.sqrtf(n2)
-        game.hero.vx = dx * inv * 120.0
-        game.hero.vy = dy * inv * 120.0
-      }
-    } else if game.objs[i].kind == @types.obj_mine {
-      if hero_dash_hit || game.sonar_t > 0.0 {
-        hit_obj(game, i, 110, 1)
-      } else {
-        hurt_hero(game, 26.0)
+    match game.objs[i].kind {
+      Rock =>
+        if hero_dash_hit {
+          hit_obj(game, i, 60, 2)
+        } else {
+          hurt_hero(game, 16.0)
+          let dx = game.hero.x - game.objs[i].x
+          let dy = game.hero.y - game.objs[i].y
+          let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
+          let inv : Float = Float::from_int(1) / @types.sqrtf(n2)
+          game.hero.vx = dx * inv * 120.0
+          game.hero.vy = dy * inv * 120.0
+        }
+      Mine =>
+        if hero_dash_hit || game.sonar_t > 0.0 {
+          hit_obj(game, i, 110, 1)
+        } else {
+          hurt_hero(game, 26.0)
+          game.objs[i].active = false
+          burst(game, game.hero.x, game.hero.y, 12, 1)
+        }
+      Data => {
         game.objs[i].active = false
-        burst(game, game.hero.x, game.hero.y, 12, 1)
+        game.data_collected = game.data_collected + 1
+        add_score(game, 100)
+        push_combo(game)
+        game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_data_bonus)
+        burst(game, game.hero.x, game.hero.y, 9, 0)
       }
-    } else if game.objs[i].kind == @types.obj_data {
-      game.objs[i].active = false
-      game.data_collected = game.data_collected + 1
-      add_score(game, 100)
-      push_combo(game)
-      game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_data_bonus)
-      burst(game, game.hero.x, game.hero.y, 9, 0)
-    } else if game.objs[i].kind == @types.obj_oxygen {
-      game.objs[i].active = false
-      game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_pickup)
-      add_score(game, 40)
-      burst(game, game.hero.x, game.hero.y, 10, 2)
-    } else if game.objs[i].kind == @types.obj_scrap {
-      game.objs[i].active = false
-      add_score(game, 80)
-      push_combo(game)
-      burst(game, game.hero.x, game.hero.y, 10, 0)
+      Oxygen => {
+        game.objs[i].active = false
+        game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_pickup)
+        add_score(game, 40)
+        burst(game, game.hero.x, game.hero.y, 10, 2)
+      }
+      Scrap => {
+        game.objs[i].active = false
+        add_score(game, 80)
+        push_combo(game)
+        burst(game, game.hero.x, game.hero.y, 10, 0)
+      }
+      Current => ()
     }
   }
 }
@@ -861,12 +863,12 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   emit_ambience(game, dt)
 
   if game.oxygen <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 
-  if game.state == @types.state_play && game.distance >= game.stage_goal {
-    game.state = @types.state_stage_clear
+  if game.state is @types.Play && game.distance >= game.stage_goal {
+    game.state = @types.StageClear
     game.result_t = 0.0
     add_score(game, 300 + game.stage * 120)
     game.hull = @types.minf(100.0, game.hull + 12.0)
@@ -932,24 +934,19 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.hint_t = game.hint_t + dt
 
   // Handle input based on current state
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    Title => update_title_input(game)
+    Play => update_play_input(game)
+    StageClear | GameOver => update_result_input(game)
   }
 
   update_timers(game, dt)
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else {
-    update_game_over(game, dt)
+  match game.state {
+    Title => update_title(game, dt)
+    Play => update_play(game, dt)
+    StageClear => update_stage_clear(game, dt)
+    GameOver => update_game_over(game, dt)
   }
 
   if game.score > game.best_score {

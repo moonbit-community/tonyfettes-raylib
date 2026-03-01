@@ -152,14 +152,8 @@ fn draw_cave(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       @types.screen_w + 200,
     )
 
-    let left = @types.minf(
-      Float::from_int(left0),
-      Float::from_int(left1),
-    ).to_int()
-    let right = @types.maxf(
-      Float::from_int(right0),
-      Float::from_int(right1),
-    ).to_int()
+    let left = @types.minf(Float::from_int(left0), Float::from_int(left1)).to_int()
+    let right = @types.maxf(Float::from_int(right0), Float::from_int(right1)).to_int()
 
     let row_h = step + 1
 
@@ -183,8 +177,7 @@ fn draw_cave(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       )
     }
 
-    let pulse : Float = 0.5 +
-      0.5 * @types.sinf(game.time_s * 1.5 + y0f * 0.03)
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(game.time_s * 1.5 + y0f * 0.03)
     let glow = @types.cave_glow()
     let edge_col = @raylib.Color::new(
       glow.r.to_int(),
@@ -209,19 +202,14 @@ fn draw_cave(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn obj_color(kind : Int) -> @raylib.Color {
-  if kind == @types.obj_rock {
-    @raylib.Color::new(178, 198, 214, 255)
-  } else if kind == @types.obj_mine {
-    @types.hazard_col()
-  } else if kind == @types.obj_data {
-    @types.data_col()
-  } else if kind == @types.obj_oxygen {
-    @types.oxygen_col()
-  } else if kind == @types.obj_current {
-    @types.phase_col()
-  } else {
-    @raylib.Color::new(246, 200, 138, 255)
+fn obj_color(kind : @types.ObjKind) -> @raylib.Color {
+  match kind {
+    Rock => @raylib.Color::new(178, 198, 214, 255)
+    Mine => @types.hazard_col()
+    Data => @types.data_col()
+    Oxygen => @types.oxygen_col()
+    Current => @types.phase_col()
+    Scrap => @raylib.Color::new(246, 200, 138, 255)
   }
 }
 
@@ -414,34 +402,31 @@ fn draw_objects(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       alpha,
     )
 
-    if o.kind == @types.obj_rock {
-      @raylib.draw_circle(
-        (o.x + cam_x).to_int(),
-        (o.y + cam_y).to_int(),
-        o.r,
-        @raylib.Color::new(
-          col.r.to_int(),
-          col.g.to_int(),
-          col.b.to_int(),
-          220,
-        ),
-      )
-      @raylib.draw_circle_lines(
-        (o.x + cam_x).to_int(),
-        (o.y + cam_y).to_int(),
-        o.r,
-        @raylib.Color::new(86, 102, 122, 210),
-      )
-    } else if o.kind == @types.obj_mine {
-      draw_obj_mine(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_data {
-      draw_obj_data(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_oxygen {
-      draw_obj_oxygen(o, col, cam_x, cam_y)
-    } else if o.kind == @types.obj_current {
-      draw_obj_current(o, col, cam_x, cam_y)
-    } else {
-      draw_obj_scrap(o, col, cam_x, cam_y)
+    match o.kind {
+      Rock => {
+        @raylib.draw_circle(
+          (o.x + cam_x).to_int(),
+          (o.y + cam_y).to_int(),
+          o.r,
+          @raylib.Color::new(
+            col.r.to_int(),
+            col.g.to_int(),
+            col.b.to_int(),
+            220,
+          ),
+        )
+        @raylib.draw_circle_lines(
+          (o.x + cam_x).to_int(),
+          (o.y + cam_y).to_int(),
+          o.r,
+          @raylib.Color::new(86, 102, 122, 210),
+        )
+      }
+      Mine => draw_obj_mine(o, col, cam_x, cam_y)
+      Data => draw_obj_data(o, col, cam_x, cam_y)
+      Oxygen => draw_obj_oxygen(o, col, cam_x, cam_y)
+      Current => draw_obj_current(o, col, cam_x, cam_y)
+      Scrap => draw_obj_scrap(o, col, cam_x, cam_y)
     }
   }
 }
@@ -566,8 +551,7 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   }
 
   if game.hero.invuln > 0.0 {
-    let alpha = 80 +
-      (@types.sinf(game.time_s * 14.0) * 80.0 + 80.0).to_int()
+    let alpha = 80 + (@types.sinf(game.time_s * 14.0) * 80.0 + 80.0).to_int()
     @raylib.draw_circle(
       px.to_int(),
       py.to_int(),
@@ -609,13 +593,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     60,
     @raylib.Color::new(128, 206, 234, 170),
   )
-  @raylib.draw_text(
-    "DASH",
-    338,
-    26,
-    18,
-    @raylib.Color::new(208, 234, 248, 230),
-  )
+  @raylib.draw_text("DASH", 338, 26, 18, @raylib.Color::new(208, 234, 248, 230))
   @raylib.draw_text(
     cooldown_text(game.dash_cd, @types.dash_cd_time),
     338,
@@ -732,11 +710,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   )
 
   if game.combo >= 2 && game.combo_t > 0.0 {
-    let alpha = @types.clampi(
-      (game.combo_t * 130.0 + 60.0).to_int(),
-      0,
-      255,
-    )
+    let alpha = @types.clampi((game.combo_t * 130.0 + 60.0).to_int(), 0, 255)
     draw_center_text(
       "COMBO x" + game.combo.to_string(),
       22,
@@ -1050,11 +1024,7 @@ fn draw_signal_pulse(game : @types.Game) -> Unit {
 
   let t : Float = Float::from_int(1) - game.sonar_t / @types.sonar_time
   let rr = @types.sonar_reveal_r * t
-  let a = @types.clampi(
-    ((Float::from_int(1) - t) * 190.0).to_int(),
-    0,
-    190,
-  )
+  let a = @types.clampi(((Float::from_int(1) - t) * 190.0).to_int(), 0, 190)
 
   @raylib.draw_circle_lines(
     game.hero.x.to_int(),
@@ -1122,20 +1092,19 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state != @types.state_title {
+  if not(game.state is @types.Title) {
     draw_hud(game)
   }
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_play {
-    draw_play_hint(game)
-    if game.touch_mode {
-      draw_touch_controls(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    Play => {
+      draw_play_hint(game)
+      if game.touch_mode {
+        draw_touch_controls(game)
+      }
     }
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else {
-    draw_game_over_overlay(game)
+    StageClear => draw_stage_clear_overlay(game)
+    GameOver => draw_game_over_overlay(game)
   }
 }

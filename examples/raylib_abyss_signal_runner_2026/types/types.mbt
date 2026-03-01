@@ -1,7 +1,25 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+} derive(Eq)
+
+///|
+pub(all) enum ObjKind {
+  Rock
+  Mine
+  Data
+  Oxygen
+  Current
+  Scrap
+} derive(Eq)
+
+///|
 pub(all) struct Obj {
   mut active : Bool
-  mut kind : Int
+  mut kind : ObjKind
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -64,7 +82,7 @@ pub(all) struct Game {
   ripples : Array[Ripple]
   trails : Array[Trail]
   hero : Player
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut distance : Float
   mut stage_goal : Float
@@ -105,7 +123,7 @@ pub(all) struct Game {
 pub fn Obj::new() -> Obj {
   {
     active: false,
-    kind: obj_rock,
+    kind: Rock,
     x: 0.0,
     y: 0.0,
     vx: 0.0,
@@ -163,7 +181,7 @@ pub fn Game::new() -> Game {
     ripples: Array::makei(max_ripples, fn(_i) { Ripple::new() }),
     trails: Array::makei(max_trails, fn(_i) { Trail::new() }),
     hero: Player::new(),
-    state: state_title,
+    state: Title,
     stage: 1,
     distance: 0.0,
     stage_goal: stage_base_goal,
