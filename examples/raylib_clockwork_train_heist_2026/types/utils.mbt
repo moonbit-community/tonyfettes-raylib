@@ -183,7 +183,8 @@ pub fn pointer_on_rect(
   rw : Int,
   rh : Int,
 ) -> Bool {
-  if game.mouse_hold && point_in_rect(game.mouse_x, game.mouse_y, rx, ry, rw, rh) {
+  if game.mouse_hold &&
+    point_in_rect(game.mouse_x, game.mouse_y, rx, ry, rw, rh) {
     return true
   }
 

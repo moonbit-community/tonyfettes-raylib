@@ -35,45 +35,6 @@ pub let panel_x0 : Int = board_x0 + board_w + 20
 pub let panel_w : Int = screen_w - panel_x0 - 20
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
-pub let tile_wall : Int = 0
-
-///|
-pub let tile_floor : Int = 1
-
-///|
-pub let tile_door : Int = 2
-
-///|
-pub let tile_exit : Int = 3
-
-///|
-pub let guard_patrol : Int = 0
-
-///|
-pub let guard_hunt : Int = 1
-
-///|
-pub let guard_stunned : Int = 2
-
-///|
-pub let loot_blueprint : Int = 0
-
-///|
-pub let loot_keycard : Int = 1
-
-///|
-pub let loot_gold : Int = 2
-
-///|
 pub let max_guards : Int = 6
 
 ///|

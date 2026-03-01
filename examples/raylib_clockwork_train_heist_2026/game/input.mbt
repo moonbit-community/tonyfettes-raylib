@@ -116,21 +116,18 @@ fn update_play_input(game : @types.Game) -> Unit {
   let r = @types.btn_restart()
   let m = @types.btn_menu()
 
-  if game.touch_cd <= 0.0 &&
-    @types.pointer_on_rect(game, h.0, h.1, h.2, h.3) {
+  if game.touch_cd <= 0.0 && @types.pointer_on_rect(game, h.0, h.1, h.2, h.3) {
     cycle_hint(game)
     game.touch_cd = 0.16
   }
 
-  if game.touch_cd <= 0.0 &&
-    @types.pointer_on_rect(game, r.0, r.1, r.2, r.3) {
+  if game.touch_cd <= 0.0 && @types.pointer_on_rect(game, r.0, r.1, r.2, r.3) {
     start_run(game)
     game.touch_cd = 0.16
     return
   }
 
-  if game.touch_cd <= 0.0 &&
-    @types.pointer_on_rect(game, m.0, m.1, m.2, m.3) {
+  if game.touch_cd <= 0.0 && @types.pointer_on_rect(game, m.0, m.1, m.2, m.3) {
     go_title(game)
     game.touch_cd = 0.16
   }

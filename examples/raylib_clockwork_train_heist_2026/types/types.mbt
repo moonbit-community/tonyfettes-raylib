@@ -1,4 +1,40 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum TileKind {
+  Wall
+  Floor
+  Door
+  Exit
+} derive(Eq)
+
+///|
+pub(all) enum GuardMode {
+  Patrol
+  Hunt
+  Stunned
+} derive(Eq)
+
+///|
+pub(all) enum LootKind {
+  Blueprint
+  Keycard
+  Gold
+} derive(Eq)
+
+///|
+pub(all) enum ParticleKind {
+  Spark
+  Glitter
+  Smoke
+} derive(Eq)
+
+///|
 pub(all) struct Actor {
   mut x : Int
   mut y : Int
@@ -16,7 +52,7 @@ pub(all) struct Actor {
 pub(all) struct Guard {
   mut active : Bool
   body : Actor
-  mut mode : Int
+  mut mode : GuardMode
   mut move_cd : Float
   mut stun_t : Float
   mut dir_x : Int
@@ -33,7 +69,7 @@ pub(all) struct Loot {
   mut active : Bool
   mut x : Int
   mut y : Int
-  mut kind : Int
+  mut kind : LootKind
   mut value : Int
 }
 
@@ -54,17 +90,17 @@ pub(all) struct Particle {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : ParticleKind
 }
 
 ///|
 pub(all) struct Game {
-  map : Array[Int]
+  map : Array[TileKind]
   guards : Array[Guard]
   loots : Array[Loot]
   smokes : Array[Smoke]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   player : Actor
   mut lives : Int
   mut score : Int
@@ -115,7 +151,7 @@ pub fn Guard::new() -> Guard {
   {
     active: false,
     body: Actor::new(),
-    mode: guard_patrol,
+    mode: Patrol,
     move_cd: 0.0,
     stun_t: 0.0,
     dir_x: 1,
@@ -130,7 +166,7 @@ pub fn Guard::new() -> Guard {
 
 ///|
 pub fn Loot::new() -> Loot {
-  { active: false, x: 0, y: 0, kind: loot_gold, value: 0 }
+  { active: false, x: 0, y: 0, kind: Gold, value: 0 }
 }
 
 ///|
@@ -148,19 +184,19 @@ pub fn Particle::new() -> Particle {
     vy: 0.0,
     life: 0.0,
     size: 0.0,
-    kind: 0,
+    kind: Spark,
   }
 }
 
 ///|
 pub fn Game::new() -> Game {
   {
-    map: Array::make(grid_w * grid_h, tile_wall),
+    map: Array::make(grid_w * grid_h, Wall),
     guards: Array::makei(max_guards, fn(_i) { Guard::new() }),
     loots: Array::makei(max_loot, fn(_i) { Loot::new() }),
     smokes: Array::makei(max_smokes, fn(_i) { Smoke::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     player: Actor::new(),
     lives: 3,
     score: 0,
