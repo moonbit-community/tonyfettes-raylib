@@ -1,5 +1,5 @@
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -11,7 +11,7 @@ struct Spark {
 }
 
 ///|
-struct Rival {
+pub(all) struct Rival {
   mut alive : Bool
   mut len : Int
   mut dir : Int
@@ -25,7 +25,7 @@ struct Rival {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   p_seg_x : Array[Int]
   p_seg_y : Array[Int]
   sparks : Array[Spark]
@@ -64,10 +64,14 @@ struct Game {
   mut shake_t : Float
   mut touch_cd : Float
   mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -81,7 +85,7 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Rival::new(kind : Int) -> Rival {
+pub fn Rival::new(kind : Int) -> Rival {
   {
     alive: true,
     len: 4,
@@ -105,7 +109,7 @@ fn Rival::new(kind : Int) -> Rival {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     p_seg_x: Array::make(max_segments, 0),
     p_seg_y: Array::make(max_segments, 0),
@@ -145,5 +149,9 @@ fn Game::new() -> Game {
     shake_t: 0.0,
     touch_cd: 0.0,
     win: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

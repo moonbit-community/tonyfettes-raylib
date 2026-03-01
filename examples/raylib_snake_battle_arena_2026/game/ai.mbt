@@ -1,22 +1,26 @@
 ///|
 fn wrap_dist(a : Int, b : Int, size : Int) -> Int {
   let d0 : Int = if a > b { a - b } else { b - a }
-  mini(d0, size - d0)
+  @types.mini(d0, size - d0)
 }
 
 ///|
 fn food_distance(nx : Int, ny : Int, fx : Int, fy : Int) -> Int {
-  wrap_dist(nx, fx, grid_w) + wrap_dist(ny, fy, grid_h)
+  wrap_dist(nx, fx, @types.grid_w) + wrap_dist(ny, fy, @types.grid_h)
 }
 
 ///|
-fn direction_score_player(game : Game, dir : Int) -> Int {
-  if opposite_dir(game.p_dir, dir) {
+fn direction_score_player(game : @types.Game, dir : Int) -> Int {
+  if @types.opposite_dir(game.p_dir, dir) {
     return -100000
   }
 
-  let nx : Int = wrap_x(game.p_seg_x[0] + dir_dx(dir))
-  let ny : Int = wrap_y(game.p_seg_y[0] + dir_dy(dir))
+  let nx : Int = @types.wrap_x(
+    game.p_seg_x[0] + @types.dir_dx(dir),
+  )
+  let ny : Int = @types.wrap_y(
+    game.p_seg_y[0] + @types.dir_dy(dir),
+  )
 
   if player_segment_at(game, nx, ny, true) {
     return -90000
@@ -31,10 +35,9 @@ fn direction_score_player(game : Game, dir : Int) -> Int {
   let mut score : Int = 3000 -
     food_distance(nx, ny, game.food_x, game.food_y) * 70
 
-  // Prefer cells with room around to avoid dead ends.
   for d in 0..<4 {
-    let tx : Int = wrap_x(nx + dir_dx(d))
-    let ty : Int = wrap_y(ny + dir_dy(d))
+    let tx : Int = @types.wrap_x(nx + @types.dir_dx(d))
+    let ty : Int = @types.wrap_y(ny + @types.dir_dy(d))
 
     if not(player_segment_at(game, tx, ty, true)) &&
       not(rival_segment_at(game, tx, ty, -1, false)) &&
@@ -47,7 +50,7 @@ fn direction_score_player(game : Game, dir : Int) -> Int {
 }
 
 ///|
-fn suggest_player_dir(game : Game) -> Int {
+fn suggest_player_dir(game : @types.Game) -> Int {
   let mut best_dir : Int = -1
   let mut best_score : Int = -999999
 
@@ -63,15 +66,19 @@ fn suggest_player_dir(game : Game) -> Int {
 }
 
 ///|
-fn direction_score_rival(game : Game, rid : Int, dir : Int) -> Int {
+fn direction_score_rival(game : @types.Game, rid : Int, dir : Int) -> Int {
   let rival = game.rivals[rid]
 
-  if opposite_dir(rival.dir, dir) {
+  if @types.opposite_dir(rival.dir, dir) {
     return -100000
   }
 
-  let nx : Int = wrap_x(rival.seg_x[0] + dir_dx(dir))
-  let ny : Int = wrap_y(rival.seg_y[0] + dir_dy(dir))
+  let nx : Int = @types.wrap_x(
+    rival.seg_x[0] + @types.dir_dx(dir),
+  )
+  let ny : Int = @types.wrap_y(
+    rival.seg_y[0] + @types.dir_dy(dir),
+  )
 
   if rival_would_collide(game, rid, nx, ny) {
     return -90000
@@ -80,16 +87,14 @@ fn direction_score_rival(game : Game, rid : Int, dir : Int) -> Int {
   let mut score : Int = 2800 -
     food_distance(nx, ny, game.food_x, game.food_y) * 64
 
-  // Avoid moving too close to player head in early game.
   let pd : Int = food_distance(nx, ny, game.p_seg_x[0], game.p_seg_y[0])
   if pd <= 2 {
     score = score - 120
   }
 
-  // Prefer having exits.
   for d in 0..<4 {
-    let tx : Int = wrap_x(nx + dir_dx(d))
-    let ty : Int = wrap_y(ny + dir_dy(d))
+    let tx : Int = @types.wrap_x(nx + @types.dir_dx(d))
+    let ty : Int = @types.wrap_y(ny + @types.dir_dy(d))
     if not(rival_would_collide(game, rid, tx, ty)) {
       score = score + 26
     }
@@ -99,7 +104,7 @@ fn direction_score_rival(game : Game, rid : Int, dir : Int) -> Int {
 }
 
 ///|
-fn ai_choose_dir(game : Game, rid : Int) -> Int {
+fn ai_choose_dir(game : @types.Game, rid : Int) -> Int {
   let rival = game.rivals[rid]
 
   let mut best_dir : Int = rival.dir

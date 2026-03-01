@@ -1,10 +1,10 @@
 ///|
-fn bg_wave(game : Game, k : Float) -> Float {
+fn bg_wave(game : @types.Game, k : Float) -> Float {
   Float::from_double(@math.sin((game.ui_t * k).to_double()))
 }
 
 ///|
-fn draw_bg(game : Game) -> Unit {
+fn draw_bg(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 12, 22, 255))
 
   let w0 : Float = bg_wave(game, 0.66)
@@ -17,7 +17,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(24, 48, 88, 44),
   )
   @raylib.draw_circle(
-    screen_w - 280,
+    @types.screen_w - 280,
     182,
     208.0 - w1 * 16.0,
     @raylib.Color::new(68, 38, 66, 34),
@@ -28,7 +28,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       52,
       @raylib.Color::new(
         12 + i * 7 % 20,
@@ -41,9 +41,9 @@ fn draw_bg(game : Game) -> Unit {
 }
 
 ///|
-fn draw_board_back(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
-  let bw : Int = grid_w * tile
-  let bh : Int = grid_h * tile
+fn draw_board_back(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
+  let bw : Int = @types.grid_w * tile
+  let bh : Int = @types.grid_h * tile
 
   @raylib.draw_rectangle(
     bx - 18,
@@ -75,27 +75,27 @@ fn draw_board_back(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 
 ///|
 fn draw_grid_lines(bx : Int, by : Int, tile : Int) -> Unit {
-  let bw : Int = grid_w * tile
-  let bh : Int = grid_h * tile
+  let bw : Int = @types.grid_w * tile
+  let bh : Int = @types.grid_h * tile
 
-  for x in 0..<=grid_w {
+  for x in 0..=@types.grid_w {
     let px : Int = bx + x * tile
     @raylib.draw_line(px, by, px, by + bh, @raylib.Color::new(76, 106, 136, 98))
   }
 
-  for y in 0..<=grid_h {
+  for y in 0..=@types.grid_h {
     let py : Int = by + y * tile
     @raylib.draw_line(bx, py, bx + bw, py, @raylib.Color::new(76, 106, 136, 98))
   }
 }
 
 ///|
-fn draw_food(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
+fn draw_food(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   let cx : Int = bx + game.food_x * tile + tile / 2
   let cy : Int = by + game.food_y * tile + tile / 2
   let r : Float = Float::from_int(tile) * 0.33
 
-  if game.food_kind == food_gold {
+  if game.food_kind == @types.food_gold {
     @raylib.draw_circle(cx, cy, r, @raylib.Color::new(255, 218, 122, 252))
     @raylib.draw_circle_lines(cx, cy, r, @raylib.Color::new(255, 242, 196, 238))
     @raylib.draw_circle(
@@ -117,7 +117,7 @@ fn draw_food(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 }
 
 ///|
-fn draw_trap(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
+fn draw_trap(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   if not(game.trap_active) {
     return
   }
@@ -179,7 +179,7 @@ fn rival_segment_color(kind : Int, head : Bool) -> @raylib.Color {
 }
 
 ///|
-fn draw_player(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
+fn draw_player(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   for i = game.p_len - 1; i >= 0; i = i - 1 {
     let x : Int = bx + game.p_seg_x[i] * tile
     let y : Int = by + game.p_seg_y[i] * tile
@@ -211,7 +211,13 @@ fn draw_player(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 }
 
 ///|
-fn draw_rival(game : Game, rid : Int, bx : Int, by : Int, tile : Int) -> Unit {
+fn draw_rival(
+  game : @types.Game,
+  rid : Int,
+  bx : Int,
+  by : Int,
+  tile : Int,
+) -> Unit {
   let rival = game.rivals[rid]
   if not(rival.alive) {
     return
@@ -240,14 +246,18 @@ fn draw_rival(game : Game, rid : Int, bx : Int, by : Int, tile : Int) -> Unit {
       let ex0 : Int = x + tile / 2 - 7
       let ex1 : Int = x + tile / 2 + 3
       let ey : Int = y + tile / 2 - 3
-      @raylib.draw_rectangle(ex0, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220))
-      @raylib.draw_rectangle(ex1, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220))
+      @raylib.draw_rectangle(
+        ex0, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220),
+      )
+      @raylib.draw_rectangle(
+        ex1, ey, 4, 4, @raylib.Color::new(22, 20, 28, 220),
+      )
     }
   }
 }
 
 ///|
-fn draw_hint(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
+fn draw_hint(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   if game.hint_t <= 0.0 {
     return
   }
@@ -264,7 +274,7 @@ fn draw_hint(game : Game, bx : Int, by : Int, tile : Int) -> Unit {
 }
 
 ///|
-fn draw_sparks(game : Game) -> Unit {
+fn draw_sparks(game : @types.Game) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
@@ -326,94 +336,44 @@ fn draw_touch_button(
 }
 
 ///|
-fn draw_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  if game.state != state_play {
+fn draw_controls(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  let left = btn_left()
-  let right = btn_right()
-  let up = btn_up()
-  let down = btn_down()
-  let boost = btn_boost()
-  let restart = btn_restart()
-  let hint = btn_hint()
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let tc = game.touch_count
 
-  let l_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    left.0,
-    left.1,
-    left.2,
-    left.3,
+  let left = @types.btn_left()
+  let right = @types.btn_right()
+  let up = @types.btn_up()
+  let down = @types.btn_down()
+  let boost = @types.btn_boost()
+  let restart = @types.btn_restart()
+  let hint = @types.btn_hint()
+
+  let l_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, left.0, left.1, left.2, left.3,
   )
-  let r_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    right.0,
-    right.1,
-    right.2,
-    right.3,
+  let r_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, right.0, right.1, right.2, right.3,
   )
-  let u_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    up.0,
-    up.1,
-    up.2,
-    up.3,
+  let u_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, up.0, up.1, up.2, up.3,
   )
-  let d_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    down.0,
-    down.1,
-    down.2,
-    down.3,
+  let d_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, down.0, down.1, down.2, down.3,
   )
-  let b_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    boost.0,
-    boost.1,
-    boost.2,
-    boost.3,
+  let b_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, boost.0, boost.1, boost.2, boost.3,
   )
-  let rs_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    restart.0,
-    restart.1,
-    restart.2,
-    restart.3,
+  let rs_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, restart.0, restart.1, restart.2, restart.3,
   )
-  let h_on : Bool = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    hint.0,
-    hint.1,
-    hint.2,
-    hint.3,
+  let h_on : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, hint.0, hint.1, hint.2, hint.3,
   )
 
   draw_touch_button("L", left, l_on, @raylib.Color::new(86, 138, 194, 228))
@@ -447,11 +407,11 @@ fn draw_controls(
 }
 
 ///|
-fn draw_panel(game : Game) -> Unit {
-  let px : Int = panel_x0
+fn draw_panel(game : @types.Game) -> Unit {
+  let px : Int = @types.panel_x0
   let py : Int = 20
-  let pw : Int = panel_w
-  let ph : Int = screen_h - 40
+  let pw : Int = @types.panel_w
+  let ph : Int = @types.screen_h - 40
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(14, 22, 36, 244))
   @raylib.draw_rectangle_lines(
@@ -507,7 +467,7 @@ fn draw_panel(game : Game) -> Unit {
     @raylib.Color::new(212, 232, 252, 242),
   )
   @raylib.draw_text(
-    "Time \{(match_time_limit - game.game_t).to_int()}s",
+    "Time \{(@types.match_time_limit - game.game_t).to_int()}s",
     px + 320,
     py + 154,
     30,
@@ -556,7 +516,7 @@ fn draw_panel(game : Game) -> Unit {
     @raylib.Color::new(184, 214, 236, 230),
   )
 
-  let food_name : String = if game.food_kind == food_gold {
+  let food_name : String = if game.food_kind == @types.food_gold {
     "Gold"
   } else {
     "Normal"
@@ -648,10 +608,17 @@ fn draw_panel(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Unit {
+fn draw_title(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let tc = game.touch_count
+
   @raylib.draw_text(
     "Snake Battle Arena 2026",
-    screen_w / 2 - @raylib.measure_text("Snake Battle Arena 2026", 86) / 2,
+    @types.screen_w / 2 -
+    @raylib.measure_text("Snake Battle Arena 2026", 86) /
+    2,
     110,
     86,
     @raylib.Color::new(238, 248, 255, 248),
@@ -659,7 +626,7 @@ fn draw_title(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Unit {
 
   @raylib.draw_text(
     "Fast snake duels with AI rivals, traps, combo scoring, and boost management.",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text(
       "Fast snake duels with AI rivals, traps, combo scoring, and boost management.",
       34,
@@ -671,7 +638,7 @@ fn draw_title(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Unit {
   )
   @raylib.draw_text(
     "Touch controls are available for mobile web play.",
-    screen_w / 2 -
+    @types.screen_w / 2 -
     @raylib.measure_text(
       "Touch controls are available for mobile web play.", 34,
     ) /
@@ -681,8 +648,10 @@ fn draw_title(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Unit {
     @raylib.Color::new(196, 220, 244, 238),
   )
 
-  let b = start_button_rect()
-  let hov : Bool = title_hover(mx, my, hold, touch_count)
+  let b = @types.start_button_rect()
+  let hov : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, b.0, b.1, b.2, b.3,
+  )
 
   draw_touch_button(
     "Start Arena",
@@ -693,25 +662,24 @@ fn draw_title(mx : Float, my : Float, hold : Bool, touch_count : Int) -> Unit {
 }
 
 ///|
-fn draw_result_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_result_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let tc = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 16, 170),
   )
 
   let pw : Int = 840
   let ph : Int = 490
-  let px : Int = screen_w / 2 - pw / 2
-  let py : Int = screen_h / 2 - ph / 2
+  let px : Int = @types.screen_w / 2 - pw / 2
+  let py : Int = @types.screen_h / 2 - ph / 2
 
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(16, 24, 36, 246))
   @raylib.draw_rectangle_lines(
@@ -761,28 +729,35 @@ fn draw_result_overlay(
     @raylib.Color::new(206, 228, 248, 238),
   )
 
-  let b = retry_button_rect()
-  let hov : Bool = result_hover(mx, my, hold, touch_count)
+  let b = @types.retry_button_rect()
+  let hov : Bool = @types.pointer_on_rect(
+    mx, my, hold, tc, b.0, b.1, b.2, b.3,
+  )
 
-  draw_touch_button("Play Again", b, hov, @raylib.Color::new(96, 154, 210, 230))
+  draw_touch_button(
+    "Play Again", b, hov, @raylib.Color::new(96, 154, 210, 230),
+  )
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn rival_total_score(game : @types.Game) -> Int {
+  let mut s : Int = 0
+  for rival in game.rivals {
+    s = s + rival.score
+  }
+  s
+}
+
+///|
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == state_title {
-    draw_title(mx, my, hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title(game)
     return
   }
 
-  let (bx, by, tile) = board_metrics(game)
+  let (bx, by, tile) = @types.board_metrics(game.shake_t)
 
   draw_board_back(game, bx, by, tile)
   draw_grid_lines(bx, by, tile)
@@ -797,9 +772,9 @@ fn draw_frame(
 
   draw_sparks(game)
   draw_panel(game)
-  draw_controls(game, mx, my, hold, touch_count)
+  draw_controls(game)
 
-  if game.state == state_result {
-    draw_result_overlay(game, mx, my, hold, touch_count)
+  if game.state == @types.state_result {
+    draw_result_overlay(game)
   }
 }
