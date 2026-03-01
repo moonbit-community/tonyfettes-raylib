@@ -1,5 +1,5 @@
 ///|
-struct Wagon {
+pub(all) struct Wagon {
   mut x : Float
   mut y : Float
   mut hp : Float
@@ -8,7 +8,7 @@ struct Wagon {
 }
 
 ///|
-struct Raider {
+pub(all) struct Raider {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -25,7 +25,7 @@ struct Raider {
 }
 
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -36,7 +36,7 @@ struct Bullet {
 }
 
 ///|
-struct Dust {
+pub(all) struct Dust {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -48,7 +48,7 @@ struct Dust {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -65,7 +65,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   wagons : Array[Wagon]
   raiders : Array[Raider]
   bullets : Array[Bullet]
@@ -101,7 +101,7 @@ struct Game {
 }
 
 ///|
-fn Wagon::new(index : Int) -> Wagon {
+pub fn Wagon::new(index : Int) -> Wagon {
   {
     x: wagon_slot_x(index),
     y: wagon_slot_y(index),
@@ -112,7 +112,7 @@ fn Wagon::new(index : Int) -> Wagon {
 }
 
 ///|
-fn Raider::new() -> Raider {
+pub fn Raider::new() -> Raider {
   {
     active: false,
     kind: raider_skirmisher,
@@ -131,12 +131,12 @@ fn Raider::new() -> Raider {
 }
 
 ///|
-fn Bullet::new() -> Bullet {
+pub fn Bullet::new() -> Bullet {
   { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, life: 0.0, dmg: 0.0 }
 }
 
 ///|
-fn Dust::new() -> Dust {
+pub fn Dust::new() -> Dust {
   {
     active: false,
     x: 0.0,
@@ -150,7 +150,7 @@ fn Dust::new() -> Dust {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: caravan_center_x - perimeter_outer_rx * 0.9,
     y: caravan_center_y,
@@ -169,7 +169,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let wagons = Array::makei(wagon_count, fn(i) { Wagon::new(i) })
   let raiders = Array::makei(max_raiders, fn(_i) { Raider::new() })
   let bullets = Array::makei(max_bullets, fn(_i) { Bullet::new() })
