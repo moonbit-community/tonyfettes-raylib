@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Student {
   name : String
   mut skill : Float
@@ -22,7 +30,7 @@ pub(all) struct Input {
 pub(all) struct Game {
   input : Input
   students : Array[Student]
-  mut state : Int
+  mut state : GameState
   mut week : Int
   mut funds : Float
   mut reputation : Float
@@ -109,7 +117,7 @@ pub fn Game::new() -> Game {
   {
     input: Input::new(),
     students: roster,
-    state: state_title,
+    state: Title,
     week: 1,
     funds: start_funds,
     reputation: start_reputation,
