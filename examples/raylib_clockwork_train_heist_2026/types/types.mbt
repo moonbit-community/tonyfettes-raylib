@@ -1,5 +1,5 @@
 ///|
-struct Actor {
+pub(all) struct Actor {
   mut x : Int
   mut y : Int
   mut from_x : Int
@@ -13,7 +13,7 @@ struct Actor {
 }
 
 ///|
-struct Guard {
+pub(all) struct Guard {
   mut active : Bool
   body : Actor
   mut mode : Int
@@ -29,7 +29,7 @@ struct Guard {
 }
 
 ///|
-struct Loot {
+pub(all) struct Loot {
   mut active : Bool
   mut x : Int
   mut y : Int
@@ -38,7 +38,7 @@ struct Loot {
 }
 
 ///|
-struct Smoke {
+pub(all) struct Smoke {
   mut active : Bool
   mut x : Int
   mut y : Int
@@ -46,7 +46,7 @@ struct Smoke {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -58,7 +58,7 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   map : Array[Int]
   guards : Array[Guard]
   loots : Array[Loot]
@@ -88,10 +88,14 @@ struct Game {
   mut hint_i : Int
   mut win : Bool
   mut loss_reason : String
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Actor::new() -> Actor {
+pub fn Actor::new() -> Actor {
   {
     x: start_x,
     y: start_y,
@@ -107,7 +111,7 @@ fn Actor::new() -> Actor {
 }
 
 ///|
-fn Guard::new() -> Guard {
+pub fn Guard::new() -> Guard {
   {
     active: false,
     body: Actor::new(),
@@ -125,17 +129,17 @@ fn Guard::new() -> Guard {
 }
 
 ///|
-fn Loot::new() -> Loot {
+pub fn Loot::new() -> Loot {
   { active: false, x: 0, y: 0, kind: loot_gold, value: 0 }
 }
 
 ///|
-fn Smoke::new() -> Smoke {
+pub fn Smoke::new() -> Smoke {
   { active: false, x: 0, y: 0, t: 0.0 }
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -149,7 +153,7 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     map: Array::make(grid_w * grid_h, tile_wall),
     guards: Array::makei(max_guards, fn(_i) { Guard::new() }),
@@ -180,5 +184,9 @@ fn Game::new() -> Game {
     hint_i: 0,
     win: false,
     loss_reason: "",
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
