@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input_x = 0.0
   game.input_y = 0.0
   game.input_interact_press = false
@@ -9,18 +9,16 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
   clear_input(game)
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   game.touch_mode = touch_count > 0
 
-  let btn = title_start_rect()
-  let hover = pointer_on_rect(
+  let btn = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -44,25 +42,23 @@ fn update_title_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
   clear_input(game)
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   game.touch_mode = touch_count > 0
 
-  let left = btn_left_rect()
-  let right = btn_right_rect()
-  let up = btn_up_rect()
-  let down = btn_down_rect()
-  let interact = btn_interact_rect()
-  let focus = btn_focus_rect()
-  let dash = btn_dash_rect()
+  let left = @types.btn_left_rect()
+  let right = @types.btn_right_rect()
+  let up = @types.btn_up_rect()
+  let down = @types.btn_down_rect()
+  let interact = @types.btn_interact_rect()
+  let focus = @types.btn_focus_rect()
+  let dash = @types.btn_dash_rect()
 
-  let t_left = pointer_on_rect(
+  let t_left = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -72,7 +68,7 @@ fn update_play_input(
     left.2,
     left.3,
   )
-  let t_right = pointer_on_rect(
+  let t_right = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -82,8 +78,10 @@ fn update_play_input(
     right.2,
     right.3,
   )
-  let t_up = pointer_on_rect(mx, my, hold, touch_count, up.0, up.1, up.2, up.3)
-  let t_down = pointer_on_rect(
+  let t_up = @types.pointer_on_rect(
+    mx, my, hold, touch_count, up.0, up.1, up.2, up.3,
+  )
+  let t_down = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -93,7 +91,7 @@ fn update_play_input(
     down.2,
     down.3,
   )
-  let t_interact = pointer_on_rect(
+  let t_interact = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -103,7 +101,7 @@ fn update_play_input(
     interact.2,
     interact.3,
   )
-  let t_focus = pointer_on_rect(
+  let t_focus = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -113,7 +111,7 @@ fn update_play_input(
     focus.2,
     focus.3,
   )
-  let t_dash = pointer_on_rect(
+  let t_dash = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -146,8 +144,8 @@ fn update_play_input(
     game.input_y = game.input_y + 1.0
   }
 
-  game.input_x = clampf(game.input_x, -1.0, 1.0)
-  game.input_y = clampf(game.input_y, -1.0, 1.0)
+  game.input_x = @types.clampf(game.input_x, -1.0, 1.0)
+  game.input_y = @types.clampf(game.input_y, -1.0, 1.0)
 
   let key_interact = @raylib.is_key_pressed(@raylib.KeyJ) ||
     @raylib.is_key_pressed(@raylib.KeyE) ||
@@ -173,18 +171,16 @@ fn update_play_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_result_input(game : @types.Game) -> Unit {
   clear_input(game)
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   game.touch_mode = touch_count > 0
 
-  let retry = retry_rect()
-  let hover = pointer_on_rect(
+  let retry = @types.retry_rect()
+  let hover = @types.pointer_on_rect(
     mx,
     my,
     hold,

@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -22,41 +22,31 @@ fn draw_right_text(
 }
 
 ///|
-fn a_col(c : @raylib.Color, a : Int) -> @raylib.Color {
-  @raylib.Color::new(
-    c.r.to_int(),
-    c.g.to_int(),
-    c.b.to_int(),
-    clampi(a, 0, 255),
-  )
-}
-
-///|
-fn cam_shake(game : Game) -> (Float, Float) {
+fn cam_shake(game : @types.Game) -> (Float, Float) {
   if game.shake_t <= 0.0 {
     (0.0, 0.0)
   } else {
-    let amp : Float = minf(22.0, game.shake_t * 36.0)
-    (randf(-amp, amp), randf(-amp, amp))
+    let amp : Float = @types.minf(22.0, game.shake_t * 36.0)
+    (@types.randf(-amp, amp), @types.randf(-amp, amp))
   }
 }
 
 ///|
-fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_sky(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
-    bg_top(),
-    bg_bottom(),
+    @types.screen_w,
+    @types.screen_h,
+    @types.bg_top(),
+    @types.bg_bottom(),
   )
 
-  let moon_x : Float = Float::from_int(screen_w) * 0.82 +
-    sinf(game.time_s * 0.18) * 36.0
-  let moon_y : Float = Float::from_int(hud_h) +
+  let moon_x : Float = Float::from_int(@types.screen_w) * 0.82 +
+    @types.sinf(game.time_s * 0.18) * 36.0
+  let moon_y : Float = Float::from_int(@types.hud_h) +
     74.0 +
-    cosf(game.time_s * 0.22) * 12.0
+    @types.cosf(game.time_s * 0.22) * 12.0
 
   @raylib.draw_circle(
     (moon_x + cam_x * 0.2).to_int(),
@@ -74,11 +64,13 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   for i in 0..<140 {
     let fi = Float::from_int(i)
     let x = (fi * 90.0 + fi * fi * 0.15 + game.time_s * 6.0) %
-      Float::from_int(screen_w)
-    let y = Float::from_int(hud_h) +
-      (fi * 41.0 + fi * 18.0) % Float::from_int(screen_h - hud_h)
+      Float::from_int(@types.screen_w)
+    let y = Float::from_int(@types.hud_h) +
+      (fi * 41.0 + fi * 18.0) %
+      Float::from_int(@types.screen_h - @types.hud_h)
 
-    let tw : Float = 0.5 + 0.5 * sinf(fi * 0.72 + game.time_s * 1.34)
+    let tw : Float = 0.5 +
+      0.5 * @types.sinf(fi * 0.72 + game.time_s * 1.34)
     @raylib.draw_circle(
       (x + cam_x * 0.12).to_int(),
       (y + cam_y * 0.12).to_int(),
@@ -94,33 +86,33 @@ fn draw_sky(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_room_base(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_room_base(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle(
-    play_left.to_int(),
-    play_top.to_int(),
-    (play_right - play_left).to_int(),
-    (play_bottom - play_top).to_int(),
+    @types.play_left.to_int(),
+    @types.play_top.to_int(),
+    (@types.play_right - @types.play_left).to_int(),
+    (@types.play_bottom - @types.play_top).to_int(),
     @raylib.Color::new(58, 42, 34, 220),
   )
 
   @raylib.draw_rectangle_lines(
-    (play_left + cam_x * 0.08).to_int(),
-    (play_top + cam_y * 0.08).to_int(),
-    (play_right - play_left).to_int(),
-    (play_bottom - play_top).to_int(),
+    (@types.play_left + cam_x * 0.08).to_int(),
+    (@types.play_top + cam_y * 0.08).to_int(),
+    (@types.play_right - @types.play_left).to_int(),
+    (@types.play_bottom - @types.play_top).to_int(),
     @raylib.Color::new(190, 164, 132, 118),
   )
 
   let plank_h = 30
   let shift = (game.time_s * 16.0).to_int() % plank_h
-  for y = play_top.to_int() - plank_h
-      y < play_bottom.to_int() + plank_h
+  for y = @types.play_top.to_int() - plank_h
+      y < @types.play_bottom.to_int() + plank_h
       y = y + plank_h {
     let tone = 84 + (y + shift) / plank_h % 2 * 14
     @raylib.draw_rectangle(
-      play_left.to_int(),
+      @types.play_left.to_int(),
       y + shift,
-      (play_right - play_left).to_int(),
+      (@types.play_right - @types.play_left).to_int(),
       plank_h - 2,
       @raylib.Color::new(tone, 62, 46, 90),
     )
@@ -175,15 +167,15 @@ fn draw_station_tag(label : String, x : Float, y : Float, hot : Bool) -> Unit {
 }
 
 ///|
-fn draw_kettle(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let x = kettle_x + cam_x
-  let y = kettle_y + cam_y
-  let hot = near_station(
+fn draw_kettle(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let x = @types.kettle_x + cam_x
+  let y = @types.kettle_y + cam_y
+  let hot = @types.near_station(
     game.player.x,
     game.player.y,
-    kettle_x,
-    kettle_y,
-    interact_reach,
+    @types.kettle_x,
+    @types.kettle_y,
+    @types.interact_reach,
   )
 
   @raylib.draw_circle(
@@ -219,16 +211,16 @@ fn draw_kettle(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_leaf_racks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  for tea in 0..<tea_count {
-    let x = leaf_x() + cam_x
-    let y = leaf_y(tea) + cam_y
-    let hot = near_station(
+fn draw_leaf_racks(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  for tea in 0..<@types.tea_count {
+    let x = @types.leaf_x() + cam_x
+    let y = @types.leaf_y(tea) + cam_y
+    let hot = @types.near_station(
       game.player.x,
       game.player.y,
-      leaf_x(),
-      leaf_y(tea),
-      interact_reach,
+      @types.leaf_x(),
+      @types.leaf_y(tea),
+      @types.interact_reach,
     )
 
     @raylib.draw_rectangle(
@@ -246,7 +238,7 @@ fn draw_leaf_racks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(196, 164, 128, 168),
     )
 
-    @raylib.draw_circle(x.to_int(), y.to_int(), 18.0, tea_color(tea))
+    @raylib.draw_circle(x.to_int(), y.to_int(), 18.0, @types.tea_color(tea))
     @raylib.draw_circle(
       x.to_int(),
       y.to_int(),
@@ -273,7 +265,7 @@ fn draw_leaf_racks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     }
 
     @raylib.draw_text(
-      tea_name(tea),
+      @types.tea_name(tea),
       (x + 54.0).to_int(),
       (y - 10.0).to_int(),
       16,
@@ -281,19 +273,24 @@ fn draw_leaf_racks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     )
   }
 
-  draw_station_tag("LEAVES", leaf_x() + cam_x, leaf_y(2) + cam_y, false)
+  draw_station_tag(
+    "LEAVES",
+    @types.leaf_x() + cam_x,
+    @types.leaf_y(2) + cam_y,
+    false,
+  )
 }
 
 ///|
-fn draw_brewer(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let x = brew_x + cam_x
-  let y = brew_y + cam_y
-  let hot = near_station(
+fn draw_brewer(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let x = @types.brew_x + cam_x
+  let y = @types.brew_y + cam_y
+  let hot = @types.near_station(
     game.player.x,
     game.player.y,
-    brew_x,
-    brew_y,
-    interact_reach,
+    @types.brew_x,
+    @types.brew_y,
+    @types.interact_reach,
   )
 
   @raylib.draw_rectangle(
@@ -319,10 +316,13 @@ fn draw_brewer(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   )
 
   if game.brew_active {
-    let t = clampf(
+    let t = @types.clampf(
       1.0 -
       game.brew_t /
-      maxf(0.1, brew_time_base - Float::from_int(game.stage - 1) * 0.12),
+      @types.maxf(
+        0.1,
+        @types.brew_time_base - Float::from_int(game.stage - 1) * 0.12,
+      ),
       0.0,
       1.0,
     )
@@ -330,7 +330,7 @@ fn draw_brewer(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       x.to_int(),
       y.to_int(),
       22.0 + t * 6.0,
-      a_col(tea_color(game.brew_type), 160),
+      @types.a_col(@types.tea_color(game.brew_type), 160),
     )
     @raylib.draw_rectangle(
       (x - 44.0).to_int(),
@@ -353,7 +353,7 @@ fn draw_brewer(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       (x + 52.0).to_int(),
       (y - 22.0).to_int(),
       16.0,
-      tea_color(game.ready_cup),
+      @types.tea_color(game.ready_cup),
     )
     @raylib.draw_circle(
       (x + 52.0).to_int(),
@@ -367,15 +367,15 @@ fn draw_brewer(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_counter(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let x = counter_x + cam_x
-  let y = counter_y + cam_y
-  let hot = near_station(
+fn draw_counter(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let x = @types.counter_x + cam_x
+  let y = @types.counter_y + cam_y
+  let hot = @types.near_station(
     game.player.x,
     game.player.y,
-    counter_x,
-    counter_y,
-    interact_reach + 10.0,
+    @types.counter_x,
+    @types.counter_y,
+    @types.interact_reach + 10.0,
   )
 
   @raylib.draw_rectangle(
@@ -406,7 +406,7 @@ fn draw_counter(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       (x - 44.0).to_int(),
       (y + 12.0).to_int(),
       14.0,
-      tea_color(game.ready_cup),
+      @types.tea_color(game.ready_cup),
     )
   }
 
@@ -432,7 +432,7 @@ fn draw_customer_chair(x : Float, y : Float) -> Unit {
 }
 
 ///|
-fn draw_customer(c : Customer, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_customer(c : @types.Customer, cam_x : Float, cam_y : Float) -> Unit {
   if not(c.active) {
     return
   }
@@ -442,7 +442,7 @@ fn draw_customer(c : Customer, cam_x : Float, cam_y : Float) -> Unit {
 
   draw_customer_chair(x, y)
 
-  let mood = clampf(c.mood, 0.0, 1.0)
+  let mood = @types.clampf(c.mood, 0.0, 1.0)
   let body = @raylib.Color::new(
     150 + (mood * 70.0).to_int(),
     122 + (mood * 60.0).to_int(),
@@ -492,10 +492,14 @@ fn draw_customer(c : Customer, cam_x : Float, cam_y : Float) -> Unit {
     (x + 36.0).to_int(),
     (y - 30.0).to_int(),
     11.0,
-    tea_color(c.tea_type),
+    @types.tea_color(c.tea_type),
   )
 
-  let p = clampf(c.patience / maxf(1.0, c.patience_max), 0.0, 1.0)
+  let p = @types.clampf(
+    c.patience / @types.maxf(1.0, c.patience_max),
+    0.0,
+    1.0,
+  )
   @raylib.draw_rectangle(
     (x - 36.0).to_int(),
     (y - 48.0).to_int(),
@@ -513,13 +517,21 @@ fn draw_customer(c : Customer, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let p = game.player
   let x = p.x + cam_x
   let y = p.y + cam_y
 
-  let dash_ratio = clampf(p.dash_t / maxf(dash_time, 0.001), 0.0, 1.0)
-  let focus_ratio = clampf(game.focus / focus_max, 0.0, 1.0)
+  let dash_ratio = @types.clampf(
+    p.dash_t / @types.maxf(@types.dash_time, 0.001),
+    0.0,
+    1.0,
+  )
+  let focus_ratio = @types.clampf(
+    game.focus / @types.focus_max,
+    0.0,
+    1.0,
+  )
 
   @raylib.draw_circle(
     x.to_int(),
@@ -544,13 +556,19 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
   @raylib.draw_line_ex(
     @raylib.Vector2::new(x - 8.0, y + 2.0),
-    @raylib.Vector2::new(x - 10.0 - sinf(p.anim_t * 8.0) * 5.0, y + 24.0),
+    @raylib.Vector2::new(
+      x - 10.0 - @types.sinf(p.anim_t * 8.0) * 5.0,
+      y + 24.0,
+    ),
     5.0,
     @raylib.Color::new(176, 206, 236, 232),
   )
   @raylib.draw_line_ex(
     @raylib.Vector2::new(x + 8.0, y + 2.0),
-    @raylib.Vector2::new(x + 10.0 + sinf(p.anim_t * 8.0) * 5.0, y + 24.0),
+    @raylib.Vector2::new(
+      x + 10.0 + @types.sinf(p.anim_t * 8.0) * 5.0,
+      y + 24.0,
+    ),
     5.0,
     @raylib.Color::new(176, 206, 236, 232),
   )
@@ -569,12 +587,12 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       (x - 22.0).to_int(),
       (y - 14.0).to_int(),
       8.0,
-      tea_color(p.carry_leaf),
+      @types.tea_color(p.carry_leaf),
     )
   }
 
   if p.interact_t > 0.0 {
-    let t = clampf(p.interact_t / 0.22, 0.0, 1.0)
+    let t = @types.clampf(p.interact_t / 0.22, 0.0, 1.0)
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
@@ -585,42 +603,42 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_sparks(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
     }
 
     let life = if spark.kind == 3 {
-      clampf(spark.life / 1.6, 0.0, 1.0)
+      @types.clampf(spark.life / 1.6, 0.0, 1.0)
     } else {
-      clampf(spark.life / 1.1, 0.0, 1.0)
+      @types.clampf(spark.life / 1.1, 0.0, 1.0)
     }
 
     let base = if spark.kind == 0 {
-      amber()
+      @types.amber()
     } else if spark.kind == 1 {
-      pink()
+      @types.pink()
     } else if spark.kind == 2 {
-      jade()
+      @types.jade()
     } else {
       @raylib.Color::new(232, 244, 255, 255)
     }
 
-    let col = a_col(base, (life * 220.0).to_int())
+    let col = @types.a_col(base, (life * 220.0).to_int())
 
     if spark.kind == 3 {
       @raylib.draw_circle(
         (spark.x + cam_x * 0.2).to_int(),
         (spark.y + cam_y * 0.2).to_int(),
-        maxf(0.6, spark.size * (0.4 + life)),
+        @types.maxf(0.6, spark.size * (0.4 + life)),
         col,
       )
     } else {
       @raylib.draw_circle(
         (spark.x + cam_x).to_int(),
         (spark.y + cam_y).to_int(),
-        maxf(0.8, spark.size * (0.4 + life)),
+        @types.maxf(0.8, spark.size * (0.4 + life)),
         col,
       )
     }
@@ -631,13 +649,13 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       continue
     }
 
-    let life = clampf(ring.life / 1.0, 0.0, 1.0)
+    let life = @types.clampf(ring.life / 1.0, 0.0, 1.0)
     let col = if ring.kind == 0 {
-      a_col(cyan(), (life * 190.0).to_int())
+      @types.a_col(@types.cyan(), (life * 190.0).to_int())
     } else if ring.kind == 1 {
-      a_col(pink(), (life * 190.0).to_int())
+      @types.a_col(@types.pink(), (life * 190.0).to_int())
     } else {
-      a_col(jade(), (life * 190.0).to_int())
+      @types.a_col(@types.jade(), (life * 190.0).to_int())
     }
 
     @raylib.draw_circle_lines(
@@ -653,15 +671,15 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       continue
     }
 
-    let life = clampf(shadow.life / 0.24, 0.0, 1.0)
+    let life = @types.clampf(shadow.life / 0.24, 0.0, 1.0)
     let stretch : Float = Float::from_int(1) +
-      absf(sinf(shadow.rot * 0.06)) * 0.24
+      @types.absf(@types.sinf(shadow.rot * 0.06)) * 0.24
 
     @raylib.draw_rectangle(
       (shadow.x - shadow.w * 0.5 * stretch + cam_x * 0.2).to_int(),
       (shadow.y - shadow.h * 0.5 + cam_y * 0.2).to_int(),
-      maxf(2.0, shadow.w * stretch).to_int(),
-      maxf(2.0, shadow.h).to_int(),
+      @types.maxf(2.0, shadow.w * stretch).to_int(),
+      @types.maxf(2.0, shadow.h).to_int(),
       @raylib.Color::new(116, 218, 255, (life * 118.0).to_int()),
     )
   }
@@ -681,7 +699,7 @@ fn draw_bar(
   let ratio : Float = if maxv <= 0.0 {
     0.0
   } else {
-    clampf(value / maxv, 0.0, 1.0)
+    @types.clampf(value / maxv, 0.0, 1.0)
   }
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(8, 18, 32, 212))
@@ -690,7 +708,7 @@ fn draw_bar(
     y,
     (Float::from_int(w) * ratio).to_int(),
     h,
-    a_col(col, 228),
+    @types.a_col(col, 228),
   )
   @raylib.draw_rectangle_lines(
     x,
@@ -710,19 +728,19 @@ fn draw_bar(
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    hud_h,
+    @types.screen_w,
+    @types.hud_h,
     @raylib.Color::new(6, 14, 30, 236),
   )
   @raylib.draw_line(
     0,
-    hud_h,
-    screen_w,
-    hud_h,
+    @types.hud_h,
+    @types.screen_w,
+    @types.hud_h,
     @raylib.Color::new(92, 170, 232, 162),
   )
 
@@ -732,11 +750,20 @@ fn draw_hud(game : Game) -> Unit {
     300,
     24,
     game.reputation,
-    reputation_max,
+    @types.reputation_max,
     "REPUTATION",
-    reputation_col(),
+    @types.reputation_col(),
   )
-  draw_bar(20, 52, 300, 24, game.focus, focus_max, "FOCUS", focus_col())
+  draw_bar(
+    20,
+    52,
+    300,
+    24,
+    game.focus,
+    @types.focus_max,
+    "FOCUS",
+    @types.focus_col(),
+  )
 
   draw_bar(
     338,
@@ -744,9 +771,11 @@ fn draw_hud(game : Game) -> Unit {
     320,
     24,
     Float::from_int(game.score),
-    Float::from_int(maxf(Float::from_int(game.stage_goal), 1.0).to_int()),
+    Float::from_int(
+      @types.maxf(Float::from_int(game.stage_goal), 1.0).to_int(),
+    ),
     "GOAL",
-    amber(),
+    @types.amber(),
   )
   draw_bar(
     338,
@@ -754,9 +783,10 @@ fn draw_hud(game : Game) -> Unit {
     320,
     24,
     game.time_left,
-    stage_time_base + Float::from_int(game.stage) * stage_time_bonus,
+    @types.stage_time_base +
+    Float::from_int(game.stage) * @types.stage_time_bonus,
     "TIME",
-    cyan(),
+    @types.cyan(),
   )
 
   @raylib.draw_text(
@@ -771,7 +801,7 @@ fn draw_hud(game : Game) -> Unit {
     684,
     42,
     22,
-    a_col(amber(), 242),
+    @types.a_col(@types.amber(), 242),
   )
   @raylib.draw_text(
     "GOAL " + game.stage_goal.to_string(),
@@ -783,14 +813,17 @@ fn draw_hud(game : Game) -> Unit {
 
   draw_right_text(
     "BEST " + game.best_score.to_string(),
-    screen_w - 20,
+    @types.screen_w - 20,
     14,
     22,
     @raylib.Color::new(186, 224, 248, 236),
   )
   draw_right_text(
-    "SERVED " + game.served.to_string() + "  MISSED " + game.missed.to_string(),
-    screen_w - 20,
+    "SERVED " +
+    game.served.to_string() +
+    "  MISSED " +
+    game.missed.to_string(),
+    @types.screen_w - 20,
     44,
     20,
     @raylib.Color::new(170, 214, 236, 228),
@@ -802,7 +835,7 @@ fn draw_hud(game : Game) -> Unit {
     } else {
       "NORMAL"
     },
-    screen_w - 180,
+    @types.screen_w - 180,
     72,
     18,
     if game.focus_mode {
@@ -813,10 +846,10 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   if game.combo > 1 && game.combo_t > 0.0 {
-    let t = clampf(game.combo_t / 3.8, 0.0, 1.0)
+    let t = @types.clampf(game.combo_t / 3.8, 0.0, 1.0)
     draw_center_text(
       "COMBO x" + game.combo.to_string(),
-      hud_h + 8,
+      @types.hud_h + 8,
       30,
       @raylib.Color::new(
         255,
@@ -827,11 +860,11 @@ fn draw_hud(game : Game) -> Unit {
     )
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     @raylib.draw_text(
       "WASD move  J/E/SPACE interact  K hold focus  L dash",
       20,
-      hud_h + 8,
+      @types.hud_h + 8,
       20,
       @raylib.Color::new(188, 220, 242, 204),
     )
@@ -848,7 +881,7 @@ fn draw_button_visual(
   hold : Bool,
   touch_count : Int,
 ) -> Unit {
-  let hot = pointer_on_rect(
+  let hot = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -893,21 +926,20 @@ fn draw_button_visual(
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_touch_controls(game : @types.Game) -> Unit {
   if not(game.touch_mode) {
     return
   }
 
-  if game.state == state_play {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+
+  if game.state == @types.state_play {
     draw_button_visual(
       "<",
-      btn_left_rect(),
+      @types.btn_left_rect(),
       game.input_x < -0.2,
       mx,
       my,
@@ -916,7 +948,7 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       ">",
-      btn_right_rect(),
+      @types.btn_right_rect(),
       game.input_x > 0.2,
       mx,
       my,
@@ -925,7 +957,7 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       "^",
-      btn_up_rect(),
+      @types.btn_up_rect(),
       game.input_y < -0.2,
       mx,
       my,
@@ -934,7 +966,7 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       "v",
-      btn_down_rect(),
+      @types.btn_down_rect(),
       game.input_y > 0.2,
       mx,
       my,
@@ -943,7 +975,7 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       "ACT",
-      btn_interact_rect(),
+      @types.btn_interact_rect(),
       game.input_interact_press,
       mx,
       my,
@@ -952,7 +984,7 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       "FOCUS",
-      btn_focus_rect(),
+      @types.btn_focus_rect(),
       game.input_focus_hold,
       mx,
       my,
@@ -961,17 +993,17 @@ fn draw_touch_controls(
     )
     draw_button_visual(
       "DASH",
-      btn_dash_rect(),
+      @types.btn_dash_rect(),
       game.input_dash_press,
       mx,
       my,
       hold,
       touch_count,
     )
-  } else if game.state == state_title {
+  } else if game.state == @types.state_title {
     draw_button_visual(
       "START",
-      title_start_rect(),
+      @types.title_start_rect(),
       false,
       mx,
       my,
@@ -979,22 +1011,30 @@ fn draw_touch_controls(
       touch_count,
     )
   } else {
-    draw_button_visual("RETRY", retry_rect(), false, mx, my, hold, touch_count)
+    draw_button_visual(
+      "RETRY",
+      @types.retry_rect(),
+      false,
+      mx,
+      my,
+      hold,
+      touch_count,
+    )
   }
 }
 
 ///|
-fn draw_title_overlay(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 14, 24, 138),
   )
 
@@ -1012,21 +1052,26 @@ fn draw_title_overlay(
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 360,
+    @types.screen_w / 2 - 360,
     246,
     720,
     236,
     @raylib.Color::new(10, 20, 38, 186),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 360,
+    @types.screen_w / 2 - 360,
     246,
     720,
     236,
     @raylib.Color::new(148, 206, 246, 214),
   )
 
-  draw_center_text("FLOW", 268, 32, @raylib.Color::new(242, 248, 255, 240))
+  draw_center_text(
+    "FLOW",
+    268,
+    32,
+    @raylib.Color::new(242, 248, 255, 240),
+  )
   draw_center_text(
     "1) Kettle for water",
     312,
@@ -1058,8 +1103,8 @@ fn draw_title_overlay(
     @raylib.Color::new(196, 222, 244, 236),
   )
 
-  let btn = title_start_rect()
-  let hover = pointer_on_rect(
+  let btn = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -1098,15 +1143,19 @@ fn draw_title_overlay(
 }
 
 ///|
-fn draw_stage_clear_overlay(game : Game) -> Unit {
-  let t = clampf(game.result_t / stage_clear_wait, 0.0, 1.0)
-  let y = lerpf(232.0, 166.0, ease_out_cubic(t)).to_int()
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
+  let t = @types.clampf(
+    game.result_t / @types.stage_clear_wait,
+    0.0,
+    1.0,
+  )
+  let y = @types.lerpf(232.0, 166.0, @types.ease_out_cubic(t)).to_int()
 
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 20, 30, 126),
   )
 
@@ -1117,10 +1166,11 @@ fn draw_stage_clear_overlay(game : Game) -> Unit {
     @raylib.Color::new(166, 255, 228, 246),
   )
   draw_center_text(
-    "Bonus +" + (stage_clear_bonus + game.stage * 120).to_string(),
+    "Bonus +" +
+    (@types.stage_clear_bonus + game.stage * 120).to_string(),
     y + 78,
     30,
-    a_col(amber(), 240),
+    @types.a_col(@types.amber(), 240),
   )
   draw_center_text(
     "Next rush arriving...",
@@ -1131,22 +1181,26 @@ fn draw_stage_clear_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(12, 8, 18, 172),
   )
 
-  draw_center_text("SERVICE COLLAPSED", 150, 66, a_col(pink(), 248))
+  draw_center_text(
+    "SERVICE COLLAPSED",
+    150,
+    66,
+    @types.a_col(@types.pink(), 248),
+  )
   draw_center_text(
     "Customers walked out before dawn",
     226,
@@ -1155,14 +1209,14 @@ fn draw_game_over_overlay(
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 274,
+    @types.screen_w / 2 - 274,
     278,
     548,
     194,
     @raylib.Color::new(16, 16, 34, 192),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 274,
+    @types.screen_w / 2 - 274,
     278,
     548,
     194,
@@ -1179,7 +1233,7 @@ fn draw_game_over_overlay(
     "SCORE " + game.score.to_string(),
     338,
     36,
-    a_col(amber(), 246),
+    @types.a_col(@types.amber(), 246),
   )
   draw_center_text(
     "SERVED " +
@@ -1197,8 +1251,8 @@ fn draw_game_over_overlay(
     @raylib.Color::new(182, 220, 250, 236),
   )
 
-  let retry = retry_rect()
-  let hover = pointer_on_rect(
+  let retry = @types.retry_rect()
+  let hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -1237,23 +1291,23 @@ fn draw_game_over_overlay(
 }
 
 ///|
-fn draw_flash(game : Game) -> Unit {
+fn draw_flash(game : @types.Game) -> Unit {
   if game.flash_t <= 0.0 {
     return
   }
 
-  let t = clampf(game.flash_t / 0.24, 0.0, 1.0)
+  let t = @types.clampf(game.flash_t / 0.24, 0.0, 1.0)
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(255, 130, 170, (t * 120.0).to_int()),
   )
 }
 
 ///|
-fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_world(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_sky(game, cam_x, cam_y)
   draw_room_base(game, cam_x, cam_y)
 
@@ -1273,34 +1327,28 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(6, 12, 24, 255))
 
   let shake = cam_shake(game)
   draw_world(game, shake.0, shake.1)
   draw_hud(game)
 
-  if game.state == state_title {
-    draw_title_overlay(mx, my, hold, touch_count)
-  } else if game.state == state_stage_clear {
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_stage_clear {
     draw_stage_clear_overlay(game)
-  } else if game.state == state_game_over {
-    draw_game_over_overlay(game, mx, my, hold, touch_count)
+  } else if game.state == @types.state_game_over {
+    draw_game_over_overlay(game)
   }
 
-  draw_touch_controls(game, mx, my, hold, touch_count)
+  draw_touch_controls(game)
   draw_flash(game)
 
-  if game.state == state_play && game.touch_mode {
+  if game.state == @types.state_play && game.touch_mode {
     draw_center_text(
       "Mobile: move pad + ACT / FOCUS / DASH",
-      screen_h - 24,
+      @types.screen_h - 24,
       20,
       @raylib.Color::new(210, 236, 255, 220),
     )

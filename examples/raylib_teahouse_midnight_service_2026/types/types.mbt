@@ -1,5 +1,5 @@
 ///|
-struct Customer {
+pub(all) struct Customer {
   mut active : Bool
   mut tea_type : Int
   mut slot : Int
@@ -15,7 +15,7 @@ struct Customer {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -27,7 +27,7 @@ struct Spark {
 }
 
 ///|
-struct Ring {
+pub(all) struct Ring {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -37,7 +37,7 @@ struct Ring {
 }
 
 ///|
-struct Shadow {
+pub(all) struct Shadow {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -48,7 +48,7 @@ struct Shadow {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -65,7 +65,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   customers : Array[Customer]
   sparks : Array[Spark]
   rings : Array[Ring]
@@ -104,10 +104,14 @@ struct Game {
   mut touch_interact_prev : Bool
   mut touch_dash_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Customer::new() -> Customer {
+pub fn Customer::new() -> Customer {
   {
     active: false,
     tea_type: tea_jasmine,
@@ -125,7 +129,7 @@ fn Customer::new() -> Customer {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -139,17 +143,17 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Ring::new() -> Ring {
+pub fn Ring::new() -> Ring {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Shadow::new() -> Shadow {
+pub fn Shadow::new() -> Shadow {
   { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, rot: 0.0 }
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: 628.0,
     y: 468.0,
@@ -168,7 +172,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     customers: Array::makei(max_customers, fn(_i) { Customer::new() }),
     sparks: Array::makei(max_sparks, fn(_i) { Spark::new() }),
@@ -208,5 +212,118 @@ fn Game::new() -> Game {
     touch_interact_prev: false,
     touch_dash_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
+}
+
+///|
+pub fn init_title_scene(game : Game) -> Unit {
+  clear_customers(game)
+  clear_sparks(game)
+  clear_rings(game)
+  clear_shadows(game)
+  reset_player(game)
+
+  game.state = state_title
+  game.stage = 1
+  game.stage_goal = stage_goal_base
+  game.score = 0
+  game.served = 0
+  game.missed = 0
+  game.combo = 0
+  game.combo_t = 0.0
+
+  game.reputation = reputation_max
+  game.focus = focus_max
+  game.time_left = stage_time_base
+
+  game.spawn_cd = 0.8
+  game.brew_active = false
+  game.brew_t = 0.0
+  game.brew_type = tea_jasmine
+  game.ready_cup = -1
+  game.focus_mode = false
+
+  game.flash_t = 0.0
+  game.shake_t = 0.0
+  game.result_t = 0.0
+  game.hint_t = 0.0
+  game.time_s = 0.0
+}
+
+///|
+fn clear_customers(game : Game) -> Unit {
+  for customer in game.customers {
+    customer.active = false
+    customer.tea_type = tea_jasmine
+    customer.slot = 0
+    customer.x = 0.0
+    customer.y = 0.0
+    customer.patience = 0.0
+    customer.patience_max = 0.0
+    customer.life = 0.0
+    customer.reward = 0
+    customer.mood = 0.0
+    customer.served_t = 0.0
+    customer.angry = false
+  }
+}
+
+///|
+fn clear_sparks(game : Game) -> Unit {
+  for spark in game.sparks {
+    spark.active = false
+    spark.x = 0.0
+    spark.y = 0.0
+    spark.vx = 0.0
+    spark.vy = 0.0
+    spark.life = 0.0
+    spark.size = 0.0
+    spark.kind = 0
+  }
+}
+
+///|
+fn clear_rings(game : Game) -> Unit {
+  for ring in game.rings {
+    ring.active = false
+    ring.x = 0.0
+    ring.y = 0.0
+    ring.r = 0.0
+    ring.life = 0.0
+    ring.kind = 0
+  }
+}
+
+///|
+fn clear_shadows(game : Game) -> Unit {
+  for shadow in game.shadows {
+    shadow.active = false
+    shadow.x = 0.0
+    shadow.y = 0.0
+    shadow.w = 0.0
+    shadow.h = 0.0
+    shadow.life = 0.0
+    shadow.rot = 0.0
+  }
+}
+
+///|
+fn reset_player(game : Game) -> Unit {
+  game.player.x = 628.0
+  game.player.y = 468.0
+  game.player.vx = 0.0
+  game.player.vy = 0.0
+  game.player.w = player_w
+  game.player.h = player_h
+  game.player.angle = 0.0
+  game.player.dash_cd = 0.0
+  game.player.dash_t = 0.0
+  game.player.interact_t = 0.0
+  game.player.anim_t = 0.0
+  game.player.carry_water = false
+  game.player.carry_leaf = -1
 }
