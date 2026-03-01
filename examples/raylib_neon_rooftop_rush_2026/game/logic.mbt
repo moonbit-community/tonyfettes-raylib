@@ -1261,6 +1261,7 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     @raylib.get_touch_point_count() > 0
 
   // Dispatch input based on current state (input may change state)
+  let prev_state = game.state
   if game.state == @types.state_title {
     update_title_input(game)
   } else if game.state == @types.state_play {
@@ -1269,6 +1270,14 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     update_stage_clear_input(game)
   } else {
     update_result_input(game)
+  }
+
+  // If state changed during input, clear stale input flags
+  if game.state != prev_state {
+    game.input_jump_press = false
+    game.input_grapple_press = false
+    game.input_pause_press = false
+    game.input_restart_press = false
   }
 
   // Dispatch update based on (potentially changed) state
