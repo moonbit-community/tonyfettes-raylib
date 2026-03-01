@@ -1,5 +1,5 @@
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -11,7 +11,7 @@ struct Spark {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   board : Array[Int]
   prev_board : Array[Int]
   sparks : Array[Spark]
@@ -46,10 +46,14 @@ struct Game {
   mut msg_t : Float
   mut shake_t : Float
   mut touch_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -63,7 +67,7 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     board: Array::make(max_cells, 0),
     prev_board: Array::make(max_cells, 0),
@@ -99,5 +103,9 @@ fn Game::new() -> Game {
     msg_t: 0.0,
     shake_t: 0.0,
     touch_cd: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

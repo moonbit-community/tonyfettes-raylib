@@ -1,109 +1,5 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn idx(x : Int, y : Int) -> Int {
-  y * board_n + x
-}
-
-///|
-fn in_board(x : Int, y : Int) -> Bool {
-  x >= 0 && x < board_n && y >= 0 && y < board_n
-}
-
-///|
-fn board_metrics(game : Game) -> (Int, Int, Int) {
-  let area_x : Int = board_area_x()
-  let area_y : Int = board_area_y()
-  let area_w : Int = board_area_w()
-  let area_h : Int = board_area_h()
-
-  let tile_x : Int = area_w / board_n
-  let tile_y : Int = area_h / board_n
-
-  let mut tile : Int = mini(tile_x, tile_y)
-  tile = clampi(tile, 120, 170)
-
-  let mut bx : Int = area_x + (area_w - board_n * tile) / 2
-  let mut by : Int = area_y + (area_h - board_n * tile) / 2
-
-  if game.shake_t > 0.0 {
-    bx = bx + @raylib.get_random_value(-3, 3)
-    by = by + @raylib.get_random_value(-3, 3)
-  }
-
-  (bx, by, tile)
-}
-
-///|
-fn cell_world_center(game : Game, x : Int, y : Int) -> (Float, Float) {
-  let (bx, by, tile) = board_metrics(game)
-  (
-    Float::from_int(bx + x * tile + tile / 2),
-    Float::from_int(by + y * tile + tile / 2),
-  )
-}
-
-///|
-fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
-  game.msg = msg
-  game.msg_t = ttl
-}
-
-///|
-fn clear_effects(game : Game) -> Unit {
+fn clear_effects(game : @types.Game) -> Unit {
   for spark in game.sparks {
     spark.active = false
     spark.x = 0.0
@@ -118,7 +14,7 @@ fn clear_effects(game : Game) -> Unit {
 
 ///|
 fn spawn_spark(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -145,23 +41,23 @@ fn spawn_spark(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     spawn_spark(
       game,
-      x + randf(-14.0, 14.0),
-      y + randf(-14.0, 14.0),
-      randf(-240.0, 240.0),
-      randf(-260.0, 120.0),
-      randf(0.2, 1.0),
-      randf(1.6, 5.4),
+      x + @types.randf(-14.0, 14.0),
+      y + @types.randf(-14.0, 14.0),
+      @types.randf(-240.0, 240.0),
+      @types.randf(-260.0, 120.0),
+      @types.randf(0.2, 1.0),
+      @types.randf(1.6, 5.4),
       kind,
     )
   }
 }
 
 ///|
-fn update_sparks(game : Game, dt : Float) -> Unit {
+fn update_sparks(game : @types.Game, dt : Float) -> Unit {
   for spark in game.sparks {
     if not(spark.active) {
       continue
@@ -181,7 +77,7 @@ fn update_sparks(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn clear_board(game : Game) -> Unit {
+fn clear_board(game : @types.Game) -> Unit {
   for i in 0..<game.board.length() {
     game.board[i] = 0
   }
@@ -195,7 +91,7 @@ fn copy_board(dst : Array[Int], src : Array[Int]) -> Unit {
 }
 
 ///|
-fn save_undo(game : Game) -> Unit {
+fn save_undo(game : @types.Game) -> Unit {
   copy_board(game.prev_board, game.board)
 
   game.prev_score = game.score
@@ -211,9 +107,9 @@ fn save_undo(game : Game) -> Unit {
 }
 
 ///|
-fn restore_undo(game : Game) -> Bool {
+fn restore_undo(game : @types.Game) -> Bool {
   if not(game.can_undo) {
-    set_msg(game, "Nothing to undo", 0.7)
+    @types.set_msg(game, "Nothing to undo", 0.7)
     return false
   }
 
@@ -230,25 +126,25 @@ fn restore_undo(game : Game) -> Bool {
 
   game.can_undo = false
 
-  set_msg(game, "Undo", 0.6)
+  @types.set_msg(game, "Undo", 0.6)
   true
 }
 
 ///|
 fn line_index(line : Int, pos : Int, dir : Int) -> Int {
-  if dir == dir_left {
-    idx(pos, line)
-  } else if dir == dir_right {
-    idx(board_n - 1 - pos, line)
-  } else if dir == dir_up {
-    idx(line, pos)
+  if dir == @types.dir_left {
+    @types.idx(pos, line)
+  } else if dir == @types.dir_right {
+    @types.idx(@types.board_n - 1 - pos, line)
+  } else if dir == @types.dir_up {
+    @types.idx(line, pos)
   } else {
-    idx(line, board_n - 1 - pos)
+    @types.idx(line, @types.board_n - 1 - pos)
   }
 }
 
 ///|
-fn spawn_tile(game : Game, kind : Int) -> Bool {
+fn spawn_tile(game : @types.Game, kind : Int) -> Bool {
   let mut empty_count : Int = 0
 
   for board_elem in game.board {
@@ -264,9 +160,9 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
   let pick : Int = @raylib.get_random_value(0, empty_count - 1)
   let mut seen : Int = 0
 
-  for y in 0..<board_n {
-    for x in 0..<board_n {
-      let i : Int = idx(x, y)
+  for y in 0..< @types.board_n {
+    for x in 0..< @types.board_n {
+      let i : Int = @types.idx(x, y)
       if game.board[i] != 0 {
         continue
       }
@@ -288,7 +184,7 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
           game.max_tile = v
         }
 
-        let (wx, wy) = cell_world_center(game, x, y)
+        let (wx, wy) = @types.cell_world_center(game, x, y)
         burst(game, wx, wy, if kind == 0 { 10 } else { 8 }, kind)
         return true
       }
@@ -301,7 +197,7 @@ fn spawn_tile(game : Game, kind : Int) -> Bool {
 }
 
 ///|
-fn spawn_blocker(game : Game) -> Bool {
+fn spawn_blocker(game : @types.Game) -> Bool {
   let mut empty_count : Int = 0
 
   for board_elem in game.board {
@@ -317,21 +213,21 @@ fn spawn_blocker(game : Game) -> Bool {
   let pick : Int = @raylib.get_random_value(0, empty_count - 1)
   let mut seen : Int = 0
 
-  for y in 0..<board_n {
-    for x in 0..<board_n {
-      let i : Int = idx(x, y)
+  for y in 0..< @types.board_n {
+    for x in 0..< @types.board_n {
+      let i : Int = @types.idx(x, y)
       if game.board[i] != 0 {
         continue
       }
 
       if seen == pick {
-        game.board[i] = blocker_value
+        game.board[i] = @types.blocker_value
         game.blockers_spawned = game.blockers_spawned + 1
 
-        let (wx, wy) = cell_world_center(game, x, y)
+        let (wx, wy) = @types.cell_world_center(game, x, y)
         burst(game, wx, wy, 18, 2)
-        game.shake_t = maxf(game.shake_t, 0.14)
-        set_msg(game, "Storm debris dropped", 0.9)
+        game.shake_t = @types.maxf(game.shake_t, 0.14)
+        @types.set_msg(game, "Storm debris dropped", 0.9)
         return true
       }
 
@@ -343,19 +239,19 @@ fn spawn_blocker(game : Game) -> Bool {
 }
 
 ///|
-fn start_match(game : Game) -> Unit {
+fn start_match(game : @types.Game) -> Unit {
   clear_board(game)
   clear_effects(game)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.score = 0
   game.moves = 0
   game.max_tile = 0
   game.target_reached = false
   game.win = false
 
-  game.cursor_x = board_n / 2
-  game.cursor_y = board_n / 2
+  game.cursor_x = @types.board_n / 2
+  game.cursor_y = @types.board_n / 2
 
   game.zap_charge = 0
   game.zap_ready = false
@@ -375,14 +271,14 @@ fn start_match(game : Game) -> Unit {
   ignore(spawn_tile(game, 0))
   ignore(spawn_tile(game, 0))
 
-  set_msg(game, "Merge to 2048 before the storm locks your board.", 2.2)
+  @types.set_msg(game, "Merge to 2048 before the storm locks your board.", 2.2)
 }
 
 ///|
-fn board_has_move(game : Game) -> Bool {
-  for y in 0..<board_n {
-    for x in 0..<board_n {
-      let i : Int = idx(x, y)
+fn board_has_move(game : @types.Game) -> Bool {
+  for y in 0..< @types.board_n {
+    for x in 0..< @types.board_n {
+      let i : Int = @types.idx(x, y)
       let v : Int = game.board[i]
 
       if v == 0 {
@@ -393,14 +289,14 @@ fn board_has_move(game : Game) -> Bool {
         continue
       }
 
-      if x + 1 < board_n {
-        let r : Int = game.board[idx(x + 1, y)]
+      if x + 1 < @types.board_n {
+        let r : Int = game.board[@types.idx(x + 1, y)]
         if r == v {
           return true
         }
       }
-      if y + 1 < board_n {
-        let d : Int = game.board[idx(x, y + 1)]
+      if y + 1 < @types.board_n {
+        let d : Int = game.board[@types.idx(x, y + 1)]
         if d == v {
           return true
         }
@@ -412,32 +308,32 @@ fn board_has_move(game : Game) -> Bool {
 }
 
 ///|
-fn finish_win(game : Game) -> Unit {
-  game.state = state_result
+fn finish_win(game : @types.Game) -> Unit {
+  game.state = @types.state_result
   game.win = true
 
   if game.score > game.best_score {
     game.best_score = game.score
   }
 
-  set_msg(game, "Target reached!", 1.8)
+  @types.set_msg(game, "Target reached!", 1.8)
 }
 
 ///|
-fn finish_lose(game : Game) -> Unit {
-  game.state = state_result
+fn finish_lose(game : @types.Game) -> Unit {
+  game.state = @types.state_result
   game.win = false
 
   if game.score > game.best_score {
     game.best_score = game.score
   }
 
-  set_msg(game, "No moves left", 1.6)
+  @types.set_msg(game, "No moves left", 1.6)
 }
 
 ///|
-fn apply_post_turn(game : Game) -> Unit {
-  if game.max_tile >= target_tile {
+fn apply_post_turn(game : @types.Game) -> Unit {
+  if game.max_tile >= @types.target_tile {
     game.target_reached = true
     finish_win(game)
     return
@@ -450,12 +346,12 @@ fn apply_post_turn(game : Game) -> Unit {
 
 ///|
 fn process_line(
-  game : Game,
+  game : @types.Game,
   line : Int,
   dir : Int,
 ) -> (Bool, Int, Int, Int, Int) {
   // returns: changed, score_add, max_seen, charge_add, merges
-  for p in 0..<board_n {
+  for p in 0..< @types.board_n {
     game.line_vals[p] = game.board[line_index(line, p, dir)]
     game.line_out[p] = game.line_vals[p]
   }
@@ -466,19 +362,20 @@ fn process_line(
   let mut merges : Int = 0
 
   let mut seg_start : Int = 0
-  while seg_start < board_n {
-    if game.line_vals[seg_start] == blocker_value {
-      game.line_out[seg_start] = blocker_value
+  while seg_start < @types.board_n {
+    if game.line_vals[seg_start] == @types.blocker_value {
+      game.line_out[seg_start] = @types.blocker_value
       seg_start = seg_start + 1
       continue
     }
 
     let mut seg_end : Int = seg_start
-    while seg_end < board_n && game.line_vals[seg_end] != blocker_value {
+    while seg_end < @types.board_n &&
+      game.line_vals[seg_end] != @types.blocker_value {
       seg_end = seg_end + 1
     }
 
-    let pack : Array[Int] = Array::make(board_n, 0)
+    let pack : Array[Int] = Array::make(@types.board_n, 0)
     let mut len : Int = 0
 
     for p in seg_start..<seg_end {
@@ -500,7 +397,7 @@ fn process_line(
         game.line_out[write] = merged
 
         score_add = score_add + merged
-        charge_add = charge_add + charge_for_merge(merged)
+        charge_add = charge_add + @types.charge_for_merge(merged)
         merges = merges + 1
 
         if merged > max_seen {
@@ -522,12 +419,12 @@ fn process_line(
   }
 
   if merges > 1 {
-    score_add = score_add + bonus_for_chain(merges)
+    score_add = score_add + @types.bonus_for_chain(merges)
   }
 
   let mut changed : Bool = false
 
-  for p in 0..<board_n {
+  for p in 0..< @types.board_n {
     if game.line_vals[p] != game.line_out[p] {
       changed = true
     }
@@ -538,8 +435,8 @@ fn process_line(
 }
 
 ///|
-fn try_move(game : Game, dir : Int) -> Bool {
-  if game.state != state_play {
+fn try_move(game : @types.Game, dir : Int) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
 
@@ -551,7 +448,7 @@ fn try_move(game : Game, dir : Int) -> Bool {
   let mut max_seen : Int = game.max_tile
   let mut merge_count : Int = 0
 
-  for line in 0..<board_n {
+  for line in 0..< @types.board_n {
     let r = process_line(game, line, dir)
     if r.0 {
       changed_any = true
@@ -566,7 +463,7 @@ fn try_move(game : Game, dir : Int) -> Bool {
 
   if not(changed_any) {
     game.can_undo = false
-    set_msg(game, "No movement", 0.45)
+    @types.set_msg(game, "No movement", 0.45)
     return false
   }
 
@@ -578,7 +475,7 @@ fn try_move(game : Game, dir : Int) -> Bool {
 
   game.max_tile = max_seen
 
-  game.zap_charge = clampi(game.zap_charge + charge_add + 4, 0, 100)
+  game.zap_charge = @types.clampi(game.zap_charge + charge_add + 4, 0, 100)
   if game.zap_charge >= 100 {
     game.zap_ready = true
     game.zap_charge = 100
@@ -586,7 +483,7 @@ fn try_move(game : Game, dir : Int) -> Bool {
 
   if merge_count > 0 {
     game.combo_t = 0.9
-    set_msg(game, "Combo x\{merge_count}", 0.7)
+    @types.set_msg(game, "Combo x\{merge_count}", 0.7)
   }
 
   ignore(spawn_tile(game, 1))
@@ -602,24 +499,24 @@ fn try_move(game : Game, dir : Int) -> Bool {
 }
 
 ///|
-fn use_zap(game : Game, x : Int, y : Int) -> Bool {
-  if game.state != state_play {
+fn use_zap(game : @types.Game, x : Int, y : Int) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
 
   if not(game.zap_ready) {
-    set_msg(game, "Zap not charged", 0.7)
+    @types.set_msg(game, "Zap not charged", 0.7)
     return false
   }
 
-  if not(in_board(x, y)) {
+  if not(@types.in_board(x, y)) {
     return false
   }
 
-  let i : Int = idx(x, y)
+  let i : Int = @types.idx(x, y)
   let v : Int = game.board[i]
   if v == 0 {
-    set_msg(game, "Empty cell", 0.6)
+    @types.set_msg(game, "Empty cell", 0.6)
     return false
   }
 
@@ -629,15 +526,21 @@ fn use_zap(game : Game, x : Int, y : Int) -> Bool {
   game.zap_charge = 0
   game.zap_ready = false
 
-  let (wx, wy) = cell_world_center(game, x, y)
-  burst(game, wx, wy, if v == blocker_value { 22 } else { 20 }, 2)
-  game.shake_t = maxf(game.shake_t, 0.16)
+  let (wx, wy) = @types.cell_world_center(game, x, y)
+  burst(
+    game,
+    wx,
+    wy,
+    if v == @types.blocker_value { 22 } else { 20 },
+    2,
+  )
+  game.shake_t = @types.maxf(game.shake_t, 0.16)
 
-  if v == blocker_value {
-    set_msg(game, "Debris vaporized", 0.9)
+  if v == @types.blocker_value {
+    @types.set_msg(game, "Debris vaporized", 0.9)
   } else {
-    game.score = game.score + maxi(16, v / 2)
-    set_msg(game, "Tile zapped", 0.8)
+    game.score = game.score + @types.maxi(16, v / 2)
+    @types.set_msg(game, "Tile zapped", 0.8)
   }
 
   game.moves = game.moves + 1
@@ -654,21 +557,7 @@ fn use_zap(game : Game, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn pointer_cell(game : Game, mx : Float, my : Float) -> (Bool, Int, Int) {
-  let (bx, by, tile) = board_metrics(game)
-
-  let x : Int = (mx.to_int() - bx) / tile
-  let y : Int = (my.to_int() - by) / tile
-
-  if in_board(x, y) {
-    (true, x, y)
-  } else {
-    (false, 0, 0)
-  }
-}
-
-///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   game.game_t = game.game_t + dt
   game.ui_t = game.ui_t + dt
 
@@ -686,4 +575,24 @@ fn update_play(game : Game, dt : Float) -> Unit {
   }
 
   update_sparks(game, dt)
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  game.mouse_x = @raylib.get_mouse_x() |> Float::from_int
+  game.mouse_y = @raylib.get_mouse_y() |> Float::from_int
+  game.touch_count = @raylib.get_touch_point_count()
+  game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
+    game.touch_count > 0
+
+  if game.state == @types.state_title {
+    update_title_input(game)
+    update_play(game, dt)
+  } else if game.state == @types.state_play {
+    update_play_input(game, dt)
+    update_play(game, dt)
+  } else {
+    update_result_input(game)
+    update_play(game, dt)
+  }
 }
