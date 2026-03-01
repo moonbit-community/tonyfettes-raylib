@@ -8,27 +8,6 @@ pub let screen_h : Int = 900
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_playing : Int = 1
-
-///|
-pub let state_paused : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
-pub let hazard_rock : Int = 0
-
-///|
-pub let hazard_landslide : Int = 1
-
-///|
-pub let hazard_crosswind : Int = 2
-
-///|
 pub let lane_count : Int = 3
 
 ///|

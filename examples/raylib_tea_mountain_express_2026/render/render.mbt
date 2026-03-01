@@ -58,10 +58,7 @@ fn draw_background(game : @types.Game) -> Unit {
     let ridge_h = 240 - i * 18
 
     @raylib.draw_triangle(
-      @raylib.Vector2::new(
-        -120.0 + drift,
-        Float::from_int(ridge_y + ridge_h),
-      ),
+      @raylib.Vector2::new(-120.0 + drift, Float::from_int(ridge_y + ridge_h)),
       @raylib.Vector2::new(
         Float::from_int(@types.screen_w / 2) + drift + fi * 30.0,
         Float::from_int(ridge_y),
@@ -129,7 +126,8 @@ fn draw_road(game : @types.Game) -> Unit {
 
     if road_w > 0 {
       let shade = 52 +
-        (yi - @types.road_top_y_i) * 66 /
+        (yi - @types.road_top_y_i) *
+        66 /
         (@types.screen_h - @types.road_top_y_i)
       @raylib.draw_rectangle(
         left,
@@ -185,13 +183,11 @@ fn draw_road(game : @types.Game) -> Unit {
 }
 
 ///|
-fn hazard_color(kind : Int) -> @raylib.Color {
-  if kind == @types.hazard_rock {
-    @raylib.Color::new(176, 188, 198, 255)
-  } else if kind == @types.hazard_landslide {
-    @raylib.Color::new(206, 134, 90, 255)
-  } else {
-    @raylib.Color::new(120, 204, 248, 255)
+fn hazard_color(kind : @types.HazardKind) -> @raylib.Color {
+  match kind {
+    @types.Rock => @raylib.Color::new(176, 188, 198, 255)
+    @types.Landslide => @raylib.Color::new(206, 134, 90, 255)
+    @types.Crosswind => @raylib.Color::new(120, 204, 248, 255)
   }
 }
 
@@ -211,47 +207,51 @@ fn draw_hazards(game : @types.Game) -> Unit {
     let size = hazard.size
     let col = hazard_color(hazard.kind)
 
-    if hazard.kind == @types.hazard_rock {
-      @raylib.draw_circle(x.to_int(), y.to_int(), size, col)
-      @raylib.draw_circle_lines(
-        x.to_int(),
-        y.to_int(),
-        size + 3.0,
-        @raylib.Color::new(240, 244, 252, 180),
-      )
-    } else if hazard.kind == @types.hazard_landslide {
-      @raylib.draw_triangle(
-        @raylib.Vector2::new(x - size, y + size * 0.8),
-        @raylib.Vector2::new(x + size, y + size * 0.8),
-        @raylib.Vector2::new(x - size * 0.15, y - size),
-        col,
-      )
-      @raylib.draw_rectangle(
-        (x - size).to_int(),
-        (y + size * 0.7).to_int(),
-        (size * 2.0).to_int(),
-        (size * 0.45).to_int(),
-        @raylib.Color::new(126, 74, 52, 220),
-      )
-    } else {
-      @raylib.draw_circle_lines(
-        x.to_int(),
-        y.to_int(),
-        size,
-        @raylib.Color::new(130, 220, 252, 220),
-      )
-      @raylib.draw_circle_lines(
-        x.to_int(),
-        y.to_int(),
-        size * 0.62,
-        @raylib.Color::new(130, 220, 252, 180),
-      )
-      @raylib.draw_line_ex(
-        @raylib.Vector2::new(x - size * 0.8, y),
-        @raylib.Vector2::new(x + size * 0.8, y),
-        4.0,
-        @raylib.Color::new(186, 236, 255, 180),
-      )
+    match hazard.kind {
+      @types.Rock => {
+        @raylib.draw_circle(x.to_int(), y.to_int(), size, col)
+        @raylib.draw_circle_lines(
+          x.to_int(),
+          y.to_int(),
+          size + 3.0,
+          @raylib.Color::new(240, 244, 252, 180),
+        )
+      }
+      @types.Landslide => {
+        @raylib.draw_triangle(
+          @raylib.Vector2::new(x - size, y + size * 0.8),
+          @raylib.Vector2::new(x + size, y + size * 0.8),
+          @raylib.Vector2::new(x - size * 0.15, y - size),
+          col,
+        )
+        @raylib.draw_rectangle(
+          (x - size).to_int(),
+          (y + size * 0.7).to_int(),
+          (size * 2.0).to_int(),
+          (size * 0.45).to_int(),
+          @raylib.Color::new(126, 74, 52, 220),
+        )
+      }
+      @types.Crosswind => {
+        @raylib.draw_circle_lines(
+          x.to_int(),
+          y.to_int(),
+          size,
+          @raylib.Color::new(130, 220, 252, 220),
+        )
+        @raylib.draw_circle_lines(
+          x.to_int(),
+          y.to_int(),
+          size * 0.62,
+          @raylib.Color::new(130, 220, 252, 180),
+        )
+        @raylib.draw_line_ex(
+          @raylib.Vector2::new(x - size * 0.8, y),
+          @raylib.Vector2::new(x + size * 0.8, y),
+          4.0,
+          @raylib.Color::new(186, 236, 255, 180),
+        )
+      }
     }
 
     let cue = if @types.hazard_tilt_bias(hazard.kind) < -0.2 {
@@ -686,11 +686,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_cart(game)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_pause_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay()
+    @types.Paused => draw_pause_overlay()
+    @types.GameOver => draw_game_over_overlay(game)
+    @types.Playing => ()
   }
 }

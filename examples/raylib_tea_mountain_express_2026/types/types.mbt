@@ -1,18 +1,33 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
+pub(all) enum HazardKind {
+  Rock
+  Landslide
+  Crosswind
+} derive(Eq)
+
+///|
 pub(all) struct Hazard {
   mut active : Bool
   mut lane : Int
   mut y : Float
   mut speed : Float
   mut size : Float
-  mut kind : Int
+  mut kind : HazardKind
   mut near_miss_awarded : Bool
 }
 
 ///|
 pub(all) struct Game {
   hazards : Array[Hazard]
-  mut state : Int
+  mut state : GameState
   mut lane : Int
   mut lane_x : Float
   mut tilt : Float
@@ -55,7 +70,7 @@ pub fn Hazard::new() -> Hazard {
     y: 0.0,
     speed: 0.0,
     size: 0.0,
-    kind: hazard_rock,
+    kind: Rock,
     near_miss_awarded: false,
   }
 }
@@ -64,7 +79,7 @@ pub fn Hazard::new() -> Hazard {
 pub fn Game::new() -> Game {
   {
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
-    state: state_title,
+    state: Title,
     lane: lane_count / 2,
     lane_x: lane_center_x(0.0, lane_count / 2, cart_y),
     tilt: 0.0,

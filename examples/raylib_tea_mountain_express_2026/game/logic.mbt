@@ -12,7 +12,7 @@ fn clear_hazards(game : @types.Game) -> Unit {
     hazard.y = 0.0
     hazard.speed = 0.0
     hazard.size = 0.0
-    hazard.kind = @types.hazard_rock
+    hazard.kind = @types.Rock
     hazard.near_miss_awarded = false
   }
 }
@@ -21,7 +21,7 @@ fn clear_hazards(game : @types.Game) -> Unit {
 fn reset_run(game : @types.Game) -> Unit {
   clear_hazards(game)
 
-  game.state = @types.state_playing
+  game.state = @types.Playing
   game.lane = @types.lane_count / 2
   game.tilt = 0.0
   game.speed = @types.speed_base
@@ -52,11 +52,11 @@ fn reset_run(game : @types.Game) -> Unit {
 
 ///|
 fn enter_game_over(game : @types.Game, reason : String) -> Unit {
-  if game.state == @types.state_game_over {
+  if game.state == @types.GameOver {
     return
   }
 
-  game.state = @types.state_game_over
+  game.state = @types.GameOver
   if game.score > game.best_score {
     game.best_score = game.score
   }
@@ -87,12 +87,12 @@ fn alloc_hazard_slot(game : @types.Game) -> Int {
 fn spawn_hazard(game : @types.Game) -> Unit {
   let slot = alloc_hazard_slot(game)
   let roll = @types.randi(0, 99)
-  let kind = if roll < 45 {
-    @types.hazard_rock
+  let kind : @types.HazardKind = if roll < 45 {
+    @types.Rock
   } else if roll < 79 {
-    @types.hazard_landslide
+    @types.Landslide
   } else {
-    @types.hazard_crosswind
+    @types.Crosswind
   }
 
   let mut lane = @types.randi(0, @types.lane_count - 1)
@@ -107,12 +107,10 @@ fn spawn_hazard(game : @types.Game) -> Unit {
   game.hazards[slot].y = Float::from_int(@types.road_top_y_i) -
     @types.randf(90.0, 280.0)
   game.hazards[slot].speed = @types.randf(210.0, 340.0) + difficulty * 13.0
-  game.hazards[slot].size = if kind == @types.hazard_rock {
-    @types.randf(26.0, 40.0)
-  } else if kind == @types.hazard_landslide {
-    @types.randf(30.0, 46.0)
-  } else {
-    @types.randf(22.0, 34.0)
+  game.hazards[slot].size = match kind {
+    @types.Rock => @types.randf(26.0, 40.0)
+    @types.Landslide => @types.randf(30.0, 46.0)
+    @types.Crosswind => @types.randf(22.0, 34.0)
   }
   game.hazards[slot].kind = kind
   game.hazards[slot].near_miss_awarded = false
@@ -136,8 +134,7 @@ fn handle_hazard_collision(game : @types.Game, i : Int) -> Unit {
   } else {
     1.0
   }
-  let heat_scale : Float = 1.0 +
-    @types.maxf(0.0, game.boost_heat - 70.0) * 0.01
+  let heat_scale : Float = 1.0 + @types.maxf(0.0, game.boost_heat - 70.0) * 0.01
 
   let durability_loss = @types.hazard_durability_hit(kind) *
     tilt_scale *
@@ -286,11 +283,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
     )
   }
 
-  let lane_target = @types.lane_center_x(
-    game.world_t,
-    game.lane,
-    @types.cart_y,
-  )
+  let lane_target = @types.lane_center_x(game.world_t, game.lane, @types.cart_y)
   let lane_blend = @types.clamp01(@types.lane_follow_speed * dt)
   game.lane_x = game.lane_x + (lane_target - game.lane_x) * lane_blend
 
@@ -322,8 +315,7 @@ fn update_playing(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.input_boost_press {
-    if game.boost_cd <= 0.0 &&
-      game.boost_heat < @types.boost_heat_start_limit {
+    if game.boost_cd <= 0.0 && game.boost_heat < @types.boost_heat_start_limit {
       game.boost_timer = @types.boost_duration
       game.boost_cd = @types.boost_cooldown
       set_message(game, "Booster fired.", 0.8)
@@ -453,43 +445,36 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     game.message_t = @types.maxf(0.0, game.message_t - frame_dt)
   }
 
-  if game.state == @types.state_title {
-    if game.input_confirm_press || game.input_restart_press {
-      reset_run(game)
+  match game.state {
+    @types.Title =>
+      if game.input_confirm_press || game.input_restart_press {
+        reset_run(game)
+      }
+    @types.Playing => {
+      if game.input_restart_press {
+        reset_run(game)
+        return
+      }
+      if game.input_pause_press {
+        game.state = @types.Paused
+        set_message(game, "Paused", 99.0)
+        return
+      }
+      update_playing(game, frame_dt)
     }
-    return
-  }
-
-  if game.state == @types.state_playing {
-    if game.input_restart_press {
-      reset_run(game)
-      return
+    @types.Paused => {
+      if game.input_restart_press {
+        reset_run(game)
+        return
+      }
+      if game.input_pause_press || game.input_confirm_press {
+        game.state = @types.Playing
+        set_message(game, "Caravan rolling.", 1.0)
+      }
     }
-
-    if game.input_pause_press {
-      game.state = @types.state_paused
-      set_message(game, "Paused", 99.0)
-      return
-    }
-
-    update_playing(game, frame_dt)
-    return
-  }
-
-  if game.state == @types.state_paused {
-    if game.input_restart_press {
-      reset_run(game)
-      return
-    }
-
-    if game.input_pause_press || game.input_confirm_press {
-      game.state = @types.state_playing
-      set_message(game, "Caravan rolling.", 1.0)
-    }
-    return
-  }
-
-  if game.input_restart_press || game.input_confirm_press {
-    reset_run(game)
+    @types.GameOver =>
+      if game.input_restart_press || game.input_confirm_press {
+        reset_run(game)
+      }
   }
 }

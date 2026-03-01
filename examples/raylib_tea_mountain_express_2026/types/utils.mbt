@@ -122,45 +122,37 @@ pub fn checkpoint_time_limit(index : Int) -> Float {
 }
 
 ///|
-pub fn hazard_name(kind : Int) -> String {
-  if kind == hazard_rock {
-    "Rockfall"
-  } else if kind == hazard_landslide {
-    "Landslide"
-  } else {
-    "Crosswind"
+pub fn hazard_name(kind : HazardKind) -> String {
+  match kind {
+    Rock => "Rockfall"
+    Landslide => "Landslide"
+    Crosswind => "Crosswind"
   }
 }
 
 ///|
-pub fn hazard_tilt_bias(kind : Int) -> Float {
-  if kind == hazard_rock {
-    0.0
-  } else if kind == hazard_landslide {
-    -0.75
-  } else {
-    0.72
+pub fn hazard_tilt_bias(kind : HazardKind) -> Float {
+  match kind {
+    Rock => 0.0
+    Landslide => -0.75
+    Crosswind => 0.72
   }
 }
 
 ///|
-pub fn hazard_durability_hit(kind : Int) -> Float {
-  if kind == hazard_rock {
-    15.0
-  } else if kind == hazard_landslide {
-    21.0
-  } else {
-    11.0
+pub fn hazard_durability_hit(kind : HazardKind) -> Float {
+  match kind {
+    Rock => 15.0
+    Landslide => 21.0
+    Crosswind => 11.0
   }
 }
 
 ///|
-pub fn hazard_cargo_hit(kind : Int) -> Float {
-  if kind == hazard_rock {
-    13.0
-  } else if kind == hazard_landslide {
-    16.0
-  } else {
-    18.0
+pub fn hazard_cargo_hit(kind : HazardKind) -> Float {
+  match kind {
+    Rock => 13.0
+    Landslide => 16.0
+    Crosswind => 18.0
   }
 }
