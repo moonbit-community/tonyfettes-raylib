@@ -1,10 +1,10 @@
 ///|
-fn bg_noise(game : Game, k : Float) -> Float {
-  sinf(game.ui_t * k)
+fn bg_noise(game : @types.Game, k : Float) -> Float {
+  @types.sinf(game.ui_t * k)
 }
 
 ///|
-fn shake_x(game : Game) -> Int {
+fn shake_x(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -13,7 +13,7 @@ fn shake_x(game : Game) -> Int {
 }
 
 ///|
-fn shake_y(game : Game) -> Int {
+fn shake_y(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -22,7 +22,7 @@ fn shake_y(game : Game) -> Int {
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 16, 28, 255))
 
   let n0 : Float = bg_noise(game, 0.43)
@@ -41,7 +41,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(22, 62, 96, 30),
   )
   @raylib.draw_circle(
-    screen_w - 300,
+    @types.screen_w - 300,
     180,
     300.0 + n1 * 20.0,
     @raylib.Color::new(36, 52, 86, 32),
@@ -52,7 +52,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       42,
       @raylib.Color::new(
         8 + i * 2 % 12,
@@ -65,74 +65,74 @@ fn draw_background(game : Game) -> Unit {
 }
 
 ///|
-fn draw_world_back(_game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_world_back(_game : @types.Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_rectangle(
-    world_x0 + ox,
-    world_y0 + oy,
-    world_w,
-    world_h,
+    @types.world_x0 + ox,
+    @types.world_y0 + oy,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(16, 30, 44, 236),
   )
 
   @raylib.draw_rectangle_lines(
-    world_x0 + ox,
-    world_y0 + oy,
-    world_w,
-    world_h,
+    @types.world_x0 + ox,
+    @types.world_y0 + oy,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(174, 206, 226, 204),
   )
 
   for i in 0..<20 {
-    let y : Int = world_y0 + oy + i * 48
+    let y : Int = @types.world_y0 + oy + i * 48
     @raylib.draw_line(
-      world_x0 + 12 + ox,
+      @types.world_x0 + 12 + ox,
       y,
-      world_x0 + world_w - 12 + ox,
+      @types.world_x0 + @types.world_w - 12 + ox,
       y,
       @raylib.Color::new(72, 110, 132, 36),
     )
   }
 
   for i in 0..<22 {
-    let x : Int = world_x0 + ox + i * 52
+    let x : Int = @types.world_x0 + ox + i * 52
     @raylib.draw_line(
       x,
-      world_y0 + 12 + oy,
+      @types.world_y0 + 12 + oy,
       x,
-      world_y0 + world_h - 12 + oy,
+      @types.world_y0 + @types.world_h - 12 + oy,
       @raylib.Color::new(66, 104, 126, 28),
     )
   }
 
   @raylib.draw_rectangle(
-    world_x0 - 8 + ox,
-    world_y0 + oy,
+    @types.world_x0 - 8 + ox,
+    @types.world_y0 + oy,
     12,
-    world_h,
+    @types.world_h,
     @raylib.Color::new(76, 94, 92, 218),
   )
   @raylib.draw_rectangle(
-    world_x0 + world_w - 4 + ox,
-    world_y0 + oy,
+    @types.world_x0 + @types.world_w - 4 + ox,
+    @types.world_y0 + oy,
     12,
-    world_h,
+    @types.world_h,
     @raylib.Color::new(76, 94, 92, 218),
   )
 }
 
 ///|
-fn draw_storm(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_storm(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let swirl : Float = 0.7 + Float::from_int(game.wave) * 0.08
   let alpha : Int = 36 + game.wave * 7
 
   for i in 0..<80 {
     let t : Float = Float::from_int(i)
-    let sx : Float = world_left() +
-      Float::from_int(i * 73 % world_w) +
-      sinf(game.storm_t * (0.9 + t * 0.01) + t * 0.7) * 30.0
-    let sy : Float = world_top() +
-      Float::from_int(i * 41 % world_h) +
-      cosf(game.storm_t * (1.1 + t * 0.006) + t * 0.3) * 24.0
+    let sx : Float = @types.world_left() +
+      Float::from_int(i * 73 % @types.world_w) +
+      @types.sinf(game.storm_t * (0.9 + t * 0.01) + t * 0.7) * 30.0
+    let sy : Float = @types.world_top() +
+      Float::from_int(i * 41 % @types.world_h) +
+      @types.cosf(game.storm_t * (1.1 + t * 0.006) + t * 0.3) * 24.0
 
     let ex : Float = sx - 30.0 * swirl
     let ey : Float = sy + 18.0 * swirl
@@ -148,24 +148,24 @@ fn draw_storm(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_core(game : Game, ox : Int, oy : Int) -> Unit {
-  let heat_ratio : Float = clampf(game.core_heat / 100.0, 0.0, 1.0)
-  let pulse : Float = sinf(game.ui_t * 6.0)
+fn draw_core(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  let heat_ratio : Float = @types.clampf(game.core_heat / 100.0, 0.0, 1.0)
+  let pulse : Float = @types.sinf(game.ui_t * 6.0)
 
-  let cx : Int = core_x().to_int() + ox
-  let cy : Int = core_y().to_int() + oy
+  let cx : Int = @types.core_x().to_int() + ox
+  let cy : Int = @types.core_y().to_int() + oy
 
   @raylib.draw_circle(
     cx,
     cy,
-    core_r + 26.0,
+    @types.core_r + 26.0,
     @raylib.Color::new(32, 48, 66, 210),
   )
 
   @raylib.draw_circle(
     cx,
     cy,
-    core_r + pulse * 4.0,
+    @types.core_r + pulse * 4.0,
     @raylib.Color::new(
       110 + (heat_ratio * 100.0).to_int(),
       120 + (heat_ratio * 60.0).to_int(),
@@ -177,14 +177,14 @@ fn draw_core(game : Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_circle(
     cx,
     cy,
-    core_r - 24.0,
+    @types.core_r - 24.0,
     @raylib.Color::new(34, 62, 86, 242),
   )
 
   for i in 0..<6 {
     let a : Float = game.ui_t * 0.8 + Float::from_int(i) * 1.047
-    let px : Int = (core_x() + cosf(a) * (core_r + 20.0)).to_int() + ox
-    let py : Int = (core_y() + sinf(a) * (core_r + 20.0)).to_int() + oy
+    let px : Int = (@types.core_x() + @types.cosf(a) * (@types.core_r + 20.0)).to_int() + ox
+    let py : Int = (@types.core_y() + @types.sinf(a) * (@types.core_r + 20.0)).to_int() + oy
     @raylib.draw_circle(px, py, 6.0, @raylib.Color::new(212, 236, 255, 186))
   }
 
@@ -199,9 +199,9 @@ fn draw_core(game : Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn enemy_color(kind : Int) -> @raylib.Color {
-  if kind == enemy_wolf {
+  if kind == @types.enemy_wolf {
     @raylib.Color::new(180, 212, 232, 242)
-  } else if kind == enemy_brute {
+  } else if kind == @types.enemy_brute {
     @raylib.Color::new(146, 170, 194, 248)
   } else {
     @raylib.Color::new(196, 240, 255, 244)
@@ -209,7 +209,7 @@ fn enemy_color(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
+fn draw_enemy(enemy : @types.Enemy, ox : Int, oy : Int) -> Unit {
   if not(enemy.active) {
     return
   }
@@ -219,7 +219,7 @@ fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
 
   let c0 : @raylib.Color = enemy_color(enemy.kind)
 
-  if enemy.kind == enemy_wolf {
+  if enemy.kind == @types.enemy_wolf {
     @raylib.draw_circle(x, y, enemy.r, c0)
     @raylib.draw_triangle(
       @raylib.Vector2::new(Float::from_int(x - 10), Float::from_int(y - 8)),
@@ -233,7 +233,7 @@ fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
       @raylib.Vector2::new(Float::from_int(x + 18), Float::from_int(y - 18)),
       @raylib.Color::new(206, 232, 248, 238),
     )
-  } else if enemy.kind == enemy_brute {
+  } else if enemy.kind == @types.enemy_brute {
     @raylib.draw_circle(
       x,
       y,
@@ -257,12 +257,12 @@ fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
       @raylib.draw_triangle(
         @raylib.Vector2::new(Float::from_int(x), Float::from_int(y)),
         @raylib.Vector2::new(
-          (enemy.x + cosf(a1) * (r + 8.0)).to_int() |> Float::from_int,
-          (enemy.y + sinf(a1) * (r + 8.0)).to_int() |> Float::from_int,
+          (enemy.x + @types.cosf(a1) * (r + 8.0)).to_int() |> Float::from_int,
+          (enemy.y + @types.sinf(a1) * (r + 8.0)).to_int() |> Float::from_int,
         ),
         @raylib.Vector2::new(
-          (enemy.x + cosf(a2) * (r + 8.0)).to_int() |> Float::from_int,
-          (enemy.y + sinf(a2) * (r + 8.0)).to_int() |> Float::from_int,
+          (enemy.x + @types.cosf(a2) * (r + 8.0)).to_int() |> Float::from_int,
+          (enemy.y + @types.sinf(a2) * (r + 8.0)).to_int() |> Float::from_int,
         ),
         c0,
       )
@@ -274,11 +274,11 @@ fn draw_enemy(enemy : Enemy, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn pickup_color(kind : Int) -> @raylib.Color {
-  if kind == pickup_fuel {
+  if kind == @types.pickup_fuel {
     @raylib.Color::new(255, 196, 112, 244)
-  } else if kind == pickup_medkit {
+  } else if kind == @types.pickup_medkit {
     @raylib.Color::new(255, 132, 156, 244)
-  } else if kind == pickup_ammo {
+  } else if kind == @types.pickup_ammo {
     @raylib.Color::new(138, 222, 255, 244)
   } else {
     @raylib.Color::new(194, 142, 255, 244)
@@ -286,15 +286,15 @@ fn pickup_color(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
+fn draw_pickup(p : @types.Pickup, ox : Int, oy : Int) -> Unit {
   if not(p.active) {
     return
   }
 
   let x : Int = p.x.to_int() + ox
   let y : Int = p.y.to_int() + oy
-  let pulse : Float = sinf(p.phase * 2.4)
-  let rr : Float = pickup_radius(p.kind) + pulse * 1.8
+  let pulse : Float = @types.sinf(p.phase * 2.4)
+  let rr : Float = @types.pickup_radius(p.kind) + pulse * 1.8
 
   let c : @raylib.Color = pickup_color(p.kind)
 
@@ -306,7 +306,7 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(244, 250, 255, 210),
   )
 
-  if p.kind == pickup_fuel {
+  if p.kind == @types.pickup_fuel {
     @raylib.draw_rectangle(
       x - 5,
       y - 8,
@@ -314,7 +314,7 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
       16,
       @raylib.Color::new(58, 38, 24, 230),
     )
-  } else if p.kind == pickup_medkit {
+  } else if p.kind == @types.pickup_medkit {
     @raylib.draw_line(
       x - 6,
       y,
@@ -329,7 +329,7 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
       y + 6,
       @raylib.Color::new(250, 248, 248, 240),
     )
-  } else if p.kind == pickup_ammo {
+  } else if p.kind == @types.pickup_ammo {
     @raylib.draw_circle(x, y, 4.0, @raylib.Color::new(22, 36, 50, 234))
   } else {
     @raylib.draw_circle_lines(
@@ -342,12 +342,12 @@ fn draw_pickup(p : Pickup, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_bullet(b : Bullet, ox : Int, oy : Int) -> Unit {
+fn draw_bullet(b : @types.Bullet, ox : Int, oy : Int) -> Unit {
   if not(b.active) {
     return
   }
 
-  let c : @raylib.Color = if b.kind == bullet_pierce {
+  let c : @raylib.Color = if b.kind == @types.bullet_pierce {
     @raylib.Color::new(198, 150, 255, 242)
   } else {
     @raylib.Color::new(152, 236, 255, 242)
@@ -356,7 +356,7 @@ fn draw_bullet(b : Bullet, ox : Int, oy : Int) -> Unit {
   @raylib.draw_circle(
     b.x.to_int() + ox,
     b.y.to_int() + oy,
-    if b.kind == bullet_pierce {
+    if b.kind == @types.bullet_pierce {
       5.0
     } else {
       3.5
@@ -366,7 +366,7 @@ fn draw_bullet(b : Bullet, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
   for particle in game.particles {
     if not(particle.active) {
       continue
@@ -398,22 +398,22 @@ fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let x : Int = game.player_x.to_int() + ox
   let y : Int = game.player_y.to_int() + oy
 
-  let tilt : Float = clampf(game.player_vx * 0.0015, -0.5, 0.5)
+  let tilt : Float = @types.clampf(game.player_vx * 0.0015, -0.5, 0.5)
 
   @raylib.draw_circle(
     x,
     y,
-    player_r + 2.0,
+    @types.player_r + 2.0,
     @raylib.Color::new(74, 118, 146, 248),
   )
   @raylib.draw_circle(
     x,
     y,
-    player_r - 6.0,
+    @types.player_r - 6.0,
     @raylib.Color::new(192, 214, 232, 248),
   )
 
@@ -442,23 +442,23 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
   )
 
   if game.overdrive_t > 0.0 {
-    let pulse : Float = sinf(game.ui_t * 9.0)
+    let pulse : Float = @types.sinf(game.ui_t * 9.0)
     @raylib.draw_circle_lines(
       x,
       y,
-      player_r + 8.0 + pulse * 2.0,
+      @types.player_r + 8.0 + pulse * 2.0,
       @raylib.Color::new(210, 168, 255, 238),
     )
   }
 }
 
 ///|
-fn draw_hint(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_hint(game : @types.Game, ox : Int, oy : Int) -> Unit {
   if game.hint_t <= 0.0 {
     return
   }
 
-  let pulse : Float = sinf(game.ui_t * 11.0)
+  let pulse : Float = @types.sinf(game.ui_t * 11.0)
   let alpha : Int = if game.hint_t > 1.2 {
     238
   } else {
@@ -492,7 +492,7 @@ fn draw_bar(
 ) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, back)
 
-  let r : Float = clampf(ratio, 0.0, 1.0)
+  let r : Float = @types.clampf(ratio, 0.0, 1.0)
   let fw : Int = (Float::from_int(w) * r).to_int()
   if fw > 0 {
     @raylib.draw_rectangle(x, y, fw, h, fill)
@@ -508,32 +508,32 @@ fn draw_bar(
 }
 
 ///|
-fn draw_panel(game : Game) -> Unit {
+fn draw_panel(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    panel_x0,
+    @types.panel_x0,
     20,
-    panel_w,
-    screen_h - 40,
+    @types.panel_w,
+    @types.screen_h - 40,
     @raylib.Color::new(14, 22, 36, 230),
   )
   @raylib.draw_rectangle_lines(
-    panel_x0,
+    @types.panel_x0,
     20,
-    panel_w,
-    screen_h - 40,
+    @types.panel_w,
+    @types.screen_h - 40,
     @raylib.Color::new(158, 200, 230, 204),
   )
 
   @raylib.draw_text(
     "ARCTIC OUTPOST",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     36,
     34,
     @raylib.Color::new(232, 246, 255, 246),
   )
   @raylib.draw_text(
     "SURVIVAL 2026",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     74,
     26,
     @raylib.Color::new(176, 206, 226, 236),
@@ -541,14 +541,14 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Score " + game.score.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     128,
     30,
     @raylib.Color::new(238, 246, 255, 244),
   )
   @raylib.draw_text(
     "Best " + game.best_score.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     164,
     24,
     @raylib.Color::new(198, 226, 244, 236),
@@ -556,14 +556,14 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Wave " + game.wave.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     200,
     24,
     @raylib.Color::new(206, 232, 246, 236),
   )
   @raylib.draw_text(
     "Lives " + game.lives.to_string(),
-    panel_x0 + 170,
+    @types.panel_x0 + 170,
     200,
     24,
     @raylib.Color::new(255, 212, 220, 240),
@@ -571,7 +571,7 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Combo x" + game.combo.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     236,
     24,
     if game.combo >= 5 {
@@ -583,15 +583,15 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Suit",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     282,
     22,
     @raylib.Color::new(224, 236, 246, 224),
   )
   draw_bar(
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     310,
-    panel_w - 48,
+    @types.panel_w - 48,
     18,
     game.suit_hp / 100.0,
     @raylib.Color::new(255, 142, 164, 242),
@@ -600,15 +600,15 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Core heat",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     338,
     22,
     @raylib.Color::new(224, 236, 246, 224),
   )
   draw_bar(
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     366,
-    panel_w - 48,
+    @types.panel_w - 48,
     18,
     game.core_heat / 100.0,
     @raylib.Color::new(132, 222, 255, 242),
@@ -617,15 +617,15 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Fuel",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     394,
     22,
     @raylib.Color::new(224, 236, 246, 224),
   )
   draw_bar(
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     422,
-    panel_w - 48,
+    @types.panel_w - 48,
     18,
     game.fuel / 100.0,
     @raylib.Color::new(255, 196, 108, 242),
@@ -634,31 +634,31 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Survival",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     450,
     22,
     @raylib.Color::new(224, 236, 246, 224),
   )
   draw_bar(
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     478,
-    panel_w - 48,
+    @types.panel_w - 48,
     18,
-    game.game_t / survival_time_goal,
+    game.game_t / @types.survival_time_goal,
     @raylib.Color::new(154, 236, 176, 242),
     @raylib.Color::new(34, 64, 44, 220),
   )
 
   @raylib.draw_text(
     "Ammo " + game.ammo.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     516,
     24,
     @raylib.Color::new(202, 230, 252, 236),
   )
   @raylib.draw_text(
     "Overdrive " + game.overdrive_t.to_int().to_string() + "s",
-    panel_x0 + 170,
+    @types.panel_x0 + 170,
     516,
     24,
     @raylib.Color::new(220, 188, 252, 236),
@@ -666,7 +666,7 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Hints left " + game.hint_left.to_string(),
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     550,
     22,
     @raylib.Color::new(204, 228, 246, 224),
@@ -674,21 +674,21 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Desktop: WASD move, mouse/Space fire",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     590,
     20,
     @raylib.Color::new(172, 206, 226, 216),
   )
   @raylib.draw_text(
     "E repair, H hint, R restart",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     616,
     20,
     @raylib.Color::new(172, 206, 226, 216),
   )
   @raylib.draw_text(
     "Mobile: right-side touch controls",
-    panel_x0 + 24,
+    @types.panel_x0 + 24,
     642,
     20,
     @raylib.Color::new(172, 206, 226, 216),
@@ -706,7 +706,7 @@ fn draw_touch_button(
   c_idle : @raylib.Color,
   c_on : @raylib.Color,
 ) -> Unit {
-  let on : Bool = pointer_on_rect(
+  let on : Bool = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -740,23 +740,22 @@ fn draw_touch_button(
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  if game.state != state_play {
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
+
+  let mx : Float = game.mouse_x
+  let my : Float = game.mouse_y
+  let hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
 
   draw_touch_button(
     mx,
     my,
     hold,
     touch_count,
-    btn_left(),
+    @types.btn_left(),
     "L",
     @raylib.Color::new(44, 76, 102, 176),
     @raylib.Color::new(70, 118, 156, 212),
@@ -766,7 +765,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_right(),
+    @types.btn_right(),
     "R",
     @raylib.Color::new(44, 76, 102, 176),
     @raylib.Color::new(70, 118, 156, 212),
@@ -776,7 +775,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_up(),
+    @types.btn_up(),
     "U",
     @raylib.Color::new(44, 76, 102, 176),
     @raylib.Color::new(70, 118, 156, 212),
@@ -786,7 +785,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_down(),
+    @types.btn_down(),
     "D",
     @raylib.Color::new(44, 76, 102, 176),
     @raylib.Color::new(70, 118, 156, 212),
@@ -797,7 +796,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_fire(),
+    @types.btn_fire(),
     "FIRE",
     @raylib.Color::new(80, 90, 142, 182),
     @raylib.Color::new(126, 150, 228, 220),
@@ -807,7 +806,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_repair(),
+    @types.btn_repair(),
     "RPR",
     @raylib.Color::new(90, 92, 116, 182),
     @raylib.Color::new(150, 142, 196, 220),
@@ -817,7 +816,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_hint(),
+    @types.btn_hint(),
     "HNT",
     @raylib.Color::new(90, 96, 134, 182),
     @raylib.Color::new(150, 168, 224, 220),
@@ -827,7 +826,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_restart(),
+    @types.btn_restart(),
     "RST",
     @raylib.Color::new(104, 86, 122, 182),
     @raylib.Color::new(170, 134, 188, 220),
@@ -835,7 +834,7 @@ fn draw_touch_controls(
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.msg_t <= 0.0 || game.msg == "" {
     return
   }
@@ -847,8 +846,8 @@ fn draw_message(game : Game) -> Unit {
   }
 
   let w : Int = @raylib.measure_text(game.msg, 28) + 38
-  let x : Int = world_x0 + (world_w - w) / 2
-  let y : Int = world_y0 + 18
+  let x : Int = @types.world_x0 + (@types.world_w - w) / 2
+  let y : Int = @types.world_y0 + 18
 
   @raylib.draw_rectangle(x, y, w, 46, @raylib.Color::new(22, 32, 50, a))
   @raylib.draw_rectangle_lines(
@@ -856,30 +855,29 @@ fn draw_message(game : Game) -> Unit {
     y,
     w,
     46,
-    @raylib.Color::new(198, 226, 244, mini(250, a + 10)),
+    @raylib.Color::new(198, 226, 244, @types.mini(250, a + 10)),
   )
   @raylib.draw_text(
     game.msg,
     x + 18,
     y + 10,
     28,
-    @raylib.Color::new(236, 244, 252, mini(255, a + 20)),
+    @raylib.Color::new(236, 244, 252, @types.mini(255, a + 20)),
   )
 }
 
 ///|
-fn draw_title_overlay(
-  _game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx : Float = game.mouse_x
+  let my : Float = game.mouse_y
+  let hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 22, 162),
   )
 
@@ -889,28 +887,28 @@ fn draw_title_overlay(
 
   @raylib.draw_text(
     h0,
-    screen_w / 2 - @raylib.measure_text(h0, 72) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(h0, 72) / 2,
     178,
     72,
     @raylib.Color::new(232, 246, 255, 246),
   )
   @raylib.draw_text(
     h1,
-    screen_w / 2 - @raylib.measure_text(h1, 32) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(h1, 32) / 2,
     272,
     32,
     @raylib.Color::new(186, 214, 236, 238),
   )
   @raylib.draw_text(
     h2,
-    screen_w / 2 - @raylib.measure_text(h2, 26) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(h2, 26) / 2,
     326,
     26,
     @raylib.Color::new(182, 210, 232, 224),
   )
 
-  let b = start_button_rect()
-  let hover : Bool = pointer_on_rect(
+  let b = @types.start_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -951,18 +949,17 @@ fn draw_title_overlay(
 }
 
 ///|
-fn draw_result_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_result_overlay(game : @types.Game) -> Unit {
+  let mx : Float = game.mouse_x
+  let my : Float = game.mouse_y
+  let hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 18, 174),
   )
 
@@ -975,7 +972,7 @@ fn draw_result_overlay(
 
   @raylib.draw_text(
     h0,
-    screen_w / 2 - @raylib.measure_text(h0, 74) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(h0, 74) / 2,
     182,
     74,
     if game.win {
@@ -986,7 +983,7 @@ fn draw_result_overlay(
   )
   @raylib.draw_text(
     h1,
-    screen_w / 2 - @raylib.measure_text(h1, 32) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(h1, 32) / 2,
     276,
     32,
     @raylib.Color::new(208, 228, 242, 236),
@@ -998,40 +995,40 @@ fn draw_result_overlay(
   let l3 : String = "Time " +
     game.game_t.to_int().to_string() +
     " / " +
-    survival_time_goal.to_int().to_string() +
+    @types.survival_time_goal.to_int().to_string() +
     " s"
 
   @raylib.draw_text(
     l0,
-    screen_w / 2 - @raylib.measure_text(l0, 38) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l0, 38) / 2,
     350,
     38,
     @raylib.Color::new(238, 246, 252, 244),
   )
   @raylib.draw_text(
     l1,
-    screen_w / 2 - @raylib.measure_text(l1, 34) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l1, 34) / 2,
     396,
     34,
     @raylib.Color::new(206, 230, 244, 238),
   )
   @raylib.draw_text(
     l2,
-    screen_w / 2 - @raylib.measure_text(l2, 34) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l2, 34) / 2,
     438,
     34,
     @raylib.Color::new(206, 230, 244, 238),
   )
   @raylib.draw_text(
     l3,
-    screen_w / 2 - @raylib.measure_text(l3, 32) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l3, 32) / 2,
     480,
     32,
     @raylib.Color::new(206, 230, 244, 238),
   )
 
-  let b = retry_button_rect()
-  let hover : Bool = pointer_on_rect(
+  let b = @types.retry_button_rect()
+  let hover : Bool = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -1072,13 +1069,7 @@ fn draw_result_overlay(
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
   let ox : Int = shake_x(game)
@@ -1105,12 +1096,12 @@ fn draw_frame(
   draw_player(game, ox, oy)
 
   draw_panel(game)
-  draw_touch_controls(game, mx, my, hold, touch_count)
+  draw_touch_controls(game)
   draw_message(game)
 
-  if game.state == state_title {
-    draw_title_overlay(game, mx, my, hold, touch_count)
-  } else if game.state == state_result {
-    draw_result_overlay(game, mx, my, hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_result {
+    draw_result_overlay(game)
   }
 }

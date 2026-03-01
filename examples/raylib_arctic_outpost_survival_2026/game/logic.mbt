@@ -1,131 +1,5 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn minf(a : Float, b : Float) -> Float {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn sinf(v : Float) -> Float {
-  Float::from_double(@math.sin(v.to_double()))
-}
-
-///|
-fn cosf(v : Float) -> Float {
-  Float::from_double(@math.cos(v.to_double()))
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn world_left() -> Float {
-  Float::from_int(world_x0)
-}
-
-///|
-fn world_right() -> Float {
-  Float::from_int(world_x0 + world_w)
-}
-
-///|
-fn world_top() -> Float {
-  Float::from_int(world_y0)
-}
-
-///|
-fn world_bottom() -> Float {
-  Float::from_int(world_y0 + world_h)
-}
-
-///|
-fn dist2(x0 : Float, y0 : Float, x1 : Float, y1 : Float) -> Float {
-  let dx : Float = x1 - x0
-  let dy : Float = y1 - y0
-  dx * dx + dy * dy
-}
-
-///|
-fn normalize(dx : Float, dy : Float) -> (Float, Float) {
-  let d1 : Float = absf(dx) + absf(dy)
-  if d1 <= 0.00001 {
-    (0.0, -1.0)
-  } else {
-    (dx / d1, dy / d1)
-  }
-}
-
-///|
-fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
-  game.msg = msg
-  game.msg_t = ttl
-}
-
-///|
-fn clear_particles(game : Game) -> Unit {
+fn clear_particles(game : @types.Game) -> Unit {
   for particle in game.particles {
     particle.active = false
     particle.x = 0.0
@@ -139,7 +13,7 @@ fn clear_particles(game : Game) -> Unit {
 }
 
 ///|
-fn clear_world(game : Game) -> Unit {
+fn clear_world(game : @types.Game) -> Unit {
   for enemy in game.enemies {
     enemy.active = false
     enemy.x = 0.0
@@ -148,7 +22,7 @@ fn clear_world(game : Game) -> Unit {
     enemy.vy = 0.0
     enemy.r = 0.0
     enemy.hp = 0.0
-    enemy.kind = enemy_wolf
+    enemy.kind = @types.enemy_wolf
     enemy.phase = 0.0
   }
 
@@ -158,7 +32,7 @@ fn clear_world(game : Game) -> Unit {
     pickup.y = 0.0
     pickup.vx = 0.0
     pickup.vy = 0.0
-    pickup.kind = pickup_fuel
+    pickup.kind = @types.pickup_fuel
     pickup.phase = 0.0
   }
 
@@ -170,13 +44,13 @@ fn clear_world(game : Game) -> Unit {
     bullet.vy = 0.0
     bullet.life = 0.0
     bullet.power = 0.0
-    bullet.kind = bullet_normal
+    bullet.kind = @types.bullet_normal
   }
 }
 
 ///|
 fn emit_particle(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -203,23 +77,23 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
-      x + randf(-14.0, 14.0),
-      y + randf(-14.0, 14.0),
-      randf(-260.0, 260.0),
-      randf(-260.0, 140.0),
-      randf(0.22, 1.1),
-      randf(1.2, 5.8),
+      x + @types.randf(-14.0, 14.0),
+      y + @types.randf(-14.0, 14.0),
+      @types.randf(-260.0, 260.0),
+      @types.randf(-260.0, 140.0),
+      @types.randf(0.22, 1.1),
+      @types.randf(1.2, 5.8),
       kind,
     )
   }
 }
 
 ///|
-fn update_particles(game : Game, dt : Float) -> Unit {
+fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for particle in game.particles {
     if not(particle.active) {
       continue
@@ -242,23 +116,23 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn reset_player(game : Game) -> Unit {
-  game.player_x = Float::from_int(world_x0 + world_w / 2)
-  game.player_y = Float::from_int(world_y0 + world_h - 180)
+fn reset_player(game : @types.Game) -> Unit {
+  game.player_x = Float::from_int(@types.world_x0 + @types.world_w / 2)
+  game.player_y = Float::from_int(@types.world_y0 + @types.world_h - 180)
   game.player_vx = 0.0
   game.player_vy = 0.0
   game.move_x = 0.0
   game.move_y = 0.0
-  game.aim_x = core_x()
-  game.aim_y = core_y()
+  game.aim_x = @types.core_x()
+  game.aim_y = @types.core_y()
 }
 
 ///|
-fn start_run(game : Game) -> Unit {
+fn start_run(game : @types.Game) -> Unit {
   clear_world(game)
   clear_particles(game)
 
-  game.state = state_play
+  game.state = @types.state_play
   reset_player(game)
 
   game.lives = 3
@@ -286,24 +160,24 @@ fn start_run(game : Game) -> Unit {
 
   game.hint_left = 3
   game.hint_t = 0.0
-  game.hint_x = core_x()
-  game.hint_y = core_y()
+  game.hint_x = @types.core_x()
+  game.hint_y = @types.core_y()
 
   game.msg = ""
   game.msg_t = 0.0
   game.shake_t = 0.0
   game.win = false
 
-  set_msg(game, "Defend core heat for 200s. Repair near generator.", 2.8)
+  @types.set_msg(game, "Defend core heat for 200s. Repair near generator.", 2.8)
 }
 
 ///|
-fn finish_run(game : Game, win : Bool) -> Unit {
-  if game.state != state_play {
+fn finish_run(game : @types.Game, win : Bool) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  game.state = state_result
+  game.state = @types.state_result
   game.win = win
   game.move_x = 0.0
   game.move_y = 0.0
@@ -313,16 +187,16 @@ fn finish_run(game : Game, win : Bool) -> Unit {
   }
 
   if win {
-    set_msg(game, "Outpost survived the polar night.", 3.0)
-    burst(game, core_x(), core_y(), 70, 2)
+    @types.set_msg(game, "Outpost survived the polar night.", 3.0)
+    burst(game, @types.core_x(), @types.core_y(), 70, 2)
   } else {
-    set_msg(game, "Outpost collapsed in the storm.", 3.0)
-    burst(game, core_x(), core_y(), 56, 1)
+    @types.set_msg(game, "Outpost collapsed in the storm.", 3.0)
+    burst(game, @types.core_x(), @types.core_y(), 56, 1)
   }
 }
 
 ///|
-fn spawn_enemy(game : Game) -> Bool {
+fn spawn_enemy(game : @types.Game) -> Bool {
   for enemy in game.enemies {
     if enemy.active {
       continue
@@ -330,45 +204,45 @@ fn spawn_enemy(game : Game) -> Bool {
 
     let roll : Int = @raylib.get_random_value(0, 99)
     let kind : Int = if roll < 56 {
-      enemy_wolf
+      @types.enemy_wolf
     } else if roll < 84 {
-      enemy_brute
+      @types.enemy_brute
     } else {
-      enemy_shard
+      @types.enemy_shard
     }
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      enemy.x = randf(world_left() + 20.0, world_right() - 20.0)
-      enemy.y = world_top() - 40.0
+      enemy.x = @types.randf(@types.world_left() + 20.0, @types.world_right() - 20.0)
+      enemy.y = @types.world_top() - 40.0
     } else if side == 1 {
-      enemy.x = randf(world_left() + 20.0, world_right() - 20.0)
-      enemy.y = world_bottom() + 40.0
+      enemy.x = @types.randf(@types.world_left() + 20.0, @types.world_right() - 20.0)
+      enemy.y = @types.world_bottom() + 40.0
     } else if side == 2 {
-      enemy.x = world_left() - 40.0
-      enemy.y = randf(world_top() + 20.0, world_bottom() - 20.0)
+      enemy.x = @types.world_left() - 40.0
+      enemy.y = @types.randf(@types.world_top() + 20.0, @types.world_bottom() - 20.0)
     } else {
-      enemy.x = world_right() + 40.0
-      enemy.y = randf(world_top() + 20.0, world_bottom() - 20.0)
+      enemy.x = @types.world_right() + 40.0
+      enemy.y = @types.randf(@types.world_top() + 20.0, @types.world_bottom() - 20.0)
     }
 
     enemy.active = true
     enemy.kind = kind
 
-    if kind == enemy_wolf {
-      enemy.r = randf(17.0, 22.0)
-      enemy.hp = randf(24.0, 36.0) + Float::from_int(game.wave) * 2.4
-    } else if kind == enemy_brute {
-      enemy.r = randf(26.0, 34.0)
-      enemy.hp = randf(60.0, 82.0) + Float::from_int(game.wave) * 4.0
+    if kind == @types.enemy_wolf {
+      enemy.r = @types.randf(17.0, 22.0)
+      enemy.hp = @types.randf(24.0, 36.0) + Float::from_int(game.wave) * 2.4
+    } else if kind == @types.enemy_brute {
+      enemy.r = @types.randf(26.0, 34.0)
+      enemy.hp = @types.randf(60.0, 82.0) + Float::from_int(game.wave) * 4.0
     } else {
-      enemy.r = randf(13.0, 18.0)
-      enemy.hp = randf(16.0, 24.0) + Float::from_int(game.wave) * 1.8
+      enemy.r = @types.randf(13.0, 18.0)
+      enemy.hp = @types.randf(16.0, 24.0) + Float::from_int(game.wave) * 1.8
     }
 
     enemy.vx = 0.0
     enemy.vy = 0.0
-    enemy.phase = randf(0.0, 6.28)
+    enemy.phase = @types.randf(0.0, 6.28)
 
     return true
   }
@@ -377,28 +251,28 @@ fn spawn_enemy(game : Game) -> Bool {
 }
 
 ///|
-fn spawn_pickup(game : Game) -> Bool {
+fn spawn_pickup(game : @types.Game) -> Bool {
   for pickup in game.pickups {
     if pickup.active {
       continue
     }
 
     pickup.active = true
-    pickup.x = randf(world_left() + 26.0, world_right() - 26.0)
-    pickup.y = world_top() - randf(60.0, 260.0)
-    pickup.vx = randf(-36.0, 36.0)
-    pickup.vy = randf(112.0, 170.0)
-    pickup.phase = randf(0.0, 6.28)
+    pickup.x = @types.randf(@types.world_left() + 26.0, @types.world_right() - 26.0)
+    pickup.y = @types.world_top() - @types.randf(60.0, 260.0)
+    pickup.vx = @types.randf(-36.0, 36.0)
+    pickup.vy = @types.randf(112.0, 170.0)
+    pickup.phase = @types.randf(0.0, 6.28)
 
     let roll : Int = @raylib.get_random_value(0, 99)
     pickup.kind = if roll < 38 {
-      pickup_fuel
+      @types.pickup_fuel
     } else if roll < 62 {
-      pickup_medkit
+      @types.pickup_medkit
     } else if roll < 86 {
-      pickup_ammo
+      @types.pickup_ammo
     } else {
-      pickup_overdrive
+      @types.pickup_overdrive
     }
 
     return true
@@ -409,7 +283,7 @@ fn spawn_pickup(game : Game) -> Bool {
 
 ///|
 fn spawn_bullet(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   tx : Float,
@@ -422,15 +296,15 @@ fn spawn_bullet(
       continue
     }
 
-    let dir = normalize(tx - x, ty - y)
-    let speed : Float = if kind == bullet_pierce { 920.0 } else { 760.0 }
+    let dir = @types.normalize(tx - x, ty - y)
+    let speed : Float = if kind == @types.bullet_pierce { 920.0 } else { 760.0 }
 
     bullet.active = true
     bullet.x = x
     bullet.y = y
     bullet.vx = dir.0 * speed
     bullet.vy = dir.1 * speed
-    bullet.life = if kind == bullet_pierce { 1.8 } else { 1.4 }
+    bullet.life = if kind == @types.bullet_pierce { 1.8 } else { 1.4 }
     bullet.power = power
     bullet.kind = kind
 
@@ -441,31 +315,31 @@ fn spawn_bullet(
 }
 
 ///|
-fn try_fire(game : Game, tx : Float, ty : Float) -> Bool {
-  if game.state != state_play {
+fn try_fire(game : @types.Game, tx : Float, ty : Float) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
   if game.fire_cd > 0.0 {
     return false
   }
   if game.ammo <= 0 {
-    set_msg(game, "No ammo. Gather crates.", 1.1)
+    @types.set_msg(game, "No ammo. Gather crates.", 1.1)
     game.fire_cd = 0.14
     return false
   }
 
   let overdrive : Bool = game.overdrive_t > 0.0
-  let kind : Int = if overdrive { bullet_pierce } else { bullet_normal }
+  let kind : Int = if overdrive { @types.bullet_pierce } else { @types.bullet_normal }
   let power : Float = if overdrive { 38.0 } else { 24.0 }
 
   if not(spawn_bullet(game, game.player_x, game.player_y, tx, ty, power, kind)) {
     return false
   }
 
-  game.ammo = maxi(0, game.ammo - 1)
+  game.ammo = @types.maxi(0, game.ammo - 1)
   game.fire_cd = if overdrive { 0.055 } else { 0.11 }
 
-  let dir = normalize(tx - game.player_x, ty - game.player_y)
+  let dir = @types.normalize(tx - game.player_x, ty - game.player_y)
   game.player_vx = game.player_vx - dir.0 * 28.0
   game.player_vy = game.player_vy - dir.1 * 28.0
 
@@ -475,47 +349,47 @@ fn try_fire(game : Game, tx : Float, ty : Float) -> Bool {
 }
 
 ///|
-fn try_repair(game : Game) -> Bool {
-  if game.state != state_play {
+fn try_repair(game : @types.Game) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
   if game.repair_cd > 0.0 {
     return false
   }
 
-  let near_core : Bool = dist2(game.player_x, game.player_y, core_x(), core_y()) <=
-    (core_r + 130.0) * (core_r + 130.0)
+  let near_core : Bool = @types.dist2(game.player_x, game.player_y, @types.core_x(), @types.core_y()) <=
+    (@types.core_r + 130.0) * (@types.core_r + 130.0)
 
   if not(near_core) {
-    set_msg(game, "Move closer to generator to repair.", 1.1)
+    @types.set_msg(game, "Move closer to generator to repair.", 1.1)
     game.repair_cd = 0.22
     return false
   }
 
   if game.fuel < 7.0 {
-    set_msg(game, "Not enough fuel for repair.", 1.1)
+    @types.set_msg(game, "Not enough fuel for repair.", 1.1)
     game.repair_cd = 0.22
     return false
   }
 
-  game.fuel = maxf(0.0, game.fuel - 7.0)
-  game.core_heat = minf(100.0, game.core_heat + 20.0)
-  game.suit_hp = minf(100.0, game.suit_hp + 16.0)
-  game.ammo = mini(400, game.ammo + 10)
+  game.fuel = @types.maxf(0.0, game.fuel - 7.0)
+  game.core_heat = @types.minf(100.0, game.core_heat + 20.0)
+  game.suit_hp = @types.minf(100.0, game.suit_hp + 16.0)
+  game.ammo = @types.mini(400, game.ammo + 10)
   game.score = game.score + 24
   game.repair_cd = 1.10
 
-  set_msg(game, "Generator repaired: heat stabilized.", 1.4)
-  burst(game, core_x(), core_y(), 28, 2)
+  @types.set_msg(game, "Generator repaired: heat stabilized.", 1.4)
+  burst(game, @types.core_x(), @types.core_y(), 28, 2)
 
   true
 }
 
 ///|
 fn enemy_touch_damage(kind : Int) -> Float {
-  if kind == enemy_brute {
+  if kind == @types.enemy_brute {
     34.0
-  } else if kind == enemy_wolf {
+  } else if kind == @types.enemy_wolf {
     20.0
   } else {
     14.0
@@ -524,9 +398,9 @@ fn enemy_touch_damage(kind : Int) -> Float {
 
 ///|
 fn enemy_core_damage(kind : Int) -> Float {
-  if kind == enemy_brute {
+  if kind == @types.enemy_brute {
     14.0
-  } else if kind == enemy_wolf {
+  } else if kind == @types.enemy_wolf {
     8.0
   } else {
     6.0
@@ -534,7 +408,7 @@ fn enemy_core_damage(kind : Int) -> Float {
 }
 
 ///|
-fn hurt_player(game : Game, dmg : Float) -> Unit {
+fn hurt_player(game : @types.Game, dmg : Float) -> Unit {
   if game.overdrive_t > 0.0 {
     game.suit_hp = game.suit_hp - dmg * 0.72
   } else {
@@ -543,14 +417,14 @@ fn hurt_player(game : Game, dmg : Float) -> Unit {
 
   game.combo = 0
   game.combo_t = 0.0
-  game.shake_t = maxf(game.shake_t, 0.24)
+  game.shake_t = @types.maxf(game.shake_t, 0.24)
 
   if game.suit_hp <= 0.0 {
     game.lives = game.lives - 1
     game.suit_hp = 100.0
-    game.fuel = maxf(0.0, game.fuel - 18.0)
+    game.fuel = @types.maxf(0.0, game.fuel - 18.0)
     reset_player(game)
-    set_msg(game, "Suit breached. Life lost.", 1.6)
+    @types.set_msg(game, "Suit breached. Life lost.", 1.6)
     burst(game, game.player_x, game.player_y, 34, 1)
 
     if game.lives <= 0 {
@@ -558,42 +432,42 @@ fn hurt_player(game : Game, dmg : Float) -> Unit {
       return
     }
   } else {
-    set_msg(game, "Hostile contact.", 0.9)
+    @types.set_msg(game, "Hostile contact.", 0.9)
     burst(game, game.player_x, game.player_y, 16, 1)
   }
 }
 
 ///|
-fn collect_pickup(game : Game, kind : Int, x : Float, y : Float) -> Unit {
-  if kind == pickup_fuel {
-    game.fuel = minf(100.0, game.fuel + 26.0)
-    game.core_heat = minf(100.0, game.core_heat + 6.0)
+fn collect_pickup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
+  if kind == @types.pickup_fuel {
+    game.fuel = @types.minf(100.0, game.fuel + 26.0)
+    game.core_heat = @types.minf(100.0, game.core_heat + 6.0)
     game.score = game.score + 16
-    set_msg(game, "Fuel cache secured.", 1.2)
+    @types.set_msg(game, "Fuel cache secured.", 1.2)
     burst(game, x, y, 20, 0)
-  } else if kind == pickup_medkit {
-    game.suit_hp = minf(100.0, game.suit_hp + 34.0)
+  } else if kind == @types.pickup_medkit {
+    game.suit_hp = @types.minf(100.0, game.suit_hp + 34.0)
     game.score = game.score + 16
-    set_msg(game, "Medkit applied.", 1.2)
+    @types.set_msg(game, "Medkit applied.", 1.2)
     burst(game, x, y, 18, 2)
-  } else if kind == pickup_ammo {
-    game.ammo = mini(460, game.ammo + 48)
+  } else if kind == @types.pickup_ammo {
+    game.ammo = @types.mini(460, game.ammo + 48)
     game.score = game.score + 14
-    set_msg(game, "Ammo crate recovered.", 1.2)
+    @types.set_msg(game, "Ammo crate recovered.", 1.2)
     burst(game, x, y, 18, 0)
   } else {
-    game.overdrive_t = maxf(game.overdrive_t, 7.0)
+    game.overdrive_t = @types.maxf(game.overdrive_t, 7.0)
     game.score = game.score + 26
-    set_msg(game, "Overdrive engaged.", 1.2)
+    @types.set_msg(game, "Overdrive engaged.", 1.2)
     burst(game, x, y, 24, 2)
   }
 
-  game.combo = mini(12, game.combo + 1)
+  game.combo = @types.mini(12, game.combo + 1)
   game.combo_t = 2.1
 }
 
 ///|
-fn update_player(game : Game, dt : Float) -> Unit {
+fn update_player(game : @types.Game, dt : Float) -> Unit {
   let accel : Float = if game.overdrive_t > 0.0 { 940.0 } else { 720.0 }
 
   game.player_vx = game.player_vx + game.move_x * accel * dt
@@ -605,46 +479,46 @@ fn update_player(game : Game, dt : Float) -> Unit {
   game.player_x = game.player_x + game.player_vx * dt
   game.player_y = game.player_y + game.player_vy * dt
 
-  let left : Float = world_left() + player_r + 6.0
-  let right : Float = world_right() - player_r - 6.0
-  let top : Float = world_top() + player_r + 6.0
-  let bottom : Float = world_bottom() - player_r - 6.0
+  let left : Float = @types.world_left() + @types.player_r + 6.0
+  let right : Float = @types.world_right() - @types.player_r - 6.0
+  let top : Float = @types.world_top() + @types.player_r + 6.0
+  let bottom : Float = @types.world_bottom() - @types.player_r - 6.0
 
   if game.player_x < left {
     game.player_x = left
-    game.player_vx = absf(game.player_vx) * 0.22
+    game.player_vx = @types.absf(game.player_vx) * 0.22
   } else if game.player_x > right {
     game.player_x = right
-    game.player_vx = -absf(game.player_vx) * 0.22
+    game.player_vx = -@types.absf(game.player_vx) * 0.22
   }
 
   if game.player_y < top {
     game.player_y = top
-    game.player_vy = absf(game.player_vy) * 0.22
+    game.player_vy = @types.absf(game.player_vy) * 0.22
   } else if game.player_y > bottom {
     game.player_y = bottom
-    game.player_vy = -absf(game.player_vy) * 0.22
+    game.player_vy = -@types.absf(game.player_vy) * 0.22
   }
 
   if game.overdrive_t > 0.0 {
     emit_particle(
       game,
-      game.player_x + randf(-6.0, 6.0),
-      game.player_y + randf(-6.0, 6.0),
-      randf(-80.0, 80.0),
-      randf(-40.0, 40.0),
-      randf(0.2, 0.5),
-      randf(1.1, 2.8),
+      game.player_x + @types.randf(-6.0, 6.0),
+      game.player_y + @types.randf(-6.0, 6.0),
+      @types.randf(-80.0, 80.0),
+      @types.randf(-40.0, 40.0),
+      @types.randf(0.2, 0.5),
+      @types.randf(1.1, 2.8),
       2,
     )
   }
 }
 
 ///|
-fn bullet_hit_enemy(game : Game, bi : Int, ei : Int) -> Unit {
+fn bullet_hit_enemy(game : @types.Game, bi : Int, ei : Int) -> Unit {
   game.enemies[ei].hp = game.enemies[ei].hp - game.bullets[bi].power
 
-  if game.bullets[bi].kind == bullet_normal {
+  if game.bullets[bi].kind == @types.bullet_normal {
     game.bullets[bi].active = false
   } else {
     game.bullets[bi].power = game.bullets[bi].power * 0.72
@@ -659,15 +533,15 @@ fn bullet_hit_enemy(game : Game, bi : Int, ei : Int) -> Unit {
     let kind : Int = game.enemies[ei].kind
     game.enemies[ei].active = false
 
-    let base_score : Int = if kind == enemy_brute {
+    let base_score : Int = if kind == @types.enemy_brute {
       26
-    } else if kind == enemy_wolf {
+    } else if kind == @types.enemy_wolf {
       15
     } else {
       12
     }
 
-    game.combo = mini(18, game.combo + 1)
+    game.combo = @types.mini(18, game.combo + 1)
     game.combo_t = 2.4
 
     game.score = game.score + base_score + game.combo * 2
@@ -681,7 +555,7 @@ fn bullet_hit_enemy(game : Game, bi : Int, ei : Int) -> Unit {
 }
 
 ///|
-fn update_bullets(game : Game, dt : Float) -> Unit {
+fn update_bullets(game : @types.Game, dt : Float) -> Unit {
   for bi in 0..<game.bullets.length() {
     if not(game.bullets[bi].active) {
       continue
@@ -692,10 +566,10 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
     game.bullets[bi].life = game.bullets[bi].life - dt
 
     if game.bullets[bi].life <= 0.0 ||
-      game.bullets[bi].x < world_left() - 40.0 ||
-      game.bullets[bi].x > world_right() + 40.0 ||
-      game.bullets[bi].y < world_top() - 40.0 ||
-      game.bullets[bi].y > world_bottom() + 40.0 {
+      game.bullets[bi].x < @types.world_left() - 40.0 ||
+      game.bullets[bi].x > @types.world_right() + 40.0 ||
+      game.bullets[bi].y < @types.world_top() - 40.0 ||
+      game.bullets[bi].y > @types.world_bottom() + 40.0 {
       game.bullets[bi].active = false
       continue
     }
@@ -706,9 +580,9 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       }
 
       let rr : Float = game.enemies[ei].r +
-        (if game.bullets[bi].kind == bullet_pierce { 4.0 } else { 2.0 })
+        (if game.bullets[bi].kind == @types.bullet_pierce { 4.0 } else { 2.0 })
 
-      if dist2(
+      if @types.dist2(
           game.bullets[bi].x,
           game.bullets[bi].y,
           game.enemies[ei].x,
@@ -726,10 +600,10 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn enemy_speed(game : Game, kind : Int) -> Float {
-  if kind == enemy_wolf {
+fn enemy_speed(game : @types.Game, kind : Int) -> Float {
+  if kind == @types.enemy_wolf {
     130.0 + Float::from_int(game.wave) * 10.0
-  } else if kind == enemy_brute {
+  } else if kind == @types.enemy_brute {
     84.0 + Float::from_int(game.wave) * 6.0
   } else {
     162.0 + Float::from_int(game.wave) * 12.0
@@ -737,7 +611,7 @@ fn enemy_speed(game : Game, kind : Int) -> Float {
 }
 
 ///|
-fn update_enemies(game : Game, dt : Float) -> Unit {
+fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   for enemy in game.enemies {
     if not(enemy.active) {
       continue
@@ -745,41 +619,41 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
 
     enemy.phase = enemy.phase + dt * (1.2 + Float::from_int(enemy.kind))
 
-    let target_x : Float = if enemy.kind == enemy_wolf {
-      if dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
+    let target_x : Float = if enemy.kind == @types.enemy_wolf {
+      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
         game.player_x
       } else {
-        core_x()
+        @types.core_x()
       }
     } else {
-      core_x()
+      @types.core_x()
     }
 
-    let target_y : Float = if enemy.kind == enemy_wolf {
-      if dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
+    let target_y : Float = if enemy.kind == @types.enemy_wolf {
+      if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) < 280.0 * 280.0 {
         game.player_y
       } else {
-        core_y()
+        @types.core_y()
       }
     } else {
-      core_y()
+      @types.core_y()
     }
 
-    let dir = normalize(target_x - enemy.x, target_y - enemy.y)
+    let dir = @types.normalize(target_x - enemy.x, target_y - enemy.y)
     let speed : Float = enemy_speed(game, enemy.kind)
 
-    let swirl_x : Float = if enemy.kind == enemy_shard {
-      sinf(enemy.phase * 5.0) * 120.0
-    } else if enemy.kind == enemy_wolf {
-      sinf(enemy.phase * 3.0) * 64.0
+    let swirl_x : Float = if enemy.kind == @types.enemy_shard {
+      @types.sinf(enemy.phase * 5.0) * 120.0
+    } else if enemy.kind == @types.enemy_wolf {
+      @types.sinf(enemy.phase * 3.0) * 64.0
     } else {
-      sinf(enemy.phase * 1.3) * 24.0
+      @types.sinf(enemy.phase * 1.3) * 24.0
     }
 
-    let swirl_y : Float = if enemy.kind == enemy_shard {
-      cosf(enemy.phase * 4.0) * 96.0
+    let swirl_y : Float = if enemy.kind == @types.enemy_shard {
+      @types.cosf(enemy.phase * 4.0) * 96.0
     } else {
-      cosf(enemy.phase * 1.8) * 22.0
+      @types.cosf(enemy.phase * 1.8) * 22.0
     }
 
     enemy.vx = enemy.vx * (1.0 - dt * 2.2) +
@@ -790,38 +664,38 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     enemy.x = enemy.x + enemy.vx * dt
     enemy.y = enemy.y + enemy.vy * dt
 
-    if enemy.x < world_left() - 90.0 ||
-      enemy.x > world_right() + 90.0 ||
-      enemy.y < world_top() - 90.0 ||
-      enemy.y > world_bottom() + 90.0 {
+    if enemy.x < @types.world_left() - 90.0 ||
+      enemy.x > @types.world_right() + 90.0 ||
+      enemy.y < @types.world_top() - 90.0 ||
+      enemy.y > @types.world_bottom() + 90.0 {
       enemy.active = false
       continue
     }
 
-    let player_rr : Float = enemy.r + player_r - 3.0
-    if dist2(enemy.x, enemy.y, game.player_x, game.player_y) <=
+    let player_rr : Float = enemy.r + @types.player_r - 3.0
+    if @types.dist2(enemy.x, enemy.y, game.player_x, game.player_y) <=
       player_rr * player_rr {
       hurt_player(game, enemy_touch_damage(enemy.kind))
 
-      enemy.active = if enemy.kind == enemy_brute { true } else { false }
+      enemy.active = if enemy.kind == @types.enemy_brute { true } else { false }
 
       enemy.vx = -enemy.vx * 0.5
       enemy.vy = -enemy.vy * 0.5
 
-      if game.state != state_play {
+      if game.state != @types.state_play {
         return
       }
     }
 
-    let core_rr : Float = enemy.r + core_r - 6.0
-    if dist2(enemy.x, enemy.y, core_x(), core_y()) <= core_rr * core_rr {
-      game.core_heat = maxf(0.0, game.core_heat - enemy_core_damage(enemy.kind))
-      game.shake_t = maxf(game.shake_t, 0.30)
+    let core_rr : Float = enemy.r + @types.core_r - 6.0
+    if @types.dist2(enemy.x, enemy.y, @types.core_x(), @types.core_y()) <= core_rr * core_rr {
+      game.core_heat = @types.maxf(0.0, game.core_heat - enemy_core_damage(enemy.kind))
+      game.shake_t = @types.maxf(game.shake_t, 0.30)
 
-      set_msg(game, "Core under attack!", 0.8)
-      burst(game, core_x(), core_y(), 14, 1)
+      @types.set_msg(game, "Core under attack!", 0.8)
+      burst(game, @types.core_x(), @types.core_y(), 14, 1)
 
-      if enemy.kind == enemy_brute {
+      if enemy.kind == @types.enemy_brute {
         enemy.hp = enemy.hp - 34.0
         enemy.vx = -enemy.vx * 0.8
         enemy.vy = -enemy.vy * 0.8
@@ -837,43 +711,32 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn pickup_radius(kind : Int) -> Float {
-  if kind == pickup_overdrive {
-    21.0
-  } else if kind == pickup_fuel {
-    19.0
-  } else {
-    17.0
-  }
-}
-
-///|
-fn update_pickups(game : Game, dt : Float) -> Unit {
+fn update_pickups(game : @types.Game, dt : Float) -> Unit {
   for pickup in game.pickups {
     if not(pickup.active) {
       continue
     }
 
     pickup.phase = pickup.phase + dt * 2.2
-    pickup.x = pickup.x + (pickup.vx + sinf(pickup.phase * 2.0) * 24.0) * dt
+    pickup.x = pickup.x + (pickup.vx + @types.sinf(pickup.phase * 2.0) * 24.0) * dt
     pickup.y = pickup.y + (pickup.vy + Float::from_int(game.wave) * 3.0) * dt
 
-    if pickup.x < world_left() + 16.0 {
-      pickup.x = world_left() + 16.0
-      pickup.vx = absf(pickup.vx) * 0.6
+    if pickup.x < @types.world_left() + 16.0 {
+      pickup.x = @types.world_left() + 16.0
+      pickup.vx = @types.absf(pickup.vx) * 0.6
     }
-    if pickup.x > world_right() - 16.0 {
-      pickup.x = world_right() - 16.0
-      pickup.vx = -absf(pickup.vx) * 0.6
+    if pickup.x > @types.world_right() - 16.0 {
+      pickup.x = @types.world_right() - 16.0
+      pickup.vx = -@types.absf(pickup.vx) * 0.6
     }
 
-    if pickup.y > world_bottom() + 70.0 {
+    if pickup.y > @types.world_bottom() + 70.0 {
       pickup.active = false
       continue
     }
 
-    let rr : Float = player_r + pickup_radius(pickup.kind)
-    if dist2(game.player_x, game.player_y, pickup.x, pickup.y) <= rr * rr {
+    let rr : Float = @types.player_r + @types.pickup_radius(pickup.kind)
+    if @types.dist2(game.player_x, game.player_y, pickup.x, pickup.y) <= rr * rr {
       let kind : Int = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y
@@ -884,13 +747,13 @@ fn update_pickups(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn use_hint(game : Game) -> Bool {
-  if game.state != state_play || game.hint_left <= 0 {
+fn use_hint(game : @types.Game) -> Bool {
+  if game.state != @types.state_play || game.hint_left <= 0 {
     return false
   }
 
-  let mut best_x : Float = core_x()
-  let mut best_y : Float = core_y()
+  let mut best_x : Float = @types.core_x()
+  let mut best_y : Float = @types.core_y()
   let mut found_pickup : Bool = false
 
   if game.fuel < 42.0 || game.ammo < 40 {
@@ -901,16 +764,16 @@ fn use_hint(game : Game) -> Bool {
       }
 
       let want : Bool = if game.fuel < 42.0 {
-        pickup.kind == pickup_fuel
+        pickup.kind == @types.pickup_fuel
       } else {
-        pickup.kind == pickup_ammo
+        pickup.kind == @types.pickup_ammo
       }
 
       if not(want) {
         continue
       }
 
-      let d2 : Float = dist2(game.player_x, game.player_y, pickup.x, pickup.y)
+      let d2 : Float = @types.dist2(game.player_x, game.player_y, pickup.x, pickup.y)
 
       if d2 < best_d2 {
         best_d2 = d2
@@ -925,10 +788,10 @@ fn use_hint(game : Game) -> Bool {
     let mut safest_score : Float = 1_000_000_000.0
 
     for lane in 0..<5 {
-      let lx : Float = world_left() +
+      let lx : Float = @types.world_left() +
         120.0 +
-        Float::from_int(lane) * (Float::from_int(world_w) - 240.0) / 4.0
-      let ly : Float = core_y() + 180.0
+        Float::from_int(lane) * (Float::from_int(@types.world_w) - 240.0) / 4.0
+      let ly : Float = @types.core_y() + 180.0
 
       let mut threat : Float = 0.0
       for enemy in game.enemies {
@@ -936,9 +799,9 @@ fn use_hint(game : Game) -> Bool {
           continue
         }
 
-        let d2 : Float = dist2(lx, ly, enemy.x, enemy.y)
-        let w : Float = if enemy.kind == enemy_brute { 1.4 } else { 1.0 }
-        threat = threat + w * 42000.0 / maxf(120.0, d2)
+        let d2 : Float = @types.dist2(lx, ly, enemy.x, enemy.y)
+        let w : Float = if enemy.kind == @types.enemy_brute { 1.4 } else { 1.0 }
+        threat = threat + w * 42000.0 / @types.maxf(120.0, d2)
       }
 
       if threat < safest_score {
@@ -953,82 +816,82 @@ fn use_hint(game : Game) -> Bool {
   game.hint_y = best_y
   game.hint_t = 2.8
   game.hint_left = game.hint_left - 1
-  game.score = maxi(0, game.score - 6)
+  game.score = @types.maxi(0, game.score - 6)
 
   if found_pickup {
-    set_msg(game, "Hint: supply route marked.", 1.3)
+    @types.set_msg(game, "Hint: supply route marked.", 1.3)
   } else {
-    set_msg(game, "Hint: safest lane marked.", 1.3)
+    @types.set_msg(game, "Hint: safest lane marked.", 1.3)
   }
 
   true
 }
 
 ///|
-fn passive_heat_decay(game : Game, dt : Float) -> Unit {
+fn passive_heat_decay(game : @types.Game, dt : Float) -> Unit {
   let storm : Float = 0.5 +
-    sinf(game.storm_t * 1.2) * 0.3 +
-    cosf(game.storm_t * 0.7) * 0.2
+    @types.sinf(game.storm_t * 1.2) * 0.3 +
+    @types.cosf(game.storm_t * 0.7) * 0.2
 
   let enemy_pressure : Float = Float::from_int(game.wave) * 0.16
   let decay : Float = (1.35 + enemy_pressure + storm) * dt
-  game.core_heat = maxf(0.0, game.core_heat - decay)
+  game.core_heat = @types.maxf(0.0, game.core_heat - decay)
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
-  let step : Float = clampf(dt, 0.0, 0.04)
+fn update_play(game : @types.Game, dt : Float) -> Unit {
+  let step : Float = @types.clampf(dt, 0.0, 0.04)
 
   game.ui_t = game.ui_t + step
-  game.touch_cd = maxf(0.0, game.touch_cd - step)
-  game.msg_t = maxf(0.0, game.msg_t - step)
-  game.shake_t = maxf(0.0, game.shake_t - step)
-  game.hint_t = maxf(0.0, game.hint_t - step)
+  game.touch_cd = @types.maxf(0.0, game.touch_cd - step)
+  game.msg_t = @types.maxf(0.0, game.msg_t - step)
+  game.shake_t = @types.maxf(0.0, game.shake_t - step)
+  game.hint_t = @types.maxf(0.0, game.hint_t - step)
 
-  game.combo_t = maxf(0.0, game.combo_t - step)
+  game.combo_t = @types.maxf(0.0, game.combo_t - step)
   if game.combo_t <= 0.0 {
     game.combo = 0
   }
 
-  game.fire_cd = maxf(0.0, game.fire_cd - step)
-  game.repair_cd = maxf(0.0, game.repair_cd - step)
-  game.overdrive_t = maxf(0.0, game.overdrive_t - step)
+  game.fire_cd = @types.maxf(0.0, game.fire_cd - step)
+  game.repair_cd = @types.maxf(0.0, game.repair_cd - step)
+  game.overdrive_t = @types.maxf(0.0, game.overdrive_t - step)
 
   update_particles(game, step)
 
-  if game.state != state_play {
+  if game.state != @types.state_play {
     return
   }
 
   game.game_t = game.game_t + step
   game.storm_t = game.storm_t + step
 
-  if game.game_t >= survival_time_goal {
+  if game.game_t >= @types.survival_time_goal {
     finish_run(game, true)
     return
   }
 
-  game.wave = clampi(1 + (game.game_t / 22.0).to_int(), 1, 12)
+  game.wave = @types.clampi(1 + (game.game_t / 22.0).to_int(), 1, 12)
 
   passive_heat_decay(game, step)
 
-  game.fuel = maxf(
+  game.fuel = @types.maxf(
     0.0,
     game.fuel - (0.95 + Float::from_int(game.wave) * 0.03) * step,
   )
   if game.fuel <= 0.0 {
-    game.suit_hp = maxf(0.0, game.suit_hp - 4.0 * step)
+    game.suit_hp = @types.maxf(0.0, game.suit_hp - 4.0 * step)
   }
 
   if game.suit_hp <= 0.0 {
     hurt_player(game, 100.0)
-    if game.state != state_play {
+    if game.state != @types.state_play {
       return
     }
   }
 
   game.spawn_t = game.spawn_t + step
-  let spawn_interval : Float = maxf(
+  let spawn_interval : Float = @types.maxf(
     0.18,
     0.70 - Float::from_int(game.wave) * 0.038,
   )
@@ -1046,7 +909,7 @@ fn update_play(game : Game, dt : Float) -> Unit {
   update_player(game, step)
   update_bullets(game, step)
   update_enemies(game, step)
-  if game.state != state_play {
+  if game.state != @types.state_play {
     return
   }
   update_pickups(game, step)
@@ -1063,5 +926,19 @@ fn update_play(game : Game, dt : Float) -> Unit {
 
   if game.score > game.best_score {
     game.best_score = game.score
+  }
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  if game.state == @types.state_title {
+    update_title_input(game)
+    update_play(game, dt)
+  } else if game.state == @types.state_play {
+    update_play_input(game, dt)
+    update_play(game, dt)
+  } else {
+    update_result_input(game)
+    update_play(game, dt)
   }
 }

@@ -1,5 +1,5 @@
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -12,7 +12,7 @@ struct Enemy {
 }
 
 ///|
-struct Pickup {
+pub(all) struct Pickup {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -23,7 +23,7 @@ struct Pickup {
 }
 
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -35,7 +35,7 @@ struct Bullet {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -47,7 +47,7 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   enemies : Array[Enemy]
   pickups : Array[Pickup]
   bullets : Array[Bullet]
@@ -88,10 +88,14 @@ struct Game {
   mut shake_t : Float
   mut touch_cd : Float
   mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Enemy::new() -> Enemy {
+pub fn Enemy::new() -> Enemy {
   {
     active: false,
     x: 0.0,
@@ -106,7 +110,7 @@ fn Enemy::new() -> Enemy {
 }
 
 ///|
-fn Pickup::new() -> Pickup {
+pub fn Pickup::new() -> Pickup {
   {
     active: false,
     x: 0.0,
@@ -119,7 +123,7 @@ fn Pickup::new() -> Pickup {
 }
 
 ///|
-fn Bullet::new() -> Bullet {
+pub fn Bullet::new() -> Bullet {
   {
     active: false,
     x: 0.0,
@@ -133,7 +137,7 @@ fn Bullet::new() -> Bullet {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -147,7 +151,7 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     enemies: Array::makei(max_enemies, fn(_i) { Enemy::new() }),
     pickups: Array::makei(max_pickups, fn(_i) { Pickup::new() }),
@@ -189,5 +193,9 @@ fn Game::new() -> Game {
     shake_t: 0.0,
     touch_cd: 0.0,
     win: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
