@@ -6,7 +6,13 @@ fn draw_centered(
   color : @raylib.Color,
 ) -> Unit {
   let width = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - width / 2, y, size, color)
+  @raylib.draw_text(
+    text,
+    @types.screen_w / 2 - width / 2,
+    y,
+    size,
+    color,
+  )
 }
 
 ///|
@@ -18,7 +24,7 @@ fn draw_meter(
   ratio : Float,
   fill : @raylib.Color,
 ) -> Unit {
-  let clamped = clampf(ratio, 0.0, 1.0)
+  let clamped = @types.clampf(ratio, 0.0, 1.0)
 
   @raylib.draw_text(label, x, y, 22, @raylib.Color::new(225, 238, 220, 248))
   @raylib.draw_rectangle(x, y + 28, w, 24, @raylib.Color::new(36, 46, 35, 240))
@@ -39,19 +45,27 @@ fn draw_meter(
 }
 
 ///|
-fn draw_forest_background(game : Game) -> Unit {
+fn draw_forest_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(9, 24, 14, 255))
 
   for i in 0..<34 {
-    let sway = sinf(game.elapsed * 1.7 + Float::from_int(i) * 0.62) * 8.0
-    let x = world_x - 70 + i * 34 + sway.to_int()
+    let sway = @types.sinf(
+        game.elapsed * 1.7 + Float::from_int(i) * 0.62,
+      ) *
+      8.0
+    let x = @types.world_x - 70 + i * 34 + sway.to_int()
     let w = 16 + i * 5 % 11
     @raylib.draw_rectangle(
       x,
-      world_y - 40,
+      @types.world_y - 40,
       w,
-      world_h + 120,
-      @raylib.Color::new(22 + i * 3 % 18, 58 + i * 7 % 38, 28 + i * 2 % 16, 120),
+      @types.world_h + 120,
+      @raylib.Color::new(
+        22 + i * 3 % 18,
+        58 + i * 7 % 38,
+        28 + i * 2 % 16,
+        120,
+      ),
     )
   }
 
@@ -60,7 +74,7 @@ fn draw_forest_background(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       i * 78,
-      screen_w,
+      @types.screen_w,
       stripe_h,
       @raylib.Color::new(6 + i, 20 + i * 2, 10 + i, 26),
     )
@@ -70,60 +84,60 @@ fn draw_forest_background(game : Game) -> Unit {
 ///|
 fn draw_corridors() -> Unit {
   @raylib.draw_rectangle(
-    world_x,
-    world_y,
-    world_w,
-    world_h,
+    @types.world_x,
+    @types.world_y,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(13, 30, 17, 238),
   )
 
-  for lane in 0..<corridor_lanes {
-    let y = lane_y(lane).to_int() - 58
+  for lane in 0..<@types.corridor_lanes {
+    let y = @types.lane_y(lane).to_int() - 58
     @raylib.draw_rectangle(
-      world_x + 10,
+      @types.world_x + 10,
       y,
-      world_w - 20,
+      @types.world_w - 20,
       116,
       @raylib.Color::new(34, 56, 36, 235),
     )
     @raylib.draw_rectangle_lines(
-      world_x + 10,
+      @types.world_x + 10,
       y,
-      world_w - 20,
+      @types.world_w - 20,
       116,
       @raylib.Color::new(74, 112, 72, 180),
     )
   }
 
   @raylib.draw_rectangle(
-    world_x + 640,
-    world_y + 24,
+    @types.world_x + 640,
+    @types.world_y + 24,
     300,
-    world_h - 48,
+    @types.world_h - 48,
     @raylib.Color::new(40, 66, 38, 170),
   )
 
   @raylib.draw_rectangle_lines(
-    world_x,
-    world_y,
-    world_w,
-    world_h,
+    @types.world_x,
+    @types.world_y,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(136, 188, 130, 220),
   )
 }
 
 ///|
-fn draw_beacons(game : Game) -> Unit {
+fn draw_beacons(game : @types.Game) -> Unit {
   for i in 0..<game.beacons.length() {
-    let ratio = clampf(
-      game.beacons[i].integrity / beacon_integrity_max,
+    let ratio = @types.clampf(
+      game.beacons[i].integrity / @types.beacon_integrity_max,
       0.0,
       1.0,
     )
     let pulse = game.beacons[i].pulse_t
 
     if pulse > 0.0 {
-      let pulse_r = beacon_radius + 24.0 + pulse * 55.0
+      let pulse_r = @types.beacon_radius + 24.0 + pulse * 55.0
       @raylib.draw_circle(
         game.beacons[i].x.to_int(),
         game.beacons[i].y.to_int(),
@@ -143,13 +157,13 @@ fn draw_beacons(game : Game) -> Unit {
     @raylib.draw_circle(
       game.beacons[i].x.to_int(),
       game.beacons[i].y.to_int(),
-      beacon_radius,
+      @types.beacon_radius,
       body_color,
     )
     @raylib.draw_circle_lines(
       game.beacons[i].x.to_int(),
       game.beacons[i].y.to_int(),
-      beacon_radius + 3.0,
+      @types.beacon_radius + 3.0,
       @raylib.Color::new(238, 248, 214, 250),
     )
 
@@ -181,7 +195,7 @@ fn draw_beacons(game : Game) -> Unit {
 }
 
 ///|
-fn draw_traps(game : Game) -> Unit {
+fn draw_traps(game : @types.Game) -> Unit {
   for trap in game.traps {
     @raylib.draw_circle_lines(
       trap.x.to_int(),
@@ -204,12 +218,16 @@ fn draw_traps(game : Game) -> Unit {
     @raylib.draw_circle_lines(
       trap.x.to_int(),
       trap.y.to_int(),
-      trap_trigger_radius,
+      @types.trap_trigger_radius,
       @raylib.Color::new(122, 216, 132, 70),
     )
 
     if trap.trigger_cd > 0.0 {
-      let ratio = clampf(trap.trigger_cd / trap_rearm_time, 0.0, 1.0)
+      let ratio = @types.clampf(
+        trap.trigger_cd / @types.trap_rearm_time,
+        0.0,
+        1.0,
+      )
       @raylib.draw_circle_lines(
         trap.x.to_int(),
         trap.y.to_int(),
@@ -230,13 +248,13 @@ fn draw_traps(game : Game) -> Unit {
 }
 
 ///|
-fn draw_enemies(game : Game) -> Unit {
+fn draw_enemies(game : @types.Game) -> Unit {
   for enemy in game.enemies {
     if not(enemy.active) {
       continue
     }
 
-    let radius = enemy_hit_radius(enemy.kind)
+    let radius = @types.enemy_hit_radius(enemy.kind)
     let base_color = match enemy.kind {
       1 => @raylib.Color::new(214, 164, 82, 236)
       2 => @raylib.Color::new(186, 88, 74, 236)
@@ -261,7 +279,11 @@ fn draw_enemies(game : Game) -> Unit {
       @raylib.Color::new(28, 32, 22, 240),
     )
 
-    let hp_ratio = clampf(enemy.hp / maxf(enemy.max_hp, 1.0), 0.0, 1.0)
+    let hp_ratio = @types.clampf(
+      enemy.hp / @types.maxf(enemy.max_hp, 1.0),
+      0.0,
+      1.0,
+    )
     let bar_x = enemy.x.to_int() - 18
     let bar_y = enemy.y.to_int() - radius.to_int() - 14
     @raylib.draw_rectangle(
@@ -282,19 +304,19 @@ fn draw_enemies(game : Game) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game) -> Unit {
+fn draw_player(game : @types.Game) -> Unit {
   if game.player.dash_t > 0.0 {
     @raylib.draw_circle(
       game.player.x.to_int(),
       game.player.y.to_int(),
-      player_radius + 18.0,
+      @types.player_radius + 18.0,
       @raylib.Color::new(128, 204, 236, 86),
     )
   }
 
   if game.sweep_t > 0.0 {
-    let ring = sweep_radius *
-      (Float::from_int(1) - game.sweep_t / sweep_fx_time) +
+    let ring = @types.sweep_radius *
+      (Float::from_int(1) - game.sweep_t / @types.sweep_fx_time) +
       Float::from_int(40)
     @raylib.draw_circle_lines(
       game.player.x.to_int(),
@@ -305,8 +327,10 @@ fn draw_player(game : Game) -> Unit {
   }
 
   if game.player.attack_t > 0.0 {
-    let reach_x = game.player.x + game.player.facing_x * basic_attack_range
-    let reach_y = game.player.y + game.player.facing_y * basic_attack_range
+    let reach_x = game.player.x +
+      game.player.facing_x * @types.basic_attack_range
+    let reach_y = game.player.y +
+      game.player.facing_y * @types.basic_attack_range
     @raylib.draw_line(
       game.player.x.to_int(),
       game.player.y.to_int(),
@@ -325,13 +349,13 @@ fn draw_player(game : Game) -> Unit {
   @raylib.draw_circle(
     game.player.x.to_int(),
     game.player.y.to_int(),
-    player_radius,
+    @types.player_radius,
     @raylib.Color::new(208, 236, 226, 245),
   )
   @raylib.draw_circle_lines(
     game.player.x.to_int(),
     game.player.y.to_int(),
-    player_radius + 2.0,
+    @types.player_radius + 2.0,
     @raylib.Color::new(22, 40, 32, 250),
   )
 
@@ -346,187 +370,199 @@ fn draw_player(game : Game) -> Unit {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    hud_x,
-    hud_y,
-    hud_w,
-    hud_h,
+    @types.hud_x,
+    @types.hud_y,
+    @types.hud_w,
+    @types.hud_h,
     @raylib.Color::new(16, 30, 20, 238),
   )
   @raylib.draw_rectangle_lines(
-    hud_x,
-    hud_y,
-    hud_w,
-    hud_h,
+    @types.hud_x,
+    @types.hud_y,
+    @types.hud_w,
+    @types.hud_h,
     @raylib.Color::new(118, 188, 130, 218),
   )
 
   @raylib.draw_text(
     "BAMBOO FOREST SENTINEL",
-    hud_x + 16,
-    hud_y + 16,
+    @types.hud_x + 16,
+    @types.hud_y + 16,
     28,
     @raylib.Color::new(214, 246, 196, 248),
   )
   @raylib.draw_text(
     "Night \{game.night}  Score \{game.score}",
-    hud_x + 18,
-    hud_y + 58,
+    @types.hud_x + 18,
+    @types.hud_y + 58,
     24,
     @raylib.Color::new(228, 236, 212, 242),
   )
   @raylib.draw_text(
     "Best \{game.best_score}  Kills \{game.kills}",
-    hud_x + 18,
-    hud_y + 88,
+    @types.hud_x + 18,
+    @types.hud_y + 88,
     21,
     @raylib.Color::new(184, 212, 184, 238),
   )
 
-  let energy_ratio = game.energy / energy_max
-  let charge_ratio = game.sweep_charge / sweep_charge_max
-  let trap_ratio : Float = if trap_place_cooldown <= 0.0 {
+  let energy_ratio = game.energy / @types.energy_max
+  let charge_ratio = game.sweep_charge / @types.sweep_charge_max
+  let trap_ratio : Float = if @types.trap_place_cooldown <= 0.0 {
     1.0
   } else {
-    Float::from_int(1) - game.trap_place_cd / trap_place_cooldown
+    Float::from_int(1) - game.trap_place_cd / @types.trap_place_cooldown
   }
 
   draw_meter(
     "Energy",
-    hud_x + 18,
-    hud_y + 132,
-    hud_w - 36,
+    @types.hud_x + 18,
+    @types.hud_y + 132,
+    @types.hud_w - 36,
     energy_ratio,
     @raylib.Color::new(90, 206, 142, 236),
   )
   draw_meter(
     "Sweep Charge",
-    hud_x + 18,
-    hud_y + 204,
-    hud_w - 36,
+    @types.hud_x + 18,
+    @types.hud_y + 204,
+    @types.hud_w - 36,
     charge_ratio,
     @raylib.Color::new(110, 198, 246, 236),
   )
   draw_meter(
     "Trap Cooldown",
-    hud_x + 18,
-    hud_y + 276,
-    hud_w - 36,
+    @types.hud_x + 18,
+    @types.hud_y + 276,
+    @types.hud_w - 36,
     trap_ratio,
     @raylib.Color::new(228, 196, 96, 236),
   )
 
-  let beacon_total = beacon_total_integrity(game)
-  let beacon_max = Float::from_int(beacon_count) * beacon_integrity_max
+  let beacon_total = @types.beacon_total_integrity(game)
+  let beacon_max = Float::from_int(@types.beacon_count) *
+    @types.beacon_integrity_max
   draw_meter(
     "Beacon Integrity",
-    hud_x + 18,
-    hud_y + 348,
-    hud_w - 36,
+    @types.hud_x + 18,
+    @types.hud_y + 348,
+    @types.hud_w - 36,
     beacon_total / beacon_max,
     @raylib.Color::new(236, 112, 92, 236),
   )
 
   @raylib.draw_text(
-    "Active infiltrators: \{active_enemy_count(game)}",
-    hud_x + 18,
-    hud_y + 430,
+    "Active infiltrators: \{@types.active_enemy_count(game)}",
+    @types.hud_x + 18,
+    @types.hud_y + 430,
     22,
     @raylib.Color::new(238, 230, 206, 238),
   )
   @raylib.draw_text(
-    "Remaining this night: \{maxi(game.spawn_pool, 0)}",
-    hud_x + 18,
-    hud_y + 458,
+    "Remaining this night: \{@types.maxi(game.spawn_pool, 0)}",
+    @types.hud_x + 18,
+    @types.hud_y + 458,
     22,
     @raylib.Color::new(238, 230, 206, 238),
   )
 
   @raylib.draw_text(
     "Controls",
-    hud_x + 18,
-    hud_y + 520,
+    @types.hud_x + 18,
+    @types.hud_y + 520,
     24,
     @raylib.Color::new(214, 246, 196, 248),
   )
   @raylib.draw_text(
     "Move: WASD / Arrows",
-    hud_x + 18,
-    hud_y + 554,
+    @types.hud_x + 18,
+    @types.hud_y + 554,
     20,
     @raylib.Color::new(226, 234, 218, 238),
   )
   @raylib.draw_text(
     "J: Attack or place trap",
-    hud_x + 18,
-    hud_y + 580,
+    @types.hud_x + 18,
+    @types.hud_y + 580,
     20,
     @raylib.Color::new(226, 234, 218, 238),
   )
   @raylib.draw_text(
     "K: Remove nearby trap",
-    hud_x + 18,
-    hud_y + 606,
+    @types.hud_x + 18,
+    @types.hud_y + 606,
     20,
     @raylib.Color::new(226, 234, 218, 238),
   )
   @raylib.draw_text(
     "Space: Dash / full-charge sweep",
-    hud_x + 18,
-    hud_y + 632,
+    @types.hud_x + 18,
+    @types.hud_y + 632,
     20,
     @raylib.Color::new(226, 234, 218, 238),
   )
   @raylib.draw_text(
     "P: Pause    R: Restart",
-    hud_x + 18,
-    hud_y + 658,
+    @types.hud_x + 18,
+    @types.hud_y + 658,
     20,
     @raylib.Color::new(226, 234, 218, 238),
   )
 }
 
 ///|
-fn draw_status_strip(game : Game) -> Unit {
+fn draw_status_strip(game : @types.Game) -> Unit {
   if game.status_t <= 0.0 {
     return
   }
 
-  let alpha = (clampf(game.status_t / status_default_t, 0.0, 1.0) * 200.0 + 40.0).to_int()
-  let text_alpha = clampi(alpha + 20, 0, 255)
+  let alpha = (@types.clampf(
+      game.status_t / @types.status_default_t,
+      0.0,
+      1.0,
+    ) *
+    200.0 +
+    40.0).to_int()
+  let text_alpha = @types.clampi(alpha + 20, 0, 255)
   @raylib.draw_rectangle(
-    world_x + 20,
-    world_y + 14,
-    world_w - 40,
+    @types.world_x + 20,
+    @types.world_y + 14,
+    @types.world_w - 40,
     44,
     @raylib.Color::new(18, 40, 30, alpha),
   )
   @raylib.draw_rectangle_lines(
-    world_x + 20,
-    world_y + 14,
-    world_w - 40,
+    @types.world_x + 20,
+    @types.world_y + 14,
+    @types.world_w - 40,
     44,
     @raylib.Color::new(142, 204, 152, alpha),
   )
   draw_centered(
     game.status_text,
-    world_y + 24,
+    @types.world_y + 24,
     24,
     @raylib.Color::new(238, 246, 224, text_alpha),
   )
 }
 
 ///|
-fn draw_night_banner(game : Game) -> Unit {
-  if game.state != state_playing || game.night_banner_t <= 0.0 {
+fn draw_night_banner(game : @types.Game) -> Unit {
+  if game.state != @types.state_playing || game.night_banner_t <= 0.0 {
     return
   }
 
-  let alpha = (clampf(game.night_banner_t / night_banner_time, 0.0, 1.0) * 230.0).to_int()
+  let alpha = (@types.clampf(
+      game.night_banner_t / @types.night_banner_time,
+      0.0,
+      1.0,
+    ) *
+    230.0).to_int()
   draw_centered(
     "Night \{game.night}",
-    world_y + 84,
+    @types.world_y + 84,
     54,
     @raylib.Color::new(248, 246, 202, alpha),
   )
@@ -537,8 +573,8 @@ fn draw_title_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 14, 10, 174),
   )
   draw_centered(
@@ -572,8 +608,8 @@ fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 12, 156),
   )
   draw_centered("PAUSED", 300, 72, @raylib.Color::new(244, 248, 230, 252))
@@ -586,15 +622,20 @@ fn draw_paused_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(22, 8, 8, 186),
   )
-  draw_centered("GAME OVER", 264, 74, @raylib.Color::new(252, 188, 174, 252))
+  draw_centered(
+    "GAME OVER",
+    264,
+    74,
+    @raylib.Color::new(252, 188, 174, 252),
+  )
   draw_centered(
     game.game_over_reason,
     348,
@@ -622,7 +663,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_forest_background(game)
   draw_corridors()
   draw_traps(game)
@@ -634,21 +675,26 @@ fn draw_frame(game : Game) -> Unit {
   draw_status_strip(game)
 
   if game.shake_t > 0.0 {
-    let alpha = (clampf(game.shake_t / shake_hit_time, 0.0, 1.0) * 100.0).to_int()
+    let alpha = (@types.clampf(
+        game.shake_t / @types.shake_hit_time,
+        0.0,
+        1.0,
+      ) *
+      100.0).to_int()
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(166, 38, 34, alpha),
     )
   }
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay()
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_paused_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

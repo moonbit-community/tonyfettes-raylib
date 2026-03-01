@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input.move_x = 0
   game.input.move_y = 0
   game.input.press_j = false
@@ -11,7 +11,7 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_input(game : Game) -> Unit {
+fn update_input(game : @types.Game) -> Unit {
   clear_input(game)
 
   if @raylib.is_key_down(@raylib.KeyA) || @raylib.is_key_down(@raylib.KeyLeft) {
@@ -27,8 +27,8 @@ fn update_input(game : Game) -> Unit {
     game.input.move_y = game.input.move_y + 1
   }
 
-  game.input.move_x = clampi(game.input.move_x, -1, 1)
-  game.input.move_y = clampi(game.input.move_y, -1, 1)
+  game.input.move_x = @types.clampi(game.input.move_x, -1, 1)
+  game.input.move_y = @types.clampi(game.input.move_y, -1, 1)
 
   game.input.press_j = @raylib.is_key_pressed(@raylib.KeyJ)
   game.input.press_k = @raylib.is_key_pressed(@raylib.KeyK)

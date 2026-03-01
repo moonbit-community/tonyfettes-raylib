@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
   mut press_j : Bool
@@ -11,7 +11,7 @@ struct InputState {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0,
     move_y: 0,
@@ -25,7 +25,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut facing_x : Float
@@ -39,7 +39,7 @@ struct Player {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: Float::from_int(world_x + 330),
     y: lane_y(1),
@@ -55,7 +55,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-struct Beacon {
+pub(all) struct Beacon {
   x : Float
   y : Float
   mut integrity : Float
@@ -63,13 +63,13 @@ struct Beacon {
 }
 
 ///|
-fn Beacon::new(index : Int) -> Beacon {
+pub fn Beacon::new(index : Int) -> Beacon {
   let (x, y) = beacon_position(index)
   { x, y, integrity: beacon_integrity_max, pulse_t: 0.0 }
 }
 
 ///|
-struct Trap {
+pub(all) struct Trap {
   mut active : Bool
   x : Float
   y : Float
@@ -78,13 +78,13 @@ struct Trap {
 }
 
 ///|
-fn Trap::new(index : Int) -> Trap {
+pub fn Trap::new(index : Int) -> Trap {
   let (x, y) = trap_slot_position(index)
   { active: false, x, y, trigger_cd: 0.0, flash_t: 0.0 }
 }
 
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -101,7 +101,7 @@ struct Enemy {
 }
 
 ///|
-fn Enemy::new() -> Enemy {
+pub fn Enemy::new() -> Enemy {
   {
     active: false,
     x: 0.0,
@@ -120,7 +120,7 @@ fn Enemy::new() -> Enemy {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : InputState
   player : Player
   beacons : Array[Beacon]
@@ -146,7 +146,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let beacons = Array::makei(beacon_count, fn(i) { Beacon::new(i) })
   let traps = Array::makei(trap_slot_count, fn(i) { Trap::new(i) })
   let enemies = Array::makei(max_enemies, fn(_i) { Enemy::new() })
