@@ -1,5 +1,5 @@
 ///|
-struct UndoStep {
+pub(all) struct UndoStep {
   mut valid : Bool
   player_x : Int
   player_y : Int
@@ -13,7 +13,7 @@ struct UndoStep {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -25,7 +25,7 @@ struct Spark {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   tiles : Array[Int]
   boxes : Array[Bool]
   undo : Array[UndoStep]
@@ -56,10 +56,15 @@ struct Game {
   mut hold_dir : Int
   mut repeat_t : Float
   mut touch_action_cd : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let undo_arr : Array[UndoStep] = Array::makei(4096, fn(_i) {
     {
       valid: false,
@@ -119,5 +124,10 @@ fn Game::new() -> Game {
     hold_dir: touch_none,
     repeat_t: 0.0,
     touch_action_cd: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    mouse_press: false,
+    touch_count: 0,
   }
 }
