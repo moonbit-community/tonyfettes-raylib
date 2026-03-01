@@ -313,7 +313,11 @@ fn damage_wagon(game : @types.Game, index : Int, value : Float) -> Unit {
   }
 
   game.wagons[index].hp = @types.maxf(0.0, game.wagons[index].hp - value)
-  game.morale = @types.clampf(game.morale - value * 0.24, 0.0, @types.morale_max)
+  game.morale = @types.clampf(
+    game.morale - value * 0.24,
+    0.0,
+    @types.morale_max,
+  )
   game.flash_t = @types.maxf(game.flash_t, 0.2)
   game.shake_t = @types.maxf(game.shake_t, 0.14)
 
@@ -403,7 +407,11 @@ fn choose_target_wagon(game : @types.Game, x : Float, y : Float) -> Int {
 }
 
 ///|
-fn spawn_raider(game : @types.Game, lane : Int, kind : Int) -> Unit {
+fn spawn_raider(
+  game : @types.Game,
+  lane : Int,
+  kind : Int,
+) -> Unit {
   let i = alloc_raider(game)
   let x = Float::from_int(@types.screen_w) + @types.randf(60.0, 160.0)
   let y = lane_y(game, lane) + @types.randf(-20.0, 20.0)
@@ -465,7 +473,9 @@ fn update_spawner(game : @types.Game, dt : Float) -> Unit {
   let pressure = Float::from_int(game.checkpoint) * 0.25 +
     game.distance * 0.00013
   let mut next = @types.spawn_interval_base - pressure
-  next = @types.clampf(next, @types.spawn_interval_min, @types.spawn_interval_base)
+  next = @types.clampf(
+    next, @types.spawn_interval_min, @types.spawn_interval_base,
+  )
   game.spawn_t = next + @types.randf(-0.08, 0.2)
 }
 
@@ -600,7 +610,13 @@ fn try_repair(game : @types.Game) -> Unit {
   game.morale = @types.clampf(game.morale + 7.5, 0.0, @types.morale_max)
   game.score = game.score + 22
   set_message(game, "Wagon repaired", 0.8)
-  burst_dust(game, game.wagons[target].x, game.wagons[target].y, 16, 3)
+  burst_dust(
+    game,
+    game.wagons[target].x,
+    game.wagons[target].y,
+    16,
+    3,
+  )
 }
 
 ///|
@@ -613,10 +629,7 @@ fn clamp_hero_ring(hero : @types.Player) -> Unit {
   }
 
   let outer = @types.ellipse_norm(
-    dx,
-    dy,
-    @types.perimeter_outer_rx,
-    @types.perimeter_outer_ry,
+    dx, dy, @types.perimeter_outer_rx, @types.perimeter_outer_ry,
   )
   if outer > 1.0 {
     dx = dx / outer
@@ -624,10 +637,7 @@ fn clamp_hero_ring(hero : @types.Player) -> Unit {
   }
 
   let inner = @types.ellipse_norm(
-    dx,
-    dy,
-    @types.perimeter_inner_rx,
-    @types.perimeter_inner_ry,
+    dx, dy, @types.perimeter_inner_rx, @types.perimeter_inner_ry,
   )
   if inner < 1.0 {
     let scale : Float = 1.0 / @types.maxf(inner, 0.0001)
@@ -851,11 +861,7 @@ fn update_raiders(game : @types.Game, dt : Float) -> Unit {
         } else {
           @types.randf(0.92, 1.24)
         }
-        game.morale = @types.clampf(
-          game.morale - 1.8,
-          0.0,
-          @types.morale_max,
-        )
+        game.morale = @types.clampf(game.morale - 1.8, 0.0, @types.morale_max)
         emit_dust(
           game,
           game.wagons[target_wagon].x,
@@ -884,11 +890,7 @@ fn update_raiders(game : @types.Game, dt : Float) -> Unit {
 
       if game.hero.invuln_t <= 0.0 {
         game.hero.invuln_t = @types.player_invuln_time
-        game.morale = @types.clampf(
-          game.morale - 6.4,
-          0.0,
-          @types.morale_max,
-        )
+        game.morale = @types.clampf(game.morale - 6.4, 0.0, @types.morale_max)
         game.shake_t = @types.maxf(game.shake_t, 0.2)
         set_message(game, "Raiders breached your guard", 0.6)
       }
@@ -995,8 +997,7 @@ fn award_checkpoint(game : @types.Game) -> Unit {
 
 ///|
 fn update_progress(game : @types.Game, dt : Float) -> Unit {
-  game.distance = game.distance +
-    @types.caravan_speed(game.checkpoint) * dt
+  game.distance = game.distance + @types.caravan_speed(game.checkpoint) * dt
 
   while game.checkpoint < @types.checkpoint_total &&
         game.distance >= game.next_checkpoint {
@@ -1119,24 +1120,16 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
 
   if game.state == @types.state_title {
     update_title(game, dt)
-    return
-  }
-
-  if game.state == @types.state_play {
+  } else if game.state == @types.state_play {
     if game.input_pause_press {
       game.state = @types.state_pause
       set_message(game, "Paused", 0.8)
       return
     }
-
     update_play(game, dt)
-    return
-  }
-
-  if game.state == @types.state_pause {
+  } else if game.state == @types.state_pause {
     update_pause(game, dt)
-    return
+  } else {
+    update_end(game, dt)
   }
-
-  update_end(game, dt)
 }
