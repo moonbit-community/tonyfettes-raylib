@@ -1,5 +1,5 @@
 ///|
-struct Fish {
+pub(all) struct Fish {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -13,7 +13,7 @@ struct Fish {
 }
 
 ///|
-struct Hazard {
+pub(all) struct Hazard {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -26,7 +26,7 @@ struct Hazard {
 }
 
 ///|
-struct Pickup {
+pub(all) struct Pickup {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -37,7 +37,7 @@ struct Pickup {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -49,7 +49,7 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   fish : Array[Fish]
   hazards : Array[Hazard]
   pickups : Array[Pickup]
@@ -91,10 +91,14 @@ struct Game {
   mut shake_t : Float
   mut touch_cd : Float
   mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Fish::new() -> Fish {
+pub fn Fish::new() -> Fish {
   {
     active: false,
     x: 0.0,
@@ -110,7 +114,7 @@ fn Fish::new() -> Fish {
 }
 
 ///|
-fn Hazard::new() -> Hazard {
+pub fn Hazard::new() -> Hazard {
   {
     active: false,
     x: 0.0,
@@ -125,7 +129,7 @@ fn Hazard::new() -> Hazard {
 }
 
 ///|
-fn Pickup::new() -> Pickup {
+pub fn Pickup::new() -> Pickup {
   {
     active: false,
     x: 0.0,
@@ -138,7 +142,7 @@ fn Pickup::new() -> Pickup {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -152,7 +156,7 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     fish: Array::makei(max_fish, fn(_i) { Fish::new() }),
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
@@ -195,5 +199,9 @@ fn Game::new() -> Game {
     shake_t: 0.0,
     touch_cd: 0.0,
     win: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
