@@ -1,86 +1,5 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn minf(a : Float, b : Float) -> Float {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn sinf(v : Float) -> Float {
-  Float::from_double(@math.sin(v.to_double()))
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn dist2(x0 : Float, y0 : Float, x1 : Float, y1 : Float) -> Float {
-  let dx : Float = x1 - x0
-  let dy : Float = y1 - y0
-  dx * dx + dy * dy
-}
-
-///|
-fn normalize(dx : Float, dy : Float) -> (Float, Float) {
-  let d1 : Float = absf(dx) + absf(dy)
-  if d1 <= 0.0001 {
-    (1.0, 0.0)
-  } else {
-    (dx / d1, dy / d1)
-  }
-}
-
-///|
-fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
-  game.message = msg
-  game.message_t = ttl
-}
-
-///|
-fn clear_enemies(game : Game) -> Unit {
+fn clear_enemies(game : @types.Game) -> Unit {
   for enemy in game.enemies {
     enemy.active = false
     enemy.x = 0.0
@@ -91,7 +10,7 @@ fn clear_enemies(game : Game) -> Unit {
     enemy.max_hp = 0.0
     enemy.radius = 20.0
     enemy.speed = 0.0
-    enemy.state = enemy_state_seek
+    enemy.state = @types.enemy_state_seek
     enemy.state_t = 0.0
     enemy.telegraph_total_t = 0.0
     enemy.visual_phase = 0.0
@@ -99,7 +18,7 @@ fn clear_enemies(game : Game) -> Unit {
 }
 
 ///|
-fn active_enemy_count(game : Game) -> Int {
+fn active_enemy_count(game : @types.Game) -> Int {
   let mut count : Int = 0
   for enemy in game.enemies {
     if enemy.active {
@@ -111,29 +30,29 @@ fn active_enemy_count(game : Game) -> Int {
 
 ///|
 fn wave_enemy_total(wave : Int) -> Int {
-  mini(30, 4 + wave * 2)
+  @types.mini(30, 4 + wave * 2)
 }
 
 ///|
 fn wave_spawn_interval(wave : Int) -> Float {
-  maxf(
-    spawn_interval_min,
-    spawn_interval_base - Float::from_int(wave - 1) * 0.06,
+  @types.maxf(
+    @types.spawn_interval_min,
+    @types.spawn_interval_base - Float::from_int(wave - 1) * 0.06,
   )
 }
 
 ///|
-fn reset_player(game : Game) -> Unit {
-  game.player_x = arena_center_x()
-  game.player_y = arena_center_y() + 120.0
+fn reset_player(game : @types.Game) -> Unit {
+  game.player_x = @types.arena_center_x()
+  game.player_y = @types.arena_center_y() + 120.0
   game.player_vx = 0.0
   game.player_vy = 0.0
   game.facing_x = 1.0
   game.facing_y = 0.0
   game.move_x = 0.0
   game.move_y = 0.0
-  game.health = player_max_health
-  game.stamina = player_max_stamina
+  game.health = @types.player_max_health
+  game.stamina = @types.player_max_stamina
   game.invuln_t = 0.0
   game.parry_t = 0.0
   game.dash_t_left = 0.0
@@ -141,15 +60,15 @@ fn reset_player(game : Game) -> Unit {
   game.dash_dir_y = 0.0
   game.attack_cd = 0.0
   game.attack_anim_t = 0.0
-  game.attack_kind = attack_none
+  game.attack_kind = @types.attack_none
 }
 
 ///|
-fn start_new_run(game : Game) -> Unit {
+fn start_new_run(game : @types.Game) -> Unit {
   clear_enemies(game)
   reset_player(game)
 
-  game.state = state_playing
+  game.state = @types.state_playing
   game.wave = 1
   game.wave_enemies_total = wave_enemy_total(game.wave)
   game.wave_spawned = 0
@@ -164,18 +83,18 @@ fn start_new_run(game : Game) -> Unit {
   game.game_t = 0.0
   game.shake_t = 0.0
 
-  set_message(
+  @types.set_message(
     game, "Blade ready. Time your parries inside telegraph windows.", 2.8,
   )
 }
 
 ///|
-fn finish_game_over(game : Game) -> Unit {
-  if game.state != state_playing {
+fn finish_game_over(game : @types.Game) -> Unit {
+  if game.state != @types.state_playing {
     return
   }
 
-  game.state = state_game_over
+  game.state = @types.state_game_over
   game.move_x = 0.0
   game.move_y = 0.0
   game.player_vx = game.player_vx * 0.2
@@ -185,7 +104,7 @@ fn finish_game_over(game : Game) -> Unit {
     game.best_score = game.score
   }
 
-  set_message(
+  @types.set_message(
     game,
     "Defeated on wave " +
     game.wave.to_string() +
@@ -195,14 +114,14 @@ fn finish_game_over(game : Game) -> Unit {
 }
 
 ///|
-fn add_score_event(game : Game, base : Int, stage_points : Int) -> Unit {
-  let combo_bonus_percent : Int = mini(240, game.combo * 13)
+fn add_score_event(game : @types.Game, base : Int, stage_points : Int) -> Unit {
+  let combo_bonus_percent : Int = @types.mini(240, game.combo * 13)
   let gained : Int = base * (100 + combo_bonus_percent) / 100
 
   game.score = game.score + gained
   game.stage_score = game.stage_score + stage_points + game.combo / 2
-  game.combo = mini(999, game.combo + 1)
-  game.combo_t = combo_timeout
+  game.combo = @types.mini(999, game.combo + 1)
+  game.combo_t = @types.combo_timeout
 
   if game.score > game.best_score {
     game.best_score = game.score
@@ -210,26 +129,26 @@ fn add_score_event(game : Game, base : Int, stage_points : Int) -> Unit {
 }
 
 ///|
-fn hurt_player(game : Game, dmg : Float) -> Unit {
-  if game.state != state_playing || game.invuln_t > 0.0 {
+fn hurt_player(game : @types.Game, dmg : Float) -> Unit {
+  if game.state != @types.state_playing || game.invuln_t > 0.0 {
     return
   }
 
-  game.health = maxf(0.0, game.health - dmg)
-  game.invuln_t = player_hit_invuln
+  game.health = @types.maxf(0.0, game.health - dmg)
+  game.invuln_t = @types.player_hit_invuln
   game.combo = 0
   game.combo_t = 0.0
-  game.shake_t = maxf(game.shake_t, 0.24)
+  game.shake_t = @types.maxf(game.shake_t, 0.24)
 
   if game.health <= 0.0 {
     finish_game_over(game)
   } else {
-    set_message(game, "Guard broken!", 0.65)
+    @types.set_message(game, "Guard broken!", 0.65)
   }
 }
 
 ///|
-fn spawn_enemy(game : Game) -> Bool {
+fn spawn_enemy(game : @types.Game) -> Bool {
   for enemy in game.enemies {
     if enemy.active {
       continue
@@ -239,30 +158,42 @@ fn spawn_enemy(game : Game) -> Bool {
 
     let side : Int = @raylib.get_random_value(0, 3)
     if side == 0 {
-      enemy.x = randf(arena_left() + 26.0, arena_right() - 26.0)
-      enemy.y = arena_top() - randf(20.0, 80.0)
+      enemy.x = @types.randf(
+        @types.arena_left() + 26.0,
+        @types.arena_right() - 26.0,
+      )
+      enemy.y = @types.arena_top() - @types.randf(20.0, 80.0)
     } else if side == 1 {
-      enemy.x = randf(arena_left() + 26.0, arena_right() - 26.0)
-      enemy.y = arena_bottom() + randf(20.0, 80.0)
+      enemy.x = @types.randf(
+        @types.arena_left() + 26.0,
+        @types.arena_right() - 26.0,
+      )
+      enemy.y = @types.arena_bottom() + @types.randf(20.0, 80.0)
     } else if side == 2 {
-      enemy.x = arena_left() - randf(20.0, 80.0)
-      enemy.y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
+      enemy.x = @types.arena_left() - @types.randf(20.0, 80.0)
+      enemy.y = @types.randf(
+        @types.arena_top() + 26.0,
+        @types.arena_bottom() - 26.0,
+      )
     } else {
-      enemy.x = arena_right() + randf(20.0, 80.0)
-      enemy.y = randf(arena_top() + 26.0, arena_bottom() - 26.0)
+      enemy.x = @types.arena_right() + @types.randf(20.0, 80.0)
+      enemy.y = @types.randf(
+        @types.arena_top() + 26.0,
+        @types.arena_bottom() - 26.0,
+      )
     }
 
     enemy.active = true
-    enemy.radius = randf(18.0, 26.0)
-    enemy.max_hp = 60.0 + wave_f * 7.0 + randf(-6.0, 12.0)
+    enemy.radius = @types.randf(18.0, 26.0)
+    enemy.max_hp = 60.0 + wave_f * 7.0 + @types.randf(-6.0, 12.0)
     enemy.hp = enemy.max_hp
-    enemy.speed = 126.0 + wave_f * 10.0 + randf(-18.0, 18.0)
+    enemy.speed = 126.0 + wave_f * 10.0 + @types.randf(-18.0, 18.0)
     enemy.vx = 0.0
     enemy.vy = 0.0
-    enemy.state = enemy_state_seek
+    enemy.state = @types.enemy_state_seek
     enemy.state_t = 0.0
     enemy.telegraph_total_t = 0.0
-    enemy.visual_phase = randf(0.0, 6.28)
+    enemy.visual_phase = @types.randf(0.0, 6.28)
 
     return true
   }
@@ -271,7 +202,7 @@ fn spawn_enemy(game : Game) -> Bool {
 }
 
 ///|
-fn defeat_enemy(game : Game, idx : Int, parry_kill : Bool) -> Unit {
+fn defeat_enemy(game : @types.Game, idx : Int, parry_kill : Bool) -> Unit {
   if not(game.enemies[idx].active) {
     return
   }
@@ -284,21 +215,28 @@ fn defeat_enemy(game : Game, idx : Int, parry_kill : Bool) -> Unit {
   add_score_event(game, base, stage)
 
   let stamina_gain : Float = if parry_kill { 16.0 } else { 8.0 }
-  game.stamina = minf(player_max_stamina, game.stamina + stamina_gain)
-  game.shake_t = maxf(game.shake_t, if parry_kill { 0.22 } else { 0.14 })
+  game.stamina = @types.minf(@types.player_max_stamina, game.stamina + stamina_gain)
+  game.shake_t = @types.maxf(
+    game.shake_t,
+    if parry_kill { 0.22 } else { 0.14 },
+  )
 }
 
 ///|
-fn stun_enemy_from_parry(game : Game, idx : Int, from_strike : Bool) -> Unit {
+fn stun_enemy_from_parry(
+  game : @types.Game,
+  idx : Int,
+  from_strike : Bool,
+) -> Unit {
   if not(game.enemies[idx].active) {
     return
   }
 
-  game.enemies[idx].state = enemy_state_stunned
-  game.enemies[idx].state_t = enemy_stunned_t
+  game.enemies[idx].state = @types.enemy_state_stunned
+  game.enemies[idx].state_t = @types.enemy_stunned_t
   game.enemies[idx].telegraph_total_t = 0.0
 
-  let push = normalize(
+  let push = @types.normalize(
     game.enemies[idx].x - game.player_x,
     game.enemies[idx].y - game.player_y,
   )
@@ -308,16 +246,16 @@ fn stun_enemy_from_parry(game : Game, idx : Int, from_strike : Bool) -> Unit {
   game.enemies[idx].vy = push.1 * launch
 
   let dmg : Float = if from_strike {
-    parry_counter_damage + 16.0
+    @types.parry_counter_damage + 16.0
   } else {
-    parry_counter_damage
+    @types.parry_counter_damage
   }
 
   game.enemies[idx].hp = game.enemies[idx].hp - dmg
 
   add_score_event(game, if from_strike { 34 } else { 24 }, 12)
-  game.stamina = minf(player_max_stamina, game.stamina + 14.0)
-  game.health = minf(player_max_health, game.health + 1.5)
+  game.stamina = @types.minf(@types.player_max_stamina, game.stamina + 14.0)
+  game.health = @types.minf(@types.player_max_health, game.health + 1.5)
 
   if game.enemies[idx].hp <= 0.0 {
     defeat_enemy(game, idx, true)
@@ -325,8 +263,8 @@ fn stun_enemy_from_parry(game : Game, idx : Int, from_strike : Bool) -> Unit {
 }
 
 ///|
-fn resolve_parry_window(game : Game) -> Int {
-  if game.state != state_playing || game.parry_t <= 0.0 {
+fn resolve_parry_window(game : @types.Game) -> Int {
+  if game.state != @types.state_playing || game.parry_t <= 0.0 {
     return 0
   }
 
@@ -337,16 +275,21 @@ fn resolve_parry_window(game : Game) -> Int {
       continue
     }
 
-    if game.enemies[i].state != enemy_state_telegraph {
+    if game.enemies[i].state != @types.enemy_state_telegraph {
       continue
     }
 
-    if game.enemies[i].state_t > enemy_parry_window + 0.06 {
+    if game.enemies[i].state_t > @types.enemy_parry_window + 0.06 {
       continue
     }
 
-    let rr : Float = parry_range + game.enemies[i].radius
-    if dist2(game.player_x, game.player_y, game.enemies[i].x, game.enemies[i].y) >
+    let rr : Float = @types.parry_range + game.enemies[i].radius
+    if @types.dist2(
+        game.player_x,
+        game.player_y,
+        game.enemies[i].x,
+        game.enemies[i].y,
+      ) >
       rr * rr {
       continue
     }
@@ -360,7 +303,7 @@ fn resolve_parry_window(game : Game) -> Int {
 
 ///|
 fn apply_attack_hit(
-  game : Game,
+  game : @types.Game,
   idx : Int,
   damage : Float,
   knockback : Float,
@@ -372,7 +315,7 @@ fn apply_attack_hit(
 
   game.enemies[idx].hp = game.enemies[idx].hp - damage
 
-  let push = normalize(
+  let push = @types.normalize(
     game.enemies[idx].x - game.player_x,
     game.enemies[idx].y - game.player_y,
   )
@@ -381,10 +324,10 @@ fn apply_attack_hit(
   game.enemies[idx].vy = game.enemies[idx].vy + push.1 * knockback
 
   if telegraph_stagger &&
-    game.enemies[idx].state == enemy_state_telegraph &&
-    game.enemies[idx].state_t <= enemy_parry_window + 0.08 {
-    game.enemies[idx].state = enemy_state_stunned
-    game.enemies[idx].state_t = enemy_stunned_t * 0.7
+    game.enemies[idx].state == @types.enemy_state_telegraph &&
+    game.enemies[idx].state_t <= @types.enemy_parry_window + 0.08 {
+    game.enemies[idx].state = @types.enemy_state_stunned
+    game.enemies[idx].state_t = @types.enemy_stunned_t * 0.7
   }
 
   if game.enemies[idx].hp <= 0.0 {
@@ -395,50 +338,50 @@ fn apply_attack_hit(
 }
 
 ///|
-fn try_player_attack(game : Game, attack : Int) -> Bool {
-  if game.state != state_playing {
+fn try_player_attack(game : @types.Game, attack : Int) -> Bool {
+  if game.state != @types.state_playing {
     return false
   }
   if game.attack_cd > 0.0 {
     return false
   }
 
-  let cost : Float = if attack == attack_heavy {
-    heavy_attack_cost
+  let cost : Float = if attack == @types.attack_heavy {
+    @types.heavy_attack_cost
   } else {
-    light_attack_cost
+    @types.light_attack_cost
   }
   if game.stamina < cost {
-    set_message(game, "Not enough stamina.", 0.55)
+    @types.set_message(game, "Not enough stamina.", 0.55)
     return false
   }
 
-  let damage : Float = if attack == attack_heavy {
-    heavy_attack_damage
+  let damage : Float = if attack == @types.attack_heavy {
+    @types.heavy_attack_damage
   } else {
-    light_attack_damage
+    @types.light_attack_damage
   }
-  let reach : Float = if attack == attack_heavy {
-    heavy_attack_range
+  let reach : Float = if attack == @types.attack_heavy {
+    @types.heavy_attack_range
   } else {
-    light_attack_range
+    @types.light_attack_range
   }
-  let arc_dot : Float = if attack == attack_heavy {
-    heavy_attack_arc_dot
+  let arc_dot : Float = if attack == @types.attack_heavy {
+    @types.heavy_attack_arc_dot
   } else {
-    light_attack_arc_dot
+    @types.light_attack_arc_dot
   }
 
   game.stamina = game.stamina - cost
-  game.attack_cd = if attack == attack_heavy {
-    heavy_attack_cooldown
+  game.attack_cd = if attack == @types.attack_heavy {
+    @types.heavy_attack_cooldown
   } else {
-    light_attack_cooldown
+    @types.light_attack_cooldown
   }
-  game.attack_anim_t = if attack == attack_heavy {
-    heavy_attack_anim_t
+  game.attack_anim_t = if attack == @types.attack_heavy {
+    @types.heavy_attack_anim_t
   } else {
-    light_attack_anim_t
+    @types.light_attack_anim_t
   }
   game.attack_kind = attack
 
@@ -457,7 +400,7 @@ fn try_player_attack(game : Game, attack : Int) -> Bool {
       continue
     }
 
-    let enemy_dir = normalize(dx, dy)
+    let enemy_dir = @types.normalize(dx, dy)
     let dot : Float = enemy_dir.0 * game.facing_x + enemy_dir.1 * game.facing_y
     if dot < arc_dot {
       continue
@@ -467,24 +410,24 @@ fn try_player_attack(game : Game, attack : Int) -> Bool {
       game,
       i,
       damage,
-      if attack == attack_heavy {
+      if attack == @types.attack_heavy {
         380.0
       } else {
         260.0
       },
-      attack == attack_heavy,
+      attack == @types.attack_heavy,
     )
 
     if hit {
       hit_count = hit_count + 1
       add_score_event(
         game,
-        if attack == attack_heavy {
+        if attack == @types.attack_heavy {
           22
         } else {
           14
         },
-        if attack == attack_heavy {
+        if attack == @types.attack_heavy {
           11
         } else {
           7
@@ -494,11 +437,11 @@ fn try_player_attack(game : Game, attack : Int) -> Bool {
   }
 
   if hit_count == 0 {
-    game.combo_t = maxf(0.0, game.combo_t - 0.40)
+    game.combo_t = @types.maxf(0.0, game.combo_t - 0.40)
   } else {
-    game.shake_t = maxf(
+    game.shake_t = @types.maxf(
       game.shake_t,
-      if attack == attack_heavy {
+      if attack == @types.attack_heavy {
         0.15
       } else {
         0.10
@@ -510,90 +453,99 @@ fn try_player_attack(game : Game, attack : Int) -> Bool {
 }
 
 ///|
-fn trigger_parry_dash(game : Game) -> Bool {
-  if game.state != state_playing {
+fn trigger_parry_dash(game : @types.Game) -> Bool {
+  if game.state != @types.state_playing {
     return false
   }
   if game.parry_t > 0.0 {
     return false
   }
-  if game.stamina < parry_dash_cost {
-    set_message(game, "Not enough stamina for parry.", 0.55)
+  if game.stamina < @types.parry_dash_cost {
+    @types.set_message(game, "Not enough stamina for parry.", 0.55)
     return false
   }
 
-  let dash_dir = if absf(game.move_x) + absf(game.move_y) > 0.01 {
-    normalize(game.move_x, game.move_y)
+  let dash_dir = if @types.absf(game.move_x) + @types.absf(game.move_y) >
+    0.01 {
+    @types.normalize(game.move_x, game.move_y)
   } else {
-    normalize(game.facing_x, game.facing_y)
+    @types.normalize(game.facing_x, game.facing_y)
   }
 
-  game.stamina = game.stamina - parry_dash_cost
-  game.parry_t = parry_active_t
-  game.dash_t_left = dash_t
+  game.stamina = game.stamina - @types.parry_dash_cost
+  game.parry_t = @types.parry_active_t
+  game.dash_t_left = @types.dash_t
   game.dash_dir_x = dash_dir.0
   game.dash_dir_y = dash_dir.1
-  game.player_vx = game.player_vx + game.dash_dir_x * dash_speed
-  game.player_vy = game.player_vy + game.dash_dir_y * dash_speed
+  game.player_vx = game.player_vx + game.dash_dir_x * @types.dash_speed
+  game.player_vy = game.player_vy + game.dash_dir_y * @types.dash_speed
 
   let parry_now : Int = resolve_parry_window(game)
   if parry_now > 0 {
-    set_message(game, "Perfect parry x" + parry_now.to_string(), 0.70)
-    game.shake_t = maxf(game.shake_t, 0.20)
+    @types.set_message(
+      game,
+      "Perfect parry x" + parry_now.to_string(),
+      0.70,
+    )
+    game.shake_t = @types.maxf(game.shake_t, 0.20)
   }
 
   true
 }
 
 ///|
-fn update_player(game : Game, dt : Float) -> Unit {
-  game.player_vx = game.player_vx + game.move_x * player_move_accel * dt
-  game.player_vy = game.player_vy + game.move_y * player_move_accel * dt
+fn update_player(game : @types.Game, dt : Float) -> Unit {
+  game.player_vx = game.player_vx +
+    game.move_x * @types.player_move_accel * dt
+  game.player_vy = game.player_vy +
+    game.move_y * @types.player_move_accel * dt
 
   if game.dash_t_left > 0.0 {
-    game.player_vx = game.player_vx + game.dash_dir_x * dash_speed * dt
-    game.player_vy = game.player_vy + game.dash_dir_y * dash_speed * dt
+    game.player_vx = game.player_vx +
+      game.dash_dir_x * @types.dash_speed * dt
+    game.player_vy = game.player_vy +
+      game.dash_dir_y * @types.dash_speed * dt
   }
 
-  let damp : Float = maxf(0.0, 1.0 - dt * player_friction)
+  let damp : Float = @types.maxf(0.0, 1.0 - dt * @types.player_friction)
   game.player_vx = game.player_vx * damp
   game.player_vy = game.player_vy * damp
 
   game.player_x = game.player_x + game.player_vx * dt
   game.player_y = game.player_y + game.player_vy * dt
 
-  let left : Float = arena_left() + player_radius + 8.0
-  let right : Float = arena_right() - player_radius - 8.0
-  let top : Float = arena_top() + player_radius + 8.0
-  let bottom : Float = arena_bottom() - player_radius - 8.0
+  let left : Float = @types.arena_left() + @types.player_radius + 8.0
+  let right : Float = @types.arena_right() - @types.player_radius - 8.0
+  let top : Float = @types.arena_top() + @types.player_radius + 8.0
+  let bottom : Float = @types.arena_bottom() - @types.player_radius - 8.0
 
   if game.player_x < left {
     game.player_x = left
-    game.player_vx = maxf(0.0, game.player_vx)
+    game.player_vx = @types.maxf(0.0, game.player_vx)
   } else if game.player_x > right {
     game.player_x = right
-    game.player_vx = minf(0.0, game.player_vx)
+    game.player_vx = @types.minf(0.0, game.player_vx)
   }
 
   if game.player_y < top {
     game.player_y = top
-    game.player_vy = maxf(0.0, game.player_vy)
+    game.player_vy = @types.maxf(0.0, game.player_vy)
   } else if game.player_y > bottom {
     game.player_y = bottom
-    game.player_vy = minf(0.0, game.player_vy)
+    game.player_vy = @types.minf(0.0, game.player_vy)
   }
 }
 
 ///|
-fn update_enemy_seek(game : Game, idx : Int, dt : Float) -> Unit {
-  let dir = normalize(
+fn update_enemy_seek(game : @types.Game, idx : Int, dt : Float) -> Unit {
+  let dir = @types.normalize(
     game.player_x - game.enemies[idx].x,
     game.player_y - game.enemies[idx].y,
   )
 
   let side_x : Float = -dir.1
   let side_y : Float = dir.0
-  let sidestep : Float = sinf(
+  let sidestep : Float = @types.sinf(
       game.enemies[idx].visual_phase * 3.0 + game.ui_t * 1.6,
     ) *
     48.0
@@ -601,22 +553,29 @@ fn update_enemy_seek(game : Game, idx : Int, dt : Float) -> Unit {
   let tx : Float = dir.0 * game.enemies[idx].speed + side_x * sidestep
   let ty : Float = dir.1 * game.enemies[idx].speed + side_y * sidestep
 
-  game.enemies[idx].vx = game.enemies[idx].vx * (1.0 - dt * 3.2) + tx * dt * 3.2
-  game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 3.2) + ty * dt * 3.2
+  game.enemies[idx].vx = game.enemies[idx].vx * (1.0 - dt * 3.2) +
+    tx * dt * 3.2
+  game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 3.2) +
+    ty * dt * 3.2
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
 
-  let engage_rr : Float = 90.0 + player_radius + game.enemies[idx].radius
-  if dist2(
+  let engage_rr : Float = 90.0 +
+    @types.player_radius +
+    game.enemies[idx].radius
+  if @types.dist2(
       game.player_x,
       game.player_y,
       game.enemies[idx].x,
       game.enemies[idx].y,
     ) <=
     engage_rr * engage_rr {
-    let telegraph_t : Float = randf(enemy_telegraph_min, enemy_telegraph_max)
-    game.enemies[idx].state = enemy_state_telegraph
+    let telegraph_t : Float = @types.randf(
+      @types.enemy_telegraph_min,
+      @types.enemy_telegraph_max,
+    )
+    game.enemies[idx].state = @types.enemy_state_telegraph
     game.enemies[idx].state_t = telegraph_t
     game.enemies[idx].telegraph_total_t = telegraph_t
     game.enemies[idx].vx = game.enemies[idx].vx * 0.22
@@ -625,10 +584,13 @@ fn update_enemy_seek(game : Game, idx : Int, dt : Float) -> Unit {
 }
 
 ///|
-fn update_enemy_telegraph(game : Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = maxf(0.0, game.enemies[idx].state_t - dt)
+fn update_enemy_telegraph(game : @types.Game, idx : Int, dt : Float) -> Unit {
+  game.enemies[idx].state_t = @types.maxf(
+    0.0,
+    game.enemies[idx].state_t - dt,
+  )
 
-  let dir = normalize(
+  let dir = @types.normalize(
     game.player_x - game.enemies[idx].x,
     game.player_y - game.enemies[idx].y,
   )
@@ -642,13 +604,13 @@ fn update_enemy_telegraph(game : Game, idx : Int, dt : Float) -> Unit {
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
 
   if game.enemies[idx].state_t <= 0.0 {
-    let strike_dir = normalize(
+    let strike_dir = @types.normalize(
       game.player_x - game.enemies[idx].x,
       game.player_y - game.enemies[idx].y,
     )
 
-    game.enemies[idx].state = enemy_state_strike
-    game.enemies[idx].state_t = enemy_strike_t
+    game.enemies[idx].state = @types.enemy_state_strike
+    game.enemies[idx].state_t = @types.enemy_strike_t
 
     let strike_speed : Float = 520.0 + Float::from_int(game.wave) * 18.0
     game.enemies[idx].vx = strike_dir.0 * strike_speed
@@ -657,16 +619,19 @@ fn update_enemy_telegraph(game : Game, idx : Int, dt : Float) -> Unit {
 }
 
 ///|
-fn update_enemy_strike(game : Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = maxf(0.0, game.enemies[idx].state_t - dt)
+fn update_enemy_strike(game : @types.Game, idx : Int, dt : Float) -> Unit {
+  game.enemies[idx].state_t = @types.maxf(
+    0.0,
+    game.enemies[idx].state_t - dt,
+  )
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
   game.enemies[idx].vx = game.enemies[idx].vx * (1.0 - dt * 1.7)
   game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 1.7)
 
-  let hit_rr : Float = player_radius + game.enemies[idx].radius + 4.0
-  if dist2(
+  let hit_rr : Float = @types.player_radius + game.enemies[idx].radius + 4.0
+  if @types.dist2(
       game.player_x,
       game.player_y,
       game.enemies[idx].x,
@@ -675,14 +640,14 @@ fn update_enemy_strike(game : Game, idx : Int, dt : Float) -> Unit {
     hit_rr * hit_rr {
     if game.parry_t > 0.0 {
       stun_enemy_from_parry(game, idx, true)
-      set_message(game, "Counter cut!", 0.50)
+      @types.set_message(game, "Counter cut!", 0.50)
     } else {
       hurt_player(
         game,
-        enemy_contact_damage + Float::from_int(game.wave) * 1.05,
+        @types.enemy_contact_damage + Float::from_int(game.wave) * 1.05,
       )
-      game.enemies[idx].state = enemy_state_recover
-      game.enemies[idx].state_t = enemy_recover_t
+      game.enemies[idx].state = @types.enemy_state_recover
+      game.enemies[idx].state_t = @types.enemy_recover_t
       game.enemies[idx].vx = -game.enemies[idx].vx * 0.36
       game.enemies[idx].vy = -game.enemies[idx].vy * 0.36
       return
@@ -690,14 +655,17 @@ fn update_enemy_strike(game : Game, idx : Int, dt : Float) -> Unit {
   }
 
   if game.enemies[idx].state_t <= 0.0 {
-    game.enemies[idx].state = enemy_state_recover
-    game.enemies[idx].state_t = enemy_recover_t
+    game.enemies[idx].state = @types.enemy_state_recover
+    game.enemies[idx].state_t = @types.enemy_recover_t
   }
 }
 
 ///|
-fn update_enemy_recover(game : Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = maxf(0.0, game.enemies[idx].state_t - dt)
+fn update_enemy_recover(game : @types.Game, idx : Int, dt : Float) -> Unit {
+  game.enemies[idx].state_t = @types.maxf(
+    0.0,
+    game.enemies[idx].state_t - dt,
+  )
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
@@ -706,14 +674,17 @@ fn update_enemy_recover(game : Game, idx : Int, dt : Float) -> Unit {
   game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 6.0)
 
   if game.enemies[idx].state_t <= 0.0 {
-    game.enemies[idx].state = enemy_state_seek
+    game.enemies[idx].state = @types.enemy_state_seek
     game.enemies[idx].state_t = 0.0
   }
 }
 
 ///|
-fn update_enemy_stunned(game : Game, idx : Int, dt : Float) -> Unit {
-  game.enemies[idx].state_t = maxf(0.0, game.enemies[idx].state_t - dt)
+fn update_enemy_stunned(game : @types.Game, idx : Int, dt : Float) -> Unit {
+  game.enemies[idx].state_t = @types.maxf(
+    0.0,
+    game.enemies[idx].state_t - dt,
+  )
 
   game.enemies[idx].x = game.enemies[idx].x + game.enemies[idx].vx * dt
   game.enemies[idx].y = game.enemies[idx].y + game.enemies[idx].vy * dt
@@ -722,37 +693,37 @@ fn update_enemy_stunned(game : Game, idx : Int, dt : Float) -> Unit {
   game.enemies[idx].vy = game.enemies[idx].vy * (1.0 - dt * 7.8)
 
   if game.enemies[idx].state_t <= 0.0 {
-    game.enemies[idx].state = enemy_state_seek
+    game.enemies[idx].state = @types.enemy_state_seek
     game.enemies[idx].state_t = 0.0
   }
 }
 
 ///|
-fn keep_enemy_inside_rooftop(game : Game, idx : Int) -> Unit {
-  let left : Float = arena_left() - 120.0
-  let right : Float = arena_right() + 120.0
-  let top : Float = arena_top() - 120.0
-  let bottom : Float = arena_bottom() + 120.0
+fn keep_enemy_inside_rooftop(game : @types.Game, idx : Int) -> Unit {
+  let left : Float = @types.arena_left() - 120.0
+  let right : Float = @types.arena_right() + 120.0
+  let top : Float = @types.arena_top() - 120.0
+  let bottom : Float = @types.arena_bottom() + 120.0
 
   if game.enemies[idx].x < left {
     game.enemies[idx].x = left
-    game.enemies[idx].vx = absf(game.enemies[idx].vx) * 0.4
+    game.enemies[idx].vx = @types.absf(game.enemies[idx].vx) * 0.4
   } else if game.enemies[idx].x > right {
     game.enemies[idx].x = right
-    game.enemies[idx].vx = -absf(game.enemies[idx].vx) * 0.4
+    game.enemies[idx].vx = -@types.absf(game.enemies[idx].vx) * 0.4
   }
 
   if game.enemies[idx].y < top {
     game.enemies[idx].y = top
-    game.enemies[idx].vy = absf(game.enemies[idx].vy) * 0.4
+    game.enemies[idx].vy = @types.absf(game.enemies[idx].vy) * 0.4
   } else if game.enemies[idx].y > bottom {
     game.enemies[idx].y = bottom
-    game.enemies[idx].vy = -absf(game.enemies[idx].vy) * 0.4
+    game.enemies[idx].vy = -@types.absf(game.enemies[idx].vy) * 0.4
   }
 }
 
 ///|
-fn update_enemies(game : Game, dt : Float) -> Unit {
+fn update_enemies(game : @types.Game, dt : Float) -> Unit {
   for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       continue
@@ -761,13 +732,13 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     game.enemies[i].visual_phase = game.enemies[i].visual_phase +
       dt * (1.4 + Float::from_int(i % 5) * 0.3)
 
-    if game.enemies[i].state == enemy_state_seek {
+    if game.enemies[i].state == @types.enemy_state_seek {
       update_enemy_seek(game, i, dt)
-    } else if game.enemies[i].state == enemy_state_telegraph {
+    } else if game.enemies[i].state == @types.enemy_state_telegraph {
       update_enemy_telegraph(game, i, dt)
-    } else if game.enemies[i].state == enemy_state_strike {
+    } else if game.enemies[i].state == @types.enemy_state_strike {
       update_enemy_strike(game, i, dt)
-    } else if game.enemies[i].state == enemy_state_recover {
+    } else if game.enemies[i].state == @types.enemy_state_recover {
       update_enemy_recover(game, i, dt)
     } else {
       update_enemy_stunned(game, i, dt)
@@ -778,12 +749,16 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_wave_flow(game : Game, dt : Float) -> Unit {
+fn update_wave_flow(game : @types.Game, dt : Float) -> Unit {
   let before_gap : Float = game.wave_gap_t
-  game.wave_gap_t = maxf(0.0, game.wave_gap_t - dt)
+  game.wave_gap_t = @types.maxf(0.0, game.wave_gap_t - dt)
 
   if before_gap > 0.0 && game.wave_gap_t <= 0.0 {
-    set_message(game, "Wave " + game.wave.to_string() + " begins.", 1.1)
+    @types.set_message(
+      game,
+      "Wave " + game.wave.to_string() + " begins.",
+      1.1,
+    )
   }
 
   if game.wave_gap_t > 0.0 {
@@ -816,7 +791,7 @@ fn update_wave_flow(game : Game, dt : Float) -> Unit {
   let bonus : Int = 100 +
     cleared_wave * 44 +
     game.stage_score / 2 +
-    mini(500, game.combo * 6)
+    @types.mini(500, game.combo * 6)
 
   game.last_stage_bonus = bonus
   game.score = game.score + bonus
@@ -831,9 +806,9 @@ fn update_wave_flow(game : Game, dt : Float) -> Unit {
   game.wave_defeated = 0
   game.stage_score = 0
   game.spawn_cd = 0.2
-  game.wave_gap_t = wave_gap_duration
+  game.wave_gap_t = @types.wave_gap_duration
 
-  set_message(
+  @types.set_message(
     game,
     "Wave " +
     cleared_wave.to_string() +
@@ -844,10 +819,10 @@ fn update_wave_flow(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_timers(game : Game, dt : Float) -> Unit {
+fn update_timers(game : @types.Game, dt : Float) -> Unit {
   game.ui_t = game.ui_t + dt
-  game.message_t = maxf(0.0, game.message_t - dt)
-  game.shake_t = maxf(0.0, game.shake_t - dt)
+  game.message_t = @types.maxf(0.0, game.message_t - dt)
+  game.shake_t = @types.maxf(0.0, game.shake_t - dt)
 
   if game.message_t <= 0.0 {
     game.message = ""
@@ -855,38 +830,41 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_play_timers(game : Game, dt : Float) -> Unit {
+fn update_play_timers(game : @types.Game, dt : Float) -> Unit {
   update_timers(game, dt)
 
   game.game_t = game.game_t + dt
-  game.attack_cd = maxf(0.0, game.attack_cd - dt)
-  game.attack_anim_t = maxf(0.0, game.attack_anim_t - dt)
-  game.parry_t = maxf(0.0, game.parry_t - dt)
-  game.dash_t_left = maxf(0.0, game.dash_t_left - dt)
-  game.invuln_t = maxf(0.0, game.invuln_t - dt)
+  game.attack_cd = @types.maxf(0.0, game.attack_cd - dt)
+  game.attack_anim_t = @types.maxf(0.0, game.attack_anim_t - dt)
+  game.parry_t = @types.maxf(0.0, game.parry_t - dt)
+  game.dash_t_left = @types.maxf(0.0, game.dash_t_left - dt)
+  game.invuln_t = @types.maxf(0.0, game.invuln_t - dt)
 
-  game.combo_t = maxf(0.0, game.combo_t - dt)
+  game.combo_t = @types.maxf(0.0, game.combo_t - dt)
   if game.combo_t <= 0.0 {
     game.combo = 0
   }
 
   if game.attack_anim_t <= 0.0 {
-    game.attack_kind = attack_none
+    game.attack_kind = @types.attack_none
   }
 
   let regen : Float = if game.attack_anim_t > 0.0 || game.parry_t > 0.0 {
-    stamina_regen_slow
+    @types.stamina_regen_slow
   } else {
-    stamina_regen_fast
+    @types.stamina_regen_fast
   }
-  game.stamina = minf(player_max_stamina, game.stamina + regen * dt)
+  game.stamina = @types.minf(
+    @types.player_max_stamina,
+    game.stamina + regen * dt,
+  )
 }
 
 ///|
-fn update_logic(game : Game, dt : Float) -> Unit {
-  let step : Float = clampf(dt, 0.0, 0.05)
+fn update_logic(game : @types.Game, dt : Float) -> Unit {
+  let step : Float = @types.clampf(dt, 0.0, 0.05)
 
-  if game.state == state_playing {
+  if game.state == @types.state_playing {
     update_play_timers(game, step)
   } else {
     update_timers(game, step)
@@ -898,7 +876,11 @@ fn update_logic(game : Game, dt : Float) -> Unit {
   if game.parry_t > 0.0 {
     let parried : Int = resolve_parry_window(game)
     if parried > 0 {
-      set_message(game, "Perfect parry x" + parried.to_string(), 0.65)
+      @types.set_message(
+        game,
+        "Perfect parry x" + parried.to_string(),
+        0.65,
+      )
     }
   }
 
@@ -908,4 +890,10 @@ fn update_logic(game : Game, dt : Float) -> Unit {
   if game.health <= 0.0 {
     finish_game_over(game)
   }
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  update_input(game, dt)
+  update_logic(game, dt)
 }

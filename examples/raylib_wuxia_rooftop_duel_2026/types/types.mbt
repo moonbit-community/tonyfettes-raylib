@@ -1,5 +1,5 @@
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -16,7 +16,7 @@ struct Enemy {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   enemies : Array[Enemy]
   mut state : Int
   mut player_x : Float
@@ -57,7 +57,7 @@ struct Game {
 }
 
 ///|
-fn Enemy::new() -> Enemy {
+pub fn Enemy::new() -> Enemy {
   {
     active: false,
     x: 0.0,
@@ -76,7 +76,7 @@ fn Enemy::new() -> Enemy {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     enemies: Array::makei(max_enemy_slots, fn(_i) { Enemy::new() }),
     state: state_title,

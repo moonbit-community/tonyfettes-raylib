@@ -1,5 +1,5 @@
 ///|
-fn shake_x(game : Game) -> Int {
+fn shake_x(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -8,7 +8,7 @@ fn shake_x(game : Game) -> Int {
 }
 
 ///|
-fn shake_y(game : Game) -> Int {
+fn shake_y(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -17,10 +17,10 @@ fn shake_y(game : Game) -> Int {
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 14, 26, 255))
 
-  let moon_pulse : Float = sinf(game.ui_t * 0.9)
+  let moon_pulse : Float = @types.sinf(game.ui_t * 0.9)
 
   @raylib.draw_circle(
     1240,
@@ -60,66 +60,66 @@ fn draw_background(game : Game) -> Unit {
 ///|
 fn draw_rooftop(ox : Int, oy : Int) -> Unit {
   @raylib.draw_rectangle(
-    arena_x + ox,
-    arena_y + oy,
-    arena_w,
-    arena_h,
+    @types.arena_x + ox,
+    @types.arena_y + oy,
+    @types.arena_w,
+    @types.arena_h,
     @raylib.Color::new(30, 36, 56, 246),
   )
 
   for i in 0..<21 {
-    let y : Int = arena_y + oy + i * 36
+    let y : Int = @types.arena_y + oy + i * 36
     @raylib.draw_line(
-      arena_x + 8 + ox,
+      @types.arena_x + 8 + ox,
       y,
-      arena_x + arena_w - 8 + ox,
+      @types.arena_x + @types.arena_w - 8 + ox,
       y,
       @raylib.Color::new(54, 66, 96, 96),
     )
   }
 
   for i in 0..<33 {
-    let x : Int = arena_x + ox + i * 40
+    let x : Int = @types.arena_x + ox + i * 40
     @raylib.draw_line(
       x,
-      arena_y + 8 + oy,
+      @types.arena_y + 8 + oy,
       x,
-      arena_y + arena_h - 8 + oy,
+      @types.arena_y + @types.arena_h - 8 + oy,
       @raylib.Color::new(52, 62, 90, 76),
     )
   }
 
   @raylib.draw_rectangle_lines(
-    arena_x + ox,
-    arena_y + oy,
-    arena_w,
-    arena_h,
+    @types.arena_x + ox,
+    @types.arena_y + oy,
+    @types.arena_w,
+    @types.arena_h,
     @raylib.Color::new(182, 204, 244, 208),
   )
 
   @raylib.draw_rectangle(
-    arena_x - 18 + ox,
-    arena_y + 24 + oy,
+    @types.arena_x - 18 + ox,
+    @types.arena_y + 24 + oy,
     14,
-    arena_h - 48,
+    @types.arena_h - 48,
     @raylib.Color::new(66, 74, 108, 220),
   )
   @raylib.draw_rectangle(
-    arena_x + arena_w + 4 + ox,
-    arena_y + 24 + oy,
+    @types.arena_x + @types.arena_w + 4 + ox,
+    @types.arena_y + 24 + oy,
     14,
-    arena_h - 48,
+    @types.arena_h - 48,
     @raylib.Color::new(66, 74, 108, 220),
   )
 }
 
 ///|
-fn enemy_color(enemy : Enemy) -> @raylib.Color {
-  if enemy.state == enemy_state_strike {
+fn enemy_color(enemy : @types.Enemy) -> @raylib.Color {
+  if enemy.state == @types.enemy_state_strike {
     @raylib.Color::new(236, 112, 128, 242)
-  } else if enemy.state == enemy_state_telegraph {
+  } else if enemy.state == @types.enemy_state_telegraph {
     @raylib.Color::new(244, 200, 126, 242)
-  } else if enemy.state == enemy_state_stunned {
+  } else if enemy.state == @types.enemy_state_stunned {
     @raylib.Color::new(128, 220, 218, 242)
   } else {
     @raylib.Color::new(188, 202, 232, 236)
@@ -127,7 +127,12 @@ fn enemy_color(enemy : Enemy) -> @raylib.Color {
 }
 
 ///|
-fn draw_enemy(enemy : Enemy, game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_enemy(
+  enemy : @types.Enemy,
+  game : @types.Game,
+  ox : Int,
+  oy : Int,
+) -> Unit {
   if not(enemy.active) {
     return
   }
@@ -150,16 +155,17 @@ fn draw_enemy(enemy : Enemy, game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(36, 42, 64, 200),
   )
 
-  if enemy.state == enemy_state_telegraph {
-    let ratio : Float = clampf(
-      enemy.state_t / maxf(0.001, enemy.telegraph_total_t),
+  if enemy.state == @types.enemy_state_telegraph {
+    let ratio : Float = @types.clampf(
+      enemy.state_t / @types.maxf(0.001, enemy.telegraph_total_t),
       0.0,
       1.0,
     )
     let inv_ratio : Float = (1.0 : Float) - ratio
 
     let alert_alpha : Int = 120 + (inv_ratio * 120.0).to_int()
-    let alert_color : @raylib.Color = if enemy.state_t <= enemy_parry_window {
+    let alert_color : @raylib.Color = if enemy.state_t <=
+      @types.enemy_parry_window {
       @raylib.Color::new(255, 102, 122, alert_alpha)
     } else {
       @raylib.Color::new(248, 204, 124, alert_alpha)
@@ -175,7 +181,7 @@ fn draw_enemy(enemy : Enemy, game : Game, ox : Int, oy : Int) -> Unit {
     )
   }
 
-  if enemy.state == enemy_state_stunned {
+  if enemy.state == @types.enemy_state_stunned {
     @raylib.draw_line(
       ex - 9,
       ey - 14,
@@ -192,7 +198,11 @@ fn draw_enemy(enemy : Enemy, game : Game, ox : Int, oy : Int) -> Unit {
     )
   }
 
-  let hp_ratio : Float = clampf(enemy.hp / maxf(1.0, enemy.max_hp), 0.0, 1.0)
+  let hp_ratio : Float = @types.clampf(
+    enemy.hp / @types.maxf(1.0, enemy.max_hp),
+    0.0,
+    1.0,
+  )
   let bar_w : Int = 34
   let fill_w : Int = (Float::from_int(bar_w) * hp_ratio).to_int()
 
@@ -215,7 +225,7 @@ fn draw_enemy(enemy : Enemy, game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let px : Int = game.player_x.to_int() + ox
   let py : Int = game.player_y.to_int() + oy
 
@@ -228,16 +238,16 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_circle(
     px,
     py + 8,
-    player_radius,
+    @types.player_radius,
     @raylib.Color::new(8, 12, 24, 138),
   )
   @raylib.draw_circle(
     px,
     py,
-    player_radius + 2.0,
+    @types.player_radius + 2.0,
     @raylib.Color::new(84, 96, 140, 240),
   )
-  @raylib.draw_circle(px, py, player_radius - 6.0, body_color)
+  @raylib.draw_circle(px, py, @types.player_radius - 6.0, body_color)
 
   let blade_x : Int = (game.player_x + game.facing_x * 30.0).to_int() + ox
   let blade_y : Int = (game.player_y + game.facing_y * 30.0).to_int() + oy
@@ -260,21 +270,21 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
   )
 
   if game.attack_anim_t > 0.0 {
-    let attack_reach : Float = if game.attack_kind == attack_heavy {
-      heavy_attack_range
+    let attack_reach : Float = if game.attack_kind == @types.attack_heavy {
+      @types.heavy_attack_range
     } else {
-      light_attack_range
+      @types.light_attack_range
     }
 
     @raylib.draw_circle_lines(
       (game.player_x + game.facing_x * attack_reach * 0.58).to_int() + ox,
       (game.player_y + game.facing_y * attack_reach * 0.58).to_int() + oy,
-      if game.attack_kind == attack_heavy {
+      if game.attack_kind == @types.attack_heavy {
         44.0
       } else {
         28.0
       },
-      if game.attack_kind == attack_heavy {
+      if game.attack_kind == @types.attack_heavy {
         @raylib.Color::new(255, 196, 132, 240)
       } else {
         @raylib.Color::new(164, 222, 255, 236)
@@ -283,7 +293,7 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
   }
 
   if game.parry_t > 0.0 {
-    let pulse : Float = 30.0 + sinf(game.ui_t * 20.0) * 4.0
+    let pulse : Float = 30.0 + @types.sinf(game.ui_t * 20.0) * 4.0
     @raylib.draw_circle_lines(
       px,
       py,
@@ -305,7 +315,7 @@ fn draw_bar(
 ) -> Unit {
   @raylib.draw_rectangle(x, y, w, h, back)
 
-  let clamped : Float = clampf(ratio, 0.0, 1.0)
+  let clamped : Float = @types.clampf(ratio, 0.0, 1.0)
   let fill_w : Int = (Float::from_int(w) * clamped).to_int()
   if fill_w > 0 {
     @raylib.draw_rectangle(x, y, fill_w, h, fill)
@@ -321,8 +331,14 @@ fn draw_bar(
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
-  @raylib.draw_rectangle(0, 0, screen_w, 76, @raylib.Color::new(8, 10, 18, 180))
+fn draw_hud(game : @types.Game) -> Unit {
+  @raylib.draw_rectangle(
+    0,
+    0,
+    @types.screen_w,
+    76,
+    @raylib.Color::new(8, 10, 18, 180),
+  )
 
   @raylib.draw_text(
     "WUXIA ROOFTOP DUEL 2026",
@@ -361,7 +377,7 @@ fn draw_hud(game : Game) -> Unit {
     58,
     280,
     12,
-    game.health / player_max_health,
+    game.health / @types.player_max_health,
     @raylib.Color::new(244, 120, 142, 242),
     @raylib.Color::new(58, 24, 36, 220),
   )
@@ -371,7 +387,7 @@ fn draw_hud(game : Game) -> Unit {
     58,
     280,
     12,
-    game.stamina / player_max_stamina,
+    game.stamina / @types.player_max_stamina,
     @raylib.Color::new(122, 218, 242, 242),
     @raylib.Color::new(20, 42, 58, 220),
   )
@@ -393,7 +409,13 @@ fn draw_hud(game : Game) -> Unit {
     @raylib.Color::new(64, 52, 26, 220),
   )
 
-  @raylib.draw_text("HP", 20, 40, 16, @raylib.Color::new(242, 210, 220, 228))
+  @raylib.draw_text(
+    "HP",
+    20,
+    40,
+    16,
+    @raylib.Color::new(242, 210, 220, 228),
+  )
   @raylib.draw_text(
     "STAMINA",
     320,
@@ -435,14 +457,14 @@ fn draw_hud(game : Game) -> Unit {
   @raylib.draw_text(
     "Move: WASD/Arrows  Light: J  Heavy: K  Parry-Dash: L/Space  Pause: P  Restart: R",
     140,
-    screen_h - 32,
+    @types.screen_h - 32,
     22,
     @raylib.Color::new(202, 220, 246, 226),
   )
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.message == "" || game.message_t <= 0.0 {
     return
   }
@@ -454,8 +476,8 @@ fn draw_message(game : Game) -> Unit {
   }
 
   let w : Int = @raylib.measure_text(game.message, 30) + 42
-  let x : Int = screen_w / 2 - w / 2
-  let y : Int = arena_y + 16
+  let x : Int = @types.screen_w / 2 - w / 2
+  let y : Int = @types.arena_y + 16
 
   @raylib.draw_rectangle(x, y, w, 48, @raylib.Color::new(14, 20, 34, alpha))
   @raylib.draw_rectangle_lines(
@@ -463,14 +485,14 @@ fn draw_message(game : Game) -> Unit {
     y,
     w,
     48,
-    @raylib.Color::new(206, 226, 250, mini(255, alpha + 18)),
+    @raylib.Color::new(206, 226, 250, @types.mini(255, alpha + 18)),
   )
   @raylib.draw_text(
     game.message,
     x + 20,
     y + 10,
     30,
-    @raylib.Color::new(242, 248, 255, mini(255, alpha + 18)),
+    @raylib.Color::new(242, 248, 255, @types.mini(255, alpha + 18)),
   )
 }
 
@@ -479,8 +501,8 @@ fn draw_title_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 18, 168),
   )
 
@@ -489,14 +511,14 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     t0,
-    screen_w / 2 - @raylib.measure_text(t0, 78) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(t0, 78) / 2,
     190,
     78,
     @raylib.Color::new(238, 246, 255, 248),
   )
   @raylib.draw_text(
     t1,
-    screen_w / 2 - @raylib.measure_text(t1, 30) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(t1, 30) / 2,
     286,
     30,
     @raylib.Color::new(202, 222, 244, 236),
@@ -504,28 +526,28 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     "Controls",
-    screen_w / 2 - 110,
+    @types.screen_w / 2 - 110,
     382,
     44,
     @raylib.Color::new(248, 226, 180, 242),
   )
   @raylib.draw_text(
     "Move: WASD / Arrows",
-    screen_w / 2 - 180,
+    @types.screen_w / 2 - 180,
     444,
     32,
     @raylib.Color::new(226, 236, 252, 236),
   )
   @raylib.draw_text(
     "J: Light slash   K: Heavy slash",
-    screen_w / 2 - 220,
+    @types.screen_w / 2 - 220,
     486,
     32,
     @raylib.Color::new(226, 236, 252, 236),
   )
   @raylib.draw_text(
     "L or Space: Parry-Dash   P: Pause   R: Restart",
-    screen_w / 2 - 300,
+    @types.screen_w / 2 - 300,
     528,
     32,
     @raylib.Color::new(226, 236, 252, 236),
@@ -534,7 +556,7 @@ fn draw_title_overlay() -> Unit {
   let start : String = "Press Enter / Space / J / K to start"
   @raylib.draw_text(
     start,
-    screen_w / 2 - @raylib.measure_text(start, 38) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(start, 38) / 2,
     646,
     38,
     @raylib.Color::new(180, 246, 216, 244),
@@ -546,15 +568,15 @@ fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(12, 14, 24, 138),
   )
 
   let title : String = "PAUSED"
   @raylib.draw_text(
     title,
-    screen_w / 2 - @raylib.measure_text(title, 88) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(title, 88) / 2,
     260,
     88,
     @raylib.Color::new(244, 246, 255, 248),
@@ -563,7 +585,7 @@ fn draw_paused_overlay() -> Unit {
   let line : String = "Press P to resume. Press R to restart the duel."
   @raylib.draw_text(
     line,
-    screen_w / 2 - @raylib.measure_text(line, 36) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(line, 36) / 2,
     382,
     36,
     @raylib.Color::new(214, 226, 246, 238),
@@ -571,19 +593,19 @@ fn draw_paused_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(12, 8, 16, 176),
   )
 
   let title : String = "DUEL LOST"
   @raylib.draw_text(
     title,
-    screen_w / 2 - @raylib.measure_text(title, 84) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(title, 84) / 2,
     210,
     84,
     @raylib.Color::new(255, 182, 194, 248),
@@ -596,28 +618,28 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 
   @raylib.draw_text(
     l0,
-    screen_w / 2 - @raylib.measure_text(l0, 42) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l0, 42) / 2,
     340,
     42,
     @raylib.Color::new(238, 242, 252, 246),
   )
   @raylib.draw_text(
     l1,
-    screen_w / 2 - @raylib.measure_text(l1, 38) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l1, 38) / 2,
     392,
     38,
     @raylib.Color::new(220, 230, 246, 240),
   )
   @raylib.draw_text(
     l2,
-    screen_w / 2 - @raylib.measure_text(l2, 34) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l2, 34) / 2,
     440,
     34,
     @raylib.Color::new(220, 230, 246, 236),
   )
   @raylib.draw_text(
     l3,
-    screen_w / 2 - @raylib.measure_text(l3, 34) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(l3, 34) / 2,
     482,
     34,
     @raylib.Color::new(220, 230, 246, 236),
@@ -626,7 +648,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
   let hint : String = "Press R to restart or Enter/Space to re-enter the rooftop."
   @raylib.draw_text(
     hint,
-    screen_w / 2 - @raylib.measure_text(hint, 32) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(hint, 32) / 2,
     610,
     32,
     @raylib.Color::new(194, 240, 216, 244),
@@ -634,7 +656,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
   let ox : Int = shake_x(game)
@@ -650,11 +672,11 @@ fn draw_frame(game : Game) -> Unit {
   draw_hud(game)
   draw_message(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay()
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_paused_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

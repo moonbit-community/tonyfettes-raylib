@@ -18,37 +18,37 @@ fn should_start_duel() -> Bool {
 }
 
 ///|
-fn update_input(game : Game, _dt : Float) -> Unit {
+fn update_input(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyR) {
     start_new_run(game)
     return
   }
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     if should_start_duel() {
       start_new_run(game)
     }
     return
   }
 
-  if game.state == state_game_over {
+  if game.state == @types.state_game_over {
     if should_start_duel() {
       start_new_run(game)
     }
     return
   }
 
-  if game.state == state_paused {
+  if game.state == @types.state_paused {
     if @raylib.is_key_pressed(@raylib.KeyP) {
-      game.state = state_playing
-      set_message(game, "Duel resumed.", 0.8)
+      game.state = @types.state_playing
+      @types.set_message(game, "Duel resumed.", 0.8)
     }
     return
   }
 
   if @raylib.is_key_pressed(@raylib.KeyP) {
-    game.state = state_paused
-    set_message(game, "Paused.", 10.0)
+    game.state = @types.state_paused
+    @types.set_message(game, "Paused.", 10.0)
     return
   }
 
@@ -64,18 +64,18 @@ fn update_input(game : Game, _dt : Float) -> Unit {
   game.move_x = axis(left, right)
   game.move_y = axis(up, down)
 
-  if absf(game.move_x) + absf(game.move_y) > 0.01 {
-    let facing = normalize(game.move_x, game.move_y)
+  if @types.absf(game.move_x) + @types.absf(game.move_y) > 0.01 {
+    let facing = @types.normalize(game.move_x, game.move_y)
     game.facing_x = facing.0
     game.facing_y = facing.1
   }
 
   if @raylib.is_key_pressed(@raylib.KeyJ) {
-    ignore(try_player_attack(game, attack_light))
+    ignore(try_player_attack(game, @types.attack_light))
   }
 
   if @raylib.is_key_pressed(@raylib.KeyK) {
-    ignore(try_player_attack(game, attack_heavy))
+    ignore(try_player_attack(game, @types.attack_heavy))
   }
 
   if @raylib.is_key_pressed(@raylib.KeyL) ||
