@@ -6,16 +6,16 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
-fn shake_offset(game : Game) -> (Float, Float) {
+fn shake_offset(game : @types.Game) -> (Float, Float) {
   if game.shake_t <= 0.0 {
     (0.0, 0.0)
   } else {
     let p = game.shake_t * 22.0
-    (randf(-p, p), randf(-p, p))
+    (@types.randf(-p, p), @types.randf(-p, p))
   }
 }
 
@@ -27,30 +27,30 @@ fn world_to_screen(
   cam_x : Float,
   cam_y : Float,
 ) -> (Float, Float, Float) {
-  let scale = proj_scale(z)
-  let sx = lane_screen_x(lane_x, z) + cam_x
-  let sy = track_y(z) - y_off * scale + cam_y
+  let scale = @types.proj_scale(z)
+  let sx = @types.lane_screen_x(lane_x, z) + cam_x
+  let sy = @types.track_y(z) - y_off * scale + cam_y
   (sx, sy, scale)
 }
 
 ///|
-fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_backdrop(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
-    color_bg_top(),
-    color_bg_bottom(),
+    @types.screen_w,
+    @types.screen_h,
+    @types.color_bg_top(),
+    @types.color_bg_bottom(),
   )
 
   for i in 0..<64 {
-    let x = (i * 71 + 29) % screen_w
-    let y = (i * 37 + 61) % (screen_h / 2)
+    let x = (i * 71 + 29) % @types.screen_w
+    let y = (i * 37 + 61) % (@types.screen_h / 2)
     let phase : Float = game.title_t * 0.7 + Float::from_int(i) * 0.33
     let pulse : Float = Float::from_int(1) * 0.5 +
-      0.3 * sinf(phase) +
-      0.2 * cosf(phase * 1.9)
+      0.3 * @types.sinf(phase) +
+      0.2 * @types.cosf(phase * 1.9)
     let star_r : Float = Float::from_int(1) + pulse * 1.8
     @raylib.draw_circle(
       x,
@@ -69,7 +69,7 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     let bw = 130 + i * 43 % 220
     let bh = 120 + i * 67 % 220
     let x = Float::from_int(i * 132) - game.stage_progress * 0.04 + cam_x * 0.4
-    let y = Float::from_int(screen_h - bh - 280) + cam_y * 0.3
+    let y = Float::from_int(@types.screen_h - bh - 280) + cam_y * 0.3
     @raylib.draw_rectangle(
       x.to_int(),
       y.to_int(),
@@ -81,15 +81,15 @@ fn draw_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_track_grid(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_track_grid(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let lane_col = if game.phase_beta {
     @raylib.Color::new(255, 126, 234, 170)
   } else {
     @raylib.Color::new(104, 230, 255, 170)
   }
 
-  for lane in 0..<lane_count {
-    let lane_x = lane_world_x(lane)
+  for lane in 0..<@types.lane_count {
+    let lane_x = @types.lane_world_x(lane)
     let p0 = world_to_screen(lane_x, 0.0, 0.0, cam_x, cam_y)
     let p1 = world_to_screen(lane_x, 0.0, 2500.0, cam_x, cam_y)
 
@@ -103,16 +103,22 @@ fn draw_track_grid(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
   for step in 0..<26 {
     let z = Float::from_int(step * 100)
-    let left = world_to_screen(lane_world_x(0) - 82.0, 0.0, z, cam_x, cam_y)
+    let left = world_to_screen(
+      @types.lane_world_x(0) - 82.0,
+      0.0,
+      z,
+      cam_x,
+      cam_y,
+    )
     let right = world_to_screen(
-      lane_world_x(lane_count - 1) + 82.0,
+      @types.lane_world_x(@types.lane_count - 1) + 82.0,
       0.0,
       z,
       cam_x,
       cam_y,
     )
 
-    let pulse : Float = 0.5 + 0.5 * sinf(game.title_t * 1.5 + z * 0.004)
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(game.title_t * 1.5 + z * 0.004)
     let line_w : Float = Float::from_int(1) + pulse * 2.0
     @raylib.draw_line_ex(
       @raylib.Vector2::new(left.0, left.1),
@@ -129,22 +135,22 @@ fn draw_track_grid(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn obj_color(game : Game, o : TrackObj) -> @raylib.Color {
-  if o.kind == obj_orb {
+fn obj_color(game : @types.Game, o : @types.TrackObj) -> @raylib.Color {
+  if o.kind == @types.obj_orb {
     @raylib.Color::new(140, 248, 212, 255)
-  } else if o.kind == obj_boost {
+  } else if o.kind == @types.obj_boost {
     @raylib.Color::new(255, 210, 110, 255)
-  } else if o.kind == obj_jump_bar {
+  } else if o.kind == @types.obj_jump_bar {
     @raylib.Color::new(255, 168, 96, 255)
-  } else if o.kind == obj_gate_alpha {
+  } else if o.kind == @types.obj_gate_alpha {
     if game.phase_beta {
       @raylib.Color::new(120, 140, 170, 170)
     } else {
-      color_lane_alpha()
+      @types.color_lane_alpha()
     }
-  } else if o.kind == obj_gate_beta {
+  } else if o.kind == @types.obj_gate_beta {
     if game.phase_beta {
-      color_lane_beta()
+      @types.color_lane_beta()
     } else {
       @raylib.Color::new(120, 140, 170, 170)
     }
@@ -154,7 +160,12 @@ fn obj_color(game : Game, o : TrackObj) -> @raylib.Color {
 }
 
 ///|
-fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_obj(
+  game : @types.Game,
+  o : @types.TrackObj,
+  cam_x : Float,
+  cam_y : Float,
+) -> Unit {
   if not(o.active) {
     return
   }
@@ -163,15 +174,15 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
     return
   }
 
-  let lane_x = lane_world_x(o.lane)
+  let lane_x = @types.lane_world_x(o.lane)
   let s = world_to_screen(lane_x, o.y_off, o.z, cam_x, cam_y)
 
-  let w = maxf(8.0, o.w * s.2)
-  let h = maxf(8.0, o.h * s.2)
+  let w = @types.maxf(8.0, o.w * s.2)
+  let h = @types.maxf(8.0, o.h * s.2)
   let col = obj_color(game, o)
 
-  if o.kind == obj_orb {
-    let pulse : Float = 0.5 + 0.5 * sinf(o.spin * 2.6)
+  if o.kind == @types.obj_orb {
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(o.spin * 2.6)
     let orb_r : Float = w * 0.36 + pulse * 3.0
     @raylib.draw_circle(
       s.0.to_int(),
@@ -196,8 +207,8 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
     return
   }
 
-  if o.kind == obj_boost {
-    let pulse : Float = 0.5 + 0.5 * sinf(o.spin * 2.8)
+  if o.kind == @types.obj_boost {
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(o.spin * 2.8)
     let boost_r : Float = Float::from_int(4) + pulse * Float::from_int(4)
     @raylib.draw_rectangle(
       (s.0 - w * 0.55).to_int(),
@@ -222,7 +233,7 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
     return
   }
 
-  if o.kind == obj_jump_bar {
+  if o.kind == @types.obj_jump_bar {
     @raylib.draw_rectangle(
       (s.0 - w * 0.5).to_int(),
       (s.1 - h * 0.2).to_int(),
@@ -255,9 +266,10 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(12, 18, 28, 230),
   )
 
-  if o.kind == obj_gate_alpha || o.kind == obj_gate_beta {
+  if o.kind == @types.obj_gate_alpha || o.kind == @types.obj_gate_beta {
     let alpha = 110 +
-      (Float::from_int(1) * 0.5 + 0.5 * sinf(o.spin * 2.0) * 100.0).to_int()
+      (Float::from_int(1) * 0.5 +
+        0.5 * @types.sinf(o.spin * 2.0) * 100.0).to_int()
     @raylib.draw_rectangle(
       (s.0 - w * 0.34).to_int(),
       (s.1 - h).to_int(),
@@ -267,21 +279,21 @@ fn draw_obj(game : Game, o : TrackObj, cam_x : Float, cam_y : Float) -> Unit {
         col.r.to_int(),
         col.g.to_int(),
         col.b.to_int(),
-        clampi(alpha, 50, 220),
+        @types.clampi(alpha, 50, 220),
       ),
     )
   }
 }
 
 ///|
-fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_trails(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for t in game.trails {
     if not(t.active) {
       continue
     }
 
     let s = world_to_screen(t.x, t.y, 0.0, cam_x, cam_y)
-    let alpha = clampi((t.life * 255.0).to_int(), 0, 255)
+    let alpha = @types.clampi((t.life * 255.0).to_int(), 0, 255)
     let col = if t.beta {
       @raylib.Color::new(255, 140, 234, alpha)
     } else {
@@ -299,14 +311,14 @@ fn draw_trails(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_particles(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for p in game.particles {
     if not(p.active) {
       continue
     }
 
     let s = world_to_screen(p.x, p.y, 0.0, cam_x, cam_y)
-    let alpha = clampi((p.life * 255.0).to_int(), 0, 255)
+    let alpha = @types.clampi((p.life * 255.0).to_int(), 0, 255)
     let col = if p.kind == 0 {
       @raylib.Color::new(130, 248, 214, alpha)
     } else if p.kind == 1 {
@@ -320,7 +332,7 @@ fn draw_particles(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let hero = game.hero
   let s = world_to_screen(hero.lane_f, hero.y, 0.0, cam_x, cam_y)
 
@@ -328,12 +340,12 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   let body_h : Float = Float::from_int(116)
 
   let phase_col = if game.phase_beta {
-    color_lane_beta()
+    @types.color_lane_beta()
   } else {
-    color_lane_alpha()
+    @types.color_lane_alpha()
   }
 
-  let suit_p : Float = 0.5 + 0.5 * sinf(hero.anim_t * 10.0) * 18.0
+  let suit_p : Float = 0.5 + 0.5 * @types.sinf(hero.anim_t * 10.0) * 18.0
   let suit = @raylib.Color::new(
     30 + suit_p.to_int(),
     52 + suit_p.to_int(),
@@ -372,24 +384,22 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
         (s.1 - body_h - Float::from_int(3)).to_int(),
         (body_w + 6.0).to_int(),
         (body_h + 6.0).to_int(),
-        color_lane_beta(),
+        @types.color_lane_beta(),
       )
     }
   }
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  let l = button_left_rect()
-  let r = button_right_rect()
-  let j = button_jump_rect()
-  let p = button_phase_rect()
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  let l = @types.button_left_rect()
+  let r = @types.button_right_rect()
+  let j = @types.button_jump_rect()
+  let p = @types.button_phase_rect()
 
   let l_hot = pointer_on_rect(mx, my, hold, touch_count, l.0, l.1, l.2, l.3)
   let r_hot = pointer_on_rect(mx, my, hold, touch_count, r.0, r.1, r.2, r.3)
@@ -432,7 +442,7 @@ fn draw_touch_controls(
     l.2.to_int(),
     l.3.to_int(),
     if l_hot {
-      color_lane_alpha()
+      @types.color_lane_alpha()
     } else {
       @raylib.Color::new(160, 188, 222, 180)
     },
@@ -443,7 +453,7 @@ fn draw_touch_controls(
     r.2.to_int(),
     r.3.to_int(),
     if r_hot {
-      color_lane_alpha()
+      @types.color_lane_alpha()
     } else {
       @raylib.Color::new(160, 188, 222, 180)
     },
@@ -454,7 +464,7 @@ fn draw_touch_controls(
     j.2.to_int(),
     j.3.to_int(),
     if j_hot {
-      color_lane_alpha()
+      @types.color_lane_alpha()
     } else {
       @raylib.Color::new(160, 188, 222, 180)
     },
@@ -465,7 +475,7 @@ fn draw_touch_controls(
     p.2.to_int(),
     p.3.to_int(),
     if p_hot {
-      color_lane_beta()
+      @types.color_lane_beta()
     } else {
       @raylib.Color::new(160, 188, 222, 180)
     },
@@ -476,33 +486,70 @@ fn draw_touch_controls(
     l.0.to_int() + 42,
     l.1.to_int() + 30,
     42,
-    ui_text(game, l_hot),
+    ui_text(l_hot),
   )
   @raylib.draw_text(
     ">",
     r.0.to_int() + 42,
     r.1.to_int() + 30,
     42,
-    ui_text(game, r_hot),
+    ui_text(r_hot),
   )
   @raylib.draw_text(
     "J",
     j.0.to_int() + 38,
     j.1.to_int() + 30,
     42,
-    ui_text(game, j_hot),
+    ui_text(j_hot),
   )
   @raylib.draw_text(
     "P",
     p.0.to_int() + 38,
     p.1.to_int() + 30,
     42,
-    ui_text(game, p_hot),
+    ui_text(p_hot),
   )
 }
 
 ///|
-fn ui_text(_game : Game, active : Bool) -> @raylib.Color {
+fn pointer_on_rect(
+  mx : Float,
+  my : Float,
+  hold : Bool,
+  touch_count : Int,
+  rx : Float,
+  ry : Float,
+  rw : Float,
+  rh : Float,
+) -> Bool {
+  if hold && point_in_rect(mx, my, rx, ry, rw, rh) {
+    return true
+  }
+
+  for i in 0..<touch_count {
+    let p = @raylib.get_touch_position(i)
+    if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
+      return true
+    }
+  }
+
+  false
+}
+
+///|
+fn point_in_rect(
+  x : Float,
+  y : Float,
+  rx : Float,
+  ry : Float,
+  rw : Float,
+  rh : Float,
+) -> Bool {
+  x >= rx && x <= rx + rw && y >= ry && y <= ry + rh
+}
+
+///|
+fn ui_text(active : Bool) -> @raylib.Color {
   if active {
     @raylib.Color::new(252, 254, 255, 255)
   } else {
@@ -511,7 +558,7 @@ fn ui_text(_game : Game, active : Bool) -> @raylib.Color {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(16, 16, 550, 108, @raylib.Color::new(14, 18, 30, 196))
   @raylib.draw_rectangle_lines(
     16,
@@ -521,7 +568,13 @@ fn draw_hud(game : Game) -> Unit {
     @raylib.Color::new(132, 188, 234, 190),
   )
 
-  @raylib.draw_text("QUANTUM SKATER", 30, 28, 30, color_lane_alpha())
+  @raylib.draw_text(
+    "QUANTUM SKATER",
+    30,
+    28,
+    30,
+    @types.color_lane_alpha(),
+  )
   @raylib.draw_text(
     "Score: \{game.score}   Best: \{game.best_score}",
     30,
@@ -540,7 +593,7 @@ fn draw_hud(game : Game) -> Unit {
   let hp_w = 280
   let hp_fill = (Float::from_int(hp_w) * game.health / 100.0).to_int()
   @raylib.draw_rectangle(590, 24, hp_w, 16, @raylib.Color::new(48, 20, 28, 210))
-  @raylib.draw_rectangle(590, 24, hp_fill, 16, color_hp_bar())
+  @raylib.draw_rectangle(590, 24, hp_fill, 16, @types.color_hp_bar())
   @raylib.draw_rectangle_lines(
     590,
     24,
@@ -558,8 +611,14 @@ fn draw_hud(game : Game) -> Unit {
 
   let ph_w = 280
   let ph_fill = (Float::from_int(ph_w) * game.phase_energy / 100.0).to_int()
-  @raylib.draw_rectangle(590, 72, ph_w, 16, @raylib.Color::new(22, 26, 46, 210))
-  @raylib.draw_rectangle(590, 72, ph_fill, 16, color_phase_bar())
+  @raylib.draw_rectangle(
+    590,
+    72,
+    ph_w,
+    16,
+    @raylib.Color::new(22, 26, 46, 210),
+  )
+  @raylib.draw_rectangle(590, 72, ph_fill, 16, @types.color_phase_bar())
   @raylib.draw_rectangle_lines(
     590,
     72,
@@ -577,13 +636,17 @@ fn draw_hud(game : Game) -> Unit {
     50,
     16,
     if game.phase_beta {
-      color_lane_beta()
+      @types.color_lane_beta()
     } else {
-      color_lane_alpha()
+      @types.color_lane_alpha()
     },
   )
 
-  let p = clampf(game.stage_progress / maxf(1.0, game.stage_goal), 0.0, 1.0)
+  let p = @types.clampf(
+    game.stage_progress / @types.maxf(1.0, game.stage_goal),
+    0.0,
+    1.0,
+  )
   let meter_w = 360
   let meter_fill = (Float::from_int(meter_w) * p).to_int()
   @raylib.draw_rectangle(
@@ -615,7 +678,13 @@ fn draw_hud(game : Game) -> Unit {
     @raylib.Color::new(226, 236, 248, 255),
   )
 
-  @raylib.draw_rectangle(1220, 14, 130, 44, @raylib.Color::new(20, 24, 34, 206))
+  @raylib.draw_rectangle(
+    1220,
+    14,
+    130,
+    44,
+    @raylib.Color::new(20, 24, 34, 206),
+  )
   @raylib.draw_rectangle_lines(
     1220,
     14,
@@ -632,7 +701,7 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   if game.hint_t > 0.0 {
-    let a = clampi((game.hint_t / 9.0 * 255.0).to_int(), 0, 255)
+    let a = @types.clampi((game.hint_t / 9.0 * 255.0).to_int(), 0, 255)
     @raylib.draw_text(
       "Hint: Shift phase to pass matching gates",
       30,
@@ -644,16 +713,21 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title_overlay(game : Game) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 20, 130),
   )
 
-  draw_center_text("QUANTUM SKATER 2026", 132, 74, color_lane_alpha())
+  draw_center_text(
+    "QUANTUM SKATER 2026",
+    132,
+    74,
+    @types.color_lane_alpha(),
+  )
   draw_center_text(
     "Shift phase lanes. Jump barriers. Keep your combo alive.",
     226,
@@ -714,17 +788,17 @@ fn draw_title_overlay(game : Game) -> Unit {
     },
     570,
     38,
-    color_lane_beta(),
+    @types.color_lane_beta(),
   )
 }
 
 ///|
-fn draw_stage_clear_overlay(game : Game) -> Unit {
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 20, 92),
   )
   draw_center_text(
@@ -748,12 +822,12 @@ fn draw_stage_clear_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 4, 14, 188),
   )
 
@@ -794,12 +868,12 @@ fn draw_game_over_overlay(game : Game) -> Unit {
     "Press R / Enter / Tap to Retry",
     448,
     34,
-    color_lane_alpha(),
+    @types.color_lane_alpha(),
   )
 }
 
 ///|
-fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_world(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_backdrop(game, cam_x, cam_y)
   draw_track_grid(game, cam_x, cam_y)
 
@@ -813,25 +887,19 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.black)
 
   let shake = shake_offset(game)
   draw_world(game, shake.0, shake.1)
 
-  if game.state != state_title {
+  if game.state != @types.state_title {
     draw_hud(game)
   }
 
-  if game.touch_mode || touch_count > 0 {
-    if game.state == state_play {
-      draw_touch_controls(game, mx, my, hold, touch_count)
+  if game.touch_mode || game.touch_count > 0 {
+    if game.state == @types.state_play {
+      draw_touch_controls(game)
     }
     if game.touch_count > 0 {
       @raylib.draw_circle(
@@ -843,21 +911,21 @@ fn draw_frame(
     }
   }
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_stage_clear {
+  } else if game.state == @types.state_stage_clear {
     draw_stage_clear_overlay(game)
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 
   if game.flash_t > 0.0 {
-    let a = clampi((game.flash_t * 160.0).to_int(), 0, 160)
+    let a = @types.clampi((game.flash_t * 160.0).to_int(), 0, 160)
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(188, 224, 255, a),
     )
   }

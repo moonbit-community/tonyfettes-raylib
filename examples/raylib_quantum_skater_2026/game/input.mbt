@@ -36,7 +36,7 @@ fn pointer_on_rect(
 }
 
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input_move = 0
   game.input_jump_press = false
   game.input_jump_hold = false
@@ -46,12 +46,10 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_pointer(
-  game : Game,
-  mx : Float,
-  my : Float,
-  touch_count : Int,
-) -> Unit {
+fn update_pointer(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let touch_count = game.touch_count
   game.pointer_x = mx
   game.pointer_y = my
   if touch_count > 0 {
@@ -62,15 +60,11 @@ fn update_pointer(
 }
 
 ///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
   game.touch_mode = touch_count > 0
   game.touch_count = touch_count
 
@@ -85,24 +79,22 @@ fn update_title_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
   game.touch_mode = touch_count > 0
   game.touch_count = touch_count
 
-  let left_rect = button_left_rect()
-  let right_rect = button_right_rect()
-  let jump_rect = button_jump_rect()
-  let phase_rect = button_phase_rect()
+  let left_rect = @types.button_left_rect()
+  let right_rect = @types.button_right_rect()
+  let jump_rect = @types.button_jump_rect()
+  let phase_rect = @types.button_phase_rect()
   let restart_rect : (Float, Float, Float, Float) = (
-    Float::from_int(screen_w) - Float::from_int(142),
+    Float::from_int(@types.screen_w) - Float::from_int(142),
     Float::from_int(18),
     Float::from_int(126),
     Float::from_int(44),
@@ -202,15 +194,11 @@ fn update_play_input(
 }
 
 ///|
-fn update_stage_clear_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_stage_clear_input(game : @types.Game) -> Unit {
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
 
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
   let key_start = @raylib.is_key_pressed(@raylib.KeySpace) ||
@@ -223,15 +211,11 @@ fn update_stage_clear_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_result_input(game : @types.Game) -> Unit {
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
   clear_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
 
   let key_retry = @raylib.is_key_pressed(@raylib.KeyR) ||
     @raylib.is_key_pressed(@raylib.KeyEnter) ||

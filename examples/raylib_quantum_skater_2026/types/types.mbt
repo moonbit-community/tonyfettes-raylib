@@ -1,5 +1,5 @@
 ///|
-struct TrackObj {
+pub(all) struct TrackObj {
   mut active : Bool
   mut kind : Int
   mut lane : Int
@@ -13,7 +13,23 @@ struct TrackObj {
 }
 
 ///|
-struct Particle {
+pub fn TrackObj::new() -> TrackObj {
+  {
+    active: false,
+    kind: obj_wall,
+    lane: 0,
+    z: 0.0,
+    y_off: 0.0,
+    w: 0.0,
+    h: 0.0,
+    phase_only: 0,
+    spin: 0.0,
+    hit_lock: 0.0,
+  }
+}
+
+///|
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -25,7 +41,21 @@ struct Particle {
 }
 
 ///|
-struct Trail {
+pub fn Particle::new() -> Particle {
+  {
+    active: false,
+    x: 0.0,
+    y: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    life: 0.0,
+    size: 0.0,
+    kind: 0,
+  }
+}
+
+///|
+pub(all) struct Trail {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -36,7 +66,12 @@ struct Trail {
 }
 
 ///|
-struct Player {
+pub fn Trail::new() -> Trail {
+  { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, beta: false }
+}
+
+///|
+pub(all) struct Player {
   mut lane : Int
   mut lane_f : Float
   mut y : Float
@@ -49,7 +84,22 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub fn Player::new() -> Player {
+  {
+    lane: 2,
+    lane_f: lane_world_x(2),
+    y: 0.0,
+    vy: 0.0,
+    jump_buf: 0.0,
+    grounded: true,
+    invuln_t: 0.0,
+    hurt_t: 0.0,
+    anim_t: 0.0,
+  }
+}
+
+///|
+pub(all) struct Game {
   objs : Array[TrackObj]
   particles : Array[Particle]
   trails : Array[Trail]
@@ -92,60 +142,13 @@ struct Game {
   mut touch_jump_prev : Bool
   mut touch_phase_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
 }
 
 ///|
-fn TrackObj::new() -> TrackObj {
-  {
-    active: false,
-    kind: obj_wall,
-    lane: 0,
-    z: 0.0,
-    y_off: 0.0,
-    w: 0.0,
-    h: 0.0,
-    phase_only: 0,
-    spin: 0.0,
-    hit_lock: 0.0,
-  }
-}
-
-///|
-fn Particle::new() -> Particle {
-  {
-    active: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-    life: 0.0,
-    size: 0.0,
-    kind: 0,
-  }
-}
-
-///|
-fn Trail::new() -> Trail {
-  { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, beta: false }
-}
-
-///|
-fn Player::new() -> Player {
-  {
-    lane: 2,
-    lane_f: lane_world_x(2),
-    y: 0.0,
-    vy: 0.0,
-    jump_buf: 0.0,
-    grounded: true,
-    invuln_t: 0.0,
-    hurt_t: 0.0,
-    anim_t: 0.0,
-  }
-}
-
-///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     objs: Array::makei(max_objs, fn(_i) { TrackObj::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
@@ -189,5 +192,8 @@ fn Game::new() -> Game {
     touch_jump_prev: false,
     touch_phase_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
   }
 }
