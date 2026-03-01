@@ -8,18 +8,6 @@ pub let screen_h : Int = 900
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_playing : Int = 1
-
-///|
-pub let state_paused : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
 pub let city_cols : Int = 10
 
 ///|
@@ -50,7 +38,9 @@ pub let chains_per_suspect : Int = 3
 pub let clue_steps_per_chain : Int = 2
 
 ///|
-pub let clue_count : Int = suspect_count * chains_per_suspect * clue_steps_per_chain
+pub let clue_count : Int = suspect_count *
+  chains_per_suspect *
+  clue_steps_per_chain
 
 ///|
 pub let max_incidents : Int = 8

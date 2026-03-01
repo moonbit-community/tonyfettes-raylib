@@ -45,15 +45,12 @@ fn suspect_col(index : Int) -> @raylib.Color {
 }
 
 ///|
-fn state_label(state : Int) -> String {
-  if state == @types.state_title {
-    "TITLE"
-  } else if state == @types.state_playing {
-    "PLAYING"
-  } else if state == @types.state_paused {
-    "PAUSED"
-  } else {
-    "GAME OVER"
+fn state_label(state : @types.GameState) -> String {
+  match state {
+    Title => "TITLE"
+    Playing => "PLAYING"
+    Paused => "PAUSED"
+    GameOver => "GAME OVER"
   }
 }
 
@@ -70,7 +67,9 @@ fn draw_background(game : @types.Game) -> Unit {
 
   for i in 0..<12 {
     let fi = Float::from_int(i)
-    let y : Float = 70.0 + fi * 62.0 + @types.sinf(game.city_time * 0.9 + fi) * 24.0
+    let y : Float = 70.0 +
+      fi * 62.0 +
+      @types.sinf(game.city_time * 0.9 + fi) * 24.0
     let shift = ((game.city_time * (34.0 + fi * 2.0)).to_int() + i * 19) % 220
     @raylib.draw_line(
       -220 + shift,
@@ -92,8 +91,8 @@ fn draw_background(game : @types.Game) -> Unit {
 
 ///|
 fn draw_districts(game : @types.Game) -> Unit {
-  for y in 0..< @types.city_rows {
-    for x in 0..< @types.city_cols {
+  for y in 0..<@types.city_rows {
+    for x in 0..<@types.city_cols {
       let idx = @types.cell_index(x, y)
       let heat = game.pulses[idx].heat
 
@@ -146,8 +145,8 @@ fn draw_districts(game : @types.Game) -> Unit {
 
 ///|
 fn draw_district_ids() -> Unit {
-  for y in 0..< @types.city_rows {
-    for x in 0..< @types.city_cols {
+  for y in 0..<@types.city_rows {
+    for x in 0..<@types.city_cols {
       let id = @types.cell_index(x, y)
       @raylib.draw_text(
         id.to_string(),
@@ -202,7 +201,12 @@ fn draw_clues(game : @types.Game) -> Unit {
       x.to_int(),
       y.to_int(),
       16.0 + glow * 22.0,
-      @raylib.Color::new(246, 252, 255, @types.clampi((glow * 180.0).to_int(), 0, 255)),
+      @raylib.Color::new(
+        246,
+        252,
+        255,
+        @types.clampi((glow * 180.0).to_int(), 0, 255),
+      ),
     )
   }
 }
@@ -386,7 +390,7 @@ fn completed_chains(game : @types.Game, suspect : Int) -> Int {
   }
 
   let mut done = 0
-  for chain in 0..< @types.chains_per_suspect {
+  for chain in 0..<@types.chains_per_suspect {
     let slot = @types.chain_slot(suspect, chain)
     if game.chain_progress[slot] >= @types.clue_steps_per_chain {
       done = done + 1
@@ -561,7 +565,7 @@ fn draw_suspect_board(game : @types.Game) -> Unit {
     @raylib.Color::new(230, 240, 255, 242),
   )
 
-  for i in 0..< @types.suspect_count {
+  for i in 0..<@types.suspect_count {
     let y = @types.city_origin_y_i + 50 + i * 136
     let col = suspect_col(i)
 
@@ -608,7 +612,10 @@ fn draw_suspect_board(game : @types.Game) -> Unit {
 
     let chains = completed_chains(game, i)
     @raylib.draw_text(
-      "Chains " + chains.to_string() + "/" + @types.chains_per_suspect.to_string(),
+      "Chains " +
+      chains.to_string() +
+      "/" +
+      @types.chains_per_suspect.to_string(),
       panel_x + 14,
       y + 74,
       16,
@@ -753,11 +760,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_hud(game)
   draw_suspect_board(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    Title => draw_title_overlay()
+    Paused => draw_paused_overlay()
+    GameOver => draw_game_over_overlay(game)
+    Playing => ()
   }
 }

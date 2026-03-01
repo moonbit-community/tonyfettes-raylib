@@ -38,7 +38,7 @@ fn reset_case(game : @types.Game) -> Unit {
 
   clear_incidents(game)
 
-  game.state = @types.state_playing
+  game.state = Playing
   game.cursor_x = @types.city_cols / 2
   game.cursor_y = @types.city_rows / 2
   game.marked_suspect = -1
@@ -87,7 +87,11 @@ fn clue_index_at_cell(
 }
 
 ///|
-fn incident_index_at_cell(game : @types.Game, cell_x : Int, cell_y : Int) -> Int {
+fn incident_index_at_cell(
+  game : @types.Game,
+  cell_x : Int,
+  cell_y : Int,
+) -> Int {
   for i in 0..<game.incidents.length() {
     if game.incidents[i].active &&
       game.incidents[i].x == cell_x &&
@@ -105,7 +109,7 @@ fn completed_chains(game : @types.Game, suspect : Int) -> Int {
   }
 
   let mut done = 0
-  for chain in 0..< @types.chains_per_suspect {
+  for chain in 0..<@types.chains_per_suspect {
     let slot = @types.chain_slot(suspect, chain)
     if game.chain_progress[slot] >= @types.clue_steps_per_chain {
       done = done + 1
@@ -148,7 +152,10 @@ fn unlock_deduction_if_ready(game : @types.Game, suspect : Int) -> Unit {
   if completed_chains(game, suspect) >= @types.deduction_chains_to_unlock {
     game.suspects[suspect].deduction_unlocked = true
     game.score = game.score + @types.score_deduction_unlock
-    game.trust = @types.minf(@types.trust_max, game.trust + @types.trust_gain_deduction)
+    game.trust = @types.minf(
+      @types.trust_max,
+      game.trust + @types.trust_gain_deduction,
+    )
     set_message(
       game,
       "Deduction unlocked: " + game.suspects[suspect].name + ".",
@@ -185,11 +192,17 @@ fn discover_clue(game : @types.Game, clue_index : Int) -> Unit {
 
   game.clue_found = game.clue_found + 1
   game.score = game.score + @types.score_clue + evidence_gain * 2
-  game.trust = @types.minf(@types.trust_max, game.trust + @types.trust_gain_clue)
+  game.trust = @types.minf(
+    @types.trust_max,
+    game.trust + @types.trust_gain_clue,
+  )
 
   if game.chain_progress[slot] == @types.clue_steps_per_chain {
     game.score = game.score + @types.score_chain_complete
-    game.trust = @types.minf(@types.trust_max, game.trust + @types.trust_gain_chain)
+    game.trust = @types.minf(
+      @types.trust_max,
+      game.trust + @types.trust_gain_chain,
+    )
     set_message(
       game,
       "Chain sealed for " + game.suspects[suspect].name + ".",
@@ -360,8 +373,16 @@ fn move_cursor(game : @types.Game) -> Unit {
     return
   }
 
-  game.cursor_x = @types.clampi(game.cursor_x + game.input_dx, 0, @types.city_cols - 1)
-  game.cursor_y = @types.clampi(game.cursor_y + game.input_dy, 0, @types.city_rows - 1)
+  game.cursor_x = @types.clampi(
+    game.cursor_x + game.input_dx,
+    0,
+    @types.city_cols - 1,
+  )
+  game.cursor_y = @types.clampi(
+    game.cursor_y + game.input_dy,
+    0,
+    @types.city_rows - 1,
+  )
 }
 
 ///|
@@ -406,7 +427,10 @@ fn handle_cancel_or_mark(game : @types.Game) -> Unit {
 }
 
 ///|
-fn attempt_incident_resolution(game : @types.Game, incident_index : Int) -> Unit {
+fn attempt_incident_resolution(
+  game : @types.Game,
+  incident_index : Int,
+) -> Unit {
   if incident_index < 0 || incident_index >= game.incidents.length() {
     return
   }
@@ -448,8 +472,14 @@ fn attempt_incident_resolution(game : @types.Game, incident_index : Int) -> Unit
       )
     } else {
       game.wrong_accusations = game.wrong_accusations + 1
-      game.trust = @types.maxf(0.0, game.trust - @types.trust_penalty_wrong_accuse * 0.4)
-      game.score = @types.maxi(0, game.score - @types.score_wrong_accuse_penalty / 2)
+      game.trust = @types.maxf(
+        0.0,
+        game.trust - @types.trust_penalty_wrong_accuse * 0.4,
+      )
+      game.score = @types.maxi(
+        0,
+        game.score - @types.score_wrong_accuse_penalty / 2,
+      )
       set_message(game, "Evidence chain incomplete. Accusation blocked.", 1.7)
     }
   } else {
@@ -460,7 +490,9 @@ fn attempt_incident_resolution(game : @types.Game, incident_index : Int) -> Unit
     )
     game.trust = @types.maxf(
       0.0,
-      game.trust - @types.trust_penalty_wrong_accuse - Float::from_int(severity) * 2.2,
+      game.trust -
+      @types.trust_penalty_wrong_accuse -
+      Float::from_int(severity) * 2.2,
     )
     game.incidents[incident_index].timer = @types.maxf(
       1.0,
@@ -544,7 +576,9 @@ fn update_spawn_timer(game : @types.Game, dt : Float) -> Unit {
   spawn_incident(game)
 
   let solved_scale = Float::from_int(game.solved_incidents) * 0.08
-  let mut next_spawn = @types.incident_spawn_base - solved_scale + @types.randf(-0.6, 0.9)
+  let mut next_spawn = @types.incident_spawn_base -
+    solved_scale +
+    @types.randf(-0.6, 0.9)
   next_spawn = @types.maxf(@types.incident_spawn_floor, next_spawn)
 
   if game.focus_t > 0.0 {
@@ -578,7 +612,7 @@ fn transition_to_game_over(game : @types.Game, reason : String) -> Unit {
   if game.score > game.best_score {
     game.best_score = game.score
   }
-  game.state = @types.state_game_over
+  game.state = GameOver
   set_message(game, reason + " Press J or R to restart.", 99.0)
 }
 
@@ -594,7 +628,7 @@ fn update_title_state(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input_pause_press {
-    game.state = @types.state_paused
+    game.state = Paused
     set_message(game, "Investigation paused.", 99.0)
     return
   }
@@ -623,7 +657,7 @@ fn update_paused_state(game : @types.Game, dt : Float) -> Unit {
   update_district_pulses(game, dt)
 
   if game.input_pause_press || game.input_cancel_press {
-    game.state = @types.state_playing
+    game.state = Playing
     set_message(game, "Investigation resumed.", 1.1)
   }
 }
@@ -635,7 +669,7 @@ fn update_game_over_state(game : @types.Game, dt : Float) -> Unit {
   if game.input_inspect_press {
     reset_case(game)
   } else if game.input_cancel_press {
-    game.state = @types.state_title
+    game.state = Title
     set_message(game, "Press J to reopen the case.", 99.0)
   }
 }
@@ -654,13 +688,10 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     game.message_t = @types.maxf(0.0, game.message_t - step)
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game, step)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, step)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game, step)
-  } else {
-    update_game_over_state(game, step)
+  match game.state {
+    Title => update_title_state(game, step)
+    Playing => update_playing_state(game, step)
+    Paused => update_paused_state(game, step)
+    GameOver => update_game_over_state(game, step)
   }
 }

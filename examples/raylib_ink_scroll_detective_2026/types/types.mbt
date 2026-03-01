@@ -35,6 +35,14 @@ pub(all) struct DistrictPulse {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct Game {
   clues : Array[Clue]
   suspects : Array[Suspect]
@@ -42,7 +50,7 @@ pub(all) struct Game {
   pulses : Array[DistrictPulse]
   chain_progress : Array[Int]
   evidence_score : Array[Int]
-  mut state : Int
+  mut state : GameState
   mut cursor_x : Int
   mut cursor_y : Int
   mut marked_suspect : Int
@@ -178,7 +186,7 @@ pub fn Game::new() -> Game {
     pulses: Array::makei(district_count, fn(i) { DistrictPulse::new(i) }),
     chain_progress: Array::make(suspect_count * chains_per_suspect, 0),
     evidence_score: Array::make(suspect_count, 0),
-    state: state_title,
+    state: Title,
     cursor_x: city_cols / 2,
     cursor_y: city_rows / 2,
     marked_suspect: -1,
