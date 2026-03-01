@@ -1,5 +1,5 @@
 ///|
-struct Hazard {
+pub(all) struct Hazard {
   mut active : Bool
   mut lane : Int
   mut y : Float
@@ -10,7 +10,7 @@ struct Hazard {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   hazards : Array[Hazard]
   mut state : Int
   mut lane : Int
@@ -48,7 +48,7 @@ struct Game {
 }
 
 ///|
-fn Hazard::new() -> Hazard {
+pub fn Hazard::new() -> Hazard {
   {
     active: false,
     lane: 0,
@@ -61,7 +61,7 @@ fn Hazard::new() -> Hazard {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
     state: state_title,

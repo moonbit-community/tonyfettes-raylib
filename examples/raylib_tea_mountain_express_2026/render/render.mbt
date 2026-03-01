@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -19,8 +19,8 @@ fn draw_meter(
   fill : @raylib.Color,
   label : String,
 ) -> Unit {
-  let pct = clamp01(value_100 / 100.0)
-  let fill_w = clampi((Float::from_int(w) * pct).to_int(), 0, w)
+  let pct = @types.clamp01(value_100 / 100.0)
+  let fill_w = @types.clampi((Float::from_int(w) * pct).to_int(), 0, w)
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(18, 22, 30, 230))
   @raylib.draw_rectangle(x, y, fill_w, h, fill)
@@ -41,30 +41,33 @@ fn draw_meter(
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(40, 86, 132, 255),
     @raylib.Color::new(14, 24, 40, 255),
   )
 
   for i in 0..<9 {
     let fi = Float::from_int(i)
-    let drift = sinf(game.world_t * 0.18 + fi * 0.73) * 70.0
+    let drift = @types.sinf(game.world_t * 0.18 + fi * 0.73) * 70.0
     let ridge_y = 170 + i * 62
     let ridge_h = 240 - i * 18
 
     @raylib.draw_triangle(
-      @raylib.Vector2::new(-120.0 + drift, Float::from_int(ridge_y + ridge_h)),
       @raylib.Vector2::new(
-        Float::from_int(screen_w / 2) + drift + fi * 30.0,
+        -120.0 + drift,
+        Float::from_int(ridge_y + ridge_h),
+      ),
+      @raylib.Vector2::new(
+        Float::from_int(@types.screen_w / 2) + drift + fi * 30.0,
         Float::from_int(ridge_y),
       ),
       @raylib.Vector2::new(
-        Float::from_int(screen_w + 130) + drift,
+        Float::from_int(@types.screen_w + 130) + drift,
         Float::from_int(ridge_y + ridge_h),
       ),
       @raylib.Color::new(20 + i * 3, 32 + i * 3, 46 + i * 4, 180),
@@ -73,9 +76,11 @@ fn draw_background(game : Game) -> Unit {
 
   for i in 0..<26 {
     let fi = Float::from_int(i)
-    let x = (fi * 78.0 + game.world_t * 16.0 + sinf(fi * 1.3) * 40.0) %
-      Float::from_int(screen_w)
-    let y : Float = 86.0 + fi * 8.4 + cosf(game.world_t * 0.55 + fi) * 18.0
+    let x = (fi * 78.0 + game.world_t * 16.0 + @types.sinf(fi * 1.3) * 40.0) %
+      Float::from_int(@types.screen_w)
+    let y : Float = 86.0 +
+      fi * 8.4 +
+      @types.cosf(game.world_t * 0.55 + fi) * 18.0
     @raylib.draw_circle(
       x.to_int(),
       y.to_int(),
@@ -86,20 +91,20 @@ fn draw_background(game : Game) -> Unit {
 }
 
 ///|
-fn draw_road(game : Game) -> Unit {
+fn draw_road(game : @types.Game) -> Unit {
   let row_h = 16
 
-  for yi = road_top_y_i; yi < screen_h; yi = yi + row_h {
+  for yi = @types.road_top_y_i; yi < @types.screen_h; yi = yi + row_h {
     let y0 = Float::from_int(yi)
     let y1 = Float::from_int(yi + row_h)
 
-    let c0 = road_center_x(game.world_t, y0)
-    let c1 = road_center_x(game.world_t, y1)
-    let w0 = road_half_width(y0)
-    let w1 = road_half_width(y1)
+    let c0 = @types.road_center_x(game.world_t, y0)
+    let c1 = @types.road_center_x(game.world_t, y1)
+    let w0 = @types.road_half_width(y0)
+    let w1 = @types.road_half_width(y1)
 
-    let left = minf(c0 - w0, c1 - w1).to_int()
-    let right = maxf(c0 + w0, c1 + w1).to_int()
+    let left = @types.minf(c0 - w0, c1 - w1).to_int()
+    let right = @types.maxf(c0 + w0, c1 + w1).to_int()
     let road_w = right - left
 
     if left > 0 {
@@ -112,18 +117,20 @@ fn draw_road(game : Game) -> Unit {
       )
     }
 
-    if right < screen_w {
+    if right < @types.screen_w {
       @raylib.draw_rectangle(
         right,
         yi,
-        screen_w - right,
+        @types.screen_w - right,
         row_h + 1,
         @raylib.Color::new(30, 26, 28, 232),
       )
     }
 
     if road_w > 0 {
-      let shade = 52 + (yi - road_top_y_i) * 66 / (screen_h - road_top_y_i)
+      let shade = 52 +
+        (yi - @types.road_top_y_i) * 66 /
+        (@types.screen_h - @types.road_top_y_i)
       @raylib.draw_rectangle(
         left,
         yi,
@@ -133,12 +140,12 @@ fn draw_road(game : Game) -> Unit {
       )
     }
 
-    let l0 = lane_center_x(game.world_t, 0, y0)
-    let m0 = lane_center_x(game.world_t, 1, y0)
-    let r0 = lane_center_x(game.world_t, 2, y0)
-    let l1 = lane_center_x(game.world_t, 0, y1)
-    let m1 = lane_center_x(game.world_t, 1, y1)
-    let r1 = lane_center_x(game.world_t, 2, y1)
+    let l0 = @types.lane_center_x(game.world_t, 0, y0)
+    let m0 = @types.lane_center_x(game.world_t, 1, y0)
+    let r0 = @types.lane_center_x(game.world_t, 2, y0)
+    let l1 = @types.lane_center_x(game.world_t, 0, y1)
+    let m1 = @types.lane_center_x(game.world_t, 1, y1)
+    let r1 = @types.lane_center_x(game.world_t, 2, y1)
 
     let divider0_0 = (l0 + m0) * 0.5
     let divider1_0 = (m0 + r0) * 0.5
@@ -179,9 +186,9 @@ fn draw_road(game : Game) -> Unit {
 
 ///|
 fn hazard_color(kind : Int) -> @raylib.Color {
-  if kind == hazard_rock {
+  if kind == @types.hazard_rock {
     @raylib.Color::new(176, 188, 198, 255)
-  } else if kind == hazard_landslide {
+  } else if kind == @types.hazard_landslide {
     @raylib.Color::new(206, 134, 90, 255)
   } else {
     @raylib.Color::new(120, 204, 248, 255)
@@ -189,22 +196,22 @@ fn hazard_color(kind : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_hazards(game : Game) -> Unit {
+fn draw_hazards(game : @types.Game) -> Unit {
   for hazard in game.hazards {
     if not(hazard.active) {
       continue
     }
 
     let y = hazard.y
-    if y < Float::from_int(road_top_y_i) - 20.0 {
+    if y < Float::from_int(@types.road_top_y_i) - 20.0 {
       continue
     }
 
-    let x = lane_center_x(game.world_t, hazard.lane, y)
+    let x = @types.lane_center_x(game.world_t, hazard.lane, y)
     let size = hazard.size
     let col = hazard_color(hazard.kind)
 
-    if hazard.kind == hazard_rock {
+    if hazard.kind == @types.hazard_rock {
       @raylib.draw_circle(x.to_int(), y.to_int(), size, col)
       @raylib.draw_circle_lines(
         x.to_int(),
@@ -212,7 +219,7 @@ fn draw_hazards(game : Game) -> Unit {
         size + 3.0,
         @raylib.Color::new(240, 244, 252, 180),
       )
-    } else if hazard.kind == hazard_landslide {
+    } else if hazard.kind == @types.hazard_landslide {
       @raylib.draw_triangle(
         @raylib.Vector2::new(x - size, y + size * 0.8),
         @raylib.Vector2::new(x + size, y + size * 0.8),
@@ -247,9 +254,9 @@ fn draw_hazards(game : Game) -> Unit {
       )
     }
 
-    let cue = if hazard_tilt_bias(hazard.kind) < -0.2 {
+    let cue = if @types.hazard_tilt_bias(hazard.kind) < -0.2 {
       "L"
-    } else if hazard_tilt_bias(hazard.kind) > 0.2 {
+    } else if @types.hazard_tilt_bias(hazard.kind) > 0.2 {
       "R"
     } else {
       "C"
@@ -266,13 +273,13 @@ fn draw_hazards(game : Game) -> Unit {
 }
 
 ///|
-fn draw_cart(game : Game) -> Unit {
+fn draw_cart(game : @types.Game) -> Unit {
   let x = game.lane_x
-  let y = cart_y
+  let y = @types.cart_y
   let lean = game.tilt * 18.0
 
-  let heat_ratio = clamp01(game.boost_heat / 100.0)
-  let boost_glow = clamp01(game.boost_timer / boost_duration)
+  let heat_ratio = @types.clamp01(game.boost_heat / 100.0)
+  let boost_glow = @types.clamp01(game.boost_timer / @types.boost_duration)
 
   @raylib.draw_ellipse(
     x.to_int(),
@@ -361,10 +368,10 @@ fn draw_cart(game : Game) -> Unit {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(16, 14, 362, 174, @raylib.Color::new(8, 12, 18, 170))
   @raylib.draw_rectangle(
-    screen_w - 366,
+    @types.screen_w - 366,
     14,
     350,
     174,
@@ -408,14 +415,14 @@ fn draw_hud(game : Game) -> Unit {
     "Boiler Heat",
   )
 
-  let schedule_full = checkpoint_time_limit(game.checkpoint_index)
-  let schedule_pct = clamp01(
-      maxf(game.schedule_s, 0.0) / maxf(schedule_full, 0.01),
+  let schedule_full = @types.checkpoint_time_limit(game.checkpoint_index)
+  let schedule_pct = @types.clamp01(
+      @types.maxf(game.schedule_s, 0.0) / @types.maxf(schedule_full, 0.01),
     ) *
     100.0
 
   draw_meter(
-    screen_w - 352,
+    @types.screen_w - 352,
     28,
     320,
     24,
@@ -424,24 +431,27 @@ fn draw_hud(game : Game) -> Unit {
     "Schedule Window",
   )
 
-  let dist_left = maxf(0.0, game.next_checkpoint_distance - game.distance)
+  let dist_left = @types.maxf(
+    0.0,
+    game.next_checkpoint_distance - game.distance,
+  )
   @raylib.draw_text(
     "Speed " + game.speed.to_int().to_string() + " km/h",
-    screen_w - 348,
+    @types.screen_w - 348,
     66,
     24,
     @raylib.Color::new(236, 240, 248, 230),
   )
   @raylib.draw_text(
     "Next checkpoint " + dist_left.to_int().to_string() + " m",
-    screen_w - 348,
+    @types.screen_w - 348,
     96,
     24,
     @raylib.Color::new(236, 240, 248, 230),
   )
   @raylib.draw_text(
     "Checkpoint " + game.checkpoint_index.to_string(),
-    screen_w - 348,
+    @types.screen_w - 348,
     126,
     24,
     @raylib.Color::new(236, 240, 248, 230),
@@ -450,14 +460,14 @@ fn draw_hud(game : Game) -> Unit {
   @raylib.draw_text(
     "Score " + game.score.to_string(),
     24,
-    screen_h - 58,
+    @types.screen_h - 58,
     30,
     @raylib.Color::new(246, 248, 252, 230),
   )
   @raylib.draw_text(
     "Multiplier x" + game.multiplier.to_string(),
     330,
-    screen_h - 56,
+    @types.screen_h - 56,
     28,
     @raylib.Color::new(255, 220, 138, 230),
   )
@@ -467,22 +477,22 @@ fn draw_hud(game : Game) -> Unit {
     " / Fail " +
     game.failed_deliveries.to_string(),
     620,
-    screen_h - 56,
+    @types.screen_h - 56,
     28,
     @raylib.Color::new(212, 224, 238, 220),
   )
 
   if game.message_t > 0.0 {
     @raylib.draw_rectangle(
-      screen_w / 2 - 440,
-      screen_h - 112,
+      @types.screen_w / 2 - 440,
+      @types.screen_h - 112,
       880,
       38,
       @raylib.Color::new(12, 16, 24, 184),
     )
     draw_center_text(
       game.message,
-      screen_h - 106,
+      @types.screen_h - 106,
       24,
       @raylib.Color::new(246, 250, 255, 232),
     )
@@ -494,19 +504,19 @@ fn draw_title_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 14, 110),
   )
   @raylib.draw_rectangle(
-    screen_w / 2 - 500,
+    @types.screen_w / 2 - 500,
     140,
     1000,
     620,
     @raylib.Color::new(12, 18, 26, 210),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 500,
+    @types.screen_w / 2 - 500,
     140,
     1000,
     620,
@@ -536,7 +546,7 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     "Controls",
-    screen_w / 2 - 84,
+    @types.screen_w / 2 - 84,
     382,
     36,
     @raylib.Color::new(255, 226, 160, 230),
@@ -544,21 +554,21 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     "A/D or Left/Right: lane switch     W/S or Up/Down: tilt",
-    screen_w / 2 - 360,
+    @types.screen_w / 2 - 360,
     436,
     30,
     @raylib.Color::new(236, 244, 252, 230),
   )
   @raylib.draw_text(
     "J: quick brake + confirm           K: stabilize cargo",
-    screen_w / 2 - 360,
+    @types.screen_w / 2 - 360,
     478,
     30,
     @raylib.Color::new(236, 244, 252, 230),
   )
   @raylib.draw_text(
     "Space: boost (cooldown + overheat risk)     P: pause     R: restart",
-    screen_w / 2 - 360,
+    @types.screen_w / 2 - 360,
     520,
     30,
     @raylib.Color::new(236, 244, 252, 230),
@@ -577,48 +587,48 @@ fn draw_pause_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 16, 130),
   )
   draw_center_text(
     "PAUSED",
-    screen_h / 2 - 96,
+    @types.screen_h / 2 - 96,
     64,
     @raylib.Color::new(246, 248, 252, 240),
   )
   draw_center_text(
     "Press P or J to continue",
-    screen_h / 2 - 16,
+    @types.screen_h / 2 - 16,
     34,
     @raylib.Color::new(230, 238, 248, 220),
   )
   draw_center_text(
     "Press R to restart route",
-    screen_h / 2 + 28,
+    @types.screen_h / 2 + 28,
     34,
     @raylib.Color::new(230, 238, 248, 220),
   )
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 14, 168),
   )
   @raylib.draw_rectangle(
-    screen_w / 2 - 430,
+    @types.screen_w / 2 - 430,
     210,
     860,
     430,
     @raylib.Color::new(14, 18, 24, 220),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 430,
+    @types.screen_w / 2 - 430,
     210,
     860,
     430,
@@ -669,18 +679,18 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_road(game)
   draw_hazards(game)
   draw_cart(game)
   draw_hud(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay()
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_pause_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

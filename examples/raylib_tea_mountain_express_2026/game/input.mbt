@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input_steer = 0
   game.input_tilt = 0
   game.input_brake_press = false
@@ -11,7 +11,7 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_input(game : Game) -> Unit {
+fn update_input(game : @types.Game) -> Unit {
   clear_input(game)
 
   if @raylib.is_key_pressed(@raylib.KeyA) ||
@@ -32,8 +32,8 @@ fn update_input(game : Game) -> Unit {
     game.input_tilt = game.input_tilt + 1
   }
 
-  game.input_steer = clampi(game.input_steer, -1, 1)
-  game.input_tilt = clampi(game.input_tilt, -1, 1)
+  game.input_steer = @types.clampi(game.input_steer, -1, 1)
+  game.input_tilt = @types.clampi(game.input_tilt, -1, 1)
 
   let j_press = @raylib.is_key_pressed(@raylib.KeyJ)
 
