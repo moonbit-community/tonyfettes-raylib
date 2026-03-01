@@ -1,26 +1,26 @@
 ///|
 fn station_color(station : Int) -> @raylib.Color {
-  if station == station_broth {
+  if station == @types.station_broth {
     @raylib.Color::new(120, 62, 48, 255)
-  } else if station == station_protein {
+  } else if station == @types.station_protein {
     @raylib.Color::new(108, 44, 52, 255)
-  } else if station == station_veg {
+  } else if station == @types.station_veg {
     @raylib.Color::new(44, 96, 60, 255)
-  } else if station == station_spice {
+  } else if station == @types.station_spice {
     @raylib.Color::new(136, 70, 26, 255)
-  } else if station == station_prep {
+  } else if station == @types.station_prep {
     @raylib.Color::new(72, 88, 102, 255)
-  } else if station == station_pot {
+  } else if station == @types.station_pot {
     @raylib.Color::new(84, 56, 106, 255)
-  } else if station == station_serve {
+  } else if station == @types.station_serve {
     @raylib.Color::new(34, 118, 126, 255)
-  } else if station == station_rush {
+  } else if station == @types.station_rush {
     @raylib.Color::new(122, 82, 36, 255)
-  } else if station == station_trash {
+  } else if station == @types.station_trash {
     @raylib.Color::new(62, 62, 62, 255)
-  } else if station == station_queue {
+  } else if station == @types.station_queue {
     @raylib.Color::new(56, 72, 116, 255)
-  } else if station == station_reputation {
+  } else if station == @types.station_reputation {
     @raylib.Color::new(92, 54, 92, 255)
   } else {
     @raylib.Color::new(58, 70, 74, 255)
@@ -37,7 +37,7 @@ fn draw_meter(
   bg : @raylib.Color,
   fg : @raylib.Color,
 ) -> Unit {
-  let t = clampf(ratio, 0.0, 1.0)
+  let t = @types.clampf(ratio, 0.0, 1.0)
   @raylib.draw_rectangle(x, y, w, h, bg)
   @raylib.draw_rectangle(x, y, (Float::from_int(w) * t).to_int(), h, fg)
   @raylib.draw_rectangle_lines(
@@ -52,7 +52,7 @@ fn draw_meter(
 ///|
 fn broth_slot_text(v : Int) -> String {
   if v >= 0 {
-    broth_name(v)
+    @types.broth_name(v)
   } else {
     "--"
   }
@@ -61,7 +61,7 @@ fn broth_slot_text(v : Int) -> String {
 ///|
 fn protein_slot_text(v : Int) -> String {
   if v >= 0 {
-    protein_name(v)
+    @types.protein_name(v)
   } else {
     "--"
   }
@@ -70,42 +70,42 @@ fn protein_slot_text(v : Int) -> String {
 ///|
 fn veg_slot_text(v : Int) -> String {
   if v >= 0 {
-    veg_name(v)
+    @types.veg_name(v)
   } else {
     "--"
   }
 }
 
 ///|
-fn hand_text(game : Game) -> String {
-  if game.hand.kind == ingredient_none {
+fn hand_text(game : @types.Game) -> String {
+  if game.hand.kind == @types.ingredient_none {
     "Empty"
-  } else if game.hand.kind == ingredient_protein {
+  } else if game.hand.kind == @types.ingredient_protein {
     if game.hand.prepped {
-      "Sliced \{protein_name(game.hand.flavor)}"
+      "Sliced \{@types.protein_name(game.hand.flavor)}"
     } else {
-      "Raw \{protein_name(game.hand.flavor)}"
+      "Raw \{@types.protein_name(game.hand.flavor)}"
     }
   } else if game.hand.prepped {
-    "Clean \{veg_name(game.hand.flavor)}"
+    "Clean \{@types.veg_name(game.hand.flavor)}"
   } else {
-    "Raw \{veg_name(game.hand.flavor)}"
+    "Raw \{@types.veg_name(game.hand.flavor)}"
   }
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(14, 16, 24, 255))
 
   let wave = @math.sinf(game.elapsed * 0.28)
   for i in 0..<16 {
-    let y = i * (screen_h / 16)
+    let y = i * (@types.screen_h / 16)
     let tone = 20 + i * 5
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
-      screen_h / 16 + 2,
+      @types.screen_w,
+      @types.screen_h / 16 + 2,
       @raylib.Color::new(tone, 18 + i * 4, 30 + i * 3, 255),
     )
   }
@@ -117,35 +117,40 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(156, 64, 44, 48),
   )
   @raylib.draw_circle(
-    screen_w - 240,
+    @types.screen_w - 240,
     170,
     200.0 - wave * 16.0,
     @raylib.Color::new(82, 120, 180, 46),
   )
   @raylib.draw_circle(
     640,
-    screen_h - 110,
+    @types.screen_h - 110,
     180.0 + wave * 11.0,
     @raylib.Color::new(180, 132, 48, 40),
   )
 
   if game.flash_t > 0.0 {
-    let alpha = clampi((game.flash_t * 140.0).to_int(), 0, 140)
+    let alpha = @types.clampi((game.flash_t * 140.0).to_int(), 0, 140)
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(236, 62, 52, alpha),
     )
   }
 }
 
 ///|
-fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
+fn draw_station_info(
+  game : @types.Game,
+  station : Int,
+  x : Int,
+  y : Int,
+) -> Unit {
   let text_color = @raylib.Color::new(238, 244, 252, 246)
 
-  if station == station_broth {
+  if station == @types.station_broth {
     @raylib.draw_text(
       "Current: \{broth_slot_text(game.pot.broth)}",
       x + 14,
@@ -154,40 +159,40 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       text_color,
     )
     @raylib.draw_text("J: cycle broth", x + 14, y + 96, 20, text_color)
-  } else if station == station_protein {
+  } else if station == @types.station_protein {
     @raylib.draw_text(
-      "Next raw: \{protein_name(game.next_protein_pick)}",
+      "Next raw: \{@types.protein_name(game.next_protein_pick)}",
       x + 14,
       y + 64,
       24,
       text_color,
     )
     @raylib.draw_text("J: pick protein", x + 14, y + 96, 20, text_color)
-  } else if station == station_veg {
+  } else if station == @types.station_veg {
     @raylib.draw_text(
-      "Next raw: \{veg_name(game.next_veg_pick)}",
+      "Next raw: \{@types.veg_name(game.next_veg_pick)}",
       x + 14,
       y + 64,
       24,
       text_color,
     )
     @raylib.draw_text("J: pick veg", x + 14, y + 96, 20, text_color)
-  } else if station == station_spice {
+  } else if station == @types.station_spice {
     @raylib.draw_text(
-      "Pot spice: \{spice_name(game.pot.spice)}",
+      "Pot spice: \{@types.spice_name(game.pot.spice)}",
       x + 14,
       y + 64,
       24,
       text_color,
     )
     @raylib.draw_text("J: cycle spice", x + 14, y + 96, 20, text_color)
-  } else if station == station_prep {
+  } else if station == @types.station_prep {
     if game.prep.active {
-      let ratio = game.prep.progress / maxf(game.prep.target, 0.01)
+      let ratio = game.prep.progress / @types.maxf(game.prep.target, 0.01)
       draw_meter(
         x + 14,
         y + 70,
-        station_tile_w - 28,
+        @types.station_tile_w - 28,
         22,
         ratio,
         @raylib.Color::new(28, 40, 54, 220),
@@ -196,10 +201,10 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       @raylib.draw_text("J: check progress", x + 14, y + 104, 20, text_color)
       @raylib.draw_text("K: cancel prep", x + 14, y + 130, 20, text_color)
     } else if game.prep.output_ready {
-      let ready_label = if game.prep.out_kind == ingredient_protein {
-        "Sliced \{protein_name(game.prep.out_flavor)}"
+      let ready_label = if game.prep.out_kind == @types.ingredient_protein {
+        "Sliced \{@types.protein_name(game.prep.out_flavor)}"
       } else {
-        "Clean \{veg_name(game.prep.out_flavor)}"
+        "Clean \{@types.veg_name(game.prep.out_flavor)}"
       }
       @raylib.draw_text("Ready: \{ready_label}", x + 14, y + 64, 24, text_color)
       @raylib.draw_text("J: collect item", x + 14, y + 96, 20, text_color)
@@ -214,7 +219,7 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       )
       @raylib.draw_text("J: start prep", x + 14, y + 96, 20, text_color)
     }
-  } else if station == station_pot {
+  } else if station == @types.station_pot {
     @raylib.draw_text(
       "Broth: \{broth_slot_text(game.pot.broth)}",
       x + 14,
@@ -237,7 +242,7 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       text_color,
     )
     @raylib.draw_text(
-      "Spice: \{spice_name(game.pot.spice)}",
+      "Spice: \{@types.spice_name(game.pot.spice)}",
       x + 14,
       y + 129,
       21,
@@ -248,9 +253,9 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       draw_meter(
         x + 130,
         y + 140,
-        station_tile_w - 144,
+        @types.station_tile_w - 144,
         18,
-        game.pot.progress / maxf(game.pot.target, 0.01),
+        game.pot.progress / @types.maxf(game.pot.target, 0.01),
         @raylib.Color::new(44, 30, 58, 220),
         @raylib.Color::new(236, 146, 82, 236),
       )
@@ -264,7 +269,7 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       "J: add or start cook"
     }
     @raylib.draw_text(action_label, x + 14, y + 152, 19, text_color)
-  } else if station == station_serve {
+  } else if station == @types.station_serve {
     if game.orders[0].active {
       @raylib.draw_text(
         "Head #\{game.orders[0].id}",
@@ -274,14 +279,14 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
         text_color,
       )
       @raylib.draw_text(
-        "\{broth_name(game.orders[0].broth)} / \{protein_name(game.orders[0].protein)}",
+        "\{@types.broth_name(game.orders[0].broth)} / \{@types.protein_name(game.orders[0].protein)}",
         x + 14,
         y + 84,
         20,
         text_color,
       )
       @raylib.draw_text(
-        "\{veg_name(game.orders[0].veg)} / \{spice_name(game.orders[0].spice)}",
+        "\{@types.veg_name(game.orders[0].veg)} / \{@types.spice_name(game.orders[0].spice)}",
         x + 14,
         y + 108,
         20,
@@ -290,9 +295,10 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       draw_meter(
         x + 14,
         y + 136,
-        station_tile_w - 28,
+        @types.station_tile_w - 28,
         18,
-        game.orders[0].patience / maxf(game.orders[0].max_patience, 0.01),
+        game.orders[0].patience /
+        @types.maxf(game.orders[0].max_patience, 0.01),
         @raylib.Color::new(24, 52, 58, 220),
         @raylib.Color::new(132, 234, 208, 236),
       )
@@ -301,7 +307,7 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
       @raylib.draw_text("No queue head", x + 14, y + 70, 26, text_color)
       @raylib.draw_text("K: serve (penalty)", x + 14, y + 106, 20, text_color)
     }
-  } else if station == station_rush {
+  } else if station == @types.station_rush {
     @raylib.draw_text("Boost meter +24", x + 14, y + 64, 24, text_color)
     if game.rush_cd > 0.0 {
       @raylib.draw_text(
@@ -314,15 +320,21 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
     } else {
       @raylib.draw_text("J: ring bell", x + 14, y + 96, 22, text_color)
     }
-  } else if station == station_trash {
+  } else if station == @types.station_trash {
     @raylib.draw_text("Dump held ingredient", x + 14, y + 66, 24, text_color)
     @raylib.draw_text("J: throw away", x + 14, y + 98, 22, text_color)
-  } else if station == station_queue {
+  } else if station == @types.station_queue {
     @raylib.draw_text("Review queue head", x + 14, y + 66, 24, text_color)
     @raylib.draw_text("J: repeat demand", x + 14, y + 98, 22, text_color)
-  } else if station == station_reputation {
+  } else if station == @types.station_reputation {
     @raylib.draw_text("Reputation is your HP", x + 14, y + 66, 24, text_color)
-    @raylib.draw_text("Drops to 0 => game over", x + 14, y + 98, 22, text_color)
+    @raylib.draw_text(
+      "Drops to 0 => game over",
+      x + 14,
+      y + 98,
+      22,
+      text_color,
+    )
   } else {
     @raylib.draw_text("Shuffle next pickup", x + 14, y + 66, 24, text_color)
     @raylib.draw_text("J: randomize crates", x + 14, y + 98, 22, text_color)
@@ -330,48 +342,54 @@ fn draw_station_info(game : Game, station : Int, x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn draw_kitchen(game : Game) -> Unit {
+fn draw_kitchen(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    kitchen_left - 16,
-    kitchen_top - 56,
-    kitchen_w() + 32,
-    kitchen_h() + 68,
+    @types.kitchen_left - 16,
+    @types.kitchen_top - 56,
+    @types.kitchen_w() + 32,
+    @types.kitchen_h() + 68,
     @raylib.Color::new(12, 20, 30, 206),
   )
   @raylib.draw_rectangle_lines(
-    kitchen_left - 16,
-    kitchen_top - 56,
-    kitchen_w() + 32,
-    kitchen_h() + 68,
+    @types.kitchen_left - 16,
+    @types.kitchen_top - 56,
+    @types.kitchen_w() + 32,
+    @types.kitchen_h() + 68,
     @raylib.Color::new(178, 202, 228, 180),
   )
 
   @raylib.draw_text(
     "Hotpot Kitchen Grid",
-    kitchen_left,
-    kitchen_top - 44,
+    @types.kitchen_left,
+    @types.kitchen_top - 44,
     34,
     @raylib.Color::new(234, 240, 250, 246),
   )
 
-  for y in 0..<station_rows {
-    for x in 0..<station_cols {
-      let sx = station_x(x)
-      let sy = station_y(y)
-      let station = station_at(x, y)
+  for y in 0..<@types.station_rows {
+    for x in 0..<@types.station_cols {
+      let sx = @types.station_x(x)
+      let sy = @types.station_y(y)
+      let station = @types.station_at(x, y)
 
       let base = station_color(station)
-      @raylib.draw_rectangle(sx, sy, station_tile_w, station_tile_h, base)
+      @raylib.draw_rectangle(
+        sx,
+        sy,
+        @types.station_tile_w,
+        @types.station_tile_h,
+        base,
+      )
       @raylib.draw_rectangle_lines(
         sx,
         sy,
-        station_tile_w,
-        station_tile_h,
+        @types.station_tile_w,
+        @types.station_tile_h,
         @raylib.Color::new(236, 242, 250, 214),
       )
 
       @raylib.draw_text(
-        station_name(station),
+        @types.station_name(station),
         sx + 12,
         sy + 12,
         28,
@@ -382,14 +400,14 @@ fn draw_kitchen(game : Game) -> Unit {
 
       if x == game.cursor_x && y == game.cursor_y {
         let pulse : Float = 0.54 + 0.46 * @math.sinf(game.elapsed * 8.0)
-        let alpha = clampi((pulse * 230.0).to_int(), 80, 240)
+        let alpha = @types.clampi((pulse * 230.0).to_int(), 80, 240)
 
         @raylib.draw_rectangle_lines_ex(
           @raylib.Rectangle::new(
             Float::from_int(sx + 2),
             Float::from_int(sy + 2),
-            Float::from_int(station_tile_w - 4),
-            Float::from_int(station_tile_h - 4),
+            Float::from_int(@types.station_tile_w - 4),
+            Float::from_int(@types.station_tile_h - 4),
           ),
           4.0,
           @raylib.Color::new(255, 240, 164, alpha),
@@ -401,7 +419,7 @@ fn draw_kitchen(game : Game) -> Unit {
 
 ///|
 fn draw_order_card(
-  game : Game,
+  game : @types.Game,
   i : Int,
   x : Int,
   y : Int,
@@ -464,14 +482,14 @@ fn draw_order_card(
   )
 
   @raylib.draw_text(
-    "\{broth_name(game.orders[i].broth)} / \{protein_name(game.orders[i].protein)}",
+    "\{@types.broth_name(game.orders[i].broth)} / \{@types.protein_name(game.orders[i].protein)}",
     x + 14,
     y + 38,
     20,
     @raylib.Color::new(230, 242, 255, 240),
   )
   @raylib.draw_text(
-    "\{veg_name(game.orders[i].veg)} / \{spice_name(game.orders[i].spice)}",
+    "\{@types.veg_name(game.orders[i].veg)} / \{@types.spice_name(game.orders[i].spice)}",
     x + 14,
     y + 60,
     20,
@@ -483,7 +501,8 @@ fn draw_order_card(
     y + h - 26,
     w - 28,
     14,
-    game.orders[i].patience / maxf(game.orders[i].max_patience, 0.01),
+    game.orders[i].patience /
+    @types.maxf(game.orders[i].max_patience, 0.01),
     @raylib.Color::new(26, 32, 40, 220),
     if is_head {
       @raylib.Color::new(255, 196, 110, 240)
@@ -494,22 +513,22 @@ fn draw_order_card(
 }
 
 ///|
-fn draw_side_panel(game : Game) -> Unit {
-  let x = panel_x()
-  let w = panel_w()
+fn draw_side_panel(game : @types.Game) -> Unit {
+  let x = @types.panel_x()
+  let w = @types.panel_w()
 
   @raylib.draw_rectangle(
     x,
     24,
     w,
-    screen_h - 48,
+    @types.screen_h - 48,
     @raylib.Color::new(10, 16, 26, 218),
   )
   @raylib.draw_rectangle_lines(
     x,
     24,
     w,
-    screen_h - 48,
+    @types.screen_h - 48,
     @raylib.Color::new(154, 180, 216, 204),
   )
 
@@ -561,12 +580,12 @@ fn draw_side_panel(game : Game) -> Unit {
     234,
     w - 36,
     18,
-    game.reputation / reputation_max,
+    game.reputation / @types.reputation_max,
     @raylib.Color::new(38, 26, 32, 220),
     @raylib.Color::new(246, 106, 120, 242),
   )
   @raylib.draw_text(
-    "Reputation \{game.reputation.to_int()} / \{reputation_max.to_int()}",
+    "Reputation \{game.reputation.to_int()} / \{@types.reputation_max.to_int()}",
     x + 18,
     258,
     22,
@@ -578,7 +597,7 @@ fn draw_side_panel(game : Game) -> Unit {
     292,
     w - 36,
     18,
-    game.boost_meter / boost_meter_max,
+    game.boost_meter / @types.boost_meter_max,
     @raylib.Color::new(22, 30, 46, 220),
     if game.boost_t > 0.0 {
       @raylib.Color::new(110, 228, 255, 244)
@@ -614,32 +633,32 @@ fn draw_side_panel(game : Game) -> Unit {
     @raylib.Color::new(238, 246, 255, 244),
   )
 
-  for i in 0..<max_orders {
+  for i in 0..<@types.max_orders {
     draw_order_card(game, i, x + 18, 430 + i * 80, w - 36, 72)
   }
 }
 
 ///|
-fn draw_controls_bar(game : Game) -> Unit {
+fn draw_controls_bar(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    kitchen_left,
-    screen_h - 94,
-    kitchen_w(),
+    @types.kitchen_left,
+    @types.screen_h - 94,
+    @types.kitchen_w(),
     66,
     @raylib.Color::new(8, 14, 24, 208),
   )
   @raylib.draw_rectangle_lines(
-    kitchen_left,
-    screen_h - 94,
-    kitchen_w(),
+    @types.kitchen_left,
+    @types.screen_h - 94,
+    @types.kitchen_w(),
     66,
     @raylib.Color::new(130, 162, 198, 188),
   )
 
   @raylib.draw_text(
     "Move: WASD/Arrows | J interact/cook | K serve/cancel | Space boost | P pause | R restart",
-    kitchen_left + 14,
-    screen_h - 74,
+    @types.kitchen_left + 14,
+    @types.screen_h - 74,
     24,
     @raylib.Color::new(236, 244, 255, 236),
   )
@@ -647,8 +666,8 @@ fn draw_controls_bar(game : Game) -> Unit {
   if game.msg_t > 0.0 {
     @raylib.draw_text(
       game.msg,
-      kitchen_left + 14,
-      screen_h - 104,
+      @types.kitchen_left + 14,
+      @types.screen_h - 104,
       24,
       @raylib.Color::new(255, 224, 154, 246),
     )
@@ -656,19 +675,19 @@ fn draw_controls_bar(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title_overlay(_game : Game) -> Unit {
+fn draw_title_overlay(_game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 10, 16, 166),
   )
 
   let box_w = 860
   let box_h = 460
-  let x = screen_w / 2 - box_w / 2
-  let y = screen_h / 2 - box_h / 2
+  let x = @types.screen_w / 2 - box_w / 2
+  let y = @types.screen_h / 2 - box_h / 2
 
   @raylib.draw_rectangle(
     x,
@@ -743,15 +762,15 @@ fn draw_pause_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 8, 12, 170),
   )
 
   let w = 620
   let h = 240
-  let x = screen_w / 2 - w / 2
-  let y = screen_h / 2 - h / 2
+  let x = @types.screen_w / 2 - w / 2
+  let y = @types.screen_h / 2 - h / 2
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(20, 26, 40, 240))
   @raylib.draw_rectangle_lines(
@@ -779,19 +798,19 @@ fn draw_pause_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(10, 4, 6, 186),
   )
 
   let w = 700
   let h = 330
-  let x = screen_w / 2 - w / 2
-  let y = screen_h / 2 - h / 2
+  let x = @types.screen_w / 2 - w / 2
+  let y = @types.screen_h / 2 - h / 2
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(36, 16, 20, 246))
   @raylib.draw_rectangle_lines(
@@ -835,17 +854,17 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_kitchen(game)
   draw_side_panel(game)
   draw_controls_bar(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_pause_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }

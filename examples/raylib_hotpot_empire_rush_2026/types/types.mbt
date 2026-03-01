@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
   mut press_interact : Bool
@@ -11,7 +11,7 @@ struct InputState {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0,
     move_y: 0,
@@ -25,7 +25,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-struct Order {
+pub(all) struct Order {
   mut active : Bool
   mut id : Int
   mut broth : Int
@@ -38,7 +38,7 @@ struct Order {
 }
 
 ///|
-fn Order::new(id : Int) -> Order {
+pub fn Order::new(id : Int) -> Order {
   {
     active: false,
     id,
@@ -53,19 +53,19 @@ fn Order::new(id : Int) -> Order {
 }
 
 ///|
-struct Item {
+pub(all) struct Item {
   mut kind : Int
   mut flavor : Int
   mut prepped : Bool
 }
 
 ///|
-fn Item::empty() -> Item {
+pub fn Item::empty() -> Item {
   { kind: ingredient_none, flavor: 0, prepped: false }
 }
 
 ///|
-struct PrepState {
+pub(all) struct PrepState {
   mut active : Bool
   mut kind : Int
   mut flavor : Int
@@ -77,7 +77,7 @@ struct PrepState {
 }
 
 ///|
-fn PrepState::new() -> PrepState {
+pub fn PrepState::new() -> PrepState {
   {
     active: false,
     kind: ingredient_none,
@@ -91,7 +91,7 @@ fn PrepState::new() -> PrepState {
 }
 
 ///|
-struct PotState {
+pub(all) struct PotState {
   mut broth : Int
   mut protein : Int
   mut veg : Int
@@ -103,7 +103,7 @@ struct PotState {
 }
 
 ///|
-fn PotState::new() -> PotState {
+pub fn PotState::new() -> PotState {
   {
     broth: -1,
     protein: -1,
@@ -117,7 +117,7 @@ fn PotState::new() -> PotState {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : InputState
   orders : Array[Order]
   prep : PrepState
@@ -147,7 +147,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: InputState::new(),
     orders: Array::makei(max_orders, fn(i) { Order::new(i + 1) }),
