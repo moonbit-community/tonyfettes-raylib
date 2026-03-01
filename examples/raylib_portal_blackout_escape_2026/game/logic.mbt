@@ -1,24 +1,24 @@
 ///|
 fn idx(x : Int, y : Int) -> Int {
-  y * grid_w + x
+  y * @types.grid_w + x
 }
 
 ///|
 fn in_bounds(x : Int, y : Int) -> Bool {
-  x >= 0 && x < grid_w && y >= 0 && y < grid_h
+  x >= 0 && x < @types.grid_w && y >= 0 && y < @types.grid_h
 }
 
 ///|
-fn tile_at(game : Game, x : Int, y : Int) -> Int {
+fn tile_at(game : @types.Game, x : Int, y : Int) -> Int {
   if not(in_bounds(x, y)) {
-    tile_wall
+    @types.tile_wall
   } else {
     game.map[idx(x, y)]
   }
 }
 
 ///|
-fn set_tile(game : Game, x : Int, y : Int, t : Int) -> Unit {
+fn set_tile(game : @types.Game, x : Int, y : Int, t : Int) -> Unit {
   if not(in_bounds(x, y)) {
     return
   }
@@ -26,13 +26,13 @@ fn set_tile(game : Game, x : Int, y : Int, t : Int) -> Unit {
 }
 
 ///|
-fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
+fn set_msg(game : @types.Game, msg : String, ttl : Float) -> Unit {
   game.msg = msg
   game.msg_t = ttl
 }
 
 ///|
-fn actor_place(a : Actor, x : Int, y : Int) -> Unit {
+fn actor_place(a : @types.Actor, x : Int, y : Int) -> Unit {
   a.x = x
   a.y = y
   a.from_x = x
@@ -46,7 +46,7 @@ fn actor_place(a : Actor, x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn actor_start_move(a : Actor, tx : Int, ty : Int) -> Unit {
+fn actor_start_move(a : @types.Actor, tx : Int, ty : Int) -> Unit {
   if a.x == tx && a.y == ty {
     return
   }
@@ -60,7 +60,7 @@ fn actor_start_move(a : Actor, tx : Int, ty : Int) -> Unit {
 }
 
 ///|
-fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
+fn actor_tick(a : @types.Actor, dt : Float, move_t : Float) -> Unit {
   if not(a.moving) {
     a.fx = Float::from_int(a.x)
     a.fy = Float::from_int(a.y)
@@ -78,12 +78,12 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
     return
   }
 
-  a.fx = lerpf(Float::from_int(a.from_x), Float::from_int(a.to_x), a.t)
-  a.fy = lerpf(Float::from_int(a.from_y), Float::from_int(a.to_y), a.t)
+  a.fx = @types.lerpf(Float::from_int(a.from_x), Float::from_int(a.to_x), a.t)
+  a.fy = @types.lerpf(Float::from_int(a.from_y), Float::from_int(a.to_y), a.t)
 }
 
 ///|
-fn clear_particles(game : Game) -> Unit {
+fn clear_particles(game : @types.Game) -> Unit {
   for particle in game.particles {
     particle.active = false
     particle.x = 0.0
@@ -98,7 +98,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn emit_particle(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -125,23 +125,23 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
-      x + randf(-10.0, 10.0),
-      y + randf(-10.0, 10.0),
-      randf(-170.0, 170.0),
-      randf(-150.0, 110.0),
-      randf(0.20, 1.0),
-      randf(1.4, 5.0),
+      x + @types.randf(-10.0, 10.0),
+      y + @types.randf(-10.0, 10.0),
+      @types.randf(-170.0, 170.0),
+      @types.randf(-150.0, 110.0),
+      @types.randf(0.20, 1.0),
+      @types.randf(1.4, 5.0),
       kind,
     )
   }
 }
 
 ///|
-fn update_particles(game : Game, dt : Float) -> Unit {
+fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for particle in game.particles {
     if not(particle.active) {
       continue
@@ -164,13 +164,13 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn flare_cover_at(game : Game, x : Int, y : Int) -> Bool {
+fn flare_cover_at(game : @types.Game, x : Int, y : Int) -> Bool {
   for flare in game.flares {
     if not(flare.active) {
       continue
     }
 
-    let d : Int = manhattan(x, y, flare.x, flare.y)
+    let d : Int = @types.manhattan(x, y, flare.x, flare.y)
     if d <= 2 {
       return true
     }
@@ -180,7 +180,7 @@ fn flare_cover_at(game : Game, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn core_index_at(game : Game, x : Int, y : Int) -> Int {
+fn core_index_at(game : @types.Game, x : Int, y : Int) -> Int {
   for i in 0..<game.cores.length() {
     if not(game.cores[i].active) {
       continue
@@ -195,7 +195,7 @@ fn core_index_at(game : Game, x : Int, y : Int) -> Int {
 }
 
 ///|
-fn drone_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
+fn drone_index_at(game : @types.Game, x : Int, y : Int, skip : Int) -> Int {
   for i in 0..<game.drones.length() {
     if i == skip || not(game.drones[i].active) {
       continue
@@ -210,31 +210,31 @@ fn drone_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
 }
 
 ///|
-fn build_map(game : Game) -> Unit {
-  for y in 0..<grid_h {
-    for x in 0..<grid_w {
-      if x == 0 || y == 0 || x == grid_w - 1 || y == grid_h - 1 {
-        set_tile(game, x, y, tile_wall)
+fn build_map(game : @types.Game) -> Unit {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
+      if x == 0 || y == 0 || x == @types.grid_w - 1 || y == @types.grid_h - 1 {
+        set_tile(game, x, y, @types.tile_wall)
       } else {
-        set_tile(game, x, y, tile_floor)
+        set_tile(game, x, y, @types.tile_floor)
       }
     }
   }
 
-  for x = 3; x < grid_w - 2; x = x + 4 {
-    for y in 1..<(grid_h - 1) {
+  for x = 3; x < @types.grid_w - 2; x = x + 4 {
+    for y in 1..<(@types.grid_h - 1) {
       let keep_gap : Bool = y == 2 || y == 6 || y == 10
       if not(keep_gap) {
-        set_tile(game, x, y, tile_wall)
+        set_tile(game, x, y, @types.tile_wall)
       }
     }
   }
 
-  for y = 3; y < grid_h - 2; y = y + 4 {
-    for x in 2..<(grid_w - 2) {
+  for y = 3; y < @types.grid_h - 2; y = y + 4 {
+    for x in 2..<(@types.grid_w - 2) {
       let keep_gap : Bool = x == 5 || x == 9 || x == 13 || x == 17
       if not(keep_gap) {
-        set_tile(game, x, y, tile_wall)
+        set_tile(game, x, y, @types.tile_wall)
       }
     }
   }
@@ -255,15 +255,15 @@ fn build_map(game : Game) -> Unit {
   ]
 
   for extra_wall in extra_walls {
-    set_tile(game, extra_wall.0, extra_wall.1, tile_wall)
+    set_tile(game, extra_wall.0, extra_wall.1, @types.tile_wall)
   }
 
-  set_tile(game, exit_x, exit_y, tile_exit)
-  set_tile(game, start_x, start_y, tile_floor)
+  set_tile(game, @types.exit_x, @types.exit_y, @types.tile_exit)
+  set_tile(game, @types.start_x, @types.start_y, @types.tile_floor)
 }
 
 ///|
-fn init_cores(game : Game) -> Unit {
+fn init_cores(game : @types.Game) -> Unit {
   let plan : Array[(Int, Int, Int)] = [
     (5, 11, 0),
     (8, 9, 1),
@@ -290,7 +290,7 @@ fn init_cores(game : Game) -> Unit {
 }
 
 ///|
-fn init_drones(game : Game) -> Unit {
+fn init_drones(game : @types.Game) -> Unit {
   let plan : Array[(Int, Int, Int, Int, Int, Int, Int)] = [
     (6, 2, 1, 0, 5, 9, 0),
     (10, 6, 0, 1, 4, 10, 1),
@@ -301,8 +301,8 @@ fn init_drones(game : Game) -> Unit {
 
   for i in 0..<game.drones.length() {
     game.drones[i].active = i < plan.length()
-    game.drones[i].mode = drone_patrol
-    game.drones[i].move_cd = randf(0.04, 0.30)
+    game.drones[i].mode = @types.drone_patrol
+    game.drones[i].move_cd = @types.randf(0.04, 0.30)
     game.drones[i].stun_t = 0.0
     game.drones[i].seed = 151 + i * 241
     game.drones[i].alert_t = 0.0
@@ -326,7 +326,7 @@ fn init_drones(game : Game) -> Unit {
 }
 
 ///|
-fn clear_flares(game : Game) -> Unit {
+fn clear_flares(game : @types.Game) -> Unit {
   for flare in game.flares {
     flare.active = false
     flare.x = 0
@@ -336,24 +336,24 @@ fn clear_flares(game : Game) -> Unit {
 }
 
 ///|
-fn start_run(game : Game) -> Unit {
+fn start_run(game : @types.Game) -> Unit {
   build_map(game)
   init_cores(game)
   init_drones(game)
   clear_flares(game)
   clear_particles(game)
 
-  actor_place(game.player, start_x, start_y)
+  actor_place(game.player, @types.start_x, @types.start_y)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.win = false
   game.loss_reason = ""
 
-  game.lives = max_lives
+  game.lives = @types.max_lives
   game.score = 0
   game.cores_taken = 0
   game.portal_on = false
-  game.time_left = round_time_limit
+  game.time_left = @types.round_time_limit
 
   game.req_dx = 0
   game.req_dy = 0
@@ -378,8 +378,8 @@ fn start_run(game : Game) -> Unit {
 }
 
 ///|
-fn go_title(game : Game) -> Unit {
-  game.state = state_title
+fn go_title(game : @types.Game) -> Unit {
+  game.state = @types.state_title
   game.req_dx = 0
   game.req_dy = 0
   game.action_down = false
@@ -390,12 +390,12 @@ fn go_title(game : Game) -> Unit {
 }
 
 ///|
-fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
-  if game.state != state_play {
+fn finish_run(game : @types.Game, win : Bool, reason : String) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  game.state = state_result
+  game.state = @types.state_result
   game.win = win
   game.loss_reason = reason
   game.req_dx = 0
@@ -403,12 +403,12 @@ fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
   game.action_pressed = false
 
   if win {
-    game.score = game.score + score_win + game.lives * 140
+    game.score = game.score + @types.score_win + game.lives * 140
     set_msg(game, "Blackout escaped. Portal network secured.", 3.0)
     burst(
       game,
-      Float::from_int(cell_center_x(Float::from_int(exit_x))),
-      Float::from_int(cell_center_y(Float::from_int(exit_y))),
+      Float::from_int(@types.cell_center_x(Float::from_int(@types.exit_x))),
+      Float::from_int(@types.cell_center_y(Float::from_int(@types.exit_y))),
       72,
       1,
     )
@@ -422,27 +422,27 @@ fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
 }
 
 ///|
-fn cycle_hint(game : Game) -> Unit {
+fn cycle_hint(game : @types.Game) -> Unit {
   game.hint_i = (game.hint_i + 1) % 4
-  set_msg(game, hint_text(game.hint_i), 2.8)
+  set_msg(game, @types.hint_text(game.hint_i), 2.8)
 }
 
 ///|
-fn blocked_by_map(game : Game, x : Int, y : Int) -> Bool {
+fn blocked_by_map(game : @types.Game, x : Int, y : Int) -> Bool {
   if not(in_bounds(x, y)) {
     return true
   }
 
   let t : Int = tile_at(game, x, y)
-  if t == tile_wall {
+  if t == @types.tile_wall {
     return true
   }
 
-  t == tile_exit && not(game.portal_on)
+  t == @types.tile_exit && not(game.portal_on)
 }
 
 ///|
-fn blocked_for_actor(game : Game, x : Int, y : Int) -> Bool {
+fn blocked_for_actor(game : @types.Game, x : Int, y : Int) -> Bool {
   if blocked_by_map(game, x, y) {
     return true
   }
@@ -451,7 +451,7 @@ fn blocked_for_actor(game : Game, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn try_move_player(game : Game, dx : Int, dy : Int) -> Bool {
+fn try_move_player(game : @types.Game, dx : Int, dy : Int) -> Bool {
   if dx == 0 && dy == 0 {
     return false
   }
@@ -473,7 +473,7 @@ fn try_move_player(game : Game, dx : Int, dy : Int) -> Bool {
 }
 
 ///|
-fn collect_core(game : Game) -> Unit {
+fn collect_core(game : @types.Game) -> Unit {
   if game.player.moving {
     return
   }
@@ -485,24 +485,27 @@ fn collect_core(game : Game) -> Unit {
 
   game.cores[i].active = false
   game.cores_taken = game.cores_taken + 1
-  game.score = game.score + score_core
+  game.score = game.score + @types.score_core
   game.flash_t = 0.20
 
   set_msg(
     game,
-    "Energy core " + game.cores_taken.to_string() + "/" + core_need.to_string(),
+    "Energy core " +
+    game.cores_taken.to_string() +
+    "/" +
+    @types.core_need.to_string(),
     1.6,
   )
 
   burst(
     game,
-    Float::from_int(cell_center_x(game.player.fx)),
-    Float::from_int(cell_center_y(game.player.fy)),
+    Float::from_int(@types.cell_center_x(game.player.fx)),
+    Float::from_int(@types.cell_center_y(game.player.fy)),
     22,
     1,
   )
 
-  if game.cores_taken >= core_need && not(game.portal_on) {
+  if game.cores_taken >= @types.core_need && not(game.portal_on) {
     game.portal_on = true
     game.score = game.score + 260
     game.shake_t = 0.34
@@ -511,15 +514,15 @@ fn collect_core(game : Game) -> Unit {
 
     burst(
       game,
-      Float::from_int(cell_center_x(Float::from_int(portal_ax))),
-      Float::from_int(cell_center_y(Float::from_int(portal_ay))),
+      Float::from_int(@types.cell_center_x(Float::from_int(@types.portal_ax))),
+      Float::from_int(@types.cell_center_y(Float::from_int(@types.portal_ay))),
       30,
       2,
     )
     burst(
       game,
-      Float::from_int(cell_center_x(Float::from_int(portal_bx))),
-      Float::from_int(cell_center_y(Float::from_int(portal_by))),
+      Float::from_int(@types.cell_center_x(Float::from_int(@types.portal_bx))),
+      Float::from_int(@types.cell_center_y(Float::from_int(@types.portal_by))),
       30,
       2,
     )
@@ -527,13 +530,19 @@ fn collect_core(game : Game) -> Unit {
 }
 
 ///|
-fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
+fn line_of_sight(
+  game : @types.Game,
+  x0 : Int,
+  y0 : Int,
+  x1 : Int,
+  y1 : Int,
+) -> Bool {
   if x0 == x1 {
-    let y_min : Int = mini(y0, y1)
-    let y_max : Int = maxi(y0, y1)
+    let y_min : Int = @types.mini(y0, y1)
+    let y_max : Int = @types.maxi(y0, y1)
 
     for y in (y_min + 1)..<y_max {
-      if tile_at(game, x0, y) == tile_wall {
+      if tile_at(game, x0, y) == @types.tile_wall {
         return false
       }
     }
@@ -542,11 +551,11 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   }
 
   if y0 == y1 {
-    let x_min : Int = mini(x0, x1)
-    let x_max : Int = maxi(x0, x1)
+    let x_min : Int = @types.mini(x0, x1)
+    let x_max : Int = @types.maxi(x0, x1)
 
     for x in (x_min + 1)..<x_max {
-      if tile_at(game, x, y0) == tile_wall {
+      if tile_at(game, x, y0) == @types.tile_wall {
         return false
       }
     }
@@ -568,7 +577,7 @@ fn drone_seed_next(seed : Int) -> Int {
 }
 
 ///|
-fn blocked_for_drone(game : Game, gid : Int, x : Int, y : Int) -> Bool {
+fn blocked_for_drone(game : @types.Game, gid : Int, x : Int, y : Int) -> Bool {
   if blocked_by_map(game, x, y) {
     return true
   }
@@ -578,30 +587,30 @@ fn blocked_for_drone(game : Game, gid : Int, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn choose_drone_step(game : Game, i : Int) -> (Int, Int) {
+fn choose_drone_step(game : @types.Game, i : Int) -> (Int, Int) {
   let d = game.drones[i]
   let gx : Int = d.body.x
   let gy : Int = d.body.y
   let px : Int = game.player.x
   let py : Int = game.player.y
 
-  let dist : Int = manhattan(gx, gy, px, py)
+  let dist : Int = @types.manhattan(gx, gy, px, py)
   let sees : Bool = line_of_sight(game, gx, gy, px, py)
   let flare_cover : Bool = flare_cover_at(game, px, py)
 
   if dist <= 3 || (sees && dist <= 7 && not(flare_cover)) {
-    d.mode = drone_hunt
+    d.mode = @types.drone_hunt
     d.alert_t = 1.2
   } else {
     d.alert_t = d.alert_t - 0.16
     if d.alert_t <= 0.0 {
-      d.mode = drone_patrol
+      d.mode = @types.drone_patrol
     }
   }
 
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-  if d.mode == drone_hunt {
+  if d.mode == @types.drone_hunt {
     let mut best_k : Int = -1
     let mut best_d : Int = 999999
 
@@ -612,7 +621,7 @@ fn choose_drone_step(game : Game, i : Int) -> (Int, Int) {
         continue
       }
 
-      let dd : Int = manhattan(nx, ny, px, py)
+      let dd : Int = @types.manhattan(nx, ny, px, py)
       if dd < best_d {
         best_d = dd
         best_k = k
@@ -674,18 +683,18 @@ fn choose_drone_step(game : Game, i : Int) -> (Int, Int) {
 }
 
 ///|
-fn update_drones(game : Game, dt : Float) -> Unit {
+fn update_drones(game : @types.Game, dt : Float) -> Unit {
   for i in 0..<game.drones.length() {
     if not(game.drones[i].active) {
       continue
     }
 
-    actor_tick(game.drones[i].body, dt, drone_move_t)
+    actor_tick(game.drones[i].body, dt, @types.drone_move_t)
 
-    if game.drones[i].mode == drone_stunned {
+    if game.drones[i].mode == @types.drone_stunned {
       game.drones[i].stun_t = game.drones[i].stun_t - dt
       if game.drones[i].stun_t <= 0.0 {
-        game.drones[i].mode = drone_patrol
+        game.drones[i].mode = @types.drone_patrol
         game.drones[i].stun_t = 0.0
       }
     }
@@ -703,7 +712,7 @@ fn update_drones(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.drones[i].mode == drone_stunned {
+    if game.drones[i].mode == @types.drone_stunned {
       game.drones[i].move_cd = 0.14
       continue
     }
@@ -717,12 +726,12 @@ fn update_drones(game : Game, dt : Float) -> Unit {
       )
     }
 
-    game.drones[i].move_cd = drone_move_t * randf(0.80, 1.20)
+    game.drones[i].move_cd = @types.drone_move_t * @types.randf(0.80, 1.20)
   }
 }
 
 ///|
-fn update_flares(game : Game, dt : Float) -> Unit {
+fn update_flares(game : @types.Game, dt : Float) -> Unit {
   for flare in game.flares {
     if not(flare.active) {
       continue
@@ -737,14 +746,14 @@ fn update_flares(game : Game, dt : Float) -> Unit {
     if @raylib.get_random_value(0, 4) == 0 {
       emit_particle(
         game,
-        Float::from_int(cell_center_x(Float::from_int(flare.x))) +
-        randf(-16.0, 16.0),
-        Float::from_int(cell_center_y(Float::from_int(flare.y))) +
-        randf(-16.0, 16.0),
-        randf(-20.0, 20.0),
-        randf(-28.0, -8.0),
-        randf(0.3, 0.9),
-        randf(4.0, 9.0),
+        Float::from_int(@types.cell_center_x(Float::from_int(flare.x))) +
+        @types.randf(-16.0, 16.0),
+        Float::from_int(@types.cell_center_y(Float::from_int(flare.y))) +
+        @types.randf(-16.0, 16.0),
+        @types.randf(-20.0, 20.0),
+        @types.randf(-28.0, -8.0),
+        @types.randf(0.3, 0.9),
+        @types.randf(4.0, 9.0),
         2,
       )
     }
@@ -752,8 +761,8 @@ fn update_flares(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn deploy_flare(game : Game) -> Bool {
-  if game.action_cd > 0.0 || game.flare_energy < flare_cost {
+fn deploy_flare(game : @types.Game) -> Bool {
+  if game.action_cd > 0.0 || game.flare_energy < @types.flare_cost {
     return false
   }
 
@@ -772,18 +781,22 @@ fn deploy_flare(game : Game) -> Bool {
   game.flares[slot].active = true
   game.flares[slot].x = game.player.x
   game.flares[slot].y = game.player.y
-  game.flares[slot].t = flare_ttl
+  game.flares[slot].t = @types.flare_ttl
 
-  game.flare_energy = clampf(game.flare_energy - flare_cost, 0.0, 100.0)
+  game.flare_energy = @types.clampf(
+    game.flare_energy - @types.flare_cost,
+    0.0,
+    100.0,
+  )
   game.action_cd = 0.34
 
   let mut stunned : Int = 0
   for drone in game.drones {
-    if not(drone.active) || drone.mode == drone_stunned {
+    if not(drone.active) || drone.mode == @types.drone_stunned {
       continue
     }
 
-    let d : Int = manhattan(
+    let d : Int = @types.manhattan(
       game.player.x,
       game.player.y,
       drone.body.x,
@@ -791,15 +804,15 @@ fn deploy_flare(game : Game) -> Bool {
     )
 
     if d <= 2 {
-      drone.mode = drone_stunned
-      drone.stun_t = flare_stun_t
+      drone.mode = @types.drone_stunned
+      drone.stun_t = @types.flare_stun_t
       drone.move_cd = 0.14
       stunned = stunned + 1
     }
   }
 
   if stunned > 0 {
-    game.score = game.score + stunned * score_stun
+    game.score = game.score + stunned * @types.score_stun
     set_msg(game, "Flare stunned " + stunned.to_string() + " drone(s).", 1.5)
   } else {
     set_msg(game, "Flare deployed.", 1.2)
@@ -807,8 +820,8 @@ fn deploy_flare(game : Game) -> Bool {
 
   burst(
     game,
-    Float::from_int(cell_center_x(game.player.fx)),
-    Float::from_int(cell_center_y(game.player.fy)),
+    Float::from_int(@types.cell_center_x(game.player.fx)),
+    Float::from_int(@types.cell_center_y(game.player.fy)),
     34,
     2,
   )
@@ -817,29 +830,30 @@ fn deploy_flare(game : Game) -> Bool {
 }
 
 ///|
-fn try_portal(game : Game) -> Bool {
+fn try_portal(game : @types.Game) -> Bool {
   if not(game.portal_on) || game.teleport_cd > 0.0 {
     return false
   }
 
-  if game.player.x == portal_ax && game.player.y == portal_ay {
-    actor_place(game.player, portal_bx, portal_by)
-  } else if game.player.x == portal_bx && game.player.y == portal_by {
-    actor_place(game.player, portal_ax, portal_ay)
+  if game.player.x == @types.portal_ax && game.player.y == @types.portal_ay {
+    actor_place(game.player, @types.portal_bx, @types.portal_by)
+  } else if game.player.x == @types.portal_bx &&
+    game.player.y == @types.portal_by {
+    actor_place(game.player, @types.portal_ax, @types.portal_ay)
   } else {
     return false
   }
 
   game.teleport_cd = 0.50
   game.action_cd = 0.22
-  game.score = game.score + score_teleport
+  game.score = game.score + @types.score_teleport
 
   set_msg(game, "Portal jump.", 1.0)
 
   burst(
     game,
-    Float::from_int(cell_center_x(game.player.fx)),
-    Float::from_int(cell_center_y(game.player.fy)),
+    Float::from_int(@types.cell_center_x(game.player.fx)),
+    Float::from_int(@types.cell_center_y(game.player.fy)),
     30,
     1,
   )
@@ -848,13 +862,13 @@ fn try_portal(game : Game) -> Bool {
 }
 
 ///|
-fn handle_player_hit(game : Game) -> Unit {
+fn handle_player_hit(game : @types.Game) -> Unit {
   if game.flash_t > 0.0 {
     return
   }
 
   for drone in game.drones {
-    if not(drone.active) || drone.mode == drone_stunned {
+    if not(drone.active) || drone.mode == @types.drone_stunned {
       continue
     }
 
@@ -865,8 +879,8 @@ fn handle_player_hit(game : Game) -> Unit {
 
       burst(
         game,
-        Float::from_int(cell_center_x(game.player.fx)),
-        Float::from_int(cell_center_y(game.player.fy)),
+        Float::from_int(@types.cell_center_x(game.player.fx)),
+        Float::from_int(@types.cell_center_y(game.player.fy)),
         34,
         2,
       )
@@ -874,7 +888,7 @@ fn handle_player_hit(game : Game) -> Unit {
       if game.lives <= 0 {
         finish_run(game, false, "Neutralized by blackout drones")
       } else {
-        actor_place(game.player, start_x, start_y)
+        actor_place(game.player, @types.start_x, @types.start_y)
         game.move_cd = 0.24
         set_msg(game, "Drone contact. Life lost.", 1.8)
       }
@@ -885,7 +899,7 @@ fn handle_player_hit(game : Game) -> Unit {
 }
 
 ///|
-fn update_timers(game : Game, dt : Float) -> Unit {
+fn update_timers(game : @types.Game, dt : Float) -> Unit {
   if game.msg_t > 0.0 {
     game.msg_t = game.msg_t - dt
   }
@@ -916,29 +930,29 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_title(game : Game, dt : Float) -> Unit {
+fn update_title(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
   update_timers(game, dt)
   update_particles(game, dt)
 }
 
 ///|
-fn update_result(game : Game, dt : Float) -> Unit {
+fn update_result(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
   update_timers(game, dt)
   update_particles(game, dt)
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
   game.time_left = game.time_left - dt
 
   update_timers(game, dt)
 
-  game.flare_energy = clampf(game.flare_energy + dt * 16.0, 0.0, 100.0)
+  game.flare_energy = @types.clampf(game.flare_energy + dt * 16.0, 0.0, 100.0)
 
-  actor_tick(game.player, dt, player_move_t)
+  actor_tick(game.player, dt, @types.player_move_t)
 
   if not(game.player.moving) && game.move_cd <= 0.0 {
     ignore(try_move_player(game, game.req_dx, game.req_dy))
@@ -956,24 +970,33 @@ fn update_play(game : Game, dt : Float) -> Unit {
   handle_player_hit(game)
   update_particles(game, dt)
 
-  if game.state == state_play &&
+  if game.state == @types.state_play &&
     not(game.player.moving) &&
     game.portal_on &&
-    game.player.x == exit_x &&
-    game.player.y == exit_y {
+    game.player.x == @types.exit_x &&
+    game.player.y == @types.exit_y {
     finish_run(game, true, "")
   }
 
-  if game.state == state_play && game.time_left <= 0.0 {
+  if game.state == @types.state_play && game.time_left <= 0.0 {
     finish_run(game, false, "Blackout stabilized before escape")
   }
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
-  if game.state == state_title {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  // Process input at the start of each frame
+  if game.state == @types.state_title {
+    update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game)
+  } else {
+    update_result_input(game)
+  }
+
+  if game.state == @types.state_title {
     update_title(game, dt)
-  } else if game.state == state_play {
+  } else if game.state == @types.state_play {
     update_play(game, dt)
   } else {
     update_result(game, dt)
