@@ -1,4 +1,40 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum Tile {
+  Void
+  Floor
+  Track
+  Wall
+} derive(Eq)
+
+///|
+pub(all) enum InspectorMode {
+  Patrol
+  Hunt
+  Stunned
+} derive(Eq)
+
+///|
+pub(all) enum ParticleKind {
+  Spark
+  Gold
+  Smoke
+} derive(Eq)
+
+///|
+pub(all) enum TrainColor {
+  Red
+  Blue
+  Green
+} derive(Eq)
+
+///|
 pub(all) struct Actor {
   mut x : Int
   mut y : Int
@@ -21,14 +57,14 @@ pub(all) struct Train {
   mut target_lane : Int
   mut speed : Float
   mut passed_junction : Int
-  mut color_id : Int
+  mut color_id : TrainColor
 }
 
 ///|
 pub(all) struct Inspector {
   mut active : Bool
   body : Actor
-  mut mode : Int
+  mut mode : InspectorMode
   mut move_cd : Float
   mut dir_x : Int
   mut path_y : Int
@@ -48,17 +84,17 @@ pub(all) struct Particle {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : ParticleKind
 }
 
 ///|
 pub(all) struct Game {
-  map : Array[Int]
+  map : Array[Tile]
   switch_state : Array[Int]
   trains : Array[Train]
   inspectors : Array[Inspector]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   player : Actor
   mut lives : Int
   mut score : Int
@@ -117,7 +153,7 @@ pub fn Train::new() -> Train {
     target_lane: 0,
     speed: 0.0,
     passed_junction: -1,
-    color_id: 0,
+    color_id: Red,
   }
 }
 
@@ -126,7 +162,7 @@ pub fn Inspector::new() -> Inspector {
   {
     active: false,
     body: Actor::new(),
-    mode: inspector_patrol,
+    mode: Patrol,
     move_cd: 0.0,
     dir_x: 1,
     path_y: 2,
@@ -148,19 +184,19 @@ pub fn Particle::new() -> Particle {
     vy: 0.0,
     life: 0.0,
     size: 0.0,
-    kind: 0,
+    kind: Spark,
   }
 }
 
 ///|
 pub fn Game::new() -> Game {
   {
-    map: Array::make(grid_w * grid_h, tile_void),
+    map: Array::make(grid_w * grid_h, Void),
     switch_state: Array::make(junction_n, 0),
     trains: Array::makei(max_trains, fn(_i) { Train::new() }),
     inspectors: Array::makei(max_inspectors, fn(_i) { Inspector::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     player: Actor::new(),
     lives: max_lives,
     score: 0,

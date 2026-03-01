@@ -22,13 +22,11 @@ fn pulse(game : @types.Game, f : Float) -> Float {
 }
 
 ///|
-fn train_target_color(id : Int) -> @raylib.Color {
-  if id == 0 {
-    @raylib.Color::new(250, 154, 144, 246)
-  } else if id == 1 {
-    @raylib.Color::new(144, 214, 254, 246)
-  } else {
-    @raylib.Color::new(182, 236, 166, 246)
+fn train_target_color(id : @types.TrainColor) -> @raylib.Color {
+  match id {
+    @types.Red => @raylib.Color::new(250, 154, 144, 246)
+    @types.Blue => @raylib.Color::new(144, 214, 254, 246)
+    @types.Green => @raylib.Color::new(182, 236, 166, 246)
   }
 }
 
@@ -48,12 +46,7 @@ fn draw_background(game : @types.Game) -> Unit {
   let g0 : Int = 24 + (pulse(game, 0.40) * 20.0).to_int()
   let g1 : Int = 32 + (pulse(game, 0.68) * 26.0).to_int()
 
-  @raylib.draw_circle(
-    160,
-    108,
-    220.0,
-    @raylib.Color::new(102, 132, 198, g0),
-  )
+  @raylib.draw_circle(160, 108, 220.0, @raylib.Color::new(102, 132, 198, g0))
   @raylib.draw_circle(
     @types.screen_w - 120,
     94,
@@ -72,68 +65,71 @@ fn draw_background(game : @types.Game) -> Unit {
 
 ///|
 fn draw_tiles(game : @types.Game, ox : Int, oy : Int) -> Unit {
-  for y in 0..< @types.grid_h {
-    for x in 0..< @types.grid_w {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
       let rx : Int = @types.board_px(x) + ox
       let ry : Int = @types.board_py(y) + oy
-      let t : Int = @types.tile_at(game, x, y)
 
-      if t == @types.tile_wall {
-        let tone : Int = if (x + y) % 2 == 0 { 56 } else { 64 }
-        @raylib.draw_rectangle(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(tone, 56, 66, 252),
-        )
-        @raylib.draw_rectangle(
-          rx + 5,
-          ry + 8,
-          @types.cell - 10,
-          @types.cell - 14,
-          @raylib.Color::new(84, 66, 64, 226),
-        )
-      } else if t == @types.tile_track {
-        @raylib.draw_rectangle(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(34, 48, 74, 232),
-        )
+      match @types.tile_at(game, x, y) {
+        @types.Wall => {
+          let tone : Int = if (x + y) % 2 == 0 { 56 } else { 64 }
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(tone, 56, 66, 252),
+          )
+          @raylib.draw_rectangle(
+            rx + 5,
+            ry + 8,
+            @types.cell - 10,
+            @types.cell - 14,
+            @raylib.Color::new(84, 66, 64, 226),
+          )
+        }
+        @types.Track => {
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(34, 48, 74, 232),
+          )
 
-        @raylib.draw_rectangle(
-          rx,
-          ry + @types.cell / 2 - 7,
-          @types.cell,
-          14,
-          @raylib.Color::new(118, 136, 168, 220),
-        )
+          @raylib.draw_rectangle(
+            rx,
+            ry + @types.cell / 2 - 7,
+            @types.cell,
+            14,
+            @raylib.Color::new(118, 136, 168, 220),
+          )
 
-        @raylib.draw_line(
-          rx + 6,
-          ry + @types.cell / 2 - 10,
-          rx + 6,
-          ry + @types.cell / 2 + 10,
-          @raylib.Color::new(208, 220, 236, 132),
-        )
-        @raylib.draw_line(
-          rx + @types.cell - 6,
-          ry + @types.cell / 2 - 10,
-          rx + @types.cell - 6,
-          ry + @types.cell / 2 + 10,
-          @raylib.Color::new(208, 220, 236, 132),
-        )
-      } else {
-        let tone : Int = if (x + y) % 2 == 0 { 28 } else { 34 }
-        @raylib.draw_rectangle(
-          rx,
-          ry,
-          @types.cell,
-          @types.cell,
-          @raylib.Color::new(24, tone, 52, 224),
-        )
+          @raylib.draw_line(
+            rx + 6,
+            ry + @types.cell / 2 - 10,
+            rx + 6,
+            ry + @types.cell / 2 + 10,
+            @raylib.Color::new(208, 220, 236, 132),
+          )
+          @raylib.draw_line(
+            rx + @types.cell - 6,
+            ry + @types.cell / 2 - 10,
+            rx + @types.cell - 6,
+            ry + @types.cell / 2 + 10,
+            @raylib.Color::new(208, 220, 236, 132),
+          )
+        }
+        _ => {
+          let tone : Int = if (x + y) % 2 == 0 { 28 } else { 34 }
+          @raylib.draw_rectangle(
+            rx,
+            ry,
+            @types.cell,
+            @types.cell,
+            @raylib.Color::new(24, tone, 52, 224),
+          )
+        }
       }
 
       @raylib.draw_rectangle_lines(
@@ -149,21 +145,16 @@ fn draw_tiles(game : @types.Game, ox : Int, oy : Int) -> Unit {
 
 ///|
 fn draw_junctions(game : @types.Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..< @types.junction_n {
+  for i in 0..<@types.junction_n {
     let jx : Int = @types.junction_x(i)
 
-    for lane in 0..< @types.train_lane_n {
+    for lane in 0..<@types.train_lane_n {
       let cy : Int = @types.board_py(@types.lane_to_y(lane)) +
         @types.cell / 2 +
         oy
       let cx : Int = @types.board_px(jx) + @types.cell / 2 + ox
 
-      @raylib.draw_circle(
-        cx,
-        cy,
-        12.0,
-        @raylib.Color::new(138, 188, 238, 70),
-      )
+      @raylib.draw_circle(cx, cy, 12.0, @raylib.Color::new(138, 188, 238, 70))
 
       let dir : Int = game.switch_state[i]
       let arrow_y : Int = cy - dir * 10
@@ -177,10 +168,7 @@ fn draw_junctions(game : @types.Game, ox : Int, oy : Int) -> Unit {
       )
 
       @raylib.draw_triangle(
-        @raylib.Vector2::new(
-          Float::from_int(cx + 14),
-          Float::from_int(arrow_y),
-        ),
+        @raylib.Vector2::new(Float::from_int(cx + 14), Float::from_int(arrow_y)),
         @raylib.Vector2::new(
           Float::from_int(cx + 8),
           Float::from_int(arrow_y - 4),
@@ -281,12 +269,10 @@ fn draw_inspectors(game : @types.Game, ox : Int, oy : Int) -> Unit {
     let cx : Int = @types.cell_center_x(inspector.body.fx) + ox
     let cy : Int = @types.cell_center_y(inspector.body.fy) + oy
 
-    let col = if inspector.mode == @types.inspector_stunned {
-      @raylib.Color::new(164, 144, 248, 228)
-    } else if inspector.mode == @types.inspector_hunt {
-      @raylib.Color::new(250, 144, 164, 232)
-    } else {
-      @raylib.Color::new(238, 202, 154, 232)
+    let col = match inspector.mode {
+      @types.Stunned => @raylib.Color::new(164, 144, 248, 228)
+      @types.Hunt => @raylib.Color::new(250, 144, 164, 232)
+      @types.Patrol => @raylib.Color::new(238, 202, 154, 232)
     }
 
     @raylib.draw_circle(cx, cy - 8, 13.0, col)
@@ -305,7 +291,7 @@ fn draw_inspectors(game : @types.Game, ox : Int, oy : Int) -> Unit {
       @raylib.Color::new(30, 42, 62, 255),
     )
 
-    if inspector.mode == @types.inspector_hunt {
+    if inspector.mode == @types.Hunt {
       @raylib.draw_circle_lines(
         cx,
         cy - 2,
@@ -327,12 +313,7 @@ fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let cx : Int = @types.cell_center_x(game.player.fx) + ox
   let cy : Int = @types.cell_center_y(game.player.fy) + oy
 
-  @raylib.draw_circle(
-    cx,
-    cy - 8,
-    14.0,
-    @raylib.Color::new(120, 214, 246, 244),
-  )
+  @raylib.draw_circle(cx, cy - 8, 14.0, @raylib.Color::new(120, 214, 246, 244))
   @raylib.draw_rectangle(
     cx - 14,
     cy - 8,
@@ -341,18 +322,8 @@ fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(90, 174, 214, 236),
   )
 
-  @raylib.draw_circle(
-    cx - 4,
-    cy - 10,
-    2.0,
-    @raylib.Color::new(22, 46, 66, 255),
-  )
-  @raylib.draw_circle(
-    cx + 4,
-    cy - 10,
-    2.0,
-    @raylib.Color::new(22, 46, 66, 255),
-  )
+  @raylib.draw_circle(cx - 4, cy - 10, 2.0, @raylib.Color::new(22, 46, 66, 255))
+  @raylib.draw_circle(cx + 4, cy - 10, 2.0, @raylib.Color::new(22, 46, 66, 255))
 }
 
 ///|
@@ -362,12 +333,10 @@ fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
       continue
     }
 
-    let col = if particle.kind == 2 {
-      @raylib.Color::new(194, 170, 246, 186)
-    } else if particle.kind == 1 {
-      @raylib.Color::new(248, 224, 152, 192)
-    } else {
-      @raylib.Color::new(170, 220, 252, 168)
+    let col = match particle.kind {
+      @types.Smoke => @raylib.Color::new(194, 170, 246, 186)
+      @types.Gold => @raylib.Color::new(248, 224, 152, 192)
+      @types.Spark => @raylib.Color::new(170, 220, 252, 168)
     }
 
     @raylib.draw_circle(
@@ -450,7 +419,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_touch_controls(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -616,7 +585,7 @@ fn draw_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(206, 228, 248, 236),
   )
 
-  for i in 0..< @types.junction_n {
+  for i in 0..<@types.junction_n {
     let mode_txt : String = if game.switch_state[i] < 0 {
       "UP"
     } else if game.switch_state[i] > 0 {
@@ -759,9 +728,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
   let t0 : String = "SUBWAY SIGNAL SABOTEUR"
   @raylib.draw_text(
     t0,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(t0, 56) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(t0, 56) / 2,
     @types.board_y0 + 156,
     56,
     @raylib.Color::new(236, 244, 255, 246),
@@ -772,8 +739,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     @types.board_x0 +
     @types.board_w / 2 -
     @raylib.measure_text(
-      "Operate junction signals to route trains to correct colored exits.",
-      28,
+      "Operate junction signals to route trains to correct colored exits.", 28,
     ) /
     2,
     @types.board_y0 + 248,
@@ -795,10 +761,7 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
     "Need 20 successful routes before time runs out.",
     @types.board_x0 +
     @types.board_w / 2 -
-    @raylib.measure_text(
-      "Need 20 successful routes before time runs out.",
-      28,
-    ) /
+    @raylib.measure_text("Need 20 successful routes before time runs out.", 28) /
     2,
     @types.board_y0 + 324,
     28,
@@ -857,17 +820,11 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(8, 14, 28, 228),
   )
 
-  let title : String = if game.win {
-    "SHIFT COMPLETE"
-  } else {
-    "SHIFT FAILED"
-  }
+  let title : String = if game.win { "SHIFT COMPLETE" } else { "SHIFT FAILED" }
 
   @raylib.draw_text(
     title,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(title, 62) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(title, 62) / 2,
     @types.board_y0 + 188,
     62,
     if game.win {
@@ -885,9 +842,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   @raylib.draw_text(
     reason,
-    @types.board_x0 +
-    @types.board_w / 2 -
-    @raylib.measure_text(reason, 28) / 2,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(reason, 28) / 2,
     @types.board_y0 + 282,
     28,
     @raylib.Color::new(196, 220, 246, 236),
@@ -951,9 +906,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_panel(game)
   draw_touch_controls(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Result => draw_result_overlay(game)
+    @types.Play => ()
   }
 }

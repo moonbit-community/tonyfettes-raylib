@@ -35,27 +35,6 @@ pub let panel_x0 : Int = board_x0 + board_w + 24
 pub let panel_w : Int = screen_w - panel_x0 - 24
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
-pub let tile_void : Int = 0
-
-///|
-pub let tile_floor : Int = 1
-
-///|
-pub let tile_track : Int = 2
-
-///|
-pub let tile_wall : Int = 3
-
-///|
 pub let train_lane_n : Int = 3
 
 ///|
@@ -69,15 +48,6 @@ pub let max_inspectors : Int = 3
 
 ///|
 pub let max_particles : Int = 420
-
-///|
-pub let inspector_patrol : Int = 0
-
-///|
-pub let inspector_hunt : Int = 1
-
-///|
-pub let inspector_stunned : Int = 2
 
 ///|
 pub let max_lives : Int = 3

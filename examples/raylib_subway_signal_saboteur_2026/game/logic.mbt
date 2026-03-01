@@ -8,7 +8,7 @@ fn clear_particles(game : @types.Game) -> Unit {
     particle.vy = 0.0
     particle.life = 0.0
     particle.size = 0.0
-    particle.kind = 0
+    particle.kind = @types.Spark
   }
 }
 
@@ -21,7 +21,7 @@ fn emit_particle(
   vy : Float,
   life : Float,
   size : Float,
-  kind : Int,
+  kind : @types.ParticleKind,
 ) -> Unit {
   for particle in game.particles {
     if particle.active {
@@ -41,7 +41,13 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  n : Int,
+  kind : @types.ParticleKind,
+) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
@@ -72,29 +78,35 @@ fn update_particles(game : @types.Game, dt : Float) -> Unit {
     particle.x = particle.x + particle.vx * dt
     particle.y = particle.y + particle.vy * dt
 
-    let drag : Float = if particle.kind == 2 { 2.8 } else { 2.1 }
+    let drag : Float = match particle.kind {
+      @types.Smoke => 2.8
+      _ => 2.1
+    }
     particle.vx = particle.vx * (1.0 - drag * dt)
-    particle.vy = particle.vy * (1.0 - (drag - 0.4) * dt) +
-      dt * (if particle.kind == 1 { 84.0 } else { 118.0 })
+    let gravity : Float = match particle.kind {
+      @types.Gold => 84.0
+      _ => 118.0
+    }
+    particle.vy = particle.vy * (1.0 - (drag - 0.4) * dt) + dt * gravity
   }
 }
 
 ///|
 fn build_map(game : @types.Game) -> Unit {
-  for y in 0..< @types.grid_h {
-    for x in 0..< @types.grid_w {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
       if x == 0 || x == @types.grid_w - 1 || y == 0 || y == @types.grid_h - 1 {
-        @types.set_tile(game, x, y, @types.tile_wall)
+        @types.set_tile(game, x, y, @types.Wall)
       } else {
-        @types.set_tile(game, x, y, @types.tile_floor)
+        @types.set_tile(game, x, y, @types.Floor)
       }
     }
   }
 
-  for lane in 0..< @types.train_lane_n {
+  for lane in 0..<@types.train_lane_n {
     let ry : Int = @types.lane_to_y(lane)
     for x in 1..<(@types.grid_w - 1) {
-      @types.set_tile(game, x, ry, @types.tile_track)
+      @types.set_tile(game, x, ry, @types.Track)
     }
   }
 
@@ -103,20 +115,20 @@ fn build_map(game : @types.Game) -> Unit {
       continue
     }
 
-    @types.set_tile(game, x, 3, @types.tile_wall)
-    @types.set_tile(game, x, 9, @types.tile_wall)
+    @types.set_tile(game, x, 3, @types.Wall)
+    @types.set_tile(game, x, 9, @types.Wall)
   }
 
-  for i in 0..< @types.junction_n {
+  for i in 0..<@types.junction_n {
     let jx : Int = @types.junction_x(i)
-    @types.set_tile(game, jx, @types.signal_panel_top_y(), @types.tile_floor)
-    @types.set_tile(game, jx, @types.signal_panel_bottom_y(), @types.tile_floor)
+    @types.set_tile(game, jx, @types.signal_panel_top_y(), @types.Floor)
+    @types.set_tile(game, jx, @types.signal_panel_bottom_y(), @types.Floor)
 
-    @types.set_tile(game, jx, 3, @types.tile_floor)
-    @types.set_tile(game, jx, 9, @types.tile_floor)
+    @types.set_tile(game, jx, 3, @types.Floor)
+    @types.set_tile(game, jx, 9, @types.Floor)
   }
 
-  @types.set_tile(game, @types.start_x, @types.start_y, @types.tile_floor)
+  @types.set_tile(game, @types.start_x, @types.start_y, @types.Floor)
 }
 
 ///|
@@ -129,7 +141,7 @@ fn init_inspectors(game : @types.Game) -> Unit {
 
   for i in 0..<game.inspectors.length() {
     game.inspectors[i].active = i < plan.length()
-    game.inspectors[i].mode = @types.inspector_patrol
+    game.inspectors[i].mode = @types.Patrol
     game.inspectors[i].move_cd = @types.randf(0.05, 0.30)
     game.inspectors[i].stun_t = 0.0
     game.inspectors[i].alert_t = 0.0
@@ -161,7 +173,7 @@ fn clear_trains(game : @types.Game) -> Unit {
     train.target_lane = 0
     train.speed = 0.0
     train.passed_junction = -1
-    train.color_id = 0
+    train.color_id = @types.Red
   }
 }
 
@@ -178,7 +190,7 @@ fn start_run(game : @types.Game) -> Unit {
     game.switch_state[i] = 0
   }
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.win = false
   game.loss_reason = ""
 
@@ -214,7 +226,7 @@ fn start_run(game : @types.Game) -> Unit {
 
 ///|
 fn go_title(game : @types.Game) -> Unit {
-  game.state = @types.state_title
+  game.state = @types.Title
   game.req_dx = 0
   game.req_dy = 0
   game.action_down = false
@@ -226,11 +238,11 @@ fn go_title(game : @types.Game) -> Unit {
 
 ///|
 fn finish_run(game : @types.Game, win : Bool, reason : String) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
-  game.state = @types.state_result
+  game.state = @types.Result
   game.win = win
   game.loss_reason = reason
   game.req_dx = 0
@@ -247,7 +259,7 @@ fn finish_run(game : @types.Game, win : Bool, reason : String) -> Unit {
         @types.cell_center_y(Float::from_int(@types.lane_to_y(1))),
       ),
       72,
-      1,
+      @types.Gold,
     )
   } else {
     @types.set_msg(game, "Signal operation failed.", 2.6)
@@ -265,13 +277,13 @@ fn cycle_hint(game : @types.Game) -> Unit {
 }
 
 ///|
-fn train_color_from_target(target_lane : Int) -> Int {
+fn train_color_from_target(target_lane : Int) -> @types.TrainColor {
   if target_lane == 0 {
-    0
+    @types.Red
   } else if target_lane == 1 {
-    1
+    @types.Blue
   } else {
-    2
+    @types.Green
   }
 }
 
@@ -343,7 +355,7 @@ fn try_toggle_switch(game : @types.Game) -> Bool {
   let mut best_i : Int = -1
   let mut best_d : Int = 999
 
-  for i in 0..< @types.junction_n {
+  for i in 0..<@types.junction_n {
     let d : Int = @types.absi(px - @types.junction_x(i))
     if d <= 1 && d < best_d {
       best_i = i
@@ -375,11 +387,9 @@ fn try_toggle_switch(game : @types.Game) -> Bool {
     Float::from_int(
       @types.cell_center_x(Float::from_int(@types.junction_x(best_i))),
     ),
-    Float::from_int(
-      @types.cell_center_y(Float::from_int(game.player.y)),
-    ),
+    Float::from_int(@types.cell_center_y(Float::from_int(game.player.y))),
     14,
-    0,
+    @types.Spark,
   )
 
   true
@@ -391,17 +401,13 @@ fn deploy_emp(game : @types.Game) -> Bool {
     return false
   }
 
-  game.emp_energy = @types.clampf(
-    game.emp_energy - @types.emp_cost,
-    0.0,
-    100.0,
-  )
+  game.emp_energy = @types.clampf(game.emp_energy - @types.emp_cost, 0.0, 100.0)
   game.action_cd = 0.36
   game.slow_t = 1.7
 
   let mut hits : Int = 0
   for inspector in game.inspectors {
-    if not(inspector.active) || inspector.mode == @types.inspector_stunned {
+    if not(inspector.active) || inspector.mode == @types.Stunned {
       continue
     }
 
@@ -413,7 +419,7 @@ fn deploy_emp(game : @types.Game) -> Bool {
     )
 
     if d <= 2 {
-      inspector.mode = @types.inspector_stunned
+      inspector.mode = @types.Stunned
       inspector.stun_t = 2.2
       inspector.move_cd = 0.12
       hits = hits + 1
@@ -438,7 +444,7 @@ fn deploy_emp(game : @types.Game) -> Bool {
     Float::from_int(@types.cell_center_x(game.player.fx)),
     Float::from_int(@types.cell_center_y(game.player.fy)),
     36,
-    2,
+    @types.Smoke,
   )
 
   true
@@ -450,12 +456,10 @@ fn blocked_for_actor(game : @types.Game, x : Int, y : Int) -> Bool {
     return true
   }
 
-  let t : Int = @types.tile_at(game, x, y)
-  if t == @types.tile_wall || t == @types.tile_void || t == @types.tile_track {
-    return true
+  match @types.tile_at(game, x, y) {
+    @types.Wall | @types.Void | @types.Track => true
+    @types.Floor => false
   }
-
-  false
 }
 
 ///|
@@ -492,9 +496,9 @@ fn line_of_sight(
     let y_min : Int = @types.mini(y0, y1)
     let y_max : Int = @types.maxi(y0, y1)
     for y in (y_min + 1)..<y_max {
-      let t : Int = @types.tile_at(game, x0, y)
-      if t == @types.tile_wall || t == @types.tile_track {
-        return false
+      match @types.tile_at(game, x0, y) {
+        @types.Wall | @types.Track => return false
+        _ => ()
       }
     }
     return true
@@ -504,9 +508,9 @@ fn line_of_sight(
     let x_min : Int = @types.mini(x0, x1)
     let x_max : Int = @types.maxi(x0, x1)
     for x in (x_min + 1)..<x_max {
-      let t : Int = @types.tile_at(game, x, y0)
-      if t == @types.tile_wall || t == @types.tile_track {
-        return false
+      match @types.tile_at(game, x, y0) {
+        @types.Wall | @types.Track => return false
+        _ => ()
       }
     }
     return true
@@ -556,16 +560,16 @@ fn choose_inspector_step(game : @types.Game, i : Int) -> (Int, Int) {
   let sees : Bool = line_of_sight(game, gx, gy, px, py)
 
   if d <= 4 || (sees && d <= 8) {
-    g.mode = @types.inspector_hunt
+    g.mode = @types.Hunt
     g.alert_t = 1.2
   } else {
     g.alert_t = g.alert_t - 0.16
     if g.alert_t <= 0.0 {
-      g.mode = @types.inspector_patrol
+      g.mode = @types.Patrol
     }
   }
 
-  if g.mode == @types.inspector_hunt {
+  if g.mode == @types.Hunt {
     let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     let mut best_i : Int = -1
     let mut best_d : Int = 999999
@@ -630,10 +634,10 @@ fn update_inspectors(game : @types.Game, dt : Float) -> Unit {
 
     @types.actor_tick(game.inspectors[i].body, dt, @types.inspector_move_t)
 
-    if game.inspectors[i].mode == @types.inspector_stunned {
+    if game.inspectors[i].mode == @types.Stunned {
       game.inspectors[i].stun_t = game.inspectors[i].stun_t - dt
       if game.inspectors[i].stun_t <= 0.0 {
-        game.inspectors[i].mode = @types.inspector_patrol
+        game.inspectors[i].mode = @types.Patrol
         game.inspectors[i].stun_t = 0.0
       }
     }
@@ -651,7 +655,7 @@ fn update_inspectors(game : @types.Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.inspectors[i].mode == @types.inspector_stunned {
+    if game.inspectors[i].mode == @types.Stunned {
       game.inspectors[i].move_cd = 0.14
       continue
     }
@@ -688,11 +692,7 @@ fn update_trains(game : @types.Game, dt : Float) -> Unit {
 
       if train.prev_x < jx && train.x >= jx {
         let dir : Int = game.switch_state[j]
-        train.lane = @types.clampi(
-          train.lane + dir,
-          0,
-          @types.train_lane_n - 1,
-        )
+        train.lane = @types.clampi(train.lane + dir, 0, @types.train_lane_n - 1)
         train.passed_junction = j
       } else {
         break
@@ -711,7 +711,7 @@ fn update_trains(game : @types.Game, dt : Float) -> Unit {
             @types.cell_center_y(Float::from_int(@types.lane_to_y(train.lane))),
           ),
           14,
-          1,
+          @types.Gold,
         )
       } else {
         game.routed_bad = game.routed_bad + 1
@@ -729,7 +729,7 @@ fn update_trains(game : @types.Game, dt : Float) -> Unit {
             @types.cell_center_y(Float::from_int(@types.lane_to_y(train.lane))),
           ),
           24,
-          2,
+          @types.Smoke,
         )
       }
 
@@ -779,7 +779,7 @@ fn resolve_train_collisions(game : @types.Game) -> Unit {
         Float::from_int(@types.cell_center_x(crash_x)),
         Float::from_int(@types.cell_center_y(crash_y)),
         42,
-        2,
+        @types.Smoke,
       )
 
       break
@@ -794,7 +794,7 @@ fn handle_player_spotted(game : @types.Game) -> Unit {
   }
 
   for inspector in game.inspectors {
-    if not(inspector.active) || inspector.mode == @types.inspector_stunned {
+    if not(inspector.active) || inspector.mode == @types.Stunned {
       continue
     }
 
@@ -808,7 +808,7 @@ fn handle_player_spotted(game : @types.Game) -> Unit {
         Float::from_int(@types.cell_center_x(game.player.fx)),
         Float::from_int(@types.cell_center_y(game.player.fy)),
         30,
-        2,
+        @types.Smoke,
       )
 
       if game.lives <= 0 {
@@ -882,11 +882,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
     let diff : Float = Float::from_int(game.routed_ok) * 0.03 +
       Float::from_int(game.collisions) * 0.04
-    game.spawn_t = @types.clampf(
-      @types.randf(1.55, 2.35) - diff,
-      0.56,
-      2.2,
-    )
+    game.spawn_t = @types.clampf(@types.randf(1.55, 2.35) - diff, 0.56, 2.2)
   }
 
   update_trains(game, dt)
@@ -895,11 +891,11 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
   handle_player_spotted(game)
   update_particles(game, dt)
 
-  if game.state == @types.state_play && game.routed_ok >= @types.goal_routed {
+  if game.state == @types.Play && game.routed_ok >= @types.goal_routed {
     finish_run(game, true, "")
   }
 
-  if game.state == @types.state_play &&
+  if game.state == @types.Play &&
     (game.lives <= 0 || game.time_left <= 0.0) {
     let why : String = if game.lives <= 0 {
       "No lives remaining"
@@ -926,20 +922,16 @@ fn update_result(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    @types.Title => update_title_input(game)
+    @types.Play => update_play_input(game)
+    @types.Result => update_result_input(game)
   }
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else {
-    update_result(game, dt)
+  match game.state {
+    @types.Title => update_title(game, dt)
+    @types.Play => update_play(game, dt)
+    @types.Result => update_result(game, dt)
   }
 
   game.action_pressed = false

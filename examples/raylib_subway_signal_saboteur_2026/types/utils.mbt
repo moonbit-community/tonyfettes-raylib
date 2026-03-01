@@ -240,16 +240,16 @@ pub fn in_bounds(x : Int, y : Int) -> Bool {
 }
 
 ///|
-pub fn tile_at(game : Game, x : Int, y : Int) -> Int {
+pub fn tile_at(game : Game, x : Int, y : Int) -> Tile {
   if not(in_bounds(x, y)) {
-    tile_void
+    Void
   } else {
     game.map[idx(x, y)]
   }
 }
 
 ///|
-pub fn set_tile(game : Game, x : Int, y : Int, t : Int) -> Unit {
+pub fn set_tile(game : Game, x : Int, y : Int, t : Tile) -> Unit {
   if not(in_bounds(x, y)) {
     return
   }
