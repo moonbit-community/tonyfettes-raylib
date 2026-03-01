@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input.move_x = 0.0
   game.input.move_y = 0.0
   game.input.interact_press = false
@@ -10,7 +10,7 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_input(game : Game) -> Unit {
+fn update_input(game : @types.Game) -> Unit {
   clear_input(game)
 
   let mut ix : Float = 0.0
@@ -31,7 +31,7 @@ fn update_input(game : Game) -> Unit {
 
   let len2 = ix * ix + iy * iy
   if len2 > 1.0 {
-    let inv : Float = (1.0 : Float) / sqrtf(len2)
+    let inv : Float = (1.0 : Float) / @types.sqrtf(len2)
     ix = ix * inv
     iy = iy * inv
   }

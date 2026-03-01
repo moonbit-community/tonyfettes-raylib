@@ -1,5 +1,5 @@
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -11,7 +11,7 @@ struct Player {
 }
 
 ///|
-struct Parcel {
+pub(all) struct Parcel {
   mut active : Bool
   mut delivered : Bool
   mut x : Float
@@ -20,7 +20,7 @@ struct Parcel {
 }
 
 ///|
-struct ExitMarker {
+pub(all) struct ExitMarker {
   active : Bool
   x : Float
   y : Float
@@ -28,7 +28,7 @@ struct ExitMarker {
 }
 
 ///|
-struct Guard {
+pub(all) struct Guard {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -50,7 +50,7 @@ struct Guard {
 }
 
 ///|
-struct Trap {
+pub(all) struct Trap {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -60,7 +60,7 @@ struct Trap {
 }
 
 ///|
-struct Smoke {
+pub(all) struct Smoke {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -69,7 +69,7 @@ struct Smoke {
 }
 
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Float
   mut move_y : Float
   mut interact_press : Bool
@@ -80,7 +80,7 @@ struct InputState {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   player : Player
   parcels : Array[Parcel]
   exits : Array[ExitMarker]
@@ -105,7 +105,7 @@ struct Game {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: player_spawn_x(),
     y: player_spawn_y(),
@@ -119,17 +119,17 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Parcel::new() -> Parcel {
+pub fn Parcel::new() -> Parcel {
   { active: false, delivered: false, x: 0.0, y: 0.0, pulse: 0.0 }
 }
 
 ///|
-fn ExitMarker::new(x : Float, y : Float) -> ExitMarker {
+pub fn ExitMarker::new(x : Float, y : Float) -> ExitMarker {
   { active: true, x, y, radius: exit_radius }
 }
 
 ///|
-fn Guard::new() -> Guard {
+pub fn Guard::new() -> Guard {
   {
     active: false,
     x: 0.0,
@@ -153,17 +153,17 @@ fn Guard::new() -> Guard {
 }
 
 ///|
-fn Trap::new() -> Trap {
+pub fn Trap::new() -> Trap {
   { active: false, x: 0.0, y: 0.0, radius: 0.0, blink_t: 0.0, cooldown: 0.0 }
 }
 
 ///|
-fn Smoke::new() -> Smoke {
+pub fn Smoke::new() -> Smoke {
   { active: false, x: 0.0, y: 0.0, radius: smoke_radius_base, life: 0.0 }
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0.0,
     move_y: 0.0,
@@ -176,7 +176,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let exits = Array::makei(max_exits, fn(i) {
     let p = default_exit_pos(i)
     ExitMarker::new(p.0, p.1)
