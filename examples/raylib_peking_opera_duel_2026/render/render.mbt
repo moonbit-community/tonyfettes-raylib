@@ -51,12 +51,8 @@ fn draw_duelist(
   @raylib.draw_circle(right_hand_x, right_hand_y, 10.0, body)
 
   let hip_y = y + 62 + lift
-  @raylib.draw_line(
-    x - 18 + lean, hip_y, x - 52 + lean, y + 188 + lift, body,
-  )
-  @raylib.draw_line(
-    x + 18 + lean, hip_y, x + 52 + lean, y + 188 + lift, body,
-  )
+  @raylib.draw_line(x - 18 + lean, hip_y, x - 52 + lean, y + 188 + lift, body)
+  @raylib.draw_line(x + 18 + lean, hip_y, x + 52 + lean, y + 188 + lift, body)
 
   if stance == @types.stance_spear {
     @raylib.draw_line(
@@ -104,9 +100,7 @@ fn draw_backdrop(game : @types.Game) -> Unit {
   @raylib.clear_background(@types.col(14, 15, 24, 255))
 
   for i in 0..<13 {
-    let wave = @types.sinf(
-      game.crowd_wave_t * 0.38 + Float::from_int(i) * 0.37,
-    )
+    let wave = @types.sinf(game.crowd_wave_t * 0.38 + Float::from_int(i) * 0.37)
     let y = i * 78 + (wave * 12.0).to_int()
     let c = 20 + i * 7 % 24
     @raylib.draw_rectangle(
@@ -180,14 +174,11 @@ fn draw_stage_actors(game : @types.Game) -> Unit {
     (game.crowd_wave_t * 1.2).to_int() % @types.stance_count
   }
 
-  let rival_pulse : Float = 0.5 +
-    0.5 * @types.sinf(game.crowd_wave_t * 2.1)
+  let rival_pulse : Float = 0.5 + 0.5 * @types.sinf(game.crowd_wave_t * 2.1)
   let rival_glow : Float = 110.0 + rival_pulse * 110.0
   let rival_glow_a = @types.clampi(rival_glow.to_int(), 90, 220)
 
-  @raylib.draw_circle(
-    1170, 370, 132.0, @types.col(160, 84, 98, rival_glow_a),
-  )
+  @raylib.draw_circle(1170, 370, 132.0, @types.col(160, 84, 98, rival_glow_a))
   @raylib.draw_circle(420, 370, 118.0, @types.col(74, 122, 160, 130))
 
   draw_duelist(
@@ -212,11 +203,13 @@ fn draw_stage_actors(game : @types.Game) -> Unit {
     0.0,
   )
 
+  @raylib.draw_text("Your Troupe", 322, 790, 26, @types.col(219, 228, 236, 245))
   @raylib.draw_text(
-    "Your Troupe", 322, 790, 26, @types.col(219, 228, 236, 245),
-  )
-  @raylib.draw_text(
-    "Rival Troupe", 1075, 790, 26, @types.col(234, 194, 162, 245),
+    "Rival Troupe",
+    1075,
+    790,
+    26,
+    @types.col(234, 194, 162, 245),
   )
 }
 
@@ -229,13 +222,20 @@ fn draw_focus_cursor(game : @types.Game) -> Unit {
 
   @raylib.draw_circle_lines(x, y, radius, @types.col(255, 243, 210, 245))
   @raylib.draw_circle_lines(
-    x, y, radius + 10.0, @types.stance_color(game.stance, 220),
+    x,
+    y,
+    radius + 10.0,
+    @types.stance_color(game.stance, 220),
   )
 
   let stance_text = "Stance: " + @types.stance_name(game.stance)
   let tx = x - @raylib.measure_text(stance_text, 20) / 2
   @raylib.draw_text(
-    stance_text, tx, y + 62, 20, @types.stance_color(game.stance, 240),
+    stance_text,
+    tx,
+    y + 62,
+    20,
+    @types.stance_color(game.stance, 240),
   )
 }
 
@@ -278,13 +278,20 @@ fn draw_active_prompt(game : @types.Game) -> Unit {
     @types.col(246, 234, 214, glow),
   )
   @raylib.draw_circle(
-    px, py, 20.0, @types.stance_color(game.prompt.stance, 170),
+    px,
+    py,
+    20.0,
+    @types.stance_color(game.prompt.stance, 170),
   )
 
   let stance_text = @types.stance_name(game.prompt.stance)
   let tw = @raylib.measure_text(stance_text, 26)
   @raylib.draw_text(
-    stance_text, px - tw / 2, py - 14, 26, @types.col(24, 20, 28, 230),
+    stance_text,
+    px - tw / 2,
+    py - 14,
+    26,
+    @types.col(24, 20, 28, 230),
   )
 
   let timing_text = if @types.absf(game.prompt.time_left) <=
@@ -404,9 +411,7 @@ fn draw_hud(game : @types.Game) -> Unit {
   } else {
     "Burst cooldown " + (game.burst_cd.to_int() + 1).to_string() + "s"
   }
-  @types.draw_center_text(
-    burst_text, 906, 22, @types.col(181, 205, 255, 230),
-  )
+  @types.draw_center_text(burst_text, 906, 22, @types.col(181, 205, 255, 230))
 
   @raylib.draw_text(
     "Hits " + game.hits.to_string() + "  Misses " + game.misses.to_string(),
@@ -419,15 +424,20 @@ fn draw_hud(game : @types.Game) -> Unit {
 
 ///|
 fn draw_title_overlay() -> Unit {
-  @raylib.draw_rectangle(
-    270, 148, 1060, 650, @types.col(8, 8, 12, 204),
-  )
+  @raylib.draw_rectangle(270, 148, 1060, 650, @types.col(8, 8, 12, 204))
   @raylib.draw_rectangle_lines(
-    270, 148, 1060, 650, @types.col(228, 192, 148, 236),
+    270,
+    148,
+    1060,
+    650,
+    @types.col(228, 192, 148, 236),
   )
 
   @types.draw_center_text(
-    "PEKING OPERA DUEL 2026", 210, 62, @types.col(246, 228, 188, 252),
+    "PEKING OPERA DUEL 2026",
+    210,
+    62,
+    @types.col(246, 228, 188, 252),
   )
   @types.draw_center_text(
     "Match rhythm prompts and stance transitions against a rival troupe.",
@@ -469,27 +479,37 @@ fn draw_title_overlay() -> Unit {
 ///|
 fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
-    0, 0, @types.screen_w, @types.screen_h, @types.col(0, 0, 0, 118),
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    @types.col(0, 0, 0, 118),
   )
+  @types.draw_center_text("PAUSED", 372, 72, @types.col(248, 233, 198, 250))
   @types.draw_center_text(
-    "PAUSED", 372, 72, @types.col(248, 233, 198, 250),
-  )
-  @types.draw_center_text(
-    "Press P or J to resume", 470, 34, @types.col(233, 220, 206, 245),
+    "Press P or J to resume",
+    470,
+    34,
+    @types.col(233, 220, 206, 245),
   )
 }
 
 ///|
 fn draw_game_over_overlay(game : @types.Game) -> Unit {
-  @raylib.draw_rectangle(
-    220, 136, 1160, 690, @types.col(6, 6, 10, 214),
-  )
+  @raylib.draw_rectangle(220, 136, 1160, 690, @types.col(6, 6, 10, 214))
   @raylib.draw_rectangle_lines(
-    220, 136, 1160, 690, @types.col(236, 194, 146, 236),
+    220,
+    136,
+    1160,
+    690,
+    @types.col(236, 194, 146, 236),
   )
 
   @types.draw_center_text(
-    "CURTAIN FALL", 196, 68, @types.col(247, 227, 191, 252),
+    "CURTAIN FALL",
+    196,
+    68,
+    @types.col(247, 227, 191, 252),
   )
 
   @raylib.draw_text(
@@ -536,16 +556,16 @@ fn draw_message_banner(game : @types.Game) -> Unit {
     return
   }
 
-  @raylib.draw_rectangle(
-    220, 866, 1160, 56, @types.col(9, 10, 14, 200),
-  )
+  @raylib.draw_rectangle(220, 866, 1160, 56, @types.col(9, 10, 14, 200))
   @raylib.draw_rectangle_lines(
-    220, 866, 1160, 56, @types.col(219, 192, 156, 230),
+    220,
+    866,
+    1160,
+    56,
+    @types.col(219, 192, 156, 230),
   )
 
-  @types.draw_center_text(
-    game.message, 882, 24, @types.col(241, 229, 212, 248),
-  )
+  @types.draw_center_text(game.message, 882, 24, @types.col(241, 229, 212, 248))
 }
 
 ///|
@@ -554,20 +574,19 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_stage_actors(game)
   draw_lane_grid(game)
 
-  if game.state == @types.state_playing ||
-    game.state == @types.state_paused {
-    draw_active_prompt(game)
+  match game.state {
+    Playing | Paused => draw_active_prompt(game)
+    Title | GameOver => ()
   }
 
   draw_focus_cursor(game)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_paused_overlay()
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
+  match game.state {
+    Title => draw_title_overlay()
+    Paused => draw_paused_overlay()
+    GameOver => draw_game_over_overlay(game)
+    Playing => ()
   }
 
   draw_message_banner(game)

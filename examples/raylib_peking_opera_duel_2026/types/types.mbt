@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Playing
+  Paused
+  GameOver
+} derive(Eq)
+
+///|
 pub(all) struct InputState {
   mut axis_x : Int
   mut axis_y : Int
@@ -21,7 +29,7 @@ pub(all) struct Prompt {
 ///|
 pub(all) struct Game {
   input : InputState
-  mut state : Int
+  mut state : GameState
   mut lane_x : Int
   mut lane_y : Int
   mut stance : Int
@@ -76,7 +84,7 @@ pub fn Prompt::new(
 pub fn Game::new() -> Game {
   {
     input: InputState::new(),
-    state: state_title,
+    state: Title,
     lane_x: 0,
     lane_y: 0,
     stance: stance_spear,

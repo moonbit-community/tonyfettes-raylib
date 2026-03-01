@@ -19,7 +19,7 @@ fn cadence_for_elapsed(elapsed : Float) -> Float {
 
 ///|
 fn init_title_state(game : @types.Game) -> Unit {
-  game.state = @types.state_title
+  game.state = @types.Title
   game.lane_x = 0
   game.lane_y = 0
   game.stance = @types.stance_spear
@@ -45,7 +45,7 @@ fn init_title_state(game : @types.Game) -> Unit {
 
 ///|
 fn start_duel(game : @types.Game) -> Unit {
-  game.state = @types.state_playing
+  game.state = @types.Playing
   game.lane_x = 0
   game.lane_y = 0
   game.stance = @types.stance_spear
@@ -67,15 +67,14 @@ fn start_duel(game : @types.Game) -> Unit {
   game.guard_flash_t = 0.0
   game.game_over_reason = ""
   @types.set_message(
-    game,
-    "Match lane and stance with the drum beat. K can deflect near impact.",
+    game, "Match lane and stance with the drum beat. K can deflect near impact.",
     2.5,
   )
 }
 
 ///|
 fn finish_duel(game : @types.Game, reason : String) -> Unit {
-  game.state = @types.state_game_over
+  game.state = @types.GameOver
   game.prompt_active = false
   game.game_over_reason = reason
   @types.set_message(game, "Press R to restart, J to return to title.", 99.0)
@@ -115,8 +114,12 @@ fn spawn_prompt(game : @types.Game) -> Unit {
   let prev_lane_y = game.prompt.lane_y
   let prev_stance = game.prompt.stance
 
-  let mut lane_x = @raylib.get_random_value(@types.lane_axis_min, @types.lane_axis_max)
-  let lane_y = @raylib.get_random_value(@types.lane_axis_min, @types.lane_axis_max)
+  let mut lane_x = @raylib.get_random_value(
+    @types.lane_axis_min, @types.lane_axis_max,
+  )
+  let lane_y = @raylib.get_random_value(
+    @types.lane_axis_min, @types.lane_axis_max,
+  )
   let mut stance = @raylib.get_random_value(0, @types.stance_count - 1)
 
   if game.prompt_serial > 0 &&
@@ -129,7 +132,9 @@ fn spawn_prompt(game : @types.Game) -> Unit {
     }
   }
 
-  game.prompt = @types.Prompt::new(lane_x, lane_y, stance, @types.prompt_lead_time)
+  game.prompt = @types.Prompt::new(
+    lane_x, lane_y, stance, @types.prompt_lead_time,
+  )
   game.prompt_active = true
   game.prompt_serial = game.prompt_serial + 1
 }
@@ -158,7 +163,9 @@ fn apply_hit_success(game : @types.Game, perfect : Bool) -> Unit {
   game.health = @types.minf(@types.health_max, game.health + health_gain)
   game.harmony = @types.minf(
     @types.harmony_max,
-    game.harmony + @types.hit_harmony_recover + Float::from_int(game.combo) * 0.18,
+    game.harmony +
+    @types.hit_harmony_recover +
+    Float::from_int(game.combo) * 0.18,
   )
 
   if perfect {
@@ -225,9 +232,7 @@ fn try_hit_prompt(game : @types.Game) -> Unit {
 
   if not(lane_ok) || not(stance_ok) {
     apply_miss(
-      game,
-      "Mismatch: lane focus or stance was wrong.",
-      @types.mismatch_harmony_extra,
+      game, "Mismatch: lane focus or stance was wrong.", @types.mismatch_harmony_extra,
     )
     return
   }
@@ -256,9 +261,7 @@ fn try_deflect(game : @types.Game) -> Unit {
       game.stance = game.prompt.stance
       game.guard_flash_t = 0.36
       @types.set_message(
-        game,
-        "Deflect transition! Prompt canceled safely.",
-        0.7,
+        game, "Deflect transition! Prompt canceled safely.", 0.7,
       )
 
       if game.harmony <= 0.0 {
@@ -318,7 +321,7 @@ fn update_paused_state(game : @types.Game) -> Unit {
   }
 
   if game.input.pause_pressed || game.input.confirm_pressed {
-    game.state = @types.state_playing
+    game.state = @types.Playing
     @types.set_message(game, "Performance resumed.", 0.8)
   }
 }
@@ -338,7 +341,7 @@ fn update_game_over_state(game : @types.Game) -> Unit {
 ///|
 fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
   if game.input.pause_pressed {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     @types.set_message(game, "Paused. Press P or J to resume.", 99.0)
     return
   }
@@ -354,7 +357,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
     try_deflect(game)
   }
 
-  if game.state != @types.state_playing {
+  if game.state != @types.Playing {
     return
   }
 
@@ -362,7 +365,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
     try_hit_prompt(game)
   }
 
-  if game.state != @types.state_playing {
+  if game.state != @types.Playing {
     return
   }
 
@@ -389,7 +392,7 @@ fn update_playing_state(game : @types.Game, dt : Float) -> Unit {
     }
   }
 
-  if game.state != @types.state_playing {
+  if game.state != @types.Playing {
     return
   }
 
@@ -430,19 +433,19 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.crowd_wave_t = game.crowd_wave_t + dt
   game.message_t = @types.maxf(0.0, game.message_t - dt)
 
-  if game.state != @types.state_paused {
-    game.burst_t = @types.maxf(0.0, game.burst_t - dt)
-    game.burst_cd = @types.maxf(0.0, game.burst_cd - dt)
-    game.guard_flash_t = @types.maxf(0.0, game.guard_flash_t - dt)
+  match game.state {
+    Paused => ()
+    Title | Playing | GameOver => {
+      game.burst_t = @types.maxf(0.0, game.burst_t - dt)
+      game.burst_cd = @types.maxf(0.0, game.burst_cd - dt)
+      game.guard_flash_t = @types.maxf(0.0, game.guard_flash_t - dt)
+    }
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_playing {
-    update_playing_state(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_game_over_state(game)
+  match game.state {
+    Title => update_title_state(game)
+    Playing => update_playing_state(game, dt)
+    Paused => update_paused_state(game)
+    GameOver => update_game_over_state(game)
   }
 }
