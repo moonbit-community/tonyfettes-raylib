@@ -1,5 +1,5 @@
 ///|
-struct Segment {
+pub(all) struct Segment {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -11,7 +11,7 @@ struct Segment {
 }
 
 ///|
-struct Obstacle {
+pub(all) struct Obstacle {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -24,7 +24,7 @@ struct Obstacle {
 }
 
 ///|
-struct Chip {
+pub(all) struct Chip {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -33,7 +33,7 @@ struct Chip {
 }
 
 ///|
-struct Anchor {
+pub(all) struct Anchor {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -41,7 +41,7 @@ struct Anchor {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -53,7 +53,7 @@ struct Particle {
 }
 
 ///|
-struct Ghost {
+pub(all) struct Ghost {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -64,7 +64,7 @@ struct Ghost {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut w : Float
@@ -84,7 +84,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   segments : Array[Segment]
   obstacles : Array[Obstacle]
   chips : Array[Chip]
@@ -127,10 +127,13 @@ struct Game {
   mut touch_restart_prev : Bool
   mut pointer_x : Float
   mut pointer_y : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
 }
 
 ///|
-fn Segment::new() -> Segment {
+pub fn Segment::new() -> Segment {
   {
     active: false,
     x: 0.0,
@@ -144,7 +147,7 @@ fn Segment::new() -> Segment {
 }
 
 ///|
-fn Obstacle::new() -> Obstacle {
+pub fn Obstacle::new() -> Obstacle {
   {
     active: false,
     kind: obstacle_vent,
@@ -159,17 +162,17 @@ fn Obstacle::new() -> Obstacle {
 }
 
 ///|
-fn Chip::new() -> Chip {
+pub fn Chip::new() -> Chip {
   { active: false, x: 0.0, y: 0.0, bob_t: 0.0, spin_t: 0.0 }
 }
 
 ///|
-fn Anchor::new() -> Anchor {
+pub fn Anchor::new() -> Anchor {
   { active: false, x: 0.0, y: 0.0, glow_t: 0.0 }
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -183,12 +186,12 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Ghost::new() -> Ghost {
+pub fn Ghost::new() -> Ghost {
   { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, hue: 0.0 }
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: player_spawn_x,
     y: player_spawn_y,
@@ -210,7 +213,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     segments: Array::makei(max_segments, fn(_i) { Segment::new() }),
     obstacles: Array::makei(max_obstacles, fn(_i) { Obstacle::new() }),
@@ -254,5 +257,8 @@ fn Game::new() -> Game {
     touch_restart_prev: false,
     pointer_x: 0.0,
     pointer_y: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
   }
 }
