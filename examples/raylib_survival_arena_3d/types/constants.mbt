@@ -67,23 +67,6 @@ pub let low_wall_height : Float = 1.5
 ///|
 pub let low_wall_depth : Float = 0.6
 
-// Game states
-
-///|
-pub let state_menu : Int = 0
-
-///|
-pub let state_playing : Int = 1
-
-///|
-pub let state_wave_complete : Int = 2
-
-///|
-pub let state_paused : Int = 3
-
-///|
-pub let state_game_over : Int = 4
-
 // Weapon types
 
 ///|

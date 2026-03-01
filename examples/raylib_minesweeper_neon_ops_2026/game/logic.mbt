@@ -159,8 +159,8 @@ fn start_match(game : @types.Game) -> Unit {
   clear_board(game)
   clear_effects(game)
 
-  game.state = @types.state_play
-  game.mode = @types.mode_reveal
+  game.state = @types.Play
+  game.mode = @types.Reveal
   game.first_move = true
   game.frame_seed = game.frame_seed + 1
 
@@ -184,7 +184,7 @@ fn start_match(game : @types.Game) -> Unit {
   game.combo_t = 0.0
   game.shake_t = 0.0
 
-  game.grade = @types.grade_d
+  game.grade = @types.GradeD
   game.win = false
   game.touch_cd = 0.0
 
@@ -222,11 +222,7 @@ fn reset_combo(game : @types.Game) -> Unit {
 }
 
 ///|
-fn cell_world_center(
-  game : @types.Game,
-  x : Int,
-  y : Int,
-) -> (Float, Float) {
+fn cell_world_center(game : @types.Game, x : Int, y : Int) -> (Float, Float) {
   let (bx, by, tile) = @types.board_metrics(game)
   (
     Float::from_int(bx + x * tile + tile / 2),
@@ -271,7 +267,7 @@ fn reveal_single(game : @types.Game, x : Int, y : Int) -> Bool {
         game.lives,
       )
       reveal_all_mines(game)
-      game.state = @types.state_result
+      game.state = @types.Result
       @types.set_msg(game, "Mission failed.", 2.0)
     }
 
@@ -315,7 +311,7 @@ fn flood_reveal(game : @types.Game, sx : Int, sy : Int) -> Unit {
       continue
     }
 
-    if game.state != @types.state_play {
+    if game.state != @types.Play {
       return
     }
 
@@ -349,7 +345,7 @@ fn flood_reveal(game : @types.Game, sx : Int, sy : Int) -> Unit {
 fn check_clear(game : @types.Game) -> Bool {
   if game.revealed_safe >= @types.safe_cells_total(game) {
     game.win = true
-    game.state = @types.state_result
+    game.state = @types.Result
 
     // Bonus for remaining resources.
     game.score = game.score + game.lives * 180 + game.hints * 120
@@ -373,7 +369,7 @@ fn check_clear(game : @types.Game) -> Bool {
 
 ///|
 fn reveal_cell(game : @types.Game, x : Int, y : Int) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
 
@@ -402,7 +398,7 @@ fn reveal_cell(game : @types.Game, x : Int, y : Int) -> Bool {
     ignore(reveal_single(game, x, y))
   }
 
-  if game.state == @types.state_play {
+  if game.state == @types.Play {
     ignore(check_clear(game))
   }
 
@@ -411,7 +407,7 @@ fn reveal_cell(game : @types.Game, x : Int, y : Int) -> Bool {
 
 ///|
 fn toggle_flag(game : @types.Game, x : Int, y : Int) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
   if not(@types.in_board(x, y)) {
@@ -479,7 +475,7 @@ fn safe_hint_target(game : @types.Game) -> (Bool, Int, Int) {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
 

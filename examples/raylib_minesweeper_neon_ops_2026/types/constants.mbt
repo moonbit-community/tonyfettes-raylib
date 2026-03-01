@@ -26,36 +26,6 @@ pub let lives_default : Int = 3
 pub let hints_default : Int = 3
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
-pub let mode_reveal : Int = 0
-
-///|
-pub let mode_flag : Int = 1
-
-///|
-pub let grade_s : Int = 0
-
-///|
-pub let grade_a : Int = 1
-
-///|
-pub let grade_b : Int = 2
-
-///|
-pub let grade_c : Int = 3
-
-///|
-pub let grade_d : Int = 4
-
-///|
 pub fn panel_x() -> Int {
   1168
 }

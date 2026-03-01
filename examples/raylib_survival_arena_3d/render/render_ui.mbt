@@ -2,25 +2,27 @@
 
 ///|
 pub fn draw_ui(game : @types.Game) -> Unit {
-  if game.state == @types.state_menu {
-    draw_menu(game)
-  } else if game.state == @types.state_playing {
-    draw_hud(game)
-    draw_crosshair(game)
-    draw_weapon_display(game)
-    draw_damage_flash(game)
-    draw_message(game)
-  } else if game.state == @types.state_wave_complete {
-    draw_hud(game)
-    draw_crosshair(game)
-    draw_weapon_display(game)
-    draw_shop_ui(game)
-    draw_message(game)
-  } else if game.state == @types.state_paused {
-    draw_hud(game)
-    draw_pause_overlay(game)
-  } else if game.state == @types.state_game_over {
-    draw_game_over(game)
+  match game.state {
+    @types.Menu => draw_menu(game)
+    @types.Playing => {
+      draw_hud(game)
+      draw_crosshair(game)
+      draw_weapon_display(game)
+      draw_damage_flash(game)
+      draw_message(game)
+    }
+    @types.WaveComplete => {
+      draw_hud(game)
+      draw_crosshair(game)
+      draw_weapon_display(game)
+      draw_shop_ui(game)
+      draw_message(game)
+    }
+    @types.Paused => {
+      draw_hud(game)
+      draw_pause_overlay(game)
+    }
+    @types.GameOver => draw_game_over(game)
   }
 }
 

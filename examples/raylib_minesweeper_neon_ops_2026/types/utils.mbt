@@ -168,7 +168,7 @@ pub fn compute_grade(
   time_s : Int,
   mistakes : Int,
   lives : Int,
-) -> Int {
+) -> Grade {
   let mut v : Int = score
 
   if time_s <= 130 {
@@ -182,44 +182,36 @@ pub fn compute_grade(
   v = v + lives * 170 - mistakes * 220
 
   if v >= 7000 {
-    grade_s
+    GradeS
   } else if v >= 5200 {
-    grade_a
+    GradeA
   } else if v >= 3600 {
-    grade_b
+    GradeB
   } else if v >= 2200 {
-    grade_c
+    GradeC
   } else {
-    grade_d
+    GradeD
   }
 }
 
 ///|
-pub fn grade_name(grade : Int) -> String {
-  if grade == grade_s {
-    "S"
-  } else if grade == grade_a {
-    "A"
-  } else if grade == grade_b {
-    "B"
-  } else if grade == grade_c {
-    "C"
-  } else {
-    "D"
+pub fn grade_name(grade : Grade) -> String {
+  match grade {
+    GradeS => "S"
+    GradeA => "A"
+    GradeB => "B"
+    GradeC => "C"
+    GradeD => "D"
   }
 }
 
 ///|
-pub fn grade_title(grade : Int) -> String {
-  if grade == grade_s {
-    "Neon Oracle"
-  } else if grade == grade_a {
-    "City Detective"
-  } else if grade == grade_b {
-    "Field Agent"
-  } else if grade == grade_c {
-    "Cadet"
-  } else {
-    "Rookie"
+pub fn grade_title(grade : Grade) -> String {
+  match grade {
+    GradeS => "Neon Oracle"
+    GradeA => "City Detective"
+    GradeB => "Field Agent"
+    GradeC => "Cadet"
+    GradeD => "Rookie"
   }
 }

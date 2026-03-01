@@ -215,7 +215,7 @@ fn draw_cells(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
       let py : Int = by + y * tile
 
       if game.cells[i].revealed ||
-        (game.state == @types.state_result && game.cells[i].mine) {
+        (game.state == @types.Result && game.cells[i].mine) {
         draw_cell_revealed(
           px,
           py,
@@ -234,12 +234,7 @@ fn draw_cells(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
 }
 
 ///|
-fn draw_last_reveal(
-  game : @types.Game,
-  bx : Int,
-  by : Int,
-  tile : Int,
-) -> Unit {
+fn draw_last_reveal(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
   if game.last_reveal_x < 0 || game.last_reveal_y < 0 {
     return
   }
@@ -261,7 +256,7 @@ fn draw_last_reveal(
 
 ///|
 fn draw_cursor(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -276,10 +271,9 @@ fn draw_cursor(game : @types.Game, bx : Int, by : Int, tile : Int) -> Unit {
       Float::from_int(tile - 4),
     ),
     2.0,
-    if game.mode == @types.mode_reveal {
-      @raylib.Color::new(254, 254, 254, 250)
-    } else {
-      @raylib.Color::new(255, 202, 132, 250)
+    match game.mode {
+      @types.Reveal => @raylib.Color::new(254, 254, 254, 250)
+      @types.Flag => @raylib.Color::new(255, 202, 132, 250)
     },
   )
 }
@@ -387,7 +381,7 @@ fn draw_touch_button(
 
 ///|
 fn draw_touch_ui(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -414,10 +408,9 @@ fn draw_touch_ui(game : @types.Game) -> Unit {
   )
 
   draw_touch_button(
-    if game.mode == @types.mode_reveal {
-      "MODE: REVEAL"
-    } else {
-      "MODE: FLAG"
+    match game.mode {
+      @types.Reveal => "MODE: REVEAL"
+      @types.Flag => "MODE: FLAG"
     },
     mx0,
     my0,
@@ -445,10 +438,9 @@ fn draw_touch_ui(game : @types.Game) -> Unit {
     @raylib.Color::new(138, 102, 92, 228),
   )
   draw_touch_button(
-    if game.mode == @types.mode_reveal {
-      "REVEAL CELL"
-    } else {
-      "TOGGLE FLAG"
+    match game.mode {
+      @types.Reveal => "REVEAL CELL"
+      @types.Flag => "TOGGLE FLAG"
     },
     ax0,
     ay0,
@@ -559,10 +551,9 @@ fn draw_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(208, 228, 248, 242),
   )
 
-  let mode_name : String = if game.mode == @types.mode_reveal {
-    "Reveal"
-  } else {
-    "Flag"
+  let mode_name : String = match game.mode {
+    @types.Reveal => "Reveal"
+    @types.Flag => "Flag"
   }
 
   @raylib.draw_text(
@@ -660,8 +651,7 @@ fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "Minesweeper Neon Ops 2026",
     @types.screen_w / 2 -
-    @raylib.measure_text("Minesweeper Neon Ops 2026", 84) /
-    2,
+    @raylib.measure_text("Minesweeper Neon Ops 2026", 84) / 2,
     108,
     84,
     @raylib.Color::new(236, 246, 255, 248),
@@ -813,7 +803,7 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
+  if game.state == @types.Title {
     draw_title(game)
     return
   }
@@ -828,7 +818,7 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_panel(game)
   draw_touch_ui(game)
 
-  if game.state == @types.state_result {
+  if game.state == @types.Result {
     draw_result_overlay(game)
   }
 }

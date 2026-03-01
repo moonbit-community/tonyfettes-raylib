@@ -1,4 +1,26 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum PlayMode {
+  Reveal
+  Flag
+} derive(Eq)
+
+///|
+pub(all) enum Grade {
+  GradeS
+  GradeA
+  GradeB
+  GradeC
+  GradeD
+} derive(Eq)
+
+///|
 pub(all) struct Cell {
   mut mine : Bool
   mut revealed : Bool
@@ -25,8 +47,8 @@ pub(all) struct Game {
   sparks : Array[Spark]
   queue_x : Array[Int]
   queue_y : Array[Int]
-  mut state : Int
-  mut mode : Int
+  mut state : GameState
+  mut mode : PlayMode
   mut first_move : Bool
   mut frame_seed : Int
   mut mine_count : Int
@@ -49,7 +71,7 @@ pub(all) struct Game {
   mut msg : String
   mut msg_t : Float
   mut shake_t : Float
-  mut grade : Int
+  mut grade : Grade
   mut win : Bool
   mut touch_cd : Float
   mut mouse_x : Float
@@ -84,8 +106,8 @@ pub fn Game::new() -> Game {
     sparks: Array::makei(1400, fn(_i) { Spark::new() }),
     queue_x: Array::make(max_cells, 0),
     queue_y: Array::make(max_cells, 0),
-    state: state_title,
-    mode: mode_reveal,
+    state: Title,
+    mode: Reveal,
     first_move: true,
     frame_seed: 0,
     mine_count: mine_count_default,
@@ -108,7 +130,7 @@ pub fn Game::new() -> Game {
     msg: "",
     msg_t: 0.0,
     shake_t: 0.0,
-    grade: grade_d,
+    grade: GradeD,
     win: false,
     touch_cd: 0.0,
     mouse_x: 0.0,

@@ -1,3 +1,14 @@
+// Game state enum
+
+///|
+pub(all) enum GameState {
+  Menu
+  Playing
+  WaveComplete
+  Paused
+  GameOver
+} derive(Eq)
+
 // Player entity
 
 ///|
@@ -455,7 +466,7 @@ pub fn DamageIndicator::inactive() -> DamageIndicator {
 
 ///|
 pub(all) struct Game {
-  mut state : Int
+  mut state : GameState
 
   // Player
   player : Player
@@ -650,7 +661,7 @@ pub fn Game::new() -> Game {
     DamageIndicator::inactive(),
   )
   {
-    state: state_menu,
+    state: Menu,
     player: Player::new(),
     weapons,
     current_wave: 0,
