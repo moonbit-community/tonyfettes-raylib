@@ -1,5 +1,5 @@
 ///|
-struct Traffic {
+pub(all) struct Traffic {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -12,7 +12,22 @@ struct Traffic {
 }
 
 ///|
-struct Order {
+pub fn Traffic::new() -> Traffic {
+  {
+    active: false,
+    x: 0.0,
+    y: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    w: 0.0,
+    h: 0.0,
+    kind: traffic_sedan,
+    phase: 0.0,
+  }
+}
+
+///|
+pub(all) struct Order {
   mut active : Bool
   mut picked : Bool
   mut x_from : Float
@@ -24,7 +39,21 @@ struct Order {
 }
 
 ///|
-struct Pickup {
+pub fn Order::new() -> Order {
+  {
+    active: false,
+    picked: false,
+    x_from: 0.0,
+    y_from: 0.0,
+    x_to: 0.0,
+    y_to: 0.0,
+    timer: 0.0,
+    value: 0,
+  }
+}
+
+///|
+pub(all) struct Pickup {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -35,7 +64,20 @@ struct Pickup {
 }
 
 ///|
-struct Particle {
+pub fn Pickup::new() -> Pickup {
+  {
+    active: false,
+    x: 0.0,
+    y: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    kind: pickup_fuel,
+    phase: 0.0,
+  }
+}
+
+///|
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -47,7 +89,21 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub fn Particle::new() -> Particle {
+  {
+    active: false,
+    x: 0.0,
+    y: 0.0,
+    vx: 0.0,
+    vy: 0.0,
+    life: 0.0,
+    size: 0.0,
+    kind: 0,
+  }
+}
+
+///|
+pub(all) struct Game {
   traffic : Array[Traffic]
   orders : Array[Order]
   pickups : Array[Pickup]
@@ -88,66 +144,14 @@ struct Game {
   mut shake_t : Float
   mut touch_cd : Float
   mut win : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Traffic::new() -> Traffic {
-  {
-    active: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-    w: 0.0,
-    h: 0.0,
-    kind: traffic_sedan,
-    phase: 0.0,
-  }
-}
-
-///|
-fn Order::new() -> Order {
-  {
-    active: false,
-    picked: false,
-    x_from: 0.0,
-    y_from: 0.0,
-    x_to: 0.0,
-    y_to: 0.0,
-    timer: 0.0,
-    value: 0,
-  }
-}
-
-///|
-fn Pickup::new() -> Pickup {
-  {
-    active: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-    kind: pickup_fuel,
-    phase: 0.0,
-  }
-}
-
-///|
-fn Particle::new() -> Particle {
-  {
-    active: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-    life: 0.0,
-    size: 0.0,
-    kind: 0,
-  }
-}
-
-///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     traffic: Array::makei(max_traffic, fn(_i) { Traffic::new() }),
     orders: Array::makei(max_orders, fn(_i) { Order::new() }),
@@ -189,5 +193,9 @@ fn Game::new() -> Game {
     shake_t: 0.0,
     touch_cd: 0.0,
     win: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
