@@ -1,19 +1,20 @@
 ///|
 fn lane_to_x(lane : Float) -> Float {
-  Float::from_int(river_x + river_w / 2) + lane * lane_span_px
+  Float::from_int(@types.river_x + @types.river_w / 2) +
+  lane * @types.lane_span_px
 }
 
 ///|
-fn world_y(game : Game, dist : Float) -> Float {
-  Float::from_int(boat_y) - (dist - game.distance) * distance_to_px
+fn world_y(game : @types.Game, dist : Float) -> Float {
+  Float::from_int(@types.boat_y) - (dist - game.distance) * @types.distance_to_px
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(10, 20, 34, 255))
 
-  let glow0 : Float = 0.5 + 0.5 * sinf(game.ui_t * 0.62)
-  let glow1 : Float = 0.5 + 0.5 * cosf(game.ui_t * 0.48)
+  let glow0 : Float = 0.5 + 0.5 * @types.sinf(game.ui_t * 0.62)
+  let glow1 : Float = 0.5 + 0.5 * @types.cosf(game.ui_t * 0.48)
 
   @raylib.draw_circle(
     230,
@@ -28,7 +29,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(42, 92, 126, 34),
   )
   @raylib.draw_circle(
-    screen_w - 240,
+    @types.screen_w - 240,
     220,
     320.0 - glow1 * 28.0,
     @raylib.Color::new(84, 80, 62, 26),
@@ -39,7 +40,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       46,
       @raylib.Color::new(
         10 + i * 3 % 18,
@@ -52,20 +53,20 @@ fn draw_background(game : Game) -> Unit {
 }
 
 ///|
-fn draw_river_surface(game : Game) -> Unit {
+fn draw_river_surface(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    river_x,
-    river_y,
-    river_w,
-    river_h,
+    @types.river_x,
+    @types.river_y,
+    @types.river_w,
+    @types.river_h,
     @raylib.Color::new(24, 88, 130, 236),
   )
 
   @raylib.draw_rectangle_lines(
-    river_x,
-    river_y,
-    river_w,
-    river_h,
+    @types.river_x,
+    @types.river_y,
+    @types.river_w,
+    @types.river_h,
     @raylib.Color::new(184, 228, 244, 212),
   )
 
@@ -74,49 +75,49 @@ fn draw_river_surface(game : Game) -> Unit {
     let x : Int = lane_to_x(lane).to_int()
     @raylib.draw_line(
       x,
-      river_y + 8,
+      @types.river_y + 8,
       x,
-      river_y + river_h - 8,
+      @types.river_y + @types.river_h - 8,
       @raylib.Color::new(166, 214, 230, 58),
     )
   }
 
   for i in 0..<22 {
-    let y_wave : Int = river_y +
+    let y_wave : Int = @types.river_y +
       14 +
       i * 40 +
-      (sinf(game.ui_t * 1.3 + Float::from_int(i) * 0.45) * 12.0).to_int()
+      (@types.sinf(game.ui_t * 1.3 + Float::from_int(i) * 0.45) * 12.0).to_int()
     @raylib.draw_line(
-      river_x + 8,
+      @types.river_x + 8,
       y_wave,
-      river_x + river_w - 10,
+      @types.river_x + @types.river_w - 10,
       y_wave +
-      (sinf(game.ui_t * 0.8 + Float::from_int(i) * 0.32) * 8.0).to_int(),
+      (@types.sinf(game.ui_t * 0.8 + Float::from_int(i) * 0.32) * 8.0).to_int(),
       @raylib.Color::new(154, 220, 244, 46),
     )
   }
 }
 
 ///|
-fn draw_checkpoint_lines(game : Game) -> Unit {
-  for i in game.checkpoint_idx..<checkpoint_count {
-    let dist : Float = checkpoint_distance(i)
+fn draw_checkpoint_lines(game : @types.Game) -> Unit {
+  for i in game.checkpoint_idx..< @types.checkpoint_count {
+    let dist : Float = @types.checkpoint_distance(i)
     let rel : Float = dist - game.distance
-    if rel < -80.0 || rel > visible_distance {
+    if rel < -80.0 || rel > @types.visible_distance {
       continue
     }
 
     let y : Int = world_y(game, dist).to_int()
-    let alpha : Int = clampi(
-      (Float::from_int(220) - absf(rel) * 0.08).to_int(),
+    let alpha : Int = @types.clampi(
+      (Float::from_int(220) - @types.absf(rel) * 0.08).to_int(),
       50,
       220,
     )
 
     @raylib.draw_line(
-      river_x + 14,
+      @types.river_x + 14,
       y,
-      river_x + river_w - 14,
+      @types.river_x + @types.river_w - 14,
       y,
       @raylib.Color::new(250, 238, 168, alpha),
     )
@@ -124,7 +125,7 @@ fn draw_checkpoint_lines(game : Game) -> Unit {
     let label : String = "CP" + (i + 1).to_string()
     @raylib.draw_text(
       label,
-      river_x + 18,
+      @types.river_x + 18,
       y - 26,
       24,
       @raylib.Color::new(255, 242, 176, alpha),
@@ -133,24 +134,24 @@ fn draw_checkpoint_lines(game : Game) -> Unit {
 }
 
 ///|
-fn draw_hazards(game : Game) -> Unit {
+fn draw_hazards(game : @types.Game) -> Unit {
   for hazard in game.hazards {
     if not(hazard.active) {
       continue
     }
 
     let rel : Float = hazard.dist - game.distance
-    if rel < -120.0 || rel > visible_distance {
+    if rel < -120.0 || rel > @types.visible_distance {
       continue
     }
 
     let x : Int = lane_to_x(
-      hazard.lane + sinf(game.ui_t * 0.9 + hazard.phase) * 0.03,
+      hazard.lane + @types.sinf(game.ui_t * 0.9 + hazard.phase) * 0.03,
     ).to_int()
 
     let y : Int = world_y(game, hazard.dist).to_int()
 
-    if hazard.kind == hazard_debris {
+    if hazard.kind == @types.hazard_debris {
       let w : Int = (hazard.size * 1.7).to_int()
       let h : Int = (hazard.size * 0.8).to_int()
 
@@ -221,9 +222,9 @@ fn draw_boat(
     deck_w,
     deck_h,
     @raylib.Color::new(
-      mini(255, hull.r.to_int() + 18),
-      mini(255, hull.g.to_int() + 18),
-      mini(255, hull.b.to_int() + 18),
+      @types.mini(255, hull.r.to_int() + 18),
+      @types.mini(255, hull.g.to_int() + 18),
+      @types.mini(255, hull.b.to_int() + 18),
       230,
     ),
   )
@@ -282,21 +283,25 @@ fn rival_hull_color(id : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_rivals(game : Game) -> Unit {
+fn draw_rivals(game : @types.Game) -> Unit {
   for rival in game.rivals {
     if not(rival.active) {
       continue
     }
 
     let rel : Float = rival.dist - game.distance
-    if rel < -140.0 || rel > visible_distance {
+    if rel < -140.0 || rel > @types.visible_distance {
       continue
     }
 
     let y : Int = world_y(game, rival.dist).to_int()
     let x : Int = lane_to_x(rival.lane).to_int()
 
-    let scale : Float = clampf(0.72 + rel / visible_distance * 0.42, 0.66, 1.05)
+    let scale : Float = @types.clampf(
+      0.72 + rel / @types.visible_distance * 0.42,
+      0.66,
+      1.05,
+    )
     let hull : @raylib.Color = rival_hull_color(rival.id)
 
     draw_boat(x, y, scale, hull, @raylib.Color::new(246, 250, 255, 220), false)
@@ -312,9 +317,9 @@ fn draw_rivals(game : Game) -> Unit {
 }
 
 ///|
-fn draw_player_boat(game : Game) -> Unit {
+fn draw_player_boat(game : @types.Game) -> Unit {
   let x : Int = lane_to_x(game.lane).to_int()
-  let y : Int = boat_y
+  let y : Int = @types.boat_y
 
   let hull : @raylib.Color = if game.burst_t > 0.0 {
     @raylib.Color::new(250, 142, 92, 250)
@@ -338,8 +343,12 @@ fn draw_player_boat(game : Game) -> Unit {
   )
   @raylib.draw_circle(x + 76, y - 4, 4.5, @raylib.Color::new(44, 34, 24, 238))
 
-  let miss : Float = minf(game.rhythm_t, beat_period - game.rhythm_t)
-  let pulse : Float = 1.0 - clampf(miss / beat_good_window, 0.0, 1.0)
+  let miss : Float = @types.minf(
+    game.rhythm_t,
+    @types.beat_period - game.rhythm_t,
+  )
+  let pulse : Float = 1.0 -
+    @types.clampf(miss / @types.beat_good_window, 0.0, 1.0)
 
   @raylib.draw_circle_lines(
     x,
@@ -364,38 +373,51 @@ fn draw_player_boat(game : Game) -> Unit {
 }
 
 ///|
-fn draw_hud_panel(game : Game) -> Unit {
+fn current_rank(game : @types.Game) -> Int {
+  let mut ahead : Int = 0
+
+  for rival in game.rivals {
+    if rival.active && rival.dist > game.distance {
+      ahead = ahead + 1
+    }
+  }
+
+  ahead + 1
+}
+
+///|
+fn draw_hud_panel(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    hud_x,
-    river_y,
-    hud_w,
-    river_h,
+    @types.hud_x,
+    @types.river_y,
+    @types.hud_w,
+    @types.river_h,
     @raylib.Color::new(14, 20, 30, 242),
   )
   @raylib.draw_rectangle_lines(
-    hud_x,
-    river_y,
-    hud_w,
-    river_h,
+    @types.hud_x,
+    @types.river_y,
+    @types.hud_w,
+    @types.river_h,
     @raylib.Color::new(140, 190, 214, 214),
   )
 
   @raylib.draw_text(
     "Dragon Boat Sprint",
-    hud_x + 22,
-    river_y + 20,
+    @types.hud_x + 22,
+    @types.river_y + 20,
     40,
     @raylib.Color::new(238, 248, 255, 244),
   )
   @raylib.draw_text(
     "Festival 2026",
-    hud_x + 22,
-    river_y + 66,
+    @types.hud_x + 22,
+    @types.river_y + 66,
     24,
     @raylib.Color::new(188, 218, 238, 238),
   )
 
-  let rank_now : Int = if game.state == state_result {
+  let rank_now : Int = if game.state == @types.state_result {
     game.finish_rank
   } else {
     current_rank(game)
@@ -405,32 +427,32 @@ fn draw_hud_panel(game : Game) -> Unit {
     "Distance  " +
     game.distance.to_int().to_string() +
     "m / " +
-    finish_distance.to_int().to_string() +
+    @types.finish_distance.to_int().to_string() +
     "m",
-    hud_x + 22,
-    river_y + 116,
+    @types.hud_x + 22,
+    @types.river_y + 116,
     28,
     @raylib.Color::new(216, 232, 246, 236),
   )
   @raylib.draw_text(
     "Speed     " + game.speed.to_int().to_string() + " m/s",
-    hud_x + 22,
-    river_y + 150,
+    @types.hud_x + 22,
+    @types.river_y + 150,
     28,
     @raylib.Color::new(216, 232, 246, 236),
   )
   @raylib.draw_text(
     "Rank      #" + rank_now.to_string(),
-    hud_x + 22,
-    river_y + 184,
+    @types.hud_x + 22,
+    @types.river_y + 184,
     30,
     @raylib.Color::new(252, 232, 162, 244),
   )
 
   @raylib.draw_text(
     "Score     " + game.score.to_string(),
-    hud_x + 22,
-    river_y + 224,
+    @types.hud_x + 22,
+    @types.river_y + 224,
     30,
     @raylib.Color::new(254, 246, 210, 244),
   )
@@ -440,8 +462,8 @@ fn draw_hud_panel(game : Game) -> Unit {
     "  (Best " +
     game.best_streak.to_string() +
     ")",
-    hud_x + 22,
-    river_y + 260,
+    @types.hud_x + 22,
+    @types.river_y + 260,
     28,
     @raylib.Color::new(214, 230, 246, 236),
   )
@@ -449,23 +471,23 @@ fn draw_hud_panel(game : Game) -> Unit {
     "Checkpoints  " +
     game.checkpoint_idx.to_string() +
     "/" +
-    checkpoint_count.to_string(),
-    hud_x + 22,
-    river_y + 294,
+    @types.checkpoint_count.to_string(),
+    @types.hud_x + 22,
+    @types.river_y + 294,
     28,
     @raylib.Color::new(214, 230, 246, 236),
   )
   @raylib.draw_text(
     "Debris Hits  " + game.hit_count.to_string(),
-    hud_x + 22,
-    river_y + 328,
+    @types.hud_x + 22,
+    @types.river_y + 328,
     28,
     @raylib.Color::new(222, 214, 208, 236),
   )
 
-  let meter_x : Int = hud_x + 24
-  let meter_y : Int = river_y + 392
-  let meter_w : Int = hud_w - 48
+  let meter_x : Int = @types.hud_x + 24
+  let meter_y : Int = @types.river_y + 392
+  let meter_w : Int = @types.hud_w - 48
   let meter_h : Int = 30
 
   @raylib.draw_text(
@@ -484,7 +506,7 @@ fn draw_hud_panel(game : Game) -> Unit {
     @raylib.Color::new(36, 50, 66, 230),
   )
 
-  let fill_ratio : Float = clampf(game.rhythm_meter / 100.0, 0.0, 1.0)
+  let fill_ratio : Float = @types.clampf(game.rhythm_meter / 100.0, 0.0, 1.0)
   let fill_w : Int = (Float::from_int(meter_w) * fill_ratio).to_int()
 
   @raylib.draw_rectangle(
@@ -558,7 +580,11 @@ fn draw_hud_panel(game : Game) -> Unit {
     @raylib.Color::new(244, 214, 132, 176),
   )
 
-  let phase : Float = clampf(game.rhythm_t / beat_period, 0.0, 1.0)
+  let phase : Float = @types.clampf(
+    game.rhythm_t / @types.beat_period,
+    0.0,
+    1.0,
+  )
   let marker_x : Int = beat_x + (Float::from_int(beat_w) * phase).to_int()
 
   @raylib.draw_line(
@@ -579,78 +605,78 @@ fn draw_hud_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Controls",
-    hud_x + 24,
-    river_y + 584,
+    @types.hud_x + 24,
+    @types.river_y + 584,
     30,
     @raylib.Color::new(238, 246, 255, 242),
   )
   @raylib.draw_text(
     "A/D or Left/Right : Lane steer",
-    hud_x + 24,
-    river_y + 624,
+    @types.hud_x + 24,
+    @types.river_y + 624,
     24,
     @raylib.Color::new(206, 226, 242, 234),
   )
   @raylib.draw_text(
     "J : Paddle stroke (timing)",
-    hud_x + 24,
-    river_y + 654,
+    @types.hud_x + 24,
+    @types.river_y + 654,
     24,
     @raylib.Color::new(206, 226, 242, 234),
   )
   @raylib.draw_text(
     "K : Stabilize against waves",
-    hud_x + 24,
-    river_y + 684,
+    @types.hud_x + 24,
+    @types.river_y + 684,
     24,
     @raylib.Color::new(206, 226, 242, 234),
   )
   @raylib.draw_text(
     "Space : Burst when meter full",
-    hud_x + 24,
-    river_y + 714,
+    @types.hud_x + 24,
+    @types.river_y + 714,
     24,
     @raylib.Color::new(206, 226, 242, 234),
   )
   @raylib.draw_text(
     "P : Pause    R : Restart",
-    hud_x + 24,
-    river_y + 744,
+    @types.hud_x + 24,
+    @types.river_y + 744,
     24,
     @raylib.Color::new(206, 226, 242, 234),
   )
 
   @raylib.draw_text(
     "Festival sprint: rhythm streak boosts top speed.",
-    hud_x + 24,
-    river_y + 802,
+    @types.hud_x + 24,
+    @types.river_y + 802,
     23,
     @raylib.Color::new(206, 222, 238, 216),
   )
   @raylib.draw_text(
     "Avoid debris, absorb waves, clear checkpoints, win rank.",
-    hud_x + 24,
-    river_y + 832,
+    @types.hud_x + 24,
+    @types.river_y + 832,
     23,
     @raylib.Color::new(206, 222, 238, 216),
   )
 }
 
 ///|
-fn draw_message_banner(game : Game) -> Unit {
+fn draw_message_banner(game : @types.Game) -> Unit {
   if game.msg_t <= 0.0 || game.msg == "" {
     return
   }
 
-  let alpha : Int = clampi(
+  let alpha : Int = @types.clampi(
     (Float::from_int(90) + game.msg_t * 120.0).to_int(),
     0,
     230,
   )
   let box_w : Int = 680
   let box_h : Int = 56
-  let x : Int = river_x + river_w / 2 - box_w / 2
-  let y : Int = river_y + 20
+  let x : Int = @types.river_x + @types.river_w / 2 - box_w / 2
+  let y : Int = @types.river_y + 20
 
   @raylib.draw_rectangle(
     x,
@@ -681,15 +707,15 @@ fn draw_title_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 18, 170),
   )
 
   let title = "Dragon Boat Sprint Festival"
   @raylib.draw_text(
     title,
-    screen_w / 2 - @raylib.measure_text(title, 64) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(title, 64) / 2,
     180,
     64,
     @raylib.Color::new(244, 252, 255, 248),
@@ -698,7 +724,7 @@ fn draw_title_overlay() -> Unit {
   let sub = "2026"
   @raylib.draw_text(
     sub,
-    screen_w / 2 - @raylib.measure_text(sub, 44) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(sub, 44) / 2,
     250,
     44,
     @raylib.Color::new(255, 220, 150, 240),
@@ -706,28 +732,28 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     "Steer lanes, sync paddle rhythm, survive waves and debris.",
-    screen_w / 2 - 420,
+    @types.screen_w / 2 - 420,
     340,
     36,
     @raylib.Color::new(216, 234, 246, 238),
   )
   @raylib.draw_text(
     "Outrace rivals, clear checkpoints, and sprint to the festival finish.",
-    screen_w / 2 - 470,
+    @types.screen_w / 2 - 470,
     390,
     36,
     @raylib.Color::new(216, 234, 246, 238),
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 380,
+    @types.screen_w / 2 - 380,
     500,
     760,
     220,
     @raylib.Color::new(18, 30, 44, 216),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 380,
+    @types.screen_w / 2 - 380,
     500,
     760,
     220,
@@ -736,28 +762,28 @@ fn draw_title_overlay() -> Unit {
 
   @raylib.draw_text(
     "A/D or Left/Right  steer lane bias",
-    screen_w / 2 - 340,
+    @types.screen_w / 2 - 340,
     536,
     30,
     @raylib.Color::new(232, 242, 250, 240),
   )
   @raylib.draw_text(
     "J  paddle stroke on beat edges",
-    screen_w / 2 - 340,
+    @types.screen_w / 2 - 340,
     574,
     30,
     @raylib.Color::new(232, 242, 250, 240),
   )
   @raylib.draw_text(
     "K  stabilize during wave impacts",
-    screen_w / 2 - 340,
+    @types.screen_w / 2 - 340,
     612,
     30,
     @raylib.Color::new(232, 242, 250, 240),
   )
   @raylib.draw_text(
     "Space burst when rhythm meter is full",
-    screen_w / 2 - 340,
+    @types.screen_w / 2 - 340,
     650,
     30,
     @raylib.Color::new(232, 242, 250, 240),
@@ -766,7 +792,7 @@ fn draw_title_overlay() -> Unit {
   let start_msg = "Press Enter, J, or Space to start"
   @raylib.draw_text(
     start_msg,
-    screen_w / 2 - @raylib.measure_text(start_msg, 42) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(start_msg, 42) / 2,
     770,
     42,
     @raylib.Color::new(255, 228, 158, 246),
@@ -778,15 +804,15 @@ fn draw_pause_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(10, 14, 20, 180),
   )
 
   let title = "PAUSED"
   @raylib.draw_text(
     title,
-    screen_w / 2 - @raylib.measure_text(title, 86) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(title, 86) / 2,
     330,
     86,
     @raylib.Color::new(244, 248, 255, 246),
@@ -795,7 +821,7 @@ fn draw_pause_overlay() -> Unit {
   let msg = "Press P to resume or R to restart"
   @raylib.draw_text(
     msg,
-    screen_w / 2 - @raylib.measure_text(msg, 40) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(msg, 40) / 2,
     450,
     40,
     @raylib.Color::new(220, 236, 248, 238),
@@ -803,24 +829,24 @@ fn draw_pause_overlay() -> Unit {
 }
 
 ///|
-fn draw_result_overlay(game : Game) -> Unit {
+fn draw_result_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 20, 170),
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 420,
+    @types.screen_w / 2 - 420,
     170,
     840,
     620,
     @raylib.Color::new(16, 24, 38, 234),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 420,
+    @types.screen_w / 2 - 420,
     170,
     840,
     620,
@@ -830,7 +856,7 @@ fn draw_result_overlay(game : Game) -> Unit {
   let title = "Festival Finish"
   @raylib.draw_text(
     title,
-    screen_w / 2 - @raylib.measure_text(title, 62) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(title, 62) / 2,
     220,
     62,
     @raylib.Color::new(246, 252, 255, 246),
@@ -838,7 +864,7 @@ fn draw_result_overlay(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Rank #" + game.finish_rank.to_string(),
-    screen_w / 2 - 110,
+    @types.screen_w / 2 - 110,
     306,
     48,
     @raylib.Color::new(254, 226, 148, 244),
@@ -846,21 +872,21 @@ fn draw_result_overlay(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Final Score  " + game.score.to_string(),
-    screen_w / 2 - 220,
+    @types.screen_w / 2 - 220,
     382,
     42,
     @raylib.Color::new(238, 246, 255, 242),
   )
   @raylib.draw_text(
     "Finish Time  " + game.finish_time.to_int().to_string() + "s",
-    screen_w / 2 - 220,
+    @types.screen_w / 2 - 220,
     432,
     38,
     @raylib.Color::new(220, 234, 248, 238),
   )
   @raylib.draw_text(
     "Best Rhythm Streak  " + game.best_streak.to_string(),
-    screen_w / 2 - 220,
+    @types.screen_w / 2 - 220,
     478,
     38,
     @raylib.Color::new(220, 234, 248, 238),
@@ -869,15 +895,15 @@ fn draw_result_overlay(game : Game) -> Unit {
     "Checkpoints  " +
     game.checkpoint_idx.to_string() +
     "/" +
-    checkpoint_count.to_string(),
-    screen_w / 2 - 220,
+    @types.checkpoint_count.to_string(),
+    @types.screen_w / 2 - 220,
     524,
     38,
     @raylib.Color::new(220, 234, 248, 238),
   )
   @raylib.draw_text(
     "Debris Hits  " + game.hit_count.to_string(),
-    screen_w / 2 - 220,
+    @types.screen_w / 2 - 220,
     570,
     38,
     @raylib.Color::new(220, 234, 248, 238),
@@ -886,7 +912,7 @@ fn draw_result_overlay(game : Game) -> Unit {
   let msg = "Press Enter/J/Space for another run, or R to restart immediately"
   @raylib.draw_text(
     msg,
-    screen_w / 2 - @raylib.measure_text(msg, 30) / 2,
+    @types.screen_w / 2 - @raylib.measure_text(msg, 30) / 2,
     692,
     30,
     @raylib.Color::new(240, 246, 254, 236),
@@ -894,7 +920,7 @@ fn draw_result_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_river_surface(game)
   draw_checkpoint_lines(game)
@@ -904,11 +930,11 @@ fn draw_frame(game : Game) -> Unit {
   draw_hud_panel(game)
   draw_message_banner(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay()
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_pause_overlay()
-  } else if game.state == state_result {
+  } else if game.state == @types.state_result {
     draw_result_overlay(game)
   }
 }

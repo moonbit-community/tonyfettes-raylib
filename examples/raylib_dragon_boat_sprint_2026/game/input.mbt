@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input.steer = 0.0
   game.input.paddle_pressed = false
   game.input.stabilize_down = false
@@ -10,7 +10,7 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn sample_input(game : Game) -> Unit {
+fn sample_input(game : @types.Game) -> Unit {
   clear_input(game)
 
   let mut steer : Float = 0.0

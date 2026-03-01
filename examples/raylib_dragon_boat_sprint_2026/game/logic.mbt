@@ -1,102 +1,19 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn clampf(v : Float, lo : Float, hi : Float) -> Float {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn minf(a : Float, b : Float) -> Float {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn absf(v : Float) -> Float {
-  if v < 0.0 {
-    -v
-  } else {
-    v
-  }
-}
-
-///|
-fn sinf(v : Float) -> Float {
-  Float::from_double(@math.sin(v.to_double()))
-}
-
-///|
-fn cosf(v : Float) -> Float {
-  Float::from_double(@math.cos(v.to_double()))
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn set_message(game : Game, msg : String, ttl : Float) -> Unit {
+fn set_message(game : @types.Game, msg : String, ttl : Float) -> Unit {
   game.msg = msg
   game.msg_t = ttl
 }
 
 ///|
-fn add_score(game : Game, delta : Int) -> Unit {
-  game.score = maxi(0, game.score + delta)
+fn add_score(game : @types.Game, delta : Int) -> Unit {
+  game.score = @types.maxi(0, game.score + delta)
 }
 
 ///|
-fn clear_hazards(game : Game) -> Unit {
+fn clear_hazards(game : @types.Game) -> Unit {
   for hazard in game.hazards {
     hazard.active = false
-    hazard.kind = hazard_debris
+    hazard.kind = @types.hazard_debris
     hazard.lane = 0.0
     hazard.dist = 0.0
     hazard.size = 0.0
@@ -106,7 +23,7 @@ fn clear_hazards(game : Game) -> Unit {
 }
 
 ///|
-fn setup_rivals(game : Game) -> Unit {
+fn setup_rivals(game : @types.Game) -> Unit {
   for i in 0..<game.rivals.length() {
     let lane_seed : Float = if i == 0 {
       -0.78
@@ -120,21 +37,22 @@ fn setup_rivals(game : Game) -> Unit {
 
     game.rivals[i].active = true
     game.rivals[i].id = i + 1
-    game.rivals[i].lane = lane_seed + randf(-0.04, 0.04)
-    game.rivals[i].dist = randf(-18.0, 24.0) + Float::from_int(i * 7 - 11)
-    game.rivals[i].speed_bias = randf(-10.0, 13.0)
-    game.rivals[i].stroke_t = randf(0.0, 6.28)
+    game.rivals[i].lane = lane_seed + @types.randf(-0.04, 0.04)
+    game.rivals[i].dist = @types.randf(-18.0, 24.0) +
+      Float::from_int(i * 7 - 11)
+    game.rivals[i].speed_bias = @types.randf(-10.0, 13.0)
+    game.rivals[i].stroke_t = @types.randf(0.0, 6.28)
   }
 }
 
 ///|
-fn reset_run(game : Game) -> Unit {
+fn reset_run(game : @types.Game) -> Unit {
   clear_hazards(game)
   setup_rivals(game)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.distance = 0.0
-  game.speed = base_speed
+  game.speed = @types.base_speed
   game.lane = 0.0
 
   game.rhythm_t = 0.0
@@ -152,8 +70,8 @@ fn reset_run(game : Game) -> Unit {
 
   game.score = 0
   game.hit_count = 0
-  game.best_rank = max_rivals + 1
-  game.finish_rank = max_rivals + 1
+  game.best_rank = @types.max_rivals + 1
+  game.finish_rank = @types.max_rivals + 1
   game.finish_time = 0.0
 
   game.game_t = 0.0
@@ -163,7 +81,7 @@ fn reset_run(game : Game) -> Unit {
 }
 
 ///|
-fn current_rank(game : Game) -> Int {
+fn current_rank(game : @types.Game) -> Int {
   let mut ahead : Int = 0
 
   for rival in game.rivals {
@@ -176,26 +94,30 @@ fn current_rank(game : Game) -> Int {
 }
 
 ///|
-fn spawn_hazard(game : Game) -> Bool {
+fn spawn_hazard(game : @types.Game) -> Bool {
   for hazard in game.hazards {
     if hazard.active {
       continue
     }
 
     let kind_roll = @raylib.get_random_value(0, 99)
-    let kind : Int = if kind_roll < 58 { hazard_debris } else { hazard_wave }
+    let kind : Int = if kind_roll < 58 {
+      @types.hazard_debris
+    } else {
+      @types.hazard_wave
+    }
 
     hazard.active = true
     hazard.kind = kind
     hazard.lane = Float::from_int(@raylib.get_random_value(-95, 95)) / 100.0
-    hazard.dist = game.distance + randf(420.0, 1380.0)
-    hazard.size = if kind == hazard_debris {
-      randf(18.0, 33.0)
+    hazard.dist = game.distance + @types.randf(420.0, 1380.0)
+    hazard.size = if kind == @types.hazard_debris {
+      @types.randf(18.0, 33.0)
     } else {
-      randf(30.0, 56.0)
+      @types.randf(30.0, 56.0)
     }
-    hazard.drift = randf(-0.4, 0.4)
-    hazard.phase = randf(0.0, 6.28)
+    hazard.drift = @types.randf(-0.4, 0.4)
+    hazard.phase = @types.randf(0.0, 6.28)
 
     return true
   }
@@ -204,59 +126,62 @@ fn spawn_hazard(game : Game) -> Bool {
 }
 
 ///|
-fn update_rhythm(game : Game, dt : Float) -> Unit {
+fn update_rhythm(game : @types.Game, dt : Float) -> Unit {
   game.rhythm_t = game.rhythm_t + dt
-  while game.rhythm_t >= beat_period {
-    game.rhythm_t = game.rhythm_t - beat_period
+  while game.rhythm_t >= @types.beat_period {
+    game.rhythm_t = game.rhythm_t - @types.beat_period
   }
 
-  game.stroke_cd = maxf(0.0, game.stroke_cd - dt)
+  game.stroke_cd = @types.maxf(0.0, game.stroke_cd - dt)
   game.since_paddle_t = game.since_paddle_t + dt
 
-  let streak_drop_t : Float = beat_period * 1.35
+  let streak_drop_t : Float = @types.beat_period * 1.35
   if game.since_paddle_t > streak_drop_t {
     if game.streak > 0 {
       game.streak = game.streak - 1
-      game.since_paddle_t = game.since_paddle_t - beat_period * 0.8
+      game.since_paddle_t = game.since_paddle_t - @types.beat_period * 0.8
     }
   }
 
-  game.rhythm_meter = maxf(0.0, game.rhythm_meter - dt * 1.6)
+  game.rhythm_meter = @types.maxf(0.0, game.rhythm_meter - dt * 1.6)
 }
 
 ///|
-fn apply_paddle(game : Game) -> Unit {
+fn apply_paddle(game : @types.Game) -> Unit {
   if game.stroke_cd > 0.0 {
-    game.rhythm_meter = maxf(0.0, game.rhythm_meter - 8.0)
-    game.wobble = minf(1.8, game.wobble + 0.06)
+    game.rhythm_meter = @types.maxf(0.0, game.rhythm_meter - 8.0)
+    game.wobble = @types.minf(1.8, game.wobble + 0.06)
     set_message(game, "Stroke too rushed", 0.45)
     return
   }
 
-  let miss : Float = minf(game.rhythm_t, beat_period - game.rhythm_t)
+  let miss : Float = @types.minf(
+    game.rhythm_t,
+    @types.beat_period - game.rhythm_t,
+  )
 
-  if miss <= beat_perfect_window {
-    game.streak = clampi(game.streak + 1, 0, 30)
-    game.rhythm_meter = minf(
+  if miss <= @types.beat_perfect_window {
+    game.streak = @types.clampi(game.streak + 1, 0, 30)
+    game.rhythm_meter = @types.minf(
       100.0,
       game.rhythm_meter + 18.0 + Float::from_int(game.streak) * 0.35,
     )
     game.speed = game.speed + 48.0 + Float::from_int(game.streak) * 1.8
-    game.wobble = maxf(0.0, game.wobble - 0.11)
+    game.wobble = @types.maxf(0.0, game.wobble - 0.11)
     add_score(game, 15 + game.streak * 3)
     set_message(game, "Perfect stroke!", 0.5)
-  } else if miss <= beat_good_window {
-    game.streak = clampi(game.streak + 1, 0, 30)
-    game.rhythm_meter = minf(100.0, game.rhythm_meter + 12.0)
+  } else if miss <= @types.beat_good_window {
+    game.streak = @types.clampi(game.streak + 1, 0, 30)
+    game.rhythm_meter = @types.minf(100.0, game.rhythm_meter + 12.0)
     game.speed = game.speed + 33.0 + Float::from_int(game.streak)
-    game.wobble = maxf(0.0, game.wobble - 0.04)
+    game.wobble = @types.maxf(0.0, game.wobble - 0.04)
     add_score(game, 9 + game.streak * 2)
     set_message(game, "Good stroke", 0.35)
   } else {
     game.streak = 0
-    game.rhythm_meter = maxf(0.0, game.rhythm_meter - 16.0)
-    game.speed = maxf(70.0, game.speed - 22.0)
-    game.wobble = minf(1.8, game.wobble + 0.14)
+    game.rhythm_meter = @types.maxf(0.0, game.rhythm_meter - 16.0)
+    game.speed = @types.maxf(70.0, game.speed - 22.0)
+    game.wobble = @types.minf(1.8, game.wobble + 0.14)
     add_score(game, -10)
     set_message(game, "Off-beat stroke", 0.7)
   }
@@ -270,7 +195,7 @@ fn apply_paddle(game : Game) -> Unit {
 }
 
 ///|
-fn try_burst(game : Game) -> Unit {
+fn try_burst(game : @types.Game) -> Unit {
   if game.burst_t <= 0.0 &&
     game.input.burst_pressed &&
     game.rhythm_meter >= 100.0 {
@@ -282,46 +207,57 @@ fn try_burst(game : Game) -> Unit {
 }
 
 ///|
-fn update_wave_lane(game : Game, dt : Float) -> Unit {
+fn update_wave_lane(game : @types.Game, dt : Float) -> Unit {
   game.wave_t = game.wave_t + dt
 
   let wave_force : Float = 0.5 +
-    0.5 * sinf(game.wave_t * 1.82 + game.distance * 0.004)
+    0.5 * @types.sinf(game.wave_t * 1.82 + game.distance * 0.004)
 
   game.lane = game.lane + game.input.steer * dt * 2.4
 
   if game.input.stabilize_down {
-    game.wobble = maxf(0.0, game.wobble - dt * (1.7 + wave_force * 1.2))
+    game.wobble = @types.maxf(
+      0.0,
+      game.wobble - dt * (1.7 + wave_force * 1.2),
+    )
   } else {
-    game.wobble = minf(1.8, game.wobble + dt * (0.28 + wave_force * 0.95))
+    game.wobble = @types.minf(
+      1.8,
+      game.wobble + dt * (0.28 + wave_force * 0.95),
+    )
   }
 
-  let drift : Float = sinf(
+  let drift : Float = @types.sinf(
       game.wave_t * 2.63 + game.distance * 0.002 + game.lane * 1.8,
     ) *
     dt *
     game.wobble *
     1.35
 
-  game.lane = clampf(game.lane + drift, -1.08, 1.08)
+  game.lane = @types.clampf(game.lane + drift, -1.08, 1.08)
 }
 
 ///|
-fn update_speed_distance(game : Game, dt : Float) -> Unit {
-  let streak_bonus : Float = Float::from_int(mini(game.streak, 20)) * 2.4
+fn update_speed_distance(game : @types.Game, dt : Float) -> Unit {
+  let streak_bonus : Float = Float::from_int(@types.mini(game.streak, 20)) *
+    2.4
   let rhythm_bonus : Float = game.rhythm_meter * 0.22
   let burst_bonus : Float = if game.burst_t > 0.0 { 108.0 } else { 0.0 }
-  let stabilize_drag : Float = if game.input.stabilize_down { 8.0 } else { 0.0 }
+  let stabilize_drag : Float = if game.input.stabilize_down {
+    8.0
+  } else {
+    0.0
+  }
   let wobble_penalty : Float = game.wobble * 28.0
 
-  let target_speed : Float = base_speed +
+  let target_speed : Float = @types.base_speed +
     streak_bonus +
     rhythm_bonus +
     burst_bonus -
     stabilize_drag -
     wobble_penalty
 
-  game.speed = clampf(
+  game.speed = @types.clampf(
     game.speed + (target_speed - game.speed) * dt * 2.8,
     68.0,
     340.0,
@@ -332,51 +268,58 @@ fn update_speed_distance(game : Game, dt : Float) -> Unit {
 
   add_score(game, (game.speed * dt * 0.085).to_int())
 
-  game.burst_t = maxf(0.0, game.burst_t - dt)
+  game.burst_t = @types.maxf(0.0, game.burst_t - dt)
 }
 
 ///|
-fn update_hazard_spawning(game : Game, dt : Float) -> Unit {
+fn update_hazard_spawning(game : @types.Game, dt : Float) -> Unit {
   game.hazard_spawn_t = game.hazard_spawn_t - dt
 
   if game.hazard_spawn_t <= 0.0 {
     ignore(spawn_hazard(game))
-    let pace : Float = maxf(0.2, 0.74 - game.distance / 9000.0)
-    game.hazard_spawn_t = pace + randf(0.0, 0.32)
+    let pace : Float = @types.maxf(0.2, 0.74 - game.distance / 9000.0)
+    game.hazard_spawn_t = pace + @types.randf(0.0, 0.32)
   }
 }
 
 ///|
-fn update_hazards(game : Game, dt : Float) -> Unit {
+fn update_hazards(game : @types.Game, dt : Float) -> Unit {
   for hazard in game.hazards {
     if not(hazard.active) {
       continue
     }
 
     hazard.phase = hazard.phase + dt
-    hazard.lane = clampf(hazard.lane + hazard.drift * dt * 0.4, -1.08, 1.08)
+    hazard.lane = @types.clampf(
+      hazard.lane + hazard.drift * dt * 0.4,
+      -1.08,
+      1.08,
+    )
 
     if hazard.dist < game.distance - 120.0 {
       hazard.active = false
       continue
     }
 
-    let lane_delta : Float = absf(hazard.lane - game.lane)
-    let dist_delta : Float = absf(hazard.dist - game.distance)
+    let lane_delta : Float = @types.absf(hazard.lane - game.lane)
+    let dist_delta : Float = @types.absf(hazard.dist - game.distance)
 
-    let lane_hit_w : Float = if hazard.kind == hazard_debris {
+    let lane_hit_w : Float = if hazard.kind == @types.hazard_debris {
       0.2
     } else {
       0.28
     }
 
     if dist_delta < 26.0 && lane_delta < lane_hit_w {
-      if hazard.kind == hazard_debris {
+      if hazard.kind == @types.hazard_debris {
         let shield : Float = if game.burst_t > 0.0 { 0.5 } else { 1.0 }
 
-        game.speed = maxf(72.0, game.speed - 46.0 * shield)
-        game.rhythm_meter = maxf(0.0, game.rhythm_meter - 24.0 * shield)
-        game.wobble = minf(1.8, game.wobble + 0.34 * shield)
+        game.speed = @types.maxf(72.0, game.speed - 46.0 * shield)
+        game.rhythm_meter = @types.maxf(
+          0.0,
+          game.rhythm_meter - 24.0 * shield,
+        )
+        game.wobble = @types.minf(1.8, game.wobble + 0.34 * shield)
         if shield >= 1.0 {
           game.streak = 0
         }
@@ -385,13 +328,13 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
         add_score(game, -28)
         set_message(game, "Debris impact!", 0.85)
       } else if game.input.stabilize_down {
-        game.rhythm_meter = minf(100.0, game.rhythm_meter + 3.5)
+        game.rhythm_meter = @types.minf(100.0, game.rhythm_meter + 3.5)
         add_score(game, 6)
         set_message(game, "Wave absorbed", 0.45)
       } else {
-        game.speed = maxf(72.0, game.speed - 24.0)
-        game.rhythm_meter = maxf(0.0, game.rhythm_meter - 11.0)
-        game.wobble = minf(1.8, game.wobble + 0.22)
+        game.speed = @types.maxf(72.0, game.speed - 24.0)
+        game.rhythm_meter = @types.maxf(0.0, game.rhythm_meter - 11.0)
+        game.wobble = @types.minf(1.8, game.wobble + 0.22)
         add_score(game, -12)
         set_message(game, "Wave rocked the boat", 0.7)
       }
@@ -402,7 +345,7 @@ fn update_hazards(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_rivals(game : Game, dt : Float) -> Unit {
+fn update_rivals(game : @types.Game, dt : Float) -> Unit {
   for rival in game.rivals {
     if not(rival.active) {
       continue
@@ -414,34 +357,39 @@ fn update_rivals(game : Game, dt : Float) -> Unit {
     }
 
     let tempo : Float = 0.5 +
-      0.5 * sinf(rival.stroke_t + Float::from_int(rival.id) * 0.35)
+      0.5 * @types.sinf(rival.stroke_t + Float::from_int(rival.id) * 0.35)
 
-    let mut rival_speed : Float = base_speed +
+    let mut rival_speed : Float = @types.base_speed +
       8.0 +
       rival.speed_bias +
       tempo * 44.0
 
-    if game.distance > finish_distance * 0.82 {
+    if game.distance > @types.finish_distance * 0.82 {
       rival_speed = rival_speed + 11.0
     }
 
     rival.dist = rival.dist + rival_speed * dt
 
-    let path_t : Float = game.ui_t * (0.62 + Float::from_int(rival.id) * 0.08) +
+    let path_t : Float = game.ui_t *
+        (0.62 + Float::from_int(rival.id) * 0.08) +
       Float::from_int(rival.id) * 0.9
 
-    rival.lane = clampf(rival.lane + sinf(path_t) * dt * 0.3, -1.02, 1.02)
+    rival.lane = @types.clampf(
+      rival.lane + @types.sinf(path_t) * dt * 0.3,
+      -1.02,
+      1.02,
+    )
 
-    let near_dist : Float = absf(rival.dist - game.distance)
-    let near_lane : Float = absf(rival.lane - game.lane)
+    let near_dist : Float = @types.absf(rival.dist - game.distance)
+    let near_lane : Float = @types.absf(rival.lane - game.lane)
 
     if near_dist < 15.0 && near_lane < 0.2 {
       if game.speed >= rival_speed {
         rival.dist = rival.dist - dt * 20.0
         add_score(game, 5)
       } else {
-        game.speed = maxf(68.0, game.speed - 14.0)
-        game.wobble = minf(1.8, game.wobble + 0.1)
+        game.speed = @types.maxf(68.0, game.speed - 14.0)
+        game.wobble = @types.minf(1.8, game.wobble + 0.1)
       }
     }
   }
@@ -459,15 +407,15 @@ fn update_rivals(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_checkpoints(game : Game) -> Unit {
-  if game.checkpoint_idx >= checkpoint_count {
+fn update_checkpoints(game : @types.Game) -> Unit {
+  if game.checkpoint_idx >= @types.checkpoint_count {
     return
   }
 
-  let next_dist : Float = checkpoint_distance(game.checkpoint_idx)
+  let next_dist : Float = @types.checkpoint_distance(game.checkpoint_idx)
   if game.distance >= next_dist {
     game.checkpoint_idx = game.checkpoint_idx + 1
-    game.rhythm_meter = minf(100.0, game.rhythm_meter + 16.0)
+    game.rhythm_meter = @types.minf(100.0, game.rhythm_meter + 16.0)
     add_score(game, 120 + game.streak * 10)
 
     set_message(
@@ -475,19 +423,19 @@ fn update_checkpoints(game : Game) -> Unit {
       "Checkpoint " +
       game.checkpoint_idx.to_string() +
       "/" +
-      checkpoint_count.to_string(),
+      @types.checkpoint_count.to_string(),
       1.2,
     )
   }
 }
 
 ///|
-fn finish_run(game : Game) -> Unit {
-  if game.state != state_play {
+fn finish_run(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  game.state = state_result
+  game.state = @types.state_result
   game.finish_time = game.game_t
   game.finish_rank = current_rank(game)
 
@@ -502,11 +450,14 @@ fn finish_run(game : Game) -> Unit {
   }
 
   let streak_bonus : Int = game.best_streak * 22
-  let clean_bonus : Int = maxi(0, 280 - game.hit_count * 70)
+  let clean_bonus : Int = @types.maxi(0, 280 - game.hit_count * 70)
   let checkpoint_bonus : Int = game.checkpoint_idx * 110
-  let time_bonus : Int = maxi(0, 420 - game.finish_time.to_int() * 8)
+  let time_bonus : Int = @types.maxi(
+    0,
+    420 - game.finish_time.to_int() * 8,
+  )
 
-  game.score = maxi(
+  game.score = @types.maxi(
     0,
     game.score +
     place_bonus +
@@ -520,7 +471,7 @@ fn finish_run(game : Game) -> Unit {
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   update_rhythm(game, dt)
 
   if game.input.paddle_pressed {
@@ -535,13 +486,13 @@ fn update_play(game : Game, dt : Float) -> Unit {
   update_rivals(game, dt)
   update_checkpoints(game)
 
-  if game.distance >= finish_distance {
+  if game.distance >= @types.finish_distance {
     finish_run(game)
   }
 }
 
 ///|
-fn tick_message(game : Game, dt : Float) -> Unit {
+fn tick_message(game : @types.Game, dt : Float) -> Unit {
   game.msg_t = game.msg_t - dt
   if game.msg_t <= 0.0 {
     game.msg_t = 0.0
@@ -550,7 +501,8 @@ fn tick_message(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  sample_input(game)
   game.ui_t = game.ui_t + dt
 
   if game.msg_t > 0.0 {
@@ -562,22 +514,22 @@ fn update_game(game : Game, dt : Float) -> Unit {
     return
   }
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     if game.input.start_pressed {
       reset_run(game)
     }
     return
   }
 
-  if game.state == state_paused {
+  if game.state == @types.state_paused {
     if game.input.pause_pressed {
-      game.state = state_play
+      game.state = @types.state_play
       set_message(game, "Race resumed", 0.8)
     }
     return
   }
 
-  if game.state == state_result {
+  if game.state == @types.state_result {
     if game.input.start_pressed {
       reset_run(game)
     }
@@ -585,7 +537,7 @@ fn update_game(game : Game, dt : Float) -> Unit {
   }
 
   if game.input.pause_pressed {
-    game.state = state_paused
+    game.state = @types.state_paused
     set_message(game, "Race paused", 0.8)
     return
   }

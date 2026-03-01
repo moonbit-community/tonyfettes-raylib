@@ -1,5 +1,5 @@
 ///|
-struct Input {
+pub(all) struct Input {
   mut steer : Float
   mut paddle_pressed : Bool
   mut stabilize_down : Bool
@@ -10,7 +10,7 @@ struct Input {
 }
 
 ///|
-struct Hazard {
+pub(all) struct Hazard {
   mut active : Bool
   mut kind : Int
   mut lane : Float
@@ -21,7 +21,7 @@ struct Hazard {
 }
 
 ///|
-struct Rival {
+pub(all) struct Rival {
   mut active : Bool
   mut id : Int
   mut lane : Float
@@ -31,7 +31,7 @@ struct Rival {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : Input
   hazards : Array[Hazard]
   rivals : Array[Rival]
@@ -62,7 +62,7 @@ struct Game {
 }
 
 ///|
-fn Input::new() -> Input {
+pub fn Input::new() -> Input {
   {
     steer: 0.0,
     paddle_pressed: false,
@@ -75,7 +75,7 @@ fn Input::new() -> Input {
 }
 
 ///|
-fn Hazard::new() -> Hazard {
+pub fn Hazard::new() -> Hazard {
   {
     active: false,
     kind: hazard_debris,
@@ -88,12 +88,12 @@ fn Hazard::new() -> Hazard {
 }
 
 ///|
-fn Rival::new() -> Rival {
+pub fn Rival::new() -> Rival {
   { active: false, id: 0, lane: 0.0, dist: 0.0, speed_bias: 0.0, stroke_t: 0.0 }
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: Input::new(),
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
