@@ -50,7 +50,7 @@ fn reset_run(game : @types.Game) -> Unit {
   clear_hazards(game)
   setup_rivals(game)
 
-  game.state = @types.state_play
+  game.state = Play
   game.distance = 0.0
   game.speed = @types.base_speed
   game.lane = 0.0
@@ -216,10 +216,7 @@ fn update_wave_lane(game : @types.Game, dt : Float) -> Unit {
   game.lane = game.lane + game.input.steer * dt * 2.4
 
   if game.input.stabilize_down {
-    game.wobble = @types.maxf(
-      0.0,
-      game.wobble - dt * (1.7 + wave_force * 1.2),
-    )
+    game.wobble = @types.maxf(0.0, game.wobble - dt * (1.7 + wave_force * 1.2))
   } else {
     game.wobble = @types.minf(
       1.8,
@@ -239,15 +236,10 @@ fn update_wave_lane(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn update_speed_distance(game : @types.Game, dt : Float) -> Unit {
-  let streak_bonus : Float = Float::from_int(@types.mini(game.streak, 20)) *
-    2.4
+  let streak_bonus : Float = Float::from_int(@types.mini(game.streak, 20)) * 2.4
   let rhythm_bonus : Float = game.rhythm_meter * 0.22
   let burst_bonus : Float = if game.burst_t > 0.0 { 108.0 } else { 0.0 }
-  let stabilize_drag : Float = if game.input.stabilize_down {
-    8.0
-  } else {
-    0.0
-  }
+  let stabilize_drag : Float = if game.input.stabilize_down { 8.0 } else { 0.0 }
   let wobble_penalty : Float = game.wobble * 28.0
 
   let target_speed : Float = @types.base_speed +
@@ -315,10 +307,7 @@ fn update_hazards(game : @types.Game, dt : Float) -> Unit {
         let shield : Float = if game.burst_t > 0.0 { 0.5 } else { 1.0 }
 
         game.speed = @types.maxf(72.0, game.speed - 46.0 * shield)
-        game.rhythm_meter = @types.maxf(
-          0.0,
-          game.rhythm_meter - 24.0 * shield,
-        )
+        game.rhythm_meter = @types.maxf(0.0, game.rhythm_meter - 24.0 * shield)
         game.wobble = @types.minf(1.8, game.wobble + 0.34 * shield)
         if shield >= 1.0 {
           game.streak = 0
@@ -370,8 +359,7 @@ fn update_rivals(game : @types.Game, dt : Float) -> Unit {
 
     rival.dist = rival.dist + rival_speed * dt
 
-    let path_t : Float = game.ui_t *
-        (0.62 + Float::from_int(rival.id) * 0.08) +
+    let path_t : Float = game.ui_t * (0.62 + Float::from_int(rival.id) * 0.08) +
       Float::from_int(rival.id) * 0.9
 
     rival.lane = @types.clampf(
@@ -431,11 +419,11 @@ fn update_checkpoints(game : @types.Game) -> Unit {
 
 ///|
 fn finish_run(game : @types.Game) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != Play {
     return
   }
 
-  game.state = @types.state_result
+  game.state = Result
   game.finish_time = game.game_t
   game.finish_rank = current_rank(game)
 
@@ -452,10 +440,7 @@ fn finish_run(game : @types.Game) -> Unit {
   let streak_bonus : Int = game.best_streak * 22
   let clean_bonus : Int = @types.maxi(0, 280 - game.hit_count * 70)
   let checkpoint_bonus : Int = game.checkpoint_idx * 110
-  let time_bonus : Int = @types.maxi(
-    0,
-    420 - game.finish_time.to_int() * 8,
-  )
+  let time_bonus : Int = @types.maxi(0, 420 - game.finish_time.to_int() * 8)
 
   game.score = @types.maxi(
     0,
@@ -514,33 +499,26 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     return
   }
 
-  if game.state == @types.state_title {
-    if game.input.start_pressed {
-      reset_run(game)
-    }
-    return
+  match game.state {
+    Title =>
+      if game.input.start_pressed {
+        reset_run(game)
+      }
+    Paused =>
+      if game.input.pause_pressed {
+        game.state = Play
+        set_message(game, "Race resumed", 0.8)
+      }
+    Result =>
+      if game.input.start_pressed {
+        reset_run(game)
+      }
+    Play =>
+      if game.input.pause_pressed {
+        game.state = Paused
+        set_message(game, "Race paused", 0.8)
+      } else {
+        update_play(game, dt)
+      }
   }
-
-  if game.state == @types.state_paused {
-    if game.input.pause_pressed {
-      game.state = @types.state_play
-      set_message(game, "Race resumed", 0.8)
-    }
-    return
-  }
-
-  if game.state == @types.state_result {
-    if game.input.start_pressed {
-      reset_run(game)
-    }
-    return
-  }
-
-  if game.input.pause_pressed {
-    game.state = @types.state_paused
-    set_message(game, "Race paused", 0.8)
-    return
-  }
-
-  update_play(game, dt)
 }

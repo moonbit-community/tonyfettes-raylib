@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Input {
   mut steer : Float
   mut paddle_pressed : Bool
@@ -35,7 +43,7 @@ pub(all) struct Game {
   input : Input
   hazards : Array[Hazard]
   rivals : Array[Rival]
-  mut state : Int
+  mut state : GameState
   mut distance : Float
   mut speed : Float
   mut lane : Float
@@ -98,7 +106,7 @@ pub fn Game::new() -> Game {
     input: Input::new(),
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
     rivals: Array::makei(max_rivals, fn(_i) { Rival::new() }),
-    state: state_title,
+    state: Title,
     distance: 0.0,
     speed: base_speed,
     lane: 0.0,

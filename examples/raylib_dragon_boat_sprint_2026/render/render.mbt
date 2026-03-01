@@ -6,7 +6,8 @@ fn lane_to_x(lane : Float) -> Float {
 
 ///|
 fn world_y(game : @types.Game, dist : Float) -> Float {
-  Float::from_int(@types.boat_y) - (dist - game.distance) * @types.distance_to_px
+  Float::from_int(@types.boat_y) -
+  (dist - game.distance) * @types.distance_to_px
 }
 
 ///|
@@ -100,7 +101,7 @@ fn draw_river_surface(game : @types.Game) -> Unit {
 
 ///|
 fn draw_checkpoint_lines(game : @types.Game) -> Unit {
-  for i in game.checkpoint_idx..< @types.checkpoint_count {
+  for i in game.checkpoint_idx..<@types.checkpoint_count {
     let dist : Float = @types.checkpoint_distance(i)
     let rel : Float = dist - game.distance
     if rel < -80.0 || rel > @types.visible_distance {
@@ -417,10 +418,9 @@ fn draw_hud_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(188, 218, 238, 238),
   )
 
-  let rank_now : Int = if game.state == @types.state_result {
-    game.finish_rank
-  } else {
-    current_rank(game)
+  let rank_now : Int = match game.state {
+    Result => game.finish_rank
+    _ => current_rank(game)
   }
 
   @raylib.draw_text(
@@ -930,11 +930,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_hud_panel(game)
   draw_message_banner(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay()
-  } else if game.state == @types.state_paused {
-    draw_pause_overlay()
-  } else if game.state == @types.state_result {
-    draw_result_overlay(game)
+  match game.state {
+    Title => draw_title_overlay()
+    Paused => draw_pause_overlay()
+    Result => draw_result_overlay(game)
+    Play => ()
   }
 }
