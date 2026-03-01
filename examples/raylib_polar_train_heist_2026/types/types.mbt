@@ -1,5 +1,5 @@
 ///|
-struct Ent {
+pub(all) struct Ent {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -17,7 +17,7 @@ struct Ent {
 }
 
 ///|
-struct Shot {
+pub(all) struct Shot {
   mut active : Bool
   mut from_player : Bool
   mut x : Float
@@ -30,7 +30,7 @@ struct Shot {
 }
 
 ///|
-struct Fx {
+pub(all) struct Fx {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -42,7 +42,7 @@ struct Fx {
 }
 
 ///|
-struct Ring {
+pub(all) struct Ring {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -52,7 +52,7 @@ struct Ring {
 }
 
 ///|
-struct Shadow {
+pub(all) struct Shadow {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -64,7 +64,7 @@ struct Shadow {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -84,7 +84,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   ents : Array[Ent]
   shots : Array[Shot]
   fxs : Array[Fx]
@@ -126,10 +126,14 @@ struct Game {
   mut touch_dash_prev : Bool
   mut touch_hook_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Ent::new() -> Ent {
+pub fn Ent::new() -> Ent {
   {
     active: false,
     kind: ent_guard,
@@ -149,7 +153,7 @@ fn Ent::new() -> Ent {
 }
 
 ///|
-fn Shot::new() -> Shot {
+pub fn Shot::new() -> Shot {
   {
     active: false,
     from_player: true,
@@ -164,7 +168,7 @@ fn Shot::new() -> Shot {
 }
 
 ///|
-fn Fx::new() -> Fx {
+pub fn Fx::new() -> Fx {
   {
     active: false,
     x: 0.0,
@@ -178,12 +182,12 @@ fn Fx::new() -> Fx {
 }
 
 ///|
-fn Ring::new() -> Ring {
+pub fn Ring::new() -> Ring {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Shadow::new() -> Shadow {
+pub fn Shadow::new() -> Shadow {
   {
     active: false,
     x: 0.0,
@@ -197,7 +201,7 @@ fn Shadow::new() -> Shadow {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   let lane = 1
   {
     x: Float::from_int(screen_w / 2),
@@ -220,7 +224,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     ents: Array::makei(max_ents, fn(_i) { Ent::new() }),
     shots: Array::makei(max_shots, fn(_i) { Shot::new() }),
@@ -263,5 +267,9 @@ fn Game::new() -> Game {
     touch_dash_prev: false,
     touch_hook_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
