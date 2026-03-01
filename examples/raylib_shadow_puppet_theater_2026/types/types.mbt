@@ -1,11 +1,11 @@
 ///|
-struct Pose {
+pub(all) struct Pose {
   mut ax : Int
   mut ay : Int
 }
 
 ///|
-struct Input {
+pub(all) struct Input {
   mut axis_dx : Int
   mut axis_dy : Int
   mut lock_pressed : Bool
@@ -17,7 +17,7 @@ struct Input {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : Input
   sequence : Array[Pose]
   history : Array[Pose]
@@ -46,12 +46,12 @@ struct Game {
 }
 
 ///|
-fn Pose::new(ax : Int, ay : Int) -> Pose {
+pub fn Pose::new(ax : Int, ay : Int) -> Pose {
   { ax, ay }
 }
 
 ///|
-fn Input::new() -> Input {
+pub fn Input::new() -> Input {
   {
     axis_dx: 0,
     axis_dy: 0,
@@ -65,7 +65,7 @@ fn Input::new() -> Input {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: Input::new(),
     sequence: [],

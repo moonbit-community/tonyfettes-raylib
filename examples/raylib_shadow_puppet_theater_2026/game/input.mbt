@@ -1,5 +1,5 @@
 ///|
-fn clear_input(game : Game) -> Unit {
+fn clear_input(game : @types.Game) -> Unit {
   game.input.axis_dx = 0
   game.input.axis_dy = 0
   game.input.lock_pressed = false
@@ -11,7 +11,7 @@ fn clear_input(game : Game) -> Unit {
 }
 
 ///|
-fn sample_input(game : Game) -> Unit {
+fn sample_input(game : @types.Game) -> Unit {
   clear_input(game)
 
   if @raylib.is_key_pressed(@raylib.KeyLeft) ||
