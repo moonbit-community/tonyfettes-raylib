@@ -539,8 +539,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     lw,
     lh,
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, lx, ly,
-      lw, lh,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      lx,
+      ly,
+      lw,
+      lh,
     ),
   )
   draw_touch_button(
@@ -550,8 +556,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     rw,
     rh,
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry,
-      rw, rh,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      rx,
+      ry,
+      rw,
+      rh,
     ),
   )
   draw_touch_button(
@@ -561,8 +573,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     uw,
     uh,
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, ux, uy,
-      uw, uh,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      ux,
+      uy,
+      uw,
+      uh,
     ),
   )
   draw_touch_button(
@@ -572,8 +590,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     dw,
     dh,
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dx, dy,
-      dw, dh,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      dx,
+      dy,
+      dw,
+      dh,
     ),
   )
   draw_touch_button(
@@ -583,8 +607,14 @@ fn draw_touch_controls(game : @types.Game) -> Unit {
     dash_w,
     dash_h,
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dash_x,
-      dash_y, dash_w, dash_h,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      dash_x,
+      dash_y,
+      dash_w,
+      dash_h,
     ),
   )
 }
@@ -679,7 +709,13 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
 
   let (sx, sy, sw, sh) = @types.title_start_rect()
   let hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, sx, sy, sw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    sx,
+    sy,
+    sw,
     sh,
   )
   draw_button(
@@ -732,12 +768,24 @@ fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
   let (next_x, next_y, next_w, next_h) = @types.panel_next_rect()
   let (rst_x, rst_y, rst_w, rst_h) = @types.panel_restart_rect()
   let next_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, next_x,
-    next_y, next_w, next_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    next_x,
+    next_y,
+    next_w,
+    next_h,
   )
   let rst_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rst_x,
-    rst_y, rst_w, rst_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rst_x,
+    rst_y,
+    rst_w,
+    rst_h,
   )
 
   draw_button(
@@ -799,12 +847,24 @@ fn draw_failed_overlay(game : @types.Game) -> Unit {
   let (title_x, title_y, title_w, title_h) = @types.panel_next_rect()
   let (retry_x, retry_y, retry_w, retry_h) = @types.panel_restart_rect()
   let title_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
-    title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
   let retry_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, retry_x,
-    retry_y, retry_w, retry_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    retry_x,
+    retry_y,
+    retry_w,
+    retry_h,
   )
 
   draw_button(
@@ -866,12 +926,24 @@ fn draw_victory_overlay(game : @types.Game) -> Unit {
   let (again_x, again_y, again_w, again_h) = @types.panel_next_rect()
   let (title_x, title_y, title_w, title_h) = @types.panel_restart_rect()
   let again_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, again_x,
-    again_y, again_w, again_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    again_x,
+    again_y,
+    again_w,
+    again_h,
   )
   let title_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
-    title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
 
   draw_button(
@@ -898,24 +970,23 @@ fn draw_victory_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
-  if game.state != @types.state_title {
-    draw_world(game)
-    draw_hud(game)
-
-    if game.state == @types.state_play && game.touch_mode {
-      draw_touch_controls(game)
+  match game.state {
+    Title => ()
+    _ => {
+      draw_world(game)
+      draw_hud(game)
+      if game.state is @types.Play && game.touch_mode {
+        draw_touch_controls(game)
+      }
+      draw_banner(game)
     }
-
-    draw_banner(game)
   }
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else if game.state == @types.state_failed {
-    draw_failed_overlay(game)
-  } else if game.state == @types.state_victory {
-    draw_victory_overlay(game)
+  match game.state {
+    Title => draw_title_overlay(game)
+    StageClear => draw_stage_clear_overlay(game)
+    Failed => draw_failed_overlay(game)
+    Victory => draw_victory_overlay(game)
+    Play => ()
   }
 }

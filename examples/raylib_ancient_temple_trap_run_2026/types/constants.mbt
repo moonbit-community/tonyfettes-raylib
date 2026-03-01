@@ -8,21 +8,6 @@ pub let screen_h : Int = 900
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_failed : Int = 3
-
-///|
-pub let state_victory : Int = 4
-
-///|
 pub let stage_total : Int = 3
 
 ///|

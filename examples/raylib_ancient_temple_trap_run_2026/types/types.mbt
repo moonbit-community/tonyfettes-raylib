@@ -1,4 +1,13 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  Failed
+  Victory
+} derive(Eq)
+
+///|
 pub(all) struct Relic {
   mut active : Bool
   x : Float
@@ -84,7 +93,7 @@ pub(all) struct Game {
   mut hazards : Array[Hazard]
   mut plates : Array[Plate]
   mut doors : Array[Door]
-  mut state : Int
+  mut state : GameState
   mut stage_index : Int
   stage_count : Int
   mut required_relics : Int
@@ -134,7 +143,7 @@ pub fn Game::new() -> Game {
     hazards: [],
     plates: [],
     doors: [],
-    state: state_title,
+    state: Title,
     stage_index: 0,
     stage_count: stage_total,
     required_relics: 0,

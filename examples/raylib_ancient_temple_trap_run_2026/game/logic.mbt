@@ -8,27 +8,22 @@ fn stage_layout_one() -> @types.StageLayout {
 
   let traps : Array[@types.Trap] = [
     @types.make_trap(
-      170.0, 680.0, 130.0, 30.0, 2.2, 0.72, 0.10, @types.trap_kind_spike,
-      "Spikes burst from the floor.",
+      170.0, 680.0, 130.0, 30.0, 2.2, 0.72, 0.10, @types.trap_kind_spike, "Spikes burst from the floor.",
     ),
     @types.make_trap(
-      450.0, 350.0, 190.0, 30.0, 2.6, 0.92, 1.00, @types.trap_kind_dart,
-      "A dart launcher catches you mid-run.",
+      450.0, 350.0, 190.0, 30.0, 2.6, 0.92, 1.00, @types.trap_kind_dart, "A dart launcher catches you mid-run.",
     ),
     @types.make_trap(
-      860.0, 380.0, 150.0, 30.0, 1.8, 0.62, 0.35, @types.trap_kind_spike,
-      "Ceiling spikes slam down.",
+      860.0, 380.0, 150.0, 30.0, 1.8, 0.62, 0.35, @types.trap_kind_spike, "Ceiling spikes slam down.",
     ),
   ]
 
   let hazards : Array[@types.Hazard] = [
     @types.make_hazard(
-      560.0, 230.0, 130.0, 110.0, @types.hazard_kind_lava,
-      "You slipped into a molten trench.",
+      560.0, 230.0, 130.0, 110.0, @types.hazard_kind_lava, "You slipped into a molten trench.",
     ),
     @types.make_hazard(
-      820.0, 650.0, 160.0, 110.0, @types.hazard_kind_lava,
-      "The sand gave way above magma.",
+      820.0, 650.0, 160.0, 110.0, @types.hazard_kind_lava, "The sand gave way above magma.",
     ),
   ]
 
@@ -68,31 +63,25 @@ fn stage_layout_two() -> @types.StageLayout {
 
   let traps : Array[@types.Trap] = [
     @types.make_trap(
-      420.0, 180.0, 190.0, 30.0, 2.0, 0.66, 0.18, @types.trap_kind_dart,
-      "Poison bolts flood the corridor.",
+      420.0, 180.0, 190.0, 30.0, 2.0, 0.66, 0.18, @types.trap_kind_dart, "Poison bolts flood the corridor.",
     ),
     @types.make_trap(
-      360.0, 430.0, 220.0, 30.0, 2.4, 0.82, 1.0, @types.trap_kind_spike,
-      "Rotating blades slice through the lane.",
+      360.0, 430.0, 220.0, 30.0, 2.4, 0.82, 1.0, @types.trap_kind_spike, "Rotating blades slice through the lane.",
     ),
     @types.make_trap(
-      820.0, 520.0, 130.0, 120.0, 3.0, 1.16, 0.22, @types.trap_kind_spike,
-      "A crusher chamber closes around you.",
+      820.0, 520.0, 130.0, 120.0, 3.0, 1.16, 0.22, @types.trap_kind_spike, "A crusher chamber closes around you.",
     ),
     @types.make_trap(
-      220.0, 700.0, 180.0, 30.0, 1.7, 0.52, 0.55, @types.trap_kind_dart,
-      "Darts ricochet across the lower vault.",
+      220.0, 700.0, 180.0, 30.0, 1.7, 0.52, 0.55, @types.trap_kind_dart, "Darts ricochet across the lower vault.",
     ),
   ]
 
   let hazards : Array[@types.Hazard] = [
     @types.make_hazard(
-      120.0, 540.0, 130.0, 60.0, @types.hazard_kind_lava,
-      "Corrosive sludge dissolves your boots.",
+      120.0, 540.0, 130.0, 60.0, @types.hazard_kind_lava, "Corrosive sludge dissolves your boots.",
     ),
     @types.make_hazard(
-      620.0, 680.0, 170.0, 120.0, @types.hazard_kind_lava,
-      "A lava vent erupts beneath you.",
+      620.0, 680.0, 170.0, 120.0, @types.hazard_kind_lava, "A lava vent erupts beneath you.",
     ),
   ]
 
@@ -102,12 +91,8 @@ fn stage_layout_two() -> @types.StageLayout {
   ]
 
   let doors : Array[@types.Door] = [
-    @types.make_door(
-      @types.world_x, 320.0, @types.world_w, 28.0, 0, 0.66,
-    ),
-    @types.make_door(
-      @types.world_x, 600.0, @types.world_w, 28.0, 1, 0.58,
-    ),
+    @types.make_door(@types.world_x, 320.0, @types.world_w, 28.0, 0, 0.66),
+    @types.make_door(@types.world_x, 600.0, @types.world_w, 28.0, 1, 0.58),
   ]
 
   {
@@ -137,35 +122,28 @@ fn stage_layout_three() -> @types.StageLayout {
 
   let traps : Array[@types.Trap] = [
     @types.make_trap(
-      150.0, 300.0, 110.0, 30.0, 1.8, 0.70, 0.08, @types.trap_kind_spike,
-      "Stone spears erupt around you.",
+      150.0, 300.0, 110.0, 30.0, 1.8, 0.70, 0.08, @types.trap_kind_spike, "Stone spears erupt around you.",
     ),
     @types.make_trap(
-      350.0, 340.0, 140.0, 30.0, 2.2, 0.76, 0.48, @types.trap_kind_dart,
-      "A hidden slit fires a volley of darts.",
+      350.0, 340.0, 140.0, 30.0, 2.2, 0.76, 0.48, @types.trap_kind_dart, "A hidden slit fires a volley of darts.",
     ),
     @types.make_trap(
-      610.0, 450.0, 150.0, 30.0, 2.6, 1.0, 0.30, @types.trap_kind_spike,
-      "The pendulum blades sweep this platform.",
+      610.0, 450.0, 150.0, 30.0, 2.6, 1.0, 0.30, @types.trap_kind_spike, "The pendulum blades sweep this platform.",
     ),
     @types.make_trap(
-      860.0, 520.0, 130.0, 30.0, 1.9, 0.65, 0.96, @types.trap_kind_dart,
-      "A crossfire trap catches your dash.",
+      860.0, 520.0, 130.0, 30.0, 1.9, 0.65, 0.96, @types.trap_kind_dart, "A crossfire trap catches your dash.",
     ),
   ]
 
   let hazards : Array[@types.Hazard] = [
     @types.make_hazard(
-      360.0, 620.0, 120.0, 100.0, @types.hazard_kind_lava,
-      "Scalding oil floods the chamber.",
+      360.0, 620.0, 120.0, 100.0, @types.hazard_kind_lava, "Scalding oil floods the chamber.",
     ),
     @types.make_hazard(
-      620.0, 250.0, 130.0, 110.0, @types.hazard_kind_lava,
-      "You tumble into a fire pit.",
+      620.0, 250.0, 130.0, 110.0, @types.hazard_kind_lava, "You tumble into a fire pit.",
     ),
     @types.make_hazard(
-      890.0, 690.0, 120.0, 90.0, @types.hazard_kind_lava,
-      "The final vault floor collapses.",
+      890.0, 690.0, 120.0, 90.0, @types.hazard_kind_lava, "The final vault floor collapses.",
     ),
   ]
 
@@ -229,7 +207,7 @@ fn apply_layout(
   game.player.y = layout.start_y
   game.player.stamina = @types.stamina_max
   game.player.dash_on = false
-  game.state = @types.state_play
+  game.state = @types.Play
   @types.set_banner(game, "Relics power the exit seal", 2.2)
 }
 
@@ -261,7 +239,7 @@ fn retry_stage(game : @types.Game) -> Unit {
 fn start_next_stage(game : @types.Game) -> Unit {
   let next_index = game.stage_index + 1
   if next_index >= game.stage_count {
-    game.state = @types.state_victory
+    game.state = @types.Victory
     @types.set_banner(game, "Temple mastered", 2.6)
   } else {
     load_stage(game, next_index)
@@ -270,7 +248,7 @@ fn start_next_stage(game : @types.Game) -> Unit {
 
 ///|
 pub fn init_title_scene(game : @types.Game) -> Unit {
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage_index = 0
   game.required_relics = 0
   game.collected_relics = 0
@@ -299,7 +277,11 @@ fn update_trap_timers(game : @types.Game, dt : Float) -> Unit {
 fn refresh_plates(game : @types.Game) -> Unit {
   for plate in game.plates {
     plate.pressed = @types.player_hits_rect(
-      game, plate.x, plate.y, plate.w, plate.h,
+      game,
+      plate.x,
+      plate.y,
+      plate.w,
+      plate.h,
     )
   }
 }
@@ -358,7 +340,9 @@ fn move_player(game : @types.Game, dt : Float) -> Unit {
   let moving : Bool = @types.absf(axis_x) + @types.absf(axis_y) > 0.01
 
   let mut dash_now : Bool = false
-  if game.input_dash_hold && moving && game.player.stamina > @types.dash_min_stamina {
+  if game.input_dash_hold &&
+    moving &&
+    game.player.stamina > @types.dash_min_stamina {
     dash_now = true
     game.player.stamina = @types.maxf(
       0.0,
@@ -429,11 +413,11 @@ fn collect_relics(game : @types.Game) -> Unit {
 
 ///|
 fn fail_stage(game : @types.Game, reason : String) -> Unit {
-  if game.state != @types.state_play {
+  if not(game.state is @types.Play) {
     return
   }
 
-  game.state = @types.state_failed
+  game.state = @types.Failed
   game.fail_reason = reason
   game.player.dash_on = false
   @types.set_banner(game, "Run failed", 1.3)
@@ -442,9 +426,7 @@ fn fail_stage(game : @types.Game, reason : String) -> Unit {
 ///|
 fn check_hazards(game : @types.Game) -> Bool {
   for hazard in game.hazards {
-    if @types.player_hits_rect(
-      game, hazard.x, hazard.y, hazard.w, hazard.h,
-    ) {
+    if @types.player_hits_rect(game, hazard.x, hazard.y, hazard.w, hazard.h) {
       fail_stage(game, hazard.label)
       return true
     }
@@ -470,7 +452,11 @@ fn check_traps(game : @types.Game) -> Bool {
 fn reach_exit(game : @types.Game) -> Unit {
   if not(
       @types.player_hits_rect(
-        game, game.exit_x, game.exit_y, game.exit_w, game.exit_h,
+        game,
+        game.exit_x,
+        game.exit_y,
+        game.exit_w,
+        game.exit_h,
       ),
     ) {
     return
@@ -484,10 +470,10 @@ fn reach_exit(game : @types.Game) -> Unit {
   }
 
   if game.stage_index + 1 < game.stage_count {
-    game.state = @types.state_stage_clear
+    game.state = @types.StageClear
     @types.set_banner(game, "Chamber cleared", 1.6)
   } else {
-    game.state = @types.state_victory
+    game.state = @types.Victory
     @types.set_banner(game, "Temple mastered", 2.6)
   }
 }
@@ -561,29 +547,21 @@ fn update_victory_state(game : @types.Game, _dt : Float) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Handle input based on current state
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear_input(game)
-  } else if game.state == @types.state_failed {
-    update_failed_input(game)
-  } else {
-    update_victory_input(game)
+  match game.state {
+    Title => update_title_input(game)
+    Play => update_play_input(game)
+    StageClear => update_stage_clear_input(game)
+    Failed => update_failed_input(game)
+    Victory => update_victory_input(game)
   }
 
   game.banner_t = @types.maxf(0.0, game.banner_t - dt)
 
-  if game.state == @types.state_title {
-    update_title_state(game, dt)
-  } else if game.state == @types.state_play {
-    update_play_state(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear_state(game, dt)
-  } else if game.state == @types.state_failed {
-    update_failed_state(game, dt)
-  } else {
-    update_victory_state(game, dt)
+  match game.state {
+    Title => update_title_state(game, dt)
+    Play => update_play_state(game, dt)
+    StageClear => update_stage_clear_state(game, dt)
+    Failed => update_failed_state(game, dt)
+    Victory => update_victory_state(game, dt)
   }
 }

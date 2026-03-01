@@ -22,13 +22,25 @@ fn update_title_input(game : @types.Game) -> Unit {
 
   let (x, y, w, h) = @types.title_start_rect()
   let touch_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, x, y, w, h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    x,
+    y,
+    w,
+    h,
   )
 
   let key_press = @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyEnter)
   let mouse_press = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, x, y, w, h,
+    game.mouse_x,
+    game.mouse_y,
+    x,
+    y,
+    w,
+    h,
   )
   let touch_press = touch_hover && not(game.touch_start_prev)
 
@@ -49,24 +61,54 @@ fn update_play_input(game : @types.Game) -> Unit {
   let (rst_x, rst_y, rst_w, rst_h) = @types.play_restart_rect()
 
   let touch_left = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, lx, ly, lw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    lx,
+    ly,
+    lw,
     lh,
   )
   let touch_right = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry, rw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rx,
+    ry,
+    rw,
     rh,
   )
   let touch_up = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, ux, uy, uw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    ux,
+    uy,
+    uw,
     uh,
   )
   let touch_down = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dx, dy, dw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    dx,
+    dy,
+    dw,
     dh,
   )
   let touch_dash = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dash_x,
-    dash_y, dash_w, dash_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    dash_x,
+    dash_y,
+    dash_w,
+    dash_h,
   )
 
   let key_left = @raylib.is_key_down(@raylib.KeyA) ||
@@ -100,12 +142,23 @@ fn update_play_input(game : @types.Game) -> Unit {
   game.input_dash_hold = key_dash || touch_dash
 
   let restart_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rst_x,
-    rst_y, rst_w, rst_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rst_x,
+    rst_y,
+    rst_w,
+    rst_h,
   )
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
   let mouse_restart = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, rst_x, rst_y, rst_w, rst_h,
+    game.mouse_x,
+    game.mouse_y,
+    rst_x,
+    rst_y,
+    rst_w,
+    rst_h,
   )
   let touch_restart = restart_hover && not(game.touch_restart_prev)
 
@@ -122,12 +175,24 @@ fn update_stage_clear_input(game : @types.Game) -> Unit {
   let (rst_x, rst_y, rst_w, rst_h) = @types.panel_restart_rect()
 
   let touch_next_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, next_x,
-    next_y, next_w, next_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    next_x,
+    next_y,
+    next_w,
+    next_h,
   )
   let touch_restart_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rst_x,
-    rst_y, rst_w, rst_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rst_x,
+    rst_y,
+    rst_w,
+    rst_h,
   )
 
   let key_next = @raylib.is_key_pressed(@raylib.KeySpace) ||
@@ -135,10 +200,20 @@ fn update_stage_clear_input(game : @types.Game) -> Unit {
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
 
   let mouse_next = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, next_x, next_y, next_w, next_h,
+    game.mouse_x,
+    game.mouse_y,
+    next_x,
+    next_y,
+    next_w,
+    next_h,
   )
   let mouse_restart = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, rst_x, rst_y, rst_w, rst_h,
+    game.mouse_x,
+    game.mouse_y,
+    rst_x,
+    rst_y,
+    rst_w,
+    rst_h,
   )
 
   let touch_next = touch_next_hover && not(game.touch_next_prev)
@@ -160,12 +235,24 @@ fn update_failed_input(game : @types.Game) -> Unit {
   let (retry_x, retry_y, retry_w, retry_h) = @types.panel_restart_rect()
 
   let touch_title_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
-    title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
   let touch_retry_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, retry_x,
-    retry_y, retry_w, retry_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    retry_x,
+    retry_y,
+    retry_w,
+    retry_h,
   )
 
   let key_retry = @raylib.is_key_pressed(@raylib.KeyR) ||
@@ -175,10 +262,20 @@ fn update_failed_input(game : @types.Game) -> Unit {
     @raylib.is_key_pressed(@raylib.KeyT)
 
   let mouse_title = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, title_x, title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
   let mouse_retry = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, retry_x, retry_y, retry_w, retry_h,
+    game.mouse_x,
+    game.mouse_y,
+    retry_x,
+    retry_y,
+    retry_w,
+    retry_h,
   )
 
   let touch_title = touch_title_hover && not(game.touch_next_prev)
@@ -200,12 +297,24 @@ fn update_victory_input(game : @types.Game) -> Unit {
   let (title_x, title_y, title_w, title_h) = @types.panel_restart_rect()
 
   let touch_again_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, again_x,
-    again_y, again_w, again_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    again_x,
+    again_y,
+    again_w,
+    again_h,
   )
   let touch_title_hover = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
-    title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
 
   let key_again = @raylib.is_key_pressed(@raylib.KeySpace) ||
@@ -214,10 +323,20 @@ fn update_victory_input(game : @types.Game) -> Unit {
     @raylib.is_key_pressed(@raylib.KeyT)
 
   let mouse_again = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, again_x, again_y, again_w, again_h,
+    game.mouse_x,
+    game.mouse_y,
+    again_x,
+    again_y,
+    again_w,
+    again_h,
   )
   let mouse_title = @types.mouse_click_on_rect(
-    game.mouse_x, game.mouse_y, title_x, title_y, title_w, title_h,
+    game.mouse_x,
+    game.mouse_y,
+    title_x,
+    title_y,
+    title_w,
+    title_h,
   )
 
   let touch_again = touch_again_hover && not(game.touch_next_prev)
