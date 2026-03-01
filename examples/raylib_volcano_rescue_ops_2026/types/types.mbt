@@ -1,5 +1,5 @@
 ///|
-struct CivilianSite {
+pub(all) struct CivilianSite {
   mut active : Bool
   mut x : Int
   mut y : Int
@@ -7,7 +7,7 @@ struct CivilianSite {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   terrain : Array[Int]
   lava : Array[Bool]
   lava_buf : Array[Bool]
@@ -45,15 +45,20 @@ struct Game {
   mut last_plan_ok : Bool
   mut selected_tx : Int
   mut selected_ty : Int
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn CivilianSite::new() -> CivilianSite {
+pub fn CivilianSite::new() -> CivilianSite {
   { active: false, x: 0, y: 0, waiting: 0 }
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     terrain: Array::make(max_cells, tile_ground),
     lava: Array::make(max_cells, false),
@@ -92,5 +97,10 @@ fn Game::new() -> Game {
     last_plan_ok: false,
     selected_tx: -1,
     selected_ty: -1,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    mouse_press: false,
+    touch_count: 0,
   }
 }

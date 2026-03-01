@@ -6,41 +6,41 @@ fn draw_center_text(
   color : @raylib.Color,
 ) -> Unit {
   let w : Int = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - w / 2, y, size, color)
+  @raylib.draw_text(text, @types.screen_w / 2 - w / 2, y, size, color)
 }
 
 ///|
 fn map_px_w() -> Int {
-  grid_w * tile_size
+  @types.grid_w * @types.tile_size
 }
 
 ///|
 fn map_px_h() -> Int {
-  grid_h * tile_size
+  @types.grid_h * @types.tile_size
 }
 
 ///|
 fn cell_screen_x(x : Int) -> Int {
-  map_x + x * tile_size
+  @types.map_x + x * @types.tile_size
 }
 
 ///|
 fn cell_screen_y(y : Int) -> Int {
-  map_y + y * tile_size
+  @types.map_y + y * @types.tile_size
 }
 
 ///|
 fn cell_center_x(x : Int) -> Int {
-  cell_screen_x(x) + tile_size / 2
+  cell_screen_x(x) + @types.tile_size / 2
 }
 
 ///|
 fn cell_center_y(y : Int) -> Int {
-  cell_screen_y(y) + tile_size / 2
+  cell_screen_y(y) + @types.tile_size / 2
 }
 
 ///|
-fn draw_bg(game : Game) -> Unit {
+fn draw_bg(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(18, 16, 20, 255))
 
   let pulse : Float = Float::from_double(
@@ -54,7 +54,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.Color::new(145, 38, 22, 42),
   )
   @raylib.draw_circle(
-    screen_w - 260,
+    @types.screen_w - 260,
     170,
     210.0 - pulse * 20.0,
     @raylib.Color::new(66, 86, 118, 34),
@@ -65,7 +65,7 @@ fn draw_bg(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       52,
       @raylib.Color::new(16 + i * 3 % 18, 14 + i * 4 % 22, 20 + i * 4 % 24, 22),
     )
@@ -73,44 +73,44 @@ fn draw_bg(game : Game) -> Unit {
 }
 
 ///|
-fn draw_cell_base(game : Game, x : Int, y : Int) -> Unit {
+fn draw_cell_base(game : @types.Game, x : Int, y : Int) -> Unit {
   let px : Int = cell_screen_x(x)
   let py : Int = cell_screen_y(y)
-  let t : Int = tile_at(game, x, y)
+  let t : Int = @types.tile_at(game, x, y)
 
-  let base : @raylib.Color = if t == tile_rock {
+  let base : @raylib.Color = if t == @types.tile_rock {
     @raylib.Color::new(52, 52, 58, 255)
-  } else if t == tile_depot {
+  } else if t == @types.tile_depot {
     @raylib.Color::new(48, 86, 118, 255)
-  } else if t == tile_shelter {
+  } else if t == @types.tile_shelter {
     @raylib.Color::new(56, 108, 80, 255)
   } else {
     @raylib.Color::new(98, 70, 54, 255)
   }
 
-  @raylib.draw_rectangle(px, py, tile_size, tile_size, base)
+  @raylib.draw_rectangle(px, py, @types.tile_size, @types.tile_size, base)
 
   @raylib.draw_rectangle_lines(
     px,
     py,
-    tile_size,
-    tile_size,
+    @types.tile_size,
+    @types.tile_size,
     @raylib.Color::new(34, 28, 26, 160),
   )
 
-  if lava_at(game, x, y) {
+  if @types.lava_at(game, x, y) {
     @raylib.draw_rectangle(
       px + 4,
       py + 4,
-      tile_size - 8,
-      tile_size - 8,
+      @types.tile_size - 8,
+      @types.tile_size - 8,
       @raylib.Color::new(230, 82, 22, 220),
     )
 
-    let core_r : Float = Float::from_int(tile_size / 2 - 8)
+    let core_r : Float = Float::from_int(@types.tile_size / 2 - 8)
     @raylib.draw_circle(
-      px + tile_size / 2,
-      py + tile_size / 2,
+      px + @types.tile_size / 2,
+      py + @types.tile_size / 2,
       core_r,
       @raylib.Color::new(255, 170, 58, 220),
     )
@@ -118,25 +118,25 @@ fn draw_cell_base(game : Game, x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn draw_map(game : Game) -> Unit {
+fn draw_map(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    map_x - 14,
-    map_y - 14,
+    @types.map_x - 14,
+    @types.map_y - 14,
     map_px_w() + 28,
     map_px_h() + 28,
     @raylib.Color::new(20, 20, 24, 230),
   )
 
   @raylib.draw_rectangle_lines(
-    map_x - 14,
-    map_y - 14,
+    @types.map_x - 14,
+    @types.map_y - 14,
     map_px_w() + 28,
     map_px_h() + 28,
     @raylib.Color::new(188, 154, 116, 210),
   )
 
-  for y in 0..<grid_h {
-    for x in 0..<grid_w {
+  for y in 0..< @types.grid_h {
+    for x in 0..< @types.grid_w {
       draw_cell_base(game, x, y)
     }
   }
@@ -153,22 +153,22 @@ fn draw_map(game : Game) -> Unit {
     @raylib.draw_rectangle_lines(
       sx + 3,
       sy + 3,
-      tile_size - 6,
-      tile_size - 6,
+      @types.tile_size - 6,
+      @types.tile_size - 6,
       col,
     )
     @raylib.draw_rectangle_lines(
       sx + 8,
       sy + 8,
-      tile_size - 16,
-      tile_size - 16,
+      @types.tile_size - 16,
+      @types.tile_size - 16,
       col,
     )
   }
 }
 
 ///|
-fn draw_sites(game : Game) -> Unit {
+fn draw_sites(game : @types.Game) -> Unit {
   for i in 0..<game.site_count {
     if not(game.sites[i].active) {
       continue
@@ -216,7 +216,7 @@ fn draw_sites(game : Game) -> Unit {
 }
 
 ///|
-fn draw_route_preview(game : Game) -> Unit {
+fn draw_route_preview(game : @types.Game) -> Unit {
   let mut x : Int = game.truck_x
   let mut y : Int = game.truck_y
 
@@ -225,8 +225,8 @@ fn draw_route_preview(game : Game) -> Unit {
 
   for i in 0..<game.route_len {
     let dir : Int = game.route[i]
-    x = x + route_dx(dir)
-    y = y + route_dy(dir)
+    x = x + @types.route_dx(dir)
+    y = y + @types.route_dy(dir)
 
     let nx : Int = cell_center_x(x)
     let ny : Int = cell_center_y(y)
@@ -260,7 +260,7 @@ fn draw_route_preview(game : Game) -> Unit {
 }
 
 ///|
-fn draw_truck(game : Game) -> Unit {
+fn draw_truck(game : @types.Game) -> Unit {
   let cx : Int = cell_center_x(game.truck_x)
   let cy : Int = cell_center_y(game.truck_y)
 
@@ -317,7 +317,7 @@ fn draw_metric_bar(
   back : @raylib.Color,
   text : @raylib.Color,
 ) -> Unit {
-  let ratio : Float = clampf(value / maxv, 0.0, 1.0)
+  let ratio : Float = @types.clampf(value / maxv, 0.0, 1.0)
 
   @raylib.draw_rectangle(x, y, w, h, back)
   @raylib.draw_rectangle(x, y, (Float::from_int(w) * ratio).to_int(), h, fill)
@@ -370,41 +370,40 @@ fn draw_button(
 }
 
 ///|
-fn draw_side_panel(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_side_panel(game : @types.Game) -> Unit {
+  let mouse_x : Float = game.mouse_x
+  let mouse_y : Float = game.mouse_y
+  let mouse_hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
+
   @raylib.draw_rectangle(
-    panel_x,
+    @types.panel_x,
     18,
-    panel_w,
-    screen_h - 36,
+    @types.panel_w,
+    @types.screen_h - 36,
     @raylib.Color::new(22, 28, 34, 224),
   )
 
   @raylib.draw_rectangle_lines(
-    panel_x,
+    @types.panel_x,
     18,
-    panel_w,
-    screen_h - 36,
+    @types.panel_w,
+    @types.screen_h - 36,
     @raylib.Color::new(134, 166, 188, 140),
   )
 
-  let title : String = "VOLCANO OPS // " + level_title(game.level_index)
+  let title : String = "VOLCANO OPS // " + @types.level_title(game.level_index)
   @raylib.draw_text(
     title,
-    panel_x + 18,
+    @types.panel_x + 18,
     34,
     28,
     @raylib.Color::new(250, 214, 152, 240),
   )
 
   @raylib.draw_text(
-    "Rescued " + current_goal_progress(game),
-    panel_x + 18,
+    "Rescued " + @types.current_goal_progress(game),
+    @types.panel_x + 18,
     76,
     30,
     @raylib.Color::new(234, 238, 246, 242),
@@ -414,19 +413,19 @@ fn draw_side_panel(
     "Carrying " +
     game.carrying.to_string() +
     "  Waiting " +
-    total_waiting(game).to_string() +
+    @types.total_waiting(game).to_string() +
     "  Lost " +
     game.lost.to_string(),
-    panel_x + 18,
+    @types.panel_x + 18,
     114,
     23,
     @raylib.Color::new(196, 212, 226, 230),
   )
 
-  let remain : Int = maxi(0, (game.mission_limit - game.mission_time).to_int())
+  let remain : Int = @types.maxi(0, (game.mission_limit - game.mission_time).to_int())
   @raylib.draw_text(
     "Time " + remain.to_string() + "s",
-    panel_x + 18,
+    @types.panel_x + 18,
     146,
     24,
     @raylib.Color::new(255, 198, 146, 236),
@@ -435,10 +434,10 @@ fn draw_side_panel(
   draw_metric_bar(
     "HEAT",
     game.heat,
-    max_heat,
-    panel_x + 20,
+    @types.max_heat,
+    @types.panel_x + 20,
     258,
-    panel_w - 40,
+    @types.panel_w - 40,
     34,
     @raylib.Color::new(238, 88, 56, 238),
     @raylib.Color::new(58, 22, 22, 220),
@@ -448,10 +447,10 @@ fn draw_side_panel(
   draw_metric_bar(
     "FUEL",
     game.fuel,
-    max_fuel,
-    panel_x + 20,
+    @types.max_fuel,
+    @types.panel_x + 20,
     304,
-    panel_w - 40,
+    @types.panel_w - 40,
     34,
     @raylib.Color::new(90, 188, 238, 238),
     @raylib.Color::new(20, 44, 62, 220),
@@ -461,10 +460,10 @@ fn draw_side_panel(
   draw_metric_bar(
     "COOL",
     game.coolant,
-    max_coolant,
-    panel_x + 20,
+    @types.max_coolant,
+    @types.panel_x + 20,
     350,
-    panel_w - 40,
+    @types.panel_w - 40,
     34,
     @raylib.Color::new(104, 212, 176, 238),
     @raylib.Color::new(22, 52, 44, 220),
@@ -475,14 +474,14 @@ fn draw_side_panel(
     "Queue " +
     game.route_len.to_string() +
     (if game.route_running { " (moving)" } else { " (planning)" }),
-    panel_x + 20,
+    @types.panel_x + 20,
     414,
     24,
     @raylib.Color::new(208, 224, 240, 236),
   )
 
-  let restart = restart_button_rect()
-  let restart_hot = pointer_on_rect(
+  let restart = @types.restart_button_rect()
+  let restart_hot = @types.pointer_on_rect(
     mouse_x,
     mouse_y,
     mouse_hold,
@@ -500,15 +499,15 @@ fn draw_side_panel(
     @raylib.Color::new(180, 82, 74, 236),
   )
 
-  let l = dpad_left_rect()
-  let r = dpad_right_rect()
-  let u = dpad_up_rect()
-  let d = dpad_down_rect()
+  let l = @types.dpad_left_rect()
+  let r = @types.dpad_right_rect()
+  let u = @types.dpad_up_rect()
+  let d = @types.dpad_down_rect()
 
   draw_button(
     "<",
     l,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -523,7 +522,7 @@ fn draw_side_panel(
   draw_button(
     ">",
     r,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -538,7 +537,7 @@ fn draw_side_panel(
   draw_button(
     "^",
     u,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -553,7 +552,7 @@ fn draw_side_panel(
   draw_button(
     "v",
     d,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -566,14 +565,14 @@ fn draw_side_panel(
     @raylib.Color::new(96, 142, 196, 240),
   )
 
-  let exec = execute_button_rect()
-  let clear = clear_route_button_rect()
-  let cool = coolant_button_rect()
+  let exec = @types.execute_button_rect()
+  let clear = @types.clear_route_button_rect()
+  let cool = @types.coolant_button_rect()
 
   draw_button(
     "EXECUTE",
     exec,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -588,7 +587,7 @@ fn draw_side_panel(
   draw_button(
     "CLEAR ROUTE",
     clear,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -603,7 +602,7 @@ fn draw_side_panel(
   draw_button(
     "COOLANT",
     cool,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -618,43 +617,36 @@ fn draw_side_panel(
 
   @raylib.draw_text(
     "Desktop: WASD/arrows add route, E/Enter execute, C spray, R restart",
-    panel_x + 20,
-    screen_h - 322,
+    @types.panel_x + 20,
+    @types.screen_h - 322,
     18,
     @raylib.Color::new(176, 194, 208, 220),
   )
   @raylib.draw_text(
     "Touch: tap map to auto-plan around lava, use D-pad and buttons",
-    panel_x + 20,
-    screen_h - 298,
+    @types.panel_x + 20,
+    @types.screen_h - 298,
     18,
     @raylib.Color::new(176, 194, 208, 220),
   )
 }
 
 ///|
-fn draw_play_scene(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_play_scene(game : @types.Game) -> Unit {
   draw_map(game)
   draw_route_preview(game)
   draw_sites(game)
   draw_truck(game)
-  draw_side_panel(game, mouse_x, mouse_y, mouse_hold, touch_count)
+  draw_side_panel(game)
 }
 
 ///|
-fn draw_title_scene(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_scene(game : @types.Game) -> Unit {
+  let mouse_x : Float = game.mouse_x
+  let mouse_y : Float = game.mouse_y
+  let mouse_hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
+
   draw_center_text(
     "VOLCANO RESCUE OPERATIONS",
     166,
@@ -669,14 +661,14 @@ fn draw_title_scene(
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 520,
+    @types.screen_w / 2 - 520,
     332,
     1040,
     286,
     @raylib.Color::new(20, 26, 34, 220),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 520,
+    @types.screen_w / 2 - 520,
     332,
     1040,
     286,
@@ -685,14 +677,14 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "Objective",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     360,
     34,
     @raylib.Color::new(255, 204, 148, 244),
   )
   @raylib.draw_text(
     "Rescue enough civilians by picking them up and delivering to the shelter.",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     404,
     28,
     @raylib.Color::new(222, 232, 242, 236),
@@ -700,7 +692,7 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "Lava expands every few seconds. Tap cells to auto-plan routes around hazards.",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     442,
     28,
     @raylib.Color::new(222, 232, 242, 236),
@@ -708,7 +700,7 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "Manage heat, fuel, and coolant. Depots refill resources but can be overrun.",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     480,
     28,
     @raylib.Color::new(222, 232, 242, 236),
@@ -716,7 +708,7 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "Keyboard: WASD/Arrows plan, Enter execute, C coolant, R restart, N next mission.",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     526,
     24,
     @raylib.Color::new(194, 208, 224, 230),
@@ -724,14 +716,14 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "Touch: Tap map and on-screen controls. Gameplay is fully mobile-compatible.",
-    screen_w / 2 - 482,
+    @types.screen_w / 2 - 482,
     556,
     24,
     @raylib.Color::new(194, 208, 224, 230),
   )
 
-  let start = title_start_button_rect()
-  let hot = pointer_on_rect(
+  let start = @types.title_start_button_rect()
+  let hot = @types.pointer_on_rect(
     mouse_x,
     mouse_y,
     mouse_hold,
@@ -751,8 +743,8 @@ fn draw_title_scene(
 
   @raylib.draw_text(
     "3 missions",
-    screen_w / 2 - @raylib.measure_text("3 missions", 24) / 2,
-    screen_h - 72,
+    @types.screen_w / 2 - @raylib.measure_text("3 missions", 24) / 2,
+    @types.screen_h - 72,
     24,
     @raylib.Color::new(194, 208, 224, 220),
   )
@@ -761,15 +753,14 @@ fn draw_title_scene(
 }
 
 ///|
-fn draw_result_scene(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_result_scene(game : @types.Game) -> Unit {
+  let mouse_x : Float = game.mouse_x
+  let mouse_y : Float = game.mouse_y
+  let mouse_hold : Bool = game.mouse_hold
+  let touch_count : Int = game.touch_count
+
   let panel_wide : Int = 920
-  let panel_x0 : Int = screen_w / 2 - panel_wide / 2
+  let panel_x0 : Int = @types.screen_w / 2 - panel_wide / 2
 
   @raylib.draw_rectangle(
     panel_x0,
@@ -784,7 +775,7 @@ fn draw_result_scene(
     174,
     panel_wide,
     512,
-    if game.result == result_win {
+    if game.result == @types.result_win {
       @raylib.Color::new(156, 228, 168, 180)
     } else {
       @raylib.Color::new(240, 130, 102, 180)
@@ -792,10 +783,10 @@ fn draw_result_scene(
   )
 
   draw_center_text(
-    mission_result_label(game),
+    @types.mission_result_label(game),
     232,
     66,
-    if game.result == result_win {
+    if game.result == @types.result_win {
       @raylib.Color::new(192, 248, 204, 250)
     } else {
       @raylib.Color::new(255, 184, 164, 250)
@@ -806,7 +797,7 @@ fn draw_result_scene(
     "Level " +
     (game.level_index + 1).to_string() +
     " - " +
-    level_title(game.level_index),
+    @types.level_title(game.level_index),
     314,
     30,
     @raylib.Color::new(222, 232, 244, 238),
@@ -839,13 +830,13 @@ fn draw_result_scene(
 
   draw_center_text(game.msg, 452, 28, @raylib.Color::new(255, 208, 150, 236))
 
-  let rb = result_restart_button_rect()
-  let nb = result_next_button_rect()
+  let rb = @types.result_restart_button_rect()
+  let nb = @types.result_next_button_rect()
 
   draw_button(
     "RESTART",
     rb,
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -858,16 +849,16 @@ fn draw_result_scene(
     @raylib.Color::new(176, 88, 78, 236),
   )
 
-  let can_next : Bool = game.result == result_win
+  let can_next : Bool = game.result == @types.result_win
   draw_button(
-    if has_next_level(game) {
+    if @types.has_next_level(game) {
       "NEXT"
     } else {
       "TITLE"
     },
     nb,
     can_next &&
-    pointer_on_rect(
+    @types.pointer_on_rect(
       mouse_x,
       mouse_y,
       mouse_hold,
@@ -895,7 +886,7 @@ fn draw_result_scene(
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.msg_t <= 0.0 || game.msg == "" {
     return
   }
@@ -904,7 +895,7 @@ fn draw_message(game : Game) -> Unit {
   let box_w : Int = text_w + 44
 
   @raylib.draw_rectangle(
-    screen_w / 2 - box_w / 2,
+    @types.screen_w / 2 - box_w / 2,
     26,
     box_w,
     48,
@@ -912,7 +903,7 @@ fn draw_message(game : Game) -> Unit {
   )
 
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - box_w / 2,
+    @types.screen_w / 2 - box_w / 2,
     26,
     box_w,
     48,
@@ -923,21 +914,15 @@ fn draw_message(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == state_title {
-    draw_title_scene(game, mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_play {
-    draw_play_scene(game, mouse_x, mouse_y, mouse_hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_scene(game)
+  } else if game.state == @types.state_play {
+    draw_play_scene(game)
   } else {
-    draw_result_scene(game, mouse_x, mouse_y, mouse_hold, touch_count)
+    draw_result_scene(game)
   }
 
   draw_message(game)
