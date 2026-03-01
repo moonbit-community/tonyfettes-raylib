@@ -1,5 +1,5 @@
 ///|
-struct Actor {
+pub(all) struct Actor {
   mut x : Int
   mut y : Int
   mut from_x : Int
@@ -13,7 +13,7 @@ struct Actor {
 }
 
 ///|
-struct Ghost {
+pub(all) struct Ghost {
   mut active : Bool
   body : Actor
   mut mode : Int
@@ -24,7 +24,7 @@ struct Ghost {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -36,7 +36,7 @@ struct Particle {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   map : Array[Int]
   shelf_x : Array[Int]
   shelf_y : Array[Int]
@@ -70,10 +70,14 @@ struct Game {
   mut hint_i : Int
   mut win : Bool
   mut loss_reason : String
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Actor::new() -> Actor {
+pub fn Actor::new() -> Actor {
   {
     x: start_x,
     y: start_y,
@@ -89,7 +93,7 @@ fn Actor::new() -> Actor {
 }
 
 ///|
-fn Ghost::new() -> Ghost {
+pub fn Ghost::new() -> Ghost {
   {
     active: false,
     body: Actor::new(),
@@ -102,7 +106,7 @@ fn Ghost::new() -> Ghost {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -116,7 +120,7 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     map: Array::make(grid_w * grid_h, tile_floor),
     shelf_x: Array::make(max_shelves, 0),
@@ -151,5 +155,9 @@ fn Game::new() -> Game {
     hint_i: 0,
     win: false,
     loss_reason: "",
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

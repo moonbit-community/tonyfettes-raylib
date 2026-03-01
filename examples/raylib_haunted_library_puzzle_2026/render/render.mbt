@@ -1,5 +1,5 @@
 ///|
-fn shake_dx(game : Game) -> Int {
+fn shake_dx(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -8,7 +8,7 @@ fn shake_dx(game : Game) -> Int {
 }
 
 ///|
-fn shake_dy(game : Game) -> Int {
+fn shake_dy(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -17,12 +17,12 @@ fn shake_dy(game : Game) -> Int {
 }
 
 ///|
-fn pulse(game : Game, f : Float) -> Float {
-  0.5 + 0.5 * sinf(game.time_s * f)
+fn pulse(game : @types.Game, f : Float) -> Float {
+  0.5 + 0.5 * @types.sinf(game.time_s * f)
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   let a0 : Int = 24 + (pulse(game, 0.34) * 20.0).to_int()
   let a1 : Int = 36 + (pulse(game, 0.52) * 26.0).to_int()
 
@@ -31,58 +31,58 @@ fn draw_background(game : Game) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(16, 26, 44, 255),
     @raylib.Color::new(7, 9, 16, 255),
   )
 
   @raylib.draw_circle(180, 120, 220.0, @raylib.Color::new(84, 126, 168, a0))
   @raylib.draw_circle(
-    screen_w - 120,
+    @types.screen_w - 120,
     96,
     180.0,
     @raylib.Color::new(164, 132, 188, a1),
   )
 
   @raylib.draw_rectangle(
-    board_x0 - 8,
-    board_y0 - 8,
-    board_w + 16,
-    board_h + 16,
+    @types.board_x0 - 8,
+    @types.board_y0 - 8,
+    @types.board_w + 16,
+    @types.board_h + 16,
     @raylib.Color::new(10, 14, 24, 220),
   )
 }
 
 ///|
-fn draw_grid_base(game : Game, ox : Int, oy : Int) -> Unit {
-  for y in 0..<grid_h {
-    for x in 0..<grid_w {
-      let rx : Int = board_px(x) + ox
-      let ry : Int = board_py(y) + oy
-      let t : Int = tile_at(game, x, y)
+fn draw_grid_base(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
+      let rx : Int = @types.board_px(x) + ox
+      let ry : Int = @types.board_py(y) + oy
+      let t : Int = game.map[y * @types.grid_w + x]
 
-      if t == tile_wall {
+      if t == @types.tile_wall {
         let shade : Int = if (x + y) % 2 == 0 { 62 } else { 72 }
         @raylib.draw_rectangle(
           rx,
           ry,
-          cell,
-          cell,
+          @types.cell,
+          @types.cell,
           @raylib.Color::new(shade, 56, 64, 255),
         )
         @raylib.draw_rectangle(
           rx + 6,
           ry + 8,
-          cell - 12,
-          cell - 14,
+          @types.cell - 12,
+          @types.cell - 14,
           @raylib.Color::new(98, 74, 66, 220),
         )
         @raylib.draw_rectangle_lines(
           rx,
           ry,
-          cell,
-          cell,
+          @types.cell,
+          @types.cell,
           @raylib.Color::new(34, 28, 36, 180),
         )
       } else {
@@ -90,15 +90,15 @@ fn draw_grid_base(game : Game, ox : Int, oy : Int) -> Unit {
         @raylib.draw_rectangle(
           rx,
           ry,
-          cell,
-          cell,
+          @types.cell,
+          @types.cell,
           @raylib.Color::new(26, floor_tint, 50, 220),
         )
         @raylib.draw_rectangle_lines(
           rx,
           ry,
-          cell,
-          cell,
+          @types.cell,
+          @types.cell,
           @raylib.Color::new(30, 46, 66, 100),
         )
       }
@@ -107,11 +107,32 @@ fn draw_grid_base(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_seals(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<seal_need {
-    let p = seal_pos(i)
-    let cx : Int = board_px(p.0) + cell / 2 + ox
-    let cy : Int = board_py(p.1) + cell / 2 + oy
+fn shelf_index_at(game : @types.Game, x : Int, y : Int) -> Int {
+  for i in 0..<game.shelf_n {
+    if game.shelf_x[i] == x && game.shelf_y[i] == y {
+      return i
+    }
+  }
+  -1
+}
+
+///|
+fn seal_index_at(x : Int, y : Int) -> Int {
+  for i in 0..<@types.seal_need {
+    let p = @types.seal_pos(i)
+    if p.0 == x && p.1 == y {
+      return i
+    }
+  }
+  -1
+}
+
+///|
+fn draw_seals(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  for i in 0..<@types.seal_need {
+    let p = @types.seal_pos(i)
+    let cx : Int = @types.board_px(p.0) + @types.cell / 2 + ox
+    let cy : Int = @types.board_py(p.1) + @types.cell / 2 + oy
     let on : Bool = shelf_index_at(game, p.0, p.1) >= 0
 
     let glow : Int = if on {
@@ -148,16 +169,16 @@ fn draw_seals(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_pages(game : Game, ox : Int, oy : Int) -> Unit {
-  for i in 0..<max_pages {
+fn draw_pages(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  for i in 0..<@types.max_pages {
     if game.page_taken[i] {
       continue
     }
 
     let x : Int = game.page_x[i]
     let y : Int = game.page_y[i]
-    let rx : Int = board_px(x) + 14 + ox
-    let ry : Int = board_py(y) + 12 + oy
+    let rx : Int = @types.board_px(x) + 14 + ox
+    let ry : Int = @types.board_py(y) + 12 + oy
 
     let glow : Int = 156 +
       (pulse(game, 1.6 + Float::from_int(i) * 0.4) * 70.0).to_int()
@@ -202,20 +223,20 @@ fn draw_pages(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_shelves(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_shelves(game : @types.Game, ox : Int, oy : Int) -> Unit {
   for i in 0..<game.shelf_n {
     let x : Int = game.shelf_x[i]
     let y : Int = game.shelf_y[i]
-    let rx : Int = board_px(x) + 6 + ox
-    let ry : Int = board_py(y) + 8 + oy
+    let rx : Int = @types.board_px(x) + 6 + ox
+    let ry : Int = @types.board_py(y) + 8 + oy
 
     let on_seal : Bool = seal_index_at(x, y) >= 0
 
     @raylib.draw_rectangle(
       rx,
       ry,
-      cell - 12,
-      cell - 16,
+      @types.cell - 12,
+      @types.cell - 16,
       if on_seal {
         @raylib.Color::new(168, 122, 76, 242)
       } else {
@@ -226,14 +247,14 @@ fn draw_shelves(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.draw_rectangle(
       rx + 4,
       ry + 5,
-      cell - 20,
+      @types.cell - 20,
       9,
       @raylib.Color::new(98, 72, 50, 210),
     )
     @raylib.draw_rectangle(
       rx + 4,
       ry + 20,
-      cell - 20,
+      @types.cell - 20,
       9,
       @raylib.Color::new(98, 72, 50, 210),
     )
@@ -241,17 +262,17 @@ fn draw_shelves(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.draw_rectangle_lines(
       rx,
       ry,
-      cell - 12,
-      cell - 16,
+      @types.cell - 12,
+      @types.cell - 16,
       @raylib.Color::new(66, 48, 32, 220),
     )
   }
 }
 
 ///|
-fn draw_gate(game : Game, ox : Int, oy : Int) -> Unit {
-  let rx : Int = board_px(exit_x) + 4 + ox
-  let ry : Int = board_py(exit_y) + 4 + oy
+fn draw_gate(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  let rx : Int = @types.board_px(@types.exit_x) + 4 + ox
+  let ry : Int = @types.board_py(@types.exit_y) + 4 + oy
 
   let gate_col = if game.gate_open {
     @raylib.Color::new(118, 210, 146, 232)
@@ -259,19 +280,25 @@ fn draw_gate(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(78, 84, 124, 236)
   }
 
-  @raylib.draw_rectangle(rx, ry, cell - 8, cell - 8, gate_col)
+  @raylib.draw_rectangle(
+    rx,
+    ry,
+    @types.cell - 8,
+    @types.cell - 8,
+    gate_col,
+  )
   @raylib.draw_rectangle_lines(
     rx,
     ry,
-    cell - 8,
-    cell - 8,
+    @types.cell - 8,
+    @types.cell - 8,
     @raylib.Color::new(210, 228, 246, 180),
   )
 
   if game.gate_open {
     @raylib.draw_circle(
-      rx + (cell - 8) / 2,
-      ry + (cell - 8) / 2,
+      rx + (@types.cell - 8) / 2,
+      ry + (@types.cell - 8) / 2,
       18.0,
       @raylib.Color::new(224, 250, 210, 80),
     )
@@ -279,24 +306,24 @@ fn draw_gate(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.draw_line(
       rx + 12,
       ry + 12,
-      rx + cell - 20,
-      ry + cell - 20,
+      rx + @types.cell - 20,
+      ry + @types.cell - 20,
       @raylib.Color::new(38, 30, 62, 220),
     )
     @raylib.draw_line(
-      rx + cell - 20,
+      rx + @types.cell - 20,
       ry + 12,
       rx + 12,
-      ry + cell - 20,
+      ry + @types.cell - 20,
       @raylib.Color::new(38, 30, 62, 220),
     )
   }
 }
 
 ///|
-fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
-  let cx : Int = cell_center_x(game.player.fx) + ox
-  let cy : Int = cell_center_y(game.player.fy) + oy
+fn draw_player(game : @types.Game, ox : Int, oy : Int) -> Unit {
+  let cx : Int = @types.cell_center_x(game.player.fx) + ox
+  let cy : Int = @types.cell_center_y(game.player.fy) + oy
 
   let blink : Bool = game.flash_t > 0.0 &&
     (game.flash_t * 14.0).to_int() % 2 == 0
@@ -307,8 +334,18 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_circle(cx, cy, 18.0, @raylib.Color::new(110, 200, 248, 244))
   @raylib.draw_circle(cx, cy - 3, 11.0, @raylib.Color::new(224, 244, 255, 236))
 
-  @raylib.draw_circle(cx - 4, cy - 4, 2.0, @raylib.Color::new(28, 52, 72, 255))
-  @raylib.draw_circle(cx + 4, cy - 4, 2.0, @raylib.Color::new(28, 52, 72, 255))
+  @raylib.draw_circle(
+    cx - 4,
+    cy - 4,
+    2.0,
+    @raylib.Color::new(28, 52, 72, 255),
+  )
+  @raylib.draw_circle(
+    cx + 4,
+    cy - 4,
+    2.0,
+    @raylib.Color::new(28, 52, 72, 255),
+  )
 
   @raylib.draw_rectangle(
     cx - 12,
@@ -320,19 +357,25 @@ fn draw_player(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_ghost(g : Ghost, game : Game, ox : Int, oy : Int, i : Int) -> Unit {
+fn draw_ghost(
+  g : @types.Ghost,
+  game : @types.Game,
+  ox : Int,
+  oy : Int,
+  i : Int,
+) -> Unit {
   if not(g.active) {
     return
   }
 
-  let cx : Int = cell_center_x(g.body.fx) + ox
-  let cy : Int = cell_center_y(g.body.fy) + oy
+  let cx : Int = @types.cell_center_x(g.body.fx) + ox
+  let cy : Int = @types.cell_center_y(g.body.fy) + oy
 
   let bob : Int = (pulse(game, 4.6 + Float::from_int(i)) * 5.0).to_int()
 
-  let body_col = if g.mode == ghost_stunned {
+  let body_col = if g.mode == @types.ghost_stunned {
     @raylib.Color::new(146, 132, 248, 214)
-  } else if g.mode == ghost_hunt {
+  } else if g.mode == @types.ghost_hunt {
     @raylib.Color::new(250, 152, 164, 230)
   } else {
     @raylib.Color::new(226, 232, 248, 222)
@@ -354,7 +397,7 @@ fn draw_ghost(g : Ghost, game : Game, ox : Int, oy : Int, i : Int) -> Unit {
     @raylib.Color::new(34, 44, 66, 255),
   )
 
-  if g.mode == ghost_stunned {
+  if g.mode == @types.ghost_stunned {
     @raylib.draw_circle_lines(
       cx,
       cy - 3 + bob,
@@ -365,7 +408,7 @@ fn draw_ghost(g : Ghost, game : Game, ox : Int, oy : Int, i : Int) -> Unit {
 }
 
 ///|
-fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_particles(game : @types.Game, ox : Int, oy : Int) -> Unit {
   for particle in game.particles {
     if not(particle.active) {
       continue
@@ -389,7 +432,7 @@ fn draw_particles(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_board(game : @types.Game, ox : Int, oy : Int) -> Unit {
   draw_grid_base(game, ox, oy)
   draw_seals(game, ox, oy)
   draw_pages(game, ox, oy)
@@ -404,10 +447,10 @@ fn draw_board(game : Game, ox : Int, oy : Int) -> Unit {
   draw_particles(game, ox, oy)
 
   @raylib.draw_rectangle_lines(
-    board_x0 - 2 + ox,
-    board_y0 - 2 + oy,
-    board_w + 4,
-    board_h + 4,
+    @types.board_x0 - 2 + ox,
+    @types.board_y0 - 2 + oy,
+    @types.board_w + 4,
+    @types.board_h + 4,
     @raylib.Color::new(124, 160, 196, 200),
   )
 }
@@ -423,7 +466,7 @@ fn draw_touch_button(
   c_idle : @raylib.Color,
   c_on : @raylib.Color,
 ) -> Unit {
-  let on : Bool = pointer_on_rect(
+  let on : Bool = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -466,23 +509,22 @@ fn draw_touch_button(
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  if game.state != state_play {
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
+
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
   draw_touch_button(
     mx,
     my,
     hold,
     touch_count,
-    btn_left(),
+    @types.btn_left(),
     "<",
     @raylib.Color::new(44, 64, 94, 118),
     @raylib.Color::new(72, 108, 160, 180),
@@ -492,7 +534,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_right(),
+    @types.btn_right(),
     ">",
     @raylib.Color::new(44, 64, 94, 118),
     @raylib.Color::new(72, 108, 160, 180),
@@ -502,7 +544,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_up(),
+    @types.btn_up(),
     "^",
     @raylib.Color::new(44, 64, 94, 118),
     @raylib.Color::new(72, 108, 160, 180),
@@ -512,7 +554,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_down(),
+    @types.btn_down(),
     "v",
     @raylib.Color::new(44, 64, 94, 118),
     @raylib.Color::new(72, 108, 160, 180),
@@ -523,7 +565,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_action(),
+    @types.btn_action(),
     "A",
     @raylib.Color::new(96, 56, 116, 132),
     @raylib.Color::new(164, 86, 206, 190),
@@ -534,7 +576,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_hint(),
+    @types.btn_hint(),
     "Hint",
     @raylib.Color::new(46, 78, 108, 132),
     @raylib.Color::new(82, 136, 186, 190),
@@ -545,7 +587,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_restart(),
+    @types.btn_restart(),
     "Retry",
     @raylib.Color::new(82, 64, 44, 132),
     @raylib.Color::new(162, 116, 72, 198),
@@ -556,7 +598,7 @@ fn draw_touch_controls(
     my,
     hold,
     touch_count,
-    btn_menu(),
+    @types.btn_menu(),
     "Menu",
     @raylib.Color::new(70, 58, 90, 132),
     @raylib.Color::new(128, 104, 170, 198),
@@ -564,101 +606,101 @@ fn draw_touch_controls(
 }
 
 ///|
-fn draw_panel(game : Game) -> Unit {
+fn draw_panel(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    panel_x0,
-    board_y0,
-    panel_w,
-    board_h,
+    @types.panel_x0,
+    @types.board_y0,
+    @types.panel_w,
+    @types.board_h,
     @raylib.Color::new(13, 20, 34, 230),
   )
   @raylib.draw_rectangle_lines(
-    panel_x0,
-    board_y0,
-    panel_w,
-    board_h,
+    @types.panel_x0,
+    @types.board_y0,
+    @types.panel_w,
+    @types.board_h,
     @raylib.Color::new(96, 122, 156, 190),
   )
 
   @raylib.draw_text(
     "HAUNTED LIBRARY",
-    panel_x0 + 20,
-    board_y0 + 20,
+    @types.panel_x0 + 20,
+    @types.board_y0 + 20,
     36,
     @raylib.Color::new(228, 238, 252, 244),
   )
   @raylib.draw_text(
     "PUZZLE 2026",
-    panel_x0 + 20,
-    board_y0 + 58,
+    @types.panel_x0 + 20,
+    @types.board_y0 + 58,
     26,
     @raylib.Color::new(164, 194, 224, 236),
   )
 
   @raylib.draw_text(
     "Pages " + game.pages.to_string() + "/5",
-    panel_x0 + 22,
-    board_y0 + 120,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 120,
     28,
     @raylib.Color::new(250, 232, 186, 236),
   )
   @raylib.draw_text(
     "Seals " + game.seals_on.to_string() + "/3",
-    panel_x0 + 22,
-    board_y0 + 156,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 156,
     28,
     @raylib.Color::new(176, 236, 206, 236),
   )
   @raylib.draw_text(
     "Lives " + game.lives.to_string(),
-    panel_x0 + 22,
-    board_y0 + 192,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 192,
     28,
     @raylib.Color::new(255, 186, 202, 236),
   )
 
   @raylib.draw_text(
     "Score " + game.score.to_string(),
-    panel_x0 + 22,
-    board_y0 + 240,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 240,
     30,
     @raylib.Color::new(220, 238, 255, 236),
   )
   @raylib.draw_text(
     "Steps " + game.steps.to_string(),
-    panel_x0 + 22,
-    board_y0 + 276,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 276,
     24,
     @raylib.Color::new(178, 206, 234, 222),
   )
   @raylib.draw_text(
     "Time " + game.time_s.to_int().to_string() + "s",
-    panel_x0 + 22,
-    board_y0 + 306,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 306,
     24,
     @raylib.Color::new(178, 206, 234, 222),
   )
 
   @raylib.draw_text(
     "Lantern Energy",
-    panel_x0 + 22,
-    board_y0 + 356,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 356,
     24,
     @raylib.Color::new(212, 204, 250, 236),
   )
 
   @raylib.draw_rectangle(
-    panel_x0 + 24,
-    board_y0 + 392,
-    panel_w - 48,
+    @types.panel_x0 + 24,
+    @types.board_y0 + 392,
+    @types.panel_w - 48,
     22,
     @raylib.Color::new(40, 50, 70, 220),
   )
 
   @raylib.draw_rectangle(
-    panel_x0 + 24,
-    board_y0 + 392,
-    (Float::from_int(panel_w - 48) * game.stun_energy / 100.0).to_int(),
+    @types.panel_x0 + 24,
+    @types.board_y0 + 392,
+    (Float::from_int(@types.panel_w - 48) * game.stun_energy / 100.0).to_int(),
     22,
     if game.stun_energy >= 30.0 {
       @raylib.Color::new(166, 128, 240, 236)
@@ -668,9 +710,9 @@ fn draw_panel(game : Game) -> Unit {
   )
 
   @raylib.draw_rectangle_lines(
-    panel_x0 + 24,
-    board_y0 + 392,
-    panel_w - 48,
+    @types.panel_x0 + 24,
+    @types.board_y0 + 392,
+    @types.panel_w - 48,
     22,
     @raylib.Color::new(212, 220, 246, 176),
   )
@@ -683,8 +725,8 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     gate_txt,
-    panel_x0 + 22,
-    board_y0 + 430,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 430,
     26,
     if game.gate_open {
       @raylib.Color::new(176, 242, 184, 240)
@@ -695,61 +737,61 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Desktop:",
-    panel_x0 + 22,
-    board_y0 + 490,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 490,
     24,
     @raylib.Color::new(206, 228, 250, 228),
   )
   @raylib.draw_text(
     "Move WASD / Arrows",
-    panel_x0 + 30,
-    board_y0 + 520,
+    @types.panel_x0 + 30,
+    @types.board_y0 + 520,
     21,
     @raylib.Color::new(166, 204, 236, 216),
   )
   @raylib.draw_text(
     "Pulse Space / E",
-    panel_x0 + 30,
-    board_y0 + 546,
+    @types.panel_x0 + 30,
+    @types.board_y0 + 546,
     21,
     @raylib.Color::new(166, 204, 236, 216),
   )
   @raylib.draw_text(
     "H Hint, R Retry, Esc Menu",
-    panel_x0 + 30,
-    board_y0 + 572,
+    @types.panel_x0 + 30,
+    @types.board_y0 + 572,
     21,
     @raylib.Color::new(166, 204, 236, 216),
   )
 
   @raylib.draw_text(
     "Mobile: Left D-pad, Right A/H/Retry/Menu",
-    panel_x0 + 22,
-    board_y0 + 620,
+    @types.panel_x0 + 22,
+    @types.board_y0 + 620,
     20,
     @raylib.Color::new(168, 200, 232, 212),
   )
 
   if game.msg_t > 0.0 {
     @raylib.draw_rectangle(
-      panel_x0 + 20,
-      board_y0 + board_h - 84,
-      panel_w - 40,
+      @types.panel_x0 + 20,
+      @types.board_y0 + @types.board_h - 84,
+      @types.panel_w - 40,
       62,
       @raylib.Color::new(28, 40, 66, 220),
     )
     @raylib.draw_rectangle_lines(
-      panel_x0 + 20,
-      board_y0 + board_h - 84,
-      panel_w - 40,
+      @types.panel_x0 + 20,
+      @types.board_y0 + @types.board_h - 84,
+      @types.panel_w - 40,
       62,
       @raylib.Color::new(142, 186, 226, 180),
     )
 
     @raylib.draw_text(
       game.msg,
-      panel_x0 + 30,
-      board_y0 + board_h - 64,
+      @types.panel_x0 + 30,
+      @types.board_y0 + @types.board_h - 64,
       20,
       @raylib.Color::new(228, 240, 255, 236),
     )
@@ -757,55 +799,53 @@ fn draw_panel(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title_overlay(
-  _game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  let b = start_button_rect()
-  let hot : Bool = title_hover(mx, my, hold, touch_count)
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  let b = @types.start_button_rect()
+  let hot : Bool = @types.title_hover(mx, my, hold, touch_count)
 
   @raylib.draw_rectangle(
-    board_x0 + 56,
-    board_y0 + 74,
-    board_w - 112,
-    board_h - 148,
+    @types.board_x0 + 56,
+    @types.board_y0 + 74,
+    @types.board_w - 112,
+    @types.board_h - 148,
     @raylib.Color::new(8, 14, 26, 222),
   )
 
   let t0 : String = "HAUNTED LIBRARY PUZZLE"
   @raylib.draw_text(
     t0,
-    board_x0 + board_w / 2 - @raylib.measure_text(t0, 58) / 2,
-    board_y0 + 154,
+    @types.board_x0 + @types.board_w / 2 - @raylib.measure_text(t0, 58) / 2,
+    @types.board_y0 + 154,
     58,
     @raylib.Color::new(236, 244, 255, 246),
   )
 
   @raylib.draw_text(
     "Recover 5 lost pages, push shelves onto 3 runes, then escape.",
-    board_x0 +
-    board_w / 2 -
+    @types.board_x0 +
+    @types.board_w / 2 -
     @raylib.measure_text(
       "Recover 5 lost pages, push shelves onto 3 runes, then escape.", 28,
     ) /
     2,
-    board_y0 + 252,
+    @types.board_y0 + 252,
     28,
     @raylib.Color::new(184, 214, 240, 232),
   )
 
   @raylib.draw_text(
     "Ghosts hunt in straight sightlines. Use pulse wisely.",
-    board_x0 +
-    board_w / 2 -
+    @types.board_x0 +
+    @types.board_w / 2 -
     @raylib.measure_text(
       "Ghosts hunt in straight sightlines. Use pulse wisely.", 26,
     ) /
     2,
-    board_y0 + 292,
+    @types.board_y0 + 292,
     26,
     @raylib.Color::new(184, 214, 240, 232),
   )
@@ -841,21 +881,19 @@ fn draw_title_overlay(
 }
 
 ///|
-fn draw_result_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  let b = retry_button_rect()
-  let hot : Bool = retry_hover(mx, my, hold, touch_count)
+fn draw_result_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+  let b = @types.retry_button_rect()
+  let hot : Bool = @types.retry_hover(mx, my, hold, touch_count)
 
   @raylib.draw_rectangle(
-    board_x0 + 92,
-    board_y0 + 120,
-    board_w - 184,
-    board_h - 240,
+    @types.board_x0 + 92,
+    @types.board_y0 + 120,
+    @types.board_w - 184,
+    @types.board_h - 240,
     @raylib.Color::new(8, 14, 26, 228),
   )
 
@@ -863,8 +901,10 @@ fn draw_result_overlay(
 
   @raylib.draw_text(
     title,
-    board_x0 + board_w / 2 - @raylib.measure_text(title, 62) / 2,
-    board_y0 + 196,
+    @types.board_x0 +
+    @types.board_w / 2 -
+    @raylib.measure_text(title, 62) / 2,
+    @types.board_y0 + 196,
     62,
     if game.win {
       @raylib.Color::new(198, 244, 200, 248)
@@ -881,8 +921,10 @@ fn draw_result_overlay(
 
   @raylib.draw_text(
     reason,
-    board_x0 + board_w / 2 - @raylib.measure_text(reason, 28) / 2,
-    board_y0 + 288,
+    @types.board_x0 +
+    @types.board_w / 2 -
+    @raylib.measure_text(reason, 28) / 2,
+    @types.board_y0 + 288,
     28,
     @raylib.Color::new(196, 220, 246, 236),
   )
@@ -897,8 +939,10 @@ fn draw_result_overlay(
 
   @raylib.draw_text(
     score_line,
-    board_x0 + board_w / 2 - @raylib.measure_text(score_line, 30) / 2,
-    board_y0 + 338,
+    @types.board_x0 +
+    @types.board_w / 2 -
+    @raylib.measure_text(score_line, 30) / 2,
+    @types.board_y0 + 338,
     30,
     @raylib.Color::new(234, 240, 255, 238),
   )
@@ -934,13 +978,7 @@ fn draw_result_overlay(
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
   let ox : Int = shake_dx(game)
@@ -948,11 +986,11 @@ fn draw_frame(
 
   draw_board(game, ox, oy)
   draw_panel(game)
-  draw_touch_controls(game, mx, my, hold, touch_count)
+  draw_touch_controls(game)
 
-  if game.state == state_title {
-    draw_title_overlay(game, mx, my, hold, touch_count)
-  } else if game.state == state_result {
-    draw_result_overlay(game, mx, my, hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_result {
+    draw_result_overlay(game)
   }
 }

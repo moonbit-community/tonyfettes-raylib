@@ -1,24 +1,24 @@
 ///|
 fn idx(x : Int, y : Int) -> Int {
-  y * grid_w + x
+  y * @types.grid_w + x
 }
 
 ///|
 fn in_bounds(x : Int, y : Int) -> Bool {
-  x >= 0 && x < grid_w && y >= 0 && y < grid_h
+  x >= 0 && x < @types.grid_w && y >= 0 && y < @types.grid_h
 }
 
 ///|
-fn tile_at(game : Game, x : Int, y : Int) -> Int {
+fn tile_at(game : @types.Game, x : Int, y : Int) -> Int {
   if not(in_bounds(x, y)) {
-    tile_wall
+    @types.tile_wall
   } else {
     game.map[idx(x, y)]
   }
 }
 
 ///|
-fn set_tile(game : Game, x : Int, y : Int, t : Int) -> Unit {
+fn set_tile(game : @types.Game, x : Int, y : Int, t : Int) -> Unit {
   if not(in_bounds(x, y)) {
     return
   }
@@ -26,13 +26,13 @@ fn set_tile(game : Game, x : Int, y : Int, t : Int) -> Unit {
 }
 
 ///|
-fn set_msg(game : Game, msg : String, ttl : Float) -> Unit {
+fn set_msg(game : @types.Game, msg : String, ttl : Float) -> Unit {
   game.msg = msg
   game.msg_t = ttl
 }
 
 ///|
-fn actor_place(a : Actor, x : Int, y : Int) -> Unit {
+fn actor_place(a : @types.Actor, x : Int, y : Int) -> Unit {
   a.x = x
   a.y = y
   a.from_x = x
@@ -46,7 +46,7 @@ fn actor_place(a : Actor, x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn actor_start_move(a : Actor, tx : Int, ty : Int) -> Unit {
+fn actor_start_move(a : @types.Actor, tx : Int, ty : Int) -> Unit {
   if a.x == tx && a.y == ty {
     return
   }
@@ -59,7 +59,7 @@ fn actor_start_move(a : Actor, tx : Int, ty : Int) -> Unit {
 }
 
 ///|
-fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
+fn actor_tick(a : @types.Actor, dt : Float, move_t : Float) -> Unit {
   if not(a.moving) {
     a.fx = Float::from_int(a.x)
     a.fy = Float::from_int(a.y)
@@ -77,12 +77,12 @@ fn actor_tick(a : Actor, dt : Float, move_t : Float) -> Unit {
     return
   }
 
-  a.fx = lerpf(Float::from_int(a.from_x), Float::from_int(a.to_x), a.t)
-  a.fy = lerpf(Float::from_int(a.from_y), Float::from_int(a.to_y), a.t)
+  a.fx = @types.lerpf(Float::from_int(a.from_x), Float::from_int(a.to_x), a.t)
+  a.fy = @types.lerpf(Float::from_int(a.from_y), Float::from_int(a.to_y), a.t)
 }
 
 ///|
-fn clear_particles(game : Game) -> Unit {
+fn clear_particles(game : @types.Game) -> Unit {
   for particle in game.particles {
     particle.active = false
     particle.x = 0.0
@@ -97,7 +97,7 @@ fn clear_particles(game : Game) -> Unit {
 
 ///|
 fn emit_particle(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -124,23 +124,23 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
-      x + randf(-10.0, 10.0),
-      y + randf(-10.0, 10.0),
-      randf(-180.0, 180.0),
-      randf(-160.0, 120.0),
-      randf(0.20, 0.95),
-      randf(1.6, 4.8),
+      x + @types.randf(-10.0, 10.0),
+      y + @types.randf(-10.0, 10.0),
+      @types.randf(-180.0, 180.0),
+      @types.randf(-160.0, 120.0),
+      @types.randf(0.20, 0.95),
+      @types.randf(1.6, 4.8),
       kind,
     )
   }
 }
 
 ///|
-fn update_particles(game : Game, dt : Float) -> Unit {
+fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for particle in game.particles {
     if not(particle.active) {
       continue
@@ -163,7 +163,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn shelf_index_at(game : Game, x : Int, y : Int) -> Int {
+fn shelf_index_at(game : @types.Game, x : Int, y : Int) -> Int {
   for i in 0..<game.shelf_n {
     if game.shelf_x[i] == x && game.shelf_y[i] == y {
       return i
@@ -173,8 +173,8 @@ fn shelf_index_at(game : Game, x : Int, y : Int) -> Int {
 }
 
 ///|
-fn page_index_at(game : Game, x : Int, y : Int) -> Int {
-  for i in 0..<max_pages {
+fn page_index_at(game : @types.Game, x : Int, y : Int) -> Int {
+  for i in 0..<@types.max_pages {
     if not(game.page_taken[i]) && game.page_x[i] == x && game.page_y[i] == y {
       return i
     }
@@ -183,7 +183,7 @@ fn page_index_at(game : Game, x : Int, y : Int) -> Int {
 }
 
 ///|
-fn ghost_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
+fn ghost_index_at(game : @types.Game, x : Int, y : Int, skip : Int) -> Int {
   for i in 0..<game.ghosts.length() {
     if i == skip || not(game.ghosts[i].active) {
       continue
@@ -198,32 +198,21 @@ fn ghost_index_at(game : Game, x : Int, y : Int, skip : Int) -> Int {
 }
 
 ///|
-fn seal_index_at(x : Int, y : Int) -> Int {
-  for i in 0..<seal_need {
-    let p = seal_pos(i)
-    if p.0 == x && p.1 == y {
-      return i
-    }
-  }
-  -1
-}
-
-///|
-fn blocked_by_map(game : Game, x : Int, y : Int) -> Bool {
+fn blocked_by_map(game : @types.Game, x : Int, y : Int) -> Bool {
   if not(in_bounds(x, y)) {
     return true
   }
 
   let t : Int = tile_at(game, x, y)
-  if t == tile_wall {
+  if t == @types.tile_wall {
     return true
   }
 
-  t == tile_exit && not(game.gate_open)
+  t == @types.tile_exit && not(game.gate_open)
 }
 
 ///|
-fn blocked_for_actor(game : Game, gid : Int, x : Int, y : Int) -> Bool {
+fn blocked_for_actor(game : @types.Game, gid : Int, x : Int, y : Int) -> Bool {
   if blocked_by_map(game, x, y) {
     return true
   }
@@ -236,41 +225,41 @@ fn blocked_for_actor(game : Game, gid : Int, x : Int, y : Int) -> Bool {
 }
 
 ///|
-fn clear_map(game : Game) -> Unit {
-  for y in 0..<grid_h {
-    for x in 0..<grid_w {
-      if x == 0 || y == 0 || x == grid_w - 1 || y == grid_h - 1 {
-        set_tile(game, x, y, tile_wall)
+fn clear_map(game : @types.Game) -> Unit {
+  for y in 0..<@types.grid_h {
+    for x in 0..<@types.grid_w {
+      if x == 0 || y == 0 || x == @types.grid_w - 1 || y == @types.grid_h - 1 {
+        set_tile(game, x, y, @types.tile_wall)
       } else {
-        set_tile(game, x, y, tile_floor)
+        set_tile(game, x, y, @types.tile_floor)
       }
     }
   }
 
-  for x = 3; x < grid_w - 2; x = x + 4 {
-    for y in 1..<(grid_h - 1) {
-      let keep_gap : Bool = y == 2 || y == grid_h - 3 || (x + y) % 5 == 0
+  for x = 3; x < @types.grid_w - 2; x = x + 4 {
+    for y in 1..<(@types.grid_h - 1) {
+      let keep_gap : Bool = y == 2 || y == @types.grid_h - 3 || (x + y) % 5 == 0
       if not(keep_gap) {
-        set_tile(game, x, y, tile_wall)
+        set_tile(game, x, y, @types.tile_wall)
       }
     }
   }
 
-  for y = 3; y < grid_h - 2; y = y + 4 {
-    for x in 2..<(grid_w - 2) {
+  for y = 3; y < @types.grid_h - 2; y = y + 4 {
+    for x in 2..<(@types.grid_w - 2) {
       let keep_gap : Bool = x == 5 || x == 10 || x == 15
       if not(keep_gap) {
-        set_tile(game, x, y, tile_wall)
+        set_tile(game, x, y, @types.tile_wall)
       }
     }
   }
 
-  set_tile(game, exit_x, exit_y, tile_exit)
-  set_tile(game, start_x, start_y, tile_floor)
+  set_tile(game, @types.exit_x, @types.exit_y, @types.tile_exit)
+  set_tile(game, @types.start_x, @types.start_y, @types.tile_floor)
 }
 
 ///|
-fn load_layout(game : Game) -> Unit {
+fn load_layout(game : @types.Game) -> Unit {
   let shelf_list : Array[(Int, Int)] = [
     (5, 9),
     (7, 9),
@@ -286,7 +275,7 @@ fn load_layout(game : Game) -> Unit {
     (16, 6),
   ]
 
-  game.shelf_n = mini(shelf_list.length(), max_shelves)
+  game.shelf_n = @types.mini(shelf_list.length(), @types.max_shelves)
   for i in 0..<game.shelf_n {
     game.shelf_x[i] = shelf_list[i].0
     game.shelf_y[i] = shelf_list[i].1
@@ -299,7 +288,7 @@ fn load_layout(game : Game) -> Unit {
     (4, 6),
     (15, 11),
   ]
-  for i in 0..<max_pages {
+  for i in 0..<@types.max_pages {
     game.page_x[i] = page_list[i].0
     game.page_y[i] = page_list[i].1
     game.page_taken[i] = false
@@ -315,9 +304,9 @@ fn load_layout(game : Game) -> Unit {
 
   for i in 0..<game.ghosts.length() {
     game.ghosts[i].active = i < ghost_spawn.length()
-    game.ghosts[i].mode = ghost_patrol
+    game.ghosts[i].mode = @types.ghost_patrol
     game.ghosts[i].stun_t = 0.0
-    game.ghosts[i].move_cd = randf(0.12, 0.45)
+    game.ghosts[i].move_cd = @types.randf(0.12, 0.45)
     game.ghosts[i].seed = 99 + i * 211
     game.ghosts[i].alert_t = 0.0
 
@@ -330,10 +319,10 @@ fn load_layout(game : Game) -> Unit {
 }
 
 ///|
-fn count_seals_on(game : Game) -> Int {
+fn count_seals_on(game : @types.Game) -> Int {
   let mut n : Int = 0
-  for i in 0..<seal_need {
-    let p = seal_pos(i)
+  for i in 0..<@types.seal_need {
+    let p = @types.seal_pos(i)
     if shelf_index_at(game, p.0, p.1) >= 0 {
       n = n + 1
     }
@@ -342,20 +331,25 @@ fn count_seals_on(game : Game) -> Int {
 }
 
 ///|
-fn update_gate(game : Game) -> Unit {
+fn update_gate(game : @types.Game) -> Unit {
   let old_open : Bool = game.gate_open
   game.seals_on = count_seals_on(game)
-  game.gate_open = game.seals_on == seal_need && game.pages == max_pages
+  game.gate_open = game.seals_on == @types.seal_need &&
+    game.pages == @types.max_pages
 
   if game.gate_open && not(old_open) {
-    game.score = game.score + seal_score * seal_need
+    game.score = game.score + @types.seal_score * @types.seal_need
     game.flash_t = 0.35
     game.shake_t = 0.35
-    set_msg(game, "Gate unlocked. Escape through the south archive door.", 2.4)
+    set_msg(
+      game,
+      "Gate unlocked. Escape through the south archive door.",
+      2.4,
+    )
     burst(
       game,
-      Float::from_int(cell_center_x(Float::from_int(exit_x))),
-      Float::from_int(cell_center_y(Float::from_int(exit_y))),
+      Float::from_int(@types.cell_center_x(Float::from_int(@types.exit_x))),
+      Float::from_int(@types.cell_center_y(Float::from_int(@types.exit_y))),
       44,
       2,
     )
@@ -363,14 +357,14 @@ fn update_gate(game : Game) -> Unit {
 }
 
 ///|
-fn start_run(game : Game) -> Unit {
+pub fn start_run(game : @types.Game) -> Unit {
   clear_map(game)
   load_layout(game)
   clear_particles(game)
 
-  actor_place(game.player, start_x, start_y)
+  actor_place(game.player, @types.start_x, @types.start_y)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.win = false
   game.loss_reason = ""
 
@@ -403,8 +397,8 @@ fn start_run(game : Game) -> Unit {
 }
 
 ///|
-fn go_title(game : Game) -> Unit {
-  game.state = state_title
+pub fn go_title(game : @types.Game) -> Unit {
+  game.state = @types.state_title
   game.req_dx = 0
   game.req_dy = 0
   game.action_down = false
@@ -416,12 +410,12 @@ fn go_title(game : Game) -> Unit {
 }
 
 ///|
-fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
-  if game.state != state_play {
+fn finish_run(game : @types.Game, win : Bool, reason : String) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  game.state = state_result
+  game.state = @types.state_result
   game.win = win
   game.loss_reason = reason
   game.req_dx = 0
@@ -429,12 +423,12 @@ fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
   game.action_pressed = false
 
   if win {
-    game.score = game.score + escape_score + game.lives * 120
+    game.score = game.score + @types.escape_score + game.lives * 120
     set_msg(game, "Archive saved. The spirits quiet down.", 3.2)
     burst(
       game,
-      Float::from_int(cell_center_x(Float::from_int(exit_x))),
-      Float::from_int(cell_center_y(Float::from_int(exit_y))),
+      Float::from_int(@types.cell_center_x(Float::from_int(@types.exit_x))),
+      Float::from_int(@types.cell_center_y(Float::from_int(@types.exit_y))),
       72,
       1,
     )
@@ -442,8 +436,8 @@ fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
     set_msg(game, "You were lost in the stacks.", 2.8)
     burst(
       game,
-      Float::from_int(cell_center_x(game.player.fx)),
-      Float::from_int(cell_center_y(game.player.fy)),
+      Float::from_int(@types.cell_center_x(game.player.fx)),
+      Float::from_int(@types.cell_center_y(game.player.fy)),
       40,
       2,
     )
@@ -451,13 +445,18 @@ fn finish_run(game : Game, win : Bool, reason : String) -> Unit {
 }
 
 ///|
-fn cycle_hint(game : Game) -> Unit {
+pub fn cycle_hint(game : @types.Game) -> Unit {
   game.hint_i = (game.hint_i + 1) % 4
-  set_msg(game, seal_hint(game.hint_i), 2.8)
+  set_msg(game, @types.seal_hint(game.hint_i), 2.8)
 }
 
 ///|
-fn push_shelf(game : Game, sidx : Int, dx : Int, dy : Int) -> Bool {
+fn push_shelf(
+  game : @types.Game,
+  sidx : Int,
+  dx : Int,
+  dy : Int,
+) -> Bool {
   let nx : Int = game.shelf_x[sidx] + dx
   let ny : Int = game.shelf_y[sidx] + dy
 
@@ -479,7 +478,7 @@ fn push_shelf(game : Game, sidx : Int, dx : Int, dy : Int) -> Bool {
 }
 
 ///|
-fn try_move_player(game : Game, dx : Int, dy : Int) -> Bool {
+fn try_move_player(game : @types.Game, dx : Int, dy : Int) -> Bool {
   if dx == 0 && dy == 0 {
     return false
   }
@@ -509,8 +508,8 @@ fn try_move_player(game : Game, dx : Int, dy : Int) -> Bool {
 
   burst(
     game,
-    Float::from_int(cell_center_x(Float::from_int(tx))),
-    Float::from_int(cell_center_y(Float::from_int(ty))),
+    Float::from_int(@types.cell_center_x(Float::from_int(tx))),
+    Float::from_int(@types.cell_center_y(Float::from_int(ty))),
     8,
     0,
   )
@@ -519,7 +518,7 @@ fn try_move_player(game : Game, dx : Int, dy : Int) -> Bool {
 }
 
 ///|
-fn collect_page_if_needed(game : Game) -> Unit {
+fn collect_page_if_needed(game : @types.Game) -> Unit {
   if game.player.moving {
     return
   }
@@ -531,27 +530,34 @@ fn collect_page_if_needed(game : Game) -> Unit {
 
   game.page_taken[i] = true
   game.pages = game.pages + 1
-  game.score = game.score + page_score
+  game.score = game.score + @types.page_score
   game.flash_t = 0.22
 
   set_msg(game, "Recovered page " + game.pages.to_string() + "/5", 1.8)
 
   burst(
     game,
-    Float::from_int(cell_center_x(Float::from_int(game.player.x))),
-    Float::from_int(cell_center_y(Float::from_int(game.player.y))),
+    Float::from_int(@types.cell_center_x(Float::from_int(game.player.x))),
+    Float::from_int(@types.cell_center_y(Float::from_int(game.player.y))),
     26,
     1,
   )
 }
 
 ///|
-fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
+fn line_of_sight(
+  game : @types.Game,
+  x0 : Int,
+  y0 : Int,
+  x1 : Int,
+  y1 : Int,
+) -> Bool {
   if x0 == x1 {
-    let y_min : Int = mini(y0, y1)
-    let y_max : Int = maxi(y0, y1)
+    let y_min : Int = @types.mini(y0, y1)
+    let y_max : Int = @types.maxi(y0, y1)
     for y in (y_min + 1)..<y_max {
-      if tile_at(game, x0, y) == tile_wall || shelf_index_at(game, x0, y) >= 0 {
+      if tile_at(game, x0, y) == @types.tile_wall ||
+        shelf_index_at(game, x0, y) >= 0 {
         return false
       }
     }
@@ -559,10 +565,11 @@ fn line_of_sight(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Bool {
   }
 
   if y0 == y1 {
-    let x_min : Int = mini(x0, x1)
-    let x_max : Int = maxi(x0, x1)
+    let x_min : Int = @types.mini(x0, x1)
+    let x_max : Int = @types.maxi(x0, x1)
     for x in (x_min + 1)..<x_max {
-      if tile_at(game, x, y0) == tile_wall || shelf_index_at(game, x, y0) >= 0 {
+      if tile_at(game, x, y0) == @types.tile_wall ||
+        shelf_index_at(game, x, y0) >= 0 {
         return false
       }
     }
@@ -583,30 +590,30 @@ fn ghost_seed_next(seed : Int) -> Int {
 }
 
 ///|
-fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
+fn ghost_choose_step(game : @types.Game, gid : Int) -> (Int, Int) {
   let g = game.ghosts[gid]
   let gx : Int = g.body.x
   let gy : Int = g.body.y
   let px : Int = game.player.x
   let py : Int = game.player.y
 
-  let dist : Int = manhattan(gx, gy, px, py)
+  let dist : Int = @types.manhattan(gx, gy, px, py)
   let sees : Bool = line_of_sight(game, gx, gy, px, py)
   let hunt_now : Bool = dist <= 4 || (sees && dist <= 8)
 
   if hunt_now {
-    g.mode = ghost_hunt
+    g.mode = @types.ghost_hunt
     g.alert_t = 0.8
   } else {
     g.alert_t = g.alert_t - 0.16
     if g.alert_t <= 0.0 {
-      g.mode = ghost_patrol
+      g.mode = @types.ghost_patrol
     }
   }
 
   let dirs : Array[(Int, Int)] = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-  if g.mode == ghost_hunt {
+  if g.mode == @types.ghost_hunt {
     let mut best_i : Int = -1
     let mut best_d : Int = 999999
 
@@ -617,7 +624,7 @@ fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
         continue
       }
 
-      let d : Int = manhattan(nx, ny, px, py)
+      let d : Int = @types.manhattan(nx, ny, px, py)
       if d < best_d {
         best_d = d
         best_i = i
@@ -648,18 +655,18 @@ fn ghost_choose_step(game : Game, gid : Int) -> (Int, Int) {
 }
 
 ///|
-fn update_ghosts(game : Game, dt : Float) -> Unit {
+fn update_ghosts(game : @types.Game, dt : Float) -> Unit {
   for i in 0..<game.ghosts.length() {
     if not(game.ghosts[i].active) {
       continue
     }
 
-    actor_tick(game.ghosts[i].body, dt, ghost_move_time)
+    actor_tick(game.ghosts[i].body, dt, @types.ghost_move_time)
 
-    if game.ghosts[i].mode == ghost_stunned {
+    if game.ghosts[i].mode == @types.ghost_stunned {
       game.ghosts[i].stun_t = game.ghosts[i].stun_t - dt
       if game.ghosts[i].stun_t <= 0.0 {
-        game.ghosts[i].mode = ghost_patrol
+        game.ghosts[i].mode = @types.ghost_patrol
         game.ghosts[i].stun_t = 0.0
       }
     }
@@ -677,7 +684,7 @@ fn update_ghosts(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.ghosts[i].mode == ghost_stunned {
+    if game.ghosts[i].mode == @types.ghost_stunned {
       game.ghosts[i].move_cd = 0.12
       continue
     }
@@ -691,23 +698,23 @@ fn update_ghosts(game : Game, dt : Float) -> Unit {
       )
     }
 
-    game.ghosts[i].move_cd = ghost_move_time * randf(0.78, 1.20)
+    game.ghosts[i].move_cd = @types.ghost_move_time * @types.randf(0.78, 1.20)
   }
 }
 
 ///|
-fn try_stun_pulse(game : Game) -> Bool {
+fn try_stun_pulse(game : @types.Game) -> Bool {
   if game.action_cd > 0.0 || game.stun_energy < 30.0 {
     return false
   }
 
   let mut hits : Int = 0
   for ghost in game.ghosts {
-    if not(ghost.active) || ghost.mode == ghost_stunned {
+    if not(ghost.active) || ghost.mode == @types.ghost_stunned {
       continue
     }
 
-    let d : Int = manhattan(
+    let d : Int = @types.manhattan(
       game.player.x,
       game.player.y,
       ghost.body.x,
@@ -715,7 +722,7 @@ fn try_stun_pulse(game : Game) -> Bool {
     )
 
     if d <= 2 {
-      ghost.mode = ghost_stunned
+      ghost.mode = @types.ghost_stunned
       ghost.stun_t = 2.6
       ghost.move_cd = 0.22
       hits = hits + 1
@@ -723,7 +730,7 @@ fn try_stun_pulse(game : Game) -> Bool {
   }
 
   game.action_cd = 0.46
-  game.stun_energy = clampf(game.stun_energy - 30.0, 0.0, 100.0)
+  game.stun_energy = @types.clampf(game.stun_energy - 30.0, 0.0, 100.0)
 
   if hits > 0 {
     game.score = game.score + hits * 60
@@ -731,8 +738,8 @@ fn try_stun_pulse(game : Game) -> Bool {
     set_msg(game, "Pulse hit " + hits.to_string() + " spirit(s).", 1.5)
     burst(
       game,
-      Float::from_int(cell_center_x(game.player.fx)),
-      Float::from_int(cell_center_y(game.player.fy)),
+      Float::from_int(@types.cell_center_x(game.player.fx)),
+      Float::from_int(@types.cell_center_y(game.player.fy)),
       24,
       2,
     )
@@ -744,13 +751,13 @@ fn try_stun_pulse(game : Game) -> Bool {
 }
 
 ///|
-fn handle_player_hit(game : Game) -> Unit {
+fn handle_player_hit(game : @types.Game) -> Unit {
   if game.flash_t > 0.0 {
     return
   }
 
   for i in 0..<game.ghosts.length() {
-    if not(game.ghosts[i].active) || game.ghosts[i].mode == ghost_stunned {
+    if not(game.ghosts[i].active) || game.ghosts[i].mode == @types.ghost_stunned {
       continue
     }
 
@@ -762,8 +769,8 @@ fn handle_player_hit(game : Game) -> Unit {
 
       burst(
         game,
-        Float::from_int(cell_center_x(game.player.fx)),
-        Float::from_int(cell_center_y(game.player.fy)),
+        Float::from_int(@types.cell_center_x(game.player.fx)),
+        Float::from_int(@types.cell_center_y(game.player.fy)),
         34,
         2,
       )
@@ -771,7 +778,7 @@ fn handle_player_hit(game : Game) -> Unit {
       if game.lives <= 0 {
         finish_run(game, false, "Caught by spectral librarians")
       } else {
-        actor_place(game.player, start_x, start_y)
+        actor_place(game.player, @types.start_x, @types.start_y)
         game.player.moving = false
         game.move_cd = 0.20
         set_msg(game, "A ghost touched you. Retreat and reroute.", 1.8)
@@ -783,7 +790,7 @@ fn handle_player_hit(game : Game) -> Unit {
 }
 
 ///|
-fn update_timers(game : Game, dt : Float) -> Unit {
+fn update_timers(game : @types.Game, dt : Float) -> Unit {
   if game.msg_t > 0.0 {
     game.msg_t = game.msg_t - dt
   }
@@ -810,13 +817,13 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
 
   update_timers(game, dt)
-  actor_tick(game.player, dt, player_move_time)
+  actor_tick(game.player, dt, @types.player_move_time)
 
-  game.stun_energy = clampf(game.stun_energy + dt * 16.0, 0.0, 100.0)
+  game.stun_energy = @types.clampf(game.stun_energy + dt * 16.0, 0.0, 100.0)
 
   if not(game.player.moving) && game.move_cd <= 0.0 {
     ignore(try_move_player(game, game.req_dx, game.req_dy))
@@ -833,8 +840,8 @@ fn update_play(game : Game, dt : Float) -> Unit {
 
   if not(game.player.moving) &&
     game.gate_open &&
-    game.player.x == exit_x &&
-    game.player.y == exit_y {
+    game.player.x == @types.exit_x &&
+    game.player.y == @types.exit_y {
     finish_run(game, true, "")
   }
 
@@ -846,24 +853,24 @@ fn update_play(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_title(game : Game, dt : Float) -> Unit {
+fn update_title(game : @types.Game, dt : Float) -> Unit {
   update_timers(game, dt)
   game.time_s = game.time_s + dt
   update_particles(game, dt)
 }
 
 ///|
-fn update_result(game : Game, dt : Float) -> Unit {
+fn update_result(game : @types.Game, dt : Float) -> Unit {
   update_timers(game, dt)
   game.time_s = game.time_s + dt
   update_particles(game, dt)
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
-  if game.state == state_title {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  if game.state == @types.state_title {
     update_title(game, dt)
-  } else if game.state == state_play {
+  } else if game.state == @types.state_play {
     update_play(game, dt)
   } else {
     update_result(game, dt)
