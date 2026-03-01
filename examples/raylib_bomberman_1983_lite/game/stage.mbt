@@ -32,61 +32,65 @@ fn stage_enemy_total(stage : Int) -> Int {
 }
 
 ///|
-fn stage_enemy_kind(game : @types.Game, stage : Int, spawned_index : Int) -> Int {
+fn stage_enemy_kind(
+  game : @types.Game,
+  stage : Int,
+  spawned_index : Int,
+) -> @types.EnemyKind {
   let wave = stage + 1
   let roll = @types.rand_range(game, 0, 99)
   if wave < 4 {
     if roll < 70 {
-      @types.enemy_basic
+      @types.Basic
     } else if roll < 88 {
-      @types.enemy_fast
+      @types.Fast
     } else if roll < 96 {
-      @types.enemy_sniper
+      @types.Sniper
     } else {
-      @types.enemy_heavy
+      @types.Heavy
     }
   } else if wave < 10 {
     if roll < 52 {
-      @types.enemy_basic
+      @types.Basic
     } else if roll < 72 {
-      @types.enemy_fast
+      @types.Fast
     } else if roll < 88 {
-      @types.enemy_sniper
+      @types.Sniper
     } else {
-      @types.enemy_heavy
+      @types.Heavy
     }
   } else {
     let bias = (spawned_index + wave) % 6
     if bias == 0 {
-      @types.enemy_heavy
+      @types.Heavy
     } else if roll < 36 {
-      @types.enemy_basic
+      @types.Basic
     } else if roll < 58 {
-      @types.enemy_fast
+      @types.Fast
     } else if roll < 80 {
-      @types.enemy_sniper
+      @types.Sniper
     } else {
-      @types.enemy_heavy
+      @types.Heavy
     }
   }
 }
 
 ///|
-fn parse_level_char(ch : Byte) -> (Int, Int) {
+fn parse_level_char(ch : Byte) -> (@types.TileKind, Int) {
   if ch == b'#' {
-    (@types.tile_brick, 1)
+    (@types.Brick, 1)
   } else if ch == b'@' {
-    (@types.tile_steel, 999)
+    (@types.Steel, 999)
   } else if ch == b'~' {
-    (@types.tile_water, 1)
+    (@types.Water, 1)
   } else if ch == b'^' {
-    (@types.tile_bush, 1)
+    (@types.Bush, 1)
   } else if ch == b'=' {
-    (@types.tile_ice, 1)
+    (@types.Ice, 1)
   } else if ch == b'B' {
-    (@types.tile_base, 1)
+    (@types.Base, 1)
   } else {
-    (@types.tile_empty, 0)
+    (@types.Empty, 0)
   }
 }
 
@@ -105,8 +109,8 @@ fn apply_shovel_fortress(game : @types.Game) -> Unit {
     let tx = @types.base_ring_x[i]
     let ty = @types.base_ring_y[i]
     let tile = @types.get_tile(game, tx, ty)
-    if tile != @types.tile_base {
-      @types.set_tile(game, tx, ty, @types.tile_steel, 999)
+    if tile != @types.Base {
+      @types.set_tile(game, tx, ty, @types.Steel, 999)
     }
   }
 }
@@ -117,15 +121,12 @@ fn restore_base_ring(game : @types.Game) -> Unit {
     let tx = @types.base_ring_x[i]
     let ty = @types.base_ring_y[i]
     let cached = game.base_tiles_cached[i]
-    if @types.get_tile(game, tx, ty) != @types.tile_base {
-      if cached == @types.tile_steel {
-        @types.set_tile(game, tx, ty, @types.tile_steel, 999)
-      } else if cached == @types.tile_brick {
-        @types.set_tile(game, tx, ty, @types.tile_brick, 1)
-      } else if cached == @types.tile_empty {
-        @types.set_tile(game, tx, ty, @types.tile_empty, 0)
-      } else {
-        @types.set_tile(game, tx, ty, cached, 1)
+    if @types.get_tile(game, tx, ty) != @types.Base {
+      match cached {
+        @types.Steel => @types.set_tile(game, tx, ty, @types.Steel, 999)
+        @types.Brick => @types.set_tile(game, tx, ty, @types.Brick, 1)
+        @types.Empty => @types.set_tile(game, tx, ty, @types.Empty, 0)
+        _ => @types.set_tile(game, tx, ty, cached, 1)
       }
     }
   }
@@ -133,8 +134,16 @@ fn restore_base_ring(game : @types.Game) -> Unit {
 
 ///|
 fn respawn_player_tank(game : @types.Game, index : Int) -> Unit {
-  let spawn_x = if index == 0 { @types.player1_spawn_x } else { @types.player2_spawn_x }
-  let spawn_y = if index == 0 { @types.player1_spawn_y } else { @types.player2_spawn_y }
+  let spawn_x = if index == 0 {
+    @types.player1_spawn_x
+  } else {
+    @types.player2_spawn_x
+  }
+  let spawn_y = if index == 0 {
+    @types.player1_spawn_y
+  } else {
+    @types.player2_spawn_y
+  }
   let player = game.players[index]
   player.active = true
   player.x = spawn_x
@@ -193,13 +202,19 @@ fn load_stage_map(game : @types.Game, stage : Int) -> Unit {
   for i in 0..<@types.base_ring_count {
     let tx = @types.base_ring_x[i]
     let ty = @types.base_ring_y[i]
-    if @types.get_tile(game, tx, ty) == @types.tile_empty {
-      @types.set_tile(game, tx, ty, @types.tile_brick, 1)
+    if @types.get_tile(game, tx, ty) == @types.Empty {
+      @types.set_tile(game, tx, ty, @types.Brick, 1)
     }
   }
 
-  @types.set_tile(game, @types.base_tile_x, @types.base_tile_y, @types.tile_base, 1)
-  @types.set_tile(game, @types.base_tile_x + 1, @types.base_tile_y, @types.tile_base, 1)
+  @types.set_tile(game, @types.base_tile_x, @types.base_tile_y, @types.Base, 1)
+  @types.set_tile(
+    game,
+    @types.base_tile_x + 1,
+    @types.base_tile_y,
+    @types.Base,
+    1,
+  )
 
   game.base_alive = true
   cache_base_ring(game)
@@ -229,12 +244,20 @@ fn load_stage(game : @types.Game, stage : Int) -> Unit {
   load_stage_map(game, stage)
   prepare_players_for_stage(game)
   let base_total = stage_enemy_total(stage)
-  game.enemies_to_spawn = @types.clampi(base_total + game.profile.enemy_bonus, 18, 60)
-  game.stage_intro_timer = if game.demo_mode { 0.45 } else { @types.stage_intro_time }
+  game.enemies_to_spawn = @types.clampi(
+    base_total + game.profile.enemy_bonus,
+    18,
+    60,
+  )
+  game.stage_intro_timer = if game.demo_mode {
+    0.45
+  } else {
+    @types.stage_intro_time
+  }
   game.stage_clear_timer = 0.0
   game.game_over_timer = 0.0
   game.campaign_clear_timer = 0.0
-  game.state = @types.state_stage_intro
+  game.state = @types.StageIntro
 }
 
 ///|

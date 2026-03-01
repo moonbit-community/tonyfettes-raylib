@@ -1,10 +1,14 @@
 ///|
-pub fn grant_score(game : @types.Game, team : Int, points : Int) -> Unit {
+pub fn grant_score(
+  game : @types.Game,
+  team : @types.Team,
+  points : Int,
+) -> Unit {
   game.score_total += points
-  if team == @types.team_player1 {
-    game.players[0].score += points
-  } else if team == @types.team_player2 {
-    game.players[1].score += points
+  match team {
+    Player1 => game.players[0].score += points
+    Player2 => game.players[1].score += points
+    _ => ()
   }
   if game.score_total > game.high_score {
     game.high_score = game.score_total

@@ -27,8 +27,9 @@ fn can_player_place_bomb(game : @types.Game, player_index : Int) -> Bool {
   let tx = @types.world_x_to_tile(player.x)
   let ty = @types.world_y_to_tile(player.y)
   let tile = @types.get_tile(game, tx, ty)
-  if tile == @types.tile_steel || tile == @types.tile_water || tile == @types.tile_base {
-    return false
+  match tile {
+    @types.Steel | @types.Water | @types.Base => return false
+    _ => ()
   }
 
   for bomb in game.bombs {
@@ -63,18 +64,22 @@ fn place_player_bomb(game : @types.Game, player_index : Int) -> Unit {
   bomb.fuse = @types.bomb_fuse_time
   bomb.blast_timer = 0.0
   bomb.exploding = false
-  bomb.blast_range = @types.clampi(@types.bomb_range_base + player.weapon_level / 2, 2, 5)
+  bomb.blast_range = @types.clampi(
+    @types.bomb_range_base + player.weapon_level / 2,
+    2,
+    5,
+  )
 
   player.reload_timer = 0.18
   @particles.spawn_spark_burst(game, bomb.x, bomb.y, 6)
 }
 
 ///|
-fn is_blast_blocking_tile(tile : Int) -> Bool {
-  tile == @types.tile_brick ||
-  tile == @types.tile_steel ||
-  tile == @types.tile_water ||
-  tile == @types.tile_base
+fn is_blast_blocking_tile(tile : @types.TileKind) -> Bool {
+  match tile {
+    @types.Brick | @types.Steel | @types.Water | @types.Base => true
+    @types.Empty | @types.Bush | @types.Ice => false
+  }
 }
 
 ///|
@@ -83,20 +88,28 @@ fn mark_chain_bombs(game : @types.Game, tx : Int, ty : Int) -> Unit {
     if not(b.active) || b.exploding {
       continue
     }
-    if b.tile_x == tx && b.tile_y == ty && b.fuse > @types.bomb_chain_trigger_window {
+    if b.tile_x == tx &&
+      b.tile_y == ty &&
+      b.fuse > @types.bomb_chain_trigger_window {
       b.fuse = @types.bomb_chain_trigger_window
     }
   }
 }
 
 ///|
-fn hit_entities_on_tile(game : @types.Game, team : Int, tx : Int, ty : Int) -> Unit {
+fn hit_entities_on_tile(
+  game : @types.Game,
+  team : @types.Team,
+  tx : Int,
+  ty : Int,
+) -> Unit {
   for i in 0..<game.enemies.length() {
     let enemy = game.enemies[i]
     if not(enemy.active) {
       continue
     }
-    if @types.world_x_to_tile(enemy.x) == tx && @types.world_y_to_tile(enemy.y) == ty {
+    if @types.world_x_to_tile(enemy.x) == tx &&
+      @types.world_y_to_tile(enemy.y) == ty {
       destroy_enemy(game, i, team)
     }
   }
@@ -106,14 +119,20 @@ fn hit_entities_on_tile(game : @types.Game, team : Int, tx : Int, ty : Int) -> U
     if not(player.active) {
       continue
     }
-    if @types.world_x_to_tile(player.x) == tx && @types.world_y_to_tile(player.y) == ty {
+    if @types.world_x_to_tile(player.x) == tx &&
+      @types.world_y_to_tile(player.y) == ty {
       on_player_destroyed(game, i)
     }
   }
 }
 
 ///|
-fn detonate_tile(game : @types.Game, team : Int, tx : Int, ty : Int) -> Bool {
+fn detonate_tile(
+  game : @types.Game,
+  team : @types.Team,
+  tx : Int,
+  ty : Int,
+) -> Bool {
   if not(@types.in_tile_bounds(tx, ty)) {
     return false
   }
@@ -126,15 +145,15 @@ fn detonate_tile(game : @types.Game, team : Int, tx : Int, ty : Int) -> Bool {
   mark_chain_bombs(game, tx, ty)
 
   let tile = @types.get_tile(game, tx, ty)
-  if tile == @types.tile_brick {
-    @types.set_tile(game, tx, ty, @types.tile_empty, 0)
+  if tile == @types.Brick {
+    @types.set_tile(game, tx, ty, @types.Empty, 0)
     @particles.spawn_explosion(game, cx, cy, 0.72)
     return false
   }
-  if tile == @types.tile_steel || tile == @types.tile_water {
+  if tile == @types.Steel || tile == @types.Water {
     return false
   }
-  if tile == @types.tile_base {
+  if tile == @types.Base {
     game.base_alive = false
     game.base_flash = 1.0
     @particles.spawn_explosion(game, cx, cy, 1.65)

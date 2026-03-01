@@ -17,26 +17,45 @@ fn damage_tile_at_point(
   }
 
   let idx = @types.tile_index(tx, ty)
-  if tile == @types.tile_brick {
-    game.map_hp[idx] -= power
-    if game.map_hp[idx] <= 0 {
-      @types.set_tile(game, tx, ty, @types.tile_empty, 0)
-      @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 0.45)
-    } else {
-      @particles.spawn_spark_burst(game, world_x, world_y, 6)
+  match tile {
+    Brick => {
+      game.map_hp[idx] -= power
+      if game.map_hp[idx] <= 0 {
+        @types.set_tile(game, tx, ty, @types.Empty, 0)
+        @particles.spawn_explosion(
+          game,
+          @types.tile_center_x(tx),
+          @types.tile_center_y(ty),
+          0.45,
+        )
+      } else {
+        @particles.spawn_spark_burst(game, world_x, world_y, 6)
+      }
     }
-  } else if tile == @types.tile_steel {
-    if power >= 3 {
-      @types.set_tile(game, tx, ty, @types.tile_empty, 0)
-      @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 0.7)
-    } else {
-      @particles.spawn_spark_burst(game, world_x, world_y, 9)
+    Steel =>
+      if power >= 3 {
+        @types.set_tile(game, tx, ty, @types.Empty, 0)
+        @particles.spawn_explosion(
+          game,
+          @types.tile_center_x(tx),
+          @types.tile_center_y(ty),
+          0.7,
+        )
+      } else {
+        @particles.spawn_spark_burst(game, world_x, world_y, 9)
+      }
+    Base => {
+      game.base_alive = false
+      game.base_flash = 1.0
+      @particles.spawn_explosion(
+        game,
+        @types.tile_center_x(tx),
+        @types.tile_center_y(ty),
+        2.1,
+      )
+      @types.push_camera_shake(game, 3.6)
     }
-  } else if tile == @types.tile_base {
-    game.base_alive = false
-    game.base_flash = 1.0
-    @particles.spawn_explosion(game, @types.tile_center_x(tx), @types.tile_center_y(ty), 2.1)
-    @types.push_camera_shake(game, 3.6)
+    _ => ()
   }
   true
 }
@@ -61,9 +80,14 @@ fn sight_blocked(
     let t = Float::from_int(i) / Float::from_int(n)
     let px = ax + dx * t
     let py = ay + dy * t
-    let tile = @types.get_tile(game, @types.world_x_to_tile(px), @types.world_y_to_tile(py))
-    if tile == @types.tile_brick || tile == @types.tile_steel || tile == @types.tile_base {
-      return true
+    let tile = @types.get_tile(
+      game,
+      @types.world_x_to_tile(px),
+      @types.world_y_to_tile(py),
+    )
+    match tile {
+      Brick | Steel | Base => return true
+      _ => ()
     }
   }
   false
