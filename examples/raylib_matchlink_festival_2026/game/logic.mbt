@@ -1,232 +1,5 @@
 ///|
-fn mini(a : Int, b : Int) -> Int {
-  if a < b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn maxi(a : Int, b : Int) -> Int {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn clampi(v : Int, lo : Int, hi : Int) -> Int {
-  if v < lo {
-    lo
-  } else if v > hi {
-    hi
-  } else {
-    v
-  }
-}
-
-///|
-fn maxf(a : Float, b : Float) -> Float {
-  if a > b {
-    a
-  } else {
-    b
-  }
-}
-
-///|
-fn randf(lo : Float, hi : Float) -> Float {
-  let r : Float = Float::from_int(@raylib.get_random_value(0, 10000)) / 10000.0
-  lo + (hi - lo) * r
-}
-
-///|
-fn cell_index(x : Int, y : Int) -> Int {
-  (y - 1) * max_cols + (x - 1)
-}
-
-///|
-fn in_board(game : Game, x : Int, y : Int) -> Bool {
-  x >= 1 && x <= game.board_w && y >= 1 && y <= game.board_h
-}
-
-///|
-fn cell_at(game : Game, x : Int, y : Int) -> Int {
-  if in_board(game, x, y) {
-    game.cells[cell_index(x, y)]
-  } else {
-    0
-  }
-}
-
-///|
-fn set_cell(game : Game, x : Int, y : Int, value : Int) -> Unit {
-  if in_board(game, x, y) {
-    game.cells[cell_index(x, y)] = value
-  }
-}
-
-///|
-fn clear_board(game : Game) -> Unit {
-  for i in 0..<game.cells.length() {
-    game.cells[i] = 0
-  }
-}
-
-///|
-fn clear_sparks(game : Game) -> Unit {
-  for spark in game.sparks {
-    spark.active = false
-    spark.x = 0.0
-    spark.y = 0.0
-    spark.vx = 0.0
-    spark.vy = 0.0
-    spark.life = 0.0
-    spark.size = 0.0
-    spark.kind = 0
-  }
-}
-
-///|
-fn clear_path_flash(game : Game) -> Unit {
-  game.path_active = false
-  game.path_ttl = 0.0
-  game.path_points = 0
-}
-
-///|
-fn clear_hint_flash(game : Game) -> Unit {
-  game.hint_active = false
-  game.hint_ttl = 0.0
-}
-
-///|
-fn board_metrics(game : Game) -> (Int, Int, Int) {
-  let area_x : Int = 24
-  let area_y : Int = 22
-  let area_w : Int = screen_w - 460
-  let area_h : Int = screen_h - 44
-
-  let safe_w : Int = maxi(1, game.board_w)
-  let safe_h : Int = maxi(1, game.board_h)
-
-  let tile_x : Int = (area_w - 24) / safe_w
-  let tile_y : Int = (area_h - 24) / safe_h
-  let mut tile : Int = mini(tile_x, tile_y)
-  tile = clampi(tile, 36, 84)
-
-  let mut board_x : Int = area_x + (area_w - safe_w * tile) / 2
-  let mut board_y : Int = area_y + (area_h - safe_h * tile) / 2
-
-  if game.shake_t > 0.0 {
-    board_x = board_x + @raylib.get_random_value(-3, 3)
-    board_y = board_y + @raylib.get_random_value(-3, 3)
-  }
-
-  (board_x, board_y, tile)
-}
-
-///|
-fn world_center(game : Game, x : Int, y : Int) -> (Float, Float, Float) {
-  let (board_x, board_y, tile) = board_metrics(game)
-
-  let cx : Float = Float::from_int(board_x + (x - 1) * tile + tile / 2)
-  let cy : Float = Float::from_int(board_y + (y - 1) * tile + tile / 2)
-  (cx, cy, Float::from_int(tile))
-}
-
-///|
-fn world_center_ext(game : Game, x : Int, y : Int) -> (Float, Float) {
-  let (board_x, board_y, tile) = board_metrics(game)
-
-  let cx : Float = Float::from_int(board_x + (x - 1) * tile + tile / 2)
-  let cy : Float = Float::from_int(board_y + (y - 1) * tile + tile / 2)
-  (cx, cy)
-}
-
-///|
-fn spawn_spark(
-  game : Game,
-  x : Float,
-  y : Float,
-  vx : Float,
-  vy : Float,
-  life : Float,
-  size : Float,
-  kind : Int,
-) -> Unit {
-  for spark in game.sparks {
-    if spark.active {
-      continue
-    }
-
-    spark.active = true
-    spark.x = x
-    spark.y = y
-    spark.vx = vx
-    spark.vy = vy
-    spark.life = life
-    spark.size = size
-    spark.kind = kind
-    break
-  }
-}
-
-///|
-fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
-  let (cx, cy, tile_f) = world_center(game, x, y)
-  let spread : Float = maxf(8.0, tile_f * 0.2)
-
-  for _i in 0..<amount {
-    spawn_spark(
-      game,
-      cx + randf(-spread, spread),
-      cy + randf(-spread, spread),
-      randf(-160.0, 160.0),
-      randf(-170.0, 160.0),
-      randf(0.20, 0.92),
-      randf(1.6, 5.5),
-      kind,
-    )
-  }
-}
-
-///|
-fn update_sparks(game : Game, dt : Float) -> Unit {
-  for spark in game.sparks {
-    if not(spark.active) {
-      continue
-    }
-
-    spark.life = spark.life - dt
-    if spark.life <= 0.0 {
-      spark.active = false
-      continue
-    }
-
-    spark.x = spark.x + spark.vx * dt
-    spark.y = spark.y + spark.vy * dt
-    spark.vx = spark.vx * (1.0 - dt * 1.9)
-    spark.vy = spark.vy * (1.0 - dt * 1.9) + dt * 36.0
-  }
-}
-
-///|
-fn shuffle_ints(arr : Array[Int]) -> Unit {
-  let mut i : Int = arr.length() - 1
-  while i > 0 {
-    let j : Int = @raylib.get_random_value(0, i)
-    let t : Int = arr[i]
-    arr[i] = arr[j]
-    arr[j] = t
-    i = i - 1
-  }
-}
-
-///|
-fn build_level_board(game : Game) -> Unit {
+fn build_level_board(game : @types.Game) -> Unit {
   let total : Int = game.board_w * game.board_h
   let pair_count : Int = total / 2
 
@@ -237,13 +10,13 @@ fn build_level_board(game : Game) -> Unit {
     vals.push(kind)
   }
 
-  shuffle_ints(vals)
+  @types.shuffle_ints(vals)
 
-  clear_board(game)
+  @types.clear_board(game)
   let mut p : Int = 0
   for y in 1..<=game.board_h {
     for x in 1..<=game.board_w {
-      set_cell(game, x, y, vals[p])
+      @types.set_cell(game, x, y, vals[p])
       p = p + 1
     }
   }
@@ -265,23 +38,10 @@ fn push_point(xs : Array[Int], ys : Array[Int], x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn path_point(path : LinkPath, idx : Int) -> (Int, Int) {
-  if idx == 0 {
-    (path.x0, path.y0)
-  } else if idx == 1 {
-    (path.x1, path.y1)
-  } else if idx == 2 {
-    (path.x2, path.y2)
-  } else {
-    (path.x3, path.y3)
-  }
-}
-
-///|
-fn make_path(xs : Array[Int], ys : Array[Int]) -> LinkPath {
+fn make_path(xs : Array[Int], ys : Array[Int]) -> @types.LinkPath {
   let n : Int = xs.length()
   if n < 2 {
-    return empty_path()
+    return @types.empty_path()
   }
 
   {
@@ -323,7 +83,7 @@ fn make_path(xs : Array[Int], ys : Array[Int]) -> LinkPath {
 }
 
 ///|
-fn line_clear(game : Game, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Bool {
+fn line_clear(game : @types.Game, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Bool {
   if x1 == x2 && y1 == y2 {
     return true
   }
@@ -336,7 +96,7 @@ fn line_clear(game : Game, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Bool {
     let step : Int = if y2 > y1 { 1 } else { -1 }
     let mut y : Int = y1 + step
     while y != y2 {
-      if cell_at(game, x1, y) != 0 {
+      if @types.cell_at(game, x1, y) != 0 {
         return false
       }
       y = y + step
@@ -347,7 +107,7 @@ fn line_clear(game : Game, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Bool {
   let step : Int = if x2 > x1 { 1 } else { -1 }
   let mut x : Int = x1 + step
   while x != x2 {
-    if cell_at(game, x, y1) != 0 {
+    if @types.cell_at(game, x, y1) != 0 {
       return false
     }
     x = x + step
@@ -357,18 +117,18 @@ fn line_clear(game : Game, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Bool {
 }
 
 ///|
-fn empty_or_target(game : Game, x : Int, y : Int, tx : Int, ty : Int) -> Bool {
-  (x == tx && y == ty) || cell_at(game, x, y) == 0
+fn empty_or_target(game : @types.Game, x : Int, y : Int, tx : Int, ty : Int) -> Bool {
+  (x == tx && y == ty) || @types.cell_at(game, x, y) == 0
 }
 
 ///|
 fn direct_or_one_turn_from_anchor(
-  game : Game,
+  game : @types.Game,
   ax : Int,
   ay : Int,
   bx : Int,
   by : Int,
-) -> LinkPath {
+) -> @types.LinkPath {
   if line_clear(game, ax, ay, bx, by) {
     let xs : Array[Int] = []
     let ys : Array[Int] = []
@@ -403,13 +163,13 @@ fn direct_or_one_turn_from_anchor(
     return make_path(xs, ys)
   }
 
-  empty_path()
+  @types.empty_path()
 }
 
 ///|
-fn compose_with_start(ax : Int, ay : Int, tail : LinkPath) -> LinkPath {
+fn compose_with_start(ax : Int, ay : Int, tail : @types.LinkPath) -> @types.LinkPath {
   if not(tail.found) {
-    return empty_path()
+    return @types.empty_path()
   }
 
   let xs : Array[Int] = []
@@ -417,7 +177,7 @@ fn compose_with_start(ax : Int, ay : Int, tail : LinkPath) -> LinkPath {
   push_point(xs, ys, ax, ay)
 
   for i in 0..<tail.points {
-    let (x, y) = path_point(tail, i)
+    let (x, y) = @types.path_point(tail, i)
     push_point(xs, ys, x, y)
   }
 
@@ -426,23 +186,23 @@ fn compose_with_start(ax : Int, ay : Int, tail : LinkPath) -> LinkPath {
 
 ///|
 fn find_link_path(
-  game : Game,
+  game : @types.Game,
   ax : Int,
   ay : Int,
   bx : Int,
   by : Int,
-) -> LinkPath {
+) -> @types.LinkPath {
   if ax == bx && ay == by {
-    return empty_path()
+    return @types.empty_path()
   }
 
-  let a : Int = cell_at(game, ax, ay)
-  let b : Int = cell_at(game, bx, by)
+  let a : Int = @types.cell_at(game, ax, ay)
+  let b : Int = @types.cell_at(game, bx, by)
   if a <= 0 || a != b {
-    return empty_path()
+    return @types.empty_path()
   }
 
-  let direct_or_corner : LinkPath = direct_or_one_turn_from_anchor(
+  let direct_or_corner : @types.LinkPath = direct_or_one_turn_from_anchor(
     game, ax, ay, bx, by,
   )
   if direct_or_corner.found {
@@ -462,7 +222,9 @@ fn find_link_path(
       continue
     }
 
-    let tail : LinkPath = direct_or_one_turn_from_anchor(game, x, ay, bx, by)
+    let tail : @types.LinkPath = direct_or_one_turn_from_anchor(
+      game, x, ay, bx, by,
+    )
     if tail.found {
       return compose_with_start(ax, ay, tail)
     }
@@ -481,19 +243,21 @@ fn find_link_path(
       continue
     }
 
-    let tail : LinkPath = direct_or_one_turn_from_anchor(game, ax, y, bx, by)
+    let tail : @types.LinkPath = direct_or_one_turn_from_anchor(
+      game, ax, y, bx, by,
+    )
     if tail.found {
       return compose_with_start(ax, ay, tail)
     }
   }
 
-  empty_path()
+  @types.empty_path()
 }
 
 ///|
-fn set_path_flash(game : Game, path : LinkPath) -> Unit {
+fn set_path_flash(game : @types.Game, path : @types.LinkPath) -> Unit {
   if not(path.found) {
-    clear_path_flash(game)
+    @types.clear_path_flash(game)
     return
   }
 
@@ -511,20 +275,13 @@ fn set_path_flash(game : Game, path : LinkPath) -> Unit {
 }
 
 ///|
-fn path_point_flash(game : Game, idx : Int) -> (Int, Int) {
-  if idx == 0 {
-    (game.path_x0, game.path_y0)
-  } else if idx == 1 {
-    (game.path_x1, game.path_y1)
-  } else if idx == 2 {
-    (game.path_x2, game.path_y2)
-  } else {
-    (game.path_x3, game.path_y3)
-  }
-}
-
-///|
-fn set_hint_pair(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Unit {
+fn set_hint_pair(
+  game : @types.Game,
+  x0 : Int,
+  y0 : Int,
+  x1 : Int,
+  y1 : Int,
+) -> Unit {
   game.hint_active = true
   game.hint_ttl = 2.8
   game.hint_x0 = x0
@@ -534,17 +291,12 @@ fn set_hint_pair(game : Game, x0 : Int, y0 : Int, x1 : Int, y1 : Int) -> Unit {
 }
 
 ///|
-fn clear_selection(game : Game) -> Unit {
-  game.select_active = false
-  game.select_x = 1
-  game.select_y = 1
-}
-
-///|
-fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int, LinkPath) {
+fn find_any_move(
+  game : @types.Game,
+) -> (Bool, Int, Int, Int, Int, @types.LinkPath) {
   for y1 in 1..<=game.board_h {
     for x1 in 1..<=game.board_w {
-      let k1 : Int = cell_at(game, x1, y1)
+      let k1 : Int = @types.cell_at(game, x1, y1)
       if k1 == 0 {
         continue
       }
@@ -554,8 +306,8 @@ fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int, LinkPath) {
         let start_x : Int = if y2 == y1 { x1 + 1 } else { 1 }
         let mut x2 : Int = start_x
         while x2 <= game.board_w {
-          if cell_at(game, x2, y2) == k1 {
-            let p : LinkPath = find_link_path(game, x1, y1, x2, y2)
+          if @types.cell_at(game, x2, y2) == k1 {
+            let p : @types.LinkPath = find_link_path(game, x1, y1, x2, y2)
             if p.found {
               return (true, x1, y1, x2, y2, p)
             }
@@ -567,12 +319,12 @@ fn find_any_move(game : Game) -> (Bool, Int, Int, Int, Int, LinkPath) {
     }
   }
 
-  (false, 0, 0, 0, 0, empty_path())
+  (false, 0, 0, 0, 0, @types.empty_path())
 }
 
 ///|
-fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
-  if game.state != state_play {
+fn reshuffle_board(game : @types.Game, consume_ticket : Bool) -> Bool {
+  if game.state != @types.state_play {
     return false
   }
 
@@ -585,7 +337,7 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
   let vals : Array[Int] = []
   for y in 1..<=game.board_h {
     for x in 1..<=game.board_w {
-      let k : Int = cell_at(game, x, y)
+      let k : Int = @types.cell_at(game, x, y)
       if k > 0 {
         vals.push(k)
       }
@@ -598,13 +350,13 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
 
   let mut made : Bool = false
   for _t in 0..<28 {
-    shuffle_ints(vals)
+    @types.shuffle_ints(vals)
 
     let mut p : Int = 0
     for y in 1..<=game.board_h {
       for x in 1..<=game.board_w {
-        if cell_at(game, x, y) > 0 {
-          set_cell(game, x, y, vals[p])
+        if @types.cell_at(game, x, y) > 0 {
+          @types.set_cell(game, x, y, vals[p])
           p = p + 1
         }
       }
@@ -627,9 +379,9 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
     game.shuffles_left = game.shuffles_left - 1
   }
 
-  clear_selection(game)
-  clear_path_flash(game)
-  clear_hint_flash(game)
+  @types.clear_selection(game)
+  @types.clear_path_flash(game)
+  @types.clear_hint_flash(game)
   game.combo = 0
   game.message = "Board shuffled"
   game.message_t = 0.8
@@ -639,22 +391,22 @@ fn reshuffle_board(game : Game, consume_ticket : Bool) -> Bool {
 }
 
 ///|
-fn finalize_level_clear(game : Game) -> Unit {
+fn finalize_level_clear(game : @types.Game) -> Unit {
   game.total_levels = game.total_levels + 1
   game.total_time = game.total_time + (game.time_limit - game.timer)
 }
 
 ///|
-fn complete_level(game : Game) -> Unit {
-  if game.state != state_play {
+fn complete_level(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
   finalize_level_clear(game)
   game.state = if game.level_index + 1 >= game.level_count {
-    state_campaign_clear
+    @types.state_campaign_clear
   } else {
-    state_level_clear
+    @types.state_level_clear
   }
 
   game.message = "Board cleared"
@@ -663,12 +415,12 @@ fn complete_level(game : Game) -> Unit {
 }
 
 ///|
-fn fail_level(game : Game) -> Unit {
-  if game.state != state_play {
+fn fail_level(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  game.state = state_fail
+  game.state = @types.state_fail
   game.combo = 0
   game.message = "Time up"
   game.message_t = 1.2
@@ -676,8 +428,8 @@ fn fail_level(game : Game) -> Unit {
 }
 
 ///|
-fn ensure_move_exists(game : Game) -> Unit {
-  if game.state != state_play || game.remaining <= 0 {
+fn ensure_move_exists(game : @types.Game) -> Unit {
+  if game.state != @types.state_play || game.remaining <= 0 {
     return
   }
 
@@ -703,16 +455,16 @@ fn ensure_move_exists(game : Game) -> Unit {
 
 ///|
 fn on_pair_matched(
-  game : Game,
+  game : @types.Game,
   x0 : Int,
   y0 : Int,
   x1 : Int,
   y1 : Int,
   kind : Int,
-  path : LinkPath,
+  path : @types.LinkPath,
 ) -> Unit {
-  set_cell(game, x0, y0, 0)
-  set_cell(game, x1, y1, 0)
+  @types.set_cell(game, x0, y0, 0)
+  @types.set_cell(game, x1, y1, 0)
 
   game.remaining = game.remaining - 2
   game.combo = game.combo + 1
@@ -726,14 +478,14 @@ fn on_pair_matched(
   }
 
   set_path_flash(game, path)
-  clear_hint_flash(game)
-  clear_selection(game)
+  @types.clear_hint_flash(game)
+  @types.clear_selection(game)
 
   game.message = "Combo x\{game.combo} +\{gain}"
   game.message_t = 0.95
 
-  burst_cell(game, x0, y0, 14, 0)
-  burst_cell(game, x1, y1, 14, 1)
+  @types.burst_cell(game, x0, y0, 14, 0)
+  @types.burst_cell(game, x1, y1, 14, 1)
 
   if game.remaining <= 0 {
     complete_level(game)
@@ -744,21 +496,21 @@ fn on_pair_matched(
 }
 
 ///|
-fn on_pair_failed(game : Game, x : Int, y : Int) -> Unit {
+fn on_pair_failed(game : @types.Game, x : Int, y : Int) -> Unit {
   game.combo = 0
   game.message = "Path blocked"
   game.message_t = 0.62
   game.shake_t = 0.08
-  burst_cell(game, x, y, 8, 2)
+  @types.burst_cell(game, x, y, 8, 2)
 }
 
 ///|
-fn pick_cell(game : Game, x : Int, y : Int) -> Unit {
-  if game.state != state_play {
+fn pick_cell(game : @types.Game, x : Int, y : Int) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  let k : Int = cell_at(game, x, y)
+  let k : Int = @types.cell_at(game, x, y)
   if k <= 0 {
     return
   }
@@ -776,7 +528,7 @@ fn pick_cell(game : Game, x : Int, y : Int) -> Unit {
   }
 
   if game.select_x == x && game.select_y == y {
-    clear_selection(game)
+    @types.clear_selection(game)
     game.message = "Selection cleared"
     game.message_t = 0.3
     return
@@ -784,7 +536,7 @@ fn pick_cell(game : Game, x : Int, y : Int) -> Unit {
 
   let sx : Int = game.select_x
   let sy : Int = game.select_y
-  let sk : Int = cell_at(game, sx, sy)
+  let sk : Int = @types.cell_at(game, sx, sy)
 
   if sk <= 0 || sk != k {
     game.select_x = x
@@ -794,7 +546,7 @@ fn pick_cell(game : Game, x : Int, y : Int) -> Unit {
     return
   }
 
-  let path : LinkPath = find_link_path(game, sx, sy, x, y)
+  let path : @types.LinkPath = find_link_path(game, sx, sy, x, y)
   if path.found {
     on_pair_matched(game, sx, sy, x, y, k, path)
   } else {
@@ -805,13 +557,13 @@ fn pick_cell(game : Game, x : Int, y : Int) -> Unit {
 }
 
 ///|
-fn pick_cursor_cell(game : Game) -> Unit {
+fn pick_cursor_cell(game : @types.Game) -> Unit {
   pick_cell(game, game.cursor_x, game.cursor_y)
 }
 
 ///|
-fn use_hint(game : Game) -> Bool {
-  if game.state != state_play || game.hints_left <= 0 {
+fn use_hint(game : @types.Game) -> Bool {
+  if game.state != @types.state_play || game.hints_left <= 0 {
     game.message = "No hints left"
     game.message_t = 0.8
     return false
@@ -830,39 +582,39 @@ fn use_hint(game : Game) -> Bool {
   game.cursor_y = m.2
   game.message = "Hint highlighted"
   game.message_t = 0.9
-  burst_cell(game, m.1, m.2, 10, 3)
-  burst_cell(game, m.3, m.4, 10, 3)
+  @types.burst_cell(game, m.1, m.2, 10, 3)
+  @types.burst_cell(game, m.3, m.4, 10, 3)
 
   true
 }
 
 ///|
-fn move_cursor_once(game : Game, dir : Int) -> Unit {
-  if game.state != state_play {
+fn move_cursor_once(game : @types.Game, dir : Int) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  if dir == dir_left {
-    game.cursor_x = clampi(game.cursor_x - 1, 1, game.board_w)
-  } else if dir == dir_right {
-    game.cursor_x = clampi(game.cursor_x + 1, 1, game.board_w)
-  } else if dir == dir_up {
-    game.cursor_y = clampi(game.cursor_y - 1, 1, game.board_h)
-  } else if dir == dir_down {
-    game.cursor_y = clampi(game.cursor_y + 1, 1, game.board_h)
+  if dir == @types.dir_left {
+    game.cursor_x = @types.clampi(game.cursor_x - 1, 1, game.board_w)
+  } else if dir == @types.dir_right {
+    game.cursor_x = @types.clampi(game.cursor_x + 1, 1, game.board_w)
+  } else if dir == @types.dir_up {
+    game.cursor_y = @types.clampi(game.cursor_y - 1, 1, game.board_h)
+  } else if dir == @types.dir_down {
+    game.cursor_y = @types.clampi(game.cursor_y + 1, 1, game.board_h)
   }
 }
 
 ///|
-fn update_cursor_hold(game : Game, dt : Float, held_dir : Int) -> Unit {
-  if game.state != state_play {
-    game.hold_dir = dir_none
+fn update_cursor_hold(game : @types.Game, dt : Float, held_dir : Int) -> Unit {
+  if game.state != @types.state_play {
+    game.hold_dir = @types.dir_none
     game.repeat_t = 0.0
     return
   }
 
-  if held_dir == dir_none {
-    game.hold_dir = dir_none
+  if held_dir == @types.dir_none {
+    game.hold_dir = @types.dir_none
     game.repeat_t = 0.0
     return
   }
@@ -881,7 +633,7 @@ fn update_cursor_hold(game : Game, dt : Float, held_dir : Int) -> Unit {
 }
 
 ///|
-fn update_timers(game : Game, dt : Float) -> Unit {
+fn update_timers(game : @types.Game, dt : Float) -> Unit {
   game.ui_t = game.ui_t + dt
 
   if game.message_t > 0.0 {
@@ -901,14 +653,14 @@ fn update_timers(game : Game, dt : Float) -> Unit {
   if game.path_active {
     game.path_ttl = game.path_ttl - dt
     if game.path_ttl <= 0.0 {
-      clear_path_flash(game)
+      @types.clear_path_flash(game)
     }
   }
 
   if game.hint_active {
     game.hint_ttl = game.hint_ttl - dt
     if game.hint_ttl <= 0.0 {
-      clear_hint_flash(game)
+      @types.clear_hint_flash(game)
     }
   }
 
@@ -919,7 +671,7 @@ fn update_timers(game : Game, dt : Float) -> Unit {
     }
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     game.timer = game.timer - dt
     if game.timer <= 0.0 {
       game.timer = 0.0
@@ -927,11 +679,11 @@ fn update_timers(game : Game, dt : Float) -> Unit {
     }
   }
 
-  update_sparks(game, dt)
+  @types.update_sparks(game, dt)
 }
 
 ///|
-fn load_level(game : Game, level_id : Int) -> Unit {
+fn load_level(game : @types.Game, level_id : Int) -> Unit {
   let mut id : Int = level_id
   if id < 0 {
     id = 0
@@ -946,7 +698,7 @@ fn load_level(game : Game, level_id : Int) -> Unit {
   game.level_name = name
   game.board_w = w
   game.board_h = h
-  game.kind_count = mini(kinds, maxi(2, w * h / 2))
+  game.kind_count = @types.mini(kinds, @types.maxi(2, w * h / 2))
 
   game.time_limit = limit
   game.timer = limit
@@ -954,12 +706,12 @@ fn load_level(game : Game, level_id : Int) -> Unit {
   game.shuffles_left = shuffles
 
   game.combo = 0
-  game.cursor_x = maxi(1, w / 2)
-  game.cursor_y = maxi(1, h / 2)
-  clear_selection(game)
-  clear_path_flash(game)
-  clear_hint_flash(game)
-  clear_sparks(game)
+  game.cursor_x = @types.maxi(1, w / 2)
+  game.cursor_y = @types.maxi(1, h / 2)
+  @types.clear_selection(game)
+  @types.clear_path_flash(game)
+  @types.clear_hint_flash(game)
+  @types.clear_sparks(game)
 
   build_level_board(game)
 
@@ -978,18 +730,18 @@ fn load_level(game : Game, level_id : Int) -> Unit {
     game.message_t = 0.8
   }
 
-  game.state = state_play
+  game.state = @types.state_play
   game.message = "Level \{id + 1}: \{name}"
   game.message_t = 1.2
 }
 
 ///|
-fn reload_level(game : Game) -> Unit {
+fn reload_level(game : @types.Game) -> Unit {
   load_level(game, game.level_index)
 }
 
 ///|
-fn restart_campaign(game : Game) -> Unit {
+fn restart_campaign(game : @types.Game) -> Unit {
   game.score = 0
   game.total_levels = 0
   game.total_time = 0.0
@@ -997,10 +749,78 @@ fn restart_campaign(game : Game) -> Unit {
 }
 
 ///|
-fn next_level(game : Game) -> Unit {
+fn next_level(game : @types.Game) -> Unit {
   if game.level_index + 1 >= game.level_count {
-    game.state = state_campaign_clear
+    game.state = @types.state_campaign_clear
     return
   }
   load_level(game, game.level_index + 1)
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  // Read input state into game struct
+  let mouse = @raylib.get_mouse_position()
+  game.mouse_x = mouse.x
+  game.mouse_y = mouse.y
+  game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft)
+  game.mouse_press = @raylib.is_mouse_button_pressed(@raylib.MouseButtonLeft)
+  let mut tc : Int = @raylib.get_touch_point_count()
+  if tc < 0 {
+    tc = 0
+  }
+  game.touch_count = tc
+
+  update_timers(game, dt)
+
+  let start_press : Bool = detect_start_press(game)
+  let next_press : Bool = detect_next_press(game)
+  let reset_press : Bool = detect_reset_press(game)
+
+  if game.state == @types.state_title {
+    if start_press {
+      restart_campaign(game)
+    }
+  } else if game.state == @types.state_play {
+    let held_dir : Int = detect_held_dir(game)
+    update_cursor_hold(game, dt, held_dir)
+
+    let select_press : Bool = detect_select_press(game)
+    let hint_press : Bool = detect_hint_press(game)
+    let shuffle_press : Bool = detect_shuffle_press(game)
+    let clear_press : Bool = detect_clear_press(game)
+    let board_tap = detect_board_tap(game)
+
+    if reset_press && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.2
+      reload_level(game)
+    } else if clear_press && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.12
+      @types.clear_selection(game)
+      game.message = "Selection cleared"
+      game.message_t = 0.5
+    } else if hint_press && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.18
+      ignore(use_hint(game))
+    } else if shuffle_press && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.2
+      ignore(reshuffle_board(game, true))
+    } else if board_tap.0 && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.1
+      pick_cell(game, board_tap.1, board_tap.2)
+    } else if select_press && game.touch_action_cd <= 0.0 {
+      game.touch_action_cd = 0.1
+      pick_cursor_cell(game)
+    }
+  } else if game.state == @types.state_level_clear {
+    if next_press {
+      next_level(game)
+    }
+  } else if game.state == @types.state_campaign_clear {
+    if next_press {
+      restart_campaign(game)
+    }
+  } else if reset_press || next_press {
+    reload_level(game)
+  }
 }

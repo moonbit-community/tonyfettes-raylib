@@ -1,5 +1,5 @@
 ///|
-struct LinkPath {
+pub(all) struct LinkPath {
   found : Bool
   points : Int
   x0 : Int
@@ -13,7 +13,7 @@ struct LinkPath {
 }
 
 ///|
-fn empty_path() -> LinkPath {
+pub fn empty_path() -> LinkPath {
   {
     found: false,
     points: 0,
@@ -29,7 +29,7 @@ fn empty_path() -> LinkPath {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -41,7 +41,7 @@ struct Spark {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   cells : Array[Int]
   sparks : Array[Spark]
   mut state : Int
@@ -89,10 +89,15 @@ struct Game {
   mut message_t : Float
   mut shake_t : Float
   mut ui_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   let sparks_arr : Array[Spark] = Array::makei(1200, fn(_i) {
     {
       active: false,
@@ -154,5 +159,10 @@ fn Game::new() -> Game {
     message_t: 0.0,
     shake_t: 0.0,
     ui_t: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    mouse_press: false,
+    touch_count: 0,
   }
 }

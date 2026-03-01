@@ -1,6 +1,8 @@
 import {
-  "moonbitlang/core/math",
   "tonyfettes/raylib",
+  "tonyfettes/raylib-examples/raylib_matchlink_festival_2026/game",
+  "tonyfettes/raylib-examples/raylib_matchlink_festival_2026/render",
+  "tonyfettes/raylib-examples/raylib_matchlink_festival_2026/types",
 }
 
 options(
