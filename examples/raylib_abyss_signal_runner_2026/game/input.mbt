@@ -1,42 +1,5 @@
 ///|
-fn point_in_rect(
-  x : Float,
-  y : Float,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  x >= rx && x <= rx + rw && y >= ry && y <= ry + rh
-}
-
-///|
-fn pointer_on_rect(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  if hold && point_in_rect(mx, my, rx, ry, rw, rh) {
-    return true
-  }
-
-  for i in 0..<touch_count {
-    let p = @raylib.get_touch_position(i)
-    if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
-      return true
-    }
-  }
-
-  false
-}
-
-///|
-fn clear_frame_input(game : Game) -> Unit {
+fn clear_frame_input(game : @types.Game) -> Unit {
   game.input_x = 0.0
   game.input_y = 0.0
   game.input_dash_press = false
@@ -45,47 +8,17 @@ fn clear_frame_input(game : Game) -> Unit {
 }
 
 ///|
-fn title_start_rect() -> (Float, Float, Float, Float) {
-  let w = Float::from_int(410)
-  let h = Float::from_int(88)
-  (
-    Float::from_int(screen_w) * 0.5 - w * 0.5,
-    Float::from_int(screen_h) * 0.62,
-    w,
-    h,
-  )
-}
-
-///|
-fn restart_rect() -> (Float, Float, Float, Float) {
-  let w = Float::from_int(180)
-  let h = Float::from_int(56)
-  (
-    Float::from_int(screen_w) * 0.5 - w * 0.5,
-    Float::from_int(screen_h) * 0.72,
-    w,
-    h,
-  )
-}
-
-///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
 
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let start_btn = title_start_rect()
-  let start_hover = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let start_btn = @types.title_start_rect()
+  let start_hover = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     start_btn.0,
     start_btn.1,
     start_btn.2,
@@ -102,79 +35,73 @@ fn update_title_input(
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
 
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let left_btn = btn_left_rect()
-  let right_btn = btn_right_rect()
-  let up_btn = btn_up_rect()
-  let down_btn = btn_down_rect()
-  let dash_btn = btn_dash_rect()
-  let sonar_btn = btn_sonar_rect()
+  let left_btn = @types.btn_left_rect()
+  let right_btn = @types.btn_right_rect()
+  let up_btn = @types.btn_up_rect()
+  let down_btn = @types.btn_down_rect()
+  let dash_btn = @types.btn_dash_rect()
+  let sonar_btn = @types.btn_sonar_rect()
 
-  let t_left = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_left = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     left_btn.0,
     left_btn.1,
     left_btn.2,
     left_btn.3,
   )
-  let t_right = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_right = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     right_btn.0,
     right_btn.1,
     right_btn.2,
     right_btn.3,
   )
-  let t_up = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_up = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     up_btn.0,
     up_btn.1,
     up_btn.2,
     up_btn.3,
   )
-  let t_down = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_down = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     down_btn.0,
     down_btn.1,
     down_btn.2,
     down_btn.3,
   )
-  let t_dash = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_dash = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     dash_btn.0,
     dash_btn.1,
     dash_btn.2,
     dash_btn.3,
   )
-  let t_sonar = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let t_sonar = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     sonar_btn.0,
     sonar_btn.1,
     sonar_btn.2,
@@ -208,7 +135,7 @@ fn update_play_input(
 
   let len2 = ix * ix + iy * iy
   if len2 > 1.0 {
-    let inv : Float = Float::from_int(1) / sqrtf(len2)
+    let inv : Float = Float::from_int(1) / @types.sqrtf(len2)
     ix = ix * inv
     iy = iy * inv
   }
@@ -233,23 +160,17 @@ fn update_play_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_result_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
 
-  game.touch_mode = touch_count > 0
+  game.touch_mode = game.touch_count > 0
 
-  let retry_btn = restart_rect()
-  let retry_hover = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
+  let retry_btn = @types.restart_rect()
+  let retry_hover = @types.pointer_on_rect(
+    game.mx,
+    game.my,
+    game.hold,
+    game.touch_count,
     retry_btn.0,
     retry_btn.1,
     retry_btn.2,

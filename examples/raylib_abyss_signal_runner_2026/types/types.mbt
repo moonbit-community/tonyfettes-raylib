@@ -1,5 +1,5 @@
 ///|
-struct Obj {
+pub(all) struct Obj {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -13,7 +13,7 @@ struct Obj {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -25,7 +25,7 @@ struct Particle {
 }
 
 ///|
-struct Ripple {
+pub(all) struct Ripple {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -35,7 +35,7 @@ struct Ripple {
 }
 
 ///|
-struct Trail {
+pub(all) struct Trail {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -46,7 +46,7 @@ struct Trail {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -58,7 +58,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   objs : Array[Obj]
   particles : Array[Particle]
   ripples : Array[Ripple]
@@ -95,10 +95,14 @@ struct Game {
   mut touch_dash_prev : Bool
   mut touch_sonar_prev : Bool
   mut touch_restart_prev : Bool
+  mut mx : Float
+  mut my : Float
+  mut hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Obj::new() -> Obj {
+pub fn Obj::new() -> Obj {
   {
     active: false,
     kind: obj_rock,
@@ -114,7 +118,7 @@ fn Obj::new() -> Obj {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -128,17 +132,17 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Ripple::new() -> Ripple {
+pub fn Ripple::new() -> Ripple {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Trail::new() -> Trail {
+pub fn Trail::new() -> Trail {
   { active: false, x: 0.0, y: 0.0, w: 0.0, h: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: Float::from_int(screen_w / 2),
     y: Float::from_int(screen_h) * 0.72,
@@ -152,7 +156,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     objs: Array::makei(max_objs, fn(_i) { Obj::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
@@ -190,5 +194,9 @@ fn Game::new() -> Game {
     touch_dash_prev: false,
     touch_sonar_prev: false,
     touch_restart_prev: false,
+    mx: 0.0,
+    my: 0.0,
+    hold: false,
+    touch_count: 0,
   }
 }

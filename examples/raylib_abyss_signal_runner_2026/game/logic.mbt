@@ -1,8 +1,8 @@
 ///|
-fn clear_objs(game : Game) -> Unit {
+fn clear_objs(game : @types.Game) -> Unit {
   for obj in game.objs {
     obj.active = false
-    obj.kind = obj_rock
+    obj.kind = @types.obj_rock
     obj.x = 0.0
     obj.y = 0.0
     obj.vx = 0.0
@@ -15,7 +15,7 @@ fn clear_objs(game : Game) -> Unit {
 }
 
 ///|
-fn clear_particles(game : Game) -> Unit {
+fn clear_particles(game : @types.Game) -> Unit {
   for particle in game.particles {
     particle.active = false
     particle.x = 0.0
@@ -29,7 +29,7 @@ fn clear_particles(game : Game) -> Unit {
 }
 
 ///|
-fn clear_ripples(game : Game) -> Unit {
+fn clear_ripples(game : @types.Game) -> Unit {
   for ripple in game.ripples {
     ripple.active = false
     ripple.x = 0.0
@@ -41,7 +41,7 @@ fn clear_ripples(game : Game) -> Unit {
 }
 
 ///|
-fn clear_trails(game : Game) -> Unit {
+fn clear_trails(game : @types.Game) -> Unit {
   for trail in game.trails {
     trail.active = false
     trail.x = 0.0
@@ -54,19 +54,19 @@ fn clear_trails(game : Game) -> Unit {
 }
 
 ///|
-fn reset_hero(hero : Player) -> Unit {
-  hero.x = Float::from_int(screen_w / 2)
-  hero.y = Float::from_int(screen_h) * 0.72
+fn reset_hero(hero : @types.Player) -> Unit {
+  hero.x = Float::from_int(@types.screen_w / 2)
+  hero.y = Float::from_int(@types.screen_h) * 0.72
   hero.vx = 0.0
   hero.vy = 0.0
-  hero.r = player_r
+  hero.r = @types.player_r
   hero.invuln = 0.0
   hero.hurt_t = 0.0
   hero.anim_t = 0.0
 }
 
 ///|
-fn alloc_obj(game : Game) -> Int {
+fn alloc_obj(game : @types.Game) -> Int {
   for i in 0..<game.objs.length() {
     if not(game.objs[i].active) {
       return i
@@ -85,7 +85,7 @@ fn alloc_obj(game : Game) -> Int {
 }
 
 ///|
-fn alloc_particle(game : Game) -> Int {
+fn alloc_particle(game : @types.Game) -> Int {
   for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
@@ -104,7 +104,7 @@ fn alloc_particle(game : Game) -> Int {
 }
 
 ///|
-fn alloc_ripple(game : Game) -> Int {
+fn alloc_ripple(game : @types.Game) -> Int {
   for i in 0..<game.ripples.length() {
     if not(game.ripples[i].active) {
       return i
@@ -123,27 +123,8 @@ fn alloc_ripple(game : Game) -> Int {
 }
 
 ///|
-fn alloc_trail(game : Game) -> Int {
-  for i in 0..<game.trails.length() {
-    if not(game.trails[i].active) {
-      return i
-    }
-  }
-
-  let mut best = 0
-  let mut best_life = game.trails[0].life
-  for i in 1..<game.trails.length() {
-    if game.trails[i].life < best_life {
-      best_life = game.trails[i].life
-      best = i
-    }
-  }
-  best
-}
-
-///|
 fn emit_particle(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -164,16 +145,16 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
-      x + randf(-14.0, 14.0),
-      y + randf(-14.0, 14.0),
-      randf(-220.0, 220.0),
-      randf(-220.0, 220.0),
-      randf(0.24, 1.02),
-      randf(1.8, 6.8),
+      x + @types.randf(-14.0, 14.0),
+      y + @types.randf(-14.0, 14.0),
+      @types.randf(-220.0, 220.0),
+      @types.randf(-220.0, 220.0),
+      @types.randf(0.24, 1.02),
+      @types.randf(1.8, 6.8),
       kind,
     )
   }
@@ -181,7 +162,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn spawn_ripple(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   r : Float,
@@ -198,28 +179,8 @@ fn spawn_ripple(
 }
 
 ///|
-fn emit_trail(
-  game : Game,
-  x : Float,
-  y : Float,
-  w : Float,
-  h : Float,
-  life : Float,
-  kind : Int,
-) -> Unit {
-  let i = alloc_trail(game)
-  game.trails[i].active = true
-  game.trails[i].x = x
-  game.trails[i].y = y
-  game.trails[i].w = w
-  game.trails[i].h = h
-  game.trails[i].life = life
-  game.trails[i].kind = kind
-}
-
-///|
 fn spawn_obj(
-  game : Game,
+  game : @types.Game,
   kind : Int,
   x : Float,
   y : Float,
@@ -238,46 +199,33 @@ fn spawn_obj(
   game.objs[i].vx = vx
   game.objs[i].vy = vy
   game.objs[i].cloak = cloak
-  game.objs[i].spin = randf(0.0, 6.283)
+  game.objs[i].spin = @types.randf(0.0, 6.283)
   game.objs[i].life = life
 }
 
 ///|
-fn depth_at_screen(game : Game, y : Float) -> Float {
-  game.distance + (Float::from_int(screen_h) - y)
-}
-
-///|
-fn cave_edges(game : Game, y : Float) -> (Float, Float) {
-  let d = depth_at_screen(game, y)
-  let c = cave_center(d, game.time_s)
-  let hw = cave_half_width(d, game.time_s, game.stage)
-  (c - hw, c + hw)
-}
-
-///|
-fn object_spawn_x(game : Game, y : Float, r : Float) -> Float {
-  let d = depth_at_screen(game, y)
-  let c = cave_center(d, game.time_s)
-  let hw = cave_half_width(d, game.time_s, game.stage)
-  let mut lo = c - hw + cave_x_margin + r
-  let mut hi = c + hw - cave_x_margin - r
+fn object_spawn_x(game : @types.Game, y : Float, r : Float) -> Float {
+  let d = @types.depth_at_screen(game, y)
+  let c = @types.cave_center(d, game.time_s)
+  let hw = @types.cave_half_width(d, game.time_s, game.stage)
+  let mut lo = c - hw + @types.cave_x_margin + r
+  let mut hi = c + hw - @types.cave_x_margin - r
   if hi < lo {
     let mid = c
     lo = mid - 10.0
     hi = mid + 10.0
   }
-  clampf(randf(lo, hi), lo, hi)
+  @types.clampf(@types.randf(lo, hi), lo, hi)
 }
 
 ///|
-fn score_gain(game : Game, base : Int) -> Int {
+fn score_gain(game : @types.Game, base : Int) -> Int {
   let bonus = base * game.combo / 4
   base + bonus
 }
 
 ///|
-fn add_score(game : Game, base : Int) -> Unit {
+fn add_score(game : @types.Game, base : Int) -> Unit {
   let gained = score_gain(game, base)
   game.score = game.score + gained
   if game.score > game.best_score {
@@ -286,35 +234,35 @@ fn add_score(game : Game, base : Int) -> Unit {
 }
 
 ///|
-fn push_combo(game : Game) -> Unit {
-  game.combo = clampi(game.combo + 1, 0, 18)
+fn push_combo(game : @types.Game) -> Unit {
+  game.combo = @types.clampi(game.combo + 1, 0, 18)
   game.combo_t = 3.4
 }
 
 ///|
-fn hurt_hero(game : Game, dmg : Float) -> Unit {
+fn hurt_hero(game : @types.Game, dmg : Float) -> Unit {
   if game.hero.invuln > 0.0 {
     return
   }
 
-  game.hull = maxf(0.0, game.hull - dmg)
-  game.hero.invuln = invuln_time
+  game.hull = @types.maxf(0.0, game.hull - dmg)
+  game.hero.invuln = @types.invuln_time
   game.hero.hurt_t = 0.56
-  game.flash_t = maxf(game.flash_t, 0.34)
-  game.shake_t = maxf(game.shake_t, 0.55)
+  game.flash_t = @types.maxf(game.flash_t, 0.34)
+  game.shake_t = @types.maxf(game.shake_t, 0.55)
   game.combo = 0
   game.combo_t = 0.0
 
   burst(game, game.hero.x, game.hero.y, 22, 1)
 
   if game.hull <= 0.0 {
-    game.state = state_game_over
+    game.state = @types.state_game_over
     game.result_t = 0.0
   }
 }
 
 ///|
-fn start_new_stage(game : Game, stage : Int) -> Unit {
+fn start_new_stage(game : @types.Game, stage : Int) -> Unit {
   clear_objs(game)
   clear_particles(game)
   clear_ripples(game)
@@ -322,14 +270,14 @@ fn start_new_stage(game : Game, stage : Int) -> Unit {
 
   reset_hero(game.hero)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.stage = stage
   game.distance = 0.0
-  game.stage_goal = stage_base_goal +
-    Float::from_int(stage - 1) * stage_goal_gain
-  game.scroll_speed = base_scroll +
-    Float::from_int(stage - 1) * stage_scroll_gain
-  game.next_spawn_y = spawn_start_y
+  game.stage_goal = @types.stage_base_goal +
+    Float::from_int(stage - 1) * @types.stage_goal_gain
+  game.scroll_speed = @types.base_scroll +
+    Float::from_int(stage - 1) * @types.stage_scroll_gain
+  game.next_spawn_y = @types.spawn_start_y
 
   game.sonar_cd = 0.0
   game.sonar_t = 0.0
@@ -347,25 +295,25 @@ fn start_new_stage(game : Game, stage : Int) -> Unit {
     game.score = 0
     game.data_collected = 0
   } else {
-    game.hull = minf(100.0, game.hull + 25.0)
-    game.oxygen = minf(100.0, game.oxygen + 36.0)
+    game.hull = @types.minf(100.0, game.hull + 25.0)
+    game.oxygen = @types.minf(100.0, game.oxygen + 36.0)
   }
 
   spawn_ripple(game, game.hero.x, game.hero.y, 18.0, 0.62, 0)
 }
 
 ///|
-fn init_title_scene(game : Game) -> Unit {
+fn init_title_scene(game : @types.Game) -> Unit {
   clear_objs(game)
   clear_particles(game)
   clear_ripples(game)
   clear_trails(game)
   reset_hero(game.hero)
 
-  game.state = state_title
+  game.state = @types.state_title
   game.stage = 1
   game.distance = 0.0
-  game.stage_goal = stage_base_goal
+  game.stage_goal = @types.stage_base_goal
   game.score = 0
   game.data_collected = 0
   game.combo = 0
@@ -380,148 +328,148 @@ fn init_title_scene(game : Game) -> Unit {
   game.shake_t = 0.0
   game.result_t = 0.0
   game.hint_t = 0.0
-  game.scroll_speed = base_scroll
-  game.next_spawn_y = spawn_start_y
+  game.scroll_speed = @types.base_scroll
+  game.next_spawn_y = @types.spawn_start_y
 }
 
 ///|
-fn start_run(game : Game) -> Unit {
+fn start_run(game : @types.Game) -> Unit {
   start_new_stage(game, 1)
 }
 
 ///|
-fn spawn_wave(game : Game, y : Float) -> Unit {
-  let mut count = 1 + randi(0, 2)
+fn spawn_wave(game : @types.Game, y : Float) -> Unit {
+  let mut count = 1 + @types.randi(0, 2)
   if game.stage >= 3 {
-    count = count + randi(0, 1)
+    count = count + @types.randi(0, 1)
   }
 
   for _i in 0..<count {
-    let mut roll = randi(0, 99)
+    let mut roll = @types.randi(0, 99)
 
-    if game.oxygen < 36.0 && chance(40) {
+    if game.oxygen < 36.0 && @types.chance(40) {
       roll = 96
     }
 
     if roll < 34 {
-      let r = randf(18.0, 36.0)
+      let r = @types.randf(18.0, 36.0)
       spawn_obj(
         game,
-        obj_rock,
+        @types.obj_rock,
         object_spawn_x(game, y, r),
-        y + randf(-24.0, 24.0),
+        y + @types.randf(-24.0, 24.0),
         r,
-        randf(-44.0, 44.0),
-        randf(-18.0, 38.0),
+        @types.randf(-44.0, 44.0),
+        @types.randf(-18.0, 38.0),
         false,
-        randf(8.0, 16.0),
+        @types.randf(8.0, 16.0),
       )
     } else if roll < 56 {
-      let r = randf(15.0, 24.0)
+      let r = @types.randf(15.0, 24.0)
       spawn_obj(
         game,
-        obj_mine,
+        @types.obj_mine,
         object_spawn_x(game, y, r),
-        y + randf(-30.0, 22.0),
+        y + @types.randf(-30.0, 22.0),
         r,
-        randf(-72.0, 72.0),
-        randf(-16.0, 22.0),
-        game.stage >= 2 && chance(42),
-        randf(9.0, 18.0),
+        @types.randf(-72.0, 72.0),
+        @types.randf(-16.0, 22.0),
+        game.stage >= 2 && @types.chance(42),
+        @types.randf(9.0, 18.0),
       )
     } else if roll < 75 {
-      let r = randf(12.0, 16.0)
+      let r = @types.randf(12.0, 16.0)
       spawn_obj(
         game,
-        obj_data,
+        @types.obj_data,
         object_spawn_x(game, y, r),
-        y + randf(-20.0, 20.0),
+        y + @types.randf(-20.0, 20.0),
         r,
-        randf(-38.0, 38.0),
-        randf(-14.0, 16.0),
-        game.stage >= 4 && chance(28),
-        randf(8.0, 15.0),
+        @types.randf(-38.0, 38.0),
+        @types.randf(-14.0, 16.0),
+        game.stage >= 4 && @types.chance(28),
+        @types.randf(8.0, 15.0),
       )
     } else if roll < 86 {
-      let r = randf(44.0, 62.0)
-      let a = randf(0.0, 6.283)
-      let p = randf(110.0, 190.0)
+      let r = @types.randf(44.0, 62.0)
+      let a = @types.randf(0.0, 6.283)
+      let p = @types.randf(110.0, 190.0)
       spawn_obj(
         game,
-        obj_current,
+        @types.obj_current,
         object_spawn_x(game, y, r),
-        y + randf(-28.0, 28.0),
+        y + @types.randf(-28.0, 28.0),
         r,
-        cosf(a) * p,
-        sinf(a) * p,
+        @types.cosf(a) * p,
+        @types.sinf(a) * p,
         false,
-        randf(4.6, 9.4),
+        @types.randf(4.6, 9.4),
       )
     } else if roll < 95 {
-      let r = randf(12.0, 18.0)
+      let r = @types.randf(12.0, 18.0)
       spawn_obj(
         game,
-        obj_scrap,
+        @types.obj_scrap,
         object_spawn_x(game, y, r),
-        y + randf(-18.0, 18.0),
+        y + @types.randf(-18.0, 18.0),
         r,
-        randf(-42.0, 42.0),
-        randf(-22.0, 14.0),
+        @types.randf(-42.0, 42.0),
+        @types.randf(-22.0, 14.0),
         false,
-        randf(9.0, 17.0),
+        @types.randf(9.0, 17.0),
       )
     } else {
-      let r = randf(16.0, 22.0)
+      let r = @types.randf(16.0, 22.0)
       spawn_obj(
         game,
-        obj_oxygen,
+        @types.obj_oxygen,
         object_spawn_x(game, y, r),
-        y + randf(-14.0, 14.0),
+        y + @types.randf(-14.0, 14.0),
         r,
-        randf(-34.0, 34.0),
-        randf(-8.0, 18.0),
+        @types.randf(-34.0, 34.0),
+        @types.randf(-8.0, 18.0),
         false,
-        randf(8.0, 15.0),
+        @types.randf(8.0, 15.0),
       )
     }
   }
 }
 
 ///|
-fn spawn_step(game : Game, dt : Float) -> Unit {
+fn spawn_step(game : @types.Game, dt : Float) -> Unit {
   game.next_spawn_y = game.next_spawn_y + game.scroll_speed * dt
 
   let mut spawn_guard = 0
   while game.next_spawn_y >= 0.0 && spawn_guard < 16 {
     game.next_spawn_y = game.next_spawn_y -
-      randf(spawn_spacing_min, spawn_spacing_max)
+      @types.randf(@types.spawn_spacing_min, @types.spawn_spacing_max)
     spawn_wave(game, game.next_spawn_y)
     spawn_guard = spawn_guard + 1
   }
 }
 
 ///|
-fn trigger_sonar(game : Game) -> Unit {
-  game.sonar_cd = sonar_cd_time
-  game.sonar_t = sonar_time
+fn trigger_sonar(game : @types.Game) -> Unit {
+  game.sonar_cd = @types.sonar_cd_time
+  game.sonar_t = @types.sonar_time
   spawn_ripple(game, game.hero.x, game.hero.y, 12.0, 0.92, 1)
   burst(game, game.hero.x, game.hero.y, 18, 2)
 
-  let reveal2 = sonar_reveal_r * sonar_reveal_r
-  let destroy2 = sonar_destroy_r * sonar_destroy_r
+  let reveal2 = @types.sonar_reveal_r * @types.sonar_reveal_r
+  let destroy2 = @types.sonar_destroy_r * @types.sonar_destroy_r
 
   for obj in game.objs {
     if not(obj.active) {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, obj.x, obj.y)
+    let d2 = @types.dist2(game.hero.x, game.hero.y, obj.x, obj.y)
 
     if d2 <= reveal2 {
       obj.cloak = false
     }
 
-    if obj.kind == obj_mine && d2 <= destroy2 {
+    if obj.kind == @types.obj_mine && d2 <= destroy2 {
       let ox = obj.x
       let oy = obj.y
       obj.active = false
@@ -534,7 +482,7 @@ fn trigger_sonar(game : Game) -> Unit {
 }
 
 ///|
-fn dash_dir(game : Game) -> (Float, Float) {
+fn dash_dir(game : @types.Game) -> (Float, Float) {
   let mut dx = game.input_x
   let mut dy = game.input_y
   let len2 = dx * dx + dy * dy
@@ -543,7 +491,7 @@ fn dash_dir(game : Game) -> (Float, Float) {
     dx = 0.0
     dy = -1.0
   } else {
-    let inv : Float = Float::from_int(1) / sqrtf(len2)
+    let inv : Float = Float::from_int(1) / @types.sqrtf(len2)
     dx = dx * inv
     dy = dy * inv
   }
@@ -551,49 +499,49 @@ fn dash_dir(game : Game) -> (Float, Float) {
 }
 
 ///|
-fn apply_player_input(game : Game, dt : Float) -> Unit {
+fn apply_player_input(game : @types.Game, dt : Float) -> Unit {
   if game.input_sonar_press && game.sonar_cd <= 0.0 {
     trigger_sonar(game)
   }
 
   if game.input_dash_press && game.dash_cd <= 0.0 {
     let d = dash_dir(game)
-    game.hero.vx = d.0 * dash_speed
-    game.hero.vy = d.1 * dash_speed
-    game.dash_t = dash_time
-    game.dash_cd = dash_cd_time
-    game.hero.invuln = maxf(game.hero.invuln, 0.18)
+    game.hero.vx = d.0 * @types.dash_speed
+    game.hero.vy = d.1 * @types.dash_speed
+    game.dash_t = @types.dash_time
+    game.dash_cd = @types.dash_cd_time
+    game.hero.invuln = @types.maxf(game.hero.invuln, 0.18)
 
-    emit_trail(game, game.hero.x, game.hero.y, 30.0, 14.0, 0.28, 1)
+    @types.emit_trail(game, game.hero.x, game.hero.y, 30.0, 14.0, 0.28, 1)
     burst(game, game.hero.x, game.hero.y, 14, 2)
   }
 
   if game.dash_t <= 0.0 {
-    game.hero.vx = game.hero.vx + game.input_x * player_accel * dt
-    game.hero.vy = game.hero.vy + game.input_y * player_accel * dt
+    game.hero.vx = game.hero.vx + game.input_x * @types.player_accel * dt
+    game.hero.vy = game.hero.vy + game.input_y * @types.player_accel * dt
 
-    let drag_mul = clampf(1.0 - player_drag * dt, 0.0, 1.0)
+    let drag_mul = @types.clampf(1.0 - @types.player_drag * dt, 0.0, 1.0)
     game.hero.vx = game.hero.vx * drag_mul
     game.hero.vy = game.hero.vy * drag_mul
 
     let speed2 = game.hero.vx * game.hero.vx + game.hero.vy * game.hero.vy
-    if speed2 > player_max_speed * player_max_speed {
-      let inv = player_max_speed / sqrtf(speed2)
+    if speed2 > @types.player_max_speed * @types.player_max_speed {
+      let inv = @types.player_max_speed / @types.sqrtf(speed2)
       game.hero.vx = game.hero.vx * inv
       game.hero.vy = game.hero.vy * inv
     }
   } else {
-    let dash_mul = clampf(1.0 - 1.15 * dt, 0.0, 1.0)
+    let dash_mul = @types.clampf(1.0 - 1.15 * dt, 0.0, 1.0)
     game.hero.vx = game.hero.vx * dash_mul
     game.hero.vy = game.hero.vy * dash_mul
 
-    emit_trail(
+    @types.emit_trail(
       game,
       game.hero.x - game.hero.vx * 0.02,
       game.hero.y - game.hero.vy * 0.02,
-      randf(16.0, 30.0),
-      randf(9.0, 15.0),
-      randf(0.18, 0.36),
+      @types.randf(16.0, 30.0),
+      @types.randf(9.0, 15.0),
+      @types.randf(0.18, 0.36),
       1,
     )
   }
@@ -601,46 +549,51 @@ fn apply_player_input(game : Game, dt : Float) -> Unit {
   game.hero.x = game.hero.x + game.hero.vx * dt
   game.hero.y = game.hero.y + game.hero.vy * dt
 
-  game.hero.y = clampf(
+  game.hero.y = @types.clampf(
     game.hero.y,
     Float::from_int(74),
-    Float::from_int(screen_h) - Float::from_int(86),
+    Float::from_int(@types.screen_h) - Float::from_int(86),
   )
 }
 
 ///|
-fn resolve_cave_hit(game : Game) -> Unit {
-  let edges = cave_edges(game, game.hero.y)
+fn resolve_cave_hit(game : @types.Game) -> Unit {
+  let edges = @types.cave_edges(game, game.hero.y)
   let left = edges.0
   let right = edges.1
 
   if game.hero.x - game.hero.r < left {
     game.hero.x = left + game.hero.r
-    game.hero.vx = absf(game.hero.vx) * 0.2
+    game.hero.vx = @types.absf(game.hero.vx) * 0.2
     hurt_hero(game, 12.0)
   }
 
   if game.hero.x + game.hero.r > right {
     game.hero.x = right - game.hero.r
-    game.hero.vx = -absf(game.hero.vx) * 0.2
+    game.hero.vx = -@types.absf(game.hero.vx) * 0.2
     hurt_hero(game, 12.0)
   }
 }
 
 ///|
-fn hit_obj(game : Game, i : Int, base_score : Int, burst_kind : Int) -> Unit {
+fn hit_obj(
+  game : @types.Game,
+  i : Int,
+  base_score : Int,
+  burst_kind : Int,
+) -> Unit {
   let x = game.objs[i].x
   let y = game.objs[i].y
 
   game.objs[i].active = false
   add_score(game, base_score)
   push_combo(game)
-  burst(game, x, y, 14 + randi(0, 9), burst_kind)
+  burst(game, x, y, 14 + @types.randi(0, 9), burst_kind)
   spawn_ripple(game, x, y, 10.0, 0.52, 0)
 }
 
 ///|
-fn update_objects(game : Game, dt : Float) -> Unit {
+fn update_objects(game : @types.Game, dt : Float) -> Unit {
   let hero_dash_hit = game.dash_t > 0.0
 
   for i in 0..<game.objs.length() {
@@ -649,30 +602,33 @@ fn update_objects(game : Game, dt : Float) -> Unit {
     }
 
     game.objs[i].x = game.objs[i].x + game.objs[i].vx * dt
-    game.objs[i].y = game.objs[i].y + (game.scroll_speed + game.objs[i].vy) * dt
+    game.objs[i].y = game.objs[i].y +
+      (game.scroll_speed + game.objs[i].vy) * dt
     game.objs[i].spin = game.objs[i].spin + dt * 1.6
     game.objs[i].life = game.objs[i].life - dt
 
-    if game.objs[i].kind == obj_mine {
+    if game.objs[i].kind == @types.obj_mine {
       game.objs[i].x = game.objs[i].x +
-        sinf(game.objs[i].spin * 2.3) * 18.0 * dt
+        @types.sinf(game.objs[i].spin * 2.3) * 18.0 * dt
     }
 
-    if game.objs[i].kind == obj_data {
+    if game.objs[i].kind == @types.obj_data {
       game.objs[i].x = game.objs[i].x +
-        sinf(game.objs[i].spin * 3.2) * 12.0 * dt
-      game.objs[i].y = game.objs[i].y + cosf(game.objs[i].spin * 2.4) * 9.0 * dt
+        @types.sinf(game.objs[i].spin * 3.2) * 12.0 * dt
+      game.objs[i].y = game.objs[i].y +
+        @types.cosf(game.objs[i].spin * 2.4) * 9.0 * dt
     }
 
-    if game.objs[i].kind == obj_current {
+    if game.objs[i].kind == @types.obj_current {
       game.objs[i].spin = game.objs[i].spin + dt * 1.3
-      game.objs[i].r = game.objs[i].r + sinf(game.objs[i].spin * 1.8) * 9.0 * dt
-      game.objs[i].r = clampf(game.objs[i].r, 40.0, 72.0)
+      game.objs[i].r = game.objs[i].r +
+        @types.sinf(game.objs[i].spin * 1.8) * 9.0 * dt
+      game.objs[i].r = @types.clampf(game.objs[i].r, 40.0, 72.0)
     }
 
-    let offscreen = game.objs[i].y > Float::from_int(screen_h) + 180.0 ||
+    let offscreen = game.objs[i].y > Float::from_int(@types.screen_h) + 180.0 ||
       game.objs[i].x < -220.0 ||
-      game.objs[i].x > Float::from_int(screen_w) + 220.0 ||
+      game.objs[i].x > Float::from_int(@types.screen_w) + 220.0 ||
       game.objs[i].life <= 0.0
 
     if offscreen {
@@ -685,32 +641,39 @@ fn update_objects(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    let d2 = dist2(game.hero.x, game.hero.y, game.objs[i].x, game.objs[i].y)
+    let d2 = @types.dist2(
+      game.hero.x,
+      game.hero.y,
+      game.objs[i].x,
+      game.objs[i].y,
+    )
     let rr = (game.hero.r + game.objs[i].r) * (game.hero.r + game.objs[i].r)
 
-    if game.objs[i].kind == obj_current {
+    if game.objs[i].kind == @types.obj_current {
       let area = (game.objs[i].r + 80.0) * (game.objs[i].r + 80.0)
       if d2 <= area {
-        let push_scale = clampf(1.0 - d2 / area, 0.0, 1.0)
+        let push_scale = @types.clampf(1.0 - d2 / area, 0.0, 1.0)
         let mut px = game.objs[i].vx
         let mut py = game.objs[i].vy
         let p2 = px * px + py * py
         if p2 > 0.001 {
-          let inv : Float = Float::from_int(1) / sqrtf(p2)
+          let inv : Float = Float::from_int(1) / @types.sqrtf(p2)
           px = px * inv
           py = py * inv
-          game.hero.vx = game.hero.vx + px * (220.0 + 120.0 * push_scale) * dt
-          game.hero.vy = game.hero.vy + py * (220.0 + 120.0 * push_scale) * dt
+          game.hero.vx = game.hero.vx +
+            px * (220.0 + 120.0 * push_scale) * dt
+          game.hero.vy = game.hero.vy +
+            py * (220.0 + 120.0 * push_scale) * dt
 
-          if chance(20) {
+          if @types.chance(20) {
             emit_particle(
               game,
               game.hero.x,
               game.hero.y,
-              px * randf(30.0, 90.0),
-              py * randf(30.0, 90.0),
-              randf(0.2, 0.44),
-              randf(1.2, 3.6),
+              px * @types.randf(30.0, 90.0),
+              py * @types.randf(30.0, 90.0),
+              @types.randf(0.2, 0.44),
+              @types.randf(1.2, 3.6),
               2,
             )
           }
@@ -722,19 +685,19 @@ fn update_objects(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.objs[i].kind == obj_rock {
+    if game.objs[i].kind == @types.obj_rock {
       if hero_dash_hit {
         hit_obj(game, i, 60, 2)
       } else {
         hurt_hero(game, 16.0)
         let dx = game.hero.x - game.objs[i].x
         let dy = game.hero.y - game.objs[i].y
-        let n2 = maxf(dx * dx + dy * dy, 1.0)
-        let inv : Float = Float::from_int(1) / sqrtf(n2)
+        let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
+        let inv : Float = Float::from_int(1) / @types.sqrtf(n2)
         game.hero.vx = dx * inv * 120.0
         game.hero.vy = dy * inv * 120.0
       }
-    } else if game.objs[i].kind == obj_mine {
+    } else if game.objs[i].kind == @types.obj_mine {
       if hero_dash_hit || game.sonar_t > 0.0 {
         hit_obj(game, i, 110, 1)
       } else {
@@ -742,19 +705,19 @@ fn update_objects(game : Game, dt : Float) -> Unit {
         game.objs[i].active = false
         burst(game, game.hero.x, game.hero.y, 12, 1)
       }
-    } else if game.objs[i].kind == obj_data {
+    } else if game.objs[i].kind == @types.obj_data {
       game.objs[i].active = false
       game.data_collected = game.data_collected + 1
       add_score(game, 100)
       push_combo(game)
-      game.oxygen = minf(100.0, game.oxygen + oxygen_data_bonus)
+      game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_data_bonus)
       burst(game, game.hero.x, game.hero.y, 9, 0)
-    } else if game.objs[i].kind == obj_oxygen {
+    } else if game.objs[i].kind == @types.obj_oxygen {
       game.objs[i].active = false
-      game.oxygen = minf(100.0, game.oxygen + oxygen_pickup)
+      game.oxygen = @types.minf(100.0, game.oxygen + @types.oxygen_pickup)
       add_score(game, 40)
       burst(game, game.hero.x, game.hero.y, 10, 2)
-    } else if game.objs[i].kind == obj_scrap {
+    } else if game.objs[i].kind == @types.obj_scrap {
       game.objs[i].active = false
       add_score(game, 80)
       push_combo(game)
@@ -764,7 +727,7 @@ fn update_objects(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_particles(game : Game, dt : Float) -> Unit {
+fn update_particles(game : @types.Game, dt : Float) -> Unit {
   let flow = game.scroll_speed * 0.22
 
   for particle in game.particles {
@@ -777,7 +740,7 @@ fn update_particles(game : Game, dt : Float) -> Unit {
     particle.life = particle.life - dt
 
     let expired = particle.life <= 0.0 ||
-      particle.y > Float::from_int(screen_h) + 48.0
+      particle.y > Float::from_int(@types.screen_h) + 48.0
     if expired {
       particle.active = false
     }
@@ -811,18 +774,18 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_timers(game : Game, dt : Float) -> Unit {
-  game.hero.invuln = maxf(0.0, game.hero.invuln - dt)
-  game.hero.hurt_t = maxf(0.0, game.hero.hurt_t - dt)
+fn update_timers(game : @types.Game, dt : Float) -> Unit {
+  game.hero.invuln = @types.maxf(0.0, game.hero.invuln - dt)
+  game.hero.hurt_t = @types.maxf(0.0, game.hero.hurt_t - dt)
   game.hero.anim_t = game.hero.anim_t + dt
 
-  game.sonar_cd = maxf(0.0, game.sonar_cd - dt)
-  game.sonar_t = maxf(0.0, game.sonar_t - dt)
-  game.dash_cd = maxf(0.0, game.dash_cd - dt)
-  game.dash_t = maxf(0.0, game.dash_t - dt)
+  game.sonar_cd = @types.maxf(0.0, game.sonar_cd - dt)
+  game.sonar_t = @types.maxf(0.0, game.sonar_t - dt)
+  game.dash_cd = @types.maxf(0.0, game.dash_cd - dt)
+  game.dash_t = @types.maxf(0.0, game.dash_t - dt)
 
-  game.flash_t = maxf(0.0, game.flash_t - dt)
-  game.shake_t = maxf(0.0, game.shake_t - dt)
+  game.flash_t = @types.maxf(0.0, game.flash_t - dt)
+  game.shake_t = @types.maxf(0.0, game.shake_t - dt)
 
   if game.combo_t > 0.0 {
     game.combo_t = game.combo_t - dt
@@ -833,33 +796,33 @@ fn update_timers(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn emit_ambience(game : Game, dt : Float) -> Unit {
+fn emit_ambience(game : @types.Game, dt : Float) -> Unit {
   let mut n = 0
-  let tries = clampi((dt * 210.0).to_int(), 1, 8)
+  let tries = @types.clampi((dt * 210.0).to_int(), 1, 8)
   while n < tries {
-    if chance(36) {
-      let y = randf(-24.0, Float::from_int(screen_h) + 10.0)
-      let edges = cave_edges(game, y)
-      let side : Float = if chance(50) {
+    if @types.chance(36) {
+      let y = @types.randf(-24.0, Float::from_int(@types.screen_h) + 10.0)
+      let edges = @types.cave_edges(game, y)
+      let side : Float = if @types.chance(50) {
         Float::from_int(-1)
       } else {
         Float::from_int(1)
       }
       let x = if side < 0.0 {
-        edges.0 + randf(8.0, 40.0)
+        edges.0 + @types.randf(8.0, 40.0)
       } else {
-        edges.1 - randf(8.0, 40.0)
+        edges.1 - @types.randf(8.0, 40.0)
       }
 
       emit_particle(
         game,
         x,
         y,
-        side * randf(4.0, 26.0),
-        randf(-26.0, 34.0),
-        randf(0.6, 1.4),
-        randf(1.0, 2.8),
-        if chance(35) {
+        side * @types.randf(4.0, 26.0),
+        @types.randf(-26.0, 34.0),
+        @types.randf(0.6, 1.4),
+        @types.randf(1.0, 2.8),
+        if @types.chance(35) {
           2
         } else {
           0
@@ -871,10 +834,10 @@ fn emit_ambience(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
-  game.scroll_speed = base_scroll +
-    Float::from_int(game.stage - 1) * stage_scroll_gain +
-    minf(52.0, game.distance * 0.008)
+fn update_play(game : @types.Game, dt : Float) -> Unit {
+  game.scroll_speed = @types.base_scroll +
+    Float::from_int(game.stage - 1) * @types.stage_scroll_gain +
+    @types.minf(52.0, game.distance * 0.008)
   game.distance = game.distance + game.scroll_speed * dt
 
   apply_player_input(game, dt)
@@ -884,36 +847,36 @@ fn update_play(game : Game, dt : Float) -> Unit {
   update_objects(game, dt)
   update_particles(game, dt)
 
-  game.oxygen = maxf(
+  game.oxygen = @types.maxf(
     0.0,
     game.oxygen -
-    oxygen_drain * dt -
-    absf(game.hero.vx) / player_max_speed * 1.1 * dt,
+    @types.oxygen_drain * dt -
+    @types.absf(game.hero.vx) / @types.player_max_speed * 1.1 * dt,
   )
 
   if game.dash_t > 0.0 {
-    game.oxygen = maxf(0.0, game.oxygen - 1.6 * dt)
+    game.oxygen = @types.maxf(0.0, game.oxygen - 1.6 * dt)
   }
 
   emit_ambience(game, dt)
 
   if game.oxygen <= 0.0 {
-    game.state = state_game_over
+    game.state = @types.state_game_over
     game.result_t = 0.0
   }
 
-  if game.state == state_play && game.distance >= game.stage_goal {
-    game.state = state_stage_clear
+  if game.state == @types.state_play && game.distance >= game.stage_goal {
+    game.state = @types.state_stage_clear
     game.result_t = 0.0
     add_score(game, 300 + game.stage * 120)
-    game.hull = minf(100.0, game.hull + 12.0)
+    game.hull = @types.minf(100.0, game.hull + 12.0)
     spawn_ripple(game, game.hero.x, game.hero.y, 14.0, 0.84, 1)
     burst(game, game.hero.x, game.hero.y, 24, 2)
   }
 }
 
 ///|
-fn update_title(game : Game, dt : Float) -> Unit {
+fn update_title(game : @types.Game, dt : Float) -> Unit {
   game.scroll_speed = 86.0
   game.distance = game.distance + game.scroll_speed * dt * 0.6
 
@@ -926,34 +889,34 @@ fn update_title(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_stage_clear(game : Game, dt : Float) -> Unit {
+fn update_stage_clear(game : @types.Game, dt : Float) -> Unit {
   game.result_t = game.result_t + dt
-  game.scroll_speed = maxf(80.0, game.scroll_speed - 160.0 * dt)
+  game.scroll_speed = @types.maxf(80.0, game.scroll_speed - 160.0 * dt)
 
-  if chance(18) {
+  if @types.chance(18) {
     emit_particle(
       game,
-      game.hero.x + randf(-26.0, 26.0),
-      game.hero.y + randf(-26.0, 26.0),
-      randf(-32.0, 32.0),
-      randf(-42.0, -8.0),
-      randf(0.24, 0.68),
-      randf(2.0, 4.4),
+      game.hero.x + @types.randf(-26.0, 26.0),
+      game.hero.y + @types.randf(-26.0, 26.0),
+      @types.randf(-32.0, 32.0),
+      @types.randf(-42.0, -8.0),
+      @types.randf(0.24, 0.68),
+      @types.randf(2.0, 4.4),
       2,
     )
   }
 
   update_particles(game, dt)
 
-  if game.input_restart_press || game.result_t >= stage_clear_delay {
+  if game.input_restart_press || game.result_t >= @types.stage_clear_delay {
     start_new_stage(game, game.stage + 1)
   }
 }
 
 ///|
-fn update_game_over(game : Game, dt : Float) -> Unit {
+fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   game.result_t = game.result_t + dt
-  game.scroll_speed = maxf(46.0, game.scroll_speed - 120.0 * dt)
+  game.scroll_speed = @types.maxf(46.0, game.scroll_speed - 120.0 * dt)
 
   emit_ambience(game, dt)
   update_particles(game, dt)
@@ -964,17 +927,26 @@ fn update_game_over(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
   game.hint_t = game.hint_t + dt
 
+  // Handle input based on current state
+  if game.state == @types.state_title {
+    update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game)
+  } else {
+    update_result_input(game)
+  }
+
   update_timers(game, dt)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     update_title(game, dt)
-  } else if game.state == state_play {
+  } else if game.state == @types.state_play {
     update_play(game, dt)
-  } else if game.state == state_stage_clear {
+  } else if game.state == @types.state_stage_clear {
     update_stage_clear(game, dt)
   } else {
     update_game_over(game, dt)
@@ -983,4 +955,9 @@ fn update_game(game : Game, dt : Float) -> Unit {
   if game.score > game.best_score {
     game.best_score = game.score
   }
+}
+
+///|
+pub fn init_game(game : @types.Game) -> Unit {
+  init_title_scene(game)
 }
