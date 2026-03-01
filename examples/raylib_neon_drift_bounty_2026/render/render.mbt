@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -35,7 +35,7 @@ fn draw_bar(
   let ratio : Float = if maxv <= 0.0 {
     Float::from_int(0)
   } else {
-    clampf(value / maxv, 0.0, 1.0)
+    @types.clampf(value / maxv, 0.0, 1.0)
   }
 
   @raylib.draw_rectangle(x, y, w, h, @raylib.Color::new(8, 16, 28, 220))
@@ -69,34 +69,35 @@ fn alpha_color(c : @raylib.Color, a : Int) -> @raylib.Color {
     c.r.to_int(),
     c.g.to_int(),
     c.b.to_int(),
-    clampi(a, 0, 255),
+    @types.clampi(a, 0, 255),
   )
 }
 
 ///|
-fn shake_offset(game : Game) -> (Float, Float) {
+fn shake_offset(game : @types.Game) -> (Float, Float) {
   if game.shake_t <= 0.0 {
     (0.0, 0.0)
   } else {
     let p = game.shake_t * 22.0
-    (randf(-p, p), randf(-p, p))
+    (@types.randf(-p, p), @types.randf(-p, p))
   }
 }
 
 ///|
-fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_sky_backdrop(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
-    bg_top(),
-    bg_bottom(),
+    @types.screen_w,
+    @types.screen_h,
+    @types.bg_top(),
+    @types.bg_bottom(),
   )
 
-  let glow0x = Float::from_int(screen_w) * 0.18 +
-    sinf(game.time_s * 0.3) * 140.0
-  let glow0y = Float::from_int(screen_h) * 0.2 + cosf(game.time_s * 0.22) * 70.0
+  let glow0x = Float::from_int(@types.screen_w) * 0.18 +
+    @types.sinf(game.time_s * 0.3) * 140.0
+  let glow0y = Float::from_int(@types.screen_h) * 0.2 +
+    @types.cosf(game.time_s * 0.22) * 70.0
   @raylib.draw_circle(
     (glow0x + cam_x).to_int(),
     (glow0y + cam_y).to_int(),
@@ -104,10 +105,10 @@ fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.Color::new(44, 96, 182, 42),
   )
 
-  let glow1x = Float::from_int(screen_w) * 0.82 +
-    sinf(game.time_s * 0.24 + 0.9) * 130.0
-  let glow1y = Float::from_int(screen_h) * 0.76 +
-    cosf(game.time_s * 0.16 + 1.1) * 80.0
+  let glow1x = Float::from_int(@types.screen_w) * 0.82 +
+    @types.sinf(game.time_s * 0.24 + 0.9) * 130.0
+  let glow1y = Float::from_int(@types.screen_h) * 0.76 +
+    @types.cosf(game.time_s * 0.16 + 1.1) * 80.0
   @raylib.draw_circle(
     (glow1x + cam_x).to_int(),
     (glow1y + cam_y).to_int(),
@@ -117,13 +118,14 @@ fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
   for i in 0..<140 {
     let p = Float::from_int(i)
-    let x = (p * 77.0 + sinf(game.time_s * 0.15 + p * 0.37) * 80.0) %
-      Float::from_int(screen_w)
+    let x = (p * 77.0 +
+      @types.sinf(game.time_s * 0.15 + p * 0.37) * 80.0) %
+      Float::from_int(@types.screen_w)
     let mut y = (p * 43.0 + game.distance * 0.11 + p * 0.8) %
-      Float::from_int(screen_h)
-    y = Float::from_int(screen_h) - y
+      Float::from_int(@types.screen_h)
+    y = Float::from_int(@types.screen_h) - y
 
-    let pulse : Float = 0.5 + 0.5 * sinf(game.time_s * 0.9 + p * 0.17)
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(game.time_s * 0.9 + p * 0.17)
     @raylib.draw_circle(
       (x + cam_x).to_int(),
       (y + cam_y).to_int(),
@@ -139,17 +141,18 @@ fn draw_sky_backdrop(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_city_horizon(game : Game, cam_x : Float, cam_y : Float) -> Unit {
-  let base_y = Float::from_int(ui_panel_h) + 20.0
+fn draw_city_horizon(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
+  let base_y = Float::from_int(@types.ui_panel_h) + 20.0
 
   for i in 0..<44 {
     let p = Float::from_int(i)
     let w = 18 + i * 17 % 52
     let h = 46 + i * 31 % 180
-    let x = (i * 33 + (game.distance * 0.02).to_int()) % (screen_w + 120) - 60
+    let x = (i * 33 + (game.distance * 0.02).to_int()) %
+      (@types.screen_w + 120) - 60
     let y = (base_y - Float::from_int(h) + cam_y * 0.3).to_int()
 
-    let pulse : Float = 0.5 + 0.5 * sinf(game.time_s * 0.8 + p * 0.44)
+    let pulse : Float = 0.5 + 0.5 * @types.sinf(game.time_s * 0.8 + p * 0.44)
     @raylib.draw_rectangle(
       (Float::from_int(x) + cam_x * 0.28).to_int(),
       y,
@@ -176,37 +179,38 @@ fn draw_city_horizon(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_road_surface(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_road_surface(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let step = 12
 
-  for yi = ui_panel_h; yi < screen_h + step; yi = yi + step {
+  for yi = @types.ui_panel_h; yi < @types.screen_h + step; yi = yi + step {
     let y0 = Float::from_int(yi)
     let y1 = Float::from_int(yi + step)
 
-    let d0 = game.distance + (Float::from_int(screen_h) - y0)
-    let d1 = game.distance + (Float::from_int(screen_h) - y1)
+    let d0 = game.distance + (Float::from_int(@types.screen_h) - y0)
+    let d1 = game.distance + (Float::from_int(@types.screen_h) - y1)
 
-    let e0 = road_edges(game.stage, d0, game.time_s)
-    let e1 = road_edges(game.stage, d1, game.time_s)
+    let e0 = @types.road_edges(game.stage, d0, game.time_s)
+    let e1 = @types.road_edges(game.stage, d1, game.time_s)
 
     let left0 = (e0.0 + cam_x).to_int()
     let right0 = (e0.1 + cam_x).to_int()
     let left1 = (e1.0 + cam_x).to_int()
     let right1 = (e1.1 + cam_x).to_int()
 
-    let left = clampi(
-      minf(Float::from_int(left0), Float::from_int(left1)).to_int(),
+    let left = @types.clampi(
+      @types.minf(Float::from_int(left0), Float::from_int(left1)).to_int(),
       -180,
-      screen_w + 180,
+      @types.screen_w + 180,
     )
-    let right = clampi(
-      maxf(Float::from_int(right0), Float::from_int(right1)).to_int(),
+    let right = @types.clampi(
+      @types.maxf(Float::from_int(right0), Float::from_int(right1)).to_int(),
       -180,
-      screen_w + 180,
+      @types.screen_w + 180,
     )
 
-    let line_pulse : Float = 0.5 + 0.5 * sinf(d0 * 0.02 + game.time_s * 3.8)
-    let road_col = if yi % 24 == 0 { road_mid() } else { road_dark() }
+    let line_pulse : Float = 0.5 +
+      0.5 * @types.sinf(d0 * 0.02 + game.time_s * 3.8)
+    let road_col = if yi % 24 == 0 { @types.road_mid() } else { @types.road_dark() }
 
     if left > 0 {
       @raylib.draw_rectangle(
@@ -221,16 +225,16 @@ fn draw_road_surface(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.draw_rectangle(
       left,
       (y0 + cam_y).to_int(),
-      maxf(0.0, Float::from_int(right - left)).to_int(),
+      @types.maxf(0.0, Float::from_int(right - left)).to_int(),
       step + 1,
       road_col,
     )
 
-    if right < screen_w {
+    if right < @types.screen_w {
       @raylib.draw_rectangle(
         right,
         (y0 + cam_y).to_int(),
-        screen_w - right,
+        @types.screen_w - right,
         step + 1,
         @raylib.Color::new(6, 12, 22, 240),
       )
@@ -249,10 +253,10 @@ fn draw_road_surface(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(255, 112, 216, 120 + (line_pulse * 90.0).to_int()),
     )
 
-    for lane in 1..<lanes_count {
-      let t = Float::from_int(lane) / Float::from_int(lanes_count)
-      let x0 = lerpf(e0.0, e0.1, t) + cam_x
-      let x1 = lerpf(e1.0, e1.1, t) + cam_x
+    for lane in 1..< @types.lanes_count {
+      let t = Float::from_int(lane) / Float::from_int(@types.lanes_count)
+      let x0 = @types.lerpf(e0.0, e0.1, t) + cam_x
+      let x1 = @types.lerpf(e1.0, e1.1, t) + cam_x
       let blink = (yi / 24 + lane + (game.distance * 0.04).to_int()) % 6
       if blink <= 2 {
         @raylib.draw_line_ex(
@@ -268,18 +272,18 @@ fn draw_road_surface(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn entity_body_col(kind : Int) -> @raylib.Color {
-  if kind == foe_bike {
+  if kind == @types.foe_bike {
     @raylib.Color::new(255, 138, 198, 255)
-  } else if kind == foe_drone {
+  } else if kind == @types.foe_drone {
     @raylib.Color::new(132, 246, 255, 255)
-  } else if kind == foe_truck {
+  } else if kind == @types.foe_truck {
     @raylib.Color::new(255, 178, 110, 255)
-  } else if kind == foe_laser {
+  } else if kind == @types.foe_laser {
     @raylib.Color::new(255, 106, 154, 255)
-  } else if kind == item_credit {
-    neon_yellow()
-  } else if kind == item_battery {
-    energy_col()
+  } else if kind == @types.item_credit {
+    @types.neon_yellow()
+  } else if kind == @types.item_battery {
+    @types.energy_col()
   } else {
     @raylib.Color::new(170, 140, 255, 255)
   }
@@ -287,7 +291,7 @@ fn entity_body_col(kind : Int) -> @raylib.Color {
 
 ///|
 fn draw_entity_bike(
-  e : Entity,
+  e : @types.Entity,
   col : @raylib.Color,
   cam_x : Float,
   cam_y : Float,
@@ -319,7 +323,7 @@ fn draw_entity_bike(
 
 ///|
 fn draw_entity_drone(
-  e : Entity,
+  e : @types.Entity,
   col : @raylib.Color,
   cam_x : Float,
   cam_y : Float,
@@ -327,7 +331,7 @@ fn draw_entity_drone(
   let x = e.x + cam_x
   let y = e.y + cam_y
   let r = e.w * 0.42
-  let pulse : Float = 0.5 + 0.5 * sinf(e.spin * 4.0)
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(e.spin * 4.0)
 
   @raylib.draw_circle(x.to_int(), y.to_int(), r, alpha_color(col, 200))
   @raylib.draw_circle_lines(
@@ -346,7 +350,7 @@ fn draw_entity_drone(
 
 ///|
 fn draw_entity_truck(
-  e : Entity,
+  e : @types.Entity,
   col : @raylib.Color,
   cam_x : Float,
   cam_y : Float,
@@ -380,14 +384,14 @@ fn draw_entity_truck(
 
 ///|
 fn draw_entity_laser(
-  e : Entity,
+  e : @types.Entity,
   col : @raylib.Color,
   cam_x : Float,
   cam_y : Float,
 ) -> Unit {
   let x = e.x + cam_x
   let y = e.y + cam_y
-  let pulse : Float = 0.5 + 0.5 * sinf(e.spin * 4.6)
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(e.spin * 4.6)
 
   @raylib.draw_rectangle(
     (x - e.w * 0.5).to_int(),
@@ -407,7 +411,7 @@ fn draw_entity_laser(
 
 ///|
 fn draw_entity_pickup(
-  e : Entity,
+  e : @types.Entity,
   col : @raylib.Color,
   cam_x : Float,
   cam_y : Float,
@@ -415,7 +419,7 @@ fn draw_entity_pickup(
   let x = e.x + cam_x
   let y = e.y + cam_y
   let r = e.w * 0.46
-  let pulse : Float = 0.5 + 0.5 * sinf(e.spin * 3.2)
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(e.spin * 3.2)
 
   @raylib.draw_circle(
     x.to_int(),
@@ -430,7 +434,7 @@ fn draw_entity_pickup(
     alpha_color(col, 180),
   )
 
-  if e.kind == item_credit {
+  if e.kind == @types.item_credit {
     @raylib.draw_text(
       "$",
       (x - 8.0).to_int(),
@@ -438,7 +442,7 @@ fn draw_entity_pickup(
       24,
       @raylib.Color::new(255, 242, 162, 230),
     )
-  } else if e.kind == item_battery {
+  } else if e.kind == @types.item_battery {
     @raylib.draw_rectangle(
       (x - 10.0).to_int(),
       (y - 14.0).to_int(),
@@ -465,7 +469,7 @@ fn draw_entity_pickup(
 }
 
 ///|
-fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_entities(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for e in game.entities {
     if not(e.active) {
       continue
@@ -478,21 +482,21 @@ fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
       col0
     }
 
-    if e.kind == foe_bike {
+    if e.kind == @types.foe_bike {
       draw_entity_bike(e, col, cam_x, cam_y)
-    } else if e.kind == foe_drone {
+    } else if e.kind == @types.foe_drone {
       draw_entity_drone(e, col, cam_x, cam_y)
-    } else if e.kind == foe_truck {
+    } else if e.kind == @types.foe_truck {
       draw_entity_truck(e, col, cam_x, cam_y)
-    } else if e.kind == foe_laser {
+    } else if e.kind == @types.foe_laser {
       draw_entity_laser(e, col, cam_x, cam_y)
     } else {
       draw_entity_pickup(e, col, cam_x, cam_y)
     }
 
-    if entity_is_hostile(e.kind) && e.hp > 0.0 {
-      let hp_ratio = clampf(
-        e.hp / (if e.kind == foe_truck { 50.0 } else { 20.0 }),
+    if @types.entity_is_hostile(e.kind) && e.hp > 0.0 {
+      let hp_ratio = @types.clampf(
+        e.hp / (if e.kind == @types.foe_truck { 50.0 } else { 20.0 }),
         0.0,
         1.0,
       )
@@ -515,7 +519,7 @@ fn draw_entities(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_bullets(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for b in game.bullets {
     if not(b.active) {
       continue
@@ -553,13 +557,13 @@ fn draw_bullets(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_sparks(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for s in game.sparks {
     if not(s.active) {
       continue
     }
 
-    let a = clampi((s.life * 255.0).to_int(), 0, 255)
+    let a = @types.clampi((s.life * 255.0).to_int(), 0, 255)
     let col = if s.kind == 1 {
       @raylib.Color::new(255, 134, 178, a)
     } else if s.kind == 2 {
@@ -578,13 +582,13 @@ fn draw_sparks(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_rings(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for r in game.rings {
     if not(r.active) {
       continue
     }
 
-    let a = clampi((r.life * 255.0).to_int(), 0, 255)
+    let a = @types.clampi((r.life * 255.0).to_int(), 0, 255)
     let c = if r.kind == 2 {
       @raylib.Color::new(186, 146, 255, a)
     } else if r.kind == 1 {
@@ -603,13 +607,13 @@ fn draw_rings(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_afterimages(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_afterimages(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   for it in game.images {
     if not(it.active) {
       continue
     }
 
-    let a = clampi((it.life * 210.0).to_int(), 0, 210)
+    let a = @types.clampi((it.life * 210.0).to_int(), 0, 210)
     let col = if it.kind == 1 {
       @raylib.Color::new(122, 242, 255, a)
     } else {
@@ -626,13 +630,17 @@ fn draw_afterimages(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let x = game.hero.x + cam_x
   let y = game.hero.y + cam_y
 
-  let lean = clampf(game.hero.vx / player_max_speed_x, -1.0, 1.0)
+  let lean = @types.clampf(
+    game.hero.vx / @types.player_max_speed_x,
+    -1.0,
+    1.0,
+  )
   let rot = lean * 18.0
-  let pulse : Float = 0.5 + 0.5 * sinf(game.hero.engine_t * 8.2)
+  let pulse : Float = 0.5 + 0.5 * @types.sinf(game.hero.engine_t * 8.2)
 
   let body_col = if game.hero.hurt_t > 0.0 {
     @raylib.Color::new(255, 188, 204, 255)
@@ -679,7 +687,7 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
   )
 
   if game.hero.muzzle_t > 0.0 {
-    let a = clampi((game.hero.muzzle_t * 255.0).to_int(), 0, 255)
+    let a = @types.clampi((game.hero.muzzle_t * 255.0).to_int(), 0, 255)
     @raylib.draw_circle(
       (x - 10.0).to_int(),
       (y - game.hero.h * 0.53).to_int(),
@@ -698,32 +706,37 @@ fn draw_player(game : Game, cam_x : Float, cam_y : Float) -> Unit {
     @raylib.draw_circle_lines(
       x.to_int(),
       y.to_int(),
-      maxf(game.hero.w, game.hero.h) * 0.65 + game.boost_t * 40.0,
+      @types.maxf(game.hero.w, game.hero.h) * 0.65 + game.boost_t * 40.0,
       @raylib.Color::new(120, 248, 255, 210),
     )
   }
 
   if game.hero.invuln > 0.0 {
-    let flicker = Float::from_int(80) + sinf(game.time_s * 14.0) * 70.0 + 70.0
-    let aa = clampi(flicker.to_int(), 30, 220)
+    let flicker = Float::from_int(80) +
+      @types.sinf(game.time_s * 14.0) * 70.0 + 70.0
+    let aa = @types.clampi(flicker.to_int(), 30, 220)
     @raylib.draw_circle(
       x.to_int(),
       y.to_int(),
-      maxf(game.hero.w, game.hero.h) * 0.6,
+      @types.maxf(game.hero.w, game.hero.h) * 0.6,
       @raylib.Color::new(246, 252, 255, aa),
     )
   }
 }
 
 ///|
-fn draw_hack_pulse(game : Game) -> Unit {
+fn draw_hack_pulse(game : @types.Game) -> Unit {
   if game.hack_t <= 0.0 {
     return
   }
 
-  let t = Float::from_int(1) - game.hack_t / hack_time
-  let rr = hack_radius * t
-  let aa = clampi(((Float::from_int(1) - t) * 200.0).to_int(), 0, 200)
+  let t = Float::from_int(1) - game.hack_t / @types.hack_time
+  let rr = @types.hack_radius * t
+  let aa = @types.clampi(
+    ((Float::from_int(1) - t) * 200.0).to_int(),
+    0,
+    200,
+  )
 
   @raylib.draw_circle_lines(
     game.hero.x.to_int(),
@@ -743,19 +756,19 @@ fn cooldown_text(cd : Float, total : Float) -> String {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    ui_panel_h,
+    @types.screen_w,
+    @types.ui_panel_h,
     @raylib.Color::new(4, 10, 20, 236),
   )
   @raylib.draw_line(
     0,
-    ui_panel_h,
-    screen_w,
-    ui_panel_h,
+    @types.ui_panel_h,
+    @types.screen_w,
+    @types.ui_panel_h,
     @raylib.Color::new(100, 204, 244, 160),
   )
 
@@ -765,9 +778,9 @@ fn draw_hud(game : Game) -> Unit {
     290,
     24,
     game.shield,
-    player_shield_max,
+    @types.player_shield_max,
     "SHIELD",
-    shield_col(),
+    @types.shield_col(),
   )
   draw_bar(
     20,
@@ -775,9 +788,9 @@ fn draw_hud(game : Game) -> Unit {
     290,
     24,
     game.energy,
-    player_energy_max,
+    @types.player_energy_max,
     "ENERGY",
-    energy_col(),
+    @types.energy_col(),
   )
 
   @raylib.draw_rectangle(326, 16, 150, 56, @raylib.Color::new(8, 18, 30, 214))
@@ -796,7 +809,7 @@ fn draw_hud(game : Game) -> Unit {
     @raylib.Color::new(206, 230, 248, 230),
   )
   @raylib.draw_text(
-    cooldown_text(game.boost_cd, boost_cd_time),
+    cooldown_text(game.boost_cd, @types.boost_cd_time),
     338,
     44,
     16,
@@ -815,9 +828,15 @@ fn draw_hud(game : Game) -> Unit {
     56,
     @raylib.Color::new(152, 192, 244, 170),
   )
-  @raylib.draw_text("HACK", 498, 24, 18, @raylib.Color::new(212, 224, 255, 230))
   @raylib.draw_text(
-    cooldown_text(game.hack_cd, hack_cd_time),
+    "HACK",
+    498,
+    24,
+    18,
+    @raylib.Color::new(212, 224, 255, 230),
+  )
+  @raylib.draw_text(
+    cooldown_text(game.hack_cd, @types.hack_cd_time),
     498,
     44,
     16,
@@ -829,14 +848,14 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   @raylib.draw_rectangle(
-    screen_w - 360,
+    @types.screen_w - 360,
     14,
     344,
     88,
     @raylib.Color::new(8, 18, 30, 214),
   )
   @raylib.draw_rectangle_lines(
-    screen_w - 360,
+    @types.screen_w - 360,
     14,
     344,
     88,
@@ -845,14 +864,14 @@ fn draw_hud(game : Game) -> Unit {
 
   @raylib.draw_text(
     "SCORE " + game.score.to_string(),
-    screen_w - 344,
+    @types.screen_w - 344,
     22,
     24,
     @raylib.Color::new(228, 248, 255, 240),
   )
   @raylib.draw_text(
     "BEST " + game.best_score.to_string(),
-    screen_w - 344,
+    @types.screen_w - 344,
     50,
     18,
     @raylib.Color::new(178, 226, 244, 230),
@@ -864,7 +883,7 @@ fn draw_hud(game : Game) -> Unit {
     game.credits.to_string() +
     "  KILLS " +
     game.kills.to_string(),
-    screen_w - 344,
+    @types.screen_w - 344,
     70,
     16,
     @raylib.Color::new(172, 244, 220, 230),
@@ -876,29 +895,33 @@ fn draw_hud(game : Game) -> Unit {
     game.stage_goal.to_int().to_string()
   draw_right_text(
     depth_text,
-    screen_w - 20,
+    @types.screen_w - 20,
     104,
     18,
     @raylib.Color::new(198, 236, 255, 230),
   )
 
   @raylib.draw_rectangle(
-    screen_w - 334,
+    @types.screen_w - 334,
     104,
     308,
     10,
     @raylib.Color::new(8, 18, 30, 220),
   )
-  let ratio = clampf(game.distance / maxf(game.stage_goal, 1.0), 0.0, 1.0)
+  let ratio = @types.clampf(
+    game.distance / @types.maxf(game.stage_goal, 1.0),
+    0.0,
+    1.0,
+  )
   @raylib.draw_rectangle(
-    screen_w - 334,
+    @types.screen_w - 334,
     104,
     (Float::from_int(308) * ratio).to_int(),
     10,
     @raylib.Color::new(128, 248, 210, 220),
   )
   @raylib.draw_rectangle_lines(
-    screen_w - 334,
+    @types.screen_w - 334,
     104,
     308,
     10,
@@ -906,7 +929,7 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   if game.combo >= 2 && game.combo_t > 0.0 {
-    let aa = clampi((game.combo_t * 130.0 + 60.0).to_int(), 0, 255)
+    let aa = @types.clampi((game.combo_t * 130.0 + 60.0).to_int(), 0, 255)
     draw_center_text(
       "COMBO x" + game.combo.to_string(),
       12,
@@ -951,19 +974,19 @@ fn draw_button(
     (rect.0 + rect.2 * 0.5 - Float::from_int(tw) * 0.5).to_int(),
     (rect.1 + rect.3 * 0.5 - 12.0).to_int(),
     24,
-    @raylib.Color::new(230, 246, 255, clampi(aa + 46, 0, 255)),
+    @raylib.Color::new(230, 246, 255, @types.clampi(aa + 46, 0, 255)),
   )
 }
 
 ///|
-fn draw_touch_controls(game : Game) -> Unit {
-  let left = btn_left_rect()
-  let right = btn_right_rect()
-  let up = btn_up_rect()
-  let down = btn_down_rect()
-  let fire = btn_fire_rect()
-  let boost = btn_boost_rect()
-  let hack = btn_hack_rect()
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  let left = @types.btn_left_rect()
+  let right = @types.btn_right_rect()
+  let up = @types.btn_up_rect()
+  let down = @types.btn_down_rect()
+  let fire = @types.btn_fire_rect()
+  let boost = @types.btn_boost_rect()
+  let hack = @types.btn_hack_rect()
 
   draw_button(left, "<", game.input_x < -0.1, true)
   draw_button(right, ">", game.input_x > 0.1, true)
@@ -975,43 +998,37 @@ fn draw_touch_controls(game : Game) -> Unit {
 }
 
 ///|
-fn draw_play_hint(game : Game) -> Unit {
+fn draw_play_hint(game : @types.Game) -> Unit {
   if game.hint_t > 16.0 {
     return
   }
 
   let fade : Float = Float::from_int(1) -
-    clampf((game.hint_t - 7.0) / 9.0, 0.0, 1.0)
-  let aa = clampi((fade * 190.0).to_int(), 0, 190)
+    @types.clampf((game.hint_t - 7.0) / 9.0, 0.0, 1.0)
+  let aa = @types.clampi((fade * 190.0).to_int(), 0, 190)
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 360,
-    screen_h - 54,
+    @types.screen_w / 2 - 360,
+    @types.screen_h - 54,
     720,
     32,
     @raylib.Color::new(8, 18, 30, aa),
   )
   draw_center_text(
     "Boost rams enemies. Hack disables threats and enemy shots.",
-    screen_h - 50,
+    @types.screen_h - 50,
     21,
     @raylib.Color::new(206, 232, 246, aa + 42),
   )
 }
 
 ///|
-fn draw_title_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(4, 8, 16, 124),
   )
 
@@ -1034,8 +1051,17 @@ fn draw_title_overlay(
     @raylib.Color::new(178, 216, 238, 224),
   )
 
-  let b = title_start_rect()
-  let hover = pointer_on_rect(mx, my, hold, touch_count, b.0, b.1, b.2, b.3)
+  let b = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    b.0,
+    b.1,
+    b.2,
+    b.3,
+  )
 
   @raylib.draw_rectangle(
     b.0.to_int(),
@@ -1064,14 +1090,14 @@ fn draw_title_overlay(
   )
 
   @raylib.draw_rectangle(
-    screen_w / 2 - 462,
+    @types.screen_w / 2 - 462,
     372,
     924,
     236,
     @raylib.Color::new(8, 18, 30, 184),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - 462,
+    @types.screen_w / 2 - 462,
     372,
     924,
     236,
@@ -1114,21 +1140,23 @@ fn draw_title_overlay(
 }
 
 ///|
-fn draw_stage_clear_overlay(game : Game) -> Unit {
-  let t = ease_out_cubic(clampf(game.result_t / stage_clear_delay, 0.0, 1.0))
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
+  let t = @types.ease_out_cubic(
+    @types.clampf(game.result_t / @types.stage_clear_delay, 0.0, 1.0),
+  )
   let panel_w = (Float::from_int(430) + t * Float::from_int(140)).to_int()
   let panel_h = (Float::from_int(170) + t * Float::from_int(44)).to_int()
 
   @raylib.draw_rectangle(
-    screen_w / 2 - panel_w / 2,
-    screen_h / 2 - panel_h / 2,
+    @types.screen_w / 2 - panel_w / 2,
+    @types.screen_h / 2 - panel_h / 2,
     panel_w,
     panel_h,
     @raylib.Color::new(10, 30, 44, 218),
   )
   @raylib.draw_rectangle_lines(
-    screen_w / 2 - panel_w / 2,
-    screen_h / 2 - panel_h / 2,
+    @types.screen_w / 2 - panel_w / 2,
+    @types.screen_h / 2 - panel_h / 2,
     panel_w,
     panel_h,
     @raylib.Color::new(150, 242, 220, 226),
@@ -1136,37 +1164,31 @@ fn draw_stage_clear_overlay(game : Game) -> Unit {
 
   draw_center_text(
     "STAGE " + game.stage.to_string() + " CLEARED",
-    screen_h / 2 - 46,
+    @types.screen_h / 2 - 46,
     44,
     @raylib.Color::new(182, 255, 212, 255),
   )
   draw_center_text(
     "Next pursuit route loading...",
-    screen_h / 2 + 8,
+    @types.screen_h / 2 + 8,
     26,
     @raylib.Color::new(206, 236, 240, 230),
   )
   draw_center_text(
     "Tap / Enter to continue now",
-    screen_h / 2 + 44,
+    @types.screen_h / 2 + 44,
     20,
     @raylib.Color::new(196, 222, 238, 222),
   )
 }
 
 ///|
-fn draw_game_over_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(12, 8, 16, 196),
   )
 
@@ -1198,8 +1220,17 @@ fn draw_game_over_overlay(
     @raylib.Color::new(186, 224, 244, 230),
   )
 
-  let b = result_retry_rect()
-  let hover = pointer_on_rect(mx, my, hold, touch_count, b.0, b.1, b.2, b.3)
+  let b = @types.result_retry_rect()
+  let hover = @types.pointer_on_rect(
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    b.0,
+    b.1,
+    b.2,
+    b.3,
+  )
 
   @raylib.draw_rectangle(
     b.0.to_int(),
@@ -1236,7 +1267,7 @@ fn draw_game_over_overlay(
 }
 
 ///|
-fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
+fn draw_world(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   draw_afterimages(game, cam_x, cam_y)
   draw_rings(game, cam_x, cam_y)
   draw_entities(game, cam_x, cam_y)
@@ -1246,14 +1277,8 @@ fn draw_world(game : Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  @raylib.clear_background(bg_top())
+pub fn draw_frame(game : @types.Game) -> Unit {
+  @raylib.clear_background(@types.bg_top())
 
   let cam = shake_offset(game)
   let cam_x = cam.0
@@ -1266,30 +1291,30 @@ fn draw_frame(
   draw_hack_pulse(game)
 
   if game.flash_t > 0.0 {
-    let aa = clampi((game.flash_t * 220.0).to_int(), 0, 220)
+    let aa = @types.clampi((game.flash_t * 220.0).to_int(), 0, 220)
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(255, 148, 186, aa),
     )
   }
 
-  if game.state != state_title {
+  if game.state != @types.state_title {
     draw_hud(game)
   }
 
-  if game.state == state_title {
-    draw_title_overlay(game, mx, my, hold, touch_count)
-  } else if game.state == state_play {
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_play {
     draw_play_hint(game)
     if game.touch_mode {
       draw_touch_controls(game)
     }
-  } else if game.state == state_stage_clear {
+  } else if game.state == @types.state_stage_clear {
     draw_stage_clear_overlay(game)
   } else {
-    draw_game_over_overlay(game, mx, my, hold, touch_count)
+    draw_game_over_overlay(game)
   }
 }

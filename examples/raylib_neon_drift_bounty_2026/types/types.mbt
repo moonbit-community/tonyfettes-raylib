@@ -1,5 +1,5 @@
 ///|
-struct Entity {
+pub(all) struct Entity {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -16,7 +16,7 @@ struct Entity {
 }
 
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   mut from_player : Bool
   mut x : Float
@@ -29,7 +29,7 @@ struct Bullet {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -41,7 +41,7 @@ struct Spark {
 }
 
 ///|
-struct GlowRing {
+pub(all) struct GlowRing {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -51,7 +51,7 @@ struct GlowRing {
 }
 
 ///|
-struct Afterimage {
+pub(all) struct Afterimage {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -63,7 +63,7 @@ struct Afterimage {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -78,7 +78,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   entities : Array[Entity]
   bullets : Array[Bullet]
   sparks : Array[Spark]
@@ -119,10 +119,14 @@ struct Game {
   mut touch_boost_prev : Bool
   mut touch_hack_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Entity::new() -> Entity {
+pub fn Entity::new() -> Entity {
   {
     active: false,
     kind: foe_bike,
@@ -141,7 +145,7 @@ fn Entity::new() -> Entity {
 }
 
 ///|
-fn Bullet::new() -> Bullet {
+pub fn Bullet::new() -> Bullet {
   {
     active: false,
     from_player: true,
@@ -156,7 +160,7 @@ fn Bullet::new() -> Bullet {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -170,12 +174,12 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn GlowRing::new() -> GlowRing {
+pub fn GlowRing::new() -> GlowRing {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Afterimage::new() -> Afterimage {
+pub fn Afterimage::new() -> Afterimage {
   {
     active: false,
     x: 0.0,
@@ -189,7 +193,7 @@ fn Afterimage::new() -> Afterimage {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: Float::from_int(screen_w / 2),
     y: Float::from_int(screen_h) * 0.76,
@@ -206,7 +210,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     entities: Array::makei(max_entities, fn(_i) { Entity::new() }),
     bullets: Array::makei(max_bullets, fn(_i) { Bullet::new() }),
@@ -248,5 +252,9 @@ fn Game::new() -> Game {
     touch_boost_prev: false,
     touch_hack_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
