@@ -103,7 +103,7 @@ fn draw_board_grid(board_x : Int, board_y : Int, tile : Int) -> Unit {
 fn draw_stone(
   x : Int,
   y : Int,
-  p : Int,
+  p : @types.Player,
   board_x : Int,
   board_y : Int,
   tile : Int,
@@ -112,24 +112,32 @@ fn draw_stone(
   let cy : Int = board_y + y * tile
   let r : Float = Float::from_int(tile) * 0.42
 
-  if p == @types.player_human {
-    @raylib.draw_circle(cx, cy, r, @raylib.Color::new(28, 34, 46, 255))
-    @raylib.draw_circle(
-      cx - 4,
-      cy - 4,
-      r * 0.42,
-      @raylib.Color::new(126, 146, 176, 196),
-    )
-    @raylib.draw_circle_lines(cx, cy, r, @raylib.Color::new(210, 220, 236, 220))
-  } else {
-    @raylib.draw_circle(cx, cy, r, @raylib.Color::new(224, 228, 238, 255))
-    @raylib.draw_circle(
-      cx - 4,
-      cy - 4,
-      r * 0.42,
-      @raylib.Color::new(252, 252, 255, 206),
-    )
-    @raylib.draw_circle_lines(cx, cy, r, @raylib.Color::new(68, 76, 88, 190))
+  match p {
+    @types.Human => {
+      @raylib.draw_circle(cx, cy, r, @raylib.Color::new(28, 34, 46, 255))
+      @raylib.draw_circle(
+        cx - 4,
+        cy - 4,
+        r * 0.42,
+        @raylib.Color::new(126, 146, 176, 196),
+      )
+      @raylib.draw_circle_lines(
+        cx,
+        cy,
+        r,
+        @raylib.Color::new(210, 220, 236, 220),
+      )
+    }
+    _ => {
+      @raylib.draw_circle(cx, cy, r, @raylib.Color::new(224, 228, 238, 255))
+      @raylib.draw_circle(
+        cx - 4,
+        cy - 4,
+        r * 0.42,
+        @raylib.Color::new(252, 252, 255, 206),
+      )
+      @raylib.draw_circle_lines(cx, cy, r, @raylib.Color::new(68, 76, 88, 190))
+    }
   }
 }
 
@@ -195,8 +203,8 @@ fn draw_board(game : @types.Game) -> Unit {
 
   for y in 0..<@types.board_n {
     for x in 0..<@types.board_n {
-      let p : Int = @types.cell_at(game, x, y)
-      if p != @types.player_empty {
+      let p : @types.Player = @types.cell_at(game, x, y)
+      if p != @types.Empty {
         draw_stone(x, y, p, board_x, board_y, tile)
       }
     }
@@ -205,7 +213,7 @@ fn draw_board(game : @types.Game) -> Unit {
   draw_hint(game, board_x, board_y, tile)
   draw_last_markers(game, board_x, board_y, tile)
 
-  if game.state == @types.state_play {
+  if game.state == @types.Play {
     let cx : Int = board_x + game.cursor_x * tile
     let cy : Int = board_y + game.cursor_y * tile
     @raylib.draw_circle_lines(
@@ -288,7 +296,7 @@ fn draw_side_panel(game : @types.Game) -> Unit {
   )
 
   @raylib.draw_text(
-    if game.turn == @types.player_human {
+    if game.turn == @types.Human {
       "Turn: You"
     } else {
       "Turn: AI"
@@ -605,20 +613,16 @@ fn draw_sparks(game : @types.Game) -> Unit {
       126
     }
 
-    let core : @raylib.Color = if spark.kind == 1 {
-      @raylib.Color::new(255, 214, 108, alpha)
-    } else if spark.kind == 0 {
-      @raylib.Color::new(130, 208, 255, alpha)
-    } else {
-      @raylib.Color::new(210, 196, 255, alpha)
+    let core : @raylib.Color = match spark.kind {
+      @types.SparkHuman => @raylib.Color::new(255, 214, 108, alpha)
+      @types.SparkAI => @raylib.Color::new(130, 208, 255, alpha)
+      _ => @raylib.Color::new(210, 196, 255, alpha)
     }
 
-    let edge : @raylib.Color = if spark.kind == 1 {
-      @raylib.Color::new(255, 242, 196, alpha - 44)
-    } else if spark.kind == 0 {
-      @raylib.Color::new(206, 236, 255, alpha - 44)
-    } else {
-      @raylib.Color::new(230, 220, 255, alpha - 44)
+    let edge : @raylib.Color = match spark.kind {
+      @types.SparkHuman => @raylib.Color::new(255, 242, 196, alpha - 44)
+      @types.SparkAI => @raylib.Color::new(206, 236, 255, alpha - 44)
+      _ => @raylib.Color::new(230, 220, 255, alpha - 44)
     }
 
     let r : Float = 1.2 + spark.size * (0.46 + spark.life * 0.84)
@@ -661,7 +665,13 @@ fn draw_title(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.start_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -699,12 +709,10 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
     @raylib.Color::new(166, 206, 236, 236),
   )
 
-  let title : String = if game.winner == @types.player_human {
-    "You Win"
-  } else if game.winner == @types.player_ai {
-    "AI Wins"
-  } else {
-    "Draw"
+  let title : String = match game.winner {
+    @types.Human => "You Win"
+    @types.AI => "AI Wins"
+    @types.Empty => "Draw"
   }
 
   @raylib.draw_text(
@@ -731,7 +739,13 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -749,9 +763,13 @@ fn draw_result_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
-    draw_title(game)
-    return
+  match game.state {
+    @types.Title => {
+      draw_title(game)
+      return
+    }
+    @types.Play => ()
+    @types.Result => ()
   }
 
   draw_board(game)
@@ -759,7 +777,7 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_touch_overlay(game)
   draw_sparks(game)
 
-  if game.state == @types.state_result {
+  if game.state == @types.Result {
     draw_result_overlay(game)
   }
 }

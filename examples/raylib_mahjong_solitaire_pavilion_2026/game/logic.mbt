@@ -34,10 +34,8 @@ fn set_pattern_active(game : @types.Game, pattern : Int) -> Unit {
         let core : Bool = nx * nx + ny * ny <= 0.5
         on = edge || core
       } else if pattern == 5 {
-        let wing_l : Bool = x <= game.board_w / 2 - 1 &&
-          @types.absf(ny) <= 0.72
-        let wing_r : Bool = x >= game.board_w / 2 + 2 &&
-          @types.absf(ny) <= 0.72
+        let wing_l : Bool = x <= game.board_w / 2 - 1 && @types.absf(ny) <= 0.72
+        let wing_r : Bool = x >= game.board_w / 2 + 2 && @types.absf(ny) <= 0.72
         let spine : Bool = @types.absf(nx) <= 0.18
         on = wing_l || wing_r || spine
       } else if pattern == 6 {
@@ -50,9 +48,7 @@ fn set_pattern_active(game : @types.Game, pattern : Int) -> Unit {
         let stair_a : Bool = y <=
           x * game.board_h / @types.maxi(1, game.board_w) + 2
         let stair_b : Bool = y >=
-          game.board_h -
-          x * game.board_h / @types.maxi(1, game.board_w) -
-          1
+          game.board_h - x * game.board_h / @types.maxi(1, game.board_w) - 1
         on = stair_a && stair_b
       } else if pattern == 8 {
         let r2 : Float = nx * nx + ny * ny
@@ -163,7 +159,7 @@ fn find_any_move(game : @types.Game) -> (Bool, Int, Int, Int, Int) {
 
 ///|
 fn reshuffle(game : @types.Game, consume_ticket : Bool) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
 
@@ -229,7 +225,7 @@ fn reshuffle(game : @types.Game, consume_ticket : Bool) -> Bool {
 
 ///|
 fn ensure_moves(game : @types.Game) -> Unit {
-  if game.state != @types.state_play || game.remaining <= 0 {
+  if game.state != @types.Play || game.remaining <= 0 {
     return
   }
 
@@ -249,7 +245,7 @@ fn ensure_moves(game : @types.Game) -> Unit {
     return
   }
 
-  game.state = @types.state_fail
+  game.state = @types.Fail
   game.message = "No possible pairs"
   game.message_t = 1.2
 }
@@ -324,9 +320,9 @@ fn on_match(
     game.total_time = game.total_time + (game.time_limit - game.timer)
 
     if game.level_index + 1 >= game.level_count {
-      game.state = @types.state_campaign_clear
+      game.state = @types.CampaignClear
     } else {
-      game.state = @types.state_level_clear
+      game.state = @types.LevelClear
     }
 
     game.message = "Board cleared"
@@ -349,7 +345,7 @@ fn on_bad_pick(game : @types.Game, x : Int, y : Int) -> Unit {
 
 ///|
 fn pick_tile(game : @types.Game, x : Int, y : Int) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -412,7 +408,7 @@ fn pick_cursor(game : @types.Game) -> Unit {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
 
@@ -462,7 +458,7 @@ fn undo_last(game : @types.Game) -> Bool {
     return false
   }
 
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     game.message = "Undo during play only"
     game.message_t = 0.8
     return false
@@ -500,32 +496,38 @@ fn undo_last(game : @types.Game) -> Bool {
 }
 
 ///|
-fn move_cursor_once(game : @types.Game, dir : Int) -> Unit {
-  if game.state != @types.state_play {
+fn move_cursor_once(game : @types.Game, dir : @types.Dir) -> Unit {
+  if game.state != @types.Play {
     return
   }
 
-  if dir == @types.dir_left {
-    game.cursor_x = @types.clampi(game.cursor_x - 1, 1, game.board_w)
-  } else if dir == @types.dir_right {
-    game.cursor_x = @types.clampi(game.cursor_x + 1, 1, game.board_w)
-  } else if dir == @types.dir_up {
-    game.cursor_y = @types.clampi(game.cursor_y - 1, 1, game.board_h)
-  } else if dir == @types.dir_down {
-    game.cursor_y = @types.clampi(game.cursor_y + 1, 1, game.board_h)
+  match dir {
+    @types.Left =>
+      game.cursor_x = @types.clampi(game.cursor_x - 1, 1, game.board_w)
+    @types.Right =>
+      game.cursor_x = @types.clampi(game.cursor_x + 1, 1, game.board_w)
+    @types.Up =>
+      game.cursor_y = @types.clampi(game.cursor_y - 1, 1, game.board_h)
+    @types.Down =>
+      game.cursor_y = @types.clampi(game.cursor_y + 1, 1, game.board_h)
+    @types.DirNone => ()
   }
 }
 
 ///|
-fn update_cursor_hold(game : @types.Game, dt : Float, held_dir : Int) -> Unit {
-  if game.state != @types.state_play {
-    game.hold_dir = @types.dir_none
+fn update_cursor_hold(
+  game : @types.Game,
+  dt : Float,
+  held_dir : @types.Dir,
+) -> Unit {
+  if game.state != @types.Play {
+    game.hold_dir = @types.DirNone
     game.repeat_t = 0.0
     return
   }
 
-  if held_dir == @types.dir_none {
-    game.hold_dir = @types.dir_none
+  if held_dir == @types.DirNone {
+    game.hold_dir = @types.DirNone
     game.repeat_t = 0.0
     return
   }
@@ -575,11 +577,11 @@ fn update_timers(game : @types.Game, dt : Float) -> Unit {
     }
   }
 
-  if game.state == @types.state_play {
+  if game.state == @types.Play {
     game.timer = game.timer - dt
     if game.timer <= 0.0 {
       game.timer = 0.0
-      game.state = @types.state_fail
+      game.state = @types.Fail
       game.combo = 0
       @types.clear_selection(game)
       @types.clear_hint(game)
@@ -639,7 +641,7 @@ fn load_level(game : @types.Game, level_id : Int) -> Unit {
   game.undos_left = undos
 
   game.combo = 0
-  game.hold_dir = @types.dir_none
+  game.hold_dir = @types.DirNone
   game.repeat_t = 0.0
   game.touch_action_cd = 0.0
 
@@ -660,7 +662,7 @@ fn load_level(game : @types.Game, level_id : Int) -> Unit {
 
   place_cursor_on_first_tile(game)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.message = "Level \{id + 1}: \{name}"
   game.message_t = 1.2
 }
@@ -681,7 +683,7 @@ fn restart_campaign(game : @types.Game) -> Unit {
 ///|
 fn next_level(game : @types.Game) -> Unit {
   if game.level_index + 1 >= game.level_count {
-    game.state = @types.state_campaign_clear
+    game.state = @types.CampaignClear
     return
   }
 
@@ -712,55 +714,47 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   let next_press : Bool = detect_next_press(game)
   let reset_press : Bool = detect_reset_press(game)
 
-  if game.state == @types.state_title {
-    if start_press {
-      restart_campaign(game)
-    }
-  } else if game.state == @types.state_play {
-    let held_dir : Int = detect_held_dir(game)
-    update_cursor_hold(game, dt, held_dir)
+  match game.state {
+    @types.Title => if start_press { restart_campaign(game) }
+    @types.Play => {
+      let held_dir : @types.Dir = detect_held_dir(game)
+      update_cursor_hold(game, dt, held_dir)
 
-    let select_press : Bool = detect_select_press(game)
-    let hint_press : Bool = detect_hint_press(game)
-    let shuffle_press : Bool = detect_shuffle_press(game)
-    let undo_press : Bool = detect_undo_press(game)
-    let clear_press : Bool = detect_clear_press(game)
-    let board_tap = detect_board_tap(game)
+      let select_press : Bool = detect_select_press(game)
+      let hint_press : Bool = detect_hint_press(game)
+      let shuffle_press : Bool = detect_shuffle_press(game)
+      let undo_press : Bool = detect_undo_press(game)
+      let clear_press : Bool = detect_clear_press(game)
+      let board_tap = detect_board_tap(game)
 
-    if reset_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.2
-      reload_level(game)
-    } else if clear_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.12
-      @types.clear_selection(game)
-      @types.clear_hint(game)
-      game.message = "Selection cleared"
-      game.message_t = 0.45
-    } else if hint_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.2
-      ignore(use_hint(game))
-    } else if shuffle_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.2
-      ignore(reshuffle(game, true))
-    } else if undo_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.18
-      ignore(undo_last(game))
-    } else if board_tap.0 && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.1
-      pick_tile(game, board_tap.1, board_tap.2)
-    } else if select_press && game.touch_action_cd <= 0.0 {
-      game.touch_action_cd = 0.1
-      pick_cursor(game)
+      if reset_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.2
+        reload_level(game)
+      } else if clear_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.12
+        @types.clear_selection(game)
+        @types.clear_hint(game)
+        game.message = "Selection cleared"
+        game.message_t = 0.45
+      } else if hint_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.2
+        ignore(use_hint(game))
+      } else if shuffle_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.2
+        ignore(reshuffle(game, true))
+      } else if undo_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.18
+        ignore(undo_last(game))
+      } else if board_tap.0 && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.1
+        pick_tile(game, board_tap.1, board_tap.2)
+      } else if select_press && game.touch_action_cd <= 0.0 {
+        game.touch_action_cd = 0.1
+        pick_cursor(game)
+      }
     }
-  } else if game.state == @types.state_level_clear {
-    if next_press {
-      next_level(game)
-    }
-  } else if game.state == @types.state_campaign_clear {
-    if next_press {
-      restart_campaign(game)
-    }
-  } else if reset_press || next_press {
-    reload_level(game)
+    @types.LevelClear => if next_press { next_level(game) }
+    @types.CampaignClear => if next_press { restart_campaign(game) }
+    @types.Fail => if reset_press || next_press { reload_level(game) }
   }
 }

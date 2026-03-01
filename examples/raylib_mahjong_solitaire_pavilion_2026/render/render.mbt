@@ -232,7 +232,7 @@ fn draw_board(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state == @types.state_play {
+  if game.state == @types.Play {
     let cx : Int = board_x + (game.cursor_x - 1) * tile
     let cy : Int = board_y + (game.cursor_y - 1) * tile
     @raylib.draw_rectangle_lines_ex(
@@ -715,7 +715,13 @@ fn draw_title(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.start_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -777,7 +783,13 @@ fn draw_level_clear_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -839,7 +851,13 @@ fn draw_fail_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -916,7 +934,13 @@ fn draw_campaign_overlay(game : @types.Game) -> Unit {
 
   let (bx, by, bw, bh) = @types.next_button_rect()
   let hover : Bool = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
   draw_button(
@@ -934,21 +958,19 @@ fn draw_campaign_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
-    draw_title(game)
-    return
-  }
-
-  draw_board(game)
-  draw_side_panel(game)
-  draw_touch_overlay(game)
-  draw_sparks(game)
-
-  if game.state == @types.state_level_clear {
-    draw_level_clear_overlay(game)
-  } else if game.state == @types.state_campaign_clear {
-    draw_campaign_overlay(game)
-  } else if game.state == @types.state_fail {
-    draw_fail_overlay(game)
+  match game.state {
+    @types.Title => draw_title(game)
+    _ => {
+      draw_board(game)
+      draw_side_panel(game)
+      draw_touch_overlay(game)
+      draw_sparks(game)
+      match game.state {
+        @types.LevelClear => draw_level_clear_overlay(game)
+        @types.CampaignClear => draw_campaign_overlay(game)
+        @types.Fail => draw_fail_overlay(game)
+        _ => ()
+      }
+    }
   }
 }

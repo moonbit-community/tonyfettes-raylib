@@ -18,33 +18,3 @@ pub let max_cells : Int = max_cols * max_rows
 
 ///|
 pub let max_undos : Int = 256
-
-///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_level_clear : Int = 2
-
-///|
-pub let state_campaign_clear : Int = 3
-
-///|
-pub let state_fail : Int = 4
-
-///|
-pub let dir_none : Int = 0
-
-///|
-pub let dir_left : Int = 1
-
-///|
-pub let dir_right : Int = 2
-
-///|
-pub let dir_up : Int = 3
-
-///|
-pub let dir_down : Int = 4

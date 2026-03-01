@@ -1,4 +1,22 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+  Fail
+} derive(Eq)
+
+///|
+pub(all) enum Dir {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+} derive(Eq)
+
+///|
 pub(all) struct UndoPair {
   valid : Bool
   x1 : Int
@@ -32,7 +50,7 @@ pub(all) struct Game {
   undo : Array[UndoPair]
   mut undo_len : Int
   sparks : Array[Spark]
-  mut state : Int
+  mut state : GameState
   mut level_index : Int
   level_count : Int
   mut level_name : String
@@ -60,7 +78,7 @@ pub(all) struct Game {
   mut hint_y1 : Int
   mut hint_x2 : Int
   mut hint_y2 : Int
-  mut hold_dir : Int
+  mut hold_dir : Dir
   mut repeat_t : Float
   mut touch_action_cd : Float
   mut message : String
@@ -111,7 +129,7 @@ pub fn Game::new() -> Game {
     undo: undo_arr,
     undo_len: 0,
     sparks: sparks_arr,
-    state: state_title,
+    state: Title,
     level_index: 0,
     level_count: 10,
     level_name: "",
@@ -139,7 +157,7 @@ pub fn Game::new() -> Game {
     hint_y1: 0,
     hint_x2: 0,
     hint_y2: 0,
-    hold_dir: dir_none,
+    hold_dir: DirNone,
     repeat_t: 0.0,
     touch_action_cd: 0.0,
     message: "",

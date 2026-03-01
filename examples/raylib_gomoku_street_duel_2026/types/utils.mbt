@@ -62,16 +62,16 @@ pub fn in_board(x : Int, y : Int) -> Bool {
 }
 
 ///|
-pub fn cell_at(game : Game, x : Int, y : Int) -> Int {
+pub fn cell_at(game : Game, x : Int, y : Int) -> Player {
   if in_board(x, y) {
     game.board[board_index(x, y)]
   } else {
-    player_empty
+    Empty
   }
 }
 
 ///|
-pub fn set_cell(game : Game, x : Int, y : Int, p : Int) -> Unit {
+pub fn set_cell(game : Game, x : Int, y : Int, p : Player) -> Unit {
   if in_board(x, y) {
     game.board[board_index(x, y)] = p
   }
@@ -100,7 +100,7 @@ pub fn spawn_spark(
   vy : Float,
   life : Float,
   size : Float,
-  kind : Int,
+  kind : SparkKind,
 ) -> Unit {
   for spark in game.sparks {
     if spark.active {
@@ -152,7 +152,13 @@ pub fn world_center(game : Game, x : Int, y : Int) -> (Float, Float, Float) {
 }
 
 ///|
-pub fn burst_move(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
+pub fn burst_move(
+  game : Game,
+  x : Int,
+  y : Int,
+  amount : Int,
+  kind : SparkKind,
+) -> Unit {
   let (cx, cy, tilef) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tilef * 0.22)
 

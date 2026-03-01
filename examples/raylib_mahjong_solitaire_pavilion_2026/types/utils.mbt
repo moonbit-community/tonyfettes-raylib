@@ -204,7 +204,13 @@ pub fn spawn_spark(
 }
 
 ///|
-pub fn burst_tile(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
+pub fn burst_tile(
+  game : Game,
+  x : Int,
+  y : Int,
+  amount : Int,
+  kind : Int,
+) -> Unit {
   let (cx, cy, tilef) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tilef * 0.22)
 

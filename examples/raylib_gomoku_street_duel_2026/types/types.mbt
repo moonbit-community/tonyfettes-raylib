@@ -1,4 +1,35 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum Player {
+  Empty
+  Human
+  AI
+} derive(Eq)
+
+///|
+pub(all) enum Dir {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+} derive(Eq)
+
+///|
+pub(all) enum SparkKind {
+  SparkAI
+  SparkHuman
+  SparkUndo
+  SparkHint
+} derive(Eq)
+
+///|
 pub(all) struct Spark {
   mut active : Bool
   mut x : Float
@@ -7,20 +38,20 @@ pub(all) struct Spark {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : SparkKind
 }
 
 ///|
 pub(all) struct Game {
-  board : Array[Int]
+  board : Array[Player]
   hist_x : Array[Int]
   hist_y : Array[Int]
-  hist_p : Array[Int]
+  hist_p : Array[Player]
   mut hist_len : Int
   sparks : Array[Spark]
-  mut state : Int
-  mut turn : Int
-  mut winner : Int
+  mut state : GameState
+  mut turn : Player
+  mut winner : Player
   mut move_count : Int
   mut human_wins : Int
   mut ai_wins : Int
@@ -38,7 +69,7 @@ pub(all) struct Game {
   mut hint_ttl : Float
   mut ai_delay : Float
   mut game_time : Float
-  mut hold_dir : Int
+  mut hold_dir : Dir
   mut repeat_t : Float
   mut touch_action_cd : Float
   mut message : String
@@ -63,20 +94,20 @@ pub fn Game::new() -> Game {
       vy: 0.0,
       life: 0.0,
       size: 0.0,
-      kind: 0,
+      kind: SparkAI,
     }
   })
 
   {
-    board: Array::make(max_cells, player_empty),
+    board: Array::make(max_cells, Empty),
     hist_x: Array::make(max_cells, 0),
     hist_y: Array::make(max_cells, 0),
-    hist_p: Array::make(max_cells, 0),
+    hist_p: Array::make(max_cells, Empty),
     hist_len: 0,
     sparks: sparks_arr,
-    state: state_title,
-    turn: player_human,
-    winner: player_empty,
+    state: Title,
+    turn: Human,
+    winner: Empty,
     move_count: 0,
     human_wins: 0,
     ai_wins: 0,
@@ -94,7 +125,7 @@ pub fn Game::new() -> Game {
     hint_ttl: 0.0,
     ai_delay: 0.0,
     game_time: 0.0,
-    hold_dir: dir_none,
+    hold_dir: DirNone,
     repeat_t: 0.0,
     touch_action_cd: 0.0,
     message: "",
