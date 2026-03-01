@@ -1,42 +1,5 @@
 ///|
-fn point_in_rect(
-  x : Float,
-  y : Float,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  x >= rx && x <= rx + rw && y >= ry && y <= ry + rh
-}
-
-///|
-fn pointer_on_rect(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-  rx : Float,
-  ry : Float,
-  rw : Float,
-  rh : Float,
-) -> Bool {
-  if hold && point_in_rect(mx, my, rx, ry, rw, rh) {
-    return true
-  }
-
-  for i in 0..<touch_count {
-    let p = @raylib.get_touch_position(i)
-    if point_in_rect(p.x, p.y, rx, ry, rw, rh) {
-      return true
-    }
-  }
-
-  false
-}
-
-///|
-fn clear_frame_input(game : Game) -> Unit {
+fn clear_frame_input(game : @types.Game) -> Unit {
   game.input_turn = 0.0
   game.input_ring_move = 0
   game.input_fire_hold = false
@@ -46,16 +9,11 @@ fn clear_frame_input(game : Game) -> Unit {
 }
 
 ///|
-fn update_pointer(
-  game : Game,
-  mx : Float,
-  my : Float,
-  touch_count : Int,
-) -> Unit {
-  game.pointer_x = mx
-  game.pointer_y = my
+fn update_pointer(game : @types.Game) -> Unit {
+  game.pointer_x = game.mouse_x
+  game.pointer_y = game.mouse_y
 
-  if touch_count > 0 {
+  if game.touch_count > 0 {
     let p = @raylib.get_touch_position(0)
     game.pointer_x = p.x
     game.pointer_y = p.y
@@ -65,7 +23,7 @@ fn update_pointer(
 ///|
 fn restart_rect() -> (Float, Float, Float, Float) {
   (
-    Float::from_int(screen_w) - Float::from_int(144),
+    Float::from_int(@types.screen_w) - Float::from_int(144),
     Float::from_int(14),
     Float::from_int(130),
     Float::from_int(44),
@@ -74,23 +32,21 @@ fn restart_rect() -> (Float, Float, Float, Float) {
 
 ///|
 fn beam_rect() -> (Float, Float, Float, Float) {
-  let fire = button_fire_rect()
+  let fire = @types.button_fire_rect()
   (fire.0, fire.1 - Float::from_int(66), fire.2, Float::from_int(56))
 }
 
 ///|
-fn update_title_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_title_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
+
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
   game.touch_mode = touch_count > 0
-  game.touch_count = touch_count
 
   let key_start = @raylib.is_key_pressed(@raylib.KeySpace) ||
     @raylib.is_key_pressed(@raylib.KeyEnter)
@@ -101,31 +57,31 @@ fn update_title_input(
   game.input_restart_press = game.input_fire_hold
 
   game.touch_restart_prev = touch_count > 0 && hold
+  ignore(mx)
+  ignore(my)
 }
 
 ///|
-fn update_play_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_play_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
+
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
   game.touch_mode = touch_count > 0
-  game.touch_count = touch_count
 
-  let left_btn = button_left_rect()
-  let right_btn = button_right_rect()
-  let in_btn = button_in_rect()
-  let out_btn = button_out_rect()
-  let fire_btn = button_fire_rect()
+  let left_btn = @types.button_left_rect()
+  let right_btn = @types.button_right_rect()
+  let in_btn = @types.button_in_rect()
+  let out_btn = @types.button_out_rect()
+  let fire_btn = @types.button_fire_rect()
   let beam_btn = beam_rect()
   let restart_btn = restart_rect()
 
-  let t_left = pointer_on_rect(
+  let t_left = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -135,7 +91,7 @@ fn update_play_input(
     left_btn.2,
     left_btn.3,
   )
-  let t_right = pointer_on_rect(
+  let t_right = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -145,7 +101,7 @@ fn update_play_input(
     right_btn.2,
     right_btn.3,
   )
-  let t_in = pointer_on_rect(
+  let t_in = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -155,7 +111,7 @@ fn update_play_input(
     in_btn.2,
     in_btn.3,
   )
-  let t_out = pointer_on_rect(
+  let t_out = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -165,7 +121,7 @@ fn update_play_input(
     out_btn.2,
     out_btn.3,
   )
-  let t_fire = pointer_on_rect(
+  let t_fire = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -175,7 +131,7 @@ fn update_play_input(
     fire_btn.2,
     fire_btn.3,
   )
-  let t_beam = pointer_on_rect(
+  let t_beam = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -185,7 +141,7 @@ fn update_play_input(
     beam_btn.2,
     beam_btn.3,
   )
-  let t_restart = pointer_on_rect(
+  let t_restart = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -243,15 +199,12 @@ fn update_play_input(
 }
 
 ///|
-fn update_stage_clear_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_stage_clear_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
+
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
   let key_restart = @raylib.is_key_pressed(@raylib.KeyR)
   let key_start = @raylib.is_key_pressed(@raylib.KeySpace) ||
@@ -264,15 +217,12 @@ fn update_stage_clear_input(
 }
 
 ///|
-fn update_result_input(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn update_result_input(game : @types.Game) -> Unit {
   clear_frame_input(game)
-  update_pointer(game, mx, my, touch_count)
+  update_pointer(game)
+
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
   let key_retry = @raylib.is_key_pressed(@raylib.KeyR) ||
     @raylib.is_key_pressed(@raylib.KeyEnter) ||

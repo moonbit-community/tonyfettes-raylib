@@ -1,5 +1,5 @@
 ///|
-struct Enemy {
+pub(all) struct Enemy {
   mut active : Bool
   mut kind : Int
   mut ring : Int
@@ -13,7 +13,7 @@ struct Enemy {
 }
 
 ///|
-struct Bullet {
+pub(all) struct Bullet {
   mut active : Bool
   mut ring_f : Float
   mut angle : Float
@@ -25,7 +25,7 @@ struct Bullet {
 }
 
 ///|
-struct EnemyBullet {
+pub(all) struct EnemyBullet {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -37,7 +37,7 @@ struct EnemyBullet {
 }
 
 ///|
-struct Flare {
+pub(all) struct Flare {
   mut active : Bool
   mut ring : Int
   mut angle : Float
@@ -48,7 +48,7 @@ struct Flare {
 }
 
 ///|
-struct Particle {
+pub(all) struct Particle {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -60,7 +60,7 @@ struct Particle {
 }
 
 ///|
-struct Shock {
+pub(all) struct Shock {
   mut active : Bool
   mut ring : Int
   mut a0 : Float
@@ -70,7 +70,7 @@ struct Shock {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut ring : Int
   mut ring_f : Float
   mut angle : Float
@@ -84,7 +84,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   enemies : Array[Enemy]
   bullets : Array[Bullet]
   enemy_bullets : Array[EnemyBullet]
@@ -126,10 +126,13 @@ struct Game {
   mut touch_out_prev : Bool
   mut touch_beam_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
 }
 
 ///|
-fn Enemy::new() -> Enemy {
+pub fn Enemy::new() -> Enemy {
   {
     active: false,
     kind: 0,
@@ -145,7 +148,7 @@ fn Enemy::new() -> Enemy {
 }
 
 ///|
-fn Bullet::new() -> Bullet {
+pub fn Bullet::new() -> Bullet {
   {
     active: false,
     ring_f: 0.0,
@@ -159,7 +162,7 @@ fn Bullet::new() -> Bullet {
 }
 
 ///|
-fn EnemyBullet::new() -> EnemyBullet {
+pub fn EnemyBullet::new() -> EnemyBullet {
   {
     active: false,
     x: 0.0,
@@ -173,7 +176,7 @@ fn EnemyBullet::new() -> EnemyBullet {
 }
 
 ///|
-fn Flare::new() -> Flare {
+pub fn Flare::new() -> Flare {
   {
     active: false,
     ring: 0,
@@ -186,7 +189,7 @@ fn Flare::new() -> Flare {
 }
 
 ///|
-fn Particle::new() -> Particle {
+pub fn Particle::new() -> Particle {
   {
     active: false,
     x: 0.0,
@@ -200,12 +203,12 @@ fn Particle::new() -> Particle {
 }
 
 ///|
-fn Shock::new() -> Shock {
+pub fn Shock::new() -> Shock {
   { active: false, ring: 0, a0: 0.0, a1: 0.0, life: 0.0, beta: false }
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     ring: 1,
     ring_f: 1.0,
@@ -221,7 +224,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     enemies: Array::makei(max_enemies, fn(_i) { Enemy::new() }),
     bullets: Array::makei(max_bullets, fn(_i) { Bullet::new() }),
@@ -264,5 +267,8 @@ fn Game::new() -> Game {
     touch_out_prev: false,
     touch_beam_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
   }
 }

@@ -1,5 +1,5 @@
 ///|
-fn clear_enemies(game : Game) -> Unit {
+fn clear_enemies(game : @types.Game) -> Unit {
   for enemy in game.enemies {
     enemy.active = false
     enemy.kind = 0
@@ -15,7 +15,7 @@ fn clear_enemies(game : Game) -> Unit {
 }
 
 ///|
-fn clear_bullets(game : Game) -> Unit {
+fn clear_bullets(game : @types.Game) -> Unit {
   for bullet in game.bullets {
     bullet.active = false
     bullet.ring_f = 0.0
@@ -29,7 +29,7 @@ fn clear_bullets(game : Game) -> Unit {
 }
 
 ///|
-fn clear_enemy_bullets(game : Game) -> Unit {
+fn clear_enemy_bullets(game : @types.Game) -> Unit {
   for enemy_bullet in game.enemy_bullets {
     enemy_bullet.active = false
     enemy_bullet.x = 0.0
@@ -43,7 +43,7 @@ fn clear_enemy_bullets(game : Game) -> Unit {
 }
 
 ///|
-fn clear_flares(game : Game) -> Unit {
+fn clear_flares(game : @types.Game) -> Unit {
   for flare in game.flares {
     flare.active = false
     flare.ring = 0
@@ -56,7 +56,7 @@ fn clear_flares(game : Game) -> Unit {
 }
 
 ///|
-fn clear_particles(game : Game) -> Unit {
+fn clear_particles(game : @types.Game) -> Unit {
   for particle in game.particles {
     particle.active = false
     particle.x = 0.0
@@ -70,7 +70,7 @@ fn clear_particles(game : Game) -> Unit {
 }
 
 ///|
-fn clear_shocks(game : Game) -> Unit {
+fn clear_shocks(game : @types.Game) -> Unit {
   for shock in game.shocks {
     shock.active = false
     shock.ring = 0
@@ -82,7 +82,7 @@ fn clear_shocks(game : Game) -> Unit {
 }
 
 ///|
-fn reset_player(player : Player) -> Unit {
+fn reset_player(player : @types.Player) -> Unit {
   player.ring = 1
   player.ring_f = 1.0
   player.angle = -1.2
@@ -96,7 +96,7 @@ fn reset_player(player : Player) -> Unit {
 }
 
 ///|
-fn alloc_enemy(game : Game) -> Int {
+fn alloc_enemy(game : @types.Game) -> Int {
   for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
       return i
@@ -114,7 +114,7 @@ fn alloc_enemy(game : Game) -> Int {
 }
 
 ///|
-fn alloc_bullet(game : Game) -> Int {
+fn alloc_bullet(game : @types.Game) -> Int {
   for i in 0..<game.bullets.length() {
     if not(game.bullets[i].active) {
       return i
@@ -132,7 +132,7 @@ fn alloc_bullet(game : Game) -> Int {
 }
 
 ///|
-fn alloc_enemy_bullet(game : Game) -> Int {
+fn alloc_enemy_bullet(game : @types.Game) -> Int {
   for i in 0..<game.enemy_bullets.length() {
     if not(game.enemy_bullets[i].active) {
       return i
@@ -150,7 +150,7 @@ fn alloc_enemy_bullet(game : Game) -> Int {
 }
 
 ///|
-fn alloc_flare(game : Game) -> Int {
+fn alloc_flare(game : @types.Game) -> Int {
   for i in 0..<game.flares.length() {
     if not(game.flares[i].active) {
       return i
@@ -168,7 +168,7 @@ fn alloc_flare(game : Game) -> Int {
 }
 
 ///|
-fn alloc_particle(game : Game) -> Int {
+fn alloc_particle(game : @types.Game) -> Int {
   for i in 0..<game.particles.length() {
     if not(game.particles[i].active) {
       return i
@@ -186,7 +186,7 @@ fn alloc_particle(game : Game) -> Int {
 }
 
 ///|
-fn alloc_shock(game : Game) -> Int {
+fn alloc_shock(game : @types.Game) -> Int {
   for i in 0..<game.shocks.length() {
     if not(game.shocks[i].active) {
       return i
@@ -205,7 +205,7 @@ fn alloc_shock(game : Game) -> Int {
 
 ///|
 fn spawn_enemy(
-  game : Game,
+  game : @types.Game,
   kind : Int,
   ring : Int,
   angle : Float,
@@ -217,10 +217,10 @@ fn spawn_enemy(
   game.enemies[i].active = true
   game.enemies[i].kind = kind
   game.enemies[i].ring = ring
-  game.enemies[i].angle = wrap_angle(angle)
+  game.enemies[i].angle = @types.wrap_angle(angle)
   game.enemies[i].ang_v = ang_v
   game.enemies[i].hp = hp
-  game.enemies[i].fire_cd = randf(0.2, enemy_fire_base)
+  game.enemies[i].fire_cd = @types.randf(0.2, @types.enemy_fire_base)
   game.enemies[i].phase_mask = phase_mask
   game.enemies[i].size = if kind == 0 {
     16.0
@@ -229,12 +229,12 @@ fn spawn_enemy(
   } else {
     14.0
   }
-  game.enemies[i].spin = randf(0.0, tau)
+  game.enemies[i].spin = @types.randf(0.0, @types.tau)
 }
 
 ///|
 fn spawn_flare(
-  game : Game,
+  game : @types.Game,
   ring : Int,
   angle : Float,
   span : Float,
@@ -244,7 +244,7 @@ fn spawn_flare(
   let i = alloc_flare(game)
   game.flares[i].active = true
   game.flares[i].ring = ring
-  game.flares[i].angle = wrap_angle(angle)
+  game.flares[i].angle = @types.wrap_angle(angle)
   game.flares[i].span = span
   game.flares[i].spin_v = spin_v
   game.flares[i].t = t
@@ -253,7 +253,7 @@ fn spawn_flare(
 
 ///|
 fn spawn_bullet(
-  game : Game,
+  game : @types.Game,
   ring_f : Float,
   angle : Float,
   vr : Float,
@@ -265,7 +265,7 @@ fn spawn_bullet(
   let i = alloc_bullet(game)
   game.bullets[i].active = true
   game.bullets[i].ring_f = ring_f
-  game.bullets[i].angle = wrap_angle(angle)
+  game.bullets[i].angle = @types.wrap_angle(angle)
   game.bullets[i].vr = vr
   game.bullets[i].va = va
   game.bullets[i].life = life
@@ -275,7 +275,7 @@ fn spawn_bullet(
 
 ///|
 fn spawn_enemy_bullet(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -297,7 +297,7 @@ fn spawn_enemy_bullet(
 
 ///|
 fn emit_particle(
-  game : Game,
+  game : @types.Game,
   x : Float,
   y : Float,
   vx : Float,
@@ -318,16 +318,16 @@ fn emit_particle(
 }
 
 ///|
-fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
+fn burst(game : @types.Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
   for _i in 0..<n {
     emit_particle(
       game,
-      x + randf(-16.0, 16.0),
-      y + randf(-16.0, 16.0),
-      randf(-240.0, 240.0),
-      randf(-240.0, 240.0),
-      randf(0.24, 0.92),
-      randf(1.8, 6.2),
+      x + @types.randf(-16.0, 16.0),
+      y + @types.randf(-16.0, 16.0),
+      @types.randf(-240.0, 240.0),
+      @types.randf(-240.0, 240.0),
+      @types.randf(0.24, 0.92),
+      @types.randf(1.8, 6.2),
       kind,
     )
   }
@@ -335,7 +335,7 @@ fn burst(game : Game, x : Float, y : Float, n : Int, kind : Int) -> Unit {
 
 ///|
 fn spawn_shock(
-  game : Game,
+  game : @types.Game,
   ring : Int,
   a0 : Float,
   a1 : Float,
@@ -345,37 +345,14 @@ fn spawn_shock(
   let i = alloc_shock(game)
   game.shocks[i].active = true
   game.shocks[i].ring = ring
-  game.shocks[i].a0 = wrap_angle(a0)
-  game.shocks[i].a1 = wrap_angle(a1)
+  game.shocks[i].a0 = @types.wrap_angle(a0)
+  game.shocks[i].a1 = @types.wrap_angle(a1)
   game.shocks[i].life = life
   game.shocks[i].beta = beta
 }
 
 ///|
-fn enemy_world_xy(e : Enemy) -> (Float, Float) {
-  let r = ring_radius(e.ring)
-  (world_x(r, e.angle), world_y(r, e.angle))
-}
-
-///|
-fn player_world_xy(player : Player) -> (Float, Float) {
-  let r = ring_radius(player.ring)
-  (world_x(r, player.angle), world_y(r, player.angle))
-}
-
-///|
-fn phase_mask_active(mask : Int, beta : Bool) -> Bool {
-  if mask == 1 {
-    not(beta)
-  } else if mask == 2 {
-    beta
-  } else {
-    true
-  }
-}
-
-///|
-fn stage_enemy_hp(game : Game, kind : Int) -> Float {
+fn stage_enemy_hp(game : @types.Game, kind : Int) -> Float {
   if kind == 0 {
     18.0 + Float::from_int(game.stage - 1) * 2.4
   } else if kind == 1 {
@@ -386,9 +363,9 @@ fn stage_enemy_hp(game : Game, kind : Int) -> Float {
 }
 
 ///|
-fn begin_stage(game : Game, stage : Int) -> Unit {
+fn begin_stage(game : @types.Game, stage : Int) -> Unit {
   game.stage = stage
-  game.stage_time_left = stage_time + Float::from_int(stage - 1) * 2.0
+  game.stage_time_left = @types.stage_time + Float::from_int(stage - 1) * 2.0
   game.stage_goal = 22 + (stage - 1) * 6
   game.stage_kills = 0
   game.stage_bonus = 0
@@ -397,7 +374,7 @@ fn begin_stage(game : Game, stage : Int) -> Unit {
 }
 
 ///|
-fn start_run(game : Game) -> Unit {
+fn start_run(game : @types.Game) -> Unit {
   clear_enemies(game)
   clear_bullets(game)
   clear_enemy_bullets(game)
@@ -406,12 +383,12 @@ fn start_run(game : Game) -> Unit {
   clear_shocks(game)
   reset_player(game.player)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.score = 0
   game.combo = 0
   game.combo_t = 0.0
   game.hp = 100.0
-  game.phase = player_phase_max
+  game.phase = @types.player_phase_max
   game.phase_beta = false
   game.flash_t = 0.0
   game.shake_t = 0.0
@@ -428,7 +405,7 @@ fn start_run(game : Game) -> Unit {
 }
 
 ///|
-fn init_title_scene(game : Game) -> Unit {
+fn init_title_scene(game : @types.Game) -> Unit {
   clear_enemies(game)
   clear_bullets(game)
   clear_enemy_bullets(game)
@@ -437,9 +414,9 @@ fn init_title_scene(game : Game) -> Unit {
   clear_shocks(game)
   reset_player(game.player)
 
-  game.state = state_title
+  game.state = @types.state_title
   game.stage = 1
-  game.stage_time_left = stage_time
+  game.stage_time_left = @types.stage_time
   game.stage_goal = 20
   game.stage_kills = 0
   game.stage_bonus = 0
@@ -447,7 +424,7 @@ fn init_title_scene(game : Game) -> Unit {
   game.combo = 0
   game.combo_t = 0.0
   game.hp = 100.0
-  game.phase = player_phase_max
+  game.phase = @types.player_phase_max
   game.phase_beta = false
   game.flash_t = 0.0
   game.shake_t = 0.0
@@ -464,10 +441,10 @@ fn init_title_scene(game : Game) -> Unit {
 }
 
 ///|
-fn add_combo_score(game : Game, base : Int) -> Unit {
-  game.combo = clampi(game.combo + 1, 0, 999)
+fn add_combo_score(game : @types.Game, base : Int) -> Unit {
+  game.combo = @types.clampi(game.combo + 1, 0, 999)
   game.combo_t = 3.8
-  let mul = f(1) + Float::from_int(game.combo) * 0.08
+  let mul = @types.f(1) + Float::from_int(game.combo) * 0.08
   game.score = game.score + (Float::from_int(base) * mul).to_int()
   if game.score > game.best_score {
     game.best_score = game.score
@@ -475,24 +452,24 @@ fn add_combo_score(game : Game, base : Int) -> Unit {
 }
 
 ///|
-fn apply_damage(game : Game, dmg : Float) -> Unit {
+fn apply_damage(game : @types.Game, dmg : Float) -> Unit {
   if game.player.invuln > 0.0 {
     return
   }
 
-  game.hp = maxf(0.0, game.hp - dmg)
-  game.player.invuln = player_invuln_t
+  game.hp = @types.maxf(0.0, game.hp - dmg)
+  game.player.invuln = @types.player_invuln_t
   game.player.hurt_t = 0.3
   game.combo = 0
   game.combo_t = 0.0
   game.flash_t = 0.22
   game.shake_t = 0.22
 
-  let p = player_world_xy(game.player)
+  let p = @types.player_world_xy(game.player)
   burst(game, p.0, p.1, 20, 2)
 
   if game.hp <= 0.0 {
-    game.state = state_game_over
+    game.state = @types.state_game_over
     game.result_t = 0.0
     if game.score > game.best_score {
       game.best_score = game.score
@@ -501,12 +478,12 @@ fn apply_damage(game : Game, dmg : Float) -> Unit {
 }
 
 ///|
-fn kill_enemy(game : Game, i : Int) -> Unit {
+fn kill_enemy(game : @types.Game, i : Int) -> Unit {
   if not(game.enemies[i].active) {
     return
   }
 
-  let p = enemy_world_xy(game.enemies[i])
+  let p = @types.enemy_world_xy(game.enemies[i])
   let kind = game.enemies[i].kind
   game.enemies[i].active = false
   game.stage_kills = game.stage_kills + 1
@@ -518,7 +495,7 @@ fn kill_enemy(game : Game, i : Int) -> Unit {
 }
 
 ///|
-fn try_fire(game : Game) -> Unit {
+fn try_fire(game : @types.Game) -> Unit {
   if game.player.shot_cd > 0.0 {
     return
   }
@@ -536,14 +513,14 @@ fn try_fire(game : Game) -> Unit {
     0,
   )
 
-  game.player.shot_cd = player_shot_cd
+  game.player.shot_cd = @types.player_shot_cd
 
-  let p = player_world_xy(game.player)
+  let p = @types.player_world_xy(game.player)
   burst(game, p.0, p.1, 5, 0)
 }
 
 ///|
-fn try_beam(game : Game) -> Unit {
+fn try_beam(game : @types.Game) -> Unit {
   if game.player.beam_cd > 0.0 {
     return
   }
@@ -552,7 +529,7 @@ fn try_beam(game : Game) -> Unit {
     return
   }
 
-  game.player.beam_cd = player_beam_cd
+  game.player.beam_cd = @types.player_beam_cd
   game.phase = game.phase - 24.0
 
   let ring = game.player.ring
@@ -568,11 +545,11 @@ fn try_beam(game : Game) -> Unit {
       continue
     }
 
-    if not(phase_mask_active(game.enemies[i].phase_mask, game.phase_beta)) {
+    if not(@types.phase_mask_active(game.enemies[i].phase_mask, game.phase_beta)) {
       continue
     }
 
-    let ad = angle_dist(game.player.angle, game.enemies[i].angle)
+    let ad = @types.angle_dist(game.player.angle, game.enemies[i].angle)
     if ad <= 0.38 {
       game.enemies[i].hp = game.enemies[i].hp - 36.0
       if game.enemies[i].hp <= 0.0 {
@@ -581,44 +558,48 @@ fn try_beam(game : Game) -> Unit {
     }
   }
 
-  let p = player_world_xy(game.player)
+  let p = @types.player_world_xy(game.player)
   burst(game, p.0, p.1, 18, 1)
 }
 
 ///|
-fn update_player(game : Game, dt : Float) -> Unit {
+fn update_player(game : @types.Game, dt : Float) -> Unit {
   let player = game.player
   player.anim_t = player.anim_t + dt
 
   if player.invuln > 0.0 {
-    player.invuln = maxf(0.0, player.invuln - dt)
+    player.invuln = @types.maxf(0.0, player.invuln - dt)
   }
   if player.hurt_t > 0.0 {
-    player.hurt_t = maxf(0.0, player.hurt_t - dt)
+    player.hurt_t = @types.maxf(0.0, player.hurt_t - dt)
   }
 
   if player.switch_cd > 0.0 {
-    player.switch_cd = maxf(0.0, player.switch_cd - dt)
+    player.switch_cd = @types.maxf(0.0, player.switch_cd - dt)
   }
   if player.shot_cd > 0.0 {
-    player.shot_cd = maxf(0.0, player.shot_cd - dt)
+    player.shot_cd = @types.maxf(0.0, player.shot_cd - dt)
   }
   if player.beam_cd > 0.0 {
-    player.beam_cd = maxf(0.0, player.beam_cd - dt)
+    player.beam_cd = @types.maxf(0.0, player.beam_cd - dt)
   }
 
-  player.ang_v = game.input_turn * player_turn_speed
-  player.angle = wrap_angle(player.angle + player.ang_v * dt)
+  player.ang_v = game.input_turn * @types.player_turn_speed
+  player.angle = @types.wrap_angle(player.angle + player.ang_v * dt)
 
   if game.input_ring_move != 0 && player.switch_cd <= 0.0 {
-    player.ring = clampi(player.ring + game.input_ring_move, 0, ring_count - 1)
-    player.switch_cd = player_switch_cd
+    player.ring = @types.clampi(
+      player.ring + game.input_ring_move,
+      0,
+      @types.ring_count - 1,
+    )
+    player.switch_cd = @types.player_switch_cd
   }
 
-  player.ring_f = lerpf(
+  player.ring_f = @types.lerpf(
     player.ring_f,
     Float::from_int(player.ring),
-    clampf(dt * 12.0, 0.0, 1.0),
+    @types.clampf(dt * 12.0, 0.0, 1.0),
   )
 
   if game.input_fire_hold {
@@ -629,18 +610,21 @@ fn update_player(game : Game, dt : Float) -> Unit {
   }
 
   if game.phase_beta {
-    game.phase = maxf(0.0, game.phase - phase_drain * dt)
+    game.phase = @types.maxf(0.0, game.phase - @types.phase_drain * dt)
     if game.phase <= 0.0 {
       game.phase_beta = false
     }
   } else {
-    game.phase = minf(player_phase_max, game.phase + phase_recover * dt)
+    game.phase = @types.minf(
+      @types.player_phase_max,
+      game.phase + @types.phase_recover * dt,
+    )
   }
 }
 
 ///|
 fn enemy_phase_mask_random() -> Int {
-  let pick = randi(0, 99)
+  let pick = @types.randi(0, 99)
   if pick < 52 {
     0
   } else if pick < 76 {
@@ -651,70 +635,75 @@ fn enemy_phase_mask_random() -> Int {
 }
 
 ///|
-fn spawn_enemy_wave(game : Game) -> Unit {
-  let wave_kind = randi(0, 99)
+fn spawn_enemy_wave(game : @types.Game) -> Unit {
+  let wave_kind = @types.randi(0, 99)
 
   if wave_kind < 28 {
-    let ring = randi(0, ring_count - 1)
+    let ring = @types.randi(0, @types.ring_count - 1)
     for i in 0..<5 {
-      let a = randf(-pi, pi)
+      let a = @types.randf(-@types.pi, @types.pi)
       spawn_enemy(
         game,
         0,
         ring,
         a,
-        randf(-2.2, 2.2),
+        @types.randf(-2.2, 2.2),
         stage_enemy_hp(game, 0),
         enemy_phase_mask_random(),
       )
+      ignore(i)
     }
   } else if wave_kind < 56 {
-    for ring in 0..<ring_count {
+    for ring in 0..<@types.ring_count {
       spawn_enemy(
         game,
         0,
         ring,
-        randf(-pi, pi),
-        randf(-1.9, 1.9),
+        @types.randf(-@types.pi, @types.pi),
+        @types.randf(-1.9, 1.9),
         stage_enemy_hp(game, 0),
         enemy_phase_mask_random(),
       )
     }
-    let ring_big = randi(0, ring_count - 1)
+    let ring_big = @types.randi(0, @types.ring_count - 1)
     spawn_enemy(
       game,
       1,
       ring_big,
-      randf(-pi, pi),
-      randf(-1.2, 1.2),
+      @types.randf(-@types.pi, @types.pi),
+      @types.randf(-1.2, 1.2),
       stage_enemy_hp(game, 1),
       enemy_phase_mask_random(),
     )
   } else if wave_kind < 78 {
-    let center = randf(-pi, pi)
+    let center = @types.randf(-@types.pi, @types.pi)
     for i in -2..<=2 {
-      let ring = clampi(1 + i % ring_count, 0, ring_count - 1)
+      let ring = @types.clampi(
+        1 + i % @types.ring_count,
+        0,
+        @types.ring_count - 1,
+      )
       spawn_enemy(
         game,
         2,
         ring,
-        wrap_angle(center + Float::from_int(i) * 0.34),
-        randf(-2.8, 2.8),
+        @types.wrap_angle(center + Float::from_int(i) * 0.34),
+        @types.randf(-2.8, 2.8),
         stage_enemy_hp(game, 2),
         enemy_phase_mask_random(),
       )
     }
   } else {
     for _i in 0..<8 {
-      let ring = randi(0, ring_count - 1)
-      let kind_pick = randi(0, 99)
+      let ring = @types.randi(0, @types.ring_count - 1)
+      let kind_pick = @types.randi(0, 99)
       let kind = if kind_pick < 65 { 0 } else if kind_pick < 86 { 2 } else { 1 }
       spawn_enemy(
         game,
         kind,
         ring,
-        randf(-pi, pi),
-        randf(-2.4, 2.4),
+        @types.randf(-@types.pi, @types.pi),
+        @types.randf(-2.4, 2.4),
         stage_enemy_hp(game, kind),
         enemy_phase_mask_random(),
       )
@@ -723,7 +712,7 @@ fn spawn_enemy_wave(game : Game) -> Unit {
 }
 
 ///|
-fn spawn_flare_event(game : Game) -> Unit {
+fn spawn_flare_event(game : @types.Game) -> Unit {
   let flare_n = if game.stage <= 2 {
     1
   } else if game.stage <= 4 {
@@ -734,18 +723,18 @@ fn spawn_flare_event(game : Game) -> Unit {
   for _i in 0..<flare_n {
     spawn_flare(
       game,
-      randi(0, ring_count - 1),
-      randf(-pi, pi),
-      randf(0.18, 0.42),
-      randf(-1.8, 1.8),
-      randf(1.8, 3.2),
+      @types.randi(0, @types.ring_count - 1),
+      @types.randf(-@types.pi, @types.pi),
+      @types.randf(0.18, 0.42),
+      @types.randf(-1.8, 1.8),
+      @types.randf(1.8, 3.2),
     )
   }
 }
 
 ///|
-fn update_enemies(game : Game, dt : Float) -> Unit {
-  let player_xy = player_world_xy(game.player)
+fn update_enemies(game : @types.Game, dt : Float) -> Unit {
+  let player_xy = @types.player_world_xy(game.player)
 
   for i in 0..<game.enemies.length() {
     if not(game.enemies[i].active) {
@@ -753,8 +742,8 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
     }
 
     let e = game.enemies[i]
-    let speed_mul : Float = enemy_base_speed +
-      Float::from_int(game.stage - 1) * enemy_speed_stage
+    let speed_mul : Float = @types.enemy_base_speed +
+      Float::from_int(game.stage - 1) * @types.enemy_speed_stage
     let chase : Float = if e.kind == 1 {
       0.18
     } else if e.kind == 2 {
@@ -763,23 +752,23 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
       0.12
     }
 
-    let target_offset : Float = if e.kind == 2 { pi * 0.5 } else { 0.0 }
+    let target_offset : Float = if e.kind == 2 { @types.pi * 0.5 } else { 0.0 }
     let target_a : Float = game.player.angle + target_offset
-    let turn = shortest_angle(e.angle, target_a)
+    let turn = @types.shortest_angle(e.angle, target_a)
 
     e.ang_v = e.ang_v + turn * chase * dt
-    e.ang_v = clampf(e.ang_v, -2.8, 2.8)
-    e.angle = wrap_angle(e.angle + e.ang_v * dt * speed_mul)
+    e.ang_v = @types.clampf(e.ang_v, -2.8, 2.8)
+    e.angle = @types.wrap_angle(e.angle + e.ang_v * dt * speed_mul)
     e.spin = e.spin + dt * (if e.kind == 2 { 3.8 } else { 2.2 })
 
     e.fire_cd = e.fire_cd - dt
 
     if e.fire_cd <= 0.0 {
-      if phase_mask_active(e.phase_mask, game.phase_beta) {
-        let ep = enemy_world_xy(e)
+      if @types.phase_mask_active(e.phase_mask, game.phase_beta) {
+        let ep = @types.enemy_world_xy(e)
         let dx = player_xy.0 - ep.0
         let dy = player_xy.1 - ep.1
-        let d = maxf(0.01, sqrtf(dx * dx + dy * dy))
+        let d = @types.maxf(0.01, @types.sqrtf(dx * dx + dy * dy))
 
         let sp : Float = if e.kind == 1 {
           160.0
@@ -804,15 +793,15 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
         )
       }
 
-      e.fire_cd = enemy_fire_base -
+      e.fire_cd = @types.enemy_fire_base -
         Float::from_int(game.stage - 1) * 0.06 +
-        randf(0.0, 0.8)
-      e.fire_cd = maxf(0.26, e.fire_cd)
+        @types.randf(0.0, 0.8)
+      e.fire_cd = @types.maxf(0.26, e.fire_cd)
     }
 
     if e.kind == 2 {
-      let p = enemy_world_xy(e)
-      if dist2(p.0, p.1, player_xy.0, player_xy.1) <= 34.0 * 34.0 {
+      let p = @types.enemy_world_xy(e)
+      if @types.dist2(p.0, p.1, player_xy.0, player_xy.1) <= 34.0 * 34.0 {
         apply_damage(game, 16.0)
         e.hp = e.hp - 40.0
         if e.hp <= 0.0 {
@@ -824,7 +813,7 @@ fn update_enemies(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_bullets(game : Game, dt : Float) -> Unit {
+fn update_bullets(game : @types.Game, dt : Float) -> Unit {
   for b in game.bullets {
     if not(b.active) {
       continue
@@ -837,9 +826,10 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
     }
 
     b.ring_f = b.ring_f + b.vr * dt
-    b.angle = wrap_angle(b.angle + b.va * dt)
+    b.angle = @types.wrap_angle(b.angle + b.va * dt)
 
-    if b.ring_f < -0.5 || b.ring_f > Float::from_int(ring_count - 1) + 0.8 {
+    if b.ring_f < -0.5 ||
+      b.ring_f > Float::from_int(@types.ring_count - 1) + 0.8 {
       b.active = false
       continue
     }
@@ -849,16 +839,18 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
         continue
       }
 
-      if not(phase_mask_active(game.enemies[j].phase_mask, game.phase_beta)) {
+      if not(
+        @types.phase_mask_active(game.enemies[j].phase_mask, game.phase_beta),
+      ) {
         continue
       }
 
-      let ring_d = absf(Float::from_int(game.enemies[j].ring) - b.ring_f)
+      let ring_d = @types.absf(Float::from_int(game.enemies[j].ring) - b.ring_f)
       if ring_d > 0.34 {
         continue
       }
 
-      let ang_d = angle_dist(game.enemies[j].angle, b.angle)
+      let ang_d = @types.angle_dist(game.enemies[j].angle, b.angle)
       if ang_d > 0.24 {
         continue
       }
@@ -866,7 +858,7 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
       game.enemies[j].hp = game.enemies[j].hp - b.dmg
       b.active = false
 
-      let p = enemy_world_xy(game.enemies[j])
+      let p = @types.enemy_world_xy(game.enemies[j])
       burst(game, p.0, p.1, 8, 0)
 
       if game.enemies[j].hp <= 0.0 {
@@ -879,8 +871,8 @@ fn update_bullets(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_enemy_bullets(game : Game, dt : Float) -> Unit {
-  let player_xy = player_world_xy(game.player)
+fn update_enemy_bullets(game : @types.Game, dt : Float) -> Unit {
+  let player_xy = @types.player_world_xy(game.player)
 
   for b in game.enemy_bullets {
     if not(b.active) {
@@ -896,20 +888,21 @@ fn update_enemy_bullets(game : Game, dt : Float) -> Unit {
     b.x = b.x + b.vx * dt
     b.y = b.y + b.vy * dt
 
-    if dist2(b.x, b.y, player_xy.0, player_xy.1) <= player_hit_r * player_hit_r {
+    if @types.dist2(b.x, b.y, player_xy.0, player_xy.1) <=
+      @types.player_hit_r * @types.player_hit_r {
       apply_damage(game, b.dmg)
       b.active = false
       continue
     }
 
-    if absf(b.x) > 520.0 || absf(b.y) > 520.0 {
+    if @types.absf(b.x) > 520.0 || @types.absf(b.y) > 520.0 {
       b.active = false
     }
   }
 }
 
 ///|
-fn update_flares(game : Game, dt : Float) -> Unit {
+fn update_flares(game : @types.Game, dt : Float) -> Unit {
   for f0 in game.flares {
     if not(f0.active) {
       continue
@@ -921,9 +914,9 @@ fn update_flares(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    f0.angle = wrap_angle(f0.angle + f0.spin_v * dt)
+    f0.angle = @types.wrap_angle(f0.angle + f0.spin_v * dt)
 
-    let p = clampf(f0.t / 3.0, 0.0, 1.0)
+    let p = @types.clampf(f0.t / 3.0, 0.0, 1.0)
     f0.danger = 1.0 - p
 
     if p < 0.45 {
@@ -934,7 +927,7 @@ fn update_flares(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    let ad = angle_dist(game.player.angle, f0.angle)
+    let ad = @types.angle_dist(game.player.angle, f0.angle)
     if ad <= f0.span {
       apply_damage(game, 9.0 * dt * 8.0)
     }
@@ -942,7 +935,7 @@ fn update_flares(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_particles(game : Game, dt : Float) -> Unit {
+fn update_particles(game : @types.Game, dt : Float) -> Unit {
   for p in game.particles {
     if not(p.active) {
       continue
@@ -973,21 +966,21 @@ fn update_particles(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_stage_flow(game : Game, dt : Float) -> Unit {
+fn update_stage_flow(game : @types.Game, dt : Float) -> Unit {
   game.stage_time_left = game.stage_time_left - dt
 
   if game.combo_t > 0.0 {
-    game.combo_t = maxf(0.0, game.combo_t - dt)
+    game.combo_t = @types.maxf(0.0, game.combo_t - dt)
     if game.combo_t <= 0.0 {
       game.combo = 0
     }
   }
 
   if game.flash_t > 0.0 {
-    game.flash_t = maxf(0.0, game.flash_t - dt)
+    game.flash_t = @types.maxf(0.0, game.flash_t - dt)
   }
   if game.shake_t > 0.0 {
-    game.shake_t = maxf(0.0, game.shake_t - dt)
+    game.shake_t = @types.maxf(0.0, game.shake_t - dt)
   }
 
   if game.stage_time_left > 0.0 {
@@ -1004,7 +997,7 @@ fn update_stage_flow(game : Game, dt : Float) -> Unit {
   if game.wave_timer <= 0.0 {
     spawn_enemy_wave(game)
     let base : Float = 3.6 - Float::from_int(game.stage - 1) * 0.22
-    game.wave_timer = maxf(1.2, base) + randf(0.0, 0.9)
+    game.wave_timer = @types.maxf(1.2, base) + @types.randf(0.0, 0.9)
   }
 
   if game.flare_timer > 0.0 {
@@ -1012,16 +1005,19 @@ fn update_stage_flow(game : Game, dt : Float) -> Unit {
   }
   if game.flare_timer <= 0.0 {
     spawn_flare_event(game)
-    game.flare_timer = maxf(2.2, 6.2 - Float::from_int(game.stage - 1) * 0.3) +
-      randf(0.0, 1.4)
+    game.flare_timer = @types.maxf(
+        2.2,
+        6.2 - Float::from_int(game.stage - 1) * 0.3,
+      ) +
+      @types.randf(0.0, 1.4)
   }
 
   let win_by_kills = game.stage_kills >= game.stage_goal
   let win_by_time = game.stage_time_left <= 0.0
 
   if win_by_kills || win_by_time {
-    game.state = state_stage_clear
-    game.result_t = stage_clear_delay
+    game.state = @types.state_stage_clear
+    game.result_t = @types.stage_clear_delay
     game.stage_bonus = 520 + game.stage_kills * 12 + (game.hp * 5.0).to_int()
     game.score = game.score + game.stage_bonus
     if game.score > game.best_score {
@@ -1029,13 +1025,13 @@ fn update_stage_flow(game : Game, dt : Float) -> Unit {
     }
     game.flash_t = 0.4
 
-    let p = player_world_xy(game.player)
+    let p = @types.player_world_xy(game.player)
     burst(game, p.0, p.1, 28, 1)
   }
 }
 
 ///|
-fn update_play(game : Game, dt : Float) -> Unit {
+fn update_play(game : @types.Game, dt : Float) -> Unit {
   if game.input_pause_press {
     init_title_scene(game)
     return
@@ -1043,7 +1039,7 @@ fn update_play(game : Game, dt : Float) -> Unit {
 
   game.time_s = game.time_s + dt
   if game.hint_t > 0.0 {
-    game.hint_t = maxf(0.0, game.hint_t - dt)
+    game.hint_t = @types.maxf(0.0, game.hint_t - dt)
   }
 
   update_player(game, dt)
@@ -1060,23 +1056,23 @@ fn update_play(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_stage_clear(game : Game, dt : Float) -> Unit {
+fn update_stage_clear(game : @types.Game, dt : Float) -> Unit {
   update_particles(game, dt)
   if game.flash_t > 0.0 {
-    game.flash_t = maxf(0.0, game.flash_t - dt)
+    game.flash_t = @types.maxf(0.0, game.flash_t - dt)
   }
 
   game.result_t = game.result_t - dt
   if game.result_t <= 0.0 {
     begin_stage(game, game.stage + 1)
-    game.state = state_play
+    game.state = @types.state_play
 
     clear_enemies(game)
     clear_enemy_bullets(game)
     clear_flares(game)
 
-    game.phase = minf(player_phase_max, game.phase + 24.0)
-    game.hp = minf(100.0, game.hp + 12.0)
+    game.phase = @types.minf(@types.player_phase_max, game.phase + 24.0)
+    game.hp = @types.minf(100.0, game.hp + 12.0)
     game.hint_t = 1.8
   }
 
@@ -1086,7 +1082,7 @@ fn update_stage_clear(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_game_over(game : Game, dt : Float) -> Unit {
+fn update_game_over(game : @types.Game, dt : Float) -> Unit {
   game.result_t = game.result_t + dt
   update_particles(game, dt)
 
@@ -1096,7 +1092,7 @@ fn update_game_over(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_title(game : Game, dt : Float) -> Unit {
+fn update_title(game : @types.Game, dt : Float) -> Unit {
   game.time_s = game.time_s + dt
 
   if game.wave_timer > 0.0 {
@@ -1104,7 +1100,7 @@ fn update_title(game : Game, dt : Float) -> Unit {
   }
   if game.wave_timer <= 0.0 {
     spawn_enemy_wave(game)
-    game.wave_timer = 2.8 + randf(0.0, 1.0)
+    game.wave_timer = 2.8 + @types.randf(0.0, 1.0)
   }
 
   for enemy in game.enemies {
@@ -1112,7 +1108,7 @@ fn update_title(game : Game, dt : Float) -> Unit {
       continue
     }
 
-    enemy.angle = wrap_angle(enemy.angle + enemy.ang_v * dt * 0.42)
+    enemy.angle = @types.wrap_angle(enemy.angle + enemy.ang_v * dt * 0.42)
     enemy.spin = enemy.spin + dt * 1.3
   }
 
@@ -1121,7 +1117,7 @@ fn update_title(game : Game, dt : Float) -> Unit {
   }
   if game.flare_timer <= 0.0 {
     spawn_flare_event(game)
-    game.flare_timer = 2.4 + randf(0.0, 1.2)
+    game.flare_timer = 2.4 + @types.randf(0.0, 1.2)
   }
 
   update_flares(game, dt)
@@ -1133,18 +1129,33 @@ fn update_title(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_game(game : Game, dt : Float) -> Unit {
-  if game.state == state_title {
+pub fn init_game(game : @types.Game) -> Unit {
+  init_title_scene(game)
+}
+
+///|
+pub fn update_game(game : @types.Game, dt : Float) -> Unit {
+  if game.state == @types.state_title {
+    update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game)
+  } else if game.state == @types.state_stage_clear {
+    update_stage_clear_input(game)
+  } else {
+    update_result_input(game)
+  }
+
+  if game.state == @types.state_title {
     update_title(game, dt)
     return
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
     update_play(game, dt)
     return
   }
 
-  if game.state == state_stage_clear {
+  if game.state == @types.state_stage_clear {
     update_stage_clear(game, dt)
     return
   }
