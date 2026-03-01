@@ -118,8 +118,7 @@ fn draw_sky_backdrop(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   for i in 0..<140 {
     let p = Float::from_int(i)
-    let x = (p * 77.0 +
-      @types.sinf(game.time_s * 0.15 + p * 0.37) * 80.0) %
+    let x = (p * 77.0 + @types.sinf(game.time_s * 0.15 + p * 0.37) * 80.0) %
       Float::from_int(@types.screen_w)
     let mut y = (p * 43.0 + game.distance * 0.11 + p * 0.8) %
       Float::from_int(@types.screen_h)
@@ -148,8 +147,8 @@ fn draw_city_horizon(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
     let p = Float::from_int(i)
     let w = 18 + i * 17 % 52
     let h = 46 + i * 31 % 180
-    let x = (i * 33 + (game.distance * 0.02).to_int()) %
-      (@types.screen_w + 120) - 60
+    let x = (i * 33 + (game.distance * 0.02).to_int()) % (@types.screen_w + 120) -
+      60
     let y = (base_y - Float::from_int(h) + cam_y * 0.3).to_int()
 
     let pulse : Float = 0.5 + 0.5 * @types.sinf(game.time_s * 0.8 + p * 0.44)
@@ -210,7 +209,11 @@ fn draw_road_surface(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
     let line_pulse : Float = 0.5 +
       0.5 * @types.sinf(d0 * 0.02 + game.time_s * 3.8)
-    let road_col = if yi % 24 == 0 { @types.road_mid() } else { @types.road_dark() }
+    let road_col = if yi % 24 == 0 {
+      @types.road_mid()
+    } else {
+      @types.road_dark()
+    }
 
     if left > 0 {
       @raylib.draw_rectangle(
@@ -253,7 +256,7 @@ fn draw_road_surface(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       @raylib.Color::new(255, 112, 216, 120 + (line_pulse * 90.0).to_int()),
     )
 
-    for lane in 1..< @types.lanes_count {
+    for lane in 1..<@types.lanes_count {
       let t = Float::from_int(lane) / Float::from_int(@types.lanes_count)
       let x0 = @types.lerpf(e0.0, e0.1, t) + cam_x
       let x1 = @types.lerpf(e1.0, e1.1, t) + cam_x
@@ -271,21 +274,15 @@ fn draw_road_surface(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn entity_body_col(kind : Int) -> @raylib.Color {
-  if kind == @types.foe_bike {
-    @raylib.Color::new(255, 138, 198, 255)
-  } else if kind == @types.foe_drone {
-    @raylib.Color::new(132, 246, 255, 255)
-  } else if kind == @types.foe_truck {
-    @raylib.Color::new(255, 178, 110, 255)
-  } else if kind == @types.foe_laser {
-    @raylib.Color::new(255, 106, 154, 255)
-  } else if kind == @types.item_credit {
-    @types.neon_yellow()
-  } else if kind == @types.item_battery {
-    @types.energy_col()
-  } else {
-    @raylib.Color::new(170, 140, 255, 255)
+fn entity_body_col(kind : @types.EntityKind) -> @raylib.Color {
+  match kind {
+    @types.FoeBike => @raylib.Color::new(255, 138, 198, 255)
+    @types.FoeDrone => @raylib.Color::new(132, 246, 255, 255)
+    @types.FoeTruck => @raylib.Color::new(255, 178, 110, 255)
+    @types.FoeLaser => @raylib.Color::new(255, 106, 154, 255)
+    @types.ItemCredit => @types.neon_yellow()
+    @types.ItemBattery => @types.energy_col()
+    @types.ItemHackcell => @raylib.Color::new(170, 140, 255, 255)
   }
 }
 
@@ -434,37 +431,39 @@ fn draw_entity_pickup(
     alpha_color(col, 180),
   )
 
-  if e.kind == @types.item_credit {
-    @raylib.draw_text(
-      "$",
-      (x - 8.0).to_int(),
-      (y - 12.0).to_int(),
-      24,
-      @raylib.Color::new(255, 242, 162, 230),
-    )
-  } else if e.kind == @types.item_battery {
-    @raylib.draw_rectangle(
-      (x - 10.0).to_int(),
-      (y - 14.0).to_int(),
-      20,
-      28,
-      @raylib.Color::new(220, 255, 240, 220),
-    )
-    @raylib.draw_rectangle(
-      (x - 4.0).to_int(),
-      (y - 19.0).to_int(),
-      8,
-      4,
-      @raylib.Color::new(220, 255, 240, 220),
-    )
-  } else {
-    @raylib.draw_text(
-      "H",
-      (x - 9.0).to_int(),
-      (y - 12.0).to_int(),
-      24,
-      @raylib.Color::new(236, 214, 255, 230),
-    )
+  match e.kind {
+    @types.ItemCredit =>
+      @raylib.draw_text(
+        "$",
+        (x - 8.0).to_int(),
+        (y - 12.0).to_int(),
+        24,
+        @raylib.Color::new(255, 242, 162, 230),
+      )
+    @types.ItemBattery => {
+      @raylib.draw_rectangle(
+        (x - 10.0).to_int(),
+        (y - 14.0).to_int(),
+        20,
+        28,
+        @raylib.Color::new(220, 255, 240, 220),
+      )
+      @raylib.draw_rectangle(
+        (x - 4.0).to_int(),
+        (y - 19.0).to_int(),
+        8,
+        4,
+        @raylib.Color::new(220, 255, 240, 220),
+      )
+    }
+    _ =>
+      @raylib.draw_text(
+        "H",
+        (x - 9.0).to_int(),
+        (y - 12.0).to_int(),
+        24,
+        @raylib.Color::new(236, 214, 255, 230),
+      )
   }
 }
 
@@ -482,21 +481,21 @@ fn draw_entities(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
       col0
     }
 
-    if e.kind == @types.foe_bike {
-      draw_entity_bike(e, col, cam_x, cam_y)
-    } else if e.kind == @types.foe_drone {
-      draw_entity_drone(e, col, cam_x, cam_y)
-    } else if e.kind == @types.foe_truck {
-      draw_entity_truck(e, col, cam_x, cam_y)
-    } else if e.kind == @types.foe_laser {
-      draw_entity_laser(e, col, cam_x, cam_y)
-    } else {
-      draw_entity_pickup(e, col, cam_x, cam_y)
+    match e.kind {
+      @types.FoeBike => draw_entity_bike(e, col, cam_x, cam_y)
+      @types.FoeDrone => draw_entity_drone(e, col, cam_x, cam_y)
+      @types.FoeTruck => draw_entity_truck(e, col, cam_x, cam_y)
+      @types.FoeLaser => draw_entity_laser(e, col, cam_x, cam_y)
+      _ => draw_entity_pickup(e, col, cam_x, cam_y)
     }
 
     if @types.entity_is_hostile(e.kind) && e.hp > 0.0 {
       let hp_ratio = @types.clampf(
-        e.hp / (if e.kind == @types.foe_truck { 50.0 } else { 20.0 }),
+        e.hp /
+        (match e.kind {
+          @types.FoeTruck => 50.0
+          _ => 20.0
+        }),
         0.0,
         1.0,
       )
@@ -634,11 +633,7 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
   let x = game.hero.x + cam_x
   let y = game.hero.y + cam_y
 
-  let lean = @types.clampf(
-    game.hero.vx / @types.player_max_speed_x,
-    -1.0,
-    1.0,
-  )
+  let lean = @types.clampf(game.hero.vx / @types.player_max_speed_x, -1.0, 1.0)
   let rot = lean * 18.0
   let pulse : Float = 0.5 + 0.5 * @types.sinf(game.hero.engine_t * 8.2)
 
@@ -713,7 +708,8 @@ fn draw_player(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
   if game.hero.invuln > 0.0 {
     let flicker = Float::from_int(80) +
-      @types.sinf(game.time_s * 14.0) * 70.0 + 70.0
+      @types.sinf(game.time_s * 14.0) * 70.0 +
+      70.0
     let aa = @types.clampi(flicker.to_int(), 30, 220)
     @raylib.draw_circle(
       x.to_int(),
@@ -732,11 +728,7 @@ fn draw_hack_pulse(game : @types.Game) -> Unit {
 
   let t = Float::from_int(1) - game.hack_t / @types.hack_time
   let rr = @types.hack_radius * t
-  let aa = @types.clampi(
-    ((Float::from_int(1) - t) * 200.0).to_int(),
-    0,
-    200,
-  )
+  let aa = @types.clampi(((Float::from_int(1) - t) * 200.0).to_int(), 0, 200)
 
   @raylib.draw_circle_lines(
     game.hero.x.to_int(),
@@ -828,13 +820,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     56,
     @raylib.Color::new(152, 192, 244, 170),
   )
-  @raylib.draw_text(
-    "HACK",
-    498,
-    24,
-    18,
-    @raylib.Color::new(212, 224, 255, 230),
-  )
+  @raylib.draw_text("HACK", 498, 24, 18, @raylib.Color::new(212, 224, 255, 230))
   @raylib.draw_text(
     cooldown_text(game.hack_cd, @types.hack_cd_time),
     498,
@@ -1301,20 +1287,20 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state != @types.state_title {
-    draw_hud(game)
+  match game.state {
+    @types.Title => ()
+    _ => draw_hud(game)
   }
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_play {
-    draw_play_hint(game)
-    if game.touch_mode {
-      draw_touch_controls(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Play => {
+      draw_play_hint(game)
+      if game.touch_mode {
+        draw_touch_controls(game)
+      }
     }
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else {
-    draw_game_over_overlay(game)
+    @types.StageClear => draw_stage_clear_overlay(game)
+    @types.GameOver => draw_game_over_overlay(game)
   }
 }

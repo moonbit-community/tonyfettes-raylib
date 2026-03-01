@@ -2,7 +2,7 @@
 fn clear_entities(game : @types.Game) -> Unit {
   for entity in game.entities {
     entity.active = false
-    entity.kind = @types.foe_bike
+    entity.kind = @types.FoeBike
     entity.x = 0.0
     entity.y = 0.0
     entity.vx = 0.0
@@ -205,7 +205,13 @@ fn emit_spark(
 }
 
 ///|
-fn burst(game : @types.Game, x : Float, y : Float, count : Int, kind : Int) -> Unit {
+fn burst(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  count : Int,
+  kind : Int,
+) -> Unit {
   for _i in 0..<count {
     emit_spark(
       game,
@@ -287,7 +293,7 @@ fn spawn_bullet(
 ///|
 fn spawn_entity(
   game : @types.Game,
-  kind : Int,
+  kind : @types.EntityKind,
   x : Float,
   y : Float,
   vx : Float,
@@ -358,7 +364,7 @@ fn damage_player(game : @types.Game, dmg : Float) -> Unit {
   reset_combo(game)
 
   if game.shield <= 0.0 {
-    game.state = @types.state_game_over
+    game.state = @types.GameOver
     game.result_t = 0.0
   }
 }
@@ -373,7 +379,7 @@ fn start_stage(game : @types.Game, stage : Int) -> Unit {
 
   reset_player(game.hero)
 
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = stage
   game.distance = 0.0
   game.stage_goal = @types.stage_distance_base +
@@ -416,7 +422,7 @@ fn init_title_scene(game : @types.Game) -> Unit {
   clear_images(game)
   reset_player(game.hero)
 
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.distance = 0.0
   game.stage_goal = @types.stage_distance_base
@@ -463,7 +469,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_x(lane, center) + @types.randf(-12.0, 12.0)
       spawn_entity(
         game,
-        @types.foe_bike,
+        @types.FoeBike,
         x,
         y + @types.randf(-28.0, 20.0),
         @types.randf(-44.0, 44.0),
@@ -480,7 +486,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_x(lane, center) + @types.randf(-16.0, 16.0)
       spawn_entity(
         game,
-        @types.foe_drone,
+        @types.FoeDrone,
         x,
         y + @types.randf(-26.0, 24.0),
         @types.randf(-60.0, 60.0),
@@ -497,7 +503,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_x(lane, center)
       spawn_entity(
         game,
-        @types.foe_truck,
+        @types.FoeTruck,
         x,
         y + @types.randf(-32.0, 22.0),
         @types.randf(-18.0, 18.0),
@@ -514,7 +520,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.lane_x(lane, center)
       spawn_entity(
         game,
-        @types.foe_laser,
+        @types.FoeLaser,
         x,
         y + @types.randf(-14.0, 12.0),
         0.0,
@@ -530,7 +536,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.road_spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_entity(
         game,
-        @types.item_credit,
+        @types.ItemCredit,
         x,
         y + @types.randf(-18.0, 18.0),
         @types.randf(-34.0, 34.0),
@@ -546,7 +552,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.road_spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_entity(
         game,
-        @types.item_battery,
+        @types.ItemBattery,
         x,
         y + @types.randf(-18.0, 18.0),
         @types.randf(-28.0, 28.0),
@@ -562,7 +568,7 @@ fn spawn_enemy_pack(game : @types.Game, y : Float) -> Unit {
       let x = @types.road_spawn_x(game.distance, game.time_s, game.stage, y)
       spawn_entity(
         game,
-        @types.item_hackcell,
+        @types.ItemHackcell,
         x,
         y + @types.randf(-14.0, 14.0),
         @types.randf(-20.0, 20.0),
@@ -619,7 +625,7 @@ fn apply_hack_pulse(game : @types.Game) -> Unit {
       let x = entity.x
       let y = entity.y
       entity.active = false
-      add_score(game, if kind == @types.foe_truck { 140 } else { 88 })
+      add_score(game, if kind == @types.FoeTruck { 140 } else { 88 })
       push_combo(game)
       burst(game, x, y, 18, 1)
       spawn_ring(game, x, y, 10.0, 0.52, 1)
@@ -800,57 +806,61 @@ fn constrain_player_to_road(game : @types.Game) -> Unit {
 
 ///|
 fn entity_fire(game : @types.Game, e : @types.Entity) -> Unit {
-  if e.kind == @types.foe_bike {
-    spawn_bullet(
-      game,
-      false,
-      e.x,
-      e.y + e.h * 0.4,
-      @types.randf(-120.0, 120.0),
-      @types.enemy_bullet_speed,
-      2.2,
-      9.0,
-      0,
-    )
-  } else if e.kind == @types.foe_drone {
-    let dx = game.hero.x - e.x
-    let dy = game.hero.y - e.y
-    let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
-    let inv = Float::from_int(1) / @types.sqrtf(n2)
-    spawn_bullet(
-      game,
-      false,
-      e.x,
-      e.y,
-      dx * inv * @types.enemy_bullet_speed,
-      dy * inv * @types.enemy_bullet_speed,
-      2.5,
-      11.0,
-      1,
-    )
-  } else if e.kind == @types.foe_truck {
-    spawn_bullet(
-      game,
-      false,
-      e.x - 18.0,
-      e.y + e.h * 0.32,
-      -60.0,
-      @types.enemy_bullet_speed * 0.86,
-      2.6,
-      12.0,
-      2,
-    )
-    spawn_bullet(
-      game,
-      false,
-      e.x + 18.0,
-      e.y + e.h * 0.32,
-      60.0,
-      @types.enemy_bullet_speed * 0.86,
-      2.6,
-      12.0,
-      2,
-    )
+  match e.kind {
+    @types.FoeBike =>
+      spawn_bullet(
+        game,
+        false,
+        e.x,
+        e.y + e.h * 0.4,
+        @types.randf(-120.0, 120.0),
+        @types.enemy_bullet_speed,
+        2.2,
+        9.0,
+        0,
+      )
+    @types.FoeDrone => {
+      let dx = game.hero.x - e.x
+      let dy = game.hero.y - e.y
+      let n2 = @types.maxf(dx * dx + dy * dy, 1.0)
+      let inv = Float::from_int(1) / @types.sqrtf(n2)
+      spawn_bullet(
+        game,
+        false,
+        e.x,
+        e.y,
+        dx * inv * @types.enemy_bullet_speed,
+        dy * inv * @types.enemy_bullet_speed,
+        2.5,
+        11.0,
+        1,
+      )
+    }
+    @types.FoeTruck => {
+      spawn_bullet(
+        game,
+        false,
+        e.x - 18.0,
+        e.y + e.h * 0.32,
+        -60.0,
+        @types.enemy_bullet_speed * 0.86,
+        2.6,
+        12.0,
+        2,
+      )
+      spawn_bullet(
+        game,
+        false,
+        e.x + 18.0,
+        e.y + e.h * 0.32,
+        60.0,
+        @types.enemy_bullet_speed * 0.86,
+        2.6,
+        12.0,
+        2,
+      )
+    }
+    _ => ()
   }
 }
 
@@ -872,19 +882,26 @@ fn kill_entity(
 }
 
 ///|
-fn collect_pickup(game : @types.Game, kind : Int) -> Unit {
-  if kind == @types.item_credit {
-    game.credits = game.credits + 1
-    add_score(game, 60)
-    push_combo(game)
-  } else if kind == @types.item_battery {
-    game.energy = @types.minf(@types.player_energy_max, game.energy + @types.energy_pickup)
-    add_score(game, 40)
-  } else {
-    game.hack_cd = @types.maxf(0.0, game.hack_cd - 1.1)
-    game.energy = @types.minf(@types.player_energy_max, game.energy + 12.0)
-    add_score(game, 78)
-    push_combo(game)
+fn collect_pickup(game : @types.Game, kind : @types.EntityKind) -> Unit {
+  match kind {
+    @types.ItemCredit => {
+      game.credits = game.credits + 1
+      add_score(game, 60)
+      push_combo(game)
+    }
+    @types.ItemBattery => {
+      game.energy = @types.minf(
+        @types.player_energy_max,
+        game.energy + @types.energy_pickup,
+      )
+      add_score(game, 40)
+    }
+    _ => {
+      game.hack_cd = @types.maxf(0.0, game.hack_cd - 1.1)
+      game.energy = @types.minf(@types.player_energy_max, game.energy + 12.0)
+      add_score(game, 78)
+      push_combo(game)
+    }
   }
 }
 
@@ -903,23 +920,25 @@ fn update_entities(game : @types.Game, dt : Float) -> Unit {
     game.entities[i].spin = game.entities[i].spin + dt * 1.9
     game.entities[i].shot_cd = game.entities[i].shot_cd - dt
 
-    if game.entities[i].kind == @types.foe_bike {
-      game.entities[i].x = game.entities[i].x +
-        @types.sinf(game.entities[i].spin * 2.2) * 34.0 * dt
-    } else if game.entities[i].kind == @types.foe_drone {
-      game.entities[i].y = game.entities[i].y +
-        @types.cosf(game.entities[i].spin * 2.8) * 26.0 * dt
-    } else if game.entities[i].kind == @types.foe_truck {
-      game.entities[i].x = game.entities[i].x +
-        @types.sinf(game.entities[i].spin * 1.4) * 18.0 * dt
-    } else if game.entities[i].kind == @types.foe_laser {
-      game.entities[i].w = 118.0 +
-        @types.sinf(game.entities[i].spin * 3.4) * 26.0
-      game.entities[i].h = 18.0 +
-        @types.sinf(game.entities[i].spin * 4.2) * 4.0
-    } else {
-      game.entities[i].x = game.entities[i].x +
-        @types.sinf(game.entities[i].spin * 2.6) * 16.0 * dt
+    match game.entities[i].kind {
+      @types.FoeBike =>
+        game.entities[i].x = game.entities[i].x +
+          @types.sinf(game.entities[i].spin * 2.2) * 34.0 * dt
+      @types.FoeDrone =>
+        game.entities[i].y = game.entities[i].y +
+          @types.cosf(game.entities[i].spin * 2.8) * 26.0 * dt
+      @types.FoeTruck =>
+        game.entities[i].x = game.entities[i].x +
+          @types.sinf(game.entities[i].spin * 1.4) * 18.0 * dt
+      @types.FoeLaser => {
+        game.entities[i].w = 118.0 +
+          @types.sinf(game.entities[i].spin * 3.4) * 26.0
+        game.entities[i].h = 18.0 +
+          @types.sinf(game.entities[i].spin * 4.2) * 4.0
+      }
+      _ =>
+        game.entities[i].x = game.entities[i].x +
+          @types.sinf(game.entities[i].spin * 2.6) * 16.0 * dt
     }
 
     let out = game.entities[i].y > Float::from_int(@types.screen_h) + 220.0 ||
@@ -933,14 +952,11 @@ fn update_entities(game : @types.Game, dt : Float) -> Unit {
     if @types.entity_is_hostile(game.entities[i].kind) &&
       game.entities[i].shot_cd <= 0.0 {
       entity_fire(game, game.entities[i])
-      game.entities[i].shot_cd = if game.entities[i].kind == @types.foe_bike {
-        @types.randf(0.74, 1.44)
-      } else if game.entities[i].kind == @types.foe_drone {
-        @types.randf(0.48, 1.02)
-      } else if game.entities[i].kind == @types.foe_truck {
-        @types.randf(1.18, 2.1)
-      } else {
-        @types.randf(1.0, 1.8)
+      game.entities[i].shot_cd = match game.entities[i].kind {
+        @types.FoeBike => @types.randf(0.74, 1.44)
+        @types.FoeDrone => @types.randf(0.48, 1.02)
+        @types.FoeTruck => @types.randf(1.18, 2.1)
+        _ => @types.randf(1.0, 1.8)
       }
     }
 
@@ -962,15 +978,13 @@ fn update_entities(game : @types.Game, dt : Float) -> Unit {
       } else if ram_hit {
         kill_entity(game, i, game.entities[i].reward, 0)
       } else {
-        let dmg : Float = if kind == @types.foe_truck {
-          24.0
-        } else if kind == @types.foe_laser {
-          16.0
-        } else {
-          14.0
+        let dmg : Float = match kind {
+          @types.FoeTruck => 24.0
+          @types.FoeLaser => 16.0
+          _ => 14.0
         }
         damage_player(game, dmg)
-        if kind != @types.foe_laser {
+        if kind != @types.FoeLaser {
           game.entities[i].active = false
         }
       }
@@ -1002,7 +1016,8 @@ fn update_bullets(game : @types.Game, dt : Float) -> Unit {
     if bullet.from_player {
       let mut hit = false
       for j in 0..<game.entities.length() {
-        if not(game.entities[j].active) || @types.is_pickup(game.entities[j].kind) {
+        if not(game.entities[j].active) ||
+          @types.is_pickup(game.entities[j].kind) {
           continue
         }
 
@@ -1194,8 +1209,8 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
     damage_player(game, 100.0)
   }
 
-  if game.state == @types.state_play && game.distance >= game.stage_goal {
-    game.state = @types.state_stage_clear
+  if game.state == @types.Play && game.distance >= game.stage_goal {
+    game.state = @types.StageClear
     game.result_t = 0.0
     add_score(game, 320 + game.stage * 120)
     game.shield = @types.minf(@types.player_shield_max, game.shield + 14.0)
@@ -1270,24 +1285,19 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     game.touch_count > 0
 
   // Process input based on state
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else {
-    update_result_input(game)
+  match game.state {
+    @types.Title => update_title_input(game)
+    @types.Play => update_play_input(game)
+    @types.StageClear | @types.GameOver => update_result_input(game)
   }
 
   update_timers(game, dt)
 
-  if game.state == @types.state_title {
-    update_title(game, dt)
-  } else if game.state == @types.state_play {
-    update_play(game, dt)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear(game, dt)
-  } else {
-    update_game_over(game, dt)
+  match game.state {
+    @types.Title => update_title(game, dt)
+    @types.Play => update_play(game, dt)
+    @types.StageClear => update_stage_clear(game, dt)
+    @types.GameOver => update_game_over(game, dt)
   }
 
   if game.score > game.best_score {

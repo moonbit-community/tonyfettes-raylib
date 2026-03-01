@@ -8,39 +8,6 @@ pub let screen_h : Int = 720
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
-pub let foe_bike : Int = 0
-
-///|
-pub let foe_drone : Int = 1
-
-///|
-pub let foe_truck : Int = 2
-
-///|
-pub let foe_laser : Int = 3
-
-///|
-pub let item_credit : Int = 4
-
-///|
-pub let item_battery : Int = 5
-
-///|
-pub let item_hackcell : Int = 6
-
-///|
 pub let max_entities : Int = 380
 
 ///|

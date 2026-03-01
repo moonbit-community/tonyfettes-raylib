@@ -290,16 +290,19 @@ pub fn result_retry_rect() -> (Float, Float, Float, Float) {
 }
 
 ///|
-pub fn entity_is_hostile(kind : Int) -> Bool {
-  kind == foe_bike ||
-  kind == foe_drone ||
-  kind == foe_truck ||
-  kind == foe_laser
+pub fn entity_is_hostile(kind : EntityKind) -> Bool {
+  match kind {
+    FoeBike | FoeDrone | FoeTruck | FoeLaser => true
+    ItemCredit | ItemBattery | ItemHackcell => false
+  }
 }
 
 ///|
-pub fn is_pickup(kind : Int) -> Bool {
-  kind == item_credit || kind == item_battery || kind == item_hackcell
+pub fn is_pickup(kind : EntityKind) -> Bool {
+  match kind {
+    ItemCredit | ItemBattery | ItemHackcell => true
+    FoeBike | FoeDrone | FoeTruck | FoeLaser => false
+  }
 }
 
 ///|

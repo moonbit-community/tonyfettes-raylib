@@ -1,7 +1,26 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+} derive(Eq)
+
+///|
+pub(all) enum EntityKind {
+  FoeBike
+  FoeDrone
+  FoeTruck
+  FoeLaser
+  ItemCredit
+  ItemBattery
+  ItemHackcell
+} derive(Eq)
+
+///|
 pub(all) struct Entity {
   mut active : Bool
-  mut kind : Int
+  mut kind : EntityKind
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -85,7 +104,7 @@ pub(all) struct Game {
   rings : Array[GlowRing]
   images : Array[Afterimage]
   hero : Player
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut distance : Float
   mut stage_goal : Float
@@ -129,7 +148,7 @@ pub(all) struct Game {
 pub fn Entity::new() -> Entity {
   {
     active: false,
-    kind: foe_bike,
+    kind: FoeBike,
     x: 0.0,
     y: 0.0,
     vx: 0.0,
@@ -218,7 +237,7 @@ pub fn Game::new() -> Game {
     rings: Array::makei(max_glow_rings, fn(_i) { GlowRing::new() }),
     images: Array::makei(max_afterimages, fn(_i) { Afterimage::new() }),
     hero: Player::new(),
-    state: state_title,
+    state: Title,
     stage: 1,
     distance: 0.0,
     stage_goal: stage_distance_base,
