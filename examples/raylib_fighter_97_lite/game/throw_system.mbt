@@ -65,7 +65,7 @@ fn apply_throw_tech(game : @types.Game, first_slot : Int, second_slot : Int) -> 
 
   let hit_x = (first.x + second.x) * 0.5
   let hit_y = (first.y + second.y) * 0.5 - 70.0
-  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.spark_kind_block, 24)
+  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.SparkKindBlock, 24)
 
   @types.add_meter(first, 5, first_archetype)
   @types.add_meter(second, 5, second_archetype)
@@ -117,7 +117,7 @@ fn apply_throw_hit(
 
   let hit_x = (attacker.x + defender.x) * 0.5
   let hit_y = defender.y - 70.0
-  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.spark_kind_hit, 24)
+  @effects.spawn_hit_spark(game, hit_x, hit_y, @types.SparkKindHit, 24)
   @effects.spawn_ground_skid(game, defender)
 
   @types.add_meter(attacker, 10, attacker_archetype)

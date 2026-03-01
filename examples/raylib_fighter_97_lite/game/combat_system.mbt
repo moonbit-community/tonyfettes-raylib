@@ -138,7 +138,7 @@ fn apply_successful_hit(
   let spark_kind = if mv.move_kind == @types.MoveKindSuper {
     @types.SparkKindSuper
   } else {
-    @types.spark_kind_hit
+    @types.SparkKindHit
   }
 
   @effects.spawn_hit_spark(
@@ -230,7 +230,7 @@ fn apply_blocked_hit(
     defender.knockdown = 0
     defender.vx = mv.pushback * 0.04 * @types.facing_sign(attacker.facing)
     @effects.spawn_hit_spark(
-      game, hitbox_center_x, hitbox_center_y, @types.spark_kind_block, 18,
+      game, hitbox_center_x, hitbox_center_y, @types.SparkKindBlock, 18,
     )
     @effects.push_camera_shake(game, 2.2)
     let advantage = defender.blockstun -
