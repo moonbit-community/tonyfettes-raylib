@@ -1,5 +1,5 @@
 ///|
-struct Relic {
+pub(all) struct Relic {
   mut active : Bool
   x : Float
   y : Float
@@ -7,7 +7,7 @@ struct Relic {
 }
 
 ///|
-struct Trap {
+pub(all) struct Trap {
   x : Float
   y : Float
   w : Float
@@ -21,7 +21,7 @@ struct Trap {
 }
 
 ///|
-struct Hazard {
+pub(all) struct Hazard {
   x : Float
   y : Float
   w : Float
@@ -31,7 +31,7 @@ struct Hazard {
 }
 
 ///|
-struct Plate {
+pub(all) struct Plate {
   x : Float
   y : Float
   w : Float
@@ -40,7 +40,7 @@ struct Plate {
 }
 
 ///|
-struct Door {
+pub(all) struct Door {
   x : Float
   y : Float
   w : Float
@@ -52,7 +52,7 @@ struct Door {
 }
 
 ///|
-struct StageLayout {
+pub(all) struct StageLayout {
   start_x : Float
   start_y : Float
   exit_x : Float
@@ -67,7 +67,7 @@ struct StageLayout {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   w : Float
@@ -77,7 +77,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   player : Player
   mut relics : Array[Relic]
   mut traps : Array[Trap]
@@ -107,10 +107,14 @@ struct Game {
   mut touch_start_prev : Bool
   mut touch_restart_prev : Bool
   mut touch_next_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: world_x + 90.0,
     y: world_y + world_h - 100.0,
@@ -122,7 +126,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     player: Player::new(),
     relics: [],
@@ -153,5 +157,58 @@ fn Game::new() -> Game {
     touch_start_prev: false,
     touch_restart_prev: false,
     touch_next_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
+}
+
+///|
+pub fn make_relic(x : Float, y : Float) -> Relic {
+  { active: true, x, y, r: 13.0 }
+}
+
+///|
+pub fn make_trap(
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+  cycle : Float,
+  hot_window : Float,
+  phase : Float,
+  kind : Int,
+  label : String,
+) -> Trap {
+  { x, y, w, h, cycle, hot_window, phase, kind, label, timer: 0.0 }
+}
+
+///|
+pub fn make_hazard(
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+  kind : Int,
+  label : String,
+) -> Hazard {
+  { x, y, w, h, kind, label }
+}
+
+///|
+pub fn make_plate(x : Float, y : Float, w : Float, h : Float) -> Plate {
+  { x, y, w, h, pressed: false }
+}
+
+///|
+pub fn make_door(
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+  plate_index : Int,
+  hold_time : Float,
+) -> Door {
+  { x, y, w, h, plate_index, hold_time, timer: 0.0, open: false }
 }

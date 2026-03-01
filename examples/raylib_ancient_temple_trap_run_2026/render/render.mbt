@@ -1,5 +1,5 @@
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(13, 10, 8, 255))
 
   for i in 0..<14 {
@@ -7,7 +7,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.draw_rectangle(
       0,
       y,
-      screen_w,
+      @types.screen_w,
       54,
       @raylib.Color::new(22 + i * 5 % 22, 16 + i * 4 % 18, 10 + i * 3 % 14, 58),
     )
@@ -21,7 +21,7 @@ fn draw_background(game : Game) -> Unit {
     @raylib.Color::new(88, 60, 24, 32),
   )
   @raylib.draw_circle(
-    screen_w - 220,
+    @types.screen_w - 220,
     150,
     Float::from_int(150 - pulse / 2),
     @raylib.Color::new(40, 74, 84, 28),
@@ -31,25 +31,25 @@ fn draw_background(game : Game) -> Unit {
 ///|
 fn draw_world_bounds() -> Unit {
   @raylib.draw_rectangle(
-    world_x.to_int(),
-    world_y.to_int(),
-    world_w.to_int(),
-    world_h.to_int(),
+    @types.world_x.to_int(),
+    @types.world_y.to_int(),
+    @types.world_w.to_int(),
+    @types.world_h.to_int(),
     @raylib.Color::new(34, 28, 22, 248),
   )
   @raylib.draw_rectangle_lines(
-    world_x.to_int(),
-    world_y.to_int(),
-    world_w.to_int(),
-    world_h.to_int(),
+    @types.world_x.to_int(),
+    @types.world_y.to_int(),
+    @types.world_w.to_int(),
+    @types.world_h.to_int(),
     @raylib.Color::new(172, 136, 88, 220),
   )
 }
 
 ///|
-fn draw_hazards(game : Game) -> Unit {
+fn draw_hazards(game : @types.Game) -> Unit {
   for hazard in game.hazards {
-    let col = if hazard.kind == hazard_kind_lava {
+    let col = if hazard.kind == @types.hazard_kind_lava {
       @raylib.Color::new(168, 50, 18, 222)
     } else {
       @raylib.Color::new(120, 30, 24, 222)
@@ -72,12 +72,12 @@ fn draw_hazards(game : Game) -> Unit {
 }
 
 ///|
-fn draw_traps(game : Game) -> Unit {
+fn draw_traps(game : @types.Game) -> Unit {
   for trap in game.traps {
-    let hot = trap_is_hot(trap)
+    let hot = @types.trap_is_hot(trap)
     let base_col = if hot {
       @raylib.Color::new(242, 78, 52, 236)
-    } else if trap.kind == trap_kind_spike {
+    } else if trap.kind == @types.trap_kind_spike {
       @raylib.Color::new(86, 72, 70, 226)
     } else {
       @raylib.Color::new(64, 84, 96, 226)
@@ -115,7 +115,7 @@ fn draw_traps(game : Game) -> Unit {
 }
 
 ///|
-fn draw_plates(game : Game) -> Unit {
+fn draw_plates(game : @types.Game) -> Unit {
   for plate in game.plates {
     @raylib.draw_rectangle(
       plate.x.to_int(),
@@ -146,10 +146,10 @@ fn draw_plates(game : Game) -> Unit {
 }
 
 ///|
-fn draw_doors(game : Game) -> Unit {
+fn draw_doors(game : @types.Game) -> Unit {
   for door in game.doors {
     let ratio : Float = if door.hold_time > 0.0 {
-      clampf(door.timer / door.hold_time, 0.0, 1.0)
+      @types.clampf(door.timer / door.hold_time, 0.0, 1.0)
     } else {
       0.0
     }
@@ -183,7 +183,7 @@ fn draw_doors(game : Game) -> Unit {
 }
 
 ///|
-fn draw_relics(game : Game) -> Unit {
+fn draw_relics(game : @types.Game) -> Unit {
   for i in 0..<game.relics.length() {
     if not(game.relics[i].active) {
       continue
@@ -213,8 +213,8 @@ fn draw_relics(game : Game) -> Unit {
 }
 
 ///|
-fn draw_exit_gate(game : Game) -> Unit {
-  let unlocked = exit_unlocked(game)
+fn draw_exit_gate(game : @types.Game) -> Unit {
+  let unlocked = @types.exit_unlocked(game)
 
   @raylib.draw_rectangle(
     game.exit_x.to_int(),
@@ -253,7 +253,7 @@ fn draw_exit_gate(game : Game) -> Unit {
 }
 
 ///|
-fn draw_player(game : Game) -> Unit {
+fn draw_player(game : @types.Game) -> Unit {
   let px = (game.player.x - game.player.w * 0.5).to_int()
   let py = (game.player.y - game.player.h * 0.5).to_int()
 
@@ -290,7 +290,7 @@ fn draw_player(game : Game) -> Unit {
 }
 
 ///|
-fn draw_world(game : Game) -> Unit {
+fn draw_world(game : @types.Game) -> Unit {
   draw_world_bounds()
   draw_hazards(game)
   draw_traps(game)
@@ -315,7 +315,7 @@ fn draw_meter(
   @raylib.draw_rectangle(
     x + 2,
     y + 30,
-    (Float::from_int(w - 4) * clampf(ratio, 0.0, 1.0)).to_int(),
+    (Float::from_int(w - 4) * @types.clampf(ratio, 0.0, 1.0)).to_int(),
     20,
     fill,
   )
@@ -329,8 +329,8 @@ fn draw_meter(
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
-  let (px, py, pw, ph) = panel_rect()
+fn draw_hud(game : @types.Game) -> Unit {
+  let (px, py, pw, ph) = @types.panel_rect()
   @raylib.draw_rectangle(px, py, pw, ph, @raylib.Color::new(22, 26, 30, 236))
   @raylib.draw_rectangle_lines(
     px,
@@ -349,7 +349,7 @@ fn draw_hud(game : Game) -> Unit {
   )
 
   @raylib.draw_text(
-    "Stage \{game.stage_index + 1}/\{game.stage_count}: \{stage_name(game.stage_index)}",
+    "Stage \{game.stage_index + 1}/\{game.stage_count}: \{@types.stage_name(game.stage_index)}",
     px + 24,
     py + 66,
     22,
@@ -361,7 +361,7 @@ fn draw_hud(game : Game) -> Unit {
     px + 24,
     py + 108,
     24,
-    if exit_unlocked(game) {
+    if @types.exit_unlocked(game) {
       @raylib.Color::new(148, 238, 168, 246)
     } else {
       @raylib.Color::new(246, 214, 142, 246)
@@ -373,7 +373,7 @@ fn draw_hud(game : Game) -> Unit {
     px + 24,
     py + 150,
     320,
-    game.player.stamina / stamina_max,
+    game.player.stamina / @types.stamina_max,
     if game.player.dash_on {
       @raylib.Color::new(86, 206, 234, 236)
     } else {
@@ -433,7 +433,7 @@ fn draw_hud(game : Game) -> Unit {
     @raylib.Color::new(208, 236, 218, 244),
   )
 
-  let (rx, ry, rw, rh) = play_restart_rect()
+  let (rx, ry, rw, rh) = @types.play_restart_rect()
   @raylib.draw_rectangle(rx, ry, rw, rh, @raylib.Color::new(82, 74, 66, 230))
   @raylib.draw_rectangle_lines(
     rx,
@@ -525,17 +525,12 @@ fn draw_touch_button(
 }
 
 ///|
-fn draw_touch_controls(
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  let (lx, ly, lw, lh) = touch_left_rect()
-  let (rx, ry, rw, rh) = touch_right_rect()
-  let (ux, uy, uw, uh) = touch_up_rect()
-  let (dx, dy, dw, dh) = touch_down_rect()
-  let (dash_x, dash_y, dash_w, dash_h) = touch_dash_rect()
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  let (lx, ly, lw, lh) = @types.touch_left_rect()
+  let (rx, ry, rw, rh) = @types.touch_right_rect()
+  let (ux, uy, uw, uh) = @types.touch_up_rect()
+  let (dx, dy, dw, dh) = @types.touch_down_rect()
+  let (dash_x, dash_y, dash_w, dash_h) = @types.touch_dash_rect()
 
   draw_touch_button(
     "L",
@@ -543,7 +538,10 @@ fn draw_touch_controls(
     ly,
     lw,
     lh,
-    pointer_on_rect(mouse_x, mouse_y, mouse_hold, touch_count, lx, ly, lw, lh),
+    @types.pointer_on_rect(
+      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, lx, ly,
+      lw, lh,
+    ),
   )
   draw_touch_button(
     "R",
@@ -551,7 +549,10 @@ fn draw_touch_controls(
     ry,
     rw,
     rh,
-    pointer_on_rect(mouse_x, mouse_y, mouse_hold, touch_count, rx, ry, rw, rh),
+    @types.pointer_on_rect(
+      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry,
+      rw, rh,
+    ),
   )
   draw_touch_button(
     "U",
@@ -559,7 +560,10 @@ fn draw_touch_controls(
     uy,
     uw,
     uh,
-    pointer_on_rect(mouse_x, mouse_y, mouse_hold, touch_count, ux, uy, uw, uh),
+    @types.pointer_on_rect(
+      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, ux, uy,
+      uw, uh,
+    ),
   )
   draw_touch_button(
     "D",
@@ -567,7 +571,10 @@ fn draw_touch_controls(
     dy,
     dw,
     dh,
-    pointer_on_rect(mouse_x, mouse_y, mouse_hold, touch_count, dx, dy, dw, dh),
+    @types.pointer_on_rect(
+      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dx, dy,
+      dw, dh,
+    ),
   )
   draw_touch_button(
     "DASH",
@@ -575,23 +582,24 @@ fn draw_touch_controls(
     dash_y,
     dash_w,
     dash_h,
-    pointer_on_rect(
-      mouse_x, mouse_y, mouse_hold, touch_count, dash_x, dash_y, dash_w, dash_h,
+    @types.pointer_on_rect(
+      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dash_x,
+      dash_y, dash_w, dash_h,
     ),
   )
 }
 
 ///|
-fn draw_banner(game : Game) -> Unit {
+fn draw_banner(game : @types.Game) -> Unit {
   if game.banner_t <= 0.0 {
     return
   }
 
-  let alpha = clampf(game.banner_t / 1.4, 0.0, 1.0)
+  let alpha = @types.clampf(game.banner_t / 1.4, 0.0, 1.0)
   let a : Int = (alpha * 210.0).to_int()
 
   let bw = @raylib.measure_text(game.banner_text, 30) + 56
-  let bx = screen_w / 2 - bw / 2
+  let bx = @types.screen_w / 2 - bw / 2
   let by = 22
 
   @raylib.draw_rectangle(bx, by, bw, 44, @raylib.Color::new(24, 28, 34, a))
@@ -612,22 +620,17 @@ fn draw_banner(game : Game) -> Unit {
 }
 
 ///|
-fn draw_title_overlay(
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(10, 14, 18, 172),
   )
 
-  let card_x = screen_w / 2 - 420
-  let card_y = screen_h / 2 - 220
+  let card_x = @types.screen_w / 2 - 420
+  let card_y = @types.screen_h / 2 - 220
   @raylib.draw_rectangle(
     card_x,
     card_y,
@@ -674,9 +677,10 @@ fn draw_title_overlay(
     @raylib.Color::new(182, 218, 236, 236),
   )
 
-  let (sx, sy, sw, sh) = title_start_rect()
-  let hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, sx, sy, sw, sh,
+  let (sx, sy, sw, sh) = @types.title_start_rect()
+  let hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, sx, sy, sw,
+    sh,
   )
   draw_button(
     "Start Expedition",
@@ -690,23 +694,17 @@ fn draw_title_overlay(
 }
 
 ///|
-fn draw_stage_clear_overlay(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_stage_clear_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 18, 16, 154),
   )
 
-  let px = screen_w / 2 - 380
-  let py = screen_h / 2 - 170
+  let px = @types.screen_w / 2 - 380
+  let py = @types.screen_h / 2 - 170
   @raylib.draw_rectangle(px, py, 760, 320, @raylib.Color::new(18, 36, 28, 238))
   @raylib.draw_rectangle_lines(
     px,
@@ -724,20 +722,22 @@ fn draw_stage_clear_overlay(
     @raylib.Color::new(176, 248, 202, 250),
   )
   @raylib.draw_text(
-    "\{stage_name(game.stage_index)} conquered",
+    "\{@types.stage_name(game.stage_index)} conquered",
     px + 188,
     py + 106,
     32,
     @raylib.Color::new(230, 242, 252, 246),
   )
 
-  let (next_x, next_y, next_w, next_h) = panel_next_rect()
-  let (rst_x, rst_y, rst_w, rst_h) = panel_restart_rect()
-  let next_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, next_x, next_y, next_w, next_h,
+  let (next_x, next_y, next_w, next_h) = @types.panel_next_rect()
+  let (rst_x, rst_y, rst_w, rst_h) = @types.panel_restart_rect()
+  let next_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, next_x,
+    next_y, next_w, next_h,
   )
-  let rst_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, rst_x, rst_y, rst_w, rst_h,
+  let rst_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rst_x,
+    rst_y, rst_w, rst_h,
   )
 
   draw_button(
@@ -761,23 +761,17 @@ fn draw_stage_clear_overlay(
 }
 
 ///|
-fn draw_failed_overlay(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_failed_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(24, 6, 6, 178),
   )
 
-  let px = screen_w / 2 - 430
-  let py = screen_h / 2 - 190
+  let px = @types.screen_w / 2 - 430
+  let py = @types.screen_h / 2 - 190
   @raylib.draw_rectangle(px, py, 860, 360, @raylib.Color::new(46, 22, 20, 240))
   @raylib.draw_rectangle_lines(
     px,
@@ -802,13 +796,15 @@ fn draw_failed_overlay(
     @raylib.Color::new(246, 232, 228, 246),
   )
 
-  let (title_x, title_y, title_w, title_h) = panel_next_rect()
-  let (retry_x, retry_y, retry_w, retry_h) = panel_restart_rect()
-  let title_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, title_x, title_y, title_w, title_h,
+  let (title_x, title_y, title_w, title_h) = @types.panel_next_rect()
+  let (retry_x, retry_y, retry_w, retry_h) = @types.panel_restart_rect()
+  let title_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
+    title_y, title_w, title_h,
   )
-  let retry_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, retry_x, retry_y, retry_w, retry_h,
+  let retry_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, retry_x,
+    retry_y, retry_w, retry_h,
   )
 
   draw_button(
@@ -832,22 +828,17 @@ fn draw_failed_overlay(
 }
 
 ///|
-fn draw_victory_overlay(
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_victory_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 22, 26, 178),
   )
 
-  let px = screen_w / 2 - 430
-  let py = screen_h / 2 - 190
+  let px = @types.screen_w / 2 - 430
+  let py = @types.screen_h / 2 - 190
   @raylib.draw_rectangle(px, py, 860, 360, @raylib.Color::new(16, 34, 46, 238))
   @raylib.draw_rectangle_lines(
     px,
@@ -872,13 +863,15 @@ fn draw_victory_overlay(
     @raylib.Color::new(228, 238, 246, 246),
   )
 
-  let (again_x, again_y, again_w, again_h) = panel_next_rect()
-  let (title_x, title_y, title_w, title_h) = panel_restart_rect()
-  let again_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, again_x, again_y, again_w, again_h,
+  let (again_x, again_y, again_w, again_h) = @types.panel_next_rect()
+  let (title_x, title_y, title_w, title_h) = @types.panel_restart_rect()
+  let again_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, again_x,
+    again_y, again_w, again_h,
   )
-  let title_hot = pointer_on_rect(
-    mouse_x, mouse_y, mouse_hold, touch_count, title_x, title_y, title_w, title_h,
+  let title_hot = @types.pointer_on_rect(
+    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, title_x,
+    title_y, title_w, title_h,
   )
 
   draw_button(
@@ -902,33 +895,27 @@ fn draw_victory_overlay(
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mouse_x : Float,
-  mouse_y : Float,
-  mouse_hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
 
-  if game.state != state_title {
+  if game.state != @types.state_title {
     draw_world(game)
     draw_hud(game)
 
-    if game.state == state_play && game.touch_mode {
-      draw_touch_controls(mouse_x, mouse_y, mouse_hold, touch_count)
+    if game.state == @types.state_play && game.touch_mode {
+      draw_touch_controls(game)
     }
 
     draw_banner(game)
   }
 
-  if game.state == state_title {
-    draw_title_overlay(mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_stage_clear {
-    draw_stage_clear_overlay(game, mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_failed {
-    draw_failed_overlay(game, mouse_x, mouse_y, mouse_hold, touch_count)
-  } else if game.state == state_victory {
-    draw_victory_overlay(mouse_x, mouse_y, mouse_hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_stage_clear {
+    draw_stage_clear_overlay(game)
+  } else if game.state == @types.state_failed {
+    draw_failed_overlay(game)
+  } else if game.state == @types.state_victory {
+    draw_victory_overlay(game)
   }
 }
