@@ -212,14 +212,15 @@ fn draw_kettle(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 
 ///|
 fn draw_leaf_racks(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
-  for tea in 0..<@types.tea_count {
+  for tea_i in 0..<@types.tea_count {
+    let tea = tea_i
     let x = @types.leaf_x() + cam_x
-    let y = @types.leaf_y(tea) + cam_y
+    let y = @types.leaf_y(tea_i) + cam_y
     let hot = @types.near_station(
       game.player.x,
       game.player.y,
       @types.leaf_x(),
-      @types.leaf_y(tea),
+      @types.leaf_y(tea_i),
       @types.interact_reach,
     )
 
