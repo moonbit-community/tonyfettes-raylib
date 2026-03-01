@@ -45,7 +45,7 @@ fn clear_world(game : @types.Game) -> Unit {
     pickup.y = 0.0
     pickup.vx = 0.0
     pickup.vy = 0.0
-    pickup.kind = @types.pickup_bait
+    pickup.kind = @types.Bait
     pickup.phase = 0.0
   }
 }
@@ -135,7 +135,7 @@ fn start_run(game : @types.Game) -> Unit {
   clear_world(game)
   clear_particles(game)
 
-  game.state = @types.state_play
+  game.state = @types.Play
 
   reset_rig(game)
 
@@ -176,11 +176,11 @@ fn start_run(game : @types.Game) -> Unit {
 
 ///|
 fn finish_run(game : @types.Game, win : Bool) -> Unit {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
-  game.state = @types.state_result
+  game.state = @types.Result
   game.win = win
 
   game.move_x = 0.0
@@ -272,21 +272,30 @@ fn spawn_hazard(game : @types.Game) -> Bool {
     hazard.phase = @types.randf(0.0, 6.28)
 
     if kind == @types.hazard_jelly {
-      hazard.x = @types.randf(@types.world_left() + 24.0, @types.world_right() - 24.0)
+      hazard.x = @types.randf(
+        @types.world_left() + 24.0,
+        @types.world_right() - 24.0,
+      )
       hazard.y = @types.topf() + @types.randf(80.0, 180.0)
       hazard.vx = @types.randf(-44.0, 44.0)
       hazard.vy = @types.randf(22.0, 80.0)
       hazard.r = @types.randf(26.0, 36.0)
       hazard.dmg = @types.randf(7.0, 12.0)
     } else if kind == @types.hazard_eel {
-      hazard.x = @types.randf(@types.world_left() + 30.0, @types.world_right() - 30.0)
+      hazard.x = @types.randf(
+        @types.world_left() + 30.0,
+        @types.world_right() - 30.0,
+      )
       hazard.y = @types.bottomf() - @types.randf(50.0, 180.0)
       hazard.vx = @types.randf(-26.0, 26.0)
       hazard.vy = @types.randf(-22.0, 22.0)
       hazard.r = @types.randf(18.0, 24.0)
       hazard.dmg = @types.randf(10.0, 16.0)
     } else {
-      hazard.x = @types.randf(@types.world_left() + 20.0, @types.world_right() - 20.0)
+      hazard.x = @types.randf(
+        @types.world_left() + 20.0,
+        @types.world_right() - 20.0,
+      )
       hazard.y = @types.topf() + 10.0
       hazard.vx = @types.randf(-18.0, 18.0)
       hazard.vy = @types.randf(180.0, 280.0) + Float::from_int(game.wave) * 12.0
@@ -308,7 +317,10 @@ fn spawn_pickup(game : @types.Game) -> Bool {
     }
 
     pickup.active = true
-    pickup.x = @types.randf(@types.world_left() + 24.0, @types.world_right() - 24.0)
+    pickup.x = @types.randf(
+      @types.world_left() + 24.0,
+      @types.world_right() - 24.0,
+    )
     pickup.y = @types.topf() + @types.randf(60.0, 240.0)
     pickup.vx = @types.randf(-42.0, 42.0)
     pickup.vy = @types.randf(-16.0, 40.0)
@@ -316,11 +328,11 @@ fn spawn_pickup(game : @types.Game) -> Bool {
 
     let roll : Int = @raylib.get_random_value(0, 99)
     pickup.kind = if roll < 46 {
-      @types.pickup_bait
+      @types.Bait
     } else if roll < 80 {
-      @types.pickup_repair
+      @types.Repair
     } else {
-      @types.pickup_thermos
+      @types.Thermos
     }
 
     return true
@@ -331,7 +343,7 @@ fn spawn_pickup(game : @types.Game) -> Bool {
 
 ///|
 fn try_toggle_grab(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
 
@@ -348,7 +360,7 @@ fn try_toggle_grab(game : @types.Game) -> Bool {
 
 ///|
 fn try_repair(game : @types.Game) -> Bool {
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return false
   }
   if game.repair_cd > 0.0 {
@@ -432,22 +444,31 @@ fn land_carrying_fish(game : @types.Game) -> Unit {
 }
 
 ///|
-fn collect_pickup(game : @types.Game, kind : Int, x : Float, y : Float) -> Unit {
-  if kind == @types.pickup_bait {
-    game.bait = @types.minf(100.0, game.bait + 34.0)
-    game.score = game.score + 10
-    @types.set_msg(game, "Bait crate collected.", 1.0)
-    burst(game, x, y, 16, 0)
-  } else if kind == @types.pickup_repair {
-    game.line_hp = @types.minf(100.0, game.line_hp + 26.0)
-    game.score = game.score + 10
-    @types.set_msg(game, "Line reinforced.", 1.0)
-    burst(game, x, y, 16, 2)
-  } else {
-    game.turbo_t = @types.maxf(game.turbo_t, 7.0)
-    game.score = game.score + 16
-    @types.set_msg(game, "Thermos boost activated.", 1.0)
-    burst(game, x, y, 20, 2)
+fn collect_pickup(
+  game : @types.Game,
+  kind : @types.PickupKind,
+  x : Float,
+  y : Float,
+) -> Unit {
+  match kind {
+    @types.Bait => {
+      game.bait = @types.minf(100.0, game.bait + 34.0)
+      game.score = game.score + 10
+      @types.set_msg(game, "Bait crate collected.", 1.0)
+      burst(game, x, y, 16, 0)
+    }
+    @types.Repair => {
+      game.line_hp = @types.minf(100.0, game.line_hp + 26.0)
+      game.score = game.score + 10
+      @types.set_msg(game, "Line reinforced.", 1.0)
+      burst(game, x, y, 16, 2)
+    }
+    @types.Thermos => {
+      game.turbo_t = @types.maxf(game.turbo_t, 7.0)
+      game.score = game.score + 16
+      @types.set_msg(game, "Thermos boost activated.", 1.0)
+      burst(game, x, y, 20, 2)
+    }
   }
 }
 
@@ -472,7 +493,8 @@ fn update_hook(game : @types.Game, dt : Float) -> Unit {
 
   let sway_x : Float = @types.sinf(game.ui_t * 1.2 + game.hook_y * 0.008) *
     (22.0 + Float::from_int(game.wave) * 2.4)
-  let sway_y : Float = @types.cosf(game.ui_t * 0.86 + game.hook_x * 0.006) * 16.0
+  let sway_y : Float = @types.cosf(game.ui_t * 0.86 + game.hook_x * 0.006) *
+    16.0
 
   game.hook_vx = game.hook_vx + (game.move_x * 640.0 * boost_mul + sway_x) * dt
   game.hook_vy = game.hook_vy + (game.move_y * 620.0 * boost_mul + sway_y) * dt
@@ -483,16 +505,28 @@ fn update_hook(game : @types.Game, dt : Float) -> Unit {
   game.hook_x = game.hook_x + game.hook_vx * dt
   game.hook_y = game.hook_y + game.hook_vy * dt
 
-  game.hook_x = @types.clampf(game.hook_x, @types.world_left() + 18.0, @types.world_right() - 18.0)
-  game.hook_y = @types.clampf(game.hook_y, @types.topf() + 20.0, @types.bottomf() - 12.0)
+  game.hook_x = @types.clampf(
+    game.hook_x,
+    @types.world_left() + 18.0,
+    @types.world_right() - 18.0,
+  )
+  game.hook_y = @types.clampf(
+    game.hook_y,
+    @types.topf() + 20.0,
+    @types.bottomf() - 12.0,
+  )
 
   let line_raw : Float = @types.absf(game.hook_y - @types.hole_yf()) +
     @types.absf(game.hook_x - @types.hole_xf()) * 0.22
-  game.line_len = @types.clampf(line_raw, @types.min_line_len, @types.max_line_len)
+  game.line_len = @types.clampf(
+    line_raw, @types.min_line_len, @types.max_line_len,
+  )
 
   if line_raw > @types.max_line_len + 6.0 {
     let bias_x : Float = (@types.hole_xf() - game.hook_x) * dt * 8.0
-    let bias_y : Float = (@types.hole_yf() + @types.max_line_len - game.hook_y) * dt * 8.0
+    let bias_y : Float = (@types.hole_yf() + @types.max_line_len - game.hook_y) *
+      dt *
+      8.0
     game.hook_x = game.hook_x + bias_x
     game.hook_y = game.hook_y + bias_y
   }
@@ -574,7 +608,8 @@ fn update_fish(game : @types.Game, dt : Float) -> Unit {
     let rr : Float = game.fish[i].r + @types.hook_r + 8.0
     if game.grab_on &&
       game.carrying_idx < 0 &&
-      @types.dist2(game.fish[i].x, game.fish[i].y, game.hook_x, game.hook_y) <= rr * rr {
+      @types.dist2(game.fish[i].x, game.fish[i].y, game.hook_x, game.hook_y) <=
+      rr * rr {
       game.fish[i].hooked = true
       game.carrying_idx = i
       game.grab_on = false
@@ -583,7 +618,8 @@ fn update_fish(game : @types.Game, dt : Float) -> Unit {
       continue
     }
 
-    if game.fish[i].kind == @types.fish_gold && @raylib.get_random_value(0, 999) < 2 {
+    if game.fish[i].kind == @types.fish_gold &&
+      @raylib.get_random_value(0, 999) < 2 {
       game.fish[i].active = false
       game.escaped = game.escaped + 1
     }
@@ -686,8 +722,10 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
 
     pickup.phase = pickup.phase + dt * 2.3
 
-    pickup.x = pickup.x + (pickup.vx + @types.sinf(pickup.phase * 2.0) * 20.0) * dt
-    pickup.y = pickup.y + (pickup.vy + @types.cosf(pickup.phase * 1.3) * 18.0) * dt
+    pickup.x = pickup.x +
+      (pickup.vx + @types.sinf(pickup.phase * 2.0) * 20.0) * dt
+    pickup.y = pickup.y +
+      (pickup.vy + @types.cosf(pickup.phase * 1.3) * 18.0) * dt
 
     if pickup.x < @types.world_left() + 16.0 {
       pickup.x = @types.world_left() + 16.0
@@ -709,7 +747,7 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
 
     let rr : Float = @types.hook_r + 16.0
     if @types.dist2(game.hook_x, game.hook_y, pickup.x, pickup.y) <= rr * rr {
-      let kind : Int = pickup.kind
+      let kind : @types.PickupKind = pickup.kind
       let px : Float = pickup.x
       let py : Float = pickup.y
       pickup.active = false
@@ -720,7 +758,7 @@ fn update_pickups(game : @types.Game, dt : Float) -> Unit {
 
 ///|
 fn use_hint(game : @types.Game) -> Bool {
-  if game.state != @types.state_play || game.hint_left <= 0 {
+  if game.state != @types.Play || game.hint_left <= 0 {
     return false
   }
 
@@ -735,11 +773,16 @@ fn use_hint(game : @types.Game) -> Bool {
   } else if game.bait < 40.0 {
     let mut best_d2 : Float = 1000000000.0
     for pickup in game.pickups {
-      if not(pickup.active) || pickup.kind != @types.pickup_bait {
+      if not(pickup.active) || pickup.kind != @types.Bait {
         continue
       }
 
-      let d2 : Float = @types.dist2(game.hook_x, game.hook_y, pickup.x, pickup.y)
+      let d2 : Float = @types.dist2(
+        game.hook_x,
+        game.hook_y,
+        pickup.x,
+        pickup.y,
+      )
 
       if d2 < best_d2 {
         best_d2 = d2
@@ -757,7 +800,12 @@ fn use_hint(game : @types.Game) -> Bool {
         continue
       }
 
-      let d2 : Float = @types.dist2(game.hook_x, game.hook_y, fish_elem.x, fish_elem.y)
+      let d2 : Float = @types.dist2(
+        game.hook_x,
+        game.hook_y,
+        fish_elem.x,
+        fish_elem.y,
+      )
 
       if fish_elem.value > best_score ||
         (fish_elem.value == best_score && d2 < best_d2) {
@@ -801,7 +849,7 @@ fn update_play(game : @types.Game, dt : Float) -> Unit {
 
   update_particles(game, step)
 
-  if game.state != @types.state_play {
+  if game.state != @types.Play {
     return
   }
 
@@ -892,14 +940,18 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
     game.touch_count > 0
 
-  if game.state == @types.state_title {
-    update_title_input(game)
-    update_play(game, dt)
-  } else if game.state == @types.state_play {
-    update_play_input(game, dt)
-    update_play(game, dt)
-  } else {
-    update_result_input(game)
-    update_play(game, dt)
+  match game.state {
+    @types.Title => {
+      update_title_input(game)
+      update_play(game, dt)
+    }
+    @types.Play => {
+      update_play_input(game, dt)
+      update_play(game, dt)
+    }
+    @types.Result => {
+      update_result_input(game)
+      update_play(game, dt)
+    }
   }
 }

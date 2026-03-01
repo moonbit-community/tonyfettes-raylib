@@ -26,13 +26,27 @@ pub(all) struct Hazard {
 }
 
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Result
+} derive(Eq)
+
+///|
+pub(all) enum PickupKind {
+  Bait
+  Repair
+  Thermos
+} derive(Eq)
+
+///|
 pub(all) struct Pickup {
   mut active : Bool
   mut x : Float
   mut y : Float
   mut vx : Float
   mut vy : Float
-  mut kind : Int
+  mut kind : PickupKind
   mut phase : Float
 }
 
@@ -54,7 +68,7 @@ pub(all) struct Game {
   hazards : Array[Hazard]
   pickups : Array[Pickup]
   particles : Array[Particle]
-  mut state : Int
+  mut state : GameState
   mut hook_x : Float
   mut hook_y : Float
   mut hook_vx : Float
@@ -130,15 +144,7 @@ pub fn Hazard::new() -> Hazard {
 
 ///|
 pub fn Pickup::new() -> Pickup {
-  {
-    active: false,
-    x: 0.0,
-    y: 0.0,
-    vx: 0.0,
-    vy: 0.0,
-    kind: pickup_bait,
-    phase: 0.0,
-  }
+  { active: false, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, kind: Bait, phase: 0.0 }
 }
 
 ///|
@@ -162,7 +168,7 @@ pub fn Game::new() -> Game {
     hazards: Array::makei(max_hazards, fn(_i) { Hazard::new() }),
     pickups: Array::makei(max_pickups, fn(_i) { Pickup::new() }),
     particles: Array::makei(max_particles, fn(_i) { Particle::new() }),
-    state: state_title,
+    state: Title,
     hook_x: Float::from_int(hole_x),
     hook_y: Float::from_int(water_top + 70),
     hook_vx: 0.0,

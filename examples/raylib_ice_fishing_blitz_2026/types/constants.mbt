@@ -8,15 +8,6 @@ pub let screen_h : Int = 980
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_result : Int = 2
-
-///|
 pub let fish_trout : Int = 0
 
 ///|
@@ -33,15 +24,6 @@ pub let hazard_eel : Int = 1
 
 ///|
 pub let hazard_ice : Int = 2
-
-///|
-pub let pickup_bait : Int = 0
-
-///|
-pub let pickup_repair : Int = 1
-
-///|
-pub let pickup_thermos : Int = 2
 
 ///|
 pub let max_fish : Int = 180

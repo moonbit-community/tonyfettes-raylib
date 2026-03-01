@@ -2,8 +2,14 @@
 fn title_hover(game : @types.Game) -> Bool {
   let b = @types.start_button_rect()
   @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
-    b.0, b.1, b.2, b.3,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    b.0,
+    b.1,
+    b.2,
+    b.3,
   )
 }
 
@@ -11,8 +17,14 @@ fn title_hover(game : @types.Game) -> Bool {
 fn result_hover(game : @types.Game) -> Bool {
   let b = @types.retry_button_rect()
   @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count,
-    b.0, b.1, b.2, b.3,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    b.0,
+    b.1,
+    b.2,
+    b.3,
   )
 }
 
@@ -50,7 +62,7 @@ fn update_result_input(game : @types.Game) -> Unit {
 ///|
 fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
-    game.state = @types.state_title
+    game.state = @types.Title
     return
   }
 
@@ -98,7 +110,14 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
     move_x = move_x - 1.0
   }
   if @types.pointer_on_rect(
-      mx, my, hold, tc, right.0, right.1, right.2, right.3,
+      mx,
+      my,
+      hold,
+      tc,
+      right.0,
+      right.1,
+      right.2,
+      right.3,
     ) {
     move_x = move_x + 1.0
   }
@@ -117,7 +136,14 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
     @raylib.is_key_down(@raylib.KeyJ)
 
   let boost_touch : Bool = @types.pointer_on_rect(
-    mx, my, hold, tc, boost.0, boost.1, boost.2, boost.3,
+    mx,
+    my,
+    hold,
+    tc,
+    boost.0,
+    boost.1,
+    boost.2,
+    boost.3,
   )
 
   game.boost_on = boost_key || boost_touch
@@ -138,7 +164,14 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
 
   if game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
-      mx, my, hold, tc, repair.0, repair.1, repair.2, repair.3,
+      mx,
+      my,
+      hold,
+      tc,
+      repair.0,
+      repair.1,
+      repair.2,
+      repair.3,
     ) {
     ignore(try_repair(game))
     game.touch_cd = 0.16
@@ -152,7 +185,14 @@ fn update_play_input(game : @types.Game, _dt : Float) -> Unit {
 
   if game.touch_cd <= 0.0 &&
     @types.pointer_on_rect(
-      mx, my, hold, tc, restart.0, restart.1, restart.2, restart.3,
+      mx,
+      my,
+      hold,
+      tc,
+      restart.0,
+      restart.1,
+      restart.2,
+      restart.3,
     ) {
     start_run(game)
     game.touch_cd = 0.16
