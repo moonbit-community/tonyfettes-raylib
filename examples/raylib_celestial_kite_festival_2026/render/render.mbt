@@ -258,17 +258,13 @@ fn draw_trails(game : @types.Game, cam_x : Float, cam_y : Float) -> Unit {
 }
 
 ///|
-fn obj_col(kind : Int) -> @raylib.Color {
-  if kind == @types.obj_lantern {
-    @types.amber()
-  } else if kind == @types.obj_bird {
-    @types.pink()
-  } else if kind == @types.obj_storm {
-    @raylib.Color::new(116, 186, 255, 255)
-  } else if kind == @types.obj_orb {
-    @types.energy_col()
-  } else {
-    @raylib.Color::new(255, 200, 146, 255)
+fn obj_col(kind : @types.ObjKind) -> @raylib.Color {
+  match kind {
+    @types.Lantern => @types.amber()
+    @types.Bird => @types.pink()
+    @types.Storm => @raylib.Color::new(116, 186, 255, 255)
+    @types.Orb => @types.energy_col()
+    @types.Koi => @raylib.Color::new(255, 200, 146, 255)
   }
 }
 
@@ -431,16 +427,12 @@ fn draw_obj(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
 
   let base = obj_col(o.kind)
 
-  if o.kind == @types.obj_lantern {
-    draw_lantern(o, cam_x, cam_y)
-  } else if o.kind == @types.obj_bird {
-    draw_bird(o, cam_x, cam_y)
-  } else if o.kind == @types.obj_storm {
-    draw_storm(o, cam_x, cam_y)
-  } else if o.kind == @types.obj_orb {
-    draw_orb(o, cam_x, cam_y)
-  } else {
-    draw_koi(o, cam_x, cam_y)
+  match o.kind {
+    @types.Lantern => draw_lantern(o, cam_x, cam_y)
+    @types.Bird => draw_bird(o, cam_x, cam_y)
+    @types.Storm => draw_storm(o, cam_x, cam_y)
+    @types.Orb => draw_orb(o, cam_x, cam_y)
+    @types.Koi => draw_koi(o, cam_x, cam_y)
   }
 
   if @types.is_hostile(o.kind) {
@@ -452,10 +444,9 @@ fn draw_obj(o : @types.SkyObj, cam_x : Float, cam_y : Float) -> Unit {
       o.hp /
       @types.maxf(
         1.0,
-        if o.kind == @types.obj_storm {
-          30.0 + Float::from_int(6 * 1)
-        } else {
-          20.0 + Float::from_int(4 * 1)
+        match o.kind {
+          @types.Storm => 30.0 + Float::from_int(6 * 1)
+          _ => 20.0 + Float::from_int(4 * 1)
         },
       ),
       0.0,

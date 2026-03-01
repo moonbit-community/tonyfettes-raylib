@@ -75,7 +75,14 @@ fn update_play_input(game : @types.Game) -> Unit {
     right.3,
   )
   let t_up = @types.pointer_on_rect(
-    mx, my, hold, touch_count, up.0, up.1, up.2, up.3,
+    mx,
+    my,
+    hold,
+    touch_count,
+    up.0,
+    up.1,
+    up.2,
+    up.3,
   )
   let t_down = @types.pointer_on_rect(
     mx,

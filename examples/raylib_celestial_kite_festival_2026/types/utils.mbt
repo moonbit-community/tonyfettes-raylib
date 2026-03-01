@@ -250,13 +250,19 @@ pub fn retry_rect() -> (Float, Float, Float, Float) {
 }
 
 ///|
-pub fn is_hostile(kind : Int) -> Bool {
-  kind == obj_bird || kind == obj_storm
+pub fn is_hostile(kind : ObjKind) -> Bool {
+  match kind {
+    Bird | Storm => true
+    Lantern | Orb | Koi => false
+  }
 }
 
 ///|
-pub fn is_collectible(kind : Int) -> Bool {
-  kind == obj_lantern || kind == obj_orb || kind == obj_koi
+pub fn is_collectible(kind : ObjKind) -> Bool {
+  match kind {
+    Lantern | Orb | Koi => true
+    Bird | Storm => false
+  }
 }
 
 ///|

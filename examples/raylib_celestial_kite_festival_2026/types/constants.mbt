@@ -23,21 +23,6 @@ pub let play_left : Float = 42.0
 pub let play_right : Float = Float::from_int(screen_w) - 42.0
 
 ///|
-pub let obj_lantern : Int = 0
-
-///|
-pub let obj_bird : Int = 1
-
-///|
-pub let obj_storm : Int = 2
-
-///|
-pub let obj_orb : Int = 3
-
-///|
-pub let obj_koi : Int = 4
-
-///|
 pub let max_objs : Int = 360
 
 ///|

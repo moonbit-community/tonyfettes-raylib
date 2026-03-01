@@ -1,7 +1,16 @@
 ///|
+pub(all) enum ObjKind {
+  Lantern
+  Bird
+  Storm
+  Orb
+  Koi
+} derive(Eq)
+
+///|
 pub(all) struct SkyObj {
   mut active : Bool
-  mut kind : Int
+  mut kind : ObjKind
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -124,7 +133,7 @@ pub(all) struct Game {
 pub fn SkyObj::new() -> SkyObj {
   {
     active: false,
-    kind: obj_lantern,
+    kind: Lantern,
     x: 0.0,
     y: 0.0,
     vx: 0.0,

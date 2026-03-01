@@ -2,7 +2,7 @@
 fn clear_objs(game : @types.Game) -> Unit {
   for obj in game.objs {
     obj.active = false
-    obj.kind = @types.obj_lantern
+    obj.kind = @types.Lantern
     obj.x = 0.0
     obj.y = 0.0
     obj.vx = 0.0
@@ -234,7 +234,7 @@ fn spawn_trail(
 ///|
 fn spawn_obj(
   game : @types.Game,
-  kind : Int,
+  kind : @types.ObjKind,
   x : Float,
   y : Float,
   vx : Float,
@@ -404,7 +404,7 @@ fn start_run(game : @types.Game) -> Unit {
 fn spawn_lantern(game : @types.Game) -> Unit {
   spawn_obj(
     game,
-    @types.obj_lantern,
+    @types.Lantern,
     @types.randf(@types.play_left + 40.0, @types.play_right - 40.0),
     @types.play_top - @types.randf(20.0, 120.0),
     @types.randf(-20.0, 20.0),
@@ -433,7 +433,7 @@ fn spawn_bird(game : @types.Game) -> Unit {
 
   spawn_obj(
     game,
-    @types.obj_bird,
+    @types.Bird,
     sx,
     @types.randf(@types.play_top + 36.0, @types.play_bottom - 120.0),
     tx,
@@ -450,7 +450,7 @@ fn spawn_bird(game : @types.Game) -> Unit {
 fn spawn_storm(game : @types.Game) -> Unit {
   spawn_obj(
     game,
-    @types.obj_storm,
+    @types.Storm,
     @types.randf(@types.play_left + 80.0, @types.play_right - 80.0),
     @types.play_top - @types.randf(60.0, 140.0),
     @types.randf(-40.0, 40.0),
@@ -467,7 +467,7 @@ fn spawn_storm(game : @types.Game) -> Unit {
 fn spawn_orb(game : @types.Game) -> Unit {
   spawn_obj(
     game,
-    @types.obj_orb,
+    @types.Orb,
     @types.randf(@types.play_left + 30.0, @types.play_right - 30.0),
     @types.play_top - @types.randf(20.0, 100.0),
     @types.randf(-30.0, 30.0),
@@ -496,7 +496,7 @@ fn spawn_koi(game : @types.Game) -> Unit {
 
   spawn_obj(
     game,
-    @types.obj_koi,
+    @types.Koi,
     sx,
     @types.randf(@types.play_top + 50.0, @types.play_bottom - 90.0),
     vx,
@@ -585,26 +585,30 @@ fn apply_burst(game : @types.Game) -> Unit {
       continue
     }
 
-    if obj.kind == @types.obj_bird {
-      obj.hp = obj.hp - 30.0
-      if obj.hp <= 0.0 {
-        let x = obj.x
-        let y = obj.y
-        obj.active = false
-        add_score(game, 150)
-        push_combo(game)
-        burst_sparks(game, x, y, 18, 0)
+    match obj.kind {
+      @types.Bird => {
+        obj.hp = obj.hp - 30.0
+        if obj.hp <= 0.0 {
+          let x = obj.x
+          let y = obj.y
+          obj.active = false
+          add_score(game, 150)
+          push_combo(game)
+          burst_sparks(game, x, y, 18, 0)
+        }
       }
-    } else if obj.kind == @types.obj_storm {
-      obj.hp = obj.hp - 26.0
-      if obj.hp <= 0.0 {
-        let x = obj.x
-        let y = obj.y
-        obj.active = false
-        add_score(game, 220)
-        push_combo(game)
-        burst_sparks(game, x, y, 28, 2)
+      @types.Storm => {
+        obj.hp = obj.hp - 26.0
+        if obj.hp <= 0.0 {
+          let x = obj.x
+          let y = obj.y
+          obj.active = false
+          add_score(game, 220)
+          push_combo(game)
+          burst_sparks(game, x, y, 28, 2)
+        }
       }
+      @types.Lantern | @types.Orb | @types.Koi => ()
     }
   }
 }
@@ -699,28 +703,33 @@ fn update_kite(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn collect_obj(game : @types.Game, kind : Int, value : Int) -> Unit {
-  if kind == @types.obj_lantern {
-    add_score(game, value)
-    game.time_left = @types.minf(
-      @types.stage_time_base +
-      Float::from_int(game.stage) * @types.stage_time_bonus,
-      game.time_left + 1.8,
-    )
-    game.rescued = game.rescued + 1
-    push_combo(game)
-  } else if kind == @types.obj_orb {
-    add_score(game, value)
-    game.energy = @types.minf(@types.energy_max, game.energy + 28.0)
-    game.calm = @types.minf(@types.calm_max, game.calm + 10.0)
-    burst_sparks(game, game.kite.x, game.kite.y, 10, 2)
-  } else {
-    add_score(game, value)
-    game.energy = @types.minf(@types.energy_max, game.energy + 18.0)
-    game.calm = @types.minf(@types.calm_max, game.calm + 18.0)
-    game.time_left = game.time_left + 3.0
-    game.rescued = game.rescued + 2
-    push_combo(game)
+fn collect_obj(game : @types.Game, kind : @types.ObjKind, value : Int) -> Unit {
+  match kind {
+    @types.Lantern => {
+      add_score(game, value)
+      game.time_left = @types.minf(
+        @types.stage_time_base +
+        Float::from_int(game.stage) * @types.stage_time_bonus,
+        game.time_left + 1.8,
+      )
+      game.rescued = game.rescued + 1
+      push_combo(game)
+    }
+    @types.Orb => {
+      add_score(game, value)
+      game.energy = @types.minf(@types.energy_max, game.energy + 28.0)
+      game.calm = @types.minf(@types.calm_max, game.calm + 10.0)
+      burst_sparks(game, game.kite.x, game.kite.y, 10, 2)
+    }
+    @types.Koi => {
+      add_score(game, value)
+      game.energy = @types.minf(@types.energy_max, game.energy + 18.0)
+      game.calm = @types.minf(@types.calm_max, game.calm + 18.0)
+      game.time_left = game.time_left + 3.0
+      game.rescued = game.rescued + 2
+      push_combo(game)
+    }
+    @types.Bird | @types.Storm => ()
   }
 }
 
@@ -737,50 +746,58 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
     obj.phase = obj.phase + dt
     obj.flagged = obj.life < 1.2
 
-    if obj.kind == @types.obj_lantern {
-      obj.x = obj.x + (obj.vx + game.wind_x * 0.4) * dt
-      obj.y = obj.y + (obj.vy + game.wind_y * 0.5) * dt
-      obj.y = obj.y + @types.sinf(obj.phase * 4.2) * 10.0 * dt
-    } else if obj.kind == @types.obj_bird {
-      let tx = game.kite.x - obj.x
-      let ty = game.kite.y - obj.y
-      let d2 = @types.maxf(20.0, tx * tx + ty * ty)
-      let inv = Float::from_int(1) / @types.sqrtf(d2)
-      obj.vx = obj.vx + tx * inv * 90.0 * dt
-      obj.vy = obj.vy + ty * inv * 90.0 * dt
-      obj.vx = @types.clampf(obj.vx, -320.0, 320.0)
-      obj.vy = @types.clampf(obj.vy, -280.0, 280.0)
-      obj.x = obj.x + (obj.vx + game.wind_x * 0.2) * dt
-      obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
-    } else if obj.kind == @types.obj_storm {
-      obj.x = obj.x + (obj.vx + game.wind_x * 0.6) * dt
-      obj.y = obj.y + (obj.vy + game.wind_y * 0.4) * dt
-      obj.w = @types.maxf(
-        52.0,
-        obj.w + @types.sinf(obj.phase * 3.0) * 12.0 * dt,
-      )
-      obj.h = @types.maxf(36.0, obj.h + @types.cosf(obj.phase * 2.4) * 9.0 * dt)
-
-      if @types.chance(14) {
-        emit_spark(
-          game,
-          obj.x + @types.randf(-obj.w * 0.4, obj.w * 0.4),
-          obj.y + @types.randf(-obj.h * 0.3, obj.h * 0.3),
-          @types.randf(-60.0, 60.0),
-          @types.randf(30.0, 180.0),
-          @types.randf(0.12, 0.3),
-          @types.randf(1.0, 2.6),
-          2,
-        )
+    match obj.kind {
+      @types.Lantern => {
+        obj.x = obj.x + (obj.vx + game.wind_x * 0.4) * dt
+        obj.y = obj.y + (obj.vy + game.wind_y * 0.5) * dt
+        obj.y = obj.y + @types.sinf(obj.phase * 4.2) * 10.0 * dt
       }
-    } else if obj.kind == @types.obj_orb {
-      obj.x = obj.x + (obj.vx + game.wind_x * 0.48) * dt
-      obj.y = obj.y + (obj.vy + game.wind_y * 0.48) * dt
-      obj.x = obj.x + @types.sinf(obj.phase * 6.0) * 26.0 * dt
-    } else {
-      obj.x = obj.x + (obj.vx + game.wind_x * 0.3) * dt
-      obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
-      obj.y = obj.y + @types.sinf(obj.phase * 8.0) * 18.0 * dt
+      @types.Bird => {
+        let tx = game.kite.x - obj.x
+        let ty = game.kite.y - obj.y
+        let d2 = @types.maxf(20.0, tx * tx + ty * ty)
+        let inv = Float::from_int(1) / @types.sqrtf(d2)
+        obj.vx = obj.vx + tx * inv * 90.0 * dt
+        obj.vy = obj.vy + ty * inv * 90.0 * dt
+        obj.vx = @types.clampf(obj.vx, -320.0, 320.0)
+        obj.vy = @types.clampf(obj.vy, -280.0, 280.0)
+        obj.x = obj.x + (obj.vx + game.wind_x * 0.2) * dt
+        obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
+      }
+      @types.Storm => {
+        obj.x = obj.x + (obj.vx + game.wind_x * 0.6) * dt
+        obj.y = obj.y + (obj.vy + game.wind_y * 0.4) * dt
+        obj.w = @types.maxf(
+          52.0,
+          obj.w + @types.sinf(obj.phase * 3.0) * 12.0 * dt,
+        )
+        obj.h = @types.maxf(
+          36.0,
+          obj.h + @types.cosf(obj.phase * 2.4) * 9.0 * dt,
+        )
+        if @types.chance(14) {
+          emit_spark(
+            game,
+            obj.x + @types.randf(-obj.w * 0.4, obj.w * 0.4),
+            obj.y + @types.randf(-obj.h * 0.3, obj.h * 0.3),
+            @types.randf(-60.0, 60.0),
+            @types.randf(30.0, 180.0),
+            @types.randf(0.12, 0.3),
+            @types.randf(1.0, 2.6),
+            2,
+          )
+        }
+      }
+      @types.Orb => {
+        obj.x = obj.x + (obj.vx + game.wind_x * 0.48) * dt
+        obj.y = obj.y + (obj.vy + game.wind_y * 0.48) * dt
+        obj.x = obj.x + @types.sinf(obj.phase * 6.0) * 26.0 * dt
+      }
+      @types.Koi => {
+        obj.x = obj.x + (obj.vx + game.wind_x * 0.3) * dt
+        obj.y = obj.y + (obj.vy + game.wind_y * 0.2) * dt
+        obj.y = obj.y + @types.sinf(obj.phase * 8.0) * 18.0 * dt
+      }
     }
 
     if obj.life <= 0.0 ||
@@ -804,7 +821,10 @@ fn update_objs(game : @types.Game, dt : Float) -> Unit {
         spawn_halo(game, game.kite.x, game.kite.y, 10.0, 0.36, 0)
         burst_sparks(game, game.kite.x, game.kite.y, 12, 0)
       } else {
-        let dmg : Float = if obj.kind == @types.obj_storm { 18.0 } else { 12.0 }
+        let dmg : Float = match obj.kind {
+          @types.Storm => 18.0
+          _ => 12.0
+        }
         hurt_kite(game, dmg)
         obj.hp = obj.hp - 18.0
         if obj.hp <= 0.0 {
