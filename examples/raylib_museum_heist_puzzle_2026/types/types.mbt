@@ -1,12 +1,12 @@
 ///|
-struct Artifact {
+pub(all) struct Artifact {
   x : Int
   y : Int
   mut taken : Bool
 }
 
 ///|
-struct Guard {
+pub(all) struct Guard {
   mut x : Int
   mut y : Int
   mut dir_x : Int
@@ -18,7 +18,7 @@ struct Guard {
 }
 
 ///|
-struct FrameInput {
+pub(all) struct FrameInput {
   move_dir : Int
   start_pressed : Bool
   next_pressed : Bool
@@ -27,7 +27,7 @@ struct FrameInput {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   tiles : Array[Int]
   mut artifacts : Array[Artifact]
   mut guards : Array[Guard]
@@ -45,10 +45,15 @@ struct Game {
   mut state_t : Float
   mut pulse_t : Float
   mut alarm_t : Float
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut mouse_press : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     tiles: Array::make(board_cells, tile_floor),
     artifacts: [],
@@ -67,5 +72,10 @@ fn Game::new() -> Game {
     state_t: 0.0,
     pulse_t: 0.0,
     alarm_t: 0.0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    mouse_press: false,
+    touch_count: 0,
   }
 }
