@@ -104,4 +104,13 @@ pub let ui_button_size : Float = 104.0
 pub let ui_button_gap : Float = 14.0
 
 ///|
+pub let particle_spark : Int = 0
+
+///|
+pub let particle_glow : Int = 1
+
+///|
+pub let particle_hurt : Int = 2
+
+///|
 pub let skyline_layers : Int = 3
