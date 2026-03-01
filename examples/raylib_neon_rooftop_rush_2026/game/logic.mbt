@@ -1260,20 +1260,29 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   game.mouse_hold = @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) ||
     @raylib.get_touch_point_count() > 0
 
+  // Dispatch input based on current state (input may change state)
   if game.state == @types.state_title {
     update_title_input(game)
+  } else if game.state == @types.state_play {
+    update_play_input(game)
+  } else if game.state == @types.state_stage_clear {
+    update_stage_clear_input(game)
+  } else {
+    update_result_input(game)
+  }
+
+  // Dispatch update based on (potentially changed) state
+  if game.state == @types.state_title {
     update_title_scene(game, dt)
     return
   }
 
   if game.state == @types.state_play {
-    update_play_input(game)
     update_play(game, dt)
     return
   }
 
   if game.state == @types.state_stage_clear {
-    update_stage_clear_input(game)
     update_stage_clear(game, dt)
     update_particles(game, dt)
     if game.input_restart_press {
@@ -1282,7 +1291,6 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     return
   }
 
-  update_result_input(game)
   update_game_over(game, dt)
 }
 
