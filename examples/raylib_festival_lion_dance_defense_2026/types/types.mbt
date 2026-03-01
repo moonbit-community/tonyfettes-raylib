@@ -1,5 +1,5 @@
 ///|
-struct InputState {
+pub(all) struct InputState {
   mut move_x : Int
   mut move_y : Int
   mut press_strike : Bool
@@ -11,7 +11,7 @@ struct InputState {
 }
 
 ///|
-fn InputState::new() -> InputState {
+pub fn InputState::new() -> InputState {
   {
     move_x: 0,
     move_y: 0,
@@ -25,7 +25,7 @@ fn InputState::new() -> InputState {
 }
 
 ///|
-struct Threat {
+pub(all) struct Threat {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -37,7 +37,7 @@ struct Threat {
 }
 
 ///|
-fn Threat::new() -> Threat {
+pub fn Threat::new() -> Threat {
   {
     active: false,
     kind: threat_firecracker,
@@ -51,7 +51,7 @@ fn Threat::new() -> Threat {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   input : InputState
   threats : Array[Threat]
   mut state : Int
@@ -83,7 +83,7 @@ struct Game {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     input: InputState::new(),
     threats: Array::makei(max_threats, fn(_i) { Threat::new() }),

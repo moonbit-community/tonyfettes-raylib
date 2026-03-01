@@ -1,5 +1,5 @@
 ///|
-fn shake_x(game : Game) -> Int {
+fn shake_x(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
@@ -8,17 +8,12 @@ fn shake_x(game : Game) -> Int {
 }
 
 ///|
-fn shake_y(game : Game) -> Int {
+fn shake_y(game : @types.Game) -> Int {
   if game.shake_t <= 0.0 {
     0
   } else {
     @raylib.get_random_value(-4, 4)
   }
-}
-
-///|
-fn pulse(game : Game, f : Float) -> Float {
-  0.5 + 0.5 * @math.sinf(game.time_s * f)
 }
 
 ///|
@@ -32,7 +27,7 @@ fn draw_meter(
   bg : @raylib.Color,
   fg : @raylib.Color,
 ) -> Unit {
-  let t = clampf(ratio, 0.0, 1.0)
+  let t = @types.clampf(ratio, 0.0, 1.0)
   @raylib.draw_rectangle(x, y, w, h, bg)
   @raylib.draw_rectangle(x, y, (Float::from_int(w) * t).to_int(), h, fg)
   @raylib.draw_rectangle_lines(
@@ -43,7 +38,7 @@ fn draw_meter(
     @raylib.Color::new(232, 240, 250, 180),
   )
 
-  let pct = clampi((t * 100.0).to_int(), 0, 100)
+  let pct = @types.clampi((t * 100.0).to_int(), 0, 100)
   @raylib.draw_text(
     "\{label} \{pct}%",
     x + 8,
@@ -54,21 +49,21 @@ fn draw_meter(
 }
 
 ///|
-fn draw_background(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_background(game : @types.Game, ox : Int, oy : Int) -> Unit {
   @raylib.clear_background(@raylib.Color::new(14, 16, 24, 255))
 
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(34, 26, 44, 255),
     @raylib.Color::new(12, 16, 26, 255),
   )
 
-  let glow_0 = 36 + (pulse(game, 0.54) * 22.0).to_int()
-  let glow_1 = 36 + (pulse(game, 0.68) * 24.0).to_int()
-  let glow_2 = 32 + (pulse(game, 0.82) * 28.0).to_int()
+  let glow_0 = 36 + (@types.pulse(game, 0.54) * 22.0).to_int()
+  let glow_1 = 36 + (@types.pulse(game, 0.68) * 24.0).to_int()
+  let glow_2 = 32 + (@types.pulse(game, 0.82) * 28.0).to_int()
 
   @raylib.draw_circle(
     180 + ox,
@@ -83,39 +78,39 @@ fn draw_background(game : Game, ox : Int, oy : Int) -> Unit {
     @raylib.Color::new(230, 190, 72, glow_1),
   )
   @raylib.draw_circle(
-    screen_w - 180 + ox,
+    @types.screen_w - 180 + ox,
     130 + oy,
     250.0,
     @raylib.Color::new(210, 80, 120, glow_2),
   )
 
   @raylib.draw_rectangle(
-    street_left - 22 + ox,
-    lane_top - 42 + oy,
-    street_w() + 44,
-    street_h() + 84,
+    @types.street_left - 22 + ox,
+    @types.lane_top - 42 + oy,
+    @types.street_w() + 44,
+    @types.street_h() + 84,
     @raylib.Color::new(12, 14, 22, 178),
   )
 
   if game.flash_t > 0.0 {
-    let alpha = clampi((game.flash_t * 160.0).to_int(), 0, 180)
+    let alpha = @types.clampi((game.flash_t * 160.0).to_int(), 0, 180)
     @raylib.draw_rectangle(
       0,
       0,
-      screen_w,
-      screen_h,
+      @types.screen_w,
+      @types.screen_h,
       @raylib.Color::new(250, 90, 62, alpha),
     )
   }
 }
 
 ///|
-fn draw_lanes(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_lanes(game : @types.Game, ox : Int, oy : Int) -> Unit {
   ignore(game)
 
-  for lane in 0..<lane_count {
-    let cy = lane_y(lane).to_int() + oy
-    let y0 = cy - lane_height / 2
+  for lane in 0..< @types.lane_count {
+    let cy = @types.lane_y(lane).to_int() + oy
+    let y0 = cy - @types.lane_height / 2
 
     let lane_tone = if lane % 2 == 0 {
       @raylib.Color::new(42, 50, 74, 214)
@@ -124,22 +119,22 @@ fn draw_lanes(game : Game, ox : Int, oy : Int) -> Unit {
     }
 
     @raylib.draw_rectangle(
-      street_left + ox,
+      @types.street_left + ox,
       y0,
-      street_w(),
-      lane_height,
+      @types.street_w(),
+      @types.lane_height,
       lane_tone,
     )
     @raylib.draw_rectangle_lines(
-      street_left + ox,
+      @types.street_left + ox,
       y0,
-      street_w(),
-      lane_height,
+      @types.street_w(),
+      @types.lane_height,
       @raylib.Color::new(152, 178, 212, 110),
     )
 
-    let mut x = street_left
-    while x < street_right {
+    let mut x = @types.street_left
+    while x < @types.street_right {
       @raylib.draw_rectangle(
         x + ox,
         cy - 2,
@@ -152,24 +147,24 @@ fn draw_lanes(game : Game, ox : Int, oy : Int) -> Unit {
 
     @raylib.draw_text(
       "L\{lane + 1}",
-      street_left - 40 + ox,
-      y0 + lane_height / 2 - 9,
+      @types.street_left - 40 + ox,
+      y0 + @types.lane_height / 2 - 9,
       22,
       @raylib.Color::new(232, 238, 250, 170),
     )
   }
 
   @raylib.draw_rectangle_lines(
-    street_left + ox,
-    lane_top - 8 + oy,
-    street_w(),
-    street_h() + 16,
+    @types.street_left + ox,
+    @types.lane_top - 8 + oy,
+    @types.street_w(),
+    @types.street_h() + 16,
     @raylib.Color::new(252, 210, 122, 196),
   )
 }
 
 ///|
-fn draw_firecracker(threat : Threat, ox : Int, oy : Int) -> Unit {
+fn draw_firecracker(threat : @types.Threat, ox : Int, oy : Int) -> Unit {
   let cx = threat.x.to_int() + ox
   let cy = threat.y.to_int() + oy
 
@@ -221,7 +216,7 @@ fn draw_firecracker(threat : Threat, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_incident(threat : Threat, ox : Int, oy : Int) -> Unit {
+fn draw_incident(threat : @types.Threat, ox : Int, oy : Int) -> Unit {
   let cx = threat.x.to_int() + ox
   let cy = threat.y.to_int() + oy
 
@@ -256,12 +251,12 @@ fn draw_incident(threat : Threat, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_threat(threat : Threat, ox : Int, oy : Int) -> Unit {
+fn draw_threat(threat : @types.Threat, ox : Int, oy : Int) -> Unit {
   if not(threat.active) {
     return
   }
 
-  if threat.kind == threat_firecracker {
+  if threat.kind == @types.threat_firecracker {
     draw_firecracker(threat, ox, oy)
   } else {
     draw_incident(threat, ox, oy)
@@ -269,7 +264,7 @@ fn draw_threat(threat : Threat, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_troupe(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_troupe(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let cx = game.troupe_x.to_int() + ox
   let cy = game.troupe_y.to_int() + oy
 
@@ -311,7 +306,8 @@ fn draw_troupe(game : Game, ox : Int, oy : Int) -> Unit {
   @raylib.draw_rectangle(cx - 20, cy - 8, 40, 8, trim_col)
 
   if game.guard_t > 0.0 {
-    let ring_r : Float = guard_radius * (0.65 + 0.35 * pulse(game, 10.0))
+    let ring_r : Float = @types.guard_radius *
+      (0.65 + 0.35 * @types.pulse(game, 10.0))
     @raylib.draw_circle_lines(
       cx,
       cy,
@@ -322,14 +318,15 @@ fn draw_troupe(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_action_fx(game : Game, ox : Int, oy : Int) -> Unit {
+fn draw_action_fx(game : @types.Game, ox : Int, oy : Int) -> Unit {
   let cx = game.troupe_x.to_int() + ox
   let cy = game.troupe_y.to_int() + oy
 
   if game.strike_t > 0.0 {
-    let t : Float = 1.0 - game.strike_t / maxf(strike_fx_time, 0.01)
-    let radius : Float = strike_radius * (0.78 + t * 0.28)
-    let alpha = clampi(
+    let t : Float = 1.0 -
+      game.strike_t / @types.maxf(@types.strike_fx_time, 0.01)
+    let radius : Float = @types.strike_radius * (0.78 + t * 0.28)
+    let alpha = @types.clampi(
       (Float::from_int(220) * (Float::from_int(1) - t)).to_int(),
       0,
       220,
@@ -344,9 +341,10 @@ fn draw_action_fx(game : Game, ox : Int, oy : Int) -> Unit {
   }
 
   if game.burst_t > 0.0 {
-    let t : Float = 1.0 - game.burst_t / maxf(burst_duration, 0.01)
-    let radius : Float = burst_radius * (0.80 + t * 0.30)
-    let alpha = clampi(
+    let t : Float = 1.0 -
+      game.burst_t / @types.maxf(@types.burst_duration, 0.01)
+    let radius : Float = @types.burst_radius * (0.80 + t * 0.30)
+    let alpha = @types.clampi(
       (Float::from_int(206) * (Float::from_int(1) - t * 0.6)).to_int(),
       0,
       230,
@@ -369,7 +367,7 @@ fn draw_action_fx(game : Game, ox : Int, oy : Int) -> Unit {
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(20, 18, 560, 188, @raylib.Color::new(10, 16, 26, 214))
   @raylib.draw_rectangle_lines(
     20,
@@ -431,7 +429,7 @@ fn draw_hud(game : Game) -> Unit {
     420,
     34,
     "HYPE",
-    game.hype / hype_max,
+    game.hype / @types.hype_max,
     @raylib.Color::new(52, 34, 22, 210),
     @raylib.Color::new(248, 148, 80, 236),
   )
@@ -442,7 +440,7 @@ fn draw_hud(game : Game) -> Unit {
     420,
     34,
     "CROWD ORDER",
-    game.crowd_order / order_max,
+    game.crowd_order / @types.order_max,
     @raylib.Color::new(28, 44, 54, 210),
     @raylib.Color::new(120, 224, 210, 236),
   )
@@ -453,7 +451,7 @@ fn draw_hud(game : Game) -> Unit {
     420,
     34,
     "MORALE",
-    game.morale / morale_max,
+    game.morale / @types.morale_max,
     @raylib.Color::new(48, 28, 40, 210),
     @raylib.Color::new(242, 96, 134, 236),
   )
@@ -513,15 +511,15 @@ fn draw_hud(game : Game) -> Unit {
 fn draw_controls_legend() -> Unit {
   @raylib.draw_rectangle(
     20,
-    screen_h - 64,
-    screen_w - 40,
+    @types.screen_h - 64,
+    @types.screen_w - 40,
     42,
     @raylib.Color::new(12, 16, 24, 210),
   )
   @raylib.draw_rectangle_lines(
     20,
-    screen_h - 64,
-    screen_w - 40,
+    @types.screen_h - 64,
+    @types.screen_w - 40,
     42,
     @raylib.Color::new(140, 164, 194, 120),
   )
@@ -529,29 +527,29 @@ fn draw_controls_legend() -> Unit {
   @raylib.draw_text(
     "WASD/Arrows Move   J Strike/Clear   K Guard/Stun   Space Hype Burst   P Pause   R Restart",
     38,
-    screen_h - 54,
+    @types.screen_h - 54,
     24,
     @raylib.Color::new(236, 242, 252, 230),
   )
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.msg_t <= 0.0 {
     return
   }
 
-  let alpha = clampi((game.msg_t * 190.0).to_int(), 0, 220)
+  let alpha = @types.clampi((game.msg_t * 190.0).to_int(), 0, 220)
   @raylib.draw_rectangle(
     380,
-    screen_h - 130,
+    @types.screen_h - 130,
     840,
     44,
     @raylib.Color::new(20, 26, 38, alpha),
   )
   @raylib.draw_rectangle_lines(
     380,
-    screen_h - 130,
+    @types.screen_h - 130,
     840,
     44,
     @raylib.Color::new(246, 214, 156, alpha),
@@ -560,19 +558,19 @@ fn draw_message(game : Game) -> Unit {
   @raylib.draw_text(
     game.msg,
     402,
-    screen_h - 120,
+    @types.screen_h - 120,
     24,
-    @raylib.Color::new(252, 244, 232, clampi(alpha + 40, 0, 255)),
+    @raylib.Color::new(252, 244, 232, @types.clampi(alpha + 40, 0, 255)),
   )
 }
 
 ///|
-fn draw_title_overlay(game : Game) -> Unit {
-  let p = pulse(game, 1.2)
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let p = @types.pulse(game, 1.2)
   let panel_w = 980
   let panel_h = 420
-  let panel_x = (screen_w - panel_w) / 2
-  let panel_y = (screen_h - panel_h) / 2 - 20
+  let panel_x = (@types.screen_w - panel_w) / 2
+  let panel_y = (@types.screen_h - panel_h) / 2 - 20
 
   @raylib.draw_rectangle(
     panel_x,
@@ -649,8 +647,8 @@ fn draw_pause_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 12, 18, 160),
   )
   @raylib.draw_rectangle(
@@ -685,12 +683,12 @@ fn draw_pause_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(16, 10, 16, 178),
   )
 
@@ -743,7 +741,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   let ox = shake_x(game)
   let oy = shake_y(game)
 
@@ -761,11 +759,11 @@ fn draw_frame(game : Game) -> Unit {
   draw_controls_legend()
   draw_message(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay(game)
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_pause_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }
