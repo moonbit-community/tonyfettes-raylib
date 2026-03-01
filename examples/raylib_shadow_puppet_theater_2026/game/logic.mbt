@@ -7,8 +7,12 @@ fn generate_sequence(game : @types.Game) -> Unit {
   let mut prev_ay = 99
 
   for i in 0..<len {
-    let mut ax = @raylib.get_random_value(@types.pose_axis_min, @types.pose_axis_max)
-    let ay = @raylib.get_random_value(@types.pose_axis_min, @types.pose_axis_max)
+    let mut ax = @raylib.get_random_value(
+      @types.pose_axis_min, @types.pose_axis_max,
+    )
+    let ay = @raylib.get_random_value(
+      @types.pose_axis_min, @types.pose_axis_max,
+    )
 
     if i > 0 && ax == prev_ax && ay == prev_ay {
       if ax < @types.pose_axis_max {
@@ -31,7 +35,7 @@ fn generate_sequence(game : @types.Game) -> Unit {
 
 ///|
 fn init_title_scene(game : @types.Game) -> Unit {
-  game.state = @types.state_title
+  game.state = @types.Title
   game.stage = 1
   game.score = 0
   game.combo = 0
@@ -51,12 +55,14 @@ fn init_title_scene(game : @types.Game) -> Unit {
   game.result_t = 0.0
   game.hit_count = 0
   game.miss_count = 0
-  @types.set_message(game, "Press ENTER, J, or SPACE to open the curtain.", 99.0)
+  @types.set_message(
+    game, "Press ENTER, J, or SPACE to open the curtain.", 99.0,
+  )
 }
 
 ///|
 fn start_show(game : @types.Game) -> Unit {
-  game.state = @types.state_play
+  game.state = @types.Play
   game.stage = 1
   game.score = 0
   game.combo = 0
@@ -171,7 +177,9 @@ fn lock_current_pose(game : @types.Game) -> Unit {
   let target = game.sequence[game.target_idx]
 
   if @types.same_pose(game.current_pose, target) {
-    game.history.push(@types.Pose::new(game.current_pose.ax, game.current_pose.ay))
+    game.history.push(
+      @types.Pose::new(game.current_pose.ax, game.current_pose.ay),
+    )
     game.target_idx = game.target_idx + 1
     game.hit_count = game.hit_count + 1
 
@@ -226,14 +234,18 @@ fn undo_last_pose(game : @types.Game) -> Unit {
   game.combo_t = 0.0
   game.spotlight = @types.maxf(0.0, game.spotlight - 5.5)
   game.excitement = @types.maxf(0.0, game.excitement - 3.0)
-  game.cue_time_left = @types.maxf(game.cue_time_left, game.cue_time_limit * 0.65)
+  game.cue_time_left = @types.maxf(
+    game.cue_time_left,
+    game.cue_time_limit * 0.65,
+  )
   @types.set_message(game, "Last locked pose undone.", 0.85)
 }
 
 ///|
 fn update_title_state(game : @types.Game) -> Unit {
   game.excitement = 18.0 + (0.5 + 0.5 * @types.sinf(game.scene_t * 0.8)) * 14.0
-  game.spotlight = @types.spotlight_start + @types.sinf(game.scene_t * 0.6) * 8.0
+  game.spotlight = @types.spotlight_start +
+    @types.sinf(game.scene_t * 0.6) * 8.0
 
   if game.input.start_pressed {
     start_show(game)
@@ -243,7 +255,7 @@ fn update_title_state(game : @types.Game) -> Unit {
 ///|
 fn update_play_state(game : @types.Game, dt : Float) -> Unit {
   if game.input.pause_pressed {
-    game.state = @types.state_paused
+    game.state = @types.Paused
     @types.set_message(game, "Show paused. Press P to resume.", 99.0)
     return
   }
@@ -271,7 +283,10 @@ fn update_play_state(game : @types.Game, dt : Float) -> Unit {
     }
   }
 
-  game.excitement = @types.maxf(0.0, game.excitement - sim_dt * @types.excitement_drain)
+  game.excitement = @types.maxf(
+    0.0,
+    game.excitement - sim_dt * @types.excitement_drain,
+  )
   let pressure = @types.spotlight_drain + Float::from_int(game.combo) * 0.22
   game.spotlight = @types.maxf(0.0, game.spotlight - sim_dt * pressure)
 
@@ -280,7 +295,7 @@ fn update_play_state(game : @types.Game, dt : Float) -> Unit {
   }
 
   if game.spotlight <= 0.0 {
-    game.state = @types.state_result
+    game.state = @types.Result
     game.result_t = 0.0
     @types.set_message(game, "Spotlight faded. Press R to restart.", 99.0)
   }
@@ -289,7 +304,7 @@ fn update_play_state(game : @types.Game, dt : Float) -> Unit {
 ///|
 fn update_paused_state(game : @types.Game) -> Unit {
   if game.input.pause_pressed {
-    game.state = @types.state_play
+    game.state = @types.Play
     @types.set_message(game, "Show resumed.", 0.8)
   }
 }
@@ -323,13 +338,10 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     return
   }
 
-  if game.state == @types.state_title {
-    update_title_state(game)
-  } else if game.state == @types.state_play {
-    update_play_state(game, dt)
-  } else if game.state == @types.state_paused {
-    update_paused_state(game)
-  } else {
-    update_result_state(game, dt)
+  match game.state {
+    @types.Title => update_title_state(game)
+    @types.Play => update_play_state(game, dt)
+    @types.Paused => update_paused_state(game)
+    @types.Result => update_result_state(game, dt)
   }
 }

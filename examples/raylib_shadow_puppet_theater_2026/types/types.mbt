@@ -1,4 +1,12 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  Paused
+  Result
+} derive(Eq)
+
+///|
 pub(all) struct Pose {
   mut ax : Int
   mut ay : Int
@@ -21,7 +29,7 @@ pub(all) struct Game {
   input : Input
   sequence : Array[Pose]
   history : Array[Pose]
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut score : Int
   mut best_score : Int
@@ -70,7 +78,7 @@ pub fn Game::new() -> Game {
     input: Input::new(),
     sequence: [],
     history: [],
-    state: state_title,
+    state: Title,
     stage: 1,
     score: 0,
     best_score: 0,
