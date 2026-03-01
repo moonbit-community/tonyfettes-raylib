@@ -1,5 +1,5 @@
 ///|
-struct Game {
+pub(all) struct Game {
   kinds : Array[Int]
   specials : Array[Int]
   jelly : Array[Int]
@@ -33,10 +33,14 @@ struct Game {
   mut swap_y0 : Int
   mut swap_x1 : Int
   mut swap_y1 : Int
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_press : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     kinds: Array::make(board_cells, 0),
     specials: Array::make(board_cells, special_none),
@@ -71,5 +75,9 @@ fn Game::new() -> Game {
     swap_y0: 0,
     swap_x1: 0,
     swap_y1: 0,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_press: false,
+    touch_count: 0,
   }
 }
