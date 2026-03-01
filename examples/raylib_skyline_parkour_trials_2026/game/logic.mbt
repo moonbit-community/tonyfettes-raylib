@@ -7,7 +7,7 @@ fn clear_stage_data(game : @types.Game) -> Unit {
 ///|
 fn push_tile(
   game : @types.Game,
-  kind : Int,
+  kind : @types.TileKind,
   x : Float,
   y : Float,
   w : Float,
@@ -27,13 +27,25 @@ fn push_tile(
 }
 
 ///|
-fn push_solid(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
-  push_tile(game, @types.tile_solid, x, y, w, h)
+fn push_solid(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+) -> Unit {
+  push_tile(game, @types.TileKind::Solid, x, y, w, h)
 }
 
 ///|
-fn push_hazard(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
-  push_tile(game, @types.tile_hazard, x, y, w, h)
+fn push_hazard(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+) -> Unit {
+  push_tile(game, @types.TileKind::Hazard, x, y, w, h)
 }
 
 ///|
@@ -60,7 +72,13 @@ fn push_checkpoint(
 }
 
 ///|
-fn set_goal(game : @types.Game, x : Float, y : Float, w : Float, h : Float) -> Unit {
+fn set_goal(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+  w : Float,
+  h : Float,
+) -> Unit {
   game.goal_x = x
   game.goal_y = y
   game.goal_w = w
@@ -188,7 +206,7 @@ fn load_stage(game : @types.Game, stage : Int) -> Unit {
   game.stage_time_s = 0.0
   game.bonus_popup_t = 0.0
   game.bonus_popup_value = 0
-  game.lose_reason = @types.lose_none
+  game.lose_reason = @types.LoseReason::None
 
   if game.stage == 1 {
     setup_stage_1(game)
@@ -204,7 +222,7 @@ fn load_stage(game : @types.Game, stage : Int) -> Unit {
 ///|
 pub fn init_title_scene(game : @types.Game) -> Unit {
   load_stage(game, 1)
-  game.state = @types.state_title
+  game.state = @types.GameState::Title
   game.timer_s = @types.stage_initial_time(1)
   game.run_time_s = 0.0
   game.checkpoints_hit = 0
@@ -216,13 +234,13 @@ fn begin_new_run(game : @types.Game) -> Unit {
   game.run_time_s = 0.0
   game.checkpoints_hit = 0
   load_stage(game, 1)
-  game.state = @types.state_play
+  game.state = @types.GameState::Play
 }
 
 ///|
-fn fail_run(game : @types.Game, reason : Int) -> Unit {
+fn fail_run(game : @types.Game, reason : @types.LoseReason) -> Unit {
   game.lose_reason = reason
-  game.state = @types.state_game_over
+  game.state = @types.GameState::GameOver
   game.pending_next_stage = 0
 }
 
@@ -241,20 +259,20 @@ fn hero_hits_hazard(game : @types.Game) -> Bool {
   let hero = game.hero
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != @types.tile_hazard {
+    if t.kind != @types.TileKind::Hazard {
       continue
     }
 
     if @types.overlap_rect(
-      hero.x,
-      hero.y,
-      @types.player_w,
-      @types.player_h,
-      t.x,
-      t.y,
-      t.w,
-      t.h,
-    ) {
+        hero.x,
+        hero.y,
+        @types.player_w,
+        @types.player_h,
+        t.x,
+        t.y,
+        t.w,
+        t.h,
+      ) {
       return true
     }
   }
@@ -271,15 +289,15 @@ fn collect_checkpoints(game : @types.Game) -> Unit {
 
     let cp = game.checkpoints[i]
     if @types.overlap_rect(
-      hero.x,
-      hero.y,
-      @types.player_w,
-      @types.player_h,
-      cp.x,
-      cp.y,
-      cp.w,
-      cp.h,
-    ) {
+        hero.x,
+        hero.y,
+        @types.player_w,
+        @types.player_h,
+        cp.x,
+        cp.y,
+        cp.w,
+        cp.h,
+      ) {
       game.checkpoints[i].taken = true
       game.checkpoints_hit = game.checkpoints_hit + 1
       add_bonus_time(game, cp.bonus_s)
@@ -325,20 +343,20 @@ fn move_hero_x(game : @types.Game, dt : Float) -> Unit {
 
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != @types.tile_solid {
+    if t.kind != @types.TileKind::Solid {
       continue
     }
 
     if @types.overlap_rect(
-      hero.x,
-      hero.y,
-      @types.player_w,
-      @types.player_h,
-      t.x,
-      t.y,
-      t.w,
-      t.h,
-    ) {
+        hero.x,
+        hero.y,
+        @types.player_w,
+        @types.player_h,
+        t.x,
+        t.y,
+        t.w,
+        t.h,
+      ) {
       if hero.vx > 0.0 {
         hero.x = t.x - @types.player_w
         hero.vx = 0.0
@@ -362,20 +380,20 @@ fn move_hero_y(game : @types.Game, dt : Float) -> Unit {
 
   for i in 0..<game.tile_count {
     let t = game.tiles[i]
-    if t.kind != @types.tile_solid {
+    if t.kind != @types.TileKind::Solid {
       continue
     }
 
     if @types.overlap_rect(
-      hero.x,
-      hero.y,
-      @types.player_w,
-      @types.player_h,
-      t.x,
-      t.y,
-      t.w,
-      t.h,
-    ) {
+        hero.x,
+        hero.y,
+        @types.player_w,
+        @types.player_h,
+        t.x,
+        t.y,
+        t.w,
+        t.h,
+      ) {
       if hero.vy > 0.0 {
         hero.y = t.y - @types.player_h
         hero.vy = 0.0
@@ -391,7 +409,11 @@ fn move_hero_y(game : @types.Game, dt : Float) -> Unit {
 }
 
 ///|
-fn apply_jump_buffer(hero : @types.Player, jump_pressed : Bool, dt : Float) -> Unit {
+fn apply_jump_buffer(
+  hero : @types.Player,
+  jump_pressed : Bool,
+  dt : Float,
+) -> Unit {
   hero.jump_buffer_t = @types.maxf(0.0, hero.jump_buffer_t - dt)
   if jump_pressed {
     hero.jump_buffer_t = @types.jump_buffer_time
@@ -465,10 +487,7 @@ fn update_hero_movement(game : @types.Game, dt : Float) -> Unit {
     hero.vy = hero.vy + @types.jump_cut_gravity * dt
   }
 
-  hero.vy = @types.minf(
-    @types.max_fall_speed,
-    hero.vy + @types.gravity * dt,
-  )
+  hero.vy = @types.minf(@types.max_fall_speed, hero.vy + @types.gravity * dt)
 
   move_hero_x(game, dt)
   move_hero_y(game, dt)
@@ -482,10 +501,10 @@ fn finish_stage(game : @types.Game) -> Unit {
       add_bonus_time(game, bonus)
     }
     game.pending_next_stage = game.stage + 1
-    game.state = @types.state_stage_clear
+    game.state = @types.GameState::StageClear
   } else {
     game.pending_next_stage = 0
-    game.state = @types.state_victory
+    game.state = @types.GameState::Victory
   }
 }
 
@@ -502,19 +521,19 @@ fn update_play_state(game : @types.Game, dt : Float) -> Unit {
   game.bonus_popup_t = @types.maxf(0.0, game.bonus_popup_t - dt)
 
   if game.timer_s <= 0.0 {
-    fail_run(game, @types.lose_time)
+    fail_run(game, @types.LoseReason::Time)
     return
   }
 
   update_hero_movement(game, dt)
 
   if game.hero.y > game.stage_fail_y {
-    fail_run(game, @types.lose_fall)
+    fail_run(game, @types.LoseReason::Fall)
     return
   }
 
   if hero_hits_hazard(game) {
-    fail_run(game, @types.lose_hazard)
+    fail_run(game, @types.LoseReason::HitHazard)
     return
   }
 
@@ -537,9 +556,9 @@ fn update_stage_clear_state(game : @types.Game) -> Unit {
       game.pending_next_stage <= @types.stage_count {
       let next_stage = game.pending_next_stage
       load_stage(game, next_stage)
-      game.state = @types.state_play
+      game.state = @types.GameState::Play
     } else {
-      game.state = @types.state_victory
+      game.state = @types.GameState::Victory
     }
   }
 }
@@ -561,38 +580,26 @@ fn update_victory_state(game : @types.Game) -> Unit {
 ///|
 pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   // Gather input first
-  if game.state == @types.state_title {
-    update_title_input(game)
-  } else if game.state == @types.state_play {
-    update_play_input(game)
-  } else if game.state == @types.state_stage_clear {
-    update_stage_clear_input(game)
-  } else if game.state == @types.state_game_over {
-    update_game_over_input(game)
-  } else {
-    update_victory_input(game)
+  match game.state {
+    @types.GameState::Title => update_title_input(game)
+    @types.GameState::Play => update_play_input(game)
+    @types.GameState::StageClear => update_stage_clear_input(game)
+    @types.GameState::GameOver => update_game_over_input(game)
+    @types.GameState::Victory => update_victory_input(game)
   }
 
   // Then update game state
-  if game.state == @types.state_title {
-    if game.input_next_press {
-      begin_new_run(game)
+  match game.state {
+    @types.GameState::Title => if game.input_next_press { begin_new_run(game) }
+    @types.GameState::Play => update_play_state(game, dt)
+    _ => {
+      game.bonus_popup_t = @types.maxf(0.0, game.bonus_popup_t - dt)
+      match game.state {
+        @types.GameState::StageClear => update_stage_clear_state(game)
+        @types.GameState::GameOver => update_game_over_state(game)
+        @types.GameState::Victory => update_victory_state(game)
+        _ => ()
+      }
     }
-    return
-  }
-
-  if game.state == @types.state_play {
-    update_play_state(game, dt)
-    return
-  }
-
-  game.bonus_popup_t = @types.maxf(0.0, game.bonus_popup_t - dt)
-
-  if game.state == @types.state_stage_clear {
-    update_stage_clear_state(game)
-  } else if game.state == @types.state_game_over {
-    update_game_over_state(game)
-  } else {
-    update_victory_state(game)
   }
 }

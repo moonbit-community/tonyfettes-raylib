@@ -133,53 +133,56 @@ fn draw_world_tiles(game : @types.Game, cam_x : Float) -> Unit {
       continue
     }
 
-    if t.kind == @types.tile_solid {
-      @raylib.draw_rectangle(
-        sx.to_int(),
-        t.y.to_int(),
-        t.w.to_int(),
-        t.h.to_int(),
-        @types.col_roof(),
-      )
-      @raylib.draw_rectangle(
-        sx.to_int(),
-        t.y.to_int(),
-        t.w.to_int(),
-        8,
-        @types.col_roof_edge(),
-      )
-      @raylib.draw_rectangle_lines(
-        sx.to_int(),
-        t.y.to_int(),
-        t.w.to_int(),
-        t.h.to_int(),
-        @raylib.Color::new(22, 26, 34, 210),
-      )
-    } else {
-      let pulse : Float = 0.5 +
-        0.5 * @types.sinf(game.run_time_s * 7.2 + t.x * 0.02)
-      let glow = 120 + (pulse * 96.0).to_int()
-      @raylib.draw_rectangle(
-        sx.to_int(),
-        t.y.to_int(),
-        t.w.to_int(),
-        t.h.to_int(),
-        @raylib.Color::new(220, 46, 52, 220),
-      )
-      @raylib.draw_rectangle(
-        sx.to_int(),
-        (t.y + 2.0).to_int(),
-        t.w.to_int(),
-        @types.clampi((t.h - 4.0).to_int(), 1, 2000),
-        @raylib.Color::new(255, 120, 70, @types.clampi(glow, 40, 250)),
-      )
-      @raylib.draw_rectangle_lines(
-        sx.to_int(),
-        t.y.to_int(),
-        t.w.to_int(),
-        t.h.to_int(),
-        @raylib.Color::new(255, 220, 170, 220),
-      )
+    match t.kind {
+      @types.TileKind::Solid => {
+        @raylib.draw_rectangle(
+          sx.to_int(),
+          t.y.to_int(),
+          t.w.to_int(),
+          t.h.to_int(),
+          @types.col_roof(),
+        )
+        @raylib.draw_rectangle(
+          sx.to_int(),
+          t.y.to_int(),
+          t.w.to_int(),
+          8,
+          @types.col_roof_edge(),
+        )
+        @raylib.draw_rectangle_lines(
+          sx.to_int(),
+          t.y.to_int(),
+          t.w.to_int(),
+          t.h.to_int(),
+          @raylib.Color::new(22, 26, 34, 210),
+        )
+      }
+      @types.TileKind::Hazard => {
+        let pulse : Float = 0.5 +
+          0.5 * @types.sinf(game.run_time_s * 7.2 + t.x * 0.02)
+        let glow = 120 + (pulse * 96.0).to_int()
+        @raylib.draw_rectangle(
+          sx.to_int(),
+          t.y.to_int(),
+          t.w.to_int(),
+          t.h.to_int(),
+          @raylib.Color::new(220, 46, 52, 220),
+        )
+        @raylib.draw_rectangle(
+          sx.to_int(),
+          (t.y + 2.0).to_int(),
+          t.w.to_int(),
+          @types.clampi((t.h - 4.0).to_int(), 1, 2000),
+          @raylib.Color::new(255, 120, 70, @types.clampi(glow, 40, 250)),
+        )
+        @raylib.draw_rectangle_lines(
+          sx.to_int(),
+          t.y.to_int(),
+          t.w.to_int(),
+          t.h.to_int(),
+          @raylib.Color::new(255, 220, 170, 220),
+        )
+      }
     }
   }
 }
@@ -304,11 +307,7 @@ fn draw_player(game : @types.Game, cam_x : Float) -> Unit {
   )
 
   if @types.absf(hero.vx) > 190.0 {
-    let trail_w = @types.clampi(
-      (@types.absf(hero.vx) * 0.045).to_int(),
-      8,
-      24,
-    )
+    let trail_w = @types.clampi((@types.absf(hero.vx) * 0.045).to_int(), 8, 24)
     let tx = if hero.facing > 0 {
       sx - Float::from_int(trail_w) - 3.0
     } else {
@@ -386,7 +385,7 @@ fn draw_hud(game : @types.Game) -> Unit {
     @types.col_text_dim(),
   )
 
-  if game.state == @types.state_play {
+  if game.state == @types.GameState::Play {
     @raylib.draw_text(
       "A/D or Arrow: move   SPACE: jump   SHIFT: wall climb",
       22,
@@ -558,15 +557,12 @@ fn draw_panel(title : String, subtitle : String) -> Unit {
 }
 
 ///|
-fn lose_reason_text(reason : Int) -> String {
-  if reason == @types.lose_time {
-    "Out of time"
-  } else if reason == @types.lose_fall {
-    "Missed the skyline"
-  } else if reason == @types.lose_hazard {
-    "Hit a hazard"
-  } else {
-    "Run failed"
+fn lose_reason_text(reason : @types.LoseReason) -> String {
+  match reason {
+    @types.LoseReason::Time => "Out of time"
+    @types.LoseReason::Fall => "Missed the skyline"
+    @types.LoseReason::HitHazard => "Hit a hazard"
+    @types.LoseReason::None => "Run failed"
   }
 }
 
@@ -739,17 +735,15 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_player(game, cam_x)
   draw_hud(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_stage_clear {
-    draw_stage_clear_overlay(game)
-  } else if game.state == @types.state_game_over {
-    draw_game_over_overlay(game)
-  } else if game.state == @types.state_victory {
-    draw_victory_overlay(game)
+  match game.state {
+    @types.GameState::Title => draw_title_overlay(game)
+    @types.GameState::StageClear => draw_stage_clear_overlay(game)
+    @types.GameState::GameOver => draw_game_over_overlay(game)
+    @types.GameState::Victory => draw_victory_overlay(game)
+    @types.GameState::Play => ()
   }
 
-  if game.touch_mode && game.state == @types.state_play {
+  if game.touch_mode && game.state == @types.GameState::Play {
     draw_play_touch_controls(game)
   }
 }

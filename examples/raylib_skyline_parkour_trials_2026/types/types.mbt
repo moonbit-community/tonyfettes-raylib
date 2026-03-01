@@ -1,6 +1,29 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  StageClear
+  GameOver
+  Victory
+} derive(Eq)
+
+///|
+pub(all) enum TileKind {
+  Solid
+  Hazard
+} derive(Eq)
+
+///|
+pub(all) enum LoseReason {
+  None
+  Time
+  Fall
+  HitHazard
+} derive(Eq)
+
+///|
 pub(all) struct Tile {
-  mut kind : Int
+  mut kind : TileKind
   mut x : Float
   mut y : Float
   mut w : Float
@@ -39,7 +62,7 @@ pub(all) struct Game {
   hero : Player
   mut tile_count : Int
   mut checkpoint_count : Int
-  mut state : Int
+  mut state : GameState
   mut stage : Int
   mut pending_next_stage : Int
   mut stage_width : Float
@@ -56,7 +79,7 @@ pub(all) struct Game {
   mut bonus_popup_t : Float
   mut bonus_popup_value : Int
   mut checkpoints_hit : Int
-  mut lose_reason : Int
+  mut lose_reason : LoseReason
   mut input_x : Float
   mut input_jump_press : Bool
   mut input_jump_hold : Bool
@@ -75,7 +98,7 @@ pub(all) struct Game {
 
 ///|
 pub fn Tile::new() -> Tile {
-  { kind: tile_solid, x: 0.0, y: 0.0, w: 0.0, h: 0.0 }
+  { kind: Solid, x: 0.0, y: 0.0, w: 0.0, h: 0.0 }
 }
 
 ///|
@@ -108,7 +131,7 @@ pub fn Game::new() -> Game {
     hero: Player::new(),
     tile_count: 0,
     checkpoint_count: 0,
-    state: state_title,
+    state: Title,
     stage: 1,
     pending_next_stage: 0,
     stage_width: Float::from_int(screen_w),
@@ -125,7 +148,7 @@ pub fn Game::new() -> Game {
     bonus_popup_t: 0.0,
     bonus_popup_value: 0,
     checkpoints_hit: 0,
-    lose_reason: lose_none,
+    lose_reason: None,
     input_x: 0.0,
     input_jump_press: false,
     input_jump_hold: false,

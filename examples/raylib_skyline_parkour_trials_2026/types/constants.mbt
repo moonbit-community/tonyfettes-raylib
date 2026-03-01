@@ -8,39 +8,6 @@ pub let screen_h : Int = 768
 pub let target_fps : Int = 120
 
 ///|
-pub let state_title : Int = 0
-
-///|
-pub let state_play : Int = 1
-
-///|
-pub let state_stage_clear : Int = 2
-
-///|
-pub let state_game_over : Int = 3
-
-///|
-pub let state_victory : Int = 4
-
-///|
-pub let tile_solid : Int = 0
-
-///|
-pub let tile_hazard : Int = 1
-
-///|
-pub let lose_none : Int = 0
-
-///|
-pub let lose_time : Int = 1
-
-///|
-pub let lose_fall : Int = 2
-
-///|
-pub let lose_hazard : Int = 3
-
-///|
 pub let stage_count : Int = 3
 
 ///|
