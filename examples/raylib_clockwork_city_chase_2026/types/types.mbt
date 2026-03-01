@@ -1,5 +1,5 @@
 ///|
-struct Obj {
+pub(all) struct Obj {
   mut active : Bool
   mut kind : Int
   mut x : Float
@@ -16,7 +16,7 @@ struct Obj {
 }
 
 ///|
-struct Shot {
+pub(all) struct Shot {
   mut active : Bool
   mut from_player : Bool
   mut x : Float
@@ -29,7 +29,7 @@ struct Shot {
 }
 
 ///|
-struct Spark {
+pub(all) struct Spark {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -41,7 +41,7 @@ struct Spark {
 }
 
 ///|
-struct ShockRing {
+pub(all) struct ShockRing {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -51,7 +51,7 @@ struct ShockRing {
 }
 
 ///|
-struct Ghost {
+pub(all) struct Ghost {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -63,7 +63,7 @@ struct Ghost {
 }
 
 ///|
-struct Player {
+pub(all) struct Player {
   mut x : Float
   mut y : Float
   mut vx : Float
@@ -78,7 +78,7 @@ struct Player {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   objs : Array[Obj]
   shots : Array[Shot]
   sparks : Array[Spark]
@@ -119,10 +119,14 @@ struct Game {
   mut touch_dash_prev : Bool
   mut touch_emp_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Obj::new() -> Obj {
+pub fn Obj::new() -> Obj {
   {
     active: false,
     kind: obj_scout,
@@ -141,7 +145,7 @@ fn Obj::new() -> Obj {
 }
 
 ///|
-fn Shot::new() -> Shot {
+pub fn Shot::new() -> Shot {
   {
     active: false,
     from_player: true,
@@ -156,7 +160,7 @@ fn Shot::new() -> Shot {
 }
 
 ///|
-fn Spark::new() -> Spark {
+pub fn Spark::new() -> Spark {
   {
     active: false,
     x: 0.0,
@@ -170,12 +174,12 @@ fn Spark::new() -> Spark {
 }
 
 ///|
-fn ShockRing::new() -> ShockRing {
+pub fn ShockRing::new() -> ShockRing {
   { active: false, x: 0.0, y: 0.0, r: 0.0, life: 0.0, kind: 0 }
 }
 
 ///|
-fn Ghost::new() -> Ghost {
+pub fn Ghost::new() -> Ghost {
   {
     active: false,
     x: 0.0,
@@ -189,7 +193,7 @@ fn Ghost::new() -> Ghost {
 }
 
 ///|
-fn Player::new() -> Player {
+pub fn Player::new() -> Player {
   {
     x: Float::from_int(screen_w / 2),
     y: Float::from_int(screen_h) * 0.76,
@@ -206,7 +210,7 @@ fn Player::new() -> Player {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     objs: Array::makei(max_objs, fn(_i) { Obj::new() }),
     shots: Array::makei(max_shots, fn(_i) { Shot::new() }),
@@ -248,5 +252,9 @@ fn Game::new() -> Game {
     touch_dash_prev: false,
     touch_emp_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }
