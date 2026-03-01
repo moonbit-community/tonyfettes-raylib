@@ -175,7 +175,13 @@ pub fn spawn_spark(
 }
 
 ///|
-pub fn burst_cell(game : Game, x : Int, y : Int, amount : Int, kind : Int) -> Unit {
+pub fn burst_cell(
+  game : Game,
+  x : Int,
+  y : Int,
+  amount : Int,
+  kind : Int,
+) -> Unit {
   let (cx, cy, tile_f) = world_center(game, x, y)
   let spread : Float = maxf(8.0, tile_f * 0.2)
 

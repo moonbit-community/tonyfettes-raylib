@@ -220,7 +220,7 @@ fn draw_board(game : @types.Game) -> Unit {
     )
   }
 
-  if game.state == @types.state_play {
+  if game.state == Play {
     let cx : Int = board_x + (game.cursor_x - 1) * tile
     let cy : Int = board_y + (game.cursor_y - 1) * tile
 
@@ -660,8 +660,7 @@ fn draw_title(game : @types.Game) -> Unit {
   @raylib.draw_text(
     "MatchLink Festival 2026",
     @types.screen_w / 2 -
-    @raylib.measure_text("MatchLink Festival 2026", 86) /
-    2,
+    @raylib.measure_text("MatchLink Festival 2026", 86) / 2,
     104,
     86,
     @raylib.Color::new(238, 248, 255, 248),
@@ -941,9 +940,12 @@ fn draw_campaign_overlay(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
-    draw_title(game)
-    return
+  match game.state {
+    Title => {
+      draw_title(game)
+      return
+    }
+    _ => ()
   }
 
   draw_board(game)
@@ -951,11 +953,10 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_touch_overlay(game)
   draw_sparks(game)
 
-  if game.state == @types.state_level_clear {
-    draw_level_clear_overlay(game)
-  } else if game.state == @types.state_campaign_clear {
-    draw_campaign_overlay(game)
-  } else if game.state == @types.state_fail {
-    draw_fail_overlay(game)
+  match game.state {
+    LevelClear => draw_level_clear_overlay(game)
+    CampaignClear => draw_campaign_overlay(game)
+    Fail => draw_fail_overlay(game)
+    _ => ()
   }
 }

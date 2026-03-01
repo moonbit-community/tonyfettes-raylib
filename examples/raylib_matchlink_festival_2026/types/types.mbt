@@ -1,4 +1,22 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+  Fail
+} derive(Eq)
+
+///|
+pub(all) enum Direction {
+  DirNone
+  Left
+  Right
+  Up
+  Down
+} derive(Eq)
+
+///|
 pub(all) struct LinkPath {
   found : Bool
   points : Int
@@ -44,7 +62,7 @@ pub(all) struct Spark {
 pub(all) struct Game {
   cells : Array[Int]
   sparks : Array[Spark]
-  mut state : Int
+  mut state : GameState
   mut level_index : Int
   level_count : Int
   mut level_name : String
@@ -82,7 +100,7 @@ pub(all) struct Game {
   mut hint_y0 : Int
   mut hint_x1 : Int
   mut hint_y1 : Int
-  mut hold_dir : Int
+  mut hold_dir : Direction
   mut repeat_t : Float
   mut touch_action_cd : Float
   mut message : String
@@ -114,7 +132,7 @@ pub fn Game::new() -> Game {
   {
     cells: Array::make(max_cells, 0),
     sparks: sparks_arr,
-    state: state_title,
+    state: Title,
     level_index: 0,
     level_count: 10,
     level_name: "",
@@ -152,7 +170,7 @@ pub fn Game::new() -> Game {
     hint_y0: 0,
     hint_x1: 0,
     hint_y1: 0,
-    hold_dir: dir_none,
+    hold_dir: DirNone,
     repeat_t: 0.0,
     touch_action_cd: 0.0,
     message: "",
