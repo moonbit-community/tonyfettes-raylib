@@ -68,37 +68,38 @@ fn draw_board_tiles(game : @types.Game) -> Unit {
     for x in 0..<@types.board_cols {
       let px = @types.cell_px(x)
       let py = @types.cell_py(y)
-      let t = @types.tile_at(game, x, y)
-
-      if t == @types.tile_wall {
-        @raylib.draw_rectangle(
-          px,
-          py,
-          @types.tile_size,
-          @types.tile_size,
-          @raylib.Color::new(60, 66, 80, 255),
-        )
-        @raylib.draw_rectangle(
-          px + 3,
-          py + 3,
-          @types.tile_size - 6,
-          @types.tile_size - 6,
-          @raylib.Color::new(90, 100, 116, 255),
-        )
-        @raylib.draw_rectangle_lines(
-          px,
-          py,
-          @types.tile_size,
-          @types.tile_size,
-          @raylib.Color::new(144, 158, 178, 170),
-        )
-      } else {
-        let c = if (x + y) % 2 == 0 {
-          @raylib.Color::new(24, 30, 42, 255)
-        } else {
-          @raylib.Color::new(20, 26, 38, 255)
+      match @types.tile_at(game, x, y) {
+        @types.Wall => {
+          @raylib.draw_rectangle(
+            px,
+            py,
+            @types.tile_size,
+            @types.tile_size,
+            @raylib.Color::new(60, 66, 80, 255),
+          )
+          @raylib.draw_rectangle(
+            px + 3,
+            py + 3,
+            @types.tile_size - 6,
+            @types.tile_size - 6,
+            @raylib.Color::new(90, 100, 116, 255),
+          )
+          @raylib.draw_rectangle_lines(
+            px,
+            py,
+            @types.tile_size,
+            @types.tile_size,
+            @raylib.Color::new(144, 158, 178, 170),
+          )
         }
-        @raylib.draw_rectangle(px, py, @types.tile_size, @types.tile_size, c)
+        @types.Floor => {
+          let c = if (x + y) % 2 == 0 {
+            @raylib.Color::new(24, 30, 42, 255)
+          } else {
+            @raylib.Color::new(20, 26, 38, 255)
+          }
+          @raylib.draw_rectangle(px, py, @types.tile_size, @types.tile_size, c)
+        }
       }
     }
   }
@@ -109,7 +110,7 @@ fn draw_guard_fov(game : @types.Game) -> Unit {
   for g in game.guards {
     for y in 0..<@types.board_rows {
       for x in 0..<@types.board_cols {
-        if @types.tile_at(game, x, y) == @types.tile_wall {
+        if @types.tile_at(game, x, y) == @types.Wall {
           continue
         }
         if @types.guard_sees_cell(game, g, x, y) {
@@ -318,12 +319,9 @@ fn draw_side_panel(game : @types.Game) -> Unit {
     @raylib.Color::new(188, 232, 208, 236),
   )
 
-  let stealth_status = if game.state == @types.state_lose {
-    "Status: Caught"
-  } else if game.alarm_t > 0.0 {
-    "Status: Alert"
-  } else {
-    "Status: Hidden"
+  let stealth_status = match game.state {
+    @types.Lose => "Status: Caught"
+    _ => if game.alarm_t > 0.0 { "Status: Alert" } else { "Status: Hidden" }
   }
   @raylib.draw_text(
     stealth_status,
@@ -480,29 +478,59 @@ fn draw_play_controls(game : @types.Game) -> Unit {
   let left_hot = @raylib.is_key_down(@raylib.KeyLeft) ||
     @raylib.is_key_down(@raylib.KeyA) ||
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, lx, ly, lw,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      lx,
+      ly,
+      lw,
       lh,
     )
   let right_hot = @raylib.is_key_down(@raylib.KeyRight) ||
     @raylib.is_key_down(@raylib.KeyD) ||
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry, rw,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      rx,
+      ry,
+      rw,
       rh,
     )
   let up_hot = @raylib.is_key_down(@raylib.KeyUp) ||
     @raylib.is_key_down(@raylib.KeyW) ||
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, ux, uy, uw,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      ux,
+      uy,
+      uw,
       uh,
     )
   let down_hot = @raylib.is_key_down(@raylib.KeyDown) ||
     @raylib.is_key_down(@raylib.KeyS) ||
     @types.pointer_on_rect(
-      game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, dx, dy, dw,
+      game.mouse_x,
+      game.mouse_y,
+      game.mouse_hold,
+      game.touch_count,
+      dx,
+      dy,
+      dw,
       dh,
     )
   let restart_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, bx, by, bw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    bx,
+    by,
+    bw,
     bh,
   )
 
@@ -591,11 +619,23 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
   let (sx, sy, sw, sh) = @types.start_button_rect()
   let (nx, ny, nw, nh) = @types.next_button_rect()
   let start_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, sx, sy, sw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    sx,
+    sy,
+    sw,
     sh,
   )
   let next_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, nx, ny, nw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    nx,
+    ny,
+    nw,
     nh,
   )
 
@@ -606,19 +646,29 @@ fn draw_title_overlay(game : @types.Game) -> Unit {
 ///|
 fn draw_win_overlay(game : @types.Game) -> Unit {
   draw_overlay_card(
-    "Floor Cleared",
-    "You secured the relics and escaped undetected.",
-    "Continue to the next wing or replay this floor.",
+    "Floor Cleared", "You secured the relics and escaped undetected.", "Continue to the next wing or replay this floor.",
   )
 
   let (rx, ry, rw, rh) = @types.retry_button_rect()
   let (nx, ny, nw, nh) = @types.next_button_rect()
   let retry_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry, rw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rx,
+    ry,
+    rw,
     rh,
   )
   let next_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, nx, ny, nw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    nx,
+    ny,
+    nw,
     nh,
   )
 
@@ -638,14 +688,18 @@ fn draw_win_overlay(game : @types.Game) -> Unit {
 ///|
 fn draw_lose_overlay(game : @types.Game) -> Unit {
   draw_overlay_card(
-    "Alarm Triggered",
-    "A guard spotted you in their cone of vision.",
-    "Retry the same floor and adjust your route.",
+    "Alarm Triggered", "A guard spotted you in their cone of vision.", "Retry the same floor and adjust your route.",
   )
 
   let (rx, ry, rw, rh) = @types.retry_button_rect()
   let retry_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, rx, ry, rw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    rx,
+    ry,
+    rw,
     rh,
   )
   draw_action_button(rx, ry, rw, rh, "RETRY FLOOR", retry_hot, true)
@@ -654,14 +708,19 @@ fn draw_lose_overlay(game : @types.Game) -> Unit {
 ///|
 fn draw_campaign_clear_overlay(game : @types.Game) -> Unit {
   draw_overlay_card(
-    "Grand Collection Secured",
-    "All museum wings cleared without raising a full lockdown.",
+    "Grand Collection Secured", "All museum wings cleared without raising a full lockdown.",
     "Return to title to launch another campaign.",
   )
 
   let (sx, sy, sw, sh) = @types.start_button_rect()
   let start_hot = @types.pointer_on_rect(
-    game.mouse_x, game.mouse_y, game.mouse_hold, game.touch_count, sx, sy, sw,
+    game.mouse_x,
+    game.mouse_y,
+    game.mouse_hold,
+    game.touch_count,
+    sx,
+    sy,
+    sw,
     sh,
   )
   draw_action_button(sx, sy, sw, sh, "BACK TO TITLE", start_hot, false)
@@ -686,19 +745,18 @@ pub fn draw_frame(game : @types.Game) -> Unit {
     @raylib.Color::new(174, 196, 220, 180),
   )
 
-  if game.state == @types.state_play {
-    draw_play_controls(game)
+  match game.state {
+    @types.Play => draw_play_controls(game)
+    _ => ()
   }
 
   draw_alarm_flash(game)
 
-  if game.state == @types.state_title {
-    draw_title_overlay(game)
-  } else if game.state == @types.state_win {
-    draw_win_overlay(game)
-  } else if game.state == @types.state_lose {
-    draw_lose_overlay(game)
-  } else if game.state == @types.state_campaign_clear {
-    draw_campaign_clear_overlay(game)
+  match game.state {
+    @types.Title => draw_title_overlay(game)
+    @types.Win => draw_win_overlay(game)
+    @types.Lose => draw_lose_overlay(game)
+    @types.CampaignClear => draw_campaign_clear_overlay(game)
+    @types.Play => ()
   }
 }

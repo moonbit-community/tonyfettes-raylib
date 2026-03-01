@@ -171,21 +171,21 @@ fn load_level(game : @types.Game, level_idx : Int) -> Unit {
 ///|
 pub fn reset_to_title(game : @types.Game) -> Unit {
   load_level(game, 0)
-  game.state = @types.state_title
+  game.state = @types.Title
   game.state_t = 0.0
 }
 
 ///|
 fn start_campaign(game : @types.Game) -> Unit {
   load_level(game, 0)
-  game.state = @types.state_play
+  game.state = @types.Play
   game.state_t = 0.0
 }
 
 ///|
 fn retry_level(game : @types.Game) -> Unit {
   load_level(game, game.level_index)
-  game.state = @types.state_play
+  game.state = @types.Play
   game.state_t = 0.0
 }
 
@@ -194,10 +194,10 @@ fn go_to_next_level(game : @types.Game) -> Unit {
   let next_level = game.level_index + 1
   if next_level < game.level_count {
     load_level(game, next_level)
-    game.state = @types.state_play
+    game.state = @types.Play
     game.state_t = 0.0
   } else {
-    game.state = @types.state_campaign_clear
+    game.state = @types.CampaignClear
     game.state_t = 0.0
   }
 }
@@ -206,13 +206,14 @@ fn go_to_next_level(game : @types.Game) -> Unit {
 fn preview_next_title_level(game : @types.Game) -> Unit {
   let next_level = (game.level_index + 1) % game.level_count
   load_level(game, next_level)
-  game.state = @types.state_title
+  game.state = @types.Title
 }
 
 ///|
-fn try_move_player(game : @types.Game, dir : Int) -> Unit {
-  if dir == @types.dir_none {
-    return
+fn try_move_player(game : @types.Game, dir : @types.Direction) -> Unit {
+  match dir {
+    @types.DirNone => return
+    _ => ()
   }
   if game.player_step_t > 0.0 {
     return
@@ -315,16 +316,16 @@ fn current_level_is_last(game : @types.Game) -> Bool {
 ///|
 fn complete_level(game : @types.Game) -> Unit {
   if current_level_is_last(game) {
-    game.state = @types.state_campaign_clear
+    game.state = @types.CampaignClear
   } else {
-    game.state = @types.state_win
+    game.state = @types.Win
   }
   game.state_t = 0.0
 }
 
 ///|
 fn trigger_loss(game : @types.Game) -> Unit {
-  game.state = @types.state_lose
+  game.state = @types.Lose
   game.state_t = 0.0
   game.alarm_t = @types.alarm_flash_time
 }
@@ -406,10 +407,7 @@ fn update_lose(game : @types.Game, input : @types.FrameInput) -> Unit {
 }
 
 ///|
-fn update_campaign_clear(
-  game : @types.Game,
-  input : @types.FrameInput,
-) -> Unit {
+fn update_campaign_clear(game : @types.Game, input : @types.FrameInput) -> Unit {
   if not(actions_ready(game)) {
     return
   }
@@ -441,15 +439,11 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
     }
   }
 
-  if game.state == @types.state_title {
-    update_title(game, input)
-  } else if game.state == @types.state_play {
-    update_play(game, capped_dt, input)
-  } else if game.state == @types.state_win {
-    update_win(game, input)
-  } else if game.state == @types.state_lose {
-    update_lose(game, input)
-  } else {
-    update_campaign_clear(game, input)
+  match game.state {
+    @types.Title => update_title(game, input)
+    @types.Play => update_play(game, capped_dt, input)
+    @types.Win => update_win(game, input)
+    @types.Lose => update_lose(game, input)
+    @types.CampaignClear => update_campaign_clear(game, input)
   }
 }
