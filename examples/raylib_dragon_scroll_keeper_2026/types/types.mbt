@@ -1,5 +1,5 @@
 ///|
-struct Breach {
+pub(all) struct Breach {
   room : Int
   mut severity : Float
   mut raider_cd : Float
@@ -7,7 +7,7 @@ struct Breach {
 }
 
 ///|
-struct Raider {
+pub(all) struct Raider {
   active : Bool
   mut room : Int
   mut x : Float
@@ -19,7 +19,7 @@ struct Raider {
 }
 
 ///|
-struct Flame {
+pub(all) struct Flame {
   active : Bool
   room : Int
   x : Float
@@ -29,7 +29,7 @@ struct Flame {
 }
 
 ///|
-struct Keeper {
+pub(all) struct Keeper {
   mut room : Int
   mut x : Float
   mut y : Float
@@ -44,7 +44,7 @@ struct Keeper {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   breaches : Array[Breach]
   raiders : Array[Raider]
   flames : Array[Flame]
@@ -74,12 +74,12 @@ struct Game {
 }
 
 ///|
-fn Breach::new(room : Int) -> Breach {
+pub fn Breach::new(room : Int) -> Breach {
   { room, severity: 0.0, raider_cd: randf(0.8, 1.6), ember_cd: randf(0.7, 1.4) }
 }
 
 ///|
-fn Raider::new() -> Raider {
+pub fn Raider::new() -> Raider {
   {
     active: false,
     room: 0,
@@ -93,12 +93,12 @@ fn Raider::new() -> Raider {
 }
 
 ///|
-fn Flame::new() -> Flame {
+pub fn Flame::new() -> Flame {
   { active: false, room: 0, x: 0.0, y: 0.0, intensity: 0.0, spread_cd: 0.0 }
 }
 
 ///|
-fn Keeper::new() -> Keeper {
+pub fn Keeper::new() -> Keeper {
   {
     room: vault_room,
     x: chamber_center_x(),
@@ -115,7 +115,7 @@ fn Keeper::new() -> Keeper {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     breaches: Array::makei(chamber_count, fn(room) { Breach::new(room) }),
     raiders: Array::makei(max_raiders, fn(_i) { Raider::new() }),

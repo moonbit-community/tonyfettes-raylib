@@ -6,7 +6,7 @@ fn draw_center_text(
   color : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, color)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, color)
 }
 
 ///|
@@ -15,7 +15,7 @@ fn alpha_col(c : @raylib.Color, alpha : Int) -> @raylib.Color {
     c.r.to_int(),
     c.g.to_int(),
     c.b.to_int(),
-    clampi(alpha, 0, 255),
+    @types.clampi(alpha, 0, 255),
   )
 }
 
@@ -31,17 +31,24 @@ fn room_fill_color(room : Int) -> @raylib.Color {
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   let pulse : Float = 0.5 +
     0.5 * Float::from_int((game.time_s * 60.0).to_int() % 120) / 120.0
   let top = @raylib.Color::new(10, 16, 24 + (pulse * 18.0).to_int(), 255)
   let bottom = @raylib.Color::new(30, 14, 18, 255)
 
-  @raylib.draw_rectangle_gradient_v(0, 0, screen_w, screen_h, top, bottom)
+  @raylib.draw_rectangle_gradient_v(
+    0,
+    0,
+    @types.screen_w,
+    @types.screen_h,
+    top,
+    bottom,
+  )
 
   for i in 0..<120 {
-    let x = (i * 97 + i * i * 23) % screen_w
-    let y = (i * 41 + i * 17) % screen_h
+    let x = (i * 97 + i * i * 23) % @types.screen_w
+    let y = (i * 41 + i * 17) % @types.screen_h
     let tw = (i * 37 + (game.time_s * 120.0).to_int()) % 100
     let alpha = 40 + tw
     @raylib.draw_circle(
@@ -54,11 +61,11 @@ fn draw_background(game : Game) -> Unit {
 }
 
 ///|
-fn draw_chamber_shell(game : Game) -> Unit {
-  let x = chamber_left.to_int()
-  let y = chamber_top.to_int()
-  let w = chamber_w.to_int()
-  let h = chamber_h.to_int()
+fn draw_chamber_shell(game : @types.Game) -> Unit {
+  let x = @types.chamber_left.to_int()
+  let y = @types.chamber_top.to_int()
+  let w = @types.chamber_w.to_int()
+  let h = @types.chamber_h.to_int()
 
   @raylib.draw_rectangle(
     x,
@@ -75,8 +82,8 @@ fn draw_chamber_shell(game : Game) -> Unit {
     @raylib.Color::new(178, 202, 222, 220),
   )
 
-  let door_y = (door_center_y - door_half_h).to_int()
-  let door_h = (door_half_h * 2.0).to_int()
+  let door_y = (@types.door_center_y - @types.door_half_h).to_int()
+  let door_h = (@types.door_half_h * 2.0).to_int()
 
   if game.keeper.room > 0 {
     @raylib.draw_rectangle(
@@ -95,7 +102,7 @@ fn draw_chamber_shell(game : Game) -> Unit {
     )
   }
 
-  if game.keeper.room < chamber_count - 1 {
+  if game.keeper.room < @types.chamber_count - 1 {
     @raylib.draw_rectangle(
       x + w - 8,
       door_y,
@@ -113,7 +120,7 @@ fn draw_chamber_shell(game : Game) -> Unit {
   }
 
   @raylib.draw_text(
-    room_name(game.keeper.room),
+    @types.room_name(game.keeper.room),
     x + 20,
     y + 14,
     26,
@@ -122,15 +129,15 @@ fn draw_chamber_shell(game : Game) -> Unit {
 }
 
 ///|
-fn draw_vault_core(game : Game) -> Unit {
-  if game.keeper.room != vault_room {
+fn draw_vault_core(game : @types.Game) -> Unit {
+  if game.keeper.room != @types.vault_room {
     return
   }
 
   let pulse : Float = 6.0 +
     Float::from_int((game.time_s * 100.0).to_int() % 100) / 20.0
-  let x = vault_core_x().to_int()
-  let y = vault_core_y().to_int()
+  let x = @types.vault_core_x().to_int()
+  let y = @types.vault_core_y().to_int()
 
   @raylib.draw_circle(x, y, 42.0 + pulse, @raylib.Color::new(56, 90, 132, 70))
   @raylib.draw_circle(x, y, 34.0, @raylib.Color::new(82, 162, 206, 220))
@@ -150,16 +157,16 @@ fn draw_vault_core(game : Game) -> Unit {
 }
 
 ///|
-fn draw_breaches(game : Game) -> Unit {
+fn draw_breaches(game : @types.Game) -> Unit {
   for breach in game.breaches {
     if breach.room != game.keeper.room {
       continue
     }
 
-    let x = breach_anchor_x(breach.room)
-    let y = breach_anchor_y(breach.room)
+    let x = @types.breach_anchor_x(breach.room)
+    let y = @types.breach_anchor_y(breach.room)
     let severity = breach.severity
-    let ratio = clamp01(severity / breach_severity_max)
+    let ratio = @types.clamp01(severity / @types.breach_severity_max)
 
     if severity > 0.0 {
       let radius : Float = 16.0 + ratio * 28.0
@@ -201,13 +208,13 @@ fn draw_breaches(game : Game) -> Unit {
 }
 
 ///|
-fn draw_flames(game : Game) -> Unit {
+fn draw_flames(game : @types.Game) -> Unit {
   for flame in game.flames {
     if not(flame.active) || flame.room != game.keeper.room {
       continue
     }
 
-    let heat = clamp01(flame.intensity / 100.0)
+    let heat = @types.clamp01(flame.intensity / 100.0)
     @raylib.draw_circle(
       flame.x.to_int(),
       flame.y.to_int(),
@@ -224,7 +231,7 @@ fn draw_flames(game : Game) -> Unit {
 }
 
 ///|
-fn draw_raiders(game : Game) -> Unit {
+fn draw_raiders(game : @types.Game) -> Unit {
   for raider in game.raiders {
     if not(raider.active) || raider.room != game.keeper.room {
       continue
@@ -234,17 +241,17 @@ fn draw_raiders(game : Game) -> Unit {
     @raylib.draw_circle(
       raider.x.to_int(),
       raider.y.to_int(),
-      raider_radius,
+      @types.raider_radius,
       @raylib.Color::new(212, 72, 86, panic_alpha),
     )
     @raylib.draw_circle_lines(
       raider.x.to_int(),
       raider.y.to_int(),
-      raider_radius + 3.0,
+      @types.raider_radius + 3.0,
       @raylib.Color::new(252, 162, 174, 210),
     )
 
-    let ratio = clamp01(raider.hp / raider.max_hp)
+    let ratio = @types.clamp01(raider.hp / raider.max_hp)
     let bx = raider.x.to_int() - 20
     let by = raider.y.to_int() - 24
     @raylib.draw_rectangle(bx, by, 40, 4, @raylib.Color::new(28, 18, 24, 220))
@@ -259,7 +266,7 @@ fn draw_raiders(game : Game) -> Unit {
 }
 
 ///|
-fn draw_keeper(game : Game) -> Unit {
+fn draw_keeper(game : @types.Game) -> Unit {
   let x = game.keeper.x.to_int()
   let y = game.keeper.y.to_int()
 
@@ -269,11 +276,11 @@ fn draw_keeper(game : Game) -> Unit {
     @raylib.Color::new(126, 198, 255, 255)
   }
 
-  @raylib.draw_circle(x, y, keeper_radius, keeper_col)
+  @raylib.draw_circle(x, y, @types.keeper_radius, keeper_col)
   @raylib.draw_circle_lines(
     x,
     y,
-    keeper_radius + 3.0,
+    @types.keeper_radius + 3.0,
     @raylib.Color::new(238, 248, 255, 230),
   )
 
@@ -290,17 +297,19 @@ fn draw_keeper(game : Game) -> Unit {
     @raylib.draw_circle_lines(
       x,
       y,
-      extinguisher_range,
+      @types.extinguisher_range,
       @raylib.Color::new(120, 240, 210, 72),
     )
   }
 
   if game.keeper.shield_t > 0.0 {
-    let shield_ratio = clamp01(game.keeper.shield_t / ink_shield_duration)
+    let shield_ratio = @types.clamp01(
+      game.keeper.shield_t / @types.ink_shield_duration,
+    )
     @raylib.draw_circle_lines(
       x,
       y,
-      ink_shield_radius * (0.85 + 0.2 * shield_ratio),
+      @types.ink_shield_radius * (0.85 + 0.2 * shield_ratio),
       @raylib.Color::new(
         136,
         210,
@@ -312,7 +321,7 @@ fn draw_keeper(game : Game) -> Unit {
 }
 
 ///|
-fn count_raiders_in_room(game : Game, room : Int) -> Int {
+fn count_raiders_in_room(game : @types.Game, room : Int) -> Int {
   let mut count = 0
   for raider in game.raiders {
     if raider.active && raider.room == room {
@@ -323,7 +332,7 @@ fn count_raiders_in_room(game : Game, room : Int) -> Int {
 }
 
 ///|
-fn count_flames_in_room(game : Game, room : Int) -> Int {
+fn count_flames_in_room(game : @types.Game, room : Int) -> Int {
   let mut count = 0
   for flame in game.flames {
     if flame.active && flame.room == room {
@@ -334,7 +343,7 @@ fn count_flames_in_room(game : Game, room : Int) -> Int {
 }
 
 ///|
-fn draw_room_minimap(game : Game) -> Unit {
+fn draw_room_minimap(game : @types.Game) -> Unit {
   let panel_x = 24
   let panel_y = 20
   let panel_w = 420
@@ -355,7 +364,7 @@ fn draw_room_minimap(game : Game) -> Unit {
     @raylib.Color::new(116, 144, 172, 185),
   )
 
-  for room in 0..<chamber_count {
+  for room in 0..< @types.chamber_count {
     let x = panel_x + 16 + room * 132
     let y = panel_y + 16
     let w = 120
@@ -387,8 +396,8 @@ fn draw_room_minimap(game : Game) -> Unit {
       },
     )
 
-    let breach_ratio = clamp01(
-      game.breaches[room].severity / breach_severity_max,
+    let breach_ratio = @types.clamp01(
+      game.breaches[room].severity / @types.breach_severity_max,
     )
     @raylib.draw_rectangle(
       x + 8,
@@ -406,7 +415,7 @@ fn draw_room_minimap(game : Game) -> Unit {
     )
 
     @raylib.draw_text(
-      room_name(room),
+      @types.room_name(room),
       x + 8,
       y + 8,
       15,
@@ -436,7 +445,7 @@ fn draw_meter(
   col : @raylib.Color,
   value_text : String,
 ) -> Unit {
-  let r = clamp01(ratio)
+  let r = @types.clamp01(ratio)
   @raylib.draw_text(
     label,
     x,
@@ -463,10 +472,10 @@ fn draw_meter(
 }
 
 ///|
-fn draw_hud(game : Game) -> Unit {
+fn draw_hud(game : @types.Game) -> Unit {
   let panel_x = 24
-  let panel_y = screen_h - 168
-  let panel_w = screen_w - 48
+  let panel_y = @types.screen_h - 168
+  let panel_w = @types.screen_w - 48
   let panel_h = 144
 
   @raylib.draw_rectangle(
@@ -490,7 +499,7 @@ fn draw_hud(game : Game) -> Unit {
     320,
     20,
     "Scroll Integrity",
-    game.scroll_integrity / scroll_integrity_max,
+    game.scroll_integrity / @types.scroll_integrity_max,
     @raylib.Color::new(126, 226, 174, 230),
     game.scroll_integrity.to_int().to_string() + "%",
   )
@@ -501,7 +510,7 @@ fn draw_hud(game : Game) -> Unit {
     320,
     20,
     "Stamina",
-    game.keeper.stamina / keeper_stamina_max,
+    game.keeper.stamina / @types.keeper_stamina_max,
     @raylib.Color::new(112, 194, 246, 232),
     game.keeper.stamina.to_int().to_string(),
   )
@@ -509,7 +518,8 @@ fn draw_hud(game : Game) -> Unit {
   let shield_ready_ratio : Float = if game.keeper.shield_cd <= 0.0 {
     Float::from_int(1)
   } else {
-    Float::from_int(1) - clamp01(game.keeper.shield_cd / ink_shield_cooldown)
+    Float::from_int(1) -
+    @types.clamp01(game.keeper.shield_cd / @types.ink_shield_cooldown)
   }
   draw_meter(
     panel_x + 410,
@@ -526,7 +536,7 @@ fn draw_hud(game : Game) -> Unit {
     "Wave " +
     game.wave.to_string() +
     "  Time " +
-    maxf(0.0, game.wave_goal_t - game.wave_t).to_int().to_string() +
+    @types.maxf(0.0, game.wave_goal_t - game.wave_t).to_int().to_string() +
     "s",
     panel_x + 410,
     panel_y + 82,
@@ -581,22 +591,22 @@ fn draw_hud(game : Game) -> Unit {
 }
 
 ///|
-fn draw_message(game : Game) -> Unit {
+fn draw_message(game : @types.Game) -> Unit {
   if game.message_t <= 0.0 {
     return
   }
 
-  let alpha = clampi(
+  let alpha = @types.clampi(
     (Float::from_int(80) + game.message_t * 180.0).to_int(),
     70,
     230,
   )
-  let y = screen_h - 206
+  let y = @types.screen_h - 206
 
   @raylib.draw_rectangle(
     24,
     y,
-    screen_w - 48,
+    @types.screen_w - 48,
     28,
     @raylib.Color::new(12, 20, 30, alpha),
   )
@@ -614,8 +624,8 @@ fn draw_title_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(6, 10, 16, 132),
   )
 
@@ -657,8 +667,8 @@ fn draw_paused_overlay() -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(4, 8, 14, 158),
   )
   draw_center_text("PAUSED", 284, 76, @raylib.Color::new(238, 248, 255, 248))
@@ -671,12 +681,12 @@ fn draw_paused_overlay() -> Unit {
 }
 
 ///|
-fn draw_game_over_overlay(game : Game) -> Unit {
+fn draw_game_over_overlay(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(18, 8, 10, 166),
   )
   draw_center_text(
@@ -716,7 +726,7 @@ fn draw_game_over_overlay(game : Game) -> Unit {
 }
 
 ///|
-fn draw_frame(game : Game) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_chamber_shell(game)
   draw_vault_core(game)
@@ -729,11 +739,11 @@ fn draw_frame(game : Game) -> Unit {
   draw_hud(game)
   draw_message(game)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
     draw_title_overlay()
-  } else if game.state == state_paused {
+  } else if game.state == @types.state_paused {
     draw_paused_overlay()
-  } else if game.state == state_game_over {
+  } else if game.state == @types.state_game_over {
     draw_game_over_overlay(game)
   }
 }
