@@ -1,4 +1,37 @@
 ///|
+pub(all) enum GameState {
+  Title
+  Play
+  LevelClear
+  CampaignClear
+} derive(Eq)
+
+///|
+pub(all) enum Direction {
+  None
+  Left
+  Right
+  Up
+  Down
+} derive(Eq)
+
+///|
+pub(all) enum Tile {
+  Void
+  Floor
+  Wall
+  Goal
+} derive(Eq)
+
+///|
+pub(all) enum SparkKind {
+  Gold
+  Orange
+  Red
+  Blue
+} derive(Eq)
+
+///|
 pub(all) struct UndoStep {
   mut valid : Bool
   player_x : Int
@@ -21,16 +54,16 @@ pub(all) struct Spark {
   mut vy : Float
   mut life : Float
   mut size : Float
-  mut kind : Int
+  mut kind : SparkKind
 }
 
 ///|
 pub(all) struct Game {
-  tiles : Array[Int]
+  tiles : Array[Tile]
   boxes : Array[Bool]
   undo : Array[UndoStep]
   sparks : Array[Spark]
-  mut state : Int
+  mut state : GameState
   mut level_index : Int
   mut level_name : String
   mut level_par : Int
@@ -53,7 +86,7 @@ pub(all) struct Game {
   mut message_t : Float
   mut shake_t : Float
   mut pulse_t : Float
-  mut hold_dir : Int
+  mut hold_dir : Direction
   mut repeat_t : Float
   mut touch_action_cd : Float
   mut mouse_x : Float
@@ -89,16 +122,16 @@ pub fn Game::new() -> Game {
       vy: 0.0,
       life: 0.0,
       size: 0.0,
-      kind: 0,
+      kind: Gold,
     }
   })
 
   {
-    tiles: Array::make(board_cells, tile_void),
+    tiles: Array::make(board_cells, Void),
     boxes: Array::make(board_cells, false),
     undo: undo_arr,
     sparks: spark_arr,
-    state: state_title,
+    state: Title,
     level_index: 0,
     level_name: "",
     level_par: 0,
@@ -121,7 +154,7 @@ pub fn Game::new() -> Game {
     message_t: 0.0,
     shake_t: 0.0,
     pulse_t: 0.0,
-    hold_dir: touch_none,
+    hold_dir: None,
     repeat_t: 0.0,
     touch_action_cd: 0.0,
     mouse_x: 0.0,

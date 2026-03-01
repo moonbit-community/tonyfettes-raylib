@@ -1,7 +1,7 @@
 ///|
 fn clear_board(game : @types.Game) -> Unit {
   for i in 0..<game.tiles.length() {
-    game.tiles[i] = @types.tile_void
+    game.tiles[i] = @types.Tile::Void
     game.boxes[i] = false
   }
 }
@@ -24,7 +24,7 @@ fn clear_sparks(game : @types.Game) -> Unit {
     spark.vy = 0.0
     spark.life = 0.0
     spark.size = 0.0
-    spark.kind = 0
+    spark.kind = @types.SparkKind::Gold
   }
 }
 
@@ -48,7 +48,7 @@ fn apply_level_rows(
   game.last_level_stars = 0
   game.shake_t = 0.0
   game.pulse_t = 0.0
-  game.hold_dir = @types.touch_none
+  game.hold_dir = @types.Direction::None
   game.repeat_t = 0.0
   game.touch_action_cd = 0.0
 
@@ -69,28 +69,28 @@ fn apply_level_rows(
     for x in 0..<game.grid_w {
       let code : Int = if x < row.length() { row[x] } else { 0 }
 
-      let mut base : Int = @types.tile_void
+      let mut base : @types.Tile = @types.Tile::Void
       let mut has_box : Bool = false
 
       if code == 2 {
-        base = @types.tile_wall
+        base = @types.Tile::Wall
       } else if code == 1 {
-        base = @types.tile_floor
+        base = @types.Tile::Floor
       } else if code == 3 {
-        base = @types.tile_goal
+        base = @types.Tile::Goal
       } else if code == 4 {
-        base = @types.tile_floor
+        base = @types.Tile::Floor
         has_box = true
       } else if code == 5 {
-        base = @types.tile_floor
+        base = @types.Tile::Floor
         game.player_x = x
         game.player_y = y
         found_player = true
       } else if code == 6 {
-        base = @types.tile_goal
+        base = @types.Tile::Goal
         has_box = true
       } else if code == 7 {
-        base = @types.tile_goal
+        base = @types.Tile::Goal
         game.player_x = x
         game.player_y = y
         found_player = true
@@ -99,7 +99,7 @@ fn apply_level_rows(
       @types.set_tile(game, x, y, base)
       @types.set_box(game, x, y, has_box)
 
-      if base == @types.tile_goal {
+      if base == @types.Tile::Goal {
         game.goals_total = game.goals_total + 1
       }
     }
@@ -110,7 +110,7 @@ fn apply_level_rows(
     for y in 0..<game.grid_h {
       for x in 0..<game.grid_w {
         let t = @types.tile_at(game, x, y)
-        if t == @types.tile_floor || t == @types.tile_goal {
+        if t == @types.Tile::Floor || t == @types.Tile::Goal {
           game.player_x = x
           game.player_y = y
           placed = true
@@ -127,7 +127,7 @@ fn apply_level_rows(
     // Fallback for malformed levels.
     let gx : Int = @types.clampi(game.grid_w / 2, 0, @types.board_cols - 1)
     let gy : Int = @types.clampi(game.grid_h / 2, 0, @types.board_rows - 1)
-    @types.set_tile(game, gx, gy, @types.tile_goal)
+    @types.set_tile(game, gx, gy, @types.Tile::Goal)
     game.goals_total = 1
   }
 }
@@ -141,14 +141,14 @@ fn level_completed(game : @types.Game) -> Bool {
 }
 
 ///|
-fn direction_delta(dir : Int) -> (Int, Int) {
-  if dir == @types.touch_left {
+fn direction_delta(dir : @types.Direction) -> (Int, Int) {
+  if dir == @types.Direction::Left {
     (-1, 0)
-  } else if dir == @types.touch_right {
+  } else if dir == @types.Direction::Right {
     (1, 0)
-  } else if dir == @types.touch_up {
+  } else if dir == @types.Direction::Up {
     (0, -1)
-  } else if dir == @types.touch_down {
+  } else if dir == @types.Direction::Down {
     (0, 1)
   } else {
     (0, 0)
@@ -164,7 +164,7 @@ fn spawn_spark(
   vy : Float,
   life : Float,
   size : Float,
-  kind : Int,
+  kind : @types.SparkKind,
 ) -> Unit {
   for spark in game.sparks {
     if spark.active {
@@ -189,7 +189,7 @@ fn burst_cell(
   cell_x : Int,
   cell_y : Int,
   amount : Int,
-  kind : Int,
+  kind : @types.SparkKind,
 ) -> Unit {
   let cx : Float = Float::from_int(cell_x) + 0.5
   let cy : Float = Float::from_int(cell_y) + 0.5
@@ -246,7 +246,7 @@ fn blocked_feedback(game : @types.Game, x : Int, y : Int) -> Unit {
   game.shake_t = 0.17
   game.message = "Blocked"
   game.message_t = 0.32
-  burst_cell(game, x, y, 7, 2)
+  burst_cell(game, x, y, 7, @types.SparkKind::Red)
 }
 
 ///|
@@ -263,7 +263,7 @@ fn attempt_move(game : @types.Game, dx : Int, dy : Int) -> Bool {
     return false
   }
 
-  let target_tile : Int = @types.tile_at(game, nx, ny)
+  let target_tile = @types.tile_at(game, nx, ny)
   if not(@types.walkable_tile(target_tile)) {
     blocked_feedback(game, nx, ny)
     return false
@@ -291,7 +291,7 @@ fn attempt_move(game : @types.Game, dx : Int, dy : Int) -> Bool {
       return false
     }
 
-    let behind_tile : Int = @types.tile_at(game, bx, by)
+    let behind_tile = @types.tile_at(game, bx, by)
     if not(@types.walkable_tile(behind_tile)) || @types.box_at(game, bx, by) {
       blocked_feedback(game, nx, ny)
       return false
@@ -307,9 +307,9 @@ fn attempt_move(game : @types.Game, dx : Int, dy : Int) -> Bool {
     @types.set_box(game, bx, by, true)
     game.pushes = game.pushes + 1
 
-    burst_cell(game, nx, ny, 10, 1)
-    if @types.tile_at(game, bx, by) == @types.tile_goal {
-      burst_cell(game, bx, by, 16, 0)
+    burst_cell(game, nx, ny, 10, @types.SparkKind::Orange)
+    if @types.tile_at(game, bx, by) == @types.Tile::Goal {
+      burst_cell(game, bx, by, 16, @types.SparkKind::Gold)
       game.message = "Crate locked"
       game.message_t = 0.5
     }
@@ -321,7 +321,7 @@ fn attempt_move(game : @types.Game, dx : Int, dy : Int) -> Bool {
   game.pulse_t = game.pulse_t + 0.13
 
   push_undo(game, step)
-  burst_cell(game, game.player_x, game.player_y, 6, 3)
+  burst_cell(game, game.player_x, game.player_y, 6, @types.SparkKind::Blue)
 
   true
 }
@@ -347,7 +347,7 @@ fn undo_move(game : @types.Game) -> Bool {
   if step.pushed_box {
     @types.set_box(game, step.box_to_x, step.box_to_y, false)
     @types.set_box(game, step.box_from_x, step.box_from_y, true)
-    burst_cell(game, step.box_from_x, step.box_from_y, 12, 2)
+    burst_cell(game, step.box_from_x, step.box_from_y, 12, @types.SparkKind::Red)
   }
 
   game.shake_t = 0.08
@@ -394,16 +394,16 @@ fn complete_level(game : @types.Game) -> Unit {
 
   for y in 0..<game.grid_h {
     for x in 0..<game.grid_w {
-      if @types.tile_at(game, x, y) == @types.tile_goal {
-        burst_cell(game, x, y, 18, 0)
+      if @types.tile_at(game, x, y) == @types.Tile::Goal {
+        burst_cell(game, x, y, 18, @types.SparkKind::Gold)
       }
     }
   }
 
   if game.level_index + 1 >= game.level_count {
-    game.state = @types.state_campaign_clear
+    game.state = @types.GameState::CampaignClear
   } else {
-    game.state = @types.state_level_clear
+    game.state = @types.GameState::LevelClear
   }
 }
 
@@ -411,7 +411,7 @@ fn complete_level(game : @types.Game) -> Unit {
 fn advance_to_next_level(game : @types.Game) -> Unit {
   let next_id : Int = game.level_index + 1
   if next_id >= game.level_count {
-    game.state = @types.state_campaign_clear
+    game.state = @types.GameState::CampaignClear
     return
   }
   load_level(game, next_id)
@@ -421,7 +421,7 @@ fn advance_to_next_level(game : @types.Game) -> Unit {
 fn update_active_game(
   game : @types.Game,
   dt : Float,
-  held_dir : Int,
+  held_dir : @types.Direction,
   press_undo : Bool,
   press_reset : Bool,
 ) -> Unit {
@@ -442,7 +442,7 @@ fn update_active_game(
   game.pulse_t = game.pulse_t + dt
   update_sparks(game, dt)
 
-  if game.state != @types.state_play {
+  if game.state != @types.GameState::Play {
     return
   }
 
@@ -466,8 +466,8 @@ fn update_active_game(
     return
   }
 
-  if held_dir == @types.touch_none {
-    game.hold_dir = @types.touch_none
+  if held_dir == @types.Direction::None {
+    game.hold_dir = @types.Direction::None
     game.repeat_t = 0.0
     return
   }
@@ -664,7 +664,7 @@ fn load_level(game : @types.Game, level_id : Int) -> Unit {
   }
 
   game.level_index = id
-  game.state = @types.state_play
+  game.state = @types.GameState::Play
   game.message = "Level \{id + 1}: \{game.level_name}"
   game.message_t = 1.4
 }
@@ -700,26 +700,26 @@ pub fn update_game(game : @types.Game, dt : Float) -> Unit {
   let start_press : Bool = detect_start_press(game)
   let next_press : Bool = detect_next_press(game)
 
-  if game.state == @types.state_title {
-    update_active_game(game, dt, @types.touch_none, false, false)
+  if game.state == @types.GameState::Title {
+    update_active_game(game, dt, @types.Direction::None, false, false)
     if start_press {
       restart_campaign(game)
     }
-  } else if game.state == @types.state_play {
-    let held_dir : Int = detect_hold_direction(game)
+  } else if game.state == @types.GameState::Play {
+    let held_dir = detect_hold_direction(game)
     let undo_press : Bool = detect_undo_press(game)
     let reset_press : Bool = detect_reset_press(game)
 
     update_active_game(game, dt, held_dir, undo_press, reset_press)
-  } else if game.state == @types.state_level_clear {
-    update_active_game(game, dt, @types.touch_none, false, false)
+  } else if game.state == @types.GameState::LevelClear {
+    update_active_game(game, dt, @types.Direction::None, false, false)
     if next_press {
       advance_to_next_level(game)
     }
   } else {
-    update_active_game(game, dt, @types.touch_none, false, false)
+    update_active_game(game, dt, @types.Direction::None, false, false)
     if next_press {
-      game.state = @types.state_title
+      game.state = @types.GameState::Title
     }
   }
 }

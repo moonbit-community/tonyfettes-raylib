@@ -48,16 +48,16 @@ pub fn board_index(x : Int, y : Int) -> Int {
 }
 
 ///|
-pub fn tile_at(game : Game, x : Int, y : Int) -> Int {
+pub fn tile_at(game : Game, x : Int, y : Int) -> Tile {
   if x < 0 || x >= board_cols || y < 0 || y >= board_rows {
-    tile_void
+    Void
   } else {
     game.tiles[board_index(x, y)]
   }
 }
 
 ///|
-pub fn set_tile(game : Game, x : Int, y : Int, tile : Int) -> Unit {
+pub fn set_tile(game : Game, x : Int, y : Int, tile : Tile) -> Unit {
   if x < 0 || x >= board_cols || y < 0 || y >= board_rows {
     return
   }
@@ -82,8 +82,8 @@ pub fn set_box(game : Game, x : Int, y : Int, has_box : Bool) -> Unit {
 }
 
 ///|
-pub fn walkable_tile(tile : Int) -> Bool {
-  tile == tile_floor || tile == tile_goal
+pub fn walkable_tile(tile : Tile) -> Bool {
+  tile == Floor || tile == Goal
 }
 
 ///|
@@ -91,7 +91,7 @@ pub fn goal_filled_count(game : Game) -> Int {
   let mut n : Int = 0
   for y in 0..<game.grid_h {
     for x in 0..<game.grid_w {
-      if tile_at(game, x, y) == tile_goal && box_at(game, x, y) {
+      if tile_at(game, x, y) == Goal && box_at(game, x, y) {
         n = n + 1
       }
     }

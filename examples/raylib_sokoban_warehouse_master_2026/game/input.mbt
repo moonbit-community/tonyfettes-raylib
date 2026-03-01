@@ -1,18 +1,18 @@
 ///|
-fn detect_hold_direction(game : @types.Game) -> Int {
-  let mut dir : Int = @types.touch_none
+fn detect_hold_direction(game : @types.Game) -> @types.Direction {
+  let mut dir : @types.Direction = @types.Direction::None
 
   if @raylib.is_key_down(@raylib.KeyLeft) || @raylib.is_key_down(@raylib.KeyA) {
-    dir = @types.touch_left
+    dir = @types.Direction::Left
   }
   if @raylib.is_key_down(@raylib.KeyRight) || @raylib.is_key_down(@raylib.KeyD) {
-    dir = @types.touch_right
+    dir = @types.Direction::Right
   }
   if @raylib.is_key_down(@raylib.KeyUp) || @raylib.is_key_down(@raylib.KeyW) {
-    dir = @types.touch_up
+    dir = @types.Direction::Up
   }
   if @raylib.is_key_down(@raylib.KeyDown) || @raylib.is_key_down(@raylib.KeyS) {
-    dir = @types.touch_down
+    dir = @types.Direction::Down
   }
 
   let cx : Int = @types.dpad_center_x()
@@ -29,7 +29,7 @@ fn detect_hold_direction(game : @types.Game) -> Int {
       s,
       s,
     ) {
-    dir = @types.touch_left
+    dir = @types.Direction::Left
   }
   if @types.pointer_on_rect(
       game.mouse_x,
@@ -41,7 +41,7 @@ fn detect_hold_direction(game : @types.Game) -> Int {
       s,
       s,
     ) {
-    dir = @types.touch_right
+    dir = @types.Direction::Right
   }
   if @types.pointer_on_rect(
       game.mouse_x,
@@ -53,7 +53,7 @@ fn detect_hold_direction(game : @types.Game) -> Int {
       s,
       s,
     ) {
-    dir = @types.touch_up
+    dir = @types.Direction::Up
   }
   if @types.pointer_on_rect(
       game.mouse_x,
@@ -65,7 +65,7 @@ fn detect_hold_direction(game : @types.Game) -> Int {
       s,
       s,
     ) {
-    dir = @types.touch_down
+    dir = @types.Direction::Down
   }
 
   dir

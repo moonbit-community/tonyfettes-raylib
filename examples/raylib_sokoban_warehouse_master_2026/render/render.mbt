@@ -201,11 +201,11 @@ fn draw_board(game : @types.Game) -> Unit {
 
   for y in 0..<game.grid_h {
     for x in 0..<game.grid_w {
-      let t : Int = @types.tile_at(game, x, y)
+      let t = @types.tile_at(game, x, y)
       let px : Int = left + x * tile
       let py : Int = top + y * tile
 
-      if t == @types.tile_void {
+      if t == @types.Tile::Void {
         @raylib.draw_rectangle(
           px,
           py,
@@ -216,14 +216,14 @@ fn draw_board(game : @types.Game) -> Unit {
         continue
       }
 
-      if t == @types.tile_wall {
+      if t == @types.Tile::Wall {
         draw_cell_wall(px, py, tile)
       } else {
-        draw_cell_floor(px, py, tile, t == @types.tile_goal)
+        draw_cell_floor(px, py, tile, t == @types.Tile::Goal)
       }
 
       if @types.box_at(game, x, y) {
-        draw_box(px, py, tile, t == @types.tile_goal)
+        draw_box(px, py, tile, t == @types.Tile::Goal)
       }
     }
   }
@@ -241,11 +241,11 @@ fn draw_board(game : @types.Game) -> Unit {
     let sy : Int = top + (spark.y * Float::from_int(tile)).to_int()
     let sr : Float = @types.maxf(1.0, Float::from_int(tile) * spark.size)
 
-    let c = if spark.kind == 0 {
+    let c = if spark.kind == @types.SparkKind::Gold {
       @raylib.Color::new(255, 218, 102, 235)
-    } else if spark.kind == 1 {
+    } else if spark.kind == @types.SparkKind::Orange {
       @raylib.Color::new(248, 164, 78, 225)
-    } else if spark.kind == 2 {
+    } else if spark.kind == @types.SparkKind::Red {
       @raylib.Color::new(236, 100, 86, 214)
     } else {
       @raylib.Color::new(118, 222, 254, 228)
@@ -866,7 +866,7 @@ fn draw_campaign_clear(game : @types.Game) -> Unit {
 pub fn draw_frame(game : @types.Game) -> Unit {
   draw_bg(game)
 
-  if game.state == @types.state_title {
+  if game.state == @types.GameState::Title {
     draw_title(game)
     return
   }
@@ -875,9 +875,9 @@ pub fn draw_frame(game : @types.Game) -> Unit {
   draw_side_panel(game)
   draw_touch_overlay(game)
 
-  if game.state == @types.state_level_clear {
+  if game.state == @types.GameState::LevelClear {
     draw_level_clear_panel(game)
-  } else if game.state == @types.state_campaign_clear {
+  } else if game.state == @types.GameState::CampaignClear {
     draw_campaign_clear(game)
   }
 }
