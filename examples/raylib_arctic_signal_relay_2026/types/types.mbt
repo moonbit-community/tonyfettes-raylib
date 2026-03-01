@@ -1,5 +1,5 @@
 ///|
-struct Tower {
+pub(all) struct Tower {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -9,7 +9,7 @@ struct Tower {
 }
 
 ///|
-struct Storm {
+pub(all) struct Storm {
   mut active : Bool
   mut x : Float
   mut y : Float
@@ -21,7 +21,7 @@ struct Storm {
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   towers : Array[Tower]
   storms : Array[Storm]
   mut state : Int
@@ -58,15 +58,19 @@ struct Game {
   mut touch_action_prev : Bool
   mut touch_next_prev : Bool
   mut touch_restart_prev : Bool
+  mut mouse_x : Float
+  mut mouse_y : Float
+  mut mouse_hold : Bool
+  mut touch_count : Int
 }
 
 ///|
-fn Tower::new() -> Tower {
+pub fn Tower::new() -> Tower {
   { active: false, x: 0.0, y: 0.0, need: 0, delivered: 0, pulse_t: 0.0 }
 }
 
 ///|
-fn Storm::new() -> Storm {
+pub fn Storm::new() -> Storm {
   {
     active: false,
     x: 0.0,
@@ -80,7 +84,7 @@ fn Storm::new() -> Storm {
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     towers: Array::makei(max_towers, fn(_i) { Tower::new() }),
     storms: Array::makei(max_storms, fn(_i) { Storm::new() }),
@@ -118,5 +122,9 @@ fn Game::new() -> Game {
     touch_action_prev: false,
     touch_next_prev: false,
     touch_restart_prev: false,
+    mouse_x: 0.0,
+    mouse_y: 0.0,
+    mouse_hold: false,
+    touch_count: 0,
   }
 }

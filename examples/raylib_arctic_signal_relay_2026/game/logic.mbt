@@ -1,5 +1,5 @@
 ///|
-fn clear_towers(game : Game) -> Unit {
+fn clear_towers(game : @types.Game) -> Unit {
   for tower in game.towers {
     tower.active = false
     tower.x = 0.0
@@ -11,7 +11,7 @@ fn clear_towers(game : Game) -> Unit {
 }
 
 ///|
-fn clear_storms(game : Game) -> Unit {
+fn clear_storms(game : @types.Game) -> Unit {
   for storm in game.storms {
     storm.active = false
     storm.x = 0.0
@@ -26,35 +26,35 @@ fn clear_storms(game : Game) -> Unit {
 
 ///|
 fn stage_timer_limit(stage : Int) -> Float {
-  let raw = timer_base - Float::from_int(stage - 1) * timer_step
-  maxf(timer_floor, raw)
+  let raw = @types.timer_base - Float::from_int(stage - 1) * @types.timer_step
+  @types.maxf(@types.timer_floor, raw)
 }
 
 ///|
 fn stage_tower_count(stage : Int) -> Int {
-  clampi(2 + stage, 3, max_towers)
+  @types.clampi(2 + stage, 3, @types.max_towers)
 }
 
 ///|
 fn stage_storm_count(stage : Int) -> Int {
-  clampi(1 + stage / 2, 1, max_storms)
+  @types.clampi(1 + stage / 2, 1, @types.max_storms)
 }
 
 ///|
 fn stage_tower_need(stage : Int, idx : Int) -> Int {
   let base = 1 + (stage - 1) / 2
-  clampi(base + idx % 2, 1, 4)
+  @types.clampi(base + idx % 2, 1, 4)
 }
 
 ///|
-fn set_hint(game : Game, text : String, ttl : Float) -> Unit {
+fn set_hint(game : @types.Game, text : String, ttl : Float) -> Unit {
   game.hint_text = text
   game.hint_t = ttl
 }
 
 ///|
-fn tower_spot_ok(game : Game, placed : Int, x : Float, y : Float) -> Bool {
-  if dist2(x, y, depot_x(), depot_y()) < 250.0 * 250.0 {
+fn tower_spot_ok(game : @types.Game, placed : Int, x : Float, y : Float) -> Bool {
+  if @types.dist2(x, y, @types.depot_x(), @types.depot_y()) < 250.0 * 250.0 {
     return false
   }
 
@@ -63,7 +63,7 @@ fn tower_spot_ok(game : Game, placed : Int, x : Float, y : Float) -> Bool {
       continue
     }
 
-    if dist2(x, y, game.towers[i].x, game.towers[i].y) < 190.0 * 190.0 {
+    if @types.dist2(x, y, game.towers[i].x, game.towers[i].y) < 190.0 * 190.0 {
       return false
     }
   }
@@ -72,11 +72,11 @@ fn tower_spot_ok(game : Game, placed : Int, x : Float, y : Float) -> Bool {
 }
 
 ///|
-fn setup_stage(game : Game, stage : Int) -> Unit {
+fn setup_stage(game : @types.Game, stage : Int) -> Unit {
   clear_towers(game)
   clear_storms(game)
 
-  game.state = state_play
+  game.state = @types.state_play
   game.stage = if stage < 1 { 1 } else { stage }
   game.result_win = false
   game.result_note = ""
@@ -86,12 +86,12 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
   game.objective_total = 0
   game.objective_done = 0
 
-  game.rover_x = depot_x()
-  game.rover_y = depot_y()
+  game.rover_x = @types.depot_x()
+  game.rover_y = @types.depot_y()
   game.rover_vx = 0.0
   game.rover_vy = 0.0
-  game.rover_energy = energy_max
-  game.rover_heat = heat_max
+  game.rover_energy = @types.energy_max
+  game.rover_heat = @types.heat_max
   game.cargo_cells = 0
   game.storm_intensity = 0.0
   game.in_depot = true
@@ -100,12 +100,24 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
 
   let tower_count = stage_tower_count(game.stage)
   for i in 0..<tower_count {
-    let mut tx = randf(world_left() + 120.0, world_right() - 120.0)
-    let mut ty = randf(world_top() + 120.0, world_bottom() - 120.0)
+    let mut tx = @types.randf(
+      @types.world_left() + 120.0,
+      @types.world_right() - 120.0,
+    )
+    let mut ty = @types.randf(
+      @types.world_top() + 120.0,
+      @types.world_bottom() - 120.0,
+    )
 
     for _attempt in 0..<36 {
-      let cand_x = randf(world_left() + 120.0, world_right() - 120.0)
-      let cand_y = randf(world_top() + 120.0, world_bottom() - 120.0)
+      let cand_x = @types.randf(
+        @types.world_left() + 120.0,
+        @types.world_right() - 120.0,
+      )
+      let cand_y = @types.randf(
+        @types.world_top() + 120.0,
+        @types.world_bottom() - 120.0,
+      )
       if tower_spot_ok(game, i, cand_x, cand_y) {
         tx = cand_x
         ty = cand_y
@@ -118,26 +130,39 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
     game.towers[i].y = ty
     game.towers[i].need = stage_tower_need(game.stage, i)
     game.towers[i].delivered = 0
-    game.towers[i].pulse_t = randf(0.0, 6.28)
+    game.towers[i].pulse_t = @types.randf(0.0, 6.28)
     game.objective_total = game.objective_total + game.towers[i].need
   }
 
   let storm_count = stage_storm_count(game.stage)
   for i in 0..<storm_count {
-    let mut sx = randf(world_left() + 140.0, world_right() - 140.0)
-    let mut sy = randf(world_top() + 140.0, world_bottom() - 140.0)
+    let mut sx = @types.randf(
+      @types.world_left() + 140.0,
+      @types.world_right() - 140.0,
+    )
+    let mut sy = @types.randf(
+      @types.world_top() + 140.0,
+      @types.world_bottom() - 140.0,
+    )
 
     for _attempt in 0..<24 {
-      if dist2(sx, sy, depot_x(), depot_y()) > 230.0 * 230.0 {
+      if @types.dist2(sx, sy, @types.depot_x(), @types.depot_y()) >
+        230.0 * 230.0 {
         break
       }
-      sx = randf(world_left() + 140.0, world_right() - 140.0)
-      sy = randf(world_top() + 140.0, world_bottom() - 140.0)
+      sx = @types.randf(
+        @types.world_left() + 140.0,
+        @types.world_right() - 140.0,
+      )
+      sy = @types.randf(
+        @types.world_top() + 140.0,
+        @types.world_bottom() - 140.0,
+      )
     }
 
-    let mut vx = randf(-120.0, 120.0)
-    let mut vy = randf(-120.0, 120.0)
-    if absf(vx) + absf(vy) < 50.0 {
+    let mut vx = @types.randf(-120.0, 120.0)
+    let mut vy = @types.randf(-120.0, 120.0)
+    if @types.absf(vx) + @types.absf(vy) < 50.0 {
       vx = 54.0 + Float::from_int(i) * 18.0
       vy = -62.0 + Float::from_int(i) * 12.0
     }
@@ -145,12 +170,13 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
     game.storms[i].active = true
     game.storms[i].x = sx
     game.storms[i].y = sy
-    game.storms[i].r = randf(90.0, 152.0) + Float::from_int(game.stage) * 7.0
+    game.storms[i].r = @types.randf(90.0, 152.0) +
+      Float::from_int(game.stage) * 7.0
     game.storms[i].vx = vx
     game.storms[i].vy = vy
-    game.storms[i].phase = randf(0.0, 6.28)
-    game.storms[i].strength = clampf(
-      0.52 + Float::from_int(game.stage) * 0.10 + randf(0.0, 0.28),
+    game.storms[i].phase = @types.randf(0.0, 6.28)
+    game.storms[i].strength = @types.clampf(
+      0.52 + Float::from_int(game.stage) * 0.10 + @types.randf(0.0, 0.28),
       0.4,
       1.7,
     )
@@ -160,22 +186,22 @@ fn setup_stage(game : Game, stage : Int) -> Unit {
 }
 
 ///|
-fn init_title_scene(game : Game) -> Unit {
+pub fn init_title_scene(game : @types.Game) -> Unit {
   clear_towers(game)
   clear_storms(game)
 
-  game.state = state_title
+  game.state = @types.state_title
   game.stage = 1
   game.mission_limit_s = stage_timer_limit(1)
   game.timer_s = game.mission_limit_s
   game.objective_total = 0
   game.objective_done = 0
-  game.rover_x = depot_x()
-  game.rover_y = depot_y()
+  game.rover_x = @types.depot_x()
+  game.rover_y = @types.depot_y()
   game.rover_vx = 0.0
   game.rover_vy = 0.0
-  game.rover_energy = energy_max
-  game.rover_heat = heat_max
+  game.rover_energy = @types.energy_max
+  game.rover_heat = @types.heat_max
   game.cargo_cells = 0
   game.storm_intensity = 0.0
   game.in_depot = true
@@ -187,8 +213,10 @@ fn init_title_scene(game : Game) -> Unit {
 
   for i in 0..<3 {
     game.towers[i].active = true
-    game.towers[i].x = world_left() + 420.0 + Float::from_int(i) * 170.0
-    game.towers[i].y = world_top() + 210.0 + Float::from_int(i % 2) * 220.0
+    game.towers[i].x = @types.world_left() + 420.0 + Float::from_int(i) * 170.0
+    game.towers[i].y = @types.world_top() +
+      210.0 +
+      Float::from_int(i % 2) * 220.0
     game.towers[i].need = 2
     game.towers[i].delivered = i % 2
     game.towers[i].pulse_t = Float::from_int(i)
@@ -196,8 +224,12 @@ fn init_title_scene(game : Game) -> Unit {
 
   for i in 0..<2 {
     game.storms[i].active = true
-    game.storms[i].x = world_left() + 500.0 + Float::from_int(i) * 200.0
-    game.storms[i].y = world_top() + 260.0 + Float::from_int(i) * 180.0
+    game.storms[i].x = @types.world_left() +
+      500.0 +
+      Float::from_int(i) * 200.0
+    game.storms[i].y = @types.world_top() +
+      260.0 +
+      Float::from_int(i) * 180.0
     game.storms[i].r = 120.0
     game.storms[i].vx = 42.0 - Float::from_int(i) * 18.0
     game.storms[i].vy = 34.0 + Float::from_int(i) * 20.0
@@ -207,9 +239,13 @@ fn init_title_scene(game : Game) -> Unit {
 }
 
 ///|
-fn closest_pending_tower(game : Game, x : Float, y : Float) -> Int {
+fn closest_pending_tower(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+) -> Int {
   let mut best_idx = -1
-  let mut best_d2 = tower_interact_r() * tower_interact_r()
+  let mut best_d2 = @types.tower_interact_r() * @types.tower_interact_r()
 
   for i in 0..<game.towers.length() {
     if not(game.towers[i].active) {
@@ -219,7 +255,7 @@ fn closest_pending_tower(game : Game, x : Float, y : Float) -> Int {
       continue
     }
 
-    let d2 = dist2(x, y, game.towers[i].x, game.towers[i].y)
+    let d2 = @types.dist2(x, y, game.towers[i].x, game.towers[i].y)
     if d2 <= best_d2 {
       best_d2 = d2
       best_idx = i
@@ -230,18 +266,20 @@ fn closest_pending_tower(game : Game, x : Float, y : Float) -> Int {
 }
 
 ///|
-fn update_proximity(game : Game) -> Unit {
-  game.in_depot = dist2(game.rover_x, game.rover_y, depot_x(), depot_y()) <=
-    depot_r() * depot_r()
+fn update_proximity(game : @types.Game) -> Unit {
+  game.in_depot = @types.dist2(
+      game.rover_x, game.rover_y, @types.depot_x(), @types.depot_y(),
+    ) <=
+    @types.depot_r() * @types.depot_r()
   game.nearby_tower = closest_pending_tower(game, game.rover_x, game.rover_y)
 }
 
 ///|
-fn update_storms(game : Game, dt : Float) -> Unit {
-  let left = world_left() + 20.0
-  let right = world_right() - 20.0
-  let top = world_top() + 20.0
-  let bottom = world_bottom() - 20.0
+fn update_storms(game : @types.Game, dt : Float) -> Unit {
+  let left = @types.world_left() + 20.0
+  let right = @types.world_right() - 20.0
+  let top = @types.world_top() + 20.0
+  let bottom = @types.world_bottom() - 20.0
 
   for storm in game.storms {
     if not(storm.active) {
@@ -250,32 +288,36 @@ fn update_storms(game : Game, dt : Float) -> Unit {
 
     storm.phase = storm.phase + dt * (0.8 + storm.strength * 0.8)
 
-    let drift_x = cosf(storm.phase * 0.7) * 18.0
-    let drift_y = sinf(storm.phase * 0.6) * 14.0
+    let drift_x = @types.cosf(storm.phase * 0.7) * 18.0
+    let drift_y = @types.sinf(storm.phase * 0.6) * 14.0
 
     storm.x = storm.x + (storm.vx + drift_x) * dt
     storm.y = storm.y + (storm.vy + drift_y) * dt
 
     if storm.x - storm.r < left {
       storm.x = left + storm.r
-      storm.vx = absf(storm.vx)
+      storm.vx = @types.absf(storm.vx)
     } else if storm.x + storm.r > right {
       storm.x = right - storm.r
-      storm.vx = -absf(storm.vx)
+      storm.vx = -@types.absf(storm.vx)
     }
 
     if storm.y - storm.r < top {
       storm.y = top + storm.r
-      storm.vy = absf(storm.vy)
+      storm.vy = @types.absf(storm.vy)
     } else if storm.y + storm.r > bottom {
       storm.y = bottom - storm.r
-      storm.vy = -absf(storm.vy)
+      storm.vy = -@types.absf(storm.vy)
     }
   }
 }
 
 ///|
-fn storm_effect_at(game : Game, x : Float, y : Float) -> (Float, Float, Float) {
+fn storm_effect_at(
+  game : @types.Game,
+  x : Float,
+  y : Float,
+) -> (Float, Float, Float) {
   let mut intensity : Float = 0.0
   let mut wind_x : Float = 0.0
   let mut wind_y : Float = 0.0
@@ -287,7 +329,7 @@ fn storm_effect_at(game : Game, x : Float, y : Float) -> (Float, Float, Float) {
 
     let rr = game.storms[i].r
     let rr2 = rr * rr
-    let d2 = dist2(x, y, game.storms[i].x, game.storms[i].y)
+    let d2 = @types.dist2(x, y, game.storms[i].x, game.storms[i].y)
 
     if d2 > rr2 {
       continue
@@ -300,18 +342,18 @@ fn storm_effect_at(game : Game, x : Float, y : Float) -> (Float, Float, Float) {
     let swirl : Float = 8.0 + center_gain * 22.0
     wind_x = wind_x +
       game.storms[i].vx * 0.008 * amp +
-      cosf(game.storms[i].phase + Float::from_int(i) * 0.7) * swirl
+      @types.cosf(game.storms[i].phase + Float::from_int(i) * 0.7) * swirl
     wind_y = wind_y +
       game.storms[i].vy * 0.008 * amp +
-      sinf(game.storms[i].phase + Float::from_int(i) * 0.7) * swirl
+      @types.sinf(game.storms[i].phase + Float::from_int(i) * 0.7) * swirl
   }
 
-  (clampf(intensity, 0.0, 1.8), wind_x, wind_y)
+  (@types.clampf(intensity, 0.0, 1.8), wind_x, wind_y)
 }
 
 ///|
 fn update_rover(
-  game : Game,
+  game : @types.Game,
   dt : Float,
   intensity : Float,
   wind_x : Float,
@@ -320,28 +362,33 @@ fn update_rover(
   let mut dir_x = game.input_x
   let mut dir_y = game.input_y
 
-  let norm = absf(dir_x) + absf(dir_y)
+  let norm = @types.absf(dir_x) + @types.absf(dir_y)
   if norm > 0.0001 {
     dir_x = dir_x / norm
     dir_y = dir_y / norm
   }
 
-  let ctrl : Float = 1.0 - storm_control_penalty * clampf(intensity, 0.0, 1.2)
+  let ctrl : Float = 1.0 -
+    @types.storm_control_penalty * @types.clampf(intensity, 0.0, 1.2)
 
   game.rover_vx = game.rover_vx +
-    (dir_x * rover_accel * ctrl + wind_x * rover_wind_force) * dt
+    (dir_x * @types.rover_accel * ctrl + wind_x * @types.rover_wind_force) * dt
   game.rover_vy = game.rover_vy +
-    (dir_y * rover_accel * ctrl + wind_y * rover_wind_force) * dt
+    (dir_y * @types.rover_accel * ctrl + wind_y * @types.rover_wind_force) * dt
 
-  let damp = clampf(1.0 - (rover_drag + intensity * 2.2) * dt, 0.0, 1.0)
+  let damp = @types.clampf(
+    1.0 - (@types.rover_drag + intensity * 2.2) * dt,
+    0.0,
+    1.0,
+  )
   game.rover_vx = game.rover_vx * damp
   game.rover_vy = game.rover_vy * damp
 
-  let max_speed = maxf(
+  let max_speed = @types.maxf(
     130.0,
-    rover_max_speed * (1.0 - 0.24 * clampf(intensity, 0.0, 1.0)),
+    @types.rover_max_speed * (1.0 - 0.24 * @types.clampf(intensity, 0.0, 1.0)),
   )
-  let speed_sum = absf(game.rover_vx) + absf(game.rover_vy)
+  let speed_sum = @types.absf(game.rover_vx) + @types.absf(game.rover_vy)
   if speed_sum > max_speed {
     let s = max_speed / speed_sum
     game.rover_vx = game.rover_vx * s
@@ -351,10 +398,10 @@ fn update_rover(
   game.rover_x = game.rover_x + game.rover_vx * dt
   game.rover_y = game.rover_y + game.rover_vy * dt
 
-  let left = world_left() + rover_r + 4.0
-  let right = world_right() - rover_r - 4.0
-  let top = world_top() + rover_r + 4.0
-  let bottom = world_bottom() - rover_r - 4.0
+  let left = @types.world_left() + @types.rover_r + 4.0
+  let right = @types.world_right() - @types.rover_r - 4.0
+  let top = @types.world_top() + @types.rover_r + 4.0
+  let bottom = @types.world_bottom() - @types.rover_r - 4.0
 
   if game.rover_x < left {
     game.rover_x = left
@@ -374,33 +421,38 @@ fn update_rover(
 }
 
 ///|
-fn update_resources(game : Game, dt : Float, intensity : Float) -> Unit {
-  let speed = absf(game.rover_vx) + absf(game.rover_vy)
-  let energy_drain = energy_idle_drain +
-    speed * energy_move_drain +
-    intensity * energy_storm_drain
-  let heat_drain = heat_idle_drain + intensity * heat_storm_drain
+fn update_resources(
+  game : @types.Game,
+  dt : Float,
+  intensity : Float,
+) -> Unit {
+  let speed = @types.absf(game.rover_vx) + @types.absf(game.rover_vy)
+  let energy_drain = @types.energy_idle_drain +
+    speed * @types.energy_move_drain +
+    intensity * @types.energy_storm_drain
+  let heat_drain = @types.heat_idle_drain +
+    intensity * @types.heat_storm_drain
 
   let mut next_energy = game.rover_energy - energy_drain * dt
   let mut next_heat = game.rover_heat - heat_drain * dt
 
   if game.in_depot {
-    next_energy = next_energy + energy_recharge_rate * dt
-    next_heat = next_heat + heat_recharge_rate * dt
+    next_energy = next_energy + @types.energy_recharge_rate * dt
+    next_heat = next_heat + @types.heat_recharge_rate * dt
   }
 
-  game.rover_energy = clampf(next_energy, 0.0, energy_max)
-  game.rover_heat = clampf(next_heat, 0.0, heat_max)
+  game.rover_energy = @types.clampf(next_energy, 0.0, @types.energy_max)
+  game.rover_heat = @types.clampf(next_heat, 0.0, @types.heat_max)
 }
 
 ///|
-fn apply_action(game : Game) -> Unit {
+fn apply_action(game : @types.Game) -> Unit {
   if not(game.input_action_press) {
     return
   }
 
   if game.in_depot {
-    if game.cargo_cells < cargo_capacity {
+    if game.cargo_cells < @types.cargo_capacity {
       game.cargo_cells = game.cargo_cells + 1
       set_hint(game, "Power cell secured in cargo bay", 1.0)
       game.flash_t = 0.12
@@ -424,8 +476,8 @@ fn apply_action(game : Game) -> Unit {
       game.flash_t = 0.18
 
       if game.towers[idx].delivered >= game.towers[idx].need {
-        let bonus = tower_online_bonus_base +
-          Float::from_int(game.stage) * tower_online_bonus_step
+        let bonus = @types.tower_online_bonus_base +
+          Float::from_int(game.stage) * @types.tower_online_bonus_step
         game.timer_s = game.timer_s + bonus
         set_hint(game, "Relay online, +\{bonus.to_int()}s", 1.3)
       } else {
@@ -439,8 +491,8 @@ fn apply_action(game : Game) -> Unit {
 }
 
 ///|
-fn set_result(game : Game, win : Bool, note : String) -> Unit {
-  game.state = state_result
+fn set_result(game : @types.Game, win : Bool, note : String) -> Unit {
+  game.state = @types.state_result
   game.result_win = win
   game.result_note = note
   game.flash_t = 0.8
@@ -453,7 +505,7 @@ fn set_result(game : Game, win : Bool, note : String) -> Unit {
 }
 
 ///|
-fn update_play_state(game : Game, dt : Float) -> Unit {
+fn update_play_state(game : @types.Game, dt : Float) -> Unit {
   if @raylib.is_key_pressed(@raylib.KeyEscape) {
     init_title_scene(game)
     return
@@ -501,13 +553,14 @@ fn update_play_state(game : Game, dt : Float) -> Unit {
 }
 
 ///|
-fn update_game(game : Game, dt0 : Float) -> Unit {
-  let dt = clampf(dt0, 0.0, 0.05)
+pub fn update_game(game : @types.Game, dt0 : Float) -> Unit {
+  let dt = @types.clampf(dt0, 0.0, 0.05)
   game.ui_t = game.ui_t + dt
-  game.flash_t = maxf(0.0, game.flash_t - dt)
-  game.hint_t = maxf(0.0, game.hint_t - dt)
+  game.flash_t = @types.maxf(0.0, game.flash_t - dt)
+  game.hint_t = @types.maxf(0.0, game.hint_t - dt)
 
-  if game.state == state_title {
+  if game.state == @types.state_title {
+    update_title_input(game)
     update_storms(game, dt)
     if game.input_start_press {
       setup_stage(game, 1)
@@ -515,11 +568,13 @@ fn update_game(game : Game, dt0 : Float) -> Unit {
     return
   }
 
-  if game.state == state_play {
+  if game.state == @types.state_play {
+    update_play_input(game)
     update_play_state(game, dt)
     return
   }
 
+  update_result_input(game)
   if game.input_next_press {
     let next_stage = if game.result_win { game.stage + 1 } else { game.stage }
     setup_stage(game, next_stage)

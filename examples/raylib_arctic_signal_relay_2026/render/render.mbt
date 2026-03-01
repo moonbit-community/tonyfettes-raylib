@@ -6,7 +6,7 @@ fn draw_center_text(
   col : @raylib.Color,
 ) -> Unit {
   let tw = @raylib.measure_text(text, size)
-  @raylib.draw_text(text, screen_w / 2 - tw / 2, y, size, col)
+  @raylib.draw_text(text, @types.screen_w / 2 - tw / 2, y, size, col)
 }
 
 ///|
@@ -15,7 +15,7 @@ fn col_a(c : @raylib.Color, a : Int) -> @raylib.Color {
     c.r.to_int(),
     c.g.to_int(),
     c.b.to_int(),
-    clampi(a, 0, 255),
+    @types.clampi(a, 0, 255),
   )
 }
 
@@ -34,14 +34,14 @@ fn draw_mask_rect(
 }
 
 ///|
-fn draw_background(game : Game) -> Unit {
+fn draw_background(game : @types.Game) -> Unit {
   @raylib.clear_background(@raylib.Color::new(8, 22, 38, 255))
 
   @raylib.draw_rectangle_gradient_v(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(18, 36, 58, 255),
     @raylib.Color::new(7, 14, 28, 255),
   )
@@ -49,10 +49,10 @@ fn draw_background(game : Game) -> Unit {
   for i in 0..<120 {
     let fi = Float::from_int(i)
     let x = (fi * 91.0 + fi * fi * 0.19 + game.ui_t * 11.0) %
-      Float::from_int(screen_w)
+      Float::from_int(@types.screen_w)
     let y = (fi * 43.0 + fi * 13.0 + game.ui_t * 4.0) %
-      Float::from_int(screen_h)
-    let tw : Float = 0.45 + 0.55 * sinf(fi * 0.71 + game.ui_t * 1.6)
+      Float::from_int(@types.screen_h)
+    let tw : Float = 0.45 + 0.55 * @types.sinf(fi * 0.71 + game.ui_t * 1.6)
 
     @raylib.draw_circle(
       x.to_int(),
@@ -69,56 +69,56 @@ fn draw_background(game : Game) -> Unit {
 }
 
 ///|
-fn draw_world_back(game : Game) -> Unit {
+fn draw_world_back(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    world_x0,
-    world_y0,
-    world_w,
-    world_h,
+    @types.world_x0,
+    @types.world_y0,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(14, 30, 44, 236),
   )
 
   for row in 0..<22 {
-    let y = world_y0 + row * 40
+    let y = @types.world_y0 + row * 40
     @raylib.draw_line(
-      world_x0 + 8,
+      @types.world_x0 + 8,
       y,
-      world_x0 + world_w - 8,
+      @types.world_x0 + @types.world_w - 8,
       y,
       @raylib.Color::new(66, 106, 128, 36),
     )
   }
 
   for col in 0..<25 {
-    let x = world_x0 + col * 40
+    let x = @types.world_x0 + col * 40
     @raylib.draw_line(
       x,
-      world_y0 + 8,
+      @types.world_y0 + 8,
       x,
-      world_y0 + world_h - 8,
+      @types.world_y0 + @types.world_h - 8,
       @raylib.Color::new(72, 112, 134, 28),
     )
   }
 
   @raylib.draw_rectangle_lines(
-    world_x0,
-    world_y0,
-    world_w,
-    world_h,
+    @types.world_x0,
+    @types.world_y0,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(176, 208, 228, 220),
   )
 
-  let depot_glow : Float = 0.55 + 0.45 * sinf(game.ui_t * 2.0)
+  let depot_glow : Float = 0.55 + 0.45 * @types.sinf(game.ui_t * 2.0)
   @raylib.draw_circle(
-    depot_x().to_int(),
-    depot_y().to_int(),
-    depot_r() + 16.0 + depot_glow * 7.0,
+    @types.depot_x().to_int(),
+    @types.depot_y().to_int(),
+    @types.depot_r() + 16.0 + depot_glow * 7.0,
     @raylib.Color::new(104, 196, 255, 38 + (depot_glow * 28.0).to_int()),
   )
 }
 
 ///|
-fn draw_signal_links(game : Game) -> Unit {
+fn draw_signal_links(game : @types.Game) -> Unit {
   for tower in game.towers {
     if not(tower.active) {
       continue
@@ -133,8 +133,8 @@ fn draw_signal_links(game : Game) -> Unit {
     let alpha = 32 + (progress * 124.0).to_int()
 
     @raylib.draw_line(
-      depot_x().to_int(),
-      depot_y().to_int(),
+      @types.depot_x().to_int(),
+      @types.depot_y().to_int(),
       tower.x.to_int(),
       tower.y.to_int(),
       @raylib.Color::new(118, 206, 255, alpha),
@@ -152,7 +152,7 @@ fn tower_col(active : Bool) -> @raylib.Color {
 }
 
 ///|
-fn draw_towers(game : Game) -> Unit {
+fn draw_towers(game : @types.Game) -> Unit {
   for i in 0..<game.towers.length() {
     if not(game.towers[i].active) {
       continue
@@ -163,36 +163,44 @@ fn draw_towers(game : Game) -> Unit {
     let x = game.towers[i].x.to_int()
     let y = game.towers[i].y.to_int()
 
-    let pulse : Float = 0.8 + 0.2 * sinf(game.towers[i].pulse_t * 2.2)
+    let pulse : Float = 0.8 +
+      0.2 * @types.sinf(game.towers[i].pulse_t * 2.2)
 
     @raylib.draw_circle(
       x,
       y,
-      tower_hit_r() + 14.0 + pulse * 4.0,
+      @types.tower_hit_r() + 14.0 + pulse * 4.0,
       col_a(base_col, 56),
     )
-    @raylib.draw_circle(x, y, tower_hit_r() + 3.0, col_a(base_col, 204))
     @raylib.draw_circle(
       x,
       y,
-      tower_hit_r() - 8.0,
+      @types.tower_hit_r() + 3.0,
+      col_a(base_col, 204),
+    )
+    @raylib.draw_circle(
+      x,
+      y,
+      @types.tower_hit_r() - 8.0,
       @raylib.Color::new(20, 40, 62, 242),
     )
 
-    if game.state == state_play && i == game.nearby_tower {
+    if game.state == @types.state_play && i == game.nearby_tower {
       @raylib.draw_circle_lines(
         x,
         y,
-        tower_interact_r(),
+        @types.tower_interact_r(),
         @raylib.Color::new(246, 248, 255, 210),
       )
     }
 
-    let slots = clampi(game.towers[i].need, 1, 6)
+    let slots = @types.clampi(game.towers[i].need, 1, 6)
     for k in 0..<slots {
       let a = Float::from_int(k) / Float::from_int(slots) * 6.283
-      let px = game.towers[i].x + cosf(a) * (tower_hit_r() + 17.0)
-      let py = game.towers[i].y + sinf(a) * (tower_hit_r() + 17.0)
+      let px = game.towers[i].x +
+        @types.cosf(a) * (@types.tower_hit_r() + 17.0)
+      let py = game.towers[i].y +
+        @types.sinf(a) * (@types.tower_hit_r() + 17.0)
       let col = if k < game.towers[i].delivered {
         @raylib.Color::new(232, 255, 208, 236)
       } else {
@@ -213,16 +221,21 @@ fn draw_towers(game : Game) -> Unit {
 }
 
 ///|
-fn draw_depot(game : Game) -> Unit {
-  let x = depot_x().to_int()
-  let y = depot_y().to_int()
+fn draw_depot(game : @types.Game) -> Unit {
+  let x = @types.depot_x().to_int()
+  let y = @types.depot_y().to_int()
 
-  @raylib.draw_circle(x, y, depot_r(), @raylib.Color::new(34, 86, 122, 228))
+  @raylib.draw_circle(
+    x,
+    y,
+    @types.depot_r(),
+    @raylib.Color::new(34, 86, 122, 228),
+  )
 
   @raylib.draw_circle_lines(
     x,
     y,
-    depot_r() + 8.0,
+    @types.depot_r() + 8.0,
     @raylib.Color::new(180, 228, 255, 198),
   )
 
@@ -242,18 +255,18 @@ fn draw_depot(game : Game) -> Unit {
     @raylib.Color::new(232, 246, 255, 250),
   )
 
-  if game.state == state_play && game.in_depot {
+  if game.state == @types.state_play && game.in_depot {
     @raylib.draw_circle_lines(
       x,
       y,
-      depot_r() + 20.0,
+      @types.depot_r() + 20.0,
       @raylib.Color::new(248, 252, 255, 228),
     )
   }
 }
 
 ///|
-fn draw_storms(game : Game) -> Unit {
+fn draw_storms(game : @types.Game) -> Unit {
   for storm in game.storms {
     if not(storm.active) {
       continue
@@ -277,10 +290,10 @@ fn draw_storms(game : Game) -> Unit {
 
     for k in 0..<12 {
       let a = storm.phase + Float::from_int(k) * 0.52
-      let sx = storm.x + cosf(a) * (storm.r - 12.0)
-      let sy = storm.y + sinf(a) * (storm.r - 12.0)
-      let ex = sx + storm.vx * 0.06 + cosf(a * 2.0) * 8.0
-      let ey = sy + storm.vy * 0.06 + sinf(a * 2.0) * 8.0
+      let sx = storm.x + @types.cosf(a) * (storm.r - 12.0)
+      let sy = storm.y + @types.sinf(a) * (storm.r - 12.0)
+      let ex = sx + storm.vx * 0.06 + @types.cosf(a * 2.0) * 8.0
+      let ey = sy + storm.vy * 0.06 + @types.sinf(a * 2.0) * 8.0
 
       @raylib.draw_line(
         sx.to_int(),
@@ -294,12 +307,16 @@ fn draw_storms(game : Game) -> Unit {
 }
 
 ///|
-fn draw_rover(game : Game) -> Unit {
+fn draw_rover(game : @types.Game) -> Unit {
   let x = game.rover_x.to_int()
   let y = game.rover_y.to_int()
 
-  let heat_ratio = clampf(game.rover_heat / heat_max, 0.0, 1.0)
-  let energy_ratio = clampf(game.rover_energy / energy_max, 0.0, 1.0)
+  let heat_ratio = @types.clampf(game.rover_heat / @types.heat_max, 0.0, 1.0)
+  let energy_ratio = @types.clampf(
+    game.rover_energy / @types.energy_max,
+    0.0,
+    1.0,
+  )
 
   let body_col = @raylib.Color::new(
     64 + (energy_ratio * 70.0).to_int(),
@@ -308,12 +325,17 @@ fn draw_rover(game : Game) -> Unit {
     255,
   )
 
-  @raylib.draw_circle(x, y, rover_r + 8.0, @raylib.Color::new(24, 42, 62, 220))
-  @raylib.draw_circle(x, y, rover_r, body_col)
+  @raylib.draw_circle(
+    x,
+    y,
+    @types.rover_r + 8.0,
+    @raylib.Color::new(24, 42, 62, 220),
+  )
+  @raylib.draw_circle(x, y, @types.rover_r, body_col)
   @raylib.draw_circle_lines(
     x,
     y,
-    rover_r + 2.0,
+    @types.rover_r + 2.0,
     @raylib.Color::new(224, 244, 255, 220),
   )
 
@@ -339,28 +361,30 @@ fn draw_rover(game : Game) -> Unit {
 }
 
 ///|
-fn draw_whiteout(game : Game) -> Unit {
-  if game.state != state_play || game.storm_intensity <= 0.02 {
+fn draw_whiteout(game : @types.Game) -> Unit {
+  if game.state != @types.state_play || game.storm_intensity <= 0.02 {
     return
   }
 
-  let fog : Float = clampf(game.storm_intensity, 0.0, 1.4)
+  let fog : Float = @types.clampf(game.storm_intensity, 0.0, 1.4)
   let fog_alpha = 24 + (fog * 78.0).to_int()
 
   @raylib.draw_rectangle(
-    world_x0,
-    world_y0,
-    world_w,
-    world_h,
+    @types.world_x0,
+    @types.world_y0,
+    @types.world_w,
+    @types.world_h,
     @raylib.Color::new(216, 234, 250, fog_alpha),
   )
 
   for i in 0..<52 {
     let fi = Float::from_int(i)
-    let x0 = world_left() +
-      (fi * 76.0 + game.ui_t * (220.0 + fog * 120.0)) % Float::from_int(world_w)
-    let y0 = world_top() +
-      (fi * 47.0 + fi * fi * 0.33 + game.ui_t * 40.0) % Float::from_int(world_h)
+    let x0 = @types.world_left() +
+      (fi * 76.0 + game.ui_t * (220.0 + fog * 120.0)) %
+        Float::from_int(@types.world_w)
+    let y0 = @types.world_top() +
+      (fi * 47.0 + fi * fi * 0.33 + game.ui_t * 40.0) %
+        Float::from_int(@types.world_h)
 
     let len : Float = 18.0 + fog * 34.0
 
@@ -374,34 +398,57 @@ fn draw_whiteout(game : Game) -> Unit {
   }
 
   let vis_r : Float = 270.0 - fog * 120.0
-  let vx0 = clampi(
+  let vx0 = @types.clampi(
     (game.rover_x - vis_r).to_int(),
-    world_x0,
-    world_x0 + world_w,
+    @types.world_x0,
+    @types.world_x0 + @types.world_w,
   )
-  let vy0 = clampi(
+  let vy0 = @types.clampi(
     (game.rover_y - vis_r).to_int(),
-    world_y0,
-    world_y0 + world_h,
+    @types.world_y0,
+    @types.world_y0 + @types.world_h,
   )
-  let vx1 = clampi(
+  let vx1 = @types.clampi(
     (game.rover_x + vis_r).to_int(),
-    world_x0,
-    world_x0 + world_w,
+    @types.world_x0,
+    @types.world_x0 + @types.world_w,
   )
-  let vy1 = clampi(
+  let vy1 = @types.clampi(
     (game.rover_y + vis_r).to_int(),
-    world_y0,
-    world_y0 + world_h,
+    @types.world_y0,
+    @types.world_y0 + @types.world_h,
   )
 
-  let shadow = @raylib.Color::new(10, 18, 28, 42 + (fog * 58.0).to_int())
-  let wx1 = world_x0 + world_w
-  let wy1 = world_y0 + world_h
+  let shadow = @raylib.Color::new(
+    10,
+    18,
+    28,
+    42 + (fog * 58.0).to_int(),
+  )
+  let wx1 = @types.world_x0 + @types.world_w
+  let wy1 = @types.world_y0 + @types.world_h
 
-  draw_mask_rect(world_x0, world_y0, world_w, vy0 - world_y0, shadow)
-  draw_mask_rect(world_x0, vy1, world_w, wy1 - vy1, shadow)
-  draw_mask_rect(world_x0, vy0, vx0 - world_x0, vy1 - vy0, shadow)
+  draw_mask_rect(
+    @types.world_x0,
+    @types.world_y0,
+    @types.world_w,
+    vy0 - @types.world_y0,
+    shadow,
+  )
+  draw_mask_rect(
+    @types.world_x0,
+    vy1,
+    @types.world_w,
+    wy1 - vy1,
+    shadow,
+  )
+  draw_mask_rect(
+    @types.world_x0,
+    vy0,
+    vx0 - @types.world_x0,
+    vy1 - vy0,
+    shadow,
+  )
   draw_mask_rect(vx1, vy0, wx1 - vx1, vy1 - vy0, shadow)
 
   @raylib.draw_circle_lines(
@@ -426,7 +473,7 @@ fn draw_bar(
   let ratio : Float = if maxv <= 0.0 {
     0.0
   } else {
-    clampf(value / maxv, 0.0, 1.0)
+    @types.clampf(value / maxv, 0.0, 1.0)
   }
 
   @raylib.draw_text(
@@ -463,43 +510,43 @@ fn draw_bar(
 }
 
 ///|
-fn draw_panel(game : Game) -> Unit {
+fn draw_panel(game : @types.Game) -> Unit {
   @raylib.draw_rectangle(
-    panel_x0,
-    world_y0,
-    panel_w,
-    world_h,
+    @types.panel_x0,
+    @types.world_y0,
+    @types.panel_w,
+    @types.world_h,
     @raylib.Color::new(10, 24, 38, 236),
   )
 
   @raylib.draw_rectangle_lines(
-    panel_x0,
-    world_y0,
-    panel_w,
-    world_h,
+    @types.panel_x0,
+    @types.world_y0,
+    @types.panel_w,
+    @types.world_h,
     @raylib.Color::new(164, 196, 216, 184),
   )
 
   @raylib.draw_text(
     "ARCTIC RELAY OPS",
-    panel_x0 + 22,
-    world_y0 + 18,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 18,
     28,
     @raylib.Color::new(230, 244, 255, 248),
   )
 
   @raylib.draw_text(
     "Stage: \{game.stage}",
-    panel_x0 + 22,
-    world_y0 + 62,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 62,
     22,
     @raylib.Color::new(194, 226, 246, 236),
   )
 
   @raylib.draw_text(
     "Best Stage: \{game.best_stage}",
-    panel_x0 + 190,
-    world_y0 + 62,
+    @types.panel_x0 + 190,
+    @types.world_y0 + 62,
     20,
     @raylib.Color::new(172, 210, 236, 220),
   )
@@ -511,56 +558,56 @@ fn draw_panel(game : Game) -> Unit {
   }
 
   @raylib.draw_text(
-    "Timer: \{maxf(0.0, game.timer_s).to_int()}s",
-    panel_x0 + 22,
-    world_y0 + 98,
+    "Timer: \{@types.maxf(0.0, game.timer_s).to_int()}s",
+    @types.panel_x0 + 22,
+    @types.world_y0 + 98,
     28,
     timer_col,
   )
 
   @raylib.draw_text(
     "Objective: \{game.objective_done}/\{game.objective_total}",
-    panel_x0 + 22,
-    world_y0 + 136,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 136,
     24,
     @raylib.Color::new(232, 246, 255, 230),
   )
 
   @raylib.draw_text(
-    "Cargo Cells: \{game.cargo_cells}/\{cargo_capacity}",
-    panel_x0 + 22,
-    world_y0 + 168,
+    "Cargo Cells: \{game.cargo_cells}/\{@types.cargo_capacity}",
+    @types.panel_x0 + 22,
+    @types.world_y0 + 168,
     22,
     @raylib.Color::new(246, 228, 162, 236),
   )
 
   draw_bar(
     "Energy",
-    panel_x0 + 22,
-    world_y0 + 208,
-    panel_w - 44,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 208,
+    @types.panel_w - 44,
     28,
     game.rover_energy,
-    energy_max,
+    @types.energy_max,
     @raylib.Color::new(94, 216, 246, 236),
   )
 
   draw_bar(
     "Heat",
-    panel_x0 + 22,
-    world_y0 + 264,
-    panel_w - 44,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 264,
+    @types.panel_w - 44,
     28,
     game.rover_heat,
-    heat_max,
+    @types.heat_max,
     @raylib.Color::new(254, 184, 122, 238),
   )
 
   draw_bar(
     "Storm Load",
-    panel_x0 + 22,
-    world_y0 + 320,
-    panel_w - 44,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 320,
+    @types.panel_w - 44,
     28,
     game.storm_intensity * 55.0,
     100.0,
@@ -569,49 +616,49 @@ fn draw_panel(game : Game) -> Unit {
 
   @raylib.draw_text(
     "Depot: load cells + recover heat/energy",
-    panel_x0 + 22,
-    world_y0 + 374,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 374,
     18,
     @raylib.Color::new(170, 204, 224, 224),
   )
 
   @raylib.draw_text(
     "Desktop: WASD/Arrows move",
-    panel_x0 + 22,
-    world_y0 + 416,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 416,
     18,
     @raylib.Color::new(184, 216, 236, 226),
   )
 
   @raylib.draw_text(
     "Action: E / Space / Enter / LMB",
-    panel_x0 + 22,
-    world_y0 + 440,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 440,
     18,
     @raylib.Color::new(184, 216, 236, 226),
   )
 
   @raylib.draw_text(
     "Esc: return to title",
-    panel_x0 + 22,
-    world_y0 + 464,
+    @types.panel_x0 + 22,
+    @types.world_y0 + 464,
     18,
     @raylib.Color::new(184, 216, 236, 226),
   )
 
-  if game.state == state_play && game.hint_t > 0.0 {
-    let a = (clampf(game.hint_t / 1.4, 0.0, 1.0) * 230.0).to_int()
+  if game.state == @types.state_play && game.hint_t > 0.0 {
+    let a = (@types.clampf(game.hint_t / 1.4, 0.0, 1.0) * 230.0).to_int()
     @raylib.draw_rectangle(
-      world_x0 + 14,
-      world_y0 + world_h - 58,
-      world_w - 28,
+      @types.world_x0 + 14,
+      @types.world_y0 + @types.world_h - 58,
+      @types.world_w - 28,
       40,
       @raylib.Color::new(12, 26, 40, a),
     )
     @raylib.draw_text(
       game.hint_text,
-      world_x0 + 26,
-      world_y0 + world_h - 48,
+      @types.world_x0 + 26,
+      @types.world_y0 + @types.world_h - 48,
       22,
       @raylib.Color::new(236, 246, 255, a),
     )
@@ -650,34 +697,26 @@ fn draw_touch_btn(
 }
 
 ///|
-fn draw_touch_controls(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
-  if game.state != state_play {
+fn draw_touch_controls(game : @types.Game) -> Unit {
+  if game.state != @types.state_play {
     return
   }
 
-  let left_btn = touch_left_rect()
-  let right_btn = touch_right_rect()
-  let up_btn = touch_up_rect()
-  let down_btn = touch_down_rect()
-  let action_btn = touch_action_rect()
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
 
-  let left_held = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    left_btn.0,
-    left_btn.1,
-    left_btn.2,
-    left_btn.3,
+  let left_btn = @types.touch_left_rect()
+  let right_btn = @types.touch_right_rect()
+  let up_btn = @types.touch_up_rect()
+  let down_btn = @types.touch_down_rect()
+  let action_btn = @types.touch_action_rect()
+
+  let left_held = @types.pointer_on_rect(
+    mx, my, hold, touch_count, left_btn.0, left_btn.1, left_btn.2, left_btn.3,
   )
-  let right_held = pointer_on_rect(
+  let right_held = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -687,27 +726,13 @@ fn draw_touch_controls(
     right_btn.2,
     right_btn.3,
   )
-  let up_held = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    up_btn.0,
-    up_btn.1,
-    up_btn.2,
-    up_btn.3,
+  let up_held = @types.pointer_on_rect(
+    mx, my, hold, touch_count, up_btn.0, up_btn.1, up_btn.2, up_btn.3,
   )
-  let down_held = pointer_on_rect(
-    mx,
-    my,
-    hold,
-    touch_count,
-    down_btn.0,
-    down_btn.1,
-    down_btn.2,
-    down_btn.3,
+  let down_held = @types.pointer_on_rect(
+    mx, my, hold, touch_count, down_btn.0, down_btn.1, down_btn.2, down_btn.3,
   )
-  let action_held = pointer_on_rect(
+  let action_held = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -763,43 +788,43 @@ fn draw_button(
 }
 
 ///|
-fn draw_title_overlay(
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_title_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 16, 30, 164),
   )
 
   draw_center_text(
     "ARCTIC SIGNAL RELAY",
-    screen_h / 2 - 210,
+    @types.screen_h / 2 - 210,
     68,
     @raylib.Color::new(238, 248, 255, 252),
   )
 
   draw_center_text(
     "Run power cells from depot to relay towers before the storm collapses comms.",
-    screen_h / 2 - 128,
+    @types.screen_h / 2 - 128,
     28,
     @raylib.Color::new(194, 224, 244, 236),
   )
 
   draw_center_text(
     "Manage heat + energy, survive whiteouts, and keep each tower online.",
-    screen_h / 2 - 90,
+    @types.screen_h / 2 - 90,
     28,
     @raylib.Color::new(194, 224, 244, 236),
   )
 
-  let start_btn = title_start_rect()
-  let hover = pointer_on_rect(
+  let start_btn = @types.title_start_rect()
+  let hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -814,32 +839,31 @@ fn draw_title_overlay(
 
   draw_center_text(
     "Desktop: WASD / Arrows, E or Space to load/deliver",
-    screen_h / 2 + 258,
+    @types.screen_h / 2 + 258,
     24,
     @raylib.Color::new(188, 216, 236, 226),
   )
 
   draw_center_text(
     "Mobile: use panel D-pad + ACT button",
-    screen_h / 2 + 292,
+    @types.screen_h / 2 + 292,
     24,
     @raylib.Color::new(188, 216, 236, 226),
   )
 }
 
 ///|
-fn draw_result_overlay(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+fn draw_result_overlay(game : @types.Game) -> Unit {
+  let mx = game.mouse_x
+  let my = game.mouse_y
+  let hold = game.mouse_hold
+  let touch_count = game.touch_count
+
   @raylib.draw_rectangle(
     0,
     0,
-    screen_w,
-    screen_h,
+    @types.screen_w,
+    @types.screen_h,
     @raylib.Color::new(8, 16, 30, 170),
   )
 
@@ -850,25 +874,25 @@ fn draw_result_overlay(
     @raylib.Color::new(255, 180, 162, 252)
   }
 
-  draw_center_text(title, screen_h / 2 - 176, 72, title_col)
+  draw_center_text(title, @types.screen_h / 2 - 176, 72, title_col)
   draw_center_text(
     game.result_note,
-    screen_h / 2 - 90,
+    @types.screen_h / 2 - 90,
     34,
     @raylib.Color::new(216, 234, 248, 240),
   )
 
   draw_center_text(
     "Objective \{game.objective_done}/\{game.objective_total} | Stage \{game.stage}",
-    screen_h / 2 - 36,
+    @types.screen_h / 2 - 36,
     28,
     @raylib.Color::new(194, 220, 238, 236),
   )
 
-  let primary = result_primary_rect()
-  let secondary = result_secondary_rect()
+  let primary = @types.result_primary_rect()
+  let secondary = @types.result_secondary_rect()
 
-  let primary_hover = pointer_on_rect(
+  let primary_hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -879,7 +903,7 @@ fn draw_result_overlay(
     primary.3,
   )
 
-  let secondary_hover = pointer_on_rect(
+  let secondary_hover = @types.pointer_on_rect(
     mx,
     my,
     hold,
@@ -897,20 +921,14 @@ fn draw_result_overlay(
 
   draw_center_text(
     "Enter/Space: primary | R: restart from stage 1",
-    screen_h / 2 + 320,
+    @types.screen_h / 2 + 320,
     24,
     @raylib.Color::new(188, 214, 234, 224),
   )
 }
 
 ///|
-fn draw_frame(
-  game : Game,
-  mx : Float,
-  my : Float,
-  hold : Bool,
-  touch_count : Int,
-) -> Unit {
+pub fn draw_frame(game : @types.Game) -> Unit {
   draw_background(game)
   draw_world_back(game)
   draw_signal_links(game)
@@ -920,11 +938,11 @@ fn draw_frame(
   draw_rover(game)
   draw_whiteout(game)
   draw_panel(game)
-  draw_touch_controls(game, mx, my, hold, touch_count)
+  draw_touch_controls(game)
 
-  if game.state == state_title {
-    draw_title_overlay(mx, my, hold, touch_count)
-  } else if game.state == state_result {
-    draw_result_overlay(game, mx, my, hold, touch_count)
+  if game.state == @types.state_title {
+    draw_title_overlay(game)
+  } else if game.state == @types.state_result {
+    draw_result_overlay(game)
   }
 }
