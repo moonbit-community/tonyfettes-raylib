@@ -1,5 +1,5 @@
 ///|
-struct Clue {
+pub(all) struct Clue {
   x : Int
   y : Int
   suspect : Int
@@ -9,7 +9,7 @@ struct Clue {
 }
 
 ///|
-struct Suspect {
+pub(all) struct Suspect {
   name : String
   home_x : Int
   home_y : Int
@@ -18,7 +18,7 @@ struct Suspect {
 }
 
 ///|
-struct Incident {
+pub(all) struct Incident {
   mut active : Bool
   mut x : Int
   mut y : Int
@@ -29,13 +29,13 @@ struct Incident {
 }
 
 ///|
-struct DistrictPulse {
+pub(all) struct DistrictPulse {
   mut heat : Float
   drift : Float
 }
 
 ///|
-struct Game {
+pub(all) struct Game {
   clues : Array[Clue]
   suspects : Array[Suspect]
   incidents : Array[Incident]
@@ -121,7 +121,7 @@ fn is_reserved_cell(cell_x : Int, cell_y : Int) -> Bool {
 }
 
 ///|
-fn Clue::new(index : Int) -> Clue {
+pub fn Clue::new(index : Int) -> Clue {
   let suspect = index % suspect_count
   let chain = index / suspect_count % chains_per_suspect
   let step = index / (suspect_count * chains_per_suspect)
@@ -140,7 +140,7 @@ fn Clue::new(index : Int) -> Clue {
 }
 
 ///|
-fn Suspect::new(index : Int) -> Suspect {
+pub fn Suspect::new(index : Int) -> Suspect {
   {
     name: suspect_name(index),
     home_x: suspect_home_x(index),
@@ -151,7 +151,7 @@ fn Suspect::new(index : Int) -> Suspect {
 }
 
 ///|
-fn Incident::new() -> Incident {
+pub fn Incident::new() -> Incident {
   {
     active: false,
     x: 0,
@@ -164,13 +164,13 @@ fn Incident::new() -> Incident {
 }
 
 ///|
-fn DistrictPulse::new(index : Int) -> DistrictPulse {
+pub fn DistrictPulse::new(index : Int) -> DistrictPulse {
   let drift_seed = Float::from_int((index * 71 + 17) % 1000) / 1000.0
   { heat: 0.0, drift: drift_seed * tau }
 }
 
 ///|
-fn Game::new() -> Game {
+pub fn Game::new() -> Game {
   {
     clues: Array::makei(clue_count, fn(i) { Clue::new(i) }),
     suspects: Array::makei(suspect_count, fn(i) { Suspect::new(i) }),
