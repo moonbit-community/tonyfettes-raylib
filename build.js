@@ -1,5 +1,5 @@
 const os = require('os');
-const platform = os.platform();
+const platform = process.env.RAYLIB_PLATFORM || os.platform();
 
 const pkg = 'tonyfettes/raylib/internal/raylib';
 
@@ -17,6 +17,15 @@ if (platform === 'darwin') {
   stub_cc_flags += ' -D_GLFW_X11';
 } else if (platform === 'win32') {
   link_config.link_libs = ['opengl32', 'gdi32', 'winmm', 'user32', 'shell32'];
+} else if (platform === 'android') {
+  link_config.link_libs = ['log', 'android', 'OpenSLES', 'EGL', 'GLESv2', 'm', 'dl'];
+  stub_cc_flags = '-DPLATFORM_ANDROID';
+} else if (platform === 'drm') {
+  link_config.link_libs = ['drm', 'gbm', 'EGL', 'GLESv2', 'm', 'pthread', 'dl', 'rt'];
+  stub_cc_flags = '-DPLATFORM_DRM';
+} else if (platform === 'web') {
+  // Emscripten handles linking; no link_libs needed
+  stub_cc_flags = '-DPLATFORM_WEB';
 } else {
   throw new Error(`Unsupported platform: ${platform}`);
 }
