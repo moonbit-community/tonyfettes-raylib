@@ -11,11 +11,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  check:
+    # Type-check on all platforms (no GPU or linking required)
     strategy:
       fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install MoonBit (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -Append $env:GITHUB_PATH
+
+      - name: Type-check
+        run: moon check --target native
+
+  test:
+    # Run tests on Linux (xvfb provides software OpenGL) and Windows (Mesa provides software OpenGL).
+    # macOS CI runners lack OpenGL entirely — no GPU and no software fallback — so tests cannot run there.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
@@ -47,13 +79,18 @@ jobs:
             libgl1-mesa-dev \
             libglu1-mesa-dev
 
-      - name: Type-check
-        run: moon check --target native
+      - name: Load dummy sound driver (Linux)
+        if: runner.os == 'Linux'
+        run: sudo modprobe snd-dummy
+
+      - name: Setup Mesa software renderer (Windows)
+        if: runner.os == 'Windows'
+        uses: ssciwr/setup-mesa-dist-win@v2
 
       - name: Run tests (Linux)
         if: runner.os == 'Linux'
         run: xvfb-run moon test --target native
 
-      - name: Run tests (macOS / Windows)
-        if: runner.os != 'Linux'
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
         run: moon test --target native
