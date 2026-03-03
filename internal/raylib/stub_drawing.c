@@ -253,3 +253,22 @@ void
 moonbit_raylib_rl_set_uniform(int loc_index, moonbit_bytes_t value, int uniform_type, int count) {
   rlSetUniform(loc_index, (const void *)value, uniform_type, count);
 }
+
+// ============================================================================
+// rlgl: bool → int32_t wrappers (MoonBit Bool ABI)
+// ============================================================================
+
+int32_t
+moonbit_raylib_rl_check_render_batch_limit(int32_t vCount) {
+  return (int32_t)rlCheckRenderBatchLimit(vCount);
+}
+
+int32_t
+moonbit_raylib_rl_framebuffer_complete(uint32_t id) {
+  return (int32_t)rlFramebufferComplete(id);
+}
+
+uint32_t
+moonbit_raylib_rl_load_texture_depth(int32_t width, int32_t height, int32_t useRenderBuffer) {
+  return rlLoadTextureDepth(width, height, (bool)useRenderBuffer);
+}

@@ -77,3 +77,102 @@ moonbit_raylib_get_gesture_pinch_vector(void) {
   memcpy(r, &v, sizeof(Vector2));
   return r;
 }
+
+// ============================================================================
+// Core: Input bool → int32_t wrappers (MoonBit Bool ABI)
+// ============================================================================
+
+// Cursor
+
+int32_t
+moonbit_raylib_is_cursor_hidden(void) {
+  return (int32_t)IsCursorHidden();
+}
+
+int32_t
+moonbit_raylib_is_cursor_on_screen(void) {
+  return (int32_t)IsCursorOnScreen();
+}
+
+// Keyboard
+
+int32_t
+moonbit_raylib_is_key_pressed(int32_t key) {
+  return (int32_t)IsKeyPressed(key);
+}
+
+int32_t
+moonbit_raylib_is_key_pressed_repeat(int32_t key) {
+  return (int32_t)IsKeyPressedRepeat(key);
+}
+
+int32_t
+moonbit_raylib_is_key_down(int32_t key) {
+  return (int32_t)IsKeyDown(key);
+}
+
+int32_t
+moonbit_raylib_is_key_released(int32_t key) {
+  return (int32_t)IsKeyReleased(key);
+}
+
+int32_t
+moonbit_raylib_is_key_up(int32_t key) {
+  return (int32_t)IsKeyUp(key);
+}
+
+// Mouse
+
+int32_t
+moonbit_raylib_is_mouse_button_pressed(int32_t button) {
+  return (int32_t)IsMouseButtonPressed(button);
+}
+
+int32_t
+moonbit_raylib_is_mouse_button_down(int32_t button) {
+  return (int32_t)IsMouseButtonDown(button);
+}
+
+int32_t
+moonbit_raylib_is_mouse_button_released(int32_t button) {
+  return (int32_t)IsMouseButtonReleased(button);
+}
+
+int32_t
+moonbit_raylib_is_mouse_button_up(int32_t button) {
+  return (int32_t)IsMouseButtonUp(button);
+}
+
+// Gamepad
+
+int32_t
+moonbit_raylib_is_gamepad_available(int32_t gamepad) {
+  return (int32_t)IsGamepadAvailable(gamepad);
+}
+
+int32_t
+moonbit_raylib_is_gamepad_button_pressed(int32_t gamepad, int32_t button) {
+  return (int32_t)IsGamepadButtonPressed(gamepad, button);
+}
+
+int32_t
+moonbit_raylib_is_gamepad_button_down(int32_t gamepad, int32_t button) {
+  return (int32_t)IsGamepadButtonDown(gamepad, button);
+}
+
+int32_t
+moonbit_raylib_is_gamepad_button_released(int32_t gamepad, int32_t button) {
+  return (int32_t)IsGamepadButtonReleased(gamepad, button);
+}
+
+int32_t
+moonbit_raylib_is_gamepad_button_up(int32_t gamepad, int32_t button) {
+  return (int32_t)IsGamepadButtonUp(gamepad, button);
+}
+
+// Gesture
+
+int32_t
+moonbit_raylib_is_gesture_detected(int32_t gesture) {
+  return (int32_t)IsGestureDetected(gesture);
+}
