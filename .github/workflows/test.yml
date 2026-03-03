@@ -42,12 +42,10 @@ jobs:
         run: moon check --target native
 
   test:
-    # Run tests on Linux (xvfb provides software OpenGL) and Windows (Mesa provides software OpenGL).
-    # macOS CI runners lack OpenGL entirely — no GPU and no software fallback — so tests cannot run there.
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
@@ -83,10 +81,20 @@ jobs:
         if: runner.os == 'Windows'
         uses: ssciwr/setup-mesa-dist-win@v2
 
+      - name: Patch GLFW to allow Apple software renderer (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          # macOS CI runners have no GPU, so GLFW's NSOpenGLPFAAccelerated
+          # requirement fails. Replace it with a fallback that accepts Apple's
+          # software renderer.  See https://github.com/glfw/glfw/issues/2080
+          sed -i '' 's/ADD_ATTRIB(NSOpenGLPFAAccelerated)/ADD_ATTRIB(NSOpenGLPFARendererID); ADD_ATTRIB(kCGLRendererGenericFloatID)/' \
+            internal/raylib/external/glfw/src/nsgl_context.m
+
       - name: Run tests (Linux)
         if: runner.os == 'Linux'
         run: xvfb-run moon test --target native
 
-      - name: Run tests (Windows)
-        if: runner.os == 'Windows'
+      - name: Run tests (macOS / Windows)
+        if: runner.os != 'Linux'
         run: moon test --target native
