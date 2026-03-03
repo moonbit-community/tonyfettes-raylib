@@ -1,0 +1,100 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    # Type-check on all platforms (no GPU or linking required)
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install MoonBit (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -Append $env:GITHUB_PATH
+
+      - name: Type-check
+        run: moon check --target native
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install MoonBit (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -Append $env:GITHUB_PATH
+
+      - name: Install native build dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            xorg-dev \
+            libasound2-dev \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev
+
+      - name: Setup Mesa software renderer (Windows)
+        if: runner.os == 'Windows'
+        uses: ssciwr/setup-mesa-dist-win@v2
+
+      - name: Patch GLFW to allow Apple software renderer (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          # macOS CI runners have no GPU, so GLFW's NSOpenGLPFAAccelerated
+          # requirement fails. Replace it with a fallback that accepts Apple's
+          # software renderer.  See https://github.com/glfw/glfw/issues/2080
+          sed -i '' 's/ADD_ATTRIB(NSOpenGLPFAAccelerated)/ADD_ATTRIB(NSOpenGLPFARendererID); ADD_ATTRIB(kCGLRendererGenericFloatID)/' \
+            internal/raylib/external/glfw/src/nsgl_context.m
+
+      - name: Run tests (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run moon test --target native
+
+      - name: Run tests (macOS / Windows)
+        if: runner.os != 'Linux'
+        run: moon test --target native
