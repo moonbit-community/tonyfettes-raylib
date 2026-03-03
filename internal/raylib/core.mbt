@@ -10,28 +10,28 @@ pub extern "c" fn init_window(width : Int, height : Int, title : Bytes) = "moonb
 pub extern "c" fn close_window() = "CloseWindow"
 
 ///|
-pub extern "c" fn window_should_close() -> Bool = "WindowShouldClose"
+pub extern "c" fn window_should_close() -> Bool = "moonbit_raylib_window_should_close"
 
 ///|
-pub extern "c" fn is_window_ready() -> Bool = "IsWindowReady"
+pub extern "c" fn is_window_ready() -> Bool = "moonbit_raylib_is_window_ready"
 
 ///|
-pub extern "c" fn is_window_fullscreen() -> Bool = "IsWindowFullscreen"
+pub extern "c" fn is_window_fullscreen() -> Bool = "moonbit_raylib_is_window_fullscreen"
 
 ///|
-pub extern "c" fn is_window_hidden() -> Bool = "IsWindowHidden"
+pub extern "c" fn is_window_hidden() -> Bool = "moonbit_raylib_is_window_hidden"
 
 ///|
-pub extern "c" fn is_window_minimized() -> Bool = "IsWindowMinimized"
+pub extern "c" fn is_window_minimized() -> Bool = "moonbit_raylib_is_window_minimized"
 
 ///|
-pub extern "c" fn is_window_maximized() -> Bool = "IsWindowMaximized"
+pub extern "c" fn is_window_maximized() -> Bool = "moonbit_raylib_is_window_maximized"
 
 ///|
-pub extern "c" fn is_window_focused() -> Bool = "IsWindowFocused"
+pub extern "c" fn is_window_focused() -> Bool = "moonbit_raylib_is_window_focused"
 
 ///|
-pub extern "c" fn is_window_resized() -> Bool = "IsWindowResized"
+pub extern "c" fn is_window_resized() -> Bool = "moonbit_raylib_is_window_resized"
 
 ///|
 #borrow(title)
@@ -92,7 +92,7 @@ pub extern "c" fn set_window_state(flags : Int) = "SetWindowState"
 pub extern "c" fn clear_window_state(flags : Int) = "ClearWindowState"
 
 ///|
-pub extern "c" fn is_window_state(flag : Int) -> Bool = "IsWindowState"
+pub extern "c" fn is_window_state(flag : Int) -> Bool = "moonbit_raylib_is_window_state"
 
 ///|
 pub extern "c" fn get_window_position() -> Bytes = "moonbit_raylib_get_window_position"
@@ -179,7 +179,7 @@ pub extern "c" fn show_cursor() = "ShowCursor"
 pub extern "c" fn hide_cursor() = "HideCursor"
 
 ///|
-pub extern "c" fn is_cursor_hidden() -> Bool = "IsCursorHidden"
+pub extern "c" fn is_cursor_hidden() -> Bool = "moonbit_raylib_is_cursor_hidden"
 
 ///|
 pub extern "c" fn enable_cursor() = "EnableCursor"
@@ -188,7 +188,7 @@ pub extern "c" fn enable_cursor() = "EnableCursor"
 pub extern "c" fn disable_cursor() = "DisableCursor"
 
 ///|
-pub extern "c" fn is_cursor_on_screen() -> Bool = "IsCursorOnScreen"
+pub extern "c" fn is_cursor_on_screen() -> Bool = "moonbit_raylib_is_cursor_on_screen"
 
 // ============================================================================
 // Drawing
@@ -263,19 +263,19 @@ pub extern "c" fn get_fps() -> Int = "GetFPS"
 // ============================================================================
 
 ///|
-pub extern "c" fn is_key_pressed(key : Int) -> Bool = "IsKeyPressed"
+pub extern "c" fn is_key_pressed(key : Int) -> Bool = "moonbit_raylib_is_key_pressed"
 
 ///|
-pub extern "c" fn is_key_pressed_repeat(key : Int) -> Bool = "IsKeyPressedRepeat"
+pub extern "c" fn is_key_pressed_repeat(key : Int) -> Bool = "moonbit_raylib_is_key_pressed_repeat"
 
 ///|
-pub extern "c" fn is_key_down(key : Int) -> Bool = "IsKeyDown"
+pub extern "c" fn is_key_down(key : Int) -> Bool = "moonbit_raylib_is_key_down"
 
 ///|
-pub extern "c" fn is_key_released(key : Int) -> Bool = "IsKeyReleased"
+pub extern "c" fn is_key_released(key : Int) -> Bool = "moonbit_raylib_is_key_released"
 
 ///|
-pub extern "c" fn is_key_up(key : Int) -> Bool = "IsKeyUp"
+pub extern "c" fn is_key_up(key : Int) -> Bool = "moonbit_raylib_is_key_up"
 
 ///|
 pub extern "c" fn get_key_pressed() -> Int = "GetKeyPressed"
@@ -291,16 +291,16 @@ pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
 // ============================================================================
 
 ///|
-pub extern "c" fn is_mouse_button_pressed(button : Int) -> Bool = "IsMouseButtonPressed"
+pub extern "c" fn is_mouse_button_pressed(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_pressed"
 
 ///|
-pub extern "c" fn is_mouse_button_down(button : Int) -> Bool = "IsMouseButtonDown"
+pub extern "c" fn is_mouse_button_down(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_down"
 
 ///|
-pub extern "c" fn is_mouse_button_released(button : Int) -> Bool = "IsMouseButtonReleased"
+pub extern "c" fn is_mouse_button_released(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_released"
 
 ///|
-pub extern "c" fn is_mouse_button_up(button : Int) -> Bool = "IsMouseButtonUp"
+pub extern "c" fn is_mouse_button_up(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_up"
 
 ///|
 pub extern "c" fn get_mouse_x() -> Int = "GetMouseX"
@@ -337,7 +337,7 @@ pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
 // ============================================================================
 
 ///|
-pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "IsGamepadAvailable"
+pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "moonbit_raylib_is_gamepad_available"
 
 ///|
 pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get_gamepad_name"
@@ -346,19 +346,19 @@ pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get
 pub extern "c" fn is_gamepad_button_pressed(
   gamepad : Int,
   button : Int,
-) -> Bool = "IsGamepadButtonPressed"
+) -> Bool = "moonbit_raylib_is_gamepad_button_pressed"
 
 ///|
-pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonDown"
+pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_down"
 
 ///|
 pub extern "c" fn is_gamepad_button_released(
   gamepad : Int,
   button : Int,
-) -> Bool = "IsGamepadButtonReleased"
+) -> Bool = "moonbit_raylib_is_gamepad_button_released"
 
 ///|
-pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "IsGamepadButtonUp"
+pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_up"
 
 ///|
 pub extern "c" fn get_gamepad_button_pressed() -> Int = "GetGamepadButtonPressed"
@@ -408,7 +408,7 @@ pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
 pub extern "c" fn set_gestures_enabled(flags : Int) = "SetGesturesEnabled"
 
 ///|
-pub extern "c" fn is_gesture_detected(gesture : Int) -> Bool = "IsGestureDetected"
+pub extern "c" fn is_gesture_detected(gesture : Int) -> Bool = "moonbit_raylib_is_gesture_detected"
 
 ///|
 pub extern "c" fn get_gesture_detected() -> Int = "GetGestureDetected"
@@ -841,7 +841,7 @@ pub extern "c" fn rl_enable_backface_culling() = "rlEnableBackfaceCulling"
 pub extern "c" fn rl_disable_backface_culling() = "rlDisableBackfaceCulling"
 
 ///|
-pub extern "c" fn rl_check_render_batch_limit(v_count : Int) -> Bool = "rlCheckRenderBatchLimit"
+pub extern "c" fn rl_check_render_batch_limit(v_count : Int) -> Bool = "moonbit_raylib_rl_check_render_batch_limit"
 
 ///|
 pub extern "c" fn rl_enable_depth_test() = "rlEnableDepthTest"
@@ -897,7 +897,7 @@ pub extern "c" fn rl_clear_screen_buffers() = "rlClearScreenBuffers"
 pub extern "c" fn rl_load_framebuffer() -> UInt = "rlLoadFramebuffer"
 
 ///|
-pub extern "c" fn rl_framebuffer_complete(id : UInt) -> Bool = "rlFramebufferComplete"
+pub extern "c" fn rl_framebuffer_complete(id : UInt) -> Bool = "moonbit_raylib_rl_framebuffer_complete"
 
 ///|
 pub extern "c" fn rl_framebuffer_attach(
@@ -918,7 +918,7 @@ pub extern "c" fn rl_load_texture_depth(
   width : Int,
   height : Int,
   use_render_buffer : Bool,
-) -> UInt = "rlLoadTextureDepth"
+) -> UInt = "moonbit_raylib_rl_load_texture_depth"
 
 ///|
 pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"

@@ -9,7 +9,7 @@ pub extern "c" fn init_audio_device() = "InitAudioDevice"
 pub extern "c" fn close_audio_device() = "CloseAudioDevice"
 
 ///|
-pub extern "c" fn is_audio_device_ready() -> Bool = "IsAudioDeviceReady"
+pub extern "c" fn is_audio_device_ready() -> Bool = "moonbit_raylib_is_audio_device_ready"
 
 ///|
 pub extern "c" fn set_master_volume(volume : Float) = "SetMasterVolume"

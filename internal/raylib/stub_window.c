@@ -104,3 +104,52 @@ void
 moonbit_raylib_set_window_icon(ImageWrapper *wrapper) {
   SetWindowIcon(wrapper->image);
 }
+
+// ============================================================================
+// Core: Window state (bool → int32_t wrappers for MoonBit Bool ABI)
+// ============================================================================
+
+int32_t
+moonbit_raylib_window_should_close(void) {
+  return (int32_t)WindowShouldClose();
+}
+
+int32_t
+moonbit_raylib_is_window_ready(void) {
+  return (int32_t)IsWindowReady();
+}
+
+int32_t
+moonbit_raylib_is_window_fullscreen(void) {
+  return (int32_t)IsWindowFullscreen();
+}
+
+int32_t
+moonbit_raylib_is_window_hidden(void) {
+  return (int32_t)IsWindowHidden();
+}
+
+int32_t
+moonbit_raylib_is_window_minimized(void) {
+  return (int32_t)IsWindowMinimized();
+}
+
+int32_t
+moonbit_raylib_is_window_maximized(void) {
+  return (int32_t)IsWindowMaximized();
+}
+
+int32_t
+moonbit_raylib_is_window_focused(void) {
+  return (int32_t)IsWindowFocused();
+}
+
+int32_t
+moonbit_raylib_is_window_resized(void) {
+  return (int32_t)IsWindowResized();
+}
+
+int32_t
+moonbit_raylib_is_window_state(int32_t flag) {
+  return (int32_t)IsWindowState(flag);
+}
