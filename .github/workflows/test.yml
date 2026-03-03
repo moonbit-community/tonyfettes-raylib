@@ -79,10 +79,6 @@ jobs:
             libgl1-mesa-dev \
             libglu1-mesa-dev
 
-      - name: Load dummy sound driver (Linux)
-        if: runner.os == 'Linux'
-        run: sudo modprobe snd-dummy
-
       - name: Setup Mesa software renderer (Windows)
         if: runner.os == 'Windows'
         uses: ssciwr/setup-mesa-dist-win@v2
