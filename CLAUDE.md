@@ -106,7 +106,7 @@ Other notes:
 Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod.json`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
 
 - **`build.js`** — Prebuild script. Emits `link_configs` (platform-specific link flags) and `vars` (dynamic `stub-cc-flags`). Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows. On macOS, appends `-ObjC` to `stub-cc-flags` so clang compiles `rglfw.c` as Objective-C (required for GLFW's Cocoa backend).
-- **`stub-cc-flags`** — Set dynamically via `${build.RAYLIB_STUB_CC_FLAGS}` in `moon.pkg`, populated by `build.js`. Always includes `-DPLATFORM_DESKTOP_GLFW`; on macOS also includes `-ObjC`. No `-I` flags needed — the `platforms/GLFW/` directory ensures `#include "GLFW/glfw3.h"` resolves via the C preprocessor's relative path search.
+- **`stub-cc-flags`** — Set dynamically via `${build.RAYLIB_STUB_CC_FLAGS}` in `moon.pkg`, populated by `build.js`. The value is platform-dependent: desktop platforms use `-DPLATFORM_DESKTOP_GLFW` (with `-ObjC` on macOS); non-desktop platforms (`android`, `drm`, `web`) use their own `-DPLATFORM_*` flag plus `-DGRAPHICS_API_OPENGL_ES2`. Override with `RAYLIB_PLATFORM` env var to target non-host platforms.
 
 Use `moon -C examples build --target native raylib_demo/` to build. The `examples/` directory is a separate module, so use `-C examples` to set the working directory.
 
