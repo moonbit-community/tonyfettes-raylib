@@ -1,148 +1,92 @@
-# MoonBit AI Software Factory Mass-Produces 150+ Cross-Platform Games
+# Build an Android Game with MoonBit and Raylib
 
-## From Compiler to Games: Validating the Factory's Breadth
+[MoonBit](https://www.moonbitlang.com/) compiles to native code (via C) with a strong type system and familiar syntax. [Raylib](https://www.raylib.com/) is a minimal C library for games -- window, drawing, input, and audio with zero boilerplate. Together, they let you build Android games with native performance and a tiny APK -- no engine runtime, no garbage collector pauses. In this tutorial, you'll go from zero to a working Flappy Bird on your phone.
 
-Previously, the MoonBit team demonstrated the AI software factory's **depth**: an AI Agent generated a 35,000-line C compiler from scratch in 10 days ([Fastcc.mbt](https://github.com/moonbit-community/fastcc)), capable of compiling tcc, QuickJS, and SQLite while passing their respective test suites, with compilation speed 4x faster than `clang -O0`.
+Because MoonBit compiles to standard C code, the same game code can target multiple platforms by swapping the compilation toolchain: gcc or clang for desktop, emcc (Emscripten) to WebAssembly for browsers, or the Android NDK to cross-compile into a native `.so` shared library packaged into an APK. The core game logic requires no per-platform rewrites -- though mobile targets like Android may need minor input adaptations, such as replacing keyboard events with touch gesture detection.
 
-This raises a question: is this capability a one-off feat for a single heavyweight project, or a general-purpose capacity that can be replicated at scale?
+## Prerequisites
 
-We answered with an experiment: almost 100% AI batch-produced 150 games, spanning genres from Space Trader to Wuxia Rooftop Duel, from Tower Defense Frontier to Pinball Workshop — covering shooters, strategy, action, puzzle, and more.
+Before we start, make sure you have:
 
-Here are the results:
+- **MoonBit toolchain** -- install the `moon` CLI from [moonbitlang.com/download](https://www.moonbitlang.com/download/)
+- **Android SDK + NDK** -- the easiest way is to install [Android Studio](https://developer.android.com/studio), which bundles both. Make sure NDK is installed (Android Studio > Settings > SDK Manager > SDK Tools > NDK)
+- **An Android device** (or emulator) with USB debugging enabled. If you installed Android Studio with the recommended settings, it comes with an emulator ready to use.
+- **ADB** on your PATH (comes with Android SDK platform-tools) -- only needed if you prefer building and deploying from the command line instead of Android Studio
 
-- **All playable**: every game has a complete game loop, collision detection, scoring system, and touch support — all crash-free
-- **Zero segfaults** — not a single game crashed due to memory errors
-- **Three-platform deployment** — the same code runs on desktop (gcc/clang), Web (emcc → WASM), and Android (NDK). The Raylib MoonBit bindings themselves were also AI-generated
-
-Download the games: <https://moonbit-community.github.io/tonyfettes-raylib-android-games>
-
-## The Production Process: Building Software Like a Factory
-
-### Parallel Production: The Subagent Pipeline
-
-Traditional AI programming is one-to-one: a developer sits in front of an IDE, talks to an AI assistant, and works on one project at a time. Under this model, 150 games means 150 independent development sessions — even at 30 minutes each, that's 75 hours.
-
-The software factory works differently. We leveraged the AI Agent's **subagent** mechanism to parallelize game production: the main Agent receives a batch of game concepts (space trading, tower defense, pinball...), then spawns multiple subagents, each independently responsible for generating a complete game. These subagents work simultaneously, each writing code, invoking the compiler, and fixing errors on their own.
-
-![Agent Workflow](./diagrams/agent_workflow.png)
-
-This is the core distinction between a "factory" and a "workshop": **production capacity is no longer limited by a single Agent's serial speed, but by how many production lines you can run in parallel**.
-
-Each subagent follows the same workflow:
-
-1. Receive a game concept description (e.g., "a space trading simulation game")
-2. Generate complete MoonBit game code
-3. Invoke `moon check` / `moon build` to compile, receive type error feedback
-4. Fix code based on compiler errors, loop until compilation succeeds
-5. Verify the game launches without crashing
-
-Throughout this process, the human's role is that of a **factory operator**: defining what to produce (the list of game concepts), starting the production lines (dispatching subagents), and spot-checking output quality (playtesting a few games). There's no need to review every line of code — with 150 games of several hundred lines each, line-by-line auditing is neither practical nor necessary. Code quality is guaranteed by the compiler's type system and the runtime's zero-crash record.
-
-### From Desktop to Three Platforms: Progressive Porting
-
-The 150 games weren't generated on all three platforms at once — they followed a progressive factory pipeline:
-
-**Phase 1: Desktop game production.** Subagents generate 150+ desktop games in parallel, run directly with the MoonBit toolchain. The acceptance criterion: compiles successfully, launches without crashing. Random spot-checks revealed that most were fully playable.
-
-**Phase 2: Web porting.** Because MoonBit compiles to standard C code, porting from desktop to Web is nearly free — replacing gcc with emcc (Emscripten) compiles the same C code to WASM, running in the browser. The game logic code itself requires zero modifications.
-
-Link: <https://bobzhang.github.io/raylib-moonbit-web-games/>
-
-**Phase 3: Android porting.** The C code is cross-compiled into `.so` shared libraries via Android NDK and packaged into APKs. This step leverages a scaffolding tool that auto-generates Gradle configuration and a Kotlin entry point — the AI Agent only needs to place the game code into the correct directory structure.
-
-Link: <https://moonbit-community.github.io/tonyfettes-raylib-android-games/>
-
-**Phase 4: Touch adaptation.** After Android porting, manual spot-checks revealed that some games only supported keyboard input — understandably, since they were originally generated for desktop. AI Agents were dispatched again to batch-add touch support. Raylib's `is_gesture_detected(GestureTap)` responds to both touchscreen taps and mouse clicks, so touch adaptation typically only requires replacing keyboard events with gesture detection — no game logic rewrite needed.
-
-This progressive pipeline reveals an important property of the software factory: **production isn't one-shot, but can iterate incrementally on existing outputs**. First produce desktop versions to validate core logic; then port to Web and Android to expand distribution; finally do platform-specific adaptations. Each phase builds incrementally on the previous one, rather than starting over.
-
-## How This Is Possible: From 60% to 100%
-
-### Three Critical Completion Milestones
-
-Generating code with AI isn't hard — making that code **actually work** is. In software factory practice, we've observed three critical completion milestones:
-
-- **60%**: The AI generates text that "looks like code" but can't compile. Interfaces between modules don't match, types are inconsistent, function signatures don't line up. Cursor's AI-generated 3-million-line browser stalled at this milestone — massive code volume, but zero functionality because nothing compiled.
-- **90%**: Code compiles and runs but has logic errors, missed edge cases, or platform compatibility issues. A game launches but crashes on certain inputs, or behaves inconsistently across devices.
-- **100%**: Code runs stably on all target platforms with correct logic and complete user experience.
-
-The MoonBit software factory's core capability is pushing AI output from 60% to 100%.
-
-### From 60% to 90%: The Type System as Quality Gate
-
-Most AI coding tools stall at 60% because the AI generates code that "looks right" but has structural errors, and the programming language doesn't provide strong enough compile-time checks to catch them.
-
-Python and JavaScript have no compile-time checking — errors only surface at runtime. C/C++ have compile-time checks but the type system is too weak — implicit type conversions, pointer arithmetic, and undefined behavior are all error sources the compiler can't intercept.
-
-MoonBit's design is fundamentally different. A strong type system + pattern matching + no implicit conversions means every line of AI-generated code must pass strict compiler checks:
-
-- **Type mismatch**: passed an `Int` where the function expects `Float` — compile error
-- **Missing branches**: `match` expression doesn't cover all cases — compile warning
-- **Uninitialized fields**: struct construction missing a field — compile error
-- **No implicit conversions**: no JavaScript-style `"1" + 1 = "11"` surprises
-
-This means that during the batch production of 150 games, even when humans can't review every line, the compiler automatically intercepts structural errors. Each AI Agent gets immediate, unambiguous feedback on every compilation and corrects accordingly — this loop executes automatically within each subagent, requiring no human intervention.
-
-This is the fundamental reason for zero segfaults across 150 games: **unsafe code simply cannot pass compilation**.
-
-### From 90% to 100%: Compilation Speed and the Feedback Loop
-
-Code that compiles doesn't mean code that's correct. The leap from 90% to 100% depends on a fast **verification feedback loop**: AI modifies code → compiles → runs tests → observes results → modifies again. The faster this loop executes, the more effectively the AI converges on a correct implementation.
-
-In the context of batch-producing 150 games, the importance of compilation speed is amplified tenfold. An AI might run thousands of compilations per day — if each compilation takes 30 seconds (as with Rust), a thousand runs means 8 hours of pure waiting; MoonBit's compilation speed is 10 to 100x faster than Rust, meaning the same number of iterations takes only minutes.
-
-**Compilation speed isn't a minor developer experience optimization — it's the software factory's throughput bottleneck**. When production scales from 1 project to 150, every millisecond of compilation time difference is amplified into a perceptible capacity gap.
-
-## Compiling to C: The Factory's Cross-Platform Secret
-
-MoonBit compiles to standard C code — this design decision is the key to cross-platform scalability.
-
-### One Codebase, Three Platforms
-
-The same AI-generated MoonBit code:
-
-- Compiles with **gcc/clang** to run on desktop
-- Compiles with **emcc** to WASM to run in browsers
-- Cross-compiles with **Android NDK** to `.so` to run on phones
-
-No per-platform code rewrites, no platform-specific adaptation layers. The AI generates once, and the factory's build pipeline turns it into executables for three platforms. This is why 150 games can simultaneously span three platforms — **the factory's reuse power comes from the portability of its compilation target**.
-
-### Full-Chain AI Generation
-
-Worth emphasizing: not only the game code, but also the infrastructure — the Raylib MoonBit bindings ([tonyfettes/raylib](https://mooncakes.io/docs/tonyfettes/raylib/)) — was AI-generated. From low-level bindings to application code, the entire chain is a software factory output. The fact that infrastructure itself can be factory-produced represents a bootstrapping form of capability accumulation.
-
-### Build Pipeline
-
-![Compilation pipeline](diagrams/compile.png)
-
-From MoonBit source to an APK on the phone, the pipeline is deterministic:
-
-1. **MoonBit → C**: The MoonBit compiler translates `.mbt` source files into standard C code
-2. **C → .so**: The Android NDK cross-compiler compiles the C code along with Raylib sources into a shared library
-3. **Package APK**: Gradle packages the `.so` into an APK
-
-The MoonBit ecosystem provides a scaffolding tool that generates a complete Android project in one command:
+Then install the scaffolding tool:
 
 ```bash
 moon install tonyfettes/create-moonbit-raylib-android-app
+```
+
+This gives you the `create-moonbit-raylib-android-app` command, which generates a complete project ready to build.
+
+## Scaffold a New Project
+
+Run the scaffolding tool to create a new project:
+
+```bash
 create-moonbit-raylib-android-app MyFlappyBird
 ```
 
-In the generated project, the AI Agent only needs to touch one directory: **`app/src/main/moonbit/`**. Gradle configuration, CMake build, and the Kotlin entry point are all handled by the scaffolding. Building and deploying is also a single command:
+This generates a complete Android project:
 
-```bash
-cd MyFlappyBird && ./gradlew assembleDebug --no-daemon
+```plaintext
+MyFlappyBird/
+├── gradlew                          # Gradle build wrapper
+├── settings.gradle.kts
+├── app/
+│   ├── build.gradle.kts             # Android build config (NDK, ABI targets)
+│   ├── src/main/
+│   │   ├── AndroidManifest.xml      # App manifest (NativeActivity)
+│   │   ├── java/.../MainActivity.kt # Thin Kotlin entry point
+│   │   ├── moonbit/                 # YOUR GAME CODE LIVES HERE
+│   │   │   ├── main.mbt            # Starter game
+│   │   │   ├── moon.mod.json       # MoonBit module config
+│   │   │   └── moon.pkg            # Package declaration
+│   │   └── cpp/
+│   │       └── CMakeLists.txt       # Build pipeline glue
+│   └── ...
+└── gradle/
 ```
 
-![Architecture of a MoonBit Raylib Android app](diagrams/call-chain.png)
+You can also open the project in Android Studio (click **Open** from the welcome screen). Switch to **Project** view to see the `moonbit/` folder where your game code lives.
 
-At runtime, the lightweight `MainActivity` loads the `.so` library, the NDK glue code bootstraps the native side, Raylib initializes the OpenGL ES context, and calls `main()` — the C function compiled from MoonBit's `fn main`.
+![Android Studio in Project view with main.mbt open](images/android_studio_project_screen_after.png)
 
-## Anatomy of a Factory Output: Flappy Bird
+The scaffolding already configures the Raylib dependency in `moon.mod.json` and imports it in `moon.pkg` -- you don't need to touch either file. The generated `main.mbt` is a hello world that displays centered text.
 
-Let's open one of the 150 factory outputs — Flappy Bird — and examine the AI-generated code.
+## Build and Deploy
 
-The AI split the game state into three structs — `Bird` (dynamic state), `Pipe` (obstacles), and `Game` (global container):
+Building the project compiles your MoonBit code to C, then uses the Android NDK to compile everything into a native shared library packaged into an APK.
+
+```bash
+cd MyFlappyBird
+./gradlew assembleDebug --no-daemon
+```
+
+The first build takes a few minutes (it compiles Raylib from source). Subsequent builds are much faster.
+
+If you opened the project in Android Studio, you can build and run in one step -- select your device or emulator from the toolbar and click the **Run** button (green play triangle).
+
+![Click Run in Android Studio](images/android_studio_run_app.png)
+
+Or from the command line, install and launch on your device:
+
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n com.example.myflappybird/com.example.myflappybird.MainActivity
+```
+
+Either way, you should see "Hello, World!" displayed on screen.
+
+## Make It Your Own: Flappy Bird
+
+Every game follows the same core loop: **initialize** (create window, set up state), **loop** (update state from input, draw everything), **cleanup** (close window). Let's build a complete Flappy Bird clone. Replace `app/src/main/moonbit/main.mbt` with the code below -- we'll go through it piece by piece.
+
+### Data Model
+
+Three structs hold the entire game state:
 
 ```moonbit
 ///|
@@ -177,9 +121,121 @@ priv struct Game {
 }
 ```
 
-Notable design decisions — all made autonomously by the AI: minimized mutable state (`Bird` has only two `mut` fields); all sizes derived from screen dimensions (adapts to any resolution); only 4 `Pipe` objects for infinite scrolling (pipes that exit the left edge get their coordinates reset to the right).
+`Bird` holds dynamic state (position and velocity). `Pipe` tracks each obstacle's position, gap center, and whether it's been scored. Constants like `bird_x` and `bird_radius` live in `Game`. All sizes derive from screen dimensions (`sw`, `sh`) so the game scales to any device.
 
-The core `update` function contains physics simulation, collision detection, and scoring logic:
+### Entity Behaviors
+
+Each entity gets methods for its core behaviors. The `fn Bird::method(self : Bird, ...)` syntax lets us call these as `game.bird.method(...)` later.
+
+`Bird` can reset, update its physics, and draw itself. `Bird::update` returns `true` if the bird hits the ceiling or floor:
+
+```moonbit
+///|
+fn Bird::reset(self : Bird, sh : Float) -> Unit {
+  self.y = sh / 2.0
+  self.velocity = 0.0
+}
+
+///|
+fn Bird::update(
+  self : Bird,
+  gravity : Float,
+  radius : Float,
+  sh : Float,
+  dt : Float,
+) -> Bool {
+  self.velocity += gravity * dt
+  self.y += self.velocity * dt
+  // Hit ceiling or floor?
+  self.y < radius || self.y > sh - radius
+}
+
+///|
+fn Bird::draw(self : Bird, x : Float, radius : Float) -> Unit {
+  @raylib.draw_circle_v(
+    @raylib.Vector2::new(x, self.y),
+    radius,
+    @raylib.yellow,
+  )
+}
+```
+
+Multiplying by `dt` (seconds since last frame) makes the physics frame-rate independent.
+
+`Pipe` can reset to a new position, draw its top and bottom rectangles, and check for collision with the bird:
+
+```moonbit
+///|
+fn Pipe::reset(self : Pipe, x : Float, game : Game) -> Unit {
+  self.x = x
+  self.gap_y = random_gap_y(game)
+  self.scored = false
+}
+
+///|
+fn Pipe::draw(self : Pipe, width : Float, gap_size : Float) -> Unit {
+  let px = self.x.to_int()
+  let pw = width.to_int()
+  let gap_top = (self.gap_y - gap_size / 2.0).to_int()
+  let gap_bottom = (self.gap_y + gap_size / 2.0).to_int()
+  @raylib.draw_rectangle(px, 0, pw, gap_top, @raylib.darkgreen)
+  @raylib.draw_rectangle(
+    px,
+    gap_bottom,
+    pw,
+    @raylib.get_screen_height() - gap_bottom,
+    @raylib.darkgreen,
+  )
+}
+
+///|
+fn Pipe::collides_with(
+  self : Pipe,
+  bird_x : Float,
+  bird_y : Float,
+  bird_radius : Float,
+  pipe_width : Float,
+  gap_size : Float,
+) -> Bool {
+  // Horizontal overlap and outside the gap = hit
+  bird_x + bird_radius > self.x &&
+  bird_x - bird_radius < self.x + pipe_width &&
+  (bird_y - bird_radius < self.gap_y - gap_size / 2.0 ||
+  bird_y + bird_radius > self.gap_y + gap_size / 2.0)
+}
+```
+
+We also need a helper to generate random gap positions within safe bounds:
+
+```moonbit
+///|
+fn random_gap_y(game : Game) -> Float {
+  Float::from_int(
+    @raylib.get_random_value(
+      (game.gap_size / 2.0 + 50.0).to_int(),
+      (game.sh - game.gap_size / 2.0 - 50.0).to_int(),
+    ),
+  )
+}
+```
+
+### Game Logic
+
+With entity behaviors defined, the top-level functions orchestrate them. `reset` initializes the bird and spaces pipes evenly off-screen to the right:
+
+```moonbit
+///|
+fn reset(game : Game) -> Unit {
+  game.bird.reset(game.sh)
+  game.score = 0
+  game.game_over = false
+  for i in 0..<game.pipes.length() {
+    game.pipes[i].reset(game.sw + Float::from_int(i) * game.pipe_spacing, game)
+  }
+}
+```
+
+`update` handles input, physics, pipe scrolling, collision, and scoring. `is_gesture_detected(GestureTap)` responds to both touchscreen taps and mouse clicks, so you can test on desktop too. When a pipe scrolls off the left edge, it wraps to the right with a new random gap -- creating infinite scrolling with just 4 objects:
 
 ```moonbit
 ///|
@@ -194,30 +250,33 @@ fn update(game : Game, dt : Float) -> Unit {
   if @raylib.is_gesture_detected(@raylib.GestureTap) {
     game.bird.velocity = game.jump_force
   }
-  game.bird.velocity += game.gravity * dt
-  game.bird.y += game.bird.velocity * dt
 
-  if game.bird.y < game.bird_radius || game.bird.y > game.sh - game.bird_radius {
+  // Bird physics; boundary hit = game over
+  if game.bird.update(game.gravity, game.bird_radius, game.sh, dt) {
     game.game_over = true
   }
 
+  // Move pipes, check collision and scoring
   for pipe in game.pipes {
     pipe.x -= game.pipe_speed * dt
     if pipe.x < -game.pipe_width {
-      pipe.x += Float::from_int(game.pipes.length()) * game.pipe_spacing
-      pipe.gap_y = random_gap_y(game)
-      pipe.scored = false
+      pipe.reset(
+        pipe.x + Float::from_int(game.pipes.length()) * game.pipe_spacing,
+        game,
+      )
     }
 
-    // AABB collision detection
-    if game.bird_x + game.bird_radius > pipe.x &&
-      game.bird_x - game.bird_radius < pipe.x + game.pipe_width {
-      if game.bird.y - game.bird_radius < pipe.gap_y - game.gap_size / 2.0 ||
-        game.bird.y + game.bird_radius > pipe.gap_y + game.gap_size / 2.0 {
-        game.game_over = true
-      }
+    if pipe.collides_with(
+      game.bird_x,
+      game.bird.y,
+      game.bird_radius,
+      game.pipe_width,
+      game.gap_size,
+    ) {
+      game.game_over = true
     }
 
+    // Score when bird passes a pipe
     if not(pipe.scored) && pipe.x + game.pipe_width < game.bird_x {
       game.score += 1
       pipe.scored = true
@@ -226,30 +285,110 @@ fn update(game : Game, dt : Float) -> Unit {
 }
 ```
 
-All motion values are multiplied by `dt` (frame-rate independent physics); `is_gesture_detected(GestureTap)` responds to both touchscreen and mouse — the same code ports from desktop to mobile with no game logic changes.
+`draw` renders everything each frame. All Raylib draw calls must be between `begin_drawing()` and `end_drawing()`. Pipes are drawn before the bird so they render behind it. `draw_centered_text` is a small helper since we center text in three places (`"\{game.score}"` is MoonBit's string interpolation):
 
-The complete Flappy Bird — gravity, pipes, collision, scoring, game over, and restart — in roughly 200 lines of code. AI-generated, immediately playable.
+```moonbit
+///|
+fn draw_centered_text(
+  text : String,
+  y : Int,
+  size : Int,
+  color : @raylib.Color,
+) -> Unit {
+  @raylib.draw_text(
+    text,
+    (@raylib.get_screen_width() - @raylib.measure_text(text, size)) / 2,
+    y,
+    size,
+    color,
+  )
+}
+
+///|
+fn draw(game : Game) -> Unit {
+  @raylib.begin_drawing()
+  @raylib.clear_background(@raylib.skyblue)
+  for pipe in game.pipes {
+    pipe.draw(game.pipe_width, game.gap_size)
+  }
+  game.bird.draw(game.bird_x, game.bird_radius)
+  draw_centered_text(
+    "\{game.score}", (game.sh * 0.05).to_int(),
+    (game.sh / 10.0).to_int(), @raylib.white,
+  )
+  if game.game_over {
+    let over_size = (game.sh / 12.0).to_int()
+    draw_centered_text(
+      "GAME OVER", (@raylib.get_screen_height() - over_size) / 2,
+      over_size, @raylib.red,
+    )
+    draw_centered_text(
+      "Tap to restart", @raylib.get_screen_height() / 2 + over_size / 2 + 10,
+      (game.sh / 25.0).to_int(), @raylib.gray,
+    )
+  }
+  @raylib.end_drawing()
+}
+```
+
+### Main
+
+`main` ties everything together. `init_window(0, 0, ...)` makes the window fill the screen. The game loop is three lines: get delta time, update, draw:
+
+```moonbit
+///|
+fn main {
+  @raylib.init_window(0, 0, "Flappy Bird")
+  @raylib.set_target_fps(60)
+  @raylib.set_exit_key(0)
+  let sw = Float::from_int(@raylib.get_screen_width())
+  let sh = Float::from_int(@raylib.get_screen_height())
+  let pipe_count = 4
+
+  let game : Game = {
+    sw,
+    sh,
+    bird_x: sw * 0.2,
+    bird: { y: 0.0, velocity: 0.0 },
+    bird_radius: sh / 25.0,
+    gravity: sh * 1.5,
+    jump_force: sh * -0.65,
+    pipe_width: sh / 8.0,
+    gap_size: sh / 4.0,
+    pipe_speed: sw / 6.0,
+    pipe_spacing: sw / 3.0,
+    pipes: Array::makei(pipe_count, fn(_) {
+      { x: 0.0, gap_y: 0.0, scored: false }
+    }),
+    score: 0,
+    game_over: false,
+  }
+  reset(game)
+
+  while not(@raylib.window_should_close()) {
+    let dt = @raylib.get_frame_time()
+    update(game, dt)
+    draw(game)
+  }
+  @raylib.close_window()
+}
+```
+
+Build and deploy to see the complete game:
+
+```bash
+./gradlew assembleDebug --no-daemon
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
 ![Flappy Bird gameplay](screenshots/step3.gif)
 
-## Conclusion
+## Where to Go Next
 
-From a C compiler (35,000 lines, 10 days) to 150+ games (parallel subagent production, three-platform deployment), the MoonBit AI software factory demonstrates two complementary capabilities:
+This tutorial covered the basics, but MoonBit + Raylib can handle much more complex games. Here are some directions to explore:
 
-- **Depth**: AI can complete complex systems under rigorous engineering constraints (compilers, PDF tools, Wasm virtual machines)
-- **Breadth**: The same factory infrastructure can scale to mass production — 150 games, 100% AI-generated code, zero crashes
+- **Raylib binding** -- the [tonyfettes/raylib](https://mooncakes.io/docs/#/tonyfettes/raylib/) package provides MoonBit bindings for Raylib, covering shapes, textures, audio, 3D models, shaders, and more.
+- **Selene** -- an [experimental game engine](https://github.com/moonbit-community/selene) built in MoonBit with both Canvas2D and Raylib backends, designed for building web and native games.
+- **MoonBit documentation** -- learn more about the language at [docs.moonbitlang.com](https://docs.moonbitlang.com/).
 
-The key isn't that a particular AI model is especially powerful, but that MoonBit provides an engineering infrastructure that enables AI to work reliably:
-
-1. **AI-native language design** — a strong type system intercepts errors at compile time, giving AI immediate, structured feedback on every generation
-2. **Compile-to-C portability** — one codebase automatically targets desktop, Web, and Android
-3. **Blazing-fast compilation** — AI can execute massive compile-fix cycles in short timeframes, converging quickly on correct implementations
-4. **Programmable toolchain** — scaffolding, build systems, and IDE tools are all programmatically callable by Agents, forming an automated production pipeline
-
-When Cursor generated 3 million lines of browser code that couldn't compile, MoonBit's 150 games all passed compilation and all ran successfully. The difference isn't the AI model — it's the factory infrastructure.
-
-The significance of the software factory goes beyond "AI can write code." It's about turning software production into a **repeatable, verifiable, scalable pipeline**. Humans define requirements and direction; AI completes the construction and iteration under engineering constraints. From compilers to games, this pipeline is already running.
-
-- [tonyfettes/raylib](https://mooncakes.io/docs/tonyfettes/raylib/) — MoonBit's Raylib bindings (AI-generated)
-- [Selene](https://github.com/moonbit-community/selene) — An experimental MoonBit game engine with Canvas2D and Raylib backends
-- [MoonBit documentation](https://docs.moonbitlang.com/) — Language reference
+The combination of MoonBit's native compilation, Raylib's simplicity, and the scaffolding tool's one-command setup makes this one of the most straightforward ways to build native Android games from scratch. No engine. No runtime. Just code.
