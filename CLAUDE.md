@@ -55,14 +55,16 @@ pub fn clear_background(color : Color) -> Unit {
 
 Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in MoonBit, passed to C as `moonbit_bytes_t`, and deserialized via `memcpy` in `stub.c`. Each struct type has `Type::to_bytes()` and `Type::from_bytes()` methods in its domain file.
 
-### Resource types (opaque pointers with GC finalizers)
+### Resource types (`#external` opaque pointers)
 
-Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in the corresponding domain files (`textures.mbt`, `text.mbt`, `models.mbt`, `audio.mbt`, `drawing.mbt`).
+Large/owned C structs (Image, Texture, Font, Sound, Music, Model, etc.) are wrapped in `*Wrapper` structs in the `stub_*.c` files, allocated with `malloc` and freed with `free` in the corresponding `unload_*` function. On the MoonBit side these are `#external pub type` declarations in `internal/raylib/types.mbt` (raw `void*`, no GC tracking), re-exported via `pub using @raylib.{ type Image, ... }` in the corresponding domain files.
+
+Some types use an `is_view` flag (Texture, Font, Mesh, Material) to distinguish owning vs non-owning wrappers — views (e.g., texture from render target, mesh from model) skip the raylib `Unload*` call but still `free` the wrapper. Since `#external` types are not GC-tracked, `#borrow` annotations are not needed for these parameters (only for `Bytes` params).
 
 ### Key files
 
 - `build.js` — Prebuild script for platform-specific link flags and stub-cc-flags (macOS/Linux/Windows)
-- `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
+- `internal/raylib/stub_*.c` — C glue functions (`moonbit_raylib_*` wrappers), split by domain
 - `internal/raylib/rglfw.c` — GLFW aggregator (compiled directly via `native-stub`)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
 - `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
@@ -87,7 +89,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 ## Critical FFI Rules
 
 - **Never use `self` as parameter name** in `extern "c"` — MoonBit interprets it as a method definition
-- **Always use `#borrow(param)`** annotation on `extern "c"` functions that take opaque pointer types (Sound, Music, Image, Texture, Font, Model, RenderTexture) or read-only Bytes
+- **`#borrow(param)` annotations**: Use only for `Bytes` parameters (still GC-managed). Do NOT use for `#external` resource types (Image, Texture, Font, Sound, Music, Model, etc.) — they are raw `void*` and don't need borrow tracking
 - **String passing**: encode with `@utf8.encode(str)` → `Bytes`, C side casts `moonbit_bytes_t` to `const char*`
 - **Method syntax**: use `pub fn Type::method_name(...)` not `pub fn method_name(...)`
 
