@@ -2,57 +2,38 @@
 #include <stdlib.h>
 
 // ============================================================================
-// Resource destructor: Font
-// ============================================================================
-
-static void
-font_destructor(void *ptr) {
-  FontWrapper *w = (FontWrapper *)ptr;
-  if (!w->freed)
-    UnloadFont(w->font);
-}
-
-// ============================================================================
 // Text: Font loading (resource types)
 // ============================================================================
 
 FontWrapper *
 moonbit_raylib_get_font_default(void) {
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = GetFontDefault();
-  w->freed = 1; // Default font should NOT be unloaded
+  w->is_view = 1; // Default font should NOT be unloaded
   return w;
 }
 
 FontWrapper *
 moonbit_raylib_load_font(moonbit_bytes_t fileName) {
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = LoadFont((const char *)fileName);
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }
 
 FontWrapper *
 moonbit_raylib_load_font_ex(moonbit_bytes_t fileName, int fontSize) {
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = LoadFontEx((const char *)fileName, fontSize, NULL, 0);
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }
 
 FontWrapper *
 moonbit_raylib_load_font_ex_codepoints(moonbit_bytes_t fileName, int fontSize, moonbit_bytes_t codepoints, int codepointCount) {
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = LoadFontEx((const char *)fileName, fontSize, (int *)codepoints, codepointCount);
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }
 
@@ -63,9 +44,9 @@ moonbit_raylib_is_font_valid(FontWrapper *wrapper) {
 
 void
 moonbit_raylib_unload_font(FontWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadFont(wrapper->font);
-    wrapper->freed = 1;
+  if (wrapper) {
+    if (!wrapper->is_view) UnloadFont(wrapper->font);
+    free(wrapper);
   }
 }
 
@@ -86,12 +67,9 @@ moonbit_raylib_get_font_glyph_padding(FontWrapper *wrapper) {
 
 TextureWrapper *
 moonbit_raylib_get_font_texture(FontWrapper *wrapper) {
-  moonbit_incref(wrapper); // keep font alive while texture view exists
-  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    texture_view_destructor, sizeof(TextureWrapper));
+  TextureWrapper *tw = (TextureWrapper *)malloc(sizeof(TextureWrapper));
   tw->texture = wrapper->font.texture;
-  tw->freed = 1; // Don't unload - owned by the font
-  tw->parent = wrapper;
+  tw->is_view = 1;
   return tw;
 }
 
@@ -212,17 +190,17 @@ moonbit_raylib_get_glyph_atlas_rec(FontWrapper *font, int codepoint) {
 FontWrapper *
 moonbit_raylib_load_font_from_image(ImageWrapper *img, moonbit_bytes_t key, int firstChar) {
   Color k; memcpy(&k, key, sizeof(Color));
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(font_destructor, sizeof(FontWrapper));
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = LoadFontFromImage(img->image, k, firstChar);
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }
 
 FontWrapper *
 moonbit_raylib_load_font_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize, int fontSize) {
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(font_destructor, sizeof(FontWrapper));
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = LoadFontFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize, fontSize, NULL, 0);
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }
 
@@ -331,32 +309,22 @@ moonbit_raylib_get_glyph_info(FontWrapper *font, int codepoint) {
 
 // GlyphInfoArray wrapper for LoadFontData / UnloadFontData
 
-static void
-glyph_info_array_destructor(void *ptr) {
-  GlyphInfoArrayWrapper *w = (GlyphInfoArrayWrapper *)ptr;
-  if (!w->freed && w->glyphs) {
-    UnloadFontData(w->glyphs, w->count);
-    w->freed = 1;
-  }
-}
-
 GlyphInfoArrayWrapper *
 moonbit_raylib_load_font_data(moonbit_bytes_t fileData, int dataSize, int fontSize, int type) {
-  GlyphInfoArrayWrapper *w = (GlyphInfoArrayWrapper *)moonbit_make_external_object(
-    glyph_info_array_destructor, sizeof(GlyphInfoArrayWrapper)
-  );
+  GlyphInfoArrayWrapper *w = (GlyphInfoArrayWrapper *)malloc(sizeof(GlyphInfoArrayWrapper));
   // codepointCount=0, codepoints=NULL loads default character set (95 glyphs)
   w->glyphs = LoadFontData((const unsigned char *)fileData, dataSize, fontSize, NULL, 0, type);
   w->count = w->glyphs ? 95 : 0; // default character set is 95 glyphs
-  w->freed = 0;
   return w;
 }
 
 void
 moonbit_raylib_unload_font_data(GlyphInfoArrayWrapper *wrapper) {
-  if (wrapper && !wrapper->freed && wrapper->glyphs) {
-    UnloadFontData(wrapper->glyphs, wrapper->count);
-    wrapper->freed = 1;
+  if (wrapper) {
+    if (wrapper->glyphs) {
+      UnloadFontData(wrapper->glyphs, wrapper->count);
+    }
+    free(wrapper);
   }
 }
 
@@ -377,33 +345,19 @@ moonbit_raylib_glyph_info_array_get(GlyphInfoArrayWrapper *wrapper, int index) {
   return result;
 }
 
-static void
-text_image_destructor(void *ptr) {
-  ImageWrapper *w = (ImageWrapper *)ptr;
-  if (!w->freed)
-    UnloadImage(w->image);
-}
-
 ImageWrapper *
 moonbit_raylib_gen_image_font_atlas(GlyphInfoArrayWrapper *glyphs, int fontSize, int padding, int packMethod) {
   Rectangle *recs = NULL;
   Image atlas = GenImageFontAtlas(glyphs->glyphs, &recs, glyphs->count, fontSize, padding, packMethod);
   // recs is allocated by GenImageFontAtlas but we don't expose it for now; free it
   if (recs) MemFree(recs);
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(
-    text_image_destructor, sizeof(ImageWrapper)
-  );
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = atlas;
-  w->freed = 0;
   w->frame_count = 1;
   return w;
 }
 
 // Build a Font from raw embedded atlas data (used by raygui binary style loading).
-// pixelData: raw image pixels (GRAY_ALPHA format typically)
-// imgWidth, imgHeight, imgFormat: image dimensions and pixel format
-// recsData: packed array of Rectangles (4 floats each: x, y, w, h), count = glyphCount
-// glyphsData: packed array of glyph info (4 ints each: value, offsetX, offsetY, advanceX), count = glyphCount
 FontWrapper *
 moonbit_raylib_load_font_from_atlas(
   moonbit_bytes_t pixelData, int pixelDataSize,
@@ -426,11 +380,9 @@ moonbit_raylib_load_font_from_atlas(
 
   if (texture.id == 0) {
     // Failed to load texture, return default font
-    FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-      font_destructor, sizeof(FontWrapper)
-    );
+    FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
     w->font = GetFontDefault();
-    w->freed = 1;
+    w->is_view = 1;
     return w;
   }
 
@@ -457,7 +409,7 @@ moonbit_raylib_load_font_from_atlas(
     glyphs[i].offsetX = offsetX;
     glyphs[i].offsetY = offsetY;
     glyphs[i].advanceX = advanceX;
-    glyphs[i].image = (Image){ 0 }; // Individual glyph images not needed
+    glyphs[i].image = (Image){ 0 };
   }
 
   // Assemble the Font
@@ -469,11 +421,9 @@ moonbit_raylib_load_font_from_atlas(
   font.recs = recs;
   font.glyphs = glyphs;
 
-  FontWrapper *fw = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *fw = (FontWrapper *)malloc(sizeof(FontWrapper));
   fw->font = font;
-  fw->freed = 0;
+  fw->is_view = 0;
   return fw;
 }
 
@@ -502,10 +452,8 @@ moonbit_raylib_build_font_from_data(moonbit_bytes_t fileData, int dataSize, int 
   font.recs = recs;
   font.texture = texture;
 
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
   w->font = font;
-  w->freed = 0;
+  w->is_view = 0;
   return w;
 }

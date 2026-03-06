@@ -1351,40 +1351,58 @@ pub fn window_should_close() -> Bool
 // Types and methods
 pub type AudioBuffer
 
+#external
 pub type AudioStream
 
+#external
 pub type AutomationEventList
 
+#external
 pub type FilePathList
 
+#external
 pub type Font
 
+#external
 pub type GlyphInfoArray
 
+#external
 pub type Image
 
+#external
 pub type Material
 
+#external
 pub type MaterialsArray
 
+#external
 pub type Mesh
 
+#external
 pub type Model
 
+#external
 pub type ModelAnimations
 
+#external
 pub type Music
 
+#external
 pub type RenderTexture
 
+#external
 pub type Shader
 
+#external
 pub type Sound
 
+#external
 pub type Texture
 
+#external
 pub type VrStereoConfig
 
+#external
 pub type Wave
 
 // Type aliases

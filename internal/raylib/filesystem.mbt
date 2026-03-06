@@ -103,7 +103,6 @@ pub extern "c" fn is_file_dropped() -> Bool = "moonbit_raylib_is_file_dropped"
 pub extern "c" fn load_dropped_files() -> FilePathList = "moonbit_raylib_load_dropped_files"
 
 ///|
-#borrow(files)
 pub extern "c" fn unload_dropped_files(files : FilePathList) = "moonbit_raylib_unload_dropped_files"
 
 // ============================================================================
@@ -123,7 +122,6 @@ pub extern "c" fn load_directory_files_ex(
 ) -> FilePathList = "moonbit_raylib_load_directory_files_ex"
 
 ///|
-#borrow(files)
 pub extern "c" fn unload_directory_files(files : FilePathList) = "moonbit_raylib_unload_directory_files"
 
 // ============================================================================
@@ -131,11 +129,9 @@ pub extern "c" fn unload_directory_files(files : FilePathList) = "moonbit_raylib
 // ============================================================================
 
 ///|
-#borrow(files)
 pub extern "c" fn file_path_list_count(files : FilePathList) -> Int = "moonbit_raylib_file_path_list_count"
 
 ///|
-#borrow(files)
 pub extern "c" fn file_path_list_get(
   files : FilePathList,
   index : Int,
