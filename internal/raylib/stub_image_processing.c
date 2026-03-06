@@ -2,25 +2,13 @@
 #include <stdlib.h>
 
 // ============================================================================
-// Resource destructor: Image (local copy needed since static in stub_textures.c)
-// ============================================================================
-
-static void
-image_destructor(void *ptr) {
-  ImageWrapper *w = (ImageWrapper *)ptr;
-  if (!w->freed)
-    UnloadImage(w->image);
-}
-
-// ============================================================================
 // Image loading: LoadImageRaw, LoadImageAnim, LoadImageAnimFromMemory
 // ============================================================================
 
 ImageWrapper *
 moonbit_raylib_load_image_raw(moonbit_bytes_t fileName, int width, int height, int format, int headerSize) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = LoadImageRaw((const char *)fileName, width, height, format, headerSize);
-  w->freed = 0;
   w->frame_count = 1;
   return w;
 }
@@ -28,9 +16,8 @@ moonbit_raylib_load_image_raw(moonbit_bytes_t fileName, int width, int height, i
 ImageWrapper *
 moonbit_raylib_load_image_anim(moonbit_bytes_t fileName) {
   int frames = 0;
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = LoadImageAnim((const char *)fileName, &frames);
-  w->freed = 0;
   w->frame_count = frames;
   return w;
 }
@@ -53,9 +40,8 @@ moonbit_raylib_image_height(ImageWrapper *wrapper) {
 ImageWrapper *
 moonbit_raylib_load_image_anim_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize) {
   int frames = 0;
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = LoadImageAnimFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize, &frames);
-  w->freed = 0;
   w->frame_count = frames;
   return w;
 }
@@ -207,9 +193,8 @@ moonbit_raylib_image_kernel_convolution(ImageWrapper *wrapper, moonbit_bytes_t k
 ImageWrapper *
 moonbit_raylib_image_text(moonbit_bytes_t text, int fontSize, moonbit_bytes_t color) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = ImageText((const char *)text, fontSize, c);
-  w->freed = 0;
   w->frame_count = 1;
   return w;
 }
@@ -217,9 +202,8 @@ moonbit_raylib_image_text(moonbit_bytes_t text, int fontSize, moonbit_bytes_t co
 ImageWrapper *
 moonbit_raylib_image_text_ex(FontWrapper *font, moonbit_bytes_t text, float fontSize, float spacing, moonbit_bytes_t tint) {
   Color c; memcpy(&c, tint, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  ImageWrapper *w = (ImageWrapper *)malloc(sizeof(ImageWrapper));
   w->image = ImageTextEx(font->font, (const char *)text, fontSize, spacing, c);
-  w->freed = 0;
   w->frame_count = 1;
   return w;
 }
