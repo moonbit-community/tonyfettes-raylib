@@ -236,7 +236,6 @@ pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
 pub extern "c" fn end_blend_mode() = "EndBlendMode"
 
 ///|
-#borrow(target)
 pub extern "c" fn begin_texture_mode(target : RenderTexture) = "moonbit_raylib_begin_texture_mode"
 
 ///|
@@ -485,11 +484,9 @@ pub extern "c" fn load_shader_from_memory(
 ) -> Shader = "moonbit_raylib_load_shader_from_memory"
 
 ///|
-#borrow(shader)
 pub extern "c" fn is_shader_valid(shader : Shader) -> Bool = "moonbit_raylib_is_shader_valid"
 
 ///|
-#borrow(shader)
 pub extern "c" fn set_shader_location(
   shader : Shader,
   loc_index : Int,
@@ -497,25 +494,23 @@ pub extern "c" fn set_shader_location(
 ) = "moonbit_raylib_set_shader_location"
 
 ///|
-#borrow(shader)
 pub extern "c" fn get_shader_id(shader : Shader) -> Int = "moonbit_raylib_get_shader_id"
 
 ///|
-#borrow(shader, uniform_name)
+#borrow(uniform_name)
 pub extern "c" fn get_shader_location(
   shader : Shader,
   uniform_name : Bytes,
 ) -> Int = "moonbit_raylib_get_shader_location"
 
 ///|
-#borrow(shader, attrib_name)
+#borrow(attrib_name)
 pub extern "c" fn get_shader_location_attrib(
   shader : Shader,
   attrib_name : Bytes,
 ) -> Int = "moonbit_raylib_get_shader_location_attrib"
 
 ///|
-#borrow(shader)
 pub extern "c" fn set_shader_locs(
   shader : Shader,
   loc_index : Int,
@@ -523,7 +518,7 @@ pub extern "c" fn set_shader_locs(
 ) = "moonbit_raylib_set_shader_locs"
 
 ///|
-#borrow(shader, value)
+#borrow(value)
 pub extern "c" fn set_shader_value(
   shader : Shader,
   loc_index : Int,
@@ -532,7 +527,7 @@ pub extern "c" fn set_shader_value(
 ) = "moonbit_raylib_set_shader_value"
 
 ///|
-#borrow(shader, value)
+#borrow(value)
 pub extern "c" fn set_shader_value_v(
   shader : Shader,
   loc_index : Int,
@@ -542,7 +537,7 @@ pub extern "c" fn set_shader_value_v(
 ) = "moonbit_raylib_set_shader_value_v"
 
 ///|
-#borrow(shader, mat)
+#borrow(mat)
 pub extern "c" fn set_shader_value_matrix(
   shader : Shader,
   loc_index : Int,
@@ -550,7 +545,6 @@ pub extern "c" fn set_shader_value_matrix(
 ) = "moonbit_raylib_set_shader_value_matrix"
 
 ///|
-#borrow(shader, texture)
 pub extern "c" fn set_shader_value_texture(
   shader : Shader,
   loc_index : Int,
@@ -558,11 +552,9 @@ pub extern "c" fn set_shader_value_texture(
 ) = "moonbit_raylib_set_shader_value_texture"
 
 ///|
-#borrow(shader)
 pub extern "c" fn unload_shader(shader : Shader) = "moonbit_raylib_unload_shader"
 
 ///|
-#borrow(shader)
 pub extern "c" fn begin_shader_mode(shader : Shader) = "moonbit_raylib_begin_shader_mode"
 
 ///|
@@ -712,7 +704,6 @@ pub extern "c" fn get_pixel_data_size(
 // ============================================================================
 
 ///|
-#borrow(image)
 pub extern "c" fn set_window_icon(image : Image) = "moonbit_raylib_set_window_icon"
 
 // ============================================================================
@@ -724,11 +715,9 @@ pub extern "c" fn set_window_icon(image : Image) = "moonbit_raylib_set_window_ic
 pub extern "c" fn load_vr_stereo_config(device : Bytes) -> VrStereoConfig = "moonbit_raylib_load_vr_stereo_config"
 
 ///|
-#borrow(config)
 pub extern "c" fn unload_vr_stereo_config(config : VrStereoConfig) = "moonbit_raylib_unload_vr_stereo_config"
 
 ///|
-#borrow(config)
 pub extern "c" fn begin_vr_stereo_mode(config : VrStereoConfig) = "moonbit_raylib_begin_vr_stereo_mode"
 
 ///|
@@ -737,35 +726,29 @@ pub extern "c" fn end_vr_stereo_mode() = "EndVrStereoMode"
 // VrStereoConfig field accessors
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_left_lens_center(
   config : VrStereoConfig,
 ) -> Bytes = "moonbit_raylib_vr_stereo_config_left_lens_center"
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_right_lens_center(
   config : VrStereoConfig,
 ) -> Bytes = "moonbit_raylib_vr_stereo_config_right_lens_center"
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_left_screen_center(
   config : VrStereoConfig,
 ) -> Bytes = "moonbit_raylib_vr_stereo_config_left_screen_center"
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_right_screen_center(
   config : VrStereoConfig,
 ) -> Bytes = "moonbit_raylib_vr_stereo_config_right_screen_center"
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes = "moonbit_raylib_vr_stereo_config_scale"
 
 ///|
-#borrow(config)
 pub extern "c" fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes = "moonbit_raylib_vr_stereo_config_scale_in"
 
 // ============================================================================
