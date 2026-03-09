@@ -44,7 +44,7 @@ pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_g
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
+pub extern "c" fn get_font_texture(font : Font) -> Bytes = "moonbit_raylib_get_font_texture"
 
 ///|
 #borrow(font)

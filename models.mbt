@@ -28,7 +28,6 @@ pub using @ffi {
   load_material_default,
   is_material_valid,
   unload_material,
-  set_material_texture,
   set_material_shader,
   set_model_mesh_material,
   // Model animations (passthrough)
@@ -422,13 +421,27 @@ pub fn get_model_bounding_box(model : Model) -> BoundingBox {
 // ============================================================================
 
 ///|
+pub fn set_material_texture(
+  material : Material,
+  map_type : Int,
+  texture : Texture,
+) -> Unit {
+  @ffi.set_material_texture(material, map_type, texture.to_bytes())
+}
+
+///|
 pub fn set_model_material_texture(
   model : Model,
   material_index : Int,
   map_type : Int,
   texture : Texture,
 ) -> Unit {
-  @ffi.set_model_material_texture(model, material_index, map_type, texture)
+  @ffi.set_model_material_texture(
+    model,
+    material_index,
+    map_type,
+    texture.to_bytes(),
+  )
 }
 
 // ============================================================================
@@ -445,7 +458,7 @@ pub fn draw_billboard(
 ) -> Unit {
   @ffi.draw_billboard(
     camera.to_bytes(),
-    texture,
+    texture.to_bytes(),
     position.to_bytes(),
     scale,
     tint.to_bytes(),
@@ -463,7 +476,7 @@ pub fn draw_billboard_rec(
 ) -> Unit {
   @ffi.draw_billboard_rec(
     camera.to_bytes(),
-    texture,
+    texture.to_bytes(),
     source.to_bytes(),
     position.to_bytes(),
     size.to_bytes(),
@@ -485,7 +498,7 @@ pub fn draw_billboard_pro(
 ) -> Unit {
   @ffi.draw_billboard_pro(
     camera.to_bytes(),
-    texture,
+    texture.to_bytes(),
     source.to_bytes(),
     position.to_bytes(),
     up.to_bytes(),

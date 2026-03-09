@@ -8,7 +8,6 @@ pub using @ffi {
   get_font_base_size,
   get_font_glyph_count,
   get_font_glyph_padding,
-  get_font_texture,
   gen_font_texture_mipmaps,
   set_font_texture_filter,
   is_font_valid,
@@ -18,6 +17,11 @@ pub using @ffi {
   get_glyph_index,
   unload_font_data,
   glyph_info_array_count,
+}
+
+///|
+pub fn get_font_texture(font : Font) -> Texture {
+  Texture::from_bytes(@ffi.get_font_texture(font))
 }
 
 // ============================================================================
