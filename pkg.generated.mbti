@@ -1924,6 +1924,7 @@ pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(String) -> Unit
 
+#deprecated
 pub fn texture_from_id(UInt, Int, Int) -> Texture
 
 pub fn toggle_borderless_windowed() -> Unit
@@ -2196,6 +2197,7 @@ pub struct Texture {
   format : Int
 }
 pub fn Texture::from_bytes(Bytes) -> Self
+pub fn Texture::new(id~ : UInt, width~ : Int, height~ : Int, mipmaps? : Int, format? : Int) -> Self
 pub fn Texture::to_bytes(Self) -> Bytes
 pub impl Eq for Texture
 pub impl Show for Texture
