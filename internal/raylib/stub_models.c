@@ -470,70 +470,45 @@ moonbit_raylib_get_model_bounding_box(ModelWrapper *wrapper) {
 
 void
 moonbit_raylib_draw_billboard(
-  moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
-  moonbit_bytes_t position,
-  float scale,
-  moonbit_bytes_t tint
+  moonbit_bytes_t camera, moonbit_bytes_t texture,
+  moonbit_bytes_t position, float scale, moonbit_bytes_t tint
 ) {
-  Camera3D cam;
-  memcpy(&cam, camera, sizeof(Camera3D));
-  Vector3 pos;
-  memcpy(&pos, position, sizeof(Vector3));
-  Color c;
-  memcpy(&c, tint, sizeof(Color));
-  DrawBillboard(cam, tex_wrapper->texture, pos, scale, c);
+  Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
+  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawBillboard(cam, tex, pos, scale, c);
 }
 
 void
 moonbit_raylib_draw_billboard_rec(
-  moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
-  moonbit_bytes_t source,
-  moonbit_bytes_t position,
-  moonbit_bytes_t size,
-  moonbit_bytes_t tint
+  moonbit_bytes_t camera, moonbit_bytes_t texture, moonbit_bytes_t source,
+  moonbit_bytes_t position, moonbit_bytes_t size, moonbit_bytes_t tint
 ) {
-  Camera3D cam;
-  memcpy(&cam, camera, sizeof(Camera3D));
-  Rectangle src;
-  memcpy(&src, source, sizeof(Rectangle));
-  Vector3 pos;
-  memcpy(&pos, position, sizeof(Vector3));
-  Vector2 sz;
-  memcpy(&sz, size, sizeof(Vector2));
-  Color c;
-  memcpy(&c, tint, sizeof(Color));
-  DrawBillboardRec(cam, tex_wrapper->texture, src, pos, sz, c);
+  Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
+  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
+  Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
+  Vector2 sz; memcpy(&sz, size, sizeof(Vector2));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawBillboardRec(cam, tex, src, pos, sz, c);
 }
 
 void
 moonbit_raylib_draw_billboard_pro(
-  moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
-  moonbit_bytes_t source,
-  moonbit_bytes_t position,
-  moonbit_bytes_t up,
-  moonbit_bytes_t size,
-  moonbit_bytes_t origin,
-  float rotation,
-  moonbit_bytes_t tint
+  moonbit_bytes_t camera, moonbit_bytes_t texture, moonbit_bytes_t source,
+  moonbit_bytes_t position, moonbit_bytes_t up, moonbit_bytes_t size,
+  moonbit_bytes_t origin, float rotation, moonbit_bytes_t tint
 ) {
-  Camera3D cam;
-  memcpy(&cam, camera, sizeof(Camera3D));
-  Rectangle src;
-  memcpy(&src, source, sizeof(Rectangle));
-  Vector3 pos;
-  memcpy(&pos, position, sizeof(Vector3));
-  Vector3 u;
-  memcpy(&u, up, sizeof(Vector3));
-  Vector2 sz;
-  memcpy(&sz, size, sizeof(Vector2));
-  Vector2 org;
-  memcpy(&org, origin, sizeof(Vector2));
-  Color c;
-  memcpy(&c, tint, sizeof(Color));
-  DrawBillboardPro(cam, tex_wrapper->texture, src, pos, u, sz, org, rotation, c);
+  Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
+  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
+  Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
+  Vector3 u; memcpy(&u, up, sizeof(Vector3));
+  Vector2 sz; memcpy(&sz, size, sizeof(Vector2));
+  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
+  Color c; memcpy(&c, tint, sizeof(Color));
+  DrawBillboardPro(cam, tex, src, pos, u, sz, org, rotation, c);
 }
 
 // ============================================================================
@@ -886,9 +861,10 @@ void
 moonbit_raylib_set_material_texture(
   MaterialWrapper *wrapper,
   int mapType,
-  TextureWrapper *tex_wrapper
+  moonbit_bytes_t texture
 ) {
-  SetMaterialTexture(&wrapper->material, mapType, tex_wrapper->texture);
+  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  SetMaterialTexture(&wrapper->material, mapType, tex);
 }
 
 void
@@ -905,10 +881,11 @@ moonbit_raylib_set_model_material_texture(
   ModelWrapper *wrapper,
   int materialIndex,
   int mapType,
-  TextureWrapper *tex_wrapper
+  moonbit_bytes_t texture
 ) {
+  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
   if (materialIndex >= 0 && materialIndex < wrapper->model.materialCount) {
-    SetMaterialTexture(&wrapper->model.materials[materialIndex], mapType, tex_wrapper->texture);
+    SetMaterialTexture(&wrapper->model.materials[materialIndex], mapType, tex);
   }
 }
 

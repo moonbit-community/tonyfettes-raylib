@@ -962,6 +962,8 @@ pub fn load_wave_samples(Wave) -> Bytes
 
 pub fn make_directory(Bytes) -> Int
 
+pub fn make_font(Int, Int, Int, UInt, Int, Int, Int, Int, Bytes, Bytes) -> Font
+
 pub fn materials_array_count(MaterialsArray) -> Int
 
 pub fn materials_array_get(MaterialsArray, Int) -> Material

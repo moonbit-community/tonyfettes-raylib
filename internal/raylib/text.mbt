@@ -44,7 +44,7 @@ pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_g
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
+pub extern "c" fn get_font_texture(font : Font) -> Bytes = "moonbit_raylib_get_font_texture"
 
 ///|
 #borrow(font)
@@ -172,6 +172,21 @@ pub extern "c" fn load_font_from_atlas(
   recs_data : Bytes,
   glyphs_data : Bytes,
 ) -> Font = "moonbit_raylib_load_font_from_atlas"
+
+///|
+#borrow(recs_data, glyphs_data)
+pub extern "c" fn make_font(
+  base_size : Int,
+  glyph_count : Int,
+  glyph_padding : Int,
+  tex_id : UInt,
+  tex_width : Int,
+  tex_height : Int,
+  tex_mipmaps : Int,
+  tex_format : Int,
+  recs_data : Bytes,
+  glyphs_data : Bytes,
+) -> Font = "moonbit_raylib_make_font"
 
 ///|
 #borrow(font, file_name)

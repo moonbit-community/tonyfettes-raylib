@@ -13,11 +13,6 @@ typedef struct {
   int frame_count;
 } ImageWrapper;
 typedef struct {
-  Texture texture;
-  int freed;
-  void *parent; // incref'd parent for non-owning views, NULL for owning
-} TextureWrapper;
-typedef struct {
   RenderTexture render_texture;
   int freed;
 } RenderTextureWrapper;
@@ -75,11 +70,5 @@ typedef struct {
 // passing NULL causes a crash when the GC calls through the function pointer.
 static inline void noop_destructor(void *ptr) { (void)ptr; }
 
-// View destructor for non-owning TextureWrappers that hold an incref'd parent.
-// Decrefs the parent so the GC can collect it once the view is no longer used.
-static inline void texture_view_destructor(void *ptr) {
-  TextureWrapper *w = (TextureWrapper *)ptr;
-  if (w->parent) moonbit_decref(w->parent);
-}
 
 #endif

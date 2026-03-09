@@ -59,7 +59,7 @@ fn main {
   let texture = @raylib.load_texture("resources/cubicmap_atlas.png")
   let light = @raylib.load_texture("resources/spark_flame.png")
 
-  @raylib.gen_texture_mipmaps(texture)
+  let texture = @raylib.gen_texture_mipmaps(texture)
   @raylib.set_texture_filter(texture, @raylib.TextureFilterTrilinear)
 
   let lightmap = @raylib.load_render_texture(MapSize, MapSize)
@@ -81,8 +81,8 @@ fn main {
   @raylib.begin_texture_mode(lightmap)
   @raylib.clear_background(@raylib.black)
 
-  let light_w = Float::from_int(@raylib.get_texture_width(light))
-  let light_h = Float::from_int(@raylib.get_texture_height(light))
+  let light_w = Float::from_int(light.width)
+  let light_h = Float::from_int(light.height)
 
   @raylib.begin_blend_mode(@raylib.BlendAdditive)
   @raylib.draw_texture_pro(

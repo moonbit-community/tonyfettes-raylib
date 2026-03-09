@@ -94,8 +94,8 @@ fn main {
       @raylib.draw_rectangle_lines(
         150,
         100,
-        @raylib.get_texture_width(font_texture),
-        @raylib.get_texture_height(font_texture),
+        font_texture.width,
+        font_texture.height,
         @raylib.black,
       )
     } else {

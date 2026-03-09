@@ -27,8 +27,16 @@ pub using @ffi {
   end_shader_mode,
   set_shader_value,
   set_shader_value_v,
-  set_shader_value_texture,
   set_shader_locs,
+}
+
+///|
+pub fn set_shader_value_texture(
+  shader : Shader,
+  loc_index : Int,
+  texture : Texture,
+) -> Unit {
+  @ffi.set_shader_value_texture(shader, loc_index, texture.to_bytes())
 }
 
 // Drawing wrapper

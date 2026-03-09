@@ -262,28 +262,28 @@ pub extern "c" fn get_model_bounding_box(model : Model) -> Bytes = "moonbit_rayl
 #borrow(camera, texture, position, tint)
 pub extern "c" fn draw_billboard(
   camera : Bytes,
-  texture : Texture,
+  texture : Bytes,
   position : Bytes,
   scale : Float,
   tint : Bytes,
-) = "moonbit_raylib_draw_billboard"
+) -> Unit = "moonbit_raylib_draw_billboard"
 
 ///|
 #borrow(camera, texture, source, position, size, tint)
 pub extern "c" fn draw_billboard_rec(
   camera : Bytes,
-  texture : Texture,
+  texture : Bytes,
   source : Bytes,
   position : Bytes,
   size : Bytes,
   tint : Bytes,
-) = "moonbit_raylib_draw_billboard_rec"
+) -> Unit = "moonbit_raylib_draw_billboard_rec"
 
 ///|
 #borrow(camera, texture, source, position, up, size, origin, tint)
 pub extern "c" fn draw_billboard_pro(
   camera : Bytes,
-  texture : Texture,
+  texture : Bytes,
   source : Bytes,
   position : Bytes,
   up : Bytes,
@@ -291,7 +291,7 @@ pub extern "c" fn draw_billboard_pro(
   origin : Bytes,
   rotation : Float,
   tint : Bytes,
-) = "moonbit_raylib_draw_billboard_pro"
+) -> Unit = "moonbit_raylib_draw_billboard_pro"
 
 // ============================================================================
 // 3D collision detection
@@ -472,8 +472,8 @@ pub extern "c" fn unload_material(material : Material) = "moonbit_raylib_unload_
 pub extern "c" fn set_material_texture(
   material : Material,
   map_type : Int,
-  texture : Texture,
-) = "moonbit_raylib_set_material_texture"
+  texture : Bytes,
+) -> Unit = "moonbit_raylib_set_material_texture"
 
 ///|
 #borrow(material, shader)
@@ -509,8 +509,8 @@ pub extern "c" fn set_model_material_texture(
   model : Model,
   material_index : Int,
   map_type : Int,
-  texture : Texture,
-) = "moonbit_raylib_set_model_material_texture"
+  texture : Bytes,
+) -> Unit = "moonbit_raylib_set_model_material_texture"
 
 ///|
 #borrow(model, shader)
