@@ -158,7 +158,7 @@ pub extern "c" fn is_texture_valid(texture : Bytes) -> Bool = "moonbit_raylib_is
 
 ///|
 #borrow(texture)
-pub extern "c" fn unload_texture(texture : Bytes) -> Unit = "moonbit_raylib_unload_texture"
+pub extern "c" fn unload_texture(texture : Bytes) = "moonbit_raylib_unload_texture"
 
 ///|
 pub extern "c" fn load_render_texture(
@@ -278,7 +278,7 @@ pub extern "c" fn draw_texture(
   pos_x : Int,
   pos_y : Int,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture"
+) = "moonbit_raylib_draw_texture"
 
 ///|
 #borrow(texture, position, tint)
@@ -286,7 +286,7 @@ pub extern "c" fn draw_texture_v(
   texture : Bytes,
   position : Bytes,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture_v"
+) = "moonbit_raylib_draw_texture_v"
 
 ///|
 #borrow(texture, position, tint)
@@ -296,7 +296,7 @@ pub extern "c" fn draw_texture_ex(
   rotation : Float,
   scale : Float,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture_ex"
+) = "moonbit_raylib_draw_texture_ex"
 
 ///|
 #borrow(texture, source, position, tint)
@@ -305,7 +305,7 @@ pub extern "c" fn draw_texture_rec(
   source : Bytes,
   position : Bytes,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture_rec"
+) = "moonbit_raylib_draw_texture_rec"
 
 ///|
 #borrow(texture, source, dest, origin, tint)
@@ -316,7 +316,7 @@ pub extern "c" fn draw_texture_pro(
   origin : Bytes,
   rotation : Float,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture_pro"
+) = "moonbit_raylib_draw_texture_pro"
 
 ///|
 #borrow(texture, npatch_info, dest, origin, tint)
@@ -327,7 +327,7 @@ pub extern "c" fn draw_texture_npatch(
   origin : Bytes,
   rotation : Float,
   tint : Bytes,
-) -> Unit = "moonbit_raylib_draw_texture_npatch"
+) = "moonbit_raylib_draw_texture_npatch"
 
 // ============================================================================
 // Texture configuration
@@ -335,11 +335,11 @@ pub extern "c" fn draw_texture_npatch(
 
 ///|
 #borrow(texture)
-pub extern "c" fn set_texture_filter(texture : Bytes, filter : Int) -> Unit = "moonbit_raylib_set_texture_filter"
+pub extern "c" fn set_texture_filter(texture : Bytes, filter : Int) = "moonbit_raylib_set_texture_filter"
 
 ///|
 #borrow(texture)
-pub extern "c" fn set_texture_wrap(texture : Bytes, wrap : Int) -> Unit = "moonbit_raylib_set_texture_wrap"
+pub extern "c" fn set_texture_wrap(texture : Bytes, wrap : Int) = "moonbit_raylib_set_texture_wrap"
 
 // ============================================================================
 // Texture management extras
@@ -351,7 +351,7 @@ pub extern "c" fn load_texture_cubemap(image : Image, layout : Int) -> Bytes = "
 
 ///|
 #borrow(texture, pixels)
-pub extern "c" fn update_texture(texture : Bytes, pixels : Bytes) -> Unit = "moonbit_raylib_update_texture"
+pub extern "c" fn update_texture(texture : Bytes, pixels : Bytes) = "moonbit_raylib_update_texture"
 
 ///|
 #borrow(texture, rec, pixels)
@@ -359,7 +359,7 @@ pub extern "c" fn update_texture_rec(
   texture : Bytes,
   rec : Bytes,
   pixels : Bytes,
-) -> Unit = "moonbit_raylib_update_texture_rec"
+) = "moonbit_raylib_update_texture_rec"
 
 ///|
 #borrow(texture)
@@ -371,11 +371,11 @@ pub extern "c" fn update_texture_from_image_frame(
   texture : Bytes,
   image : Image,
   frame : Int,
-) -> Unit = "moonbit_raylib_update_texture_from_image_frame"
+) = "moonbit_raylib_update_texture_from_image_frame"
 
 ///|
 #borrow(texture, source)
-pub extern "c" fn set_shapes_texture(texture : Bytes, source : Bytes) -> Unit = "moonbit_raylib_set_shapes_texture"
+pub extern "c" fn set_shapes_texture(texture : Bytes, source : Bytes) = "moonbit_raylib_set_shapes_texture"
 
 ///|
 pub extern "c" fn get_shapes_texture() -> Bytes = "moonbit_raylib_get_shapes_texture"

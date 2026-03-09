@@ -555,7 +555,7 @@ pub extern "c" fn set_shader_value_texture(
   shader : Shader,
   loc_index : Int,
   texture : Bytes,
-) -> Unit = "moonbit_raylib_set_shader_value_texture"
+) = "moonbit_raylib_set_shader_value_texture"
 
 ///|
 #borrow(shader)

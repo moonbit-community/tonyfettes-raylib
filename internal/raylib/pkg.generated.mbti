@@ -120,11 +120,11 @@ pub fn disable_cursor() -> Unit
 
 pub fn disable_event_waiting() -> Unit
 
-pub fn draw_billboard(Bytes, Texture, Bytes, Float, Bytes) -> Unit
+pub fn draw_billboard(Bytes, Bytes, Bytes, Float, Bytes) -> Unit
 
-pub fn draw_billboard_pro(Bytes, Texture, Bytes, Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+pub fn draw_billboard_pro(Bytes, Bytes, Bytes, Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
 
-pub fn draw_billboard_rec(Bytes, Texture, Bytes, Bytes, Bytes, Bytes) -> Unit
+pub fn draw_billboard_rec(Bytes, Bytes, Bytes, Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_bounding_box(Bytes, Bytes) -> Unit
 
@@ -286,17 +286,17 @@ pub fn draw_text_ex(Font, Bytes, Bytes, Float, Float, Bytes) -> Unit
 
 pub fn draw_text_pro(Font, Bytes, Bytes, Bytes, Float, Float, Float, Bytes) -> Unit
 
-pub fn draw_texture(Texture, Int, Int, Bytes) -> Unit
+pub fn draw_texture(Bytes, Int, Int, Bytes) -> Unit
 
-pub fn draw_texture_ex(Texture, Bytes, Float, Float, Bytes) -> Unit
+pub fn draw_texture_ex(Bytes, Bytes, Float, Float, Bytes) -> Unit
 
-pub fn draw_texture_npatch(Texture, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+pub fn draw_texture_npatch(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
 
-pub fn draw_texture_pro(Texture, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
+pub fn draw_texture_pro(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
 
-pub fn draw_texture_rec(Texture, Bytes, Bytes, Bytes) -> Unit
+pub fn draw_texture_rec(Bytes, Bytes, Bytes, Bytes) -> Unit
 
-pub fn draw_texture_v(Texture, Bytes, Bytes) -> Unit
+pub fn draw_texture_v(Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_triangle(Bytes, Bytes, Bytes, Bytes) -> Unit
 
@@ -408,7 +408,7 @@ pub fn gen_mesh_tangents(Mesh) -> Unit
 
 pub fn gen_mesh_torus(Float, Float, Int, Int) -> Mesh
 
-pub fn gen_texture_mipmaps(Texture) -> Unit
+pub fn gen_texture_mipmaps(Bytes) -> Bytes
 
 pub fn get_application_directory() -> Bytes
 
@@ -456,7 +456,7 @@ pub fn get_font_glyph_count(Font) -> Int
 
 pub fn get_font_glyph_padding(Font) -> Int
 
-pub fn get_font_texture(Font) -> Texture
+pub fn get_font_texture(Font) -> Bytes
 
 pub fn get_fps() -> Int
 
@@ -586,7 +586,7 @@ pub fn get_render_texture_fbo_id(RenderTexture) -> UInt
 
 pub fn get_render_texture_height(RenderTexture) -> Int
 
-pub fn get_render_texture_texture(RenderTexture) -> Texture
+pub fn get_render_texture_texture(RenderTexture) -> Bytes
 
 pub fn get_render_texture_width(RenderTexture) -> Int
 
@@ -608,7 +608,7 @@ pub fn get_shader_location(Shader, Bytes) -> Int
 
 pub fn get_shader_location_attrib(Shader, Bytes) -> Int
 
-pub fn get_shapes_texture() -> Texture
+pub fn get_shapes_texture() -> Bytes
 
 pub fn get_shapes_texture_rectangle() -> Bytes
 
@@ -621,12 +621,6 @@ pub fn get_spline_point_bezier_quad(Bytes, Bytes, Bytes, Float) -> Bytes
 pub fn get_spline_point_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
 
 pub fn get_spline_point_linear(Bytes, Bytes, Float) -> Bytes
-
-pub fn get_texture_height(Texture) -> Int
-
-pub fn get_texture_id(Texture) -> Int
-
-pub fn get_texture_width(Texture) -> Int
 
 pub fn get_time() -> Double
 
@@ -844,7 +838,7 @@ pub fn is_sound_playing(Sound) -> Bool
 
 pub fn is_sound_valid(Sound) -> Bool
 
-pub fn is_texture_valid(Texture) -> Bool
+pub fn is_texture_valid(Bytes) -> Bool
 
 pub fn is_wave_valid(Wave) -> Bool
 
@@ -906,7 +900,7 @@ pub fn load_image_from_memory(Bytes, Bytes, Int) -> Image
 
 pub fn load_image_from_screen() -> Image
 
-pub fn load_image_from_texture(Texture) -> Image
+pub fn load_image_from_texture(Bytes) -> Image
 
 pub fn load_image_palette(Image, Int) -> Bytes
 
@@ -944,11 +938,11 @@ pub fn load_sound_alias(Sound) -> Sound
 
 pub fn load_sound_from_wave(Wave) -> Sound
 
-pub fn load_texture(Bytes) -> Texture
+pub fn load_texture(Bytes) -> Bytes
 
-pub fn load_texture_cubemap(Image, Int) -> Texture
+pub fn load_texture_cubemap(Image, Int) -> Bytes
 
-pub fn load_texture_from_image(Image) -> Texture
+pub fn load_texture_from_image(Image) -> Bytes
 
 pub fn load_utf8(Bytes, Int) -> Bytes
 
@@ -1156,11 +1150,11 @@ pub fn set_material_map_value(Material, Int, Float) -> Unit
 
 pub fn set_material_shader(Material, Shader) -> Unit
 
-pub fn set_material_texture(Material, Int, Texture) -> Unit
+pub fn set_material_texture(Material, Int, Bytes) -> Unit
 
 pub fn set_model_material_shader(Model, Int, Shader) -> Unit
 
-pub fn set_model_material_texture(Model, Int, Int, Texture) -> Unit
+pub fn set_model_material_texture(Model, Int, Int, Bytes) -> Unit
 
 pub fn set_model_mesh_material(Model, Int, Int) -> Unit
 
@@ -1192,11 +1186,11 @@ pub fn set_shader_value(Shader, Int, Bytes, Int) -> Unit
 
 pub fn set_shader_value_matrix(Shader, Int, Bytes) -> Unit
 
-pub fn set_shader_value_texture(Shader, Int, Texture) -> Unit
+pub fn set_shader_value_texture(Shader, Int, Bytes) -> Unit
 
 pub fn set_shader_value_v(Shader, Int, Bytes, Int, Int) -> Unit
 
-pub fn set_shapes_texture(Texture, Bytes) -> Unit
+pub fn set_shapes_texture(Bytes, Bytes) -> Unit
 
 pub fn set_sound_pan(Sound, Float) -> Unit
 
@@ -1208,9 +1202,9 @@ pub fn set_target_fps(Int) -> Unit
 
 pub fn set_text_line_spacing(Int) -> Unit
 
-pub fn set_texture_filter(Texture, Int) -> Unit
+pub fn set_texture_filter(Bytes, Int) -> Unit
 
-pub fn set_texture_wrap(Texture, Int) -> Unit
+pub fn set_texture_wrap(Bytes, Int) -> Unit
 
 pub fn set_trace_log_level(Int) -> Unit
 
@@ -1249,8 +1243,6 @@ pub fn stop_sound(Sound) -> Unit
 pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(Bytes) -> Unit
-
-pub fn texture_from_id(UInt, Int, Int) -> Texture
 
 pub fn toggle_borderless_windowed() -> Unit
 
@@ -1296,7 +1288,7 @@ pub fn unload_sound(Sound) -> Unit
 
 pub fn unload_sound_alias(Sound) -> Unit
 
-pub fn unload_texture(Texture) -> Unit
+pub fn unload_texture(Bytes) -> Unit
 
 pub fn unload_vr_stereo_config(VrStereoConfig) -> Unit
 
@@ -1318,11 +1310,11 @@ pub fn update_music_stream(Music) -> Unit
 
 pub fn update_sound(Sound, Bytes, Int) -> Unit
 
-pub fn update_texture(Texture, Bytes) -> Unit
+pub fn update_texture(Bytes, Bytes) -> Unit
 
-pub fn update_texture_from_image_frame(Texture, Image, Int) -> Unit
+pub fn update_texture_from_image_frame(Bytes, Image, Int) -> Unit
 
-pub fn update_texture_rec(Texture, Bytes, Bytes) -> Unit
+pub fn update_texture_rec(Bytes, Bytes, Bytes) -> Unit
 
 pub fn upload_mesh(Mesh, Int) -> Unit
 
@@ -1382,8 +1374,6 @@ pub type RenderTexture
 pub type Shader
 
 pub type Sound
-
-pub type Texture
 
 pub type VrStereoConfig
 

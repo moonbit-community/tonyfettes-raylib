@@ -247,11 +247,7 @@ pub fn get_render_texture_texture(target : RenderTexture) -> Texture {
 }
 
 ///|
-pub fn texture_from_id(
-  id : UInt,
-  width : Int,
-  height : Int,
-) -> Texture {
+pub fn texture_from_id(id : UInt, width : Int, height : Int) -> Texture {
   { id, width, height, mipmaps: 1, format: PixelformatUncompressedR8g8b8a8 }
 }
 

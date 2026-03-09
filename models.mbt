@@ -436,7 +436,12 @@ pub fn set_model_material_texture(
   map_type : Int,
   texture : Texture,
 ) -> Unit {
-  @ffi.set_model_material_texture(model, material_index, map_type, texture.to_bytes())
+  @ffi.set_model_material_texture(
+    model,
+    material_index,
+    map_type,
+    texture.to_bytes(),
+  )
 }
 
 // ============================================================================
