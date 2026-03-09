@@ -256,6 +256,26 @@ pub fn texture_from_id(
 }
 
 // ============================================================================
+// Backward-compatible accessors (Texture is now a struct with public fields,
+// but these functions are kept so existing code continues to compile)
+// ============================================================================
+
+///|
+pub fn get_texture_width(texture : Texture) -> Int {
+  texture.width
+}
+
+///|
+pub fn get_texture_height(texture : Texture) -> Int {
+  texture.height
+}
+
+///|
+pub fn get_texture_id(texture : Texture) -> Int {
+  texture.id.reinterpret_as_int()
+}
+
+// ============================================================================
 // RenderTexture drawing (wrappers)
 // ============================================================================
 

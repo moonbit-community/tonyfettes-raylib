@@ -66,8 +66,8 @@ fn main {
   )
   let mut outline_size : Float = 2.0
   let outline_color = vec4_to_bytes(1.0, 0.0, 0.0, 1.0) // Normalized RED
-  let tex_w = texture.width
-  let tex_h = texture.height
+  let tex_w = @raylib.get_texture_width(texture)
+  let tex_h = @raylib.get_texture_height(texture)
   let texture_size = vec2_to_bytes(
     Float::from_int(tex_w),
     Float::from_int(tex_h),

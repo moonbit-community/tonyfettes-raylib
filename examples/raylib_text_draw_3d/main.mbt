@@ -67,14 +67,16 @@ fn draw_text_codepoint_3d(
   let width : Float = src_w / base_size * scale
   let height : Float = src_h / base_size * scale
   let font_texture = @raylib.get_font_texture(font)
-  let texture_id = font_texture.id
-  if texture_id > 0U {
+  let texture_id = @raylib.get_texture_id(font_texture)
+  if texture_id > 0 {
     let x : Float = 0.0
     let y : Float = 0.0
     let z : Float = 0.0
     // Normalized texture coordinates
-    let tex_w : Float = Float::from_int(font_texture.width)
-    let tex_h : Float = Float::from_int(font_texture.height)
+    let tex_w : Float = Float::from_int(@raylib.get_texture_width(font_texture))
+    let tex_h : Float = Float::from_int(
+      @raylib.get_texture_height(font_texture),
+    )
     let tx : Float = src_x / tex_w
     let ty : Float = src_y / tex_h
     let tw : Float = (src_x + src_w) / tex_w
@@ -92,7 +94,7 @@ fn draw_text_codepoint_3d(
     }
     let batch_count = if backface { 8 } else { 4 }
     let _ = @rl.check_render_batch_limit(batch_count)
-    @rl.set_texture(texture_id)
+    @rl.set_texture(texture_id.reinterpret_as_uint())
     @rl.push_matrix()
     @rl.translatef(pos_x, position.y, pos_z)
     @rl.begin(@rl.Quads)

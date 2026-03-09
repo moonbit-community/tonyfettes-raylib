@@ -81,8 +81,8 @@ fn main {
   @raylib.begin_texture_mode(lightmap)
   @raylib.clear_background(@raylib.black)
 
-  let light_w = Float::from_int(light.width)
-  let light_h = Float::from_int(light.height)
+  let light_w = Float::from_int(@raylib.get_texture_width(light))
+  let light_h = Float::from_int(@raylib.get_texture_height(light))
 
   @raylib.begin_blend_mode(@raylib.BlendAdditive)
   @raylib.draw_texture_pro(
