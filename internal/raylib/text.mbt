@@ -174,21 +174,6 @@ pub extern "c" fn load_font_from_atlas(
 ) -> Font = "moonbit_raylib_load_font_from_atlas"
 
 ///|
-#borrow(recs_data, glyphs_data)
-pub extern "c" fn make_font(
-  base_size : Int,
-  glyph_count : Int,
-  glyph_padding : Int,
-  tex_id : UInt,
-  tex_width : Int,
-  tex_height : Int,
-  tex_mipmaps : Int,
-  tex_format : Int,
-  recs_data : Bytes,
-  glyphs_data : Bytes,
-) -> Font = "moonbit_raylib_make_font"
-
-///|
 #borrow(font, file_name)
 pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = "moonbit_raylib_export_font_as_code"
 

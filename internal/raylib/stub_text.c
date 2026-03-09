@@ -86,10 +86,7 @@ moonbit_raylib_get_font_glyph_padding(FontWrapper *wrapper) {
 
 moonbit_bytes_t
 moonbit_raylib_get_font_texture(FontWrapper *wrapper) {
-  Texture2D tex = wrapper->font.texture;
-  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Texture2D), 0);
-  memcpy(res, &tex, sizeof(Texture2D));
-  return res;
+  return texture_to_bytes(wrapper->font.texture);
 }
 
 void
@@ -472,42 +469,6 @@ moonbit_raylib_load_font_from_atlas(
   fw->font = font;
   fw->freed = 0;
   return fw;
-}
-
-// Assemble a Font from individual field values and packed recs/glyphs arrays.
-// recsData: packed array of Rectangles (4 floats each: x, y, w, h)
-// glyphsData: packed array of glyph info (4 ints each: value, offsetX, offsetY, advanceX)
-FontWrapper *
-moonbit_raylib_make_font(
-  int baseSize, int glyphCount, int glyphPadding,
-  unsigned int texId, int texWidth, int texHeight, int texMipmaps, int texFormat,
-  moonbit_bytes_t recsData, moonbit_bytes_t glyphsData
-) {
-  Rectangle *recs = (Rectangle *)RL_CALLOC(glyphCount, sizeof(Rectangle));
-  for (int i = 0; i < glyphCount; i++) {
-    memcpy(&recs[i], (unsigned char *)recsData + i * sizeof(Rectangle), sizeof(Rectangle));
-  }
-
-  GlyphInfo *glyphs = (GlyphInfo *)RL_CALLOC(glyphCount, sizeof(GlyphInfo));
-  for (int i = 0; i < glyphCount; i++) {
-    memcpy(&glyphs[i].value, (unsigned char *)glyphsData + i * 16, 4 * sizeof(int));
-    glyphs[i].image = (Image){ 0 };
-  }
-
-  Font font = { 0 };
-  font.baseSize = baseSize;
-  font.glyphCount = glyphCount;
-  font.glyphPadding = glyphPadding;
-  font.texture = (Texture2D){ texId, texWidth, texHeight, texMipmaps, texFormat };
-  font.recs = recs;
-  font.glyphs = glyphs;
-
-  FontWrapper *w = (FontWrapper *)moonbit_make_external_object(
-    font_destructor, sizeof(FontWrapper)
-  );
-  w->font = font;
-  w->freed = 0;
-  return w;
 }
 
 FontWrapper *

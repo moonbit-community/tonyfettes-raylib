@@ -269,7 +269,7 @@ pub fn get_texture_height(texture : Texture) -> Int {
 }
 
 ///|
-#deprecated("Use texture.id")
+#deprecated("Use texture.id.reinterpret_as_int()")
 pub fn get_texture_id(texture : Texture) -> Int {
   texture.id.reinterpret_as_int()
 }
