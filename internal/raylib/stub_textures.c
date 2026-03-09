@@ -152,7 +152,7 @@ moonbit_raylib_load_image_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t 
 
 ImageWrapper *
 moonbit_raylib_load_image_from_texture(moonbit_bytes_t texture) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
   w->image = LoadImageFromTexture(tex);
   w->freed = 0;
@@ -207,17 +207,6 @@ moonbit_raylib_image_from_channel(ImageWrapper *wrapper, int selectedChannel) {
 }
 
 // ============================================================================
-// Helper: serialize Texture2D to moonbit_bytes_t
-// ============================================================================
-
-static moonbit_bytes_t
-texture_to_bytes(Texture2D tex) {
-  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Texture2D), 0);
-  memcpy(res, &tex, sizeof(Texture2D));
-  return res;
-}
-
-// ============================================================================
 // Textures: Texture loading (value types)
 // ============================================================================
 
@@ -233,13 +222,13 @@ moonbit_raylib_load_texture_from_image(ImageWrapper *img) {
 
 int
 moonbit_raylib_is_texture_valid(moonbit_bytes_t texture) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   return (int)IsTextureValid(tex);
 }
 
 void
 moonbit_raylib_unload_texture(moonbit_bytes_t texture) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   UnloadTexture(tex);
 }
 
@@ -346,7 +335,7 @@ void
 moonbit_raylib_draw_texture(
   moonbit_bytes_t texture, int posX, int posY, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Color c; memcpy(&c, tint, sizeof(Color));
   DrawTexture(tex, posX, posY, c);
 }
@@ -355,7 +344,7 @@ void
 moonbit_raylib_draw_texture_v(
   moonbit_bytes_t texture, moonbit_bytes_t position, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
   DrawTextureV(tex, pos, c);
@@ -365,7 +354,7 @@ void
 moonbit_raylib_draw_texture_ex(
   moonbit_bytes_t texture, moonbit_bytes_t position, float rotation, float scale, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
   DrawTextureEx(tex, pos, rotation, scale, c);
@@ -375,7 +364,7 @@ void
 moonbit_raylib_draw_texture_rec(
   moonbit_bytes_t texture, moonbit_bytes_t source, moonbit_bytes_t position, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle src; memcpy(&src, source, sizeof(Rectangle));
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
@@ -387,7 +376,7 @@ moonbit_raylib_draw_texture_pro(
   moonbit_bytes_t texture, moonbit_bytes_t source, moonbit_bytes_t dest,
   moonbit_bytes_t origin, float rotation, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle src; memcpy(&src, source, sizeof(Rectangle));
   Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
   Vector2 org; memcpy(&org, origin, sizeof(Vector2));
@@ -400,7 +389,7 @@ moonbit_raylib_draw_texture_npatch(
   moonbit_bytes_t texture, moonbit_bytes_t nPatchInfo, moonbit_bytes_t dest,
   moonbit_bytes_t origin, float rotation, moonbit_bytes_t tint
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   NPatchInfo npi; memcpy(&npi, nPatchInfo, sizeof(NPatchInfo));
   Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
   Vector2 org; memcpy(&org, origin, sizeof(Vector2));
@@ -414,13 +403,13 @@ moonbit_raylib_draw_texture_npatch(
 
 void
 moonbit_raylib_set_texture_filter(moonbit_bytes_t texture, int filter) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   SetTextureFilter(tex, filter);
 }
 
 void
 moonbit_raylib_set_texture_wrap(moonbit_bytes_t texture, int wrap) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   SetTextureWrap(tex, wrap);
 }
 
@@ -435,34 +424,34 @@ moonbit_raylib_load_texture_cubemap(ImageWrapper *img, int layout) {
 
 void
 moonbit_raylib_update_texture(moonbit_bytes_t texture, moonbit_bytes_t pixels) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   UpdateTexture(tex, (const void *)pixels);
 }
 
 void
 moonbit_raylib_update_texture_rec(moonbit_bytes_t texture, moonbit_bytes_t rec, moonbit_bytes_t pixels) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
   UpdateTextureRec(tex, r, (const void *)pixels);
 }
 
 moonbit_bytes_t
 moonbit_raylib_gen_texture_mipmaps(moonbit_bytes_t texture) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   GenTextureMipmaps(&tex);
   return texture_to_bytes(tex);
 }
 
 void
 moonbit_raylib_update_texture_from_image_frame(moonbit_bytes_t texture, ImageWrapper *iw, int frame) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   int offset = iw->image.width * iw->image.height * 4 * frame;
   UpdateTexture(tex, ((unsigned char *)iw->image.data) + offset);
 }
 
 void
 moonbit_raylib_set_shapes_texture(moonbit_bytes_t texture, moonbit_bytes_t source) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle r; memcpy(&r, source, sizeof(Rectangle));
   SetShapesTexture(tex, r);
 }

@@ -474,7 +474,7 @@ moonbit_raylib_draw_billboard(
   moonbit_bytes_t position, float scale, moonbit_bytes_t tint
 ) {
   Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
   Color c; memcpy(&c, tint, sizeof(Color));
   DrawBillboard(cam, tex, pos, scale, c);
@@ -486,7 +486,7 @@ moonbit_raylib_draw_billboard_rec(
   moonbit_bytes_t position, moonbit_bytes_t size, moonbit_bytes_t tint
 ) {
   Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle src; memcpy(&src, source, sizeof(Rectangle));
   Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
   Vector2 sz; memcpy(&sz, size, sizeof(Vector2));
@@ -501,7 +501,7 @@ moonbit_raylib_draw_billboard_pro(
   moonbit_bytes_t origin, float rotation, moonbit_bytes_t tint
 ) {
   Camera3D cam; memcpy(&cam, camera, sizeof(Camera3D));
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   Rectangle src; memcpy(&src, source, sizeof(Rectangle));
   Vector3 pos; memcpy(&pos, position, sizeof(Vector3));
   Vector3 u; memcpy(&u, up, sizeof(Vector3));
@@ -863,7 +863,7 @@ moonbit_raylib_set_material_texture(
   int mapType,
   moonbit_bytes_t texture
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   SetMaterialTexture(&wrapper->material, mapType, tex);
 }
 
@@ -883,7 +883,7 @@ moonbit_raylib_set_model_material_texture(
   int mapType,
   moonbit_bytes_t texture
 ) {
-  Texture2D tex; memcpy(&tex, texture, sizeof(Texture2D));
+  Texture2D tex = bytes_to_texture(texture);
   if (materialIndex >= 0 && materialIndex < wrapper->model.materialCount) {
     SetMaterialTexture(&wrapper->model.materials[materialIndex], mapType, tex);
   }

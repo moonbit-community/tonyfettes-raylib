@@ -70,5 +70,23 @@ typedef struct {
 // passing NULL causes a crash when the GC calls through the function pointer.
 static inline void noop_destructor(void *ptr) { (void)ptr; }
 
+// Texture2D <-> moonbit_bytes_t helpers.
+// MoonBit serializes Texture as 5x int32 = 20 bytes.
+_Static_assert(sizeof(Texture2D) == 20,
+  "Texture2D must be 20 bytes (5x int32) to match MoonBit Texture struct layout");
+
+static inline Texture2D
+bytes_to_texture(moonbit_bytes_t b) {
+  Texture2D tex;
+  memcpy(&tex, b, sizeof(Texture2D));
+  return tex;
+}
+
+static inline moonbit_bytes_t
+texture_to_bytes(Texture2D tex) {
+  moonbit_bytes_t res = moonbit_make_bytes(sizeof(Texture2D), 0);
+  memcpy(res, &tex, sizeof(Texture2D));
+  return res;
+}
 
 #endif
