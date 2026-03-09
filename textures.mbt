@@ -261,16 +261,19 @@ pub fn texture_from_id(
 // ============================================================================
 
 ///|
+#deprecated("Use texture.width")
 pub fn get_texture_width(texture : Texture) -> Int {
   texture.width
 }
 
 ///|
+#deprecated("Use texture.height")
 pub fn get_texture_height(texture : Texture) -> Int {
   texture.height
 }
 
 ///|
+#deprecated("Use texture.id")
 pub fn get_texture_id(texture : Texture) -> Int {
   texture.id.reinterpret_as_int()
 }
