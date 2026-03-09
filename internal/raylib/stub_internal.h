@@ -72,8 +72,12 @@ static inline void noop_destructor(void *ptr) { (void)ptr; }
 
 // Texture2D <-> moonbit_bytes_t helpers.
 // MoonBit serializes Texture as 5x int32 = 20 bytes.
-// C99-compatible compile-time assert (negative array size triggers error).
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+_Static_assert(sizeof(Texture2D) == 20,
+  "Texture2D must be 20 bytes (5x int32) to match MoonBit Texture struct layout");
+#else
 typedef char assert_texture2d_is_20_bytes[sizeof(Texture2D) == 20 ? 1 : -1];
+#endif
 
 static inline Texture2D
 bytes_to_texture(moonbit_bytes_t b) {
