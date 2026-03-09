@@ -98,7 +98,7 @@ fn main {
     @raylib.draw_texture(
       tex_scarfy_anim,
       @raylib.get_screen_width() / 2 -
-      @raylib.get_texture_width(tex_scarfy_anim) / 2,
+      tex_scarfy_anim.width / 2,
       140,
       @raylib.white,
     )
