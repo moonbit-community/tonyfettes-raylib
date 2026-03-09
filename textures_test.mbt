@@ -1,6 +1,6 @@
 ///|
-test "Texture round-trip through Bytes via texture_from_id" {
-  let t = texture_from_id(42U, 256, 128)
+test "Texture round-trip through Bytes" {
+  let t = Texture::new(id=42U, width=256, height=128)
   let bytes = t.to_bytes()
   let t2 = Texture::from_bytes(bytes)
   assert_eq(t, t2)

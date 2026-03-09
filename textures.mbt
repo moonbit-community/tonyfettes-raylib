@@ -247,8 +247,20 @@ pub fn get_render_texture_texture(target : RenderTexture) -> Texture {
 }
 
 ///|
+pub fn Texture::new(
+  id~ : UInt,
+  width~ : Int,
+  height~ : Int,
+  mipmaps~ : Int = 1,
+  format~ : Int = PixelformatUncompressedR8g8b8a8,
+) -> Texture {
+  { id, width, height, mipmaps, format }
+}
+
+///|
+#deprecated("Use Texture::new")
 pub fn texture_from_id(id : UInt, width : Int, height : Int) -> Texture {
-  { id, width, height, mipmaps: 1, format: PixelformatUncompressedR8g8b8a8 }
+  Texture::new(id~, width~, height~)
 }
 
 // ============================================================================
