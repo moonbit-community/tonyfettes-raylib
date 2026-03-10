@@ -106,9 +106,8 @@ moonbit_raylib_set_shader_value_matrix(ShaderWrapper *wrapper, int locIndex, moo
 }
 
 void
-moonbit_raylib_set_shader_value_texture(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t texture) {
-  Texture2D tex = bytes_to_texture(texture);
-  SetShaderValueTexture(wrapper->shader, locIndex, tex);
+moonbit_raylib_set_shader_value_texture(ShaderWrapper *wrapper, int locIndex, TextureWrapper *texWrapper) {
+  SetShaderValueTexture(wrapper->shader, locIndex, texWrapper->texture);
 }
 
 void

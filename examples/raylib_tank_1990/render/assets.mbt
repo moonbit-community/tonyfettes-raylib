@@ -550,8 +550,8 @@ pub fn draw_texture_centered(
   let src = @raylib.Rectangle::new(
     0.0,
     0.0,
-    Float::from_int(texture.width),
-    Float::from_int(texture.height),
+    Float::from_int(@raylib.get_texture_width(texture)),
+    Float::from_int(@raylib.get_texture_height(texture)),
   )
   let dst = @raylib.Rectangle::new(
     center_x - width * 0.5,
