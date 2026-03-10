@@ -2,6 +2,9 @@
 pub type Image
 
 ///|
+pub type Texture
+
+///|
 pub type RenderTexture
 
 ///|

@@ -15,7 +15,7 @@ fn draw_cube_texture(
   let z = position.z
 
   // Set desired texture to be enabled while drawing following vertex data
-  @rl.set_texture(texture.id)
+  @rl.set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
   @rl.begin(@rl.Quads)
   @rl.color4ub(color.r, color.g, color.b, color.a)
@@ -106,11 +106,11 @@ fn draw_cube_texture_rec(
   let x = position.x
   let y = position.y
   let z = position.z
-  let tex_width = Float::from_int(texture.width)
-  let tex_height = Float::from_int(texture.height)
+  let tex_width = Float::from_int(@raylib.get_texture_width(texture))
+  let tex_height = Float::from_int(@raylib.get_texture_height(texture))
 
   // Set desired texture to be enabled while drawing following vertex data
-  @rl.set_texture(texture.id)
+  @rl.set_texture(@raylib.get_texture_id(texture).reinterpret_as_uint())
 
   // We calculate the normalized texture coordinates for the desired texture-source-rectangle
   // It means converting from (tex.width, tex.height) coordinates to [0.0, 1.0] equivalent
@@ -252,9 +252,9 @@ fn main {
       texture,
       @raylib.Rectangle::new(
         0.0,
-        Float::from_int(texture.height) / 2.0,
-        Float::from_int(texture.width) / 2.0,
-        Float::from_int(texture.height) / 2.0,
+        Float::from_int(@raylib.get_texture_height(texture)) / 2.0,
+        Float::from_int(@raylib.get_texture_width(texture)) / 2.0,
+        Float::from_int(@raylib.get_texture_height(texture)) / 2.0,
       ),
       @raylib.Vector3::new(2.0, 1.0, 0.0),
       2.0,
