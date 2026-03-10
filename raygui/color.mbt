@@ -15,10 +15,10 @@ pub fn get_color(hex_value : Int) -> @raylib.Color {
 
 ///|
 pub fn color_to_int(color : @raylib.Color) -> Int {
-  (color.r.to_int() << 24) |
-  (color.g.to_int() << 16) |
-  (color.b.to_int() << 8) |
-  color.a.to_int()
+  (color.r().to_int() << 24) |
+  (color.g().to_int() << 16) |
+  (color.b().to_int() << 8) |
+  color.a().to_int()
 }
 
 // Apply alpha fade to a color by multiplying its alpha channel.
@@ -32,11 +32,11 @@ pub fn gui_fade(color : @raylib.Color, alpha : Float) -> @raylib.Color {
   } else {
     alpha
   }
-  let new_a : Int = (Float::from_int(color.a.to_int()) * clamped).to_int()
+  let new_a : Int = (Float::from_int(color.a().to_int()) * clamped).to_int()
   @raylib.Color::new(
-    color.r.to_int(),
-    color.g.to_int(),
-    color.b.to_int(),
+    color.r().to_int(),
+    color.g().to_int(),
+    color.b().to_int(),
     new_a,
   )
 }

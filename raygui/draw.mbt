@@ -15,7 +15,7 @@ fn gui_draw_rectangle(
   let rw = rec.width.to_int()
   let rh = rec.height.to_int()
   // Draw fill
-  if color.a > b'\x00' {
+  if color.a() > 0 {
     @raylib.draw_rectangle(rx, ry, rw, rh, gui_fade(color, alpha))
   }
   // Draw border
@@ -385,7 +385,7 @@ fn gui_draw_text(
             cx = cx + glyph_width
           }
           // Draw "..."
-          for dot_i in 0..<3 {
+          for _ in 0..<3 {
             let pos = @raylib.Vector2::new(cx, by)
             @raylib.draw_text_codepoint(
               font,

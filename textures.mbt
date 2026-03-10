@@ -251,8 +251,8 @@ pub fn Texture::new(
   id~ : UInt,
   width~ : Int,
   height~ : Int,
-  mipmaps~ : Int = 1,
-  format~ : Int = PixelformatUncompressedR8g8b8a8,
+  mipmaps? : Int = 1,
+  format? : Int = PixelformatUncompressedR8g8b8a8,
 ) -> Texture {
   { id, width, height, mipmaps, format }
 }

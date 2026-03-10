@@ -440,42 +440,61 @@ pub const PixelformatUncompressedR8g8b8 : Int = 4
 
 pub const PixelformatUncompressedR8g8b8a8 : Int = 7
 
+#deprecated
 pub const RlAttachmentColorChannel0 : Int = 0
 
+#deprecated
 pub const RlAttachmentColorChannel1 : Int = 1
 
+#deprecated
 pub const RlAttachmentColorChannel2 : Int = 2
 
+#deprecated
 pub const RlAttachmentColorChannel3 : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeX : Int = 1
 
+#deprecated
 pub const RlAttachmentCubemapNegativeY : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeZ : Int = 5
 
+#deprecated
 pub const RlAttachmentCubemapPositiveX : Int = 0
 
+#deprecated
 pub const RlAttachmentCubemapPositiveY : Int = 2
 
+#deprecated
 pub const RlAttachmentCubemapPositiveZ : Int = 4
 
+#deprecated
 pub const RlAttachmentDepth : Int = 100
 
+#deprecated
 pub const RlAttachmentRenderbuffer : Int = 200
 
+#deprecated
 pub const RlAttachmentStencil : Int = 200
 
+#deprecated
 pub const RlAttachmentTexture2d : Int = 100
 
+#deprecated
 pub const RlDrawFramebuffer : UInt = 0x8CA9
 
+#deprecated
 pub const RlLines : Int = 0x0001
 
+#deprecated
 pub const RlQuads : Int = 0x0007
 
+#deprecated
 pub const RlReadFramebuffer : UInt = 0x8CA8
 
+#deprecated
 pub const RlTriangles : Int = 0x0004
 
 pub const ShaderLocBoneMatrices : Int = 28
@@ -2082,8 +2101,12 @@ pub struct Color {
   b : Byte
   a : Byte
 }
+pub fn Color::a(Self) -> Byte
+pub fn Color::b(Self) -> Byte
 pub fn Color::from_bytes(Bytes) -> Self
+pub fn Color::g(Self) -> Byte
 pub fn Color::new(Int, Int, Int, Int) -> Self
+pub fn Color::r(Self) -> Byte
 pub fn Color::to_bytes(Self) -> Bytes
 pub impl Eq for Color
 pub impl Show for Color

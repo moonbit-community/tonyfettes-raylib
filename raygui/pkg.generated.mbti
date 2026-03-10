@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/raylib/raygui"
 
+import {
+  "moonbitlang/core/ref",
+}
+
 // Values
 pub const ArrowPadding : Int = 16
 
@@ -200,21 +204,21 @@ pub fn get_color(Int) -> @tonyfettes/raylib.Color
 
 pub fn gui_button(@tonyfettes/raylib.Rectangle, String) -> Bool
 
-pub fn gui_check_box(@tonyfettes/raylib.Rectangle, String, Ref[Bool]) -> Bool
+pub fn gui_check_box(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Bool]) -> Bool
 
-pub fn gui_color_bar_alpha(@tonyfettes/raylib.Rectangle, Ref[Float]) -> Bool
+pub fn gui_color_bar_alpha(@tonyfettes/raylib.Rectangle, @ref.Ref[Float]) -> Bool
 
-pub fn gui_color_bar_hue(@tonyfettes/raylib.Rectangle, Ref[Float]) -> Bool
+pub fn gui_color_bar_hue(@tonyfettes/raylib.Rectangle, @ref.Ref[Float]) -> Bool
 
-pub fn gui_color_panel(@tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Color]) -> Bool
+pub fn gui_color_panel(@tonyfettes/raylib.Rectangle, @ref.Ref[@tonyfettes/raylib.Color]) -> Bool
 
-pub fn gui_color_panel_hsv(@tonyfettes/raylib.Rectangle, Ref[Vector3]) -> Bool
+pub fn gui_color_panel_hsv(@tonyfettes/raylib.Rectangle, @ref.Ref[Vector3]) -> Bool
 
-pub fn gui_color_picker(@tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Color]) -> Bool
+pub fn gui_color_picker(@tonyfettes/raylib.Rectangle, @ref.Ref[@tonyfettes/raylib.Color]) -> Bool
 
-pub fn gui_color_picker_hsv(@tonyfettes/raylib.Rectangle, Ref[Vector3]) -> Bool
+pub fn gui_color_picker_hsv(@tonyfettes/raylib.Rectangle, @ref.Ref[Vector3]) -> Bool
 
-pub fn gui_combo_box(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Unit
+pub fn gui_combo_box(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int]) -> Unit
 
 pub fn gui_disable() -> Unit
 
@@ -222,7 +226,7 @@ pub fn gui_disable_tooltip() -> Unit
 
 pub fn gui_draw_icon(Int, Int, Int, Int, @tonyfettes/raylib.Color) -> Unit
 
-pub fn gui_dropdown_box(@tonyfettes/raylib.Rectangle, String, Ref[Int], Bool) -> Bool
+pub fn gui_dropdown_box(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int], Bool) -> Bool
 
 pub fn gui_dummy_rec(@tonyfettes/raylib.Rectangle, String) -> Unit
 
@@ -246,7 +250,7 @@ pub fn gui_get_style(Int, Int) -> Int
 
 pub fn gui_get_text_width(String) -> Int
 
-pub fn gui_grid(@tonyfettes/raylib.Rectangle, Float, Int, Ref[@tonyfettes/raylib.Vector2]) -> Bool
+pub fn gui_grid(@tonyfettes/raylib.Rectangle, Float, Int, @ref.Ref[@tonyfettes/raylib.Vector2]) -> Bool
 
 pub fn gui_group_box(@tonyfettes/raylib.Rectangle, String) -> Unit
 
@@ -260,9 +264,9 @@ pub fn gui_label_button(@tonyfettes/raylib.Rectangle, String) -> Bool
 
 pub fn gui_line(@tonyfettes/raylib.Rectangle, String) -> Unit
 
-pub fn gui_list_view(@tonyfettes/raylib.Rectangle, String, Ref[Int], Ref[Int]) -> Bool
+pub fn gui_list_view(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int], @ref.Ref[Int]) -> Bool
 
-pub fn gui_list_view_ex(@tonyfettes/raylib.Rectangle, Array[String], Ref[Int], Ref[Int], Ref[Int]) -> Bool
+pub fn gui_list_view_ex(@tonyfettes/raylib.Rectangle, Array[String], @ref.Ref[Int], @ref.Ref[Int], @ref.Ref[Int]) -> Bool
 
 pub fn gui_load_icons(String, Bool) -> Array[String]
 
@@ -276,9 +280,9 @@ pub fn gui_message_box(@tonyfettes/raylib.Rectangle, String, String, String) -> 
 
 pub fn gui_panel(@tonyfettes/raylib.Rectangle, String) -> Unit
 
-pub fn gui_progress_bar(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Unit
+pub fn gui_progress_bar(@tonyfettes/raylib.Rectangle, String, String, @ref.Ref[Float], Float, Float) -> Unit
 
-pub fn gui_scroll_panel(@tonyfettes/raylib.Rectangle, String, @tonyfettes/raylib.Rectangle, Ref[@tonyfettes/raylib.Vector2], Ref[@tonyfettes/raylib.Rectangle]) -> Unit
+pub fn gui_scroll_panel(@tonyfettes/raylib.Rectangle, String, @tonyfettes/raylib.Rectangle, @ref.Ref[@tonyfettes/raylib.Vector2], @ref.Ref[@tonyfettes/raylib.Rectangle]) -> Unit
 
 pub fn gui_set_alpha(Float) -> Unit
 
@@ -292,35 +296,35 @@ pub fn gui_set_style(Int, Int, Int) -> Unit
 
 pub fn gui_set_tooltip(String) -> Unit
 
-pub fn gui_slider(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Bool
+pub fn gui_slider(@tonyfettes/raylib.Rectangle, String, String, @ref.Ref[Float], Float, Float) -> Bool
 
-pub fn gui_slider_bar(@tonyfettes/raylib.Rectangle, String, String, Ref[Float], Float, Float) -> Bool
+pub fn gui_slider_bar(@tonyfettes/raylib.Rectangle, String, String, @ref.Ref[Float], Float, Float) -> Bool
 
-pub fn gui_spinner(@tonyfettes/raylib.Rectangle, String, Ref[Int], Int, Int, Bool) -> Bool
+pub fn gui_spinner(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int], Int, Int, Bool) -> Bool
 
 pub fn gui_status_bar(@tonyfettes/raylib.Rectangle, String) -> Unit
 
-pub fn gui_tab_bar(@tonyfettes/raylib.Rectangle, Array[String], Ref[Int]) -> Int
+pub fn gui_tab_bar(@tonyfettes/raylib.Rectangle, Array[String], @ref.Ref[Int]) -> Int
 
-pub fn gui_text_box(@tonyfettes/raylib.Rectangle, Ref[String], Int, Bool) -> Bool
+pub fn gui_text_box(@tonyfettes/raylib.Rectangle, @ref.Ref[String], Int, Bool) -> Bool
 
-pub fn gui_text_input_box(@tonyfettes/raylib.Rectangle, String, String, String, Ref[String], Int, secret_view_active? : Ref[Bool]?) -> Int
+pub fn gui_text_input_box(@tonyfettes/raylib.Rectangle, String, String, String, @ref.Ref[String], Int, secret_view_active? : @ref.Ref[Bool]?) -> Int
 
 pub fn gui_text_split(String) -> (Array[String], Array[Int])
 
-pub fn gui_toggle(@tonyfettes/raylib.Rectangle, String, Ref[Bool]) -> Bool
+pub fn gui_toggle(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Bool]) -> Bool
 
-pub fn gui_toggle_group(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Unit
+pub fn gui_toggle_group(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int]) -> Unit
 
-pub fn gui_toggle_slider(@tonyfettes/raylib.Rectangle, String, Ref[Int]) -> Bool
+pub fn gui_toggle_slider(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int]) -> Bool
 
 pub fn gui_tooltip(@tonyfettes/raylib.Rectangle) -> Unit
 
 pub fn gui_unlock() -> Unit
 
-pub fn gui_value_box(@tonyfettes/raylib.Rectangle, String, Ref[Int], Int, Int, Bool) -> Bool
+pub fn gui_value_box(@tonyfettes/raylib.Rectangle, String, @ref.Ref[Int], Int, Int, Bool) -> Bool
 
-pub fn gui_value_box_float(@tonyfettes/raylib.Rectangle, String, Ref[String], Ref[Float], Bool) -> Bool
+pub fn gui_value_box_float(@tonyfettes/raylib.Rectangle, String, @ref.Ref[String], @ref.Ref[Float], Bool) -> Bool
 
 pub fn gui_window_box(@tonyfettes/raylib.Rectangle, String) -> Bool
 
