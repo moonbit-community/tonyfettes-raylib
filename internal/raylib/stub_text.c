@@ -66,15 +66,6 @@ moonbit_raylib_get_font_texture(Font *f) {
   return &f->texture;
 }
 
-void
-moonbit_raylib_gen_font_texture_mipmaps(Font *f) {
-  GenTextureMipmaps(&f->texture);
-}
-
-void
-moonbit_raylib_set_font_texture_filter(Font *f, int filter) {
-  SetTextureFilter(f->texture, filter);
-}
 
 // ============================================================================
 // Text: Drawing

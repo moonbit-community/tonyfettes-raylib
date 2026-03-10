@@ -166,7 +166,7 @@ pub fn gui_text_input_box(
       } else {
         // Not editing, not viewing: show stars
         let buf = StringBuilder::new()
-        for i in 0..<text.val.length() {
+        for _ in 0..<text.val.length() {
           buf.write_char('*')
         }
         let display_text : Ref[String] = { val: buf.to_string() }

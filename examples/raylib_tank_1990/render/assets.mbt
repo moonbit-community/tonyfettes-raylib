@@ -243,7 +243,7 @@ pub fn init_assets() -> Unit {
 
   let ui_font = @raylib.load_font_ex(ui_font_path, 48)
   if @raylib.is_font_valid(ui_font) {
-    @raylib.set_font_texture_filter(ui_font, @raylib.TextureFilterBilinear)
+    @raylib.set_texture_filter(@raylib.get_font_texture(ui_font), @raylib.TextureFilterBilinear)
     assets.ui_font = Some(ui_font)
   }
 

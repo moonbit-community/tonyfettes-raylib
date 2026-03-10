@@ -191,7 +191,7 @@ fn burst(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<count {
+  for _ in 0..<count {
     spawn_particle(ps, x, y, speed, kind)
   }
 }

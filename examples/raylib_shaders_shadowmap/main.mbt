@@ -148,22 +148,22 @@ fn main {
   // Load shadow map render texture (depth-only)
   let fbo_id = @rl.load_framebuffer()
   let depth_tex_id = @rl.load_texture_depth(
-    ShadowmapResolution, ShadowmapResolution, false,
+    ShadowmapResolution,
+    ShadowmapResolution,
+    false,
   )
   @rl.framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0)
   let _ = @rl.framebuffer_complete(fbo_id)
   let shadow_map = @raylib.new_render_texture(
     fbo_id,
-    0U,
-    ShadowmapResolution,
-    ShadowmapResolution,
-    1,
-    7,
-    depth_tex_id,
-    ShadowmapResolution,
-    ShadowmapResolution,
-    1,
-    7,
+    @raylib.new_texture(0U, ShadowmapResolution, ShadowmapResolution, 1, 7),
+    @raylib.new_texture(
+      depth_tex_id,
+      ShadowmapResolution,
+      ShadowmapResolution,
+      1,
+      7,
+    ),
   )
 
   // Light camera for shadow mapping (renders from the light's point of view)

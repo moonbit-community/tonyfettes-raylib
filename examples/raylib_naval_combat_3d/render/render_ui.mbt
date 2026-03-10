@@ -515,7 +515,7 @@ fn draw_battle_select(game : @types.Game) -> Unit {
     let diff = @levels.get_battle_difficulty(i)
     // Build stars string
     let mut stars = ""
-    for s in 0..<diff {
+    for _ in 0..<diff {
       stars = stars + "*"
     }
     let label = "\{i + 1}. \{name}  [\{stars}]"

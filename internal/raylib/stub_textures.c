@@ -49,27 +49,51 @@ moonbit_raylib_gen_image_checked(
 // ============================================================================
 
 Image *
-moonbit_raylib_gen_image_gradient_linear(int width, int height, int direction, moonbit_bytes_t start, moonbit_bytes_t end) {
-  Color s; memcpy(&s, start, sizeof(Color));
-  Color e; memcpy(&e, end, sizeof(Color));
+moonbit_raylib_gen_image_gradient_linear(
+  int width,
+  int height,
+  int direction,
+  moonbit_bytes_t start,
+  moonbit_bytes_t end
+) {
+  Color s;
+  memcpy(&s, start, sizeof(Color));
+  Color e;
+  memcpy(&e, end, sizeof(Color));
   Image *img = (Image *)malloc(sizeof(Image));
   *img = GenImageGradientLinear(width, height, direction, s, e);
   return img;
 }
 
 Image *
-moonbit_raylib_gen_image_gradient_radial(int width, int height, float density, moonbit_bytes_t inner, moonbit_bytes_t outer) {
-  Color i; memcpy(&i, inner, sizeof(Color));
-  Color o; memcpy(&o, outer, sizeof(Color));
+moonbit_raylib_gen_image_gradient_radial(
+  int width,
+  int height,
+  float density,
+  moonbit_bytes_t inner,
+  moonbit_bytes_t outer
+) {
+  Color i;
+  memcpy(&i, inner, sizeof(Color));
+  Color o;
+  memcpy(&o, outer, sizeof(Color));
   Image *img = (Image *)malloc(sizeof(Image));
   *img = GenImageGradientRadial(width, height, density, i, o);
   return img;
 }
 
 Image *
-moonbit_raylib_gen_image_gradient_square(int width, int height, float density, moonbit_bytes_t inner, moonbit_bytes_t outer) {
-  Color i; memcpy(&i, inner, sizeof(Color));
-  Color o; memcpy(&o, outer, sizeof(Color));
+moonbit_raylib_gen_image_gradient_square(
+  int width,
+  int height,
+  float density,
+  moonbit_bytes_t inner,
+  moonbit_bytes_t outer
+) {
+  Color i;
+  memcpy(&i, inner, sizeof(Color));
+  Color o;
+  memcpy(&o, outer, sizeof(Color));
   Image *img = (Image *)malloc(sizeof(Image));
   *img = GenImageGradientSquare(width, height, density, i, o);
   return img;
@@ -83,7 +107,13 @@ moonbit_raylib_gen_image_white_noise(int width, int height, float factor) {
 }
 
 Image *
-moonbit_raylib_gen_image_perlin_noise(int width, int height, int offsetX, int offsetY, float scale) {
+moonbit_raylib_gen_image_perlin_noise(
+  int width,
+  int height,
+  int offsetX,
+  int offsetY,
+  float scale
+) {
   Image *img = (Image *)malloc(sizeof(Image));
   *img = GenImagePerlinNoise(width, height, offsetX, offsetY, scale);
   return img;
@@ -108,9 +138,15 @@ moonbit_raylib_gen_image_text(int width, int height, moonbit_bytes_t text) {
 // ============================================================================
 
 Image *
-moonbit_raylib_load_image_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize) {
+moonbit_raylib_load_image_from_memory(
+  moonbit_bytes_t fileType,
+  moonbit_bytes_t fileData,
+  int dataSize
+) {
   Image *img = (Image *)malloc(sizeof(Image));
-  *img = LoadImageFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize);
+  *img = LoadImageFromMemory(
+    (const char *)fileType, (const unsigned char *)fileData, dataSize
+  );
   return img;
 }
 
@@ -151,7 +187,8 @@ moonbit_raylib_image_copy(Image *img) {
 
 Image *
 moonbit_raylib_image_from_image(Image *img, moonbit_bytes_t rec) {
-  Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
+  Rectangle r;
+  memcpy(&r, rec, sizeof(Rectangle));
   Image *result = (Image *)malloc(sizeof(Image));
   *result = ImageFromImage(*img, r);
   return result;
@@ -300,10 +337,14 @@ moonbit_raylib_draw_texture_npatch(
   float rotation,
   moonbit_bytes_t tint
 ) {
-  NPatchInfo npi; memcpy(&npi, nPatchInfo, sizeof(NPatchInfo));
-  Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
-  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
-  Color c; memcpy(&c, tint, sizeof(Color));
+  NPatchInfo npi;
+  memcpy(&npi, nPatchInfo, sizeof(NPatchInfo));
+  Rectangle dst;
+  memcpy(&dst, dest, sizeof(Rectangle));
+  Vector2 org;
+  memcpy(&org, origin, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
   DrawTextureNPatch(*t, npi, dst, org, rotation, c);
 }
 
@@ -338,8 +379,13 @@ moonbit_raylib_update_texture(Texture2D *t, moonbit_bytes_t pixels) {
 }
 
 void
-moonbit_raylib_update_texture_rec(Texture2D *t, moonbit_bytes_t rec, moonbit_bytes_t pixels) {
-  Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
+moonbit_raylib_update_texture_rec(
+  Texture2D *t,
+  moonbit_bytes_t rec,
+  moonbit_bytes_t pixels
+) {
+  Rectangle r;
+  memcpy(&r, rec, sizeof(Rectangle));
   UpdateTextureRec(*t, r, (const void *)pixels);
 }
 
@@ -349,19 +395,24 @@ moonbit_raylib_gen_texture_mipmaps(Texture2D *t) {
 }
 
 void
-moonbit_raylib_update_texture_from_image_frame(Texture2D *t, Image *img, int frame) {
+moonbit_raylib_update_texture_from_image_frame(
+  Texture2D *t,
+  Image *img,
+  int frame
+) {
   int offset = img->width * img->height * 4 * frame;
   UpdateTexture(*t, ((unsigned char *)img->data) + offset);
 }
 
-int
+uint32_t
 moonbit_raylib_get_texture_id(Texture2D *t) {
   return (int)t->id;
 }
 
 void
 moonbit_raylib_set_shapes_texture(Texture2D *t, moonbit_bytes_t source) {
-  Rectangle r; memcpy(&r, source, sizeof(Rectangle));
+  Rectangle r;
+  memcpy(&r, source, sizeof(Rectangle));
   SetShapesTexture(*t, r);
 }
 
@@ -433,7 +484,7 @@ Image *
 moonbit_raylib_get_clipboard_image(void) {
   Image *img = (Image *)malloc(sizeof(Image));
 #ifdef PLATFORM_ANDROID
-  *img = (Image){0};   // clipboard image not supported on Android
+  *img = (Image){0}; // clipboard image not supported on Android
 #else
   *img = GetClipboardImage();
 #endif
@@ -449,10 +500,14 @@ moonbit_raylib_draw_render_texture_pro(
   float rotation,
   moonbit_bytes_t tint
 ) {
-  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
-  Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
-  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
-  Color c; memcpy(&c, tint, sizeof(Color));
+  Rectangle src;
+  memcpy(&src, source, sizeof(Rectangle));
+  Rectangle dst;
+  memcpy(&dst, dest, sizeof(Rectangle));
+  Vector2 org;
+  memcpy(&org, origin, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
   DrawTexturePro(rt->texture, src, dst, org, rotation, c);
 }
 
@@ -473,6 +528,16 @@ moonbit_raylib_get_texture_width(Texture2D *t) {
 int
 moonbit_raylib_get_texture_height(Texture2D *t) {
   return t->height;
+}
+
+int
+moonbit_raylib_get_texture_mipmaps(Texture2D *t) {
+  return t->mipmaps;
+}
+
+int
+moonbit_raylib_get_texture_format(Texture2D *t) {
+  return t->format;
 }
 
 // ============================================================================
@@ -511,15 +576,16 @@ moonbit_raylib_get_render_texture_depth_id(RenderTexture *rt) {
 // RenderTexture: Constructor from raw values
 // ============================================================================
 
-RenderTexture *moonbit_raylib_new_render_texture(
+RenderTexture *
+moonbit_raylib_new_render_texture(
   unsigned int id,
-  unsigned int tex_id, int tex_width, int tex_height, int tex_mipmaps, int tex_format,
-  unsigned int depth_id, int depth_width, int depth_height, int depth_mipmaps, int depth_format
+  Texture2D *tex,
+  Texture2D *depth
 ) {
   RenderTexture *rt = (RenderTexture *)malloc(sizeof(RenderTexture));
   rt->id = id;
-  rt->texture = (Texture2D){ tex_id, tex_width, tex_height, tex_mipmaps, tex_format };
-  rt->depth = (Texture2D){ depth_id, depth_width, depth_height, depth_mipmaps, depth_format };
+  rt->texture = *tex;
+  rt->depth = *depth;
   return rt;
 }
 
@@ -528,7 +594,12 @@ RenderTexture *moonbit_raylib_new_render_texture(
 // ============================================================================
 
 unsigned int
-moonbit_raylib_rl_load_texture(int width, int height, int format, int mipmapCount) {
+moonbit_raylib_rl_load_texture(
+  int width,
+  int height,
+  int format,
+  int mipmapCount
+) {
   return rlLoadTexture(NULL, width, height, format, mipmapCount);
 }
 
@@ -537,12 +608,18 @@ moonbit_raylib_rl_load_texture(int width, int height, int format, int mipmapCoun
 // ============================================================================
 
 Texture2D *
-moonbit_raylib_texture_from_id(unsigned int id, int width, int height) {
+moonbit_raylib_new_texture(
+  uint32_t id,
+  int32_t width,
+  int32_t height,
+  int32_t mipmaps,
+  int32_t format
+) {
   Texture2D *t = (Texture2D *)malloc(sizeof(Texture2D));
   t->id = id;
   t->width = width;
   t->height = height;
-  t->mipmaps = 1;
-  t->format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+  t->mipmaps = mipmaps;
+  t->format = format;
   return t;
 }

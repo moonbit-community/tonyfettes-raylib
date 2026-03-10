@@ -17,14 +17,14 @@ fn main {
 
   // Generate mipmap levels to use trilinear filtering
   // NOTE: On 2D drawing it won't be noticeable, it looks like FILTER_BILINEAR
-  @raylib.gen_font_texture_mipmaps(font)
+  @raylib.gen_texture_mipmaps(@raylib.get_font_texture(font))
 
   let mut font_size : Float = Float::from_int(@raylib.get_font_base_size(font))
   let mut font_position_x : Float = 40.0
   let font_position_y : Float = Float::from_int(screen_height) / 2.0 - 80.0
 
   // Setup texture scaling filter
-  @raylib.set_font_texture_filter(font, 0) // TEXTURE_FILTER_POINT
+  @raylib.set_texture_filter(@raylib.get_font_texture(font), 0) // TEXTURE_FILTER_POINT
   let mut current_font_filter = 0
 
   @raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
@@ -36,14 +36,14 @@ fn main {
 
     // Choose font texture filter method
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      @raylib.set_font_texture_filter(font, 0) // TEXTURE_FILTER_POINT
+      @raylib.set_texture_filter(@raylib.get_font_texture(font), 0) // TEXTURE_FILTER_POINT
       current_font_filter = 0
     } else if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      @raylib.set_font_texture_filter(font, 1) // TEXTURE_FILTER_BILINEAR
+      @raylib.set_texture_filter(@raylib.get_font_texture(font), 1) // TEXTURE_FILTER_BILINEAR
       current_font_filter = 1
     } else if @raylib.is_key_pressed(@raylib.KeyThree) {
       // NOTE: Trilinear filter won't be noticed on 2D drawing
-      @raylib.set_font_texture_filter(font, 2) // TEXTURE_FILTER_TRILINEAR
+      @raylib.set_texture_filter(@raylib.get_font_texture(font), 2) // TEXTURE_FILTER_TRILINEAR
       current_font_filter = 2
     }
 

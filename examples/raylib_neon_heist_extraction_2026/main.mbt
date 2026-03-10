@@ -1520,7 +1520,7 @@ fn main {
         }
         if dist2(player.x, player.y, vault.x, vault.y) <= 100.0 * 100.0 {
           vault.spawned = true
-          for k in 0..<14 {
+          for _ in 0..<14 {
             ignore(
               add_loot(
                 loot,
@@ -1796,7 +1796,7 @@ fn main {
           }
 
           let drops : Int = 1 + @raylib.get_random_value(0, 2)
-          for d in 0..<drops {
+          for _ in 0..<drops {
             ignore(
               add_loot(
                 loot,

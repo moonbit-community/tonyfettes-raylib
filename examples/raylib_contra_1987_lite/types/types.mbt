@@ -391,7 +391,7 @@ pub(all) struct Game {
 ///|
 pub fn Game::new() -> Game {
   let stars : Array[Star] = []
-  for i in 0..<120 {
+  for _ in 0..<120 {
     let x = Float::from_int(@raylib.get_random_value(0, screen_width))
     let y = Float::from_int(@raylib.get_random_value(0, screen_height))
     let speed = Float::from_int(@raylib.get_random_value(12, 85))

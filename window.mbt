@@ -55,10 +55,16 @@ pub using @ffi {
   set_trace_log_level,
   get_random_value,
   set_random_seed,
-  // Window icon
-  set_window_icon,
-  // Clipboard image
-  get_clipboard_image,
+}
+
+///|
+pub fn set_window_icon(image : Image) -> Unit {
+  @ffi.set_window_icon(image.0)
+}
+
+///|
+pub fn get_clipboard_image() -> Image {
+  @ffi.get_clipboard_image()
 }
 
 // Window management wrappers

@@ -40,11 +40,6 @@ pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_g
 ///|
 pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
 
-///|
-pub extern "c" fn gen_font_texture_mipmaps(font : Font) = "moonbit_raylib_gen_font_texture_mipmaps"
-
-///|
-pub extern "c" fn set_font_texture_filter(font : Font, filter : Int) = "moonbit_raylib_set_font_texture_filter"
 
 // ============================================================================
 // Text drawing

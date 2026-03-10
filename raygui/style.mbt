@@ -311,7 +311,7 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
   let prop_count = style_read_int(data, offset)
   offset = offset + 4
   // Read properties
-  for i in 0..<prop_count {
+  for _ in 0..<prop_count {
     if offset + 8 > data.length() {
       break
     }
