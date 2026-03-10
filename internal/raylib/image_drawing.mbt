@@ -3,7 +3,7 @@
 // ============================================================================
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_clear_background(dst : Image, color : Bytes) = "moonbit_raylib_image_clear_background"
 
 // ============================================================================
@@ -11,7 +11,7 @@ pub extern "c" fn image_clear_background(dst : Image, color : Bytes) = "moonbit_
 // ============================================================================
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_draw_pixel(
   dst : Image,
   pos_x : Int,
@@ -20,7 +20,7 @@ pub extern "c" fn image_draw_pixel(
 ) = "moonbit_raylib_image_draw_pixel"
 
 ///|
-#borrow(dst, position, color)
+#borrow(position, color)
 pub extern "c" fn image_draw_pixel_v(
   dst : Image,
   position : Bytes,
@@ -32,7 +32,7 @@ pub extern "c" fn image_draw_pixel_v(
 // ============================================================================
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_draw_line(
   dst : Image,
   start_pos_x : Int,
@@ -43,7 +43,7 @@ pub extern "c" fn image_draw_line(
 ) = "moonbit_raylib_image_draw_line"
 
 ///|
-#borrow(dst, start, end_, color)
+#borrow(start, end_, color)
 pub extern "c" fn image_draw_line_v(
   dst : Image,
   start : Bytes,
@@ -52,7 +52,7 @@ pub extern "c" fn image_draw_line_v(
 ) = "moonbit_raylib_image_draw_line_v"
 
 ///|
-#borrow(dst, start, end_, color)
+#borrow(start, end_, color)
 pub extern "c" fn image_draw_line_ex(
   dst : Image,
   start : Bytes,
@@ -66,7 +66,7 @@ pub extern "c" fn image_draw_line_ex(
 // ============================================================================
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_draw_circle(
   dst : Image,
   center_x : Int,
@@ -76,7 +76,7 @@ pub extern "c" fn image_draw_circle(
 ) = "moonbit_raylib_image_draw_circle"
 
 ///|
-#borrow(dst, center, color)
+#borrow(center, color)
 pub extern "c" fn image_draw_circle_v(
   dst : Image,
   center : Bytes,
@@ -85,7 +85,7 @@ pub extern "c" fn image_draw_circle_v(
 ) = "moonbit_raylib_image_draw_circle_v"
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_draw_circle_lines(
   dst : Image,
   center_x : Int,
@@ -95,7 +95,7 @@ pub extern "c" fn image_draw_circle_lines(
 ) = "moonbit_raylib_image_draw_circle_lines"
 
 ///|
-#borrow(dst, center, color)
+#borrow(center, color)
 pub extern "c" fn image_draw_circle_lines_v(
   dst : Image,
   center : Bytes,
@@ -108,7 +108,7 @@ pub extern "c" fn image_draw_circle_lines_v(
 // ============================================================================
 
 ///|
-#borrow(dst, color)
+#borrow(color)
 pub extern "c" fn image_draw_rectangle(
   dst : Image,
   pos_x : Int,
@@ -119,7 +119,7 @@ pub extern "c" fn image_draw_rectangle(
 ) = "moonbit_raylib_image_draw_rectangle"
 
 ///|
-#borrow(dst, position, size, color)
+#borrow(position, size, color)
 pub extern "c" fn image_draw_rectangle_v(
   dst : Image,
   position : Bytes,
@@ -128,7 +128,7 @@ pub extern "c" fn image_draw_rectangle_v(
 ) = "moonbit_raylib_image_draw_rectangle_v"
 
 ///|
-#borrow(dst, rec, color)
+#borrow(rec, color)
 pub extern "c" fn image_draw_rectangle_rec(
   dst : Image,
   rec : Bytes,
@@ -136,7 +136,7 @@ pub extern "c" fn image_draw_rectangle_rec(
 ) = "moonbit_raylib_image_draw_rectangle_rec"
 
 ///|
-#borrow(dst, rec, color)
+#borrow(rec, color)
 pub extern "c" fn image_draw_rectangle_lines(
   dst : Image,
   rec : Bytes,
@@ -149,7 +149,7 @@ pub extern "c" fn image_draw_rectangle_lines(
 // ============================================================================
 
 ///|
-#borrow(dst, v1, v2, v3, color)
+#borrow(v1, v2, v3, color)
 pub extern "c" fn image_draw_triangle(
   dst : Image,
   v1 : Bytes,
@@ -159,7 +159,7 @@ pub extern "c" fn image_draw_triangle(
 ) = "moonbit_raylib_image_draw_triangle"
 
 ///|
-#borrow(dst, v1, v2, v3, c1, c2, c3)
+#borrow(v1, v2, v3, c1, c2, c3)
 pub extern "c" fn image_draw_triangle_ex(
   dst : Image,
   v1 : Bytes,
@@ -171,7 +171,7 @@ pub extern "c" fn image_draw_triangle_ex(
 ) = "moonbit_raylib_image_draw_triangle_ex"
 
 ///|
-#borrow(dst, v1, v2, v3, color)
+#borrow(v1, v2, v3, color)
 pub extern "c" fn image_draw_triangle_lines(
   dst : Image,
   v1 : Bytes,
@@ -181,7 +181,7 @@ pub extern "c" fn image_draw_triangle_lines(
 ) = "moonbit_raylib_image_draw_triangle_lines"
 
 ///|
-#borrow(dst, points, color)
+#borrow(points, color)
 pub extern "c" fn image_draw_triangle_fan(
   dst : Image,
   points : Bytes,
@@ -190,7 +190,7 @@ pub extern "c" fn image_draw_triangle_fan(
 ) = "moonbit_raylib_image_draw_triangle_fan"
 
 ///|
-#borrow(dst, points, color)
+#borrow(points, color)
 pub extern "c" fn image_draw_triangle_strip(
   dst : Image,
   points : Bytes,
@@ -203,7 +203,7 @@ pub extern "c" fn image_draw_triangle_strip(
 // ============================================================================
 
 ///|
-#borrow(dst, src, src_rec, dst_rec, tint)
+#borrow(src_rec, dst_rec, tint)
 pub extern "c" fn image_draw(
   dst : Image,
   src : Image,
@@ -217,7 +217,7 @@ pub extern "c" fn image_draw(
 // ============================================================================
 
 ///|
-#borrow(dst, text, color)
+#borrow(text, color)
 pub extern "c" fn image_draw_text(
   dst : Image,
   text : Bytes,
@@ -228,7 +228,7 @@ pub extern "c" fn image_draw_text(
 ) = "moonbit_raylib_image_draw_text"
 
 ///|
-#borrow(dst, font, text, position, tint)
+#borrow(text, position, tint)
 pub extern "c" fn image_draw_text_ex(
   dst : Image,
   font : Font,

@@ -179,11 +179,10 @@ pub extern "c" fn draw_bounding_box(box_ : Bytes, color : Bytes) = "moonbit_rayl
 pub extern "c" fn load_model(file_name : Bytes) -> Model = "moonbit_raylib_load_model"
 
 ///|
-#borrow(model)
 pub extern "c" fn unload_model(model : Model) = "moonbit_raylib_unload_model"
 
 ///|
-#borrow(model, position, tint)
+#borrow(position, tint)
 pub extern "c" fn draw_model(
   model : Model,
   position : Bytes,
@@ -192,7 +191,7 @@ pub extern "c" fn draw_model(
 ) = "moonbit_raylib_draw_model"
 
 ///|
-#borrow(model, position, rotation_axis, scale, tint)
+#borrow(position, rotation_axis, scale, tint)
 pub extern "c" fn draw_model_ex(
   model : Model,
   position : Bytes,
@@ -203,7 +202,7 @@ pub extern "c" fn draw_model_ex(
 ) = "moonbit_raylib_draw_model_ex"
 
 ///|
-#borrow(model, position, tint)
+#borrow(position, tint)
 pub extern "c" fn draw_model_wires(
   model : Model,
   position : Bytes,
@@ -212,7 +211,7 @@ pub extern "c" fn draw_model_wires(
 ) = "moonbit_raylib_draw_model_wires"
 
 ///|
-#borrow(model, position, rotation_axis, scale, tint)
+#borrow(position, rotation_axis, scale, tint)
 pub extern "c" fn draw_model_wires_ex(
   model : Model,
   position : Bytes,
@@ -223,7 +222,7 @@ pub extern "c" fn draw_model_wires_ex(
 ) = "moonbit_raylib_draw_model_wires_ex"
 
 ///|
-#borrow(model, position, tint)
+#borrow(position, tint)
 pub extern "c" fn draw_model_points(
   model : Model,
   position : Bytes,
@@ -232,7 +231,7 @@ pub extern "c" fn draw_model_points(
 ) = "moonbit_raylib_draw_model_points"
 
 ///|
-#borrow(model, position, rotation_axis, scale, tint)
+#borrow(position, rotation_axis, scale, tint)
 pub extern "c" fn draw_model_points_ex(
   model : Model,
   position : Bytes,
@@ -247,11 +246,9 @@ pub extern "c" fn draw_model_points_ex(
 // ============================================================================
 
 ///|
-#borrow(model)
 pub extern "c" fn is_model_valid(model : Model) -> Bool = "moonbit_raylib_is_model_valid"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bounding_box(model : Model) -> Bytes = "moonbit_raylib_get_model_bounding_box"
 
 // ============================================================================
@@ -259,7 +256,7 @@ pub extern "c" fn get_model_bounding_box(model : Model) -> Bytes = "moonbit_rayl
 // ============================================================================
 
 ///|
-#borrow(camera, texture, position, tint)
+#borrow(camera, position, tint)
 pub extern "c" fn draw_billboard(
   camera : Bytes,
   texture : Texture,
@@ -269,7 +266,7 @@ pub extern "c" fn draw_billboard(
 ) = "moonbit_raylib_draw_billboard"
 
 ///|
-#borrow(camera, texture, source, position, size, tint)
+#borrow(camera, source, position, size, tint)
 pub extern "c" fn draw_billboard_rec(
   camera : Bytes,
   texture : Texture,
@@ -280,7 +277,7 @@ pub extern "c" fn draw_billboard_rec(
 ) = "moonbit_raylib_draw_billboard_rec"
 
 ///|
-#borrow(camera, texture, source, position, up, size, origin, tint)
+#borrow(camera, source, position, up, size, origin, tint)
 pub extern "c" fn draw_billboard_pro(
   camera : Bytes,
   texture : Texture,
@@ -406,11 +403,11 @@ pub extern "c" fn gen_mesh_knot(
 ) -> Mesh = "moonbit_raylib_gen_mesh_knot"
 
 ///|
-#borrow(heightmap, size)
+#borrow(size)
 pub extern "c" fn gen_mesh_heightmap(heightmap : Image, size : Bytes) -> Mesh = "moonbit_raylib_gen_mesh_heightmap"
 
 ///|
-#borrow(cubicmap, cube_size)
+#borrow(cube_size)
 pub extern "c" fn gen_mesh_cubicmap(
   cubicmap : Image,
   cube_size : Bytes,
@@ -421,27 +418,23 @@ pub extern "c" fn gen_mesh_cubicmap(
 // ============================================================================
 
 ///|
-#borrow(mesh)
 pub extern "c" fn unload_mesh(mesh : Mesh) = "moonbit_raylib_unload_mesh"
 
 ///|
-#borrow(mesh)
 pub extern "c" fn get_mesh_bounding_box(mesh : Mesh) -> Bytes = "moonbit_raylib_get_mesh_bounding_box"
 
 ///|
-#borrow(mesh, file_name)
+#borrow(file_name)
 pub extern "c" fn export_mesh(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh"
 
 ///|
-#borrow(mesh)
 pub extern "c" fn upload_mesh(mesh : Mesh, dynamic : Int) = "moonbit_raylib_upload_mesh"
 
 ///|
-#borrow(mesh)
 pub extern "c" fn gen_mesh_tangents(mesh : Mesh) = "moonbit_raylib_gen_mesh_tangents"
 
 ///|
-#borrow(ray, mesh, transform)
+#borrow(ray, transform)
 pub extern "c" fn get_ray_collision_mesh(
   ray : Bytes,
   mesh : Mesh,
@@ -449,7 +442,6 @@ pub extern "c" fn get_ray_collision_mesh(
 ) -> Bytes = "moonbit_raylib_get_ray_collision_mesh"
 
 ///|
-#borrow(mesh)
 pub extern "c" fn load_model_from_mesh(mesh : Mesh) -> Model = "moonbit_raylib_load_model_from_mesh"
 
 // ============================================================================
@@ -460,15 +452,12 @@ pub extern "c" fn load_model_from_mesh(mesh : Mesh) -> Model = "moonbit_raylib_l
 pub extern "c" fn load_material_default() -> Material = "moonbit_raylib_load_material_default"
 
 ///|
-#borrow(material)
 pub extern "c" fn is_material_valid(material : Material) -> Bool = "moonbit_raylib_is_material_valid"
 
 ///|
-#borrow(material)
 pub extern "c" fn unload_material(material : Material) = "moonbit_raylib_unload_material"
 
 ///|
-#borrow(material, texture)
 pub extern "c" fn set_material_texture(
   material : Material,
   map_type : Int,
@@ -476,11 +465,10 @@ pub extern "c" fn set_material_texture(
 ) = "moonbit_raylib_set_material_texture"
 
 ///|
-#borrow(material, shader)
 pub extern "c" fn set_material_shader(material : Material, shader : Shader) = "moonbit_raylib_set_material_shader"
 
 ///|
-#borrow(material, color)
+#borrow(color)
 pub extern "c" fn set_material_map_color(
   material : Material,
   map_type : Int,
@@ -488,7 +476,6 @@ pub extern "c" fn set_material_map_color(
 ) = "moonbit_raylib_set_material_map_color"
 
 ///|
-#borrow(material)
 pub extern "c" fn set_material_map_value(
   material : Material,
   map_type : Int,
@@ -496,7 +483,6 @@ pub extern "c" fn set_material_map_value(
 ) = "moonbit_raylib_set_material_map_value"
 
 ///|
-#borrow(model)
 pub extern "c" fn set_model_mesh_material(
   model : Model,
   mesh_id : Int,
@@ -504,7 +490,6 @@ pub extern "c" fn set_model_mesh_material(
 ) = "moonbit_raylib_set_model_mesh_material"
 
 ///|
-#borrow(model, texture)
 pub extern "c" fn set_model_material_texture(
   model : Model,
   material_index : Int,
@@ -513,18 +498,18 @@ pub extern "c" fn set_model_material_texture(
 ) = "moonbit_raylib_set_model_material_texture"
 
 ///|
-#borrow(model, shader)
 pub extern "c" fn set_model_material_shader(
   model : Model,
   material_index : Int,
   shader : Shader,
 ) = "moonbit_raylib_set_model_material_shader"
+
 // ============================================================================
 // Mesh drawing
 // ============================================================================
 
 ///|
-#borrow(mesh, material, transform)
+#borrow(transform)
 pub extern "c" fn draw_mesh(
   mesh : Mesh,
   material : Material,
@@ -532,7 +517,7 @@ pub extern "c" fn draw_mesh(
 ) = "moonbit_raylib_draw_mesh"
 
 ///|
-#borrow(mesh, material, transforms)
+#borrow(transforms)
 pub extern "c" fn draw_mesh_instanced(
   mesh : Mesh,
   material : Material,
@@ -549,11 +534,9 @@ pub extern "c" fn draw_mesh_instanced(
 pub extern "c" fn load_model_animations(file_name : Bytes) -> ModelAnimations = "moonbit_raylib_load_model_animations"
 
 ///|
-#borrow(anims)
 pub extern "c" fn model_animations_count(anims : ModelAnimations) -> Int = "moonbit_raylib_model_animations_count"
 
 ///|
-#borrow(model, anims)
 pub extern "c" fn update_model_animation(
   model : Model,
   anims : ModelAnimations,
@@ -562,7 +545,6 @@ pub extern "c" fn update_model_animation(
 ) = "moonbit_raylib_update_model_animation"
 
 ///|
-#borrow(model, anims)
 pub extern "c" fn update_model_animation_bones(
   model : Model,
   anims : ModelAnimations,
@@ -571,7 +553,6 @@ pub extern "c" fn update_model_animation_bones(
 ) = "moonbit_raylib_update_model_animation_bones"
 
 ///|
-#borrow(model, anims)
 pub extern "c" fn is_model_animation_valid(
   model : Model,
   anims : ModelAnimations,
@@ -579,7 +560,6 @@ pub extern "c" fn is_model_animation_valid(
 ) -> Bool = "moonbit_raylib_is_model_animation_valid"
 
 ///|
-#borrow(anims)
 pub extern "c" fn unload_model_animations(anims : ModelAnimations) = "moonbit_raylib_unload_model_animations"
 
 // ============================================================================
@@ -601,7 +581,7 @@ pub extern "c" fn get_ray_collision_quad(
 // ============================================================================
 
 ///|
-#borrow(mesh, file_name)
+#borrow(file_name)
 pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit_raylib_export_mesh_as_code"
 
 // ============================================================================
@@ -609,7 +589,7 @@ pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = 
 // ============================================================================
 
 ///|
-#borrow(mesh, data)
+#borrow(data)
 pub extern "c" fn update_mesh_buffer(
   mesh : Mesh,
   index : Int,
@@ -627,15 +607,12 @@ pub extern "c" fn update_mesh_buffer(
 pub extern "c" fn load_materials(file_name : Bytes) -> MaterialsArray = "moonbit_raylib_load_materials"
 
 ///|
-#borrow(materials)
 pub extern "c" fn unload_materials_array(materials : MaterialsArray) = "moonbit_raylib_unload_materials_array"
 
 ///|
-#borrow(materials)
 pub extern "c" fn materials_array_count(materials : MaterialsArray) -> Int = "moonbit_raylib_materials_array_count"
 
 ///|
-#borrow(materials)
 pub extern "c" fn materials_array_get(
   materials : MaterialsArray,
   index : Int,
@@ -646,7 +623,7 @@ pub extern "c" fn materials_array_get(
 // ============================================================================
 
 ///|
-#borrow(model, transform)
+#borrow(transform)
 pub extern "c" fn set_model_transform(model : Model, transform : Bytes) = "moonbit_raylib_set_model_transform"
 
 // ============================================================================
@@ -654,7 +631,6 @@ pub extern "c" fn set_model_transform(model : Model, transform : Bytes) = "moonb
 // ============================================================================
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_mesh_count(model : Model) -> Int = "moonbit_raylib_get_model_mesh_count"
 
 // ============================================================================
@@ -662,7 +638,6 @@ pub extern "c" fn get_model_mesh_count(model : Model) -> Int = "moonbit_raylib_g
 // ============================================================================
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_mesh(model : Model, index : Int) -> Mesh = "moonbit_raylib_get_model_mesh"
 
 // ============================================================================
@@ -670,48 +645,39 @@ pub extern "c" fn get_model_mesh(model : Model, index : Int) -> Mesh = "moonbit_
 // ============================================================================
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_transform(model : Model) -> Bytes = "moonbit_raylib_get_model_transform"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_material_count(model : Model) -> Int = "moonbit_raylib_get_model_material_count"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_material(model : Model, index : Int) -> Material = "moonbit_raylib_get_model_material"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bone_count(model : Model) -> Int = "moonbit_raylib_get_model_bone_count"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bone_parent(model : Model, bone_index : Int) -> Int = "moonbit_raylib_get_model_bone_parent"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bind_pose_translation(
   model : Model,
   bone_index : Int,
 ) -> Bytes = "moonbit_raylib_get_model_bind_pose_translation"
 
 ///|
-#borrow(anims)
 pub extern "c" fn get_model_animation_frame_count(
   anims : ModelAnimations,
   anim_index : Int,
 ) -> Int = "moonbit_raylib_get_model_animation_frame_count"
 
 ///|
-#borrow(anims)
 pub extern "c" fn get_model_animation_bone_count(
   anims : ModelAnimations,
   anim_index : Int,
 ) -> Int = "moonbit_raylib_get_model_animation_bone_count"
 
 ///|
-#borrow(anims)
 pub extern "c" fn get_model_animation_bone_parent(
   anims : ModelAnimations,
   anim_index : Int,
@@ -719,7 +685,6 @@ pub extern "c" fn get_model_animation_bone_parent(
 ) -> Int = "moonbit_raylib_get_model_animation_bone_parent"
 
 ///|
-#borrow(anims)
 pub extern "c" fn get_model_animation_frame_pose_translation(
   anims : ModelAnimations,
   anim_index : Int,
@@ -728,7 +693,6 @@ pub extern "c" fn get_model_animation_frame_pose_translation(
 ) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_translation"
 
 ///|
-#borrow(anims)
 pub extern "c" fn get_model_animation_frame_pose_rotation(
   anims : ModelAnimations,
   anim_index : Int,
@@ -737,11 +701,9 @@ pub extern "c" fn get_model_animation_frame_pose_rotation(
 ) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bone_name(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bone_name"
 
 ///|
-#borrow(model)
 pub extern "c" fn get_model_bind_pose_rotation(
   model : Model,
   bone_index : Int,
@@ -764,7 +726,7 @@ pub extern "c" fn gen_mesh_from_points(
 // ============================================================================
 
 ///|
-#borrow(mesh, data)
+#borrow(data)
 pub extern "c" fn mesh_setup_texcoords2(
   mesh : Mesh,
   data : Bytes,

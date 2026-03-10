@@ -55,14 +55,21 @@ pub fn clear_background(color : Color) -> Unit {
 
 Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in MoonBit, passed to C as `moonbit_bytes_t`, and deserialized via `memcpy` in `stub.c`. Each struct type has `Type::to_bytes()` and `Type::from_bytes()` methods in its domain file.
 
-### Resource types (opaque pointers with GC finalizers)
+### Resource types (`#external` manual lifetime)
 
-Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in the corresponding domain files (`textures.mbt`, `text.mbt`, `models.mbt`, `audio.mbt`, `drawing.mbt`).
+All resource types (Image, Texture, Font, Sound, Music, Model, Shader, etc.) use MoonBit's `#external` annotation — raw `void*` pointers **not tracked by GC**. Users must call `unload_*` explicitly. This matches C raylib semantics.
+
+- **Simple types** (Image, Texture, RenderTexture, Font, Sound, Music, Model, Shader, Wave, AudioStream, Mesh, Material, VrStereoConfig): C side uses `malloc(sizeof(RaylibStruct))` / `free()` directly. No wrapper structs, no `freed` flags.
+- **Types with metadata** (ModelAnimations, GlyphInfoArray, FilePathList, AutomationEventList, MaterialsArray): Keep lightweight wrapper structs (e.g., `ModelAnimationsWrapper` with `anims` pointer + `count`) in `stub_internal.h`.
+- **Non-owning views**: `get_render_texture_texture(rt)` returns `&rt->texture`, `get_model_mesh(model, i)` returns `&model->meshes[i]`. Zero allocation. Users must NOT call `unload_*` on these — parent must outlive the view.
+- **`#borrow` annotation**: Only used for `Bytes` parameters in `extern "c"` declarations. Never used for `#external` types.
+- **`load_image_anim`**: Frame count returned via `Ref[Int]` out-parameter (labelled `frames~` with default).
+- **Depth-tex/shadowmap RenderTextures**: No special constructors. Use `@rl.load_framebuffer()`, `@rl.load_texture()`, `@rl.load_texture_depth()`, `@rl.framebuffer_attach()`, then `@raylib.new_render_texture(...)` to compose custom render textures.
 
 ### Key files
 
 - `build.js` — Prebuild script for platform-specific link flags and stub-cc-flags (macOS/Linux/Windows)
-- `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
+- `internal/raylib/stub_*.c` — C glue functions (`moonbit_raylib_*` wrappers), split by domain
 - `internal/raylib/rglfw.c` — GLFW aggregator (compiled directly via `native-stub`)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
 - `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
@@ -87,7 +94,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 ## Critical FFI Rules
 
 - **Never use `self` as parameter name** in `extern "c"` — MoonBit interprets it as a method definition
-- **Always use `#borrow(param)`** annotation on `extern "c"` functions that take opaque pointer types (Sound, Music, Image, Texture, Font, Model, RenderTexture) or read-only Bytes
+- **Use `#borrow(param)` only for `Bytes` parameters** in `extern "c"` functions. Never use `#borrow` for `#external` types (Image, Texture, Font, Sound, etc.)
 - **String passing**: encode with `@utf8.encode(str)` → `Bytes`, C side casts `moonbit_bytes_t` to `const char*`
 - **Method syntax**: use `pub fn Type::method_name(...)` not `pub fn method_name(...)`
 

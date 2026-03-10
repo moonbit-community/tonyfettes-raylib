@@ -2,17 +2,6 @@
 #include <stdlib.h>
 
 // ============================================================================
-// Resource destructor: Model
-// ============================================================================
-
-static void
-model_destructor(void *ptr) {
-  ModelWrapper *w = (ModelWrapper *)ptr;
-  if (!w->freed)
-    UnloadModel(w->model);
-}
-
-// ============================================================================
 // Models: 3D shape drawing
 // ============================================================================
 
@@ -229,27 +218,24 @@ moonbit_raylib_draw_bounding_box(moonbit_bytes_t box, moonbit_bytes_t color) {
 // Models: Loading (resource types)
 // ============================================================================
 
-ModelWrapper *
+Model *
 moonbit_raylib_load_model(moonbit_bytes_t fileName) {
-  ModelWrapper *w = (ModelWrapper *)moonbit_make_external_object(
-    model_destructor, sizeof(ModelWrapper)
-  );
-  w->model = LoadModel((const char *)fileName);
-  w->freed = 0;
-  return w;
+  Model *m = (Model *)malloc(sizeof(Model));
+  *m = LoadModel((const char *)fileName);
+  return m;
 }
 
 void
-moonbit_raylib_unload_model(ModelWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadModel(wrapper->model);
-    wrapper->freed = 1;
+moonbit_raylib_unload_model(Model *m) {
+  if (m) {
+    UnloadModel(*m);
+    free(m);
   }
 }
 
 void
 moonbit_raylib_draw_model(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   float scale,
   moonbit_bytes_t tint
@@ -258,7 +244,7 @@ moonbit_raylib_draw_model(
   memcpy(&pos, position, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModel(wrapper->model, pos, scale, c);
+  DrawModel(*m, pos, scale, c);
 }
 
 // ============================================================================
@@ -361,7 +347,7 @@ moonbit_raylib_draw_capsule_wires(
 
 void
 moonbit_raylib_draw_model_ex(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   moonbit_bytes_t rotationAxis,
   float rotationAngle,
@@ -376,12 +362,12 @@ moonbit_raylib_draw_model_ex(
   memcpy(&sc, scale, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModelEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+  DrawModelEx(*m, pos, axis, rotationAngle, sc, c);
 }
 
 void
 moonbit_raylib_draw_model_wires(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   float scale,
   moonbit_bytes_t tint
@@ -390,12 +376,12 @@ moonbit_raylib_draw_model_wires(
   memcpy(&pos, position, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModelWires(wrapper->model, pos, scale, c);
+  DrawModelWires(*m, pos, scale, c);
 }
 
 void
 moonbit_raylib_draw_model_wires_ex(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   moonbit_bytes_t rotationAxis,
   float rotationAngle,
@@ -410,12 +396,12 @@ moonbit_raylib_draw_model_wires_ex(
   memcpy(&sc, scale, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModelWiresEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+  DrawModelWiresEx(*m, pos, axis, rotationAngle, sc, c);
 }
 
 void
 moonbit_raylib_draw_model_points(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   float scale,
   moonbit_bytes_t tint
@@ -424,12 +410,12 @@ moonbit_raylib_draw_model_points(
   memcpy(&pos, position, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModelPoints(wrapper->model, pos, scale, c);
+  DrawModelPoints(*m, pos, scale, c);
 }
 
 void
 moonbit_raylib_draw_model_points_ex(
-  ModelWrapper *wrapper,
+  Model *m,
   moonbit_bytes_t position,
   moonbit_bytes_t rotationAxis,
   float rotationAngle,
@@ -444,7 +430,7 @@ moonbit_raylib_draw_model_points_ex(
   memcpy(&sc, scale, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawModelPointsEx(wrapper->model, pos, axis, rotationAngle, sc, c);
+  DrawModelPointsEx(*m, pos, axis, rotationAngle, sc, c);
 }
 
 // ============================================================================
@@ -452,13 +438,13 @@ moonbit_raylib_draw_model_points_ex(
 // ============================================================================
 
 int
-moonbit_raylib_is_model_valid(ModelWrapper *wrapper) {
-  return (int)IsModelValid(wrapper->model);
+moonbit_raylib_is_model_valid(Model *m) {
+  return (int)IsModelValid(*m);
 }
 
 moonbit_bytes_t
-moonbit_raylib_get_model_bounding_box(ModelWrapper *wrapper) {
-  BoundingBox bb = GetModelBoundingBox(wrapper->model);
+moonbit_raylib_get_model_bounding_box(Model *m) {
+  BoundingBox bb = GetModelBoundingBox(*m);
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(BoundingBox), 0);
   memcpy(r, &bb, sizeof(BoundingBox));
   return r;
@@ -471,7 +457,7 @@ moonbit_raylib_get_model_bounding_box(ModelWrapper *wrapper) {
 void
 moonbit_raylib_draw_billboard(
   moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
+  Texture2D *t,
   moonbit_bytes_t position,
   float scale,
   moonbit_bytes_t tint
@@ -482,13 +468,13 @@ moonbit_raylib_draw_billboard(
   memcpy(&pos, position, sizeof(Vector3));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawBillboard(cam, tex_wrapper->texture, pos, scale, c);
+  DrawBillboard(cam, *t, pos, scale, c);
 }
 
 void
 moonbit_raylib_draw_billboard_rec(
   moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
+  Texture2D *t,
   moonbit_bytes_t source,
   moonbit_bytes_t position,
   moonbit_bytes_t size,
@@ -504,13 +490,13 @@ moonbit_raylib_draw_billboard_rec(
   memcpy(&sz, size, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawBillboardRec(cam, tex_wrapper->texture, src, pos, sz, c);
+  DrawBillboardRec(cam, *t, src, pos, sz, c);
 }
 
 void
 moonbit_raylib_draw_billboard_pro(
   moonbit_bytes_t camera,
-  TextureWrapper *tex_wrapper,
+  Texture2D *t,
   moonbit_bytes_t source,
   moonbit_bytes_t position,
   moonbit_bytes_t up,
@@ -533,7 +519,7 @@ moonbit_raylib_draw_billboard_pro(
   memcpy(&org, origin, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawBillboardPro(cam, tex_wrapper->texture, src, pos, u, sz, org, rotation, c);
+  DrawBillboardPro(cam, *t, src, pos, u, sz, org, rotation, c);
 }
 
 // ============================================================================
@@ -629,153 +615,98 @@ moonbit_raylib_get_ray_collision_triangle(
 }
 
 // ============================================================================
-// Resource destructor: Mesh
-// ============================================================================
-
-static void
-mesh_destructor(void *ptr) {
-  MeshWrapper *w = (MeshWrapper *)ptr;
-  if (!w->freed)
-    UnloadMesh(w->mesh);
-}
-
-// ============================================================================
 // Mesh generation
 // ============================================================================
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_poly(int sides, float radius) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshPoly(sides, radius);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshPoly(sides, radius);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_plane(float width, float length, int resX, int resZ) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshPlane(width, length, resX, resZ);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshPlane(width, length, resX, resZ);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_cube(float width, float height, float length) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshCube(width, height, length);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshCube(width, height, length);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_sphere(float radius, int rings, int slices) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshSphere(radius, rings, slices);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshSphere(radius, rings, slices);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_hemisphere(float radius, int rings, int slices) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshHemiSphere(radius, rings, slices);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshHemiSphere(radius, rings, slices);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_cylinder(float radius, float height, int slices) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshCylinder(radius, height, slices);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshCylinder(radius, height, slices);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_cone(float radius, float height, int slices) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshCone(radius, height, slices);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshCone(radius, height, slices);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_torus(
   float radius,
   float size,
   int radSeg,
   int sides
 ) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshTorus(radius, size, radSeg, sides);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshTorus(radius, size, radSeg, sides);
+  return mesh;
 }
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_knot(
   float radius,
   float size,
   int radSeg,
   int sides
 ) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshKnot(radius, size, radSeg, sides);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshKnot(radius, size, radSeg, sides);
+  return mesh;
 }
 
-MeshWrapper *
-moonbit_raylib_gen_mesh_heightmap(ImageWrapper *img, moonbit_bytes_t size) {
+Mesh *
+moonbit_raylib_gen_mesh_heightmap(Image *img, moonbit_bytes_t size) {
   Vector3 sz;
   memcpy(&sz, size, sizeof(Vector3));
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshHeightmap(img->image, sz);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshHeightmap(*img, sz);
+  return mesh;
 }
 
-MeshWrapper *
-moonbit_raylib_gen_mesh_cubicmap(ImageWrapper *img, moonbit_bytes_t cubeSize) {
+Mesh *
+moonbit_raylib_gen_mesh_cubicmap(Image *img, moonbit_bytes_t cubeSize) {
   Vector3 cs;
   memcpy(&cs, cubeSize, sizeof(Vector3));
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  w->mesh = GenMeshCubicmap(img->image, cs);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  *mesh = GenMeshCubicmap(*img, cs);
+  return mesh;
 }
 
 // ============================================================================
@@ -783,132 +714,110 @@ moonbit_raylib_gen_mesh_cubicmap(ImageWrapper *img, moonbit_bytes_t cubeSize) {
 // ============================================================================
 
 void
-moonbit_raylib_unload_mesh(MeshWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadMesh(wrapper->mesh);
-    wrapper->freed = 1;
+moonbit_raylib_unload_mesh(Mesh *mesh) {
+  if (mesh) {
+    UnloadMesh(*mesh);
+    free(mesh);
   }
 }
 
 moonbit_bytes_t
-moonbit_raylib_get_mesh_bounding_box(MeshWrapper *wrapper) {
-  BoundingBox bb = GetMeshBoundingBox(wrapper->mesh);
+moonbit_raylib_get_mesh_bounding_box(Mesh *mesh) {
+  BoundingBox bb = GetMeshBoundingBox(*mesh);
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(BoundingBox), 0);
   memcpy(r, &bb, sizeof(BoundingBox));
   return r;
 }
 
 int
-moonbit_raylib_export_mesh(MeshWrapper *wrapper, moonbit_bytes_t fileName) {
-  return (int)ExportMesh(wrapper->mesh, (const char *)fileName);
+moonbit_raylib_export_mesh(Mesh *mesh, moonbit_bytes_t fileName) {
+  return (int)ExportMesh(*mesh, (const char *)fileName);
 }
 
 void
-moonbit_raylib_upload_mesh(MeshWrapper *wrapper, int dynamic) {
-  UploadMesh(&wrapper->mesh, (bool)dynamic);
+moonbit_raylib_upload_mesh(Mesh *mesh, int dynamic) {
+  UploadMesh(mesh, (bool)dynamic);
 }
 
 void
-moonbit_raylib_gen_mesh_tangents(MeshWrapper *wrapper) {
-  GenMeshTangents(&wrapper->mesh);
+moonbit_raylib_gen_mesh_tangents(Mesh *mesh) {
+  GenMeshTangents(mesh);
 }
 
 moonbit_bytes_t
 moonbit_raylib_get_ray_collision_mesh(
   moonbit_bytes_t ray,
-  MeshWrapper *wrapper,
+  Mesh *mesh,
   moonbit_bytes_t transform
 ) {
   Ray r;
   memcpy(&r, ray, sizeof(Ray));
-  Matrix m;
-  memcpy(&m, transform, sizeof(Matrix));
-  RayCollision result = GetRayCollisionMesh(r, wrapper->mesh, m);
+  Matrix mat;
+  memcpy(&mat, transform, sizeof(Matrix));
+  RayCollision result = GetRayCollisionMesh(r, *mesh, mat);
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(RayCollision), 0);
   memcpy(res, &result, sizeof(RayCollision));
   return res;
 }
 
-ModelWrapper *
-moonbit_raylib_load_model_from_mesh(MeshWrapper *wrapper) {
-  ModelWrapper *w = (ModelWrapper *)moonbit_make_external_object(
-    model_destructor, sizeof(ModelWrapper)
-  );
-  w->model = LoadModelFromMesh(wrapper->mesh);
-  w->freed = 0;
-  // LoadModelFromMesh shallow-copies the mesh struct; the model now owns the
-  // mesh data (vertices, texcoords, etc.).  Mark the original wrapper as freed
-  // so its destructor won't double-free the same arrays.
-  wrapper->freed = 1;
-  return w;
-}
-
-// ============================================================================
-// Resource destructor: Material
-// ============================================================================
-
-static void
-material_destructor(void *ptr) {
-  MaterialWrapper *w = (MaterialWrapper *)ptr;
-  if (!w->freed)
-    UnloadMaterial(w->material);
+Model *
+moonbit_raylib_load_model_from_mesh(Mesh *mesh) {
+  Model *model = (Model *)malloc(sizeof(Model));
+  *model = LoadModelFromMesh(*mesh);
+  return model;
 }
 
 // ============================================================================
 // Material management
 // ============================================================================
 
-MaterialWrapper *
+Material *
 moonbit_raylib_load_material_default(void) {
-  MaterialWrapper *w = (MaterialWrapper *)moonbit_make_external_object(
-    material_destructor, sizeof(MaterialWrapper)
-  );
-  w->material = LoadMaterialDefault();
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Material *mat = (Material *)malloc(sizeof(Material));
+  *mat = LoadMaterialDefault();
+  return mat;
 }
 
 int
-moonbit_raylib_is_material_valid(MaterialWrapper *wrapper) {
-  return (int)IsMaterialValid(wrapper->material);
+moonbit_raylib_is_material_valid(Material *mat) {
+  return (int)IsMaterialValid(*mat);
 }
 
 void
-moonbit_raylib_unload_material(MaterialWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadMaterial(wrapper->material);
-    wrapper->freed = 1;
+moonbit_raylib_unload_material(Material *mat) {
+  if (mat) {
+    UnloadMaterial(*mat);
+    free(mat);
   }
 }
 
 void
 moonbit_raylib_set_material_texture(
-  MaterialWrapper *wrapper,
+  Material *mat,
   int mapType,
-  TextureWrapper *tex_wrapper
+  Texture2D *t
 ) {
-  SetMaterialTexture(&wrapper->material, mapType, tex_wrapper->texture);
+  mat->maps[mapType].texture = *t;
 }
 
 void
 moonbit_raylib_set_model_mesh_material(
-  ModelWrapper *wrapper,
+  Model *m,
   int meshId,
   int materialId
 ) {
-  SetModelMeshMaterial(&wrapper->model, meshId, materialId);
+  m->meshMaterial[meshId] = materialId;
 }
 
 void
 moonbit_raylib_set_model_material_texture(
-  ModelWrapper *wrapper,
+  Model *m,
   int materialIndex,
   int mapType,
-  TextureWrapper *tex_wrapper
+  Texture2D *t
 ) {
-  if (materialIndex >= 0 && materialIndex < wrapper->model.materialCount) {
-    SetMaterialTexture(&wrapper->model.materials[materialIndex], mapType, tex_wrapper->texture);
+  if (materialIndex >= 0 && materialIndex < m->materialCount) {
+    m->materials[materialIndex].maps[mapType].texture = *t;
   }
 }
 
@@ -918,12 +827,12 @@ moonbit_raylib_set_model_material_texture(
 
 void
 moonbit_raylib_set_model_material_shader(
-  ModelWrapper *wrapper,
+  Model *m,
   int material_index,
-  ShaderWrapper *shader_wrapper
+  Shader *s
 ) {
-  if (material_index >= 0 && material_index < wrapper->model.materialCount) {
-    wrapper->model.materials[material_index].shader = shader_wrapper->shader;
+  if (material_index >= 0 && material_index < m->materialCount) {
+    m->materials[material_index].shader = *s;
   }
 }
 
@@ -933,10 +842,10 @@ moonbit_raylib_set_model_material_shader(
 
 void
 moonbit_raylib_set_material_shader(
-  MaterialWrapper *wrapper,
-  ShaderWrapper *shader_wrapper
+  Material *mat,
+  Shader *s
 ) {
-  wrapper->material.shader = shader_wrapper->shader;
+  mat->shader = *s;
 }
 
 // ============================================================================
@@ -945,13 +854,13 @@ moonbit_raylib_set_material_shader(
 
 void
 moonbit_raylib_set_material_map_color(
-  MaterialWrapper *wrapper,
+  Material *mat,
   int mapType,
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
   if (mapType >= 0 && mapType < 12) {
-    wrapper->material.maps[mapType].color = c;
+    mat->maps[mapType].color = c;
   }
 }
 
@@ -961,12 +870,12 @@ moonbit_raylib_set_material_map_color(
 
 void
 moonbit_raylib_set_material_map_value(
-  MaterialWrapper *wrapper,
+  Material *mat,
   int mapType,
   float value
 ) {
   if (mapType >= 0 && mapType < 12) {
-    wrapper->material.maps[mapType].value = value;
+    mat->maps[mapType].value = value;
   }
 }
 
@@ -976,45 +885,37 @@ moonbit_raylib_set_material_map_value(
 
 void
 moonbit_raylib_draw_mesh(
-  MeshWrapper *mesh_wrapper,
-  MaterialWrapper *mat_wrapper,
+  Mesh *mesh,
+  Material *mat,
   moonbit_bytes_t transform
 ) {
   Matrix m;
   memcpy(&m, transform, sizeof(Matrix));
-  DrawMesh(mesh_wrapper->mesh, mat_wrapper->material, m);
+  DrawMesh(*mesh, *mat, m);
 }
 
 void
 moonbit_raylib_draw_mesh_instanced(
-  MeshWrapper *mesh_wrapper,
-  MaterialWrapper *mat_wrapper,
+  Mesh *mesh,
+  Material *mat,
   moonbit_bytes_t transforms,
   int instances
 ) {
   Matrix *mats = (Matrix *)transforms;
-  DrawMeshInstanced(mesh_wrapper->mesh, mat_wrapper->material, mats, instances);
+  DrawMeshInstanced(*mesh, *mat, mats, instances);
 }
 
 // ============================================================================
 // Model animations
 // ============================================================================
 
-static void model_animations_destructor(void *ptr) {
-  ModelAnimationsWrapper *w = (ModelAnimationsWrapper *)ptr;
-  if (!w->freed) UnloadModelAnimations(w->anims, w->count);
-}
-
 ModelAnimationsWrapper *
 moonbit_raylib_load_model_animations(moonbit_bytes_t fileName) {
   int count = 0;
   ModelAnimation *anims = LoadModelAnimations((const char *)fileName, &count);
-  ModelAnimationsWrapper *w = (ModelAnimationsWrapper *)moonbit_make_external_object(
-    model_animations_destructor, sizeof(ModelAnimationsWrapper)
-  );
+  ModelAnimationsWrapper *w = (ModelAnimationsWrapper *)malloc(sizeof(ModelAnimationsWrapper));
   w->anims = anims;
   w->count = count;
-  w->freed = 0;
   return w;
 }
 
@@ -1022,26 +923,26 @@ int moonbit_raylib_model_animations_count(ModelAnimationsWrapper *wrapper) {
   return wrapper->count;
 }
 
-void moonbit_raylib_update_model_animation(ModelWrapper *model, ModelAnimationsWrapper *anims, int index, int frame) {
+void moonbit_raylib_update_model_animation(Model *m, ModelAnimationsWrapper *anims, int index, int frame) {
   if (index >= 0 && index < anims->count)
-    UpdateModelAnimation(model->model, anims->anims[index], frame);
+    UpdateModelAnimation(*m, anims->anims[index], frame);
 }
 
-void moonbit_raylib_update_model_animation_bones(ModelWrapper *model, ModelAnimationsWrapper *anims, int index, int frame) {
+void moonbit_raylib_update_model_animation_bones(Model *m, ModelAnimationsWrapper *anims, int index, int frame) {
   if (index >= 0 && index < anims->count)
-    UpdateModelAnimationBones(model->model, anims->anims[index], frame);
+    UpdateModelAnimationBones(*m, anims->anims[index], frame);
 }
 
-int moonbit_raylib_is_model_animation_valid(ModelWrapper *model, ModelAnimationsWrapper *anims, int index) {
+int moonbit_raylib_is_model_animation_valid(Model *m, ModelAnimationsWrapper *anims, int index) {
   if (index >= 0 && index < anims->count)
-    return (int)IsModelAnimationValid(model->model, anims->anims[index]);
+    return (int)IsModelAnimationValid(*m, anims->anims[index]);
   return 0;
 }
 
-void moonbit_raylib_unload_model_animations(ModelAnimationsWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadModelAnimations(wrapper->anims, wrapper->count);
-    wrapper->freed = 1;
+void moonbit_raylib_unload_model_animations(ModelAnimationsWrapper *w) {
+  if (w) {
+    UnloadModelAnimations(w->anims, w->count);
+    free(w);
   }
 }
 
@@ -1068,8 +969,8 @@ moonbit_bytes_t moonbit_raylib_get_ray_collision_quad(
 // ============================================================================
 
 int
-moonbit_raylib_export_mesh_as_code(MeshWrapper *wrapper, moonbit_bytes_t fileName) {
-  return (int)ExportMeshAsCode(wrapper->mesh, (const char *)fileName);
+moonbit_raylib_export_mesh_as_code(Mesh *mesh, moonbit_bytes_t fileName) {
+  return (int)ExportMeshAsCode(*mesh, (const char *)fileName);
 }
 
 // ============================================================================
@@ -1077,51 +978,32 @@ moonbit_raylib_export_mesh_as_code(MeshWrapper *wrapper, moonbit_bytes_t fileNam
 // ============================================================================
 
 void
-moonbit_raylib_update_mesh_buffer(MeshWrapper *wrapper, int index, moonbit_bytes_t data, int data_size, int offset) {
-  UpdateMeshBuffer(wrapper->mesh, index, (const void *)data, data_size, offset);
+moonbit_raylib_update_mesh_buffer(Mesh *mesh, int index, moonbit_bytes_t data, int data_size, int offset) {
+  UpdateMeshBuffer(*mesh, index, (const void *)data, data_size, offset);
 }
 
 // ============================================================================
 // LoadMaterials
 // ============================================================================
 
-typedef struct {
-  Material *materials;
-  int count;
-  int freed;
-} MaterialsArrayWrapper;
-
-static void
-materials_array_destructor(void *ptr) {
-  MaterialsArrayWrapper *w = (MaterialsArrayWrapper *)ptr;
-  if (!w->freed && w->materials) {
-    for (int i = 0; i < w->count; i++) {
-      UnloadMaterial(w->materials[i]);
-    }
-    RL_FREE(w->materials);
-  }
-}
-
 MaterialsArrayWrapper *
 moonbit_raylib_load_materials(moonbit_bytes_t fileName) {
   int count = 0;
   Material *mats = LoadMaterials((const char *)fileName, &count);
-  MaterialsArrayWrapper *w = (MaterialsArrayWrapper *)moonbit_make_external_object(
-    materials_array_destructor, sizeof(MaterialsArrayWrapper));
+  MaterialsArrayWrapper *w = (MaterialsArrayWrapper *)malloc(sizeof(MaterialsArrayWrapper));
   w->materials = mats;
   w->count = count;
-  w->freed = 0;
   return w;
 }
 
 void
 moonbit_raylib_unload_materials_array(MaterialsArrayWrapper *w) {
-  if (w && !w->freed && w->materials) {
+  if (w && w->materials) {
     for (int i = 0; i < w->count; i++) {
       UnloadMaterial(w->materials[i]);
     }
     RL_FREE(w->materials);
-    w->freed = 1;
+    free(w);
   }
 }
 
@@ -1130,20 +1012,10 @@ moonbit_raylib_materials_array_count(MaterialsArrayWrapper *w) {
   return w->count;
 }
 
-// Get a single material from the array, wrapping it as a MaterialWrapper
-// The returned material shares resources with the array; user should manage lifetime carefully.
-MaterialWrapper *
+// Get a single material from the array (non-owning pointer into the array)
+Material *
 moonbit_raylib_materials_array_get(MaterialsArrayWrapper *w, int index) {
-  MaterialWrapper *mw = (MaterialWrapper *)moonbit_make_external_object(
-    material_destructor, sizeof(MaterialWrapper));
-  if (index >= 0 && index < w->count) {
-    mw->material = w->materials[index];
-  } else {
-    mw->material = LoadMaterialDefault();
-  }
-  mw->freed = 0;
-  mw->parent = NULL;
-  return mw;
+  return &w->materials[index];
 }
 
 // ============================================================================
@@ -1152,12 +1024,12 @@ moonbit_raylib_materials_array_get(MaterialsArrayWrapper *w, int index) {
 
 void
 moonbit_raylib_set_model_transform(
-  ModelWrapper *model_wrapper,
+  Model *m,
   moonbit_bytes_t transform
 ) {
-  Matrix m;
-  memcpy(&m, transform, sizeof(Matrix));
-  model_wrapper->model.transform = m;
+  Matrix mat;
+  memcpy(&mat, transform, sizeof(Matrix));
+  m->transform = mat;
 }
 
 // ============================================================================
@@ -1165,33 +1037,17 @@ moonbit_raylib_set_model_transform(
 // ============================================================================
 
 int
-moonbit_raylib_get_model_mesh_count(ModelWrapper *model_wrapper) {
-  return model_wrapper->model.meshCount;
+moonbit_raylib_get_model_mesh_count(Model *m) {
+  return m->meshCount;
 }
 
 // ============================================================================
-// Model: get mesh by index (returns a MeshWrapper sharing the same mesh data)
+// Model: get mesh by index (non-owning pointer into Model's array)
 // ============================================================================
 
-// View destructor for non-owning MeshWrappers that hold an incref'd parent.
-static void mesh_view_destructor(void *ptr) {
-  MeshWrapper *w = (MeshWrapper *)ptr;
-  if (w->parent) moonbit_decref(w->parent);
-}
-
-MeshWrapper *
-moonbit_raylib_get_model_mesh(ModelWrapper *model_wrapper, int index) {
-  moonbit_incref(model_wrapper); // keep parent alive while view exists
-  MeshWrapper *mw = (MeshWrapper *)moonbit_make_external_object(
-    mesh_view_destructor, sizeof(MeshWrapper));
-  if (index >= 0 && index < model_wrapper->model.meshCount) {
-    mw->mesh = model_wrapper->model.meshes[index];
-  } else {
-    memset(&mw->mesh, 0, sizeof(Mesh));
-  }
-  mw->freed = 1; // Mark as "freed" so destructor doesn't try to unload
-  mw->parent = model_wrapper;
-  return mw;
+Mesh *
+moonbit_raylib_get_model_mesh(Model *m, int index) {
+  return &m->meshes[index];
 }
 
 // ============================================================================
@@ -1199,9 +1055,9 @@ moonbit_raylib_get_model_mesh(ModelWrapper *model_wrapper, int index) {
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_transform(ModelWrapper *model_wrapper) {
+moonbit_raylib_get_model_transform(Model *m) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Matrix), 0);
-  memcpy(r, &model_wrapper->model.transform, sizeof(Matrix));
+  memcpy(r, &m->transform, sizeof(Matrix));
   return r;
 }
 
@@ -1210,33 +1066,17 @@ moonbit_raylib_get_model_transform(ModelWrapper *model_wrapper) {
 // ============================================================================
 
 int
-moonbit_raylib_get_model_material_count(ModelWrapper *model_wrapper) {
-  return model_wrapper->model.materialCount;
+moonbit_raylib_get_model_material_count(Model *m) {
+  return m->materialCount;
 }
 
 // ============================================================================
-// Model: get material by index (non-owning MaterialWrapper)
+// Model: get material by index (non-owning pointer into Model's array)
 // ============================================================================
 
-// View destructor for non-owning MaterialWrappers that hold an incref'd parent.
-static void material_view_destructor(void *ptr) {
-  MaterialWrapper *w = (MaterialWrapper *)ptr;
-  if (w->parent) moonbit_decref(w->parent);
-}
-
-MaterialWrapper *
-moonbit_raylib_get_model_material(ModelWrapper *model_wrapper, int index) {
-  moonbit_incref(model_wrapper); // keep parent alive while view exists
-  MaterialWrapper *mw = (MaterialWrapper *)moonbit_make_external_object(
-    material_view_destructor, sizeof(MaterialWrapper));
-  if (index >= 0 && index < model_wrapper->model.materialCount) {
-    mw->material = model_wrapper->model.materials[index];
-  } else {
-    memset(&mw->material, 0, sizeof(Material));
-  }
-  mw->freed = 1; // Non-owning
-  mw->parent = model_wrapper;
-  return mw;
+Material *
+moonbit_raylib_get_model_material(Model *m, int index) {
+  return &m->materials[index];
 }
 
 // ============================================================================
@@ -1244,8 +1084,8 @@ moonbit_raylib_get_model_material(ModelWrapper *model_wrapper, int index) {
 // ============================================================================
 
 int
-moonbit_raylib_get_model_bone_count(ModelWrapper *model_wrapper) {
-  return model_wrapper->model.boneCount;
+moonbit_raylib_get_model_bone_count(Model *m) {
+  return m->boneCount;
 }
 
 // ============================================================================
@@ -1253,9 +1093,9 @@ moonbit_raylib_get_model_bone_count(ModelWrapper *model_wrapper) {
 // ============================================================================
 
 int
-moonbit_raylib_get_model_bone_parent(ModelWrapper *model_wrapper, int bone_index) {
-  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
-    return model_wrapper->model.bones[bone_index].parent;
+moonbit_raylib_get_model_bone_parent(Model *m, int bone_index) {
+  if (bone_index >= 0 && bone_index < m->boneCount) {
+    return m->bones[bone_index].parent;
   }
   return -1;
 }
@@ -1265,10 +1105,10 @@ moonbit_raylib_get_model_bone_parent(ModelWrapper *model_wrapper, int bone_index
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_bind_pose_translation(ModelWrapper *model_wrapper, int bone_index) {
+moonbit_raylib_get_model_bind_pose_translation(Model *m, int bone_index) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
-  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
-    memcpy(r, &model_wrapper->model.bindPose[bone_index].translation, sizeof(Vector3));
+  if (bone_index >= 0 && bone_index < m->boneCount) {
+    memcpy(r, &m->bindPose[bone_index].translation, sizeof(Vector3));
   }
   return r;
 }
@@ -1349,9 +1189,9 @@ moonbit_raylib_get_model_animation_frame_pose_rotation(
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_bone_name(ModelWrapper *model_wrapper, int bone_index) {
-  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
-    const char *name = model_wrapper->model.bones[bone_index].name;
+moonbit_raylib_get_model_bone_name(Model *m, int bone_index) {
+  if (bone_index >= 0 && bone_index < m->boneCount) {
+    const char *name = m->bones[bone_index].name;
     int32_t len = strlen(name);
     moonbit_bytes_t r = moonbit_make_bytes(len, 0);
     memcpy(r, name, len);
@@ -1366,10 +1206,10 @@ moonbit_raylib_get_model_bone_name(ModelWrapper *model_wrapper, int bone_index) 
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_bind_pose_rotation(ModelWrapper *model_wrapper, int bone_index) {
+moonbit_raylib_get_model_bind_pose_rotation(Model *m, int bone_index) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
-  if (bone_index >= 0 && bone_index < model_wrapper->model.boneCount) {
-    memcpy(r, &model_wrapper->model.bindPose[bone_index].rotation, sizeof(Vector4));
+  if (bone_index >= 0 && bone_index < m->boneCount) {
+    memcpy(r, &m->bindPose[bone_index].rotation, sizeof(Vector4));
   }
   return r;
 }
@@ -1378,26 +1218,22 @@ moonbit_raylib_get_model_bind_pose_rotation(ModelWrapper *model_wrapper, int bon
 // Mesh: Generate point cloud from vertex+color data
 // ============================================================================
 
-MeshWrapper *
+Mesh *
 moonbit_raylib_gen_mesh_from_points(
   moonbit_bytes_t vertices,
   moonbit_bytes_t colors,
   int num_points
 ) {
-  MeshWrapper *w = (MeshWrapper *)moonbit_make_external_object(
-    mesh_destructor, sizeof(MeshWrapper)
-  );
-  memset(&w->mesh, 0, sizeof(Mesh));
-  w->mesh.triangleCount = 1;
-  w->mesh.vertexCount = num_points;
-  w->mesh.vertices = (float *)MemAlloc(num_points * 3 * sizeof(float));
-  w->mesh.colors = (unsigned char *)MemAlloc(num_points * 4 * sizeof(unsigned char));
-  memcpy(w->mesh.vertices, vertices, num_points * 3 * sizeof(float));
-  memcpy(w->mesh.colors, colors, num_points * 4 * sizeof(unsigned char));
-  UploadMesh(&w->mesh, false);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Mesh *mesh = (Mesh *)malloc(sizeof(Mesh));
+  memset(mesh, 0, sizeof(Mesh));
+  mesh->triangleCount = 1;
+  mesh->vertexCount = num_points;
+  mesh->vertices = (float *)MemAlloc(num_points * 3 * sizeof(float));
+  mesh->colors = (unsigned char *)MemAlloc(num_points * 4 * sizeof(unsigned char));
+  memcpy(mesh->vertices, vertices, num_points * 3 * sizeof(float));
+  memcpy(mesh->colors, colors, num_points * 4 * sizeof(unsigned char));
+  UploadMesh(mesh, false);
+  return mesh;
 }
 
 // ============================================================================
@@ -1405,9 +1241,7 @@ moonbit_raylib_gen_mesh_from_points(
 // ============================================================================
 
 void
-moonbit_raylib_mesh_setup_texcoords2(MeshWrapper *wrapper, moonbit_bytes_t data, int float_count) {
-  Mesh *mesh = &wrapper->mesh;
-
+moonbit_raylib_mesh_setup_texcoords2(Mesh *mesh, moonbit_bytes_t data, int float_count) {
   // Allocate and copy texcoords2 data
   mesh->texcoords2 = (float *)RL_MALLOC(float_count * sizeof(float));
   memcpy(mesh->texcoords2, data, float_count * sizeof(float));

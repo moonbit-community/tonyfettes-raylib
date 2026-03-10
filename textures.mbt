@@ -14,9 +14,10 @@ pub using @ffi {
   is_texture_valid,
   unload_texture,
   load_render_texture,
-  load_render_texture_depth_tex,
   is_render_texture_valid,
   unload_render_texture,
+  new_render_texture,
+  get_render_texture_depth,
   gen_image_white_noise,
   gen_image_perlin_noise,
   gen_image_cellular,
@@ -33,11 +34,8 @@ pub using @ffi {
   get_texture_width,
   get_texture_height,
   get_render_texture_texture,
-  unload_render_texture_depth_tex,
   get_render_texture_fbo_id,
   get_render_texture_depth_id,
-  load_shadowmap_render_texture,
-  unload_shadowmap_render_texture,
   texture_from_id,
 }
 

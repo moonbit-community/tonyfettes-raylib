@@ -21,7 +21,6 @@ pub using @ffi {
   image_color_contrast,
   image_color_brightness,
   image_kernel_convolution,
-  image_frame_count,
   image_width,
   image_height,
   load_image_colors,
@@ -50,8 +49,8 @@ pub fn load_image_raw(
 }
 
 ///|
-pub fn load_image_anim(file_name : String) -> Image {
-  @ffi.load_image_anim(@utf8.encode(file_name))
+pub fn load_image_anim(file_name : String, frames~ : Ref[Int] = Ref::new(0)) -> Image {
+  @ffi.load_image_anim(@utf8.encode(file_name), frames)
 }
 
 ///|
@@ -59,11 +58,13 @@ pub fn load_image_anim_from_memory(
   file_type : String,
   file_data : Bytes,
   data_size : Int,
+  frames~ : Ref[Int] = Ref::new(0),
 ) -> Image {
   @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
     file_data,
     data_size,
+    frames,
   )
 }
 

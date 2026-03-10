@@ -30,198 +30,166 @@ moonbit_raylib_begin_mode_3d(moonbit_bytes_t camera) {
 // ============================================================================
 
 void
-moonbit_raylib_begin_texture_mode(RenderTextureWrapper *wrapper) {
-  BeginTextureMode(wrapper->render_texture);
+moonbit_raylib_begin_texture_mode(RenderTexture *rt) {
+  BeginTextureMode(*rt);
 }
 
 // ============================================================================
 // Shader management
 // ============================================================================
 
-static void
-shader_destructor(void *ptr) {
-  ShaderWrapper *w = (ShaderWrapper *)ptr;
-  if (!w->freed)
-    UnloadShader(w->shader);
-}
-
-ShaderWrapper *
+Shader *
 moonbit_raylib_load_shader(moonbit_bytes_t vsFileName, moonbit_bytes_t fsFileName) {
   const char *vs = (const char *)vsFileName;
   const char *fs = (const char *)fsFileName;
   if (vs[0] == '\0') vs = NULL;
   if (fs[0] == '\0') fs = NULL;
-  ShaderWrapper *w = (ShaderWrapper *)moonbit_make_external_object(
-    shader_destructor, sizeof(ShaderWrapper)
-  );
-  w->shader = LoadShader(vs, fs);
-  w->freed = 0;
-  return w;
+  Shader *s = (Shader *)malloc(sizeof(Shader));
+  *s = LoadShader(vs, fs);
+  return s;
 }
 
-ShaderWrapper *
+Shader *
 moonbit_raylib_load_shader_from_memory(moonbit_bytes_t vsCode, moonbit_bytes_t fsCode) {
   const char *vs = (const char *)vsCode;
   const char *fs = (const char *)fsCode;
   if (vs[0] == '\0') vs = NULL;
   if (fs[0] == '\0') fs = NULL;
-  ShaderWrapper *w = (ShaderWrapper *)moonbit_make_external_object(
-    shader_destructor, sizeof(ShaderWrapper)
-  );
-  w->shader = LoadShaderFromMemory(vs, fs);
-  w->freed = 0;
-  return w;
+  Shader *s = (Shader *)malloc(sizeof(Shader));
+  *s = LoadShaderFromMemory(vs, fs);
+  return s;
 }
 
 int
-moonbit_raylib_is_shader_valid(ShaderWrapper *wrapper) {
-  return (int)IsShaderValid(wrapper->shader);
+moonbit_raylib_is_shader_valid(Shader *s) {
+  return (int)IsShaderValid(*s);
 }
 
 int
-moonbit_raylib_get_shader_location(ShaderWrapper *wrapper, moonbit_bytes_t uniformName) {
-  return GetShaderLocation(wrapper->shader, (const char *)uniformName);
+moonbit_raylib_get_shader_location(Shader *s, moonbit_bytes_t uniformName) {
+  return GetShaderLocation(*s, (const char *)uniformName);
 }
 
 int
-moonbit_raylib_get_shader_location_attrib(ShaderWrapper *wrapper, moonbit_bytes_t attribName) {
-  return GetShaderLocationAttrib(wrapper->shader, (const char *)attribName);
+moonbit_raylib_get_shader_location_attrib(Shader *s, moonbit_bytes_t attribName) {
+  return GetShaderLocationAttrib(*s, (const char *)attribName);
 }
 
 void
-moonbit_raylib_set_shader_value(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t value, int uniformType) {
-  SetShaderValue(wrapper->shader, locIndex, (const void *)value, uniformType);
+moonbit_raylib_set_shader_value(Shader *s, int locIndex, moonbit_bytes_t value, int uniformType) {
+  SetShaderValue(*s, locIndex, (const void *)value, uniformType);
 }
 
 void
-moonbit_raylib_set_shader_value_v(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t value, int uniformType, int count) {
-  SetShaderValueV(wrapper->shader, locIndex, (const void *)value, uniformType, count);
+moonbit_raylib_set_shader_value_v(Shader *s, int locIndex, moonbit_bytes_t value, int uniformType, int count) {
+  SetShaderValueV(*s, locIndex, (const void *)value, uniformType, count);
 }
 
 void
-moonbit_raylib_set_shader_value_matrix(ShaderWrapper *wrapper, int locIndex, moonbit_bytes_t mat) {
+moonbit_raylib_set_shader_value_matrix(Shader *s, int locIndex, moonbit_bytes_t mat) {
   Matrix m;
   memcpy(&m, mat, sizeof(Matrix));
-  SetShaderValueMatrix(wrapper->shader, locIndex, m);
+  SetShaderValueMatrix(*s, locIndex, m);
 }
 
 void
-moonbit_raylib_set_shader_value_texture(ShaderWrapper *wrapper, int locIndex, TextureWrapper *texWrapper) {
-  SetShaderValueTexture(wrapper->shader, locIndex, texWrapper->texture);
+moonbit_raylib_set_shader_value_texture(Shader *s, int locIndex, Texture2D *t) {
+  SetShaderValueTexture(*s, locIndex, *t);
 }
 
 void
-moonbit_raylib_unload_shader(ShaderWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadShader(wrapper->shader);
-    wrapper->freed = 1;
-  }
+moonbit_raylib_unload_shader(Shader *s) {
+  UnloadShader(*s);
+  free(s);
 }
 
 void
-moonbit_raylib_set_shader_location(ShaderWrapper *wrapper, int locIndex, int value) {
+moonbit_raylib_set_shader_location(Shader *s, int locIndex, int value) {
   if (locIndex >= 0 && locIndex < RL_MAX_SHADER_LOCATIONS) {
-    wrapper->shader.locs[locIndex] = value;
+    s->locs[locIndex] = value;
   }
 }
 
 int
-moonbit_raylib_get_shader_id(ShaderWrapper *wrapper) {
-  return (int)wrapper->shader.id;
+moonbit_raylib_get_shader_id(Shader *s) {
+  return (int)s->id;
 }
 
 void
-moonbit_raylib_begin_shader_mode(ShaderWrapper *wrapper) {
-  BeginShaderMode(wrapper->shader);
+moonbit_raylib_begin_shader_mode(Shader *s) {
+  BeginShaderMode(*s);
 }
 
 void
-moonbit_raylib_set_shader_locs(ShaderWrapper *wrapper, int loc_index, int loc_value) {
-  wrapper->shader.locs[loc_index] = loc_value;
+moonbit_raylib_set_shader_locs(Shader *s, int loc_index, int loc_value) {
+  s->locs[loc_index] = loc_value;
 }
 
 // ============================================================================
 // VR Stereo
 // ============================================================================
 
-typedef struct {
-  VrStereoConfig config;
-  int freed;
-} VrStereoConfigWrapper;
-
-static void
-vr_stereo_config_destructor(void *ptr) {
-  VrStereoConfigWrapper *w = (VrStereoConfigWrapper *)ptr;
-  if (!w->freed) {
-    UnloadVrStereoConfig(w->config);
-  }
-}
-
-VrStereoConfigWrapper *
+VrStereoConfig *
 moonbit_raylib_load_vr_stereo_config(moonbit_bytes_t device) {
   VrDeviceInfo info;
   memcpy(&info, device, sizeof(VrDeviceInfo));
-  VrStereoConfigWrapper *w = (VrStereoConfigWrapper *)moonbit_make_external_object(
-    vr_stereo_config_destructor, sizeof(VrStereoConfigWrapper));
-  w->config = LoadVrStereoConfig(info);
-  w->freed = 0;
-  return w;
+  VrStereoConfig *cfg = (VrStereoConfig *)malloc(sizeof(VrStereoConfig));
+  *cfg = LoadVrStereoConfig(info);
+  return cfg;
 }
 
 void
-moonbit_raylib_unload_vr_stereo_config(VrStereoConfigWrapper *w) {
-  if (w && !w->freed) {
-    UnloadVrStereoConfig(w->config);
-    w->freed = 1;
-  }
+moonbit_raylib_unload_vr_stereo_config(VrStereoConfig *cfg) {
+  UnloadVrStereoConfig(*cfg);
+  free(cfg);
 }
 
 void
-moonbit_raylib_begin_vr_stereo_mode(VrStereoConfigWrapper *w) {
-  BeginVrStereoMode(w->config);
+moonbit_raylib_begin_vr_stereo_mode(VrStereoConfig *cfg) {
+  BeginVrStereoMode(*cfg);
 }
 
 // VrStereoConfig field accessors (return raw bytes for use with SetShaderValue)
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_left_lens_center(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_left_lens_center(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.leftLensCenter, sizeof(float) * 2);
+  memcpy(res, cfg->leftLensCenter, sizeof(float) * 2);
   return res;
 }
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_right_lens_center(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_right_lens_center(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.rightLensCenter, sizeof(float) * 2);
+  memcpy(res, cfg->rightLensCenter, sizeof(float) * 2);
   return res;
 }
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_left_screen_center(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_left_screen_center(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.leftScreenCenter, sizeof(float) * 2);
+  memcpy(res, cfg->leftScreenCenter, sizeof(float) * 2);
   return res;
 }
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_right_screen_center(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_right_screen_center(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.rightScreenCenter, sizeof(float) * 2);
+  memcpy(res, cfg->rightScreenCenter, sizeof(float) * 2);
   return res;
 }
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_scale(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_scale(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.scale, sizeof(float) * 2);
+  memcpy(res, cfg->scale, sizeof(float) * 2);
   return res;
 }
 
 moonbit_bytes_t
-moonbit_raylib_vr_stereo_config_scale_in(VrStereoConfigWrapper *w) {
+moonbit_raylib_vr_stereo_config_scale_in(VrStereoConfig *cfg) {
   moonbit_bytes_t res = moonbit_make_bytes(sizeof(float) * 2, 0);
-  memcpy(res, w->config.scaleIn, sizeof(float) * 2);
+  memcpy(res, cfg->scaleIn, sizeof(float) * 2);
   return res;
 }
 

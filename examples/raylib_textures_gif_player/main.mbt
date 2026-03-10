@@ -13,8 +13,11 @@ fn main {
   // Load all GIF animation frames into a single Image
   // NOTE: GIF data is always loaded as RGBA (32bit) by default
   // NOTE: Frames are just appended one after another in image.data memory
-  let im_scarfy_anim = @raylib.load_image_anim("resources/scarfy_run.gif")
-  let anim_frames = @raylib.image_frame_count(im_scarfy_anim)
+  let anim_frames = Ref::new(0)
+  let im_scarfy_anim = @raylib.load_image_anim(
+    "resources/scarfy_run.gif",
+    frames=anim_frames,
+  )
 
   // Load texture from image
   // NOTE: We will update this texture when required with next frame data
@@ -36,7 +39,7 @@ fn main {
       // Move to next frame
       // NOTE: If final frame is reached we return to first frame
       current_anim_frame = current_anim_frame + 1
-      if current_anim_frame >= anim_frames {
+      if current_anim_frame >= anim_frames.val {
         current_anim_frame = 0
       }
 
@@ -65,7 +68,7 @@ fn main {
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)
     @raylib.draw_text(
-      "TOTAL GIF FRAMES:  " + anim_frames.to_string(),
+      "TOTAL GIF FRAMES:  " + anim_frames.val.to_string(),
       50,
       30,
       20,
