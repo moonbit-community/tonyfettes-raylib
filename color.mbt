@@ -1,12 +1,33 @@
 // Color: 4 bytes (r, g, b, a)
 
 ///|
+#visibility(change_to="abstract", "Use Color::{r,g,b,a}() instead")
 pub struct Color {
   r : Byte
   g : Byte
   b : Byte
   a : Byte
 } derive(Eq, Show)
+
+///|
+pub fn Color::r(self : Color) -> Byte {
+  self.r
+}
+
+///|
+pub fn Color::g(self : Color) -> Byte {
+  self.g
+}
+
+///|
+pub fn Color::b(self : Color) -> Byte {
+  self.b
+}
+
+///|
+pub fn Color::a(self : Color) -> Byte {
+  self.a
+}
 
 ///|
 pub fn Color::new(r : Int, g : Int, b : Int, a : Int) -> Color {
