@@ -202,7 +202,7 @@ fn burst_particles(
   power : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<count {
+  for _ in 0..<count {
     let ang = randf(0.0, 6.283)
     let spd = randf(power * 0.35, power)
     emit_particle(
@@ -1034,7 +1034,7 @@ fn main {
       if storm.whiteout_t > 0.0 {
         snow_count = snow_count + 4
       }
-      for i in 0..<snow_count {
+      for _ in 0..<snow_count {
         let ang = randf(0.0, 6.283)
         emit_particle(
           particles,

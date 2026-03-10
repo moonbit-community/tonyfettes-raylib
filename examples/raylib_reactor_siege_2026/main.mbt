@@ -181,7 +181,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<count {
+  for _ in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -310,7 +310,7 @@ fn init_enemy_wave(
     enemy.active = false
   }
   let initial : Int = 12 + level * 3
-  for i in 0..<initial {
+  for _ in 0..<initial {
     spawn_enemy(enemies, level, core_x, core_y)
   }
 }

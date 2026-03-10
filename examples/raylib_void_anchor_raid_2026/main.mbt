@@ -1639,7 +1639,7 @@ fn main {
           }
 
           let drops : Int = 1 + @raylib.get_random_value(0, 2)
-          for d in 0..<drops {
+          for _ in 0..<drops {
             let kind : Int = @raylib.get_random_value(0, 1)
             ignore(
               add_orb(

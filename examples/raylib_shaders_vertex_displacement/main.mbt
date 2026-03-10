@@ -46,9 +46,7 @@ fn main {
   )
   @rl.enable_shader(@raylib.get_shader_id(shader).reinterpret_as_uint())
   @rl.active_texture_slot(1)
-  @rl.enable_texture(
-    @raylib.get_texture_id(perlin_noise_map).reinterpret_as_uint(),
-  )
+  @rl.enable_texture(@raylib.get_texture_id(perlin_noise_map))
   @rl.set_uniform_sampler(perlin_noise_map_loc, 1U)
 
   // Create a plane mesh and model

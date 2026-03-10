@@ -94,7 +94,7 @@ fn draw_text_codepoint_3d(
     }
     let batch_count = if backface { 8 } else { 4 }
     let _ = @rl.check_render_batch_limit(batch_count)
-    @rl.set_texture(texture_id.reinterpret_as_uint())
+    @rl.set_texture(texture_id)
     @rl.push_matrix()
     @rl.translatef(pos_x, position.y, pos_z)
     @rl.begin(@rl.Quads)

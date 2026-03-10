@@ -823,7 +823,7 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
   offset = offset + 2
   // Read icon names
   if load_names {
-    for i in 0..<icon_count {
+    for _ in 0..<icon_count {
       // Find the null terminator within the 32-byte name field
       let mut name_len = 0
       while name_len < raygui_icon_max_name_length &&

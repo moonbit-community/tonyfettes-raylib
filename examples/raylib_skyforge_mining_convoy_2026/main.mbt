@@ -175,7 +175,7 @@ fn burst_particles(
   speed : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<count {
+  for _ in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy
@@ -284,7 +284,7 @@ fn init_wave(
     enemy.active = false
   }
   let initial : Int = 14 + level * 4
-  for i in 0..<initial {
+  for _ in 0..<initial {
     spawn_enemy(enemies, level, convoy_x)
   }
 }
@@ -836,7 +836,7 @@ fn main {
 
       if storm_press && pilot.overdrive_cd <= 0.0 && pilot.energy >= 56.0 {
         pilot.energy = pilot.energy - 56.0
-        for k in 0..<7 {
+        for _ in 0..<7 {
           let mut best : Int = -1
           let mut best_d2 : Float = 99999999.0
           for i in 0..<enemies.length() {

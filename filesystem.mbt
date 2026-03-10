@@ -1,13 +1,34 @@
+///|
+struct FilePathList(@ffi.FilePathList)
+
 // Re-export passthrough functions from internal FFI layer
 
 ///|
 pub using @ffi {
-  type FilePathList,
   is_file_dropped,
-  load_dropped_files,
-  unload_dropped_files,
-  unload_directory_files,
-  file_path_list_count,
+}
+
+///|
+#as_free_fn(load_dropped_files)
+pub fn FilePathList::load_dropped() -> FilePathList {
+  @ffi.load_dropped_files()
+}
+
+///|
+#as_free_fn(file_path_list_count)
+pub fn FilePathList::count(self : FilePathList) -> Int {
+  @ffi.file_path_list_count(self.0)
+}
+
+///|
+#as_free_fn(unload_dropped_files)
+pub fn FilePathList::unload(self : FilePathList) -> Unit {
+  @ffi.unload_dropped_files(self.0)
+}
+
+///|
+pub fn unload_directory_files(files : FilePathList) -> Unit {
+  @ffi.unload_directory_files(files.0)
 }
 
 // ============================================================================
@@ -132,7 +153,7 @@ pub fn export_data_as_code(
 
 ///|
 pub fn load_directory_files(dir_path : String) -> FilePathList {
-  @ffi.load_directory_files(@utf8.encode(dir_path))
+  FilePathList(@ffi.load_directory_files(@utf8.encode(dir_path)))
 }
 
 ///|
@@ -141,16 +162,18 @@ pub fn load_directory_files_ex(
   filter : String,
   scan_subdirs : Bool,
 ) -> FilePathList {
-  @ffi.load_directory_files_ex(
-    @utf8.encode(base_path),
-    @utf8.encode(filter),
-    scan_subdirs,
+  FilePathList(
+    @ffi.load_directory_files_ex(
+      @utf8.encode(base_path),
+      @utf8.encode(filter),
+      scan_subdirs,
+    ),
   )
 }
 
 ///|
 pub fn file_path_list_get(files : FilePathList, index : Int) -> String {
-  @utf8.decode_lossy(@ffi.file_path_list_get(files, index))
+  @utf8.decode_lossy(@ffi.file_path_list_get(files.0, index))
 }
 
 // ============================================================================

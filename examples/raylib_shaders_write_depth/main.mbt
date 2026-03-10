@@ -24,8 +24,8 @@ fn main {
   @rl.framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0)
   let _ = @rl.framebuffer_complete(fbo_id)
   let target = @raylib.new_render_texture(
-    fbo_id, color_tex_id, screen_width, screen_height, 1, 7,
-    depth_tex_id, screen_width, screen_height, 1, 7,
+    fbo_id, @raylib.new_texture(color_tex_id, screen_width, screen_height, 1, 7),
+    @raylib.new_texture(depth_tex_id, screen_width, screen_height, 1, 7),
   )
 
   // Define the camera to look into our 3d world

@@ -4,51 +4,51 @@
 
 ///|
 test "audio device ready before init" {
-  assert_eq(is_audio_device_ready(), false)
+  assert_eq(@raylib.is_audio_device_ready(), false)
 }
 
 ///|
 test "audio device init/close lifecycle" {
-  init_audio_device()
+  @raylib.init_audio_device()
   // Audio device may not be available in CI (no sound card); skip assertions
   // but still exercise init/close to verify they don't crash.
-  if is_audio_device_ready() {
-    close_audio_device()
-    assert_eq(is_audio_device_ready(), false)
+  if @raylib.is_audio_device_ready() {
+    @raylib.close_audio_device()
+    assert_eq(@raylib.is_audio_device_ready(), false)
   } else {
-    close_audio_device()
+    @raylib.close_audio_device()
   }
 }
 
 ///|
 test "master volume set/get round-trip" {
-  init_audio_device()
-  if is_audio_device_ready() {
-    set_master_volume(0.75)
-    let vol = get_master_volume()
+  @raylib.init_audio_device()
+  if @raylib.is_audio_device_ready() {
+    @raylib.set_master_volume(0.75)
+    let vol = @raylib.get_master_volume()
     assert_true(vol > 0.7 && vol < 0.8)
   }
-  close_audio_device()
+  @raylib.close_audio_device()
 }
 
 ///|
 test "master volume boundary: 0.0" {
-  init_audio_device()
-  if is_audio_device_ready() {
-    set_master_volume(0.0)
-    let vol = get_master_volume()
+  @raylib.init_audio_device()
+  if @raylib.is_audio_device_ready() {
+    @raylib.set_master_volume(0.0)
+    let vol = @raylib.get_master_volume()
     assert_true(vol < 0.01)
   }
-  close_audio_device()
+  @raylib.close_audio_device()
 }
 
 ///|
 test "master volume boundary: 1.0" {
-  init_audio_device()
-  if is_audio_device_ready() {
-    set_master_volume(1.0)
-    let vol = get_master_volume()
+  @raylib.init_audio_device()
+  if @raylib.is_audio_device_ready() {
+    @raylib.set_master_volume(1.0)
+    let vol = @raylib.get_master_volume()
     assert_true(vol > 0.99)
   }
-  close_audio_device()
+  @raylib.close_audio_device()
 }
