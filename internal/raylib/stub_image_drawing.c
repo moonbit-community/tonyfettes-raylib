@@ -289,14 +289,15 @@ moonbit_raylib_image_draw_text(
 void
 moonbit_raylib_image_draw_text_ex(
   Image *img,
-  Font *f,
+  FontWrapper *w,
   moonbit_bytes_t text,
   moonbit_bytes_t position,
   float fontSize,
   float spacing,
   moonbit_bytes_t tint
 ) {
+  assert(w->data && "use of unloaded font");
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
-  ImageDrawTextEx(img, *f, (const char *)text, pos, fontSize, spacing, c);
+  ImageDrawTextEx(img, *w->data, (const char *)text, pos, fontSize, spacing, c);
 }

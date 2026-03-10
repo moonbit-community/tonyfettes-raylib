@@ -93,8 +93,9 @@ moonbit_raylib_set_shader_value_matrix(Shader *s, int locIndex, moonbit_bytes_t 
 }
 
 void
-moonbit_raylib_set_shader_value_texture(Shader *s, int locIndex, Texture2D *t) {
-  SetShaderValueTexture(*s, locIndex, *t);
+moonbit_raylib_set_shader_value_texture(Shader *s, int locIndex, TextureWrapper *w) {
+  assert(w->data && "use of unloaded texture");
+  SetShaderValueTexture(*s, locIndex, *w->data);
 }
 
 void

@@ -7,6 +7,31 @@
 #include <moonbit.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
+typedef struct {
+  Texture2D *data;
+  bool is_view;
+  bool data_owned;
+} TextureWrapper;
+
+typedef struct {
+  Font *data;
+  bool is_view;
+  bool data_owned;
+} FontWrapper;
+
+typedef struct {
+  Mesh *data;
+  bool is_view;
+  bool data_owned;
+} MeshWrapper;
+
+typedef struct {
+  Material *data;
+  bool is_view;
+  bool data_owned;
+} MaterialWrapper;
 
 typedef struct {
   ModelAnimation *anims;

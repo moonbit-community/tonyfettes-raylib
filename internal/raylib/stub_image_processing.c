@@ -193,10 +193,11 @@ moonbit_raylib_image_text(moonbit_bytes_t text, int fontSize, moonbit_bytes_t co
 }
 
 Image *
-moonbit_raylib_image_text_ex(Font *f, moonbit_bytes_t text, float fontSize, float spacing, moonbit_bytes_t tint) {
+moonbit_raylib_image_text_ex(FontWrapper *w, moonbit_bytes_t text, float fontSize, float spacing, moonbit_bytes_t tint) {
+  assert(w->data && "use of unloaded font");
   Color c; memcpy(&c, tint, sizeof(Color));
   Image *img = (Image *)malloc(sizeof(Image));
-  *img = ImageTextEx(*f, (const char *)text, fontSize, spacing, c);
+  *img = ImageTextEx(*w->data, (const char *)text, fontSize, spacing, c);
   return img;
 }
 

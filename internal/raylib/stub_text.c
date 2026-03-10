@@ -5,75 +5,103 @@
 // Text: Font loading (resource types)
 // ============================================================================
 
-Font *
+FontWrapper *
 moonbit_raylib_get_font_default(void) {
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = GetFontDefault();
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = GetFontDefault();
+  w->is_view = true;
+  w->data_owned = true;
+  return w;
 }
 
-Font *
+FontWrapper *
 moonbit_raylib_load_font(moonbit_bytes_t fileName) {
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = LoadFont((const char *)fileName);
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = LoadFont((const char *)fileName);
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
 
-Font *
+FontWrapper *
 moonbit_raylib_load_font_ex(moonbit_bytes_t fileName, int fontSize) {
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = LoadFontEx((const char *)fileName, fontSize, NULL, 0);
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = LoadFontEx((const char *)fileName, fontSize, NULL, 0);
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
 
-Font *
+FontWrapper *
 moonbit_raylib_load_font_ex_codepoints(moonbit_bytes_t fileName, int fontSize, moonbit_bytes_t codepoints, int codepointCount) {
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = LoadFontEx((const char *)fileName, fontSize, (int *)codepoints, codepointCount);
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = LoadFontEx((const char *)fileName, fontSize, (int *)codepoints, codepointCount);
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
 
 int
-moonbit_raylib_is_font_valid(Font *f) {
-  return (int)IsFontValid(*f);
+moonbit_raylib_is_font_valid(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  return (int)IsFontValid(*w->data);
 }
 
 void
-moonbit_raylib_unload_font(Font *f) {
-  if (f) {
-    UnloadFont(*f);
-    free(f);
+moonbit_raylib_unload_font(FontWrapper *w) {
+  assert(w->data && "unload called on already-unloaded font");
+  if (!w->is_view) {
+    UnloadFont(*w->data);
   }
+  if (w->data_owned) {
+    free(w->data);
+  }
+  w->data = NULL;
+  free(w);
 }
 
 int
-moonbit_raylib_get_font_base_size(Font *f) {
-  return f->baseSize;
+moonbit_raylib_get_font_base_size(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  return w->data->baseSize;
 }
 
 int
-moonbit_raylib_get_font_glyph_count(Font *f) {
-  return f->glyphCount;
+moonbit_raylib_get_font_glyph_count(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  return w->data->glyphCount;
 }
 
 int
-moonbit_raylib_get_font_glyph_padding(Font *f) {
-  return f->glyphPadding;
+moonbit_raylib_get_font_glyph_padding(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  return w->data->glyphPadding;
 }
 
-Texture2D *
-moonbit_raylib_get_font_texture(Font *f) {
-  return &f->texture;
+TextureWrapper *
+moonbit_raylib_get_font_texture(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  TextureWrapper *tw = (TextureWrapper *)malloc(sizeof(TextureWrapper));
+  tw->data = &w->data->texture;
+  tw->is_view = true;
+  tw->data_owned = false;
+  return tw;
 }
 
 void
-moonbit_raylib_gen_font_texture_mipmaps(Font *f) {
-  GenTextureMipmaps(&f->texture);
+moonbit_raylib_gen_font_texture_mipmaps(FontWrapper *w) {
+  assert(w->data && "use of unloaded font");
+  GenTextureMipmaps(&w->data->texture);
 }
 
 void
-moonbit_raylib_set_font_texture_filter(Font *f, int filter) {
-  SetTextureFilter(f->texture, filter);
+moonbit_raylib_set_font_texture_filter(FontWrapper *w, int filter) {
+  assert(w->data && "use of unloaded font");
+  SetTextureFilter(w->data->texture, filter);
 }
 
 // ============================================================================
@@ -95,23 +123,24 @@ moonbit_raylib_draw_text(
 
 void
 moonbit_raylib_draw_text_ex(
-  Font *f,
+  FontWrapper *w,
   moonbit_bytes_t text,
   moonbit_bytes_t position,
   float fontSize,
   float spacing,
   moonbit_bytes_t tint
 ) {
+  assert(w->data && "use of unloaded font");
   Vector2 pos;
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextEx(*f, (const char *)text, pos, fontSize, spacing, c);
+  DrawTextEx(*w->data, (const char *)text, pos, fontSize, spacing, c);
 }
 
 void
 moonbit_raylib_draw_text_pro(
-  Font *f,
+  FontWrapper *w,
   moonbit_bytes_t text,
   moonbit_bytes_t position,
   moonbit_bytes_t origin,
@@ -120,6 +149,7 @@ moonbit_raylib_draw_text_pro(
   float spacing,
   moonbit_bytes_t tint
 ) {
+  assert(w->data && "use of unloaded font");
   Vector2 pos;
   memcpy(&pos, position, sizeof(Vector2));
   Vector2 org;
@@ -127,7 +157,7 @@ moonbit_raylib_draw_text_pro(
   Color c;
   memcpy(&c, tint, sizeof(Color));
   DrawTextPro(
-    *f, (const char *)text, pos, org, rotation, fontSize, spacing, c
+    *w->data, (const char *)text, pos, org, rotation, fontSize, spacing, c
   );
 }
 
@@ -138,13 +168,14 @@ moonbit_raylib_measure_text(moonbit_bytes_t text, int fontSize) {
 
 moonbit_bytes_t
 moonbit_raylib_measure_text_ex(
-  Font *f,
+  FontWrapper *w,
   moonbit_bytes_t text,
   float fontSize,
   float spacing
 ) {
+  assert(w->data && "use of unloaded font");
   Vector2 result =
-    MeasureTextEx(*f, (const char *)text, fontSize, spacing);
+    MeasureTextEx(*w->data, (const char *)text, fontSize, spacing);
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector2), 0);
   memcpy(r, &result, sizeof(Vector2));
   return r;
@@ -155,22 +186,25 @@ moonbit_raylib_measure_text_ex(
 // ============================================================================
 
 void
-moonbit_raylib_draw_text_codepoint(Font *f, int codepoint, moonbit_bytes_t position, float fontSize, moonbit_bytes_t tint) {
+moonbit_raylib_draw_text_codepoint(FontWrapper *w, int codepoint, moonbit_bytes_t position, float fontSize, moonbit_bytes_t tint) {
+  assert(w->data && "use of unloaded font");
   Vector2 pos;
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextCodepoint(*f, codepoint, pos, fontSize, c);
+  DrawTextCodepoint(*w->data, codepoint, pos, fontSize, c);
 }
 
 int
-moonbit_raylib_get_glyph_index(Font *f, int codepoint) {
-  return GetGlyphIndex(*f, codepoint);
+moonbit_raylib_get_glyph_index(FontWrapper *w, int codepoint) {
+  assert(w->data && "use of unloaded font");
+  return GetGlyphIndex(*w->data, codepoint);
 }
 
 moonbit_bytes_t
-moonbit_raylib_get_glyph_atlas_rec(Font *f, int codepoint) {
-  Rectangle result = GetGlyphAtlasRec(*f, codepoint);
+moonbit_raylib_get_glyph_atlas_rec(FontWrapper *w, int codepoint) {
+  assert(w->data && "use of unloaded font");
+  Rectangle result = GetGlyphAtlasRec(*w->data, codepoint);
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Rectangle), 0);
   memcpy(r, &result, sizeof(Rectangle));
   return r;
@@ -180,24 +214,31 @@ moonbit_raylib_get_glyph_atlas_rec(Font *f, int codepoint) {
 // Text: Font loading extras
 // ============================================================================
 
-Font *
+FontWrapper *
 moonbit_raylib_load_font_from_image(Image *img, moonbit_bytes_t key, int firstChar) {
   Color k; memcpy(&k, key, sizeof(Color));
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = LoadFontFromImage(*img, k, firstChar);
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = LoadFontFromImage(*img, k, firstChar);
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
 
-Font *
+FontWrapper *
 moonbit_raylib_load_font_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize, int fontSize) {
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = LoadFontFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize, fontSize, NULL, 0);
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = LoadFontFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize, fontSize, NULL, 0);
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
 
 int
-moonbit_raylib_export_font_as_code(Font *f, moonbit_bytes_t fileName) {
-  return (int)ExportFontAsCode(*f, (const char *)fileName);
+moonbit_raylib_export_font_as_code(FontWrapper *w, moonbit_bytes_t fileName) {
+  assert(w->data && "use of unloaded font");
+  return (int)ExportFontAsCode(*w->data, (const char *)fileName);
 }
 
 // ============================================================================
@@ -205,11 +246,12 @@ moonbit_raylib_export_font_as_code(Font *f, moonbit_bytes_t fileName) {
 // ============================================================================
 
 void
-moonbit_raylib_draw_text_codepoints(Font *f, moonbit_bytes_t codepoints, int codepointCount, moonbit_bytes_t position, float fontSize, float spacing, moonbit_bytes_t tint) {
+moonbit_raylib_draw_text_codepoints(FontWrapper *w, moonbit_bytes_t codepoints, int codepointCount, moonbit_bytes_t position, float fontSize, float spacing, moonbit_bytes_t tint) {
+  assert(w->data && "use of unloaded font");
   int *cp = (int *)codepoints;
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
-  DrawTextCodepoints(*f, cp, codepointCount, pos, fontSize, spacing, c);
+  DrawTextCodepoints(*w->data, cp, codepointCount, pos, fontSize, spacing, c);
 }
 
 // ============================================================================
@@ -288,8 +330,9 @@ moonbit_raylib_load_utf8(moonbit_bytes_t codepoints, int length) {
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_glyph_info(Font *f, int codepoint) {
-  GlyphInfo info = GetGlyphInfo(*f, codepoint);
+moonbit_raylib_get_glyph_info(FontWrapper *w, int codepoint) {
+  assert(w->data && "use of unloaded font");
+  GlyphInfo info = GetGlyphInfo(*w->data, codepoint);
   moonbit_bytes_t result = moonbit_make_bytes(16, 0);
   memcpy(result, &info.value, 4);
   memcpy(result + 4, &info.offsetX, 4);
@@ -352,7 +395,7 @@ moonbit_raylib_gen_image_font_atlas(GlyphInfoArrayWrapper *glyphs, int fontSize,
 // imgWidth, imgHeight, imgFormat: image dimensions and pixel format
 // recsData: packed array of Rectangles (4 floats each: x, y, w, h), count = glyphCount
 // glyphsData: packed array of glyph info (4 ints each: value, offsetX, offsetY, advanceX), count = glyphCount
-Font *
+FontWrapper *
 moonbit_raylib_load_font_from_atlas(
   moonbit_bytes_t pixelData, int pixelDataSize,
   int imgWidth, int imgHeight, int imgFormat,
@@ -373,10 +416,13 @@ moonbit_raylib_load_font_from_atlas(
   RL_FREE(imFont.data);
 
   if (texture.id == 0) {
-    // Failed to load texture, return default font
-    Font *f = (Font *)malloc(sizeof(Font));
-    *f = GetFontDefault();
-    return f;
+    // Failed to load texture, return default font as view
+    FontWrapper *fw = (FontWrapper *)malloc(sizeof(FontWrapper));
+    fw->data = (Font *)malloc(sizeof(Font));
+    *fw->data = GetFontDefault();
+    fw->is_view = true;
+    fw->data_owned = true;
+    return fw;
   }
 
   // Build recs array from packed data
@@ -414,16 +460,27 @@ moonbit_raylib_load_font_from_atlas(
   font.recs = recs;
   font.glyphs = glyphs;
 
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = font;
-  return f;
+  FontWrapper *fw = (FontWrapper *)malloc(sizeof(FontWrapper));
+  fw->data = (Font *)malloc(sizeof(Font));
+  *fw->data = font;
+  fw->is_view = false;
+  fw->data_owned = true;
+  return fw;
 }
 
-Font *
+FontWrapper *
 moonbit_raylib_build_font_from_data(moonbit_bytes_t fileData, int dataSize, int fontSize, int fontType, int padding, int packMethod) {
   // Load glyph data from font file in memory
   GlyphInfo *glyphs = LoadFontData((const unsigned char *)fileData, dataSize, fontSize, NULL, 0, fontType);
-  if (!glyphs) return NULL;
+  if (!glyphs) {
+    // Return default font wrapper instead of NULL
+    FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+    w->data = (Font *)malloc(sizeof(Font));
+    *w->data = GetFontDefault();
+    w->is_view = true;
+    w->data_owned = true;
+    return w;
+  }
 
   int glyphCount = 95; // default character set
 
@@ -444,7 +501,10 @@ moonbit_raylib_build_font_from_data(moonbit_bytes_t fileData, int dataSize, int 
   font.recs = recs;
   font.texture = texture;
 
-  Font *f = (Font *)malloc(sizeof(Font));
-  *f = font;
-  return f;
+  FontWrapper *w = (FontWrapper *)malloc(sizeof(FontWrapper));
+  w->data = (Font *)malloc(sizeof(Font));
+  *w->data = font;
+  w->is_view = false;
+  w->data_owned = true;
+  return w;
 }
