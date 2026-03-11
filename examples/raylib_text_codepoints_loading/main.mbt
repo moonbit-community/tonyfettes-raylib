@@ -50,7 +50,7 @@ fn main {
   )
 
   // Set bilinear scale filter for better font scaling
-  @raylib.set_font_texture_filter(font, 1) // TEXTURE_FILTER_BILINEAR
+  @raylib.set_texture_filter(@raylib.get_font_texture(font), 1) // TEXTURE_FILTER_BILINEAR
 
   @raylib.set_text_line_spacing(20) // Set line spacing for multiline text (when line breaks are included '\n')
 

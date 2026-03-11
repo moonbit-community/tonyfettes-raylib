@@ -87,7 +87,7 @@ pub fn spawn_rock(
 ///|
 pub fn spawn_wave(game : Game) -> Unit {
   let count = 4 + game.wave
-  for i in 0..<count {
+  for _ in 0..<count {
     let edge = @raylib.get_random_value(0, 3)
     let mut x : Float = 0.0
     let mut y : Float = 0.0

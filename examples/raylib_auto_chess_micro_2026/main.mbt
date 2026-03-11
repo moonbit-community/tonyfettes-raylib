@@ -147,7 +147,7 @@ fn copy_board_to_units(board : Array[Int], units : Array[Piece]) -> Unit {
 ///|
 fn spawn_enemy_round(round : Int, units : Array[Piece]) -> Unit {
   let enemy_count = 2 + round
-  for i in 0..<enemy_count {
+  for _ in 0..<enemy_count {
     let role = @raylib.get_random_value(0, 2)
     let ex = gw - 1 - @raylib.get_random_value(0, 1)
     let ey = @raylib.get_random_value(0, gh - 1)

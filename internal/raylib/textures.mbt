@@ -171,16 +171,8 @@ pub extern "c" fn unload_render_texture(target : RenderTexture) = "moonbit_rayli
 ///|
 pub extern "c" fn new_render_texture(
   id : UInt,
-  tex_id : UInt,
-  tex_width : Int,
-  tex_height : Int,
-  tex_mipmaps : Int,
-  tex_format : Int,
-  depth_id : UInt,
-  depth_width : Int,
-  depth_height : Int,
-  depth_mipmaps : Int,
-  depth_format : Int,
+  texture : Texture,
+  depth : Texture,
 ) -> RenderTexture = "moonbit_raylib_new_render_texture"
 
 // ============================================================================
@@ -238,6 +230,12 @@ pub extern "c" fn get_texture_width(texture : Texture) -> Int = "moonbit_raylib_
 
 ///|
 pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib_get_texture_height"
+
+///|
+pub extern "c" fn get_texture_mipmaps(texture : Texture) -> Int = "moonbit_raylib_get_texture_mipmaps"
+
+///|
+pub extern "c" fn get_texture_format(texture : Texture) -> Int = "moonbit_raylib_get_texture_format"
 
 // ============================================================================
 // RenderTexture: get texture (non-owning pointer into parent)
@@ -361,7 +359,7 @@ pub extern "c" fn update_texture_from_image_frame(
 ) = "moonbit_raylib_update_texture_from_image_frame"
 
 ///|
-pub extern "c" fn get_texture_id(texture : Texture) -> Int = "moonbit_raylib_get_texture_id"
+pub extern "c" fn get_texture_id(texture : Texture) -> UInt = "moonbit_raylib_get_texture_id"
 
 ///|
 #borrow(source)
@@ -397,8 +395,10 @@ pub extern "c" fn rl_load_texture(
 // ============================================================================
 
 ///|
-pub extern "c" fn texture_from_id(
+pub extern "c" fn new_texture(
   id : UInt,
   width : Int,
   height : Int,
-) -> Texture = "moonbit_raylib_texture_from_id"
+  mipmaps : Int,
+  format : Int,
+) -> Texture = "moonbit_raylib_new_texture"

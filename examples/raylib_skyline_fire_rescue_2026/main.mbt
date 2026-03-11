@@ -1421,7 +1421,7 @@ fn main {
       // fire water action
       if fire_action && heli.fire_cd <= 0.0 && heli.water >= 2.0 {
         let n : Int = 6 + @raylib.get_random_value(0, 3)
-        for i in 0..<n {
+        for _ in 0..<n {
           let ax : Float = randf(-0.6, 0.6)
           let vx : Float = ax * 80.0 + heli.vx * 0.3
           let vy : Float = randf(120.0, 210.0)

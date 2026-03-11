@@ -651,7 +651,7 @@ fn setup_world(
   ignore(add_gate(gates, 4040.0, 56))
   ignore(add_gate(gates, 4920.0, 82))
 
-  for i in 0..<95 {
+  for _ in 0..<95 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(220.0, 620.0)
     let value : Int = 1 + @raylib.get_random_value(0, 2)
@@ -668,7 +668,7 @@ fn setup_world(
     )
   }
 
-  for i in 0..<68 {
+  for _ in 0..<68 {
     let x : Float = randf(120.0, world_w - 420.0)
     let y : Float = randf(280.0, 640.0)
     ignore(

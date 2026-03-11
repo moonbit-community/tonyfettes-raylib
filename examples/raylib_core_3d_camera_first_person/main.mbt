@@ -24,7 +24,7 @@ fn main {
   let positions : Array[@raylib.Vector3] = []
   let colors : Array[@raylib.Color] = []
 
-  for i in 0..<max_columns {
+  for _ in 0..<max_columns {
     let h = Float::from_int(@raylib.get_random_value(1, 12))
     heights.push(h)
     positions.push(

@@ -60,7 +60,7 @@ pub fn spawn_hit_spark(
     @raylib.Color::new(255, 138, 86, 255)
   }
 
-  for i in 0..<count {
+  for _ in 0..<count {
     let idx = allocate_particle_slot(game.hit_sparks)
     if idx < 0 {
       return
@@ -105,7 +105,7 @@ pub fn spawn_hit_spark(
 ///|
 pub fn spawn_ground_skid(game : @types.Game, fighter : @types.Fighter) -> Unit {
   let archetype = @types.fighter_archetype(game, fighter)
-  for i in 0..<3 {
+  for _ in 0..<3 {
     let jitter_x = @types.rand_rangef(game, @types.f(-18.0), @types.f(18.0))
     let jitter_y = @types.rand_rangef(game, @types.f(-3.0), @types.f(3.0))
     spawn_stage_dust(

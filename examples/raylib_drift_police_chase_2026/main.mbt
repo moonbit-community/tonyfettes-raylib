@@ -156,7 +156,7 @@ fn burst_particles(
   power : Float,
   kind : Int,
 ) -> Unit {
-  for i in 0..<count {
+  for _ in 0..<count {
     let mut dx : Float = randf(-1.0, 1.0)
     let mut dy : Float = randf(-1.0, 1.0)
     let d2 : Float = dx * dx + dy * dy

@@ -861,7 +861,7 @@ fn main {
     clear_particles(particles)
     spawn_map_wrecks(wrecks)
 
-    for i in 0..<44 {
+    for _ in 0..<44 {
       let sx = randf(100.0, world_w - 100.0)
       let sy = randf(100.0, world_h - 100.0)
       if dist2(sx, sy, player.x, player.y) > 220.0 * 220.0 &&

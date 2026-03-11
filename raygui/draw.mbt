@@ -385,7 +385,7 @@ fn gui_draw_text(
             cx = cx + glyph_width
           }
           // Draw "..."
-          for dot_i in 0..<3 {
+          for _ in 0..<3 {
             let pos = @raylib.Vector2::new(cx, by)
             @raylib.draw_text_codepoint(
               font,

@@ -102,7 +102,7 @@ fn draw_rectangle_rounded_gradient_h(
     let center_x = centers_x[k]
     let center_y = centers_y[k]
     let mut angle : Float = angles[k]
-    for i in 0..<segments {
+    for _ in 0..<segments {
       @rl.color4ub(color.r, color.g, color.b, color.a)
       @rl.vertex2f(center_x, center_y)
       @rl.vertex2f(
