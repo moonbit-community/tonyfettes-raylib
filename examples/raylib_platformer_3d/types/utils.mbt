@@ -216,7 +216,7 @@ pub fn move_toward(current : Float, target : Float, max_delta : Float) -> Float 
 ///|
 pub fn wrap_angle(angle : Float) -> Float {
   let mut a = angle
-  for {
+  for ;; {
     if a >= 360.0 {
       a = a - 360.0
     } else if a < 0.0 {

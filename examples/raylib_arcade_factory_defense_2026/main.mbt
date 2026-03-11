@@ -1543,7 +1543,7 @@ fn main {
           }
 
           let drop_n : Int = 1 + @raylib.get_random_value(0, 2)
-          for d in 0..<drop_n {
+          for _ in 0..<drop_n {
             let val : Int = 1 + @raylib.get_random_value(0, 2)
             ignore(
               add_scrap(

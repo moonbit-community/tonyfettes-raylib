@@ -43,7 +43,7 @@ fn split_rock(
   }
 
   let next_size = rock.size - 1
-  for i in 0..<2 {
+  for _ in 0..<2 {
     let angle : Float = @types.random_range((0.0 : Float), @types.pi * 2.0)
     let speed : Float = @types.random_range(60.0, 160.0)
     let vx : Float = Float::from_double(@math.cos(angle.to_double())) * speed +

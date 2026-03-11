@@ -115,7 +115,7 @@ fn main {
 
   // Progress all the stars on, so they don't all start in the centre
   let half_width = screen_width / 2
-  for m in 0..<half_width {
+  for _ in 0..<half_width {
     for n in 0..<max_stars {
       update_star(stars[n])
     }
