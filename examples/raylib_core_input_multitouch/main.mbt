@@ -8,7 +8,7 @@ fn main {
   )
   let max_touch_points = 10
   let touch_positions : Array[@raylib.Vector2] = []
-  for i in 0..<max_touch_points {
+  for _ in 0..<max_touch_points {
     touch_positions.push(@raylib.Vector2::new(0.0, 0.0))
   }
   @raylib.set_target_fps(60)

@@ -18,7 +18,7 @@ fn main {
   let buildings : Array[@raylib.Rectangle] = []
   let build_colors : Array[@raylib.Color] = []
   let mut spacing = 0
-  for i in 0..<max_buildings {
+  for _ in 0..<max_buildings {
     let w = Float::from_int(@raylib.get_random_value(50, 200))
     let h = Float::from_int(@raylib.get_random_value(100, 800))
     let y : Float = Float::from_int(screen_height) - 130.0 - h
