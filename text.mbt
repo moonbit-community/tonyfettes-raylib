@@ -4,20 +4,29 @@
 pub using @ffi {
   type Font,
   type GlyphInfoArray,
+  draw_fps,
+  set_text_line_spacing,
+  unload_font_data,
+  glyph_info_array_count,
+  // Font passthrough (opaque type, no conversion needed)
   get_font_default,
+  unload_font,
+  is_font_valid,
   get_font_base_size,
   get_font_glyph_count,
   get_font_glyph_padding,
   get_font_texture,
-  gen_font_texture_mipmaps,
-  set_font_texture_filter,
-  is_font_valid,
-  unload_font,
-  draw_fps,
-  set_text_line_spacing,
   get_glyph_index,
-  unload_font_data,
-  glyph_info_array_count,
+}
+
+///|
+pub fn gen_font_texture_mipmaps(font : Font) -> Unit {
+  @ffi.gen_texture_mipmaps(@ffi.get_font_texture(font))
+}
+
+///|
+pub fn set_font_texture_filter(font : Font, filter : Int) -> Unit {
+  @ffi.set_texture_filter(@ffi.get_font_texture(font), filter)
 }
 
 // ============================================================================
@@ -31,7 +40,7 @@ pub fn load_font(file_name : String) -> Font {
 
 ///|
 pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
-  @ffi.load_font_ex(@utf8.encode(file_name), font_size)
+  @ffi.load_font_ex(@utf8.encode(file_name), font_size, None, 0)
 }
 
 ///|
@@ -40,15 +49,10 @@ pub fn load_font_ex_codepoints(
   font_size : Int,
   codepoints : Array[Int],
 ) -> Font {
-  let buf = @buffer.new(size_hint=codepoints.length() * 4)
-  for cp in codepoints {
-    buf.write_int_le(cp)
-  }
-  let bytes = buf.to_bytes()
-  @ffi.load_font_ex_codepoints(
+  @ffi.load_font_ex(
     @utf8.encode(file_name),
     font_size,
-    bytes,
+    Some(FixedArray::from_array(codepoints)),
     codepoints.length(),
   )
 }

@@ -4,27 +4,28 @@
 pub using @ffi {
   type Image,
   type Texture,
+  type RenderTexture,
   unload_image,
   is_image_valid,
   image_copy,
   image_from_channel,
-  load_image_from_texture,
   load_image_from_screen,
+  gen_image_white_noise,
+  gen_image_perlin_noise,
+  gen_image_cellular,
+  // Texture passthrough (opaque types, no conversion needed)
   load_texture_from_image,
   is_texture_valid,
   unload_texture,
   load_render_texture,
-  load_render_texture_depth_tex,
   is_render_texture_valid,
   unload_render_texture,
-  gen_image_white_noise,
-  gen_image_perlin_noise,
-  gen_image_cellular,
+  get_render_texture_texture,
+  get_render_texture_depth,
+  load_image_from_texture,
   set_texture_filter,
   set_texture_wrap,
   load_texture_cubemap,
-  update_texture,
-  update_texture_from_image_frame,
   gen_texture_mipmaps,
   get_texture_id,
   get_shapes_texture,
@@ -32,13 +33,24 @@ pub using @ffi {
   get_render_texture_height,
   get_texture_width,
   get_texture_height,
-  get_render_texture_texture,
-  unload_render_texture_depth_tex,
-  get_render_texture_fbo_id,
+  get_render_texture_id,
   get_render_texture_depth_id,
-  load_shadowmap_render_texture,
-  unload_shadowmap_render_texture,
-  texture_from_id,
+  new_texture,
+  new_render_texture,
+}
+
+///|
+pub fn update_texture(texture : Texture, pixels : Bytes) -> Unit {
+  @ffi.update_texture(texture, pixels)
+}
+
+///|
+pub fn update_texture_from_image_frame(
+  texture : Texture,
+  image : Image,
+  frame : Int,
+) -> Unit {
+  @ffi.update_texture_from_image_frame(texture, image, frame)
 }
 
 // ============================================================================
@@ -432,3 +444,51 @@ pub const CubemapLayoutCrossThreeByFour : Int = 3
 
 ///|
 pub const CubemapLayoutCrossFourByThree : Int = 4
+
+///|
+#deprecated("Use new_texture instead")
+pub fn texture_from_id(id : UInt, width : Int, height : Int) -> Texture {
+  @ffi.new_texture(id, width, height, 1, PixelformatUncompressedR8g8b8a8)
+}
+
+///|
+#deprecated("Use @rl.* API to load the texture manually")
+pub fn load_render_texture_depth_tex(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  @ffi.load_render_texture_depth_tex(width, height)
+}
+
+///|
+#deprecated("Use @rl.* API to load the render texture manually")
+pub fn load_shadowmap_render_texture(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  @ffi.load_shadowmap_render_texture(width, height)
+}
+
+///|
+#deprecated("Use @rl.* API to unload the render texture manually")
+pub fn unload_shadowmap_render_texture(target : RenderTexture) -> Unit {
+  @ffi.rl_unload_framebuffer(get_render_texture_id(target))
+}
+
+///|
+#deprecated("Use get_render_texture_id instead")
+pub fn get_render_texture_fbo_id(render_texture : RenderTexture) -> UInt {
+  get_render_texture_id(render_texture)
+}
+
+///|
+#deprecated("Use @rl.* API to unload the render texture manually")
+pub fn unload_render_texture_depth_tex(render_texture : RenderTexture) -> Unit {
+  @ffi.rl_unload_texture(
+    get_texture_id(get_render_texture_texture(render_texture)),
+  )
+  @ffi.rl_unload_texture(
+    get_texture_id(get_render_texture_depth(render_texture)),
+  )
+  @ffi.rl_unload_framebuffer(get_render_texture_id(render_texture))
+}

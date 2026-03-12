@@ -13,19 +13,19 @@ pub extern "c" fn load_image_raw(
 ) -> Image = "moonbit_raylib_load_image_raw"
 
 ///|
-#borrow(file_name)
-pub extern "c" fn load_image_anim(file_name : Bytes) -> Image = "moonbit_raylib_load_image_anim"
+#borrow(file_name, frames)
+pub extern "c" fn load_image_anim(
+  file_name : Bytes,
+  frames : Ref[Int],
+) -> Image = "moonbit_raylib_load_image_anim"
 
 ///|
-#borrow(image)
-pub extern "c" fn image_frame_count(image : Image) -> Int = "moonbit_raylib_image_frame_count"
-
-///|
-#borrow(file_type, file_data)
+#borrow(file_type, file_data, frames)
 pub extern "c" fn load_image_anim_from_memory(
   file_type : Bytes,
   file_data : Bytes,
   data_size : Int,
+  frames : Ref[Int],
 ) -> Image = "moonbit_raylib_load_image_anim_from_memory"
 
 // ============================================================================

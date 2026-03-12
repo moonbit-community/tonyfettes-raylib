@@ -167,48 +167,74 @@ pub extern "c" fn load_render_texture(
 ) -> RenderTexture = "moonbit_raylib_load_render_texture"
 
 ///|
-pub extern "c" fn load_render_texture_depth_tex(
+#borrow(render_texture)
+pub extern "c" fn is_render_texture_valid(
+  render_texture : RenderTexture,
+) -> Bool = "moonbit_raylib_is_render_texture_valid"
+
+///|
+#borrow(render_texture)
+pub extern "c" fn unload_render_texture(render_texture : RenderTexture) = "moonbit_raylib_unload_render_texture"
+
+///|
+pub fn load_render_texture_depth_tex(
   width : Int,
   height : Int,
-) -> RenderTexture = "moonbit_raylib_load_render_texture_depth_tex"
+) -> RenderTexture {
+  let fbo_id = rl_load_framebuffer()
+  let color_tex_id = rl_load_texture(width, height, 7, 1) // 7 = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8
+  let depth_tex_id = rl_load_texture_depth(width, height, false)
+  rl_framebuffer_attach(fbo_id, color_tex_id, 0, 100, 0) // 0 = RL_ATTACHMENT_COLOR_CHANNEL0, 100 = RL_ATTACHMENT_TEXTURE2D
+  rl_framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0) // 100 = RL_ATTACHMENT_DEPTH, 100 = RL_ATTACHMENT_TEXTURE2D
+  let _ = rl_framebuffer_complete(fbo_id)
+  new_render_texture(
+    fbo_id,
+    new_texture(color_tex_id, width, height, 1, 7),
+    new_texture(depth_tex_id, width, height, 1, 7),
+  )
+}
+
+// ============================================================================
+// RenderTexture: constructor from raw IDs
+// ============================================================================
 
 ///|
-#borrow(target)
-pub extern "c" fn is_render_texture_valid(target : RenderTexture) -> Bool = "moonbit_raylib_is_render_texture_valid"
-
-///|
-#borrow(target)
-pub extern "c" fn unload_render_texture(target : RenderTexture) = "moonbit_raylib_unload_render_texture"
-
-///|
-#borrow(target)
-pub extern "c" fn unload_render_texture_depth_tex(target : RenderTexture) = "moonbit_raylib_unload_render_texture_depth_tex"
+#borrow(texture, depth)
+pub extern "c" fn new_render_texture(
+  id : UInt,
+  texture : Texture,
+  depth : Texture,
+) -> RenderTexture = "moonbit_raylib_new_render_texture"
 
 // ============================================================================
 // RenderTexture drawing
 // ============================================================================
 
 ///|
-#borrow(target, source, position, tint)
+#borrow(render_texture, source, position, tint)
 pub extern "c" fn draw_render_texture_rec(
-  target : RenderTexture,
+  render_texture : RenderTexture,
   source : Bytes,
   position : Bytes,
   tint : Bytes,
 ) = "moonbit_raylib_draw_render_texture_rec"
 
 ///|
-#borrow(target)
-pub extern "c" fn get_render_texture_width(target : RenderTexture) -> Int = "moonbit_raylib_get_render_texture_width"
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_width(
+  render_texture : RenderTexture,
+) -> Int = "moonbit_raylib_get_render_texture_width"
 
 ///|
-#borrow(target)
-pub extern "c" fn get_render_texture_height(target : RenderTexture) -> Int = "moonbit_raylib_get_render_texture_height"
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_height(
+  render_texture : RenderTexture,
+) -> Int = "moonbit_raylib_get_render_texture_height"
 
 ///|
-#borrow(target, position, tint)
+#borrow(render_texture, position, tint)
 pub extern "c" fn draw_render_texture_ex(
-  target : RenderTexture,
+  render_texture : RenderTexture,
   position : Bytes,
   rotation : Float,
   scale : Float,
@@ -216,9 +242,9 @@ pub extern "c" fn draw_render_texture_ex(
 ) = "moonbit_raylib_draw_render_texture_ex"
 
 ///|
-#borrow(target, source, dest, origin, tint)
+#borrow(render_texture, source, dest, origin, tint)
 pub extern "c" fn draw_render_texture_pro(
-  target : RenderTexture,
+  render_texture : RenderTexture,
   source : Bytes,
   dest : Bytes,
   origin : Bytes,
@@ -227,9 +253,9 @@ pub extern "c" fn draw_render_texture_pro(
 ) = "moonbit_raylib_draw_render_texture_pro"
 
 ///|
-#borrow(target)
+#borrow(render_texture)
 pub extern "c" fn set_render_texture_filter(
-  target : RenderTexture,
+  render_texture : RenderTexture,
   filter : Int,
 ) = "moonbit_raylib_set_render_texture_filter"
 
@@ -250,34 +276,50 @@ pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib
 // ============================================================================
 
 ///|
-#borrow(target)
-pub extern "c" fn get_render_texture_texture(target : RenderTexture) -> Texture = "moonbit_raylib_get_render_texture_texture"
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_texture(
+  render_texture : RenderTexture,
+) -> Texture = "moonbit_raylib_get_render_texture_texture"
+
+///|
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_depth(
+  render_texture : RenderTexture,
+) -> Texture = "moonbit_raylib_get_render_texture_depth"
 
 // ============================================================================
 // RenderTexture: ID accessors for rlgl-level operations
 // ============================================================================
 
 ///|
-#borrow(target)
-pub extern "c" fn get_render_texture_fbo_id(target : RenderTexture) -> UInt = "moonbit_raylib_get_render_texture_fbo_id"
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_id(render_texture : RenderTexture) -> UInt = "moonbit_raylib_get_render_texture_id"
 
 ///|
-#borrow(target)
-pub extern "c" fn get_render_texture_depth_id(target : RenderTexture) -> UInt = "moonbit_raylib_get_render_texture_depth_id"
+#borrow(render_texture)
+pub extern "c" fn get_render_texture_depth_id(
+  render_texture : RenderTexture,
+) -> UInt = "moonbit_raylib_get_render_texture_depth_id"
 
 // ============================================================================
 // Shadowmap: Load/Unload depth-only render texture
 // ============================================================================
 
 ///|
-pub extern "c" fn load_shadowmap_render_texture(
+pub fn load_shadowmap_render_texture(
   width : Int,
   height : Int,
-) -> RenderTexture = "moonbit_raylib_load_shadowmap_render_texture"
-
-///|
-#borrow(target)
-pub extern "c" fn unload_shadowmap_render_texture(target : RenderTexture) = "moonbit_raylib_unload_shadowmap_render_texture"
+) -> RenderTexture {
+  let fbo_id = rl_load_framebuffer()
+  let depth_tex_id = rl_load_texture_depth(width, height, false)
+  rl_framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0)
+  let _ = rl_framebuffer_complete(fbo_id)
+  new_render_texture(
+    fbo_id,
+    new_texture(0U, width, height, 1, 7),
+    new_texture(depth_tex_id, width, height, 1, 7),
+  )
+}
 
 // ============================================================================
 // Texture drawing
@@ -387,7 +429,7 @@ pub extern "c" fn update_texture_from_image_frame(
 
 ///|
 #borrow(texture)
-pub extern "c" fn get_texture_id(texture : Texture) -> Int = "moonbit_raylib_get_texture_id"
+pub extern "c" fn get_texture_id(texture : Texture) -> UInt = "moonbit_raylib_get_texture_id"
 
 ///|
 #borrow(texture, source)
@@ -423,8 +465,10 @@ pub extern "c" fn rl_load_texture(
 // ============================================================================
 
 ///|
-pub extern "c" fn texture_from_id(
+pub extern "c" fn new_texture(
   id : UInt,
   width : Int,
   height : Int,
-) -> Texture = "moonbit_raylib_texture_from_id"
+  mipmaps : Int,
+  format : Int,
+) -> Texture = "moonbit_raylib_new_texture"

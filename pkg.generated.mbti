@@ -440,42 +440,61 @@ pub const PixelformatUncompressedR8g8b8 : Int = 4
 
 pub const PixelformatUncompressedR8g8b8a8 : Int = 7
 
+#deprecated
 pub const RlAttachmentColorChannel0 : Int = 0
 
+#deprecated
 pub const RlAttachmentColorChannel1 : Int = 1
 
+#deprecated
 pub const RlAttachmentColorChannel2 : Int = 2
 
+#deprecated
 pub const RlAttachmentColorChannel3 : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeX : Int = 1
 
+#deprecated
 pub const RlAttachmentCubemapNegativeY : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeZ : Int = 5
 
+#deprecated
 pub const RlAttachmentCubemapPositiveX : Int = 0
 
+#deprecated
 pub const RlAttachmentCubemapPositiveY : Int = 2
 
+#deprecated
 pub const RlAttachmentCubemapPositiveZ : Int = 4
 
+#deprecated
 pub const RlAttachmentDepth : Int = 100
 
+#deprecated
 pub const RlAttachmentRenderbuffer : Int = 200
 
+#deprecated
 pub const RlAttachmentStencil : Int = 200
 
+#deprecated
 pub const RlAttachmentTexture2d : Int = 100
 
+#deprecated
 pub const RlDrawFramebuffer : UInt = 0x8CA9
 
+#deprecated
 pub const RlLines : Int = 0x0001
 
+#deprecated
 pub const RlQuads : Int = 0x0007
 
+#deprecated
 pub const RlReadFramebuffer : UInt = 0x8CA8
 
+#deprecated
 pub const RlTriangles : Int = 0x0004
 
 pub const ShaderLocBoneMatrices : Int = 28
@@ -600,7 +619,7 @@ pub fn begin_scissor_mode(Int, Int, Int, Int) -> Unit
 
 pub fn begin_shader_mode(@tonyfettes/raylib/internal/raylib.Shader) -> Unit
 
-pub fn begin_texture_mode(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
+pub fn begin_texture_mode(RenderTexture) -> Unit
 
 pub fn begin_vr_stereo_mode(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Unit
 
@@ -614,7 +633,7 @@ pub let blue : Color
 
 pub let brown : Color
 
-pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> Font
 
 pub fn change_directory(String) -> Bool
 
@@ -712,11 +731,11 @@ pub fn disable_cursor() -> Unit
 
 pub fn disable_event_waiting() -> Unit
 
-pub fn draw_billboard(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Vector3, Float, Color) -> Unit
+pub fn draw_billboard(Camera3D, Texture, Vector3, Float, Color) -> Unit
 
-pub fn draw_billboard_pro(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector3, Vector3, Vector2, Vector2, Float, Color) -> Unit
+pub fn draw_billboard_pro(Camera3D, Texture, Rectangle, Vector3, Vector3, Vector2, Vector2, Float, Color) -> Unit
 
-pub fn draw_billboard_rec(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector3, Vector2, Color) -> Unit
+pub fn draw_billboard_rec(Camera3D, Texture, Rectangle, Vector3, Vector2, Color) -> Unit
 
 pub fn draw_bounding_box(BoundingBox, Color) -> Unit
 
@@ -832,11 +851,11 @@ pub fn draw_rectangle_rounded_lines_ex(Rectangle, Float, Int, Float, Color) -> U
 
 pub fn draw_rectangle_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_render_texture_ex(@tonyfettes/raylib/internal/raylib.RenderTexture, Vector2, Float, Float, Color) -> Unit
+pub fn draw_render_texture_ex(RenderTexture, Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_render_texture_pro(@tonyfettes/raylib/internal/raylib.RenderTexture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
+pub fn draw_render_texture_pro(RenderTexture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
 
-pub fn draw_render_texture_rec(@tonyfettes/raylib/internal/raylib.RenderTexture, Rectangle, Vector2, Color) -> Unit
+pub fn draw_render_texture_rec(RenderTexture, Rectangle, Vector2, Color) -> Unit
 
 pub fn draw_ring(Vector2, Float, Float, Float, Float, Int, Color) -> Unit
 
@@ -870,25 +889,25 @@ pub fn draw_spline_segment_linear(Vector2, Vector2, Float, Color) -> Unit
 
 pub fn draw_text(String, Int, Int, Int, Color) -> Unit
 
-pub fn draw_text_codepoint(@tonyfettes/raylib/internal/raylib.Font, Int, Vector2, Float, Color) -> Unit
+pub fn draw_text_codepoint(Font, Int, Vector2, Float, Color) -> Unit
 
-pub fn draw_text_codepoints(@tonyfettes/raylib/internal/raylib.Font, Array[Int], Vector2, Float, Float, Color) -> Unit
+pub fn draw_text_codepoints(Font, Array[Int], Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Float, Float, Color) -> Unit
+pub fn draw_text_ex(Font, String, Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_text_pro(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
+pub fn draw_text_pro(Font, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
 
-pub fn draw_texture(@tonyfettes/raylib/internal/raylib.Texture, Int, Int, Color) -> Unit
+pub fn draw_texture(Texture, Int, Int, Color) -> Unit
 
-pub fn draw_texture_ex(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Float, Float, Color) -> Unit
+pub fn draw_texture_ex(Texture, Vector2, Float, Float, Color) -> Unit
 
-pub fn draw_texture_npatch(@tonyfettes/raylib/internal/raylib.Texture, NPatchInfo, Rectangle, Vector2, Float, Color) -> Unit
+pub fn draw_texture_npatch(Texture, NPatchInfo, Rectangle, Vector2, Float, Color) -> Unit
 
-pub fn draw_texture_pro(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
+pub fn draw_texture_pro(Texture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
 
-pub fn draw_texture_rec(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector2, Color) -> Unit
+pub fn draw_texture_rec(Texture, Rectangle, Vector2, Color) -> Unit
 
-pub fn draw_texture_v(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Color) -> Unit
+pub fn draw_texture_v(Texture, Vector2, Color) -> Unit
 
 pub fn draw_triangle(Vector2, Vector2, Vector2, Color) -> Unit
 
@@ -928,7 +947,7 @@ pub fn export_automation_event_list(@tonyfettes/raylib/internal/raylib.Automatio
 
 pub fn export_data_as_code(Bytes, Int, String) -> Bool
 
-pub fn export_font_as_code(@tonyfettes/raylib/internal/raylib.Font, String) -> Bool
+pub fn export_font_as_code(Font, String) -> Bool
 
 pub fn export_image(@tonyfettes/raylib/internal/raylib.Image, String) -> Bool
 
@@ -952,7 +971,7 @@ pub fn file_path_list_count(@tonyfettes/raylib/internal/raylib.FilePathList) -> 
 
 pub fn file_path_list_get(@tonyfettes/raylib/internal/raylib.FilePathList, Int) -> String
 
-pub fn gen_font_texture_mipmaps(@tonyfettes/raylib/internal/raylib.Font) -> Unit
+pub fn gen_font_texture_mipmaps(Font) -> Unit
 
 pub fn gen_image_cellular(Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Image
 
@@ -1000,7 +1019,7 @@ pub fn gen_mesh_tangents(@tonyfettes/raylib/internal/raylib.Mesh) -> Unit
 
 pub fn gen_mesh_torus(Float, Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
 
-pub fn gen_texture_mipmaps(@tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn gen_texture_mipmaps(Texture) -> Unit
 
 pub fn get_application_directory() -> String
 
@@ -1040,15 +1059,15 @@ pub fn get_file_name(String) -> String
 
 pub fn get_file_name_without_ext(String) -> String
 
-pub fn get_font_base_size(@tonyfettes/raylib/internal/raylib.Font) -> Int
+pub fn get_font_base_size(Font) -> Int
 
-pub fn get_font_default() -> @tonyfettes/raylib/internal/raylib.Font
+pub fn get_font_default() -> Font
 
-pub fn get_font_glyph_count(@tonyfettes/raylib/internal/raylib.Font) -> Int
+pub fn get_font_glyph_count(Font) -> Int
 
-pub fn get_font_glyph_padding(@tonyfettes/raylib/internal/raylib.Font) -> Int
+pub fn get_font_glyph_padding(Font) -> Int
 
-pub fn get_font_texture(@tonyfettes/raylib/internal/raylib.Font) -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn get_font_texture(Font) -> Texture
 
 pub fn get_fps() -> Int
 
@@ -1074,11 +1093,11 @@ pub fn get_gesture_pinch_angle() -> Float
 
 pub fn get_gesture_pinch_vector() -> Vector2
 
-pub fn get_glyph_atlas_rec(@tonyfettes/raylib/internal/raylib.Font, Int) -> Rectangle
+pub fn get_glyph_atlas_rec(Font, Int) -> Rectangle
 
-pub fn get_glyph_index(@tonyfettes/raylib/internal/raylib.Font, Int) -> Int
+pub fn get_glyph_index(Font, Int) -> Int
 
-pub fn get_glyph_info(@tonyfettes/raylib/internal/raylib.Font, Int) -> GlyphInfo
+pub fn get_glyph_info(Font, Int) -> GlyphInfo
 
 pub fn get_image_alpha_border(@tonyfettes/raylib/internal/raylib.Image, Float) -> Rectangle
 
@@ -1172,15 +1191,20 @@ pub fn get_ray_collision_triangle(Ray, Vector3, Vector3, Vector3) -> RayCollisio
 
 pub fn get_render_height() -> Int
 
-pub fn get_render_texture_depth_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
+pub fn get_render_texture_depth(RenderTexture) -> Texture
 
-pub fn get_render_texture_fbo_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
+pub fn get_render_texture_depth_id(RenderTexture) -> UInt
 
-pub fn get_render_texture_height(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Int
+#deprecated
+pub fn get_render_texture_fbo_id(RenderTexture) -> UInt
 
-pub fn get_render_texture_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn get_render_texture_height(RenderTexture) -> Int
 
-pub fn get_render_texture_width(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Int
+pub fn get_render_texture_id(RenderTexture) -> UInt
+
+pub fn get_render_texture_texture(RenderTexture) -> Texture
+
+pub fn get_render_texture_width(RenderTexture) -> Int
 
 pub fn get_render_width() -> Int
 
@@ -1200,7 +1224,7 @@ pub fn get_shader_location(@tonyfettes/raylib/internal/raylib.Shader, String) ->
 
 pub fn get_shader_location_attrib(@tonyfettes/raylib/internal/raylib.Shader, String) -> Int
 
-pub fn get_shapes_texture() -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn get_shapes_texture() -> Texture
 
 pub fn get_shapes_texture_rectangle() -> Rectangle
 
@@ -1214,11 +1238,11 @@ pub fn get_spline_point_catmull_rom(Vector2, Vector2, Vector2, Vector2, Float) -
 
 pub fn get_spline_point_linear(Vector2, Vector2, Float) -> Vector2
 
-pub fn get_texture_height(@tonyfettes/raylib/internal/raylib.Texture) -> Int
+pub fn get_texture_height(Texture) -> Int
 
-pub fn get_texture_id(@tonyfettes/raylib/internal/raylib.Texture) -> Int
+pub fn get_texture_id(Texture) -> UInt
 
-pub fn get_texture_width(@tonyfettes/raylib/internal/raylib.Texture) -> Int
+pub fn get_texture_width(Texture) -> Int
 
 pub fn get_time() -> Double
 
@@ -1316,7 +1340,7 @@ pub fn image_draw_rectangle_v(@tonyfettes/raylib/internal/raylib.Image, Vector2,
 
 pub fn image_draw_text(@tonyfettes/raylib/internal/raylib.Image, String, Int, Int, Int, Color) -> Unit
 
-pub fn image_draw_text_ex(@tonyfettes/raylib/internal/raylib.Image, @tonyfettes/raylib/internal/raylib.Font, String, Vector2, Float, Float, Color) -> Unit
+pub fn image_draw_text_ex(@tonyfettes/raylib/internal/raylib.Image, Font, String, Vector2, Float, Float, Color) -> Unit
 
 pub fn image_draw_triangle(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Vector2, Color) -> Unit
 
@@ -1333,8 +1357,6 @@ pub fn image_flip_horizontal(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 pub fn image_flip_vertical(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 
 pub fn image_format(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_frame_count(@tonyfettes/raylib/internal/raylib.Image) -> Int
 
 pub fn image_from_channel(@tonyfettes/raylib/internal/raylib.Image, Int) -> @tonyfettes/raylib/internal/raylib.Image
 
@@ -1360,7 +1382,7 @@ pub fn image_rotate_cw(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 
 pub fn image_text(String, Int, Color) -> @tonyfettes/raylib/internal/raylib.Image
 
-pub fn image_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Float, Float, Color) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn image_text_ex(Font, String, Float, Float, Color) -> @tonyfettes/raylib/internal/raylib.Image
 
 pub fn image_to_pot(@tonyfettes/raylib/internal/raylib.Image, Color) -> Unit
 
@@ -1388,7 +1410,7 @@ pub fn is_file_extension(String, String) -> Bool
 
 pub fn is_file_name_valid(String) -> Bool
 
-pub fn is_font_valid(@tonyfettes/raylib/internal/raylib.Font) -> Bool
+pub fn is_font_valid(Font) -> Bool
 
 pub fn is_gamepad_available(Int) -> Bool
 
@@ -1434,7 +1456,7 @@ pub fn is_music_valid(@tonyfettes/raylib/internal/raylib.Music) -> Bool
 
 pub fn is_path_file(String) -> Bool
 
-pub fn is_render_texture_valid(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Bool
+pub fn is_render_texture_valid(RenderTexture) -> Bool
 
 pub fn is_shader_valid(@tonyfettes/raylib/internal/raylib.Shader) -> Bool
 
@@ -1442,7 +1464,7 @@ pub fn is_sound_playing(@tonyfettes/raylib/internal/raylib.Sound) -> Bool
 
 pub fn is_sound_valid(@tonyfettes/raylib/internal/raylib.Sound) -> Bool
 
-pub fn is_texture_valid(@tonyfettes/raylib/internal/raylib.Texture) -> Bool
+pub fn is_texture_valid(Texture) -> Bool
 
 pub fn is_wave_valid(@tonyfettes/raylib/internal/raylib.Wave) -> Bool
 
@@ -1482,25 +1504,25 @@ pub fn load_file_data(String) -> Bytes
 
 pub fn load_file_text(String) -> String
 
-pub fn load_font(String) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font(String) -> Font
 
 pub fn load_font_data(Bytes, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.GlyphInfoArray
 
-pub fn load_font_ex(String, Int) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font_ex(String, Int) -> Font
 
-pub fn load_font_ex_codepoints(String, Int, Array[Int]) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font_ex_codepoints(String, Int, Array[Int]) -> Font
 
-pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> Font
 
-pub fn load_font_from_image(@tonyfettes/raylib/internal/raylib.Image, Color, Int) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font_from_image(@tonyfettes/raylib/internal/raylib.Image, Color, Int) -> Font
 
-pub fn load_font_from_memory(String, Bytes, Int, Int) -> @tonyfettes/raylib/internal/raylib.Font
+pub fn load_font_from_memory(String, Bytes, Int, Int) -> Font
 
 pub fn load_image(String) -> @tonyfettes/raylib/internal/raylib.Image
 
-pub fn load_image_anim(String) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn load_image_anim(String) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
 
-pub fn load_image_anim_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn load_image_anim_from_memory(String, Bytes, Int) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
 
 pub fn load_image_colors(@tonyfettes/raylib/internal/raylib.Image) -> Bytes
 
@@ -1508,7 +1530,7 @@ pub fn load_image_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal
 
 pub fn load_image_from_screen() -> @tonyfettes/raylib/internal/raylib.Image
 
-pub fn load_image_from_texture(@tonyfettes/raylib/internal/raylib.Texture) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn load_image_from_texture(Texture) -> @tonyfettes/raylib/internal/raylib.Image
 
 pub fn load_image_palette(@tonyfettes/raylib/internal/raylib.Image, Int) -> Bytes
 
@@ -1530,15 +1552,17 @@ pub fn load_music_stream_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/i
 
 pub fn load_random_sequence(Int, Int, Int) -> Array[Int]
 
-pub fn load_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
+pub fn load_render_texture(Int, Int) -> RenderTexture
 
-pub fn load_render_texture_depth_tex(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
+#deprecated
+pub fn load_render_texture_depth_tex(Int, Int) -> RenderTexture
 
 pub fn load_shader(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
 
 pub fn load_shader_from_memory(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
 
-pub fn load_shadowmap_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
+#deprecated
+pub fn load_shadowmap_render_texture(Int, Int) -> RenderTexture
 
 pub fn load_sound(String) -> @tonyfettes/raylib/internal/raylib.Sound
 
@@ -1546,11 +1570,11 @@ pub fn load_sound_alias(@tonyfettes/raylib/internal/raylib.Sound) -> @tonyfettes
 
 pub fn load_sound_from_wave(@tonyfettes/raylib/internal/raylib.Wave) -> @tonyfettes/raylib/internal/raylib.Sound
 
-pub fn load_texture(String) -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn load_texture(String) -> Texture
 
-pub fn load_texture_cubemap(@tonyfettes/raylib/internal/raylib.Image, Int) -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn load_texture_cubemap(@tonyfettes/raylib/internal/raylib.Image, Int) -> Texture
 
-pub fn load_texture_from_image(@tonyfettes/raylib/internal/raylib.Image) -> @tonyfettes/raylib/internal/raylib.Texture
+pub fn load_texture_from_image(@tonyfettes/raylib/internal/raylib.Image) -> Texture
 
 pub fn load_utf8(Array[Int]) -> Bytes
 
@@ -1576,13 +1600,17 @@ pub fn maximize_window() -> Unit
 
 pub fn measure_text(String, Int) -> Int
 
-pub fn measure_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Float, Float) -> Vector2
+pub fn measure_text_ex(Font, String, Float, Float) -> Vector2
 
 pub fn mesh_setup_texcoords2(@tonyfettes/raylib/internal/raylib.Mesh, Bytes, Int) -> Unit
 
 pub fn minimize_window() -> Unit
 
 pub fn model_animations_count(@tonyfettes/raylib/internal/raylib.ModelAnimations) -> Int
+
+pub fn new_render_texture(UInt, Texture, Texture) -> RenderTexture
+
+pub fn new_texture(UInt, Int, Int, Int, Int) -> Texture
 
 pub fn open_url(String) -> Unit
 
@@ -1809,7 +1837,7 @@ pub fn set_config_flags(Int) -> Unit
 
 pub fn set_exit_key(Int) -> Unit
 
-pub fn set_font_texture_filter(@tonyfettes/raylib/internal/raylib.Font, Int) -> Unit
+pub fn set_font_texture_filter(Font, Int) -> Unit
 
 pub fn set_gamepad_mappings(String) -> Int
 
@@ -1825,11 +1853,11 @@ pub fn set_material_map_value(@tonyfettes/raylib/internal/raylib.Material, Int, 
 
 pub fn set_material_shader(@tonyfettes/raylib/internal/raylib.Material, @tonyfettes/raylib/internal/raylib.Shader) -> Unit
 
-pub fn set_material_texture(@tonyfettes/raylib/internal/raylib.Material, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn set_material_texture(@tonyfettes/raylib/internal/raylib.Material, Int, Texture) -> Unit
 
 pub fn set_model_material_shader(@tonyfettes/raylib/internal/raylib.Model, Int, @tonyfettes/raylib/internal/raylib.Shader) -> Unit
 
-pub fn set_model_material_texture(@tonyfettes/raylib/internal/raylib.Model, Int, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn set_model_material_texture(@tonyfettes/raylib/internal/raylib.Model, Int, Int, Texture) -> Unit
 
 pub fn set_model_mesh_material(@tonyfettes/raylib/internal/raylib.Model, Int, Int) -> Unit
 
@@ -1851,7 +1879,7 @@ pub fn set_music_volume(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
 
 pub fn set_random_seed(Int) -> Unit
 
-pub fn set_render_texture_filter(@tonyfettes/raylib/internal/raylib.RenderTexture, Int) -> Unit
+pub fn set_render_texture_filter(RenderTexture, Int) -> Unit
 
 pub fn set_shader_location(@tonyfettes/raylib/internal/raylib.Shader, Int, Int) -> Unit
 
@@ -1861,11 +1889,11 @@ pub fn set_shader_value(@tonyfettes/raylib/internal/raylib.Shader, Int, Bytes, I
 
 pub fn set_shader_value_matrix(@tonyfettes/raylib/internal/raylib.Shader, Int, Matrix) -> Unit
 
-pub fn set_shader_value_texture(@tonyfettes/raylib/internal/raylib.Shader, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn set_shader_value_texture(@tonyfettes/raylib/internal/raylib.Shader, Int, Texture) -> Unit
 
 pub fn set_shader_value_v(@tonyfettes/raylib/internal/raylib.Shader, Int, Bytes, Int, Int) -> Unit
 
-pub fn set_shapes_texture(@tonyfettes/raylib/internal/raylib.Texture, Rectangle) -> Unit
+pub fn set_shapes_texture(Texture, Rectangle) -> Unit
 
 pub fn set_sound_pan(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
 
@@ -1877,9 +1905,9 @@ pub fn set_target_fps(Int) -> Unit
 
 pub fn set_text_line_spacing(Int) -> Unit
 
-pub fn set_texture_filter(@tonyfettes/raylib/internal/raylib.Texture, Int) -> Unit
+pub fn set_texture_filter(Texture, Int) -> Unit
 
-pub fn set_texture_wrap(@tonyfettes/raylib/internal/raylib.Texture, Int) -> Unit
+pub fn set_texture_wrap(Texture, Int) -> Unit
 
 pub fn set_trace_log_level(Int) -> Unit
 
@@ -1921,7 +1949,8 @@ pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(String) -> Unit
 
-pub fn texture_from_id(UInt, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture
+#deprecated
+pub fn texture_from_id(UInt, Int, Int) -> Texture
 
 pub fn toggle_borderless_windowed() -> Unit
 
@@ -1937,7 +1966,7 @@ pub fn unload_directory_files(@tonyfettes/raylib/internal/raylib.FilePathList) -
 
 pub fn unload_dropped_files(@tonyfettes/raylib/internal/raylib.FilePathList) -> Unit
 
-pub fn unload_font(@tonyfettes/raylib/internal/raylib.Font) -> Unit
+pub fn unload_font(Font) -> Unit
 
 pub fn unload_font_data(@tonyfettes/raylib/internal/raylib.GlyphInfoArray) -> Unit
 
@@ -1955,19 +1984,21 @@ pub fn unload_model_animations(@tonyfettes/raylib/internal/raylib.ModelAnimation
 
 pub fn unload_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
-pub fn unload_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
+pub fn unload_render_texture(RenderTexture) -> Unit
 
-pub fn unload_render_texture_depth_tex(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
+#deprecated
+pub fn unload_render_texture_depth_tex(RenderTexture) -> Unit
 
 pub fn unload_shader(@tonyfettes/raylib/internal/raylib.Shader) -> Unit
 
-pub fn unload_shadowmap_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
+#deprecated
+pub fn unload_shadowmap_render_texture(RenderTexture) -> Unit
 
 pub fn unload_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub fn unload_sound_alias(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
-pub fn unload_texture(@tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn unload_texture(Texture) -> Unit
 
 pub fn unload_vr_stereo_config(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Unit
 
@@ -1989,11 +2020,11 @@ pub fn update_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
 pub fn update_sound(@tonyfettes/raylib/internal/raylib.Sound, Bytes, Int) -> Unit
 
-pub fn update_texture(@tonyfettes/raylib/internal/raylib.Texture, Bytes) -> Unit
+pub fn update_texture(Texture, Bytes) -> Unit
 
-pub fn update_texture_from_image_frame(@tonyfettes/raylib/internal/raylib.Texture, @tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
+pub fn update_texture_from_image_frame(Texture, @tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
 
-pub fn update_texture_rec(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Bytes) -> Unit
+pub fn update_texture_rec(Texture, Rectangle, Bytes) -> Unit
 
 pub fn upload_mesh(@tonyfettes/raylib/internal/raylib.Mesh, Int) -> Unit
 
@@ -2083,6 +2114,8 @@ pub fn Color::new(Int, Int, Int, Int) -> Self
 pub fn Color::to_bytes(Self) -> Bytes
 pub impl Eq for Color
 pub impl Show for Color
+
+type Font
 
 pub struct GlyphInfo {
   value : Int
@@ -2184,6 +2217,16 @@ pub fn Rectangle::new(Float, Float, Float, Float) -> Self
 pub fn Rectangle::to_bytes(Self) -> Bytes
 pub impl Eq for Rectangle
 pub impl Show for Rectangle
+
+pub struct RenderTexture {
+  memory : Bytes
+  offset : Int
+}
+
+pub struct Texture {
+  memory : Bytes
+  offset : Int
+}
 
 pub struct Vector2 {
   x : Float
@@ -2345,8 +2388,6 @@ pub using @tonyfettes/raylib/internal/raylib {type AutomationEventList}
 
 pub using @tonyfettes/raylib/internal/raylib {type FilePathList}
 
-pub using @tonyfettes/raylib/internal/raylib {type Font}
-
 pub using @tonyfettes/raylib/internal/raylib {type GlyphInfoArray}
 
 pub using @tonyfettes/raylib/internal/raylib {type Image}
@@ -2363,13 +2404,9 @@ pub using @tonyfettes/raylib/internal/raylib {type ModelAnimations}
 
 pub using @tonyfettes/raylib/internal/raylib {type Music}
 
-pub using @tonyfettes/raylib/internal/raylib {type RenderTexture}
-
 pub using @tonyfettes/raylib/internal/raylib {type Shader}
 
 pub using @tonyfettes/raylib/internal/raylib {type Sound}
-
-pub using @tonyfettes/raylib/internal/raylib {type Texture}
 
 pub using @tonyfettes/raylib/internal/raylib {type VrStereoConfig}
 
