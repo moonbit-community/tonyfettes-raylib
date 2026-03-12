@@ -1,7 +1,7 @@
 // Re-export opaque types for drawing
 
 ///|
-pub using @ffi {type Shader, type RenderTexture, type VrStereoConfig}
+pub using @ffi {type Shader, type VrStereoConfig}
 
 // Drawing lifecycle re-exports
 
@@ -13,8 +13,12 @@ pub using @ffi {
   end_scissor_mode,
   begin_blend_mode,
   end_blend_mode,
-  begin_texture_mode,
   end_texture_mode,
+}
+
+///|
+pub fn begin_texture_mode(render_texture : RenderTexture) -> Unit {
+  @ffi.begin_texture_mode(render_texture.memory, render_texture.offset)
 }
 
 // Shader re-exports (passthrough: primitives/opaque types only)
@@ -27,8 +31,21 @@ pub using @ffi {
   end_shader_mode,
   set_shader_value,
   set_shader_value_v,
-  set_shader_value_texture,
   set_shader_locs,
+}
+
+///|
+pub fn set_shader_value_texture(
+  shader : Shader,
+  loc_index : Int,
+  texture : Texture,
+) -> Unit {
+  @ffi.set_shader_value_texture(
+    shader,
+    loc_index,
+    texture.memory,
+    texture.offset,
+  )
 }
 
 // Drawing wrapper

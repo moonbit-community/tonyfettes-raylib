@@ -3,56 +3,43 @@
 // ============================================================================
 
 ///|
-pub extern "c" fn get_font_default() -> Font = "moonbit_raylib_get_font_default"
+pub extern "c" fn get_font_default() -> Bytes = "moonbit_raylib_get_font_default"
 
 ///|
 #borrow(file_name)
-pub extern "c" fn load_font(file_name : Bytes) -> Font = "moonbit_raylib_load_font"
-
-///|
-#borrow(file_name)
-pub extern "c" fn load_font_ex(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
+pub extern "c" fn load_font(file_name : Bytes) -> Bytes = "moonbit_raylib_load_font"
 
 ///|
 #borrow(file_name, codepoints)
-pub extern "c" fn load_font_ex_codepoints(
+pub extern "c" fn load_font_ex(
   file_name : Bytes,
   font_size : Int,
-  codepoints : Bytes,
-  codepoint_count : Int,
-) -> Font = "moonbit_raylib_load_font_ex_codepoints"
+  codepoints : FixedArray[Int]?,
+  codepoints_count : Int,
+) -> Bytes = "moonbit_raylib_load_font_ex"
 
 ///|
 #borrow(font)
-pub extern "c" fn is_font_valid(font : Font) -> Bool = "moonbit_raylib_is_font_valid"
+pub extern "c" fn is_font_valid(font : Bytes) -> Bool = "moonbit_raylib_is_font_valid"
 
 ///|
 #borrow(font)
-pub extern "c" fn unload_font(font : Font) = "moonbit_raylib_unload_font"
+pub extern "c" fn unload_font(font : Bytes) = "moonbit_raylib_unload_font"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_base_size(font : Font) -> Int = "moonbit_raylib_get_font_base_size"
+pub extern "c" fn get_font_base_size(font : Bytes) -> Int = "moonbit_raylib_get_font_base_size"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_glyph_count(font : Font) -> Int = "moonbit_raylib_get_font_glyph_count"
+pub extern "c" fn get_font_glyph_count(font : Bytes) -> Int = "moonbit_raylib_get_font_glyph_count"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_get_font_glyph_padding"
+pub extern "c" fn get_font_glyph_padding(font : Bytes) -> Int = "moonbit_raylib_get_font_glyph_padding"
 
 ///|
-#borrow(font)
-pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
-
-///|
-#borrow(font)
-pub extern "c" fn gen_font_texture_mipmaps(font : Font) = "moonbit_raylib_gen_font_texture_mipmaps"
-
-///|
-#borrow(font)
-pub extern "c" fn set_font_texture_filter(font : Font, filter : Int) = "moonbit_raylib_set_font_texture_filter"
+pub extern "c" fn get_font_texture() -> Int = "moonbit_raylib_get_font_texture"
 
 // ============================================================================
 // Text drawing
@@ -74,7 +61,7 @@ pub extern "c" fn draw_text(
 ///|
 #borrow(font, text, position, tint)
 pub extern "c" fn draw_text_ex(
-  font : Font,
+  font : Bytes,
   text : Bytes,
   position : Bytes,
   font_size : Float,
@@ -85,7 +72,7 @@ pub extern "c" fn draw_text_ex(
 ///|
 #borrow(font, text, position, origin, tint)
 pub extern "c" fn draw_text_pro(
-  font : Font,
+  font : Bytes,
   text : Bytes,
   position : Bytes,
   origin : Bytes,
@@ -106,7 +93,7 @@ pub extern "c" fn measure_text(text : Bytes, font_size : Int) -> Int = "moonbit_
 ///|
 #borrow(font, text)
 pub extern "c" fn measure_text_ex(
-  font : Font,
+  font : Bytes,
   text : Bytes,
   font_size : Float,
   spacing : Float,
@@ -122,7 +109,7 @@ pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 ///|
 #borrow(font, position, tint)
 pub extern "c" fn draw_text_codepoint(
-  font : Font,
+  font : Bytes,
   codepoint : Int,
   position : Bytes,
   font_size : Float,
@@ -131,11 +118,11 @@ pub extern "c" fn draw_text_codepoint(
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_index(font : Font, codepoint : Int) -> Int = "moonbit_raylib_get_glyph_index"
+pub extern "c" fn get_glyph_index(font : Bytes, codepoint : Int) -> Int = "moonbit_raylib_get_glyph_index"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_atlas_rec"
+pub extern "c" fn get_glyph_atlas_rec(font : Bytes, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_atlas_rec"
 
 // ============================================================================
 // Font loading extras
@@ -147,7 +134,7 @@ pub extern "c" fn load_font_from_image(
   image : Image,
   key : Bytes,
   first_char : Int,
-) -> Font = "moonbit_raylib_load_font_from_image"
+) -> Bytes = "moonbit_raylib_load_font_from_image"
 
 ///|
 #borrow(file_type, file_data)
@@ -156,7 +143,7 @@ pub extern "c" fn load_font_from_memory(
   file_data : Bytes,
   data_size : Int,
   font_size : Int,
-) -> Font = "moonbit_raylib_load_font_from_memory"
+) -> Bytes = "moonbit_raylib_load_font_from_memory"
 
 ///|
 #borrow(pixel_data, recs_data, glyphs_data)
@@ -171,11 +158,11 @@ pub extern "c" fn load_font_from_atlas(
   font_type : Int,
   recs_data : Bytes,
   glyphs_data : Bytes,
-) -> Font = "moonbit_raylib_load_font_from_atlas"
+) -> Bytes = "moonbit_raylib_load_font_from_atlas"
 
 ///|
 #borrow(font, file_name)
-pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = "moonbit_raylib_export_font_as_code"
+pub extern "c" fn export_font_as_code(font : Bytes, file_name : Bytes) -> Bool = "moonbit_raylib_export_font_as_code"
 
 // ============================================================================
 // Text drawing extras
@@ -184,7 +171,7 @@ pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = 
 ///|
 #borrow(font, codepoints, position, tint)
 pub extern "c" fn draw_text_codepoints(
-  font : Font,
+  font : Bytes,
   codepoints : Bytes,
   codepoint_count : Int,
   position : Bytes,
@@ -230,7 +217,7 @@ pub extern "c" fn load_utf8(codepoints : Bytes, length : Int) -> Bytes = "moonbi
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_info(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_info"
+pub extern "c" fn get_glyph_info(font : Bytes, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_info"
 
 ///|
 #borrow(file_data)
@@ -274,4 +261,4 @@ pub extern "c" fn build_font_from_data(
   font_type : Int,
   padding : Int,
   pack_method : Int,
-) -> Font = "moonbit_raylib_build_font_from_data"
+) -> Bytes = "moonbit_raylib_build_font_from_data"

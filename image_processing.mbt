@@ -21,7 +21,6 @@ pub using @ffi {
   image_color_contrast,
   image_color_brightness,
   image_kernel_convolution,
-  image_frame_count,
   image_width,
   image_height,
   load_image_colors,
@@ -50,8 +49,10 @@ pub fn load_image_raw(
 }
 
 ///|
-pub fn load_image_anim(file_name : String) -> Image {
-  @ffi.load_image_anim(@utf8.encode(file_name))
+pub fn load_image_anim(file_name : String) -> (Image, Int) {
+  let frames = Ref::new(0)
+  let image = @ffi.load_image_anim(@utf8.encode(file_name), frames)
+  (image, frames.val)
 }
 
 ///|
@@ -59,12 +60,15 @@ pub fn load_image_anim_from_memory(
   file_type : String,
   file_data : Bytes,
   data_size : Int,
-) -> Image {
-  @ffi.load_image_anim_from_memory(
+) -> (Image, Int) {
+  let frames = Ref::new(0)
+  let image = @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
     file_data,
     data_size,
+    frames,
   )
+  (image, frames.val)
 }
 
 // ============================================================================
@@ -141,7 +145,7 @@ pub fn image_text_ex(
   tint : Color,
 ) -> Image {
   @ffi.image_text_ex(
-    font,
+    font.0,
     @utf8.encode(text),
     font_size,
     spacing,

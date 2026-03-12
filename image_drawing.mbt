@@ -327,7 +327,7 @@ pub fn image_draw_text_ex(
 ) -> Unit {
   @ffi.image_draw_text_ex(
     dst,
-    font,
+    font.0,
     @utf8.encode(text),
     position.to_bytes(),
     font_size,

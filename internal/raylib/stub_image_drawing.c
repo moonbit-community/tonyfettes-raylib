@@ -5,9 +5,9 @@
 // ============================================================================
 
 void
-moonbit_raylib_image_clear_background(ImageWrapper *wrapper, moonbit_bytes_t color) {
+moonbit_raylib_image_clear_background(Image *img, moonbit_bytes_t color) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageClearBackground(&wrapper->image, c);
+  ImageClearBackground(img, c);
 }
 
 // ============================================================================
@@ -15,16 +15,16 @@ moonbit_raylib_image_clear_background(ImageWrapper *wrapper, moonbit_bytes_t col
 // ============================================================================
 
 void
-moonbit_raylib_image_draw_pixel(ImageWrapper *wrapper, int posX, int posY, moonbit_bytes_t color) {
+moonbit_raylib_image_draw_pixel(Image *img, int posX, int posY, moonbit_bytes_t color) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawPixel(&wrapper->image, posX, posY, c);
+  ImageDrawPixel(img, posX, posY, c);
 }
 
 void
-moonbit_raylib_image_draw_pixel_v(ImageWrapper *wrapper, moonbit_bytes_t position, moonbit_bytes_t color) {
+moonbit_raylib_image_draw_pixel_v(Image *img, moonbit_bytes_t position, moonbit_bytes_t color) {
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawPixelV(&wrapper->image, pos, c);
+  ImageDrawPixelV(img, pos, c);
 }
 
 // ============================================================================
@@ -33,7 +33,7 @@ moonbit_raylib_image_draw_pixel_v(ImageWrapper *wrapper, moonbit_bytes_t positio
 
 void
 moonbit_raylib_image_draw_line(
-  ImageWrapper *wrapper,
+  Image *img,
   int startPosX,
   int startPosY,
   int endPosX,
@@ -41,12 +41,12 @@ moonbit_raylib_image_draw_line(
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawLine(&wrapper->image, startPosX, startPosY, endPosX, endPosY, c);
+  ImageDrawLine(img, startPosX, startPosY, endPosX, endPosY, c);
 }
 
 void
 moonbit_raylib_image_draw_line_v(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t start,
   moonbit_bytes_t end,
   moonbit_bytes_t color
@@ -54,12 +54,12 @@ moonbit_raylib_image_draw_line_v(
   Vector2 s; memcpy(&s, start, sizeof(Vector2));
   Vector2 e; memcpy(&e, end, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawLineV(&wrapper->image, s, e, c);
+  ImageDrawLineV(img, s, e, c);
 }
 
 void
 moonbit_raylib_image_draw_line_ex(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t start,
   moonbit_bytes_t end,
   int thick,
@@ -68,7 +68,7 @@ moonbit_raylib_image_draw_line_ex(
   Vector2 s; memcpy(&s, start, sizeof(Vector2));
   Vector2 e; memcpy(&e, end, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawLineEx(&wrapper->image, s, e, thick, c);
+  ImageDrawLineEx(img, s, e, thick, c);
 }
 
 // ============================================================================
@@ -77,50 +77,50 @@ moonbit_raylib_image_draw_line_ex(
 
 void
 moonbit_raylib_image_draw_circle(
-  ImageWrapper *wrapper,
+  Image *img,
   int centerX,
   int centerY,
   int radius,
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawCircle(&wrapper->image, centerX, centerY, radius, c);
+  ImageDrawCircle(img, centerX, centerY, radius, c);
 }
 
 void
 moonbit_raylib_image_draw_circle_v(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t center,
   int radius,
   moonbit_bytes_t color
 ) {
   Vector2 ctr; memcpy(&ctr, center, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawCircleV(&wrapper->image, ctr, radius, c);
+  ImageDrawCircleV(img, ctr, radius, c);
 }
 
 void
 moonbit_raylib_image_draw_circle_lines(
-  ImageWrapper *wrapper,
+  Image *img,
   int centerX,
   int centerY,
   int radius,
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawCircleLines(&wrapper->image, centerX, centerY, radius, c);
+  ImageDrawCircleLines(img, centerX, centerY, radius, c);
 }
 
 void
 moonbit_raylib_image_draw_circle_lines_v(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t center,
   int radius,
   moonbit_bytes_t color
 ) {
   Vector2 ctr; memcpy(&ctr, center, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawCircleLinesV(&wrapper->image, ctr, radius, c);
+  ImageDrawCircleLinesV(img, ctr, radius, c);
 }
 
 // ============================================================================
@@ -129,7 +129,7 @@ moonbit_raylib_image_draw_circle_lines_v(
 
 void
 moonbit_raylib_image_draw_rectangle(
-  ImageWrapper *wrapper,
+  Image *img,
   int posX,
   int posY,
   int width,
@@ -137,12 +137,12 @@ moonbit_raylib_image_draw_rectangle(
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawRectangle(&wrapper->image, posX, posY, width, height, c);
+  ImageDrawRectangle(img, posX, posY, width, height, c);
 }
 
 void
 moonbit_raylib_image_draw_rectangle_v(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t position,
   moonbit_bytes_t size,
   moonbit_bytes_t color
@@ -150,30 +150,30 @@ moonbit_raylib_image_draw_rectangle_v(
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Vector2 sz; memcpy(&sz, size, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawRectangleV(&wrapper->image, pos, sz, c);
+  ImageDrawRectangleV(img, pos, sz, c);
 }
 
 void
 moonbit_raylib_image_draw_rectangle_rec(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t rec,
   moonbit_bytes_t color
 ) {
   Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawRectangleRec(&wrapper->image, r, c);
+  ImageDrawRectangleRec(img, r, c);
 }
 
 void
 moonbit_raylib_image_draw_rectangle_lines(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t rec,
   int thick,
   moonbit_bytes_t color
 ) {
   Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawRectangleLines(&wrapper->image, r, thick, c);
+  ImageDrawRectangleLines(img, r, thick, c);
 }
 
 // ============================================================================
@@ -182,7 +182,7 @@ moonbit_raylib_image_draw_rectangle_lines(
 
 void
 moonbit_raylib_image_draw_triangle(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t v1,
   moonbit_bytes_t v2,
   moonbit_bytes_t v3,
@@ -192,12 +192,12 @@ moonbit_raylib_image_draw_triangle(
   Vector2 b; memcpy(&b, v2, sizeof(Vector2));
   Vector2 cv; memcpy(&cv, v3, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawTriangle(&wrapper->image, a, b, cv, c);
+  ImageDrawTriangle(img, a, b, cv, c);
 }
 
 void
 moonbit_raylib_image_draw_triangle_ex(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t v1,
   moonbit_bytes_t v2,
   moonbit_bytes_t v3,
@@ -211,12 +211,12 @@ moonbit_raylib_image_draw_triangle_ex(
   Color col1; memcpy(&col1, c1, sizeof(Color));
   Color col2; memcpy(&col2, c2, sizeof(Color));
   Color col3; memcpy(&col3, c3, sizeof(Color));
-  ImageDrawTriangleEx(&wrapper->image, a, b, cv, col1, col2, col3);
+  ImageDrawTriangleEx(img, a, b, cv, col1, col2, col3);
 }
 
 void
 moonbit_raylib_image_draw_triangle_lines(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t v1,
   moonbit_bytes_t v2,
   moonbit_bytes_t v3,
@@ -226,29 +226,29 @@ moonbit_raylib_image_draw_triangle_lines(
   Vector2 b; memcpy(&b, v2, sizeof(Vector2));
   Vector2 cv; memcpy(&cv, v3, sizeof(Vector2));
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawTriangleLines(&wrapper->image, a, b, cv, c);
+  ImageDrawTriangleLines(img, a, b, cv, c);
 }
 
 void
 moonbit_raylib_image_draw_triangle_fan(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t points,
   int pointCount,
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawTriangleFan(&wrapper->image, (Vector2 *)points, pointCount, c);
+  ImageDrawTriangleFan(img, (Vector2 *)points, pointCount, c);
 }
 
 void
 moonbit_raylib_image_draw_triangle_strip(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t points,
   int pointCount,
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawTriangleStrip(&wrapper->image, (Vector2 *)points, pointCount, c);
+  ImageDrawTriangleStrip(img, (Vector2 *)points, pointCount, c);
 }
 
 // ============================================================================
@@ -257,8 +257,8 @@ moonbit_raylib_image_draw_triangle_strip(
 
 void
 moonbit_raylib_image_draw(
-  ImageWrapper *dst,
-  ImageWrapper *src,
+  Image *dst,
+  Image *src,
   moonbit_bytes_t srcRec,
   moonbit_bytes_t dstRec,
   moonbit_bytes_t tint
@@ -266,7 +266,7 @@ moonbit_raylib_image_draw(
   Rectangle sr; memcpy(&sr, srcRec, sizeof(Rectangle));
   Rectangle dr; memcpy(&dr, dstRec, sizeof(Rectangle));
   Color c; memcpy(&c, tint, sizeof(Color));
-  ImageDraw(&dst->image, src->image, sr, dr, c);
+  ImageDraw(dst, *src, sr, dr, c);
 }
 
 // ============================================================================
@@ -275,7 +275,7 @@ moonbit_raylib_image_draw(
 
 void
 moonbit_raylib_image_draw_text(
-  ImageWrapper *wrapper,
+  Image *img,
   moonbit_bytes_t text,
   int posX,
   int posY,
@@ -283,13 +283,13 @@ moonbit_raylib_image_draw_text(
   moonbit_bytes_t color
 ) {
   Color c; memcpy(&c, color, sizeof(Color));
-  ImageDrawText(&wrapper->image, (const char *)text, posX, posY, fontSize, c);
+  ImageDrawText(img, (const char *)text, posX, posY, fontSize, c);
 }
 
 void
 moonbit_raylib_image_draw_text_ex(
-  ImageWrapper *wrapper,
-  FontWrapper *font,
+  Image *img,
+  Font *f,
   moonbit_bytes_t text,
   moonbit_bytes_t position,
   float fontSize,
@@ -298,5 +298,5 @@ moonbit_raylib_image_draw_text_ex(
 ) {
   Vector2 pos; memcpy(&pos, position, sizeof(Vector2));
   Color c; memcpy(&c, tint, sizeof(Color));
-  ImageDrawTextEx(&wrapper->image, font->font, (const char *)text, pos, fontSize, spacing, c);
+  ImageDrawTextEx(img, *f, (const char *)text, pos, fontSize, spacing, c);
 }
