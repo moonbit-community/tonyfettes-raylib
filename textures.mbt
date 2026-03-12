@@ -1,44 +1,190 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
+pub struct Texture {
+  memory : Bytes
+  offset : Int
+}
+
+///|
+pub struct RenderTexture {
+  memory : Bytes
+  offset : Int
+}
+
+///|
 pub using @ffi {
   type Image,
-  type Texture,
   unload_image,
   is_image_valid,
   image_copy,
   image_from_channel,
-  load_image_from_texture,
   load_image_from_screen,
-  load_texture_from_image,
-  is_texture_valid,
-  unload_texture,
-  load_render_texture,
-  load_render_texture_depth_tex,
-  is_render_texture_valid,
-  unload_render_texture,
   gen_image_white_noise,
   gen_image_perlin_noise,
   gen_image_cellular,
-  set_texture_filter,
-  set_texture_wrap,
-  load_texture_cubemap,
-  update_texture,
-  update_texture_from_image_frame,
-  gen_texture_mipmaps,
-  get_texture_id,
-  get_shapes_texture,
-  get_render_texture_width,
-  get_render_texture_height,
-  get_texture_width,
-  get_texture_height,
-  get_render_texture_texture,
-  unload_render_texture_depth_tex,
-  get_render_texture_fbo_id,
-  get_render_texture_depth_id,
-  load_shadowmap_render_texture,
-  unload_shadowmap_render_texture,
-  texture_from_id,
+}
+
+///|
+pub fn load_texture_from_image(image : Image) -> Texture {
+  Texture::{ memory: @ffi.load_texture_from_image(image), offset: 0 }
+}
+
+///|
+pub fn is_texture_valid(texture : Texture) -> Bool {
+  @ffi.is_texture_valid(texture.memory, texture.offset)
+}
+
+///|
+pub fn unload_texture(texture : Texture) -> Unit {
+  @ffi.unload_texture(texture.memory, texture.offset)
+}
+
+///|
+pub fn load_render_texture(width : Int, height : Int) -> RenderTexture {
+  RenderTexture::{ memory: @ffi.load_render_texture(width, height), offset: 0 }
+}
+
+///|
+pub fn is_render_texture_valid(render_texture : RenderTexture) -> Bool {
+  @ffi.is_render_texture_valid(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn unload_render_texture(render_texture : RenderTexture) -> Unit {
+  @ffi.unload_render_texture(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn get_render_texture_texture(render_texture : RenderTexture) -> Texture {
+  Texture::{
+    memory: render_texture.memory,
+    offset: render_texture.offset + @ffi.get_render_texture_texture(),
+  }
+}
+
+///|
+pub fn get_render_texture_depth(render_texture : RenderTexture) -> Texture {
+  Texture::{
+    memory: render_texture.memory,
+    offset: render_texture.offset + @ffi.get_render_texture_depth(),
+  }
+}
+
+///|
+pub fn load_image_from_texture(texture : Texture) -> Image {
+  @ffi.load_image_from_texture(texture.memory, texture.offset)
+}
+
+///|
+pub fn set_texture_filter(texture : Texture, filter : Int) -> Unit {
+  @ffi.set_texture_filter(texture.memory, texture.offset, filter)
+}
+
+///|
+pub fn set_texture_wrap(texture : Texture, wrap : Int) -> Unit {
+  @ffi.set_texture_wrap(texture.memory, texture.offset, wrap)
+}
+
+///|
+pub fn load_texture_cubemap(image : Image, layout : Int) -> Texture {
+  Texture::{ memory: @ffi.load_texture_cubemap(image, layout), offset: 0 }
+}
+
+///|
+pub fn update_texture(texture : Texture, pixels : Bytes) -> Unit {
+  @ffi.update_texture(texture.memory, texture.offset, pixels)
+}
+
+///|
+pub fn update_texture_from_image_frame(
+  texture : Texture,
+  image : Image,
+  frame : Int,
+) -> Unit {
+  @ffi.update_texture_from_image_frame(
+    texture.memory,
+    texture.offset,
+    image,
+    frame,
+  )
+}
+
+///|
+pub fn gen_texture_mipmaps(texture : Texture) -> Unit {
+  @ffi.gen_texture_mipmaps(texture.memory, texture.offset)
+}
+
+///|
+pub fn get_texture_id(texture : Texture) -> UInt {
+  @ffi.get_texture_id(texture.memory, texture.offset)
+}
+
+///|
+pub fn get_shapes_texture() -> Texture {
+  Texture::{ memory: @ffi.get_shapes_texture(), offset: 0 }
+}
+
+///|
+pub fn get_render_texture_width(render_texture : RenderTexture) -> Int {
+  @ffi.get_render_texture_width(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn get_render_texture_height(render_texture : RenderTexture) -> Int {
+  @ffi.get_render_texture_height(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn get_texture_width(texture : Texture) -> Int {
+  @ffi.get_texture_width(texture.memory, texture.offset)
+}
+
+///|
+pub fn get_texture_height(texture : Texture) -> Int {
+  @ffi.get_texture_height(texture.memory, texture.offset)
+}
+
+///|
+pub fn get_render_texture_id(render_texture : RenderTexture) -> UInt {
+  @ffi.get_render_texture_id(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn get_render_texture_depth_id(render_texture : RenderTexture) -> UInt {
+  @ffi.get_render_texture_depth_id(render_texture.memory, render_texture.offset)
+}
+
+///|
+pub fn new_texture(
+  id : UInt,
+  width : Int,
+  height : Int,
+  mipmaps : Int,
+  format : Int,
+) -> Texture {
+  Texture::{
+    memory: @ffi.new_texture(id, width, height, mipmaps, format),
+    offset: 0,
+  }
+}
+
+///|
+pub fn new_render_texture(
+  id : UInt,
+  texture : Texture,
+  depth : Texture,
+) -> RenderTexture {
+  RenderTexture::{
+    memory: @ffi.new_render_texture(
+      id,
+      texture.memory,
+      texture.offset,
+      depth.memory,
+      depth.offset,
+    ),
+    offset: 0,
+  }
 }
 
 // ============================================================================
@@ -163,7 +309,7 @@ pub fn image_from_image(image : Image, rec : Rectangle) -> Image {
 
 ///|
 pub fn load_texture(file_name : String) -> Texture {
-  @ffi.load_texture(@utf8.encode(file_name))
+  Texture::{ memory: @ffi.load_texture(@utf8.encode(file_name)), offset: 0 }
 }
 
 // ============================================================================
@@ -178,7 +324,8 @@ pub fn draw_render_texture_rec(
   tint : Color,
 ) -> Unit {
   @ffi.draw_render_texture_rec(
-    target,
+    target.memory,
+    target.offset,
     source.to_bytes(),
     position.to_bytes(),
     tint.to_bytes(),
@@ -194,7 +341,8 @@ pub fn draw_render_texture_ex(
   tint : Color,
 ) -> Unit {
   @ffi.draw_render_texture_ex(
-    target,
+    target.memory,
+    target.offset,
     position.to_bytes(),
     rotation,
     scale,
@@ -212,7 +360,8 @@ pub fn draw_render_texture_pro(
   tint : Color,
 ) -> Unit {
   @ffi.draw_render_texture_pro(
-    target,
+    target.memory,
+    target.offset,
     source.to_bytes(),
     dest.to_bytes(),
     origin.to_bytes(),
@@ -223,7 +372,7 @@ pub fn draw_render_texture_pro(
 
 ///|
 pub fn set_render_texture_filter(target : RenderTexture, filter : Int) -> Unit {
-  @ffi.set_render_texture_filter(target, filter)
+  @ffi.set_render_texture_filter(target.memory, target.offset, filter)
 }
 
 // ============================================================================
@@ -237,7 +386,13 @@ pub fn draw_texture(
   pos_y : Int,
   tint : Color,
 ) -> Unit {
-  @ffi.draw_texture(texture, pos_x, pos_y, tint.to_bytes())
+  @ffi.draw_texture(
+    texture.memory,
+    texture.offset,
+    pos_x,
+    pos_y,
+    tint.to_bytes(),
+  )
 }
 
 ///|
@@ -246,7 +401,12 @@ pub fn draw_texture_v(
   position : Vector2,
   tint : Color,
 ) -> Unit {
-  @ffi.draw_texture_v(texture, position.to_bytes(), tint.to_bytes())
+  @ffi.draw_texture_v(
+    texture.memory,
+    texture.offset,
+    position.to_bytes(),
+    tint.to_bytes(),
+  )
 }
 
 ///|
@@ -258,7 +418,8 @@ pub fn draw_texture_ex(
   tint : Color,
 ) -> Unit {
   @ffi.draw_texture_ex(
-    texture,
+    texture.memory,
+    texture.offset,
     position.to_bytes(),
     rotation,
     scale,
@@ -274,7 +435,8 @@ pub fn draw_texture_rec(
   tint : Color,
 ) -> Unit {
   @ffi.draw_texture_rec(
-    texture,
+    texture.memory,
+    texture.offset,
     source.to_bytes(),
     position.to_bytes(),
     tint.to_bytes(),
@@ -291,7 +453,8 @@ pub fn draw_texture_pro(
   tint : Color,
 ) -> Unit {
   @ffi.draw_texture_pro(
-    texture,
+    texture.memory,
+    texture.offset,
     source.to_bytes(),
     dest.to_bytes(),
     origin.to_bytes(),
@@ -310,7 +473,8 @@ pub fn draw_texture_npatch(
   tint : Color,
 ) -> Unit {
   @ffi.draw_texture_npatch(
-    texture,
+    texture.memory,
+    texture.offset,
     npatch_info.to_bytes(),
     dest.to_bytes(),
     origin.to_bytes(),
@@ -401,12 +565,17 @@ pub fn update_texture_rec(
   rec : Rectangle,
   pixels : Bytes,
 ) -> Unit {
-  @ffi.update_texture_rec(texture, rec.to_bytes(), pixels)
+  @ffi.update_texture_rec(
+    texture.memory,
+    texture.offset,
+    rec.to_bytes(),
+    pixels,
+  )
 }
 
 ///|
 pub fn set_shapes_texture(texture : Texture, source : Rectangle) -> Unit {
-  @ffi.set_shapes_texture(texture, source.to_bytes())
+  @ffi.set_shapes_texture(texture.memory, texture.offset, source.to_bytes())
 }
 
 ///|
@@ -432,3 +601,66 @@ pub const CubemapLayoutCrossThreeByFour : Int = 3
 
 ///|
 pub const CubemapLayoutCrossFourByThree : Int = 4
+
+///|
+#deprecated("Use new_texture instead")
+pub fn texture_from_id(id : UInt, width : Int, height : Int) -> Texture {
+  Texture::{
+    memory: @ffi.new_texture(
+      id,
+      width,
+      height,
+      1,
+      PixelformatUncompressedR8g8b8a8,
+    ),
+    offset: 0,
+  }
+}
+
+///|
+#deprecated("Use @rl.* API to load the texture manually")
+pub fn load_render_texture_depth_tex(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  RenderTexture::{
+    memory: @ffi.load_render_texture_depth_tex(width, height),
+    offset: 0,
+  }
+}
+
+///|
+#deprecated("Use @rl.* API to load the render texture manually")
+pub fn load_shadowmap_render_texture(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  RenderTexture::{
+    memory: @ffi.load_shadowmap_render_texture(width, height),
+    offset: 0,
+  }
+}
+
+///|
+#deprecated("Use @rl.* API to unload the render texture manually")
+pub fn unload_shadowmap_render_texture(target : RenderTexture) -> Unit {
+  @ffi.rl_unload_framebuffer(get_render_texture_id(target))
+}
+
+///|
+#deprecated("Use get_render_texture_id instead")
+pub fn get_render_texture_fbo_id(render_texture : RenderTexture) -> UInt {
+  get_render_texture_id(render_texture)
+}
+
+///|
+#deprecated("Use @rl.* API to unload the render texture manually")
+pub fn unload_render_texture_depth_tex(render_texture : RenderTexture) -> Unit {
+  @ffi.rl_unload_texture(
+    get_texture_id(get_render_texture_texture(render_texture)),
+  )
+  @ffi.rl_unload_texture(
+    get_texture_id(get_render_texture_depth(render_texture)),
+  )
+  @ffi.rl_unload_framebuffer(get_render_texture_id(render_texture))
+}

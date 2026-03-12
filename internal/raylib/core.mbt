@@ -236,8 +236,11 @@ pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
 pub extern "c" fn end_blend_mode() = "EndBlendMode"
 
 ///|
-#borrow(target)
-pub extern "c" fn begin_texture_mode(target : RenderTexture) = "moonbit_raylib_begin_texture_mode"
+#borrow(render_texture_memory)
+pub extern "c" fn begin_texture_mode(
+  render_texture_memory : Bytes,
+  render_texture_offset : Int,
+) = "moonbit_raylib_begin_texture_mode"
 
 ///|
 pub extern "c" fn end_texture_mode() = "EndTextureMode"
@@ -550,11 +553,12 @@ pub extern "c" fn set_shader_value_matrix(
 ) = "moonbit_raylib_set_shader_value_matrix"
 
 ///|
-#borrow(shader, texture)
+#borrow(shader, texture_memory)
 pub extern "c" fn set_shader_value_texture(
   shader : Shader,
   loc_index : Int,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
 ) = "moonbit_raylib_set_shader_value_texture"
 
 ///|

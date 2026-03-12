@@ -1,28 +1,6 @@
 #include "stub_internal.h"
 
 // ============================================================================
-// Resource destructor: FilePathList
-// ============================================================================
-
-typedef struct {
-  FilePathList list;
-  int freed;
-  int is_dropped; // 1 = from LoadDroppedFiles, 0 = from LoadDirectoryFiles*
-} FilePathListWrapper;
-
-static void
-file_path_list_destructor(void *ptr) {
-  FilePathListWrapper *w = (FilePathListWrapper *)ptr;
-  if (!w->freed) {
-    if (w->is_dropped)
-      UnloadDroppedFiles(w->list);
-    else
-      UnloadDirectoryFiles(w->list);
-    w->freed = 1;
-  }
-}
-
-// ============================================================================
 // File system: Queries
 // ============================================================================
 
@@ -186,54 +164,42 @@ moonbit_raylib_is_file_dropped(void) {
   return (int)IsFileDropped();
 }
 
-FilePathListWrapper *
+MoonBitFilePathList *
 moonbit_raylib_load_dropped_files(void) {
-  FilePathListWrapper *w = (FilePathListWrapper *)moonbit_make_external_object(
-    file_path_list_destructor, sizeof(FilePathListWrapper));
+  MoonBitFilePathList *w = (MoonBitFilePathList *)moonbit_make_bytes(sizeof(MoonBitFilePathList), 0);
   w->list = LoadDroppedFiles();
-  w->freed = 0;
   w->is_dropped = 1;
   return w;
 }
 
 void
-moonbit_raylib_unload_dropped_files(FilePathListWrapper *w) {
-  if (w && !w->freed) {
-    UnloadDroppedFiles(w->list);
-    w->freed = 1;
-  }
+moonbit_raylib_unload_dropped_files(MoonBitFilePathList *w) {
+  UnloadDroppedFiles(w->list);
 }
 
 // ============================================================================
 // File system: Directory listing
 // ============================================================================
 
-FilePathListWrapper *
+MoonBitFilePathList *
 moonbit_raylib_load_directory_files(moonbit_bytes_t dirPath) {
-  FilePathListWrapper *w = (FilePathListWrapper *)moonbit_make_external_object(
-    file_path_list_destructor, sizeof(FilePathListWrapper));
+  MoonBitFilePathList *w = (MoonBitFilePathList *)moonbit_make_bytes(sizeof(MoonBitFilePathList), 0);
   w->list = LoadDirectoryFiles((const char *)dirPath);
-  w->freed = 0;
   w->is_dropped = 0;
   return w;
 }
 
-FilePathListWrapper *
+MoonBitFilePathList *
 moonbit_raylib_load_directory_files_ex(moonbit_bytes_t basePath, moonbit_bytes_t filter, int scanSubdirs) {
-  FilePathListWrapper *w = (FilePathListWrapper *)moonbit_make_external_object(
-    file_path_list_destructor, sizeof(FilePathListWrapper));
+  MoonBitFilePathList *w = (MoonBitFilePathList *)moonbit_make_bytes(sizeof(MoonBitFilePathList), 0);
   w->list = LoadDirectoryFilesEx((const char *)basePath, (const char *)filter, (bool)scanSubdirs);
-  w->freed = 0;
   w->is_dropped = 0;
   return w;
 }
 
 void
-moonbit_raylib_unload_directory_files(FilePathListWrapper *w) {
-  if (w && !w->freed) {
-    UnloadDirectoryFiles(w->list);
-    w->freed = 1;
-  }
+moonbit_raylib_unload_directory_files(MoonBitFilePathList *w) {
+  UnloadDirectoryFiles(w->list);
 }
 
 // ============================================================================
@@ -241,12 +207,12 @@ moonbit_raylib_unload_directory_files(FilePathListWrapper *w) {
 // ============================================================================
 
 int
-moonbit_raylib_file_path_list_count(FilePathListWrapper *w) {
+moonbit_raylib_file_path_list_count(MoonBitFilePathList *w) {
   return (int)w->list.count;
 }
 
 moonbit_bytes_t
-moonbit_raylib_file_path_list_get(FilePathListWrapper *w, int index) {
+moonbit_raylib_file_path_list_get(MoonBitFilePathList *w, int index) {
   if (index < 0 || index >= (int)w->list.count) {
     return moonbit_make_bytes(0, 0);
   }

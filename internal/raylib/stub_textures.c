@@ -1,63 +1,33 @@
+#include "moonbit.h"
+#include "raylib.h"
 #include "stub_internal.h"
-
-// ============================================================================
-// Resource destructors: Image, Texture, RenderTexture
-// ============================================================================
-
-static void
-image_destructor(void *ptr) {
-  ImageWrapper *w = (ImageWrapper *)ptr;
-  if (!w->freed)
-    UnloadImage(w->image);
-}
-static void
-texture_destructor(void *ptr) {
-  TextureWrapper *w = (TextureWrapper *)ptr;
-  if (!w->freed)
-    UnloadTexture(w->texture);
-}
-static void
-render_texture_destructor(void *ptr) {
-  RenderTextureWrapper *w = (RenderTextureWrapper *)ptr;
-  if (!w->freed)
-    UnloadRenderTexture(w->render_texture);
-}
 
 // ============================================================================
 // Textures: Image loading (resource types)
 // ============================================================================
 
-ImageWrapper *
+Image *
 moonbit_raylib_load_image(moonbit_bytes_t fileName) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(
-    image_destructor, sizeof(ImageWrapper)
-  );
-  w->image = LoadImage((const char *)fileName);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = LoadImage((const char *)fileName);
+  return img;
 }
 
 void
-moonbit_raylib_unload_image(ImageWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadImage(wrapper->image);
-    wrapper->freed = 1;
-  }
+moonbit_raylib_unload_image(Image *img) {
+  UnloadImage(*img);
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_gen_image_color(int width, int height, moonbit_bytes_t color) {
   Color c;
   memcpy(&c, color, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(
-    image_destructor, sizeof(ImageWrapper)
-  );
-  w->image = GenImageColor(width, height, c);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageColor(width, height, c);
+  return img;
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_gen_image_checked(
   int width,
   int height,
@@ -70,279 +40,212 @@ moonbit_raylib_gen_image_checked(
   memcpy(&c1, col1, sizeof(Color));
   Color c2;
   memcpy(&c2, col2, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(
-    image_destructor, sizeof(ImageWrapper)
-  );
-  w->image = GenImageChecked(width, height, checksX, checksY, c1, c2);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageChecked(width, height, checksX, checksY, c1, c2);
+  return img;
 }
 
 // ============================================================================
 // Textures: Image generation
 // ============================================================================
 
-ImageWrapper *
-moonbit_raylib_gen_image_gradient_linear(int width, int height, int direction, moonbit_bytes_t start, moonbit_bytes_t end) {
-  Color s; memcpy(&s, start, sizeof(Color));
-  Color e; memcpy(&e, end, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageGradientLinear(width, height, direction, s, e);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_gen_image_gradient_linear(
+  int width,
+  int height,
+  int direction,
+  moonbit_bytes_t start,
+  moonbit_bytes_t end
+) {
+  Color s;
+  memcpy(&s, start, sizeof(Color));
+  Color e;
+  memcpy(&e, end, sizeof(Color));
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageGradientLinear(width, height, direction, s, e);
+  return img;
 }
 
-ImageWrapper *
-moonbit_raylib_gen_image_gradient_radial(int width, int height, float density, moonbit_bytes_t inner, moonbit_bytes_t outer) {
-  Color i; memcpy(&i, inner, sizeof(Color));
-  Color o; memcpy(&o, outer, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageGradientRadial(width, height, density, i, o);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_gen_image_gradient_radial(
+  int width,
+  int height,
+  float density,
+  moonbit_bytes_t inner,
+  moonbit_bytes_t outer
+) {
+  Color i;
+  memcpy(&i, inner, sizeof(Color));
+  Color o;
+  memcpy(&o, outer, sizeof(Color));
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageGradientRadial(width, height, density, i, o);
+  return img;
 }
 
-ImageWrapper *
-moonbit_raylib_gen_image_gradient_square(int width, int height, float density, moonbit_bytes_t inner, moonbit_bytes_t outer) {
-  Color i; memcpy(&i, inner, sizeof(Color));
-  Color o; memcpy(&o, outer, sizeof(Color));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageGradientSquare(width, height, density, i, o);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_gen_image_gradient_square(
+  int width,
+  int height,
+  float density,
+  moonbit_bytes_t inner,
+  moonbit_bytes_t outer
+) {
+  Color i;
+  memcpy(&i, inner, sizeof(Color));
+  Color o;
+  memcpy(&o, outer, sizeof(Color));
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageGradientSquare(width, height, density, i, o);
+  return img;
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_gen_image_white_noise(int width, int height, float factor) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageWhiteNoise(width, height, factor);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageWhiteNoise(width, height, factor);
+  return img;
 }
 
-ImageWrapper *
-moonbit_raylib_gen_image_perlin_noise(int width, int height, int offsetX, int offsetY, float scale) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImagePerlinNoise(width, height, offsetX, offsetY, scale);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_gen_image_perlin_noise(
+  int width,
+  int height,
+  int offsetX,
+  int offsetY,
+  float scale
+) {
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImagePerlinNoise(width, height, offsetX, offsetY, scale);
+  return img;
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_gen_image_cellular(int width, int height, int tileSize) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageCellular(width, height, tileSize);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageCellular(width, height, tileSize);
+  return img;
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_gen_image_text(int width, int height, moonbit_bytes_t text) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = GenImageText(width, height, (const char *)text);
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = GenImageText(width, height, (const char *)text);
+  return img;
 }
 
 // ============================================================================
 // Textures: Image loading extras
 // ============================================================================
 
-ImageWrapper *
-moonbit_raylib_load_image_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = LoadImageFromMemory((const char *)fileType, (const unsigned char *)fileData, dataSize);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_load_image_from_memory(
+  moonbit_bytes_t fileType,
+  moonbit_bytes_t fileData,
+  int dataSize
+) {
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = LoadImageFromMemory(
+    (const char *)fileType, (const unsigned char *)fileData, dataSize
+  );
+  return img;
 }
 
-ImageWrapper *
-moonbit_raylib_load_image_from_texture(TextureWrapper *tw) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = LoadImageFromTexture(tw->texture);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_load_image_from_texture(DeclareView(Texture, w)) {
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = LoadImageFromTexture(*View(Texture, w));
+  return img;
 }
 
-ImageWrapper *
+Image *
 moonbit_raylib_load_image_from_screen(void) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = LoadImageFromScreen();
-  w->freed = 0;
-  return w;
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *img = LoadImageFromScreen();
+  return img;
 }
 
 int
-moonbit_raylib_is_image_valid(ImageWrapper *wrapper) {
-  return (int)IsImageValid(wrapper->image);
+moonbit_raylib_is_image_valid(Image *img) {
+  return (int)IsImageValid(*img);
 }
 
 int
-moonbit_raylib_export_image(ImageWrapper *wrapper, moonbit_bytes_t fileName) {
-  return (int)ExportImage(wrapper->image, (const char *)fileName);
+moonbit_raylib_export_image(Image *img, moonbit_bytes_t fileName) {
+  return (int)ExportImage(*img, (const char *)fileName);
 }
 
 // ============================================================================
 // Textures: Image basic ops
 // ============================================================================
 
-ImageWrapper *
-moonbit_raylib_image_copy(ImageWrapper *wrapper) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = ImageCopy(wrapper->image);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_image_copy(Image *img) {
+  Image *copy = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *copy = ImageCopy(*img);
+  return copy;
 }
 
-ImageWrapper *
-moonbit_raylib_image_from_image(ImageWrapper *wrapper, moonbit_bytes_t rec) {
-  Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = ImageFromImage(wrapper->image, r);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_image_from_image(Image *img, moonbit_bytes_t rec) {
+  Rectangle r;
+  memcpy(&r, rec, sizeof(Rectangle));
+  Image *result = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *result = ImageFromImage(*img, r);
+  return result;
 }
 
-ImageWrapper *
-moonbit_raylib_image_from_channel(ImageWrapper *wrapper, int selectedChannel) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
-  w->image = ImageFromChannel(wrapper->image, selectedChannel);
-  w->freed = 0;
-  return w;
+Image *
+moonbit_raylib_image_from_channel(Image *img, int selectedChannel) {
+  Image *result = (Image *)moonbit_make_bytes(sizeof(Image), 0);
+  *result = ImageFromChannel(*img, selectedChannel);
+  return result;
 }
 
 // ============================================================================
 // Textures: Texture loading (resource types)
 // ============================================================================
 
-TextureWrapper *
+Texture *
 moonbit_raylib_load_texture(moonbit_bytes_t fileName) {
-  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(
-    texture_destructor, sizeof(TextureWrapper)
-  );
-  w->texture = LoadTexture((const char *)fileName);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+  Texture *texture = (Texture *)moonbit_make_bytes(sizeof(Texture), 0);
+  *texture = LoadTexture((const char *)fileName);
+  return texture;
 }
 
-TextureWrapper *
-moonbit_raylib_load_texture_from_image(ImageWrapper *img) {
-  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(
-    texture_destructor, sizeof(TextureWrapper)
-  );
-  w->texture = LoadTextureFromImage(img->image);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+Texture *
+moonbit_raylib_load_texture_from_image(Image *img) {
+  Texture *texture = (Texture *)moonbit_make_bytes(sizeof(Texture), 0);
+  *texture = LoadTextureFromImage(*img);
+  return texture;
 }
 
-int
-moonbit_raylib_is_texture_valid(TextureWrapper *wrapper) {
-  return (int)IsTextureValid(wrapper->texture);
+int32_t
+moonbit_raylib_is_texture_valid(DeclareView(Texture, w)) {
+  return (int32_t)IsTextureValid(*View(Texture, w));
 }
 
 void
-moonbit_raylib_unload_texture(TextureWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadTexture(wrapper->texture);
-    wrapper->freed = 1;
-  }
+moonbit_raylib_unload_texture(DeclareView(Texture, w)) {
+  UnloadTexture(*View(Texture, w));
 }
 
-RenderTextureWrapper *
+RenderTexture *
 moonbit_raylib_load_render_texture(int width, int height) {
-  RenderTextureWrapper *w =
-    (RenderTextureWrapper *)moonbit_make_external_object(
-      render_texture_destructor, sizeof(RenderTextureWrapper)
-    );
-  w->render_texture = LoadRenderTexture(width, height);
-  w->freed = 0;
-  return w;
+  RenderTexture *rt =
+    (RenderTexture *)moonbit_make_bytes(sizeof(RenderTexture), 0);
+  *rt = LoadRenderTexture(width, height);
+  return rt;
 }
 
 int
-moonbit_raylib_is_render_texture_valid(RenderTextureWrapper *wrapper) {
-  return (int)IsRenderTextureValid(wrapper->render_texture);
+moonbit_raylib_is_render_texture_valid(DeclareView(RenderTexture, rt)) {
+  return (int)IsRenderTextureValid(*View(RenderTexture, rt));
 }
 
 void
-moonbit_raylib_unload_render_texture(RenderTextureWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    UnloadRenderTexture(wrapper->render_texture);
-    wrapper->freed = 1;
-  }
-}
-
-// Custom destructor for depth-tex render textures (manual rlgl cleanup)
-static void
-render_texture_depth_tex_destructor(void *ptr) {
-  RenderTextureWrapper *w = (RenderTextureWrapper *)ptr;
-  if (!w->freed) {
-    if (w->render_texture.id > 0) {
-      rlUnloadTexture(w->render_texture.texture.id);
-      rlUnloadTexture(w->render_texture.depth.id);
-      rlUnloadFramebuffer(w->render_texture.id);
-    }
-  }
-}
-
-RenderTextureWrapper *
-moonbit_raylib_load_render_texture_depth_tex(int width, int height) {
-  RenderTextureWrapper *w =
-    (RenderTextureWrapper *)moonbit_make_external_object(
-      render_texture_depth_tex_destructor, sizeof(RenderTextureWrapper)
-    );
-  memset(&w->render_texture, 0, sizeof(RenderTexture));
-  w->freed = 0;
-
-  w->render_texture.id = rlLoadFramebuffer();
-
-  if (w->render_texture.id > 0) {
-    rlEnableFramebuffer(w->render_texture.id);
-
-    // Create color texture (default to RGBA)
-    w->render_texture.texture.id = rlLoadTexture(0, width, height, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 1);
-    w->render_texture.texture.width = width;
-    w->render_texture.texture.height = height;
-    w->render_texture.texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
-    w->render_texture.texture.mipmaps = 1;
-
-    // Create depth texture buffer (instead of raylib default renderbuffer)
-    w->render_texture.depth.id = rlLoadTextureDepth(width, height, false);
-    w->render_texture.depth.width = width;
-    w->render_texture.depth.height = height;
-    w->render_texture.depth.format = 19; // DEPTH_COMPONENT_24BIT
-    w->render_texture.depth.mipmaps = 1;
-
-    // Attach color texture and depth texture to FBO
-    rlFramebufferAttach(w->render_texture.id, w->render_texture.texture.id,
-                        RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0);
-    rlFramebufferAttach(w->render_texture.id, w->render_texture.depth.id,
-                        RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0);
-
-    // Check if fbo is complete with attachments (valid)
-    if (rlFramebufferComplete(w->render_texture.id))
-      TRACELOG(LOG_INFO, "FBO: [ID %i] Framebuffer object created successfully", w->render_texture.id);
-
-    rlDisableFramebuffer();
-  } else {
-    TRACELOG(LOG_WARNING, "FBO: Framebuffer object can not be created");
-  }
-
-  return w;
-}
-
-void
-moonbit_raylib_unload_render_texture_depth_tex(RenderTextureWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    if (wrapper->render_texture.id > 0) {
-      rlUnloadTexture(wrapper->render_texture.texture.id);
-      rlUnloadTexture(wrapper->render_texture.depth.id);
-      rlUnloadFramebuffer(wrapper->render_texture.id);
-    }
-    wrapper->freed = 1;
-  }
+moonbit_raylib_unload_render_texture(DeclareView(RenderTexture, rt)) {
+  UnloadRenderTexture(*View(RenderTexture, rt));
 }
 
 // ============================================================================
@@ -351,19 +254,19 @@ moonbit_raylib_unload_render_texture_depth_tex(RenderTextureWrapper *wrapper) {
 
 void
 moonbit_raylib_draw_texture(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   int posX,
   int posY,
   moonbit_bytes_t tint
 ) {
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTexture(wrapper->texture, posX, posY, c);
+  DrawTexture(*View(Texture, w), posX, posY, c);
 }
 
 void
 moonbit_raylib_draw_texture_v(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   moonbit_bytes_t position,
   moonbit_bytes_t tint
 ) {
@@ -371,12 +274,12 @@ moonbit_raylib_draw_texture_v(
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextureV(wrapper->texture, pos, c);
+  DrawTextureV(*View(Texture, w), pos, c);
 }
 
 void
 moonbit_raylib_draw_texture_ex(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   moonbit_bytes_t position,
   float rotation,
   float scale,
@@ -386,12 +289,12 @@ moonbit_raylib_draw_texture_ex(
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextureEx(wrapper->texture, pos, rotation, scale, c);
+  DrawTextureEx(*View(Texture, w), pos, rotation, scale, c);
 }
 
 void
 moonbit_raylib_draw_texture_rec(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   moonbit_bytes_t source,
   moonbit_bytes_t position,
   moonbit_bytes_t tint
@@ -402,12 +305,12 @@ moonbit_raylib_draw_texture_rec(
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextureRec(wrapper->texture, src, pos, c);
+  DrawTextureRec(*View(Texture, w), src, pos, c);
 }
 
 void
 moonbit_raylib_draw_texture_pro(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   moonbit_bytes_t source,
   moonbit_bytes_t dest,
   moonbit_bytes_t origin,
@@ -422,23 +325,27 @@ moonbit_raylib_draw_texture_pro(
   memcpy(&org, origin, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTexturePro(wrapper->texture, src, dst, org, rotation, c);
+  DrawTexturePro(*View(Texture, w), src, dst, org, rotation, c);
 }
 
 void
 moonbit_raylib_draw_texture_npatch(
-  TextureWrapper *wrapper,
+  DeclareView(Texture, w),
   moonbit_bytes_t nPatchInfo,
   moonbit_bytes_t dest,
   moonbit_bytes_t origin,
   float rotation,
   moonbit_bytes_t tint
 ) {
-  NPatchInfo npi; memcpy(&npi, nPatchInfo, sizeof(NPatchInfo));
-  Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
-  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
-  Color c; memcpy(&c, tint, sizeof(Color));
-  DrawTextureNPatch(wrapper->texture, npi, dst, org, rotation, c);
+  NPatchInfo npi;
+  memcpy(&npi, nPatchInfo, sizeof(NPatchInfo));
+  Rectangle dst;
+  memcpy(&dst, dest, sizeof(Rectangle));
+  Vector2 org;
+  memcpy(&org, origin, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawTextureNPatch(*View(Texture, w), npi, dst, org, rotation, c);
 }
 
 // ============================================================================
@@ -446,68 +353,77 @@ moonbit_raylib_draw_texture_npatch(
 // ============================================================================
 
 void
-moonbit_raylib_set_texture_filter(TextureWrapper *wrapper, int filter) {
-  SetTextureFilter(wrapper->texture, filter);
+moonbit_raylib_set_texture_filter(DeclareView(Texture, w), int filter) {
+  SetTextureFilter(*View(Texture, w), filter);
 }
 
 void
-moonbit_raylib_set_texture_wrap(TextureWrapper *wrapper, int wrap) {
-  SetTextureWrap(wrapper->texture, wrap);
+moonbit_raylib_set_texture_wrap(DeclareView(Texture, w), int wrap) {
+  SetTextureWrap(*View(Texture, w), wrap);
 }
 
 // ============================================================================
 // Textures: Texture management extras
 // ============================================================================
 
-TextureWrapper *
-moonbit_raylib_load_texture_cubemap(ImageWrapper *img, int layout) {
-  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
-  w->texture = LoadTextureCubemap(img->image, layout);
-  w->freed = 0;
-  w->parent = NULL;
-  return w;
+Texture *
+moonbit_raylib_load_texture_cubemap(Image *img, int layout) {
+  Texture *texture = (Texture *)moonbit_make_bytes(sizeof(Texture), 0);
+  *texture = LoadTextureCubemap(*img, layout);
+  return texture;
 }
 
 void
-moonbit_raylib_update_texture(TextureWrapper *wrapper, moonbit_bytes_t pixels) {
-  UpdateTexture(wrapper->texture, (const void *)pixels);
+moonbit_raylib_update_texture(DeclareView(Texture, w), moonbit_bytes_t pixels) {
+  UpdateTexture(*View(Texture, w), (const void *)pixels);
 }
 
 void
-moonbit_raylib_update_texture_rec(TextureWrapper *wrapper, moonbit_bytes_t rec, moonbit_bytes_t pixels) {
-  Rectangle r; memcpy(&r, rec, sizeof(Rectangle));
-  UpdateTextureRec(wrapper->texture, r, (const void *)pixels);
+moonbit_raylib_update_texture_rec(
+  DeclareView(Texture, w),
+  moonbit_bytes_t rec,
+  moonbit_bytes_t pixels
+) {
+  Rectangle r;
+  memcpy(&r, rec, sizeof(Rectangle));
+  UpdateTextureRec(*View(Texture, w), r, (const void *)pixels);
 }
 
 void
-moonbit_raylib_gen_texture_mipmaps(TextureWrapper *wrapper) {
-  GenTextureMipmaps(&wrapper->texture);
+moonbit_raylib_gen_texture_mipmaps(DeclareView(Texture, w)) {
+  GenTextureMipmaps(View(Texture, w));
 }
 
 void
-moonbit_raylib_update_texture_from_image_frame(TextureWrapper *tw, ImageWrapper *iw, int frame) {
-  int offset = iw->image.width * iw->image.height * 4 * frame;
-  UpdateTexture(tw->texture, ((unsigned char *)iw->image.data) + offset);
+moonbit_raylib_update_texture_from_image_frame(
+  DeclareView(Texture, w),
+  Image *img,
+  int frame
+) {
+  int offset = img->width * img->height * 4 * frame;
+  UpdateTexture(*View(Texture, w), ((unsigned char *)img->data) + offset);
 }
 
-int
-moonbit_raylib_get_texture_id(TextureWrapper *wrapper) {
-  return (int)wrapper->texture.id;
+uint32_t
+moonbit_raylib_get_texture_id(DeclareView(Texture, w)) {
+  return (uint32_t)View(Texture, w)->id;
 }
 
 void
-moonbit_raylib_set_shapes_texture(TextureWrapper *wrapper, moonbit_bytes_t source) {
-  Rectangle r; memcpy(&r, source, sizeof(Rectangle));
-  SetShapesTexture(wrapper->texture, r);
+moonbit_raylib_set_shapes_texture(
+  DeclareView(Texture, w),
+  moonbit_bytes_t source
+) {
+  Rectangle r;
+  memcpy(&r, source, sizeof(Rectangle));
+  SetShapesTexture(*View(Texture, w), r);
 }
 
-TextureWrapper *
+Texture *
 moonbit_raylib_get_shapes_texture(void) {
-  TextureWrapper *w = (TextureWrapper *)moonbit_make_external_object(texture_destructor, sizeof(TextureWrapper));
-  w->texture = GetShapesTexture();
-  w->freed = 1;  // Non-owning - don't unload
-  w->parent = NULL;
-  return w;
+  Texture *texture = (Texture *)moonbit_make_bytes(sizeof(Texture), 0);
+  *texture = GetShapesTexture();
+  return texture;
 }
 
 moonbit_bytes_t
@@ -524,7 +440,7 @@ moonbit_raylib_get_shapes_texture_rectangle(void) {
 
 void
 moonbit_raylib_draw_render_texture_rec(
-  RenderTextureWrapper *wrapper,
+  DeclareView(RenderTexture, rt),
   moonbit_bytes_t source,
   moonbit_bytes_t position,
   moonbit_bytes_t tint
@@ -535,22 +451,22 @@ moonbit_raylib_draw_render_texture_rec(
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextureRec(wrapper->render_texture.texture, src, pos, c);
+  DrawTextureRec(View(RenderTexture, rt)->texture, src, pos, c);
 }
 
 int
-moonbit_raylib_get_render_texture_width(RenderTextureWrapper *wrapper) {
-  return wrapper->render_texture.texture.width;
+moonbit_raylib_get_render_texture_width(DeclareView(RenderTexture, rt)) {
+  return View(RenderTexture, rt)->texture.width;
 }
 
 int
-moonbit_raylib_get_render_texture_height(RenderTextureWrapper *wrapper) {
-  return wrapper->render_texture.texture.height;
+moonbit_raylib_get_render_texture_height(DeclareView(RenderTexture, rt)) {
+  return View(RenderTexture, rt)->texture.height;
 }
 
 void
 moonbit_raylib_draw_render_texture_ex(
-  RenderTextureWrapper *wrapper,
+  DeclareView(RenderTexture, rt),
   moonbit_bytes_t position,
   float rotation,
   float scale,
@@ -560,146 +476,111 @@ moonbit_raylib_draw_render_texture_ex(
   memcpy(&pos, position, sizeof(Vector2));
   Color c;
   memcpy(&c, tint, sizeof(Color));
-  DrawTextureEx(wrapper->render_texture.texture, pos, rotation, scale, c);
+  DrawTextureEx(View(RenderTexture, rt)->texture, pos, rotation, scale, c);
 }
 
 // ============================================================================
-// Textures: Clipboard image (needs image_destructor)
+// Textures: Clipboard image
 // ============================================================================
 
-ImageWrapper *
+Image *
 moonbit_raylib_get_clipboard_image(void) {
-  ImageWrapper *w = (ImageWrapper *)moonbit_make_external_object(image_destructor, sizeof(ImageWrapper));
+  Image *img = (Image *)moonbit_make_bytes(sizeof(Image), 0);
 #ifdef PLATFORM_ANDROID
-  w->image = (Image){0};   // clipboard image not supported on Android
+  *img = (Image){0}; // clipboard image not supported on Android
 #else
-  w->image = GetClipboardImage();
+  *img = GetClipboardImage();
 #endif
-  w->freed = 0;
-  w->frame_count = 1;
-  return w;
+  return img;
 }
 
 void
 moonbit_raylib_draw_render_texture_pro(
-  RenderTextureWrapper *wrapper,
+  DeclareView(RenderTexture, rt),
   moonbit_bytes_t source,
   moonbit_bytes_t dest,
   moonbit_bytes_t origin,
   float rotation,
   moonbit_bytes_t tint
 ) {
-  Rectangle src; memcpy(&src, source, sizeof(Rectangle));
-  Rectangle dst; memcpy(&dst, dest, sizeof(Rectangle));
-  Vector2 org; memcpy(&org, origin, sizeof(Vector2));
-  Color c; memcpy(&c, tint, sizeof(Color));
-  DrawTexturePro(wrapper->render_texture.texture, src, dst, org, rotation, c);
+  Rectangle src;
+  memcpy(&src, source, sizeof(Rectangle));
+  Rectangle dst;
+  memcpy(&dst, dest, sizeof(Rectangle));
+  Vector2 org;
+  memcpy(&org, origin, sizeof(Vector2));
+  Color c;
+  memcpy(&c, tint, sizeof(Color));
+  DrawTexturePro(View(RenderTexture, rt)->texture, src, dst, org, rotation, c);
 }
 
 void
-moonbit_raylib_set_render_texture_filter(RenderTextureWrapper *wrapper, int filter) {
-  SetTextureFilter(wrapper->render_texture.texture, filter);
+moonbit_raylib_set_render_texture_filter(DeclareView(RenderTexture, rt), int filter) {
+  SetTextureFilter(View(RenderTexture, rt)->texture, filter);
 }
 
 // ============================================================================
 // Textures: Get texture width/height
 // ============================================================================
 
-int
-moonbit_raylib_get_texture_width(TextureWrapper *wrapper) {
-  return wrapper->texture.width;
+int32_t
+moonbit_raylib_get_texture_width(DeclareView(Texture, w)) {
+  return View(Texture, w)->width;
 }
 
-int
-moonbit_raylib_get_texture_height(TextureWrapper *wrapper) {
-  return wrapper->texture.height;
+int32_t
+moonbit_raylib_get_texture_height(DeclareView(Texture, w)) {
+  return View(Texture, w)->height;
 }
 
 // ============================================================================
-// RenderTexture: Get render texture's texture (for drawing)
+// RenderTexture: Get render texture's texture (non-owning view)
 // ============================================================================
 
-TextureWrapper *
-moonbit_raylib_get_render_texture_texture(RenderTextureWrapper *wrapper) {
-  moonbit_incref(wrapper); // keep render texture alive while view exists
-  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    texture_view_destructor, sizeof(TextureWrapper));
-  tw->texture = wrapper->render_texture.texture;
-  tw->freed = 1; // Don't unload - owned by render texture
-  tw->parent = wrapper;
-  return tw;
+int32_t
+moonbit_raylib_get_render_texture_texture(void) {
+  return (int32_t)offsetof(RenderTexture, texture);
+}
+
+// ============================================================================
+// RenderTexture: Get render texture's depth texture (non-owning view)
+// ============================================================================
+
+int32_t
+moonbit_raylib_get_render_texture_depth(void) {
+  return (int32_t)offsetof(RenderTexture, depth);
 }
 
 // ============================================================================
 // RenderTexture: Get IDs for rlgl-level operations
 // ============================================================================
 
-unsigned int
-moonbit_raylib_get_render_texture_fbo_id(RenderTextureWrapper *wrapper) {
-  return wrapper->render_texture.id;
+uint32_t
+moonbit_raylib_get_render_texture_id(DeclareView(RenderTexture, rt)) {
+  return View(RenderTexture, rt)->id;
 }
 
 unsigned int
-moonbit_raylib_get_render_texture_depth_id(RenderTextureWrapper *wrapper) {
-  return wrapper->render_texture.depth.id;
+moonbit_raylib_get_render_texture_depth_id(DeclareView(RenderTexture, rt)) {
+  return View(RenderTexture, rt)->depth.id;
 }
 
 // ============================================================================
-// Shadowmap: Load a depth-only render texture for shadow mapping
+// RenderTexture: Constructor from raw values
 // ============================================================================
 
-RenderTextureWrapper *
-moonbit_raylib_load_shadowmap_render_texture(int width, int height) {
-  RenderTextureWrapper *w =
-    (RenderTextureWrapper *)moonbit_make_external_object(
-      render_texture_destructor, sizeof(RenderTextureWrapper)
-  );
-  w->freed = 0;
-
-  RenderTexture2D target = { 0 };
-  target.id = rlLoadFramebuffer();
-  target.texture.width = width;
-  target.texture.height = height;
-
-  if (target.id > 0) {
-    rlEnableFramebuffer(target.id);
-
-    // Create depth texture (no color texture needed for shadow mapping)
-    target.depth.id = rlLoadTextureDepth(width, height, false);
-    target.depth.width = width;
-    target.depth.height = height;
-    target.depth.format = 19; // DEPTH_COMPONENT_24BIT
-    target.depth.mipmaps = 1;
-
-    // Attach depth texture to FBO
-    rlFramebufferAttach(target.id, target.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0);
-
-    // Verify framebuffer is complete
-    if (rlFramebufferComplete(target.id)) {
-      TraceLog(LOG_INFO, "FBO: [ID %i] Shadowmap framebuffer object created successfully", target.id);
-    }
-
-    rlDisableFramebuffer();
-  } else {
-    TraceLog(LOG_WARNING, "FBO: Shadowmap framebuffer object can not be created");
-  }
-
-  w->render_texture = target;
-  return w;
-}
-
-// ============================================================================
-// Unload shadowmap (just unload the framebuffer, depth is auto-cleaned)
-// ============================================================================
-
-void
-moonbit_raylib_unload_shadowmap_render_texture(RenderTextureWrapper *wrapper) {
-  if (wrapper && !wrapper->freed) {
-    if (wrapper->render_texture.id > 0) {
-      rlUnloadFramebuffer(wrapper->render_texture.id);
-    }
-    wrapper->freed = 1;
-  }
+RenderTexture *
+moonbit_raylib_new_render_texture(
+  unsigned int id,
+  DeclareView(Texture, texture),
+  DeclareView(Texture, depth)
+) {
+  RenderTexture *rt =
+    (RenderTexture *)moonbit_make_bytes(sizeof(RenderTexture), 0);
+  rt->id = id;
+  rt->texture = *View(Texture, texture);
+  rt->depth = *View(Texture, depth);
+  return rt;
 }
 
 // ============================================================================
@@ -707,7 +588,12 @@ moonbit_raylib_unload_shadowmap_render_texture(RenderTextureWrapper *wrapper) {
 // ============================================================================
 
 unsigned int
-moonbit_raylib_rl_load_texture(int width, int height, int format, int mipmapCount) {
+moonbit_raylib_rl_load_texture(
+  int width,
+  int height,
+  int format,
+  int mipmapCount
+) {
   return rlLoadTexture(NULL, width, height, format, mipmapCount);
 }
 
@@ -715,16 +601,21 @@ moonbit_raylib_rl_load_texture(int width, int height, int format, int mipmapCoun
 // Texture from raw GL ID (non-owning, for drawing GBuffer textures)
 // ============================================================================
 
-TextureWrapper *
-moonbit_raylib_texture_from_id(unsigned int id, int width, int height) {
-  TextureWrapper *tw = (TextureWrapper *)moonbit_make_external_object(
-    noop_destructor, sizeof(TextureWrapper));
-  tw->texture.id = id;
-  tw->texture.width = width;
-  tw->texture.height = height;
-  tw->texture.mipmaps = 1;
-  tw->texture.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
-  tw->freed = 1; // Non-owning - don't unload via raylib
-  tw->parent = NULL;
-  return tw;
+Texture *
+moonbit_raylib_new_texture(
+  uint32_t id,
+  int32_t width,
+  int32_t height,
+  int32_t mipmaps,
+  int32_t format
+) {
+  Texture *texture = (Texture *)moonbit_make_bytes(sizeof(Texture), 0);
+  *texture = (Texture){
+    .id = id,
+    .width = width,
+    .height = height,
+    .mipmaps = mipmaps,
+    .format = format,
+  };
+  return texture;
 }

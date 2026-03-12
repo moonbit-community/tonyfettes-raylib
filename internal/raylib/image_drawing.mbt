@@ -231,7 +231,7 @@ pub extern "c" fn image_draw_text(
 #borrow(dst, font, text, position, tint)
 pub extern "c" fn image_draw_text_ex(
   dst : Image,
-  font : Font,
+  font : Bytes,
   text : Bytes,
   position : Bytes,
   font_size : Float,

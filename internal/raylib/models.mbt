@@ -259,20 +259,22 @@ pub extern "c" fn get_model_bounding_box(model : Model) -> Bytes = "moonbit_rayl
 // ============================================================================
 
 ///|
-#borrow(camera, texture, position, tint)
+#borrow(camera, texture_memory, position, tint)
 pub extern "c" fn draw_billboard(
   camera : Bytes,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
   position : Bytes,
   scale : Float,
   tint : Bytes,
 ) = "moonbit_raylib_draw_billboard"
 
 ///|
-#borrow(camera, texture, source, position, size, tint)
+#borrow(camera, texture_memory, source, position, size, tint)
 pub extern "c" fn draw_billboard_rec(
   camera : Bytes,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
   source : Bytes,
   position : Bytes,
   size : Bytes,
@@ -280,10 +282,11 @@ pub extern "c" fn draw_billboard_rec(
 ) = "moonbit_raylib_draw_billboard_rec"
 
 ///|
-#borrow(camera, texture, source, position, up, size, origin, tint)
+#borrow(camera, texture_memory, source, position, up, size, origin, tint)
 pub extern "c" fn draw_billboard_pro(
   camera : Bytes,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
   source : Bytes,
   position : Bytes,
   up : Bytes,
@@ -468,11 +471,12 @@ pub extern "c" fn is_material_valid(material : Material) -> Bool = "moonbit_rayl
 pub extern "c" fn unload_material(material : Material) = "moonbit_raylib_unload_material"
 
 ///|
-#borrow(material, texture)
+#borrow(material, texture_memory)
 pub extern "c" fn set_material_texture(
   material : Material,
   map_type : Int,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
 ) = "moonbit_raylib_set_material_texture"
 
 ///|
@@ -504,12 +508,13 @@ pub extern "c" fn set_model_mesh_material(
 ) = "moonbit_raylib_set_model_mesh_material"
 
 ///|
-#borrow(model, texture)
+#borrow(model, texture_memory)
 pub extern "c" fn set_model_material_texture(
   model : Model,
   material_index : Int,
   map_type : Int,
-  texture : Texture,
+  texture_memory : Bytes,
+  texture_offset : Int,
 ) = "moonbit_raylib_set_model_material_texture"
 
 ///|

@@ -1,23 +1,65 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
+struct Font(Bytes)
+
+///|
 pub using @ffi {
-  type Font,
   type GlyphInfoArray,
-  get_font_default,
-  get_font_base_size,
-  get_font_glyph_count,
-  get_font_glyph_padding,
-  get_font_texture,
-  gen_font_texture_mipmaps,
-  set_font_texture_filter,
-  is_font_valid,
-  unload_font,
   draw_fps,
   set_text_line_spacing,
-  get_glyph_index,
   unload_font_data,
   glyph_info_array_count,
+}
+
+///|
+pub fn get_font_base_size(font : Font) -> Int {
+  @ffi.get_font_base_size(font.0)
+}
+
+///|
+pub fn get_font_default() -> Font {
+  @ffi.get_font_default()
+}
+
+///|
+pub fn unload_font(font : Font) -> Unit {
+  @ffi.unload_font(font.0)
+}
+
+///|
+pub fn is_font_valid(font : Font) -> Bool {
+  @ffi.is_font_valid(font.0)
+}
+
+///|
+pub fn get_font_glyph_count(font : Font) -> Int {
+  @ffi.get_font_glyph_count(font.0)
+}
+
+///|
+pub fn get_font_glyph_padding(font : Font) -> Int {
+  @ffi.get_font_glyph_padding(font.0)
+}
+
+///|
+pub fn get_glyph_index(font : Font, codepoint : Int) -> Int {
+  @ffi.get_glyph_index(font.0, codepoint)
+}
+
+///|
+pub fn get_font_texture(font : Font) -> Texture {
+  Texture::{ memory: font.0, offset: @ffi.get_font_texture() }
+}
+
+///|
+pub fn gen_font_texture_mipmaps(font : Font) -> Unit {
+  @ffi.gen_texture_mipmaps(font.0, @ffi.get_font_texture())
+}
+
+///|
+pub fn set_font_texture_filter(font : Font, filter : Int) -> Unit {
+  @ffi.set_texture_filter(font.0, @ffi.get_font_texture(), filter)
 }
 
 // ============================================================================
@@ -31,7 +73,7 @@ pub fn load_font(file_name : String) -> Font {
 
 ///|
 pub fn load_font_ex(file_name : String, font_size : Int) -> Font {
-  @ffi.load_font_ex(@utf8.encode(file_name), font_size)
+  @ffi.load_font_ex(@utf8.encode(file_name), font_size, None, 0)
 }
 
 ///|
@@ -40,15 +82,10 @@ pub fn load_font_ex_codepoints(
   font_size : Int,
   codepoints : Array[Int],
 ) -> Font {
-  let buf = @buffer.new(size_hint=codepoints.length() * 4)
-  for cp in codepoints {
-    buf.write_int_le(cp)
-  }
-  let bytes = buf.to_bytes()
-  @ffi.load_font_ex_codepoints(
+  @ffi.load_font_ex(
     @utf8.encode(file_name),
     font_size,
-    bytes,
+    Some(FixedArray::from_array(codepoints)),
     codepoints.length(),
   )
 }
@@ -78,7 +115,7 @@ pub fn draw_text_ex(
   tint : Color,
 ) -> Unit {
   @ffi.draw_text_ex(
-    font,
+    font.0,
     @utf8.encode(text),
     position.to_bytes(),
     font_size,
@@ -99,7 +136,7 @@ pub fn draw_text_pro(
   tint : Color,
 ) -> Unit {
   @ffi.draw_text_pro(
-    font,
+    font.0,
     @utf8.encode(text),
     position.to_bytes(),
     origin.to_bytes(),
@@ -127,7 +164,7 @@ pub fn measure_text_ex(
   spacing : Float,
 ) -> Vector2 {
   Vector2::from_bytes(
-    @ffi.measure_text_ex(font, @utf8.encode(text), font_size, spacing),
+    @ffi.measure_text_ex(font.0, @utf8.encode(text), font_size, spacing),
   )
 }
 
@@ -144,7 +181,7 @@ pub fn draw_text_codepoint(
   tint : Color,
 ) -> Unit {
   @ffi.draw_text_codepoint(
-    font,
+    font.0,
     codepoint,
     position.to_bytes(),
     font_size,
@@ -154,7 +191,7 @@ pub fn draw_text_codepoint(
 
 ///|
 pub fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Rectangle {
-  Rectangle::from_bytes(@ffi.get_glyph_atlas_rec(font, codepoint))
+  Rectangle::from_bytes(@ffi.get_glyph_atlas_rec(font.0, codepoint))
 }
 
 // ============================================================================
@@ -206,7 +243,7 @@ pub fn load_font_from_atlas(
 
 ///|
 pub fn export_font_as_code(font : Font, file_name : String) -> Bool {
-  @ffi.export_font_as_code(font, @utf8.encode(file_name))
+  @ffi.export_font_as_code(font.0, @utf8.encode(file_name))
 }
 
 // ============================================================================
@@ -228,7 +265,7 @@ pub fn draw_text_codepoints(
   }
   let bytes = buf.to_bytes()
   @ffi.draw_text_codepoints(
-    font,
+    font.0,
     bytes,
     codepoints.length(),
     position.to_bytes(),
@@ -318,7 +355,7 @@ pub fn GlyphInfo::from_bytes(b : Bytes) -> GlyphInfo {
 
 ///|
 pub fn get_glyph_info(font : Font, codepoint : Int) -> GlyphInfo {
-  GlyphInfo::from_bytes(@ffi.get_glyph_info(font, codepoint))
+  GlyphInfo::from_bytes(@ffi.get_glyph_info(font.0, codepoint))
 }
 
 ///|
