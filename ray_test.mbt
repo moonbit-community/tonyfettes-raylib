@@ -1,6 +1,9 @@
 ///|
 test "Ray round-trip through Bytes" {
-  let r = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let r = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let bytes = r.to_bytes()
   let r2 = @raylib.Ray::from_bytes(bytes)
   assert_eq(r, r2)
@@ -20,7 +23,10 @@ test "BoundingBox round-trip through Bytes" {
 ///|
 test "RayCollision field accessors from real collision" {
   // Ray aimed directly at a sphere => guaranteed hit with known geometry
-  let ray = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let ray = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let center = @raylib.Vector3::new(10.0, 0.0, 0.0)
   let radius : Float = 2.0
   let rc = @raylib.get_ray_collision_sphere(ray, center, radius)
@@ -39,7 +45,10 @@ test "RayCollision field accessors from real collision" {
 ///|
 test "get_ray_collision_sphere - hit" {
   // Ray at origin pointing along +X, sphere at (10,0,0) with radius 2
-  let ray = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let ray = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let center = @raylib.Vector3::new(10.0, 0.0, 0.0)
   let result = @raylib.get_ray_collision_sphere(ray, center, 2.0)
   assert_true(result.hit)
@@ -49,7 +58,10 @@ test "get_ray_collision_sphere - hit" {
 ///|
 test "get_ray_collision_sphere - miss" {
   // Ray at origin pointing along +X, sphere far away on Y axis
-  let ray = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let ray = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let center = @raylib.Vector3::new(0.0, 100.0, 0.0)
   let result = @raylib.get_ray_collision_sphere(ray, center, 1.0)
   assert_true(not(result.hit))
@@ -58,7 +70,10 @@ test "get_ray_collision_sphere - miss" {
 ///|
 test "get_ray_collision_box - hit" {
   // Ray at origin pointing along +X, box ahead on X axis
-  let ray = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let ray = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let box_ = @raylib.BoundingBox::new(
     @raylib.Vector3::new(5.0, -1.0, -1.0),
     @raylib.Vector3::new(7.0, 1.0, 1.0),
@@ -71,7 +86,10 @@ test "get_ray_collision_box - hit" {
 ///|
 test "get_ray_collision_box - miss" {
   // Ray at origin pointing along +X, box is off to the side on Y axis
-  let ray = @raylib.Ray::new(@raylib.Vector3::new(0.0, 0.0, 0.0), @raylib.Vector3::new(1.0, 0.0, 0.0))
+  let ray = @raylib.Ray::new(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+  )
   let box_ = @raylib.BoundingBox::new(
     @raylib.Vector3::new(5.0, 50.0, 50.0),
     @raylib.Vector3::new(7.0, 52.0, 52.0),

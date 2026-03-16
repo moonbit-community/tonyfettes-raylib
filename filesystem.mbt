@@ -4,9 +4,7 @@ struct FilePathList(@ffi.FilePathList)
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @ffi {
-  is_file_dropped,
-}
+pub using @ffi {is_file_dropped}
 
 ///|
 #as_free_fn(load_dropped_files)

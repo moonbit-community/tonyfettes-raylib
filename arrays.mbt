@@ -8,21 +8,6 @@
 struct FloatArray(@ffi.FloatArray, Int)
 
 ///|
-pub fn FloatArray::from_array(data : Array[Float]) -> FloatArray {
-  let count = data.length()
-  let buf = @buffer.new(size_hint=count * 4)
-  for f in data {
-    buf.write_float_le(f)
-  }
-  FloatArray(@ffi.float_array_new(buf.to_bytes(), count), count)
-}
-
-///|
-pub fn FloatArray::null() -> FloatArray {
-  FloatArray(@ffi.float_array_null(), 0)
-}
-
-///|
 pub fn FloatArray::length(self : FloatArray) -> Int {
   self.1
 }
@@ -33,7 +18,11 @@ pub fn FloatArray::op_get(self : FloatArray, index : Int) -> Float {
 }
 
 ///|
-pub fn FloatArray::op_set(self : FloatArray, index : Int, value : Float) -> Unit {
+pub fn FloatArray::op_set(
+  self : FloatArray,
+  index : Int,
+  value : Float,
+) -> Unit {
   @ffi.float_array_set(self.0, index, value)
 }
 
@@ -43,21 +32,6 @@ pub fn FloatArray::op_set(self : FloatArray, index : Int, value : Float) -> Unit
 
 ///|
 struct UByteArray(@ffi.UByteArray, Int)
-
-///|
-pub fn UByteArray::from_array(data : Array[Int]) -> UByteArray {
-  let count = data.length()
-  let arr = FixedArray::make(count, b'\x00')
-  for i, v in data {
-    arr[i] = v.to_byte()
-  }
-  UByteArray(@ffi.ubyte_array_new(FixedArray::unsafe_reinterpret_as_bytes(arr), count), count)
-}
-
-///|
-pub fn UByteArray::null() -> UByteArray {
-  UByteArray(@ffi.ubyte_array_null(), 0)
-}
 
 ///|
 pub fn UByteArray::length(self : UByteArray) -> Int {
@@ -82,22 +56,6 @@ pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
 struct UShortArray(@ffi.UShortArray, Int)
 
 ///|
-pub fn UShortArray::from_array(data : Array[Int]) -> UShortArray {
-  let count = data.length()
-  let buf = @buffer.new(size_hint=count * 2)
-  for v in data {
-    buf.write_byte((v & 0xFF).to_byte())
-    buf.write_byte(((v >> 8) & 0xFF).to_byte())
-  }
-  UShortArray(@ffi.ushort_array_new(buf.to_bytes(), count), count)
-}
-
-///|
-pub fn UShortArray::null() -> UShortArray {
-  UShortArray(@ffi.ushort_array_null(), 0)
-}
-
-///|
 pub fn UShortArray::length(self : UShortArray) -> Int {
   self.1
 }
@@ -108,7 +66,11 @@ pub fn UShortArray::op_get(self : UShortArray, index : Int) -> Int {
 }
 
 ///|
-pub fn UShortArray::op_set(self : UShortArray, index : Int, value : Int) -> Unit {
+pub fn UShortArray::op_set(
+  self : UShortArray,
+  index : Int,
+  value : Int,
+) -> Unit {
   @ffi.ushort_array_set(self.0, index, value)
 }
 

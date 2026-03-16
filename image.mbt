@@ -85,11 +85,7 @@ pub fn Image::gen_perlin_noise(
 
 ///|
 #as_free_fn(gen_image_cellular)
-pub fn Image::gen_cellular(
-  width : Int,
-  height : Int,
-  tile_size : Int,
-) -> Image {
+pub fn Image::gen_cellular(width : Int, height : Int, tile_size : Int) -> Image {
   @ffi.gen_image_cellular(width, height, tile_size)
 }
 

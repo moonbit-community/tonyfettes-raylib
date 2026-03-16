@@ -364,13 +364,13 @@ pub fn file_path_list_count(FilePathList) -> Int
 
 pub fn file_path_list_get(FilePathList, Int) -> Bytes
 
-pub fn float_array_length(FloatArray) -> Int
+pub fn float_array_get(FloatArray, Int) -> Float
 
 pub fn float_array_new(Bytes, Int) -> FloatArray
 
-pub fn float_array_op_get(FloatArray, Int) -> Float
+pub fn float_array_null() -> FloatArray
 
-pub fn float_array_op_set(FloatArray, Int, Float) -> Unit
+pub fn float_array_set(FloatArray, Int, Float) -> Unit
 
 pub fn gen_image_cellular(Int, Int, Int) -> Image
 
@@ -1002,6 +1002,8 @@ pub fn material_map_array_length(MaterialMapArray) -> Int
 
 pub fn material_map_array_op_get(MaterialMapArray, Int) -> MaterialMap
 
+pub fn material_map_array_op_set(MaterialMapArray, Int, MaterialMap) -> Unit
+
 pub fn material_map_get_color(MaterialMap) -> Bytes
 
 pub fn material_map_get_texture(MaterialMap) -> Texture
@@ -1030,13 +1032,11 @@ pub fn measure_text(Bytes, Int) -> Int
 
 pub fn measure_text_ex(Font, Bytes, Float, Float) -> Bytes
 
-pub fn mesh_setup_texcoords2(Mesh, Bytes, Int) -> Unit
-
 pub fn minimize_window() -> Unit
 
 pub fn model_animations_count(ModelAnimations) -> Int
 
-pub fn new_mesh(Int, Int) -> Mesh
+pub fn new_mesh(Int, Int, FixedArray[Float], FixedArray[Float]?, FixedArray[Float]?, FixedArray[Float]?, FixedArray[Float]?, FixedArray[Byte]?, FixedArray[UInt16]?) -> Mesh
 
 pub fn new_render_texture(UInt, Texture, Texture) -> RenderTexture
 
@@ -1218,20 +1218,6 @@ pub fn set_material_shader(Material, Shader) -> Unit
 
 pub fn set_material_texture(Material, Int, Texture) -> Unit
 
-pub fn set_mesh_colors(Mesh, UByteArray) -> Unit
-
-pub fn set_mesh_indices(Mesh, UShortArray) -> Unit
-
-pub fn set_mesh_normals(Mesh, FloatArray) -> Unit
-
-pub fn set_mesh_tangents(Mesh, FloatArray) -> Unit
-
-pub fn set_mesh_texcoords(Mesh, FloatArray) -> Unit
-
-pub fn set_mesh_texcoords2(Mesh, FloatArray) -> Unit
-
-pub fn set_mesh_vertices(Mesh, FloatArray) -> Unit
-
 pub fn set_model_material_shader(Model, Int, Shader) -> Unit
 
 pub fn set_model_material_texture(Model, Int, Int, Texture) -> Unit
@@ -1330,13 +1316,13 @@ pub fn toggle_fullscreen() -> Unit
 
 pub fn trace_log(Int, Bytes) -> Unit
 
-pub fn ubyte_array_length(UByteArray) -> Int
+pub fn ubyte_array_get(UByteArray, Int) -> Int
 
 pub fn ubyte_array_new(Bytes, Int) -> UByteArray
 
-pub fn ubyte_array_op_get(UByteArray, Int) -> Int
+pub fn ubyte_array_null() -> UByteArray
 
-pub fn ubyte_array_op_set(UByteArray, Int, Int) -> Unit
+pub fn ubyte_array_set(UByteArray, Int, Int) -> Unit
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1402,13 +1388,13 @@ pub fn update_texture_rec(Texture, Bytes, Bytes) -> Unit
 
 pub fn upload_mesh(Mesh, Int) -> Unit
 
-pub fn ushort_array_length(UShortArray) -> Int
+pub fn ushort_array_get(UShortArray, Int) -> Int
 
 pub fn ushort_array_new(Bytes, Int) -> UShortArray
 
-pub fn ushort_array_op_get(UShortArray, Int) -> Int
+pub fn ushort_array_null() -> UShortArray
 
-pub fn ushort_array_op_set(UShortArray, Int, Int) -> Unit
+pub fn ushort_array_set(UShortArray, Int, Int) -> Unit
 
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 
@@ -1443,6 +1429,7 @@ pub type AutomationEventList
 
 pub type FilePathList
 
+#external
 pub type FloatArray
 
 pub type Font
@@ -1477,8 +1464,10 @@ pub type Sound
 
 pub type Texture
 
+#external
 pub type UByteArray
 
+#external
 pub type UShortArray
 
 pub type VrStereoConfig

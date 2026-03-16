@@ -824,7 +824,11 @@ pub extern "c" fn matrix_array_op_get(arr : MatrixArray, index : Int) -> Bytes =
 
 ///|
 #borrow(arr, value)
-pub extern "c" fn matrix_array_op_set(arr : MatrixArray, index : Int, value : Bytes) = "moonbit_raylib_matrix_array_op_set"
+pub extern "c" fn matrix_array_op_set(
+  arr : MatrixArray,
+  index : Int,
+  value : Bytes,
+) = "moonbit_raylib_matrix_array_op_set"
 
 // ============================================================================
 // MaterialMapArray operations
@@ -836,11 +840,18 @@ pub extern "c" fn material_map_array_length(arr : MaterialMapArray) -> Int = "mo
 
 ///|
 #borrow(arr)
-pub extern "c" fn material_map_array_op_get(arr : MaterialMapArray, index : Int) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
+pub extern "c" fn material_map_array_op_get(
+  arr : MaterialMapArray,
+  index : Int,
+) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
 
 ///|
 #borrow(arr, value)
-pub extern "c" fn material_map_array_op_set(arr : MaterialMapArray, index : Int, value : MaterialMap) = "moonbit_raylib_material_map_array_op_set"
+pub extern "c" fn material_map_array_op_set(
+  arr : MaterialMapArray,
+  index : Int,
+  value : MaterialMap,
+) = "moonbit_raylib_material_map_array_op_set"
 
 // ============================================================================
 // MaterialMap field accessors
@@ -852,7 +863,10 @@ pub extern "c" fn material_map_get_texture(map : MaterialMap) -> Texture = "moon
 
 ///|
 #borrow(map, texture)
-pub extern "c" fn material_map_set_texture(map : MaterialMap, texture : Texture) = "moonbit_raylib_material_map_set_texture"
+pub extern "c" fn material_map_set_texture(
+  map : MaterialMap,
+  texture : Texture,
+) = "moonbit_raylib_material_map_set_texture"
 
 ///|
 #borrow(map)
@@ -943,4 +957,3 @@ pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UByteArray = "moonbit_raylib_g
 ///|
 #borrow(mesh)
 pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortArray = "moonbit_raylib_get_mesh_indices"
-

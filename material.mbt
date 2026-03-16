@@ -192,7 +192,10 @@ pub fn ModelAnimations::frame_pose_translation(
 ) -> Vector3 {
   Vector3::from_bytes(
     @ffi.get_model_animation_frame_pose_translation(
-      self.0, anim_index, frame, bone_index,
+      self.0,
+      anim_index,
+      frame,
+      bone_index,
     ),
   )
 }
@@ -207,7 +210,10 @@ pub fn ModelAnimations::frame_pose_rotation(
 ) -> Vector4 {
   Vector4::from_bytes(
     @ffi.get_model_animation_frame_pose_rotation(
-      self.0, anim_index, frame, bone_index,
+      self.0,
+      anim_index,
+      frame,
+      bone_index,
     ),
   )
 }

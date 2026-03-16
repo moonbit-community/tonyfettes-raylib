@@ -1544,7 +1544,6 @@ pub fn FilePathList::count(Self) -> Int
 pub fn FilePathList::load_dropped() -> Self
 
 type FloatArray
-pub fn FloatArray::from_array(Array[Float]) -> Self
 pub fn FloatArray::length(Self) -> Int
 pub fn FloatArray::op_get(Self, Int) -> Float
 pub fn FloatArray::op_set(Self, Int, Float) -> Unit
@@ -1814,6 +1813,7 @@ pub fn MaterialMap::value(Self) -> Float
 type MaterialMapArray
 pub fn MaterialMapArray::length(Self) -> Int
 pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
+pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
 
 type MaterialsArray
 #as_free_fn(materials_array_count)
@@ -1917,24 +1917,9 @@ pub fn Mesh::gen_tangents(Self) -> Unit
 pub fn Mesh::gen_torus(Float, Float, Int, Int) -> Self
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(Self) -> UShortArray
-pub fn Mesh::new(Int, Int) -> Self
+pub fn Mesh::new(FixedArray[Float], texcoords? : FixedArray[Float], texcoords2? : FixedArray[Float], normals? : FixedArray[Float], tangents? : FixedArray[Float], colors? : FixedArray[Byte], indices? : FixedArray[UInt16]) -> Self
 #as_free_fn(get_mesh_normals)
 pub fn Mesh::normals(Self) -> FloatArray
-#as_free_fn(set_mesh_colors)
-pub fn Mesh::set_colors(Self, UByteArray) -> Unit
-#as_free_fn(set_mesh_indices)
-pub fn Mesh::set_indices(Self, UShortArray) -> Unit
-#as_free_fn(set_mesh_normals)
-pub fn Mesh::set_normals(Self, FloatArray) -> Unit
-#as_free_fn(set_mesh_tangents)
-pub fn Mesh::set_tangents(Self, FloatArray) -> Unit
-#as_free_fn(set_mesh_texcoords)
-pub fn Mesh::set_texcoords(Self, FloatArray) -> Unit
-pub fn Mesh::set_texcoords2_data(Self, FloatArray) -> Unit
-#as_free_fn(set_mesh_vertices)
-pub fn Mesh::set_vertices(Self, FloatArray) -> Unit
-#as_free_fn(mesh_setup_texcoords2)
-pub fn Mesh::setup_texcoords2(Self, Bytes, Int) -> Unit
 #as_free_fn(get_mesh_tangents)
 pub fn Mesh::tangents(Self) -> FloatArray
 #as_free_fn(get_mesh_texcoords)
@@ -2258,13 +2243,11 @@ pub fn Texture::update_rec(Self, Rectangle, Bytes) -> Unit
 pub fn Texture::width(Self) -> Int
 
 type UByteArray
-pub fn UByteArray::from_array(Array[Int]) -> Self
 pub fn UByteArray::length(Self) -> Int
 pub fn UByteArray::op_get(Self, Int) -> Int
 pub fn UByteArray::op_set(Self, Int, Int) -> Unit
 
 type UShortArray
-pub fn UShortArray::from_array(Array[Int]) -> Self
 pub fn UShortArray::length(Self) -> Int
 pub fn UShortArray::op_get(Self, Int) -> Int
 pub fn UShortArray::op_set(Self, Int, Int) -> Unit

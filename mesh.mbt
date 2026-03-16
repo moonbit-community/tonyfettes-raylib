@@ -17,8 +17,8 @@ pub fn Mesh::new(
     None => vertex_count / 3
   }
   @ffi.new_mesh(
-    vertex_count, triangle_count, vertices,
-    texcoords, texcoords2, normals, tangents, colors, indices,
+    vertex_count, triangle_count, vertices, texcoords, texcoords2, normals, tangents,
+    colors, indices,
   )
 }
 
