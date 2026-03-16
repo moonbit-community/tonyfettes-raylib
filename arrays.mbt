@@ -8,7 +8,7 @@
 struct FloatArray(@ffi.FloatArray, Int)
 
 ///|
-pub fn FloatArray::is_null(self : FloatArray) -> Bool {
+fn FloatArray::is_null(self : FloatArray) -> Bool {
   @ffi.float_array_is_null(self.0)
 }
 
@@ -39,7 +39,7 @@ pub fn FloatArray::op_set(
 struct UByteArray(@ffi.UByteArray, Int)
 
 ///|
-pub fn UByteArray::is_null(self : UByteArray) -> Bool {
+fn UByteArray::is_null(self : UByteArray) -> Bool {
   @ffi.ubyte_array_is_null(self.0)
 }
 
@@ -66,7 +66,7 @@ pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
 struct UShortArray(@ffi.UShortArray, Int)
 
 ///|
-pub fn UShortArray::is_null(self : UShortArray) -> Bool {
+fn UShortArray::is_null(self : UShortArray) -> Bool {
   @ffi.ushort_array_is_null(self.0)
 }
 

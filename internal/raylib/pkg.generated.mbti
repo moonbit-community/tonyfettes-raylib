@@ -366,9 +366,7 @@ pub fn file_path_list_get(FilePathList, Int) -> Bytes
 
 pub fn float_array_get(FloatArray, Int) -> Float
 
-pub fn float_array_new(Bytes, Int) -> FloatArray
-
-pub fn float_array_null() -> FloatArray
+pub fn float_array_is_null(FloatArray) -> Bool
 
 pub fn float_array_set(FloatArray, Int, Float) -> Unit
 
@@ -1318,9 +1316,7 @@ pub fn trace_log(Int, Bytes) -> Unit
 
 pub fn ubyte_array_get(UByteArray, Int) -> Int
 
-pub fn ubyte_array_new(Bytes, Int) -> UByteArray
-
-pub fn ubyte_array_null() -> UByteArray
+pub fn ubyte_array_is_null(UByteArray) -> Bool
 
 pub fn ubyte_array_set(UByteArray, Int, Int) -> Unit
 
@@ -1390,9 +1386,7 @@ pub fn upload_mesh(Mesh, Int) -> Unit
 
 pub fn ushort_array_get(UShortArray, Int) -> Int
 
-pub fn ushort_array_new(Bytes, Int) -> UShortArray
-
-pub fn ushort_array_null() -> UShortArray
+pub fn ushort_array_is_null(UShortArray) -> Bool
 
 pub fn ushort_array_set(UShortArray, Int, Int) -> Unit
 

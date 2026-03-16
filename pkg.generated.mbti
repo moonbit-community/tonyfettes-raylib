@@ -1880,7 +1880,7 @@ pub fn Mesh::bone_matrices(Self) -> MatrixArray
 #as_free_fn(get_mesh_bounding_box)
 pub fn Mesh::bounding_box(Self) -> BoundingBox
 #as_free_fn(get_mesh_colors)
-pub fn Mesh::colors(Self) -> UByteArray
+pub fn Mesh::colors(Self) -> UByteArray?
 #as_free_fn(draw_mesh)
 pub fn Mesh::draw(Self, Material, Matrix) -> Unit
 #as_free_fn(draw_mesh_instanced)
@@ -1916,16 +1916,16 @@ pub fn Mesh::gen_tangents(Self) -> Unit
 #as_free_fn(gen_mesh_torus)
 pub fn Mesh::gen_torus(Float, Float, Int, Int) -> Self
 #as_free_fn(get_mesh_indices)
-pub fn Mesh::indices(Self) -> UShortArray
+pub fn Mesh::indices(Self) -> UShortArray?
 pub fn Mesh::new(FixedArray[Float], texcoords? : FixedArray[Float], texcoords2? : FixedArray[Float], normals? : FixedArray[Float], tangents? : FixedArray[Float], colors? : FixedArray[Byte], indices? : FixedArray[UInt16]) -> Self
 #as_free_fn(get_mesh_normals)
-pub fn Mesh::normals(Self) -> FloatArray
+pub fn Mesh::normals(Self) -> FloatArray?
 #as_free_fn(get_mesh_tangents)
-pub fn Mesh::tangents(Self) -> FloatArray
+pub fn Mesh::tangents(Self) -> FloatArray?
 #as_free_fn(get_mesh_texcoords)
-pub fn Mesh::texcoords(Self) -> FloatArray
+pub fn Mesh::texcoords(Self) -> FloatArray?
 #as_free_fn(get_mesh_texcoords2)
-pub fn Mesh::texcoords2(Self) -> FloatArray
+pub fn Mesh::texcoords2(Self) -> FloatArray?
 #as_free_fn(get_mesh_triangle_count)
 pub fn Mesh::triangle_count(Self) -> Int
 #as_free_fn(unload_mesh)
@@ -1937,7 +1937,7 @@ pub fn Mesh::upload(Self, Bool) -> Unit
 #as_free_fn(get_mesh_vertex_count)
 pub fn Mesh::vertex_count(Self) -> Int
 #as_free_fn(get_mesh_vertices)
-pub fn Mesh::vertices(Self) -> FloatArray
+pub fn Mesh::vertices(Self) -> FloatArray?
 
 type Model
 #as_free_fn(get_model_bind_pose_rotation)
