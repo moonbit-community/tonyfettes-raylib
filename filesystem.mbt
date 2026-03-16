@@ -21,9 +21,8 @@ pub fn FilePathList::count(self : FilePathList) -> Int {
 }
 
 ///|
-#as_free_fn(unload_dropped_files)
-pub fn FilePathList::unload(self : FilePathList) -> Unit {
-  @ffi.unload_dropped_files(self.0)
+pub fn unload_dropped_files(files : FilePathList) -> Unit {
+  @ffi.unload_dropped_files(files.0)
 }
 
 ///|
