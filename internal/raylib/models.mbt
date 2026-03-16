@@ -764,13 +764,6 @@ pub extern "c" fn gen_mesh_from_points(
 // ============================================================================
 
 ///|
-#borrow(data)
-pub extern "c" fn float_array_new(data : Bytes, count : Int) -> FloatArray = "moonbit_raylib_float_array_new"
-
-///|
-pub extern "c" fn float_array_null() -> FloatArray = "moonbit_raylib_float_array_null"
-
-///|
 pub extern "c" fn float_array_is_null(arr : FloatArray) -> Bool = "moonbit_raylib_float_array_is_null"
 
 ///|
@@ -784,13 +777,6 @@ pub extern "c" fn float_array_set(arr : FloatArray, index : Int, value : Float) 
 // ============================================================================
 
 ///|
-#borrow(data)
-pub extern "c" fn ubyte_array_new(data : Bytes, count : Int) -> UByteArray = "moonbit_raylib_ubyte_array_new"
-
-///|
-pub extern "c" fn ubyte_array_null() -> UByteArray = "moonbit_raylib_ubyte_array_null"
-
-///|
 pub extern "c" fn ubyte_array_is_null(arr : UByteArray) -> Bool = "moonbit_raylib_ubyte_array_is_null"
 
 ///|
@@ -802,13 +788,6 @@ pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Int) = 
 // ============================================================================
 // UShortArray operations (#external — raw unsigned short*)
 // ============================================================================
-
-///|
-#borrow(data)
-pub extern "c" fn ushort_array_new(data : Bytes, count : Int) -> UShortArray = "moonbit_raylib_ushort_array_new"
-
-///|
-pub extern "c" fn ushort_array_null() -> UShortArray = "moonbit_raylib_ushort_array_null"
 
 ///|
 pub extern "c" fn ushort_array_is_null(arr : UShortArray) -> Bool = "moonbit_raylib_ushort_array_is_null"

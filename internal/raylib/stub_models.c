@@ -1268,18 +1268,6 @@ moonbit_raylib_gen_mesh_from_points(
 // FloatArray: raw float* operations (#external, no wrapper)
 // ============================================================================
 
-float *
-moonbit_raylib_float_array_new(moonbit_bytes_t data, int32_t count) {
-  float *arr = (float *)RL_MALLOC((size_t)count * sizeof(float));
-  memcpy(arr, data, (size_t)count * sizeof(float));
-  return arr;
-}
-
-float *
-moonbit_raylib_float_array_null(void) {
-  return NULL;
-}
-
 int32_t
 moonbit_raylib_float_array_is_null(float *arr) {
   return arr == NULL;
@@ -1298,18 +1286,6 @@ moonbit_raylib_float_array_set(float *arr, int32_t index, float value) {
 // ============================================================================
 // UByteArray: raw unsigned char* operations (#external, no wrapper)
 // ============================================================================
-
-unsigned char *
-moonbit_raylib_ubyte_array_new(moonbit_bytes_t data, int32_t count) {
-  unsigned char *arr = (unsigned char *)RL_MALLOC((size_t)count);
-  memcpy(arr, data, (size_t)count);
-  return arr;
-}
-
-unsigned char *
-moonbit_raylib_ubyte_array_null(void) {
-  return NULL;
-}
 
 int32_t
 moonbit_raylib_ubyte_array_is_null(unsigned char *arr) {
@@ -1333,19 +1309,6 @@ moonbit_raylib_ubyte_array_set(
 // ============================================================================
 // UShortArray: raw unsigned short* operations (#external, no wrapper)
 // ============================================================================
-
-unsigned short *
-moonbit_raylib_ushort_array_new(moonbit_bytes_t data, int32_t count) {
-  unsigned short *arr =
-    (unsigned short *)RL_MALLOC((size_t)count * sizeof(unsigned short));
-  memcpy(arr, data, (size_t)count * sizeof(unsigned short));
-  return arr;
-}
-
-unsigned short *
-moonbit_raylib_ushort_array_null(void) {
-  return NULL;
-}
 
 int32_t
 moonbit_raylib_ushort_array_is_null(unsigned short *arr) {
