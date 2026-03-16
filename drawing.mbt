@@ -1,8 +1,3 @@
-// Re-export opaque types for drawing
-
-///|
-pub using @ffi {type Shader, type VrStereoConfig}
-
 // Drawing lifecycle re-exports
 
 ///|
@@ -14,21 +9,8 @@ pub using @ffi {
   begin_blend_mode,
   end_blend_mode,
   end_texture_mode,
-  begin_texture_mode,
-}
-
-// Shader re-exports (passthrough: primitives/opaque types only)
-
-///|
-pub using @ffi {
-  is_shader_valid,
-  unload_shader,
-  begin_shader_mode,
   end_shader_mode,
-  set_shader_value,
-  set_shader_value_v,
-  set_shader_locs,
-  set_shader_value_texture,
+  end_vr_stereo_mode,
 }
 
 // Drawing wrapper
@@ -36,53 +18,6 @@ pub using @ffi {
 ///|
 pub fn clear_background(color : Color) -> Unit {
   @ffi.clear_background(color.to_bytes())
-}
-
-// ============================================================================
-// Shader management (wrappers)
-// ============================================================================
-
-///|
-pub fn load_shader(vs_file_name : String, fs_file_name : String) -> Shader {
-  @ffi.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
-}
-
-///|
-pub fn load_shader_from_memory(vs_code : String, fs_code : String) -> Shader {
-  @ffi.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
-}
-
-///|
-pub fn get_shader_location(shader : Shader, uniform_name : String) -> Int {
-  @ffi.get_shader_location(shader, @utf8.encode(uniform_name))
-}
-
-///|
-pub fn set_shader_location(
-  shader : Shader,
-  loc_index : Int,
-  value : Int,
-) -> Unit {
-  @ffi.set_shader_location(shader, loc_index, value)
-}
-
-///|
-pub fn get_shader_id(shader : Shader) -> Int {
-  @ffi.get_shader_id(shader)
-}
-
-///|
-pub fn get_shader_location_attrib(shader : Shader, attrib_name : String) -> Int {
-  @ffi.get_shader_location_attrib(shader, @utf8.encode(attrib_name))
-}
-
-///|
-pub fn set_shader_value_matrix(
-  shader : Shader,
-  loc_index : Int,
-  mat : Matrix,
-) -> Unit {
-  @ffi.set_shader_value_matrix(shader, loc_index, mat.to_bytes())
 }
 
 // Shader uniform type constants
@@ -217,11 +152,67 @@ pub const BlendMultiplied : Int = 2
 pub const BlendCustom : Int = 6
 
 // ============================================================================
-// VR stereo re-exports
+// VR stereo
 // ============================================================================
 
 ///|
-pub using @ffi {unload_vr_stereo_config, end_vr_stereo_mode}
+struct VrStereoConfig(@ffi.VrStereoConfig)
+
+///|
+#as_free_fn(unload_vr_stereo_config)
+pub fn VrStereoConfig::unload(self : VrStereoConfig) -> Unit {
+  @ffi.unload_vr_stereo_config(self.0)
+}
+
+///|
+#as_free_fn(load_vr_stereo_config)
+pub fn VrStereoConfig::load(device : VrDeviceInfo) -> VrStereoConfig {
+  @ffi.load_vr_stereo_config(device.to_bytes())
+}
+
+///|
+#as_free_fn(begin_vr_stereo_mode)
+pub fn VrStereoConfig::begin_mode(self : VrStereoConfig) -> Unit {
+  @ffi.begin_vr_stereo_mode(self.0)
+}
+
+// VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
+
+///|
+#as_free_fn(vr_stereo_config_left_lens_center)
+pub fn VrStereoConfig::left_lens_center(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_left_lens_center(self.0)
+}
+
+///|
+#as_free_fn(vr_stereo_config_right_lens_center)
+pub fn VrStereoConfig::right_lens_center(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_right_lens_center(self.0)
+}
+
+///|
+#as_free_fn(vr_stereo_config_left_screen_center)
+pub fn VrStereoConfig::left_screen_center(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_left_screen_center(self.0)
+}
+
+///|
+#as_free_fn(vr_stereo_config_right_screen_center)
+pub fn VrStereoConfig::right_screen_center(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_right_screen_center(self.0)
+}
+
+///|
+#as_free_fn(vr_stereo_config_scale)
+pub fn VrStereoConfig::scale(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_scale(self.0)
+}
+
+///|
+#as_free_fn(vr_stereo_config_scale_in)
+pub fn VrStereoConfig::scale_in(self : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_scale_in(self.0)
+}
 
 // VrDeviceInfo value type: 60 bytes
 // hResolution(int), vResolution(int), hScreenSize(float), vScreenSize(float),
@@ -283,46 +274,4 @@ pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
     buf.write_float_le(info.chroma_ab_correction[i])
   }
   buf.to_bytes()
-}
-
-///|
-pub fn load_vr_stereo_config(device : VrDeviceInfo) -> VrStereoConfig {
-  @ffi.load_vr_stereo_config(device.to_bytes())
-}
-
-///|
-pub fn begin_vr_stereo_mode(config : VrStereoConfig) -> Unit {
-  @ffi.begin_vr_stereo_mode(config)
-}
-
-// VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
-
-///|
-pub fn vr_stereo_config_left_lens_center(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_left_lens_center(config)
-}
-
-///|
-pub fn vr_stereo_config_right_lens_center(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_right_lens_center(config)
-}
-
-///|
-pub fn vr_stereo_config_left_screen_center(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_left_screen_center(config)
-}
-
-///|
-pub fn vr_stereo_config_right_screen_center(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_right_screen_center(config)
-}
-
-///|
-pub fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_scale(config)
-}
-
-///|
-pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_scale_in(config)
 }

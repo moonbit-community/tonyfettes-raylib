@@ -1,30 +1,131 @@
-// Re-export passthrough functions from internal FFI layer
+// Image processing methods and wrappers
 
 ///|
-pub using @ffi {
-  image_format,
-  image_alpha_crop,
-  image_alpha_premultiply,
-  image_blur_gaussian,
-  image_resize,
-  image_resize_nn,
-  image_mipmaps,
-  image_dither,
-  image_flip_vertical,
-  image_flip_horizontal,
-  image_rotate,
-  image_rotate_cw,
-  image_rotate_ccw,
-  image_color_invert,
-  image_color_grayscale,
-  image_alpha_mask,
-  image_color_contrast,
-  image_color_brightness,
-  image_kernel_convolution,
-  image_width,
-  image_height,
-  load_image_colors,
-  load_image_palette,
+#as_free_fn(image_format)
+pub fn Image::set_format(self : Image, new_format : Int) -> Unit {
+  @ffi.image_format(self.0, new_format)
+}
+
+///|
+#as_free_fn(image_alpha_crop)
+pub fn Image::alpha_crop(self : Image, threshold : Float) -> Unit {
+  @ffi.image_alpha_crop(self.0, threshold)
+}
+
+///|
+#as_free_fn(image_alpha_premultiply)
+pub fn Image::alpha_premultiply(self : Image) -> Unit {
+  @ffi.image_alpha_premultiply(self.0)
+}
+
+///|
+#as_free_fn(image_blur_gaussian)
+pub fn Image::blur_gaussian(self : Image, blur_size : Int) -> Unit {
+  @ffi.image_blur_gaussian(self.0, blur_size)
+}
+
+///|
+#as_free_fn(image_resize)
+pub fn Image::resize(self : Image, new_width : Int, new_height : Int) -> Unit {
+  @ffi.image_resize(self.0, new_width, new_height)
+}
+
+///|
+#as_free_fn(image_resize_nn)
+pub fn Image::resize_nn(
+  self : Image,
+  new_width : Int,
+  new_height : Int,
+) -> Unit {
+  @ffi.image_resize_nn(self.0, new_width, new_height)
+}
+
+///|
+#as_free_fn(image_mipmaps)
+pub fn Image::gen_mipmaps(self : Image) -> Unit {
+  @ffi.image_mipmaps(self.0)
+}
+
+///|
+#as_free_fn(image_dither)
+pub fn Image::dither(
+  self : Image,
+  r_bpp : Int,
+  g_bpp : Int,
+  b_bpp : Int,
+  a_bpp : Int,
+) -> Unit {
+  @ffi.image_dither(self.0, r_bpp, g_bpp, b_bpp, a_bpp)
+}
+
+///|
+#as_free_fn(image_flip_vertical)
+pub fn Image::flip_vertical(self : Image) -> Unit {
+  @ffi.image_flip_vertical(self.0)
+}
+
+///|
+#as_free_fn(image_flip_horizontal)
+pub fn Image::flip_horizontal(self : Image) -> Unit {
+  @ffi.image_flip_horizontal(self.0)
+}
+
+///|
+#as_free_fn(image_rotate)
+pub fn Image::rotate(self : Image, degrees : Int) -> Unit {
+  @ffi.image_rotate(self.0, degrees)
+}
+
+///|
+#as_free_fn(image_rotate_cw)
+pub fn Image::rotate_cw(self : Image) -> Unit {
+  @ffi.image_rotate_cw(self.0)
+}
+
+///|
+#as_free_fn(image_rotate_ccw)
+pub fn Image::rotate_ccw(self : Image) -> Unit {
+  @ffi.image_rotate_ccw(self.0)
+}
+
+///|
+#as_free_fn(image_color_invert)
+pub fn Image::color_invert(self : Image) -> Unit {
+  @ffi.image_color_invert(self.0)
+}
+
+///|
+#as_free_fn(image_color_grayscale)
+pub fn Image::color_grayscale(self : Image) -> Unit {
+  @ffi.image_color_grayscale(self.0)
+}
+
+///|
+#as_free_fn(image_alpha_mask)
+pub fn Image::alpha_mask(self : Image, alpha_mask : Image) -> Unit {
+  @ffi.image_alpha_mask(self.0, alpha_mask.0)
+}
+
+///|
+#as_free_fn(image_color_contrast)
+pub fn Image::adjust_contrast(self : Image, contrast : Float) -> Unit {
+  @ffi.image_color_contrast(self.0, contrast)
+}
+
+///|
+#as_free_fn(image_color_brightness)
+pub fn Image::adjust_brightness(self : Image, brightness : Int) -> Unit {
+  @ffi.image_color_brightness(self.0, brightness)
+}
+
+///|
+#as_free_fn(image_kernel_convolution)
+pub fn Image::kernel_convolution(
+  self : Image,
+  kernel : Bytes,
+  kernel_size : Int,
+) -> Unit {
+  @ffi.image_kernel_convolution(self.0, kernel, kernel_size)
 }
 
 // ============================================================================
@@ -32,7 +133,8 @@ pub using @ffi {
 // ============================================================================
 
 ///|
-pub fn load_image_raw(
+#as_free_fn(load_image_raw)
+pub fn Image::load_raw(
   file_name : String,
   width : Int,
   height : Int,
@@ -49,14 +151,16 @@ pub fn load_image_raw(
 }
 
 ///|
-pub fn load_image_anim(file_name : String) -> (Image, Int) {
+#as_free_fn(load_image_anim)
+pub fn Image::load_anim(file_name : String) -> (Image, Int) {
   let frames = Ref::new(0)
   let image = @ffi.load_image_anim(@utf8.encode(file_name), frames)
   (image, frames.val)
 }
 
 ///|
-pub fn load_image_anim_from_memory(
+#as_free_fn(load_image_anim_from_memory)
+pub fn Image::load_anim_from_memory(
   file_type : String,
   file_data : Bytes,
   data_size : Int,
@@ -76,27 +180,31 @@ pub fn load_image_anim_from_memory(
 // ============================================================================
 
 ///|
-pub fn image_to_pot(image : Image, fill : Color) -> Unit {
-  @ffi.image_to_pot(image, fill.to_bytes())
+#as_free_fn(image_to_pot)
+pub fn Image::to_pot(self : Image, fill : Color) -> Unit {
+  @ffi.image_to_pot(self.0, fill.to_bytes())
 }
 
 ///|
-pub fn image_crop(image : Image, crop : Rectangle) -> Unit {
-  @ffi.image_crop(image, crop.to_bytes())
+#as_free_fn(image_crop)
+pub fn Image::crop(self : Image, crop : Rectangle) -> Unit {
+  @ffi.image_crop(self.0, crop.to_bytes())
 }
 
 ///|
-pub fn image_alpha_clear(
-  image : Image,
+#as_free_fn(image_alpha_clear)
+pub fn Image::alpha_clear(
+  self : Image,
   color : Color,
   threshold : Float,
 ) -> Unit {
-  @ffi.image_alpha_clear(image, color.to_bytes(), threshold)
+  @ffi.image_alpha_clear(self.0, color.to_bytes(), threshold)
 }
 
 ///|
-pub fn image_resize_canvas(
-  image : Image,
+#as_free_fn(image_resize_canvas)
+pub fn Image::resize_canvas(
+  self : Image,
   new_width : Int,
   new_height : Int,
   offset_x : Int,
@@ -104,7 +212,7 @@ pub fn image_resize_canvas(
   fill : Color,
 ) -> Unit {
   @ffi.image_resize_canvas(
-    image,
+    self.0,
     new_width,
     new_height,
     offset_x,
@@ -114,17 +222,19 @@ pub fn image_resize_canvas(
 }
 
 ///|
-pub fn image_color_tint(image : Image, color : Color) -> Unit {
-  @ffi.image_color_tint(image, color.to_bytes())
+#as_free_fn(image_color_tint)
+pub fn Image::color_tint(self : Image, color : Color) -> Unit {
+  @ffi.image_color_tint(self.0, color.to_bytes())
 }
 
 ///|
-pub fn image_color_replace(
-  image : Image,
+#as_free_fn(image_color_replace)
+pub fn Image::color_replace(
+  self : Image,
   color : Color,
   replace : Color,
 ) -> Unit {
-  @ffi.image_color_replace(image, color.to_bytes(), replace.to_bytes())
+  @ffi.image_color_replace(self.0, color.to_bytes(), replace.to_bytes())
 }
 
 // ============================================================================
@@ -132,12 +242,14 @@ pub fn image_color_replace(
 // ============================================================================
 
 ///|
-pub fn image_text(text : String, font_size : Int, color : Color) -> Image {
+#as_free_fn(image_text)
+pub fn Image::text(text : String, font_size : Int, color : Color) -> Image {
   @ffi.image_text(@utf8.encode(text), font_size, color.to_bytes())
 }
 
 ///|
-pub fn image_text_ex(
+#as_free_fn(image_text_ex)
+pub fn Image::text_ex(
   font : Font,
   text : String,
   font_size : Float,
@@ -145,7 +257,7 @@ pub fn image_text_ex(
   tint : Color,
 ) -> Image {
   @ffi.image_text_ex(
-    font,
+    font.0,
     @utf8.encode(text),
     font_size,
     spacing,
@@ -158,13 +270,15 @@ pub fn image_text_ex(
 // ============================================================================
 
 ///|
-pub fn get_image_alpha_border(image : Image, threshold : Float) -> Rectangle {
-  Rectangle::from_bytes(@ffi.get_image_alpha_border(image, threshold))
+#as_free_fn(get_image_alpha_border)
+pub fn Image::alpha_border(self : Image, threshold : Float) -> Rectangle {
+  Rectangle::from_bytes(@ffi.get_image_alpha_border(self.0, threshold))
 }
 
 ///|
-pub fn get_image_color(image : Image, x : Int, y : Int) -> Color {
-  Color::from_bytes(@ffi.get_image_color(image, x, y))
+#as_free_fn(get_image_color)
+pub fn Image::get_color(self : Image, x : Int, y : Int) -> Color {
+  Color::from_bytes(@ffi.get_image_color(self.0, x, y))
 }
 
 // ============================================================================
@@ -172,11 +286,13 @@ pub fn get_image_color(image : Image, x : Int, y : Int) -> Color {
 // ============================================================================
 
 ///|
-pub fn export_image_to_memory(image : Image, file_type : String) -> Bytes {
-  @ffi.export_image_to_memory(image, @utf8.encode(file_type))
+#as_free_fn(export_image_to_memory)
+pub fn Image::export_to_memory(self : Image, file_type : String) -> Bytes {
+  @ffi.export_image_to_memory(self.0, @utf8.encode(file_type))
 }
 
 ///|
-pub fn export_image_as_code(image : Image, file_name : String) -> Bool {
-  @ffi.export_image_as_code(image, @utf8.encode(file_name))
+#as_free_fn(export_image_as_code)
+pub fn Image::export_as_code(self : Image, file_name : String) -> Bool {
+  @ffi.export_image_as_code(self.0, @utf8.encode(file_name))
 }

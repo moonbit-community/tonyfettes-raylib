@@ -271,6 +271,14 @@ pub extern "c" fn get_texture_width(texture : Texture) -> Int = "moonbit_raylib_
 #borrow(texture)
 pub extern "c" fn get_texture_height(texture : Texture) -> Int = "moonbit_raylib_get_texture_height"
 
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_mipmaps(texture : Texture) -> Int = "moonbit_raylib_get_texture_mipmaps"
+
+///|
+#borrow(texture)
+pub extern "c" fn get_texture_format(texture : Texture) -> Int = "moonbit_raylib_get_texture_format"
+
 // ============================================================================
 // RenderTexture: get texture
 // ============================================================================

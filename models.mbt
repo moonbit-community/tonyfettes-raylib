@@ -2,40 +2,7 @@
 
 ///|
 pub using @ffi {
-  type Model,
-  type Mesh,
-  type Material,
-  type ModelAnimations,
-  unload_model,
   draw_grid,
-  is_model_valid,
-  // Mesh generation (passthrough)
-  gen_mesh_poly,
-  gen_mesh_plane,
-  gen_mesh_cube,
-  gen_mesh_sphere,
-  gen_mesh_hemisphere,
-  gen_mesh_cylinder,
-  gen_mesh_cone,
-  gen_mesh_torus,
-  gen_mesh_knot,
-  // Mesh utilities (passthrough)
-  unload_mesh,
-  upload_mesh,
-  gen_mesh_tangents,
-  load_model_from_mesh,
-  // Material (passthrough)
-  load_material_default,
-  is_material_valid,
-  unload_material,
-  set_material_shader,
-  set_model_mesh_material,
-  // Model animations (passthrough)
-  model_animations_count,
-  update_model_animation,
-  update_model_animation_bones,
-  is_model_animation_valid,
-  unload_model_animations,
 }
 
 // ============================================================================
@@ -299,147 +266,6 @@ pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
 }
 
 // ============================================================================
-// Model loading (wrappers)
-// ============================================================================
-
-///|
-pub fn load_model(file_name : String) -> Model {
-  @ffi.load_model(@utf8.encode(file_name))
-}
-
-///|
-pub fn draw_model(
-  model : Model,
-  position : Vector3,
-  scale : Float,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model(model, position.to_bytes(), scale, tint.to_bytes())
-}
-
-///|
-pub fn draw_model_ex(
-  model : Model,
-  position : Vector3,
-  rotation_axis : Vector3,
-  rotation_angle : Float,
-  scale : Vector3,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_ex(
-    model,
-    position.to_bytes(),
-    rotation_axis.to_bytes(),
-    rotation_angle,
-    scale.to_bytes(),
-    tint.to_bytes(),
-  )
-}
-
-///|
-pub fn draw_model_wires(
-  model : Model,
-  position : Vector3,
-  scale : Float,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_wires(model, position.to_bytes(), scale, tint.to_bytes())
-}
-
-///|
-pub fn draw_model_wires_ex(
-  model : Model,
-  position : Vector3,
-  rotation_axis : Vector3,
-  rotation_angle : Float,
-  scale : Vector3,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_wires_ex(
-    model,
-    position.to_bytes(),
-    rotation_axis.to_bytes(),
-    rotation_angle,
-    scale.to_bytes(),
-    tint.to_bytes(),
-  )
-}
-
-///|
-pub fn draw_model_points(
-  model : Model,
-  position : Vector3,
-  scale : Float,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_points(model, position.to_bytes(), scale, tint.to_bytes())
-}
-
-///|
-pub fn draw_model_points_ex(
-  model : Model,
-  position : Vector3,
-  rotation_axis : Vector3,
-  rotation_angle : Float,
-  scale : Vector3,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_points_ex(
-    model,
-    position.to_bytes(),
-    rotation_axis.to_bytes(),
-    rotation_angle,
-    scale.to_bytes(),
-    tint.to_bytes(),
-  )
-}
-
-// ============================================================================
-// Model material shader (wrappers)
-// ============================================================================
-
-///|
-pub fn set_model_material_shader(
-  model : Model,
-  material_index : Int,
-  shader : Shader,
-) -> Unit {
-  @ffi.set_model_material_shader(model, material_index, shader)
-}
-
-// ============================================================================
-// Model management (wrappers)
-// ============================================================================
-
-///|
-pub fn get_model_bounding_box(model : Model) -> BoundingBox {
-  BoundingBox::from_bytes(@ffi.get_model_bounding_box(model))
-}
-
-// ============================================================================
-// Model material texture (wrappers)
-// ============================================================================
-
-///|
-pub fn set_model_material_texture(
-  model : Model,
-  material_index : Int,
-  map_type : Int,
-  texture : Texture,
-) -> Unit {
-  @ffi.set_model_material_texture(model, material_index, map_type, texture)
-}
-
-///|
-pub fn set_material_texture(
-  material : Material,
-  map_type : Int,
-  texture : Texture,
-) -> Unit {
-  @ffi.set_material_texture(material, map_type, texture)
-}
-
-// ============================================================================
 // Billboard drawing (wrappers)
 // ============================================================================
 
@@ -453,7 +279,7 @@ pub fn draw_billboard(
 ) -> Unit {
   @ffi.draw_billboard(
     camera.to_bytes(),
-    texture,
+    texture.0,
     position.to_bytes(),
     scale,
     tint.to_bytes(),
@@ -471,7 +297,7 @@ pub fn draw_billboard_rec(
 ) -> Unit {
   @ffi.draw_billboard_rec(
     camera.to_bytes(),
-    texture,
+    texture.0,
     source.to_bytes(),
     position.to_bytes(),
     size.to_bytes(),
@@ -493,7 +319,7 @@ pub fn draw_billboard_pro(
 ) -> Unit {
   @ffi.draw_billboard_pro(
     camera.to_bytes(),
-    texture,
+    texture.0,
     source.to_bytes(),
     position.to_bytes(),
     up.to_bytes(),
@@ -572,34 +398,6 @@ pub fn get_ray_collision_triangle(
   )
 }
 
-// ============================================================================
-// Mesh generation (wrappers)
-// ============================================================================
-
-///|
-pub fn gen_mesh_heightmap(heightmap : Image, size : Vector3) -> Mesh {
-  @ffi.gen_mesh_heightmap(heightmap, size.to_bytes())
-}
-
-///|
-pub fn gen_mesh_cubicmap(cubicmap : Image, cube_size : Vector3) -> Mesh {
-  @ffi.gen_mesh_cubicmap(cubicmap, cube_size.to_bytes())
-}
-
-// ============================================================================
-// Mesh utilities (wrappers)
-// ============================================================================
-
-///|
-pub fn get_mesh_bounding_box(mesh : Mesh) -> BoundingBox {
-  BoundingBox::from_bytes(@ffi.get_mesh_bounding_box(mesh))
-}
-
-///|
-pub fn export_mesh(mesh : Mesh, file_name : String) -> Bool {
-  @ffi.export_mesh(mesh, @utf8.encode(file_name))
-}
-
 ///|
 pub fn get_ray_collision_mesh(
   ray : Ray,
@@ -607,33 +405,27 @@ pub fn get_ray_collision_mesh(
   transform : Matrix,
 ) -> RayCollision {
   RayCollision::from_bytes(
-    @ffi.get_ray_collision_mesh(ray.to_bytes(), mesh, transform.to_bytes()),
+    @ffi.get_ray_collision_mesh(ray.to_bytes(), mesh.0, transform.to_bytes()),
   )
 }
 
-// ============================================================================
-// Mesh drawing (wrappers)
-// ============================================================================
-
 ///|
-pub fn draw_mesh(mesh : Mesh, material : Material, transform : Matrix) -> Unit {
-  @ffi.draw_mesh(mesh, material, transform.to_bytes())
-}
-
-///|
-pub fn draw_mesh_instanced(
-  mesh : Mesh,
-  material : Material,
-  transforms : Array[Matrix],
-  instances : Int,
-) -> Unit {
-  let arr = FixedArray::make(instances * 64, b'\x00')
-  for i in 0..<instances {
-    let m = transforms[i].to_bytes()
-    arr.blit_from_bytes(i * 64, m, 0, 64)
-  }
-  let buf = FixedArray::unsafe_reinterpret_as_bytes(arr)
-  @ffi.draw_mesh_instanced(mesh, material, buf, instances)
+pub fn get_ray_collision_quad(
+  ray : Ray,
+  p1 : Vector3,
+  p2 : Vector3,
+  p3 : Vector3,
+  p4 : Vector3,
+) -> RayCollision {
+  RayCollision::from_bytes(
+    @ffi.get_ray_collision_quad(
+      ray.to_bytes(),
+      p1.to_bytes(),
+      p2.to_bytes(),
+      p3.to_bytes(),
+      p4.to_bytes(),
+    ),
+  )
 }
 
 // ============================================================================
@@ -672,227 +464,3 @@ pub const MaterialMapPrefilter : Int = 9
 
 ///|
 pub const MaterialMapBrdf : Int = 10
-
-///|
-pub fn set_material_map_color(
-  material : Material,
-  map_type : Int,
-  color : Color,
-) -> Unit {
-  @ffi.set_material_map_color(material, map_type, color.to_bytes())
-}
-
-///|
-pub fn set_material_map_value(
-  material : Material,
-  map_type : Int,
-  value : Float,
-) -> Unit {
-  @ffi.set_material_map_value(material, map_type, value)
-}
-
-// ============================================================================
-// Model animations (wrappers)
-// ============================================================================
-
-///|
-pub fn load_model_animations(file_name : String) -> ModelAnimations {
-  @ffi.load_model_animations(@utf8.encode(file_name))
-}
-
-// ============================================================================
-// Ray collision: quad (wrapper)
-// ============================================================================
-
-///|
-pub fn get_ray_collision_quad(
-  ray : Ray,
-  p1 : Vector3,
-  p2 : Vector3,
-  p3 : Vector3,
-  p4 : Vector3,
-) -> RayCollision {
-  RayCollision::from_bytes(
-    @ffi.get_ray_collision_quad(
-      ray.to_bytes(),
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-    ),
-  )
-}
-
-// ============================================================================
-// Mesh: Export as code (wrappers)
-// ============================================================================
-
-///|
-pub fn export_mesh_as_code(mesh : Mesh, file_name : String) -> Bool {
-  @ffi.export_mesh_as_code(mesh, @utf8.encode(file_name))
-}
-
-// ============================================================================
-// Mesh: UpdateMeshBuffer (re-export)
-// ============================================================================
-
-///|
-pub using @ffi {update_mesh_buffer}
-
-// ============================================================================
-// LoadMaterials (wrappers)
-// ============================================================================
-
-///|
-pub using @ffi {
-  type MaterialsArray,
-  unload_materials_array,
-  materials_array_count,
-  materials_array_get,
-}
-
-///|
-pub fn load_materials(file_name : String) -> MaterialsArray {
-  @ffi.load_materials(@utf8.encode(file_name))
-}
-
-// ============================================================================
-// Model: transform / mesh access
-// ============================================================================
-
-///|
-pub fn set_model_transform(model : Model, transform : Matrix) -> Unit {
-  @ffi.set_model_transform(model, transform.to_bytes())
-}
-
-///|
-pub fn get_model_mesh_count(model : Model) -> Int {
-  @ffi.get_model_mesh_count(model)
-}
-
-///|
-pub fn get_model_mesh(model : Model, index : Int) -> Mesh {
-  @ffi.get_model_mesh(model, index)
-}
-
-///|
-pub fn get_model_transform(model : Model) -> Matrix {
-  Matrix::from_bytes(@ffi.get_model_transform(model))
-}
-
-///|
-pub fn get_model_material_count(model : Model) -> Int {
-  @ffi.get_model_material_count(model)
-}
-
-///|
-pub fn get_model_material(model : Model, index : Int) -> Material {
-  @ffi.get_model_material(model, index)
-}
-
-///|
-pub fn get_model_bone_count(model : Model) -> Int {
-  @ffi.get_model_bone_count(model)
-}
-
-///|
-pub fn get_model_bone_parent(model : Model, bone_index : Int) -> Int {
-  @ffi.get_model_bone_parent(model, bone_index)
-}
-
-///|
-pub fn get_model_bind_pose_translation(
-  model : Model,
-  bone_index : Int,
-) -> Vector3 {
-  Vector3::from_bytes(@ffi.get_model_bind_pose_translation(model, bone_index))
-}
-
-///|
-pub fn get_model_animation_frame_count(
-  anims : ModelAnimations,
-  anim_index : Int,
-) -> Int {
-  @ffi.get_model_animation_frame_count(anims, anim_index)
-}
-
-///|
-pub fn get_model_animation_bone_count(
-  anims : ModelAnimations,
-  anim_index : Int,
-) -> Int {
-  @ffi.get_model_animation_bone_count(anims, anim_index)
-}
-
-///|
-pub fn get_model_animation_bone_parent(
-  anims : ModelAnimations,
-  anim_index : Int,
-  bone_index : Int,
-) -> Int {
-  @ffi.get_model_animation_bone_parent(anims, anim_index, bone_index)
-}
-
-///|
-pub fn get_model_animation_frame_pose_translation(
-  anims : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
-) -> Vector3 {
-  Vector3::from_bytes(
-    @ffi.get_model_animation_frame_pose_translation(
-      anims, anim_index, frame, bone_index,
-    ),
-  )
-}
-
-///|
-pub fn get_model_animation_frame_pose_rotation(
-  anims : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
-) -> Vector4 {
-  Vector4::from_bytes(
-    @ffi.get_model_animation_frame_pose_rotation(
-      anims, anim_index, frame, bone_index,
-    ),
-  )
-}
-
-///|
-pub fn get_model_bone_name(model : Model, bone_index : Int) -> String {
-  @utf8.decode_lossy(@ffi.get_model_bone_name(model, bone_index))
-}
-
-///|
-pub fn get_model_bind_pose_rotation(model : Model, bone_index : Int) -> Vector4 {
-  Vector4::from_bytes(@ffi.get_model_bind_pose_rotation(model, bone_index))
-}
-
-// ============================================================================
-// Mesh: Generate point cloud from vertex+color data
-// ============================================================================
-
-///|
-pub fn gen_mesh_from_points(
-  vertices : Bytes,
-  colors : Bytes,
-  num_points : Int,
-) -> Mesh {
-  @ffi.gen_mesh_from_points(vertices, colors, num_points)
-}
-
-// ============================================================================
-// Mesh: setup texcoords2 (allocate, fill, upload VBO, set vertex attribute)
-// ============================================================================
-
-///|
-pub fn mesh_setup_texcoords2(
-  mesh : Mesh,
-  data : Bytes,
-  float_count : Int,
-) -> Unit {
-  @ffi.mesh_setup_texcoords2(mesh, data, float_count)
-}

@@ -494,6 +494,16 @@ moonbit_raylib_get_texture_height(TextureWrapper *w) {
   return w->data->height;
 }
 
+int32_t
+moonbit_raylib_get_texture_mipmaps(TextureWrapper *w) {
+  return w->data->mipmaps;
+}
+
+int32_t
+moonbit_raylib_get_texture_format(TextureWrapper *w) {
+  return w->data->format;
+}
+
 // ============================================================================
 // RenderTexture: Get render texture's texture (non-owning view)
 // ============================================================================

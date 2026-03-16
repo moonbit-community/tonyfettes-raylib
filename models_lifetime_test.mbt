@@ -4,60 +4,60 @@
 
 ///|
 test "mesh view from model: basic access works" {
-  set_config_flags(FlagWindowHidden)
-  init_window(1, 1, "test")
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
 
-  let mesh = gen_mesh_cube(1.0, 1.0, 1.0)
-  let model = load_model_from_mesh(mesh)
-  let mesh_view = get_model_mesh(model, 0)
+  let mesh = @raylib.Mesh::gen_cube(1.0, 1.0, 1.0)
+  let model = @raylib.Model::load_from_mesh(mesh)
+  let mesh_view = model.mesh(0)
 
   // Access mesh view while model is alive - should work
-  let bbox = get_mesh_bounding_box(mesh_view)
+  let bbox = mesh_view.bounding_box()
   assert_true(bbox.min.x <= bbox.max.x)
 
-  close_window()
+  @raylib.close_window()
 }
 
 ///|
 test "material view from model: basic access works" {
-  set_config_flags(FlagWindowHidden)
-  init_window(1, 1, "test")
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
 
-  let mesh = gen_mesh_cube(1.0, 1.0, 1.0)
-  let model = load_model_from_mesh(mesh)
-  let material_view = get_model_material(model, 0)
+  let mesh = @raylib.Mesh::gen_cube(1.0, 1.0, 1.0)
+  let model = @raylib.Model::load_from_mesh(mesh)
+  let material_view = model.material(0)
 
   // Access material view while model is alive - should work
-  let valid = is_material_valid(material_view)
+  let valid = material_view.is_valid()
   assert_true(valid)
 
-  close_window()
+  @raylib.close_window()
 }
 
 ///|
 test "font texture view: basic access works" {
-  set_config_flags(FlagWindowHidden)
-  init_window(1, 1, "test")
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
 
-  let font = get_font_default()
-  let tex_view = get_font_texture(font)
+  let font = @raylib.Font::get_default()
+  let tex_view = font.texture()
 
   // Access texture view while font is alive - should work
-  assert_true(is_texture_valid(tex_view))
+  assert_true(tex_view.width() > 0)
 
-  close_window()
+  @raylib.close_window()
 }
 
 ///|
 test "render texture view: basic access works" {
-  set_config_flags(FlagWindowHidden)
-  init_window(1, 1, "test")
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
 
-  let rt = load_render_texture(16, 16)
-  let tex_view = get_render_texture_texture(rt)
+  let rt = @raylib.RenderTexture::load(16, 16)
+  let tex_view = rt.texture()
 
   // Access texture view while render texture is alive - should work
-  assert_true(is_texture_valid(tex_view))
+  assert_true(tex_view.width() > 0)
 
-  close_window()
+  @raylib.close_window()
 }

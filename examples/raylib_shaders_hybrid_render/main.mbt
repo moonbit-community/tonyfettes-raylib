@@ -55,9 +55,32 @@ fn main {
     @raylib.ShaderUniformVec2,
   )
 
-  // Use customized function to create writable depth texture buffer
-  let target = @raylib.load_render_texture_depth_tex(
-    screen_width, screen_height,
+  // Use composable rl* primitives to create writable depth texture buffer
+  let fbo_id = @rl.load_framebuffer()
+  let color_tex_id = @rl.load_texture(
+    screen_width, screen_height, @raylib.PixelformatUncompressedR8g8b8a8, 1,
+  )
+  let depth_tex_id = @rl.load_texture_depth(screen_width, screen_height, false)
+  @rl.framebuffer_attach(
+    fbo_id, color_tex_id, @rl.AttachmentColorChannel0,
+    @rl.AttachmentTexture2d, 0,
+  )
+  @rl.framebuffer_attach(
+    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+  )
+  if @rl.framebuffer_complete(fbo_id) {
+    @raylib.trace_log(@raylib.LogInfo, "FBO: Framebuffer object created successfully")
+  }
+  let target = @raylib.new_render_texture(
+    fbo_id,
+    @raylib.new_texture(
+      color_tex_id, screen_width, screen_height, 1,
+      @raylib.PixelformatUncompressedR8g8b8a8,
+    ),
+    @raylib.new_texture(
+      depth_tex_id, screen_width, screen_height, 1,
+      19, // DEPTH_COMPONENT_24BIT
+    ),
   )
 
   // Define the camera to look into our 3d world

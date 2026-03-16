@@ -146,9 +146,31 @@ fn main {
   )
 
   // Load shadow map render texture (depth-only)
-  let shadow_map = @raylib.load_shadowmap_render_texture(
+  let fbo_id = @rl.load_framebuffer()
+  let depth_tex_id = @rl.load_texture_depth(
     ShadowmapResolution,
     ShadowmapResolution,
+    false,
+  )
+  @rl.framebuffer_attach(
+    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+  )
+  if @rl.framebuffer_complete(fbo_id) {
+    @raylib.trace_log(@raylib.LogInfo, "FBO: Framebuffer object created successfully")
+  }
+  let shadow_map = @raylib.new_render_texture(
+    fbo_id,
+    @raylib.new_texture(
+      0U, ShadowmapResolution, ShadowmapResolution, 1,
+      @raylib.PixelformatUncompressedR8g8b8a8,
+    ),
+    @raylib.new_texture(
+      depth_tex_id,
+      ShadowmapResolution,
+      ShadowmapResolution,
+      1,
+      19, // DEPTH_COMPONENT_24BIT
+    ),
   )
 
   // Light camera for shadow mapping (renders from the light's point of view)
@@ -288,7 +310,7 @@ fn main {
   @raylib.unload_model(cube)
   @raylib.unload_model(robot)
   @raylib.unload_model_animations(robot_animations)
-  @raylib.unload_shadowmap_render_texture(shadow_map)
+  @raylib.unload_render_texture(shadow_map)
 
   @raylib.close_window()
 }
