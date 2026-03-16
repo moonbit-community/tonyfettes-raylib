@@ -2,8 +2,47 @@
 struct Mesh(@ffi.Mesh)
 
 ///|
-pub fn Mesh::new(vertex_count : Int, triangle_count : Int) -> Mesh {
-  @ffi.new_mesh(vertex_count, triangle_count)
+pub fn Mesh::new(
+  vertex_count : Int,
+  triangle_count : Int,
+  vertices~ : FloatArray? = None,
+  texcoords~ : FloatArray? = None,
+  texcoords2~ : FloatArray? = None,
+  normals~ : FloatArray? = None,
+  tangents~ : FloatArray? = None,
+  colors~ : UByteArray? = None,
+  indices~ : UShortArray? = None,
+) -> Mesh {
+  let mesh : Mesh = @ffi.new_mesh(vertex_count, triangle_count)
+  match vertices {
+    Some(v) => mesh.set_vertices(v)
+    None => ()
+  }
+  match texcoords {
+    Some(v) => mesh.set_texcoords(v)
+    None => ()
+  }
+  match texcoords2 {
+    Some(v) => mesh.set_texcoords2(v)
+    None => ()
+  }
+  match normals {
+    Some(v) => mesh.set_normals(v)
+    None => ()
+  }
+  match tangents {
+    Some(v) => mesh.set_tangents(v)
+    None => ()
+  }
+  match colors {
+    Some(v) => mesh.set_colors(v)
+    None => ()
+  }
+  match indices {
+    Some(v) => mesh.set_indices(v)
+    None => ()
+  }
+  mesh
 }
 
 ///|
@@ -225,7 +264,8 @@ pub fn Mesh::texcoords2(self : Mesh) -> FloatArray {
 }
 
 ///|
-pub fn Mesh::set_texcoords2_data(self : Mesh, data : FloatArray) -> Unit {
+#as_free_fn(set_mesh_texcoords2)
+pub fn Mesh::set_texcoords2(self : Mesh, data : FloatArray) -> Unit {
   @ffi.set_mesh_texcoords2(self.0, data.0)
 }
 

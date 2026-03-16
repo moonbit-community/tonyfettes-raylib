@@ -1398,6 +1398,12 @@ moonbit_raylib_material_map_array_op_get(MaterialMapArrayWrapper *w, int32_t ind
   return MakeMaterialMapWrapperView(&w->data[index], w);
 }
 
+void
+moonbit_raylib_material_map_array_op_set(MaterialMapArrayWrapper *w, int32_t index, MaterialMapWrapper *src) {
+  assert(index >= 0 && index < w->count && "MaterialMapArray index out of bounds");
+  w->data[index] = *src->data;
+}
+
 // ============================================================================
 // MaterialMap: field accessors
 // ============================================================================

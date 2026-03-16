@@ -859,6 +859,10 @@ pub extern "c" fn material_map_array_length(arr : MaterialMapArray) -> Int = "mo
 #borrow(arr)
 pub extern "c" fn material_map_array_op_get(arr : MaterialMapArray, index : Int) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
 
+///|
+#borrow(arr, value)
+pub extern "c" fn material_map_array_op_set(arr : MaterialMapArray, index : Int, value : MaterialMap) = "moonbit_raylib_material_map_array_op_set"
+
 // ============================================================================
 // MaterialMap field accessors
 // ============================================================================

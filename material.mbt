@@ -87,6 +87,15 @@ pub fn MaterialMapArray::op_get(
   @ffi.material_map_array_op_get(self.0, index)
 }
 
+///|
+pub fn MaterialMapArray::op_set(
+  self : MaterialMapArray,
+  index : Int,
+  value : MaterialMap,
+) -> Unit {
+  @ffi.material_map_array_op_set(self.0, index, value.0)
+}
+
 // ============================================================================
 // MaterialMap
 // ============================================================================
