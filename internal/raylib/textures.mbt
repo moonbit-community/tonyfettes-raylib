@@ -317,7 +317,7 @@ pub fn load_shadowmap_render_texture(
   new_render_texture(
     fbo_id,
     new_texture(0U, width, height, 1, 7),
-    new_texture(depth_tex_id, width, height, 1, 7),
+    new_texture(depth_tex_id, width, height, 1, 19),
   )
 }
 
