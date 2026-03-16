@@ -4,26 +4,26 @@
 
 ///|
 test "get_file_extension returns clean string without trailing null" {
-  let ext = get_file_extension("test.txt")
+  let ext = @raylib.get_file_extension("test.txt")
   assert_eq(ext.length(), 4) // ".txt" = 4 chars
   assert_eq(ext, ".txt")
 }
 
 ///|
 test "get_file_name returns clean string without trailing null" {
-  let name = get_file_name("/foo/bar/test.txt")
+  let name = @raylib.get_file_name("/foo/bar/test.txt")
   assert_eq(name, "test.txt")
 }
 
 ///|
 test "get_file_name_without_ext returns clean string without trailing null" {
-  let name = get_file_name_without_ext("/foo/bar/test.txt")
+  let name = @raylib.get_file_name_without_ext("/foo/bar/test.txt")
   assert_eq(name, "test")
 }
 
 ///|
 test "get_directory_path returns clean string without trailing null" {
-  let dir = get_directory_path("/foo/bar/test.txt")
+  let dir = @raylib.get_directory_path("/foo/bar/test.txt")
   // Should end with a valid path character, not \0
   let chars = dir.to_array()
   assert_true(chars.length() > 0)
@@ -32,11 +32,11 @@ test "get_directory_path returns clean string without trailing null" {
 
 ///|
 test "get_working_directory returns clean string" {
-  set_config_flags(FlagWindowHidden)
-  init_window(1, 1, "test")
-  let dir = get_working_directory()
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let dir = @raylib.get_working_directory()
   assert_true(dir.length() > 0)
   let chars = dir.to_array()
   assert_true(chars[chars.length() - 1] != '\u0000')
-  close_window()
+  @raylib.close_window()
 }

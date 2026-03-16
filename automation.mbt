@@ -1,14 +1,31 @@
-// Re-export opaque types and passthrough functions for automation events
+///|
+struct AutomationEventList(@ffi.AutomationEventList)
+
+// Re-export passthrough functions for automation events
 
 ///|
 pub using @ffi {
-  type AutomationEventList,
-  unload_automation_event_list,
-  set_automation_event_list,
   set_automation_event_base_frame,
   start_automation_event_recording,
   stop_automation_event_recording,
-  automation_event_list_count,
+}
+
+///|
+#as_free_fn(unload_automation_event_list)
+pub fn AutomationEventList::unload(self : AutomationEventList) -> Unit {
+  @ffi.unload_automation_event_list(self.0)
+}
+
+///|
+#as_free_fn(automation_event_list_count)
+pub fn AutomationEventList::count(self : AutomationEventList) -> Int {
+  @ffi.automation_event_list_count(self.0)
+}
+
+///|
+#as_free_fn(set_automation_event_list)
+pub fn AutomationEventList::set(self : AutomationEventList) -> Unit {
+  @ffi.set_automation_event_list(self.0)
 }
 
 // AutomationEvent value type: frame(uint), type(uint), params[4](int)
@@ -46,16 +63,18 @@ pub fn AutomationEvent::to_bytes(e : AutomationEvent) -> Bytes {
 // ============================================================================
 
 ///|
-pub fn load_automation_event_list(file_name : String) -> AutomationEventList {
-  @ffi.load_automation_event_list(@utf8.encode(file_name))
+#as_free_fn(load_automation_event_list)
+pub fn AutomationEventList::load(file_name : String) -> AutomationEventList {
+  AutomationEventList(@ffi.load_automation_event_list(@utf8.encode(file_name)))
 }
 
 ///|
-pub fn export_automation_event_list(
+#as_free_fn(export_automation_event_list)
+pub fn AutomationEventList::export_(
   list : AutomationEventList,
   file_name : String,
 ) -> Bool {
-  @ffi.export_automation_event_list(list, @utf8.encode(file_name))
+  @ffi.export_automation_event_list(list.0, @utf8.encode(file_name))
 }
 
 ///|
@@ -68,5 +87,5 @@ pub fn automation_event_list_get(
   list : AutomationEventList,
   index : Int,
 ) -> AutomationEvent {
-  AutomationEvent::from_bytes(@ffi.automation_event_list_get(list, index))
+  AutomationEvent::from_bytes(@ffi.automation_event_list_get(list.0, index))
 }
