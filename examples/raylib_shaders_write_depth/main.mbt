@@ -38,7 +38,7 @@ fn main {
     ),
     @raylib.new_texture(
       depth_tex_id, screen_width, screen_height, 1,
-      @raylib.PixelformatUncompressedR8g8b8a8,
+      19, // DEPTH_COMPONENT_24BIT
     ),
   )
 

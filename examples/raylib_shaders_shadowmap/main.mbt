@@ -167,7 +167,7 @@ fn main {
       ShadowmapResolution,
       ShadowmapResolution,
       1,
-      @raylib.PixelformatUncompressedR8g8b8a8,
+      19, // DEPTH_COMPONENT_24BIT
     ),
   )
 
