@@ -1462,11 +1462,13 @@ moonbit_raylib_get_mesh_bone_matrices(MeshWrapper *w) {
 // Mesh: constructor and field accessors
 // ============================================================================
 
-// Helper: RL_MALLOC + memcpy if src is non-NULL, otherwise return NULL.
 static void *
-copy_array(const void *src, size_t size) {
-  if (!src || size == 0) return NULL;
-  return memcpy(RL_MALLOC(size), src, size);
+copy_fixed_array(void *arr, size_t elem_size) {
+  if (!arr) return NULL;
+  int32_t len = Moonbit_array_length(arr);
+  if (len <= 0) return NULL;
+  size_t size = (size_t)len * elem_size;
+  return memcpy(RL_MALLOC(size), arr, size);
 }
 
 MeshWrapper *
@@ -1484,13 +1486,13 @@ moonbit_raylib_new_mesh(
   Mesh mesh = {0};
   mesh.vertexCount = vertex_count;
   mesh.triangleCount = triangle_count;
-  mesh.vertices = copy_array(vertices, (size_t)vertex_count * 3 * sizeof(float));
-  mesh.texcoords = copy_array(texcoords, (size_t)vertex_count * 2 * sizeof(float));
-  mesh.texcoords2 = copy_array(texcoords2, (size_t)vertex_count * 2 * sizeof(float));
-  mesh.normals = copy_array(normals, (size_t)vertex_count * 3 * sizeof(float));
-  mesh.tangents = copy_array(tangents, (size_t)vertex_count * 4 * sizeof(float));
-  mesh.colors = copy_array(colors, (size_t)vertex_count * 4);
-  mesh.indices = copy_array(indices, (size_t)triangle_count * 3 * sizeof(unsigned short));
+  mesh.vertices = copy_fixed_array(vertices, sizeof(float));
+  mesh.texcoords = copy_fixed_array(texcoords, sizeof(float));
+  mesh.texcoords2 = copy_fixed_array(texcoords2, sizeof(float));
+  mesh.normals = copy_fixed_array(normals, sizeof(float));
+  mesh.tangents = copy_fixed_array(tangents, sizeof(float));
+  mesh.colors = copy_fixed_array(colors, sizeof(unsigned char));
+  mesh.indices = copy_fixed_array(indices, sizeof(unsigned short));
   return MakeMeshWrapper(mesh);
 }
 
