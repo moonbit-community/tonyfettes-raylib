@@ -771,10 +771,10 @@ pub extern "c" fn float_array_new(data : Bytes, count : Int) -> FloatArray = "mo
 pub extern "c" fn float_array_null() -> FloatArray = "moonbit_raylib_float_array_null"
 
 ///|
-pub extern "c" fn float_array_op_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_op_get"
+pub extern "c" fn float_array_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_get"
 
 ///|
-pub extern "c" fn float_array_op_set(arr : FloatArray, index : Int, value : Float) = "moonbit_raylib_float_array_op_set"
+pub extern "c" fn float_array_set(arr : FloatArray, index : Int, value : Float) = "moonbit_raylib_float_array_set"
 
 // ============================================================================
 // UByteArray operations (#external — raw unsigned char*)
@@ -788,10 +788,10 @@ pub extern "c" fn ubyte_array_new(data : Bytes, count : Int) -> UByteArray = "mo
 pub extern "c" fn ubyte_array_null() -> UByteArray = "moonbit_raylib_ubyte_array_null"
 
 ///|
-pub extern "c" fn ubyte_array_op_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_op_get"
+pub extern "c" fn ubyte_array_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
 
 ///|
-pub extern "c" fn ubyte_array_op_set(arr : UByteArray, index : Int, value : Int) = "moonbit_raylib_ubyte_array_op_set"
+pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Int) = "moonbit_raylib_ubyte_array_set"
 
 // ============================================================================
 // UShortArray operations (#external — raw unsigned short*)
@@ -805,10 +805,10 @@ pub extern "c" fn ushort_array_new(data : Bytes, count : Int) -> UShortArray = "
 pub extern "c" fn ushort_array_null() -> UShortArray = "moonbit_raylib_ushort_array_null"
 
 ///|
-pub extern "c" fn ushort_array_op_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_op_get"
+pub extern "c" fn ushort_array_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
 
 ///|
-pub extern "c" fn ushort_array_op_set(arr : UShortArray, index : Int, value : Int) = "moonbit_raylib_ushort_array_op_set"
+pub extern "c" fn ushort_array_set(arr : UShortArray, index : Int, value : Int) = "moonbit_raylib_ushort_array_set"
 
 // ============================================================================
 // MatrixArray operations

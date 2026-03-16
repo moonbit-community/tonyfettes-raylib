@@ -29,12 +29,12 @@ pub fn FloatArray::length(self : FloatArray) -> Int {
 
 ///|
 pub fn FloatArray::op_get(self : FloatArray, index : Int) -> Float {
-  @ffi.float_array_op_get(self.0, index)
+  @ffi.float_array_get(self.0, index)
 }
 
 ///|
 pub fn FloatArray::op_set(self : FloatArray, index : Int, value : Float) -> Unit {
-  @ffi.float_array_op_set(self.0, index, value)
+  @ffi.float_array_set(self.0, index, value)
 }
 
 // ============================================================================
@@ -66,12 +66,12 @@ pub fn UByteArray::length(self : UByteArray) -> Int {
 
 ///|
 pub fn UByteArray::op_get(self : UByteArray, index : Int) -> Int {
-  @ffi.ubyte_array_op_get(self.0, index)
+  @ffi.ubyte_array_get(self.0, index)
 }
 
 ///|
 pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
-  @ffi.ubyte_array_op_set(self.0, index, value)
+  @ffi.ubyte_array_set(self.0, index, value)
 }
 
 // ============================================================================
@@ -104,12 +104,12 @@ pub fn UShortArray::length(self : UShortArray) -> Int {
 
 ///|
 pub fn UShortArray::op_get(self : UShortArray, index : Int) -> Int {
-  @ffi.ushort_array_op_get(self.0, index)
+  @ffi.ushort_array_get(self.0, index)
 }
 
 ///|
 pub fn UShortArray::op_set(self : UShortArray, index : Int, value : Int) -> Unit {
-  @ffi.ushort_array_op_set(self.0, index, value)
+  @ffi.ushort_array_set(self.0, index, value)
 }
 
 // ============================================================================

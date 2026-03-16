@@ -1281,12 +1281,12 @@ moonbit_raylib_float_array_null(void) {
 }
 
 float
-moonbit_raylib_float_array_op_get(float *arr, int32_t index) {
+moonbit_raylib_float_array_get(float *arr, int32_t index) {
   return arr[index];
 }
 
 void
-moonbit_raylib_float_array_op_set(float *arr, int32_t index, float value) {
+moonbit_raylib_float_array_set(float *arr, int32_t index, float value) {
   arr[index] = value;
 }
 
@@ -1307,12 +1307,12 @@ moonbit_raylib_ubyte_array_null(void) {
 }
 
 int32_t
-moonbit_raylib_ubyte_array_op_get(unsigned char *arr, int32_t index) {
+moonbit_raylib_ubyte_array_get(unsigned char *arr, int32_t index) {
   return (int32_t)arr[index];
 }
 
 void
-moonbit_raylib_ubyte_array_op_set(
+moonbit_raylib_ubyte_array_set(
   unsigned char *arr,
   int32_t index,
   int32_t value
@@ -1338,12 +1338,12 @@ moonbit_raylib_ushort_array_null(void) {
 }
 
 int32_t
-moonbit_raylib_ushort_array_op_get(unsigned short *arr, int32_t index) {
+moonbit_raylib_ushort_array_get(unsigned short *arr, int32_t index) {
   return (int32_t)arr[index];
 }
 
 void
-moonbit_raylib_ushort_array_op_set(
+moonbit_raylib_ushort_array_set(
   unsigned short *arr,
   int32_t index,
   int32_t value
