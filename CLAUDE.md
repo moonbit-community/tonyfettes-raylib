@@ -59,15 +59,25 @@ Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in M
 
 ### Resource types
 
-All resource types use **GC-managed `Bytes` buffers** allocated via `moonbit_make_bytes(sizeof(T), 0)` in C stubs. Users must still call `unload_*` to release raylib-internal resources (GPU textures, audio buffers, etc.), but the MoonBit-side memory is garbage-collected. There are three representation strategies:
+All resource types use a unified **`XxxWrapper` pattern** backed by `moonbit_make_external_object` in C stubs. Users must still call `unload_*` to release raylib-internal resources (GPU textures, audio buffers, etc.), but the MoonBit-side wrapper memory is garbage-collected. The unified C-side wrapper struct is:
 
-- **Bytes + Int view structs** (Texture, RenderTexture): `pub struct { memory: Bytes, offset: Int }` — supports zero-allocation non-owning views. `get_render_texture_texture(rt)` returns a Texture sharing the parent's Bytes buffer at a different offset. The `DeclareView(T, var)` / `View(T, var)` macros in `stub_internal.h` handle `(Bytes, Int)` → `T *` conversion in C stubs. Parent must outlive the view.
-- **Opaque newtypes** (Image, Sound, Music, Model, Shader, Wave, AudioStream, Mesh, Material, VrStereoConfig): Declared as `pub type Foo` in `types.mbt`, each wrapping a single GC-managed Bytes buffer. Font is `struct Font(Bytes)` in `text.mbt`.
-- **Types with metadata** (ModelAnimations, GlyphInfoArray, FilePathList, AutomationEventList, MaterialsArray): Opaque newtypes like above, but C side uses wrapper structs (e.g., `ModelAnimationsWrapper` with pointer + `count`) in `stub_internal.h`.
+```c
+typedef struct {
+  T *data;        // pointer to actual data (inline storage or parent's memory)
+  void *owner;    // NULL = owned; non-NULL = view (decref in finalizer)
+  T storage[];    // flexible array member (only allocated for owned resources)
+} TWrapper;
+```
+
+- **Owned resources** (Image, Sound, Music, Model, Shader, Wave, AudioStream, VrStereoConfig, Font, Texture, RenderTexture, Mesh, Material): `data` points to inline `storage[]`, `owner = NULL`. Allocated via `MakeTWrapper(val)`.
+- **View resources** (Texture from RenderTexture/Font, Mesh/Material from Model, Material from MaterialsArray): `data` points into parent's memory, `owner = parent`. `moonbit_incref(parent)` on creation, `moonbit_decref(owner)` in finalizer — parent stays alive as long as any view exists. Allocated via `MakeTWrapperView(ptr, owner)`.
+- **Array wrappers** (ModelAnimationsWrapper, GlyphInfoArrayWrapper, FilePathListWrapper, AutomationEventListWrapper, MaterialsArrayWrapper): Same external object pattern but with C-allocated array metadata instead of `storage[]`.
+
+All resource types are declared as `pub type Foo` in `types.mbt` (opaque external objects). The `DEFINE_SIMPLE_WRAPPER(T, Name)` macro in `stub_internal.h` generates the wrapper struct, finalizer, and factory functions for each type.
 
 Other notes:
 
-- **`#borrow` annotation**: Used for `Bytes` parameters in `extern "c"` declarations to prevent GC collection during FFI calls.
+- **`#borrow` annotation**: Used for any GC-managed reference-type parameters (`Bytes`, opaque types, `Ref[T]`, etc.) in `extern "c"` declarations to prevent GC collection during FFI calls.
 - **`load_image_anim`**: Frame count returned via `Ref[Int]` out-parameter (labelled `frames~` with default).
 - **Depth-tex/shadowmap RenderTextures**: No special constructors. Use `@rl.load_framebuffer()`, `@rl.load_texture()`, `@rl.load_texture_depth()`, `@rl.framebuffer_attach()`, then `@raylib.new_render_texture(...)` to compose custom render textures.
 
@@ -103,7 +113,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 ## Critical FFI Rules
 
 - **Never use `self` as parameter name** in `extern "c"` — MoonBit interprets it as a method definition
-- **Use `#borrow(param)` only for `Bytes` parameters** in `extern "c"` functions. All resource types (Image, Sound, etc.) are opaque newtypes wrapping `Bytes` — do not use `#borrow` on them.
+- **Use `#borrow(param)` for any GC-managed reference-type parameters** (`Bytes`, opaque resource types, `Ref[T]`, etc.) in `extern "c"` functions when C only reads during the call and does not store a reference.
 - **String passing**: encode with `@utf8.encode(str)` → `Bytes`, C side casts `moonbit_bytes_t` to `const char*`
 - **Method syntax**: use `pub fn Type::method_name(...)` not `pub fn method_name(...)`
 
