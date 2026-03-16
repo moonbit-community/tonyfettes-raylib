@@ -3,32 +3,22 @@ struct Mesh(@ffi.Mesh)
 
 ///|
 pub fn Mesh::new(
-  vertices : FloatArray,
-  texcoords? : FloatArray,
-  texcoords2? : FloatArray,
-  normals? : FloatArray,
-  tangents? : FloatArray,
-  colors? : UByteArray,
-  indices? : UShortArray,
+  vertices : FixedArray[Float],
+  texcoords? : FixedArray[Float],
+  texcoords2? : FixedArray[Float],
+  normals? : FixedArray[Float],
+  tangents? : FixedArray[Float],
+  colors? : FixedArray[Byte],
+  indices? : FixedArray[UInt16],
 ) -> Mesh {
   let vertex_count = vertices.length() / 3
   let triangle_count = match indices {
     Some(idx) => idx.length() / 3
     None => vertex_count / 3
   }
-  let f_null = @ffi.float_array_null()
-  let ub_null = @ffi.ubyte_array_null()
-  let us_null = @ffi.ushort_array_null()
   @ffi.new_mesh(
-    vertex_count,
-    triangle_count,
-    vertices.0,
-    match texcoords { Some(v) => v.0; None => f_null },
-    match texcoords2 { Some(v) => v.0; None => f_null },
-    match normals { Some(v) => v.0; None => f_null },
-    match tangents { Some(v) => v.0; None => f_null },
-    match colors { Some(v) => v.0; None => ub_null },
-    match indices { Some(v) => v.0; None => us_null },
+    vertex_count, triangle_count, vertices,
+    texcoords, texcoords2, normals, tangents, colors, indices,
   )
 }
 

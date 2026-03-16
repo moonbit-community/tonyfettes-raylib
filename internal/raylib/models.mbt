@@ -895,16 +895,17 @@ pub extern "c" fn get_mesh_bone_matrices(mesh : Mesh) -> MatrixArray = "moonbit_
 // ============================================================================
 
 ///|
+#borrow(vertices, texcoords, texcoords2, normals, tangents, colors, indices)
 pub extern "c" fn new_mesh(
   vertex_count : Int,
   triangle_count : Int,
-  vertices : FloatArray,
-  texcoords : FloatArray,
-  texcoords2 : FloatArray,
-  normals : FloatArray,
-  tangents : FloatArray,
-  colors : UByteArray,
-  indices : UShortArray,
+  vertices : FixedArray[Float],
+  texcoords : FixedArray[Float]?,
+  texcoords2 : FixedArray[Float]?,
+  normals : FixedArray[Float]?,
+  tangents : FixedArray[Float]?,
+  colors : FixedArray[Byte]?,
+  indices : FixedArray[UInt16]?,
 ) -> Mesh = "moonbit_raylib_new_mesh"
 
 ///|

@@ -23,22 +23,16 @@ fn main {
   // Build plane mesh manually so we can include texcoords2 before upload
   let half = Float::from_int(MapSize) / 2.0
   let mesh = @raylib.Mesh::new(
-    @raylib.FloatArray::from_array([
+    [
       -half, 0.0, -half, // vertex 0
        half, 0.0, -half, // vertex 1
       -half, 0.0,  half, // vertex 2
        half, 0.0,  half, // vertex 3
-    ]),
-    texcoords=@raylib.FloatArray::from_array([
-      0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
-    ]),
-    texcoords2=@raylib.FloatArray::from_array([
-      0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
-    ]),
-    normals=@raylib.FloatArray::from_array([
-      0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-    ]),
-    indices=@raylib.UShortArray::from_array([2, 1, 0, 2, 3, 1]),
+    ],
+    texcoords=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
+    texcoords2=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
+    normals=[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0],
+    indices=[2, 1, 0, 2, 3, 1],
   )
   mesh.upload(false)
 
