@@ -56,6 +56,75 @@ pub fn Material::set_map_value(
 }
 
 ///|
+#as_free_fn(get_material_shader)
+pub fn Material::shader(self : Material) -> Shader {
+  @ffi.get_material_shader(self.0)
+}
+
+///|
+#as_free_fn(get_material_maps)
+pub fn Material::maps(self : Material) -> MaterialMapArray {
+  @ffi.get_material_maps(self.0)
+}
+
+// ============================================================================
+// MaterialMapArray
+// ============================================================================
+
+///|
+struct MaterialMapArray(@ffi.MaterialMapArray)
+
+///|
+pub fn MaterialMapArray::length(self : MaterialMapArray) -> Int {
+  @ffi.material_map_array_length(self.0)
+}
+
+///|
+pub fn MaterialMapArray::op_get(
+  self : MaterialMapArray,
+  index : Int,
+) -> MaterialMap {
+  @ffi.material_map_array_op_get(self.0, index)
+}
+
+// ============================================================================
+// MaterialMap
+// ============================================================================
+
+///|
+struct MaterialMap(@ffi.MaterialMap)
+
+///|
+pub fn MaterialMap::texture(self : MaterialMap) -> Texture {
+  @ffi.material_map_get_texture(self.0)
+}
+
+///|
+pub fn MaterialMap::set_texture(self : MaterialMap, texture : Texture) -> Unit {
+  @ffi.material_map_set_texture(self.0, texture.0)
+}
+
+///|
+pub fn MaterialMap::color(self : MaterialMap) -> Color {
+  Color::from_bytes(@ffi.material_map_get_color(self.0))
+}
+
+///|
+pub fn MaterialMap::set_color(self : MaterialMap, color : Color) -> Unit {
+  @ffi.material_map_set_color(self.0, color.to_bytes())
+}
+
+///|
+pub fn MaterialMap::value(self : MaterialMap) -> Float {
+  @ffi.material_map_get_value(self.0)
+}
+
+///|
+pub fn MaterialMap::set_value(self : MaterialMap, value : Float) -> Unit {
+  @ffi.material_map_set_value(self.0, value)
+}
+
+///|
 struct ModelAnimations(@ffi.ModelAnimations)
 
 ///|

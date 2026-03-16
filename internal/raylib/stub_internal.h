@@ -74,6 +74,7 @@ DEFINE_SIMPLE_WRAPPER(RenderTexture, RenderTexture)
 // Group C: types that already had data+storage (now unified)
 DEFINE_SIMPLE_WRAPPER(Mesh, Mesh)
 DEFINE_SIMPLE_WRAPPER(Material, Material)
+DEFINE_SIMPLE_WRAPPER(MaterialMap, MaterialMap)
 
 // ============================================================================
 // Group D: Array wrappers (C-allocated arrays with metadata)
@@ -169,6 +170,60 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
   w->owner = NULL;
   return w;
 }
+
+// ============================================================================
+// Group E: Typed array wrappers (views into parent-owned arrays + owned copies)
+// ============================================================================
+
+#define DEFINE_TYPED_ARRAY_WRAPPER(T, name)                                    \
+  typedef struct {                                                             \
+    T *data;                                                                   \
+    int count;                                                                 \
+    void *owner;                                                               \
+  } name##Wrapper;                                                             \
+                                                                               \
+  static void name##_wrapper_finalizer(void *self) {                           \
+    name##Wrapper *w = (name##Wrapper *)self;                                  \
+    if (w->owner) moonbit_decref(w->owner);                                    \
+  }                                                                            \
+                                                                               \
+  static inline name##Wrapper *Make##name##WrapperOwned(                       \
+    const T *src, int count                                                    \
+  ) {                                                                          \
+    size_t data_size = (size_t)count * sizeof(T);                              \
+    name##Wrapper *w = (name##Wrapper *)moonbit_make_external_object(          \
+      name##_wrapper_finalizer,                                                \
+      sizeof(name##Wrapper) + data_size                                        \
+    );                                                                         \
+    w->count = count;                                                          \
+    w->data = (T *)((char *)(w) + sizeof(name##Wrapper));                      \
+    w->owner = NULL;                                                           \
+    if (src) memcpy(w->data, src, data_size);                                  \
+    return w;                                                                  \
+  }                                                                            \
+                                                                               \
+  static inline name##Wrapper *Make##name##WrapperView(                        \
+    T *data, int count, void *owner                                            \
+  ) {                                                                          \
+    name##Wrapper *w = (name##Wrapper *)moonbit_make_external_object(          \
+      name##_wrapper_finalizer, sizeof(name##Wrapper)                          \
+    );                                                                         \
+    w->data = data;                                                            \
+    w->count = count;                                                          \
+    w->owner = owner;                                                          \
+    if (owner) moonbit_incref(owner);                                          \
+    return w;                                                                  \
+  }
+
+DEFINE_TYPED_ARRAY_WRAPPER(float, FloatArray)
+DEFINE_TYPED_ARRAY_WRAPPER(unsigned char, UByteArray)
+DEFINE_TYPED_ARRAY_WRAPPER(unsigned short, UShortArray)
+DEFINE_TYPED_ARRAY_WRAPPER(Matrix, MatrixArray)
+DEFINE_TYPED_ARRAY_WRAPPER(MaterialMap, MaterialMapArray)
+
+// ============================================================================
+// Group F: Legacy array wrappers (pre-existing, manually defined)
+// ============================================================================
 
 typedef struct {
   Material *materials;
