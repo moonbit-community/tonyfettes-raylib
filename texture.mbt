@@ -191,7 +191,8 @@ pub fn Texture::gen_mipmaps(self : Texture) -> Unit {
 }
 
 ///|
-#as_free_fn(texture_from_id)
+#as_free_fn(texture_from_id, deprecated="Use Texture::new instead")
+#deprecated("Use Texture::new instead")
 pub fn Texture::from_id(id : UInt, width : Int, height : Int) -> Texture {
   @ffi.new_texture(id, width, height, 1, PixelformatUncompressedR8g8b8a8)
 }
