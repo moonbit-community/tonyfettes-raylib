@@ -771,6 +771,9 @@ pub extern "c" fn float_array_new(data : Bytes, count : Int) -> FloatArray = "mo
 pub extern "c" fn float_array_null() -> FloatArray = "moonbit_raylib_float_array_null"
 
 ///|
+pub extern "c" fn float_array_is_null(arr : FloatArray) -> Bool = "moonbit_raylib_float_array_is_null"
+
+///|
 pub extern "c" fn float_array_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_get"
 
 ///|
@@ -788,6 +791,9 @@ pub extern "c" fn ubyte_array_new(data : Bytes, count : Int) -> UByteArray = "mo
 pub extern "c" fn ubyte_array_null() -> UByteArray = "moonbit_raylib_ubyte_array_null"
 
 ///|
+pub extern "c" fn ubyte_array_is_null(arr : UByteArray) -> Bool = "moonbit_raylib_ubyte_array_is_null"
+
+///|
 pub extern "c" fn ubyte_array_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
 
 ///|
@@ -803,6 +809,9 @@ pub extern "c" fn ushort_array_new(data : Bytes, count : Int) -> UShortArray = "
 
 ///|
 pub extern "c" fn ushort_array_null() -> UShortArray = "moonbit_raylib_ushort_array_null"
+
+///|
+pub extern "c" fn ushort_array_is_null(arr : UShortArray) -> Bool = "moonbit_raylib_ushort_array_is_null"
 
 ///|
 pub extern "c" fn ushort_array_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_get"

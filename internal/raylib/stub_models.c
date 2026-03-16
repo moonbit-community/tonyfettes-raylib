@@ -1280,6 +1280,11 @@ moonbit_raylib_float_array_null(void) {
   return NULL;
 }
 
+int32_t
+moonbit_raylib_float_array_is_null(float *arr) {
+  return arr == NULL;
+}
+
 float
 moonbit_raylib_float_array_get(float *arr, int32_t index) {
   return arr[index];
@@ -1304,6 +1309,11 @@ moonbit_raylib_ubyte_array_new(moonbit_bytes_t data, int32_t count) {
 unsigned char *
 moonbit_raylib_ubyte_array_null(void) {
   return NULL;
+}
+
+int32_t
+moonbit_raylib_ubyte_array_is_null(unsigned char *arr) {
+  return arr == NULL;
 }
 
 int32_t
@@ -1335,6 +1345,11 @@ moonbit_raylib_ushort_array_new(moonbit_bytes_t data, int32_t count) {
 unsigned short *
 moonbit_raylib_ushort_array_null(void) {
   return NULL;
+}
+
+int32_t
+moonbit_raylib_ushort_array_is_null(unsigned short *arr) {
+  return arr == NULL;
 }
 
 int32_t
