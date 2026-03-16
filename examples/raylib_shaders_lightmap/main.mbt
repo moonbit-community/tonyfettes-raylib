@@ -23,9 +23,7 @@ fn main {
   // Build plane mesh manually so we can include texcoords2 before upload
   let half = Float::from_int(MapSize) / 2.0
   let mesh = @raylib.Mesh::new(
-    4,
-    2,
-    vertices=@raylib.FloatArray::from_array([
+    @raylib.FloatArray::from_array([
       -half, 0.0, -half, // vertex 0
        half, 0.0, -half, // vertex 1
       -half, 0.0,  half, // vertex 2

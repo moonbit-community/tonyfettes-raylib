@@ -3,9 +3,7 @@ struct Mesh(@ffi.Mesh)
 
 ///|
 pub fn Mesh::new(
-  vertex_count : Int,
-  triangle_count : Int,
-  vertices? : FloatArray,
+  vertices : FloatArray,
   texcoords? : FloatArray,
   texcoords2? : FloatArray,
   normals? : FloatArray,
@@ -13,8 +11,13 @@ pub fn Mesh::new(
   colors? : UByteArray,
   indices? : UShortArray,
 ) -> Mesh {
+  let vertex_count = vertices.length() / 3
+  let triangle_count = match indices {
+    Some(idx) => idx.length() / 3
+    None => vertex_count / 3
+  }
   let mesh : Mesh = @ffi.new_mesh(vertex_count, triangle_count)
-  if vertices is Some(v) { mesh.set_vertices(v) }
+  mesh.set_vertices(vertices)
   if texcoords is Some(v) { mesh.set_texcoords(v) }
   if texcoords2 is Some(v) { mesh.set_texcoords2(v) }
   if normals is Some(v) { mesh.set_normals(v) }
