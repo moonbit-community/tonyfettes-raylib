@@ -114,7 +114,8 @@ pub fn RenderTexture::height(self : RenderTexture) -> Int {
 }
 
 ///|
-#as_free_fn(get_render_texture_fbo_id)
+#as_free_fn(get_render_texture_fbo_id, deprecated = "Use RenderTexture::id instead")
+#deprecated("Use RenderTexture::id instead")
 pub fn RenderTexture::fbo_id(self : RenderTexture) -> UInt {
   @ffi.get_render_texture_id(self.0)
 }
