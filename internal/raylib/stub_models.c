@@ -730,7 +730,10 @@ moonbit_raylib_load_model_from_mesh(MeshWrapper *w) {
   // LoadModelFromMesh copies the Mesh struct (which contains pointers to
   // vertex data), so both the original and the model's copy would point to
   // the same data. Zeroing prevents UnloadMesh from freeing shared data.
-  memset(w->data, 0, sizeof(Mesh));
+  // Only zero owned meshes — views point into parent memory we must not touch.
+  if (w->owner == NULL) {
+    memset(w->data, 0, sizeof(Mesh));
+  }
   return model;
 }
 
