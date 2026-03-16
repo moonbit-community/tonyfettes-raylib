@@ -29,7 +29,9 @@ fn main {
   @rl.framebuffer_attach(
     fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
   )
-  let _ = @rl.framebuffer_complete(fbo_id)
+  if @rl.framebuffer_complete(fbo_id) {
+    @raylib.trace_log(@raylib.LogInfo, "FBO: Framebuffer object created successfully")
+  }
   let target = @raylib.new_render_texture(
     fbo_id,
     @raylib.new_texture(
