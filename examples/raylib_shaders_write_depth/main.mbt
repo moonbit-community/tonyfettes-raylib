@@ -18,14 +18,28 @@ fn main {
 
   // Use rlgl primitives to create writable depth texture buffer
   let fbo_id = @rl.load_framebuffer()
-  let color_tex_id = @rl.load_texture(screen_width, screen_height, 7, 1)
+  let color_tex_id = @rl.load_texture(
+    screen_width, screen_height, @raylib.PixelformatUncompressedR8g8b8a8, 1,
+  )
   let depth_tex_id = @rl.load_texture_depth(screen_width, screen_height, false)
-  @rl.framebuffer_attach(fbo_id, color_tex_id, 0, 100, 0)
-  @rl.framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0)
+  @rl.framebuffer_attach(
+    fbo_id, color_tex_id, @rl.AttachmentColorChannel0,
+    @rl.AttachmentTexture2d, 0,
+  )
+  @rl.framebuffer_attach(
+    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+  )
   let _ = @rl.framebuffer_complete(fbo_id)
   let target = @raylib.new_render_texture(
-    fbo_id, @raylib.new_texture(color_tex_id, screen_width, screen_height, 1, 7),
-    @raylib.new_texture(depth_tex_id, screen_width, screen_height, 1, 7),
+    fbo_id,
+    @raylib.new_texture(
+      color_tex_id, screen_width, screen_height, 1,
+      @raylib.PixelformatUncompressedR8g8b8a8,
+    ),
+    @raylib.new_texture(
+      depth_tex_id, screen_width, screen_height, 1,
+      @raylib.PixelformatUncompressedR8g8b8a8,
+    ),
   )
 
   // Define the camera to look into our 3d world

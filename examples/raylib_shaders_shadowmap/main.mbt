@@ -152,17 +152,22 @@ fn main {
     ShadowmapResolution,
     false,
   )
-  @rl.framebuffer_attach(fbo_id, depth_tex_id, 100, 100, 0)
+  @rl.framebuffer_attach(
+    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+  )
   let _ = @rl.framebuffer_complete(fbo_id)
   let shadow_map = @raylib.new_render_texture(
     fbo_id,
-    @raylib.new_texture(0U, ShadowmapResolution, ShadowmapResolution, 1, 7),
+    @raylib.new_texture(
+      0U, ShadowmapResolution, ShadowmapResolution, 1,
+      @raylib.PixelformatUncompressedR8g8b8a8,
+    ),
     @raylib.new_texture(
       depth_tex_id,
       ShadowmapResolution,
       ShadowmapResolution,
       1,
-      7,
+      @raylib.PixelformatUncompressedR8g8b8a8,
     ),
   )
 
