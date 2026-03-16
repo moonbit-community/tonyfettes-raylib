@@ -19,6 +19,7 @@ pub fn FloatArray::length(self : FloatArray) -> Int {
 
 ///|
 pub fn FloatArray::op_get(self : FloatArray, index : Int) -> Float {
+  guard index >= 0 && index < self.1
   @ffi.float_array_get(self.0, index)
 }
 
@@ -28,6 +29,7 @@ pub fn FloatArray::op_set(
   index : Int,
   value : Float,
 ) -> Unit {
+  guard index >= 0 && index < self.1
   @ffi.float_array_set(self.0, index, value)
 }
 
@@ -50,11 +52,13 @@ pub fn UByteArray::length(self : UByteArray) -> Int {
 
 ///|
 pub fn UByteArray::op_get(self : UByteArray, index : Int) -> Int {
+  guard index >= 0 && index < self.1
   @ffi.ubyte_array_get(self.0, index)
 }
 
 ///|
 pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
+  guard index >= 0 && index < self.1
   @ffi.ubyte_array_set(self.0, index, value)
 }
 
@@ -77,6 +81,7 @@ pub fn UShortArray::length(self : UShortArray) -> Int {
 
 ///|
 pub fn UShortArray::op_get(self : UShortArray, index : Int) -> Int {
+  guard index >= 0 && index < self.1
   @ffi.ushort_array_get(self.0, index)
 }
 
@@ -86,6 +91,7 @@ pub fn UShortArray::op_set(
   index : Int,
   value : Int,
 ) -> Unit {
+  guard index >= 0 && index < self.1
   @ffi.ushort_array_set(self.0, index, value)
 }
 
