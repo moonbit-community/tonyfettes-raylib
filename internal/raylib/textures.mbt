@@ -190,7 +190,7 @@ pub fn load_render_texture_depth_tex(
   new_render_texture(
     fbo_id,
     new_texture(color_tex_id, width, height, 1, 7),
-    new_texture(depth_tex_id, width, height, 1, 7),
+    new_texture(depth_tex_id, width, height, 1, 19), // 19 = depth texture pixel format (e.g., DEPTH_COMPONENT_24BIT)
   )
 }
 
