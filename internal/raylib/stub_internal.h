@@ -187,19 +187,6 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
     if (w->owner) moonbit_decref(w->owner);                                    \
   }                                                                            \
                                                                                \
-  static inline name##Wrapper *Make##name##WrapperOwned(                       \
-    const T *src, int count                                                    \
-  ) {                                                                          \
-    name##Wrapper *w = (name##Wrapper *)moonbit_make_external_object(          \
-      name##_wrapper_finalizer, sizeof(name##Wrapper)                          \
-    );                                                                         \
-    w->count = count;                                                          \
-    w->data = (T *)RL_MALLOC((size_t)count * sizeof(T));                       \
-    w->owner = NULL;                                                           \
-    if (src) memcpy(w->data, src, (size_t)count * sizeof(T));                  \
-    return w;                                                                  \
-  }                                                                            \
-                                                                               \
   static inline name##Wrapper *Make##name##WrapperView(                        \
     T *data, int count, void *owner                                            \
   ) {                                                                          \
