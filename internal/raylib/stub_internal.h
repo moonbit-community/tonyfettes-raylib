@@ -190,15 +190,13 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
   static inline name##Wrapper *Make##name##WrapperOwned(                       \
     const T *src, int count                                                    \
   ) {                                                                          \
-    size_t data_size = (size_t)count * sizeof(T);                              \
     name##Wrapper *w = (name##Wrapper *)moonbit_make_external_object(          \
-      name##_wrapper_finalizer,                                                \
-      sizeof(name##Wrapper) + data_size                                        \
+      name##_wrapper_finalizer, sizeof(name##Wrapper)                          \
     );                                                                         \
     w->count = count;                                                          \
-    w->data = (T *)((char *)(w) + sizeof(name##Wrapper));                      \
+    w->data = (T *)RL_MALLOC((size_t)count * sizeof(T));                       \
     w->owner = NULL;                                                           \
-    if (src) memcpy(w->data, src, data_size);                                  \
+    if (src) memcpy(w->data, src, (size_t)count * sizeof(T));                  \
     return w;                                                                  \
   }                                                                            \
                                                                                \
@@ -215,9 +213,6 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
     return w;                                                                  \
   }
 
-DEFINE_TYPED_ARRAY_WRAPPER(float, FloatArray)
-DEFINE_TYPED_ARRAY_WRAPPER(unsigned char, UByteArray)
-DEFINE_TYPED_ARRAY_WRAPPER(unsigned short, UShortArray)
 DEFINE_TYPED_ARRAY_WRAPPER(Matrix, MatrixArray)
 DEFINE_TYPED_ARRAY_WRAPPER(MaterialMap, MaterialMapArray)
 

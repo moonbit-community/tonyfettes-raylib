@@ -760,7 +760,7 @@ pub extern "c" fn gen_mesh_from_points(
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
 
 // ============================================================================
-// FloatArray operations
+// FloatArray operations (#external — raw float*)
 // ============================================================================
 
 ///|
@@ -768,19 +768,16 @@ pub extern "c" fn gen_mesh_from_points(
 pub extern "c" fn float_array_new(data : Bytes, count : Int) -> FloatArray = "moonbit_raylib_float_array_new"
 
 ///|
-#borrow(arr)
-pub extern "c" fn float_array_length(arr : FloatArray) -> Int = "moonbit_raylib_float_array_length"
+pub extern "c" fn float_array_null() -> FloatArray = "moonbit_raylib_float_array_null"
 
 ///|
-#borrow(arr)
 pub extern "c" fn float_array_op_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_op_get"
 
 ///|
-#borrow(arr)
 pub extern "c" fn float_array_op_set(arr : FloatArray, index : Int, value : Float) = "moonbit_raylib_float_array_op_set"
 
 // ============================================================================
-// UByteArray operations
+// UByteArray operations (#external — raw unsigned char*)
 // ============================================================================
 
 ///|
@@ -788,19 +785,16 @@ pub extern "c" fn float_array_op_set(arr : FloatArray, index : Int, value : Floa
 pub extern "c" fn ubyte_array_new(data : Bytes, count : Int) -> UByteArray = "moonbit_raylib_ubyte_array_new"
 
 ///|
-#borrow(arr)
-pub extern "c" fn ubyte_array_length(arr : UByteArray) -> Int = "moonbit_raylib_ubyte_array_length"
+pub extern "c" fn ubyte_array_null() -> UByteArray = "moonbit_raylib_ubyte_array_null"
 
 ///|
-#borrow(arr)
 pub extern "c" fn ubyte_array_op_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_op_get"
 
 ///|
-#borrow(arr)
 pub extern "c" fn ubyte_array_op_set(arr : UByteArray, index : Int, value : Int) = "moonbit_raylib_ubyte_array_op_set"
 
 // ============================================================================
-// UShortArray operations
+// UShortArray operations (#external — raw unsigned short*)
 // ============================================================================
 
 ///|
@@ -808,15 +802,12 @@ pub extern "c" fn ubyte_array_op_set(arr : UByteArray, index : Int, value : Int)
 pub extern "c" fn ushort_array_new(data : Bytes, count : Int) -> UShortArray = "moonbit_raylib_ushort_array_new"
 
 ///|
-#borrow(arr)
-pub extern "c" fn ushort_array_length(arr : UShortArray) -> Int = "moonbit_raylib_ushort_array_length"
+pub extern "c" fn ushort_array_null() -> UShortArray = "moonbit_raylib_ushort_array_null"
 
 ///|
-#borrow(arr)
 pub extern "c" fn ushort_array_op_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_op_get"
 
 ///|
-#borrow(arr)
 pub extern "c" fn ushort_array_op_set(arr : UShortArray, index : Int, value : Int) = "moonbit_raylib_ushort_array_op_set"
 
 // ============================================================================
@@ -904,7 +895,17 @@ pub extern "c" fn get_mesh_bone_matrices(mesh : Mesh) -> MatrixArray = "moonbit_
 // ============================================================================
 
 ///|
-pub extern "c" fn new_mesh(vertex_count : Int, triangle_count : Int) -> Mesh = "moonbit_raylib_new_mesh"
+pub extern "c" fn new_mesh(
+  vertex_count : Int,
+  triangle_count : Int,
+  vertices : FloatArray,
+  texcoords : FloatArray,
+  texcoords2 : FloatArray,
+  normals : FloatArray,
+  tangents : FloatArray,
+  colors : UByteArray,
+  indices : UShortArray,
+) -> Mesh = "moonbit_raylib_new_mesh"
 
 ///|
 #borrow(mesh)
@@ -919,7 +920,7 @@ pub extern "c" fn get_mesh_triangle_count(mesh : Mesh) -> Int = "moonbit_raylib_
 pub extern "c" fn get_mesh_vertices(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_vertices"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_vertices(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_vertices"
 
 ///|
@@ -927,7 +928,7 @@ pub extern "c" fn set_mesh_vertices(mesh : Mesh, data : FloatArray) = "moonbit_r
 pub extern "c" fn get_mesh_texcoords(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_texcoords(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_texcoords"
 
 ///|
@@ -935,7 +936,7 @@ pub extern "c" fn set_mesh_texcoords(mesh : Mesh, data : FloatArray) = "moonbit_
 pub extern "c" fn get_mesh_texcoords2(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords2"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_texcoords2(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_texcoords2"
 
 ///|
@@ -943,7 +944,7 @@ pub extern "c" fn set_mesh_texcoords2(mesh : Mesh, data : FloatArray) = "moonbit
 pub extern "c" fn get_mesh_normals(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_normals"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_normals(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_normals"
 
 ///|
@@ -951,7 +952,7 @@ pub extern "c" fn set_mesh_normals(mesh : Mesh, data : FloatArray) = "moonbit_ra
 pub extern "c" fn get_mesh_tangents(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_tangents"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_tangents(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_tangents"
 
 ///|
@@ -959,7 +960,7 @@ pub extern "c" fn set_mesh_tangents(mesh : Mesh, data : FloatArray) = "moonbit_r
 pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UByteArray = "moonbit_raylib_get_mesh_colors"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_colors(mesh : Mesh, data : UByteArray) = "moonbit_raylib_set_mesh_colors"
 
 ///|
@@ -967,5 +968,5 @@ pub extern "c" fn set_mesh_colors(mesh : Mesh, data : UByteArray) = "moonbit_ray
 pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortArray = "moonbit_raylib_get_mesh_indices"
 
 ///|
-#borrow(mesh, data)
+#borrow(mesh)
 pub extern "c" fn set_mesh_indices(mesh : Mesh, data : UShortArray) = "moonbit_raylib_set_mesh_indices"

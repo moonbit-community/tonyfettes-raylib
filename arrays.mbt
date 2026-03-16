@@ -1,11 +1,11 @@
-// Typed array wrappers for C array access
+// Typed array wrappers over #external raw C pointers
 
 // ============================================================================
-// FloatArray
+// FloatArray — wraps raw float* with length tracking
 // ============================================================================
 
 ///|
-struct FloatArray(@ffi.FloatArray)
+struct FloatArray(@ffi.FloatArray, Int)
 
 ///|
 pub fn FloatArray::from_array(data : Array[Float]) -> FloatArray {
@@ -14,12 +14,17 @@ pub fn FloatArray::from_array(data : Array[Float]) -> FloatArray {
   for f in data {
     buf.write_float_le(f)
   }
-  @ffi.float_array_new(buf.to_bytes(), count)
+  FloatArray(@ffi.float_array_new(buf.to_bytes(), count), count)
+}
+
+///|
+pub fn FloatArray::null() -> FloatArray {
+  FloatArray(@ffi.float_array_null(), 0)
 }
 
 ///|
 pub fn FloatArray::length(self : FloatArray) -> Int {
-  @ffi.float_array_length(self.0)
+  self.1
 }
 
 ///|
@@ -33,11 +38,11 @@ pub fn FloatArray::op_set(self : FloatArray, index : Int, value : Float) -> Unit
 }
 
 // ============================================================================
-// UByteArray
+// UByteArray — wraps raw unsigned char* with length tracking
 // ============================================================================
 
 ///|
-struct UByteArray(@ffi.UByteArray)
+struct UByteArray(@ffi.UByteArray, Int)
 
 ///|
 pub fn UByteArray::from_array(data : Array[Int]) -> UByteArray {
@@ -46,12 +51,17 @@ pub fn UByteArray::from_array(data : Array[Int]) -> UByteArray {
   for i, v in data {
     arr[i] = v.to_byte()
   }
-  @ffi.ubyte_array_new(FixedArray::unsafe_reinterpret_as_bytes(arr), count)
+  UByteArray(@ffi.ubyte_array_new(FixedArray::unsafe_reinterpret_as_bytes(arr), count), count)
+}
+
+///|
+pub fn UByteArray::null() -> UByteArray {
+  UByteArray(@ffi.ubyte_array_null(), 0)
 }
 
 ///|
 pub fn UByteArray::length(self : UByteArray) -> Int {
-  @ffi.ubyte_array_length(self.0)
+  self.1
 }
 
 ///|
@@ -65,11 +75,11 @@ pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
 }
 
 // ============================================================================
-// UShortArray
+// UShortArray — wraps raw unsigned short* with length tracking
 // ============================================================================
 
 ///|
-struct UShortArray(@ffi.UShortArray)
+struct UShortArray(@ffi.UShortArray, Int)
 
 ///|
 pub fn UShortArray::from_array(data : Array[Int]) -> UShortArray {
@@ -79,12 +89,17 @@ pub fn UShortArray::from_array(data : Array[Int]) -> UShortArray {
     buf.write_byte((v & 0xFF).to_byte())
     buf.write_byte(((v >> 8) & 0xFF).to_byte())
   }
-  @ffi.ushort_array_new(buf.to_bytes(), count)
+  UShortArray(@ffi.ushort_array_new(buf.to_bytes(), count), count)
+}
+
+///|
+pub fn UShortArray::null() -> UShortArray {
+  UShortArray(@ffi.ushort_array_null(), 0)
 }
 
 ///|
 pub fn UShortArray::length(self : UShortArray) -> Int {
-  @ffi.ushort_array_length(self.0)
+  self.1
 }
 
 ///|
@@ -98,7 +113,7 @@ pub fn UShortArray::op_set(self : UShortArray, index : Int, value : Int) -> Unit
 }
 
 // ============================================================================
-// MatrixArray
+// MatrixArray — GC-managed view into parent's Matrix* array
 // ============================================================================
 
 ///|

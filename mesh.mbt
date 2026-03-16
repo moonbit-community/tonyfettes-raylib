@@ -16,15 +16,20 @@ pub fn Mesh::new(
     Some(idx) => idx.length() / 3
     None => vertex_count / 3
   }
-  let mesh : Mesh = @ffi.new_mesh(vertex_count, triangle_count)
-  mesh.set_vertices(vertices)
-  if texcoords is Some(v) { mesh.set_texcoords(v) }
-  if texcoords2 is Some(v) { mesh.set_texcoords2(v) }
-  if normals is Some(v) { mesh.set_normals(v) }
-  if tangents is Some(v) { mesh.set_tangents(v) }
-  if colors is Some(v) { mesh.set_colors(v) }
-  if indices is Some(v) { mesh.set_indices(v) }
-  mesh
+  let f_null = @ffi.float_array_null()
+  let ub_null = @ffi.ubyte_array_null()
+  let us_null = @ffi.ushort_array_null()
+  @ffi.new_mesh(
+    vertex_count,
+    triangle_count,
+    vertices.0,
+    match texcoords { Some(v) => v.0; None => f_null },
+    match texcoords2 { Some(v) => v.0; None => f_null },
+    match normals { Some(v) => v.0; None => f_null },
+    match tangents { Some(v) => v.0; None => f_null },
+    match colors { Some(v) => v.0; None => ub_null },
+    match indices { Some(v) => v.0; None => us_null },
+  )
 }
 
 ///|
@@ -208,7 +213,7 @@ pub fn Mesh::triangle_count(self : Mesh) -> Int {
 ///|
 #as_free_fn(get_mesh_vertices)
 pub fn Mesh::vertices(self : Mesh) -> FloatArray {
-  @ffi.get_mesh_vertices(self.0)
+  FloatArray(@ffi.get_mesh_vertices(self.0), self.vertex_count() * 3)
 }
 
 ///|
@@ -220,7 +225,7 @@ pub fn Mesh::set_vertices(self : Mesh, data : FloatArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_texcoords)
 pub fn Mesh::texcoords(self : Mesh) -> FloatArray {
-  @ffi.get_mesh_texcoords(self.0)
+  FloatArray(@ffi.get_mesh_texcoords(self.0), self.vertex_count() * 2)
 }
 
 ///|
@@ -232,7 +237,7 @@ pub fn Mesh::set_texcoords(self : Mesh, data : FloatArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_texcoords2)
 pub fn Mesh::texcoords2(self : Mesh) -> FloatArray {
-  @ffi.get_mesh_texcoords2(self.0)
+  FloatArray(@ffi.get_mesh_texcoords2(self.0), self.vertex_count() * 2)
 }
 
 ///|
@@ -244,7 +249,7 @@ pub fn Mesh::set_texcoords2(self : Mesh, data : FloatArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_normals)
 pub fn Mesh::normals(self : Mesh) -> FloatArray {
-  @ffi.get_mesh_normals(self.0)
+  FloatArray(@ffi.get_mesh_normals(self.0), self.vertex_count() * 3)
 }
 
 ///|
@@ -256,7 +261,7 @@ pub fn Mesh::set_normals(self : Mesh, data : FloatArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_tangents)
 pub fn Mesh::tangents(self : Mesh) -> FloatArray {
-  @ffi.get_mesh_tangents(self.0)
+  FloatArray(@ffi.get_mesh_tangents(self.0), self.vertex_count() * 4)
 }
 
 ///|
@@ -268,7 +273,7 @@ pub fn Mesh::set_tangents(self : Mesh, data : FloatArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_colors)
 pub fn Mesh::colors(self : Mesh) -> UByteArray {
-  @ffi.get_mesh_colors(self.0)
+  UByteArray(@ffi.get_mesh_colors(self.0), self.vertex_count() * 4)
 }
 
 ///|
@@ -280,7 +285,7 @@ pub fn Mesh::set_colors(self : Mesh, data : UByteArray) -> Unit {
 ///|
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(self : Mesh) -> UShortArray {
-  @ffi.get_mesh_indices(self.0)
+  UShortArray(@ffi.get_mesh_indices(self.0), self.triangle_count() * 3)
 }
 
 ///|

@@ -1258,81 +1258,81 @@ moonbit_raylib_gen_mesh_from_points(
 }
 
 // ============================================================================
-// FloatArray: generic typed array operations
+// FloatArray: raw float* operations (#external, no wrapper)
 // ============================================================================
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_float_array_new(moonbit_bytes_t data, int32_t count) {
-  return MakeFloatArrayWrapperOwned((const float *)data, count);
+  float *arr = (float *)RL_MALLOC((size_t)count * sizeof(float));
+  memcpy(arr, data, (size_t)count * sizeof(float));
+  return arr;
 }
 
-int32_t
-moonbit_raylib_float_array_length(FloatArrayWrapper *w) {
-  return w->count;
+float *
+moonbit_raylib_float_array_null(void) {
+  return NULL;
 }
 
 float
-moonbit_raylib_float_array_op_get(FloatArrayWrapper *w, int32_t index) {
-  assert(index >= 0 && index < w->count && "FloatArray index out of bounds");
-  return w->data[index];
+moonbit_raylib_float_array_op_get(float *arr, int32_t index) {
+  return arr[index];
 }
 
 void
-moonbit_raylib_float_array_op_set(FloatArrayWrapper *w, int32_t index, float value) {
-  assert(index >= 0 && index < w->count && "FloatArray index out of bounds");
-  w->data[index] = value;
+moonbit_raylib_float_array_op_set(float *arr, int32_t index, float value) {
+  arr[index] = value;
 }
 
 // ============================================================================
-// UByteArray: generic typed array operations
+// UByteArray: raw unsigned char* operations (#external, no wrapper)
 // ============================================================================
 
-UByteArrayWrapper *
+unsigned char *
 moonbit_raylib_ubyte_array_new(moonbit_bytes_t data, int32_t count) {
-  return MakeUByteArrayWrapperOwned((const unsigned char *)data, count);
+  unsigned char *arr = (unsigned char *)RL_MALLOC((size_t)count);
+  memcpy(arr, data, (size_t)count);
+  return arr;
+}
+
+unsigned char *
+moonbit_raylib_ubyte_array_null(void) {
+  return NULL;
 }
 
 int32_t
-moonbit_raylib_ubyte_array_length(UByteArrayWrapper *w) {
-  return w->count;
-}
-
-int32_t
-moonbit_raylib_ubyte_array_op_get(UByteArrayWrapper *w, int32_t index) {
-  assert(index >= 0 && index < w->count && "UByteArray index out of bounds");
-  return (int32_t)w->data[index];
+moonbit_raylib_ubyte_array_op_get(unsigned char *arr, int32_t index) {
+  return (int32_t)arr[index];
 }
 
 void
-moonbit_raylib_ubyte_array_op_set(UByteArrayWrapper *w, int32_t index, int32_t value) {
-  assert(index >= 0 && index < w->count && "UByteArray index out of bounds");
-  w->data[index] = (unsigned char)value;
+moonbit_raylib_ubyte_array_op_set(unsigned char *arr, int32_t index, int32_t value) {
+  arr[index] = (unsigned char)value;
 }
 
 // ============================================================================
-// UShortArray: generic typed array operations
+// UShortArray: raw unsigned short* operations (#external, no wrapper)
 // ============================================================================
 
-UShortArrayWrapper *
+unsigned short *
 moonbit_raylib_ushort_array_new(moonbit_bytes_t data, int32_t count) {
-  return MakeUShortArrayWrapperOwned((const unsigned short *)data, count);
+  unsigned short *arr = (unsigned short *)RL_MALLOC((size_t)count * sizeof(unsigned short));
+  memcpy(arr, data, (size_t)count * sizeof(unsigned short));
+  return arr;
+}
+
+unsigned short *
+moonbit_raylib_ushort_array_null(void) {
+  return NULL;
 }
 
 int32_t
-moonbit_raylib_ushort_array_length(UShortArrayWrapper *w) {
-  return w->count;
-}
-
-int32_t
-moonbit_raylib_ushort_array_op_get(UShortArrayWrapper *w, int32_t index) {
-  assert(index >= 0 && index < w->count && "UShortArray index out of bounds");
-  return (int32_t)w->data[index];
+moonbit_raylib_ushort_array_op_get(unsigned short *arr, int32_t index) {
+  return (int32_t)arr[index];
 }
 
 void
-moonbit_raylib_ushort_array_op_set(UShortArrayWrapper *w, int32_t index, int32_t value) {
-  assert(index >= 0 && index < w->count && "UShortArray index out of bounds");
-  w->data[index] = (unsigned short)value;
+moonbit_raylib_ushort_array_op_set(unsigned short *arr, int32_t index, int32_t value) {
+  arr[index] = (unsigned short)value;
 }
 
 // ============================================================================
@@ -1450,10 +1450,22 @@ moonbit_raylib_get_mesh_bone_matrices(MeshWrapper *w) {
 // ============================================================================
 
 MeshWrapper *
-moonbit_raylib_new_mesh(int32_t vertex_count, int32_t triangle_count) {
+moonbit_raylib_new_mesh(
+  int32_t vertex_count, int32_t triangle_count,
+  float *vertices, float *texcoords, float *texcoords2,
+  float *normals, float *tangents,
+  unsigned char *colors, unsigned short *indices
+) {
   Mesh mesh = {0};
   mesh.vertexCount = vertex_count;
   mesh.triangleCount = triangle_count;
+  mesh.vertices = vertices;
+  mesh.texcoords = texcoords;
+  mesh.texcoords2 = texcoords2;
+  mesh.normals = normals;
+  mesh.tangents = tangents;
+  mesh.colors = colors;
+  mesh.indices = indices;
   return MakeMeshWrapper(mesh);
 }
 
@@ -1467,114 +1479,79 @@ moonbit_raylib_get_mesh_triangle_count(MeshWrapper *w) {
   return w->data->triangleCount;
 }
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_get_mesh_vertices(MeshWrapper *w) {
-  if (!w->data->vertices)
-    return MakeFloatArrayWrapperView(NULL, 0, w);
-  return MakeFloatArrayWrapperView(
-    w->data->vertices, w->data->vertexCount * 3, w
-  );
+  return w->data->vertices;
 }
 
 void
-moonbit_raylib_set_mesh_vertices(MeshWrapper *w, FloatArrayWrapper *a) {
+moonbit_raylib_set_mesh_vertices(MeshWrapper *w, float *data) {
   if (w->data->vertices) RL_FREE(w->data->vertices);
-  w->data->vertices = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->vertices, a->data, (size_t)a->count * sizeof(float));
+  w->data->vertices = data;
 }
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_get_mesh_texcoords(MeshWrapper *w) {
-  if (!w->data->texcoords)
-    return MakeFloatArrayWrapperView(NULL, 0, w);
-  return MakeFloatArrayWrapperView(
-    w->data->texcoords, w->data->vertexCount * 2, w
-  );
+  return w->data->texcoords;
 }
 
 void
-moonbit_raylib_set_mesh_texcoords(MeshWrapper *w, FloatArrayWrapper *a) {
+moonbit_raylib_set_mesh_texcoords(MeshWrapper *w, float *data) {
   if (w->data->texcoords) RL_FREE(w->data->texcoords);
-  w->data->texcoords = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->texcoords, a->data, (size_t)a->count * sizeof(float));
+  w->data->texcoords = data;
 }
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_get_mesh_texcoords2(MeshWrapper *w) {
-  if (!w->data->texcoords2)
-    return MakeFloatArrayWrapperView(NULL, 0, w);
-  return MakeFloatArrayWrapperView(
-    w->data->texcoords2, w->data->vertexCount * 2, w
-  );
+  return w->data->texcoords2;
 }
 
 void
-moonbit_raylib_set_mesh_texcoords2(MeshWrapper *w, FloatArrayWrapper *a) {
+moonbit_raylib_set_mesh_texcoords2(MeshWrapper *w, float *data) {
   if (w->data->texcoords2) RL_FREE(w->data->texcoords2);
-  w->data->texcoords2 = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->texcoords2, a->data, (size_t)a->count * sizeof(float));
+  w->data->texcoords2 = data;
 }
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_get_mesh_normals(MeshWrapper *w) {
-  if (!w->data->normals)
-    return MakeFloatArrayWrapperView(NULL, 0, w);
-  return MakeFloatArrayWrapperView(
-    w->data->normals, w->data->vertexCount * 3, w
-  );
+  return w->data->normals;
 }
 
 void
-moonbit_raylib_set_mesh_normals(MeshWrapper *w, FloatArrayWrapper *a) {
+moonbit_raylib_set_mesh_normals(MeshWrapper *w, float *data) {
   if (w->data->normals) RL_FREE(w->data->normals);
-  w->data->normals = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->normals, a->data, (size_t)a->count * sizeof(float));
+  w->data->normals = data;
 }
 
-FloatArrayWrapper *
+float *
 moonbit_raylib_get_mesh_tangents(MeshWrapper *w) {
-  if (!w->data->tangents)
-    return MakeFloatArrayWrapperView(NULL, 0, w);
-  return MakeFloatArrayWrapperView(
-    w->data->tangents, w->data->vertexCount * 4, w
-  );
+  return w->data->tangents;
 }
 
 void
-moonbit_raylib_set_mesh_tangents(MeshWrapper *w, FloatArrayWrapper *a) {
+moonbit_raylib_set_mesh_tangents(MeshWrapper *w, float *data) {
   if (w->data->tangents) RL_FREE(w->data->tangents);
-  w->data->tangents = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->tangents, a->data, (size_t)a->count * sizeof(float));
+  w->data->tangents = data;
 }
 
-UByteArrayWrapper *
+unsigned char *
 moonbit_raylib_get_mesh_colors(MeshWrapper *w) {
-  if (!w->data->colors)
-    return MakeUByteArrayWrapperView(NULL, 0, w);
-  return MakeUByteArrayWrapperView(
-    w->data->colors, w->data->vertexCount * 4, w
-  );
+  return w->data->colors;
 }
 
 void
-moonbit_raylib_set_mesh_colors(MeshWrapper *w, UByteArrayWrapper *a) {
+moonbit_raylib_set_mesh_colors(MeshWrapper *w, unsigned char *data) {
   if (w->data->colors) RL_FREE(w->data->colors);
-  w->data->colors = (unsigned char *)RL_MALLOC((size_t)a->count);
-  memcpy(w->data->colors, a->data, (size_t)a->count);
+  w->data->colors = data;
 }
 
-UShortArrayWrapper *
+unsigned short *
 moonbit_raylib_get_mesh_indices(MeshWrapper *w) {
-  if (!w->data->indices)
-    return MakeUShortArrayWrapperView(NULL, 0, w);
-  return MakeUShortArrayWrapperView(
-    w->data->indices, w->data->triangleCount * 3, w
-  );
+  return w->data->indices;
 }
 
 void
-moonbit_raylib_set_mesh_indices(MeshWrapper *w, UShortArrayWrapper *a) {
+moonbit_raylib_set_mesh_indices(MeshWrapper *w, unsigned short *data) {
   if (w->data->indices) RL_FREE(w->data->indices);
-  w->data->indices = (unsigned short *)RL_MALLOC((size_t)a->count * sizeof(unsigned short));
-  memcpy(w->data->indices, a->data, (size_t)a->count * sizeof(unsigned short));
+  w->data->indices = data;
 }

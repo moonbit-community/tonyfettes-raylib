@@ -59,12 +59,15 @@ pub type MaterialMap
 pub type MaterialMapArray
 
 ///|
+#external
 pub type FloatArray
 
 ///|
+#external
 pub type UByteArray
 
 ///|
+#external
 pub type UShortArray
 
 ///|
