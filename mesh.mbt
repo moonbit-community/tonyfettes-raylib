@@ -217,21 +217,9 @@ pub fn Mesh::vertices(self : Mesh) -> FloatArray {
 }
 
 ///|
-#as_free_fn(set_mesh_vertices)
-pub fn Mesh::set_vertices(self : Mesh, data : FloatArray) -> Unit {
-  @ffi.set_mesh_vertices(self.0, data.0)
-}
-
-///|
 #as_free_fn(get_mesh_texcoords)
 pub fn Mesh::texcoords(self : Mesh) -> FloatArray {
   FloatArray(@ffi.get_mesh_texcoords(self.0), self.vertex_count() * 2)
-}
-
-///|
-#as_free_fn(set_mesh_texcoords)
-pub fn Mesh::set_texcoords(self : Mesh, data : FloatArray) -> Unit {
-  @ffi.set_mesh_texcoords(self.0, data.0)
 }
 
 ///|
@@ -241,21 +229,9 @@ pub fn Mesh::texcoords2(self : Mesh) -> FloatArray {
 }
 
 ///|
-#as_free_fn(set_mesh_texcoords2)
-pub fn Mesh::set_texcoords2(self : Mesh, data : FloatArray) -> Unit {
-  @ffi.set_mesh_texcoords2(self.0, data.0)
-}
-
-///|
 #as_free_fn(get_mesh_normals)
 pub fn Mesh::normals(self : Mesh) -> FloatArray {
   FloatArray(@ffi.get_mesh_normals(self.0), self.vertex_count() * 3)
-}
-
-///|
-#as_free_fn(set_mesh_normals)
-pub fn Mesh::set_normals(self : Mesh, data : FloatArray) -> Unit {
-  @ffi.set_mesh_normals(self.0, data.0)
 }
 
 ///|
@@ -265,33 +241,15 @@ pub fn Mesh::tangents(self : Mesh) -> FloatArray {
 }
 
 ///|
-#as_free_fn(set_mesh_tangents)
-pub fn Mesh::set_tangents(self : Mesh, data : FloatArray) -> Unit {
-  @ffi.set_mesh_tangents(self.0, data.0)
-}
-
-///|
 #as_free_fn(get_mesh_colors)
 pub fn Mesh::colors(self : Mesh) -> UByteArray {
   UByteArray(@ffi.get_mesh_colors(self.0), self.vertex_count() * 4)
 }
 
 ///|
-#as_free_fn(set_mesh_colors)
-pub fn Mesh::set_colors(self : Mesh, data : UByteArray) -> Unit {
-  @ffi.set_mesh_colors(self.0, data.0)
-}
-
-///|
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(self : Mesh) -> UShortArray {
   UShortArray(@ffi.get_mesh_indices(self.0), self.triangle_count() * 3)
-}
-
-///|
-#as_free_fn(set_mesh_indices)
-pub fn Mesh::set_indices(self : Mesh, data : UShortArray) -> Unit {
-  @ffi.set_mesh_indices(self.0, data.0)
 }
 
 ///|

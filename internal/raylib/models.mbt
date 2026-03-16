@@ -921,15 +921,7 @@ pub extern "c" fn get_mesh_vertices(mesh : Mesh) -> FloatArray = "moonbit_raylib
 
 ///|
 #borrow(mesh)
-pub extern "c" fn set_mesh_vertices(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_vertices"
-
-///|
-#borrow(mesh)
 pub extern "c" fn get_mesh_texcoords(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords"
-
-///|
-#borrow(mesh)
-pub extern "c" fn set_mesh_texcoords(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_texcoords"
 
 ///|
 #borrow(mesh)
@@ -937,15 +929,7 @@ pub extern "c" fn get_mesh_texcoords2(mesh : Mesh) -> FloatArray = "moonbit_rayl
 
 ///|
 #borrow(mesh)
-pub extern "c" fn set_mesh_texcoords2(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_texcoords2"
-
-///|
-#borrow(mesh)
 pub extern "c" fn get_mesh_normals(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_normals"
-
-///|
-#borrow(mesh)
-pub extern "c" fn set_mesh_normals(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_normals"
 
 ///|
 #borrow(mesh)
@@ -953,20 +937,9 @@ pub extern "c" fn get_mesh_tangents(mesh : Mesh) -> FloatArray = "moonbit_raylib
 
 ///|
 #borrow(mesh)
-pub extern "c" fn set_mesh_tangents(mesh : Mesh, data : FloatArray) = "moonbit_raylib_set_mesh_tangents"
-
-///|
-#borrow(mesh)
 pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UByteArray = "moonbit_raylib_get_mesh_colors"
-
-///|
-#borrow(mesh)
-pub extern "c" fn set_mesh_colors(mesh : Mesh, data : UByteArray) = "moonbit_raylib_set_mesh_colors"
 
 ///|
 #borrow(mesh)
 pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortArray = "moonbit_raylib_get_mesh_indices"
 
-///|
-#borrow(mesh)
-pub extern "c" fn set_mesh_indices(mesh : Mesh, data : UShortArray) = "moonbit_raylib_set_mesh_indices"

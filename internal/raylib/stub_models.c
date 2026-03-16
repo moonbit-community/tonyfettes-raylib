@@ -768,7 +768,11 @@ moonbit_raylib_set_material_texture(
 }
 
 void
-moonbit_raylib_set_model_mesh_material(ModelWrapper *m, int meshId, int materialId) {
+moonbit_raylib_set_model_mesh_material(
+  ModelWrapper *m,
+  int meshId,
+  int materialId
+) {
   SetModelMeshMaterial(m->data, meshId, materialId);
 }
 
@@ -1103,7 +1107,10 @@ moonbit_raylib_get_model_bone_parent(ModelWrapper *m, int bone_index) {
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_bind_pose_translation(ModelWrapper *m, int bone_index) {
+moonbit_raylib_get_model_bind_pose_translation(
+  ModelWrapper *m,
+  int bone_index
+) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
   if (bone_index >= 0 && bone_index < m->data->boneCount) {
     memcpy(r, &m->data->bindPose[bone_index].translation, sizeof(Vector3));
@@ -1305,7 +1312,11 @@ moonbit_raylib_ubyte_array_op_get(unsigned char *arr, int32_t index) {
 }
 
 void
-moonbit_raylib_ubyte_array_op_set(unsigned char *arr, int32_t index, int32_t value) {
+moonbit_raylib_ubyte_array_op_set(
+  unsigned char *arr,
+  int32_t index,
+  int32_t value
+) {
   arr[index] = (unsigned char)value;
 }
 
@@ -1315,7 +1326,8 @@ moonbit_raylib_ubyte_array_op_set(unsigned char *arr, int32_t index, int32_t val
 
 unsigned short *
 moonbit_raylib_ushort_array_new(moonbit_bytes_t data, int32_t count) {
-  unsigned short *arr = (unsigned short *)RL_MALLOC((size_t)count * sizeof(unsigned short));
+  unsigned short *arr =
+    (unsigned short *)RL_MALLOC((size_t)count * sizeof(unsigned short));
   memcpy(arr, data, (size_t)count * sizeof(unsigned short));
   return arr;
 }
@@ -1331,7 +1343,11 @@ moonbit_raylib_ushort_array_op_get(unsigned short *arr, int32_t index) {
 }
 
 void
-moonbit_raylib_ushort_array_op_set(unsigned short *arr, int32_t index, int32_t value) {
+moonbit_raylib_ushort_array_op_set(
+  unsigned short *arr,
+  int32_t index,
+  int32_t value
+) {
   arr[index] = (unsigned short)value;
 }
 
@@ -1353,7 +1369,11 @@ moonbit_raylib_matrix_array_op_get(MatrixArrayWrapper *w, int32_t index) {
 }
 
 void
-moonbit_raylib_matrix_array_op_set(MatrixArrayWrapper *w, int32_t index, moonbit_bytes_t value) {
+moonbit_raylib_matrix_array_op_set(
+  MatrixArrayWrapper *w,
+  int32_t index,
+  moonbit_bytes_t value
+) {
   assert(index >= 0 && index < w->count && "MatrixArray index out of bounds");
   memcpy(&w->data[index], value, sizeof(Matrix));
 }
@@ -1368,14 +1388,25 @@ moonbit_raylib_material_map_array_length(MaterialMapArrayWrapper *w) {
 }
 
 MaterialMapWrapper *
-moonbit_raylib_material_map_array_op_get(MaterialMapArrayWrapper *w, int32_t index) {
-  assert(index >= 0 && index < w->count && "MaterialMapArray index out of bounds");
+moonbit_raylib_material_map_array_op_get(
+  MaterialMapArrayWrapper *w,
+  int32_t index
+) {
+  assert(
+    index >= 0 && index < w->count && "MaterialMapArray index out of bounds"
+  );
   return MakeMaterialMapWrapperView(&w->data[index], w);
 }
 
 void
-moonbit_raylib_material_map_array_op_set(MaterialMapArrayWrapper *w, int32_t index, MaterialMapWrapper *src) {
-  assert(index >= 0 && index < w->count && "MaterialMapArray index out of bounds");
+moonbit_raylib_material_map_array_op_set(
+  MaterialMapArrayWrapper *w,
+  int32_t index,
+  MaterialMapWrapper *src
+) {
+  assert(
+    index >= 0 && index < w->count && "MaterialMapArray index out of bounds"
+  );
   w->data[index] = *src->data;
 }
 
@@ -1389,7 +1420,10 @@ moonbit_raylib_material_map_get_texture(MaterialMapWrapper *w) {
 }
 
 void
-moonbit_raylib_material_map_set_texture(MaterialMapWrapper *w, TextureWrapper *tw) {
+moonbit_raylib_material_map_set_texture(
+  MaterialMapWrapper *w,
+  TextureWrapper *tw
+) {
   w->data->texture = *tw->data;
 }
 
@@ -1401,7 +1435,10 @@ moonbit_raylib_material_map_get_color(MaterialMapWrapper *w) {
 }
 
 void
-moonbit_raylib_material_map_set_color(MaterialMapWrapper *w, moonbit_bytes_t color) {
+moonbit_raylib_material_map_set_color(
+  MaterialMapWrapper *w,
+  moonbit_bytes_t color
+) {
   memcpy(&w->data->color, color, sizeof(Color));
 }
 
@@ -1426,9 +1463,7 @@ moonbit_raylib_get_material_shader(MaterialWrapper *w) {
 
 MaterialMapArrayWrapper *
 moonbit_raylib_get_material_maps(MaterialWrapper *w) {
-  return MakeMaterialMapArrayWrapperView(
-    w->data->maps, MAX_MATERIAL_MAPS, w
-  );
+  return MakeMaterialMapArrayWrapperView(w->data->maps, MAX_MATERIAL_MAPS, w);
 }
 
 // ============================================================================
@@ -1451,10 +1486,15 @@ moonbit_raylib_get_mesh_bone_matrices(MeshWrapper *w) {
 
 MeshWrapper *
 moonbit_raylib_new_mesh(
-  int32_t vertex_count, int32_t triangle_count,
-  float *vertices, float *texcoords, float *texcoords2,
-  float *normals, float *tangents,
-  unsigned char *colors, unsigned short *indices
+  int32_t vertex_count,
+  int32_t triangle_count,
+  float *vertices,
+  float *texcoords,
+  float *texcoords2,
+  float *normals,
+  float *tangents,
+  unsigned char *colors,
+  unsigned short *indices
 ) {
   Mesh mesh = {0};
   mesh.vertexCount = vertex_count;
@@ -1484,21 +1524,9 @@ moonbit_raylib_get_mesh_vertices(MeshWrapper *w) {
   return w->data->vertices;
 }
 
-void
-moonbit_raylib_set_mesh_vertices(MeshWrapper *w, float *data) {
-  if (w->data->vertices) RL_FREE(w->data->vertices);
-  w->data->vertices = data;
-}
-
 float *
 moonbit_raylib_get_mesh_texcoords(MeshWrapper *w) {
   return w->data->texcoords;
-}
-
-void
-moonbit_raylib_set_mesh_texcoords(MeshWrapper *w, float *data) {
-  if (w->data->texcoords) RL_FREE(w->data->texcoords);
-  w->data->texcoords = data;
 }
 
 float *
@@ -1506,21 +1534,9 @@ moonbit_raylib_get_mesh_texcoords2(MeshWrapper *w) {
   return w->data->texcoords2;
 }
 
-void
-moonbit_raylib_set_mesh_texcoords2(MeshWrapper *w, float *data) {
-  if (w->data->texcoords2) RL_FREE(w->data->texcoords2);
-  w->data->texcoords2 = data;
-}
-
 float *
 moonbit_raylib_get_mesh_normals(MeshWrapper *w) {
   return w->data->normals;
-}
-
-void
-moonbit_raylib_set_mesh_normals(MeshWrapper *w, float *data) {
-  if (w->data->normals) RL_FREE(w->data->normals);
-  w->data->normals = data;
 }
 
 float *
@@ -1528,30 +1544,12 @@ moonbit_raylib_get_mesh_tangents(MeshWrapper *w) {
   return w->data->tangents;
 }
 
-void
-moonbit_raylib_set_mesh_tangents(MeshWrapper *w, float *data) {
-  if (w->data->tangents) RL_FREE(w->data->tangents);
-  w->data->tangents = data;
-}
-
 unsigned char *
 moonbit_raylib_get_mesh_colors(MeshWrapper *w) {
   return w->data->colors;
 }
 
-void
-moonbit_raylib_set_mesh_colors(MeshWrapper *w, unsigned char *data) {
-  if (w->data->colors) RL_FREE(w->data->colors);
-  w->data->colors = data;
-}
-
 unsigned short *
 moonbit_raylib_get_mesh_indices(MeshWrapper *w) {
   return w->data->indices;
-}
-
-void
-moonbit_raylib_set_mesh_indices(MeshWrapper *w, unsigned short *data) {
-  if (w->data->indices) RL_FREE(w->data->indices);
-  w->data->indices = data;
 }
