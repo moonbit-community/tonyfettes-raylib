@@ -20,21 +20,29 @@ fn main {
     @raylib.CameraPerspective,
   )
 
-  let mesh = @raylib.gen_mesh_plane(
-    Float::from_int(MapSize),
-    Float::from_int(MapSize),
-    1,
-    1,
+  // Build plane mesh manually so we can include texcoords2 before upload
+  let half = Float::from_int(MapSize) / 2.0
+  let mesh = @raylib.Mesh::new(
+    4,
+    2,
+    vertices=Some(@raylib.FloatArray::from_array([
+      -half, 0.0, -half, // vertex 0
+       half, 0.0, -half, // vertex 1
+      -half, 0.0,  half, // vertex 2
+       half, 0.0,  half, // vertex 3
+    ])),
+    texcoords=Some(@raylib.FloatArray::from_array([
+      0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
+    ])),
+    texcoords2=Some(@raylib.FloatArray::from_array([
+      0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
+    ])),
+    normals=Some(@raylib.FloatArray::from_array([
+      0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+    ])),
+    indices=Some(@raylib.UShortArray::from_array([2, 1, 0, 2, 3, 1])),
   )
-
-  // GenMeshPlane doesn't generate texcoords2 so we will upload them separately
-  let texcoords2 = @raylib.FloatArray::from_array([
-    0.0, 0.0, // vertex 0
-    1.0, 0.0, // vertex 1
-    0.0, 1.0, // vertex 2
-    1.0, 1.0, // vertex 3
-  ])
-  mesh.setup_texcoords2(texcoords2)
+  mesh.upload(false)
 
   // Load lightmap shader
   let shader = @raylib.load_shader(

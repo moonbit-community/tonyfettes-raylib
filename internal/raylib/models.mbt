@@ -760,17 +760,6 @@ pub extern "c" fn gen_mesh_from_points(
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
 
 // ============================================================================
-// Mesh: setup texcoords2
-// ============================================================================
-
-///|
-#borrow(mesh, data)
-pub extern "c" fn mesh_setup_texcoords2(
-  mesh : Mesh,
-  data : FloatArray,
-) = "moonbit_raylib_mesh_setup_texcoords2"
-
-// ============================================================================
 // FloatArray operations
 // ============================================================================
 

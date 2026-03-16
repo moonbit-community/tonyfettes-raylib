@@ -1258,30 +1258,6 @@ moonbit_raylib_gen_mesh_from_points(
 }
 
 // ============================================================================
-// Mesh: setup texcoords2 (allocate, fill, upload VBO, set vertex attribute)
-// ============================================================================
-
-void
-moonbit_raylib_mesh_setup_texcoords2(
-  MeshWrapper *w,
-  FloatArrayWrapper *a
-) {
-  // Allocate and copy texcoords2 data
-  w->data->texcoords2 = (float *)RL_MALLOC((size_t)a->count * sizeof(float));
-  memcpy(w->data->texcoords2, a->data, (size_t)a->count * sizeof(float));
-
-  // Upload texcoords2 as a new VBO
-  w->data->vboId[SHADER_LOC_VERTEX_TEXCOORD02] =
-    rlLoadVertexBuffer(w->data->texcoords2, a->count * sizeof(float), false);
-
-  // Bind VAO and set vertex attribute at index 5 (texcoords2)
-  rlEnableVertexArray(w->data->vaoId);
-  rlSetVertexAttribute(5, 2, RL_FLOAT, 0, 0, 0);
-  rlEnableVertexAttribute(5);
-  rlDisableVertexArray();
-}
-
-// ============================================================================
 // FloatArray: generic typed array operations
 // ============================================================================
 
