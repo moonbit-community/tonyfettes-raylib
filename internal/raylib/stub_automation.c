@@ -4,34 +4,14 @@
 // AutomationEventList wrapper
 // ============================================================================
 
-typedef struct {
-  AutomationEventList list;
-  int freed;
-} AutomationEventListWrapper;
-
-static void
-automation_event_list_destructor(void *ptr) {
-  AutomationEventListWrapper *w = (AutomationEventListWrapper *)ptr;
-  if (!w->freed) {
-    UnloadAutomationEventList(w->list);
-  }
-}
-
 AutomationEventListWrapper *
 moonbit_raylib_load_automation_event_list(moonbit_bytes_t fileName) {
-  AutomationEventListWrapper *w = (AutomationEventListWrapper *)moonbit_make_external_object(
-    automation_event_list_destructor, sizeof(AutomationEventListWrapper));
-  w->list = LoadAutomationEventList((const char *)fileName);
-  w->freed = 0;
-  return w;
+  return MakeAutomationEventListWrapper(LoadAutomationEventList((const char *)fileName));
 }
 
 void
 moonbit_raylib_unload_automation_event_list(AutomationEventListWrapper *w) {
-  if (w && !w->freed) {
-    UnloadAutomationEventList(w->list);
-    w->freed = 1;
-  }
+  UnloadAutomationEventList(w->list);
 }
 
 int

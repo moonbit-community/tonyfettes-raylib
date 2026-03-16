@@ -13,8 +13,9 @@ fn main {
   // Load all GIF animation frames into a single Image
   // NOTE: GIF data is always loaded as RGBA (32bit) by default
   // NOTE: Frames are just appended one after another in image.data memory
-  let im_scarfy_anim = @raylib.load_image_anim("resources/scarfy_run.gif")
-  let anim_frames = @raylib.image_frame_count(im_scarfy_anim)
+  let (im_scarfy_anim, anim_frames) = @raylib.load_image_anim(
+    "resources/scarfy_run.gif",
+  )
 
   // Load texture from image
   // NOTE: We will update this texture when required with next frame data

@@ -101,8 +101,8 @@ moonbit_raylib_get_clipboard_text(void) {
 // ============================================================================
 
 void
-moonbit_raylib_set_window_icon(ImageWrapper *wrapper) {
-  SetWindowIcon(wrapper->image);
+moonbit_raylib_set_window_icon(ImageWrapper *image) {
+  SetWindowIcon(*image->data);
 }
 
 // ============================================================================

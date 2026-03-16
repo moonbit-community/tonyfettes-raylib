@@ -28,7 +28,6 @@ pub using @ffi {
   load_material_default,
   is_material_valid,
   unload_material,
-  set_material_texture,
   set_material_shader,
   set_model_mesh_material,
   // Model animations (passthrough)
@@ -429,6 +428,15 @@ pub fn set_model_material_texture(
   texture : Texture,
 ) -> Unit {
   @ffi.set_model_material_texture(model, material_index, map_type, texture)
+}
+
+///|
+pub fn set_material_texture(
+  material : Material,
+  map_type : Int,
+  texture : Texture,
+) -> Unit {
+  @ffi.set_material_texture(material, map_type, texture)
 }
 
 // ============================================================================

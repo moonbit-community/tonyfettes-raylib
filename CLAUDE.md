@@ -40,11 +40,13 @@ examples/raylib_*/                     # Example executables
 ### FFI Pattern
 
 Passthrough functions (primitives/opaque types only) are re-exported directly:
+
 ```moonbit
 pub using @raylib.{ close_window, is_key_pressed, ... }
 ```
 
 Functions needing type conversion get explicit wrappers:
+
 ```moonbit
 pub fn clear_background(color : Color) -> Unit {
   @raylib.clear_background(color.to_bytes())
@@ -55,17 +57,38 @@ pub fn clear_background(color : Color) -> Unit {
 
 Small C structs (Color, Vector2, Rectangle, etc.) are serialized to `Bytes` in MoonBit, passed to C as `moonbit_bytes_t`, and deserialized via `memcpy` in `stub.c`. Each struct type has `Type::to_bytes()` and `Type::from_bytes()` methods in its domain file.
 
-### Resource types (opaque pointers with GC finalizers)
+### Resource types
 
-Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in `*Wrapper` structs in `stub.c` with a `freed` flag and a destructor registered via `moonbit_make_external_object`. On the MoonBit side these are opaque `pub type` declarations in `internal/raylib/types.mbt`, re-exported via `pub using @raylib.{ type Image, ... }` in the corresponding domain files (`textures.mbt`, `text.mbt`, `models.mbt`, `audio.mbt`, `drawing.mbt`).
+All resource types use a unified **`XxxWrapper` pattern** backed by `moonbit_make_external_object` in C stubs. Users must still call `unload_*` to release raylib-internal resources (GPU textures, audio buffers, etc.), but the MoonBit-side wrapper memory is garbage-collected. The unified C-side wrapper struct is:
+
+```c
+typedef struct {
+  T *data;        // pointer to actual data (inline storage or parent's memory)
+  void *owner;    // NULL = owned; non-NULL = view (decref in finalizer)
+  T storage[];    // flexible array member (only allocated for owned resources)
+} TWrapper;
+```
+
+- **Owned resources** (Image, Sound, Music, Model, Shader, Wave, AudioStream, VrStereoConfig, Font, Texture, RenderTexture, Mesh, Material): `data` points to inline `storage[]`, `owner = NULL`. Allocated via `MakeTWrapper(val)`.
+- **View resources** (Texture from RenderTexture/Font, Mesh/Material from Model, Material from MaterialsArray): `data` points into parent's memory, `owner = parent`. `moonbit_incref(parent)` on creation, `moonbit_decref(owner)` in finalizer — parent stays alive as long as any view exists. Allocated via `MakeTWrapperView(ptr, owner)`.
+- **Array wrappers** (ModelAnimationsWrapper, GlyphInfoArrayWrapper, FilePathListWrapper, AutomationEventListWrapper, MaterialsArrayWrapper): Same external object pattern but with C-allocated array metadata instead of `storage[]`.
+
+All resource types are declared as `pub type Foo` in `types.mbt` (opaque external objects). The `DEFINE_SIMPLE_WRAPPER(T, Name)` macro in `stub_internal.h` generates the wrapper struct, finalizer, and factory functions for each type.
+
+Other notes:
+
+- **`#borrow` annotation**: Used for any GC-managed reference-type parameters (`Bytes`, opaque types, `Ref[T]`, etc.) in `extern "c"` declarations to prevent GC collection during FFI calls.
+- **`load_image_anim`**: Frame count returned via `Ref[Int]` out-parameter (labelled `frames~` with default).
+- **Depth-tex/shadowmap RenderTextures**: No special constructors. Use `@rl.load_framebuffer()`, `@rl.load_texture()`, `@rl.load_texture_depth()`, `@rl.framebuffer_attach()`, then `@raylib.new_render_texture(...)` to compose custom render textures.
 
 ### Key files
 
 - `build.js` — Prebuild script for platform-specific link flags and stub-cc-flags (macOS/Linux/Windows)
-- `internal/raylib/stub.c` — All C glue functions (`moonbit_raylib_*` wrappers)
+- `internal/raylib/stub_*.c` — C glue functions (`moonbit_raylib_*` wrappers), split by domain
 - `internal/raylib/rglfw.c` — GLFW aggregator (compiled directly via `native-stub`)
 - `internal/raylib/{core,shapes,textures,text,models,audio}.mbt` — FFI declarations
-- `internal/raylib/types.mbt` — Opaque type declarations (Image, Texture, etc.)
+- `internal/raylib/types.mbt` — Opaque type declarations (Image, Sound, etc.)
+- `internal/raylib/stub_internal.h` — `DeclareView`/`View` macros, wrapper structs for metadata types
 - `vector.mbt` — Byte helpers + Vector2/Vector3/Vector4 structs
 - `color.mbt` — Color struct + 25 color constants + color utility wrappers
 - `rectangle.mbt` — Rectangle struct
@@ -73,8 +96,11 @@ Large/owned C structs (Image, Texture, Font, Sound, Music, Model) are wrapped in
 - `ray.mbt` — Ray/BoundingBox/RayCollision structs
 - `window.mbt` — Window management re-exports/wrappers + ConfigFlags + log levels
 - `input.mbt` — Cursor/keyboard/mouse re-exports/wrappers + key/mouse/gesture constants
-- `drawing.mbt` — Drawing lifecycle re-exports + clear_background + blend constants + Shader/RenderTexture types
-- `{shapes,textures,text,models,audio}.mbt` — Domain-specific API (re-exports + wrappers)
+- `drawing.mbt` — Drawing lifecycle re-exports + clear_background + blend constants + Shader type
+- `textures.mbt` — Texture/RenderTexture struct definitions + texture API wrappers
+- `text.mbt` — Font struct definition + font/text API wrappers
+- `{shapes,models,audio}.mbt` — Domain-specific API (re-exports + wrappers)
+
 ### Platform flags (prebuild script + `moon.pkg`)
 
 Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod.json`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
@@ -87,7 +113,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 ## Critical FFI Rules
 
 - **Never use `self` as parameter name** in `extern "c"` — MoonBit interprets it as a method definition
-- **Always use `#borrow(param)`** annotation on `extern "c"` functions that take opaque pointer types (Sound, Music, Image, Texture, Font, Model, RenderTexture) or read-only Bytes
+- **Use `#borrow(param)` for any GC-managed reference-type parameters** (`Bytes`, opaque resource types, `Ref[T]`, etc.) in `extern "c"` functions when C only reads during the call and does not store a reference.
 - **String passing**: encode with `@utf8.encode(str)` → `Bytes`, C side casts `moonbit_bytes_t` to `const char*`
 - **Method syntax**: use `pub fn Type::method_name(...)` not `pub fn method_name(...)`
 

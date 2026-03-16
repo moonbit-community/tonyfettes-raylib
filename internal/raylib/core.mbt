@@ -236,8 +236,8 @@ pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
 pub extern "c" fn end_blend_mode() = "EndBlendMode"
 
 ///|
-#borrow(target)
-pub extern "c" fn begin_texture_mode(target : RenderTexture) = "moonbit_raylib_begin_texture_mode"
+#borrow(render_texture)
+pub extern "c" fn begin_texture_mode(render_texture : RenderTexture) = "moonbit_raylib_begin_texture_mode"
 
 ///|
 pub extern "c" fn end_texture_mode() = "EndTextureMode"

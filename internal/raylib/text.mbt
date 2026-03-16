@@ -10,17 +10,13 @@ pub extern "c" fn get_font_default() -> Font = "moonbit_raylib_get_font_default"
 pub extern "c" fn load_font(file_name : Bytes) -> Font = "moonbit_raylib_load_font"
 
 ///|
-#borrow(file_name)
-pub extern "c" fn load_font_ex(file_name : Bytes, font_size : Int) -> Font = "moonbit_raylib_load_font_ex"
-
-///|
 #borrow(file_name, codepoints)
-pub extern "c" fn load_font_ex_codepoints(
+pub extern "c" fn load_font_ex(
   file_name : Bytes,
   font_size : Int,
-  codepoints : Bytes,
-  codepoint_count : Int,
-) -> Font = "moonbit_raylib_load_font_ex_codepoints"
+  codepoints : FixedArray[Int]?,
+  codepoints_count : Int,
+) -> Font = "moonbit_raylib_load_font_ex"
 
 ///|
 #borrow(font)
@@ -45,14 +41,6 @@ pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_g
 ///|
 #borrow(font)
 pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get_font_texture"
-
-///|
-#borrow(font)
-pub extern "c" fn gen_font_texture_mipmaps(font : Font) = "moonbit_raylib_gen_font_texture_mipmaps"
-
-///|
-#borrow(font)
-pub extern "c" fn set_font_texture_filter(font : Font, filter : Int) = "moonbit_raylib_set_font_texture_filter"
 
 // ============================================================================
 // Text drawing

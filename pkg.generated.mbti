@@ -440,42 +440,61 @@ pub const PixelformatUncompressedR8g8b8 : Int = 4
 
 pub const PixelformatUncompressedR8g8b8a8 : Int = 7
 
+#deprecated
 pub const RlAttachmentColorChannel0 : Int = 0
 
+#deprecated
 pub const RlAttachmentColorChannel1 : Int = 1
 
+#deprecated
 pub const RlAttachmentColorChannel2 : Int = 2
 
+#deprecated
 pub const RlAttachmentColorChannel3 : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeX : Int = 1
 
+#deprecated
 pub const RlAttachmentCubemapNegativeY : Int = 3
 
+#deprecated
 pub const RlAttachmentCubemapNegativeZ : Int = 5
 
+#deprecated
 pub const RlAttachmentCubemapPositiveX : Int = 0
 
+#deprecated
 pub const RlAttachmentCubemapPositiveY : Int = 2
 
+#deprecated
 pub const RlAttachmentCubemapPositiveZ : Int = 4
 
+#deprecated
 pub const RlAttachmentDepth : Int = 100
 
+#deprecated
 pub const RlAttachmentRenderbuffer : Int = 200
 
+#deprecated
 pub const RlAttachmentStencil : Int = 200
 
+#deprecated
 pub const RlAttachmentTexture2d : Int = 100
 
+#deprecated
 pub const RlDrawFramebuffer : UInt = 0x8CA9
 
+#deprecated
 pub const RlLines : Int = 0x0001
 
+#deprecated
 pub const RlQuads : Int = 0x0007
 
+#deprecated
 pub const RlReadFramebuffer : UInt = 0x8CA8
 
+#deprecated
 pub const RlTriangles : Int = 0x0004
 
 pub const ShaderLocBoneMatrices : Int = 28
@@ -1172,11 +1191,16 @@ pub fn get_ray_collision_triangle(Ray, Vector3, Vector3, Vector3) -> RayCollisio
 
 pub fn get_render_height() -> Int
 
+pub fn get_render_texture_depth(@tonyfettes/raylib/internal/raylib.RenderTexture) -> @tonyfettes/raylib/internal/raylib.Texture
+
 pub fn get_render_texture_depth_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
 
+#deprecated
 pub fn get_render_texture_fbo_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
 
 pub fn get_render_texture_height(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Int
+
+pub fn get_render_texture_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
 
 pub fn get_render_texture_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> @tonyfettes/raylib/internal/raylib.Texture
 
@@ -1216,7 +1240,7 @@ pub fn get_spline_point_linear(Vector2, Vector2, Float) -> Vector2
 
 pub fn get_texture_height(@tonyfettes/raylib/internal/raylib.Texture) -> Int
 
-pub fn get_texture_id(@tonyfettes/raylib/internal/raylib.Texture) -> Int
+pub fn get_texture_id(@tonyfettes/raylib/internal/raylib.Texture) -> UInt
 
 pub fn get_texture_width(@tonyfettes/raylib/internal/raylib.Texture) -> Int
 
@@ -1333,8 +1357,6 @@ pub fn image_flip_horizontal(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 pub fn image_flip_vertical(@tonyfettes/raylib/internal/raylib.Image) -> Unit
 
 pub fn image_format(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_frame_count(@tonyfettes/raylib/internal/raylib.Image) -> Int
 
 pub fn image_from_channel(@tonyfettes/raylib/internal/raylib.Image, Int) -> @tonyfettes/raylib/internal/raylib.Image
 
@@ -1498,9 +1520,9 @@ pub fn load_font_from_memory(String, Bytes, Int, Int) -> @tonyfettes/raylib/inte
 
 pub fn load_image(String) -> @tonyfettes/raylib/internal/raylib.Image
 
-pub fn load_image_anim(String) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn load_image_anim(String) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
 
-pub fn load_image_anim_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Image
+pub fn load_image_anim_from_memory(String, Bytes, Int) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
 
 pub fn load_image_colors(@tonyfettes/raylib/internal/raylib.Image) -> Bytes
 
@@ -1532,12 +1554,14 @@ pub fn load_random_sequence(Int, Int, Int) -> Array[Int]
 
 pub fn load_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
 
+#deprecated
 pub fn load_render_texture_depth_tex(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
 
 pub fn load_shader(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
 
 pub fn load_shader_from_memory(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
 
+#deprecated
 pub fn load_shadowmap_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
 
 pub fn load_sound(String) -> @tonyfettes/raylib/internal/raylib.Sound
@@ -1583,6 +1607,10 @@ pub fn mesh_setup_texcoords2(@tonyfettes/raylib/internal/raylib.Mesh, Bytes, Int
 pub fn minimize_window() -> Unit
 
 pub fn model_animations_count(@tonyfettes/raylib/internal/raylib.ModelAnimations) -> Int
+
+pub fn new_render_texture(UInt, @tonyfettes/raylib/internal/raylib.Texture, @tonyfettes/raylib/internal/raylib.Texture) -> @tonyfettes/raylib/internal/raylib.RenderTexture
+
+pub fn new_texture(UInt, Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture
 
 pub fn open_url(String) -> Unit
 
@@ -1921,6 +1949,7 @@ pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(String) -> Unit
 
+#deprecated
 pub fn texture_from_id(UInt, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture
 
 pub fn toggle_borderless_windowed() -> Unit
@@ -1957,10 +1986,12 @@ pub fn unload_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
 
 pub fn unload_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
 
+#deprecated
 pub fn unload_render_texture_depth_tex(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
 
 pub fn unload_shader(@tonyfettes/raylib/internal/raylib.Shader) -> Unit
 
+#deprecated
 pub fn unload_shadowmap_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
 
 pub fn unload_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit

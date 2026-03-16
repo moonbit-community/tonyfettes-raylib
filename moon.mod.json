@@ -6,9 +6,7 @@
   "license": "MIT",
   "keywords": [],
   "description": "MoonBit bindings for raylib",
-  "source": "",
-  "preferred-target": "native",
-  "--moonbit-unstable-prebuild": "build.js",
+  "source": ".",
   "exclude": [
     "examples",
     "/external",
@@ -22,5 +20,6 @@
     "setup.sh",
     "clean.sh"
   ],
-  "deps": {}
+  "preferred-target": "native",
+  "--moonbit-unstable-prebuild": "build.js"
 }
