@@ -132,18 +132,13 @@ pub fn Mesh::draw_instanced(
   transforms : Array[Matrix],
   instances : Int,
 ) -> Unit {
-  let count = if instances > transforms.length() {
-    transforms.length()
-  } else {
-    instances
-  }
-  let arr = FixedArray::make(count * 64, b'\x00')
-  for i in 0..<count {
+  let arr = FixedArray::make(instances * 64, b'\x00')
+  for i in 0..<instances {
     let m = transforms[i].to_bytes()
     arr.blit_from_bytes(i * 64, m, 0, 64)
   }
   let buf = FixedArray::unsafe_reinterpret_as_bytes(arr)
-  @ffi.draw_mesh_instanced(self.0, material.0, buf, count)
+  @ffi.draw_mesh_instanced(self.0, material.0, buf, instances)
 }
 
 ///|
