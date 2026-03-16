@@ -71,10 +71,10 @@ pub fn AutomationEventList::load(file_name : String) -> AutomationEventList {
 ///|
 #as_free_fn(export_automation_event_list)
 pub fn AutomationEventList::export_(
-  list : AutomationEventList,
+  self : AutomationEventList,
   file_name : String,
 ) -> Bool {
-  @ffi.export_automation_event_list(list.0, @utf8.encode(file_name))
+  @ffi.export_automation_event_list(self.0, @utf8.encode(file_name))
 }
 
 ///|
