@@ -472,6 +472,9 @@ pub fn load_shadowmap_render_texture(
 ///|
 #deprecated("Use @rl.* API to unload the render texture manually")
 pub fn unload_shadowmap_render_texture(target : RenderTexture) -> Unit {
+  @ffi.rl_unload_texture(
+    get_texture_id(get_render_texture_depth(target)),
+  )
   @ffi.rl_unload_framebuffer(get_render_texture_id(target))
 }
 
