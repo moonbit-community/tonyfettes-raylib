@@ -199,12 +199,8 @@ pub fn Mesh::update_buffer(
 
 ///|
 #as_free_fn(mesh_setup_texcoords2)
-pub fn Mesh::setup_texcoords2(
-  self : Mesh,
-  data : Bytes,
-  float_count : Int,
-) -> Unit {
-  @ffi.mesh_setup_texcoords2(self.0, data, float_count)
+pub fn Mesh::setup_texcoords2(self : Mesh, data : FloatArray) -> Unit {
+  @ffi.mesh_setup_texcoords2(self.0, data.0)
 }
 
 ///|

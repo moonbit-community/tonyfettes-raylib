@@ -2,20 +2,6 @@
 const MapSize : Int = 10
 
 ///|
-fn floats_to_bytes(values : FixedArray[Float]) -> Bytes {
-  let len = values.length()
-  let arr = FixedArray::make(len * 4, b'\x00')
-  for i in 0..<len {
-    let bits = values[i].reinterpret_as_int()
-    arr[i * 4] = (bits & 0xFF).to_byte()
-    arr[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()
-    arr[i * 4 + 2] = ((bits >> 16) & 0xFF).to_byte()
-    arr[i * 4 + 3] = ((bits >> 24) & 0xFF).to_byte()
-  }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -42,14 +28,13 @@ fn main {
   )
 
   // GenMeshPlane doesn't generate texcoords2 so we will upload them separately
-  // texcoords2: 4 vertices * 2 components = 8 floats
-  let texcoords2 : FixedArray[Float] = [
+  let texcoords2 = @raylib.FloatArray::from_array([
     0.0, 0.0, // vertex 0
-     1.0, 0.0, // vertex 1
-     0.0, 1.0, // vertex 2
-     1.0, 1.0,
-  ] // vertex 3
-  @raylib.mesh_setup_texcoords2(mesh, floats_to_bytes(texcoords2), 8)
+    1.0, 0.0, // vertex 1
+    0.0, 1.0, // vertex 2
+    1.0, 1.0, // vertex 3
+  ])
+  mesh.setup_texcoords2(texcoords2)
 
   // Load lightmap shader
   let shader = @raylib.load_shader(
