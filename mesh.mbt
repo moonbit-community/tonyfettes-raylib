@@ -5,43 +5,22 @@ struct Mesh(@ffi.Mesh)
 pub fn Mesh::new(
   vertex_count : Int,
   triangle_count : Int,
-  vertices~ : FloatArray? = None,
-  texcoords~ : FloatArray? = None,
-  texcoords2~ : FloatArray? = None,
-  normals~ : FloatArray? = None,
-  tangents~ : FloatArray? = None,
-  colors~ : UByteArray? = None,
-  indices~ : UShortArray? = None,
+  vertices? : FloatArray,
+  texcoords? : FloatArray,
+  texcoords2? : FloatArray,
+  normals? : FloatArray,
+  tangents? : FloatArray,
+  colors? : UByteArray,
+  indices? : UShortArray,
 ) -> Mesh {
   let mesh : Mesh = @ffi.new_mesh(vertex_count, triangle_count)
-  match vertices {
-    Some(v) => mesh.set_vertices(v)
-    None => ()
-  }
-  match texcoords {
-    Some(v) => mesh.set_texcoords(v)
-    None => ()
-  }
-  match texcoords2 {
-    Some(v) => mesh.set_texcoords2(v)
-    None => ()
-  }
-  match normals {
-    Some(v) => mesh.set_normals(v)
-    None => ()
-  }
-  match tangents {
-    Some(v) => mesh.set_tangents(v)
-    None => ()
-  }
-  match colors {
-    Some(v) => mesh.set_colors(v)
-    None => ()
-  }
-  match indices {
-    Some(v) => mesh.set_indices(v)
-    None => ()
-  }
+  if vertices is Some(v) { mesh.set_vertices(v) }
+  if texcoords is Some(v) { mesh.set_texcoords(v) }
+  if texcoords2 is Some(v) { mesh.set_texcoords2(v) }
+  if normals is Some(v) { mesh.set_normals(v) }
+  if tangents is Some(v) { mesh.set_tangents(v) }
+  if colors is Some(v) { mesh.set_colors(v) }
+  if indices is Some(v) { mesh.set_indices(v) }
   mesh
 }
 

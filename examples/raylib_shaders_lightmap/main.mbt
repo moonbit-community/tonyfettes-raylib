@@ -25,22 +25,22 @@ fn main {
   let mesh = @raylib.Mesh::new(
     4,
     2,
-    vertices=Some(@raylib.FloatArray::from_array([
+    vertices=@raylib.FloatArray::from_array([
       -half, 0.0, -half, // vertex 0
        half, 0.0, -half, // vertex 1
       -half, 0.0,  half, // vertex 2
        half, 0.0,  half, // vertex 3
-    ])),
-    texcoords=Some(@raylib.FloatArray::from_array([
+    ]),
+    texcoords=@raylib.FloatArray::from_array([
       0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
-    ])),
-    texcoords2=Some(@raylib.FloatArray::from_array([
+    ]),
+    texcoords2=@raylib.FloatArray::from_array([
       0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
-    ])),
-    normals=Some(@raylib.FloatArray::from_array([
+    ]),
+    normals=@raylib.FloatArray::from_array([
       0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
-    ])),
-    indices=Some(@raylib.UShortArray::from_array([2, 1, 0, 2, 3, 1])),
+    ]),
+    indices=@raylib.UShortArray::from_array([2, 1, 0, 2, 3, 1]),
   )
   mesh.upload(false)
 
