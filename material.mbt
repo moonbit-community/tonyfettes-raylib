@@ -87,6 +87,13 @@ pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int {
 }
 
 ///|
+#as_free_fn(material_map_array_length, deprecated="Use get_material_map_array_count() instead")
+#deprecated("Use MaterialMapArray::count() instead")
+pub fn MaterialMapArray::length(self : MaterialMapArray) -> Int {
+  self.1
+}
+
+///|
 #as_free_fn(material_map_array_op_get)
 pub fn MaterialMapArray::op_get(
   self : MaterialMapArray,
