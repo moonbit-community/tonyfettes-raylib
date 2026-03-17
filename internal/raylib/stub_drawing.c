@@ -134,9 +134,9 @@ moonbit_raylib_set_shader_location(ShaderWrapper *s, int locIndex, int value) {
   }
 }
 
-int
+uint32_t
 moonbit_raylib_get_shader_id(ShaderWrapper *s) {
-  return (int)s->data->id;
+  return (uint32_t)s->data->id;
 }
 
 void

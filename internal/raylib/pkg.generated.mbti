@@ -638,7 +638,7 @@ pub fn get_screen_to_world_ray_ex(Bytes, Bytes, Int, Int) -> Bytes
 
 pub fn get_screen_width() -> Int
 
-pub fn get_shader_id(Shader) -> Int
+pub fn get_shader_id(Shader) -> UInt
 
 pub fn get_shader_location(Shader, Bytes) -> Int
 
@@ -680,13 +680,13 @@ pub fn get_touch_x() -> Int
 
 pub fn get_touch_y() -> Int
 
-pub fn get_wave_channels(Wave) -> UInt
+pub fn get_wave_channels(Wave) -> Int
 
-pub fn get_wave_frame_count(Wave) -> UInt
+pub fn get_wave_frame_count(Wave) -> Int
 
-pub fn get_wave_sample_rate(Wave) -> UInt
+pub fn get_wave_sample_rate(Wave) -> Int
 
-pub fn get_wave_sample_size(Wave) -> UInt
+pub fn get_wave_sample_size(Wave) -> Int
 
 pub fn get_window_position() -> Bytes
 

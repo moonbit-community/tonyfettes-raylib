@@ -201,24 +201,24 @@ moonbit_raylib_load_wave_samples(WaveWrapper *w) {
   return r;
 }
 
-unsigned int
+int32_t
 moonbit_raylib_get_wave_frame_count(WaveWrapper *w) {
-  return w->data->frameCount;
+  return (int32_t)w->data->frameCount;
 }
 
-unsigned int
+int32_t
 moonbit_raylib_get_wave_sample_rate(WaveWrapper *w) {
-  return w->data->sampleRate;
+  return (int32_t)w->data->sampleRate;
 }
 
-unsigned int
+int32_t
 moonbit_raylib_get_wave_sample_size(WaveWrapper *w) {
-  return w->data->sampleSize;
+  return (int32_t)w->data->sampleSize;
 }
 
-unsigned int
+int32_t
 moonbit_raylib_get_wave_channels(WaveWrapper *w) {
-  return w->data->channels;
+  return (int32_t)w->data->channels;
 }
 
 // ============================================================================

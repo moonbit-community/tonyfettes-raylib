@@ -287,7 +287,7 @@ fn main {
   // Now we initialize the sampler2D uniform's in the deferred shader.
   // We do this by setting the uniform's value to the color channel slot we earlier
   // bound our textures to.
-  let deferred_shader_id = @raylib.get_shader_id(deferred_shader).reinterpret_as_uint()
+  let deferred_shader_id = @raylib.get_shader_id(deferred_shader)
   @rl.enable_shader(deferred_shader_id)
   @rl.set_uniform_sampler(
     @rl.get_location_uniform(deferred_shader_id, "gPosition"),
@@ -422,7 +422,7 @@ fn main {
 
     // NOTE: We have to use rlEnableShader here. BeginShaderMode or thus rlSetShader
     // will not work, as they won't immediately load the shader program.
-    let gbuffer_shader_id = @raylib.get_shader_id(gbuffer_shader).reinterpret_as_uint()
+    let gbuffer_shader_id = @raylib.get_shader_id(gbuffer_shader)
     @rl.enable_shader(gbuffer_shader_id)
 
     // When drawing a model here, make sure that the material's shaders

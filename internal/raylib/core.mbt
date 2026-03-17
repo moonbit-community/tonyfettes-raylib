@@ -498,7 +498,7 @@ pub extern "c" fn set_shader_location(
 
 ///|
 #borrow(shader)
-pub extern "c" fn get_shader_id(shader : Shader) -> Int = "moonbit_raylib_get_shader_id"
+pub extern "c" fn get_shader_id(shader : Shader) -> UInt = "moonbit_raylib_get_shader_id"
 
 ///|
 #borrow(shader, uniform_name)
