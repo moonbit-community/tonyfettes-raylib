@@ -680,6 +680,14 @@ pub fn get_touch_x() -> Int
 
 pub fn get_touch_y() -> Int
 
+pub fn get_wave_channels(Wave) -> UInt
+
+pub fn get_wave_frame_count(Wave) -> UInt
+
+pub fn get_wave_sample_rate(Wave) -> UInt
+
+pub fn get_wave_sample_size(Wave) -> UInt
+
 pub fn get_window_position() -> Bytes
 
 pub fn get_window_scale_dpi() -> Bytes

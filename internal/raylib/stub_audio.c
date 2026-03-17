@@ -201,6 +201,26 @@ moonbit_raylib_load_wave_samples(WaveWrapper *w) {
   return r;
 }
 
+unsigned int
+moonbit_raylib_get_wave_frame_count(WaveWrapper *w) {
+  return w->data->frameCount;
+}
+
+unsigned int
+moonbit_raylib_get_wave_sample_rate(WaveWrapper *w) {
+  return w->data->sampleRate;
+}
+
+unsigned int
+moonbit_raylib_get_wave_sample_size(WaveWrapper *w) {
+  return w->data->sampleSize;
+}
+
+unsigned int
+moonbit_raylib_get_wave_channels(WaveWrapper *w) {
+  return w->data->channels;
+}
+
 // ============================================================================
 // Audio: AudioStream (resource types)
 // ============================================================================
