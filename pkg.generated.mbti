@@ -2436,6 +2436,8 @@ pub fn VrStereoConfig::scale_in(Self) -> Vector2
 pub fn VrStereoConfig::unload(Self) -> Unit
 
 type Wave
+#as_free_fn(get_wave_channels)
+pub fn Wave::channels(Self) -> UInt
 #as_free_fn(wave_copy)
 pub fn Wave::copy(Self) -> Self
 #as_free_fn(wave_crop)
@@ -2446,6 +2448,8 @@ pub fn Wave::export_(Self, String) -> Bool
 pub fn Wave::export_as_code(Self, String) -> Bool
 #as_free_fn(wave_format)
 pub fn Wave::format(Self, Int, Int, Int) -> Unit
+#as_free_fn(get_wave_frame_count)
+pub fn Wave::frame_count(Self) -> UInt
 #as_free_fn(is_wave_valid)
 pub fn Wave::is_valid(Self) -> Bool
 #as_free_fn(load_wave)
@@ -2456,6 +2460,10 @@ pub fn Wave::load_from_memory(String, Bytes, Int) -> Self
 pub fn Wave::load_samples(Self) -> Bytes
 #as_free_fn(load_sound_from_wave)
 pub fn Wave::load_sound(Self) -> Sound
+#as_free_fn(get_wave_sample_rate)
+pub fn Wave::sample_rate(Self) -> UInt
+#as_free_fn(get_wave_sample_size)
+pub fn Wave::sample_size(Self) -> UInt
 #as_free_fn(unload_wave)
 pub fn Wave::unload(Self) -> Unit
 
