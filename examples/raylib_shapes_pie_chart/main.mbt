@@ -158,7 +158,7 @@ fn main {
 
         if label_text.length() > 0 {
           let text_size = @raylib.measure_text_ex(
-            @raylib.get_font_default(),
+            @raylib.Font::default(),
             label_text,
             20.0,
             1.0,

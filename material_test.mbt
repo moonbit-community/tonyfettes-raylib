@@ -4,7 +4,7 @@
 test "Material::maps accessor color round-trip" {
   @raylib.set_config_flags(@raylib.FlagWindowHidden)
   @raylib.init_window(1, 1, "test")
-  let mat = @raylib.Material::load_default()
+  let mat = @raylib.Material::default()
   let maps = mat.maps()
   assert_true(maps.length() > 0)
   // Get the diffuse map (index 0) and modify its color
@@ -32,7 +32,7 @@ test "Material::maps accessor color round-trip" {
 test "Material::maps accessor value round-trip" {
   @raylib.set_config_flags(@raylib.FlagWindowHidden)
   @raylib.init_window(1, 1, "test")
-  let mat = @raylib.Material::load_default()
+  let mat = @raylib.Material::default()
   let maps = mat.maps()
   let map0 = maps[0]
   map0.set_value(0.75)
@@ -47,7 +47,7 @@ test "Material::maps accessor value round-trip" {
 test "Material::set_map_color mutates via high-level API" {
   @raylib.set_config_flags(@raylib.FlagWindowHidden)
   @raylib.init_window(1, 1, "test")
-  let mat = @raylib.Material::load_default()
+  let mat = @raylib.Material::default()
   let color = @raylib.Color::new(11, 22, 33, 44)
   mat.set_map_color(0, color)
   // Read back through maps accessor

@@ -589,7 +589,7 @@ fn main {
         byte_count.to_string() +
         " bytes"
       let info_sz = @raylib.measure_text_ex(
-        @raylib.get_font_default(),
+        @raylib.Font::default(),
         info,
         10.0,
         1.0,

@@ -2,8 +2,7 @@
 struct Font(@ffi.Font)
 
 ///|
-#as_free_fn(get_font_default)
-pub fn Font::get_default() -> Font {
+pub impl Default for Font with default() -> Font {
   @ffi.get_font_default()
 }
 

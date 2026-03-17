@@ -399,7 +399,7 @@ fn main {
   let cube_position = @raylib.Vector3::new(0.0, 1.0, 0.0)
   let cube_size = @raylib.Vector3::new(2.0, 2.0, 2.0)
   // Use the default font
-  let font = @raylib.get_font_default()
+  let font = @raylib.Font::default()
   let mut font_size : Float = 8.0
   let mut font_spacing : Float = 0.5
   let mut line_spacing : Float = -1.0
@@ -618,7 +618,7 @@ fn main {
     show_letter_boundry = false
 
     // Draw 3D options (use default font)
-    let default_font = @raylib.get_font_default()
+    let default_font = @raylib.Font::default()
     @rl.push_matrix()
     @rl.rotatef(180.0, 0.0, 1.0, 0.0)
     // SIZE option

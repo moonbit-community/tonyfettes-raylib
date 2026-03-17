@@ -107,7 +107,7 @@ pub fn gui_load_style_default() -> Unit {
   gui_set_style(ControlColorpicker, HuebarSelectorHeight, 8)
   gui_set_style(ControlColorpicker, HuebarSelectorOverflow, 2)
   // Initialize font
-  gui_globals.font = Some(@raylib.get_font_default())
+  gui_globals.font = Some(@raylib.Font::default())
 }
 
 // ============================================================================

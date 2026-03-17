@@ -51,7 +51,7 @@ fn main {
 
   @raylib.set_render_texture_filter(lightmap, @raylib.TextureFilterTrilinear)
 
-  let material = @raylib.load_material_default()
+  let material = @raylib.Material::default()
   @raylib.set_material_shader(material, shader)
   @raylib.set_material_texture(material, @raylib.MaterialMapAlbedo, texture)
   // Set lightmap texture on METALNESS map slot (used as texture1 in shader)

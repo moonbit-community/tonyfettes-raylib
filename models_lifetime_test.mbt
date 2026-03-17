@@ -39,7 +39,7 @@ test "font texture view: basic access works" {
   @raylib.set_config_flags(@raylib.FlagWindowHidden)
   @raylib.init_window(1, 1, "test")
 
-  let font = @raylib.Font::get_default()
+  let font = @raylib.Font::default()
   let tex_view = font.texture()
 
   // Access texture view while font is alive - should work
