@@ -13,6 +13,34 @@ easy-to-use library to enjoy videogames programming.
   and demos
 - Platform-specific linking handled automatically via prebuild script
 
+## Prerequisites
+
+A C compiler is required because raylib's C sources are compiled from source as
+part of the build.
+
+| Platform | C Compiler |
+|----------|------------|
+| macOS    | Xcode Command Line Tools (`xcode-select --install`) |
+| Linux    | GCC or Clang (e.g., `apt install build-essential`) |
+| Windows  | MSVC or MinGW-w64 (GCC) — see below |
+| Android  | Android NDK |
+
+### Windows
+
+Either of the following C compilers will work:
+
+- **MSVC** — Install [Visual Studio](https://visualstudio.microsoft.com/) or the
+  [Build Tools for Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
+  Make sure to select the **"Desktop development with C++"** workload. The `cl.exe`
+  compiler should be available in your PATH (use the "Developer Command Prompt" or
+  "Developer PowerShell" that Visual Studio provides).
+
+- **MinGW-w64 (GCC)** — Install via [MSYS2](https://www.msys2.org/):
+  1. Install MSYS2 and open the **MSYS2 UCRT64** terminal
+  2. Run `pacman -S mingw-w64-ucrt-x86_64-gcc`
+  3. Add the MinGW bin directory to your system `PATH` (default: `C:\msys64\ucrt64\bin`)
+  4. Verify in a new terminal: `gcc --version`
+
 ## Quick Start
 
 ### Install
@@ -98,19 +126,6 @@ let sound = @raylib.load_sound("hit.wav")
 @raylib.draw_cube(position, width, height, length, @raylib.red)
 @raylib.end_mode_3d()
 ```
-
-## Platform Support
-
-| Platform | Status |
-|----------|--------|
-| macOS    | Supported |
-| Linux    | Supported |
-| Windows  | Supported |
-| Android  | Supported |
-
-Platform-specific link flags (OpenGL, Cocoa, X11, etc.) are configured
-automatically by the prebuild script — no manual setup required for desktop
-targets.
 
 ## License
 
