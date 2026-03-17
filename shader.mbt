@@ -94,7 +94,12 @@ pub fn Shader::set_value(
   loc_index : Int,
   value : ShaderUniformData,
 ) -> Unit {
-  @ffi.set_shader_value(self.0, loc_index, value.to_bytes(), value.uniform_type())
+  @ffi.set_shader_value(
+    self.0,
+    loc_index,
+    value.to_bytes(),
+    value.uniform_type(),
+  )
 }
 
 ///|
