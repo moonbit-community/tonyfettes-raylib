@@ -180,7 +180,7 @@ test "render texture lifecycle" {
 test "font and text measurement" {
   @raylib.set_config_flags(@raylib.FlagWindowHidden)
   @raylib.init_window(1, 1, "test")
-  let font = @raylib.Font::get_default()
+  let font = @raylib.Font::default()
   assert_true(font.is_valid())
   let size = font.measure_text("Hello", 20.0, 1.0)
   assert_true(size.x >= 0.0)

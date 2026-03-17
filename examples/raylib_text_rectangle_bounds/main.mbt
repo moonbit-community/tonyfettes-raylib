@@ -182,7 +182,7 @@ fn main {
   let mut last_mouse_x : Float = 0.0
   let mut last_mouse_y : Float = 0.0
   let mut border_color = @raylib.maroon
-  let font = @raylib.get_font_default()
+  let font = @raylib.Font::default()
   @raylib.set_target_fps(60)
 
   // Main game loop

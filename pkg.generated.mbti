@@ -1563,7 +1563,8 @@ pub fn Font::draw_text(Self, String, Vector2, Float, Float, Color) -> Unit
 pub fn Font::draw_text_pro(Self, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
 #as_free_fn(export_font_as_code)
 pub fn Font::export_as_code(Self, String) -> Bool
-#as_free_fn(get_font_default)
+#as_free_fn(get_font_default, deprecated)
+#deprecated
 pub fn Font::get_default() -> Self
 #as_free_fn(get_glyph_atlas_rec)
 pub fn Font::glyph_atlas_rec(Self, Int) -> Rectangle
@@ -1595,6 +1596,7 @@ pub fn Font::measure_text(Self, String, Float, Float) -> Vector2
 pub fn Font::texture(Self) -> Texture
 #as_free_fn(unload_font)
 pub fn Font::unload(Self) -> Unit
+pub impl Default for Font
 
 pub struct GlyphInfo {
   value : Int
@@ -1785,7 +1787,8 @@ pub fn Image::width(Self) -> Int
 type Material
 #as_free_fn(is_material_valid)
 pub fn Material::is_valid(Self) -> Bool
-#as_free_fn(load_material_default)
+#as_free_fn(load_material_default, deprecated)
+#deprecated
 pub fn Material::load_default() -> Self
 #as_free_fn(get_material_maps)
 pub fn Material::maps(Self) -> MaterialMapArray
@@ -1801,6 +1804,7 @@ pub fn Material::set_texture(Self, Int, Texture) -> Unit
 pub fn Material::shader(Self) -> Shader
 #as_free_fn(unload_material)
 pub fn Material::unload(Self) -> Unit
+pub impl Default for Material
 
 type MaterialMap
 pub fn MaterialMap::color(Self) -> Color

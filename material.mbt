@@ -2,7 +2,13 @@
 struct Material(@ffi.Material)
 
 ///|
-#as_free_fn(load_material_default)
+pub impl Default for Material with default() -> Material {
+  @ffi.load_material_default()
+}
+
+///|
+#as_free_fn(load_material_default, deprecated="Use Material::default() instead")
+#deprecated("Use Material::default() instead")
 pub fn Material::load_default() -> Material {
   @ffi.load_material_default()
 }

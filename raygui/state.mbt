@@ -462,7 +462,7 @@ pub fn gui_get_font() -> @raylib.Font {
   match gui_globals.font {
     Some(f) => f
     None => {
-      let f = @raylib.get_font_default()
+      let f = @raylib.Font::default()
       gui_globals.font = Some(f)
       f
     }

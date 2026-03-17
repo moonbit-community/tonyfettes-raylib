@@ -2,7 +2,13 @@
 struct Font(@ffi.Font)
 
 ///|
-#as_free_fn(get_font_default)
+pub impl Default for Font with default() -> Font {
+  @ffi.get_font_default()
+}
+
+///|
+#as_free_fn(get_font_default, deprecated="Use Font::default() instead")
+#deprecated("Use Font::default() instead")
 pub fn Font::get_default() -> Font {
   @ffi.get_font_default()
 }

@@ -210,7 +210,7 @@ fn main {
 
   // NOTE: We are assigning the instancing shader to material.shader
   // to be used on mesh drawing with DrawMeshInstanced()
-  let mat_instances = @raylib.load_material_default()
+  let mat_instances = @raylib.Material::default()
   @raylib.set_material_shader(mat_instances, shader)
   @raylib.set_material_map_color(
     mat_instances,
@@ -219,7 +219,7 @@ fn main {
   )
 
   // Load default material for non-instanced mesh drawing
-  let mat_default = @raylib.load_material_default()
+  let mat_default = @raylib.Material::default()
   @raylib.set_material_map_color(
     mat_default,
     @raylib.MaterialMapAlbedo,

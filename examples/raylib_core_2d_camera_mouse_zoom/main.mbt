@@ -138,7 +138,7 @@ fn main {
     let mouse_pos = @raylib.get_mouse_position()
     @raylib.draw_circle_v(mouse_pos, 4.0, @raylib.darkgray)
     @raylib.draw_text_ex(
-      @raylib.get_font_default(),
+      @raylib.Font::default(),
       "[\{@raylib.get_mouse_x()}, \{@raylib.get_mouse_y()}]",
       @raylib.Vector2::new(mouse_pos.x - 44.0, mouse_pos.y - 24.0),
       20.0,
