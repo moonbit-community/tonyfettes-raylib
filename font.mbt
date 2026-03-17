@@ -7,6 +7,13 @@ pub impl Default for Font with default() -> Font {
 }
 
 ///|
+#as_free_fn(get_font_default, deprecated="Use Font::default() instead")
+#deprecated("Use Font::default() instead")
+pub fn Font::get_default() -> Font {
+  @ffi.get_font_default()
+}
+
+///|
 #as_free_fn(get_font_base_size)
 pub fn Font::base_size(self : Font) -> Int {
   @ffi.get_font_base_size(self.0)

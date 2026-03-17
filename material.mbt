@@ -7,6 +7,13 @@ pub impl Default for Material with default() -> Material {
 }
 
 ///|
+#as_free_fn(load_material_default, deprecated="Use Material::default() instead")
+#deprecated("Use Material::default() instead")
+pub fn Material::load_default() -> Material {
+  @ffi.load_material_default()
+}
+
+///|
 #as_free_fn(is_material_valid)
 pub fn Material::is_valid(self : Material) -> Bool {
   @ffi.is_material_valid(self.0)
