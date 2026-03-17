@@ -57,15 +57,15 @@ fn ShaderUniformData::to_bytes(self : ShaderUniformData) -> Bytes {
 ///|
 fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int {
   match self {
-    Float(_) => 0
-    Vec2(_) => 1
-    Vec3(_) => 2
-    Vec4(_) => 3
-    Int(_) => 4
-    IVec2(_) => 5
-    IVec3(_) => 6
-    IVec4(_) => 7
-    Sampler2D(_) => 8
+    Float(_) => ShaderUniformFloat
+    Vec2(_) => ShaderUniformVec2
+    Vec3(_) => ShaderUniformVec3
+    Vec4(_) => ShaderUniformVec4
+    Int(_) => ShaderUniformInt
+    IVec2(_) => ShaderUniformIvec2
+    IVec3(_) => ShaderUniformIvec3
+    IVec4(_) => ShaderUniformIvec4
+    Sampler2D(_) => ShaderUniformSampler2d
   }
 }
 
