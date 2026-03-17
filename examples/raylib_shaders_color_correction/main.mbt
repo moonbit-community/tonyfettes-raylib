@@ -19,16 +19,16 @@ fn main {
   let img3 = @raylib.load_image("resources/fudesumi.png")
 
   let tex_widths = [
-    @raylib.image_width(img0),
-    @raylib.image_width(img1),
-    @raylib.image_width(img2),
-    @raylib.image_width(img3),
+    img0.width(),
+    img1.width(),
+    img2.width(),
+    img3.width(),
   ]
   let tex_heights = [
-    @raylib.image_height(img0),
-    @raylib.image_height(img1),
-    @raylib.image_height(img2),
-    @raylib.image_height(img3),
+    img0.height(),
+    img1.height(),
+    img2.height(),
+    img3.height(),
   ]
 
   let textures = [

@@ -81,11 +81,13 @@ pub fn Material::maps(self : Material) -> MaterialMapArray {
 struct MaterialMapArray(@ffi.MaterialMapArray, Int)
 
 ///|
-pub fn MaterialMapArray::length(self : MaterialMapArray) -> Int {
+#as_free_fn(get_material_map_array_count)
+pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int {
   self.1
 }
 
 ///|
+#as_free_fn(material_map_array_op_get)
 pub fn MaterialMapArray::op_get(
   self : MaterialMapArray,
   index : Int,
@@ -95,6 +97,7 @@ pub fn MaterialMapArray::op_get(
 }
 
 ///|
+#as_free_fn(material_map_array_op_set)
 pub fn MaterialMapArray::op_set(
   self : MaterialMapArray,
   index : Int,
@@ -112,31 +115,37 @@ pub fn MaterialMapArray::op_set(
 struct MaterialMap(@ffi.MaterialMap)
 
 ///|
+#as_free_fn(material_map_get_texture)
 pub fn MaterialMap::texture(self : MaterialMap) -> Texture {
   @ffi.material_map_get_texture(self.0)
 }
 
 ///|
+#as_free_fn(material_map_set_texture)
 pub fn MaterialMap::set_texture(self : MaterialMap, texture : Texture) -> Unit {
   @ffi.material_map_set_texture(self.0, texture.0)
 }
 
 ///|
+#as_free_fn(material_map_get_color)
 pub fn MaterialMap::color(self : MaterialMap) -> Color {
   Color::from_bytes(@ffi.material_map_get_color(self.0))
 }
 
 ///|
+#as_free_fn(material_map_set_color)
 pub fn MaterialMap::set_color(self : MaterialMap, color : Color) -> Unit {
   @ffi.material_map_set_color(self.0, color.to_bytes())
 }
 
 ///|
+#as_free_fn(material_map_get_value)
 pub fn MaterialMap::value(self : MaterialMap) -> Float {
   @ffi.material_map_get_value(self.0)
 }
 
 ///|
+#as_free_fn(material_map_set_value)
 pub fn MaterialMap::set_value(self : MaterialMap, value : Float) -> Unit {
   @ffi.material_map_set_value(self.0, value)
 }
