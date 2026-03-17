@@ -142,11 +142,9 @@ fn main {
 
     // Events playing
     if event_playing {
-      let ae_count = @raylib.automation_event_list_count(aelist)
+      let ae_count = aelist.count()
       while current_play_frame < ae_count {
-        let event = @raylib.automation_event_list_get(
-          aelist, current_play_frame,
-        )
+        let event = aelist.get(current_play_frame)
         if play_frame_counter != event.frame {
           break
         }
@@ -242,7 +240,7 @@ fn main {
         }
       }
     } else if @raylib.is_key_pressed(@raylib.KeyA) {
-      if not(event_recording) && @raylib.automation_event_list_count(aelist) > 0 {
+      if not(event_recording) && aelist.count() > 0 {
         // Reset scene state to play
         event_playing = true
         play_frame_counter = 0
@@ -321,7 +319,7 @@ fn main {
       )
       @raylib.draw_circle(30, 175, 10.0, @raylib.maroon)
       if frame_counter / 15 % 2 == 1 {
-        let ae_count = @raylib.automation_event_list_count(aelist)
+        let ae_count = aelist.count()
         @raylib.draw_text(
           "RECORDING EVENTS... [\{ae_count}]",
           50,

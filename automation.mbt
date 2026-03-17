@@ -83,9 +83,10 @@ pub fn play_automation_event(event : AutomationEvent) -> Unit {
 }
 
 ///|
-pub fn automation_event_list_get(
-  list : AutomationEventList,
+#as_free_fn(automation_event_list_get)
+pub fn AutomationEventList::get(
+  self : AutomationEventList,
   index : Int,
 ) -> AutomationEvent {
-  AutomationEvent::from_bytes(@ffi.automation_event_list_get(list.0, index))
+  AutomationEvent::from_bytes(@ffi.automation_event_list_get(self.0, index))
 }

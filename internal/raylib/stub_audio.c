@@ -226,7 +226,7 @@ moonbit_raylib_get_wave_channels(WaveWrapper *w) {
 // ============================================================================
 
 AudioStreamWrapper *
-moonbit_raylib_load_audio_stream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels) {
+moonbit_raylib_load_audio_stream(int sampleRate, int sampleSize, int channels) {
   return MakeAudioStreamWrapper(LoadAudioStream(sampleRate, sampleSize, channels));
 }
 

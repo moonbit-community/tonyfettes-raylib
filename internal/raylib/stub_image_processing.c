@@ -28,6 +28,16 @@ moonbit_raylib_image_height(ImageWrapper *img) {
   return img->data->height;
 }
 
+int
+moonbit_raylib_image_get_mipmaps(ImageWrapper *img) {
+  return img->data->mipmaps;
+}
+
+int
+moonbit_raylib_image_get_format(ImageWrapper *img) {
+  return img->data->format;
+}
+
 ImageWrapper *
 moonbit_raylib_load_image_anim_from_memory(moonbit_bytes_t fileType, moonbit_bytes_t fileData, int dataSize, int32_t *out_frames) {
   int frames = 0;

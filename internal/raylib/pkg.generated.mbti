@@ -788,6 +788,10 @@ pub fn image_from_channel(Image, Int) -> Image
 
 pub fn image_from_image(Image, Bytes) -> Image
 
+pub fn image_get_format(Image) -> Int
+
+pub fn image_get_mipmaps(Image) -> Int
+
 pub fn image_height(Image) -> Int
 
 pub fn image_kernel_convolution(Image, Bytes, Int) -> Unit
@@ -910,7 +914,7 @@ pub fn is_window_resized() -> Bool
 
 pub fn is_window_state(Int) -> Bool
 
-pub fn load_audio_stream(UInt, UInt, UInt) -> AudioStream
+pub fn load_audio_stream(Int, Int, Int) -> AudioStream
 
 pub fn load_automation_event_list(Bytes) -> AutomationEventList
 
@@ -1251,8 +1255,6 @@ pub fn set_music_volume(Music, Float) -> Unit
 pub fn set_random_seed(Int) -> Unit
 
 pub fn set_render_texture_filter(RenderTexture, Int) -> Unit
-
-pub fn set_shader_location(Shader, Int, Int) -> Unit
 
 pub fn set_shader_locs(Shader, Int, Int) -> Unit
 

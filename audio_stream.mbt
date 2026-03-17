@@ -4,9 +4,9 @@ struct AudioStream(@ffi.AudioStream)
 ///|
 #as_free_fn(load_audio_stream)
 pub fn AudioStream::load(
-  sample_rate : UInt,
-  sample_size : UInt,
-  channels : UInt,
+  sample_rate : Int,
+  sample_size : Int,
+  channels : Int,
 ) -> AudioStream {
   @ffi.load_audio_stream(sample_rate, sample_size, channels)
 }

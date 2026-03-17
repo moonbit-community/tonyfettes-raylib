@@ -153,16 +153,6 @@ pub fn Shader::get_location(self : Shader, uniform_name : String) -> Int {
 }
 
 ///|
-#as_free_fn(set_shader_location)
-pub fn Shader::set_location(
-  self : Shader,
-  loc_index : Int,
-  value : Int,
-) -> Unit {
-  @ffi.set_shader_location(self.0, loc_index, value)
-}
-
-///|
 #as_free_fn(get_shader_id)
 pub fn Shader::id(self : Shader) -> UInt {
   @ffi.get_shader_id(self.0)

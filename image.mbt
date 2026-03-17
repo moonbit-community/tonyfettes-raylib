@@ -38,6 +38,18 @@ pub fn Image::height(self : Image) -> Int {
 }
 
 ///|
+#as_free_fn(get_image_mipmaps)
+pub fn Image::mipmaps(self : Image) -> Int {
+  @ffi.image_get_mipmaps(self.0)
+}
+
+///|
+#as_free_fn(get_image_format)
+pub fn Image::format(self : Image) -> Int {
+  @ffi.image_get_format(self.0)
+}
+
+///|
 #as_free_fn(load_image_from_texture)
 pub fn Image::load_from_texture(texture : Texture) -> Image {
   @ffi.load_image_from_texture(texture.0)
