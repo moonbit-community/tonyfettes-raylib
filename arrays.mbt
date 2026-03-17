@@ -57,7 +57,7 @@ pub fn UByteArray::op_get(self : UByteArray, index : Int) -> Int {
 }
 
 ///|
-pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Int) -> Unit {
+pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Byte) -> Unit {
   guard index >= 0 && index < self.1
   @ffi.ubyte_array_set(self.0, index, value)
 }
@@ -89,7 +89,7 @@ pub fn UShortArray::op_get(self : UShortArray, index : Int) -> Int {
 pub fn UShortArray::op_set(
   self : UShortArray,
   index : Int,
-  value : Int,
+  value : UInt16,
 ) -> Unit {
   guard index >= 0 && index < self.1
   @ffi.ushort_array_set(self.0, index, value)

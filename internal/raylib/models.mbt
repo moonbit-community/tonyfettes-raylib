@@ -783,7 +783,7 @@ pub extern "c" fn ubyte_array_is_null(arr : UByteArray) -> Bool = "moonbit_rayli
 pub extern "c" fn ubyte_array_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
 
 ///|
-pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Int) = "moonbit_raylib_ubyte_array_set"
+pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Byte) = "moonbit_raylib_ubyte_array_set"
 
 // ============================================================================
 // UShortArray operations (#external — raw unsigned short*)
@@ -796,7 +796,11 @@ pub extern "c" fn ushort_array_is_null(arr : UShortArray) -> Bool = "moonbit_ray
 pub extern "c" fn ushort_array_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
 
 ///|
-pub extern "c" fn ushort_array_set(arr : UShortArray, index : Int, value : Int) = "moonbit_raylib_ushort_array_set"
+pub extern "c" fn ushort_array_set(
+  arr : UShortArray,
+  index : Int,
+  value : UInt16,
+) = "moonbit_raylib_ushort_array_set"
 
 // ============================================================================
 // MatrixArray operations

@@ -1318,7 +1318,7 @@ pub fn ubyte_array_get(UByteArray, Int) -> Int
 
 pub fn ubyte_array_is_null(UByteArray) -> Bool
 
-pub fn ubyte_array_set(UByteArray, Int, Int) -> Unit
+pub fn ubyte_array_set(UByteArray, Int, Byte) -> Unit
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1388,7 +1388,7 @@ pub fn ushort_array_get(UShortArray, Int) -> Int
 
 pub fn ushort_array_is_null(UShortArray) -> Bool
 
-pub fn ushort_array_set(UShortArray, Int, Int) -> Unit
+pub fn ushort_array_set(UShortArray, Int, UInt16) -> Unit
 
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 

@@ -204,49 +204,83 @@ pub fn Mesh::triangle_count(self : Mesh) -> Int {
 #as_free_fn(get_mesh_vertices)
 pub fn Mesh::vertices(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_vertices(self.0), self.vertex_count() * 3)
-  if arr.is_null() { None } else { Some(arr) }
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_texcoords)
 pub fn Mesh::texcoords(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_texcoords(self.0), self.vertex_count() * 2)
-  if arr.is_null() { None } else { Some(arr) }
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_texcoords2)
 pub fn Mesh::texcoords2(self : Mesh) -> FloatArray? {
-  let arr = FloatArray(@ffi.get_mesh_texcoords2(self.0), self.vertex_count() * 2)
-  if arr.is_null() { None } else { Some(arr) }
+  let arr = FloatArray(
+    @ffi.get_mesh_texcoords2(self.0),
+    self.vertex_count() * 2,
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_normals)
 pub fn Mesh::normals(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_normals(self.0), self.vertex_count() * 3)
-  if arr.is_null() { None } else { Some(arr) }
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_tangents)
 pub fn Mesh::tangents(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_tangents(self.0), self.vertex_count() * 4)
-  if arr.is_null() { None } else { Some(arr) }
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_colors)
 pub fn Mesh::colors(self : Mesh) -> UByteArray? {
   let arr = UByteArray(@ffi.get_mesh_colors(self.0), self.vertex_count() * 4)
-  if arr.is_null() { None } else { Some(arr) }
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(self : Mesh) -> UShortArray? {
-  let arr = UShortArray(@ffi.get_mesh_indices(self.0), self.triangle_count() * 3)
-  if arr.is_null() { None } else { Some(arr) }
+  let arr = UShortArray(
+    @ffi.get_mesh_indices(self.0),
+    self.triangle_count() * 3,
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
 
 ///|
