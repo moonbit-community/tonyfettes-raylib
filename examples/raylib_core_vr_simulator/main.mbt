@@ -50,37 +50,37 @@ fn main {
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "leftLensCenter"),
-    @raylib.vr_stereo_config_left_lens_center(config),
+    @raylib.vr_stereo_config_left_lens_center(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "rightLensCenter"),
-    @raylib.vr_stereo_config_right_lens_center(config),
+    @raylib.vr_stereo_config_right_lens_center(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "leftScreenCenter"),
-    @raylib.vr_stereo_config_left_screen_center(config),
+    @raylib.vr_stereo_config_left_screen_center(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "rightScreenCenter"),
-    @raylib.vr_stereo_config_right_screen_center(config),
+    @raylib.vr_stereo_config_right_screen_center(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "scale"),
-    @raylib.vr_stereo_config_scale(config),
+    @raylib.vr_stereo_config_scale(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "scaleIn"),
-    @raylib.vr_stereo_config_scale_in(config),
+    @raylib.vr_stereo_config_scale_in(config).to_bytes(),
     @raylib.ShaderUniformVec2,
   )
   @raylib.set_shader_value(
