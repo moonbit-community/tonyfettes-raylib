@@ -76,7 +76,7 @@ fn main {
   )
   // Set the shader location for the view position
   let view_pos_loc = @raylib.get_shader_location(shadow_shader, "viewPos")
-  @raylib.set_shader_location(
+  @raylib.set_shader_locs(
     shadow_shader,
     @raylib.ShaderLocVectorView,
     view_pos_loc,

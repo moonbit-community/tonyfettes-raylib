@@ -216,9 +216,9 @@ pub extern "c" fn get_wave_channels(wave : Wave) -> Int = "moonbit_raylib_get_wa
 
 ///|
 pub extern "c" fn load_audio_stream(
-  sample_rate : UInt,
-  sample_size : UInt,
-  channels : UInt,
+  sample_rate : Int,
+  sample_size : Int,
+  channels : Int,
 ) -> AudioStream = "moonbit_raylib_load_audio_stream"
 
 ///|

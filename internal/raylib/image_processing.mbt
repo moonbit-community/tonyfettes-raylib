@@ -40,6 +40,14 @@ pub extern "c" fn image_width(image : Image) -> Int = "moonbit_raylib_image_widt
 #borrow(image)
 pub extern "c" fn image_height(image : Image) -> Int = "moonbit_raylib_image_height"
 
+///|
+#borrow(image)
+pub extern "c" fn image_get_mipmaps(image : Image) -> Int = "moonbit_raylib_image_get_mipmaps"
+
+///|
+#borrow(image)
+pub extern "c" fn image_get_format(image : Image) -> Int = "moonbit_raylib_image_get_format"
+
 // ============================================================================
 // In-place mutations: primitives only
 // ============================================================================

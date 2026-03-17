@@ -16,7 +16,7 @@ fn main {
   @raylib.set_audio_stream_buffer_size_default(max_samples_per_update)
 
   // Init raw audio stream (sample rate: 44100, sample size: 16bit-short, channels: 1-mono)
-  let stream = @raylib.load_audio_stream(44100U, 16U, 1U)
+  let stream = @raylib.load_audio_stream(44100, 16, 1)
 
   // Buffer for the single cycle waveform we are synthesizing
   let data : Array[Int] = Array::make(max_samples, 0)

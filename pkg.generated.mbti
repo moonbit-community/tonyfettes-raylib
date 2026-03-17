@@ -601,8 +601,6 @@ pub fn audio_buffer_get_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, U
 
 pub fn audio_buffer_set_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt, Float) -> Unit
 
-pub fn automation_event_list_get(AutomationEventList, Int) -> AutomationEvent
-
 pub fn begin_blend_mode(Int) -> Unit
 
 pub fn begin_drawing() -> Unit
@@ -1449,7 +1447,7 @@ pub fn AudioStream::is_processed(Self) -> Bool
 #as_free_fn(is_audio_stream_valid)
 pub fn AudioStream::is_valid(Self) -> Bool
 #as_free_fn(load_audio_stream)
-pub fn AudioStream::load(UInt, UInt, UInt) -> Self
+pub fn AudioStream::load(Int, Int, Int) -> Self
 #as_free_fn(pause_audio_stream)
 pub fn AudioStream::pause(Self) -> Unit
 #as_free_fn(play_audio_stream)
@@ -1483,6 +1481,8 @@ type AutomationEventList
 pub fn AutomationEventList::count(Self) -> Int
 #as_free_fn(export_automation_event_list)
 pub fn AutomationEventList::export_(Self, String) -> Bool
+#as_free_fn(automation_event_list_get)
+pub fn AutomationEventList::get(Self, Int) -> AutomationEvent
 #as_free_fn(load_automation_event_list)
 pub fn AutomationEventList::load(String) -> Self
 #as_free_fn(set_automation_event_list)
@@ -1705,6 +1705,8 @@ pub fn Image::export_to_memory(Self, String) -> Bytes
 pub fn Image::flip_horizontal(Self) -> Unit
 #as_free_fn(image_flip_vertical)
 pub fn Image::flip_vertical(Self) -> Unit
+#as_free_fn(get_image_format)
+pub fn Image::format(Self) -> Int
 #as_free_fn(image_from_channel)
 pub fn Image::from_channel(Self, Int) -> Self
 #as_free_fn(image_from_image)
@@ -1755,6 +1757,8 @@ pub fn Image::load_from_texture(Texture) -> Self
 pub fn Image::load_palette(Self, Int) -> Bytes
 #as_free_fn(load_image_raw)
 pub fn Image::load_raw(String, Int, Int, Int, Int) -> Self
+#as_free_fn(get_image_mipmaps)
+pub fn Image::mipmaps(Self) -> Int
 #as_free_fn(image_resize)
 pub fn Image::resize(Self, Int, Int) -> Unit
 #as_free_fn(image_resize_canvas)
@@ -2150,8 +2154,6 @@ pub fn Shader::is_valid(Self) -> Bool
 pub fn Shader::load(String, String) -> Self
 #as_free_fn(load_shader_from_memory)
 pub fn Shader::load_from_memory(String, String) -> Self
-#as_free_fn(set_shader_location)
-pub fn Shader::set_location(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_locs)
 pub fn Shader::set_locs(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_value)

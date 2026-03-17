@@ -172,17 +172,17 @@ fn main {
   )
 
   // Get shader locations
-  @raylib.set_shader_location(
+  @raylib.set_shader_locs(
     shader,
     @raylib.ShaderLocMatrixMvp,
     @raylib.get_shader_location(shader, "mvp"),
   )
-  @raylib.set_shader_location(
+  @raylib.set_shader_locs(
     shader,
     @raylib.ShaderLocVectorView,
     @raylib.get_shader_location(shader, "viewPos"),
   )
-  @raylib.set_shader_location(
+  @raylib.set_shader_locs(
     shader,
     @raylib.ShaderLocMatrixModel,
     @raylib.get_shader_location_attrib(shader, "instanceTransform"),
