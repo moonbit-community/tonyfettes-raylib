@@ -24,7 +24,7 @@ test "Mesh::new with indices" {
     0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0,
   ]
   let indices : FixedArray[UInt16] = [0, 1, 2, 0, 2, 3]
-  let mesh = @raylib.Mesh::new(vertices, indices=indices)
+  let mesh = @raylib.Mesh::new(vertices, indices~)
   assert_eq(mesh.vertex_count(), 4)
   assert_eq(mesh.triangle_count(), 2)
   mesh.unload()
@@ -60,8 +60,10 @@ test "Mesh texcoords round-trip" {
     0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0,
   ]
   let texcoords : FixedArray[Float] = [0.0, 0.0, 1.0, 0.0, 0.5, 1.0]
-  let mesh = @raylib.Mesh::new(vertices, texcoords=texcoords)
-  guard mesh.texcoords() is Some(t) else { fail("expected texcoords to be Some") }
+  let mesh = @raylib.Mesh::new(vertices, texcoords~)
+  guard mesh.texcoords() is Some(t) else {
+    fail("expected texcoords to be Some")
+  }
   assert_eq(t.length(), 6)
   assert_eq(t[0], 0.0)
   assert_eq(t[2], 1.0)
@@ -81,7 +83,7 @@ test "Mesh indices round-trip" {
     0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0,
   ]
   let indices : FixedArray[UInt16] = [0, 1, 2, 0, 2, 3]
-  let mesh = @raylib.Mesh::new(vertices, indices=indices)
+  let mesh = @raylib.Mesh::new(vertices, indices~)
   guard mesh.indices() is Some(idx) else { fail("expected indices to be Some") }
   assert_eq(idx.length(), 6)
   assert_eq(idx[0], 0)
@@ -102,7 +104,7 @@ test "Mesh colors round-trip" {
   let colors : FixedArray[Byte] = [
     255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255,
   ]
-  let mesh = @raylib.Mesh::new(vertices, colors=colors)
+  let mesh = @raylib.Mesh::new(vertices, colors~)
   guard mesh.colors() is Some(c) else { fail("expected colors to be Some") }
   assert_eq(c.length(), 12)
   assert_eq(c[0], 255)
@@ -141,7 +143,9 @@ test "Mesh from gen_cube: field accessors" {
   assert_eq(v.length(), mesh.vertex_count() * 3)
   guard mesh.normals() is Some(n) else { fail("expected normals to be Some") }
   assert_eq(n.length(), mesh.vertex_count() * 3)
-  guard mesh.texcoords() is Some(tc) else { fail("expected texcoords to be Some") }
+  guard mesh.texcoords() is Some(tc) else {
+    fail("expected texcoords to be Some")
+  }
   assert_eq(tc.length(), mesh.vertex_count() * 2)
   mesh.unload()
   @raylib.close_window()

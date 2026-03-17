@@ -508,6 +508,8 @@ pub fn get_material_maps(Material) -> MaterialMapArray
 
 pub fn get_material_shader(Material) -> Shader
 
+pub fn get_mesh_bone_count(Mesh) -> Int
+
 pub fn get_mesh_bone_matrices(Mesh) -> MatrixArray
 
 pub fn get_mesh_bounding_box(Mesh) -> Bytes
@@ -996,7 +998,7 @@ pub fn load_wave_samples(Wave) -> Bytes
 
 pub fn make_directory(Bytes) -> Int
 
-pub fn material_map_array_length(MaterialMapArray) -> Int
+pub fn material_map_array_is_null(MaterialMapArray) -> Bool
 
 pub fn material_map_array_op_get(MaterialMapArray, Int) -> MaterialMap
 
@@ -1018,7 +1020,7 @@ pub fn materials_array_count(MaterialsArray) -> Int
 
 pub fn materials_array_get(MaterialsArray, Int) -> Material
 
-pub fn matrix_array_length(MatrixArray) -> Int
+pub fn matrix_array_is_null(MatrixArray) -> Bool
 
 pub fn matrix_array_op_get(MatrixArray, Int) -> Bytes
 
@@ -1436,10 +1438,12 @@ pub type Material
 
 pub type MaterialMap
 
+#external
 pub type MaterialMapArray
 
 pub type MaterialsArray
 
+#external
 pub type MatrixArray
 
 pub type Mesh

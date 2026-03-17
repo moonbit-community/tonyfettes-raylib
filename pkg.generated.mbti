@@ -1876,7 +1876,7 @@ pub fn MatrixArray::op_set(Self, Int, Matrix) -> Unit
 
 type Mesh
 #as_free_fn(get_mesh_bone_matrices)
-pub fn Mesh::bone_matrices(Self) -> MatrixArray
+pub fn Mesh::bone_matrices(Self) -> MatrixArray?
 #as_free_fn(get_mesh_bounding_box)
 pub fn Mesh::bounding_box(Self) -> BoundingBox
 #as_free_fn(get_mesh_colors)
