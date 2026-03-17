@@ -81,13 +81,13 @@ pub fn Material::maps(self : Material) -> MaterialMapArray {
 struct MaterialMapArray(@ffi.MaterialMapArray, Int)
 
 ///|
-#as_free_fn(get_material_map_array_count)
+#as_free_fn(material_map_array_count)
 pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int {
   self.1
 }
 
 ///|
-#as_free_fn(material_map_array_length, deprecated="Use get_material_map_array_count() instead")
+#as_free_fn(material_map_array_length, deprecated="Use material_map_array_count() instead")
 #deprecated("Use MaterialMapArray::count() instead")
 pub fn MaterialMapArray::length(self : MaterialMapArray) -> Int {
   self.1
