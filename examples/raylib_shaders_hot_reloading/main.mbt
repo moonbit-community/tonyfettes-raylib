@@ -1,20 +1,4 @@
 ///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  let bits = v.reinterpret_as_int()
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec2_to_bytes(v : @raylib.Vector2) -> Bytes {
-  v.to_bytes()
-}
-
-///|
 fn main {
   let screen_width = 800
   let screen_height = 450
@@ -44,8 +28,7 @@ fn main {
   @raylib.set_shader_value(
     shader,
     resolution_loc,
-    vec2_to_bytes(resolution),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(resolution),
   )
 
   let mut total_time : Float = 0.0
@@ -62,14 +45,12 @@ fn main {
     @raylib.set_shader_value(
       shader,
       time_loc,
-      float_to_bytes(total_time),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(total_time),
     )
     @raylib.set_shader_value(
       shader,
       mouse_loc,
-      vec2_to_bytes(mouse),
-      @raylib.ShaderUniformVec2,
+      @raylib.ShaderUniformData::Vec2(mouse),
     )
 
     // Hot shader reloading
@@ -87,8 +68,7 @@ fn main {
           @raylib.set_shader_value(
             shader,
             resolution_loc,
-            vec2_to_bytes(resolution),
-            @raylib.ShaderUniformVec2,
+            @raylib.ShaderUniformData::Vec2(resolution),
           )
         }
         frag_shader_mod_time = current_mod_time

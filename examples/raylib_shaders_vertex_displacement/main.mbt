@@ -1,15 +1,4 @@
 ///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  let bits = v.reinterpret_as_int()
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -69,8 +58,7 @@ fn main {
     @raylib.set_shader_value(
       shader,
       @raylib.get_shader_location(shader, "time"),
-      float_to_bytes(time),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(time),
     )
 
     // Draw

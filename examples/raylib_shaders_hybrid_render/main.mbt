@@ -4,16 +4,6 @@ fn tanf(x : Float) -> Float {
 }
 
 ///|
-fn vec2_to_bytes(v : @raylib.Vector2) -> Bytes {
-  v.to_bytes()
-}
-
-///|
-fn vec3_to_bytes(v : @raylib.Vector3) -> Bytes {
-  v.to_bytes()
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -51,8 +41,7 @@ fn main {
   @raylib.set_shader_value(
     shdr_raymarch,
     march_loc_screen_center,
-    vec2_to_bytes(screen_center),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(screen_center),
   )
 
   // Use composable rl* primitives to create writable depth texture buffer
@@ -107,8 +96,7 @@ fn main {
     @raylib.set_shader_value(
       shdr_raymarch,
       march_loc_cam_pos,
-      vec3_to_bytes(camera.position),
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(camera.position),
     )
 
     // Update Camera Looking Vector. Vector length determines FOV.
@@ -121,8 +109,7 @@ fn main {
     @raylib.set_shader_value(
       shdr_raymarch,
       march_loc_cam_dir,
-      vec3_to_bytes(cam_dir),
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(cam_dir),
     )
 
     // Draw

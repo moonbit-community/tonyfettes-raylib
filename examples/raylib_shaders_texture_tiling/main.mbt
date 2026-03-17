@@ -1,20 +1,4 @@
 ///|
-fn vec2_to_bytes(x : Float, y : Float) -> Bytes {
-  let arr = FixedArray::make(8, b'\x00')
-  let bx = x.reinterpret_as_int()
-  arr[0] = (bx & 0xFF).to_byte()
-  arr[1] = ((bx >> 8) & 0xFF).to_byte()
-  arr[2] = ((bx >> 16) & 0xFF).to_byte()
-  arr[3] = ((bx >> 24) & 0xFF).to_byte()
-  let by = y.reinterpret_as_int()
-  arr[4] = (by & 0xFF).to_byte()
-  arr[5] = ((by >> 8) & 0xFF).to_byte()
-  arr[6] = ((by >> 16) & 0xFF).to_byte()
-  arr[7] = ((by >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -43,13 +27,11 @@ fn main {
     texture,
   )
   // Set the texture tiling using a shader
-  let tiling = vec2_to_bytes(3.0, 3.0)
   let shader = @raylib.load_shader("", "resources/shaders/glsl330/tiling.fs")
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "tiling"),
-    tiling,
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(3.0, 3.0)),
   )
   @raylib.set_model_material_shader(model, 0, shader)
   @raylib.disable_cursor()

@@ -1,20 +1,4 @@
 ///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  let bits = v.reinterpret_as_int()
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec2_to_bytes(v : @raylib.Vector2) -> Bytes {
-  v.to_bytes()
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -63,20 +47,17 @@ fn main {
   @raylib.set_shader_value(
     shader,
     c_loc,
-    vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
   )
   @raylib.set_shader_value(
     shader,
     zoom_loc,
-    float_to_bytes(zoom),
-    @raylib.ShaderUniformFloat,
+    @raylib.ShaderUniformData::Float(zoom),
   )
   @raylib.set_shader_value(
     shader,
     offset_loc,
-    vec2_to_bytes(@raylib.Vector2::new(offset_x, offset_y)),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
   )
 
   let mut increment_speed = 0
@@ -93,8 +74,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     } else if @raylib.is_key_pressed(@raylib.KeyTwo) {
       c_x = points_of_interest[1].x
@@ -102,8 +82,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     } else if @raylib.is_key_pressed(@raylib.KeyThree) {
       c_x = points_of_interest[2].x
@@ -111,8 +90,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     } else if @raylib.is_key_pressed(@raylib.KeyFour) {
       c_x = points_of_interest[3].x
@@ -120,8 +98,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     } else if @raylib.is_key_pressed(@raylib.KeyFive) {
       c_x = points_of_interest[4].x
@@ -129,8 +106,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     } else if @raylib.is_key_pressed(@raylib.KeySix) {
       c_x = points_of_interest[5].x
@@ -138,8 +114,7 @@ fn main {
       @raylib.set_shader_value(
         shader,
         c_loc,
-        vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
       )
     }
 
@@ -151,14 +126,12 @@ fn main {
       @raylib.set_shader_value(
         shader,
         zoom_loc,
-        float_to_bytes(zoom),
-        @raylib.ShaderUniformFloat,
+        @raylib.ShaderUniformData::Float(zoom),
       )
       @raylib.set_shader_value(
         shader,
         offset_loc,
-        vec2_to_bytes(@raylib.Vector2::new(offset_x, offset_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
       )
     }
 
@@ -202,14 +175,12 @@ fn main {
       @raylib.set_shader_value(
         shader,
         zoom_loc,
-        float_to_bytes(zoom),
-        @raylib.ShaderUniformFloat,
+        @raylib.ShaderUniformData::Float(zoom),
       )
       @raylib.set_shader_value(
         shader,
         offset_loc,
-        vec2_to_bytes(@raylib.Vector2::new(offset_x, offset_y)),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
       )
     }
 
@@ -222,8 +193,7 @@ fn main {
     @raylib.set_shader_value(
       shader,
       c_loc,
-      vec2_to_bytes(@raylib.Vector2::new(c_x, c_y)),
-      @raylib.ShaderUniformVec2,
+      @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
     )
 
     // Draw

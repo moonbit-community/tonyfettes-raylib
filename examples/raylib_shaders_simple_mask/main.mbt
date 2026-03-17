@@ -1,14 +1,4 @@
 ///|
-fn int_to_bytes(v : Int) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  arr[0] = (v & 0xFF).to_byte()
-  arr[1] = ((v >> 8) & 0xFF).to_byte()
-  arr[2] = ((v >> 16) & 0xFF).to_byte()
-  arr[3] = ((v >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -45,8 +35,7 @@ fn main {
     @raylib.set_shader_value(
       shader,
       frame_loc,
-      int_to_bytes(frames_counter),
-      @raylib.ShaderUniformInt,
+      @raylib.ShaderUniformData::Int(frames_counter),
     )
 
     // Draw

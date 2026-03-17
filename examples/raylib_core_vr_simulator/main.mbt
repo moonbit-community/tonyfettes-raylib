@@ -1,17 +1,4 @@
 ///|
-fn float_array_to_bytes(arr : FixedArray[Float]) -> Bytes {
-  let result = FixedArray::make(arr.length() * 4, b'\x00')
-  for i in 0..<arr.length() {
-    let bits = arr[i].reinterpret_as_int()
-    result[i * 4] = (bits & 0xFF).to_byte()
-    result[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()
-    result[i * 4 + 2] = ((bits >> 16) & 0xFF).to_byte()
-    result[i * 4 + 3] = ((bits >> 24) & 0xFF).to_byte()
-  }
-  FixedArray::unsafe_reinterpret_as_bytes(result)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -50,50 +37,42 @@ fn main {
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "leftLensCenter"),
-    @raylib.vr_stereo_config_left_lens_center(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_left_lens_center(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "rightLensCenter"),
-    @raylib.vr_stereo_config_right_lens_center(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_right_lens_center(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "leftScreenCenter"),
-    @raylib.vr_stereo_config_left_screen_center(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_left_screen_center(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "rightScreenCenter"),
-    @raylib.vr_stereo_config_right_screen_center(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_right_screen_center(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "scale"),
-    @raylib.vr_stereo_config_scale(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_scale(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "scaleIn"),
-    @raylib.vr_stereo_config_scale_in(config).to_bytes(),
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_scale_in(config)),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "deviceWarpParam"),
-    float_array_to_bytes(device.lens_distortion_values),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.lens_distortion_values[0], device.lens_distortion_values[1], device.lens_distortion_values[2], device.lens_distortion_values[3])),
   )
   @raylib.set_shader_value(
     distortion,
     @raylib.get_shader_location(distortion, "chromaAbParam"),
-    float_array_to_bytes(device.chroma_ab_correction),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.chroma_ab_correction[0], device.chroma_ab_correction[1], device.chroma_ab_correction[2], device.chroma_ab_correction[3])),
   )
 
   // Initialize framebuffer for stereo rendering

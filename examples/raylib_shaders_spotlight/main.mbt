@@ -1,30 +1,3 @@
-///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  let bits = v.reinterpret_as_int()
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec2_to_uniform_bytes(x : Float, y : Float) -> Bytes {
-  let arr = FixedArray::make(8, b'\x00')
-  let bx = x.reinterpret_as_int()
-  arr[0] = (bx & 0xFF).to_byte()
-  arr[1] = ((bx >> 8) & 0xFF).to_byte()
-  arr[2] = ((bx >> 16) & 0xFF).to_byte()
-  arr[3] = ((bx >> 24) & 0xFF).to_byte()
-  let by = y.reinterpret_as_int()
-  arr[4] = (by & 0xFF).to_byte()
-  arr[5] = ((by >> 8) & 0xFF).to_byte()
-  arr[6] = ((by >> 16) & 0xFF).to_byte()
-  arr[7] = ((by >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
 // Spot data
 
 ///|
@@ -157,8 +130,7 @@ fn main {
   @raylib.set_shader_value(
     shdr_spot,
     w_loc,
-    float_to_bytes(sw),
-    @raylib.ShaderUniformFloat,
+    @raylib.ShaderUniformData::Float(sw),
   )
 
   // Randomize the locations and velocities of the spotlights
@@ -185,20 +157,17 @@ fn main {
     @raylib.set_shader_value(
       shdr_spot,
       spots[i].position_loc,
-      vec2_to_uniform_bytes(spots[i].pos_x, spots[i].pos_y),
-      @raylib.ShaderUniformVec2,
+      @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(spots[i].pos_x, spots[i].pos_y)),
     )
     @raylib.set_shader_value(
       shdr_spot,
       spots[i].inner_loc,
-      float_to_bytes(spots[i].inner),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(spots[i].inner),
     )
     @raylib.set_shader_value(
       shdr_spot,
       spots[i].radius_loc,
-      float_to_bytes(spots[i].radius),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(spots[i].radius),
     )
   }
 
@@ -239,8 +208,7 @@ fn main {
       @raylib.set_shader_value(
         shdr_spot,
         spots[i].position_loc,
-        vec2_to_uniform_bytes(spots[i].pos_x, spots[i].pos_y),
-        @raylib.ShaderUniformVec2,
+        @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(spots[i].pos_x, spots[i].pos_y)),
       )
     }
 
