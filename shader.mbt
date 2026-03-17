@@ -2,6 +2,74 @@
 struct Shader(@ffi.Shader)
 
 ///|
+pub(all) enum ShaderUniformData {
+  Float(Float)
+  Vec2(Vector2)
+  Vec3(Vector3)
+  Vec4(Vector4)
+  Int(Int)
+  IVec2((Int, Int))
+  IVec3((Int, Int, Int))
+  IVec4((Int, Int, Int, Int))
+  Sampler2D(Int)
+}
+
+///|
+fn ShaderUniformData::to_bytes(self : ShaderUniformData) -> Bytes {
+  match self {
+    Float(v) => {
+      let buf = @buffer.new(size_hint=4)
+      buf.write_float_le(v)
+      buf.to_bytes()
+    }
+    Vec2(v) => v.to_bytes()
+    Vec3(v) => v.to_bytes()
+    Vec4(v) => v.to_bytes()
+    Int(v) | Sampler2D(v) => {
+      let buf = @buffer.new(size_hint=4)
+      buf.write_int_le(v)
+      buf.to_bytes()
+    }
+    IVec2((x, y)) => {
+      let buf = @buffer.new(size_hint=8)
+      buf.write_int_le(x)
+      buf.write_int_le(y)
+      buf.to_bytes()
+    }
+    IVec3((x, y, z)) => {
+      let buf = @buffer.new(size_hint=12)
+      buf.write_int_le(x)
+      buf.write_int_le(y)
+      buf.write_int_le(z)
+      buf.to_bytes()
+    }
+    IVec4((x, y, z, w)) => {
+      let buf = @buffer.new(size_hint=16)
+      buf.write_int_le(x)
+      buf.write_int_le(y)
+      buf.write_int_le(z)
+      buf.write_int_le(w)
+      buf.to_bytes()
+    }
+  }
+}
+
+///|
+fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int {
+  match self {
+    Float(_) => ShaderUniformFloat
+    Vec2(_) => ShaderUniformVec2
+    Vec3(_) => ShaderUniformVec3
+    Vec4(_) => ShaderUniformVec4
+    Int(_) => ShaderUniformInt
+    IVec2(_) => ShaderUniformIvec2
+    IVec3(_) => ShaderUniformIvec3
+    IVec4(_) => ShaderUniformIvec4
+    Sampler2D(_) => ShaderUniformSampler2d
+  }
+}
+
+///|
 #as_free_fn(is_shader_valid)
 pub fn Shader::is_valid(self : Shader) -> Bool {
   @ffi.is_shader_valid(self.0)
@@ -24,10 +92,14 @@ pub fn Shader::begin_mode(self : Shader) -> Unit {
 pub fn Shader::set_value(
   self : Shader,
   loc_index : Int,
-  value : Bytes,
-  uniform_type : Int,
+  value : ShaderUniformData,
 ) -> Unit {
-  @ffi.set_shader_value(self.0, loc_index, value, uniform_type)
+  @ffi.set_shader_value(
+    self.0,
+    loc_index,
+    value.to_bytes(),
+    value.uniform_type(),
+  )
 }
 
 ///|

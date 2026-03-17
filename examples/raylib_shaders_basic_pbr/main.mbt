@@ -25,58 +25,6 @@ struct PbrLight {
   intensity_loc : Int
 }
 
-// ============================================================================
-// Byte helpers
-// ============================================================================
-
-///|
-fn int_to_bytes(v : Int) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  arr[0] = (v & 0xFF).to_byte()
-  arr[1] = ((v >> 8) & 0xFF).to_byte()
-  arr[2] = ((v >> 16) & 0xFF).to_byte()
-  arr[3] = ((v >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let bits = v.reinterpret_as_int()
-  let arr = FixedArray::make(4, b'\x00')
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec2_to_bytes(v : @raylib.Vector2) -> Bytes {
-  v.to_bytes()
-}
-
-///|
-fn vec3_to_bytes(v : @raylib.Vector3) -> Bytes {
-  v.to_bytes()
-}
-
-///|
-fn vec4_to_bytes(v : @raylib.Vector4) -> Bytes {
-  v.to_bytes()
-}
-
-///|
-fn color4_to_bytes(c : FixedArray[Float]) -> Bytes {
-  let arr = FixedArray::make(16, b'\x00')
-  for i in 0..<4 {
-    let bits = c[i].reinterpret_as_int()
-    arr[i * 4] = (bits & 0xFF).to_byte()
-    arr[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()
-    arr[i * 4 + 2] = ((bits >> 16) & 0xFF).to_byte()
-    arr[i * 4 + 3] = ((bits >> 24) & 0xFF).to_byte()
-  }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
 
 // ============================================================================
 // Light creation and update
@@ -147,48 +95,46 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
   @raylib.set_shader_value(
     shader,
     light.enabled_loc,
-    int_to_bytes(enabled_val),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(enabled_val),
   )
 
   // Send light type
   @raylib.set_shader_value(
     shader,
     light.type_loc,
-    int_to_bytes(light.light_type),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(light.light_type),
   )
 
   // Send light position as vec3
   @raylib.set_shader_value(
     shader,
     light.position_loc,
-    vec3_to_bytes(light.position),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(light.position),
   )
 
   // Send light target as vec3
   @raylib.set_shader_value(
     shader,
     light.target_loc,
-    vec3_to_bytes(light.target),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(light.target),
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
   @raylib.set_shader_value(
     shader,
     light.color_loc,
-    color4_to_bytes(light.color),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(
+      @raylib.Vector4::new(
+        light.color[0], light.color[1], light.color[2], light.color[3],
+      ),
+    ),
   )
 
   // Send light intensity
   @raylib.set_shader_value(
     shader,
     light.intensity_loc,
-    float_to_bytes(light.intensity),
-    @raylib.ShaderUniformFloat,
+    @raylib.ShaderUniformData::Float(light.intensity),
   )
 }
 
@@ -265,8 +211,7 @@ fn main {
   @raylib.set_shader_value(
     shader,
     light_count_loc,
-    int_to_bytes(max_light_count),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(max_light_count),
   )
 
   // Setup ambient color and intensity parameters
@@ -280,14 +225,12 @@ fn main {
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "ambientColor"),
-    vec3_to_bytes(ambient_color_normalized),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(ambient_color_normalized),
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "ambient"),
-    float_to_bytes(ambient_intensity),
-    @raylib.ShaderUniformFloat,
+    @raylib.ShaderUniformData::Float(ambient_intensity),
   )
 
   // Get location for shader parameters that can be modified in real time
@@ -455,26 +398,22 @@ fn main {
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexAlbedo"),
-    int_to_bytes(usage),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(usage),
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexNormal"),
-    int_to_bytes(usage),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(usage),
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexMRA"),
-    int_to_bytes(usage),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(usage),
   )
   @raylib.set_shader_value(
     shader,
     @raylib.get_shader_location(shader, "useTexEmissive"),
-    int_to_bytes(usage),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(usage),
   )
 
   @raylib.set_target_fps(60)
@@ -485,12 +424,10 @@ fn main {
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
     // Update the shader with the camera view vector
-    let camera_pos = vec3_to_bytes(camera.position)
     @raylib.set_shader_value(
       shader,
       @raylib.get_shader_location(shader, "viewPos"),
-      camera_pos,
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(camera.position),
     )
 
     // Check key inputs to enable/disable lights
@@ -522,15 +459,13 @@ fn main {
     @raylib.set_shader_value(
       shader,
       texture_tiling_loc,
-      vec2_to_bytes(floor_texture_tiling),
-      @raylib.ShaderUniformVec2,
+      @raylib.ShaderUniformData::Vec2(floor_texture_tiling),
     )
     let floor_emissive_color = @raylib.color_normalize(@raylib.black)
     @raylib.set_shader_value(
       shader,
       emissive_color_loc,
-      vec4_to_bytes(floor_emissive_color),
-      @raylib.ShaderUniformVec4,
+      @raylib.ShaderUniformData::Vec4(floor_emissive_color),
     )
 
     @raylib.draw_model(
@@ -544,8 +479,7 @@ fn main {
     @raylib.set_shader_value(
       shader,
       texture_tiling_loc,
-      vec2_to_bytes(car_texture_tiling),
-      @raylib.ShaderUniformVec2,
+      @raylib.ShaderUniformData::Vec2(car_texture_tiling),
     )
     let car_emissive_color = @raylib.color_normalize(
       @raylib.Color::new(255, 162, 0, 255),
@@ -553,15 +487,13 @@ fn main {
     @raylib.set_shader_value(
       shader,
       emissive_color_loc,
-      vec4_to_bytes(car_emissive_color),
-      @raylib.ShaderUniformVec4,
+      @raylib.ShaderUniformData::Vec4(car_emissive_color),
     )
     let emissive_intensity : Float = 0.01
     @raylib.set_shader_value(
       shader,
       emissive_intensity_loc,
-      float_to_bytes(emissive_intensity),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(emissive_intensity),
     )
 
     @raylib.draw_model(

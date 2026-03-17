@@ -176,42 +176,42 @@ pub fn VrStereoConfig::begin_mode(self : VrStereoConfig) -> Unit {
   @ffi.begin_vr_stereo_mode(self.0)
 }
 
-// VrStereoConfig field accessors (return raw Bytes for use with set_shader_value)
+// VrStereoConfig field accessors
 
 ///|
 #as_free_fn(vr_stereo_config_left_lens_center)
-pub fn VrStereoConfig::left_lens_center(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_left_lens_center(self.0)
+pub fn VrStereoConfig::left_lens_center(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_left_lens_center(self.0))
 }
 
 ///|
 #as_free_fn(vr_stereo_config_right_lens_center)
-pub fn VrStereoConfig::right_lens_center(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_right_lens_center(self.0)
+pub fn VrStereoConfig::right_lens_center(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_right_lens_center(self.0))
 }
 
 ///|
 #as_free_fn(vr_stereo_config_left_screen_center)
-pub fn VrStereoConfig::left_screen_center(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_left_screen_center(self.0)
+pub fn VrStereoConfig::left_screen_center(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_left_screen_center(self.0))
 }
 
 ///|
 #as_free_fn(vr_stereo_config_right_screen_center)
-pub fn VrStereoConfig::right_screen_center(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_right_screen_center(self.0)
+pub fn VrStereoConfig::right_screen_center(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_right_screen_center(self.0))
 }
 
 ///|
 #as_free_fn(vr_stereo_config_scale)
-pub fn VrStereoConfig::scale(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_scale(self.0)
+pub fn VrStereoConfig::scale(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_scale(self.0))
 }
 
 ///|
 #as_free_fn(vr_stereo_config_scale_in)
-pub fn VrStereoConfig::scale_in(self : VrStereoConfig) -> Bytes {
-  @ffi.vr_stereo_config_scale_in(self.0)
+pub fn VrStereoConfig::scale_in(self : VrStereoConfig) -> Vector2 {
+  Vector2::from_bytes(@ffi.vr_stereo_config_scale_in(self.0))
 }
 
 // VrDeviceInfo value type: 60 bytes

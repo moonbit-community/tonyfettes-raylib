@@ -2151,7 +2151,7 @@ pub fn Shader::set_location(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_locs)
 pub fn Shader::set_locs(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_value)
-pub fn Shader::set_value(Self, Int, Bytes, Int) -> Unit
+pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit
 #as_free_fn(set_shader_value_matrix)
 pub fn Shader::set_value_matrix(Self, Int, Matrix) -> Unit
 #as_free_fn(set_shader_value_texture)
@@ -2160,6 +2160,18 @@ pub fn Shader::set_value_texture(Self, Int, Texture) -> Unit
 pub fn Shader::set_value_v(Self, Int, Bytes, Int, Int) -> Unit
 #as_free_fn(unload_shader)
 pub fn Shader::unload(Self) -> Unit
+
+pub(all) enum ShaderUniformData {
+  Float(Float)
+  Vec2(Vector2)
+  Vec3(Vector3)
+  Vec4(Vector4)
+  Int(Int)
+  IVec2((Int, Int))
+  IVec3((Int, Int, Int))
+  IVec4((Int, Int, Int, Int))
+  Sampler2D(Int)
+}
 
 type Sound
 #as_free_fn(is_sound_playing)
@@ -2407,19 +2419,19 @@ type VrStereoConfig
 #as_free_fn(begin_vr_stereo_mode)
 pub fn VrStereoConfig::begin_mode(Self) -> Unit
 #as_free_fn(vr_stereo_config_left_lens_center)
-pub fn VrStereoConfig::left_lens_center(Self) -> Bytes
+pub fn VrStereoConfig::left_lens_center(Self) -> Vector2
 #as_free_fn(vr_stereo_config_left_screen_center)
-pub fn VrStereoConfig::left_screen_center(Self) -> Bytes
+pub fn VrStereoConfig::left_screen_center(Self) -> Vector2
 #as_free_fn(load_vr_stereo_config)
 pub fn VrStereoConfig::load(VrDeviceInfo) -> Self
 #as_free_fn(vr_stereo_config_right_lens_center)
-pub fn VrStereoConfig::right_lens_center(Self) -> Bytes
+pub fn VrStereoConfig::right_lens_center(Self) -> Vector2
 #as_free_fn(vr_stereo_config_right_screen_center)
-pub fn VrStereoConfig::right_screen_center(Self) -> Bytes
+pub fn VrStereoConfig::right_screen_center(Self) -> Vector2
 #as_free_fn(vr_stereo_config_scale)
-pub fn VrStereoConfig::scale(Self) -> Bytes
+pub fn VrStereoConfig::scale(Self) -> Vector2
 #as_free_fn(vr_stereo_config_scale_in)
-pub fn VrStereoConfig::scale_in(Self) -> Bytes
+pub fn VrStereoConfig::scale_in(Self) -> Vector2
 #as_free_fn(unload_vr_stereo_config)
 pub fn VrStereoConfig::unload(Self) -> Unit
 

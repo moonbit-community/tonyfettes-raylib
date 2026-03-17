@@ -1,17 +1,3 @@
-// Helper: serialize a Float to 4 little-endian bytes for SetShaderValue
-
-///|
-fn float_to_bytes(f : Float) -> Bytes {
-  let bits = f.reinterpret_as_int()
-  let arr : FixedArray[Byte] = [
-    (bits & 0xFF).to_byte(),
-    ((bits >> 8) & 0xFF).to_byte(),
-    ((bits >> 16) & 0xFF).to_byte(),
-    ((bits >> 24) & 0xFF).to_byte(),
-  ]
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
 ///|
 fn main {
   // Initialization
@@ -83,20 +69,17 @@ fn main {
   @raylib.set_shader_value(
     shdr_color_correction,
     contrast_loc,
-    float_to_bytes(contrast.val),
-    0,
+    @raylib.ShaderUniformData::Float(contrast.val),
   )
   @raylib.set_shader_value(
     shdr_color_correction,
     saturation_loc,
-    float_to_bytes(saturation.val),
-    0,
+    @raylib.ShaderUniformData::Float(saturation.val),
   )
   @raylib.set_shader_value(
     shdr_color_correction,
     brightness_loc,
-    float_to_bytes(brightness.val),
-    0,
+    @raylib.ShaderUniformData::Float(brightness.val),
   )
 
   @raylib.set_target_fps(60)
@@ -137,20 +120,17 @@ fn main {
     @raylib.set_shader_value(
       shdr_color_correction,
       contrast_loc,
-      float_to_bytes(contrast.val),
-      0,
+      @raylib.ShaderUniformData::Float(contrast.val),
     )
     @raylib.set_shader_value(
       shdr_color_correction,
       saturation_loc,
-      float_to_bytes(saturation.val),
-      0,
+      @raylib.ShaderUniformData::Float(saturation.val),
     )
     @raylib.set_shader_value(
       shdr_color_correction,
       brightness_loc,
-      float_to_bytes(brightness.val),
-      0,
+      @raylib.ShaderUniformData::Float(brightness.val),
     )
 
     // Draw

@@ -94,14 +94,12 @@ fn main {
   @raylib.set_shader_value(
     shadow_shader,
     light_dir_loc,
-    light_dir.to_bytes(),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(light_dir),
   )
   @raylib.set_shader_value(
     shadow_shader,
     light_col_loc,
-    light_color_normalized.to_bytes(),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(light_color_normalized),
   )
 
   // Ambient light
@@ -110,8 +108,7 @@ fn main {
   @raylib.set_shader_value(
     shadow_shader,
     ambient_loc,
-    ambient.to_bytes(),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(ambient),
   )
 
   // Shadow map uniforms
@@ -123,8 +120,7 @@ fn main {
   @raylib.set_shader_value(
     shadow_shader,
     shadow_map_resolution_loc,
-    int_to_bytes(ShadowmapResolution),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(ShadowmapResolution),
   )
 
   // Load models
@@ -196,8 +192,7 @@ fn main {
     @raylib.set_shader_value(
       shadow_shader,
       view_pos_loc,
-      camera_pos.to_bytes(),
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(camera_pos),
     )
     cam = @raylib.update_camera(cam, @raylib.CameraOrbital)
 
@@ -242,8 +237,7 @@ fn main {
     @raylib.set_shader_value(
       shadow_shader,
       light_dir_loc,
-      light_dir.to_bytes(),
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(light_dir),
     )
 
     // Draw

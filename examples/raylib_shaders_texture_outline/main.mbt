@@ -1,57 +1,4 @@
 ///|
-fn float_to_bytes(v : Float) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  let bits = v.reinterpret_as_int()
-  arr[0] = (bits & 0xFF).to_byte()
-  arr[1] = ((bits >> 8) & 0xFF).to_byte()
-  arr[2] = ((bits >> 16) & 0xFF).to_byte()
-  arr[3] = ((bits >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec2_to_bytes(x : Float, y : Float) -> Bytes {
-  let arr = FixedArray::make(8, b'\x00')
-  let bx = x.reinterpret_as_int()
-  arr[0] = (bx & 0xFF).to_byte()
-  arr[1] = ((bx >> 8) & 0xFF).to_byte()
-  arr[2] = ((bx >> 16) & 0xFF).to_byte()
-  arr[3] = ((bx >> 24) & 0xFF).to_byte()
-  let by = y.reinterpret_as_int()
-  arr[4] = (by & 0xFF).to_byte()
-  arr[5] = ((by >> 8) & 0xFF).to_byte()
-  arr[6] = ((by >> 16) & 0xFF).to_byte()
-  arr[7] = ((by >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
-fn vec4_to_bytes(x : Float, y : Float, z : Float, w : Float) -> Bytes {
-  let arr = FixedArray::make(16, b'\x00')
-  let bx = x.reinterpret_as_int()
-  arr[0] = (bx & 0xFF).to_byte()
-  arr[1] = ((bx >> 8) & 0xFF).to_byte()
-  arr[2] = ((bx >> 16) & 0xFF).to_byte()
-  arr[3] = ((bx >> 24) & 0xFF).to_byte()
-  let by = y.reinterpret_as_int()
-  arr[4] = (by & 0xFF).to_byte()
-  arr[5] = ((by >> 8) & 0xFF).to_byte()
-  arr[6] = ((by >> 16) & 0xFF).to_byte()
-  arr[7] = ((by >> 24) & 0xFF).to_byte()
-  let bz = z.reinterpret_as_int()
-  arr[8] = (bz & 0xFF).to_byte()
-  arr[9] = ((bz >> 8) & 0xFF).to_byte()
-  arr[10] = ((bz >> 16) & 0xFF).to_byte()
-  arr[11] = ((bz >> 24) & 0xFF).to_byte()
-  let bw = w.reinterpret_as_int()
-  arr[12] = (bw & 0xFF).to_byte()
-  arr[13] = ((bw >> 8) & 0xFF).to_byte()
-  arr[14] = ((bw >> 16) & 0xFF).to_byte()
-  arr[15] = ((bw >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -65,13 +12,8 @@ fn main {
     "", "resources/shaders/glsl330/outline.fs",
   )
   let mut outline_size : Float = 2.0
-  let outline_color = vec4_to_bytes(1.0, 0.0, 0.0, 1.0) // Normalized RED
   let tex_w = @raylib.get_texture_width(texture)
   let tex_h = @raylib.get_texture_height(texture)
-  let texture_size = vec2_to_bytes(
-    Float::from_int(tex_w),
-    Float::from_int(tex_h),
-  )
   // Get shader locations
   let outline_size_loc = @raylib.get_shader_location(
     shdr_outline, "outlineSize",
@@ -86,20 +28,17 @@ fn main {
   @raylib.set_shader_value(
     shdr_outline,
     outline_size_loc,
-    float_to_bytes(outline_size),
-    @raylib.ShaderUniformFloat,
+    @raylib.ShaderUniformData::Float(outline_size),
   )
   @raylib.set_shader_value(
     shdr_outline,
     outline_color_loc,
-    outline_color,
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(1.0, 0.0, 0.0, 1.0)),
   )
   @raylib.set_shader_value(
     shdr_outline,
     texture_size_loc,
-    texture_size,
-    @raylib.ShaderUniformVec2,
+    @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(Float::from_int(tex_w), Float::from_int(tex_h))),
   )
   @raylib.set_target_fps(60)
   // Main game loop
@@ -112,8 +51,7 @@ fn main {
     @raylib.set_shader_value(
       shdr_outline,
       outline_size_loc,
-      float_to_bytes(outline_size),
-      @raylib.ShaderUniformFloat,
+      @raylib.ShaderUniformData::Float(outline_size),
     )
     // Draw
     @raylib.begin_drawing()

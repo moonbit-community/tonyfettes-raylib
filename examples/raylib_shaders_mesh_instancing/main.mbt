@@ -21,16 +21,6 @@ struct Light {
 }
 
 ///|
-fn int_to_bytes(v : Int) -> Bytes {
-  let arr = FixedArray::make(4, b'\x00')
-  arr[0] = (v & 0xFF).to_byte()
-  arr[1] = ((v >> 8) & 0xFF).to_byte()
-  arr[2] = ((v >> 16) & 0xFF).to_byte()
-  arr[3] = ((v >> 24) & 0xFF).to_byte()
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn create_light(
   light_type : Int,
   position : @raylib.Vector3,
@@ -82,32 +72,28 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
   @raylib.set_shader_value(
     shader,
     light.enabled_loc,
-    int_to_bytes(enabled_val),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(enabled_val),
   )
 
   // Send light type
   @raylib.set_shader_value(
     shader,
     light.type_loc,
-    int_to_bytes(light.light_type),
-    @raylib.ShaderUniformInt,
+    @raylib.ShaderUniformData::Int(light.light_type),
   )
 
   // Send light position as vec3
   @raylib.set_shader_value(
     shader,
     light.position_loc,
-    light.position.to_bytes(),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(light.position),
   )
 
   // Send light target as vec3
   @raylib.set_shader_value(
     shader,
     light.target_loc,
-    light.target.to_bytes(),
-    @raylib.ShaderUniformVec3,
+    @raylib.ShaderUniformData::Vec3(light.target),
   )
 
   // Send light color as vec4 (normalized 0.0-1.0)
@@ -120,8 +106,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
   @raylib.set_shader_value(
     shader,
     light.color_loc,
-    color_normalized.to_bytes(),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(color_normalized),
   )
 }
 
@@ -209,8 +194,7 @@ fn main {
   @raylib.set_shader_value(
     shader,
     ambient_loc,
-    ambient.to_bytes(),
-    @raylib.ShaderUniformVec4,
+    @raylib.ShaderUniformData::Vec4(ambient),
   )
 
   // Create one light
@@ -256,8 +240,7 @@ fn main {
     @raylib.set_shader_value(
       shader,
       view_pos_loc,
-      camera.position.to_bytes(),
-      @raylib.ShaderUniformVec3,
+      @raylib.ShaderUniformData::Vec3(camera.position),
     )
 
     // Draw
