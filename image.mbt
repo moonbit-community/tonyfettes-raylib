@@ -27,12 +27,14 @@ pub fn Image::from_channel(self : Image, selected_channel : Int) -> Image {
 
 ///|
 #as_free_fn(get_image_width)
+#as_free_fn(image_width, deprecated="Use @raylib.Image::width() instead")
 pub fn Image::width(self : Image) -> Int {
   @ffi.image_width(self.0)
 }
 
 ///|
 #as_free_fn(get_image_height)
+#as_free_fn(image_height, deprecated="Use @raylib.Image::height() instead")
 pub fn Image::height(self : Image) -> Int {
   @ffi.image_height(self.0)
 }
