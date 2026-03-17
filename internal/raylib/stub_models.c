@@ -1330,62 +1330,51 @@ moonbit_raylib_ushort_array_set(
 }
 
 // ============================================================================
-// MatrixArray: typed array operations
+// MatrixArray: raw Matrix* operations (#external, no wrapper)
 // ============================================================================
 
 int32_t
-moonbit_raylib_matrix_array_length(MatrixArrayWrapper *w) {
-  return w->count;
+moonbit_raylib_matrix_array_is_null(Matrix *arr) {
+  return arr == NULL;
 }
 
 moonbit_bytes_t
-moonbit_raylib_matrix_array_op_get(MatrixArrayWrapper *w, int32_t index) {
-  assert(index >= 0 && index < w->count && "MatrixArray index out of bounds");
+moonbit_raylib_matrix_array_op_get(Matrix *arr, int32_t index) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Matrix), 0);
-  memcpy(r, &w->data[index], sizeof(Matrix));
+  memcpy(r, &arr[index], sizeof(Matrix));
   return r;
 }
 
 void
 moonbit_raylib_matrix_array_op_set(
-  MatrixArrayWrapper *w,
+  Matrix *arr,
   int32_t index,
   moonbit_bytes_t value
 ) {
-  assert(index >= 0 && index < w->count && "MatrixArray index out of bounds");
-  memcpy(&w->data[index], value, sizeof(Matrix));
+  memcpy(&arr[index], value, sizeof(Matrix));
 }
 
 // ============================================================================
-// MaterialMapArray: typed array operations
+// MaterialMapArray: raw MaterialMap* operations (#external, no wrapper)
 // ============================================================================
 
 int32_t
-moonbit_raylib_material_map_array_length(MaterialMapArrayWrapper *w) {
-  return w->count;
+moonbit_raylib_material_map_array_is_null(MaterialMap *arr) {
+  return arr == NULL;
 }
 
 MaterialMapWrapper *
-moonbit_raylib_material_map_array_op_get(
-  MaterialMapArrayWrapper *w,
-  int32_t index
-) {
-  assert(
-    index >= 0 && index < w->count && "MaterialMapArray index out of bounds"
-  );
-  return MakeMaterialMapWrapperView(&w->data[index], w);
+moonbit_raylib_material_map_array_op_get(MaterialMap *arr, int32_t index) {
+  return MakeMaterialMapWrapperView(&arr[index], NULL);
 }
 
 void
 moonbit_raylib_material_map_array_op_set(
-  MaterialMapArrayWrapper *w,
+  MaterialMap *arr,
   int32_t index,
   MaterialMapWrapper *src
 ) {
-  assert(
-    index >= 0 && index < w->count && "MaterialMapArray index out of bounds"
-  );
-  w->data[index] = *src->data;
+  arr[index] = *src->data;
 }
 
 // ============================================================================
@@ -1439,23 +1428,23 @@ moonbit_raylib_get_material_shader(MaterialWrapper *w) {
   return MakeShaderWrapperView(&w->data->shader, w);
 }
 
-MaterialMapArrayWrapper *
+MaterialMap *
 moonbit_raylib_get_material_maps(MaterialWrapper *w) {
-  return MakeMaterialMapArrayWrapperView(w->data->maps, MAX_MATERIAL_MAPS, w);
+  return w->data->maps;
 }
 
 // ============================================================================
 // Mesh: bone matrices accessor
 // ============================================================================
 
-MatrixArrayWrapper *
+int32_t
+moonbit_raylib_get_mesh_bone_count(MeshWrapper *w) {
+  return w->data->boneCount;
+}
+
+Matrix *
 moonbit_raylib_get_mesh_bone_matrices(MeshWrapper *w) {
-  if (!w->data->boneMatrices || w->data->boneCount <= 0) {
-    return MakeMatrixArrayWrapperView(NULL, 0, w);
-  }
-  return MakeMatrixArrayWrapperView(
-    w->data->boneMatrices, w->data->boneCount, w
-  );
+  return w->data->boneMatrices;
 }
 
 // ============================================================================

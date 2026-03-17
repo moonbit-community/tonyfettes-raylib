@@ -56,6 +56,7 @@ pub type MaterialsArray
 pub type MaterialMap
 
 ///|
+#external
 pub type MaterialMapArray
 
 ///|
@@ -71,6 +72,7 @@ pub type UByteArray
 pub type UShortArray
 
 ///|
+#external
 pub type MatrixArray
 
 ///|

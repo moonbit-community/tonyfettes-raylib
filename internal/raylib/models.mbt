@@ -803,19 +803,17 @@ pub extern "c" fn ushort_array_set(
 ) = "moonbit_raylib_ushort_array_set"
 
 // ============================================================================
-// MatrixArray operations
+// MatrixArray operations (#external — raw Matrix*)
 // ============================================================================
 
 ///|
-#borrow(arr)
-pub extern "c" fn matrix_array_length(arr : MatrixArray) -> Int = "moonbit_raylib_matrix_array_length"
+pub extern "c" fn matrix_array_is_null(arr : MatrixArray) -> Bool = "moonbit_raylib_matrix_array_is_null"
 
 ///|
-#borrow(arr)
 pub extern "c" fn matrix_array_op_get(arr : MatrixArray, index : Int) -> Bytes = "moonbit_raylib_matrix_array_op_get"
 
 ///|
-#borrow(arr, value)
+#borrow(value)
 pub extern "c" fn matrix_array_op_set(
   arr : MatrixArray,
   index : Int,
@@ -823,22 +821,20 @@ pub extern "c" fn matrix_array_op_set(
 ) = "moonbit_raylib_matrix_array_op_set"
 
 // ============================================================================
-// MaterialMapArray operations
+// MaterialMapArray operations (#external — raw MaterialMap*)
 // ============================================================================
 
 ///|
-#borrow(arr)
-pub extern "c" fn material_map_array_length(arr : MaterialMapArray) -> Int = "moonbit_raylib_material_map_array_length"
+pub extern "c" fn material_map_array_is_null(arr : MaterialMapArray) -> Bool = "moonbit_raylib_material_map_array_is_null"
 
 ///|
-#borrow(arr)
 pub extern "c" fn material_map_array_op_get(
   arr : MaterialMapArray,
   index : Int,
 ) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
 
 ///|
-#borrow(arr, value)
+#borrow(value)
 pub extern "c" fn material_map_array_op_set(
   arr : MaterialMapArray,
   index : Int,
@@ -891,6 +887,10 @@ pub extern "c" fn get_material_maps(material : Material) -> MaterialMapArray = "
 // ============================================================================
 // Mesh: bone matrices accessor
 // ============================================================================
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_bone_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_bone_count"
 
 ///|
 #borrow(mesh)

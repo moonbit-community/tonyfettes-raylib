@@ -64,7 +64,7 @@ pub fn Material::shader(self : Material) -> Shader {
 ///|
 #as_free_fn(get_material_maps)
 pub fn Material::maps(self : Material) -> MaterialMapArray {
-  @ffi.get_material_maps(self.0)
+  MaterialMapArray(@ffi.get_material_maps(self.0), 12)
 }
 
 // ============================================================================
@@ -72,11 +72,11 @@ pub fn Material::maps(self : Material) -> MaterialMapArray {
 // ============================================================================
 
 ///|
-struct MaterialMapArray(@ffi.MaterialMapArray)
+struct MaterialMapArray(@ffi.MaterialMapArray, Int)
 
 ///|
 pub fn MaterialMapArray::length(self : MaterialMapArray) -> Int {
-  @ffi.material_map_array_length(self.0)
+  self.1
 }
 
 ///|
@@ -84,6 +84,7 @@ pub fn MaterialMapArray::op_get(
   self : MaterialMapArray,
   index : Int,
 ) -> MaterialMap {
+  guard index >= 0 && index < self.1
   @ffi.material_map_array_op_get(self.0, index)
 }
 
@@ -93,6 +94,7 @@ pub fn MaterialMapArray::op_set(
   index : Int,
   value : MaterialMap,
 ) -> Unit {
+  guard index >= 0 && index < self.1
   @ffi.material_map_array_op_set(self.0, index, value.0)
 }
 

@@ -96,19 +96,25 @@ pub fn UShortArray::op_set(
 }
 
 // ============================================================================
-// MatrixArray — GC-managed view into parent's Matrix* array
+// MatrixArray — wraps raw Matrix* with length tracking
 // ============================================================================
 
 ///|
-struct MatrixArray(@ffi.MatrixArray)
+struct MatrixArray(@ffi.MatrixArray, Int)
+
+///|
+fn MatrixArray::is_null(self : MatrixArray) -> Bool {
+  @ffi.matrix_array_is_null(self.0)
+}
 
 ///|
 pub fn MatrixArray::length(self : MatrixArray) -> Int {
-  @ffi.matrix_array_length(self.0)
+  self.1
 }
 
 ///|
 pub fn MatrixArray::op_get(self : MatrixArray, index : Int) -> Matrix {
+  guard index >= 0 && index < self.1
   Matrix::from_bytes(@ffi.matrix_array_op_get(self.0, index))
 }
 
@@ -118,5 +124,6 @@ pub fn MatrixArray::op_set(
   index : Int,
   value : Matrix,
 ) -> Unit {
+  guard index >= 0 && index < self.1
   @ffi.matrix_array_op_set(self.0, index, value.to_bytes())
 }

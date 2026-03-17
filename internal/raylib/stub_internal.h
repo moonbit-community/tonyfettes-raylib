@@ -172,39 +172,7 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
 }
 
 // ============================================================================
-// Group E: Typed array wrappers (views into parent-owned arrays + owned copies)
-// ============================================================================
-
-#define DEFINE_TYPED_ARRAY_WRAPPER(T, name)                                    \
-  typedef struct {                                                             \
-    T *data;                                                                   \
-    int count;                                                                 \
-    void *owner;                                                               \
-  } name##Wrapper;                                                             \
-                                                                               \
-  static void name##_wrapper_finalizer(void *self) {                           \
-    name##Wrapper *w = (name##Wrapper *)self;                                  \
-    if (w->owner) moonbit_decref(w->owner);                                    \
-  }                                                                            \
-                                                                               \
-  static inline name##Wrapper *Make##name##WrapperView(                        \
-    T *data, int count, void *owner                                            \
-  ) {                                                                          \
-    name##Wrapper *w = (name##Wrapper *)moonbit_make_external_object(          \
-      name##_wrapper_finalizer, sizeof(name##Wrapper)                          \
-    );                                                                         \
-    w->data = data;                                                            \
-    w->count = count;                                                          \
-    w->owner = owner;                                                          \
-    if (owner) moonbit_incref(owner);                                          \
-    return w;                                                                  \
-  }
-
-DEFINE_TYPED_ARRAY_WRAPPER(Matrix, MatrixArray)
-DEFINE_TYPED_ARRAY_WRAPPER(MaterialMap, MaterialMapArray)
-
-// ============================================================================
-// Group F: Legacy array wrappers (pre-existing, manually defined)
+// Group E: Legacy array wrappers (pre-existing, manually defined)
 // ============================================================================
 
 typedef struct {

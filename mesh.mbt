@@ -320,6 +320,14 @@ pub fn Mesh::indices(self : Mesh) -> UShortArray? {
 
 ///|
 #as_free_fn(get_mesh_bone_matrices)
-pub fn Mesh::bone_matrices(self : Mesh) -> MatrixArray {
-  @ffi.get_mesh_bone_matrices(self.0)
+pub fn Mesh::bone_matrices(self : Mesh) -> MatrixArray? {
+  let arr = MatrixArray(
+    @ffi.get_mesh_bone_matrices(self.0),
+    @ffi.get_mesh_bone_count(self.0),
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }
