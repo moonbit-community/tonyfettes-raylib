@@ -132,7 +132,13 @@ test "3D drawing smoke test" {
   )
   @raylib.begin_drawing()
   @raylib.begin_mode_3d(camera)
-  @raylib.draw_cube(@raylib.Vector3::new(0.0, 0.0, 0.0), 1.0, 1.0, 1.0, @raylib.red)
+  @raylib.draw_cube(
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    1.0,
+    1.0,
+    1.0,
+    @raylib.red,
+  )
   @raylib.draw_sphere(@raylib.Vector3::new(2.0, 0.0, 0.0), 0.5, @raylib.blue)
   @raylib.draw_grid(10, 1.0)
   @raylib.draw_plane(

@@ -1,9 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
-pub using @ffi {
-  draw_grid,
-}
+pub using @ffi {draw_grid}
 
 // ============================================================================
 // 3D shape drawing (wrappers)

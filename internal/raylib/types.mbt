@@ -53,4 +53,27 @@ pub type VrStereoConfig
 pub type MaterialsArray
 
 ///|
+pub type MaterialMap
+
+///|
+#external
+pub type MaterialMapArray
+
+///|
+#external
+pub type FloatArray
+
+///|
+#external
+pub type UByteArray
+
+///|
+#external
+pub type UShortArray
+
+///|
+#external
+pub type MatrixArray
+
+///|
 pub type AudioBuffer

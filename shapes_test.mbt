@@ -19,24 +19,50 @@ test "collision detection - circles" {
 ///|
 test "collision detection - point in rect" {
   let r = @raylib.Rectangle::new(0.0, 0.0, 10.0, 10.0)
-  assert_true(@raylib.check_collision_point_rec(@raylib.Vector2::new(5.0, 5.0), r))
-  assert_true(not(@raylib.check_collision_point_rec(@raylib.Vector2::new(15.0, 15.0), r)))
+  assert_true(
+    @raylib.check_collision_point_rec(@raylib.Vector2::new(5.0, 5.0), r),
+  )
+  assert_true(
+    not(@raylib.check_collision_point_rec(@raylib.Vector2::new(15.0, 15.0), r)),
+  )
 }
 
 ///|
 test "collision detection - point in circle" {
   let center = @raylib.Vector2::new(0.0, 0.0)
-  assert_true(@raylib.check_collision_point_circle(@raylib.Vector2::new(1.0, 1.0), center, 5.0))
   assert_true(
-    not(@raylib.check_collision_point_circle(@raylib.Vector2::new(10.0, 10.0), center, 5.0)),
+    @raylib.check_collision_point_circle(
+      @raylib.Vector2::new(1.0, 1.0),
+      center,
+      5.0,
+    ),
+  )
+  assert_true(
+    not(
+      @raylib.check_collision_point_circle(
+        @raylib.Vector2::new(10.0, 10.0),
+        center,
+        5.0,
+      ),
+    ),
   )
 }
 
 ///|
 test "collision detection - circle vs rect" {
   let r = @raylib.Rectangle::new(0.0, 0.0, 10.0, 10.0)
-  assert_true(@raylib.check_collision_circle_rec(@raylib.Vector2::new(5.0, 5.0), 3.0, r))
-  assert_true(not(@raylib.check_collision_circle_rec(@raylib.Vector2::new(50.0, 50.0), 3.0, r)))
+  assert_true(
+    @raylib.check_collision_circle_rec(@raylib.Vector2::new(5.0, 5.0), 3.0, r),
+  )
+  assert_true(
+    not(
+      @raylib.check_collision_circle_rec(
+        @raylib.Vector2::new(50.0, 50.0),
+        3.0,
+        r,
+      ),
+    ),
+  )
 }
 
 ///|

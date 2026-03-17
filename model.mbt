@@ -190,9 +190,7 @@ pub fn Model::bone_parent(self : Model, bone_index : Int) -> Int {
 ///|
 #as_free_fn(get_model_bind_pose_translation)
 pub fn Model::bind_pose_translation(self : Model, bone_index : Int) -> Vector3 {
-  Vector3::from_bytes(
-    @ffi.get_model_bind_pose_translation(self.0, bone_index),
-  )
+  Vector3::from_bytes(@ffi.get_model_bind_pose_translation(self.0, bone_index))
 }
 
 ///|

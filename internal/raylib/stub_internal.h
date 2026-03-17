@@ -74,6 +74,7 @@ DEFINE_SIMPLE_WRAPPER(RenderTexture, RenderTexture)
 // Group C: types that already had data+storage (now unified)
 DEFINE_SIMPLE_WRAPPER(Mesh, Mesh)
 DEFINE_SIMPLE_WRAPPER(Material, Material)
+DEFINE_SIMPLE_WRAPPER(MaterialMap, MaterialMap)
 
 // ============================================================================
 // Group D: Array wrappers (C-allocated arrays with metadata)
@@ -169,6 +170,10 @@ MakeAutomationEventListWrapper(AutomationEventList list) {
   w->owner = NULL;
   return w;
 }
+
+// ============================================================================
+// Group E: Legacy array wrappers (pre-existing, manually defined)
+// ============================================================================
 
 typedef struct {
   Material *materials;

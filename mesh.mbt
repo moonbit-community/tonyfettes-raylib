@@ -2,6 +2,62 @@
 struct Mesh(@ffi.Mesh)
 
 ///|
+pub fn Mesh::new(
+  vertices : FixedArray[Float],
+  texcoords? : FixedArray[Float],
+  texcoords2? : FixedArray[Float],
+  normals? : FixedArray[Float],
+  tangents? : FixedArray[Float],
+  colors? : FixedArray[Byte],
+  indices? : FixedArray[UInt16],
+) -> Mesh {
+  guard vertices.length() % 3 == 0 else {
+    abort(
+      "Mesh::new: vertices length must be a multiple of 3, got \{vertices.length()}",
+    )
+  }
+  let vertex_count = vertices.length() / 3
+  if texcoords is Some(tc) && tc.length() != vertex_count * 2 {
+    abort(
+      "Mesh::new: texcoords length must be \{vertex_count * 2} (vertex_count * 2), got \{tc.length()}",
+    )
+  }
+  if texcoords2 is Some(tc2) && tc2.length() != vertex_count * 2 {
+    abort(
+      "Mesh::new: texcoords2 length must be \{vertex_count * 2} (vertex_count * 2), got \{tc2.length()}",
+    )
+  }
+  if normals is Some(n) && n.length() != vertex_count * 3 {
+    abort(
+      "Mesh::new: normals length must be \{vertex_count * 3} (vertex_count * 3), got \{n.length()}",
+    )
+  }
+  if tangents is Some(t) && t.length() != vertex_count * 4 {
+    abort(
+      "Mesh::new: tangents length must be \{vertex_count * 4} (vertex_count * 4), got \{t.length()}",
+    )
+  }
+  if colors is Some(c) && c.length() != vertex_count * 4 {
+    abort(
+      "Mesh::new: colors length must be \{vertex_count * 4} (vertex_count * 4), got \{c.length()}",
+    )
+  }
+  if indices is Some(idx) && idx.length() % 3 != 0 {
+    abort(
+      "Mesh::new: indices length must be a multiple of 3, got \{idx.length()}",
+    )
+  }
+  let triangle_count = match indices {
+    Some(idx) => idx.length() / 3
+    None => vertex_count / 3
+  }
+  @ffi.new_mesh(
+    vertex_count, triangle_count, vertices, texcoords, texcoords2, normals, tangents,
+    colors, indices,
+  )
+}
+
+///|
 #as_free_fn(unload_mesh)
 pub fn Mesh::unload(self : Mesh) -> Unit {
   @ffi.unload_mesh(self.0)
@@ -154,16 +210,6 @@ pub fn Mesh::update_buffer(
 }
 
 ///|
-#as_free_fn(mesh_setup_texcoords2)
-pub fn Mesh::setup_texcoords2(
-  self : Mesh,
-  data : Bytes,
-  float_count : Int,
-) -> Unit {
-  @ffi.mesh_setup_texcoords2(self.0, data, float_count)
-}
-
-///|
 #as_free_fn(gen_mesh_from_points)
 pub fn Mesh::gen_from_points(
   vertices : Bytes,
@@ -171,4 +217,117 @@ pub fn Mesh::gen_from_points(
   num_points : Int,
 ) -> Mesh {
   @ffi.gen_mesh_from_points(vertices, colors, num_points)
+}
+
+// ============================================================================
+// Mesh: field accessors
+// ============================================================================
+
+///|
+#as_free_fn(get_mesh_vertex_count)
+pub fn Mesh::vertex_count(self : Mesh) -> Int {
+  @ffi.get_mesh_vertex_count(self.0)
+}
+
+///|
+#as_free_fn(get_mesh_triangle_count)
+pub fn Mesh::triangle_count(self : Mesh) -> Int {
+  @ffi.get_mesh_triangle_count(self.0)
+}
+
+///|
+#as_free_fn(get_mesh_vertices)
+pub fn Mesh::vertices(self : Mesh) -> FloatArray? {
+  let arr = FloatArray(@ffi.get_mesh_vertices(self.0), self.vertex_count() * 3)
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_texcoords)
+pub fn Mesh::texcoords(self : Mesh) -> FloatArray? {
+  let arr = FloatArray(@ffi.get_mesh_texcoords(self.0), self.vertex_count() * 2)
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_texcoords2)
+pub fn Mesh::texcoords2(self : Mesh) -> FloatArray? {
+  let arr = FloatArray(
+    @ffi.get_mesh_texcoords2(self.0),
+    self.vertex_count() * 2,
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_normals)
+pub fn Mesh::normals(self : Mesh) -> FloatArray? {
+  let arr = FloatArray(@ffi.get_mesh_normals(self.0), self.vertex_count() * 3)
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_tangents)
+pub fn Mesh::tangents(self : Mesh) -> FloatArray? {
+  let arr = FloatArray(@ffi.get_mesh_tangents(self.0), self.vertex_count() * 4)
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_colors)
+pub fn Mesh::colors(self : Mesh) -> UByteArray? {
+  let arr = UByteArray(@ffi.get_mesh_colors(self.0), self.vertex_count() * 4)
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_indices)
+pub fn Mesh::indices(self : Mesh) -> UShortArray? {
+  let arr = UShortArray(
+    @ffi.get_mesh_indices(self.0),
+    self.triangle_count() * 3,
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
+#as_free_fn(get_mesh_bone_matrices)
+pub fn Mesh::bone_matrices(self : Mesh) -> MatrixArray? {
+  let arr = MatrixArray(
+    @ffi.get_mesh_bone_matrices(self.0),
+    @ffi.get_mesh_bone_count(self.0),
+  )
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
 }

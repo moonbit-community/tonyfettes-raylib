@@ -760,13 +760,192 @@ pub extern "c" fn gen_mesh_from_points(
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
 
 // ============================================================================
-// Mesh: setup texcoords2
+// FloatArray operations (#external — raw float*)
 // ============================================================================
 
 ///|
-#borrow(mesh, data)
-pub extern "c" fn mesh_setup_texcoords2(
-  mesh : Mesh,
-  data : Bytes,
-  float_count : Int,
-) = "moonbit_raylib_mesh_setup_texcoords2"
+pub extern "c" fn float_array_is_null(arr : FloatArray) -> Bool = "moonbit_raylib_float_array_is_null"
+
+///|
+pub extern "c" fn float_array_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_get"
+
+///|
+pub extern "c" fn float_array_set(arr : FloatArray, index : Int, value : Float) = "moonbit_raylib_float_array_set"
+
+// ============================================================================
+// UByteArray operations (#external — raw unsigned char*)
+// ============================================================================
+
+///|
+pub extern "c" fn ubyte_array_is_null(arr : UByteArray) -> Bool = "moonbit_raylib_ubyte_array_is_null"
+
+///|
+pub extern "c" fn ubyte_array_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
+
+///|
+pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Byte) = "moonbit_raylib_ubyte_array_set"
+
+// ============================================================================
+// UShortArray operations (#external — raw unsigned short*)
+// ============================================================================
+
+///|
+pub extern "c" fn ushort_array_is_null(arr : UShortArray) -> Bool = "moonbit_raylib_ushort_array_is_null"
+
+///|
+pub extern "c" fn ushort_array_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
+
+///|
+pub extern "c" fn ushort_array_set(
+  arr : UShortArray,
+  index : Int,
+  value : UInt16,
+) = "moonbit_raylib_ushort_array_set"
+
+// ============================================================================
+// MatrixArray operations (#external — raw Matrix*)
+// ============================================================================
+
+///|
+pub extern "c" fn matrix_array_is_null(arr : MatrixArray) -> Bool = "moonbit_raylib_matrix_array_is_null"
+
+///|
+pub extern "c" fn matrix_array_op_get(arr : MatrixArray, index : Int) -> Bytes = "moonbit_raylib_matrix_array_op_get"
+
+///|
+#borrow(value)
+pub extern "c" fn matrix_array_op_set(
+  arr : MatrixArray,
+  index : Int,
+  value : Bytes,
+) = "moonbit_raylib_matrix_array_op_set"
+
+// ============================================================================
+// MaterialMapArray operations (#external — raw MaterialMap*)
+// ============================================================================
+
+///|
+pub extern "c" fn material_map_array_is_null(arr : MaterialMapArray) -> Bool = "moonbit_raylib_material_map_array_is_null"
+
+///|
+pub extern "c" fn material_map_array_op_get(
+  arr : MaterialMapArray,
+  index : Int,
+) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
+
+///|
+#borrow(value)
+pub extern "c" fn material_map_array_op_set(
+  arr : MaterialMapArray,
+  index : Int,
+  value : MaterialMap,
+) = "moonbit_raylib_material_map_array_op_set"
+
+// ============================================================================
+// MaterialMap field accessors
+// ============================================================================
+
+///|
+#borrow(map)
+pub extern "c" fn material_map_get_texture(map : MaterialMap) -> Texture = "moonbit_raylib_material_map_get_texture"
+
+///|
+#borrow(map, texture)
+pub extern "c" fn material_map_set_texture(
+  map : MaterialMap,
+  texture : Texture,
+) = "moonbit_raylib_material_map_set_texture"
+
+///|
+#borrow(map)
+pub extern "c" fn material_map_get_color(map : MaterialMap) -> Bytes = "moonbit_raylib_material_map_get_color"
+
+///|
+#borrow(map, color)
+pub extern "c" fn material_map_set_color(map : MaterialMap, color : Bytes) = "moonbit_raylib_material_map_set_color"
+
+///|
+#borrow(map)
+pub extern "c" fn material_map_get_value(map : MaterialMap) -> Float = "moonbit_raylib_material_map_get_value"
+
+///|
+#borrow(map)
+pub extern "c" fn material_map_set_value(map : MaterialMap, value : Float) = "moonbit_raylib_material_map_set_value"
+
+// ============================================================================
+// Material: shader and maps accessors
+// ============================================================================
+
+///|
+#borrow(material)
+pub extern "c" fn get_material_shader(material : Material) -> Shader = "moonbit_raylib_get_material_shader"
+
+///|
+#borrow(material)
+pub extern "c" fn get_material_maps(material : Material) -> MaterialMapArray = "moonbit_raylib_get_material_maps"
+
+// ============================================================================
+// Mesh: bone matrices accessor
+// ============================================================================
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_bone_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_bone_count"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_bone_matrices(mesh : Mesh) -> MatrixArray = "moonbit_raylib_get_mesh_bone_matrices"
+
+// ============================================================================
+// Mesh: constructor and attribute accessors
+// ============================================================================
+
+///|
+#borrow(vertices, texcoords, texcoords2, normals, tangents, colors, indices)
+pub extern "c" fn new_mesh(
+  vertex_count : Int,
+  triangle_count : Int,
+  vertices : FixedArray[Float],
+  texcoords : FixedArray[Float]?,
+  texcoords2 : FixedArray[Float]?,
+  normals : FixedArray[Float]?,
+  tangents : FixedArray[Float]?,
+  colors : FixedArray[Byte]?,
+  indices : FixedArray[UInt16]?,
+) -> Mesh = "moonbit_raylib_new_mesh"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_vertex_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_vertex_count"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_triangle_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_triangle_count"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_vertices(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_vertices"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_texcoords(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_texcoords2(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords2"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_normals(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_normals"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_tangents(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_tangents"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UByteArray = "moonbit_raylib_get_mesh_colors"
+
+///|
+#borrow(mesh)
+pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortArray = "moonbit_raylib_get_mesh_indices"

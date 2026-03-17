@@ -2,20 +2,6 @@
 const MapSize : Int = 10
 
 ///|
-fn floats_to_bytes(values : FixedArray[Float]) -> Bytes {
-  let len = values.length()
-  let arr = FixedArray::make(len * 4, b'\x00')
-  for i in 0..<len {
-    let bits = values[i].reinterpret_as_int()
-    arr[i * 4] = (bits & 0xFF).to_byte()
-    arr[i * 4 + 1] = ((bits >> 8) & 0xFF).to_byte()
-    arr[i * 4 + 2] = ((bits >> 16) & 0xFF).to_byte()
-    arr[i * 4 + 3] = ((bits >> 24) & 0xFF).to_byte()
-  }
-  FixedArray::unsafe_reinterpret_as_bytes(arr)
-}
-
-///|
 fn main {
   // Initialization
   let screen_width = 800
@@ -34,22 +20,21 @@ fn main {
     @raylib.CameraPerspective,
   )
 
-  let mesh = @raylib.gen_mesh_plane(
-    Float::from_int(MapSize),
-    Float::from_int(MapSize),
-    1,
-    1,
+  // Build plane mesh manually so we can include texcoords2 before upload
+  let half = Float::from_int(MapSize) / 2.0
+  let mesh = @raylib.Mesh::new(
+    [
+      -half, 0.0, -half, // vertex 0
+       half, 0.0, -half, // vertex 1
+      -half, 0.0,  half, // vertex 2
+       half, 0.0,  half, // vertex 3
+    ],
+    texcoords=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
+    texcoords2=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
+    normals=[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0],
+    indices=[2, 1, 0, 2, 3, 1],
   )
-
-  // GenMeshPlane doesn't generate texcoords2 so we will upload them separately
-  // texcoords2: 4 vertices * 2 components = 8 floats
-  let texcoords2 : FixedArray[Float] = [
-    0.0, 0.0, // vertex 0
-     1.0, 0.0, // vertex 1
-     0.0, 1.0, // vertex 2
-     1.0, 1.0,
-  ] // vertex 3
-  @raylib.mesh_setup_texcoords2(mesh, floats_to_bytes(texcoords2), 8)
+  mesh.upload(false)
 
   // Load lightmap shader
   let shader = @raylib.load_shader(

@@ -595,17 +595,13 @@ pub const TextureWrapRepeat : Int = 0
 
 pub fn attach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
 
-pub fn attach_audio_stream_processor(@tonyfettes/raylib/internal/raylib.AudioStream, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
-
-pub fn attach_music_stream_processor(@tonyfettes/raylib/internal/raylib.Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn attach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
 
 pub fn audio_buffer_get_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Float
 
 pub fn audio_buffer_set_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt, Float) -> Unit
 
-pub fn automation_event_list_count(@tonyfettes/raylib/internal/raylib.AutomationEventList) -> Int
-
-pub fn automation_event_list_get(@tonyfettes/raylib/internal/raylib.AutomationEventList, Int) -> AutomationEvent
+pub fn automation_event_list_get(AutomationEventList, Int) -> AutomationEvent
 
 pub fn begin_blend_mode(Int) -> Unit
 
@@ -617,12 +613,6 @@ pub fn begin_mode_3d(Camera3D) -> Unit
 
 pub fn begin_scissor_mode(Int, Int, Int, Int) -> Unit
 
-pub fn begin_shader_mode(@tonyfettes/raylib/internal/raylib.Shader) -> Unit
-
-pub fn begin_texture_mode(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
-
-pub fn begin_vr_stereo_mode(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Unit
-
 pub let beige : Color
 
 pub let black : Color
@@ -632,8 +622,6 @@ pub let blank : Color
 pub let blue : Color
 
 pub let brown : Color
-
-pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Font
 
 pub fn change_directory(String) -> Bool
 
@@ -721,9 +709,7 @@ pub fn decompress_data(Bytes) -> Bytes
 
 pub fn detach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
 
-pub fn detach_audio_stream_processor(@tonyfettes/raylib/internal/raylib.AudioStream, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
-
-pub fn detach_music_stream_processor(@tonyfettes/raylib/internal/raylib.Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn detach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
 
 pub fn directory_exists(String) -> Bool
 
@@ -731,11 +717,11 @@ pub fn disable_cursor() -> Unit
 
 pub fn disable_event_waiting() -> Unit
 
-pub fn draw_billboard(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Vector3, Float, Color) -> Unit
+pub fn draw_billboard(Camera3D, Texture, Vector3, Float, Color) -> Unit
 
-pub fn draw_billboard_pro(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector3, Vector3, Vector2, Vector2, Float, Color) -> Unit
+pub fn draw_billboard_pro(Camera3D, Texture, Rectangle, Vector3, Vector3, Vector2, Vector2, Float, Color) -> Unit
 
-pub fn draw_billboard_rec(Camera3D, @tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector3, Vector2, Color) -> Unit
+pub fn draw_billboard_rec(Camera3D, Texture, Rectangle, Vector3, Vector2, Color) -> Unit
 
 pub fn draw_bounding_box(BoundingBox, Color) -> Unit
 
@@ -795,22 +781,6 @@ pub fn draw_line_strip(Array[Vector2], Color) -> Unit
 
 pub fn draw_line_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_mesh(@tonyfettes/raylib/internal/raylib.Mesh, @tonyfettes/raylib/internal/raylib.Material, Matrix) -> Unit
-
-pub fn draw_mesh_instanced(@tonyfettes/raylib/internal/raylib.Mesh, @tonyfettes/raylib/internal/raylib.Material, Array[Matrix], Int) -> Unit
-
-pub fn draw_model(@tonyfettes/raylib/internal/raylib.Model, Vector3, Float, Color) -> Unit
-
-pub fn draw_model_ex(@tonyfettes/raylib/internal/raylib.Model, Vector3, Vector3, Float, Vector3, Color) -> Unit
-
-pub fn draw_model_points(@tonyfettes/raylib/internal/raylib.Model, Vector3, Float, Color) -> Unit
-
-pub fn draw_model_points_ex(@tonyfettes/raylib/internal/raylib.Model, Vector3, Vector3, Float, Vector3, Color) -> Unit
-
-pub fn draw_model_wires(@tonyfettes/raylib/internal/raylib.Model, Vector3, Float, Color) -> Unit
-
-pub fn draw_model_wires_ex(@tonyfettes/raylib/internal/raylib.Model, Vector3, Vector3, Float, Vector3, Color) -> Unit
-
 pub fn draw_pixel(Int, Int, Color) -> Unit
 
 pub fn draw_pixel_v(Vector2, Color) -> Unit
@@ -851,12 +821,6 @@ pub fn draw_rectangle_rounded_lines_ex(Rectangle, Float, Int, Float, Color) -> U
 
 pub fn draw_rectangle_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_render_texture_ex(@tonyfettes/raylib/internal/raylib.RenderTexture, Vector2, Float, Float, Color) -> Unit
-
-pub fn draw_render_texture_pro(@tonyfettes/raylib/internal/raylib.RenderTexture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
-
-pub fn draw_render_texture_rec(@tonyfettes/raylib/internal/raylib.RenderTexture, Rectangle, Vector2, Color) -> Unit
-
 pub fn draw_ring(Vector2, Float, Float, Float, Float, Int, Color) -> Unit
 
 pub fn draw_ring_lines(Vector2, Float, Float, Float, Float, Int, Color) -> Unit
@@ -888,26 +852,6 @@ pub fn draw_spline_segment_catmull_rom(Vector2, Vector2, Vector2, Vector2, Float
 pub fn draw_spline_segment_linear(Vector2, Vector2, Float, Color) -> Unit
 
 pub fn draw_text(String, Int, Int, Int, Color) -> Unit
-
-pub fn draw_text_codepoint(@tonyfettes/raylib/internal/raylib.Font, Int, Vector2, Float, Color) -> Unit
-
-pub fn draw_text_codepoints(@tonyfettes/raylib/internal/raylib.Font, Array[Int], Vector2, Float, Float, Color) -> Unit
-
-pub fn draw_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Float, Float, Color) -> Unit
-
-pub fn draw_text_pro(@tonyfettes/raylib/internal/raylib.Font, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
-
-pub fn draw_texture(@tonyfettes/raylib/internal/raylib.Texture, Int, Int, Color) -> Unit
-
-pub fn draw_texture_ex(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Float, Float, Color) -> Unit
-
-pub fn draw_texture_npatch(@tonyfettes/raylib/internal/raylib.Texture, NPatchInfo, Rectangle, Vector2, Float, Color) -> Unit
-
-pub fn draw_texture_pro(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
-
-pub fn draw_texture_rec(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Vector2, Color) -> Unit
-
-pub fn draw_texture_v(@tonyfettes/raylib/internal/raylib.Texture, Vector2, Color) -> Unit
 
 pub fn draw_triangle(Vector2, Vector2, Vector2, Color) -> Unit
 
@@ -943,83 +887,13 @@ pub fn end_texture_mode() -> Unit
 
 pub fn end_vr_stereo_mode() -> Unit
 
-pub fn export_automation_event_list(@tonyfettes/raylib/internal/raylib.AutomationEventList, String) -> Bool
-
 pub fn export_data_as_code(Bytes, Int, String) -> Bool
-
-pub fn export_font_as_code(@tonyfettes/raylib/internal/raylib.Font, String) -> Bool
-
-pub fn export_image(@tonyfettes/raylib/internal/raylib.Image, String) -> Bool
-
-pub fn export_image_as_code(@tonyfettes/raylib/internal/raylib.Image, String) -> Bool
-
-pub fn export_image_to_memory(@tonyfettes/raylib/internal/raylib.Image, String) -> Bytes
-
-pub fn export_mesh(@tonyfettes/raylib/internal/raylib.Mesh, String) -> Bool
-
-pub fn export_mesh_as_code(@tonyfettes/raylib/internal/raylib.Mesh, String) -> Bool
-
-pub fn export_wave(@tonyfettes/raylib/internal/raylib.Wave, String) -> Bool
-
-pub fn export_wave_as_code(@tonyfettes/raylib/internal/raylib.Wave, String) -> Bool
 
 pub fn fade(Color, Float) -> Color
 
 pub fn file_exists(String) -> Bool
 
-pub fn file_path_list_count(@tonyfettes/raylib/internal/raylib.FilePathList) -> Int
-
-pub fn file_path_list_get(@tonyfettes/raylib/internal/raylib.FilePathList, Int) -> String
-
-pub fn gen_font_texture_mipmaps(@tonyfettes/raylib/internal/raylib.Font) -> Unit
-
-pub fn gen_image_cellular(Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_checked(Int, Int, Int, Int, Color, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_color(Int, Int, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_font_atlas(@tonyfettes/raylib/internal/raylib.GlyphInfoArray, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_gradient_linear(Int, Int, Int, Color, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_gradient_radial(Int, Int, Float, Color, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_gradient_square(Int, Int, Float, Color, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_perlin_noise(Int, Int, Int, Int, Float) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_text(Int, Int, String) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_image_white_noise(Int, Int, Float) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn gen_mesh_cone(Float, Float, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_cube(Float, Float, Float) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_cubicmap(@tonyfettes/raylib/internal/raylib.Image, Vector3) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_cylinder(Float, Float, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_from_points(Bytes, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_heightmap(@tonyfettes/raylib/internal/raylib.Image, Vector3) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_hemisphere(Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_knot(Float, Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_plane(Float, Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_poly(Int, Float) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_sphere(Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_mesh_tangents(@tonyfettes/raylib/internal/raylib.Mesh) -> Unit
-
-pub fn gen_mesh_torus(Float, Float, Int, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn gen_texture_mipmaps(@tonyfettes/raylib/internal/raylib.Texture) -> Unit
+pub fn file_path_list_get(FilePathList, Int) -> String
 
 pub fn get_application_directory() -> String
 
@@ -1029,7 +903,7 @@ pub fn get_camera_matrix_2d(Camera2D) -> Matrix
 
 pub fn get_char_pressed() -> Int
 
-pub fn get_clipboard_image() -> @tonyfettes/raylib/internal/raylib.Image
+pub fn get_clipboard_image() -> Image
 
 pub fn get_clipboard_text() -> String
 
@@ -1059,16 +933,6 @@ pub fn get_file_name(String) -> String
 
 pub fn get_file_name_without_ext(String) -> String
 
-pub fn get_font_base_size(@tonyfettes/raylib/internal/raylib.Font) -> Int
-
-pub fn get_font_default() -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn get_font_glyph_count(@tonyfettes/raylib/internal/raylib.Font) -> Int
-
-pub fn get_font_glyph_padding(@tonyfettes/raylib/internal/raylib.Font) -> Int
-
-pub fn get_font_texture(@tonyfettes/raylib/internal/raylib.Font) -> @tonyfettes/raylib/internal/raylib.Texture
-
 pub fn get_fps() -> Int
 
 pub fn get_frame_time() -> Float
@@ -1093,53 +957,9 @@ pub fn get_gesture_pinch_angle() -> Float
 
 pub fn get_gesture_pinch_vector() -> Vector2
 
-pub fn get_glyph_atlas_rec(@tonyfettes/raylib/internal/raylib.Font, Int) -> Rectangle
-
-pub fn get_glyph_index(@tonyfettes/raylib/internal/raylib.Font, Int) -> Int
-
-pub fn get_glyph_info(@tonyfettes/raylib/internal/raylib.Font, Int) -> GlyphInfo
-
-pub fn get_image_alpha_border(@tonyfettes/raylib/internal/raylib.Image, Float) -> Rectangle
-
-pub fn get_image_color(@tonyfettes/raylib/internal/raylib.Image, Int, Int) -> Color
-
 pub fn get_key_pressed() -> Int
 
 pub fn get_master_volume() -> Float
-
-pub fn get_mesh_bounding_box(@tonyfettes/raylib/internal/raylib.Mesh) -> BoundingBox
-
-pub fn get_model_animation_bone_count(@tonyfettes/raylib/internal/raylib.ModelAnimations, Int) -> Int
-
-pub fn get_model_animation_bone_parent(@tonyfettes/raylib/internal/raylib.ModelAnimations, Int, Int) -> Int
-
-pub fn get_model_animation_frame_count(@tonyfettes/raylib/internal/raylib.ModelAnimations, Int) -> Int
-
-pub fn get_model_animation_frame_pose_rotation(@tonyfettes/raylib/internal/raylib.ModelAnimations, Int, Int, Int) -> Vector4
-
-pub fn get_model_animation_frame_pose_translation(@tonyfettes/raylib/internal/raylib.ModelAnimations, Int, Int, Int) -> Vector3
-
-pub fn get_model_bind_pose_rotation(@tonyfettes/raylib/internal/raylib.Model, Int) -> Vector4
-
-pub fn get_model_bind_pose_translation(@tonyfettes/raylib/internal/raylib.Model, Int) -> Vector3
-
-pub fn get_model_bone_count(@tonyfettes/raylib/internal/raylib.Model) -> Int
-
-pub fn get_model_bone_name(@tonyfettes/raylib/internal/raylib.Model, Int) -> String
-
-pub fn get_model_bone_parent(@tonyfettes/raylib/internal/raylib.Model, Int) -> Int
-
-pub fn get_model_bounding_box(@tonyfettes/raylib/internal/raylib.Model) -> BoundingBox
-
-pub fn get_model_material(@tonyfettes/raylib/internal/raylib.Model, Int) -> @tonyfettes/raylib/internal/raylib.Material
-
-pub fn get_model_material_count(@tonyfettes/raylib/internal/raylib.Model) -> Int
-
-pub fn get_model_mesh(@tonyfettes/raylib/internal/raylib.Model, Int) -> @tonyfettes/raylib/internal/raylib.Mesh
-
-pub fn get_model_mesh_count(@tonyfettes/raylib/internal/raylib.Model) -> Int
-
-pub fn get_model_transform(@tonyfettes/raylib/internal/raylib.Model) -> Matrix
 
 pub fn get_monitor_count() -> Int
 
@@ -1169,10 +989,6 @@ pub fn get_mouse_x() -> Int
 
 pub fn get_mouse_y() -> Int
 
-pub fn get_music_time_length(@tonyfettes/raylib/internal/raylib.Music) -> Float
-
-pub fn get_music_time_played(@tonyfettes/raylib/internal/raylib.Music) -> Float
-
 pub fn get_pixel_data_size(Int, Int, Int) -> Int
 
 pub fn get_prev_directory_path(String) -> String
@@ -1181,7 +997,7 @@ pub fn get_random_value(Int, Int) -> Int
 
 pub fn get_ray_collision_box(Ray, BoundingBox) -> RayCollision
 
-pub fn get_ray_collision_mesh(Ray, @tonyfettes/raylib/internal/raylib.Mesh, Matrix) -> RayCollision
+pub fn get_ray_collision_mesh(Ray, Mesh, Matrix) -> RayCollision
 
 pub fn get_ray_collision_quad(Ray, Vector3, Vector3, Vector3, Vector3) -> RayCollision
 
@@ -1190,21 +1006,6 @@ pub fn get_ray_collision_sphere(Ray, Vector3, Float) -> RayCollision
 pub fn get_ray_collision_triangle(Ray, Vector3, Vector3, Vector3) -> RayCollision
 
 pub fn get_render_height() -> Int
-
-pub fn get_render_texture_depth(@tonyfettes/raylib/internal/raylib.RenderTexture) -> @tonyfettes/raylib/internal/raylib.Texture
-
-pub fn get_render_texture_depth_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
-
-#deprecated
-pub fn get_render_texture_fbo_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
-
-pub fn get_render_texture_height(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Int
-
-pub fn get_render_texture_id(@tonyfettes/raylib/internal/raylib.RenderTexture) -> UInt
-
-pub fn get_render_texture_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> @tonyfettes/raylib/internal/raylib.Texture
-
-pub fn get_render_texture_width(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Int
 
 pub fn get_render_width() -> Int
 
@@ -1218,14 +1019,6 @@ pub fn get_screen_to_world_ray_ex(Vector2, Camera3D, Int, Int) -> Ray
 
 pub fn get_screen_width() -> Int
 
-pub fn get_shader_id(@tonyfettes/raylib/internal/raylib.Shader) -> Int
-
-pub fn get_shader_location(@tonyfettes/raylib/internal/raylib.Shader, String) -> Int
-
-pub fn get_shader_location_attrib(@tonyfettes/raylib/internal/raylib.Shader, String) -> Int
-
-pub fn get_shapes_texture() -> @tonyfettes/raylib/internal/raylib.Texture
-
 pub fn get_shapes_texture_rectangle() -> Rectangle
 
 pub fn get_spline_point_basis(Vector2, Vector2, Vector2, Vector2, Float) -> Vector2
@@ -1237,12 +1030,6 @@ pub fn get_spline_point_bezier_quad(Vector2, Vector2, Vector2, Float) -> Vector2
 pub fn get_spline_point_catmull_rom(Vector2, Vector2, Vector2, Vector2, Float) -> Vector2
 
 pub fn get_spline_point_linear(Vector2, Vector2, Float) -> Vector2
-
-pub fn get_texture_height(@tonyfettes/raylib/internal/raylib.Texture) -> Int
-
-pub fn get_texture_id(@tonyfettes/raylib/internal/raylib.Texture) -> UInt
-
-pub fn get_texture_width(@tonyfettes/raylib/internal/raylib.Texture) -> Int
 
 pub fn get_time() -> Double
 
@@ -1268,10 +1055,6 @@ pub fn get_world_to_screen_2d(Vector2, Camera2D) -> Vector2
 
 pub fn get_world_to_screen_ex(Vector3, Camera3D, Int, Int) -> Vector2
 
-pub fn glyph_info_array_count(@tonyfettes/raylib/internal/raylib.GlyphInfoArray) -> Int
-
-pub fn glyph_info_array_get(@tonyfettes/raylib/internal/raylib.GlyphInfoArray, Int) -> GlyphInfo
-
 pub let gold : Color
 
 pub let gray : Color
@@ -1280,125 +1063,11 @@ pub let green : Color
 
 pub fn hide_cursor() -> Unit
 
-pub fn image_alpha_clear(@tonyfettes/raylib/internal/raylib.Image, Color, Float) -> Unit
-
-pub fn image_alpha_crop(@tonyfettes/raylib/internal/raylib.Image, Float) -> Unit
-
-pub fn image_alpha_mask(@tonyfettes/raylib/internal/raylib.Image, @tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_alpha_premultiply(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_blur_gaussian(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_clear_background(@tonyfettes/raylib/internal/raylib.Image, Color) -> Unit
-
-pub fn image_color_brightness(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_color_contrast(@tonyfettes/raylib/internal/raylib.Image, Float) -> Unit
-
-pub fn image_color_grayscale(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_color_invert(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_color_replace(@tonyfettes/raylib/internal/raylib.Image, Color, Color) -> Unit
-
-pub fn image_color_tint(@tonyfettes/raylib/internal/raylib.Image, Color) -> Unit
-
-pub fn image_copy(@tonyfettes/raylib/internal/raylib.Image) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn image_crop(@tonyfettes/raylib/internal/raylib.Image, Rectangle) -> Unit
-
-pub fn image_dither(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Int) -> Unit
-
-pub fn image_draw(@tonyfettes/raylib/internal/raylib.Image, @tonyfettes/raylib/internal/raylib.Image, Rectangle, Rectangle, Color) -> Unit
-
-pub fn image_draw_circle(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Color) -> Unit
-
-pub fn image_draw_circle_lines(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Color) -> Unit
-
-pub fn image_draw_circle_lines_v(@tonyfettes/raylib/internal/raylib.Image, Vector2, Int, Color) -> Unit
-
-pub fn image_draw_circle_v(@tonyfettes/raylib/internal/raylib.Image, Vector2, Int, Color) -> Unit
-
-pub fn image_draw_line(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Int, Color) -> Unit
-
-pub fn image_draw_line_ex(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Int, Color) -> Unit
-
-pub fn image_draw_line_v(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Color) -> Unit
-
-pub fn image_draw_pixel(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Color) -> Unit
-
-pub fn image_draw_pixel_v(@tonyfettes/raylib/internal/raylib.Image, Vector2, Color) -> Unit
-
-pub fn image_draw_rectangle(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Int, Color) -> Unit
-
-pub fn image_draw_rectangle_lines(@tonyfettes/raylib/internal/raylib.Image, Rectangle, Int, Color) -> Unit
-
-pub fn image_draw_rectangle_rec(@tonyfettes/raylib/internal/raylib.Image, Rectangle, Color) -> Unit
-
-pub fn image_draw_rectangle_v(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Color) -> Unit
-
-pub fn image_draw_text(@tonyfettes/raylib/internal/raylib.Image, String, Int, Int, Int, Color) -> Unit
-
-pub fn image_draw_text_ex(@tonyfettes/raylib/internal/raylib.Image, @tonyfettes/raylib/internal/raylib.Font, String, Vector2, Float, Float, Color) -> Unit
-
-pub fn image_draw_triangle(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Vector2, Color) -> Unit
-
-pub fn image_draw_triangle_ex(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Vector2, Color, Color, Color) -> Unit
-
-pub fn image_draw_triangle_fan(@tonyfettes/raylib/internal/raylib.Image, Array[Vector2], Color) -> Unit
-
-pub fn image_draw_triangle_lines(@tonyfettes/raylib/internal/raylib.Image, Vector2, Vector2, Vector2, Color) -> Unit
-
-pub fn image_draw_triangle_strip(@tonyfettes/raylib/internal/raylib.Image, Array[Vector2], Color) -> Unit
-
-pub fn image_flip_horizontal(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_flip_vertical(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_format(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_from_channel(@tonyfettes/raylib/internal/raylib.Image, Int) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn image_from_image(@tonyfettes/raylib/internal/raylib.Image, Rectangle) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn image_height(@tonyfettes/raylib/internal/raylib.Image) -> Int
-
-pub fn image_kernel_convolution(@tonyfettes/raylib/internal/raylib.Image, Bytes, Int) -> Unit
-
-pub fn image_mipmaps(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_resize(@tonyfettes/raylib/internal/raylib.Image, Int, Int) -> Unit
-
-pub fn image_resize_canvas(@tonyfettes/raylib/internal/raylib.Image, Int, Int, Int, Int, Color) -> Unit
-
-pub fn image_resize_nn(@tonyfettes/raylib/internal/raylib.Image, Int, Int) -> Unit
-
-pub fn image_rotate(@tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn image_rotate_ccw(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_rotate_cw(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn image_text(String, Int, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn image_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Float, Float, Color) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn image_to_pot(@tonyfettes/raylib/internal/raylib.Image, Color) -> Unit
-
-pub fn image_width(@tonyfettes/raylib/internal/raylib.Image) -> Int
-
 pub fn init_audio_device() -> Unit
 
 pub fn init_window(Int, Int, String) -> Unit
 
 pub fn is_audio_device_ready() -> Bool
-
-pub fn is_audio_stream_playing(@tonyfettes/raylib/internal/raylib.AudioStream) -> Bool
-
-pub fn is_audio_stream_processed(@tonyfettes/raylib/internal/raylib.AudioStream) -> Bool
-
-pub fn is_audio_stream_valid(@tonyfettes/raylib/internal/raylib.AudioStream) -> Bool
 
 pub fn is_cursor_hidden() -> Bool
 
@@ -1409,8 +1078,6 @@ pub fn is_file_dropped() -> Bool
 pub fn is_file_extension(String, String) -> Bool
 
 pub fn is_file_name_valid(String) -> Bool
-
-pub fn is_font_valid(@tonyfettes/raylib/internal/raylib.Font) -> Bool
 
 pub fn is_gamepad_available(Int) -> Bool
 
@@ -1424,8 +1091,6 @@ pub fn is_gamepad_button_up(Int, Int) -> Bool
 
 pub fn is_gesture_detected(Int) -> Bool
 
-pub fn is_image_valid(@tonyfettes/raylib/internal/raylib.Image) -> Bool
-
 pub fn is_key_down(Int) -> Bool
 
 pub fn is_key_pressed(Int) -> Bool
@@ -1436,12 +1101,6 @@ pub fn is_key_released(Int) -> Bool
 
 pub fn is_key_up(Int) -> Bool
 
-pub fn is_material_valid(@tonyfettes/raylib/internal/raylib.Material) -> Bool
-
-pub fn is_model_animation_valid(@tonyfettes/raylib/internal/raylib.Model, @tonyfettes/raylib/internal/raylib.ModelAnimations, Int) -> Bool
-
-pub fn is_model_valid(@tonyfettes/raylib/internal/raylib.Model) -> Bool
-
 pub fn is_mouse_button_down(Int) -> Bool
 
 pub fn is_mouse_button_pressed(Int) -> Bool
@@ -1450,23 +1109,7 @@ pub fn is_mouse_button_released(Int) -> Bool
 
 pub fn is_mouse_button_up(Int) -> Bool
 
-pub fn is_music_stream_playing(@tonyfettes/raylib/internal/raylib.Music) -> Bool
-
-pub fn is_music_valid(@tonyfettes/raylib/internal/raylib.Music) -> Bool
-
 pub fn is_path_file(String) -> Bool
-
-pub fn is_render_texture_valid(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Bool
-
-pub fn is_shader_valid(@tonyfettes/raylib/internal/raylib.Shader) -> Bool
-
-pub fn is_sound_playing(@tonyfettes/raylib/internal/raylib.Sound) -> Bool
-
-pub fn is_sound_valid(@tonyfettes/raylib/internal/raylib.Sound) -> Bool
-
-pub fn is_texture_valid(@tonyfettes/raylib/internal/raylib.Texture) -> Bool
-
-pub fn is_wave_valid(@tonyfettes/raylib/internal/raylib.Wave) -> Bool
 
 pub fn is_window_focused() -> Bool
 
@@ -1488,103 +1131,19 @@ pub let lightgray : Color
 
 pub let lime : Color
 
-pub fn load_audio_stream(UInt, UInt, UInt) -> @tonyfettes/raylib/internal/raylib.AudioStream
-
-pub fn load_automation_event_list(String) -> @tonyfettes/raylib/internal/raylib.AutomationEventList
-
 pub fn load_codepoints(String) -> Array[Int]
 
-pub fn load_directory_files(String) -> @tonyfettes/raylib/internal/raylib.FilePathList
+pub fn load_directory_files(String) -> FilePathList
 
-pub fn load_directory_files_ex(String, String, Bool) -> @tonyfettes/raylib/internal/raylib.FilePathList
-
-pub fn load_dropped_files() -> @tonyfettes/raylib/internal/raylib.FilePathList
+pub fn load_directory_files_ex(String, String, Bool) -> FilePathList
 
 pub fn load_file_data(String) -> Bytes
 
 pub fn load_file_text(String) -> String
 
-pub fn load_font(String) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_font_data(Bytes, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.GlyphInfoArray
-
-pub fn load_font_ex(String, Int) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_font_ex_codepoints(String, Int, Array[Int]) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_font_from_image(@tonyfettes/raylib/internal/raylib.Image, Color, Int) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_font_from_memory(String, Bytes, Int, Int) -> @tonyfettes/raylib/internal/raylib.Font
-
-pub fn load_image(String) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn load_image_anim(String) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
-
-pub fn load_image_anim_from_memory(String, Bytes, Int) -> (@tonyfettes/raylib/internal/raylib.Image, Int)
-
-pub fn load_image_colors(@tonyfettes/raylib/internal/raylib.Image) -> Bytes
-
-pub fn load_image_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn load_image_from_screen() -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn load_image_from_texture(@tonyfettes/raylib/internal/raylib.Texture) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn load_image_palette(@tonyfettes/raylib/internal/raylib.Image, Int) -> Bytes
-
-pub fn load_image_raw(String, Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Image
-
-pub fn load_material_default() -> @tonyfettes/raylib/internal/raylib.Material
-
-pub fn load_materials(String) -> @tonyfettes/raylib/internal/raylib.MaterialsArray
-
-pub fn load_model(String) -> @tonyfettes/raylib/internal/raylib.Model
-
-pub fn load_model_animations(String) -> @tonyfettes/raylib/internal/raylib.ModelAnimations
-
-pub fn load_model_from_mesh(@tonyfettes/raylib/internal/raylib.Mesh) -> @tonyfettes/raylib/internal/raylib.Model
-
-pub fn load_music_stream(String) -> @tonyfettes/raylib/internal/raylib.Music
-
-pub fn load_music_stream_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Music
-
 pub fn load_random_sequence(Int, Int, Int) -> Array[Int]
 
-pub fn load_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
-
-#deprecated
-pub fn load_render_texture_depth_tex(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
-
-pub fn load_shader(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
-
-pub fn load_shader_from_memory(String, String) -> @tonyfettes/raylib/internal/raylib.Shader
-
-#deprecated
-pub fn load_shadowmap_render_texture(Int, Int) -> @tonyfettes/raylib/internal/raylib.RenderTexture
-
-pub fn load_sound(String) -> @tonyfettes/raylib/internal/raylib.Sound
-
-pub fn load_sound_alias(@tonyfettes/raylib/internal/raylib.Sound) -> @tonyfettes/raylib/internal/raylib.Sound
-
-pub fn load_sound_from_wave(@tonyfettes/raylib/internal/raylib.Wave) -> @tonyfettes/raylib/internal/raylib.Sound
-
-pub fn load_texture(String) -> @tonyfettes/raylib/internal/raylib.Texture
-
-pub fn load_texture_cubemap(@tonyfettes/raylib/internal/raylib.Image, Int) -> @tonyfettes/raylib/internal/raylib.Texture
-
-pub fn load_texture_from_image(@tonyfettes/raylib/internal/raylib.Image) -> @tonyfettes/raylib/internal/raylib.Texture
-
 pub fn load_utf8(Array[Int]) -> Bytes
-
-pub fn load_vr_stereo_config(VrDeviceInfo) -> @tonyfettes/raylib/internal/raylib.VrStereoConfig
-
-pub fn load_wave(String) -> @tonyfettes/raylib/internal/raylib.Wave
-
-pub fn load_wave_from_memory(String, Bytes, Int) -> @tonyfettes/raylib/internal/raylib.Wave
-
-pub fn load_wave_samples(@tonyfettes/raylib/internal/raylib.Wave) -> Bytes
 
 pub let magenta : Color
 
@@ -1592,45 +1151,19 @@ pub fn make_directory(String) -> Int
 
 pub let maroon : Color
 
-pub fn materials_array_count(@tonyfettes/raylib/internal/raylib.MaterialsArray) -> Int
-
-pub fn materials_array_get(@tonyfettes/raylib/internal/raylib.MaterialsArray, Int) -> @tonyfettes/raylib/internal/raylib.Material
-
 pub fn maximize_window() -> Unit
 
 pub fn measure_text(String, Int) -> Int
 
-pub fn measure_text_ex(@tonyfettes/raylib/internal/raylib.Font, String, Float, Float) -> Vector2
-
-pub fn mesh_setup_texcoords2(@tonyfettes/raylib/internal/raylib.Mesh, Bytes, Int) -> Unit
-
 pub fn minimize_window() -> Unit
-
-pub fn model_animations_count(@tonyfettes/raylib/internal/raylib.ModelAnimations) -> Int
-
-pub fn new_render_texture(UInt, @tonyfettes/raylib/internal/raylib.Texture, @tonyfettes/raylib/internal/raylib.Texture) -> @tonyfettes/raylib/internal/raylib.RenderTexture
-
-pub fn new_texture(UInt, Int, Int, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture
 
 pub fn open_url(String) -> Unit
 
 pub let orange : Color
 
-pub fn pause_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream) -> Unit
-
-pub fn pause_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn pause_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
-
 pub let pink : Color
 
-pub fn play_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream) -> Unit
-
 pub fn play_automation_event(AutomationEvent) -> Unit
-
-pub fn play_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn play_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub fn poll_input_events() -> Unit
 
@@ -1641,12 +1174,6 @@ pub let raywhite : Color
 pub let red : Color
 
 pub fn restore_window() -> Unit
-
-pub fn resume_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream) -> Unit
-
-pub fn resume_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn resume_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 #deprecated
 pub fn rl_active_draw_buffers(Int) -> Unit
@@ -1817,27 +1344,15 @@ pub fn save_file_data(String, Bytes, Int) -> Bool
 
 pub fn save_file_text(String, String) -> Bool
 
-pub fn seek_music_stream(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
-
 pub fn set_audio_stream_buffer_size_default(Int) -> Unit
 
-pub fn set_audio_stream_pan(@tonyfettes/raylib/internal/raylib.AudioStream, Float) -> Unit
-
-pub fn set_audio_stream_pitch(@tonyfettes/raylib/internal/raylib.AudioStream, Float) -> Unit
-
-pub fn set_audio_stream_volume(@tonyfettes/raylib/internal/raylib.AudioStream, Float) -> Unit
-
 pub fn set_automation_event_base_frame(Int) -> Unit
-
-pub fn set_automation_event_list(@tonyfettes/raylib/internal/raylib.AutomationEventList) -> Unit
 
 pub fn set_clipboard_text(String) -> Unit
 
 pub fn set_config_flags(Int) -> Unit
 
 pub fn set_exit_key(Int) -> Unit
-
-pub fn set_font_texture_filter(@tonyfettes/raylib/internal/raylib.Font, Int) -> Unit
 
 pub fn set_gamepad_mappings(String) -> Int
 
@@ -1847,22 +1362,6 @@ pub fn set_gestures_enabled(Int) -> Unit
 
 pub fn set_master_volume(Float) -> Unit
 
-pub fn set_material_map_color(@tonyfettes/raylib/internal/raylib.Material, Int, Color) -> Unit
-
-pub fn set_material_map_value(@tonyfettes/raylib/internal/raylib.Material, Int, Float) -> Unit
-
-pub fn set_material_shader(@tonyfettes/raylib/internal/raylib.Material, @tonyfettes/raylib/internal/raylib.Shader) -> Unit
-
-pub fn set_material_texture(@tonyfettes/raylib/internal/raylib.Material, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
-
-pub fn set_model_material_shader(@tonyfettes/raylib/internal/raylib.Model, Int, @tonyfettes/raylib/internal/raylib.Shader) -> Unit
-
-pub fn set_model_material_texture(@tonyfettes/raylib/internal/raylib.Model, Int, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
-
-pub fn set_model_mesh_material(@tonyfettes/raylib/internal/raylib.Model, Int, Int) -> Unit
-
-pub fn set_model_transform(@tonyfettes/raylib/internal/raylib.Model, Matrix) -> Unit
-
 pub fn set_mouse_cursor(Int) -> Unit
 
 pub fn set_mouse_offset(Int, Int) -> Unit
@@ -1871,49 +1370,17 @@ pub fn set_mouse_position(Int, Int) -> Unit
 
 pub fn set_mouse_scale(Float, Float) -> Unit
 
-pub fn set_music_pan(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
-
-pub fn set_music_pitch(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
-
-pub fn set_music_volume(@tonyfettes/raylib/internal/raylib.Music, Float) -> Unit
-
 pub fn set_random_seed(Int) -> Unit
-
-pub fn set_render_texture_filter(@tonyfettes/raylib/internal/raylib.RenderTexture, Int) -> Unit
-
-pub fn set_shader_location(@tonyfettes/raylib/internal/raylib.Shader, Int, Int) -> Unit
-
-pub fn set_shader_locs(@tonyfettes/raylib/internal/raylib.Shader, Int, Int) -> Unit
-
-pub fn set_shader_value(@tonyfettes/raylib/internal/raylib.Shader, Int, Bytes, Int) -> Unit
-
-pub fn set_shader_value_matrix(@tonyfettes/raylib/internal/raylib.Shader, Int, Matrix) -> Unit
-
-pub fn set_shader_value_texture(@tonyfettes/raylib/internal/raylib.Shader, Int, @tonyfettes/raylib/internal/raylib.Texture) -> Unit
-
-pub fn set_shader_value_v(@tonyfettes/raylib/internal/raylib.Shader, Int, Bytes, Int, Int) -> Unit
-
-pub fn set_shapes_texture(@tonyfettes/raylib/internal/raylib.Texture, Rectangle) -> Unit
-
-pub fn set_sound_pan(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
-
-pub fn set_sound_pitch(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
-
-pub fn set_sound_volume(@tonyfettes/raylib/internal/raylib.Sound, Float) -> Unit
 
 pub fn set_target_fps(Int) -> Unit
 
 pub fn set_text_line_spacing(Int) -> Unit
 
-pub fn set_texture_filter(@tonyfettes/raylib/internal/raylib.Texture, Int) -> Unit
-
-pub fn set_texture_wrap(@tonyfettes/raylib/internal/raylib.Texture, Int) -> Unit
-
 pub fn set_trace_log_level(Int) -> Unit
 
 pub fn set_window_focused() -> Unit
 
-pub fn set_window_icon(@tonyfettes/raylib/internal/raylib.Image) -> Unit
+pub fn set_window_icon(Image) -> Unit
 
 pub fn set_window_max_size(Int, Int) -> Unit
 
@@ -1937,20 +1404,11 @@ pub let skyblue : Color
 
 pub fn start_automation_event_recording() -> Unit
 
-pub fn stop_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream) -> Unit
-
 pub fn stop_automation_event_recording() -> Unit
-
-pub fn stop_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn stop_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
 
 pub fn swap_screen_buffer() -> Unit
 
 pub fn take_screenshot(String) -> Unit
-
-#deprecated
-pub fn texture_from_id(UInt, Int, Int) -> @tonyfettes/raylib/internal/raylib.Texture
 
 pub fn toggle_borderless_windowed() -> Unit
 
@@ -1958,97 +1416,17 @@ pub fn toggle_fullscreen() -> Unit
 
 pub fn trace_log(Int, String) -> Unit
 
-pub fn unload_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream) -> Unit
+pub fn unload_directory_files(FilePathList) -> Unit
 
-pub fn unload_automation_event_list(@tonyfettes/raylib/internal/raylib.AutomationEventList) -> Unit
-
-pub fn unload_directory_files(@tonyfettes/raylib/internal/raylib.FilePathList) -> Unit
-
-pub fn unload_dropped_files(@tonyfettes/raylib/internal/raylib.FilePathList) -> Unit
-
-pub fn unload_font(@tonyfettes/raylib/internal/raylib.Font) -> Unit
-
-pub fn unload_font_data(@tonyfettes/raylib/internal/raylib.GlyphInfoArray) -> Unit
-
-pub fn unload_image(@tonyfettes/raylib/internal/raylib.Image) -> Unit
-
-pub fn unload_material(@tonyfettes/raylib/internal/raylib.Material) -> Unit
-
-pub fn unload_materials_array(@tonyfettes/raylib/internal/raylib.MaterialsArray) -> Unit
-
-pub fn unload_mesh(@tonyfettes/raylib/internal/raylib.Mesh) -> Unit
-
-pub fn unload_model(@tonyfettes/raylib/internal/raylib.Model) -> Unit
-
-pub fn unload_model_animations(@tonyfettes/raylib/internal/raylib.ModelAnimations) -> Unit
-
-pub fn unload_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn unload_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
-
-#deprecated
-pub fn unload_render_texture_depth_tex(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
-
-pub fn unload_shader(@tonyfettes/raylib/internal/raylib.Shader) -> Unit
-
-#deprecated
-pub fn unload_shadowmap_render_texture(@tonyfettes/raylib/internal/raylib.RenderTexture) -> Unit
-
-pub fn unload_sound(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
-
-pub fn unload_sound_alias(@tonyfettes/raylib/internal/raylib.Sound) -> Unit
-
-pub fn unload_texture(@tonyfettes/raylib/internal/raylib.Texture) -> Unit
-
-pub fn unload_vr_stereo_config(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Unit
-
-pub fn unload_wave(@tonyfettes/raylib/internal/raylib.Wave) -> Unit
-
-pub fn update_audio_stream(@tonyfettes/raylib/internal/raylib.AudioStream, Bytes, Int) -> Unit
+pub fn unload_dropped_files(FilePathList) -> Unit
 
 pub fn update_camera(Camera3D, Int) -> Camera3D
 
 pub fn update_camera_pro(Camera3D, Vector3, Vector3, Float) -> Camera3D
 
-pub fn update_mesh_buffer(@tonyfettes/raylib/internal/raylib.Mesh, Int, Bytes, Int, Int) -> Unit
-
-pub fn update_model_animation(@tonyfettes/raylib/internal/raylib.Model, @tonyfettes/raylib/internal/raylib.ModelAnimations, Int, Int) -> Unit
-
-pub fn update_model_animation_bones(@tonyfettes/raylib/internal/raylib.Model, @tonyfettes/raylib/internal/raylib.ModelAnimations, Int, Int) -> Unit
-
-pub fn update_music_stream(@tonyfettes/raylib/internal/raylib.Music) -> Unit
-
-pub fn update_sound(@tonyfettes/raylib/internal/raylib.Sound, Bytes, Int) -> Unit
-
-pub fn update_texture(@tonyfettes/raylib/internal/raylib.Texture, Bytes) -> Unit
-
-pub fn update_texture_from_image_frame(@tonyfettes/raylib/internal/raylib.Texture, @tonyfettes/raylib/internal/raylib.Image, Int) -> Unit
-
-pub fn update_texture_rec(@tonyfettes/raylib/internal/raylib.Texture, Rectangle, Bytes) -> Unit
-
-pub fn upload_mesh(@tonyfettes/raylib/internal/raylib.Mesh, Int) -> Unit
-
 pub let violet : Color
 
-pub fn vr_stereo_config_left_lens_center(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
-pub fn vr_stereo_config_left_screen_center(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
-pub fn vr_stereo_config_right_lens_center(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
-pub fn vr_stereo_config_right_screen_center(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
-pub fn vr_stereo_config_scale(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
-pub fn vr_stereo_config_scale_in(@tonyfettes/raylib/internal/raylib.VrStereoConfig) -> Bytes
-
 pub fn wait_time(Double) -> Unit
-
-pub fn wave_copy(@tonyfettes/raylib/internal/raylib.Wave) -> @tonyfettes/raylib/internal/raylib.Wave
-
-pub fn wave_crop(@tonyfettes/raylib/internal/raylib.Wave, Int, Int) -> Unit
-
-pub fn wave_format(@tonyfettes/raylib/internal/raylib.Wave, Int, Int, Int) -> Unit
 
 pub let white : Color
 
@@ -2059,6 +1437,38 @@ pub let yellow : Color
 // Errors
 
 // Types and methods
+type AudioStream
+#as_free_fn(attach_audio_stream_processor)
+pub fn AudioStream::attach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+#as_free_fn(detach_audio_stream_processor)
+pub fn AudioStream::detach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+#as_free_fn(is_audio_stream_playing)
+pub fn AudioStream::is_playing(Self) -> Bool
+#as_free_fn(is_audio_stream_processed)
+pub fn AudioStream::is_processed(Self) -> Bool
+#as_free_fn(is_audio_stream_valid)
+pub fn AudioStream::is_valid(Self) -> Bool
+#as_free_fn(load_audio_stream)
+pub fn AudioStream::load(UInt, UInt, UInt) -> Self
+#as_free_fn(pause_audio_stream)
+pub fn AudioStream::pause(Self) -> Unit
+#as_free_fn(play_audio_stream)
+pub fn AudioStream::play(Self) -> Unit
+#as_free_fn(resume_audio_stream)
+pub fn AudioStream::resume_(Self) -> Unit
+#as_free_fn(set_audio_stream_pan)
+pub fn AudioStream::set_pan(Self, Float) -> Unit
+#as_free_fn(set_audio_stream_pitch)
+pub fn AudioStream::set_pitch(Self, Float) -> Unit
+#as_free_fn(set_audio_stream_volume)
+pub fn AudioStream::set_volume(Self, Float) -> Unit
+#as_free_fn(stop_audio_stream)
+pub fn AudioStream::stop(Self) -> Unit
+#as_free_fn(unload_audio_stream)
+pub fn AudioStream::unload(Self) -> Unit
+#as_free_fn(update_audio_stream)
+pub fn AudioStream::update(Self, Bytes, Int) -> Unit
+
 pub struct AutomationEvent {
   frame : Int
   type_ : Int
@@ -2067,6 +1477,18 @@ pub struct AutomationEvent {
 pub fn AutomationEvent::from_bytes(Bytes) -> Self
 pub fn AutomationEvent::to_bytes(Self) -> Bytes
 pub impl Show for AutomationEvent
+
+type AutomationEventList
+#as_free_fn(automation_event_list_count)
+pub fn AutomationEventList::count(Self) -> Int
+#as_free_fn(export_automation_event_list)
+pub fn AutomationEventList::export_(Self, String) -> Bool
+#as_free_fn(load_automation_event_list)
+pub fn AutomationEventList::load(String) -> Self
+#as_free_fn(set_automation_event_list)
+pub fn AutomationEventList::set(Self) -> Unit
+#as_free_fn(unload_automation_event_list)
+pub fn AutomationEventList::unload(Self) -> Unit
 
 pub struct BoundingBox {
   min : Vector3
@@ -2115,6 +1537,65 @@ pub fn Color::to_bytes(Self) -> Bytes
 pub impl Eq for Color
 pub impl Show for Color
 
+type FilePathList
+#as_free_fn(file_path_list_count)
+pub fn FilePathList::count(Self) -> Int
+#as_free_fn(load_dropped_files)
+pub fn FilePathList::load_dropped() -> Self
+
+type FloatArray
+pub fn FloatArray::length(Self) -> Int
+pub fn FloatArray::op_get(Self, Int) -> Float
+pub fn FloatArray::op_set(Self, Int, Float) -> Unit
+
+type Font
+#as_free_fn(get_font_base_size)
+pub fn Font::base_size(Self) -> Int
+#as_free_fn(build_font_from_data)
+pub fn Font::build_from_data(Bytes, Int, Int, Int, Int, Int) -> Self
+#as_free_fn(draw_text_codepoint)
+pub fn Font::draw_codepoint(Self, Int, Vector2, Float, Color) -> Unit
+#as_free_fn(draw_text_codepoints)
+pub fn Font::draw_codepoints(Self, Array[Int], Vector2, Float, Float, Color) -> Unit
+#as_free_fn(draw_text_ex)
+pub fn Font::draw_text(Self, String, Vector2, Float, Float, Color) -> Unit
+#as_free_fn(draw_text_pro)
+pub fn Font::draw_text_pro(Self, String, Vector2, Vector2, Float, Float, Float, Color) -> Unit
+#as_free_fn(export_font_as_code)
+pub fn Font::export_as_code(Self, String) -> Bool
+#as_free_fn(get_font_default)
+pub fn Font::get_default() -> Self
+#as_free_fn(get_glyph_atlas_rec)
+pub fn Font::glyph_atlas_rec(Self, Int) -> Rectangle
+#as_free_fn(get_font_glyph_count)
+pub fn Font::glyph_count(Self) -> Int
+#as_free_fn(get_glyph_index)
+pub fn Font::glyph_index(Self, Int) -> Int
+#as_free_fn(get_glyph_info)
+pub fn Font::glyph_info(Self, Int) -> GlyphInfo
+#as_free_fn(get_font_glyph_padding)
+pub fn Font::glyph_padding(Self) -> Int
+#as_free_fn(is_font_valid)
+pub fn Font::is_valid(Self) -> Bool
+#as_free_fn(load_font)
+pub fn Font::load(String) -> Self
+#as_free_fn(load_font_ex)
+pub fn Font::load_ex(String, Int) -> Self
+#as_free_fn(load_font_ex_codepoints)
+pub fn Font::load_ex_codepoints(String, Int, Array[Int]) -> Self
+#as_free_fn(load_font_from_atlas)
+pub fn Font::load_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> Self
+#as_free_fn(load_font_from_image)
+pub fn Font::load_from_image(Image, Color, Int) -> Self
+#as_free_fn(load_font_from_memory)
+pub fn Font::load_from_memory(String, Bytes, Int, Int) -> Self
+#as_free_fn(measure_text_ex)
+pub fn Font::measure_text(Self, String, Float, Float) -> Vector2
+#as_free_fn(get_font_texture)
+pub fn Font::texture(Self) -> Texture
+#as_free_fn(unload_font)
+pub fn Font::unload(Self) -> Unit
+
 pub struct GlyphInfo {
   value : Int
   offset_x : Int
@@ -2124,6 +1605,225 @@ pub struct GlyphInfo {
 pub fn GlyphInfo::from_bytes(Bytes) -> Self
 pub impl Eq for GlyphInfo
 pub impl Show for GlyphInfo
+
+type GlyphInfoArray
+#as_free_fn(glyph_info_array_count)
+pub fn GlyphInfoArray::count(Self) -> Int
+#as_free_fn(gen_image_font_atlas)
+pub fn GlyphInfoArray::gen_image_atlas(Self, Int, Int, Int) -> Image
+#as_free_fn(glyph_info_array_get)
+pub fn GlyphInfoArray::get(Self, Int) -> GlyphInfo
+#as_free_fn(load_font_data)
+pub fn GlyphInfoArray::load(Bytes, Int, Int, Int) -> Self
+#as_free_fn(unload_font_data)
+pub fn GlyphInfoArray::unload(Self) -> Unit
+
+type Image
+#as_free_fn(image_color_brightness)
+pub fn Image::adjust_brightness(Self, Int) -> Unit
+#as_free_fn(image_color_contrast)
+pub fn Image::adjust_contrast(Self, Float) -> Unit
+#as_free_fn(get_image_alpha_border)
+pub fn Image::alpha_border(Self, Float) -> Rectangle
+#as_free_fn(image_alpha_clear)
+pub fn Image::alpha_clear(Self, Color, Float) -> Unit
+#as_free_fn(image_alpha_crop)
+pub fn Image::alpha_crop(Self, Float) -> Unit
+#as_free_fn(image_alpha_mask)
+pub fn Image::alpha_mask(Self, Self) -> Unit
+#as_free_fn(image_alpha_premultiply)
+pub fn Image::alpha_premultiply(Self) -> Unit
+#as_free_fn(image_blur_gaussian)
+pub fn Image::blur_gaussian(Self, Int) -> Unit
+#as_free_fn(image_clear_background)
+pub fn Image::clear_background(Self, Color) -> Unit
+#as_free_fn(image_color_grayscale)
+pub fn Image::color_grayscale(Self) -> Unit
+#as_free_fn(image_color_invert)
+pub fn Image::color_invert(Self) -> Unit
+#as_free_fn(image_color_replace)
+pub fn Image::color_replace(Self, Color, Color) -> Unit
+#as_free_fn(image_color_tint)
+pub fn Image::color_tint(Self, Color) -> Unit
+#as_free_fn(image_copy)
+pub fn Image::copy(Self) -> Self
+#as_free_fn(image_crop)
+pub fn Image::crop(Self, Rectangle) -> Unit
+#as_free_fn(image_dither)
+pub fn Image::dither(Self, Int, Int, Int, Int) -> Unit
+#as_free_fn(image_draw)
+pub fn Image::draw(Self, Self, Rectangle, Rectangle, Color) -> Unit
+#as_free_fn(image_draw_circle)
+pub fn Image::draw_circle(Self, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_circle_lines)
+pub fn Image::draw_circle_lines(Self, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_circle_lines_v)
+pub fn Image::draw_circle_lines_v(Self, Vector2, Int, Color) -> Unit
+#as_free_fn(image_draw_circle_v)
+pub fn Image::draw_circle_v(Self, Vector2, Int, Color) -> Unit
+#as_free_fn(image_draw_line)
+pub fn Image::draw_line(Self, Int, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_line_ex)
+pub fn Image::draw_line_ex(Self, Vector2, Vector2, Int, Color) -> Unit
+#as_free_fn(image_draw_line_v)
+pub fn Image::draw_line_v(Self, Vector2, Vector2, Color) -> Unit
+#as_free_fn(image_draw_pixel)
+pub fn Image::draw_pixel(Self, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_pixel_v)
+pub fn Image::draw_pixel_v(Self, Vector2, Color) -> Unit
+#as_free_fn(image_draw_rectangle)
+pub fn Image::draw_rectangle(Self, Int, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_rectangle_lines)
+pub fn Image::draw_rectangle_lines(Self, Rectangle, Int, Color) -> Unit
+#as_free_fn(image_draw_rectangle_rec)
+pub fn Image::draw_rectangle_rec(Self, Rectangle, Color) -> Unit
+#as_free_fn(image_draw_rectangle_v)
+pub fn Image::draw_rectangle_v(Self, Vector2, Vector2, Color) -> Unit
+#as_free_fn(image_draw_text)
+pub fn Image::draw_text(Self, String, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_draw_text_ex)
+pub fn Image::draw_text_ex(Self, Font, String, Vector2, Float, Float, Color) -> Unit
+#as_free_fn(image_draw_triangle)
+pub fn Image::draw_triangle(Self, Vector2, Vector2, Vector2, Color) -> Unit
+#as_free_fn(image_draw_triangle_ex)
+pub fn Image::draw_triangle_ex(Self, Vector2, Vector2, Vector2, Color, Color, Color) -> Unit
+#as_free_fn(image_draw_triangle_fan)
+pub fn Image::draw_triangle_fan(Self, Array[Vector2], Color) -> Unit
+#as_free_fn(image_draw_triangle_lines)
+pub fn Image::draw_triangle_lines(Self, Vector2, Vector2, Vector2, Color) -> Unit
+#as_free_fn(image_draw_triangle_strip)
+pub fn Image::draw_triangle_strip(Self, Array[Vector2], Color) -> Unit
+#as_free_fn(export_image)
+pub fn Image::export_(Self, String) -> Bool
+#as_free_fn(export_image_as_code)
+pub fn Image::export_as_code(Self, String) -> Bool
+#as_free_fn(export_image_to_memory)
+pub fn Image::export_to_memory(Self, String) -> Bytes
+#as_free_fn(image_flip_horizontal)
+pub fn Image::flip_horizontal(Self) -> Unit
+#as_free_fn(image_flip_vertical)
+pub fn Image::flip_vertical(Self) -> Unit
+#as_free_fn(image_from_channel)
+pub fn Image::from_channel(Self, Int) -> Self
+#as_free_fn(image_from_image)
+pub fn Image::from_image(Self, Rectangle) -> Self
+#as_free_fn(gen_image_cellular)
+pub fn Image::gen_cellular(Int, Int, Int) -> Self
+#as_free_fn(gen_image_checked)
+pub fn Image::gen_checked(Int, Int, Int, Int, Color, Color) -> Self
+#as_free_fn(gen_image_color)
+pub fn Image::gen_color(Int, Int, Color) -> Self
+#as_free_fn(gen_image_gradient_linear)
+pub fn Image::gen_gradient_linear(Int, Int, Int, Color, Color) -> Self
+#as_free_fn(gen_image_gradient_radial)
+pub fn Image::gen_gradient_radial(Int, Int, Float, Color, Color) -> Self
+#as_free_fn(gen_image_gradient_square)
+pub fn Image::gen_gradient_square(Int, Int, Float, Color, Color) -> Self
+#as_free_fn(image_mipmaps)
+pub fn Image::gen_mipmaps(Self) -> Unit
+#as_free_fn(gen_image_perlin_noise)
+pub fn Image::gen_perlin_noise(Int, Int, Int, Int, Float) -> Self
+#as_free_fn(gen_image_text)
+pub fn Image::gen_text(Int, Int, String) -> Self
+#as_free_fn(gen_image_white_noise)
+pub fn Image::gen_white_noise(Int, Int, Float) -> Self
+#as_free_fn(get_image_color)
+pub fn Image::get_color(Self, Int, Int) -> Color
+#as_free_fn(image_height)
+pub fn Image::height(Self) -> Int
+#as_free_fn(is_image_valid)
+pub fn Image::is_valid(Self) -> Bool
+#as_free_fn(image_kernel_convolution)
+pub fn Image::kernel_convolution(Self, Bytes, Int) -> Unit
+#as_free_fn(load_image)
+pub fn Image::load(String) -> Self
+#as_free_fn(load_image_anim)
+pub fn Image::load_anim(String) -> (Self, Int)
+#as_free_fn(load_image_anim_from_memory)
+pub fn Image::load_anim_from_memory(String, Bytes, Int) -> (Self, Int)
+#as_free_fn(load_image_colors)
+pub fn Image::load_colors(Self) -> Bytes
+#as_free_fn(load_image_from_memory)
+pub fn Image::load_from_memory(String, Bytes, Int) -> Self
+#as_free_fn(load_image_from_screen)
+pub fn Image::load_from_screen() -> Self
+#as_free_fn(load_image_from_texture)
+pub fn Image::load_from_texture(Texture) -> Self
+#as_free_fn(load_image_palette)
+pub fn Image::load_palette(Self, Int) -> Bytes
+#as_free_fn(load_image_raw)
+pub fn Image::load_raw(String, Int, Int, Int, Int) -> Self
+#as_free_fn(image_resize)
+pub fn Image::resize(Self, Int, Int) -> Unit
+#as_free_fn(image_resize_canvas)
+pub fn Image::resize_canvas(Self, Int, Int, Int, Int, Color) -> Unit
+#as_free_fn(image_resize_nn)
+pub fn Image::resize_nn(Self, Int, Int) -> Unit
+#as_free_fn(image_rotate)
+pub fn Image::rotate(Self, Int) -> Unit
+#as_free_fn(image_rotate_ccw)
+pub fn Image::rotate_ccw(Self) -> Unit
+#as_free_fn(image_rotate_cw)
+pub fn Image::rotate_cw(Self) -> Unit
+#as_free_fn(image_format)
+pub fn Image::set_format(Self, Int) -> Unit
+#as_free_fn(image_text)
+pub fn Image::text(String, Int, Color) -> Self
+#as_free_fn(image_text_ex)
+pub fn Image::text_ex(Font, String, Float, Float, Color) -> Self
+#as_free_fn(image_to_pot)
+pub fn Image::to_pot(Self, Color) -> Unit
+#as_free_fn(load_texture_from_image)
+pub fn Image::to_texture(Self) -> Texture
+#as_free_fn(load_texture_cubemap)
+pub fn Image::to_texture_cubemap(Self, Int) -> Texture
+#as_free_fn(unload_image)
+pub fn Image::unload(Self) -> Unit
+#as_free_fn(image_width)
+pub fn Image::width(Self) -> Int
+
+type Material
+#as_free_fn(is_material_valid)
+pub fn Material::is_valid(Self) -> Bool
+#as_free_fn(load_material_default)
+pub fn Material::load_default() -> Self
+#as_free_fn(get_material_maps)
+pub fn Material::maps(Self) -> MaterialMapArray
+#as_free_fn(set_material_map_color)
+pub fn Material::set_map_color(Self, Int, Color) -> Unit
+#as_free_fn(set_material_map_value)
+pub fn Material::set_map_value(Self, Int, Float) -> Unit
+#as_free_fn(set_material_shader)
+pub fn Material::set_shader(Self, Shader) -> Unit
+#as_free_fn(set_material_texture)
+pub fn Material::set_texture(Self, Int, Texture) -> Unit
+#as_free_fn(get_material_shader)
+pub fn Material::shader(Self) -> Shader
+#as_free_fn(unload_material)
+pub fn Material::unload(Self) -> Unit
+
+type MaterialMap
+pub fn MaterialMap::color(Self) -> Color
+pub fn MaterialMap::set_color(Self, Color) -> Unit
+pub fn MaterialMap::set_texture(Self, Texture) -> Unit
+pub fn MaterialMap::set_value(Self, Float) -> Unit
+pub fn MaterialMap::texture(Self) -> Texture
+pub fn MaterialMap::value(Self) -> Float
+
+type MaterialMapArray
+pub fn MaterialMapArray::length(Self) -> Int
+pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
+pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
+
+type MaterialsArray
+#as_free_fn(materials_array_count)
+pub fn MaterialsArray::count(Self) -> Int
+#as_free_fn(materials_array_get)
+pub fn MaterialsArray::get(Self, Int) -> Material
+#as_free_fn(load_materials)
+pub fn MaterialsArray::load(String) -> Self
+#as_free_fn(unload_materials_array)
+pub fn MaterialsArray::unload(Self) -> Unit
 
 pub struct Matrix {
   m0 : Float
@@ -2168,6 +1868,186 @@ pub fn Matrix::translate(Float, Float, Float) -> Self
 pub fn Matrix::transpose(Self) -> Self
 pub impl Eq for Matrix
 pub impl Show for Matrix
+
+type MatrixArray
+pub fn MatrixArray::length(Self) -> Int
+pub fn MatrixArray::op_get(Self, Int) -> Matrix
+pub fn MatrixArray::op_set(Self, Int, Matrix) -> Unit
+
+type Mesh
+#as_free_fn(get_mesh_bone_matrices)
+pub fn Mesh::bone_matrices(Self) -> MatrixArray?
+#as_free_fn(get_mesh_bounding_box)
+pub fn Mesh::bounding_box(Self) -> BoundingBox
+#as_free_fn(get_mesh_colors)
+pub fn Mesh::colors(Self) -> UByteArray?
+#as_free_fn(draw_mesh)
+pub fn Mesh::draw(Self, Material, Matrix) -> Unit
+#as_free_fn(draw_mesh_instanced)
+pub fn Mesh::draw_instanced(Self, Material, Array[Matrix], Int) -> Unit
+#as_free_fn(export_mesh)
+pub fn Mesh::export_(Self, String) -> Bool
+#as_free_fn(export_mesh_as_code)
+pub fn Mesh::export_as_code(Self, String) -> Bool
+#as_free_fn(gen_mesh_cone)
+pub fn Mesh::gen_cone(Float, Float, Int) -> Self
+#as_free_fn(gen_mesh_cube)
+pub fn Mesh::gen_cube(Float, Float, Float) -> Self
+#as_free_fn(gen_mesh_cubicmap)
+pub fn Mesh::gen_cubicmap(Image, Vector3) -> Self
+#as_free_fn(gen_mesh_cylinder)
+pub fn Mesh::gen_cylinder(Float, Float, Int) -> Self
+#as_free_fn(gen_mesh_from_points)
+pub fn Mesh::gen_from_points(Bytes, Bytes, Int) -> Self
+#as_free_fn(gen_mesh_heightmap)
+pub fn Mesh::gen_heightmap(Image, Vector3) -> Self
+#as_free_fn(gen_mesh_hemisphere)
+pub fn Mesh::gen_hemisphere(Float, Int, Int) -> Self
+#as_free_fn(gen_mesh_knot)
+pub fn Mesh::gen_knot(Float, Float, Int, Int) -> Self
+#as_free_fn(gen_mesh_plane)
+pub fn Mesh::gen_plane(Float, Float, Int, Int) -> Self
+#as_free_fn(gen_mesh_poly)
+pub fn Mesh::gen_poly(Int, Float) -> Self
+#as_free_fn(gen_mesh_sphere)
+pub fn Mesh::gen_sphere(Float, Int, Int) -> Self
+#as_free_fn(gen_mesh_tangents)
+pub fn Mesh::gen_tangents(Self) -> Unit
+#as_free_fn(gen_mesh_torus)
+pub fn Mesh::gen_torus(Float, Float, Int, Int) -> Self
+#as_free_fn(get_mesh_indices)
+pub fn Mesh::indices(Self) -> UShortArray?
+pub fn Mesh::new(FixedArray[Float], texcoords? : FixedArray[Float], texcoords2? : FixedArray[Float], normals? : FixedArray[Float], tangents? : FixedArray[Float], colors? : FixedArray[Byte], indices? : FixedArray[UInt16]) -> Self
+#as_free_fn(get_mesh_normals)
+pub fn Mesh::normals(Self) -> FloatArray?
+#as_free_fn(get_mesh_tangents)
+pub fn Mesh::tangents(Self) -> FloatArray?
+#as_free_fn(get_mesh_texcoords)
+pub fn Mesh::texcoords(Self) -> FloatArray?
+#as_free_fn(get_mesh_texcoords2)
+pub fn Mesh::texcoords2(Self) -> FloatArray?
+#as_free_fn(get_mesh_triangle_count)
+pub fn Mesh::triangle_count(Self) -> Int
+#as_free_fn(unload_mesh)
+pub fn Mesh::unload(Self) -> Unit
+#as_free_fn(update_mesh_buffer)
+pub fn Mesh::update_buffer(Self, Int, Bytes, Int, Int) -> Unit
+#as_free_fn(upload_mesh)
+pub fn Mesh::upload(Self, Bool) -> Unit
+#as_free_fn(get_mesh_vertex_count)
+pub fn Mesh::vertex_count(Self) -> Int
+#as_free_fn(get_mesh_vertices)
+pub fn Mesh::vertices(Self) -> FloatArray?
+
+type Model
+#as_free_fn(get_model_bind_pose_rotation)
+pub fn Model::bind_pose_rotation(Self, Int) -> Vector4
+#as_free_fn(get_model_bind_pose_translation)
+pub fn Model::bind_pose_translation(Self, Int) -> Vector3
+#as_free_fn(get_model_bone_count)
+pub fn Model::bone_count(Self) -> Int
+#as_free_fn(get_model_bone_name)
+pub fn Model::bone_name(Self, Int) -> String
+#as_free_fn(get_model_bone_parent)
+pub fn Model::bone_parent(Self, Int) -> Int
+#as_free_fn(get_model_bounding_box)
+pub fn Model::bounding_box(Self) -> BoundingBox
+#as_free_fn(draw_model)
+pub fn Model::draw(Self, Vector3, Float, Color) -> Unit
+#as_free_fn(draw_model_ex)
+pub fn Model::draw_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
+#as_free_fn(draw_model_points)
+pub fn Model::draw_points(Self, Vector3, Float, Color) -> Unit
+#as_free_fn(draw_model_points_ex)
+pub fn Model::draw_points_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
+#as_free_fn(draw_model_wires)
+pub fn Model::draw_wires(Self, Vector3, Float, Color) -> Unit
+#as_free_fn(draw_model_wires_ex)
+pub fn Model::draw_wires_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
+#as_free_fn(is_model_animation_valid)
+pub fn Model::is_animation_valid(Self, ModelAnimations, Int) -> Bool
+#as_free_fn(is_model_valid)
+pub fn Model::is_valid(Self) -> Bool
+#as_free_fn(load_model)
+pub fn Model::load(String) -> Self
+#as_free_fn(load_model_from_mesh)
+pub fn Model::load_from_mesh(Mesh) -> Self
+#as_free_fn(get_model_material)
+pub fn Model::material(Self, Int) -> Material
+#as_free_fn(get_model_material_count)
+pub fn Model::material_count(Self) -> Int
+#as_free_fn(get_model_mesh)
+pub fn Model::mesh(Self, Int) -> Mesh
+#as_free_fn(get_model_mesh_count)
+pub fn Model::mesh_count(Self) -> Int
+#as_free_fn(set_model_material_shader)
+pub fn Model::set_material_shader(Self, Int, Shader) -> Unit
+#as_free_fn(set_model_material_texture)
+pub fn Model::set_material_texture(Self, Int, Int, Texture) -> Unit
+#as_free_fn(set_model_mesh_material)
+pub fn Model::set_mesh_material(Self, Int, Int) -> Unit
+#as_free_fn(set_model_transform)
+pub fn Model::set_transform(Self, Matrix) -> Unit
+#as_free_fn(get_model_transform)
+pub fn Model::transform(Self) -> Matrix
+#as_free_fn(unload_model)
+pub fn Model::unload(Self) -> Unit
+#as_free_fn(update_model_animation)
+pub fn Model::update_animation(Self, ModelAnimations, Int, Int) -> Unit
+#as_free_fn(update_model_animation_bones)
+pub fn Model::update_animation_bones(Self, ModelAnimations, Int, Int) -> Unit
+
+type ModelAnimations
+#as_free_fn(get_model_animation_bone_count)
+pub fn ModelAnimations::bone_count(Self, Int) -> Int
+#as_free_fn(get_model_animation_bone_parent)
+pub fn ModelAnimations::bone_parent(Self, Int, Int) -> Int
+#as_free_fn(model_animations_count)
+pub fn ModelAnimations::count(Self) -> Int
+#as_free_fn(get_model_animation_frame_count)
+pub fn ModelAnimations::frame_count(Self, Int) -> Int
+#as_free_fn(get_model_animation_frame_pose_rotation)
+pub fn ModelAnimations::frame_pose_rotation(Self, Int, Int, Int) -> Vector4
+#as_free_fn(get_model_animation_frame_pose_translation)
+pub fn ModelAnimations::frame_pose_translation(Self, Int, Int, Int) -> Vector3
+#as_free_fn(load_model_animations)
+pub fn ModelAnimations::load(String) -> Self
+#as_free_fn(unload_model_animations)
+pub fn ModelAnimations::unload(Self) -> Unit
+
+type Music
+#as_free_fn(is_music_stream_playing)
+pub fn Music::is_playing(Self) -> Bool
+#as_free_fn(is_music_valid)
+pub fn Music::is_valid(Self) -> Bool
+#as_free_fn(load_music_stream)
+pub fn Music::load(String) -> Self
+#as_free_fn(load_music_stream_from_memory)
+pub fn Music::load_from_memory(String, Bytes, Int) -> Self
+#as_free_fn(pause_music_stream)
+pub fn Music::pause(Self) -> Unit
+#as_free_fn(play_music_stream)
+pub fn Music::play(Self) -> Unit
+#as_free_fn(resume_music_stream)
+pub fn Music::resume_(Self) -> Unit
+#as_free_fn(seek_music_stream)
+pub fn Music::seek(Self, Float) -> Unit
+#as_free_fn(set_music_pan)
+pub fn Music::set_pan(Self, Float) -> Unit
+#as_free_fn(set_music_pitch)
+pub fn Music::set_pitch(Self, Float) -> Unit
+#as_free_fn(set_music_volume)
+pub fn Music::set_volume(Self, Float) -> Unit
+#as_free_fn(stop_music_stream)
+pub fn Music::stop(Self) -> Unit
+#as_free_fn(get_music_time_length)
+pub fn Music::time_length(Self) -> Float
+#as_free_fn(get_music_time_played)
+pub fn Music::time_played(Self) -> Float
+#as_free_fn(unload_music_stream)
+pub fn Music::unload(Self) -> Unit
+#as_free_fn(update_music_stream)
+pub fn Music::update(Self) -> Unit
 
 pub struct NPatchInfo {
   source : Rectangle
@@ -2215,6 +2095,162 @@ pub fn Rectangle::new(Float, Float, Float, Float) -> Self
 pub fn Rectangle::to_bytes(Self) -> Bytes
 pub impl Eq for Rectangle
 pub impl Show for Rectangle
+
+type RenderTexture
+#as_free_fn(begin_texture_mode)
+pub fn RenderTexture::begin_mode(Self) -> Unit
+#as_free_fn(get_render_texture_depth)
+pub fn RenderTexture::depth(Self) -> Texture
+#as_free_fn(get_render_texture_depth_id)
+pub fn RenderTexture::depth_id(Self) -> UInt
+#as_free_fn(draw_render_texture_ex)
+pub fn RenderTexture::draw_ex(Self, Vector2, Float, Float, Color) -> Unit
+#as_free_fn(draw_render_texture_pro)
+pub fn RenderTexture::draw_pro(Self, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
+#as_free_fn(draw_render_texture_rec)
+pub fn RenderTexture::draw_rec(Self, Rectangle, Vector2, Color) -> Unit
+#as_free_fn(get_render_texture_fbo_id, deprecated)
+#deprecated
+pub fn RenderTexture::fbo_id(Self) -> UInt
+#as_free_fn(get_render_texture_height)
+pub fn RenderTexture::height(Self) -> Int
+#as_free_fn(get_render_texture_id)
+pub fn RenderTexture::id(Self) -> UInt
+#as_free_fn(is_render_texture_valid)
+pub fn RenderTexture::is_valid(Self) -> Bool
+#as_free_fn(load_render_texture)
+pub fn RenderTexture::load(Int, Int) -> Self
+#as_free_fn(new_render_texture)
+pub fn RenderTexture::new(UInt, Texture, Texture) -> Self
+#as_free_fn(set_render_texture_filter)
+pub fn RenderTexture::set_filter(Self, Int) -> Unit
+#as_free_fn(get_render_texture_texture)
+pub fn RenderTexture::texture(Self) -> Texture
+#as_free_fn(unload_render_texture)
+pub fn RenderTexture::unload(Self) -> Unit
+#as_free_fn(get_render_texture_width)
+pub fn RenderTexture::width(Self) -> Int
+
+type Shader
+#as_free_fn(begin_shader_mode)
+pub fn Shader::begin_mode(Self) -> Unit
+#as_free_fn(get_shader_location)
+pub fn Shader::get_location(Self, String) -> Int
+#as_free_fn(get_shader_location_attrib)
+pub fn Shader::get_location_attrib(Self, String) -> Int
+#as_free_fn(get_shader_id)
+pub fn Shader::id(Self) -> Int
+#as_free_fn(is_shader_valid)
+pub fn Shader::is_valid(Self) -> Bool
+#as_free_fn(load_shader)
+pub fn Shader::load(String, String) -> Self
+#as_free_fn(load_shader_from_memory)
+pub fn Shader::load_from_memory(String, String) -> Self
+#as_free_fn(set_shader_location)
+pub fn Shader::set_location(Self, Int, Int) -> Unit
+#as_free_fn(set_shader_locs)
+pub fn Shader::set_locs(Self, Int, Int) -> Unit
+#as_free_fn(set_shader_value)
+pub fn Shader::set_value(Self, Int, Bytes, Int) -> Unit
+#as_free_fn(set_shader_value_matrix)
+pub fn Shader::set_value_matrix(Self, Int, Matrix) -> Unit
+#as_free_fn(set_shader_value_texture)
+pub fn Shader::set_value_texture(Self, Int, Texture) -> Unit
+#as_free_fn(set_shader_value_v)
+pub fn Shader::set_value_v(Self, Int, Bytes, Int, Int) -> Unit
+#as_free_fn(unload_shader)
+pub fn Shader::unload(Self) -> Unit
+
+type Sound
+#as_free_fn(is_sound_playing)
+pub fn Sound::is_playing(Self) -> Bool
+#as_free_fn(is_sound_valid)
+pub fn Sound::is_valid(Self) -> Bool
+#as_free_fn(load_sound)
+pub fn Sound::load(String) -> Self
+#as_free_fn(load_sound_alias)
+pub fn Sound::load_alias(Self) -> Self
+#as_free_fn(pause_sound)
+pub fn Sound::pause(Self) -> Unit
+#as_free_fn(play_sound)
+pub fn Sound::play(Self) -> Unit
+#as_free_fn(resume_sound)
+pub fn Sound::resume_(Self) -> Unit
+#as_free_fn(set_sound_pan)
+pub fn Sound::set_pan(Self, Float) -> Unit
+#as_free_fn(set_sound_pitch)
+pub fn Sound::set_pitch(Self, Float) -> Unit
+#as_free_fn(set_sound_volume)
+pub fn Sound::set_volume(Self, Float) -> Unit
+#as_free_fn(stop_sound)
+pub fn Sound::stop(Self) -> Unit
+#as_free_fn(unload_sound)
+pub fn Sound::unload(Self) -> Unit
+#as_free_fn(unload_sound_alias)
+pub fn Sound::unload_alias(Self) -> Unit
+#as_free_fn(update_sound)
+pub fn Sound::update(Self, Bytes, Int) -> Unit
+
+type Texture
+#as_free_fn(draw_texture)
+pub fn Texture::draw(Self, Int, Int, Color) -> Unit
+#as_free_fn(draw_texture_ex)
+pub fn Texture::draw_ex(Self, Vector2, Float, Float, Color) -> Unit
+#as_free_fn(draw_texture_npatch)
+pub fn Texture::draw_npatch(Self, NPatchInfo, Rectangle, Vector2, Float, Color) -> Unit
+#as_free_fn(draw_texture_pro)
+pub fn Texture::draw_pro(Self, Rectangle, Rectangle, Vector2, Float, Color) -> Unit
+#as_free_fn(draw_texture_rec)
+pub fn Texture::draw_rec(Self, Rectangle, Vector2, Color) -> Unit
+#as_free_fn(draw_texture_v)
+pub fn Texture::draw_v(Self, Vector2, Color) -> Unit
+#as_free_fn(get_texture_format)
+pub fn Texture::format(Self) -> Int
+#as_free_fn(texture_from_id, deprecated)
+#deprecated
+pub fn Texture::from_id(UInt, Int, Int) -> Self
+#as_free_fn(gen_texture_mipmaps)
+pub fn Texture::gen_mipmaps(Self) -> Unit
+#as_free_fn(get_shapes_texture)
+pub fn Texture::get_shapes() -> Self
+#as_free_fn(get_texture_height)
+pub fn Texture::height(Self) -> Int
+#as_free_fn(get_texture_id)
+pub fn Texture::id(Self) -> UInt
+#as_free_fn(is_texture_valid)
+pub fn Texture::is_valid(Self) -> Bool
+#as_free_fn(load_texture)
+pub fn Texture::load(String) -> Self
+#as_free_fn(get_texture_mipmaps)
+pub fn Texture::mipmaps(Self) -> Int
+#as_free_fn(new_texture)
+pub fn Texture::new(UInt, Int, Int, Int, Int) -> Self
+#as_free_fn(set_texture_filter)
+pub fn Texture::set_filter(Self, Int) -> Unit
+#as_free_fn(set_shapes_texture)
+pub fn Texture::set_shapes(Self, Rectangle) -> Unit
+#as_free_fn(set_texture_wrap)
+pub fn Texture::set_wrap(Self, Int) -> Unit
+#as_free_fn(unload_texture)
+pub fn Texture::unload(Self) -> Unit
+#as_free_fn(update_texture)
+pub fn Texture::update(Self, Bytes) -> Unit
+#as_free_fn(update_texture_from_image_frame)
+pub fn Texture::update_from_image_frame(Self, Image, Int) -> Unit
+#as_free_fn(update_texture_rec)
+pub fn Texture::update_rec(Self, Rectangle, Bytes) -> Unit
+#as_free_fn(get_texture_width)
+pub fn Texture::width(Self) -> Int
+
+type UByteArray
+pub fn UByteArray::length(Self) -> Int
+pub fn UByteArray::op_get(Self, Int) -> Int
+pub fn UByteArray::op_set(Self, Int, Byte) -> Unit
+
+type UShortArray
+pub fn UShortArray::length(Self) -> Int
+pub fn UShortArray::op_get(Self, Int) -> Int
+pub fn UShortArray::op_set(Self, Int, UInt16) -> Unit
 
 pub struct Vector2 {
   x : Float
@@ -2367,44 +2403,52 @@ pub fn VrDeviceInfo::new(Int, Int, Float, Float, Float, Float, Float, FixedArray
 pub fn VrDeviceInfo::to_bytes(Self) -> Bytes
 pub impl Show for VrDeviceInfo
 
+type VrStereoConfig
+#as_free_fn(begin_vr_stereo_mode)
+pub fn VrStereoConfig::begin_mode(Self) -> Unit
+#as_free_fn(vr_stereo_config_left_lens_center)
+pub fn VrStereoConfig::left_lens_center(Self) -> Bytes
+#as_free_fn(vr_stereo_config_left_screen_center)
+pub fn VrStereoConfig::left_screen_center(Self) -> Bytes
+#as_free_fn(load_vr_stereo_config)
+pub fn VrStereoConfig::load(VrDeviceInfo) -> Self
+#as_free_fn(vr_stereo_config_right_lens_center)
+pub fn VrStereoConfig::right_lens_center(Self) -> Bytes
+#as_free_fn(vr_stereo_config_right_screen_center)
+pub fn VrStereoConfig::right_screen_center(Self) -> Bytes
+#as_free_fn(vr_stereo_config_scale)
+pub fn VrStereoConfig::scale(Self) -> Bytes
+#as_free_fn(vr_stereo_config_scale_in)
+pub fn VrStereoConfig::scale_in(Self) -> Bytes
+#as_free_fn(unload_vr_stereo_config)
+pub fn VrStereoConfig::unload(Self) -> Unit
+
+type Wave
+#as_free_fn(wave_copy)
+pub fn Wave::copy(Self) -> Self
+#as_free_fn(wave_crop)
+pub fn Wave::crop(Self, Int, Int) -> Unit
+#as_free_fn(export_wave)
+pub fn Wave::export_(Self, String) -> Bool
+#as_free_fn(export_wave_as_code)
+pub fn Wave::export_as_code(Self, String) -> Bool
+#as_free_fn(wave_format)
+pub fn Wave::format(Self, Int, Int, Int) -> Unit
+#as_free_fn(is_wave_valid)
+pub fn Wave::is_valid(Self) -> Bool
+#as_free_fn(load_wave)
+pub fn Wave::load(String) -> Self
+#as_free_fn(load_wave_from_memory)
+pub fn Wave::load_from_memory(String, Bytes, Int) -> Self
+#as_free_fn(load_wave_samples)
+pub fn Wave::load_samples(Self) -> Bytes
+#as_free_fn(load_sound_from_wave)
+pub fn Wave::load_sound(Self) -> Sound
+#as_free_fn(unload_wave)
+pub fn Wave::unload(Self) -> Unit
+
 // Type aliases
 pub using @tonyfettes/raylib/internal/raylib {type AudioBuffer}
-
-pub using @tonyfettes/raylib/internal/raylib {type AudioStream}
-
-pub using @tonyfettes/raylib/internal/raylib {type AutomationEventList}
-
-pub using @tonyfettes/raylib/internal/raylib {type FilePathList}
-
-pub using @tonyfettes/raylib/internal/raylib {type Font}
-
-pub using @tonyfettes/raylib/internal/raylib {type GlyphInfoArray}
-
-pub using @tonyfettes/raylib/internal/raylib {type Image}
-
-pub using @tonyfettes/raylib/internal/raylib {type Material}
-
-pub using @tonyfettes/raylib/internal/raylib {type MaterialsArray}
-
-pub using @tonyfettes/raylib/internal/raylib {type Mesh}
-
-pub using @tonyfettes/raylib/internal/raylib {type Model}
-
-pub using @tonyfettes/raylib/internal/raylib {type ModelAnimations}
-
-pub using @tonyfettes/raylib/internal/raylib {type Music}
-
-pub using @tonyfettes/raylib/internal/raylib {type RenderTexture}
-
-pub using @tonyfettes/raylib/internal/raylib {type Shader}
-
-pub using @tonyfettes/raylib/internal/raylib {type Sound}
-
-pub using @tonyfettes/raylib/internal/raylib {type Texture}
-
-pub using @tonyfettes/raylib/internal/raylib {type VrStereoConfig}
-
-pub using @tonyfettes/raylib/internal/raylib {type Wave}
 
 // Traits
 
