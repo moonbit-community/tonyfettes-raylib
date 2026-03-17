@@ -164,7 +164,7 @@ pub fn Shader::set_location(
 
 ///|
 #as_free_fn(get_shader_id)
-pub fn Shader::id(self : Shader) -> Int {
+pub fn Shader::id(self : Shader) -> UInt {
   @ffi.get_shader_id(self.0)
 }
 

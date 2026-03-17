@@ -196,19 +196,19 @@ pub extern "c" fn load_wave_samples(wave : Wave) -> Bytes = "moonbit_raylib_load
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_frame_count(wave : Wave) -> UInt = "moonbit_raylib_get_wave_frame_count"
+pub extern "c" fn get_wave_frame_count(wave : Wave) -> Int = "moonbit_raylib_get_wave_frame_count"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_sample_rate(wave : Wave) -> UInt = "moonbit_raylib_get_wave_sample_rate"
+pub extern "c" fn get_wave_sample_rate(wave : Wave) -> Int = "moonbit_raylib_get_wave_sample_rate"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_sample_size(wave : Wave) -> UInt = "moonbit_raylib_get_wave_sample_size"
+pub extern "c" fn get_wave_sample_size(wave : Wave) -> Int = "moonbit_raylib_get_wave_sample_size"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_channels(wave : Wave) -> UInt = "moonbit_raylib_get_wave_channels"
+pub extern "c" fn get_wave_channels(wave : Wave) -> Int = "moonbit_raylib_get_wave_channels"
 
 // ============================================================================
 // AudioStream management

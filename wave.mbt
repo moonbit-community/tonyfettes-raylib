@@ -50,25 +50,25 @@ pub fn Wave::load_samples(self : Wave) -> Bytes {
 
 ///|
 #as_free_fn(get_wave_frame_count)
-pub fn Wave::frame_count(self : Wave) -> UInt {
+pub fn Wave::frame_count(self : Wave) -> Int {
   @ffi.get_wave_frame_count(self.0)
 }
 
 ///|
 #as_free_fn(get_wave_sample_rate)
-pub fn Wave::sample_rate(self : Wave) -> UInt {
+pub fn Wave::sample_rate(self : Wave) -> Int {
   @ffi.get_wave_sample_rate(self.0)
 }
 
 ///|
 #as_free_fn(get_wave_sample_size)
-pub fn Wave::sample_size(self : Wave) -> UInt {
+pub fn Wave::sample_size(self : Wave) -> Int {
   @ffi.get_wave_sample_size(self.0)
 }
 
 ///|
 #as_free_fn(get_wave_channels)
-pub fn Wave::channels(self : Wave) -> UInt {
+pub fn Wave::channels(self : Wave) -> Int {
   @ffi.get_wave_channels(self.0)
 }
 
