@@ -1,7 +1,10 @@
 const os = require('os');
+const fs = require('fs');
+const path = require('path');
 const platform = process.env.RAYLIB_PLATFORM || os.platform();
 
-const pkg = 'tonyfettes/raylib/internal/raylib';
+const modJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'moon.mod.json'), 'utf8'));
+const pkg = modJson.name + '/internal/raylib';
 
 let link_config = { package: pkg };
 let stub_cc_flags = '-DPLATFORM_DESKTOP_GLFW';
