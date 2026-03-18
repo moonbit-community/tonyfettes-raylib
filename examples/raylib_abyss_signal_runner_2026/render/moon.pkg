@@ -1,5 +1,0 @@
-import {
-  "moonbitlang/core/math",
-  "tonyfettes/raylib",
-  "tonyfettes/raylib-examples/raylib_abyss_signal_runner_2026/types",
-}
