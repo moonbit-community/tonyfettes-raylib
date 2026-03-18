@@ -893,6 +893,9 @@ pub fn file_exists(String) -> Bool
 
 pub fn file_path_list_get(FilePathList, Int) -> String
 
+#deprecated
+pub fn gen_font_texture_mipmaps(Font) -> Unit
+
 pub fn get_application_directory() -> String
 
 pub fn get_camera_matrix(Camera3D) -> Matrix
@@ -1351,6 +1354,9 @@ pub fn set_clipboard_text(String) -> Unit
 pub fn set_config_flags(Int) -> Unit
 
 pub fn set_exit_key(Int) -> Unit
+
+#deprecated
+pub fn set_font_texture_filter(Font, Int) -> Unit
 
 pub fn set_gamepad_mappings(String) -> Int
 
@@ -2130,10 +2136,10 @@ pub fn RenderTexture::id(Self) -> UInt
 pub fn RenderTexture::is_valid(Self) -> Bool
 #as_free_fn(load_render_texture)
 pub fn RenderTexture::load(Int, Int) -> Self
-#as_free_fn(load_render_texture_depth_tex)
+#as_free_fn(load_render_texture_depth_tex, deprecated)
 #deprecated
 pub fn RenderTexture::load_depth_tex(Int, Int) -> Self
-#as_free_fn(load_shadowmap_render_texture)
+#as_free_fn(load_shadowmap_render_texture, deprecated)
 #deprecated
 pub fn RenderTexture::load_shadowmap(Int, Int) -> Self
 #as_free_fn(new_render_texture)
@@ -2169,6 +2175,7 @@ pub fn Shader::load(String, String) -> Self
 #as_free_fn(load_shader_from_memory)
 pub fn Shader::load_from_memory(String, String) -> Self
 #as_free_fn(set_shader_locs)
+#as_free_fn(set_shader_location, deprecated)
 pub fn Shader::set_locs(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_value)
 pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit
