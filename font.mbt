@@ -304,3 +304,15 @@ pub fn GlyphInfoArray::gen_image_atlas(
 ) -> Image {
   @ffi.gen_image_font_atlas(self.0, font_size, padding, pack_method)
 }
+
+///|
+#deprecated("Use font.texture().gen_mipmaps() instead")
+pub fn gen_font_texture_mipmaps(font : Font) -> Unit {
+  font.texture().gen_mipmaps()
+}
+
+///|
+#deprecated("Use font.texture().set_filter(filter) instead")
+pub fn set_font_texture_filter(font : Font, filter : Int) -> Unit {
+  font.texture().set_filter(filter)
+}

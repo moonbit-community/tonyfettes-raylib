@@ -893,6 +893,9 @@ pub fn file_exists(String) -> Bool
 
 pub fn file_path_list_get(FilePathList, Int) -> String
 
+#deprecated
+pub fn gen_font_texture_mipmaps(Font) -> Unit
+
 pub fn get_application_directory() -> String
 
 pub fn get_camera_matrix(Camera3D) -> Matrix
@@ -1352,6 +1355,9 @@ pub fn set_config_flags(Int) -> Unit
 
 pub fn set_exit_key(Int) -> Unit
 
+#deprecated
+pub fn set_font_texture_filter(Font, Int) -> Unit
+
 pub fn set_gamepad_mappings(String) -> Int
 
 pub fn set_gamepad_vibration(Int, Float, Float, Float) -> Unit
@@ -1733,7 +1739,8 @@ pub fn Image::gen_text(Int, Int, String) -> Self
 pub fn Image::gen_white_noise(Int, Int, Float) -> Self
 #as_free_fn(get_image_color)
 pub fn Image::get_color(Self, Int, Int) -> Color
-#as_free_fn(image_height)
+#as_free_fn(image_height, deprecated)
+#as_free_fn(get_image_height)
 pub fn Image::height(Self) -> Int
 #as_free_fn(is_image_valid)
 pub fn Image::is_valid(Self) -> Bool
@@ -1785,7 +1792,8 @@ pub fn Image::to_texture(Self) -> Texture
 pub fn Image::to_texture_cubemap(Self, Int) -> Texture
 #as_free_fn(unload_image)
 pub fn Image::unload(Self) -> Unit
-#as_free_fn(image_width)
+#as_free_fn(image_width, deprecated)
+#as_free_fn(get_image_width)
 pub fn Image::width(Self) -> Int
 
 type Material
@@ -1819,7 +1827,7 @@ pub fn MaterialMap::texture(Self) -> Texture
 pub fn MaterialMap::value(Self) -> Float
 
 type MaterialMapArray
-pub fn MaterialMapArray::length(Self) -> Int
+pub fn MaterialMapArray::count(Self) -> Int
 pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
 pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
 
@@ -2128,6 +2136,12 @@ pub fn RenderTexture::id(Self) -> UInt
 pub fn RenderTexture::is_valid(Self) -> Bool
 #as_free_fn(load_render_texture)
 pub fn RenderTexture::load(Int, Int) -> Self
+#as_free_fn(load_render_texture_depth_tex, deprecated)
+#deprecated
+pub fn RenderTexture::load_depth_tex(Int, Int) -> Self
+#as_free_fn(load_shadowmap_render_texture, deprecated)
+#deprecated
+pub fn RenderTexture::load_shadowmap(Int, Int) -> Self
 #as_free_fn(new_render_texture)
 pub fn RenderTexture::new(UInt, Texture, Texture) -> Self
 #as_free_fn(set_render_texture_filter)
@@ -2136,6 +2150,12 @@ pub fn RenderTexture::set_filter(Self, Int) -> Unit
 pub fn RenderTexture::texture(Self) -> Texture
 #as_free_fn(unload_render_texture)
 pub fn RenderTexture::unload(Self) -> Unit
+#as_free_fn(unload_render_texture_depth_tex, deprecated)
+#deprecated
+pub fn RenderTexture::unload_depth_tex(Self) -> Unit
+#as_free_fn(unload_shadowmap_render_texture, deprecated)
+#deprecated
+pub fn RenderTexture::unload_shadowmap(Self) -> Unit
 #as_free_fn(get_render_texture_width)
 pub fn RenderTexture::width(Self) -> Int
 
@@ -2155,6 +2175,7 @@ pub fn Shader::load(String, String) -> Self
 #as_free_fn(load_shader_from_memory)
 pub fn Shader::load_from_memory(String, String) -> Self
 #as_free_fn(set_shader_locs)
+#as_free_fn(set_shader_location, deprecated)
 pub fn Shader::set_locs(Self, Int, Int) -> Unit
 #as_free_fn(set_shader_value)
 pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit

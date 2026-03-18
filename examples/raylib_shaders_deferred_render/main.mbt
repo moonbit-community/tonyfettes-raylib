@@ -517,10 +517,12 @@ fn main {
         @raylib.darkgreen,
       )
     } else if mode == DeferredPosition {
-      let tex = @raylib.texture_from_id(
+      let tex = @raylib.Texture::new(
         gbuffer.position_texture,
         screen_width,
         screen_height,
+        1,
+        @raylib.PixelformatUncompressedR32g32b32,
       )
       @raylib.draw_texture_rec(
         tex,
@@ -541,10 +543,12 @@ fn main {
         @raylib.darkgreen,
       )
     } else if mode == DeferredNormal {
-      let tex = @raylib.texture_from_id(
+      let tex = @raylib.Texture::new(
         gbuffer.normal_texture,
         screen_width,
         screen_height,
+        1,
+        @raylib.PixelformatUncompressedR32g32b32,
       )
       @raylib.draw_texture_rec(
         tex,
@@ -565,10 +569,12 @@ fn main {
         @raylib.darkgreen,
       )
     } else if mode == DeferredAlbedo {
-      let tex = @raylib.texture_from_id(
+      let tex = @raylib.Texture::new(
         gbuffer.albedo_spec_texture,
         screen_width,
         screen_height,
+        1,
+        @raylib.PixelformatUncompressedR8g8b8a8,
       )
       @raylib.draw_texture_rec(
         tex,
