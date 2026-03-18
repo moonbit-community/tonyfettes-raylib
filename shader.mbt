@@ -70,6 +70,104 @@ fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int {
 }
 
 ///|
+pub(all) enum ShaderUniformDataV {
+  Float(Array[Float])
+  Vec2(Array[Vector2])
+  Vec3(Array[Vector3])
+  Vec4(Array[Vector4])
+  Int(Array[Int])
+  IVec2(Array[(Int, Int)])
+  IVec3(Array[(Int, Int, Int)])
+  IVec4(Array[(Int, Int, Int, Int)])
+  Sampler2D(Array[Int])
+}
+
+///|
+fn ShaderUniformDataV::to_bytes(self : ShaderUniformDataV) -> Bytes {
+  let buf = @buffer.new(size_hint=self.count() * self.elem_size())
+  match self {
+    Float(vs) => for v in vs { buf.write_float_le(v) }
+    Vec2(vs) =>
+      for v in vs {
+        buf.write_float_le(v.x)
+        buf.write_float_le(v.y)
+      }
+    Vec3(vs) =>
+      for v in vs {
+        buf.write_float_le(v.x)
+        buf.write_float_le(v.y)
+        buf.write_float_le(v.z)
+      }
+    Vec4(vs) =>
+      for v in vs {
+        buf.write_float_le(v.x)
+        buf.write_float_le(v.y)
+        buf.write_float_le(v.z)
+        buf.write_float_le(v.w)
+      }
+    Int(vs) | Sampler2D(vs) => for v in vs { buf.write_int_le(v) }
+    IVec2(vs) =>
+      for v in vs {
+        buf.write_int_le(v.0)
+        buf.write_int_le(v.1)
+      }
+    IVec3(vs) =>
+      for v in vs {
+        buf.write_int_le(v.0)
+        buf.write_int_le(v.1)
+        buf.write_int_le(v.2)
+      }
+    IVec4(vs) =>
+      for v in vs {
+        buf.write_int_le(v.0)
+        buf.write_int_le(v.1)
+        buf.write_int_le(v.2)
+        buf.write_int_le(v.3)
+      }
+  }
+  buf.to_bytes()
+}
+
+///|
+fn ShaderUniformDataV::uniform_type(self : ShaderUniformDataV) -> Int {
+  match self {
+    Float(_) => ShaderUniformFloat
+    Vec2(_) => ShaderUniformVec2
+    Vec3(_) => ShaderUniformVec3
+    Vec4(_) => ShaderUniformVec4
+    Int(_) => ShaderUniformInt
+    IVec2(_) => ShaderUniformIvec2
+    IVec3(_) => ShaderUniformIvec3
+    IVec4(_) => ShaderUniformIvec4
+    Sampler2D(_) => ShaderUniformSampler2d
+  }
+}
+
+///|
+fn ShaderUniformDataV::count(self : ShaderUniformDataV) -> Int {
+  match self {
+    Float(vs) => vs.length()
+    Vec2(vs) => vs.length()
+    Vec3(vs) => vs.length()
+    Vec4(vs) => vs.length()
+    Int(vs) | Sampler2D(vs) => vs.length()
+    IVec2(vs) => vs.length()
+    IVec3(vs) => vs.length()
+    IVec4(vs) => vs.length()
+  }
+}
+
+///|
+fn ShaderUniformDataV::elem_size(self : ShaderUniformDataV) -> Int {
+  match self {
+    Float(_) | Int(_) | Sampler2D(_) => 4
+    Vec2(_) | IVec2(_) => 8
+    Vec3(_) | IVec3(_) => 12
+    Vec4(_) | IVec4(_) => 16
+  }
+}
+
+///|
 #as_free_fn(is_shader_valid)
 pub fn Shader::is_valid(self : Shader) -> Bool {
   @ffi.is_shader_valid(self.0)
@@ -103,15 +201,33 @@ pub fn Shader::set_value(
 }
 
 ///|
-#as_free_fn(set_shader_value_v)
 pub fn Shader::set_value_v(
   self : Shader,
+  loc_index : Int,
+  values : ShaderUniformDataV,
+) -> Unit {
+  let count = values.count()
+  if count == 0 {
+    return
+  }
+  @ffi.set_shader_value_v(
+    self.0,
+    loc_index,
+    values.to_bytes(),
+    values.uniform_type(),
+    count,
+  )
+}
+
+///|
+pub fn set_shader_value_v(
+  shader : Shader,
   loc_index : Int,
   value : Bytes,
   uniform_type : Int,
   count : Int,
 ) -> Unit {
-  @ffi.set_shader_value_v(self.0, loc_index, value, uniform_type, count)
+  @ffi.set_shader_value_v(shader.0, loc_index, value, uniform_type, count)
 }
 
 ///|

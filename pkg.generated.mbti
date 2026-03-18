@@ -1376,6 +1376,8 @@ pub fn set_mouse_scale(Float, Float) -> Unit
 
 pub fn set_random_seed(Int) -> Unit
 
+pub fn set_shader_value_v(Shader, Int, Bytes, Int, Int) -> Unit
+
 pub fn set_target_fps(Int) -> Unit
 
 pub fn set_text_line_spacing(Int) -> Unit
@@ -2183,8 +2185,7 @@ pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit
 pub fn Shader::set_value_matrix(Self, Int, Matrix) -> Unit
 #as_free_fn(set_shader_value_texture)
 pub fn Shader::set_value_texture(Self, Int, Texture) -> Unit
-#as_free_fn(set_shader_value_v)
-pub fn Shader::set_value_v(Self, Int, Bytes, Int, Int) -> Unit
+pub fn Shader::set_value_v(Self, Int, ShaderUniformDataV) -> Unit
 #as_free_fn(unload_shader)
 pub fn Shader::unload(Self) -> Unit
 
@@ -2198,6 +2199,18 @@ pub(all) enum ShaderUniformData {
   IVec3((Int, Int, Int))
   IVec4((Int, Int, Int, Int))
   Sampler2D(Int)
+}
+
+pub(all) enum ShaderUniformDataV {
+  Float(Array[Float])
+  Vec2(Array[Vector2])
+  Vec3(Array[Vector3])
+  Vec4(Array[Vector4])
+  Int(Array[Int])
+  IVec2(Array[(Int, Int)])
+  IVec3(Array[(Int, Int, Int)])
+  IVec4(Array[(Int, Int, Int, Int)])
+  Sampler2D(Array[Int])
 }
 
 type Sound

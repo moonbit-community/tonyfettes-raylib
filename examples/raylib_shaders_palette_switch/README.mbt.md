@@ -15,6 +15,6 @@ cd examples && ./_build/native/debug/build/raylib_shaders_palette_switch/raylib_
 
 ## Key Concepts
 
-- Passing array uniforms to shaders with `set_shader_value_v` and `ShaderUniformIvec3`
+- Passing array uniforms to shaders with `Shader::set_value_v` and `ShaderUniformDataV::IVec3`
 - Encoding palette indices in pixel color values that the shader remaps to the active palette
 - Drawing colored horizontal strips where the RGB values serve as palette lookup indices
