@@ -179,39 +179,69 @@ pub fn VrStereoConfig::begin_mode(self : VrStereoConfig) -> Unit {
 // VrStereoConfig field accessors
 
 ///|
-#as_free_fn(vr_stereo_config_left_lens_center)
 pub fn VrStereoConfig::left_lens_center(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_left_lens_center(self.0))
 }
 
 ///|
-#as_free_fn(vr_stereo_config_right_lens_center)
 pub fn VrStereoConfig::right_lens_center(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_right_lens_center(self.0))
 }
 
 ///|
-#as_free_fn(vr_stereo_config_left_screen_center)
 pub fn VrStereoConfig::left_screen_center(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_left_screen_center(self.0))
 }
 
 ///|
-#as_free_fn(vr_stereo_config_right_screen_center)
 pub fn VrStereoConfig::right_screen_center(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_right_screen_center(self.0))
 }
 
 ///|
-#as_free_fn(vr_stereo_config_scale)
 pub fn VrStereoConfig::scale(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_scale(self.0))
 }
 
 ///|
-#as_free_fn(vr_stereo_config_scale_in)
 pub fn VrStereoConfig::scale_in(self : VrStereoConfig) -> Vector2 {
   Vector2::from_bytes(@ffi.vr_stereo_config_scale_in(self.0))
+}
+
+///|
+#deprecated("Use VrStereoConfig::left_lens_center instead")
+pub fn vr_stereo_config_left_lens_center(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_left_lens_center(config.0)
+}
+
+///|
+#deprecated("Use VrStereoConfig::right_lens_center instead")
+pub fn vr_stereo_config_right_lens_center(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_right_lens_center(config.0)
+}
+
+///|
+#deprecated("Use VrStereoConfig::left_screen_center instead")
+pub fn vr_stereo_config_left_screen_center(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_left_screen_center(config.0)
+}
+
+///|
+#deprecated("Use VrStereoConfig::right_screen_center instead")
+pub fn vr_stereo_config_right_screen_center(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_right_screen_center(config.0)
+}
+
+///|
+#deprecated("Use VrStereoConfig::scale instead")
+pub fn vr_stereo_config_scale(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_scale(config.0)
+}
+
+///|
+#deprecated("Use VrStereoConfig::scale_in instead")
+pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
+  @ffi.vr_stereo_config_scale_in(config.0)
 }
 
 // VrDeviceInfo value type: 60 bytes

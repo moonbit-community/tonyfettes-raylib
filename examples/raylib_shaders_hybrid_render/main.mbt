@@ -38,11 +38,10 @@ fn main {
     Float::from_int(screen_width) / 2.0,
     Float::from_int(screen_height) / 2.0,
   )
-  @raylib.set_shader_value(
-    shdr_raymarch,
+  shdr_raymarch.set_value(
     march_loc_screen_center,
     @raylib.ShaderUniformData::Vec2(screen_center),
-  )
+    )
 
   // Use composable rl* primitives to create writable depth texture buffer
   let fbo_id = @rl.load_framebuffer()
@@ -93,11 +92,10 @@ fn main {
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
     // Update Camera Position in the ray march shader.
-    @raylib.set_shader_value(
-      shdr_raymarch,
+    shdr_raymarch.set_value(
       march_loc_cam_pos,
       @raylib.ShaderUniformData::Vec3(camera.position),
-    )
+      )
 
     // Update Camera Looking Vector. Vector length determines FOV.
     let cam_dir = @raylib.Vector3::scale(
@@ -106,11 +104,10 @@ fn main {
       ),
       cam_dist,
     )
-    @raylib.set_shader_value(
-      shdr_raymarch,
+    shdr_raymarch.set_value(
       march_loc_cam_dir,
       @raylib.ShaderUniformData::Vec3(cam_dir),
-    )
+      )
 
     // Draw
     // Draw into our custom render texture (framebuffer)

@@ -91,25 +91,22 @@ fn main {
 
   let light_dir_loc = @raylib.get_shader_location(shadow_shader, "lightDir")
   let light_col_loc = @raylib.get_shader_location(shadow_shader, "lightColor")
-  @raylib.set_shader_value(
-    shadow_shader,
+  shadow_shader.set_value(
     light_dir_loc,
     @raylib.ShaderUniformData::Vec3(light_dir),
-  )
-  @raylib.set_shader_value(
-    shadow_shader,
+    )
+  shadow_shader.set_value(
     light_col_loc,
     @raylib.ShaderUniformData::Vec4(light_color_normalized),
-  )
+    )
 
   // Ambient light
   let ambient_loc = @raylib.get_shader_location(shadow_shader, "ambient")
   let ambient = @raylib.Vector4::new(0.1, 0.1, 0.1, 1.0)
-  @raylib.set_shader_value(
-    shadow_shader,
+  shadow_shader.set_value(
     ambient_loc,
     @raylib.ShaderUniformData::Vec4(ambient),
-  )
+    )
 
   // Shadow map uniforms
   let light_vp_loc = @raylib.get_shader_location(shadow_shader, "lightVP")
@@ -117,11 +114,10 @@ fn main {
   let shadow_map_resolution_loc = @raylib.get_shader_location(
     shadow_shader, "shadowMapResolution",
   )
-  @raylib.set_shader_value(
-    shadow_shader,
+  shadow_shader.set_value(
     shadow_map_resolution_loc,
     @raylib.ShaderUniformData::Int(ShadowmapResolution),
-  )
+    )
 
   // Load models
   let cube = @raylib.load_model_from_mesh(@raylib.gen_mesh_cube(1.0, 1.0, 1.0))
@@ -189,11 +185,10 @@ fn main {
 
     // Update shader with current camera position
     let camera_pos = cam.position
-    @raylib.set_shader_value(
-      shadow_shader,
+    shadow_shader.set_value(
       view_pos_loc,
       @raylib.ShaderUniformData::Vec3(camera_pos),
-    )
+      )
     cam = @raylib.update_camera(cam, @raylib.CameraOrbital)
 
     // Update animation
@@ -234,11 +229,10 @@ fn main {
       light_cam.fovy,
       light_cam.projection,
     )
-    @raylib.set_shader_value(
-      shadow_shader,
+    shadow_shader.set_value(
       light_dir_loc,
       @raylib.ShaderUniformData::Vec3(light_dir),
-    )
+      )
 
     // Draw
     @raylib.begin_drawing()

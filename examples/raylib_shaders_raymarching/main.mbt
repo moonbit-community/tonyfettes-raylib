@@ -28,11 +28,10 @@ fn main {
   let resolution_loc = @raylib.get_shader_location(shader, "resolution")
   let mut resolution_x = Float::from_int(screen_width)
   let mut resolution_y = Float::from_int(screen_height)
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     resolution_loc,
     @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(resolution_x, resolution_y)),
-  )
+    )
   let mut run_time : Float = 0.0
   @raylib.disable_cursor()
   @raylib.set_target_fps(60)
@@ -45,8 +44,7 @@ fn main {
     run_time = run_time + delta_time
 
     // Set shader required uniform values
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       view_eye_loc,
       @raylib.ShaderUniformData::Vec3(
         @raylib.Vector3::new(
@@ -56,28 +54,25 @@ fn main {
         ),
       ),
     )
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       view_center_loc,
       @raylib.ShaderUniformData::Vec3(
         @raylib.Vector3::new(camera.target.x, camera.target.y, camera.target.z),
       ),
     )
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       run_time_loc,
       @raylib.ShaderUniformData::Float(run_time),
-    )
+      )
 
     // Check if screen is resized
     if @raylib.is_window_resized() {
       resolution_x = Float::from_int(@raylib.get_screen_width())
       resolution_y = Float::from_int(@raylib.get_screen_height())
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         resolution_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(resolution_x, resolution_y)),
-      )
+        )
     }
 
     // Draw

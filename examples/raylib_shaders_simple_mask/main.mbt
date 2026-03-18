@@ -32,11 +32,10 @@ fn main {
     frames_counter += 1
 
     // Send frames counter to shader for animation
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       frame_loc,
       @raylib.ShaderUniformData::Int(frames_counter),
-    )
+      )
 
     // Draw
     @raylib.begin_drawing()

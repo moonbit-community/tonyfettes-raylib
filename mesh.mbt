@@ -64,9 +64,14 @@ pub fn Mesh::unload(self : Mesh) -> Unit {
 }
 
 ///|
-#as_free_fn(upload_mesh)
 pub fn Mesh::upload(self : Mesh, dynamic : Bool) -> Unit {
   @ffi.upload_mesh(self.0, if dynamic { 1 } else { 0 })
+}
+
+///|
+#deprecated("Use Mesh::upload instead")
+pub fn upload_mesh(mesh : Mesh, dynamic : Int) -> Unit {
+  @ffi.upload_mesh(mesh.0, dynamic)
 }
 
 ///|

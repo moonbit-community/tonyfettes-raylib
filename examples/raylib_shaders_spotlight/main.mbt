@@ -127,11 +127,10 @@ fn main {
   // Tell the shader how wide the screen is
   let w_loc = @raylib.get_shader_location(shdr_spot, "screenWidth")
   let sw = Float::from_int(@raylib.get_screen_width())
-  @raylib.set_shader_value(
-    shdr_spot,
+  shdr_spot.set_value(
     w_loc,
     @raylib.ShaderUniformData::Float(sw),
-  )
+    )
 
   // Randomize the locations and velocities of the spotlights
   for i in 0..<max_spots {
@@ -154,21 +153,18 @@ fn main {
     let radius = (48.0 : Float) * Float::from_int(i + 1)
     // Use struct update via direct field assignment
     spots[i] = { ..spots[i], inner, radius }
-    @raylib.set_shader_value(
-      shdr_spot,
+    shdr_spot.set_value(
       spots[i].position_loc,
       @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(spots[i].pos_x, spots[i].pos_y)),
-    )
-    @raylib.set_shader_value(
-      shdr_spot,
+      )
+    shdr_spot.set_value(
       spots[i].inner_loc,
       @raylib.ShaderUniformData::Float(spots[i].inner),
-    )
-    @raylib.set_shader_value(
-      shdr_spot,
+      )
+    shdr_spot.set_value(
       spots[i].radius_loc,
       @raylib.ShaderUniformData::Float(spots[i].radius),
-    )
+      )
   }
 
   @raylib.set_target_fps(60)
@@ -205,11 +201,10 @@ fn main {
           spots[i].speed_y = -spots[i].speed_y
         }
       }
-      @raylib.set_shader_value(
-        shdr_spot,
+      shdr_spot.set_value(
         spots[i].position_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(spots[i].pos_x, spots[i].pos_y)),
-      )
+        )
     }
 
     // Draw

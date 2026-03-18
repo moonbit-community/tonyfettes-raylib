@@ -55,11 +55,10 @@ fn main {
     camera = @raylib.update_camera(camera, @raylib.CameraFree)
 
     time += @raylib.get_frame_time()
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       @raylib.get_shader_location(shader, "time"),
       @raylib.ShaderUniformData::Float(time),
-    )
+      )
 
     // Draw
     @raylib.begin_drawing()

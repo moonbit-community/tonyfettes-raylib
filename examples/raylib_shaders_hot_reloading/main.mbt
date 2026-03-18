@@ -25,11 +25,10 @@ fn main {
     Float::from_int(screen_width),
     Float::from_int(screen_height),
   )
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     resolution_loc,
     @raylib.ShaderUniformData::Vec2(resolution),
-  )
+    )
 
   let mut total_time : Float = 0.0
   let mut shader_auto_reloading = false
@@ -42,16 +41,14 @@ fn main {
     let mouse = @raylib.get_mouse_position()
 
     // Set shader uniforms
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       time_loc,
       @raylib.ShaderUniformData::Float(total_time),
-    )
-    @raylib.set_shader_value(
-      shader,
+      )
+    shader.set_value(
       mouse_loc,
       @raylib.ShaderUniformData::Vec2(mouse),
-    )
+      )
 
     // Hot shader reloading
     if shader_auto_reloading ||
@@ -65,11 +62,10 @@ fn main {
           resolution_loc = @raylib.get_shader_location(shader, "resolution")
           mouse_loc = @raylib.get_shader_location(shader, "mouse")
           time_loc = @raylib.get_shader_location(shader, "time")
-          @raylib.set_shader_value(
-            shader,
+          shader.set_value(
             resolution_loc,
             @raylib.ShaderUniformData::Vec2(resolution),
-          )
+            )
         }
         frag_shader_mod_time = current_mod_time
       }
