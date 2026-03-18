@@ -125,6 +125,7 @@ pub fn Shader::set_value_texture(
 }
 
 ///|
+#as_free_fn(set_shader_location, deprecated="Use Shader::set_locs or set_shader_locs instead")
 #as_free_fn(set_shader_locs)
 pub fn Shader::set_locs(
   self : Shader,
