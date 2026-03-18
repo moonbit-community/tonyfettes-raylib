@@ -107,11 +107,25 @@ pub fn Shader::set_value(
 pub fn Shader::set_value_v(
   self : Shader,
   loc_index : Int,
-  value : Bytes,
-  uniform_type : Int,
-  count : Int,
+  values : Array[ShaderUniformData],
 ) -> Unit {
-  @ffi.set_shader_value_v(self.0, loc_index, value, uniform_type, count)
+  if values.is_empty() {
+    return
+  }
+  let buf = @buffer.new()
+  for value in values {
+    let bytes = value.to_bytes()
+    for i in 0..<bytes.length() {
+      buf.write_byte(bytes[i])
+    }
+  }
+  @ffi.set_shader_value_v(
+    self.0,
+    loc_index,
+    buf.to_bytes(),
+    values[0].uniform_type(),
+    values.length(),
+  )
 }
 
 ///|
