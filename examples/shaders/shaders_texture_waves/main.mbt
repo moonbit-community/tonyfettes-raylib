@@ -4,7 +4,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  let _ = @raylib.change_directory("raylib_shaders_texture_waves")
+  let _ = @raylib.change_directory("shaders/shaders_texture_waves")
 
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - texture waves",

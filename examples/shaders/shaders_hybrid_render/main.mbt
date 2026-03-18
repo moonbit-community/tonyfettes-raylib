@@ -9,7 +9,7 @@ fn main {
   let screen_width = 800
   let screen_height = 450
 
-  let _ = @raylib.change_directory("raylib_shaders_hybrid_render")
+  let _ = @raylib.change_directory("shaders/shaders_hybrid_render")
 
   @raylib.init_window(
     screen_width, screen_height, "raylib [shaders] example - write depth buffer",
