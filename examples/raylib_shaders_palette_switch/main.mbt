@@ -21,38 +21,20 @@ fn main {
 
   // Palettes: arrays of RGB triplets as ivec3
   // 3-BIT RGB
-  let palette0 : Array[@raylib.ShaderUniformData] = [
-    @raylib.ShaderUniformData::IVec3((0, 0, 0)),
-    @raylib.ShaderUniformData::IVec3((255, 0, 0)),
-    @raylib.ShaderUniformData::IVec3((0, 255, 0)),
-    @raylib.ShaderUniformData::IVec3((0, 0, 255)),
-    @raylib.ShaderUniformData::IVec3((0, 255, 255)),
-    @raylib.ShaderUniformData::IVec3((255, 0, 255)),
-    @raylib.ShaderUniformData::IVec3((255, 255, 0)),
-    @raylib.ShaderUniformData::IVec3((255, 255, 255)),
-  ]
+  let palette0 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
+    (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 255, 255), (255, 0, 255),
+    (255, 255, 0), (255, 255, 255),
+  ])
   // AMMO-8 (GameBoy-like)
-  let palette1 : Array[@raylib.ShaderUniformData] = [
-    @raylib.ShaderUniformData::IVec3((4, 12, 6)),
-    @raylib.ShaderUniformData::IVec3((17, 35, 24)),
-    @raylib.ShaderUniformData::IVec3((30, 58, 41)),
-    @raylib.ShaderUniformData::IVec3((48, 93, 66)),
-    @raylib.ShaderUniformData::IVec3((77, 128, 97)),
-    @raylib.ShaderUniformData::IVec3((137, 162, 87)),
-    @raylib.ShaderUniformData::IVec3((190, 220, 127)),
-    @raylib.ShaderUniformData::IVec3((238, 255, 204)),
-  ]
+  let palette1 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
+    (4, 12, 6), (17, 35, 24), (30, 58, 41), (48, 93, 66), (77, 128, 97),
+    (137, 162, 87), (190, 220, 127), (238, 255, 204),
+  ])
   // RKBV (2-strip film)
-  let palette2 : Array[@raylib.ShaderUniformData] = [
-    @raylib.ShaderUniformData::IVec3((21, 25, 26)),
-    @raylib.ShaderUniformData::IVec3((138, 76, 88)),
-    @raylib.ShaderUniformData::IVec3((217, 98, 117)),
-    @raylib.ShaderUniformData::IVec3((230, 184, 193)),
-    @raylib.ShaderUniformData::IVec3((69, 107, 115)),
-    @raylib.ShaderUniformData::IVec3((75, 151, 166)),
-    @raylib.ShaderUniformData::IVec3((165, 189, 194)),
-    @raylib.ShaderUniformData::IVec3((255, 245, 247)),
-  ]
+  let palette2 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
+    (21, 25, 26), (138, 76, 88), (217, 98, 117), (230, 184, 193), (69, 107, 115),
+    (75, 151, 166), (165, 189, 194), (255, 245, 247),
+  ])
 
   let palettes = [palette0, palette1, palette2]
   let palette_text : Array[String] = [
