@@ -60,7 +60,7 @@ fn main {
     }
 
     // Send palette data to the shader (RGB triplets as ivec3)
-    @raylib.set_shader_value_v(shader, palette_loc, palettes[current_palette])
+    shader.set_value_v(palette_loc, palettes[current_palette])
 
     // Draw
     @raylib.begin_drawing()

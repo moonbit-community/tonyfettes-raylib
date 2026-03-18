@@ -201,13 +201,13 @@ pub fn Shader::set_value(
 }
 
 ///|
-#as_free_fn(set_shader_value_v)
 pub fn Shader::set_value_v(
   self : Shader,
   loc_index : Int,
   values : ShaderUniformDataV,
 ) -> Unit {
-  if values.count() == 0 {
+  let count = values.count()
+  if count == 0 {
     return
   }
   @ffi.set_shader_value_v(
@@ -215,8 +215,19 @@ pub fn Shader::set_value_v(
     loc_index,
     values.to_bytes(),
     values.uniform_type(),
-    values.count(),
+    count,
   )
+}
+
+///|
+pub fn set_shader_value_v(
+  shader : Shader,
+  loc_index : Int,
+  value : Bytes,
+  uniform_type : Int,
+  count : Int,
+) -> Unit {
+  @ffi.set_shader_value_v(shader.0, loc_index, value, uniform_type, count)
 }
 
 ///|
