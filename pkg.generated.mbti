@@ -1733,7 +1733,8 @@ pub fn Image::gen_text(Int, Int, String) -> Self
 pub fn Image::gen_white_noise(Int, Int, Float) -> Self
 #as_free_fn(get_image_color)
 pub fn Image::get_color(Self, Int, Int) -> Color
-#as_free_fn(image_height)
+#as_free_fn(image_height, deprecated)
+#as_free_fn(get_image_height)
 pub fn Image::height(Self) -> Int
 #as_free_fn(is_image_valid)
 pub fn Image::is_valid(Self) -> Bool
@@ -1785,7 +1786,8 @@ pub fn Image::to_texture(Self) -> Texture
 pub fn Image::to_texture_cubemap(Self, Int) -> Texture
 #as_free_fn(unload_image)
 pub fn Image::unload(Self) -> Unit
-#as_free_fn(image_width)
+#as_free_fn(image_width, deprecated)
+#as_free_fn(get_image_width)
 pub fn Image::width(Self) -> Int
 
 type Material
@@ -1811,16 +1813,28 @@ pub fn Material::unload(Self) -> Unit
 pub impl Default for Material
 
 type MaterialMap
+#as_free_fn(material_map_get_color)
 pub fn MaterialMap::color(Self) -> Color
+#as_free_fn(material_map_set_color)
 pub fn MaterialMap::set_color(Self, Color) -> Unit
+#as_free_fn(material_map_set_texture)
 pub fn MaterialMap::set_texture(Self, Texture) -> Unit
+#as_free_fn(material_map_set_value)
 pub fn MaterialMap::set_value(Self, Float) -> Unit
+#as_free_fn(material_map_get_texture)
 pub fn MaterialMap::texture(Self) -> Texture
+#as_free_fn(material_map_get_value)
 pub fn MaterialMap::value(Self) -> Float
 
 type MaterialMapArray
+#as_free_fn(material_map_array_count)
+pub fn MaterialMapArray::count(Self) -> Int
+#as_free_fn(material_map_array_length, deprecated)
+#deprecated
 pub fn MaterialMapArray::length(Self) -> Int
+#as_free_fn(material_map_array_op_get)
 pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
+#as_free_fn(material_map_array_op_set)
 pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
 
 type MaterialsArray
@@ -2128,6 +2142,12 @@ pub fn RenderTexture::id(Self) -> UInt
 pub fn RenderTexture::is_valid(Self) -> Bool
 #as_free_fn(load_render_texture)
 pub fn RenderTexture::load(Int, Int) -> Self
+#as_free_fn(load_render_texture_depth_tex)
+#deprecated
+pub fn RenderTexture::load_depth_tex(Int, Int) -> Self
+#as_free_fn(load_shadowmap_render_texture)
+#deprecated
+pub fn RenderTexture::load_shadowmap(Int, Int) -> Self
 #as_free_fn(new_render_texture)
 pub fn RenderTexture::new(UInt, Texture, Texture) -> Self
 #as_free_fn(set_render_texture_filter)
@@ -2136,6 +2156,12 @@ pub fn RenderTexture::set_filter(Self, Int) -> Unit
 pub fn RenderTexture::texture(Self) -> Texture
 #as_free_fn(unload_render_texture)
 pub fn RenderTexture::unload(Self) -> Unit
+#as_free_fn(unload_render_texture_depth_tex, deprecated)
+#deprecated
+pub fn RenderTexture::unload_depth_tex(Self) -> Unit
+#as_free_fn(unload_shadowmap_render_texture, deprecated)
+#deprecated
+pub fn RenderTexture::unload_shadowmap(Self) -> Unit
 #as_free_fn(get_render_texture_width)
 pub fn RenderTexture::width(Self) -> Int
 

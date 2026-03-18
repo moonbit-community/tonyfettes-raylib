@@ -137,3 +137,45 @@ pub fn RenderTexture::depth_id(self : RenderTexture) -> UInt {
 pub fn RenderTexture::begin_mode(self : RenderTexture) -> Unit {
   @ffi.begin_texture_mode(self.0)
 }
+
+///|
+/// Load a render texture with a depth texture attachment.
+/// @deprecated Use `RenderTexture::new` with `@rl.load_framebuffer`, `@rl.load_texture`, `@rl.load_texture_depth`, and `@rl.framebuffer_attach` instead.
+#deprecated("Use RenderTexture::new with @rl helpers instead")
+#as_free_fn(load_render_texture_depth_tex)
+pub fn RenderTexture::load_depth_tex(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  @ffi.load_render_texture_depth_tex(width, height)
+}
+
+///|
+/// Load a depth-only shadowmap render texture.
+/// @deprecated Use `RenderTexture::new` with `@rl.load_framebuffer`, `@rl.load_texture_depth`, and `@rl.framebuffer_attach` instead.
+#deprecated("Use RenderTexture::new with @rl helpers instead")
+#as_free_fn(load_shadowmap_render_texture)
+pub fn RenderTexture::load_shadowmap(
+  width : Int,
+  height : Int,
+) -> RenderTexture {
+  @ffi.load_shadowmap_render_texture(width, height)
+}
+
+///|
+/// Unload a depth-texture render texture.
+/// @deprecated Use `RenderTexture::unload` instead.
+#as_free_fn(unload_render_texture_depth_tex, deprecated="Use RenderTexture::unload instead")
+#deprecated("Use RenderTexture::unload instead")
+pub fn RenderTexture::unload_depth_tex(self : RenderTexture) -> Unit {
+  @ffi.unload_render_texture(self.0)
+}
+
+///|
+/// Unload a shadowmap render texture.
+/// @deprecated Use `RenderTexture::unload` instead.
+#as_free_fn(unload_shadowmap_render_texture, deprecated="Use RenderTexture::unload instead")
+#deprecated("Use RenderTexture::unload instead")
+pub fn RenderTexture::unload_shadowmap(self : RenderTexture) -> Unit {
+  @ffi.unload_render_texture(self.0)
+}
