@@ -1,5 +1,0 @@
-import {
-  "moonbitlang/core/math",
-  "tonyfettes/raylib",
-  "tonyfettes/raylib-examples/raylib_arctic_outpost_survival_2026/types",
-}

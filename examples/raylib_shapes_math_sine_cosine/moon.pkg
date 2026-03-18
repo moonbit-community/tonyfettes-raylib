@@ -1,9 +1,0 @@
-import {
-  "tonyfettes/raylib",
-  "tonyfettes/raylib/raygui",
-  "moonbitlang/core/math",
-}
-
-options(
-  "is-main": true,
-)

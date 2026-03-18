@@ -1,8 +1,0 @@
-import {
-  "tonyfettes/raylib",
-  "tonyfettes/raylib/raygui",
-}
-
-options(
-  "is-main": true,
-)

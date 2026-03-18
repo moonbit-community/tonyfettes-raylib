@@ -1,6 +1,0 @@
-import {
-  "moonbitlang/core/math",
-  "tonyfettes/raylib",
-  "tonyfettes/raylib-examples/raylib_naval_combat_3d/levels",
-  "tonyfettes/raylib-examples/raylib_naval_combat_3d/types",
-}

@@ -1,5 +1,0 @@
-import {
-  "moonbitlang/core/math",
-  "tonyfettes/raylib",
-  "tonyfettes/raylib-examples/raylib_celestial_kite_festival_2026/types",
-}
