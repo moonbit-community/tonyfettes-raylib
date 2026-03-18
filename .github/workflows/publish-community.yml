@@ -1,5 +1,5 @@
-name: publish-tonyfettes
-run-name: publish to tonyfettes/raylib
+name: publish-community
+run-name: publish to moonbit-community/raylib
 on: workflow_dispatch
 jobs:
   publish:
@@ -16,13 +16,17 @@ jobs:
       - name: moon update
         run: |
           moon update
+      - name: rename module
+        run: |
+          sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' moon.mod.json
+          find . -name 'moon.pkg' -not -path './.mooncakes/*' -not -path './examples/*' -exec sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' {} +
       - name: moon check
         run: |
           moon check --target native
-      - name: publish tonyfettes/raylib
+      - name: publish moonbit-community/raylib
         run: |
           echo $SECRET > ~/.moon/credentials.json
           moon publish
           rm ~/.moon/credentials.json
         env:
-          SECRET: ${{ secrets.MOONCAKES_TONYFETTES_TOKEN }}
+          SECRET: ${{ secrets.MOONCAKES_MOONBIT_COMMUNITY_TOKEN }}
