@@ -6,7 +6,7 @@ test "Material::maps accessor color round-trip" {
   @raylib.init_window(1, 1, "test")
   let mat = @raylib.Material::default()
   let maps = mat.maps()
-  assert_true(maps.length() > 0)
+  assert_true(maps.count() > 0)
   // Get the diffuse map (index 0) and modify its color
   let map0 = maps[0]
   let color1 = @raylib.Color::new(10, 20, 30, 255)

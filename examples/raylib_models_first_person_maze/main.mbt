@@ -22,8 +22,8 @@ fn main {
   let _ = @raylib.change_directory("raylib_models_first_person_maze")
   let im_map = @raylib.load_image("resources/cubicmap.png")
   let cubicmap = @raylib.load_texture_from_image(im_map)
-  let map_width = @raylib.image_width(im_map)
-  let map_height = @raylib.image_height(im_map)
+  let map_width = im_map.width()
+  let map_height = im_map.height()
   let mesh = @raylib.gen_mesh_cubicmap(
     im_map,
     @raylib.Vector3::new(1.0, 1.0, 1.0),
