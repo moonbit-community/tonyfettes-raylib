@@ -142,7 +142,7 @@ pub fn RenderTexture::begin_mode(self : RenderTexture) -> Unit {
 /// Load a render texture with a depth texture attachment.
 /// @deprecated Use `RenderTexture::new` with `@rl.load_framebuffer`, `@rl.load_texture`, `@rl.load_texture_depth`, and `@rl.framebuffer_attach` instead.
 #deprecated("Use RenderTexture::new with @rl helpers instead")
-#as_free_fn(load_render_texture_depth_tex)
+#as_free_fn(load_render_texture_depth_tex, deprecated="Use RenderTexture::new with @rl helpers instead")
 pub fn RenderTexture::load_depth_tex(
   width : Int,
   height : Int,
@@ -154,7 +154,7 @@ pub fn RenderTexture::load_depth_tex(
 /// Load a depth-only shadowmap render texture.
 /// @deprecated Use `RenderTexture::new` with `@rl.load_framebuffer`, `@rl.load_texture_depth`, and `@rl.framebuffer_attach` instead.
 #deprecated("Use RenderTexture::new with @rl helpers instead")
-#as_free_fn(load_shadowmap_render_texture)
+#as_free_fn(load_shadowmap_render_texture, deprecated="Use RenderTexture::new with @rl helpers instead")
 pub fn RenderTexture::load_shadowmap(
   width : Int,
   height : Int,

@@ -522,7 +522,7 @@ fn main {
         screen_width,
         screen_height,
         1,
-        @raylib.PixelformatUncompressedR8g8b8a8,
+        @raylib.PixelformatUncompressedR32g32b32,
       )
       @raylib.draw_texture_rec(
         tex,
@@ -548,7 +548,7 @@ fn main {
         screen_width,
         screen_height,
         1,
-        @raylib.PixelformatUncompressedR8g8b8a8,
+        @raylib.PixelformatUncompressedR32g32b32,
       )
       @raylib.draw_texture_rec(
         tex,
@@ -574,7 +574,7 @@ fn main {
         screen_width,
         screen_height,
         1,
-        @raylib.PixelformatUncompressedR8g8b8a8,
+        @raylib.PixelformatUncompressedR32g32b32,
       )
       @raylib.draw_texture_rec(
         tex,
