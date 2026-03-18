@@ -48,6 +48,7 @@ let process_audio : FuncRef[(@raylib.AudioBuffer, UInt) -> Unit] = (
 fn main {
   let screen_width = 800
   let screen_height = 450
+  let _ = @raylib.change_directory("audio/audio_mixed_processor")
   @raylib.init_window(
     screen_width, screen_height, "raylib [audio] example - processing mixed output",
   )
