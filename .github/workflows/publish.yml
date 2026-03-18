@@ -1,0 +1,36 @@
+name: publish-package
+run-name: publish to mooncakes
+on: workflow_dispatch
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+      - name: moon version
+        run: |
+          moon version --all
+      - name: moon update
+        run: |
+          moon update
+      - name: moon check
+        run: |
+          moon check --target native
+      - name: publish tonyfettes/raylib
+        run: |
+          echo $SECRET > ~/.moon/credentials.json
+          moon publish
+          rm ~/.moon/credentials.json
+        env:
+          SECRET: ${{ secrets.MOONCAKES_TONYFETTES_TOKEN }}
+      - name: publish moonbit-community/raylib
+        run: |
+          sed -i 's|"tonyfettes/raylib"|"moonbit-community/raylib"|' moon.mod.json
+          echo $SECRET > ~/.moon/credentials.json
+          moon publish
+          rm ~/.moon/credentials.json
+        env:
+          SECRET: ${{ secrets.MOONCAKES_MOONBIT_COMMUNITY_TOKEN }}
