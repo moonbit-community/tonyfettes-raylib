@@ -44,21 +44,18 @@ fn main {
   let zoom_loc = @raylib.get_shader_location(shader, "zoom")
   let offset_loc = @raylib.get_shader_location(shader, "offset")
 
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     c_loc,
     @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     zoom_loc,
     @raylib.ShaderUniformData::Float(zoom),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     offset_loc,
     @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
-  )
+    )
 
   let mut increment_speed = 0
   let mut show_controls = true
@@ -71,51 +68,45 @@ fn main {
     if @raylib.is_key_pressed(@raylib.KeyOne) {
       c_x = points_of_interest[0].x
       c_y = points_of_interest[0].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     } else if @raylib.is_key_pressed(@raylib.KeyTwo) {
       c_x = points_of_interest[1].x
       c_y = points_of_interest[1].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     } else if @raylib.is_key_pressed(@raylib.KeyThree) {
       c_x = points_of_interest[2].x
       c_y = points_of_interest[2].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     } else if @raylib.is_key_pressed(@raylib.KeyFour) {
       c_x = points_of_interest[3].x
       c_y = points_of_interest[3].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     } else if @raylib.is_key_pressed(@raylib.KeyFive) {
       c_x = points_of_interest[4].x
       c_y = points_of_interest[4].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     } else if @raylib.is_key_pressed(@raylib.KeySix) {
       c_x = points_of_interest[5].x
       c_y = points_of_interest[5].y
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         c_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-      )
+        )
     }
 
     // Reset view
@@ -123,16 +114,14 @@ fn main {
       zoom = starting_zoom
       offset_x = 0.0
       offset_y = 0.0
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         zoom_loc,
         @raylib.ShaderUniformData::Float(zoom),
-      )
-      @raylib.set_shader_value(
-        shader,
+        )
+      shader.set_value(
         offset_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
-      )
+        )
     }
 
     if @raylib.is_key_pressed(@raylib.KeySpace) {
@@ -172,16 +161,14 @@ fn main {
       offset_x = offset_x + @raylib.get_frame_time() * offset_velocity_x
       offset_y = offset_y + @raylib.get_frame_time() * offset_velocity_y
 
-      @raylib.set_shader_value(
-        shader,
+      shader.set_value(
         zoom_loc,
         @raylib.ShaderUniformData::Float(zoom),
-      )
-      @raylib.set_shader_value(
-        shader,
+        )
+      shader.set_value(
         offset_loc,
         @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(offset_x, offset_y)),
-      )
+        )
     }
 
     // Animate c parameter
@@ -190,11 +177,10 @@ fn main {
       0.0005
     c_x = c_x + dc
     c_y = c_y + dc
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       c_loc,
       @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(c_x, c_y)),
-    )
+      )
 
     // Draw
     @raylib.begin_texture_mode(target)

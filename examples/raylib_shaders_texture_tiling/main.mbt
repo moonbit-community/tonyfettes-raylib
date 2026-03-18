@@ -28,11 +28,10 @@ fn main {
   )
   // Set the texture tiling using a shader
   let shader = @raylib.load_shader("", "resources/shaders/glsl330/tiling.fs")
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     @raylib.get_shader_location(shader, "tiling"),
     @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(3.0, 3.0)),
-  )
+    )
   @raylib.set_model_material_shader(model, 0, shader)
   @raylib.disable_cursor()
   @raylib.set_target_fps(60)

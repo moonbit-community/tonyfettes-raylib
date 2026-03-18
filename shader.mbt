@@ -186,7 +186,6 @@ pub fn Shader::begin_mode(self : Shader) -> Unit {
 }
 
 ///|
-#as_free_fn(set_shader_value)
 pub fn Shader::set_value(
   self : Shader,
   loc_index : Int,
@@ -198,6 +197,17 @@ pub fn Shader::set_value(
     value.to_bytes(),
     value.uniform_type(),
   )
+}
+
+///|
+#deprecated("Use Shader::set_value instead")
+pub fn set_shader_value(
+  shader : Shader,
+  loc_index : Int,
+  value : Bytes,
+  uniform_type : Int,
+) -> Unit {
+  @ffi.set_shader_value(shader.0, loc_index, value, uniform_type)
 }
 
 ///|
@@ -220,6 +230,7 @@ pub fn Shader::set_value_v(
 }
 
 ///|
+#deprecated("Use Shader::set_value_v instead")
 pub fn set_shader_value_v(
   shader : Shader,
   loc_index : Int,

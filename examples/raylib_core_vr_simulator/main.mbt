@@ -34,43 +34,35 @@ fn main {
   )
 
   // Update distortion shader with lens and distortion-scale parameters
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "leftLensCenter"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_left_lens_center(config)),
+    @raylib.ShaderUniformData::Vec2(config.left_lens_center()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "rightLensCenter"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_right_lens_center(config)),
+    @raylib.ShaderUniformData::Vec2(config.right_lens_center()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "leftScreenCenter"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_left_screen_center(config)),
+    @raylib.ShaderUniformData::Vec2(config.left_screen_center()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "rightScreenCenter"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_right_screen_center(config)),
+    @raylib.ShaderUniformData::Vec2(config.right_screen_center()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "scale"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_scale(config)),
+    @raylib.ShaderUniformData::Vec2(config.scale()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "scaleIn"),
-    @raylib.ShaderUniformData::Vec2(@raylib.vr_stereo_config_scale_in(config)),
+    @raylib.ShaderUniformData::Vec2(config.scale_in()),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "deviceWarpParam"),
     @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.lens_distortion_values[0], device.lens_distortion_values[1], device.lens_distortion_values[2], device.lens_distortion_values[3])),
   )
-  @raylib.set_shader_value(
-    distortion,
+  distortion.set_value(
     @raylib.get_shader_location(distortion, "chromaAbParam"),
     @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.chroma_ab_correction[0], device.chroma_ab_correction[1], device.chroma_ab_correction[2], device.chroma_ab_correction[3])),
   )

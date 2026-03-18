@@ -72,32 +72,28 @@ fn create_light(
 fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
   // Send light enabled state as integer
   let enabled_val = if light.enabled { 1 } else { 0 }
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     light.enabled_loc,
     @raylib.ShaderUniformData::Int(enabled_val),
-  )
+    )
 
   // Send light type
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     light.type_loc,
     @raylib.ShaderUniformData::Int(light.light_type),
-  )
+    )
 
   // Send light position as vec3
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     light.position_loc,
     @raylib.ShaderUniformData::Vec3(light.position),
-  )
+    )
 
   // Send light target as vec3
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     light.target_loc,
     @raylib.ShaderUniformData::Vec3(light.target),
-  )
+    )
 
   // Send light color as vec4 (normalized 0.0-1.0)
   let color_normalized = @raylib.Vector4::new(
@@ -106,11 +102,10 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
     Float::from_int(light.color.b.to_int()) / 255.0,
     Float::from_int(light.color.a.to_int()) / 255.0,
   )
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     light.color_loc,
     @raylib.ShaderUniformData::Vec4(color_normalized),
-  )
+    )
 }
 
 // ============================================================================
@@ -370,11 +365,10 @@ fn main {
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
     // Update the shader with the camera view vector
-    @raylib.set_shader_value(
-      deferred_shader,
+    deferred_shader.set_value(
       @raylib.get_shader_location(deferred_shader, "viewPosition"),
       @raylib.ShaderUniformData::Vec3(camera.position),
-    )
+      )
 
     // Toggle lights with key presses
     if @raylib.is_key_pressed(@raylib.KeyY) {

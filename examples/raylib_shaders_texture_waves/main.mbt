@@ -33,41 +33,34 @@ fn main {
     Float::from_int(@raylib.get_screen_width()),
     Float::from_int(@raylib.get_screen_height()),
   )
-  @raylib.set_shader_value(
-    shader,
+  shader.set_value(
     @raylib.get_shader_location(shader, "size"),
     @raylib.ShaderUniformData::Vec2(screen_size),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     freq_x_loc,
     @raylib.ShaderUniformData::Float(freq_x),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     freq_y_loc,
     @raylib.ShaderUniformData::Float(freq_y),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     amp_x_loc,
     @raylib.ShaderUniformData::Float(amp_x),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     amp_y_loc,
     @raylib.ShaderUniformData::Float(amp_y),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     speed_x_loc,
     @raylib.ShaderUniformData::Float(speed_x),
-  )
-  @raylib.set_shader_value(
-    shader,
+    )
+  shader.set_value(
     speed_y_loc,
     @raylib.ShaderUniformData::Float(speed_y),
-  )
+    )
 
   let mut seconds : Float = 0.0
 
@@ -77,11 +70,10 @@ fn main {
   while not(@raylib.window_should_close()) {
     // Update
     seconds = seconds + @raylib.get_frame_time()
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       seconds_loc,
       @raylib.ShaderUniformData::Float(seconds),
-    )
+      )
 
     // Draw
     @raylib.begin_drawing()

@@ -39,11 +39,10 @@ fn main {
     } else if divider_value > 1.0 {
       divider_value = 1.0
     }
-    @raylib.set_shader_value(
-      shader,
+    shader.set_value(
       divider_loc,
       @raylib.ShaderUniformData::Float(divider_value),
-    )
+      )
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)

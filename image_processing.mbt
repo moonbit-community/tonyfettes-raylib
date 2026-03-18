@@ -151,7 +151,6 @@ pub fn Image::load_raw(
 }
 
 ///|
-#as_free_fn(load_image_anim)
 pub fn Image::load_anim(file_name : String) -> (Image, Int) {
   let frames = Ref::new(0)
   let image = @ffi.load_image_anim(@utf8.encode(file_name), frames)
@@ -159,7 +158,6 @@ pub fn Image::load_anim(file_name : String) -> (Image, Int) {
 }
 
 ///|
-#as_free_fn(load_image_anim_from_memory)
 pub fn Image::load_anim_from_memory(
   file_type : String,
   file_data : Bytes,
@@ -173,6 +171,26 @@ pub fn Image::load_anim_from_memory(
     frames,
   )
   (image, frames.val)
+}
+
+///|
+#deprecated("Use Image::load_anim instead (returns (Image, Int) with frame count)")
+pub fn load_image_anim(file_name : String) -> Image {
+  let frames = Ref::new(0)
+  @ffi.load_image_anim(@utf8.encode(file_name), frames)
+}
+
+///|
+#deprecated("Use Image::load_anim_from_memory instead (returns (Image, Int) with frame count)")
+pub fn load_image_anim_from_memory(
+  file_type : String,
+  file_data : Bytes,
+  data_size : Int,
+) -> Image {
+  let frames = Ref::new(0)
+  @ffi.load_image_anim_from_memory(
+    @utf8.encode(file_type), file_data, data_size, frames,
+  )
 }
 
 // ============================================================================
