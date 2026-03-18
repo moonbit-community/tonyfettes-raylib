@@ -28,7 +28,8 @@ jobs:
           SECRET: ${{ secrets.MOONCAKES_TONYFETTES_TOKEN }}
       - name: publish moonbit-community/raylib
         run: |
-          sed -i 's|"tonyfettes/raylib"|"moonbit-community/raylib"|' moon.mod.json
+          sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' moon.mod.json
+          find . -name 'moon.pkg' -not -path './.mooncakes/*' -not -path './examples/*' -exec sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' {} +
           echo $SECRET > ~/.moon/credentials.json
           moon publish
           rm ~/.moon/credentials.json
