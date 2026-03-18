@@ -1813,28 +1813,16 @@ pub fn Material::unload(Self) -> Unit
 pub impl Default for Material
 
 type MaterialMap
-#as_free_fn(material_map_get_color)
 pub fn MaterialMap::color(Self) -> Color
-#as_free_fn(material_map_set_color)
 pub fn MaterialMap::set_color(Self, Color) -> Unit
-#as_free_fn(material_map_set_texture)
 pub fn MaterialMap::set_texture(Self, Texture) -> Unit
-#as_free_fn(material_map_set_value)
 pub fn MaterialMap::set_value(Self, Float) -> Unit
-#as_free_fn(material_map_get_texture)
 pub fn MaterialMap::texture(Self) -> Texture
-#as_free_fn(material_map_get_value)
 pub fn MaterialMap::value(Self) -> Float
 
 type MaterialMapArray
-#as_free_fn(material_map_array_count)
 pub fn MaterialMapArray::count(Self) -> Int
-#as_free_fn(material_map_array_length, deprecated)
-#deprecated
-pub fn MaterialMapArray::length(Self) -> Int
-#as_free_fn(material_map_array_op_get)
 pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
-#as_free_fn(material_map_array_op_set)
 pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
 
 type MaterialsArray
