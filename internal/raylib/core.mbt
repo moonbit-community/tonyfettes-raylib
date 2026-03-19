@@ -1077,3 +1077,551 @@ pub extern "c" fn rl_set_uniform(
   uniform_type : Int,
   count : Int,
 ) = "moonbit_raylib_rl_set_uniform"
+
+// ============================================================================
+// rlgl: Matrix operations
+// ============================================================================
+
+///|
+/// Choose the current matrix to be transformed.
+pub extern "c" fn rl_matrix_mode(mode : Int) = "rlMatrixMode"
+
+///|
+/// Reset current matrix to identity matrix.
+pub extern "c" fn rl_load_identity() = "rlLoadIdentity"
+
+///|
+/// Set up a perspective projection matrix.
+pub extern "c" fn rl_frustum(
+  left : Double,
+  right : Double,
+  bottom : Double,
+  top : Double,
+  znear : Double,
+  zfar : Double,
+) = "rlFrustum"
+
+///|
+/// Set up an orthographic projection matrix.
+pub extern "c" fn rl_ortho(
+  left : Double,
+  right : Double,
+  bottom : Double,
+  top : Double,
+  znear : Double,
+  zfar : Double,
+) = "rlOrtho"
+
+///|
+/// Set clip planes distances.
+pub extern "c" fn rl_set_clip_planes(near_plane : Double, far_plane : Double) = "rlSetClipPlanes"
+
+///|
+/// Get cull plane distance near.
+pub extern "c" fn rl_get_cull_distance_near() -> Double = "rlGetCullDistanceNear"
+
+///|
+/// Get cull plane distance far.
+pub extern "c" fn rl_get_cull_distance_far() -> Double = "rlGetCullDistanceFar"
+
+// ============================================================================
+// rlgl: Vertex level (additional)
+// ============================================================================
+
+///|
+/// Define one vertex (position) - 2 int.
+pub extern "c" fn rl_vertex2i(x : Int, y : Int) = "rlVertex2i"
+
+///|
+/// Define one vertex (color) - 3 float.
+pub extern "c" fn rl_color3f(x : Float, y : Float, z : Float) = "rlColor3f"
+
+///|
+/// Define one vertex (color) - 4 float.
+pub extern "c" fn rl_color4f(x : Float, y : Float, z : Float, w : Float) = "rlColor4f"
+
+// ============================================================================
+// rlgl: Vertex buffers state
+// ============================================================================
+
+///|
+/// Enable vertex array (VAO, if supported).
+pub extern "c" fn rl_enable_vertex_array(vao_id : UInt) -> Bool = "moonbit_raylib_rl_enable_vertex_array"
+
+///|
+/// Disable vertex array (VAO, if supported).
+pub extern "c" fn rl_disable_vertex_array() = "rlDisableVertexArray"
+
+///|
+/// Enable vertex buffer (VBO).
+pub extern "c" fn rl_enable_vertex_buffer(id : UInt) = "rlEnableVertexBuffer"
+
+///|
+/// Disable vertex buffer (VBO).
+pub extern "c" fn rl_disable_vertex_buffer() = "rlDisableVertexBuffer"
+
+///|
+/// Enable vertex buffer element (VBO element).
+pub extern "c" fn rl_enable_vertex_buffer_element(id : UInt) = "rlEnableVertexBufferElement"
+
+///|
+/// Disable vertex buffer element (VBO element).
+pub extern "c" fn rl_disable_vertex_buffer_element() = "rlDisableVertexBufferElement"
+
+///|
+/// Enable vertex attribute index.
+pub extern "c" fn rl_enable_vertex_attribute(index : UInt) = "rlEnableVertexAttribute"
+
+///|
+/// Disable vertex attribute index.
+pub extern "c" fn rl_disable_vertex_attribute(index : UInt) = "rlDisableVertexAttribute"
+
+// ============================================================================
+// rlgl: Textures state (additional)
+// ============================================================================
+
+///|
+/// Enable texture cubemap.
+pub extern "c" fn rl_enable_texture_cubemap(id : UInt) = "rlEnableTextureCubemap"
+
+///|
+/// Disable texture cubemap.
+pub extern "c" fn rl_disable_texture_cubemap() = "rlDisableTextureCubemap"
+
+///|
+/// Set texture parameters (filter, wrap).
+pub extern "c" fn rl_texture_parameters(id : UInt, param : Int, value : Int) = "rlTextureParameters"
+
+///|
+/// Set cubemap parameters (filter, wrap).
+pub extern "c" fn rl_cubemap_parameters(id : UInt, param : Int, value : Int) = "rlCubemapParameters"
+
+// ============================================================================
+// rlgl: Framebuffer state (additional)
+// ============================================================================
+
+///|
+/// Get the currently active render texture (fbo), 0 for default framebuffer.
+pub extern "c" fn rl_get_active_framebuffer() -> UInt = "rlGetActiveFramebuffer"
+
+// ============================================================================
+// rlgl: General render state
+// ============================================================================
+
+///|
+/// Set face culling mode.
+pub extern "c" fn rl_set_cull_face(mode : Int) = "rlSetCullFace"
+
+///|
+/// Enable scissor test.
+pub extern "c" fn rl_enable_scissor_test() = "rlEnableScissorTest"
+
+///|
+/// Disable scissor test.
+pub extern "c" fn rl_disable_scissor_test() = "rlDisableScissorTest"
+
+///|
+/// Scissor test.
+pub extern "c" fn rl_scissor(x : Int, y : Int, width : Int, height : Int) = "rlScissor"
+
+///|
+/// Enable wire mode.
+pub extern "c" fn rl_enable_wire_mode() = "rlEnableWireMode"
+
+///|
+/// Enable point mode.
+pub extern "c" fn rl_enable_point_mode() = "rlEnablePointMode"
+
+///|
+/// Disable wire (and point) mode.
+pub extern "c" fn rl_disable_wire_mode() = "rlDisableWireMode"
+
+///|
+/// Set the line drawing width.
+pub extern "c" fn rl_set_line_width(width : Float) = "rlSetLineWidth"
+
+///|
+/// Get the line drawing width.
+pub extern "c" fn rl_get_line_width() -> Float = "rlGetLineWidth"
+
+///|
+/// Enable line aliasing.
+pub extern "c" fn rl_enable_smooth_lines() = "rlEnableSmoothLines"
+
+///|
+/// Disable line aliasing.
+pub extern "c" fn rl_disable_smooth_lines() = "rlDisableSmoothLines"
+
+///|
+/// Enable stereo rendering.
+pub extern "c" fn rl_enable_stereo_render() = "rlEnableStereoRender"
+
+///|
+/// Disable stereo rendering.
+pub extern "c" fn rl_disable_stereo_render() = "rlDisableStereoRender"
+
+///|
+/// Check if stereo render is enabled.
+pub extern "c" fn rl_is_stereo_render_enabled() -> Bool = "moonbit_raylib_rl_is_stereo_render_enabled"
+
+///|
+/// Clear color buffer with color.
+pub extern "c" fn rl_clear_color(r : Byte, g : Byte, b : Byte, a : Byte) = "rlClearColor"
+
+///|
+/// Check and log OpenGL error codes.
+pub extern "c" fn rl_check_errors() = "rlCheckErrors"
+
+///|
+/// Set blending mode factors and equations separately (using OpenGL factors).
+pub extern "c" fn rl_set_blend_factors_separate(
+  gl_src_rgb : Int,
+  gl_dst_rgb : Int,
+  gl_src_alpha : Int,
+  gl_dst_alpha : Int,
+  gl_eq_rgb : Int,
+  gl_eq_alpha : Int,
+) = "rlSetBlendFactorsSeparate"
+
+///|
+/// Color mask control.
+pub extern "c" fn rl_color_mask(r : Bool, g : Bool, b : Bool, a : Bool) = "moonbit_raylib_rl_color_mask"
+
+// ============================================================================
+// rlgl: Init / version
+// ============================================================================
+
+///|
+/// Get current OpenGL version.
+pub extern "c" fn rl_get_version() -> Int = "rlGetVersion"
+
+///|
+/// Set current framebuffer width.
+pub extern "c" fn rl_set_framebuffer_width(width : Int) = "rlSetFramebufferWidth"
+
+///|
+/// Set current framebuffer height.
+pub extern "c" fn rl_set_framebuffer_height(height : Int) = "rlSetFramebufferHeight"
+
+// ============================================================================
+// rlgl: Default resource
+// ============================================================================
+
+///|
+/// Get default texture id.
+pub extern "c" fn rl_get_texture_id_default() -> UInt = "rlGetTextureIdDefault"
+
+// ============================================================================
+// rlgl: Vertex buffers management
+// ============================================================================
+
+///|
+/// Load vertex array (vao) if supported.
+pub extern "c" fn rl_load_vertex_array() -> UInt = "rlLoadVertexArray"
+
+///|
+/// Load a vertex buffer object.
+#borrow(buffer)
+pub extern "c" fn rl_load_vertex_buffer(
+  buffer : Bytes,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer"
+
+///|
+/// Load vertex buffer elements object.
+#borrow(buffer)
+pub extern "c" fn rl_load_vertex_buffer_element(
+  buffer : Bytes,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element"
+
+///|
+/// Unload vertex array (vao).
+pub extern "c" fn rl_unload_vertex_array(vao_id : UInt) = "rlUnloadVertexArray"
+
+///|
+/// Unload vertex buffer object.
+pub extern "c" fn rl_unload_vertex_buffer(vbo_id : UInt) = "rlUnloadVertexBuffer"
+
+///|
+/// Update vertex buffer object data on GPU buffer.
+#borrow(data)
+pub extern "c" fn rl_update_vertex_buffer(
+  buffer_id : UInt,
+  data : Bytes,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer"
+
+///|
+/// Update vertex buffer elements data on GPU buffer.
+#borrow(data)
+pub extern "c" fn rl_update_vertex_buffer_elements(
+  id : UInt,
+  data : Bytes,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_elements"
+
+///|
+/// Set vertex attribute data divisor.
+pub extern "c" fn rl_set_vertex_attribute_divisor(index : UInt, divisor : Int) = "rlSetVertexAttributeDivisor"
+
+///|
+/// Set vertex attribute data configuration.
+pub extern "c" fn rl_set_vertex_attribute(
+  index : UInt,
+  comp_size : Int,
+  type_ : Int,
+  normalized : Bool,
+  stride : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute"
+
+///|
+/// Set vertex attribute default value, when attribute to provided.
+#borrow(value)
+pub extern "c" fn rl_set_vertex_attribute_default(
+  loc_index : Int,
+  value : Bytes,
+  attrib_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute_default"
+
+///|
+/// Draw vertex array (currently active vao).
+pub extern "c" fn rl_draw_vertex_array(offset : Int, count : Int) = "rlDrawVertexArray"
+
+///|
+/// Draw vertex array (currently active vao) with instancing.
+pub extern "c" fn rl_draw_vertex_array_instanced(
+  offset : Int,
+  count : Int,
+  instances : Int,
+) = "rlDrawVertexArrayInstanced"
+
+///|
+/// Draw vertex array elements.
+pub extern "c" fn rl_draw_vertex_array_elements(
+  offset : Int,
+  count : Int,
+  buffer : Int,
+) = "moonbit_raylib_rl_draw_vertex_array_elements"
+
+///|
+/// Draw vertex array elements with instancing.
+pub extern "c" fn rl_draw_vertex_array_elements_instanced(
+  offset : Int,
+  count : Int,
+  buffer : Int,
+  instances : Int,
+) = "moonbit_raylib_rl_draw_vertex_array_elements_instanced"
+
+// ============================================================================
+// rlgl: Textures management (additional)
+// ============================================================================
+
+///|
+/// Load texture cubemap data.
+#borrow(data)
+pub extern "c" fn rl_load_texture_cubemap(
+  data : Bytes,
+  size : Int,
+  format : Int,
+  mipmap_count : Int,
+) -> UInt = "moonbit_raylib_rl_load_texture_cubemap"
+
+///|
+/// Update texture with new data on GPU.
+#borrow(data)
+pub extern "c" fn rl_update_texture(
+  id : UInt,
+  offset_x : Int,
+  offset_y : Int,
+  width : Int,
+  height : Int,
+  format : Int,
+  data : Bytes,
+) = "moonbit_raylib_rl_update_texture"
+
+// ============================================================================
+// rlgl: Shader management (additional)
+// ============================================================================
+
+///|
+/// Load shader from code strings.
+#borrow(vs_code, fs_code)
+pub extern "c" fn rl_load_shader_code(vs_code : Bytes, fs_code : Bytes) -> UInt = "moonbit_raylib_rl_load_shader_code"
+
+///|
+/// Compile custom shader and return shader id.
+#borrow(shader_code)
+pub extern "c" fn rl_compile_shader(shader_code : Bytes, type_ : Int) -> UInt = "rlCompileShader"
+
+///|
+/// Load custom shader program.
+pub extern "c" fn rl_load_shader_program(
+  v_shader_id : UInt,
+  f_shader_id : UInt,
+) -> UInt = "rlLoadShaderProgram"
+
+///|
+/// Unload shader program.
+pub extern "c" fn rl_unload_shader_program(id : UInt) = "rlUnloadShaderProgram"
+
+///|
+/// Get shader location attribute.
+#borrow(attrib_name)
+pub extern "c" fn rl_get_location_attrib(
+  shader_id : UInt,
+  attrib_name : Bytes,
+) -> Int = "rlGetLocationAttrib"
+
+///|
+/// Set shader value matrix.
+#borrow(mat)
+pub extern "c" fn rl_set_uniform_matrix(loc_index : Int, mat : Bytes) = "moonbit_raylib_rl_set_uniform_matrix"
+
+///|
+/// Set shader value matrices.
+#borrow(mat)
+pub extern "c" fn rl_set_uniform_matrices(
+  loc_index : Int,
+  mat : Bytes,
+  count : Int,
+) = "moonbit_raylib_rl_set_uniform_matrices"
+
+// ============================================================================
+// rlgl: Compute shader
+// ============================================================================
+
+///|
+/// Load compute shader program.
+pub extern "c" fn rl_load_compute_shader_program(shader_id : UInt) -> UInt = "rlLoadComputeShaderProgram"
+
+///|
+/// Dispatch compute shader (equivalent to draw for graphics pipeline).
+pub extern "c" fn rl_compute_shader_dispatch(
+  group_x : UInt,
+  group_y : UInt,
+  group_z : UInt,
+) = "rlComputeShaderDispatch"
+
+// ============================================================================
+// rlgl: Shader storage buffer object (SSBO)
+// ============================================================================
+
+///|
+/// Load shader storage buffer object (SSBO).
+#borrow(data)
+pub extern "c" fn rl_load_shader_buffer(
+  size : UInt,
+  data : Bytes,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer"
+
+///|
+/// Load shader storage buffer object (SSBO) with no initial data.
+pub extern "c" fn rl_load_shader_buffer_empty(
+  size : UInt,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer_empty"
+
+///|
+/// Unload shader storage buffer object (SSBO).
+pub extern "c" fn rl_unload_shader_buffer(ssbo_id : UInt) = "rlUnloadShaderBuffer"
+
+///|
+/// Update SSBO buffer data.
+#borrow(data)
+pub extern "c" fn rl_update_shader_buffer(
+  id : UInt,
+  data : Bytes,
+  data_size : UInt,
+  offset : UInt,
+) = "moonbit_raylib_rl_update_shader_buffer"
+
+///|
+/// Read SSBO buffer data (GPU->CPU).
+pub extern "c" fn rl_read_shader_buffer(
+  id : UInt,
+  count : UInt,
+  offset : UInt,
+) -> Bytes = "moonbit_raylib_rl_read_shader_buffer"
+
+///|
+/// Bind SSBO buffer.
+pub extern "c" fn rl_bind_shader_buffer(id : UInt, index : UInt) = "rlBindShaderBuffer"
+
+///|
+/// Copy SSBO data between buffers.
+pub extern "c" fn rl_copy_shader_buffer(
+  dest_id : UInt,
+  src_id : UInt,
+  dest_offset : UInt,
+  src_offset : UInt,
+  count : UInt,
+) = "rlCopyShaderBuffer"
+
+///|
+/// Get SSBO buffer size.
+pub extern "c" fn rl_get_shader_buffer_size(id : UInt) -> UInt = "rlGetShaderBufferSize"
+
+// ============================================================================
+// rlgl: Bind image texture
+// ============================================================================
+
+///|
+/// Bind image texture.
+pub extern "c" fn rl_bind_image_texture(
+  id : UInt,
+  index : UInt,
+  format : Int,
+  read_only : Bool,
+) = "moonbit_raylib_rl_bind_image_texture"
+
+// ============================================================================
+// rlgl: Matrix setters
+// ============================================================================
+
+///|
+/// Set a custom projection matrix (replaces internal projection matrix).
+#borrow(proj)
+pub extern "c" fn rl_set_matrix_projection(proj : Bytes) = "moonbit_raylib_rl_set_matrix_projection"
+
+///|
+/// Set a custom modelview matrix (replaces internal modelview matrix).
+#borrow(view)
+pub extern "c" fn rl_set_matrix_modelview(view : Bytes) = "moonbit_raylib_rl_set_matrix_modelview"
+
+// ============================================================================
+// rlgl: Matrix getters (additional)
+// ============================================================================
+
+///|
+/// Get internal accumulated transform matrix.
+pub extern "c" fn rl_get_matrix_transform() -> Bytes = "moonbit_raylib_rl_get_matrix_transform"
+
+///|
+/// Get internal projection matrix for stereo render (selected eye).
+pub extern "c" fn rl_get_matrix_projection_stereo(eye : Int) -> Bytes = "moonbit_raylib_rl_get_matrix_projection_stereo"
+
+///|
+/// Get internal view offset matrix for stereo render (selected eye).
+pub extern "c" fn rl_get_matrix_view_offset_stereo(eye : Int) -> Bytes = "moonbit_raylib_rl_get_matrix_view_offset_stereo"
+
+// ============================================================================
+// rlgl: Stereo matrix setters
+// ============================================================================
+
+///|
+/// Set eyes projection matrices for stereo rendering.
+#borrow(right, left)
+pub extern "c" fn rl_set_matrix_projection_stereo(right : Bytes, left : Bytes) = "moonbit_raylib_rl_set_matrix_projection_stereo"
+
+///|
+/// Set eyes view offsets matrices for stereo rendering.
+#borrow(right, left)
+pub extern "c" fn rl_set_matrix_view_offset_stereo(right : Bytes, left : Bytes) = "moonbit_raylib_rl_set_matrix_view_offset_stereo"

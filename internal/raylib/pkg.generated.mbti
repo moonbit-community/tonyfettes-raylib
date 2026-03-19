@@ -1094,13 +1094,35 @@ pub fn rl_begin(Int) -> Unit
 
 pub fn rl_bind_framebuffer(UInt, UInt) -> Unit
 
+pub fn rl_bind_image_texture(UInt, UInt, Int, Bool) -> Unit
+
+pub fn rl_bind_shader_buffer(UInt, UInt) -> Unit
+
 pub fn rl_blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn rl_check_errors() -> Unit
 
 pub fn rl_check_render_batch_limit(Int) -> Bool
 
+pub fn rl_clear_color(Byte, Byte, Byte, Byte) -> Unit
+
 pub fn rl_clear_screen_buffers() -> Unit
 
+pub fn rl_color3f(Float, Float, Float) -> Unit
+
+pub fn rl_color4f(Float, Float, Float, Float) -> Unit
+
 pub fn rl_color4ub(Byte, Byte, Byte, Byte) -> Unit
+
+pub fn rl_color_mask(Bool, Bool, Bool, Bool) -> Unit
+
+pub fn rl_compile_shader(Bytes, Int) -> UInt
+
+pub fn rl_compute_shader_dispatch(UInt, UInt, UInt) -> Unit
+
+pub fn rl_copy_shader_buffer(UInt, UInt, UInt, UInt, UInt) -> Unit
+
+pub fn rl_cubemap_parameters(UInt, Int, Int) -> Unit
 
 pub fn rl_disable_backface_culling() -> Unit
 
@@ -1112,11 +1134,37 @@ pub fn rl_disable_depth_test() -> Unit
 
 pub fn rl_disable_framebuffer() -> Unit
 
+pub fn rl_disable_scissor_test() -> Unit
+
 pub fn rl_disable_shader() -> Unit
+
+pub fn rl_disable_smooth_lines() -> Unit
+
+pub fn rl_disable_stereo_render() -> Unit
 
 pub fn rl_disable_texture() -> Unit
 
+pub fn rl_disable_texture_cubemap() -> Unit
+
+pub fn rl_disable_vertex_array() -> Unit
+
+pub fn rl_disable_vertex_attribute(UInt) -> Unit
+
+pub fn rl_disable_vertex_buffer() -> Unit
+
+pub fn rl_disable_vertex_buffer_element() -> Unit
+
+pub fn rl_disable_wire_mode() -> Unit
+
 pub fn rl_draw_render_batch_active() -> Unit
+
+pub fn rl_draw_vertex_array(Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements(Int, Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements_instanced(Int, Int, Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_instanced(Int, Int, Int) -> Unit
 
 pub fn rl_enable_backface_culling() -> Unit
 
@@ -1128,9 +1176,29 @@ pub fn rl_enable_depth_test() -> Unit
 
 pub fn rl_enable_framebuffer(UInt) -> Unit
 
+pub fn rl_enable_point_mode() -> Unit
+
+pub fn rl_enable_scissor_test() -> Unit
+
 pub fn rl_enable_shader(UInt) -> Unit
 
+pub fn rl_enable_smooth_lines() -> Unit
+
+pub fn rl_enable_stereo_render() -> Unit
+
 pub fn rl_enable_texture(UInt) -> Unit
+
+pub fn rl_enable_texture_cubemap(UInt) -> Unit
+
+pub fn rl_enable_vertex_array(UInt) -> Bool
+
+pub fn rl_enable_vertex_attribute(UInt) -> Unit
+
+pub fn rl_enable_vertex_buffer(UInt) -> Unit
+
+pub fn rl_enable_vertex_buffer_element(UInt) -> Unit
+
+pub fn rl_enable_wire_mode() -> Unit
 
 pub fn rl_end() -> Unit
 
@@ -1138,9 +1206,21 @@ pub fn rl_framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
 
 pub fn rl_framebuffer_complete(UInt) -> Bool
 
+pub fn rl_frustum(Double, Double, Double, Double, Double, Double) -> Unit
+
+pub fn rl_get_active_framebuffer() -> UInt
+
+pub fn rl_get_cull_distance_far() -> Double
+
+pub fn rl_get_cull_distance_near() -> Double
+
 pub fn rl_get_framebuffer_height() -> Int
 
 pub fn rl_get_framebuffer_width() -> Int
+
+pub fn rl_get_line_width() -> Float
+
+pub fn rl_get_location_attrib(UInt, Bytes) -> Int
 
 pub fn rl_get_location_uniform(UInt, Bytes) -> Int
 
@@ -1148,7 +1228,23 @@ pub fn rl_get_matrix_modelview() -> Bytes
 
 pub fn rl_get_matrix_projection() -> Bytes
 
+pub fn rl_get_matrix_projection_stereo(Int) -> Bytes
+
+pub fn rl_get_matrix_transform() -> Bytes
+
+pub fn rl_get_matrix_view_offset_stereo(Int) -> Bytes
+
+pub fn rl_get_shader_buffer_size(UInt) -> UInt
+
 pub fn rl_get_shader_id_default() -> UInt
+
+pub fn rl_get_texture_id_default() -> UInt
+
+pub fn rl_get_version() -> Int
+
+pub fn rl_is_stereo_render_enabled() -> Bool
+
+pub fn rl_load_compute_shader_program(UInt) -> UInt
 
 pub fn rl_load_draw_cube() -> Unit
 
@@ -1156,41 +1252,117 @@ pub fn rl_load_draw_quad() -> Unit
 
 pub fn rl_load_framebuffer() -> UInt
 
+pub fn rl_load_identity() -> Unit
+
+pub fn rl_load_shader_buffer(UInt, Bytes, Int) -> UInt
+
+pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
+
+pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
+
+pub fn rl_load_shader_program(UInt, UInt) -> UInt
+
 pub fn rl_load_texture(Int, Int, Int, Int) -> UInt
 
+pub fn rl_load_texture_cubemap(Bytes, Int, Int, Int) -> UInt
+
 pub fn rl_load_texture_depth(Int, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_array() -> UInt
+
+pub fn rl_load_vertex_buffer(Bytes, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element(Bytes, Int, Bool) -> UInt
+
+pub fn rl_matrix_mode(Int) -> Unit
 
 pub fn rl_mult_matrixf(Bytes) -> Unit
 
 pub fn rl_normal3f(Float, Float, Float) -> Unit
 
+pub fn rl_ortho(Double, Double, Double, Double, Double, Double) -> Unit
+
 pub fn rl_pop_matrix() -> Unit
 
 pub fn rl_push_matrix() -> Unit
+
+pub fn rl_read_shader_buffer(UInt, UInt, UInt) -> Bytes
 
 pub fn rl_rotatef(Float, Float, Float, Float) -> Unit
 
 pub fn rl_scalef(Float, Float, Float) -> Unit
 
+pub fn rl_scissor(Int, Int, Int, Int) -> Unit
+
 pub fn rl_set_blend_factors(Int, Int, Int) -> Unit
 
+pub fn rl_set_blend_factors_separate(Int, Int, Int, Int, Int, Int) -> Unit
+
 pub fn rl_set_blend_mode(Int) -> Unit
+
+pub fn rl_set_clip_planes(Double, Double) -> Unit
+
+pub fn rl_set_cull_face(Int) -> Unit
+
+pub fn rl_set_framebuffer_height(Int) -> Unit
+
+pub fn rl_set_framebuffer_width(Int) -> Unit
+
+pub fn rl_set_line_width(Float) -> Unit
+
+pub fn rl_set_matrix_modelview(Bytes) -> Unit
+
+pub fn rl_set_matrix_projection(Bytes) -> Unit
+
+pub fn rl_set_matrix_projection_stereo(Bytes, Bytes) -> Unit
+
+pub fn rl_set_matrix_view_offset_stereo(Bytes, Bytes) -> Unit
 
 pub fn rl_set_texture(UInt) -> Unit
 
 pub fn rl_set_uniform(Int, Bytes, Int, Int) -> Unit
 
+pub fn rl_set_uniform_matrices(Int, Bytes, Int) -> Unit
+
+pub fn rl_set_uniform_matrix(Int, Bytes) -> Unit
+
 pub fn rl_set_uniform_sampler(Int, UInt) -> Unit
 
+pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_default(Int, Bytes, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
+
 pub fn rl_tex_coord2f(Float, Float) -> Unit
+
+pub fn rl_texture_parameters(UInt, Int, Int) -> Unit
 
 pub fn rl_translatef(Float, Float, Float) -> Unit
 
 pub fn rl_unload_framebuffer(UInt) -> Unit
 
+pub fn rl_unload_shader_buffer(UInt) -> Unit
+
+pub fn rl_unload_shader_program(UInt) -> Unit
+
 pub fn rl_unload_texture(UInt) -> Unit
 
+pub fn rl_unload_vertex_array(UInt) -> Unit
+
+pub fn rl_unload_vertex_buffer(UInt) -> Unit
+
+pub fn rl_update_shader_buffer(UInt, Bytes, UInt, UInt) -> Unit
+
+pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn rl_update_vertex_buffer(UInt, Bytes, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements(UInt, Bytes, Int, Int) -> Unit
+
 pub fn rl_vertex2f(Float, Float) -> Unit
+
+pub fn rl_vertex2i(Int, Int) -> Unit
 
 pub fn rl_vertex3f(Float, Float, Float) -> Unit
 
