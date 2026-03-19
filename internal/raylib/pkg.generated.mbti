@@ -1006,7 +1006,7 @@ pub fn load_wave(Bytes) -> Wave
 
 pub fn load_wave_from_memory(Bytes, Bytes, Int) -> Wave
 
-pub fn load_wave_samples(Wave) -> Bytes
+pub fn load_wave_samples(Wave) -> FloatArray
 
 pub fn make_directory(Bytes) -> Int
 
@@ -1371,6 +1371,8 @@ pub fn unload_texture(Texture) -> Unit
 pub fn unload_vr_stereo_config(VrStereoConfig) -> Unit
 
 pub fn unload_wave(Wave) -> Unit
+
+pub fn unload_wave_samples(FloatArray) -> Unit
 
 pub fn update_audio_stream(AudioStream, Bytes, Int) -> Unit
 

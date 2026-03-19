@@ -49,7 +49,8 @@ test "ShaderUniformDataV::to_bytes empty" {
 ///|
 test "ShaderUniformDataV uniform_type and count" {
   let data : ShaderUniformDataV = ShaderUniformDataV::IVec3([
-    (1, 2, 3), (4, 5, 6),
+    (1, 2, 3),
+    (4, 5, 6),
   ])
   assert_eq(data.uniform_type(), ShaderUniformIvec3)
   assert_eq(data.count(), 2)
