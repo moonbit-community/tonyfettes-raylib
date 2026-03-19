@@ -1,5 +1,6 @@
 // Drawing lifecycle re-exports
 
+///|
 pub using @ffi {
   begin_drawing,
   end_drawing,

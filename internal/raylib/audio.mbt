@@ -218,6 +218,18 @@ pub extern "c" fn get_wave_sample_size(wave : Wave) -> Int = "moonbit_raylib_get
 #borrow(wave)
 pub extern "c" fn get_wave_channels(wave : Wave) -> Int = "moonbit_raylib_get_wave_channels"
 
+///|
+#borrow(wave)
+pub extern "c" fn get_wave_data_float(wave : Wave) -> FloatArray = "moonbit_raylib_get_wave_data"
+
+///|
+#borrow(wave)
+pub extern "c" fn get_wave_data_short(wave : Wave) -> ShortArray = "moonbit_raylib_get_wave_data"
+
+///|
+#borrow(wave)
+pub extern "c" fn get_wave_data_ubyte(wave : Wave) -> UByteArray = "moonbit_raylib_get_wave_data"
+
 // ============================================================================
 // AudioStream management
 // ============================================================================

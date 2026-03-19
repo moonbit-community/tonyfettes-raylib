@@ -682,6 +682,12 @@ pub fn get_touch_y() -> Int
 
 pub fn get_wave_channels(Wave) -> Int
 
+pub fn get_wave_data_float(Wave) -> FloatArray
+
+pub fn get_wave_data_short(Wave) -> ShortArray
+
+pub fn get_wave_data_ubyte(Wave) -> UByteArray
+
 pub fn get_wave_frame_count(Wave) -> Int
 
 pub fn get_wave_sample_rate(Wave) -> Int
@@ -1304,6 +1310,12 @@ pub fn set_window_state(Int) -> Unit
 
 pub fn set_window_title(Bytes) -> Unit
 
+pub fn short_array_get(ShortArray, Int) -> Int
+
+pub fn short_array_is_null(ShortArray) -> Bool
+
+pub fn short_array_set(ShortArray, Int, Int) -> Unit
+
 pub fn show_cursor() -> Unit
 
 pub fn start_automation_event_recording() -> Unit
@@ -1469,6 +1481,9 @@ pub type Music
 pub type RenderTexture
 
 pub type Shader
+
+#external
+pub type ShortArray
 
 pub type Sound
 

@@ -2240,6 +2240,11 @@ pub(all) enum ShaderUniformDataV {
   Sampler2D(Array[Int])
 }
 
+type ShortArray
+pub fn ShortArray::length(Self) -> Int
+pub fn ShortArray::op_get(Self, Int) -> Int
+pub fn ShortArray::op_set(Self, Int, Int) -> Unit
+
 type Sound
 #as_free_fn(is_sound_playing)
 pub fn Sound::is_playing(Self) -> Bool
@@ -2503,6 +2508,8 @@ pub fn Wave::channels(Self) -> Int
 pub fn Wave::copy(Self) -> Self
 #as_free_fn(wave_crop)
 pub fn Wave::crop(Self, Int, Int) -> Unit
+#as_free_fn(get_wave_data)
+pub fn Wave::data(Self) -> WaveData
 #as_free_fn(export_wave)
 pub fn Wave::export_(Self, String) -> Bool
 #as_free_fn(export_wave_as_code)
@@ -2527,6 +2534,12 @@ pub fn Wave::sample_rate(Self) -> Int
 pub fn Wave::sample_size(Self) -> Int
 #as_free_fn(unload_wave)
 pub fn Wave::unload(Self) -> Unit
+
+pub enum WaveData {
+  Float(FloatArray)
+  Short(ShortArray)
+  UByte(UByteArray)
+}
 
 pub struct WaveSamples {
   // private fields

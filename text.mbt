@@ -1,5 +1,6 @@
 // Re-export passthrough functions from internal FFI layer
 
+///|
 pub using @ffi {draw_fps, set_text_line_spacing}
 
 // ============================================================================

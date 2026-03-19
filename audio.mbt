@@ -1,5 +1,6 @@
 // Re-export passthrough functions from internal FFI layer
 
+///|
 pub using @ffi {
   init_audio_device,
   close_audio_device,

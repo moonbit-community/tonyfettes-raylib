@@ -69,6 +69,38 @@ pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Byte) -> Unit 
 }
 
 // ============================================================================
+// ShortArray — wraps raw short* with length tracking
+// ============================================================================
+
+///|
+struct ShortArray(@ffi.ShortArray, Int)
+
+///|
+fn ShortArray::is_null(self : ShortArray) -> Bool {
+  @ffi.short_array_is_null(self.0)
+}
+
+///|
+/// Get the number of elements in this short array.
+pub fn ShortArray::length(self : ShortArray) -> Int {
+  self.1
+}
+
+///|
+/// Get the signed short value at the given index (bounds-checked).
+pub fn ShortArray::op_get(self : ShortArray, index : Int) -> Int {
+  guard index >= 0 && index < self.1
+  @ffi.short_array_get(self.0, index)
+}
+
+///|
+/// Set the signed short value at the given index (bounds-checked, truncated to 16-bit).
+pub fn ShortArray::op_set(self : ShortArray, index : Int, value : Int) -> Unit {
+  guard index >= 0 && index < self.1
+  @ffi.short_array_set(self.0, index, value)
+}
+
+// ============================================================================
 // UShortArray — wraps raw unsigned short* with length tracking
 // ============================================================================
 
