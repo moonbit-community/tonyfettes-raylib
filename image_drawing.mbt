@@ -3,6 +3,7 @@
 // ============================================================================
 
 ///|
+/// Clear image background with given color.
 #as_free_fn(image_clear_background)
 pub fn Image::clear_background(self : Image, color : Color) -> Unit {
   @ffi.image_clear_background(self.0, color.to_bytes())
@@ -13,6 +14,7 @@ pub fn Image::clear_background(self : Image, color : Color) -> Unit {
 // ============================================================================
 
 ///|
+/// Draw pixel within an image.
 #as_free_fn(image_draw_pixel)
 pub fn Image::draw_pixel(
   self : Image,
@@ -24,6 +26,7 @@ pub fn Image::draw_pixel(
 }
 
 ///|
+/// Draw pixel within an image (Vector version).
 #as_free_fn(image_draw_pixel_v)
 pub fn Image::draw_pixel_v(
   self : Image,
@@ -38,6 +41,7 @@ pub fn Image::draw_pixel_v(
 // ============================================================================
 
 ///|
+/// Draw line within an image.
 #as_free_fn(image_draw_line)
 pub fn Image::draw_line(
   self : Image,
@@ -58,6 +62,7 @@ pub fn Image::draw_line(
 }
 
 ///|
+/// Draw line within an image (Vector version).
 #as_free_fn(image_draw_line_v)
 pub fn Image::draw_line_v(
   self : Image,
@@ -74,6 +79,7 @@ pub fn Image::draw_line_v(
 }
 
 ///|
+/// Draw a line defining thickness within an image.
 #as_free_fn(image_draw_line_ex)
 pub fn Image::draw_line_ex(
   self : Image,
@@ -96,6 +102,7 @@ pub fn Image::draw_line_ex(
 // ============================================================================
 
 ///|
+/// Draw a filled circle within an image.
 #as_free_fn(image_draw_circle)
 pub fn Image::draw_circle(
   self : Image,
@@ -108,6 +115,7 @@ pub fn Image::draw_circle(
 }
 
 ///|
+/// Draw a filled circle within an image (Vector version).
 #as_free_fn(image_draw_circle_v)
 pub fn Image::draw_circle_v(
   self : Image,
@@ -119,6 +127,7 @@ pub fn Image::draw_circle_v(
 }
 
 ///|
+/// Draw circle outline within an image.
 #as_free_fn(image_draw_circle_lines)
 pub fn Image::draw_circle_lines(
   self : Image,
@@ -137,6 +146,7 @@ pub fn Image::draw_circle_lines(
 }
 
 ///|
+/// Draw circle outline within an image (Vector version).
 #as_free_fn(image_draw_circle_lines_v)
 pub fn Image::draw_circle_lines_v(
   self : Image,
@@ -157,6 +167,7 @@ pub fn Image::draw_circle_lines_v(
 // ============================================================================
 
 ///|
+/// Draw rectangle within an image.
 #as_free_fn(image_draw_rectangle)
 pub fn Image::draw_rectangle(
   self : Image,
@@ -177,6 +188,7 @@ pub fn Image::draw_rectangle(
 }
 
 ///|
+/// Draw rectangle within an image (Vector version).
 #as_free_fn(image_draw_rectangle_v)
 pub fn Image::draw_rectangle_v(
   self : Image,
@@ -193,6 +205,7 @@ pub fn Image::draw_rectangle_v(
 }
 
 ///|
+/// Draw rectangle within an image.
 #as_free_fn(image_draw_rectangle_rec)
 pub fn Image::draw_rectangle_rec(
   self : Image,
@@ -203,6 +216,7 @@ pub fn Image::draw_rectangle_rec(
 }
 
 ///|
+/// Draw rectangle lines within an image.
 #as_free_fn(image_draw_rectangle_lines)
 pub fn Image::draw_rectangle_lines(
   self : Image,
@@ -223,6 +237,7 @@ pub fn Image::draw_rectangle_lines(
 // ============================================================================
 
 ///|
+/// Draw triangle within an image.
 #as_free_fn(image_draw_triangle)
 pub fn Image::draw_triangle(
   self : Image,
@@ -241,6 +256,7 @@ pub fn Image::draw_triangle(
 }
 
 ///|
+/// Draw triangle with interpolated colors within an image.
 #as_free_fn(image_draw_triangle_ex)
 pub fn Image::draw_triangle_ex(
   self : Image,
@@ -263,6 +279,7 @@ pub fn Image::draw_triangle_ex(
 }
 
 ///|
+/// Draw triangle outline within an image.
 #as_free_fn(image_draw_triangle_lines)
 pub fn Image::draw_triangle_lines(
   self : Image,
@@ -281,6 +298,7 @@ pub fn Image::draw_triangle_lines(
 }
 
 ///|
+/// Draw a triangle fan defined by points within an image (first vertex is the center).
 #as_free_fn(image_draw_triangle_fan)
 pub fn Image::draw_triangle_fan(
   self : Image,
@@ -292,6 +310,7 @@ pub fn Image::draw_triangle_fan(
 }
 
 ///|
+/// Draw a triangle strip defined by points within an image.
 #as_free_fn(image_draw_triangle_strip)
 pub fn Image::draw_triangle_strip(
   self : Image,
@@ -312,6 +331,7 @@ pub fn Image::draw_triangle_strip(
 // ============================================================================
 
 ///|
+/// Draw a source image within a destination image (tint applied to source).
 #as_free_fn(image_draw)
 pub fn Image::draw(
   self : Image,
@@ -334,6 +354,7 @@ pub fn Image::draw(
 // ============================================================================
 
 ///|
+/// Draw text (using default font) within an image (destination).
 #as_free_fn(image_draw_text)
 pub fn Image::draw_text(
   self : Image,
@@ -354,6 +375,7 @@ pub fn Image::draw_text(
 }
 
 ///|
+/// Draw text (custom sprite font) within an image (destination).
 #as_free_fn(image_draw_text_ex)
 pub fn Image::draw_text_ex(
   self : Image,

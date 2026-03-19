@@ -3,18 +3,23 @@
 // ============================================================================
 
 ///|
+/// Initialize audio device and context.
 pub extern "c" fn init_audio_device() = "InitAudioDevice"
 
 ///|
+/// Close the audio device and context.
 pub extern "c" fn close_audio_device() = "CloseAudioDevice"
 
 ///|
+/// Check if audio device has been initialized successfully.
 pub extern "c" fn is_audio_device_ready() -> Bool = "moonbit_raylib_is_audio_device_ready"
 
 ///|
+/// Set master volume (listener).
 pub extern "c" fn set_master_volume(volume : Float) = "SetMasterVolume"
 
 ///|
+/// Get master volume (listener).
 pub extern "c" fn get_master_volume() -> Float = "GetMasterVolume"
 
 // ============================================================================
@@ -277,6 +282,7 @@ pub extern "c" fn set_audio_stream_pitch(stream : AudioStream, pitch : Float) = 
 pub extern "c" fn set_audio_stream_pan(stream : AudioStream, pan : Float) = "moonbit_raylib_set_audio_stream_pan"
 
 ///|
+/// Default size for new audio streams.
 pub extern "c" fn set_audio_stream_buffer_size_default(size : Int) = "SetAudioStreamBufferSizeDefault"
 
 // ============================================================================
@@ -304,6 +310,7 @@ pub extern "c" fn update_sound(sound : Sound, data : Bytes, sample_count : Int) 
 // ============================================================================
 
 ///|
+/// Get a sample value from an audio buffer at the given index.
 #borrow(buffer)
 pub extern "c" fn audio_buffer_get_sample(
   buffer : AudioBuffer,
@@ -311,6 +318,7 @@ pub extern "c" fn audio_buffer_get_sample(
 ) -> Float = "moonbit_raylib_audio_buffer_get_sample"
 
 ///|
+/// Set a sample value in an audio buffer at the given index.
 #borrow(buffer)
 pub extern "c" fn audio_buffer_set_sample(
   buffer : AudioBuffer,
@@ -341,11 +349,13 @@ pub extern "c" fn detach_audio_stream_processor(
 // ============================================================================
 
 ///|
+/// Attach audio stream processor to the entire audio pipeline, receives the samples as 'float'.
 pub extern "c" fn attach_audio_mixed_processor(
   processor : FuncRef[(AudioBuffer, UInt) -> Unit],
 ) = "AttachAudioMixedProcessor"
 
 ///|
+/// Detach audio stream processor from the entire audio pipeline.
 pub extern "c" fn detach_audio_mixed_processor(
   processor : FuncRef[(AudioBuffer, UInt) -> Unit],
 ) = "DetachAudioMixedProcessor"

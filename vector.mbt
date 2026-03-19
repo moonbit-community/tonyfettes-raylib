@@ -20,17 +20,20 @@ fn read_int(b : Bytes, off : Int) -> Int {
 // Vector2: 8 bytes (x, y as float)
 
 ///|
+/// 2D vector type.
 pub struct Vector2 {
   x : Float
   y : Float
 } derive(Eq, Show)
 
 ///|
+/// Create a new Vector2.
 pub fn Vector2::new(x : Float, y : Float) -> Vector2 {
   { x, y }
 }
 
 ///|
+/// Serialize Vector2 to bytes.
 pub fn Vector2::to_bytes(v : Vector2) -> Bytes {
   let buf = @buffer.new(size_hint=8)
   buf.write_float_le(v.x)
@@ -39,6 +42,7 @@ pub fn Vector2::to_bytes(v : Vector2) -> Bytes {
 }
 
 ///|
+/// Deserialize Vector2 from bytes.
 pub fn Vector2::from_bytes(b : Bytes) -> Vector2 {
   { x: read_float(b, 0), y: read_float(b, 4) }
 }
@@ -46,6 +50,7 @@ pub fn Vector2::from_bytes(b : Bytes) -> Vector2 {
 // Vector3: 12 bytes (x, y, z as float)
 
 ///|
+/// 3D vector type.
 pub struct Vector3 {
   x : Float
   y : Float
@@ -53,11 +58,13 @@ pub struct Vector3 {
 } derive(Eq, Show)
 
 ///|
+/// Create a new Vector3.
 pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
   { x, y, z }
 }
 
 ///|
+/// Serialize Vector3 to bytes.
 pub fn Vector3::to_bytes(v : Vector3) -> Bytes {
   let buf = @buffer.new(size_hint=12)
   buf.write_float_le(v.x)
@@ -67,6 +74,7 @@ pub fn Vector3::to_bytes(v : Vector3) -> Bytes {
 }
 
 ///|
+/// Deserialize Vector3 from bytes.
 pub fn Vector3::from_bytes(b : Bytes) -> Vector3 {
   { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) }
 }
@@ -74,6 +82,7 @@ pub fn Vector3::from_bytes(b : Bytes) -> Vector3 {
 // Vector4: 16 bytes (x, y, z, w as float)
 
 ///|
+/// 4D vector type (also used as Quaternion).
 pub struct Vector4 {
   x : Float
   y : Float
@@ -82,11 +91,13 @@ pub struct Vector4 {
 } derive(Eq, Show)
 
 ///|
+/// Create a new Vector4.
 pub fn Vector4::new(x : Float, y : Float, z : Float, w : Float) -> Vector4 {
   { x, y, z, w }
 }
 
 ///|
+/// Serialize Vector4 to bytes.
 pub fn Vector4::to_bytes(v : Vector4) -> Bytes {
   let buf = @buffer.new(size_hint=16)
   buf.write_float_le(v.x)
@@ -97,6 +108,7 @@ pub fn Vector4::to_bytes(v : Vector4) -> Bytes {
 }
 
 ///|
+/// Deserialize Vector4 from bytes.
 pub fn Vector4::from_bytes(b : Bytes) -> Vector4 {
   {
     x: read_float(b, 0),

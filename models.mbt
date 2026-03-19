@@ -1,6 +1,5 @@
 // Re-export passthrough functions from internal FFI layer
 
-///|
 pub using @ffi {draw_grid}
 
 // ============================================================================
@@ -8,6 +7,7 @@ pub using @ffi {draw_grid}
 // ============================================================================
 
 ///|
+/// Draw a line in 3D world space.
 pub fn draw_line_3d(
   start_pos : Vector3,
   end_pos : Vector3,
@@ -17,11 +17,13 @@ pub fn draw_line_3d(
 }
 
 ///|
+/// Draw a point in 3D space, actually a small line.
 pub fn draw_point_3d(position : Vector3, color : Color) -> Unit {
   @ffi.draw_point_3d(position.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw a circle in 3D world space.
 pub fn draw_circle_3d(
   center : Vector3,
   radius : Float,
@@ -39,6 +41,7 @@ pub fn draw_circle_3d(
 }
 
 ///|
+/// Draw cube.
 pub fn draw_cube(
   position : Vector3,
   width : Float,
@@ -50,11 +53,13 @@ pub fn draw_cube(
 }
 
 ///|
+/// Draw cube (Vector version).
 pub fn draw_cube_v(position : Vector3, size : Vector3, color : Color) -> Unit {
   @ffi.draw_cube_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw cube wires.
 pub fn draw_cube_wires(
   position : Vector3,
   width : Float,
@@ -72,6 +77,7 @@ pub fn draw_cube_wires(
 }
 
 ///|
+/// Draw cube wires (Vector version).
 pub fn draw_cube_wires_v(
   position : Vector3,
   size : Vector3,
@@ -81,11 +87,13 @@ pub fn draw_cube_wires_v(
 }
 
 ///|
+/// Draw sphere.
 pub fn draw_sphere(center : Vector3, radius : Float, color : Color) -> Unit {
   @ffi.draw_sphere(center.to_bytes(), radius, color.to_bytes())
 }
 
 ///|
+/// Draw sphere with extended parameters.
 pub fn draw_sphere_ex(
   center : Vector3,
   radius : Float,
@@ -103,6 +111,7 @@ pub fn draw_sphere_ex(
 }
 
 ///|
+/// Draw sphere wires.
 pub fn draw_sphere_wires(
   center : Vector3,
   radius : Float,
@@ -120,6 +129,7 @@ pub fn draw_sphere_wires(
 }
 
 ///|
+/// Draw a cylinder/cone.
 pub fn draw_cylinder(
   position : Vector3,
   radius_top : Float,
@@ -139,6 +149,7 @@ pub fn draw_cylinder(
 }
 
 ///|
+/// Draw a cylinder/cone wires.
 pub fn draw_cylinder_wires(
   position : Vector3,
   radius_top : Float,
@@ -158,6 +169,7 @@ pub fn draw_cylinder_wires(
 }
 
 ///|
+/// Draw a color-filled triangle (vertex in counter-clockwise order!).
 pub fn draw_triangle_3d(
   v1 : Vector3,
   v2 : Vector3,
@@ -173,6 +185,7 @@ pub fn draw_triangle_3d(
 }
 
 ///|
+/// Draw a cylinder with base at startPos and top at endPos.
 pub fn draw_cylinder_ex(
   start_pos : Vector3,
   end_pos : Vector3,
@@ -192,6 +205,7 @@ pub fn draw_cylinder_ex(
 }
 
 ///|
+/// Draw a cylinder wires with base at startPos and top at endPos.
 pub fn draw_cylinder_wires_ex(
   start_pos : Vector3,
   end_pos : Vector3,
@@ -211,6 +225,7 @@ pub fn draw_cylinder_wires_ex(
 }
 
 ///|
+/// Draw a capsule with the center of its sphere caps at startPos and endPos.
 pub fn draw_capsule(
   start_pos : Vector3,
   end_pos : Vector3,
@@ -230,6 +245,7 @@ pub fn draw_capsule(
 }
 
 ///|
+/// Draw capsule wireframe with the center of its sphere caps at startPos and endPos.
 pub fn draw_capsule_wires(
   start_pos : Vector3,
   end_pos : Vector3,
@@ -249,16 +265,19 @@ pub fn draw_capsule_wires(
 }
 
 ///|
+/// Draw a plane XZ.
 pub fn draw_plane(center : Vector3, size : Vector2, color : Color) -> Unit {
   @ffi.draw_plane(center.to_bytes(), size.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw a ray line.
 pub fn draw_ray(ray : Ray, color : Color) -> Unit {
   @ffi.draw_ray(ray.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw bounding box (wires).
 pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
   @ffi.draw_bounding_box(box_.to_bytes(), color.to_bytes())
 }
@@ -268,6 +287,7 @@ pub fn draw_bounding_box(box_ : BoundingBox, color : Color) -> Unit {
 // ============================================================================
 
 ///|
+/// Draw a billboard texture.
 pub fn draw_billboard(
   camera : Camera3D,
   texture : Texture,
@@ -285,6 +305,7 @@ pub fn draw_billboard(
 }
 
 ///|
+/// Draw a billboard texture defined by source.
 pub fn draw_billboard_rec(
   camera : Camera3D,
   texture : Texture,
@@ -304,6 +325,7 @@ pub fn draw_billboard_rec(
 }
 
 ///|
+/// Draw a billboard texture defined by source and rotation.
 pub fn draw_billboard_pro(
   camera : Camera3D,
   texture : Texture,
@@ -333,6 +355,7 @@ pub fn draw_billboard_pro(
 // ============================================================================
 
 ///|
+/// Check collision between two spheres.
 pub fn check_collision_spheres(
   center1 : Vector3,
   radius1 : Float,
@@ -348,11 +371,13 @@ pub fn check_collision_spheres(
 }
 
 ///|
+/// Check collision between two bounding boxes.
 pub fn check_collision_boxes(box1 : BoundingBox, box2 : BoundingBox) -> Bool {
   @ffi.check_collision_boxes(box1.to_bytes(), box2.to_bytes())
 }
 
 ///|
+/// Check collision between box and sphere.
 pub fn check_collision_box_sphere(
   box_ : BoundingBox,
   center : Vector3,
@@ -362,6 +387,7 @@ pub fn check_collision_box_sphere(
 }
 
 ///|
+/// Get collision info between ray and sphere.
 pub fn get_ray_collision_sphere(
   ray : Ray,
   center : Vector3,
@@ -373,6 +399,7 @@ pub fn get_ray_collision_sphere(
 }
 
 ///|
+/// Get collision info between ray and box.
 pub fn get_ray_collision_box(ray : Ray, box_ : BoundingBox) -> RayCollision {
   RayCollision::from_bytes(
     @ffi.get_ray_collision_box(ray.to_bytes(), box_.to_bytes()),
@@ -380,6 +407,7 @@ pub fn get_ray_collision_box(ray : Ray, box_ : BoundingBox) -> RayCollision {
 }
 
 ///|
+/// Get collision info between ray and triangle.
 pub fn get_ray_collision_triangle(
   ray : Ray,
   p1 : Vector3,
@@ -397,6 +425,7 @@ pub fn get_ray_collision_triangle(
 }
 
 ///|
+/// Get collision info between ray and mesh.
 pub fn get_ray_collision_mesh(
   ray : Ray,
   mesh : Mesh,
@@ -408,6 +437,7 @@ pub fn get_ray_collision_mesh(
 }
 
 ///|
+/// Get collision info between ray and quad.
 pub fn get_ray_collision_quad(
   ray : Ray,
   p1 : Vector3,
@@ -431,34 +461,45 @@ pub fn get_ray_collision_quad(
 // ============================================================================
 
 ///|
+/// Albedo material map type (same as diffuse).
 pub const MaterialMapAlbedo : Int = 0
 
 ///|
+/// Metalness material map type (same as specular).
 pub const MaterialMapMetalness : Int = 1
 
 ///|
+/// Normal material map type.
 pub const MaterialMapNormal : Int = 2
 
 ///|
+/// Roughness material map type.
 pub const MaterialMapRoughness : Int = 3
 
 ///|
+/// Ambient occlusion material map type.
 pub const MaterialMapOcclusion : Int = 4
 
 ///|
+/// Emission material map type.
 pub const MaterialMapEmission : Int = 5
 
 ///|
+/// Heightmap material map type.
 pub const MaterialMapHeight : Int = 6
 
 ///|
+/// Cubemap material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
 pub const MaterialMapCubemap : Int = 7
 
 ///|
+/// Irradiance material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
 pub const MaterialMapIrradiance : Int = 8
 
 ///|
+/// Prefilter material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
 pub const MaterialMapPrefilter : Int = 9
 
 ///|
+/// BRDF material map type.
 pub const MaterialMapBrdf : Int = 10

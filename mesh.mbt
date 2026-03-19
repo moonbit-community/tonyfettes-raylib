@@ -1,7 +1,9 @@
 ///|
+/// A mesh containing vertex data and GPU buffer IDs.
 struct Mesh(@ffi.Mesh)
 
 ///|
+/// Create a new mesh from vertex data arrays.
 pub fn Mesh::new(
   vertices : FixedArray[Float],
   texcoords? : FixedArray[Float],
@@ -58,35 +60,41 @@ pub fn Mesh::new(
 }
 
 ///|
+/// Unload mesh data from CPU and GPU.
 #as_free_fn(unload_mesh)
 pub fn Mesh::unload(self : Mesh) -> Unit {
   @ffi.unload_mesh(self.0)
 }
 
 ///|
+/// Upload mesh vertex data in GPU and provide VAO/VBO ids.
 pub fn Mesh::upload(self : Mesh, dynamic : Bool) -> Unit {
   @ffi.upload_mesh(self.0, if dynamic { 1 } else { 0 })
 }
 
 ///|
+/// Upload mesh vertex data in GPU and provide VAO/VBO ids.
 #deprecated("Use Mesh::upload instead")
 pub fn upload_mesh(mesh : Mesh, dynamic : Int) -> Unit {
   @ffi.upload_mesh(mesh.0, dynamic)
 }
 
 ///|
+/// Compute mesh tangents.
 #as_free_fn(gen_mesh_tangents)
 pub fn Mesh::gen_tangents(self : Mesh) -> Unit {
   @ffi.gen_mesh_tangents(self.0)
 }
 
 ///|
+/// Generate polygonal mesh.
 #as_free_fn(gen_mesh_poly)
 pub fn Mesh::gen_poly(sides : Int, radius : Float) -> Mesh {
   @ffi.gen_mesh_poly(sides, radius)
 }
 
 ///|
+/// Generate plane mesh (with subdivisions).
 #as_free_fn(gen_mesh_plane)
 pub fn Mesh::gen_plane(
   width : Float,
@@ -98,36 +106,42 @@ pub fn Mesh::gen_plane(
 }
 
 ///|
+/// Generate cuboid mesh.
 #as_free_fn(gen_mesh_cube)
 pub fn Mesh::gen_cube(width : Float, height : Float, length : Float) -> Mesh {
   @ffi.gen_mesh_cube(width, height, length)
 }
 
 ///|
+/// Generate sphere mesh (standard sphere).
 #as_free_fn(gen_mesh_sphere)
 pub fn Mesh::gen_sphere(radius : Float, rings : Int, slices : Int) -> Mesh {
   @ffi.gen_mesh_sphere(radius, rings, slices)
 }
 
 ///|
+/// Generate half-sphere mesh (no bottom cap).
 #as_free_fn(gen_mesh_hemisphere)
 pub fn Mesh::gen_hemisphere(radius : Float, rings : Int, slices : Int) -> Mesh {
   @ffi.gen_mesh_hemisphere(radius, rings, slices)
 }
 
 ///|
+/// Generate cylinder mesh.
 #as_free_fn(gen_mesh_cylinder)
 pub fn Mesh::gen_cylinder(radius : Float, height : Float, slices : Int) -> Mesh {
   @ffi.gen_mesh_cylinder(radius, height, slices)
 }
 
 ///|
+/// Generate cone/pyramid mesh.
 #as_free_fn(gen_mesh_cone)
 pub fn Mesh::gen_cone(radius : Float, height : Float, slices : Int) -> Mesh {
   @ffi.gen_mesh_cone(radius, height, slices)
 }
 
 ///|
+/// Generate torus mesh.
 #as_free_fn(gen_mesh_torus)
 pub fn Mesh::gen_torus(
   radius : Float,
@@ -139,6 +153,7 @@ pub fn Mesh::gen_torus(
 }
 
 ///|
+/// Generate trefoil knot mesh.
 #as_free_fn(gen_mesh_knot)
 pub fn Mesh::gen_knot(
   radius : Float,
@@ -150,42 +165,49 @@ pub fn Mesh::gen_knot(
 }
 
 ///|
+/// Generate heightmap mesh from image data.
 #as_free_fn(gen_mesh_heightmap)
 pub fn Mesh::gen_heightmap(heightmap : Image, size : Vector3) -> Mesh {
   @ffi.gen_mesh_heightmap(heightmap.0, size.to_bytes())
 }
 
 ///|
+/// Generate cubes-based map mesh from image data.
 #as_free_fn(gen_mesh_cubicmap)
 pub fn Mesh::gen_cubicmap(cubicmap : Image, cube_size : Vector3) -> Mesh {
   @ffi.gen_mesh_cubicmap(cubicmap.0, cube_size.to_bytes())
 }
 
 ///|
+/// Compute mesh bounding box limits.
 #as_free_fn(get_mesh_bounding_box)
 pub fn Mesh::bounding_box(self : Mesh) -> BoundingBox {
   BoundingBox::from_bytes(@ffi.get_mesh_bounding_box(self.0))
 }
 
 ///|
+/// Export mesh data to file, returns true on success.
 #as_free_fn(export_mesh)
 pub fn Mesh::export_(self : Mesh, file_name : String) -> Bool {
   @ffi.export_mesh(self.0, @utf8.encode(file_name))
 }
 
 ///|
+/// Export mesh as code file (.h) defining multiple arrays of vertex attributes.
 #as_free_fn(export_mesh_as_code)
 pub fn Mesh::export_as_code(self : Mesh, file_name : String) -> Bool {
   @ffi.export_mesh_as_code(self.0, @utf8.encode(file_name))
 }
 
 ///|
+/// Draw a 3D mesh with material and transform.
 #as_free_fn(draw_mesh)
 pub fn Mesh::draw(self : Mesh, material : Material, transform : Matrix) -> Unit {
   @ffi.draw_mesh(self.0, material.0, transform.to_bytes())
 }
 
 ///|
+/// Draw multiple mesh instances with material and different transforms.
 #as_free_fn(draw_mesh_instanced)
 pub fn Mesh::draw_instanced(
   self : Mesh,
@@ -203,6 +225,7 @@ pub fn Mesh::draw_instanced(
 }
 
 ///|
+/// Update mesh vertex data in GPU for a specific buffer index.
 #as_free_fn(update_mesh_buffer)
 pub fn Mesh::update_buffer(
   self : Mesh,
@@ -215,6 +238,7 @@ pub fn Mesh::update_buffer(
 }
 
 ///|
+/// Generate a mesh from raw vertex positions and colors.
 #as_free_fn(gen_mesh_from_points)
 pub fn Mesh::gen_from_points(
   vertices : Bytes,
@@ -229,18 +253,21 @@ pub fn Mesh::gen_from_points(
 // ============================================================================
 
 ///|
+/// Get the number of vertices in the mesh.
 #as_free_fn(get_mesh_vertex_count)
 pub fn Mesh::vertex_count(self : Mesh) -> Int {
   @ffi.get_mesh_vertex_count(self.0)
 }
 
 ///|
+/// Get the number of triangles in the mesh.
 #as_free_fn(get_mesh_triangle_count)
 pub fn Mesh::triangle_count(self : Mesh) -> Int {
   @ffi.get_mesh_triangle_count(self.0)
 }
 
 ///|
+/// Get vertex positions array (3 floats per vertex), or None if not available.
 #as_free_fn(get_mesh_vertices)
 pub fn Mesh::vertices(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_vertices(self.0), self.vertex_count() * 3)
@@ -252,6 +279,7 @@ pub fn Mesh::vertices(self : Mesh) -> FloatArray? {
 }
 
 ///|
+/// Get texture coordinates array (2 floats per vertex), or None if not available.
 #as_free_fn(get_mesh_texcoords)
 pub fn Mesh::texcoords(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_texcoords(self.0), self.vertex_count() * 2)
@@ -263,6 +291,7 @@ pub fn Mesh::texcoords(self : Mesh) -> FloatArray? {
 }
 
 ///|
+/// Get second texture coordinates array (2 floats per vertex), or None if not available.
 #as_free_fn(get_mesh_texcoords2)
 pub fn Mesh::texcoords2(self : Mesh) -> FloatArray? {
   let arr = FloatArray(
@@ -277,6 +306,7 @@ pub fn Mesh::texcoords2(self : Mesh) -> FloatArray? {
 }
 
 ///|
+/// Get vertex normals array (3 floats per vertex), or None if not available.
 #as_free_fn(get_mesh_normals)
 pub fn Mesh::normals(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_normals(self.0), self.vertex_count() * 3)
@@ -288,6 +318,7 @@ pub fn Mesh::normals(self : Mesh) -> FloatArray? {
 }
 
 ///|
+/// Get vertex tangents array (4 floats per vertex), or None if not available.
 #as_free_fn(get_mesh_tangents)
 pub fn Mesh::tangents(self : Mesh) -> FloatArray? {
   let arr = FloatArray(@ffi.get_mesh_tangents(self.0), self.vertex_count() * 4)
@@ -299,6 +330,7 @@ pub fn Mesh::tangents(self : Mesh) -> FloatArray? {
 }
 
 ///|
+/// Get vertex colors array (4 bytes per vertex as RGBA), or None if not available.
 #as_free_fn(get_mesh_colors)
 pub fn Mesh::colors(self : Mesh) -> UByteArray? {
   let arr = UByteArray(@ffi.get_mesh_colors(self.0), self.vertex_count() * 4)
@@ -310,6 +342,7 @@ pub fn Mesh::colors(self : Mesh) -> UByteArray? {
 }
 
 ///|
+/// Get vertex indices array (3 per triangle), or None if not available.
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(self : Mesh) -> UShortArray? {
   let arr = UShortArray(
@@ -324,6 +357,7 @@ pub fn Mesh::indices(self : Mesh) -> UShortArray? {
 }
 
 ///|
+/// Get bone transformation matrices array, or None if not available.
 #as_free_fn(get_mesh_bone_matrices)
 pub fn Mesh::bone_matrices(self : Mesh) -> MatrixArray? {
   let arr = MatrixArray(

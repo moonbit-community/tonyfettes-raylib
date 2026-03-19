@@ -5,61 +5,73 @@
 // ----- Vector4 math functions -----
 
 ///|
+/// Get Vector4 with components equal to zero.
 pub fn Vector4::zero() -> Vector4 {
   { x: 0.0, y: 0.0, z: 0.0, w: 0.0 }
 }
 
 ///|
+/// Get Vector4 with components equal to one.
 pub fn Vector4::one() -> Vector4 {
   { x: 1.0, y: 1.0, z: 1.0, w: 1.0 }
 }
 
 ///|
+/// Add two vectors (v1 + v2).
 pub fn Vector4::add(v1 : Vector4, v2 : Vector4) -> Vector4 {
   { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z, w: v1.w + v2.w }
 }
 
 ///|
+/// Add vector and float value.
 pub fn Vector4::add_value(v : Vector4, add : Float) -> Vector4 {
   { x: v.x + add, y: v.y + add, z: v.z + add, w: v.w + add }
 }
 
 ///|
+/// Subtract two vectors (v1 - v2).
 pub fn Vector4::subtract(v1 : Vector4, v2 : Vector4) -> Vector4 {
   { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z, w: v1.w - v2.w }
 }
 
 ///|
+/// Subtract vector by float value.
 pub fn Vector4::subtract_value(v : Vector4, sub : Float) -> Vector4 {
   { x: v.x - sub, y: v.y - sub, z: v.z - sub, w: v.w - sub }
 }
 
 ///|
+/// Calculate vector length.
 pub fn Vector4::length(v : Vector4) -> Float {
   sqrtf(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w)
 }
 
 ///|
+/// Scale vector by float value (multiply by value).
 pub fn Vector4::scale(v : Vector4, scalar : Float) -> Vector4 {
   { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar, w: v.w * scalar }
 }
 
 ///|
+/// Multiply vector by vector.
 pub fn Vector4::multiply(v1 : Vector4, v2 : Vector4) -> Vector4 {
   { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z, w: v1.w * v2.w }
 }
 
 ///|
+/// Negate vector.
 pub fn Vector4::negate(v : Vector4) -> Vector4 {
   { x: -v.x, y: -v.y, z: -v.z, w: -v.w }
 }
 
 ///|
+/// Divide vector by vector.
 pub fn Vector4::divide(v1 : Vector4, v2 : Vector4) -> Vector4 {
   { x: v1.x / v2.x, y: v1.y / v2.y, z: v1.z / v2.z, w: v1.w / v2.w }
 }
 
 ///|
+/// Normalize provided vector.
 pub fn Vector4::normalize(v : Vector4) -> Vector4 {
   let len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w)
   if len > 0.0 {
@@ -71,6 +83,7 @@ pub fn Vector4::normalize(v : Vector4) -> Vector4 {
 }
 
 ///|
+/// Get min value for each pair of components.
 pub fn Vector4::min(v1 : Vector4, v2 : Vector4) -> Vector4 {
   {
     x: fminf(v1.x, v2.x),
@@ -81,6 +94,7 @@ pub fn Vector4::min(v1 : Vector4, v2 : Vector4) -> Vector4 {
 }
 
 ///|
+/// Get max value for each pair of components.
 pub fn Vector4::max(v1 : Vector4, v2 : Vector4) -> Vector4 {
   {
     x: fmaxf(v1.x, v2.x),
@@ -91,6 +105,7 @@ pub fn Vector4::max(v1 : Vector4, v2 : Vector4) -> Vector4 {
 }
 
 ///|
+/// Check whether two given vectors are almost equal.
 pub fn Vector4::equals(p : Vector4, q : Vector4) -> Bool {
   let epsilon : Float = 0.000001
   fabsf(p.x - q.x) <=
@@ -106,16 +121,19 @@ pub fn Vector4::equals(p : Vector4, q : Vector4) -> Bool {
 // ----- Quaternion functions (as Vector4::quat_*) -----
 
 ///|
+/// Get identity quaternion.
 pub fn Vector4::quat_identity() -> Vector4 {
   { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
 }
 
 ///|
+/// Compute the length of a quaternion.
 pub fn Vector4::quat_length(q : Vector4) -> Float {
   sqrtf(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w)
 }
 
 ///|
+/// Normalize provided quaternion.
 pub fn Vector4::quat_normalize(q : Vector4) -> Vector4 {
   let len = sqrtf(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w)
   let length : Float = if len == 0.0 { 1.0 } else { len }
@@ -124,6 +142,7 @@ pub fn Vector4::quat_normalize(q : Vector4) -> Vector4 {
 }
 
 ///|
+/// Invert provided quaternion.
 pub fn Vector4::quat_invert(q : Vector4) -> Vector4 {
   let length_sq = q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w
   if length_sq != 0.0 {
@@ -140,6 +159,7 @@ pub fn Vector4::quat_invert(q : Vector4) -> Vector4 {
 }
 
 ///|
+/// Calculate two quaternion multiplication.
 pub fn Vector4::quat_multiply(q1 : Vector4, q2 : Vector4) -> Vector4 {
   let qax = q1.x
   let qay = q1.y
@@ -158,16 +178,19 @@ pub fn Vector4::quat_multiply(q1 : Vector4, q2 : Vector4) -> Vector4 {
 }
 
 ///|
+/// Scale quaternion by float value.
 pub fn Vector4::quat_scale(q : Vector4, mul : Float) -> Vector4 {
   { x: q.x * mul, y: q.y * mul, z: q.z * mul, w: q.w * mul }
 }
 
 ///|
+/// Divide two quaternions.
 pub fn Vector4::quat_divide(q1 : Vector4, q2 : Vector4) -> Vector4 {
   { x: q1.x / q2.x, y: q1.y / q2.y, z: q1.z / q2.z, w: q1.w / q2.w }
 }
 
 ///|
+/// Calculate linear interpolation between two quaternions.
 pub fn Vector4::quat_lerp(
   q1 : Vector4,
   q2 : Vector4,
@@ -182,6 +205,7 @@ pub fn Vector4::quat_lerp(
 }
 
 ///|
+/// Calculate slerp-optimized interpolation between two quaternions (normalized lerp).
 pub fn Vector4::quat_nlerp(
   q1 : Vector4,
   q2 : Vector4,
@@ -200,6 +224,7 @@ pub fn Vector4::quat_nlerp(
 }
 
 ///|
+/// Calculate spherical linear interpolation between two quaternions.
 pub fn Vector4::quat_slerp(
   q1 : Vector4,
   q2 : Vector4,
@@ -247,6 +272,7 @@ pub fn Vector4::quat_slerp(
 }
 
 ///|
+/// Calculate quaternion cubic hermite spline interpolation.
 pub fn Vector4::quat_cubic_hermite_spline(
   q1 : Vector4,
   out_tangent1 : Vector4,
@@ -274,6 +300,7 @@ pub fn Vector4::quat_cubic_hermite_spline(
 }
 
 ///|
+/// Calculate quaternion based on the rotation from one vector to another.
 pub fn Vector4::quat_from_vector3_to_vector3(
   from_ : Vector3,
   to : Vector3,
@@ -296,6 +323,7 @@ pub fn Vector4::quat_from_vector3_to_vector3(
 }
 
 ///|
+/// Get a quaternion for a given rotation matrix.
 pub fn Vector4::quat_from_matrix(mat : Matrix) -> Vector4 {
   let four_w_sq_minus1 = mat.m0 + mat.m5 + mat.m10
   let four_x_sq_minus1 = mat.m0 - mat.m5 - mat.m10
@@ -350,6 +378,7 @@ pub fn Vector4::quat_from_matrix(mat : Matrix) -> Vector4 {
 }
 
 ///|
+/// Get a matrix for a given quaternion.
 pub fn Vector4::quat_to_matrix(q : Vector4) -> Matrix {
   let a2 = q.x * q.x
   let b2 = q.y * q.y
@@ -383,6 +412,7 @@ pub fn Vector4::quat_to_matrix(q : Vector4) -> Matrix {
 }
 
 ///|
+/// Get rotation quaternion for an angle and axis.
 pub fn Vector4::quat_from_axis_angle(axis : Vector3, angle : Float) -> Vector4 {
   let axis_length = sqrtf(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z)
   if axis_length != 0.0 {
@@ -410,6 +440,7 @@ pub fn Vector4::quat_from_axis_angle(axis : Vector3, angle : Float) -> Vector4 {
 }
 
 ///|
+/// Get the rotation angle and axis for a given quaternion.
 pub fn Vector4::quat_to_axis_angle(q : Vector4) -> (Vector3, Float) {
   let epsilon : Float = 0.000001
   let mut qx = q.x
@@ -438,6 +469,7 @@ pub fn Vector4::quat_to_axis_angle(q : Vector4) -> (Vector3, Float) {
 }
 
 ///|
+/// Get the quaternion equivalent to Euler angles (pitch, yaw, roll).
 pub fn Vector4::quat_from_euler(
   pitch : Float,
   yaw : Float,
@@ -459,6 +491,7 @@ pub fn Vector4::quat_from_euler(
 }
 
 ///|
+/// Get the Euler angles equivalent to quaternion (roll, pitch, yaw).
 pub fn Vector4::quat_to_euler(q : Vector4) -> Vector3 {
   let two : Float = 2.0
   let one : Float = 1.0
@@ -483,6 +516,7 @@ pub fn Vector4::quat_to_euler(q : Vector4) -> Vector3 {
 }
 
 ///|
+/// Transform a quaternion given a transformation matrix.
 pub fn Vector4::quat_transform(q : Vector4, mat : Matrix) -> Vector4 {
   {
     x: mat.m0 * q.x + mat.m4 * q.y + mat.m8 * q.z + mat.m12 * q.w,
@@ -493,6 +527,7 @@ pub fn Vector4::quat_transform(q : Vector4, mat : Matrix) -> Vector4 {
 }
 
 ///|
+/// Check whether two given quaternions are almost equal.
 pub fn Vector4::quat_equals(p : Vector4, q : Vector4) -> Bool {
   let epsilon : Float = 0.000001
   (
@@ -518,21 +553,25 @@ pub fn Vector4::quat_equals(p : Vector4, q : Vector4) -> Bool {
 }
 
 ///|
+/// Add two quaternions.
 pub fn Vector4::quat_add(q1 : Vector4, q2 : Vector4) -> Vector4 {
   { x: q1.x + q2.x, y: q1.y + q2.y, z: q1.z + q2.z, w: q1.w + q2.w }
 }
 
 ///|
+/// Add quaternion and float value.
 pub fn Vector4::quat_add_value(q : Vector4, add : Float) -> Vector4 {
   { x: q.x + add, y: q.y + add, z: q.z + add, w: q.w + add }
 }
 
 ///|
+/// Subtract two quaternions.
 pub fn Vector4::quat_subtract(q1 : Vector4, q2 : Vector4) -> Vector4 {
   { x: q1.x - q2.x, y: q1.y - q2.y, z: q1.z - q2.z, w: q1.w - q2.w }
 }
 
 ///|
+/// Subtract quaternion and float value.
 pub fn Vector4::quat_subtract_value(q : Vector4, sub : Float) -> Vector4 {
   { x: q.x - sub, y: q.y - sub, z: q.z - sub, w: q.w - sub }
 }

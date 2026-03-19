@@ -164,6 +164,7 @@ pub extern "c" fn draw_plane(center : Bytes, size : Bytes, color : Bytes) = "moo
 pub extern "c" fn draw_ray(ray : Bytes, color : Bytes) = "moonbit_raylib_draw_ray"
 
 ///|
+/// Draw a grid (centered at (0, 0, 0)).
 pub extern "c" fn draw_grid(slices : Int, spacing : Float) = "DrawGrid"
 
 ///|

@@ -97,6 +97,7 @@ pub extern "c" fn export_data_as_code(
 // ============================================================================
 
 ///|
+/// Check if a file has been dropped into window.
 pub extern "c" fn is_file_dropped() -> Bool = "moonbit_raylib_is_file_dropped"
 
 ///|

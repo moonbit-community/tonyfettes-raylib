@@ -1,6 +1,7 @@
 // NPatchInfo: 36 bytes (source as Rectangle + 5 ints)
 
 ///|
+/// NPatchInfo, n-patch layout info.
 pub struct NPatchInfo {
   source : Rectangle
   left : Int
@@ -11,6 +12,7 @@ pub struct NPatchInfo {
 } derive(Eq, Show)
 
 ///|
+/// Create a new NPatchInfo.
 pub fn NPatchInfo::new(
   source : Rectangle,
   left : Int,
@@ -23,6 +25,7 @@ pub fn NPatchInfo::new(
 }
 
 ///|
+/// Serialize NPatchInfo to bytes.
 pub fn NPatchInfo::to_bytes(n : NPatchInfo) -> Bytes {
   let buf = @buffer.new(size_hint=36)
   buf.write_float_le(n.source.x)
@@ -38,6 +41,7 @@ pub fn NPatchInfo::to_bytes(n : NPatchInfo) -> Bytes {
 }
 
 ///|
+/// Deserialize NPatchInfo from bytes.
 pub fn NPatchInfo::from_bytes(b : Bytes) -> NPatchInfo {
   {
     source: {
@@ -57,10 +61,13 @@ pub fn NPatchInfo::from_bytes(b : Bytes) -> NPatchInfo {
 // NPatchLayout constants
 
 ///|
+/// Npatch layout: 3x3 tiles.
 pub const NpatchNinePatch : Int = 0
 
 ///|
+/// Npatch layout: 1x3 tiles.
 pub const NpatchThreePatchVertical : Int = 1
 
 ///|
+/// Npatch layout: 3x1 tiles.
 pub const NpatchThreePatchHorizontal : Int = 2

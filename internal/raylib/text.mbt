@@ -47,6 +47,7 @@ pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get
 // ============================================================================
 
 ///|
+/// Draw current FPS.
 pub extern "c" fn draw_fps(pos_x : Int, pos_y : Int) = "DrawFPS"
 
 ///|
@@ -101,6 +102,7 @@ pub extern "c" fn measure_text_ex(
 ) -> Bytes = "moonbit_raylib_measure_text_ex"
 
 ///|
+/// Set vertical line spacing when drawing with line-breaks.
 pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 
 // ============================================================================

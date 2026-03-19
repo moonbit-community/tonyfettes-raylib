@@ -13,17 +13,20 @@ fn FloatArray::is_null(self : FloatArray) -> Bool {
 }
 
 ///|
+/// Get the number of elements in this float array.
 pub fn FloatArray::length(self : FloatArray) -> Int {
   self.1
 }
 
 ///|
+/// Get the float value at the given index (bounds-checked).
 pub fn FloatArray::op_get(self : FloatArray, index : Int) -> Float {
   guard index >= 0 && index < self.1
   @ffi.float_array_get(self.0, index)
 }
 
 ///|
+/// Set the float value at the given index (bounds-checked).
 pub fn FloatArray::op_set(
   self : FloatArray,
   index : Int,
@@ -46,17 +49,20 @@ fn UByteArray::is_null(self : UByteArray) -> Bool {
 }
 
 ///|
+/// Get the number of elements in this unsigned byte array.
 pub fn UByteArray::length(self : UByteArray) -> Int {
   self.1
 }
 
 ///|
+/// Get the unsigned byte value at the given index (bounds-checked).
 pub fn UByteArray::op_get(self : UByteArray, index : Int) -> Int {
   guard index >= 0 && index < self.1
   @ffi.ubyte_array_get(self.0, index)
 }
 
 ///|
+/// Set the unsigned byte value at the given index (bounds-checked).
 pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Byte) -> Unit {
   guard index >= 0 && index < self.1
   @ffi.ubyte_array_set(self.0, index, value)
@@ -75,17 +81,20 @@ fn UShortArray::is_null(self : UShortArray) -> Bool {
 }
 
 ///|
+/// Get the number of elements in this unsigned short array.
 pub fn UShortArray::length(self : UShortArray) -> Int {
   self.1
 }
 
 ///|
+/// Get the unsigned short value at the given index (bounds-checked).
 pub fn UShortArray::op_get(self : UShortArray, index : Int) -> Int {
   guard index >= 0 && index < self.1
   @ffi.ushort_array_get(self.0, index)
 }
 
 ///|
+/// Set the unsigned short value at the given index (bounds-checked).
 pub fn UShortArray::op_set(
   self : UShortArray,
   index : Int,
@@ -108,17 +117,20 @@ fn MatrixArray::is_null(self : MatrixArray) -> Bool {
 }
 
 ///|
+/// Get the number of elements in this matrix array.
 pub fn MatrixArray::length(self : MatrixArray) -> Int {
   self.1
 }
 
 ///|
+/// Get the Matrix value at the given index (bounds-checked).
 pub fn MatrixArray::op_get(self : MatrixArray, index : Int) -> Matrix {
   guard index >= 0 && index < self.1
   Matrix::from_bytes(@ffi.matrix_array_op_get(self.0, index))
 }
 
 ///|
+/// Set the Matrix value at the given index (bounds-checked).
 pub fn MatrixArray::op_set(
   self : MatrixArray,
   index : Int,

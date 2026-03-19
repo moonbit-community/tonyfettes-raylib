@@ -2,6 +2,7 @@
 // C layout: m0, m4, m8, m12, m1, m5, m9, m13, m2, m6, m10, m14, m3, m7, m11, m15
 
 ///|
+/// 4x4 matrix type in column-major order, as used by OpenGL.
 pub struct Matrix {
   m0 : Float
   m1 : Float
@@ -22,6 +23,7 @@ pub struct Matrix {
 } derive(Eq, Show)
 
 ///|
+/// Get identity matrix.
 pub fn Matrix::identity() -> Matrix {
   {
     m0: 1.0,
@@ -44,6 +46,7 @@ pub fn Matrix::identity() -> Matrix {
 }
 
 ///|
+/// Serialize Matrix to bytes.
 pub fn Matrix::to_bytes(m : Matrix) -> Bytes {
   // Column-major C layout: m0, m4, m8, m12, m1, m5, m9, m13, m2, m6, m10, m14, m3, m7, m11, m15
   let buf = @buffer.new(size_hint=64)
@@ -67,6 +70,7 @@ pub fn Matrix::to_bytes(m : Matrix) -> Bytes {
 }
 
 ///|
+/// Deserialize Matrix from bytes.
 pub fn Matrix::from_bytes(b : Bytes) -> Matrix {
   // Column-major C layout: m0, m4, m8, m12, m1, m5, m9, m13, m2, m6, m10, m14, m3, m7, m11, m15
   {
@@ -92,6 +96,7 @@ pub fn Matrix::from_bytes(b : Bytes) -> Matrix {
 // ----- Matrix math functions -----
 
 ///|
+/// Compute matrix determinant.
 pub fn Matrix::determinant(mat : Matrix) -> Float {
   // Cache the matrix values (speed optimization)
   let a00 = mat.m0
@@ -137,11 +142,13 @@ pub fn Matrix::determinant(mat : Matrix) -> Float {
 }
 
 ///|
+/// Get the trace of the matrix (sum of the values along the diagonal).
 pub fn Matrix::trace(mat : Matrix) -> Float {
   mat.m0 + mat.m5 + mat.m10 + mat.m15
 }
 
 ///|
+/// Transposes provided matrix.
 pub fn Matrix::transpose(mat : Matrix) -> Matrix {
   {
     m0: mat.m0,
@@ -164,6 +171,7 @@ pub fn Matrix::transpose(mat : Matrix) -> Matrix {
 }
 
 ///|
+/// Invert provided matrix.
 pub fn Matrix::invert(mat : Matrix) -> Matrix {
   // Cache the matrix values (speed optimization)
   let a00 = mat.m0
@@ -218,6 +226,7 @@ pub fn Matrix::invert(mat : Matrix) -> Matrix {
 }
 
 ///|
+/// Add two matrices.
 pub fn Matrix::add(left : Matrix, right : Matrix) -> Matrix {
   {
     m0: left.m0 + right.m0,
@@ -240,6 +249,7 @@ pub fn Matrix::add(left : Matrix, right : Matrix) -> Matrix {
 }
 
 ///|
+/// Subtract two matrices (left - right).
 pub fn Matrix::subtract(left : Matrix, right : Matrix) -> Matrix {
   {
     m0: left.m0 - right.m0,
@@ -262,6 +272,7 @@ pub fn Matrix::subtract(left : Matrix, right : Matrix) -> Matrix {
 }
 
 ///|
+/// Get two matrix multiplication.
 pub fn Matrix::multiply(left : Matrix, right : Matrix) -> Matrix {
   {
     m0: left.m0 * right.m0 +
@@ -332,6 +343,7 @@ pub fn Matrix::multiply(left : Matrix, right : Matrix) -> Matrix {
 }
 
 ///|
+/// Get translation matrix.
 pub fn Matrix::translate(x : Float, y : Float, z : Float) -> Matrix {
   {
     m0: 1.0,
@@ -354,6 +366,7 @@ pub fn Matrix::translate(x : Float, y : Float, z : Float) -> Matrix {
 }
 
 ///|
+/// Create rotation matrix from axis and angle.
 pub fn Matrix::rotate(axis : Vector3, angle : Float) -> Matrix {
   let mut x = axis.x
   let mut y = axis.y
@@ -389,6 +402,7 @@ pub fn Matrix::rotate(axis : Vector3, angle : Float) -> Matrix {
 }
 
 ///|
+/// Get x-rotation matrix.
 pub fn Matrix::rotate_x(angle : Float) -> Matrix {
   let cosres = cosf(angle)
   let sinres = sinf(angle)
@@ -413,6 +427,7 @@ pub fn Matrix::rotate_x(angle : Float) -> Matrix {
 }
 
 ///|
+/// Get y-rotation matrix.
 pub fn Matrix::rotate_y(angle : Float) -> Matrix {
   let cosres = cosf(angle)
   let sinres = sinf(angle)
@@ -437,6 +452,7 @@ pub fn Matrix::rotate_y(angle : Float) -> Matrix {
 }
 
 ///|
+/// Get z-rotation matrix.
 pub fn Matrix::rotate_z(angle : Float) -> Matrix {
   let cosres = cosf(angle)
   let sinres = sinf(angle)
@@ -461,6 +477,7 @@ pub fn Matrix::rotate_z(angle : Float) -> Matrix {
 }
 
 ///|
+/// Get xyz-rotation matrix.
 pub fn Matrix::rotate_xyz(angle : Vector3) -> Matrix {
   let cosz = cosf(-angle.z)
   let sinz = sinf(-angle.z)
@@ -489,6 +506,7 @@ pub fn Matrix::rotate_xyz(angle : Vector3) -> Matrix {
 }
 
 ///|
+/// Get zyx-rotation matrix.
 pub fn Matrix::rotate_zyx(angle : Vector3) -> Matrix {
   let cz = cosf(angle.z)
   let sz = sinf(angle.z)
@@ -517,6 +535,7 @@ pub fn Matrix::rotate_zyx(angle : Vector3) -> Matrix {
 }
 
 ///|
+/// Get scaling matrix.
 pub fn Matrix::scale(x : Float, y : Float, z : Float) -> Matrix {
   {
     m0: x,
@@ -539,6 +558,7 @@ pub fn Matrix::scale(x : Float, y : Float, z : Float) -> Matrix {
 }
 
 ///|
+/// Get perspective projection matrix for a given view frustum.
 pub fn Matrix::frustum(
   left : Double,
   right : Double,
@@ -577,6 +597,7 @@ pub fn Matrix::frustum(
 }
 
 ///|
+/// Get perspective projection matrix.
 pub fn Matrix::perspective(
   fov_y : Double,
   aspect : Double,
@@ -617,6 +638,7 @@ pub fn Matrix::perspective(
 }
 
 ///|
+/// Get orthographic projection matrix.
 pub fn Matrix::ortho(
   left : Double,
   right : Double,
@@ -655,6 +677,7 @@ pub fn Matrix::ortho(
 }
 
 ///|
+/// Get camera look-at matrix (view matrix).
 pub fn Matrix::look_at(eye : Vector3, target : Vector3, up : Vector3) -> Matrix {
   // Vector3Subtract(eye, target)
   let mut vz_x = eye.x - target.x
@@ -707,6 +730,7 @@ pub fn Matrix::look_at(eye : Vector3, target : Vector3, up : Vector3) -> Matrix 
 }
 
 ///|
+/// Decompose a transformation matrix into its translation, rotation, and scale components.
 pub fn Matrix::decompose(mat : Matrix) -> (Vector3, Vector4, Vector3) {
   // Extract translation
   let translation : Vector3 = { x: mat.m12, y: mat.m13, z: mat.m14 }

@@ -3,16 +3,19 @@
 // ============================================================================
 
 ///|
+/// Draw a pixel using geometry. Can be slow, use with care.
 pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
   @ffi.draw_pixel(pos_x, pos_y, color.to_bytes())
 }
 
 ///|
+/// Draw a pixel using geometry (Vector version). Can be slow, use with care.
 pub fn draw_pixel_v(position : Vector2, color : Color) -> Unit {
   @ffi.draw_pixel_v(position.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw a line.
 pub fn draw_line(
   start_x : Int,
   start_y : Int,
@@ -24,6 +27,7 @@ pub fn draw_line(
 }
 
 ///|
+/// Draw a line (using gl lines).
 pub fn draw_line_v(
   start_pos : Vector2,
   end_pos : Vector2,
@@ -33,6 +37,7 @@ pub fn draw_line_v(
 }
 
 ///|
+/// Draw a line (using triangles/quads).
 pub fn draw_line_ex(
   start_pos : Vector2,
   end_pos : Vector2,
@@ -48,6 +53,7 @@ pub fn draw_line_ex(
 }
 
 ///|
+/// Draw line segment cubic-bezier in-out interpolation.
 pub fn draw_line_bezier(
   start_pos : Vector2,
   end_pos : Vector2,
@@ -63,6 +69,7 @@ pub fn draw_line_bezier(
 }
 
 ///|
+/// Draw a color-filled circle.
 pub fn draw_circle(
   center_x : Int,
   center_y : Int,
@@ -73,6 +80,7 @@ pub fn draw_circle(
 }
 
 ///|
+/// Draw a piece of a circle.
 pub fn draw_circle_sector(
   center : Vector2,
   radius : Float,
@@ -92,6 +100,7 @@ pub fn draw_circle_sector(
 }
 
 ///|
+/// Draw a gradient-filled circle.
 pub fn draw_circle_gradient(
   center_x : Int,
   center_y : Int,
@@ -109,11 +118,13 @@ pub fn draw_circle_gradient(
 }
 
 ///|
+/// Draw a color-filled circle (Vector version).
 pub fn draw_circle_v(center : Vector2, radius : Float, color : Color) -> Unit {
   @ffi.draw_circle_v(center.to_bytes(), radius, color.to_bytes())
 }
 
 ///|
+/// Draw circle outline.
 pub fn draw_circle_lines(
   center_x : Int,
   center_y : Int,
@@ -124,6 +135,7 @@ pub fn draw_circle_lines(
 }
 
 ///|
+/// Draw circle outline (Vector version).
 pub fn draw_circle_lines_v(
   center : Vector2,
   radius : Float,
@@ -133,6 +145,7 @@ pub fn draw_circle_lines_v(
 }
 
 ///|
+/// Draw ellipse.
 pub fn draw_ellipse(
   center_x : Int,
   center_y : Int,
@@ -144,6 +157,7 @@ pub fn draw_ellipse(
 }
 
 ///|
+/// Draw ellipse outline.
 pub fn draw_ellipse_lines(
   center_x : Int,
   center_y : Int,
@@ -161,6 +175,7 @@ pub fn draw_ellipse_lines(
 }
 
 ///|
+/// Draw ring.
 pub fn draw_ring(
   center : Vector2,
   inner_radius : Float,
@@ -182,6 +197,7 @@ pub fn draw_ring(
 }
 
 ///|
+/// Draw ring outline.
 pub fn draw_ring_lines(
   center : Vector2,
   inner_radius : Float,
@@ -203,6 +219,7 @@ pub fn draw_ring_lines(
 }
 
 ///|
+/// Draw a color-filled rectangle.
 pub fn draw_rectangle(
   pos_x : Int,
   pos_y : Int,
@@ -214,6 +231,7 @@ pub fn draw_rectangle(
 }
 
 ///|
+/// Draw a color-filled rectangle (Vector version).
 pub fn draw_rectangle_v(
   position : Vector2,
   size : Vector2,
@@ -223,11 +241,13 @@ pub fn draw_rectangle_v(
 }
 
 ///|
+/// Draw a color-filled rectangle.
 pub fn draw_rectangle_rec(rec : Rectangle, color : Color) -> Unit {
   @ffi.draw_rectangle_rec(rec.to_bytes(), color.to_bytes())
 }
 
 ///|
+/// Draw a color-filled rectangle with pro parameters.
 pub fn draw_rectangle_pro(
   rec : Rectangle,
   origin : Vector2,
@@ -243,6 +263,7 @@ pub fn draw_rectangle_pro(
 }
 
 ///|
+/// Draw a vertical-gradient-filled rectangle.
 pub fn draw_rectangle_gradient_v(
   pos_x : Int,
   pos_y : Int,
@@ -262,6 +283,7 @@ pub fn draw_rectangle_gradient_v(
 }
 
 ///|
+/// Draw a horizontal-gradient-filled rectangle.
 pub fn draw_rectangle_gradient_h(
   pos_x : Int,
   pos_y : Int,
@@ -281,6 +303,7 @@ pub fn draw_rectangle_gradient_h(
 }
 
 ///|
+/// Draw a gradient-filled rectangle with custom vertex colors.
 pub fn draw_rectangle_gradient_ex(
   rec : Rectangle,
   top_left : Color,
@@ -298,6 +321,7 @@ pub fn draw_rectangle_gradient_ex(
 }
 
 ///|
+/// Draw rectangle outline.
 pub fn draw_rectangle_lines(
   pos_x : Int,
   pos_y : Int,
@@ -309,6 +333,7 @@ pub fn draw_rectangle_lines(
 }
 
 ///|
+/// Draw rectangle outline with extended parameters.
 pub fn draw_rectangle_lines_ex(
   rec : Rectangle,
   line_thick : Float,
@@ -318,6 +343,7 @@ pub fn draw_rectangle_lines_ex(
 }
 
 ///|
+/// Draw rectangle with rounded edges.
 pub fn draw_rectangle_rounded(
   rec : Rectangle,
   roundness : Float,
@@ -333,6 +359,7 @@ pub fn draw_rectangle_rounded(
 }
 
 ///|
+/// Draw rectangle lines with rounded edges.
 pub fn draw_rectangle_rounded_lines(
   rec : Rectangle,
   roundness : Float,
@@ -348,6 +375,7 @@ pub fn draw_rectangle_rounded_lines(
 }
 
 ///|
+/// Draw rectangle with rounded edges outline.
 pub fn draw_rectangle_rounded_lines_ex(
   rec : Rectangle,
   roundness : Float,
@@ -365,6 +393,7 @@ pub fn draw_rectangle_rounded_lines_ex(
 }
 
 ///|
+/// Draw a color-filled triangle (vertex in counter-clockwise order!).
 pub fn draw_triangle(
   v1 : Vector2,
   v2 : Vector2,
@@ -380,6 +409,7 @@ pub fn draw_triangle(
 }
 
 ///|
+/// Draw triangle outline (vertex in counter-clockwise order!).
 pub fn draw_triangle_lines(
   v1 : Vector2,
   v2 : Vector2,
@@ -395,6 +425,7 @@ pub fn draw_triangle_lines(
 }
 
 ///|
+/// Draw a regular polygon (Vector version).
 pub fn draw_poly(
   center : Vector2,
   sides : Int,
@@ -406,6 +437,7 @@ pub fn draw_poly(
 }
 
 ///|
+/// Draw a polygon outline of n sides.
 pub fn draw_poly_lines(
   center : Vector2,
   sides : Int,
@@ -423,6 +455,7 @@ pub fn draw_poly_lines(
 }
 
 ///|
+/// Draw a polygon outline of n sides with extended parameters.
 pub fn draw_poly_lines_ex(
   center : Vector2,
   sides : Int,
@@ -446,11 +479,13 @@ pub fn draw_poly_lines_ex(
 // ============================================================================
 
 ///|
+/// Check collision between two rectangles.
 pub fn check_collision_recs(rec1 : Rectangle, rec2 : Rectangle) -> Bool {
   @ffi.check_collision_recs(rec1.to_bytes(), rec2.to_bytes())
 }
 
 ///|
+/// Check collision between two circles.
 pub fn check_collision_circles(
   center1 : Vector2,
   radius1 : Float,
@@ -466,6 +501,7 @@ pub fn check_collision_circles(
 }
 
 ///|
+/// Check collision between circle and rectangle.
 pub fn check_collision_circle_rec(
   center : Vector2,
   radius : Float,
@@ -475,11 +511,13 @@ pub fn check_collision_circle_rec(
 }
 
 ///|
+/// Check if point is inside rectangle.
 pub fn check_collision_point_rec(point : Vector2, rec : Rectangle) -> Bool {
   @ffi.check_collision_point_rec(point.to_bytes(), rec.to_bytes())
 }
 
 ///|
+/// Check if point is inside circle.
 pub fn check_collision_point_circle(
   point : Vector2,
   center : Vector2,
@@ -489,6 +527,7 @@ pub fn check_collision_point_circle(
 }
 
 ///|
+/// Check if point is inside a triangle.
 pub fn check_collision_point_triangle(
   point : Vector2,
   p1 : Vector2,
@@ -504,6 +543,7 @@ pub fn check_collision_point_triangle(
 }
 
 ///|
+/// Get collision rectangle for two rectangles collision.
 pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
   Rectangle::from_bytes(
     @ffi.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
@@ -515,6 +555,7 @@ pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
 // ============================================================================
 
 ///|
+/// Draw circle sector outline.
 pub fn draw_circle_sector_lines(
   center : Vector2,
   radius : Float,
@@ -544,18 +585,21 @@ fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
 }
 
 ///|
+/// Draw lines sequence (using gl lines).
 pub fn draw_line_strip(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @ffi.draw_line_strip(bytes, points.length(), color.to_bytes())
 }
 
 ///|
+/// Draw a triangle fan defined by points (first vertex is the center).
 pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @ffi.draw_triangle_fan(bytes, points.length(), color.to_bytes())
 }
 
 ///|
+/// Draw a triangle strip defined by points.
 pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
   let bytes = vector2_array_to_bytes(points)
   @ffi.draw_triangle_strip(bytes, points.length(), color.to_bytes())
@@ -566,6 +610,7 @@ pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
 // ============================================================================
 
 ///|
+/// Draw spline: Linear, minimum 2 points.
 pub fn draw_spline_linear(
   points : Array[Vector2],
   thick : Float,
@@ -576,6 +621,7 @@ pub fn draw_spline_linear(
 }
 
 ///|
+/// Draw spline: B-Spline, minimum 4 points.
 pub fn draw_spline_basis(
   points : Array[Vector2],
   thick : Float,
@@ -586,6 +632,7 @@ pub fn draw_spline_basis(
 }
 
 ///|
+/// Draw spline: Catmull-Rom, minimum 4 points.
 pub fn draw_spline_catmull_rom(
   points : Array[Vector2],
   thick : Float,
@@ -596,6 +643,7 @@ pub fn draw_spline_catmull_rom(
 }
 
 ///|
+/// Draw spline: Quadratic Bezier, minimum 3 points (1 control point).
 pub fn draw_spline_bezier_quadratic(
   points : Array[Vector2],
   thick : Float,
@@ -611,6 +659,7 @@ pub fn draw_spline_bezier_quadratic(
 }
 
 ///|
+/// Draw spline: Cubic Bezier, minimum 4 points (2 control points).
 pub fn draw_spline_bezier_cubic(
   points : Array[Vector2],
   thick : Float,
@@ -625,6 +674,7 @@ pub fn draw_spline_bezier_cubic(
 // ============================================================================
 
 ///|
+/// Draw spline segment: Linear, 2 points.
 pub fn draw_spline_segment_linear(
   p1 : Vector2,
   p2 : Vector2,
@@ -640,6 +690,7 @@ pub fn draw_spline_segment_linear(
 }
 
 ///|
+/// Draw spline segment: B-Spline, 4 points.
 pub fn draw_spline_segment_basis(
   p1 : Vector2,
   p2 : Vector2,
@@ -659,6 +710,7 @@ pub fn draw_spline_segment_basis(
 }
 
 ///|
+/// Draw spline segment: Catmull-Rom, 4 points.
 pub fn draw_spline_segment_catmull_rom(
   p1 : Vector2,
   p2 : Vector2,
@@ -678,6 +730,7 @@ pub fn draw_spline_segment_catmull_rom(
 }
 
 ///|
+/// Draw spline segment: Quadratic Bezier, 2 points, 1 control point.
 pub fn draw_spline_segment_bezier_quadratic(
   p1 : Vector2,
   p2 : Vector2,
@@ -695,6 +748,7 @@ pub fn draw_spline_segment_bezier_quadratic(
 }
 
 ///|
+/// Draw spline segment: Cubic Bezier, 2 points, 2 control points.
 pub fn draw_spline_segment_bezier_cubic(
   p1 : Vector2,
   p2 : Vector2,
@@ -718,6 +772,7 @@ pub fn draw_spline_segment_bezier_cubic(
 // ============================================================================
 
 ///|
+/// Get (evaluate) spline point: Linear.
 pub fn get_spline_point_linear(
   start_pos : Vector2,
   end_pos : Vector2,
@@ -729,6 +784,7 @@ pub fn get_spline_point_linear(
 }
 
 ///|
+/// Get (evaluate) spline point: B-Spline.
 pub fn get_spline_point_basis(
   p1 : Vector2,
   p2 : Vector2,
@@ -748,6 +804,7 @@ pub fn get_spline_point_basis(
 }
 
 ///|
+/// Get (evaluate) spline point: Catmull-Rom.
 pub fn get_spline_point_catmull_rom(
   p1 : Vector2,
   p2 : Vector2,
@@ -767,6 +824,7 @@ pub fn get_spline_point_catmull_rom(
 }
 
 ///|
+/// Get (evaluate) spline point: Quadratic Bezier.
 pub fn get_spline_point_bezier_quad(
   p1 : Vector2,
   p2 : Vector2,
@@ -784,6 +842,7 @@ pub fn get_spline_point_bezier_quad(
 }
 
 ///|
+/// Get (evaluate) spline point: Cubic Bezier.
 pub fn get_spline_point_bezier_cubic(
   p1 : Vector2,
   p2 : Vector2,
@@ -807,6 +866,7 @@ pub fn get_spline_point_bezier_cubic(
 // ============================================================================
 
 ///|
+/// Check if circle collides with a line created between two points.
 pub fn check_collision_circle_line(
   center : Vector2,
   radius : Float,
@@ -822,6 +882,7 @@ pub fn check_collision_circle_line(
 }
 
 ///|
+/// Check if point belongs to line created between two points with defined margin in pixels.
 pub fn check_collision_point_line(
   point : Vector2,
   p1 : Vector2,
@@ -852,6 +913,7 @@ fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
 }
 
 ///|
+/// Draw a triangle strip defined by points in 3D space.
 pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
   let bytes = vector3_array_to_bytes(points)
   @ffi.draw_triangle_strip_3d(bytes, points.length(), color.to_bytes())
@@ -862,6 +924,7 @@ pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
 // ============================================================================
 
 ///|
+/// Check if point is within a polygon described by array of vertices.
 pub fn check_collision_point_poly(
   point : Vector2,
   points : Array[Vector2],
@@ -871,6 +934,7 @@ pub fn check_collision_point_poly(
 }
 
 ///|
+/// Check the collision between two lines defined by two points each, returns collision point.
 pub fn check_collision_lines(
   start_pos1 : Vector2,
   end_pos1 : Vector2,
