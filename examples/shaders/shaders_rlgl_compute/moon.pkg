@@ -1,0 +1,9 @@
+import {
+  "tonyfettes/raylib",
+  "tonyfettes/raylib/rl",
+  "moonbitlang/core/buffer",
+}
+
+options(
+  "is-main": true,
+)
