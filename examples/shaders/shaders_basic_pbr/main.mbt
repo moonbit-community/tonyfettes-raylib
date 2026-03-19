@@ -25,7 +25,6 @@ struct PbrLight {
   intensity_loc : Int
 }
 
-
 // ============================================================================
 // Light creation and update
 // ============================================================================
@@ -95,32 +94,35 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
   shader.set_value(
     light.enabled_loc,
     @raylib.ShaderUniformData::Int(enabled_val),
-    )
+  )
 
   // Send light type
   shader.set_value(
     light.type_loc,
     @raylib.ShaderUniformData::Int(light.light_type),
-    )
+  )
 
   // Send light position as vec3
   shader.set_value(
     light.position_loc,
     @raylib.ShaderUniformData::Vec3(light.position),
-    )
+  )
 
   // Send light target as vec3
   shader.set_value(
     light.target_loc,
     @raylib.ShaderUniformData::Vec3(light.target),
-    )
+  )
 
   // Send light color as vec4 (normalized 0.0-1.0)
   shader.set_value(
     light.color_loc,
     @raylib.ShaderUniformData::Vec4(
       @raylib.Vector4::new(
-        light.color[0], light.color[1], light.color[2], light.color[3],
+        light.color[0],
+        light.color[1],
+        light.color[2],
+        light.color[3],
       ),
     ),
   )
@@ -129,7 +131,7 @@ fn update_pbr_light(shader : @raylib.Shader, light : PbrLight) -> Unit {
   shader.set_value(
     light.intensity_loc,
     @raylib.ShaderUniformData::Float(light.intensity),
-    )
+  )
 }
 
 // ============================================================================
@@ -205,7 +207,7 @@ fn main {
   shader.set_value(
     light_count_loc,
     @raylib.ShaderUniformData::Int(max_light_count),
-    )
+  )
 
   // Setup ambient color and intensity parameters
   let ambient_intensity : Float = 0.02
@@ -218,11 +220,11 @@ fn main {
   shader.set_value(
     @raylib.get_shader_location(shader, "ambientColor"),
     @raylib.ShaderUniformData::Vec3(ambient_color_normalized),
-    )
+  )
   shader.set_value(
     @raylib.get_shader_location(shader, "ambient"),
     @raylib.ShaderUniformData::Float(ambient_intensity),
-    )
+  )
 
   // Get location for shader parameters that can be modified in real time
   let emissive_intensity_loc = @raylib.get_shader_location(
@@ -389,19 +391,19 @@ fn main {
   shader.set_value(
     @raylib.get_shader_location(shader, "useTexAlbedo"),
     @raylib.ShaderUniformData::Int(usage),
-    )
+  )
   shader.set_value(
     @raylib.get_shader_location(shader, "useTexNormal"),
     @raylib.ShaderUniformData::Int(usage),
-    )
+  )
   shader.set_value(
     @raylib.get_shader_location(shader, "useTexMRA"),
     @raylib.ShaderUniformData::Int(usage),
-    )
+  )
   shader.set_value(
     @raylib.get_shader_location(shader, "useTexEmissive"),
     @raylib.ShaderUniformData::Int(usage),
-    )
+  )
 
   @raylib.set_target_fps(60)
 
@@ -414,7 +416,7 @@ fn main {
     shader.set_value(
       @raylib.get_shader_location(shader, "viewPos"),
       @raylib.ShaderUniformData::Vec3(camera.position),
-      )
+    )
 
     // Check key inputs to enable/disable lights
     if @raylib.is_key_pressed(@raylib.KeyOne) {
@@ -445,12 +447,12 @@ fn main {
     shader.set_value(
       texture_tiling_loc,
       @raylib.ShaderUniformData::Vec2(floor_texture_tiling),
-      )
+    )
     let floor_emissive_color = @raylib.color_normalize(@raylib.black)
     shader.set_value(
       emissive_color_loc,
       @raylib.ShaderUniformData::Vec4(floor_emissive_color),
-      )
+    )
 
     @raylib.draw_model(
       floor_model,
@@ -463,19 +465,19 @@ fn main {
     shader.set_value(
       texture_tiling_loc,
       @raylib.ShaderUniformData::Vec2(car_texture_tiling),
-      )
+    )
     let car_emissive_color = @raylib.color_normalize(
       @raylib.Color::new(255, 162, 0, 255),
     )
     shader.set_value(
       emissive_color_loc,
       @raylib.ShaderUniformData::Vec4(car_emissive_color),
-      )
+    )
     let emissive_intensity : Float = 0.01
     shader.set_value(
       emissive_intensity_loc,
       @raylib.ShaderUniformData::Float(emissive_intensity),
-      )
+    )
 
     @raylib.draw_model(
       car,

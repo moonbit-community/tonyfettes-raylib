@@ -42,7 +42,7 @@ fn main {
     shader.set_value(
       divider_loc,
       @raylib.ShaderUniformData::Float(divider_value),
-      )
+    )
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)

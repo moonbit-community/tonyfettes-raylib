@@ -35,7 +35,7 @@ fn main {
   shader.set_value(
     swirl_center_loc,
     @raylib.ShaderUniformData::Vec2(swirl_center),
-    )
+  )
 
   // Create a RenderTexture2D to be used for render to texture
   let target = @raylib.load_render_texture(screen_width, screen_height)
@@ -58,7 +58,7 @@ fn main {
     shader.set_value(
       swirl_center_loc,
       @raylib.ShaderUniformData::Vec2(swirl_center),
-      )
+    )
 
     // Draw scene to render texture
     @raylib.begin_texture_mode(target)

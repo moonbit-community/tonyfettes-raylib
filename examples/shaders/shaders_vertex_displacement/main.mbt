@@ -58,7 +58,7 @@ fn main {
     shader.set_value(
       @raylib.get_shader_location(shader, "time"),
       @raylib.ShaderUniformData::Float(time),
-      )
+    )
 
     // Draw
     @raylib.begin_drawing()

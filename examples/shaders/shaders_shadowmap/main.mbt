@@ -94,19 +94,16 @@ fn main {
   shadow_shader.set_value(
     light_dir_loc,
     @raylib.ShaderUniformData::Vec3(light_dir),
-    )
+  )
   shadow_shader.set_value(
     light_col_loc,
     @raylib.ShaderUniformData::Vec4(light_color_normalized),
-    )
+  )
 
   // Ambient light
   let ambient_loc = @raylib.get_shader_location(shadow_shader, "ambient")
   let ambient = @raylib.Vector4::new(0.1, 0.1, 0.1, 1.0)
-  shadow_shader.set_value(
-    ambient_loc,
-    @raylib.ShaderUniformData::Vec4(ambient),
-    )
+  shadow_shader.set_value(ambient_loc, @raylib.ShaderUniformData::Vec4(ambient))
 
   // Shadow map uniforms
   let light_vp_loc = @raylib.get_shader_location(shadow_shader, "lightVP")
@@ -117,7 +114,7 @@ fn main {
   shadow_shader.set_value(
     shadow_map_resolution_loc,
     @raylib.ShaderUniformData::Int(ShadowmapResolution),
-    )
+  )
 
   // Load models
   let cube = @raylib.load_model_from_mesh(@raylib.gen_mesh_cube(1.0, 1.0, 1.0))
@@ -145,15 +142,25 @@ fn main {
     false,
   )
   @rl.framebuffer_attach(
-    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+    fbo_id,
+    depth_tex_id,
+    @rl.AttachmentDepth,
+    @rl.AttachmentTexture2d,
+    0,
   )
   if @rl.framebuffer_complete(fbo_id) {
-    @raylib.trace_log(@raylib.LogInfo, "FBO: Framebuffer object created successfully")
+    @raylib.trace_log(
+      @raylib.LogInfo,
+      "FBO: Framebuffer object created successfully",
+    )
   }
   let shadow_map = @raylib.new_render_texture(
     fbo_id,
     @raylib.new_texture(
-      0U, ShadowmapResolution, ShadowmapResolution, 1,
+      0U,
+      ShadowmapResolution,
+      ShadowmapResolution,
+      1,
       @raylib.PixelformatUncompressedR8g8b8a8,
     ),
     @raylib.new_texture(
@@ -188,7 +195,7 @@ fn main {
     shadow_shader.set_value(
       view_pos_loc,
       @raylib.ShaderUniformData::Vec3(camera_pos),
-      )
+    )
     cam = @raylib.update_camera(cam, @raylib.CameraOrbital)
 
     // Update animation
@@ -232,7 +239,7 @@ fn main {
     shadow_shader.set_value(
       light_dir_loc,
       @raylib.ShaderUniformData::Vec3(light_dir),
-      )
+    )
 
     // Draw
     @raylib.begin_drawing()

@@ -60,11 +60,25 @@ fn main {
   )
   distortion.set_value(
     @raylib.get_shader_location(distortion, "deviceWarpParam"),
-    @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.lens_distortion_values[0], device.lens_distortion_values[1], device.lens_distortion_values[2], device.lens_distortion_values[3])),
+    @raylib.ShaderUniformData::Vec4(
+      @raylib.Vector4::new(
+        device.lens_distortion_values[0],
+        device.lens_distortion_values[1],
+        device.lens_distortion_values[2],
+        device.lens_distortion_values[3],
+      ),
+    ),
   )
   distortion.set_value(
     @raylib.get_shader_location(distortion, "chromaAbParam"),
-    @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(device.chroma_ab_correction[0], device.chroma_ab_correction[1], device.chroma_ab_correction[2], device.chroma_ab_correction[3])),
+    @raylib.ShaderUniformData::Vec4(
+      @raylib.Vector4::new(
+        device.chroma_ab_correction[0],
+        device.chroma_ab_correction[1],
+        device.chroma_ab_correction[2],
+        device.chroma_ab_correction[3],
+      ),
+    ),
   )
 
   // Initialize framebuffer for stereo rendering
