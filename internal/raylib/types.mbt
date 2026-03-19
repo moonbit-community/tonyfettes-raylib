@@ -69,6 +69,10 @@ pub type UByteArray
 
 ///|
 #external
+pub type ShortArray
+
+///|
+#external
 pub type UShortArray
 
 ///|

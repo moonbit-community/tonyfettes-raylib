@@ -221,6 +221,11 @@ moonbit_raylib_get_wave_channels(WaveWrapper *w) {
   return (int32_t)w->data->channels;
 }
 
+void *
+moonbit_raylib_get_wave_data(WaveWrapper *w) {
+  return w->data->data;
+}
+
 // ============================================================================
 // Audio: AudioStream (resource types)
 // ============================================================================

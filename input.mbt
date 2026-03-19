@@ -1,5 +1,6 @@
 // Cursor re-exports
 
+///|
 pub using @ffi {
   show_cursor,
   hide_cursor,

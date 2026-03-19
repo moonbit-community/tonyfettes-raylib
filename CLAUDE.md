@@ -23,6 +23,13 @@ moon -C examples run --target native raylib_tank_1990/
 moon check --target native
 ```
 
+**Before committing**, always run these two commands and include their changes in the commit:
+
+```bash
+moon fmt                    # format all MoonBit source files
+moon info --target native   # regenerate pkg.generated.mbti interface files
+```
+
 ## Architecture
 
 ### Package structure

@@ -3,6 +3,7 @@ struct FilePathList(@ffi.FilePathList)
 
 // Re-export passthrough functions from internal FFI layer
 
+///|
 pub using @ffi {is_file_dropped}
 
 ///|

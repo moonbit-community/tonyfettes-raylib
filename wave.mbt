@@ -93,6 +93,27 @@ pub fn Wave::load_samples(self : Wave) -> WaveSamples {
 }
 
 ///|
+pub enum WaveData {
+  Float(FloatArray)
+  Short(ShortArray)
+  UByte(UByteArray)
+}
+
+///|
+/// Get wave data as a zero-copy view into the internal buffer.
+/// Returns `Float`, `Short`, or `UByte` depending on `sample_size()` (32, 16, or 8).
+#as_free_fn(get_wave_data)
+pub fn Wave::data(self : Wave) -> WaveData {
+  let count = self.frame_count() * self.channels()
+  match self.sample_size() {
+    32 => Float(FloatArray(@ffi.get_wave_data_float(self.0), count))
+    16 => Short(ShortArray(@ffi.get_wave_data_short(self.0), count))
+    8 => UByte(UByteArray(@ffi.get_wave_data_ubyte(self.0), count))
+    _ => abort("Wave::data(): unexpected sample_size")
+  }
+}
+
+///|
 /// Get wave frame count.
 #as_free_fn(get_wave_frame_count)
 pub fn Wave::frame_count(self : Wave) -> Int {

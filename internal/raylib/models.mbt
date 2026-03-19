@@ -804,6 +804,19 @@ pub extern "c" fn ushort_array_set(
 ) = "moonbit_raylib_ushort_array_set"
 
 // ============================================================================
+// ShortArray operations (#external — raw short*)
+// ============================================================================
+
+///|
+pub extern "c" fn short_array_is_null(arr : ShortArray) -> Bool = "moonbit_raylib_short_array_is_null"
+
+///|
+pub extern "c" fn short_array_get(arr : ShortArray, index : Int) -> Int = "moonbit_raylib_short_array_get"
+
+///|
+pub extern "c" fn short_array_set(arr : ShortArray, index : Int, value : Int) = "moonbit_raylib_short_array_set"
+
+// ============================================================================
 // MatrixArray operations (#external — raw Matrix*)
 // ============================================================================
 

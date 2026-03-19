@@ -1,5 +1,6 @@
 // Window management re-exports
 
+///|
 pub using @ffi {
   close_window,
   window_should_close,

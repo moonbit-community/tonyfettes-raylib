@@ -1330,6 +1330,29 @@ moonbit_raylib_ushort_array_set(
 }
 
 // ============================================================================
+// ShortArray: raw short* operations (#external, no wrapper)
+// ============================================================================
+
+int32_t
+moonbit_raylib_short_array_is_null(short *arr) {
+  return arr == NULL;
+}
+
+int32_t
+moonbit_raylib_short_array_get(short *arr, int32_t index) {
+  return (int32_t)arr[index];
+}
+
+void
+moonbit_raylib_short_array_set(
+  short *arr,
+  int32_t index,
+  int32_t value
+) {
+  arr[index] = (short)value;
+}
+
+// ============================================================================
 // MatrixArray: raw Matrix* operations (#external, no wrapper)
 // ============================================================================
 
