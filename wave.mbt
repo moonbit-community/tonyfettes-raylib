@@ -43,9 +43,40 @@ pub fn Wave::format(
 }
 
 ///|
+pub struct WaveSamples {
+  priv samples : FloatArray
+}
+
+///|
+pub fn WaveSamples::length(self : WaveSamples) -> Int {
+  self.samples.length()
+}
+
+///|
+pub fn WaveSamples::op_get(self : WaveSamples, index : Int) -> Float {
+  self.samples[index]
+}
+
+///|
+pub fn WaveSamples::op_set(
+  self : WaveSamples,
+  index : Int,
+  value : Float,
+) -> Unit {
+  self.samples[index] = value
+}
+
+///|
+#as_free_fn(unload_wave_samples)
+pub fn WaveSamples::unload(self : WaveSamples) -> Unit {
+  @ffi.unload_wave_samples(self.samples.0)
+}
+
+///|
 #as_free_fn(load_wave_samples)
-pub fn Wave::load_samples(self : Wave) -> Bytes {
-  @ffi.load_wave_samples(self.0)
+pub fn Wave::load_samples(self : Wave) -> WaveSamples {
+  let count = self.frame_count() * self.channels()
+  { samples: FloatArray(@ffi.load_wave_samples(self.0), count) }
 }
 
 ///|
