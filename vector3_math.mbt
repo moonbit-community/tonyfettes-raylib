@@ -58,46 +58,55 @@ fn matrix_invert(m : Matrix) -> Matrix {
 // Vector3 math functions
 
 ///|
+/// Get Vector3 with components equal to zero.
 pub fn Vector3::zero() -> Vector3 {
   { x: 0.0, y: 0.0, z: 0.0 }
 }
 
 ///|
+/// Get Vector3 with components equal to one.
 pub fn Vector3::one() -> Vector3 {
   { x: 1.0, y: 1.0, z: 1.0 }
 }
 
 ///|
+/// Add two vectors (v1 + v2).
 pub fn Vector3::add(v1 : Vector3, v2 : Vector3) -> Vector3 {
   { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z }
 }
 
 ///|
+/// Add vector and float value.
 pub fn Vector3::add_value(v : Vector3, add : Float) -> Vector3 {
   { x: v.x + add, y: v.y + add, z: v.z + add }
 }
 
 ///|
+/// Subtract two vectors (v1 - v2).
 pub fn Vector3::subtract(v1 : Vector3, v2 : Vector3) -> Vector3 {
   { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z }
 }
 
 ///|
+/// Subtract vector by float value.
 pub fn Vector3::subtract_value(v : Vector3, sub : Float) -> Vector3 {
   { x: v.x - sub, y: v.y - sub, z: v.z - sub }
 }
 
 ///|
+/// Scale vector by float value (multiply by value).
 pub fn Vector3::scale(v : Vector3, scalar : Float) -> Vector3 {
   { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar }
 }
 
 ///|
+/// Multiply vector by vector.
 pub fn Vector3::multiply(v1 : Vector3, v2 : Vector3) -> Vector3 {
   { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z }
 }
 
 ///|
+/// Calculate two vectors cross product.
 pub fn Vector3::cross_product(v1 : Vector3, v2 : Vector3) -> Vector3 {
   {
     x: v1.y * v2.z - v1.z * v2.y,
@@ -107,6 +116,7 @@ pub fn Vector3::cross_product(v1 : Vector3, v2 : Vector3) -> Vector3 {
 }
 
 ///|
+/// Calculate one vector perpendicular to the given vector.
 pub fn Vector3::perpendicular(v : Vector3) -> Vector3 {
   let mut min = fabsf(v.x)
   let mut cardinal_x : Float = 1.0
@@ -132,21 +142,25 @@ pub fn Vector3::perpendicular(v : Vector3) -> Vector3 {
 }
 
 ///|
+/// Calculate vector length.
 pub fn Vector3::length(v : Vector3) -> Float {
   sqrtf(v.x * v.x + v.y * v.y + v.z * v.z)
 }
 
 ///|
+/// Calculate vector square length.
 pub fn Vector3::length_sqr(v : Vector3) -> Float {
   v.x * v.x + v.y * v.y + v.z * v.z
 }
 
 ///|
+/// Calculate two vectors dot product.
 pub fn Vector3::dot_product(v1 : Vector3, v2 : Vector3) -> Float {
   v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
 }
 
 ///|
+/// Calculate distance between two vectors.
 pub fn Vector3::distance(v1 : Vector3, v2 : Vector3) -> Float {
   let dx = v2.x - v1.x
   let dy = v2.y - v1.y
@@ -155,6 +169,7 @@ pub fn Vector3::distance(v1 : Vector3, v2 : Vector3) -> Float {
 }
 
 ///|
+/// Calculate square distance between two vectors.
 pub fn Vector3::distance_sqr(v1 : Vector3, v2 : Vector3) -> Float {
   let dx = v2.x - v1.x
   let dy = v2.y - v1.y
@@ -163,6 +178,7 @@ pub fn Vector3::distance_sqr(v1 : Vector3, v2 : Vector3) -> Float {
 }
 
 ///|
+/// Calculate angle between two vectors.
 pub fn Vector3::angle(v1 : Vector3, v2 : Vector3) -> Float {
   let cross_x = v1.y * v2.z - v1.z * v2.y
   let cross_y = v1.z * v2.x - v1.x * v2.z
@@ -173,6 +189,7 @@ pub fn Vector3::angle(v1 : Vector3, v2 : Vector3) -> Float {
 }
 
 ///|
+/// Normalize provided vector.
 pub fn Vector3::normalize(v : Vector3) -> Vector3 {
   let length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z)
   if length != 0.0 {
@@ -184,6 +201,7 @@ pub fn Vector3::normalize(v : Vector3) -> Vector3 {
 }
 
 ///|
+/// Calculate the projection of the vector v1 on to v2.
 pub fn Vector3::project(v1 : Vector3, v2 : Vector3) -> Vector3 {
   let v1dv2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
   let v2dv2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z
@@ -192,6 +210,7 @@ pub fn Vector3::project(v1 : Vector3, v2 : Vector3) -> Vector3 {
 }
 
 ///|
+/// Calculate the rejection of the vector v1 on to v2.
 pub fn Vector3::reject(v1 : Vector3, v2 : Vector3) -> Vector3 {
   let v1dv2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
   let v2dv2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z
@@ -200,6 +219,7 @@ pub fn Vector3::reject(v1 : Vector3, v2 : Vector3) -> Vector3 {
 }
 
 ///|
+/// Calculate linear interpolation between two vectors.
 pub fn Vector3::lerp(v1 : Vector3, v2 : Vector3, amount : Float) -> Vector3 {
   {
     x: v1.x + amount * (v2.x - v1.x),
@@ -209,6 +229,7 @@ pub fn Vector3::lerp(v1 : Vector3, v2 : Vector3, amount : Float) -> Vector3 {
 }
 
 ///|
+/// Calculate reflected vector to normal.
 pub fn Vector3::reflect(v : Vector3, normal : Vector3) -> Vector3 {
   let dot = v.x * normal.x + v.y * normal.y + v.z * normal.z
   {
@@ -219,16 +240,19 @@ pub fn Vector3::reflect(v : Vector3, normal : Vector3) -> Vector3 {
 }
 
 ///|
+/// Get min value for each pair of components.
 pub fn Vector3::min(v1 : Vector3, v2 : Vector3) -> Vector3 {
   { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y), z: fminf(v1.z, v2.z) }
 }
 
 ///|
+/// Get max value for each pair of components.
 pub fn Vector3::max(v1 : Vector3, v2 : Vector3) -> Vector3 {
   { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y), z: fmaxf(v1.z, v2.z) }
 }
 
 ///|
+/// Compute barycenter coordinates (u, v, w) for point p with respect to triangle (a, b, c).
 pub fn Vector3::barycenter(
   p : Vector3,
   a : Vector3,
@@ -251,6 +275,7 @@ pub fn Vector3::barycenter(
 }
 
 ///|
+/// Projects a Vector3 from screen space into object space.
 pub fn Vector3::unproject(
   source : Vector3,
   projection : Matrix,
@@ -335,6 +360,7 @@ pub fn Vector3::unproject(
 }
 
 ///|
+/// Orthonormalize provided vectors. Makes vectors normalized and orthogonal to each other.
 pub fn Vector3::ortho_normalize(
   v1 : Vector3,
   v2 : Vector3,
@@ -373,6 +399,7 @@ pub fn Vector3::ortho_normalize(
 }
 
 ///|
+/// Transforms a Vector3 by a given Matrix.
 pub fn Vector3::transform(v : Vector3, mat : Matrix) -> Vector3 {
   let x = v.x
   let y = v.y
@@ -385,6 +412,7 @@ pub fn Vector3::transform(v : Vector3, mat : Matrix) -> Vector3 {
 }
 
 ///|
+/// Transform a vector by quaternion rotation.
 pub fn Vector3::rotate_by_quaternion(v : Vector3, q : Vector4) -> Vector3 {
   {
     x: v.x * (q.x * q.x + q.w * q.w - q.y * q.y - q.z * q.z) +
@@ -400,6 +428,7 @@ pub fn Vector3::rotate_by_quaternion(v : Vector3, q : Vector4) -> Vector3 {
 }
 
 ///|
+/// Rotates a vector around an axis.
 pub fn Vector3::rotate_by_axis_angle(
   v : Vector3,
   axis : Vector3,
@@ -439,6 +468,7 @@ pub fn Vector3::rotate_by_axis_angle(
 }
 
 ///|
+/// Move vector towards target.
 pub fn Vector3::move_towards(
   v : Vector3,
   target : Vector3,
@@ -461,11 +491,13 @@ pub fn Vector3::move_towards(
 }
 
 ///|
+/// Invert the given vector.
 pub fn Vector3::invert(v : Vector3) -> Vector3 {
   { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y, z: (1.0 : Float) / v.z }
 }
 
 ///|
+/// Clamp vector between min and max vectors.
 pub fn Vector3::clamp(v : Vector3, min : Vector3, max : Vector3) -> Vector3 {
   {
     x: fminf(max.x, fmaxf(min.x, v.x)),
@@ -475,6 +507,7 @@ pub fn Vector3::clamp(v : Vector3, min : Vector3, max : Vector3) -> Vector3 {
 }
 
 ///|
+/// Check whether two given vectors are almost equal.
 pub fn Vector3::equals(p : Vector3, q : Vector3) -> Bool {
   let epsilon : Float = 0.000001
   fabsf(p.x - q.x) <=
@@ -486,6 +519,7 @@ pub fn Vector3::equals(p : Vector3, q : Vector3) -> Bool {
 }
 
 ///|
+/// Compute the direction of a refracted ray.
 pub fn Vector3::refract(v : Vector3, n : Vector3, r : Float) -> Vector3 {
   let dot = v.x * n.x + v.y * n.y + v.z * n.z
   let d : Float = (1.0 : Float) - r * r * ((1.0 : Float) - dot * dot)

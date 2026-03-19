@@ -1,25 +1,30 @@
 ///|
+/// A 3D model containing meshes, materials, and bone data.
 struct Model(@ffi.Model)
 
 ///|
+/// Unload model (including meshes) from memory (RAM and/or VRAM).
 #as_free_fn(unload_model)
 pub fn Model::unload(self : Model) -> Unit {
   @ffi.unload_model(self.0)
 }
 
 ///|
+/// Check if a model is valid (loaded in GPU, VAO/VBOs).
 #as_free_fn(is_model_valid)
 pub fn Model::is_valid(self : Model) -> Bool {
   @ffi.is_model_valid(self.0)
 }
 
 ///|
+/// Load model from files (meshes and materials).
 #as_free_fn(load_model)
 pub fn Model::load(file_name : String) -> Model {
   @ffi.load_model(@utf8.encode(file_name))
 }
 
 ///|
+/// Draw a model (with texture if set).
 #as_free_fn(draw_model)
 pub fn Model::draw(
   self : Model,
@@ -31,6 +36,7 @@ pub fn Model::draw(
 }
 
 ///|
+/// Draw a model with extended parameters.
 #as_free_fn(draw_model_ex)
 pub fn Model::draw_ex(
   self : Model,
@@ -51,6 +57,7 @@ pub fn Model::draw_ex(
 }
 
 ///|
+/// Draw a model wires (with texture if set).
 #as_free_fn(draw_model_wires)
 pub fn Model::draw_wires(
   self : Model,
@@ -62,6 +69,7 @@ pub fn Model::draw_wires(
 }
 
 ///|
+/// Draw a model wires (with texture if set) with extended parameters.
 #as_free_fn(draw_model_wires_ex)
 pub fn Model::draw_wires_ex(
   self : Model,
@@ -82,6 +90,7 @@ pub fn Model::draw_wires_ex(
 }
 
 ///|
+/// Draw a model as points.
 #as_free_fn(draw_model_points)
 pub fn Model::draw_points(
   self : Model,
@@ -93,6 +102,7 @@ pub fn Model::draw_points(
 }
 
 ///|
+/// Draw a model as points with extended parameters.
 #as_free_fn(draw_model_points_ex)
 pub fn Model::draw_points_ex(
   self : Model,
@@ -113,6 +123,7 @@ pub fn Model::draw_points_ex(
 }
 
 ///|
+/// Set shader for a material in the model at the given index.
 #as_free_fn(set_model_material_shader)
 pub fn Model::set_material_shader(
   self : Model,
@@ -123,12 +134,14 @@ pub fn Model::set_material_shader(
 }
 
 ///|
+/// Compute model bounding box limits (considers all meshes).
 #as_free_fn(get_model_bounding_box)
 pub fn Model::bounding_box(self : Model) -> BoundingBox {
   BoundingBox::from_bytes(@ffi.get_model_bounding_box(self.0))
 }
 
 ///|
+/// Set texture for a material map type in the model.
 #as_free_fn(set_model_material_texture)
 pub fn Model::set_material_texture(
   self : Model,
@@ -140,72 +153,84 @@ pub fn Model::set_material_texture(
 }
 
 ///|
+/// Set the transform matrix for the model.
 #as_free_fn(set_model_transform)
 pub fn Model::set_transform(self : Model, transform : Matrix) -> Unit {
   @ffi.set_model_transform(self.0, transform.to_bytes())
 }
 
 ///|
+/// Get the number of meshes in the model.
 #as_free_fn(get_model_mesh_count)
 pub fn Model::mesh_count(self : Model) -> Int {
   @ffi.get_model_mesh_count(self.0)
 }
 
 ///|
+/// Get a mesh from the model by index.
 #as_free_fn(get_model_mesh)
 pub fn Model::mesh(self : Model, index : Int) -> Mesh {
   @ffi.get_model_mesh(self.0, index)
 }
 
 ///|
+/// Get the transform matrix of the model.
 #as_free_fn(get_model_transform)
 pub fn Model::transform(self : Model) -> Matrix {
   Matrix::from_bytes(@ffi.get_model_transform(self.0))
 }
 
 ///|
+/// Get the number of materials in the model.
 #as_free_fn(get_model_material_count)
 pub fn Model::material_count(self : Model) -> Int {
   @ffi.get_model_material_count(self.0)
 }
 
 ///|
+/// Get a material from the model by index.
 #as_free_fn(get_model_material)
 pub fn Model::material(self : Model, index : Int) -> Material {
   @ffi.get_model_material(self.0, index)
 }
 
 ///|
+/// Get the number of bones in the model.
 #as_free_fn(get_model_bone_count)
 pub fn Model::bone_count(self : Model) -> Int {
   @ffi.get_model_bone_count(self.0)
 }
 
 ///|
+/// Get the parent bone index for the given bone.
 #as_free_fn(get_model_bone_parent)
 pub fn Model::bone_parent(self : Model, bone_index : Int) -> Int {
   @ffi.get_model_bone_parent(self.0, bone_index)
 }
 
 ///|
+/// Get the bind pose translation for the given bone.
 #as_free_fn(get_model_bind_pose_translation)
 pub fn Model::bind_pose_translation(self : Model, bone_index : Int) -> Vector3 {
   Vector3::from_bytes(@ffi.get_model_bind_pose_translation(self.0, bone_index))
 }
 
 ///|
+/// Get the bind pose rotation (quaternion) for the given bone.
 #as_free_fn(get_model_bind_pose_rotation)
 pub fn Model::bind_pose_rotation(self : Model, bone_index : Int) -> Vector4 {
   Vector4::from_bytes(@ffi.get_model_bind_pose_rotation(self.0, bone_index))
 }
 
 ///|
+/// Get the name of the given bone.
 #as_free_fn(get_model_bone_name)
 pub fn Model::bone_name(self : Model, bone_index : Int) -> String {
   @utf8.decode_lossy(@ffi.get_model_bone_name(self.0, bone_index))
 }
 
 ///|
+/// Set material for a mesh.
 #as_free_fn(set_model_mesh_material)
 pub fn Model::set_mesh_material(
   self : Model,
@@ -216,12 +241,14 @@ pub fn Model::set_mesh_material(
 }
 
 ///|
+/// Load model from generated mesh (default material).
 #as_free_fn(load_model_from_mesh)
 pub fn Model::load_from_mesh(mesh : Mesh) -> Model {
   @ffi.load_model_from_mesh(mesh.0)
 }
 
 ///|
+/// Update model animation pose (CPU).
 #as_free_fn(update_model_animation)
 pub fn Model::update_animation(
   self : Model,
@@ -233,6 +260,7 @@ pub fn Model::update_animation(
 }
 
 ///|
+/// Update model animation mesh bone matrices (GPU skinning).
 #as_free_fn(update_model_animation_bones)
 pub fn Model::update_animation_bones(
   self : Model,
@@ -244,6 +272,7 @@ pub fn Model::update_animation_bones(
 }
 
 ///|
+/// Check model animation skeleton match.
 #as_free_fn(is_model_animation_valid)
 pub fn Model::is_animation_valid(
   self : Model,

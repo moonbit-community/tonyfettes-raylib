@@ -1,6 +1,7 @@
 // Re-export passthrough functions from internal FFI layer
 
 ///|
+/// Re-export draw_fps (draw current FPS) and set_text_line_spacing (set vertical line spacing when drawing with line-breaks).
 pub using @ffi {draw_fps, set_text_line_spacing}
 
 // ============================================================================
@@ -8,6 +9,7 @@ pub using @ffi {draw_fps, set_text_line_spacing}
 // ============================================================================
 
 ///|
+/// Draw text (using default font).
 pub fn draw_text(
   text : String,
   pos_x : Int,
@@ -23,6 +25,7 @@ pub fn draw_text(
 // ============================================================================
 
 ///|
+/// Measure string width for default font.
 pub fn measure_text(text : String, font_size : Int) -> Int {
   @ffi.measure_text(@utf8.encode(text), font_size)
 }
@@ -32,34 +35,40 @@ pub fn measure_text(text : String, font_size : Int) -> Int {
 // ============================================================================
 
 ///|
+/// Get total number of codepoints in a UTF-8 encoded string.
 pub fn get_codepoint_count(text : String) -> Int {
   @ffi.get_codepoint_count(@utf8.encode(text))
 }
 
 ///|
+/// Get next codepoint in a UTF-8 encoded string, returns (codepoint, byte_size).
 pub fn get_codepoint(text : String) -> (Int, Int) {
   let bytes = @ffi.get_codepoint(@utf8.encode(text))
   (read_int(bytes, 0), read_int(bytes, 4))
 }
 
 ///|
+/// Get next codepoint in a UTF-8 encoded string, returns (codepoint, byte_size).
 pub fn get_codepoint_next(text : String) -> (Int, Int) {
   let bytes = @ffi.get_codepoint_next(@utf8.encode(text))
   (read_int(bytes, 0), read_int(bytes, 4))
 }
 
 ///|
+/// Get previous codepoint in a UTF-8 encoded string, returns (codepoint, byte_size).
 pub fn get_codepoint_previous(text : String) -> (Int, Int) {
   let bytes = @ffi.get_codepoint_previous(@utf8.encode(text))
   (read_int(bytes, 0), read_int(bytes, 4))
 }
 
 ///|
+/// Encode one codepoint into UTF-8 byte array.
 pub fn codepoint_to_utf8(codepoint : Int) -> Bytes {
   @ffi.codepoint_to_utf8(codepoint)
 }
 
 ///|
+/// Load all codepoints from a UTF-8 text string.
 pub fn load_codepoints(text : String) -> Array[Int] {
   let bytes = @ffi.load_codepoints(@utf8.encode(text))
   if bytes.length() < 4 {
@@ -74,6 +83,7 @@ pub fn load_codepoints(text : String) -> Array[Int] {
 }
 
 ///|
+/// Load UTF-8 text encoded from codepoints array.
 pub fn load_utf8(codepoints : Array[Int]) -> Bytes {
   let buf = @buffer.new(size_hint=codepoints.length() * 4)
   for cp in codepoints {
@@ -88,6 +98,7 @@ pub fn load_utf8(codepoints : Array[Int]) -> Bytes {
 // ============================================================================
 
 ///|
+/// Font character glyph info data.
 pub struct GlyphInfo {
   value : Int
   offset_x : Int
@@ -96,6 +107,7 @@ pub struct GlyphInfo {
 } derive(Eq, Show)
 
 ///|
+/// Deserialize a GlyphInfo from a byte buffer.
 pub fn GlyphInfo::from_bytes(b : Bytes) -> GlyphInfo {
   {
     value: read_int(b, 0),
@@ -108,10 +120,13 @@ pub fn GlyphInfo::from_bytes(b : Bytes) -> GlyphInfo {
 // Font data type constants
 
 ///|
+/// Default font generation, anti-aliased.
 pub const FontDefault : Int = 0
 
 ///|
+/// Bitmap font generation, no anti-aliasing.
 pub const FontBitmap : Int = 1
 
 ///|
+/// SDF font generation, requires external shader.
 pub const FontSdf : Int = 2

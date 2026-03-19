@@ -1,16 +1,27 @@
 ///|
+/// Shader program, includes vertex and fragment shaders.
 struct Shader(@ffi.Shader)
 
 ///|
+/// Shader uniform data for a single value, tagged by type.
 pub(all) enum ShaderUniformData {
+  /// Shader uniform type: float
   Float(Float)
+  /// Shader uniform type: vec2 (2 float)
   Vec2(Vector2)
+  /// Shader uniform type: vec3 (3 float)
   Vec3(Vector3)
+  /// Shader uniform type: vec4 (4 float)
   Vec4(Vector4)
+  /// Shader uniform type: int
   Int(Int)
+  /// Shader uniform type: ivec2 (2 int)
   IVec2((Int, Int))
+  /// Shader uniform type: ivec3 (3 int)
   IVec3((Int, Int, Int))
+  /// Shader uniform type: ivec4 (4 int)
   IVec4((Int, Int, Int, Int))
+  /// Shader uniform type: sampler2d (texture unit index)
   Sampler2D(Int)
 }
 
@@ -70,15 +81,25 @@ fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int {
 }
 
 ///|
+/// Shader uniform data for an array of values (vector variant), tagged by type.
 pub(all) enum ShaderUniformDataV {
+  /// Shader uniform type: float array
   Float(Array[Float])
+  /// Shader uniform type: vec2 array (2 float each)
   Vec2(Array[Vector2])
+  /// Shader uniform type: vec3 array (3 float each)
   Vec3(Array[Vector3])
+  /// Shader uniform type: vec4 array (4 float each)
   Vec4(Array[Vector4])
+  /// Shader uniform type: int array
   Int(Array[Int])
+  /// Shader uniform type: ivec2 array (2 int each)
   IVec2(Array[(Int, Int)])
+  /// Shader uniform type: ivec3 array (3 int each)
   IVec3(Array[(Int, Int, Int)])
+  /// Shader uniform type: ivec4 array (4 int each)
   IVec4(Array[(Int, Int, Int, Int)])
+  /// Shader uniform type: sampler2d array (texture unit indices)
   Sampler2D(Array[Int])
 }
 
@@ -174,24 +195,28 @@ fn ShaderUniformDataV::elem_size(self : ShaderUniformDataV) -> Int {
 }
 
 ///|
+/// Check if a shader is valid (loaded on GPU).
 #as_free_fn(is_shader_valid)
 pub fn Shader::is_valid(self : Shader) -> Bool {
   @ffi.is_shader_valid(self.0)
 }
 
 ///|
+/// Unload shader from GPU memory (VRAM).
 #as_free_fn(unload_shader)
 pub fn Shader::unload(self : Shader) -> Unit {
   @ffi.unload_shader(self.0)
 }
 
 ///|
+/// Begin custom shader drawing.
 #as_free_fn(begin_shader_mode)
 pub fn Shader::begin_mode(self : Shader) -> Unit {
   @ffi.begin_shader_mode(self.0)
 }
 
 ///|
+/// Set shader uniform value.
 pub fn Shader::set_value(
   self : Shader,
   loc_index : Int,
@@ -206,6 +231,7 @@ pub fn Shader::set_value(
 }
 
 ///|
+/// Set shader uniform value (deprecated, use `Shader::set_value` instead).
 #deprecated("Use Shader::set_value instead")
 pub fn set_shader_value(
   shader : Shader,
@@ -217,6 +243,7 @@ pub fn set_shader_value(
 }
 
 ///|
+/// Set shader uniform value vector.
 pub fn Shader::set_value_v(
   self : Shader,
   loc_index : Int,
@@ -236,6 +263,7 @@ pub fn Shader::set_value_v(
 }
 
 ///|
+/// Set shader uniform value vector (deprecated, use `Shader::set_value_v` instead).
 #deprecated("Use Shader::set_value_v instead")
 pub fn set_shader_value_v(
   shader : Shader,
@@ -248,6 +276,7 @@ pub fn set_shader_value_v(
 }
 
 ///|
+/// Set shader uniform value for texture (sampler2d).
 #as_free_fn(set_shader_value_texture)
 pub fn Shader::set_value_texture(
   self : Shader,
@@ -258,6 +287,7 @@ pub fn Shader::set_value_texture(
 }
 
 ///|
+/// Set shader location index for a uniform.
 #as_free_fn(set_shader_location, deprecated="Use Shader::set_locs or set_shader_locs instead")
 #as_free_fn(set_shader_locs)
 pub fn Shader::set_locs(
@@ -269,36 +299,42 @@ pub fn Shader::set_locs(
 }
 
 ///|
+/// Load shader from files and bind default locations.
 #as_free_fn(load_shader)
 pub fn Shader::load(vs_file_name : String, fs_file_name : String) -> Shader {
   @ffi.load_shader(@utf8.encode(vs_file_name), @utf8.encode(fs_file_name))
 }
 
 ///|
+/// Load shader from code strings and bind default locations.
 #as_free_fn(load_shader_from_memory)
 pub fn Shader::load_from_memory(vs_code : String, fs_code : String) -> Shader {
   @ffi.load_shader_from_memory(@utf8.encode(vs_code), @utf8.encode(fs_code))
 }
 
 ///|
+/// Get shader uniform location.
 #as_free_fn(get_shader_location)
 pub fn Shader::get_location(self : Shader, uniform_name : String) -> Int {
   @ffi.get_shader_location(self.0, @utf8.encode(uniform_name))
 }
 
 ///|
+/// Get shader program id (OpenGL handle).
 #as_free_fn(get_shader_id)
 pub fn Shader::id(self : Shader) -> UInt {
   @ffi.get_shader_id(self.0)
 }
 
 ///|
+/// Get shader attribute location.
 #as_free_fn(get_shader_location_attrib)
 pub fn Shader::get_location_attrib(self : Shader, attrib_name : String) -> Int {
   @ffi.get_shader_location_attrib(self.0, @utf8.encode(attrib_name))
 }
 
 ///|
+/// Set shader uniform value (matrix 4x4).
 #as_free_fn(set_shader_value_matrix)
 pub fn Shader::set_value_matrix(
   self : Shader,

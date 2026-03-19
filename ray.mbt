@@ -1,17 +1,20 @@
 // Ray: 24 bytes (position, direction as Vector3)
 
 ///|
+/// Ray, ray for raycasting.
 pub struct Ray {
   position : Vector3
   direction : Vector3
 } derive(Eq, Show)
 
 ///|
+/// Create a new Ray.
 pub fn Ray::new(position : Vector3, direction : Vector3) -> Ray {
   { position, direction }
 }
 
 ///|
+/// Serialize Ray to bytes.
 pub fn Ray::to_bytes(r : Ray) -> Bytes {
   let buf = @buffer.new(size_hint=24)
   buf.write_float_le(r.position.x)
@@ -24,6 +27,7 @@ pub fn Ray::to_bytes(r : Ray) -> Bytes {
 }
 
 ///|
+/// Deserialize Ray from bytes.
 pub fn Ray::from_bytes(b : Bytes) -> Ray {
   {
     position: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) },
@@ -38,17 +42,20 @@ pub fn Ray::from_bytes(b : Bytes) -> Ray {
 // BoundingBox: 24 bytes (min, max as Vector3)
 
 ///|
+/// BoundingBox, defined by min and max vertex box-corners.
 pub struct BoundingBox {
   min : Vector3
   max : Vector3
 } derive(Eq, Show)
 
 ///|
+/// Create a new BoundingBox.
 pub fn BoundingBox::new(min : Vector3, max : Vector3) -> BoundingBox {
   { min, max }
 }
 
 ///|
+/// Serialize BoundingBox to bytes.
 pub fn BoundingBox::to_bytes(bb : BoundingBox) -> Bytes {
   let buf = @buffer.new(size_hint=24)
   buf.write_float_le(bb.min.x)
@@ -61,6 +68,7 @@ pub fn BoundingBox::to_bytes(bb : BoundingBox) -> Bytes {
 }
 
 ///|
+/// Deserialize BoundingBox from bytes.
 pub fn BoundingBox::from_bytes(b : Bytes) -> BoundingBox {
   {
     min: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) },
@@ -72,6 +80,7 @@ pub fn BoundingBox::from_bytes(b : Bytes) -> BoundingBox {
 // C layout: bool(1) + pad(3) + float + Vector3 + Vector3 = 32 bytes
 
 ///|
+/// RayCollision, ray hit information.
 pub struct RayCollision {
   hit : Bool
   distance : Float
@@ -80,6 +89,7 @@ pub struct RayCollision {
 } derive(Eq, Show)
 
 ///|
+/// Create a new RayCollision.
 pub fn RayCollision::new(
   hit : Bool,
   distance : Float,
@@ -90,6 +100,7 @@ pub fn RayCollision::new(
 }
 
 ///|
+/// Deserialize RayCollision from bytes.
 pub fn RayCollision::from_bytes(b : Bytes) -> RayCollision {
   {
     hit: b[0] != b'\x00',

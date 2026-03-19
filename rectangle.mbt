@@ -1,6 +1,7 @@
 // Rectangle: 16 bytes (x, y, width, height as float)
 
 ///|
+/// Rectangle, 4 components.
 pub struct Rectangle {
   x : Float
   y : Float
@@ -9,6 +10,7 @@ pub struct Rectangle {
 } derive(Eq, Show)
 
 ///|
+/// Create a new Rectangle.
 pub fn Rectangle::new(
   x : Float,
   y : Float,
@@ -19,6 +21,7 @@ pub fn Rectangle::new(
 }
 
 ///|
+/// Serialize Rectangle to bytes.
 pub fn Rectangle::to_bytes(r : Rectangle) -> Bytes {
   let buf = @buffer.new(size_hint=16)
   buf.write_float_le(r.x)
@@ -29,6 +32,7 @@ pub fn Rectangle::to_bytes(r : Rectangle) -> Bytes {
 }
 
 ///|
+/// Deserialize Rectangle from bytes.
 pub fn Rectangle::from_bytes(b : Bytes) -> Rectangle {
   {
     x: read_float(b, 0),

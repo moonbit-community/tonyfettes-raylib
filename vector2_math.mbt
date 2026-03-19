@@ -11,51 +11,61 @@ fn float_equals(x : Float, y : Float) -> Bool {
 // ----- Vector2 math functions -----
 
 ///|
+/// Get Vector2 with components equal to zero.
 pub fn Vector2::zero() -> Vector2 {
   { x: 0.0, y: 0.0 }
 }
 
 ///|
+/// Get Vector2 with components equal to one.
 pub fn Vector2::one() -> Vector2 {
   { x: 1.0, y: 1.0 }
 }
 
 ///|
+/// Add two vectors (v1 + v2).
 pub fn Vector2::add(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: v1.x + v2.x, y: v1.y + v2.y }
 }
 
 ///|
+/// Add vector and float value.
 pub fn Vector2::add_value(v : Vector2, add : Float) -> Vector2 {
   { x: v.x + add, y: v.y + add }
 }
 
 ///|
+/// Subtract two vectors (v1 - v2).
 pub fn Vector2::subtract(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: v1.x - v2.x, y: v1.y - v2.y }
 }
 
 ///|
+/// Subtract vector by float value.
 pub fn Vector2::subtract_value(v : Vector2, sub : Float) -> Vector2 {
   { x: v.x - sub, y: v.y - sub }
 }
 
 ///|
+/// Calculate vector length.
 pub fn Vector2::length(v : Vector2) -> Float {
   sqrtf(v.x * v.x + v.y * v.y)
 }
 
 ///|
+/// Calculate vector square length.
 pub fn Vector2::length_sqr(v : Vector2) -> Float {
   v.x * v.x + v.y * v.y
 }
 
 ///|
+/// Calculate two vectors dot product.
 pub fn Vector2::dot_product(v1 : Vector2, v2 : Vector2) -> Float {
   v1.x * v2.x + v1.y * v2.y
 }
 
 ///|
+/// Calculate distance between two vectors.
 pub fn Vector2::distance(v1 : Vector2, v2 : Vector2) -> Float {
   let dx = v1.x - v2.x
   let dy = v1.y - v2.y
@@ -63,6 +73,7 @@ pub fn Vector2::distance(v1 : Vector2, v2 : Vector2) -> Float {
 }
 
 ///|
+/// Calculate square distance between two vectors.
 pub fn Vector2::distance_sqr(v1 : Vector2, v2 : Vector2) -> Float {
   let dx = v1.x - v2.x
   let dy = v1.y - v2.y
@@ -70,6 +81,7 @@ pub fn Vector2::distance_sqr(v1 : Vector2, v2 : Vector2) -> Float {
 }
 
 ///|
+/// Calculate angle between two vectors.
 pub fn Vector2::angle(v1 : Vector2, v2 : Vector2) -> Float {
   let dot = v1.x * v2.x + v1.y * v2.y
   let det = v1.x * v2.y - v1.y * v2.x
@@ -77,31 +89,37 @@ pub fn Vector2::angle(v1 : Vector2, v2 : Vector2) -> Float {
 }
 
 ///|
+/// Calculate angle defined by a line (from start to end).
 pub fn Vector2::line_angle(start : Vector2, end_ : Vector2) -> Float {
   -atan2f(end_.y - start.y, end_.x - start.x)
 }
 
 ///|
+/// Scale vector (multiply by value).
 pub fn Vector2::scale(v : Vector2, scale : Float) -> Vector2 {
   { x: v.x * scale, y: v.y * scale }
 }
 
 ///|
+/// Multiply vector by vector.
 pub fn Vector2::multiply(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: v1.x * v2.x, y: v1.y * v2.y }
 }
 
 ///|
+/// Negate vector.
 pub fn Vector2::negate(v : Vector2) -> Vector2 {
   { x: -v.x, y: -v.y }
 }
 
 ///|
+/// Divide vector by vector.
 pub fn Vector2::divide(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: v1.x / v2.x, y: v1.y / v2.y }
 }
 
 ///|
+/// Normalize provided vector.
 pub fn Vector2::normalize(v : Vector2) -> Vector2 {
   let len = sqrtf(v.x * v.x + v.y * v.y)
   if len > 0.0 {
@@ -113,6 +131,7 @@ pub fn Vector2::normalize(v : Vector2) -> Vector2 {
 }
 
 ///|
+/// Transforms a Vector2 by a given Matrix.
 pub fn Vector2::transform(v : Vector2, mat : Matrix) -> Vector2 {
   let x = v.x
   let y = v.y
@@ -120,11 +139,13 @@ pub fn Vector2::transform(v : Vector2, mat : Matrix) -> Vector2 {
 }
 
 ///|
+/// Calculate linear interpolation between two vectors.
 pub fn Vector2::lerp(v1 : Vector2, v2 : Vector2, amount : Float) -> Vector2 {
   { x: v1.x + amount * (v2.x - v1.x), y: v1.y + amount * (v2.y - v1.y) }
 }
 
 ///|
+/// Calculate reflected vector to normal.
 pub fn Vector2::reflect(v : Vector2, normal : Vector2) -> Vector2 {
   let dot = v.x * normal.x + v.y * normal.y
   let two : Float = 2.0
@@ -132,16 +153,19 @@ pub fn Vector2::reflect(v : Vector2, normal : Vector2) -> Vector2 {
 }
 
 ///|
+/// Get min value for each pair of components.
 pub fn Vector2::min(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y) }
 }
 
 ///|
+/// Get max value for each pair of components.
 pub fn Vector2::max(v1 : Vector2, v2 : Vector2) -> Vector2 {
   { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y) }
 }
 
 ///|
+/// Rotate vector by angle.
 pub fn Vector2::rotate(v : Vector2, angle : Float) -> Vector2 {
   let c = cosf(angle)
   let s = sinf(angle)
@@ -149,6 +173,7 @@ pub fn Vector2::rotate(v : Vector2, angle : Float) -> Vector2 {
 }
 
 ///|
+/// Move vector towards target.
 pub fn Vector2::move_towards(
   v : Vector2,
   target : Vector2,
@@ -166,16 +191,19 @@ pub fn Vector2::move_towards(
 }
 
 ///|
+/// Invert the given vector.
 pub fn Vector2::invert(v : Vector2) -> Vector2 {
   { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y }
 }
 
 ///|
+/// Clamp vector between min and max vectors.
 pub fn Vector2::clamp(v : Vector2, min : Vector2, max : Vector2) -> Vector2 {
   { x: fminf(max.x, fmaxf(min.x, v.x)), y: fminf(max.y, fmaxf(min.y, v.y)) }
 }
 
 ///|
+/// Clamp the magnitude of the vector between two min and max values.
 pub fn Vector2::clamp_value(v : Vector2, min : Float, max : Float) -> Vector2 {
   let length = v.x * v.x + v.y * v.y
   if length > 0.0 {
@@ -194,6 +222,7 @@ pub fn Vector2::clamp_value(v : Vector2, min : Float, max : Float) -> Vector2 {
 }
 
 ///|
+/// Check whether two given vectors are almost equal.
 pub fn Vector2::equals(p : Vector2, q : Vector2) -> Bool {
   let epsilon : Float = 0.000001
   let one : Float = 1.0
@@ -202,6 +231,7 @@ pub fn Vector2::equals(p : Vector2, q : Vector2) -> Bool {
 }
 
 ///|
+/// Compute the direction of a refracted ray.
 pub fn Vector2::refract(v : Vector2, n : Vector2, r : Float) -> Vector2 {
   let dot = v.x * n.x + v.y * n.y
   let one : Float = 1.0

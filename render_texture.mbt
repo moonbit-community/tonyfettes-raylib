@@ -1,7 +1,9 @@
 ///|
+/// Render texture for offscreen rendering (framebuffer), wrapping the internal FFI type.
 struct RenderTexture(@ffi.RenderTexture)
 
 ///|
+/// Create a new RenderTexture from raw OpenGL parameters.
 #as_free_fn(new_render_texture)
 pub fn RenderTexture::new(
   id : UInt,
@@ -12,36 +14,42 @@ pub fn RenderTexture::new(
 }
 
 ///|
+/// Get the color buffer attachment texture.
 #as_free_fn(get_render_texture_texture)
 pub fn RenderTexture::texture(self : RenderTexture) -> Texture {
   @ffi.get_render_texture_texture(self.0)
 }
 
 ///|
+/// Get the depth buffer attachment texture.
 #as_free_fn(get_render_texture_depth)
 pub fn RenderTexture::depth(self : RenderTexture) -> Texture {
   @ffi.get_render_texture_depth(self.0)
 }
 
 ///|
+/// Load texture for rendering (framebuffer).
 #as_free_fn(load_render_texture)
 pub fn RenderTexture::load(width : Int, height : Int) -> RenderTexture {
   @ffi.load_render_texture(width, height)
 }
 
 ///|
+/// Check if a render texture is valid (loaded in GPU).
 #as_free_fn(is_render_texture_valid)
 pub fn RenderTexture::is_valid(self : RenderTexture) -> Bool {
   @ffi.is_render_texture_valid(self.0)
 }
 
 ///|
+/// Unload render texture from GPU memory (VRAM).
 #as_free_fn(unload_render_texture)
 pub fn RenderTexture::unload(self : RenderTexture) -> Unit {
   @ffi.unload_render_texture(self.0)
 }
 
 ///|
+/// Draw a part of a render texture defined by a rectangle.
 #as_free_fn(draw_render_texture_rec)
 pub fn RenderTexture::draw_rec(
   self : RenderTexture,
@@ -58,6 +66,7 @@ pub fn RenderTexture::draw_rec(
 }
 
 ///|
+/// Draw a render texture with extended parameters.
 #as_free_fn(draw_render_texture_ex)
 pub fn RenderTexture::draw_ex(
   self : RenderTexture,
@@ -76,6 +85,7 @@ pub fn RenderTexture::draw_ex(
 }
 
 ///|
+/// Draw a part of a render texture defined by a rectangle with 'pro' parameters.
 #as_free_fn(draw_render_texture_pro)
 pub fn RenderTexture::draw_pro(
   self : RenderTexture,
@@ -96,30 +106,35 @@ pub fn RenderTexture::draw_pro(
 }
 
 ///|
+/// Set render texture scaling filter mode.
 #as_free_fn(set_render_texture_filter)
 pub fn RenderTexture::set_filter(self : RenderTexture, filter : Int) -> Unit {
   @ffi.set_render_texture_filter(self.0, filter)
 }
 
 ///|
+/// Get render texture width.
 #as_free_fn(get_render_texture_width)
 pub fn RenderTexture::width(self : RenderTexture) -> Int {
   @ffi.get_render_texture_width(self.0)
 }
 
 ///|
+/// Get render texture height.
 #as_free_fn(get_render_texture_height)
 pub fn RenderTexture::height(self : RenderTexture) -> Int {
   @ffi.get_render_texture_height(self.0)
 }
 
 ///|
+/// Get the OpenGL framebuffer object id.
 #as_free_fn(get_render_texture_id)
 pub fn RenderTexture::id(self : RenderTexture) -> UInt {
   @ffi.get_render_texture_id(self.0)
 }
 
 ///|
+/// Get the OpenGL framebuffer object id (deprecated: use RenderTexture::id instead).
 #as_free_fn(get_render_texture_fbo_id, deprecated="Use RenderTexture::id instead")
 #deprecated("Use RenderTexture::id instead")
 pub fn RenderTexture::fbo_id(self : RenderTexture) -> UInt {
@@ -127,12 +142,14 @@ pub fn RenderTexture::fbo_id(self : RenderTexture) -> UInt {
 }
 
 ///|
+/// Get the depth texture OpenGL id.
 #as_free_fn(get_render_texture_depth_id)
 pub fn RenderTexture::depth_id(self : RenderTexture) -> UInt {
   @ffi.get_render_texture_depth_id(self.0)
 }
 
 ///|
+/// Begin drawing to render texture.
 #as_free_fn(begin_texture_mode)
 pub fn RenderTexture::begin_mode(self : RenderTexture) -> Unit {
   @ffi.begin_texture_mode(self.0)
