@@ -2335,6 +2335,7 @@ type UShortArray
 pub fn UShortArray::length(Self) -> Int
 pub fn UShortArray::op_get(Self, Int) -> Int
 pub fn UShortArray::op_set(Self, Int, UInt16) -> Unit
+pub fn UShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UShortArray
 
 pub struct Vector2 {
   x : Float

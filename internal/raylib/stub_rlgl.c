@@ -168,26 +168,47 @@ moonbit_raylib_rl_read_shader_buffer(
 }
 
 // ============================================================================
-// rlgl: void* as element offset (OpenGL quirk — expose as Int)
+// rlgl: DrawVertexArrayElements — NULL buffer (EBO path)
 // ============================================================================
 
 void
 moonbit_raylib_rl_draw_vertex_array_elements(
   int offset,
-  int count,
-  int buffer
+  int count
 ) {
-  rlDrawVertexArrayElements(offset, count, (const void *)(size_t)buffer);
+  rlDrawVertexArrayElements(offset, count, NULL);
 }
 
 void
 moonbit_raylib_rl_draw_vertex_array_elements_instanced(
   int offset,
   int count,
-  int buffer,
   int instances
 ) {
-  rlDrawVertexArrayElementsInstanced(offset, count, (const void *)(size_t)buffer, instances);
+  rlDrawVertexArrayElementsInstanced(offset, count, NULL, instances);
+}
+
+// ============================================================================
+// rlgl: DrawVertexArrayElements — client-side UShortArray buffer
+// ============================================================================
+
+void
+moonbit_raylib_rl_draw_vertex_array_elements_client(
+  int offset,
+  int count,
+  unsigned short *buffer
+) {
+  rlDrawVertexArrayElements(offset, count, (const void *)buffer);
+}
+
+void
+moonbit_raylib_rl_draw_vertex_array_elements_instanced_client(
+  int offset,
+  int count,
+  unsigned short *buffer,
+  int instances
+) {
+  rlDrawVertexArrayElementsInstanced(offset, count, (const void *)buffer, instances);
 }
 
 // ============================================================================

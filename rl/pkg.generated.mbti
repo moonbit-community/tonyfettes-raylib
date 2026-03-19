@@ -244,9 +244,9 @@ pub fn draw_render_batch_active() -> Unit
 
 pub fn draw_vertex_array(Int, Int) -> Unit
 
-pub fn draw_vertex_array_elements(Int, Int, Int) -> Unit
+pub fn draw_vertex_array_elements(Int, Int, buffer? : @raylib.UShortArray) -> Unit
 
-pub fn draw_vertex_array_elements_instanced(Int, Int, Int, Int) -> Unit
+pub fn draw_vertex_array_elements_instanced(Int, Int, Int, buffer? : @raylib.UShortArray) -> Unit
 
 pub fn draw_vertex_array_instanced(Int, Int, Int) -> Unit
 

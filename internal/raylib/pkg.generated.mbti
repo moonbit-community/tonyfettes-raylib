@@ -1160,9 +1160,13 @@ pub fn rl_draw_render_batch_active() -> Unit
 
 pub fn rl_draw_vertex_array(Int, Int) -> Unit
 
-pub fn rl_draw_vertex_array_elements(Int, Int, Int) -> Unit
+pub fn rl_draw_vertex_array_elements(Int, Int) -> Unit
 
-pub fn rl_draw_vertex_array_elements_instanced(Int, Int, Int, Int) -> Unit
+pub fn rl_draw_vertex_array_elements_client(Int, Int, UShortArray) -> Unit
+
+pub fn rl_draw_vertex_array_elements_instanced(Int, Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements_instanced_client(Int, Int, UShortArray, Int) -> Unit
 
 pub fn rl_draw_vertex_array_instanced(Int, Int, Int) -> Unit
 

@@ -832,26 +832,41 @@ pub fn draw_vertex_array_instanced(
 }
 
 ///|
-/// Draw vertex array elements.
+/// Draw vertex array elements. When `buffer` is `None`, uses the bound EBO
+/// (the common path). When `buffer` is `Some(indices)`, uses client-side
+/// index data (OpenGL ES 2.0 / OpenGL 1.1 path).
 pub fn draw_vertex_array_elements(
   offset : Int,
   count : Int,
-  buffer : Int,
+  buffer? : @root.UShortArray,
 ) -> Unit {
-  @raylib.rl_draw_vertex_array_elements(offset, count, buffer)
+  match buffer {
+    None => @raylib.rl_draw_vertex_array_elements(offset, count)
+    Some(buf) =>
+      @raylib.rl_draw_vertex_array_elements_client(offset, count, buf.raw())
+  }
 }
 
 ///|
-/// Draw vertex array elements with instancing.
+/// Draw vertex array elements with instancing. When `buffer` is `None`, uses
+/// the bound EBO. When `buffer` is `Some(indices)`, uses client-side index data.
 pub fn draw_vertex_array_elements_instanced(
   offset : Int,
   count : Int,
-  buffer : Int,
   instances : Int,
+  buffer? : @root.UShortArray,
 ) -> Unit {
-  @raylib.rl_draw_vertex_array_elements_instanced(
-    offset, count, buffer, instances,
-  )
+  match buffer {
+    None =>
+      @raylib.rl_draw_vertex_array_elements_instanced(offset, count, instances)
+    Some(buf) =>
+      @raylib.rl_draw_vertex_array_elements_instanced_client(
+        offset,
+        count,
+        buf.raw(),
+        instances,
+      )
+  }
 }
 
 // ============================================================================

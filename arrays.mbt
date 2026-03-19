@@ -113,6 +113,12 @@ fn UShortArray::is_null(self : UShortArray) -> Bool {
 }
 
 ///|
+/// Get the raw FFI pointer for passing to low-level rlgl functions.
+pub fn UShortArray::raw(self : UShortArray) -> @ffi.UShortArray {
+  self.0
+}
+
+///|
 /// Get the number of elements in this unsigned short array.
 pub fn UShortArray::length(self : UShortArray) -> Int {
   self.1

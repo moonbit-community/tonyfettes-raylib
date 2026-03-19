@@ -1403,21 +1403,33 @@ pub extern "c" fn rl_draw_vertex_array_instanced(
 ) = "rlDrawVertexArrayInstanced"
 
 ///|
-/// Draw vertex array elements.
-pub extern "c" fn rl_draw_vertex_array_elements(
-  offset : Int,
-  count : Int,
-  buffer : Int,
-) = "moonbit_raylib_rl_draw_vertex_array_elements"
+/// Draw vertex array elements (EBO path, NULL buffer).
+pub extern "c" fn rl_draw_vertex_array_elements(offset : Int, count : Int) = "moonbit_raylib_rl_draw_vertex_array_elements"
 
 ///|
-/// Draw vertex array elements with instancing.
+/// Draw vertex array elements with instancing (EBO path, NULL buffer).
 pub extern "c" fn rl_draw_vertex_array_elements_instanced(
   offset : Int,
   count : Int,
-  buffer : Int,
   instances : Int,
 ) = "moonbit_raylib_rl_draw_vertex_array_elements_instanced"
+
+///|
+/// Draw vertex array elements with client-side index buffer.
+pub extern "c" fn rl_draw_vertex_array_elements_client(
+  offset : Int,
+  count : Int,
+  buffer : UShortArray,
+) = "moonbit_raylib_rl_draw_vertex_array_elements_client"
+
+///|
+/// Draw vertex array elements with instancing and client-side index buffer.
+pub extern "c" fn rl_draw_vertex_array_elements_instanced_client(
+  offset : Int,
+  count : Int,
+  buffer : UShortArray,
+  instances : Int,
+) = "moonbit_raylib_rl_draw_vertex_array_elements_instanced_client"
 
 // ============================================================================
 // rlgl: Textures management (additional)
