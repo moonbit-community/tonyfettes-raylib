@@ -192,7 +192,10 @@ pub extern "c" fn wave_format(
 
 ///|
 #borrow(wave)
-pub extern "c" fn load_wave_samples(wave : Wave) -> Bytes = "moonbit_raylib_load_wave_samples"
+pub extern "c" fn load_wave_samples(wave : Wave) -> FloatArray = "moonbit_raylib_load_wave_samples"
+
+///|
+pub extern "c" fn unload_wave_samples(samples : FloatArray) = "moonbit_raylib_unload_wave_samples"
 
 ///|
 #borrow(wave)

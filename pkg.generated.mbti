@@ -1142,6 +1142,12 @@ pub fn load_file_data(String) -> Bytes
 
 pub fn load_file_text(String) -> String
 
+#deprecated
+pub fn load_image_anim(String) -> Image
+
+#deprecated
+pub fn load_image_anim_from_memory(String, Bytes, Int) -> Image
+
 pub fn load_random_sequence(Int, Int, Int) -> Array[Int]
 
 pub fn load_utf8(Array[Int]) -> Bytes
@@ -1376,6 +1382,10 @@ pub fn set_mouse_scale(Float, Float) -> Unit
 
 pub fn set_random_seed(Int) -> Unit
 
+#deprecated
+pub fn set_shader_value(Shader, Int, Bytes, Int) -> Unit
+
+#deprecated
 pub fn set_shader_value_v(Shader, Int, Bytes, Int, Int) -> Unit
 
 pub fn set_target_fps(Int) -> Unit
@@ -1430,7 +1440,28 @@ pub fn update_camera(Camera3D, Int) -> Camera3D
 
 pub fn update_camera_pro(Camera3D, Vector3, Vector3, Float) -> Camera3D
 
+#deprecated
+pub fn upload_mesh(Mesh, Int) -> Unit
+
 pub let violet : Color
+
+#deprecated
+pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
+
+#deprecated
+pub fn vr_stereo_config_left_screen_center(VrStereoConfig) -> Bytes
+
+#deprecated
+pub fn vr_stereo_config_right_lens_center(VrStereoConfig) -> Bytes
+
+#deprecated
+pub fn vr_stereo_config_right_screen_center(VrStereoConfig) -> Bytes
+
+#deprecated
+pub fn vr_stereo_config_scale(VrStereoConfig) -> Bytes
+
+#deprecated
+pub fn vr_stereo_config_scale_in(VrStereoConfig) -> Bytes
 
 pub fn wait_time(Double) -> Unit
 
@@ -1750,9 +1781,7 @@ pub fn Image::is_valid(Self) -> Bool
 pub fn Image::kernel_convolution(Self, Bytes, Int) -> Unit
 #as_free_fn(load_image)
 pub fn Image::load(String) -> Self
-#as_free_fn(load_image_anim)
 pub fn Image::load_anim(String) -> (Self, Int)
-#as_free_fn(load_image_anim_from_memory)
 pub fn Image::load_anim_from_memory(String, Bytes, Int) -> (Self, Int)
 #as_free_fn(load_image_colors)
 pub fn Image::load_colors(Self) -> Bytes
@@ -1950,7 +1979,6 @@ pub fn Mesh::triangle_count(Self) -> Int
 pub fn Mesh::unload(Self) -> Unit
 #as_free_fn(update_mesh_buffer)
 pub fn Mesh::update_buffer(Self, Int, Bytes, Int, Int) -> Unit
-#as_free_fn(upload_mesh)
 pub fn Mesh::upload(Self, Bool) -> Unit
 #as_free_fn(get_mesh_vertex_count)
 pub fn Mesh::vertex_count(Self) -> Int
@@ -2179,7 +2207,6 @@ pub fn Shader::load_from_memory(String, String) -> Self
 #as_free_fn(set_shader_locs)
 #as_free_fn(set_shader_location, deprecated)
 pub fn Shader::set_locs(Self, Int, Int) -> Unit
-#as_free_fn(set_shader_value)
 pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit
 #as_free_fn(set_shader_value_matrix)
 pub fn Shader::set_value_matrix(Self, Int, Matrix) -> Unit
@@ -2458,19 +2485,13 @@ pub impl Show for VrDeviceInfo
 type VrStereoConfig
 #as_free_fn(begin_vr_stereo_mode)
 pub fn VrStereoConfig::begin_mode(Self) -> Unit
-#as_free_fn(vr_stereo_config_left_lens_center)
 pub fn VrStereoConfig::left_lens_center(Self) -> Vector2
-#as_free_fn(vr_stereo_config_left_screen_center)
 pub fn VrStereoConfig::left_screen_center(Self) -> Vector2
 #as_free_fn(load_vr_stereo_config)
 pub fn VrStereoConfig::load(VrDeviceInfo) -> Self
-#as_free_fn(vr_stereo_config_right_lens_center)
 pub fn VrStereoConfig::right_lens_center(Self) -> Vector2
-#as_free_fn(vr_stereo_config_right_screen_center)
 pub fn VrStereoConfig::right_screen_center(Self) -> Vector2
-#as_free_fn(vr_stereo_config_scale)
 pub fn VrStereoConfig::scale(Self) -> Vector2
-#as_free_fn(vr_stereo_config_scale_in)
 pub fn VrStereoConfig::scale_in(Self) -> Vector2
 #as_free_fn(unload_vr_stereo_config)
 pub fn VrStereoConfig::unload(Self) -> Unit
@@ -2497,7 +2518,7 @@ pub fn Wave::load(String) -> Self
 #as_free_fn(load_wave_from_memory)
 pub fn Wave::load_from_memory(String, Bytes, Int) -> Self
 #as_free_fn(load_wave_samples)
-pub fn Wave::load_samples(Self) -> Bytes
+pub fn Wave::load_samples(Self) -> WaveSamples
 #as_free_fn(load_sound_from_wave)
 pub fn Wave::load_sound(Self) -> Sound
 #as_free_fn(get_wave_sample_rate)
@@ -2506,6 +2527,15 @@ pub fn Wave::sample_rate(Self) -> Int
 pub fn Wave::sample_size(Self) -> Int
 #as_free_fn(unload_wave)
 pub fn Wave::unload(Self) -> Unit
+
+pub struct WaveSamples {
+  // private fields
+}
+pub fn WaveSamples::length(Self) -> Int
+pub fn WaveSamples::op_get(Self, Int) -> Float
+pub fn WaveSamples::op_set(Self, Int, Float) -> Unit
+#as_free_fn(unload_wave_samples)
+pub fn WaveSamples::unload(Self) -> Unit
 
 // Type aliases
 pub using @tonyfettes/raylib/internal/raylib {type AudioBuffer}

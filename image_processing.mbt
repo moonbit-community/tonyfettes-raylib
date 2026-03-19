@@ -189,7 +189,10 @@ pub fn load_image_anim_from_memory(
 ) -> Image {
   let frames = Ref::new(0)
   @ffi.load_image_anim_from_memory(
-    @utf8.encode(file_type), file_data, data_size, frames,
+    @utf8.encode(file_type),
+    file_data,
+    data_size,
+    frames,
   )
 }
 

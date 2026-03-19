@@ -191,14 +191,14 @@ moonbit_raylib_wave_format(WaveWrapper *w, int sampleRate, int sampleSize, int c
   WaveFormat(w->data, sampleRate, sampleSize, channels);
 }
 
-moonbit_bytes_t
+float *
 moonbit_raylib_load_wave_samples(WaveWrapper *w) {
-  float *samples = LoadWaveSamples(*w->data);
-  int count = w->data->frameCount * w->data->channels;
-  moonbit_bytes_t r = moonbit_make_bytes(count * sizeof(float), 0);
-  memcpy(r, samples, count * sizeof(float));
+  return LoadWaveSamples(*w->data);
+}
+
+void
+moonbit_raylib_unload_wave_samples(float *samples) {
   UnloadWaveSamples(samples);
-  return r;
 }
 
 int32_t
