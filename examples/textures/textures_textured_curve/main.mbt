@@ -92,7 +92,7 @@ fn main {
 
   let _ = @raylib.change_directory("textures/textures_textured_curve")
 
-  @raylib.set_config_flags(@raylib.FlagVsyncHint.lor(@raylib.FlagMsaa4xHint))
+  @raylib.set_config_flags(@raylib.FlagVsyncHint | @raylib.FlagMsaa4xHint)
   @raylib.init_window(
     screen_width, screen_height, "raylib [textures] examples - textured curve",
   )
