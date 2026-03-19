@@ -805,7 +805,7 @@ pub fn set_vertex_attribute(
 }
 
 ///|
-/// Set vertex attribute default value, when attribute to provided.
+/// Set vertex attribute default value, when attribute is not provided.
 pub fn set_vertex_attribute_default(
   loc_index : Int,
   value : Bytes,

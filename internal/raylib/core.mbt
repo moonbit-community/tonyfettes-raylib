@@ -1381,7 +1381,7 @@ pub extern "c" fn rl_set_vertex_attribute(
 ) = "moonbit_raylib_rl_set_vertex_attribute"
 
 ///|
-/// Set vertex attribute default value, when attribute to provided.
+/// Set vertex attribute default value, when attribute is not provided.
 #borrow(value)
 pub extern "c" fn rl_set_vertex_attribute_default(
   loc_index : Int,
