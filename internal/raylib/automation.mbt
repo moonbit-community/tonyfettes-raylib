@@ -24,12 +24,15 @@ pub extern "c" fn export_automation_event_list(
 pub extern "c" fn set_automation_event_list(list : AutomationEventList) = "moonbit_raylib_set_automation_event_list"
 
 ///|
+/// Set automation event internal base frame to start recording.
 pub extern "c" fn set_automation_event_base_frame(frame : Int) = "SetAutomationEventBaseFrame"
 
 ///|
+/// Start recording automation events (AutomationEventList must be set).
 pub extern "c" fn start_automation_event_recording() = "StartAutomationEventRecording"
 
 ///|
+/// Stop recording automation events.
 pub extern "c" fn stop_automation_event_recording() = "StopAutomationEventRecording"
 
 ///|

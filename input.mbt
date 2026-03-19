@@ -1,7 +1,5 @@
 // Cursor re-exports
 
-///|
-/// Re-exported cursor, keyboard, mouse, gamepad, touch, and gesture functions from the FFI layer.
 pub using @ffi {
   show_cursor,
   hide_cursor,

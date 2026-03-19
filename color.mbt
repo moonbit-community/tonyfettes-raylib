@@ -223,6 +223,4 @@ pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
   )
 }
 
-///|
-/// Get pixel data size in bytes for certain format.
 pub using @ffi {get_pixel_data_size}

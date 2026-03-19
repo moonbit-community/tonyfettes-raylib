@@ -1,7 +1,5 @@
 // Re-export passthrough functions from internal FFI layer
 
-///|
-/// Re-export draw_fps (draw current FPS) and set_text_line_spacing (set vertical line spacing when drawing with line-breaks).
 pub using @ffi {draw_fps, set_text_line_spacing}
 
 // ============================================================================

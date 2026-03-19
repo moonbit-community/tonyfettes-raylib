@@ -7,30 +7,39 @@
 pub extern "c" fn init_window(width : Int, height : Int, title : Bytes) = "moonbit_raylib_init_window"
 
 ///|
+/// Close window and unload OpenGL context.
 pub extern "c" fn close_window() = "CloseWindow"
 
 ///|
+/// Check if application should close (KEY_ESCAPE pressed or windows close icon clicked).
 pub extern "c" fn window_should_close() -> Bool = "moonbit_raylib_window_should_close"
 
 ///|
+/// Check if window has been initialized successfully.
 pub extern "c" fn is_window_ready() -> Bool = "moonbit_raylib_is_window_ready"
 
 ///|
+/// Check if window is currently fullscreen.
 pub extern "c" fn is_window_fullscreen() -> Bool = "moonbit_raylib_is_window_fullscreen"
 
 ///|
+/// Check if window is currently hidden.
 pub extern "c" fn is_window_hidden() -> Bool = "moonbit_raylib_is_window_hidden"
 
 ///|
+/// Check if window is currently minimized.
 pub extern "c" fn is_window_minimized() -> Bool = "moonbit_raylib_is_window_minimized"
 
 ///|
+/// Check if window is currently maximized.
 pub extern "c" fn is_window_maximized() -> Bool = "moonbit_raylib_is_window_maximized"
 
 ///|
+/// Check if window is currently focused.
 pub extern "c" fn is_window_focused() -> Bool = "moonbit_raylib_is_window_focused"
 
 ///|
+/// Check if window has been resized last frame.
 pub extern "c" fn is_window_resized() -> Bool = "moonbit_raylib_is_window_resized"
 
 ///|
@@ -38,60 +47,79 @@ pub extern "c" fn is_window_resized() -> Bool = "moonbit_raylib_is_window_resize
 pub extern "c" fn set_window_title(title : Bytes) = "moonbit_raylib_set_window_title"
 
 ///|
+/// Set window dimensions.
 pub extern "c" fn set_window_size(width : Int, height : Int) = "SetWindowSize"
 
 ///|
+/// Set window position on screen.
 pub extern "c" fn set_window_position(x : Int, y : Int) = "SetWindowPosition"
 
 ///|
+/// Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE).
 pub extern "c" fn set_window_min_size(width : Int, height : Int) = "SetWindowMinSize"
 
 ///|
+/// Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE).
 pub extern "c" fn set_window_max_size(width : Int, height : Int) = "SetWindowMaxSize"
 
 ///|
+/// Set window opacity [0.0f..1.0f].
 pub extern "c" fn set_window_opacity(opacity : Float) = "SetWindowOpacity"
 
 ///|
+/// Set window focused.
 pub extern "c" fn set_window_focused() = "SetWindowFocused"
 
 ///|
+/// Get current screen width.
 pub extern "c" fn get_screen_width() -> Int = "GetScreenWidth"
 
 ///|
+/// Get current screen height.
 pub extern "c" fn get_screen_height() -> Int = "GetScreenHeight"
 
 ///|
+/// Get current render width (it considers HiDPI).
 pub extern "c" fn get_render_width() -> Int = "GetRenderWidth"
 
 ///|
+/// Get current render height (it considers HiDPI).
 pub extern "c" fn get_render_height() -> Int = "GetRenderHeight"
 
 ///|
+/// Toggle window state: fullscreen/windowed, resizes monitor to match window resolution.
 pub extern "c" fn toggle_fullscreen() = "ToggleFullscreen"
 
 ///|
+/// Toggle window state: borderless windowed, resizes window to match monitor resolution.
 pub extern "c" fn toggle_borderless_windowed() = "ToggleBorderlessWindowed"
 
 ///|
+/// Set window state: maximized, if resizable.
 pub extern "c" fn maximize_window() = "MaximizeWindow"
 
 ///|
+/// Set window state: minimized, if resizable.
 pub extern "c" fn minimize_window() = "MinimizeWindow"
 
 ///|
+/// Set window state: not minimized/maximized.
 pub extern "c" fn restore_window() = "RestoreWindow"
 
 ///|
+/// Setup init configuration flags (view FLAGS).
 pub extern "c" fn set_config_flags(flags : Int) = "SetConfigFlags"
 
 ///|
+/// Set window configuration state using flags.
 pub extern "c" fn set_window_state(flags : Int) = "SetWindowState"
 
 ///|
+/// Clear window configuration state flags.
 pub extern "c" fn clear_window_state(flags : Int) = "ClearWindowState"
 
 ///|
+/// Check if one specific window flag is enabled.
 pub extern "c" fn is_window_state(flag : Int) -> Bool = "moonbit_raylib_is_window_state"
 
 ///|
@@ -105,24 +133,31 @@ pub extern "c" fn get_window_scale_dpi() -> Bytes = "moonbit_raylib_get_window_s
 // ============================================================================
 
 ///|
+/// Get number of connected monitors.
 pub extern "c" fn get_monitor_count() -> Int = "GetMonitorCount"
 
 ///|
+/// Get current monitor where window is placed.
 pub extern "c" fn get_current_monitor() -> Int = "GetCurrentMonitor"
 
 ///|
+/// Get specified monitor width (current video mode used by monitor).
 pub extern "c" fn get_monitor_width(monitor : Int) -> Int = "GetMonitorWidth"
 
 ///|
+/// Get specified monitor height (current video mode used by monitor).
 pub extern "c" fn get_monitor_height(monitor : Int) -> Int = "GetMonitorHeight"
 
 ///|
+/// Get specified monitor physical width in millimetres.
 pub extern "c" fn get_monitor_physical_width(monitor : Int) -> Int = "GetMonitorPhysicalWidth"
 
 ///|
+/// Get specified monitor physical height in millimetres.
 pub extern "c" fn get_monitor_physical_height(monitor : Int) -> Int = "GetMonitorPhysicalHeight"
 
 ///|
+/// Get specified monitor refresh rate.
 pub extern "c" fn get_monitor_refresh_rate(monitor : Int) -> Int = "GetMonitorRefreshRate"
 
 ///|
@@ -173,21 +208,27 @@ pub extern "c" fn wait_time(seconds : Double) = "WaitTime"
 // ============================================================================
 
 ///|
+/// Shows cursor.
 pub extern "c" fn show_cursor() = "ShowCursor"
 
 ///|
+/// Hides cursor.
 pub extern "c" fn hide_cursor() = "HideCursor"
 
 ///|
+/// Check if cursor is not visible.
 pub extern "c" fn is_cursor_hidden() -> Bool = "moonbit_raylib_is_cursor_hidden"
 
 ///|
+/// Enables cursor (unlock cursor).
 pub extern "c" fn enable_cursor() = "EnableCursor"
 
 ///|
+/// Disables cursor (lock cursor).
 pub extern "c" fn disable_cursor() = "DisableCursor"
 
 ///|
+/// Check if cursor is on the screen.
 pub extern "c" fn is_cursor_on_screen() -> Bool = "moonbit_raylib_is_cursor_on_screen"
 
 // ============================================================================
@@ -199,9 +240,11 @@ pub extern "c" fn is_cursor_on_screen() -> Bool = "moonbit_raylib_is_cursor_on_s
 pub extern "c" fn clear_background(color : Bytes) = "moonbit_raylib_clear_background"
 
 ///|
+/// Setup canvas (framebuffer) to start drawing.
 pub extern "c" fn begin_drawing() = "BeginDrawing"
 
 ///|
+/// End canvas drawing and swap buffers (double buffering).
 pub extern "c" fn end_drawing() = "EndDrawing"
 
 ///|
@@ -209,6 +252,7 @@ pub extern "c" fn end_drawing() = "EndDrawing"
 pub extern "c" fn begin_mode_2d(camera : Bytes) = "moonbit_raylib_begin_mode_2d"
 
 ///|
+/// Ends 2D mode with custom camera.
 pub extern "c" fn end_mode_2d() = "EndMode2D"
 
 ///|
@@ -216,9 +260,11 @@ pub extern "c" fn end_mode_2d() = "EndMode2D"
 pub extern "c" fn begin_mode_3d(camera : Bytes) = "moonbit_raylib_begin_mode_3d"
 
 ///|
+/// Ends 3D mode and returns to default 2D orthographic mode.
 pub extern "c" fn end_mode_3d() = "EndMode3D"
 
 ///|
+/// Begin scissor mode (define screen area for following drawing).
 pub extern "c" fn begin_scissor_mode(
   x : Int,
   y : Int,
@@ -227,12 +273,15 @@ pub extern "c" fn begin_scissor_mode(
 ) = "BeginScissorMode"
 
 ///|
+/// End scissor mode.
 pub extern "c" fn end_scissor_mode() = "EndScissorMode"
 
 ///|
+/// Begin blending mode (alpha, additive, multiplied, subtract, custom).
 pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
 
 ///|
+/// End blending mode (reset to default: alpha blending).
 pub extern "c" fn end_blend_mode() = "EndBlendMode"
 
 ///|
@@ -240,6 +289,7 @@ pub extern "c" fn end_blend_mode() = "EndBlendMode"
 pub extern "c" fn begin_texture_mode(render_texture : RenderTexture) = "moonbit_raylib_begin_texture_mode"
 
 ///|
+/// Ends drawing to render texture.
 pub extern "c" fn end_texture_mode() = "EndTextureMode"
 
 // ============================================================================
@@ -247,15 +297,19 @@ pub extern "c" fn end_texture_mode() = "EndTextureMode"
 // ============================================================================
 
 ///|
+/// Set target FPS (maximum).
 pub extern "c" fn set_target_fps(fps : Int) = "SetTargetFPS"
 
 ///|
+/// Get time in seconds for last frame drawn (delta time).
 pub extern "c" fn get_frame_time() -> Float = "GetFrameTime"
 
 ///|
+/// Get elapsed time in seconds since InitWindow().
 pub extern "c" fn get_time() -> Double = "GetTime"
 
 ///|
+/// Get current FPS.
 pub extern "c" fn get_fps() -> Int = "GetFPS"
 
 // ============================================================================
@@ -263,27 +317,35 @@ pub extern "c" fn get_fps() -> Int = "GetFPS"
 // ============================================================================
 
 ///|
+/// Check if a key has been pressed once.
 pub extern "c" fn is_key_pressed(key : Int) -> Bool = "moonbit_raylib_is_key_pressed"
 
 ///|
+/// Check if a key has been pressed again.
 pub extern "c" fn is_key_pressed_repeat(key : Int) -> Bool = "moonbit_raylib_is_key_pressed_repeat"
 
 ///|
+/// Check if a key is being pressed.
 pub extern "c" fn is_key_down(key : Int) -> Bool = "moonbit_raylib_is_key_down"
 
 ///|
+/// Check if a key has been released once.
 pub extern "c" fn is_key_released(key : Int) -> Bool = "moonbit_raylib_is_key_released"
 
 ///|
+/// Check if a key is NOT being pressed.
 pub extern "c" fn is_key_up(key : Int) -> Bool = "moonbit_raylib_is_key_up"
 
 ///|
+/// Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty.
 pub extern "c" fn get_key_pressed() -> Int = "GetKeyPressed"
 
 ///|
+/// Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty.
 pub extern "c" fn get_char_pressed() -> Int = "GetCharPressed"
 
 ///|
+/// Set a custom key to exit program (default is ESC).
 pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
 
 // ============================================================================
@@ -291,21 +353,27 @@ pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
 // ============================================================================
 
 ///|
+/// Check if a mouse button has been pressed once.
 pub extern "c" fn is_mouse_button_pressed(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_pressed"
 
 ///|
+/// Check if a mouse button is being pressed.
 pub extern "c" fn is_mouse_button_down(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_down"
 
 ///|
+/// Check if a mouse button has been released once.
 pub extern "c" fn is_mouse_button_released(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_released"
 
 ///|
+/// Check if a mouse button is NOT being pressed.
 pub extern "c" fn is_mouse_button_up(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_up"
 
 ///|
+/// Get mouse position X.
 pub extern "c" fn get_mouse_x() -> Int = "GetMouseX"
 
 ///|
+/// Get mouse position Y.
 pub extern "c" fn get_mouse_y() -> Int = "GetMouseY"
 
 ///|
@@ -315,21 +383,26 @@ pub extern "c" fn get_mouse_position() -> Bytes = "moonbit_raylib_get_mouse_posi
 pub extern "c" fn get_mouse_delta() -> Bytes = "moonbit_raylib_get_mouse_delta"
 
 ///|
+/// Set mouse position XY.
 pub extern "c" fn set_mouse_position(x : Int, y : Int) = "SetMousePosition"
 
 ///|
+/// Set mouse offset.
 pub extern "c" fn set_mouse_offset(offset_x : Int, offset_y : Int) = "SetMouseOffset"
 
 ///|
+/// Set mouse scaling.
 pub extern "c" fn set_mouse_scale(scale_x : Float, scale_y : Float) = "SetMouseScale"
 
 ///|
+/// Get mouse wheel movement for X or Y, whichever is larger.
 pub extern "c" fn get_mouse_wheel_move() -> Float = "GetMouseWheelMove"
 
 ///|
 pub extern "c" fn get_mouse_wheel_move_v() -> Bytes = "moonbit_raylib_get_mouse_wheel_move_v"
 
 ///|
+/// Set mouse cursor.
 pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
 
 // ============================================================================
@@ -337,36 +410,44 @@ pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
 // ============================================================================
 
 ///|
+/// Check if a gamepad is available.
 pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "moonbit_raylib_is_gamepad_available"
 
 ///|
 pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get_gamepad_name"
 
 ///|
+/// Check if a gamepad button has been pressed once.
 pub extern "c" fn is_gamepad_button_pressed(
   gamepad : Int,
   button : Int,
 ) -> Bool = "moonbit_raylib_is_gamepad_button_pressed"
 
 ///|
+/// Check if a gamepad button is being pressed.
 pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_down"
 
 ///|
+/// Check if a gamepad button has been released once.
 pub extern "c" fn is_gamepad_button_released(
   gamepad : Int,
   button : Int,
 ) -> Bool = "moonbit_raylib_is_gamepad_button_released"
 
 ///|
+/// Check if a gamepad button is NOT being pressed.
 pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_up"
 
 ///|
+/// Get the last gamepad button pressed.
 pub extern "c" fn get_gamepad_button_pressed() -> Int = "GetGamepadButtonPressed"
 
 ///|
+/// Get gamepad axis count for a gamepad.
 pub extern "c" fn get_gamepad_axis_count(gamepad : Int) -> Int = "GetGamepadAxisCount"
 
 ///|
+/// Get axis movement value for a gamepad axis.
 pub extern "c" fn get_gamepad_axis_movement(gamepad : Int, axis : Int) -> Float = "GetGamepadAxisMovement"
 
 ///|
@@ -386,18 +467,22 @@ pub extern "c" fn set_gamepad_vibration(
 // ============================================================================
 
 ///|
+/// Get touch position X for touch point 0 (relative to screen size).
 pub extern "c" fn get_touch_x() -> Int = "GetTouchX"
 
 ///|
+/// Get touch position Y for touch point 0 (relative to screen size).
 pub extern "c" fn get_touch_y() -> Int = "GetTouchY"
 
 ///|
 pub extern "c" fn get_touch_position(index : Int) -> Bytes = "moonbit_raylib_get_touch_position"
 
 ///|
+/// Get touch point identifier for given index.
 pub extern "c" fn get_touch_point_id(index : Int) -> Int = "GetTouchPointId"
 
 ///|
+/// Get number of touch points.
 pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
 
 // ============================================================================
@@ -405,27 +490,33 @@ pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
 // ============================================================================
 
 ///|
+/// Enable a set of gestures using flags.
 pub extern "c" fn set_gestures_enabled(flags : Int) = "SetGesturesEnabled"
 
 ///|
+/// Check if a gesture have been detected.
 pub extern "c" fn is_gesture_detected(gesture : Int) -> Bool = "moonbit_raylib_is_gesture_detected"
 
 ///|
+/// Get latest detected gesture.
 pub extern "c" fn get_gesture_detected() -> Int = "GetGestureDetected"
 
 ///|
+/// Get gesture hold time in seconds.
 pub extern "c" fn get_gesture_hold_duration() -> Float = "GetGestureHoldDuration"
 
 ///|
 pub extern "c" fn get_gesture_drag_vector() -> Bytes = "moonbit_raylib_get_gesture_drag_vector"
 
 ///|
+/// Get gesture drag angle.
 pub extern "c" fn get_gesture_drag_angle() -> Float = "GetGestureDragAngle"
 
 ///|
 pub extern "c" fn get_gesture_pinch_vector() -> Bytes = "moonbit_raylib_get_gesture_pinch_vector"
 
 ///|
+/// Get gesture pinch angle.
 pub extern "c" fn get_gesture_pinch_angle() -> Float = "GetGesturePinchAngle"
 
 // ============================================================================
@@ -558,6 +649,7 @@ pub extern "c" fn unload_shader(shader : Shader) = "moonbit_raylib_unload_shader
 pub extern "c" fn begin_shader_mode(shader : Shader) = "moonbit_raylib_begin_shader_mode"
 
 ///|
+/// End custom shader drawing (use default shader).
 pub extern "c" fn end_shader_mode() = "EndShaderMode"
 
 // ============================================================================
@@ -617,9 +709,11 @@ pub extern "c" fn take_screenshot(file_name : Bytes) = "moonbit_raylib_take_scre
 pub extern "c" fn open_url(url : Bytes) = "moonbit_raylib_open_url"
 
 ///|
+/// Get a random value between min and max (both included).
 pub extern "c" fn get_random_value(min : Int, max : Int) -> Int = "GetRandomValue"
 
 ///|
+/// Set the seed for the random number generator.
 pub extern "c" fn set_random_seed(seed : Int) = "SetRandomSeed"
 
 // ============================================================================
@@ -693,6 +787,7 @@ pub extern "c" fn color_alpha_blend(
 ) -> Bytes = "moonbit_raylib_color_alpha_blend"
 
 ///|
+/// Get pixel data size in bytes for certain format.
 pub extern "c" fn get_pixel_data_size(
   width : Int,
   height : Int,
@@ -720,10 +815,12 @@ pub extern "c" fn load_vr_stereo_config(device : Bytes) -> VrStereoConfig = "moo
 pub extern "c" fn unload_vr_stereo_config(config : VrStereoConfig) = "moonbit_raylib_unload_vr_stereo_config"
 
 ///|
+/// Begin stereo rendering (requires VR simulator).
 #borrow(config)
 pub extern "c" fn begin_vr_stereo_mode(config : VrStereoConfig) = "moonbit_raylib_begin_vr_stereo_mode"
 
 ///|
+/// End stereo rendering (requires VR simulator).
 pub extern "c" fn end_vr_stereo_mode() = "EndVrStereoMode"
 
 // VrStereoConfig field accessors

@@ -1,7 +1,5 @@
 // Window management re-exports
 
-///|
-/// Re-exported window management, monitor, timing, and utility functions from the FFI layer.
 pub using @ffi {
   close_window,
   window_should_close,

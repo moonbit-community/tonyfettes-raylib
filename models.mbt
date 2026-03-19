@@ -1,7 +1,5 @@
 // Re-export passthrough functions from internal FFI layer
 
-///|
-/// Draw a grid (centered at (0, 0, 0)).
 pub using @ffi {draw_grid}
 
 // ============================================================================

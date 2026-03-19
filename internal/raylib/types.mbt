@@ -76,4 +76,5 @@ pub type UShortArray
 pub type MatrixArray
 
 ///|
+/// AudioBuffer, used in audio stream processor callbacks from C.
 pub type AudioBuffer

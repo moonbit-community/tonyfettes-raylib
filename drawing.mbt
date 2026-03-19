@@ -1,7 +1,5 @@
 // Drawing lifecycle re-exports
 
-///|
-/// Re-exported drawing lifecycle, scissor, blend, texture, shader, and VR stereo mode functions from the FFI layer.
 pub using @ffi {
   begin_drawing,
   end_drawing,

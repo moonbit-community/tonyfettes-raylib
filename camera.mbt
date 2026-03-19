@@ -132,8 +132,6 @@ pub const CameraOrthographic : Int = 1
 
 // Re-export passthrough camera functions
 
-///|
-/// Re-exported camera mode end functions.
 pub using @ffi {end_mode_2d, end_mode_3d}
 
 // Camera wrappers

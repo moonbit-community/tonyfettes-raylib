@@ -3,8 +3,6 @@ struct AutomationEventList(@ffi.AutomationEventList)
 
 // Re-export passthrough functions for automation events
 
-///|
-/// Re-exported automation event functions: set_automation_event_base_frame, start_automation_event_recording, stop_automation_event_recording.
 pub using @ffi {
   set_automation_event_base_frame,
   start_automation_event_recording,
