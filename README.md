@@ -9,8 +9,7 @@ easy-to-use library to enjoy videogames programming.
 - Covers core, shapes, textures, text, models, shaders, and audio APIs
 - Automatic resource management via GC finalizers for opaque types (Image,
   Texture, Font, Sound, Music, Model, etc.)
-- 329 included examples — ports of official raylib examples plus original games
-  and demos
+- 145 included examples — ports of official raylib examples organized by category
 - Platform-specific linking handled automatically via prebuild script
 
 ## Prerequisites
@@ -75,17 +74,19 @@ moon run --target native main/
 
 ## Building Examples
 
-Examples live in the `examples/` directory as a separate module:
+Examples live in the `examples/` directory as a separate module, organized by
+category (`core/`, `shapes/`, `textures/`, `text/`, `models/`, `shaders/`,
+`audio/`, `others/`):
 
 ```bash
 # Build a specific example
-moon -C examples build --target native raylib_core_basic_window/
+moon -C examples build --target native core/core_basic_window/
 
 # Run a specific example
-moon -C examples run --target native raylib_demo/
+moon -C examples run --target native core/core_basic_window/
 
 # Run the bunnymark benchmark
-moon -C examples run --target native raylib_textures_bunnymark/
+moon -C examples run --target native textures/textures_bunnymark/
 ```
 
 ## API Overview
