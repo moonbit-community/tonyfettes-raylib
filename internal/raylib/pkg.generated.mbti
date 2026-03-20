@@ -38,6 +38,8 @@ pub fn begin_vr_stereo_mode(VrStereoConfig) -> Unit
 
 pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> Font
 
+pub fn bytes_as_void(Bytes) -> VoidPointer
+
 pub fn change_directory(Bytes) -> Bool
 
 pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
@@ -369,6 +371,8 @@ pub fn float_array_get(FloatPointer, Int) -> Float
 pub fn float_array_is_null(FloatPointer) -> Bool
 
 pub fn float_array_set(FloatPointer, Int, Float) -> Unit
+
+pub fn float_pointer_as_void(FloatPointer) -> VoidPointer
 
 pub fn gen_image_cellular(Int, Int, Int) -> Image
 
@@ -1262,13 +1266,7 @@ pub fn rl_load_shader_buffer(UInt, Bytes, Int) -> UInt
 
 pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
 
-pub fn rl_load_shader_buffer_floats(UInt, FloatPointer, Int) -> UInt
-
-pub fn rl_load_shader_buffer_shorts(UInt, ShortPointer, Int) -> UInt
-
-pub fn rl_load_shader_buffer_ubytes(UInt, UBytePointer, Int) -> UInt
-
-pub fn rl_load_shader_buffer_ushorts(UInt, UShortPointer, Int) -> UInt
+pub fn rl_load_shader_buffer_ptr(UInt, VoidPointer, Int) -> UInt
 
 pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
 
@@ -1286,21 +1284,9 @@ pub fn rl_load_vertex_buffer(Bytes, Int, Bool) -> UInt
 
 pub fn rl_load_vertex_buffer_element(Bytes, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_floats(FloatPointer, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element_ptr(VoidPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_shorts(ShortPointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_element_ubytes(UBytePointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_element_ushorts(UShortPointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_floats(FloatPointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_shorts(ShortPointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_ubytes(UBytePointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_ushorts(UShortPointer, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_ptr(VoidPointer, Int, Bool) -> UInt
 
 pub fn rl_matrix_mode(Int) -> Unit
 
@@ -1360,13 +1346,7 @@ pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_default(Int, Bytes, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default_floats(Int, FloatPointer, Int, Int) -> Unit
-
-pub fn rl_set_vertex_attribute_default_shorts(Int, ShortPointer, Int, Int) -> Unit
-
-pub fn rl_set_vertex_attribute_default_ubytes(Int, UBytePointer, Int, Int) -> Unit
-
-pub fn rl_set_vertex_attribute_default_ushorts(Int, UShortPointer, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default_ptr(Int, VoidPointer, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
 
@@ -1390,13 +1370,7 @@ pub fn rl_unload_vertex_buffer(UInt) -> Unit
 
 pub fn rl_update_shader_buffer(UInt, Bytes, UInt, UInt) -> Unit
 
-pub fn rl_update_shader_buffer_floats(UInt, FloatPointer, UInt, UInt) -> Unit
-
-pub fn rl_update_shader_buffer_shorts(UInt, ShortPointer, UInt, UInt) -> Unit
-
-pub fn rl_update_shader_buffer_ubytes(UInt, UBytePointer, UInt, UInt) -> Unit
-
-pub fn rl_update_shader_buffer_ushorts(UInt, UShortPointer, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer_ptr(UInt, VoidPointer, UInt, UInt) -> Unit
 
 pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
 
@@ -1404,21 +1378,9 @@ pub fn rl_update_vertex_buffer(UInt, Bytes, Int, Int) -> Unit
 
 pub fn rl_update_vertex_buffer_elements(UInt, Bytes, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_floats(UInt, FloatPointer, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements_ptr(UInt, VoidPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_shorts(UInt, ShortPointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_elements_ubytes(UInt, UBytePointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_elements_ushorts(UInt, UShortPointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_floats(UInt, FloatPointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_shorts(UInt, ShortPointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_ubytes(UInt, UBytePointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_ushorts(UInt, UShortPointer, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_ptr(UInt, VoidPointer, Int, Int) -> Unit
 
 pub fn rl_vertex2f(Float, Float) -> Unit
 
@@ -1548,6 +1510,8 @@ pub fn short_array_is_null(ShortPointer) -> Bool
 
 pub fn short_array_set(ShortPointer, Int, Int) -> Unit
 
+pub fn short_pointer_as_void(ShortPointer) -> VoidPointer
+
 pub fn show_cursor() -> Unit
 
 pub fn start_automation_event_recording() -> Unit
@@ -1575,6 +1539,8 @@ pub fn ubyte_array_get(UBytePointer, Int) -> Int
 pub fn ubyte_array_is_null(UBytePointer) -> Bool
 
 pub fn ubyte_array_set(UBytePointer, Int, Byte) -> Unit
+
+pub fn ubyte_pointer_as_void(UBytePointer) -> VoidPointer
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1647,6 +1613,8 @@ pub fn ushort_array_get(UShortPointer, Int) -> Int
 pub fn ushort_array_is_null(UShortPointer) -> Bool
 
 pub fn ushort_array_set(UShortPointer, Int, UInt16) -> Unit
+
+pub fn ushort_pointer_as_void(UShortPointer) -> VoidPointer
 
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 
@@ -1726,6 +1694,9 @@ pub type UBytePointer
 
 #external
 pub type UShortPointer
+
+#external
+pub type VoidPointer
 
 pub type VrStereoConfig
 

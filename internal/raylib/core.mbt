@@ -1337,66 +1337,48 @@ pub extern "c" fn rl_load_vertex_buffer_element(
   dynamic : Bool,
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element"
 
+// ============================================================================
+// rlgl: Pointer type casts (identity at ABI level)
+// ============================================================================
+
 ///|
-/// Load a vertex buffer object from a FloatPointer.
-pub extern "c" fn rl_load_vertex_buffer_floats(
-  buffer : FloatPointer,
+/// Cast FloatPointer to VoidPointer.
+pub extern "c" fn float_pointer_as_void(p : FloatPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
+
+///|
+/// Cast UShortPointer to VoidPointer.
+pub extern "c" fn ushort_pointer_as_void(p : UShortPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
+
+///|
+/// Cast ShortPointer to VoidPointer.
+pub extern "c" fn short_pointer_as_void(p : ShortPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
+
+///|
+/// Cast UBytePointer to VoidPointer.
+pub extern "c" fn ubyte_pointer_as_void(p : UBytePointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
+
+///|
+/// Cast Bytes to VoidPointer. Safe when used within a single expression
+/// (no GC allocation between cast and FFI call).
+#borrow(b)
+pub extern "c" fn bytes_as_void(b : Bytes) -> VoidPointer = "moonbit_raylib_identity_ptr"
+
+// ============================================================================
+// rlgl: VoidPointer-based buffer operations
+// ============================================================================
+
+///|
+/// Load a vertex buffer object from a VoidPointer.
+pub extern "c" fn rl_load_vertex_buffer_ptr(
+  buffer : VoidPointer,
   size : Int,
   dynamic : Bool,
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
 
 ///|
-/// Load a vertex buffer object from a UShortPointer.
-pub extern "c" fn rl_load_vertex_buffer_ushorts(
-  buffer : UShortPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
-
-///|
-/// Load a vertex buffer object from a ShortPointer.
-pub extern "c" fn rl_load_vertex_buffer_shorts(
-  buffer : ShortPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
-
-///|
-/// Load a vertex buffer object from a UBytePointer.
-pub extern "c" fn rl_load_vertex_buffer_ubytes(
-  buffer : UBytePointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
-
-///|
-/// Load vertex buffer elements object from a FloatPointer.
-pub extern "c" fn rl_load_vertex_buffer_element_floats(
-  buffer : FloatPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
-
-///|
-/// Load vertex buffer elements object from a UShortPointer.
-pub extern "c" fn rl_load_vertex_buffer_element_ushorts(
-  buffer : UShortPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
-
-///|
-/// Load vertex buffer elements object from a ShortPointer.
-pub extern "c" fn rl_load_vertex_buffer_element_shorts(
-  buffer : ShortPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
-
-///|
-/// Load vertex buffer elements object from a UBytePointer.
-pub extern "c" fn rl_load_vertex_buffer_element_ubytes(
-  buffer : UBytePointer,
+/// Load vertex buffer elements object from a VoidPointer.
+pub extern "c" fn rl_load_vertex_buffer_element_ptr(
+  buffer : VoidPointer,
   size : Int,
   dynamic : Bool,
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
@@ -1430,109 +1412,28 @@ pub extern "c" fn rl_update_vertex_buffer_elements(
 ) = "moonbit_raylib_rl_update_vertex_buffer_elements"
 
 ///|
-/// Update vertex buffer object data from a FloatPointer.
-pub extern "c" fn rl_update_vertex_buffer_floats(
+/// Update vertex buffer object data from a VoidPointer.
+pub extern "c" fn rl_update_vertex_buffer_ptr(
   buffer_id : UInt,
-  data : FloatPointer,
+  data : VoidPointer,
   data_size : Int,
   offset : Int,
 ) = "moonbit_raylib_rl_update_vertex_buffer_typed"
 
 ///|
-/// Update vertex buffer object data from a UShortPointer.
-pub extern "c" fn rl_update_vertex_buffer_ushorts(
-  buffer_id : UInt,
-  data : UShortPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_typed"
-
-///|
-/// Update vertex buffer object data from a ShortPointer.
-pub extern "c" fn rl_update_vertex_buffer_shorts(
-  buffer_id : UInt,
-  data : ShortPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_typed"
-
-///|
-/// Update vertex buffer object data from a UBytePointer.
-pub extern "c" fn rl_update_vertex_buffer_ubytes(
-  buffer_id : UInt,
-  data : UBytePointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_typed"
-
-///|
-/// Update vertex buffer elements data from a FloatPointer.
-pub extern "c" fn rl_update_vertex_buffer_elements_floats(
+/// Update vertex buffer elements data from a VoidPointer.
+pub extern "c" fn rl_update_vertex_buffer_elements_ptr(
   id : UInt,
-  data : FloatPointer,
+  data : VoidPointer,
   data_size : Int,
   offset : Int,
 ) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
 
 ///|
-/// Update vertex buffer elements data from a UShortPointer.
-pub extern "c" fn rl_update_vertex_buffer_elements_ushorts(
-  id : UInt,
-  data : UShortPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
-
-///|
-/// Update vertex buffer elements data from a ShortPointer.
-pub extern "c" fn rl_update_vertex_buffer_elements_shorts(
-  id : UInt,
-  data : ShortPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
-
-///|
-/// Update vertex buffer elements data from a UBytePointer.
-pub extern "c" fn rl_update_vertex_buffer_elements_ubytes(
-  id : UInt,
-  data : UBytePointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
-
-///|
-/// Set vertex attribute default value from a FloatPointer.
-pub extern "c" fn rl_set_vertex_attribute_default_floats(
+/// Set vertex attribute default value from a VoidPointer.
+pub extern "c" fn rl_set_vertex_attribute_default_ptr(
   loc_index : Int,
-  value : FloatPointer,
-  attrib_type : Int,
-  count : Int,
-) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
-
-///|
-/// Set vertex attribute default value from a UShortPointer.
-pub extern "c" fn rl_set_vertex_attribute_default_ushorts(
-  loc_index : Int,
-  value : UShortPointer,
-  attrib_type : Int,
-  count : Int,
-) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
-
-///|
-/// Set vertex attribute default value from a ShortPointer.
-pub extern "c" fn rl_set_vertex_attribute_default_shorts(
-  loc_index : Int,
-  value : ShortPointer,
-  attrib_type : Int,
-  count : Int,
-) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
-
-///|
-/// Set vertex attribute default value from a UBytePointer.
-pub extern "c" fn rl_set_vertex_attribute_default_ubytes(
-  loc_index : Int,
-  value : UBytePointer,
+  value : VoidPointer,
   attrib_type : Int,
   count : Int,
 ) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
@@ -1707,34 +1608,10 @@ pub extern "c" fn rl_load_shader_buffer(
 ) -> UInt = "moonbit_raylib_rl_load_shader_buffer"
 
 ///|
-/// Load SSBO from a FloatPointer.
-pub extern "c" fn rl_load_shader_buffer_floats(
+/// Load SSBO from a VoidPointer.
+pub extern "c" fn rl_load_shader_buffer_ptr(
   size : UInt,
-  data : FloatPointer,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
-
-///|
-/// Load SSBO from a UShortPointer.
-pub extern "c" fn rl_load_shader_buffer_ushorts(
-  size : UInt,
-  data : UShortPointer,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
-
-///|
-/// Load SSBO from a ShortPointer.
-pub extern "c" fn rl_load_shader_buffer_shorts(
-  size : UInt,
-  data : ShortPointer,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
-
-///|
-/// Load SSBO from a UBytePointer.
-pub extern "c" fn rl_load_shader_buffer_ubytes(
-  size : UInt,
-  data : UBytePointer,
+  data : VoidPointer,
   usage_hint : Int,
 ) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
 
@@ -1760,37 +1637,10 @@ pub extern "c" fn rl_update_shader_buffer(
 ) = "moonbit_raylib_rl_update_shader_buffer"
 
 ///|
-/// Update SSBO buffer data from a FloatPointer.
-pub extern "c" fn rl_update_shader_buffer_floats(
+/// Update SSBO buffer data from a VoidPointer.
+pub extern "c" fn rl_update_shader_buffer_ptr(
   id : UInt,
-  data : FloatPointer,
-  data_size : UInt,
-  offset : UInt,
-) = "moonbit_raylib_rl_update_shader_buffer_typed"
-
-///|
-/// Update SSBO buffer data from a UShortPointer.
-pub extern "c" fn rl_update_shader_buffer_ushorts(
-  id : UInt,
-  data : UShortPointer,
-  data_size : UInt,
-  offset : UInt,
-) = "moonbit_raylib_rl_update_shader_buffer_typed"
-
-///|
-/// Update SSBO buffer data from a ShortPointer.
-pub extern "c" fn rl_update_shader_buffer_shorts(
-  id : UInt,
-  data : ShortPointer,
-  data_size : UInt,
-  offset : UInt,
-) = "moonbit_raylib_rl_update_shader_buffer_typed"
-
-///|
-/// Update SSBO buffer data from a UBytePointer.
-pub extern "c" fn rl_update_shader_buffer_ubytes(
-  id : UInt,
-  data : UBytePointer,
+  data : VoidPointer,
   data_size : UInt,
   offset : UInt,
 ) = "moonbit_raylib_rl_update_shader_buffer_typed"

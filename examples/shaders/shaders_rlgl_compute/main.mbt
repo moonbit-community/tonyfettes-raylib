@@ -129,7 +129,7 @@ fn main {
       // Send transfert buffer to GPU
       let ssbo_data = build_transfert_ssbo(commands)
       @rl.update_shader_buffer(
-        ssbo_transfert, @rl.BufferData::Raw(ssbo_data), 0U,
+        ssbo_transfert, ssbo_data, 0U,
       )
 
       // Process SSBO commands on GPU

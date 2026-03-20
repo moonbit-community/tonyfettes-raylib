@@ -1,5 +1,12 @@
 #include "stub_internal.h"
 
+// Identity pointer cast — all #external types and moonbit_bytes_t are pointers
+// at the ABI level. This function is shared by all typed-to-void conversions.
+void *
+moonbit_raylib_identity_ptr(void *p) {
+  return p;
+}
+
 // ============================================================================
 // rlgl: Bool returns (bool → int32_t)
 // ============================================================================

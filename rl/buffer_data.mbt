@@ -1,30 +1,63 @@
-// BufferData — tagged union for passing typed array data to rlgl buffer functions.
-// Allows users to pass mesh data (FloatArray, UShortArray, etc.) directly
-// without manual bytes conversion.
+// Buffer trait — provides a unified interface for passing typed array data
+// to rlgl buffer operations without manual bytes conversion.
 
 ///|
-/// Typed buffer data for rlgl buffer operations.
-pub(all) enum BufferData {
-  /// Float array data (e.g., vertex positions, normals, texcoords).
-  Floats(@root.FloatArray)
-  /// Unsigned short array data (e.g., vertex indices).
-  UShorts(@root.UShortArray)
-  /// Signed short array data.
-  Shorts(@root.ShortArray)
-  /// Unsigned byte array data (e.g., vertex colors).
-  UBytes(@root.UByteArray)
-  /// Raw byte data (e.g., user-defined structs for SSBOs).
-  Raw(Bytes)
+/// Trait for types that can be passed as buffer data to rlgl operations.
+/// Implementors must provide a raw void pointer and byte size.
+///
+/// Safety: `as_pointer` returns a raw pointer that is only valid during the
+/// current FFI call. Do not store the pointer across allocation points.
+pub(open) trait Buffer {
+  as_pointer(Self) -> @raylib.VoidPointer
+  byte_size(Self) -> Int
 }
 
 ///|
-/// Get the size of this buffer data in bytes.
-pub fn BufferData::byte_size(self : BufferData) -> Int {
-  match self {
-    Floats(arr) => arr.length() * 4
-    UShorts(arr) => arr.length() * 2
-    Shorts(arr) => arr.length() * 2
-    UBytes(arr) => arr.length()
-    Raw(bytes) => bytes.length()
-  }
+pub impl Buffer for @root.FloatArray with as_pointer(self) {
+  @raylib.float_pointer_as_void(self.raw())
+}
+
+///|
+pub impl Buffer for @root.FloatArray with byte_size(self) {
+  self.length() * 4
+}
+
+///|
+pub impl Buffer for @root.UShortArray with as_pointer(self) {
+  @raylib.ushort_pointer_as_void(self.raw())
+}
+
+///|
+pub impl Buffer for @root.UShortArray with byte_size(self) {
+  self.length() * 2
+}
+
+///|
+pub impl Buffer for @root.ShortArray with as_pointer(self) {
+  @raylib.short_pointer_as_void(self.raw())
+}
+
+///|
+pub impl Buffer for @root.ShortArray with byte_size(self) {
+  self.length() * 2
+}
+
+///|
+pub impl Buffer for @root.UByteArray with as_pointer(self) {
+  @raylib.ubyte_pointer_as_void(self.raw())
+}
+
+///|
+pub impl Buffer for @root.UByteArray with byte_size(self) {
+  self.length()
+}
+
+///|
+pub impl Buffer for Bytes with as_pointer(self) {
+  @raylib.bytes_as_void(self)
+}
+
+///|
+pub impl Buffer for Bytes with byte_size(self) {
+  self.length()
 }

@@ -82,3 +82,8 @@ pub type MatrixArray
 ///|
 /// AudioBuffer, used in audio stream processor callbacks from C.
 pub type AudioBuffer
+
+///|
+/// Opaque void pointer for passing typed data to rlgl buffer operations.
+#external
+pub type VoidPointer

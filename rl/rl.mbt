@@ -735,36 +735,16 @@ pub fn load_vertex_array() -> UInt {
 
 ///|
 /// Load a vertex buffer object. Size in bytes is auto-computed from the data.
-pub fn load_vertex_buffer(data : BufferData, dynamic : Bool) -> UInt {
+pub fn[T : Buffer] load_vertex_buffer(data : T, dynamic : Bool) -> UInt {
   let size = data.byte_size()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_load_vertex_buffer_floats(arr.raw(), size, dynamic)
-    UShorts(arr) =>
-      @raylib.rl_load_vertex_buffer_ushorts(arr.raw(), size, dynamic)
-    Shorts(arr) =>
-      @raylib.rl_load_vertex_buffer_shorts(arr.raw(), size, dynamic)
-    UBytes(arr) =>
-      @raylib.rl_load_vertex_buffer_ubytes(arr.raw(), size, dynamic)
-    Raw(bytes) => @raylib.rl_load_vertex_buffer(bytes, size, dynamic)
-  }
+  @raylib.rl_load_vertex_buffer_ptr(data.as_pointer(), size, dynamic)
 }
 
 ///|
 /// Load vertex buffer elements object. Size in bytes is auto-computed.
-pub fn load_vertex_buffer_element(data : BufferData, dynamic : Bool) -> UInt {
+pub fn[T : Buffer] load_vertex_buffer_element(data : T, dynamic : Bool) -> UInt {
   let size = data.byte_size()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_load_vertex_buffer_element_floats(arr.raw(), size, dynamic)
-    UShorts(arr) =>
-      @raylib.rl_load_vertex_buffer_element_ushorts(arr.raw(), size, dynamic)
-    Shorts(arr) =>
-      @raylib.rl_load_vertex_buffer_element_shorts(arr.raw(), size, dynamic)
-    UBytes(arr) =>
-      @raylib.rl_load_vertex_buffer_element_ubytes(arr.raw(), size, dynamic)
-    Raw(bytes) => @raylib.rl_load_vertex_buffer_element(bytes, size, dynamic)
-  }
+  @raylib.rl_load_vertex_buffer_element_ptr(data.as_pointer(), size, dynamic)
 }
 
 ///|
@@ -781,71 +761,34 @@ pub fn unload_vertex_buffer(vbo_id : UInt) -> Unit {
 
 ///|
 /// Update vertex buffer object data on GPU buffer. Data size is auto-computed.
-pub fn update_vertex_buffer(
+pub fn[T : Buffer] update_vertex_buffer(
   buffer_id : UInt,
-  data : BufferData,
+  data : T,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_update_vertex_buffer_floats(buffer_id, arr.raw(), size, offset)
-    UShorts(arr) =>
-      @raylib.rl_update_vertex_buffer_ushorts(
-        buffer_id,
-        arr.raw(),
-        size,
-        offset,
-      )
-    Shorts(arr) =>
-      @raylib.rl_update_vertex_buffer_shorts(buffer_id, arr.raw(), size, offset)
-    UBytes(arr) =>
-      @raylib.rl_update_vertex_buffer_ubytes(buffer_id, arr.raw(), size, offset)
-    Raw(bytes) =>
-      @raylib.rl_update_vertex_buffer(buffer_id, bytes, size, offset)
-  }
+  @raylib.rl_update_vertex_buffer_ptr(
+    buffer_id,
+    data.as_pointer(),
+    size,
+    offset,
+  )
 }
 
 ///|
 /// Update vertex buffer elements data on GPU buffer. Data size is auto-computed.
-pub fn update_vertex_buffer_elements(
+pub fn[T : Buffer] update_vertex_buffer_elements(
   id : UInt,
-  data : BufferData,
+  data : T,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_update_vertex_buffer_elements_floats(
-        id,
-        arr.raw(),
-        size,
-        offset,
-      )
-    UShorts(arr) =>
-      @raylib.rl_update_vertex_buffer_elements_ushorts(
-        id,
-        arr.raw(),
-        size,
-        offset,
-      )
-    Shorts(arr) =>
-      @raylib.rl_update_vertex_buffer_elements_shorts(
-        id,
-        arr.raw(),
-        size,
-        offset,
-      )
-    UBytes(arr) =>
-      @raylib.rl_update_vertex_buffer_elements_ubytes(
-        id,
-        arr.raw(),
-        size,
-        offset,
-      )
-    Raw(bytes) =>
-      @raylib.rl_update_vertex_buffer_elements(id, bytes, size, offset)
-  }
+  @raylib.rl_update_vertex_buffer_elements_ptr(
+    id,
+    data.as_pointer(),
+    size,
+    offset,
+  )
 }
 
 ///|
@@ -871,46 +814,18 @@ pub fn set_vertex_attribute(
 
 ///|
 /// Set vertex attribute default value, when attribute is not provided.
-pub fn set_vertex_attribute_default(
+pub fn[T : Buffer] set_vertex_attribute_default(
   loc_index : Int,
-  value : BufferData,
+  value : T,
   attrib_type : Int,
   count : Int,
 ) -> Unit {
-  match value {
-    Floats(arr) =>
-      @raylib.rl_set_vertex_attribute_default_floats(
-        loc_index,
-        arr.raw(),
-        attrib_type,
-        count,
-      )
-    UShorts(arr) =>
-      @raylib.rl_set_vertex_attribute_default_ushorts(
-        loc_index,
-        arr.raw(),
-        attrib_type,
-        count,
-      )
-    Shorts(arr) =>
-      @raylib.rl_set_vertex_attribute_default_shorts(
-        loc_index,
-        arr.raw(),
-        attrib_type,
-        count,
-      )
-    UBytes(arr) =>
-      @raylib.rl_set_vertex_attribute_default_ubytes(
-        loc_index,
-        arr.raw(),
-        attrib_type,
-        count,
-      )
-    Raw(bytes) =>
-      @raylib.rl_set_vertex_attribute_default(
-        loc_index, bytes, attrib_type, count,
-      )
-  }
+  @raylib.rl_set_vertex_attribute_default_ptr(
+    loc_index,
+    value.as_pointer(),
+    attrib_type,
+    count,
+  )
 }
 
 ///|
@@ -1069,19 +984,9 @@ pub fn compute_shader_dispatch(
 ///|
 /// Load shader storage buffer object (SSBO) with initial data.
 /// Size in bytes is auto-computed from the data.
-pub fn load_shader_buffer(data : BufferData, usage_hint : Int) -> UInt {
+pub fn[T : Buffer] load_shader_buffer(data : T, usage_hint : Int) -> UInt {
   let size = data.byte_size().reinterpret_as_uint()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_load_shader_buffer_floats(size, arr.raw(), usage_hint)
-    UShorts(arr) =>
-      @raylib.rl_load_shader_buffer_ushorts(size, arr.raw(), usage_hint)
-    Shorts(arr) =>
-      @raylib.rl_load_shader_buffer_shorts(size, arr.raw(), usage_hint)
-    UBytes(arr) =>
-      @raylib.rl_load_shader_buffer_ubytes(size, arr.raw(), usage_hint)
-    Raw(bytes) => @raylib.rl_load_shader_buffer(size, bytes, usage_hint)
-  }
+  @raylib.rl_load_shader_buffer_ptr(size, data.as_pointer(), usage_hint)
 }
 
 ///|
@@ -1098,23 +1003,13 @@ pub fn unload_shader_buffer(ssbo_id : UInt) -> Unit {
 
 ///|
 /// Update SSBO buffer data. Data size is auto-computed.
-pub fn update_shader_buffer(
+pub fn[T : Buffer] update_shader_buffer(
   id : UInt,
-  data : BufferData,
+  data : T,
   offset : UInt,
 ) -> Unit {
   let size = data.byte_size().reinterpret_as_uint()
-  match data {
-    Floats(arr) =>
-      @raylib.rl_update_shader_buffer_floats(id, arr.raw(), size, offset)
-    UShorts(arr) =>
-      @raylib.rl_update_shader_buffer_ushorts(id, arr.raw(), size, offset)
-    Shorts(arr) =>
-      @raylib.rl_update_shader_buffer_shorts(id, arr.raw(), size, offset)
-    UBytes(arr) =>
-      @raylib.rl_update_shader_buffer_ubytes(id, arr.raw(), size, offset)
-    Raw(bytes) => @raylib.rl_update_shader_buffer(id, bytes, size, offset)
-  }
+  @raylib.rl_update_shader_buffer_ptr(id, data.as_pointer(), size, offset)
 }
 
 ///|
