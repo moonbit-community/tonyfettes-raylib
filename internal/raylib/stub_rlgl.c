@@ -1,12 +1,5 @@
 #include "stub_internal.h"
 
-// Identity pointer cast — all #external types and moonbit_bytes_t are pointers
-// at the ABI level. This function is shared by all typed-to-void conversions.
-void *
-moonbit_raylib_identity_ptr(void *p) {
-  return p;
-}
-
 // ============================================================================
 // rlgl: Bool returns (bool → int32_t)
 // ============================================================================
@@ -58,12 +51,11 @@ moonbit_raylib_rl_set_vertex_attribute(
 }
 
 // ============================================================================
-// rlgl: Typed array pointer stubs (shared by FloatArray/UShortArray/etc.)
-// All #external array types are raw pointers at the ABI level.
+// rlgl: Buffer stubs (bool + void* adaptation)
 // ============================================================================
 
 uint32_t
-moonbit_raylib_rl_load_vertex_buffer_typed(
+moonbit_raylib_rl_load_vertex_buffer(
   void *buffer,
   int size,
   int32_t dynamic
@@ -72,7 +64,7 @@ moonbit_raylib_rl_load_vertex_buffer_typed(
 }
 
 uint32_t
-moonbit_raylib_rl_load_vertex_buffer_element_typed(
+moonbit_raylib_rl_load_vertex_buffer_element(
   void *buffer,
   int size,
   int32_t dynamic
@@ -81,7 +73,7 @@ moonbit_raylib_rl_load_vertex_buffer_element_typed(
 }
 
 void
-moonbit_raylib_rl_update_vertex_buffer_typed(
+moonbit_raylib_rl_update_vertex_buffer(
   uint32_t bufferId,
   void *data,
   int dataSize,
@@ -91,7 +83,7 @@ moonbit_raylib_rl_update_vertex_buffer_typed(
 }
 
 void
-moonbit_raylib_rl_update_vertex_buffer_elements_typed(
+moonbit_raylib_rl_update_vertex_buffer_elements(
   uint32_t id,
   void *data,
   int dataSize,
@@ -101,7 +93,7 @@ moonbit_raylib_rl_update_vertex_buffer_elements_typed(
 }
 
 void
-moonbit_raylib_rl_set_vertex_attribute_default_typed(
+moonbit_raylib_rl_set_vertex_attribute_default(
   int locIndex,
   void *value,
   int attribType,
@@ -111,7 +103,7 @@ moonbit_raylib_rl_set_vertex_attribute_default_typed(
 }
 
 uint32_t
-moonbit_raylib_rl_load_shader_buffer_typed(
+moonbit_raylib_rl_load_shader_buffer(
   uint32_t size,
   void *data,
   int usageHint
@@ -120,69 +112,13 @@ moonbit_raylib_rl_load_shader_buffer_typed(
 }
 
 void
-moonbit_raylib_rl_update_shader_buffer_typed(
+moonbit_raylib_rl_update_shader_buffer(
   uint32_t id,
   void *data,
   uint32_t dataSize,
   uint32_t offset
 ) {
   rlUpdateShaderBuffer(id, data, dataSize, offset);
-}
-
-// ============================================================================
-// rlgl: Bool + void* params
-// ============================================================================
-
-uint32_t
-moonbit_raylib_rl_load_vertex_buffer(
-  moonbit_bytes_t buffer,
-  int size,
-  int32_t dynamic
-) {
-  return rlLoadVertexBuffer((const void *)buffer, size, (bool)dynamic);
-}
-
-uint32_t
-moonbit_raylib_rl_load_vertex_buffer_element(
-  moonbit_bytes_t buffer,
-  int size,
-  int32_t dynamic
-) {
-  return rlLoadVertexBufferElement((const void *)buffer, size, (bool)dynamic);
-}
-
-// ============================================================================
-// rlgl: void* data params (Bytes → const void*)
-// ============================================================================
-
-void
-moonbit_raylib_rl_update_vertex_buffer(
-  uint32_t bufferId,
-  moonbit_bytes_t data,
-  int dataSize,
-  int offset
-) {
-  rlUpdateVertexBuffer(bufferId, (const void *)data, dataSize, offset);
-}
-
-void
-moonbit_raylib_rl_update_vertex_buffer_elements(
-  uint32_t id,
-  moonbit_bytes_t data,
-  int dataSize,
-  int offset
-) {
-  rlUpdateVertexBufferElements(id, (const void *)data, dataSize, offset);
-}
-
-void
-moonbit_raylib_rl_set_vertex_attribute_default(
-  int locIndex,
-  moonbit_bytes_t value,
-  int attribType,
-  int count
-) {
-  rlSetVertexAttributeDefault(locIndex, (const void *)value, attribType, count);
 }
 
 uint32_t
@@ -209,30 +145,11 @@ moonbit_raylib_rl_update_texture(
 }
 
 uint32_t
-moonbit_raylib_rl_load_shader_buffer(
-  uint32_t size,
-  moonbit_bytes_t data,
-  int usageHint
-) {
-  return rlLoadShaderBuffer(size, (const void *)data, usageHint);
-}
-
-uint32_t
 moonbit_raylib_rl_load_shader_buffer_empty(
   uint32_t size,
   int usageHint
 ) {
   return rlLoadShaderBuffer(size, NULL, usageHint);
-}
-
-void
-moonbit_raylib_rl_update_shader_buffer(
-  uint32_t id,
-  moonbit_bytes_t data,
-  uint32_t dataSize,
-  uint32_t offset
-) {
-  rlUpdateShaderBuffer(id, (const void *)data, dataSize, offset);
 }
 
 moonbit_bytes_t

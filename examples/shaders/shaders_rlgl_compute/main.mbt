@@ -19,30 +19,31 @@ const MaxBufferedTransferts : Int = 48
 // then GolUpdateCmd array starting at offset 16.
 
 ///|
-fn build_transfert_ssbo(commands : Array[(UInt, UInt, UInt, UInt)]) -> Bytes {
-  let buf = @buffer.new(size_hint=16 + MaxBufferedTransferts * 16)
-  let count = commands.length().reinterpret_as_uint()
-  // Write count as little-endian uint32
-  buf.write_uint_le(count)
-  // 12 bytes padding (std430 alignment for the struct array)
-  for _ in 0..<12 {
-    buf.write_byte(b'\x00')
-  }
-  // Write commands
-  for cmd in commands {
-    let (x, y, w, enabled) = cmd
-    buf.write_uint_le(x)
-    buf.write_uint_le(y)
-    buf.write_uint_le(w)
-    buf.write_uint_le(enabled)
-  }
-  // Pad to full size
-  let current = buf.to_bytes().length()
+fn write_u32(buf : @raylib.UByteArray, offset : Int, value : UInt) -> Unit {
+  buf[offset] = (value & 0xFFU).to_byte()
+  buf[offset + 1] = ((value >> 8) & 0xFFU).to_byte()
+  buf[offset + 2] = ((value >> 16) & 0xFFU).to_byte()
+  buf[offset + 3] = ((value >> 24) & 0xFFU).to_byte()
+}
+
+///|
+fn build_transfert_ssbo(
+  commands : Array[(UInt, UInt, UInt, UInt)],
+) -> @raylib.UByteArray {
   let total = 16 + MaxBufferedTransferts * 16
-  for _ in current..<total {
-    buf.write_byte(b'\x00')
+  let buf = @raylib.UByteArray::new(total)
+  // Write count as little-endian uint32 at offset 0 (12 bytes padding follows)
+  write_u32(buf, 0, commands.length().reinterpret_as_uint())
+  // Write commands starting at offset 16
+  for i, cmd in commands {
+    let (x, y, w, enabled) = cmd
+    let off = 16 + i * 16
+    write_u32(buf, off, x)
+    write_u32(buf, off + 4, y)
+    write_u32(buf, off + 8, w)
+    write_u32(buf, off + 12, enabled)
   }
-  buf.to_bytes()
+  buf
 }
 
 ///|
@@ -129,8 +130,9 @@ fn main {
       // Send transfert buffer to GPU
       let ssbo_data = build_transfert_ssbo(commands)
       @rl.update_shader_buffer(
-        ssbo_transfert, ssbo_data, 0U,
+        ssbo_transfert, @rl.Buffer::UByteArray(ssbo_data), 0U,
       )
+      ssbo_data.free()
 
       // Process SSBO commands on GPU
       @rl.enable_shader(gol_transfert_program)

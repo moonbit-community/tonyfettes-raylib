@@ -38,8 +38,6 @@ pub fn begin_vr_stereo_mode(VrStereoConfig) -> Unit
 
 pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> Font
 
-pub fn bytes_as_void(Bytes) -> VoidPointer
-
 pub fn change_directory(Bytes) -> Bool
 
 pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
@@ -371,8 +369,6 @@ pub fn float_array_get(FloatPointer, Int) -> Float
 pub fn float_array_is_null(FloatPointer) -> Bool
 
 pub fn float_array_set(FloatPointer, Int, Float) -> Unit
-
-pub fn float_pointer_as_void(FloatPointer) -> VoidPointer
 
 pub fn gen_image_cellular(Int, Int, Int) -> Image
 
@@ -1262,11 +1258,9 @@ pub fn rl_load_framebuffer() -> UInt
 
 pub fn rl_load_identity() -> Unit
 
-pub fn rl_load_shader_buffer(UInt, Bytes, Int) -> UInt
+pub fn rl_load_shader_buffer(UInt, Pointer, Int) -> UInt
 
 pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
-
-pub fn rl_load_shader_buffer_ptr(UInt, VoidPointer, Int) -> UInt
 
 pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
 
@@ -1280,13 +1274,9 @@ pub fn rl_load_texture_depth(Int, Int, Bool) -> UInt
 
 pub fn rl_load_vertex_array() -> UInt
 
-pub fn rl_load_vertex_buffer(Bytes, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer(Pointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element(Bytes, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_element_ptr(VoidPointer, Int, Bool) -> UInt
-
-pub fn rl_load_vertex_buffer_ptr(VoidPointer, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element(Pointer, Int, Bool) -> UInt
 
 pub fn rl_matrix_mode(Int) -> Unit
 
@@ -1344,9 +1334,7 @@ pub fn rl_set_uniform_sampler(Int, UInt) -> Unit
 
 pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default(Int, Bytes, Int, Int) -> Unit
-
-pub fn rl_set_vertex_attribute_default_ptr(Int, VoidPointer, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default(Int, Pointer, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
 
@@ -1368,19 +1356,13 @@ pub fn rl_unload_vertex_array(UInt) -> Unit
 
 pub fn rl_unload_vertex_buffer(UInt) -> Unit
 
-pub fn rl_update_shader_buffer(UInt, Bytes, UInt, UInt) -> Unit
-
-pub fn rl_update_shader_buffer_ptr(UInt, VoidPointer, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer(UInt, Pointer, UInt, UInt) -> Unit
 
 pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
 
-pub fn rl_update_vertex_buffer(UInt, Bytes, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer(UInt, Pointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements(UInt, Bytes, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_elements_ptr(UInt, VoidPointer, Int, Int) -> Unit
-
-pub fn rl_update_vertex_buffer_ptr(UInt, VoidPointer, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements(UInt, Pointer, Int, Int) -> Unit
 
 pub fn rl_vertex2f(Float, Float) -> Unit
 
@@ -1510,8 +1492,6 @@ pub fn short_array_is_null(ShortPointer) -> Bool
 
 pub fn short_array_set(ShortPointer, Int, Int) -> Unit
 
-pub fn short_pointer_as_void(ShortPointer) -> VoidPointer
-
 pub fn show_cursor() -> Unit
 
 pub fn start_automation_event_recording() -> Unit
@@ -1539,8 +1519,6 @@ pub fn ubyte_array_get(UBytePointer, Int) -> Int
 pub fn ubyte_array_is_null(UBytePointer) -> Bool
 
 pub fn ubyte_array_set(UBytePointer, Int, Byte) -> Unit
-
-pub fn ubyte_pointer_as_void(UBytePointer) -> VoidPointer
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1614,8 +1592,6 @@ pub fn ushort_array_is_null(UShortPointer) -> Bool
 
 pub fn ushort_array_set(UShortPointer, Int, UInt16) -> Unit
 
-pub fn ushort_pointer_as_void(UShortPointer) -> VoidPointer
-
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 
 pub fn vr_stereo_config_left_screen_center(VrStereoConfig) -> Bytes
@@ -1651,6 +1627,8 @@ pub type FilePathList
 
 #external
 pub type FloatPointer
+pub fn FloatPointer::from_pointer(Pointer) -> Self
+pub fn FloatPointer::to_pointer(Self) -> Pointer
 
 pub type Font
 
@@ -1678,12 +1656,19 @@ pub type ModelAnimations
 
 pub type Music
 
+#external
+pub type Pointer
+pub fn Pointer::calloc(Int, Int) -> Self
+pub fn Pointer::free(Self) -> Unit
+
 pub type RenderTexture
 
 pub type Shader
 
 #external
 pub type ShortPointer
+pub fn ShortPointer::from_pointer(Pointer) -> Self
+pub fn ShortPointer::to_pointer(Self) -> Pointer
 
 pub type Sound
 
@@ -1691,12 +1676,13 @@ pub type Texture
 
 #external
 pub type UBytePointer
+pub fn UBytePointer::from_pointer(Pointer) -> Self
+pub fn UBytePointer::to_pointer(Self) -> Pointer
 
 #external
 pub type UShortPointer
-
-#external
-pub type VoidPointer
+pub fn UShortPointer::from_pointer(Pointer) -> Self
+pub fn UShortPointer::to_pointer(Self) -> Pointer
 
 pub type VrStereoConfig
 

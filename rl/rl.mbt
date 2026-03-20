@@ -735,16 +735,16 @@ pub fn load_vertex_array() -> UInt {
 
 ///|
 /// Load a vertex buffer object. Size in bytes is auto-computed from the data.
-pub fn[T : Buffer] load_vertex_buffer(data : T, dynamic : Bool) -> UInt {
+pub fn load_vertex_buffer(data : Buffer, dynamic : Bool) -> UInt {
   let size = data.byte_size()
-  @raylib.rl_load_vertex_buffer_ptr(data.as_pointer(), size, dynamic)
+  @raylib.rl_load_vertex_buffer(data.to_pointer(), size, dynamic)
 }
 
 ///|
 /// Load vertex buffer elements object. Size in bytes is auto-computed.
-pub fn[T : Buffer] load_vertex_buffer_element(data : T, dynamic : Bool) -> UInt {
+pub fn load_vertex_buffer_element(data : Buffer, dynamic : Bool) -> UInt {
   let size = data.byte_size()
-  @raylib.rl_load_vertex_buffer_element_ptr(data.as_pointer(), size, dynamic)
+  @raylib.rl_load_vertex_buffer_element(data.to_pointer(), size, dynamic)
 }
 
 ///|
@@ -761,34 +761,24 @@ pub fn unload_vertex_buffer(vbo_id : UInt) -> Unit {
 
 ///|
 /// Update vertex buffer object data on GPU buffer. Data size is auto-computed.
-pub fn[T : Buffer] update_vertex_buffer(
+pub fn update_vertex_buffer(
   buffer_id : UInt,
-  data : T,
+  data : Buffer,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
-  @raylib.rl_update_vertex_buffer_ptr(
-    buffer_id,
-    data.as_pointer(),
-    size,
-    offset,
-  )
+  @raylib.rl_update_vertex_buffer(buffer_id, data.to_pointer(), size, offset)
 }
 
 ///|
 /// Update vertex buffer elements data on GPU buffer. Data size is auto-computed.
-pub fn[T : Buffer] update_vertex_buffer_elements(
+pub fn update_vertex_buffer_elements(
   id : UInt,
-  data : T,
+  data : Buffer,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
-  @raylib.rl_update_vertex_buffer_elements_ptr(
-    id,
-    data.as_pointer(),
-    size,
-    offset,
-  )
+  @raylib.rl_update_vertex_buffer_elements(id, data.to_pointer(), size, offset)
 }
 
 ///|
@@ -814,15 +804,15 @@ pub fn set_vertex_attribute(
 
 ///|
 /// Set vertex attribute default value, when attribute is not provided.
-pub fn[T : Buffer] set_vertex_attribute_default(
+pub fn set_vertex_attribute_default(
   loc_index : Int,
-  value : T,
+  value : Buffer,
   attrib_type : Int,
   count : Int,
 ) -> Unit {
-  @raylib.rl_set_vertex_attribute_default_ptr(
+  @raylib.rl_set_vertex_attribute_default(
     loc_index,
-    value.as_pointer(),
+    value.to_pointer(),
     attrib_type,
     count,
   )
@@ -856,7 +846,7 @@ pub fn draw_vertex_array_elements(
   match buffer {
     None => @raylib.rl_draw_vertex_array_elements(offset, count)
     Some(buf) =>
-      @raylib.rl_draw_vertex_array_elements_client(offset, count, buf.raw())
+      @raylib.rl_draw_vertex_array_elements_client(offset, count, buf.pointer())
   }
 }
 
@@ -876,7 +866,7 @@ pub fn draw_vertex_array_elements_instanced(
       @raylib.rl_draw_vertex_array_elements_instanced_client(
         offset,
         count,
-        buf.raw(),
+        buf.pointer(),
         instances,
       )
   }
@@ -984,9 +974,9 @@ pub fn compute_shader_dispatch(
 ///|
 /// Load shader storage buffer object (SSBO) with initial data.
 /// Size in bytes is auto-computed from the data.
-pub fn[T : Buffer] load_shader_buffer(data : T, usage_hint : Int) -> UInt {
+pub fn load_shader_buffer(data : Buffer, usage_hint : Int) -> UInt {
   let size = data.byte_size().reinterpret_as_uint()
-  @raylib.rl_load_shader_buffer_ptr(size, data.as_pointer(), usage_hint)
+  @raylib.rl_load_shader_buffer(size, data.to_pointer(), usage_hint)
 }
 
 ///|
@@ -1003,13 +993,9 @@ pub fn unload_shader_buffer(ssbo_id : UInt) -> Unit {
 
 ///|
 /// Update SSBO buffer data. Data size is auto-computed.
-pub fn[T : Buffer] update_shader_buffer(
-  id : UInt,
-  data : T,
-  offset : UInt,
-) -> Unit {
+pub fn update_shader_buffer(id : UInt, data : Buffer, offset : UInt) -> Unit {
   let size = data.byte_size().reinterpret_as_uint()
-  @raylib.rl_update_shader_buffer_ptr(id, data.as_pointer(), size, offset)
+  @raylib.rl_update_shader_buffer(id, data.to_pointer(), size, offset)
 }
 
 ///|

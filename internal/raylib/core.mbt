@@ -1321,67 +1321,19 @@ pub extern "c" fn rl_load_vertex_array() -> UInt = "rlLoadVertexArray"
 
 ///|
 /// Load a vertex buffer object.
-#borrow(buffer)
 pub extern "c" fn rl_load_vertex_buffer(
-  buffer : Bytes,
+  buffer : Pointer,
   size : Int,
   dynamic : Bool,
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer"
 
 ///|
 /// Load vertex buffer elements object.
-#borrow(buffer)
 pub extern "c" fn rl_load_vertex_buffer_element(
-  buffer : Bytes,
+  buffer : Pointer,
   size : Int,
   dynamic : Bool,
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element"
-
-// ============================================================================
-// rlgl: Pointer type casts (identity at ABI level)
-// ============================================================================
-
-///|
-/// Cast FloatPointer to VoidPointer.
-pub extern "c" fn float_pointer_as_void(p : FloatPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
-
-///|
-/// Cast UShortPointer to VoidPointer.
-pub extern "c" fn ushort_pointer_as_void(p : UShortPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
-
-///|
-/// Cast ShortPointer to VoidPointer.
-pub extern "c" fn short_pointer_as_void(p : ShortPointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
-
-///|
-/// Cast UBytePointer to VoidPointer.
-pub extern "c" fn ubyte_pointer_as_void(p : UBytePointer) -> VoidPointer = "moonbit_raylib_identity_ptr"
-
-///|
-/// Cast Bytes to VoidPointer. Safe when used within a single expression
-/// (no GC allocation between cast and FFI call).
-#borrow(b)
-pub extern "c" fn bytes_as_void(b : Bytes) -> VoidPointer = "moonbit_raylib_identity_ptr"
-
-// ============================================================================
-// rlgl: VoidPointer-based buffer operations
-// ============================================================================
-
-///|
-/// Load a vertex buffer object from a VoidPointer.
-pub extern "c" fn rl_load_vertex_buffer_ptr(
-  buffer : VoidPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
-
-///|
-/// Load vertex buffer elements object from a VoidPointer.
-pub extern "c" fn rl_load_vertex_buffer_element_ptr(
-  buffer : VoidPointer,
-  size : Int,
-  dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
 
 ///|
 /// Unload vertex array (vao).
@@ -1393,50 +1345,21 @@ pub extern "c" fn rl_unload_vertex_buffer(vbo_id : UInt) = "rlUnloadVertexBuffer
 
 ///|
 /// Update vertex buffer object data on GPU buffer.
-#borrow(data)
 pub extern "c" fn rl_update_vertex_buffer(
   buffer_id : UInt,
-  data : Bytes,
+  data : Pointer,
   data_size : Int,
   offset : Int,
 ) = "moonbit_raylib_rl_update_vertex_buffer"
 
 ///|
 /// Update vertex buffer elements data on GPU buffer.
-#borrow(data)
 pub extern "c" fn rl_update_vertex_buffer_elements(
   id : UInt,
-  data : Bytes,
+  data : Pointer,
   data_size : Int,
   offset : Int,
 ) = "moonbit_raylib_rl_update_vertex_buffer_elements"
-
-///|
-/// Update vertex buffer object data from a VoidPointer.
-pub extern "c" fn rl_update_vertex_buffer_ptr(
-  buffer_id : UInt,
-  data : VoidPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_typed"
-
-///|
-/// Update vertex buffer elements data from a VoidPointer.
-pub extern "c" fn rl_update_vertex_buffer_elements_ptr(
-  id : UInt,
-  data : VoidPointer,
-  data_size : Int,
-  offset : Int,
-) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
-
-///|
-/// Set vertex attribute default value from a VoidPointer.
-pub extern "c" fn rl_set_vertex_attribute_default_ptr(
-  loc_index : Int,
-  value : VoidPointer,
-  attrib_type : Int,
-  count : Int,
-) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
 
 ///|
 /// Set vertex attribute data divisor.
@@ -1455,10 +1378,9 @@ pub extern "c" fn rl_set_vertex_attribute(
 
 ///|
 /// Set vertex attribute default value, when attribute is not provided.
-#borrow(value)
 pub extern "c" fn rl_set_vertex_attribute_default(
   loc_index : Int,
-  value : Bytes,
+  value : Pointer,
   attrib_type : Int,
   count : Int,
 ) = "moonbit_raylib_rl_set_vertex_attribute_default"
@@ -1599,21 +1521,12 @@ pub extern "c" fn rl_compute_shader_dispatch(
 // ============================================================================
 
 ///|
-/// Load shader storage buffer object (SSBO).
-#borrow(data)
+/// Load shader storage buffer object (SSBO) with initial data.
 pub extern "c" fn rl_load_shader_buffer(
   size : UInt,
-  data : Bytes,
+  data : Pointer,
   usage_hint : Int,
 ) -> UInt = "moonbit_raylib_rl_load_shader_buffer"
-
-///|
-/// Load SSBO from a VoidPointer.
-pub extern "c" fn rl_load_shader_buffer_ptr(
-  size : UInt,
-  data : VoidPointer,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
 
 ///|
 /// Load shader storage buffer object (SSBO) with no initial data.
@@ -1628,22 +1541,12 @@ pub extern "c" fn rl_unload_shader_buffer(ssbo_id : UInt) = "rlUnloadShaderBuffe
 
 ///|
 /// Update SSBO buffer data.
-#borrow(data)
 pub extern "c" fn rl_update_shader_buffer(
   id : UInt,
-  data : Bytes,
+  data : Pointer,
   data_size : UInt,
   offset : UInt,
 ) = "moonbit_raylib_rl_update_shader_buffer"
-
-///|
-/// Update SSBO buffer data from a VoidPointer.
-pub extern "c" fn rl_update_shader_buffer_ptr(
-  id : UInt,
-  data : VoidPointer,
-  data_size : UInt,
-  offset : UInt,
-) = "moonbit_raylib_rl_update_shader_buffer_typed"
 
 ///|
 /// Read SSBO buffer data (GPU->CPU).

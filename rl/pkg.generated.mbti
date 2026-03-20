@@ -334,7 +334,7 @@ pub fn load_framebuffer() -> UInt
 
 pub fn load_identity() -> Unit
 
-pub fn[T : Buffer] load_shader_buffer(T, Int) -> UInt
+pub fn load_shader_buffer(Buffer, Int) -> UInt
 
 pub fn load_shader_buffer_empty(UInt, Int) -> UInt
 
@@ -350,9 +350,9 @@ pub fn load_texture_depth(Int, Int, Bool) -> UInt
 
 pub fn load_vertex_array() -> UInt
 
-pub fn[T : Buffer] load_vertex_buffer(T, Bool) -> UInt
+pub fn load_vertex_buffer(Buffer, Bool) -> UInt
 
-pub fn[T : Buffer] load_vertex_buffer_element(T, Bool) -> UInt
+pub fn load_vertex_buffer_element(Buffer, Bool) -> UInt
 
 pub fn matrix_mode(Int) -> Unit
 
@@ -410,7 +410,7 @@ pub fn set_uniform_sampler(Int, UInt) -> Unit
 
 pub fn set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
 
-pub fn[T : Buffer] set_vertex_attribute_default(Int, T, Int, Int) -> Unit
+pub fn set_vertex_attribute_default(Int, Buffer, Int, Int) -> Unit
 
 pub fn set_vertex_attribute_divisor(UInt, Int) -> Unit
 
@@ -432,13 +432,13 @@ pub fn unload_vertex_array(UInt) -> Unit
 
 pub fn unload_vertex_buffer(UInt) -> Unit
 
-pub fn[T : Buffer] update_shader_buffer(UInt, T, UInt) -> Unit
+pub fn update_shader_buffer(UInt, Buffer, UInt) -> Unit
 
 pub fn update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
 
-pub fn[T : Buffer] update_vertex_buffer(UInt, T, Int) -> Unit
+pub fn update_vertex_buffer(UInt, Buffer, Int) -> Unit
 
-pub fn[T : Buffer] update_vertex_buffer_elements(UInt, T, Int) -> Unit
+pub fn update_vertex_buffer_elements(UInt, Buffer, Int) -> Unit
 
 pub fn vertex2f(Float, Float) -> Unit
 
@@ -451,17 +451,16 @@ pub fn viewport(Int, Int, Int, Int) -> Unit
 // Errors
 
 // Types and methods
+pub(all) enum Buffer {
+  FloatArray(@tonyfettes/raylib.FloatArray)
+  UShortArray(@tonyfettes/raylib.UShortArray)
+  ShortArray(@tonyfettes/raylib.ShortArray)
+  UByteArray(@tonyfettes/raylib.UByteArray)
+}
+pub fn Buffer::byte_size(Self) -> Int
+pub fn Buffer::to_pointer(Self) -> @tonyfettes/raylib/internal/raylib.Pointer
 
 // Type aliases
 
 // Traits
-pub(open) trait Buffer {
-  as_pointer(Self) -> @tonyfettes/raylib/internal/raylib.VoidPointer
-  byte_size(Self) -> Int
-}
-pub impl Buffer for Bytes
-pub impl Buffer for @tonyfettes/raylib.FloatArray
-pub impl Buffer for @tonyfettes/raylib.ShortArray
-pub impl Buffer for @tonyfettes/raylib.UByteArray
-pub impl Buffer for @tonyfettes/raylib.UShortArray
 
