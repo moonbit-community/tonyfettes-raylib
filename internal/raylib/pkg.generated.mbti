@@ -364,11 +364,11 @@ pub fn file_path_list_count(FilePathList) -> Int
 
 pub fn file_path_list_get(FilePathList, Int) -> Bytes
 
-pub fn float_array_get(FloatArray, Int) -> Float
+pub fn float_array_get(FloatPointer, Int) -> Float
 
-pub fn float_array_is_null(FloatArray) -> Bool
+pub fn float_array_is_null(FloatPointer) -> Bool
 
-pub fn float_array_set(FloatArray, Int, Float) -> Unit
+pub fn float_array_set(FloatPointer, Int, Float) -> Unit
 
 pub fn gen_image_cellular(Int, Int, Int) -> Image
 
@@ -514,23 +514,23 @@ pub fn get_mesh_bone_matrices(Mesh) -> MatrixArray
 
 pub fn get_mesh_bounding_box(Mesh) -> Bytes
 
-pub fn get_mesh_colors(Mesh) -> UByteArray
+pub fn get_mesh_colors(Mesh) -> UBytePointer
 
-pub fn get_mesh_indices(Mesh) -> UShortArray
+pub fn get_mesh_indices(Mesh) -> UShortPointer
 
-pub fn get_mesh_normals(Mesh) -> FloatArray
+pub fn get_mesh_normals(Mesh) -> FloatPointer
 
-pub fn get_mesh_tangents(Mesh) -> FloatArray
+pub fn get_mesh_tangents(Mesh) -> FloatPointer
 
-pub fn get_mesh_texcoords(Mesh) -> FloatArray
+pub fn get_mesh_texcoords(Mesh) -> FloatPointer
 
-pub fn get_mesh_texcoords2(Mesh) -> FloatArray
+pub fn get_mesh_texcoords2(Mesh) -> FloatPointer
 
 pub fn get_mesh_triangle_count(Mesh) -> Int
 
 pub fn get_mesh_vertex_count(Mesh) -> Int
 
-pub fn get_mesh_vertices(Mesh) -> FloatArray
+pub fn get_mesh_vertices(Mesh) -> FloatPointer
 
 pub fn get_model_animation_bone_count(ModelAnimations, Int) -> Int
 
@@ -682,11 +682,11 @@ pub fn get_touch_y() -> Int
 
 pub fn get_wave_channels(Wave) -> Int
 
-pub fn get_wave_data_float(Wave) -> FloatArray
+pub fn get_wave_data_float(Wave) -> FloatPointer
 
-pub fn get_wave_data_short(Wave) -> ShortArray
+pub fn get_wave_data_short(Wave) -> ShortPointer
 
-pub fn get_wave_data_ubyte(Wave) -> UByteArray
+pub fn get_wave_data_ubyte(Wave) -> UBytePointer
 
 pub fn get_wave_frame_count(Wave) -> Int
 
@@ -1012,7 +1012,7 @@ pub fn load_wave(Bytes) -> Wave
 
 pub fn load_wave_from_memory(Bytes, Bytes, Int) -> Wave
 
-pub fn load_wave_samples(Wave) -> FloatArray
+pub fn load_wave_samples(Wave) -> FloatPointer
 
 pub fn make_directory(Bytes) -> Int
 
@@ -1162,11 +1162,11 @@ pub fn rl_draw_vertex_array(Int, Int) -> Unit
 
 pub fn rl_draw_vertex_array_elements(Int, Int) -> Unit
 
-pub fn rl_draw_vertex_array_elements_client(Int, Int, UShortArray) -> Unit
+pub fn rl_draw_vertex_array_elements_client(Int, Int, UShortPointer) -> Unit
 
 pub fn rl_draw_vertex_array_elements_instanced(Int, Int, Int) -> Unit
 
-pub fn rl_draw_vertex_array_elements_instanced_client(Int, Int, UShortArray, Int) -> Unit
+pub fn rl_draw_vertex_array_elements_instanced_client(Int, Int, UShortPointer, Int) -> Unit
 
 pub fn rl_draw_vertex_array_instanced(Int, Int, Int) -> Unit
 
@@ -1262,13 +1262,13 @@ pub fn rl_load_shader_buffer(UInt, Bytes, Int) -> UInt
 
 pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
 
-pub fn rl_load_shader_buffer_floats(UInt, FloatArray, Int) -> UInt
+pub fn rl_load_shader_buffer_floats(UInt, FloatPointer, Int) -> UInt
 
-pub fn rl_load_shader_buffer_shorts(UInt, ShortArray, Int) -> UInt
+pub fn rl_load_shader_buffer_shorts(UInt, ShortPointer, Int) -> UInt
 
-pub fn rl_load_shader_buffer_ubytes(UInt, UByteArray, Int) -> UInt
+pub fn rl_load_shader_buffer_ubytes(UInt, UBytePointer, Int) -> UInt
 
-pub fn rl_load_shader_buffer_ushorts(UInt, UShortArray, Int) -> UInt
+pub fn rl_load_shader_buffer_ushorts(UInt, UShortPointer, Int) -> UInt
 
 pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
 
@@ -1286,21 +1286,21 @@ pub fn rl_load_vertex_buffer(Bytes, Int, Bool) -> UInt
 
 pub fn rl_load_vertex_buffer_element(Bytes, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_floats(FloatArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element_floats(FloatPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_shorts(ShortArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element_shorts(ShortPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_ubytes(UByteArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element_ubytes(UBytePointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_element_ushorts(UShortArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_element_ushorts(UShortPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_floats(FloatArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_floats(FloatPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_shorts(ShortArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_shorts(ShortPointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_ubytes(UByteArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_ubytes(UBytePointer, Int, Bool) -> UInt
 
-pub fn rl_load_vertex_buffer_ushorts(UShortArray, Int, Bool) -> UInt
+pub fn rl_load_vertex_buffer_ushorts(UShortPointer, Int, Bool) -> UInt
 
 pub fn rl_matrix_mode(Int) -> Unit
 
@@ -1360,13 +1360,13 @@ pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_default(Int, Bytes, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default_floats(Int, FloatArray, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default_floats(Int, FloatPointer, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default_shorts(Int, ShortArray, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default_shorts(Int, ShortPointer, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default_ubytes(Int, UByteArray, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default_ubytes(Int, UBytePointer, Int, Int) -> Unit
 
-pub fn rl_set_vertex_attribute_default_ushorts(Int, UShortArray, Int, Int) -> Unit
+pub fn rl_set_vertex_attribute_default_ushorts(Int, UShortPointer, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
 
@@ -1390,13 +1390,13 @@ pub fn rl_unload_vertex_buffer(UInt) -> Unit
 
 pub fn rl_update_shader_buffer(UInt, Bytes, UInt, UInt) -> Unit
 
-pub fn rl_update_shader_buffer_floats(UInt, FloatArray, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer_floats(UInt, FloatPointer, UInt, UInt) -> Unit
 
-pub fn rl_update_shader_buffer_shorts(UInt, ShortArray, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer_shorts(UInt, ShortPointer, UInt, UInt) -> Unit
 
-pub fn rl_update_shader_buffer_ubytes(UInt, UByteArray, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer_ubytes(UInt, UBytePointer, UInt, UInt) -> Unit
 
-pub fn rl_update_shader_buffer_ushorts(UInt, UShortArray, UInt, UInt) -> Unit
+pub fn rl_update_shader_buffer_ushorts(UInt, UShortPointer, UInt, UInt) -> Unit
 
 pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
 
@@ -1404,21 +1404,21 @@ pub fn rl_update_vertex_buffer(UInt, Bytes, Int, Int) -> Unit
 
 pub fn rl_update_vertex_buffer_elements(UInt, Bytes, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_floats(UInt, FloatArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements_floats(UInt, FloatPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_shorts(UInt, ShortArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements_shorts(UInt, ShortPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_ubytes(UInt, UByteArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements_ubytes(UInt, UBytePointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_elements_ushorts(UInt, UShortArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_elements_ushorts(UInt, UShortPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_floats(UInt, FloatArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_floats(UInt, FloatPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_shorts(UInt, ShortArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_shorts(UInt, ShortPointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_ubytes(UInt, UByteArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_ubytes(UInt, UBytePointer, Int, Int) -> Unit
 
-pub fn rl_update_vertex_buffer_ushorts(UInt, UShortArray, Int, Int) -> Unit
+pub fn rl_update_vertex_buffer_ushorts(UInt, UShortPointer, Int, Int) -> Unit
 
 pub fn rl_vertex2f(Float, Float) -> Unit
 
@@ -1542,11 +1542,11 @@ pub fn set_window_state(Int) -> Unit
 
 pub fn set_window_title(Bytes) -> Unit
 
-pub fn short_array_get(ShortArray, Int) -> Int
+pub fn short_array_get(ShortPointer, Int) -> Int
 
-pub fn short_array_is_null(ShortArray) -> Bool
+pub fn short_array_is_null(ShortPointer) -> Bool
 
-pub fn short_array_set(ShortArray, Int, Int) -> Unit
+pub fn short_array_set(ShortPointer, Int, Int) -> Unit
 
 pub fn show_cursor() -> Unit
 
@@ -1570,11 +1570,11 @@ pub fn toggle_fullscreen() -> Unit
 
 pub fn trace_log(Int, Bytes) -> Unit
 
-pub fn ubyte_array_get(UByteArray, Int) -> Int
+pub fn ubyte_array_get(UBytePointer, Int) -> Int
 
-pub fn ubyte_array_is_null(UByteArray) -> Bool
+pub fn ubyte_array_is_null(UBytePointer) -> Bool
 
-pub fn ubyte_array_set(UByteArray, Int, Byte) -> Unit
+pub fn ubyte_array_set(UBytePointer, Int, Byte) -> Unit
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1616,7 +1616,7 @@ pub fn unload_vr_stereo_config(VrStereoConfig) -> Unit
 
 pub fn unload_wave(Wave) -> Unit
 
-pub fn unload_wave_samples(FloatArray) -> Unit
+pub fn unload_wave_samples(FloatPointer) -> Unit
 
 pub fn update_audio_stream(AudioStream, Bytes, Int) -> Unit
 
@@ -1642,11 +1642,11 @@ pub fn update_texture_rec(Texture, Bytes, Bytes) -> Unit
 
 pub fn upload_mesh(Mesh, Int) -> Unit
 
-pub fn ushort_array_get(UShortArray, Int) -> Int
+pub fn ushort_array_get(UShortPointer, Int) -> Int
 
-pub fn ushort_array_is_null(UShortArray) -> Bool
+pub fn ushort_array_is_null(UShortPointer) -> Bool
 
-pub fn ushort_array_set(UShortArray, Int, UInt16) -> Unit
+pub fn ushort_array_set(UShortPointer, Int, UInt16) -> Unit
 
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 
@@ -1682,7 +1682,7 @@ pub type AutomationEventList
 pub type FilePathList
 
 #external
-pub type FloatArray
+pub type FloatPointer
 
 pub type Font
 
@@ -1715,17 +1715,17 @@ pub type RenderTexture
 pub type Shader
 
 #external
-pub type ShortArray
+pub type ShortPointer
 
 pub type Sound
 
 pub type Texture
 
 #external
-pub type UByteArray
+pub type UBytePointer
 
 #external
-pub type UShortArray
+pub type UShortPointer
 
 pub type VrStereoConfig
 

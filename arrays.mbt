@@ -5,7 +5,7 @@
 // ============================================================================
 
 ///|
-struct FloatArray(@ffi.FloatArray, Int)
+struct FloatArray(@ffi.FloatPointer, Int)
 
 ///|
 fn FloatArray::is_null(self : FloatArray) -> Bool {
@@ -14,7 +14,7 @@ fn FloatArray::is_null(self : FloatArray) -> Bool {
 
 ///|
 /// Get the raw FFI pointer for passing to low-level rlgl functions.
-pub fn FloatArray::raw(self : FloatArray) -> @ffi.FloatArray {
+pub fn FloatArray::raw(self : FloatArray) -> @ffi.FloatPointer {
   self.0
 }
 
@@ -47,7 +47,7 @@ pub fn FloatArray::op_set(
 // ============================================================================
 
 ///|
-struct UByteArray(@ffi.UByteArray, Int)
+struct UByteArray(@ffi.UBytePointer, Int)
 
 ///|
 fn UByteArray::is_null(self : UByteArray) -> Bool {
@@ -56,7 +56,7 @@ fn UByteArray::is_null(self : UByteArray) -> Bool {
 
 ///|
 /// Get the raw FFI pointer for passing to low-level rlgl functions.
-pub fn UByteArray::raw(self : UByteArray) -> @ffi.UByteArray {
+pub fn UByteArray::raw(self : UByteArray) -> @ffi.UBytePointer {
   self.0
 }
 
@@ -85,7 +85,7 @@ pub fn UByteArray::op_set(self : UByteArray, index : Int, value : Byte) -> Unit 
 // ============================================================================
 
 ///|
-struct ShortArray(@ffi.ShortArray, Int)
+struct ShortArray(@ffi.ShortPointer, Int)
 
 ///|
 fn ShortArray::is_null(self : ShortArray) -> Bool {
@@ -94,7 +94,7 @@ fn ShortArray::is_null(self : ShortArray) -> Bool {
 
 ///|
 /// Get the raw FFI pointer for passing to low-level rlgl functions.
-pub fn ShortArray::raw(self : ShortArray) -> @ffi.ShortArray {
+pub fn ShortArray::raw(self : ShortArray) -> @ffi.ShortPointer {
   self.0
 }
 
@@ -123,7 +123,7 @@ pub fn ShortArray::op_set(self : ShortArray, index : Int, value : Int) -> Unit {
 // ============================================================================
 
 ///|
-struct UShortArray(@ffi.UShortArray, Int)
+struct UShortArray(@ffi.UShortPointer, Int)
 
 ///|
 fn UShortArray::is_null(self : UShortArray) -> Bool {
@@ -132,7 +132,7 @@ fn UShortArray::is_null(self : UShortArray) -> Bool {
 
 ///|
 /// Get the raw FFI pointer for passing to low-level rlgl functions.
-pub fn UShortArray::raw(self : UShortArray) -> @ffi.UShortArray {
+pub fn UShortArray::raw(self : UShortArray) -> @ffi.UShortPointer {
   self.0
 }
 

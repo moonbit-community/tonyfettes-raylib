@@ -1595,7 +1595,7 @@ type FloatArray
 pub fn FloatArray::length(Self) -> Int
 pub fn FloatArray::op_get(Self, Int) -> Float
 pub fn FloatArray::op_set(Self, Int, Float) -> Unit
-pub fn FloatArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.FloatArray
+pub fn FloatArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.FloatPointer
 
 type Font
 #as_free_fn(get_font_base_size)
@@ -2254,7 +2254,7 @@ type ShortArray
 pub fn ShortArray::length(Self) -> Int
 pub fn ShortArray::op_get(Self, Int) -> Int
 pub fn ShortArray::op_set(Self, Int, Int) -> Unit
-pub fn ShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.ShortArray
+pub fn ShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.ShortPointer
 
 type Sound
 #as_free_fn(is_sound_playing)
@@ -2341,13 +2341,13 @@ type UByteArray
 pub fn UByteArray::length(Self) -> Int
 pub fn UByteArray::op_get(Self, Int) -> Int
 pub fn UByteArray::op_set(Self, Int, Byte) -> Unit
-pub fn UByteArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UByteArray
+pub fn UByteArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UBytePointer
 
 type UShortArray
 pub fn UShortArray::length(Self) -> Int
 pub fn UShortArray::op_get(Self, Int) -> Int
 pub fn UShortArray::op_set(Self, Int, UInt16) -> Unit
-pub fn UShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UShortArray
+pub fn UShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UShortPointer
 
 pub struct Vector2 {
   x : Float

@@ -197,10 +197,10 @@ pub extern "c" fn wave_format(
 
 ///|
 #borrow(wave)
-pub extern "c" fn load_wave_samples(wave : Wave) -> FloatArray = "moonbit_raylib_load_wave_samples"
+pub extern "c" fn load_wave_samples(wave : Wave) -> FloatPointer = "moonbit_raylib_load_wave_samples"
 
 ///|
-pub extern "c" fn unload_wave_samples(samples : FloatArray) = "moonbit_raylib_unload_wave_samples"
+pub extern "c" fn unload_wave_samples(samples : FloatPointer) = "moonbit_raylib_unload_wave_samples"
 
 ///|
 #borrow(wave)
@@ -220,15 +220,15 @@ pub extern "c" fn get_wave_channels(wave : Wave) -> Int = "moonbit_raylib_get_wa
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_data_float(wave : Wave) -> FloatArray = "moonbit_raylib_get_wave_data"
+pub extern "c" fn get_wave_data_float(wave : Wave) -> FloatPointer = "moonbit_raylib_get_wave_data"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_data_short(wave : Wave) -> ShortArray = "moonbit_raylib_get_wave_data"
+pub extern "c" fn get_wave_data_short(wave : Wave) -> ShortPointer = "moonbit_raylib_get_wave_data"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_data_ubyte(wave : Wave) -> UByteArray = "moonbit_raylib_get_wave_data"
+pub extern "c" fn get_wave_data_ubyte(wave : Wave) -> UBytePointer = "moonbit_raylib_get_wave_data"
 
 // ============================================================================
 // AudioStream management

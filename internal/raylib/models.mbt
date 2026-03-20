@@ -761,60 +761,68 @@ pub extern "c" fn gen_mesh_from_points(
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
 
 // ============================================================================
-// FloatArray operations (#external — raw float*)
+// FloatPointer operations (#external — raw float*)
 // ============================================================================
 
 ///|
-pub extern "c" fn float_array_is_null(arr : FloatArray) -> Bool = "moonbit_raylib_float_array_is_null"
+pub extern "c" fn float_array_is_null(arr : FloatPointer) -> Bool = "moonbit_raylib_float_array_is_null"
 
 ///|
-pub extern "c" fn float_array_get(arr : FloatArray, index : Int) -> Float = "moonbit_raylib_float_array_get"
+pub extern "c" fn float_array_get(arr : FloatPointer, index : Int) -> Float = "moonbit_raylib_float_array_get"
 
 ///|
-pub extern "c" fn float_array_set(arr : FloatArray, index : Int, value : Float) = "moonbit_raylib_float_array_set"
+pub extern "c" fn float_array_set(
+  arr : FloatPointer,
+  index : Int,
+  value : Float,
+) = "moonbit_raylib_float_array_set"
 
 // ============================================================================
-// UByteArray operations (#external — raw unsigned char*)
-// ============================================================================
-
-///|
-pub extern "c" fn ubyte_array_is_null(arr : UByteArray) -> Bool = "moonbit_raylib_ubyte_array_is_null"
-
-///|
-pub extern "c" fn ubyte_array_get(arr : UByteArray, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
-
-///|
-pub extern "c" fn ubyte_array_set(arr : UByteArray, index : Int, value : Byte) = "moonbit_raylib_ubyte_array_set"
-
-// ============================================================================
-// UShortArray operations (#external — raw unsigned short*)
+// UBytePointer operations (#external — raw unsigned char*)
 // ============================================================================
 
 ///|
-pub extern "c" fn ushort_array_is_null(arr : UShortArray) -> Bool = "moonbit_raylib_ushort_array_is_null"
+pub extern "c" fn ubyte_array_is_null(arr : UBytePointer) -> Bool = "moonbit_raylib_ubyte_array_is_null"
 
 ///|
-pub extern "c" fn ushort_array_get(arr : UShortArray, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
+pub extern "c" fn ubyte_array_get(arr : UBytePointer, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
+
+///|
+pub extern "c" fn ubyte_array_set(
+  arr : UBytePointer,
+  index : Int,
+  value : Byte,
+) = "moonbit_raylib_ubyte_array_set"
+
+// ============================================================================
+// UShortPointer operations (#external — raw unsigned short*)
+// ============================================================================
+
+///|
+pub extern "c" fn ushort_array_is_null(arr : UShortPointer) -> Bool = "moonbit_raylib_ushort_array_is_null"
+
+///|
+pub extern "c" fn ushort_array_get(arr : UShortPointer, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
 
 ///|
 pub extern "c" fn ushort_array_set(
-  arr : UShortArray,
+  arr : UShortPointer,
   index : Int,
   value : UInt16,
 ) = "moonbit_raylib_ushort_array_set"
 
 // ============================================================================
-// ShortArray operations (#external — raw short*)
+// ShortPointer operations (#external — raw short*)
 // ============================================================================
 
 ///|
-pub extern "c" fn short_array_is_null(arr : ShortArray) -> Bool = "moonbit_raylib_short_array_is_null"
+pub extern "c" fn short_array_is_null(arr : ShortPointer) -> Bool = "moonbit_raylib_short_array_is_null"
 
 ///|
-pub extern "c" fn short_array_get(arr : ShortArray, index : Int) -> Int = "moonbit_raylib_short_array_get"
+pub extern "c" fn short_array_get(arr : ShortPointer, index : Int) -> Int = "moonbit_raylib_short_array_get"
 
 ///|
-pub extern "c" fn short_array_set(arr : ShortArray, index : Int, value : Int) = "moonbit_raylib_short_array_set"
+pub extern "c" fn short_array_set(arr : ShortPointer, index : Int, value : Int) = "moonbit_raylib_short_array_set"
 
 // ============================================================================
 // MatrixArray operations (#external — raw Matrix*)
@@ -938,28 +946,28 @@ pub extern "c" fn get_mesh_triangle_count(mesh : Mesh) -> Int = "moonbit_raylib_
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_vertices(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_vertices"
+pub extern "c" fn get_mesh_vertices(mesh : Mesh) -> FloatPointer = "moonbit_raylib_get_mesh_vertices"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_texcoords(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords"
+pub extern "c" fn get_mesh_texcoords(mesh : Mesh) -> FloatPointer = "moonbit_raylib_get_mesh_texcoords"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_texcoords2(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_texcoords2"
+pub extern "c" fn get_mesh_texcoords2(mesh : Mesh) -> FloatPointer = "moonbit_raylib_get_mesh_texcoords2"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_normals(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_normals"
+pub extern "c" fn get_mesh_normals(mesh : Mesh) -> FloatPointer = "moonbit_raylib_get_mesh_normals"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_tangents(mesh : Mesh) -> FloatArray = "moonbit_raylib_get_mesh_tangents"
+pub extern "c" fn get_mesh_tangents(mesh : Mesh) -> FloatPointer = "moonbit_raylib_get_mesh_tangents"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UByteArray = "moonbit_raylib_get_mesh_colors"
+pub extern "c" fn get_mesh_colors(mesh : Mesh) -> UBytePointer = "moonbit_raylib_get_mesh_colors"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortArray = "moonbit_raylib_get_mesh_indices"
+pub extern "c" fn get_mesh_indices(mesh : Mesh) -> UShortPointer = "moonbit_raylib_get_mesh_indices"

@@ -61,19 +61,19 @@ pub type MaterialMapArray
 
 ///|
 #external
-pub type FloatArray
+pub type FloatPointer
 
 ///|
 #external
-pub type UByteArray
+pub type UBytePointer
 
 ///|
 #external
-pub type ShortArray
+pub type ShortPointer
 
 ///|
 #external
-pub type UShortArray
+pub type UShortPointer
 
 ///|
 #external
