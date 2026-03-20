@@ -28,12 +28,14 @@ pub fn FloatArray::length(self : FloatArray) -> Int {
 /// Allocate a zero-initialized float array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn FloatArray::new(count : Int) -> FloatArray {
+  guard count >= 0
   let ptr = @ffi.Pointer::calloc(count, 4)
   FloatArray(@ffi.FloatPointer::from_pointer(ptr), count)
 }
 
 ///|
-/// Free the underlying C memory. Only call on arrays created with `make()`.
+/// Free the underlying C memory. Only call on arrays created with `new()`,
+/// not on views into raylib-managed memory (e.g., from `Mesh::vertices()`).
 pub fn FloatArray::free(self : FloatArray) -> Unit {
   self.0.to_pointer().free()
 }
@@ -84,12 +86,14 @@ pub fn UByteArray::length(self : UByteArray) -> Int {
 /// Allocate a zero-initialized unsigned byte array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn UByteArray::new(count : Int) -> UByteArray {
+  guard count >= 0
   let ptr = @ffi.Pointer::calloc(count, 1)
   UByteArray(@ffi.UBytePointer::from_pointer(ptr), count)
 }
 
 ///|
-/// Free the underlying C memory. Only call on arrays created with `make()`.
+/// Free the underlying C memory. Only call on arrays created with `new()`,
+/// not on views into raylib-managed memory.
 pub fn UByteArray::free(self : UByteArray) -> Unit {
   self.0.to_pointer().free()
 }
@@ -131,12 +135,14 @@ pub fn ShortArray::length(self : ShortArray) -> Int {
 /// Allocate a zero-initialized short array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn ShortArray::new(count : Int) -> ShortArray {
+  guard count >= 0
   let ptr = @ffi.Pointer::calloc(count, 2)
   ShortArray(@ffi.ShortPointer::from_pointer(ptr), count)
 }
 
 ///|
-/// Free the underlying C memory. Only call on arrays created with `make()`.
+/// Free the underlying C memory. Only call on arrays created with `new()`,
+/// not on views into raylib-managed memory.
 pub fn ShortArray::free(self : ShortArray) -> Unit {
   self.0.to_pointer().free()
 }
@@ -183,12 +189,14 @@ pub fn UShortArray::length(self : UShortArray) -> Int {
 /// Allocate a zero-initialized unsigned short array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn UShortArray::new(count : Int) -> UShortArray {
+  guard count >= 0
   let ptr = @ffi.Pointer::calloc(count, 2)
   UShortArray(@ffi.UShortPointer::from_pointer(ptr), count)
 }
 
 ///|
-/// Free the underlying C memory. Only call on arrays created with `make()`.
+/// Free the underlying C memory. Only call on arrays created with `new()`,
+/// not on views into raylib-managed memory (e.g., from `Mesh::indices()`).
 pub fn UShortArray::free(self : UShortArray) -> Unit {
   self.0.to_pointer().free()
 }
