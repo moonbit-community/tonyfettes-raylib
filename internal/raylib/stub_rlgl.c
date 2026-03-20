@@ -51,6 +51,78 @@ moonbit_raylib_rl_set_vertex_attribute(
 }
 
 // ============================================================================
+// rlgl: Typed array pointer stubs (shared by FloatArray/UShortArray/etc.)
+// All #external array types are raw pointers at the ABI level.
+// ============================================================================
+
+uint32_t
+moonbit_raylib_rl_load_vertex_buffer_typed(
+  void *buffer,
+  int size,
+  int32_t dynamic
+) {
+  return rlLoadVertexBuffer(buffer, size, (bool)dynamic);
+}
+
+uint32_t
+moonbit_raylib_rl_load_vertex_buffer_element_typed(
+  void *buffer,
+  int size,
+  int32_t dynamic
+) {
+  return rlLoadVertexBufferElement(buffer, size, (bool)dynamic);
+}
+
+void
+moonbit_raylib_rl_update_vertex_buffer_typed(
+  uint32_t bufferId,
+  void *data,
+  int dataSize,
+  int offset
+) {
+  rlUpdateVertexBuffer(bufferId, data, dataSize, offset);
+}
+
+void
+moonbit_raylib_rl_update_vertex_buffer_elements_typed(
+  uint32_t id,
+  void *data,
+  int dataSize,
+  int offset
+) {
+  rlUpdateVertexBufferElements(id, data, dataSize, offset);
+}
+
+void
+moonbit_raylib_rl_set_vertex_attribute_default_typed(
+  int locIndex,
+  void *value,
+  int attribType,
+  int count
+) {
+  rlSetVertexAttributeDefault(locIndex, value, attribType, count);
+}
+
+uint32_t
+moonbit_raylib_rl_load_shader_buffer_typed(
+  uint32_t size,
+  void *data,
+  int usageHint
+) {
+  return rlLoadShaderBuffer(size, data, usageHint);
+}
+
+void
+moonbit_raylib_rl_update_shader_buffer_typed(
+  uint32_t id,
+  void *data,
+  uint32_t dataSize,
+  uint32_t offset
+) {
+  rlUpdateShaderBuffer(id, data, dataSize, offset);
+}
+
+// ============================================================================
 // rlgl: Bool + void* params
 // ============================================================================
 

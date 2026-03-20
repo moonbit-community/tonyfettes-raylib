@@ -13,6 +13,12 @@ fn FloatArray::is_null(self : FloatArray) -> Bool {
 }
 
 ///|
+/// Get the raw FFI pointer for passing to low-level rlgl functions.
+pub fn FloatArray::raw(self : FloatArray) -> @ffi.FloatArray {
+  self.0
+}
+
+///|
 /// Get the number of elements in this float array.
 pub fn FloatArray::length(self : FloatArray) -> Int {
   self.1
@@ -49,6 +55,12 @@ fn UByteArray::is_null(self : UByteArray) -> Bool {
 }
 
 ///|
+/// Get the raw FFI pointer for passing to low-level rlgl functions.
+pub fn UByteArray::raw(self : UByteArray) -> @ffi.UByteArray {
+  self.0
+}
+
+///|
 /// Get the number of elements in this unsigned byte array.
 pub fn UByteArray::length(self : UByteArray) -> Int {
   self.1
@@ -78,6 +90,12 @@ struct ShortArray(@ffi.ShortArray, Int)
 ///|
 fn ShortArray::is_null(self : ShortArray) -> Bool {
   @ffi.short_array_is_null(self.0)
+}
+
+///|
+/// Get the raw FFI pointer for passing to low-level rlgl functions.
+pub fn ShortArray::raw(self : ShortArray) -> @ffi.ShortArray {
+  self.0
 }
 
 ///|

@@ -1338,6 +1338,70 @@ pub extern "c" fn rl_load_vertex_buffer_element(
 ) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element"
 
 ///|
+/// Load a vertex buffer object from a FloatArray.
+pub extern "c" fn rl_load_vertex_buffer_floats(
+  buffer : FloatArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
+
+///|
+/// Load a vertex buffer object from a UShortArray.
+pub extern "c" fn rl_load_vertex_buffer_ushorts(
+  buffer : UShortArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
+
+///|
+/// Load a vertex buffer object from a ShortArray.
+pub extern "c" fn rl_load_vertex_buffer_shorts(
+  buffer : ShortArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
+
+///|
+/// Load a vertex buffer object from a UByteArray.
+pub extern "c" fn rl_load_vertex_buffer_ubytes(
+  buffer : UByteArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_typed"
+
+///|
+/// Load vertex buffer elements object from a FloatArray.
+pub extern "c" fn rl_load_vertex_buffer_element_floats(
+  buffer : FloatArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
+
+///|
+/// Load vertex buffer elements object from a UShortArray.
+pub extern "c" fn rl_load_vertex_buffer_element_ushorts(
+  buffer : UShortArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
+
+///|
+/// Load vertex buffer elements object from a ShortArray.
+pub extern "c" fn rl_load_vertex_buffer_element_shorts(
+  buffer : ShortArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
+
+///|
+/// Load vertex buffer elements object from a UByteArray.
+pub extern "c" fn rl_load_vertex_buffer_element_ubytes(
+  buffer : UByteArray,
+  size : Int,
+  dynamic : Bool,
+) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element_typed"
+
+///|
 /// Unload vertex array (vao).
 pub extern "c" fn rl_unload_vertex_array(vao_id : UInt) = "rlUnloadVertexArray"
 
@@ -1364,6 +1428,114 @@ pub extern "c" fn rl_update_vertex_buffer_elements(
   data_size : Int,
   offset : Int,
 ) = "moonbit_raylib_rl_update_vertex_buffer_elements"
+
+///|
+/// Update vertex buffer object data from a FloatArray.
+pub extern "c" fn rl_update_vertex_buffer_floats(
+  buffer_id : UInt,
+  data : FloatArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_typed"
+
+///|
+/// Update vertex buffer object data from a UShortArray.
+pub extern "c" fn rl_update_vertex_buffer_ushorts(
+  buffer_id : UInt,
+  data : UShortArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_typed"
+
+///|
+/// Update vertex buffer object data from a ShortArray.
+pub extern "c" fn rl_update_vertex_buffer_shorts(
+  buffer_id : UInt,
+  data : ShortArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_typed"
+
+///|
+/// Update vertex buffer object data from a UByteArray.
+pub extern "c" fn rl_update_vertex_buffer_ubytes(
+  buffer_id : UInt,
+  data : UByteArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_typed"
+
+///|
+/// Update vertex buffer elements data from a FloatArray.
+pub extern "c" fn rl_update_vertex_buffer_elements_floats(
+  id : UInt,
+  data : FloatArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
+
+///|
+/// Update vertex buffer elements data from a UShortArray.
+pub extern "c" fn rl_update_vertex_buffer_elements_ushorts(
+  id : UInt,
+  data : UShortArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
+
+///|
+/// Update vertex buffer elements data from a ShortArray.
+pub extern "c" fn rl_update_vertex_buffer_elements_shorts(
+  id : UInt,
+  data : ShortArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
+
+///|
+/// Update vertex buffer elements data from a UByteArray.
+pub extern "c" fn rl_update_vertex_buffer_elements_ubytes(
+  id : UInt,
+  data : UByteArray,
+  data_size : Int,
+  offset : Int,
+) = "moonbit_raylib_rl_update_vertex_buffer_elements_typed"
+
+///|
+/// Set vertex attribute default value from a FloatArray.
+pub extern "c" fn rl_set_vertex_attribute_default_floats(
+  loc_index : Int,
+  value : FloatArray,
+  attrib_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
+
+///|
+/// Set vertex attribute default value from a UShortArray.
+pub extern "c" fn rl_set_vertex_attribute_default_ushorts(
+  loc_index : Int,
+  value : UShortArray,
+  attrib_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
+
+///|
+/// Set vertex attribute default value from a ShortArray.
+pub extern "c" fn rl_set_vertex_attribute_default_shorts(
+  loc_index : Int,
+  value : ShortArray,
+  attrib_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
+
+///|
+/// Set vertex attribute default value from a UByteArray.
+pub extern "c" fn rl_set_vertex_attribute_default_ubytes(
+  loc_index : Int,
+  value : UByteArray,
+  attrib_type : Int,
+  count : Int,
+) = "moonbit_raylib_rl_set_vertex_attribute_default_typed"
 
 ///|
 /// Set vertex attribute data divisor.
@@ -1535,6 +1707,38 @@ pub extern "c" fn rl_load_shader_buffer(
 ) -> UInt = "moonbit_raylib_rl_load_shader_buffer"
 
 ///|
+/// Load SSBO from a FloatArray.
+pub extern "c" fn rl_load_shader_buffer_floats(
+  size : UInt,
+  data : FloatArray,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
+
+///|
+/// Load SSBO from a UShortArray.
+pub extern "c" fn rl_load_shader_buffer_ushorts(
+  size : UInt,
+  data : UShortArray,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
+
+///|
+/// Load SSBO from a ShortArray.
+pub extern "c" fn rl_load_shader_buffer_shorts(
+  size : UInt,
+  data : ShortArray,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
+
+///|
+/// Load SSBO from a UByteArray.
+pub extern "c" fn rl_load_shader_buffer_ubytes(
+  size : UInt,
+  data : UByteArray,
+  usage_hint : Int,
+) -> UInt = "moonbit_raylib_rl_load_shader_buffer_typed"
+
+///|
 /// Load shader storage buffer object (SSBO) with no initial data.
 pub extern "c" fn rl_load_shader_buffer_empty(
   size : UInt,
@@ -1554,6 +1758,42 @@ pub extern "c" fn rl_update_shader_buffer(
   data_size : UInt,
   offset : UInt,
 ) = "moonbit_raylib_rl_update_shader_buffer"
+
+///|
+/// Update SSBO buffer data from a FloatArray.
+pub extern "c" fn rl_update_shader_buffer_floats(
+  id : UInt,
+  data : FloatArray,
+  data_size : UInt,
+  offset : UInt,
+) = "moonbit_raylib_rl_update_shader_buffer_typed"
+
+///|
+/// Update SSBO buffer data from a UShortArray.
+pub extern "c" fn rl_update_shader_buffer_ushorts(
+  id : UInt,
+  data : UShortArray,
+  data_size : UInt,
+  offset : UInt,
+) = "moonbit_raylib_rl_update_shader_buffer_typed"
+
+///|
+/// Update SSBO buffer data from a ShortArray.
+pub extern "c" fn rl_update_shader_buffer_shorts(
+  id : UInt,
+  data : ShortArray,
+  data_size : UInt,
+  offset : UInt,
+) = "moonbit_raylib_rl_update_shader_buffer_typed"
+
+///|
+/// Update SSBO buffer data from a UByteArray.
+pub extern "c" fn rl_update_shader_buffer_ubytes(
+  id : UInt,
+  data : UByteArray,
+  data_size : UInt,
+  offset : UInt,
+) = "moonbit_raylib_rl_update_shader_buffer_typed"
 
 ///|
 /// Read SSBO buffer data (GPU->CPU).

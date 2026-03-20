@@ -1539,6 +1539,15 @@ pub fn BoundingBox::to_bytes(Self) -> Bytes
 pub impl Eq for BoundingBox
 pub impl Show for BoundingBox
 
+pub(all) enum BufferData {
+  Floats(FloatArray)
+  UShorts(UShortArray)
+  Shorts(ShortArray)
+  UBytes(UByteArray)
+  Raw(Bytes)
+}
+pub fn BufferData::byte_size(Self) -> Int
+
 pub struct Camera2D {
   offset : Vector2
   target : Vector2
@@ -1586,6 +1595,7 @@ type FloatArray
 pub fn FloatArray::length(Self) -> Int
 pub fn FloatArray::op_get(Self, Int) -> Float
 pub fn FloatArray::op_set(Self, Int, Float) -> Unit
+pub fn FloatArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.FloatArray
 
 type Font
 #as_free_fn(get_font_base_size)
@@ -2244,6 +2254,7 @@ type ShortArray
 pub fn ShortArray::length(Self) -> Int
 pub fn ShortArray::op_get(Self, Int) -> Int
 pub fn ShortArray::op_set(Self, Int, Int) -> Unit
+pub fn ShortArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.ShortArray
 
 type Sound
 #as_free_fn(is_sound_playing)
@@ -2330,6 +2341,7 @@ type UByteArray
 pub fn UByteArray::length(Self) -> Int
 pub fn UByteArray::op_get(Self, Int) -> Int
 pub fn UByteArray::op_set(Self, Int, Byte) -> Unit
+pub fn UByteArray::raw(Self) -> @tonyfettes/raylib/internal/raylib.UByteArray
 
 type UShortArray
 pub fn UShortArray::length(Self) -> Int

@@ -1262,6 +1262,14 @@ pub fn rl_load_shader_buffer(UInt, Bytes, Int) -> UInt
 
 pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
 
+pub fn rl_load_shader_buffer_floats(UInt, FloatArray, Int) -> UInt
+
+pub fn rl_load_shader_buffer_shorts(UInt, ShortArray, Int) -> UInt
+
+pub fn rl_load_shader_buffer_ubytes(UInt, UByteArray, Int) -> UInt
+
+pub fn rl_load_shader_buffer_ushorts(UInt, UShortArray, Int) -> UInt
+
 pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
 
 pub fn rl_load_shader_program(UInt, UInt) -> UInt
@@ -1277,6 +1285,22 @@ pub fn rl_load_vertex_array() -> UInt
 pub fn rl_load_vertex_buffer(Bytes, Int, Bool) -> UInt
 
 pub fn rl_load_vertex_buffer_element(Bytes, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element_floats(FloatArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element_shorts(ShortArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element_ubytes(UByteArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element_ushorts(UShortArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_floats(FloatArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_shorts(ShortArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_ubytes(UByteArray, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_ushorts(UShortArray, Int, Bool) -> UInt
 
 pub fn rl_matrix_mode(Int) -> Unit
 
@@ -1336,6 +1360,14 @@ pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
 
 pub fn rl_set_vertex_attribute_default(Int, Bytes, Int, Int) -> Unit
 
+pub fn rl_set_vertex_attribute_default_floats(Int, FloatArray, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_default_shorts(Int, ShortArray, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_default_ubytes(Int, UByteArray, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_default_ushorts(Int, UShortArray, Int, Int) -> Unit
+
 pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
 
 pub fn rl_tex_coord2f(Float, Float) -> Unit
@@ -1358,11 +1390,35 @@ pub fn rl_unload_vertex_buffer(UInt) -> Unit
 
 pub fn rl_update_shader_buffer(UInt, Bytes, UInt, UInt) -> Unit
 
+pub fn rl_update_shader_buffer_floats(UInt, FloatArray, UInt, UInt) -> Unit
+
+pub fn rl_update_shader_buffer_shorts(UInt, ShortArray, UInt, UInt) -> Unit
+
+pub fn rl_update_shader_buffer_ubytes(UInt, UByteArray, UInt, UInt) -> Unit
+
+pub fn rl_update_shader_buffer_ushorts(UInt, UShortArray, UInt, UInt) -> Unit
+
 pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
 
 pub fn rl_update_vertex_buffer(UInt, Bytes, Int, Int) -> Unit
 
 pub fn rl_update_vertex_buffer_elements(UInt, Bytes, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements_floats(UInt, FloatArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements_shorts(UInt, ShortArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements_ubytes(UInt, UByteArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements_ushorts(UInt, UShortArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_floats(UInt, FloatArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_shorts(UInt, ShortArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_ubytes(UInt, UByteArray, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_ushorts(UInt, UShortArray, Int, Int) -> Unit
 
 pub fn rl_vertex2f(Float, Float) -> Unit
 
