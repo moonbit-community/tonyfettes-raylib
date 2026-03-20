@@ -457,6 +457,7 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
                 glyphs,
                 recs,
               )
+              glyphs.unload()
               if font.is_valid() {
                 gui_set_font(font)
                 gui_set_style(ControlDefault, TextSize, base_size)

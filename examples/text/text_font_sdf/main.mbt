@@ -26,6 +26,7 @@ fn main {
   let font_default = @raylib.Font::new(
     tex_default, 16, glyph_padding=4, glyphs_default, recs_default,
   )
+  glyphs_default.unload()
 
   // SDF font generation from TTF font
   // Parameters > font size: 16, font type: FONT_SDF, glyphs padding in image: 0 px, pack method: 1 (Skyline algorithm)
@@ -38,6 +39,7 @@ fn main {
   let font_sdf = @raylib.Font::new(
     tex_sdf, 16, glyph_padding=0, glyphs_sdf, recs_sdf,
   )
+  glyphs_sdf.unload()
 
   // Load SDF required shader (we use default vertex shader)
   let shader = @raylib.load_shader("", "resources/shaders/glsl330/sdf.fs")
