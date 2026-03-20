@@ -22,19 +22,40 @@ fn main {
   // Palettes: arrays of RGB triplets as ivec3
   // 3-BIT RGB
   let palette0 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
-    (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255), (0, 255, 255), (255, 0, 255),
-    (255, 255, 0), (255, 255, 255),
-  ])
+      (0, 0, 0),
+      (255, 0, 0),
+      (0, 255, 0),
+      (0, 0, 255),
+      (0, 255, 255),
+      (255, 0, 255),
+      (255, 255, 0),
+      (255, 255, 255),
+    ],
+  )
   // AMMO-8 (GameBoy-like)
   let palette1 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
-    (4, 12, 6), (17, 35, 24), (30, 58, 41), (48, 93, 66), (77, 128, 97),
-    (137, 162, 87), (190, 220, 127), (238, 255, 204),
-  ])
+      (4, 12, 6),
+      (17, 35, 24),
+      (30, 58, 41),
+      (48, 93, 66),
+      (77, 128, 97),
+      (137, 162, 87),
+      (190, 220, 127),
+      (238, 255, 204),
+    ],
+  )
   // RKBV (2-strip film)
   let palette2 : @raylib.ShaderUniformDataV = @raylib.ShaderUniformDataV::IVec3([
-    (21, 25, 26), (138, 76, 88), (217, 98, 117), (230, 184, 193), (69, 107, 115),
-    (75, 151, 166), (165, 189, 194), (255, 245, 247),
-  ])
+      (21, 25, 26),
+      (138, 76, 88),
+      (217, 98, 117),
+      (230, 184, 193),
+      (69, 107, 115),
+      (75, 151, 166),
+      (165, 189, 194),
+      (255, 245, 247),
+    ],
+  )
 
   let palettes = [palette0, palette1, palette2]
   let palette_text : Array[String] = [

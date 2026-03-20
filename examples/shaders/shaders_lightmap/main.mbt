@@ -25,12 +25,22 @@ fn main {
   let half = Float::from_int(MapSize) / 2.0
   let mesh = @raylib.Mesh::new(
     [
-      -half, 0.0, -half, // vertex 0
-       half, 0.0, -half, // vertex 1
-      -half, 0.0,  half, // vertex 2
-       half, 0.0,  half, // vertex 3
+      -half,
+      0.0,
+      -half, // vertex 0
+      half,
+      0.0,
+      -half, // vertex 1
+      -half,
+      0.0,
+      half, // vertex 2
+      half,
+      0.0,
+      half,
     ],
-    texcoords=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
+    texcoords=[ // vertex 3
+      0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
+    ],
     texcoords2=[0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0],
     normals=[0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0],
     indices=[2, 1, 0, 2, 3, 1],

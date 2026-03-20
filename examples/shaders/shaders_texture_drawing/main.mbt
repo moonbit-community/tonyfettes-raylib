@@ -16,19 +16,13 @@ fn main {
   )
   let mut time : Float = 0.0
   let time_loc = @raylib.get_shader_location(shader, "uTime")
-  shader.set_value(
-    time_loc,
-    @raylib.ShaderUniformData::Float(time),
-    )
+  shader.set_value(time_loc, @raylib.ShaderUniformData::Float(time))
   @raylib.set_target_fps(60)
   // Main game loop
   while not(@raylib.window_should_close()) {
     // Update
     time = Float::from_double(@raylib.get_time())
-    shader.set_value(
-      time_loc,
-      @raylib.ShaderUniformData::Float(time),
-      )
+    shader.set_value(time_loc, @raylib.ShaderUniformData::Float(time))
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)

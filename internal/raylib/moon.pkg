@@ -24,5 +24,6 @@ options(
     "stub_filesystem.c",
     "stub_utils.c",
     "stub_automation.c",
+    "stub_rlgl.c",
   ],
 )

@@ -364,11 +364,11 @@ pub fn file_path_list_count(FilePathList) -> Int
 
 pub fn file_path_list_get(FilePathList, Int) -> Bytes
 
-pub fn float_array_get(FloatArray, Int) -> Float
+pub fn float_array_get(FloatPointer, Int) -> Float
 
-pub fn float_array_is_null(FloatArray) -> Bool
+pub fn float_array_is_null(FloatPointer) -> Bool
 
-pub fn float_array_set(FloatArray, Int, Float) -> Unit
+pub fn float_array_set(FloatPointer, Int, Float) -> Unit
 
 pub fn gen_image_cellular(Int, Int, Int) -> Image
 
@@ -514,23 +514,23 @@ pub fn get_mesh_bone_matrices(Mesh) -> MatrixArray
 
 pub fn get_mesh_bounding_box(Mesh) -> Bytes
 
-pub fn get_mesh_colors(Mesh) -> UByteArray
+pub fn get_mesh_colors(Mesh) -> UBytePointer
 
-pub fn get_mesh_indices(Mesh) -> UShortArray
+pub fn get_mesh_indices(Mesh) -> UShortPointer
 
-pub fn get_mesh_normals(Mesh) -> FloatArray
+pub fn get_mesh_normals(Mesh) -> FloatPointer
 
-pub fn get_mesh_tangents(Mesh) -> FloatArray
+pub fn get_mesh_tangents(Mesh) -> FloatPointer
 
-pub fn get_mesh_texcoords(Mesh) -> FloatArray
+pub fn get_mesh_texcoords(Mesh) -> FloatPointer
 
-pub fn get_mesh_texcoords2(Mesh) -> FloatArray
+pub fn get_mesh_texcoords2(Mesh) -> FloatPointer
 
 pub fn get_mesh_triangle_count(Mesh) -> Int
 
 pub fn get_mesh_vertex_count(Mesh) -> Int
 
-pub fn get_mesh_vertices(Mesh) -> FloatArray
+pub fn get_mesh_vertices(Mesh) -> FloatPointer
 
 pub fn get_model_animation_bone_count(ModelAnimations, Int) -> Int
 
@@ -682,11 +682,11 @@ pub fn get_touch_y() -> Int
 
 pub fn get_wave_channels(Wave) -> Int
 
-pub fn get_wave_data_float(Wave) -> FloatArray
+pub fn get_wave_data_float(Wave) -> FloatPointer
 
-pub fn get_wave_data_short(Wave) -> ShortArray
+pub fn get_wave_data_short(Wave) -> ShortPointer
 
-pub fn get_wave_data_ubyte(Wave) -> UByteArray
+pub fn get_wave_data_ubyte(Wave) -> UBytePointer
 
 pub fn get_wave_frame_count(Wave) -> Int
 
@@ -1012,7 +1012,7 @@ pub fn load_wave(Bytes) -> Wave
 
 pub fn load_wave_from_memory(Bytes, Bytes, Int) -> Wave
 
-pub fn load_wave_samples(Wave) -> FloatArray
+pub fn load_wave_samples(Wave) -> FloatPointer
 
 pub fn make_directory(Bytes) -> Int
 
@@ -1094,13 +1094,35 @@ pub fn rl_begin(Int) -> Unit
 
 pub fn rl_bind_framebuffer(UInt, UInt) -> Unit
 
+pub fn rl_bind_image_texture(UInt, UInt, Int, Bool) -> Unit
+
+pub fn rl_bind_shader_buffer(UInt, UInt) -> Unit
+
 pub fn rl_blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn rl_check_errors() -> Unit
 
 pub fn rl_check_render_batch_limit(Int) -> Bool
 
+pub fn rl_clear_color(Byte, Byte, Byte, Byte) -> Unit
+
 pub fn rl_clear_screen_buffers() -> Unit
 
+pub fn rl_color3f(Float, Float, Float) -> Unit
+
+pub fn rl_color4f(Float, Float, Float, Float) -> Unit
+
 pub fn rl_color4ub(Byte, Byte, Byte, Byte) -> Unit
+
+pub fn rl_color_mask(Bool, Bool, Bool, Bool) -> Unit
+
+pub fn rl_compile_shader(Bytes, Int) -> UInt
+
+pub fn rl_compute_shader_dispatch(UInt, UInt, UInt) -> Unit
+
+pub fn rl_copy_shader_buffer(UInt, UInt, UInt, UInt, UInt) -> Unit
+
+pub fn rl_cubemap_parameters(UInt, Int, Int) -> Unit
 
 pub fn rl_disable_backface_culling() -> Unit
 
@@ -1112,11 +1134,41 @@ pub fn rl_disable_depth_test() -> Unit
 
 pub fn rl_disable_framebuffer() -> Unit
 
+pub fn rl_disable_scissor_test() -> Unit
+
 pub fn rl_disable_shader() -> Unit
+
+pub fn rl_disable_smooth_lines() -> Unit
+
+pub fn rl_disable_stereo_render() -> Unit
 
 pub fn rl_disable_texture() -> Unit
 
+pub fn rl_disable_texture_cubemap() -> Unit
+
+pub fn rl_disable_vertex_array() -> Unit
+
+pub fn rl_disable_vertex_attribute(UInt) -> Unit
+
+pub fn rl_disable_vertex_buffer() -> Unit
+
+pub fn rl_disable_vertex_buffer_element() -> Unit
+
+pub fn rl_disable_wire_mode() -> Unit
+
 pub fn rl_draw_render_batch_active() -> Unit
+
+pub fn rl_draw_vertex_array(Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements(Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements_client(Int, Int, UShortPointer) -> Unit
+
+pub fn rl_draw_vertex_array_elements_instanced(Int, Int, Int) -> Unit
+
+pub fn rl_draw_vertex_array_elements_instanced_client(Int, Int, UShortPointer, Int) -> Unit
+
+pub fn rl_draw_vertex_array_instanced(Int, Int, Int) -> Unit
 
 pub fn rl_enable_backface_culling() -> Unit
 
@@ -1128,9 +1180,29 @@ pub fn rl_enable_depth_test() -> Unit
 
 pub fn rl_enable_framebuffer(UInt) -> Unit
 
+pub fn rl_enable_point_mode() -> Unit
+
+pub fn rl_enable_scissor_test() -> Unit
+
 pub fn rl_enable_shader(UInt) -> Unit
 
+pub fn rl_enable_smooth_lines() -> Unit
+
+pub fn rl_enable_stereo_render() -> Unit
+
 pub fn rl_enable_texture(UInt) -> Unit
+
+pub fn rl_enable_texture_cubemap(UInt) -> Unit
+
+pub fn rl_enable_vertex_array(UInt) -> Bool
+
+pub fn rl_enable_vertex_attribute(UInt) -> Unit
+
+pub fn rl_enable_vertex_buffer(UInt) -> Unit
+
+pub fn rl_enable_vertex_buffer_element(UInt) -> Unit
+
+pub fn rl_enable_wire_mode() -> Unit
 
 pub fn rl_end() -> Unit
 
@@ -1138,9 +1210,21 @@ pub fn rl_framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
 
 pub fn rl_framebuffer_complete(UInt) -> Bool
 
+pub fn rl_frustum(Double, Double, Double, Double, Double, Double) -> Unit
+
+pub fn rl_get_active_framebuffer() -> UInt
+
+pub fn rl_get_cull_distance_far() -> Double
+
+pub fn rl_get_cull_distance_near() -> Double
+
 pub fn rl_get_framebuffer_height() -> Int
 
 pub fn rl_get_framebuffer_width() -> Int
+
+pub fn rl_get_line_width() -> Float
+
+pub fn rl_get_location_attrib(UInt, Bytes) -> Int
 
 pub fn rl_get_location_uniform(UInt, Bytes) -> Int
 
@@ -1148,7 +1232,23 @@ pub fn rl_get_matrix_modelview() -> Bytes
 
 pub fn rl_get_matrix_projection() -> Bytes
 
+pub fn rl_get_matrix_projection_stereo(Int) -> Bytes
+
+pub fn rl_get_matrix_transform() -> Bytes
+
+pub fn rl_get_matrix_view_offset_stereo(Int) -> Bytes
+
+pub fn rl_get_shader_buffer_size(UInt) -> UInt
+
 pub fn rl_get_shader_id_default() -> UInt
+
+pub fn rl_get_texture_id_default() -> UInt
+
+pub fn rl_get_version() -> Int
+
+pub fn rl_is_stereo_render_enabled() -> Bool
+
+pub fn rl_load_compute_shader_program(UInt) -> UInt
 
 pub fn rl_load_draw_cube() -> Unit
 
@@ -1156,41 +1256,117 @@ pub fn rl_load_draw_quad() -> Unit
 
 pub fn rl_load_framebuffer() -> UInt
 
+pub fn rl_load_identity() -> Unit
+
+pub fn rl_load_shader_buffer(UInt, Pointer, Int) -> UInt
+
+pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
+
+pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
+
+pub fn rl_load_shader_program(UInt, UInt) -> UInt
+
 pub fn rl_load_texture(Int, Int, Int, Int) -> UInt
 
+pub fn rl_load_texture_cubemap(Bytes, Int, Int, Int) -> UInt
+
 pub fn rl_load_texture_depth(Int, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_array() -> UInt
+
+pub fn rl_load_vertex_buffer(Pointer, Int, Bool) -> UInt
+
+pub fn rl_load_vertex_buffer_element(Pointer, Int, Bool) -> UInt
+
+pub fn rl_matrix_mode(Int) -> Unit
 
 pub fn rl_mult_matrixf(Bytes) -> Unit
 
 pub fn rl_normal3f(Float, Float, Float) -> Unit
 
+pub fn rl_ortho(Double, Double, Double, Double, Double, Double) -> Unit
+
 pub fn rl_pop_matrix() -> Unit
 
 pub fn rl_push_matrix() -> Unit
+
+pub fn rl_read_shader_buffer(UInt, UInt, UInt) -> Bytes
 
 pub fn rl_rotatef(Float, Float, Float, Float) -> Unit
 
 pub fn rl_scalef(Float, Float, Float) -> Unit
 
+pub fn rl_scissor(Int, Int, Int, Int) -> Unit
+
 pub fn rl_set_blend_factors(Int, Int, Int) -> Unit
 
+pub fn rl_set_blend_factors_separate(Int, Int, Int, Int, Int, Int) -> Unit
+
 pub fn rl_set_blend_mode(Int) -> Unit
+
+pub fn rl_set_clip_planes(Double, Double) -> Unit
+
+pub fn rl_set_cull_face(Int) -> Unit
+
+pub fn rl_set_framebuffer_height(Int) -> Unit
+
+pub fn rl_set_framebuffer_width(Int) -> Unit
+
+pub fn rl_set_line_width(Float) -> Unit
+
+pub fn rl_set_matrix_modelview(Bytes) -> Unit
+
+pub fn rl_set_matrix_projection(Bytes) -> Unit
+
+pub fn rl_set_matrix_projection_stereo(Bytes, Bytes) -> Unit
+
+pub fn rl_set_matrix_view_offset_stereo(Bytes, Bytes) -> Unit
 
 pub fn rl_set_texture(UInt) -> Unit
 
 pub fn rl_set_uniform(Int, Bytes, Int, Int) -> Unit
 
+pub fn rl_set_uniform_matrices(Int, Bytes, Int) -> Unit
+
+pub fn rl_set_uniform_matrix(Int, Bytes) -> Unit
+
 pub fn rl_set_uniform_sampler(Int, UInt) -> Unit
 
+pub fn rl_set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_default(Int, Pointer, Int, Int) -> Unit
+
+pub fn rl_set_vertex_attribute_divisor(UInt, Int) -> Unit
+
 pub fn rl_tex_coord2f(Float, Float) -> Unit
+
+pub fn rl_texture_parameters(UInt, Int, Int) -> Unit
 
 pub fn rl_translatef(Float, Float, Float) -> Unit
 
 pub fn rl_unload_framebuffer(UInt) -> Unit
 
+pub fn rl_unload_shader_buffer(UInt) -> Unit
+
+pub fn rl_unload_shader_program(UInt) -> Unit
+
 pub fn rl_unload_texture(UInt) -> Unit
 
+pub fn rl_unload_vertex_array(UInt) -> Unit
+
+pub fn rl_unload_vertex_buffer(UInt) -> Unit
+
+pub fn rl_update_shader_buffer(UInt, Pointer, UInt, UInt) -> Unit
+
+pub fn rl_update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn rl_update_vertex_buffer(UInt, Pointer, Int, Int) -> Unit
+
+pub fn rl_update_vertex_buffer_elements(UInt, Pointer, Int, Int) -> Unit
+
 pub fn rl_vertex2f(Float, Float) -> Unit
+
+pub fn rl_vertex2i(Int, Int) -> Unit
 
 pub fn rl_vertex3f(Float, Float, Float) -> Unit
 
@@ -1310,11 +1486,11 @@ pub fn set_window_state(Int) -> Unit
 
 pub fn set_window_title(Bytes) -> Unit
 
-pub fn short_array_get(ShortArray, Int) -> Int
+pub fn short_array_get(ShortPointer, Int) -> Int
 
-pub fn short_array_is_null(ShortArray) -> Bool
+pub fn short_array_is_null(ShortPointer) -> Bool
 
-pub fn short_array_set(ShortArray, Int, Int) -> Unit
+pub fn short_array_set(ShortPointer, Int, Int) -> Unit
 
 pub fn show_cursor() -> Unit
 
@@ -1338,11 +1514,11 @@ pub fn toggle_fullscreen() -> Unit
 
 pub fn trace_log(Int, Bytes) -> Unit
 
-pub fn ubyte_array_get(UByteArray, Int) -> Int
+pub fn ubyte_array_get(UBytePointer, Int) -> Int
 
-pub fn ubyte_array_is_null(UByteArray) -> Bool
+pub fn ubyte_array_is_null(UBytePointer) -> Bool
 
-pub fn ubyte_array_set(UByteArray, Int, Byte) -> Unit
+pub fn ubyte_array_set(UBytePointer, Int, Byte) -> Unit
 
 pub fn unload_audio_stream(AudioStream) -> Unit
 
@@ -1384,7 +1560,7 @@ pub fn unload_vr_stereo_config(VrStereoConfig) -> Unit
 
 pub fn unload_wave(Wave) -> Unit
 
-pub fn unload_wave_samples(FloatArray) -> Unit
+pub fn unload_wave_samples(FloatPointer) -> Unit
 
 pub fn update_audio_stream(AudioStream, Bytes, Int) -> Unit
 
@@ -1410,11 +1586,11 @@ pub fn update_texture_rec(Texture, Bytes, Bytes) -> Unit
 
 pub fn upload_mesh(Mesh, Int) -> Unit
 
-pub fn ushort_array_get(UShortArray, Int) -> Int
+pub fn ushort_array_get(UShortPointer, Int) -> Int
 
-pub fn ushort_array_is_null(UShortArray) -> Bool
+pub fn ushort_array_is_null(UShortPointer) -> Bool
 
-pub fn ushort_array_set(UShortArray, Int, UInt16) -> Unit
+pub fn ushort_array_set(UShortPointer, Int, UInt16) -> Unit
 
 pub fn vr_stereo_config_left_lens_center(VrStereoConfig) -> Bytes
 
@@ -1450,7 +1626,9 @@ pub type AutomationEventList
 pub type FilePathList
 
 #external
-pub type FloatArray
+pub type FloatPointer
+pub fn FloatPointer::from_pointer(Pointer) -> Self
+pub fn FloatPointer::to_pointer(Self) -> Pointer
 
 pub type Font
 
@@ -1478,22 +1656,33 @@ pub type ModelAnimations
 
 pub type Music
 
+#external
+pub type Pointer
+pub fn Pointer::calloc(Int, Int) -> Self
+pub fn Pointer::free(Self) -> Unit
+
 pub type RenderTexture
 
 pub type Shader
 
 #external
-pub type ShortArray
+pub type ShortPointer
+pub fn ShortPointer::from_pointer(Pointer) -> Self
+pub fn ShortPointer::to_pointer(Self) -> Pointer
 
 pub type Sound
 
 pub type Texture
 
 #external
-pub type UByteArray
+pub type UBytePointer
+pub fn UBytePointer::from_pointer(Pointer) -> Self
+pub fn UBytePointer::to_pointer(Self) -> Pointer
 
 #external
-pub type UShortArray
+pub type UShortPointer
+pub fn UShortPointer::from_pointer(Pointer) -> Self
+pub fn UShortPointer::to_pointer(Self) -> Pointer
 
 pub type VrStereoConfig
 

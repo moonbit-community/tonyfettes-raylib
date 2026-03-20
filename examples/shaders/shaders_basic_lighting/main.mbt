@@ -75,25 +75,25 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
   shader.set_value(
     light.enabled_loc,
     @raylib.ShaderUniformData::Int(enabled_val),
-    )
+  )
 
   // Send light type
   shader.set_value(
     light.type_loc,
     @raylib.ShaderUniformData::Int(light.light_type),
-    )
+  )
 
   // Send light position as vec3
   shader.set_value(
     light.position_loc,
     @raylib.ShaderUniformData::Vec3(light.position),
-    )
+  )
 
   // Send light target as vec3
   shader.set_value(
     light.target_loc,
     @raylib.ShaderUniformData::Vec3(light.target),
-    )
+  )
 
   // Send light color as vec4 (normalized 0.0-1.0)
   let color_normalized = @raylib.Vector4::new(
@@ -105,7 +105,7 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
   shader.set_value(
     light.color_loc,
     @raylib.ShaderUniformData::Vec4(color_normalized),
-    )
+  )
 }
 
 // ============================================================================
@@ -145,10 +145,7 @@ fn main {
   // Set ambient light level
   let ambient_loc = @raylib.get_shader_location(shader, "ambient")
   let ambient = @raylib.Vector4::new(0.1, 0.1, 0.1, 1.0)
-  shader.set_value(
-    ambient_loc,
-    @raylib.ShaderUniformData::Vec4(ambient),
-    )
+  shader.set_value(ambient_loc, @raylib.ShaderUniformData::Vec4(ambient))
 
   // Create lights
   let lights = [
@@ -197,7 +194,7 @@ fn main {
     shader.set_value(
       view_pos_loc,
       @raylib.ShaderUniformData::Vec3(camera.position),
-      )
+    )
 
     // Toggle lights with key presses
     if @raylib.is_key_pressed(@raylib.KeyY) {

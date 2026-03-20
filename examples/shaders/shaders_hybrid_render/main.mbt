@@ -41,33 +41,48 @@ fn main {
   shdr_raymarch.set_value(
     march_loc_screen_center,
     @raylib.ShaderUniformData::Vec2(screen_center),
-    )
+  )
 
   // Use composable rl* primitives to create writable depth texture buffer
   let fbo_id = @rl.load_framebuffer()
   let color_tex_id = @rl.load_texture(
-    screen_width, screen_height, @raylib.PixelformatUncompressedR8g8b8a8, 1,
+    screen_width,
+    screen_height,
+    @raylib.PixelformatUncompressedR8g8b8a8,
+    1,
   )
   let depth_tex_id = @rl.load_texture_depth(screen_width, screen_height, false)
   @rl.framebuffer_attach(
-    fbo_id, color_tex_id, @rl.AttachmentColorChannel0,
-    @rl.AttachmentTexture2d, 0,
+    fbo_id,
+    color_tex_id,
+    @rl.AttachmentColorChannel0,
+    @rl.AttachmentTexture2d,
+    0,
   )
   @rl.framebuffer_attach(
-    fbo_id, depth_tex_id, @rl.AttachmentDepth, @rl.AttachmentTexture2d, 0,
+    fbo_id,
+    depth_tex_id,
+    @rl.AttachmentDepth,
+    @rl.AttachmentTexture2d,
+    0,
   )
   if @rl.framebuffer_complete(fbo_id) {
-    @raylib.trace_log(@raylib.LogInfo, "FBO: Framebuffer object created successfully")
+    @raylib.trace_log(
+      @raylib.LogInfo,
+      "FBO: Framebuffer object created successfully",
+    )
   }
   let target = @raylib.new_render_texture(
     fbo_id,
     @raylib.new_texture(
-      color_tex_id, screen_width, screen_height, 1,
+      color_tex_id,
+      screen_width,
+      screen_height,
+      1,
       @raylib.PixelformatUncompressedR8g8b8a8,
     ),
     @raylib.new_texture(
-      depth_tex_id, screen_width, screen_height, 1,
-      19, // DEPTH_COMPONENT_24BIT
+      depth_tex_id, screen_width, screen_height, 1, 19, // DEPTH_COMPONENT_24BIT
     ),
   )
 
@@ -95,7 +110,7 @@ fn main {
     shdr_raymarch.set_value(
       march_loc_cam_pos,
       @raylib.ShaderUniformData::Vec3(camera.position),
-      )
+    )
 
     // Update Camera Looking Vector. Vector length determines FOV.
     let cam_dir = @raylib.Vector3::scale(
@@ -107,7 +122,7 @@ fn main {
     shdr_raymarch.set_value(
       march_loc_cam_dir,
       @raylib.ShaderUniformData::Vec3(cam_dir),
-      )
+    )
 
     // Draw
     // Draw into our custom render texture (framebuffer)

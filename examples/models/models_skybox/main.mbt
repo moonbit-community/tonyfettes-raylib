@@ -32,15 +32,15 @@ fn main {
   skybox_shader.set_value(
     @raylib.get_shader_location(skybox_shader, "environmentMap"),
     @raylib.ShaderUniformData::Int(@raylib.MaterialMapCubemap),
-    )
+  )
   skybox_shader.set_value(
     @raylib.get_shader_location(skybox_shader, "doGamma"),
     @raylib.ShaderUniformData::Int(0),
-    )
+  )
   skybox_shader.set_value(
     @raylib.get_shader_location(skybox_shader, "vflipped"),
     @raylib.ShaderUniformData::Int(0),
-    )
+  )
 
   // Load cubemap texture from skybox image
   let img = @raylib.load_image("resources/skybox.png")

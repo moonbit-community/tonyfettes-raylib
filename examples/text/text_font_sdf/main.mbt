@@ -39,7 +39,10 @@ fn main {
 
   // Load SDF required shader (we use default vertex shader)
   let shader = @raylib.load_shader("", "resources/shaders/glsl330/sdf.fs")
-  @raylib.set_texture_filter(@raylib.get_font_texture(font_sdf), @raylib.TextureFilterBilinear) // Required for SDF font
+  @raylib.set_texture_filter(
+    @raylib.get_font_texture(font_sdf),
+    @raylib.TextureFilterBilinear,
+  ) // Required for SDF font
 
   let mut font_position_x : Float = 40.0
   let mut font_position_y : Float = Float::from_int(screen_height) / 2.0 - 50.0

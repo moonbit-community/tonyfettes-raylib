@@ -28,15 +28,17 @@ fn main {
   shdr_outline.set_value(
     outline_size_loc,
     @raylib.ShaderUniformData::Float(outline_size),
-    )
+  )
   shdr_outline.set_value(
     outline_color_loc,
     @raylib.ShaderUniformData::Vec4(@raylib.Vector4::new(1.0, 0.0, 0.0, 1.0)),
-    )
+  )
   shdr_outline.set_value(
     texture_size_loc,
-    @raylib.ShaderUniformData::Vec2(@raylib.Vector2::new(Float::from_int(tex_w), Float::from_int(tex_h))),
-    )
+    @raylib.ShaderUniformData::Vec2(
+      @raylib.Vector2::new(Float::from_int(tex_w), Float::from_int(tex_h)),
+    ),
+  )
   @raylib.set_target_fps(60)
   // Main game loop
   while not(@raylib.window_should_close()) {
@@ -48,7 +50,7 @@ fn main {
     shdr_outline.set_value(
       outline_size_loc,
       @raylib.ShaderUniformData::Float(outline_size),
-      )
+    )
     // Draw
     @raylib.begin_drawing()
     @raylib.clear_background(@raylib.raywhite)

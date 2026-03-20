@@ -2,6 +2,20 @@
 #include <stdlib.h>
 
 // ============================================================================
+// C memory management (calloc/free for Pointer)
+// ============================================================================
+
+void *
+moonbit_raylib_calloc(int count, int element_size) {
+  return RL_CALLOC(count, element_size);
+}
+
+void
+moonbit_raylib_free(void *ptr) {
+  RL_FREE(ptr);
+}
+
+// ============================================================================
 // Compression & encoding
 // ============================================================================
 

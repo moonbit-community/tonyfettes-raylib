@@ -1,10 +1,6 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/raylib/rl"
 
-import {
-  "tonyfettes/raylib",
-}
-
 // Values
 pub const AttachmentColorChannel0 : Int = 0
 
@@ -34,15 +30,141 @@ pub const AttachmentStencil : Int = 200
 
 pub const AttachmentTexture2d : Int = 100
 
+pub const BlendColor : Int = 0x8005
+
+pub const BlendDstAlpha : Int = 0x80CA
+
+pub const BlendDstRgb : Int = 0x80C8
+
+pub const BlendEquation : Int = 0x8009
+
+pub const BlendEquationAlpha : Int = 0x883D
+
+pub const BlendEquationRgb : Int = 0x8009
+
+pub const BlendSrcAlpha : Int = 0x80CB
+
+pub const BlendSrcRgb : Int = 0x80C9
+
+pub const ComputeShader : Int = 0x91B9
+
+pub const ConstantAlpha : Int = 0x8003
+
+pub const ConstantColor : Int = 0x8001
+
+pub const CullFaceBack : Int = 1
+
+pub const CullFaceFront : Int = 0
+
 pub const DrawFramebuffer : UInt = 0x8CA9
 
+pub const DstAlpha : Int = 0x0304
+
+pub const DstColor : Int = 0x0306
+
+pub const DynamicCopy : Int = 0x88EA
+
+pub const DynamicDraw : Int = 0x88E8
+
+pub const DynamicRead : Int = 0x88E9
+
+pub const FloatType : Int = 0x1406
+
+pub const FragmentShader : Int = 0x8B30
+
+pub const FuncAdd : Int = 0x8006
+
+pub const FuncReverseSubtract : Int = 0x800B
+
+pub const FuncSubtract : Int = 0x800A
+
 pub const Lines : Int = 0x0001
+
+pub const Max : Int = 0x8008
+
+pub const Min : Int = 0x8007
+
+pub const Modelview : Int = 0x1700
+
+pub const One : Int = 1
+
+pub const OneMinusConstantAlpha : Int = 0x8004
+
+pub const OneMinusConstantColor : Int = 0x8002
+
+pub const OneMinusDstAlpha : Int = 0x0305
+
+pub const OneMinusDstColor : Int = 0x0307
+
+pub const OneMinusSrcAlpha : Int = 0x0303
+
+pub const OneMinusSrcColor : Int = 0x0301
+
+pub const Projection : Int = 0x1701
 
 pub const Quads : Int = 0x0007
 
 pub const ReadFramebuffer : UInt = 0x8CA8
 
+pub const SrcAlpha : Int = 0x0302
+
+pub const SrcAlphaSaturate : Int = 0x0308
+
+pub const SrcColor : Int = 0x0300
+
+pub const StaticCopy : Int = 0x88E6
+
+pub const StaticDraw : Int = 0x88E4
+
+pub const StaticRead : Int = 0x88E5
+
+pub const StreamCopy : Int = 0x88E2
+
+pub const StreamDraw : Int = 0x88E0
+
+pub const StreamRead : Int = 0x88E1
+
+pub const TextureFilterAnisotropic : Int = 0x3000
+
+pub const TextureFilterLinear : Int = 0x2601
+
+pub const TextureFilterLinearMipNearest : Int = 0x2701
+
+pub const TextureFilterMipLinear : Int = 0x2703
+
+pub const TextureFilterMipNearest : Int = 0x2700
+
+pub const TextureFilterNearest : Int = 0x2600
+
+pub const TextureFilterNearestMipLinear : Int = 0x2702
+
+pub const TextureMagFilter : Int = 0x2800
+
+pub const TextureMinFilter : Int = 0x2801
+
+pub const TextureMipmapBiasRatio : Int = 0x4000
+
+pub const TextureMode : Int = 0x1702
+
+pub const TextureWrapClamp : Int = 0x812F
+
+pub const TextureWrapMirrorClamp : Int = 0x8742
+
+pub const TextureWrapMirrorRepeat : Int = 0x8370
+
+pub const TextureWrapRepeat : Int = 0x2901
+
+pub const TextureWrapS : Int = 0x2802
+
+pub const TextureWrapT : Int = 0x2803
+
 pub const Triangles : Int = 0x0004
+
+pub const UnsignedByte : Int = 0x1401
+
+pub const VertexShader : Int = 0x8B31
+
+pub const Zero : Int = 0
 
 pub fn active_draw_buffers(Int) -> Unit
 
@@ -52,13 +174,35 @@ pub fn begin(Int) -> Unit
 
 pub fn bind_framebuffer(UInt, UInt) -> Unit
 
+pub fn bind_image_texture(UInt, UInt, Int, Bool) -> Unit
+
+pub fn bind_shader_buffer(UInt, UInt) -> Unit
+
 pub fn blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+
+pub fn check_errors() -> Unit
 
 pub fn check_render_batch_limit(Int) -> Bool
 
+pub fn clear_color(Byte, Byte, Byte, Byte) -> Unit
+
 pub fn clear_screen_buffers() -> Unit
 
+pub fn color3f(Float, Float, Float) -> Unit
+
+pub fn color4f(Float, Float, Float, Float) -> Unit
+
 pub fn color4ub(Byte, Byte, Byte, Byte) -> Unit
+
+pub fn color_mask(Bool, Bool, Bool, Bool) -> Unit
+
+pub fn compile_shader(String, Int) -> UInt
+
+pub fn compute_shader_dispatch(UInt, UInt, UInt) -> Unit
+
+pub fn copy_shader_buffer(UInt, UInt, UInt, UInt, UInt) -> Unit
+
+pub fn cubemap_parameters(UInt, Int, Int) -> Unit
 
 pub fn disable_backface_culling() -> Unit
 
@@ -70,11 +214,37 @@ pub fn disable_depth_test() -> Unit
 
 pub fn disable_framebuffer() -> Unit
 
+pub fn disable_scissor_test() -> Unit
+
 pub fn disable_shader() -> Unit
+
+pub fn disable_smooth_lines() -> Unit
+
+pub fn disable_stereo_render() -> Unit
 
 pub fn disable_texture() -> Unit
 
+pub fn disable_texture_cubemap() -> Unit
+
+pub fn disable_vertex_array() -> Unit
+
+pub fn disable_vertex_attribute(UInt) -> Unit
+
+pub fn disable_vertex_buffer() -> Unit
+
+pub fn disable_vertex_buffer_element() -> Unit
+
+pub fn disable_wire_mode() -> Unit
+
 pub fn draw_render_batch_active() -> Unit
+
+pub fn draw_vertex_array(Int, Int) -> Unit
+
+pub fn draw_vertex_array_elements(Int, Int, buffer? : @tonyfettes/raylib.UShortArray) -> Unit
+
+pub fn draw_vertex_array_elements_instanced(Int, Int, Int, buffer? : @tonyfettes/raylib.UShortArray) -> Unit
+
+pub fn draw_vertex_array_instanced(Int, Int, Int) -> Unit
 
 pub fn enable_backface_culling() -> Unit
 
@@ -86,9 +256,29 @@ pub fn enable_depth_test() -> Unit
 
 pub fn enable_framebuffer(UInt) -> Unit
 
+pub fn enable_point_mode() -> Unit
+
+pub fn enable_scissor_test() -> Unit
+
 pub fn enable_shader(UInt) -> Unit
 
+pub fn enable_smooth_lines() -> Unit
+
+pub fn enable_stereo_render() -> Unit
+
 pub fn enable_texture(UInt) -> Unit
+
+pub fn enable_texture_cubemap(UInt) -> Unit
+
+pub fn enable_vertex_array(UInt) -> Bool
+
+pub fn enable_vertex_attribute(UInt) -> Unit
+
+pub fn enable_vertex_buffer(UInt) -> Unit
+
+pub fn enable_vertex_buffer_element(UInt) -> Unit
+
+pub fn enable_wire_mode() -> Unit
 
 pub fn end_() -> Unit
 
@@ -96,17 +286,45 @@ pub fn framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
 
 pub fn framebuffer_complete(UInt) -> Bool
 
+pub fn frustum(Double, Double, Double, Double, Double, Double) -> Unit
+
+pub fn get_active_framebuffer() -> UInt
+
+pub fn get_cull_distance_far() -> Double
+
+pub fn get_cull_distance_near() -> Double
+
 pub fn get_framebuffer_height() -> Int
 
 pub fn get_framebuffer_width() -> Int
 
+pub fn get_line_width() -> Float
+
+pub fn get_location_attrib(UInt, String) -> Int
+
 pub fn get_location_uniform(UInt, String) -> Int
 
-pub fn get_matrix_modelview() -> @raylib.Matrix
+pub fn get_matrix_modelview() -> @tonyfettes/raylib.Matrix
 
-pub fn get_matrix_projection() -> @raylib.Matrix
+pub fn get_matrix_projection() -> @tonyfettes/raylib.Matrix
+
+pub fn get_matrix_projection_stereo(Int) -> @tonyfettes/raylib.Matrix
+
+pub fn get_matrix_transform() -> @tonyfettes/raylib.Matrix
+
+pub fn get_matrix_view_offset_stereo(Int) -> @tonyfettes/raylib.Matrix
+
+pub fn get_shader_buffer_size(UInt) -> UInt
 
 pub fn get_shader_id_default() -> UInt
+
+pub fn get_texture_id_default() -> UInt
+
+pub fn get_version() -> Int
+
+pub fn is_stereo_render_enabled() -> Bool
+
+pub fn load_compute_shader_program(UInt) -> UInt
 
 pub fn load_draw_cube() -> Unit
 
@@ -114,41 +332,117 @@ pub fn load_draw_quad() -> Unit
 
 pub fn load_framebuffer() -> UInt
 
+pub fn load_identity() -> Unit
+
+pub fn load_shader_buffer(Buffer, Int) -> UInt
+
+pub fn load_shader_buffer_empty(UInt, Int) -> UInt
+
+pub fn load_shader_code(String, String) -> UInt
+
+pub fn load_shader_program(UInt, UInt) -> UInt
+
 pub fn load_texture(Int, Int, Int, Int) -> UInt
 
+pub fn load_texture_cubemap(Bytes, Int, Int, Int) -> UInt
+
 pub fn load_texture_depth(Int, Int, Bool) -> UInt
+
+pub fn load_vertex_array() -> UInt
+
+pub fn load_vertex_buffer(Buffer, Bool) -> UInt
+
+pub fn load_vertex_buffer_element(Buffer, Bool) -> UInt
+
+pub fn matrix_mode(Int) -> Unit
 
 pub fn mult_matrixf(Bytes) -> Unit
 
 pub fn normal3f(Float, Float, Float) -> Unit
 
+pub fn ortho(Double, Double, Double, Double, Double, Double) -> Unit
+
 pub fn pop_matrix() -> Unit
 
 pub fn push_matrix() -> Unit
+
+pub fn read_shader_buffer(UInt, UInt, UInt) -> Bytes
 
 pub fn rotatef(Float, Float, Float, Float) -> Unit
 
 pub fn scalef(Float, Float, Float) -> Unit
 
+pub fn scissor(Int, Int, Int, Int) -> Unit
+
 pub fn set_blend_factors(Int, Int, Int) -> Unit
 
+pub fn set_blend_factors_separate(Int, Int, Int, Int, Int, Int) -> Unit
+
 pub fn set_blend_mode(Int) -> Unit
+
+pub fn set_clip_planes(Double, Double) -> Unit
+
+pub fn set_cull_face(Int) -> Unit
+
+pub fn set_framebuffer_height(Int) -> Unit
+
+pub fn set_framebuffer_width(Int) -> Unit
+
+pub fn set_line_width(Float) -> Unit
+
+pub fn set_matrix_modelview(@tonyfettes/raylib.Matrix) -> Unit
+
+pub fn set_matrix_projection(@tonyfettes/raylib.Matrix) -> Unit
+
+pub fn set_matrix_projection_stereo(@tonyfettes/raylib.Matrix, @tonyfettes/raylib.Matrix) -> Unit
+
+pub fn set_matrix_view_offset_stereo(@tonyfettes/raylib.Matrix, @tonyfettes/raylib.Matrix) -> Unit
 
 pub fn set_texture(UInt) -> Unit
 
 pub fn set_uniform(Int, Bytes, Int, Int) -> Unit
 
+pub fn set_uniform_matrices(Int, Bytes, Int) -> Unit
+
+pub fn set_uniform_matrix(Int, @tonyfettes/raylib.Matrix) -> Unit
+
 pub fn set_uniform_sampler(Int, UInt) -> Unit
 
+pub fn set_vertex_attribute(UInt, Int, Int, Bool, Int, Int) -> Unit
+
+pub fn set_vertex_attribute_default(Int, Buffer, Int, Int) -> Unit
+
+pub fn set_vertex_attribute_divisor(UInt, Int) -> Unit
+
 pub fn tex_coord2f(Float, Float) -> Unit
+
+pub fn texture_parameters(UInt, Int, Int) -> Unit
 
 pub fn translatef(Float, Float, Float) -> Unit
 
 pub fn unload_framebuffer(UInt) -> Unit
 
+pub fn unload_shader_buffer(UInt) -> Unit
+
+pub fn unload_shader_program(UInt) -> Unit
+
 pub fn unload_texture(UInt) -> Unit
 
+pub fn unload_vertex_array(UInt) -> Unit
+
+pub fn unload_vertex_buffer(UInt) -> Unit
+
+pub fn update_shader_buffer(UInt, Buffer, UInt) -> Unit
+
+pub fn update_texture(UInt, Int, Int, Int, Int, Int, Bytes) -> Unit
+
+pub fn update_vertex_buffer(UInt, Buffer, Int) -> Unit
+
+pub fn update_vertex_buffer_elements(UInt, Buffer, Int) -> Unit
+
 pub fn vertex2f(Float, Float) -> Unit
+
+pub fn vertex2i(Int, Int) -> Unit
 
 pub fn vertex3f(Float, Float, Float) -> Unit
 
@@ -157,6 +451,14 @@ pub fn viewport(Int, Int, Int, Int) -> Unit
 // Errors
 
 // Types and methods
+pub(all) enum Buffer {
+  FloatArray(@tonyfettes/raylib.FloatArray)
+  UShortArray(@tonyfettes/raylib.UShortArray)
+  ShortArray(@tonyfettes/raylib.ShortArray)
+  UByteArray(@tonyfettes/raylib.UByteArray)
+}
+pub fn Buffer::byte_size(Self) -> Int
+pub fn Buffer::to_pointer(Self) -> @tonyfettes/raylib/internal/raylib.Pointer
 
 // Type aliases
 
