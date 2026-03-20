@@ -1539,15 +1539,6 @@ pub fn BoundingBox::to_bytes(Self) -> Bytes
 pub impl Eq for BoundingBox
 pub impl Show for BoundingBox
 
-pub(all) enum BufferData {
-  Floats(FloatArray)
-  UShorts(UShortArray)
-  Shorts(ShortArray)
-  UBytes(UByteArray)
-  Raw(Bytes)
-}
-pub fn BufferData::byte_size(Self) -> Int
-
 pub struct Camera2D {
   offset : Vector2
   target : Vector2

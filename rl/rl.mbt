@@ -735,7 +735,7 @@ pub fn load_vertex_array() -> UInt {
 
 ///|
 /// Load a vertex buffer object. Size in bytes is auto-computed from the data.
-pub fn load_vertex_buffer(data : @root.BufferData, dynamic : Bool) -> UInt {
+pub fn load_vertex_buffer(data : BufferData, dynamic : Bool) -> UInt {
   let size = data.byte_size()
   match data {
     Floats(arr) =>
@@ -752,10 +752,7 @@ pub fn load_vertex_buffer(data : @root.BufferData, dynamic : Bool) -> UInt {
 
 ///|
 /// Load vertex buffer elements object. Size in bytes is auto-computed.
-pub fn load_vertex_buffer_element(
-  data : @root.BufferData,
-  dynamic : Bool,
-) -> UInt {
+pub fn load_vertex_buffer_element(data : BufferData, dynamic : Bool) -> UInt {
   let size = data.byte_size()
   match data {
     Floats(arr) =>
@@ -786,7 +783,7 @@ pub fn unload_vertex_buffer(vbo_id : UInt) -> Unit {
 /// Update vertex buffer object data on GPU buffer. Data size is auto-computed.
 pub fn update_vertex_buffer(
   buffer_id : UInt,
-  data : @root.BufferData,
+  data : BufferData,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
@@ -813,7 +810,7 @@ pub fn update_vertex_buffer(
 /// Update vertex buffer elements data on GPU buffer. Data size is auto-computed.
 pub fn update_vertex_buffer_elements(
   id : UInt,
-  data : @root.BufferData,
+  data : BufferData,
   offset : Int,
 ) -> Unit {
   let size = data.byte_size()
@@ -876,7 +873,7 @@ pub fn set_vertex_attribute(
 /// Set vertex attribute default value, when attribute is not provided.
 pub fn set_vertex_attribute_default(
   loc_index : Int,
-  value : @root.BufferData,
+  value : BufferData,
   attrib_type : Int,
   count : Int,
 ) -> Unit {
@@ -1072,7 +1069,7 @@ pub fn compute_shader_dispatch(
 ///|
 /// Load shader storage buffer object (SSBO) with initial data.
 /// Size in bytes is auto-computed from the data.
-pub fn load_shader_buffer(data : @root.BufferData, usage_hint : Int) -> UInt {
+pub fn load_shader_buffer(data : BufferData, usage_hint : Int) -> UInt {
   let size = data.byte_size().reinterpret_as_uint()
   match data {
     Floats(arr) =>
@@ -1103,7 +1100,7 @@ pub fn unload_shader_buffer(ssbo_id : UInt) -> Unit {
 /// Update SSBO buffer data. Data size is auto-computed.
 pub fn update_shader_buffer(
   id : UInt,
-  data : @root.BufferData,
+  data : BufferData,
   offset : UInt,
 ) -> Unit {
   let size = data.byte_size().reinterpret_as_uint()

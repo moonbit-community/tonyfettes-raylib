@@ -6,13 +6,13 @@
 /// Typed buffer data for rlgl buffer operations.
 pub(all) enum BufferData {
   /// Float array data (e.g., vertex positions, normals, texcoords).
-  Floats(FloatArray)
+  Floats(@root.FloatArray)
   /// Unsigned short array data (e.g., vertex indices).
-  UShorts(UShortArray)
+  UShorts(@root.UShortArray)
   /// Signed short array data.
-  Shorts(ShortArray)
+  Shorts(@root.ShortArray)
   /// Unsigned byte array data (e.g., vertex colors).
-  UBytes(UByteArray)
+  UBytes(@root.UByteArray)
   /// Raw byte data (e.g., user-defined structs for SSBOs).
   Raw(Bytes)
 }
