@@ -450,17 +450,19 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
               )
               let texture = image.to_texture()
               image.unload()
-              let font = @raylib.Font::new(
-                texture,
-                base_size,
-                glyph_padding=0,
-                glyphs,
-                recs,
-              )
-              glyphs.unload()
-              if font.is_valid() {
+              if texture.id() != 0 {
+                let font = @raylib.Font::new(
+                  texture,
+                  base_size,
+                  glyph_padding=0,
+                  glyphs,
+                  recs,
+                )
+                glyphs.unload()
                 gui_set_font(font)
                 gui_set_style(ControlDefault, TextSize, base_size)
+              } else {
+                glyphs.unload()
               }
             }
           }
