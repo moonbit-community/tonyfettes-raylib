@@ -36,8 +36,6 @@ pub fn begin_texture_mode(RenderTexture) -> Unit
 
 pub fn begin_vr_stereo_mode(VrStereoConfig) -> Unit
 
-pub fn build_font_from_data(Bytes, Int, Int, Int, Int, Int) -> Font
-
 pub fn change_directory(Bytes) -> Bool
 
 pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
@@ -376,7 +374,7 @@ pub fn gen_image_checked(Int, Int, Int, Int, Bytes, Bytes) -> Image
 
 pub fn gen_image_color(Int, Int, Bytes) -> Image
 
-pub fn gen_image_font_atlas(GlyphInfoArray, Int, Int, Int) -> Image
+pub fn gen_image_font_atlas(GlyphInfoArray, Int, Int, Int, @ref.Ref[Bytes]) -> Image
 
 pub fn gen_image_gradient_linear(Int, Int, Int, Bytes, Bytes) -> Image
 
@@ -710,6 +708,8 @@ pub fn glyph_info_array_count(GlyphInfoArray) -> Int
 
 pub fn glyph_info_array_get(GlyphInfoArray, Int) -> Bytes
 
+pub fn glyph_info_array_set(GlyphInfoArray, Int, Int, Int, Int, Int) -> Unit
+
 pub fn hide_cursor() -> Unit
 
 pub fn image_alpha_clear(Image, Bytes, Float) -> Unit
@@ -942,8 +942,6 @@ pub fn load_font_data(Bytes, Int, Int, Int) -> GlyphInfoArray
 
 pub fn load_font_ex(Bytes, Int, FixedArray[Int]?, Int) -> Font
 
-pub fn load_font_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> Font
-
 pub fn load_font_from_image(Image, Bytes, Int) -> Font
 
 pub fn load_font_from_memory(Bytes, Bytes, Int, Int) -> Font
@@ -1053,6 +1051,12 @@ pub fn measure_text_ex(Font, Bytes, Float, Float) -> Bytes
 pub fn minimize_window() -> Unit
 
 pub fn model_animations_count(ModelAnimations) -> Int
+
+pub fn new_font(Texture, Int, Int, GlyphInfoArray, Bytes) -> Font
+
+pub fn new_glyph_info_array(Int) -> GlyphInfoArray
+
+pub fn new_image(Bytes, Int, Int, Int, Int) -> Image
 
 pub fn new_mesh(Int, Int, FixedArray[Float], FixedArray[Float]?, FixedArray[Float]?, FixedArray[Float]?, FixedArray[Float]?, FixedArray[Byte]?, FixedArray[UInt16]?) -> Mesh
 

@@ -152,6 +152,18 @@ pub fn Image::kernel_convolution(
 // ============================================================================
 
 ///|
+/// Create an Image from raw pixel data in memory.
+#as_free_fn(new_image)
+pub fn Image::new(
+  pixel_data : Bytes,
+  width : Int,
+  height : Int,
+  format : Int,
+) -> Image {
+  @ffi.new_image(pixel_data, pixel_data.length(), width, height, format)
+}
+
+///|
 /// Load image from RAW file data.
 #as_free_fn(load_image_raw)
 pub fn Image::load_raw(
