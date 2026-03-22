@@ -249,6 +249,21 @@ pub fn Font::new(
 }
 
 ///|
+/// Load font from texture atlas components.
+/// Deprecated: use Font::new(...) instead.
+#as_free_fn(load_font_from_atlas, deprecated="Use Font::new(...) instead")
+#deprecated("Use Font::new(...) instead")
+pub fn Font::load_from_atlas(
+  texture : Texture,
+  base_size : Int,
+  glyph_padding~ : Int,
+  glyphs : GlyphInfoArray,
+  recs : FixedArray[Rectangle],
+) -> Font {
+  Font::new(texture, base_size, glyph_padding~, glyphs, recs)
+}
+
+///|
 /// Export font as code file, returns true on success.
 #as_free_fn(export_font_as_code)
 pub fn Font::export_as_code(self : Font, file_name : String) -> Bool {
