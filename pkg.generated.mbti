@@ -1593,8 +1593,6 @@ pub fn FloatArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.FloatPoin
 type Font
 #as_free_fn(get_font_base_size)
 pub fn Font::base_size(Self) -> Int
-#as_free_fn(build_font_from_data)
-pub fn Font::build_from_data(Bytes, Int, Int, Int, Int, Int) -> Self
 #as_free_fn(draw_text_codepoint)
 pub fn Font::draw_codepoint(Self, Int, Vector2, Float, Color) -> Unit
 #as_free_fn(draw_text_codepoints)
@@ -1626,14 +1624,14 @@ pub fn Font::load(String) -> Self
 pub fn Font::load_ex(String, Int) -> Self
 #as_free_fn(load_font_ex_codepoints)
 pub fn Font::load_ex_codepoints(String, Int, Array[Int]) -> Self
-#as_free_fn(load_font_from_atlas)
-pub fn Font::load_from_atlas(Bytes, Int, Int, Int, Int, Int, Int, Int, Bytes, Bytes) -> Self
 #as_free_fn(load_font_from_image)
 pub fn Font::load_from_image(Image, Color, Int) -> Self
 #as_free_fn(load_font_from_memory)
 pub fn Font::load_from_memory(String, Bytes, Int, Int) -> Self
 #as_free_fn(measure_text_ex)
 pub fn Font::measure_text(Self, String, Float, Float) -> Vector2
+#as_free_fn(new_font)
+pub fn Font::new(Texture, Int, glyph_padding~ : Int, GlyphInfoArray, FixedArray[Rectangle]) -> Self
 #as_free_fn(get_font_texture)
 pub fn Font::texture(Self) -> Texture
 #as_free_fn(unload_font)
@@ -1647,18 +1645,21 @@ pub struct GlyphInfo {
   advance_x : Int
 }
 pub fn GlyphInfo::from_bytes(Bytes) -> Self
+pub fn GlyphInfo::new(Int, Int, Int, Int) -> Self
 pub impl Eq for GlyphInfo
 pub impl Show for GlyphInfo
 
 type GlyphInfoArray
 #as_free_fn(glyph_info_array_count)
 pub fn GlyphInfoArray::count(Self) -> Int
-#as_free_fn(gen_image_font_atlas)
-pub fn GlyphInfoArray::gen_image_atlas(Self, Int, Int, Int) -> Image
+pub fn GlyphInfoArray::gen_image_atlas(Self, Int, Int, Int) -> (Image, FixedArray[Rectangle])
 #as_free_fn(glyph_info_array_get)
 pub fn GlyphInfoArray::get(Self, Int) -> GlyphInfo
 #as_free_fn(load_font_data)
 pub fn GlyphInfoArray::load(Bytes, Int, Int, Int) -> Self
+#as_free_fn(new_glyph_info_array)
+pub fn GlyphInfoArray::new(Int) -> Self
+pub fn GlyphInfoArray::op_set(Self, Int, GlyphInfo) -> Unit
 #as_free_fn(unload_font_data)
 pub fn GlyphInfoArray::unload(Self) -> Unit
 
@@ -1800,6 +1801,8 @@ pub fn Image::load_palette(Self, Int) -> Bytes
 pub fn Image::load_raw(String, Int, Int, Int, Int) -> Self
 #as_free_fn(get_image_mipmaps)
 pub fn Image::mipmaps(Self) -> Int
+#as_free_fn(new_image)
+pub fn Image::new(Bytes, Int, Int, Int) -> Self
 #as_free_fn(image_resize)
 pub fn Image::resize(Self, Int, Int) -> Unit
 #as_free_fn(image_resize_canvas)

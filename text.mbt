@@ -106,6 +106,17 @@ pub struct GlyphInfo {
 } derive(Eq, Show)
 
 ///|
+/// Create a new GlyphInfo.
+pub fn GlyphInfo::new(
+  value : Int,
+  offset_x : Int,
+  offset_y : Int,
+  advance_x : Int,
+) -> GlyphInfo {
+  { value, offset_x, offset_y, advance_x }
+}
+
+///|
 /// Deserialize a GlyphInfo from a byte buffer.
 pub fn GlyphInfo::from_bytes(b : Bytes) -> GlyphInfo {
   {

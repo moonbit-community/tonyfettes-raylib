@@ -149,21 +149,6 @@ pub extern "c" fn load_font_from_memory(
 ) -> Font = "moonbit_raylib_load_font_from_memory"
 
 ///|
-#borrow(pixel_data, recs_data, glyphs_data)
-pub extern "c" fn load_font_from_atlas(
-  pixel_data : Bytes,
-  pixel_data_size : Int,
-  img_width : Int,
-  img_height : Int,
-  img_format : Int,
-  base_size : Int,
-  glyph_count : Int,
-  font_type : Int,
-  recs_data : Bytes,
-  glyphs_data : Bytes,
-) -> Font = "moonbit_raylib_load_font_from_atlas"
-
-///|
 #borrow(font, file_name)
 pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = "moonbit_raylib_export_font_as_code"
 
@@ -247,21 +232,39 @@ pub extern "c" fn glyph_info_array_get(
 ) -> Bytes = "moonbit_raylib_glyph_info_array_get"
 
 ///|
-#borrow(glyphs)
+#borrow(glyphs, out_recs)
 pub extern "c" fn gen_image_font_atlas(
   glyphs : GlyphInfoArray,
   font_size : Int,
   padding : Int,
   pack_method : Int,
+  out_recs : Ref[Bytes],
 ) -> Image = "moonbit_raylib_gen_image_font_atlas"
 
 ///|
-#borrow(file_data)
-pub extern "c" fn build_font_from_data(
-  file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
-  font_type : Int,
-  padding : Int,
-  pack_method : Int,
-) -> Font = "moonbit_raylib_build_font_from_data"
+/// Allocate an empty GlyphInfoArray of the given size.
+pub extern "c" fn new_glyph_info_array(count : Int) -> GlyphInfoArray = "moonbit_raylib_new_glyph_info_array"
+
+///|
+/// Set a glyph at the given index.
+#borrow(wrapper)
+pub extern "c" fn glyph_info_array_set(
+  wrapper : GlyphInfoArray,
+  index : Int,
+  value : Int,
+  offset_x : Int,
+  offset_y : Int,
+  advance_x : Int,
+) = "moonbit_raylib_glyph_info_array_set"
+
+///|
+/// Assemble a Font from its components. Copies the glyphs and recs data.
+/// The texture value is copied — caller should not unload it separately.
+#borrow(texture, glyphs, recs_data)
+pub extern "c" fn new_font(
+  texture : Texture,
+  base_size : Int,
+  glyph_padding : Int,
+  glyphs : GlyphInfoArray,
+  recs_data : Bytes,
+) -> Font = "moonbit_raylib_new_font"
