@@ -330,7 +330,7 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
     if font_data_size > 0 && offset + 12 <= data.length() {
       let base_size = style_read_int(data, offset)
       let glyph_count = style_read_int(data, offset + 4)
-      let font_type = style_read_int(data, offset + 8)
+      let _font_type = style_read_int(data, offset + 8)
       offset = offset + 12
       // Skip font white rectangle (16 bytes: x, y, w, h as floats)
       if offset + 16 <= data.length() {
