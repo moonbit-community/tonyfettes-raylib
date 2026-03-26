@@ -1,4 +1,19 @@
 // ============================================================================
+// Image construction from raw pixel data in memory
+// ============================================================================
+
+///|
+/// Create an Image from raw pixel data in memory.
+#borrow(pixel_data)
+pub extern "c" fn new_image(
+  pixel_data : Bytes,
+  pixel_data_size : Int,
+  width : Int,
+  height : Int,
+  format : Int,
+) -> Image = "moonbit_raylib_new_image"
+
+// ============================================================================
 // Image loading: LoadImageRaw, LoadImageAnim, LoadImageAnimFromMemory
 // ============================================================================
 

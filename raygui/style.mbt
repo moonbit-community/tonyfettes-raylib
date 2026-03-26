@@ -330,7 +330,7 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
     if font_data_size > 0 && offset + 12 <= data.length() {
       let base_size = style_read_int(data, offset)
       let glyph_count = style_read_int(data, offset + 4)
-      let font_type = style_read_int(data, offset + 8)
+      let _font_type = style_read_int(data, offset + 8)
       offset = offset + 12
       // Skip font white rectangle (16 bytes: x, y, w, h as floats)
       if offset + 16 <= data.length() {
@@ -414,21 +414,55 @@ fn gui_load_style_from_binary(data : Bytes) -> Unit {
             }
             if recs_data.length() >= recs_data_size &&
               glyphs_data.length() >= glyphs_data_size {
-              let font = @raylib.load_font_from_atlas(
-                pixel_data,
-                pixel_data.length(),
-                img_width,
-                img_height,
-                img_format,
-                base_size,
+              // Deserialize recs
+              let recs : FixedArray[@raylib.Rectangle] = FixedArray::makei(
                 glyph_count,
-                font_type,
-                recs_data,
-                glyphs_data,
+                fn(i) {
+                  let off = i * 16
+                  @raylib.Rectangle::new(
+                    Float::reinterpret_from_int(style_read_int(recs_data, off)),
+                    Float::reinterpret_from_int(
+                      style_read_int(recs_data, off + 4),
+                    ),
+                    Float::reinterpret_from_int(
+                      style_read_int(recs_data, off + 8),
+                    ),
+                    Float::reinterpret_from_int(
+                      style_read_int(recs_data, off + 12),
+                    ),
+                  )
+                },
               )
-              if @raylib.is_font_valid(font) {
+              // Deserialize glyphs
+              let glyphs = @raylib.GlyphInfoArray::new(glyph_count)
+              for i in 0..<glyph_count {
+                let off = i * 16
+                glyphs[i] = @raylib.GlyphInfo::new(
+                  style_read_int(glyphs_data, off),
+                  style_read_int(glyphs_data, off + 4),
+                  style_read_int(glyphs_data, off + 8),
+                  style_read_int(glyphs_data, off + 12),
+                )
+              }
+              // Build font from components
+              let image = @raylib.Image::new(
+                pixel_data, img_width, img_height, img_format,
+              )
+              let texture = image.to_texture()
+              image.unload()
+              if texture.id() != 0 {
+                let font = @raylib.Font::new(
+                  texture,
+                  base_size,
+                  glyph_padding=0,
+                  glyphs,
+                  recs,
+                )
+                glyphs.unload()
                 gui_set_font(font)
                 gui_set_style(ControlDefault, TextSize, base_size)
+              } else {
+                glyphs.unload()
               }
             }
           }

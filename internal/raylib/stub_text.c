@@ -354,131 +354,81 @@ moonbit_raylib_gen_image_font_atlas(
   GlyphInfoArrayWrapper *glyphs,
   int fontSize,
   int padding,
-  int packMethod
+  int packMethod,
+  moonbit_bytes_t *out_recs
 ) {
   Rectangle *recs = NULL;
   Image atlas = GenImageFontAtlas(
     glyphs->glyphs, &recs, glyphs->count, fontSize, padding, packMethod
   );
-  // recs is allocated by GenImageFontAtlas but we don't expose it for now; free
-  // it
-  if (recs)
+  // Pack recs into Bytes for MoonBit
+  int size = glyphs->count * (int)sizeof(Rectangle);
+  moonbit_bytes_t recs_bytes = moonbit_make_bytes(size, 0);
+  if (recs) {
+    memcpy(recs_bytes, recs, size);
     MemFree(recs);
+  }
+  *out_recs = recs_bytes;
   return MakeImageWrapper(atlas);
 }
 
-// Build a Font from raw embedded atlas data (used by raygui binary style
-// loading). pixelData: raw image pixels (GRAY_ALPHA format typically) imgWidth,
-// imgHeight, imgFormat: image dimensions and pixel format recsData: packed
-// array of Rectangles (4 floats each: x, y, w, h), count = glyphCount
-// glyphsData: packed array of glyph info (4 ints each: value, offsetX, offsetY,
-// advanceX), count = glyphCount
-FontWrapper *
-moonbit_raylib_load_font_from_atlas(
-  moonbit_bytes_t pixelData,
-  int pixelDataSize,
-  int imgWidth,
-  int imgHeight,
-  int imgFormat,
-  int baseSize,
-  int glyphCount,
-  int fontType,
-  moonbit_bytes_t recsData,
-  moonbit_bytes_t glyphsData
+// Allocate an empty GlyphInfoArray of the given size.
+GlyphInfoArrayWrapper *
+moonbit_raylib_new_glyph_info_array(int count) {
+  GlyphInfo *glyphs = (GlyphInfo *)RL_CALLOC(count, sizeof(GlyphInfo));
+  return MakeGlyphInfoArrayWrapper(glyphs, count);
+}
+
+// Set a glyph at the given index.
+void
+moonbit_raylib_glyph_info_array_set(
+  GlyphInfoArrayWrapper *w,
+  int index,
+  int value,
+  int offsetX,
+  int offsetY,
+  int advanceX
 ) {
-  // Construct Image from raw pixel data
-  Image imFont = {0};
-  imFont.width = imgWidth;
-  imFont.height = imgHeight;
-  imFont.format = imgFormat;
-  imFont.mipmaps = 1;
-  imFont.data = RL_CALLOC(pixelDataSize, 1);
-  memcpy(imFont.data, pixelData, pixelDataSize);
+  if (index >= 0 && index < w->count) {
+    w->glyphs[index].value = value;
+    w->glyphs[index].offsetX = offsetX;
+    w->glyphs[index].offsetY = offsetY;
+    w->glyphs[index].advanceX = advanceX;
+    w->glyphs[index].image = (Image){0};
+  }
+}
 
-  // Load texture from image
-  Texture2D texture = LoadTextureFromImage(imFont);
-  RL_FREE(imFont.data);
+// Assemble a Font from its components. Copies the glyphs and recs data.
+// The texture value is copied — caller should not unload it separately.
+FontWrapper *
+moonbit_raylib_new_font(
+  TextureWrapper *tex,
+  int baseSize,
+  int glyphPadding,
+  GlyphInfoArrayWrapper *glyphs,
+  moonbit_bytes_t recsData
+) {
+  int glyphCount = glyphs->count;
 
-  if (texture.id == 0) {
-    // Failed to load texture, return default font
-    return MakeFontWrapper(GetFontDefault());
+  // Copy glyphs (zero out images to prevent double-free)
+  GlyphInfo *glyphsCopy = (GlyphInfo *)RL_CALLOC(glyphCount, sizeof(GlyphInfo));
+  memcpy(glyphsCopy, glyphs->glyphs, glyphCount * sizeof(GlyphInfo));
+  for (int i = 0; i < glyphCount; i++) {
+    glyphsCopy[i].image = (Image){0};
   }
 
-  // Build recs array from packed data
+  // Copy recs from packed bytes
   Rectangle *recs = (Rectangle *)RL_CALLOC(glyphCount, sizeof(Rectangle));
-  for (int i = 0; i < glyphCount; i++) {
-    float x, y, w, h;
-    memcpy(&x, (unsigned char *)recsData + i * 16, sizeof(float));
-    memcpy(&y, (unsigned char *)recsData + i * 16 + 4, sizeof(float));
-    memcpy(&w, (unsigned char *)recsData + i * 16 + 8, sizeof(float));
-    memcpy(&h, (unsigned char *)recsData + i * 16 + 12, sizeof(float));
-    recs[i] = (Rectangle){x, y, w, h};
-  }
-
-  // Build glyphs array from packed data
-  GlyphInfo *glyphsArr = (GlyphInfo *)RL_CALLOC(glyphCount, sizeof(GlyphInfo));
-  for (int i = 0; i < glyphCount; i++) {
-    int value, offsetX, offsetY, advanceX;
-    memcpy(&value, (unsigned char *)glyphsData + i * 16, sizeof(int));
-    memcpy(&offsetX, (unsigned char *)glyphsData + i * 16 + 4, sizeof(int));
-    memcpy(&offsetY, (unsigned char *)glyphsData + i * 16 + 8, sizeof(int));
-    memcpy(&advanceX, (unsigned char *)glyphsData + i * 16 + 12, sizeof(int));
-    glyphsArr[i].value = value;
-    glyphsArr[i].offsetX = offsetX;
-    glyphsArr[i].offsetY = offsetY;
-    glyphsArr[i].advanceX = advanceX;
-    glyphsArr[i].image = (Image){0}; // Individual glyph images not needed
-  }
+  memcpy(recs, recsData, glyphCount * sizeof(Rectangle));
 
   // Assemble the Font
   Font font = {0};
   font.baseSize = baseSize;
   font.glyphCount = glyphCount;
-  font.glyphPadding = 0;
-  font.texture = texture;
+  font.glyphPadding = glyphPadding;
+  font.texture = *tex->data;
   font.recs = recs;
-  font.glyphs = glyphsArr;
-
-  return MakeFontWrapper(font);
-}
-
-FontWrapper *
-moonbit_raylib_build_font_from_data(
-  moonbit_bytes_t fileData,
-  int dataSize,
-  int fontSize,
-  int fontType,
-  int padding,
-  int packMethod
-) {
-  // Load glyph data from font file in memory
-  GlyphInfo *glyphs = LoadFontData(
-    (const unsigned char *)fileData, dataSize, fontSize, NULL, 0, fontType
-  );
-  if (!glyphs) {
-    // Return default font instead of NULL
-    return MakeFontWrapper(GetFontDefault());
-  }
-
-  int glyphCount = 95; // default character set
-
-  // Generate font atlas image and rectangle array
-  Rectangle *recs = NULL;
-  Image atlas =
-    GenImageFontAtlas(glyphs, &recs, glyphCount, fontSize, padding, packMethod);
-
-  // Load texture from atlas image
-  Texture2D texture = LoadTextureFromImage(atlas);
-  UnloadImage(atlas);
-
-  // Assemble the Font struct
-  Font font = {0};
-  font.baseSize = fontSize;
-  font.glyphCount = glyphCount;
-  font.glyphPadding = padding;
-  font.glyphs = glyphs;
-  font.recs = recs;
-  font.texture = texture;
+  font.glyphs = glyphsCopy;
 
   return MakeFontWrapper(font);
 }

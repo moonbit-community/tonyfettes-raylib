@@ -228,24 +228,39 @@ pub fn Font::load_from_memory(
 }
 
 ///|
-/// Load font from pre-generated atlas data (pixel data, recs, and glyphs).
-#as_free_fn(load_font_from_atlas)
-pub fn Font::load_from_atlas(
-  pixel_data : Bytes,
-  pixel_data_size : Int,
-  img_width : Int,
-  img_height : Int,
-  img_format : Int,
+/// Construct a Font from its components. Copies the glyphs and recs data.
+/// The texture value is copied — caller should not unload it separately.
+#as_free_fn(new_font)
+pub fn Font::new(
+  texture : Texture,
   base_size : Int,
-  glyph_count : Int,
-  font_type : Int,
-  recs_data : Bytes,
-  glyphs_data : Bytes,
+  glyph_padding~ : Int,
+  glyphs : GlyphInfoArray,
+  recs : FixedArray[Rectangle],
 ) -> Font {
-  @ffi.load_font_from_atlas(
-    pixel_data, pixel_data_size, img_width, img_height, img_format, base_size, glyph_count,
-    font_type, recs_data, glyphs_data,
-  )
+  let buf = @buffer.new(size_hint=recs.length() * 16)
+  for rec in recs {
+    buf.write_float_le(rec.x)
+    buf.write_float_le(rec.y)
+    buf.write_float_le(rec.width)
+    buf.write_float_le(rec.height)
+  }
+  @ffi.new_font(texture.0, base_size, glyph_padding, glyphs.0, buf.to_bytes())
+}
+
+///|
+/// Load font from texture atlas components.
+/// Deprecated: use Font::new(...) instead.
+#as_free_fn(load_font_from_atlas, deprecated="Use Font::new(...) instead")
+#deprecated("Use Font::new(...) instead")
+pub fn Font::load_from_atlas(
+  texture : Texture,
+  base_size : Int,
+  glyph_padding~ : Int,
+  glyphs : GlyphInfoArray,
+  recs : FixedArray[Rectangle],
+) -> Font {
+  Font::new(texture, base_size, glyph_padding~, glyphs, recs)
 }
 
 ///|
@@ -290,18 +305,26 @@ pub fn Font::glyph_info(self : Font, codepoint : Int) -> GlyphInfo {
 }
 
 ///|
-/// Build a font from glyph data, atlas image, and font parameters.
-#as_free_fn(build_font_from_data)
-pub fn Font::build_from_data(
-  file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
-  font_type : Int,
-  padding : Int,
-  pack_method : Int,
-) -> Font {
-  @ffi.build_font_from_data(
-    file_data, data_size, font_size, font_type, padding, pack_method,
+/// Allocate an empty GlyphInfoArray of the given size.
+#as_free_fn(new_glyph_info_array)
+pub fn GlyphInfoArray::new(count : Int) -> GlyphInfoArray {
+  @ffi.new_glyph_info_array(count)
+}
+
+///|
+/// Set a glyph at the given index.
+pub fn GlyphInfoArray::op_set(
+  self : GlyphInfoArray,
+  index : Int,
+  info : GlyphInfo,
+) -> Unit {
+  @ffi.glyph_info_array_set(
+    self.0,
+    index,
+    info.value,
+    info.offset_x,
+    info.offset_y,
+    info.advance_x,
   )
 }
 
@@ -325,15 +348,34 @@ pub fn GlyphInfoArray::get(self : GlyphInfoArray, index : Int) -> GlyphInfo {
 }
 
 ///|
-/// Generate image font atlas using chars info.
-#as_free_fn(gen_image_font_atlas)
+/// Generate image font atlas using chars info. Returns the atlas image and
+/// the glyph rectangle array.
 pub fn GlyphInfoArray::gen_image_atlas(
   self : GlyphInfoArray,
   font_size : Int,
   padding : Int,
   pack_method : Int,
-) -> Image {
-  @ffi.gen_image_font_atlas(self.0, font_size, padding, pack_method)
+) -> (Image, FixedArray[Rectangle]) {
+  let recs_ref : Ref[Bytes] = Ref::new(Bytes::new(0))
+  let image = @ffi.gen_image_font_atlas(
+    self.0,
+    font_size,
+    padding,
+    pack_method,
+    recs_ref,
+  )
+  let recs_bytes = recs_ref.val
+  let count = @ffi.glyph_info_array_count(self.0)
+  let recs = FixedArray::makei(count, fn(i) {
+    let off = i * 16
+    Rectangle::new(
+      read_float(recs_bytes, off),
+      read_float(recs_bytes, off + 4),
+      read_float(recs_bytes, off + 8),
+      read_float(recs_bytes, off + 12),
+    )
+  })
+  (image, recs)
 }
 
 ///|

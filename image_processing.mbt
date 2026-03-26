@@ -152,6 +152,25 @@ pub fn Image::kernel_convolution(
 // ============================================================================
 
 ///|
+/// Create an Image from raw pixel data in memory.
+/// Guards that `pixel_data` is large enough for the declared dimensions;
+/// returns an empty image if the buffer is too small.
+#as_free_fn(new_image)
+pub fn Image::new(
+  pixel_data : Bytes,
+  width : Int,
+  height : Int,
+  format : Int,
+) -> Image {
+  let required = get_pixel_data_size(width, height, format)
+  if pixel_data.length() < required {
+    @ffi.new_image(pixel_data, 0, 0, 0, format)
+  } else {
+    @ffi.new_image(pixel_data, pixel_data.length(), width, height, format)
+  }
+}
+
+///|
 /// Load image from RAW file data.
 #as_free_fn(load_image_raw)
 pub fn Image::load_raw(

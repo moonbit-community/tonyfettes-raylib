@@ -2,6 +2,28 @@
 #include <stdlib.h>
 
 // ============================================================================
+// Image construction from raw pixel data in memory
+// ============================================================================
+
+ImageWrapper *
+moonbit_raylib_new_image(
+  moonbit_bytes_t pixelData,
+  int pixelDataSize,
+  int width,
+  int height,
+  int format
+) {
+  Image img = {0};
+  img.width = width;
+  img.height = height;
+  img.format = format;
+  img.mipmaps = 1;
+  img.data = RL_CALLOC(pixelDataSize, 1);
+  memcpy(img.data, pixelData, pixelDataSize);
+  return MakeImageWrapper(img);
+}
+
+// ============================================================================
 // Image loading: LoadImageRaw, LoadImageAnim, LoadImageAnimFromMemory
 // ============================================================================
 
