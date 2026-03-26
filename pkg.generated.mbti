@@ -1624,6 +1624,9 @@ pub fn Font::load(String) -> Self
 pub fn Font::load_ex(String, Int) -> Self
 #as_free_fn(load_font_ex_codepoints)
 pub fn Font::load_ex_codepoints(String, Int, Array[Int]) -> Self
+#as_free_fn(load_font_from_atlas, deprecated)
+#deprecated
+pub fn Font::load_from_atlas(Texture, Int, glyph_padding~ : Int, GlyphInfoArray, FixedArray[Rectangle]) -> Self
 #as_free_fn(load_font_from_image)
 pub fn Font::load_from_image(Image, Color, Int) -> Self
 #as_free_fn(load_font_from_memory)
