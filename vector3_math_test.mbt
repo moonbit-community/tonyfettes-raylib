@@ -430,3 +430,31 @@ test "Vector3::perpendicular z-smallest branch" {
   let len = @raylib.Vector3::length(p)
   assert_true(len > 0.001)
 }
+
+///|
+test "Vector3::ortho_normalize zero v1 (length == 0 fallback)" {
+  // Zero vector v1 triggers the length == 0.0 fallback at line 371
+  let v1 = @raylib.Vector3::new(0.0, 0.0, 0.0)
+  let v2 = @raylib.Vector3::new(0.0, 1.0, 0.0)
+  let (r1, r2) = @raylib.Vector3::ortho_normalize(v1, v2)
+  // Should not crash; r1 will be zero (0*1/1 = 0) and r2 is derived from cross products
+  // The function completes without division by zero
+  let _len1 = @raylib.Vector3::length(r1)
+  let _len2 = @raylib.Vector3::length(r2)
+  // Just verify it doesn't panic
+  assert_true(true)
+}
+
+///|
+test "Vector3::ortho_normalize parallel vectors (cross product zero, length2 == 0 fallback)" {
+  // Parallel vectors: cross product is zero, triggers length2 == 0.0 at line 386
+  let v1 = @raylib.Vector3::new(1.0, 0.0, 0.0)
+  let v2 = @raylib.Vector3::new(2.0, 0.0, 0.0)
+  let (r1, r2) = @raylib.Vector3::ortho_normalize(v1, v2)
+  // r1 should be normalized v1
+  assert_true(approx(@raylib.Vector3::length(r1), 1.0))
+  assert_true(approx(r1.x, 1.0))
+  // The function should not crash even though cross product is zero
+  let _len2 = @raylib.Vector3::length(r2)
+  assert_true(true)
+}

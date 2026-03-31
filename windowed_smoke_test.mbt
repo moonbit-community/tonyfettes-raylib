@@ -249,3 +249,107 @@ test "window state functions" {
   assert_true(not(@raylib.window_should_close()))
   @raylib.close_window()
 }
+
+///|
+test "window position and DPI queries" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let _ = @raylib.get_window_position()
+  let dpi = @raylib.get_window_scale_dpi()
+  assert_true(dpi.x > 0.0)
+  @raylib.close_window()
+}
+
+///|
+test "trace_log does not crash" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  @raylib.trace_log(4, "test message")
+  @raylib.close_window()
+}
+
+///|
+test "take_screenshot does not crash" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  @raylib.begin_drawing()
+  @raylib.clear_background(@raylib.black)
+  @raylib.end_drawing()
+  @raylib.take_screenshot("_test_tmp_screenshot.png")
+  @raylib.close_window()
+}
+
+///|
+test "set_window_icon does not crash" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let icon = @raylib.gen_image_color(16, 16, @raylib.red)
+  @raylib.set_window_icon(icon)
+  icon.unload()
+  @raylib.close_window()
+}
+
+///|
+test "input vector queries do not crash" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let _ = @raylib.get_mouse_delta()
+  let _ = @raylib.get_mouse_wheel_move_v()
+  let _ = @raylib.get_touch_position(0)
+  let _ = @raylib.get_gesture_drag_vector()
+  let _ = @raylib.get_gesture_pinch_vector()
+  let _ = @raylib.get_gamepad_name(0)
+  @raylib.close_window()
+}
+
+///|
+test "monitor queries do not crash" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let _ = @raylib.get_monitor_position(0)
+  let _ = @raylib.get_monitor_name(0)
+  @raylib.close_window()
+}
+
+///|
+test "shapes drawing variants" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  @raylib.begin_drawing()
+  @raylib.draw_circle_sector_lines(
+    @raylib.Vector2::new(0.0, 0.0),
+    1.0,
+    0.0,
+    180.0,
+    8,
+    @raylib.red,
+  )
+  @raylib.draw_ring_lines(
+    @raylib.Vector2::new(0.0, 0.0),
+    0.5,
+    1.0,
+    0.0,
+    360.0,
+    8,
+    @raylib.blue,
+  )
+  @raylib.draw_ellipse(0, 0, 1.0, 0.5, @raylib.green)
+  @raylib.draw_ellipse_lines(0, 0, 1.0, 0.5, @raylib.white)
+  @raylib.draw_rectangle_gradient_v(0, 0, 1, 1, @raylib.red, @raylib.blue)
+  @raylib.draw_rectangle_gradient_h(0, 0, 1, 1, @raylib.green, @raylib.white)
+  @raylib.draw_rectangle_gradient_ex(
+    @raylib.Rectangle::new(0.0, 0.0, 1.0, 1.0),
+    @raylib.red,
+    @raylib.blue,
+    @raylib.green,
+    @raylib.white,
+  )
+  @raylib.draw_triangle_lines(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(1.0, 0.0),
+    @raylib.Vector2::new(0.0, 1.0),
+    @raylib.black,
+  )
+  @raylib.end_drawing()
+  @raylib.close_window()
+}

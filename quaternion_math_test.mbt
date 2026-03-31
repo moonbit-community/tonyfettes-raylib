@@ -641,3 +641,53 @@ test "Vector4::quat_subtract_value" {
   let r = @raylib.Vector4::quat_subtract_value(q, 5.0)
   assert_eq(r, @raylib.Vector4::new(5.0, 15.0, 25.0, 35.0))
 }
+
+///|
+test "Vector4::quat_to_axis_angle unnormalized quaternion (|w| > 1 triggers normalization)" {
+  // Unnormalized quaternion with |w| = 2 > 1, triggers the normalization branch
+  let q = @raylib.Vector4::new(0.0, 0.0, 2.0, 2.0)
+  let (axis, angle) = @raylib.Vector4::quat_to_axis_angle(q)
+  // After normalization: (0, 0, 1/sqrt(2), 1/sqrt(2)), same as 90-deg rotation about z
+  // angle = 2 * acos(1/sqrt(2)) = 2 * pi/4 = pi/2
+  assert_true(approx(angle, pi / 2.0))
+  assert_true(approx(axis.x, 0.0))
+  assert_true(approx(axis.y, 0.0))
+  assert_true(approx(axis.z, 1.0))
+}
+
+///|
+test "Vector4::quat_to_euler gimbal lock (clamping branches)" {
+  // Quaternion representing pitch = pi/2 (gimbal lock)
+  // q = (0, sin(pi/4), 0, cos(pi/4))
+  let s = @math.sinf(pi / 4.0)
+  let c = @math.cosf(pi / 4.0)
+  let q = @raylib.Vector4::new(0.0, s, 0.0, c)
+  let euler = @raylib.Vector4::quat_to_euler(q)
+  // y0 = 2*(w*y - z*x) = 2*(cos(pi/4)*sin(pi/4) - 0) = 2*0.5 = 1.0
+  // This should hit or approach the clamping boundary y0 >= 1.0
+  // pitch = asin(1.0) = pi/2
+  assert_true(approx(euler.y, pi / 2.0))
+}
+
+///|
+test "Vector4::quat_slerp normal path (~144 degrees apart)" {
+  // Create two quaternions ~144 degrees apart so cos_half_theta ~ 0.3
+  // which is well below 0.95 threshold, exercising the full slerp path
+  let q1 = @raylib.Vector4::quat_from_axis_angle(
+    @raylib.Vector3::new(0.0, 0.0, 1.0),
+    0.0,
+  )
+  let q2 = @raylib.Vector4::quat_from_axis_angle(
+    @raylib.Vector3::new(0.0, 0.0, 1.0),
+    pi * 0.8,
+  )
+  // At t=0.5, should be halfway between the two rotations
+  let r = @raylib.Vector4::quat_slerp(q1, q2, 0.5)
+  let expected = @raylib.Vector4::quat_from_axis_angle(
+    @raylib.Vector3::new(0.0, 0.0, 1.0),
+    pi * 0.4,
+  )
+  assert_true(approx_v4(r, expected))
+  // Result should be unit quaternion
+  assert_true(approx(@raylib.Vector4::quat_length(r), 1.0))
+}
