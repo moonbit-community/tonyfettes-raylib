@@ -372,10 +372,6 @@ pub fn gen_texture_mipmaps(Texture) -> Unit
 
 pub fn get_application_directory() -> Bytes
 
-pub fn get_camera_matrix(Bytes) -> Bytes
-
-pub fn get_camera_matrix_2d(Bytes) -> Bytes
-
 pub fn get_char_pressed() -> Int
 
 pub fn get_clipboard_image() -> Image
@@ -578,8 +574,6 @@ pub fn get_render_width() -> Int
 
 pub fn get_screen_height() -> Int
 
-pub fn get_screen_to_world_2d(Bytes, Bytes) -> Bytes
-
 pub fn get_screen_to_world_ray(Bytes, Bytes) -> Bytes
 
 pub fn get_screen_to_world_ray_ex(Bytes, Bytes, Int, Int) -> Bytes
@@ -639,8 +633,6 @@ pub fn get_window_scale_dpi() -> Bytes
 pub fn get_working_directory() -> Bytes
 
 pub fn get_world_to_screen(Bytes, Bytes) -> Bytes
-
-pub fn get_world_to_screen_2d(Bytes, Bytes) -> Bytes
 
 pub fn get_world_to_screen_ex(Bytes, Bytes, Int, Int) -> Bytes
 

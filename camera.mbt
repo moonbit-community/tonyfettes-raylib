@@ -184,17 +184,17 @@ pub fn get_world_to_screen(position : Vector3, camera : Camera3D) -> Vector2 {
 ///|
 /// Get the world space position for a 2D camera screen space position.
 pub fn get_screen_to_world_2d(position : Vector2, camera : Camera2D) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_screen_to_world_2d(position.to_bytes(), camera.to_bytes()),
-  )
+  let inv = Matrix::invert(get_camera_matrix_2d(camera))
+  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0 }, inv)
+  { x: v.x, y: v.y }
 }
 
 ///|
 /// Get the screen space position for a 2D camera world space position.
 pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_world_to_screen_2d(position.to_bytes(), camera.to_bytes()),
-  )
+  let mat = get_camera_matrix_2d(camera)
+  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0 }, mat)
+  { x: v.x, y: v.y }
 }
 
 // ============================================================================
@@ -204,13 +204,23 @@ pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 
 ///|
 /// Get camera transform matrix (view matrix).
 pub fn get_camera_matrix(camera : Camera3D) -> Matrix {
-  Matrix::from_bytes(@ffi.get_camera_matrix(camera.to_bytes()))
+  Matrix::look_at(camera.position, camera.target, camera.up)
 }
 
 ///|
 /// Get camera 2D transform matrix.
 pub fn get_camera_matrix_2d(camera : Camera2D) -> Matrix {
-  Matrix::from_bytes(@ffi.get_camera_matrix_2d(camera.to_bytes()))
+  let mat_origin = Matrix::translate(-camera.target.x, -camera.target.y, 0.0)
+  let mat_rotation = Matrix::rotate(
+    { x: 0.0, y: 0.0, z: 1.0 },
+    camera.rotation * 0.017453292519943295,
+  )
+  let mat_scale = Matrix::scale(camera.zoom, camera.zoom, 1.0)
+  let mat_translation = Matrix::translate(camera.offset.x, camera.offset.y, 0.0)
+  Matrix::multiply(
+    Matrix::multiply(mat_origin, Matrix::multiply(mat_scale, mat_rotation)),
+    mat_translation,
+  )
 }
 
 ///|

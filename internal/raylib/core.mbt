@@ -543,20 +543,6 @@ pub extern "c" fn get_world_to_screen(
   camera : Bytes,
 ) -> Bytes = "moonbit_raylib_get_world_to_screen"
 
-///|
-#borrow(position, camera)
-pub extern "c" fn get_screen_to_world_2d(
-  position : Bytes,
-  camera : Bytes,
-) -> Bytes = "moonbit_raylib_get_screen_to_world_2d"
-
-///|
-#borrow(position, camera)
-pub extern "c" fn get_world_to_screen_2d(
-  position : Bytes,
-  camera : Bytes,
-) -> Bytes = "moonbit_raylib_get_world_to_screen_2d"
-
 // ============================================================================
 // Shader management
 // ============================================================================
@@ -655,14 +641,6 @@ pub extern "c" fn end_shader_mode() = "EndShaderMode"
 // ============================================================================
 // Camera matrix
 // ============================================================================
-
-///|
-#borrow(camera)
-pub extern "c" fn get_camera_matrix(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix"
-
-///|
-#borrow(camera)
-pub extern "c" fn get_camera_matrix_2d(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix_2d"
 
 ///|
 #borrow(position, camera)

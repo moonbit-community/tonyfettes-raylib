@@ -151,6 +151,20 @@ test "get_camera_matrix returns valid matrix" {
 }
 
 ///|
+test "get_camera_matrix is equivalent to Matrix::look_at" {
+  let cam = @raylib.Camera3D::new(
+    @raylib.Vector3::new(5.0, 3.0, 8.0),
+    @raylib.Vector3::new(1.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    60.0,
+    @raylib.CameraPerspective,
+  )
+  let m = @raylib.get_camera_matrix(cam)
+  let expected = @raylib.Matrix::look_at(cam.position, cam.target, cam.up)
+  assert_eq(m, expected)
+}
+
+///|
 test "get_camera_matrix_2d returns valid matrix" {
   let cam = @raylib.Camera2D::new(
     @raylib.Vector2::new(400.0, 300.0),
@@ -161,6 +175,172 @@ test "get_camera_matrix_2d returns valid matrix" {
   let m = @raylib.get_camera_matrix_2d(cam)
   // Should be a valid matrix
   assert_true((m.m15 - 1.0).abs() < 0.001)
+}
+
+///|
+test "get_camera_matrix_2d identity-like camera" {
+  // offset=0, target=0, rotation=0, zoom=1 => identity matrix
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  let id = @raylib.Matrix::identity()
+  assert_true((m.m0 - id.m0).abs() < 0.0001)
+  assert_true((m.m5 - id.m5).abs() < 0.0001)
+  assert_true((m.m10 - id.m10).abs() < 0.0001)
+  assert_true((m.m15 - id.m15).abs() < 0.0001)
+  assert_true((m.m12 - id.m12).abs() < 0.0001)
+  assert_true((m.m13 - id.m13).abs() < 0.0001)
+}
+
+///|
+test "get_camera_matrix_2d with zoom" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    2.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // With zoom=2, the scale should be 2x
+  assert_true((m.m0 - 2.0).abs() < 0.0001)
+  assert_true((m.m5 - 2.0).abs() < 0.0001)
+}
+
+///|
+test "get_camera_matrix_2d with offset" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(100.0, 200.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // Translation should include the offset
+  assert_true((m.m12 - 100.0).abs() < 0.0001)
+  assert_true((m.m13 - 200.0).abs() < 0.0001)
+}
+
+///|
+test "get_camera_matrix_2d with target" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(50.0, 75.0),
+    0.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // With target set, translation should be -target
+  assert_true((m.m12 - -50.0).abs() < 0.0001)
+  assert_true((m.m13 - -75.0).abs() < 0.0001)
+}
+
+///|
+test "get_camera_matrix_2d with offset and target" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(400.0, 300.0),
+    @raylib.Vector2::new(200.0, 150.0),
+    0.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // Translation = offset - target = (200, 150)
+  assert_true((m.m12 - 200.0).abs() < 0.0001)
+  assert_true((m.m13 - 150.0).abs() < 0.0001)
+}
+
+///|
+test "get_camera_matrix_2d with 90 degree rotation" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    90.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // After 90 degree rotation: cos(90)~0, sin(90)~1
+  assert_true(m.m0.abs() < 0.0001)
+  assert_true((m.m1 - 1.0).abs() < 0.0001)
+  assert_true((m.m4 - -1.0).abs() < 0.0001)
+  assert_true(m.m5.abs() < 0.0001)
+}
+
+///|
+test "get_world_to_screen_2d with zoom" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    2.0,
+  )
+  let point = @raylib.Vector2::new(100.0, 50.0)
+  let result = @raylib.get_world_to_screen_2d(point, cam)
+  // With zoom=2, world (100,50) should map to screen (200,100)
+  assert_true((result.x - 200.0).abs() < 0.1)
+  assert_true((result.y - 100.0).abs() < 0.1)
+}
+
+///|
+test "get_screen_to_world_2d with zoom" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(0.0, 0.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    2.0,
+  )
+  let point = @raylib.Vector2::new(200.0, 100.0)
+  let result = @raylib.get_screen_to_world_2d(point, cam)
+  // With zoom=2, screen (200,100) should map to world (100,50)
+  assert_true((result.x - 100.0).abs() < 0.1)
+  assert_true((result.y - 50.0).abs() < 0.1)
+}
+
+///|
+test "get_world_to_screen_2d with offset and target" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(400.0, 300.0),
+    @raylib.Vector2::new(200.0, 150.0),
+    0.0,
+    1.0,
+  )
+  // World point at target should map to offset on screen
+  let target_pt = @raylib.Vector2::new(200.0, 150.0)
+  let result = @raylib.get_world_to_screen_2d(target_pt, cam)
+  assert_true((result.x - 400.0).abs() < 0.1)
+  assert_true((result.y - 300.0).abs() < 0.1)
+}
+
+///|
+test "get_screen_to_world_2d with offset and target" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(400.0, 300.0),
+    @raylib.Vector2::new(200.0, 150.0),
+    0.0,
+    1.0,
+  )
+  // Screen point at offset should map to target in world
+  let offset_pt = @raylib.Vector2::new(400.0, 300.0)
+  let result = @raylib.get_screen_to_world_2d(offset_pt, cam)
+  assert_true((result.x - 200.0).abs() < 0.1)
+  assert_true((result.y - 150.0).abs() < 0.1)
+}
+
+///|
+test "world_to_screen_2d and screen_to_world_2d round-trip with rotation" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(320.0, 240.0),
+    @raylib.Vector2::new(100.0, 80.0),
+    45.0,
+    1.5,
+  )
+  let original = @raylib.Vector2::new(500.0, 300.0)
+  let screen_pos = @raylib.get_world_to_screen_2d(original, cam)
+  let back = @raylib.get_screen_to_world_2d(screen_pos, cam)
+  assert_true((back.x - original.x).abs() < 0.1)
+  assert_true((back.y - original.y).abs() < 0.1)
 }
 
 ///|
