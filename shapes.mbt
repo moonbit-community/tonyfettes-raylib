@@ -63,6 +63,16 @@ fn submit_shape_textured_quad(
 }
 
 ///|
+fn submit_shape_triangle(
+  v1 : Vector2,
+  v2 : Vector2,
+  v3 : Vector2,
+  color : Color,
+) -> Unit {
+  submit_shape_textured_quad(v1, v2, v2, v3, color, color, color, color)
+}
+
+///|
 fn rectangle_pro_vertices(
   rec : Rectangle,
   origin : Vector2,
@@ -857,12 +867,7 @@ pub fn draw_triangle(
   v3 : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_triangle(
-    v1.to_bytes(),
-    v2.to_bytes(),
-    v3.to_bytes(),
-    color.to_bytes(),
-  )
+  submit_shape_triangle(v1, v2, v3, color)
 }
 
 ///|
@@ -873,12 +878,15 @@ pub fn draw_triangle_lines(
   v3 : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_triangle_lines(
-    v1.to_bytes(),
-    v2.to_bytes(),
-    v3.to_bytes(),
-    color.to_bytes(),
-  )
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+  @ffi.rl_vertex2f(v1.x, v1.y)
+  @ffi.rl_vertex2f(v2.x, v2.y)
+  @ffi.rl_vertex2f(v2.x, v2.y)
+  @ffi.rl_vertex2f(v3.x, v3.y)
+  @ffi.rl_vertex2f(v3.x, v3.y)
+  @ffi.rl_vertex2f(v1.x, v1.y)
+  @ffi.rl_end()
 }
 
 ///|
@@ -890,7 +898,42 @@ pub fn draw_poly(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_poly(center.to_bytes(), sides, radius, rotation, color.to_bytes())
+  let sides = if sides < 3 { 3 } else { sides }
+  let mut central_angle = rotation * @ffi.DegToRad
+  let angle_step = (360.0 : Float) / Float::from_int(sides) * @ffi.DegToRad
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+  for _ in 0..<sides {
+    let next_angle = central_angle + angle_step
+    submit_color(color)
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(center.x, center.y)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle) * radius,
+      center.y + sinf(central_angle) * radius,
+    )
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(
+      center.x + cosf(next_angle) * radius,
+      center.y + sinf(next_angle) * radius,
+    )
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle) * radius,
+      center.y + sinf(central_angle) * radius,
+    )
+
+    central_angle = next_angle
+  }
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 ///|
@@ -902,13 +945,24 @@ pub fn draw_poly_lines(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_poly_lines(
-    center.to_bytes(),
-    sides,
-    radius,
-    rotation,
-    color.to_bytes(),
-  )
+  let sides = if sides < 3 { 3 } else { sides }
+  let mut central_angle = rotation * @ffi.DegToRad
+  let angle_step = (360.0 : Float) / Float::from_int(sides) * @ffi.DegToRad
+
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  for _ in 0..<sides {
+    submit_color(color)
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle) * radius,
+      center.y + sinf(central_angle) * radius,
+    )
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle + angle_step) * radius,
+      center.y + sinf(central_angle + angle_step) * radius,
+    )
+    central_angle = central_angle + angle_step
+  }
+  @ffi.rl_end()
 }
 
 ///|
@@ -921,14 +975,49 @@ pub fn draw_poly_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_poly_lines_ex(
-    center.to_bytes(),
-    sides,
-    radius,
-    rotation,
-    line_thick,
-    color.to_bytes(),
-  )
+  let sides = if sides < 3 { 3 } else { sides }
+  let mut central_angle = rotation * @ffi.DegToRad
+  let exterior_angle =
+    (360.0 : Float) / Float::from_int(sides) * @ffi.DegToRad
+  let inner_radius =
+    radius -
+    (line_thick * cosf(@ffi.DegToRad * exterior_angle / (2.0 : Float)))
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+  for _ in 0..<sides {
+    let next_angle = central_angle + exterior_angle
+    submit_color(color)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle) * radius,
+      center.y + sinf(central_angle) * radius,
+    )
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(
+      center.x + cosf(central_angle) * inner_radius,
+      center.y + sinf(central_angle) * inner_radius,
+    )
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(
+      center.x + cosf(next_angle) * inner_radius,
+      center.y + sinf(next_angle) * inner_radius,
+    )
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(
+      center.x + cosf(next_angle) * radius,
+      center.y + sinf(next_angle) * radius,
+    )
+
+    central_angle = next_angle
+  }
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 // ============================================================================
@@ -1114,15 +1203,53 @@ fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
 ///|
 /// Draw lines sequence (using gl lines).
 pub fn draw_line_strip(points : Array[Vector2], color : Color) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_line_strip(bytes, points.length(), color.to_bytes())
+  if points.length() < 2 {
+    return
+  }
+
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+  for i in 0..<(points.length() - 1) {
+    let point = points[i]
+    let next_point = points[i + 1]
+    @ffi.rl_vertex2f(point.x, point.y)
+    @ffi.rl_vertex2f(next_point.x, next_point.y)
+  }
+  @ffi.rl_end()
 }
 
 ///|
 /// Draw a triangle fan defined by points (first vertex is the center).
 pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_triangle_fan(bytes, points.length(), color.to_bytes())
+  if points.length() < 3 {
+    return
+  }
+
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+  submit_color(color)
+
+  for i in 1..<(points.length() - 1) {
+    let center = points[0]
+    let point = points[i]
+    let next_point = points[i + 1]
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(center.x, center.y)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(point.x, point.y)
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(next_point.x, next_point.y)
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(next_point.x, next_point.y)
+  }
+
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 ///|

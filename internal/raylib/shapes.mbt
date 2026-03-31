@@ -112,74 +112,9 @@ pub extern "c" fn draw_rectangle_rounded_lines_ex(
   color : Bytes,
 ) = "moonbit_raylib_draw_rectangle_rounded_lines_ex"
 
-///|
-#borrow(v1, v2, v3, color)
-pub extern "c" fn draw_triangle(
-  v1 : Bytes,
-  v2 : Bytes,
-  v3 : Bytes,
-  color : Bytes,
-) = "moonbit_raylib_draw_triangle"
-
-///|
-#borrow(v1, v2, v3, color)
-pub extern "c" fn draw_triangle_lines(
-  v1 : Bytes,
-  v2 : Bytes,
-  v3 : Bytes,
-  color : Bytes,
-) = "moonbit_raylib_draw_triangle_lines"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_poly(
-  center : Bytes,
-  sides : Int,
-  radius : Float,
-  rotation : Float,
-  color : Bytes,
-) = "moonbit_raylib_draw_poly"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_poly_lines(
-  center : Bytes,
-  sides : Int,
-  radius : Float,
-  rotation : Float,
-  color : Bytes,
-) = "moonbit_raylib_draw_poly_lines"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_poly_lines_ex(
-  center : Bytes,
-  sides : Int,
-  radius : Float,
-  rotation : Float,
-  line_thick : Float,
-  color : Bytes,
-) = "moonbit_raylib_draw_poly_lines_ex"
-
 // ============================================================================
 // Missing basic shapes (array-based + circle sector lines)
 // ============================================================================
-
-///|
-#borrow(points, color)
-pub extern "c" fn draw_line_strip(
-  points : Bytes,
-  point_count : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_line_strip"
-
-///|
-#borrow(points, color)
-pub extern "c" fn draw_triangle_fan(
-  points : Bytes,
-  point_count : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_triangle_fan"
 
 // ============================================================================
 // Spline drawing (array-based)

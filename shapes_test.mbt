@@ -220,3 +220,82 @@ test "draw_ring swaps radii through public rendering" {
   image.unload()
   @raylib.close_window()
 }
+
+///|
+test "draw_triangle fills triangle through public rendering" {
+  let target = begin_hidden_render(32, 32)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_triangle(
+    @raylib.Vector2::new(16.0, 8.0),
+    @raylib.Vector2::new(8.0, 24.0),
+    @raylib.Vector2::new(24.0, 24.0),
+    @raylib.maroon,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 12), @raylib.maroon)
+  assert_eq(image.get_color(16, 26), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_line_strip renders connected segments through public rendering" {
+  let target = begin_hidden_render(36, 36)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_line_strip(
+    [
+      @raylib.Vector2::new(6.0, 6.0),
+      @raylib.Vector2::new(18.0, 6.0),
+      @raylib.Vector2::new(18.0, 22.0),
+      @raylib.Vector2::new(28.0, 22.0),
+    ],
+    @raylib.black,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(20, 13), @raylib.black)
+  assert_eq(image.get_color(17, 20), @raylib.black)
+  assert_eq(image.get_color(12, 29), @raylib.black)
+  assert_eq(image.get_color(12, 12), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_triangle_fan fills fan through public rendering" {
+  let target = begin_hidden_render(32, 32)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_triangle_fan(
+    [
+      @raylib.Vector2::new(16.0, 8.0),
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(24.0, 24.0),
+    ],
+    @raylib.orange,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 12), @raylib.orange)
+  assert_eq(image.get_color(16, 26), @raylib.white)
+  assert_eq(image.get_color(6, 6), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_poly_lines_ex renders thick polygon outline through public rendering" {
+  let target = begin_hidden_render(48, 48)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_poly_lines_ex(
+    @raylib.Vector2::new(24.0, 24.0),
+    6,
+    10.0,
+    -90.0,
+    4.0,
+    @raylib.darkgreen,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(24, 14), @raylib.darkgreen)
+  assert_eq(image.get_color(24, 24), @raylib.white)
+  assert_eq(image.get_color(24, 6), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
