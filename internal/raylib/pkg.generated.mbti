@@ -42,26 +42,6 @@ pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
 
 pub fn check_collision_boxes(Bytes, Bytes) -> Bool
 
-pub fn check_collision_circle_line(Bytes, Float, Bytes, Bytes) -> Bool
-
-pub fn check_collision_circle_rec(Bytes, Float, Bytes) -> Bool
-
-pub fn check_collision_circles(Bytes, Float, Bytes, Float) -> Bool
-
-pub fn check_collision_lines(Bytes, Bytes, Bytes, Bytes) -> Bytes
-
-pub fn check_collision_point_circle(Bytes, Bytes, Float) -> Bool
-
-pub fn check_collision_point_line(Bytes, Bytes, Bytes, Int) -> Bool
-
-pub fn check_collision_point_poly(Bytes, Bytes, Int) -> Bool
-
-pub fn check_collision_point_rec(Bytes, Bytes) -> Bool
-
-pub fn check_collision_point_triangle(Bytes, Bytes, Bytes, Bytes) -> Bool
-
-pub fn check_collision_recs(Bytes, Bytes) -> Bool
-
 pub fn check_collision_spheres(Bytes, Float, Bytes, Float) -> Bool
 
 pub fn clear_background(Bytes) -> Unit
@@ -409,8 +389,6 @@ pub fn get_codepoint_count(Bytes) -> Int
 pub fn get_codepoint_next(Bytes) -> Bytes
 
 pub fn get_codepoint_previous(Bytes) -> Bytes
-
-pub fn get_collision_rec(Bytes, Bytes) -> Bytes
 
 pub fn get_current_monitor() -> Int
 

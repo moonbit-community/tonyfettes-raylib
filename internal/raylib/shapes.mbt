@@ -300,56 +300,6 @@ pub extern "c" fn draw_poly_lines_ex(
 ) = "moonbit_raylib_draw_poly_lines_ex"
 
 // ============================================================================
-// Collision detection
-// ============================================================================
-
-///|
-#borrow(rec1, rec2)
-pub extern "c" fn check_collision_recs(rec1 : Bytes, rec2 : Bytes) -> Bool = "moonbit_raylib_check_collision_recs"
-
-///|
-#borrow(center1, center2)
-pub extern "c" fn check_collision_circles(
-  center1 : Bytes,
-  radius1 : Float,
-  center2 : Bytes,
-  radius2 : Float,
-) -> Bool = "moonbit_raylib_check_collision_circles"
-
-///|
-#borrow(center, rec)
-pub extern "c" fn check_collision_circle_rec(
-  center : Bytes,
-  radius : Float,
-  rec : Bytes,
-) -> Bool = "moonbit_raylib_check_collision_circle_rec"
-
-///|
-#borrow(point, rec)
-pub extern "c" fn check_collision_point_rec(point : Bytes, rec : Bytes) -> Bool = "moonbit_raylib_check_collision_point_rec"
-
-///|
-#borrow(point, center)
-pub extern "c" fn check_collision_point_circle(
-  point : Bytes,
-  center : Bytes,
-  radius : Float,
-) -> Bool = "moonbit_raylib_check_collision_point_circle"
-
-///|
-#borrow(point, p1, p2, p3)
-pub extern "c" fn check_collision_point_triangle(
-  point : Bytes,
-  p1 : Bytes,
-  p2 : Bytes,
-  p3 : Bytes,
-) -> Bool = "moonbit_raylib_check_collision_point_triangle"
-
-///|
-#borrow(rec1, rec2)
-pub extern "c" fn get_collision_rec(rec1 : Bytes, rec2 : Bytes) -> Bytes = "moonbit_raylib_get_collision_rec"
-
-// ============================================================================
 // Missing basic shapes (array-based + circle sector lines)
 // ============================================================================
 
@@ -545,28 +495,6 @@ pub extern "c" fn get_spline_point_bezier_cubic(
 ) -> Bytes = "moonbit_raylib_get_spline_point_bezier_cubic"
 
 // ============================================================================
-// Additional 2D collision detection
-// ============================================================================
-
-///|
-#borrow(center, p1, p2)
-pub extern "c" fn check_collision_circle_line(
-  center : Bytes,
-  radius : Float,
-  p1 : Bytes,
-  p2 : Bytes,
-) -> Bool = "moonbit_raylib_check_collision_circle_line"
-
-///|
-#borrow(point, p1, p2)
-pub extern "c" fn check_collision_point_line(
-  point : Bytes,
-  p1 : Bytes,
-  p2 : Bytes,
-  threshold : Int,
-) -> Bool = "moonbit_raylib_check_collision_point_line"
-
-// ============================================================================
 // 3D triangle strip
 // ============================================================================
 
@@ -577,24 +505,3 @@ pub extern "c" fn draw_triangle_strip_3d(
   point_count : Int,
   color : Bytes,
 ) = "moonbit_raylib_draw_triangle_strip_3d"
-
-// ============================================================================
-// Additional collision detection
-// ============================================================================
-
-///|
-#borrow(point, points)
-pub extern "c" fn check_collision_point_poly(
-  point : Bytes,
-  points : Bytes,
-  point_count : Int,
-) -> Bool = "moonbit_raylib_check_collision_point_poly"
-
-///|
-#borrow(start_pos1, end_pos1, start_pos2, end_pos2)
-pub extern "c" fn check_collision_lines(
-  start_pos1 : Bytes,
-  end_pos1 : Bytes,
-  start_pos2 : Bytes,
-  end_pos2 : Bytes,
-) -> Bytes = "moonbit_raylib_check_collision_lines"
