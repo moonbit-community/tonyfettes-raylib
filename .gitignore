@@ -10,3 +10,6 @@ target/
 # Publish staging directory
 publish/
 .DS_Store
+
+# Test temp files
+_test_tmp_*

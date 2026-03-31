@@ -275,7 +275,7 @@ test "take_screenshot does not crash" {
   @raylib.begin_drawing()
   @raylib.clear_background(@raylib.black)
   @raylib.end_drawing()
-  @raylib.take_screenshot("/tmp/raylib_test.png")
+  @raylib.take_screenshot("_test_tmp_screenshot.png")
   @raylib.close_window()
 }
 

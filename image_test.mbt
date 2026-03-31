@@ -98,7 +98,7 @@ test "load_palette extracts palette" {
 ///|
 test "export_ saves image to file" {
   let img = @raylib.Image::gen_color(4, 4, @raylib.green)
-  let ok = img.export_("/tmp/moonbit_raylib_test_export.png")
+  let ok = img.export_("_test_tmp_export.png")
   assert_true(ok)
   img.unload()
 }

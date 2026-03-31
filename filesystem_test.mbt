@@ -50,7 +50,7 @@ test "get_application_directory returns non-empty" {
 ///|
 test "load_file_data/save_file_data round-trip" {
   let data : Bytes = b"test data content"
-  let path = "/tmp/raylib_test_file.bin"
+  let path = "_test_tmp_file.bin"
   assert_true(@raylib.save_file_data(path, data, data.length()))
   let loaded = @raylib.load_file_data(path)
   assert_eq(loaded, data)
