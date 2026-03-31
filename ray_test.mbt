@@ -64,7 +64,7 @@ test "get_ray_collision_sphere - miss" {
   )
   let center = @raylib.Vector3::new(0.0, 100.0, 0.0)
   let result = @raylib.get_ray_collision_sphere(ray, center, 1.0)
-  assert_true(not(result.hit))
+  assert_true(!result.hit)
 }
 
 ///|
@@ -95,7 +95,7 @@ test "get_ray_collision_box - miss" {
     @raylib.Vector3::new(7.0, 52.0, 52.0),
   )
   let result = @raylib.get_ray_collision_box(ray, box_)
-  assert_true(not(result.hit))
+  assert_true(!result.hit)
 }
 
 ///|
@@ -111,7 +111,7 @@ test "check_collision_spheres - non-overlapping" {
   let center1 = @raylib.Vector3::new(0.0, 0.0, 0.0)
   let center2 = @raylib.Vector3::new(100.0, 0.0, 0.0)
   // Radii sum to 4.0, distance is 100.0 => no overlap
-  assert_true(not(@raylib.check_collision_spheres(center1, 2.0, center2, 2.0)))
+  assert_true(!@raylib.check_collision_spheres(center1, 2.0, center2, 2.0))
 }
 
 ///|
@@ -137,7 +137,7 @@ test "check_collision_boxes - non-overlapping" {
     @raylib.Vector3::new(10.0, 10.0, 10.0),
     @raylib.Vector3::new(12.0, 12.0, 12.0),
   )
-  assert_true(not(@raylib.check_collision_boxes(box1, box2)))
+  assert_true(!@raylib.check_collision_boxes(box1, box2))
 }
 
 ///|
@@ -157,7 +157,7 @@ test "check_collision_box_sphere - outside" {
     @raylib.Vector3::new(1.0, 1.0, 1.0),
   )
   let center = @raylib.Vector3::new(50.0, 50.0, 50.0)
-  assert_true(not(@raylib.check_collision_box_sphere(box_, center, 1.0)))
+  assert_true(!@raylib.check_collision_box_sphere(box_, center, 1.0))
 }
 
 ///|

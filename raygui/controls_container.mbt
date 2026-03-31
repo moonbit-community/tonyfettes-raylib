@@ -142,11 +142,11 @@ pub fn gui_scroll_panel(
   // Check if scrollbars are needed
   let mut has_h_scroll = content_w > bw - Float::from_int(2 * border)
   let mut has_v_scroll = content_h > bh - Float::from_int(2 * border)
-  if not(has_h_scroll) {
+  if !has_h_scroll {
     has_h_scroll = has_v_scroll &&
       content_w > bw - Float::from_int(2 * border + scrollbar_w)
   }
-  if not(has_v_scroll) {
+  if !has_v_scroll {
     has_v_scroll = has_h_scroll &&
       content_h > bh - Float::from_int(2 * border + scrollbar_w)
   }
@@ -192,7 +192,7 @@ pub fn gui_scroll_panel(
   }
   // Update control
   let panel_bounds = @raylib.Rectangle::new(bx, by, bw, bh)
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, panel_bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {

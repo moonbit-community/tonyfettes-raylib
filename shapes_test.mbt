@@ -4,7 +4,7 @@ test "collision detection - recs" {
   let r2 = @raylib.Rectangle::new(5.0, 5.0, 10.0, 10.0)
   let r3 = @raylib.Rectangle::new(20.0, 20.0, 10.0, 10.0)
   assert_true(@raylib.check_collision_recs(r1, r2))
-  assert_true(not(@raylib.check_collision_recs(r1, r3)))
+  assert_true(!@raylib.check_collision_recs(r1, r3))
 }
 
 ///|
@@ -13,7 +13,7 @@ test "collision detection - circles" {
   let c2 = @raylib.Vector2::new(3.0, 0.0)
   let c3 = @raylib.Vector2::new(100.0, 0.0)
   assert_true(@raylib.check_collision_circles(c1, 5.0, c2, 5.0))
-  assert_true(not(@raylib.check_collision_circles(c1, 5.0, c3, 5.0)))
+  assert_true(!@raylib.check_collision_circles(c1, 5.0, c3, 5.0))
 }
 
 ///|
@@ -23,7 +23,7 @@ test "collision detection - point in rect" {
     @raylib.check_collision_point_rec(@raylib.Vector2::new(5.0, 5.0), r),
   )
   assert_true(
-    not(@raylib.check_collision_point_rec(@raylib.Vector2::new(15.0, 15.0), r)),
+    !@raylib.check_collision_point_rec(@raylib.Vector2::new(15.0, 15.0), r),
   )
 }
 
@@ -38,12 +38,10 @@ test "collision detection - point in circle" {
     ),
   )
   assert_true(
-    not(
-      @raylib.check_collision_point_circle(
-        @raylib.Vector2::new(10.0, 10.0),
-        center,
-        5.0,
-      ),
+    !@raylib.check_collision_point_circle(
+      @raylib.Vector2::new(10.0, 10.0),
+      center,
+      5.0,
     ),
   )
 }
@@ -55,12 +53,10 @@ test "collision detection - circle vs rect" {
     @raylib.check_collision_circle_rec(@raylib.Vector2::new(5.0, 5.0), 3.0, r),
   )
   assert_true(
-    not(
-      @raylib.check_collision_circle_rec(
-        @raylib.Vector2::new(50.0, 50.0),
-        3.0,
-        r,
-      ),
+    !@raylib.check_collision_circle_rec(
+      @raylib.Vector2::new(50.0, 50.0),
+      3.0,
+      r,
     ),
   )
 }
@@ -86,5 +82,5 @@ test "check_collision_point_triangle - inside and outside" {
   assert_true(@raylib.check_collision_point_triangle(inside, p1, p2, p3))
   // Point outside the triangle
   let outside = @raylib.Vector2::new(20.0, 20.0)
-  assert_true(not(@raylib.check_collision_point_triangle(outside, p1, p2, p3)))
+  assert_true(!@raylib.check_collision_point_triangle(outside, p1, p2, p3))
 }

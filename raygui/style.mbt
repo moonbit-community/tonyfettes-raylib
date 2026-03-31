@@ -11,7 +11,7 @@ let gui_style : FixedArray[Int] = FixedArray::make(
 
 ///|
 pub fn gui_set_style(control : Int, property : Int, value : Int) -> Unit {
-  if not(gui_globals.style_loaded) {
+  if !gui_globals.style_loaded {
     gui_load_style_default()
   }
   gui_style[control * (max_props_base + max_props_extended) + property] = value
@@ -27,7 +27,7 @@ pub fn gui_set_style(control : Int, property : Int, value : Int) -> Unit {
 
 ///|
 pub fn gui_get_style(control : Int, property : Int) -> Int {
-  if not(gui_globals.style_loaded) {
+  if !gui_globals.style_loaded {
     gui_load_style_default()
   }
   gui_style[control * (max_props_base + max_props_extended) + property]

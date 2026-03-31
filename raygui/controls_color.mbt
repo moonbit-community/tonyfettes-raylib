@@ -15,7 +15,7 @@ pub fn gui_color_panel_hsv(
   let bw = bounds.width
   let bh = bounds.height
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
@@ -101,7 +101,7 @@ pub fn gui_color_bar_hue(
   let bw = bounds.width
   let bh = bounds.height
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
@@ -187,7 +187,7 @@ pub fn gui_color_bar_alpha(
   let bw = bounds.width
   let bh = bounds.height
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {

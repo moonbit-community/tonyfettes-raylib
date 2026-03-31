@@ -34,9 +34,9 @@ pub fn gui_combo_box(
   }
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
+    !gui_globals.locked &&
     item_count > 1 &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, combo_bounds) ||
       check_collision_point_rec(mouse, selector_bounds) {
@@ -106,9 +106,9 @@ pub fn gui_dropdown_box(
   let mut item_focused = -1
   // Update control
   if state != GuiState::Disabled &&
-    (edit_mode || not(gui_globals.locked)) &&
+    (edit_mode || !gui_globals.locked) &&
     item_count > 1 &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if edit_mode {
       state = GuiState::Pressed
@@ -129,7 +129,7 @@ pub fn gui_dropdown_box(
           Float::from_int(item_count + 1) * (bh + item_spacing),
         )
       }
-      if not(check_collision_point_rec(mouse, bounds_open)) {
+      if !check_collision_point_rec(mouse, bounds_open) {
         if @raylib.is_mouse_button_pressed(MouseButtonLeft) ||
           @raylib.is_mouse_button_released(MouseButtonLeft) {
           result = true
@@ -279,7 +279,7 @@ pub fn gui_list_view(
   let item_spacing = gui_get_style(ControlListview, ListItemsSpacing)
   let visible_count = bh.to_int() / (item_height + item_spacing)
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       state = GuiState::Focused
@@ -406,8 +406,8 @@ pub fn gui_list_view_ex(
   }
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       state = GuiState::Focused

@@ -28,7 +28,7 @@ pub fn gui_slider(
   let border = gui_get_style(ControlSlider, BorderWidth)
   let padding = gui_get_style(ControlSlider, SliderPadding)
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     let mx = mouse.x
     if gui_globals.control_exclusive_mode {
@@ -377,14 +377,14 @@ fn gui_scroll_bar(
     (adr, sbr, slr)
   }
   // Update control
-  if state != GuiState::Disabled && not(gui_globals.locked) {
+  if state != GuiState::Disabled && !gui_globals.locked {
     let mouse = @raylib.get_mouse_position()
     let mx = mouse.x
     let my = mouse.y
     if gui_globals.control_exclusive_mode {
       if @raylib.is_mouse_button_down(MouseButtonLeft) &&
-        not(check_collision_point_rec(mouse, arrow_up_left)) &&
-        not(check_collision_point_rec(mouse, arrow_down_right)) {
+        !check_collision_point_rec(mouse, arrow_up_left) &&
+        !check_collision_point_rec(mouse, arrow_down_right) {
         match gui_globals.control_exclusive_rec {
           Some(exc_rec) =>
             if rects_match(bounds, exc_rec) {
@@ -420,7 +420,7 @@ fn gui_scroll_bar(
           val = val - value_range / gui_get_style(ControlScrollbar, ScrollSpeed)
         } else if check_collision_point_rec(mouse, arrow_down_right) {
           val = val + value_range / gui_get_style(ControlScrollbar, ScrollSpeed)
-        } else if not(check_collision_point_rec(mouse, slider_rec)) {
+        } else if !check_collision_point_rec(mouse, slider_rec) {
           if is_vertical {
             val = ((my - scrollbar_rec.y - slider_rec.height / 2.0) *
             Float::from_int(value_range) /

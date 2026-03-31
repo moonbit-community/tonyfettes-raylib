@@ -454,7 +454,7 @@ fn gui_draw_text(
 
 ///|
 pub fn gui_tooltip(control_rec : @raylib.Rectangle) -> Unit {
-  if not(gui_globals.tooltip) {
+  if !gui_globals.tooltip {
     return
   }
   match gui_globals.tooltip_ptr {
