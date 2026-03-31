@@ -761,3 +761,58 @@ test "load_from_memory loads from PNG bytes" {
   reloaded.unload()
   orig.unload()
 }
+
+///|
+test "Image::new creates image from raw pixel data" {
+  // PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 = 7, 4 bytes per pixel
+  // 2x2 image = 16 bytes
+  let pixel_data : Bytes = [
+    0xFF, 0x00, 0x00, 0xFF, // red
+     0x00, 0xFF, 0x00, 0xFF, // green
+     0x00, 0x00, 0xFF, 0xFF, // blue
+     0xFF, 0xFF, 0x00, 0xFF, // yellow
+  ]
+  let img = @raylib.Image::new(pixel_data, 2, 2, 7)
+  assert_true(img.is_valid())
+  assert_eq(img.width(), 2)
+  assert_eq(img.height(), 2)
+  let c = img.get_color(0, 0)
+  assert_eq(c.r, 255)
+  assert_eq(c.g, 0)
+  assert_eq(c.b, 0)
+  img.unload()
+}
+
+///|
+test "Image::new with undersized buffer returns empty image" {
+  // 2x2 RGBA needs 16 bytes, provide only 4
+  let pixel_data : Bytes = [0xFF, 0x00, 0x00, 0xFF]
+  let img = @raylib.Image::new(pixel_data, 2, 2, 7)
+  // Should get an empty/invalid image (0x0)
+  assert_eq(img.width(), 0)
+  assert_eq(img.height(), 0)
+}
+
+///|
+test "Image::load_raw loads from raw pixel file" {
+  // Create a 2x2 RGBA raw file (16 bytes, no header)
+  let pixel_data : Bytes = [
+    0xFF, 0x00, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0xFF,
+    0xFF, 0x00, 0xFF,
+  ]
+  let ok = @raylib.save_file_data(
+    "test_raw_pixels.data",
+    pixel_data,
+    pixel_data.length(),
+  )
+  assert_true(ok)
+  // PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 = 7
+  let img = @raylib.Image::load_raw("test_raw_pixels.data", 2, 2, 7, 0)
+  assert_true(img.is_valid())
+  assert_eq(img.width(), 2)
+  assert_eq(img.height(), 2)
+  let c = img.get_color(0, 0)
+  assert_eq(c.r, 255)
+  assert_eq(c.g, 0)
+  img.unload()
+}
