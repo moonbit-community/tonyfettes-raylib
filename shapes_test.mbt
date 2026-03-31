@@ -141,3 +141,82 @@ test "draw_rectangle_lines_ex clamps oversized thickness through public renderin
   image.unload()
   @raylib.close_window()
 }
+
+///|
+test "draw_triangle_strip fills connected triangles through public rendering" {
+  let target = begin_hidden_render(32, 32)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_triangle_strip(
+    [
+      @raylib.Vector2::new(8.0, 8.0),
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(24.0, 8.0),
+      @raylib.Vector2::new(24.0, 24.0),
+    ],
+    @raylib.green,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(12, 12), @raylib.green)
+  assert_eq(image.get_color(20, 20), @raylib.green)
+  assert_eq(image.get_color(4, 4), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_line_ex renders a thick diagonal through public rendering" {
+  let target = begin_hidden_render(32, 32)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_line_ex(
+    @raylib.Vector2::new(8.0, 8.0),
+    @raylib.Vector2::new(24.0, 24.0),
+    6.0,
+    @raylib.blue,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 16), @raylib.blue)
+  assert_eq(image.get_color(16, 10), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_circle_sector normalizes reversed angles through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_circle_sector(
+    @raylib.Vector2::new(20.0, 20.0),
+    8.0,
+    180.0,
+    0.0,
+    0,
+    @raylib.red,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(23, 16), @raylib.red)
+  assert_eq(image.get_color(20, 24), @raylib.white)
+  assert_eq(image.get_color(24, 18), @raylib.red)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_ring swaps radii through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_ring(
+    @raylib.Vector2::new(20.0, 20.0),
+    8.0,
+    4.0,
+    0.0,
+    360.0,
+    36,
+    @raylib.purple,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(26, 20), @raylib.purple)
+  assert_eq(image.get_color(20, 20), @raylib.white)
+  assert_eq(image.get_color(29, 20), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
