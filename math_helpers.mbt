@@ -29,6 +29,11 @@ fn fminf(a : Float, b : Float) -> Float {
 }
 
 ///|
+fn fmodf(x : Float, y : Float) -> Float {
+  x % y
+}
+
+///|
 fn sqrtf(x : Float) -> Float {
   x.sqrt()
 }

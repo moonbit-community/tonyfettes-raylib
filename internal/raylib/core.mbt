@@ -543,20 +543,6 @@ pub extern "c" fn get_world_to_screen(
   camera : Bytes,
 ) -> Bytes = "moonbit_raylib_get_world_to_screen"
 
-///|
-#borrow(position, camera)
-pub extern "c" fn get_screen_to_world_2d(
-  position : Bytes,
-  camera : Bytes,
-) -> Bytes = "moonbit_raylib_get_screen_to_world_2d"
-
-///|
-#borrow(position, camera)
-pub extern "c" fn get_world_to_screen_2d(
-  position : Bytes,
-  camera : Bytes,
-) -> Bytes = "moonbit_raylib_get_world_to_screen_2d"
-
 // ============================================================================
 // Shader management
 // ============================================================================
@@ -657,14 +643,6 @@ pub extern "c" fn end_shader_mode() = "EndShaderMode"
 // ============================================================================
 
 ///|
-#borrow(camera)
-pub extern "c" fn get_camera_matrix(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix"
-
-///|
-#borrow(camera)
-pub extern "c" fn get_camera_matrix_2d(camera : Bytes) -> Bytes = "moonbit_raylib_get_camera_matrix_2d"
-
-///|
 #borrow(position, camera)
 pub extern "c" fn get_screen_to_world_ray(
   position : Bytes,
@@ -715,76 +693,6 @@ pub extern "c" fn get_random_value(min : Int, max : Int) -> Int = "GetRandomValu
 ///|
 /// Set the seed for the random number generator.
 pub extern "c" fn set_random_seed(seed : Int) = "SetRandomSeed"
-
-// ============================================================================
-// Color utilities
-// ============================================================================
-
-///|
-#borrow(color)
-pub extern "c" fn fade(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_fade"
-
-///|
-#borrow(color)
-pub extern "c" fn color_alpha(color : Bytes, alpha : Float) -> Bytes = "moonbit_raylib_color_alpha"
-
-///|
-#borrow(color)
-pub extern "c" fn color_to_int(color : Bytes) -> Int = "moonbit_raylib_color_to_int"
-
-///|
-pub extern "c" fn get_color(hex_value : Int) -> Bytes = "moonbit_raylib_get_color"
-
-///|
-pub extern "c" fn color_from_hsv(
-  hue : Float,
-  saturation : Float,
-  value : Float,
-) -> Bytes = "moonbit_raylib_color_from_hsv"
-
-///|
-#borrow(color, tint)
-pub extern "c" fn color_tint(color : Bytes, tint : Bytes) -> Bytes = "moonbit_raylib_color_tint"
-
-///|
-#borrow(color)
-pub extern "c" fn color_brightness(color : Bytes, factor : Float) -> Bytes = "moonbit_raylib_color_brightness"
-
-///|
-#borrow(color1, color2)
-pub extern "c" fn color_lerp(
-  color1 : Bytes,
-  color2 : Bytes,
-  factor : Float,
-) -> Bytes = "moonbit_raylib_color_lerp"
-
-///|
-#borrow(col1, col2)
-pub extern "c" fn color_is_equal(col1 : Bytes, col2 : Bytes) -> Bool = "moonbit_raylib_color_is_equal"
-
-///|
-#borrow(color)
-pub extern "c" fn color_normalize(color : Bytes) -> Bytes = "moonbit_raylib_color_normalize"
-
-///|
-#borrow(normalized)
-pub extern "c" fn color_from_normalized(normalized : Bytes) -> Bytes = "moonbit_raylib_color_from_normalized"
-
-///|
-#borrow(color)
-pub extern "c" fn color_to_hsv(color : Bytes) -> Bytes = "moonbit_raylib_color_to_hsv"
-
-///|
-#borrow(color)
-pub extern "c" fn color_contrast(color : Bytes, contrast : Float) -> Bytes = "moonbit_raylib_color_contrast"
-
-///|
-#borrow(dst, src, tint)
-pub extern "c" fn color_alpha_blend(
-  dst : Bytes,
-  src : Bytes,
-  tint : Bytes,
-) -> Bytes = "moonbit_raylib_color_alpha_blend"
 
 ///|
 /// Get pixel data size in bytes for certain format.

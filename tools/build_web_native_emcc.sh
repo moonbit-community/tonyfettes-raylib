@@ -110,7 +110,6 @@ emcc \
   internal/raylib/stub_input.c \
   internal/raylib/stub_drawing.c \
   internal/raylib/stub_camera.c \
-  internal/raylib/stub_color.c \
   internal/raylib/stub_shapes.c \
   internal/raylib/stub_textures.c \
   internal/raylib/stub_text.c \

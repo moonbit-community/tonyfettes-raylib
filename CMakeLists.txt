@@ -105,7 +105,6 @@ add_library(raylib_moonbit STATIC
     ${RAYLIB_SRC_DIR}/stub_input.c
     ${RAYLIB_SRC_DIR}/stub_drawing.c
     ${RAYLIB_SRC_DIR}/stub_camera.c
-    ${RAYLIB_SRC_DIR}/stub_color.c
     ${RAYLIB_SRC_DIR}/stub_shapes.c
     ${RAYLIB_SRC_DIR}/stub_textures.c
     ${RAYLIB_SRC_DIR}/stub_text.c

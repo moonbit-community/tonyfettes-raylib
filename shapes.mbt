@@ -475,13 +475,16 @@ pub fn draw_poly_lines_ex(
 }
 
 // ============================================================================
-// Collision detection (wrappers)
+// Collision detection (pure MoonBit)
 // ============================================================================
 
 ///|
 /// Check collision between two rectangles.
 pub fn check_collision_recs(rec1 : Rectangle, rec2 : Rectangle) -> Bool {
-  @ffi.check_collision_recs(rec1.to_bytes(), rec2.to_bytes())
+  rec1.x < rec2.x + rec2.width &&
+  rec1.x + rec1.width > rec2.x &&
+  rec1.y < rec2.y + rec2.height &&
+  rec1.y + rec1.height > rec2.y
 }
 
 ///|
@@ -492,12 +495,11 @@ pub fn check_collision_circles(
   center2 : Vector2,
   radius2 : Float,
 ) -> Bool {
-  @ffi.check_collision_circles(
-    center1.to_bytes(),
-    radius1,
-    center2.to_bytes(),
-    radius2,
-  )
+  let dx = center2.x - center1.x
+  let dy = center2.y - center1.y
+  let distance_squared = dx * dx + dy * dy
+  let radius_sum = radius1 + radius2
+  distance_squared <= radius_sum * radius_sum
 }
 
 ///|
@@ -507,13 +509,34 @@ pub fn check_collision_circle_rec(
   radius : Float,
   rec : Rectangle,
 ) -> Bool {
-  @ffi.check_collision_circle_rec(center.to_bytes(), radius, rec.to_bytes())
+  let rec_center_x = rec.x + rec.width / 2.0
+  let rec_center_y = rec.y + rec.height / 2.0
+  let dx = fabsf(center.x - rec_center_x)
+  let dy = fabsf(center.y - rec_center_y)
+  if dx > rec.width / 2.0 + radius {
+    return false
+  }
+  if dy > rec.height / 2.0 + radius {
+    return false
+  }
+  if dx <= rec.width / 2.0 {
+    return true
+  }
+  if dy <= rec.height / 2.0 {
+    return true
+  }
+  let corner_dist_sq = (dx - rec.width / 2.0) * (dx - rec.width / 2.0) +
+    (dy - rec.height / 2.0) * (dy - rec.height / 2.0)
+  corner_dist_sq <= radius * radius
 }
 
 ///|
 /// Check if point is inside rectangle.
 pub fn check_collision_point_rec(point : Vector2, rec : Rectangle) -> Bool {
-  @ffi.check_collision_point_rec(point.to_bytes(), rec.to_bytes())
+  point.x >= rec.x &&
+  point.x < rec.x + rec.width &&
+  point.y >= rec.y &&
+  point.y < rec.y + rec.height
 }
 
 ///|
@@ -523,7 +546,9 @@ pub fn check_collision_point_circle(
   center : Vector2,
   radius : Float,
 ) -> Bool {
-  @ffi.check_collision_point_circle(point.to_bytes(), center.to_bytes(), radius)
+  let distance_squared = (point.x - center.x) * (point.x - center.x) +
+    (point.y - center.y) * (point.y - center.y)
+  distance_squared <= radius * radius
 }
 
 ///|
@@ -534,20 +559,34 @@ pub fn check_collision_point_triangle(
   p2 : Vector2,
   p3 : Vector2,
 ) -> Bool {
-  @ffi.check_collision_point_triangle(
-    point.to_bytes(),
-    p1.to_bytes(),
-    p2.to_bytes(),
-    p3.to_bytes(),
-  )
+  let alpha = (
+      (p2.y - p3.y) * (point.x - p3.x) + (p3.x - p2.x) * (point.y - p3.y)
+    ) /
+    ((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y))
+  let beta = (
+      (p3.y - p1.y) * (point.x - p3.x) + (p1.x - p3.x) * (point.y - p3.y)
+    ) /
+    ((p2.y - p3.y) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.y - p3.y))
+  let gamma = (1.0 : Float) - alpha - beta
+  alpha > 0.0 && beta > 0.0 && gamma > 0.0
 }
 
 ///|
 /// Get collision rectangle for two rectangles collision.
 pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
-  Rectangle::from_bytes(
-    @ffi.get_collision_rec(rec1.to_bytes(), rec2.to_bytes()),
-  )
+  let left = if rec1.x > rec2.x { rec1.x } else { rec2.x }
+  let right1 = rec1.x + rec1.width
+  let right2 = rec2.x + rec2.width
+  let right = if right1 < right2 { right1 } else { right2 }
+  let top = if rec1.y > rec2.y { rec1.y } else { rec2.y }
+  let bottom1 = rec1.y + rec1.height
+  let bottom2 = rec2.y + rec2.height
+  let bottom = if bottom1 < bottom2 { bottom1 } else { bottom2 }
+  if left < right && top < bottom {
+    { x: left, y: top, width: right - left, height: bottom - top }
+  } else {
+    { x: 0.0, y: 0.0, width: 0.0, height: 0.0 }
+  }
 }
 
 // ============================================================================
@@ -768,7 +807,7 @@ pub fn draw_spline_segment_bezier_cubic(
 }
 
 // ============================================================================
-// Spline point evaluation
+// Spline point evaluation (pure MoonBit)
 // ============================================================================
 
 ///|
@@ -778,8 +817,10 @@ pub fn get_spline_point_linear(
   end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_linear(start_pos.to_bytes(), end_pos.to_bytes(), t),
+  let one_minus_t : Float = 1.0 - t
+  Vector2::new(
+    start_pos.x * one_minus_t + end_pos.x * t,
+    start_pos.y * one_minus_t + end_pos.y * t,
   )
 }
 
@@ -792,14 +833,17 @@ pub fn get_spline_point_basis(
   p4 : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_basis(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let a0 : Float = (-p1.x + 3.0 * p2.x - 3.0 * p3.x + p4.x) / 6.0
+  let a1 : Float = (3.0 * p1.x - 6.0 * p2.x + 3.0 * p3.x) / 6.0
+  let a2 : Float = (-3.0 * p1.x + 3.0 * p3.x) / 6.0
+  let a3 : Float = (p1.x + 4.0 * p2.x + p3.x) / 6.0
+  let b0 : Float = (-p1.y + 3.0 * p2.y - 3.0 * p3.y + p4.y) / 6.0
+  let b1 : Float = (3.0 * p1.y - 6.0 * p2.y + 3.0 * p3.y) / 6.0
+  let b2 : Float = (-3.0 * p1.y + 3.0 * p3.y) / 6.0
+  let b3 : Float = (p1.y + 4.0 * p2.y + p3.y) / 6.0
+  Vector2::new(
+    a3 + t * (a2 + t * (a1 + t * a0)),
+    b3 + t * (b2 + t * (b1 + t * b0)),
   )
 }
 
@@ -812,57 +856,64 @@ pub fn get_spline_point_catmull_rom(
   p4 : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_catmull_rom(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let t2 = t * t
+  let t3 = t2 * t
+  let q0 : Float = -t3 + 2.0 * t2 - t
+  let q1 : Float = 3.0 * t3 - 5.0 * t2 + 2.0
+  let q2 : Float = -3.0 * t3 + 4.0 * t2 + t
+  let q3 = t3 - t2
+  Vector2::new(
+    (0.5 : Float) * (p1.x * q0 + p2.x * q1 + p3.x * q2 + p4.x * q3),
+    (0.5 : Float) * (p1.y * q0 + p2.y * q1 + p3.y * q2 + p4.y * q3),
   )
 }
 
 ///|
 /// Get (evaluate) spline point: Quadratic Bezier.
 pub fn get_spline_point_bezier_quad(
-  p1 : Vector2,
-  p2 : Vector2,
-  p3 : Vector2,
+  start_pos : Vector2,
+  control_pos : Vector2,
+  end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_bezier_quad(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      t,
-    ),
+  let one_minus_t : Float = 1.0 - t
+  let a = one_minus_t * one_minus_t
+  let b : Float = 2.0 * one_minus_t * t
+  let c = t * t
+  Vector2::new(
+    a * start_pos.x + b * control_pos.x + c * end_pos.x,
+    a * start_pos.y + b * control_pos.y + c * end_pos.y,
   )
 }
 
 ///|
 /// Get (evaluate) spline point: Cubic Bezier.
 pub fn get_spline_point_bezier_cubic(
-  p1 : Vector2,
-  p2 : Vector2,
-  p3 : Vector2,
-  p4 : Vector2,
+  start_pos : Vector2,
+  start_control_pos : Vector2,
+  end_control_pos : Vector2,
+  end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_bezier_cubic(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let one_minus_t : Float = 1.0 - t
+  let a = one_minus_t * one_minus_t * one_minus_t
+  let b : Float = 3.0 * one_minus_t * one_minus_t * t
+  let c : Float = 3.0 * one_minus_t * t * t
+  let d = t * t * t
+  Vector2::new(
+    a * start_pos.x +
+    b * start_control_pos.x +
+    c * end_control_pos.x +
+    d * end_pos.x,
+    a * start_pos.y +
+    b * start_control_pos.y +
+    c * end_control_pos.y +
+    d * end_pos.y,
   )
 }
 
 // ============================================================================
-// Additional 2D collision detection
+// Additional 2D collision detection (pure MoonBit)
 // ============================================================================
 
 ///|
@@ -873,12 +924,26 @@ pub fn check_collision_circle_line(
   p1 : Vector2,
   p2 : Vector2,
 ) -> Bool {
-  @ffi.check_collision_circle_line(
-    center.to_bytes(),
-    radius,
-    p1.to_bytes(),
-    p2.to_bytes(),
-  )
+  let flt_epsilon : Float = 1.1920929e-7
+  let dx = p1.x - p2.x
+  let dy = p1.y - p2.y
+  if fabsf(dx) + fabsf(dy) <= flt_epsilon {
+    return check_collision_circles(p1, 0.0, center, radius)
+  }
+  let length_sq = dx * dx + dy * dy
+  let mut dot_product = (
+      (center.x - p1.x) * (p2.x - p1.x) + (center.y - p1.y) * (p2.y - p1.y)
+    ) /
+    length_sq
+  if dot_product > 1.0 {
+    dot_product = 1.0
+  } else if dot_product < 0.0 {
+    dot_product = 0.0
+  }
+  let dx2 = p1.x - dot_product * dx - center.x
+  let dy2 = p1.y - dot_product * dy - center.y
+  let distance_sq = dx2 * dx2 + dy2 * dy2
+  distance_sq <= radius * radius
 }
 
 ///|
@@ -889,12 +954,26 @@ pub fn check_collision_point_line(
   p2 : Vector2,
   threshold : Int,
 ) -> Bool {
-  @ffi.check_collision_point_line(
-    point.to_bytes(),
-    p1.to_bytes(),
-    p2.to_bytes(),
-    threshold,
-  )
+  let dxc = point.x - p1.x
+  let dyc = point.y - p1.y
+  let dxl = p2.x - p1.x
+  let dyl = p2.y - p1.y
+  let cross = dxc * dyl - dyc * dxl
+  if fabsf(cross) < Float::from_int(threshold) * fmaxf(fabsf(dxl), fabsf(dyl)) {
+    if fabsf(dxl) >= fabsf(dyl) {
+      if dxl > 0.0 {
+        p1.x <= point.x && point.x <= p2.x
+      } else {
+        p2.x <= point.x && point.x <= p1.x
+      }
+    } else if dyl > 0.0 {
+      p1.y <= point.y && point.y <= p2.y
+    } else {
+      p2.y <= point.y && point.y <= p1.y
+    }
+  } else {
+    false
+  }
 }
 
 // ============================================================================
@@ -920,7 +999,7 @@ pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
 }
 
 // ============================================================================
-// Additional collision detection
+// Additional collision detection (pure MoonBit)
 // ============================================================================
 
 ///|
@@ -929,8 +1008,24 @@ pub fn check_collision_point_poly(
   point : Vector2,
   points : Array[Vector2],
 ) -> Bool {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.check_collision_point_poly(point.to_bytes(), bytes, points.length())
+  let point_count = points.length()
+  if point_count <= 2 {
+    return false
+  }
+  let mut inside = false
+  let mut j = point_count - 1
+  for i in 0..<point_count {
+    if (points[i].y > point.y) != (points[j].y > point.y) &&
+      point.x <
+      (points[j].x - points[i].x) *
+      (point.y - points[i].y) /
+      (points[j].y - points[i].y) +
+      points[i].x {
+      inside = !inside
+    }
+    j = i
+  }
+  inside
 }
 
 ///|
@@ -941,15 +1036,51 @@ pub fn check_collision_lines(
   start_pos2 : Vector2,
   end_pos2 : Vector2,
 ) -> Vector2? {
-  let result = @ffi.check_collision_lines(
-    start_pos1.to_bytes(),
-    end_pos1.to_bytes(),
-    start_pos2.to_bytes(),
-    end_pos2.to_bytes(),
-  )
-  if result.length() > 0 {
-    Some(Vector2::from_bytes(result))
-  } else {
-    None
+  let flt_epsilon : Float = 1.1920929e-7
+  let div = (end_pos2.y - start_pos2.y) * (end_pos1.x - start_pos1.x) -
+    (end_pos2.x - start_pos2.x) * (end_pos1.y - start_pos1.y)
+  if fabsf(div) < flt_epsilon {
+    return None
   }
+  let cross1 = start_pos1.x * end_pos1.y - start_pos1.y * end_pos1.x
+  let cross2 = start_pos2.x * end_pos2.y - start_pos2.y * end_pos2.x
+  let xi = (
+      (start_pos2.x - end_pos2.x) * cross1 -
+      (start_pos1.x - end_pos1.x) * cross2
+    ) /
+    div
+  let yi = (
+      (start_pos2.y - end_pos2.y) * cross1 -
+      (start_pos1.y - end_pos1.y) * cross2
+    ) /
+    div
+  if fabsf(start_pos1.x - end_pos1.x) > flt_epsilon &&
+    (
+      xi < fminf(start_pos1.x, end_pos1.x) ||
+      xi > fmaxf(start_pos1.x, end_pos1.x)
+    ) {
+    return None
+  }
+  if fabsf(start_pos2.x - end_pos2.x) > flt_epsilon &&
+    (
+      xi < fminf(start_pos2.x, end_pos2.x) ||
+      xi > fmaxf(start_pos2.x, end_pos2.x)
+    ) {
+    return None
+  }
+  if fabsf(start_pos1.y - end_pos1.y) > flt_epsilon &&
+    (
+      yi < fminf(start_pos1.y, end_pos1.y) ||
+      yi > fmaxf(start_pos1.y, end_pos1.y)
+    ) {
+    return None
+  }
+  if fabsf(start_pos2.y - end_pos2.y) > flt_epsilon &&
+    (
+      yi < fminf(start_pos2.y, end_pos2.y) ||
+      yi > fmaxf(start_pos2.y, end_pos2.y)
+    ) {
+    return None
+  }
+  Some({ x: xi, y: yi })
 }

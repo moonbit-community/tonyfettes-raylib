@@ -42,26 +42,6 @@ pub fn check_collision_box_sphere(Bytes, Bytes, Float) -> Bool
 
 pub fn check_collision_boxes(Bytes, Bytes) -> Bool
 
-pub fn check_collision_circle_line(Bytes, Float, Bytes, Bytes) -> Bool
-
-pub fn check_collision_circle_rec(Bytes, Float, Bytes) -> Bool
-
-pub fn check_collision_circles(Bytes, Float, Bytes, Float) -> Bool
-
-pub fn check_collision_lines(Bytes, Bytes, Bytes, Bytes) -> Bytes
-
-pub fn check_collision_point_circle(Bytes, Bytes, Float) -> Bool
-
-pub fn check_collision_point_line(Bytes, Bytes, Bytes, Int) -> Bool
-
-pub fn check_collision_point_poly(Bytes, Bytes, Int) -> Bool
-
-pub fn check_collision_point_rec(Bytes, Bytes) -> Bool
-
-pub fn check_collision_point_triangle(Bytes, Bytes, Bytes, Bytes) -> Bool
-
-pub fn check_collision_recs(Bytes, Bytes) -> Bool
-
 pub fn check_collision_spheres(Bytes, Float, Bytes, Float) -> Bool
 
 pub fn clear_background(Bytes) -> Unit
@@ -73,30 +53,6 @@ pub fn close_audio_device() -> Unit
 pub fn close_window() -> Unit
 
 pub fn codepoint_to_utf8(Int) -> Bytes
-
-pub fn color_alpha(Bytes, Float) -> Bytes
-
-pub fn color_alpha_blend(Bytes, Bytes, Bytes) -> Bytes
-
-pub fn color_brightness(Bytes, Float) -> Bytes
-
-pub fn color_contrast(Bytes, Float) -> Bytes
-
-pub fn color_from_hsv(Float, Float, Float) -> Bytes
-
-pub fn color_from_normalized(Bytes) -> Bytes
-
-pub fn color_is_equal(Bytes, Bytes) -> Bool
-
-pub fn color_lerp(Bytes, Bytes, Float) -> Bytes
-
-pub fn color_normalize(Bytes) -> Bytes
-
-pub fn color_tint(Bytes, Bytes) -> Bytes
-
-pub fn color_to_hsv(Bytes) -> Bytes
-
-pub fn color_to_int(Bytes) -> Int
 
 pub fn compress_data(Bytes, Int) -> Bytes
 
@@ -354,8 +310,6 @@ pub fn export_wave(Wave, Bytes) -> Bool
 
 pub fn export_wave_as_code(Wave, Bytes) -> Bool
 
-pub fn fade(Bytes, Float) -> Bytes
-
 pub fn file_exists(Bytes) -> Bool
 
 pub fn file_path_list_count(FilePathList) -> Int
@@ -418,10 +372,6 @@ pub fn gen_texture_mipmaps(Texture) -> Unit
 
 pub fn get_application_directory() -> Bytes
 
-pub fn get_camera_matrix(Bytes) -> Bytes
-
-pub fn get_camera_matrix_2d(Bytes) -> Bytes
-
 pub fn get_char_pressed() -> Int
 
 pub fn get_clipboard_image() -> Image
@@ -435,10 +385,6 @@ pub fn get_codepoint_count(Bytes) -> Int
 pub fn get_codepoint_next(Bytes) -> Bytes
 
 pub fn get_codepoint_previous(Bytes) -> Bytes
-
-pub fn get_collision_rec(Bytes, Bytes) -> Bytes
-
-pub fn get_color(Int) -> Bytes
 
 pub fn get_current_monitor() -> Int
 
@@ -628,8 +574,6 @@ pub fn get_render_width() -> Int
 
 pub fn get_screen_height() -> Int
 
-pub fn get_screen_to_world_2d(Bytes, Bytes) -> Bytes
-
 pub fn get_screen_to_world_ray(Bytes, Bytes) -> Bytes
 
 pub fn get_screen_to_world_ray_ex(Bytes, Bytes, Int, Int) -> Bytes
@@ -645,16 +589,6 @@ pub fn get_shader_location_attrib(Shader, Bytes) -> Int
 pub fn get_shapes_texture() -> Texture
 
 pub fn get_shapes_texture_rectangle() -> Bytes
-
-pub fn get_spline_point_basis(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_bezier_cubic(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_bezier_quad(Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_linear(Bytes, Bytes, Float) -> Bytes
 
 pub fn get_texture_format(Texture) -> Int
 
@@ -699,8 +633,6 @@ pub fn get_window_scale_dpi() -> Bytes
 pub fn get_working_directory() -> Bytes
 
 pub fn get_world_to_screen(Bytes, Bytes) -> Bytes
-
-pub fn get_world_to_screen_2d(Bytes, Bytes) -> Bytes
 
 pub fn get_world_to_screen_ex(Bytes, Bytes, Int, Int) -> Bytes
 
