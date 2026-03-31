@@ -337,18 +337,14 @@ pub enum GuiState {
   Focused
   Pressed
   Disabled
-}
+} derive(Eq, Show)
 pub fn GuiState::to_int(Self) -> Int
-pub impl Eq for GuiState
-pub impl Show for GuiState
 
 pub struct Vector3 {
   x : Float
   y : Float
   z : Float
-}
-pub impl Eq for Vector3
-pub impl Show for Vector3
+} derive(Eq, Show)
 
 // Type aliases
 

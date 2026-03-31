@@ -159,3 +159,17 @@ test "check_collision_box_sphere - outside" {
   let center = @raylib.Vector3::new(50.0, 50.0, 50.0)
   assert_true(not(@raylib.check_collision_box_sphere(box_, center, 1.0)))
 }
+
+///|
+test "RayCollision::new" {
+  let rc = @raylib.RayCollision::new(
+    true,
+    1.5,
+    @raylib.Vector3::new(1.0, 2.0, 3.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+  )
+  assert_true(rc.hit)
+  assert_true((rc.distance - 1.5).abs() < 0.001)
+  assert_eq(rc.point, @raylib.Vector3::new(1.0, 2.0, 3.0))
+  assert_eq(rc.normal, @raylib.Vector3::new(0.0, 1.0, 0.0))
+}

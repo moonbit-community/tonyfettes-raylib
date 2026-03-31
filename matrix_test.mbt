@@ -578,3 +578,24 @@ test "Matrix::decompose - rotate_z(pi) triggers biggest_index 3" {
   assert_true(approx(rotation.z.abs(), 1.0))
   assert_true(approx(rotation.w, 0.0))
 }
+
+///|
+test "Matrix::decompose - zero matrix triggers det == 0 identity quaternion fallback" {
+  // Zero matrix (all zeros except m15=1.0) has det == 0, triggering identity quaternion fallback
+  // Matrix::scale(0,0,0) produces exactly this: diagonal 0,0,0,1, all else 0
+  let m = @raylib.Matrix::scale(0.0, 0.0, 0.0)
+  let (translation, rotation, scale) = @raylib.Matrix::decompose(m)
+  // Translation should be zero
+  assert_true(approx(translation.x, 0.0))
+  assert_true(approx(translation.y, 0.0))
+  assert_true(approx(translation.z, 0.0))
+  // Scale should be zero (all columns have zero length)
+  assert_true(approx(scale.x, 0.0))
+  assert_true(approx(scale.y, 0.0))
+  assert_true(approx(scale.z, 0.0))
+  // Rotation should be identity quaternion (det == 0 fallback)
+  assert_true(approx(rotation.x, 0.0))
+  assert_true(approx(rotation.y, 0.0))
+  assert_true(approx(rotation.z, 0.0))
+  assert_true(approx(rotation.w, 1.0))
+}

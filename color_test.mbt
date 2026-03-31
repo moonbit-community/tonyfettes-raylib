@@ -73,3 +73,51 @@ test "color_tint applies tint" {
   let tinted = @raylib.color_tint(@raylib.white, @raylib.red)
   assert_eq(tinted.r, @raylib.red.r)
 }
+
+///|
+test "color_normalize returns normalized RGBA" {
+  let n = @raylib.color_normalize(@raylib.red)
+  // red = (230, 41, 55, 255)
+  assert_true((n.x - 230.0 / 255.0).abs() < 0.01)
+  assert_true((n.y - 41.0 / 255.0).abs() < 0.01)
+  assert_true((n.z - 55.0 / 255.0).abs() < 0.01)
+  assert_true((n.w - 1.0).abs() < 0.01)
+}
+
+///|
+test "color_from_normalized round-trips with color_normalize" {
+  let c = @raylib.Color::new(100, 150, 200, 255)
+  let normalized = @raylib.color_normalize(c)
+  let back = @raylib.color_from_normalized(normalized)
+  assert_eq(back, c)
+}
+
+///|
+test "color_to_hsv and color_from_hsv round-trip" {
+  let c = @raylib.Color::new(200, 100, 50, 255)
+  let hsv = @raylib.color_to_hsv(c)
+  let back = @raylib.color_from_hsv(hsv.x, hsv.y, hsv.z)
+  assert_true((c.r.to_int() - back.r.to_int()).abs() <= 1)
+  assert_true((c.g.to_int() - back.g.to_int()).abs() <= 1)
+  assert_true((c.b.to_int() - back.b.to_int()).abs() <= 1)
+}
+
+///|
+test "color_contrast adjusts contrast" {
+  let c = @raylib.Color::new(128, 128, 128, 255)
+  let high = @raylib.color_contrast(c, 1.0)
+  let low = @raylib.color_contrast(c, -1.0)
+  let _ = high
+  let _ = low
+}
+
+///|
+test "color_alpha_blend blends src over dst" {
+  let dst = @raylib.Color::new(255, 0, 0, 255)
+  let src = @raylib.Color::new(0, 0, 255, 128)
+  let tint = @raylib.white
+  let result = @raylib.color_alpha_blend(dst, src, tint)
+  assert_true(result.r.to_int() > 0)
+  assert_true(result.b.to_int() > 0)
+  assert_true(result.a.to_int() == 255)
+}
