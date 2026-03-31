@@ -6,6 +6,9 @@
 const SmoothCircleErrorRate : Float = 0.5
 
 ///|
+const SplineSegmentDivisions : Int = 24
+
+///|
 fn get_shape_texture_uvs() -> (UInt, Float, Float, Float, Float) {
   let texture = Texture::get_shapes()
   let shape_rect = get_shapes_texture_rectangle()
@@ -196,6 +199,30 @@ fn submit_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
   }
 
   @ffi.rl_end()
+}
+
+///|
+fn make_spline_strip_buffer() -> Array[Vector2] {
+  Array::make(SplineSegmentDivisions * 2 + 2, { x: 0.0, y: 0.0 })
+}
+
+///|
+fn write_spline_strip_pair(
+  points : Array[Vector2],
+  index : Int,
+  position : Vector2,
+  dx : Float,
+  dy : Float,
+  size : Float,
+) -> Unit {
+  points[2 * index] = {
+    x: position.x + dy * size,
+    y: position.y - dx * size,
+  }
+  points[2 * index + 1] = {
+    x: position.x - dy * size,
+    y: position.y + dx * size,
+  }
 }
 
 ///|
@@ -1269,8 +1296,13 @@ pub fn draw_spline_linear(
   thick : Float,
   color : Color,
 ) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_linear(bytes, points.length(), thick, color.to_bytes())
+  if points.length() < 2 {
+    return
+  }
+
+  for i in 0..<(points.length() - 1) {
+    draw_spline_segment_linear(points[i], points[i + 1], thick, color)
+  }
 }
 
 ///|
@@ -1280,8 +1312,51 @@ pub fn draw_spline_basis(
   thick : Float,
   color : Color,
 ) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_basis(bytes, points.length(), thick, color.to_bytes())
+  if points.length() < 4 {
+    return
+  }
+
+  let mut dy : Float = 0.0
+  let mut dx : Float = 0.0
+  let mut size : Float = 0.0
+  let mut current_point = { x: 0.0, y: 0.0 }
+  let vertices = make_spline_strip_buffer()
+
+  for i in 0..<(points.length() - 3) {
+    let p1 = points[i]
+    let p2 = points[i + 1]
+    let p3 = points[i + 2]
+    let p4 = points[i + 3]
+    current_point = get_spline_point_basis(p1, p2, p3, p4, 0.0)
+
+    if i == 0 {
+      draw_circle_v(current_point, thick / 2.0, color)
+    }
+
+    if i > 0 {
+      write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+    }
+
+    for j in 1..<(SplineSegmentDivisions + 1) {
+      let t = Float::from_int(j) / Float::from_int(SplineSegmentDivisions)
+      let next_point = get_spline_point_basis(p1, p2, p3, p4, t)
+
+      dy = next_point.y - current_point.y
+      dx = next_point.x - current_point.x
+      size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+      if i == 0 && j == 1 {
+        write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+      }
+
+      write_spline_strip_pair(vertices, j, next_point, dx, dy, size)
+      current_point = next_point
+    }
+
+    submit_triangle_strip(vertices, color)
+  }
+
+  draw_circle_v(current_point, thick / 2.0, color)
 }
 
 ///|
@@ -1291,8 +1366,48 @@ pub fn draw_spline_catmull_rom(
   thick : Float,
   color : Color,
 ) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_catmull_rom(bytes, points.length(), thick, color.to_bytes())
+  if points.length() < 4 {
+    return
+  }
+
+  let mut dy : Float = 0.0
+  let mut dx : Float = 0.0
+  let mut size : Float = 0.0
+  let mut current_point = points[1]
+  let vertices = make_spline_strip_buffer()
+
+  draw_circle_v(current_point, thick / 2.0, color)
+
+  for i in 0..<(points.length() - 3) {
+    let p1 = points[i]
+    let p2 = points[i + 1]
+    let p3 = points[i + 2]
+    let p4 = points[i + 3]
+
+    if i > 0 {
+      write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+    }
+
+    for j in 1..<(SplineSegmentDivisions + 1) {
+      let t = Float::from_int(j) / Float::from_int(SplineSegmentDivisions)
+      let next_point = get_spline_point_catmull_rom(p1, p2, p3, p4, t)
+
+      dy = next_point.y - current_point.y
+      dx = next_point.x - current_point.x
+      size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+      if i == 0 && j == 1 {
+        write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+      }
+
+      write_spline_strip_pair(vertices, j, next_point, dx, dy, size)
+      current_point = next_point
+    }
+
+    submit_triangle_strip(vertices, color)
+  }
+
+  draw_circle_v(current_point, thick / 2.0, color)
 }
 
 ///|
@@ -1302,13 +1417,15 @@ pub fn draw_spline_bezier_quadratic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_bezier_quadratic(
-    bytes,
-    points.length(),
-    thick,
-    color.to_bytes(),
-  )
+  for i = 0; i < points.length() - 2; i = i + 2 {
+    draw_spline_segment_bezier_quadratic(
+      points[i],
+      points[i + 1],
+      points[i + 2],
+      thick,
+      color,
+    )
+  }
 }
 
 ///|
@@ -1318,8 +1435,16 @@ pub fn draw_spline_bezier_cubic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_spline_bezier_cubic(bytes, points.length(), thick, color.to_bytes())
+  for i = 0; i < points.length() - 3; i = i + 3 {
+    draw_spline_segment_bezier_cubic(
+      points[i],
+      points[i + 1],
+      points[i + 2],
+      points[i + 3],
+      thick,
+      color,
+    )
+  }
 }
 
 // ============================================================================
@@ -1334,12 +1459,7 @@ pub fn draw_spline_segment_linear(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_spline_segment_linear(
-    p1.to_bytes(),
-    p2.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  draw_line_ex(p1, p2, thick, color)
 }
 
 ///|
@@ -1352,14 +1472,26 @@ pub fn draw_spline_segment_basis(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_spline_segment_basis(
-    p1.to_bytes(),
-    p2.to_bytes(),
-    p3.to_bytes(),
-    p4.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
+  let mut current_point = get_spline_point_basis(p1, p2, p3, p4, 0.0)
+  let points = make_spline_strip_buffer()
+
+  for i in 0..<(SplineSegmentDivisions + 1) {
+    let t : Float = step * Float::from_int(i)
+    let next_point = get_spline_point_basis(p1, p2, p3, p4, t)
+    let dy = next_point.y - current_point.y
+    let dx = next_point.x - current_point.x
+    let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+    if i == 1 {
+      write_spline_strip_pair(points, 0, current_point, dx, dy, size)
+    }
+
+    write_spline_strip_pair(points, i, next_point, dx, dy, size)
+    current_point = next_point
+  }
+
+  submit_triangle_strip(points, color)
 }
 
 ///|
@@ -1372,14 +1504,26 @@ pub fn draw_spline_segment_catmull_rom(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_spline_segment_catmull_rom(
-    p1.to_bytes(),
-    p2.to_bytes(),
-    p3.to_bytes(),
-    p4.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
+  let mut current_point = p1
+  let points = make_spline_strip_buffer()
+
+  for i in 0..<(SplineSegmentDivisions + 1) {
+    let t : Float = step * Float::from_int(i)
+    let next_point = get_spline_point_catmull_rom(p1, p2, p3, p4, t)
+    let dy = next_point.y - current_point.y
+    let dx = next_point.x - current_point.x
+    let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+    if i == 1 {
+      write_spline_strip_pair(points, 0, current_point, dx, dy, size)
+    }
+
+    write_spline_strip_pair(points, i, next_point, dx, dy, size)
+    current_point = next_point
+  }
+
+  submit_triangle_strip(points, color)
 }
 
 ///|
@@ -1391,13 +1535,26 @@ pub fn draw_spline_segment_bezier_quadratic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_spline_segment_bezier_quadratic(
-    p1.to_bytes(),
-    p2.to_bytes(),
-    p3.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
+  let mut previous = p1
+  let points = make_spline_strip_buffer()
+
+  for i in 1..<(SplineSegmentDivisions + 1) {
+    let t : Float = step * Float::from_int(i)
+    let current = get_spline_point_bezier_quad(p1, p2, p3, t)
+    let dy = current.y - previous.y
+    let dx = current.x - previous.x
+    let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+    if i == 1 {
+      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+    }
+
+    write_spline_strip_pair(points, i, current, dx, dy, size)
+    previous = current
+  }
+
+  submit_triangle_strip(points, color)
 }
 
 ///|
@@ -1410,14 +1567,26 @@ pub fn draw_spline_segment_bezier_cubic(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_spline_segment_bezier_cubic(
-    p1.to_bytes(),
-    p2.to_bytes(),
-    p3.to_bytes(),
-    p4.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
+  let mut previous = p1
+  let points = make_spline_strip_buffer()
+
+  for i in 1..<(SplineSegmentDivisions + 1) {
+    let t : Float = step * Float::from_int(i)
+    let current = get_spline_point_bezier_cubic(p1, p2, p3, p4, t)
+    let dy = current.y - previous.y
+    let dx = current.x - previous.x
+    let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+    if i == 1 {
+      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+    }
+
+    write_spline_strip_pair(points, i, current, dx, dy, size)
+    previous = current
+  }
+
+  submit_triangle_strip(points, color)
 }
 
 // ============================================================================

@@ -299,3 +299,148 @@ test "draw_poly_lines_ex renders thick polygon outline through public rendering"
   image.unload()
   @raylib.close_window()
 }
+
+///|
+test "draw_spline_linear renders a thick polyline through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_linear(
+    [
+      @raylib.Vector2::new(8.0, 8.0),
+      @raylib.Vector2::new(20.0, 8.0),
+      @raylib.Vector2::new(28.0, 20.0),
+    ],
+    4.0,
+    @raylib.blue,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(14, 32), @raylib.blue)
+  assert_eq(image.get_color(25, 25), @raylib.blue)
+  assert_eq(image.get_color(8, 20), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_basis renders a capped basis spline through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_basis(
+    [
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(12.0, 8.0),
+      @raylib.Vector2::new(24.0, 8.0),
+      @raylib.Vector2::new(28.0, 24.0),
+    ],
+    4.0,
+    @raylib.darkgreen,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 30), @raylib.darkgreen)
+  assert_eq(image.get_color(13, 29), @raylib.darkgreen)
+  assert_eq(image.get_color(10, 16), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_segment_basis renders a basis curve through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_segment_basis(
+    @raylib.Vector2::new(8.0, 24.0),
+    @raylib.Vector2::new(12.0, 8.0),
+    @raylib.Vector2::new(24.0, 8.0),
+    @raylib.Vector2::new(28.0, 24.0),
+    4.0,
+    @raylib.green,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 30), @raylib.green)
+  assert_eq(image.get_color(10, 16), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_segment_catmull_rom renders a Catmull-Rom curve through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_segment_catmull_rom(
+    @raylib.Vector2::new(8.0, 24.0),
+    @raylib.Vector2::new(8.0, 8.0),
+    @raylib.Vector2::new(24.0, 8.0),
+    @raylib.Vector2::new(24.0, 24.0),
+    4.0,
+    @raylib.maroon,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 33), @raylib.maroon)
+  assert_eq(image.get_color(16, 16), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_catmull_rom renders a capped curve through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_catmull_rom(
+    [
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(8.0, 8.0),
+      @raylib.Vector2::new(24.0, 8.0),
+      @raylib.Vector2::new(24.0, 24.0),
+    ],
+    4.0,
+    @raylib.orange,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(16, 33), @raylib.orange)
+  assert_eq(image.get_color(8, 31), @raylib.orange)
+  assert_eq(image.get_color(16, 16), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_bezier_quadratic renders a curved strip through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_bezier_quadratic(
+    [
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(20.0, 8.0),
+      @raylib.Vector2::new(32.0, 24.0),
+    ],
+    4.0,
+    @raylib.red,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(20, 22), @raylib.red)
+  assert_eq(image.get_color(20, 10), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_spline_bezier_cubic renders a cubic curve through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_spline_bezier_cubic(
+    [
+      @raylib.Vector2::new(8.0, 24.0),
+      @raylib.Vector2::new(8.0, 8.0),
+      @raylib.Vector2::new(24.0, 8.0),
+      @raylib.Vector2::new(24.0, 24.0),
+    ],
+    4.0,
+    @raylib.purple,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(14, 27), @raylib.purple)
+  assert_eq(image.get_color(20, 27), @raylib.purple)
+  assert_eq(image.get_color(16, 16), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
