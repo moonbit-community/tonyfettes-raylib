@@ -3,6 +3,143 @@
 // ============================================================================
 
 ///|
+fn submit_color(color : Color) -> Unit {
+  @ffi.rl_color4ub(color.r, color.g, color.b, color.a)
+}
+
+///|
+fn submit_shape_textured_quad(
+  top_left : Vector2,
+  bottom_left : Vector2,
+  bottom_right : Vector2,
+  top_right : Vector2,
+  top_left_color : Color,
+  bottom_left_color : Color,
+  bottom_right_color : Color,
+  top_right_color : Color,
+) -> Unit {
+  let texture = Texture::get_shapes()
+  let shape_rect = get_shapes_texture_rectangle()
+  let tex_width = Float::from_int(texture.width())
+  let tex_height = Float::from_int(texture.height())
+  let u0 = shape_rect.x / tex_width
+  let v0 = shape_rect.y / tex_height
+  let u1 = (shape_rect.x + shape_rect.width) / tex_width
+  let v1 = (shape_rect.y + shape_rect.height) / tex_height
+
+  @ffi.rl_set_texture(texture.id())
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+  @ffi.rl_normal3f(0.0, 0.0, 1.0)
+
+  submit_color(top_left_color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(top_left.x, top_left.y)
+
+  submit_color(bottom_left_color)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(bottom_left.x, bottom_left.y)
+
+  submit_color(bottom_right_color)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(bottom_right.x, bottom_right.y)
+
+  submit_color(top_right_color)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(top_right.x, top_right.y)
+
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
+}
+
+///|
+fn rectangle_pro_vertices(
+  rec : Rectangle,
+  origin : Vector2,
+  rotation : Float,
+) -> (Vector2, Vector2, Vector2, Vector2) {
+  if rotation == 0.0 {
+    let x = rec.x - origin.x
+    let y = rec.y - origin.y
+    (
+      { x, y },
+      { x: x + rec.width, y },
+      { x, y: y + rec.height },
+      { x: x + rec.width, y: y + rec.height },
+    )
+  } else {
+    let sin_rotation = sinf(rotation * @ffi.DegToRad)
+    let cos_rotation = cosf(rotation * @ffi.DegToRad)
+    let x = rec.x
+    let y = rec.y
+    let dx = -origin.x
+    let dy = -origin.y
+    (
+      {
+        x: x + dx * cos_rotation - dy * sin_rotation,
+        y: y + dx * sin_rotation + dy * cos_rotation,
+      },
+      {
+        x: x + (dx + rec.width) * cos_rotation - dy * sin_rotation,
+        y: y + (dx + rec.width) * sin_rotation + dy * cos_rotation,
+      },
+      {
+        x: x + dx * cos_rotation - (dy + rec.height) * sin_rotation,
+        y: y + dx * sin_rotation + (dy + rec.height) * cos_rotation,
+      },
+      {
+        x: x +
+        (dx + rec.width) * cos_rotation -
+        (dy + rec.height) * sin_rotation,
+        y: y +
+        (dx + rec.width) * sin_rotation +
+        (dy + rec.height) * cos_rotation,
+      },
+    )
+  }
+}
+
+///|
+fn clamp_rectangle_line_thickness(rec : Rectangle, line_thick : Float) -> Float {
+  if line_thick > rec.width || line_thick > rec.height {
+    if rec.width >= rec.height {
+      rec.height / 2.0
+    } else {
+      rec.width / 2.0
+    }
+  } else {
+    line_thick
+  }
+}
+
+///|
+fn rectangle_line_segments(
+  rec : Rectangle,
+  line_thick : Float,
+) -> (Rectangle, Rectangle, Rectangle, Rectangle) {
+  (
+    { x: rec.x, y: rec.y, width: rec.width, height: line_thick },
+    {
+      x: rec.x,
+      y: rec.y - line_thick + rec.height,
+      width: rec.width,
+      height: line_thick,
+    },
+    {
+      x: rec.x,
+      y: rec.y + line_thick,
+      width: line_thick,
+      height: rec.height - line_thick * 2.0,
+    },
+    {
+      x: rec.x - line_thick + rec.width,
+      y: rec.y + line_thick,
+      width: line_thick,
+      height: rec.height - line_thick * 2.0,
+    },
+  )
+}
+
+///|
 /// Draw a pixel using geometry. Can be slow, use with care.
 pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
   @ffi.draw_pixel(pos_x, pos_y, color.to_bytes())
@@ -227,7 +364,11 @@ pub fn draw_rectangle(
   height : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle(pos_x, pos_y, width, height, color.to_bytes())
+  draw_rectangle_v(
+    { x: Float::from_int(pos_x), y: Float::from_int(pos_y) },
+    { x: Float::from_int(width), y: Float::from_int(height) },
+    color,
+  )
 }
 
 ///|
@@ -237,13 +378,18 @@ pub fn draw_rectangle_v(
   size : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_v(position.to_bytes(), size.to_bytes(), color.to_bytes())
+  draw_rectangle_pro(
+    { x: position.x, y: position.y, width: size.x, height: size.y },
+    { x: 0.0, y: 0.0 },
+    0.0,
+    color,
+  )
 }
 
 ///|
 /// Draw a color-filled rectangle.
 pub fn draw_rectangle_rec(rec : Rectangle, color : Color) -> Unit {
-  @ffi.draw_rectangle_rec(rec.to_bytes(), color.to_bytes())
+  draw_rectangle_pro(rec, { x: 0.0, y: 0.0 }, 0.0, color)
 }
 
 ///|
@@ -254,11 +400,11 @@ pub fn draw_rectangle_pro(
   rotation : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_pro(
-    rec.to_bytes(),
-    origin.to_bytes(),
-    rotation,
-    color.to_bytes(),
+  let (top_left, top_right, bottom_left, bottom_right) = rectangle_pro_vertices(
+    rec, origin, rotation,
+  )
+  submit_shape_textured_quad(
+    top_left, bottom_left, bottom_right, top_right, color, color, color, color,
   )
 }
 
@@ -272,13 +418,17 @@ pub fn draw_rectangle_gradient_v(
   top : Color,
   bottom : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_gradient_v(
-    pos_x,
-    pos_y,
-    width,
-    height,
-    top.to_bytes(),
-    bottom.to_bytes(),
+  draw_rectangle_gradient_ex(
+    {
+      x: Float::from_int(pos_x),
+      y: Float::from_int(pos_y),
+      width: Float::from_int(width),
+      height: Float::from_int(height),
+    },
+    top,
+    bottom,
+    bottom,
+    top,
   )
 }
 
@@ -292,13 +442,17 @@ pub fn draw_rectangle_gradient_h(
   left : Color,
   right : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_gradient_h(
-    pos_x,
-    pos_y,
-    width,
-    height,
-    left.to_bytes(),
-    right.to_bytes(),
+  draw_rectangle_gradient_ex(
+    {
+      x: Float::from_int(pos_x),
+      y: Float::from_int(pos_y),
+      width: Float::from_int(width),
+      height: Float::from_int(height),
+    },
+    left,
+    left,
+    right,
+    right,
   )
 }
 
@@ -311,12 +465,15 @@ pub fn draw_rectangle_gradient_ex(
   top_right : Color,
   bottom_right : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_gradient_ex(
-    rec.to_bytes(),
-    top_left.to_bytes(),
-    bottom_left.to_bytes(),
-    top_right.to_bytes(),
-    bottom_right.to_bytes(),
+  submit_shape_textured_quad(
+    { x: rec.x, y: rec.y },
+    { x: rec.x, y: rec.y + rec.height },
+    { x: rec.x + rec.width, y: rec.y + rec.height },
+    { x: rec.x + rec.width, y: rec.y },
+    top_left,
+    bottom_left,
+    top_right,
+    bottom_right,
   )
 }
 
@@ -329,7 +486,29 @@ pub fn draw_rectangle_lines(
   height : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_lines(pos_x, pos_y, width, height, color.to_bytes())
+  let mat = Matrix::from_bytes(@ffi.rl_get_matrix_modelview())
+  let zoom_factor : Float = (0.5 : Float) / mat.m0
+  let pos_xf = Float::from_int(pos_x)
+  let pos_yf = Float::from_int(pos_y)
+  let widthf = Float::from_int(width)
+  let heightf = Float::from_int(height)
+
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+
+  @ffi.rl_vertex2f(pos_xf - zoom_factor, pos_yf)
+  @ffi.rl_vertex2f(pos_xf + widthf + zoom_factor, pos_yf)
+
+  @ffi.rl_vertex2f(pos_xf + widthf, pos_yf - zoom_factor)
+  @ffi.rl_vertex2f(pos_xf + widthf, pos_yf + heightf + zoom_factor)
+
+  @ffi.rl_vertex2f(pos_xf + widthf + zoom_factor, pos_yf + heightf)
+  @ffi.rl_vertex2f(pos_xf - zoom_factor, pos_yf + heightf)
+
+  @ffi.rl_vertex2f(pos_xf, pos_yf + heightf + zoom_factor)
+  @ffi.rl_vertex2f(pos_xf, pos_yf - zoom_factor)
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -339,7 +518,12 @@ pub fn draw_rectangle_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_lines_ex(rec.to_bytes(), line_thick, color.to_bytes())
+  let line_thick = clamp_rectangle_line_thickness(rec, line_thick)
+  let (top, bottom, left, right) = rectangle_line_segments(rec, line_thick)
+  draw_rectangle_rec(top, color)
+  draw_rectangle_rec(bottom, color)
+  draw_rectangle_rec(left, color)
+  draw_rectangle_rec(right, color)
 }
 
 ///|

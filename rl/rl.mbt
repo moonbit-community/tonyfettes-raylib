@@ -336,13 +336,13 @@ pub fn get_matrix_projection() -> @root.Matrix {
 // rlgl draw mode constants
 
 ///|
-pub const Lines : Int = 0x0001
+pub const Lines : Int = @raylib.RlLinesMode
 
 ///|
-pub const Triangles : Int = 0x0004
+pub const Triangles : Int = @raylib.RlTrianglesMode
 
 ///|
-pub const Quads : Int = 0x0007
+pub const Quads : Int = @raylib.RlQuadsMode
 
 // rlgl framebuffer target constants
 
