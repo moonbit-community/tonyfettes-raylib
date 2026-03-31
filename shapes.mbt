@@ -226,6 +226,113 @@ fn write_spline_strip_pair(
 }
 
 ///|
+fn ease_cubic_in_out(t : Float, b : Float, c : Float, d : Float) -> Float {
+  let mut t = t / ((0.5 : Float) * d)
+  if t < (1.0 : Float) {
+    (0.5 : Float) * c * t * t * t + b
+  } else {
+    t = t - (2.0 : Float)
+    (0.5 : Float) * c * (t * t * t + (2.0 : Float)) + b
+  }
+}
+
+///|
+fn resolve_rounded_rectangle_segments(
+  radius : Float,
+  segments : Int,
+  divisor : Float,
+) -> Int {
+  if segments >= 4 {
+    return segments
+  }
+
+  let ratio = (1.0 : Float) - SmoothCircleErrorRate / radius
+  let cosine = fmaxf(
+    (-1.0 : Float),
+    fminf((1.0 : Float), (2.0 : Float) * ratio * ratio - (1.0 : Float)),
+  )
+  let theta = acosf(cosine)
+  let estimated_segments = if theta > (0.0 : Float) {
+    ((((360.0 : Float) * @ffi.DegToRad) / theta).ceil() / divisor).to_int()
+  } else {
+    0
+  }
+
+  if estimated_segments <= 0 {
+    4
+  } else {
+    estimated_segments
+  }
+}
+
+///|
+fn rounded_rectangle_fill_points(
+  rec : Rectangle,
+  radius : Float,
+) -> (Array[Vector2], Array[Vector2], Array[Float]) {
+  let points : Array[Vector2] = [
+    { x: rec.x + radius, y: rec.y },
+    { x: rec.x + rec.width - radius, y: rec.y },
+    { x: rec.x + rec.width, y: rec.y + radius },
+    { x: rec.x + rec.width, y: rec.y + rec.height - radius },
+    { x: rec.x + rec.width - radius, y: rec.y + rec.height },
+    { x: rec.x + radius, y: rec.y + rec.height },
+    { x: rec.x, y: rec.y + rec.height - radius },
+    { x: rec.x, y: rec.y + radius },
+    { x: rec.x + radius, y: rec.y + radius },
+    { x: rec.x + rec.width - radius, y: rec.y + radius },
+    { x: rec.x + rec.width - radius, y: rec.y + rec.height - radius },
+    { x: rec.x + radius, y: rec.y + rec.height - radius },
+  ]
+  let centers : Array[Vector2] = [points[8], points[9], points[10], points[11]]
+  let angles : Array[Float] = [180.0, 270.0, 0.0, 90.0]
+  (points, centers, angles)
+}
+
+///|
+fn rounded_rectangle_outline_points(
+  rec : Rectangle,
+  inner_radius : Float,
+  line_thick : Float,
+) -> (Array[Vector2], Array[Vector2], Array[Float]) {
+  let points : Array[Vector2] = [
+    { x: rec.x + inner_radius, y: rec.y - line_thick },
+    { x: rec.x + rec.width - inner_radius, y: rec.y - line_thick },
+    { x: rec.x + rec.width + line_thick, y: rec.y + inner_radius },
+    {
+      x: rec.x + rec.width + line_thick,
+      y: rec.y + rec.height - inner_radius,
+    },
+    {
+      x: rec.x + rec.width - inner_radius,
+      y: rec.y + rec.height + line_thick,
+    },
+    { x: rec.x + inner_radius, y: rec.y + rec.height + line_thick },
+    { x: rec.x - line_thick, y: rec.y + rec.height - inner_radius },
+    { x: rec.x - line_thick, y: rec.y + inner_radius },
+    { x: rec.x + inner_radius, y: rec.y },
+    { x: rec.x + rec.width - inner_radius, y: rec.y },
+    { x: rec.x + rec.width, y: rec.y + inner_radius },
+    { x: rec.x + rec.width, y: rec.y + rec.height - inner_radius },
+    { x: rec.x + rec.width - inner_radius, y: rec.y + rec.height },
+    { x: rec.x + inner_radius, y: rec.y + rec.height },
+    { x: rec.x, y: rec.y + rec.height - inner_radius },
+    { x: rec.x, y: rec.y + inner_radius },
+  ]
+  let centers : Array[Vector2] = [
+    { x: rec.x + inner_radius, y: rec.y + inner_radius },
+    { x: rec.x + rec.width - inner_radius, y: rec.y + inner_radius },
+    {
+      x: rec.x + rec.width - inner_radius,
+      y: rec.y + rec.height - inner_radius,
+    },
+    { x: rec.x + inner_radius, y: rec.y + rec.height - inner_radius },
+  ]
+  let angles : Array[Float] = [180.0, 270.0, 0.0, 90.0]
+  (points, centers, angles)
+}
+
+///|
 fn clamp_rectangle_line_thickness(rec : Rectangle, line_thick : Float) -> Float {
   if line_thick > rec.width || line_thick > rec.height {
     if rec.width >= rec.height {
@@ -269,13 +376,25 @@ fn rectangle_line_segments(
 ///|
 /// Draw a pixel using geometry. Can be slow, use with care.
 pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
-  @ffi.draw_pixel(pos_x, pos_y, color.to_bytes())
+  draw_pixel_v(
+    { x: Float::from_int(pos_x), y: Float::from_int(pos_y) },
+    color,
+  )
 }
 
 ///|
 /// Draw a pixel using geometry (Vector version). Can be slow, use with care.
 pub fn draw_pixel_v(position : Vector2, color : Color) -> Unit {
-  @ffi.draw_pixel_v(position.to_bytes(), color.to_bytes())
+  submit_shape_textured_quad(
+    position,
+    { x: position.x, y: position.y + 1.0 },
+    { x: position.x + 1.0, y: position.y + 1.0 },
+    { x: position.x + 1.0, y: position.y },
+    color,
+    color,
+    color,
+    color,
+  )
 }
 
 ///|
@@ -287,7 +406,11 @@ pub fn draw_line(
   end_y : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line(start_x, start_y, end_x, end_y, color.to_bytes())
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+  @ffi.rl_vertex2f(Float::from_int(start_x), Float::from_int(start_y))
+  @ffi.rl_vertex2f(Float::from_int(end_x), Float::from_int(end_y))
+  @ffi.rl_end()
 }
 
 ///|
@@ -297,7 +420,11 @@ pub fn draw_line_v(
   end_pos : Vector2,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line_v(start_pos.to_bytes(), end_pos.to_bytes(), color.to_bytes())
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+  @ffi.rl_vertex2f(start_pos.x, start_pos.y)
+  @ffi.rl_vertex2f(end_pos.x, end_pos.y)
+  @ffi.rl_end()
 }
 
 ///|
@@ -334,12 +461,34 @@ pub fn draw_line_bezier(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line_bezier(
-    start_pos.to_bytes(),
-    end_pos.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let mut previous = start_pos
+  let points = make_spline_strip_buffer()
+  let segment_count = Float::from_int(SplineSegmentDivisions)
+
+  for i in 1..<(SplineSegmentDivisions + 1) {
+    let current = {
+      x: previous.x + (end_pos.x - start_pos.x) / segment_count,
+      y: ease_cubic_in_out(
+        Float::from_int(i),
+        start_pos.y,
+        end_pos.y - start_pos.y,
+        segment_count,
+      ),
+    }
+
+    let dy = current.y - previous.y
+    let dx = current.x - previous.x
+    let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
+
+    if i == 1 {
+      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+    }
+
+    write_spline_strip_pair(points, i, current, dx, dy, size)
+    previous = current
+  }
+
+  submit_triangle_strip(points, color)
 }
 
 ///|
@@ -439,13 +588,31 @@ pub fn draw_circle_gradient(
   inner : Color,
   outer : Color,
 ) -> Unit {
-  @ffi.draw_circle_gradient(
-    center_x,
-    center_y,
-    radius,
-    inner.to_bytes(),
-    outer.to_bytes(),
-  )
+  let center_xf = Float::from_int(center_x)
+  let center_yf = Float::from_int(center_y)
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+
+  for i in 0..<36 {
+    let angle = Float::from_int(i * 10)
+    let next_angle = angle + 10.0
+
+    submit_color(inner)
+    @ffi.rl_vertex2f(center_xf, center_yf)
+
+    submit_color(outer)
+    @ffi.rl_vertex2f(
+      center_xf + cosf(next_angle * @ffi.DegToRad) * radius,
+      center_yf + sinf(next_angle * @ffi.DegToRad) * radius,
+    )
+
+    submit_color(outer)
+    @ffi.rl_vertex2f(
+      center_xf + cosf(angle * @ffi.DegToRad) * radius,
+      center_yf + sinf(angle * @ffi.DegToRad) * radius,
+    )
+  }
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -462,7 +629,11 @@ pub fn draw_circle_lines(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_circle_lines(center_x, center_y, radius, color.to_bytes())
+  draw_circle_lines_v(
+    { x: Float::from_int(center_x), y: Float::from_int(center_y) },
+    radius,
+    color,
+  )
 }
 
 ///|
@@ -472,7 +643,23 @@ pub fn draw_circle_lines_v(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_circle_lines_v(center.to_bytes(), radius, color.to_bytes())
+  @ffi.rl_begin(@ffi.RlLinesMode)
+  submit_color(color)
+
+  for i in 0..<36 {
+    let angle = Float::from_int(i * 10)
+    let next_angle = angle + 10.0
+    @ffi.rl_vertex2f(
+      center.x + cosf(angle * @ffi.DegToRad) * radius,
+      center.y + sinf(angle * @ffi.DegToRad) * radius,
+    )
+    @ffi.rl_vertex2f(
+      center.x + cosf(next_angle * @ffi.DegToRad) * radius,
+      center.y + sinf(next_angle * @ffi.DegToRad) * radius,
+    )
+  }
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -484,7 +671,26 @@ pub fn draw_ellipse(
   radius_v : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_ellipse(center_x, center_y, radius_h, radius_v, color.to_bytes())
+  let center_xf = Float::from_int(center_x)
+  let center_yf = Float::from_int(center_y)
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+
+  for i in 0..<36 {
+    let angle = Float::from_int(i * 10)
+    let next_angle = angle + 10.0
+    submit_color(color)
+    @ffi.rl_vertex2f(center_xf, center_yf)
+    @ffi.rl_vertex2f(
+      center_xf + cosf(next_angle * @ffi.DegToRad) * radius_h,
+      center_yf + sinf(next_angle * @ffi.DegToRad) * radius_v,
+    )
+    @ffi.rl_vertex2f(
+      center_xf + cosf(angle * @ffi.DegToRad) * radius_h,
+      center_yf + sinf(angle * @ffi.DegToRad) * radius_v,
+    )
+  }
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -496,13 +702,25 @@ pub fn draw_ellipse_lines(
   radius_v : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_ellipse_lines(
-    center_x,
-    center_y,
-    radius_h,
-    radius_v,
-    color.to_bytes(),
-  )
+  let center_xf = Float::from_int(center_x)
+  let center_yf = Float::from_int(center_y)
+  @ffi.rl_begin(@ffi.RlLinesMode)
+
+  for i in 0..<36 {
+    let angle = Float::from_int(i * 10)
+    let next_angle = angle + 10.0
+    submit_color(color)
+    @ffi.rl_vertex2f(
+      center_xf + cosf(next_angle * @ffi.DegToRad) * radius_h,
+      center_yf + sinf(next_angle * @ffi.DegToRad) * radius_v,
+    )
+    @ffi.rl_vertex2f(
+      center_xf + cosf(angle * @ffi.DegToRad) * radius_h,
+      center_yf + sinf(angle * @ffi.DegToRad) * radius_v,
+    )
+  }
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -844,12 +1062,121 @@ pub fn draw_rectangle_rounded(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_rounded(
-    rec.to_bytes(),
-    roundness,
-    segments,
-    color.to_bytes(),
-  )
+  if roundness <= (0.0 : Float) || rec.width < (1.0 : Float) ||
+    rec.height < (1.0 : Float) {
+    draw_rectangle_rec(rec, color)
+    return
+  }
+
+  let roundness : Float = if roundness >= (1.0 : Float) {
+    (1.0 : Float)
+  } else {
+    roundness
+  }
+  let radius = if rec.width > rec.height {
+    (rec.height * roundness) / (2.0 : Float)
+  } else {
+    (rec.width * roundness) / (2.0 : Float)
+  }
+  if radius <= (0.0 : Float) {
+    return
+  }
+
+  let segments = resolve_rounded_rectangle_segments(radius, segments, 4.0)
+  let step_length = (90.0 : Float) / Float::from_int(segments)
+  let (points, centers, angles) = rounded_rectangle_fill_points(rec, radius)
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+
+  for k in 0..<4 {
+    let mut angle = angles[k]
+    let center = centers[k]
+
+    for _ in 0..<(segments / 2) {
+      submit_color(color)
+      @ffi.rl_tex_coord2f(u0, v0)
+      @ffi.rl_vertex2f(center.x, center.y)
+      @ffi.rl_tex_coord2f(u1, v0)
+      let end_ = circle_point(center, angle + step_length * 2.0, radius)
+      @ffi.rl_vertex2f(end_.x, end_.y)
+      @ffi.rl_tex_coord2f(u1, v1)
+      let mid = circle_point(center, angle + step_length, radius)
+      @ffi.rl_vertex2f(mid.x, mid.y)
+      @ffi.rl_tex_coord2f(u0, v1)
+      let start = circle_point(center, angle, radius)
+      @ffi.rl_vertex2f(start.x, start.y)
+      angle = angle + step_length * 2.0
+    }
+
+    if (segments % 2) == 1 {
+      submit_color(color)
+      @ffi.rl_tex_coord2f(u0, v0)
+      @ffi.rl_vertex2f(center.x, center.y)
+      @ffi.rl_tex_coord2f(u1, v1)
+      let end_ = circle_point(center, angle + step_length, radius)
+      @ffi.rl_vertex2f(end_.x, end_.y)
+      @ffi.rl_tex_coord2f(u0, v1)
+      let start = circle_point(center, angle, radius)
+      @ffi.rl_vertex2f(start.x, start.y)
+      @ffi.rl_tex_coord2f(u1, v0)
+      @ffi.rl_vertex2f(center.x, center.y)
+    }
+  }
+
+  submit_color(color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(points[0].x, points[0].y)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(points[8].x, points[8].y)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(points[9].x, points[9].y)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(points[1].x, points[1].y)
+
+  submit_color(color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(points[2].x, points[2].y)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(points[9].x, points[9].y)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(points[10].x, points[10].y)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(points[3].x, points[3].y)
+
+  submit_color(color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(points[5].x, points[5].y)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(points[4].x, points[4].y)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(points[10].x, points[10].y)
+
+  submit_color(color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(points[7].x, points[7].y)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(points[6].x, points[6].y)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(points[8].x, points[8].y)
+
+  submit_color(color)
+  @ffi.rl_tex_coord2f(u0, v0)
+  @ffi.rl_vertex2f(points[8].x, points[8].y)
+  @ffi.rl_tex_coord2f(u0, v1)
+  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_tex_coord2f(u1, v1)
+  @ffi.rl_vertex2f(points[10].x, points[10].y)
+  @ffi.rl_tex_coord2f(u1, v0)
+  @ffi.rl_vertex2f(points[9].x, points[9].y)
+
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 ///|
@@ -860,12 +1187,7 @@ pub fn draw_rectangle_rounded_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_rounded_lines(
-    rec.to_bytes(),
-    roundness,
-    segments,
-    color.to_bytes(),
-  )
+  draw_rectangle_rounded_lines_ex(rec, roundness, segments, 1.0, color)
 }
 
 ///|
@@ -877,13 +1199,146 @@ pub fn draw_rectangle_rounded_lines_ex(
   line_thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_rectangle_rounded_lines_ex(
-    rec.to_bytes(),
-    roundness,
-    segments,
+  let line_thick = if line_thick < (0.0 : Float) {
+    (0.0 : Float)
+  } else {
+    line_thick
+  }
+
+  if roundness <= (0.0 : Float) {
+    draw_rectangle_lines_ex(
+      {
+        x: rec.x - line_thick,
+        y: rec.y - line_thick,
+        width: rec.width + 2.0 * line_thick,
+        height: rec.height + 2.0 * line_thick,
+      },
+      line_thick,
+      color,
+    )
+    return
+  }
+
+  let roundness : Float = if roundness >= (1.0 : Float) {
+    (1.0 : Float)
+  } else {
+    roundness
+  }
+  let radius = if rec.width > rec.height {
+    (rec.height * roundness) / (2.0 : Float)
+  } else {
+    (rec.width * roundness) / (2.0 : Float)
+  }
+  if radius <= (0.0 : Float) {
+    return
+  }
+
+  let segments = resolve_rounded_rectangle_segments(radius, segments, 2.0)
+  let step_length = (90.0 : Float) / Float::from_int(segments)
+  let outer_radius = radius + line_thick
+  let inner_radius = radius
+  let (points, centers, angles) = rounded_rectangle_outline_points(
+    rec,
+    inner_radius,
     line_thick,
-    color.to_bytes(),
   )
+
+  if line_thick > (1.0 : Float) {
+    let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+    @ffi.rl_set_texture(texture_id)
+    @ffi.rl_begin(@ffi.RlQuadsMode)
+
+    for k in 0..<4 {
+      let mut angle = angles[k]
+      let center = centers[k]
+
+      for _ in 0..<segments {
+        submit_color(color)
+        @ffi.rl_tex_coord2f(u0, v0)
+        let inner_start = circle_point(center, angle, inner_radius)
+        @ffi.rl_vertex2f(inner_start.x, inner_start.y)
+        @ffi.rl_tex_coord2f(u1, v0)
+        let inner_end = circle_point(center, angle + step_length, inner_radius)
+        @ffi.rl_vertex2f(inner_end.x, inner_end.y)
+        @ffi.rl_tex_coord2f(u1, v1)
+        let outer_end = circle_point(center, angle + step_length, outer_radius)
+        @ffi.rl_vertex2f(outer_end.x, outer_end.y)
+        @ffi.rl_tex_coord2f(u0, v1)
+        let outer_start = circle_point(center, angle, outer_radius)
+        @ffi.rl_vertex2f(outer_start.x, outer_start.y)
+        angle = angle + step_length
+      }
+    }
+
+    submit_color(color)
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(points[0].x, points[0].y)
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(points[8].x, points[8].y)
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(points[9].x, points[9].y)
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(points[1].x, points[1].y)
+
+    submit_color(color)
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(points[2].x, points[2].y)
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(points[10].x, points[10].y)
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(points[11].x, points[11].y)
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(points[3].x, points[3].y)
+
+    submit_color(color)
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(points[13].x, points[13].y)
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(points[5].x, points[5].y)
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(points[4].x, points[4].y)
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(points[12].x, points[12].y)
+
+    submit_color(color)
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(points[15].x, points[15].y)
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(points[7].x, points[7].y)
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(points[6].x, points[6].y)
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(points[14].x, points[14].y)
+
+    @ffi.rl_end()
+    @ffi.rl_set_texture(0U)
+  } else {
+    @ffi.rl_begin(@ffi.RlLinesMode)
+
+    for k in 0..<4 {
+      let mut angle = angles[k]
+      let center = centers[k]
+
+      for _ in 0..<segments {
+        submit_color(color)
+        let current = circle_point(center, angle, outer_radius)
+        let next = circle_point(center, angle + step_length, outer_radius)
+        @ffi.rl_vertex2f(current.x, current.y)
+        @ffi.rl_vertex2f(next.x, next.y)
+        angle = angle + step_length
+      }
+    }
+
+    for i in 0..<4 {
+      let start = points[i * 2]
+      let end_ = points[i * 2 + 1]
+      submit_color(color)
+      @ffi.rl_vertex2f(start.x, start.y)
+      @ffi.rl_vertex2f(end_.x, end_.y)
+    }
+
+    @ffi.rl_end()
+  }
 }
 
 ///|
@@ -1764,21 +2219,34 @@ pub fn check_collision_point_line(
 // ============================================================================
 
 ///|
-fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
-  let buf = @buffer.new(size_hint=points.length() * 12)
-  for p in points {
-    buf.write_float_le(p.x)
-    buf.write_float_le(p.y)
-    buf.write_float_le(p.z)
-  }
-  buf.to_bytes()
-}
-
-///|
 /// Draw a triangle strip defined by points in 3D space.
 pub fn draw_triangle_strip_3d(points : Array[Vector3], color : Color) -> Unit {
-  let bytes = vector3_array_to_bytes(points)
-  @ffi.draw_triangle_strip_3d(bytes, points.length(), color.to_bytes())
+  if points.length() < 3 {
+    return
+  }
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
+
+  for i in 2..<points.length() {
+    if (i % 2) == 0 {
+      let point = points[i]
+      let point_prev2 = points[i - 2]
+      let point_prev1 = points[i - 1]
+      @ffi.rl_vertex3f(point.x, point.y, point.z)
+      @ffi.rl_vertex3f(point_prev2.x, point_prev2.y, point_prev2.z)
+      @ffi.rl_vertex3f(point_prev1.x, point_prev1.y, point_prev1.z)
+    } else {
+      let point = points[i]
+      let point_prev1 = points[i - 1]
+      let point_prev2 = points[i - 2]
+      @ffi.rl_vertex3f(point.x, point.y, point.z)
+      @ffi.rl_vertex3f(point_prev1.x, point_prev1.y, point_prev1.z)
+      @ffi.rl_vertex3f(point_prev2.x, point_prev2.y, point_prev2.z)
+    }
+  }
+
+  @ffi.rl_end()
 }
 
 // ============================================================================

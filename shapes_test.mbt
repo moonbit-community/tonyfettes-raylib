@@ -444,3 +444,160 @@ test "draw_spline_bezier_cubic renders a cubic curve through public rendering" {
   image.unload()
   @raylib.close_window()
 }
+
+///|
+test "draw_pixel renders a single pixel through public rendering" {
+  let target = begin_hidden_render(8, 8)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_pixel(3, 4, @raylib.red)
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(3, 3), @raylib.red)
+  assert_eq(image.get_color(2, 3), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_line renders a line through public rendering" {
+  let target = begin_hidden_render(8, 8)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_line(1, 2, 6, 2, @raylib.black)
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(4, 5), @raylib.black)
+  assert_eq(image.get_color(4, 4), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_line_bezier renders a curved thick line through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_line_bezier(
+    @raylib.Vector2::new(8.0, 28.0),
+    @raylib.Vector2::new(32.0, 8.0),
+    4.0,
+    @raylib.blue,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(20, 20), @raylib.blue)
+  assert_eq(image.get_color(4, 4), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_circle_gradient renders inner and outer colors through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_circle_gradient(20, 20, 8.0, @raylib.red, @raylib.blue)
+  let image = capture_render_target_image(target)
+  let center = image.get_color(20, 19)
+  let edge = image.get_color(27, 19)
+  assert_true(center != @raylib.white)
+  assert_true(center.r > center.b)
+  assert_true(edge != @raylib.white)
+  assert_true(edge.b > edge.r)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_circle_lines renders circle outline through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_circle_lines(20, 20, 8.0, @raylib.green)
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(27, 19), @raylib.green)
+  assert_eq(image.get_color(20, 19), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_ellipse renders a filled ellipse through public rendering" {
+  let target = begin_hidden_render(48, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_ellipse(24, 20, 12.0, 8.0, @raylib.orange)
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(24, 19), @raylib.orange)
+  assert_eq(image.get_color(24, 31), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_ellipse_lines renders ellipse outline through public rendering" {
+  let target = begin_hidden_render(48, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_ellipse_lines(24, 20, 12.0, 8.0, @raylib.purple)
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(35, 19), @raylib.purple)
+  assert_eq(image.get_color(24, 19), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_rectangle_rounded renders rounded corners through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_rectangle_rounded(
+    @raylib.Rectangle::new(8.0, 8.0, 24.0, 16.0),
+    0.5,
+    0,
+    @raylib.maroon,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(20, 23), @raylib.maroon)
+  assert_eq(image.get_color(8, 31), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_rectangle_rounded_lines_ex renders rounded outline through public rendering" {
+  let target = begin_hidden_render(40, 40)
+  @raylib.clear_background(@raylib.white)
+  @raylib.draw_rectangle_rounded_lines_ex(
+    @raylib.Rectangle::new(8.0, 8.0, 24.0, 16.0),
+    0.5,
+    0,
+    3.0,
+    @raylib.darkgreen,
+  )
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(20, 32), @raylib.darkgreen)
+  assert_eq(image.get_color(20, 23), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
+
+///|
+test "draw_triangle_strip_3d renders a strip through public rendering" {
+  let target = begin_hidden_render(64, 64)
+  @raylib.clear_background(@raylib.white)
+  let camera = @raylib.Camera3D::new(
+    @raylib.Vector3::new(0.0, 0.0, 4.0),
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    60.0,
+    @raylib.CameraPerspective,
+  )
+  @raylib.begin_mode_3d(camera)
+  @raylib.draw_triangle_strip_3d(
+    [
+      @raylib.Vector3::new(-1.0, 1.0, 0.0),
+      @raylib.Vector3::new(-1.0, -1.0, 0.0),
+      @raylib.Vector3::new(1.0, 1.0, 0.0),
+      @raylib.Vector3::new(1.0, -1.0, 0.0),
+    ],
+    @raylib.red,
+  )
+  @raylib.end_mode_3d()
+  let image = capture_render_target_image(target)
+  assert_eq(image.get_color(32, 32), @raylib.red)
+  assert_eq(image.get_color(4, 4), @raylib.white)
+  image.unload()
+  @raylib.close_window()
+}
