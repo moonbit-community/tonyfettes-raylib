@@ -49,22 +49,6 @@ moonbit_raylib_draw_line_v(
 }
 
 void
-moonbit_raylib_draw_line_ex(
-  moonbit_bytes_t start,
-  moonbit_bytes_t end,
-  float thick,
-  moonbit_bytes_t color
-) {
-  Vector2 s;
-  memcpy(&s, start, sizeof(Vector2));
-  Vector2 e;
-  memcpy(&e, end, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawLineEx(s, e, thick, c);
-}
-
-void
 moonbit_raylib_draw_line_bezier(
   moonbit_bytes_t start,
   moonbit_bytes_t end,
@@ -81,34 +65,6 @@ moonbit_raylib_draw_line_bezier(
 }
 
 void
-moonbit_raylib_draw_circle(
-  int centerX,
-  int centerY,
-  float radius,
-  moonbit_bytes_t color
-) {
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawCircle(centerX, centerY, radius, c);
-}
-
-void
-moonbit_raylib_draw_circle_sector(
-  moonbit_bytes_t center,
-  float radius,
-  float startAngle,
-  float endAngle,
-  int segments,
-  moonbit_bytes_t color
-) {
-  Vector2 ctr;
-  memcpy(&ctr, center, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawCircleSector(ctr, radius, startAngle, endAngle, segments, c);
-}
-
-void
 moonbit_raylib_draw_circle_gradient(
   int centerX,
   int centerY,
@@ -121,19 +77,6 @@ moonbit_raylib_draw_circle_gradient(
   Color co;
   memcpy(&co, outer, sizeof(Color));
   DrawCircleGradient(centerX, centerY, radius, ci, co);
-}
-
-void
-moonbit_raylib_draw_circle_v(
-  moonbit_bytes_t center,
-  float radius,
-  moonbit_bytes_t color
-) {
-  Vector2 ctr;
-  memcpy(&ctr, center, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawCircleV(ctr, radius, c);
 }
 
 void
@@ -185,42 +128,6 @@ moonbit_raylib_draw_ellipse_lines(
   Color c;
   memcpy(&c, color, sizeof(Color));
   DrawEllipseLines(centerX, centerY, radiusH, radiusV, c);
-}
-
-void
-moonbit_raylib_draw_ring(
-  moonbit_bytes_t center,
-  float innerRadius,
-  float outerRadius,
-  float startAngle,
-  float endAngle,
-  int segments,
-  moonbit_bytes_t color
-) {
-  Vector2 ctr;
-  memcpy(&ctr, center, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawRing(ctr, innerRadius, outerRadius, startAngle, endAngle, segments, c);
-}
-
-void
-moonbit_raylib_draw_ring_lines(
-  moonbit_bytes_t center,
-  float innerRadius,
-  float outerRadius,
-  float startAngle,
-  float endAngle,
-  int segments,
-  moonbit_bytes_t color
-) {
-  Vector2 ctr;
-  memcpy(&ctr, center, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawRingLines(
-    ctr, innerRadius, outerRadius, startAngle, endAngle, segments, c
-  );
 }
 
 void
@@ -353,22 +260,6 @@ moonbit_raylib_draw_poly_lines_ex(
 // ============================================================================
 
 void
-moonbit_raylib_draw_circle_sector_lines(
-  moonbit_bytes_t center,
-  float radius,
-  float startAngle,
-  float endAngle,
-  int segments,
-  moonbit_bytes_t color
-) {
-  Vector2 ctr;
-  memcpy(&ctr, center, sizeof(Vector2));
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawCircleSectorLines(ctr, radius, startAngle, endAngle, segments, c);
-}
-
-void
 moonbit_raylib_draw_line_strip(
   moonbit_bytes_t points,
   int pointCount,
@@ -388,17 +279,6 @@ moonbit_raylib_draw_triangle_fan(
   Color c;
   memcpy(&c, color, sizeof(Color));
   DrawTriangleFan((Vector2 *)points, pointCount, c);
-}
-
-void
-moonbit_raylib_draw_triangle_strip(
-  moonbit_bytes_t points,
-  int pointCount,
-  moonbit_bytes_t color
-) {
-  Color c;
-  memcpy(&c, color, sizeof(Color));
-  DrawTriangleStrip((Vector2 *)points, pointCount, c);
 }
 
 // ============================================================================

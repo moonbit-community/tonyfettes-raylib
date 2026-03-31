@@ -30,41 +30,12 @@ pub extern "c" fn draw_line_v(
 
 ///|
 #borrow(start_pos, end_pos, color)
-pub extern "c" fn draw_line_ex(
-  start_pos : Bytes,
-  end_pos : Bytes,
-  thick : Float,
-  color : Bytes,
-) = "moonbit_raylib_draw_line_ex"
-
-///|
-#borrow(start_pos, end_pos, color)
 pub extern "c" fn draw_line_bezier(
   start_pos : Bytes,
   end_pos : Bytes,
   thick : Float,
   color : Bytes,
 ) = "moonbit_raylib_draw_line_bezier"
-
-///|
-#borrow(color)
-pub extern "c" fn draw_circle(
-  center_x : Int,
-  center_y : Int,
-  radius : Float,
-  color : Bytes,
-) = "moonbit_raylib_draw_circle"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_circle_sector(
-  center : Bytes,
-  radius : Float,
-  start_angle : Float,
-  end_angle : Float,
-  segments : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_circle_sector"
 
 ///|
 #borrow(inner, outer)
@@ -75,10 +46,6 @@ pub extern "c" fn draw_circle_gradient(
   inner : Bytes,
   outer : Bytes,
 ) = "moonbit_raylib_draw_circle_gradient"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_circle_v(center : Bytes, radius : Float, color : Bytes) = "moonbit_raylib_draw_circle_v"
 
 ///|
 #borrow(color)
@@ -116,30 +83,6 @@ pub extern "c" fn draw_ellipse_lines(
   radius_v : Float,
   color : Bytes,
 ) = "moonbit_raylib_draw_ellipse_lines"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_ring(
-  center : Bytes,
-  inner_radius : Float,
-  outer_radius : Float,
-  start_angle : Float,
-  end_angle : Float,
-  segments : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_ring"
-
-///|
-#borrow(center, color)
-pub extern "c" fn draw_ring_lines(
-  center : Bytes,
-  inner_radius : Float,
-  outer_radius : Float,
-  start_angle : Float,
-  end_angle : Float,
-  segments : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_ring_lines"
 
 ///|
 #borrow(rec, color)
@@ -223,17 +166,6 @@ pub extern "c" fn draw_poly_lines_ex(
 // ============================================================================
 
 ///|
-#borrow(center, color)
-pub extern "c" fn draw_circle_sector_lines(
-  center : Bytes,
-  radius : Float,
-  start_angle : Float,
-  end_angle : Float,
-  segments : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_circle_sector_lines"
-
-///|
 #borrow(points, color)
 pub extern "c" fn draw_line_strip(
   points : Bytes,
@@ -248,14 +180,6 @@ pub extern "c" fn draw_triangle_fan(
   point_count : Int,
   color : Bytes,
 ) = "moonbit_raylib_draw_triangle_fan"
-
-///|
-#borrow(points, color)
-pub extern "c" fn draw_triangle_strip(
-  points : Bytes,
-  point_count : Int,
-  color : Bytes,
-) = "moonbit_raylib_draw_triangle_strip"
 
 // ============================================================================
 // Spline drawing (array-based)

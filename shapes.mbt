@@ -3,6 +3,24 @@
 // ============================================================================
 
 ///|
+const SmoothCircleErrorRate : Float = 0.5
+
+///|
+fn get_shape_texture_uvs() -> (UInt, Float, Float, Float, Float) {
+  let texture = Texture::get_shapes()
+  let shape_rect = get_shapes_texture_rectangle()
+  let tex_width = Float::from_int(texture.width())
+  let tex_height = Float::from_int(texture.height())
+  (
+    texture.id(),
+    shape_rect.x / tex_width,
+    shape_rect.y / tex_height,
+    (shape_rect.x + shape_rect.width) / tex_width,
+    (shape_rect.y + shape_rect.height) / tex_height,
+  )
+}
+
+///|
 fn submit_color(color : Color) -> Unit {
   @ffi.rl_color4ub(color.r, color.g, color.b, color.a)
 }
@@ -18,16 +36,9 @@ fn submit_shape_textured_quad(
   bottom_right_color : Color,
   top_right_color : Color,
 ) -> Unit {
-  let texture = Texture::get_shapes()
-  let shape_rect = get_shapes_texture_rectangle()
-  let tex_width = Float::from_int(texture.width())
-  let tex_height = Float::from_int(texture.height())
-  let u0 = shape_rect.x / tex_width
-  let v0 = shape_rect.y / tex_height
-  let u1 = (shape_rect.x + shape_rect.width) / tex_width
-  let v1 = (shape_rect.y + shape_rect.height) / tex_height
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
 
-  @ffi.rl_set_texture(texture.id())
+  @ffi.rl_set_texture(texture_id)
   @ffi.rl_begin(@ffi.RlQuadsMode)
   @ffi.rl_normal3f(0.0, 0.0, 1.0)
 
@@ -96,6 +107,85 @@ fn rectangle_pro_vertices(
       },
     )
   }
+}
+
+///|
+fn circle_point(center : Vector2, angle : Float, radius : Float) -> Vector2 {
+  let angle_radians = angle * @ffi.DegToRad
+  {
+    x: center.x + cosf(angle_radians) * radius,
+    y: center.y + sinf(angle_radians) * radius,
+  }
+}
+
+///|
+fn resolve_circle_segments(
+  radius : Float,
+  start_angle : Float,
+  end_angle : Float,
+  segments : Int,
+) -> (Float, Float, Int) {
+  let (start_angle, end_angle) = if end_angle < start_angle {
+    (end_angle, start_angle)
+  } else {
+    (start_angle, end_angle)
+  }
+  let angle_span = end_angle - start_angle
+  let min_segments = (angle_span / (90.0 : Float)).ceil().to_int()
+  let mut resolved_segments = segments
+  if resolved_segments < min_segments {
+    let ratio = (1.0 : Float) - SmoothCircleErrorRate / radius
+    let cosine = fmaxf(
+      (-1.0 : Float),
+      fminf((1.0 : Float), (2.0 : Float) * ratio * ratio - (1.0 : Float)),
+    )
+    let theta = acosf(cosine)
+    let estimated_segments = if theta > (0.0 : Float) {
+      (
+        angle_span *
+        (((360.0 : Float) * @ffi.DegToRad) / theta).ceil() /
+        (360.0 : Float)
+      ).to_int()
+    } else {
+      0
+    }
+    resolved_segments = if estimated_segments <= 0 {
+      min_segments
+    } else {
+      estimated_segments
+    }
+  }
+  (start_angle, end_angle, resolved_segments)
+}
+
+///|
+fn submit_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
+  if points.length() < 3 {
+    return
+  }
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
+
+  for i in 2..<points.length() {
+    if (i % 2) == 0 {
+      let point = points[i]
+      let point_prev2 = points[i - 2]
+      let point_prev1 = points[i - 1]
+      @ffi.rl_vertex2f(point.x, point.y)
+      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
+      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
+    } else {
+      let point = points[i]
+      let point_prev1 = points[i - 1]
+      let point_prev2 = points[i - 2]
+      @ffi.rl_vertex2f(point.x, point.y)
+      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
+      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
+    }
+  }
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -181,12 +271,22 @@ pub fn draw_line_ex(
   thick : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_line_ex(
-    start_pos.to_bytes(),
-    end_pos.to_bytes(),
-    thick,
-    color.to_bytes(),
-  )
+  let delta_x = end_pos.x - start_pos.x
+  let delta_y = end_pos.y - start_pos.y
+  let length = sqrtf(delta_x * delta_x + delta_y * delta_y)
+
+  if length > (0.0 : Float) && thick > (0.0 : Float) {
+    let scale = thick / ((2.0 : Float) * length)
+    let radius_x = -scale * delta_y
+    let radius_y = scale * delta_x
+    let strip : Array[Vector2] = [
+      { x: start_pos.x - radius_x, y: start_pos.y - radius_y },
+      { x: start_pos.x + radius_x, y: start_pos.y + radius_y },
+      { x: end_pos.x - radius_x, y: end_pos.y - radius_y },
+      { x: end_pos.x + radius_x, y: end_pos.y + radius_y },
+    ]
+    submit_triangle_strip(strip, color)
+  }
 }
 
 ///|
@@ -213,7 +313,11 @@ pub fn draw_circle(
   radius : Float,
   color : Color,
 ) -> Unit {
-  @ffi.draw_circle(center_x, center_y, radius, color.to_bytes())
+  draw_circle_v(
+    { x: Float::from_int(center_x), y: Float::from_int(center_y) },
+    radius,
+    color,
+  )
 }
 
 ///|
@@ -226,14 +330,67 @@ pub fn draw_circle_sector(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_circle_sector(
-    center.to_bytes(),
+  let radius = if radius <= (0.0 : Float) {
+    (0.1 : Float)
+  } else {
+    radius
+  }
+  let (start_angle, end_angle, segments) = resolve_circle_segments(
     radius,
     start_angle,
     end_angle,
     segments,
-    color.to_bytes(),
   )
+  let step_length = (end_angle - start_angle) / Float::from_int(segments)
+  let mut angle = start_angle
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+
+  for _ in 0..<(segments / 2) {
+    let start = circle_point(center, angle, radius)
+    let mid = circle_point(center, angle + step_length, radius)
+    let end_ = circle_point(center, angle + step_length * (2.0 : Float), radius)
+
+    submit_color(color)
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(center.x, center.y)
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(end_.x, end_.y)
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(mid.x, mid.y)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(start.x, start.y)
+
+    angle = angle + step_length * (2.0 : Float)
+  }
+
+  if (segments % 2) == 1 {
+    let start = circle_point(center, angle, radius)
+    let end_ = circle_point(center, angle + step_length, radius)
+
+    submit_color(color)
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(center.x, center.y)
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(end_.x, end_.y)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(start.x, start.y)
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(center.x, center.y)
+  }
+
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 ///|
@@ -257,7 +414,7 @@ pub fn draw_circle_gradient(
 ///|
 /// Draw a color-filled circle (Vector version).
 pub fn draw_circle_v(center : Vector2, radius : Float, color : Color) -> Unit {
-  @ffi.draw_circle_v(center.to_bytes(), radius, color.to_bytes())
+  draw_circle_sector(center, radius, (0.0 : Float), (360.0 : Float), 36, color)
 }
 
 ///|
@@ -322,15 +479,68 @@ pub fn draw_ring(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_ring(
-    center.to_bytes(),
-    inner_radius,
+  if start_angle == end_angle {
+    return
+  }
+
+  let mut inner_radius = inner_radius
+  let mut outer_radius = outer_radius
+
+  if outer_radius < inner_radius {
+    let previous_outer = outer_radius
+    outer_radius = inner_radius
+    inner_radius = previous_outer
+
+    if outer_radius <= (0.0 : Float) {
+      outer_radius = (0.1 : Float)
+    }
+  }
+
+  let (start_angle, end_angle, segments) = resolve_circle_segments(
     outer_radius,
     start_angle,
     end_angle,
     segments,
-    color.to_bytes(),
   )
+
+  if inner_radius <= (0.0 : Float) {
+    draw_circle_sector(center, outer_radius, start_angle, end_angle, segments, color)
+    return
+  }
+
+  let step_length = (end_angle - start_angle) / Float::from_int(segments)
+  let mut angle = start_angle
+  let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
+
+  @ffi.rl_set_texture(texture_id)
+  @ffi.rl_begin(@ffi.RlQuadsMode)
+
+  for _ in 0..<segments {
+    let inner_start = circle_point(center, angle, inner_radius)
+    let outer_start = circle_point(center, angle, outer_radius)
+    let next_angle = angle + step_length
+    let inner_end = circle_point(center, next_angle, inner_radius)
+    let outer_end = circle_point(center, next_angle, outer_radius)
+
+    submit_color(color)
+
+    @ffi.rl_tex_coord2f(u0, v1)
+    @ffi.rl_vertex2f(outer_start.x, outer_start.y)
+
+    @ffi.rl_tex_coord2f(u0, v0)
+    @ffi.rl_vertex2f(inner_start.x, inner_start.y)
+
+    @ffi.rl_tex_coord2f(u1, v0)
+    @ffi.rl_vertex2f(inner_end.x, inner_end.y)
+
+    @ffi.rl_tex_coord2f(u1, v1)
+    @ffi.rl_vertex2f(outer_end.x, outer_end.y)
+
+    angle = next_angle
+  }
+
+  @ffi.rl_end()
+  @ffi.rl_set_texture(0U)
 }
 
 ///|
@@ -344,15 +554,78 @@ pub fn draw_ring_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_ring_lines(
-    center.to_bytes(),
-    inner_radius,
+  if start_angle == end_angle {
+    return
+  }
+
+  let mut inner_radius = inner_radius
+  let mut outer_radius = outer_radius
+
+  if outer_radius < inner_radius {
+    let previous_outer = outer_radius
+    outer_radius = inner_radius
+    inner_radius = previous_outer
+
+    if outer_radius <= (0.0 : Float) {
+      outer_radius = (0.1 : Float)
+    }
+  }
+
+  let (start_angle, end_angle, segments) = resolve_circle_segments(
     outer_radius,
     start_angle,
     end_angle,
     segments,
-    color.to_bytes(),
   )
+
+  if inner_radius <= (0.0 : Float) {
+    draw_circle_sector_lines(
+      center,
+      outer_radius,
+      start_angle,
+      end_angle,
+      segments,
+      color,
+    )
+    return
+  }
+
+  let step_length = (end_angle - start_angle) / Float::from_int(segments)
+  let mut angle = start_angle
+
+  @ffi.rl_begin(@ffi.RlLinesMode)
+
+  submit_color(color)
+  let outer_start = circle_point(center, angle, outer_radius)
+  let inner_start = circle_point(center, angle, inner_radius)
+  @ffi.rl_vertex2f(outer_start.x, outer_start.y)
+  @ffi.rl_vertex2f(inner_start.x, inner_start.y)
+
+  for _ in 0..<segments {
+    let current_outer = circle_point(center, angle, outer_radius)
+    let current_inner = circle_point(center, angle, inner_radius)
+    let next_angle = angle + step_length
+    let next_outer = circle_point(center, next_angle, outer_radius)
+    let next_inner = circle_point(center, next_angle, inner_radius)
+
+    submit_color(color)
+
+    @ffi.rl_vertex2f(current_outer.x, current_outer.y)
+    @ffi.rl_vertex2f(next_outer.x, next_outer.y)
+
+    @ffi.rl_vertex2f(current_inner.x, current_inner.y)
+    @ffi.rl_vertex2f(next_inner.x, next_inner.y)
+
+    angle = next_angle
+  }
+
+  submit_color(color)
+  let outer_end = circle_point(center, angle, outer_radius)
+  let inner_end = circle_point(center, angle, inner_radius)
+  @ffi.rl_vertex2f(outer_end.x, outer_end.y)
+  @ffi.rl_vertex2f(inner_end.x, inner_end.y)
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -787,14 +1060,45 @@ pub fn draw_circle_sector_lines(
   segments : Int,
   color : Color,
 ) -> Unit {
-  @ffi.draw_circle_sector_lines(
-    center.to_bytes(),
+  let radius = if radius <= (0.0 : Float) {
+    (0.1 : Float)
+  } else {
+    radius
+  }
+  let (start_angle, end_angle, segments) = resolve_circle_segments(
     radius,
     start_angle,
     end_angle,
     segments,
-    color.to_bytes(),
   )
+  let step_length = (end_angle - start_angle) / Float::from_int(segments)
+  let mut angle = start_angle
+
+  @ffi.rl_begin(@ffi.RlLinesMode)
+
+  submit_color(color)
+  let start = circle_point(center, angle, radius)
+  @ffi.rl_vertex2f(center.x, center.y)
+  @ffi.rl_vertex2f(start.x, start.y)
+
+  for _ in 0..<segments {
+    let current = circle_point(center, angle, radius)
+    let next_angle = angle + step_length
+    let next = circle_point(center, next_angle, radius)
+
+    submit_color(color)
+    @ffi.rl_vertex2f(current.x, current.y)
+    @ffi.rl_vertex2f(next.x, next.y)
+
+    angle = next_angle
+  }
+
+  submit_color(color)
+  let end_ = circle_point(center, angle, radius)
+  @ffi.rl_vertex2f(center.x, center.y)
+  @ffi.rl_vertex2f(end_.x, end_.y)
+
+  @ffi.rl_end()
 }
 
 ///|
@@ -824,8 +1128,7 @@ pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
 ///|
 /// Draw a triangle strip defined by points.
 pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
-  let bytes = vector2_array_to_bytes(points)
-  @ffi.draw_triangle_strip(bytes, points.length(), color.to_bytes())
+  submit_triangle_strip(points, color)
 }
 
 // ============================================================================
