@@ -74,30 +74,6 @@ pub fn close_window() -> Unit
 
 pub fn codepoint_to_utf8(Int) -> Bytes
 
-pub fn color_alpha(Bytes, Float) -> Bytes
-
-pub fn color_alpha_blend(Bytes, Bytes, Bytes) -> Bytes
-
-pub fn color_brightness(Bytes, Float) -> Bytes
-
-pub fn color_contrast(Bytes, Float) -> Bytes
-
-pub fn color_from_hsv(Float, Float, Float) -> Bytes
-
-pub fn color_from_normalized(Bytes) -> Bytes
-
-pub fn color_is_equal(Bytes, Bytes) -> Bool
-
-pub fn color_lerp(Bytes, Bytes, Float) -> Bytes
-
-pub fn color_normalize(Bytes) -> Bytes
-
-pub fn color_tint(Bytes, Bytes) -> Bytes
-
-pub fn color_to_hsv(Bytes) -> Bytes
-
-pub fn color_to_int(Bytes) -> Int
-
 pub fn compress_data(Bytes, Int) -> Bytes
 
 pub fn compute_crc32(Bytes, Int) -> Int
@@ -354,8 +330,6 @@ pub fn export_wave(Wave, Bytes) -> Bool
 
 pub fn export_wave_as_code(Wave, Bytes) -> Bool
 
-pub fn fade(Bytes, Float) -> Bytes
-
 pub fn file_exists(Bytes) -> Bool
 
 pub fn file_path_list_count(FilePathList) -> Int
@@ -437,8 +411,6 @@ pub fn get_codepoint_next(Bytes) -> Bytes
 pub fn get_codepoint_previous(Bytes) -> Bytes
 
 pub fn get_collision_rec(Bytes, Bytes) -> Bytes
-
-pub fn get_color(Int) -> Bytes
 
 pub fn get_current_monitor() -> Int
 

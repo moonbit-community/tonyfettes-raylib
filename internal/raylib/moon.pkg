@@ -13,7 +13,6 @@ options(
     "stub_input.c",
     "stub_drawing.c",
     "stub_camera.c",
-    "stub_color.c",
     "stub_shapes.c",
     "stub_textures.c",
     "stub_text.c",

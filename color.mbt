@@ -138,89 +138,274 @@ pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF' }
 ///|
 /// Get color with alpha applied, alpha goes from 0.0 to 1.0.
 pub fn fade(color : Color, alpha : Float) -> Color {
-  Color::from_bytes(@ffi.fade(color.to_bytes(), alpha))
+  let a : Float = if alpha < 0.0 {
+    0.0
+  } else if alpha > 1.0 {
+    1.0
+  } else {
+    alpha
+  }
+  let alpha_byte : Float = 255.0 * a
+  { ..color, a: alpha_byte.to_int().to_byte() }
 }
 
 ///|
 /// Get color with alpha applied, alpha goes from 0.0 to 1.0.
 pub fn color_alpha(color : Color, alpha : Float) -> Color {
-  Color::from_bytes(@ffi.color_alpha(color.to_bytes(), alpha))
+  fade(color, alpha)
 }
 
 ///|
 /// Get hexadecimal value for a Color (0xRRGGBBAA).
 pub fn color_to_int(color : Color) -> Int {
-  @ffi.color_to_int(color.to_bytes())
+  (color.r.to_int() << 24) |
+  (color.g.to_int() << 16) |
+  (color.b.to_int() << 8) |
+  color.a.to_int()
 }
 
 ///|
 /// Get Color structure from hexadecimal value.
 pub fn get_color(hex_value : Int) -> Color {
-  Color::from_bytes(@ffi.get_color(hex_value))
+  {
+    r: ((hex_value >> 24) & 0xFF).to_byte(),
+    g: ((hex_value >> 16) & 0xFF).to_byte(),
+    b: ((hex_value >> 8) & 0xFF).to_byte(),
+    a: (hex_value & 0xFF).to_byte(),
+  }
 }
 
 ///|
 /// Get a Color from HSV values, hue [0..360], saturation/value [0..1].
 pub fn color_from_hsv(hue : Float, saturation : Float, value : Float) -> Color {
-  Color::from_bytes(@ffi.color_from_hsv(hue, saturation, value))
+  let h60 : Float = hue / 60.0
+  let six : Float = 6.0
+  // Red channel
+  let kr : Float = fmodf(5.0 + h60, six)
+  let tr : Float = 4.0 - kr
+  let kr : Float = if tr < kr { tr } else { kr }
+  let kr : Float = if kr < 1.0 { kr } else { 1.0 }
+  let kr : Float = if kr > 0.0 { kr } else { 0.0 }
+  let r = ((value - value * saturation * kr) * 255.0).to_int()
+  // Green channel
+  let kg : Float = fmodf(3.0 + h60, six)
+  let tg : Float = 4.0 - kg
+  let kg : Float = if tg < kg { tg } else { kg }
+  let kg : Float = if kg < 1.0 { kg } else { 1.0 }
+  let kg : Float = if kg > 0.0 { kg } else { 0.0 }
+  let g = ((value - value * saturation * kg) * 255.0).to_int()
+  // Blue channel
+  let kb : Float = fmodf(1.0 + h60, six)
+  let tb : Float = 4.0 - kb
+  let kb : Float = if tb < kb { tb } else { kb }
+  let kb : Float = if kb < 1.0 { kb } else { 1.0 }
+  let kb : Float = if kb > 0.0 { kb } else { 0.0 }
+  let b = ((value - value * saturation * kb) * 255.0).to_int()
+  { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: b'\xFF' }
 }
 
 ///|
 /// Get color multiplied with another color.
 pub fn color_tint(color : Color, tint : Color) -> Color {
-  Color::from_bytes(@ffi.color_tint(color.to_bytes(), tint.to_bytes()))
+  {
+    r: (color.r.to_int() * tint.r.to_int() / 255).to_byte(),
+    g: (color.g.to_int() * tint.g.to_int() / 255).to_byte(),
+    b: (color.b.to_int() * tint.b.to_int() / 255).to_byte(),
+    a: (color.a.to_int() * tint.a.to_int() / 255).to_byte(),
+  }
 }
 
 ///|
 /// Get color with brightness correction, brightness factor goes from -1.0 to 1.0.
 pub fn color_brightness(color : Color, factor : Float) -> Color {
-  Color::from_bytes(@ffi.color_brightness(color.to_bytes(), factor))
+  let factor : Float = if factor > 1.0 {
+    1.0
+  } else if factor < -1.0 {
+    -1.0
+  } else {
+    factor
+  }
+  let r = Float::from_int(color.r.to_int())
+  let g = Float::from_int(color.g.to_int())
+  let b = Float::from_int(color.b.to_int())
+  let (r, g, b) : (Float, Float, Float) = if factor < 0.0 {
+    let f : Float = 1.0 + factor
+    (r * f, g * f, b * f)
+  } else {
+    (
+      (255.0 - r) * factor + r,
+      (255.0 - g) * factor + g,
+      (255.0 - b) * factor + b,
+    )
+  }
+  {
+    r: r.to_int().to_byte(),
+    g: g.to_int().to_byte(),
+    b: b.to_int().to_byte(),
+    a: color.a,
+  }
 }
 
 ///|
 /// Get color lerp interpolation between two colors, factor [0.0..1.0].
 pub fn color_lerp(color1 : Color, color2 : Color, factor : Float) -> Color {
-  Color::from_bytes(
-    @ffi.color_lerp(color1.to_bytes(), color2.to_bytes(), factor),
-  )
+  let f : Float = if factor < 0.0 {
+    0.0
+  } else if factor > 1.0 {
+    1.0
+  } else {
+    factor
+  }
+  let inv : Float = 1.0 - f
+  {
+    r: (inv * Float::from_int(color1.r.to_int()) +
+    f * Float::from_int(color2.r.to_int()))
+    .to_int()
+    .to_byte(),
+    g: (inv * Float::from_int(color1.g.to_int()) +
+    f * Float::from_int(color2.g.to_int()))
+    .to_int()
+    .to_byte(),
+    b: (inv * Float::from_int(color1.b.to_int()) +
+    f * Float::from_int(color2.b.to_int()))
+    .to_int()
+    .to_byte(),
+    a: (inv * Float::from_int(color1.a.to_int()) +
+    f * Float::from_int(color2.a.to_int()))
+    .to_int()
+    .to_byte(),
+  }
 }
 
 ///|
 /// Check if two colors are equal.
 pub fn color_is_equal(col1 : Color, col2 : Color) -> Bool {
-  @ffi.color_is_equal(col1.to_bytes(), col2.to_bytes())
+  col1 == col2
 }
 
 ///|
 /// Get Color normalized as float [0..1].
 pub fn color_normalize(color : Color) -> Vector4 {
-  Vector4::from_bytes(@ffi.color_normalize(color.to_bytes()))
+  {
+    x: Float::from_int(color.r.to_int()) / 255.0,
+    y: Float::from_int(color.g.to_int()) / 255.0,
+    z: Float::from_int(color.b.to_int()) / 255.0,
+    w: Float::from_int(color.a.to_int()) / 255.0,
+  }
 }
 
 ///|
 /// Get Color from normalized values [0..1].
 pub fn color_from_normalized(normalized : Vector4) -> Color {
-  Color::from_bytes(@ffi.color_from_normalized(normalized.to_bytes()))
+  {
+    r: (normalized.x * 255.0).to_int().to_byte(),
+    g: (normalized.y * 255.0).to_int().to_byte(),
+    b: (normalized.z * 255.0).to_int().to_byte(),
+    a: (normalized.w * 255.0).to_int().to_byte(),
+  }
 }
 
 ///|
 /// Get HSV values for a Color, hue [0..360], saturation/value [0..1].
 pub fn color_to_hsv(color : Color) -> Vector3 {
-  Vector3::from_bytes(@ffi.color_to_hsv(color.to_bytes()))
+  let rf = Float::from_int(color.r.to_int()) / 255.0
+  let gf = Float::from_int(color.g.to_int()) / 255.0
+  let bf = Float::from_int(color.b.to_int()) / 255.0
+  let min = fminf(fminf(rf, gf), bf)
+  let max = fmaxf(fmaxf(rf, gf), bf)
+  let v = max
+  let delta = max - min
+  if delta < 0.00001 {
+    return { x: 0.0, y: 0.0, z: v }
+  }
+  let s = if max > 0.0 { delta / max } else { return { x: 0.0, y: 0.0, z: v } }
+  let h = if rf >= max {
+    (gf - bf) / delta
+  } else if gf >= max {
+    2.0 + (bf - rf) / delta
+  } else {
+    4.0 + (rf - gf) / delta
+  }
+  let h = h * 60.0
+  let h = if h < 0.0 { h + 360.0 } else { h }
+  { x: h, y: s, z: v }
 }
 
 ///|
 /// Get color with contrast correction, contrast values between -1.0 and 1.0.
 pub fn color_contrast(color : Color, contrast : Float) -> Color {
-  Color::from_bytes(@ffi.color_contrast(color.to_bytes(), contrast))
+  let contrast : Float = if contrast < -1.0 {
+    -1.0
+  } else if contrast > 1.0 {
+    1.0
+  } else {
+    contrast
+  }
+  let factor : Float = (1.0 + contrast) * (1.0 + contrast)
+  let clampf = fn(v : Float) -> Float {
+    if v < 0.0 {
+      return 0.0
+    }
+    if v > 255.0 {
+      return 255.0
+    }
+    v
+  }
+  let pr : Float = Float::from_int(color.r.to_int()) / 255.0
+  let pr : Float = clampf(((pr - 0.5) * factor + 0.5) * 255.0)
+  let pg : Float = Float::from_int(color.g.to_int()) / 255.0
+  let pg : Float = clampf(((pg - 0.5) * factor + 0.5) * 255.0)
+  let pb : Float = Float::from_int(color.b.to_int()) / 255.0
+  let pb : Float = clampf(((pb - 0.5) * factor + 0.5) * 255.0)
+  {
+    r: pr.to_int().to_byte(),
+    g: pg.to_int().to_byte(),
+    b: pb.to_int().to_byte(),
+    a: color.a,
+  }
 }
 
 ///|
 /// Get src alpha-blended into dst color with tint.
 pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
-  Color::from_bytes(
-    @ffi.color_alpha_blend(dst.to_bytes(), src.to_bytes(), tint.to_bytes()),
-  )
+  // Apply tint to source
+  let sr = (src.r.to_int() * (tint.r.to_int() + 1)) >> 8
+  let sg = (src.g.to_int() * (tint.g.to_int() + 1)) >> 8
+  let sb = (src.b.to_int() * (tint.b.to_int() + 1)) >> 8
+  let sa = (src.a.to_int() * (tint.a.to_int() + 1)) >> 8
+  if sa == 0 {
+    dst
+  } else if sa == 255 {
+    { r: sr.to_byte(), g: sg.to_byte(), b: sb.to_byte(), a: sa.to_byte() }
+  } else {
+    let alpha = sa + 1
+    let out_a = (alpha * 256 + dst.a.to_int() * (256 - alpha)) >> 8
+    if out_a > 0 {
+      let out_r = (
+          (sr * alpha * 256 + dst.r.to_int() * dst.a.to_int() * (256 - alpha)) /
+          out_a
+        ) >>
+        8
+      let out_g = (
+          (sg * alpha * 256 + dst.g.to_int() * dst.a.to_int() * (256 - alpha)) /
+          out_a
+        ) >>
+        8
+      let out_b = (
+          (sb * alpha * 256 + dst.b.to_int() * dst.a.to_int() * (256 - alpha)) /
+          out_a
+        ) >>
+        8
+      {
+        r: out_r.to_byte(),
+        g: out_g.to_byte(),
+        b: out_b.to_byte(),
+        a: out_a.to_byte(),
+      }
+    } else {
+      { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00' }
+    }
+  }
 }
 
 ///|
