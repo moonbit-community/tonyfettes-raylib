@@ -6,6 +6,14 @@ import {
 }
 
 // Values
+pub const DegToRad : Float = 0.017453292519943295
+
+pub const RlLinesMode : Int = 0x0001
+
+pub const RlQuadsMode : Int = 0x0007
+
+pub const RlTrianglesMode : Int = 0x0004
+
 pub fn attach_audio_mixed_processor(FuncRef[(AudioBuffer, UInt) -> Unit]) -> Unit
 
 pub fn attach_audio_stream_processor(AudioStream, FuncRef[(AudioBuffer, UInt) -> Unit]) -> Unit
@@ -90,21 +98,7 @@ pub fn draw_capsule(Bytes, Bytes, Float, Int, Int, Bytes) -> Unit
 
 pub fn draw_capsule_wires(Bytes, Bytes, Float, Int, Int, Bytes) -> Unit
 
-pub fn draw_circle(Int, Int, Float, Bytes) -> Unit
-
 pub fn draw_circle_3d(Bytes, Float, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_circle_gradient(Bytes, Float, Bytes, Bytes) -> Unit
-
-pub fn draw_circle_lines(Int, Int, Float, Bytes) -> Unit
-
-pub fn draw_circle_lines_v(Bytes, Float, Bytes) -> Unit
-
-pub fn draw_circle_sector(Bytes, Float, Float, Float, Int, Bytes) -> Unit
-
-pub fn draw_circle_sector_lines(Bytes, Float, Float, Float, Int, Bytes) -> Unit
-
-pub fn draw_circle_v(Bytes, Float, Bytes) -> Unit
 
 pub fn draw_cube(Bytes, Float, Float, Float, Bytes) -> Unit
 
@@ -122,25 +116,11 @@ pub fn draw_cylinder_wires(Bytes, Float, Float, Float, Int, Bytes) -> Unit
 
 pub fn draw_cylinder_wires_ex(Bytes, Bytes, Float, Float, Int, Bytes) -> Unit
 
-pub fn draw_ellipse(Int, Int, Float, Float, Bytes) -> Unit
-
-pub fn draw_ellipse_lines(Int, Int, Float, Float, Bytes) -> Unit
-
 pub fn draw_fps(Int, Int) -> Unit
 
 pub fn draw_grid(Int, Float) -> Unit
 
-pub fn draw_line(Int, Int, Int, Int, Bytes) -> Unit
-
 pub fn draw_line_3d(Bytes, Bytes, Bytes) -> Unit
-
-pub fn draw_line_bezier(Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_line_ex(Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_line_strip(Bytes, Int, Bytes) -> Unit
-
-pub fn draw_line_v(Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_mesh(Mesh, Material, Bytes) -> Unit
 
@@ -154,45 +134,11 @@ pub fn draw_model_wires(Model, Bytes, Float, Bytes) -> Unit
 
 pub fn draw_model_wires_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
 
-pub fn draw_pixel(Int, Int, Bytes) -> Unit
-
-pub fn draw_pixel_v(Bytes, Bytes) -> Unit
-
 pub fn draw_plane(Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_point_3d(Bytes, Bytes) -> Unit
 
-pub fn draw_poly(Bytes, Int, Float, Float, Bytes) -> Unit
-
-pub fn draw_poly_lines(Bytes, Int, Float, Float, Bytes) -> Unit
-
-pub fn draw_poly_lines_ex(Bytes, Int, Float, Float, Float, Bytes) -> Unit
-
 pub fn draw_ray(Bytes, Bytes) -> Unit
-
-pub fn draw_rectangle(Int, Int, Int, Int, Bytes) -> Unit
-
-pub fn draw_rectangle_gradient_ex(Bytes, Bytes, Bytes, Bytes, Bytes) -> Unit
-
-pub fn draw_rectangle_gradient_h(Int, Int, Int, Int, Bytes, Bytes) -> Unit
-
-pub fn draw_rectangle_gradient_v(Int, Int, Int, Int, Bytes, Bytes) -> Unit
-
-pub fn draw_rectangle_lines(Int, Int, Int, Int, Bytes) -> Unit
-
-pub fn draw_rectangle_lines_ex(Bytes, Float, Bytes) -> Unit
-
-pub fn draw_rectangle_pro(Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_rectangle_rec(Bytes, Bytes) -> Unit
-
-pub fn draw_rectangle_rounded(Bytes, Float, Int, Bytes) -> Unit
-
-pub fn draw_rectangle_rounded_lines(Bytes, Float, Int, Bytes) -> Unit
-
-pub fn draw_rectangle_rounded_lines_ex(Bytes, Float, Int, Float, Bytes) -> Unit
-
-pub fn draw_rectangle_v(Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_render_texture_ex(RenderTexture, Bytes, Float, Float, Bytes) -> Unit
 
@@ -200,35 +146,11 @@ pub fn draw_render_texture_pro(RenderTexture, Bytes, Bytes, Bytes, Float, Bytes)
 
 pub fn draw_render_texture_rec(RenderTexture, Bytes, Bytes, Bytes) -> Unit
 
-pub fn draw_ring(Bytes, Float, Float, Float, Float, Int, Bytes) -> Unit
-
-pub fn draw_ring_lines(Bytes, Float, Float, Float, Float, Int, Bytes) -> Unit
-
 pub fn draw_sphere(Bytes, Float, Bytes) -> Unit
 
 pub fn draw_sphere_ex(Bytes, Float, Int, Int, Bytes) -> Unit
 
 pub fn draw_sphere_wires(Bytes, Float, Int, Int, Bytes) -> Unit
-
-pub fn draw_spline_basis(Bytes, Int, Float, Bytes) -> Unit
-
-pub fn draw_spline_bezier_cubic(Bytes, Int, Float, Bytes) -> Unit
-
-pub fn draw_spline_bezier_quadratic(Bytes, Int, Float, Bytes) -> Unit
-
-pub fn draw_spline_catmull_rom(Bytes, Int, Float, Bytes) -> Unit
-
-pub fn draw_spline_linear(Bytes, Int, Float, Bytes) -> Unit
-
-pub fn draw_spline_segment_basis(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_spline_segment_bezier_cubic(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_spline_segment_bezier_quadratic(Bytes, Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_spline_segment_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_spline_segment_linear(Bytes, Bytes, Float, Bytes) -> Unit
 
 pub fn draw_text(Bytes, Int, Int, Int, Bytes) -> Unit
 
@@ -252,17 +174,7 @@ pub fn draw_texture_rec(Texture, Bytes, Bytes, Bytes) -> Unit
 
 pub fn draw_texture_v(Texture, Bytes, Bytes) -> Unit
 
-pub fn draw_triangle(Bytes, Bytes, Bytes, Bytes) -> Unit
-
 pub fn draw_triangle_3d(Bytes, Bytes, Bytes, Bytes) -> Unit
-
-pub fn draw_triangle_fan(Bytes, Int, Bytes) -> Unit
-
-pub fn draw_triangle_lines(Bytes, Bytes, Bytes, Bytes) -> Unit
-
-pub fn draw_triangle_strip(Bytes, Int, Bytes) -> Unit
-
-pub fn draw_triangle_strip_3d(Bytes, Int, Bytes) -> Unit
 
 pub fn enable_cursor() -> Unit
 
