@@ -28,8 +28,8 @@ pub fn gui_text_box(
   // Update control
   if state != GuiState::Disabled &&
     gui_get_style(ControlTextbox, TextReadonly) == 0 &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if edit_mode {
       state = GuiState::Pressed
@@ -130,7 +130,7 @@ pub fn gui_text_box(
       // Exit edit mode on Enter or click outside
       if @raylib.is_key_pressed(KeyEnter) ||
         (
-          not(check_collision_point_rec(mouse, bounds)) &&
+          !check_collision_point_rec(mouse, bounds) &&
           @raylib.is_mouse_button_pressed(MouseButtonLeft)
         ) {
         gui_globals.text_box_cursor_index = 0
@@ -218,8 +218,8 @@ pub fn gui_value_box(
   let mut text_value = value.val.to_string()
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if edit_mode {
       state = GuiState::Pressed
@@ -262,7 +262,7 @@ pub fn gui_value_box(
       // Exit edit mode on Enter or click outside
       if @raylib.is_key_pressed(KeyEnter) ||
         (
-          not(check_collision_point_rec(mouse, bounds)) &&
+          !check_collision_point_rec(mouse, bounds) &&
           @raylib.is_mouse_button_pressed(MouseButtonLeft)
         ) {
         if value.val > max_value {
@@ -398,7 +398,7 @@ pub fn gui_spinner(
   if gui_button(right_bounds, ">") {
     temp = temp + 1
   }
-  if not(edit_mode) {
+  if !edit_mode {
     if temp < min_value {
       temp = min_value
     }
@@ -500,8 +500,8 @@ pub fn gui_value_box_float(
   let bh = bounds.height
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if edit_mode {
       state = GuiState::Pressed
@@ -526,7 +526,7 @@ pub fn gui_value_box_float(
               has_dot = true
             }
           }
-          if not(has_dot) {
+          if !has_dot {
             let buf = StringBuilder::new()
             for i in 0..<key_count {
               buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
@@ -585,7 +585,7 @@ pub fn gui_value_box_float(
       // Exit edit mode on Enter or click outside
       if @raylib.is_key_pressed(KeyEnter) ||
         (
-          not(check_collision_point_rec(mouse, bounds)) &&
+          !check_collision_point_rec(mouse, bounds) &&
           @raylib.is_mouse_button_pressed(MouseButtonLeft)
         ) {
         // Parse float from text_value on exit

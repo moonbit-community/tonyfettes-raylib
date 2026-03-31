@@ -30,8 +30,8 @@ pub fn gui_button(bounds : @raylib.Rectangle, text : String) -> Bool {
   let mut result = false
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
@@ -88,8 +88,8 @@ pub fn gui_label_button(bounds : @raylib.Rectangle, text : String) -> Bool {
   }
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
@@ -127,15 +127,15 @@ pub fn gui_toggle(
   let mut result = false
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
         state = GuiState::Pressed
       } else if @raylib.is_mouse_button_released(MouseButtonLeft) {
         state = GuiState::Normal
-        active.val = not(active.val)
+        active.val = !active.val
         result = true
       } else {
         state = GuiState::Focused
@@ -253,8 +253,8 @@ pub fn gui_check_box(
   let text_bounds = @raylib.Rectangle::new(text_x, text_y, text_w, text_h)
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     let total_x = if alignment == TextAlignLeft { text_x } else { bx }
     let total_bounds = @raylib.Rectangle::new(
@@ -270,7 +270,7 @@ pub fn gui_check_box(
         state = GuiState::Focused
       }
       if @raylib.is_mouse_button_released(MouseButtonLeft) {
-        checked.val = not(checked.val)
+        checked.val = !checked.val
         result = true
       }
     }
@@ -361,8 +361,8 @@ pub fn gui_dummy_rec(bounds : @raylib.Rectangle, text : String) -> Unit {
   let mut state = gui_globals.state
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {
@@ -449,8 +449,8 @@ pub fn gui_toggle_slider(
   let slider_value = Float::from_int(active.val) * slider_width
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     let mouse = @raylib.get_mouse_position()
     if check_collision_point_rec(mouse, bounds) {
       if @raylib.is_mouse_button_down(MouseButtonLeft) {

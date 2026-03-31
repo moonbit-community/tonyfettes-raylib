@@ -246,7 +246,7 @@ test "window state functions" {
   let rh = @raylib.get_render_height()
   assert_true(rw >= 0)
   assert_true(rh >= 0)
-  assert_true(not(@raylib.window_should_close()))
+  assert_true(!@raylib.window_should_close())
   @raylib.close_window()
 }
 

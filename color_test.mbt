@@ -59,7 +59,7 @@ test "color_lerp blends between two colors" {
 ///|
 test "color_is_equal works" {
   assert_true(@raylib.color_is_equal(@raylib.red, @raylib.red))
-  assert_true(not(@raylib.color_is_equal(@raylib.red, @raylib.blue)))
+  assert_true(!@raylib.color_is_equal(@raylib.red, @raylib.blue))
 }
 
 ///|

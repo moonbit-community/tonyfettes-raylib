@@ -156,12 +156,12 @@ pub fn gui_text_input_box(
       if gui_globals.text_edit_mode {
         // In edit mode: show actual text, pass real text ref for editing
         if gui_text_box(actual_textbox_bounds, text, text_max_size, true) {
-          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+          gui_globals.text_edit_mode = !gui_globals.text_edit_mode
         }
       } else if view_ref.val {
         // Not editing but viewing: show actual text, not editable
         if gui_text_box(actual_textbox_bounds, text, text_max_size, false) {
-          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+          gui_globals.text_edit_mode = !gui_globals.text_edit_mode
         }
       } else {
         // Not editing, not viewing: show stars
@@ -173,7 +173,7 @@ pub fn gui_text_input_box(
         if gui_text_box(
             actual_textbox_bounds, display_text, text_max_size, false,
           ) {
-          gui_globals.text_edit_mode = not(gui_globals.text_edit_mode)
+          gui_globals.text_edit_mode = !gui_globals.text_edit_mode
         }
       }
     None => {
@@ -241,8 +241,8 @@ pub fn gui_grid(
   let mut color = gui_get_style(ControlDefault, LineColor)
   // Update control
   if state != GuiState::Disabled &&
-    not(gui_globals.locked) &&
-    not(gui_globals.control_exclusive_mode) {
+    !gui_globals.locked &&
+    !gui_globals.control_exclusive_mode {
     if check_collision_point_rec(mouse, bounds) {
       let mx = mouse.x
       let my = mouse.y

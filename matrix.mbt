@@ -758,7 +758,7 @@ pub fn Matrix::decompose(mat : Matrix) -> (Vector3, Vector4, Vector3) {
     { x: scalex, y: scaley, z: scalez }
   }
   // Remove scale from the matrix if it is not close to zero
-  let rotation : Vector4 = if not(float_equals(det, 0.0)) {
+  let rotation : Vector4 = if !float_equals(det, 0.0) {
     let clone : Matrix = {
       m0: mat.m0 / s.x,
       m1: mat.m1 / s.y,
