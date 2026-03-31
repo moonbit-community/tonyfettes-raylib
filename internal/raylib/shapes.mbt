@@ -444,57 +444,6 @@ pub extern "c" fn draw_spline_segment_bezier_cubic(
 ) = "moonbit_raylib_draw_spline_segment_bezier_cubic"
 
 // ============================================================================
-// Spline point evaluation
-// ============================================================================
-
-///|
-#borrow(start_pos, end_pos)
-pub extern "c" fn get_spline_point_linear(
-  start_pos : Bytes,
-  end_pos : Bytes,
-  t : Float,
-) -> Bytes = "moonbit_raylib_get_spline_point_linear"
-
-///|
-#borrow(p1, p2, p3, p4)
-pub extern "c" fn get_spline_point_basis(
-  p1 : Bytes,
-  p2 : Bytes,
-  p3 : Bytes,
-  p4 : Bytes,
-  t : Float,
-) -> Bytes = "moonbit_raylib_get_spline_point_basis"
-
-///|
-#borrow(p1, p2, p3, p4)
-pub extern "c" fn get_spline_point_catmull_rom(
-  p1 : Bytes,
-  p2 : Bytes,
-  p3 : Bytes,
-  p4 : Bytes,
-  t : Float,
-) -> Bytes = "moonbit_raylib_get_spline_point_catmull_rom"
-
-///|
-#borrow(p1, p2, p3)
-pub extern "c" fn get_spline_point_bezier_quad(
-  p1 : Bytes,
-  p2 : Bytes,
-  p3 : Bytes,
-  t : Float,
-) -> Bytes = "moonbit_raylib_get_spline_point_bezier_quad"
-
-///|
-#borrow(p1, p2, p3, p4)
-pub extern "c" fn get_spline_point_bezier_cubic(
-  p1 : Bytes,
-  p2 : Bytes,
-  p3 : Bytes,
-  p4 : Bytes,
-  t : Float,
-) -> Bytes = "moonbit_raylib_get_spline_point_bezier_cubic"
-
-// ============================================================================
 // 3D triangle strip
 // ============================================================================
 

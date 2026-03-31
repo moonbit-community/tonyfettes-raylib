@@ -596,16 +596,6 @@ pub fn get_shapes_texture() -> Texture
 
 pub fn get_shapes_texture_rectangle() -> Bytes
 
-pub fn get_spline_point_basis(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_bezier_cubic(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_bezier_quad(Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_catmull_rom(Bytes, Bytes, Bytes, Bytes, Float) -> Bytes
-
-pub fn get_spline_point_linear(Bytes, Bytes, Float) -> Bytes
-
 pub fn get_texture_format(Texture) -> Int
 
 pub fn get_texture_height(Texture) -> Int

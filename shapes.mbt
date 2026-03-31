@@ -807,7 +807,7 @@ pub fn draw_spline_segment_bezier_cubic(
 }
 
 // ============================================================================
-// Spline point evaluation
+// Spline point evaluation (pure MoonBit)
 // ============================================================================
 
 ///|
@@ -817,8 +817,10 @@ pub fn get_spline_point_linear(
   end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_linear(start_pos.to_bytes(), end_pos.to_bytes(), t),
+  let one_minus_t : Float = 1.0 - t
+  Vector2::new(
+    start_pos.x * one_minus_t + end_pos.x * t,
+    start_pos.y * one_minus_t + end_pos.y * t,
   )
 }
 
@@ -831,14 +833,17 @@ pub fn get_spline_point_basis(
   p4 : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_basis(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let a0 : Float = (-p1.x + 3.0 * p2.x - 3.0 * p3.x + p4.x) / 6.0
+  let a1 : Float = (3.0 * p1.x - 6.0 * p2.x + 3.0 * p3.x) / 6.0
+  let a2 : Float = (-3.0 * p1.x + 3.0 * p3.x) / 6.0
+  let a3 : Float = (p1.x + 4.0 * p2.x + p3.x) / 6.0
+  let b0 : Float = (-p1.y + 3.0 * p2.y - 3.0 * p3.y + p4.y) / 6.0
+  let b1 : Float = (3.0 * p1.y - 6.0 * p2.y + 3.0 * p3.y) / 6.0
+  let b2 : Float = (-3.0 * p1.y + 3.0 * p3.y) / 6.0
+  let b3 : Float = (p1.y + 4.0 * p2.y + p3.y) / 6.0
+  Vector2::new(
+    a3 + t * (a2 + t * (a1 + t * a0)),
+    b3 + t * (b2 + t * (b1 + t * b0)),
   )
 }
 
@@ -851,52 +856,59 @@ pub fn get_spline_point_catmull_rom(
   p4 : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_catmull_rom(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let t2 = t * t
+  let t3 = t2 * t
+  let q0 : Float = -t3 + 2.0 * t2 - t
+  let q1 : Float = 3.0 * t3 - 5.0 * t2 + 2.0
+  let q2 : Float = -3.0 * t3 + 4.0 * t2 + t
+  let q3 = t3 - t2
+  Vector2::new(
+    (0.5 : Float) * (p1.x * q0 + p2.x * q1 + p3.x * q2 + p4.x * q3),
+    (0.5 : Float) * (p1.y * q0 + p2.y * q1 + p3.y * q2 + p4.y * q3),
   )
 }
 
 ///|
 /// Get (evaluate) spline point: Quadratic Bezier.
 pub fn get_spline_point_bezier_quad(
-  p1 : Vector2,
-  p2 : Vector2,
-  p3 : Vector2,
+  start_pos : Vector2,
+  control_pos : Vector2,
+  end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_bezier_quad(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      t,
-    ),
+  let one_minus_t : Float = 1.0 - t
+  let a = one_minus_t * one_minus_t
+  let b : Float = 2.0 * one_minus_t * t
+  let c = t * t
+  Vector2::new(
+    a * start_pos.x + b * control_pos.x + c * end_pos.x,
+    a * start_pos.y + b * control_pos.y + c * end_pos.y,
   )
 }
 
 ///|
 /// Get (evaluate) spline point: Cubic Bezier.
 pub fn get_spline_point_bezier_cubic(
-  p1 : Vector2,
-  p2 : Vector2,
-  p3 : Vector2,
-  p4 : Vector2,
+  start_pos : Vector2,
+  start_control_pos : Vector2,
+  end_control_pos : Vector2,
+  end_pos : Vector2,
   t : Float,
 ) -> Vector2 {
-  Vector2::from_bytes(
-    @ffi.get_spline_point_bezier_cubic(
-      p1.to_bytes(),
-      p2.to_bytes(),
-      p3.to_bytes(),
-      p4.to_bytes(),
-      t,
-    ),
+  let one_minus_t : Float = 1.0 - t
+  let a = one_minus_t * one_minus_t * one_minus_t
+  let b : Float = 3.0 * one_minus_t * one_minus_t * t
+  let c : Float = 3.0 * one_minus_t * t * t
+  let d = t * t * t
+  Vector2::new(
+    a * start_pos.x +
+    b * start_control_pos.x +
+    c * end_control_pos.x +
+    d * end_pos.x,
+    a * start_pos.y +
+    b * start_control_pos.y +
+    c * end_control_pos.y +
+    d * end_pos.y,
   )
 }
 
