@@ -458,3 +458,15 @@ test "Vector3::ortho_normalize parallel vectors (cross product zero, length2 == 
   let _len2 = @raylib.Vector3::length(r2)
   assert_true(true)
 }
+
+///|
+test "Vector3::rotate_by_axis_angle zero-length axis" {
+  let v = @raylib.Vector3::new(1.0, 2.0, 3.0)
+  let zero_axis = @raylib.Vector3::new(0.0, 0.0, 0.0)
+  // With zero-length axis, function sets length=1.0 to avoid div-by-zero.
+  // Normalized axis becomes (0,0,0), so sin terms are all zero => no rotation.
+  let result = @raylib.Vector3::rotate_by_axis_angle(v, zero_axis, 1.0)
+  assert_true((result.x - 1.0).abs() < 0.001)
+  assert_true((result.y - 2.0).abs() < 0.001)
+  assert_true((result.z - 3.0).abs() < 0.001)
+}

@@ -50,6 +50,12 @@ pub struct Vector3 {
   z : Float
 } derive(Eq, Show)
 
+///|
+/// Create a new Vector3 from x, y, z components.
+pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
+  { x, y, z }
+}
+
 // Convert RGB color values (0.0-1.0 range) to HSV.
 // Returns Vector3 where x=H (0-360), y=S (0-1), z=V (0-1).
 

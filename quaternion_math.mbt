@@ -250,6 +250,10 @@ pub fn Vector4::quat_slerp(
   } else {
     let half_theta = acosf(cos_half_theta)
     let sin_half_theta = sqrtf((1.0 : Float) - cos_half_theta * cos_half_theta)
+    // NOTE: This branch is unreachable — carried over from upstream raylib
+    // (raymath.h QuaternionSlerp). The cos > 0.95 guard above ensures we
+    // only reach here when cos <= 0.95, giving sin >= ~0.312, far above
+    // epsilon. Kept for parity with the C implementation.
     if fabsf(sin_half_theta) < epsilon {
       let half : Float = 0.5
       {

@@ -353,3 +353,49 @@ test "shapes drawing variants" {
   @raylib.end_drawing()
   @raylib.close_window()
 }
+
+///|
+test "font accessors on default font" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let font = @raylib.Font::default()
+  // Default font has base_size = 10
+  assert_true(font.base_size() > 0)
+  // Default font has 224 glyphs
+  assert_true(font.glyph_count() > 0)
+  // Padding is non-negative
+  assert_true(font.glyph_padding() >= 0)
+  // Texture should be valid
+  let tex = font.texture()
+  assert_true(tex.width() > 0)
+  assert_true(tex.height() > 0)
+  @raylib.close_window()
+}
+
+///|
+test "Image::draw_text renders text onto image" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  let img = @raylib.Image::gen_color(64, 32, @raylib.white)
+  img.draw_text("Hi", 0, 0, 10, @raylib.black)
+  // Verify no crash and image is still valid
+  assert_true(img.is_valid())
+  assert_eq(img.width(), 64)
+  assert_eq(img.height(), 32)
+  img.unload()
+  @raylib.close_window()
+}
+
+///|
+test "AutomationEventList load/count/set/unload" {
+  @raylib.set_config_flags(@raylib.FlagWindowHidden)
+  @raylib.init_window(1, 1, "test")
+  // Load from empty string gives an empty list
+  let list = @raylib.AutomationEventList::load("")
+  let count = list.count()
+  assert_true(count >= 0)
+  // Set as active event list (requires window)
+  list.set()
+  list.unload()
+  @raylib.close_window()
+}

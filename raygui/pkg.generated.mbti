@@ -332,7 +332,7 @@ pub fn gui_window_box(@raylib.Rectangle, String) -> Bool
 // Errors
 
 // Types and methods
-pub enum GuiState {
+pub(all) enum GuiState {
   Normal
   Focused
   Pressed
@@ -345,6 +345,7 @@ pub struct Vector3 {
   y : Float
   z : Float
 } derive(Eq, Show)
+pub fn Vector3::new(Float, Float, Float) -> Self
 
 // Type aliases
 

@@ -3,7 +3,7 @@
 // Gui control state
 
 ///|
-pub enum GuiState {
+pub(all) enum GuiState {
   Normal
   Focused
   Pressed
