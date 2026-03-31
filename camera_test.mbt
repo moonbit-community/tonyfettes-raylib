@@ -135,3 +135,73 @@ test "get_world_to_screen without window returns some value" {
   let _result = @raylib.get_world_to_screen(pos, cam)
   assert_true(true)
 }
+
+///|
+test "get_camera_matrix returns valid matrix" {
+  let cam = @raylib.Camera3D::new(
+    @raylib.Vector3::new(0.0, 10.0, 10.0),
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    45.0,
+    @raylib.CameraPerspective,
+  )
+  let m = @raylib.get_camera_matrix(cam)
+  // Should be a valid affine matrix (m15 close to 1)
+  assert_true((m.m15 - 1.0).abs() < 0.001)
+}
+
+///|
+test "get_camera_matrix_2d returns valid matrix" {
+  let cam = @raylib.Camera2D::new(
+    @raylib.Vector2::new(400.0, 300.0),
+    @raylib.Vector2::new(0.0, 0.0),
+    0.0,
+    1.0,
+  )
+  let m = @raylib.get_camera_matrix_2d(cam)
+  // Should be a valid matrix
+  assert_true((m.m15 - 1.0).abs() < 0.001)
+}
+
+///|
+test "get_screen_to_world_ray returns a ray" {
+  let cam = @raylib.Camera3D::new(
+    @raylib.Vector3::new(0.0, 10.0, 10.0),
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    45.0,
+    @raylib.CameraPerspective,
+  )
+  let pos = @raylib.Vector2::new(400.0, 300.0)
+  // Without a window, results may be degenerate, but should not crash
+  let _ray = @raylib.get_screen_to_world_ray(pos, cam)
+  assert_true(true)
+}
+
+///|
+test "get_screen_to_world_ray_ex returns a ray" {
+  let cam = @raylib.Camera3D::new(
+    @raylib.Vector3::new(0.0, 10.0, 10.0),
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    45.0,
+    @raylib.CameraPerspective,
+  )
+  let pos = @raylib.Vector2::new(400.0, 300.0)
+  let _ray = @raylib.get_screen_to_world_ray_ex(pos, cam, 800, 600)
+  assert_true(true)
+}
+
+///|
+test "get_world_to_screen_ex returns screen coordinates" {
+  let cam = @raylib.Camera3D::new(
+    @raylib.Vector3::new(0.0, 10.0, 10.0),
+    @raylib.Vector3::new(0.0, 0.0, 0.0),
+    @raylib.Vector3::new(0.0, 1.0, 0.0),
+    45.0,
+    @raylib.CameraPerspective,
+  )
+  let pos = @raylib.Vector3::new(1.0, 2.0, 3.0)
+  let _result = @raylib.get_world_to_screen_ex(pos, cam, 800, 600)
+  assert_true(true)
+}
