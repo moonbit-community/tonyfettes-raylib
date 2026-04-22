@@ -7,7 +7,7 @@ pub struct Camera2D {
   target : Vector2
   rotation : Float
   zoom : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Camera2D.
@@ -54,7 +54,7 @@ pub struct Camera3D {
   up : Vector3
   fovy : Float
   projection : Int
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Camera3D.

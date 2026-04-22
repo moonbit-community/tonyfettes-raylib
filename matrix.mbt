@@ -20,7 +20,7 @@ pub struct Matrix {
   m13 : Float
   m14 : Float
   m15 : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Get identity matrix.

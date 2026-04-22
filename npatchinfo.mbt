@@ -9,7 +9,7 @@ pub struct NPatchInfo {
   right : Int
   bottom : Int
   layout : Int
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new NPatchInfo.

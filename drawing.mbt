@@ -320,7 +320,7 @@ pub struct VrDeviceInfo {
   interpupillary_distance : Float
   lens_distortion_values : FixedArray[Float] // length 4
   chroma_ab_correction : FixedArray[Float] // length 4
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new VrDeviceInfo with the given parameters.

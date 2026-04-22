@@ -5,7 +5,7 @@
 pub struct Ray {
   position : Vector3
   direction : Vector3
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Ray.
@@ -46,7 +46,7 @@ pub fn Ray::from_bytes(b : Bytes) -> Ray {
 pub struct BoundingBox {
   min : Vector3
   max : Vector3
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new BoundingBox.
@@ -86,7 +86,7 @@ pub struct RayCollision {
   distance : Float
   point : Vector3
   normal : Vector3
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new RayCollision.

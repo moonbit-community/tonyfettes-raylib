@@ -103,7 +103,7 @@ pub struct GlyphInfo {
   offset_x : Int
   offset_y : Int
   advance_x : Int
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new GlyphInfo.

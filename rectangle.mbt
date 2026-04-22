@@ -7,7 +7,7 @@ pub struct Rectangle {
   y : Float
   width : Float
   height : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Rectangle.

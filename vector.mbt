@@ -24,7 +24,7 @@ fn read_int(b : Bytes, off : Int) -> Int {
 pub struct Vector2 {
   x : Float
   y : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Vector2.
@@ -55,7 +55,7 @@ pub struct Vector3 {
   x : Float
   y : Float
   z : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Vector3.
@@ -88,7 +88,7 @@ pub struct Vector4 {
   y : Float
   z : Float
   w : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Vector4.

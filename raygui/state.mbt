@@ -8,7 +8,7 @@ pub(all) enum GuiState {
   Focused
   Pressed
   Disabled
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 pub fn GuiState::to_int(self : GuiState) -> Int {
