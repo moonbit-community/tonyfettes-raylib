@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "tonyfettes/raylib"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
 pub const BlendAdditive : Int = 1
 
@@ -1510,9 +1514,10 @@ pub struct AutomationEvent {
   frame : Int
   type_ : Int
   params : FixedArray[Int]
-} derive(Show)
+} derive(@debug.Debug)
 pub fn AutomationEvent::from_bytes(Bytes) -> Self
 pub fn AutomationEvent::to_bytes(Self) -> Bytes
+pub impl Show for AutomationEvent
 
 type AutomationEventList
 #as_free_fn(automation_event_list_count)
@@ -1531,20 +1536,22 @@ pub fn AutomationEventList::unload(Self) -> Unit
 pub struct BoundingBox {
   min : Vector3
   max : Vector3
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn BoundingBox::from_bytes(Bytes) -> Self
 pub fn BoundingBox::new(Vector3, Vector3) -> Self
 pub fn BoundingBox::to_bytes(Self) -> Bytes
+pub impl Show for BoundingBox
 
 pub struct Camera2D {
   offset : Vector2
   target : Vector2
   rotation : Float
   zoom : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Camera2D::from_bytes(Bytes) -> Self
 pub fn Camera2D::new(Vector2, Vector2, Float, Float) -> Self
 pub fn Camera2D::to_bytes(Self) -> Bytes
+pub impl Show for Camera2D
 
 pub struct Camera3D {
   position : Vector3
@@ -1552,20 +1559,22 @@ pub struct Camera3D {
   up : Vector3
   fovy : Float
   projection : Int
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Camera3D::from_bytes(Bytes) -> Self
 pub fn Camera3D::new(Vector3, Vector3, Vector3, Float, Int) -> Self
 pub fn Camera3D::to_bytes(Self) -> Bytes
+pub impl Show for Camera3D
 
 pub struct Color {
   r : Byte
   g : Byte
   b : Byte
   a : Byte
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Color::from_bytes(Bytes) -> Self
 pub fn Color::new(Int, Int, Int, Int) -> Self
 pub fn Color::to_bytes(Self) -> Bytes
+pub impl Show for Color
 
 type FilePathList
 #as_free_fn(file_path_list_count)
@@ -1637,9 +1646,10 @@ pub struct GlyphInfo {
   offset_x : Int
   offset_y : Int
   advance_x : Int
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn GlyphInfo::from_bytes(Bytes) -> Self
 pub fn GlyphInfo::new(Int, Int, Int, Int) -> Self
+pub impl Show for GlyphInfo
 
 type GlyphInfoArray
 #as_free_fn(glyph_info_array_count)
@@ -1887,7 +1897,7 @@ pub struct Matrix {
   m13 : Float
   m14 : Float
   m15 : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Matrix::add(Self, Self) -> Self
 pub fn Matrix::decompose(Self) -> (Vector3, Vector4, Vector3)
 pub fn Matrix::determinant(Self) -> Float
@@ -1911,6 +1921,7 @@ pub fn Matrix::to_bytes(Self) -> Bytes
 pub fn Matrix::trace(Self) -> Float
 pub fn Matrix::translate(Float, Float, Float) -> Self
 pub fn Matrix::transpose(Self) -> Self
+pub impl Show for Matrix
 
 type MatrixArray
 pub fn MatrixArray::length(Self) -> Int
@@ -2098,37 +2109,41 @@ pub struct NPatchInfo {
   right : Int
   bottom : Int
   layout : Int
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn NPatchInfo::from_bytes(Bytes) -> Self
 pub fn NPatchInfo::new(Rectangle, Int, Int, Int, Int, Int) -> Self
 pub fn NPatchInfo::to_bytes(Self) -> Bytes
+pub impl Show for NPatchInfo
 
 pub struct Ray {
   position : Vector3
   direction : Vector3
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Ray::from_bytes(Bytes) -> Self
 pub fn Ray::new(Vector3, Vector3) -> Self
 pub fn Ray::to_bytes(Self) -> Bytes
+pub impl Show for Ray
 
 pub struct RayCollision {
   hit : Bool
   distance : Float
   point : Vector3
   normal : Vector3
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn RayCollision::from_bytes(Bytes) -> Self
 pub fn RayCollision::new(Bool, Float, Vector3, Vector3) -> Self
+pub impl Show for RayCollision
 
 pub struct Rectangle {
   x : Float
   y : Float
   width : Float
   height : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Rectangle::from_bytes(Bytes) -> Self
 pub fn Rectangle::new(Float, Float, Float, Float) -> Self
 pub fn Rectangle::to_bytes(Self) -> Bytes
+pub impl Show for Rectangle
 
 type RenderTexture
 #as_free_fn(begin_texture_mode)
@@ -2336,7 +2351,7 @@ pub fn UShortArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.UShortPo
 pub struct Vector2 {
   x : Float
   y : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Vector2::add(Self, Self) -> Self
 pub fn Vector2::add_value(Self, Float) -> Self
 pub fn Vector2::angle(Self, Self) -> Float
@@ -2370,12 +2385,13 @@ pub fn Vector2::subtract_value(Self, Float) -> Self
 pub fn Vector2::to_bytes(Self) -> Bytes
 pub fn Vector2::transform(Self, Matrix) -> Self
 pub fn Vector2::zero() -> Self
+pub impl Show for Vector2
 
 pub struct Vector3 {
   x : Float
   y : Float
   z : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Vector3::add(Self, Self) -> Self
 pub fn Vector3::add_value(Self, Float) -> Self
 pub fn Vector3::angle(Self, Self) -> Float
@@ -2413,13 +2429,14 @@ pub fn Vector3::to_bytes(Self) -> Bytes
 pub fn Vector3::transform(Self, Matrix) -> Self
 pub fn Vector3::unproject(Self, Matrix, Matrix) -> Self
 pub fn Vector3::zero() -> Self
+pub impl Show for Vector3
 
 pub struct Vector4 {
   x : Float
   y : Float
   z : Float
   w : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Vector4::add(Self, Self) -> Self
 pub fn Vector4::add_value(Self, Float) -> Self
 pub fn Vector4::divide(Self, Self) -> Self
@@ -2462,6 +2479,7 @@ pub fn Vector4::subtract(Self, Self) -> Self
 pub fn Vector4::subtract_value(Self, Float) -> Self
 pub fn Vector4::to_bytes(Self) -> Bytes
 pub fn Vector4::zero() -> Self
+pub impl Show for Vector4
 
 pub struct VrDeviceInfo {
   h_resolution : Int
@@ -2473,9 +2491,10 @@ pub struct VrDeviceInfo {
   interpupillary_distance : Float
   lens_distortion_values : FixedArray[Float]
   chroma_ab_correction : FixedArray[Float]
-} derive(Show)
+} derive(@debug.Debug)
 pub fn VrDeviceInfo::new(Int, Int, Float, Float, Float, Float, Float, FixedArray[Float], FixedArray[Float]) -> Self
 pub fn VrDeviceInfo::to_bytes(Self) -> Bytes
+pub impl Show for VrDeviceInfo
 
 type VrStereoConfig
 #as_free_fn(begin_vr_stereo_mode)
