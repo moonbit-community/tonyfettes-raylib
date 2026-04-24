@@ -25,3 +25,5 @@ options(
     "stub_rlgl.c",
   ],
 )
+
+supported_targets = "native"
