@@ -3,3 +3,5 @@ import {
   "tonyfettes/raylib/internal/raylib",
   "moonbitlang/core/encoding/utf8",
 }
+
+supported_targets = "native"
