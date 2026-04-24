@@ -7,7 +7,7 @@ pub struct Color {
   g : Byte
   b : Byte
   a : Byte
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Color from RGBA components.

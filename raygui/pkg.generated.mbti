@@ -2,6 +2,7 @@
 package "tonyfettes/raylib/raygui"
 
 import {
+  "moonbitlang/core/debug",
   "moonbitlang/core/ref",
   "tonyfettes/raylib",
 }
@@ -337,15 +338,17 @@ pub(all) enum GuiState {
   Focused
   Pressed
   Disabled
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn GuiState::to_int(Self) -> Int
+pub impl Show for GuiState
 
 pub struct Vector3 {
   x : Float
   y : Float
   z : Float
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn Vector3::new(Float, Float, Float) -> Self
+pub impl Show for Vector3
 
 // Type aliases
 

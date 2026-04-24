@@ -48,7 +48,7 @@ pub struct Vector3 {
   x : Float
   y : Float
   z : Float
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new Vector3 from x, y, z components.

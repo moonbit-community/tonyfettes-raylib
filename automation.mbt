@@ -40,7 +40,7 @@ pub struct AutomationEvent {
   frame : Int
   type_ : Int
   params : FixedArray[Int] // length 4
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Deserialize an AutomationEvent from a Bytes buffer.
