@@ -1105,11 +1105,11 @@ moonbit_raylib_get_model_bind_pose_translation(
 }
 
 // ============================================================================
-// ModelAnimations: get animation frame count
+// ModelAnimations: get animation keyframe count
 // ============================================================================
 
 int
-moonbit_raylib_get_model_animation_frame_count(
+moonbit_raylib_get_model_animation_keyframe_count(
   ModelAnimationsWrapper *wrapper,
   int anim_index
 ) {
@@ -1135,22 +1135,23 @@ moonbit_raylib_get_model_animation_bone_count(
 }
 
 // ============================================================================
-// ModelAnimations: get frame pose translation (Vector3 as Bytes)
+// ModelAnimations: get keyframe pose translation (Vector3 as Bytes)
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_animation_frame_pose_translation(
+moonbit_raylib_get_model_animation_keyframe_pose_translation(
   ModelAnimationsWrapper *wrapper,
   int anim_index,
-  int frame,
+  int keyframe,
   int bone_index
 ) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
-  if (anim_index >= 0 && anim_index < wrapper->count && frame >= 0 &&
-      frame < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
+  if (anim_index >= 0 && anim_index < wrapper->count && keyframe >= 0 &&
+      keyframe < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
       bone_index < wrapper->anims[anim_index].boneCount) {
     memcpy(
-      r, &wrapper->anims[anim_index].keyframePoses[frame][bone_index].translation,
+      r,
+      &wrapper->anims[anim_index].keyframePoses[keyframe][bone_index].translation,
       sizeof(Vector3)
     );
   }
@@ -1158,22 +1159,23 @@ moonbit_raylib_get_model_animation_frame_pose_translation(
 }
 
 // ============================================================================
-// ModelAnimations: get frame pose rotation (Quaternion/Vector4 as Bytes)
+// ModelAnimations: get keyframe pose rotation (Quaternion/Vector4 as Bytes)
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_animation_frame_pose_rotation(
+moonbit_raylib_get_model_animation_keyframe_pose_rotation(
   ModelAnimationsWrapper *wrapper,
   int anim_index,
-  int frame,
+  int keyframe,
   int bone_index
 ) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
-  if (anim_index >= 0 && anim_index < wrapper->count && frame >= 0 &&
-      frame < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
+  if (anim_index >= 0 && anim_index < wrapper->count && keyframe >= 0 &&
+      keyframe < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
       bone_index < wrapper->anims[anim_index].boneCount) {
     memcpy(
-      r, &wrapper->anims[anim_index].keyframePoses[frame][bone_index].rotation,
+      r,
+      &wrapper->anims[anim_index].keyframePoses[keyframe][bone_index].rotation,
       sizeof(Vector4)
     );
   }

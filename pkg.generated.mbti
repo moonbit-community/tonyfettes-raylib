@@ -2051,12 +2051,12 @@ type ModelAnimations
 pub fn ModelAnimations::bone_count(Self, Int) -> Int
 #as_free_fn(model_animations_count)
 pub fn ModelAnimations::count(Self) -> Int
-#as_free_fn(get_model_animation_frame_count)
-pub fn ModelAnimations::frame_count(Self, Int) -> Int
-#as_free_fn(get_model_animation_frame_pose_rotation)
-pub fn ModelAnimations::frame_pose_rotation(Self, Int, Int, Int) -> Vector4
-#as_free_fn(get_model_animation_frame_pose_translation)
-pub fn ModelAnimations::frame_pose_translation(Self, Int, Int, Int) -> Vector3
+#as_free_fn(get_model_animation_keyframe_count)
+pub fn ModelAnimations::keyframe_count(Self, Int) -> Int
+#as_free_fn(get_model_animation_keyframe_pose_rotation)
+pub fn ModelAnimations::keyframe_pose_rotation(Self, Int, Int, Int) -> Vector4
+#as_free_fn(get_model_animation_keyframe_pose_translation)
+pub fn ModelAnimations::keyframe_pose_translation(Self, Int, Int, Int) -> Vector3
 #as_free_fn(load_model_animations)
 pub fn ModelAnimations::load(String) -> Self
 #as_free_fn(unload_model_animations)

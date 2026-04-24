@@ -687,10 +687,10 @@ pub extern "c" fn get_model_bind_pose_translation(
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_count(
+pub extern "c" fn get_model_animation_keyframe_count(
   anims : ModelAnimations,
   anim_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_frame_count"
+) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
 
 ///|
 #borrow(anims)
@@ -701,21 +701,21 @@ pub extern "c" fn get_model_animation_bone_count(
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_pose_translation(
+pub extern "c" fn get_model_animation_keyframe_pose_translation(
   anims : ModelAnimations,
   anim_index : Int,
-  frame : Int,
+  keyframe : Int,
   bone_index : Int,
-) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_translation"
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_frame_pose_rotation(
+pub extern "c" fn get_model_animation_keyframe_pose_rotation(
   anims : ModelAnimations,
   anim_index : Int,
-  frame : Int,
+  keyframe : Int,
   bone_index : Int,
-) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
 
 ///|
 #borrow(model)

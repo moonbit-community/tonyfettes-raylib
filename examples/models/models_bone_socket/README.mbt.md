@@ -18,4 +18,4 @@ cd examples && ./_build/native/debug/build/raylib_models_bone_socket/raylib_mode
 
 ## Key Concepts
 
-Demonstrates bone socket attachment by searching for named bones (`socket_hat`, `socket_hand_R`, `socket_hand_L`), then computing equipment transforms from animation frame pose data. Uses `get_model_animation_frame_pose_translation`, `get_model_animation_frame_pose_rotation`, and `get_model_bind_pose_rotation` with quaternion math to correctly position and orient equipment meshes on animated skeletons.
+Demonstrates bone socket attachment by searching for named bones (`socket_hat`, `socket_hand_R`, `socket_hand_L`), then computing equipment transforms from animation keyframe pose data. Uses `get_model_animation_keyframe_pose_translation`, `get_model_animation_keyframe_pose_rotation`, and `get_model_bind_pose_rotation` with quaternion math to correctly position and orient equipment meshes on animated skeletons.

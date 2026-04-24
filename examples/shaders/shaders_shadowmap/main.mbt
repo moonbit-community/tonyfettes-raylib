@@ -130,7 +130,7 @@ fn main {
   let robot_animations = @raylib.load_model_animations(
     "resources/models/robot.glb",
   )
-  let anim_frame_count = @raylib.get_model_animation_frame_count(
+  let anim_keyframe_count = @raylib.get_model_animation_keyframe_count(
     robot_animations, 0,
   )
 
@@ -199,7 +199,7 @@ fn main {
     cam = @raylib.update_camera(cam, @raylib.CameraOrbital)
 
     // Update animation
-    fc = (fc + 1) % anim_frame_count
+    fc = (fc + 1) % anim_keyframe_count
     @raylib.update_model_animation(
       robot,
       robot_animations,

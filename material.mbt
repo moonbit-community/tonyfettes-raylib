@@ -189,13 +189,13 @@ pub fn ModelAnimations::load(file_name : String) -> ModelAnimations {
 }
 
 ///|
-/// Get the frame count for a specific animation.
-#as_free_fn(get_model_animation_frame_count)
-pub fn ModelAnimations::frame_count(
+/// Get the keyframe count for a specific animation.
+#as_free_fn(get_model_animation_keyframe_count)
+pub fn ModelAnimations::keyframe_count(
   self : ModelAnimations,
   anim_index : Int,
 ) -> Int {
-  @ffi.get_model_animation_frame_count(self.0, anim_index)
+  @ffi.get_model_animation_keyframe_count(self.0, anim_index)
 }
 
 ///|
@@ -209,38 +209,38 @@ pub fn ModelAnimations::bone_count(
 }
 
 ///|
-/// Get the translation of a bone pose at a specific animation frame.
-#as_free_fn(get_model_animation_frame_pose_translation)
-pub fn ModelAnimations::frame_pose_translation(
+/// Get the translation of a bone pose at a specific animation keyframe.
+#as_free_fn(get_model_animation_keyframe_pose_translation)
+pub fn ModelAnimations::keyframe_pose_translation(
   self : ModelAnimations,
   anim_index : Int,
-  frame : Int,
+  keyframe : Int,
   bone_index : Int,
 ) -> Vector3 {
   Vector3::from_bytes(
-    @ffi.get_model_animation_frame_pose_translation(
+    @ffi.get_model_animation_keyframe_pose_translation(
       self.0,
       anim_index,
-      frame,
+      keyframe,
       bone_index,
     ),
   )
 }
 
 ///|
-/// Get the rotation quaternion of a bone pose at a specific animation frame.
-#as_free_fn(get_model_animation_frame_pose_rotation)
-pub fn ModelAnimations::frame_pose_rotation(
+/// Get the rotation quaternion of a bone pose at a specific animation keyframe.
+#as_free_fn(get_model_animation_keyframe_pose_rotation)
+pub fn ModelAnimations::keyframe_pose_rotation(
   self : ModelAnimations,
   anim_index : Int,
-  frame : Int,
+  keyframe : Int,
   bone_index : Int,
 ) -> Vector4 {
   Vector4::from_bytes(
-    @ffi.get_model_animation_frame_pose_rotation(
+    @ffi.get_model_animation_keyframe_pose_rotation(
       self.0,
       anim_index,
-      frame,
+      keyframe,
       bone_index,
     ),
   )

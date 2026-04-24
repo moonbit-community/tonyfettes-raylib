@@ -48,10 +48,10 @@ fn main {
       if @raylib.is_key_down(@raylib.KeySpace) ||
         @raylib.is_key_pressed(@raylib.KeyN) {
         anim_frame_counter = anim_frame_counter + 1
-        let frame_count = @raylib.get_model_animation_frame_count(
+        let keyframe_count = @raylib.get_model_animation_keyframe_count(
           anims, anim_id,
         )
-        if anim_frame_counter >= frame_count {
+        if anim_frame_counter >= keyframe_count {
           anim_frame_counter = 0
         }
         @raylib.update_model_animation(
@@ -116,15 +116,15 @@ fn main {
             @raylib.draw_line_3d(translation, parent_translation, @raylib.red)
           }
         } else {
-          // Display the frame-pose skeleton
-          let translation = @raylib.get_model_animation_frame_pose_translation(
+          // Display the keyframe-pose skeleton
+          let translation = @raylib.get_model_animation_keyframe_pose_translation(
             anims, anim_id, anim_frame_counter, i,
           )
           @raylib.draw_cube(translation, 0.05, 0.05, 0.05, @raylib.red)
 
           let parent = @raylib.get_model_bone_parent(model, i)
           if parent >= 0 {
-            let parent_translation = @raylib.get_model_animation_frame_pose_translation(
+            let parent_translation = @raylib.get_model_animation_keyframe_pose_translation(
               anims, anim_id, anim_frame_counter, parent,
             )
             @raylib.draw_line_3d(translation, parent_translation, @raylib.red)

@@ -27,13 +27,9 @@ Most downstream users should not need immediate source edits. Preserve existing 
 - Existing high-level `Model::update_animation`
 - Existing filesystem, compression, text, drawing, shader, texture, and audio wrappers when the upstream API is unchanged
 
-### Add deprecations for renamed or semantically shifted APIs
+### Prefer hard breaks for renamed or semantically shifted APIs
 
-Use `#deprecated` for old public MoonBit names that can be implemented safely but no longer match raylib 6.0 naming or semantics. Add a replacement path in the doc comment. Candidate compatibility shims:
-
-- Keep animation accessors using `frame` terminology as deprecated if new APIs expose `keyframe` terminology.
-- Keep `Model::update_animation_bones` only if it can safely forward to `UpdateModelAnimation()`. Mark it deprecated because raylib 6.0 removed `UpdateModelAnimationBones()`.
-- Keep old low-level `rlgl` helper names only if their old semantics can be reproduced exactly. Otherwise break them clearly.
+Avoid compatibility names that preserve raylib 5.x terminology when raylib 6.0 changed the data model. In particular, model animation pose/count accessors should use `keyframe` terminology directly instead of retaining deprecated `frame` aliases.
 
 ### Hard-break only where compatibility would lie
 
@@ -99,7 +95,7 @@ Expected MoonBit compatibility:
 - Preserve old model bone accessors by reading `Model.skeleton`.
 - Preserve old animation count/unload behavior.
 - Add 6.0-native keyframe APIs.
-- Deprecate old frame-named APIs if they remain as aliases.
+- Remove old frame-named model animation accessors in favor of keyframe-named APIs.
 
 ### Risk 3: `rlgl` shader API rename
 
@@ -321,9 +317,9 @@ Expected result: compile errors will likely remain in stubs, but errors should n
 
 **Compatibility implementation choices:**
 
-- Existing `get_model_animation_frame_count()` can return `keyframeCount` for now.
-- Existing frame pose accessors can read `keyframePoses`.
-- Existing `update_model_animation_bones()` can call `UpdateModelAnimation()` if behavior is close enough, but the public wrapper must be deprecated.
+- Rename `get_model_animation_frame_count()` to `get_model_animation_keyframe_count()`.
+- Rename frame pose accessors to keyframe pose accessors that read `keyframePoses`.
+- Remove `update_model_animation_bones()` because raylib 6.0 removed the underlying API.
 - If mesh bone matrix access cannot be preserved safely, make that a documented hard break.
 
 **Targeted tests/examples:**
@@ -494,7 +490,7 @@ Before finalizing, explicitly list any removed or changed public APIs in the PR 
 
 - `shapes_test.mbt`: `draw_circle_gradient(Vector2, radius, inner, outer)` compiles and runs.
 - `utils_test.mbt`: Base64 invalid decode input does not read past the end of the provided string; SHA256 test if exposed.
-- Model animation tests: `keyframe` accessors work if exposed, and compatibility `frame` accessors still read the same data if retained.
+- Model animation tests: `keyframe` accessors compile and read animation pose data if exposed.
 - Animation blending test or example build if `UpdateModelAnimationEx()` is exposed.
 - `mesh_test.mbt`: 6.0 mesh animation fields, especially `boneIndices`, are accessed correctly if exposed.
 - `shader_wbtest.mbt`: 6.0 `rlLoadShader`, `rlLoadShaderProgram`, `rlLoadShaderProgramEx`, and `rlUnloadShader` wrappers compile if exposed.

@@ -54,10 +54,10 @@ fn main {
     }
 
     // Update model animation
-    let frame_count = @raylib.get_model_animation_frame_count(
+    let keyframe_count = @raylib.get_model_animation_keyframe_count(
       model_animations, anim_index,
     )
-    anim_current_frame = (anim_current_frame + 1) % frame_count
+    anim_current_frame = (anim_current_frame + 1) % keyframe_count
     @raylib.set_model_transform(
       character_model,
       @raylib.Matrix::translate(position.x, position.y, position.z),

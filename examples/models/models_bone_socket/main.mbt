@@ -93,10 +93,10 @@ fn main {
     }
 
     // Update model animation
-    let frame_count = @raylib.get_model_animation_frame_count(
+    let keyframe_count = @raylib.get_model_animation_keyframe_count(
       model_animations, anim_index,
     )
-    anim_current_frame = (anim_current_frame + 1) % frame_count
+    anim_current_frame = (anim_current_frame + 1) % keyframe_count
     @raylib.update_model_animation(
       character_model,
       model_animations,
@@ -138,11 +138,11 @@ fn main {
 
       let socket_idx = bone_socket_index[i]
 
-      // Get frame pose translation and rotation for this bone socket
-      let transform_translation = @raylib.get_model_animation_frame_pose_translation(
+      // Get keyframe pose translation and rotation for this bone socket
+      let transform_translation = @raylib.get_model_animation_keyframe_pose_translation(
         model_animations, anim_index, anim_current_frame, socket_idx,
       )
-      let out_rotation = @raylib.get_model_animation_frame_pose_rotation(
+      let out_rotation = @raylib.get_model_animation_keyframe_pose_rotation(
         model_animations, anim_index, anim_current_frame, socket_idx,
       )
 

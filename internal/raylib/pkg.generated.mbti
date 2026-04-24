@@ -470,11 +470,11 @@ pub fn get_mesh_vertices(Mesh) -> FloatPointer
 
 pub fn get_model_animation_bone_count(ModelAnimations, Int) -> Int
 
-pub fn get_model_animation_frame_count(ModelAnimations, Int) -> Int
+pub fn get_model_animation_keyframe_count(ModelAnimations, Int) -> Int
 
-pub fn get_model_animation_frame_pose_rotation(ModelAnimations, Int, Int, Int) -> Bytes
+pub fn get_model_animation_keyframe_pose_rotation(ModelAnimations, Int, Int, Int) -> Bytes
 
-pub fn get_model_animation_frame_pose_translation(ModelAnimations, Int, Int, Int) -> Bytes
+pub fn get_model_animation_keyframe_pose_translation(ModelAnimations, Int, Int, Int) -> Bytes
 
 pub fn get_model_bind_pose_rotation(Model, Int) -> Bytes
 
