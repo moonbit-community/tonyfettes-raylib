@@ -24,7 +24,12 @@ fn main {
     // Draw shapes without shader (normal colors)
     @raylib.draw_text("USING DEFAULT SHADER", 20, 40, 10, @raylib.red)
     @raylib.draw_circle(80, 120, 35.0, @raylib.darkblue)
-    @raylib.draw_circle_gradient(80, 220, 60.0, @raylib.green, @raylib.skyblue)
+    @raylib.draw_circle_gradient(
+      @raylib.Vector2::new(80.0, 220.0),
+      60.0,
+      @raylib.green,
+      @raylib.skyblue,
+    )
     @raylib.draw_circle_lines(80, 340, 80.0, @raylib.darkblue)
 
     // Draw shapes with shader applied (grayscale)

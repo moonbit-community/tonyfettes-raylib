@@ -2,6 +2,8 @@
 #include "stub_internal.h"
 #include <stdlib.h>
 
+#define RAYLIB_MOONBIT_MAX_MATERIAL_MAPS 12
+
 // ============================================================================
 // Models: 3D shape drawing
 // ============================================================================
@@ -397,40 +399,6 @@ moonbit_raylib_draw_model_wires_ex(
   DrawModelWiresEx(*m->data, pos, axis, rotationAngle, sc, c);
 }
 
-void
-moonbit_raylib_draw_model_points(
-  ModelWrapper *m,
-  moonbit_bytes_t position,
-  float scale,
-  moonbit_bytes_t tint
-) {
-  Vector3 pos;
-  memcpy(&pos, position, sizeof(Vector3));
-  Color c;
-  memcpy(&c, tint, sizeof(Color));
-  DrawModelPoints(*m->data, pos, scale, c);
-}
-
-void
-moonbit_raylib_draw_model_points_ex(
-  ModelWrapper *m,
-  moonbit_bytes_t position,
-  moonbit_bytes_t rotationAxis,
-  float rotationAngle,
-  moonbit_bytes_t scale,
-  moonbit_bytes_t tint
-) {
-  Vector3 pos;
-  memcpy(&pos, position, sizeof(Vector3));
-  Vector3 axis;
-  memcpy(&axis, rotationAxis, sizeof(Vector3));
-  Vector3 sc;
-  memcpy(&sc, scale, sizeof(Vector3));
-  Color c;
-  memcpy(&c, tint, sizeof(Color));
-  DrawModelPointsEx(*m->data, pos, axis, rotationAngle, sc, c);
-}
-
 // ============================================================================
 // Models: Model management
 // ============================================================================
@@ -762,7 +730,7 @@ moonbit_raylib_set_material_texture(
   int mapType,
   TextureWrapper *tw
 ) {
-  if (mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+  if (mapType >= 0 && mapType < RAYLIB_MOONBIT_MAX_MATERIAL_MAPS) {
     w->data->maps[mapType].texture = *tw->data;
   }
 }
@@ -784,7 +752,7 @@ moonbit_raylib_set_model_material_texture(
   TextureWrapper *tw
 ) {
   if (materialIndex >= 0 && materialIndex < m->data->materialCount &&
-      mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+      mapType >= 0 && mapType < RAYLIB_MOONBIT_MAX_MATERIAL_MAPS) {
     m->data->materials[materialIndex].maps[mapType].texture = *tw->data;
   }
 }
@@ -825,7 +793,7 @@ moonbit_raylib_set_material_map_color(
 ) {
   Color c;
   memcpy(&c, color, sizeof(Color));
-  if (mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+  if (mapType >= 0 && mapType < RAYLIB_MOONBIT_MAX_MATERIAL_MAPS) {
     w->data->maps[mapType].color = c;
   }
 }
@@ -840,7 +808,7 @@ moonbit_raylib_set_material_map_value(
   int mapType,
   float value
 ) {
-  if (mapType >= 0 && mapType < MAX_MATERIAL_MAPS) {
+  if (mapType >= 0 && mapType < RAYLIB_MOONBIT_MAX_MATERIAL_MAPS) {
     w->data->maps[mapType].value = value;
   }
 }
@@ -892,21 +860,34 @@ moonbit_raylib_update_model_animation(
   ModelWrapper *m,
   ModelAnimationsWrapper *anims,
   int index,
-  int frame
+  float frame
 ) {
   if (index >= 0 && index < anims->count)
     UpdateModelAnimation(*m->data, anims->anims[index], frame);
 }
 
 void
-moonbit_raylib_update_model_animation_bones(
+moonbit_raylib_update_model_animation_ex(
   ModelWrapper *m,
-  ModelAnimationsWrapper *anims,
-  int index,
-  int frame
+  ModelAnimationsWrapper *animsA,
+  int indexA,
+  float frameA,
+  ModelAnimationsWrapper *animsB,
+  int indexB,
+  float frameB,
+  float blend
 ) {
-  if (index >= 0 && index < anims->count)
-    UpdateModelAnimationBones(*m->data, anims->anims[index], frame);
+  if (indexA >= 0 && indexA < animsA->count && indexB >= 0 &&
+      indexB < animsB->count) {
+    UpdateModelAnimationEx(
+      *m->data,
+      animsA->anims[indexA],
+      frameA,
+      animsB->anims[indexB],
+      frameB,
+      blend
+    );
+  }
 }
 
 int
@@ -1087,7 +1068,12 @@ moonbit_raylib_get_model_material(ModelWrapper *m, int index) {
 
 int
 moonbit_raylib_get_model_bone_count(ModelWrapper *m) {
-  return m->data->boneCount;
+  return m->data->skeleton.boneCount;
+}
+
+Matrix *
+moonbit_raylib_get_model_bone_matrices(ModelWrapper *m) {
+  return m->data->boneMatrices;
 }
 
 // ============================================================================
@@ -1096,8 +1082,8 @@ moonbit_raylib_get_model_bone_count(ModelWrapper *m) {
 
 int
 moonbit_raylib_get_model_bone_parent(ModelWrapper *m, int bone_index) {
-  if (bone_index >= 0 && bone_index < m->data->boneCount) {
-    return m->data->bones[bone_index].parent;
+  if (bone_index >= 0 && bone_index < m->data->skeleton.boneCount) {
+    return m->data->skeleton.bones[bone_index].parent;
   }
   return -1;
 }
@@ -1112,23 +1098,23 @@ moonbit_raylib_get_model_bind_pose_translation(
   int bone_index
 ) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
-  if (bone_index >= 0 && bone_index < m->data->boneCount) {
-    memcpy(r, &m->data->bindPose[bone_index].translation, sizeof(Vector3));
+  if (bone_index >= 0 && bone_index < m->data->skeleton.boneCount) {
+    memcpy(r, &m->data->skeleton.bindPose[bone_index].translation, sizeof(Vector3));
   }
   return r;
 }
 
 // ============================================================================
-// ModelAnimations: get animation frame count
+// ModelAnimations: get animation keyframe count
 // ============================================================================
 
 int
-moonbit_raylib_get_model_animation_frame_count(
+moonbit_raylib_get_model_animation_keyframe_count(
   ModelAnimationsWrapper *wrapper,
   int anim_index
 ) {
   if (anim_index >= 0 && anim_index < wrapper->count) {
-    return wrapper->anims[anim_index].frameCount;
+    return wrapper->anims[anim_index].keyframeCount;
   }
   return 0;
 }
@@ -1149,39 +1135,23 @@ moonbit_raylib_get_model_animation_bone_count(
 }
 
 // ============================================================================
-// ModelAnimations: get animation bone parent
-// ============================================================================
-
-int
-moonbit_raylib_get_model_animation_bone_parent(
-  ModelAnimationsWrapper *wrapper,
-  int anim_index,
-  int bone_index
-) {
-  if (anim_index >= 0 && anim_index < wrapper->count && bone_index >= 0 &&
-      bone_index < wrapper->anims[anim_index].boneCount) {
-    return wrapper->anims[anim_index].bones[bone_index].parent;
-  }
-  return -1;
-}
-
-// ============================================================================
-// ModelAnimations: get frame pose translation (Vector3 as Bytes)
+// ModelAnimations: get keyframe pose translation (Vector3 as Bytes)
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_animation_frame_pose_translation(
+moonbit_raylib_get_model_animation_keyframe_pose_translation(
   ModelAnimationsWrapper *wrapper,
   int anim_index,
-  int frame,
+  int keyframe,
   int bone_index
 ) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector3), 0);
-  if (anim_index >= 0 && anim_index < wrapper->count && frame >= 0 &&
-      frame < wrapper->anims[anim_index].frameCount && bone_index >= 0 &&
+  if (anim_index >= 0 && anim_index < wrapper->count && keyframe >= 0 &&
+      keyframe < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
       bone_index < wrapper->anims[anim_index].boneCount) {
     memcpy(
-      r, &wrapper->anims[anim_index].framePoses[frame][bone_index].translation,
+      r,
+      &wrapper->anims[anim_index].keyframePoses[keyframe][bone_index].translation,
       sizeof(Vector3)
     );
   }
@@ -1189,22 +1159,23 @@ moonbit_raylib_get_model_animation_frame_pose_translation(
 }
 
 // ============================================================================
-// ModelAnimations: get frame pose rotation (Quaternion/Vector4 as Bytes)
+// ModelAnimations: get keyframe pose rotation (Quaternion/Vector4 as Bytes)
 // ============================================================================
 
 moonbit_bytes_t
-moonbit_raylib_get_model_animation_frame_pose_rotation(
+moonbit_raylib_get_model_animation_keyframe_pose_rotation(
   ModelAnimationsWrapper *wrapper,
   int anim_index,
-  int frame,
+  int keyframe,
   int bone_index
 ) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
-  if (anim_index >= 0 && anim_index < wrapper->count && frame >= 0 &&
-      frame < wrapper->anims[anim_index].frameCount && bone_index >= 0 &&
+  if (anim_index >= 0 && anim_index < wrapper->count && keyframe >= 0 &&
+      keyframe < wrapper->anims[anim_index].keyframeCount && bone_index >= 0 &&
       bone_index < wrapper->anims[anim_index].boneCount) {
     memcpy(
-      r, &wrapper->anims[anim_index].framePoses[frame][bone_index].rotation,
+      r,
+      &wrapper->anims[anim_index].keyframePoses[keyframe][bone_index].rotation,
       sizeof(Vector4)
     );
   }
@@ -1217,8 +1188,8 @@ moonbit_raylib_get_model_animation_frame_pose_rotation(
 
 moonbit_bytes_t
 moonbit_raylib_get_model_bone_name(ModelWrapper *m, int bone_index) {
-  if (bone_index >= 0 && bone_index < m->data->boneCount) {
-    const char *name = m->data->bones[bone_index].name;
+  if (bone_index >= 0 && bone_index < m->data->skeleton.boneCount) {
+    const char *name = m->data->skeleton.bones[bone_index].name;
     int32_t len = strlen(name);
     moonbit_bytes_t r = moonbit_make_bytes(len, 0);
     memcpy(r, name, len);
@@ -1235,8 +1206,8 @@ moonbit_raylib_get_model_bone_name(ModelWrapper *m, int bone_index) {
 moonbit_bytes_t
 moonbit_raylib_get_model_bind_pose_rotation(ModelWrapper *m, int bone_index) {
   moonbit_bytes_t r = moonbit_make_bytes(sizeof(Vector4), 0);
-  if (bone_index >= 0 && bone_index < m->data->boneCount) {
-    memcpy(r, &m->data->bindPose[bone_index].rotation, sizeof(Vector4));
+  if (bone_index >= 0 && bone_index < m->data->skeleton.boneCount) {
+    memcpy(r, &m->data->skeleton.bindPose[bone_index].rotation, sizeof(Vector4));
   }
   return r;
 }
@@ -1454,20 +1425,6 @@ moonbit_raylib_get_material_shader(MaterialWrapper *w) {
 MaterialMap *
 moonbit_raylib_get_material_maps(MaterialWrapper *w) {
   return w->data->maps;
-}
-
-// ============================================================================
-// Mesh: bone matrices accessor
-// ============================================================================
-
-int32_t
-moonbit_raylib_get_mesh_bone_count(MeshWrapper *w) {
-  return w->data->boneCount;
-}
-
-Matrix *
-moonbit_raylib_get_mesh_bone_matrices(MeshWrapper *w) {
-  return w->data->boneMatrices;
 }
 
 // ============================================================================

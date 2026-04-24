@@ -2,7 +2,6 @@ options(
   link: { "native": { "stub-cc-flags": "${build.RAYLIB_STUB_CC_FLAGS}" } },
   "native-stub": [
     "rglfw.c",
-    "utils.c",
     "rcore.c",
     "rshapes.c",
     "rtextures.c",

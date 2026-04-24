@@ -906,21 +906,27 @@ pub fn update_texture(
 // ============================================================================
 
 ///|
-/// Load shader from code strings.
-pub fn load_shader_code(vs_code : String, fs_code : String) -> UInt {
-  @raylib.rl_load_shader_code(@utf8.encode(vs_code), @utf8.encode(fs_code))
+/// Load shader object from code string.
+pub fn load_shader(shader_code : String, type_ : Int) -> UInt {
+  @raylib.rl_load_shader(@utf8.encode(shader_code), type_)
 }
 
 ///|
-/// Compile custom shader and return shader id.
-pub fn compile_shader(shader_code : String, type_ : Int) -> UInt {
-  @raylib.rl_compile_shader(@utf8.encode(shader_code), type_)
+/// Load shader program from code strings.
+pub fn load_shader_program(vs_code : String, fs_code : String) -> UInt {
+  @raylib.rl_load_shader_program(@utf8.encode(vs_code), @utf8.encode(fs_code))
 }
 
 ///|
-/// Load custom shader program.
-pub fn load_shader_program(v_shader_id : UInt, f_shader_id : UInt) -> UInt {
-  @raylib.rl_load_shader_program(v_shader_id, f_shader_id)
+/// Load custom shader program from compiled shader ids.
+pub fn load_shader_program_ex(v_shader_id : UInt, f_shader_id : UInt) -> UInt {
+  @raylib.rl_load_shader_program_ex(v_shader_id, f_shader_id)
+}
+
+///|
+/// Unload shader object.
+pub fn unload_shader(id : UInt) -> Unit {
+  @raylib.rl_unload_shader(id)
 }
 
 ///|

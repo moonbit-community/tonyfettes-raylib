@@ -110,17 +110,18 @@ moonbit_raylib_draw_circle_sector(
 
 void
 moonbit_raylib_draw_circle_gradient(
-  int centerX,
-  int centerY,
+  moonbit_bytes_t center,
   float radius,
   moonbit_bytes_t inner,
   moonbit_bytes_t outer
 ) {
+  Vector2 ctr;
+  memcpy(&ctr, center, sizeof(Vector2));
   Color ci;
   memcpy(&ci, inner, sizeof(Color));
   Color co;
   memcpy(&co, outer, sizeof(Color));
-  DrawCircleGradient(centerX, centerY, radius, ci, co);
+  DrawCircleGradient(ctr, radius, ci, co);
 }
 
 void
@@ -711,4 +712,3 @@ void moonbit_raylib_draw_triangle_strip_3d(moonbit_bytes_t points, int pointCoun
   Color c; memcpy(&c, color, sizeof(Color));
   DrawTriangleStrip3D(pts, pointCount, c);
 }
-

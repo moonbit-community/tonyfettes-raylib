@@ -735,7 +735,7 @@ pub fn draw_circle(Int, Int, Float, Color) -> Unit
 
 pub fn draw_circle_3d(Vector3, Float, Vector3, Float, Color) -> Unit
 
-pub fn draw_circle_gradient(Int, Int, Float, Color, Color) -> Unit
+pub fn draw_circle_gradient(Vector2, Float, Color, Color) -> Unit
 
 pub fn draw_circle_lines(Int, Int, Float, Color) -> Unit
 
@@ -1929,8 +1929,6 @@ pub fn MatrixArray::op_get(Self, Int) -> Matrix
 pub fn MatrixArray::op_set(Self, Int, Matrix) -> Unit
 
 type Mesh
-#as_free_fn(get_mesh_bone_matrices)
-pub fn Mesh::bone_matrices(Self) -> MatrixArray?
 #as_free_fn(get_mesh_bounding_box)
 pub fn Mesh::bounding_box(Self) -> BoundingBox
 #as_free_fn(get_mesh_colors)
@@ -1999,6 +1997,8 @@ pub fn Model::bind_pose_rotation(Self, Int) -> Vector4
 pub fn Model::bind_pose_translation(Self, Int) -> Vector3
 #as_free_fn(get_model_bone_count)
 pub fn Model::bone_count(Self) -> Int
+#as_free_fn(get_model_bone_matrices)
+pub fn Model::bone_matrices(Self) -> MatrixArray?
 #as_free_fn(get_model_bone_name)
 pub fn Model::bone_name(Self, Int) -> String
 #as_free_fn(get_model_bone_parent)
@@ -2009,10 +2009,6 @@ pub fn Model::bounding_box(Self) -> BoundingBox
 pub fn Model::draw(Self, Vector3, Float, Color) -> Unit
 #as_free_fn(draw_model_ex)
 pub fn Model::draw_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
-#as_free_fn(draw_model_points)
-pub fn Model::draw_points(Self, Vector3, Float, Color) -> Unit
-#as_free_fn(draw_model_points_ex)
-pub fn Model::draw_points_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
 #as_free_fn(draw_model_wires)
 pub fn Model::draw_wires(Self, Vector3, Float, Color) -> Unit
 #as_free_fn(draw_model_wires_ex)
@@ -2046,23 +2042,30 @@ pub fn Model::transform(Self) -> Matrix
 #as_free_fn(unload_model)
 pub fn Model::unload(Self) -> Unit
 #as_free_fn(update_model_animation)
-pub fn Model::update_animation(Self, ModelAnimations, Int, Int) -> Unit
-#as_free_fn(update_model_animation_bones)
-pub fn Model::update_animation_bones(Self, ModelAnimations, Int, Int) -> Unit
+pub fn Model::update_animation(Self, ModelAnimations, Int, Float) -> Unit
+#as_free_fn(update_model_animation_ex)
+pub fn Model::update_animation_ex(Self, ModelAnimations, Int, Float, ModelAnimations, Int, Float, Float) -> Unit
 
 type ModelAnimations
 #as_free_fn(get_model_animation_bone_count)
 pub fn ModelAnimations::bone_count(Self, Int) -> Int
-#as_free_fn(get_model_animation_bone_parent)
-pub fn ModelAnimations::bone_parent(Self, Int, Int) -> Int
 #as_free_fn(model_animations_count)
 pub fn ModelAnimations::count(Self) -> Int
-#as_free_fn(get_model_animation_frame_count)
+#as_free_fn(get_model_animation_frame_count, deprecated)
+#deprecated
 pub fn ModelAnimations::frame_count(Self, Int) -> Int
-#as_free_fn(get_model_animation_frame_pose_rotation)
+#as_free_fn(get_model_animation_frame_pose_rotation, deprecated)
+#deprecated
 pub fn ModelAnimations::frame_pose_rotation(Self, Int, Int, Int) -> Vector4
-#as_free_fn(get_model_animation_frame_pose_translation)
+#as_free_fn(get_model_animation_frame_pose_translation, deprecated)
+#deprecated
 pub fn ModelAnimations::frame_pose_translation(Self, Int, Int, Int) -> Vector3
+#as_free_fn(get_model_animation_keyframe_count)
+pub fn ModelAnimations::keyframe_count(Self, Int) -> Int
+#as_free_fn(get_model_animation_keyframe_pose_rotation)
+pub fn ModelAnimations::keyframe_pose_rotation(Self, Int, Int, Int) -> Vector4
+#as_free_fn(get_model_animation_keyframe_pose_translation)
+pub fn ModelAnimations::keyframe_pose_translation(Self, Int, Int, Int) -> Vector3
 #as_free_fn(load_model_animations)
 pub fn ModelAnimations::load(String) -> Self
 #as_free_fn(unload_model_animations)

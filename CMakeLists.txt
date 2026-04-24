@@ -18,7 +18,6 @@ message(STATUS "raylib_moonbit: platform=${_RL_PLATFORM}")
 # ---- raylib static library ----
 # rcore.c #includes the platform file via preprocessor; rglfw.c is desktop-only.
 set(_RL_SRCS
-    ${RAYLIB_SRC_DIR}/utils.c
     ${RAYLIB_SRC_DIR}/rcore.c
     ${RAYLIB_SRC_DIR}/rshapes.c
     ${RAYLIB_SRC_DIR}/rtextures.c

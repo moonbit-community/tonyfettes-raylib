@@ -1,5 +1,19 @@
-# Vendored raylib sources — exclude from GitHub language statistics
-internal/raylib/*.c linguist-vendored
-internal/raylib/*.h linguist-vendored
-internal/raylib/platforms/** linguist-vendored
-internal/raylib/external/** linguist-vendored
+# Vendored upstream raylib sources: exclude from GitHub Linguist stats and
+# collapse noisy PR diffs by default. GitHub only auto-collapses files marked
+# as generated, so use both attributes. Keep MoonBit bindings and local stubs
+# visible in diffs/statistics.
+internal/raylib/config.h linguist-vendored linguist-generated -diff
+internal/raylib/raudio.c linguist-vendored linguist-generated -diff
+internal/raylib/raylib.h linguist-vendored linguist-generated -diff
+internal/raylib/raymath.h linguist-vendored linguist-generated -diff
+internal/raylib/rcamera.h linguist-vendored linguist-generated -diff
+internal/raylib/rcore.c linguist-vendored linguist-generated -diff
+internal/raylib/rgestures.h linguist-vendored linguist-generated -diff
+internal/raylib/rglfw.c linguist-vendored linguist-generated -diff
+internal/raylib/rlgl.h linguist-vendored linguist-generated -diff
+internal/raylib/rmodels.c linguist-vendored linguist-generated -diff
+internal/raylib/rshapes.c linguist-vendored linguist-generated -diff
+internal/raylib/rtext.c linguist-vendored linguist-generated -diff
+internal/raylib/rtextures.c linguist-vendored linguist-generated -diff
+internal/raylib/platforms/** linguist-vendored linguist-generated -diff
+internal/raylib/external/** linguist-vendored linguist-generated -diff

@@ -131,8 +131,7 @@ fn draw_light_mask(slot : Int) -> Unit {
   // If we are valid, then draw the light radius to the alpha mask
   if lights[slot].valid {
     @raylib.draw_circle_gradient(
-      lights[slot].position.x.to_int(),
-      lights[slot].position.y.to_int(),
+      lights[slot].position,
       lights[slot].outer_radius,
       @raylib.color_alpha(@raylib.white, 0.0),
       @raylib.white,

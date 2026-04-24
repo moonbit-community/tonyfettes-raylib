@@ -59,7 +59,7 @@ fn main {
   let gol_logic_code = @raylib.load_file_text(
     "resources/shaders/glsl430/gol.glsl",
   )
-  let gol_logic_shader = @rl.compile_shader(gol_logic_code, @rl.ComputeShader)
+  let gol_logic_shader = @rl.load_shader(gol_logic_code, @rl.ComputeShader)
   let gol_logic_program = @rl.load_compute_shader_program(gol_logic_shader)
 
   // Game of Life render shader (fragment only)
@@ -72,7 +72,7 @@ fn main {
   let gol_transfert_code = @raylib.load_file_text(
     "resources/shaders/glsl430/gol_transfert.glsl",
   )
-  let gol_transfert_shader = @rl.compile_shader(
+  let gol_transfert_shader = @rl.load_shader(
     gol_transfert_code,
     @rl.ComputeShader,
   )
@@ -130,7 +130,9 @@ fn main {
       // Send transfert buffer to GPU
       let ssbo_data = build_transfert_ssbo(commands)
       @rl.update_shader_buffer(
-        ssbo_transfert, @rl.Buffer::UByteArray(ssbo_data), 0U,
+        ssbo_transfert,
+        @rl.Buffer::UByteArray(ssbo_data),
+        0U,
       )
       ssbo_data.free()
 

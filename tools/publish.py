@@ -12,7 +12,6 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 RAYLIB_C_SOURCES = [
     "rcore.c",
-    "utils.c",
     "rshapes.c",
     "rtextures.c",
     "rtext.c",

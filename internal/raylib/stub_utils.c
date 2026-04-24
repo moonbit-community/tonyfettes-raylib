@@ -57,7 +57,7 @@ moonbit_raylib_encode_data_base64(moonbit_bytes_t data, int data_size) {
 moonbit_bytes_t
 moonbit_raylib_decode_data_base64(moonbit_bytes_t data) {
   int outputSize = 0;
-  unsigned char *decoded = DecodeDataBase64((const unsigned char *)data, &outputSize);
+  unsigned char *decoded = DecodeDataBase64((const char *)data, &outputSize);
   if (!decoded) return moonbit_make_bytes(0, 0);
   moonbit_bytes_t result = moonbit_make_bytes(outputSize, 0);
   memcpy(result, decoded, outputSize);

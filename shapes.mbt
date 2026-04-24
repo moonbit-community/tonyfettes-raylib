@@ -102,15 +102,13 @@ pub fn draw_circle_sector(
 ///|
 /// Draw a gradient-filled circle.
 pub fn draw_circle_gradient(
-  center_x : Int,
-  center_y : Int,
+  center : Vector2,
   radius : Float,
   inner : Color,
   outer : Color,
 ) -> Unit {
   @ffi.draw_circle_gradient(
-    center_x,
-    center_y,
+    center.to_bytes(),
     radius,
     inner.to_bytes(),
     outer.to_bytes(),

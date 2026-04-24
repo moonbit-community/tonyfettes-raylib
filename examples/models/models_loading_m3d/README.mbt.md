@@ -24,4 +24,4 @@ cd examples && ./_build/native/debug/build/raylib_models_loading_m3d/raylib_mode
 - Loads M3D model format with `load_model` and `load_model_animations`
 - Visualizes the skeletal hierarchy using bone positions and parent-child lines
 - Switches between bind-pose and animation frame-pose skeleton display
-- Demonstrates `get_model_bind_pose_translation` and `get_model_animation_frame_pose_translation`
+- Demonstrates `get_model_bind_pose_translation` and `get_model_animation_keyframe_pose_translation`

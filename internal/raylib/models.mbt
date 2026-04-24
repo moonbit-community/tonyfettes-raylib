@@ -223,26 +223,6 @@ pub extern "c" fn draw_model_wires_ex(
   tint : Bytes,
 ) = "moonbit_raylib_draw_model_wires_ex"
 
-///|
-#borrow(model, position, tint)
-pub extern "c" fn draw_model_points(
-  model : Model,
-  position : Bytes,
-  scale : Float,
-  tint : Bytes,
-) = "moonbit_raylib_draw_model_points"
-
-///|
-#borrow(model, position, rotation_axis, scale, tint)
-pub extern "c" fn draw_model_points_ex(
-  model : Model,
-  position : Bytes,
-  rotation_axis : Bytes,
-  rotation_angle : Float,
-  scale : Bytes,
-  tint : Bytes,
-) = "moonbit_raylib_draw_model_points_ex"
-
 // ============================================================================
 // Model management
 // ============================================================================
@@ -559,17 +539,21 @@ pub extern "c" fn update_model_animation(
   model : Model,
   anims : ModelAnimations,
   index : Int,
-  frame : Int,
+  frame : Float,
 ) = "moonbit_raylib_update_model_animation"
 
 ///|
-#borrow(model, anims)
-pub extern "c" fn update_model_animation_bones(
+#borrow(model, anims_a, anims_b)
+pub extern "c" fn update_model_animation_ex(
   model : Model,
-  anims : ModelAnimations,
-  index : Int,
-  frame : Int,
-) = "moonbit_raylib_update_model_animation_bones"
+  anims_a : ModelAnimations,
+  index_a : Int,
+  frame_a : Float,
+  anims_b : ModelAnimations,
+  index_b : Int,
+  frame_b : Float,
+  blend : Float,
+) = "moonbit_raylib_update_model_animation_ex"
 
 ///|
 #borrow(model, anims)
@@ -688,6 +672,10 @@ pub extern "c" fn get_model_bone_count(model : Model) -> Int = "moonbit_raylib_g
 
 ///|
 #borrow(model)
+pub extern "c" fn get_model_bone_matrices(model : Model) -> MatrixArray = "moonbit_raylib_get_model_bone_matrices"
+
+///|
+#borrow(model)
 pub extern "c" fn get_model_bone_parent(model : Model, bone_index : Int) -> Int = "moonbit_raylib_get_model_bone_parent"
 
 ///|
@@ -699,10 +687,18 @@ pub extern "c" fn get_model_bind_pose_translation(
 
 ///|
 #borrow(anims)
+pub extern "c" fn get_model_animation_keyframe_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
+
+///|
+#borrow(anims)
+#deprecated("Use get_model_animation_keyframe_count instead")
 pub extern "c" fn get_model_animation_frame_count(
   anims : ModelAnimations,
   anim_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_frame_count"
+) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
 
 ///|
 #borrow(anims)
@@ -713,29 +709,41 @@ pub extern "c" fn get_model_animation_bone_count(
 
 ///|
 #borrow(anims)
-pub extern "c" fn get_model_animation_bone_parent(
+pub extern "c" fn get_model_animation_keyframe_pose_translation(
   anims : ModelAnimations,
   anim_index : Int,
+  keyframe : Int,
   bone_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_bone_parent"
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
 
 ///|
 #borrow(anims)
+#deprecated("Use get_model_animation_keyframe_pose_translation instead")
 pub extern "c" fn get_model_animation_frame_pose_translation(
   anims : ModelAnimations,
   anim_index : Int,
   frame : Int,
   bone_index : Int,
-) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_translation"
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
 
 ///|
 #borrow(anims)
+pub extern "c" fn get_model_animation_keyframe_pose_rotation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  keyframe : Int,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
+
+///|
+#borrow(anims)
+#deprecated("Use get_model_animation_keyframe_pose_rotation instead")
 pub extern "c" fn get_model_animation_frame_pose_rotation(
   anims : ModelAnimations,
   anim_index : Int,
   frame : Int,
   bone_index : Int,
-) -> Bytes = "moonbit_raylib_get_model_animation_frame_pose_rotation"
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
 
 ///|
 #borrow(model)
@@ -905,18 +913,6 @@ pub extern "c" fn get_material_shader(material : Material) -> Shader = "moonbit_
 ///|
 #borrow(material)
 pub extern "c" fn get_material_maps(material : Material) -> MaterialMapArray = "moonbit_raylib_get_material_maps"
-
-// ============================================================================
-// Mesh: bone matrices accessor
-// ============================================================================
-
-///|
-#borrow(mesh)
-pub extern "c" fn get_mesh_bone_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_bone_count"
-
-///|
-#borrow(mesh)
-pub extern "c" fn get_mesh_bone_matrices(mesh : Mesh) -> MatrixArray = "moonbit_raylib_get_mesh_bone_matrices"
 
 // ============================================================================
 // Mesh: constructor and attribute accessors
