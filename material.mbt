@@ -199,6 +199,19 @@ pub fn ModelAnimations::keyframe_count(
 }
 
 ///|
+/// Get the frame count for a specific animation.
+///
+/// Deprecated: raylib 6.0 renamed model animation frames to keyframes.
+#as_free_fn(get_model_animation_frame_count, deprecated="Use ModelAnimations::keyframe_count instead")
+#deprecated("Use ModelAnimations::keyframe_count instead")
+pub fn ModelAnimations::frame_count(
+  self : ModelAnimations,
+  anim_index : Int,
+) -> Int {
+  self.keyframe_count(anim_index)
+}
+
+///|
 /// Get the bone count for a specific animation.
 #as_free_fn(get_model_animation_bone_count)
 pub fn ModelAnimations::bone_count(
@@ -228,6 +241,21 @@ pub fn ModelAnimations::keyframe_pose_translation(
 }
 
 ///|
+/// Get the translation of a bone pose at a specific animation frame.
+///
+/// Deprecated: raylib 6.0 renamed model animation frames to keyframes.
+#as_free_fn(get_model_animation_frame_pose_translation, deprecated="Use ModelAnimations::keyframe_pose_translation instead")
+#deprecated("Use ModelAnimations::keyframe_pose_translation instead")
+pub fn ModelAnimations::frame_pose_translation(
+  self : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Vector3 {
+  self.keyframe_pose_translation(anim_index, frame, bone_index)
+}
+
+///|
 /// Get the rotation quaternion of a bone pose at a specific animation keyframe.
 #as_free_fn(get_model_animation_keyframe_pose_rotation)
 pub fn ModelAnimations::keyframe_pose_rotation(
@@ -244,6 +272,21 @@ pub fn ModelAnimations::keyframe_pose_rotation(
       bone_index,
     ),
   )
+}
+
+///|
+/// Get the rotation quaternion of a bone pose at a specific animation frame.
+///
+/// Deprecated: raylib 6.0 renamed model animation frames to keyframes.
+#as_free_fn(get_model_animation_frame_pose_rotation, deprecated="Use ModelAnimations::keyframe_pose_rotation instead")
+#deprecated("Use ModelAnimations::keyframe_pose_rotation instead")
+pub fn ModelAnimations::frame_pose_rotation(
+  self : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Vector4 {
+  self.keyframe_pose_rotation(anim_index, frame, bone_index)
 }
 
 ///|

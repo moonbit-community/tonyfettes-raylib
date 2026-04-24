@@ -694,6 +694,14 @@ pub extern "c" fn get_model_animation_keyframe_count(
 
 ///|
 #borrow(anims)
+#deprecated("Use get_model_animation_keyframe_count instead")
+pub extern "c" fn get_model_animation_frame_count(
+  anims : ModelAnimations,
+  anim_index : Int,
+) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
+
+///|
+#borrow(anims)
 pub extern "c" fn get_model_animation_bone_count(
   anims : ModelAnimations,
   anim_index : Int,
@@ -710,10 +718,30 @@ pub extern "c" fn get_model_animation_keyframe_pose_translation(
 
 ///|
 #borrow(anims)
+#deprecated("Use get_model_animation_keyframe_pose_translation instead")
+pub extern "c" fn get_model_animation_frame_pose_translation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
+
+///|
+#borrow(anims)
 pub extern "c" fn get_model_animation_keyframe_pose_rotation(
   anims : ModelAnimations,
   anim_index : Int,
   keyframe : Int,
+  bone_index : Int,
+) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
+
+///|
+#borrow(anims)
+#deprecated("Use get_model_animation_keyframe_pose_rotation instead")
+pub extern "c" fn get_model_animation_frame_pose_rotation(
+  anims : ModelAnimations,
+  anim_index : Int,
+  frame : Int,
   bone_index : Int,
 ) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
 

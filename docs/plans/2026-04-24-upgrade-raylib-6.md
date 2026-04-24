@@ -27,9 +27,13 @@ Most downstream users should not need immediate source edits. Preserve existing 
 - Existing high-level `Model::update_animation`
 - Existing filesystem, compression, text, drawing, shader, texture, and audio wrappers when the upstream API is unchanged
 
-### Prefer hard breaks for renamed or semantically shifted APIs
+### Add deprecations for renamed or semantically shifted APIs
 
-Avoid compatibility names that preserve raylib 5.x terminology when raylib 6.0 changed the data model. In particular, model animation pose/count accessors should use `keyframe` terminology directly instead of retaining deprecated `frame` aliases.
+Use raylib 6.0 terminology as the canonical API, but keep deprecated aliases where the old name can forward exactly without preserving invalid data ownership assumptions.
+
+- Keep model animation accessors using `frame` terminology as deprecated aliases for the new `keyframe` APIs.
+- Do not keep `Model::update_animation_bones`; raylib 6.0 removed the underlying API.
+- Keep old low-level `rlgl` helper names only if their old semantics can be reproduced exactly. Otherwise break them clearly.
 
 ### Hard-break only where compatibility would lie
 
@@ -95,7 +99,7 @@ Expected MoonBit compatibility:
 - Preserve old model bone accessors by reading `Model.skeleton`.
 - Preserve old animation count/unload behavior.
 - Add 6.0-native keyframe APIs.
-- Remove old frame-named model animation accessors in favor of keyframe-named APIs.
+- Keep old frame-named model animation accessors as deprecated aliases for keyframe-named APIs.
 
 ### Risk 3: `rlgl` shader API rename
 
@@ -319,6 +323,7 @@ Expected result: compile errors will likely remain in stubs, but errors should n
 
 - Rename `get_model_animation_frame_count()` to `get_model_animation_keyframe_count()`.
 - Rename frame pose accessors to keyframe pose accessors that read `keyframePoses`.
+- Keep deprecated `frame` aliases for the renamed keyframe APIs.
 - Remove `update_model_animation_bones()` because raylib 6.0 removed the underlying API.
 - If mesh bone matrix access cannot be preserved safely, make that a documented hard break.
 
@@ -490,7 +495,7 @@ Before finalizing, explicitly list any removed or changed public APIs in the PR 
 
 - `shapes_test.mbt`: `draw_circle_gradient(Vector2, radius, inner, outer)` compiles and runs.
 - `utils_test.mbt`: Base64 invalid decode input does not read past the end of the provided string; SHA256 test if exposed.
-- Model animation tests: `keyframe` accessors compile and read animation pose data if exposed.
+- Model animation tests: `keyframe` accessors compile and read animation pose data if exposed, and deprecated `frame` aliases still compile while forwarding to keyframe accessors.
 - Animation blending test or example build if `UpdateModelAnimationEx()` is exposed.
 - `mesh_test.mbt`: 6.0 mesh animation fields, especially `boneIndices`, are accessed correctly if exposed.
 - `shader_wbtest.mbt`: 6.0 `rlLoadShader`, `rlLoadShaderProgram`, `rlLoadShaderProgramEx`, and `rlUnloadShader` wrappers compile if exposed.

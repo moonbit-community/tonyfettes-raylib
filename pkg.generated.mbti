@@ -2051,6 +2051,15 @@ type ModelAnimations
 pub fn ModelAnimations::bone_count(Self, Int) -> Int
 #as_free_fn(model_animations_count)
 pub fn ModelAnimations::count(Self) -> Int
+#as_free_fn(get_model_animation_frame_count, deprecated)
+#deprecated
+pub fn ModelAnimations::frame_count(Self, Int) -> Int
+#as_free_fn(get_model_animation_frame_pose_rotation, deprecated)
+#deprecated
+pub fn ModelAnimations::frame_pose_rotation(Self, Int, Int, Int) -> Vector4
+#as_free_fn(get_model_animation_frame_pose_translation, deprecated)
+#deprecated
+pub fn ModelAnimations::frame_pose_translation(Self, Int, Int, Int) -> Vector3
 #as_free_fn(get_model_animation_keyframe_count)
 pub fn ModelAnimations::keyframe_count(Self, Int) -> Int
 #as_free_fn(get_model_animation_keyframe_pose_rotation)
