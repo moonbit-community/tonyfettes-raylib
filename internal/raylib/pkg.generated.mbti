@@ -94,7 +94,7 @@ pub fn draw_circle(Int, Int, Float, Bytes) -> Unit
 
 pub fn draw_circle_3d(Bytes, Float, Bytes, Float, Bytes) -> Unit
 
-pub fn draw_circle_gradient(Int, Int, Float, Bytes, Bytes) -> Unit
+pub fn draw_circle_gradient(Bytes, Float, Bytes, Bytes) -> Unit
 
 pub fn draw_circle_lines(Int, Int, Float, Bytes) -> Unit
 
@@ -149,10 +149,6 @@ pub fn draw_mesh_instanced(Mesh, Material, Bytes, Int) -> Unit
 pub fn draw_model(Model, Bytes, Float, Bytes) -> Unit
 
 pub fn draw_model_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
-
-pub fn draw_model_points(Model, Bytes, Float, Bytes) -> Unit
-
-pub fn draw_model_points_ex(Model, Bytes, Bytes, Float, Bytes, Bytes) -> Unit
 
 pub fn draw_model_wires(Model, Bytes, Float, Bytes) -> Unit
 
@@ -452,10 +448,6 @@ pub fn get_material_maps(Material) -> MaterialMapArray
 
 pub fn get_material_shader(Material) -> Shader
 
-pub fn get_mesh_bone_count(Mesh) -> Int
-
-pub fn get_mesh_bone_matrices(Mesh) -> MatrixArray
-
 pub fn get_mesh_bounding_box(Mesh) -> Bytes
 
 pub fn get_mesh_colors(Mesh) -> UBytePointer
@@ -478,8 +470,6 @@ pub fn get_mesh_vertices(Mesh) -> FloatPointer
 
 pub fn get_model_animation_bone_count(ModelAnimations, Int) -> Int
 
-pub fn get_model_animation_bone_parent(ModelAnimations, Int, Int) -> Int
-
 pub fn get_model_animation_frame_count(ModelAnimations, Int) -> Int
 
 pub fn get_model_animation_frame_pose_rotation(ModelAnimations, Int, Int, Int) -> Bytes
@@ -491,6 +481,8 @@ pub fn get_model_bind_pose_rotation(Model, Int) -> Bytes
 pub fn get_model_bind_pose_translation(Model, Int) -> Bytes
 
 pub fn get_model_bone_count(Model) -> Int
+
+pub fn get_model_bone_matrices(Model) -> MatrixArray
 
 pub fn get_model_bone_name(Model, Int) -> Bytes
 
@@ -1052,8 +1044,6 @@ pub fn rl_color4ub(Byte, Byte, Byte, Byte) -> Unit
 
 pub fn rl_color_mask(Bool, Bool, Bool, Bool) -> Unit
 
-pub fn rl_compile_shader(Bytes, Int) -> UInt
-
 pub fn rl_compute_shader_dispatch(UInt, UInt, UInt) -> Unit
 
 pub fn rl_copy_shader_buffer(UInt, UInt, UInt, UInt, UInt) -> Unit
@@ -1194,13 +1184,15 @@ pub fn rl_load_framebuffer() -> UInt
 
 pub fn rl_load_identity() -> Unit
 
+pub fn rl_load_shader(Bytes, Int) -> UInt
+
 pub fn rl_load_shader_buffer(UInt, Pointer, Int) -> UInt
 
 pub fn rl_load_shader_buffer_empty(UInt, Int) -> UInt
 
-pub fn rl_load_shader_code(Bytes, Bytes) -> UInt
+pub fn rl_load_shader_program(Bytes, Bytes) -> UInt
 
-pub fn rl_load_shader_program(UInt, UInt) -> UInt
+pub fn rl_load_shader_program_ex(UInt, UInt) -> UInt
 
 pub fn rl_load_texture(Int, Int, Int, Int) -> UInt
 
@@ -1281,6 +1273,8 @@ pub fn rl_texture_parameters(UInt, Int, Int) -> Unit
 pub fn rl_translatef(Float, Float, Float) -> Unit
 
 pub fn rl_unload_framebuffer(UInt) -> Unit
+
+pub fn rl_unload_shader(UInt) -> Unit
 
 pub fn rl_unload_shader_buffer(UInt) -> Unit
 
@@ -1506,9 +1500,9 @@ pub fn update_camera_pro(Bytes, Bytes, Bytes, Float) -> Bytes
 
 pub fn update_mesh_buffer(Mesh, Int, Bytes, Int, Int) -> Unit
 
-pub fn update_model_animation(Model, ModelAnimations, Int, Int) -> Unit
+pub fn update_model_animation(Model, ModelAnimations, Int, Float) -> Unit
 
-pub fn update_model_animation_bones(Model, ModelAnimations, Int, Int) -> Unit
+pub fn update_model_animation_ex(Model, ModelAnimations, Int, Float, ModelAnimations, Int, Float, Float) -> Unit
 
 pub fn update_music_stream(Music) -> Unit
 

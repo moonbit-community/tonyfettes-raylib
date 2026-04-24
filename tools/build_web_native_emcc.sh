@@ -99,7 +99,6 @@ echo "[3/3] Linking browser output with emcc: $OUTPUT_HTML"
 emcc \
   "$RUNTIME_OBJ" \
   "$GENERATED_C" \
-  internal/raylib/utils.c \
   internal/raylib/rcore.c \
   internal/raylib/rshapes.c \
   internal/raylib/rtextures.c \

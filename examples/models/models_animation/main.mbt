@@ -49,7 +49,12 @@ fn main {
       anim_frame_counter = anim_frame_counter + 1
       // Update animation for the first animation (index 0)
       if anims_count > 0 {
-        @raylib.update_model_animation(model, anims, 0, anim_frame_counter)
+        @raylib.update_model_animation(
+          model,
+          anims,
+          0,
+          Float::from_int(anim_frame_counter),
+        )
       }
     }
 

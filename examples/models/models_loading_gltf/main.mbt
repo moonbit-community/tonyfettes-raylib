@@ -52,7 +52,10 @@ fn main {
     if anims_count > 0 {
       anim_current_frame = anim_current_frame + 1
       @raylib.update_model_animation(
-        model, model_animations, anim_index, anim_current_frame,
+        model,
+        model_animations,
+        anim_index,
+        Float::from_int(anim_current_frame),
       )
     }
 

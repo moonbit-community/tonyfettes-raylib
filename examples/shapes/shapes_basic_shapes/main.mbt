@@ -28,8 +28,7 @@ fn main {
     // Circle shapes and lines
     @raylib.draw_circle(screen_width / 5, 120, 35.0, @raylib.darkblue)
     @raylib.draw_circle_gradient(
-      screen_width / 5,
-      220,
+      @raylib.Vector2::new(Float::from_int(screen_width / 5), 220.0),
       60.0,
       @raylib.green,
       @raylib.skyblue,

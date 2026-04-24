@@ -98,7 +98,10 @@ fn main {
     )
     anim_current_frame = (anim_current_frame + 1) % frame_count
     @raylib.update_model_animation(
-      character_model, model_animations, anim_index, anim_current_frame,
+      character_model,
+      model_animations,
+      anim_index,
+      Float::from_int(anim_current_frame),
     )
 
     // Draw
@@ -118,7 +121,10 @@ fn main {
     )
     @raylib.set_model_transform(character_model, character_transform)
     @raylib.update_model_animation(
-      character_model, model_animations, anim_index, anim_current_frame,
+      character_model,
+      model_animations,
+      anim_index,
+      Float::from_int(anim_current_frame),
     )
     let mesh = @raylib.get_model_mesh(character_model, 0)
     let material = @raylib.get_model_material(character_model, 1)

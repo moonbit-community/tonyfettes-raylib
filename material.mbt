@@ -209,17 +209,6 @@ pub fn ModelAnimations::bone_count(
 }
 
 ///|
-/// Get the parent bone index for a specific bone in an animation.
-#as_free_fn(get_model_animation_bone_parent)
-pub fn ModelAnimations::bone_parent(
-  self : ModelAnimations,
-  anim_index : Int,
-  bone_index : Int,
-) -> Int {
-  @ffi.get_model_animation_bone_parent(self.0, anim_index, bone_index)
-}
-
-///|
 /// Get the translation of a bone pose at a specific animation frame.
 #as_free_fn(get_model_animation_frame_pose_translation)
 pub fn ModelAnimations::frame_pose_translation(

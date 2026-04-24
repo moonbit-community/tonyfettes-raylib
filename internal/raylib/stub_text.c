@@ -315,10 +315,10 @@ moonbit_raylib_load_font_data(
   int type
 ) {
   // codepointCount=0, codepoints=NULL loads default character set (95 glyphs)
+  int count = 0;
   GlyphInfo *glyphs = LoadFontData(
-    (const unsigned char *)fileData, dataSize, fontSize, NULL, 0, type
+    (const unsigned char *)fileData, dataSize, fontSize, NULL, 0, type, &count
   );
-  int count = glyphs ? 95 : 0; // default character set is 95 glyphs
   return MakeGlyphInfoArrayWrapper(glyphs, count);
 }
 

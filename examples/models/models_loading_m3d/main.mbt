@@ -55,7 +55,10 @@ fn main {
           anim_frame_counter = 0
         }
         @raylib.update_model_animation(
-          model, anims, anim_id, anim_frame_counter,
+          model,
+          anims,
+          anim_id,
+          Float::from_int(anim_frame_counter),
         )
         anim_playing = true
       }
@@ -67,7 +70,7 @@ fn main {
         if anim_id >= anims_count {
           anim_id = 0
         }
-        @raylib.update_model_animation(model, anims, anim_id, 0)
+        @raylib.update_model_animation(model, anims, anim_id, 0.0)
         anim_playing = true
       }
     }
@@ -119,9 +122,7 @@ fn main {
           )
           @raylib.draw_cube(translation, 0.05, 0.05, 0.05, @raylib.red)
 
-          let parent = @raylib.get_model_animation_bone_parent(
-            anims, anim_id, i,
-          )
+          let parent = @raylib.get_model_bone_parent(model, i)
           if parent >= 0 {
             let parent_translation = @raylib.get_model_animation_frame_pose_translation(
               anims, anim_id, anim_frame_counter, parent,

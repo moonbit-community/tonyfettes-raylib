@@ -200,7 +200,12 @@ fn main {
 
     // Update animation
     fc = (fc + 1) % anim_frame_count
-    @raylib.update_model_animation(robot, robot_animations, 0, fc)
+    @raylib.update_model_animation(
+      robot,
+      robot_animations,
+      0,
+      Float::from_int(fc),
+    )
 
     // Update light direction with arrow keys
     let camera_speed : Float = 0.05

@@ -212,7 +212,7 @@ moonbit_raylib_rl_draw_vertex_array_elements_instanced_client(
 // ============================================================================
 
 uint32_t
-moonbit_raylib_rl_load_shader_code(
+moonbit_raylib_rl_load_shader_program(
   moonbit_bytes_t vsCode,
   moonbit_bytes_t fsCode
 ) {
@@ -220,7 +220,7 @@ moonbit_raylib_rl_load_shader_code(
   const char *fs = (const char *)fsCode;
   if (vs[0] == '\0') vs = NULL;
   if (fs[0] == '\0') fs = NULL;
-  return rlLoadShaderCode(vs, fs);
+  return rlLoadShaderProgram(vs, fs);
 }
 
 // ============================================================================

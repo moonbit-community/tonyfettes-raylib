@@ -1366,21 +1366,28 @@ pub extern "c" fn rl_update_texture(
 // ============================================================================
 
 ///|
-/// Load shader from code strings.
-#borrow(vs_code, fs_code)
-pub extern "c" fn rl_load_shader_code(vs_code : Bytes, fs_code : Bytes) -> UInt = "moonbit_raylib_rl_load_shader_code"
-
-///|
 /// Compile custom shader and return shader id.
 #borrow(shader_code)
-pub extern "c" fn rl_compile_shader(shader_code : Bytes, type_ : Int) -> UInt = "rlCompileShader"
+pub extern "c" fn rl_load_shader(shader_code : Bytes, type_ : Int) -> UInt = "rlLoadShader"
 
 ///|
-/// Load custom shader program.
+/// Load shader program from code strings.
+#borrow(vs_code, fs_code)
 pub extern "c" fn rl_load_shader_program(
+  vs_code : Bytes,
+  fs_code : Bytes,
+) -> UInt = "moonbit_raylib_rl_load_shader_program"
+
+///|
+/// Load custom shader program from compiled shader ids.
+pub extern "c" fn rl_load_shader_program_ex(
   v_shader_id : UInt,
   f_shader_id : UInt,
-) -> UInt = "rlLoadShaderProgram"
+) -> UInt = "rlLoadShaderProgramEx"
+
+///|
+/// Unload shader object.
+pub extern "c" fn rl_unload_shader(id : UInt) = "rlUnloadShader"
 
 ///|
 /// Unload shader program.

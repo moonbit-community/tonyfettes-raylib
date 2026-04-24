@@ -196,8 +196,6 @@ pub fn color4ub(Byte, Byte, Byte, Byte) -> Unit
 
 pub fn color_mask(Bool, Bool, Bool, Bool) -> Unit
 
-pub fn compile_shader(String, Int) -> UInt
-
 pub fn compute_shader_dispatch(UInt, UInt, UInt) -> Unit
 
 pub fn copy_shader_buffer(UInt, UInt, UInt, UInt, UInt) -> Unit
@@ -334,13 +332,15 @@ pub fn load_framebuffer() -> UInt
 
 pub fn load_identity() -> Unit
 
+pub fn load_shader(String, Int) -> UInt
+
 pub fn load_shader_buffer(Buffer, Int) -> UInt
 
 pub fn load_shader_buffer_empty(UInt, Int) -> UInt
 
-pub fn load_shader_code(String, String) -> UInt
+pub fn load_shader_program(String, String) -> UInt
 
-pub fn load_shader_program(UInt, UInt) -> UInt
+pub fn load_shader_program_ex(UInt, UInt) -> UInt
 
 pub fn load_texture(Int, Int, Int, Int) -> UInt
 
@@ -421,6 +421,8 @@ pub fn texture_parameters(UInt, Int, Int) -> Unit
 pub fn translatef(Float, Float, Float) -> Unit
 
 pub fn unload_framebuffer(UInt) -> Unit
+
+pub fn unload_shader(UInt) -> Unit
 
 pub fn unload_shader_buffer(UInt) -> Unit
 

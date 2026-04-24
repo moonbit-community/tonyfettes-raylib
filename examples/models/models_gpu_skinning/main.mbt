@@ -62,8 +62,11 @@ fn main {
       character_model,
       @raylib.Matrix::translate(position.x, position.y, position.z),
     )
-    @raylib.update_model_animation_bones(
-      character_model, model_animations, anim_index, anim_current_frame,
+    @raylib.update_model_animation(
+      character_model,
+      model_animations,
+      anim_index,
+      Float::from_int(anim_current_frame),
     )
 
     // Draw

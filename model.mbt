@@ -90,39 +90,6 @@ pub fn Model::draw_wires_ex(
 }
 
 ///|
-/// Draw a model as points.
-#as_free_fn(draw_model_points)
-pub fn Model::draw_points(
-  self : Model,
-  position : Vector3,
-  scale : Float,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_points(self.0, position.to_bytes(), scale, tint.to_bytes())
-}
-
-///|
-/// Draw a model as points with extended parameters.
-#as_free_fn(draw_model_points_ex)
-pub fn Model::draw_points_ex(
-  self : Model,
-  position : Vector3,
-  rotation_axis : Vector3,
-  rotation_angle : Float,
-  scale : Vector3,
-  tint : Color,
-) -> Unit {
-  @ffi.draw_model_points_ex(
-    self.0,
-    position.to_bytes(),
-    rotation_axis.to_bytes(),
-    rotation_angle,
-    scale.to_bytes(),
-    tint.to_bytes(),
-  )
-}
-
-///|
 /// Set shader for a material in the model at the given index.
 #as_free_fn(set_model_material_shader)
 pub fn Model::set_material_shader(
@@ -202,6 +169,18 @@ pub fn Model::bone_count(self : Model) -> Int {
 }
 
 ///|
+/// Get the current model bone transformation matrices, if available.
+#as_free_fn(get_model_bone_matrices)
+pub fn Model::bone_matrices(self : Model) -> MatrixArray? {
+  let arr = MatrixArray(@ffi.get_model_bone_matrices(self.0), self.bone_count())
+  if arr.is_null() {
+    None
+  } else {
+    Some(arr)
+  }
+}
+
+///|
 /// Get the parent bone index for the given bone.
 #as_free_fn(get_model_bone_parent)
 pub fn Model::bone_parent(self : Model, bone_index : Int) -> Int {
@@ -254,21 +233,34 @@ pub fn Model::update_animation(
   self : Model,
   anims : ModelAnimations,
   index : Int,
-  frame : Int,
+  frame : Float,
 ) -> Unit {
   @ffi.update_model_animation(self.0, anims.0, index, frame)
 }
 
 ///|
-/// Update model animation mesh bone matrices (GPU skinning).
-#as_free_fn(update_model_animation_bones)
-pub fn Model::update_animation_bones(
+/// Update model animation pose by blending two animations.
+#as_free_fn(update_model_animation_ex)
+pub fn Model::update_animation_ex(
   self : Model,
-  anims : ModelAnimations,
-  index : Int,
-  frame : Int,
+  anims_a : ModelAnimations,
+  index_a : Int,
+  frame_a : Float,
+  anims_b : ModelAnimations,
+  index_b : Int,
+  frame_b : Float,
+  blend : Float,
 ) -> Unit {
-  @ffi.update_model_animation_bones(self.0, anims.0, index, frame)
+  @ffi.update_model_animation_ex(
+    self.0,
+    anims_a.0,
+    index_a,
+    frame_a,
+    anims_b.0,
+    index_b,
+    frame_b,
+    blend,
+  )
 }
 
 ///|

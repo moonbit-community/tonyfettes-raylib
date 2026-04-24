@@ -67,10 +67,9 @@ pub extern "c" fn draw_circle_sector(
 ) = "moonbit_raylib_draw_circle_sector"
 
 ///|
-#borrow(inner, outer)
+#borrow(center, inner, outer)
 pub extern "c" fn draw_circle_gradient(
-  center_x : Int,
-  center_y : Int,
+  center : Bytes,
   radius : Float,
   inner : Bytes,
   outer : Bytes,
