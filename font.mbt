@@ -356,7 +356,7 @@ pub fn GlyphInfoArray::gen_image_atlas(
   padding : Int,
   pack_method : Int,
 ) -> (Image, FixedArray[Rectangle]) {
-  let recs_ref : Ref[Bytes] = Ref::new(Bytes::new(0))
+  let recs_ref : Ref[Bytes] = Ref(Bytes::new(0))
   let image = @ffi.gen_image_font_atlas(
     self.0,
     font_size,
