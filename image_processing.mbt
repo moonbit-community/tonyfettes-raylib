@@ -192,7 +192,7 @@ pub fn Image::load_raw(
 ///|
 /// Load image sequence from file (frames appended to image.data). Returns the image and frame count.
 pub fn Image::load_anim(file_name : String) -> (Image, Int) {
-  let frames = Ref::new(0)
+  let frames = Ref(0)
   let image = @ffi.load_image_anim(@utf8.encode(file_name), frames)
   (image, frames.val)
 }
@@ -204,7 +204,7 @@ pub fn Image::load_anim_from_memory(
   file_data : Bytes,
   data_size : Int,
 ) -> (Image, Int) {
-  let frames = Ref::new(0)
+  let frames = Ref(0)
   let image = @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
     file_data,
@@ -218,7 +218,7 @@ pub fn Image::load_anim_from_memory(
 /// Load image sequence from file (frames appended to image.data).
 #deprecated("Use Image::load_anim instead (returns (Image, Int) with frame count)")
 pub fn load_image_anim(file_name : String) -> Image {
-  let frames = Ref::new(0)
+  let frames = Ref(0)
   @ffi.load_image_anim(@utf8.encode(file_name), frames)
 }
 
@@ -230,7 +230,7 @@ pub fn load_image_anim_from_memory(
   file_data : Bytes,
   data_size : Int,
 ) -> Image {
-  let frames = Ref::new(0)
+  let frames = Ref(0)
   @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
     file_data,
