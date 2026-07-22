@@ -36,6 +36,10 @@ jobs:
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "$env:USERPROFILE\.moon\bin" | Out-File -Append $env:GITHUB_PATH
 
+      # Fresh runners need the registry index before resolving example dependencies.
+      - name: Update MoonBit registry
+        run: moon update
+
       - name: Type-check
         run: moon check --target native
 
@@ -64,6 +68,10 @@ jobs:
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "$env:USERPROFILE\.moon\bin" | Out-File -Append $env:GITHUB_PATH
+
+      # Fresh runners need the registry index before resolving example dependencies.
+      - name: Update MoonBit registry
+        run: moon update
 
       - name: Install native build dependencies (Linux)
         if: runner.os == 'Linux'
