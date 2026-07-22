@@ -16,7 +16,7 @@ pub fn Ray::new(position : Vector3, direction : Vector3) -> Ray {
 ///|
 /// Serialize Ray to bytes.
 pub fn Ray::to_bytes(r : Ray) -> Bytes {
-  let buf = @buffer.new(size_hint=24)
+  let buf = Buffer(size_hint=24)
   buf.write_float_le(r.position.x)
   buf.write_float_le(r.position.y)
   buf.write_float_le(r.position.z)
@@ -57,7 +57,7 @@ pub fn BoundingBox::new(min : Vector3, max : Vector3) -> BoundingBox {
 ///|
 /// Serialize BoundingBox to bytes.
 pub fn BoundingBox::to_bytes(bb : BoundingBox) -> Bytes {
-  let buf = @buffer.new(size_hint=24)
+  let buf = Buffer(size_hint=24)
   buf.write_float_le(bb.min.x)
   buf.write_float_le(bb.min.y)
   buf.write_float_le(bb.min.z)

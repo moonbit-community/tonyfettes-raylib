@@ -33,7 +33,7 @@ fn main {
 
   @raylib.set_target_fps(60)
 
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Move player
     if @raylib.is_key_down(@raylib.KeyRight) {
       player_x += 5.0

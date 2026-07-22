@@ -2,8 +2,6 @@ import {
   "tonyfettes/raylib",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
 
 supported_targets = "native"

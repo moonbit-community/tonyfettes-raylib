@@ -23,7 +23,7 @@ pub fn Rectangle::new(
 ///|
 /// Serialize Rectangle to bytes.
 pub fn Rectangle::to_bytes(r : Rectangle) -> Bytes {
-  let buf = @buffer.new(size_hint=16)
+  let buf = Buffer(size_hint=16)
   buf.write_float_le(r.x)
   buf.write_float_le(r.y)
   buf.write_float_le(r.width)

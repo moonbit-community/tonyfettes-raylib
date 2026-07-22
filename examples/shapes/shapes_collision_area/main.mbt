@@ -36,11 +36,11 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
 
     // Move box if not paused
-    if not(pause) {
+    if !pause {
       box_a = @raylib.Rectangle::new(
         box_a.x + box_a_speed_x,
         box_a.y,
@@ -86,7 +86,7 @@ fn main {
 
     // Pause Box A movement
     if @raylib.is_key_pressed(@raylib.KeySpace) {
-      pause = not(pause)
+      pause = !pause
     }
 
     // Draw

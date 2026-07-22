@@ -29,7 +29,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_key_down(@raylib.KeySpace) {
       use_ttf = true
@@ -43,7 +43,7 @@ fn main {
     @raylib.draw_text(
       "Hold SPACE to use TTF generated font", 20, 20, 20, @raylib.lightgray,
     )
-    if not(use_ttf) {
+    if !use_ttf {
       @raylib.draw_text_ex(
         font_bm,
         msg,

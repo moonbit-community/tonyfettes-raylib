@@ -56,7 +56,7 @@ fn main {
   let mut state = 0
   let mut frames_counter = 0
   @raylib.set_target_fps(60)
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     if state == 0 {
       frames_counter += 1
       ball_position_x = ease_elastic_out(

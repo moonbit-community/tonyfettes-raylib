@@ -35,7 +35,7 @@ pub fn Vector2::new(x : Float, y : Float) -> Vector2 {
 ///|
 /// Serialize Vector2 to bytes.
 pub fn Vector2::to_bytes(v : Vector2) -> Bytes {
-  let buf = @buffer.new(size_hint=8)
+  let buf = Buffer(size_hint=8)
   buf.write_float_le(v.x)
   buf.write_float_le(v.y)
   buf.to_bytes()
@@ -66,7 +66,7 @@ pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
 ///|
 /// Serialize Vector3 to bytes.
 pub fn Vector3::to_bytes(v : Vector3) -> Bytes {
-  let buf = @buffer.new(size_hint=12)
+  let buf = Buffer(size_hint=12)
   buf.write_float_le(v.x)
   buf.write_float_le(v.y)
   buf.write_float_le(v.z)
@@ -99,7 +99,7 @@ pub fn Vector4::new(x : Float, y : Float, z : Float, w : Float) -> Vector4 {
 ///|
 /// Serialize Vector4 to bytes.
 pub fn Vector4::to_bytes(v : Vector4) -> Bytes {
-  let buf = @buffer.new(size_hint=16)
+  let buf = Buffer(size_hint=16)
   buf.write_float_le(v.x)
   buf.write_float_le(v.y)
   buf.write_float_le(v.z)

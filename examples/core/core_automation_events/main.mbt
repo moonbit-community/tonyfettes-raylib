@@ -53,7 +53,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let delta_time : Float = 0.015
 
@@ -115,7 +115,7 @@ fn main {
         player_y = rect.y
       }
     }
-    if not(hit_obstacle) {
+    if !hit_obstacle {
       player_y += player_speed * delta_time
       player_speed += gravity * delta_time
       can_jump = false
@@ -227,7 +227,7 @@ fn main {
 
     // Events management
     if @raylib.is_key_pressed(@raylib.KeyS) {
-      if not(event_playing) {
+      if !event_playing {
         if event_recording {
           @raylib.stop_automation_event_recording()
           event_recording = false
@@ -240,7 +240,7 @@ fn main {
         }
       }
     } else if @raylib.is_key_pressed(@raylib.KeyA) {
-      if not(event_recording) && aelist.count() > 0 {
+      if !event_recording && aelist.count() > 0 {
         // Reset scene state to play
         event_playing = true
         play_frame_counter = 0

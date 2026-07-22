@@ -23,7 +23,7 @@ fn main {
   @raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, @raylib.CameraFree)
     if @raylib.is_key_pressed(@raylib.KeyZ) {

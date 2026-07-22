@@ -18,7 +18,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Draw
     @raylib.begin_texture_mode(target)
     @raylib.clear_background(@raylib.black)

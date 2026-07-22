@@ -33,7 +33,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     total_time += @raylib.get_frame_time()
     let mouse = @raylib.get_mouse_position()
 
@@ -63,7 +63,7 @@ fn main {
     }
 
     if @raylib.is_key_pressed(@raylib.KeyA) {
-      shader_auto_reloading = not(shader_auto_reloading)
+      shader_auto_reloading = !shader_auto_reloading
     }
 
     @raylib.begin_drawing()
@@ -86,7 +86,7 @@ fn main {
       10,
       auto_color,
     )
-    if not(shader_auto_reloading) {
+    if !shader_auto_reloading {
       @raylib.draw_text(
         "MOUSE CLICK to SHADER RE-LOADING", 10, 30, 10, @raylib.black,
       )

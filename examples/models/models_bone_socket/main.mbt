@@ -63,7 +63,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, @raylib.CameraThirdPerson)
 
@@ -83,13 +83,13 @@ fn main {
 
     // Toggle shown of equip
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      show_equip[0] = not(show_equip[0])
+      show_equip[0] = !show_equip[0]
     }
     if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      show_equip[1] = not(show_equip[1])
+      show_equip[1] = !show_equip[1]
     }
     if @raylib.is_key_pressed(@raylib.KeyThree) {
-      show_equip[2] = not(show_equip[2])
+      show_equip[2] = !show_equip[2]
     }
 
     // Update model animation
@@ -132,7 +132,7 @@ fn main {
 
     // Draw equipments (hat, sword, shield)
     for i in 0..<3 {
-      if not(show_equip[i]) {
+      if !show_equip[i] {
         continue
       }
 

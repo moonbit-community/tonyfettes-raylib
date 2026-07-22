@@ -267,7 +267,7 @@ fn draw_text_wave_3d(
       if i + 1 < length && codepoints[i + 1] == 126 {
         // Skip the next '~' too
         i = i + 1
-        wave = not(wave)
+        wave = !wave
       }
     } else {
       if codepoint != 32 && codepoint != 9 {
@@ -433,19 +433,19 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, camera_mode)
 
     // Handle Events
     if @raylib.is_key_pressed(@raylib.KeyF1) {
-      show_letter_boundry = not(show_letter_boundry)
+      show_letter_boundry = !show_letter_boundry
     }
     if @raylib.is_key_pressed(@raylib.KeyF2) {
-      show_text_boundry = not(show_text_boundry)
+      show_text_boundry = !show_text_boundry
     }
     if @raylib.is_key_pressed(@raylib.KeyF3) {
-      spin = not(spin)
+      spin = !spin
       if spin {
         camera = @raylib.Camera3D::new(
           @raylib.Vector3::new(-10.0, 15.0, -10.0),
@@ -523,7 +523,7 @@ fn main {
     } else if @raylib.is_key_down(@raylib.KeyDelete) {
       layer_distance = layer_distance + 0.001
     } else if @raylib.is_key_pressed(@raylib.KeyTab) {
-      multicolor = not(multicolor)
+      multicolor = !multicolor
       if multicolor {
         for i in 0..<TextMaxLayers {
           let c = generate_random_color(0.5, 0.8)

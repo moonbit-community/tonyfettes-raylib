@@ -51,7 +51,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let offset_this_frame = (10.0 : Float) * @raylib.get_frame_time()
 

@@ -613,7 +613,7 @@ pub fn draw_circle_sector_lines(
 
 ///|
 fn vector2_array_to_bytes(points : Array[Vector2]) -> Bytes {
-  let buf = @buffer.new(size_hint=points.length() * 8)
+  let buf = Buffer(size_hint=points.length() * 8)
   for p in points {
     buf.write_float_le(p.x)
     buf.write_float_le(p.y)
@@ -980,7 +980,7 @@ pub fn check_collision_point_line(
 
 ///|
 fn vector3_array_to_bytes(points : Array[Vector3]) -> Bytes {
-  let buf = @buffer.new(size_hint=points.length() * 12)
+  let buf = Buffer(size_hint=points.length() * 12)
   for p in points {
     buf.write_float_le(p.x)
     buf.write_float_le(p.y)

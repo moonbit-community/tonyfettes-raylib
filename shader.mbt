@@ -29,7 +29,7 @@ pub(all) enum ShaderUniformData {
 fn ShaderUniformData::to_bytes(self : ShaderUniformData) -> Bytes {
   match self {
     Float(v) => {
-      let buf = @buffer.new(size_hint=4)
+      let buf = Buffer(size_hint=4)
       buf.write_float_le(v)
       buf.to_bytes()
     }
@@ -37,25 +37,25 @@ fn ShaderUniformData::to_bytes(self : ShaderUniformData) -> Bytes {
     Vec3(v) => v.to_bytes()
     Vec4(v) => v.to_bytes()
     Int(v) | Sampler2D(v) => {
-      let buf = @buffer.new(size_hint=4)
+      let buf = Buffer(size_hint=4)
       buf.write_int_le(v)
       buf.to_bytes()
     }
     IVec2((x, y)) => {
-      let buf = @buffer.new(size_hint=8)
+      let buf = Buffer(size_hint=8)
       buf.write_int_le(x)
       buf.write_int_le(y)
       buf.to_bytes()
     }
     IVec3((x, y, z)) => {
-      let buf = @buffer.new(size_hint=12)
+      let buf = Buffer(size_hint=12)
       buf.write_int_le(x)
       buf.write_int_le(y)
       buf.write_int_le(z)
       buf.to_bytes()
     }
     IVec4((x, y, z, w)) => {
-      let buf = @buffer.new(size_hint=16)
+      let buf = Buffer(size_hint=16)
       buf.write_int_le(x)
       buf.write_int_le(y)
       buf.write_int_le(z)
@@ -105,7 +105,7 @@ pub(all) enum ShaderUniformDataV {
 
 ///|
 fn ShaderUniformDataV::to_bytes(self : ShaderUniformDataV) -> Bytes {
-  let buf = @buffer.new(size_hint=self.count() * self.elem_size())
+  let buf = Buffer(size_hint=self.count() * self.elem_size())
   match self {
     Float(vs) =>
       for v in vs {

@@ -55,7 +55,7 @@ pub fn AutomationEvent::from_bytes(b : Bytes) -> AutomationEvent {
 ///|
 /// Serialize an AutomationEvent to a Bytes buffer.
 pub fn AutomationEvent::to_bytes(e : AutomationEvent) -> Bytes {
-  let buf = @buffer.new(size_hint=24)
+  let buf = Buffer(size_hint=24)
   buf.write_int_le(e.frame)
   buf.write_int_le(e.type_)
   for i in 0..<4 {

@@ -49,7 +49,7 @@ pub fn Matrix::identity() -> Matrix {
 /// Serialize Matrix to bytes.
 pub fn Matrix::to_bytes(m : Matrix) -> Bytes {
   // Column-major C layout: m0, m4, m8, m12, m1, m5, m9, m13, m2, m6, m10, m14, m3, m7, m11, m15
-  let buf = @buffer.new(size_hint=64)
+  let buf = Buffer(size_hint=64)
   buf.write_float_le(m.m0)
   buf.write_float_le(m.m4)
   buf.write_float_le(m.m8)

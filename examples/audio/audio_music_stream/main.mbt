@@ -22,7 +22,7 @@ fn main {
   @raylib.set_target_fps(30)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     @raylib.update_music_stream(music)
 
@@ -34,7 +34,7 @@ fn main {
 
     // Pause/Resume music playing
     if @raylib.is_key_pressed(@raylib.KeyP) {
-      pause = not(pause)
+      pause = !pause
       if pause {
         @raylib.pause_music_stream(music)
       } else {

@@ -525,7 +525,8 @@ int jar_xm_create_context(jar_xm_context_t** ctxp, const char* moddata, uint32_t
     return jar_xm_create_context_safe(ctxp, moddata, SIZE_MAX, rate);
 }
 
-#define ALIGN(x, b) (((x) + ((b) - 1)) & ~((b) - 1))
+/* Keep the vendored macro distinct from platform headers such as macOS arm/param.h. */
+#define JAR_XM_ALIGN(x, b) (((x) + ((b) - 1)) & ~((b) - 1))
 #define ALIGN_PTR(x, b) (void*)(((uintptr_t)(x) + ((b) - 1)) & ~((b) - 1))
 int jar_xm_create_context_safe(jar_xm_context_t** ctxp, const char* moddata, size_t moddata_length, uint32_t rate) {
 #if JAR_XM_DEFENSIVE
@@ -739,10 +740,10 @@ size_t jar_xm_get_memory_needed_for_context(const char* moddata, size_t moddata_
     num_channels = READ_U16(offset + 8);
     num_patterns = READ_U16(offset + 10);
     memory_needed += num_patterns * sizeof(jar_xm_pattern_t);
-    memory_needed  = ALIGN(memory_needed, 16);
+    memory_needed  = JAR_XM_ALIGN(memory_needed, 16);
     num_instruments = READ_U16(offset + 12);
     memory_needed += num_instruments * sizeof(jar_xm_instrument_t);
-    memory_needed  = ALIGN(memory_needed, 16);
+    memory_needed  = JAR_XM_ALIGN(memory_needed, 16);
     memory_needed += MAX_NUM_ROWS * READ_U16(offset + 4) * sizeof(uint8_t); /* Module length */
 
     offset += READ_U32(offset); /* Header size */
@@ -754,7 +755,7 @@ size_t jar_xm_get_memory_needed_for_context(const char* moddata, size_t moddata_
         memory_needed += num_rows * num_channels * sizeof(jar_xm_pattern_slot_t);
         offset += READ_U32(offset) + READ_U16(offset + 7); /* Pattern header length + packed pattern data size */
     }
-    memory_needed  = ALIGN(memory_needed, 16);
+    memory_needed  = JAR_XM_ALIGN(memory_needed, 16);
 
     /* Read instrument headers */
     for(uint16_t i = 0; i < num_instruments; ++i) {

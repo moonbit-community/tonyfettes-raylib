@@ -15,7 +15,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(exit_window) {
+  while !exit_window {
     // Update
     // Detect if X-button or KEY_ESCAPE have been pressed to close window
     if @raylib.window_should_close() ||

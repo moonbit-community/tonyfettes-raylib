@@ -21,7 +21,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update - keyboard controls
     // Width: LEFT/RIGHT
     if @raylib.is_key_down(@raylib.KeyRight) {
@@ -92,13 +92,13 @@ fn main {
     }
     // Toggle draw modes: 1/2/3
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      draw_rounded_rect = not(draw_rounded_rect)
+      draw_rounded_rect = !draw_rounded_rect
     }
     if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      draw_rounded_lines = not(draw_rounded_lines)
+      draw_rounded_lines = !draw_rounded_lines
     }
     if @raylib.is_key_pressed(@raylib.KeyThree) {
-      draw_rect = not(draw_rect)
+      draw_rect = !draw_rect
     }
 
     let rec = @raylib.Rectangle::new(

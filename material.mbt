@@ -4,7 +4,7 @@ struct Material(@ffi.Material)
 
 ///|
 /// Load default material (supports: DIFFUSE, SPECULAR, NORMAL maps).
-pub impl Default for Material with default() -> Material {
+pub impl Default for Material with fn default() -> Material {
   @ffi.load_material_default()
 }
 

@@ -23,7 +23,7 @@ pub fn Camera2D::new(
 ///|
 /// Serialize Camera2D to bytes.
 pub fn Camera2D::to_bytes(c : Camera2D) -> Bytes {
-  let buf = @buffer.new(size_hint=24)
+  let buf = Buffer(size_hint=24)
   buf.write_float_le(c.offset.x)
   buf.write_float_le(c.offset.y)
   buf.write_float_le(c.target.x)
@@ -71,7 +71,7 @@ pub fn Camera3D::new(
 ///|
 /// Serialize Camera3D to bytes.
 pub fn Camera3D::to_bytes(c : Camera3D) -> Bytes {
-  let buf = @buffer.new(size_hint=44)
+  let buf = Buffer(size_hint=44)
   buf.write_float_le(c.position.x)
   buf.write_float_le(c.position.y)
   buf.write_float_le(c.position.z)

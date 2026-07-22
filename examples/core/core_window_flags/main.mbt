@@ -16,7 +16,7 @@ fn main {
   let mut frames_counter = 0
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
 
     // Toggle fullscreen
@@ -44,7 +44,7 @@ fn main {
 
     // Toggle window hidden
     if @raylib.is_key_pressed(@raylib.KeyH) {
-      if not(@raylib.is_window_state(@raylib.FlagWindowHidden)) {
+      if !@raylib.is_window_state(@raylib.FlagWindowHidden) {
         @raylib.set_window_state(@raylib.FlagWindowHidden)
       }
       frames_counter = 0
@@ -58,7 +58,7 @@ fn main {
 
     // Toggle window minimized
     if @raylib.is_key_pressed(@raylib.KeyN) {
-      if not(@raylib.is_window_state(@raylib.FlagWindowMinimized)) {
+      if !@raylib.is_window_state(@raylib.FlagWindowMinimized) {
         @raylib.minimize_window()
       }
       frames_counter = 0

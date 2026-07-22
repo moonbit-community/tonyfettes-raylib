@@ -36,7 +36,7 @@ fn main {
 
   @raylib.set_target_fps(30)
 
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Sample mouse input
     let mouse_pos = @raylib.get_mouse_position()
 

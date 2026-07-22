@@ -637,9 +637,9 @@ def main():
     repo_root = args.repo_root.resolve()
     if not repo_root.is_dir():
         sys.exit(f"--repo-root is not a directory: {repo_root}")
-    if not (repo_root / "moon.mod.json").is_file():
+    if not (repo_root / "moon.mod").is_file():
         print(
-            f"Warning: no moon.mod.json found in {repo_root}. "
+            f"Warning: no moon.mod found in {repo_root}. "
             "Is --repo-root pointing at the right directory?",
             file=sys.stderr,
         )

@@ -97,12 +97,12 @@ fn draw_text_boxed_selectable(
     } else {
       // Draw state
       if codepoint == '\n'.to_int() {
-        if not(word_wrap) {
+        if !word_wrap {
           text_offset_y += (base_size + base_size / 2.0) * scale_factor
           text_offset_x = 0.0
         }
       } else {
-        if not(word_wrap) && text_offset_x + glyph_width > rec.width {
+        if !word_wrap && text_offset_x + glyph_width > rec.width {
           text_offset_y += (base_size + base_size / 2.0) * scale_factor
           text_offset_x = 0.0
         }
@@ -186,10 +186,10 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_key_pressed(@raylib.KeySpace) {
-      word_wrap = not(word_wrap)
+      word_wrap = !word_wrap
     }
     let mouse = @raylib.get_mouse_position()
     let container = @raylib.Rectangle::new(
@@ -199,7 +199,7 @@ fn main {
     // Check if the mouse is inside the container and toggle border color
     if @raylib.check_collision_point_rec(mouse, container) {
       border_color = @raylib.fade(@raylib.maroon, 0.4)
-    } else if not(resizing) {
+    } else if !resizing {
       border_color = @raylib.maroon
     }
 

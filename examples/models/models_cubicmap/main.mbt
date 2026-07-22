@@ -47,12 +47,12 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_key_pressed(@raylib.KeyP) {
-      pause = not(pause)
+      pause = !pause
     }
-    if not(pause) {
+    if !pause {
       camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
     }
 

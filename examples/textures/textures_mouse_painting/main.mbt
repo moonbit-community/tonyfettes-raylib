@@ -52,7 +52,7 @@ fn main {
 
   @raylib.set_target_fps(120)
 
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     let mouse_pos = @raylib.get_mouse_position()
 
     // Move between colors with keys
@@ -113,7 +113,7 @@ fn main {
     }
 
     if @raylib.is_mouse_button_down(@raylib.MouseButtonRight) {
-      if not(mouse_was_pressed) {
+      if !mouse_was_pressed {
         color_selected_prev = color_selected
         color_selected = 0
       }

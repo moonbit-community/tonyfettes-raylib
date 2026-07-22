@@ -408,7 +408,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
@@ -420,16 +420,16 @@ fn main {
 
     // Check key inputs to enable/disable lights
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      lights[2].enabled = not(lights[2].enabled)
+      lights[2].enabled = !lights[2].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      lights[1].enabled = not(lights[1].enabled)
+      lights[1].enabled = !lights[1].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyThree) {
-      lights[3].enabled = not(lights[3].enabled)
+      lights[3].enabled = !lights[3].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyFour) {
-      lights[0].enabled = not(lights[0].enabled)
+      lights[0].enabled = !lights[0].enabled
     }
 
     // Update light values on shader (actually, only enable/disable them)

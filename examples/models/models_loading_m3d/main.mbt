@@ -39,7 +39,7 @@ fn main {
   @raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, @raylib.CameraFirstPerson)
 
@@ -77,12 +77,12 @@ fn main {
 
     // Toggle skeleton drawing
     if @raylib.is_key_pressed(@raylib.KeyB) {
-      draw_skeleton = not(draw_skeleton)
+      draw_skeleton = !draw_skeleton
     }
 
     // Toggle mesh drawing
     if @raylib.is_key_pressed(@raylib.KeyM) {
-      draw_mesh = not(draw_mesh)
+      draw_mesh = !draw_mesh
     }
 
     // Draw
@@ -103,7 +103,7 @@ fn main {
       // needed to workaround buggy models
       // without a -1, we would always draw a cube at the origin
       for i in 0..<(bone_count - 1) {
-        if not(anim_playing) || anims_count == 0 {
+        if !anim_playing || anims_count == 0 {
           // Display the bind-pose skeleton
           let translation = @raylib.get_model_bind_pose_translation(model, i)
           @raylib.draw_cube(translation, 0.04, 0.04, 0.04, @raylib.red)

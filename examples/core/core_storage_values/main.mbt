@@ -44,7 +44,7 @@ fn main {
   let mut hiscore = 0
   let mut frames_counter = 0
   @raylib.set_target_fps(60)
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     if @raylib.is_key_pressed(@raylib.KeyR) {
       score = @raylib.get_random_value(1000, 2000)
       hiscore = @raylib.get_random_value(2000, 4000)

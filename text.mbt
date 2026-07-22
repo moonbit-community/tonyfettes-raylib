@@ -84,7 +84,7 @@ pub fn load_codepoints(text : String) -> Array[Int] {
 ///|
 /// Load UTF-8 text encoded from codepoints array.
 pub fn load_utf8(codepoints : Array[Int]) -> Bytes {
-  let buf = @buffer.new(size_hint=codepoints.length() * 4)
+  let buf = Buffer(size_hint=codepoints.length() * 4)
   for cp in codepoints {
     buf.write_int_le(cp)
   }

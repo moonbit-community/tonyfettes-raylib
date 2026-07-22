@@ -185,7 +185,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update rectangle bounds
     let width : Float = Float::from_int(@raylib.get_screen_width()) /
       (2.0 : Float)

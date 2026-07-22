@@ -18,26 +18,40 @@ fn main {
   // Default font generation from TTF font
   // Parameters > font size: 16, font type: FONT_DEFAULT, glyphs padding in image: 4 px, pack method: 0 (default)
   let glyphs_default = @raylib.GlyphInfoArray::load(
-    file_data, file_data.length(), 16, @raylib.FontDefault,
+    file_data,
+    file_data.length(),
+    16,
+    @raylib.FontDefault,
   )
   let (atlas_default, recs_default) = glyphs_default.gen_image_atlas(16, 4, 0)
   let tex_default = atlas_default.to_texture()
   atlas_default.unload()
   let font_default = @raylib.Font::new(
-    tex_default, 16, glyph_padding=4, glyphs_default, recs_default,
+    tex_default,
+    16,
+    glyph_padding=4,
+    glyphs_default,
+    recs_default,
   )
   glyphs_default.unload()
 
   // SDF font generation from TTF font
   // Parameters > font size: 16, font type: FONT_SDF, glyphs padding in image: 0 px, pack method: 1 (Skyline algorithm)
   let glyphs_sdf = @raylib.GlyphInfoArray::load(
-    file_data, file_data.length(), 16, @raylib.FontSdf,
+    file_data,
+    file_data.length(),
+    16,
+    @raylib.FontSdf,
   )
   let (atlas_sdf, recs_sdf) = glyphs_sdf.gen_image_atlas(16, 0, 1)
   let tex_sdf = atlas_sdf.to_texture()
   atlas_sdf.unload()
   let font_sdf = @raylib.Font::new(
-    tex_sdf, 16, glyph_padding=0, glyphs_sdf, recs_sdf,
+    tex_sdf,
+    16,
+    glyph_padding=0,
+    glyphs_sdf,
+    recs_sdf,
   )
   glyphs_sdf.unload()
 
@@ -58,7 +72,7 @@ fn main {
   @raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     font_size = font_size + @raylib.get_mouse_wheel_move() * 8.0
 

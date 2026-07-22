@@ -337,9 +337,9 @@ fn main {
   let mut easing_x = num_easings - 1 // None
   let mut easing_y = num_easings - 1 // None
   @raylib.set_target_fps(60)
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     if @raylib.is_key_pressed(@raylib.KeyT) {
-      bounded_t = not(bounded_t)
+      bounded_t = !bounded_t
     }
     // Choose easing for X
     if @raylib.is_key_pressed(@raylib.KeyRight) {
@@ -396,9 +396,9 @@ fn main {
       paused = true
     }
     if @raylib.is_key_pressed(@raylib.KeyEnter) {
-      paused = not(paused)
+      paused = !paused
     }
-    if not(paused) && ((bounded_t && t < d) || not(bounded_t)) {
+    if !paused && ((bounded_t && t < d) || !bounded_t) {
       ball_x = apply_easing(easing_x, t, 100.0, 700.0 - 170.0, d)
       ball_y = apply_easing(easing_y, t, 100.0, 400.0 - 170.0, d)
       t += 1.0
