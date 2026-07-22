@@ -27,7 +27,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update - keyboard controls
     // Start angle: LEFT/RIGHT
     if @raylib.is_key_down(@raylib.KeyRight) {
@@ -96,13 +96,13 @@ fn main {
     }
     // Toggle draw modes: 1/2/3
     if @raylib.is_key_pressed(@raylib.KeyOne) {
-      draw_ring = not(draw_ring)
+      draw_ring = !draw_ring
     }
     if @raylib.is_key_pressed(@raylib.KeyTwo) {
-      draw_ring_lines = not(draw_ring_lines)
+      draw_ring_lines = !draw_ring_lines
     }
     if @raylib.is_key_pressed(@raylib.KeyThree) {
-      draw_circle_lines = not(draw_circle_lines)
+      draw_circle_lines = !draw_circle_lines
     }
 
     // Draw

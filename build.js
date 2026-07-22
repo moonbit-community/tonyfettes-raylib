@@ -3,8 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const platform = process.env.RAYLIB_PLATFORM || os.platform();
 
-const modJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'moon.mod.json'), 'utf8'));
-const pkg = modJson.name + '/internal/raylib';
+const modSource = fs.readFileSync(path.join(__dirname, 'moon.mod'), 'utf8');
+// The prebuild output only needs the required top-level module name, so avoid
+// adding a parser dependency for the rest of the moon.mod configuration.
+const moduleName = modSource.match(/^name\s*=\s*"([^"]+)"\s*$/m)?.[1];
+if (!moduleName) {
+  throw new Error('moon.mod must define a top-level name');
+}
+const pkg = moduleName + '/internal/raylib';
 
 let link_config = { package: pkg };
 let stub_cc_flags = '-DPLATFORM_DESKTOP_GLFW';

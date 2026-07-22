@@ -66,7 +66,7 @@ fn write_ascii(buf : @buffer.Buffer, s : String) -> Unit {
 fn build_wav_bytes(num_samples : Int) -> Bytes {
   let data_size = num_samples * 2 // 16-bit = 2 bytes per sample
   let file_size = 36 + data_size // total file size minus 8-byte RIFF header
-  let buf = @buffer.new()
+  let buf = Buffer()
   // --- RIFF header (12 bytes) ---
   write_ascii(buf, "RIFF")
   buf.write_int_le(file_size)

@@ -38,7 +38,7 @@ fn reset_star(star : Star) -> Unit {
   star.pos_y = Float::from_int(@raylib.get_screen_height()) / 2.0
   star.speed_x = Float::from_int(@raylib.get_random_value(-1000, 1000)) / 100.0
   star.speed_y = Float::from_int(@raylib.get_random_value(-1000, 1000)) / 100.0
-  while not(abs_float(star.speed_x) + abs_float(star.speed_y) > 1.0) {
+  while !(abs_float(star.speed_x) + abs_float(star.speed_y) > 1.0) {
     star.speed_x = Float::from_int(@raylib.get_random_value(-1000, 1000)) /
       100.0
     star.speed_y = Float::from_int(@raylib.get_random_value(-1000, 1000)) /
@@ -169,7 +169,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     frame_counter += 1
 

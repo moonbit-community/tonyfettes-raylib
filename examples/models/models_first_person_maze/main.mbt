@@ -45,7 +45,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Store old camera position
     let old_cam_pos = camera.position
 

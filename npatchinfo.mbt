@@ -27,7 +27,7 @@ pub fn NPatchInfo::new(
 ///|
 /// Serialize NPatchInfo to bytes.
 pub fn NPatchInfo::to_bytes(n : NPatchInfo) -> Bytes {
-  let buf = @buffer.new(size_hint=36)
+  let buf = Buffer(size_hint=36)
   buf.write_float_le(n.source.x)
   buf.write_float_le(n.source.y)
   buf.write_float_le(n.source.width)

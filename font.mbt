@@ -4,7 +4,7 @@ struct Font(@ffi.Font)
 
 ///|
 /// Get the default font.
-pub impl Default for Font with default() -> Font {
+pub impl Default for Font with fn default() -> Font {
   @ffi.get_font_default()
 }
 
@@ -238,7 +238,7 @@ pub fn Font::new(
   glyphs : GlyphInfoArray,
   recs : FixedArray[Rectangle],
 ) -> Font {
-  let buf = @buffer.new(size_hint=recs.length() * 16)
+  let buf = Buffer(size_hint=recs.length() * 16)
   for rec in recs {
     buf.write_float_le(rec.x)
     buf.write_float_le(rec.y)
@@ -281,7 +281,7 @@ pub fn Font::draw_codepoints(
   spacing : Float,
   tint : Color,
 ) -> Unit {
-  let buf = @buffer.new(size_hint=codepoints.length() * 4)
+  let buf = Buffer(size_hint=codepoints.length() * 4)
   for cp in codepoints {
     buf.write_int_le(cp)
   }
@@ -356,7 +356,7 @@ pub fn GlyphInfoArray::gen_image_atlas(
   padding : Int,
   pack_method : Int,
 ) -> (Image, FixedArray[Rectangle]) {
-  let recs_ref : Ref[Bytes] = Ref::new(Bytes::new(0))
+  let recs_ref : Ref[Bytes] = Ref(Bytes::new(0))
   let image = @ffi.gen_image_font_atlas(
     self.0,
     font_size,

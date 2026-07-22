@@ -351,7 +351,7 @@ pub fn VrDeviceInfo::new(
 ///|
 /// Serialize VrDeviceInfo to bytes for FFI passing.
 pub fn VrDeviceInfo::to_bytes(info : VrDeviceInfo) -> Bytes {
-  let buf = @buffer.new(size_hint=60)
+  let buf = Buffer(size_hint=60)
   buf.write_int_le(info.h_resolution)
   buf.write_int_le(info.v_resolution)
   buf.write_float_le(info.h_screen_size)

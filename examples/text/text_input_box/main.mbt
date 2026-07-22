@@ -31,7 +31,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     mouse_on_text = @raylib.check_collision_point_rec(
       @raylib.get_mouse_position(),

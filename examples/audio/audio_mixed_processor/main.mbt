@@ -58,7 +58,7 @@ fn main {
   let sound = @raylib.load_sound("resources/coin.wav")
   @raylib.play_music_stream(music)
   @raylib.set_target_fps(60)
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     @raylib.update_music_stream(music)
     if @raylib.is_key_pressed(@raylib.KeyLeft) {
       exponent[0] -= 0.05

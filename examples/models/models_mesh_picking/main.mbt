@@ -46,7 +46,7 @@ fn main {
   let sr : Float = 4.0
   @raylib.set_target_fps(60)
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_cursor_hidden() {
       camera = @raylib.update_camera(camera, @raylib.CameraFirstPerson)
@@ -110,7 +110,7 @@ fn main {
           ray, mesh_i, transform,
         )
         if mesh_hit_info.hit {
-          if not(collision.hit) || collision.distance > mesh_hit_info.distance {
+          if !collision.hit || collision.distance > mesh_hit_info.distance {
             collision = mesh_hit_info
           }
           cursor_color = @raylib.orange

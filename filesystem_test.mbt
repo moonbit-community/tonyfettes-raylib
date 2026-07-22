@@ -1,6 +1,6 @@
 ///|
 test "file_exists detects existing file" {
-  assert_true(@raylib.file_exists("moon.mod.json"))
+  assert_true(@raylib.file_exists("moon.mod"))
 }
 
 ///|
@@ -26,13 +26,13 @@ test "is_file_extension matches" {
 
 ///|
 test "get_file_length returns positive for existing file" {
-  let len = @raylib.get_file_length("moon.mod.json")
+  let len = @raylib.get_file_length("moon.mod")
   assert_true(len > 0)
 }
 
 ///|
 test "is_path_file distinguishes files from dirs" {
-  assert_true(@raylib.is_path_file("moon.mod.json"))
+  assert_true(@raylib.is_path_file("moon.mod"))
   assert_false(@raylib.is_path_file("internal"))
 }
 

@@ -188,7 +188,7 @@ fn update_light(
   boxes : Array[@raylib.Rectangle],
   count : Int,
 ) -> Bool {
-  if not(lights[slot].active) || not(lights[slot].dirty) {
+  if !lights[slot].active || !lights[slot].dirty {
     return false
   }
   lights[slot].dirty = false
@@ -200,7 +200,7 @@ fn update_light(
       return false
     }
     // If this box is outside our bounds, we can skip it
-    if not(@raylib.check_collision_recs(lights[slot].bounds, boxes[i])) {
+    if !@raylib.check_collision_recs(lights[slot].bounds, boxes[i]) {
       continue
     }
     // Check the edges that are on the same side we are, and cast shadow volumes out from them
@@ -313,7 +313,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     // Drag light 0
     if @raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
@@ -329,7 +329,7 @@ fn main {
     }
     // Toggle debug info
     if @raylib.is_key_pressed(@raylib.KeyF1) {
-      show_lines = not(show_lines)
+      show_lines = !show_lines
     }
     // Update the lights and keep track if any were dirty
     let mut dirty_lights = false

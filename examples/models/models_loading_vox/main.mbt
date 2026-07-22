@@ -232,7 +232,7 @@ fn main {
   let model_pos = @raylib.Vector3::new(0.0, 0.0, 0.0)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let mut camera_rot_x : Float = 0.0
     let mut camera_rot_y : Float = 0.0

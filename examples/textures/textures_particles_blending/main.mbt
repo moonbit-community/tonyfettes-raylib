@@ -58,12 +58,12 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
 
     // Activate one particle every frame and update active particles
     for i in 0..<max_particles {
-      if not(mouse_tail[i].active) {
+      if !mouse_tail[i].active {
         mouse_tail[i].active = true
         mouse_tail[i].alpha = 1.0
         mouse_tail[i].position = @raylib.get_mouse_position()

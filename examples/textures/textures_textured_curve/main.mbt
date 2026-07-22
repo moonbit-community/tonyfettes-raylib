@@ -42,7 +42,7 @@ fn draw_textured_curve(
     // The v texture coordinate of the segment
     let v = previous_v + @raylib.Vector2::length(delta)
     // Make sure the start point has a normal
-    if not(tangent_set) {
+    if !tangent_set {
       previous_tangent = normal
       tangent_set = true
     }
@@ -117,11 +117,11 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     // Curve config options
     if @raylib.is_key_pressed(@raylib.KeySpace) {
-      show_curve = not(show_curve)
+      show_curve = !show_curve
     }
     if @raylib.is_key_pressed(@raylib.KeyEqual) {
       curve_width += 2.0
@@ -145,7 +145,7 @@ fn main {
     }
 
     // If the mouse is not down, clear the selection
-    if not(@raylib.is_mouse_button_down(@raylib.MouseButtonLeft)) {
+    if !@raylib.is_mouse_button_down(@raylib.MouseButtonLeft) {
       curve_selected_point = 0
     }
 

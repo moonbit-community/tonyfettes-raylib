@@ -186,7 +186,7 @@ fn main {
   let mut fc = 0
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let dt = @raylib.get_frame_time()
 

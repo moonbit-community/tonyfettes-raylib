@@ -110,7 +110,7 @@ Other notes:
 
 ### Platform flags (prebuild script + `moon.pkg`)
 
-Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod.json`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
+Platform-specific link flags are set dynamically by `build.js` via `--moonbit-unstable-prebuild` in `moon.mod`. The script detects the OS and emits `link_configs` targeting `tonyfettes/raylib/internal/raylib` — these flags propagate automatically to all dependent packages at link time, so individual example packages need no link configuration.
 
 - **`build.js`** — Prebuild script. Emits `link_configs` (platform-specific link flags) and `vars` (dynamic `stub-cc-flags`). Sets `-framework` flags on macOS, `-l` flags on Linux, `.lib` flags on Windows. On macOS, appends `-ObjC` to `stub-cc-flags` so clang compiles `rglfw.c` as Objective-C (required for GLFW's Cocoa backend).
 - **`stub-cc-flags`** — Set dynamically via `${build.RAYLIB_STUB_CC_FLAGS}` in `moon.pkg`, populated by `build.js`. The value is platform-dependent: desktop platforms use `-DPLATFORM_DESKTOP_GLFW` (with `-ObjC` on macOS); non-desktop platforms (`android`, `drm`, `web`) use their own `-DPLATFORM_*` flag plus `-DGRAPHICS_API_OPENGL_ES2`. Override with `RAYLIB_PLATFORM` env var to target non-host platforms.
@@ -131,7 +131,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 1. **Decide version bump** — Under pre-1.0 semver (`0.x.y`):
    - **Minor** (`0.x.0`): new features, breaking changes (renamed constants, changed API surface, new sub-packages)
    - **Patch** (`0.x.y`): bug fixes only, no API changes
-2. **Update `moon.mod.json`** — bump `"version"` field
+2. **Update `moon.mod`** — bump the `version` field
 3. **Verify package contents** — run `moon package --list` and confirm only library sources are included (no `examples/`, `docs/`, `tools/`, `scripts/`, dev config files)
 4. **Dry-run publish** — run `moon publish --dry-run` and confirm server returns `202 Accepted`
 5. **Type-check** — run `moon check --target native`
@@ -141,7 +141,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
 ```bash
 # 1. Create release branch and commit version bump
 git checkout -b release/vX.Y.Z
-git add moon.mod.json
+git add moon.mod
 git commit -m "chore: bump version to X.Y.Z and configure publish excludes"
 
 # 2. Tag the commit
@@ -172,8 +172,8 @@ A minimal project lives at `publish/smoke_test/` (gitignored). It imports `tonyf
 
 ### Excluded from publishing
 
-Configured via `"exclude"` in `moon.mod.json` (gitignore syntax). Currently excludes:
-`/external` (anchored to repo root), `examples`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
+Configured via `exclude` in `moon.mod` (gitignore syntax). Currently excludes:
+`/external` (anchored to repo root), `examples`, `moon.work`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
 
 `CMakeLists.txt` is **included** in the published package — consumers need it for Android/emscripten builds by referencing it from `.mooncakes/`.
 

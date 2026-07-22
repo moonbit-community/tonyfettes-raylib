@@ -21,12 +21,12 @@ fn main {
   let mut target_fps = 60 // Our initial target fps
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     @raylib.poll_input_events() // Poll input events (SUPPORT_CUSTOM_FRAME_CONTROL)
 
     if @raylib.is_key_pressed(@raylib.KeySpace) {
-      pause = not(pause)
+      pause = !pause
     }
 
     if @raylib.is_key_pressed(@raylib.KeyUp) {
@@ -39,7 +39,7 @@ fn main {
       target_fps = 0
     }
 
-    if not(pause) {
+    if !pause {
       position += 200.0 * delta_time // We move at 200 pixels per second
       if position >= Float::from_int(@raylib.get_screen_width()) {
         position = 0.0

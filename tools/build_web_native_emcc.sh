@@ -44,12 +44,12 @@ if [[ ! -f "$POST_JS" ]]; then
   exit 1
 fi
 
-# Detect sub-module: find nearest ancestor dir with moon.mod.json
+# Find the nearest MoonBit module, accepting both current and legacy manifests.
 MODULE_DIR="."
 BUILD_PKG_PATH="$PKG_PATH"
 parent="$PKG_PATH"
 while [[ "$parent" != "." ]]; do
-  if [[ -f "$parent/moon.mod.json" ]]; then
+  if [[ -f "$parent/moon.mod" || -f "$parent/moon.mod.json" ]]; then
     MODULE_DIR="$parent"
     BUILD_PKG_PATH="${PKG_PATH#$parent/}"
     break

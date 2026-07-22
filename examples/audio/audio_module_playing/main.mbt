@@ -70,7 +70,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     @raylib.update_music_stream(music)
 
@@ -83,7 +83,7 @@ fn main {
 
     // Pause/Resume music playing
     if @raylib.is_key_pressed(@raylib.KeyP) {
-      pause = not(pause)
+      pause = !pause
       if pause {
         @raylib.pause_music_stream(music)
       } else {
@@ -105,7 +105,7 @@ fn main {
       Float::from_int(screen_width - 40)
 
     // Color circles animation
-    if not(pause) {
+    if !pause {
       for i = max_circles - 1; i >= 0; i = i - 1 {
         circle_alpha[i] += circle_speed[i]
         circle_radius[i] += circle_speed[i] * 10.0

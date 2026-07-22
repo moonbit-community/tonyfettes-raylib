@@ -9,7 +9,7 @@ fn codepoint_remove_duplicates(codepoints : Array[Int]) -> Array[Int] {
         break
       }
     }
-    if not(found) {
+    if !found {
       result.push(codepoint)
     }
   }
@@ -59,10 +59,10 @@ fn main {
   @raylib.set_target_fps(60) // Set our game to run at 60 frames-per-second
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_key_pressed(@raylib.KeySpace) {
-      show_font_atlas = not(show_font_atlas)
+      show_font_atlas = !show_font_atlas
     }
 
     // Draw

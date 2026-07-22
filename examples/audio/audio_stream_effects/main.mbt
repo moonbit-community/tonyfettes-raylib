@@ -94,7 +94,7 @@ fn main {
   let mut enable_effect_lpf = false
   let mut enable_effect_delay = false
   @raylib.set_target_fps(60)
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     @raylib.update_music_stream(music)
     // Restart music
     if @raylib.is_key_pressed(@raylib.KeySpace) {
@@ -103,7 +103,7 @@ fn main {
     }
     // Pause/Resume
     if @raylib.is_key_pressed(@raylib.KeyP) {
-      pause = not(pause)
+      pause = !pause
       if pause {
         @raylib.pause_music_stream(music)
       } else {
@@ -112,7 +112,7 @@ fn main {
     }
     // Toggle LPF effect
     if @raylib.is_key_pressed(@raylib.KeyF) {
-      enable_effect_lpf = not(enable_effect_lpf)
+      enable_effect_lpf = !enable_effect_lpf
       if enable_effect_lpf {
         @raylib.attach_music_stream_processor(music, audio_process_effect_lpf)
       } else {
@@ -121,7 +121,7 @@ fn main {
     }
     // Toggle delay effect
     if @raylib.is_key_pressed(@raylib.KeyD) {
-      enable_effect_delay = not(enable_effect_delay)
+      enable_effect_delay = !enable_effect_delay
       if enable_effect_delay {
         @raylib.attach_music_stream_processor(music, audio_process_effect_delay)
       } else {

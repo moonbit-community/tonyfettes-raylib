@@ -84,7 +84,7 @@ fn main {
   )
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Draw
     @raylib.begin_drawing()
 

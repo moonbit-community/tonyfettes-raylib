@@ -42,7 +42,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let mouse_point = @raylib.get_mouse_position()
     for i in 0..<max_colors_count {

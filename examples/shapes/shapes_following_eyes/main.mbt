@@ -22,7 +22,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     let mouse = @raylib.get_mouse_position()
 
@@ -32,12 +32,10 @@ fn main {
     let iris_left = @raylib.Vector2::new(iris_left_x, iris_left_y)
 
     // Check not inside the left eye sclera
-    if not(
-        @raylib.check_collision_point_circle(
-          iris_left,
-          sclera_left_position,
-          sclera_radius - iris_radius,
-        ),
+    if !@raylib.check_collision_point_circle(
+        iris_left,
+        sclera_left_position,
+        sclera_radius - iris_radius,
       ) {
       let dx = iris_left_x - sclera_left_position.x
       let dy = iris_left_y - sclera_left_position.y
@@ -54,12 +52,10 @@ fn main {
     let iris_right = @raylib.Vector2::new(iris_right_x, iris_right_y)
 
     // Check not inside the right eye sclera
-    if not(
-        @raylib.check_collision_point_circle(
-          iris_right,
-          sclera_right_position,
-          sclera_radius - iris_radius,
-        ),
+    if !@raylib.check_collision_point_circle(
+        iris_right,
+        sclera_right_position,
+        sclera_radius - iris_radius,
       ) {
       let dx = iris_right_x - sclera_right_position.x
       let dy = iris_right_y - sclera_right_position.y

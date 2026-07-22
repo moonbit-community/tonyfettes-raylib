@@ -60,7 +60,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update - select point of interest
     if @raylib.is_key_pressed(@raylib.KeyOne) {
       c_x = points_of_interest[0].x
@@ -124,7 +124,7 @@ fn main {
       increment_speed = 0
     }
     if @raylib.is_key_pressed(@raylib.KeyF1) {
-      show_controls = not(show_controls)
+      show_controls = !show_controls
     }
 
     if @raylib.is_key_pressed(@raylib.KeyRight) {

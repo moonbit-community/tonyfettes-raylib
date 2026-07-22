@@ -18,11 +18,11 @@ jobs:
           moon update
       - name: rename module
         run: |
-          sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' moon.mod.json
+          sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' moon.mod
           find . -name 'moon.pkg' -not -path './.mooncakes/*' -not -path './examples/*' -exec sed -i 's|tonyfettes/raylib|moonbit-community/raylib|g' {} +
       - name: moon check
         run: |
-          moon check --target native
+          moon check --target native . internal/raylib rl raygui
       - name: publish moonbit-community/raylib
         run: |
           echo $SECRET > ~/.moon/credentials.json

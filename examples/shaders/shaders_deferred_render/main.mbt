@@ -265,7 +265,7 @@ fn main {
 
   // Make sure our framebuffer is complete.
   // NOTE: rlFramebufferComplete() automatically unbinds the framebuffer.
-  if not(@rl.framebuffer_complete(fbo)) {
+  if !@rl.framebuffer_complete(fbo) {
     @raylib.trace_log(@raylib.LogWarning, "Framebuffer is not complete")
     @raylib.close_window()
     return
@@ -360,7 +360,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     camera = @raylib.update_camera(camera, @raylib.CameraOrbital)
 
@@ -372,16 +372,16 @@ fn main {
 
     // Toggle lights with key presses
     if @raylib.is_key_pressed(@raylib.KeyY) {
-      lights[0].enabled = not(lights[0].enabled)
+      lights[0].enabled = !lights[0].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyR) {
-      lights[1].enabled = not(lights[1].enabled)
+      lights[1].enabled = !lights[1].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyG) {
-      lights[2].enabled = not(lights[2].enabled)
+      lights[2].enabled = !lights[2].enabled
     }
     if @raylib.is_key_pressed(@raylib.KeyB) {
-      lights[3].enabled = not(lights[3].enabled)
+      lights[3].enabled = !lights[3].enabled
     }
 
     // Check key inputs to switch between G-buffer textures

@@ -3,8 +3,6 @@ import {
   "moonbitlang/core/math",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")
 
 supported_targets = "native"

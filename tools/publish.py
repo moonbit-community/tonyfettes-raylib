@@ -67,7 +67,7 @@ def build_publish_dir():
     print("Building publish/ directory...")
 
     # Top-level files
-    copy_file(os.path.join(PROJECT_ROOT, "moon.mod.json"), os.path.join(publish, "moon.mod.json"))
+    copy_file(os.path.join(PROJECT_ROOT, "moon.mod"), os.path.join(publish, "moon.mod"))
     copy_file(os.path.join(PROJECT_ROOT, "README.md"), os.path.join(publish, "README.md"), warn_missing=True)
     copy_file(os.path.join(PROJECT_ROOT, "LICENSE"), os.path.join(publish, "LICENSE"), warn_missing=True)
     copy_file(os.path.join(PROJECT_ROOT, "moon.pkg"), os.path.join(publish, "moon.pkg"))

@@ -320,13 +320,13 @@ fn draw_text_boxed(
       }
     } else {
       if codepoint == '\n'.to_int() {
-        if not(word_wrap) {
+        if !word_wrap {
           text_offset_y += (base_size + base_size / (2.0 : Float)) *
             scale_factor
           text_offset_x = 0.0
         }
       } else {
-        if not(word_wrap) && text_offset_x + glyph_width > rec.width {
+        if !word_wrap && text_offset_x + glyph_width > rec.width {
           text_offset_y += (base_size + base_size / (2.0 : Float)) *
             scale_factor
           text_offset_x = 0.0
@@ -416,7 +416,7 @@ fn main {
   @raylib.set_target_fps(60)
 
   // Main game loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     if @raylib.is_key_pressed(@raylib.KeySpace) {
       randomize_emoji()
@@ -450,7 +450,7 @@ fn main {
         base_size_f,
         base_size_f,
       )
-      if not(@raylib.check_collision_point_rec(mouse, emoji_rect)) {
+      if !@raylib.check_collision_point_rec(mouse, emoji_rect) {
         let tint = if selected == i {
           emoji[i].color
         } else {

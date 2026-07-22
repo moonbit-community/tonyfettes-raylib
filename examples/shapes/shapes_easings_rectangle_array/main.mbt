@@ -55,7 +55,7 @@ fn main {
 
   @raylib.set_target_fps(60)
 
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     if state == 0 {
       frames_counter += 1
       for i in 0..<total_recs {

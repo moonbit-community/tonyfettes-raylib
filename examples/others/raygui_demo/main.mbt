@@ -22,7 +22,7 @@ fn main {
   }
   let mut show_message_box = false
   // Main loop
-  while not(@raylib.window_should_close()) {
+  while !@raylib.window_should_close() {
     // Update
     progress_val.val = progress_val.val + 0.001
     if progress_val.val > 1.0 {
@@ -81,7 +81,7 @@ fn main {
         100,
         spinner_edit,
       ) {
-      spinner_edit = not(spinner_edit)
+      spinner_edit = !spinner_edit
     }
     // Row 2: Slider controls
     @raygui.gui_group_box(
@@ -156,7 +156,7 @@ fn main {
         dropdown_val,
         dropdown_edit,
       ) {
-      dropdown_edit = not(dropdown_edit)
+      dropdown_edit = !dropdown_edit
     }
     // Row 4: Color picker
     @raygui.gui_group_box(
