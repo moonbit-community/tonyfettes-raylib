@@ -9,6 +9,52 @@ const SmoothCircleErrorRate : Float = 0.5
 const SplineSegmentDivisions : Int = 24
 
 ///|
+/// One cross-section of a thick spline strip.
+///
+/// Keeping the four coordinates inline avoids allocating a temporary point
+/// array for every spline drawn in a frame.
+#valtype
+priv struct SplineStripEdge {
+  left_x : Float
+  left_y : Float
+  right_x : Float
+  right_y : Float
+}
+
+///|
+fn SplineStripEdge::at(
+  position : Vector2,
+  dx : Float,
+  dy : Float,
+  size : Float,
+) -> SplineStripEdge {
+  {
+    left_x: position.x + dy * size,
+    left_y: position.y - dx * size,
+    right_x: position.x - dy * size,
+    right_y: position.y + dx * size,
+  }
+}
+
+///|
+/// Submit the two triangles between adjacent strip edges.
+///
+/// The caller owns the surrounding `rl_begin`/`rl_end` pair so a whole spline
+/// can be submitted without allocating or starting a batch per segment.
+fn SplineStripEdge::submit_to(
+  self : SplineStripEdge,
+  next : SplineStripEdge,
+) -> Unit {
+  @ffi.rl_vertex2f(next.left_x, next.left_y)
+  @ffi.rl_vertex2f(self.left_x, self.left_y)
+  @ffi.rl_vertex2f(self.right_x, self.right_y)
+
+  @ffi.rl_vertex2f(next.right_x, next.right_y)
+  @ffi.rl_vertex2f(next.left_x, next.left_y)
+  @ffi.rl_vertex2f(self.right_x, self.right_y)
+}
+
+///|
 fn get_shape_texture_uvs() -> (UInt, Float, Float, Float, Float) {
   let texture = Texture::get_shapes()
   let shape_rect = get_shapes_texture_rectangle()
@@ -170,57 +216,6 @@ fn resolve_circle_segments(
 }
 
 ///|
-fn submit_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
-  if points.length() < 3 {
-    return
-  }
-
-  @ffi.rl_begin(@ffi.RlTrianglesMode)
-  submit_color(color)
-
-  for i in 2..<points.length() {
-    if i % 2 == 0 {
-      let point = points[i]
-      let point_prev2 = points[i - 2]
-      let point_prev1 = points[i - 1]
-      @ffi.rl_vertex2f(point.x, point.y)
-      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
-      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
-    } else {
-      let point = points[i]
-      let point_prev1 = points[i - 1]
-      let point_prev2 = points[i - 2]
-      @ffi.rl_vertex2f(point.x, point.y)
-      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
-      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
-    }
-  }
-
-  @ffi.rl_end()
-}
-
-///|
-fn make_spline_strip_buffer() -> Array[Vector2] {
-  Array::make(SplineSegmentDivisions * 2 + 2, { x: 0.0, y: 0.0 })
-}
-
-///|
-fn write_spline_strip_pair(
-  points : Array[Vector2],
-  index : Int,
-  position : Vector2,
-  dx : Float,
-  dy : Float,
-  size : Float,
-) -> Unit {
-  points[2 * index] = { x: position.x + dy * size, y: position.y - dx * size }
-  points[2 * index + 1] = {
-    x: position.x - dy * size,
-    y: position.y + dx * size,
-  }
-}
-
-///|
 fn ease_cubic_in_out(t : Float, b : Float, c : Float, d : Float) -> Float {
   let mut t = t / ((0.5 : Float) * d)
   if t < (1.0 : Float) {
@@ -258,67 +253,6 @@ fn resolve_rounded_rectangle_segments(
   } else {
     estimated_segments
   }
-}
-
-///|
-fn rounded_rectangle_fill_points(
-  rec : Rectangle,
-  radius : Float,
-) -> (Array[Vector2], Array[Vector2], Array[Float]) {
-  let points : Array[Vector2] = [
-    { x: rec.x + radius, y: rec.y },
-    { x: rec.x + rec.width - radius, y: rec.y },
-    { x: rec.x + rec.width, y: rec.y + radius },
-    { x: rec.x + rec.width, y: rec.y + rec.height - radius },
-    { x: rec.x + rec.width - radius, y: rec.y + rec.height },
-    { x: rec.x + radius, y: rec.y + rec.height },
-    { x: rec.x, y: rec.y + rec.height - radius },
-    { x: rec.x, y: rec.y + radius },
-    { x: rec.x + radius, y: rec.y + radius },
-    { x: rec.x + rec.width - radius, y: rec.y + radius },
-    { x: rec.x + rec.width - radius, y: rec.y + rec.height - radius },
-    { x: rec.x + radius, y: rec.y + rec.height - radius },
-  ]
-  let centers : Array[Vector2] = [points[8], points[9], points[10], points[11]]
-  let angles : Array[Float] = [180.0, 270.0, 0.0, 90.0]
-  (points, centers, angles)
-}
-
-///|
-fn rounded_rectangle_outline_points(
-  rec : Rectangle,
-  inner_radius : Float,
-  line_thick : Float,
-) -> (Array[Vector2], Array[Vector2], Array[Float]) {
-  let points : Array[Vector2] = [
-    { x: rec.x + inner_radius, y: rec.y - line_thick },
-    { x: rec.x + rec.width - inner_radius, y: rec.y - line_thick },
-    { x: rec.x + rec.width + line_thick, y: rec.y + inner_radius },
-    { x: rec.x + rec.width + line_thick, y: rec.y + rec.height - inner_radius },
-    { x: rec.x + rec.width - inner_radius, y: rec.y + rec.height + line_thick },
-    { x: rec.x + inner_radius, y: rec.y + rec.height + line_thick },
-    { x: rec.x - line_thick, y: rec.y + rec.height - inner_radius },
-    { x: rec.x - line_thick, y: rec.y + inner_radius },
-    { x: rec.x + inner_radius, y: rec.y },
-    { x: rec.x + rec.width - inner_radius, y: rec.y },
-    { x: rec.x + rec.width, y: rec.y + inner_radius },
-    { x: rec.x + rec.width, y: rec.y + rec.height - inner_radius },
-    { x: rec.x + rec.width - inner_radius, y: rec.y + rec.height },
-    { x: rec.x + inner_radius, y: rec.y + rec.height },
-    { x: rec.x, y: rec.y + rec.height - inner_radius },
-    { x: rec.x, y: rec.y + inner_radius },
-  ]
-  let centers : Array[Vector2] = [
-    { x: rec.x + inner_radius, y: rec.y + inner_radius },
-    { x: rec.x + rec.width - inner_radius, y: rec.y + inner_radius },
-    {
-      x: rec.x + rec.width - inner_radius,
-      y: rec.y + rec.height - inner_radius,
-    },
-    { x: rec.x + inner_radius, y: rec.y + rec.height - inner_radius },
-  ]
-  let angles : Array[Float] = [180.0, 270.0, 0.0, 90.0]
-  (points, centers, angles)
 }
 
 ///|
@@ -427,15 +361,13 @@ pub fn draw_line_ex(
 
   if length > (0.0 : Float) && thick > (0.0 : Float) {
     let scale = thick / ((2.0 : Float) * length)
-    let radius_x = -scale * delta_y
-    let radius_y = scale * delta_x
-    let strip : Array[Vector2] = [
-      { x: start_pos.x - radius_x, y: start_pos.y - radius_y },
-      { x: start_pos.x + radius_x, y: start_pos.y + radius_y },
-      { x: end_pos.x - radius_x, y: end_pos.y - radius_y },
-      { x: end_pos.x + radius_x, y: end_pos.y + radius_y },
-    ]
-    submit_triangle_strip(strip, color)
+    let start_edge = SplineStripEdge::at(start_pos, delta_x, delta_y, scale)
+    let end_edge = SplineStripEdge::at(end_pos, delta_x, delta_y, scale)
+
+    @ffi.rl_begin(@ffi.RlTrianglesMode)
+    submit_color(color)
+    start_edge.submit_to(end_edge)
+    @ffi.rl_end()
   }
 }
 
@@ -448,8 +380,11 @@ pub fn draw_line_bezier(
   color : Color,
 ) -> Unit {
   let mut previous = start_pos
-  let points = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(start_pos, 0.0, 0.0, 0.0)
   let segment_count = Float::from_int(SplineSegmentDivisions)
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
 
   for i in 1..<(SplineSegmentDivisions + 1) {
     let current = {
@@ -467,14 +402,16 @@ pub fn draw_line_bezier(
     let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
     if i == 1 {
-      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+      previous_edge = SplineStripEdge::at(previous, dx, dy, size)
     }
 
-    write_spline_strip_pair(points, i, current, dx, dy, size)
+    let current_edge = SplineStripEdge::at(current, dx, dy, size)
+    previous_edge.submit_to(current_edge)
+    previous_edge = current_edge
     previous = current
   }
 
-  submit_triangle_strip(points, color)
+  @ffi.rl_end()
 }
 
 ///|
@@ -1054,15 +991,36 @@ pub fn draw_rectangle_rounded(
 
   let segments = resolve_rounded_rectangle_segments(radius, segments, 4.0)
   let step_length = (90.0 : Float) / Float::from_int(segments)
-  let (points, centers, angles) = rounded_rectangle_fill_points(rec, radius)
+  // Keep the rectangle boundaries as scalars instead of allocating point,
+  // center, and angle arrays for every draw call.
+  let left = rec.x
+  let right = rec.x + rec.width
+  let top = rec.y
+  let bottom = rec.y + rec.height
+  let inner_left = left + radius
+  let inner_right = right - radius
+  let inner_top = top + radius
+  let inner_bottom = bottom - radius
   let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
 
   @ffi.rl_set_texture(texture_id)
   @ffi.rl_begin(@ffi.RlQuadsMode)
 
+  // Traverse corners clockwise from top-left: 180, 270, 0, 90 degrees.
   for k in 0..<4 {
-    let mut angle = angles[k]
-    let center = centers[k]
+    let mut angle = Float::from_int((k + 2) % 4 * 90)
+    let center = {
+      x: if k == 0 || k == 3 {
+        inner_left
+      } else {
+        inner_right
+      },
+      y: if k < 2 {
+        inner_top
+      } else {
+        inner_bottom
+      },
+    }
 
     for _ in 0..<(segments / 2) {
       submit_color(color)
@@ -1097,53 +1055,53 @@ pub fn draw_rectangle_rounded(
 
   submit_color(color)
   @ffi.rl_tex_coord2f(u0, v0)
-  @ffi.rl_vertex2f(points[0].x, points[0].y)
+  @ffi.rl_vertex2f(inner_left, top)
   @ffi.rl_tex_coord2f(u0, v1)
-  @ffi.rl_vertex2f(points[8].x, points[8].y)
+  @ffi.rl_vertex2f(inner_left, inner_top)
   @ffi.rl_tex_coord2f(u1, v1)
-  @ffi.rl_vertex2f(points[9].x, points[9].y)
+  @ffi.rl_vertex2f(inner_right, inner_top)
   @ffi.rl_tex_coord2f(u1, v0)
-  @ffi.rl_vertex2f(points[1].x, points[1].y)
+  @ffi.rl_vertex2f(inner_right, top)
 
   submit_color(color)
   @ffi.rl_tex_coord2f(u0, v0)
-  @ffi.rl_vertex2f(points[2].x, points[2].y)
+  @ffi.rl_vertex2f(right, inner_top)
   @ffi.rl_tex_coord2f(u0, v1)
-  @ffi.rl_vertex2f(points[9].x, points[9].y)
+  @ffi.rl_vertex2f(inner_right, inner_top)
   @ffi.rl_tex_coord2f(u1, v1)
-  @ffi.rl_vertex2f(points[10].x, points[10].y)
+  @ffi.rl_vertex2f(inner_right, inner_bottom)
   @ffi.rl_tex_coord2f(u1, v0)
-  @ffi.rl_vertex2f(points[3].x, points[3].y)
+  @ffi.rl_vertex2f(right, inner_bottom)
 
   submit_color(color)
   @ffi.rl_tex_coord2f(u0, v0)
-  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_vertex2f(inner_left, inner_bottom)
   @ffi.rl_tex_coord2f(u0, v1)
-  @ffi.rl_vertex2f(points[5].x, points[5].y)
+  @ffi.rl_vertex2f(inner_left, bottom)
   @ffi.rl_tex_coord2f(u1, v1)
-  @ffi.rl_vertex2f(points[4].x, points[4].y)
+  @ffi.rl_vertex2f(inner_right, bottom)
   @ffi.rl_tex_coord2f(u1, v0)
-  @ffi.rl_vertex2f(points[10].x, points[10].y)
+  @ffi.rl_vertex2f(inner_right, inner_bottom)
 
   submit_color(color)
   @ffi.rl_tex_coord2f(u0, v0)
-  @ffi.rl_vertex2f(points[7].x, points[7].y)
+  @ffi.rl_vertex2f(left, inner_top)
   @ffi.rl_tex_coord2f(u0, v1)
-  @ffi.rl_vertex2f(points[6].x, points[6].y)
+  @ffi.rl_vertex2f(left, inner_bottom)
   @ffi.rl_tex_coord2f(u1, v1)
-  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_vertex2f(inner_left, inner_bottom)
   @ffi.rl_tex_coord2f(u1, v0)
-  @ffi.rl_vertex2f(points[8].x, points[8].y)
+  @ffi.rl_vertex2f(inner_left, inner_top)
 
   submit_color(color)
   @ffi.rl_tex_coord2f(u0, v0)
-  @ffi.rl_vertex2f(points[8].x, points[8].y)
+  @ffi.rl_vertex2f(inner_left, inner_top)
   @ffi.rl_tex_coord2f(u0, v1)
-  @ffi.rl_vertex2f(points[11].x, points[11].y)
+  @ffi.rl_vertex2f(inner_left, inner_bottom)
   @ffi.rl_tex_coord2f(u1, v1)
-  @ffi.rl_vertex2f(points[10].x, points[10].y)
+  @ffi.rl_vertex2f(inner_right, inner_bottom)
   @ffi.rl_tex_coord2f(u1, v0)
-  @ffi.rl_vertex2f(points[9].x, points[9].y)
+  @ffi.rl_vertex2f(inner_right, inner_top)
 
   @ffi.rl_end()
   @ffi.rl_set_texture(0U)
@@ -1207,18 +1165,41 @@ pub fn draw_rectangle_rounded_lines_ex(
   let step_length = (90.0 : Float) / Float::from_int(segments)
   let outer_radius = radius + line_thick
   let inner_radius = radius
-  let (points, centers, angles) = rounded_rectangle_outline_points(
-    rec, inner_radius, line_thick,
-  )
+  // These scalar boundaries replace the temporary point tables used by the
+  // fill and line paths below.
+  let left = rec.x
+  let right = rec.x + rec.width
+  let top = rec.y
+  let bottom = rec.y + rec.height
+  let outer_left = left - line_thick
+  let outer_right = right + line_thick
+  let outer_top = top - line_thick
+  let outer_bottom = bottom + line_thick
+  let center_left = left + inner_radius
+  let center_right = right - inner_radius
+  let center_top = top + inner_radius
+  let center_bottom = bottom - inner_radius
 
+  // Both paths traverse corners clockwise from top-left.
   if line_thick > (1.0 : Float) {
     let (texture_id, u0, v0, u1, v1) = get_shape_texture_uvs()
     @ffi.rl_set_texture(texture_id)
     @ffi.rl_begin(@ffi.RlQuadsMode)
 
     for k in 0..<4 {
-      let mut angle = angles[k]
-      let center = centers[k]
+      let mut angle = Float::from_int((k + 2) % 4 * 90)
+      let center = {
+        x: if k == 0 || k == 3 {
+          center_left
+        } else {
+          center_right
+        },
+        y: if k < 2 {
+          center_top
+        } else {
+          center_bottom
+        },
+      }
 
       for _ in 0..<segments {
         submit_color(color)
@@ -1240,43 +1221,43 @@ pub fn draw_rectangle_rounded_lines_ex(
 
     submit_color(color)
     @ffi.rl_tex_coord2f(u0, v0)
-    @ffi.rl_vertex2f(points[0].x, points[0].y)
+    @ffi.rl_vertex2f(center_left, outer_top)
     @ffi.rl_tex_coord2f(u0, v1)
-    @ffi.rl_vertex2f(points[8].x, points[8].y)
+    @ffi.rl_vertex2f(center_left, top)
     @ffi.rl_tex_coord2f(u1, v1)
-    @ffi.rl_vertex2f(points[9].x, points[9].y)
+    @ffi.rl_vertex2f(center_right, top)
     @ffi.rl_tex_coord2f(u1, v0)
-    @ffi.rl_vertex2f(points[1].x, points[1].y)
+    @ffi.rl_vertex2f(center_right, outer_top)
 
     submit_color(color)
     @ffi.rl_tex_coord2f(u0, v0)
-    @ffi.rl_vertex2f(points[2].x, points[2].y)
+    @ffi.rl_vertex2f(outer_right, center_top)
     @ffi.rl_tex_coord2f(u0, v1)
-    @ffi.rl_vertex2f(points[10].x, points[10].y)
+    @ffi.rl_vertex2f(right, center_top)
     @ffi.rl_tex_coord2f(u1, v1)
-    @ffi.rl_vertex2f(points[11].x, points[11].y)
+    @ffi.rl_vertex2f(right, center_bottom)
     @ffi.rl_tex_coord2f(u1, v0)
-    @ffi.rl_vertex2f(points[3].x, points[3].y)
+    @ffi.rl_vertex2f(outer_right, center_bottom)
 
     submit_color(color)
     @ffi.rl_tex_coord2f(u0, v0)
-    @ffi.rl_vertex2f(points[13].x, points[13].y)
+    @ffi.rl_vertex2f(center_left, bottom)
     @ffi.rl_tex_coord2f(u0, v1)
-    @ffi.rl_vertex2f(points[5].x, points[5].y)
+    @ffi.rl_vertex2f(center_left, outer_bottom)
     @ffi.rl_tex_coord2f(u1, v1)
-    @ffi.rl_vertex2f(points[4].x, points[4].y)
+    @ffi.rl_vertex2f(center_right, outer_bottom)
     @ffi.rl_tex_coord2f(u1, v0)
-    @ffi.rl_vertex2f(points[12].x, points[12].y)
+    @ffi.rl_vertex2f(center_right, bottom)
 
     submit_color(color)
     @ffi.rl_tex_coord2f(u0, v0)
-    @ffi.rl_vertex2f(points[15].x, points[15].y)
+    @ffi.rl_vertex2f(left, center_top)
     @ffi.rl_tex_coord2f(u0, v1)
-    @ffi.rl_vertex2f(points[7].x, points[7].y)
+    @ffi.rl_vertex2f(outer_left, center_top)
     @ffi.rl_tex_coord2f(u1, v1)
-    @ffi.rl_vertex2f(points[6].x, points[6].y)
+    @ffi.rl_vertex2f(outer_left, center_bottom)
     @ffi.rl_tex_coord2f(u1, v0)
-    @ffi.rl_vertex2f(points[14].x, points[14].y)
+    @ffi.rl_vertex2f(left, center_bottom)
 
     @ffi.rl_end()
     @ffi.rl_set_texture(0U)
@@ -1284,8 +1265,19 @@ pub fn draw_rectangle_rounded_lines_ex(
     @ffi.rl_begin(@ffi.RlLinesMode)
 
     for k in 0..<4 {
-      let mut angle = angles[k]
-      let center = centers[k]
+      let mut angle = Float::from_int((k + 2) % 4 * 90)
+      let center = {
+        x: if k == 0 || k == 3 {
+          center_left
+        } else {
+          center_right
+        },
+        y: if k < 2 {
+          center_top
+        } else {
+          center_bottom
+        },
+      }
 
       for _ in 0..<segments {
         submit_color(color)
@@ -1297,13 +1289,15 @@ pub fn draw_rectangle_rounded_lines_ex(
       }
     }
 
-    for i in 0..<4 {
-      let start = points[i * 2]
-      let end_ = points[i * 2 + 1]
-      submit_color(color)
-      @ffi.rl_vertex2f(start.x, start.y)
-      @ffi.rl_vertex2f(end_.x, end_.y)
-    }
+    submit_color(color)
+    @ffi.rl_vertex2f(center_left, outer_top)
+    @ffi.rl_vertex2f(center_right, outer_top)
+    @ffi.rl_vertex2f(outer_right, center_top)
+    @ffi.rl_vertex2f(outer_right, center_bottom)
+    @ffi.rl_vertex2f(center_right, outer_bottom)
+    @ffi.rl_vertex2f(center_left, outer_bottom)
+    @ffi.rl_vertex2f(outer_left, center_bottom)
+    @ffi.rl_vertex2f(outer_left, center_top)
 
     @ffi.rl_end()
   }
@@ -1696,7 +1690,32 @@ pub fn draw_triangle_fan(points : Array[Vector2], color : Color) -> Unit {
 ///|
 /// Draw a triangle strip defined by points.
 pub fn draw_triangle_strip(points : Array[Vector2], color : Color) -> Unit {
-  submit_triangle_strip(points, color)
+  if points.length() < 3 {
+    return
+  }
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
+
+  for i in 2..<points.length() {
+    if i % 2 == 0 {
+      let point = points[i]
+      let point_prev2 = points[i - 2]
+      let point_prev1 = points[i - 1]
+      @ffi.rl_vertex2f(point.x, point.y)
+      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
+      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
+    } else {
+      let point = points[i]
+      let point_prev1 = points[i - 1]
+      let point_prev2 = points[i - 2]
+      @ffi.rl_vertex2f(point.x, point.y)
+      @ffi.rl_vertex2f(point_prev1.x, point_prev1.y)
+      @ffi.rl_vertex2f(point_prev2.x, point_prev2.y)
+    }
+  }
+
+  @ffi.rl_end()
 }
 
 // ============================================================================
@@ -1734,7 +1753,7 @@ pub fn draw_spline_basis(
   let mut dx : Float = 0.0
   let mut size : Float = 0.0
   let mut current_point = { x: 0.0, y: 0.0 }
-  let vertices = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(current_point, 0.0, 0.0, 0.0)
 
   for i in 0..<(points.length() - 3) {
     let p1 = points[i]
@@ -1748,8 +1767,11 @@ pub fn draw_spline_basis(
     }
 
     if i > 0 {
-      write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+      previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
     }
+
+    @ffi.rl_begin(@ffi.RlTrianglesMode)
+    submit_color(color)
 
     for j in 1..<(SplineSegmentDivisions + 1) {
       let t = Float::from_int(j) / Float::from_int(SplineSegmentDivisions)
@@ -1760,14 +1782,16 @@ pub fn draw_spline_basis(
       size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
       if i == 0 && j == 1 {
-        write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+        previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
       }
 
-      write_spline_strip_pair(vertices, j, next_point, dx, dy, size)
+      let next_edge = SplineStripEdge::at(next_point, dx, dy, size)
+      previous_edge.submit_to(next_edge)
+      previous_edge = next_edge
       current_point = next_point
     }
 
-    submit_triangle_strip(vertices, color)
+    @ffi.rl_end()
   }
 
   draw_circle_v(current_point, thick / 2.0, color)
@@ -1788,7 +1812,7 @@ pub fn draw_spline_catmull_rom(
   let mut dx : Float = 0.0
   let mut size : Float = 0.0
   let mut current_point = points[1]
-  let vertices = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(current_point, 0.0, 0.0, 0.0)
 
   draw_circle_v(current_point, thick / 2.0, color)
 
@@ -1799,8 +1823,11 @@ pub fn draw_spline_catmull_rom(
     let p4 = points[i + 3]
 
     if i > 0 {
-      write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+      previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
     }
+
+    @ffi.rl_begin(@ffi.RlTrianglesMode)
+    submit_color(color)
 
     for j in 1..<(SplineSegmentDivisions + 1) {
       let t = Float::from_int(j) / Float::from_int(SplineSegmentDivisions)
@@ -1811,14 +1838,16 @@ pub fn draw_spline_catmull_rom(
       size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
       if i == 0 && j == 1 {
-        write_spline_strip_pair(vertices, 0, current_point, dx, dy, size)
+        previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
       }
 
-      write_spline_strip_pair(vertices, j, next_point, dx, dy, size)
+      let next_edge = SplineStripEdge::at(next_point, dx, dy, size)
+      previous_edge.submit_to(next_edge)
+      previous_edge = next_edge
       current_point = next_point
     }
 
-    submit_triangle_strip(vertices, color)
+    @ffi.rl_end()
   }
 
   draw_circle_v(current_point, thick / 2.0, color)
@@ -1888,9 +1917,12 @@ pub fn draw_spline_segment_basis(
 ) -> Unit {
   let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
   let mut current_point = get_spline_point_basis(p1, p2, p3, p4, 0.0)
-  let points = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(current_point, 0.0, 0.0, 0.0)
 
-  for i in 0..<(SplineSegmentDivisions + 1) {
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
+
+  for i in 1..<(SplineSegmentDivisions + 1) {
     let t : Float = step * Float::from_int(i)
     let next_point = get_spline_point_basis(p1, p2, p3, p4, t)
     let dy = next_point.y - current_point.y
@@ -1898,14 +1930,16 @@ pub fn draw_spline_segment_basis(
     let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
     if i == 1 {
-      write_spline_strip_pair(points, 0, current_point, dx, dy, size)
+      previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
     }
 
-    write_spline_strip_pair(points, i, next_point, dx, dy, size)
+    let next_edge = SplineStripEdge::at(next_point, dx, dy, size)
+    previous_edge.submit_to(next_edge)
+    previous_edge = next_edge
     current_point = next_point
   }
 
-  submit_triangle_strip(points, color)
+  @ffi.rl_end()
 }
 
 ///|
@@ -1919,10 +1953,13 @@ pub fn draw_spline_segment_catmull_rom(
   color : Color,
 ) -> Unit {
   let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
-  let mut current_point = p1
-  let points = make_spline_strip_buffer()
+  let mut current_point = get_spline_point_catmull_rom(p1, p2, p3, p4, 0.0)
+  let mut previous_edge = SplineStripEdge::at(current_point, 0.0, 0.0, 0.0)
 
-  for i in 0..<(SplineSegmentDivisions + 1) {
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
+
+  for i in 1..<(SplineSegmentDivisions + 1) {
     let t : Float = step * Float::from_int(i)
     let next_point = get_spline_point_catmull_rom(p1, p2, p3, p4, t)
     let dy = next_point.y - current_point.y
@@ -1930,14 +1967,16 @@ pub fn draw_spline_segment_catmull_rom(
     let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
     if i == 1 {
-      write_spline_strip_pair(points, 0, current_point, dx, dy, size)
+      previous_edge = SplineStripEdge::at(current_point, dx, dy, size)
     }
 
-    write_spline_strip_pair(points, i, next_point, dx, dy, size)
+    let next_edge = SplineStripEdge::at(next_point, dx, dy, size)
+    previous_edge.submit_to(next_edge)
+    previous_edge = next_edge
     current_point = next_point
   }
 
-  submit_triangle_strip(points, color)
+  @ffi.rl_end()
 }
 
 ///|
@@ -1951,7 +1990,10 @@ pub fn draw_spline_segment_bezier_quadratic(
 ) -> Unit {
   let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
   let mut previous = p1
-  let points = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(previous, 0.0, 0.0, 0.0)
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
 
   for i in 1..<(SplineSegmentDivisions + 1) {
     let t : Float = step * Float::from_int(i)
@@ -1961,14 +2003,16 @@ pub fn draw_spline_segment_bezier_quadratic(
     let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
     if i == 1 {
-      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+      previous_edge = SplineStripEdge::at(previous, dx, dy, size)
     }
 
-    write_spline_strip_pair(points, i, current, dx, dy, size)
+    let current_edge = SplineStripEdge::at(current, dx, dy, size)
+    previous_edge.submit_to(current_edge)
+    previous_edge = current_edge
     previous = current
   }
 
-  submit_triangle_strip(points, color)
+  @ffi.rl_end()
 }
 
 ///|
@@ -1983,7 +2027,10 @@ pub fn draw_spline_segment_bezier_cubic(
 ) -> Unit {
   let step : Float = (1.0 : Float) / Float::from_int(SplineSegmentDivisions)
   let mut previous = p1
-  let points = make_spline_strip_buffer()
+  let mut previous_edge = SplineStripEdge::at(previous, 0.0, 0.0, 0.0)
+
+  @ffi.rl_begin(@ffi.RlTrianglesMode)
+  submit_color(color)
 
   for i in 1..<(SplineSegmentDivisions + 1) {
     let t : Float = step * Float::from_int(i)
@@ -1993,14 +2040,16 @@ pub fn draw_spline_segment_bezier_cubic(
     let size = (0.5 : Float) * thick / sqrtf(dx * dx + dy * dy)
 
     if i == 1 {
-      write_spline_strip_pair(points, 0, previous, dx, dy, size)
+      previous_edge = SplineStripEdge::at(previous, dx, dy, size)
     }
 
-    write_spline_strip_pair(points, i, current, dx, dy, size)
+    let current_edge = SplineStripEdge::at(current, dx, dy, size)
+    previous_edge.submit_to(current_edge)
+    previous_edge = current_edge
     previous = current
   }
 
-  submit_triangle_strip(points, color)
+  @ffi.rl_end()
 }
 
 // ============================================================================
