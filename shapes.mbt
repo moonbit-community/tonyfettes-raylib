@@ -581,9 +581,9 @@ pub fn get_collision_rec(rec1 : Rectangle, rec2 : Rectangle) -> Rectangle {
   let bottom2 = rec2.y + rec2.height
   let bottom = if bottom1 < bottom2 { bottom1 } else { bottom2 }
   if left < right && top < bottom {
-    { x: left, y: top, width: right - left, height: bottom - top }
+    { x: left, y: top, width: right - left, height: bottom - top, }
   } else {
-    { x: 0.0, y: 0.0, width: 0.0, height: 0.0 }
+    { x: 0.0, y: 0.0, width: 0.0, height: 0.0, }
   }
 }
 
@@ -1080,5 +1080,5 @@ pub fn check_collision_lines(
     ) {
     return None
   }
-  Some({ x: xi, y: yi })
+  Some({ x: xi, y: yi, })
 }

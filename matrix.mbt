@@ -733,7 +733,7 @@ pub fn Matrix::look_at(eye : Vector3, target : Vector3, up : Vector3) -> Matrix 
 /// Decompose a transformation matrix into its translation, rotation, and scale components.
 pub fn Matrix::decompose(mat : Matrix) -> (Vector3, Vector4, Vector3) {
   // Extract translation
-  let translation : Vector3 = { x: mat.m12, y: mat.m13, z: mat.m14 }
+  let translation : Vector3 = { x: mat.m12, y: mat.m13, z: mat.m14, }
   // Extract upper-left for determinant computation
   let a = mat.m0
   let b = mat.m4
@@ -753,9 +753,9 @@ pub fn Matrix::decompose(mat : Matrix) -> (Vector3, Vector4, Vector3) {
   let scaley = sqrtf(d * d + e * e + f * f)
   let scalez = sqrtf(g * g + h * h + i * i)
   let s : Vector3 = if det < 0.0 {
-    { x: -scalex, y: -scaley, z: -scalez }
+    { x: -scalex, y: -scaley, z: -scalez, }
   } else {
-    { x: scalex, y: scaley, z: scalez }
+    { x: scalex, y: scaley, z: scalez, }
   }
   // Remove scale from the matrix if it is not close to zero
   let rotation : Vector4 = if !float_equals(det, 0.0) {
@@ -781,7 +781,7 @@ pub fn Matrix::decompose(mat : Matrix) -> (Vector3, Vector4, Vector3) {
     quaternion_from_matrix(clone)
   } else {
     // QuaternionIdentity
-    { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
+    { x: 0.0, y: 0.0, z: 0.0, w: 1.0, }
   }
   (translation, rotation, s)
 }

@@ -169,7 +169,7 @@ pub fn gui_text_input_box(
         for _ in 0..<text.val.length() {
           buf.write_char('*')
         }
-        let display_text : Ref[String] = { val: buf.to_string() }
+        let display_text : Ref[String] = { val: buf.to_string(), }
         if gui_text_box(
             actual_textbox_bounds, display_text, text_max_size, false,
           ) {

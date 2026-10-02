@@ -17,7 +17,7 @@ pub fn Camera2D::new(
   rotation : Float,
   zoom : Float,
 ) -> Camera2D {
-  { offset, target, rotation, zoom }
+  { offset, target, rotation, zoom, }
 }
 
 ///|
@@ -37,8 +37,8 @@ pub fn Camera2D::to_bytes(c : Camera2D) -> Bytes {
 /// Deserialize Camera2D from bytes.
 pub fn Camera2D::from_bytes(b : Bytes) -> Camera2D {
   {
-    offset: { x: read_float(b, 0), y: read_float(b, 4) },
-    target: { x: read_float(b, 8), y: read_float(b, 12) },
+    offset: { x: read_float(b, 0), y: read_float(b, 4), },
+    target: { x: read_float(b, 8), y: read_float(b, 12), },
     rotation: read_float(b, 16),
     zoom: read_float(b, 20),
   }
@@ -65,7 +65,7 @@ pub fn Camera3D::new(
   fovy : Float,
   projection : Int,
 ) -> Camera3D {
-  { position, target, up, fovy, projection }
+  { position, target, up, fovy, projection, }
 }
 
 ///|
@@ -90,9 +90,13 @@ pub fn Camera3D::to_bytes(c : Camera3D) -> Bytes {
 /// Deserialize Camera3D from bytes.
 pub fn Camera3D::from_bytes(b : Bytes) -> Camera3D {
   {
-    position: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) },
-    target: { x: read_float(b, 12), y: read_float(b, 16), z: read_float(b, 20) },
-    up: { x: read_float(b, 24), y: read_float(b, 28), z: read_float(b, 32) },
+    position: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8), },
+    target: {
+      x: read_float(b, 12),
+      y: read_float(b, 16),
+      z: read_float(b, 20),
+    },
+    up: { x: read_float(b, 24), y: read_float(b, 28), z: read_float(b, 32), },
     fovy: read_float(b, 36),
     projection: read_int(b, 40),
   }
@@ -185,16 +189,16 @@ pub fn get_world_to_screen(position : Vector3, camera : Camera3D) -> Vector2 {
 /// Get the world space position for a 2D camera screen space position.
 pub fn get_screen_to_world_2d(position : Vector2, camera : Camera2D) -> Vector2 {
   let inv = Matrix::invert(get_camera_matrix_2d(camera))
-  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0 }, inv)
-  { x: v.x, y: v.y }
+  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0, }, inv)
+  { x: v.x, y: v.y, }
 }
 
 ///|
 /// Get the screen space position for a 2D camera world space position.
 pub fn get_world_to_screen_2d(position : Vector2, camera : Camera2D) -> Vector2 {
   let mat = get_camera_matrix_2d(camera)
-  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0 }, mat)
-  { x: v.x, y: v.y }
+  let v = Vector3::transform({ x: position.x, y: position.y, z: 0.0, }, mat)
+  { x: v.x, y: v.y, }
 }
 
 // ============================================================================
@@ -212,7 +216,7 @@ pub fn get_camera_matrix(camera : Camera3D) -> Matrix {
 pub fn get_camera_matrix_2d(camera : Camera2D) -> Matrix {
   let mat_origin = Matrix::translate(-camera.target.x, -camera.target.y, 0.0)
   let mat_rotation = Matrix::rotate(
-    { x: 0.0, y: 0.0, z: 1.0 },
+    { x: 0.0, y: 0.0, z: 1.0, },
     camera.rotation * 0.017453292519943295,
   )
   let mat_scale = Matrix::scale(camera.zoom, camera.zoom, 1.0)

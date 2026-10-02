@@ -17,7 +17,7 @@ pub fn Rectangle::new(
   width : Float,
   height : Float,
 ) -> Rectangle {
-  { x, y, width, height }
+  { x, y, width, height, }
 }
 
 ///|

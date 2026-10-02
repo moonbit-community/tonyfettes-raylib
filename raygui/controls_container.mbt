@@ -356,7 +356,7 @@ pub fn gui_tab_bar(
       bounds.height,
     )
     // Toggle for each tab
-    let toggle_active : Ref[Bool] = { val: i == active.val }
+    let toggle_active : Ref[Bool] = { val: i == active.val, }
     let _ = gui_toggle(tab_bounds, texts[i], toggle_active)
     if toggle_active.val {
       active.val = i

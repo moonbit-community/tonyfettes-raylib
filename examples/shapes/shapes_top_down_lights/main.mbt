@@ -27,7 +27,7 @@ struct ShadowGeometry {
 
 ///|
 fn ShadowGeometry::new() -> ShadowGeometry {
-  { vertices: FixedArray::make(4, @raylib.Vector2::new(0.0, 0.0)) }
+  { vertices: FixedArray::make(4, @raylib.Vector2::new(0.0, 0.0)), }
 }
 
 // Light info type

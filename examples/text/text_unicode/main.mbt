@@ -135,9 +135,9 @@ let messages : Array[Message] = [
     text: "\u{6211}\u{80FD}\u{541E}\u{4E0B}\u{73BB}\u{7483}\u{800C}\u{4E0D}\u{4F24}\u{8EAB}\u{4F53}\u{3002}",
     language: "Chinese",
   },
-  { text: "\u{4F60}\u{5403}\u{4E86}\u{5417}\u{FF1F}", language: "Chinese" },
-  { text: "\u{4E0D}\u{4F5C}\u{4E0D}\u{6B7B}\u{3002}", language: "Chinese" },
-  { text: "\u{6700}\u{8FD1}\u{597D}\u{5417}\u{FF1F}", language: "Chinese" },
+  { text: "\u{4F60}\u{5403}\u{4E86}\u{5417}\u{FF1F}", language: "Chinese", },
+  { text: "\u{4E0D}\u{4F5C}\u{4E0D}\u{6B7B}\u{3002}", language: "Chinese", },
+  { text: "\u{6700}\u{8FD1}\u{597D}\u{5417}\u{FF1F}", language: "Chinese", },
   {
     text: "\u{585E}\u{7FC1}\u{5931}\u{9A6C}\u{FF0C}\u{7109}\u{77E5}\u{975E}\u{798F}\u{3002}",
     language: "Chinese",
@@ -228,7 +228,7 @@ let messages : Array[Message] = [
     text: "\u{AC1C}\u{CC9C}\u{C5D0}\u{C11C} \u{C6A9} \u{B09C}\u{B2E4}",
     language: "Korean",
   },
-  { text: "\u{C548}\u{B155}\u{D558}\u{C138}\u{C694}?", language: "Korean" },
+  { text: "\u{C548}\u{B155}\u{D558}\u{C138}\u{C694}?", language: "Korean", },
   {
     text: "\u{B9CC}\u{B098}\u{C11C} \u{BC18}\u{AC11}\u{C2B5}\u{B2C8}\u{B2E4}",
     language: "Korean",
@@ -390,7 +390,7 @@ fn main {
   })
   // Initialize with distinct objects
   for i in 0..<emoji_count {
-    emoji[i] = { index: 0, message: 0, color: @raylib.lightgray }
+    emoji[i] = { index: 0, message: 0, color: @raylib.lightgray, }
   }
 
   let mut hovered = -1

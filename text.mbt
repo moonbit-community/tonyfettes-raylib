@@ -113,7 +113,7 @@ pub fn GlyphInfo::new(
   offset_y : Int,
   advance_x : Int,
 ) -> GlyphInfo {
-  { value, offset_x, offset_y, advance_x }
+  { value, offset_x, offset_y, advance_x, }
 }
 
 ///|

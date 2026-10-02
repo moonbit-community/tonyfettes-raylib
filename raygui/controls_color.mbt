@@ -38,7 +38,7 @@ pub fn gui_color_panel_hsv(
         } else {
           new_v
         }
-        color_hsv.val = { x: color_hsv.val.x, y: clamped_s, z: clamped_v }
+        color_hsv.val = { x: color_hsv.val.x, y: clamped_s, z: clamped_v, }
         result = true
       } else {
         state = GuiState::Focused
@@ -55,7 +55,7 @@ pub fn gui_color_panel_hsv(
     blank,
   )
   // Draw simplified color gradient using the hue
-  let rgb = convert_hsv_to_rgb({ x: color_hsv.val.x, y: 1.0, z: 1.0 })
+  let rgb = convert_hsv_to_rgb({ x: color_hsv.val.x, y: 1.0, z: 1.0, })
   let hue_color = @raylib.Color::new(
     (rgb.x * 255.0).to_int(),
     (rgb.y * 255.0).to_int(),
@@ -238,7 +238,7 @@ pub fn gui_color_panel(
   let r : Float = Float::from_int(color.val.r.to_int()) / 255.0
   let g : Float = Float::from_int(color.val.g.to_int()) / 255.0
   let b : Float = Float::from_int(color.val.b.to_int()) / 255.0
-  let hsv : Ref[Vector3] = { val: convert_rgb_to_hsv({ x: r, y: g, z: b }) }
+  let hsv : Ref[Vector3] = { val: convert_rgb_to_hsv({ x: r, y: g, z: b, }), }
   let result = gui_color_panel_hsv(bounds, hsv)
   // Only convert back if changed, to avoid color jitter
   if result {
@@ -270,7 +270,7 @@ pub fn gui_color_picker_hsv(
   let hue_pad = Float::from_int(
     gui_get_style(ControlColorpicker, HuebarPadding),
   )
-  let hue : Ref[Float] = { val: color_hsv.val.x }
+  let hue : Ref[Float] = { val: color_hsv.val.x, }
   // Panel (saturation-value)
   let panel_w = bw - hue_w - hue_pad
   let panel_bounds = @raylib.Rectangle::new(bx, by, panel_w, bh)
@@ -280,7 +280,7 @@ pub fn gui_color_picker_hsv(
   // Hue bar
   let hue_bounds = @raylib.Rectangle::new(bx + panel_w + hue_pad, by, hue_w, bh)
   if gui_color_bar_hue(hue_bounds, hue) {
-    color_hsv.val = { x: hue.val, y: color_hsv.val.y, z: color_hsv.val.z }
+    color_hsv.val = { x: hue.val, y: color_hsv.val.y, z: color_hsv.val.z, }
     result = true
   }
   result
@@ -306,8 +306,8 @@ pub fn gui_color_picker(
   let r : Float = Float::from_int(color.val.r.to_int()) / 255.0
   let g : Float = Float::from_int(color.val.g.to_int()) / 255.0
   let b : Float = Float::from_int(color.val.b.to_int()) / 255.0
-  let hsv : Ref[Vector3] = { val: convert_rgb_to_hsv({ x: r, y: g, z: b }) }
-  let hue : Ref[Float] = { val: hsv.val.x }
+  let hsv : Ref[Vector3] = { val: convert_rgb_to_hsv({ x: r, y: g, z: b, }), }
+  let hue : Ref[Float] = { val: hsv.val.x, }
   let alpha_val : Ref[Float] = {
     val: Float::from_int(color.val.a.to_int()) / 255.0,
   }
@@ -320,7 +320,7 @@ pub fn gui_color_picker(
   // Hue bar
   let hue_bounds = @raylib.Rectangle::new(bx + panel_w + hue_pad, by, hue_w, bh)
   if gui_color_bar_hue(hue_bounds, hue) {
-    hsv.val = { x: hue.val, y: hsv.val.y, z: hsv.val.z }
+    hsv.val = { x: hue.val, y: hsv.val.y, z: hsv.val.z, }
     result = true
   }
   // Alpha bar

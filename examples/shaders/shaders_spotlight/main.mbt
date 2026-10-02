@@ -82,7 +82,7 @@ fn main {
     speed_y: 0.0,
   })
   for n in 0..<max_stars {
-    stars[n] = { pos_x: 0.0, pos_y: 0.0, speed_x: 0.0, speed_y: 0.0 }
+    stars[n] = { pos_x: 0.0, pos_y: 0.0, speed_x: 0.0, speed_y: 0.0, }
     reset_star(stars[n])
   }
 
@@ -149,7 +149,7 @@ fn main {
     let inner = (28.0 : Float) * Float::from_int(i + 1)
     let radius = (48.0 : Float) * Float::from_int(i + 1)
     // Use struct update via direct field assignment
-    spots[i] = { ..spots[i], inner, radius }
+    spots[i] = { ..spots[i], inner, radius, }
     shdr_spot.set_value(
       spots[i].position_loc,
       @raylib.ShaderUniformData::Vec2(
