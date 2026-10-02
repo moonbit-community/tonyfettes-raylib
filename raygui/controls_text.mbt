@@ -54,7 +54,7 @@ pub fn gui_text_box(
       if codepoint >= 32 && text_length < text_size - 1 {
         // Insert character at cursor position
         let ch = Int::unsafe_to_char(codepoint)
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for i in 0..<gui_globals.text_box_cursor_index {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
@@ -81,7 +81,7 @@ pub fn gui_text_box(
           @raylib.is_key_pressed(KeyDelete) ||
           (@raylib.is_key_down(KeyDelete) && auto_trigger)
         ) {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for i in 0..<gui_globals.text_box_cursor_index {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
@@ -99,7 +99,7 @@ pub fn gui_text_box(
           @raylib.is_key_pressed(KeyBackspace) ||
           (@raylib.is_key_down(KeyBackspace) && auto_trigger)
         ) {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for i in 0..<(gui_globals.text_box_cursor_index - 1) {
           buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
         }
@@ -239,7 +239,7 @@ pub fn gui_value_box(
       if key_count < 32 {
         let key = @raylib.get_char_pressed()
         if key >= 48 && key <= 57 {
-          let buf = StringBuilder::new()
+          let buf = StringBuilder()
           for i in 0..<key_count {
             buf.write_char(Int::unsafe_to_char(text_value[i].to_int()))
           }
@@ -511,7 +511,7 @@ pub fn gui_value_box_float(
         let key = @raylib.get_char_pressed()
         if key >= 48 && key <= 57 {
           // Digits 0-9
-          let buf = StringBuilder::new()
+          let buf = StringBuilder()
           for i in 0..<key_count {
             buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
           }
@@ -527,7 +527,7 @@ pub fn gui_value_box_float(
             }
           }
           if !has_dot {
-            let buf = StringBuilder::new()
+            let buf = StringBuilder()
             for i in 0..<key_count {
               buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
             }
@@ -538,7 +538,7 @@ pub fn gui_value_box_float(
         } else if key == 43 || key == 45 {
           // '+' or '-' - only at position 0
           if key_count == 0 {
-            let buf = StringBuilder::new()
+            let buf = StringBuilder()
             buf.write_char(Int::unsafe_to_char(key))
             text_value.val = buf.to_string()
             key_count = key_count + 1
@@ -548,7 +548,7 @@ pub fn gui_value_box_float(
               text_value.val = string_sub(text_value.val, 1, key_count)
               key_count = key_count - 1
             } else if text_value.val[0] == '+' {
-              let buf = StringBuilder::new()
+              let buf = StringBuilder()
               buf.write_char('-')
               for i in 1..<key_count {
                 buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
@@ -564,7 +564,7 @@ pub fn gui_value_box_float(
               text_value.val = string_sub(text_value.val, 1, key_count)
               key_count = key_count - 1
             } else if text_value.val[0] == '-' {
-              let buf = StringBuilder::new()
+              let buf = StringBuilder()
               buf.write_char('+')
               for i in 1..<key_count {
                 buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))

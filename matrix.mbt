@@ -23,6 +23,12 @@ pub struct Matrix {
 } derive(Eq, Debug)
 
 ///|
+pub extend Matrix with Eq::{not_equal, equal}
+
+///|
+pub extend Matrix with @debug.Debug::{to_repr}
+
+///|
 /// Get identity matrix.
 pub fn Matrix::identity() -> Matrix {
   {

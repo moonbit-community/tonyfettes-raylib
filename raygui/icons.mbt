@@ -832,7 +832,7 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
         name_len = name_len + 1
       }
       // Build the name string from bytes
-      let buf = StringBuilder::new()
+      let buf = StringBuilder()
       for j in 0..<name_len {
         buf.write_char(Int::unsafe_to_char(data[offset + j].to_int()))
       }

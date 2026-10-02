@@ -20,7 +20,7 @@ fn get_text_icon(text : String) -> (Int, String) {
     }
     // Build remaining text after "#NNN#"
     let rest_start = pos + 1
-    let buf = StringBuilder::new()
+    let buf = StringBuilder()
     for i in rest_start..<text.length() {
       buf.write_char(Int::unsafe_to_char(text[i].to_int()))
     }
@@ -71,7 +71,7 @@ pub fn gui_get_text_width(text : String) -> Int {
 
 ///|
 fn string_sub(s : String, start : Int, end : Int) -> String {
-  let buf = StringBuilder::new()
+  let buf = StringBuilder()
   for i in start..<end {
     buf.write_char(Int::unsafe_to_char(s[i].to_int()))
   }

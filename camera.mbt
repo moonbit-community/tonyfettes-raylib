@@ -10,6 +10,12 @@ pub struct Camera2D {
 } derive(Eq, Debug)
 
 ///|
+pub extend Camera2D with Eq::{not_equal, equal}
+
+///|
+pub extend Camera2D with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Camera2D.
 pub fn Camera2D::new(
   offset : Vector2,
@@ -55,6 +61,12 @@ pub struct Camera3D {
   fovy : Float
   projection : Int
 } derive(Eq, Debug)
+
+///|
+pub extend Camera3D with Eq::{not_equal, equal}
+
+///|
+pub extend Camera3D with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new Camera3D.

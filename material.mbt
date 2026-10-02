@@ -9,6 +9,9 @@ pub impl Default for Material with fn default() -> Material {
 }
 
 ///|
+pub extend Material with Default::{default}
+
+///|
 /// Load default material (deprecated, use `Material::default()` instead).
 #as_free_fn(load_material_default, deprecated="Use Material::default() instead")
 #deprecated("Use Material::default() instead")
@@ -100,22 +103,24 @@ pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int {
 
 ///|
 /// Get a material map by index.
-pub fn MaterialMapArray::op_get(
+#alias("_[_]")
+pub fn MaterialMapArray::get(
   self : MaterialMapArray,
   index : Int,
 ) -> MaterialMap {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.material_map_array_op_get(self.0, index)
 }
 
 ///|
 /// Set a material map at the given index.
-pub fn MaterialMapArray::op_set(
+#alias("_[_]=_")
+pub fn MaterialMapArray::set(
   self : MaterialMapArray,
   index : Int,
   value : MaterialMap,
 ) -> Unit {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.material_map_array_op_set(self.0, index, value.0)
 }
 

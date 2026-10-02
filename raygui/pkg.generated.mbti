@@ -339,7 +339,12 @@ pub(all) enum GuiState {
   Pressed
   Disabled
 } derive(Eq, @debug.Debug)
+pub fn GuiState::equal(Self, Self) -> Bool
+pub fn GuiState::not_equal(Self, Self) -> Bool
+pub fn GuiState::output(Self, &Logger) -> Unit
 pub fn GuiState::to_int(Self) -> Int
+pub fn GuiState::to_repr(Self) -> @debug.Repr
+pub fn GuiState::to_string(Self) -> String
 pub impl Show for GuiState
 
 pub struct Vector3 {
@@ -347,10 +352,14 @@ pub struct Vector3 {
   y : Float
   z : Float
 } derive(Eq, @debug.Debug)
+pub fn Vector3::equal(Self, Self) -> Bool
 pub fn Vector3::new(Float, Float, Float) -> Self
+pub fn Vector3::not_equal(Self, Self) -> Bool
+pub fn Vector3::output(Self, &Logger) -> Unit
+pub fn Vector3::to_repr(Self) -> @debug.Repr
+pub fn Vector3::to_string(Self) -> String
 pub impl Show for Vector3
 
 // Type aliases
 
 // Traits
-

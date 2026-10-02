@@ -323,6 +323,9 @@ pub struct VrDeviceInfo {
 } derive(Debug)
 
 ///|
+pub extend VrDeviceInfo with @debug.Debug::{to_repr}
+
+///|
 /// Create a new VrDeviceInfo with the given parameters.
 pub fn VrDeviceInfo::new(
   h_resolution : Int,

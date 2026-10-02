@@ -51,6 +51,12 @@ pub struct Vector3 {
 } derive(Eq, Debug)
 
 ///|
+pub extend Vector3 with Eq::{not_equal, equal}
+
+///|
+pub extend Vector3 with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Vector3 from x, y, z components.
 pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
   { x, y, z, }

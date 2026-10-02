@@ -10,6 +10,12 @@ pub struct Rectangle {
 } derive(Eq, Debug)
 
 ///|
+pub extend Rectangle with Eq::{not_equal, equal}
+
+///|
+pub extend Rectangle with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Rectangle.
 pub fn Rectangle::new(
   x : Float,
