@@ -53,7 +53,7 @@ pub struct Vector3 {
 ///|
 /// Create a new Vector3 from x, y, z components.
 pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
-  { x, y, z }
+  { x, y, z, }
 }
 
 // Convert RGB color values (0.0-1.0 range) to HSV.
@@ -68,7 +68,7 @@ pub fn convert_rgb_to_hsv(rgb : Vector3) -> Vector3 {
   let v = max
   let delta : Float = max - min
   if delta < 0.00001 {
-    return { x: 0.0, y: 0.0, z: v }
+    return { x: 0.0, y: 0.0, z: v, }
   }
   if max > 0.0 {
     let s : Float = delta / max
@@ -81,9 +81,9 @@ pub fn convert_rgb_to_hsv(rgb : Vector3) -> Vector3 {
     }
     let h : Float = h * 60.0
     let h : Float = if h < 0.0 { h + 360.0 } else { h }
-    { x: h, y: s, z: v }
+    { x: h, y: s, z: v, }
   } else {
-    { x: 0.0, y: 0.0, z: v }
+    { x: 0.0, y: 0.0, z: v, }
   }
 }
 
@@ -93,7 +93,7 @@ pub fn convert_rgb_to_hsv(rgb : Vector3) -> Vector3 {
 ///|
 pub fn convert_hsv_to_rgb(hsv : Vector3) -> Vector3 {
   if hsv.y <= 0.0 {
-    return { x: hsv.z, y: hsv.z, z: hsv.z }
+    return { x: hsv.z, y: hsv.z, z: hsv.z, }
   }
   let hh : Float = if hsv.x >= 360.0 { 0.0 } else { hsv.x }
   let hh : Float = hh / 60.0
@@ -103,12 +103,12 @@ pub fn convert_hsv_to_rgb(hsv : Vector3) -> Vector3 {
   let q : Float = hsv.z * (1.0 - hsv.y * ff)
   let t : Float = hsv.z * (1.0 - hsv.y * (1.0 - ff))
   match i {
-    0 => { x: hsv.z, y: t, z: p }
-    1 => { x: q, y: hsv.z, z: p }
-    2 => { x: p, y: hsv.z, z: t }
-    3 => { x: p, y: q, z: hsv.z }
-    4 => { x: t, y: p, z: hsv.z }
-    _ => { x: hsv.z, y: p, z: q }
+    0 => { x: hsv.z, y: t, z: p, }
+    1 => { x: q, y: hsv.z, z: p, }
+    2 => { x: p, y: hsv.z, z: t, }
+    3 => { x: p, y: q, z: hsv.z, }
+    4 => { x: t, y: p, z: hsv.z, }
+    _ => { x: hsv.z, y: p, z: q, }
   }
 }
 

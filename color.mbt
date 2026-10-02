@@ -12,7 +12,7 @@ pub struct Color {
 ///|
 /// Create a new Color from RGBA components.
 pub fn Color::new(r : Int, g : Int, b : Int, a : Int) -> Color {
-  { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: a.to_byte() }
+  { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: a.to_byte(), }
 }
 
 ///|
@@ -24,114 +24,114 @@ pub fn Color::to_bytes(color : Color) -> Bytes {
 ///|
 /// Deserialize Color from bytes.
 pub fn Color::from_bytes(b : Bytes) -> Color {
-  { r: b[0], g: b[1], b: b[2], a: b[3] }
+  { r: b[0], g: b[1], b: b[2], a: b[3], }
 }
 
 // Color constants
 
 ///|
 /// Light gray color.
-pub let lightgray : Color = { r: b'\xC8', g: b'\xC8', b: b'\xC8', a: b'\xFF' }
+pub let lightgray : Color = { r: b'\xC8', g: b'\xC8', b: b'\xC8', a: b'\xFF', }
 
 ///|
 /// Gray color.
-pub let gray : Color = { r: b'\x82', g: b'\x82', b: b'\x82', a: b'\xFF' }
+pub let gray : Color = { r: b'\x82', g: b'\x82', b: b'\x82', a: b'\xFF', }
 
 ///|
 /// Dark gray color.
-pub let darkgray : Color = { r: b'\x50', g: b'\x50', b: b'\x50', a: b'\xFF' }
+pub let darkgray : Color = { r: b'\x50', g: b'\x50', b: b'\x50', a: b'\xFF', }
 
 ///|
 /// Yellow color.
-pub let yellow : Color = { r: b'\xFD', g: b'\xF9', b: b'\x00', a: b'\xFF' }
+pub let yellow : Color = { r: b'\xFD', g: b'\xF9', b: b'\x00', a: b'\xFF', }
 
 ///|
 /// Gold color.
-pub let gold : Color = { r: b'\xFF', g: b'\xCB', b: b'\x00', a: b'\xFF' }
+pub let gold : Color = { r: b'\xFF', g: b'\xCB', b: b'\x00', a: b'\xFF', }
 
 ///|
 /// Orange color.
-pub let orange : Color = { r: b'\xFF', g: b'\xA1', b: b'\x00', a: b'\xFF' }
+pub let orange : Color = { r: b'\xFF', g: b'\xA1', b: b'\x00', a: b'\xFF', }
 
 ///|
 /// Pink color.
-pub let pink : Color = { r: b'\xFF', g: b'\x6D', b: b'\xC2', a: b'\xFF' }
+pub let pink : Color = { r: b'\xFF', g: b'\x6D', b: b'\xC2', a: b'\xFF', }
 
 ///|
 /// Red color.
-pub let red : Color = { r: b'\xE6', g: b'\x29', b: b'\x37', a: b'\xFF' }
+pub let red : Color = { r: b'\xE6', g: b'\x29', b: b'\x37', a: b'\xFF', }
 
 ///|
 /// Maroon color.
-pub let maroon : Color = { r: b'\xBE', g: b'\x21', b: b'\x37', a: b'\xFF' }
+pub let maroon : Color = { r: b'\xBE', g: b'\x21', b: b'\x37', a: b'\xFF', }
 
 ///|
 /// Green color.
-pub let green : Color = { r: b'\x00', g: b'\xE4', b: b'\x30', a: b'\xFF' }
+pub let green : Color = { r: b'\x00', g: b'\xE4', b: b'\x30', a: b'\xFF', }
 
 ///|
 /// Lime color.
-pub let lime : Color = { r: b'\x00', g: b'\x9E', b: b'\x2F', a: b'\xFF' }
+pub let lime : Color = { r: b'\x00', g: b'\x9E', b: b'\x2F', a: b'\xFF', }
 
 ///|
 /// Dark green color.
-pub let darkgreen : Color = { r: b'\x00', g: b'\x75', b: b'\x2C', a: b'\xFF' }
+pub let darkgreen : Color = { r: b'\x00', g: b'\x75', b: b'\x2C', a: b'\xFF', }
 
 ///|
 /// Sky blue color.
-pub let skyblue : Color = { r: b'\x66', g: b'\xBF', b: b'\xFF', a: b'\xFF' }
+pub let skyblue : Color = { r: b'\x66', g: b'\xBF', b: b'\xFF', a: b'\xFF', }
 
 ///|
 /// Blue color.
-pub let blue : Color = { r: b'\x00', g: b'\x79', b: b'\xF1', a: b'\xFF' }
+pub let blue : Color = { r: b'\x00', g: b'\x79', b: b'\xF1', a: b'\xFF', }
 
 ///|
 /// Dark blue color.
-pub let darkblue : Color = { r: b'\x00', g: b'\x52', b: b'\xAC', a: b'\xFF' }
+pub let darkblue : Color = { r: b'\x00', g: b'\x52', b: b'\xAC', a: b'\xFF', }
 
 ///|
 /// Purple color.
-pub let purple : Color = { r: b'\xC8', g: b'\x7A', b: b'\xFF', a: b'\xFF' }
+pub let purple : Color = { r: b'\xC8', g: b'\x7A', b: b'\xFF', a: b'\xFF', }
 
 ///|
 /// Violet color.
-pub let violet : Color = { r: b'\x87', g: b'\x3C', b: b'\xBE', a: b'\xFF' }
+pub let violet : Color = { r: b'\x87', g: b'\x3C', b: b'\xBE', a: b'\xFF', }
 
 ///|
 /// Dark purple color.
-pub let darkpurple : Color = { r: b'\x70', g: b'\x1F', b: b'\x7E', a: b'\xFF' }
+pub let darkpurple : Color = { r: b'\x70', g: b'\x1F', b: b'\x7E', a: b'\xFF', }
 
 ///|
 /// Beige color.
-pub let beige : Color = { r: b'\xD3', g: b'\xB0', b: b'\x83', a: b'\xFF' }
+pub let beige : Color = { r: b'\xD3', g: b'\xB0', b: b'\x83', a: b'\xFF', }
 
 ///|
 /// Brown color.
-pub let brown : Color = { r: b'\x7F', g: b'\x6A', b: b'\x4F', a: b'\xFF' }
+pub let brown : Color = { r: b'\x7F', g: b'\x6A', b: b'\x4F', a: b'\xFF', }
 
 ///|
 /// Dark brown color.
-pub let darkbrown : Color = { r: b'\x4C', g: b'\x3F', b: b'\x2F', a: b'\xFF' }
+pub let darkbrown : Color = { r: b'\x4C', g: b'\x3F', b: b'\x2F', a: b'\xFF', }
 
 ///|
 /// White color.
-pub let white : Color = { r: b'\xFF', g: b'\xFF', b: b'\xFF', a: b'\xFF' }
+pub let white : Color = { r: b'\xFF', g: b'\xFF', b: b'\xFF', a: b'\xFF', }
 
 ///|
 /// Black color.
-pub let black : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\xFF' }
+pub let black : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\xFF', }
 
 ///|
 /// Blank color (fully transparent).
-pub let blank : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00' }
+pub let blank : Color = { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00', }
 
 ///|
 /// Magenta color.
-pub let magenta : Color = { r: b'\xFF', g: b'\x00', b: b'\xFF', a: b'\xFF' }
+pub let magenta : Color = { r: b'\xFF', g: b'\x00', b: b'\xFF', a: b'\xFF', }
 
 ///|
 /// Raylib white color (off-white).
-pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF' }
+pub let raywhite : Color = { r: b'\xF5', g: b'\xF5', b: b'\xF5', a: b'\xFF', }
 
 // Color utility wrappers
 
@@ -146,7 +146,7 @@ pub fn fade(color : Color, alpha : Float) -> Color {
     alpha
   }
   let alpha_byte : Float = 255.0 * a
-  { ..color, a: alpha_byte.to_int().to_byte() }
+  { ..color, a: alpha_byte.to_int().to_byte(), }
 }
 
 ///|
@@ -201,7 +201,7 @@ pub fn color_from_hsv(hue : Float, saturation : Float, value : Float) -> Color {
   let kb : Float = if kb < 1.0 { kb } else { 1.0 }
   let kb : Float = if kb > 0.0 { kb } else { 0.0 }
   let b = ((value - value * saturation * kb) * 255.0).to_int()
-  { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: b'\xFF' }
+  { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: b'\xFF', }
 }
 
 ///|
@@ -316,9 +316,9 @@ pub fn color_to_hsv(color : Color) -> Vector3 {
   let v = max
   let delta = max - min
   if delta < 0.00001 {
-    return { x: 0.0, y: 0.0, z: v }
+    return { x: 0.0, y: 0.0, z: v, }
   }
-  let s = if max > 0.0 { delta / max } else { return { x: 0.0, y: 0.0, z: v } }
+  let s = if max > 0.0 { delta / max } else { return { x: 0.0, y: 0.0, z: v, } }
   let h = if rf >= max {
     (gf - bf) / delta
   } else if gf >= max {
@@ -328,7 +328,7 @@ pub fn color_to_hsv(color : Color) -> Vector3 {
   }
   let h = h * 60.0
   let h = if h < 0.0 { h + 360.0 } else { h }
-  { x: h, y: s, z: v }
+  { x: h, y: s, z: v, }
 }
 
 ///|
@@ -376,7 +376,7 @@ pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
   if sa == 0 {
     dst
   } else if sa == 255 {
-    { r: sr.to_byte(), g: sg.to_byte(), b: sb.to_byte(), a: sa.to_byte() }
+    { r: sr.to_byte(), g: sg.to_byte(), b: sb.to_byte(), a: sa.to_byte(), }
   } else {
     let alpha = sa + 1
     let out_a = (alpha * 256 + dst.a.to_int() * (256 - alpha)) >> 8
@@ -403,7 +403,7 @@ pub fn color_alpha_blend(dst : Color, src : Color, tint : Color) -> Color {
         a: out_a.to_byte(),
       }
     } else {
-      { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00' }
+      { r: b'\x00', g: b'\x00', b: b'\x00', a: b'\x00', }
     }
   }
 }

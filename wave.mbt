@@ -89,7 +89,7 @@ pub fn WaveSamples::unload(self : WaveSamples) -> Unit {
 #as_free_fn(load_wave_samples)
 pub fn Wave::load_samples(self : Wave) -> WaveSamples {
   let count = self.frame_count() * self.channels()
-  { samples: FloatArray(@ffi.load_wave_samples(self.0), count) }
+  { samples: FloatArray(@ffi.load_wave_samples(self.0), count), }
 }
 
 ///|

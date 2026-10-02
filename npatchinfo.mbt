@@ -21,7 +21,7 @@ pub fn NPatchInfo::new(
   bottom : Int,
   layout : Int,
 ) -> NPatchInfo {
-  { source, left, top, right, bottom, layout }
+  { source, left, top, right, bottom, layout, }
 }
 
 ///|

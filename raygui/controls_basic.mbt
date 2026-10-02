@@ -214,7 +214,7 @@ pub fn gui_toggle_group(
       prev_row = rows[i]
     }
     let item_bounds = @raylib.Rectangle::new(cur_x, cur_y, bw, bh)
-    let toggle_active : Ref[Bool] = { val: i == active.val }
+    let toggle_active : Ref[Bool] = { val: i == active.val, }
     let _ = gui_toggle(item_bounds, items[i], toggle_active)
     if toggle_active.val && i != active.val {
       active.val = i

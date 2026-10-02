@@ -13,37 +13,37 @@ fn float_equals(x : Float, y : Float) -> Bool {
 ///|
 /// Get Vector2 with components equal to zero.
 pub fn Vector2::zero() -> Vector2 {
-  { x: 0.0, y: 0.0 }
+  { x: 0.0, y: 0.0, }
 }
 
 ///|
 /// Get Vector2 with components equal to one.
 pub fn Vector2::one() -> Vector2 {
-  { x: 1.0, y: 1.0 }
+  { x: 1.0, y: 1.0, }
 }
 
 ///|
 /// Add two vectors (v1 + v2).
 pub fn Vector2::add(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: v1.x + v2.x, y: v1.y + v2.y }
+  { x: v1.x + v2.x, y: v1.y + v2.y, }
 }
 
 ///|
 /// Add vector and float value.
 pub fn Vector2::add_value(v : Vector2, add : Float) -> Vector2 {
-  { x: v.x + add, y: v.y + add }
+  { x: v.x + add, y: v.y + add, }
 }
 
 ///|
 /// Subtract two vectors (v1 - v2).
 pub fn Vector2::subtract(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: v1.x - v2.x, y: v1.y - v2.y }
+  { x: v1.x - v2.x, y: v1.y - v2.y, }
 }
 
 ///|
 /// Subtract vector by float value.
 pub fn Vector2::subtract_value(v : Vector2, sub : Float) -> Vector2 {
-  { x: v.x - sub, y: v.y - sub }
+  { x: v.x - sub, y: v.y - sub, }
 }
 
 ///|
@@ -97,25 +97,25 @@ pub fn Vector2::line_angle(start : Vector2, end_ : Vector2) -> Float {
 ///|
 /// Scale vector (multiply by value).
 pub fn Vector2::scale(v : Vector2, scale : Float) -> Vector2 {
-  { x: v.x * scale, y: v.y * scale }
+  { x: v.x * scale, y: v.y * scale, }
 }
 
 ///|
 /// Multiply vector by vector.
 pub fn Vector2::multiply(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: v1.x * v2.x, y: v1.y * v2.y }
+  { x: v1.x * v2.x, y: v1.y * v2.y, }
 }
 
 ///|
 /// Negate vector.
 pub fn Vector2::negate(v : Vector2) -> Vector2 {
-  { x: -v.x, y: -v.y }
+  { x: -v.x, y: -v.y, }
 }
 
 ///|
 /// Divide vector by vector.
 pub fn Vector2::divide(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: v1.x / v2.x, y: v1.y / v2.y }
+  { x: v1.x / v2.x, y: v1.y / v2.y, }
 }
 
 ///|
@@ -124,9 +124,9 @@ pub fn Vector2::normalize(v : Vector2) -> Vector2 {
   let len = sqrtf(v.x * v.x + v.y * v.y)
   if len > 0.0 {
     let ilength : Float = (1.0 : Float) / len
-    { x: v.x * ilength, y: v.y * ilength }
+    { x: v.x * ilength, y: v.y * ilength, }
   } else {
-    { x: 0.0, y: 0.0 }
+    { x: 0.0, y: 0.0, }
   }
 }
 
@@ -135,13 +135,16 @@ pub fn Vector2::normalize(v : Vector2) -> Vector2 {
 pub fn Vector2::transform(v : Vector2, mat : Matrix) -> Vector2 {
   let x = v.x
   let y = v.y
-  { x: mat.m0 * x + mat.m4 * y + mat.m12, y: mat.m1 * x + mat.m5 * y + mat.m13 }
+  {
+    x: mat.m0 * x + mat.m4 * y + mat.m12,
+    y: mat.m1 * x + mat.m5 * y + mat.m13,
+  }
 }
 
 ///|
 /// Calculate linear interpolation between two vectors.
 pub fn Vector2::lerp(v1 : Vector2, v2 : Vector2, amount : Float) -> Vector2 {
-  { x: v1.x + amount * (v2.x - v1.x), y: v1.y + amount * (v2.y - v1.y) }
+  { x: v1.x + amount * (v2.x - v1.x), y: v1.y + amount * (v2.y - v1.y), }
 }
 
 ///|
@@ -149,19 +152,19 @@ pub fn Vector2::lerp(v1 : Vector2, v2 : Vector2, amount : Float) -> Vector2 {
 pub fn Vector2::reflect(v : Vector2, normal : Vector2) -> Vector2 {
   let dot = v.x * normal.x + v.y * normal.y
   let two : Float = 2.0
-  { x: v.x - two * normal.x * dot, y: v.y - two * normal.y * dot }
+  { x: v.x - two * normal.x * dot, y: v.y - two * normal.y * dot, }
 }
 
 ///|
 /// Get min value for each pair of components.
 pub fn Vector2::min(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y) }
+  { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y), }
 }
 
 ///|
 /// Get max value for each pair of components.
 pub fn Vector2::max(v1 : Vector2, v2 : Vector2) -> Vector2 {
-  { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y) }
+  { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y), }
 }
 
 ///|
@@ -169,7 +172,7 @@ pub fn Vector2::max(v1 : Vector2, v2 : Vector2) -> Vector2 {
 pub fn Vector2::rotate(v : Vector2, angle : Float) -> Vector2 {
   let c = cosf(angle)
   let s = sinf(angle)
-  { x: v.x * c - v.y * s, y: v.x * s + v.y * c }
+  { x: v.x * c - v.y * s, y: v.x * s + v.y * c, }
 }
 
 ///|
@@ -187,19 +190,19 @@ pub fn Vector2::move_towards(
     return target
   }
   let dist = sqrtf(value)
-  { x: v.x + dx / dist * max_distance, y: v.y + dy / dist * max_distance }
+  { x: v.x + dx / dist * max_distance, y: v.y + dy / dist * max_distance, }
 }
 
 ///|
 /// Invert the given vector.
 pub fn Vector2::invert(v : Vector2) -> Vector2 {
-  { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y }
+  { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y, }
 }
 
 ///|
 /// Clamp vector between min and max vectors.
 pub fn Vector2::clamp(v : Vector2, min : Vector2, max : Vector2) -> Vector2 {
-  { x: fminf(max.x, fmaxf(min.x, v.x)), y: fminf(max.y, fmaxf(min.y, v.y)) }
+  { x: fminf(max.x, fmaxf(min.x, v.x)), y: fminf(max.y, fmaxf(min.y, v.y)), }
 }
 
 ///|
@@ -215,7 +218,7 @@ pub fn Vector2::clamp_value(v : Vector2, min : Float, max : Float) -> Vector2 {
     } else {
       1.0
     }
-    { x: v.x * s, y: v.y * s }
+    { x: v.x * s, y: v.y * s, }
   } else {
     v
   }
@@ -239,8 +242,8 @@ pub fn Vector2::refract(v : Vector2, n : Vector2, r : Float) -> Vector2 {
   if d >= 0.0 {
     let sd = sqrtf(d)
     let factor = r * dot + sd
-    { x: r * v.x - factor * n.x, y: r * v.y - factor * n.y }
+    { x: r * v.x - factor * n.x, y: r * v.y - factor * n.y, }
   } else {
-    { x: 0.0, y: 0.0 }
+    { x: 0.0, y: 0.0, }
   }
 }

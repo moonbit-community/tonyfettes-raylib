@@ -12,10 +12,10 @@ test "basic controls smoke test" {
   // Label button
   let _clicked2 = @raygui.gui_label_button(bounds, "Label Btn")
   // Toggle
-  let toggle_val : Ref[Bool] = { val: false }
+  let toggle_val : Ref[Bool] = { val: false, }
   let _toggled = @raygui.gui_toggle(bounds, "Toggle", toggle_val)
   // Checkbox
-  let check_val : Ref[Bool] = { val: false }
+  let check_val : Ref[Bool] = { val: false, }
   let _checked = @raygui.gui_check_box(bounds, "Check", check_val)
   // Dummy rec
   @raygui.gui_dummy_rec(bounds, "Dummy")
@@ -37,13 +37,13 @@ test "slider controls smoke test" {
   @raylib.begin_drawing()
   let bounds = @raylib.Rectangle::new(0.0, 0.0, 200.0, 30.0)
   // Slider
-  let slider_val : Ref[Float] = { val: 50.0 }
+  let slider_val : Ref[Float] = { val: 50.0, }
   let _s = @raygui.gui_slider(bounds, "Min", "Max", slider_val, 0.0, 100.0)
   // Slider bar
-  let bar_val : Ref[Float] = { val: 0.5 }
+  let bar_val : Ref[Float] = { val: 0.5, }
   let _sb = @raygui.gui_slider_bar(bounds, "Lo", "Hi", bar_val, 0.0, 1.0)
   // Progress bar
-  let progress_val : Ref[Float] = { val: 0.3 }
+  let progress_val : Ref[Float] = { val: 0.3, }
   @raygui.gui_progress_bar(bounds, "0%", "100%", progress_val, 0.0, 1.0)
   @raylib.end_drawing()
   @raylib.close_window()
@@ -57,17 +57,17 @@ test "text input controls smoke test" {
   @raylib.begin_drawing()
   let bounds = @raylib.Rectangle::new(0.0, 0.0, 200.0, 30.0)
   // Text box
-  let text : Ref[String] = { val: "Hello" }
+  let text : Ref[String] = { val: "Hello", }
   let _tb = @raygui.gui_text_box(bounds, text, 64, false)
   // Spinner
-  let spin_val : Ref[Int] = { val: 5 }
+  let spin_val : Ref[Int] = { val: 5, }
   let _sp = @raygui.gui_spinner(bounds, "Spin", spin_val, 0, 100, false)
   // Value box
-  let val_int : Ref[Int] = { val: 42 }
+  let val_int : Ref[Int] = { val: 42, }
   let _vb = @raygui.gui_value_box(bounds, "Val", val_int, 0, 100, false)
   // Value box float
-  let val_text : Ref[String] = { val: "3.14" }
-  let val_float : Ref[Float] = { val: 3.14 }
+  let val_text : Ref[String] = { val: "3.14", }
+  let val_float : Ref[Float] = { val: 3.14, }
   let _vbf = @raygui.gui_value_box_float(
     bounds, "Float", val_text, val_float, false,
   )
@@ -83,37 +83,37 @@ test "list and combo controls smoke test" {
   @raylib.begin_drawing()
   let bounds = @raylib.Rectangle::new(0.0, 0.0, 200.0, 100.0)
   // Combo box
-  let combo_active : Ref[Int] = { val: 0 }
+  let combo_active : Ref[Int] = { val: 0, }
   @raygui.gui_combo_box(bounds, "One;Two;Three", combo_active)
   // Toggle group
-  let group_active : Ref[Int] = { val: 0 }
+  let group_active : Ref[Int] = { val: 0, }
   @raygui.gui_toggle_group(
     @raylib.Rectangle::new(0.0, 0.0, 300.0, 30.0),
     "A;B;C",
     group_active,
   )
   // Toggle slider
-  let tslider_active : Ref[Int] = { val: 0 }
+  let tslider_active : Ref[Int] = { val: 0, }
   let _ts = @raygui.gui_toggle_slider(
     @raylib.Rectangle::new(0.0, 0.0, 150.0, 30.0),
     "X;Y;Z",
     tslider_active,
   )
   // Dropdown box (closed mode)
-  let dd_active : Ref[Int] = { val: 0 }
+  let dd_active : Ref[Int] = { val: 0, }
   let _dd = @raygui.gui_dropdown_box(
     bounds, "Alpha;Beta;Gamma", dd_active, false,
   )
   // List view
-  let list_scroll : Ref[Int] = { val: 0 }
-  let list_active : Ref[Int] = { val: 0 }
+  let list_scroll : Ref[Int] = { val: 0, }
+  let list_active : Ref[Int] = { val: 0, }
   let _lv = @raygui.gui_list_view(
     bounds, "Item1;Item2;Item3", list_scroll, list_active,
   )
   // List view ex
-  let lvex_scroll : Ref[Int] = { val: 0 }
-  let lvex_active : Ref[Int] = { val: 0 }
-  let lvex_focus : Ref[Int] = { val: 0 }
+  let lvex_scroll : Ref[Int] = { val: 0, }
+  let lvex_active : Ref[Int] = { val: 0, }
+  let lvex_focus : Ref[Int] = { val: 0, }
   let _lve = @raygui.gui_list_view_ex(
     bounds,
     ["Alpha", "Beta", "Gamma"],
@@ -122,7 +122,7 @@ test "list and combo controls smoke test" {
     lvex_focus,
   )
   // Tab bar
-  let tab_active : Ref[Int] = { val: 0 }
+  let tab_active : Ref[Int] = { val: 0, }
   let _tab = @raygui.gui_tab_bar(
     @raylib.Rectangle::new(0.0, 0.0, 300.0, 30.0),
     ["Tab1", "Tab2"],
@@ -170,7 +170,7 @@ test "color controls smoke test" {
   @raylib.begin_drawing()
   let bounds = @raylib.Rectangle::new(0.0, 0.0, 200.0, 200.0)
   // Color panel
-  let color_val : Ref[@raylib.Color] = { val: @raylib.red }
+  let color_val : Ref[@raylib.Color] = { val: @raylib.red, }
   let _cp = @raygui.gui_color_panel(bounds, color_val)
   // Color panel HSV
   let hsv_val : Ref[@raygui.Vector3] = {
@@ -178,19 +178,19 @@ test "color controls smoke test" {
   }
   let _cph = @raygui.gui_color_panel_hsv(bounds, hsv_val)
   // Color bar alpha
-  let alpha_val : Ref[Float] = { val: 1.0 }
+  let alpha_val : Ref[Float] = { val: 1.0, }
   let _cba = @raygui.gui_color_bar_alpha(
     @raylib.Rectangle::new(0.0, 0.0, 200.0, 20.0),
     alpha_val,
   )
   // Color bar hue
-  let hue_val : Ref[Float] = { val: 0.0 }
+  let hue_val : Ref[Float] = { val: 0.0, }
   let _cbh = @raygui.gui_color_bar_hue(
     @raylib.Rectangle::new(0.0, 0.0, 20.0, 200.0),
     hue_val,
   )
   // Color picker
-  let picker_color : Ref[@raylib.Color] = { val: @raylib.blue }
+  let picker_color : Ref[@raylib.Color] = { val: @raylib.blue, }
   let _cpk = @raygui.gui_color_picker(bounds, picker_color)
   // Color picker HSV
   let picker_hsv : Ref[@raygui.Vector3] = {
@@ -211,13 +211,13 @@ test "dialog controls smoke test" {
   // Message box
   let _mb = @raygui.gui_message_box(bounds, "Title", "Message", "OK;Cancel")
   // Text input box
-  let input_text : Ref[String] = { val: "" }
+  let input_text : Ref[String] = { val: "", }
   let _tib = @raygui.gui_text_input_box(
     bounds, "Input", "Enter text:", "OK;Cancel", input_text, 64,
   )
   // Text input box with secret view
-  let secret_text : Ref[String] = { val: "password" }
-  let secret_active : Ref[Bool] = { val: false }
+  let secret_text : Ref[String] = { val: "password", }
+  let secret_active : Ref[Bool] = { val: false, }
   let _tibs = @raygui.gui_text_input_box(
     bounds,
     "Secret",
@@ -238,7 +238,9 @@ test "grid and draw_icon smoke test" {
   @raygui.gui_load_style_default()
   @raylib.begin_drawing()
   // Grid
-  let grid_cell : Ref[@raylib.Vector2] = { val: @raylib.Vector2::new(0.0, 0.0) }
+  let grid_cell : Ref[@raylib.Vector2] = {
+    val: @raylib.Vector2::new(0.0, 0.0),
+  }
   let _g = @raygui.gui_grid(
     @raylib.Rectangle::new(0.0, 0.0, 200.0, 200.0),
     20.0,

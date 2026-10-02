@@ -5,17 +5,17 @@ fn main {
   // Load default style
   @raygui.gui_load_style_default()
   // Control state variables
-  let slider_val : Ref[Float] = { val: 50.0 }
-  let progress_val : Ref[Float] = { val: 0.4 }
-  let check_val : Ref[Bool] = { val: false }
-  let toggle_val : Ref[Bool] = { val: false }
-  let combo_val : Ref[Int] = { val: 0 }
-  let spinner_val : Ref[Int] = { val: 5 }
+  let slider_val : Ref[Float] = { val: 50.0, }
+  let progress_val : Ref[Float] = { val: 0.4, }
+  let check_val : Ref[Bool] = { val: false, }
+  let toggle_val : Ref[Bool] = { val: false, }
+  let combo_val : Ref[Int] = { val: 0, }
+  let spinner_val : Ref[Int] = { val: 5, }
   let mut spinner_edit = false
-  let text_val : Ref[String] = { val: "Edit me!" }
-  let scroll_val : Ref[Int] = { val: 0 }
-  let list_val : Ref[Int] = { val: 0 }
-  let dropdown_val : Ref[Int] = { val: 0 }
+  let text_val : Ref[String] = { val: "Edit me!", }
+  let scroll_val : Ref[Int] = { val: 0, }
+  let list_val : Ref[Int] = { val: 0, }
+  let dropdown_val : Ref[Int] = { val: 0, }
   let mut dropdown_edit = false
   let color_val : Ref[@raylib.Color] = {
     val: @raylib.Color::new(0xE6, 0x1E, 0x32, 0xFF),
@@ -98,7 +98,7 @@ fn main {
       100.0,
     )
     // Slider bar
-    let slider_bar_val : Ref[Float] = { val: slider_val.val }
+    let slider_bar_val : Ref[Float] = { val: slider_val.val, }
     let _ = @raygui.gui_slider_bar(
       @raylib.Rectangle::new(460.0, 110.0, 260.0, 20.0),
       "0",

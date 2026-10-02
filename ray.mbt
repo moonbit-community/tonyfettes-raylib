@@ -10,7 +10,7 @@ pub struct Ray {
 ///|
 /// Create a new Ray.
 pub fn Ray::new(position : Vector3, direction : Vector3) -> Ray {
-  { position, direction }
+  { position, direction, }
 }
 
 ///|
@@ -30,7 +30,7 @@ pub fn Ray::to_bytes(r : Ray) -> Bytes {
 /// Deserialize Ray from bytes.
 pub fn Ray::from_bytes(b : Bytes) -> Ray {
   {
-    position: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) },
+    position: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8), },
     direction: {
       x: read_float(b, 12),
       y: read_float(b, 16),
@@ -51,7 +51,7 @@ pub struct BoundingBox {
 ///|
 /// Create a new BoundingBox.
 pub fn BoundingBox::new(min : Vector3, max : Vector3) -> BoundingBox {
-  { min, max }
+  { min, max, }
 }
 
 ///|
@@ -71,8 +71,8 @@ pub fn BoundingBox::to_bytes(bb : BoundingBox) -> Bytes {
 /// Deserialize BoundingBox from bytes.
 pub fn BoundingBox::from_bytes(b : Bytes) -> BoundingBox {
   {
-    min: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) },
-    max: { x: read_float(b, 12), y: read_float(b, 16), z: read_float(b, 20) },
+    min: { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8), },
+    max: { x: read_float(b, 12), y: read_float(b, 16), z: read_float(b, 20), },
   }
 }
 
@@ -96,7 +96,7 @@ pub fn RayCollision::new(
   point : Vector3,
   normal : Vector3,
 ) -> RayCollision {
-  { hit, distance, point, normal }
+  { hit, distance, point, normal, }
 }
 
 ///|
@@ -105,7 +105,11 @@ pub fn RayCollision::from_bytes(b : Bytes) -> RayCollision {
   {
     hit: b[0] != b'\x00',
     distance: read_float(b, 4),
-    point: { x: read_float(b, 8), y: read_float(b, 12), z: read_float(b, 16) },
-    normal: { x: read_float(b, 20), y: read_float(b, 24), z: read_float(b, 28) },
+    point: { x: read_float(b, 8), y: read_float(b, 12), z: read_float(b, 16), },
+    normal: {
+      x: read_float(b, 20),
+      y: read_float(b, 24),
+      z: read_float(b, 28),
+    },
   }
 }

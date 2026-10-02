@@ -7,37 +7,37 @@
 ///|
 /// Get Vector4 with components equal to zero.
 pub fn Vector4::zero() -> Vector4 {
-  { x: 0.0, y: 0.0, z: 0.0, w: 0.0 }
+  { x: 0.0, y: 0.0, z: 0.0, w: 0.0, }
 }
 
 ///|
 /// Get Vector4 with components equal to one.
 pub fn Vector4::one() -> Vector4 {
-  { x: 1.0, y: 1.0, z: 1.0, w: 1.0 }
+  { x: 1.0, y: 1.0, z: 1.0, w: 1.0, }
 }
 
 ///|
 /// Add two vectors (v1 + v2).
 pub fn Vector4::add(v1 : Vector4, v2 : Vector4) -> Vector4 {
-  { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z, w: v1.w + v2.w }
+  { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z, w: v1.w + v2.w, }
 }
 
 ///|
 /// Add vector and float value.
 pub fn Vector4::add_value(v : Vector4, add : Float) -> Vector4 {
-  { x: v.x + add, y: v.y + add, z: v.z + add, w: v.w + add }
+  { x: v.x + add, y: v.y + add, z: v.z + add, w: v.w + add, }
 }
 
 ///|
 /// Subtract two vectors (v1 - v2).
 pub fn Vector4::subtract(v1 : Vector4, v2 : Vector4) -> Vector4 {
-  { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z, w: v1.w - v2.w }
+  { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z, w: v1.w - v2.w, }
 }
 
 ///|
 /// Subtract vector by float value.
 pub fn Vector4::subtract_value(v : Vector4, sub : Float) -> Vector4 {
-  { x: v.x - sub, y: v.y - sub, z: v.z - sub, w: v.w - sub }
+  { x: v.x - sub, y: v.y - sub, z: v.z - sub, w: v.w - sub, }
 }
 
 ///|
@@ -49,25 +49,25 @@ pub fn Vector4::length(v : Vector4) -> Float {
 ///|
 /// Scale vector by float value (multiply by value).
 pub fn Vector4::scale(v : Vector4, scalar : Float) -> Vector4 {
-  { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar, w: v.w * scalar }
+  { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar, w: v.w * scalar, }
 }
 
 ///|
 /// Multiply vector by vector.
 pub fn Vector4::multiply(v1 : Vector4, v2 : Vector4) -> Vector4 {
-  { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z, w: v1.w * v2.w }
+  { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z, w: v1.w * v2.w, }
 }
 
 ///|
 /// Negate vector.
 pub fn Vector4::negate(v : Vector4) -> Vector4 {
-  { x: -v.x, y: -v.y, z: -v.z, w: -v.w }
+  { x: -v.x, y: -v.y, z: -v.z, w: -v.w, }
 }
 
 ///|
 /// Divide vector by vector.
 pub fn Vector4::divide(v1 : Vector4, v2 : Vector4) -> Vector4 {
-  { x: v1.x / v2.x, y: v1.y / v2.y, z: v1.z / v2.z, w: v1.w / v2.w }
+  { x: v1.x / v2.x, y: v1.y / v2.y, z: v1.z / v2.z, w: v1.w / v2.w, }
 }
 
 ///|
@@ -76,9 +76,9 @@ pub fn Vector4::normalize(v : Vector4) -> Vector4 {
   let len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w)
   if len > 0.0 {
     let ilength : Float = (1.0 : Float) / len
-    { x: v.x * ilength, y: v.y * ilength, z: v.z * ilength, w: v.w * ilength }
+    { x: v.x * ilength, y: v.y * ilength, z: v.z * ilength, w: v.w * ilength, }
   } else {
-    { x: 0.0, y: 0.0, z: 0.0, w: 0.0 }
+    { x: 0.0, y: 0.0, z: 0.0, w: 0.0, }
   }
 }
 
@@ -123,7 +123,7 @@ pub fn Vector4::equals(p : Vector4, q : Vector4) -> Bool {
 ///|
 /// Get identity quaternion.
 pub fn Vector4::quat_identity() -> Vector4 {
-  { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
+  { x: 0.0, y: 0.0, z: 0.0, w: 1.0, }
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn Vector4::quat_normalize(q : Vector4) -> Vector4 {
   let len = sqrtf(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w)
   let length : Float = if len == 0.0 { 1.0 } else { len }
   let ilength : Float = (1.0 : Float) / length
-  { x: q.x * ilength, y: q.y * ilength, z: q.z * ilength, w: q.w * ilength }
+  { x: q.x * ilength, y: q.y * ilength, z: q.z * ilength, w: q.w * ilength, }
 }
 
 ///|
@@ -180,13 +180,13 @@ pub fn Vector4::quat_multiply(q1 : Vector4, q2 : Vector4) -> Vector4 {
 ///|
 /// Scale quaternion by float value.
 pub fn Vector4::quat_scale(q : Vector4, mul : Float) -> Vector4 {
-  { x: q.x * mul, y: q.y * mul, z: q.z * mul, w: q.w * mul }
+  { x: q.x * mul, y: q.y * mul, z: q.z * mul, w: q.w * mul, }
 }
 
 ///|
 /// Divide two quaternions.
 pub fn Vector4::quat_divide(q1 : Vector4, q2 : Vector4) -> Vector4 {
-  { x: q1.x / q2.x, y: q1.y / q2.y, z: q1.z / q2.z, w: q1.w / q2.w }
+  { x: q1.x / q2.x, y: q1.y / q2.y, z: q1.z / q2.z, w: q1.w / q2.w, }
 }
 
 ///|
@@ -220,7 +220,7 @@ pub fn Vector4::quat_nlerp(
   let len = sqrtf(rx * rx + ry * ry + rz * rz + rw * rw)
   let length : Float = if len == 0.0 { 1.0 } else { len }
   let ilength : Float = (1.0 : Float) / length
-  { x: rx * ilength, y: ry * ilength, z: rz * ilength, w: rw * ilength }
+  { x: rx * ilength, y: ry * ilength, z: rz * ilength, w: rw * ilength, }
 }
 
 ///|
@@ -246,7 +246,7 @@ pub fn Vector4::quat_slerp(
   if fabsf(cos_half_theta) >= (1.0 : Float) {
     q1
   } else if cos_half_theta > (0.95 : Float) {
-    Vector4::quat_nlerp(q1, { x: q2x, y: q2y, z: q2z, w: q2w }, amount)
+    Vector4::quat_nlerp(q1, { x: q2x, y: q2y, z: q2z, w: q2w, }, amount)
   } else {
     let half_theta = acosf(cos_half_theta)
     let sin_half_theta = sqrtf((1.0 : Float) - cos_half_theta * cos_half_theta)
@@ -323,7 +323,7 @@ pub fn Vector4::quat_from_vector3_to_vector3(
   let len = sqrtf(qx * qx + qy * qy + qz * qz + qw * qw)
   let length : Float = if len == 0.0 { 1.0 } else { len }
   let ilength : Float = (1.0 : Float) / length
-  { x: qx * ilength, y: qy * ilength, z: qz * ilength, w: qw * ilength }
+  { x: qx * ilength, y: qy * ilength, z: qz * ilength, w: qw * ilength, }
 }
 
 ///|
@@ -437,9 +437,9 @@ pub fn Vector4::quat_from_axis_angle(axis : Vector3, angle : Float) -> Vector4 {
     let len = sqrtf(qx * qx + qy * qy + qz * qz + qw * qw)
     let norm_length : Float = if len == 0.0 { 1.0 } else { len }
     let inv_len : Float = (1.0 : Float) / norm_length
-    { x: qx * inv_len, y: qy * inv_len, z: qz * inv_len, w: qw * inv_len }
+    { x: qx * inv_len, y: qy * inv_len, z: qz * inv_len, w: qw * inv_len, }
   } else {
-    { x: 0.0, y: 0.0, z: 0.0, w: 1.0 }
+    { x: 0.0, y: 0.0, z: 0.0, w: 1.0, }
   }
 }
 
@@ -464,10 +464,10 @@ pub fn Vector4::quat_to_axis_angle(q : Vector4) -> (Vector3, Float) {
   let res_angle : Float = (2.0 : Float) * acosf(qw)
   let den = sqrtf((1.0 : Float) - qw * qw)
   let res_axis : Vector3 = if den > epsilon {
-    { x: qx / den, y: qy / den, z: qz / den }
+    { x: qx / den, y: qy / den, z: qz / den, }
   } else {
     // Angle is zero, set arbitrary normalized axis
-    { x: 1.0, y: 0.0, z: 0.0 }
+    { x: 1.0, y: 0.0, z: 0.0, }
   }
   (res_axis, res_angle)
 }
@@ -516,7 +516,7 @@ pub fn Vector4::quat_to_euler(q : Vector4) -> Vector3 {
   let z0 = two * (q.w * q.z + q.x * q.y)
   let z1 = one - two * (q.y * q.y + q.z * q.z)
   let yaw = atan2f(z0, z1)
-  { x: roll, y: pitch, z: yaw }
+  { x: roll, y: pitch, z: yaw, }
 }
 
 ///|
@@ -559,23 +559,23 @@ pub fn Vector4::quat_equals(p : Vector4, q : Vector4) -> Bool {
 ///|
 /// Add two quaternions.
 pub fn Vector4::quat_add(q1 : Vector4, q2 : Vector4) -> Vector4 {
-  { x: q1.x + q2.x, y: q1.y + q2.y, z: q1.z + q2.z, w: q1.w + q2.w }
+  { x: q1.x + q2.x, y: q1.y + q2.y, z: q1.z + q2.z, w: q1.w + q2.w, }
 }
 
 ///|
 /// Add quaternion and float value.
 pub fn Vector4::quat_add_value(q : Vector4, add : Float) -> Vector4 {
-  { x: q.x + add, y: q.y + add, z: q.z + add, w: q.w + add }
+  { x: q.x + add, y: q.y + add, z: q.z + add, w: q.w + add, }
 }
 
 ///|
 /// Subtract two quaternions.
 pub fn Vector4::quat_subtract(q1 : Vector4, q2 : Vector4) -> Vector4 {
-  { x: q1.x - q2.x, y: q1.y - q2.y, z: q1.z - q2.z, w: q1.w - q2.w }
+  { x: q1.x - q2.x, y: q1.y - q2.y, z: q1.z - q2.z, w: q1.w - q2.w, }
 }
 
 ///|
 /// Subtract quaternion and float value.
 pub fn Vector4::quat_subtract_value(q : Vector4, sub : Float) -> Vector4 {
-  { x: q.x - sub, y: q.y - sub, z: q.z - sub, w: q.w - sub }
+  { x: q.x - sub, y: q.y - sub, z: q.z - sub, w: q.w - sub, }
 }

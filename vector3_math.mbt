@@ -60,49 +60,49 @@ fn matrix_invert(m : Matrix) -> Matrix {
 ///|
 /// Get Vector3 with components equal to zero.
 pub fn Vector3::zero() -> Vector3 {
-  { x: 0.0, y: 0.0, z: 0.0 }
+  { x: 0.0, y: 0.0, z: 0.0, }
 }
 
 ///|
 /// Get Vector3 with components equal to one.
 pub fn Vector3::one() -> Vector3 {
-  { x: 1.0, y: 1.0, z: 1.0 }
+  { x: 1.0, y: 1.0, z: 1.0, }
 }
 
 ///|
 /// Add two vectors (v1 + v2).
 pub fn Vector3::add(v1 : Vector3, v2 : Vector3) -> Vector3 {
-  { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z }
+  { x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z, }
 }
 
 ///|
 /// Add vector and float value.
 pub fn Vector3::add_value(v : Vector3, add : Float) -> Vector3 {
-  { x: v.x + add, y: v.y + add, z: v.z + add }
+  { x: v.x + add, y: v.y + add, z: v.z + add, }
 }
 
 ///|
 /// Subtract two vectors (v1 - v2).
 pub fn Vector3::subtract(v1 : Vector3, v2 : Vector3) -> Vector3 {
-  { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z }
+  { x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z, }
 }
 
 ///|
 /// Subtract vector by float value.
 pub fn Vector3::subtract_value(v : Vector3, sub : Float) -> Vector3 {
-  { x: v.x - sub, y: v.y - sub, z: v.z - sub }
+  { x: v.x - sub, y: v.y - sub, z: v.z - sub, }
 }
 
 ///|
 /// Scale vector by float value (multiply by value).
 pub fn Vector3::scale(v : Vector3, scalar : Float) -> Vector3 {
-  { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar }
+  { x: v.x * scalar, y: v.y * scalar, z: v.z * scalar, }
 }
 
 ///|
 /// Multiply vector by vector.
 pub fn Vector3::multiply(v1 : Vector3, v2 : Vector3) -> Vector3 {
-  { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z }
+  { x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z, }
 }
 
 ///|
@@ -194,7 +194,7 @@ pub fn Vector3::normalize(v : Vector3) -> Vector3 {
   let length = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z)
   if length != 0.0 {
     let ilength : Float = (1.0 : Float) / length
-    { x: v.x * ilength, y: v.y * ilength, z: v.z * ilength }
+    { x: v.x * ilength, y: v.y * ilength, z: v.z * ilength, }
   } else {
     v
   }
@@ -206,7 +206,7 @@ pub fn Vector3::project(v1 : Vector3, v2 : Vector3) -> Vector3 {
   let v1dv2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
   let v2dv2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z
   let mag = v1dv2 / v2dv2
-  { x: v2.x * mag, y: v2.y * mag, z: v2.z * mag }
+  { x: v2.x * mag, y: v2.y * mag, z: v2.z * mag, }
 }
 
 ///|
@@ -215,7 +215,7 @@ pub fn Vector3::reject(v1 : Vector3, v2 : Vector3) -> Vector3 {
   let v1dv2 = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
   let v2dv2 = v2.x * v2.x + v2.y * v2.y + v2.z * v2.z
   let mag = v1dv2 / v2dv2
-  { x: v1.x - v2.x * mag, y: v1.y - v2.y * mag, z: v1.z - v2.z * mag }
+  { x: v1.x - v2.x * mag, y: v1.y - v2.y * mag, z: v1.z - v2.z * mag, }
 }
 
 ///|
@@ -242,13 +242,13 @@ pub fn Vector3::reflect(v : Vector3, normal : Vector3) -> Vector3 {
 ///|
 /// Get min value for each pair of components.
 pub fn Vector3::min(v1 : Vector3, v2 : Vector3) -> Vector3 {
-  { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y), z: fminf(v1.z, v2.z) }
+  { x: fminf(v1.x, v2.x), y: fminf(v1.y, v2.y), z: fminf(v1.z, v2.z), }
 }
 
 ///|
 /// Get max value for each pair of components.
 pub fn Vector3::max(v1 : Vector3, v2 : Vector3) -> Vector3 {
-  { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y), z: fmaxf(v1.z, v2.z) }
+  { x: fmaxf(v1.x, v2.x), y: fmaxf(v1.y, v2.y), z: fmaxf(v1.z, v2.z), }
 }
 
 ///|
@@ -259,9 +259,9 @@ pub fn Vector3::barycenter(
   b : Vector3,
   c : Vector3,
 ) -> Vector3 {
-  let v0 : Vector3 = { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z }
-  let v1 : Vector3 = { x: c.x - a.x, y: c.y - a.y, z: c.z - a.z }
-  let v2 : Vector3 = { x: p.x - a.x, y: p.y - a.y, z: p.z - a.z }
+  let v0 : Vector3 = { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z, }
+  let v1 : Vector3 = { x: c.x - a.x, y: c.y - a.y, z: c.z - a.z, }
+  let v2 : Vector3 = { x: p.x - a.x, y: p.y - a.y, z: p.z - a.z, }
   let d00 = v0.x * v0.x + v0.y * v0.y + v0.z * v0.z
   let d01 = v0.x * v1.x + v0.y * v1.y + v0.z * v1.z
   let d11 = v1.x * v1.x + v1.y * v1.y + v1.z * v1.z
@@ -271,7 +271,7 @@ pub fn Vector3::barycenter(
   let ry = (d11 * d20 - d01 * d21) / denom
   let rz = (d00 * d21 - d01 * d20) / denom
   let rx : Float = (1.0 : Float) - (rz + ry)
-  { x: rx, y: ry, z: rz }
+  { x: rx, y: ry, z: rz, }
 }
 
 ///|
@@ -356,7 +356,7 @@ pub fn Vector3::unproject(
   let qz = inv.m2 * source.x + inv.m6 * source.y + inv.m10 * source.z + inv.m14
   let qw = inv.m3 * source.x + inv.m7 * source.y + inv.m11 * source.z + inv.m15
   // Normalized world points
-  { x: qx / qw, y: qy / qw, z: qz / qw }
+  { x: qx / qw, y: qy / qw, z: qz / qw, }
 }
 
 ///|
@@ -449,7 +449,7 @@ pub fn Vector3::rotate_by_axis_angle(
   let c = ay * a_sin
   let d = az * a_sin
   let a_cos = cosf(half_angle)
-  let w : Vector3 = { x: b, y: c, z: d }
+  let w : Vector3 = { x: b, y: c, z: d, }
   // Cross product w x v
   let wv_x = w.y * v.z - w.z * v.y
   let wv_y = w.z * v.x - w.x * v.z
@@ -493,7 +493,7 @@ pub fn Vector3::move_towards(
 ///|
 /// Invert the given vector.
 pub fn Vector3::invert(v : Vector3) -> Vector3 {
-  { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y, z: (1.0 : Float) / v.z }
+  { x: (1.0 : Float) / v.x, y: (1.0 : Float) / v.y, z: (1.0 : Float) / v.z, }
 }
 
 ///|
@@ -531,6 +531,6 @@ pub fn Vector3::refract(v : Vector3, n : Vector3, r : Float) -> Vector3 {
       z: r * v.z - (r * dot + d_sqrt) * n.z,
     }
   } else {
-    { x: 0.0, y: 0.0, z: 0.0 }
+    { x: 0.0, y: 0.0, z: 0.0, }
   }
 }

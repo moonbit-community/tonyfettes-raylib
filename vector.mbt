@@ -29,7 +29,7 @@ pub struct Vector2 {
 ///|
 /// Create a new Vector2.
 pub fn Vector2::new(x : Float, y : Float) -> Vector2 {
-  { x, y }
+  { x, y, }
 }
 
 ///|
@@ -44,7 +44,7 @@ pub fn Vector2::to_bytes(v : Vector2) -> Bytes {
 ///|
 /// Deserialize Vector2 from bytes.
 pub fn Vector2::from_bytes(b : Bytes) -> Vector2 {
-  { x: read_float(b, 0), y: read_float(b, 4) }
+  { x: read_float(b, 0), y: read_float(b, 4), }
 }
 
 // Vector3: 12 bytes (x, y, z as float)
@@ -60,7 +60,7 @@ pub struct Vector3 {
 ///|
 /// Create a new Vector3.
 pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
-  { x, y, z }
+  { x, y, z, }
 }
 
 ///|
@@ -76,7 +76,7 @@ pub fn Vector3::to_bytes(v : Vector3) -> Bytes {
 ///|
 /// Deserialize Vector3 from bytes.
 pub fn Vector3::from_bytes(b : Bytes) -> Vector3 {
-  { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8) }
+  { x: read_float(b, 0), y: read_float(b, 4), z: read_float(b, 8), }
 }
 
 // Vector4: 16 bytes (x, y, z, w as float)
@@ -93,7 +93,7 @@ pub struct Vector4 {
 ///|
 /// Create a new Vector4.
 pub fn Vector4::new(x : Float, y : Float, z : Float, w : Float) -> Vector4 {
-  { x, y, z, w }
+  { x, y, z, w, }
 }
 
 ///|
