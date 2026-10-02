@@ -1516,7 +1516,10 @@ pub struct AutomationEvent {
   params : FixedArray[Int]
 } derive(@debug.Debug)
 pub fn AutomationEvent::from_bytes(Bytes) -> Self
+pub fn AutomationEvent::output(Self, &Logger) -> Unit
 pub fn AutomationEvent::to_bytes(Self) -> Bytes
+pub fn AutomationEvent::to_repr(Self) -> @debug.Repr
+pub fn AutomationEvent::to_string(Self) -> String
 pub impl Show for AutomationEvent
 
 type AutomationEventList
@@ -1537,9 +1540,14 @@ pub struct BoundingBox {
   min : Vector3
   max : Vector3
 } derive(Eq, @debug.Debug)
+pub fn BoundingBox::equal(Self, Self) -> Bool
 pub fn BoundingBox::from_bytes(Bytes) -> Self
 pub fn BoundingBox::new(Vector3, Vector3) -> Self
+pub fn BoundingBox::not_equal(Self, Self) -> Bool
+pub fn BoundingBox::output(Self, &Logger) -> Unit
 pub fn BoundingBox::to_bytes(Self) -> Bytes
+pub fn BoundingBox::to_repr(Self) -> @debug.Repr
+pub fn BoundingBox::to_string(Self) -> String
 pub impl Show for BoundingBox
 
 pub struct Camera2D {
@@ -1548,9 +1556,14 @@ pub struct Camera2D {
   rotation : Float
   zoom : Float
 } derive(Eq, @debug.Debug)
+pub fn Camera2D::equal(Self, Self) -> Bool
 pub fn Camera2D::from_bytes(Bytes) -> Self
 pub fn Camera2D::new(Vector2, Vector2, Float, Float) -> Self
+pub fn Camera2D::not_equal(Self, Self) -> Bool
+pub fn Camera2D::output(Self, &Logger) -> Unit
 pub fn Camera2D::to_bytes(Self) -> Bytes
+pub fn Camera2D::to_repr(Self) -> @debug.Repr
+pub fn Camera2D::to_string(Self) -> String
 pub impl Show for Camera2D
 
 pub struct Camera3D {
@@ -1560,9 +1573,14 @@ pub struct Camera3D {
   fovy : Float
   projection : Int
 } derive(Eq, @debug.Debug)
+pub fn Camera3D::equal(Self, Self) -> Bool
 pub fn Camera3D::from_bytes(Bytes) -> Self
 pub fn Camera3D::new(Vector3, Vector3, Vector3, Float, Int) -> Self
+pub fn Camera3D::not_equal(Self, Self) -> Bool
+pub fn Camera3D::output(Self, &Logger) -> Unit
 pub fn Camera3D::to_bytes(Self) -> Bytes
+pub fn Camera3D::to_repr(Self) -> @debug.Repr
+pub fn Camera3D::to_string(Self) -> String
 pub impl Show for Camera3D
 
 pub struct Color {
@@ -1571,9 +1589,14 @@ pub struct Color {
   b : Byte
   a : Byte
 } derive(Eq, @debug.Debug)
+pub fn Color::equal(Self, Self) -> Bool
 pub fn Color::from_bytes(Bytes) -> Self
 pub fn Color::new(Int, Int, Int, Int) -> Self
+pub fn Color::not_equal(Self, Self) -> Bool
+pub fn Color::output(Self, &Logger) -> Unit
 pub fn Color::to_bytes(Self) -> Bytes
+pub fn Color::to_repr(Self) -> @debug.Repr
+pub fn Color::to_string(Self) -> String
 pub impl Show for Color
 
 type FilePathList
@@ -1584,15 +1607,18 @@ pub fn FilePathList::load_dropped() -> Self
 
 type FloatArray
 pub fn FloatArray::free(Self) -> Unit
+#alias("_[_]")
+pub fn FloatArray::get(Self, Int) -> Float
 pub fn FloatArray::length(Self) -> Int
 pub fn FloatArray::new(Int) -> Self
-pub fn FloatArray::op_get(Self, Int) -> Float
-pub fn FloatArray::op_set(Self, Int, Float) -> Unit
 pub fn FloatArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.FloatPointer
+#alias("_[_]=_")
+pub fn FloatArray::set(Self, Int, Float) -> Unit
 
 type Font
 #as_free_fn(get_font_base_size)
 pub fn Font::base_size(Self) -> Int
+pub fn Font::default() -> Self
 #as_free_fn(draw_text_codepoint)
 pub fn Font::draw_codepoint(Self, Int, Vector2, Float, Color) -> Unit
 #as_free_fn(draw_text_codepoints)
@@ -1647,8 +1673,13 @@ pub struct GlyphInfo {
   offset_y : Int
   advance_x : Int
 } derive(Eq, @debug.Debug)
+pub fn GlyphInfo::equal(Self, Self) -> Bool
 pub fn GlyphInfo::from_bytes(Bytes) -> Self
 pub fn GlyphInfo::new(Int, Int, Int, Int) -> Self
+pub fn GlyphInfo::not_equal(Self, Self) -> Bool
+pub fn GlyphInfo::output(Self, &Logger) -> Unit
+pub fn GlyphInfo::to_repr(Self) -> @debug.Repr
+pub fn GlyphInfo::to_string(Self) -> String
 pub impl Show for GlyphInfo
 
 type GlyphInfoArray
@@ -1661,7 +1692,8 @@ pub fn GlyphInfoArray::get(Self, Int) -> GlyphInfo
 pub fn GlyphInfoArray::load(Bytes, Int, Int, Int) -> Self
 #as_free_fn(new_glyph_info_array)
 pub fn GlyphInfoArray::new(Int) -> Self
-pub fn GlyphInfoArray::op_set(Self, Int, GlyphInfo) -> Unit
+#alias("_[_]=_")
+pub fn GlyphInfoArray::set(Self, Int, GlyphInfo) -> Unit
 #as_free_fn(unload_font_data)
 pub fn GlyphInfoArray::unload(Self) -> Unit
 
@@ -1836,6 +1868,7 @@ pub fn Image::unload(Self) -> Unit
 pub fn Image::width(Self) -> Int
 
 type Material
+pub fn Material::default() -> Self
 #as_free_fn(is_material_valid)
 pub fn Material::is_valid(Self) -> Bool
 #as_free_fn(load_material_default, deprecated)
@@ -1867,8 +1900,10 @@ pub fn MaterialMap::value(Self) -> Float
 
 type MaterialMapArray
 pub fn MaterialMapArray::count(Self) -> Int
-pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
-pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
+#alias("_[_]")
+pub fn MaterialMapArray::get(Self, Int) -> MaterialMap
+#alias("_[_]=_")
+pub fn MaterialMapArray::set(Self, Int, MaterialMap) -> Unit
 
 type MaterialsArray
 #as_free_fn(materials_array_count)
@@ -1901,13 +1936,16 @@ pub struct Matrix {
 pub fn Matrix::add(Self, Self) -> Self
 pub fn Matrix::decompose(Self) -> (Vector3, Vector4, Vector3)
 pub fn Matrix::determinant(Self) -> Float
+pub fn Matrix::equal(Self, Self) -> Bool
 pub fn Matrix::from_bytes(Bytes) -> Self
 pub fn Matrix::frustum(Double, Double, Double, Double, Double, Double) -> Self
 pub fn Matrix::identity() -> Self
 pub fn Matrix::invert(Self) -> Self
 pub fn Matrix::look_at(Vector3, Vector3, Vector3) -> Self
 pub fn Matrix::multiply(Self, Self) -> Self
+pub fn Matrix::not_equal(Self, Self) -> Bool
 pub fn Matrix::ortho(Double, Double, Double, Double, Double, Double) -> Self
+pub fn Matrix::output(Self, &Logger) -> Unit
 pub fn Matrix::perspective(Double, Double, Double, Double) -> Self
 pub fn Matrix::rotate(Vector3, Float) -> Self
 pub fn Matrix::rotate_x(Float) -> Self
@@ -1918,15 +1956,19 @@ pub fn Matrix::rotate_zyx(Vector3) -> Self
 pub fn Matrix::scale(Float, Float, Float) -> Self
 pub fn Matrix::subtract(Self, Self) -> Self
 pub fn Matrix::to_bytes(Self) -> Bytes
+pub fn Matrix::to_repr(Self) -> @debug.Repr
+pub fn Matrix::to_string(Self) -> String
 pub fn Matrix::trace(Self) -> Float
 pub fn Matrix::translate(Float, Float, Float) -> Self
 pub fn Matrix::transpose(Self) -> Self
 pub impl Show for Matrix
 
 type MatrixArray
+#alias("_[_]")
+pub fn MatrixArray::get(Self, Int) -> Matrix
 pub fn MatrixArray::length(Self) -> Int
-pub fn MatrixArray::op_get(Self, Int) -> Matrix
-pub fn MatrixArray::op_set(Self, Int, Matrix) -> Unit
+#alias("_[_]=_")
+pub fn MatrixArray::set(Self, Int, Matrix) -> Unit
 
 type Mesh
 #as_free_fn(get_mesh_bounding_box)
@@ -2113,18 +2155,28 @@ pub struct NPatchInfo {
   bottom : Int
   layout : Int
 } derive(Eq, @debug.Debug)
+pub fn NPatchInfo::equal(Self, Self) -> Bool
 pub fn NPatchInfo::from_bytes(Bytes) -> Self
 pub fn NPatchInfo::new(Rectangle, Int, Int, Int, Int, Int) -> Self
+pub fn NPatchInfo::not_equal(Self, Self) -> Bool
+pub fn NPatchInfo::output(Self, &Logger) -> Unit
 pub fn NPatchInfo::to_bytes(Self) -> Bytes
+pub fn NPatchInfo::to_repr(Self) -> @debug.Repr
+pub fn NPatchInfo::to_string(Self) -> String
 pub impl Show for NPatchInfo
 
 pub struct Ray {
   position : Vector3
   direction : Vector3
 } derive(Eq, @debug.Debug)
+pub fn Ray::equal(Self, Self) -> Bool
 pub fn Ray::from_bytes(Bytes) -> Self
 pub fn Ray::new(Vector3, Vector3) -> Self
+pub fn Ray::not_equal(Self, Self) -> Bool
+pub fn Ray::output(Self, &Logger) -> Unit
 pub fn Ray::to_bytes(Self) -> Bytes
+pub fn Ray::to_repr(Self) -> @debug.Repr
+pub fn Ray::to_string(Self) -> String
 pub impl Show for Ray
 
 pub struct RayCollision {
@@ -2133,8 +2185,13 @@ pub struct RayCollision {
   point : Vector3
   normal : Vector3
 } derive(Eq, @debug.Debug)
+pub fn RayCollision::equal(Self, Self) -> Bool
 pub fn RayCollision::from_bytes(Bytes) -> Self
 pub fn RayCollision::new(Bool, Float, Vector3, Vector3) -> Self
+pub fn RayCollision::not_equal(Self, Self) -> Bool
+pub fn RayCollision::output(Self, &Logger) -> Unit
+pub fn RayCollision::to_repr(Self) -> @debug.Repr
+pub fn RayCollision::to_string(Self) -> String
 pub impl Show for RayCollision
 
 pub struct Rectangle {
@@ -2143,9 +2200,14 @@ pub struct Rectangle {
   width : Float
   height : Float
 } derive(Eq, @debug.Debug)
+pub fn Rectangle::equal(Self, Self) -> Bool
 pub fn Rectangle::from_bytes(Bytes) -> Self
 pub fn Rectangle::new(Float, Float, Float, Float) -> Self
+pub fn Rectangle::not_equal(Self, Self) -> Bool
+pub fn Rectangle::output(Self, &Logger) -> Unit
 pub fn Rectangle::to_bytes(Self) -> Bytes
+pub fn Rectangle::to_repr(Self) -> @debug.Repr
+pub fn Rectangle::to_string(Self) -> String
 pub impl Show for Rectangle
 
 type RenderTexture
@@ -2248,11 +2310,13 @@ pub(all) enum ShaderUniformDataV {
 
 type ShortArray
 pub fn ShortArray::free(Self) -> Unit
+#alias("_[_]")
+pub fn ShortArray::get(Self, Int) -> Int
 pub fn ShortArray::length(Self) -> Int
 pub fn ShortArray::new(Int) -> Self
-pub fn ShortArray::op_get(Self, Int) -> Int
-pub fn ShortArray::op_set(Self, Int, Int) -> Unit
 pub fn ShortArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.ShortPointer
+#alias("_[_]=_")
+pub fn ShortArray::set(Self, Int, Int) -> Unit
 
 type Sound
 #as_free_fn(is_sound_playing)
@@ -2337,19 +2401,23 @@ pub fn Texture::width(Self) -> Int
 
 type UByteArray
 pub fn UByteArray::free(Self) -> Unit
+#alias("_[_]")
+pub fn UByteArray::get(Self, Int) -> Int
 pub fn UByteArray::length(Self) -> Int
 pub fn UByteArray::new(Int) -> Self
-pub fn UByteArray::op_get(Self, Int) -> Int
-pub fn UByteArray::op_set(Self, Int, Byte) -> Unit
 pub fn UByteArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.UBytePointer
+#alias("_[_]=_")
+pub fn UByteArray::set(Self, Int, Byte) -> Unit
 
 type UShortArray
 pub fn UShortArray::free(Self) -> Unit
+#alias("_[_]")
+pub fn UShortArray::get(Self, Int) -> Int
 pub fn UShortArray::length(Self) -> Int
 pub fn UShortArray::new(Int) -> Self
-pub fn UShortArray::op_get(Self, Int) -> Int
-pub fn UShortArray::op_set(Self, Int, UInt16) -> Unit
 pub fn UShortArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.UShortPointer
+#alias("_[_]=_")
+pub fn UShortArray::set(Self, Int, UInt16) -> Unit
 
 pub struct Vector2 {
   x : Float
@@ -2364,6 +2432,7 @@ pub fn Vector2::distance(Self, Self) -> Float
 pub fn Vector2::distance_sqr(Self, Self) -> Float
 pub fn Vector2::divide(Self, Self) -> Self
 pub fn Vector2::dot_product(Self, Self) -> Float
+pub fn Vector2::equal(Self, Self) -> Bool
 pub fn Vector2::equals(Self, Self) -> Bool
 pub fn Vector2::from_bytes(Bytes) -> Self
 pub fn Vector2::invert(Self) -> Self
@@ -2378,7 +2447,9 @@ pub fn Vector2::multiply(Self, Self) -> Self
 pub fn Vector2::negate(Self) -> Self
 pub fn Vector2::new(Float, Float) -> Self
 pub fn Vector2::normalize(Self) -> Self
+pub fn Vector2::not_equal(Self, Self) -> Bool
 pub fn Vector2::one() -> Self
+pub fn Vector2::output(Self, &Logger) -> Unit
 pub fn Vector2::reflect(Self, Self) -> Self
 pub fn Vector2::refract(Self, Self, Float) -> Self
 pub fn Vector2::rotate(Self, Float) -> Self
@@ -2386,6 +2457,8 @@ pub fn Vector2::scale(Self, Float) -> Self
 pub fn Vector2::subtract(Self, Self) -> Self
 pub fn Vector2::subtract_value(Self, Float) -> Self
 pub fn Vector2::to_bytes(Self) -> Bytes
+pub fn Vector2::to_repr(Self) -> @debug.Repr
+pub fn Vector2::to_string(Self) -> String
 pub fn Vector2::transform(Self, Matrix) -> Self
 pub fn Vector2::zero() -> Self
 pub impl Show for Vector2
@@ -2404,6 +2477,7 @@ pub fn Vector3::cross_product(Self, Self) -> Self
 pub fn Vector3::distance(Self, Self) -> Float
 pub fn Vector3::distance_sqr(Self, Self) -> Float
 pub fn Vector3::dot_product(Self, Self) -> Float
+pub fn Vector3::equal(Self, Self) -> Bool
 pub fn Vector3::equals(Self, Self) -> Bool
 pub fn Vector3::from_bytes(Bytes) -> Self
 pub fn Vector3::invert(Self) -> Self
@@ -2416,8 +2490,10 @@ pub fn Vector3::move_towards(Self, Self, Float) -> Self
 pub fn Vector3::multiply(Self, Self) -> Self
 pub fn Vector3::new(Float, Float, Float) -> Self
 pub fn Vector3::normalize(Self) -> Self
+pub fn Vector3::not_equal(Self, Self) -> Bool
 pub fn Vector3::one() -> Self
 pub fn Vector3::ortho_normalize(Self, Self) -> (Self, Self)
+pub fn Vector3::output(Self, &Logger) -> Unit
 pub fn Vector3::perpendicular(Self) -> Self
 pub fn Vector3::project(Self, Self) -> Self
 pub fn Vector3::reflect(Self, Self) -> Self
@@ -2429,6 +2505,8 @@ pub fn Vector3::scale(Self, Float) -> Self
 pub fn Vector3::subtract(Self, Self) -> Self
 pub fn Vector3::subtract_value(Self, Float) -> Self
 pub fn Vector3::to_bytes(Self) -> Bytes
+pub fn Vector3::to_repr(Self) -> @debug.Repr
+pub fn Vector3::to_string(Self) -> String
 pub fn Vector3::transform(Self, Matrix) -> Self
 pub fn Vector3::unproject(Self, Matrix, Matrix) -> Self
 pub fn Vector3::zero() -> Self
@@ -2443,6 +2521,7 @@ pub struct Vector4 {
 pub fn Vector4::add(Self, Self) -> Self
 pub fn Vector4::add_value(Self, Float) -> Self
 pub fn Vector4::divide(Self, Self) -> Self
+pub fn Vector4::equal(Self, Self) -> Bool
 pub fn Vector4::equals(Self, Self) -> Bool
 pub fn Vector4::from_bytes(Bytes) -> Self
 pub fn Vector4::length(Self) -> Float
@@ -2452,7 +2531,9 @@ pub fn Vector4::multiply(Self, Self) -> Self
 pub fn Vector4::negate(Self) -> Self
 pub fn Vector4::new(Float, Float, Float, Float) -> Self
 pub fn Vector4::normalize(Self) -> Self
+pub fn Vector4::not_equal(Self, Self) -> Bool
 pub fn Vector4::one() -> Self
+pub fn Vector4::output(Self, &Logger) -> Unit
 pub fn Vector4::quat_add(Self, Self) -> Self
 pub fn Vector4::quat_add_value(Self, Float) -> Self
 pub fn Vector4::quat_cubic_hermite_spline(Self, Self, Self, Self, Float) -> Self
@@ -2481,6 +2562,8 @@ pub fn Vector4::scale(Self, Float) -> Self
 pub fn Vector4::subtract(Self, Self) -> Self
 pub fn Vector4::subtract_value(Self, Float) -> Self
 pub fn Vector4::to_bytes(Self) -> Bytes
+pub fn Vector4::to_repr(Self) -> @debug.Repr
+pub fn Vector4::to_string(Self) -> String
 pub fn Vector4::zero() -> Self
 pub impl Show for Vector4
 
@@ -2496,7 +2579,10 @@ pub struct VrDeviceInfo {
   chroma_ab_correction : FixedArray[Float]
 } derive(@debug.Debug)
 pub fn VrDeviceInfo::new(Int, Int, Float, Float, Float, Float, Float, FixedArray[Float], FixedArray[Float]) -> Self
+pub fn VrDeviceInfo::output(Self, &Logger) -> Unit
 pub fn VrDeviceInfo::to_bytes(Self) -> Bytes
+pub fn VrDeviceInfo::to_repr(Self) -> @debug.Repr
+pub fn VrDeviceInfo::to_string(Self) -> String
 pub impl Show for VrDeviceInfo
 
 type VrStereoConfig
@@ -2556,9 +2642,11 @@ pub enum WaveData {
 pub struct WaveSamples {
   // private fields
 }
+#alias("_[_]")
+pub fn WaveSamples::get(Self, Int) -> Float
 pub fn WaveSamples::length(Self) -> Int
-pub fn WaveSamples::op_get(Self, Int) -> Float
-pub fn WaveSamples::op_set(Self, Int, Float) -> Unit
+#alias("_[_]=_")
+pub fn WaveSamples::set(Self, Int, Float) -> Unit
 #as_free_fn(unload_wave_samples)
 pub fn WaveSamples::unload(Self) -> Unit
 
@@ -2566,4 +2654,3 @@ pub fn WaveSamples::unload(Self) -> Unit
 pub using @tonyfettes/raylib/internal/raylib {type AudioBuffer}
 
 // Traits
-

@@ -9,9 +9,15 @@ pub impl Show for AutomationEvent with fn output(self, logger) {
 }
 
 ///|
+pub extend AutomationEvent with Show::{to_string, output}
+
+///|
 pub impl Show for Camera2D with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Camera2D with Show::{to_string, output}
 
 ///|
 pub impl Show for Camera3D with fn output(self, logger) {
@@ -19,9 +25,15 @@ pub impl Show for Camera3D with fn output(self, logger) {
 }
 
 ///|
+pub extend Camera3D with Show::{to_string, output}
+
+///|
 pub impl Show for Color with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Color with Show::{to_string, output}
 
 ///|
 pub impl Show for VrDeviceInfo with fn output(self, logger) {
@@ -29,9 +41,15 @@ pub impl Show for VrDeviceInfo with fn output(self, logger) {
 }
 
 ///|
+pub extend VrDeviceInfo with Show::{to_string, output}
+
+///|
 pub impl Show for Matrix with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Matrix with Show::{to_string, output}
 
 ///|
 pub impl Show for NPatchInfo with fn output(self, logger) {
@@ -39,9 +57,15 @@ pub impl Show for NPatchInfo with fn output(self, logger) {
 }
 
 ///|
+pub extend NPatchInfo with Show::{to_string, output}
+
+///|
 pub impl Show for Ray with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Ray with Show::{to_string, output}
 
 ///|
 pub impl Show for BoundingBox with fn output(self, logger) {
@@ -49,9 +73,15 @@ pub impl Show for BoundingBox with fn output(self, logger) {
 }
 
 ///|
+pub extend BoundingBox with Show::{to_string, output}
+
+///|
 pub impl Show for RayCollision with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend RayCollision with Show::{to_string, output}
 
 ///|
 pub impl Show for Rectangle with fn output(self, logger) {
@@ -59,9 +89,15 @@ pub impl Show for Rectangle with fn output(self, logger) {
 }
 
 ///|
+pub extend Rectangle with Show::{to_string, output}
+
+///|
 pub impl Show for GlyphInfo with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend GlyphInfo with Show::{to_string, output}
 
 ///|
 pub impl Show for Vector2 with fn output(self, logger) {
@@ -69,11 +105,20 @@ pub impl Show for Vector2 with fn output(self, logger) {
 }
 
 ///|
+pub extend Vector2 with Show::{to_string, output}
+
+///|
 pub impl Show for Vector3 with fn output(self, logger) {
   show_debug(self, logger)
 }
 
 ///|
+pub extend Vector3 with Show::{to_string, output}
+
+///|
 pub impl Show for Vector4 with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Vector4 with Show::{to_string, output}

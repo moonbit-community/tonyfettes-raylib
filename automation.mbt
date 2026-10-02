@@ -43,6 +43,9 @@ pub struct AutomationEvent {
 } derive(Debug)
 
 ///|
+pub extend AutomationEvent with @debug.Debug::{to_repr}
+
+///|
 /// Deserialize an AutomationEvent from a Bytes buffer.
 pub fn AutomationEvent::from_bytes(b : Bytes) -> AutomationEvent {
   {

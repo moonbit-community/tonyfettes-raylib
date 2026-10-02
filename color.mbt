@@ -10,6 +10,12 @@ pub struct Color {
 } derive(Eq, Debug)
 
 ///|
+pub extend Color with Eq::{not_equal, equal}
+
+///|
+pub extend Color with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Color from RGBA components.
 pub fn Color::new(r : Int, g : Int, b : Int, a : Int) -> Color {
   { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: a.to_byte(), }

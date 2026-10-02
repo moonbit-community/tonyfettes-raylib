@@ -9,6 +9,9 @@ pub impl Default for Font with fn default() -> Font {
 }
 
 ///|
+pub extend Font with Default::{default}
+
+///|
 /// Get the default font.
 #as_free_fn(get_font_default, deprecated="Use Font::default() instead")
 #deprecated("Use Font::default() instead")
@@ -313,7 +316,8 @@ pub fn GlyphInfoArray::new(count : Int) -> GlyphInfoArray {
 
 ///|
 /// Set a glyph at the given index.
-pub fn GlyphInfoArray::op_set(
+#alias("_[_]=_")
+pub fn GlyphInfoArray::set(
   self : GlyphInfoArray,
   index : Int,
   info : GlyphInfo,

@@ -8,6 +8,12 @@ pub struct Ray {
 } derive(Eq, Debug)
 
 ///|
+pub extend Ray with Eq::{not_equal, equal}
+
+///|
+pub extend Ray with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Ray.
 pub fn Ray::new(position : Vector3, direction : Vector3) -> Ray {
   { position, direction, }
@@ -49,6 +55,12 @@ pub struct BoundingBox {
 } derive(Eq, Debug)
 
 ///|
+pub extend BoundingBox with Eq::{not_equal, equal}
+
+///|
+pub extend BoundingBox with @debug.Debug::{to_repr}
+
+///|
 /// Create a new BoundingBox.
 pub fn BoundingBox::new(min : Vector3, max : Vector3) -> BoundingBox {
   { min, max, }
@@ -87,6 +99,12 @@ pub struct RayCollision {
   point : Vector3
   normal : Vector3
 } derive(Eq, Debug)
+
+///|
+pub extend RayCollision with Eq::{not_equal, equal}
+
+///|
+pub extend RayCollision with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new RayCollision.

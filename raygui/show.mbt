@@ -9,6 +9,12 @@ pub impl Show for GuiState with fn output(self, logger) {
 }
 
 ///|
+pub extend GuiState with Show::{to_string, output}
+
+///|
 pub impl Show for Vector3 with fn output(self, logger) {
   show_debug(self, logger)
 }
+
+///|
+pub extend Vector3 with Show::{to_string, output}

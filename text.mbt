@@ -106,6 +106,12 @@ pub struct GlyphInfo {
 } derive(Eq, Debug)
 
 ///|
+pub extend GlyphInfo with Eq::{not_equal, equal}
+
+///|
+pub extend GlyphInfo with @debug.Debug::{to_repr}
+
+///|
 /// Create a new GlyphInfo.
 pub fn GlyphInfo::new(
   value : Int,
