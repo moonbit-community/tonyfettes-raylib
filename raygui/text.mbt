@@ -4,7 +4,7 @@
 // Returns (icon_id, text_after_icon). icon_id is -1 if no icon prefix.
 
 ///|
-fn get_text_icon(text : String) -> (Int, String) {
+fn get_text_icon(text : String) -> (Int32, String) {
   if text.length() == 0 || text[0] != '#' {
     return (-1, text)
   }
@@ -20,9 +20,9 @@ fn get_text_icon(text : String) -> (Int, String) {
     }
     // Build remaining text after "#NNN#"
     let rest_start = pos + 1
-    let buf = StringBuilder::new()
+    let buf = StringBuilder()
     for i in rest_start..<text.length() {
-      buf.write_char(Int::unsafe_to_char(text[i].to_int()))
+      buf.write_char(Int32::unsafe_to_char(text[i].to_int()))
     }
     (icon_id, buf.to_string())
   } else {
@@ -33,7 +33,7 @@ fn get_text_icon(text : String) -> (Int, String) {
 // Get text with icon id prepended (format: "#NNN#text")
 
 ///|
-pub fn gui_icon_text(icon_id : Int, text : String) -> String {
+pub fn gui_icon_text(icon_id : Int32, text : String) -> String {
   let icon_str = if icon_id < 10 {
     "#00" + icon_id.to_string() + "#"
   } else if icon_id < 100 {
@@ -47,7 +47,7 @@ pub fn gui_icon_text(icon_id : Int, text : String) -> String {
 // Get text width considering gui style (simplified: uses measure_text_ex)
 
 ///|
-pub fn gui_get_text_width(text : String) -> Int {
+pub fn gui_get_text_width(text : String) -> Int32 {
   if text.length() == 0 {
     return 0
   }
@@ -70,10 +70,10 @@ pub fn gui_get_text_width(text : String) -> Int {
 // Build a substring from start to end (exclusive) without using error-returning slice
 
 ///|
-fn string_sub(s : String, start : Int, end : Int) -> String {
-  let buf = StringBuilder::new()
+fn string_sub(s : String, start : Int32, end : Int32) -> String {
+  let buf = StringBuilder()
   for i in start..<end {
-    buf.write_char(Int::unsafe_to_char(s[i].to_int()))
+    buf.write_char(Int32::unsafe_to_char(s[i].to_int()))
   }
   buf.to_string()
 }
@@ -81,7 +81,7 @@ fn string_sub(s : String, start : Int, end : Int) -> String {
 // Build a substring from start to end of string
 
 ///|
-fn string_sub_from(s : String, start : Int) -> String {
+fn string_sub_from(s : String, start : Int32) -> String {
   string_sub(s, start, s.length())
 }
 
@@ -89,9 +89,9 @@ fn string_sub_from(s : String, start : Int) -> String {
 // (raygui always uses ';' as delimiter, '\n' increments row)
 
 ///|
-pub fn gui_text_split(text : String) -> (Array[String], Array[Int]) {
+pub fn gui_text_split(text : String) -> (Array[String], Array[Int32]) {
   let results : Array[String] = []
-  let rows : Array[Int] = []
+  let rows : Array[Int32] = []
   let mut current_row = 0
   let mut start = 0
   for i in 0..<text.length() {

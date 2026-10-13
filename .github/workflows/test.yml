@@ -41,7 +41,11 @@ jobs:
         run: moon update
 
       - name: Type-check
-        run: moon check --target native
+        run: moon check --deny-warn --target native
+
+      - name: Format check
+        if: runner.os == 'Linux'
+        run: moon fmt --check
 
   test:
     strategy:

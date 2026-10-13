@@ -22,8 +22,8 @@ fn draw_text_boxed_selectable(
   spacing : Float,
   word_wrap : Bool,
   tint : @raylib.Color,
-  select_start : Int,
-  select_length : Int,
+  select_start : Int32,
+  select_length : Int32,
   select_tint : @raylib.Color,
   select_back_tint : @raylib.Color,
 ) -> Unit {

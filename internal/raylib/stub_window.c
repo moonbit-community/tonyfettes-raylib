@@ -14,6 +14,14 @@ moonbit_raylib_set_window_title(moonbit_bytes_t title) {
   SetWindowTitle((const char *)title);
 }
 
+// CloseWindow is also exported by user32 on Windows. A wrapper with a unique
+// name keeps MoonBit-generated code from referring to the bare symbol, so the
+// call always resolves to raylib's definition inside this library.
+void
+moonbit_raylib_close_window(void) {
+  CloseWindow();
+}
+
 // ============================================================================
 // Core: Logging
 // ============================================================================

@@ -276,7 +276,7 @@ let easing_names : FixedArray[String] = [
 
 ///|
 fn apply_easing(
-  index : Int,
+  index : Int32,
   t : Float,
   b : Float,
   c : Float,

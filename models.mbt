@@ -98,8 +98,8 @@ pub fn draw_sphere(center : Vector3, radius : Float, color : Color) -> Unit {
 pub fn draw_sphere_ex(
   center : Vector3,
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_sphere_ex(
@@ -116,8 +116,8 @@ pub fn draw_sphere_ex(
 pub fn draw_sphere_wires(
   center : Vector3,
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_sphere_wires(
@@ -136,7 +136,7 @@ pub fn draw_cylinder(
   radius_top : Float,
   radius_bottom : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_cylinder(
@@ -156,7 +156,7 @@ pub fn draw_cylinder_wires(
   radius_top : Float,
   radius_bottom : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_cylinder_wires(
@@ -192,7 +192,7 @@ pub fn draw_cylinder_ex(
   end_pos : Vector3,
   start_radius : Float,
   end_radius : Float,
-  sides : Int,
+  sides : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_cylinder_ex(
@@ -212,7 +212,7 @@ pub fn draw_cylinder_wires_ex(
   end_pos : Vector3,
   start_radius : Float,
   end_radius : Float,
-  sides : Int,
+  sides : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_cylinder_wires_ex(
@@ -231,8 +231,8 @@ pub fn draw_capsule(
   start_pos : Vector3,
   end_pos : Vector3,
   radius : Float,
-  slices : Int,
-  rings : Int,
+  slices : Int32,
+  rings : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_capsule(
@@ -251,8 +251,8 @@ pub fn draw_capsule_wires(
   start_pos : Vector3,
   end_pos : Vector3,
   radius : Float,
-  slices : Int,
-  rings : Int,
+  slices : Int32,
+  rings : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_capsule_wires(
@@ -463,44 +463,44 @@ pub fn get_ray_collision_quad(
 
 ///|
 /// Albedo material map type (same as diffuse).
-pub const MaterialMapAlbedo : Int = 0
+pub const MaterialMapAlbedo : Int32 = 0
 
 ///|
 /// Metalness material map type (same as specular).
-pub const MaterialMapMetalness : Int = 1
+pub const MaterialMapMetalness : Int32 = 1
 
 ///|
 /// Normal material map type.
-pub const MaterialMapNormal : Int = 2
+pub const MaterialMapNormal : Int32 = 2
 
 ///|
 /// Roughness material map type.
-pub const MaterialMapRoughness : Int = 3
+pub const MaterialMapRoughness : Int32 = 3
 
 ///|
 /// Ambient occlusion material map type.
-pub const MaterialMapOcclusion : Int = 4
+pub const MaterialMapOcclusion : Int32 = 4
 
 ///|
 /// Emission material map type.
-pub const MaterialMapEmission : Int = 5
+pub const MaterialMapEmission : Int32 = 5
 
 ///|
 /// Heightmap material map type.
-pub const MaterialMapHeight : Int = 6
+pub const MaterialMapHeight : Int32 = 6
 
 ///|
 /// Cubemap material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
-pub const MaterialMapCubemap : Int = 7
+pub const MaterialMapCubemap : Int32 = 7
 
 ///|
 /// Irradiance material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
-pub const MaterialMapIrradiance : Int = 8
+pub const MaterialMapIrradiance : Int32 = 8
 
 ///|
 /// Prefilter material map type (NOTE: Uses GL_TEXTURE_CUBE_MAP).
-pub const MaterialMapPrefilter : Int = 9
+pub const MaterialMapPrefilter : Int32 = 9
 
 ///|
 /// BRDF material map type.
-pub const MaterialMapBrdf : Int = 10
+pub const MaterialMapBrdf : Int32 = 10

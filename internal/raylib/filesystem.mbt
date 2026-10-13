@@ -16,7 +16,7 @@ pub extern "c" fn is_file_extension(file_name : Bytes, ext : Bytes) -> Bool = "m
 
 ///|
 #borrow(file_name)
-pub extern "c" fn get_file_length(file_name : Bytes) -> Int = "moonbit_raylib_get_file_length"
+pub extern "c" fn get_file_length(file_name : Bytes) -> Int32 = "moonbit_raylib_get_file_length"
 
 ///|
 #borrow(file_name)
@@ -46,7 +46,7 @@ pub extern "c" fn get_application_directory() -> Bytes = "moonbit_raylib_get_app
 
 ///|
 #borrow(dir_path)
-pub extern "c" fn make_directory(dir_path : Bytes) -> Int = "moonbit_raylib_make_directory"
+pub extern "c" fn make_directory(dir_path : Bytes) -> Int32 = "moonbit_raylib_make_directory"
 
 ///|
 #borrow(dir)
@@ -73,7 +73,7 @@ pub extern "c" fn load_file_data(file_name : Bytes) -> Bytes = "moonbit_raylib_l
 pub extern "c" fn save_file_data(
   file_name : Bytes,
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Bool = "moonbit_raylib_save_file_data"
 
 ///|
@@ -88,7 +88,7 @@ pub extern "c" fn save_file_text(file_name : Bytes, text : Bytes) -> Bool = "moo
 #borrow(data, file_name)
 pub extern "c" fn export_data_as_code(
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
   file_name : Bytes,
 ) -> Bool = "moonbit_raylib_export_data_as_code"
 
@@ -133,13 +133,13 @@ pub extern "c" fn unload_directory_files(files : FilePathList) = "moonbit_raylib
 
 ///|
 #borrow(files)
-pub extern "c" fn file_path_list_count(files : FilePathList) -> Int = "moonbit_raylib_file_path_list_count"
+pub extern "c" fn file_path_list_count(files : FilePathList) -> Int32 = "moonbit_raylib_file_path_list_count"
 
 ///|
 #borrow(files)
 pub extern "c" fn file_path_list_get(
   files : FilePathList,
-  index : Int,
+  index : Int32,
 ) -> Bytes = "moonbit_raylib_file_path_list_get"
 
 // ============================================================================
@@ -148,4 +148,4 @@ pub extern "c" fn file_path_list_get(
 
 ///|
 #borrow(file_name)
-pub extern "c" fn get_file_mod_time(file_name : Bytes) -> Int = "moonbit_raylib_get_file_mod_time"
+pub extern "c" fn get_file_mod_time(file_name : Bytes) -> Int32 = "moonbit_raylib_get_file_mod_time"

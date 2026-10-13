@@ -113,7 +113,7 @@ pub fn Music::load(file_name : String) -> Music {
 pub fn Music::load_from_memory(
   file_type : String,
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Music {
   @ffi.load_music_stream_from_memory(@utf8.encode(file_type), data, data_size)
 }

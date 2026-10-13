@@ -1,7 +1,7 @@
 // Private byte helpers used by all value types
 
 ///|
-fn read_float(b : Bytes, off : Int) -> Float {
+fn read_float(b : Bytes, off : Int32) -> Float {
   let bits = b[off].to_int() |
     (b[off + 1].to_int() << 8) |
     (b[off + 2].to_int() << 16) |
@@ -10,7 +10,7 @@ fn read_float(b : Bytes, off : Int) -> Float {
 }
 
 ///|
-fn read_int(b : Bytes, off : Int) -> Int {
+fn read_int(b : Bytes, off : Int32) -> Int32 {
   b[off].to_int() |
   (b[off + 1].to_int() << 8) |
   (b[off + 2].to_int() << 16) |
@@ -25,6 +25,12 @@ pub struct Vector2 {
   x : Float
   y : Float
 } derive(Eq, Debug)
+
+///|
+pub extend Vector2 with Eq::{not_equal, equal}
+
+///|
+pub extend Vector2 with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new Vector2.
@@ -58,6 +64,12 @@ pub struct Vector3 {
 } derive(Eq, Debug)
 
 ///|
+pub extend Vector3 with Eq::{not_equal, equal}
+
+///|
+pub extend Vector3 with @debug.Debug::{to_repr}
+
+///|
 /// Create a new Vector3.
 pub fn Vector3::new(x : Float, y : Float, z : Float) -> Vector3 {
   { x, y, z, }
@@ -89,6 +101,12 @@ pub struct Vector4 {
   z : Float
   w : Float
 } derive(Eq, Debug)
+
+///|
+pub extend Vector4 with Eq::{not_equal, equal}
+
+///|
+pub extend Vector4 with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new Vector4.

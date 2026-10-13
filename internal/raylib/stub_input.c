@@ -84,6 +84,13 @@ moonbit_raylib_get_gesture_pinch_vector(void) {
 
 // Cursor
 
+// ShowCursor is also exported by user32 on Windows (see
+// moonbit_raylib_close_window in stub_window.c).
+void
+moonbit_raylib_show_cursor(void) {
+  ShowCursor();
+}
+
 int32_t
 moonbit_raylib_is_cursor_hidden(void) {
   return (int32_t)IsCursorHidden();

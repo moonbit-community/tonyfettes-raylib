@@ -1,15 +1,15 @@
 ///|
-const MaxPoints : Int = 10000000 // 10 million
+const MaxPoints : Int32 = 10000000 // 10 million
 
 ///|
-const MinPoints : Int = 1000 // 1 thousand
+const MinPoints : Int32 = 1000 // 1 thousand
 
 ///|
 let pi : Float = 3.14159265358979323846
 
 ///|
 fn gen_point_cloud(
-  num_points : Int,
+  num_points : Int32,
 ) -> (Array[@raylib.Vector3], Array[@raylib.Color]) {
   let positions : Array[@raylib.Vector3] = Array::make(
     num_points,

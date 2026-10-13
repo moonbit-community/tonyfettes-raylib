@@ -4,22 +4,28 @@
 /// NPatchInfo, n-patch layout info.
 pub struct NPatchInfo {
   source : Rectangle
-  left : Int
-  top : Int
-  right : Int
-  bottom : Int
-  layout : Int
+  left : Int32
+  top : Int32
+  right : Int32
+  bottom : Int32
+  layout : Int32
 } derive(Eq, Debug)
+
+///|
+pub extend NPatchInfo with Eq::{not_equal, equal}
+
+///|
+pub extend NPatchInfo with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new NPatchInfo.
 pub fn NPatchInfo::new(
   source : Rectangle,
-  left : Int,
-  top : Int,
-  right : Int,
-  bottom : Int,
-  layout : Int,
+  left : Int32,
+  top : Int32,
+  right : Int32,
+  bottom : Int32,
+  layout : Int32,
 ) -> NPatchInfo {
   { source, left, top, right, bottom, layout, }
 }
@@ -62,12 +68,12 @@ pub fn NPatchInfo::from_bytes(b : Bytes) -> NPatchInfo {
 
 ///|
 /// Npatch layout: 3x3 tiles.
-pub const NpatchNinePatch : Int = 0
+pub const NpatchNinePatch : Int32 = 0
 
 ///|
 /// Npatch layout: 1x3 tiles.
-pub const NpatchThreePatchVertical : Int = 1
+pub const NpatchThreePatchVertical : Int32 = 1
 
 ///|
 /// Npatch layout: 3x1 tiles.
-pub const NpatchThreePatchHorizontal : Int = 2
+pub const NpatchThreePatchHorizontal : Int32 = 2

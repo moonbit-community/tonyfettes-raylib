@@ -6,7 +6,7 @@ struct RenderTexture(@ffi.RenderTexture)
 /// Create a new RenderTexture from raw OpenGL parameters.
 #as_free_fn(new_render_texture)
 pub fn RenderTexture::new(
-  id : UInt,
+  id : UInt32,
   texture : Texture,
   depth : Texture,
 ) -> RenderTexture {
@@ -30,7 +30,7 @@ pub fn RenderTexture::depth(self : RenderTexture) -> Texture {
 ///|
 /// Load texture for rendering (framebuffer).
 #as_free_fn(load_render_texture)
-pub fn RenderTexture::load(width : Int, height : Int) -> RenderTexture {
+pub fn RenderTexture::load(width : Int32, height : Int32) -> RenderTexture {
   @ffi.load_render_texture(width, height)
 }
 
@@ -108,28 +108,28 @@ pub fn RenderTexture::draw_pro(
 ///|
 /// Set render texture scaling filter mode.
 #as_free_fn(set_render_texture_filter)
-pub fn RenderTexture::set_filter(self : RenderTexture, filter : Int) -> Unit {
+pub fn RenderTexture::set_filter(self : RenderTexture, filter : Int32) -> Unit {
   @ffi.set_render_texture_filter(self.0, filter)
 }
 
 ///|
 /// Get render texture width.
 #as_free_fn(get_render_texture_width)
-pub fn RenderTexture::width(self : RenderTexture) -> Int {
+pub fn RenderTexture::width(self : RenderTexture) -> Int32 {
   @ffi.get_render_texture_width(self.0)
 }
 
 ///|
 /// Get render texture height.
 #as_free_fn(get_render_texture_height)
-pub fn RenderTexture::height(self : RenderTexture) -> Int {
+pub fn RenderTexture::height(self : RenderTexture) -> Int32 {
   @ffi.get_render_texture_height(self.0)
 }
 
 ///|
 /// Get the OpenGL framebuffer object id.
 #as_free_fn(get_render_texture_id)
-pub fn RenderTexture::id(self : RenderTexture) -> UInt {
+pub fn RenderTexture::id(self : RenderTexture) -> UInt32 {
   @ffi.get_render_texture_id(self.0)
 }
 
@@ -137,14 +137,14 @@ pub fn RenderTexture::id(self : RenderTexture) -> UInt {
 /// Get the OpenGL framebuffer object id (deprecated: use RenderTexture::id instead).
 #as_free_fn(get_render_texture_fbo_id, deprecated="Use RenderTexture::id instead")
 #deprecated("Use RenderTexture::id instead")
-pub fn RenderTexture::fbo_id(self : RenderTexture) -> UInt {
+pub fn RenderTexture::fbo_id(self : RenderTexture) -> UInt32 {
   @ffi.get_render_texture_id(self.0)
 }
 
 ///|
 /// Get the depth texture OpenGL id.
 #as_free_fn(get_render_texture_depth_id)
-pub fn RenderTexture::depth_id(self : RenderTexture) -> UInt {
+pub fn RenderTexture::depth_id(self : RenderTexture) -> UInt32 {
   @ffi.get_render_texture_depth_id(self.0)
 }
 
@@ -161,8 +161,8 @@ pub fn RenderTexture::begin_mode(self : RenderTexture) -> Unit {
 #as_free_fn(load_render_texture_depth_tex, deprecated="Use RenderTexture::new with @rl helpers instead")
 #deprecated("Use RenderTexture::new with @rl helpers instead")
 pub fn RenderTexture::load_depth_tex(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> RenderTexture {
   @ffi.load_render_texture_depth_tex(width, height)
 }
@@ -173,8 +173,8 @@ pub fn RenderTexture::load_depth_tex(
 #as_free_fn(load_shadowmap_render_texture, deprecated="Use RenderTexture::new with @rl helpers instead")
 #deprecated("Use RenderTexture::new with @rl helpers instead")
 pub fn RenderTexture::load_shadowmap(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> RenderTexture {
   @ffi.load_shadowmap_render_texture(width, height)
 }

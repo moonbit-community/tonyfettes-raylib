@@ -9,7 +9,7 @@ fn draw_rectangle_rounded_gradient_h(
   rec : @raylib.Rectangle,
   roundness_left : Float,
   roundness_right : Float,
-  segments : Int,
+  segments : Int32,
   left : @raylib.Color,
   right : @raylib.Color,
 ) -> Unit {

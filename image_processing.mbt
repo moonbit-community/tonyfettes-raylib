@@ -3,7 +3,7 @@
 ///|
 /// Convert image data to desired format.
 #as_free_fn(image_format)
-pub fn Image::set_format(self : Image, new_format : Int) -> Unit {
+pub fn Image::set_format(self : Image, new_format : Int32) -> Unit {
   @ffi.image_format(self.0, new_format)
 }
 
@@ -24,14 +24,18 @@ pub fn Image::alpha_premultiply(self : Image) -> Unit {
 ///|
 /// Apply Gaussian blur using a box blur approximation.
 #as_free_fn(image_blur_gaussian)
-pub fn Image::blur_gaussian(self : Image, blur_size : Int) -> Unit {
+pub fn Image::blur_gaussian(self : Image, blur_size : Int32) -> Unit {
   @ffi.image_blur_gaussian(self.0, blur_size)
 }
 
 ///|
 /// Resize image (Bicubic scaling algorithm).
 #as_free_fn(image_resize)
-pub fn Image::resize(self : Image, new_width : Int, new_height : Int) -> Unit {
+pub fn Image::resize(
+  self : Image,
+  new_width : Int32,
+  new_height : Int32,
+) -> Unit {
   @ffi.image_resize(self.0, new_width, new_height)
 }
 
@@ -40,8 +44,8 @@ pub fn Image::resize(self : Image, new_width : Int, new_height : Int) -> Unit {
 #as_free_fn(image_resize_nn)
 pub fn Image::resize_nn(
   self : Image,
-  new_width : Int,
-  new_height : Int,
+  new_width : Int32,
+  new_height : Int32,
 ) -> Unit {
   @ffi.image_resize_nn(self.0, new_width, new_height)
 }
@@ -58,10 +62,10 @@ pub fn Image::gen_mipmaps(self : Image) -> Unit {
 #as_free_fn(image_dither)
 pub fn Image::dither(
   self : Image,
-  r_bpp : Int,
-  g_bpp : Int,
-  b_bpp : Int,
-  a_bpp : Int,
+  r_bpp : Int32,
+  g_bpp : Int32,
+  b_bpp : Int32,
+  a_bpp : Int32,
 ) -> Unit {
   @ffi.image_dither(self.0, r_bpp, g_bpp, b_bpp, a_bpp)
 }
@@ -83,7 +87,7 @@ pub fn Image::flip_horizontal(self : Image) -> Unit {
 ///|
 /// Rotate image by input angle in degrees (-359 to 359).
 #as_free_fn(image_rotate)
-pub fn Image::rotate(self : Image, degrees : Int) -> Unit {
+pub fn Image::rotate(self : Image, degrees : Int32) -> Unit {
   @ffi.image_rotate(self.0, degrees)
 }
 
@@ -132,7 +136,7 @@ pub fn Image::adjust_contrast(self : Image, contrast : Float) -> Unit {
 ///|
 /// Modify image color: brightness (-255 to 255).
 #as_free_fn(image_color_brightness)
-pub fn Image::adjust_brightness(self : Image, brightness : Int) -> Unit {
+pub fn Image::adjust_brightness(self : Image, brightness : Int32) -> Unit {
   @ffi.image_color_brightness(self.0, brightness)
 }
 
@@ -142,7 +146,7 @@ pub fn Image::adjust_brightness(self : Image, brightness : Int) -> Unit {
 pub fn Image::kernel_convolution(
   self : Image,
   kernel : Bytes,
-  kernel_size : Int,
+  kernel_size : Int32,
 ) -> Unit {
   @ffi.image_kernel_convolution(self.0, kernel, kernel_size)
 }
@@ -158,9 +162,9 @@ pub fn Image::kernel_convolution(
 #as_free_fn(new_image)
 pub fn Image::new(
   pixel_data : Bytes,
-  width : Int,
-  height : Int,
-  format : Int,
+  width : Int32,
+  height : Int32,
+  format : Int32,
 ) -> Image {
   let required = get_pixel_data_size(width, height, format)
   if pixel_data.length() < required {
@@ -175,10 +179,10 @@ pub fn Image::new(
 #as_free_fn(load_image_raw)
 pub fn Image::load_raw(
   file_name : String,
-  width : Int,
-  height : Int,
-  format : Int,
-  header_size : Int,
+  width : Int32,
+  height : Int32,
+  format : Int32,
+  header_size : Int32,
 ) -> Image {
   @ffi.load_image_raw(
     @utf8.encode(file_name),
@@ -191,7 +195,7 @@ pub fn Image::load_raw(
 
 ///|
 /// Load image sequence from file (frames appended to image.data). Returns the image and frame count.
-pub fn Image::load_anim(file_name : String) -> (Image, Int) {
+pub fn Image::load_anim(file_name : String) -> (Image, Int32) {
   let frames = Ref(0)
   let image = @ffi.load_image_anim(@utf8.encode(file_name), frames)
   (image, frames.val)
@@ -202,8 +206,8 @@ pub fn Image::load_anim(file_name : String) -> (Image, Int) {
 pub fn Image::load_anim_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int,
-) -> (Image, Int) {
+  data_size : Int32,
+) -> (Image, Int32) {
   let frames = Ref(0)
   let image = @ffi.load_image_anim_from_memory(
     @utf8.encode(file_type),
@@ -228,7 +232,7 @@ pub fn load_image_anim(file_name : String) -> Image {
 pub fn load_image_anim_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Image {
   let frames = Ref(0)
   @ffi.load_image_anim_from_memory(
@@ -273,10 +277,10 @@ pub fn Image::alpha_clear(
 #as_free_fn(image_resize_canvas)
 pub fn Image::resize_canvas(
   self : Image,
-  new_width : Int,
-  new_height : Int,
-  offset_x : Int,
-  offset_y : Int,
+  new_width : Int32,
+  new_height : Int32,
+  offset_x : Int32,
+  offset_y : Int32,
   fill : Color,
 ) -> Unit {
   @ffi.image_resize_canvas(
@@ -314,7 +318,7 @@ pub fn Image::color_replace(
 ///|
 /// Create an image from text (default font).
 #as_free_fn(image_text)
-pub fn Image::text(text : String, font_size : Int, color : Color) -> Image {
+pub fn Image::text(text : String, font_size : Int32, color : Color) -> Image {
   @ffi.image_text(@utf8.encode(text), font_size, color.to_bytes())
 }
 
@@ -351,7 +355,7 @@ pub fn Image::alpha_border(self : Image, threshold : Float) -> Rectangle {
 ///|
 /// Get image pixel color at (x, y) position.
 #as_free_fn(get_image_color)
-pub fn Image::get_color(self : Image, x : Int, y : Int) -> Color {
+pub fn Image::get_color(self : Image, x : Int32, y : Int32) -> Color {
   Color::from_bytes(@ffi.get_image_color(self.0, x, y))
 }
 

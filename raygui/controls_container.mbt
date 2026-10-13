@@ -1,7 +1,7 @@
 // Container controls: WindowBox, GroupBox, Panel
 
 ///|
-let window_statusbar_height : Int = 24
+let window_statusbar_height : Int32 = 24
 
 // Window box control with close button, returns true when close button clicked
 
@@ -98,13 +98,13 @@ pub fn gui_panel(bounds : @raylib.Rectangle, text : String) -> Unit {
 }
 
 ///|
-let min_scrollbar_width : Int = 40
+let min_scrollbar_width : Int32 = 40
 
 ///|
-let min_scrollbar_height : Int = 40
+let min_scrollbar_height : Int32 = 40
 
 ///|
-let min_mouse_wheel_speed : Int = 20
+let min_mouse_wheel_speed : Int32 = 20
 
 // Scroll panel control with scrollbars
 // Returns the visible view rectangle; updates scroll position
@@ -242,7 +242,7 @@ pub fn gui_scroll_panel(
     let h_bar_w : Float = bw - Float::from_int(v_scroll_w + 2 * border)
     let h_bar_h : Float = Float::from_int(h_scroll_h)
     let h_bar = @raylib.Rectangle::new(h_bar_x, h_bar_y, h_bar_w, h_bar_h)
-    let h_slider : Int = ((bw - Float::from_int(2 * border + v_scroll_w)) /
+    let h_slider : Int32 = ((bw - Float::from_int(2 * border + v_scroll_w)) /
     content_w *
     (bw - Float::from_int(2 * border + v_scroll_w))).to_int()
     let h_slider = if h_slider < min_scrollbar_width {
@@ -273,7 +273,7 @@ pub fn gui_scroll_panel(
     let v_bar_w : Float = Float::from_int(v_scroll_w)
     let v_bar_h : Float = bh - Float::from_int(h_scroll_h + 2 * border)
     let v_bar = @raylib.Rectangle::new(v_bar_x, v_bar_y, v_bar_w, v_bar_h)
-    let v_slider : Int = ((bh - Float::from_int(2 * border + h_scroll_h)) /
+    let v_slider : Int32 = ((bh - Float::from_int(2 * border + h_scroll_h)) /
     content_h *
     (bh - Float::from_int(2 * border + h_scroll_h))).to_int()
     let v_slider = if v_slider < min_scrollbar_height {
@@ -334,8 +334,8 @@ pub fn gui_scroll_panel(
 pub fn gui_tab_bar(
   bounds : @raylib.Rectangle,
   texts : Array[String],
-  active : Ref[Int],
-) -> Int {
+  active : Ref[Int32],
+) -> Int32 {
   let mut result = -1
   let tab_bar_item_width : Float = 148.0
   let count = texts.length()

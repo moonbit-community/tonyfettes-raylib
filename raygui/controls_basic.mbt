@@ -195,7 +195,7 @@ pub fn gui_toggle(
 pub fn gui_toggle_group(
   bounds : @raylib.Rectangle,
   text : String,
-  active : Ref[Int],
+  active : Ref[Int32],
 ) -> Unit {
   let init_x = bounds.x
   let bw = bounds.width
@@ -424,7 +424,7 @@ pub fn gui_status_bar(bounds : @raylib.Rectangle, text : String) -> Unit {
 pub fn gui_toggle_slider(
   bounds : @raylib.Rectangle,
   text : String,
-  active : Ref[Int],
+  active : Ref[Int32],
 ) -> Bool {
   let mut state = gui_globals.state
   let mut result = false

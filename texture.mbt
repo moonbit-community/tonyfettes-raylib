@@ -6,11 +6,11 @@ struct Texture(@ffi.Texture)
 /// Create a new Texture from raw OpenGL parameters.
 #as_free_fn(new_texture)
 pub fn Texture::new(
-  id : UInt,
-  width : Int,
-  height : Int,
-  mipmaps : Int,
-  format : Int,
+  id : UInt32,
+  width : Int32,
+  height : Int32,
+  mipmaps : Int32,
+  format : Int32,
 ) -> Texture {
   @ffi.new_texture(id, width, height, mipmaps, format)
 }
@@ -18,49 +18,49 @@ pub fn Texture::new(
 ///|
 /// Get the OpenGL texture id.
 #as_free_fn(get_texture_id)
-pub fn Texture::id(self : Texture) -> UInt {
+pub fn Texture::id(self : Texture) -> UInt32 {
   @ffi.get_texture_id(self.0)
 }
 
 ///|
 /// Get texture base width.
 #as_free_fn(get_texture_width)
-pub fn Texture::width(self : Texture) -> Int {
+pub fn Texture::width(self : Texture) -> Int32 {
   @ffi.get_texture_width(self.0)
 }
 
 ///|
 /// Get texture base height.
 #as_free_fn(get_texture_height)
-pub fn Texture::height(self : Texture) -> Int {
+pub fn Texture::height(self : Texture) -> Int32 {
   @ffi.get_texture_height(self.0)
 }
 
 ///|
 /// Get texture mipmap levels, 1 by default.
 #as_free_fn(get_texture_mipmaps)
-pub fn Texture::mipmaps(self : Texture) -> Int {
+pub fn Texture::mipmaps(self : Texture) -> Int32 {
   @ffi.get_texture_mipmaps(self.0)
 }
 
 ///|
 /// Get texture data format (PixelFormat type).
 #as_free_fn(get_texture_format)
-pub fn Texture::format(self : Texture) -> Int {
+pub fn Texture::format(self : Texture) -> Int32 {
   @ffi.get_texture_format(self.0)
 }
 
 ///|
 /// Set texture scaling filter mode.
 #as_free_fn(set_texture_filter)
-pub fn Texture::set_filter(self : Texture, filter : Int) -> Unit {
+pub fn Texture::set_filter(self : Texture, filter : Int32) -> Unit {
   @ffi.set_texture_filter(self.0, filter)
 }
 
 ///|
 /// Set texture wrapping mode.
 #as_free_fn(set_texture_wrap)
-pub fn Texture::set_wrap(self : Texture, wrap : Int) -> Unit {
+pub fn Texture::set_wrap(self : Texture, wrap : Int32) -> Unit {
   @ffi.set_texture_wrap(self.0, wrap)
 }
 
@@ -90,8 +90,8 @@ pub fn Texture::load(file_name : String) -> Texture {
 #as_free_fn(draw_texture)
 pub fn Texture::draw(
   self : Texture,
-  pos_x : Int,
-  pos_y : Int,
+  pos_x : Int32,
+  pos_y : Int32,
   tint : Color,
 ) -> Unit {
   @ffi.draw_texture(self.0, pos_x, pos_y, tint.to_bytes())
@@ -215,7 +215,7 @@ pub fn Texture::gen_mipmaps(self : Texture) -> Unit {
 /// Create a texture from an OpenGL texture id (deprecated: use Texture::new instead).
 #as_free_fn(texture_from_id, deprecated="Use Texture::new instead")
 #deprecated("Use Texture::new instead")
-pub fn Texture::from_id(id : UInt, width : Int, height : Int) -> Texture {
+pub fn Texture::from_id(id : UInt32, width : Int32, height : Int32) -> Texture {
   @ffi.new_texture(id, width, height, 1, PixelformatUncompressedR8g8b8a8)
 }
 
@@ -232,7 +232,7 @@ pub fn Texture::get_shapes() -> Texture {
 pub fn Texture::update_from_image_frame(
   self : Texture,
   image : Image,
-  frame : Int,
+  frame : Int32,
 ) -> Unit {
   @ffi.update_texture_from_image_frame(self.0, image.0, frame)
 }

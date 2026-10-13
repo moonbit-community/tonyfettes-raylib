@@ -8,7 +8,7 @@ let margin_size = 8
 let color_size = 16
 
 ///|
-fn fi(x : Int) -> Float {
+fn fi(x : Int32) -> Float {
   Float::from_int(x)
 }
 

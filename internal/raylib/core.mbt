@@ -4,11 +4,11 @@
 
 ///|
 #borrow(title)
-pub extern "c" fn init_window(width : Int, height : Int, title : Bytes) = "moonbit_raylib_init_window"
+pub extern "c" fn init_window(width : Int32, height : Int32, title : Bytes) = "moonbit_raylib_init_window"
 
 ///|
 /// Close window and unload OpenGL context.
-pub extern "c" fn close_window() = "CloseWindow"
+pub extern "c" fn close_window() = "moonbit_raylib_close_window"
 
 ///|
 /// Check if application should close (KEY_ESCAPE pressed or windows close icon clicked).
@@ -48,19 +48,19 @@ pub extern "c" fn set_window_title(title : Bytes) = "moonbit_raylib_set_window_t
 
 ///|
 /// Set window dimensions.
-pub extern "c" fn set_window_size(width : Int, height : Int) = "SetWindowSize"
+pub extern "c" fn set_window_size(width : Int32, height : Int32) = "SetWindowSize"
 
 ///|
 /// Set window position on screen.
-pub extern "c" fn set_window_position(x : Int, y : Int) = "SetWindowPosition"
+pub extern "c" fn set_window_position(x : Int32, y : Int32) = "SetWindowPosition"
 
 ///|
 /// Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE).
-pub extern "c" fn set_window_min_size(width : Int, height : Int) = "SetWindowMinSize"
+pub extern "c" fn set_window_min_size(width : Int32, height : Int32) = "SetWindowMinSize"
 
 ///|
 /// Set window maximum dimensions (for FLAG_WINDOW_RESIZABLE).
-pub extern "c" fn set_window_max_size(width : Int, height : Int) = "SetWindowMaxSize"
+pub extern "c" fn set_window_max_size(width : Int32, height : Int32) = "SetWindowMaxSize"
 
 ///|
 /// Set window opacity [0.0f..1.0f].
@@ -72,19 +72,19 @@ pub extern "c" fn set_window_focused() = "SetWindowFocused"
 
 ///|
 /// Get current screen width.
-pub extern "c" fn get_screen_width() -> Int = "GetScreenWidth"
+pub extern "c" fn get_screen_width() -> Int32 = "GetScreenWidth"
 
 ///|
 /// Get current screen height.
-pub extern "c" fn get_screen_height() -> Int = "GetScreenHeight"
+pub extern "c" fn get_screen_height() -> Int32 = "GetScreenHeight"
 
 ///|
 /// Get current render width (it considers HiDPI).
-pub extern "c" fn get_render_width() -> Int = "GetRenderWidth"
+pub extern "c" fn get_render_width() -> Int32 = "GetRenderWidth"
 
 ///|
 /// Get current render height (it considers HiDPI).
-pub extern "c" fn get_render_height() -> Int = "GetRenderHeight"
+pub extern "c" fn get_render_height() -> Int32 = "GetRenderHeight"
 
 ///|
 /// Toggle window state: fullscreen/windowed, resizes monitor to match window resolution.
@@ -108,19 +108,19 @@ pub extern "c" fn restore_window() = "RestoreWindow"
 
 ///|
 /// Setup init configuration flags (view FLAGS).
-pub extern "c" fn set_config_flags(flags : Int) = "SetConfigFlags"
+pub extern "c" fn set_config_flags(flags : Int32) = "SetConfigFlags"
 
 ///|
 /// Set window configuration state using flags.
-pub extern "c" fn set_window_state(flags : Int) = "SetWindowState"
+pub extern "c" fn set_window_state(flags : Int32) = "SetWindowState"
 
 ///|
 /// Clear window configuration state flags.
-pub extern "c" fn clear_window_state(flags : Int) = "ClearWindowState"
+pub extern "c" fn clear_window_state(flags : Int32) = "ClearWindowState"
 
 ///|
 /// Check if one specific window flag is enabled.
-pub extern "c" fn is_window_state(flag : Int) -> Bool = "moonbit_raylib_is_window_state"
+pub extern "c" fn is_window_state(flag : Int32) -> Bool = "moonbit_raylib_is_window_state"
 
 ///|
 pub extern "c" fn get_window_position() -> Bytes = "moonbit_raylib_get_window_position"
@@ -134,40 +134,40 @@ pub extern "c" fn get_window_scale_dpi() -> Bytes = "moonbit_raylib_get_window_s
 
 ///|
 /// Get number of connected monitors.
-pub extern "c" fn get_monitor_count() -> Int = "GetMonitorCount"
+pub extern "c" fn get_monitor_count() -> Int32 = "GetMonitorCount"
 
 ///|
 /// Get current monitor where window is placed.
-pub extern "c" fn get_current_monitor() -> Int = "GetCurrentMonitor"
+pub extern "c" fn get_current_monitor() -> Int32 = "GetCurrentMonitor"
 
 ///|
 /// Get specified monitor width (current video mode used by monitor).
-pub extern "c" fn get_monitor_width(monitor : Int) -> Int = "GetMonitorWidth"
+pub extern "c" fn get_monitor_width(monitor : Int32) -> Int32 = "GetMonitorWidth"
 
 ///|
 /// Get specified monitor height (current video mode used by monitor).
-pub extern "c" fn get_monitor_height(monitor : Int) -> Int = "GetMonitorHeight"
+pub extern "c" fn get_monitor_height(monitor : Int32) -> Int32 = "GetMonitorHeight"
 
 ///|
 /// Get specified monitor physical width in millimetres.
-pub extern "c" fn get_monitor_physical_width(monitor : Int) -> Int = "GetMonitorPhysicalWidth"
+pub extern "c" fn get_monitor_physical_width(monitor : Int32) -> Int32 = "GetMonitorPhysicalWidth"
 
 ///|
 /// Get specified monitor physical height in millimetres.
-pub extern "c" fn get_monitor_physical_height(monitor : Int) -> Int = "GetMonitorPhysicalHeight"
+pub extern "c" fn get_monitor_physical_height(monitor : Int32) -> Int32 = "GetMonitorPhysicalHeight"
 
 ///|
 /// Get specified monitor refresh rate.
-pub extern "c" fn get_monitor_refresh_rate(monitor : Int) -> Int = "GetMonitorRefreshRate"
+pub extern "c" fn get_monitor_refresh_rate(monitor : Int32) -> Int32 = "GetMonitorRefreshRate"
 
 ///|
-pub extern "c" fn get_monitor_position(monitor : Int) -> Bytes = "moonbit_raylib_get_monitor_position"
+pub extern "c" fn get_monitor_position(monitor : Int32) -> Bytes = "moonbit_raylib_get_monitor_position"
 
 ///|
-pub extern "c" fn get_monitor_name(monitor : Int) -> Bytes = "moonbit_raylib_get_monitor_name"
+pub extern "c" fn get_monitor_name(monitor : Int32) -> Bytes = "moonbit_raylib_get_monitor_name"
 
 ///|
-pub extern "c" fn set_window_monitor(monitor : Int) = "SetWindowMonitor"
+pub extern "c" fn set_window_monitor(monitor : Int32) = "SetWindowMonitor"
 
 // ============================================================================
 // Clipboard
@@ -209,7 +209,7 @@ pub extern "c" fn wait_time(seconds : Double) = "WaitTime"
 
 ///|
 /// Shows cursor.
-pub extern "c" fn show_cursor() = "ShowCursor"
+pub extern "c" fn show_cursor() = "moonbit_raylib_show_cursor"
 
 ///|
 /// Hides cursor.
@@ -266,10 +266,10 @@ pub extern "c" fn end_mode_3d() = "EndMode3D"
 ///|
 /// Begin scissor mode (define screen area for following drawing).
 pub extern "c" fn begin_scissor_mode(
-  x : Int,
-  y : Int,
-  width : Int,
-  height : Int,
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
 ) = "BeginScissorMode"
 
 ///|
@@ -278,7 +278,7 @@ pub extern "c" fn end_scissor_mode() = "EndScissorMode"
 
 ///|
 /// Begin blending mode (alpha, additive, multiplied, subtract, custom).
-pub extern "c" fn begin_blend_mode(mode : Int) = "BeginBlendMode"
+pub extern "c" fn begin_blend_mode(mode : Int32) = "BeginBlendMode"
 
 ///|
 /// End blending mode (reset to default: alpha blending).
@@ -298,7 +298,7 @@ pub extern "c" fn end_texture_mode() = "EndTextureMode"
 
 ///|
 /// Set target FPS (maximum).
-pub extern "c" fn set_target_fps(fps : Int) = "SetTargetFPS"
+pub extern "c" fn set_target_fps(fps : Int32) = "SetTargetFPS"
 
 ///|
 /// Get time in seconds for last frame drawn (delta time).
@@ -310,7 +310,7 @@ pub extern "c" fn get_time() -> Double = "GetTime"
 
 ///|
 /// Get current FPS.
-pub extern "c" fn get_fps() -> Int = "GetFPS"
+pub extern "c" fn get_fps() -> Int32 = "GetFPS"
 
 // ============================================================================
 // Keyboard input
@@ -318,35 +318,35 @@ pub extern "c" fn get_fps() -> Int = "GetFPS"
 
 ///|
 /// Check if a key has been pressed once.
-pub extern "c" fn is_key_pressed(key : Int) -> Bool = "moonbit_raylib_is_key_pressed"
+pub extern "c" fn is_key_pressed(key : Int32) -> Bool = "moonbit_raylib_is_key_pressed"
 
 ///|
 /// Check if a key has been pressed again.
-pub extern "c" fn is_key_pressed_repeat(key : Int) -> Bool = "moonbit_raylib_is_key_pressed_repeat"
+pub extern "c" fn is_key_pressed_repeat(key : Int32) -> Bool = "moonbit_raylib_is_key_pressed_repeat"
 
 ///|
 /// Check if a key is being pressed.
-pub extern "c" fn is_key_down(key : Int) -> Bool = "moonbit_raylib_is_key_down"
+pub extern "c" fn is_key_down(key : Int32) -> Bool = "moonbit_raylib_is_key_down"
 
 ///|
 /// Check if a key has been released once.
-pub extern "c" fn is_key_released(key : Int) -> Bool = "moonbit_raylib_is_key_released"
+pub extern "c" fn is_key_released(key : Int32) -> Bool = "moonbit_raylib_is_key_released"
 
 ///|
 /// Check if a key is NOT being pressed.
-pub extern "c" fn is_key_up(key : Int) -> Bool = "moonbit_raylib_is_key_up"
+pub extern "c" fn is_key_up(key : Int32) -> Bool = "moonbit_raylib_is_key_up"
 
 ///|
 /// Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty.
-pub extern "c" fn get_key_pressed() -> Int = "GetKeyPressed"
+pub extern "c" fn get_key_pressed() -> Int32 = "GetKeyPressed"
 
 ///|
 /// Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty.
-pub extern "c" fn get_char_pressed() -> Int = "GetCharPressed"
+pub extern "c" fn get_char_pressed() -> Int32 = "GetCharPressed"
 
 ///|
 /// Set a custom key to exit program (default is ESC).
-pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
+pub extern "c" fn set_exit_key(key : Int32) = "SetExitKey"
 
 // ============================================================================
 // Mouse input
@@ -354,27 +354,27 @@ pub extern "c" fn set_exit_key(key : Int) = "SetExitKey"
 
 ///|
 /// Check if a mouse button has been pressed once.
-pub extern "c" fn is_mouse_button_pressed(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_pressed"
+pub extern "c" fn is_mouse_button_pressed(button : Int32) -> Bool = "moonbit_raylib_is_mouse_button_pressed"
 
 ///|
 /// Check if a mouse button is being pressed.
-pub extern "c" fn is_mouse_button_down(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_down"
+pub extern "c" fn is_mouse_button_down(button : Int32) -> Bool = "moonbit_raylib_is_mouse_button_down"
 
 ///|
 /// Check if a mouse button has been released once.
-pub extern "c" fn is_mouse_button_released(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_released"
+pub extern "c" fn is_mouse_button_released(button : Int32) -> Bool = "moonbit_raylib_is_mouse_button_released"
 
 ///|
 /// Check if a mouse button is NOT being pressed.
-pub extern "c" fn is_mouse_button_up(button : Int) -> Bool = "moonbit_raylib_is_mouse_button_up"
+pub extern "c" fn is_mouse_button_up(button : Int32) -> Bool = "moonbit_raylib_is_mouse_button_up"
 
 ///|
 /// Get mouse position X.
-pub extern "c" fn get_mouse_x() -> Int = "GetMouseX"
+pub extern "c" fn get_mouse_x() -> Int32 = "GetMouseX"
 
 ///|
 /// Get mouse position Y.
-pub extern "c" fn get_mouse_y() -> Int = "GetMouseY"
+pub extern "c" fn get_mouse_y() -> Int32 = "GetMouseY"
 
 ///|
 pub extern "c" fn get_mouse_position() -> Bytes = "moonbit_raylib_get_mouse_position"
@@ -384,11 +384,11 @@ pub extern "c" fn get_mouse_delta() -> Bytes = "moonbit_raylib_get_mouse_delta"
 
 ///|
 /// Set mouse position XY.
-pub extern "c" fn set_mouse_position(x : Int, y : Int) = "SetMousePosition"
+pub extern "c" fn set_mouse_position(x : Int32, y : Int32) = "SetMousePosition"
 
 ///|
 /// Set mouse offset.
-pub extern "c" fn set_mouse_offset(offset_x : Int, offset_y : Int) = "SetMouseOffset"
+pub extern "c" fn set_mouse_offset(offset_x : Int32, offset_y : Int32) = "SetMouseOffset"
 
 ///|
 /// Set mouse scaling.
@@ -403,7 +403,7 @@ pub extern "c" fn get_mouse_wheel_move_v() -> Bytes = "moonbit_raylib_get_mouse_
 
 ///|
 /// Set mouse cursor.
-pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
+pub extern "c" fn set_mouse_cursor(cursor : Int32) = "SetMouseCursor"
 
 // ============================================================================
 // Gamepad input
@@ -411,52 +411,58 @@ pub extern "c" fn set_mouse_cursor(cursor : Int) = "SetMouseCursor"
 
 ///|
 /// Check if a gamepad is available.
-pub extern "c" fn is_gamepad_available(gamepad : Int) -> Bool = "moonbit_raylib_is_gamepad_available"
+pub extern "c" fn is_gamepad_available(gamepad : Int32) -> Bool = "moonbit_raylib_is_gamepad_available"
 
 ///|
-pub extern "c" fn get_gamepad_name(gamepad : Int) -> Bytes = "moonbit_raylib_get_gamepad_name"
+pub extern "c" fn get_gamepad_name(gamepad : Int32) -> Bytes = "moonbit_raylib_get_gamepad_name"
 
 ///|
 /// Check if a gamepad button has been pressed once.
 pub extern "c" fn is_gamepad_button_pressed(
-  gamepad : Int,
-  button : Int,
+  gamepad : Int32,
+  button : Int32,
 ) -> Bool = "moonbit_raylib_is_gamepad_button_pressed"
 
 ///|
 /// Check if a gamepad button is being pressed.
-pub extern "c" fn is_gamepad_button_down(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_down"
+pub extern "c" fn is_gamepad_button_down(
+  gamepad : Int32,
+  button : Int32,
+) -> Bool = "moonbit_raylib_is_gamepad_button_down"
 
 ///|
 /// Check if a gamepad button has been released once.
 pub extern "c" fn is_gamepad_button_released(
-  gamepad : Int,
-  button : Int,
+  gamepad : Int32,
+  button : Int32,
 ) -> Bool = "moonbit_raylib_is_gamepad_button_released"
 
 ///|
 /// Check if a gamepad button is NOT being pressed.
-pub extern "c" fn is_gamepad_button_up(gamepad : Int, button : Int) -> Bool = "moonbit_raylib_is_gamepad_button_up"
+pub extern "c" fn is_gamepad_button_up(gamepad : Int32, button : Int32) -> Bool = "moonbit_raylib_is_gamepad_button_up"
 
 ///|
 /// Get the last gamepad button pressed.
-pub extern "c" fn get_gamepad_button_pressed() -> Int = "GetGamepadButtonPressed"
+pub extern "c" fn get_gamepad_button_pressed() -> Int32 = "GetGamepadButtonPressed"
 
 ///|
 /// Get gamepad axis count for a gamepad.
-pub extern "c" fn get_gamepad_axis_count(gamepad : Int) -> Int = "GetGamepadAxisCount"
+pub extern "c" fn get_gamepad_axis_count(gamepad : Int32) -> Int32 = "GetGamepadAxisCount"
 
 ///|
 /// Get axis movement value for a gamepad axis.
-pub extern "c" fn get_gamepad_axis_movement(gamepad : Int, axis : Int) -> Float = "GetGamepadAxisMovement"
+pub extern "c" fn get_gamepad_axis_movement(
+  gamepad : Int32,
+  axis : Int32,
+) -> Float = "GetGamepadAxisMovement"
 
 ///|
 #borrow(mappings)
-pub extern "c" fn set_gamepad_mappings(mappings : Bytes) -> Int = "moonbit_raylib_set_gamepad_mappings"
+pub extern "c" fn set_gamepad_mappings(mappings : Bytes) -> Int32 = "moonbit_raylib_set_gamepad_mappings"
 
 ///|
 pub extern "c" fn set_gamepad_vibration(
-  gamepad : Int,
+  gamepad : Int32,
   left_motor : Float,
   right_motor : Float,
   duration : Float,
@@ -468,22 +474,22 @@ pub extern "c" fn set_gamepad_vibration(
 
 ///|
 /// Get touch position X for touch point 0 (relative to screen size).
-pub extern "c" fn get_touch_x() -> Int = "GetTouchX"
+pub extern "c" fn get_touch_x() -> Int32 = "GetTouchX"
 
 ///|
 /// Get touch position Y for touch point 0 (relative to screen size).
-pub extern "c" fn get_touch_y() -> Int = "GetTouchY"
+pub extern "c" fn get_touch_y() -> Int32 = "GetTouchY"
 
 ///|
-pub extern "c" fn get_touch_position(index : Int) -> Bytes = "moonbit_raylib_get_touch_position"
+pub extern "c" fn get_touch_position(index : Int32) -> Bytes = "moonbit_raylib_get_touch_position"
 
 ///|
 /// Get touch point identifier for given index.
-pub extern "c" fn get_touch_point_id(index : Int) -> Int = "GetTouchPointId"
+pub extern "c" fn get_touch_point_id(index : Int32) -> Int32 = "GetTouchPointId"
 
 ///|
 /// Get number of touch points.
-pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
+pub extern "c" fn get_touch_point_count() -> Int32 = "GetTouchPointCount"
 
 // ============================================================================
 // Gesture input
@@ -491,15 +497,15 @@ pub extern "c" fn get_touch_point_count() -> Int = "GetTouchPointCount"
 
 ///|
 /// Enable a set of gestures using flags.
-pub extern "c" fn set_gestures_enabled(flags : Int) = "SetGesturesEnabled"
+pub extern "c" fn set_gestures_enabled(flags : Int32) = "SetGesturesEnabled"
 
 ///|
 /// Check if a gesture have been detected.
-pub extern "c" fn is_gesture_detected(gesture : Int) -> Bool = "moonbit_raylib_is_gesture_detected"
+pub extern "c" fn is_gesture_detected(gesture : Int32) -> Bool = "moonbit_raylib_is_gesture_detected"
 
 ///|
 /// Get latest detected gesture.
-pub extern "c" fn get_gesture_detected() -> Int = "GetGestureDetected"
+pub extern "c" fn get_gesture_detected() -> Int32 = "GetGestureDetected"
 
 ///|
 /// Get gesture hold time in seconds.
@@ -525,7 +531,7 @@ pub extern "c" fn get_gesture_pinch_angle() -> Float = "GetGesturePinchAngle"
 
 ///|
 #borrow(camera)
-pub extern "c" fn update_camera(camera : Bytes, mode : Int) -> Bytes = "moonbit_raylib_update_camera"
+pub extern "c" fn update_camera(camera : Bytes, mode : Int32) -> Bytes = "moonbit_raylib_update_camera"
 
 ///|
 #borrow(camera, movement, rotation)
@@ -567,54 +573,54 @@ pub extern "c" fn is_shader_valid(shader : Shader) -> Bool = "moonbit_raylib_is_
 
 ///|
 #borrow(shader)
-pub extern "c" fn get_shader_id(shader : Shader) -> UInt = "moonbit_raylib_get_shader_id"
+pub extern "c" fn get_shader_id(shader : Shader) -> UInt32 = "moonbit_raylib_get_shader_id"
 
 ///|
 #borrow(shader, uniform_name)
 pub extern "c" fn get_shader_location(
   shader : Shader,
   uniform_name : Bytes,
-) -> Int = "moonbit_raylib_get_shader_location"
+) -> Int32 = "moonbit_raylib_get_shader_location"
 
 ///|
 #borrow(shader, attrib_name)
 pub extern "c" fn get_shader_location_attrib(
   shader : Shader,
   attrib_name : Bytes,
-) -> Int = "moonbit_raylib_get_shader_location_attrib"
+) -> Int32 = "moonbit_raylib_get_shader_location_attrib"
 
 ///|
 #borrow(shader)
 pub extern "c" fn set_shader_locs(
   shader : Shader,
-  loc_index : Int,
-  loc_value : Int,
+  loc_index : Int32,
+  loc_value : Int32,
 ) = "moonbit_raylib_set_shader_locs"
 
 ///|
 #borrow(shader, value)
 pub extern "c" fn set_shader_value(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
+  uniform_type : Int32,
 ) = "moonbit_raylib_set_shader_value"
 
 ///|
 #borrow(shader, value)
 pub extern "c" fn set_shader_value_v(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
-  count : Int,
+  uniform_type : Int32,
+  count : Int32,
 ) = "moonbit_raylib_set_shader_value_v"
 
 ///|
 #borrow(shader, mat)
 pub extern "c" fn set_shader_value_matrix(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   mat : Bytes,
 ) = "moonbit_raylib_set_shader_value_matrix"
 
@@ -622,7 +628,7 @@ pub extern "c" fn set_shader_value_matrix(
 #borrow(shader, texture)
 pub extern "c" fn set_shader_value_texture(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   texture : Texture,
 ) = "moonbit_raylib_set_shader_value_texture"
 
@@ -654,8 +660,8 @@ pub extern "c" fn get_screen_to_world_ray(
 pub extern "c" fn get_screen_to_world_ray_ex(
   position : Bytes,
   camera : Bytes,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> Bytes = "moonbit_raylib_get_screen_to_world_ray_ex"
 
 ///|
@@ -663,8 +669,8 @@ pub extern "c" fn get_screen_to_world_ray_ex(
 pub extern "c" fn get_world_to_screen_ex(
   position : Bytes,
   camera : Bytes,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> Bytes = "moonbit_raylib_get_world_to_screen_ex"
 
 // ============================================================================
@@ -672,11 +678,11 @@ pub extern "c" fn get_world_to_screen_ex(
 // ============================================================================
 
 ///|
-pub extern "c" fn set_trace_log_level(log_level : Int) = "SetTraceLogLevel"
+pub extern "c" fn set_trace_log_level(log_level : Int32) = "SetTraceLogLevel"
 
 ///|
 #borrow(text)
-pub extern "c" fn trace_log(log_level : Int, text : Bytes) = "moonbit_raylib_trace_log"
+pub extern "c" fn trace_log(log_level : Int32, text : Bytes) = "moonbit_raylib_trace_log"
 
 ///|
 #borrow(file_name)
@@ -688,19 +694,19 @@ pub extern "c" fn open_url(url : Bytes) = "moonbit_raylib_open_url"
 
 ///|
 /// Get a random value between min and max (both included).
-pub extern "c" fn get_random_value(min : Int, max : Int) -> Int = "GetRandomValue"
+pub extern "c" fn get_random_value(min : Int32, max : Int32) -> Int32 = "GetRandomValue"
 
 ///|
 /// Set the seed for the random number generator.
-pub extern "c" fn set_random_seed(seed : Int) = "SetRandomSeed"
+pub extern "c" fn set_random_seed(seed : Int32) = "SetRandomSeed"
 
 ///|
 /// Get pixel data size in bytes for certain format.
 pub extern "c" fn get_pixel_data_size(
-  width : Int,
-  height : Int,
-  format : Int,
-) -> Int = "GetPixelDataSize"
+  width : Int32,
+  height : Int32,
+  format : Int32,
+) -> Int32 = "GetPixelDataSize"
 
 // ============================================================================
 // Window icon
@@ -770,13 +776,13 @@ pub extern "c" fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes = 
 // ============================================================================
 
 ///|
-pub extern "c" fn rl_set_blend_mode(mode : Int) = "rlSetBlendMode"
+pub extern "c" fn rl_set_blend_mode(mode : Int32) = "rlSetBlendMode"
 
 ///|
 pub extern "c" fn rl_set_blend_factors(
-  gl_src_factor : Int,
-  gl_dst_factor : Int,
-  gl_equation : Int,
+  gl_src_factor : Int32,
+  gl_dst_factor : Int32,
+  gl_equation : Int32,
 ) = "rlSetBlendFactors"
 
 ///|
@@ -785,7 +791,7 @@ pub extern "c" fn rl_draw_render_batch_active() = "rlDrawRenderBatchActive"
 // rlgl: Geometry submission (vertex-level)
 
 ///|
-pub extern "c" fn rl_begin(mode : Int) = "rlBegin"
+pub extern "c" fn rl_begin(mode : Int32) = "rlBegin"
 
 ///|
 pub extern "c" fn rl_end() = "rlEnd"
@@ -806,7 +812,7 @@ pub extern "c" fn rl_color4ub(r : Byte, g : Byte, b : Byte, a : Byte) = "rlColor
 pub extern "c" fn rl_normal3f(x : Float, y : Float, z : Float) = "rlNormal3f"
 
 ///|
-pub extern "c" fn rl_set_texture(id : UInt) = "rlSetTexture"
+pub extern "c" fn rl_set_texture(id : UInt32) = "rlSetTexture"
 
 // rlgl: Matrix stack
 
@@ -838,7 +844,7 @@ pub extern "c" fn rl_enable_backface_culling() = "rlEnableBackfaceCulling"
 pub extern "c" fn rl_disable_backface_culling() = "rlDisableBackfaceCulling"
 
 ///|
-pub extern "c" fn rl_check_render_batch_limit(v_count : Int) -> Bool = "moonbit_raylib_rl_check_render_batch_limit"
+pub extern "c" fn rl_check_render_batch_limit(v_count : Int32) -> Bool = "moonbit_raylib_rl_check_render_batch_limit"
 
 ///|
 pub extern "c" fn rl_enable_depth_test() = "rlEnableDepthTest"
@@ -859,31 +865,36 @@ pub extern "c" fn rl_enable_color_blend() = "rlEnableColorBlend"
 pub extern "c" fn rl_disable_color_blend() = "rlDisableColorBlend"
 
 ///|
-pub extern "c" fn rl_active_texture_slot(slot : Int) = "rlActiveTextureSlot"
+pub extern "c" fn rl_active_texture_slot(slot : Int32) = "rlActiveTextureSlot"
 
 ///|
-pub extern "c" fn rl_enable_texture(id : UInt) = "rlEnableTexture"
+pub extern "c" fn rl_enable_texture(id : UInt32) = "rlEnableTexture"
 
 ///|
 pub extern "c" fn rl_disable_texture() = "rlDisableTexture"
 
 ///|
-pub extern "c" fn rl_enable_shader(id : UInt) = "rlEnableShader"
+pub extern "c" fn rl_enable_shader(id : UInt32) = "rlEnableShader"
 
 ///|
 pub extern "c" fn rl_disable_shader() = "rlDisableShader"
 
 ///|
-pub extern "c" fn rl_enable_framebuffer(id : UInt) = "rlEnableFramebuffer"
+pub extern "c" fn rl_enable_framebuffer(id : UInt32) = "rlEnableFramebuffer"
 
 ///|
 pub extern "c" fn rl_disable_framebuffer() = "rlDisableFramebuffer"
 
 ///|
-pub extern "c" fn rl_active_draw_buffers(count : Int) = "rlActiveDrawBuffers"
+pub extern "c" fn rl_active_draw_buffers(count : Int32) = "rlActiveDrawBuffers"
 
 ///|
-pub extern "c" fn rl_viewport(x : Int, y : Int, width : Int, height : Int) = "rlViewport"
+pub extern "c" fn rl_viewport(
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
+) = "rlViewport"
 
 ///|
 pub extern "c" fn rl_clear_screen_buffers() = "rlClearScreenBuffers"
@@ -891,49 +902,52 @@ pub extern "c" fn rl_clear_screen_buffers() = "rlClearScreenBuffers"
 // rlgl: Framebuffer management
 
 ///|
-pub extern "c" fn rl_load_framebuffer() -> UInt = "rlLoadFramebuffer"
+pub extern "c" fn rl_load_framebuffer() -> UInt32 = "rlLoadFramebuffer"
 
 ///|
-pub extern "c" fn rl_framebuffer_complete(id : UInt) -> Bool = "moonbit_raylib_rl_framebuffer_complete"
+pub extern "c" fn rl_framebuffer_complete(id : UInt32) -> Bool = "moonbit_raylib_rl_framebuffer_complete"
 
 ///|
 pub extern "c" fn rl_framebuffer_attach(
-  fbo_id : UInt,
-  tex_id : UInt,
-  attach_type : Int,
-  tex_type : Int,
-  mip_level : Int,
+  fbo_id : UInt32,
+  tex_id : UInt32,
+  attach_type : Int32,
+  tex_type : Int32,
+  mip_level : Int32,
 ) = "rlFramebufferAttach"
 
 ///|
-pub extern "c" fn rl_unload_framebuffer(id : UInt) = "rlUnloadFramebuffer"
+pub extern "c" fn rl_unload_framebuffer(id : UInt32) = "rlUnloadFramebuffer"
 
 // rlgl: Texture management (low-level)
 
 ///|
 pub extern "c" fn rl_load_texture_depth(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   use_render_buffer : Bool,
-) -> UInt = "moonbit_raylib_rl_load_texture_depth"
+) -> UInt32 = "moonbit_raylib_rl_load_texture_depth"
 
 ///|
-pub extern "c" fn rl_unload_texture(id : UInt) = "rlUnloadTexture"
+pub extern "c" fn rl_unload_texture(id : UInt32) = "rlUnloadTexture"
 
 // rlgl: Shader management (low-level)
 
 ///|
 #borrow(uniform_name)
 pub extern "c" fn rl_get_location_uniform(
-  shader_id : UInt,
+  shader_id : UInt32,
   uniform_name : Bytes,
-) -> Int = "rlGetLocationUniform"
+) -> Int32 = "rlGetLocationUniform"
 
 ///|
-pub extern "c" fn rl_set_uniform_sampler(loc_index : Int, texture_id : UInt) = "rlSetUniformSampler"
+pub extern "c" fn rl_set_uniform_sampler(
+  loc_index : Int32,
+  texture_id : UInt32,
+) = "rlSetUniformSampler"
 
 ///|
-pub extern "c" fn rl_get_shader_id_default() -> UInt = "rlGetShaderIdDefault"
+pub extern "c" fn rl_get_shader_id_default() -> UInt32 = "rlGetShaderIdDefault"
 
 // rlgl: Draw helpers
 
@@ -946,25 +960,25 @@ pub extern "c" fn rl_load_draw_cube() = "rlLoadDrawCube"
 // rlgl: Misc
 
 ///|
-pub extern "c" fn rl_get_framebuffer_width() -> Int = "rlGetFramebufferWidth"
+pub extern "c" fn rl_get_framebuffer_width() -> Int32 = "rlGetFramebufferWidth"
 
 ///|
-pub extern "c" fn rl_get_framebuffer_height() -> Int = "rlGetFramebufferHeight"
+pub extern "c" fn rl_get_framebuffer_height() -> Int32 = "rlGetFramebufferHeight"
 
 ///|
-pub extern "c" fn rl_bind_framebuffer(target : UInt, fbo : UInt) = "rlBindFramebuffer"
+pub extern "c" fn rl_bind_framebuffer(target : UInt32, fbo : UInt32) = "rlBindFramebuffer"
 
 ///|
 pub extern "c" fn rl_blit_framebuffer(
-  src_x : Int,
-  src_y : Int,
-  src_w : Int,
-  src_h : Int,
-  dst_x : Int,
-  dst_y : Int,
-  dst_w : Int,
-  dst_h : Int,
-  buffer_mask : Int,
+  src_x : Int32,
+  src_y : Int32,
+  src_w : Int32,
+  src_h : Int32,
+  dst_x : Int32,
+  dst_y : Int32,
+  dst_w : Int32,
+  dst_h : Int32,
+  buffer_mask : Int32,
 ) = "rlBlitFramebuffer"
 
 // rlgl: Matrix getters
@@ -980,10 +994,10 @@ pub extern "c" fn rl_get_matrix_projection() -> Bytes = "moonbit_raylib_rl_get_m
 ///|
 #borrow(value)
 pub extern "c" fn rl_set_uniform(
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
-  count : Int,
+  uniform_type : Int32,
+  count : Int32,
 ) = "moonbit_raylib_rl_set_uniform"
 
 // ============================================================================
@@ -992,7 +1006,7 @@ pub extern "c" fn rl_set_uniform(
 
 ///|
 /// Choose the current matrix to be transformed.
-pub extern "c" fn rl_matrix_mode(mode : Int) = "rlMatrixMode"
+pub extern "c" fn rl_matrix_mode(mode : Int32) = "rlMatrixMode"
 
 ///|
 /// Reset current matrix to identity matrix.
@@ -1038,7 +1052,7 @@ pub extern "c" fn rl_get_cull_distance_far() -> Double = "rlGetCullDistanceFar"
 
 ///|
 /// Define one vertex (position) - 2 int.
-pub extern "c" fn rl_vertex2i(x : Int, y : Int) = "rlVertex2i"
+pub extern "c" fn rl_vertex2i(x : Int32, y : Int32) = "rlVertex2i"
 
 ///|
 /// Define one vertex (color) - 3 float.
@@ -1054,7 +1068,7 @@ pub extern "c" fn rl_color4f(x : Float, y : Float, z : Float, w : Float) = "rlCo
 
 ///|
 /// Enable vertex array (VAO, if supported).
-pub extern "c" fn rl_enable_vertex_array(vao_id : UInt) -> Bool = "moonbit_raylib_rl_enable_vertex_array"
+pub extern "c" fn rl_enable_vertex_array(vao_id : UInt32) -> Bool = "moonbit_raylib_rl_enable_vertex_array"
 
 ///|
 /// Disable vertex array (VAO, if supported).
@@ -1062,7 +1076,7 @@ pub extern "c" fn rl_disable_vertex_array() = "rlDisableVertexArray"
 
 ///|
 /// Enable vertex buffer (VBO).
-pub extern "c" fn rl_enable_vertex_buffer(id : UInt) = "rlEnableVertexBuffer"
+pub extern "c" fn rl_enable_vertex_buffer(id : UInt32) = "rlEnableVertexBuffer"
 
 ///|
 /// Disable vertex buffer (VBO).
@@ -1070,7 +1084,7 @@ pub extern "c" fn rl_disable_vertex_buffer() = "rlDisableVertexBuffer"
 
 ///|
 /// Enable vertex buffer element (VBO element).
-pub extern "c" fn rl_enable_vertex_buffer_element(id : UInt) = "rlEnableVertexBufferElement"
+pub extern "c" fn rl_enable_vertex_buffer_element(id : UInt32) = "rlEnableVertexBufferElement"
 
 ///|
 /// Disable vertex buffer element (VBO element).
@@ -1078,11 +1092,11 @@ pub extern "c" fn rl_disable_vertex_buffer_element() = "rlDisableVertexBufferEle
 
 ///|
 /// Enable vertex attribute index.
-pub extern "c" fn rl_enable_vertex_attribute(index : UInt) = "rlEnableVertexAttribute"
+pub extern "c" fn rl_enable_vertex_attribute(index : UInt32) = "rlEnableVertexAttribute"
 
 ///|
 /// Disable vertex attribute index.
-pub extern "c" fn rl_disable_vertex_attribute(index : UInt) = "rlDisableVertexAttribute"
+pub extern "c" fn rl_disable_vertex_attribute(index : UInt32) = "rlDisableVertexAttribute"
 
 // ============================================================================
 // rlgl: Textures state (additional)
@@ -1090,7 +1104,7 @@ pub extern "c" fn rl_disable_vertex_attribute(index : UInt) = "rlDisableVertexAt
 
 ///|
 /// Enable texture cubemap.
-pub extern "c" fn rl_enable_texture_cubemap(id : UInt) = "rlEnableTextureCubemap"
+pub extern "c" fn rl_enable_texture_cubemap(id : UInt32) = "rlEnableTextureCubemap"
 
 ///|
 /// Disable texture cubemap.
@@ -1098,11 +1112,19 @@ pub extern "c" fn rl_disable_texture_cubemap() = "rlDisableTextureCubemap"
 
 ///|
 /// Set texture parameters (filter, wrap).
-pub extern "c" fn rl_texture_parameters(id : UInt, param : Int, value : Int) = "rlTextureParameters"
+pub extern "c" fn rl_texture_parameters(
+  id : UInt32,
+  param : Int32,
+  value : Int32,
+) = "rlTextureParameters"
 
 ///|
 /// Set cubemap parameters (filter, wrap).
-pub extern "c" fn rl_cubemap_parameters(id : UInt, param : Int, value : Int) = "rlCubemapParameters"
+pub extern "c" fn rl_cubemap_parameters(
+  id : UInt32,
+  param : Int32,
+  value : Int32,
+) = "rlCubemapParameters"
 
 // ============================================================================
 // rlgl: Framebuffer state (additional)
@@ -1110,7 +1132,7 @@ pub extern "c" fn rl_cubemap_parameters(id : UInt, param : Int, value : Int) = "
 
 ///|
 /// Get the currently active render texture (fbo), 0 for default framebuffer.
-pub extern "c" fn rl_get_active_framebuffer() -> UInt = "rlGetActiveFramebuffer"
+pub extern "c" fn rl_get_active_framebuffer() -> UInt32 = "rlGetActiveFramebuffer"
 
 // ============================================================================
 // rlgl: General render state
@@ -1118,7 +1140,7 @@ pub extern "c" fn rl_get_active_framebuffer() -> UInt = "rlGetActiveFramebuffer"
 
 ///|
 /// Set face culling mode.
-pub extern "c" fn rl_set_cull_face(mode : Int) = "rlSetCullFace"
+pub extern "c" fn rl_set_cull_face(mode : Int32) = "rlSetCullFace"
 
 ///|
 /// Enable scissor test.
@@ -1130,7 +1152,12 @@ pub extern "c" fn rl_disable_scissor_test() = "rlDisableScissorTest"
 
 ///|
 /// Scissor test.
-pub extern "c" fn rl_scissor(x : Int, y : Int, width : Int, height : Int) = "rlScissor"
+pub extern "c" fn rl_scissor(
+  x : Int32,
+  y : Int32,
+  width : Int32,
+  height : Int32,
+) = "rlScissor"
 
 ///|
 /// Enable wire mode.
@@ -1183,12 +1210,12 @@ pub extern "c" fn rl_check_errors() = "rlCheckErrors"
 ///|
 /// Set blending mode factors and equations separately (using OpenGL factors).
 pub extern "c" fn rl_set_blend_factors_separate(
-  gl_src_rgb : Int,
-  gl_dst_rgb : Int,
-  gl_src_alpha : Int,
-  gl_dst_alpha : Int,
-  gl_eq_rgb : Int,
-  gl_eq_alpha : Int,
+  gl_src_rgb : Int32,
+  gl_dst_rgb : Int32,
+  gl_src_alpha : Int32,
+  gl_dst_alpha : Int32,
+  gl_eq_rgb : Int32,
+  gl_eq_alpha : Int32,
 ) = "rlSetBlendFactorsSeparate"
 
 ///|
@@ -1201,15 +1228,15 @@ pub extern "c" fn rl_color_mask(r : Bool, g : Bool, b : Bool, a : Bool) = "moonb
 
 ///|
 /// Get current OpenGL version.
-pub extern "c" fn rl_get_version() -> Int = "rlGetVersion"
+pub extern "c" fn rl_get_version() -> Int32 = "rlGetVersion"
 
 ///|
 /// Set current framebuffer width.
-pub extern "c" fn rl_set_framebuffer_width(width : Int) = "rlSetFramebufferWidth"
+pub extern "c" fn rl_set_framebuffer_width(width : Int32) = "rlSetFramebufferWidth"
 
 ///|
 /// Set current framebuffer height.
-pub extern "c" fn rl_set_framebuffer_height(height : Int) = "rlSetFramebufferHeight"
+pub extern "c" fn rl_set_framebuffer_height(height : Int32) = "rlSetFramebufferHeight"
 
 // ============================================================================
 // rlgl: Default resource
@@ -1217,7 +1244,7 @@ pub extern "c" fn rl_set_framebuffer_height(height : Int) = "rlSetFramebufferHei
 
 ///|
 /// Get default texture id.
-pub extern "c" fn rl_get_texture_id_default() -> UInt = "rlGetTextureIdDefault"
+pub extern "c" fn rl_get_texture_id_default() -> UInt32 = "rlGetTextureIdDefault"
 
 // ============================================================================
 // rlgl: Vertex buffers management
@@ -1225,113 +1252,116 @@ pub extern "c" fn rl_get_texture_id_default() -> UInt = "rlGetTextureIdDefault"
 
 ///|
 /// Load vertex array (vao) if supported.
-pub extern "c" fn rl_load_vertex_array() -> UInt = "rlLoadVertexArray"
+pub extern "c" fn rl_load_vertex_array() -> UInt32 = "rlLoadVertexArray"
 
 ///|
 /// Load a vertex buffer object.
 pub extern "c" fn rl_load_vertex_buffer(
   buffer : Pointer,
-  size : Int,
+  size : Int32,
   dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer"
+) -> UInt32 = "moonbit_raylib_rl_load_vertex_buffer"
 
 ///|
 /// Load vertex buffer elements object.
 pub extern "c" fn rl_load_vertex_buffer_element(
   buffer : Pointer,
-  size : Int,
+  size : Int32,
   dynamic : Bool,
-) -> UInt = "moonbit_raylib_rl_load_vertex_buffer_element"
+) -> UInt32 = "moonbit_raylib_rl_load_vertex_buffer_element"
 
 ///|
 /// Unload vertex array (vao).
-pub extern "c" fn rl_unload_vertex_array(vao_id : UInt) = "rlUnloadVertexArray"
+pub extern "c" fn rl_unload_vertex_array(vao_id : UInt32) = "rlUnloadVertexArray"
 
 ///|
 /// Unload vertex buffer object.
-pub extern "c" fn rl_unload_vertex_buffer(vbo_id : UInt) = "rlUnloadVertexBuffer"
+pub extern "c" fn rl_unload_vertex_buffer(vbo_id : UInt32) = "rlUnloadVertexBuffer"
 
 ///|
 /// Update vertex buffer object data on GPU buffer.
 pub extern "c" fn rl_update_vertex_buffer(
-  buffer_id : UInt,
+  buffer_id : UInt32,
   data : Pointer,
-  data_size : Int,
-  offset : Int,
+  data_size : Int32,
+  offset : Int32,
 ) = "moonbit_raylib_rl_update_vertex_buffer"
 
 ///|
 /// Update vertex buffer elements data on GPU buffer.
 pub extern "c" fn rl_update_vertex_buffer_elements(
-  id : UInt,
+  id : UInt32,
   data : Pointer,
-  data_size : Int,
-  offset : Int,
+  data_size : Int32,
+  offset : Int32,
 ) = "moonbit_raylib_rl_update_vertex_buffer_elements"
 
 ///|
 /// Set vertex attribute data divisor.
-pub extern "c" fn rl_set_vertex_attribute_divisor(index : UInt, divisor : Int) = "rlSetVertexAttributeDivisor"
+pub extern "c" fn rl_set_vertex_attribute_divisor(
+  index : UInt32,
+  divisor : Int32,
+) = "rlSetVertexAttributeDivisor"
 
 ///|
 /// Set vertex attribute data configuration.
 pub extern "c" fn rl_set_vertex_attribute(
-  index : UInt,
-  comp_size : Int,
-  type_ : Int,
+  index : UInt32,
+  comp_size : Int32,
+  type_ : Int32,
   normalized : Bool,
-  stride : Int,
-  offset : Int,
+  stride : Int32,
+  offset : Int32,
 ) = "moonbit_raylib_rl_set_vertex_attribute"
 
 ///|
 /// Set vertex attribute default value, when attribute is not provided.
 pub extern "c" fn rl_set_vertex_attribute_default(
-  loc_index : Int,
+  loc_index : Int32,
   value : Pointer,
-  attrib_type : Int,
-  count : Int,
+  attrib_type : Int32,
+  count : Int32,
 ) = "moonbit_raylib_rl_set_vertex_attribute_default"
 
 ///|
 /// Draw vertex array (currently active vao).
-pub extern "c" fn rl_draw_vertex_array(offset : Int, count : Int) = "rlDrawVertexArray"
+pub extern "c" fn rl_draw_vertex_array(offset : Int32, count : Int32) = "rlDrawVertexArray"
 
 ///|
 /// Draw vertex array (currently active vao) with instancing.
 pub extern "c" fn rl_draw_vertex_array_instanced(
-  offset : Int,
-  count : Int,
-  instances : Int,
+  offset : Int32,
+  count : Int32,
+  instances : Int32,
 ) = "rlDrawVertexArrayInstanced"
 
 ///|
 /// Draw vertex array elements (EBO path, NULL buffer).
-pub extern "c" fn rl_draw_vertex_array_elements(offset : Int, count : Int) = "moonbit_raylib_rl_draw_vertex_array_elements"
+pub extern "c" fn rl_draw_vertex_array_elements(offset : Int32, count : Int32) = "moonbit_raylib_rl_draw_vertex_array_elements"
 
 ///|
 /// Draw vertex array elements with instancing (EBO path, NULL buffer).
 pub extern "c" fn rl_draw_vertex_array_elements_instanced(
-  offset : Int,
-  count : Int,
-  instances : Int,
+  offset : Int32,
+  count : Int32,
+  instances : Int32,
 ) = "moonbit_raylib_rl_draw_vertex_array_elements_instanced"
 
 ///|
 /// Draw vertex array elements with client-side index buffer.
 pub extern "c" fn rl_draw_vertex_array_elements_client(
-  offset : Int,
-  count : Int,
+  offset : Int32,
+  count : Int32,
   buffer : UShortPointer,
 ) = "moonbit_raylib_rl_draw_vertex_array_elements_client"
 
 ///|
 /// Draw vertex array elements with instancing and client-side index buffer.
 pub extern "c" fn rl_draw_vertex_array_elements_instanced_client(
-  offset : Int,
-  count : Int,
+  offset : Int32,
+  count : Int32,
   buffer : UShortPointer,
-  instances : Int,
+  instances : Int32,
 ) = "moonbit_raylib_rl_draw_vertex_array_elements_instanced_client"
 
 // ============================================================================
@@ -1343,21 +1373,21 @@ pub extern "c" fn rl_draw_vertex_array_elements_instanced_client(
 #borrow(data)
 pub extern "c" fn rl_load_texture_cubemap(
   data : Bytes,
-  size : Int,
-  format : Int,
-  mipmap_count : Int,
-) -> UInt = "moonbit_raylib_rl_load_texture_cubemap"
+  size : Int32,
+  format : Int32,
+  mipmap_count : Int32,
+) -> UInt32 = "moonbit_raylib_rl_load_texture_cubemap"
 
 ///|
 /// Update texture with new data on GPU.
 #borrow(data)
 pub extern "c" fn rl_update_texture(
-  id : UInt,
-  offset_x : Int,
-  offset_y : Int,
-  width : Int,
-  height : Int,
-  format : Int,
+  id : UInt32,
+  offset_x : Int32,
+  offset_y : Int32,
+  width : Int32,
+  height : Int32,
+  format : Int32,
   data : Bytes,
 ) = "moonbit_raylib_rl_update_texture"
 
@@ -1368,7 +1398,7 @@ pub extern "c" fn rl_update_texture(
 ///|
 /// Compile custom shader and return shader id.
 #borrow(shader_code)
-pub extern "c" fn rl_load_shader(shader_code : Bytes, type_ : Int) -> UInt = "rlLoadShader"
+pub extern "c" fn rl_load_shader(shader_code : Bytes, type_ : Int32) -> UInt32 = "rlLoadShader"
 
 ///|
 /// Load shader program from code strings.
@@ -1376,43 +1406,43 @@ pub extern "c" fn rl_load_shader(shader_code : Bytes, type_ : Int) -> UInt = "rl
 pub extern "c" fn rl_load_shader_program(
   vs_code : Bytes,
   fs_code : Bytes,
-) -> UInt = "moonbit_raylib_rl_load_shader_program"
+) -> UInt32 = "moonbit_raylib_rl_load_shader_program"
 
 ///|
 /// Load custom shader program from compiled shader ids.
 pub extern "c" fn rl_load_shader_program_ex(
-  v_shader_id : UInt,
-  f_shader_id : UInt,
-) -> UInt = "rlLoadShaderProgramEx"
+  v_shader_id : UInt32,
+  f_shader_id : UInt32,
+) -> UInt32 = "rlLoadShaderProgramEx"
 
 ///|
 /// Unload shader object.
-pub extern "c" fn rl_unload_shader(id : UInt) = "rlUnloadShader"
+pub extern "c" fn rl_unload_shader(id : UInt32) = "rlUnloadShader"
 
 ///|
 /// Unload shader program.
-pub extern "c" fn rl_unload_shader_program(id : UInt) = "rlUnloadShaderProgram"
+pub extern "c" fn rl_unload_shader_program(id : UInt32) = "rlUnloadShaderProgram"
 
 ///|
 /// Get shader location attribute.
 #borrow(attrib_name)
 pub extern "c" fn rl_get_location_attrib(
-  shader_id : UInt,
+  shader_id : UInt32,
   attrib_name : Bytes,
-) -> Int = "rlGetLocationAttrib"
+) -> Int32 = "rlGetLocationAttrib"
 
 ///|
 /// Set shader value matrix.
 #borrow(mat)
-pub extern "c" fn rl_set_uniform_matrix(loc_index : Int, mat : Bytes) = "moonbit_raylib_rl_set_uniform_matrix"
+pub extern "c" fn rl_set_uniform_matrix(loc_index : Int32, mat : Bytes) = "moonbit_raylib_rl_set_uniform_matrix"
 
 ///|
 /// Set shader value matrices.
 #borrow(mat)
 pub extern "c" fn rl_set_uniform_matrices(
-  loc_index : Int,
+  loc_index : Int32,
   mat : Bytes,
-  count : Int,
+  count : Int32,
 ) = "moonbit_raylib_rl_set_uniform_matrices"
 
 // ============================================================================
@@ -1421,14 +1451,14 @@ pub extern "c" fn rl_set_uniform_matrices(
 
 ///|
 /// Load compute shader program.
-pub extern "c" fn rl_load_compute_shader_program(shader_id : UInt) -> UInt = "rlLoadComputeShaderProgram"
+pub extern "c" fn rl_load_compute_shader_program(shader_id : UInt32) -> UInt32 = "rlLoadComputeShaderProgram"
 
 ///|
 /// Dispatch compute shader (equivalent to draw for graphics pipeline).
 pub extern "c" fn rl_compute_shader_dispatch(
-  group_x : UInt,
-  group_y : UInt,
-  group_z : UInt,
+  group_x : UInt32,
+  group_y : UInt32,
+  group_z : UInt32,
 ) = "rlComputeShaderDispatch"
 
 // ============================================================================
@@ -1438,56 +1468,56 @@ pub extern "c" fn rl_compute_shader_dispatch(
 ///|
 /// Load shader storage buffer object (SSBO) with initial data.
 pub extern "c" fn rl_load_shader_buffer(
-  size : UInt,
+  size : UInt32,
   data : Pointer,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer"
+  usage_hint : Int32,
+) -> UInt32 = "moonbit_raylib_rl_load_shader_buffer"
 
 ///|
 /// Load shader storage buffer object (SSBO) with no initial data.
 pub extern "c" fn rl_load_shader_buffer_empty(
-  size : UInt,
-  usage_hint : Int,
-) -> UInt = "moonbit_raylib_rl_load_shader_buffer_empty"
+  size : UInt32,
+  usage_hint : Int32,
+) -> UInt32 = "moonbit_raylib_rl_load_shader_buffer_empty"
 
 ///|
 /// Unload shader storage buffer object (SSBO).
-pub extern "c" fn rl_unload_shader_buffer(ssbo_id : UInt) = "rlUnloadShaderBuffer"
+pub extern "c" fn rl_unload_shader_buffer(ssbo_id : UInt32) = "rlUnloadShaderBuffer"
 
 ///|
 /// Update SSBO buffer data.
 pub extern "c" fn rl_update_shader_buffer(
-  id : UInt,
+  id : UInt32,
   data : Pointer,
-  data_size : UInt,
-  offset : UInt,
+  data_size : UInt32,
+  offset : UInt32,
 ) = "moonbit_raylib_rl_update_shader_buffer"
 
 ///|
 /// Read SSBO buffer data (GPU->CPU).
 pub extern "c" fn rl_read_shader_buffer(
-  id : UInt,
-  count : UInt,
-  offset : UInt,
+  id : UInt32,
+  count : UInt32,
+  offset : UInt32,
 ) -> Bytes = "moonbit_raylib_rl_read_shader_buffer"
 
 ///|
 /// Bind SSBO buffer.
-pub extern "c" fn rl_bind_shader_buffer(id : UInt, index : UInt) = "rlBindShaderBuffer"
+pub extern "c" fn rl_bind_shader_buffer(id : UInt32, index : UInt32) = "rlBindShaderBuffer"
 
 ///|
 /// Copy SSBO data between buffers.
 pub extern "c" fn rl_copy_shader_buffer(
-  dest_id : UInt,
-  src_id : UInt,
-  dest_offset : UInt,
-  src_offset : UInt,
-  count : UInt,
+  dest_id : UInt32,
+  src_id : UInt32,
+  dest_offset : UInt32,
+  src_offset : UInt32,
+  count : UInt32,
 ) = "rlCopyShaderBuffer"
 
 ///|
 /// Get SSBO buffer size.
-pub extern "c" fn rl_get_shader_buffer_size(id : UInt) -> UInt = "rlGetShaderBufferSize"
+pub extern "c" fn rl_get_shader_buffer_size(id : UInt32) -> UInt32 = "rlGetShaderBufferSize"
 
 // ============================================================================
 // rlgl: Bind image texture
@@ -1496,9 +1526,9 @@ pub extern "c" fn rl_get_shader_buffer_size(id : UInt) -> UInt = "rlGetShaderBuf
 ///|
 /// Bind image texture.
 pub extern "c" fn rl_bind_image_texture(
-  id : UInt,
-  index : UInt,
-  format : Int,
+  id : UInt32,
+  index : UInt32,
+  format : Int32,
   read_only : Bool,
 ) = "moonbit_raylib_rl_bind_image_texture"
 
@@ -1526,11 +1556,11 @@ pub extern "c" fn rl_get_matrix_transform() -> Bytes = "moonbit_raylib_rl_get_ma
 
 ///|
 /// Get internal projection matrix for stereo render (selected eye).
-pub extern "c" fn rl_get_matrix_projection_stereo(eye : Int) -> Bytes = "moonbit_raylib_rl_get_matrix_projection_stereo"
+pub extern "c" fn rl_get_matrix_projection_stereo(eye : Int32) -> Bytes = "moonbit_raylib_rl_get_matrix_projection_stereo"
 
 ///|
 /// Get internal view offset matrix for stereo render (selected eye).
-pub extern "c" fn rl_get_matrix_view_offset_stereo(eye : Int) -> Bytes = "moonbit_raylib_rl_get_matrix_view_offset_stereo"
+pub extern "c" fn rl_get_matrix_view_offset_stereo(eye : Int32) -> Bytes = "moonbit_raylib_rl_get_matrix_view_offset_stereo"
 
 // ============================================================================
 // rlgl: Stereo matrix setters

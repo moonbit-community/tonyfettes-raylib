@@ -11,7 +11,13 @@ pub(all) enum GuiState {
 } derive(Eq, Debug)
 
 ///|
-pub fn GuiState::to_int(self : GuiState) -> Int {
+pub extend GuiState with Eq::{not_equal, equal}
+
+///|
+pub extend GuiState with @debug.Debug::{to_repr}
+
+///|
+pub fn GuiState::to_int(self : GuiState) -> Int32 {
   match self {
     Normal => 0
     Focused => 1
@@ -23,334 +29,334 @@ pub fn GuiState::to_int(self : GuiState) -> Int {
 // Gui control text alignment
 
 ///|
-pub const TextAlignLeft : Int = 0
+pub const TextAlignLeft : Int32 = 0
 
 ///|
-pub const TextAlignCenter : Int = 1
+pub const TextAlignCenter : Int32 = 1
 
 ///|
-pub const TextAlignRight : Int = 2
+pub const TextAlignRight : Int32 = 2
 
 // Gui control text vertical alignment
 
 ///|
-pub const TextAlignTop : Int = 0
+pub const TextAlignTop : Int32 = 0
 
 ///|
-pub const TextAlignMiddle : Int = 1
+pub const TextAlignMiddle : Int32 = 1
 
 ///|
-pub const TextAlignBottom : Int = 2
+pub const TextAlignBottom : Int32 = 2
 
 // Gui text wrap mode
 
 ///|
-pub const TextWrapNone : Int = 0
+pub const TextWrapNone : Int32 = 0
 
 ///|
-pub const TextWrapChar : Int = 1
+pub const TextWrapChar : Int32 = 1
 
 ///|
-pub const TextWrapWord : Int = 2
+pub const TextWrapWord : Int32 = 2
 
 // Max values
 
 ///|
-let max_controls : Int = 16
+let max_controls : Int32 = 16
 
 ///|
-let max_props_base : Int = 16
+let max_props_base : Int32 = 16
 
 ///|
-let max_props_extended : Int = 8
+let max_props_extended : Int32 = 8
 
 // Gui controls
 
 ///|
-pub const ControlDefault : Int = 0
+pub const ControlDefault : Int32 = 0
 
 ///|
-pub const ControlLabel : Int = 1
+pub const ControlLabel : Int32 = 1
 
 ///|
-pub const ControlButton : Int = 2
+pub const ControlButton : Int32 = 2
 
 ///|
-pub const ControlToggle : Int = 3
+pub const ControlToggle : Int32 = 3
 
 ///|
-pub const ControlSlider : Int = 4
+pub const ControlSlider : Int32 = 4
 
 ///|
-pub const ControlProgressbar : Int = 5
+pub const ControlProgressbar : Int32 = 5
 
 ///|
-pub const ControlCheckbox : Int = 6
+pub const ControlCheckbox : Int32 = 6
 
 ///|
-pub const ControlCombobox : Int = 7
+pub const ControlCombobox : Int32 = 7
 
 ///|
-pub const ControlDropdownbox : Int = 8
+pub const ControlDropdownbox : Int32 = 8
 
 ///|
-pub const ControlTextbox : Int = 9
+pub const ControlTextbox : Int32 = 9
 
 ///|
-pub const ControlValuebox : Int = 10
+pub const ControlValuebox : Int32 = 10
 
 ///|
-pub const ControlControl11 : Int = 11
+pub const ControlControl11 : Int32 = 11
 
 ///|
-pub const ControlListview : Int = 12
+pub const ControlListview : Int32 = 12
 
 ///|
-pub const ControlColorpicker : Int = 13
+pub const ControlColorpicker : Int32 = 13
 
 ///|
-pub const ControlScrollbar : Int = 14
+pub const ControlScrollbar : Int32 = 14
 
 ///|
-pub const ControlStatusbar : Int = 15
+pub const ControlStatusbar : Int32 = 15
 
 // Gui base properties for every control (0-15)
 
 ///|
-pub const BorderColorNormal : Int = 0
+pub const BorderColorNormal : Int32 = 0
 
 ///|
-pub const BaseColorNormal : Int = 1
+pub const BaseColorNormal : Int32 = 1
 
 ///|
-pub const TextColorNormal : Int = 2
+pub const TextColorNormal : Int32 = 2
 
 ///|
-pub const BorderColorFocused : Int = 3
+pub const BorderColorFocused : Int32 = 3
 
 ///|
-pub const BaseColorFocused : Int = 4
+pub const BaseColorFocused : Int32 = 4
 
 ///|
-pub const TextColorFocused : Int = 5
+pub const TextColorFocused : Int32 = 5
 
 ///|
-pub const BorderColorPressed : Int = 6
+pub const BorderColorPressed : Int32 = 6
 
 ///|
-pub const BaseColorPressed : Int = 7
+pub const BaseColorPressed : Int32 = 7
 
 ///|
-pub const TextColorPressed : Int = 8
+pub const TextColorPressed : Int32 = 8
 
 ///|
-pub const BorderColorDisabled : Int = 9
+pub const BorderColorDisabled : Int32 = 9
 
 ///|
-pub const BaseColorDisabled : Int = 10
+pub const BaseColorDisabled : Int32 = 10
 
 ///|
-pub const TextColorDisabled : Int = 11
+pub const TextColorDisabled : Int32 = 11
 
 ///|
-pub const BorderWidth : Int = 12
+pub const BorderWidth : Int32 = 12
 
 ///|
-pub const TextPadding : Int = 13
+pub const TextPadding : Int32 = 13
 
 ///|
-pub const TextAlignment : Int = 14
+pub const TextAlignment : Int32 = 14
 
 // DEFAULT extended properties (16-23)
 
 ///|
-pub const TextSize : Int = 16
+pub const TextSize : Int32 = 16
 
 ///|
-pub const TextSpacing : Int = 17
+pub const TextSpacing : Int32 = 17
 
 ///|
-pub const LineColor : Int = 18
+pub const LineColor : Int32 = 18
 
 ///|
-pub const BackgroundColor : Int = 19
+pub const BackgroundColor : Int32 = 19
 
 ///|
-pub const TextLineSpacing : Int = 20
+pub const TextLineSpacing : Int32 = 20
 
 ///|
-pub const TextAlignmentVertical : Int = 21
+pub const TextAlignmentVertical : Int32 = 21
 
 ///|
-pub const TextWrapMode : Int = 22
+pub const TextWrapMode : Int32 = 22
 
 // Toggle properties
 
 ///|
-pub const GroupPadding : Int = 16
+pub const GroupPadding : Int32 = 16
 
 // Slider properties
 
 ///|
-pub const SliderWidth : Int = 16
+pub const SliderWidth : Int32 = 16
 
 ///|
-pub const SliderPadding : Int = 17
+pub const SliderPadding : Int32 = 17
 
 // ProgressBar properties
 
 ///|
-pub const ProgressPadding : Int = 16
+pub const ProgressPadding : Int32 = 16
 
 // ScrollBar properties
 
 ///|
-pub const ArrowsSize : Int = 16
+pub const ArrowsSize : Int32 = 16
 
 ///|
-pub const ArrowsVisible : Int = 17
+pub const ArrowsVisible : Int32 = 17
 
 ///|
-pub const ScrollSliderPadding : Int = 18
+pub const ScrollSliderPadding : Int32 = 18
 
 ///|
-pub const ScrollSliderSize : Int = 19
+pub const ScrollSliderSize : Int32 = 19
 
 ///|
-pub const ScrollPadding : Int = 20
+pub const ScrollPadding : Int32 = 20
 
 ///|
-pub const ScrollSpeed : Int = 21
+pub const ScrollSpeed : Int32 = 21
 
 // CheckBox properties
 
 ///|
-pub const CheckPadding : Int = 16
+pub const CheckPadding : Int32 = 16
 
 // ComboBox properties
 
 ///|
-pub const ComboButtonWidth : Int = 16
+pub const ComboButtonWidth : Int32 = 16
 
 ///|
-pub const ComboButtonSpacing : Int = 17
+pub const ComboButtonSpacing : Int32 = 17
 
 // DropdownBox properties
 
 ///|
-pub const ArrowPadding : Int = 16
+pub const ArrowPadding : Int32 = 16
 
 ///|
-pub const DropdownItemsSpacing : Int = 17
+pub const DropdownItemsSpacing : Int32 = 17
 
 ///|
-pub const DropdownArrowHidden : Int = 18
+pub const DropdownArrowHidden : Int32 = 18
 
 ///|
-pub const DropdownRollUp : Int = 19
+pub const DropdownRollUp : Int32 = 19
 
 // TextBox properties
 
 ///|
-pub const TextReadonly : Int = 16
+pub const TextReadonly : Int32 = 16
 
 // Spinner properties
 
 ///|
-pub const SpinnerButtonWidth : Int = 16
+pub const SpinnerButtonWidth : Int32 = 16
 
 ///|
-pub const SpinnerButtonSpacing : Int = 17
+pub const SpinnerButtonSpacing : Int32 = 17
 
 // ListView properties
 
 ///|
-pub const ListItemsHeight : Int = 16
+pub const ListItemsHeight : Int32 = 16
 
 ///|
-pub const ListItemsSpacing : Int = 17
+pub const ListItemsSpacing : Int32 = 17
 
 ///|
-pub const ScrollbarWidth : Int = 18
+pub const ScrollbarWidth : Int32 = 18
 
 ///|
-pub const ScrollbarSide : Int = 19
+pub const ScrollbarSide : Int32 = 19
 
 ///|
-pub const ListItemsBorderNormal : Int = 20
+pub const ListItemsBorderNormal : Int32 = 20
 
 ///|
-pub const ListItemsBorderWidth : Int = 21
+pub const ListItemsBorderWidth : Int32 = 21
 
 // ColorPicker properties
 
 ///|
-pub const ColorSelectorSize : Int = 16
+pub const ColorSelectorSize : Int32 = 16
 
 ///|
-pub const HuebarWidth : Int = 17
+pub const HuebarWidth : Int32 = 17
 
 ///|
-pub const HuebarPadding : Int = 18
+pub const HuebarPadding : Int32 = 18
 
 ///|
-pub const HuebarSelectorHeight : Int = 19
+pub const HuebarSelectorHeight : Int32 = 19
 
 ///|
-pub const HuebarSelectorOverflow : Int = 20
+pub const HuebarSelectorOverflow : Int32 = 20
 
 // Scrollbar side
 
 ///|
-pub const ScrollbarLeftSide : Int = 0
+pub const ScrollbarLeftSide : Int32 = 0
 
 ///|
-pub const ScrollbarRightSide : Int = 1
+pub const ScrollbarRightSide : Int32 = 1
 
 // Icon constants
 
 ///|
-pub const RayguiIconSize : Int = 16
+pub const RayguiIconSize : Int32 = 16
 
 ///|
-pub const IconTextPadding : Int = 4
+pub const IconTextPadding : Int32 = 4
 
 // Mouse button
 
 ///|
-pub const MouseButtonLeft : Int = 0
+pub const MouseButtonLeft : Int32 = 0
 
 ///|
-pub const MouseButtonMiddle : Int = 2
+pub const MouseButtonMiddle : Int32 = 2
 
 // Key constants (matching raylib key codes)
 
 ///|
-pub const KeyRight : Int = 262
+pub const KeyRight : Int32 = 262
 
 ///|
-pub const KeyLeft : Int = 263
+pub const KeyLeft : Int32 = 263
 
 ///|
-pub const KeyDown : Int = 264
+pub const KeyDown : Int32 = 264
 
 ///|
-pub const KeyUp : Int = 265
+pub const KeyUp : Int32 = 265
 
 ///|
-pub const KeyBackspace : Int = 259
+pub const KeyBackspace : Int32 = 259
 
 ///|
-pub const KeyEnter : Int = 257
+pub const KeyEnter : Int32 = 257
 
 ///|
-pub const KeyDelete : Int = 261
+pub const KeyDelete : Int32 = 261
 
 ///|
-pub const KeyHome : Int = 268
+pub const KeyHome : Int32 = 268
 
 ///|
-pub const KeyEnd : Int = 269
+pub const KeyEnd : Int32 = 269
 
 // --- Global mutable state ---
 
@@ -359,13 +365,13 @@ priv struct GuiGlobals {
   mut state : GuiState
   mut locked : Bool
   mut alpha : Float
-  mut icon_scale : Int
+  mut icon_scale : Int32
   mut tooltip : Bool
   mut tooltip_ptr : String?
   mut control_exclusive_mode : Bool
   mut control_exclusive_rec : @raylib.Rectangle?
-  mut text_box_cursor_index : Int
-  mut auto_cursor_counter : Int
+  mut text_box_cursor_index : Int32
+  mut auto_cursor_counter : Int32
   mut font : @raylib.Font?
   mut text_edit_mode : Bool
   mut style_loaded : Bool
@@ -475,12 +481,12 @@ pub fn gui_set_font(font : @raylib.Font) -> Unit {
 }
 
 ///|
-pub fn gui_get_icon_scale() -> Int {
+pub fn gui_get_icon_scale() -> Int32 {
   gui_globals.icon_scale
 }
 
 ///|
-pub fn gui_set_icon_scale(scale : Int) -> Unit {
+pub fn gui_set_icon_scale(scale : Int32) -> Unit {
   if scale >= 1 {
     gui_globals.icon_scale = scale
   }

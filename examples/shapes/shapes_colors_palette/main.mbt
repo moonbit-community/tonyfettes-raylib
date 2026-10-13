@@ -37,7 +37,7 @@ fn main {
   }
 
   // Color state: 0 = DEFAULT, 1 = MOUSE_HOVER
-  let color_state : Array[Int] = Array::make(max_colors_count, 0)
+  let color_state : Array[Int32] = Array::make(max_colors_count, 0)
 
   @raylib.set_target_fps(60)
 

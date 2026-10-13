@@ -13,9 +13,9 @@ pub extern "c" fn load_font(file_name : Bytes) -> Font = "moonbit_raylib_load_fo
 #borrow(file_name, codepoints)
 pub extern "c" fn load_font_ex(
   file_name : Bytes,
-  font_size : Int,
-  codepoints : FixedArray[Int]?,
-  codepoints_count : Int,
+  font_size : Int32,
+  codepoints : FixedArray[Int32]?,
+  codepoints_count : Int32,
 ) -> Font = "moonbit_raylib_load_font_ex"
 
 ///|
@@ -28,15 +28,15 @@ pub extern "c" fn unload_font(font : Font) = "moonbit_raylib_unload_font"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_base_size(font : Font) -> Int = "moonbit_raylib_get_font_base_size"
+pub extern "c" fn get_font_base_size(font : Font) -> Int32 = "moonbit_raylib_get_font_base_size"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_glyph_count(font : Font) -> Int = "moonbit_raylib_get_font_glyph_count"
+pub extern "c" fn get_font_glyph_count(font : Font) -> Int32 = "moonbit_raylib_get_font_glyph_count"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_font_glyph_padding(font : Font) -> Int = "moonbit_raylib_get_font_glyph_padding"
+pub extern "c" fn get_font_glyph_padding(font : Font) -> Int32 = "moonbit_raylib_get_font_glyph_padding"
 
 ///|
 #borrow(font)
@@ -48,15 +48,15 @@ pub extern "c" fn get_font_texture(font : Font) -> Texture = "moonbit_raylib_get
 
 ///|
 /// Draw current FPS.
-pub extern "c" fn draw_fps(pos_x : Int, pos_y : Int) = "DrawFPS"
+pub extern "c" fn draw_fps(pos_x : Int32, pos_y : Int32) = "DrawFPS"
 
 ///|
 #borrow(text, color)
 pub extern "c" fn draw_text(
   text : Bytes,
-  pos_x : Int,
-  pos_y : Int,
-  font_size : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  font_size : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_text"
 
@@ -90,7 +90,7 @@ pub extern "c" fn draw_text_pro(
 
 ///|
 #borrow(text)
-pub extern "c" fn measure_text(text : Bytes, font_size : Int) -> Int = "moonbit_raylib_measure_text"
+pub extern "c" fn measure_text(text : Bytes, font_size : Int32) -> Int32 = "moonbit_raylib_measure_text"
 
 ///|
 #borrow(font, text)
@@ -103,7 +103,7 @@ pub extern "c" fn measure_text_ex(
 
 ///|
 /// Set vertical line spacing when drawing with line-breaks.
-pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
+pub extern "c" fn set_text_line_spacing(spacing : Int32) = "SetTextLineSpacing"
 
 // ============================================================================
 // Text extras
@@ -113,7 +113,7 @@ pub extern "c" fn set_text_line_spacing(spacing : Int) = "SetTextLineSpacing"
 #borrow(font, position, tint)
 pub extern "c" fn draw_text_codepoint(
   font : Font,
-  codepoint : Int,
+  codepoint : Int32,
   position : Bytes,
   font_size : Float,
   tint : Bytes,
@@ -121,11 +121,11 @@ pub extern "c" fn draw_text_codepoint(
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_index(font : Font, codepoint : Int) -> Int = "moonbit_raylib_get_glyph_index"
+pub extern "c" fn get_glyph_index(font : Font, codepoint : Int32) -> Int32 = "moonbit_raylib_get_glyph_index"
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_atlas_rec"
+pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int32) -> Bytes = "moonbit_raylib_get_glyph_atlas_rec"
 
 // ============================================================================
 // Font loading extras
@@ -136,7 +136,7 @@ pub extern "c" fn get_glyph_atlas_rec(font : Font, codepoint : Int) -> Bytes = "
 pub extern "c" fn load_font_from_image(
   image : Image,
   key : Bytes,
-  first_char : Int,
+  first_char : Int32,
 ) -> Font = "moonbit_raylib_load_font_from_image"
 
 ///|
@@ -144,8 +144,8 @@ pub extern "c" fn load_font_from_image(
 pub extern "c" fn load_font_from_memory(
   file_type : Bytes,
   file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
+  data_size : Int32,
+  font_size : Int32,
 ) -> Font = "moonbit_raylib_load_font_from_memory"
 
 ///|
@@ -161,7 +161,7 @@ pub extern "c" fn export_font_as_code(font : Font, file_name : Bytes) -> Bool = 
 pub extern "c" fn draw_text_codepoints(
   font : Font,
   codepoints : Bytes,
-  codepoint_count : Int,
+  codepoint_count : Int32,
   position : Bytes,
   font_size : Float,
   spacing : Float,
@@ -174,7 +174,7 @@ pub extern "c" fn draw_text_codepoints(
 
 ///|
 #borrow(text)
-pub extern "c" fn get_codepoint_count(text : Bytes) -> Int = "moonbit_raylib_get_codepoint_count"
+pub extern "c" fn get_codepoint_count(text : Bytes) -> Int32 = "moonbit_raylib_get_codepoint_count"
 
 ///|
 #borrow(text)
@@ -189,7 +189,7 @@ pub extern "c" fn get_codepoint_next(text : Bytes) -> Bytes = "moonbit_raylib_ge
 pub extern "c" fn get_codepoint_previous(text : Bytes) -> Bytes = "moonbit_raylib_get_codepoint_previous"
 
 ///|
-pub extern "c" fn codepoint_to_utf8(codepoint : Int) -> Bytes = "moonbit_raylib_codepoint_to_utf8"
+pub extern "c" fn codepoint_to_utf8(codepoint : Int32) -> Bytes = "moonbit_raylib_codepoint_to_utf8"
 
 ///|
 #borrow(text)
@@ -197,7 +197,7 @@ pub extern "c" fn load_codepoints(text : Bytes) -> Bytes = "moonbit_raylib_load_
 
 ///|
 #borrow(codepoints)
-pub extern "c" fn load_utf8(codepoints : Bytes, length : Int) -> Bytes = "moonbit_raylib_load_utf8"
+pub extern "c" fn load_utf8(codepoints : Bytes, length : Int32) -> Bytes = "moonbit_raylib_load_utf8"
 
 // ============================================================================
 // Text: Advanced font / GlyphInfo functions
@@ -205,15 +205,15 @@ pub extern "c" fn load_utf8(codepoints : Bytes, length : Int) -> Bytes = "moonbi
 
 ///|
 #borrow(font)
-pub extern "c" fn get_glyph_info(font : Font, codepoint : Int) -> Bytes = "moonbit_raylib_get_glyph_info"
+pub extern "c" fn get_glyph_info(font : Font, codepoint : Int32) -> Bytes = "moonbit_raylib_get_glyph_info"
 
 ///|
 #borrow(file_data)
 pub extern "c" fn load_font_data(
   file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
-  font_type : Int,
+  data_size : Int32,
+  font_size : Int32,
+  font_type : Int32,
 ) -> GlyphInfoArray = "moonbit_raylib_load_font_data"
 
 ///|
@@ -222,39 +222,39 @@ pub extern "c" fn unload_font_data(wrapper : GlyphInfoArray) = "moonbit_raylib_u
 
 ///|
 #borrow(wrapper)
-pub extern "c" fn glyph_info_array_count(wrapper : GlyphInfoArray) -> Int = "moonbit_raylib_glyph_info_array_count"
+pub extern "c" fn glyph_info_array_count(wrapper : GlyphInfoArray) -> Int32 = "moonbit_raylib_glyph_info_array_count"
 
 ///|
 #borrow(wrapper)
 pub extern "c" fn glyph_info_array_get(
   wrapper : GlyphInfoArray,
-  index : Int,
+  index : Int32,
 ) -> Bytes = "moonbit_raylib_glyph_info_array_get"
 
 ///|
 #borrow(glyphs, out_recs)
 pub extern "c" fn gen_image_font_atlas(
   glyphs : GlyphInfoArray,
-  font_size : Int,
-  padding : Int,
-  pack_method : Int,
+  font_size : Int32,
+  padding : Int32,
+  pack_method : Int32,
   out_recs : Ref[Bytes],
 ) -> Image = "moonbit_raylib_gen_image_font_atlas"
 
 ///|
 /// Allocate an empty GlyphInfoArray of the given size.
-pub extern "c" fn new_glyph_info_array(count : Int) -> GlyphInfoArray = "moonbit_raylib_new_glyph_info_array"
+pub extern "c" fn new_glyph_info_array(count : Int32) -> GlyphInfoArray = "moonbit_raylib_new_glyph_info_array"
 
 ///|
 /// Set a glyph at the given index.
 #borrow(wrapper)
 pub extern "c" fn glyph_info_array_set(
   wrapper : GlyphInfoArray,
-  index : Int,
-  value : Int,
-  offset_x : Int,
-  offset_y : Int,
-  advance_x : Int,
+  index : Int32,
+  value : Int32,
+  offset_x : Int32,
+  offset_y : Int32,
+  advance_x : Int32,
 ) = "moonbit_raylib_glyph_info_array_set"
 
 ///|
@@ -263,8 +263,8 @@ pub extern "c" fn glyph_info_array_set(
 #borrow(texture, glyphs, recs_data)
 pub extern "c" fn new_font(
   texture : Texture,
-  base_size : Int,
-  glyph_padding : Int,
+  base_size : Int32,
+  glyph_padding : Int32,
   glyphs : GlyphInfoArray,
   recs_data : Bytes,
 ) -> Font = "moonbit_raylib_new_font"

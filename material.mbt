@@ -9,6 +9,9 @@ pub impl Default for Material with fn default() -> Material {
 }
 
 ///|
+pub extend Material with Default::{default}
+
+///|
 /// Load default material (deprecated, use `Material::default()` instead).
 #as_free_fn(load_material_default, deprecated="Use Material::default() instead")
 #deprecated("Use Material::default() instead")
@@ -35,7 +38,7 @@ pub fn Material::unload(self : Material) -> Unit {
 #as_free_fn(set_material_texture)
 pub fn Material::set_texture(
   self : Material,
-  map_type : Int,
+  map_type : Int32,
   texture : Texture,
 ) -> Unit {
   @ffi.set_material_texture(self.0, map_type, texture.0)
@@ -53,7 +56,7 @@ pub fn Material::set_shader(self : Material, shader : Shader) -> Unit {
 #as_free_fn(set_material_map_color)
 pub fn Material::set_map_color(
   self : Material,
-  map_type : Int,
+  map_type : Int32,
   color : Color,
 ) -> Unit {
   @ffi.set_material_map_color(self.0, map_type, color.to_bytes())
@@ -64,7 +67,7 @@ pub fn Material::set_map_color(
 #as_free_fn(set_material_map_value)
 pub fn Material::set_map_value(
   self : Material,
-  map_type : Int,
+  map_type : Int32,
   value : Float,
 ) -> Unit {
   @ffi.set_material_map_value(self.0, map_type, value)
@@ -90,32 +93,34 @@ pub fn Material::maps(self : Material) -> MaterialMapArray {
 
 ///|
 /// Array of material maps, accessed by index.
-struct MaterialMapArray(@ffi.MaterialMapArray, Int)
+struct MaterialMapArray(@ffi.MaterialMapArray, Int32)
 
 ///|
 /// Get the number of material maps in the array.
-pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int {
+pub fn MaterialMapArray::count(self : MaterialMapArray) -> Int32 {
   self.1
 }
 
 ///|
 /// Get a material map by index.
-pub fn MaterialMapArray::op_get(
+#alias("_[_]")
+pub fn MaterialMapArray::get(
   self : MaterialMapArray,
-  index : Int,
+  index : Int32,
 ) -> MaterialMap {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.material_map_array_op_get(self.0, index)
 }
 
 ///|
 /// Set a material map at the given index.
-pub fn MaterialMapArray::op_set(
+#alias("_[_]=_")
+pub fn MaterialMapArray::set(
   self : MaterialMapArray,
-  index : Int,
+  index : Int32,
   value : MaterialMap,
 ) -> Unit {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.material_map_array_op_set(self.0, index, value.0)
 }
 
@@ -170,7 +175,7 @@ struct ModelAnimations(@ffi.ModelAnimations)
 ///|
 /// Get the number of animations in the array.
 #as_free_fn(model_animations_count)
-pub fn ModelAnimations::count(self : ModelAnimations) -> Int {
+pub fn ModelAnimations::count(self : ModelAnimations) -> Int32 {
   @ffi.model_animations_count(self.0)
 }
 
@@ -193,8 +198,8 @@ pub fn ModelAnimations::load(file_name : String) -> ModelAnimations {
 #as_free_fn(get_model_animation_keyframe_count)
 pub fn ModelAnimations::keyframe_count(
   self : ModelAnimations,
-  anim_index : Int,
-) -> Int {
+  anim_index : Int32,
+) -> Int32 {
   @ffi.get_model_animation_keyframe_count(self.0, anim_index)
 }
 
@@ -206,8 +211,8 @@ pub fn ModelAnimations::keyframe_count(
 #deprecated("Use ModelAnimations::keyframe_count instead")
 pub fn ModelAnimations::frame_count(
   self : ModelAnimations,
-  anim_index : Int,
-) -> Int {
+  anim_index : Int32,
+) -> Int32 {
   self.keyframe_count(anim_index)
 }
 
@@ -216,8 +221,8 @@ pub fn ModelAnimations::frame_count(
 #as_free_fn(get_model_animation_bone_count)
 pub fn ModelAnimations::bone_count(
   self : ModelAnimations,
-  anim_index : Int,
-) -> Int {
+  anim_index : Int32,
+) -> Int32 {
   @ffi.get_model_animation_bone_count(self.0, anim_index)
 }
 
@@ -226,9 +231,9 @@ pub fn ModelAnimations::bone_count(
 #as_free_fn(get_model_animation_keyframe_pose_translation)
 pub fn ModelAnimations::keyframe_pose_translation(
   self : ModelAnimations,
-  anim_index : Int,
-  keyframe : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  keyframe : Int32,
+  bone_index : Int32,
 ) -> Vector3 {
   Vector3::from_bytes(
     @ffi.get_model_animation_keyframe_pose_translation(
@@ -248,9 +253,9 @@ pub fn ModelAnimations::keyframe_pose_translation(
 #deprecated("Use ModelAnimations::keyframe_pose_translation instead")
 pub fn ModelAnimations::frame_pose_translation(
   self : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  frame : Int32,
+  bone_index : Int32,
 ) -> Vector3 {
   self.keyframe_pose_translation(anim_index, frame, bone_index)
 }
@@ -260,9 +265,9 @@ pub fn ModelAnimations::frame_pose_translation(
 #as_free_fn(get_model_animation_keyframe_pose_rotation)
 pub fn ModelAnimations::keyframe_pose_rotation(
   self : ModelAnimations,
-  anim_index : Int,
-  keyframe : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  keyframe : Int32,
+  bone_index : Int32,
 ) -> Vector4 {
   Vector4::from_bytes(
     @ffi.get_model_animation_keyframe_pose_rotation(
@@ -282,9 +287,9 @@ pub fn ModelAnimations::keyframe_pose_rotation(
 #deprecated("Use ModelAnimations::keyframe_pose_rotation instead")
 pub fn ModelAnimations::frame_pose_rotation(
   self : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  frame : Int32,
+  bone_index : Int32,
 ) -> Vector4 {
   self.keyframe_pose_rotation(anim_index, frame, bone_index)
 }
@@ -303,14 +308,14 @@ pub fn MaterialsArray::unload(self : MaterialsArray) -> Unit {
 ///|
 /// Get the number of materials in the array.
 #as_free_fn(materials_array_count)
-pub fn MaterialsArray::count(self : MaterialsArray) -> Int {
+pub fn MaterialsArray::count(self : MaterialsArray) -> Int32 {
   @ffi.materials_array_count(self.0)
 }
 
 ///|
 /// Get a material from the array by index.
 #as_free_fn(materials_array_get)
-pub fn MaterialsArray::get(self : MaterialsArray, index : Int) -> Material {
+pub fn MaterialsArray::get(self : MaterialsArray, index : Int32) -> Material {
   @ffi.materials_array_get(self.0, index)
 }
 
