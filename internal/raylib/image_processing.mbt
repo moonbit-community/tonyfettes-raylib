@@ -7,10 +7,10 @@
 #borrow(pixel_data)
 pub extern "c" fn new_image(
   pixel_data : Bytes,
-  pixel_data_size : Int,
-  width : Int,
-  height : Int,
-  format : Int,
+  pixel_data_size : Int32,
+  width : Int32,
+  height : Int32,
+  format : Int32,
 ) -> Image = "moonbit_raylib_new_image"
 
 // ============================================================================
@@ -21,17 +21,17 @@ pub extern "c" fn new_image(
 #borrow(file_name)
 pub extern "c" fn load_image_raw(
   file_name : Bytes,
-  width : Int,
-  height : Int,
-  format : Int,
-  header_size : Int,
+  width : Int32,
+  height : Int32,
+  format : Int32,
+  header_size : Int32,
 ) -> Image = "moonbit_raylib_load_image_raw"
 
 ///|
 #borrow(file_name, frames)
 pub extern "c" fn load_image_anim(
   file_name : Bytes,
-  frames : Ref[Int],
+  frames : Ref[Int32],
 ) -> Image = "moonbit_raylib_load_image_anim"
 
 ///|
@@ -39,8 +39,8 @@ pub extern "c" fn load_image_anim(
 pub extern "c" fn load_image_anim_from_memory(
   file_type : Bytes,
   file_data : Bytes,
-  data_size : Int,
-  frames : Ref[Int],
+  data_size : Int32,
+  frames : Ref[Int32],
 ) -> Image = "moonbit_raylib_load_image_anim_from_memory"
 
 // ============================================================================
@@ -49,19 +49,19 @@ pub extern "c" fn load_image_anim_from_memory(
 
 ///|
 #borrow(image)
-pub extern "c" fn image_width(image : Image) -> Int = "moonbit_raylib_image_width"
+pub extern "c" fn image_width(image : Image) -> Int32 = "moonbit_raylib_image_width"
 
 ///|
 #borrow(image)
-pub extern "c" fn image_height(image : Image) -> Int = "moonbit_raylib_image_height"
+pub extern "c" fn image_height(image : Image) -> Int32 = "moonbit_raylib_image_height"
 
 ///|
 #borrow(image)
-pub extern "c" fn image_get_mipmaps(image : Image) -> Int = "moonbit_raylib_image_get_mipmaps"
+pub extern "c" fn image_get_mipmaps(image : Image) -> Int32 = "moonbit_raylib_image_get_mipmaps"
 
 ///|
 #borrow(image)
-pub extern "c" fn image_get_format(image : Image) -> Int = "moonbit_raylib_image_get_format"
+pub extern "c" fn image_get_format(image : Image) -> Int32 = "moonbit_raylib_image_get_format"
 
 // ============================================================================
 // In-place mutations: primitives only
@@ -69,7 +69,7 @@ pub extern "c" fn image_get_format(image : Image) -> Int = "moonbit_raylib_image
 
 ///|
 #borrow(image)
-pub extern "c" fn image_format(image : Image, new_format : Int) = "moonbit_raylib_image_format"
+pub extern "c" fn image_format(image : Image, new_format : Int32) = "moonbit_raylib_image_format"
 
 ///|
 #borrow(image)
@@ -81,22 +81,22 @@ pub extern "c" fn image_alpha_premultiply(image : Image) = "moonbit_raylib_image
 
 ///|
 #borrow(image)
-pub extern "c" fn image_blur_gaussian(image : Image, blur_size : Int) = "moonbit_raylib_image_blur_gaussian"
+pub extern "c" fn image_blur_gaussian(image : Image, blur_size : Int32) = "moonbit_raylib_image_blur_gaussian"
 
 ///|
 #borrow(image)
 pub extern "c" fn image_resize(
   image : Image,
-  new_width : Int,
-  new_height : Int,
+  new_width : Int32,
+  new_height : Int32,
 ) = "moonbit_raylib_image_resize"
 
 ///|
 #borrow(image)
 pub extern "c" fn image_resize_nn(
   image : Image,
-  new_width : Int,
-  new_height : Int,
+  new_width : Int32,
+  new_height : Int32,
 ) = "moonbit_raylib_image_resize_nn"
 
 ///|
@@ -107,10 +107,10 @@ pub extern "c" fn image_mipmaps(image : Image) = "moonbit_raylib_image_mipmaps"
 #borrow(image)
 pub extern "c" fn image_dither(
   image : Image,
-  r_bpp : Int,
-  g_bpp : Int,
-  b_bpp : Int,
-  a_bpp : Int,
+  r_bpp : Int32,
+  g_bpp : Int32,
+  b_bpp : Int32,
+  a_bpp : Int32,
 ) = "moonbit_raylib_image_dither"
 
 ///|
@@ -123,7 +123,7 @@ pub extern "c" fn image_flip_horizontal(image : Image) = "moonbit_raylib_image_f
 
 ///|
 #borrow(image)
-pub extern "c" fn image_rotate(image : Image, degrees : Int) = "moonbit_raylib_image_rotate"
+pub extern "c" fn image_rotate(image : Image, degrees : Int32) = "moonbit_raylib_image_rotate"
 
 ///|
 #borrow(image)
@@ -169,10 +169,10 @@ pub extern "c" fn image_alpha_mask(image : Image, alpha_mask : Image) = "moonbit
 #borrow(image, fill)
 pub extern "c" fn image_resize_canvas(
   image : Image,
-  new_width : Int,
-  new_height : Int,
-  offset_x : Int,
-  offset_y : Int,
+  new_width : Int32,
+  new_height : Int32,
+  offset_x : Int32,
+  offset_y : Int32,
   fill : Bytes,
 ) = "moonbit_raylib_image_resize_canvas"
 
@@ -186,7 +186,7 @@ pub extern "c" fn image_color_contrast(image : Image, contrast : Float) = "moonb
 
 ///|
 #borrow(image)
-pub extern "c" fn image_color_brightness(image : Image, brightness : Int) = "moonbit_raylib_image_color_brightness"
+pub extern "c" fn image_color_brightness(image : Image, brightness : Int32) = "moonbit_raylib_image_color_brightness"
 
 ///|
 #borrow(image, color, replace)
@@ -201,7 +201,7 @@ pub extern "c" fn image_color_replace(
 pub extern "c" fn image_kernel_convolution(
   image : Image,
   kernel : Bytes,
-  kernel_size : Int,
+  kernel_size : Int32,
 ) = "moonbit_raylib_image_kernel_convolution"
 
 // ============================================================================
@@ -212,7 +212,7 @@ pub extern "c" fn image_kernel_convolution(
 #borrow(text, color)
 pub extern "c" fn image_text(
   text : Bytes,
-  font_size : Int,
+  font_size : Int32,
   color : Bytes,
 ) -> Image = "moonbit_raylib_image_text"
 
@@ -239,7 +239,7 @@ pub extern "c" fn get_image_alpha_border(
 
 ///|
 #borrow(image)
-pub extern "c" fn get_image_color(image : Image, x : Int, y : Int) -> Bytes = "moonbit_raylib_get_image_color"
+pub extern "c" fn get_image_color(image : Image, x : Int32, y : Int32) -> Bytes = "moonbit_raylib_get_image_color"
 
 // ============================================================================
 // Copy-and-free: LoadImageColors, LoadImagePalette
@@ -253,7 +253,7 @@ pub extern "c" fn load_image_colors(image : Image) -> Bytes = "moonbit_raylib_lo
 #borrow(image)
 pub extern "c" fn load_image_palette(
   image : Image,
-  max_palette_size : Int,
+  max_palette_size : Int32,
 ) -> Bytes = "moonbit_raylib_load_image_palette"
 
 // ============================================================================

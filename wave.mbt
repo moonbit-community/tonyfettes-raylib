@@ -33,7 +33,7 @@ pub fn Wave::copy(self : Wave) -> Wave {
 ///|
 /// Crop a wave to defined frames range.
 #as_free_fn(wave_crop)
-pub fn Wave::crop(self : Wave, init_frame : Int, final_frame : Int) -> Unit {
+pub fn Wave::crop(self : Wave, init_frame : Int32, final_frame : Int32) -> Unit {
   @ffi.wave_crop(self.0, init_frame, final_frame)
 }
 
@@ -42,9 +42,9 @@ pub fn Wave::crop(self : Wave, init_frame : Int, final_frame : Int) -> Unit {
 #as_free_fn(wave_format)
 pub fn Wave::format(
   self : Wave,
-  sample_rate : Int,
-  sample_size : Int,
-  channels : Int,
+  sample_rate : Int32,
+  sample_size : Int32,
+  channels : Int32,
 ) -> Unit {
   @ffi.wave_format(self.0, sample_rate, sample_size, channels)
 }
@@ -57,21 +57,25 @@ pub struct WaveSamples {
 
 ///|
 /// Get the number of samples.
-pub fn WaveSamples::length(self : WaveSamples) -> Int {
+pub fn WaveSamples::length(self : WaveSamples) -> Int32 {
   self.samples.length()
 }
 
 ///|
 /// Get sample value at index.
 #alias("_[_]")
-pub fn WaveSamples::get(self : WaveSamples, index : Int) -> Float {
+pub fn WaveSamples::get(self : WaveSamples, index : Int32) -> Float {
   self.samples[index]
 }
 
 ///|
 /// Set sample value at index.
 #alias("_[_]=_")
-pub fn WaveSamples::set(self : WaveSamples, index : Int, value : Float) -> Unit {
+pub fn WaveSamples::set(
+  self : WaveSamples,
+  index : Int32,
+  value : Float,
+) -> Unit {
   self.samples[index] = value
 }
 
@@ -114,28 +118,28 @@ pub fn Wave::data(self : Wave) -> WaveData {
 ///|
 /// Get wave frame count.
 #as_free_fn(get_wave_frame_count)
-pub fn Wave::frame_count(self : Wave) -> Int {
+pub fn Wave::frame_count(self : Wave) -> Int32 {
   @ffi.get_wave_frame_count(self.0)
 }
 
 ///|
 /// Get wave sample rate.
 #as_free_fn(get_wave_sample_rate)
-pub fn Wave::sample_rate(self : Wave) -> Int {
+pub fn Wave::sample_rate(self : Wave) -> Int32 {
   @ffi.get_wave_sample_rate(self.0)
 }
 
 ///|
 /// Get wave sample size.
 #as_free_fn(get_wave_sample_size)
-pub fn Wave::sample_size(self : Wave) -> Int {
+pub fn Wave::sample_size(self : Wave) -> Int32 {
   @ffi.get_wave_sample_size(self.0)
 }
 
 ///|
 /// Get wave channels count.
 #as_free_fn(get_wave_channels)
-pub fn Wave::channels(self : Wave) -> Int {
+pub fn Wave::channels(self : Wave) -> Int32 {
   @ffi.get_wave_channels(self.0)
 }
 
@@ -152,7 +156,7 @@ pub fn Wave::load(file_name : String) -> Wave {
 pub fn Wave::load_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Wave {
   @ffi.load_wave_from_memory(@utf8.encode(file_type), file_data, data_size)
 }

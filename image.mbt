@@ -25,7 +25,7 @@ pub fn Image::copy(self : Image) -> Image {
 ///|
 /// Create an image from a selected channel of another image (GRAYSCALE).
 #as_free_fn(image_from_channel)
-pub fn Image::from_channel(self : Image, selected_channel : Int) -> Image {
+pub fn Image::from_channel(self : Image, selected_channel : Int32) -> Image {
   @ffi.image_from_channel(self.0, selected_channel)
 }
 
@@ -33,7 +33,7 @@ pub fn Image::from_channel(self : Image, selected_channel : Int) -> Image {
 /// Get image width.
 #as_free_fn(get_image_width)
 #as_free_fn(image_width, deprecated="Use @raylib.Image::width() instead")
-pub fn Image::width(self : Image) -> Int {
+pub fn Image::width(self : Image) -> Int32 {
   @ffi.image_width(self.0)
 }
 
@@ -41,21 +41,21 @@ pub fn Image::width(self : Image) -> Int {
 /// Get image height.
 #as_free_fn(get_image_height)
 #as_free_fn(image_height, deprecated="Use @raylib.Image::height() instead")
-pub fn Image::height(self : Image) -> Int {
+pub fn Image::height(self : Image) -> Int32 {
   @ffi.image_height(self.0)
 }
 
 ///|
 /// Get image mipmap levels.
 #as_free_fn(get_image_mipmaps)
-pub fn Image::mipmaps(self : Image) -> Int {
+pub fn Image::mipmaps(self : Image) -> Int32 {
   @ffi.image_get_mipmaps(self.0)
 }
 
 ///|
 /// Get image data format.
 #as_free_fn(get_image_format)
-pub fn Image::format(self : Image) -> Int {
+pub fn Image::format(self : Image) -> Int32 {
   @ffi.image_get_format(self.0)
 }
 
@@ -83,7 +83,7 @@ pub fn Image::load_colors(self : Image) -> Bytes {
 ///|
 /// Load colors palette from image as a Color array (RGBA - 32bit).
 #as_free_fn(load_image_palette)
-pub fn Image::load_palette(self : Image, max_palette_size : Int) -> Bytes {
+pub fn Image::load_palette(self : Image, max_palette_size : Int32) -> Bytes {
   @ffi.load_image_palette(self.0, max_palette_size)
 }
 
@@ -91,8 +91,8 @@ pub fn Image::load_palette(self : Image, max_palette_size : Int) -> Bytes {
 /// Generate image: white noise.
 #as_free_fn(gen_image_white_noise)
 pub fn Image::gen_white_noise(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   factor : Float,
 ) -> Image {
   @ffi.gen_image_white_noise(width, height, factor)
@@ -102,10 +102,10 @@ pub fn Image::gen_white_noise(
 /// Generate image: perlin noise.
 #as_free_fn(gen_image_perlin_noise)
 pub fn Image::gen_perlin_noise(
-  width : Int,
-  height : Int,
-  offset_x : Int,
-  offset_y : Int,
+  width : Int32,
+  height : Int32,
+  offset_x : Int32,
+  offset_y : Int32,
   scale : Float,
 ) -> Image {
   @ffi.gen_image_perlin_noise(width, height, offset_x, offset_y, scale)
@@ -114,7 +114,11 @@ pub fn Image::gen_perlin_noise(
 ///|
 /// Generate image: cellular algorithm, bigger tileSize means bigger cells.
 #as_free_fn(gen_image_cellular)
-pub fn Image::gen_cellular(width : Int, height : Int, tile_size : Int) -> Image {
+pub fn Image::gen_cellular(
+  width : Int32,
+  height : Int32,
+  tile_size : Int32,
+) -> Image {
   @ffi.gen_image_cellular(width, height, tile_size)
 }
 
@@ -128,7 +132,7 @@ pub fn Image::to_texture(self : Image) -> Texture {
 ///|
 /// Load cubemap from image, multiple image cubemap layouts supported.
 #as_free_fn(load_texture_cubemap)
-pub fn Image::to_texture_cubemap(self : Image, layout : Int) -> Texture {
+pub fn Image::to_texture_cubemap(self : Image, layout : Int32) -> Texture {
   @ffi.load_texture_cubemap(self.0, layout)
 }
 
@@ -142,7 +146,7 @@ pub fn Image::load(file_name : String) -> Image {
 ///|
 /// Generate image: plain color.
 #as_free_fn(gen_image_color)
-pub fn Image::gen_color(width : Int, height : Int, color : Color) -> Image {
+pub fn Image::gen_color(width : Int32, height : Int32, color : Color) -> Image {
   @ffi.gen_image_color(width, height, color.to_bytes())
 }
 
@@ -150,10 +154,10 @@ pub fn Image::gen_color(width : Int, height : Int, color : Color) -> Image {
 /// Generate image: checked.
 #as_free_fn(gen_image_checked)
 pub fn Image::gen_checked(
-  width : Int,
-  height : Int,
-  checks_x : Int,
-  checks_y : Int,
+  width : Int32,
+  height : Int32,
+  checks_x : Int32,
+  checks_y : Int32,
   col1 : Color,
   col2 : Color,
 ) -> Image {
@@ -171,9 +175,9 @@ pub fn Image::gen_checked(
 /// Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient.
 #as_free_fn(gen_image_gradient_linear)
 pub fn Image::gen_gradient_linear(
-  width : Int,
-  height : Int,
-  direction : Int,
+  width : Int32,
+  height : Int32,
+  direction : Int32,
   start : Color,
   end_ : Color,
 ) -> Image {
@@ -190,8 +194,8 @@ pub fn Image::gen_gradient_linear(
 /// Generate image: radial gradient.
 #as_free_fn(gen_image_gradient_radial)
 pub fn Image::gen_gradient_radial(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   density : Float,
   inner : Color,
   outer : Color,
@@ -209,8 +213,8 @@ pub fn Image::gen_gradient_radial(
 /// Generate image: square gradient.
 #as_free_fn(gen_image_gradient_square)
 pub fn Image::gen_gradient_square(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   density : Float,
   inner : Color,
   outer : Color,
@@ -227,7 +231,7 @@ pub fn Image::gen_gradient_square(
 ///|
 /// Generate image: grayscale image from text data.
 #as_free_fn(gen_image_text)
-pub fn Image::gen_text(width : Int, height : Int, text : String) -> Image {
+pub fn Image::gen_text(width : Int32, height : Int32, text : String) -> Image {
   @ffi.gen_image_text(width, height, @utf8.encode(text))
 }
 
@@ -237,7 +241,7 @@ pub fn Image::gen_text(width : Int, height : Int, text : String) -> Image {
 pub fn Image::load_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Image {
   @ffi.load_image_from_memory(@utf8.encode(file_type), file_data, data_size)
 }

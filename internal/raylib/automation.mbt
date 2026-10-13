@@ -25,7 +25,7 @@ pub extern "c" fn set_automation_event_list(list : AutomationEventList) = "moonb
 
 ///|
 /// Set automation event internal base frame to start recording.
-pub extern "c" fn set_automation_event_base_frame(frame : Int) = "SetAutomationEventBaseFrame"
+pub extern "c" fn set_automation_event_base_frame(frame : Int32) = "SetAutomationEventBaseFrame"
 
 ///|
 /// Start recording automation events (AutomationEventList must be set).
@@ -43,11 +43,11 @@ pub extern "c" fn play_automation_event(event : Bytes) = "moonbit_raylib_play_au
 #borrow(list)
 pub extern "c" fn automation_event_list_count(
   list : AutomationEventList,
-) -> Int = "moonbit_raylib_automation_event_list_count"
+) -> Int32 = "moonbit_raylib_automation_event_list_count"
 
 ///|
 #borrow(list)
 pub extern "c" fn automation_event_list_get(
   list : AutomationEventList,
-  index : Int,
+  index : Int32,
 ) -> Bytes = "moonbit_raylib_automation_event_list_get"

@@ -1,5 +1,5 @@
 ///|
-fn save_storage_value(position : Int, value : Int) -> Bool {
+fn save_storage_value(position : Int32, value : Int32) -> Bool {
   let data_size = (position + 1) * 4
   let file_data = @raylib.load_file_data("storage.data")
   let new_size = if file_data.length() < data_size {
@@ -22,7 +22,7 @@ fn save_storage_value(position : Int, value : Int) -> Bool {
 }
 
 ///|
-fn load_storage_value(position : Int) -> Int {
+fn load_storage_value(position : Int32) -> Int32 {
   let data_size = (position + 1) * 4
   let file_data = @raylib.load_file_data("storage.data")
   if file_data.length() < data_size {

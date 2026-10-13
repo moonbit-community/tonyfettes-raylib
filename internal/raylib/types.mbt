@@ -114,7 +114,10 @@ pub type Pointer
 
 ///|
 /// Allocate zero-initialized memory. Returns a Pointer to `count * element_size` bytes.
-pub extern "c" fn Pointer::calloc(count : Int, element_size : Int) -> Pointer = "moonbit_raylib_calloc"
+pub extern "c" fn Pointer::calloc(
+  count : Int32,
+  element_size : Int32,
+) -> Pointer = "moonbit_raylib_calloc"
 
 ///|
 /// Free memory previously allocated with `calloc`.

@@ -60,10 +60,10 @@ test "text input controls smoke test" {
   let text : Ref[String] = { val: "Hello", }
   let _tb = @raygui.gui_text_box(bounds, text, 64, false)
   // Spinner
-  let spin_val : Ref[Int] = { val: 5, }
+  let spin_val : Ref[Int32] = { val: 5, }
   let _sp = @raygui.gui_spinner(bounds, "Spin", spin_val, 0, 100, false)
   // Value box
-  let val_int : Ref[Int] = { val: 42, }
+  let val_int : Ref[Int32] = { val: 42, }
   let _vb = @raygui.gui_value_box(bounds, "Val", val_int, 0, 100, false)
   // Value box float
   let val_text : Ref[String] = { val: "3.14", }
@@ -83,37 +83,37 @@ test "list and combo controls smoke test" {
   @raylib.begin_drawing()
   let bounds = @raylib.Rectangle::new(0.0, 0.0, 200.0, 100.0)
   // Combo box
-  let combo_active : Ref[Int] = { val: 0, }
+  let combo_active : Ref[Int32] = { val: 0, }
   @raygui.gui_combo_box(bounds, "One;Two;Three", combo_active)
   // Toggle group
-  let group_active : Ref[Int] = { val: 0, }
+  let group_active : Ref[Int32] = { val: 0, }
   @raygui.gui_toggle_group(
     @raylib.Rectangle::new(0.0, 0.0, 300.0, 30.0),
     "A;B;C",
     group_active,
   )
   // Toggle slider
-  let tslider_active : Ref[Int] = { val: 0, }
+  let tslider_active : Ref[Int32] = { val: 0, }
   let _ts = @raygui.gui_toggle_slider(
     @raylib.Rectangle::new(0.0, 0.0, 150.0, 30.0),
     "X;Y;Z",
     tslider_active,
   )
   // Dropdown box (closed mode)
-  let dd_active : Ref[Int] = { val: 0, }
+  let dd_active : Ref[Int32] = { val: 0, }
   let _dd = @raygui.gui_dropdown_box(
     bounds, "Alpha;Beta;Gamma", dd_active, false,
   )
   // List view
-  let list_scroll : Ref[Int] = { val: 0, }
-  let list_active : Ref[Int] = { val: 0, }
+  let list_scroll : Ref[Int32] = { val: 0, }
+  let list_active : Ref[Int32] = { val: 0, }
   let _lv = @raygui.gui_list_view(
     bounds, "Item1;Item2;Item3", list_scroll, list_active,
   )
   // List view ex
-  let lvex_scroll : Ref[Int] = { val: 0, }
-  let lvex_active : Ref[Int] = { val: 0, }
-  let lvex_focus : Ref[Int] = { val: 0, }
+  let lvex_scroll : Ref[Int32] = { val: 0, }
+  let lvex_active : Ref[Int32] = { val: 0, }
+  let lvex_focus : Ref[Int32] = { val: 0, }
   let _lve = @raygui.gui_list_view_ex(
     bounds,
     ["Alpha", "Beta", "Gamma"],
@@ -122,7 +122,7 @@ test "list and combo controls smoke test" {
     lvex_focus,
   )
   // Tab bar
-  let tab_active : Ref[Int] = { val: 0, }
+  let tab_active : Ref[Int32] = { val: 0, }
   let _tab = @raygui.gui_tab_bar(
     @raylib.Rectangle::new(0.0, 0.0, 300.0, 30.0),
     ["Tab1", "Tab2"],

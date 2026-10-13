@@ -96,6 +96,6 @@ pub fn Sound::load(file_name : String) -> Sound {
 ///|
 /// Update sound buffer with new data.
 #as_free_fn(update_sound)
-pub fn Sound::update(self : Sound, data : Bytes, sample_count : Int) -> Unit {
+pub fn Sound::update(self : Sound, data : Bytes, sample_count : Int32) -> Unit {
   @ffi.update_sound(self.0, data, sample_count)
 }

@@ -14,15 +14,15 @@ pub(all) enum ShaderUniformData {
   /// Shader uniform type: vec4 (4 float)
   Vec4(Vector4)
   /// Shader uniform type: int
-  Int(Int)
+  Int(Int32)
   /// Shader uniform type: ivec2 (2 int)
-  IVec2((Int, Int))
+  IVec2((Int32, Int32))
   /// Shader uniform type: ivec3 (3 int)
-  IVec3((Int, Int, Int))
+  IVec3((Int32, Int32, Int32))
   /// Shader uniform type: ivec4 (4 int)
-  IVec4((Int, Int, Int, Int))
+  IVec4((Int32, Int32, Int32, Int32))
   /// Shader uniform type: sampler2d (texture unit index)
-  Sampler2D(Int)
+  Sampler2D(Int32)
 }
 
 ///|
@@ -66,7 +66,7 @@ fn ShaderUniformData::to_bytes(self : ShaderUniformData) -> Bytes {
 }
 
 ///|
-fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int {
+fn ShaderUniformData::uniform_type(self : ShaderUniformData) -> Int32 {
   match self {
     Float(_) => ShaderUniformFloat
     Vec2(_) => ShaderUniformVec2
@@ -92,15 +92,15 @@ pub(all) enum ShaderUniformDataV {
   /// Shader uniform type: vec4 array (4 float each)
   Vec4(Array[Vector4])
   /// Shader uniform type: int array
-  Int(Array[Int])
+  Int(Array[Int32])
   /// Shader uniform type: ivec2 array (2 int each)
-  IVec2(Array[(Int, Int)])
+  IVec2(Array[(Int32, Int32)])
   /// Shader uniform type: ivec3 array (3 int each)
-  IVec3(Array[(Int, Int, Int)])
+  IVec3(Array[(Int32, Int32, Int32)])
   /// Shader uniform type: ivec4 array (4 int each)
-  IVec4(Array[(Int, Int, Int, Int)])
+  IVec4(Array[(Int32, Int32, Int32, Int32)])
   /// Shader uniform type: sampler2d array (texture unit indices)
-  Sampler2D(Array[Int])
+  Sampler2D(Array[Int32])
 }
 
 ///|
@@ -156,7 +156,7 @@ fn ShaderUniformDataV::to_bytes(self : ShaderUniformDataV) -> Bytes {
 }
 
 ///|
-fn ShaderUniformDataV::uniform_type(self : ShaderUniformDataV) -> Int {
+fn ShaderUniformDataV::uniform_type(self : ShaderUniformDataV) -> Int32 {
   match self {
     Float(_) => ShaderUniformFloat
     Vec2(_) => ShaderUniformVec2
@@ -171,7 +171,7 @@ fn ShaderUniformDataV::uniform_type(self : ShaderUniformDataV) -> Int {
 }
 
 ///|
-fn ShaderUniformDataV::count(self : ShaderUniformDataV) -> Int {
+fn ShaderUniformDataV::count(self : ShaderUniformDataV) -> Int32 {
   match self {
     Float(vs) => vs.length()
     Vec2(vs) => vs.length()
@@ -185,7 +185,7 @@ fn ShaderUniformDataV::count(self : ShaderUniformDataV) -> Int {
 }
 
 ///|
-fn ShaderUniformDataV::elem_size(self : ShaderUniformDataV) -> Int {
+fn ShaderUniformDataV::elem_size(self : ShaderUniformDataV) -> Int32 {
   match self {
     Float(_) | Int(_) | Sampler2D(_) => 4
     Vec2(_) | IVec2(_) => 8
@@ -219,7 +219,7 @@ pub fn Shader::begin_mode(self : Shader) -> Unit {
 /// Set shader uniform value.
 pub fn Shader::set_value(
   self : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   value : ShaderUniformData,
 ) -> Unit {
   @ffi.set_shader_value(
@@ -235,9 +235,9 @@ pub fn Shader::set_value(
 #deprecated("Use Shader::set_value instead")
 pub fn set_shader_value(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
+  uniform_type : Int32,
 ) -> Unit {
   @ffi.set_shader_value(shader.0, loc_index, value, uniform_type)
 }
@@ -246,7 +246,7 @@ pub fn set_shader_value(
 /// Set shader uniform value vector.
 pub fn Shader::set_value_v(
   self : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   values : ShaderUniformDataV,
 ) -> Unit {
   let count = values.count()
@@ -267,10 +267,10 @@ pub fn Shader::set_value_v(
 #deprecated("Use Shader::set_value_v instead")
 pub fn set_shader_value_v(
   shader : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
-  count : Int,
+  uniform_type : Int32,
+  count : Int32,
 ) -> Unit {
   @ffi.set_shader_value_v(shader.0, loc_index, value, uniform_type, count)
 }
@@ -280,7 +280,7 @@ pub fn set_shader_value_v(
 #as_free_fn(set_shader_value_texture)
 pub fn Shader::set_value_texture(
   self : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   texture : Texture,
 ) -> Unit {
   @ffi.set_shader_value_texture(self.0, loc_index, texture.0)
@@ -292,8 +292,8 @@ pub fn Shader::set_value_texture(
 #as_free_fn(set_shader_locs)
 pub fn Shader::set_locs(
   self : Shader,
-  loc_index : Int,
-  loc_value : Int,
+  loc_index : Int32,
+  loc_value : Int32,
 ) -> Unit {
   @ffi.set_shader_locs(self.0, loc_index, loc_value)
 }
@@ -315,21 +315,24 @@ pub fn Shader::load_from_memory(vs_code : String, fs_code : String) -> Shader {
 ///|
 /// Get shader uniform location.
 #as_free_fn(get_shader_location)
-pub fn Shader::get_location(self : Shader, uniform_name : String) -> Int {
+pub fn Shader::get_location(self : Shader, uniform_name : String) -> Int32 {
   @ffi.get_shader_location(self.0, @utf8.encode(uniform_name))
 }
 
 ///|
 /// Get shader program id (OpenGL handle).
 #as_free_fn(get_shader_id)
-pub fn Shader::id(self : Shader) -> UInt {
+pub fn Shader::id(self : Shader) -> UInt32 {
   @ffi.get_shader_id(self.0)
 }
 
 ///|
 /// Get shader attribute location.
 #as_free_fn(get_shader_location_attrib)
-pub fn Shader::get_location_attrib(self : Shader, attrib_name : String) -> Int {
+pub fn Shader::get_location_attrib(
+  self : Shader,
+  attrib_name : String,
+) -> Int32 {
   @ffi.get_shader_location_attrib(self.0, @utf8.encode(attrib_name))
 }
 
@@ -338,7 +341,7 @@ pub fn Shader::get_location_attrib(self : Shader, attrib_name : String) -> Int {
 #as_free_fn(set_shader_value_matrix)
 pub fn Shader::set_value_matrix(
   self : Shader,
-  loc_index : Int,
+  loc_index : Int32,
   mat : Matrix,
 ) -> Unit {
   @ffi.set_shader_value_matrix(self.0, loc_index, mat.to_bytes())

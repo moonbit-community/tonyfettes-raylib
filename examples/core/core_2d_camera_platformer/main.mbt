@@ -65,8 +65,8 @@ fn update_camera_center(
   camera : @raylib.Camera2D,
   player_x : Float,
   player_y : Float,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> @raylib.Camera2D {
   @raylib.Camera2D::new(
     @raylib.Vector2::new(
@@ -85,8 +85,8 @@ fn update_camera_center_inside_map(
   player_x : Float,
   player_y : Float,
   env_items : Array[EnvItem],
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> @raylib.Camera2D {
   let w = Float::from_int(width)
   let h = Float::from_int(height)
@@ -151,8 +151,8 @@ fn update_camera_center_smooth_follow(
   player_x : Float,
   player_y : Float,
   delta : Float,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> @raylib.Camera2D {
   let min_speed : Float = 30.0
   let min_effect_length : Float = 10.0
@@ -190,8 +190,8 @@ fn update_camera_even_out_on_landing(
   delta : Float,
   evening_out : Bool,
   even_out_target : Float,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> (@raylib.Camera2D, Bool, Float) {
   let even_out_speed : Float = 700.0
   let w = Float::from_int(width)
@@ -231,8 +231,8 @@ fn update_camera_player_bounds_push(
   camera : @raylib.Camera2D,
   player_x : Float,
   player_y : Float,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> @raylib.Camera2D {
   let bbox_x : Float = 0.2
   let bbox_y : Float = 0.2

@@ -1,5 +1,5 @@
 ///|
-fn text_subtext(text : String, end_pos : Int) -> String {
+fn text_subtext(text : String, end_pos : Int32) -> String {
   let len = text.length()
   let n = if end_pos < len { end_pos } else { len }
   let buf = StringBuilder()

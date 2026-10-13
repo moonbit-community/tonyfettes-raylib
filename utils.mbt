@@ -28,7 +28,7 @@ pub fn decode_data_base64(data : String) -> Bytes {
 
 ///|
 /// Compute CRC32 hash code.
-pub fn compute_crc32(data : Bytes) -> Int {
+pub fn compute_crc32(data : Bytes) -> Int32 {
   @ffi.compute_crc32(data, data.length())
 }
 
@@ -50,7 +50,11 @@ pub fn compute_sha1(data : Bytes) -> Bytes {
 
 ///|
 /// Load random values sequence, no values repeated.
-pub fn load_random_sequence(count : Int, min : Int, max : Int) -> Array[Int] {
+pub fn load_random_sequence(
+  count : Int32,
+  min : Int32,
+  max : Int32,
+) -> Array[Int32] {
   let bytes = @ffi.load_random_sequence(count, min, max)
   let result = Array::make(count, 0)
   for i in 0..<count {

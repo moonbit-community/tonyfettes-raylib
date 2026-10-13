@@ -1,6 +1,6 @@
 ///|
-fn codepoint_remove_duplicates(codepoints : Array[Int]) -> Array[Int] {
-  let result : Array[Int] = []
+fn codepoint_remove_duplicates(codepoints : Array[Int32]) -> Array[Int32] {
+  let result : Array[Int32] = []
   for codepoint in codepoints {
     let mut found = false
     for result_elem in result {

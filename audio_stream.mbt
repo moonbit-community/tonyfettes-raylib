@@ -6,9 +6,9 @@ struct AudioStream(@ffi.AudioStream)
 /// Load audio stream (to stream raw audio PCM data).
 #as_free_fn(load_audio_stream)
 pub fn AudioStream::load(
-  sample_rate : Int,
-  sample_size : Int,
-  channels : Int,
+  sample_rate : Int32,
+  sample_size : Int32,
+  channels : Int32,
 ) -> AudioStream {
   @ffi.load_audio_stream(sample_rate, sample_size, channels)
 }
@@ -33,7 +33,7 @@ pub fn AudioStream::unload(self : AudioStream) -> Unit {
 pub fn AudioStream::update(
   self : AudioStream,
   data : Bytes,
-  frame_count : Int,
+  frame_count : Int32,
 ) -> Unit {
   @ffi.update_audio_stream(self.0, data, frame_count)
 }
@@ -106,7 +106,7 @@ pub fn AudioStream::set_pan(self : AudioStream, pan : Float) -> Unit {
 #as_free_fn(attach_audio_stream_processor)
 pub fn AudioStream::attach_processor(
   self : AudioStream,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) -> Unit {
   @ffi.attach_audio_stream_processor(self.0, processor)
 }
@@ -116,7 +116,7 @@ pub fn AudioStream::attach_processor(
 #as_free_fn(detach_audio_stream_processor)
 pub fn AudioStream::detach_processor(
   self : AudioStream,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) -> Unit {
   @ffi.detach_audio_stream_processor(self.0, processor)
 }
@@ -125,7 +125,7 @@ pub fn AudioStream::detach_processor(
 /// Attach audio stream processor to a music stream, receives the samples as floats.
 pub fn attach_music_stream_processor(
   music : Music,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) -> Unit {
   @ffi.attach_music_stream_processor(music.0, processor)
 }
@@ -134,7 +134,7 @@ pub fn attach_music_stream_processor(
 /// Detach audio stream processor from a music stream.
 pub fn detach_music_stream_processor(
   music : Music,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) -> Unit {
   @ffi.detach_music_stream_processor(music.0, processor)
 }

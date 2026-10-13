@@ -1,5 +1,5 @@
 ///|
-fn string_take(s : String, n : Int) -> String {
+fn string_take(s : String, n : Int32) -> String {
   let len = s.length()
   let end = if n < len { n } else { len }
   let buf = StringBuilder()

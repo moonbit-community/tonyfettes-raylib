@@ -36,7 +36,7 @@ fn main {
   let mut anim_current_frame = 0
 
   // Indices of bones for sockets
-  let bone_socket_index : FixedArray[Int] = [-1, -1, -1]
+  let bone_socket_index : FixedArray[Int32] = [-1, -1, -1]
 
   // Search bones for sockets
   let bone_count = @raylib.get_model_bone_count(character_model)

@@ -6,7 +6,7 @@ fn draw_textured_curve(
   curve_end_position : @raylib.Vector2,
   curve_end_position_tangent : @raylib.Vector2,
   curve_width : Float,
-  curve_segments : Int,
+  curve_segments : Int32,
 ) -> Unit {
   let step : Float = 1.0 / Float::from_int(curve_segments)
   let mut previous = curve_start_position

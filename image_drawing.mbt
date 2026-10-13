@@ -18,8 +18,8 @@ pub fn Image::clear_background(self : Image, color : Color) -> Unit {
 #as_free_fn(image_draw_pixel)
 pub fn Image::draw_pixel(
   self : Image,
-  pos_x : Int,
-  pos_y : Int,
+  pos_x : Int32,
+  pos_y : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_pixel(self.0, pos_x, pos_y, color.to_bytes())
@@ -45,10 +45,10 @@ pub fn Image::draw_pixel_v(
 #as_free_fn(image_draw_line)
 pub fn Image::draw_line(
   self : Image,
-  start_pos_x : Int,
-  start_pos_y : Int,
-  end_pos_x : Int,
-  end_pos_y : Int,
+  start_pos_x : Int32,
+  start_pos_y : Int32,
+  end_pos_x : Int32,
+  end_pos_y : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_line(
@@ -85,7 +85,7 @@ pub fn Image::draw_line_ex(
   self : Image,
   start : Vector2,
   end_ : Vector2,
-  thick : Int,
+  thick : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_line_ex(
@@ -106,9 +106,9 @@ pub fn Image::draw_line_ex(
 #as_free_fn(image_draw_circle)
 pub fn Image::draw_circle(
   self : Image,
-  center_x : Int,
-  center_y : Int,
-  radius : Int,
+  center_x : Int32,
+  center_y : Int32,
+  radius : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_circle(self.0, center_x, center_y, radius, color.to_bytes())
@@ -120,7 +120,7 @@ pub fn Image::draw_circle(
 pub fn Image::draw_circle_v(
   self : Image,
   center : Vector2,
-  radius : Int,
+  radius : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_circle_v(self.0, center.to_bytes(), radius, color.to_bytes())
@@ -131,9 +131,9 @@ pub fn Image::draw_circle_v(
 #as_free_fn(image_draw_circle_lines)
 pub fn Image::draw_circle_lines(
   self : Image,
-  center_x : Int,
-  center_y : Int,
-  radius : Int,
+  center_x : Int32,
+  center_y : Int32,
+  radius : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_circle_lines(
@@ -151,7 +151,7 @@ pub fn Image::draw_circle_lines(
 pub fn Image::draw_circle_lines_v(
   self : Image,
   center : Vector2,
-  radius : Int,
+  radius : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_circle_lines_v(
@@ -171,10 +171,10 @@ pub fn Image::draw_circle_lines_v(
 #as_free_fn(image_draw_rectangle)
 pub fn Image::draw_rectangle(
   self : Image,
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_rectangle(
@@ -221,7 +221,7 @@ pub fn Image::draw_rectangle_rec(
 pub fn Image::draw_rectangle_lines(
   self : Image,
   rec : Rectangle,
-  thick : Int,
+  thick : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_rectangle_lines(
@@ -359,9 +359,9 @@ pub fn Image::draw(
 pub fn Image::draw_text(
   self : Image,
   text : String,
-  pos_x : Int,
-  pos_y : Int,
-  font_size : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  font_size : Int32,
   color : Color,
 ) -> Unit {
   @ffi.image_draw_text(

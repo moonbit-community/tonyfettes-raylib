@@ -22,21 +22,21 @@ pub fn Font::get_default() -> Font {
 ///|
 /// Get font base size (default chars height).
 #as_free_fn(get_font_base_size)
-pub fn Font::base_size(self : Font) -> Int {
+pub fn Font::base_size(self : Font) -> Int32 {
   @ffi.get_font_base_size(self.0)
 }
 
 ///|
 /// Get font number of glyph characters.
 #as_free_fn(get_font_glyph_count)
-pub fn Font::glyph_count(self : Font) -> Int {
+pub fn Font::glyph_count(self : Font) -> Int32 {
   @ffi.get_font_glyph_count(self.0)
 }
 
 ///|
 /// Get font glyph padding.
 #as_free_fn(get_font_glyph_padding)
-pub fn Font::glyph_padding(self : Font) -> Int {
+pub fn Font::glyph_padding(self : Font) -> Int32 {
   @ffi.get_font_glyph_padding(self.0)
 }
 
@@ -68,7 +68,7 @@ struct GlyphInfoArray(@ffi.GlyphInfoArray)
 ///|
 /// Get the number of glyphs in the array.
 #as_free_fn(glyph_info_array_count)
-pub fn GlyphInfoArray::count(self : GlyphInfoArray) -> Int {
+pub fn GlyphInfoArray::count(self : GlyphInfoArray) -> Int32 {
   @ffi.glyph_info_array_count(self.0)
 }
 
@@ -89,7 +89,7 @@ pub fn Font::load(file_name : String) -> Font {
 ///|
 /// Load font from file with extended parameters, loading the default character set.
 #as_free_fn(load_font_ex)
-pub fn Font::load_ex(file_name : String, font_size : Int) -> Font {
+pub fn Font::load_ex(file_name : String, font_size : Int32) -> Font {
   @ffi.load_font_ex(@utf8.encode(file_name), font_size, None, 0)
 }
 
@@ -98,8 +98,8 @@ pub fn Font::load_ex(file_name : String, font_size : Int) -> Font {
 #as_free_fn(load_font_ex_codepoints)
 pub fn Font::load_ex_codepoints(
   file_name : String,
-  font_size : Int,
-  codepoints : Array[Int],
+  font_size : Int32,
+  codepoints : Array[Int32],
 ) -> Font {
   @ffi.load_font_ex(
     @utf8.encode(file_name),
@@ -174,7 +174,7 @@ pub fn Font::measure_text(
 #as_free_fn(draw_text_codepoint)
 pub fn Font::draw_codepoint(
   self : Font,
-  codepoint : Int,
+  codepoint : Int32,
   position : Vector2,
   font_size : Float,
   tint : Color,
@@ -191,14 +191,14 @@ pub fn Font::draw_codepoint(
 ///|
 /// Get glyph rectangle in font atlas for a codepoint, fallback to '?' if not found.
 #as_free_fn(get_glyph_atlas_rec)
-pub fn Font::glyph_atlas_rec(self : Font, codepoint : Int) -> Rectangle {
+pub fn Font::glyph_atlas_rec(self : Font, codepoint : Int32) -> Rectangle {
   Rectangle::from_bytes(@ffi.get_glyph_atlas_rec(self.0, codepoint))
 }
 
 ///|
 /// Get glyph index position in font for a codepoint, fallback to '?' if not found.
 #as_free_fn(get_glyph_index)
-pub fn Font::glyph_index(self : Font, codepoint : Int) -> Int {
+pub fn Font::glyph_index(self : Font, codepoint : Int32) -> Int32 {
   @ffi.get_glyph_index(self.0, codepoint)
 }
 
@@ -208,7 +208,7 @@ pub fn Font::glyph_index(self : Font, codepoint : Int) -> Int {
 pub fn Font::load_from_image(
   image : Image,
   key : Color,
-  first_char : Int,
+  first_char : Int32,
 ) -> Font {
   @ffi.load_font_from_image(image.0, key.to_bytes(), first_char)
 }
@@ -219,8 +219,8 @@ pub fn Font::load_from_image(
 pub fn Font::load_from_memory(
   file_type : String,
   file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
+  data_size : Int32,
+  font_size : Int32,
 ) -> Font {
   @ffi.load_font_from_memory(
     @utf8.encode(file_type),
@@ -236,8 +236,8 @@ pub fn Font::load_from_memory(
 #as_free_fn(new_font)
 pub fn Font::new(
   texture : Texture,
-  base_size : Int,
-  glyph_padding~ : Int,
+  base_size : Int32,
+  glyph_padding~ : Int32,
   glyphs : GlyphInfoArray,
   recs : FixedArray[Rectangle],
 ) -> Font {
@@ -258,8 +258,8 @@ pub fn Font::new(
 #deprecated("Use Font::new(...) instead")
 pub fn Font::load_from_atlas(
   texture : Texture,
-  base_size : Int,
-  glyph_padding~ : Int,
+  base_size : Int32,
+  glyph_padding~ : Int32,
   glyphs : GlyphInfoArray,
   recs : FixedArray[Rectangle],
 ) -> Font {
@@ -278,7 +278,7 @@ pub fn Font::export_as_code(self : Font, file_name : String) -> Bool {
 #as_free_fn(draw_text_codepoints)
 pub fn Font::draw_codepoints(
   self : Font,
-  codepoints : Array[Int],
+  codepoints : Array[Int32],
   position : Vector2,
   font_size : Float,
   spacing : Float,
@@ -303,14 +303,14 @@ pub fn Font::draw_codepoints(
 ///|
 /// Get glyph font info data for a codepoint, fallback to '?' if not found.
 #as_free_fn(get_glyph_info)
-pub fn Font::glyph_info(self : Font, codepoint : Int) -> GlyphInfo {
+pub fn Font::glyph_info(self : Font, codepoint : Int32) -> GlyphInfo {
   GlyphInfo::from_bytes(@ffi.get_glyph_info(self.0, codepoint))
 }
 
 ///|
 /// Allocate an empty GlyphInfoArray of the given size.
 #as_free_fn(new_glyph_info_array)
-pub fn GlyphInfoArray::new(count : Int) -> GlyphInfoArray {
+pub fn GlyphInfoArray::new(count : Int32) -> GlyphInfoArray {
   @ffi.new_glyph_info_array(count)
 }
 
@@ -319,7 +319,7 @@ pub fn GlyphInfoArray::new(count : Int) -> GlyphInfoArray {
 #alias("_[_]=_")
 pub fn GlyphInfoArray::set(
   self : GlyphInfoArray,
-  index : Int,
+  index : Int32,
   info : GlyphInfo,
 ) -> Unit {
   @ffi.glyph_info_array_set(
@@ -337,9 +337,9 @@ pub fn GlyphInfoArray::set(
 #as_free_fn(load_font_data)
 pub fn GlyphInfoArray::load(
   file_data : Bytes,
-  data_size : Int,
-  font_size : Int,
-  font_type : Int,
+  data_size : Int32,
+  font_size : Int32,
+  font_type : Int32,
 ) -> GlyphInfoArray {
   @ffi.load_font_data(file_data, data_size, font_size, font_type)
 }
@@ -347,7 +347,7 @@ pub fn GlyphInfoArray::load(
 ///|
 /// Get glyph info at the given index in the array.
 #as_free_fn(glyph_info_array_get)
-pub fn GlyphInfoArray::get(self : GlyphInfoArray, index : Int) -> GlyphInfo {
+pub fn GlyphInfoArray::get(self : GlyphInfoArray, index : Int32) -> GlyphInfo {
   GlyphInfo::from_bytes(@ffi.glyph_info_array_get(self.0, index))
 }
 
@@ -356,9 +356,9 @@ pub fn GlyphInfoArray::get(self : GlyphInfoArray, index : Int) -> GlyphInfo {
 /// the glyph rectangle array.
 pub fn GlyphInfoArray::gen_image_atlas(
   self : GlyphInfoArray,
-  font_size : Int,
-  padding : Int,
-  pack_method : Int,
+  font_size : Int32,
+  padding : Int32,
+  pack_method : Int32,
 ) -> (Image, FixedArray[Rectangle]) {
   let recs_ref : Ref[Bytes] = Ref(Bytes::new(0))
   let image = @ffi.gen_image_font_atlas(
@@ -392,6 +392,6 @@ pub fn gen_font_texture_mipmaps(font : Font) -> Unit {
 ///|
 /// Set texture filtering mode for font texture atlas.
 #deprecated("Use font.texture().set_filter(filter) instead")
-pub fn set_font_texture_filter(font : Font, filter : Int) -> Unit {
+pub fn set_font_texture_filter(font : Font, filter : Int32) -> Unit {
   font.texture().set_filter(filter)
 }

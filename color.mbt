@@ -17,7 +17,7 @@ pub extend Color with @debug.Debug::{to_repr}
 
 ///|
 /// Create a new Color from RGBA components.
-pub fn Color::new(r : Int, g : Int, b : Int, a : Int) -> Color {
+pub fn Color::new(r : Int32, g : Int32, b : Int32, a : Int32) -> Color {
   { r: r.to_byte(), g: g.to_byte(), b: b.to_byte(), a: a.to_byte(), }
 }
 
@@ -163,7 +163,7 @@ pub fn color_alpha(color : Color, alpha : Float) -> Color {
 
 ///|
 /// Get hexadecimal value for a Color (0xRRGGBBAA).
-pub fn color_to_int(color : Color) -> Int {
+pub fn color_to_int(color : Color) -> Int32 {
   (color.r.to_int() << 24) |
   (color.g.to_int() << 16) |
   (color.b.to_int() << 8) |
@@ -172,7 +172,7 @@ pub fn color_to_int(color : Color) -> Int {
 
 ///|
 /// Get Color structure from hexadecimal value.
-pub fn get_color(hex_value : Int) -> Color {
+pub fn get_color(hex_value : Int32) -> Color {
   {
     r: ((hex_value >> 24) & 0xFF).to_byte(),
     g: ((hex_value >> 16) & 0xFF).to_byte(),

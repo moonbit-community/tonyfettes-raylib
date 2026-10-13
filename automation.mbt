@@ -20,7 +20,7 @@ pub fn AutomationEventList::unload(self : AutomationEventList) -> Unit {
 ///|
 /// Get the number of automation events in the list.
 #as_free_fn(automation_event_list_count)
-pub fn AutomationEventList::count(self : AutomationEventList) -> Int {
+pub fn AutomationEventList::count(self : AutomationEventList) -> Int32 {
   @ffi.automation_event_list_count(self.0)
 }
 
@@ -37,9 +37,9 @@ pub fn AutomationEventList::set(self : AutomationEventList) -> Unit {
 ///|
 /// Automation event with frame, type, and parameters.
 pub struct AutomationEvent {
-  frame : Int
-  type_ : Int
-  params : FixedArray[Int] // length 4
+  frame : Int32
+  type_ : Int32
+  params : FixedArray[Int32] // length 4
 } derive(Debug)
 
 ///|
@@ -99,7 +99,7 @@ pub fn play_automation_event(event : AutomationEvent) -> Unit {
 #as_free_fn(automation_event_list_get)
 pub fn AutomationEventList::get(
   self : AutomationEventList,
-  index : Int,
+  index : Int32,
 ) -> AutomationEvent {
   AutomationEvent::from_bytes(@ffi.automation_event_list_get(self.0, index))
 }

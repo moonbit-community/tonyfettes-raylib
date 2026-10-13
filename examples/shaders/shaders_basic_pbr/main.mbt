@@ -3,26 +3,26 @@
 // ============================================================================
 
 ///|
-const LightPoint : Int = 1
+const LightPoint : Int32 = 1
 
 ///|
-const MaxLights : Int = 4
+const MaxLights : Int32 = 4
 
 ///|
 struct PbrLight {
   mut enabled : Bool
-  light_type : Int
+  light_type : Int32
   position : @raylib.Vector3
   target : @raylib.Vector3
   color : FixedArray[Float] // normalized RGBA [0.0..1.0]
   intensity : Float
   // Shader uniform locations
-  enabled_loc : Int
-  type_loc : Int
-  position_loc : Int
-  target_loc : Int
-  color_loc : Int
-  intensity_loc : Int
+  enabled_loc : Int32
+  type_loc : Int32
+  position_loc : Int32
+  target_loc : Int32
+  color_loc : Int32
+  intensity_loc : Int32
 }
 
 // ============================================================================
@@ -31,13 +31,13 @@ struct PbrLight {
 
 ///|
 fn create_pbr_light(
-  light_type : Int,
+  light_type : Int32,
   position : @raylib.Vector3,
   target : @raylib.Vector3,
   color : @raylib.Color,
   intensity : Float,
   shader : @raylib.Shader,
-  index : Int,
+  index : Int32,
 ) -> PbrLight {
   let color_normalized : FixedArray[Float] = [
     Float::from_int(color.r.to_int()) / 255.0,
