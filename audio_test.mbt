@@ -55,7 +55,7 @@ test "master volume boundary: 1.0" {
 
 ///|
 /// Write an ASCII string as raw bytes (1 byte per char) into a buffer.
-fn write_ascii(buf : @buffer.Buffer, s : String) -> Unit {
+fn write_ascii(buf : Buffer, s : String) -> Unit {
   buf.write_string_utf8(s[:])
 }
 

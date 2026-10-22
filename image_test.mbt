@@ -801,13 +801,13 @@ test "Image::load_raw loads from raw pixel file" {
     0xFF, 0x00, 0xFF,
   ]
   let ok = @raylib.save_file_data(
-    "test_raw_pixels.data",
+    "_test_tmp_raw_pixels.data",
     pixel_data,
     pixel_data.length(),
   )
   assert_true(ok)
   // PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 = 7
-  let img = @raylib.Image::load_raw("test_raw_pixels.data", 2, 2, 7, 0)
+  let img = @raylib.Image::load_raw("_test_tmp_raw_pixels.data", 2, 2, 7, 0)
   assert_true(img.is_valid())
   assert_eq(img.width(), 2)
   assert_eq(img.height(), 2)

@@ -132,7 +132,7 @@ Use `moon -C examples build --target native raylib_demo/` to build. The `example
    - **Minor** (`0.x.0`): new features, breaking changes (renamed constants, changed API surface, new sub-packages)
    - **Patch** (`0.x.y`): bug fixes only, no API changes
 2. **Update `moon.mod`** — bump the `version` field
-3. **Verify package contents** — run `moon package --list` and confirm only library sources are included (no `examples/`, `docs/`, `tools/`, `scripts/`, dev config files)
+3. **Verify package contents** — run `moon package --list` and confirm only library sources are included (no `examples/`, `docs/`, `tools/`, `scripts/`, `_test_tmp_*`, dev config files); exclusions live in `.moonignore`
 4. **Dry-run publish** — run `moon publish --dry-run` and confirm server returns `202 Accepted`
 5. **Type-check** — run `moon check --target native`
 
@@ -172,12 +172,17 @@ A minimal project lives at `publish/smoke_test/` (gitignored). It imports `tonyf
 
 ### Excluded from publishing
 
-Configured via `exclude` in `moon.mod` (gitignore syntax). Currently excludes:
-`/external` (anchored to repo root), `examples`, `moon.work`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`, `CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
+Configured via `.moonignore` at the repo root (gitignore syntax; `exclude` in
+`moon.mod` is deprecated by the toolchain). `.moonignore` **overrides**
+`.gitignore` in the same directory, so build/test artifacts (`_build/`,
+`target/`, `.mooncakes/`, `_test_tmp_*`, `.DS_Store`) are repeated there.
+Development-only entries: `/external` (anchored to repo root), `examples`,
+`moon.work`, `publish`, `docs`, `tools`, `scripts`, `CLAUDE.md`,
+`CONTRIBUTING.md`, `WORKFLOW.md`, `setup.sh`, `clean.sh`
 
 `CMakeLists.txt` is **included** in the published package — consumers need it for Android/emscripten builds by referencing it from `.mooncakes/`.
 
-**Important:** Use `/external` (leading slash) to anchor to the repo root. An unanchored `external` pattern would also strip `internal/raylib/external/` (vendored raylib headers) from the package, breaking builds for consumers.
+**Important:** Use `/external` (leading slash) to anchor to the repo root. An unanchored `external` pattern would also strip `internal/raylib/external/` (vendored raylib headers) from the package, breaking builds for consumers. After editing `.moonignore`, diff `moon package --list` against the previous output.
 
 ## Conventions
 

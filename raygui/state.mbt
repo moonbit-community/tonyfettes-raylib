@@ -11,6 +11,12 @@ pub(all) enum GuiState {
 } derive(Eq, Debug)
 
 ///|
+pub extend GuiState with Eq::{equal, not_equal}
+
+///|
+pub extend GuiState with @debug.Debug::{to_repr}
+
+///|
 pub fn GuiState::to_int(self : GuiState) -> Int32 {
   match self {
     Normal => 0

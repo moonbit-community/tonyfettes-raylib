@@ -63,13 +63,15 @@ pub fn WaveSamples::length(self : WaveSamples) -> Int32 {
 
 ///|
 /// Get sample value at index.
-pub fn WaveSamples::op_get(self : WaveSamples, index : Int32) -> Float {
+#alias("_[_]")
+pub fn WaveSamples::at(self : WaveSamples, index : Int32) -> Float {
   self.samples[index]
 }
 
 ///|
 /// Set sample value at index.
-pub fn WaveSamples::op_set(
+#alias("_[_]=_")
+pub fn WaveSamples::set(
   self : WaveSamples,
   index : Int32,
   value : Float,

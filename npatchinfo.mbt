@@ -12,6 +12,12 @@ pub struct NPatchInfo {
 } derive(Eq, Debug)
 
 ///|
+pub extend NPatchInfo with Eq::{equal, not_equal}
+
+///|
+pub extend NPatchInfo with @debug.Debug::{to_repr}
+
+///|
 /// Create a new NPatchInfo.
 pub fn NPatchInfo::new(
   source : Rectangle,

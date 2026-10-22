@@ -1451,7 +1451,7 @@ pub extern "c" fn rl_set_uniform_matrices(
 
 ///|
 /// Load compute shader program.
-pub extern "c" fn rl_load_compute_shader_program(shader_id : UInt32) -> UInt32 = "rlLoadComputeShaderProgram"
+pub extern "c" fn rl_load_compute_shader_program(shader_id : UInt32) -> UInt32 = "rlLoadShaderProgramCompute"
 
 ///|
 /// Dispatch compute shader (equivalent to draw for graphics pipeline).

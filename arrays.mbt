@@ -28,7 +28,7 @@ pub fn FloatArray::length(self : FloatArray) -> Int32 {
 /// Allocate a zero-initialized float array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn FloatArray::new(count : Int32) -> FloatArray {
-  guard count >= 0
+  guard! count >= 0
   let ptr = @ffi.Pointer::calloc(count, 4)
   FloatArray(@ffi.FloatPointer::from_pointer(ptr), count)
 }
@@ -42,19 +42,17 @@ pub fn FloatArray::free(self : FloatArray) -> Unit {
 
 ///|
 /// Get the float value at the given index (bounds-checked).
-pub fn FloatArray::op_get(self : FloatArray, index : Int32) -> Float {
-  guard index >= 0 && index < self.1
+#alias("_[_]")
+pub fn FloatArray::at(self : FloatArray, index : Int32) -> Float {
+  guard! index >= 0 && index < self.1
   @ffi.float_array_get(self.0, index)
 }
 
 ///|
 /// Set the float value at the given index (bounds-checked).
-pub fn FloatArray::op_set(
-  self : FloatArray,
-  index : Int32,
-  value : Float,
-) -> Unit {
-  guard index >= 0 && index < self.1
+#alias("_[_]=_")
+pub fn FloatArray::set(self : FloatArray, index : Int32, value : Float) -> Unit {
+  guard! index >= 0 && index < self.1
   @ffi.float_array_set(self.0, index, value)
 }
 
@@ -86,7 +84,7 @@ pub fn UByteArray::length(self : UByteArray) -> Int32 {
 /// Allocate a zero-initialized unsigned byte array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn UByteArray::new(count : Int32) -> UByteArray {
-  guard count >= 0
+  guard! count >= 0
   let ptr = @ffi.Pointer::calloc(count, 1)
   UByteArray(@ffi.UBytePointer::from_pointer(ptr), count)
 }
@@ -100,19 +98,17 @@ pub fn UByteArray::free(self : UByteArray) -> Unit {
 
 ///|
 /// Get the unsigned byte value at the given index (bounds-checked).
-pub fn UByteArray::op_get(self : UByteArray, index : Int32) -> Int32 {
-  guard index >= 0 && index < self.1
+#alias("_[_]")
+pub fn UByteArray::at(self : UByteArray, index : Int32) -> Int32 {
+  guard! index >= 0 && index < self.1
   @ffi.ubyte_array_get(self.0, index)
 }
 
 ///|
 /// Set the unsigned byte value at the given index (bounds-checked).
-pub fn UByteArray::op_set(
-  self : UByteArray,
-  index : Int32,
-  value : Byte,
-) -> Unit {
-  guard index >= 0 && index < self.1
+#alias("_[_]=_")
+pub fn UByteArray::set(self : UByteArray, index : Int32, value : Byte) -> Unit {
+  guard! index >= 0 && index < self.1
   @ffi.ubyte_array_set(self.0, index, value)
 }
 
@@ -139,7 +135,7 @@ pub fn ShortArray::length(self : ShortArray) -> Int32 {
 /// Allocate a zero-initialized short array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn ShortArray::new(count : Int32) -> ShortArray {
-  guard count >= 0
+  guard! count >= 0
   let ptr = @ffi.Pointer::calloc(count, 2)
   ShortArray(@ffi.ShortPointer::from_pointer(ptr), count)
 }
@@ -153,19 +149,17 @@ pub fn ShortArray::free(self : ShortArray) -> Unit {
 
 ///|
 /// Get the signed short value at the given index (bounds-checked).
-pub fn ShortArray::op_get(self : ShortArray, index : Int32) -> Int32 {
-  guard index >= 0 && index < self.1
+#alias("_[_]")
+pub fn ShortArray::at(self : ShortArray, index : Int32) -> Int32 {
+  guard! index >= 0 && index < self.1
   @ffi.short_array_get(self.0, index)
 }
 
 ///|
 /// Set the signed short value at the given index (bounds-checked, truncated to 16-bit).
-pub fn ShortArray::op_set(
-  self : ShortArray,
-  index : Int32,
-  value : Int32,
-) -> Unit {
-  guard index >= 0 && index < self.1
+#alias("_[_]=_")
+pub fn ShortArray::set(self : ShortArray, index : Int32, value : Int32) -> Unit {
+  guard! index >= 0 && index < self.1
   @ffi.short_array_set(self.0, index, value)
 }
 
@@ -197,7 +191,7 @@ pub fn UShortArray::length(self : UShortArray) -> Int32 {
 /// Allocate a zero-initialized unsigned short array with `count` elements.
 /// Must be freed with `free()` when no longer needed.
 pub fn UShortArray::new(count : Int32) -> UShortArray {
-  guard count >= 0
+  guard! count >= 0
   let ptr = @ffi.Pointer::calloc(count, 2)
   UShortArray(@ffi.UShortPointer::from_pointer(ptr), count)
 }
@@ -211,19 +205,21 @@ pub fn UShortArray::free(self : UShortArray) -> Unit {
 
 ///|
 /// Get the unsigned short value at the given index (bounds-checked).
-pub fn UShortArray::op_get(self : UShortArray, index : Int32) -> Int32 {
-  guard index >= 0 && index < self.1
+#alias("_[_]")
+pub fn UShortArray::at(self : UShortArray, index : Int32) -> Int32 {
+  guard! index >= 0 && index < self.1
   @ffi.ushort_array_get(self.0, index)
 }
 
 ///|
 /// Set the unsigned short value at the given index (bounds-checked).
-pub fn UShortArray::op_set(
+#alias("_[_]=_")
+pub fn UShortArray::set(
   self : UShortArray,
   index : Int32,
   value : UInt16,
 ) -> Unit {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.ushort_array_set(self.0, index, value)
 }
 
@@ -247,18 +243,20 @@ pub fn MatrixArray::length(self : MatrixArray) -> Int32 {
 
 ///|
 /// Get the Matrix value at the given index (bounds-checked).
-pub fn MatrixArray::op_get(self : MatrixArray, index : Int32) -> Matrix {
-  guard index >= 0 && index < self.1
+#alias("_[_]")
+pub fn MatrixArray::at(self : MatrixArray, index : Int32) -> Matrix {
+  guard! index >= 0 && index < self.1
   Matrix::from_bytes(@ffi.matrix_array_op_get(self.0, index))
 }
 
 ///|
 /// Set the Matrix value at the given index (bounds-checked).
-pub fn MatrixArray::op_set(
+#alias("_[_]=_")
+pub fn MatrixArray::set(
   self : MatrixArray,
   index : Int32,
   value : Matrix,
 ) -> Unit {
-  guard index >= 0 && index < self.1
+  guard! index >= 0 && index < self.1
   @ffi.matrix_array_op_set(self.0, index, value.to_bytes())
 }
