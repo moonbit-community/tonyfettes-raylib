@@ -19,7 +19,7 @@ fn main {
   let stream = @raylib.load_audio_stream(44100, 16, 1)
 
   // Buffer for the single cycle waveform we are synthesizing
-  let data : Array[Int] = Array::make(max_samples, 0)
+  let data : Array[Int32] = Array::make(max_samples, 0)
 
   // Frame buffer for writing to the audio stream
   let write_buf : FixedArray[Byte] = FixedArray::make(

@@ -3,7 +3,7 @@
 // Extract RGBA components from a packed hexadecimal integer.
 
 ///|
-pub fn get_color(hex_value : Int) -> @raylib.Color {
+pub fn get_color(hex_value : Int32) -> @raylib.Color {
   let r = (hex_value >> 24) & 0xFF
   let g = (hex_value >> 16) & 0xFF
   let b = (hex_value >> 8) & 0xFF
@@ -14,7 +14,7 @@ pub fn get_color(hex_value : Int) -> @raylib.Color {
 // Pack RGBA color components into a single integer.
 
 ///|
-pub fn color_to_int(color : @raylib.Color) -> Int {
+pub fn color_to_int(color : @raylib.Color) -> Int32 {
   (color.r.to_int() << 24) |
   (color.g.to_int() << 16) |
   (color.b.to_int() << 8) |
@@ -32,7 +32,7 @@ pub fn gui_fade(color : @raylib.Color, alpha : Float) -> @raylib.Color {
   } else {
     alpha
   }
-  let new_a : Int = (Float::from_int(color.a.to_int()) * clamped).to_int()
+  let new_a : Int32 = (Float::from_int(color.a.to_int()) * clamped).to_int()
   @raylib.Color::new(
     color.r.to_int(),
     color.g.to_int(),

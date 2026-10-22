@@ -5,10 +5,10 @@
 // ============================================================================
 
 ///|
-const ShadowmapResolution : Int = 1024
+const ShadowmapResolution : Int32 = 1024
 
 ///|
-fn int_to_bytes(v : Int) -> Bytes {
+fn int_to_bytes(v : Int32) -> Bytes {
   let arr = FixedArray::make(4, b'\x00')
   arr[0] = (v & 0xFF).to_byte()
   arr[1] = ((v >> 8) & 0xFF).to_byte()
@@ -271,7 +271,7 @@ fn main {
     // Enable the shadow shader and bind the shadow map texture
     let shader_id = @raylib.get_shader_id(shadow_shader)
     @rl.enable_shader(shader_id)
-    let slot : Int = 10 // Can be anything 0 to 15, but 0 will probably be taken up
+    let slot : Int32 = 10 // Can be anything 0 to 15, but 0 will probably be taken up
     @rl.active_texture_slot(10)
     let depth_id = @raylib.get_render_texture_depth_id(shadow_map)
     @rl.enable_texture(depth_id)

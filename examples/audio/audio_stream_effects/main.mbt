@@ -6,7 +6,7 @@ let low : FixedArray[Float] = [0.0, 0.0]
 // Delay buffer: 48000*2 = 96000 samples (1 second at 48kHz stereo)
 
 ///|
-const DelayBufferSize : Int = 96000
+const DelayBufferSize : Int32 = 96000
 
 ///|
 let delay_buffer : FixedArray[Float] = FixedArray::make(96000, 0.0)
@@ -14,15 +14,15 @@ let delay_buffer : FixedArray[Float] = FixedArray::make(96000, 0.0)
 // Delay read/write indices stored as FixedArray for mutation from callback
 
 ///|
-let delay_read_index : FixedArray[Int] = [2]
+let delay_read_index : FixedArray[Int32] = [2]
 
 ///|
-let delay_write_index : FixedArray[Int] = [0]
+let delay_write_index : FixedArray[Int32] = [0]
 
 ///|
 fn audio_process_effect_lpf_impl(
   buffer : @raylib.AudioBuffer,
-  frames : UInt,
+  frames : UInt32,
 ) -> Unit {
   let cutoff : Float = 70.0 / 44100.0
   let k : Float = cutoff / (cutoff + (0.1591549431 : Float))
@@ -37,7 +37,7 @@ fn audio_process_effect_lpf_impl(
 }
 
 ///|
-let audio_process_effect_lpf : FuncRef[(@raylib.AudioBuffer, UInt) -> Unit] = (
+let audio_process_effect_lpf : FuncRef[(@raylib.AudioBuffer, UInt32) -> Unit] = (
   buffer,
   frames,
 ) => audio_process_effect_lpf_impl(buffer, frames)
@@ -45,7 +45,7 @@ let audio_process_effect_lpf : FuncRef[(@raylib.AudioBuffer, UInt) -> Unit] = (
 ///|
 fn audio_process_effect_delay_impl(
   buffer : @raylib.AudioBuffer,
-  frames : UInt,
+  frames : UInt32,
 ) -> Unit {
   for i = 0U; i < frames * 2U; i = i + 2U {
     let left_delay = delay_buffer[delay_read_index[0]]
@@ -74,7 +74,7 @@ fn audio_process_effect_delay_impl(
 }
 
 ///|
-let audio_process_effect_delay : FuncRef[(@raylib.AudioBuffer, UInt) -> Unit] = (
+let audio_process_effect_delay : FuncRef[(@raylib.AudioBuffer, UInt32) -> Unit] = (
   buffer,
   frames,
 ) => audio_process_effect_delay_impl(buffer, frames)

@@ -27,7 +27,7 @@ pub fn Buffer::to_pointer(self : Buffer) -> @raylib.Pointer {
 
 ///|
 /// Get the size of this buffer data in bytes.
-pub fn Buffer::byte_size(self : Buffer) -> Int {
+pub fn Buffer::byte_size(self : Buffer) -> Int32 {
   match self {
     FloatArray(arr) => arr.length() * 4
     UShortArray(arr) => arr.length() * 2

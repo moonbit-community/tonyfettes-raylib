@@ -9,17 +9,17 @@
 // Must be a multiple of 16 (check golLogic compute dispatch).
 
 ///|
-const GolWidth : Int = 768
+const GolWidth : Int32 = 768
 
 ///|
-const MaxBufferedTransferts : Int = 48
+const MaxBufferedTransferts : Int32 = 48
 
 // GolUpdateCmd: 4 x uint32 = 16 bytes
 // GolUpdateSSBO layout (std430): uint count at offset 0, 12 bytes padding,
 // then GolUpdateCmd array starting at offset 16.
 
 ///|
-fn write_u32(buf : @raylib.UByteArray, offset : Int, value : UInt) -> Unit {
+fn write_u32(buf : @raylib.UByteArray, offset : Int32, value : UInt32) -> Unit {
   buf[offset] = (value & 0xFFU).to_byte()
   buf[offset + 1] = ((value >> 8) & 0xFFU).to_byte()
   buf[offset + 2] = ((value >> 16) & 0xFFU).to_byte()
@@ -28,7 +28,7 @@ fn write_u32(buf : @raylib.UByteArray, offset : Int, value : UInt) -> Unit {
 
 ///|
 fn build_transfert_ssbo(
-  commands : Array[(UInt, UInt, UInt, UInt)],
+  commands : Array[(UInt32, UInt32, UInt32, UInt32)],
 ) -> @raylib.UByteArray {
   let total = 16 + MaxBufferedTransferts * 16
   let buf = @raylib.UByteArray::new(total)
@@ -81,7 +81,7 @@ fn main {
   )
 
   // Load shader storage buffer objects (SSBOs)
-  let cell_size : UInt = 4U // sizeof(unsigned int)
+  let cell_size : UInt32 = 4U // sizeof(unsigned int)
   let grid_size = GolWidth.reinterpret_as_uint() *
     GolWidth.reinterpret_as_uint() *
     cell_size
@@ -95,7 +95,7 @@ fn main {
   )
 
   // Command buffer for mouse draw events
-  let commands : Array[(UInt, UInt, UInt, UInt)] = []
+  let commands : Array[(UInt32, UInt32, UInt32, UInt32)] = []
   let mut brush_size = 8
 
   // White texture for rendering via fragment shader
@@ -117,7 +117,7 @@ fn main {
     if (mouse_left || mouse_right) && commands.length() < MaxBufferedTransferts {
       let mx = @raylib.get_mouse_x()
       let my = @raylib.get_mouse_y()
-      let enabled : UInt = if mouse_left { 1U } else { 0U }
+      let enabled : UInt32 = if mouse_left { 1U } else { 0U }
       commands.push(
         (
           (mx - brush_size / 2).reinterpret_as_uint(),

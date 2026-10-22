@@ -73,7 +73,7 @@ pub fn get_clipboard_image() -> Image {
 
 ///|
 /// Initialize window and OpenGL context.
-pub fn init_window(width : Int, height : Int, title : String) -> Unit {
+pub fn init_window(width : Int32, height : Int32, title : String) -> Unit {
   @ffi.init_window(width, height, @utf8.encode(title))
 }
 
@@ -97,7 +97,7 @@ pub fn open_url(url : String) -> Unit {
 
 ///|
 /// Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...).
-pub fn trace_log(log_level : Int, text : String) -> Unit {
+pub fn trace_log(log_level : Int32, text : String) -> Unit {
   @ffi.trace_log(log_level, @utf8.encode(text))
 }
 
@@ -119,13 +119,13 @@ pub fn get_window_scale_dpi() -> Vector2 {
 
 ///|
 /// Get specified monitor position.
-pub fn get_monitor_position(monitor : Int) -> Vector2 {
+pub fn get_monitor_position(monitor : Int32) -> Vector2 {
   Vector2::from_bytes(@ffi.get_monitor_position(monitor))
 }
 
 ///|
 /// Get the human-readable, UTF-8 encoded name of the specified monitor.
-pub fn get_monitor_name(monitor : Int) -> String {
+pub fn get_monitor_name(monitor : Int32) -> String {
   @utf8.decode_lossy(@ffi.get_monitor_name(monitor))
 }
 
@@ -147,98 +147,98 @@ pub fn get_clipboard_text() -> String {
 
 ///|
 /// Config flag: set to try enabling V-Sync on GPU.
-pub const FlagVsyncHint : Int = 0x00000040
+pub const FlagVsyncHint : Int32 = 0x00000040
 
 ///|
 /// Config flag: set to run program in fullscreen.
-pub const FlagFullscreenMode : Int = 0x00000002
+pub const FlagFullscreenMode : Int32 = 0x00000002
 
 ///|
 /// Config flag: set to allow resizable window.
-pub const FlagWindowResizable : Int = 0x00000004
+pub const FlagWindowResizable : Int32 = 0x00000004
 
 ///|
 /// Config flag: set to disable window decoration (frame and buttons).
-pub const FlagWindowUndecorated : Int = 0x00000008
+pub const FlagWindowUndecorated : Int32 = 0x00000008
 
 ///|
 /// Config flag: set to hide window.
-pub const FlagWindowHidden : Int = 0x00000080
+pub const FlagWindowHidden : Int32 = 0x00000080
 
 ///|
 /// Config flag: set to minimize window (iconify).
-pub const FlagWindowMinimized : Int = 0x00000200
+pub const FlagWindowMinimized : Int32 = 0x00000200
 
 ///|
 /// Config flag: set to maximize window (expanded to monitor).
-pub const FlagWindowMaximized : Int = 0x00000400
+pub const FlagWindowMaximized : Int32 = 0x00000400
 
 ///|
 /// Config flag: set to window non focused.
-pub const FlagWindowUnfocused : Int = 0x00000800
+pub const FlagWindowUnfocused : Int32 = 0x00000800
 
 ///|
 /// Config flag: set to window always on top.
-pub const FlagWindowTopmost : Int = 0x00001000
+pub const FlagWindowTopmost : Int32 = 0x00001000
 
 ///|
 /// Config flag: set to allow windows running while minimized.
-pub const FlagWindowAlwaysRun : Int = 0x00000100
+pub const FlagWindowAlwaysRun : Int32 = 0x00000100
 
 ///|
 /// Config flag: set to allow transparent framebuffer.
-pub const FlagWindowTransparent : Int = 0x00000010
+pub const FlagWindowTransparent : Int32 = 0x00000010
 
 ///|
 /// Config flag: set to support HighDPI.
-pub const FlagWindowHighdpi : Int = 0x00002000
+pub const FlagWindowHighdpi : Int32 = 0x00002000
 
 ///|
 /// Config flag: set to support mouse passthrough, only supported when FLAG_WINDOW_UNDECORATED.
-pub const FlagWindowMousePassthrough : Int = 0x00004000
+pub const FlagWindowMousePassthrough : Int32 = 0x00004000
 
 ///|
 /// Config flag: set to run program in borderless windowed mode.
-pub const FlagBorderlessWindowedMode : Int = 0x00008000
+pub const FlagBorderlessWindowedMode : Int32 = 0x00008000
 
 ///|
 /// Config flag: set to try enabling MSAA 4X.
-pub const FlagMsaa4xHint : Int = 0x00000020
+pub const FlagMsaa4xHint : Int32 = 0x00000020
 
 ///|
 /// Config flag: set to try enabling interlaced video format (for V3D).
-pub const FlagInterlacedHint : Int = 0x00010000
+pub const FlagInterlacedHint : Int32 = 0x00010000
 
 // Log level constants
 
 ///|
 /// Trace log level: display all logs.
-pub const LogAll : Int = 0
+pub const LogAll : Int32 = 0
 
 ///|
 /// Trace log level: trace logging, intended for internal use only.
-pub const LogTrace : Int = 1
+pub const LogTrace : Int32 = 1
 
 ///|
 /// Trace log level: debug logging, used for internal debugging.
-pub const LogDebug : Int = 2
+pub const LogDebug : Int32 = 2
 
 ///|
 /// Trace log level: info logging, used for program execution info.
-pub const LogInfo : Int = 3
+pub const LogInfo : Int32 = 3
 
 ///|
 /// Trace log level: warning logging, used on recoverable failures.
-pub const LogWarning : Int = 4
+pub const LogWarning : Int32 = 4
 
 ///|
 /// Trace log level: error logging, used on unrecoverable failures.
-pub const LogError : Int = 5
+pub const LogError : Int32 = 5
 
 ///|
 /// Trace log level: fatal logging, used to abort program.
-pub const LogFatal : Int = 6
+pub const LogFatal : Int32 = 6
 
 ///|
 /// Trace log level: disable logging.
-pub const LogNone : Int = 7
+pub const LogNone : Int32 = 7

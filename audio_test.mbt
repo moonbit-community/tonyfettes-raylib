@@ -63,7 +63,7 @@ fn write_ascii(buf : @buffer.Buffer, s : String) -> Unit {
 /// Build a minimal 16-bit mono PCM WAV file in memory.
 /// Returns the raw bytes of a valid .wav file with the given number of silent
 /// samples at 44100 Hz.
-fn build_wav_bytes(num_samples : Int) -> Bytes {
+fn build_wav_bytes(num_samples : Int32) -> Bytes {
   let data_size = num_samples * 2 // 16-bit = 2 bytes per sample
   let file_size = 36 + data_size // total file size minus 8-byte RIFF header
   let buf = Buffer()

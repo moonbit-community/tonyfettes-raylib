@@ -1,22 +1,22 @@
 // Custom Blend Modes (OpenGL constants)
 
 ///|
-const RlglSrcAlpha : Int = 0x0302
+const RlglSrcAlpha : Int32 = 0x0302
 
 ///|
-const RlglMin : Int = 0x8007
+const RlglMin : Int32 = 0x8007
 
 ///|
-const RlglMax : Int = 0x8008
+const RlglMax : Int32 = 0x8008
 
 ///|
-const MaxBoxes : Int = 20
+const MaxBoxes : Int32 = 20
 
 ///|
-const MaxShadows : Int = 60 // MAX_BOXES * 3
+const MaxShadows : Int32 = 60 // MAX_BOXES * 3
 
 ///|
-const MaxLights : Int = 16
+const MaxLights : Int32 = 16
 
 // Shadow geometry type
 
@@ -42,7 +42,7 @@ struct LightInfo {
   mut outer_radius : Float
   mut bounds : @raylib.Rectangle
   shadows : FixedArray[ShadowGeometry]
-  mut shadow_count : Int
+  mut shadow_count : Int32
 }
 
 ///|
@@ -69,7 +69,7 @@ let lights : FixedArray[LightInfo] = FixedArray::makei(MaxLights, fn(_i) {
 // Move a light and mark it as dirty so that we update its mask next frame
 
 ///|
-fn move_light(slot : Int, x : Float, y : Float) -> Unit {
+fn move_light(slot : Int32, x : Float, y : Float) -> Unit {
   lights[slot].dirty = true
   lights[slot].position = @raylib.Vector2::new(x, y)
   // update the cached bounds
@@ -85,7 +85,7 @@ fn move_light(slot : Int, x : Float, y : Float) -> Unit {
 
 ///|
 fn compute_shadow_volume_for_edge(
-  slot : Int,
+  slot : Int32,
   sp : @raylib.Vector2,
   ep : @raylib.Vector2,
 ) -> Unit {
@@ -118,7 +118,7 @@ fn compute_shadow_volume_for_edge(
 // Draw the light and shadows to the mask for a light
 
 ///|
-fn draw_light_mask(slot : Int) -> Unit {
+fn draw_light_mask(slot : Int32) -> Unit {
   // Use the light mask
   match lights[slot].mask {
     Some(mask) => @raylib.begin_texture_mode(mask)
@@ -159,7 +159,7 @@ fn draw_light_mask(slot : Int) -> Unit {
 // Setup a light
 
 ///|
-fn setup_light(slot : Int, x : Float, y : Float, radius : Float) -> Unit {
+fn setup_light(slot : Int32, x : Float, y : Float, radius : Float) -> Unit {
   lights[slot].active = true
   lights[slot].valid = false
   lights[slot].mask = Some(
@@ -184,9 +184,9 @@ fn setup_light(slot : Int, x : Float, y : Float, radius : Float) -> Unit {
 
 ///|
 fn update_light(
-  slot : Int,
+  slot : Int32,
   boxes : Array[@raylib.Rectangle],
-  count : Int,
+  count : Int32,
 ) -> Bool {
   if !lights[slot].active || !lights[slot].dirty {
     return false
@@ -257,7 +257,7 @@ fn update_light(
 // Set up some boxes
 
 ///|
-fn setup_boxes(boxes : Array[@raylib.Rectangle]) -> Int {
+fn setup_boxes(boxes : Array[@raylib.Rectangle]) -> Int32 {
   boxes[0] = @raylib.Rectangle::new(150.0, 80.0, 40.0, 40.0)
   boxes[1] = @raylib.Rectangle::new(1200.0, 700.0, 40.0, 40.0)
   boxes[2] = @raylib.Rectangle::new(200.0, 600.0, 40.0, 40.0)

@@ -2,7 +2,7 @@
 // Style array: 16 controls * (16 base + 8 extended) = 384 entries
 
 ///|
-let gui_style : FixedArray[Int] = FixedArray::make(
+let gui_style : FixedArray[Int32] = FixedArray::make(
   max_controls * (max_props_base + max_props_extended),
   0,
 )
@@ -10,7 +10,7 @@ let gui_style : FixedArray[Int] = FixedArray::make(
 // Set control style property value
 
 ///|
-pub fn gui_set_style(control : Int, property : Int, value : Int) -> Unit {
+pub fn gui_set_style(control : Int32, property : Int32, value : Int32) -> Unit {
   if !gui_globals.style_loaded {
     gui_load_style_default()
   }
@@ -26,7 +26,7 @@ pub fn gui_set_style(control : Int, property : Int, value : Int) -> Unit {
 // Get control style property value
 
 ///|
-pub fn gui_get_style(control : Int, property : Int) -> Int {
+pub fn gui_get_style(control : Int32, property : Int32) -> Int32 {
   if !gui_globals.style_loaded {
     gui_load_style_default()
   }
@@ -115,7 +115,7 @@ pub fn gui_load_style_default() -> Unit {
 // ============================================================================
 
 ///|
-fn style_read_short(b : Bytes, off : Int) -> Int {
+fn style_read_short(b : Bytes, off : Int32) -> Int32 {
   let v = b[off].to_int() | (b[off + 1].to_int() << 8)
   if v >= 0x8000 {
     v - 0x10000
@@ -125,12 +125,12 @@ fn style_read_short(b : Bytes, off : Int) -> Int {
 }
 
 ///|
-fn style_read_ushort(b : Bytes, off : Int) -> Int {
+fn style_read_ushort(b : Bytes, off : Int32) -> Int32 {
   b[off].to_int() | (b[off + 1].to_int() << 8)
 }
 
 ///|
-fn style_read_int(b : Bytes, off : Int) -> Int {
+fn style_read_int(b : Bytes, off : Int32) -> Int32 {
   b[off].to_int() |
   (b[off + 1].to_int() << 8) |
   (b[off + 2].to_int() << 16) |
@@ -142,7 +142,7 @@ fn style_read_int(b : Bytes, off : Int) -> Int {
 // ============================================================================
 
 ///|
-fn skip_spaces(s : String, pos : Int) -> Int {
+fn skip_spaces(s : String, pos : Int32) -> Int32 {
   let mut p = pos
   while p < s.length() && (s[p] == ' ' || s[p] == '\t') {
     p = p + 1
@@ -151,7 +151,7 @@ fn skip_spaces(s : String, pos : Int) -> Int {
 }
 
 ///|
-fn parse_word(s : String, pos : Int) -> (String, Int) {
+fn parse_word(s : String, pos : Int32) -> (String, Int32) {
   let start = pos
   let mut p = pos
   while p < s.length() &&
@@ -165,7 +165,7 @@ fn parse_word(s : String, pos : Int) -> (String, Int) {
 }
 
 ///|
-fn parse_int_at(s : String, pos : Int) -> (Int, Int) {
+fn parse_int_at(s : String, pos : Int32) -> (Int32, Int32) {
   let p = skip_spaces(s, pos)
   let mut result = 0
   let mut negative = false
@@ -188,7 +188,7 @@ fn parse_int_at(s : String, pos : Int) -> (Int, Int) {
 }
 
 ///|
-fn parse_hex_at(s : String, pos : Int) -> (Int, Int) {
+fn parse_hex_at(s : String, pos : Int32) -> (Int32, Int32) {
   let p = skip_spaces(s, pos)
   let mut i = p
   // Skip "0x" or "0X" prefix
@@ -294,7 +294,7 @@ fn gui_load_style_from_text(text : String) -> Unit {
 // Optionally followed by embedded font data (not yet implemented).
 
 ///|
-fn bytes_sub(b : Bytes, start : Int, length : Int) -> Bytes {
+fn bytes_sub(b : Bytes, start : Int32, length : Int32) -> Bytes {
   Bytes::makei(length, fn(i) { b[start + i] })
 }
 

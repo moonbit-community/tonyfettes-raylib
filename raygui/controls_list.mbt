@@ -6,7 +6,7 @@
 pub fn gui_combo_box(
   bounds : @raylib.Rectangle,
   text : String,
-  active : Ref[Int],
+  active : Ref[Int32],
 ) -> Unit {
   let mut state = gui_globals.state
   let bx = bounds.x
@@ -88,7 +88,7 @@ pub fn gui_combo_box(
 pub fn gui_dropdown_box(
   bounds : @raylib.Rectangle,
   text : String,
-  active : Ref[Int],
+  active : Ref[Int32],
   edit_mode : Bool,
 ) -> Bool {
   let mut state = gui_globals.state
@@ -264,8 +264,8 @@ pub fn gui_dropdown_box(
 pub fn gui_list_view(
   bounds : @raylib.Rectangle,
   text : String,
-  scroll_index : Ref[Int],
-  active : Ref[Int],
+  scroll_index : Ref[Int32],
+  active : Ref[Int32],
 ) -> Bool {
   let mut state = gui_globals.state
   let mut result = false
@@ -364,9 +364,9 @@ pub fn gui_list_view(
 pub fn gui_list_view_ex(
   bounds : @raylib.Rectangle,
   items : Array[String],
-  scroll_index : Ref[Int],
-  active : Ref[Int],
-  focus : Ref[Int],
+  scroll_index : Ref[Int32],
+  active : Ref[Int32],
+  focus : Ref[Int32],
 ) -> Bool {
   let mut state = gui_globals.state
   let mut result = false
@@ -531,7 +531,7 @@ pub fn gui_list_view_ex(
     let sb_bounds = @raylib.Rectangle::new(sb_x, sb_y, sb_w, sb_h)
     let percent_visible : Float = Float::from_int(end_index - start_index) /
       Float::from_int(count)
-    let slider_size : Int = (bh * percent_visible).to_int()
+    let slider_size : Int32 = (bh * percent_visible).to_int()
     let prev_slider = gui_get_style(ControlScrollbar, ScrollSliderSize)
     let prev_speed = gui_get_style(ControlScrollbar, ScrollSpeed)
     gui_set_style(ControlScrollbar, ScrollSliderSize, slider_size)

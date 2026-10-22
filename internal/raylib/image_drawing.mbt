@@ -14,8 +14,8 @@ pub extern "c" fn image_clear_background(dst : Image, color : Bytes) = "moonbit_
 #borrow(dst, color)
 pub extern "c" fn image_draw_pixel(
   dst : Image,
-  pos_x : Int,
-  pos_y : Int,
+  pos_x : Int32,
+  pos_y : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_pixel"
 
@@ -35,10 +35,10 @@ pub extern "c" fn image_draw_pixel_v(
 #borrow(dst, color)
 pub extern "c" fn image_draw_line(
   dst : Image,
-  start_pos_x : Int,
-  start_pos_y : Int,
-  end_pos_x : Int,
-  end_pos_y : Int,
+  start_pos_x : Int32,
+  start_pos_y : Int32,
+  end_pos_x : Int32,
+  end_pos_y : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_line"
 
@@ -57,7 +57,7 @@ pub extern "c" fn image_draw_line_ex(
   dst : Image,
   start : Bytes,
   end_ : Bytes,
-  thick : Int,
+  thick : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_line_ex"
 
@@ -69,9 +69,9 @@ pub extern "c" fn image_draw_line_ex(
 #borrow(dst, color)
 pub extern "c" fn image_draw_circle(
   dst : Image,
-  center_x : Int,
-  center_y : Int,
-  radius : Int,
+  center_x : Int32,
+  center_y : Int32,
+  radius : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_circle"
 
@@ -80,7 +80,7 @@ pub extern "c" fn image_draw_circle(
 pub extern "c" fn image_draw_circle_v(
   dst : Image,
   center : Bytes,
-  radius : Int,
+  radius : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_circle_v"
 
@@ -88,9 +88,9 @@ pub extern "c" fn image_draw_circle_v(
 #borrow(dst, color)
 pub extern "c" fn image_draw_circle_lines(
   dst : Image,
-  center_x : Int,
-  center_y : Int,
-  radius : Int,
+  center_x : Int32,
+  center_y : Int32,
+  radius : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_circle_lines"
 
@@ -99,7 +99,7 @@ pub extern "c" fn image_draw_circle_lines(
 pub extern "c" fn image_draw_circle_lines_v(
   dst : Image,
   center : Bytes,
-  radius : Int,
+  radius : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_circle_lines_v"
 
@@ -111,10 +111,10 @@ pub extern "c" fn image_draw_circle_lines_v(
 #borrow(dst, color)
 pub extern "c" fn image_draw_rectangle(
   dst : Image,
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_rectangle"
 
@@ -140,7 +140,7 @@ pub extern "c" fn image_draw_rectangle_rec(
 pub extern "c" fn image_draw_rectangle_lines(
   dst : Image,
   rec : Bytes,
-  thick : Int,
+  thick : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_rectangle_lines"
 
@@ -185,7 +185,7 @@ pub extern "c" fn image_draw_triangle_lines(
 pub extern "c" fn image_draw_triangle_fan(
   dst : Image,
   points : Bytes,
-  point_count : Int,
+  point_count : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_triangle_fan"
 
@@ -194,7 +194,7 @@ pub extern "c" fn image_draw_triangle_fan(
 pub extern "c" fn image_draw_triangle_strip(
   dst : Image,
   points : Bytes,
-  point_count : Int,
+  point_count : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_triangle_strip"
 
@@ -221,9 +221,9 @@ pub extern "c" fn image_draw(
 pub extern "c" fn image_draw_text(
   dst : Image,
   text : Bytes,
-  pos_x : Int,
-  pos_y : Int,
-  font_size : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  font_size : Int32,
   color : Bytes,
 ) = "moonbit_raylib_image_draw_text"
 

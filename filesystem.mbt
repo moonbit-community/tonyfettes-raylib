@@ -16,7 +16,7 @@ pub fn FilePathList::load_dropped() -> FilePathList {
 ///|
 /// Get the number of filepaths in the list.
 #as_free_fn(file_path_list_count)
-pub fn FilePathList::count(self : FilePathList) -> Int {
+pub fn FilePathList::count(self : FilePathList) -> Int32 {
   @ffi.file_path_list_count(self.0)
 }
 
@@ -56,7 +56,7 @@ pub fn is_file_extension(file_name : String, ext : String) -> Bool {
 
 ///|
 /// Get file length in bytes.
-pub fn get_file_length(file_name : String) -> Int {
+pub fn get_file_length(file_name : String) -> Int32 {
   @ffi.get_file_length(@utf8.encode(file_name))
 }
 
@@ -104,7 +104,7 @@ pub fn get_application_directory() -> String {
 
 ///|
 /// Create directories (including full path requested), returns 0 on success.
-pub fn make_directory(dir_path : String) -> Int {
+pub fn make_directory(dir_path : String) -> Int32 {
   @ffi.make_directory(@utf8.encode(dir_path))
 }
 
@@ -141,7 +141,7 @@ pub fn load_file_data(file_name : String) -> Bytes {
 pub fn save_file_data(
   file_name : String,
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Bool {
   @ffi.save_file_data(@utf8.encode(file_name), data, data_size)
 }
@@ -162,7 +162,7 @@ pub fn save_file_text(file_name : String, text : String) -> Bool {
 /// Export data to code (.h), returns true on success.
 pub fn export_data_as_code(
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
   file_name : String,
 ) -> Bool {
   @ffi.export_data_as_code(data, data_size, @utf8.encode(file_name))
@@ -196,7 +196,7 @@ pub fn load_directory_files_ex(
 
 ///|
 /// Get a filepath from the list by index.
-pub fn file_path_list_get(files : FilePathList, index : Int) -> String {
+pub fn file_path_list_get(files : FilePathList, index : Int32) -> String {
   @utf8.decode_lossy(@ffi.file_path_list_get(files.0, index))
 }
 
@@ -206,6 +206,6 @@ pub fn file_path_list_get(files : FilePathList, index : Int) -> String {
 
 ///|
 /// Get file modification time (last write time).
-pub fn get_file_mod_time(file_name : String) -> Int {
+pub fn get_file_mod_time(file_name : String) -> Int32 {
   @ffi.get_file_mod_time(@utf8.encode(file_name))
 }

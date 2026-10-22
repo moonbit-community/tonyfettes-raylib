@@ -1,5 +1,5 @@
 ///|
-const MaxPoints : Int = 11 // 10 points and back to the start
+const MaxPoints : Int32 = 11 // 10 points and back to the start
 
 ///|
 let deg2rad : Float = 0.017453292519943295
@@ -14,7 +14,7 @@ fn draw_texture_poly(
   center : @raylib.Vector2,
   points : FixedArray[@raylib.Vector2],
   texcoords : FixedArray[@raylib.Vector2],
-  point_count : Int,
+  point_count : Int32,
   tint : @raylib.Color,
 ) -> Unit {
   @rl.set_texture(@raylib.get_texture_id(texture))

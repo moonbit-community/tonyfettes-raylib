@@ -6,7 +6,7 @@
 ///|
 /// @deprecated Set blending mode.
 #deprecated("Use @rl.set_blend_mode from tonyfettes/raylib/rl instead")
-pub fn rl_set_blend_mode(mode : Int) -> Unit {
+pub fn rl_set_blend_mode(mode : Int32) -> Unit {
   @ffi.rl_set_blend_mode(mode)
 }
 
@@ -14,9 +14,9 @@ pub fn rl_set_blend_mode(mode : Int) -> Unit {
 /// @deprecated Set blending mode factor and equation (using OpenGL factors).
 #deprecated("Use @rl.set_blend_factors from tonyfettes/raylib/rl instead")
 pub fn rl_set_blend_factors(
-  gl_src_factor : Int,
-  gl_dst_factor : Int,
-  gl_equation : Int,
+  gl_src_factor : Int32,
+  gl_dst_factor : Int32,
+  gl_equation : Int32,
 ) -> Unit {
   @ffi.rl_set_blend_factors(gl_src_factor, gl_dst_factor, gl_equation)
 }
@@ -33,7 +33,7 @@ pub fn rl_draw_render_batch_active() -> Unit {
 ///|
 /// @deprecated Initialize drawing mode (how to organize vertex).
 #deprecated("Use @rl.begin from tonyfettes/raylib/rl instead")
-pub fn rl_begin(mode : Int) -> Unit {
+pub fn rl_begin(mode : Int32) -> Unit {
   @ffi.rl_begin(mode)
 }
 
@@ -82,7 +82,7 @@ pub fn rl_normal3f(x : Float, y : Float, z : Float) -> Unit {
 ///|
 /// @deprecated Set current texture for render batch and check buffers limits.
 #deprecated("Use @rl.set_texture from tonyfettes/raylib/rl instead")
-pub fn rl_set_texture(id : UInt) -> Unit {
+pub fn rl_set_texture(id : UInt32) -> Unit {
   @ffi.rl_set_texture(id)
 }
 
@@ -149,7 +149,7 @@ pub fn rl_disable_backface_culling() -> Unit {
 ///|
 /// @deprecated Check internal buffer overflow for a given number of vertex.
 #deprecated("Use @rl.check_render_batch_limit from tonyfettes/raylib/rl instead")
-pub fn rl_check_render_batch_limit(v_count : Int) -> Bool {
+pub fn rl_check_render_batch_limit(v_count : Int32) -> Bool {
   @ffi.rl_check_render_batch_limit(v_count)
 }
 
@@ -198,14 +198,14 @@ pub fn rl_disable_color_blend() -> Unit {
 ///|
 /// @deprecated Select and active a texture slot.
 #deprecated("Use @rl.active_texture_slot from tonyfettes/raylib/rl instead")
-pub fn rl_active_texture_slot(slot : Int) -> Unit {
+pub fn rl_active_texture_slot(slot : Int32) -> Unit {
   @ffi.rl_active_texture_slot(slot)
 }
 
 ///|
 /// @deprecated Enable texture.
 #deprecated("Use @rl.enable_texture from tonyfettes/raylib/rl instead")
-pub fn rl_enable_texture(id : UInt) -> Unit {
+pub fn rl_enable_texture(id : UInt32) -> Unit {
   @ffi.rl_enable_texture(id)
 }
 
@@ -219,7 +219,7 @@ pub fn rl_disable_texture() -> Unit {
 ///|
 /// @deprecated Enable shader program.
 #deprecated("Use @rl.enable_shader from tonyfettes/raylib/rl instead")
-pub fn rl_enable_shader(id : UInt) -> Unit {
+pub fn rl_enable_shader(id : UInt32) -> Unit {
   @ffi.rl_enable_shader(id)
 }
 
@@ -233,7 +233,7 @@ pub fn rl_disable_shader() -> Unit {
 ///|
 /// @deprecated Enable render texture (fbo).
 #deprecated("Use @rl.enable_framebuffer from tonyfettes/raylib/rl instead")
-pub fn rl_enable_framebuffer(id : UInt) -> Unit {
+pub fn rl_enable_framebuffer(id : UInt32) -> Unit {
   @ffi.rl_enable_framebuffer(id)
 }
 
@@ -247,14 +247,14 @@ pub fn rl_disable_framebuffer() -> Unit {
 ///|
 /// @deprecated Activate multiple draw color buffers.
 #deprecated("Use @rl.active_draw_buffers from tonyfettes/raylib/rl instead")
-pub fn rl_active_draw_buffers(count : Int) -> Unit {
+pub fn rl_active_draw_buffers(count : Int32) -> Unit {
   @ffi.rl_active_draw_buffers(count)
 }
 
 ///|
 /// @deprecated Set the viewport area.
 #deprecated("Use @rl.viewport from tonyfettes/raylib/rl instead")
-pub fn rl_viewport(x : Int, y : Int, width : Int, height : Int) -> Unit {
+pub fn rl_viewport(x : Int32, y : Int32, width : Int32, height : Int32) -> Unit {
   @ffi.rl_viewport(x, y, width, height)
 }
 
@@ -270,14 +270,14 @@ pub fn rl_clear_screen_buffers() -> Unit {
 ///|
 /// @deprecated Load an empty framebuffer.
 #deprecated("Use @rl.load_framebuffer from tonyfettes/raylib/rl instead")
-pub fn rl_load_framebuffer() -> UInt {
+pub fn rl_load_framebuffer() -> UInt32 {
   @ffi.rl_load_framebuffer()
 }
 
 ///|
 /// @deprecated Verify framebuffer is complete.
 #deprecated("Use @rl.framebuffer_complete from tonyfettes/raylib/rl instead")
-pub fn rl_framebuffer_complete(id : UInt) -> Bool {
+pub fn rl_framebuffer_complete(id : UInt32) -> Bool {
   @ffi.rl_framebuffer_complete(id)
 }
 
@@ -285,11 +285,11 @@ pub fn rl_framebuffer_complete(id : UInt) -> Bool {
 /// @deprecated Attach texture/renderbuffer to a framebuffer.
 #deprecated("Use @rl.framebuffer_attach from tonyfettes/raylib/rl instead")
 pub fn rl_framebuffer_attach(
-  fbo_id : UInt,
-  tex_id : UInt,
-  attach_type : Int,
-  tex_type : Int,
-  mip_level : Int,
+  fbo_id : UInt32,
+  tex_id : UInt32,
+  attach_type : Int32,
+  tex_type : Int32,
+  mip_level : Int32,
 ) -> Unit {
   @ffi.rl_framebuffer_attach(fbo_id, tex_id, attach_type, tex_type, mip_level)
 }
@@ -297,7 +297,7 @@ pub fn rl_framebuffer_attach(
 ///|
 /// @deprecated Delete framebuffer from GPU.
 #deprecated("Use @rl.unload_framebuffer from tonyfettes/raylib/rl instead")
-pub fn rl_unload_framebuffer(id : UInt) -> Unit {
+pub fn rl_unload_framebuffer(id : UInt32) -> Unit {
   @ffi.rl_unload_framebuffer(id)
 }
 
@@ -307,10 +307,10 @@ pub fn rl_unload_framebuffer(id : UInt) -> Unit {
 /// @deprecated Load depth texture/renderbuffer (to be attached to fbo).
 #deprecated("Use @rl.load_texture_depth from tonyfettes/raylib/rl instead")
 pub fn rl_load_texture_depth(
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
   use_render_buffer : Bool,
-) -> UInt {
+) -> UInt32 {
   @ffi.rl_load_texture_depth(width, height, use_render_buffer)
 }
 
@@ -318,18 +318,18 @@ pub fn rl_load_texture_depth(
 /// @deprecated Load texture data.
 #deprecated("Use @rl.load_texture from tonyfettes/raylib/rl instead")
 pub fn rl_load_texture(
-  width : Int,
-  height : Int,
-  format : Int,
-  mipmap_count : Int,
-) -> UInt {
+  width : Int32,
+  height : Int32,
+  format : Int32,
+  mipmap_count : Int32,
+) -> UInt32 {
   @ffi.rl_load_texture(width, height, format, mipmap_count)
 }
 
 ///|
 /// @deprecated Unload texture from GPU memory.
 #deprecated("Use @rl.unload_texture from tonyfettes/raylib/rl instead")
-pub fn rl_unload_texture(id : UInt) -> Unit {
+pub fn rl_unload_texture(id : UInt32) -> Unit {
   @ffi.rl_unload_texture(id)
 }
 
@@ -338,21 +338,24 @@ pub fn rl_unload_texture(id : UInt) -> Unit {
 ///|
 /// @deprecated Set shader value sampler.
 #deprecated("Use @rl.set_uniform_sampler from tonyfettes/raylib/rl instead")
-pub fn rl_set_uniform_sampler(loc_index : Int, texture_id : UInt) -> Unit {
+pub fn rl_set_uniform_sampler(loc_index : Int32, texture_id : UInt32) -> Unit {
   @ffi.rl_set_uniform_sampler(loc_index, texture_id)
 }
 
 ///|
 /// @deprecated Get default shader id.
 #deprecated("Use @rl.get_shader_id_default from tonyfettes/raylib/rl instead")
-pub fn rl_get_shader_id_default() -> UInt {
+pub fn rl_get_shader_id_default() -> UInt32 {
   @ffi.rl_get_shader_id_default()
 }
 
 ///|
 /// @deprecated Get shader location uniform.
 #deprecated("Use @rl.get_location_uniform from tonyfettes/raylib/rl instead")
-pub fn rl_get_location_uniform(shader_id : UInt, uniform_name : String) -> Int {
+pub fn rl_get_location_uniform(
+  shader_id : UInt32,
+  uniform_name : String,
+) -> Int32 {
   @ffi.rl_get_location_uniform(shader_id, @utf8.encode(uniform_name))
 }
 
@@ -377,21 +380,21 @@ pub fn rl_load_draw_cube() -> Unit {
 ///|
 /// @deprecated Get default framebuffer width.
 #deprecated("Use @rl.get_framebuffer_width from tonyfettes/raylib/rl instead")
-pub fn rl_get_framebuffer_width() -> Int {
+pub fn rl_get_framebuffer_width() -> Int32 {
   @ffi.rl_get_framebuffer_width()
 }
 
 ///|
 /// @deprecated Get default framebuffer height.
 #deprecated("Use @rl.get_framebuffer_height from tonyfettes/raylib/rl instead")
-pub fn rl_get_framebuffer_height() -> Int {
+pub fn rl_get_framebuffer_height() -> Int32 {
   @ffi.rl_get_framebuffer_height()
 }
 
 ///|
 /// @deprecated Bind framebuffer (FBO).
 #deprecated("Use @rl.bind_framebuffer from tonyfettes/raylib/rl instead")
-pub fn rl_bind_framebuffer(target : UInt, fbo : UInt) -> Unit {
+pub fn rl_bind_framebuffer(target : UInt32, fbo : UInt32) -> Unit {
   @ffi.rl_bind_framebuffer(target, fbo)
 }
 
@@ -399,15 +402,15 @@ pub fn rl_bind_framebuffer(target : UInt, fbo : UInt) -> Unit {
 /// @deprecated Blit active framebuffer to main framebuffer.
 #deprecated("Use @rl.blit_framebuffer from tonyfettes/raylib/rl instead")
 pub fn rl_blit_framebuffer(
-  src_x : Int,
-  src_y : Int,
-  src_w : Int,
-  src_h : Int,
-  dst_x : Int,
-  dst_y : Int,
-  dst_w : Int,
-  dst_h : Int,
-  buffer_mask : Int,
+  src_x : Int32,
+  src_y : Int32,
+  src_w : Int32,
+  src_h : Int32,
+  dst_x : Int32,
+  dst_y : Int32,
+  dst_w : Int32,
+  dst_h : Int32,
+  buffer_mask : Int32,
 ) -> Unit {
   @ffi.rl_blit_framebuffer(
     src_x, src_y, src_w, src_h, dst_x, dst_y, dst_w, dst_h, buffer_mask,
@@ -420,10 +423,10 @@ pub fn rl_blit_framebuffer(
 /// @deprecated Set shader value uniform.
 #deprecated("Use @rl.set_uniform from tonyfettes/raylib/rl instead")
 pub fn rl_set_uniform(
-  loc_index : Int,
+  loc_index : Int32,
   value : Bytes,
-  uniform_type : Int,
-  count : Int,
+  uniform_type : Int32,
+  count : Int32,
 ) -> Unit {
   @ffi.rl_set_uniform(loc_index, value, uniform_type, count)
 }
@@ -449,100 +452,100 @@ pub fn rl_get_matrix_projection() -> Matrix {
 ///|
 /// @deprecated OpenGL draw mode: Lines.
 #deprecated("Use @rl.Lines from tonyfettes/raylib/rl instead")
-pub const RlLines : Int = 0x0001
+pub const RlLines : Int32 = 0x0001
 
 ///|
 /// @deprecated OpenGL draw mode: Triangles.
 #deprecated("Use @rl.Triangles from tonyfettes/raylib/rl instead")
-pub const RlTriangles : Int = 0x0004
+pub const RlTriangles : Int32 = 0x0004
 
 ///|
 /// @deprecated OpenGL draw mode: Quads.
 #deprecated("Use @rl.Quads from tonyfettes/raylib/rl instead")
-pub const RlQuads : Int = 0x0007
+pub const RlQuads : Int32 = 0x0007
 
 // rlgl framebuffer target constants
 
 ///|
 /// @deprecated Framebuffer target: read framebuffer.
 #deprecated("Use @rl.ReadFramebuffer from tonyfettes/raylib/rl instead")
-pub const RlReadFramebuffer : UInt = 0x8CA8U
+pub const RlReadFramebuffer : UInt32 = 0x8CA8U
 
 ///|
 /// @deprecated Framebuffer target: draw framebuffer.
 #deprecated("Use @rl.DrawFramebuffer from tonyfettes/raylib/rl instead")
-pub const RlDrawFramebuffer : UInt = 0x8CA9U
+pub const RlDrawFramebuffer : UInt32 = 0x8CA9U
 
 // rlgl framebuffer attach type constants
 
 ///|
 /// @deprecated Framebuffer attach type: color channel 0.
 #deprecated("Use @rl.AttachmentColorChannel0 from tonyfettes/raylib/rl instead")
-pub const RlAttachmentColorChannel0 : Int = 0
+pub const RlAttachmentColorChannel0 : Int32 = 0
 
 ///|
 /// @deprecated Framebuffer attach type: color channel 1.
 #deprecated("Use @rl.AttachmentColorChannel1 from tonyfettes/raylib/rl instead")
-pub const RlAttachmentColorChannel1 : Int = 1
+pub const RlAttachmentColorChannel1 : Int32 = 1
 
 ///|
 /// @deprecated Framebuffer attach type: color channel 2.
 #deprecated("Use @rl.AttachmentColorChannel2 from tonyfettes/raylib/rl instead")
-pub const RlAttachmentColorChannel2 : Int = 2
+pub const RlAttachmentColorChannel2 : Int32 = 2
 
 ///|
 /// @deprecated Framebuffer attach type: color channel 3.
 #deprecated("Use @rl.AttachmentColorChannel3 from tonyfettes/raylib/rl instead")
-pub const RlAttachmentColorChannel3 : Int = 3
+pub const RlAttachmentColorChannel3 : Int32 = 3
 
 ///|
 /// @deprecated Framebuffer attach type: depth.
 #deprecated("Use @rl.AttachmentDepth from tonyfettes/raylib/rl instead")
-pub const RlAttachmentDepth : Int = 100
+pub const RlAttachmentDepth : Int32 = 100
 
 ///|
 /// @deprecated Framebuffer attach type: stencil.
 #deprecated("Use @rl.AttachmentStencil from tonyfettes/raylib/rl instead")
-pub const RlAttachmentStencil : Int = 200
+pub const RlAttachmentStencil : Int32 = 200
 
 // rlgl framebuffer texture type constants
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap positive X.
 #deprecated("Use @rl.AttachmentCubemapPositiveX from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapPositiveX : Int = 0
+pub const RlAttachmentCubemapPositiveX : Int32 = 0
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap negative X.
 #deprecated("Use @rl.AttachmentCubemapNegativeX from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapNegativeX : Int = 1
+pub const RlAttachmentCubemapNegativeX : Int32 = 1
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap positive Y.
 #deprecated("Use @rl.AttachmentCubemapPositiveY from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapPositiveY : Int = 2
+pub const RlAttachmentCubemapPositiveY : Int32 = 2
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap negative Y.
 #deprecated("Use @rl.AttachmentCubemapNegativeY from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapNegativeY : Int = 3
+pub const RlAttachmentCubemapNegativeY : Int32 = 3
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap positive Z.
 #deprecated("Use @rl.AttachmentCubemapPositiveZ from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapPositiveZ : Int = 4
+pub const RlAttachmentCubemapPositiveZ : Int32 = 4
 
 ///|
 /// @deprecated Framebuffer texture type: cubemap negative Z.
 #deprecated("Use @rl.AttachmentCubemapNegativeZ from tonyfettes/raylib/rl instead")
-pub const RlAttachmentCubemapNegativeZ : Int = 5
+pub const RlAttachmentCubemapNegativeZ : Int32 = 5
 
 ///|
 /// @deprecated Framebuffer texture type: texture 2D.
 #deprecated("Use @rl.AttachmentTexture2d from tonyfettes/raylib/rl instead")
-pub const RlAttachmentTexture2d : Int = 100
+pub const RlAttachmentTexture2d : Int32 = 100
 
 ///|
 /// @deprecated Framebuffer texture type: renderbuffer.
 #deprecated("Use @rl.AttachmentRenderbuffer from tonyfettes/raylib/rl instead")
-pub const RlAttachmentRenderbuffer : Int = 200
+pub const RlAttachmentRenderbuffer : Int32 = 200

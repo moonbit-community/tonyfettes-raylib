@@ -14,7 +14,7 @@ let exponent : FixedArray[Float] = [1.0]
 let average_volume : FixedArray[Float] = FixedArray::make(400, 0.0)
 
 ///|
-fn process_audio_impl(buffer : @raylib.AudioBuffer, frames : UInt) -> Unit {
+fn process_audio_impl(buffer : @raylib.AudioBuffer, frames : UInt32) -> Unit {
   let mut average : Float = 0.0
   let frames_f = Float::from_int(frames.reinterpret_as_int())
   for frame = 0U; frame < frames; frame = frame + 1U {
@@ -39,7 +39,7 @@ fn process_audio_impl(buffer : @raylib.AudioBuffer, frames : UInt) -> Unit {
 }
 
 ///|
-let process_audio : FuncRef[(@raylib.AudioBuffer, UInt) -> Unit] = (
+let process_audio : FuncRef[(@raylib.AudioBuffer, UInt32) -> Unit] = (
   buffer,
   frames,
 ) => process_audio_impl(buffer, frames)

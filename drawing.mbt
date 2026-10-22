@@ -25,174 +25,174 @@ pub fn clear_background(color : Color) -> Unit {
 
 ///|
 /// Shader uniform type: float
-pub const ShaderUniformFloat : Int = 0
+pub const ShaderUniformFloat : Int32 = 0
 
 ///|
 /// Shader uniform type: vec2 (2 float)
-pub const ShaderUniformVec2 : Int = 1
+pub const ShaderUniformVec2 : Int32 = 1
 
 ///|
 /// Shader uniform type: vec3 (3 float)
-pub const ShaderUniformVec3 : Int = 2
+pub const ShaderUniformVec3 : Int32 = 2
 
 ///|
 /// Shader uniform type: vec4 (4 float)
-pub const ShaderUniformVec4 : Int = 3
+pub const ShaderUniformVec4 : Int32 = 3
 
 ///|
 /// Shader uniform type: int
-pub const ShaderUniformInt : Int = 4
+pub const ShaderUniformInt : Int32 = 4
 
 ///|
 /// Shader uniform type: ivec2 (2 int)
-pub const ShaderUniformIvec2 : Int = 5
+pub const ShaderUniformIvec2 : Int32 = 5
 
 ///|
 /// Shader uniform type: ivec3 (3 int)
-pub const ShaderUniformIvec3 : Int = 6
+pub const ShaderUniformIvec3 : Int32 = 6
 
 ///|
 /// Shader uniform type: ivec4 (4 int)
-pub const ShaderUniformIvec4 : Int = 7
+pub const ShaderUniformIvec4 : Int32 = 7
 
 ///|
 /// Shader uniform type: sampler2d
-pub const ShaderUniformSampler2d : Int = 8
+pub const ShaderUniformSampler2d : Int32 = 8
 
 // Shader location index constants
 
 ///|
 /// Shader location: vertex attribute: position
-pub const ShaderLocVertexPosition : Int = 0
+pub const ShaderLocVertexPosition : Int32 = 0
 
 ///|
 /// Shader location: vertex attribute: texcoord01
-pub const ShaderLocVertexTexcoord01 : Int = 1
+pub const ShaderLocVertexTexcoord01 : Int32 = 1
 
 ///|
 /// Shader location: vertex attribute: texcoord02
-pub const ShaderLocVertexTexcoord02 : Int = 2
+pub const ShaderLocVertexTexcoord02 : Int32 = 2
 
 ///|
 /// Shader location: vertex attribute: normal
-pub const ShaderLocVertexNormal : Int = 3
+pub const ShaderLocVertexNormal : Int32 = 3
 
 ///|
 /// Shader location: vertex attribute: tangent
-pub const ShaderLocVertexTangent : Int = 4
+pub const ShaderLocVertexTangent : Int32 = 4
 
 ///|
 /// Shader location: vertex attribute: color
-pub const ShaderLocVertexColor : Int = 5
+pub const ShaderLocVertexColor : Int32 = 5
 
 ///|
 /// Shader location: matrix uniform: model-view-projection
-pub const ShaderLocMatrixMvp : Int = 6
+pub const ShaderLocMatrixMvp : Int32 = 6
 
 ///|
 /// Shader location: matrix uniform: view (camera transform)
-pub const ShaderLocMatrixView : Int = 7
+pub const ShaderLocMatrixView : Int32 = 7
 
 ///|
 /// Shader location: matrix uniform: projection
-pub const ShaderLocMatrixProjection : Int = 8
+pub const ShaderLocMatrixProjection : Int32 = 8
 
 ///|
 /// Shader location: matrix uniform: model (transform)
-pub const ShaderLocMatrixModel : Int = 9
+pub const ShaderLocMatrixModel : Int32 = 9
 
 ///|
 /// Shader location: matrix uniform: normal
-pub const ShaderLocMatrixNormal : Int = 10
+pub const ShaderLocMatrixNormal : Int32 = 10
 
 ///|
 /// Shader location: vector uniform: view
-pub const ShaderLocVectorView : Int = 11
+pub const ShaderLocVectorView : Int32 = 11
 
 ///|
 /// Shader location: vector uniform: diffuse color
-pub const ShaderLocColorDiffuse : Int = 12
+pub const ShaderLocColorDiffuse : Int32 = 12
 
 ///|
 /// Shader location: vector uniform: specular color
-pub const ShaderLocColorSpecular : Int = 13
+pub const ShaderLocColorSpecular : Int32 = 13
 
 ///|
 /// Shader location: vector uniform: ambient color
-pub const ShaderLocColorAmbient : Int = 14
+pub const ShaderLocColorAmbient : Int32 = 14
 
 ///|
 /// Shader location: sampler2d texture: albedo (same as: SHADER_LOC_MAP_DIFFUSE)
-pub const ShaderLocMapAlbedo : Int = 15
+pub const ShaderLocMapAlbedo : Int32 = 15
 
 ///|
 /// Shader location: sampler2d texture: metalness (same as: SHADER_LOC_MAP_SPECULAR)
-pub const ShaderLocMapMetalness : Int = 16
+pub const ShaderLocMapMetalness : Int32 = 16
 
 ///|
 /// Shader location: sampler2d texture: normal
-pub const ShaderLocMapNormal : Int = 17
+pub const ShaderLocMapNormal : Int32 = 17
 
 ///|
 /// Shader location: sampler2d texture: roughness
-pub const ShaderLocMapRoughness : Int = 18
+pub const ShaderLocMapRoughness : Int32 = 18
 
 ///|
 /// Shader location: sampler2d texture: occlusion
-pub const ShaderLocMapOcclusion : Int = 19
+pub const ShaderLocMapOcclusion : Int32 = 19
 
 ///|
 /// Shader location: sampler2d texture: emission
-pub const ShaderLocMapEmission : Int = 20
+pub const ShaderLocMapEmission : Int32 = 20
 
 ///|
 /// Shader location: sampler2d texture: height
-pub const ShaderLocMapHeight : Int = 21
+pub const ShaderLocMapHeight : Int32 = 21
 
 ///|
 /// Shader location: samplerCube texture: cubemap
-pub const ShaderLocMapCubemap : Int = 22
+pub const ShaderLocMapCubemap : Int32 = 22
 
 ///|
 /// Shader location: samplerCube texture: irradiance
-pub const ShaderLocMapIrradiance : Int = 23
+pub const ShaderLocMapIrradiance : Int32 = 23
 
 ///|
 /// Shader location: samplerCube texture: prefilter
-pub const ShaderLocMapPrefilter : Int = 24
+pub const ShaderLocMapPrefilter : Int32 = 24
 
 ///|
 /// Shader location: sampler2d texture: brdf
-pub const ShaderLocMapBrdf : Int = 25
+pub const ShaderLocMapBrdf : Int32 = 25
 
 ///|
 /// Shader location: vertex attribute: boneIds
-pub const ShaderLocVertexBoneids : Int = 26
+pub const ShaderLocVertexBoneids : Int32 = 26
 
 ///|
 /// Shader location: vertex attribute: boneWeights
-pub const ShaderLocVertexBoneweights : Int = 27
+pub const ShaderLocVertexBoneweights : Int32 = 27
 
 ///|
 /// Shader location: array of matrices uniform: boneMatrices
-pub const ShaderLocBoneMatrices : Int = 28
+pub const ShaderLocBoneMatrices : Int32 = 28
 // Blend mode constants
 
 ///|
 /// Blend mode: alpha blending (default)
-pub const BlendAlpha : Int = 0
+pub const BlendAlpha : Int32 = 0
 
 ///|
 /// Blend mode: additive blending
-pub const BlendAdditive : Int = 1
+pub const BlendAdditive : Int32 = 1
 
 ///|
 /// Blend mode: multiplied blending
-pub const BlendMultiplied : Int = 2
+pub const BlendMultiplied : Int32 = 2
 
 ///|
 /// Blend mode: custom blending using src/dst factors (use rlSetBlendFactors())
-pub const BlendCustom : Int = 6
+pub const BlendCustom : Int32 = 6
 
 // ============================================================================
 // VR stereo
@@ -311,8 +311,8 @@ pub fn vr_stereo_config_scale_in(config : VrStereoConfig) -> Bytes {
 ///|
 /// Head-Mounted-Display device parameters.
 pub struct VrDeviceInfo {
-  h_resolution : Int
-  v_resolution : Int
+  h_resolution : Int32
+  v_resolution : Int32
   h_screen_size : Float
   v_screen_size : Float
   eye_to_screen_distance : Float
@@ -325,8 +325,8 @@ pub struct VrDeviceInfo {
 ///|
 /// Create a new VrDeviceInfo with the given parameters.
 pub fn VrDeviceInfo::new(
-  h_resolution : Int,
-  v_resolution : Int,
+  h_resolution : Int32,
+  v_resolution : Int32,
   h_screen_size : Float,
   v_screen_size : Float,
   eye_to_screen_distance : Float,

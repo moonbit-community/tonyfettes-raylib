@@ -5,7 +5,7 @@
 // Icon data array: 256 icons * 8 uint32s = 2048 entries
 
 ///|
-let gui_icons : FixedArray[UInt] = [
+let gui_icons : FixedArray[UInt32] = [
   // ICON_NONE
   0x00000000U, 0x00000000U, 0x00000000U, 0x00000000U, 0x00000000U, 0x00000000U, 0x00000000U,
   0x00000000U,
@@ -778,13 +778,13 @@ let gui_icons : FixedArray[UInt] = [
 
 ///|
 /// Returns the current icons data array.
-pub fn gui_get_icons() -> FixedArray[UInt] {
+pub fn gui_get_icons() -> FixedArray[UInt32] {
   gui_icons
 }
 
 ///|
 /// Maximum length of icon name in .rgi files
-let raygui_icon_max_name_length : Int = 32
+let raygui_icon_max_name_length : Int32 = 32
 
 ///|
 /// Loads icons from an .rgi binary file and optionally returns icon names.
@@ -834,7 +834,7 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
       // Build the name string from bytes
       let buf = StringBuilder::new()
       for j in 0..<name_len {
-        buf.write_char(Int::unsafe_to_char(data[offset + j].to_int()))
+        buf.write_char(Int32::unsafe_to_char(data[offset + j].to_int()))
       }
       icon_names.push(buf.to_string())
       offset = offset + raygui_icon_max_name_length
@@ -861,10 +861,10 @@ pub fn gui_load_icons(file_name : String, load_names : Bool) -> Array[String] {
 
 ///|
 pub fn gui_draw_icon(
-  icon_id : Int,
-  pos_x : Int,
-  pos_y : Int,
-  pixel_size : Int,
+  icon_id : Int32,
+  pos_x : Int32,
+  pos_y : Int32,
+  pixel_size : Int32,
   color : @raylib.Color,
 ) -> Unit {
   if icon_id < 0 || icon_id >= 256 {

@@ -53,7 +53,7 @@ pub struct Camera3D {
   target : Vector3
   up : Vector3
   fovy : Float
-  projection : Int
+  projection : Int32
 } derive(Eq, Debug)
 
 ///|
@@ -63,7 +63,7 @@ pub fn Camera3D::new(
   target : Vector3,
   up : Vector3,
   fovy : Float,
-  projection : Int,
+  projection : Int32,
 ) -> Camera3D {
   { position, target, up, fovy, projection, }
 }
@@ -106,33 +106,33 @@ pub fn Camera3D::from_bytes(b : Bytes) -> Camera3D {
 
 ///|
 /// Custom camera mode, controlled by user (UpdateCamera() does nothing).
-pub const CameraCustom : Int = 0
+pub const CameraCustom : Int32 = 0
 
 ///|
 /// Camera free mode.
-pub const CameraFree : Int = 1
+pub const CameraFree : Int32 = 1
 
 ///|
 /// Camera orbital mode, around target, zoom supported.
-pub const CameraOrbital : Int = 2
+pub const CameraOrbital : Int32 = 2
 
 ///|
 /// Camera first person mode.
-pub const CameraFirstPerson : Int = 3
+pub const CameraFirstPerson : Int32 = 3
 
 ///|
 /// Camera third person mode.
-pub const CameraThirdPerson : Int = 4
+pub const CameraThirdPerson : Int32 = 4
 
 // Camera projection constants
 
 ///|
 /// Perspective projection.
-pub const CameraPerspective : Int = 0
+pub const CameraPerspective : Int32 = 0
 
 ///|
 /// Orthographic projection.
-pub const CameraOrthographic : Int = 1
+pub const CameraOrthographic : Int32 = 1
 
 // Re-export passthrough camera functions
 
@@ -155,7 +155,7 @@ pub fn begin_mode_3d(camera : Camera3D) -> Unit {
 
 ///|
 /// Update camera position for selected mode.
-pub fn update_camera(camera : Camera3D, mode : Int) -> Camera3D {
+pub fn update_camera(camera : Camera3D, mode : Int32) -> Camera3D {
   Camera3D::from_bytes(@ffi.update_camera(camera.to_bytes(), mode))
 }
 
@@ -240,8 +240,8 @@ pub fn get_screen_to_world_ray(position : Vector2, camera : Camera3D) -> Ray {
 pub fn get_screen_to_world_ray_ex(
   position : Vector2,
   camera : Camera3D,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> Ray {
   Ray::from_bytes(
     @ffi.get_screen_to_world_ray_ex(
@@ -258,8 +258,8 @@ pub fn get_screen_to_world_ray_ex(
 pub fn get_world_to_screen_ex(
   position : Vector3,
   camera : Camera3D,
-  width : Int,
-  height : Int,
+  width : Int32,
+  height : Int32,
 ) -> Vector2 {
   Vector2::from_bytes(
     @ffi.get_world_to_screen_ex(

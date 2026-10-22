@@ -268,10 +268,10 @@ pub fn gui_progress_bar(
 ///|
 fn gui_scroll_bar(
   bounds : @raylib.Rectangle,
-  value : Int,
-  min_value : Int,
-  max_value : Int,
-) -> Int {
+  value : Int32,
+  min_value : Int32,
+  max_value : Int32,
+) -> Int32 {
   let mut state = gui_globals.state
   let mut val = value
   let bx = bounds.x

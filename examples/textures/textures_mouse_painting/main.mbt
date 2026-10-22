@@ -33,7 +33,7 @@ fn main {
 
   let mut color_selected = 0
   let mut color_selected_prev = 0
-  let mut color_mouse_hover : Int = 0
+  let mut color_mouse_hover : Int32 = 0
   let mut brush_size : Float = 20.0
   let mut mouse_was_pressed = false
 

@@ -1,7 +1,7 @@
 // Private byte helpers used by all value types
 
 ///|
-fn read_float(b : Bytes, off : Int) -> Float {
+fn read_float(b : Bytes, off : Int32) -> Float {
   let bits = b[off].to_int() |
     (b[off + 1].to_int() << 8) |
     (b[off + 2].to_int() << 16) |
@@ -10,7 +10,7 @@ fn read_float(b : Bytes, off : Int) -> Float {
 }
 
 ///|
-fn read_int(b : Bytes, off : Int) -> Int {
+fn read_int(b : Bytes, off : Int32) -> Int32 {
   b[off].to_int() |
   (b[off + 1].to_int() << 8) |
   (b[off + 2].to_int() << 16) |

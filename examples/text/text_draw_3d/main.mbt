@@ -2,7 +2,7 @@
 let letter_boundry_size : Float = 0.25
 
 ///|
-const TextMaxLayers : Int = 32
+const TextMaxLayers : Int32 = 32
 
 // WaveTextConfig
 
@@ -39,7 +39,7 @@ let alpha_discard_fs : String =
 ///|
 fn draw_text_codepoint_3d(
   font : @raylib.Font,
-  codepoint : Int,
+  codepoint : Int32,
   position : @raylib.Vector3,
   font_size : Float,
   backface : Bool,

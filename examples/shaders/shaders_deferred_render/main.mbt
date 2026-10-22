@@ -3,34 +3,34 @@
 // ============================================================================
 
 ///|
-const LightPoint : Int = 1
+const LightPoint : Int32 = 1
 
 ///|
-const MaxLights : Int = 4
+const MaxLights : Int32 = 4
 
 ///|
 struct Light {
   mut enabled : Bool
-  light_type : Int
+  light_type : Int32
   position : @raylib.Vector3
   target : @raylib.Vector3
   color : @raylib.Color
   // Shader uniform locations
-  enabled_loc : Int
-  type_loc : Int
-  position_loc : Int
-  target_loc : Int
-  color_loc : Int
+  enabled_loc : Int32
+  type_loc : Int32
+  position_loc : Int32
+  target_loc : Int32
+  color_loc : Int32
 }
 
 ///|
 fn create_light(
-  light_type : Int,
+  light_type : Int32,
   position : @raylib.Vector3,
   target : @raylib.Vector3,
   color : @raylib.Color,
   shader : @raylib.Shader,
-  index : Int,
+  index : Int32,
 ) -> Light {
   let enabled_loc = @raylib.get_shader_location(
     shader,
@@ -114,11 +114,11 @@ fn update_light_values(shader : @raylib.Shader, light : Light) -> Unit {
 
 ///|
 struct GBuffer {
-  framebuffer : UInt
-  position_texture : UInt
-  normal_texture : UInt
-  albedo_spec_texture : UInt
-  depth_renderbuffer : UInt
+  framebuffer : UInt32
+  position_texture : UInt32
+  normal_texture : UInt32
+  albedo_spec_texture : UInt32
+  depth_renderbuffer : UInt32
 }
 
 // ============================================================================
@@ -126,23 +126,23 @@ struct GBuffer {
 // ============================================================================
 
 ///|
-const DeferredPosition : Int = 0
+const DeferredPosition : Int32 = 0
 
 ///|
-const DeferredNormal : Int = 1
+const DeferredNormal : Int32 = 1
 
 ///|
-const DeferredAlbedo : Int = 2
+const DeferredAlbedo : Int32 = 2
 
 ///|
-const DeferredShading : Int = 3
+const DeferredShading : Int32 = 3
 
 // ============================================================================
 // Constants
 // ============================================================================
 
 ///|
-const MaxCubes : Int = 30
+const MaxCubes : Int32 = 30
 
 ///|
 let cube_scale : Float = 0.25
