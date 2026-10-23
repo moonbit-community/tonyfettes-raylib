@@ -8,9 +8,9 @@ struct Spot {
   mut speed_y : Float
   inner : Float
   radius : Float
-  position_loc : Int
-  inner_loc : Int
-  radius_loc : Int
+  position_loc : Int32
+  inner_loc : Int32
+  radius_loc : Int32
 }
 
 // Star data

@@ -1,8 +1,8 @@
 ///|
-const EmojiPerWidth : Int = 8
+const EmojiPerWidth : Int32 = 8
 
 ///|
-const EmojiPerHeight : Int = 4
+const EmojiPerHeight : Int32 = 4
 
 // Array of individual emoji strings (180 emojis)
 
@@ -243,8 +243,8 @@ let messages : Array[Message] = [
 
 ///|
 struct EmojiData {
-  mut index : Int // Index into emoji_codepoints array
-  mut message : Int // Message index
+  mut index : Int32 // Index into emoji_codepoints array
+  mut message : Int32 // Message index
   mut color : @raylib.Color // Emoji color
 }
 

@@ -13,8 +13,8 @@ fn main {
   )
 
   // Allocate tile data
-  let tile_ids : Array[Int] = Array::make(tiles_x * tiles_y, 0)
-  let tile_fog : Array[Int] = Array::make(tiles_x * tiles_y, 0)
+  let tile_ids : Array[Int32] = Array::make(tiles_x * tiles_y, 0)
+  let tile_fog : Array[Int32] = Array::make(tiles_x * tiles_y, 0)
 
   // Generate random tile ids
   for i in 0..<(tiles_x * tiles_y) {

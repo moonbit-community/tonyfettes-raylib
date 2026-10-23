@@ -1,10 +1,10 @@
 // Text input controls: TextBox, ValueBox, Spinner
 
 ///|
-let textbox_auto_cursor_cooldown : Int = 20
+let textbox_auto_cursor_cooldown : Int32 = 20
 
 ///|
-let textbox_auto_cursor_delay : Int = 1
+let textbox_auto_cursor_delay : Int32 = 1
 
 // Text box control, basic text input with cursor
 // Returns true when edit mode should be toggled (Enter pressed or click outside in edit mode, click inside when not in edit mode)
@@ -13,7 +13,7 @@ let textbox_auto_cursor_delay : Int = 1
 pub fn gui_text_box(
   bounds : @raylib.Rectangle,
   text : Ref[String],
-  text_size : Int,
+  text_size : Int32,
   edit_mode : Bool,
 ) -> Bool {
   let mut state = gui_globals.state
@@ -53,14 +53,14 @@ pub fn gui_text_box(
       let codepoint = @raylib.get_char_pressed()
       if codepoint >= 32 && text_length < text_size - 1 {
         // Insert character at cursor position
-        let ch = Int::unsafe_to_char(codepoint)
-        let buf = StringBuilder::new()
+        let ch = Int32::unsafe_to_char(codepoint)
+        let buf = StringBuilder()
         for i in 0..<gui_globals.text_box_cursor_index {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         buf.write_char(ch)
         for i in gui_globals.text_box_cursor_index..<text_length {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         text.val = buf.to_string()
         gui_globals.text_box_cursor_index = gui_globals.text_box_cursor_index +
@@ -81,15 +81,15 @@ pub fn gui_text_box(
           @raylib.is_key_pressed(KeyDelete) ||
           (@raylib.is_key_down(KeyDelete) && auto_trigger)
         ) {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for i in 0..<gui_globals.text_box_cursor_index {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         // Skip one character at cursor
         for i = gui_globals.text_box_cursor_index + 1
             i < text_length
             i = i + 1 {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         text.val = buf.to_string()
       }
@@ -99,12 +99,12 @@ pub fn gui_text_box(
           @raylib.is_key_pressed(KeyBackspace) ||
           (@raylib.is_key_down(KeyBackspace) && auto_trigger)
         ) {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for i in 0..<(gui_globals.text_box_cursor_index - 1) {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         for i in gui_globals.text_box_cursor_index..<text_length {
-          buf.write_char(Int::unsafe_to_char(text.val[i].to_int()))
+          buf.write_char(Int32::unsafe_to_char(text.val[i].to_int()))
         }
         text.val = buf.to_string()
         gui_globals.text_box_cursor_index = gui_globals.text_box_cursor_index -
@@ -204,9 +204,9 @@ pub fn gui_text_box(
 pub fn gui_value_box(
   bounds : @raylib.Rectangle,
   text : String,
-  value : Ref[Int],
-  min_value : Int,
-  max_value : Int,
+  value : Ref[Int32],
+  min_value : Int32,
+  max_value : Int32,
   edit_mode : Bool,
 ) -> Bool {
   let mut state = gui_globals.state
@@ -239,11 +239,11 @@ pub fn gui_value_box(
       if key_count < 32 {
         let key = @raylib.get_char_pressed()
         if key >= 48 && key <= 57 {
-          let buf = StringBuilder::new()
+          let buf = StringBuilder()
           for i in 0..<key_count {
-            buf.write_char(Int::unsafe_to_char(text_value[i].to_int()))
+            buf.write_char(Int32::unsafe_to_char(text_value[i].to_int()))
           }
-          buf.write_char(Int::unsafe_to_char(key))
+          buf.write_char(Int32::unsafe_to_char(key))
           text_value = buf.to_string()
           key_count = key_count + 1
         }
@@ -368,9 +368,9 @@ pub fn gui_value_box(
 pub fn gui_spinner(
   bounds : @raylib.Rectangle,
   text : String,
-  value : Ref[Int],
-  min_value : Int,
-  max_value : Int,
+  value : Ref[Int32],
+  min_value : Int32,
+  max_value : Int32,
   edit_mode : Bool,
 ) -> Bool {
   let bx = bounds.x
@@ -414,7 +414,7 @@ pub fn gui_spinner(
 // Simple integer parser
 
 ///|
-fn parse_int(s : String) -> Int {
+fn parse_int(s : String) -> Int32 {
   let len = s.length()
   if len == 0 {
     return 0
@@ -511,11 +511,11 @@ pub fn gui_value_box_float(
         let key = @raylib.get_char_pressed()
         if key >= 48 && key <= 57 {
           // Digits 0-9
-          let buf = StringBuilder::new()
+          let buf = StringBuilder()
           for i in 0..<key_count {
-            buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+            buf.write_char(Int32::unsafe_to_char(text_value.val[i].to_int()))
           }
-          buf.write_char(Int::unsafe_to_char(key))
+          buf.write_char(Int32::unsafe_to_char(key))
           text_value.val = buf.to_string()
           key_count = key_count + 1
         } else if key == 46 {
@@ -527,9 +527,9 @@ pub fn gui_value_box_float(
             }
           }
           if !has_dot {
-            let buf = StringBuilder::new()
+            let buf = StringBuilder()
             for i in 0..<key_count {
-              buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+              buf.write_char(Int32::unsafe_to_char(text_value.val[i].to_int()))
             }
             buf.write_char('.')
             text_value.val = buf.to_string()
@@ -538,8 +538,8 @@ pub fn gui_value_box_float(
         } else if key == 43 || key == 45 {
           // '+' or '-' - only at position 0
           if key_count == 0 {
-            let buf = StringBuilder::new()
-            buf.write_char(Int::unsafe_to_char(key))
+            let buf = StringBuilder()
+            buf.write_char(Int32::unsafe_to_char(key))
             text_value.val = buf.to_string()
             key_count = key_count + 1
           } else if key == 45 {
@@ -548,10 +548,12 @@ pub fn gui_value_box_float(
               text_value.val = string_sub(text_value.val, 1, key_count)
               key_count = key_count - 1
             } else if text_value.val[0] == '+' {
-              let buf = StringBuilder::new()
+              let buf = StringBuilder()
               buf.write_char('-')
               for i in 1..<key_count {
-                buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+                buf.write_char(
+                  Int32::unsafe_to_char(text_value.val[i].to_int()),
+                )
               }
               text_value.val = buf.to_string()
             } else {
@@ -564,10 +566,12 @@ pub fn gui_value_box_float(
               text_value.val = string_sub(text_value.val, 1, key_count)
               key_count = key_count - 1
             } else if text_value.val[0] == '-' {
-              let buf = StringBuilder::new()
+              let buf = StringBuilder()
               buf.write_char('+')
               for i in 1..<key_count {
-                buf.write_char(Int::unsafe_to_char(text_value.val[i].to_int()))
+                buf.write_char(
+                  Int32::unsafe_to_char(text_value.val[i].to_int()),
+                )
               }
               text_value.val = buf.to_string()
             } else {

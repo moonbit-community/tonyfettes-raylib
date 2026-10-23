@@ -17,19 +17,5 @@ source = "."
 preferred_target = "native"
 
 options(
-  exclude: [
-    "examples",
-    "moon.work",
-    "/external",
-    "publish",
-    "docs",
-    "tools",
-    "scripts",
-    "CLAUDE.md",
-    "CONTRIBUTING.md",
-    "WORKFLOW.md",
-    "setup.sh",
-    "clean.sh",
-  ],
   "--moonbit-unstable-prebuild": "build.js",
 )

@@ -155,7 +155,7 @@ pub extern "c" fn load_wave(file_name : Bytes) -> Wave = "moonbit_raylib_load_wa
 pub extern "c" fn load_wave_from_memory(
   file_type : Bytes,
   file_data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Wave = "moonbit_raylib_load_wave_from_memory"
 
 ///|
@@ -184,15 +184,19 @@ pub extern "c" fn wave_copy(wave : Wave) -> Wave = "moonbit_raylib_wave_copy"
 
 ///|
 #borrow(wave)
-pub extern "c" fn wave_crop(wave : Wave, init_frame : Int, final_frame : Int) = "moonbit_raylib_wave_crop"
+pub extern "c" fn wave_crop(
+  wave : Wave,
+  init_frame : Int32,
+  final_frame : Int32,
+) = "moonbit_raylib_wave_crop"
 
 ///|
 #borrow(wave)
 pub extern "c" fn wave_format(
   wave : Wave,
-  sample_rate : Int,
-  sample_size : Int,
-  channels : Int,
+  sample_rate : Int32,
+  sample_size : Int32,
+  channels : Int32,
 ) = "moonbit_raylib_wave_format"
 
 ///|
@@ -204,19 +208,19 @@ pub extern "c" fn unload_wave_samples(samples : FloatPointer) = "moonbit_raylib_
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_frame_count(wave : Wave) -> Int = "moonbit_raylib_get_wave_frame_count"
+pub extern "c" fn get_wave_frame_count(wave : Wave) -> Int32 = "moonbit_raylib_get_wave_frame_count"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_sample_rate(wave : Wave) -> Int = "moonbit_raylib_get_wave_sample_rate"
+pub extern "c" fn get_wave_sample_rate(wave : Wave) -> Int32 = "moonbit_raylib_get_wave_sample_rate"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_sample_size(wave : Wave) -> Int = "moonbit_raylib_get_wave_sample_size"
+pub extern "c" fn get_wave_sample_size(wave : Wave) -> Int32 = "moonbit_raylib_get_wave_sample_size"
 
 ///|
 #borrow(wave)
-pub extern "c" fn get_wave_channels(wave : Wave) -> Int = "moonbit_raylib_get_wave_channels"
+pub extern "c" fn get_wave_channels(wave : Wave) -> Int32 = "moonbit_raylib_get_wave_channels"
 
 ///|
 #borrow(wave)
@@ -236,9 +240,9 @@ pub extern "c" fn get_wave_data_ubyte(wave : Wave) -> UBytePointer = "moonbit_ra
 
 ///|
 pub extern "c" fn load_audio_stream(
-  sample_rate : Int,
-  sample_size : Int,
-  channels : Int,
+  sample_rate : Int32,
+  sample_size : Int32,
+  channels : Int32,
 ) -> AudioStream = "moonbit_raylib_load_audio_stream"
 
 ///|
@@ -254,7 +258,7 @@ pub extern "c" fn unload_audio_stream(stream : AudioStream) = "moonbit_raylib_un
 pub extern "c" fn update_audio_stream(
   stream : AudioStream,
   data : Bytes,
-  frame_count : Int,
+  frame_count : Int32,
 ) = "moonbit_raylib_update_audio_stream"
 
 ///|
@@ -295,7 +299,7 @@ pub extern "c" fn set_audio_stream_pan(stream : AudioStream, pan : Float) = "moo
 
 ///|
 /// Default size for new audio streams.
-pub extern "c" fn set_audio_stream_buffer_size_default(size : Int) = "SetAudioStreamBufferSizeDefault"
+pub extern "c" fn set_audio_stream_buffer_size_default(size : Int32) = "SetAudioStreamBufferSizeDefault"
 
 // ============================================================================
 // Music stream from memory
@@ -306,7 +310,7 @@ pub extern "c" fn set_audio_stream_buffer_size_default(size : Int) = "SetAudioSt
 pub extern "c" fn load_music_stream_from_memory(
   file_type : Bytes,
   data : Bytes,
-  data_size : Int,
+  data_size : Int32,
 ) -> Music = "moonbit_raylib_load_music_stream_from_memory"
 
 // ============================================================================
@@ -315,7 +319,11 @@ pub extern "c" fn load_music_stream_from_memory(
 
 ///|
 #borrow(sound, data)
-pub extern "c" fn update_sound(sound : Sound, data : Bytes, sample_count : Int) = "moonbit_raylib_update_sound"
+pub extern "c" fn update_sound(
+  sound : Sound,
+  data : Bytes,
+  sample_count : Int32,
+) = "moonbit_raylib_update_sound"
 
 // ============================================================================
 // AudioBuffer accessors
@@ -326,7 +334,7 @@ pub extern "c" fn update_sound(sound : Sound, data : Bytes, sample_count : Int) 
 #borrow(buffer)
 pub extern "c" fn audio_buffer_get_sample(
   buffer : AudioBuffer,
-  index : UInt,
+  index : UInt32,
 ) -> Float = "moonbit_raylib_audio_buffer_get_sample"
 
 ///|
@@ -334,7 +342,7 @@ pub extern "c" fn audio_buffer_get_sample(
 #borrow(buffer)
 pub extern "c" fn audio_buffer_set_sample(
   buffer : AudioBuffer,
-  index : UInt,
+  index : UInt32,
   value : Float,
 ) = "moonbit_raylib_audio_buffer_set_sample"
 
@@ -346,14 +354,14 @@ pub extern "c" fn audio_buffer_set_sample(
 #borrow(stream)
 pub extern "c" fn attach_audio_stream_processor(
   stream : AudioStream,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "moonbit_raylib_attach_audio_stream_processor"
 
 ///|
 #borrow(stream)
 pub extern "c" fn detach_audio_stream_processor(
   stream : AudioStream,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "moonbit_raylib_detach_audio_stream_processor"
 
 // ============================================================================
@@ -363,13 +371,13 @@ pub extern "c" fn detach_audio_stream_processor(
 ///|
 /// Attach audio stream processor to the entire audio pipeline, receives the samples as 'float'.
 pub extern "c" fn attach_audio_mixed_processor(
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "AttachAudioMixedProcessor"
 
 ///|
 /// Detach audio stream processor from the entire audio pipeline.
 pub extern "c" fn detach_audio_mixed_processor(
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "DetachAudioMixedProcessor"
 
 // ============================================================================
@@ -380,12 +388,12 @@ pub extern "c" fn detach_audio_mixed_processor(
 #borrow(music)
 pub extern "c" fn attach_music_stream_processor(
   music : Music,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "moonbit_raylib_attach_music_stream_processor"
 
 ///|
 #borrow(music)
 pub extern "c" fn detach_music_stream_processor(
   music : Music,
-  processor : FuncRef[(AudioBuffer, UInt) -> Unit],
+  processor : FuncRef[(AudioBuffer, UInt32) -> Unit],
 ) = "moonbit_raylib_detach_music_stream_processor"

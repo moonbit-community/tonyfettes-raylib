@@ -4,7 +4,7 @@
 
 ///|
 /// Draw a pixel using geometry. Can be slow, use with care.
-pub fn draw_pixel(pos_x : Int, pos_y : Int, color : Color) -> Unit {
+pub fn draw_pixel(pos_x : Int32, pos_y : Int32, color : Color) -> Unit {
   @ffi.draw_pixel(pos_x, pos_y, color.to_bytes())
 }
 
@@ -17,10 +17,10 @@ pub fn draw_pixel_v(position : Vector2, color : Color) -> Unit {
 ///|
 /// Draw a line.
 pub fn draw_line(
-  start_x : Int,
-  start_y : Int,
-  end_x : Int,
-  end_y : Int,
+  start_x : Int32,
+  start_y : Int32,
+  end_x : Int32,
+  end_y : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_line(start_x, start_y, end_x, end_y, color.to_bytes())
@@ -71,8 +71,8 @@ pub fn draw_line_bezier(
 ///|
 /// Draw a color-filled circle.
 pub fn draw_circle(
-  center_x : Int,
-  center_y : Int,
+  center_x : Int32,
+  center_y : Int32,
   radius : Float,
   color : Color,
 ) -> Unit {
@@ -86,7 +86,7 @@ pub fn draw_circle_sector(
   radius : Float,
   start_angle : Float,
   end_angle : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_circle_sector(
@@ -124,8 +124,8 @@ pub fn draw_circle_v(center : Vector2, radius : Float, color : Color) -> Unit {
 ///|
 /// Draw circle outline.
 pub fn draw_circle_lines(
-  center_x : Int,
-  center_y : Int,
+  center_x : Int32,
+  center_y : Int32,
   radius : Float,
   color : Color,
 ) -> Unit {
@@ -145,8 +145,8 @@ pub fn draw_circle_lines_v(
 ///|
 /// Draw ellipse.
 pub fn draw_ellipse(
-  center_x : Int,
-  center_y : Int,
+  center_x : Int32,
+  center_y : Int32,
   radius_h : Float,
   radius_v : Float,
   color : Color,
@@ -157,8 +157,8 @@ pub fn draw_ellipse(
 ///|
 /// Draw ellipse outline.
 pub fn draw_ellipse_lines(
-  center_x : Int,
-  center_y : Int,
+  center_x : Int32,
+  center_y : Int32,
   radius_h : Float,
   radius_v : Float,
   color : Color,
@@ -180,7 +180,7 @@ pub fn draw_ring(
   outer_radius : Float,
   start_angle : Float,
   end_angle : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_ring(
@@ -202,7 +202,7 @@ pub fn draw_ring_lines(
   outer_radius : Float,
   start_angle : Float,
   end_angle : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_ring_lines(
@@ -219,10 +219,10 @@ pub fn draw_ring_lines(
 ///|
 /// Draw a color-filled rectangle.
 pub fn draw_rectangle(
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_rectangle(pos_x, pos_y, width, height, color.to_bytes())
@@ -263,10 +263,10 @@ pub fn draw_rectangle_pro(
 ///|
 /// Draw a vertical-gradient-filled rectangle.
 pub fn draw_rectangle_gradient_v(
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   top : Color,
   bottom : Color,
 ) -> Unit {
@@ -283,10 +283,10 @@ pub fn draw_rectangle_gradient_v(
 ///|
 /// Draw a horizontal-gradient-filled rectangle.
 pub fn draw_rectangle_gradient_h(
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   left : Color,
   right : Color,
 ) -> Unit {
@@ -321,10 +321,10 @@ pub fn draw_rectangle_gradient_ex(
 ///|
 /// Draw rectangle outline.
 pub fn draw_rectangle_lines(
-  pos_x : Int,
-  pos_y : Int,
-  width : Int,
-  height : Int,
+  pos_x : Int32,
+  pos_y : Int32,
+  width : Int32,
+  height : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_rectangle_lines(pos_x, pos_y, width, height, color.to_bytes())
@@ -345,7 +345,7 @@ pub fn draw_rectangle_lines_ex(
 pub fn draw_rectangle_rounded(
   rec : Rectangle,
   roundness : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_rectangle_rounded(
@@ -361,7 +361,7 @@ pub fn draw_rectangle_rounded(
 pub fn draw_rectangle_rounded_lines(
   rec : Rectangle,
   roundness : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_rectangle_rounded_lines(
@@ -377,7 +377,7 @@ pub fn draw_rectangle_rounded_lines(
 pub fn draw_rectangle_rounded_lines_ex(
   rec : Rectangle,
   roundness : Float,
-  segments : Int,
+  segments : Int32,
   line_thick : Float,
   color : Color,
 ) -> Unit {
@@ -426,7 +426,7 @@ pub fn draw_triangle_lines(
 /// Draw a regular polygon (Vector version).
 pub fn draw_poly(
   center : Vector2,
-  sides : Int,
+  sides : Int32,
   radius : Float,
   rotation : Float,
   color : Color,
@@ -438,7 +438,7 @@ pub fn draw_poly(
 /// Draw a polygon outline of n sides.
 pub fn draw_poly_lines(
   center : Vector2,
-  sides : Int,
+  sides : Int32,
   radius : Float,
   rotation : Float,
   color : Color,
@@ -456,7 +456,7 @@ pub fn draw_poly_lines(
 /// Draw a polygon outline of n sides with extended parameters.
 pub fn draw_poly_lines_ex(
   center : Vector2,
-  sides : Int,
+  sides : Int32,
   radius : Float,
   rotation : Float,
   line_thick : Float,
@@ -598,7 +598,7 @@ pub fn draw_circle_sector_lines(
   radius : Float,
   start_angle : Float,
   end_angle : Float,
-  segments : Int,
+  segments : Int32,
   color : Color,
 ) -> Unit {
   @ffi.draw_circle_sector_lines(
@@ -950,7 +950,7 @@ pub fn check_collision_point_line(
   point : Vector2,
   p1 : Vector2,
   p2 : Vector2,
-  threshold : Int,
+  threshold : Int32,
 ) -> Bool {
   let dxc = point.x - p1.x
   let dyc = point.y - p1.y

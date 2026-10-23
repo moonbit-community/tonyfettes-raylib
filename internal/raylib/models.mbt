@@ -65,8 +65,8 @@ pub extern "c" fn draw_sphere(center : Bytes, radius : Float, color : Bytes) = "
 pub extern "c" fn draw_sphere_ex(
   center : Bytes,
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_sphere_ex"
 
@@ -75,8 +75,8 @@ pub extern "c" fn draw_sphere_ex(
 pub extern "c" fn draw_sphere_wires(
   center : Bytes,
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_sphere_wires"
 
@@ -87,7 +87,7 @@ pub extern "c" fn draw_cylinder(
   radius_top : Float,
   radius_bottom : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_cylinder"
 
@@ -98,7 +98,7 @@ pub extern "c" fn draw_cylinder_wires(
   radius_top : Float,
   radius_bottom : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_cylinder_wires"
 
@@ -118,7 +118,7 @@ pub extern "c" fn draw_cylinder_ex(
   end_pos : Bytes,
   start_radius : Float,
   end_radius : Float,
-  sides : Int,
+  sides : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_cylinder_ex"
 
@@ -129,7 +129,7 @@ pub extern "c" fn draw_cylinder_wires_ex(
   end_pos : Bytes,
   start_radius : Float,
   end_radius : Float,
-  sides : Int,
+  sides : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_cylinder_wires_ex"
 
@@ -139,8 +139,8 @@ pub extern "c" fn draw_capsule(
   start_pos : Bytes,
   end_pos : Bytes,
   radius : Float,
-  slices : Int,
-  rings : Int,
+  slices : Int32,
+  rings : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_capsule"
 
@@ -150,8 +150,8 @@ pub extern "c" fn draw_capsule_wires(
   start_pos : Bytes,
   end_pos : Bytes,
   radius : Float,
-  slices : Int,
-  rings : Int,
+  slices : Int32,
+  rings : Int32,
   color : Bytes,
 ) = "moonbit_raylib_draw_capsule_wires"
 
@@ -165,7 +165,7 @@ pub extern "c" fn draw_ray(ray : Bytes, color : Bytes) = "moonbit_raylib_draw_ra
 
 ///|
 /// Draw a grid (centered at (0, 0, 0)).
-pub extern "c" fn draw_grid(slices : Int, spacing : Float) = "DrawGrid"
+pub extern "c" fn draw_grid(slices : Int32, spacing : Float) = "DrawGrid"
 
 ///|
 #borrow(box_, color)
@@ -325,14 +325,14 @@ pub extern "c" fn get_ray_collision_triangle(
 // ============================================================================
 
 ///|
-pub extern "c" fn gen_mesh_poly(sides : Int, radius : Float) -> Mesh = "moonbit_raylib_gen_mesh_poly"
+pub extern "c" fn gen_mesh_poly(sides : Int32, radius : Float) -> Mesh = "moonbit_raylib_gen_mesh_poly"
 
 ///|
 pub extern "c" fn gen_mesh_plane(
   width : Float,
   length : Float,
-  res_x : Int,
-  res_z : Int,
+  res_x : Int32,
+  res_z : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_plane"
 
 ///|
@@ -345,45 +345,45 @@ pub extern "c" fn gen_mesh_cube(
 ///|
 pub extern "c" fn gen_mesh_sphere(
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_sphere"
 
 ///|
 pub extern "c" fn gen_mesh_hemisphere(
   radius : Float,
-  rings : Int,
-  slices : Int,
+  rings : Int32,
+  slices : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_hemisphere"
 
 ///|
 pub extern "c" fn gen_mesh_cylinder(
   radius : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_cylinder"
 
 ///|
 pub extern "c" fn gen_mesh_cone(
   radius : Float,
   height : Float,
-  slices : Int,
+  slices : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_cone"
 
 ///|
 pub extern "c" fn gen_mesh_torus(
   radius : Float,
   size : Float,
-  rad_seg : Int,
-  sides : Int,
+  rad_seg : Int32,
+  sides : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_torus"
 
 ///|
 pub extern "c" fn gen_mesh_knot(
   radius : Float,
   size : Float,
-  rad_seg : Int,
-  sides : Int,
+  rad_seg : Int32,
+  sides : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_knot"
 
 ///|
@@ -415,7 +415,7 @@ pub extern "c" fn export_mesh(mesh : Mesh, file_name : Bytes) -> Bool = "moonbit
 
 ///|
 #borrow(mesh)
-pub extern "c" fn upload_mesh(mesh : Mesh, dynamic : Int) = "moonbit_raylib_upload_mesh"
+pub extern "c" fn upload_mesh(mesh : Mesh, dynamic : Int32) = "moonbit_raylib_upload_mesh"
 
 ///|
 #borrow(mesh)
@@ -452,7 +452,7 @@ pub extern "c" fn unload_material(material : Material) = "moonbit_raylib_unload_
 #borrow(material, texture)
 pub extern "c" fn set_material_texture(
   material : Material,
-  map_type : Int,
+  map_type : Int32,
   texture : Texture,
 ) = "moonbit_raylib_set_material_texture"
 
@@ -464,7 +464,7 @@ pub extern "c" fn set_material_shader(material : Material, shader : Shader) = "m
 #borrow(material, color)
 pub extern "c" fn set_material_map_color(
   material : Material,
-  map_type : Int,
+  map_type : Int32,
   color : Bytes,
 ) = "moonbit_raylib_set_material_map_color"
 
@@ -472,7 +472,7 @@ pub extern "c" fn set_material_map_color(
 #borrow(material)
 pub extern "c" fn set_material_map_value(
   material : Material,
-  map_type : Int,
+  map_type : Int32,
   value : Float,
 ) = "moonbit_raylib_set_material_map_value"
 
@@ -480,16 +480,16 @@ pub extern "c" fn set_material_map_value(
 #borrow(model)
 pub extern "c" fn set_model_mesh_material(
   model : Model,
-  mesh_id : Int,
-  material_id : Int,
+  mesh_id : Int32,
+  material_id : Int32,
 ) = "moonbit_raylib_set_model_mesh_material"
 
 ///|
 #borrow(model, texture)
 pub extern "c" fn set_model_material_texture(
   model : Model,
-  material_index : Int,
-  map_type : Int,
+  material_index : Int32,
+  map_type : Int32,
   texture : Texture,
 ) = "moonbit_raylib_set_model_material_texture"
 
@@ -497,7 +497,7 @@ pub extern "c" fn set_model_material_texture(
 #borrow(model, shader)
 pub extern "c" fn set_model_material_shader(
   model : Model,
-  material_index : Int,
+  material_index : Int32,
   shader : Shader,
 ) = "moonbit_raylib_set_model_material_shader"
 // ============================================================================
@@ -518,7 +518,7 @@ pub extern "c" fn draw_mesh_instanced(
   mesh : Mesh,
   material : Material,
   transforms : Bytes,
-  instances : Int,
+  instances : Int32,
 ) = "moonbit_raylib_draw_mesh_instanced"
 
 // ============================================================================
@@ -531,14 +531,14 @@ pub extern "c" fn load_model_animations(file_name : Bytes) -> ModelAnimations = 
 
 ///|
 #borrow(anims)
-pub extern "c" fn model_animations_count(anims : ModelAnimations) -> Int = "moonbit_raylib_model_animations_count"
+pub extern "c" fn model_animations_count(anims : ModelAnimations) -> Int32 = "moonbit_raylib_model_animations_count"
 
 ///|
 #borrow(model, anims)
 pub extern "c" fn update_model_animation(
   model : Model,
   anims : ModelAnimations,
-  index : Int,
+  index : Int32,
   frame : Float,
 ) = "moonbit_raylib_update_model_animation"
 
@@ -547,10 +547,10 @@ pub extern "c" fn update_model_animation(
 pub extern "c" fn update_model_animation_ex(
   model : Model,
   anims_a : ModelAnimations,
-  index_a : Int,
+  index_a : Int32,
   frame_a : Float,
   anims_b : ModelAnimations,
-  index_b : Int,
+  index_b : Int32,
   frame_b : Float,
   blend : Float,
 ) = "moonbit_raylib_update_model_animation_ex"
@@ -560,7 +560,7 @@ pub extern "c" fn update_model_animation_ex(
 pub extern "c" fn is_model_animation_valid(
   model : Model,
   anims : ModelAnimations,
-  index : Int,
+  index : Int32,
 ) -> Bool = "moonbit_raylib_is_model_animation_valid"
 
 ///|
@@ -597,10 +597,10 @@ pub extern "c" fn export_mesh_as_code(mesh : Mesh, file_name : Bytes) -> Bool = 
 #borrow(mesh, data)
 pub extern "c" fn update_mesh_buffer(
   mesh : Mesh,
-  index : Int,
+  index : Int32,
   data : Bytes,
-  data_size : Int,
-  offset : Int,
+  data_size : Int32,
+  offset : Int32,
 ) = "moonbit_raylib_update_mesh_buffer"
 
 // ============================================================================
@@ -617,13 +617,13 @@ pub extern "c" fn unload_materials_array(materials : MaterialsArray) = "moonbit_
 
 ///|
 #borrow(materials)
-pub extern "c" fn materials_array_count(materials : MaterialsArray) -> Int = "moonbit_raylib_materials_array_count"
+pub extern "c" fn materials_array_count(materials : MaterialsArray) -> Int32 = "moonbit_raylib_materials_array_count"
 
 ///|
 #borrow(materials)
 pub extern "c" fn materials_array_get(
   materials : MaterialsArray,
-  index : Int,
+  index : Int32,
 ) -> Material = "moonbit_raylib_materials_array_get"
 
 // ============================================================================
@@ -640,7 +640,7 @@ pub extern "c" fn set_model_transform(model : Model, transform : Bytes) = "moonb
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_mesh_count(model : Model) -> Int = "moonbit_raylib_get_model_mesh_count"
+pub extern "c" fn get_model_mesh_count(model : Model) -> Int32 = "moonbit_raylib_get_model_mesh_count"
 
 // ============================================================================
 // Model: get mesh by index
@@ -648,7 +648,7 @@ pub extern "c" fn get_model_mesh_count(model : Model) -> Int = "moonbit_raylib_g
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_mesh(model : Model, index : Int) -> Mesh = "moonbit_raylib_get_model_mesh"
+pub extern "c" fn get_model_mesh(model : Model, index : Int32) -> Mesh = "moonbit_raylib_get_model_mesh"
 
 // ============================================================================
 // Model: get transform
@@ -660,15 +660,15 @@ pub extern "c" fn get_model_transform(model : Model) -> Bytes = "moonbit_raylib_
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_material_count(model : Model) -> Int = "moonbit_raylib_get_model_material_count"
+pub extern "c" fn get_model_material_count(model : Model) -> Int32 = "moonbit_raylib_get_model_material_count"
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_material(model : Model, index : Int) -> Material = "moonbit_raylib_get_model_material"
+pub extern "c" fn get_model_material(model : Model, index : Int32) -> Material = "moonbit_raylib_get_model_material"
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_bone_count(model : Model) -> Int = "moonbit_raylib_get_model_bone_count"
+pub extern "c" fn get_model_bone_count(model : Model) -> Int32 = "moonbit_raylib_get_model_bone_count"
 
 ///|
 #borrow(model)
@@ -676,44 +676,47 @@ pub extern "c" fn get_model_bone_matrices(model : Model) -> MatrixArray = "moonb
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_bone_parent(model : Model, bone_index : Int) -> Int = "moonbit_raylib_get_model_bone_parent"
+pub extern "c" fn get_model_bone_parent(
+  model : Model,
+  bone_index : Int32,
+) -> Int32 = "moonbit_raylib_get_model_bone_parent"
 
 ///|
 #borrow(model)
 pub extern "c" fn get_model_bind_pose_translation(
   model : Model,
-  bone_index : Int,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_bind_pose_translation"
 
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_keyframe_count(
   anims : ModelAnimations,
-  anim_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
+  anim_index : Int32,
+) -> Int32 = "moonbit_raylib_get_model_animation_keyframe_count"
 
 ///|
 #borrow(anims)
 #deprecated("Use get_model_animation_keyframe_count instead")
 pub extern "c" fn get_model_animation_frame_count(
   anims : ModelAnimations,
-  anim_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_keyframe_count"
+  anim_index : Int32,
+) -> Int32 = "moonbit_raylib_get_model_animation_keyframe_count"
 
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_bone_count(
   anims : ModelAnimations,
-  anim_index : Int,
-) -> Int = "moonbit_raylib_get_model_animation_bone_count"
+  anim_index : Int32,
+) -> Int32 = "moonbit_raylib_get_model_animation_bone_count"
 
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_keyframe_pose_translation(
   anims : ModelAnimations,
-  anim_index : Int,
-  keyframe : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  keyframe : Int32,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
 
 ///|
@@ -721,18 +724,18 @@ pub extern "c" fn get_model_animation_keyframe_pose_translation(
 #deprecated("Use get_model_animation_keyframe_pose_translation instead")
 pub extern "c" fn get_model_animation_frame_pose_translation(
   anims : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  frame : Int32,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_translation"
 
 ///|
 #borrow(anims)
 pub extern "c" fn get_model_animation_keyframe_pose_rotation(
   anims : ModelAnimations,
-  anim_index : Int,
-  keyframe : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  keyframe : Int32,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
 
 ///|
@@ -740,20 +743,23 @@ pub extern "c" fn get_model_animation_keyframe_pose_rotation(
 #deprecated("Use get_model_animation_keyframe_pose_rotation instead")
 pub extern "c" fn get_model_animation_frame_pose_rotation(
   anims : ModelAnimations,
-  anim_index : Int,
-  frame : Int,
-  bone_index : Int,
+  anim_index : Int32,
+  frame : Int32,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_animation_keyframe_pose_rotation"
 
 ///|
 #borrow(model)
-pub extern "c" fn get_model_bone_name(model : Model, bone_index : Int) -> Bytes = "moonbit_raylib_get_model_bone_name"
+pub extern "c" fn get_model_bone_name(
+  model : Model,
+  bone_index : Int32,
+) -> Bytes = "moonbit_raylib_get_model_bone_name"
 
 ///|
 #borrow(model)
 pub extern "c" fn get_model_bind_pose_rotation(
   model : Model,
-  bone_index : Int,
+  bone_index : Int32,
 ) -> Bytes = "moonbit_raylib_get_model_bind_pose_rotation"
 
 // ============================================================================
@@ -765,7 +771,7 @@ pub extern "c" fn get_model_bind_pose_rotation(
 pub extern "c" fn gen_mesh_from_points(
   vertices : Bytes,
   colors : Bytes,
-  num_points : Int,
+  num_points : Int32,
 ) -> Mesh = "moonbit_raylib_gen_mesh_from_points"
 
 // ============================================================================
@@ -776,12 +782,12 @@ pub extern "c" fn gen_mesh_from_points(
 pub extern "c" fn float_array_is_null(arr : FloatPointer) -> Bool = "moonbit_raylib_float_array_is_null"
 
 ///|
-pub extern "c" fn float_array_get(arr : FloatPointer, index : Int) -> Float = "moonbit_raylib_float_array_get"
+pub extern "c" fn float_array_get(arr : FloatPointer, index : Int32) -> Float = "moonbit_raylib_float_array_get"
 
 ///|
 pub extern "c" fn float_array_set(
   arr : FloatPointer,
-  index : Int,
+  index : Int32,
   value : Float,
 ) = "moonbit_raylib_float_array_set"
 
@@ -793,12 +799,12 @@ pub extern "c" fn float_array_set(
 pub extern "c" fn ubyte_array_is_null(arr : UBytePointer) -> Bool = "moonbit_raylib_ubyte_array_is_null"
 
 ///|
-pub extern "c" fn ubyte_array_get(arr : UBytePointer, index : Int) -> Int = "moonbit_raylib_ubyte_array_get"
+pub extern "c" fn ubyte_array_get(arr : UBytePointer, index : Int32) -> Int32 = "moonbit_raylib_ubyte_array_get"
 
 ///|
 pub extern "c" fn ubyte_array_set(
   arr : UBytePointer,
-  index : Int,
+  index : Int32,
   value : Byte,
 ) = "moonbit_raylib_ubyte_array_set"
 
@@ -810,12 +816,12 @@ pub extern "c" fn ubyte_array_set(
 pub extern "c" fn ushort_array_is_null(arr : UShortPointer) -> Bool = "moonbit_raylib_ushort_array_is_null"
 
 ///|
-pub extern "c" fn ushort_array_get(arr : UShortPointer, index : Int) -> Int = "moonbit_raylib_ushort_array_get"
+pub extern "c" fn ushort_array_get(arr : UShortPointer, index : Int32) -> Int32 = "moonbit_raylib_ushort_array_get"
 
 ///|
 pub extern "c" fn ushort_array_set(
   arr : UShortPointer,
-  index : Int,
+  index : Int32,
   value : UInt16,
 ) = "moonbit_raylib_ushort_array_set"
 
@@ -827,10 +833,14 @@ pub extern "c" fn ushort_array_set(
 pub extern "c" fn short_array_is_null(arr : ShortPointer) -> Bool = "moonbit_raylib_short_array_is_null"
 
 ///|
-pub extern "c" fn short_array_get(arr : ShortPointer, index : Int) -> Int = "moonbit_raylib_short_array_get"
+pub extern "c" fn short_array_get(arr : ShortPointer, index : Int32) -> Int32 = "moonbit_raylib_short_array_get"
 
 ///|
-pub extern "c" fn short_array_set(arr : ShortPointer, index : Int, value : Int) = "moonbit_raylib_short_array_set"
+pub extern "c" fn short_array_set(
+  arr : ShortPointer,
+  index : Int32,
+  value : Int32,
+) = "moonbit_raylib_short_array_set"
 
 // ============================================================================
 // MatrixArray operations (#external — raw Matrix*)
@@ -840,13 +850,16 @@ pub extern "c" fn short_array_set(arr : ShortPointer, index : Int, value : Int) 
 pub extern "c" fn matrix_array_is_null(arr : MatrixArray) -> Bool = "moonbit_raylib_matrix_array_is_null"
 
 ///|
-pub extern "c" fn matrix_array_op_get(arr : MatrixArray, index : Int) -> Bytes = "moonbit_raylib_matrix_array_op_get"
+pub extern "c" fn matrix_array_op_get(
+  arr : MatrixArray,
+  index : Int32,
+) -> Bytes = "moonbit_raylib_matrix_array_op_get"
 
 ///|
 #borrow(value)
 pub extern "c" fn matrix_array_op_set(
   arr : MatrixArray,
-  index : Int,
+  index : Int32,
   value : Bytes,
 ) = "moonbit_raylib_matrix_array_op_set"
 
@@ -860,14 +873,14 @@ pub extern "c" fn material_map_array_is_null(arr : MaterialMapArray) -> Bool = "
 ///|
 pub extern "c" fn material_map_array_op_get(
   arr : MaterialMapArray,
-  index : Int,
+  index : Int32,
 ) -> MaterialMap = "moonbit_raylib_material_map_array_op_get"
 
 ///|
 #borrow(value)
 pub extern "c" fn material_map_array_op_set(
   arr : MaterialMapArray,
-  index : Int,
+  index : Int32,
   value : MaterialMap,
 ) = "moonbit_raylib_material_map_array_op_set"
 
@@ -921,8 +934,8 @@ pub extern "c" fn get_material_maps(material : Material) -> MaterialMapArray = "
 ///|
 #borrow(vertices, texcoords, texcoords2, normals, tangents, colors, indices)
 pub extern "c" fn new_mesh(
-  vertex_count : Int,
-  triangle_count : Int,
+  vertex_count : Int32,
+  triangle_count : Int32,
   vertices : FixedArray[Float],
   texcoords : FixedArray[Float]?,
   texcoords2 : FixedArray[Float]?,
@@ -934,11 +947,11 @@ pub extern "c" fn new_mesh(
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_vertex_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_vertex_count"
+pub extern "c" fn get_mesh_vertex_count(mesh : Mesh) -> Int32 = "moonbit_raylib_get_mesh_vertex_count"
 
 ///|
 #borrow(mesh)
-pub extern "c" fn get_mesh_triangle_count(mesh : Mesh) -> Int = "moonbit_raylib_get_mesh_triangle_count"
+pub extern "c" fn get_mesh_triangle_count(mesh : Mesh) -> Int32 = "moonbit_raylib_get_mesh_triangle_count"
 
 ///|
 #borrow(mesh)

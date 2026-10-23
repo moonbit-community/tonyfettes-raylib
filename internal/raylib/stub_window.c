@@ -153,3 +153,22 @@ int32_t
 moonbit_raylib_is_window_state(int32_t flag) {
   return (int32_t)IsWindowState(flag);
 }
+
+// ============================================================================
+// Win32 name clashes
+// ============================================================================
+// raylib's CloseWindow and ShowCursor share their names with user32.dll
+// exports. If MoonBit-generated objects reference those names directly, the
+// MSVC linker can resolve them from user32.lib and then report LNK2005 when
+// rcore.obj is pulled in. Routing them through stubs keeps the only
+// references to these symbols inside libraylib itself.
+
+void
+moonbit_raylib_close_window(void) {
+  CloseWindow();
+}
+
+void
+moonbit_raylib_show_cursor(void) {
+  ShowCursor();
+}

@@ -8,201 +8,201 @@ import {
 }
 
 // Values
-pub const ArrowPadding : Int = 16
+pub const ArrowPadding : Int32 = 16
 
-pub const ArrowsSize : Int = 16
+pub const ArrowsSize : Int32 = 16
 
-pub const ArrowsVisible : Int = 17
+pub const ArrowsVisible : Int32 = 17
 
-pub const BackgroundColor : Int = 19
+pub const BackgroundColor : Int32 = 19
 
-pub const BaseColorDisabled : Int = 10
+pub const BaseColorDisabled : Int32 = 10
 
-pub const BaseColorFocused : Int = 4
+pub const BaseColorFocused : Int32 = 4
 
-pub const BaseColorNormal : Int = 1
+pub const BaseColorNormal : Int32 = 1
 
-pub const BaseColorPressed : Int = 7
+pub const BaseColorPressed : Int32 = 7
 
-pub const BorderColorDisabled : Int = 9
+pub const BorderColorDisabled : Int32 = 9
 
-pub const BorderColorFocused : Int = 3
+pub const BorderColorFocused : Int32 = 3
 
-pub const BorderColorNormal : Int = 0
+pub const BorderColorNormal : Int32 = 0
 
-pub const BorderColorPressed : Int = 6
+pub const BorderColorPressed : Int32 = 6
 
-pub const BorderWidth : Int = 12
+pub const BorderWidth : Int32 = 12
 
-pub const CheckPadding : Int = 16
+pub const CheckPadding : Int32 = 16
 
-pub const ColorSelectorSize : Int = 16
+pub const ColorSelectorSize : Int32 = 16
 
-pub const ComboButtonSpacing : Int = 17
+pub const ComboButtonSpacing : Int32 = 17
 
-pub const ComboButtonWidth : Int = 16
+pub const ComboButtonWidth : Int32 = 16
 
-pub const ControlButton : Int = 2
+pub const ControlButton : Int32 = 2
 
-pub const ControlCheckbox : Int = 6
+pub const ControlCheckbox : Int32 = 6
 
-pub const ControlColorpicker : Int = 13
+pub const ControlColorpicker : Int32 = 13
 
-pub const ControlCombobox : Int = 7
+pub const ControlCombobox : Int32 = 7
 
-pub const ControlControl11 : Int = 11
+pub const ControlControl11 : Int32 = 11
 
-pub const ControlDefault : Int = 0
+pub const ControlDefault : Int32 = 0
 
-pub const ControlDropdownbox : Int = 8
+pub const ControlDropdownbox : Int32 = 8
 
-pub const ControlLabel : Int = 1
+pub const ControlLabel : Int32 = 1
 
-pub const ControlListview : Int = 12
+pub const ControlListview : Int32 = 12
 
-pub const ControlProgressbar : Int = 5
+pub const ControlProgressbar : Int32 = 5
 
-pub const ControlScrollbar : Int = 14
+pub const ControlScrollbar : Int32 = 14
 
-pub const ControlSlider : Int = 4
+pub const ControlSlider : Int32 = 4
 
-pub const ControlStatusbar : Int = 15
+pub const ControlStatusbar : Int32 = 15
 
-pub const ControlTextbox : Int = 9
+pub const ControlTextbox : Int32 = 9
 
-pub const ControlToggle : Int = 3
+pub const ControlToggle : Int32 = 3
 
-pub const ControlValuebox : Int = 10
+pub const ControlValuebox : Int32 = 10
 
-pub const DropdownArrowHidden : Int = 18
+pub const DropdownArrowHidden : Int32 = 18
 
-pub const DropdownItemsSpacing : Int = 17
+pub const DropdownItemsSpacing : Int32 = 17
 
-pub const DropdownRollUp : Int = 19
+pub const DropdownRollUp : Int32 = 19
 
-pub const GroupPadding : Int = 16
+pub const GroupPadding : Int32 = 16
 
-pub const HuebarPadding : Int = 18
+pub const HuebarPadding : Int32 = 18
 
-pub const HuebarSelectorHeight : Int = 19
+pub const HuebarSelectorHeight : Int32 = 19
 
-pub const HuebarSelectorOverflow : Int = 20
+pub const HuebarSelectorOverflow : Int32 = 20
 
-pub const HuebarWidth : Int = 17
+pub const HuebarWidth : Int32 = 17
 
-pub const IconTextPadding : Int = 4
+pub const IconTextPadding : Int32 = 4
 
-pub const KeyBackspace : Int = 259
+pub const KeyBackspace : Int32 = 259
 
-pub const KeyDelete : Int = 261
+pub const KeyDelete : Int32 = 261
 
-pub const KeyDown : Int = 264
+pub const KeyDown : Int32 = 264
 
-pub const KeyEnd : Int = 269
+pub const KeyEnd : Int32 = 269
 
-pub const KeyEnter : Int = 257
+pub const KeyEnter : Int32 = 257
 
-pub const KeyHome : Int = 268
+pub const KeyHome : Int32 = 268
 
-pub const KeyLeft : Int = 263
+pub const KeyLeft : Int32 = 263
 
-pub const KeyRight : Int = 262
+pub const KeyRight : Int32 = 262
 
-pub const KeyUp : Int = 265
+pub const KeyUp : Int32 = 265
 
-pub const LineColor : Int = 18
+pub const LineColor : Int32 = 18
 
-pub const ListItemsBorderNormal : Int = 20
+pub const ListItemsBorderNormal : Int32 = 20
 
-pub const ListItemsBorderWidth : Int = 21
+pub const ListItemsBorderWidth : Int32 = 21
 
-pub const ListItemsHeight : Int = 16
+pub const ListItemsHeight : Int32 = 16
 
-pub const ListItemsSpacing : Int = 17
+pub const ListItemsSpacing : Int32 = 17
 
-pub const MouseButtonLeft : Int = 0
+pub const MouseButtonLeft : Int32 = 0
 
-pub const MouseButtonMiddle : Int = 2
+pub const MouseButtonMiddle : Int32 = 2
 
-pub const ProgressPadding : Int = 16
+pub const ProgressPadding : Int32 = 16
 
-pub const RayguiIconSize : Int = 16
+pub const RayguiIconSize : Int32 = 16
 
-pub const ScrollPadding : Int = 20
+pub const ScrollPadding : Int32 = 20
 
-pub const ScrollSliderPadding : Int = 18
+pub const ScrollSliderPadding : Int32 = 18
 
-pub const ScrollSliderSize : Int = 19
+pub const ScrollSliderSize : Int32 = 19
 
-pub const ScrollSpeed : Int = 21
+pub const ScrollSpeed : Int32 = 21
 
-pub const ScrollbarLeftSide : Int = 0
+pub const ScrollbarLeftSide : Int32 = 0
 
-pub const ScrollbarRightSide : Int = 1
+pub const ScrollbarRightSide : Int32 = 1
 
-pub const ScrollbarSide : Int = 19
+pub const ScrollbarSide : Int32 = 19
 
-pub const ScrollbarWidth : Int = 18
+pub const ScrollbarWidth : Int32 = 18
 
-pub const SliderPadding : Int = 17
+pub const SliderPadding : Int32 = 17
 
-pub const SliderWidth : Int = 16
+pub const SliderWidth : Int32 = 16
 
-pub const SpinnerButtonSpacing : Int = 17
+pub const SpinnerButtonSpacing : Int32 = 17
 
-pub const SpinnerButtonWidth : Int = 16
+pub const SpinnerButtonWidth : Int32 = 16
 
-pub const TextAlignBottom : Int = 2
+pub const TextAlignBottom : Int32 = 2
 
-pub const TextAlignCenter : Int = 1
+pub const TextAlignCenter : Int32 = 1
 
-pub const TextAlignLeft : Int = 0
+pub const TextAlignLeft : Int32 = 0
 
-pub const TextAlignMiddle : Int = 1
+pub const TextAlignMiddle : Int32 = 1
 
-pub const TextAlignRight : Int = 2
+pub const TextAlignRight : Int32 = 2
 
-pub const TextAlignTop : Int = 0
+pub const TextAlignTop : Int32 = 0
 
-pub const TextAlignment : Int = 14
+pub const TextAlignment : Int32 = 14
 
-pub const TextAlignmentVertical : Int = 21
+pub const TextAlignmentVertical : Int32 = 21
 
-pub const TextColorDisabled : Int = 11
+pub const TextColorDisabled : Int32 = 11
 
-pub const TextColorFocused : Int = 5
+pub const TextColorFocused : Int32 = 5
 
-pub const TextColorNormal : Int = 2
+pub const TextColorNormal : Int32 = 2
 
-pub const TextColorPressed : Int = 8
+pub const TextColorPressed : Int32 = 8
 
-pub const TextLineSpacing : Int = 20
+pub const TextLineSpacing : Int32 = 20
 
-pub const TextPadding : Int = 13
+pub const TextPadding : Int32 = 13
 
-pub const TextReadonly : Int = 16
+pub const TextReadonly : Int32 = 16
 
-pub const TextSize : Int = 16
+pub const TextSize : Int32 = 16
 
-pub const TextSpacing : Int = 17
+pub const TextSpacing : Int32 = 17
 
-pub const TextWrapChar : Int = 1
+pub const TextWrapChar : Int32 = 1
 
-pub const TextWrapMode : Int = 22
+pub const TextWrapMode : Int32 = 22
 
-pub const TextWrapNone : Int = 0
+pub const TextWrapNone : Int32 = 0
 
-pub const TextWrapWord : Int = 2
+pub const TextWrapWord : Int32 = 2
 
 pub fn check_collision_point_rec(@raylib.Vector2, @raylib.Rectangle) -> Bool
 
-pub fn color_to_int(@raylib.Color) -> Int
+pub fn color_to_int(@raylib.Color) -> Int32
 
 pub fn convert_hsv_to_rgb(Vector3) -> Vector3
 
 pub fn convert_rgb_to_hsv(Vector3) -> Vector3
 
-pub fn get_color(Int) -> @raylib.Color
+pub fn get_color(Int32) -> @raylib.Color
 
 pub fn gui_button(@raylib.Rectangle, String) -> Bool
 
@@ -220,15 +220,15 @@ pub fn gui_color_picker(@raylib.Rectangle, @ref.Ref[@raylib.Color]) -> Bool
 
 pub fn gui_color_picker_hsv(@raylib.Rectangle, @ref.Ref[Vector3]) -> Bool
 
-pub fn gui_combo_box(@raylib.Rectangle, String, @ref.Ref[Int]) -> Unit
+pub fn gui_combo_box(@raylib.Rectangle, String, @ref.Ref[Int32]) -> Unit
 
 pub fn gui_disable() -> Unit
 
 pub fn gui_disable_tooltip() -> Unit
 
-pub fn gui_draw_icon(Int, Int, Int, Int, @raylib.Color) -> Unit
+pub fn gui_draw_icon(Int32, Int32, Int32, Int32, @raylib.Color) -> Unit
 
-pub fn gui_dropdown_box(@raylib.Rectangle, String, @ref.Ref[Int], Bool) -> Bool
+pub fn gui_dropdown_box(@raylib.Rectangle, String, @ref.Ref[Int32], Bool) -> Bool
 
 pub fn gui_dummy_rec(@raylib.Rectangle, String) -> Unit
 
@@ -242,21 +242,21 @@ pub fn gui_get_alpha() -> Float
 
 pub fn gui_get_font() -> @raylib.Font
 
-pub fn gui_get_icon_scale() -> Int
+pub fn gui_get_icon_scale() -> Int32
 
-pub fn gui_get_icons() -> FixedArray[UInt]
+pub fn gui_get_icons() -> FixedArray[UInt32]
 
 pub fn gui_get_state() -> GuiState
 
-pub fn gui_get_style(Int, Int) -> Int
+pub fn gui_get_style(Int32, Int32) -> Int32
 
-pub fn gui_get_text_width(String) -> Int
+pub fn gui_get_text_width(String) -> Int32
 
-pub fn gui_grid(@raylib.Rectangle, Float, Int, @ref.Ref[@raylib.Vector2]) -> Bool
+pub fn gui_grid(@raylib.Rectangle, Float, Int32, @ref.Ref[@raylib.Vector2]) -> Bool
 
 pub fn gui_group_box(@raylib.Rectangle, String) -> Unit
 
-pub fn gui_icon_text(Int, String) -> String
+pub fn gui_icon_text(Int32, String) -> String
 
 pub fn gui_is_locked() -> Bool
 
@@ -266,9 +266,9 @@ pub fn gui_label_button(@raylib.Rectangle, String) -> Bool
 
 pub fn gui_line(@raylib.Rectangle, String) -> Unit
 
-pub fn gui_list_view(@raylib.Rectangle, String, @ref.Ref[Int], @ref.Ref[Int]) -> Bool
+pub fn gui_list_view(@raylib.Rectangle, String, @ref.Ref[Int32], @ref.Ref[Int32]) -> Bool
 
-pub fn gui_list_view_ex(@raylib.Rectangle, Array[String], @ref.Ref[Int], @ref.Ref[Int], @ref.Ref[Int]) -> Bool
+pub fn gui_list_view_ex(@raylib.Rectangle, Array[String], @ref.Ref[Int32], @ref.Ref[Int32], @ref.Ref[Int32]) -> Bool
 
 pub fn gui_load_icons(String, Bool) -> Array[String]
 
@@ -278,7 +278,7 @@ pub fn gui_load_style_default() -> Unit
 
 pub fn gui_lock() -> Unit
 
-pub fn gui_message_box(@raylib.Rectangle, String, String, String) -> Int
+pub fn gui_message_box(@raylib.Rectangle, String, String, String) -> Int32
 
 pub fn gui_panel(@raylib.Rectangle, String) -> Unit
 
@@ -290,11 +290,11 @@ pub fn gui_set_alpha(Float) -> Unit
 
 pub fn gui_set_font(@raylib.Font) -> Unit
 
-pub fn gui_set_icon_scale(Int) -> Unit
+pub fn gui_set_icon_scale(Int32) -> Unit
 
 pub fn gui_set_state(GuiState) -> Unit
 
-pub fn gui_set_style(Int, Int, Int) -> Unit
+pub fn gui_set_style(Int32, Int32, Int32) -> Unit
 
 pub fn gui_set_tooltip(String) -> Unit
 
@@ -302,29 +302,29 @@ pub fn gui_slider(@raylib.Rectangle, String, String, @ref.Ref[Float], Float, Flo
 
 pub fn gui_slider_bar(@raylib.Rectangle, String, String, @ref.Ref[Float], Float, Float) -> Bool
 
-pub fn gui_spinner(@raylib.Rectangle, String, @ref.Ref[Int], Int, Int, Bool) -> Bool
+pub fn gui_spinner(@raylib.Rectangle, String, @ref.Ref[Int32], Int32, Int32, Bool) -> Bool
 
 pub fn gui_status_bar(@raylib.Rectangle, String) -> Unit
 
-pub fn gui_tab_bar(@raylib.Rectangle, Array[String], @ref.Ref[Int]) -> Int
+pub fn gui_tab_bar(@raylib.Rectangle, Array[String], @ref.Ref[Int32]) -> Int32
 
-pub fn gui_text_box(@raylib.Rectangle, @ref.Ref[String], Int, Bool) -> Bool
+pub fn gui_text_box(@raylib.Rectangle, @ref.Ref[String], Int32, Bool) -> Bool
 
-pub fn gui_text_input_box(@raylib.Rectangle, String, String, String, @ref.Ref[String], Int, secret_view_active? : @ref.Ref[Bool]?) -> Int
+pub fn gui_text_input_box(@raylib.Rectangle, String, String, String, @ref.Ref[String], Int32, secret_view_active? : @ref.Ref[Bool]?) -> Int32
 
-pub fn gui_text_split(String) -> (Array[String], Array[Int])
+pub fn gui_text_split(String) -> (Array[String], Array[Int32])
 
 pub fn gui_toggle(@raylib.Rectangle, String, @ref.Ref[Bool]) -> Bool
 
-pub fn gui_toggle_group(@raylib.Rectangle, String, @ref.Ref[Int]) -> Unit
+pub fn gui_toggle_group(@raylib.Rectangle, String, @ref.Ref[Int32]) -> Unit
 
-pub fn gui_toggle_slider(@raylib.Rectangle, String, @ref.Ref[Int]) -> Bool
+pub fn gui_toggle_slider(@raylib.Rectangle, String, @ref.Ref[Int32]) -> Bool
 
 pub fn gui_tooltip(@raylib.Rectangle) -> Unit
 
 pub fn gui_unlock() -> Unit
 
-pub fn gui_value_box(@raylib.Rectangle, String, @ref.Ref[Int], Int, Int, Bool) -> Bool
+pub fn gui_value_box(@raylib.Rectangle, String, @ref.Ref[Int32], Int32, Int32, Bool) -> Bool
 
 pub fn gui_value_box_float(@raylib.Rectangle, String, @ref.Ref[String], @ref.Ref[Float], Bool) -> Bool
 
@@ -339,7 +339,12 @@ pub(all) enum GuiState {
   Pressed
   Disabled
 } derive(Eq, @debug.Debug)
-pub fn GuiState::to_int(Self) -> Int
+pub fn GuiState::equal(Self, Self) -> Bool
+pub fn GuiState::not_equal(Self, Self) -> Bool
+pub fn GuiState::output(Self, &Logger) -> Unit
+pub fn GuiState::to_int(Self) -> Int32
+pub fn GuiState::to_repr(Self) -> @debug.Repr
+pub fn GuiState::to_string(Self) -> String
 pub impl Show for GuiState
 
 pub struct Vector3 {
@@ -347,10 +352,14 @@ pub struct Vector3 {
   y : Float
   z : Float
 } derive(Eq, @debug.Debug)
+pub fn Vector3::equal(Self, Self) -> Bool
 pub fn Vector3::new(Float, Float, Float) -> Self
+pub fn Vector3::not_equal(Self, Self) -> Bool
+pub fn Vector3::output(Self, &Logger) -> Unit
+pub fn Vector3::to_repr(Self) -> @debug.Repr
+pub fn Vector3::to_string(Self) -> String
 pub impl Show for Vector3
 
 // Type aliases
 
 // Traits
-

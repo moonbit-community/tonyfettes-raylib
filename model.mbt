@@ -94,7 +94,7 @@ pub fn Model::draw_wires_ex(
 #as_free_fn(set_model_material_shader)
 pub fn Model::set_material_shader(
   self : Model,
-  material_index : Int,
+  material_index : Int32,
   shader : Shader,
 ) -> Unit {
   @ffi.set_model_material_shader(self.0, material_index, shader.0)
@@ -112,8 +112,8 @@ pub fn Model::bounding_box(self : Model) -> BoundingBox {
 #as_free_fn(set_model_material_texture)
 pub fn Model::set_material_texture(
   self : Model,
-  material_index : Int,
-  map_type : Int,
+  material_index : Int32,
+  map_type : Int32,
   texture : Texture,
 ) -> Unit {
   @ffi.set_model_material_texture(self.0, material_index, map_type, texture.0)
@@ -129,14 +129,14 @@ pub fn Model::set_transform(self : Model, transform : Matrix) -> Unit {
 ///|
 /// Get the number of meshes in the model.
 #as_free_fn(get_model_mesh_count)
-pub fn Model::mesh_count(self : Model) -> Int {
+pub fn Model::mesh_count(self : Model) -> Int32 {
   @ffi.get_model_mesh_count(self.0)
 }
 
 ///|
 /// Get a mesh from the model by index.
 #as_free_fn(get_model_mesh)
-pub fn Model::mesh(self : Model, index : Int) -> Mesh {
+pub fn Model::mesh(self : Model, index : Int32) -> Mesh {
   @ffi.get_model_mesh(self.0, index)
 }
 
@@ -150,21 +150,21 @@ pub fn Model::transform(self : Model) -> Matrix {
 ///|
 /// Get the number of materials in the model.
 #as_free_fn(get_model_material_count)
-pub fn Model::material_count(self : Model) -> Int {
+pub fn Model::material_count(self : Model) -> Int32 {
   @ffi.get_model_material_count(self.0)
 }
 
 ///|
 /// Get a material from the model by index.
 #as_free_fn(get_model_material)
-pub fn Model::material(self : Model, index : Int) -> Material {
+pub fn Model::material(self : Model, index : Int32) -> Material {
   @ffi.get_model_material(self.0, index)
 }
 
 ///|
 /// Get the number of bones in the model.
 #as_free_fn(get_model_bone_count)
-pub fn Model::bone_count(self : Model) -> Int {
+pub fn Model::bone_count(self : Model) -> Int32 {
   @ffi.get_model_bone_count(self.0)
 }
 
@@ -183,28 +183,31 @@ pub fn Model::bone_matrices(self : Model) -> MatrixArray? {
 ///|
 /// Get the parent bone index for the given bone.
 #as_free_fn(get_model_bone_parent)
-pub fn Model::bone_parent(self : Model, bone_index : Int) -> Int {
+pub fn Model::bone_parent(self : Model, bone_index : Int32) -> Int32 {
   @ffi.get_model_bone_parent(self.0, bone_index)
 }
 
 ///|
 /// Get the bind pose translation for the given bone.
 #as_free_fn(get_model_bind_pose_translation)
-pub fn Model::bind_pose_translation(self : Model, bone_index : Int) -> Vector3 {
+pub fn Model::bind_pose_translation(
+  self : Model,
+  bone_index : Int32,
+) -> Vector3 {
   Vector3::from_bytes(@ffi.get_model_bind_pose_translation(self.0, bone_index))
 }
 
 ///|
 /// Get the bind pose rotation (quaternion) for the given bone.
 #as_free_fn(get_model_bind_pose_rotation)
-pub fn Model::bind_pose_rotation(self : Model, bone_index : Int) -> Vector4 {
+pub fn Model::bind_pose_rotation(self : Model, bone_index : Int32) -> Vector4 {
   Vector4::from_bytes(@ffi.get_model_bind_pose_rotation(self.0, bone_index))
 }
 
 ///|
 /// Get the name of the given bone.
 #as_free_fn(get_model_bone_name)
-pub fn Model::bone_name(self : Model, bone_index : Int) -> String {
+pub fn Model::bone_name(self : Model, bone_index : Int32) -> String {
   @utf8.decode_lossy(@ffi.get_model_bone_name(self.0, bone_index))
 }
 
@@ -213,8 +216,8 @@ pub fn Model::bone_name(self : Model, bone_index : Int) -> String {
 #as_free_fn(set_model_mesh_material)
 pub fn Model::set_mesh_material(
   self : Model,
-  mesh_id : Int,
-  material_id : Int,
+  mesh_id : Int32,
+  material_id : Int32,
 ) -> Unit {
   @ffi.set_model_mesh_material(self.0, mesh_id, material_id)
 }
@@ -232,7 +235,7 @@ pub fn Model::load_from_mesh(mesh : Mesh) -> Model {
 pub fn Model::update_animation(
   self : Model,
   anims : ModelAnimations,
-  index : Int,
+  index : Int32,
   frame : Float,
 ) -> Unit {
   @ffi.update_model_animation(self.0, anims.0, index, frame)
@@ -244,10 +247,10 @@ pub fn Model::update_animation(
 pub fn Model::update_animation_ex(
   self : Model,
   anims_a : ModelAnimations,
-  index_a : Int,
+  index_a : Int32,
   frame_a : Float,
   anims_b : ModelAnimations,
-  index_b : Int,
+  index_b : Int32,
   frame_b : Float,
   blend : Float,
 ) -> Unit {
@@ -269,7 +272,7 @@ pub fn Model::update_animation_ex(
 pub fn Model::is_animation_valid(
   self : Model,
   anims : ModelAnimations,
-  index : Int,
+  index : Int32,
 ) -> Bool {
   @ffi.is_model_animation_valid(self.0, anims.0, index)
 }

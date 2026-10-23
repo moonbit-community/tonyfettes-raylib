@@ -2,7 +2,7 @@
 let letter_boundry_size : Float = 0.25
 
 ///|
-const TextMaxLayers : Int = 32
+const TextMaxLayers : Int32 = 32
 
 // WaveTextConfig
 
@@ -39,7 +39,7 @@ let alpha_discard_fs : String =
 ///|
 fn draw_text_codepoint_3d(
   font : @raylib.Font,
-  codepoint : Int,
+  codepoint : Int32,
   position : @raylib.Vector3,
   font_size : Float,
   backface : Bool,
@@ -543,7 +543,7 @@ fn main {
       // Remove last char
       let cps = @raylib.load_codepoints(text)
       if cps.length() > 0 {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for j in 0..<(cps.length() - 1) {
           buf.write_char(cps[j].unsafe_to_char())
         }
@@ -554,7 +554,7 @@ fn main {
     } else {
       let ch = @raylib.get_char_pressed()
       if ch > 0 {
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         buf.write_string(text)
         buf.write_char(ch.unsafe_to_char())
         text = buf.to_string()

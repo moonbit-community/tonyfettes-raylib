@@ -1,0 +1,26 @@
+# Files excluded from the published package (`moon package` / `moon publish`).
+# Same syntax as .gitignore. NOTE: this file overrides .gitignore in this
+# directory, so build/test artifacts must be repeated here.
+
+# Build / dependency artifacts
+_build/
+target/
+.mooncakes/
+.DS_Store
+_test_tmp_*
+
+# Development-only directories and files
+# `/external` is anchored to the repo root; an unanchored pattern would also
+# strip internal/raylib/external/ (vendored raylib headers) from the package.
+/external
+examples
+moon.work
+publish
+docs
+tools
+scripts
+CLAUDE.md
+CONTRIBUTING.md
+WORKFLOW.md
+setup.sh
+clean.sh

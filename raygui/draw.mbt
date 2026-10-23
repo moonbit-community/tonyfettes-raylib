@@ -5,7 +5,7 @@
 ///|
 fn gui_draw_rectangle(
   rec : @raylib.Rectangle,
-  border_width : Int,
+  border_width : Int32,
   border_color : @raylib.Color,
   color : @raylib.Color,
 ) -> Unit {
@@ -59,7 +59,7 @@ fn gui_draw_rectangle(
 
 ///|
 fn get_text_bounds(
-  control : Int,
+  control : Int32,
   bounds : @raylib.Rectangle,
 ) -> @raylib.Rectangle {
   let bw = gui_get_style(control, BorderWidth)
@@ -85,7 +85,7 @@ fn get_text_bounds(
 fn gui_draw_text(
   text : String,
   text_bounds : @raylib.Rectangle,
-  alignment : Int,
+  alignment : Int32,
   tint : @raylib.Color,
 ) -> Unit {
   if text.length() == 0 {
@@ -131,8 +131,8 @@ fn gui_draw_text(
   )
   // First pass: calculate lines for layout (needed for vertical alignment)
   // Each "line" is a range of codepoint indices [start, end) and its pixel width.
-  let line_starts : Array[Int] = []
-  let line_ends : Array[Int] = []
+  let line_starts : Array[Int32] = []
+  let line_ends : Array[Int32] = []
   let line_widths : Array[Float] = []
   if wrap_mode == TextWrapNone {
     // No wrapping: single line per newline

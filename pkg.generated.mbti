@@ -6,606 +6,606 @@ import {
 }
 
 // Values
-pub const BlendAdditive : Int = 1
+pub const BlendAdditive : Int32 = 1
 
-pub const BlendAlpha : Int = 0
+pub const BlendAlpha : Int32 = 0
 
-pub const BlendCustom : Int = 6
+pub const BlendCustom : Int32 = 6
 
-pub const BlendMultiplied : Int = 2
+pub const BlendMultiplied : Int32 = 2
 
-pub const CameraCustom : Int = 0
+pub const CameraCustom : Int32 = 0
 
-pub const CameraFirstPerson : Int = 3
+pub const CameraFirstPerson : Int32 = 3
 
-pub const CameraFree : Int = 1
+pub const CameraFree : Int32 = 1
 
-pub const CameraOrbital : Int = 2
+pub const CameraOrbital : Int32 = 2
 
-pub const CameraOrthographic : Int = 1
+pub const CameraOrthographic : Int32 = 1
 
-pub const CameraPerspective : Int = 0
+pub const CameraPerspective : Int32 = 0
 
-pub const CameraThirdPerson : Int = 4
+pub const CameraThirdPerson : Int32 = 4
 
-pub const CubemapLayoutAutoDetect : Int = 0
+pub const CubemapLayoutAutoDetect : Int32 = 0
 
-pub const CubemapLayoutCrossFourByThree : Int = 4
+pub const CubemapLayoutCrossFourByThree : Int32 = 4
 
-pub const CubemapLayoutCrossThreeByFour : Int = 3
+pub const CubemapLayoutCrossThreeByFour : Int32 = 3
 
-pub const CubemapLayoutLineHorizontal : Int = 2
+pub const CubemapLayoutLineHorizontal : Int32 = 2
 
-pub const CubemapLayoutLineVertical : Int = 1
+pub const CubemapLayoutLineVertical : Int32 = 1
 
-pub const FlagBorderlessWindowedMode : Int = 0x00008000
+pub const FlagBorderlessWindowedMode : Int32 = 0x00008000
 
-pub const FlagFullscreenMode : Int = 0x00000002
+pub const FlagFullscreenMode : Int32 = 0x00000002
 
-pub const FlagInterlacedHint : Int = 0x00010000
+pub const FlagInterlacedHint : Int32 = 0x00010000
 
-pub const FlagMsaa4xHint : Int = 0x00000020
+pub const FlagMsaa4xHint : Int32 = 0x00000020
 
-pub const FlagVsyncHint : Int = 0x00000040
+pub const FlagVsyncHint : Int32 = 0x00000040
 
-pub const FlagWindowAlwaysRun : Int = 0x00000100
+pub const FlagWindowAlwaysRun : Int32 = 0x00000100
 
-pub const FlagWindowHidden : Int = 0x00000080
+pub const FlagWindowHidden : Int32 = 0x00000080
 
-pub const FlagWindowHighdpi : Int = 0x00002000
+pub const FlagWindowHighdpi : Int32 = 0x00002000
 
-pub const FlagWindowMaximized : Int = 0x00000400
+pub const FlagWindowMaximized : Int32 = 0x00000400
 
-pub const FlagWindowMinimized : Int = 0x00000200
+pub const FlagWindowMinimized : Int32 = 0x00000200
 
-pub const FlagWindowMousePassthrough : Int = 0x00004000
+pub const FlagWindowMousePassthrough : Int32 = 0x00004000
 
-pub const FlagWindowResizable : Int = 0x00000004
+pub const FlagWindowResizable : Int32 = 0x00000004
 
-pub const FlagWindowTopmost : Int = 0x00001000
+pub const FlagWindowTopmost : Int32 = 0x00001000
 
-pub const FlagWindowTransparent : Int = 0x00000010
+pub const FlagWindowTransparent : Int32 = 0x00000010
 
-pub const FlagWindowUndecorated : Int = 0x00000008
+pub const FlagWindowUndecorated : Int32 = 0x00000008
 
-pub const FlagWindowUnfocused : Int = 0x00000800
+pub const FlagWindowUnfocused : Int32 = 0x00000800
 
-pub const FontBitmap : Int = 1
+pub const FontBitmap : Int32 = 1
 
-pub const FontDefault : Int = 0
+pub const FontDefault : Int32 = 0
 
-pub const FontSdf : Int = 2
+pub const FontSdf : Int32 = 2
 
-pub const GamepadAxisLeftTrigger : Int = 4
+pub const GamepadAxisLeftTrigger : Int32 = 4
 
-pub const GamepadAxisLeftX : Int = 0
+pub const GamepadAxisLeftX : Int32 = 0
 
-pub const GamepadAxisLeftY : Int = 1
+pub const GamepadAxisLeftY : Int32 = 1
 
-pub const GamepadAxisRightTrigger : Int = 5
+pub const GamepadAxisRightTrigger : Int32 = 5
 
-pub const GamepadAxisRightX : Int = 2
+pub const GamepadAxisRightX : Int32 = 2
 
-pub const GamepadAxisRightY : Int = 3
+pub const GamepadAxisRightY : Int32 = 3
 
-pub const GamepadButtonLeftFaceDown : Int = 3
+pub const GamepadButtonLeftFaceDown : Int32 = 3
 
-pub const GamepadButtonLeftFaceLeft : Int = 4
+pub const GamepadButtonLeftFaceLeft : Int32 = 4
 
-pub const GamepadButtonLeftFaceRight : Int = 2
+pub const GamepadButtonLeftFaceRight : Int32 = 2
 
-pub const GamepadButtonLeftFaceUp : Int = 1
+pub const GamepadButtonLeftFaceUp : Int32 = 1
 
-pub const GamepadButtonLeftThumb : Int = 16
+pub const GamepadButtonLeftThumb : Int32 = 16
 
-pub const GamepadButtonLeftTrigger1 : Int = 12
+pub const GamepadButtonLeftTrigger1 : Int32 = 12
 
-pub const GamepadButtonLeftTrigger2 : Int = 13
+pub const GamepadButtonLeftTrigger2 : Int32 = 13
 
-pub const GamepadButtonMiddle : Int = 6
+pub const GamepadButtonMiddle : Int32 = 6
 
-pub const GamepadButtonMiddleLeft : Int = 5
+pub const GamepadButtonMiddleLeft : Int32 = 5
 
-pub const GamepadButtonMiddleRight : Int = 7
+pub const GamepadButtonMiddleRight : Int32 = 7
 
-pub const GamepadButtonRightFaceDown : Int = 10
+pub const GamepadButtonRightFaceDown : Int32 = 10
 
-pub const GamepadButtonRightFaceLeft : Int = 11
+pub const GamepadButtonRightFaceLeft : Int32 = 11
 
-pub const GamepadButtonRightFaceRight : Int = 9
+pub const GamepadButtonRightFaceRight : Int32 = 9
 
-pub const GamepadButtonRightFaceUp : Int = 8
+pub const GamepadButtonRightFaceUp : Int32 = 8
 
-pub const GamepadButtonRightThumb : Int = 17
+pub const GamepadButtonRightThumb : Int32 = 17
 
-pub const GamepadButtonRightTrigger1 : Int = 14
+pub const GamepadButtonRightTrigger1 : Int32 = 14
 
-pub const GamepadButtonRightTrigger2 : Int = 15
+pub const GamepadButtonRightTrigger2 : Int32 = 15
 
-pub const GamepadButtonUnknown : Int = 0
+pub const GamepadButtonUnknown : Int32 = 0
 
-pub const GestureDoubletap : Int = 2
+pub const GestureDoubletap : Int32 = 2
 
-pub const GestureDrag : Int = 8
+pub const GestureDrag : Int32 = 8
 
-pub const GestureHold : Int = 4
+pub const GestureHold : Int32 = 4
 
-pub const GestureNone : Int = 0
+pub const GestureNone : Int32 = 0
 
-pub const GesturePinchIn : Int = 256
+pub const GesturePinchIn : Int32 = 256
 
-pub const GesturePinchOut : Int = 512
+pub const GesturePinchOut : Int32 = 512
 
-pub const GestureSwipeDown : Int = 128
+pub const GestureSwipeDown : Int32 = 128
 
-pub const GestureSwipeLeft : Int = 32
+pub const GestureSwipeLeft : Int32 = 32
 
-pub const GestureSwipeRight : Int = 16
+pub const GestureSwipeRight : Int32 = 16
 
-pub const GestureSwipeUp : Int = 64
+pub const GestureSwipeUp : Int32 = 64
 
-pub const GestureTap : Int = 1
+pub const GestureTap : Int32 = 1
 
-pub const KeyA : Int = 65
+pub const KeyA : Int32 = 65
 
-pub const KeyApostrophe : Int = 39
+pub const KeyApostrophe : Int32 = 39
 
-pub const KeyB : Int = 66
+pub const KeyB : Int32 = 66
 
-pub const KeyBackslash : Int = 92
+pub const KeyBackslash : Int32 = 92
 
-pub const KeyBackspace : Int = 259
+pub const KeyBackspace : Int32 = 259
 
-pub const KeyC : Int = 67
+pub const KeyC : Int32 = 67
 
-pub const KeyCapsLock : Int = 280
+pub const KeyCapsLock : Int32 = 280
 
-pub const KeyComma : Int = 44
+pub const KeyComma : Int32 = 44
 
-pub const KeyD : Int = 68
+pub const KeyD : Int32 = 68
 
-pub const KeyDelete : Int = 261
+pub const KeyDelete : Int32 = 261
 
-pub const KeyDown : Int = 264
+pub const KeyDown : Int32 = 264
 
-pub const KeyE : Int = 69
+pub const KeyE : Int32 = 69
 
-pub const KeyEight : Int = 56
+pub const KeyEight : Int32 = 56
 
-pub const KeyEnd : Int = 269
+pub const KeyEnd : Int32 = 269
 
-pub const KeyEnter : Int = 257
+pub const KeyEnter : Int32 = 257
 
-pub const KeyEqual : Int = 61
+pub const KeyEqual : Int32 = 61
 
-pub const KeyEscape : Int = 256
+pub const KeyEscape : Int32 = 256
 
-pub const KeyF : Int = 70
+pub const KeyF : Int32 = 70
 
-pub const KeyF1 : Int = 290
+pub const KeyF1 : Int32 = 290
 
-pub const KeyF10 : Int = 299
+pub const KeyF10 : Int32 = 299
 
-pub const KeyF11 : Int = 300
+pub const KeyF11 : Int32 = 300
 
-pub const KeyF12 : Int = 301
+pub const KeyF12 : Int32 = 301
 
-pub const KeyF2 : Int = 291
+pub const KeyF2 : Int32 = 291
 
-pub const KeyF3 : Int = 292
+pub const KeyF3 : Int32 = 292
 
-pub const KeyF4 : Int = 293
+pub const KeyF4 : Int32 = 293
 
-pub const KeyF5 : Int = 294
+pub const KeyF5 : Int32 = 294
 
-pub const KeyF6 : Int = 295
+pub const KeyF6 : Int32 = 295
 
-pub const KeyF7 : Int = 296
+pub const KeyF7 : Int32 = 296
 
-pub const KeyF8 : Int = 297
+pub const KeyF8 : Int32 = 297
 
-pub const KeyF9 : Int = 298
+pub const KeyF9 : Int32 = 298
 
-pub const KeyFive : Int = 53
+pub const KeyFive : Int32 = 53
 
-pub const KeyFour : Int = 52
+pub const KeyFour : Int32 = 52
 
-pub const KeyG : Int = 71
+pub const KeyG : Int32 = 71
 
-pub const KeyGrave : Int = 96
+pub const KeyGrave : Int32 = 96
 
-pub const KeyH : Int = 72
+pub const KeyH : Int32 = 72
 
-pub const KeyHome : Int = 268
+pub const KeyHome : Int32 = 268
 
-pub const KeyI : Int = 73
+pub const KeyI : Int32 = 73
 
-pub const KeyInsert : Int = 260
+pub const KeyInsert : Int32 = 260
 
-pub const KeyJ : Int = 74
+pub const KeyJ : Int32 = 74
 
-pub const KeyK : Int = 75
+pub const KeyK : Int32 = 75
 
-pub const KeyKbMenu : Int = 348
+pub const KeyKbMenu : Int32 = 348
 
-pub const KeyKp0 : Int = 320
+pub const KeyKp0 : Int32 = 320
 
-pub const KeyKp1 : Int = 321
+pub const KeyKp1 : Int32 = 321
 
-pub const KeyKp2 : Int = 322
+pub const KeyKp2 : Int32 = 322
 
-pub const KeyKp3 : Int = 323
+pub const KeyKp3 : Int32 = 323
 
-pub const KeyKp4 : Int = 324
+pub const KeyKp4 : Int32 = 324
 
-pub const KeyKp5 : Int = 325
+pub const KeyKp5 : Int32 = 325
 
-pub const KeyKp6 : Int = 326
+pub const KeyKp6 : Int32 = 326
 
-pub const KeyKp7 : Int = 327
+pub const KeyKp7 : Int32 = 327
 
-pub const KeyKp8 : Int = 328
+pub const KeyKp8 : Int32 = 328
 
-pub const KeyKp9 : Int = 329
+pub const KeyKp9 : Int32 = 329
 
-pub const KeyL : Int = 76
+pub const KeyL : Int32 = 76
 
-pub const KeyLeft : Int = 263
+pub const KeyLeft : Int32 = 263
 
-pub const KeyLeftAlt : Int = 342
+pub const KeyLeftAlt : Int32 = 342
 
-pub const KeyLeftBracket : Int = 91
+pub const KeyLeftBracket : Int32 = 91
 
-pub const KeyLeftControl : Int = 341
+pub const KeyLeftControl : Int32 = 341
 
-pub const KeyLeftShift : Int = 340
+pub const KeyLeftShift : Int32 = 340
 
-pub const KeyLeftSuper : Int = 343
+pub const KeyLeftSuper : Int32 = 343
 
-pub const KeyM : Int = 77
+pub const KeyM : Int32 = 77
 
-pub const KeyMinus : Int = 45
+pub const KeyMinus : Int32 = 45
 
-pub const KeyN : Int = 78
+pub const KeyN : Int32 = 78
 
-pub const KeyNine : Int = 57
+pub const KeyNine : Int32 = 57
 
-pub const KeyNull : Int = 0
+pub const KeyNull : Int32 = 0
 
-pub const KeyNumLock : Int = 282
+pub const KeyNumLock : Int32 = 282
 
-pub const KeyO : Int = 79
+pub const KeyO : Int32 = 79
 
-pub const KeyOne : Int = 49
+pub const KeyOne : Int32 = 49
 
-pub const KeyP : Int = 80
+pub const KeyP : Int32 = 80
 
-pub const KeyPageDown : Int = 267
+pub const KeyPageDown : Int32 = 267
 
-pub const KeyPageUp : Int = 266
+pub const KeyPageUp : Int32 = 266
 
-pub const KeyPause : Int = 284
+pub const KeyPause : Int32 = 284
 
-pub const KeyPeriod : Int = 46
+pub const KeyPeriod : Int32 = 46
 
-pub const KeyPrintScreen : Int = 283
+pub const KeyPrintScreen : Int32 = 283
 
-pub const KeyQ : Int = 81
+pub const KeyQ : Int32 = 81
 
-pub const KeyR : Int = 82
+pub const KeyR : Int32 = 82
 
-pub const KeyRight : Int = 262
+pub const KeyRight : Int32 = 262
 
-pub const KeyRightAlt : Int = 346
+pub const KeyRightAlt : Int32 = 346
 
-pub const KeyRightBracket : Int = 93
+pub const KeyRightBracket : Int32 = 93
 
-pub const KeyRightControl : Int = 345
+pub const KeyRightControl : Int32 = 345
 
-pub const KeyRightShift : Int = 344
+pub const KeyRightShift : Int32 = 344
 
-pub const KeyRightSuper : Int = 347
+pub const KeyRightSuper : Int32 = 347
 
-pub const KeyS : Int = 83
+pub const KeyS : Int32 = 83
 
-pub const KeyScrollLock : Int = 281
+pub const KeyScrollLock : Int32 = 281
 
-pub const KeySemicolon : Int = 59
+pub const KeySemicolon : Int32 = 59
 
-pub const KeySeven : Int = 55
+pub const KeySeven : Int32 = 55
 
-pub const KeySix : Int = 54
+pub const KeySix : Int32 = 54
 
-pub const KeySlash : Int = 47
+pub const KeySlash : Int32 = 47
 
-pub const KeySpace : Int = 32
+pub const KeySpace : Int32 = 32
 
-pub const KeyT : Int = 84
+pub const KeyT : Int32 = 84
 
-pub const KeyTab : Int = 258
+pub const KeyTab : Int32 = 258
 
-pub const KeyThree : Int = 51
+pub const KeyThree : Int32 = 51
 
-pub const KeyTwo : Int = 50
+pub const KeyTwo : Int32 = 50
 
-pub const KeyU : Int = 85
+pub const KeyU : Int32 = 85
 
-pub const KeyUp : Int = 265
+pub const KeyUp : Int32 = 265
 
-pub const KeyV : Int = 86
+pub const KeyV : Int32 = 86
 
-pub const KeyW : Int = 87
+pub const KeyW : Int32 = 87
 
-pub const KeyX : Int = 88
+pub const KeyX : Int32 = 88
 
-pub const KeyY : Int = 89
+pub const KeyY : Int32 = 89
 
-pub const KeyZ : Int = 90
+pub const KeyZ : Int32 = 90
 
-pub const KeyZero : Int = 48
+pub const KeyZero : Int32 = 48
 
-pub const LogAll : Int = 0
+pub const LogAll : Int32 = 0
 
-pub const LogDebug : Int = 2
+pub const LogDebug : Int32 = 2
 
-pub const LogError : Int = 5
+pub const LogError : Int32 = 5
 
-pub const LogFatal : Int = 6
+pub const LogFatal : Int32 = 6
 
-pub const LogInfo : Int = 3
+pub const LogInfo : Int32 = 3
 
-pub const LogNone : Int = 7
+pub const LogNone : Int32 = 7
 
-pub const LogTrace : Int = 1
+pub const LogTrace : Int32 = 1
 
-pub const LogWarning : Int = 4
+pub const LogWarning : Int32 = 4
 
-pub const MaterialMapAlbedo : Int = 0
+pub const MaterialMapAlbedo : Int32 = 0
 
-pub const MaterialMapBrdf : Int = 10
+pub const MaterialMapBrdf : Int32 = 10
 
-pub const MaterialMapCubemap : Int = 7
+pub const MaterialMapCubemap : Int32 = 7
 
-pub const MaterialMapEmission : Int = 5
+pub const MaterialMapEmission : Int32 = 5
 
-pub const MaterialMapHeight : Int = 6
+pub const MaterialMapHeight : Int32 = 6
 
-pub const MaterialMapIrradiance : Int = 8
+pub const MaterialMapIrradiance : Int32 = 8
 
-pub const MaterialMapMetalness : Int = 1
+pub const MaterialMapMetalness : Int32 = 1
 
-pub const MaterialMapNormal : Int = 2
+pub const MaterialMapNormal : Int32 = 2
 
-pub const MaterialMapOcclusion : Int = 4
+pub const MaterialMapOcclusion : Int32 = 4
 
-pub const MaterialMapPrefilter : Int = 9
+pub const MaterialMapPrefilter : Int32 = 9
 
-pub const MaterialMapRoughness : Int = 3
+pub const MaterialMapRoughness : Int32 = 3
 
-pub const MouseButtonBack : Int = 6
+pub const MouseButtonBack : Int32 = 6
 
-pub const MouseButtonExtra : Int = 4
+pub const MouseButtonExtra : Int32 = 4
 
-pub const MouseButtonForward : Int = 5
+pub const MouseButtonForward : Int32 = 5
 
-pub const MouseButtonLeft : Int = 0
+pub const MouseButtonLeft : Int32 = 0
 
-pub const MouseButtonMiddle : Int = 2
+pub const MouseButtonMiddle : Int32 = 2
 
-pub const MouseButtonRight : Int = 1
+pub const MouseButtonRight : Int32 = 1
 
-pub const MouseButtonSide : Int = 3
+pub const MouseButtonSide : Int32 = 3
 
-pub const MouseCursorArrow : Int = 1
+pub const MouseCursorArrow : Int32 = 1
 
-pub const MouseCursorCrosshair : Int = 3
+pub const MouseCursorCrosshair : Int32 = 3
 
-pub const MouseCursorDefault : Int = 0
+pub const MouseCursorDefault : Int32 = 0
 
-pub const MouseCursorIbeam : Int = 2
+pub const MouseCursorIbeam : Int32 = 2
 
-pub const MouseCursorNotAllowed : Int = 10
+pub const MouseCursorNotAllowed : Int32 = 10
 
-pub const MouseCursorPointingHand : Int = 4
+pub const MouseCursorPointingHand : Int32 = 4
 
-pub const MouseCursorResizeAll : Int = 9
+pub const MouseCursorResizeAll : Int32 = 9
 
-pub const MouseCursorResizeEw : Int = 5
+pub const MouseCursorResizeEw : Int32 = 5
 
-pub const MouseCursorResizeNesw : Int = 8
+pub const MouseCursorResizeNesw : Int32 = 8
 
-pub const MouseCursorResizeNs : Int = 6
+pub const MouseCursorResizeNs : Int32 = 6
 
-pub const MouseCursorResizeNwse : Int = 7
+pub const MouseCursorResizeNwse : Int32 = 7
 
-pub const NpatchNinePatch : Int = 0
+pub const NpatchNinePatch : Int32 = 0
 
-pub const NpatchThreePatchHorizontal : Int = 2
+pub const NpatchThreePatchHorizontal : Int32 = 2
 
-pub const NpatchThreePatchVertical : Int = 1
+pub const NpatchThreePatchVertical : Int32 = 1
 
-pub const PixelformatUncompressedGrayAlpha : Int = 2
+pub const PixelformatUncompressedGrayAlpha : Int32 = 2
 
-pub const PixelformatUncompressedGrayscale : Int = 1
+pub const PixelformatUncompressedGrayscale : Int32 = 1
 
-pub const PixelformatUncompressedR32 : Int = 8
+pub const PixelformatUncompressedR32 : Int32 = 8
 
-pub const PixelformatUncompressedR32g32b32 : Int = 9
+pub const PixelformatUncompressedR32g32b32 : Int32 = 9
 
-pub const PixelformatUncompressedR32g32b32a32 : Int = 10
+pub const PixelformatUncompressedR32g32b32a32 : Int32 = 10
 
-pub const PixelformatUncompressedR4g4b4a4 : Int = 6
+pub const PixelformatUncompressedR4g4b4a4 : Int32 = 6
 
-pub const PixelformatUncompressedR5g5b5a1 : Int = 5
+pub const PixelformatUncompressedR5g5b5a1 : Int32 = 5
 
-pub const PixelformatUncompressedR5g6b5 : Int = 3
+pub const PixelformatUncompressedR5g6b5 : Int32 = 3
 
-pub const PixelformatUncompressedR8g8b8 : Int = 4
+pub const PixelformatUncompressedR8g8b8 : Int32 = 4
 
-pub const PixelformatUncompressedR8g8b8a8 : Int = 7
+pub const PixelformatUncompressedR8g8b8a8 : Int32 = 7
 
 #deprecated
-pub const RlAttachmentColorChannel0 : Int = 0
+pub const RlAttachmentColorChannel0 : Int32 = 0
 
 #deprecated
-pub const RlAttachmentColorChannel1 : Int = 1
+pub const RlAttachmentColorChannel1 : Int32 = 1
 
 #deprecated
-pub const RlAttachmentColorChannel2 : Int = 2
+pub const RlAttachmentColorChannel2 : Int32 = 2
 
 #deprecated
-pub const RlAttachmentColorChannel3 : Int = 3
+pub const RlAttachmentColorChannel3 : Int32 = 3
 
 #deprecated
-pub const RlAttachmentCubemapNegativeX : Int = 1
+pub const RlAttachmentCubemapNegativeX : Int32 = 1
 
 #deprecated
-pub const RlAttachmentCubemapNegativeY : Int = 3
+pub const RlAttachmentCubemapNegativeY : Int32 = 3
 
 #deprecated
-pub const RlAttachmentCubemapNegativeZ : Int = 5
+pub const RlAttachmentCubemapNegativeZ : Int32 = 5
 
 #deprecated
-pub const RlAttachmentCubemapPositiveX : Int = 0
+pub const RlAttachmentCubemapPositiveX : Int32 = 0
 
 #deprecated
-pub const RlAttachmentCubemapPositiveY : Int = 2
+pub const RlAttachmentCubemapPositiveY : Int32 = 2
 
 #deprecated
-pub const RlAttachmentCubemapPositiveZ : Int = 4
+pub const RlAttachmentCubemapPositiveZ : Int32 = 4
 
 #deprecated
-pub const RlAttachmentDepth : Int = 100
+pub const RlAttachmentDepth : Int32 = 100
 
 #deprecated
-pub const RlAttachmentRenderbuffer : Int = 200
+pub const RlAttachmentRenderbuffer : Int32 = 200
 
 #deprecated
-pub const RlAttachmentStencil : Int = 200
+pub const RlAttachmentStencil : Int32 = 200
 
 #deprecated
-pub const RlAttachmentTexture2d : Int = 100
+pub const RlAttachmentTexture2d : Int32 = 100
 
 #deprecated
-pub const RlDrawFramebuffer : UInt = 0x8CA9
+pub const RlDrawFramebuffer : UInt32 = 0x8CA9
 
 #deprecated
-pub const RlLines : Int = 0x0001
+pub const RlLines : Int32 = 0x0001
 
 #deprecated
-pub const RlQuads : Int = 0x0007
+pub const RlQuads : Int32 = 0x0007
 
 #deprecated
-pub const RlReadFramebuffer : UInt = 0x8CA8
+pub const RlReadFramebuffer : UInt32 = 0x8CA8
 
 #deprecated
-pub const RlTriangles : Int = 0x0004
+pub const RlTriangles : Int32 = 0x0004
 
-pub const ShaderLocBoneMatrices : Int = 28
+pub const ShaderLocBoneMatrices : Int32 = 28
 
-pub const ShaderLocColorAmbient : Int = 14
+pub const ShaderLocColorAmbient : Int32 = 14
 
-pub const ShaderLocColorDiffuse : Int = 12
+pub const ShaderLocColorDiffuse : Int32 = 12
 
-pub const ShaderLocColorSpecular : Int = 13
+pub const ShaderLocColorSpecular : Int32 = 13
 
-pub const ShaderLocMapAlbedo : Int = 15
+pub const ShaderLocMapAlbedo : Int32 = 15
 
-pub const ShaderLocMapBrdf : Int = 25
+pub const ShaderLocMapBrdf : Int32 = 25
 
-pub const ShaderLocMapCubemap : Int = 22
+pub const ShaderLocMapCubemap : Int32 = 22
 
-pub const ShaderLocMapEmission : Int = 20
+pub const ShaderLocMapEmission : Int32 = 20
 
-pub const ShaderLocMapHeight : Int = 21
+pub const ShaderLocMapHeight : Int32 = 21
 
-pub const ShaderLocMapIrradiance : Int = 23
+pub const ShaderLocMapIrradiance : Int32 = 23
 
-pub const ShaderLocMapMetalness : Int = 16
+pub const ShaderLocMapMetalness : Int32 = 16
 
-pub const ShaderLocMapNormal : Int = 17
+pub const ShaderLocMapNormal : Int32 = 17
 
-pub const ShaderLocMapOcclusion : Int = 19
+pub const ShaderLocMapOcclusion : Int32 = 19
 
-pub const ShaderLocMapPrefilter : Int = 24
+pub const ShaderLocMapPrefilter : Int32 = 24
 
-pub const ShaderLocMapRoughness : Int = 18
+pub const ShaderLocMapRoughness : Int32 = 18
 
-pub const ShaderLocMatrixModel : Int = 9
+pub const ShaderLocMatrixModel : Int32 = 9
 
-pub const ShaderLocMatrixMvp : Int = 6
+pub const ShaderLocMatrixMvp : Int32 = 6
 
-pub const ShaderLocMatrixNormal : Int = 10
+pub const ShaderLocMatrixNormal : Int32 = 10
 
-pub const ShaderLocMatrixProjection : Int = 8
+pub const ShaderLocMatrixProjection : Int32 = 8
 
-pub const ShaderLocMatrixView : Int = 7
+pub const ShaderLocMatrixView : Int32 = 7
 
-pub const ShaderLocVectorView : Int = 11
+pub const ShaderLocVectorView : Int32 = 11
 
-pub const ShaderLocVertexBoneids : Int = 26
+pub const ShaderLocVertexBoneids : Int32 = 26
 
-pub const ShaderLocVertexBoneweights : Int = 27
+pub const ShaderLocVertexBoneweights : Int32 = 27
 
-pub const ShaderLocVertexColor : Int = 5
+pub const ShaderLocVertexColor : Int32 = 5
 
-pub const ShaderLocVertexNormal : Int = 3
+pub const ShaderLocVertexNormal : Int32 = 3
 
-pub const ShaderLocVertexPosition : Int = 0
+pub const ShaderLocVertexPosition : Int32 = 0
 
-pub const ShaderLocVertexTangent : Int = 4
+pub const ShaderLocVertexTangent : Int32 = 4
 
-pub const ShaderLocVertexTexcoord01 : Int = 1
+pub const ShaderLocVertexTexcoord01 : Int32 = 1
 
-pub const ShaderLocVertexTexcoord02 : Int = 2
+pub const ShaderLocVertexTexcoord02 : Int32 = 2
 
-pub const ShaderUniformFloat : Int = 0
+pub const ShaderUniformFloat : Int32 = 0
 
-pub const ShaderUniformInt : Int = 4
+pub const ShaderUniformInt : Int32 = 4
 
-pub const ShaderUniformIvec2 : Int = 5
+pub const ShaderUniformIvec2 : Int32 = 5
 
-pub const ShaderUniformIvec3 : Int = 6
+pub const ShaderUniformIvec3 : Int32 = 6
 
-pub const ShaderUniformIvec4 : Int = 7
+pub const ShaderUniformIvec4 : Int32 = 7
 
-pub const ShaderUniformSampler2d : Int = 8
+pub const ShaderUniformSampler2d : Int32 = 8
 
-pub const ShaderUniformVec2 : Int = 1
+pub const ShaderUniformVec2 : Int32 = 1
 
-pub const ShaderUniformVec3 : Int = 2
+pub const ShaderUniformVec3 : Int32 = 2
 
-pub const ShaderUniformVec4 : Int = 3
+pub const ShaderUniformVec4 : Int32 = 3
 
-pub const TextureFilterAnisotropic16x : Int = 5
+pub const TextureFilterAnisotropic16x : Int32 = 5
 
-pub const TextureFilterAnisotropic4x : Int = 3
+pub const TextureFilterAnisotropic4x : Int32 = 3
 
-pub const TextureFilterAnisotropic8x : Int = 4
+pub const TextureFilterAnisotropic8x : Int32 = 4
 
-pub const TextureFilterBilinear : Int = 1
+pub const TextureFilterBilinear : Int32 = 1
 
-pub const TextureFilterPoint : Int = 0
+pub const TextureFilterPoint : Int32 = 0
 
-pub const TextureFilterTrilinear : Int = 2
+pub const TextureFilterTrilinear : Int32 = 2
 
-pub const TextureWrapClamp : Int = 1
+pub const TextureWrapClamp : Int32 = 1
 
-pub const TextureWrapMirrorClamp : Int = 3
+pub const TextureWrapMirrorClamp : Int32 = 3
 
-pub const TextureWrapMirrorRepeat : Int = 2
+pub const TextureWrapMirrorRepeat : Int32 = 2
 
-pub const TextureWrapRepeat : Int = 0
+pub const TextureWrapRepeat : Int32 = 0
 
-pub fn attach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn attach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 
-pub fn attach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn attach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 
-pub fn audio_buffer_get_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Float
+pub fn audio_buffer_get_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Float
 
-pub fn audio_buffer_set_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt, Float) -> Unit
+pub fn audio_buffer_set_sample(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32, Float) -> Unit
 
-pub fn begin_blend_mode(Int) -> Unit
+pub fn begin_blend_mode(Int32) -> Unit
 
 pub fn begin_drawing() -> Unit
 
@@ -613,7 +613,7 @@ pub fn begin_mode_2d(Camera2D) -> Unit
 
 pub fn begin_mode_3d(Camera3D) -> Unit
 
-pub fn begin_scissor_mode(Int, Int, Int, Int) -> Unit
+pub fn begin_scissor_mode(Int32, Int32, Int32, Int32) -> Unit
 
 pub let beige : Color
 
@@ -641,7 +641,7 @@ pub fn check_collision_lines(Vector2, Vector2, Vector2, Vector2) -> Vector2?
 
 pub fn check_collision_point_circle(Vector2, Vector2, Float) -> Bool
 
-pub fn check_collision_point_line(Vector2, Vector2, Vector2, Int) -> Bool
+pub fn check_collision_point_line(Vector2, Vector2, Vector2, Int32) -> Bool
 
 pub fn check_collision_point_poly(Vector2, Array[Vector2]) -> Bool
 
@@ -655,13 +655,13 @@ pub fn check_collision_spheres(Vector3, Float, Vector3, Float) -> Bool
 
 pub fn clear_background(Color) -> Unit
 
-pub fn clear_window_state(Int) -> Unit
+pub fn clear_window_state(Int32) -> Unit
 
 pub fn close_audio_device() -> Unit
 
 pub fn close_window() -> Unit
 
-pub fn codepoint_to_utf8(Int) -> Bytes
+pub fn codepoint_to_utf8(Int32) -> Bytes
 
 pub fn color_alpha(Color, Float) -> Color
 
@@ -685,11 +685,11 @@ pub fn color_tint(Color, Color) -> Color
 
 pub fn color_to_hsv(Color) -> Vector3
 
-pub fn color_to_int(Color) -> Int
+pub fn color_to_int(Color) -> Int32
 
 pub fn compress_data(Bytes) -> Bytes
 
-pub fn compute_crc32(Bytes) -> Int
+pub fn compute_crc32(Bytes) -> Int32
 
 pub fn compute_md5(Bytes) -> Bytes
 
@@ -709,9 +709,9 @@ pub fn decode_data_base64(String) -> Bytes
 
 pub fn decompress_data(Bytes) -> Bytes
 
-pub fn detach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn detach_audio_mixed_processor(FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 
-pub fn detach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn detach_music_stream_processor(Music, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 
 pub fn directory_exists(String) -> Bool
 
@@ -727,23 +727,23 @@ pub fn draw_billboard_rec(Camera3D, Texture, Rectangle, Vector3, Vector2, Color)
 
 pub fn draw_bounding_box(BoundingBox, Color) -> Unit
 
-pub fn draw_capsule(Vector3, Vector3, Float, Int, Int, Color) -> Unit
+pub fn draw_capsule(Vector3, Vector3, Float, Int32, Int32, Color) -> Unit
 
-pub fn draw_capsule_wires(Vector3, Vector3, Float, Int, Int, Color) -> Unit
+pub fn draw_capsule_wires(Vector3, Vector3, Float, Int32, Int32, Color) -> Unit
 
-pub fn draw_circle(Int, Int, Float, Color) -> Unit
+pub fn draw_circle(Int32, Int32, Float, Color) -> Unit
 
 pub fn draw_circle_3d(Vector3, Float, Vector3, Float, Color) -> Unit
 
 pub fn draw_circle_gradient(Vector2, Float, Color, Color) -> Unit
 
-pub fn draw_circle_lines(Int, Int, Float, Color) -> Unit
+pub fn draw_circle_lines(Int32, Int32, Float, Color) -> Unit
 
 pub fn draw_circle_lines_v(Vector2, Float, Color) -> Unit
 
-pub fn draw_circle_sector(Vector2, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_circle_sector(Vector2, Float, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_circle_sector_lines(Vector2, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_circle_sector_lines(Vector2, Float, Float, Float, Int32, Color) -> Unit
 
 pub fn draw_circle_v(Vector2, Float, Color) -> Unit
 
@@ -755,23 +755,23 @@ pub fn draw_cube_wires(Vector3, Float, Float, Float, Color) -> Unit
 
 pub fn draw_cube_wires_v(Vector3, Vector3, Color) -> Unit
 
-pub fn draw_cylinder(Vector3, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_cylinder(Vector3, Float, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_cylinder_ex(Vector3, Vector3, Float, Float, Int, Color) -> Unit
+pub fn draw_cylinder_ex(Vector3, Vector3, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_cylinder_wires(Vector3, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_cylinder_wires(Vector3, Float, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_cylinder_wires_ex(Vector3, Vector3, Float, Float, Int, Color) -> Unit
+pub fn draw_cylinder_wires_ex(Vector3, Vector3, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_ellipse(Int, Int, Float, Float, Color) -> Unit
+pub fn draw_ellipse(Int32, Int32, Float, Float, Color) -> Unit
 
-pub fn draw_ellipse_lines(Int, Int, Float, Float, Color) -> Unit
+pub fn draw_ellipse_lines(Int32, Int32, Float, Float, Color) -> Unit
 
-pub fn draw_fps(Int, Int) -> Unit
+pub fn draw_fps(Int32, Int32) -> Unit
 
-pub fn draw_grid(Int, Float) -> Unit
+pub fn draw_grid(Int32, Float) -> Unit
 
-pub fn draw_line(Int, Int, Int, Int, Color) -> Unit
+pub fn draw_line(Int32, Int32, Int32, Int32, Color) -> Unit
 
 pub fn draw_line_3d(Vector3, Vector3, Color) -> Unit
 
@@ -783,7 +783,7 @@ pub fn draw_line_strip(Array[Vector2], Color) -> Unit
 
 pub fn draw_line_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_pixel(Int, Int, Color) -> Unit
+pub fn draw_pixel(Int32, Int32, Color) -> Unit
 
 pub fn draw_pixel_v(Vector2, Color) -> Unit
 
@@ -791,23 +791,23 @@ pub fn draw_plane(Vector3, Vector2, Color) -> Unit
 
 pub fn draw_point_3d(Vector3, Color) -> Unit
 
-pub fn draw_poly(Vector2, Int, Float, Float, Color) -> Unit
+pub fn draw_poly(Vector2, Int32, Float, Float, Color) -> Unit
 
-pub fn draw_poly_lines(Vector2, Int, Float, Float, Color) -> Unit
+pub fn draw_poly_lines(Vector2, Int32, Float, Float, Color) -> Unit
 
-pub fn draw_poly_lines_ex(Vector2, Int, Float, Float, Float, Color) -> Unit
+pub fn draw_poly_lines_ex(Vector2, Int32, Float, Float, Float, Color) -> Unit
 
 pub fn draw_ray(Ray, Color) -> Unit
 
-pub fn draw_rectangle(Int, Int, Int, Int, Color) -> Unit
+pub fn draw_rectangle(Int32, Int32, Int32, Int32, Color) -> Unit
 
 pub fn draw_rectangle_gradient_ex(Rectangle, Color, Color, Color, Color) -> Unit
 
-pub fn draw_rectangle_gradient_h(Int, Int, Int, Int, Color, Color) -> Unit
+pub fn draw_rectangle_gradient_h(Int32, Int32, Int32, Int32, Color, Color) -> Unit
 
-pub fn draw_rectangle_gradient_v(Int, Int, Int, Int, Color, Color) -> Unit
+pub fn draw_rectangle_gradient_v(Int32, Int32, Int32, Int32, Color, Color) -> Unit
 
-pub fn draw_rectangle_lines(Int, Int, Int, Int, Color) -> Unit
+pub fn draw_rectangle_lines(Int32, Int32, Int32, Int32, Color) -> Unit
 
 pub fn draw_rectangle_lines_ex(Rectangle, Float, Color) -> Unit
 
@@ -815,23 +815,23 @@ pub fn draw_rectangle_pro(Rectangle, Vector2, Float, Color) -> Unit
 
 pub fn draw_rectangle_rec(Rectangle, Color) -> Unit
 
-pub fn draw_rectangle_rounded(Rectangle, Float, Int, Color) -> Unit
+pub fn draw_rectangle_rounded(Rectangle, Float, Int32, Color) -> Unit
 
-pub fn draw_rectangle_rounded_lines(Rectangle, Float, Int, Color) -> Unit
+pub fn draw_rectangle_rounded_lines(Rectangle, Float, Int32, Color) -> Unit
 
-pub fn draw_rectangle_rounded_lines_ex(Rectangle, Float, Int, Float, Color) -> Unit
+pub fn draw_rectangle_rounded_lines_ex(Rectangle, Float, Int32, Float, Color) -> Unit
 
 pub fn draw_rectangle_v(Vector2, Vector2, Color) -> Unit
 
-pub fn draw_ring(Vector2, Float, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_ring(Vector2, Float, Float, Float, Float, Int32, Color) -> Unit
 
-pub fn draw_ring_lines(Vector2, Float, Float, Float, Float, Int, Color) -> Unit
+pub fn draw_ring_lines(Vector2, Float, Float, Float, Float, Int32, Color) -> Unit
 
 pub fn draw_sphere(Vector3, Float, Color) -> Unit
 
-pub fn draw_sphere_ex(Vector3, Float, Int, Int, Color) -> Unit
+pub fn draw_sphere_ex(Vector3, Float, Int32, Int32, Color) -> Unit
 
-pub fn draw_sphere_wires(Vector3, Float, Int, Int, Color) -> Unit
+pub fn draw_sphere_wires(Vector3, Float, Int32, Int32, Color) -> Unit
 
 pub fn draw_spline_basis(Array[Vector2], Float, Color) -> Unit
 
@@ -853,7 +853,7 @@ pub fn draw_spline_segment_catmull_rom(Vector2, Vector2, Vector2, Vector2, Float
 
 pub fn draw_spline_segment_linear(Vector2, Vector2, Float, Color) -> Unit
 
-pub fn draw_text(String, Int, Int, Int, Color) -> Unit
+pub fn draw_text(String, Int32, Int32, Int32, Color) -> Unit
 
 pub fn draw_triangle(Vector2, Vector2, Vector2, Color) -> Unit
 
@@ -889,13 +889,13 @@ pub fn end_texture_mode() -> Unit
 
 pub fn end_vr_stereo_mode() -> Unit
 
-pub fn export_data_as_code(Bytes, Int, String) -> Bool
+pub fn export_data_as_code(Bytes, Int32, String) -> Bool
 
 pub fn fade(Color, Float) -> Color
 
 pub fn file_exists(String) -> Bool
 
-pub fn file_path_list_get(FilePathList, Int) -> String
+pub fn file_path_list_get(FilePathList, Int32) -> String
 
 #deprecated
 pub fn gen_font_texture_mipmaps(Font) -> Unit
@@ -906,51 +906,51 @@ pub fn get_camera_matrix(Camera3D) -> Matrix
 
 pub fn get_camera_matrix_2d(Camera2D) -> Matrix
 
-pub fn get_char_pressed() -> Int
+pub fn get_char_pressed() -> Int32
 
 pub fn get_clipboard_image() -> Image
 
 pub fn get_clipboard_text() -> String
 
-pub fn get_codepoint(String) -> (Int, Int)
+pub fn get_codepoint(String) -> (Int32, Int32)
 
-pub fn get_codepoint_count(String) -> Int
+pub fn get_codepoint_count(String) -> Int32
 
-pub fn get_codepoint_next(String) -> (Int, Int)
+pub fn get_codepoint_next(String) -> (Int32, Int32)
 
-pub fn get_codepoint_previous(String) -> (Int, Int)
+pub fn get_codepoint_previous(String) -> (Int32, Int32)
 
 pub fn get_collision_rec(Rectangle, Rectangle) -> Rectangle
 
-pub fn get_color(Int) -> Color
+pub fn get_color(Int32) -> Color
 
-pub fn get_current_monitor() -> Int
+pub fn get_current_monitor() -> Int32
 
 pub fn get_directory_path(String) -> String
 
 pub fn get_file_extension(String) -> String
 
-pub fn get_file_length(String) -> Int
+pub fn get_file_length(String) -> Int32
 
-pub fn get_file_mod_time(String) -> Int
+pub fn get_file_mod_time(String) -> Int32
 
 pub fn get_file_name(String) -> String
 
 pub fn get_file_name_without_ext(String) -> String
 
-pub fn get_fps() -> Int
+pub fn get_fps() -> Int32
 
 pub fn get_frame_time() -> Float
 
-pub fn get_gamepad_axis_count(Int) -> Int
+pub fn get_gamepad_axis_count(Int32) -> Int32
 
-pub fn get_gamepad_axis_movement(Int, Int) -> Float
+pub fn get_gamepad_axis_movement(Int32, Int32) -> Float
 
-pub fn get_gamepad_button_pressed() -> Int
+pub fn get_gamepad_button_pressed() -> Int32
 
-pub fn get_gamepad_name(Int) -> String
+pub fn get_gamepad_name(Int32) -> String
 
-pub fn get_gesture_detected() -> Int
+pub fn get_gesture_detected() -> Int32
 
 pub fn get_gesture_drag_angle() -> Float
 
@@ -962,25 +962,25 @@ pub fn get_gesture_pinch_angle() -> Float
 
 pub fn get_gesture_pinch_vector() -> Vector2
 
-pub fn get_key_pressed() -> Int
+pub fn get_key_pressed() -> Int32
 
 pub fn get_master_volume() -> Float
 
-pub fn get_monitor_count() -> Int
+pub fn get_monitor_count() -> Int32
 
-pub fn get_monitor_height(Int) -> Int
+pub fn get_monitor_height(Int32) -> Int32
 
-pub fn get_monitor_name(Int) -> String
+pub fn get_monitor_name(Int32) -> String
 
-pub fn get_monitor_physical_height(Int) -> Int
+pub fn get_monitor_physical_height(Int32) -> Int32
 
-pub fn get_monitor_physical_width(Int) -> Int
+pub fn get_monitor_physical_width(Int32) -> Int32
 
-pub fn get_monitor_position(Int) -> Vector2
+pub fn get_monitor_position(Int32) -> Vector2
 
-pub fn get_monitor_refresh_rate(Int) -> Int
+pub fn get_monitor_refresh_rate(Int32) -> Int32
 
-pub fn get_monitor_width(Int) -> Int
+pub fn get_monitor_width(Int32) -> Int32
 
 pub fn get_mouse_delta() -> Vector2
 
@@ -990,15 +990,15 @@ pub fn get_mouse_wheel_move() -> Float
 
 pub fn get_mouse_wheel_move_v() -> Vector2
 
-pub fn get_mouse_x() -> Int
+pub fn get_mouse_x() -> Int32
 
-pub fn get_mouse_y() -> Int
+pub fn get_mouse_y() -> Int32
 
-pub fn get_pixel_data_size(Int, Int, Int) -> Int
+pub fn get_pixel_data_size(Int32, Int32, Int32) -> Int32
 
 pub fn get_prev_directory_path(String) -> String
 
-pub fn get_random_value(Int, Int) -> Int
+pub fn get_random_value(Int32, Int32) -> Int32
 
 pub fn get_ray_collision_box(Ray, BoundingBox) -> RayCollision
 
@@ -1010,19 +1010,19 @@ pub fn get_ray_collision_sphere(Ray, Vector3, Float) -> RayCollision
 
 pub fn get_ray_collision_triangle(Ray, Vector3, Vector3, Vector3) -> RayCollision
 
-pub fn get_render_height() -> Int
+pub fn get_render_height() -> Int32
 
-pub fn get_render_width() -> Int
+pub fn get_render_width() -> Int32
 
-pub fn get_screen_height() -> Int
+pub fn get_screen_height() -> Int32
 
 pub fn get_screen_to_world_2d(Vector2, Camera2D) -> Vector2
 
 pub fn get_screen_to_world_ray(Vector2, Camera3D) -> Ray
 
-pub fn get_screen_to_world_ray_ex(Vector2, Camera3D, Int, Int) -> Ray
+pub fn get_screen_to_world_ray_ex(Vector2, Camera3D, Int32, Int32) -> Ray
 
-pub fn get_screen_width() -> Int
+pub fn get_screen_width() -> Int32
 
 pub fn get_shapes_texture_rectangle() -> Rectangle
 
@@ -1038,15 +1038,15 @@ pub fn get_spline_point_linear(Vector2, Vector2, Float) -> Vector2
 
 pub fn get_time() -> Double
 
-pub fn get_touch_point_count() -> Int
+pub fn get_touch_point_count() -> Int32
 
-pub fn get_touch_point_id(Int) -> Int
+pub fn get_touch_point_id(Int32) -> Int32
 
-pub fn get_touch_position(Int) -> Vector2
+pub fn get_touch_position(Int32) -> Vector2
 
-pub fn get_touch_x() -> Int
+pub fn get_touch_x() -> Int32
 
-pub fn get_touch_y() -> Int
+pub fn get_touch_y() -> Int32
 
 pub fn get_window_position() -> Vector2
 
@@ -1058,7 +1058,7 @@ pub fn get_world_to_screen(Vector3, Camera3D) -> Vector2
 
 pub fn get_world_to_screen_2d(Vector2, Camera2D) -> Vector2
 
-pub fn get_world_to_screen_ex(Vector3, Camera3D, Int, Int) -> Vector2
+pub fn get_world_to_screen_ex(Vector3, Camera3D, Int32, Int32) -> Vector2
 
 pub let gold : Color
 
@@ -1070,7 +1070,7 @@ pub fn hide_cursor() -> Unit
 
 pub fn init_audio_device() -> Unit
 
-pub fn init_window(Int, Int, String) -> Unit
+pub fn init_window(Int32, Int32, String) -> Unit
 
 pub fn is_audio_device_ready() -> Bool
 
@@ -1084,35 +1084,35 @@ pub fn is_file_extension(String, String) -> Bool
 
 pub fn is_file_name_valid(String) -> Bool
 
-pub fn is_gamepad_available(Int) -> Bool
+pub fn is_gamepad_available(Int32) -> Bool
 
-pub fn is_gamepad_button_down(Int, Int) -> Bool
+pub fn is_gamepad_button_down(Int32, Int32) -> Bool
 
-pub fn is_gamepad_button_pressed(Int, Int) -> Bool
+pub fn is_gamepad_button_pressed(Int32, Int32) -> Bool
 
-pub fn is_gamepad_button_released(Int, Int) -> Bool
+pub fn is_gamepad_button_released(Int32, Int32) -> Bool
 
-pub fn is_gamepad_button_up(Int, Int) -> Bool
+pub fn is_gamepad_button_up(Int32, Int32) -> Bool
 
-pub fn is_gesture_detected(Int) -> Bool
+pub fn is_gesture_detected(Int32) -> Bool
 
-pub fn is_key_down(Int) -> Bool
+pub fn is_key_down(Int32) -> Bool
 
-pub fn is_key_pressed(Int) -> Bool
+pub fn is_key_pressed(Int32) -> Bool
 
-pub fn is_key_pressed_repeat(Int) -> Bool
+pub fn is_key_pressed_repeat(Int32) -> Bool
 
-pub fn is_key_released(Int) -> Bool
+pub fn is_key_released(Int32) -> Bool
 
-pub fn is_key_up(Int) -> Bool
+pub fn is_key_up(Int32) -> Bool
 
-pub fn is_mouse_button_down(Int) -> Bool
+pub fn is_mouse_button_down(Int32) -> Bool
 
-pub fn is_mouse_button_pressed(Int) -> Bool
+pub fn is_mouse_button_pressed(Int32) -> Bool
 
-pub fn is_mouse_button_released(Int) -> Bool
+pub fn is_mouse_button_released(Int32) -> Bool
 
-pub fn is_mouse_button_up(Int) -> Bool
+pub fn is_mouse_button_up(Int32) -> Bool
 
 pub fn is_path_file(String) -> Bool
 
@@ -1130,13 +1130,13 @@ pub fn is_window_ready() -> Bool
 
 pub fn is_window_resized() -> Bool
 
-pub fn is_window_state(Int) -> Bool
+pub fn is_window_state(Int32) -> Bool
 
 pub let lightgray : Color
 
 pub let lime : Color
 
-pub fn load_codepoints(String) -> Array[Int]
+pub fn load_codepoints(String) -> Array[Int32]
 
 pub fn load_directory_files(String) -> FilePathList
 
@@ -1150,21 +1150,21 @@ pub fn load_file_text(String) -> String
 pub fn load_image_anim(String) -> Image
 
 #deprecated
-pub fn load_image_anim_from_memory(String, Bytes, Int) -> Image
+pub fn load_image_anim_from_memory(String, Bytes, Int32) -> Image
 
-pub fn load_random_sequence(Int, Int, Int) -> Array[Int]
+pub fn load_random_sequence(Int32, Int32, Int32) -> Array[Int32]
 
-pub fn load_utf8(Array[Int]) -> Bytes
+pub fn load_utf8(Array[Int32]) -> Bytes
 
 pub let magenta : Color
 
-pub fn make_directory(String) -> Int
+pub fn make_directory(String) -> Int32
 
 pub let maroon : Color
 
 pub fn maximize_window() -> Unit
 
-pub fn measure_text(String, Int) -> Int
+pub fn measure_text(String, Int32) -> Int32
 
 pub fn minimize_window() -> Unit
 
@@ -1187,22 +1187,22 @@ pub let red : Color
 pub fn restore_window() -> Unit
 
 #deprecated
-pub fn rl_active_draw_buffers(Int) -> Unit
+pub fn rl_active_draw_buffers(Int32) -> Unit
 
 #deprecated
-pub fn rl_active_texture_slot(Int) -> Unit
+pub fn rl_active_texture_slot(Int32) -> Unit
 
 #deprecated
-pub fn rl_begin(Int) -> Unit
+pub fn rl_begin(Int32) -> Unit
 
 #deprecated
-pub fn rl_bind_framebuffer(UInt, UInt) -> Unit
+pub fn rl_bind_framebuffer(UInt32, UInt32) -> Unit
 
 #deprecated
-pub fn rl_blit_framebuffer(Int, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit
+pub fn rl_blit_framebuffer(Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32) -> Unit
 
 #deprecated
-pub fn rl_check_render_batch_limit(Int) -> Bool
+pub fn rl_check_render_batch_limit(Int32) -> Bool
 
 #deprecated
 pub fn rl_clear_screen_buffers() -> Unit
@@ -1247,31 +1247,31 @@ pub fn rl_enable_depth_mask() -> Unit
 pub fn rl_enable_depth_test() -> Unit
 
 #deprecated
-pub fn rl_enable_framebuffer(UInt) -> Unit
+pub fn rl_enable_framebuffer(UInt32) -> Unit
 
 #deprecated
-pub fn rl_enable_shader(UInt) -> Unit
+pub fn rl_enable_shader(UInt32) -> Unit
 
 #deprecated
-pub fn rl_enable_texture(UInt) -> Unit
+pub fn rl_enable_texture(UInt32) -> Unit
 
 #deprecated
 pub fn rl_end() -> Unit
 
 #deprecated
-pub fn rl_framebuffer_attach(UInt, UInt, Int, Int, Int) -> Unit
+pub fn rl_framebuffer_attach(UInt32, UInt32, Int32, Int32, Int32) -> Unit
 
 #deprecated
-pub fn rl_framebuffer_complete(UInt) -> Bool
+pub fn rl_framebuffer_complete(UInt32) -> Bool
 
 #deprecated
-pub fn rl_get_framebuffer_height() -> Int
+pub fn rl_get_framebuffer_height() -> Int32
 
 #deprecated
-pub fn rl_get_framebuffer_width() -> Int
+pub fn rl_get_framebuffer_width() -> Int32
 
 #deprecated
-pub fn rl_get_location_uniform(UInt, String) -> Int
+pub fn rl_get_location_uniform(UInt32, String) -> Int32
 
 #deprecated
 pub fn rl_get_matrix_modelview() -> Matrix
@@ -1280,7 +1280,7 @@ pub fn rl_get_matrix_modelview() -> Matrix
 pub fn rl_get_matrix_projection() -> Matrix
 
 #deprecated
-pub fn rl_get_shader_id_default() -> UInt
+pub fn rl_get_shader_id_default() -> UInt32
 
 #deprecated
 pub fn rl_load_draw_cube() -> Unit
@@ -1289,13 +1289,13 @@ pub fn rl_load_draw_cube() -> Unit
 pub fn rl_load_draw_quad() -> Unit
 
 #deprecated
-pub fn rl_load_framebuffer() -> UInt
+pub fn rl_load_framebuffer() -> UInt32
 
 #deprecated
-pub fn rl_load_texture(Int, Int, Int, Int) -> UInt
+pub fn rl_load_texture(Int32, Int32, Int32, Int32) -> UInt32
 
 #deprecated
-pub fn rl_load_texture_depth(Int, Int, Bool) -> UInt
+pub fn rl_load_texture_depth(Int32, Int32, Bool) -> UInt32
 
 #deprecated
 pub fn rl_mult_matrixf(Bytes) -> Unit
@@ -1316,19 +1316,19 @@ pub fn rl_rotatef(Float, Float, Float, Float) -> Unit
 pub fn rl_scalef(Float, Float, Float) -> Unit
 
 #deprecated
-pub fn rl_set_blend_factors(Int, Int, Int) -> Unit
+pub fn rl_set_blend_factors(Int32, Int32, Int32) -> Unit
 
 #deprecated
-pub fn rl_set_blend_mode(Int) -> Unit
+pub fn rl_set_blend_mode(Int32) -> Unit
 
 #deprecated
-pub fn rl_set_texture(UInt) -> Unit
+pub fn rl_set_texture(UInt32) -> Unit
 
 #deprecated
-pub fn rl_set_uniform(Int, Bytes, Int, Int) -> Unit
+pub fn rl_set_uniform(Int32, Bytes, Int32, Int32) -> Unit
 
 #deprecated
-pub fn rl_set_uniform_sampler(Int, UInt) -> Unit
+pub fn rl_set_uniform_sampler(Int32, UInt32) -> Unit
 
 #deprecated
 pub fn rl_tex_coord2f(Float, Float) -> Unit
@@ -1337,10 +1337,10 @@ pub fn rl_tex_coord2f(Float, Float) -> Unit
 pub fn rl_translatef(Float, Float, Float) -> Unit
 
 #deprecated
-pub fn rl_unload_framebuffer(UInt) -> Unit
+pub fn rl_unload_framebuffer(UInt32) -> Unit
 
 #deprecated
-pub fn rl_unload_texture(UInt) -> Unit
+pub fn rl_unload_texture(UInt32) -> Unit
 
 #deprecated
 pub fn rl_vertex2f(Float, Float) -> Unit
@@ -1349,72 +1349,72 @@ pub fn rl_vertex2f(Float, Float) -> Unit
 pub fn rl_vertex3f(Float, Float, Float) -> Unit
 
 #deprecated
-pub fn rl_viewport(Int, Int, Int, Int) -> Unit
+pub fn rl_viewport(Int32, Int32, Int32, Int32) -> Unit
 
-pub fn save_file_data(String, Bytes, Int) -> Bool
+pub fn save_file_data(String, Bytes, Int32) -> Bool
 
 pub fn save_file_text(String, String) -> Bool
 
-pub fn set_audio_stream_buffer_size_default(Int) -> Unit
+pub fn set_audio_stream_buffer_size_default(Int32) -> Unit
 
-pub fn set_automation_event_base_frame(Int) -> Unit
+pub fn set_automation_event_base_frame(Int32) -> Unit
 
 pub fn set_clipboard_text(String) -> Unit
 
-pub fn set_config_flags(Int) -> Unit
+pub fn set_config_flags(Int32) -> Unit
 
-pub fn set_exit_key(Int) -> Unit
+pub fn set_exit_key(Int32) -> Unit
 
 #deprecated
-pub fn set_font_texture_filter(Font, Int) -> Unit
+pub fn set_font_texture_filter(Font, Int32) -> Unit
 
-pub fn set_gamepad_mappings(String) -> Int
+pub fn set_gamepad_mappings(String) -> Int32
 
-pub fn set_gamepad_vibration(Int, Float, Float, Float) -> Unit
+pub fn set_gamepad_vibration(Int32, Float, Float, Float) -> Unit
 
-pub fn set_gestures_enabled(Int) -> Unit
+pub fn set_gestures_enabled(Int32) -> Unit
 
 pub fn set_master_volume(Float) -> Unit
 
-pub fn set_mouse_cursor(Int) -> Unit
+pub fn set_mouse_cursor(Int32) -> Unit
 
-pub fn set_mouse_offset(Int, Int) -> Unit
+pub fn set_mouse_offset(Int32, Int32) -> Unit
 
-pub fn set_mouse_position(Int, Int) -> Unit
+pub fn set_mouse_position(Int32, Int32) -> Unit
 
 pub fn set_mouse_scale(Float, Float) -> Unit
 
-pub fn set_random_seed(Int) -> Unit
+pub fn set_random_seed(Int32) -> Unit
 
 #deprecated
-pub fn set_shader_value(Shader, Int, Bytes, Int) -> Unit
+pub fn set_shader_value(Shader, Int32, Bytes, Int32) -> Unit
 
 #deprecated
-pub fn set_shader_value_v(Shader, Int, Bytes, Int, Int) -> Unit
+pub fn set_shader_value_v(Shader, Int32, Bytes, Int32, Int32) -> Unit
 
-pub fn set_target_fps(Int) -> Unit
+pub fn set_target_fps(Int32) -> Unit
 
-pub fn set_text_line_spacing(Int) -> Unit
+pub fn set_text_line_spacing(Int32) -> Unit
 
-pub fn set_trace_log_level(Int) -> Unit
+pub fn set_trace_log_level(Int32) -> Unit
 
 pub fn set_window_focused() -> Unit
 
 pub fn set_window_icon(Image) -> Unit
 
-pub fn set_window_max_size(Int, Int) -> Unit
+pub fn set_window_max_size(Int32, Int32) -> Unit
 
-pub fn set_window_min_size(Int, Int) -> Unit
+pub fn set_window_min_size(Int32, Int32) -> Unit
 
-pub fn set_window_monitor(Int) -> Unit
+pub fn set_window_monitor(Int32) -> Unit
 
 pub fn set_window_opacity(Float) -> Unit
 
-pub fn set_window_position(Int, Int) -> Unit
+pub fn set_window_position(Int32, Int32) -> Unit
 
-pub fn set_window_size(Int, Int) -> Unit
+pub fn set_window_size(Int32, Int32) -> Unit
 
-pub fn set_window_state(Int) -> Unit
+pub fn set_window_state(Int32) -> Unit
 
 pub fn set_window_title(String) -> Unit
 
@@ -1434,18 +1434,18 @@ pub fn toggle_borderless_windowed() -> Unit
 
 pub fn toggle_fullscreen() -> Unit
 
-pub fn trace_log(Int, String) -> Unit
+pub fn trace_log(Int32, String) -> Unit
 
 pub fn unload_directory_files(FilePathList) -> Unit
 
 pub fn unload_dropped_files(FilePathList) -> Unit
 
-pub fn update_camera(Camera3D, Int) -> Camera3D
+pub fn update_camera(Camera3D, Int32) -> Camera3D
 
 pub fn update_camera_pro(Camera3D, Vector3, Vector3, Float) -> Camera3D
 
 #deprecated
-pub fn upload_mesh(Mesh, Int) -> Unit
+pub fn upload_mesh(Mesh, Int32) -> Unit
 
 pub let violet : Color
 
@@ -1480,9 +1480,9 @@ pub let yellow : Color
 // Types and methods
 type AudioStream
 #as_free_fn(attach_audio_stream_processor)
-pub fn AudioStream::attach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn AudioStream::attach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 #as_free_fn(detach_audio_stream_processor)
-pub fn AudioStream::detach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt) -> Unit]) -> Unit
+pub fn AudioStream::detach_processor(Self, FuncRef[(@tonyfettes/raylib/internal/raylib.AudioBuffer, UInt32) -> Unit]) -> Unit
 #as_free_fn(is_audio_stream_playing)
 pub fn AudioStream::is_playing(Self) -> Bool
 #as_free_fn(is_audio_stream_processed)
@@ -1490,7 +1490,7 @@ pub fn AudioStream::is_processed(Self) -> Bool
 #as_free_fn(is_audio_stream_valid)
 pub fn AudioStream::is_valid(Self) -> Bool
 #as_free_fn(load_audio_stream)
-pub fn AudioStream::load(Int, Int, Int) -> Self
+pub fn AudioStream::load(Int32, Int32, Int32) -> Self
 #as_free_fn(pause_audio_stream)
 pub fn AudioStream::pause(Self) -> Unit
 #as_free_fn(play_audio_stream)
@@ -1508,24 +1508,27 @@ pub fn AudioStream::stop(Self) -> Unit
 #as_free_fn(unload_audio_stream)
 pub fn AudioStream::unload(Self) -> Unit
 #as_free_fn(update_audio_stream)
-pub fn AudioStream::update(Self, Bytes, Int) -> Unit
+pub fn AudioStream::update(Self, Bytes, Int32) -> Unit
 
 pub struct AutomationEvent {
-  frame : Int
-  type_ : Int
-  params : FixedArray[Int]
+  frame : Int32
+  type_ : Int32
+  params : FixedArray[Int32]
 } derive(@debug.Debug)
 pub fn AutomationEvent::from_bytes(Bytes) -> Self
+pub fn AutomationEvent::output(Self, &Logger) -> Unit
 pub fn AutomationEvent::to_bytes(Self) -> Bytes
+pub fn AutomationEvent::to_repr(Self) -> @debug.Repr
+pub fn AutomationEvent::to_string(Self) -> String
 pub impl Show for AutomationEvent
 
 type AutomationEventList
 #as_free_fn(automation_event_list_count)
-pub fn AutomationEventList::count(Self) -> Int
+pub fn AutomationEventList::count(Self) -> Int32
 #as_free_fn(export_automation_event_list)
 pub fn AutomationEventList::export_(Self, String) -> Bool
 #as_free_fn(automation_event_list_get)
-pub fn AutomationEventList::get(Self, Int) -> AutomationEvent
+pub fn AutomationEventList::get(Self, Int32) -> AutomationEvent
 #as_free_fn(load_automation_event_list)
 pub fn AutomationEventList::load(String) -> Self
 #as_free_fn(set_automation_event_list)
@@ -1537,9 +1540,14 @@ pub struct BoundingBox {
   min : Vector3
   max : Vector3
 } derive(Eq, @debug.Debug)
+pub fn BoundingBox::equal(Self, Self) -> Bool
 pub fn BoundingBox::from_bytes(Bytes) -> Self
 pub fn BoundingBox::new(Vector3, Vector3) -> Self
+pub fn BoundingBox::not_equal(Self, Self) -> Bool
+pub fn BoundingBox::output(Self, &Logger) -> Unit
 pub fn BoundingBox::to_bytes(Self) -> Bytes
+pub fn BoundingBox::to_repr(Self) -> @debug.Repr
+pub fn BoundingBox::to_string(Self) -> String
 pub impl Show for BoundingBox
 
 pub struct Camera2D {
@@ -1548,9 +1556,14 @@ pub struct Camera2D {
   rotation : Float
   zoom : Float
 } derive(Eq, @debug.Debug)
+pub fn Camera2D::equal(Self, Self) -> Bool
 pub fn Camera2D::from_bytes(Bytes) -> Self
 pub fn Camera2D::new(Vector2, Vector2, Float, Float) -> Self
+pub fn Camera2D::not_equal(Self, Self) -> Bool
+pub fn Camera2D::output(Self, &Logger) -> Unit
 pub fn Camera2D::to_bytes(Self) -> Bytes
+pub fn Camera2D::to_repr(Self) -> @debug.Repr
+pub fn Camera2D::to_string(Self) -> String
 pub impl Show for Camera2D
 
 pub struct Camera3D {
@@ -1558,11 +1571,16 @@ pub struct Camera3D {
   target : Vector3
   up : Vector3
   fovy : Float
-  projection : Int
+  projection : Int32
 } derive(Eq, @debug.Debug)
+pub fn Camera3D::equal(Self, Self) -> Bool
 pub fn Camera3D::from_bytes(Bytes) -> Self
-pub fn Camera3D::new(Vector3, Vector3, Vector3, Float, Int) -> Self
+pub fn Camera3D::new(Vector3, Vector3, Vector3, Float, Int32) -> Self
+pub fn Camera3D::not_equal(Self, Self) -> Bool
+pub fn Camera3D::output(Self, &Logger) -> Unit
 pub fn Camera3D::to_bytes(Self) -> Bytes
+pub fn Camera3D::to_repr(Self) -> @debug.Repr
+pub fn Camera3D::to_string(Self) -> String
 pub impl Show for Camera3D
 
 pub struct Color {
@@ -1571,32 +1589,40 @@ pub struct Color {
   b : Byte
   a : Byte
 } derive(Eq, @debug.Debug)
+pub fn Color::equal(Self, Self) -> Bool
 pub fn Color::from_bytes(Bytes) -> Self
-pub fn Color::new(Int, Int, Int, Int) -> Self
+pub fn Color::new(Int32, Int32, Int32, Int32) -> Self
+pub fn Color::not_equal(Self, Self) -> Bool
+pub fn Color::output(Self, &Logger) -> Unit
 pub fn Color::to_bytes(Self) -> Bytes
+pub fn Color::to_repr(Self) -> @debug.Repr
+pub fn Color::to_string(Self) -> String
 pub impl Show for Color
 
 type FilePathList
 #as_free_fn(file_path_list_count)
-pub fn FilePathList::count(Self) -> Int
+pub fn FilePathList::count(Self) -> Int32
 #as_free_fn(load_dropped_files)
 pub fn FilePathList::load_dropped() -> Self
 
 type FloatArray
+#alias("_[_]")
+pub fn FloatArray::at(Self, Int32) -> Float
 pub fn FloatArray::free(Self) -> Unit
-pub fn FloatArray::length(Self) -> Int
-pub fn FloatArray::new(Int) -> Self
-pub fn FloatArray::op_get(Self, Int) -> Float
-pub fn FloatArray::op_set(Self, Int, Float) -> Unit
+pub fn FloatArray::length(Self) -> Int32
+pub fn FloatArray::new(Int32) -> Self
 pub fn FloatArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.FloatPointer
+#alias("_[_]=_")
+pub fn FloatArray::set(Self, Int32, Float) -> Unit
 
 type Font
 #as_free_fn(get_font_base_size)
-pub fn Font::base_size(Self) -> Int
+pub fn Font::base_size(Self) -> Int32
+pub fn Font::default() -> Self
 #as_free_fn(draw_text_codepoint)
-pub fn Font::draw_codepoint(Self, Int, Vector2, Float, Color) -> Unit
+pub fn Font::draw_codepoint(Self, Int32, Vector2, Float, Color) -> Unit
 #as_free_fn(draw_text_codepoints)
-pub fn Font::draw_codepoints(Self, Array[Int], Vector2, Float, Float, Color) -> Unit
+pub fn Font::draw_codepoints(Self, Array[Int32], Vector2, Float, Float, Color) -> Unit
 #as_free_fn(draw_text_ex)
 pub fn Font::draw_text(Self, String, Vector2, Float, Float, Color) -> Unit
 #as_free_fn(draw_text_pro)
@@ -1607,34 +1633,34 @@ pub fn Font::export_as_code(Self, String) -> Bool
 #deprecated
 pub fn Font::get_default() -> Self
 #as_free_fn(get_glyph_atlas_rec)
-pub fn Font::glyph_atlas_rec(Self, Int) -> Rectangle
+pub fn Font::glyph_atlas_rec(Self, Int32) -> Rectangle
 #as_free_fn(get_font_glyph_count)
-pub fn Font::glyph_count(Self) -> Int
+pub fn Font::glyph_count(Self) -> Int32
 #as_free_fn(get_glyph_index)
-pub fn Font::glyph_index(Self, Int) -> Int
+pub fn Font::glyph_index(Self, Int32) -> Int32
 #as_free_fn(get_glyph_info)
-pub fn Font::glyph_info(Self, Int) -> GlyphInfo
+pub fn Font::glyph_info(Self, Int32) -> GlyphInfo
 #as_free_fn(get_font_glyph_padding)
-pub fn Font::glyph_padding(Self) -> Int
+pub fn Font::glyph_padding(Self) -> Int32
 #as_free_fn(is_font_valid)
 pub fn Font::is_valid(Self) -> Bool
 #as_free_fn(load_font)
 pub fn Font::load(String) -> Self
 #as_free_fn(load_font_ex)
-pub fn Font::load_ex(String, Int) -> Self
+pub fn Font::load_ex(String, Int32) -> Self
 #as_free_fn(load_font_ex_codepoints)
-pub fn Font::load_ex_codepoints(String, Int, Array[Int]) -> Self
+pub fn Font::load_ex_codepoints(String, Int32, Array[Int32]) -> Self
 #as_free_fn(load_font_from_atlas, deprecated)
 #deprecated
-pub fn Font::load_from_atlas(Texture, Int, glyph_padding~ : Int, GlyphInfoArray, FixedArray[Rectangle]) -> Self
+pub fn Font::load_from_atlas(Texture, Int32, glyph_padding~ : Int32, GlyphInfoArray, FixedArray[Rectangle]) -> Self
 #as_free_fn(load_font_from_image)
-pub fn Font::load_from_image(Image, Color, Int) -> Self
+pub fn Font::load_from_image(Image, Color, Int32) -> Self
 #as_free_fn(load_font_from_memory)
-pub fn Font::load_from_memory(String, Bytes, Int, Int) -> Self
+pub fn Font::load_from_memory(String, Bytes, Int32, Int32) -> Self
 #as_free_fn(measure_text_ex)
 pub fn Font::measure_text(Self, String, Float, Float) -> Vector2
 #as_free_fn(new_font)
-pub fn Font::new(Texture, Int, glyph_padding~ : Int, GlyphInfoArray, FixedArray[Rectangle]) -> Self
+pub fn Font::new(Texture, Int32, glyph_padding~ : Int32, GlyphInfoArray, FixedArray[Rectangle]) -> Self
 #as_free_fn(get_font_texture)
 pub fn Font::texture(Self) -> Texture
 #as_free_fn(unload_font)
@@ -1642,32 +1668,38 @@ pub fn Font::unload(Self) -> Unit
 pub impl Default for Font
 
 pub struct GlyphInfo {
-  value : Int
-  offset_x : Int
-  offset_y : Int
-  advance_x : Int
+  value : Int32
+  offset_x : Int32
+  offset_y : Int32
+  advance_x : Int32
 } derive(Eq, @debug.Debug)
+pub fn GlyphInfo::equal(Self, Self) -> Bool
 pub fn GlyphInfo::from_bytes(Bytes) -> Self
-pub fn GlyphInfo::new(Int, Int, Int, Int) -> Self
+pub fn GlyphInfo::new(Int32, Int32, Int32, Int32) -> Self
+pub fn GlyphInfo::not_equal(Self, Self) -> Bool
+pub fn GlyphInfo::output(Self, &Logger) -> Unit
+pub fn GlyphInfo::to_repr(Self) -> @debug.Repr
+pub fn GlyphInfo::to_string(Self) -> String
 pub impl Show for GlyphInfo
 
 type GlyphInfoArray
 #as_free_fn(glyph_info_array_count)
-pub fn GlyphInfoArray::count(Self) -> Int
-pub fn GlyphInfoArray::gen_image_atlas(Self, Int, Int, Int) -> (Image, FixedArray[Rectangle])
+pub fn GlyphInfoArray::count(Self) -> Int32
+pub fn GlyphInfoArray::gen_image_atlas(Self, Int32, Int32, Int32) -> (Image, FixedArray[Rectangle])
 #as_free_fn(glyph_info_array_get)
-pub fn GlyphInfoArray::get(Self, Int) -> GlyphInfo
+pub fn GlyphInfoArray::get(Self, Int32) -> GlyphInfo
 #as_free_fn(load_font_data)
-pub fn GlyphInfoArray::load(Bytes, Int, Int, Int) -> Self
+pub fn GlyphInfoArray::load(Bytes, Int32, Int32, Int32) -> Self
 #as_free_fn(new_glyph_info_array)
-pub fn GlyphInfoArray::new(Int) -> Self
-pub fn GlyphInfoArray::op_set(Self, Int, GlyphInfo) -> Unit
+pub fn GlyphInfoArray::new(Int32) -> Self
+#alias("_[_]=_")
+pub fn GlyphInfoArray::set(Self, Int32, GlyphInfo) -> Unit
 #as_free_fn(unload_font_data)
 pub fn GlyphInfoArray::unload(Self) -> Unit
 
 type Image
 #as_free_fn(image_color_brightness)
-pub fn Image::adjust_brightness(Self, Int) -> Unit
+pub fn Image::adjust_brightness(Self, Int32) -> Unit
 #as_free_fn(image_color_contrast)
 pub fn Image::adjust_contrast(Self, Float) -> Unit
 #as_free_fn(get_image_alpha_border)
@@ -1681,7 +1713,7 @@ pub fn Image::alpha_mask(Self, Self) -> Unit
 #as_free_fn(image_alpha_premultiply)
 pub fn Image::alpha_premultiply(Self) -> Unit
 #as_free_fn(image_blur_gaussian)
-pub fn Image::blur_gaussian(Self, Int) -> Unit
+pub fn Image::blur_gaussian(Self, Int32) -> Unit
 #as_free_fn(image_clear_background)
 pub fn Image::clear_background(Self, Color) -> Unit
 #as_free_fn(image_color_grayscale)
@@ -1697,37 +1729,37 @@ pub fn Image::copy(Self) -> Self
 #as_free_fn(image_crop)
 pub fn Image::crop(Self, Rectangle) -> Unit
 #as_free_fn(image_dither)
-pub fn Image::dither(Self, Int, Int, Int, Int) -> Unit
+pub fn Image::dither(Self, Int32, Int32, Int32, Int32) -> Unit
 #as_free_fn(image_draw)
 pub fn Image::draw(Self, Self, Rectangle, Rectangle, Color) -> Unit
 #as_free_fn(image_draw_circle)
-pub fn Image::draw_circle(Self, Int, Int, Int, Color) -> Unit
+pub fn Image::draw_circle(Self, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_circle_lines)
-pub fn Image::draw_circle_lines(Self, Int, Int, Int, Color) -> Unit
+pub fn Image::draw_circle_lines(Self, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_circle_lines_v)
-pub fn Image::draw_circle_lines_v(Self, Vector2, Int, Color) -> Unit
+pub fn Image::draw_circle_lines_v(Self, Vector2, Int32, Color) -> Unit
 #as_free_fn(image_draw_circle_v)
-pub fn Image::draw_circle_v(Self, Vector2, Int, Color) -> Unit
+pub fn Image::draw_circle_v(Self, Vector2, Int32, Color) -> Unit
 #as_free_fn(image_draw_line)
-pub fn Image::draw_line(Self, Int, Int, Int, Int, Color) -> Unit
+pub fn Image::draw_line(Self, Int32, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_line_ex)
-pub fn Image::draw_line_ex(Self, Vector2, Vector2, Int, Color) -> Unit
+pub fn Image::draw_line_ex(Self, Vector2, Vector2, Int32, Color) -> Unit
 #as_free_fn(image_draw_line_v)
 pub fn Image::draw_line_v(Self, Vector2, Vector2, Color) -> Unit
 #as_free_fn(image_draw_pixel)
-pub fn Image::draw_pixel(Self, Int, Int, Color) -> Unit
+pub fn Image::draw_pixel(Self, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_pixel_v)
 pub fn Image::draw_pixel_v(Self, Vector2, Color) -> Unit
 #as_free_fn(image_draw_rectangle)
-pub fn Image::draw_rectangle(Self, Int, Int, Int, Int, Color) -> Unit
+pub fn Image::draw_rectangle(Self, Int32, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_rectangle_lines)
-pub fn Image::draw_rectangle_lines(Self, Rectangle, Int, Color) -> Unit
+pub fn Image::draw_rectangle_lines(Self, Rectangle, Int32, Color) -> Unit
 #as_free_fn(image_draw_rectangle_rec)
 pub fn Image::draw_rectangle_rec(Self, Rectangle, Color) -> Unit
 #as_free_fn(image_draw_rectangle_v)
 pub fn Image::draw_rectangle_v(Self, Vector2, Vector2, Color) -> Unit
 #as_free_fn(image_draw_text)
-pub fn Image::draw_text(Self, String, Int, Int, Int, Color) -> Unit
+pub fn Image::draw_text(Self, String, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_draw_text_ex)
 pub fn Image::draw_text_ex(Self, Font, String, Vector2, Float, Float, Color) -> Unit
 #as_free_fn(image_draw_triangle)
@@ -1751,76 +1783,76 @@ pub fn Image::flip_horizontal(Self) -> Unit
 #as_free_fn(image_flip_vertical)
 pub fn Image::flip_vertical(Self) -> Unit
 #as_free_fn(get_image_format)
-pub fn Image::format(Self) -> Int
+pub fn Image::format(Self) -> Int32
 #as_free_fn(image_from_channel)
-pub fn Image::from_channel(Self, Int) -> Self
+pub fn Image::from_channel(Self, Int32) -> Self
 #as_free_fn(image_from_image)
 pub fn Image::from_image(Self, Rectangle) -> Self
 #as_free_fn(gen_image_cellular)
-pub fn Image::gen_cellular(Int, Int, Int) -> Self
+pub fn Image::gen_cellular(Int32, Int32, Int32) -> Self
 #as_free_fn(gen_image_checked)
-pub fn Image::gen_checked(Int, Int, Int, Int, Color, Color) -> Self
+pub fn Image::gen_checked(Int32, Int32, Int32, Int32, Color, Color) -> Self
 #as_free_fn(gen_image_color)
-pub fn Image::gen_color(Int, Int, Color) -> Self
+pub fn Image::gen_color(Int32, Int32, Color) -> Self
 #as_free_fn(gen_image_gradient_linear)
-pub fn Image::gen_gradient_linear(Int, Int, Int, Color, Color) -> Self
+pub fn Image::gen_gradient_linear(Int32, Int32, Int32, Color, Color) -> Self
 #as_free_fn(gen_image_gradient_radial)
-pub fn Image::gen_gradient_radial(Int, Int, Float, Color, Color) -> Self
+pub fn Image::gen_gradient_radial(Int32, Int32, Float, Color, Color) -> Self
 #as_free_fn(gen_image_gradient_square)
-pub fn Image::gen_gradient_square(Int, Int, Float, Color, Color) -> Self
+pub fn Image::gen_gradient_square(Int32, Int32, Float, Color, Color) -> Self
 #as_free_fn(image_mipmaps)
 pub fn Image::gen_mipmaps(Self) -> Unit
 #as_free_fn(gen_image_perlin_noise)
-pub fn Image::gen_perlin_noise(Int, Int, Int, Int, Float) -> Self
+pub fn Image::gen_perlin_noise(Int32, Int32, Int32, Int32, Float) -> Self
 #as_free_fn(gen_image_text)
-pub fn Image::gen_text(Int, Int, String) -> Self
+pub fn Image::gen_text(Int32, Int32, String) -> Self
 #as_free_fn(gen_image_white_noise)
-pub fn Image::gen_white_noise(Int, Int, Float) -> Self
+pub fn Image::gen_white_noise(Int32, Int32, Float) -> Self
 #as_free_fn(get_image_color)
-pub fn Image::get_color(Self, Int, Int) -> Color
+pub fn Image::get_color(Self, Int32, Int32) -> Color
 #as_free_fn(image_height, deprecated)
 #as_free_fn(get_image_height)
-pub fn Image::height(Self) -> Int
+pub fn Image::height(Self) -> Int32
 #as_free_fn(is_image_valid)
 pub fn Image::is_valid(Self) -> Bool
 #as_free_fn(image_kernel_convolution)
-pub fn Image::kernel_convolution(Self, Bytes, Int) -> Unit
+pub fn Image::kernel_convolution(Self, Bytes, Int32) -> Unit
 #as_free_fn(load_image)
 pub fn Image::load(String) -> Self
-pub fn Image::load_anim(String) -> (Self, Int)
-pub fn Image::load_anim_from_memory(String, Bytes, Int) -> (Self, Int)
+pub fn Image::load_anim(String) -> (Self, Int32)
+pub fn Image::load_anim_from_memory(String, Bytes, Int32) -> (Self, Int32)
 #as_free_fn(load_image_colors)
 pub fn Image::load_colors(Self) -> Bytes
 #as_free_fn(load_image_from_memory)
-pub fn Image::load_from_memory(String, Bytes, Int) -> Self
+pub fn Image::load_from_memory(String, Bytes, Int32) -> Self
 #as_free_fn(load_image_from_screen)
 pub fn Image::load_from_screen() -> Self
 #as_free_fn(load_image_from_texture)
 pub fn Image::load_from_texture(Texture) -> Self
 #as_free_fn(load_image_palette)
-pub fn Image::load_palette(Self, Int) -> Bytes
+pub fn Image::load_palette(Self, Int32) -> Bytes
 #as_free_fn(load_image_raw)
-pub fn Image::load_raw(String, Int, Int, Int, Int) -> Self
+pub fn Image::load_raw(String, Int32, Int32, Int32, Int32) -> Self
 #as_free_fn(get_image_mipmaps)
-pub fn Image::mipmaps(Self) -> Int
+pub fn Image::mipmaps(Self) -> Int32
 #as_free_fn(new_image)
-pub fn Image::new(Bytes, Int, Int, Int) -> Self
+pub fn Image::new(Bytes, Int32, Int32, Int32) -> Self
 #as_free_fn(image_resize)
-pub fn Image::resize(Self, Int, Int) -> Unit
+pub fn Image::resize(Self, Int32, Int32) -> Unit
 #as_free_fn(image_resize_canvas)
-pub fn Image::resize_canvas(Self, Int, Int, Int, Int, Color) -> Unit
+pub fn Image::resize_canvas(Self, Int32, Int32, Int32, Int32, Color) -> Unit
 #as_free_fn(image_resize_nn)
-pub fn Image::resize_nn(Self, Int, Int) -> Unit
+pub fn Image::resize_nn(Self, Int32, Int32) -> Unit
 #as_free_fn(image_rotate)
-pub fn Image::rotate(Self, Int) -> Unit
+pub fn Image::rotate(Self, Int32) -> Unit
 #as_free_fn(image_rotate_ccw)
 pub fn Image::rotate_ccw(Self) -> Unit
 #as_free_fn(image_rotate_cw)
 pub fn Image::rotate_cw(Self) -> Unit
 #as_free_fn(image_format)
-pub fn Image::set_format(Self, Int) -> Unit
+pub fn Image::set_format(Self, Int32) -> Unit
 #as_free_fn(image_text)
-pub fn Image::text(String, Int, Color) -> Self
+pub fn Image::text(String, Int32, Color) -> Self
 #as_free_fn(image_text_ex)
 pub fn Image::text_ex(Font, String, Float, Float, Color) -> Self
 #as_free_fn(image_to_pot)
@@ -1828,14 +1860,15 @@ pub fn Image::to_pot(Self, Color) -> Unit
 #as_free_fn(load_texture_from_image)
 pub fn Image::to_texture(Self) -> Texture
 #as_free_fn(load_texture_cubemap)
-pub fn Image::to_texture_cubemap(Self, Int) -> Texture
+pub fn Image::to_texture_cubemap(Self, Int32) -> Texture
 #as_free_fn(unload_image)
 pub fn Image::unload(Self) -> Unit
 #as_free_fn(image_width, deprecated)
 #as_free_fn(get_image_width)
-pub fn Image::width(Self) -> Int
+pub fn Image::width(Self) -> Int32
 
 type Material
+pub fn Material::default() -> Self
 #as_free_fn(is_material_valid)
 pub fn Material::is_valid(Self) -> Bool
 #as_free_fn(load_material_default, deprecated)
@@ -1844,13 +1877,13 @@ pub fn Material::load_default() -> Self
 #as_free_fn(get_material_maps)
 pub fn Material::maps(Self) -> MaterialMapArray
 #as_free_fn(set_material_map_color)
-pub fn Material::set_map_color(Self, Int, Color) -> Unit
+pub fn Material::set_map_color(Self, Int32, Color) -> Unit
 #as_free_fn(set_material_map_value)
-pub fn Material::set_map_value(Self, Int, Float) -> Unit
+pub fn Material::set_map_value(Self, Int32, Float) -> Unit
 #as_free_fn(set_material_shader)
 pub fn Material::set_shader(Self, Shader) -> Unit
 #as_free_fn(set_material_texture)
-pub fn Material::set_texture(Self, Int, Texture) -> Unit
+pub fn Material::set_texture(Self, Int32, Texture) -> Unit
 #as_free_fn(get_material_shader)
 pub fn Material::shader(Self) -> Shader
 #as_free_fn(unload_material)
@@ -1866,15 +1899,17 @@ pub fn MaterialMap::texture(Self) -> Texture
 pub fn MaterialMap::value(Self) -> Float
 
 type MaterialMapArray
-pub fn MaterialMapArray::count(Self) -> Int
-pub fn MaterialMapArray::op_get(Self, Int) -> MaterialMap
-pub fn MaterialMapArray::op_set(Self, Int, MaterialMap) -> Unit
+#alias("_[_]")
+pub fn MaterialMapArray::at(Self, Int32) -> MaterialMap
+pub fn MaterialMapArray::count(Self) -> Int32
+#alias("_[_]=_")
+pub fn MaterialMapArray::set(Self, Int32, MaterialMap) -> Unit
 
 type MaterialsArray
 #as_free_fn(materials_array_count)
-pub fn MaterialsArray::count(Self) -> Int
+pub fn MaterialsArray::count(Self) -> Int32
 #as_free_fn(materials_array_get)
-pub fn MaterialsArray::get(Self, Int) -> Material
+pub fn MaterialsArray::get(Self, Int32) -> Material
 #as_free_fn(load_materials)
 pub fn MaterialsArray::load(String) -> Self
 #as_free_fn(unload_materials_array)
@@ -1901,13 +1936,16 @@ pub struct Matrix {
 pub fn Matrix::add(Self, Self) -> Self
 pub fn Matrix::decompose(Self) -> (Vector3, Vector4, Vector3)
 pub fn Matrix::determinant(Self) -> Float
+pub fn Matrix::equal(Self, Self) -> Bool
 pub fn Matrix::from_bytes(Bytes) -> Self
 pub fn Matrix::frustum(Double, Double, Double, Double, Double, Double) -> Self
 pub fn Matrix::identity() -> Self
 pub fn Matrix::invert(Self) -> Self
 pub fn Matrix::look_at(Vector3, Vector3, Vector3) -> Self
 pub fn Matrix::multiply(Self, Self) -> Self
+pub fn Matrix::not_equal(Self, Self) -> Bool
 pub fn Matrix::ortho(Double, Double, Double, Double, Double, Double) -> Self
+pub fn Matrix::output(Self, &Logger) -> Unit
 pub fn Matrix::perspective(Double, Double, Double, Double) -> Self
 pub fn Matrix::rotate(Vector3, Float) -> Self
 pub fn Matrix::rotate_x(Float) -> Self
@@ -1918,15 +1956,19 @@ pub fn Matrix::rotate_zyx(Vector3) -> Self
 pub fn Matrix::scale(Float, Float, Float) -> Self
 pub fn Matrix::subtract(Self, Self) -> Self
 pub fn Matrix::to_bytes(Self) -> Bytes
+pub fn Matrix::to_repr(Self) -> @debug.Repr
+pub fn Matrix::to_string(Self) -> String
 pub fn Matrix::trace(Self) -> Float
 pub fn Matrix::translate(Float, Float, Float) -> Self
 pub fn Matrix::transpose(Self) -> Self
 pub impl Show for Matrix
 
 type MatrixArray
-pub fn MatrixArray::length(Self) -> Int
-pub fn MatrixArray::op_get(Self, Int) -> Matrix
-pub fn MatrixArray::op_set(Self, Int, Matrix) -> Unit
+#alias("_[_]")
+pub fn MatrixArray::at(Self, Int32) -> Matrix
+pub fn MatrixArray::length(Self) -> Int32
+#alias("_[_]=_")
+pub fn MatrixArray::set(Self, Int32, Matrix) -> Unit
 
 type Mesh
 #as_free_fn(get_mesh_bounding_box)
@@ -1936,37 +1978,37 @@ pub fn Mesh::colors(Self) -> UByteArray?
 #as_free_fn(draw_mesh)
 pub fn Mesh::draw(Self, Material, Matrix) -> Unit
 #as_free_fn(draw_mesh_instanced)
-pub fn Mesh::draw_instanced(Self, Material, Array[Matrix], Int) -> Unit
+pub fn Mesh::draw_instanced(Self, Material, Array[Matrix], Int32) -> Unit
 #as_free_fn(export_mesh)
 pub fn Mesh::export_(Self, String) -> Bool
 #as_free_fn(export_mesh_as_code)
 pub fn Mesh::export_as_code(Self, String) -> Bool
 #as_free_fn(gen_mesh_cone)
-pub fn Mesh::gen_cone(Float, Float, Int) -> Self
+pub fn Mesh::gen_cone(Float, Float, Int32) -> Self
 #as_free_fn(gen_mesh_cube)
 pub fn Mesh::gen_cube(Float, Float, Float) -> Self
 #as_free_fn(gen_mesh_cubicmap)
 pub fn Mesh::gen_cubicmap(Image, Vector3) -> Self
 #as_free_fn(gen_mesh_cylinder)
-pub fn Mesh::gen_cylinder(Float, Float, Int) -> Self
+pub fn Mesh::gen_cylinder(Float, Float, Int32) -> Self
 #as_free_fn(gen_mesh_from_points)
-pub fn Mesh::gen_from_points(Bytes, Bytes, Int) -> Self
+pub fn Mesh::gen_from_points(Bytes, Bytes, Int32) -> Self
 #as_free_fn(gen_mesh_heightmap)
 pub fn Mesh::gen_heightmap(Image, Vector3) -> Self
 #as_free_fn(gen_mesh_hemisphere)
-pub fn Mesh::gen_hemisphere(Float, Int, Int) -> Self
+pub fn Mesh::gen_hemisphere(Float, Int32, Int32) -> Self
 #as_free_fn(gen_mesh_knot)
-pub fn Mesh::gen_knot(Float, Float, Int, Int) -> Self
+pub fn Mesh::gen_knot(Float, Float, Int32, Int32) -> Self
 #as_free_fn(gen_mesh_plane)
-pub fn Mesh::gen_plane(Float, Float, Int, Int) -> Self
+pub fn Mesh::gen_plane(Float, Float, Int32, Int32) -> Self
 #as_free_fn(gen_mesh_poly)
-pub fn Mesh::gen_poly(Int, Float) -> Self
+pub fn Mesh::gen_poly(Int32, Float) -> Self
 #as_free_fn(gen_mesh_sphere)
-pub fn Mesh::gen_sphere(Float, Int, Int) -> Self
+pub fn Mesh::gen_sphere(Float, Int32, Int32) -> Self
 #as_free_fn(gen_mesh_tangents)
 pub fn Mesh::gen_tangents(Self) -> Unit
 #as_free_fn(gen_mesh_torus)
-pub fn Mesh::gen_torus(Float, Float, Int, Int) -> Self
+pub fn Mesh::gen_torus(Float, Float, Int32, Int32) -> Self
 #as_free_fn(get_mesh_indices)
 pub fn Mesh::indices(Self) -> UShortArray?
 pub fn Mesh::new(FixedArray[Float], texcoords? : FixedArray[Float], texcoords2? : FixedArray[Float], normals? : FixedArray[Float], tangents? : FixedArray[Float], colors? : FixedArray[Byte], indices? : FixedArray[UInt16]) -> Self
@@ -1979,30 +2021,30 @@ pub fn Mesh::texcoords(Self) -> FloatArray?
 #as_free_fn(get_mesh_texcoords2)
 pub fn Mesh::texcoords2(Self) -> FloatArray?
 #as_free_fn(get_mesh_triangle_count)
-pub fn Mesh::triangle_count(Self) -> Int
+pub fn Mesh::triangle_count(Self) -> Int32
 #as_free_fn(unload_mesh)
 pub fn Mesh::unload(Self) -> Unit
 #as_free_fn(update_mesh_buffer)
-pub fn Mesh::update_buffer(Self, Int, Bytes, Int, Int) -> Unit
+pub fn Mesh::update_buffer(Self, Int32, Bytes, Int32, Int32) -> Unit
 pub fn Mesh::upload(Self, Bool) -> Unit
 #as_free_fn(get_mesh_vertex_count)
-pub fn Mesh::vertex_count(Self) -> Int
+pub fn Mesh::vertex_count(Self) -> Int32
 #as_free_fn(get_mesh_vertices)
 pub fn Mesh::vertices(Self) -> FloatArray?
 
 type Model
 #as_free_fn(get_model_bind_pose_rotation)
-pub fn Model::bind_pose_rotation(Self, Int) -> Vector4
+pub fn Model::bind_pose_rotation(Self, Int32) -> Vector4
 #as_free_fn(get_model_bind_pose_translation)
-pub fn Model::bind_pose_translation(Self, Int) -> Vector3
+pub fn Model::bind_pose_translation(Self, Int32) -> Vector3
 #as_free_fn(get_model_bone_count)
-pub fn Model::bone_count(Self) -> Int
+pub fn Model::bone_count(Self) -> Int32
 #as_free_fn(get_model_bone_matrices)
 pub fn Model::bone_matrices(Self) -> MatrixArray?
 #as_free_fn(get_model_bone_name)
-pub fn Model::bone_name(Self, Int) -> String
+pub fn Model::bone_name(Self, Int32) -> String
 #as_free_fn(get_model_bone_parent)
-pub fn Model::bone_parent(Self, Int) -> Int
+pub fn Model::bone_parent(Self, Int32) -> Int32
 #as_free_fn(get_model_bounding_box)
 pub fn Model::bounding_box(Self) -> BoundingBox
 #as_free_fn(draw_model)
@@ -2014,7 +2056,7 @@ pub fn Model::draw_wires(Self, Vector3, Float, Color) -> Unit
 #as_free_fn(draw_model_wires_ex)
 pub fn Model::draw_wires_ex(Self, Vector3, Vector3, Float, Vector3, Color) -> Unit
 #as_free_fn(is_model_animation_valid)
-pub fn Model::is_animation_valid(Self, ModelAnimations, Int) -> Bool
+pub fn Model::is_animation_valid(Self, ModelAnimations, Int32) -> Bool
 #as_free_fn(is_model_valid)
 pub fn Model::is_valid(Self) -> Bool
 #as_free_fn(load_model)
@@ -2022,19 +2064,19 @@ pub fn Model::load(String) -> Self
 #as_free_fn(load_model_from_mesh)
 pub fn Model::load_from_mesh(Mesh) -> Self
 #as_free_fn(get_model_material)
-pub fn Model::material(Self, Int) -> Material
+pub fn Model::material(Self, Int32) -> Material
 #as_free_fn(get_model_material_count)
-pub fn Model::material_count(Self) -> Int
+pub fn Model::material_count(Self) -> Int32
 #as_free_fn(get_model_mesh)
-pub fn Model::mesh(Self, Int) -> Mesh
+pub fn Model::mesh(Self, Int32) -> Mesh
 #as_free_fn(get_model_mesh_count)
-pub fn Model::mesh_count(Self) -> Int
+pub fn Model::mesh_count(Self) -> Int32
 #as_free_fn(set_model_material_shader)
-pub fn Model::set_material_shader(Self, Int, Shader) -> Unit
+pub fn Model::set_material_shader(Self, Int32, Shader) -> Unit
 #as_free_fn(set_model_material_texture)
-pub fn Model::set_material_texture(Self, Int, Int, Texture) -> Unit
+pub fn Model::set_material_texture(Self, Int32, Int32, Texture) -> Unit
 #as_free_fn(set_model_mesh_material)
-pub fn Model::set_mesh_material(Self, Int, Int) -> Unit
+pub fn Model::set_mesh_material(Self, Int32, Int32) -> Unit
 #as_free_fn(set_model_transform)
 pub fn Model::set_transform(Self, Matrix) -> Unit
 #as_free_fn(get_model_transform)
@@ -2042,30 +2084,30 @@ pub fn Model::transform(Self) -> Matrix
 #as_free_fn(unload_model)
 pub fn Model::unload(Self) -> Unit
 #as_free_fn(update_model_animation)
-pub fn Model::update_animation(Self, ModelAnimations, Int, Float) -> Unit
+pub fn Model::update_animation(Self, ModelAnimations, Int32, Float) -> Unit
 #as_free_fn(update_model_animation_ex)
-pub fn Model::update_animation_ex(Self, ModelAnimations, Int, Float, ModelAnimations, Int, Float, Float) -> Unit
+pub fn Model::update_animation_ex(Self, ModelAnimations, Int32, Float, ModelAnimations, Int32, Float, Float) -> Unit
 
 type ModelAnimations
 #as_free_fn(get_model_animation_bone_count)
-pub fn ModelAnimations::bone_count(Self, Int) -> Int
+pub fn ModelAnimations::bone_count(Self, Int32) -> Int32
 #as_free_fn(model_animations_count)
-pub fn ModelAnimations::count(Self) -> Int
+pub fn ModelAnimations::count(Self) -> Int32
 #as_free_fn(get_model_animation_frame_count, deprecated)
 #deprecated
-pub fn ModelAnimations::frame_count(Self, Int) -> Int
+pub fn ModelAnimations::frame_count(Self, Int32) -> Int32
 #as_free_fn(get_model_animation_frame_pose_rotation, deprecated)
 #deprecated
-pub fn ModelAnimations::frame_pose_rotation(Self, Int, Int, Int) -> Vector4
+pub fn ModelAnimations::frame_pose_rotation(Self, Int32, Int32, Int32) -> Vector4
 #as_free_fn(get_model_animation_frame_pose_translation, deprecated)
 #deprecated
-pub fn ModelAnimations::frame_pose_translation(Self, Int, Int, Int) -> Vector3
+pub fn ModelAnimations::frame_pose_translation(Self, Int32, Int32, Int32) -> Vector3
 #as_free_fn(get_model_animation_keyframe_count)
-pub fn ModelAnimations::keyframe_count(Self, Int) -> Int
+pub fn ModelAnimations::keyframe_count(Self, Int32) -> Int32
 #as_free_fn(get_model_animation_keyframe_pose_rotation)
-pub fn ModelAnimations::keyframe_pose_rotation(Self, Int, Int, Int) -> Vector4
+pub fn ModelAnimations::keyframe_pose_rotation(Self, Int32, Int32, Int32) -> Vector4
 #as_free_fn(get_model_animation_keyframe_pose_translation)
-pub fn ModelAnimations::keyframe_pose_translation(Self, Int, Int, Int) -> Vector3
+pub fn ModelAnimations::keyframe_pose_translation(Self, Int32, Int32, Int32) -> Vector3
 #as_free_fn(load_model_animations)
 pub fn ModelAnimations::load(String) -> Self
 #as_free_fn(unload_model_animations)
@@ -2079,7 +2121,7 @@ pub fn Music::is_valid(Self) -> Bool
 #as_free_fn(load_music_stream)
 pub fn Music::load(String) -> Self
 #as_free_fn(load_music_stream_from_memory)
-pub fn Music::load_from_memory(String, Bytes, Int) -> Self
+pub fn Music::load_from_memory(String, Bytes, Int32) -> Self
 #as_free_fn(pause_music_stream)
 pub fn Music::pause(Self) -> Unit
 #as_free_fn(play_music_stream)
@@ -2107,24 +2149,34 @@ pub fn Music::update(Self) -> Unit
 
 pub struct NPatchInfo {
   source : Rectangle
-  left : Int
-  top : Int
-  right : Int
-  bottom : Int
-  layout : Int
+  left : Int32
+  top : Int32
+  right : Int32
+  bottom : Int32
+  layout : Int32
 } derive(Eq, @debug.Debug)
+pub fn NPatchInfo::equal(Self, Self) -> Bool
 pub fn NPatchInfo::from_bytes(Bytes) -> Self
-pub fn NPatchInfo::new(Rectangle, Int, Int, Int, Int, Int) -> Self
+pub fn NPatchInfo::new(Rectangle, Int32, Int32, Int32, Int32, Int32) -> Self
+pub fn NPatchInfo::not_equal(Self, Self) -> Bool
+pub fn NPatchInfo::output(Self, &Logger) -> Unit
 pub fn NPatchInfo::to_bytes(Self) -> Bytes
+pub fn NPatchInfo::to_repr(Self) -> @debug.Repr
+pub fn NPatchInfo::to_string(Self) -> String
 pub impl Show for NPatchInfo
 
 pub struct Ray {
   position : Vector3
   direction : Vector3
 } derive(Eq, @debug.Debug)
+pub fn Ray::equal(Self, Self) -> Bool
 pub fn Ray::from_bytes(Bytes) -> Self
 pub fn Ray::new(Vector3, Vector3) -> Self
+pub fn Ray::not_equal(Self, Self) -> Bool
+pub fn Ray::output(Self, &Logger) -> Unit
 pub fn Ray::to_bytes(Self) -> Bytes
+pub fn Ray::to_repr(Self) -> @debug.Repr
+pub fn Ray::to_string(Self) -> String
 pub impl Show for Ray
 
 pub struct RayCollision {
@@ -2133,8 +2185,13 @@ pub struct RayCollision {
   point : Vector3
   normal : Vector3
 } derive(Eq, @debug.Debug)
+pub fn RayCollision::equal(Self, Self) -> Bool
 pub fn RayCollision::from_bytes(Bytes) -> Self
 pub fn RayCollision::new(Bool, Float, Vector3, Vector3) -> Self
+pub fn RayCollision::not_equal(Self, Self) -> Bool
+pub fn RayCollision::output(Self, &Logger) -> Unit
+pub fn RayCollision::to_repr(Self) -> @debug.Repr
+pub fn RayCollision::to_string(Self) -> String
 pub impl Show for RayCollision
 
 pub struct Rectangle {
@@ -2143,9 +2200,14 @@ pub struct Rectangle {
   width : Float
   height : Float
 } derive(Eq, @debug.Debug)
+pub fn Rectangle::equal(Self, Self) -> Bool
 pub fn Rectangle::from_bytes(Bytes) -> Self
 pub fn Rectangle::new(Float, Float, Float, Float) -> Self
+pub fn Rectangle::not_equal(Self, Self) -> Bool
+pub fn Rectangle::output(Self, &Logger) -> Unit
 pub fn Rectangle::to_bytes(Self) -> Bytes
+pub fn Rectangle::to_repr(Self) -> @debug.Repr
+pub fn Rectangle::to_string(Self) -> String
 pub impl Show for Rectangle
 
 type RenderTexture
@@ -2154,7 +2216,7 @@ pub fn RenderTexture::begin_mode(Self) -> Unit
 #as_free_fn(get_render_texture_depth)
 pub fn RenderTexture::depth(Self) -> Texture
 #as_free_fn(get_render_texture_depth_id)
-pub fn RenderTexture::depth_id(Self) -> UInt
+pub fn RenderTexture::depth_id(Self) -> UInt32
 #as_free_fn(draw_render_texture_ex)
 pub fn RenderTexture::draw_ex(Self, Vector2, Float, Float, Color) -> Unit
 #as_free_fn(draw_render_texture_pro)
@@ -2163,25 +2225,25 @@ pub fn RenderTexture::draw_pro(Self, Rectangle, Rectangle, Vector2, Float, Color
 pub fn RenderTexture::draw_rec(Self, Rectangle, Vector2, Color) -> Unit
 #as_free_fn(get_render_texture_fbo_id, deprecated)
 #deprecated
-pub fn RenderTexture::fbo_id(Self) -> UInt
+pub fn RenderTexture::fbo_id(Self) -> UInt32
 #as_free_fn(get_render_texture_height)
-pub fn RenderTexture::height(Self) -> Int
+pub fn RenderTexture::height(Self) -> Int32
 #as_free_fn(get_render_texture_id)
-pub fn RenderTexture::id(Self) -> UInt
+pub fn RenderTexture::id(Self) -> UInt32
 #as_free_fn(is_render_texture_valid)
 pub fn RenderTexture::is_valid(Self) -> Bool
 #as_free_fn(load_render_texture)
-pub fn RenderTexture::load(Int, Int) -> Self
+pub fn RenderTexture::load(Int32, Int32) -> Self
 #as_free_fn(load_render_texture_depth_tex, deprecated)
 #deprecated
-pub fn RenderTexture::load_depth_tex(Int, Int) -> Self
+pub fn RenderTexture::load_depth_tex(Int32, Int32) -> Self
 #as_free_fn(load_shadowmap_render_texture, deprecated)
 #deprecated
-pub fn RenderTexture::load_shadowmap(Int, Int) -> Self
+pub fn RenderTexture::load_shadowmap(Int32, Int32) -> Self
 #as_free_fn(new_render_texture)
-pub fn RenderTexture::new(UInt, Texture, Texture) -> Self
+pub fn RenderTexture::new(UInt32, Texture, Texture) -> Self
 #as_free_fn(set_render_texture_filter)
-pub fn RenderTexture::set_filter(Self, Int) -> Unit
+pub fn RenderTexture::set_filter(Self, Int32) -> Unit
 #as_free_fn(get_render_texture_texture)
 pub fn RenderTexture::texture(Self) -> Texture
 #as_free_fn(unload_render_texture)
@@ -2193,17 +2255,17 @@ pub fn RenderTexture::unload_depth_tex(Self) -> Unit
 #deprecated
 pub fn RenderTexture::unload_shadowmap(Self) -> Unit
 #as_free_fn(get_render_texture_width)
-pub fn RenderTexture::width(Self) -> Int
+pub fn RenderTexture::width(Self) -> Int32
 
 type Shader
 #as_free_fn(begin_shader_mode)
 pub fn Shader::begin_mode(Self) -> Unit
 #as_free_fn(get_shader_location)
-pub fn Shader::get_location(Self, String) -> Int
+pub fn Shader::get_location(Self, String) -> Int32
 #as_free_fn(get_shader_location_attrib)
-pub fn Shader::get_location_attrib(Self, String) -> Int
+pub fn Shader::get_location_attrib(Self, String) -> Int32
 #as_free_fn(get_shader_id)
-pub fn Shader::id(Self) -> UInt
+pub fn Shader::id(Self) -> UInt32
 #as_free_fn(is_shader_valid)
 pub fn Shader::is_valid(Self) -> Bool
 #as_free_fn(load_shader)
@@ -2212,13 +2274,13 @@ pub fn Shader::load(String, String) -> Self
 pub fn Shader::load_from_memory(String, String) -> Self
 #as_free_fn(set_shader_locs)
 #as_free_fn(set_shader_location, deprecated)
-pub fn Shader::set_locs(Self, Int, Int) -> Unit
-pub fn Shader::set_value(Self, Int, ShaderUniformData) -> Unit
+pub fn Shader::set_locs(Self, Int32, Int32) -> Unit
+pub fn Shader::set_value(Self, Int32, ShaderUniformData) -> Unit
 #as_free_fn(set_shader_value_matrix)
-pub fn Shader::set_value_matrix(Self, Int, Matrix) -> Unit
+pub fn Shader::set_value_matrix(Self, Int32, Matrix) -> Unit
 #as_free_fn(set_shader_value_texture)
-pub fn Shader::set_value_texture(Self, Int, Texture) -> Unit
-pub fn Shader::set_value_v(Self, Int, ShaderUniformDataV) -> Unit
+pub fn Shader::set_value_texture(Self, Int32, Texture) -> Unit
+pub fn Shader::set_value_v(Self, Int32, ShaderUniformDataV) -> Unit
 #as_free_fn(unload_shader)
 pub fn Shader::unload(Self) -> Unit
 
@@ -2227,11 +2289,11 @@ pub(all) enum ShaderUniformData {
   Vec2(Vector2)
   Vec3(Vector3)
   Vec4(Vector4)
-  Int(Int)
-  IVec2((Int, Int))
-  IVec3((Int, Int, Int))
-  IVec4((Int, Int, Int, Int))
-  Sampler2D(Int)
+  Int(Int32)
+  IVec2((Int32, Int32))
+  IVec3((Int32, Int32, Int32))
+  IVec4((Int32, Int32, Int32, Int32))
+  Sampler2D(Int32)
 }
 
 pub(all) enum ShaderUniformDataV {
@@ -2239,20 +2301,22 @@ pub(all) enum ShaderUniformDataV {
   Vec2(Array[Vector2])
   Vec3(Array[Vector3])
   Vec4(Array[Vector4])
-  Int(Array[Int])
-  IVec2(Array[(Int, Int)])
-  IVec3(Array[(Int, Int, Int)])
-  IVec4(Array[(Int, Int, Int, Int)])
-  Sampler2D(Array[Int])
+  Int(Array[Int32])
+  IVec2(Array[(Int32, Int32)])
+  IVec3(Array[(Int32, Int32, Int32)])
+  IVec4(Array[(Int32, Int32, Int32, Int32)])
+  Sampler2D(Array[Int32])
 }
 
 type ShortArray
+#alias("_[_]")
+pub fn ShortArray::at(Self, Int32) -> Int32
 pub fn ShortArray::free(Self) -> Unit
-pub fn ShortArray::length(Self) -> Int
-pub fn ShortArray::new(Int) -> Self
-pub fn ShortArray::op_get(Self, Int) -> Int
-pub fn ShortArray::op_set(Self, Int, Int) -> Unit
+pub fn ShortArray::length(Self) -> Int32
+pub fn ShortArray::new(Int32) -> Self
 pub fn ShortArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.ShortPointer
+#alias("_[_]=_")
+pub fn ShortArray::set(Self, Int32, Int32) -> Unit
 
 type Sound
 #as_free_fn(is_sound_playing)
@@ -2282,11 +2346,11 @@ pub fn Sound::unload(Self) -> Unit
 #as_free_fn(unload_sound_alias)
 pub fn Sound::unload_alias(Self) -> Unit
 #as_free_fn(update_sound)
-pub fn Sound::update(Self, Bytes, Int) -> Unit
+pub fn Sound::update(Self, Bytes, Int32) -> Unit
 
 type Texture
 #as_free_fn(draw_texture)
-pub fn Texture::draw(Self, Int, Int, Color) -> Unit
+pub fn Texture::draw(Self, Int32, Int32, Color) -> Unit
 #as_free_fn(draw_texture_ex)
 pub fn Texture::draw_ex(Self, Vector2, Float, Float, Color) -> Unit
 #as_free_fn(draw_texture_npatch)
@@ -2298,58 +2362,62 @@ pub fn Texture::draw_rec(Self, Rectangle, Vector2, Color) -> Unit
 #as_free_fn(draw_texture_v)
 pub fn Texture::draw_v(Self, Vector2, Color) -> Unit
 #as_free_fn(get_texture_format)
-pub fn Texture::format(Self) -> Int
+pub fn Texture::format(Self) -> Int32
 #as_free_fn(texture_from_id, deprecated)
 #deprecated
-pub fn Texture::from_id(UInt, Int, Int) -> Self
+pub fn Texture::from_id(UInt32, Int32, Int32) -> Self
 #as_free_fn(gen_texture_mipmaps)
 pub fn Texture::gen_mipmaps(Self) -> Unit
 #as_free_fn(get_shapes_texture)
 pub fn Texture::get_shapes() -> Self
 #as_free_fn(get_texture_height)
-pub fn Texture::height(Self) -> Int
+pub fn Texture::height(Self) -> Int32
 #as_free_fn(get_texture_id)
-pub fn Texture::id(Self) -> UInt
+pub fn Texture::id(Self) -> UInt32
 #as_free_fn(is_texture_valid)
 pub fn Texture::is_valid(Self) -> Bool
 #as_free_fn(load_texture)
 pub fn Texture::load(String) -> Self
 #as_free_fn(get_texture_mipmaps)
-pub fn Texture::mipmaps(Self) -> Int
+pub fn Texture::mipmaps(Self) -> Int32
 #as_free_fn(new_texture)
-pub fn Texture::new(UInt, Int, Int, Int, Int) -> Self
+pub fn Texture::new(UInt32, Int32, Int32, Int32, Int32) -> Self
 #as_free_fn(set_texture_filter)
-pub fn Texture::set_filter(Self, Int) -> Unit
+pub fn Texture::set_filter(Self, Int32) -> Unit
 #as_free_fn(set_shapes_texture)
 pub fn Texture::set_shapes(Self, Rectangle) -> Unit
 #as_free_fn(set_texture_wrap)
-pub fn Texture::set_wrap(Self, Int) -> Unit
+pub fn Texture::set_wrap(Self, Int32) -> Unit
 #as_free_fn(unload_texture)
 pub fn Texture::unload(Self) -> Unit
 #as_free_fn(update_texture)
 pub fn Texture::update(Self, Bytes) -> Unit
 #as_free_fn(update_texture_from_image_frame)
-pub fn Texture::update_from_image_frame(Self, Image, Int) -> Unit
+pub fn Texture::update_from_image_frame(Self, Image, Int32) -> Unit
 #as_free_fn(update_texture_rec)
 pub fn Texture::update_rec(Self, Rectangle, Bytes) -> Unit
 #as_free_fn(get_texture_width)
-pub fn Texture::width(Self) -> Int
+pub fn Texture::width(Self) -> Int32
 
 type UByteArray
+#alias("_[_]")
+pub fn UByteArray::at(Self, Int32) -> Int32
 pub fn UByteArray::free(Self) -> Unit
-pub fn UByteArray::length(Self) -> Int
-pub fn UByteArray::new(Int) -> Self
-pub fn UByteArray::op_get(Self, Int) -> Int
-pub fn UByteArray::op_set(Self, Int, Byte) -> Unit
+pub fn UByteArray::length(Self) -> Int32
+pub fn UByteArray::new(Int32) -> Self
 pub fn UByteArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.UBytePointer
+#alias("_[_]=_")
+pub fn UByteArray::set(Self, Int32, Byte) -> Unit
 
 type UShortArray
+#alias("_[_]")
+pub fn UShortArray::at(Self, Int32) -> Int32
 pub fn UShortArray::free(Self) -> Unit
-pub fn UShortArray::length(Self) -> Int
-pub fn UShortArray::new(Int) -> Self
-pub fn UShortArray::op_get(Self, Int) -> Int
-pub fn UShortArray::op_set(Self, Int, UInt16) -> Unit
+pub fn UShortArray::length(Self) -> Int32
+pub fn UShortArray::new(Int32) -> Self
 pub fn UShortArray::pointer(Self) -> @tonyfettes/raylib/internal/raylib.UShortPointer
+#alias("_[_]=_")
+pub fn UShortArray::set(Self, Int32, UInt16) -> Unit
 
 pub struct Vector2 {
   x : Float
@@ -2364,6 +2432,7 @@ pub fn Vector2::distance(Self, Self) -> Float
 pub fn Vector2::distance_sqr(Self, Self) -> Float
 pub fn Vector2::divide(Self, Self) -> Self
 pub fn Vector2::dot_product(Self, Self) -> Float
+pub fn Vector2::equal(Self, Self) -> Bool
 pub fn Vector2::equals(Self, Self) -> Bool
 pub fn Vector2::from_bytes(Bytes) -> Self
 pub fn Vector2::invert(Self) -> Self
@@ -2378,7 +2447,9 @@ pub fn Vector2::multiply(Self, Self) -> Self
 pub fn Vector2::negate(Self) -> Self
 pub fn Vector2::new(Float, Float) -> Self
 pub fn Vector2::normalize(Self) -> Self
+pub fn Vector2::not_equal(Self, Self) -> Bool
 pub fn Vector2::one() -> Self
+pub fn Vector2::output(Self, &Logger) -> Unit
 pub fn Vector2::reflect(Self, Self) -> Self
 pub fn Vector2::refract(Self, Self, Float) -> Self
 pub fn Vector2::rotate(Self, Float) -> Self
@@ -2386,6 +2457,8 @@ pub fn Vector2::scale(Self, Float) -> Self
 pub fn Vector2::subtract(Self, Self) -> Self
 pub fn Vector2::subtract_value(Self, Float) -> Self
 pub fn Vector2::to_bytes(Self) -> Bytes
+pub fn Vector2::to_repr(Self) -> @debug.Repr
+pub fn Vector2::to_string(Self) -> String
 pub fn Vector2::transform(Self, Matrix) -> Self
 pub fn Vector2::zero() -> Self
 pub impl Show for Vector2
@@ -2404,6 +2477,7 @@ pub fn Vector3::cross_product(Self, Self) -> Self
 pub fn Vector3::distance(Self, Self) -> Float
 pub fn Vector3::distance_sqr(Self, Self) -> Float
 pub fn Vector3::dot_product(Self, Self) -> Float
+pub fn Vector3::equal(Self, Self) -> Bool
 pub fn Vector3::equals(Self, Self) -> Bool
 pub fn Vector3::from_bytes(Bytes) -> Self
 pub fn Vector3::invert(Self) -> Self
@@ -2416,8 +2490,10 @@ pub fn Vector3::move_towards(Self, Self, Float) -> Self
 pub fn Vector3::multiply(Self, Self) -> Self
 pub fn Vector3::new(Float, Float, Float) -> Self
 pub fn Vector3::normalize(Self) -> Self
+pub fn Vector3::not_equal(Self, Self) -> Bool
 pub fn Vector3::one() -> Self
 pub fn Vector3::ortho_normalize(Self, Self) -> (Self, Self)
+pub fn Vector3::output(Self, &Logger) -> Unit
 pub fn Vector3::perpendicular(Self) -> Self
 pub fn Vector3::project(Self, Self) -> Self
 pub fn Vector3::reflect(Self, Self) -> Self
@@ -2429,6 +2505,8 @@ pub fn Vector3::scale(Self, Float) -> Self
 pub fn Vector3::subtract(Self, Self) -> Self
 pub fn Vector3::subtract_value(Self, Float) -> Self
 pub fn Vector3::to_bytes(Self) -> Bytes
+pub fn Vector3::to_repr(Self) -> @debug.Repr
+pub fn Vector3::to_string(Self) -> String
 pub fn Vector3::transform(Self, Matrix) -> Self
 pub fn Vector3::unproject(Self, Matrix, Matrix) -> Self
 pub fn Vector3::zero() -> Self
@@ -2443,6 +2521,7 @@ pub struct Vector4 {
 pub fn Vector4::add(Self, Self) -> Self
 pub fn Vector4::add_value(Self, Float) -> Self
 pub fn Vector4::divide(Self, Self) -> Self
+pub fn Vector4::equal(Self, Self) -> Bool
 pub fn Vector4::equals(Self, Self) -> Bool
 pub fn Vector4::from_bytes(Bytes) -> Self
 pub fn Vector4::length(Self) -> Float
@@ -2452,7 +2531,9 @@ pub fn Vector4::multiply(Self, Self) -> Self
 pub fn Vector4::negate(Self) -> Self
 pub fn Vector4::new(Float, Float, Float, Float) -> Self
 pub fn Vector4::normalize(Self) -> Self
+pub fn Vector4::not_equal(Self, Self) -> Bool
 pub fn Vector4::one() -> Self
+pub fn Vector4::output(Self, &Logger) -> Unit
 pub fn Vector4::quat_add(Self, Self) -> Self
 pub fn Vector4::quat_add_value(Self, Float) -> Self
 pub fn Vector4::quat_cubic_hermite_spline(Self, Self, Self, Self, Float) -> Self
@@ -2481,12 +2562,14 @@ pub fn Vector4::scale(Self, Float) -> Self
 pub fn Vector4::subtract(Self, Self) -> Self
 pub fn Vector4::subtract_value(Self, Float) -> Self
 pub fn Vector4::to_bytes(Self) -> Bytes
+pub fn Vector4::to_repr(Self) -> @debug.Repr
+pub fn Vector4::to_string(Self) -> String
 pub fn Vector4::zero() -> Self
 pub impl Show for Vector4
 
 pub struct VrDeviceInfo {
-  h_resolution : Int
-  v_resolution : Int
+  h_resolution : Int32
+  v_resolution : Int32
   h_screen_size : Float
   v_screen_size : Float
   eye_to_screen_distance : Float
@@ -2495,8 +2578,11 @@ pub struct VrDeviceInfo {
   lens_distortion_values : FixedArray[Float]
   chroma_ab_correction : FixedArray[Float]
 } derive(@debug.Debug)
-pub fn VrDeviceInfo::new(Int, Int, Float, Float, Float, Float, Float, FixedArray[Float], FixedArray[Float]) -> Self
+pub fn VrDeviceInfo::new(Int32, Int32, Float, Float, Float, Float, Float, FixedArray[Float], FixedArray[Float]) -> Self
+pub fn VrDeviceInfo::output(Self, &Logger) -> Unit
 pub fn VrDeviceInfo::to_bytes(Self) -> Bytes
+pub fn VrDeviceInfo::to_repr(Self) -> @debug.Repr
+pub fn VrDeviceInfo::to_string(Self) -> String
 pub impl Show for VrDeviceInfo
 
 type VrStereoConfig
@@ -2515,11 +2601,11 @@ pub fn VrStereoConfig::unload(Self) -> Unit
 
 type Wave
 #as_free_fn(get_wave_channels)
-pub fn Wave::channels(Self) -> Int
+pub fn Wave::channels(Self) -> Int32
 #as_free_fn(wave_copy)
 pub fn Wave::copy(Self) -> Self
 #as_free_fn(wave_crop)
-pub fn Wave::crop(Self, Int, Int) -> Unit
+pub fn Wave::crop(Self, Int32, Int32) -> Unit
 #as_free_fn(get_wave_data)
 pub fn Wave::data(Self) -> WaveData
 #as_free_fn(export_wave)
@@ -2527,23 +2613,23 @@ pub fn Wave::export_(Self, String) -> Bool
 #as_free_fn(export_wave_as_code)
 pub fn Wave::export_as_code(Self, String) -> Bool
 #as_free_fn(wave_format)
-pub fn Wave::format(Self, Int, Int, Int) -> Unit
+pub fn Wave::format(Self, Int32, Int32, Int32) -> Unit
 #as_free_fn(get_wave_frame_count)
-pub fn Wave::frame_count(Self) -> Int
+pub fn Wave::frame_count(Self) -> Int32
 #as_free_fn(is_wave_valid)
 pub fn Wave::is_valid(Self) -> Bool
 #as_free_fn(load_wave)
 pub fn Wave::load(String) -> Self
 #as_free_fn(load_wave_from_memory)
-pub fn Wave::load_from_memory(String, Bytes, Int) -> Self
+pub fn Wave::load_from_memory(String, Bytes, Int32) -> Self
 #as_free_fn(load_wave_samples)
 pub fn Wave::load_samples(Self) -> WaveSamples
 #as_free_fn(load_sound_from_wave)
 pub fn Wave::load_sound(Self) -> Sound
 #as_free_fn(get_wave_sample_rate)
-pub fn Wave::sample_rate(Self) -> Int
+pub fn Wave::sample_rate(Self) -> Int32
 #as_free_fn(get_wave_sample_size)
-pub fn Wave::sample_size(Self) -> Int
+pub fn Wave::sample_size(Self) -> Int32
 #as_free_fn(unload_wave)
 pub fn Wave::unload(Self) -> Unit
 
@@ -2556,9 +2642,11 @@ pub enum WaveData {
 pub struct WaveSamples {
   // private fields
 }
-pub fn WaveSamples::length(Self) -> Int
-pub fn WaveSamples::op_get(Self, Int) -> Float
-pub fn WaveSamples::op_set(Self, Int, Float) -> Unit
+#alias("_[_]")
+pub fn WaveSamples::at(Self, Int32) -> Float
+pub fn WaveSamples::length(Self) -> Int32
+#alias("_[_]=_")
+pub fn WaveSamples::set(Self, Int32, Float) -> Unit
 #as_free_fn(unload_wave_samples)
 pub fn WaveSamples::unload(Self) -> Unit
 
@@ -2566,4 +2654,3 @@ pub fn WaveSamples::unload(Self) -> Unit
 pub using @tonyfettes/raylib/internal/raylib {type AudioBuffer}
 
 // Traits
-

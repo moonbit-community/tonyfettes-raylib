@@ -75,7 +75,7 @@ pub fn Mesh::upload(self : Mesh, dynamic : Bool) -> Unit {
 ///|
 /// Upload mesh vertex data in GPU and provide VAO/VBO ids.
 #deprecated("Use Mesh::upload instead")
-pub fn upload_mesh(mesh : Mesh, dynamic : Int) -> Unit {
+pub fn upload_mesh(mesh : Mesh, dynamic : Int32) -> Unit {
   @ffi.upload_mesh(mesh.0, dynamic)
 }
 
@@ -89,7 +89,7 @@ pub fn Mesh::gen_tangents(self : Mesh) -> Unit {
 ///|
 /// Generate polygonal mesh.
 #as_free_fn(gen_mesh_poly)
-pub fn Mesh::gen_poly(sides : Int, radius : Float) -> Mesh {
+pub fn Mesh::gen_poly(sides : Int32, radius : Float) -> Mesh {
   @ffi.gen_mesh_poly(sides, radius)
 }
 
@@ -99,8 +99,8 @@ pub fn Mesh::gen_poly(sides : Int, radius : Float) -> Mesh {
 pub fn Mesh::gen_plane(
   width : Float,
   length : Float,
-  res_x : Int,
-  res_z : Int,
+  res_x : Int32,
+  res_z : Int32,
 ) -> Mesh {
   @ffi.gen_mesh_plane(width, length, res_x, res_z)
 }
@@ -115,28 +115,36 @@ pub fn Mesh::gen_cube(width : Float, height : Float, length : Float) -> Mesh {
 ///|
 /// Generate sphere mesh (standard sphere).
 #as_free_fn(gen_mesh_sphere)
-pub fn Mesh::gen_sphere(radius : Float, rings : Int, slices : Int) -> Mesh {
+pub fn Mesh::gen_sphere(radius : Float, rings : Int32, slices : Int32) -> Mesh {
   @ffi.gen_mesh_sphere(radius, rings, slices)
 }
 
 ///|
 /// Generate half-sphere mesh (no bottom cap).
 #as_free_fn(gen_mesh_hemisphere)
-pub fn Mesh::gen_hemisphere(radius : Float, rings : Int, slices : Int) -> Mesh {
+pub fn Mesh::gen_hemisphere(
+  radius : Float,
+  rings : Int32,
+  slices : Int32,
+) -> Mesh {
   @ffi.gen_mesh_hemisphere(radius, rings, slices)
 }
 
 ///|
 /// Generate cylinder mesh.
 #as_free_fn(gen_mesh_cylinder)
-pub fn Mesh::gen_cylinder(radius : Float, height : Float, slices : Int) -> Mesh {
+pub fn Mesh::gen_cylinder(
+  radius : Float,
+  height : Float,
+  slices : Int32,
+) -> Mesh {
   @ffi.gen_mesh_cylinder(radius, height, slices)
 }
 
 ///|
 /// Generate cone/pyramid mesh.
 #as_free_fn(gen_mesh_cone)
-pub fn Mesh::gen_cone(radius : Float, height : Float, slices : Int) -> Mesh {
+pub fn Mesh::gen_cone(radius : Float, height : Float, slices : Int32) -> Mesh {
   @ffi.gen_mesh_cone(radius, height, slices)
 }
 
@@ -146,8 +154,8 @@ pub fn Mesh::gen_cone(radius : Float, height : Float, slices : Int) -> Mesh {
 pub fn Mesh::gen_torus(
   radius : Float,
   size : Float,
-  rad_seg : Int,
-  sides : Int,
+  rad_seg : Int32,
+  sides : Int32,
 ) -> Mesh {
   @ffi.gen_mesh_torus(radius, size, rad_seg, sides)
 }
@@ -158,8 +166,8 @@ pub fn Mesh::gen_torus(
 pub fn Mesh::gen_knot(
   radius : Float,
   size : Float,
-  rad_seg : Int,
-  sides : Int,
+  rad_seg : Int32,
+  sides : Int32,
 ) -> Mesh {
   @ffi.gen_mesh_knot(radius, size, rad_seg, sides)
 }
@@ -213,7 +221,7 @@ pub fn Mesh::draw_instanced(
   self : Mesh,
   material : Material,
   transforms : Array[Matrix],
-  instances : Int,
+  instances : Int32,
 ) -> Unit {
   let arr = FixedArray::make(instances * 64, b'\x00')
   for i in 0..<instances {
@@ -229,10 +237,10 @@ pub fn Mesh::draw_instanced(
 #as_free_fn(update_mesh_buffer)
 pub fn Mesh::update_buffer(
   self : Mesh,
-  index : Int,
+  index : Int32,
   data : Bytes,
-  data_size : Int,
-  offset : Int,
+  data_size : Int32,
+  offset : Int32,
 ) -> Unit {
   @ffi.update_mesh_buffer(self.0, index, data, data_size, offset)
 }
@@ -243,7 +251,7 @@ pub fn Mesh::update_buffer(
 pub fn Mesh::gen_from_points(
   vertices : Bytes,
   colors : Bytes,
-  num_points : Int,
+  num_points : Int32,
 ) -> Mesh {
   @ffi.gen_mesh_from_points(vertices, colors, num_points)
 }
@@ -255,14 +263,14 @@ pub fn Mesh::gen_from_points(
 ///|
 /// Get the number of vertices in the mesh.
 #as_free_fn(get_mesh_vertex_count)
-pub fn Mesh::vertex_count(self : Mesh) -> Int {
+pub fn Mesh::vertex_count(self : Mesh) -> Int32 {
   @ffi.get_mesh_vertex_count(self.0)
 }
 
 ///|
 /// Get the number of triangles in the mesh.
 #as_free_fn(get_mesh_triangle_count)
-pub fn Mesh::triangle_count(self : Mesh) -> Int {
+pub fn Mesh::triangle_count(self : Mesh) -> Int32 {
   @ffi.get_mesh_triangle_count(self.0)
 }
 

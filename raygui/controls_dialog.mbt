@@ -1,10 +1,10 @@
 // Dialog controls: MessageBox, TextInputBox, Grid
 
 ///|
-let messagebox_button_height : Int = 24
+let messagebox_button_height : Int32 = 24
 
 ///|
-let messagebox_button_padding : Int = 12
+let messagebox_button_padding : Int32 = 12
 
 // Message box control, shows title + message + buttons
 // Returns -1 when no action, 0 when window closed, 1+ for button index
@@ -15,7 +15,7 @@ pub fn gui_message_box(
   title : String,
   message : String,
   buttons : String,
-) -> Int {
+) -> Int32 {
   let mut result = -1
   let bx = bounds.x
   let by = bounds.y
@@ -75,9 +75,9 @@ pub fn gui_text_input_box(
   message : String,
   buttons : String,
   text : Ref[String],
-  text_max_size : Int,
-  secret_view_active? : Ref[Bool]? = None,
-) -> Int {
+  text_max_size : Int32,
+  secret_view_active~ : Ref[Bool]? = None,
+) -> Int32 {
   let mut result = -1
   let bx = bounds.x
   let by = bounds.y
@@ -165,7 +165,7 @@ pub fn gui_text_input_box(
         }
       } else {
         // Not editing, not viewing: show stars
-        let buf = StringBuilder::new()
+        let buf = StringBuilder()
         for _ in 0..<text.val.length() {
           buf.write_char('*')
         }
@@ -223,7 +223,7 @@ pub fn gui_text_input_box(
 pub fn gui_grid(
   bounds : @raylib.Rectangle,
   spacing : Float,
-  subdivs : Int,
+  subdivs : Int32,
   mouse_cell : Ref[@raylib.Vector2],
 ) -> Bool {
   let state = gui_globals.state

@@ -9,13 +9,13 @@ fn main {
   let progress_val : Ref[Float] = { val: 0.4, }
   let check_val : Ref[Bool] = { val: false, }
   let toggle_val : Ref[Bool] = { val: false, }
-  let combo_val : Ref[Int] = { val: 0, }
-  let spinner_val : Ref[Int] = { val: 5, }
+  let combo_val : Ref[Int32] = { val: 0, }
+  let spinner_val : Ref[Int32] = { val: 5, }
   let mut spinner_edit = false
   let text_val : Ref[String] = { val: "Edit me!", }
-  let scroll_val : Ref[Int] = { val: 0, }
-  let list_val : Ref[Int] = { val: 0, }
-  let dropdown_val : Ref[Int] = { val: 0, }
+  let scroll_val : Ref[Int32] = { val: 0, }
+  let list_val : Ref[Int32] = { val: 0, }
+  let dropdown_val : Ref[Int32] = { val: 0, }
   let mut dropdown_edit = false
   let color_val : Ref[@raylib.Color] = {
     val: @raylib.Color::new(0xE6, 0x1E, 0x32, 0xFF),
