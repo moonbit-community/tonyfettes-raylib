@@ -8,7 +8,7 @@ pub extern "c" fn init_window(width : Int32, height : Int32, title : Bytes) = "m
 
 ///|
 /// Close window and unload OpenGL context.
-pub extern "c" fn close_window() = "CloseWindow"
+pub extern "c" fn close_window() = "moonbit_raylib_close_window"
 
 ///|
 /// Check if application should close (KEY_ESCAPE pressed or windows close icon clicked).
@@ -209,7 +209,7 @@ pub extern "c" fn wait_time(seconds : Double) = "WaitTime"
 
 ///|
 /// Shows cursor.
-pub extern "c" fn show_cursor() = "ShowCursor"
+pub extern "c" fn show_cursor() = "moonbit_raylib_show_cursor"
 
 ///|
 /// Hides cursor.
