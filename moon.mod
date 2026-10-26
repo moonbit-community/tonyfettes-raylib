@@ -1,6 +1,6 @@
 name = "tonyfettes/raylib"
 
-version = "0.3.1"
+version = "0.5.0"
 
 readme = "README.md"
 
